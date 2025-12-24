@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Workbook Compiler</title>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f1f5f9;
+            padding: 20px;
+            color: #333;
+        }
+        .ui-container {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1e40af; text-align: center; }
+        .control-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+            transition: all 0.2s;
+        }
+        .control-group.loaded {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        input[type="file"] { width: 100%; }
+        button {
+            background: #2563eb; color: white; border: none;
+            padding: 12px 24px; border-radius: 6px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            width: 100%; margin-top: 10px;
+        }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+        #status { margin-top: 15px; text-align: center; font-weight: bold; }
+        
+        /* File List Styles */
+        #fileList {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #fileList li {
+            background: white;
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .badge {
+            background: #e0f2fe; color: #0369a1;
+            padding: 2px 6px; border-radius: 10px;
+            font-size: 10px; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- UI for file selection -->
+    <div class="ui-container">
+        <h1>Advanced Workbook Compiler</h1>
+        <p>Generates a PDF-ready workbook with Cover, Preface, TOC, and Page Numbers.</p>
+        
+        <div class="control-group" id="group-template">
+            <label>1. HTML Template (workbook_template.html)</label>
+            <input type="file" id="templateFile" accept=".html">
+        </div>
+        
+        <div class="control-group" id="group-preface">
+            <label>2. Preface Data (preface_data.json)</label>
+            <input type="file" id="prefaceFile" accept=".json">
+        </div>
+        
+        <div class="control-group" id="group-content">
+            <label>3. Lesson Content (Multiple JSON files)</label>
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Hold <strong>Ctrl</strong> (Cmd) to select multiple files</div>
+            <input type="file" id="contentFiles" accept=".json" multiple>
+            <ul id="fileList"></ul>
+        </div>
+        
+        <button id="compileBtn" disabled>Compile Workbook</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const templateInput = document.getElementById('templateFile');
+        const prefaceInput = document.getElementById('prefaceFile');
+        const contentInput = document.getElementById('contentFiles');
+        const compileBtn = document.getElementById('compileBtn');
+        const statusDiv = document.getElementById('status');
+        const fileList = document.getElementById('fileList');
+
+        // Check file inputs state and update UI
+        function checkInputs() {
+            // Update visual state for each group
+            document.getElementById('group-template').classList.toggle('loaded', templateInput.files.length > 0);
+            document.getElementById('group-preface').classList.toggle('loaded', prefaceInput.files.length > 0);
+            document.getElementById('group-content').classList.toggle('loaded', contentInput.files.length > 0);
+
+            // Enable button only if all required inputs have files
+            if (templateInput.files.length > 0 && prefaceInput.files.length > 0 && contentInput.files.length > 0) {
+                compileBtn.disabled = false;
+                compileBtn.textContent = `Compile Workbook (${contentInput.files.length} Lessons)`;
+            } else {
+                compileBtn.disabled = true;
+                compileBtn.textContent = "Compile Workbook";
+            }
+        }
+        
+        // Listeners for simple single-file inputs
+        templateInput.addEventListener('change', checkInputs);
+        prefaceInput.addEventListener('change', checkInputs);
+
+        // Special listener for content files to update list
+        contentInput.addEventListener('change', (e) => {
+            fileList.innerHTML = ''; // Clear list
+            
+            if (e.target.files.length > 0) {
+                // Sort files by name to ensure logical order (Lesson 1, Lesson 2...)
+                const sortedFiles = Array.from(e.target.files).sort((a, b) => 
+                    a.name.localeCompare(b.name, undefined, {numeric: true})
+                );
+
+                sortedFiles.forEach((file, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${file.name}</span> <span class="badge">Lesson ${index + 1}</span>`;
+                    fileList.appendChild(li);
+                });
+            }
+            checkInputs();
+        });
+
+        // Helper to read file text
+        const readFile = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsText(file);
+        });
+
+        compileBtn.addEventListener('click', async () => {
+            statusDiv.textContent = "Compiling...";
+            statusDiv.style.color = "blue";
+            
+            try {
+                // 1. Read all files
+                const templateHtml = await readFile(templateInput.files[0]);
+                const prefaceJson = JSON.parse(await readFile(prefaceInput.files[0]));
+                
+                // Sort content files again for processing
+                const contentFiles = Array.from(contentInput.files).sort((a,b) => 
+                    a.name.localeCompare(b.name, undefined, {numeric: true})
+                );
+                
+                const lessons = [];
+                for (const file of contentFiles) {
+                    const json = JSON.parse(await readFile(file));
+                    lessons.push(json);
+                }
+
+                // 2. Determine Book Metadata
+                const firstLevel = lessons[0].cefr_level || "A1"; 
+                const levelKey = firstLevel.split(' ').pop(); // Get "A1", "A2", etc.
+                const preface = prefaceJson[levelKey] || prefaceJson["A1"]; 
+
+                // 3. Extract Styles from Template
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(templateHtml, 'text/html');
+                
+                // Extract CSS and Links
+                // We strip the .workbook-container style because Paged.js handles the page box better without it
+                const styles = Array.from(doc.querySelectorAll('style')).map(s => s.innerText).join('\n')
+                    .replace(/\.workbook-container\s*{[^}]*}/g, ''); 
+                
+                const links = Array.from(doc.querySelectorAll('link')).map(l => l.outerHTML).join('\n');
+
+                // 4. Compile Lessons
+                const bodyTemplate = doc.body.innerHTML;
+                const hbTemplate = Handlebars.compile(bodyTemplate);
+
+                let lessonsHtml = "";
+                let tocItems = "";
+
+                lessons.forEach((lesson, index) => {
+                    const lessonId = `lesson-${index}`;
+                    
+                    // Generate Lesson Content
+                    const content = hbTemplate(lesson);
+                    
+                    // IMPORTANT: Unwrap content from .workbook-container if it exists in the template
+                    // This prevents double-boxing which can break Paged.js layout
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    const innerContent = tempDiv.querySelector('.workbook-container') ? tempDiv.querySelector('.workbook-container').innerHTML : content;
+
+                    lessonsHtml += `<div id="${lessonId}" class="lesson-section">${innerContent}</div>`;
+                    
+                    // Generate TOC Item with automatic page numbering target
+                    tocItems += `
+                        <li class="toc-item">
+                            <a href="#${lessonId}">
+                                <span class="toc-text">${lesson.lesson_number}: ${lesson.lesson_title}</span>
+                                <span class="toc-meta">(${lesson.genre} / ${lesson.article_type})</span>
+                            </a>
+                        </li>
+                    `;
+                });
+
+                // 5. Construct Final HTML Document
+                const finalHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reading Advantage Workbook - ${levelKey}</title>
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
+    ${links}
+    <style>
+        ${styles}
+
+        /* --- Paged.js Configuration --- */
+        @page {
+            size: Letter;
+            margin: 20mm;
+            
+            @bottom-center {
+                content: "Page " counter(page);
+                font-family: 'Open Sans', sans-serif;
+                font-size: 10pt;
+            }
+        }
+
+        /* Cover Page Rule */
+        @page:first {
+            margin: 0;
+            @bottom-center { content: none; }
+        }
+        
+        /* --- Preview Styles --- */
+        body {
+            background-color: #555;
+            margin: 0;
+        }
+        .pagedjs_pages {
+            display: flex;
+            width: calc(var(--pagedjs-width) * 2);
+            min-width: 200%;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .pagedjs_page {
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        /* --- Custom Book Elements --- */
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            text-align: center;
+            break-after: page;
+        }
+        
+        .cover-title { font-size: 48pt; font-weight: bold; margin-bottom: 20px; font-family: 'Merriweather', serif; }
+        .cover-subtitle { font-size: 24pt; opacity: 0.9; margin-bottom: 40px; }
+        .cover-meta { font-size: 14pt; margin-top: auto; margin-bottom: 50px; }
+
+        .front-matter {
+            break-after: page;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .preface-box {
+            background: #f8fafc;
+            border-left: 5px solid #1e40af;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .toc-title {
+            border-bottom: 2px solid #1e40af;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #1e40af;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        ul.toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        li.toc-item {
+            margin-bottom: 12px;
+        }
+        
+        li.toc-item a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: baseline;
+        }
+        
+        /* Leader dots and page number using CSS target-counter */
+        li.toc-item a::after {
+            content: target-counter(attr(href), page);
+            float: right;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        li.toc-item a .toc-text { font-weight: bold; }
+        
+        li.toc-item a .toc-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-left: 10px;
+            font-style: italic;
+            flex-grow: 1;
+            border-bottom: 1px dotted #ccc;
+            margin-right: 5px;
+        }
+
+        .lesson-section {
+            break-after: page;
+        }
+        
+        /* Fix spacing for Paged.js flow */
+        .lesson-header { margin-top: 0; }
+        
+        /* Prevent awkward breaks */
+        .section, .question-box, .practice-box, .vocab-table tr {
+            break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover -->
+    <div class="cover-page">
+        <div class="cover-title">Reading Advantage</div>
+        <div class="cover-subtitle">${preface.title} Workbook</div>
+        <div class="cover-meta">2025 Edition • Quest Series</div>
+    </div>
+
+    <!-- Front Matter -->
+    <div class="front-matter">
+        <h2 class="toc-title">Preface</h2>
+        <div class="preface-box">
+            <p>${preface.text}</p>
+        </div>
+
+        <h2 class="toc-title" style="margin-top: 50px;">Table of Contents</h2>
+        <ul class="toc-list">
+            ${tocItems}
+        </ul>
+    </div>
+
+    <!-- Lessons -->
+    ${lessonsHtml}
+</body>
+</html>`;
+
+                // 6. Open in New Window
+                const newWindow = window.open('', '_blank');
+                if(!newWindow) throw new Error("Popup blocked! Allow popups to see the workbook.");
+                
+                newWindow.document.write(finalHtml);
+                newWindow.document.close();
+
+                statusDiv.textContent = "Success! Workbook generated in new tab.";
+                statusDiv.style.color = "green";
+
+            } catch (err) {
+                console.error(err);
+                statusDiv.textContent = "Error: " + err.message;
+                statusDiv.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>

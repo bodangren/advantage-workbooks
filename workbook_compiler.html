@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workbook Compiler</title>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            padding: 40px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f1f5f9;
+            transition: all 0.3s ease;
+        }
+        .section:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .section.loaded {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #334155;
+            font-size: 16px;
+        }
+        .file-info {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+        button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        #fileList {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        #fileList li {
+            background: white;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            min-height: 24px;
+        }
+        .error { color: #dc2626; }
+        .success { color: #16a34a; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Workbook Compiler</h1>
+        <p class="subtitle">Combine multiple JSON lessons into a single printable book</p>
+
+        <div class="section" id="templateSection">
+            <label for="templateFile">1. Select Template (HTML)</label>
+            <input type="file" id="templateFile" accept=".html">
+            <div class="file-info">Select <code>workbook_template.html</code></div>
+        </div>
+
+        <div class="section" id="dataSection">
+            <label for="dataFiles">2. Select Lesson Content (JSON)</label>
+            <input type="file" id="dataFiles" accept=".json" multiple>
+            <div class="file-info">Hold <strong>Ctrl</strong> (or Cmd) to select multiple files</div>
+            <ul id="fileList"></ul>
+        </div>
+
+        <button id="generateBtn" disabled>Compile Workbook</button>
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const templateInput = document.getElementById('templateFile');
+        const dataInput = document.getElementById('dataFiles');
+        const generateBtn = document.getElementById('generateBtn');
+        const statusDiv = document.getElementById('status');
+        const fileList = document.getElementById('fileList');
+        const templateSection = document.getElementById('templateSection');
+        const dataSection = document.getElementById('dataSection');
+
+        let templateContent = "";
+        let sortedFiles = [];
+
+        // Helper: Read file text
+        const readFile = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(e);
+                reader.readAsText(file);
+            });
+        };
+
+        // 1. Handle Template Selection
+        templateInput.addEventListener('change', async (e) => {
+            if (e.target.files.length > 0) {
+                try {
+                    templateContent = await readFile(e.target.files[0]);
+                    templateSection.classList.add('loaded');
+                    checkReady();
+                } catch (err) {
+                    console.error(err);
+                    alert("Error reading template file");
+                }
+            } else {
+                templateSection.classList.remove('loaded');
+                generateBtn.disabled = true;
+            }
+        });
+
+        // 2. Handle JSON Files Selection
+        dataInput.addEventListener('change', (e) => {
+            fileList.innerHTML = '';
+            sortedFiles = Array.from(e.target.files).sort((a, b) => {
+                return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+            });
+
+            if (sortedFiles.length > 0) {
+                dataSection.classList.add('loaded');
+                
+                // Display sorted list
+                sortedFiles.forEach((file, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${file.name}</span> <span class="badge">Lesson ${index + 1}</span>`;
+                    fileList.appendChild(li);
+                });
+                
+                checkReady();
+            } else {
+                dataSection.classList.remove('loaded');
+                generateBtn.disabled = true;
+            }
+        });
+
+        function checkReady() {
+            if (templateInput.files.length > 0 && sortedFiles.length > 0) {
+                generateBtn.disabled = false;
+                generateBtn.textContent = `Compile Workbook (${sortedFiles.length} Lessons)`;
+            }
+        }
+
+        // 3. Generate Logic
+        generateBtn.addEventListener('click', async () => {
+            statusDiv.textContent = "Compiling...";
+            statusDiv.className = "status";
+
+            try {
+                if (typeof Handlebars === 'undefined') {
+                    throw new Error("Handlebars library failed to load.");
+                }
+
+                // A. Parse Template
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(templateContent, "text/html");
+                
+                // Extract Styles (preserve all styles from head)
+                const styles = Array.from(doc.querySelectorAll('style')).map(s => s.outerHTML).join('\n');
+                const links = Array.from(doc.querySelectorAll('link[rel="stylesheet"]')).map(l => l.outerHTML).join('\n');
+                const imports = Array.from(doc.querySelectorAll('style')).map(s => s.innerText).filter(t => t.includes('@import')).join('\n'); // Catch font imports
+
+                // Extract Body Template (inner HTML of body)
+                const bodyTemplate = doc.body.innerHTML;
+                const hbTemplate = Handlebars.compile(bodyTemplate);
+
+                // B. Process JSON Files
+                let combinedHtml = "";
+                
+                for (let i = 0; i < sortedFiles.length; i++) {
+                    const jsonStr = await readFile(sortedFiles[i]);
+                    const jsonData = JSON.parse(jsonStr);
+                    
+                    const lessonHtml = hbTemplate(jsonData);
+                    
+                    // Wrap in a container that handles pagination
+                    // We add 'page-break-before' to every lesson except the first one
+                    const pageBreakClass = i > 0 ? "force-page-break" : "";
+                    
+                    combinedHtml += `
+                        <div class="lesson-wrapper ${pageBreakClass}">
+                            ${lessonHtml}
+                        </div>
+                    `;
+                }
+
+                // C. Build Final Document
+                const finalDoc = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combined Workbook</title>
+    ${links}
+    ${styles}
+    <style>
+        /* Compiler Overrides */
+        @media print {
+            .lesson-wrapper.force-page-break {
+                break-before: page;
+                page-break-before: always;
+            }
+            /* Ensure the workbook container doesn't force a break inside itself unnecessarily,
+               but respects the break before it starts */
+            .workbook-container {
+                break-inside: auto; 
+            }
+        }
+        /* Visual separation on screen */
+        .lesson-wrapper {
+            margin-bottom: 50px;
+            border-bottom: 5px solid #eee;
+            padding-bottom: 50px;
+        }
+        @media print {
+            .lesson-wrapper {
+                margin-bottom: 0;
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    ${combinedHtml}
+</body>
+</html>`;
+
+                // D. Open result
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(finalDoc);
+                newWindow.document.close();
+
+                statusDiv.textContent = "Workbook compiled successfully!";
+                statusDiv.className = "status success";
+
+            } catch (err) {
+                console.error(err);
+                statusDiv.textContent = "Error: " + err.message;
+                statusDiv.className = "status error";
+            }
+        });
+    </script>
+</body>
+</html>

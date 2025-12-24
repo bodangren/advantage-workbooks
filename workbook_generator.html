@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workbook Generator</title>
+    <!-- Handlebars for templating -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            padding: 40px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .step {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 2px dashed #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .step.completed {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #1e3a8a;
+        }
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Workbook Generator</h1>
+
+        <div class="step" id="step1">
+            <label for="templateFile">1. Select Template File (HTML)</label>
+            <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Select <code>workbook_template.html</code></p>
+            <input type="file" id="templateFile" accept=".html">
+        </div>
+
+        <div class="step" id="step2">
+            <label for="dataFile">2. Select Content File (JSON)</label>
+            <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Select one of the <code>content_*.json</code> files</p>
+            <input type="file" id="dataFile" accept=".json">
+        </div>
+
+        <button id="generateBtn" disabled>Generate & Preview Workbook</button>
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const templateInput = document.getElementById('templateFile');
+        const dataInput = document.getElementById('dataFile');
+        const generateBtn = document.getElementById('generateBtn');
+        const statusDiv = document.getElementById('status');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+
+        let templateContent = null;
+        let dataContent = null;
+
+        // Helper to check if both files are loaded
+        function checkReady() {
+            if (templateInput.files.length > 0) {
+                step1.classList.add('completed');
+                step1.classList.remove('active');
+            } else {
+                step1.classList.remove('completed');
+                step1.classList.add('active');
+            }
+
+            if (dataInput.files.length > 0) {
+                step2.classList.add('completed');
+                step2.classList.remove('active');
+            } else {
+                step2.classList.remove('completed');
+                step2.classList.add('active');
+            }
+
+            generateBtn.disabled = !(templateInput.files.length > 0 && dataInput.files.length > 0);
+        }
+
+        // Event Listeners
+        templateInput.addEventListener('change', checkReady);
+        dataInput.addEventListener('change', checkReady);
+
+        // Read file content
+        const readFile = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(e);
+                reader.readAsText(file);
+            });
+        };
+
+        generateBtn.addEventListener('click', async () => {
+            statusDiv.textContent = "Processing...";
+            statusDiv.className = "status";
+
+            try {
+                // 1. Read the files
+                const templateStr = await readFile(templateInput.files[0]);
+                const jsonStr = await readFile(dataInput.files[0]);
+                const jsonData = JSON.parse(jsonStr);
+
+                // 2. Compile with Handlebars
+                if (typeof Handlebars === 'undefined') {
+                    throw new Error("Handlebars library not loaded. Check internet connection.");
+                }
+
+                const template = Handlebars.compile(templateStr);
+                const resultHtml = template(jsonData);
+
+                // 3. Open in new window
+                const newWindow = window.open('', '_blank');
+                if (!newWindow) {
+                    throw new Error("Pop-up blocked. Please allow pop-ups for this page.");
+                }
+                
+                newWindow.document.write(resultHtml);
+                newWindow.document.close(); // Important for styles to apply
+                
+                statusDiv.textContent = "Success! Workbook generated in new tab.";
+                statusDiv.className = "status success";
+
+            } catch (err) {
+                console.error(err);
+                statusDiv.textContent = "Error: " + err.message;
+                statusDiv.className = "status error";
+            }
+        });
+
+        // Initialize state
+        checkReady();
+    </script>
+</body>
+</html>
