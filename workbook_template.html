@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Advantage Workbook - {{lesson_number}}: {{lesson_title}}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&family=Caveat:wght@500&display=swap');
-        
+
         :root {
             --primary-blue: #1e40af;
             --primary-light: #3b82f6;
@@ -21,17 +22,18 @@
             --border-light: #e5e7eb;
             --border-medium: #d1d5db;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: 'Open Sans', sans-serif;
             color: var(--text-dark);
-            background: #555; /* Dark background for screen to make the 'page' pop */
+            background: #555;
+            /* Dark background for screen to make the 'page' pop */
             line-height: 1.6;
             padding: 20px;
         }
@@ -42,11 +44,11 @@
             max-width: 8.5in;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             padding: 0.7in;
             min-height: 11in;
         }
-        
+
         /* PRINT STYLES */
         @media print {
             body {
@@ -55,7 +57,7 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            
+
             .workbook-container {
                 width: 100%;
                 max-width: none;
@@ -70,19 +72,49 @@
             }
 
             /* Smart Page Breaks */
-            .section, .question-box, .practice-box, .vocab-table tr, .collection-item, .para-note, .match-item, .fill-blank p {
+            .question-box,
+            .practice-box,
+            .vocab-table tr,
+            .collection-item,
+            .para-note,
+            .match-item,
+            .fill-blank p {
                 break-inside: avoid;
             }
 
-            h1, h2, h3, h4 {
+            h1,
+            h2,
+            h3,
+            h4 {
                 break-after: avoid;
             }
-            
+
             .force-page-break {
                 break-before: always;
             }
+
+            /* Fix fragmentation issues caused by overflow:hidden */
+            .article-container,
+            .writing-section,
+            .translation-section,
+            .practice-box,
+            .section {
+                overflow: visible !important;
+                display: block !important;
+            }
+
+            /* Fix fragmentation issues caused by overflow:hidden */
+            .article-container,
+            .writing-section,
+            .translation-section,
+            .practice-box,
+            .section {
+                overflow: visible !important;
+                display: block !important;
+                /* Ensure they are not flex/grid items that might resist breaking */
+            }
         }
-        
+
         /* Header Styles */
         .lesson-header {
             display: flex;
@@ -92,11 +124,11 @@
             padding-bottom: 12px;
             margin-bottom: 30px;
         }
-        
+
         .lesson-info {
             flex: 1;
         }
-        
+
         .workbook-title {
             font-size: 11px;
             color: var(--text-light);
@@ -104,13 +136,13 @@
             letter-spacing: 1px;
             margin-bottom: 4px;
         }
-        
+
         .lesson-number {
             font-size: 14px;
             font-weight: 700;
             color: var(--primary-blue);
         }
-        
+
         .lesson-title {
             font-family: 'Merriweather', serif;
             font-size: 22px;
@@ -118,35 +150,35 @@
             color: var(--text-dark);
             margin-top: 4px;
         }
-        
+
         .level-badges {
             display: flex;
             gap: 8px;
             align-items: center;
         }
-        
+
         .badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
         }
-        
+
         .badge-level {
             background: var(--primary-blue);
             color: white;
         }
-        
+
         .badge-cefr {
             background: var(--accent-green);
             color: white;
         }
-        
+
         /* Section Styles */
         .section {
             margin-bottom: 30px;
         }
-        
+
         .section-header {
             display: flex;
             align-items: center;
@@ -156,7 +188,7 @@
             border-bottom: 2px solid var(--border-light);
             break-after: avoid;
         }
-        
+
         .section-icon {
             width: 28px;
             height: 28px;
@@ -167,16 +199,39 @@
             font-size: 14px;
             color: white;
         }
-        
-        .icon-intro { background: var(--primary-blue); }
-        .icon-vocab { background: var(--accent-purple); }
-        .icon-read { background: var(--accent-orange); }
-        .icon-collect { background: var(--accent-green); }
-        .icon-question { background: #ef4444; }
-        .icon-practice { background: #06b6d4; }
-        .icon-write { background: #ec4899; }
-        .icon-reflect { background: #8b5cf6; }
-        
+
+        .icon-intro {
+            background: var(--primary-blue);
+        }
+
+        .icon-vocab {
+            background: var(--accent-purple);
+        }
+
+        .icon-read {
+            background: var(--accent-orange);
+        }
+
+        .icon-collect {
+            background: var(--accent-green);
+        }
+
+        .icon-question {
+            background: #ef4444;
+        }
+
+        .icon-practice {
+            background: #06b6d4;
+        }
+
+        .icon-write {
+            background: #ec4899;
+        }
+
+        .icon-reflect {
+            background: #8b5cf6;
+        }
+
         .section-title {
             font-size: 14px;
             font-weight: 700;
@@ -184,7 +239,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .section-time {
             font-size: 10px;
             color: var(--accent-orange);
@@ -194,7 +249,7 @@
             border-radius: 12px;
             margin-left: auto;
         }
-        
+
         .phase-label {
             font-size: 10px;
             font-weight: 600;
@@ -203,12 +258,23 @@
             border-radius: 4px;
             margin-left: auto;
         }
-        
-        .phase-1 { background: var(--primary-blue); }
-        .phase-2 { background: var(--accent-orange); }
-        .phase-3 { background: #ef4444; }
-        .phase-4 { background: var(--accent-green); }
-        
+
+        .phase-1 {
+            background: var(--primary-blue);
+        }
+
+        .phase-2 {
+            background: var(--accent-orange);
+        }
+
+        .phase-3 {
+            background: #ef4444;
+        }
+
+        .phase-4 {
+            background: var(--accent-green);
+        }
+
         /* Before Reading Box */
         .before-reading {
             background: var(--bg-cream);
@@ -216,24 +282,24 @@
             border-radius: 8px;
             padding: 16px;
         }
-        
+
         .interest-rating {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
         }
-        
+
         .interest-rating span {
             font-size: 12px;
             color: var(--text-medium);
         }
-        
+
         .stars {
             display: flex;
             gap: 4px;
         }
-        
+
         .star {
             width: 20px;
             height: 20px;
@@ -245,7 +311,7 @@
             font-size: 12px;
             color: #fbbf24;
         }
-        
+
         .writing-line {
             border-bottom: 1px solid var(--border-medium);
             height: 28px;
@@ -256,7 +322,7 @@
             background-position: 13px bottom;
             background-repeat: no-repeat;
         }
-        
+
         .writing-line-small {
             height: 24px;
         }
@@ -266,14 +332,14 @@
             color: var(--text-medium);
             margin-bottom: 6px;
         }
-        
+
         /* Vocabulary Table */
         .vocab-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
         }
-        
+
         .vocab-table th {
             background: var(--primary-blue);
             color: white;
@@ -281,17 +347,17 @@
             text-align: left;
             font-weight: 600;
         }
-        
+
         .vocab-table td {
             padding: 12px 10px;
             border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
         }
-        
+
         .vocab-table tr:nth-child(even) {
             background: var(--bg-light);
         }
-        
+
         .checkbox {
             width: 18px;
             height: 18px;
@@ -304,26 +370,26 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .vocab-word {
             font-weight: 600;
             color: var(--primary-blue);
         }
-        
+
         .phonetic {
             font-size: 10px;
             color: var(--text-light);
             font-style: italic;
         }
-        
+
         /* Article Text */
         .article-container {
             background: white;
             border: 2px solid var(--primary-blue);
             border-radius: 8px;
-            overflow: hidden; 
+            overflow: hidden;
         }
-        
+
         .article-image {
             width: 100%;
             height: auto;
@@ -343,23 +409,23 @@
             height: 100%;
             object-fit: cover;
         }
-        
+
         .article-image::before {
             content: "🌿";
             font-size: 60px;
             opacity: 0.3;
             position: absolute;
         }
-        
+
         .article-image-caption {
             position: relative;
             z-index: 1;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             padding: 8px 16px;
             border-radius: 4px;
             font-size: 11px;
         }
-        
+
         .marking-legend {
             background: var(--bg-light);
             padding: 6px 16px;
@@ -368,29 +434,27 @@
             font-size: 10px;
             border-bottom: 1px solid var(--border-light);
         }
-        
+
         .legend-item {
             display: flex;
             align-items: center;
             gap: 6px;
         }
-        
+
         .legend-symbol {
             font-weight: 700;
             color: var(--primary-blue);
         }
-        
+
         .article-text {
             padding: 20px;
             font-family: 'Merriweather', serif;
             font-size: 13px;
             line-height: 2.2;
-            background-image: repeating-linear-gradient(
-                transparent,
-                transparent 27px,
-                #e5e7eb 28px,
-                #e5e7eb 28px
-            );
+            background-image: repeating-linear-gradient(transparent,
+                    transparent 27px,
+                    #e5e7eb 28px,
+                    #e5e7eb 28px);
             background-attachment: local;
         }
 
@@ -398,13 +462,13 @@
             font-size: 15px;
             line-height: 2.4;
         }
-        
+
         .paragraph {
             margin-bottom: 16px;
             position: relative;
             padding-left: 30px;
         }
-        
+
         .para-number {
             position: absolute;
             left: 0;
@@ -421,7 +485,7 @@
             font-family: 'Open Sans', sans-serif;
             font-weight: 600;
         }
-        
+
         /* Collection Boxes */
         .collection-box {
             border: 2px dashed var(--border-medium);
@@ -429,27 +493,27 @@
             padding: 16px;
             background: var(--bg-light);
         }
-        
+
         .collection-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
-        
+
         .collection-item {
             background: white;
             border: 1px solid var(--border-light);
             border-radius: 6px;
             padding: 10px;
         }
-        
+
         .collection-item label {
             font-size: 10px;
             color: var(--text-light);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         /* Questions */
         .question-box {
             background: white;
@@ -458,7 +522,7 @@
             padding: 16px;
             margin-bottom: 16px;
         }
-        
+
         .question-number {
             display: inline-flex;
             align-items: center;
@@ -472,17 +536,17 @@
             font-weight: 600;
             margin-right: 10px;
         }
-        
+
         .question-text {
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 12px;
         }
-        
+
         .options {
             padding-left: 34px;
         }
-        
+
         .option {
             display: flex;
             align-items: flex-start;
@@ -490,7 +554,7 @@
             margin-bottom: 8px;
             font-size: 13px;
         }
-        
+
         .option-circle {
             width: 18px;
             height: 18px;
@@ -499,7 +563,7 @@
             flex-shrink: 0;
             margin-top: 2px;
         }
-        
+
         .answer-row {
             display: flex;
             gap: 20px;
@@ -508,20 +572,20 @@
             border-top: 1px dashed var(--border-light);
             font-size: 12px;
         }
-        
+
         .answer-field {
             display: flex;
             align-items: center;
             gap: 6px;
         }
-        
+
         .answer-box {
             width: 30px;
             height: 24px;
             border: 1px solid var(--border-medium);
             border-radius: 4px;
         }
-        
+
         /* Short Answer */
         .short-answer-box {
             background: var(--bg-cream);
@@ -529,7 +593,7 @@
             border-radius: 8px;
             padding: 16px;
         }
-        
+
         .sentence-starters {
             background: white;
             border: 1px solid var(--border-light);
@@ -537,14 +601,14 @@
             padding: 12px;
             margin: 12px 0;
         }
-        
+
         .starter-label {
             font-size: 11px;
             font-weight: 600;
             color: var(--accent-purple);
             margin-bottom: 8px;
         }
-        
+
         .starter-item {
             font-size: 12px;
             color: var(--text-medium);
@@ -552,17 +616,17 @@
             margin-bottom: 4px;
             padding-left: 12px;
         }
-        
+
         .starter-item::before {
             content: "•";
             margin-right: 8px;
             color: var(--accent-purple);
         }
-        
+
         .writing-area {
             min-height: 100px;
         }
-        
+
         .self-check {
             display: flex;
             flex-wrap: wrap;
@@ -571,7 +635,7 @@
             padding-top: 12px;
             border-top: 1px dashed var(--border-medium);
         }
-        
+
         .check-item {
             display: flex;
             align-items: center;
@@ -579,20 +643,20 @@
             font-size: 11px;
             color: var(--text-medium);
         }
-        
+
         /* Practice Section */
         .practice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
+
         .practice-box {
             border: 1px solid var(--border-light);
             border-radius: 8px;
             padding: 14px;
         }
-        
+
         .practice-title {
             font-size: 12px;
             font-weight: 700;
@@ -600,55 +664,56 @@
             margin-bottom: 10px;
             padding-bottom: 6px;
             border-bottom: 2px solid var(--accent-green);
+            break-after: avoid;
         }
-        
+
         .match-item {
             display: flex;
             align-items: center;
             margin-bottom: 8px;
             font-size: 12px;
         }
-        
+
         .match-number {
             width: 20px;
             font-weight: 600;
         }
-        
+
         .match-word {
             flex: 1;
             color: var(--primary-blue);
             font-weight: 600;
         }
-        
+
         .match-blank {
             width: 30px;
             border-bottom: 1px solid var(--text-dark);
             margin: 0 10px;
         }
-        
+
         .match-def {
             flex: 1;
             font-size: 11px;
         }
-        
+
         .match-letter {
             width: 20px;
             font-weight: 600;
         }
-        
+
         /* Fill in blanks */
         .fill-blank {
             font-size: 12px;
             line-height: 2;
         }
-        
+
         .blank {
             display: inline-block;
             width: 80px;
             border-bottom: 1px solid var(--text-dark);
             margin: 0 4px;
         }
-        
+
         .word-bank {
             background: var(--bg-light);
             border-radius: 6px;
@@ -656,18 +721,18 @@
             margin-top: 10px;
             font-size: 11px;
         }
-        
+
         .word-bank-title {
             font-weight: 600;
             margin-bottom: 6px;
         }
-        
+
         .bank-words {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
+
         .bank-word {
             background: white;
             border: 1px solid var(--border-medium);
@@ -675,21 +740,21 @@
             border-radius: 4px;
             font-size: 11px;
         }
-        
+
         /* Sentence Ordering */
         .sentence-order {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        
+
         .order-item {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 12px;
         }
-        
+
         .order-box {
             width: 24px;
             height: 24px;
@@ -701,43 +766,44 @@
             font-size: 11px;
             color: var(--text-light);
         }
-        
+
         .order-word {
             background: var(--bg-light);
             padding: 6px 12px;
             border-radius: 4px;
             border: 1px solid var(--border-light);
         }
-        
+
         /* Long Answer Writing */
         .writing-section {
             border: 2px solid var(--accent-purple);
             border-radius: 8px;
             overflow: hidden;
         }
-        
+
         .writing-header {
             background: var(--accent-purple);
             color: white;
             padding: 12px 16px;
+            break-after: avoid;
         }
-        
+
         .writing-header h3 {
             font-size: 14px;
             margin-bottom: 4px;
         }
-        
+
         .writing-header p {
             font-size: 11px;
             opacity: 0.9;
         }
-        
+
         .prompt-box {
             background: #faf5ff;
             padding: 16px;
             border-bottom: 1px solid #e9d5ff;
         }
-        
+
         .prompt-label {
             font-size: 10px;
             font-weight: 600;
@@ -746,7 +812,7 @@
             letter-spacing: 1px;
             margin-bottom: 8px;
         }
-        
+
         .prompt-text {
             font-family: 'Merriweather', serif;
             font-size: 14px;
@@ -754,24 +820,24 @@
             color: var(--text-dark);
             line-height: 1.6;
         }
-        
+
         .planning-area {
             padding: 16px;
             background: white;
         }
-        
+
         .planning-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
+
         .planning-box {
             background: var(--bg-light);
             border-radius: 6px;
             padding: 12px;
         }
-        
+
         .planning-label {
             font-size: 10px;
             font-weight: 600;
@@ -779,16 +845,16 @@
             text-transform: uppercase;
             margin-bottom: 8px;
         }
-        
+
         .writing-lines {
             padding: 20px;
             background: white;
         }
-        
+
         .lined-area {
             min-height: 200px;
         }
-        
+
         .word-count-box {
             display: flex;
             justify-content: flex-end;
@@ -797,7 +863,7 @@
             background: var(--bg-light);
             font-size: 11px;
         }
-        
+
         /* Reflection */
         .reflection-box {
             background: linear-gradient(135deg, #faf5ff 0%, #f0fdf4 100%);
@@ -805,40 +871,40 @@
             border-radius: 8px;
             padding: 16px;
         }
-        
+
         .emoji-scale {
             display: flex;
             justify-content: space-around;
             margin: 12px 0;
         }
-        
+
         .emoji-option {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
         }
-        
+
         .emoji {
             font-size: 24px;
             cursor: pointer;
         }
-        
+
         .emoji-label {
             font-size: 9px;
             color: var(--text-light);
         }
-        
+
         .star-rating {
             display: flex;
             gap: 4px;
         }
-        
+
         .rating-star {
             font-size: 20px;
             color: #fbbf24;
         }
-        
+
         /* Homework */
         .homework-box {
             background: #fef2f2;
@@ -846,14 +912,14 @@
             border-radius: 8px;
             padding: 16px;
         }
-        
+
         .homework-title {
             font-size: 12px;
             font-weight: 700;
             color: #dc2626;
             margin-bottom: 10px;
         }
-        
+
         .homework-item {
             display: flex;
             align-items: flex-start;
@@ -861,14 +927,14 @@
             font-size: 12px;
             margin-bottom: 8px;
         }
-        
+
         .signature-line {
             margin-top: 16px;
             padding-top: 12px;
             border-top: 1px dashed var(--border-medium);
             font-size: 11px;
         }
-        
+
         /* Answer Key Page */
         .answer-key {
             background: #f0f9ff;
@@ -876,7 +942,7 @@
             border-radius: 8px;
             padding: 20px;
         }
-        
+
         .answer-key h3 {
             color: var(--primary-blue);
             font-size: 16px;
@@ -884,24 +950,24 @@
             padding-bottom: 8px;
             border-bottom: 2px solid var(--primary-blue);
         }
-        
+
         .answer-section {
             margin-bottom: 16px;
         }
-        
+
         .answer-section h4 {
             font-size: 12px;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 8px;
         }
-        
+
         .answer-list {
             font-size: 12px;
             color: var(--text-medium);
             line-height: 1.8;
         }
-        
+
         /* Translation Section */
         .translation-section {
             background: #fff7ed;
@@ -909,7 +975,7 @@
             border-radius: 8px;
             overflow: hidden;
         }
-        
+
         .translation-header {
             background: var(--accent-orange);
             color: white;
@@ -917,43 +983,81 @@
             font-weight: 600;
             font-size: 13px;
         }
-        
+
         .translation-content {
             padding: 16px;
         }
-        
+
         .translation-para {
             margin-bottom: 12px;
             font-size: 12px;
             line-height: 1.7;
         }
-        
+
         .translation-para strong {
             color: var(--accent-orange);
         }
-        
+
         /* Utility Classes */
-        .flex { display: flex; }
-        .gap-2 { gap: 8px; }
-        .gap-4 { gap: 16px; }
-        .mt-2 { margin-top: 8px; }
-        .mt-3 { margin-top: 12px; }
-        .mt-4 { margin-top: 16px; }
-        .mb-2 { margin-bottom: 8px; }
-        .mb-3 { margin-bottom: 12px; }
-        .text-sm { font-size: 12px; }
-        .text-xs { font-size: 11px; }
-        .text-muted { color: var(--text-light); }
-        .font-bold { font-weight: 700; }
-        .text-center { text-align: center; }
-        
+        .flex {
+            display: flex;
+        }
+
+        .gap-2 {
+            gap: 8px;
+        }
+
+        .gap-4 {
+            gap: 16px;
+        }
+
+        .mt-2 {
+            margin-top: 8px;
+        }
+
+        .mt-3 {
+            margin-top: 12px;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+
+        .mb-3 {
+            margin-bottom: 12px;
+        }
+
+        .text-sm {
+            font-size: 12px;
+        }
+
+        .text-xs {
+            font-size: 11px;
+        }
+
+        .text-muted {
+            color: var(--text-light);
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
         /* Deep Reading Notes */
         .deep-reading-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
         }
-        
+
         .para-note {
             display: flex;
             align-items: flex-start;
@@ -962,7 +1066,7 @@
             background: var(--bg-light);
             border-radius: 6px;
         }
-        
+
         .para-note-number {
             width: 22px;
             height: 22px;
@@ -976,17 +1080,17 @@
             font-weight: 600;
             flex-shrink: 0;
         }
-        
+
         .para-note-content {
             flex: 1;
         }
-        
+
         .para-note-label {
             font-size: 10px;
             color: var(--text-light);
             margin-bottom: 4px;
         }
-        
+
         /* Language Questions */
         .language-q-box {
             border: 1px solid var(--border-light);
@@ -994,7 +1098,7 @@
             padding: 14px;
             margin-bottom: 12px;
         }
-        
+
         .q-label {
             font-size: 10px;
             font-weight: 600;
@@ -1002,7 +1106,7 @@
             text-transform: uppercase;
             margin-bottom: 6px;
         }
-        
+
         .a-label {
             font-size: 10px;
             font-weight: 600;
@@ -1011,7 +1115,7 @@
             margin-top: 10px;
             margin-bottom: 6px;
         }
-        
+
         /* Score Box */
         .score-box {
             background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
@@ -1021,18 +1125,18 @@
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .score-label {
             font-weight: 700;
             font-size: 14px;
             color: var(--primary-blue);
         }
-        
+
         .score-circles {
             display: flex;
             gap: 6px;
         }
-        
+
         .score-circle {
             width: 28px;
             height: 28px;
@@ -1044,20 +1148,20 @@
             font-size: 12px;
             font-weight: 600;
         }
-        
+
         .performance-check {
             display: flex;
             gap: 16px;
             margin-top: 8px;
         }
-        
+
         .perf-option {
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 11px;
         }
-        
+
         /* QR Code */
         .qr-box {
             display: flex;
@@ -1111,7 +1215,7 @@
             margin: 12px 0;
             font-size: 11px;
         }
-        
+
         .tip-label {
             font-weight: 700;
             color: var(--accent-green);
@@ -1119,11 +1223,12 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Main Content Wrapper -->
     <div class="workbook-container">
-        
+
         <!-- Header -->
         <header class="lesson-header">
             <div class="lesson-info">
@@ -1145,7 +1250,7 @@
                 <span class="section-time">⏱ 5 min</span>
                 <span class="phase-label phase-1">Phase 1</span>
             </div>
-            
+
             <div class="before-reading">
                 <div class="interest-rating">
                     <span>How interested are you in this topic?</span>
@@ -1155,8 +1260,8 @@
                         <span class="star">☆</span>
                         <span class="star">☆</span>
                         <span class="star">☆</span>
+                    </div>
                 </div>
-            </div>
         </section>
 
         <!-- STEP 2: Preview Vocabulary -->
@@ -1166,7 +1271,7 @@
                 <h2 class="section-title">Key Vocabulary</h2>
                 <span class="section-time">⏱ 8 min</span>
             </div>
-            
+
             <table class="vocab-table">
                 <thead>
                     <tr>
@@ -1185,15 +1290,18 @@
                         </td>
                         <td class="text-center"><span class="checkbox"></span></td>
                         <td>{{definition}}</td>
-                        <td><div class="writing-line writing-line-small"></div></td>
+                        <td>
+                            <div class="writing-line writing-line-small"></div>
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
-            
+
             <div class="tip-box mt-3">
                 <div class="tip-label">💡 Vocabulary Tip</div>
-                Check the words you already know. For new words, write a translation or draw a small picture to help you remember.
+                Check the words you already know. For new words, write a translation or draw a small picture to help you
+                remember.
             </div>
         </section>
 
@@ -1218,10 +1326,11 @@
 
             <div class="article-container">
                 <div class="article-image">
-                    <img src="{{article_image_url}}" alt="{{article_caption}}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="{{article_image_url}}" alt="{{article_caption}}"
+                        style="width: 100%; height: 100%; object-fit: cover;">
                     <span class="article-image-caption">{{article_caption}}</span>
                 </div>
-                
+
                 <div class="marking-legend">
                     <div class="legend-item">
                         <span class="legend-symbol">___</span>
@@ -1240,7 +1349,7 @@
                         <span>= save this sentence</span>
                     </div>
                 </div>
-                
+
                 <div class="article-text">
                     {{#each article_paragraphs}}
                     <div class="paragraph">
@@ -1262,9 +1371,10 @@
                 <span class="section-time">⏱ 5 min</span>
                 <span class="phase-label phase-1">Phase 1</span>
             </div>
-            
-            <p class="text-sm text-muted mb-3">Write any new words you underlined in the article. You can add these to the app later for flashcard practice.</p>
-            
+
+            <p class="text-sm text-muted mb-3">Write any new words you underlined in the article. You can add these to
+                the app later for flashcard practice.</p>
+
             <div class="collection-box">
                 <div class="collection-grid">
                     <div class="collection-item">
@@ -1303,9 +1413,10 @@
                 <span class="section-time">⏱ 10 min</span>
                 <span class="phase-label phase-2">Phase 2</span>
             </div>
-            
-            <p class="text-sm text-muted mb-3">Read the article again carefully. Write the main idea of each paragraph.</p>
-            
+
+            <p class="text-sm text-muted mb-3">Read the article again carefully. Write the main idea of each paragraph.
+            </p>
+
             <div class="deep-reading-grid">
                 {{#each article_paragraphs}}
                 <div class="para-note">
@@ -1327,9 +1438,10 @@
                 <span class="section-time">⏱ 5 min</span>
                 <span class="phase-label phase-2">Phase 2</span>
             </div>
-            
-            <p class="text-sm text-muted mb-3">Copy 2 sentences from the article that you want to practice. Mark sentences with ⭐ in the article first.</p>
-            
+
+            <p class="text-sm text-muted mb-3">Copy 2 sentences from the article that you want to practice. Mark
+                sentences with ⭐ in the article first.</p>
+
             <div class="collection-box">
                 <div class="mb-3">
                     <label class="text-xs font-bold">Sentence 1:</label>
@@ -1337,9 +1449,12 @@
                     <div class="writing-line"></div>
                     <div class="flex gap-4 mt-2">
                         <span class="text-xs">Why I chose it:</span>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> grammar</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> vocabulary</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful phrase</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                            grammar</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                            vocabulary</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful
+                            phrase</label>
                     </div>
                 </div>
                 <div>
@@ -1348,9 +1463,12 @@
                     <div class="writing-line"></div>
                     <div class="flex gap-4 mt-2">
                         <span class="text-xs">Why I chose it:</span>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> grammar</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> vocabulary</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful phrase</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                            grammar</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                            vocabulary</label>
+                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful
+                            phrase</label>
                     </div>
                 </div>
             </div>
@@ -1364,9 +1482,10 @@
                 <span class="section-time">⏱ 5 min</span>
                 <span class="phase-label phase-2">Phase 2</span>
             </div>
-            
-            <p class="text-sm text-muted mb-3">Write any questions you have about the language in this article. Your teacher will use the AI assistant to answer them.</p>
-            
+
+            <p class="text-sm text-muted mb-3">Write any questions you have about the language in this article. Your
+                teacher will use the AI assistant to answer them.</p>
+
             <div class="language-q-box">
                 <div class="q-label">My Question 1:</div>
                 <div class="writing-line"></div>
@@ -1374,7 +1493,7 @@
                 <div class="writing-line"></div>
                 <div class="writing-line"></div>
             </div>
-            
+
             <div class="language-q-box">
                 <div class="q-label">My Question 2:</div>
                 <div class="writing-line"></div>
@@ -1392,7 +1511,7 @@
                 <span class="section-time">⏱ 10 min</span>
                 <span class="phase-label phase-3">Phase 3</span>
             </div>
-            
+
             {{#each comprehension_questions}}
             <div class="question-box">
                 <div class="question-text">
@@ -1419,7 +1538,7 @@
                 </div>
             </div>
             {{/each}}
-            
+
             <div class="score-box mt-4">
                 <span class="score-label">MY SCORE:</span>
                 <div class="score-circles">
@@ -1442,20 +1561,20 @@
                 <span class="section-time">⏱ 8 min</span>
                 <span class="phase-label phase-3">Phase 3</span>
             </div>
-            
+
             <div class="short-answer-box">
                 <div class="question-text">
                     <span class="question-number">SA</span>
                     {{short_answer_question}}
                 </div>
-                
+
                 <div class="sentence-starters">
                     <div class="starter-label">💡 Sentence Starters (optional):</div>
                     {{#each sentence_starters}}
                     <div class="starter-item">{{this}}</div>
                     {{/each}}
                 </div>
-                
+
                 <div class="writing-area">
                     <div class="writing-line"></div>
                     <div class="writing-line"></div>
@@ -1463,7 +1582,7 @@
                     <div class="writing-line"></div>
                     <div class="writing-line"></div>
                 </div>
-                
+
                 <div class="self-check">
                     <div class="check-item"><span class="checkbox"></span> I answered the question</div>
                     <div class="check-item"><span class="checkbox"></span> I used information from the article</div>
@@ -1481,7 +1600,7 @@
                 <span class="section-time">⏱ 10 min</span>
                 <span class="phase-label phase-4">Phase 4</span>
             </div>
-            
+
             <div class="practice-grid">
                 <div class="practice-box">
                     <div class="practice-title">A. Match the Words</div>
@@ -1495,7 +1614,7 @@
                     </div>
                     {{/each}}
                 </div>
-                
+
                 <div class="practice-box">
                     <div class="practice-title">B. Fill in the Blanks</div>
                     <div class="fill-blank">
@@ -1523,12 +1642,12 @@
                 <span class="section-time">⏱ 8 min</span>
                 <span class="phase-label phase-4">Phase 4</span>
             </div>
-            
+
             <div class="practice-grid">
                 <div class="practice-box">
                     <div class="practice-title">C. Put the Words in Order</div>
                     <p class="text-xs text-muted mb-2">Write the sentence in the correct order:</p>
-                    
+
                     {{#each sentence_order_questions}}
                     <div class="sentence-order {{#if @index}}mt-3{{/if}}">
                         <div class="order-item">
@@ -1540,11 +1659,11 @@
                     <div class="writing-line mt-2"></div>
                     {{/each}}
                 </div>
-                
+
                 <div class="practice-box">
                     <div class="practice-title">D. Complete the Sentence</div>
                     <p class="text-xs text-muted mb-2">Finish these sentences using your own words:</p>
-                    
+
                     {{#each sentence_completion_prompts}}
                     <p class="text-sm mt-2">{{number}}. {{prompt}}</p>
                     <div class="writing-line"></div>
@@ -1561,13 +1680,13 @@
                 <span class="section-time">⏱ 15 min</span>
                 <span class="phase-label phase-4">Phase 4</span>
             </div>
-            
+
             <div class="writing-section">
                 <div class="writing-header">
                     <h3>Long Answer Writing</h3>
                     <p>Write a thoughtful response to the prompt below. Use vocabulary from this lesson.</p>
                 </div>
-                
+
                 <div class="prompt-box">
                     <div class="prompt-label">✍️ Writing Prompt</div>
                     <p class="prompt-text">
@@ -1598,9 +1717,10 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="writing-lines">
-                    <div class="prompt-label" style="color: var(--accent-purple); margin-bottom: 12px;">✍️ Write Your Draft</div>
+                    <div class="prompt-label" style="color: var(--accent-purple); margin-bottom: 12px;">✍️ Write Your
+                        Draft</div>
                     <p class="text-xs text-muted mb-2">Dear Editor,</p>
                     <div class="lined-area">
                         <div class="writing-line"></div>
@@ -1636,12 +1756,12 @@
                 <h2 class="section-title">Lesson Reflection</h2>
                 <span class="section-time">⏱ 5 min</span>
             </div>
-            
+
             <div class="reflection-box">
                 <p class="writing-prompt-small">Today I learned:</p>
                 <div class="writing-line"></div>
                 <div class="writing-line"></div>
-                
+
                 <div class="flex gap-4 mt-4" style="justify-content: space-between;">
                     <div>
                         <p class="text-xs font-bold mb-2">How well did I understand?</p>
@@ -1679,17 +1799,17 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <p class="writing-prompt-small mt-4">The most interesting thing about this article was:</p>
                 <div class="writing-line"></div>
-                
+
                 <p class="writing-prompt-small mt-3">One thing I still want to know:</p>
                 <div class="writing-line"></div>
             </div>
         </section>
 
         <section class="section mt-4">
-             <div class="homework-box">
+            <div class="homework-box">
                 <div class="homework-title">🏠 HOMEWORK (Complete before next lesson)</div>
                 <div class="homework-item">
                     <span class="checkbox"></span>
@@ -1711,19 +1831,19 @@
                     <span class="checkbox"></span>
                     <span><strong>OPTIONAL:</strong> Submit your writing to the app for AI feedback</span>
                 </div>
-                
+
                 <div class="signature-line">
                     <span>Parent/Guardian signature: ________________________________</span>
                     <span style="margin-left: 40px;">Date: ______________</span>
                 </div>
             </div>
         </section>
-        
+
         <!-- Answer Key -->
         <section class="section force-page-break">
             <div class="answer-key">
                 <h3>📋 Answer Key</h3>
-                
+
                 <div class="answer-section">
                     <h4>Multiple Choice Questions</h4>
                     <div class="answer-list">
@@ -1732,7 +1852,7 @@
                         {{/each}}
                     </div>
                 </div>
-                
+
                 <div class="answer-section">
                     <h4>Vocabulary Practice</h4>
                     <div class="answer-list">
@@ -1740,7 +1860,7 @@
                         <p><strong>B. Fill in the Blanks:</strong> {{vocab_fill_answer_string}}</p>
                     </div>
                 </div>
-                
+
                 <div class="answer-section">
                     <h4>Sentence Practice</h4>
                     <div class="answer-list">
@@ -1770,4 +1890,5 @@
     </div>
 
 </body>
+
 </html>

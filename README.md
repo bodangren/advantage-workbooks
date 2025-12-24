@@ -23,6 +23,7 @@ A tool to generate printable, CEFR-aligned English learning workbooks from JSON 
 4.  Click **"Compile Workbook"**.
 5.  A new tab will open with the preview.
 6.  **Print to PDF:** Press `Ctrl+P` (or `Cmd+P`), select "Save as PDF", and ensure "Background graphics" is enabled in the print settings.
+7.  **Lesson Ordering:** The compiler sorts files alphabetically. To control the lesson order, name your files with numbers, e.g., `1_intro.json`, `2_history.json`. The compiler will automatically renumber them as "Lesson 1", "Lesson 2", etc.
 
 ### 2. Creating New Lessons
 
@@ -58,6 +59,20 @@ Your JSON file must contain the following fields. See `template_data_structure.j
 | `vocab_fill_answer_string` | String | Answer key string |
 | `sentence_order_answers` | Array | Answer key: `number`, `sentence` |
 | `translation_paragraphs` | Array | List of objects with `label` (e.g., "Paragraph 1"), `text` |
+
+### 3. Validating Your Content
+
+We have provided a JSON schema and a validator script to ensure your content files are correctly formatted.
+
+1.  **Install Requirement:**
+    ```bash
+    pip install jsonschema
+    ```
+2.  **Run Validator:**
+    ```bash
+    python3 validate_content.py
+    ```
+    This script checks all `content_*.json` files in the directory against `schema.json` and reports any errors.
 
 ## File Structure
 

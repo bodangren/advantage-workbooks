@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +13,21 @@
             padding: 20px;
             color: #333;
         }
+
         .ui-container {
             max-width: 800px;
             margin: 0 auto 40px;
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        h1 { color: #1e40af; text-align: center; }
+
+        h1 {
+            color: #1e40af;
+            text-align: center;
+        }
+
         .control-group {
             margin-bottom: 20px;
             padding: 15px;
@@ -29,21 +36,46 @@
             background: #f8fafc;
             transition: all 0.2s;
         }
+
         .control-group.loaded {
             border-color: #10b981;
             background: #ecfdf5;
         }
-        label { display: block; font-weight: bold; margin-bottom: 8px; }
-        input[type="file"] { width: 100%; }
-        button {
-            background: #2563eb; color: white; border: none;
-            padding: 12px 24px; border-radius: 6px;
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            width: 100%; margin-top: 10px;
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
-        button:disabled { background: #94a3b8; cursor: not-allowed; }
-        #status { margin-top: 15px; text-align: center; font-weight: bold; }
-        
+
+        input[type="file"] {
+            width: 100%;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
         /* File List Styles */
         #fileList {
             list-style: none;
@@ -52,6 +84,7 @@
             max-height: 200px;
             overflow-y: auto;
         }
+
         #fileList li {
             background: white;
             padding: 6px 10px;
@@ -62,37 +95,43 @@
             display: flex;
             justify-content: space-between;
         }
+
         .badge {
-            background: #e0f2fe; color: #0369a1;
-            padding: 2px 6px; border-radius: 10px;
-            font-size: 10px; font-weight: bold;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
 
     <!-- UI for file selection -->
     <div class="ui-container">
         <h1>Advanced Workbook Compiler</h1>
         <p>Generates a PDF-ready workbook with Cover, Preface, TOC, and Page Numbers.</p>
-        
+
         <div class="control-group" id="group-template">
             <label>1. HTML Template (workbook_template.html)</label>
             <input type="file" id="templateFile" accept=".html">
         </div>
-        
+
         <div class="control-group" id="group-preface">
             <label>2. Preface Data (preface_data.json)</label>
             <input type="file" id="prefaceFile" accept=".json">
         </div>
-        
+
         <div class="control-group" id="group-content">
             <label>3. Lesson Content (Multiple JSON files)</label>
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Hold <strong>Ctrl</strong> (Cmd) to select multiple files</div>
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Hold <strong>Ctrl</strong> (Cmd) to select
+                multiple files</div>
             <input type="file" id="contentFiles" accept=".json" multiple>
             <ul id="fileList"></ul>
         </div>
-        
+
         <button id="compileBtn" disabled>Compile Workbook</button>
         <div id="status"></div>
     </div>
@@ -121,7 +160,7 @@
                 compileBtn.textContent = "Compile Workbook";
             }
         }
-        
+
         // Listeners for simple single-file inputs
         templateInput.addEventListener('change', checkInputs);
         prefaceInput.addEventListener('change', checkInputs);
@@ -129,11 +168,11 @@
         // Special listener for content files to update list
         contentInput.addEventListener('change', (e) => {
             fileList.innerHTML = ''; // Clear list
-            
+
             if (e.target.files.length > 0) {
                 // Sort files by name to ensure logical order (Lesson 1, Lesson 2...)
-                const sortedFiles = Array.from(e.target.files).sort((a, b) => 
-                    a.name.localeCompare(b.name, undefined, {numeric: true})
+                const sortedFiles = Array.from(e.target.files).sort((a, b) =>
+                    a.name.localeCompare(b.name, undefined, { numeric: true })
                 );
 
                 sortedFiles.forEach((file, index) => {
@@ -156,37 +195,46 @@
         compileBtn.addEventListener('click', async () => {
             statusDiv.textContent = "Compiling...";
             statusDiv.style.color = "blue";
-            
+
             try {
                 // 1. Read all files
                 const templateHtml = await readFile(templateInput.files[0]);
                 const prefaceJson = JSON.parse(await readFile(prefaceInput.files[0]));
-                
+
                 // Sort content files again for processing
-                const contentFiles = Array.from(contentInput.files).sort((a,b) => 
-                    a.name.localeCompare(b.name, undefined, {numeric: true})
+                const contentFiles = Array.from(contentInput.files).sort((a, b) =>
+                    a.name.localeCompare(b.name, undefined, { numeric: true })
                 );
-                
+
                 const lessons = [];
-                for (const file of contentFiles) {
+                for (let i = 0; i < contentFiles.length; i++) {
+                    const file = contentFiles[i];
                     const json = JSON.parse(await readFile(file));
+
+                    // FORCE SEQUENTIAL NUMBERING
+                    // This overrides the "lesson_number" in the JSON (e.g. "Lesson 6")
+                    // to ensure the workbook flows logically from 1 to N.
+                    json.lesson_number = `Lesson ${i + 1}`;
+
                     lessons.push(json);
                 }
 
                 // 2. Determine Book Metadata
-                const firstLevel = lessons[0].cefr_level || "A1"; 
+                const firstLevel = lessons[0].cefr_level || "A1";
                 const levelKey = firstLevel.split(' ').pop(); // Get "A1", "A2", etc.
-                const preface = prefaceJson[levelKey] || prefaceJson["A1"]; 
+                const preface = prefaceJson[levelKey] || prefaceJson["A1"];
 
                 // 3. Extract Styles from Template
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(templateHtml, 'text/html');
-                
+
                 // Extract CSS and Links
                 // We strip the .workbook-container style because Paged.js handles the page box better without it
                 const styles = Array.from(doc.querySelectorAll('style')).map(s => s.innerText).join('\n')
-                    .replace(/\.workbook-container\s*{[^}]*}/g, ''); 
-                
+                    .replace(/\.workbook-container\s*{[^}]*}/g, '')
+                    .replace(/@page\s*{[^}]*}/g, '') /* Strip conflicting @page rules from template */
+                    .replace(/body\s*{[^}]*}/g, 'body { font-family: "Open Sans", sans-serif; }'); /* Strip body padding/margins but keep font */
+
                 const links = Array.from(doc.querySelectorAll('link')).map(l => l.outerHTML).join('\n');
 
                 // 4. Compile Lessons
@@ -198,10 +246,10 @@
 
                 lessons.forEach((lesson, index) => {
                     const lessonId = `lesson-${index}`;
-                    
+
                     // Generate Lesson Content
                     const content = hbTemplate(lesson);
-                    
+
                     // IMPORTANT: Unwrap content from .workbook-container if it exists in the template
                     // This prevents double-boxing which can break Paged.js layout
                     const tempDiv = document.createElement('div');
@@ -209,7 +257,7 @@
                     const innerContent = tempDiv.querySelector('.workbook-container') ? tempDiv.querySelector('.workbook-container').innerHTML : content;
 
                     lessonsHtml += `<div id="${lessonId}" class="lesson-section">${innerContent}</div>`;
-                    
+
                     // Generate TOC Item with automatic page numbering target
                     tocItems += `
                         <li class="toc-item">
@@ -255,6 +303,7 @@
         body {
             background-color: #555;
             margin: 0;
+            padding: 0; /* Ensure no padding interferes with Paged.js */
         }
         .pagedjs_pages {
             display: flex;
@@ -269,6 +318,25 @@
             background: white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             margin-bottom: 20px;
+        }
+
+        /* --- Print Overrides to Fix Scaling --- */
+        @media print {
+            body { 
+                background: white; 
+                width: 100%;
+            }
+            .pagedjs_pages {
+                display: block !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                transform: none !important;
+            }
+            .pagedjs_page {
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always;
+            }
         }
 
         /* --- Custom Book Elements --- */
@@ -353,7 +421,7 @@
         .lesson-header { margin-top: 0; }
         
         /* Prevent awkward breaks */
-        .section, .question-box, .practice-box, .vocab-table tr {
+        .question-box, .practice-box, .vocab-table tr {
             break-inside: avoid;
         }
     </style>
@@ -386,8 +454,8 @@
 
                 // 6. Open in New Window
                 const newWindow = window.open('', '_blank');
-                if(!newWindow) throw new Error("Popup blocked! Allow popups to see the workbook.");
-                
+                if (!newWindow) throw new Error("Popup blocked! Allow popups to see the workbook.");
+
                 newWindow.document.write(finalHtml);
                 newWindow.document.close();
 
@@ -402,4 +470,5 @@
         });
     </script>
 </body>
+
 </html>

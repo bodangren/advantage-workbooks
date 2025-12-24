@@ -1,0 +1,265 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "lesson_number": {
+            "type": "string",
+            "description": "e.g., 'Lesson 1'"
+        },
+        "lesson_title": {
+            "type": "string"
+        },
+        "level_name": {
+            "type": "string"
+        },
+        "cefr_level": {
+            "type": "string"
+        },
+        "article_type": {
+            "type": "string"
+        },
+        "genre": {
+            "type": "string"
+        },
+        "vocabulary": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "word": {
+                        "type": "string"
+                    },
+                    "phonetic": {
+                        "type": "string"
+                    },
+                    "definition": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "word",
+                    "definition"
+                ]
+            }
+        },
+        "article_image_url": {
+            "type": "string",
+            "format": "uri-reference"
+        },
+        "article_caption": {
+            "type": "string"
+        },
+        "article_paragraphs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "text"
+                ]
+            }
+        },
+        "comprehension_questions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "number",
+                    "question",
+                    "options"
+                ]
+            }
+        },
+        "short_answer_question": {
+            "type": "string"
+        },
+        "sentence_starters": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "vocab_match": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "word": {
+                        "type": "string"
+                    },
+                    "letter": {
+                        "type": "string"
+                    },
+                    "definition": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "word",
+                    "letter",
+                    "definition"
+                ]
+            }
+        },
+        "vocab_fill": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "sentence": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "sentence"
+                ]
+            }
+        },
+        "vocab_word_bank": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "sentence_order_questions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "words": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "words"
+                ]
+            }
+        },
+        "sentence_completion_prompts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "prompt": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "prompt"
+                ]
+            }
+        },
+        "writing_prompt": {
+            "type": "string"
+        },
+        "mc_answers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "letter": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "letter",
+                    "text"
+                ]
+            }
+        },
+        "vocab_match_answer_string": {
+            "type": "string"
+        },
+        "vocab_fill_answer_string": {
+            "type": "string"
+        },
+        "sentence_order_answers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "sentence": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "number",
+                    "sentence"
+                ]
+            }
+        },
+        "translation_paragraphs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "label",
+                    "text"
+                ]
+            }
+        }
+    },
+    "required": [
+        "lesson_title",
+        "vocabulary",
+        "article_paragraphs",
+        "comprehension_questions",
+        "short_answer_question",
+        "writing_prompt"
+    ]
+}
