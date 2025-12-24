@@ -112,7 +112,7 @@
     <!-- UI for file selection -->
     <div class="ui-container">
         <h1>Advanced Workbook Compiler</h1>
-        <p>Generates a PDF-ready workbook with Cover, Preface, TOC, and Page Numbers.</p>
+        <p>Generates a PDF-ready workbook with Title Page, Preface, TOC, and Page Numbers.</p>
 
         <div class="control-group" id="group-template">
             <label>1. HTML Template (workbook_template.html)</label>
@@ -124,8 +124,19 @@
             <input type="file" id="prefaceFile" accept=".json">
         </div>
 
+        <div class="control-group" id="group-level">
+            <label>3. Select Workbook Level</label>
+            <select id="levelSelect" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                <option value="A1">A1 - Origins</option>
+                <option value="A2">A2 - Quest</option>
+                <option value="B1">B1 - Adventure</option>
+                <option value="B2">B2 - Hero</option>
+                <option value="C1">C1 - Legend</option>
+            </select>
+        </div>
+
         <div class="control-group" id="group-content">
-            <label>3. Lesson Content (Multiple JSON files)</label>
+            <label>4. Lesson Content (Multiple JSON files)</label>
             <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Hold <strong>Ctrl</strong> (Cmd) to select
                 multiple files</div>
             <input type="file" id="contentFiles" accept=".json" multiple>
@@ -140,6 +151,7 @@
         const templateInput = document.getElementById('templateFile');
         const prefaceInput = document.getElementById('prefaceFile');
         const contentInput = document.getElementById('contentFiles');
+        const levelSelect = document.getElementById('levelSelect');
         const compileBtn = document.getElementById('compileBtn');
         const statusDiv = document.getElementById('status');
         const fileList = document.getElementById('fileList');
@@ -200,6 +212,7 @@
                 // 1. Read all files
                 const templateHtml = await readFile(templateInput.files[0]);
                 const prefaceJson = JSON.parse(await readFile(prefaceInput.files[0]));
+                const selectedLevel = levelSelect.value; // Get selected level (A1, A2, etc.)
 
                 // Sort content files again for processing
                 const contentFiles = Array.from(contentInput.files).sort((a, b) =>
@@ -215,14 +228,31 @@
                     // This overrides the "lesson_number" in the JSON (e.g. "Lesson 6")
                     // to ensure the workbook flows logically from 1 to N.
                     json.lesson_number = `Lesson ${i + 1}`;
+                    
+                    // FORCE LEVEL OVERRIDE (Optional but good for consistency)
+                    // If we want the lessons to display the selected level instead of what's in the JSON
+                    // json.cefr_level = selectedLevel; 
 
                     lessons.push(json);
                 }
 
                 // 2. Determine Book Metadata
-                const firstLevel = lessons[0].cefr_level || "A1";
-                const levelKey = firstLevel.split(' ').pop(); // Get "A1", "A2", etc.
+                // Use the USER SELECTED level, not the one from the first file
+                const levelKey = selectedLevel; 
                 const preface = prefaceJson[levelKey] || prefaceJson["A1"];
+
+                // Parse Title and Tagline from preface.title
+                // Expected format: "Origins — Your Journey Starts Here"
+                let seriesName = "Series";
+                let seriesTagline = "";
+                
+                if (preface.title.includes("—")) {
+                    const parts = preface.title.split("—");
+                    seriesName = parts[0].trim();
+                    seriesTagline = parts[1].trim();
+                } else {
+                    seriesName = preface.title;
+                }
 
                 // 3. Extract Styles from Template
                 const parser = new DOMParser();
@@ -269,13 +299,18 @@
                     `;
                 });
 
+                // Format preface paragraphs
+                const formattedPreface = preface.text.split('\n\n')
+                    .map(p => `<p>${p}</p>`)
+                    .join('');
+
                 // 5. Construct Final HTML Document
                 const finalHtml = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reading Advantage Workbook - ${levelKey}</title>
+    <title>Reading Advantage Workbook - ${seriesName}</title>
     <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
     ${links}
     <style>
@@ -293,7 +328,10 @@
             }
         }
 
-        /* Cover Page Rule */
+        /* Front Matter Pages (Title, Preface, TOC) do not show page numbers usually, 
+           or show Roman numerals. For simplicity, we hide them on the Title Page 
+           and let them run on others, or we could reset the counter. 
+           Let's hide on Title Page only. */
         @page:first {
             margin: 0;
             @bottom-center { content: none; }
@@ -303,7 +341,7 @@
         body {
             background-color: #555;
             margin: 0;
-            padding: 0; /* Ensure no padding interferes with Paged.js */
+            padding: 0; 
         }
         .pagedjs_pages {
             display: flex;
@@ -339,44 +377,73 @@
             }
         }
 
-        /* --- Custom Book Elements --- */
-        .cover-page {
+        /* --- Title Page --- */
+        .title-page {
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
             text-align: center;
             break-after: page;
+            background: white;
+            color: black;
+            padding: 40px;
+            box-sizing: border-box;
         }
-        
-        .cover-title { font-size: 48pt; font-weight: bold; margin-bottom: 20px; font-family: 'Merriweather', serif; }
-        .cover-subtitle { font-size: 24pt; opacity: 0.9; margin-bottom: 40px; }
-        .cover-meta { font-size: 14pt; margin-top: auto; margin-bottom: 50px; }
+        .tp-main-title { 
+            font-size: 24pt; 
+            margin-bottom: 20px; 
+            font-weight: normal; 
+            font-family: 'Merriweather', serif;
+        }
+        .tp-series-title { 
+            font-size: 48pt; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+            text-transform: uppercase; 
+            font-family: 'Open Sans', sans-serif;
+            color: #1e40af;
+        }
+        .tp-level-info { 
+            font-size: 18pt; 
+            margin-bottom: 50px; 
+            color: #555;
+        }
+        .tp-tagline { 
+            font-size: 16pt; 
+            font-style: italic; 
+            margin-top: auto; 
+            margin-bottom: 80px; 
+        }
+        .tp-publisher { 
+            font-size: 10pt; 
+            margin-bottom: 40px; 
+            color: #888;
+        }
 
-        .front-matter {
+        /* --- Sections --- */
+        .section-preface, .section-toc {
             break-after: page;
+            padding-top: 40px; 
             font-family: 'Open Sans', sans-serif;
         }
         
-        .preface-box {
-            background: #f8fafc;
-            border-left: 5px solid #1e40af;
-            padding: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .toc-title {
+        .section-header {
+            font-size: 24pt;
             border-bottom: 2px solid #1e40af;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
             color: #1e40af;
-            font-size: 24px;
-            font-weight: bold;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: left;
         }
-        
+
+        .preface-content {
+            font-size: 12pt;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
         ul.toc-list {
             list-style: none;
             padding: 0;
@@ -427,21 +494,26 @@
     </style>
 </head>
 <body>
-    <!-- Cover -->
-    <div class="cover-page">
-        <div class="cover-title">Reading Advantage</div>
-        <div class="cover-subtitle">${preface.title} Workbook</div>
-        <div class="cover-meta">2025 Edition • Quest Series</div>
+    <!-- Title Page -->
+    <div class="title-page">
+        <h1 class="tp-main-title">Reading Advantage</h1>
+        <h2 class="tp-series-title">${seriesName}</h2>
+        <div class="tp-level-info">Level ${levelKey}</div>
+        <div class="tp-tagline">${seriesTagline}</div>
+        <div class="tp-publisher">Reading Advantage Series • 2025 Edition</div>
     </div>
 
-    <!-- Front Matter -->
-    <div class="front-matter">
-        <h2 class="toc-title">Preface</h2>
-        <div class="preface-box">
-            <p>${preface.text}</p>
+    <!-- Preface Page -->
+    <div class="section-preface">
+        <h2 class="section-header">Preface</h2>
+        <div class="preface-content">
+            ${formattedPreface}
         </div>
+    </div>
 
-        <h2 class="toc-title" style="margin-top: 50px;">Table of Contents</h2>
+    <!-- TOC Page -->
+    <div class="section-toc">
+        <h2 class="section-header">Table of Contents</h2>
         <ul class="toc-list">
             ${tocItems}
         </ul>
