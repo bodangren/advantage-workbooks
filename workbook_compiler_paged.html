@@ -136,10 +136,9 @@
         </div>
 
         <div class="control-group" id="group-content">
-            <label>4. Lesson Content (Multiple JSON files)</label>
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Hold <strong>Ctrl</strong> (Cmd) to select
-                multiple files</div>
-            <input type="file" id="contentFiles" accept=".json" multiple>
+            <label>4. Lesson Files (JSON + Images)</label>
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Select <strong>all</strong> your content files (.json) and QR codes (.png/.jpg) together. The tool will pair them by filename.</div>
+            <input type="file" id="contentFiles" accept=".json, .png, .jpg, .jpeg" multiple>
             <ul id="fileList"></ul>
         </div>
 
@@ -166,7 +165,7 @@
             // Enable button only if all required inputs have files
             if (templateInput.files.length > 0 && prefaceInput.files.length > 0 && contentInput.files.length > 0) {
                 compileBtn.disabled = false;
-                compileBtn.textContent = `Compile Workbook (${contentInput.files.length} Lessons)`;
+                compileBtn.textContent = `Compile Workbook`;
             } else {
                 compileBtn.disabled = true;
                 compileBtn.textContent = "Compile Workbook";
@@ -182,14 +181,27 @@
             fileList.innerHTML = ''; // Clear list
 
             if (e.target.files.length > 0) {
-                // Sort files by name to ensure logical order (Lesson 1, Lesson 2...)
-                const sortedFiles = Array.from(e.target.files).sort((a, b) =>
-                    a.name.localeCompare(b.name, undefined, { numeric: true })
-                );
+                const files = Array.from(e.target.files);
+                const jsonFiles = files.filter(f => f.name.toLowerCase().endsWith('.json'));
+                const imgFiles = files.filter(f => !f.name.toLowerCase().endsWith('.json'));
+                
+                // Sort files by name to ensure logical order
+                jsonFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
-                sortedFiles.forEach((file, index) => {
+                compileBtn.textContent = `Compile Workbook (${jsonFiles.length} Lessons)`;
+
+                jsonFiles.forEach((file, index) => {
+                    // Check if matching image exists
+                    const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+                    const hasImage = imgFiles.some(img => img.name.startsWith(baseName));
+                    
                     const li = document.createElement('li');
-                    li.innerHTML = `<span>${file.name}</span> <span class="badge">Lesson ${index + 1}</span>`;
+                    li.innerHTML = `
+                        <span>${file.name}</span> 
+                        <div>
+                            ${hasImage ? '<span class="badge" style="background:#dcfce7; color:#166534">QR Found</span>' : ''}
+                            <span class="badge">Lesson ${index + 1}</span>
+                        </div>`;
                     fileList.appendChild(li);
                 });
             }
@@ -204,6 +216,14 @@
             reader.readAsText(file);
         });
 
+        // Helper to read file as Data URL
+        const readDataUrl = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+
         compileBtn.addEventListener('click', async () => {
             statusDiv.textContent = "Compiling...";
             statusDiv.style.color = "blue";
@@ -212,37 +232,26 @@
                 // 1. Read all files
                 const templateHtml = await readFile(templateInput.files[0]);
                 const prefaceJson = JSON.parse(await readFile(prefaceInput.files[0]));
-                const selectedLevel = levelSelect.value; // Get selected level (A1, A2, etc.)
+                const selectedLevel = levelSelect.value; 
 
-                // Sort content files again for processing
-                const contentFiles = Array.from(contentInput.files).sort((a, b) =>
-                    a.name.localeCompare(b.name, undefined, { numeric: true })
-                );
+                // Process Content Files
+                const allFiles = Array.from(contentInput.files);
+                const jsonFiles = allFiles.filter(f => f.name.toLowerCase().endsWith('.json'));
+                const imgFiles = allFiles.filter(f => !f.name.toLowerCase().endsWith('.json'));
 
-                const lessons = [];
-                for (let i = 0; i < contentFiles.length; i++) {
-                    const file = contentFiles[i];
-                    const json = JSON.parse(await readFile(file));
-
-                    // FORCE SEQUENTIAL NUMBERING
-                    // This overrides the "lesson_number" in the JSON (e.g. "Lesson 6")
-                    // to ensure the workbook flows logically from 1 to N.
-                    json.lesson_number = `Lesson ${i + 1}`;
-                    
-                    // FORCE LEVEL OVERRIDE (Optional but good for consistency)
-                    // If we want the lessons to display the selected level instead of what's in the JSON
-                    // json.cefr_level = selectedLevel; 
-
-                    lessons.push(json);
+                // Create Image Map (filename -> dataURL)
+                const imgMap = {};
+                for (const img of imgFiles) {
+                    const baseName = img.name.substring(0, img.name.lastIndexOf('.'));
+                    imgMap[baseName] = await readDataUrl(img);
                 }
 
+                // Sort JSONs
+                jsonFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+
                 // 2. Determine Book Metadata
-                // Use the USER SELECTED level, not the one from the first file
                 const levelKey = selectedLevel; 
                 const preface = prefaceJson[levelKey] || prefaceJson["A1"];
-
-                // Parse Title and Tagline from preface.title
-                // Expected format: "Origins — Your Journey Starts Here"
                 let seriesName = "Series";
                 let seriesTagline = "";
                 
@@ -252,6 +261,29 @@
                     seriesTagline = parts[1].trim();
                 } else {
                     seriesName = preface.title;
+                }
+
+                const lessons = [];
+                for (let i = 0; i < jsonFiles.length; i++) {
+                    const file = jsonFiles[i];
+                    const json = JSON.parse(await readFile(file));
+                    const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+
+                    // FORCE SEQUENTIAL NUMBERING
+                    json.lesson_number = `Lesson ${i + 1}`;
+                    
+                    // INJECT METADATA
+                    json.series_name = seriesName;
+                    json.level_name = levelKey; 
+                    json.cefr_level = levelKey; // Ensure consistency
+                    json.series_tagline = seriesTagline;
+
+                    // INJECT QR CODE if found
+                    if (imgMap[baseName]) {
+                        json.qr_code_url = imgMap[baseName];
+                    }
+
+                    lessons.push(json);
                 }
 
                 // 3. Extract Styles from Template
@@ -268,7 +300,11 @@
                 const links = Array.from(doc.querySelectorAll('link')).map(l => l.outerHTML).join('\n');
 
                 // 4. Compile Lessons
-                const bodyTemplate = doc.body.innerHTML;
+                // FIX: Use Regex to extract body content to preserve Handlebars syntax in tables
+                // DOMParser moves {{#each}} out of <table>/<tbody> because it's invalid HTML text
+                const bodyMatch = templateHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+                const bodyTemplate = bodyMatch ? bodyMatch[1] : doc.body.innerHTML;
+                
                 const hbTemplate = Handlebars.compile(bodyTemplate);
 
                 let lessonsHtml = "";
@@ -363,6 +399,8 @@
             body { 
                 background: white; 
                 width: 100%;
+                margin: 0;
+                padding: 0;
             }
             .pagedjs_pages {
                 display: block !important;
@@ -482,6 +520,11 @@
 
         .lesson-section {
             break-after: page;
+        }
+        
+        /* Fix: Prevent trailing margins from creating a blank page after the lesson */
+        .lesson-section > *:last-child {
+            margin-bottom: 0 !important;
         }
         
         /* Fix spacing for Paged.js flow */
