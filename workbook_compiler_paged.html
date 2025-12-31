@@ -128,11 +128,38 @@
         <div class="control-group" id="group-level">
             <label>3. Select Workbook Level</label>
             <select id="levelSelect" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;">
-                <option value="A1">A1 - Origins</option>
-                <option value="A2">A2 - Quest</option>
-                <option value="B1">B1 - Adventure</option>
-                <option value="B2">B2 - Hero</option>
-                <option value="C1">C1 - Legend</option>
+                <option value="1">1 - Origins</option>
+                <option value="2">2 - Origins</option>
+                <option value="3.1">3.1 - Origins</option>
+                <option value="3.2">3.2 - Origins</option>
+                <option value="4">4 - Quest</option>
+                <option value="5">5 - Quest</option>
+                <option value="6.1">6.1 - Quest</option>
+                <option value="6.2">6.2 - Quest</option>
+                <option value="7.1">7.1 - Adventure</option>
+                <option value="7.2">7.2 - Adventure</option>
+                <option value="8.1">8.1 - Adventure</option>
+                <option value="8.2">8.2 - Adventure</option>
+                <option value="8.3">8.3 - Adventure</option>
+                <option value="9.1">9.1 - Adventure</option>
+                <option value="9.2">9.2 - Adventure</option>
+                <option value="9.3">9.3 - Adventure</option>
+                <option value="10.1">10.1 - Hero</option>
+                <option value="10.2">10.2 - Hero</option>
+                <option value="11.1">11.1 - Hero</option>
+                <option value="11.2">11.2 - Hero</option>
+                <option value="11.3">11.3 - Hero</option>
+                <option value="12.1">12.1 - Hero</option>
+                <option value="12.2">12.2 - Hero</option>
+                <option value="12.3">12.3 - Hero</option>
+                <option value="13.1">13.1 - Legend</option>
+                <option value="13.2">13.2 - Legend</option>
+                <option value="14.1">14.1 - Legend</option>
+                <option value="14.2">14.2 - Legend</option>
+                <option value="14.3">14.3 - Legend</option>
+                <option value="15.1">15.1 - Legend</option>
+                <option value="15.2">15.2 - Legend</option>
+                <option value="15.3">15.3 - Legend</option>
             </select>
         </div>
 
@@ -311,12 +338,12 @@
 
                     // FORCE SEQUENTIAL NUMBERING
                     json.lesson_number = `Lesson ${i + 1}`;
-                    
+
                     // INJECT METADATA
                     json.series_name = seriesName;
-                    json.level_name = levelKey; 
-                    json.cefr_level = levelKey; // Ensure consistency
+                    json.series_level = levelKey; // Book/series level (A1, A2, B1, etc.)
                     json.series_tagline = seriesTagline;
+                    // Note: json.level_name and json.cefr_level come from JSON (lesson-specific)
 
                     // INJECT QR CODE
                     // Priority 1: Manual QR image (if provided)
