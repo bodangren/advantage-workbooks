@@ -49,6 +49,11 @@
         "article_caption": {
             "type": "string"
         },
+        "article_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the article on the Reading Advantage platform (used for QR code generation)"
+        },
         "article_paragraphs": {
             "type": "array",
             "items": {

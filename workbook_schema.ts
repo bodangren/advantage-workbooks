@@ -69,6 +69,7 @@ export const WorkbookLessonSchema = z.object({
 
     article_image_url: z.string().url().optional(),
     article_caption: z.string().optional(),
+    article_url: z.string().url().optional().describe("URL to the article on the Reading Advantage platform (used for QR code generation)"),
 
     article_paragraphs: z.array(ParagraphSchema),
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Workbook Compiler</title>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -224,6 +225,45 @@
             reader.readAsDataURL(file);
         });
 
+        // Helper to generate QR code as SVG data URL
+        const generateQRCode = (url) => {
+            try {
+                // Use qrcode-generator library (loaded via CDN)
+                // Error correction level: L=7%, M=15%, Q=25%, H=30%
+                const typeNumber = 0; // Auto-detect size
+                const errorCorrectionLevel = 'M';
+                const qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData(url);
+                qr.make();
+
+                // Generate SVG with proper scaling for print
+                const cellSize = 10; // pixels per module
+                const margin = 1; // quiet zone
+                const size = qr.getModuleCount();
+                const totalSize = (size + margin * 2) * cellSize;
+
+                let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalSize}" height="${totalSize}" viewBox="0 0 ${totalSize} ${totalSize}">`;
+                svg += `<rect width="100%" height="100%" fill="#ffffff"/>`;
+                svg += `<g transform="translate(${margin * cellSize}, ${margin * cellSize})">`;
+
+                for (let row = 0; row < size; row++) {
+                    for (let col = 0; col < size; col++) {
+                        if (qr.isDark(row, col)) {
+                            svg += `<rect x="${col * cellSize}" y="${row * cellSize}" width="${cellSize}" height="${cellSize}" fill="#000000"/>`;
+                        }
+                    }
+                }
+
+                svg += '</g></svg>';
+
+                // Convert SVG to data URL
+                return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+            } catch (error) {
+                console.error('QR code generation failed:', error);
+                return null;
+            }
+        };
+
         compileBtn.addEventListener('click', async () => {
             statusDiv.textContent = "Compiling...";
             statusDiv.style.color = "blue";
@@ -278,9 +318,17 @@
                     json.cefr_level = levelKey; // Ensure consistency
                     json.series_tagline = seriesTagline;
 
-                    // INJECT QR CODE if found
+                    // INJECT QR CODE
+                    // Priority 1: Manual QR image (if provided)
                     if (imgMap[baseName]) {
                         json.qr_code_url = imgMap[baseName];
+                    }
+                    // Priority 2: Auto-generate from article_url
+                    else if (json.article_url) {
+                        const qrDataUrl = generateQRCode(json.article_url);
+                        if (qrDataUrl) {
+                            json.qr_code_url = qrDataUrl;
+                        }
                     }
 
                     lessons.push(json);
