@@ -80,3 +80,7 @@ We have provided a JSON schema and a validator script to ensure your content fil
 *   `workbook_template.html` - The HTML/Handlebars template for a single lesson.
 *   `preface_data.json` - Text for the workbook introduction.
 *   `content_*.json` - Example lesson content files.
+
+## Convert
+
+gs -dSAFER -dBATCH -dNOPAUSE -dNOCACHE -sDEVICE=pdfwrite      -sColorConversionStrategy=CMYK -dProcessColorModel=/DeviceCMYK      -sOutputFile=Quest_5_cmyk.pdf Reading\ Advantage\ Workbook\ -\ A2.pdf
