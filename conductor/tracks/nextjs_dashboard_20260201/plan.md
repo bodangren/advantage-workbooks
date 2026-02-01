@@ -61,7 +61,7 @@
     - [x] Create "Export/Print" button that triggers the browser's print dialog
 - [x] Task: Conductor - User Manual Verification 'Phase 5: Preview Engine & Compilation' (Protocol in workflow.md)
 
-## Phase 6: Asset Management & Final Polish
+## Phase 6: Asset Management & Final Polish [checkpoint: 3d083de]
 - [x] Task: Image Handling [8b366a4]
     - [x] Implement API for uploading images directly to the project folder
     - [x] Update JSON paths automatically when images are moved/added
