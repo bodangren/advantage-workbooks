@@ -15,9 +15,9 @@
     - [x] Implement API routes for listing directories (Workbook Projects)
     - [x] Implement API routes for reading/writing workbook JSON files
     - [x] Create utility for scaffolding new workbook directory structures
-- [ ] Task: Test-Driven Development (API)
-    - [ ] Write tests for directory listing and project discovery logic
-    - [ ] Write tests for JSON read/write operations with safety checks
+- [x] Task: Test-Driven Development (API) [pending commit]
+    - [x] Write tests for directory listing and project discovery logic
+    - [x] Write tests for JSON read/write operations with safety checks
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md)
 
 ## Phase 3: Project Management & File Explorer
