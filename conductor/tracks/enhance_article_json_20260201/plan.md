@@ -1,6 +1,6 @@
 # Implementation Plan - Track: Enhance Article JSON with AI & Visuals
 
-## Phase 1: Schema & Type System Updates
+## Phase 1: Schema & Type System Updates [checkpoint: d83e6c1]
 - [x] Task: Update `/dashboard/lib/workbook-schema.ts` to support new metadata fields - 98b0c65
     - [x] Add `short_answer_hint` (optional string)
     - [x] Add `writing_plan_prompts` (optional array of strings)
