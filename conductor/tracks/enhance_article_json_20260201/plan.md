@@ -1,34 +1,62 @@
 # Implementation Plan - Track: Enhance Article JSON with AI & Visuals
 
-## Phase 1: Schema & Validation Update
-- [ ] Task: Update `workbook_schema.ts` to support new metadata fields (`short_answer_hint`, `writing_plan_prompts`, `reflection_focus`)
-    - [ ] Update Zod schema definition
-    - [ ] Export new types
-- [ ] Task: Refactor image handling in Schema
-    - [ ] Deprecate `article_image_url`
-    - [ ] Add `article_images` array (url, caption, position)
-- [ ] Task: Update `validate_content.py` to check for new fields
-    - [ ] Ensure backward compatibility (fields should be optional or have defaults)
+## Phase 1: Schema & Type System Updates
+- [ ] Task: Update `/dashboard/lib/workbook-schema.ts` to support new metadata fields
+    - [ ] Add `short_answer_hint` (optional string)
+    - [ ] Add `writing_plan_prompts` (optional array of strings)
+    - [ ] Add `reflection_focus` (optional string)
+    - [ ] Export updated TypeScript types
+- [ ] Task: Add multi-image support to schema
+    - [ ] Create `ArticleImageSchema` for image objects (url, caption, position)
+    - [ ] Add `article_images` array field (optional)
+    - [ ] Keep `article_image_url` for backward compatibility
+- [ ] Task: Create Vitest tests for new schema fields
+    - [ ] Test validation of new optional fields
+    - [ ] Test `article_images` array structure validation
+    - [ ] Test backward compatibility with lessons missing new fields
 
-## Phase 2: AI Content & Image Generation Script (TypeScript)
-- [ ] Task: Create `augment_lesson.ts` script
-    - [ ] Implement text generation logic (hints, specific prompts) using LLM
-    - [ ] Implement image prompt generation based on paragraph content
-- [ ] Task: Integrate Image Generation
-    - [ ] Add logic to call `nanobanana` to create the inline images
-    - [ ] Save generated images to the specific lesson folder
-    - [ ] Update the JSON file with the new local image paths
+## Phase 2: Next.js Editor UI Updates
+- [ ] Task: Update lesson editor form in `/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx`
+    - [ ] Add input field for `short_answer_hint`
+    - [ ] Add array input for `writing_plan_prompts` (3 prompts)
+    - [ ] Add input field for `reflection_focus`
+- [ ] Task: Add multi-image management UI
+    - [ ] Create interface to manage `article_images` array
+    - [ ] Add position selector (hero, inline-para-1, inline-para-2, etc.)
+    - [ ] Integrate with existing ImageUpload component
+    - [ ] Add caption input for each image
 
 ## Phase 3: Template & Visual Implementation
-- [ ] Task: Update `workbook_template.html` for Content
-    - [ ] Render `short_answer_hint` in Section 8
-    - [ ] Render `writing_plan_prompts` in Section 11
-    - [ ] Render `reflection_focus` in Section 13
-- [ ] Task: Update `workbook_template.html` for Images
-    - [ ] Implement Handlebars logic to inject images into the article flow
-    - [ ] Add CSS for floating images, captions, and responsive layout
+- [ ] Task: Update `/workbook_template.html` for new content fields
+    - [ ] Render `short_answer_hint` in short answer section
+    - [ ] Render `writing_plan_prompts` in writing planning section
+    - [ ] Render `reflection_focus` in reflection section
+    - [ ] Add fallback logic for backward compatibility
+- [ ] Task: Update `/workbook_template.html` for multi-image support
+    - [ ] Add Handlebars helper/logic to render `article_images` array
+    - [ ] Implement position-based image injection (hero, inline-para-N)
+    - [ ] Add CSS for magazine-style image layouts (floats, captions)
+    - [ ] Ensure responsive design for images
 
-## Phase 4: Verification
-- [ ] Task: Run `ts-node augment_lesson.ts` on a sample lesson
-- [ ] Task: Compile and verify the visual output in `workbook_compiler_paged.html`
-- [ ] Task: Conductor - User Manual Verification 'Enhancements' (Protocol in workflow.md)
+## Phase 4: AI Content Generation Script (Optional/Future)
+- [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
+    - [ ] Set up LLM integration for content generation
+    - [ ] Generate `short_answer_hint` based on short_answer_question
+    - [ ] Generate `writing_plan_prompts` based on writing_prompt
+    - [ ] Generate `reflection_focus` based on article content
+- [ ] Task: Add image prompt generation (if using nanobanana)
+    - [ ] Generate image prompts from paragraphs
+    - [ ] Integrate with nanobanana API
+    - [ ] Save images to project folders
+    - [ ] Update JSON with image paths
+
+## Phase 5: Testing & Verification
+- [ ] Task: Create tests for new schema fields
+    - [ ] Unit tests for schema validation
+    - [ ] Integration tests for editor UI
+    - [ ] Template rendering tests
+- [ ] Task: Manual verification
+    - [ ] Test lesson editor with new fields
+    - [ ] Test preview with multi-image layout
+    - [ ] Test compilation with enhanced lessons
+    - [ ] Verify backward compatibility with old lessons
