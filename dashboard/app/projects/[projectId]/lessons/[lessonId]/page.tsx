@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { use } from 'react';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
-import { renderLessonTemplate } from '@/lib/template-renderer';
 import LessonPreview from '@/components/lesson-preview';
 
 interface LessonEditorProps {
@@ -30,6 +29,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
+  const [renderingPreview, setRenderingPreview] = useState(false);
 
   const placeholder = {
     paragraphs: '[{"number": 1, "text": "..."}]',
@@ -38,13 +38,26 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   };
 
   const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
+    if (!showPreview || renderingPreview) return;
+
+    setRenderingPreview(true);
     try {
-      const html = await renderLessonTemplate(currentLesson as WorkbookLesson);
-      setPreviewHtml(html);
+      const response = await fetch('/api/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentLesson),
+      });
+
+      if (response.ok) {
+        const { html } = await response.json();
+        setPreviewHtml(html);
+      }
     } catch (error) {
       console.error('Failed to generate preview:', error);
+    } finally {
+      setRenderingPreview(false);
     }
-  }, []);
+  }, [showPreview, renderingPreview]);
 
   useEffect(() => {
     updatePreview(lesson);
