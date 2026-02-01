@@ -62,9 +62,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 5: Preview Engine & Compilation' (Protocol in workflow.md)
 
 ## Phase 6: Asset Management & Final Polish
-- [ ] Task: Image Handling
-    - [ ] Implement API for uploading images directly to the project folder
-    - [ ] Update JSON paths automatically when images are moved/added
+- [~] Task: Image Handling
+    - [~] Implement API for uploading images directly to the project folder
+    - [~] Update JSON paths automatically when images are moved/added
 - [ ] Task: Final System Integration & QA
     - [ ] Verify full end-to-end flow from project creation to batch PDF export
     - [ ] Ensure mobile responsiveness for the dashboard interface
