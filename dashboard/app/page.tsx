@@ -1,8 +1,15 @@
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, FileText, Plus } from "lucide-react";
+import { CreateProjectDialog } from "@/components/create-project-dialog";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <div className="space-y-8">
       <div>
@@ -13,24 +20,29 @@ export default function Home() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Projects
-            </CardTitle>
-            <CardDescription>
-              Browse and manage your workbook projects
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="outline" className="w-full">
-              View Projects
-            </Button>
-          </CardContent>
-        </Card>
+        <Link href="/projects">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Projects
+              </CardTitle>
+              <CardDescription>
+                Browse and manage your workbook projects
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                View Projects
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <Card
+          className="hover:shadow-lg transition-shadow cursor-pointer h-full"
+          onClick={() => setDialogOpen(true)}
+        >
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Plus className="h-5 w-5" />
@@ -47,7 +59,7 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="h-5 w-5" />
@@ -58,8 +70,8 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full">
-              View Docs
+            <Button variant="outline" className="w-full" disabled>
+              Coming Soon
             </Button>
           </CardContent>
         </Card>
@@ -75,6 +87,11 @@ export default function Home() {
           </p>
         </CardContent>
       </Card>
+
+      <CreateProjectDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
     </div>
   );
 }

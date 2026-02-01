@@ -1,11 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    turbo: {
-      root: __dirname,
-    },
-  },
+  // Next.js 16 uses Turbopack by default
+  // Multiple lockfiles warning is informational, not blocking
 };
 
 export default nextConfig;
