@@ -7,6 +7,7 @@
     <title>Advanced Workbook Compiler</title>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+    <script src="compiler_logic.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -252,45 +253,6 @@
             reader.readAsDataURL(file);
         });
 
-        // Helper to generate QR code as SVG data URL
-        const generateQRCode = (url) => {
-            try {
-                // Use qrcode-generator library (loaded via CDN)
-                // Error correction level: L=7%, M=15%, Q=25%, H=30%
-                const typeNumber = 0; // Auto-detect size
-                const errorCorrectionLevel = 'M';
-                const qr = qrcode(typeNumber, errorCorrectionLevel);
-                qr.addData(url);
-                qr.make();
-
-                // Generate SVG with proper scaling for print
-                const cellSize = 10; // pixels per module
-                const margin = 1; // quiet zone
-                const size = qr.getModuleCount();
-                const totalSize = (size + margin * 2) * cellSize;
-
-                let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalSize}" height="${totalSize}" viewBox="0 0 ${totalSize} ${totalSize}">`;
-                svg += `<rect width="100%" height="100%" fill="#ffffff"/>`;
-                svg += `<g transform="translate(${margin * cellSize}, ${margin * cellSize})">`;
-
-                for (let row = 0; row < size; row++) {
-                    for (let col = 0; col < size; col++) {
-                        if (qr.isDark(row, col)) {
-                            svg += `<rect x="${col * cellSize}" y="${row * cellSize}" width="${cellSize}" height="${cellSize}" fill="#000000"/>`;
-                        }
-                    }
-                }
-
-                svg += '</g></svg>';
-
-                // Convert SVG to data URL
-                return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
-            } catch (error) {
-                console.error('QR code generation failed:', error);
-                return null;
-            }
-        };
-
         compileBtn.addEventListener('click', async () => {
             statusDiv.textContent = "Compiling...";
             statusDiv.style.color = "blue";
@@ -306,15 +268,23 @@
                 const jsonFiles = allFiles.filter(f => f.name.toLowerCase().endsWith('.json'));
                 const imgFiles = allFiles.filter(f => !f.name.toLowerCase().endsWith('.json'));
 
-                // Create Image Map (filename -> dataURL)
+                // Sort JSONs to match order
+                jsonFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+
+                // Create Image Map (filename base -> dataURL)
                 const imgMap = {};
                 for (const img of imgFiles) {
                     const baseName = img.name.substring(0, img.name.lastIndexOf('.'));
                     imgMap[baseName] = await readDataUrl(img);
                 }
 
-                // Sort JSONs
-                jsonFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+                // Load JSON contents
+                const lessonContents = [];
+                const filenames = [];
+                for (const file of jsonFiles) {
+                    lessonContents.push(JSON.parse(await readFile(file)));
+                    filenames.push(file.name.substring(0, file.name.lastIndexOf('.')));
+                }
 
                 // 2. Determine Book Metadata
                 const levelKey = selectedLevel; 
@@ -330,319 +300,32 @@
                     seriesName = preface.title;
                 }
 
-                const lessons = [];
-                for (let i = 0; i < jsonFiles.length; i++) {
-                    const file = jsonFiles[i];
-                    const json = JSON.parse(await readFile(file));
-                    const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+                // 3. Process Lessons (Logic)
+                // Pass window.qrcode as the library
+                const lessons = WorkbookCompiler.processLessons(
+                    lessonContents, 
+                    imgMap, 
+                    filenames, 
+                    seriesName, 
+                    seriesTagline, 
+                    levelKey, 
+                    window.qrcode
+                );
 
-                    // FORCE SEQUENTIAL NUMBERING
-                    json.lesson_number = `Lesson ${i + 1}`;
+                // 4. Compile HTML (Logic)
+                // Pass window.Handlebars and window.DOMParser (implicit in browser but explicit arg supported)
+                const finalHtml = WorkbookCompiler.compileWorkbook(
+                    lessons,
+                    templateHtml,
+                    preface,
+                    seriesName,
+                    seriesTagline,
+                    levelKey,
+                    window.Handlebars,
+                    new DOMParser()
+                );
 
-                    // INJECT METADATA
-                    json.series_name = seriesName;
-                    json.series_level = levelKey; // Book/series level (A1, A2, B1, etc.)
-                    json.series_tagline = seriesTagline;
-                    // Note: json.level_name and json.cefr_level come from JSON (lesson-specific)
-
-                    // INJECT QR CODE
-                    // Priority 1: Manual QR image (if provided)
-                    if (imgMap[baseName]) {
-                        json.qr_code_url = imgMap[baseName];
-                    }
-                    // Priority 2: Auto-generate from article_url
-                    else if (json.article_url) {
-                        const qrDataUrl = generateQRCode(json.article_url);
-                        if (qrDataUrl) {
-                            json.qr_code_url = qrDataUrl;
-                        }
-                    }
-
-                    lessons.push(json);
-                }
-
-                // 3. Extract Styles from Template
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(templateHtml, 'text/html');
-
-                // Extract CSS and Links
-                // We strip the .workbook-container style because Paged.js handles the page box better without it
-                const styles = Array.from(doc.querySelectorAll('style')).map(s => s.innerText).join('\n')
-                    .replace(/\.workbook-container\s*{[^}]*}/g, '')
-                    .replace(/@page\s*{[^}]*}/g, '') /* Strip conflicting @page rules from template */
-                    .replace(/body\s*{[^}]*}/g, 'body { font-family: "Open Sans", sans-serif; }'); /* Strip body padding/margins but keep font */
-
-                const links = Array.from(doc.querySelectorAll('link')).map(l => l.outerHTML).join('\n');
-
-                // 4. Compile Lessons
-                // FIX: Use Regex to extract body content to preserve Handlebars syntax in tables
-                // DOMParser moves {{#each}} out of <table>/<tbody> because it's invalid HTML text
-                const bodyMatch = templateHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-                const bodyTemplate = bodyMatch ? bodyMatch[1] : doc.body.innerHTML;
-                
-                const hbTemplate = Handlebars.compile(bodyTemplate);
-
-                let lessonsHtml = "";
-                let tocItems = "";
-
-                lessons.forEach((lesson, index) => {
-                    const lessonId = `lesson-${index}`;
-
-                    // Generate Lesson Content
-                    const content = hbTemplate(lesson);
-
-                    // IMPORTANT: Unwrap content from .workbook-container if it exists in the template
-                    // This prevents double-boxing which can break Paged.js layout
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = content;
-                    const innerContent = tempDiv.querySelector('.workbook-container') ? tempDiv.querySelector('.workbook-container').innerHTML : content;
-
-                    lessonsHtml += `<div id="${lessonId}" class="lesson-section">${innerContent}</div>`;
-
-                    // Generate TOC Item with automatic page numbering target
-                    tocItems += `
-                        <li class="toc-item">
-                            <a href="#${lessonId}">
-                                <span class="toc-text">${lesson.lesson_number}: ${lesson.lesson_title}</span>
-                                <span class="toc-meta">(${lesson.genre} / ${lesson.article_type})</span>
-                            </a>
-                        </li>
-                    `;
-                });
-
-                // Format preface paragraphs
-                const formattedPreface = preface.text.split('\n\n')
-                    .map(p => `<p>${p}</p>`)
-                    .join('');
-
-                // 5. Construct Final HTML Document
-                const finalHtml = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reading Advantage Workbook - ${seriesName}</title>
-    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
-    ${links}
-    <style>
-        ${styles}
-
-        /* --- Paged.js Configuration --- */
-        @page {
-            size: Letter;
-            margin: 20mm;
-            
-            @bottom-center {
-                content: "Page " counter(page);
-                font-family: 'Open Sans', sans-serif;
-                font-size: 10pt;
-            }
-        }
-
-        /* Front Matter Pages (Title, Preface, TOC) do not show page numbers usually, 
-           or show Roman numerals. For simplicity, we hide them on the Title Page 
-           and let them run on others, or we could reset the counter. 
-           Let's hide on Title Page only. */
-        @page:first {
-            margin: 0;
-            @bottom-center { content: none; }
-        }
-        
-        /* --- Preview Styles --- */
-        body {
-            background-color: #555;
-            margin: 0;
-            padding: 0; 
-        }
-        .pagedjs_pages {
-            display: flex;
-            width: calc(var(--pagedjs-width) * 2);
-            min-width: 200%;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-            padding: 20px 0;
-        }
-        .pagedjs_page {
-            background: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-        }
-
-        /* --- Print Overrides to Fix Scaling --- */
-        @media print {
-            body { 
-                background: white; 
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            .pagedjs_pages {
-                display: block !important;
-                width: 100% !important;
-                min-width: 0 !important;
-                transform: none !important;
-            }
-            .pagedjs_page {
-                margin: 0 !important;
-                box-shadow: none !important;
-                page-break-after: always;
-            }
-        }
-
-        /* --- Title Page --- */
-        .title-page {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            break-after: page;
-            background: white;
-            color: black;
-            padding: 40px;
-            box-sizing: border-box;
-        }
-        .tp-main-title { 
-            font-size: 24pt; 
-            margin-bottom: 20px; 
-            font-weight: normal; 
-            font-family: 'Merriweather', serif;
-        }
-        .tp-series-title { 
-            font-size: 48pt; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-            text-transform: uppercase; 
-            font-family: 'Open Sans', sans-serif;
-            color: #1e40af;
-        }
-        .tp-level-info { 
-            font-size: 18pt; 
-            margin-bottom: 50px; 
-            color: #555;
-        }
-        .tp-tagline { 
-            font-size: 16pt; 
-            font-style: italic; 
-            margin-top: auto; 
-            margin-bottom: 80px; 
-        }
-        .tp-publisher { 
-            font-size: 10pt; 
-            margin-bottom: 40px; 
-            color: #888;
-        }
-
-        /* --- Sections --- */
-        .section-preface, .section-toc {
-            break-after: page;
-            padding-top: 40px; 
-            font-family: 'Open Sans', sans-serif;
-        }
-        
-        .section-header {
-            font-size: 24pt;
-            border-bottom: 2px solid #1e40af;
-            color: #1e40af;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .preface-content {
-            font-size: 12pt;
-            line-height: 1.6;
-            text-align: left;
-        }
-
-        ul.toc-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        li.toc-item {
-            margin-bottom: 12px;
-        }
-        
-        li.toc-item a {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: baseline;
-        }
-        
-        /* Leader dots and page number using CSS target-counter */
-        li.toc-item a::after {
-            content: target-counter(attr(href), page);
-            float: right;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        li.toc-item a .toc-text { font-weight: bold; }
-        
-        li.toc-item a .toc-meta {
-            font-size: 0.9em;
-            color: #666;
-            margin-left: 10px;
-            font-style: italic;
-            flex-grow: 1;
-            border-bottom: 1px dotted #ccc;
-            margin-right: 5px;
-        }
-
-        .lesson-section {
-            break-after: page;
-        }
-        
-        /* Fix: Prevent trailing margins from creating a blank page after the lesson */
-        .lesson-section > *:last-child {
-            margin-bottom: 0 !important;
-        }
-        
-        /* Fix spacing for Paged.js flow */
-        .lesson-header { margin-top: 0; }
-        
-        /* Prevent awkward breaks */
-        .question-box, .practice-box, .vocab-table tr {
-            break-inside: avoid;
-        }
-    </style>
-</head>
-<body>
-    <!-- Title Page -->
-    <div class="title-page">
-        <h1 class="tp-main-title">Reading Advantage</h1>
-        <h2 class="tp-series-title">${seriesName}</h2>
-        <div class="tp-level-info">Level ${levelKey}</div>
-        <div class="tp-tagline">${seriesTagline}</div>
-        <div class="tp-publisher">Reading Advantage Series • 2025 Edition</div>
-    </div>
-
-    <!-- Preface Page -->
-    <div class="section-preface">
-        <h2 class="section-header">Preface</h2>
-        <div class="preface-content">
-            ${formattedPreface}
-        </div>
-    </div>
-
-    <!-- TOC Page -->
-    <div class="section-toc">
-        <h2 class="section-header">Table of Contents</h2>
-        <ul class="toc-list">
-            ${tocItems}
-        </ul>
-    </div>
-
-    <!-- Lessons -->
-    ${lessonsHtml}
-</body>
-</html>`;
-
-                // 6. Open in New Window
+                // 5. Open in New Window
                 const newWindow = window.open('', '_blank');
                 if (!newWindow) throw new Error("Popup blocked! Allow popups to see the workbook.");
 

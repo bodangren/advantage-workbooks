@@ -1,0 +1,27 @@
+{
+  "name": "workbooks",
+  "version": "1.0.0",
+  "description": "A tool to generate printable, CEFR-aligned English learning workbooks from JSON data. This system allows you to compile multiple lessons into a single, beautifully formatted PDF workbook complete with a cover page, table of contents, and automatic pagination.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodangren/advantage-workbooks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bodangren/advantage-workbooks/issues"
+  },
+  "homepage": "https://github.com/bodangren/advantage-workbooks#readme",
+  "devDependencies": {
+    "handlebars": "^4.7.8",
+    "jest": "^30.2.0",
+    "jsdom": "^27.4.0",
+    "qrcode-generator": "^2.0.4"
+  }
+}
