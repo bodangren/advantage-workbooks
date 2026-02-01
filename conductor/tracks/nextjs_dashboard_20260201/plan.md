@@ -27,7 +27,7 @@
 - [x] Task: Lesson Browser [13e9370]
     - [x] Create view to list all `.json` files within a selected workbook project
     - [x] Implement "Add Lesson" functionality (UI button only, implementation in Phase 4)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md)
 
 ## Phase 4: Schema-Driven Form Editor
 - [ ] Task: Zod Schema Implementation
