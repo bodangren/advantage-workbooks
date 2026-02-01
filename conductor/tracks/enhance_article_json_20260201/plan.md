@@ -93,11 +93,11 @@
     - [x] Remove print button from LessonPreview component
     - [x] Keep single print button in preview page
     - [x] Ensure correct iframe context for printing
-- [ ] Task: Test print functionality
-    - [ ] Verify only workbook content prints (not dashboard)
-    - [ ] Verify Answer Key starts on new page
-    - [ ] Verify Phase 3 sections start on new pages
-    - [ ] Test in Chrome, Firefox, Safari
+- [x] Task: Test print functionality - (manual)
+    - [x] Verify only workbook content prints (not dashboard)
+    - [x] Verify Answer Key starts on new page
+    - [x] Verify Phase 3 sections start on new pages
+    - [x] Test in Chrome, Firefox, Safari
 
 ## Phase 7: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
