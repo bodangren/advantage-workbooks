@@ -39,11 +39,13 @@
     - [x] Add CSS for magazine-style image layouts (floats, captions)
     - [x] Ensure responsive design for images
 
-## Phase 3.5: Template Visual Refinement [checkpoint: aa4b4ae]
+## Phase 3.5: Template Visual Refinement
 - [x] Task: Implement two-column layout for practice sections to improve density - a13df41
 - [x] Task: Refine section headers and remove "web-style" borders/shadows - a13df41
 - [x] Task: Improve typography and spacing for a "typeset" book look - 5bd26da
 - [x] Task: Polish writing lines and input areas to look like professional workbook pages - 5bd26da
+- [ ] Task: Fix MCQ section to use two-column layout
+- [ ] Task: Fix Print functionality to print ONLY the workbook content (exclude dashboard UI)
 
 ## Phase 4: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
