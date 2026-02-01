@@ -10,6 +10,12 @@ async function getTemplate(): Promise<HandlebarsTemplateDelegate> {
     return cachedTemplate;
   }
 
+  // Register helpers
+  Handlebars.registerHelper('concat', function(...args) {
+    // Slice off the options object at the end
+    return args.slice(0, -1).join('');
+  });
+
   const templatePath = path.join(process.cwd(), '../workbook_template.html');
   const templateContent = await fs.readFile(templatePath, 'utf-8');
   cachedTemplate = Handlebars.compile(templateContent);
