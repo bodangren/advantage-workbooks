@@ -10,7 +10,7 @@
     - [x] Create base layout with sidebar and main content area
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Scaffolding' (Protocol in workflow.md) [20787db]
 
-## Phase 2: Backend API & Local Filesystem Integration
+## Phase 2: Backend API & Local Filesystem Integration [checkpoint: b27e99f4]
 - [x] Task: Define File System API [32e7f0f, 2f8ee9b]
     - [x] Implement API routes for listing directories (Workbook Projects)
     - [x] Implement API routes for reading/writing workbook JSON files
@@ -18,7 +18,7 @@
 - [x] Task: Test-Driven Development (API) [801ca6c]
     - [x] Write tests for directory listing and project discovery logic
     - [x] Write tests for JSON read/write operations with safety checks
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md) [b27e99f4]
 
 ## Phase 3: Project Management & File Explorer
 - [ ] Task: Workbook Explorer Interface
