@@ -1,11 +1,11 @@
 # Implementation Plan - Track: Enhance Article JSON with AI & Visuals
 
 ## Phase 1: Schema & Type System Updates
-- [ ] Task: Update `/dashboard/lib/workbook-schema.ts` to support new metadata fields
-    - [ ] Add `short_answer_hint` (optional string)
-    - [ ] Add `writing_plan_prompts` (optional array of strings)
-    - [ ] Add `reflection_focus` (optional string)
-    - [ ] Export updated TypeScript types
+- [x] Task: Update `/dashboard/lib/workbook-schema.ts` to support new metadata fields - 98b0c65
+    - [x] Add `short_answer_hint` (optional string)
+    - [x] Add `writing_plan_prompts` (optional array of strings)
+    - [x] Add `reflection_focus` (optional string)
+    - [x] Export updated TypeScript types
 - [ ] Task: Add multi-image support to schema
     - [ ] Create `ArticleImageSchema` for image objects (url, caption, position)
     - [ ] Add `article_images` array field (optional)
