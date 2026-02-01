@@ -39,6 +39,12 @@
     - [x] Add CSS for magazine-style image layouts (floats, captions)
     - [x] Ensure responsive design for images
 
+## Phase 3.5: Template Visual Refinement
+- [ ] Task: Implement two-column layout for practice sections to improve density
+- [ ] Task: Refine section headers and remove "web-style" borders/shadows
+- [ ] Task: Improve typography and spacing for a "typeset" book look
+- [ ] Task: Polish writing lines and input areas to look like professional workbook pages
+
 ## Phase 4: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
     - [ ] Set up LLM integration for content generation
