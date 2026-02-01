@@ -40,6 +40,19 @@ function prepareLessonData(
     series_level: seriesLevel,
     series_tagline: seriesTagline,
     qr_code_url: (lesson as any).qr_code_url || undefined,
+    // Pre-process images for the template
+    images_hero: lesson.article_images?.filter(img => img.position === 'hero') || [],
+    images_vocabulary: lesson.article_images?.filter(img => img.position === 'vocabulary') || [],
+    images_writing_prompt: lesson.article_images?.filter(img => img.position === 'writing-prompt') || [],
+    // Group inline images by paragraph index
+    images_inline: lesson.article_images?.reduce((acc, img) => {
+      if (img.position.startsWith('inline-para-')) {
+        const key = img.position; // e.g., 'inline-para-1'
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(img);
+      }
+      return acc;
+    }, {} as Record<string, typeof lesson.article_images>) || {},
   };
 }
 
