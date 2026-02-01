@@ -20,14 +20,14 @@
     - [x] Write tests for JSON read/write operations with safety checks
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md) [b27e99f4]
 
-## Phase 3: Project Management & File Explorer
+## Phase 3: Project Management & File Explorer [checkpoint: 6bbba42e]
 - [x] Task: Workbook Explorer Interface [13e9370]
     - [x] Create dashboard view listing all folders in the root "Workbooks" directory
     - [x] Implement "New Project" modal that triggers directory scaffolding
 - [x] Task: Lesson Browser [13e9370]
     - [x] Create view to list all `.json` files within a selected workbook project
     - [x] Implement "Add Lesson" functionality (UI button only, implementation in Phase 4)
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md) [6bbba42e]
 
 ## Phase 4: Schema-Driven Form Editor
 - [ ] Task: Zod Schema Implementation
