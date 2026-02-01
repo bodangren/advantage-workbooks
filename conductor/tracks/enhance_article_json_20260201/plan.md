@@ -25,6 +25,7 @@
     - [x] Add position selector (hero, inline-para-1, inline-para-2, etc.)
     - [x] Integrate with existing ImageUpload component
     - [x] Add caption input for each image
+    - [x] Add 'Writing Prompt' and 'Vocabulary Section' to position options - de0fff9
 
 ## Phase 3: Template & Visual Implementation
 - [ ] Task: Update `/workbook_template.html` for new content fields
