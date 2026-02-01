@@ -6,13 +6,20 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
-import type { WorkbookLesson } from '@/lib/workbook-schema';
+import type { WorkbookLesson, ArticleImage } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
 import LessonPreview from '@/components/lesson-preview';
 import { ImageUpload } from '@/components/image-upload';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -32,10 +39,13 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [showPreview, setShowPreview] = useState(false);
   const [renderingPreview, setRenderingPreview] = useState(false);
 
-  const placeholder = {
+  const placeholders = {
     paragraphs: '[{"number": 1, "text": "..."}]',
     vocabulary: '[{"word": "example", "definition": "..."}]',
-    questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]'
+    questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]',
+    writing_plan_prompts: '["Main idea / discovery:", "Key details to include:", "Vocabulary I will use:", "Why this discovery matters:"]',
+    short_answer_hint: "Try to use at least two complete sentences in your answer.",
+    reflection_focus: "Today I learned:"
   };
 
   const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
@@ -277,6 +287,96 @@ export default function LessonEditor({ params }: LessonEditorProps) {
             />
           </div>
 
+          <div className="pt-4 border-t space-y-4">
+            <div className="flex items-center justify-between">
+              <Label className="text-base font-semibold">Additional Article Images</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const newImages = [...(lesson.article_images || [])];
+                  newImages.push({ url: '', caption: '', position: 'inline-para-1' });
+                  setLesson({ ...lesson, article_images: newImages });
+                }}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Add Image
+              </Button>
+            </div>
+
+            {(lesson.article_images || []).map((img, index) => (
+              <Card key={index} className="bg-muted/30">
+                <CardContent className="pt-6 space-y-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 space-y-4">
+                      <ImageUpload
+                        projectId={decodedProjectId}
+                        currentUrl={img.url}
+                        onUploadSuccess={(url) => {
+                          const newImages = [...(lesson.article_images || [])];
+                          newImages[index].url = url;
+                          setLesson({ ...lesson, article_images: newImages });
+                        }}
+                        label={`Image #${index + 1}`}
+                      />
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="space-y-2">
+                          <Label>Position</Label>
+                          <Select
+                            value={img.position}
+                            onValueChange={(value: ArticleImage['position']) => {
+                              const newImages = [...(lesson.article_images || [])];
+                              newImages[index].position = value;
+                              setLesson({ ...lesson, article_images: newImages });
+                            }}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select position" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="hero">Hero (Top)</SelectItem>
+                              <SelectItem value="inline-para-1">After Paragraph 1</SelectItem>
+                              <SelectItem value="inline-para-2">After Paragraph 2</SelectItem>
+                              <SelectItem value="inline-para-3">After Paragraph 3</SelectItem>
+                              <SelectItem value="inline-para-4">After Paragraph 4</SelectItem>
+                              <SelectItem value="inline-para-5">After Paragraph 5</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Caption</Label>
+                          <Input
+                            value={img.caption}
+                            onChange={(e) => {
+                              const newImages = [...(lesson.article_images || [])];
+                              newImages[index].caption = e.target.value;
+                              setLesson({ ...lesson, article_images: newImages });
+                            }}
+                            placeholder="Image caption"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive"
+                      onClick={() => {
+                        const newImages = lesson.article_images?.filter((_, i) => i !== index);
+                        setLesson({ ...lesson, article_images: newImages });
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="article_paragraphs">Article Paragraphs</Label>
             <Textarea
@@ -292,7 +392,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               }}
               rows={8}
               className="font-mono text-sm"
-              placeholder={placeholder.paragraphs}
+              placeholder={placeholders.paragraphs}
             />
             <p className="text-xs text-muted-foreground">
               Enter as JSON array
@@ -320,7 +420,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
             }}
             rows={8}
             className="font-mono text-sm"
-            placeholder={placeholder.vocabulary}
+            placeholder={placeholders.vocabulary}
           />
           <p className="text-xs text-muted-foreground">
             Enter as JSON array
@@ -348,7 +448,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               }}
               rows={8}
               className="font-mono text-sm"
-              placeholder={placeholder.questions}
+              placeholder={placeholders.questions}
             />
             <p className="text-xs text-muted-foreground">
               Enter as JSON array
@@ -372,7 +472,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               id="short_answer_hint"
               value={lesson.short_answer_hint || ''}
               onChange={(e) => setLesson({ ...lesson, short_answer_hint: e.target.value })}
-              placeholder="Optional hint for students..."
+              placeholder={placeholders.short_answer_hint}
             />
           </div>
         </CardContent>
@@ -409,7 +509,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
                }}
                rows={3}
                className="font-mono text-sm"
-               placeholder='["What is your first point?", "What is your second point?", "How will you conclude?"]'
+               placeholder={placeholders.writing_plan_prompts}
              />
              <p className="text-xs text-muted-foreground">
                Enter as JSON array of strings
@@ -429,7 +529,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
              value={lesson.reflection_focus || ''}
              onChange={(e) => setLesson({ ...lesson, reflection_focus: e.target.value })}
              rows={3}
-             placeholder="Optional reflection question or topic..."
+             placeholder={placeholders.reflection_focus}
            />
          </CardContent>
        </Card>
