@@ -29,7 +29,7 @@
     - [x] Implement "Add Lesson" functionality (UI button only, implementation in Phase 4)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md) [6bbba42e]
 
-## Phase 4: Schema-Driven Form Editor
+## Phase 4: Schema-Driven Form Editor [checkpoint: 6bbba42e]
 - [x] Task: Zod Schema Implementation [already done in Phase 2 - 32e7f0f]
     - [x] Migrate `workbook_schema.ts` to the Next.js project
     - [x] Implement client-side validation logic using Zod
@@ -38,6 +38,19 @@
     - [x] Add "Visual Hints" to form fields (e.g., Article text area styled like a page)
     - [x] Implement auto-save or "Save Changes" functionality with API integration
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md)
+- [ ] **FUTURE ENHANCEMENT:** Replace JSON textarea fields with dynamic list components
+    - [ ] Article paragraphs: Add/remove individual paragraph items (number + text) without JSON editing
+    - [ ] Vocabulary: Add/remove individual vocabulary items (word + definition + phonetic) without JSON editing
+    - [ ] Comprehension questions: Add/remove individual question items (number + question + options) without JSON editing
+    - [ ] Sentence starters, matching, fill, word bank: Similar dynamic list components
+- [x] Task: Zod Schema Implementation [already done in Phase 2 - 32e7f0f]
+    - [x] Migrate `workbook_schema.ts` to the Next.js project
+    - [x] Implement client-side validation logic using Zod
+- [x] Task: Build Dynamic Form Editor [1bd9dcc]
+    - [x] Implement auto-generating form fields based on the workbook schema
+    - [x] Add "Visual Hints" to form fields (e.g., Article text area styled like a page)
+    - [x] Implement auto-save or "Save Changes" functionality with API integration
+- [~] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md)
 
 ## Phase 5: Preview Engine & Compilation
 - [ ] Task: Integrate Paged.js & Handlebars
