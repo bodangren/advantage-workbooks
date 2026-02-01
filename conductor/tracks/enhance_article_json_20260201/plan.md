@@ -27,7 +27,7 @@
     - [x] Add caption input for each image
     - [x] Add 'Writing Prompt' and 'Vocabulary Section' to position options - de0fff9
 
-## Phase 3: Template & Visual Implementation
+## Phase 3: Template & Visual Implementation [checkpoint: a9b5357]
 - [x] Task: Update `/workbook_template.html` for new content fields - d48051f
     - [x] Render `short_answer_hint` in short answer section
     - [x] Render `writing_plan_prompts` in writing planning section
