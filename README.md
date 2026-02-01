@@ -1,16 +1,69 @@
 # Reading Advantage Workbook Generator
 
-A tool to generate printable, CEFR-aligned English learning workbooks from JSON data. This system allows you to compile multiple lessons into a single, beautifully formatted PDF workbook complete with a cover page, table of contents, and automatic pagination.
+A professional web-based dashboard for creating and managing printable, CEFR-aligned English learning workbooks. This system provides a user-friendly interface for creating lessons, uploading images, and compiling beautifully formatted PDF workbooks.
 
-## Features
+## 🚀 New: Next.js Dashboard (Recommended)
 
-- **Dynamic Content:** Create lessons using simple JSON files.
-- **Automated Layout:** Generates a professional print layout (Paged.js) with page numbers and headers.
-- **Multiple Levels:** Supports CEFR A1, A2, and B1 lesson structures.
-- **Compilation:** Merge multiple lesson files into one complete workbook.
-- **Template-Based:** Uses a flexible Handlebars HTML template for easy styling updates.
+The workbook generator now includes a modern web dashboard for easier content management!
 
-## How to Use
+### Features
+
+- **Web-Based Interface:** Professional dashboard for managing workbook projects
+- **Form-Based Editor:** Edit lesson content without touching JSON files
+- **Image Upload:** Direct image upload with automatic path management
+- **Live Preview:** Real-time preview of lessons using Paged.js
+- **Batch Compilation:** One-click compilation of all lessons in a project
+- **Mobile Responsive:** Works on desktop and mobile devices
+- **Schema Validation:** Automatic validation ensures data integrity
+- **Project Management:** Organize workbooks by project folders
+
+### Getting Started with the Dashboard
+
+1. **Install Dependencies:**
+   ```bash
+   cd dashboard
+   npm install
+   ```
+
+2. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Open Your Browser:**
+   Navigate to `http://localhost:3000`
+
+4. **Create a New Project:**
+   - Click "New Project" on the homepage
+   - Enter your project name
+   - Start adding lessons!
+
+5. **Edit Lessons:**
+   - Fill in the form fields (title, vocabulary, article, questions)
+   - Upload images directly through the interface
+   - Save changes with real-time validation
+
+6. **Preview & Export:**
+   - Use "Show Preview" to see how your lesson will look
+   - Navigate to the project page and click "Compile All Lessons"
+   - Use your browser's print function (Ctrl+P) to save as PDF
+
+For detailed documentation, see [dashboard/README.md](./dashboard/README.md)
+
+---
+
+## Legacy: HTML-Based Compiler
+
+The original HTML-based compiler is still available for advanced users who prefer working directly with JSON files.
+
+### Features
+
+- **Dynamic Content:** Create lessons using simple JSON files
+- **Automated Layout:** Generates a professional print layout (Paged.js)
+- **Multiple Levels:** Supports CEFR A1, A2, and B1 lesson structures
+- **Template-Based:** Uses a flexible Handlebars HTML template
+
+## How to Use (Legacy Method)
 
 ### 1. Generate a Workbook (No Installation Required)
 
