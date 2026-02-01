@@ -18,6 +18,8 @@ export default function PreviewPage({ params }: PreviewPageProps) {
   const [loading, setLoading] = useState(true);
   const [showFullscreen, setShowFullscreen] = useState(false);
 
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
   useEffect(() => {
     const fetchPreview = async () => {
       try {
@@ -44,8 +46,22 @@ export default function PreviewPage({ params }: PreviewPageProps) {
     fetchPreview();
   }, [projectId, lessonId]);
 
+  // Update iframe content when htmlContent changes
+  useEffect(() => {
+    if (iframeRef.current && htmlContent) {
+      const doc = iframeRef.current.contentDocument || iframeRef.current.contentWindow?.document;
+      if (doc) {
+        doc.open();
+        doc.write(htmlContent);
+        doc.close();
+      }
+    }
+  }, [htmlContent, showFullscreen]);
+
   const handlePrint = () => {
-    window.print();
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      iframeRef.current.contentWindow.print();
+    }
   };
 
   const handleBack = () => {
@@ -110,7 +126,7 @@ export default function PreviewPage({ params }: PreviewPageProps) {
             </div>
             <div className="flex-1 overflow-auto">
               <iframe
-                srcDoc={htmlContent}
+                ref={iframeRef}
                 className="w-full h-full border-0"
                 title="Lesson Preview"
               />
@@ -129,7 +145,7 @@ export default function PreviewPage({ params }: PreviewPageProps) {
             </div>
             <div className="h-[calc(100vh-250px)] overflow-auto p-6">
               <iframe
-                srcDoc={htmlContent}
+                ref={iframeRef}
                 className="w-full h-full border-0 rounded-md"
                 title="Lesson Preview"
               />
