@@ -12,6 +12,7 @@ import { use } from 'react';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
 import LessonPreview from '@/components/lesson-preview';
+import { ImageUpload } from '@/components/image-upload';
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -38,7 +39,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   };
 
   const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
-    if (!showPreview || renderingPreview) return;
+    if (renderingPreview) return;
 
     setRenderingPreview(true);
     try {
@@ -57,11 +58,13 @@ export default function LessonEditor({ params }: LessonEditorProps) {
     } finally {
       setRenderingPreview(false);
     }
-  }, [showPreview, renderingPreview]);
+  }, [renderingPreview]);
 
   useEffect(() => {
-    updatePreview(lesson);
-  }, [lesson, updatePreview]);
+    if (showPreview) {
+      updatePreview(lesson);
+    }
+  }, [lesson, showPreview, updatePreview]);
 
   const fetchLesson = useCallback(async () => {
     try {
@@ -244,7 +247,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
           <CardTitle>Article</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="article_url">Article URL</Label>
               <Input
@@ -256,16 +259,12 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="article_image_url">Image URL</Label>
-              <Input
-                id="article_image_url"
-                type="url"
-                value={lesson.article_image_url || ''}
-                onChange={(e) => setLesson({ ...lesson, article_image_url: e.target.value })}
-                placeholder="https://..."
-              />
-            </div>
+            <ImageUpload
+              projectId={decodedProjectId}
+              currentUrl={lesson.article_image_url || ''}
+              onUploadSuccess={(url) => setLesson({ ...lesson, article_image_url: url })}
+              label="Article Image"
+            />
           </div>
 
           <div className="space-y-2">
