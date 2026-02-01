@@ -33,11 +33,11 @@
     - [x] Render `writing_plan_prompts` in writing planning section
     - [x] Render `reflection_focus` in reflection section
     - [x] Add fallback logic for backward compatibility
-- [~] Task: Update `/workbook_template.html` for multi-image support
-    - [ ] Add Handlebars helper/logic to render `article_images` array
-    - [ ] Implement position-based image injection (hero, inline-para-N)
-    - [ ] Add CSS for magazine-style image layouts (floats, captions)
-    - [ ] Ensure responsive design for images
+- [x] Task: Update `/workbook_template.html` for multi-image support - 9cb756f
+    - [x] Add Handlebars helper/logic to render `article_images` array
+    - [x] Implement position-based image injection (hero, inline-para-N)
+    - [x] Add CSS for magazine-style image layouts (floats, captions)
+    - [x] Ensure responsive design for images
 
 ## Phase 4: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
