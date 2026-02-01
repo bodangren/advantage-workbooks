@@ -23,28 +23,13 @@ export default function LessonPreview({ htmlContent, className = '' }: LessonPre
         doc.open();
         doc.write(htmlContent);
         doc.close();
-
-        const style = doc.createElement('style');
-        style.textContent = `
-          * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-          }
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', sans-serif;
-            background: white;
-            color: #1f2937;
-          }
-        `;
-        doc.head?.appendChild(style);
       }
     }
   }, [htmlContent]);
 
   const handlePrint = () => {
-    if (previewRef.current) {
-      previewRef.current.contentWindow?.print();
+    if (previewRef.current && previewRef.current.contentWindow) {
+      previewRef.current.contentWindow.print();
     }
   };
 
@@ -72,7 +57,7 @@ export default function LessonPreview({ htmlContent, className = '' }: LessonPre
               ref={previewRef}
               title="Lesson Preview"
               className="w-full h-full border-0"
-              sandbox="allow-same-origin"
+              sandbox="allow-same-origin allow-scripts allow-modals"
             />
           </div>
         </CardContent>
