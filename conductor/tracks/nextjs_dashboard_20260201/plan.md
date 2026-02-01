@@ -52,7 +52,7 @@
     - [x] Implement auto-save or "Save Changes" functionality with API integration
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md) [9fac0842]
 
-## Phase 5: Preview Engine & Compilation
+## Phase 5: Preview Engine & Compilation [checkpoint: 195faf64]
 - [x] Task: Integrate Paged.js & Handlebars [3761486]
     - [x] Port the existing Handlebars logic into a React component or utility
     - [x] Create a Live Preview pane that renders the current JSON via Paged.js
