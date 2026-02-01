@@ -365,6 +365,16 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               placeholder="Short answer question prompt..."
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="short_answer_hint">Short Answer Hint</Label>
+            <Input
+              id="short_answer_hint"
+              value={lesson.short_answer_hint || ''}
+              onChange={(e) => setLesson({ ...lesson, short_answer_hint: e.target.value })}
+              placeholder="Optional hint for students..."
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -372,14 +382,54 @@ export default function LessonEditor({ params }: LessonEditorProps) {
          <CardHeader>
            <CardTitle>Writing Prompt</CardTitle>
          </CardHeader>
+         <CardContent className="space-y-4">
+           <div className="space-y-2">
+             <Label htmlFor="writing_prompt">Writing Prompt</Label>
+             <Textarea
+               id="writing_prompt"
+               value={lesson.writing_prompt || ''}
+               onChange={(e) => setLesson({ ...lesson, writing_prompt: e.target.value })}
+               rows={4}
+               placeholder="Writing prompt for students..."
+             />
+           </div>
+
+           <div className="space-y-2">
+             <Label htmlFor="writing_plan_prompts">Writing Plan Prompts</Label>
+             <Textarea
+               id="writing_plan_prompts"
+               value={JSON.stringify(lesson.writing_plan_prompts || [])}
+               onChange={(e) => {
+                 try {
+                   const parsed = JSON.parse(e.target.value);
+                   setLesson({ ...lesson, writing_plan_prompts: parsed });
+                 } catch (err) {
+                   console.error('Invalid JSON:', err);
+                 }
+               }}
+               rows={3}
+               className="font-mono text-sm"
+               placeholder='["What is your first point?", "What is your second point?", "How will you conclude?"]'
+             />
+             <p className="text-xs text-muted-foreground">
+               Enter as JSON array of strings
+             </p>
+           </div>
+         </CardContent>
+       </Card>
+
+       <Card>
+         <CardHeader>
+           <CardTitle>Lesson Reflection</CardTitle>
+         </CardHeader>
          <CardContent className="space-y-2">
-           <Label htmlFor="writing_prompt">Writing Prompt</Label>
+           <Label htmlFor="reflection_focus">Reflection Focus</Label>
            <Textarea
-             id="writing_prompt"
-             value={lesson.writing_prompt || ''}
-             onChange={(e) => setLesson({ ...lesson, writing_prompt: e.target.value })}
-             rows={4}
-             placeholder="Writing prompt for students..."
+             id="reflection_focus"
+             value={lesson.reflection_focus || ''}
+             onChange={(e) => setLesson({ ...lesson, reflection_focus: e.target.value })}
+             rows={3}
+             placeholder="Optional reflection question or topic..."
            />
          </CardContent>
        </Card>
