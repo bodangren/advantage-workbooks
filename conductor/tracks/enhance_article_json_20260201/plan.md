@@ -20,11 +20,11 @@
     - [x] Add input field for `short_answer_hint`
     - [x] Add array input for `writing_plan_prompts` (3 prompts)
     - [x] Add input field for `reflection_focus`
-- [~] Task: Add multi-image management UI
-    - [ ] Create interface to manage `article_images` array
-    - [ ] Add position selector (hero, inline-para-1, inline-para-2, etc.)
-    - [ ] Integrate with existing ImageUpload component
-    - [ ] Add caption input for each image
+- [x] Task: Add multi-image management UI - 0b382e9
+    - [x] Create interface to manage `article_images` array
+    - [x] Add position selector (hero, inline-para-1, inline-para-2, etc.)
+    - [x] Integrate with existing ImageUpload component
+    - [x] Add caption input for each image
 
 ## Phase 3: Template & Visual Implementation
 - [ ] Task: Update `/workbook_template.html` for new content fields
