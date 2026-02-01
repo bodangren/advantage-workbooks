@@ -6,14 +6,14 @@
     - [x] Add `writing_plan_prompts` (optional array of strings)
     - [x] Add `reflection_focus` (optional string)
     - [x] Export updated TypeScript types
-- [ ] Task: Add multi-image support to schema
-    - [ ] Create `ArticleImageSchema` for image objects (url, caption, position)
-    - [ ] Add `article_images` array field (optional)
-    - [ ] Keep `article_image_url` for backward compatibility
-- [ ] Task: Create Vitest tests for new schema fields
-    - [ ] Test validation of new optional fields
-    - [ ] Test `article_images` array structure validation
-    - [ ] Test backward compatibility with lessons missing new fields
+- [x] Task: Add multi-image support to schema - 15e61e9
+    - [x] Create `ArticleImageSchema` for image objects (url, caption, position)
+    - [x] Add `article_images` array field (optional)
+    - [x] Keep `article_image_url` for backward compatibility
+- [x] Task: Create Vitest tests for new schema fields - 15e61e9
+    - [x] Test validation of new optional fields
+    - [x] Test `article_images` array structure validation
+    - [x] Test backward compatibility with lessons missing new fields
 
 ## Phase 2: Next.js Editor UI Updates
 - [ ] Task: Update lesson editor form in `/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx`
