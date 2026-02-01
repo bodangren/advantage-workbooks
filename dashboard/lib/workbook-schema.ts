@@ -54,6 +54,19 @@ export const TranslationParagraphSchema = z.object({
     text: z.string(),
 });
 
+export const ArticleImageSchema = z.object({
+    url: z.string(),
+    caption: z.string(),
+    position: z.enum([
+        'hero',
+        'inline-para-1',
+        'inline-para-2',
+        'inline-para-3',
+        'inline-para-4',
+        'inline-para-5',
+    ]),
+});
+
 export const WorkbookLessonSchema = z.object({
     lesson_number: z.string().optional(),
     lesson_title: z.string(),
@@ -64,9 +77,10 @@ export const WorkbookLessonSchema = z.object({
 
     vocabulary: z.array(VocabularyItemSchema),
 
-    article_image_url: z.string().url().optional().or(z.literal("")),
+    article_image_url: z.string().optional().or(z.literal("")),
     article_caption: z.string().optional(),
-    article_url: z.string().url().optional().or(z.literal("")),
+    article_url: z.string().optional().or(z.literal("")),
+    article_images: z.array(ArticleImageSchema).optional(),
 
     article_paragraphs: z.array(ParagraphSchema),
 
@@ -97,3 +111,4 @@ export const WorkbookLessonSchema = z.object({
 });
 
 export type WorkbookLesson = z.infer<typeof WorkbookLessonSchema>;
+export type ArticleImage = z.infer<typeof ArticleImageSchema>;

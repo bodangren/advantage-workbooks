@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WorkbookLessonSchema, type WorkbookLesson } from '@/lib/workbook-schema';
+import { WorkbookLessonSchema, ArticleImageSchema, type WorkbookLesson, type ArticleImage } from '@/lib/workbook-schema';
 
 describe('Enhanced Schema Fields', () => {
   describe('New Metadata Fields', () => {
@@ -167,6 +167,156 @@ describe('Enhanced Schema Fields', () => {
 
       const result = WorkbookLessonSchema.safeParse(invalidLesson);
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe('Multi-Image Support', () => {
+    describe('ArticleImageSchema', () => {
+      it('should validate image object with all required fields', () => {
+        const image: ArticleImage = {
+          url: 'images/test-image.jpg',
+          caption: 'A test image',
+          position: 'hero',
+        };
+
+        const result = ArticleImageSchema.safeParse(image);
+        expect(result.success).toBe(true);
+      });
+
+      it('should accept valid position values', () => {
+        const positions = ['hero', 'inline-para-1', 'inline-para-2', 'inline-para-3'];
+
+        positions.forEach(position => {
+          const image = {
+            url: 'images/test.jpg',
+            caption: 'Test',
+            position,
+          };
+          const result = ArticleImageSchema.safeParse(image);
+          expect(result.success).toBe(true);
+        });
+      });
+
+      it('should reject invalid position values', () => {
+        const image = {
+          url: 'images/test.jpg',
+          caption: 'Test',
+          position: 'invalid-position',
+        };
+
+        const result = ArticleImageSchema.safeParse(image);
+        expect(result.success).toBe(false);
+      });
+
+      it('should reject missing required fields', () => {
+        const invalidImages = [
+          { caption: 'No URL', position: 'hero' },
+          { url: 'images/test.jpg', position: 'hero' }, // Missing caption
+          { url: 'images/test.jpg', caption: 'No position' },
+        ];
+
+        invalidImages.forEach(image => {
+          const result = ArticleImageSchema.safeParse(image);
+          expect(result.success).toBe(false);
+        });
+      });
+    });
+
+    describe('WorkbookLesson with article_images', () => {
+      it('should accept article_images array with valid images', () => {
+        const lesson: Partial<WorkbookLesson> = {
+          lesson_title: 'Multi-Image Lesson',
+          vocabulary: [],
+          article_paragraphs: [],
+          comprehension_questions: [],
+          short_answer_question: 'Test?',
+          writing_prompt: 'Write...',
+          article_images: [
+            { url: 'images/hero.jpg', caption: 'Main image', position: 'hero' },
+            { url: 'images/inline1.jpg', caption: 'First inline', position: 'inline-para-1' },
+            { url: 'images/inline2.jpg', caption: 'Second inline', position: 'inline-para-2' },
+          ],
+        };
+
+        const result = WorkbookLessonSchema.safeParse(lesson);
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.article_images).toHaveLength(3);
+          expect(result.data.article_images?.[0].position).toBe('hero');
+        }
+      });
+
+      it('should maintain backward compatibility with article_image_url', () => {
+        const oldLesson: Partial<WorkbookLesson> = {
+          lesson_title: 'Old Format',
+          vocabulary: [],
+          article_paragraphs: [],
+          comprehension_questions: [],
+          short_answer_question: 'Test?',
+          writing_prompt: 'Write...',
+          article_image_url: 'images/old-single-image.jpg',
+          article_caption: 'Old single image caption',
+        };
+
+        const result = WorkbookLessonSchema.safeParse(oldLesson);
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.article_image_url).toBe('images/old-single-image.jpg');
+        }
+      });
+
+      it('should accept lesson with both old and new image fields', () => {
+        const mixedLesson: Partial<WorkbookLesson> = {
+          lesson_title: 'Mixed Format',
+          vocabulary: [],
+          article_paragraphs: [],
+          comprehension_questions: [],
+          short_answer_question: 'Test?',
+          writing_prompt: 'Write...',
+          article_image_url: 'images/old-image.jpg',
+          article_images: [
+            { url: 'images/new-hero.jpg', caption: 'New hero', position: 'hero' },
+          ],
+        };
+
+        const result = WorkbookLessonSchema.safeParse(mixedLesson);
+        expect(result.success).toBe(true);
+      });
+
+      it('should accept lesson without any image fields', () => {
+        const noImageLesson: Partial<WorkbookLesson> = {
+          lesson_title: 'No Images',
+          vocabulary: [],
+          article_paragraphs: [],
+          comprehension_questions: [],
+          short_answer_question: 'Test?',
+          writing_prompt: 'Write...',
+        };
+
+        const result = WorkbookLessonSchema.safeParse(noImageLesson);
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.article_images).toBeUndefined();
+        }
+      });
+
+      it('should reject invalid image objects in article_images array', () => {
+        const invalidLesson = {
+          lesson_title: 'Invalid Images',
+          vocabulary: [],
+          article_paragraphs: [],
+          comprehension_questions: [],
+          short_answer_question: 'Test?',
+          writing_prompt: 'Write...',
+          article_images: [
+            { url: 'images/valid.jpg', caption: 'Valid', position: 'hero' },
+            { url: 'images/invalid.jpg', caption: 'Invalid', position: 'bad-position' },
+          ],
+        };
+
+        const result = WorkbookLessonSchema.safeParse(invalidLesson);
+        expect(result.success).toBe(false);
+      });
     });
   });
 });
