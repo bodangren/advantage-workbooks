@@ -59,11 +59,13 @@ export const ArticleImageSchema = z.object({
     caption: z.string(),
     position: z.enum([
         'hero',
+        'vocabulary',
         'inline-para-1',
         'inline-para-2',
         'inline-para-3',
         'inline-para-4',
         'inline-para-5',
+        'writing-prompt',
     ]),
 });
 

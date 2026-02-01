@@ -184,7 +184,7 @@ describe('Enhanced Schema Fields', () => {
       });
 
       it('should accept valid position values', () => {
-        const positions = ['hero', 'inline-para-1', 'inline-para-2', 'inline-para-3'];
+        const positions = ['hero', 'inline-para-1', 'inline-para-2', 'inline-para-3', 'writing-prompt'];
 
         positions.forEach(position => {
           const image = {

@@ -39,24 +39,43 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [showPreview, setShowPreview] = useState(false);
   const [renderingPreview, setRenderingPreview] = useState(false);
 
+  const defaults = {
+    short_answer_hint: "Try to use at least two complete sentences in your answer.",
+    writing_plan_prompts: [
+      "Main idea / discovery:",
+      "Key details to include:",
+      "Vocabulary I will use:",
+      "Why this discovery matters:"
+    ],
+    reflection_focus: "Today I learned:"
+  };
+
   const placeholders = {
     paragraphs: '[{"number": 1, "text": "..."}]',
     vocabulary: '[{"word": "example", "definition": "..."}]',
     questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]',
-    writing_plan_prompts: '["Main idea / discovery:", "Key details to include:", "Vocabulary I will use:", "Why this discovery matters:"]',
-    short_answer_hint: "Try to use at least two complete sentences in your answer.",
-    reflection_focus: "Today I learned:"
+    writing_plan_prompts: JSON.stringify(defaults.writing_plan_prompts),
+    short_answer_hint: defaults.short_answer_hint,
+    reflection_focus: defaults.reflection_focus
   };
 
   const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
     if (renderingPreview) return;
+
+    // Merge defaults for preview if missing
+    const lessonForPreview = {
+      ...currentLesson,
+      short_answer_hint: currentLesson.short_answer_hint || defaults.short_answer_hint,
+      writing_plan_prompts: currentLesson.writing_plan_prompts || defaults.writing_plan_prompts,
+      reflection_focus: currentLesson.reflection_focus || defaults.reflection_focus,
+    };
 
     setRenderingPreview(true);
     try {
       const response = await fetch('/api/render', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(currentLesson),
+        body: JSON.stringify(lessonForPreview),
       });
 
       if (response.ok) {
@@ -81,7 +100,13 @@ export default function LessonEditor({ params }: LessonEditorProps) {
       const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}`);
       if (response.ok) {
         const data = await response.json();
-        setLesson(data);
+        // Merge defaults into loaded data if fields are missing
+        setLesson({
+          ...data,
+          short_answer_hint: data.short_answer_hint || defaults.short_answer_hint,
+          writing_plan_prompts: data.writing_plan_prompts || defaults.writing_plan_prompts,
+          reflection_focus: data.reflection_focus || defaults.reflection_focus,
+        });
       }
     } catch (error) {
       console.error('Failed to fetch lesson:', error);
@@ -337,11 +362,13 @@ export default function LessonEditor({ params }: LessonEditorProps) {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="hero">Hero (Top)</SelectItem>
+                              <SelectItem value="vocabulary">Vocabulary Section</SelectItem>
                               <SelectItem value="inline-para-1">After Paragraph 1</SelectItem>
                               <SelectItem value="inline-para-2">After Paragraph 2</SelectItem>
                               <SelectItem value="inline-para-3">After Paragraph 3</SelectItem>
                               <SelectItem value="inline-para-4">After Paragraph 4</SelectItem>
                               <SelectItem value="inline-para-5">After Paragraph 5</SelectItem>
+                              <SelectItem value="writing-prompt">Writing Prompt</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
