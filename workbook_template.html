@@ -1312,6 +1312,17 @@
                 </tbody>
             </table>
 
+            {{#if images_vocabulary.length}}
+            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                {{#each images_vocabulary}}
+                <div class="article-image-box" style="width: 30%;">
+                    <img src="{{url}}" alt="{{caption}}">
+                    <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+
             <div class="tip-box mt-3">
                 <div class="tip-label">💡 Vocabulary Tip</div>
                 Check the words you already know. For new words, write a translation or draw a small picture to help you
@@ -1344,10 +1355,19 @@
 
             <div class="article-container">
                 <div class="article-image-area">
-                    <div class="article-image-box">
-                        <img src="{{article_image_url}}" alt="{{article_caption}}">
-                    </div>
-                    <span class="article-image-caption">{{article_caption}}</span>
+                    {{#if images_hero.length}}
+                        {{#each images_hero}}
+                        <div class="article-image-box" style="margin-bottom: 15px;">
+                            <img src="{{url}}" alt="{{caption}}">
+                            <span class="article-image-caption">{{caption}}</span>
+                        </div>
+                        {{/each}}
+                    {{else}}
+                        <div class="article-image-box">
+                            <img src="{{article_image_url}}" alt="{{article_caption}}">
+                        </div>
+                        <span class="article-image-caption">{{article_caption}}</span>
+                    {{/if}}
                 </div>
 
                 <div class="marking-legend">
@@ -1373,7 +1393,18 @@
                     {{#each article_paragraphs}}
                     <div class="paragraph">
                         <span class="para-number">{{number}}</span>
+                        
+                        {{#with (lookup ../images_inline (concat "inline-para-" number))}}
+                            {{#each this}}
+                            <div class="article-image-box" style="float: right; margin: 0 0 10px 15px; width: 40%;">
+                                <img src="{{url}}" alt="{{caption}}">
+                                <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                            </div>
+                            {{/each}}
+                        {{/with}}
+
                         {{text}}
+                        <div style="clear: both;"></div>
                     </div>
                     {{/each}}
 
@@ -1691,6 +1722,16 @@
                     <p class="prompt-text">
                         {{writing_prompt}}
                     </p>
+                    {{#if images_writing_prompt.length}}
+                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                        {{#each images_writing_prompt}}
+                        <div class="article-image-box" style="width: 45%;">
+                            <img src="{{url}}" alt="{{caption}}">
+                            <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                        </div>
+                        {{/each}}
+                    </div>
+                    {{/if}}
                 </div>
 
                 <div class="planning-area">
