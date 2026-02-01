@@ -24,9 +24,9 @@
 - [x] Task: Workbook Explorer Interface [13e9370]
     - [x] Create dashboard view listing all folders in the root "Workbooks" directory
     - [x] Implement "New Project" modal that triggers directory scaffolding
-- [ ] Task: Lesson Browser
-    - [ ] Create view to list all `.json` files within a selected workbook project
-    - [ ] Implement "Add Lesson" functionality
+- [x] Task: Lesson Browser [13e9370]
+    - [x] Create view to list all `.json` files within a selected workbook project
+    - [x] Implement "Add Lesson" functionality (UI button only, implementation in Phase 4)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md)
 
 ## Phase 4: Schema-Driven Form Editor
