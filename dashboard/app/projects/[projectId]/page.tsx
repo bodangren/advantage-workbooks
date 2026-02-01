@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Plus, ArrowLeft, Edit, Eye } from 'lucide-react';
+import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
 
@@ -65,10 +65,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             </p>
           </div>
         </div>
-        <Button onClick={handleCreateLesson}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Lesson
-        </Button>
+        <div className="flex gap-2">
+          {lessons.length > 0 && (
+            <Link href={`/projects/${projectId}/compile`}>
+              <Button variant="outline">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Compile All
+              </Button>
+            </Link>
+          )}
+          <Button onClick={handleCreateLesson}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Lesson
+          </Button>
+        </div>
       </div>
 
       {lessons.length === 0 ? (

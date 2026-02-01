@@ -26,12 +26,7 @@ function prepareLessonData(
   lesson: WorkbookLesson,
   index: number,
   options: RenderOptions = {}
-): WorkbookLesson & {
-  lesson_number: string;
-  series_name?: string;
-  series_level?: string;
-  series_tagline?: string;
-} {
+): any {
   const {
     seriesName = 'Reading Advantage',
     seriesLevel = 'A1',

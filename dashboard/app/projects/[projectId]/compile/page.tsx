@@ -1,0 +1,152 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { ArrowLeft, Printer, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { use } from 'react';
+
+interface CompilePageProps {
+  params: Promise<{ projectId: string }>;
+}
+
+export default function CompilePage({ params }: CompilePageProps) {
+  const { projectId } = use(params);
+  const router = useRouter();
+  const [htmlContent, setHtmlContent] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const [lessonCount, setLessonCount] = useState(0);
+  const [totalLessons, setTotalLessons] = useState(0);
+  const [showFullscreen, setShowFullscreen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCompiled = async () => {
+      try {
+        const response = await fetch(`/api/projects/${projectId}/compile`);
+        if (response.ok) {
+          const data = await response.json();
+          setHtmlContent(data.html);
+          setLessonCount(data.lessonCount);
+          setTotalLessons(data.totalLessons);
+        } else {
+          const errorData = await response.json();
+          setError(errorData.error || 'Failed to compile project');
+        }
+      } catch (error) {
+        console.error('Failed to load compiled preview:', error);
+        setError('Failed to load compiled preview');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompiled();
+  }, [projectId]);
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
+
+  const decodedProjectId = decodeURIComponent(projectId);
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="bg-white border-b px-6 py-4 shadow-sm print:hidden">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button onClick={handleBack} variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-bold">Compiled Preview</h1>
+              <p className="text-sm text-muted-foreground">
+                {decodedProjectId}
+                {lessonCount > 0 && ` - ${lessonCount} lesson${lessonCount !== 1 ? 's' : ''}`}
+                {lessonCount !== totalLessons && ` (${totalLessons - lessonCount} failed to render)`}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button onClick={() => setShowFullscreen(!showFullscreen)} variant="outline">
+              {showFullscreen ? (
+                <>
+                  <EyeOff className="mr-2 h-4 w-4" />
+                  Exit Fullscreen
+                </>
+              ) : (
+                <>
+                  <Eye className="mr-2 h-4 w-4" />
+                  Fullscreen Preview
+                </>
+              )}
+            </Button>
+            <Button onClick={handlePrint} disabled={loading || !!error}>
+              <Printer className="mr-2 h-4 w-4" />
+              Print
+            </Button>
+            <Button onClick={handleBack}>
+              Back to Project
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto py-6">
+        {loading ? (
+          <div className="text-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="text-muted-foreground">Compiling all lessons...</p>
+          </div>
+        ) : error ? (
+          <Card>
+            <div className="p-12 text-center">
+              <p className="text-red-500 mb-4">{error}</p>
+              <Button onClick={handleBack}>Back to Project</Button>
+            </div>
+          </Card>
+        ) : showFullscreen ? (
+          <div className="fixed inset-0 z-50 bg-white flex flex-col">
+            <div className="flex items-center justify-between border-b px-6 py-3">
+              <h2 className="text-lg font-bold">Fullscreen Preview</h2>
+              <Button onClick={() => setShowFullscreen(false)} variant="ghost" size="icon">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex-1 overflow-auto">
+              <iframe
+                srcDoc={htmlContent}
+                className="w-full h-full border-0"
+                title="Compiled Preview"
+              />
+            </div>
+          </div>
+        ) : (
+          <Card>
+            <div className="border-b px-6 py-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold">All Lessons</h2>
+                <Button onClick={handlePrint} size="sm">
+                  <Printer className="mr-2 h-4 w-4" />
+                  Print
+                </Button>
+              </div>
+            </div>
+            <div className="h-[calc(100vh-250px)] overflow-auto p-6">
+              <iframe
+                srcDoc={htmlContent}
+                className="w-full h-full border-0 rounded-md"
+                title="Compiled Preview"
+              />
+            </div>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
