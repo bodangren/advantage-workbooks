@@ -1558,12 +1558,21 @@
                     {{short_answer_question}}
                 </div>
 
+                {{#if short_answer_hint}}
+                <div class="tip-box mt-3" style="background: white; border-left-color: var(--accent-purple);">
+                    <div class="tip-label" style="color: var(--accent-purple);">💡 Hint</div>
+                    {{short_answer_hint}}
+                </div>
+                {{/if}}
+
+                {{#if sentence_starters}}
                 <div class="sentence-starters">
                     <div class="starter-label">💡 Sentence Starters (optional):</div>
                     {{#each sentence_starters}}
                     <div class="starter-item">{{this}}</div>
                     {{/each}}
                 </div>
+                {{/if}}
 
                 <div class="writing-area">
                     <div class="writing-line"></div>
@@ -1687,24 +1696,34 @@
                 <div class="planning-area">
                     <div class="prompt-label" style="color: var(--accent-purple);">📝 Plan Your Writing</div>
                     <div class="planning-grid">
-                        <div class="planning-box">
-                            <div class="planning-label">Main idea / discovery:</div>
-                            <div class="writing-line writing-line-small"></div>
-                            <div class="writing-line writing-line-small"></div>
-                        </div>
-                        <div class="planning-box">
-                            <div class="planning-label">Key details to include:</div>
-                            <div class="writing-line writing-line-small"></div>
-                            <div class="writing-line writing-line-small"></div>
-                        </div>
-                        <div class="planning-box">
-                            <div class="planning-label">Vocabulary I will use:</div>
-                            <div class="writing-line writing-line-small"></div>
-                        </div>
-                        <div class="planning-box">
-                            <div class="planning-label">Why this discovery matters:</div>
-                            <div class="writing-line writing-line-small"></div>
-                        </div>
+                        {{#if writing_plan_prompts}}
+                            {{#each writing_plan_prompts}}
+                            <div class="planning-box">
+                                <div class="planning-label">{{this}}</div>
+                                <div class="writing-line writing-line-small"></div>
+                                <div class="writing-line writing-line-small"></div>
+                            </div>
+                            {{/each}}
+                        {{else}}
+                            <div class="planning-box">
+                                <div class="planning-label">Main idea / discovery:</div>
+                                <div class="writing-line writing-line-small"></div>
+                                <div class="writing-line writing-line-small"></div>
+                            </div>
+                            <div class="planning-box">
+                                <div class="planning-label">Key details to include:</div>
+                                <div class="writing-line writing-line-small"></div>
+                                <div class="writing-line writing-line-small"></div>
+                            </div>
+                            <div class="planning-box">
+                                <div class="planning-label">Vocabulary I will use:</div>
+                                <div class="writing-line writing-line-small"></div>
+                            </div>
+                            <div class="planning-box">
+                                <div class="planning-label">Why this discovery matters:</div>
+                                <div class="writing-line writing-line-small"></div>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
 
@@ -1777,7 +1796,7 @@
             </div>
 
             <div class="reflection-box">
-                <p class="writing-prompt-small">Today I learned:</p>
+                <p class="writing-prompt-small">{{#if reflection_focus}}{{reflection_focus}}{{else}}Today I learned:{{/if}}</p>
                 <div class="writing-line"></div>
                 <div class="writing-line"></div>
 
