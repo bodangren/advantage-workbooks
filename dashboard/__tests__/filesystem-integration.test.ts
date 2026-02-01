@@ -72,7 +72,7 @@ describe('File System API Tests', () => {
 
   describe('createProject', () => {
     it('should create new project directory', async () => {
-      const project = await createProject('Test Project', 'A1');
+      const project = await createProject('Test Project');
       expect(project.id).toBe('test-project');
       expect(project.name).toBe('Test Project');
       expect(project.path).toContain('test-project');

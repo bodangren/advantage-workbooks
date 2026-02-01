@@ -87,7 +87,7 @@ export async function writeLesson(projectId: string, lessonId: string, data: Wor
   await fs.writeFile(lessonPath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-export async function createProject(name: string, _level: string): Promise<WorkbookProject> {
+export async function createProject(name: string): Promise<WorkbookProject> {
   const projectId = name.toLowerCase().replace(/\s+/g, '-');
   const projectPath = path.join(WORKBOOKS_ROOT, projectId);
 

@@ -17,16 +17,16 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, level } = body;
+    const { name } = body;
 
-    if (!name || !level) {
+    if (!name) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, level' },
+        { error: 'Missing required field: name' },
         { status: 400 }
       );
     }
 
-    const project = await createProject(name, level);
+    const project = await createProject(name);
     return NextResponse.json(project);
   } catch (error) {
     console.error('Error creating project:', error);
