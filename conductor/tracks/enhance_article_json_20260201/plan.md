@@ -44,8 +44,8 @@
 - [x] Task: Refine section headers and remove "web-style" borders/shadows - a13df41
 - [x] Task: Improve typography and spacing for a "typeset" book look - 5bd26da
 - [x] Task: Polish writing lines and input areas to look like professional workbook pages - 5bd26da
-- [ ] Task: Fix MCQ section to use two-column layout
-- [ ] Task: Fix Print functionality to print ONLY the workbook content (exclude dashboard UI)
+- [x] Task: Fix MCQ section to use two-column layout - 8eae77b
+- [x] Task: Fix Print functionality to print ONLY the workbook content (exclude dashboard UI) - 8eae77b
 
 ## Phase 4: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
