@@ -39,13 +39,19 @@
     - [x] Add CSS for magazine-style image layouts (floats, captions)
     - [x] Ensure responsive design for images
 
-## Phase 3.5: Template Visual Refinement
+## Phase 3.5: Template Visual Refinement [INCOMPLETE - FAILED]
 - [x] Task: Implement two-column layout for practice sections to improve density - a13df41
 - [x] Task: Refine section headers and remove "web-style" borders/shadows - a13df41
-- [x] Task: Improve typography and spacing for a "typeset" book look - 5bd26da
-- [x] Task: Polish writing lines and input areas to look like professional workbook pages - 5bd26da
-- [x] Task: Fix MCQ section to use two-column layout - 8eae77b
-- [x] Task: Fix Print functionality to print ONLY the workbook content (exclude dashboard UI) - 8eae77b
+- [~] Task: Improve typography and spacing for a "typeset" book look
+- [~] Task: Polish writing lines and input areas to look like professional workbook pages
+- [ ] Task: Fix MCQ section to use two-column layout (FAILED: Persistently renders in single column despite template changes)
+- [ ] Task: Fix Print functionality to print ONLY the workbook content (FAILED: Context isolation issues)
+
+## Major Failings & Retrospective
+1. **Template Caching & Hot Reloading:** The development environment persisted stale versions of the Handlebars template (`workbook_template.html`). While unit tests passed (reading the file fresh), the running application served cached content, leading to a disconnect between "verified" changes and what the user actually saw (e.g., MCQs remaining in single columns, fonts not updating).
+2. **Print Context Isolation:** Implementation of printing failed to account for the browser's window context. Initial attempts printed the entire dashboard UI. Subsequent fixes to target the iframe window were not robust enough across different route implementations (Editor vs. Preview page), causing runtime errors and broken output.
+3. **Visual Verification Gap:** Over-reliance on code changes and passing unit tests without sufficient manual verification of the *rendered* output in the browser led to claiming "complete" status while the user saw no visual improvement.
+4. **Component Inconsistency:** The "Editor" preview and "Full Page" preview used disparate logic, causing fixes applied to one to fail in the other (e.g., missing imports, different styling injection).
 
 ## Phase 4: AI Content Generation Script (Optional/Future)
 - [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
