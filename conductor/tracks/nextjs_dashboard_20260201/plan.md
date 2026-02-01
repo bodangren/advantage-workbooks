@@ -29,7 +29,7 @@
     - [x] Implement "Add Lesson" functionality (UI button only, implementation in Phase 4)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md) [6bbba42e]
 
-## Phase 4: Schema-Driven Form Editor [checkpoint: 6bbba42e]
+## Phase 4: Schema-Driven Form Editor [checkpoint: 9fac0842]
 - [x] Task: Zod Schema Implementation [already done in Phase 2 - 32e7f0f]
     - [x] Migrate `workbook_schema.ts` to the Next.js project
     - [x] Implement client-side validation logic using Zod
@@ -50,7 +50,7 @@
     - [x] Implement auto-generating form fields based on the workbook schema
     - [x] Add "Visual Hints" to form fields (e.g., Article text area styled like a page)
     - [x] Implement auto-save or "Save Changes" functionality with API integration
-- [~] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md) [9fac0842]
 
 ## Phase 5: Preview Engine & Compilation
 - [ ] Task: Integrate Paged.js & Handlebars
