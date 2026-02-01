@@ -22,10 +22,12 @@ export function CreateProjectDialog({ open, onOpenChange, onSuccess }: CreatePro
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     if (!name.trim()) {
       setError('Project name is required');
@@ -41,9 +43,14 @@ export function CreateProjectDialog({ open, onOpenChange, onSuccess }: CreatePro
       });
 
       if (response.ok) {
-        setName('');
-        onOpenChange(false);
-        onSuccess?.();
+        const project = await response.json();
+        setSuccess(`Project "${project.name}" created successfully!`);
+        setTimeout(() => {
+          setName('');
+          setSuccess('');
+          onOpenChange(false);
+          onSuccess?.();
+        }, 1500);
       } else {
         const data = await response.json();
         setError(data.error || 'Failed to create project');
@@ -77,6 +84,7 @@ export function CreateProjectDialog({ open, onOpenChange, onSuccess }: CreatePro
               autoFocus
             />
             {error && <p className="text-sm text-destructive">{error}</p>}
+            {success && <p className="text-sm text-green-600">{success}</p>}
           </div>
           <div className="flex justify-end gap-2">
             <Button
@@ -87,8 +95,8 @@ export function CreateProjectDialog({ open, onOpenChange, onSuccess }: CreatePro
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Project'}
+            <Button type="submit" disabled={loading || !!success}>
+              {loading ? 'Creating...' : success ? 'Created!' : 'Create Project'}
             </Button>
           </div>
         </form>

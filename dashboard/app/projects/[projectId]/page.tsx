@@ -19,12 +19,13 @@ interface ProjectPageProps {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const { projectId } = use(params);
+  const decodedProjectId = decodeURIComponent(projectId);
   const [lessons, setLessons] = useState<LessonFile[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchLessons = useCallback(async () => {
     try {
-      const response = await fetch(`/api/projects/${encodeURIComponent(projectId)}/lessons`);
+      const response = await fetch(`/api/projects/${projectId}/lessons`);
       if (response.ok) {
         const data = await response.json();
         setLessons(data);
@@ -58,7 +59,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{projectId}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{decodedProjectId}</h1>
             <p className="text-muted-foreground mt-2">
               {lessons.length} lesson{lessons.length !== 1 ? 's' : ''} in this project
             </p>
@@ -94,7 +95,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               <CardContent>
                 <div className="flex gap-2">
                   <Link
-                    href={`/projects/${encodeURIComponent(projectId)}/lessons/${encodeURIComponent(lesson.id)}`}
+                    href={`/projects/${projectId}/lessons/${encodeURIComponent(lesson.id)}`}
                     className="flex-1"
                   >
                     <Button variant="outline" className="w-full" size="sm">
@@ -103,7 +104,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                     </Button>
                   </Link>
                   <Link
-                    href={`/projects/${encodeURIComponent(projectId)}/lessons/${encodeURIComponent(lesson.id)}/preview`}
+                    href={`/projects/${projectId}/lessons/${encodeURIComponent(lesson.id)}/preview`}
                     className="flex-1"
                   >
                     <Button variant="outline" className="w-full" size="sm">
