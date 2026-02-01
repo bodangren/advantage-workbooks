@@ -59,7 +59,7 @@
 - [x] Task: Batch Compilation Logic [1fa6622]
     - [x] Implement logic to concatenate all lessons in a project for single-tab preview
     - [x] Create "Export/Print" button that triggers the browser's print dialog
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Preview Engine & Compilation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Preview Engine & Compilation' (Protocol in workflow.md)
 
 ## Phase 6: Asset Management & Final Polish
 - [ ] Task: Image Handling
