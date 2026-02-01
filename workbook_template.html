@@ -1152,32 +1152,34 @@
                 <!-- <span class="phase-label phase-3">Phase 3</span> -->
             </div>
 
-            {{#each comprehension_questions}}
-            <div class="question-box">
-                <div class="question-text">
-                    <span class="question-number">{{number}}</span>
-                    {{question}}
-                </div>
-                <div class="options">
-                    {{#each options}}
-                    <div class="option">
-                        <span class="option-circle"></span>
-                        <span>{{this}}</span>
+            <div class="practice-grid">
+                {{#each comprehension_questions}}
+                <div class="question-box">
+                    <div class="question-text">
+                        <span class="question-number">{{number}}</span>
+                        {{question}}
                     </div>
-                    {{/each}}
-                </div>
-                <div class="answer-row">
-                    <div class="answer-field">
-                        <span>My answer:</span>
-                        <span class="answer-box"></span>
+                    <div class="options">
+                        {{#each options}}
+                        <div class="option">
+                            <span class="option-circle"></span>
+                            <span>{{this}}</span>
+                        </div>
+                        {{/each}}
                     </div>
-                    <div class="answer-field">
-                        <span>Correct answer:</span>
-                        <span class="answer-box"></span>
+                    <div class="answer-row">
+                        <div class="answer-field">
+                            <span>My answer:</span>
+                            <span class="answer-box"></span>
+                        </div>
+                        <div class="answer-field">
+                            <span>Correct answer:</span>
+                            <span class="answer-box"></span>
+                        </div>
                     </div>
                 </div>
+                {{/each}}
             </div>
-            {{/each}}
 
             <div class="score-box mt-4">
                 <span class="score-label">MY SCORE:</span>
