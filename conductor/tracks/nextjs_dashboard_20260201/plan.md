@@ -11,10 +11,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Scaffolding' (Protocol in workflow.md) [20787db]
 
 ## Phase 2: Backend API & Local Filesystem Integration
-- [ ] Task: Define File System API
-    - [ ] Implement API routes for listing directories (Workbook Projects)
-    - [ ] Implement API routes for reading/writing workbook JSON files
-    - [ ] Create utility for scaffolding new workbook directory structures
+- [x] Task: Define File System API [32e7f0f, 2f8ee9b]
+    - [x] Implement API routes for listing directories (Workbook Projects)
+    - [x] Implement API routes for reading/writing workbook JSON files
+    - [x] Create utility for scaffolding new workbook directory structures
 - [ ] Task: Test-Driven Development (API)
     - [ ] Write tests for directory listing and project discovery logic
     - [ ] Write tests for JSON read/write operations with safety checks
