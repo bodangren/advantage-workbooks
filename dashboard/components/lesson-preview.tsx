@@ -27,12 +27,6 @@ export default function LessonPreview({ htmlContent, className = '' }: LessonPre
     }
   }, [htmlContent]);
 
-  const handlePrint = () => {
-    if (previewRef.current && previewRef.current.contentWindow) {
-      previewRef.current.contentWindow.print();
-    }
-  };
-
   return (
     <div className={`flex flex-col ${className}`}>
       <Card className="flex-1">
@@ -41,12 +35,6 @@ export default function LessonPreview({ htmlContent, className = '' }: LessonPre
             <Eye className="h-5 w-5" />
             <CardTitle className="text-lg">Live Preview</CardTitle>
           </div>
-          <button
-            onClick={handlePrint}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
-          >
-            Print Preview
-          </button>
         </CardHeader>
         <CardContent className="p-0">
           <div
