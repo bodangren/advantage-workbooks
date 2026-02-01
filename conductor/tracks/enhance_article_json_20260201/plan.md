@@ -28,7 +28,7 @@
     - [x] Add 'Writing Prompt' and 'Vocabulary Section' to position options - de0fff9
 
 ## Phase 3: Template & Visual Implementation
-- [ ] Task: Update `/workbook_template.html` for new content fields
+- [~] Task: Update `/workbook_template.html` for new content fields
     - [ ] Render `short_answer_hint` in short answer section
     - [ ] Render `writing_plan_prompts` in writing planning section
     - [ ] Render `reflection_focus` in reflection section
