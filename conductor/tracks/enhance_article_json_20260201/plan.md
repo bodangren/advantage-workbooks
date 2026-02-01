@@ -15,7 +15,7 @@
     - [x] Test `article_images` array structure validation
     - [x] Test backward compatibility with lessons missing new fields
 
-## Phase 2: Next.js Editor UI Updates
+## Phase 2: Next.js Editor UI Updates [checkpoint: 093e7e4]
 - [x] Task: Update lesson editor form in `/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx` - 59a6dc0
     - [x] Add input field for `short_answer_hint`
     - [x] Add array input for `writing_plan_prompts` (3 prompts)
