@@ -53,9 +53,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Schema-Driven Form Editor' (Protocol in workflow.md) [9fac0842]
 
 ## Phase 5: Preview Engine & Compilation
-- [ ] Task: Integrate Paged.js & Handlebars
-    - [ ] Port the existing Handlebars logic into a React component or utility
-    - [ ] Create a Live Preview pane that renders the current JSON via Paged.js
+- [x] Task: Integrate Paged.js & Handlebars [3761486]
+    - [x] Port the existing Handlebars logic into a React component or utility
+    - [x] Create a Live Preview pane that renders the current JSON via Paged.js
 - [ ] Task: Batch Compilation Logic
     - [ ] Implement logic to concatenate all lessons in a project for single-tab preview
     - [ ] Create "Export/Print" button that triggers the browser's print dialog
