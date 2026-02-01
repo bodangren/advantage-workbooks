@@ -8,7 +8,7 @@
 - [x] Task: Integrate Design System & Base Components [995471d]
     - [x] Install and configure UI component library (e.g., Shadcn UI / Radix)
     - [x] Create base layout with sidebar and main content area
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Scaffolding' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Scaffolding' (Protocol in workflow.md)
 
 ## Phase 2: Backend API & Local Filesystem Integration
 - [ ] Task: Define File System API
