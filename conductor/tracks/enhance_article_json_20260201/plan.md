@@ -28,12 +28,12 @@
     - [x] Add 'Writing Prompt' and 'Vocabulary Section' to position options - de0fff9
 
 ## Phase 3: Template & Visual Implementation
-- [~] Task: Update `/workbook_template.html` for new content fields
-    - [ ] Render `short_answer_hint` in short answer section
-    - [ ] Render `writing_plan_prompts` in writing planning section
-    - [ ] Render `reflection_focus` in reflection section
-    - [ ] Add fallback logic for backward compatibility
-- [ ] Task: Update `/workbook_template.html` for multi-image support
+- [x] Task: Update `/workbook_template.html` for new content fields - d48051f
+    - [x] Render `short_answer_hint` in short answer section
+    - [x] Render `writing_plan_prompts` in writing planning section
+    - [x] Render `reflection_focus` in reflection section
+    - [x] Add fallback logic for backward compatibility
+- [~] Task: Update `/workbook_template.html` for multi-image support
     - [ ] Add Handlebars helper/logic to render `article_images` array
     - [ ] Implement position-based image injection (hero, inline-para-N)
     - [ ] Add CSS for magazine-style image layouts (floats, captions)
