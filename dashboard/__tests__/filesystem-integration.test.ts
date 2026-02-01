@@ -26,6 +26,7 @@ describe('File System API Tests', () => {
     it('should return array of lesson files', async () => {
       const lessons = await listLessons('Origins 3.1');
       expect(Array.isArray(lessons)).toBe(true);
+      expect(lessons.length).toBeGreaterThan(0);
     });
 
     it('should return 404 for non-existent project', async () => {
@@ -35,7 +36,7 @@ describe('File System API Tests', () => {
 
   describe('readLesson', () => {
     it('should return lesson data for valid lesson', async () => {
-      const lesson = await readLesson('Origins 3.1', '14 - Time_for_School__Prioritize_Tasks_workbook');
+      const lesson = await readLesson('Origins 3.1', '01-The_Library_Map_workbook');
       expect(lesson).toHaveProperty('lesson_title');
       expect(lesson).toHaveProperty('cefr_level');
     });

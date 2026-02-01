@@ -49,7 +49,7 @@ export async function listLessons(projectId: string): Promise<LessonFile[]> {
     const entries = await fs.readdir(projectPath, { withFileTypes: true });
     const lessons = entries
       .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
-      .filter(entry => entry.name.startsWith('content_'))
+      .filter(entry => entry.name.startsWith('content_') || entry.name.endsWith('_workbook.json'))
       .map(file => ({
         id: file.name.replace('.json', ''),
         name: file.name,
