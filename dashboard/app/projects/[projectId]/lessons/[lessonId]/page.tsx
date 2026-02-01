@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { use } from 'react';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
+import { renderLessonTemplate } from '@/lib/template-renderer';
+import LessonPreview from '@/components/lesson-preview';
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -26,12 +28,27 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [previewHtml, setPreviewHtml] = useState<string>('');
+  const [showPreview, setShowPreview] = useState(false);
 
   const placeholder = {
     paragraphs: '[{"number": 1, "text": "..."}]',
     vocabulary: '[{"word": "example", "definition": "..."}]',
     questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]'
   };
+
+  const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
+    try {
+      const html = await renderLessonTemplate(currentLesson as WorkbookLesson);
+      setPreviewHtml(html);
+    } catch (error) {
+      console.error('Failed to generate preview:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    updatePreview(lesson);
+  }, [lesson, updatePreview]);
 
   const fetchLesson = useCallback(async () => {
     try {
@@ -111,20 +128,26 @@ export default function LessonEditor({ params }: LessonEditorProps) {
             </p>
           </div>
         </div>
-        <Button onClick={validateAndSave} disabled={saving}>
-          {saving ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="mr-2 h-4 w-4" />
-              Save Changes
-            </>
-          )}
-        </Button>
-      </div>
+         <Button onClick={validateAndSave} disabled={saving}>
+           {saving ? (
+             <>
+               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+               Saving...
+             </>
+           ) : (
+             <>
+               <Save className="mr-2 h-4 w-4" />
+               Save Changes
+             </>
+           )}
+         </Button>
+         <Button
+           onClick={() => setShowPreview(!showPreview)}
+           variant={showPreview ? 'default' : 'outline'}
+         >
+           {showPreview ? 'Hide Preview' : 'Show Preview'}
+         </Button>
+       </div>
 
       {errors._form && (
         <Card className="border-destructive">
@@ -333,21 +356,41 @@ export default function LessonEditor({ params }: LessonEditorProps) {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Writing Prompt</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <Label htmlFor="writing_prompt">Writing Prompt</Label>
-          <Textarea
-            id="writing_prompt"
-            value={lesson.writing_prompt || ''}
-            onChange={(e) => setLesson({ ...lesson, writing_prompt: e.target.value })}
-            rows={4}
-            placeholder="Writing prompt for students..."
-          />
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+       <Card>
+         <CardHeader>
+           <CardTitle>Writing Prompt</CardTitle>
+         </CardHeader>
+         <CardContent className="space-y-2">
+           <Label htmlFor="writing_prompt">Writing Prompt</Label>
+           <Textarea
+             id="writing_prompt"
+             value={lesson.writing_prompt || ''}
+             onChange={(e) => setLesson({ ...lesson, writing_prompt: e.target.value })}
+             rows={4}
+             placeholder="Writing prompt for students..."
+           />
+         </CardContent>
+       </Card>
+
+       {showPreview && previewHtml && (
+         <div className="fixed inset-0 bg-black/50 z-50 p-4 overflow-hidden">
+           <div className="h-full bg-white rounded-lg shadow-2xl flex flex-col">
+             <div className="flex items-center justify-between border-b px-4 py-3">
+               <h2 className="text-xl font-bold">Lesson Preview</h2>
+               <Button
+                 onClick={() => setShowPreview(false)}
+                 variant="ghost"
+                 className="h-9 w-9 p-0"
+               >
+                 ×
+               </Button>
+             </div>
+             <div className="flex-1 overflow-hidden">
+               <LessonPreview htmlContent={previewHtml} className="h-full" />
+             </div>
+           </div>
+         </div>
+       )}
+     </div>
+   );
+ }
