@@ -16,11 +16,11 @@
     - [x] Test backward compatibility with lessons missing new fields
 
 ## Phase 2: Next.js Editor UI Updates
-- [ ] Task: Update lesson editor form in `/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx`
-    - [ ] Add input field for `short_answer_hint`
-    - [ ] Add array input for `writing_plan_prompts` (3 prompts)
-    - [ ] Add input field for `reflection_focus`
-- [ ] Task: Add multi-image management UI
+- [x] Task: Update lesson editor form in `/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx` - 59a6dc0
+    - [x] Add input field for `short_answer_hint`
+    - [x] Add array input for `writing_plan_prompts` (3 prompts)
+    - [x] Add input field for `reflection_focus`
+- [~] Task: Add multi-image management UI
     - [ ] Create interface to manage `article_images` array
     - [ ] Add position selector (hero, inline-para-1, inline-para-2, etc.)
     - [ ] Integrate with existing ImageUpload component
