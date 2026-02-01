@@ -89,10 +89,10 @@
     - [x] Define .force-page-break class with page-break-before
     - [x] Add page breaks before .phase-3 sections
     - [x] Test page breaks in print preview
-- [ ] Task: Consolidate print buttons
-    - [ ] Remove print button from LessonPreview component
-    - [ ] Keep single print button in preview page
-    - [ ] Ensure correct iframe context for printing
+- [x] Task: Consolidate print buttons - d83fc71
+    - [x] Remove print button from LessonPreview component
+    - [x] Keep single print button in preview page
+    - [x] Ensure correct iframe context for printing
 - [ ] Task: Test print functionality
     - [ ] Verify only workbook content prints (not dashboard)
     - [ ] Verify Answer Key starts on new page
