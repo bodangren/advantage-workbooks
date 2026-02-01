@@ -30,9 +30,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Project Management & File Explorer' (Protocol in workflow.md) [6bbba42e]
 
 ## Phase 4: Schema-Driven Form Editor
-- [ ] Task: Zod Schema Implementation
-    - [ ] Migrate `workbook_schema.ts` to the Next.js project
-    - [ ] Implement client-side validation logic using Zod
+- [x] Task: Zod Schema Implementation [already done in Phase 2 - 32e7f0f]
+    - [x] Migrate `workbook_schema.ts` to the Next.js project
+    - [x] Implement client-side validation logic using Zod
 - [ ] Task: Build Dynamic Form Editor
     - [ ] Implement auto-generating form fields based on the workbook schema
     - [ ] Add "Visual Hints" to form fields (e.g., Article text area styled like a page)
