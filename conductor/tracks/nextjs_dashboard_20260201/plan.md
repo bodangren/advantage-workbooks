@@ -56,9 +56,9 @@
 - [x] Task: Integrate Paged.js & Handlebars [3761486]
     - [x] Port the existing Handlebars logic into a React component or utility
     - [x] Create a Live Preview pane that renders the current JSON via Paged.js
-- [ ] Task: Batch Compilation Logic
-    - [ ] Implement logic to concatenate all lessons in a project for single-tab preview
-    - [ ] Create "Export/Print" button that triggers the browser's print dialog
+- [x] Task: Batch Compilation Logic [1fa6622]
+    - [x] Implement logic to concatenate all lessons in a project for single-tab preview
+    - [x] Create "Export/Print" button that triggers the browser's print dialog
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Preview Engine & Compilation' (Protocol in workflow.md)
 
 ## Phase 6: Asset Management & Final Polish
