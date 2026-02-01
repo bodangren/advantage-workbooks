@@ -5,7 +5,7 @@
     - [x] Create Next.js app with TypeScript, Tailwind CSS, and App Router
     - [x] Configure `tsconfig.json` and `tailwind.config.ts` for project standards
     - [x] Set up basic folder structure (`components`, `lib`, `hooks`)
-- [x] Task: Integrate Design System & Base Components [pending commit]
+- [x] Task: Integrate Design System & Base Components [995471d]
     - [x] Install and configure UI component library (e.g., Shadcn UI / Radix)
     - [x] Create base layout with sidebar and main content area
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment Setup & Scaffolding' (Protocol in workflow.md)
