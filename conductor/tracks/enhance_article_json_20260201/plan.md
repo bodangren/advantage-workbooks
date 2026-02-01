@@ -85,10 +85,10 @@
     - [x] Set print-specific margins and backgrounds
     - [x] Adjust font sizes for print
     - [x] Hide non-printable elements
-- [ ] Task: Implement page break CSS classes
-    - [ ] Define .force-page-break class with page-break-before
-    - [ ] Add page breaks before .phase-3 sections
-    - [ ] Test page breaks in print preview
+- [x] Task: Implement page break CSS classes - 777beff
+    - [x] Define .force-page-break class with page-break-before
+    - [x] Add page breaks before .phase-3 sections
+    - [x] Test page breaks in print preview
 - [ ] Task: Consolidate print buttons
     - [ ] Remove print button from LessonPreview component
     - [ ] Keep single print button in preview page
