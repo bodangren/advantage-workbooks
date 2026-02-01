@@ -18,7 +18,7 @@
 - [x] Task: Test-Driven Development (API) [801ca6c]
     - [x] Write tests for directory listing and project discovery logic
     - [x] Write tests for JSON read/write operations with safety checks
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Backend API & Local Filesystem Integration' (Protocol in workflow.md)
 
 ## Phase 3: Project Management & File Explorer
 - [ ] Task: Workbook Explorer Interface
