@@ -40,8 +40,8 @@
     - [x] Ensure responsive design for images
 
 ## Phase 3.5: Template Visual Refinement
-- [ ] Task: Implement two-column layout for practice sections to improve density
-- [ ] Task: Refine section headers and remove "web-style" borders/shadows
+- [~] Task: Implement two-column layout for practice sections to improve density
+- [~] Task: Refine section headers and remove "web-style" borders/shadows
 - [ ] Task: Improve typography and spacing for a "typeset" book look
 - [ ] Task: Polish writing lines and input areas to look like professional workbook pages
 
