@@ -72,6 +72,7 @@ export const WorkbookLessonSchema = z.object({
 
     comprehension_questions: z.array(QuestionSchema),
     short_answer_question: z.string(),
+    short_answer_hint: z.string().optional(),
 
     sentence_starters: z.array(z.string()).optional(),
 
@@ -83,6 +84,9 @@ export const WorkbookLessonSchema = z.object({
     sentence_completion_prompts: z.array(CompletionPromptSchema).optional(),
 
     writing_prompt: z.string(),
+    writing_plan_prompts: z.array(z.string()).optional(),
+
+    reflection_focus: z.string().optional(),
 
     mc_answers: z.array(McAnswerSchema).optional(),
     vocab_match_answer_string: z.string().optional(),
