@@ -99,7 +99,6 @@
             font-family: 'Merriweather', serif;
             font-size: 15px; /* Slightly larger for readability */
             line-height: 2.0; /* Generous spacing */
-            margin-left: 35px; /* Space for paragraph numbers to left of floated image */
             /* ... */
         }
 
@@ -121,6 +120,7 @@
             margin-bottom: 16px;
             position: relative;
             padding-left: 30px;
+            display: flow-root; /* Prevents paragraph from extending under floated image */
         }
 
         .para-number {
