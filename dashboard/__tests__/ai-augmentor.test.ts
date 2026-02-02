@@ -61,7 +61,7 @@ describe('augmentLesson', () => {
 
     expect(GoogleGenerativeAI).toHaveBeenCalledWith('fake-api-key');
     expect(mockGetGenerativeModel).toHaveBeenCalledWith(expect.objectContaining({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-3-flash-preview',
     }));
     expect(mockGenerateContent).toHaveBeenCalled();
     
@@ -103,5 +103,64 @@ describe('augmentLesson', () => {
     expect(augmented.article_images![0].position).toBe('hero');
     // Ensure URL is handled (empty string default if not provided by AI, or handled by augmentLesson)
     expect(augmented.article_images![0].url).toBe(''); 
+  });
+
+  it('should generate pedagogical connectors', async () => {
+    const mockResponseText = JSON.stringify({
+      short_answer_hint: 'Hint',
+      writing_plan_prompts: ['A', 'B', 'C'],
+      reflection_focus: 'Focus',
+      connection_question: 'Connect?',
+      grammar_search_term: 'Find verb',
+      discussion_question: 'Discuss?',
+      writing_sentence_frames: ['Start 1', 'Start 2']
+    });
+
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () => mockResponseText,
+      },
+    });
+
+    const augmented = await augmentLesson(mockLesson, 'fake-api-key');
+
+    // @ts-ignore - Fields not yet in types if schema update didn't propagate to test context fully (but it should have)
+    expect(augmented.connection_question).toBe('Connect?');
+    // @ts-ignore
+    expect(augmented.grammar_search_term).toBe('Find verb');
+    // @ts-ignore
+    expect(augmented.discussion_question).toBe('Discuss?');
+    // @ts-ignore
+    expect(augmented.writing_sentence_frames).toEqual(['Start 1', 'Start 2']);
+  });
+
+  it('should use model from environment variable if set', async () => {
+    process.env.GEMINI_TEXT_MODEL = 'gemini-3-custom';
+    
+    const mockResponseText = JSON.stringify({});
+    mockGenerateContent.mockResolvedValue({ response: { text: () => mockResponseText } });
+
+    await augmentLesson(mockLesson, 'fake-api-key');
+
+    expect(mockGetGenerativeModel).toHaveBeenCalledWith(expect.objectContaining({
+      model: 'gemini-3-custom',
+    }));
+
+    delete process.env.GEMINI_TEXT_MODEL; // Cleanup
+  });
+
+  it('should handle invalid JSON response', async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () => 'Invalid JSON',
+      },
+    });
+
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    await expect(augmentLesson(mockLesson, 'fake-api-key')).rejects.toThrow();
+    expect(consoleSpy).toHaveBeenCalledWith('Failed to parse AI response:', 'Invalid JSON');
+    
+    consoleSpy.mockRestore();
   });
 });
