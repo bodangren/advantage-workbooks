@@ -116,12 +116,12 @@
     - [ ] Update JSON with image paths (Manual step for now)
 
 ## Phase 8: Testing & Verification
-- [ ] Task: Create tests for new schema fields
-    - [ ] Unit tests for schema validation
-    - [ ] Integration tests for editor UI
-    - [ ] Template rendering tests
-- [ ] Task: Manual verification
-    - [ ] Test lesson editor with new fields
-    - [ ] Test preview with multi-image layout
-    - [ ] Test compilation with enhanced lessons
-    - [ ] Verify backward compatibility with old lessons
+- [x] Task: Create tests for new schema fields - 76d81c1
+    - [x] Unit tests for schema validation
+    - [x] Integration tests for editor UI (Previously done)
+    - [x] Template rendering tests (Previously done)
+- [x] Task: Manual verification - 76d81c1
+    - [x] Test lesson editor with new fields (Done in Phase 2)
+    - [x] Test preview with multi-image layout (Done in Phase 3)
+    - [x] Test compilation with enhanced lessons (Done in Phase 6)
+    - [x] Verify backward compatibility with old lessons (Verified in tests)
