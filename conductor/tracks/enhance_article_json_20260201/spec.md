@@ -45,9 +45,12 @@ This project uses a Next.js-based dashboard for content management:
     - Render `reflection_focus` in the reflection section.
     - Implement Handlebars logic to inject multiple images from `article_images` array based on `position`.
     - Add CSS for "magazine-style" layouts (floated images, captions, responsive design).
+    - Ensure hero images can wrap text with a **rectangular float** across multiple paragraphs (no forced clear after each paragraph).
+    - Keep inline paragraph images constrained to a single paragraph (clear only conflicting floats as needed).
 
 ## Non-Functional Requirements
 - **Backward Compatibility:** All new schema fields must be optional. The system must gracefully handle lessons without the new fields.
 - **Validation:** Zod schema validation ensures type safety and data integrity at runtime.
 - **Type Safety:** Ensure full TypeScript type coverage for new fields.
 - **Testing:** Vitest unit tests must validate new schema fields and backward compatibility.
+ - **Layout Simplicity:** Avoid introducing complex DTP features (e.g., hyphenation, footnotes) not needed for a write-in workbook.

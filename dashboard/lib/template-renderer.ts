@@ -6,20 +6,28 @@ import type { WorkbookLesson } from './workbook-schema';
 let cachedTemplate: HandlebarsTemplateDelegate | null = null;
 
 async function getTemplate(): Promise<HandlebarsTemplateDelegate> {
-  if (cachedTemplate) {
+  // Disable caching in development for hot-reloading
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  if (cachedTemplate && !isDevelopment) {
     return cachedTemplate;
   }
 
-  // Register helpers
+  // Register helpers (idempotent, safe to call multiple times)
   Handlebars.registerHelper('concat', function(...args) {
     // Slice off the options object at the end
     return args.slice(0, -1).join('');
   });
 
-  const templatePath = path.join(process.cwd(), '../workbook_template.html');
+  const templatePath = path.join(process.cwd(), 'templates/workbook_template.html');
   const templateContent = await fs.readFile(templatePath, 'utf-8');
-  cachedTemplate = Handlebars.compile(templateContent);
-  return cachedTemplate;
+  const compiledTemplate = Handlebars.compile(templateContent);
+
+  if (!isDevelopment) {
+    cachedTemplate = compiledTemplate;
+  }
+
+  return compiledTemplate;
 }
 
 export interface RenderOptions {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -25,6 +25,44 @@ interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
 }
 
+// Move defaults outside component to prevent recreating on every render
+const DEFAULTS = {
+  short_answer_hint: "Try to use at least two complete sentences in your answer.",
+  writing_plan_prompts: [
+    "Main idea / discovery:",
+    "Key details to include:",
+    "Vocabulary I will use:",
+    "Why this discovery matters:"
+  ],
+  reflection_focus: "Today I learned:"
+} as const;
+
+const PLACEHOLDERS = {
+  paragraphs: '[{"number": 1, "text": "..."}]',
+  vocabulary: '[{"word": "example", "definition": "..."}]',
+  questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]',
+  writing_plan_prompts: JSON.stringify(DEFAULTS.writing_plan_prompts),
+  short_answer_hint: DEFAULTS.short_answer_hint,
+  reflection_focus: DEFAULTS.reflection_focus
+} as const;
+
+// Debounce utility
+function useDebounce<T extends (...args: any[]) => any>(
+  callback: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  return useCallback((...args: Parameters<T>) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  }, [callback, delay]);
+}
+
 export default function LessonEditor({ params }: LessonEditorProps) {
   const { projectId, lessonId } = use(params);
   const decodedProjectId = decodeURIComponent(projectId);
@@ -37,45 +75,35 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
-  const [renderingPreview, setRenderingPreview] = useState(false);
 
-  const defaults = {
-    short_answer_hint: "Try to use at least two complete sentences in your answer.",
-    writing_plan_prompts: [
-      "Main idea / discovery:",
-      "Key details to include:",
-      "Vocabulary I will use:",
-      "Why this discovery matters:"
-    ],
-    reflection_focus: "Today I learned:"
-  };
-
-  const placeholders = {
-    paragraphs: '[{"number": 1, "text": "..."}]',
-    vocabulary: '[{"word": "example", "definition": "..."}]',
-    questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]',
-    writing_plan_prompts: JSON.stringify(defaults.writing_plan_prompts),
-    short_answer_hint: defaults.short_answer_hint,
-    reflection_focus: defaults.reflection_focus
-  };
+  // Use ref instead of state to prevent dependency issues
+  const renderingPreviewRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
-    if (renderingPreview) return;
+    if (renderingPreviewRef.current) return;
+
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
 
     // Merge defaults for preview if missing
     const lessonForPreview = {
       ...currentLesson,
-      short_answer_hint: currentLesson.short_answer_hint || defaults.short_answer_hint,
-      writing_plan_prompts: currentLesson.writing_plan_prompts || defaults.writing_plan_prompts,
-      reflection_focus: currentLesson.reflection_focus || defaults.reflection_focus,
+      short_answer_hint: currentLesson.short_answer_hint || DEFAULTS.short_answer_hint,
+      writing_plan_prompts: currentLesson.writing_plan_prompts || DEFAULTS.writing_plan_prompts,
+      reflection_focus: currentLesson.reflection_focus || DEFAULTS.reflection_focus,
     };
 
-    setRenderingPreview(true);
+    renderingPreviewRef.current = true;
     try {
       const response = await fetch('/api/render', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(lessonForPreview),
+        signal: abortControllerRef.current.signal,
       });
 
       if (response.ok) {
@@ -83,17 +111,31 @@ export default function LessonEditor({ params }: LessonEditorProps) {
         setPreviewHtml(html);
       }
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        // Request was cancelled, ignore
+        return;
+      }
       console.error('Failed to generate preview:', error);
     } finally {
-      setRenderingPreview(false);
+      renderingPreviewRef.current = false;
     }
-  }, [renderingPreview]);
+  }, []); // No dependencies needed!
+
+  // Debounced version - only updates after user stops typing for 500ms
+  const debouncedUpdatePreview = useDebounce(updatePreview, 500);
 
   useEffect(() => {
     if (showPreview) {
-      updatePreview(lesson);
+      debouncedUpdatePreview(lesson);
     }
-  }, [lesson, showPreview, updatePreview]);
+
+    // Cleanup: cancel pending requests when modal closes or component unmounts
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [lesson, showPreview, debouncedUpdatePreview]);
 
   const fetchLesson = useCallback(async () => {
     try {
@@ -103,9 +145,9 @@ export default function LessonEditor({ params }: LessonEditorProps) {
         // Merge defaults into loaded data if fields are missing
         setLesson({
           ...data,
-          short_answer_hint: data.short_answer_hint || defaults.short_answer_hint,
-          writing_plan_prompts: data.writing_plan_prompts || defaults.writing_plan_prompts,
-          reflection_focus: data.reflection_focus || defaults.reflection_focus,
+          short_answer_hint: data.short_answer_hint || DEFAULTS.short_answer_hint,
+          writing_plan_prompts: data.writing_plan_prompts || DEFAULTS.writing_plan_prompts,
+          reflection_focus: data.reflection_focus || DEFAULTS.reflection_focus,
         });
       }
     } catch (error) {
@@ -419,7 +461,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               }}
               rows={8}
               className="font-mono text-sm"
-              placeholder={placeholders.paragraphs}
+              placeholder={PLACEHOLDERS.paragraphs}
             />
             <p className="text-xs text-muted-foreground">
               Enter as JSON array
@@ -447,7 +489,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
             }}
             rows={8}
             className="font-mono text-sm"
-            placeholder={placeholders.vocabulary}
+            placeholder={PLACEHOLDERS.vocabulary}
           />
           <p className="text-xs text-muted-foreground">
             Enter as JSON array
@@ -475,7 +517,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               }}
               rows={8}
               className="font-mono text-sm"
-              placeholder={placeholders.questions}
+              placeholder={PLACEHOLDERS.questions}
             />
             <p className="text-xs text-muted-foreground">
               Enter as JSON array
@@ -499,7 +541,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
               id="short_answer_hint"
               value={lesson.short_answer_hint || ''}
               onChange={(e) => setLesson({ ...lesson, short_answer_hint: e.target.value })}
-              placeholder={placeholders.short_answer_hint}
+              placeholder={PLACEHOLDERS.short_answer_hint}
             />
           </div>
         </CardContent>
@@ -536,7 +578,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
                }}
                rows={3}
                className="font-mono text-sm"
-               placeholder={placeholders.writing_plan_prompts}
+               placeholder={PLACEHOLDERS.writing_plan_prompts}
              />
              <p className="text-xs text-muted-foreground">
                Enter as JSON array of strings
@@ -556,7 +598,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
              value={lesson.reflection_focus || ''}
              onChange={(e) => setLesson({ ...lesson, reflection_focus: e.target.value })}
              rows={3}
-             placeholder={placeholders.reflection_focus}
+             placeholder={PLACEHOLDERS.reflection_focus}
            />
          </CardContent>
        </Card>

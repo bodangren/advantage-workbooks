@@ -1,10 +1,17 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+export interface ProjectMetadata {
+  seriesName: string; // e.g., "Origins", "Quest", "Adventure", "Hero", "Legend"
+  levelNumber: string; // e.g., "3.1", "4.2", "5.3"
+  cefrLevel: string; // e.g., "A1", "A2", "B1", "B2", "C1"
+}
+
 export interface WorkbookProject {
   id: string;
   name: string;
   path: string;
+  metadata?: ProjectMetadata;
 }
 
 export interface LessonFile {
@@ -27,14 +34,22 @@ const WORKBOOKS_ROOT = process.env.WORKBOOKS_ROOT || path.resolve(process.cwd(),
 export async function listProjects(): Promise<WorkbookProject[]> {
   try {
     const entries = await fs.readdir(WORKBOOKS_ROOT, { withFileTypes: true });
-    const projects = entries
+    const projectDirs = entries
       .filter(entry => entry.isDirectory())
-      .filter(entry => !entry.name.startsWith('.') && entry.name !== 'node_modules')
-      .map(dir => ({
-        id: dir.name,
-        name: dir.name,
-        path: path.join(WORKBOOKS_ROOT, dir.name)
-      }));
+      .filter(entry => !entry.name.startsWith('.') && entry.name !== 'node_modules');
+
+    const projects = await Promise.all(
+      projectDirs.map(async (dir) => {
+        const metadata = await readProjectMetadata(dir.name);
+        return {
+          id: dir.name,
+          name: dir.name,
+          path: path.join(WORKBOOKS_ROOT, dir.name),
+          metadata: metadata || undefined,
+        };
+      })
+    );
+
     return projects;
   } catch (error) {
     console.error('Error listing projects:', error);
@@ -87,15 +102,46 @@ export async function writeLesson(projectId: string, lessonId: string, data: Wor
   await fs.writeFile(lessonPath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+export async function readProjectMetadata(projectId: string): Promise<ProjectMetadata | null> {
+  const projectPath = path.join(WORKBOOKS_ROOT, projectId);
+  const metadataPath = path.join(projectPath, 'project.json');
+
+  try {
+    const content = await fs.readFile(metadataPath, 'utf-8');
+    return JSON.parse(content);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return null; // No metadata file exists
+    }
+    throw error;
+  }
+}
+
+export async function writeProjectMetadata(projectId: string, metadata: ProjectMetadata): Promise<void> {
+  const projectPath = path.join(WORKBOOKS_ROOT, projectId);
+  const metadataPath = path.join(projectPath, 'project.json');
+
+  await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+}
+
 export async function createProject(name: string): Promise<WorkbookProject> {
   const projectId = name.toLowerCase().replace(/\s+/g, '-');
   const projectPath = path.join(WORKBOOKS_ROOT, projectId);
 
   await fs.mkdir(projectPath, { recursive: true });
 
+  // Create default metadata
+  const defaultMetadata: ProjectMetadata = {
+    seriesName: 'Origins',
+    levelNumber: '3.1',
+    cefrLevel: 'A1',
+  };
+  await writeProjectMetadata(projectId, defaultMetadata);
+
   return {
     id: projectId,
     name,
-    path: projectPath
+    path: projectPath,
+    metadata: defaultMetadata,
   };
 }

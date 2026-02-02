@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
+import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
 
 interface LessonFile {
   id: string;
@@ -66,6 +67,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
         <div className="flex gap-2">
+          <ProjectSettingsDialog projectId={projectId} />
           {lessons.length > 0 && (
             <Link href={`/projects/${projectId}/compile`}>
               <Button variant="outline">

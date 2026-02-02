@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listLessons, readLesson } from '@/lib/filesystem';
+import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
@@ -41,8 +41,17 @@ export async function GET(
       );
     }
 
+    // Read project metadata
+    const metadata = await readProjectMetadata(decodedProjectId);
+
+    // Prepare render options with metadata
+    const renderOptions = metadata ? {
+      seriesName: `${metadata.seriesName} ${metadata.levelNumber}`,
+      seriesLevel: metadata.cefrLevel,
+    } : undefined;
+
     // Render all lessons into a single HTML document
-    const compiledHtml = await renderMultipleLessons(loadedLessons);
+    const compiledHtml = await renderMultipleLessons(loadedLessons, renderOptions);
 
     return NextResponse.json({
       html: compiledHtml,
