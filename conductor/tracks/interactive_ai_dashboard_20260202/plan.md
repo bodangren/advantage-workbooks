@@ -1,6 +1,6 @@
 # Implementation Plan - Track: Interactive AI Dashboard
 
-## Phase 1: Schema & Environment Setup
+## Phase 1: Schema & Environment Setup [checkpoint: ebb0fee]
 - [x] Task: Update `WorkbookLessonSchema` in `dashboard/lib/workbook-schema.ts` 17141f3
     - [ ] Add `connection_question` (optional string)
     - [ ] Add `grammar_search_term` (optional string)
