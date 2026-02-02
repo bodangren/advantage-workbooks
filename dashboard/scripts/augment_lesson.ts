@@ -4,10 +4,10 @@ import 'dotenv/config';
 import { augmentLesson } from '../lib/ai-augmentor';
 
 async function main() {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-        console.error("Error: GEMINI_API_KEY is not set in environment variables.");
-        console.error("Please create a .env file in the dashboard directory with GEMINI_API_KEY=...");
+        console.error("Error: GOOGLE_GENERATIVE_AI_API_KEY or GEMINI_API_KEY is not set in environment variables.");
+        console.error("Please create a .env file in the dashboard directory with GOOGLE_GENERATIVE_AI_API_KEY=...");
         process.exit(1);
     }
 
