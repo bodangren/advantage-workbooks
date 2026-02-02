@@ -175,10 +175,23 @@
             border-bottom: 1px solid var(--border-light);
             padding: 12px 0;
             margin-bottom: 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
-        
+
         .question-box:last-child {
             border-bottom: none;
+        }
+
+        /* Page continuation indicator */
+        .page-continue {
+            text-align: right;
+            font-size: 10px;
+            font-style: italic;
+            color: var(--text-light);
+            margin-top: 20px;
+            page-break-after: always;
+            break-after: page;
         }
 
         .question-number {
@@ -320,6 +333,8 @@
             border-radius: 8px;
             padding: 0;
             margin-bottom: 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         .practice-title {
@@ -976,9 +991,34 @@
             /* Prevent page breaks inside these elements */
             .paragraph,
             .question-box,
-            .vocab-item {
+            .vocab-item,
+            .practice-box {
                 page-break-inside: avoid;
                 break-inside: avoid;
+            }
+
+            /* Allow page breaks between question boxes in two-column grid */
+            .practice-grid .question-box {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Page continuation styling for print */
+            .page-continue {
+                display: block;
+                text-align: right;
+                font-size: 9pt;
+                font-style: italic;
+                color: #666;
+                margin-top: 12pt;
+                page-break-after: always;
+                break-after: page;
+            }
+
+            @supports (break-after: page) {
+                .page-continue::after {
+                    content: " (Continued on next page)";
+                }
             }
 
             /* Hide interactive elements */
