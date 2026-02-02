@@ -78,7 +78,7 @@ describe('File System API Tests', () => {
       expect(project.name).toBe('Test Project');
       expect(project.path).toContain('test-project');
 
-      await fs.rmdir('/home/daniel-bo/Downloads/Workbooks/test-project');
+      await fs.rm('/home/daniel-bo/Downloads/Workbooks/test-project', { recursive: true, force: true });
     });
   });
 });
