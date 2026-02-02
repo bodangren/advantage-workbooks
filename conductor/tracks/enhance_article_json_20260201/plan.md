@@ -38,6 +38,10 @@
     - [x] Implement position-based image injection (hero, inline-para-N)
     - [x] Add CSS for magazine-style image layouts (floats, captions)
     - [x] Ensure responsive design for images
+    - [x] Allow rectangular hero-image wrap across multiple paragraphs
+        - [x] Move hero image into article text flow (float left)
+        - [x] Remove per-paragraph `clear: both` that blocks multi-paragraph wrapping
+        - [x] Keep inline images constrained to a single paragraph (clear only right floats)
 
 ## Phase 3.5: Template Visual Refinement [INCOMPLETE - FAILED]
 - [x] Task: Implement two-column layout for practice sections to improve density - a13df41

@@ -630,6 +630,43 @@
             color: var(--accent-orange);
         }
 
+        /* Article Images */
+        .article-container {
+            position: relative;
+        }
+
+        .article-image-area {
+            /* Hero images float left to wrap text across multiple paragraphs */
+            float: left;
+            width: 50%;
+            margin: 0 20px 15px 0;
+        }
+
+        .article-image-box {
+            width: 100%;
+        }
+
+        .article-image-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .article-image-caption {
+            display: block;
+            font-size: 11px;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .article-spacer {
+            clear: both;
+            height: 20px;
+        }
+
         /* Utility Classes */
         .flex {
             display: flex;
@@ -945,6 +982,19 @@
                 break-inside: avoid;
             }
 
+            .article-image-area {
+                float: left;
+                width: 50%;
+                margin: 0 15px 10px 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .article-image-box {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
             /* Ensure two-column layouts work in print */
             .practice-grid {
                 display: grid;
@@ -1139,7 +1189,7 @@
                         {{/with}}
 
                         {{text}}
-                        <div style="clear: both;"></div>
+                        <div style="clear: right;"></div>
                     </div>
                     {{/each}}
 
