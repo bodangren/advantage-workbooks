@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,19 +16,33 @@ interface ImageUploadProps {
 export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'Image' }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Clean up preview URL when component unmounts or preview changes
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Reset error
+    // Reset error and clean up previous preview
     setError(null);
+    if (previewUrl && previewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(previewUrl);
+    }
 
     // Validate file type
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
     if (!validTypes.includes(file.type)) {
       setError('Invalid file type. Please upload a JPG, PNG, GIF, or WebP image.');
+      setPreviewUrl(null);
       return;
     }
 
@@ -36,8 +50,13 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setError('File size exceeds 5MB limit.');
+      setPreviewUrl(null);
       return;
     }
+
+    // Create preview URL immediately for real-time feedback
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
 
     // Upload the file
     setUploading(true);
@@ -58,6 +77,12 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
       const data = await response.json();
       onUploadSuccess(data.url);
 
+      // Clean up preview URL after successful upload
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      setPreviewUrl(null);
+
       // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -71,6 +96,12 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
   };
 
   const handleClear = () => {
+    // Clean up preview URL
+    if (previewUrl && previewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
+
     onUploadSuccess('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -123,18 +154,33 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
         )}
       </div>
 
-      {currentUrl && (
+      {/* Show preview for either newly selected file or existing uploaded image */}
+      {(previewUrl || currentUrl) && (
         <div className="mt-2">
-          <p className="text-sm text-muted-foreground">Current: {currentUrl}</p>
-          {/* Preview image if it's a relative path */}
-          {!currentUrl.startsWith('http') && (
-            <img
-              src={`/${currentUrl}`}
-              alt="Preview"
-              className="mt-2 max-w-xs rounded border"
-              style={{ maxHeight: '200px' }}
-            />
-          )}
+          {previewUrl ? (
+            <>
+              <p className="text-sm text-muted-foreground">Preview (not yet uploaded)</p>
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="mt-2 max-w-xs rounded border"
+                style={{ maxHeight: '200px' }}
+              />
+            </>
+          ) : currentUrl ? (
+            <>
+              <p className="text-sm text-muted-foreground">Current: {currentUrl}</p>
+              {/* Preview image if it's a relative path */}
+              {!currentUrl.startsWith('http') && (
+                <img
+                  src={`/${currentUrl}`}
+                  alt="Preview"
+                  className="mt-2 max-w-xs rounded border"
+                  style={{ maxHeight: '200px' }}
+                />
+              )}
+            </>
+          ) : null}
         </div>
       )}
 
