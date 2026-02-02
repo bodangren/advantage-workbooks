@@ -177,10 +177,28 @@ describe('Enhanced Schema Fields', () => {
           url: 'images/test-image.jpg',
           caption: 'A test image',
           position: 'hero',
+          image_prompt: 'A test prompt',
         };
 
         const result = ArticleImageSchema.safeParse(image);
         expect(result.success).toBe(true);
+        if (result.success) {
+            expect(result.data.image_prompt).toBe('A test prompt');
+        }
+      });
+
+      it('should validate image object without optional image_prompt', () => {
+        const image: ArticleImage = {
+          url: 'images/test-image.jpg',
+          caption: 'A test image',
+          position: 'hero',
+        };
+
+        const result = ArticleImageSchema.safeParse(image);
+        expect(result.success).toBe(true);
+        if (result.success) {
+            expect(result.data.image_prompt).toBeUndefined();
+        }
       });
 
       it('should accept valid position values', () => {
