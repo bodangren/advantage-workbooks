@@ -20,14 +20,14 @@ const ContentQASchema = z.object({
 // Main schema for AI-generated pedagogical content
 const PedagogicalContentSchema = z.object({
     short_answer_hint: z.string().describe("Helpful hint for the short answer question"),
-    writing_plan_prompts: z.array(z.string()).length(3).describe("Exactly 3 prompts to help plan writing"),
+    writing_plan_prompts: z.array(z.string()).min(3).max(3).describe("Exactly 3 prompts to help plan writing"),
     reflection_focus: z.string().describe("Thought-provoking question or focus for reflection"),
     connection_question: z.string().describe("Question to activate background knowledge"),
     grammar_search_term: z.string().describe("CEFR-appropriate grammar challenge"),
     discussion_question: z.string().describe("Turn & Talk prompt for discussion"),
     writing_sentence_frames: z.array(z.string()).min(2).max(3).describe("2-3 sentence starters for writing"),
-    article_images: z.array(ArticleImageSuggestionSchema).describe("Suggested images with prompts"),
-    content_qa: ContentQASchema.optional().describe("Issues found in existing activities"),
+    article_images: z.array(ArticleImageSuggestionSchema).min(1).describe("Suggested images with prompts (must include at least hero image)"),
+    content_qa: z.union([ContentQASchema, z.string()]).optional().describe("Issues found in existing activities (object or string)"),
 });
 
 export async function augmentLesson(lesson: WorkbookLesson, apiKey: string): Promise<WorkbookLesson> {
@@ -60,18 +60,25 @@ Short Answer Question: ${lesson.short_answer_question}
 Writing Prompt: ${lesson.writing_prompt}
 ${contentQASection ? `\n=== CONTENT QA SECTION ===\nReview the following activities and identify any issues (incorrect answers, unclear instructions, vocabulary not from article, etc.):${contentQASection}` : ''}
 
-Generate:
-1. **connection_question**: A pre-reading question to activate background knowledge (What do you know about...?)
-2. **grammar_search_term**: A CEFR-${lesson.cefr_level || 'B1'} appropriate grammar pattern from the text (e.g., "Find a sentence using 'will' for future tense")
-3. **discussion_question**: An open-ended question for partner discussion about the article's theme
-4. **short_answer_hint**: Guide students to the relevant paragraph without giving the answer
-5. **writing_sentence_frames**: 2-3 sentence starters that scaffold the writing prompt
-6. **writing_plan_prompts**: Exactly 3 specific planning questions related to the writing prompt
-7. **reflection_focus**: A thought-provoking reflection question about the lesson's theme
-8. **article_images**: Suggest 2-3 images with detailed AI generation prompts. MUST include 'hero' position. Use 'inline-para-N' for mid-article images.
-${contentQASection ? `9. **content_qa**: Review the activities above and list any issues found (wrong answers, unclear items, etc.)` : ''}
+Generate the following fields:
+1. connection_question (string): A pre-reading question to activate background knowledge
+2. grammar_search_term (string): A CEFR-${lesson.cefr_level || 'B1'} appropriate grammar pattern from the text
+3. discussion_question (string): An open-ended question for partner discussion
+4. short_answer_hint (string): Guide students to the relevant paragraph
+5. writing_sentence_frames (array of 2-3 strings): Sentence starters to scaffold writing
+6. writing_plan_prompts (array of exactly 3 strings): Planning questions for writing
+7. reflection_focus (string): A thought-provoking reflection question
+8. article_images (array of objects): Each object must have:
+   - position (string): 'hero', 'inline-para-1', 'inline-para-2', etc.
+   - caption (string): Short engaging caption
+   - image_prompt (string): Detailed AI image generation prompt
+   MUST include at least 1 image with position 'hero'.
+${contentQASection ? `9. content_qa (object or omit): Only if issues found:
+   - vocab_match_issues (array of strings)
+   - vocab_fill_issues (array of strings)
+   - sentence_order_issues (array of strings)` : ''}
 
-Return structured JSON matching the schema.
+IMPORTANT: Return valid JSON with proper structure for arrays and objects.
     `;
 
     const response = await ai.models.generateContent({
@@ -83,10 +90,20 @@ Return structured JSON matching the schema.
         },
     });
 
-    const generatedData = PedagogicalContentSchema.parse(JSON.parse(response.text));
+    // Parse and validate the response
+    const responseJson = JSON.parse(response.text);
+    const validationResult = PedagogicalContentSchema.safeParse(responseJson);
+
+    if (!validationResult.success) {
+        console.error("AI Response validation failed:", validationResult.error);
+        console.error("Raw response:", JSON.stringify(responseJson, null, 2));
+        throw new Error(`Invalid AI response: ${validationResult.error.message}`);
+    }
+
+    const generatedData = validationResult.data;
 
     // Log Content QA issues if found
-    if (generatedData.content_qa) {
+    if (generatedData.content_qa && typeof generatedData.content_qa === 'object') {
         const { vocab_match_issues, vocab_fill_issues, sentence_order_issues } = generatedData.content_qa;
         if (vocab_match_issues?.length || vocab_fill_issues?.length || sentence_order_issues?.length) {
             console.warn("Content QA Issues Found:");
