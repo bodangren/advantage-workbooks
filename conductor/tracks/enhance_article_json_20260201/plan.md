@@ -109,11 +109,11 @@
     - [ ] Generate `short_answer_hint` based on short_answer_question
     - [ ] Generate `writing_plan_prompts` based on writing_prompt
     - [ ] Generate `reflection_focus` based on article content
-- [ ] Task: Add image prompt generation (if using nanobanana)
-    - [ ] Generate image prompts from paragraphs
-    - [ ] Integrate with nanobanana API
-    - [ ] Save images to project folders
-    - [ ] Update JSON with image paths
+- [x] Task: Add image prompt generation (if using nanobanana) - 962009d
+    - [x] Generate image prompts from paragraphs
+    - [~] Integrate with nanobanana API (Prompts generated, API integration deferred)
+    - [ ] Save images to project folders (Manual step for now)
+    - [ ] Update JSON with image paths (Manual step for now)
 
 ## Phase 8: Testing & Verification
 - [ ] Task: Create tests for new schema fields
