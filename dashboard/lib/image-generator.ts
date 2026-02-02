@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { GoogleGenAI } from '@google/genai';
 
 export interface ImageGenerationRequest {
   prompt: string;
@@ -13,67 +14,53 @@ export interface ImageGenerationResult {
 }
 
 /**
- * Generate an image using an AI image generation service and save it to the project
+ * Generate an image using Google Gemini's Nano Banana (native image generation)
  *
- * NOTE: This function uses a placeholder implementation. In production, integrate with:
- * - Google Vertex AI Imagen API: https://cloud.google.com/vertex-ai/docs/generative-ai/image/generate-images
- * - Stability AI: https://platform.stability.ai/
- * - DALL-E: https://platform.openai.com/docs/guides/images
- * - Or another image generation service
- *
- * For now, this stores the prompt and creates a placeholder image file.
+ * Uses gemini-2.5-flash-image model for fast, efficient image generation.
+ * All generated images include a SynthID watermark.
  */
 export async function generateImage(
   request: ImageGenerationRequest,
   apiKey: string
 ): Promise<ImageGenerationResult> {
-  // TODO: Integrate with actual image generation API
-  // Example Vertex AI Imagen integration:
-  /*
-  const vertex_ai = require('@google-cloud/aiplatform');
-  const {PredictionServiceClient} = vertex_ai.v1;
-  const {helpers} = vertex_ai;
+  const ai = new GoogleGenAI({ apiKey });
 
-  const client = new PredictionServiceClient({apiEndpoint: 'us-central1-aiplatform.googleapis.com'});
+  const imageModel = process.env.GEMINI_IMAGE_MODEL || 'gemini-2.5-flash-image';
 
-  const prompt = {
-    prompt: request.prompt,
-  };
-
-  const instanceValue = helpers.toValue(prompt);
-  const instances = [instanceValue];
-
-  const parameter = {
-    sampleCount: 1,
-  };
-  const parameters = helpers.toValue(parameter);
-
-  const endpoint = `projects/${projectId}/locations/us-central1/publishers/google/models/imagegeneration@002`;
-
-  const [response] = await client.predict({
-    endpoint,
-    instances,
-    parameters,
+  // Generate image using Nano Banana
+  const response = await ai.models.generateContent({
+    model: imageModel,
+    contents: request.prompt,
   });
 
-  const imageData = response.predictions[0].bytesBase64Encoded;
-  */
+  // Extract image data from response
+  let imageData: string | undefined;
+  for (const part of response.candidates[0].content.parts) {
+    if (part.inlineData) {
+      imageData = part.inlineData.data;
+      break;
+    }
+  }
 
-  // Placeholder implementation - store prompt and create a reference
+  if (!imageData) {
+    throw new Error('No image data returned from Nano Banana API');
+  }
+
+  // Save the generated image
   const timestamp = Date.now();
-  const filename = `visual-break-${timestamp}.txt`;
+  const filename = `visual-break-${timestamp}.png`;
   const projectDir = path.join(process.cwd(), 'public', 'projects', request.projectId, 'images');
 
   // Ensure directory exists
   await fs.mkdir(projectDir, { recursive: true });
 
-  // Save the prompt as a placeholder
+  // Decode base64 and save as PNG
+  const buffer = Buffer.from(imageData, 'base64');
   const filePath = path.join(projectDir, filename);
-  await fs.writeFile(filePath, `Image Prompt:\n\n${request.prompt}\n\nTODO: Integrate with image generation API`);
+  await fs.writeFile(filePath, buffer);
 
-  // Return a placeholder URL
-  // In production, this would be the actual generated image URL
-  const url = `projects/${request.projectId}/images/placeholder-visual-break.png`;
+  // Return the URL path (relative to public directory)
+  const url = `projects/${request.projectId}/images/${filename}`;
 
   return {
     url,

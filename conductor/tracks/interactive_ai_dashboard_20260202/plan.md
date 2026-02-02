@@ -30,9 +30,11 @@
 - [x] Task: Implement Context-Aware Prompt Generation 09bc753
     - [x] Input: Title + Full Article + Writing Prompt
     - [x] Output: Editable text prompt
-- [x] Task: Integrate Pixel Generation 09bc753
-    - [x] Create "Create Image" button calling image generation API
-    - [x] Implement auto-saving of generated images (placeholder ready for API integration)
+- [~] Task: Integrate Pixel Generation (INCOMPLETE - was placeholder only)
+    - [x] Create "Create Image" button calling image generation API 09bc753
+    - [ ] Implement actual Nano Banana integration (was TODO/placeholder)
+    - [ ] Update environment variables to use correct model name
+    - [ ] Test end-to-end with real image generation
 
 ## Phase 5: Template & Visual Refinement
 - [x] Task: Update `workbook_template.html` for Pedagogical Connectors 14a718b
@@ -41,10 +43,29 @@
     - [x] Render `discussion_question` as a sidebar/margin call-out (after Step 7)
     - [x] Render `writing_sentence_frames` in Step 11 (Writing Practice) planning box
 
+## Phase 4b: ACTUAL Nano Banana Image Generation Implementation
+- [x] Task: Investigation and root cause analysis
+    - [x] Document what was actually implemented vs. claimed
+    - [x] Identify placeholder code that needs replacement
+- [x] Task: Implement real Nano Banana integration
+    - [x] Update .env.local to use gemini-2.5-flash-image
+    - [x] Replace placeholder generateImage() with actual API calls
+    - [x] Use @google/genai SDK to call Nano Banana
+    - [x] Process response to extract base64 image data
+    - [x] Save actual PNG files (not text placeholders)
+- [ ] Task: Test actual image generation end-to-end
+    - [ ] Verify images are generated successfully
+    - [ ] Verify images are saved to correct location
+    - [ ] Verify images display in lesson editor
+    - [ ] Verify images render in workbook template
+
 ## Phase 6: Verification & Testing
 - [x] Task: Unit tests for schema and AI logic
     - [x] pedagogical-schema.test.ts: 4/4 tests passing
     - [x] ai-augmentor.test.ts: 6/6 tests passing
     - [x] image-upload-component.test.ts: 6/6 tests passing
     - [x] All test suites: 9 files, 90 tests passing
-- [x] Task: Manual end-to-end verification (Ready for user testing)
+- [ ] Task: Manual end-to-end verification (BLOCKED: image generation was not implemented)
+    - [ ] Test image generation workflow
+    - [ ] Verify all pedagogical fields work correctly
+    - [ ] Generate complete workbook with all features
