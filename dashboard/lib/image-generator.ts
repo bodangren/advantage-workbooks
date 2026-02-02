@@ -47,8 +47,7 @@ export async function generateImage(
   }
 
   // Save the generated image
-  const timestamp = Date.now();
-  const filename = `visual-break-${timestamp}.png`;
+  const filename = `${request.lessonId}-visual-break.png`;
   const projectDir = path.join(process.cwd(), 'public', 'projects', request.projectId, 'images');
 
   // Ensure directory exists
