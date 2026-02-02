@@ -43,21 +43,26 @@
     - [x] Render `discussion_question` as a sidebar/margin call-out (after Step 7)
     - [x] Render `writing_sentence_frames` in Step 11 (Writing Practice) planning box
 
-## Phase 4b: ACTUAL Nano Banana Image Generation Implementation
-- [x] Task: Investigation and root cause analysis
+## Phase 4b: ACTUAL Nano Banana Image Generation Implementation [checkpoint: 452aa5a]
+- [x] Task: Investigation and root cause analysis 596dea4
     - [x] Document what was actually implemented vs. claimed
     - [x] Identify placeholder code that needs replacement
-- [x] Task: Implement real Nano Banana integration
+- [x] Task: Implement real Nano Banana integration 596dea4
     - [x] Update .env.local to use gemini-2.5-flash-image
     - [x] Replace placeholder generateImage() with actual API calls
     - [x] Use @google/genai SDK to call Nano Banana
     - [x] Process response to extract base64 image data
     - [x] Save actual PNG files (not text placeholders)
-- [ ] Task: Test actual image generation end-to-end
-    - [ ] Verify images are generated successfully
-    - [ ] Verify images are saved to correct location
-    - [ ] Verify images display in lesson editor
-    - [ ] Verify images render in workbook template
+- [x] Task: Bug fixes and refinements 860f5db, 18218ba, 452aa5a
+    - [x] Use lesson ID in filename for better organization
+    - [x] Add leading slash to image URL for Next.js
+    - [x] Fix ImageUpload double-slash URL bug
+    - [x] Right-float image in template with text wrap
+- [x] Task: Test actual image generation end-to-end
+    - [x] Verify images are generated successfully
+    - [x] Verify images are saved to correct location
+    - [x] Verify images display in lesson editor
+    - [x] Verify images render in workbook template
 
 ## Phase 6: Verification & Testing
 - [x] Task: Unit tests for schema and AI logic
@@ -65,7 +70,8 @@
     - [x] ai-augmentor.test.ts: 6/6 tests passing
     - [x] image-upload-component.test.ts: 6/6 tests passing
     - [x] All test suites: 9 files, 90 tests passing
-- [ ] Task: Manual end-to-end verification (BLOCKED: image generation was not implemented)
-    - [ ] Test image generation workflow
-    - [ ] Verify all pedagogical fields work correctly
-    - [ ] Generate complete workbook with all features
+- [x] Task: Manual end-to-end verification
+    - [x] Test image generation workflow
+    - [x] Verify all pedagogical fields work correctly
+    - [x] Generate complete workbook with all features
+    - [x] Confirm images display in editor and print preview
