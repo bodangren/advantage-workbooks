@@ -499,6 +499,54 @@ export default function LessonEditor({ params }: LessonEditorProps) {
 
       <Card>
         <CardHeader>
+          <CardTitle>Pedagogical Connectors</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="connection_question">Connection Question</Label>
+            <Textarea
+              id="connection_question"
+              value={lesson.connection_question || ''}
+              onChange={(e) => setLesson({ ...lesson, connection_question: e.target.value })}
+              rows={2}
+              placeholder="Question connecting article to student's life or experience..."
+            />
+            <p className="text-xs text-muted-foreground">
+              Helps students connect the article content to their own experiences
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="grammar_search_term">Grammar Search Term</Label>
+            <Input
+              id="grammar_search_term"
+              value={lesson.grammar_search_term || ''}
+              onChange={(e) => setLesson({ ...lesson, grammar_search_term: e.target.value })}
+              placeholder="e.g., simple past, present perfect..."
+            />
+            <p className="text-xs text-muted-foreground">
+              Grammar pattern for students to identify in the article (CEFR-aware)
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="discussion_question">Discussion Question</Label>
+            <Textarea
+              id="discussion_question"
+              value={lesson.discussion_question || ''}
+              onChange={(e) => setLesson({ ...lesson, discussion_question: e.target.value })}
+              rows={2}
+              placeholder="Open-ended question for class discussion..."
+            />
+            <p className="text-xs text-muted-foreground">
+              Thought-provoking question for deeper engagement with the topic
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle>Comprehension Questions</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -584,6 +632,53 @@ export default function LessonEditor({ params }: LessonEditorProps) {
                Enter as JSON array of strings
              </p>
            </div>
+
+           <div className="space-y-2">
+             <Label htmlFor="writing_sentence_frames">Writing Sentence Frames</Label>
+             <Textarea
+               id="writing_sentence_frames"
+               value={JSON.stringify(lesson.writing_sentence_frames || [])}
+               onChange={(e) => {
+                 try {
+                   const parsed = JSON.parse(e.target.value);
+                   setLesson({ ...lesson, writing_sentence_frames: parsed });
+                 } catch (err) {
+                   console.error('Invalid JSON:', err);
+                 }
+               }}
+               rows={3}
+               className="font-mono text-sm"
+               placeholder='["First, I will...", "Then, I will..."]'
+             />
+             <p className="text-xs text-muted-foreground">
+               Sentence starters to scaffold student writing (JSON array)
+             </p>
+           </div>
+
+           <ImageUpload
+             projectId={decodedProjectId}
+             currentUrl={lesson.article_images?.find(img => img.position === 'writing-prompt')?.url || ''}
+             onUploadSuccess={(url) => {
+               const existingImages = lesson.article_images || [];
+               const writingPromptImageIndex = existingImages.findIndex(img => img.position === 'writing-prompt');
+
+               if (url === '') {
+                 // Remove the visual break image if cleared
+                 const newImages = existingImages.filter(img => img.position !== 'writing-prompt');
+                 setLesson({ ...lesson, article_images: newImages });
+               } else if (writingPromptImageIndex >= 0) {
+                 // Update existing visual break image
+                 const newImages = [...existingImages];
+                 newImages[writingPromptImageIndex].url = url;
+                 setLesson({ ...lesson, article_images: newImages });
+               } else {
+                 // Add new visual break image
+                 const newImages = [...existingImages, { url, caption: '', position: 'writing-prompt' as const }];
+                 setLesson({ ...lesson, article_images: newImages });
+               }
+             }}
+             label="Visual Break Image"
+           />
          </CardContent>
        </Card>
 
