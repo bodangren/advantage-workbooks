@@ -29,7 +29,7 @@ export default function PreviewPage({ params }: PreviewPageProps) {
           const renderResponse = await fetch('/api/render', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(lesson),
+            body: JSON.stringify({ lesson, projectId }),
           });
           if (renderResponse.ok) {
             const { html } = await renderResponse.json();

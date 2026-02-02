@@ -102,7 +102,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
       const response = await fetch('/api/render', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(lessonForPreview),
+        body: JSON.stringify({ lesson: lessonForPreview, projectId }),
         signal: abortControllerRef.current.signal,
       });
 
