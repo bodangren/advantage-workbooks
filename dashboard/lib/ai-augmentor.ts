@@ -26,7 +26,7 @@ const PedagogicalContentSchema = z.object({
     grammar_search_term: z.string().describe("CEFR-appropriate grammar challenge"),
     discussion_question: z.string().describe("Turn & Talk prompt for discussion"),
     writing_sentence_frames: z.array(z.string()).min(2).max(3).describe("2-3 sentence starters for writing"),
-    article_images: z.array(ArticleImageSuggestionSchema).optional().describe("Suggested supplementary images with prompts (optional)"),
+    // Note: article_images removed - user already has hero image via article_image_url
     content_qa: z.union([ContentQASchema, z.string()]).optional().describe("Issues found in existing activities (object or string)"),
 });
 
@@ -68,17 +68,12 @@ Generate the following fields:
 5. writing_sentence_frames (array of 2-3 strings): Sentence starters to scaffold writing
 6. writing_plan_prompts (array of exactly 3 strings): Planning questions for writing
 7. reflection_focus (string): A thought-provoking reflection question
-8. article_images (array of objects, optional): Suggest 0-2 SUPPLEMENTARY images only if they would enhance understanding. Each object has:
-   - position (string): 'inline-para-1', 'inline-para-2', 'vocabulary', or 'writing-prompt' (NOT 'hero' - that already exists)
-   - caption (string): Short engaging caption
-   - image_prompt (string): Detailed AI image generation prompt
-   Leave empty array [] if no supplementary images needed.
-${contentQASection ? `9. content_qa (object or omit): Only if issues found:
+${contentQASection ? `8. content_qa (object or omit): Only if issues found:
    - vocab_match_issues (array of strings)
    - vocab_fill_issues (array of strings)
    - sentence_order_issues (array of strings)` : ''}
 
-IMPORTANT: Return valid JSON with proper structure for arrays and objects.
+IMPORTANT: Return valid JSON matching the schema exactly.
     `;
 
     const response = await ai.models.generateContent({
@@ -113,15 +108,6 @@ IMPORTANT: Return valid JSON with proper structure for arrays and objects.
         }
     }
 
-    // Preserve existing article_images and optionally add AI suggestions
-    const existingImages = lesson.article_images || [];
-    const suggestedImages = generatedData.article_images?.map(img => ({
-        url: "", // Placeholder - will be filled by image generation later
-        caption: img.caption,
-        position: img.position,
-        image_prompt: img.image_prompt,
-    })) || [];
-
     return {
         ...lesson,
         short_answer_hint: generatedData.short_answer_hint,
@@ -131,7 +117,6 @@ IMPORTANT: Return valid JSON with proper structure for arrays and objects.
         grammar_search_term: generatedData.grammar_search_term,
         discussion_question: generatedData.discussion_question,
         writing_sentence_frames: generatedData.writing_sentence_frames,
-        // Only add new suggestions if they don't conflict with existing positions
-        article_images: existingImages.length > 0 ? existingImages : suggestedImages,
+        // Note: article_images preserved from original lesson - not modified by AI
     };
 }

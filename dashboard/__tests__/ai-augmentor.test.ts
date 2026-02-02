@@ -48,7 +48,6 @@ describe('augmentLesson', () => {
       grammar_search_term: 'Find a verb',
       discussion_question: 'Discuss the topic',
       writing_sentence_frames: ['I think...', 'Another point...'],
-      article_images: [],
     });
 
     mockGenerateContent.mockResolvedValue({
@@ -65,7 +64,18 @@ describe('augmentLesson', () => {
     expect(augmented.reflection_focus).toBe('Think about the characters.');
   });
 
-  it('should generate article_images with prompts', async () => {
+  it('should preserve existing article_images', async () => {
+    const lessonWithImages: WorkbookLesson = {
+      ...mockLesson,
+      article_images: [
+        {
+          url: 'images/existing.jpg',
+          caption: 'Existing Image',
+          position: 'inline-para-1',
+        }
+      ],
+    };
+
     const mockResponseText = JSON.stringify({
       short_answer_hint: 'Hint',
       writing_plan_prompts: ['A', 'B', 'C'],
@@ -74,32 +84,18 @@ describe('augmentLesson', () => {
       grammar_search_term: 'Find verb',
       discussion_question: 'Discuss?',
       writing_sentence_frames: ['Start 1', 'Start 2'],
-      article_images: [
-        {
-          position: 'hero',
-          caption: 'Hero Image',
-          image_prompt: 'A beautiful hero image'
-        },
-        {
-          position: 'inline-para-1',
-          caption: 'Inline Image',
-          image_prompt: 'An inline image'
-        }
-      ]
     });
 
     mockGenerateContent.mockResolvedValue({
       text: mockResponseText,
     });
 
-    const augmented = await augmentLesson(mockLesson, 'fake-api-key');
+    const augmented = await augmentLesson(lessonWithImages, 'fake-api-key');
 
+    // Should preserve existing article_images
     expect(augmented.article_images).toBeDefined();
-    expect(augmented.article_images).toHaveLength(2);
-    expect(augmented.article_images![0].image_prompt).toBe('A beautiful hero image');
-    expect(augmented.article_images![0].position).toBe('hero');
-    // Ensure URL is handled (empty string default if not provided by AI, or handled by augmentLesson)
-    expect(augmented.article_images![0].url).toBe('');
+    expect(augmented.article_images).toHaveLength(1);
+    expect(augmented.article_images![0].url).toBe('images/existing.jpg');
   });
 
   it('should generate pedagogical connectors', async () => {
@@ -111,7 +107,6 @@ describe('augmentLesson', () => {
       grammar_search_term: 'Find verb',
       discussion_question: 'Discuss?',
       writing_sentence_frames: ['Start 1', 'Start 2'],
-      article_images: [],
     });
 
     mockGenerateContent.mockResolvedValue({
@@ -137,7 +132,6 @@ describe('augmentLesson', () => {
       grammar_search_term: 'Find verb',
       discussion_question: 'Discuss?',
       writing_sentence_frames: ['Start 1', 'Start 2'],
-      article_images: [],
     });
 
     mockGenerateContent.mockResolvedValue({ text: mockResponseText });
@@ -178,7 +172,6 @@ describe('augmentLesson', () => {
       grammar_search_term: 'Find verb',
       discussion_question: 'Discuss?',
       writing_sentence_frames: ['Start 1', 'Start 2'],
-      article_images: [],
       content_qa: {
         vocab_match_issues: ['Definition for "test" is too vague'],
       },
