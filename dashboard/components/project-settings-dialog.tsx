@@ -30,41 +30,47 @@ interface ProjectSettingsDialogProps {
   projectId: string;
 }
 
-const SERIES_OPTIONS = [
-  { value: 'Origins', label: 'Origins (A1)' },
-  { value: 'Quest', label: 'Quest (A2)' },
-  { value: 'Adventure', label: 'Adventure (B1)' },
-  { value: 'Hero', label: 'Hero (B2)' },
-  { value: 'Legend', label: 'Legend (C1)' },
-];
-
+// Exact mapping from v1
 const LEVEL_OPTIONS = [
-  '3.1', '3.2', '3.3',
-  '4.1', '4.2', '4.3',
-  '5.1', '5.2', '5.3',
-  '6.1', '6.2', '6.3',
-  '7.1', '7.2', '7.3',
-  '8.1', '8.2', '8.3',
-  '9.1', '9.2', '9.3',
-  '10.1', '10.2', '10.3',
-  '11.1', '11.2', '11.3',
-  '12.1', '12.2', '12.3',
-  '13.1', '13.2', '13.3',
-  '14.1', '14.2', '14.3',
-  '15.1', '15.2', '15.3',
+  { value: '1', series: 'Origins', cefr: 'A1', label: '1 - Origins' },
+  { value: '2', series: 'Origins', cefr: 'A1', label: '2 - Origins' },
+  { value: '3.1', series: 'Origins', cefr: 'A1', label: '3.1 - Origins' },
+  { value: '3.2', series: 'Origins', cefr: 'A1', label: '3.2 - Origins' },
+  { value: '4', series: 'Quest', cefr: 'A2', label: '4 - Quest' },
+  { value: '5', series: 'Quest', cefr: 'A2', label: '5 - Quest' },
+  { value: '6.1', series: 'Quest', cefr: 'A2', label: '6.1 - Quest' },
+  { value: '6.2', series: 'Quest', cefr: 'A2', label: '6.2 - Quest' },
+  { value: '7.1', series: 'Adventure', cefr: 'B1', label: '7.1 - Adventure' },
+  { value: '7.2', series: 'Adventure', cefr: 'B1', label: '7.2 - Adventure' },
+  { value: '8.1', series: 'Adventure', cefr: 'B1', label: '8.1 - Adventure' },
+  { value: '8.2', series: 'Adventure', cefr: 'B1', label: '8.2 - Adventure' },
+  { value: '8.3', series: 'Adventure', cefr: 'B1', label: '8.3 - Adventure' },
+  { value: '9.1', series: 'Adventure', cefr: 'B1', label: '9.1 - Adventure' },
+  { value: '9.2', series: 'Adventure', cefr: 'B1', label: '9.2 - Adventure' },
+  { value: '9.3', series: 'Adventure', cefr: 'B1', label: '9.3 - Adventure' },
+  { value: '10.1', series: 'Hero', cefr: 'B2', label: '10.1 - Hero' },
+  { value: '10.2', series: 'Hero', cefr: 'B2', label: '10.2 - Hero' },
+  { value: '11.1', series: 'Hero', cefr: 'B2', label: '11.1 - Hero' },
+  { value: '11.2', series: 'Hero', cefr: 'B2', label: '11.2 - Hero' },
+  { value: '11.3', series: 'Hero', cefr: 'B2', label: '11.3 - Hero' },
+  { value: '12.1', series: 'Hero', cefr: 'B2', label: '12.1 - Hero' },
+  { value: '12.2', series: 'Hero', cefr: 'B2', label: '12.2 - Hero' },
+  { value: '12.3', series: 'Hero', cefr: 'B2', label: '12.3 - Hero' },
+  { value: '13.1', series: 'Legend', cefr: 'C1', label: '13.1 - Legend' },
+  { value: '13.2', series: 'Legend', cefr: 'C1', label: '13.2 - Legend' },
+  { value: '14.1', series: 'Legend', cefr: 'C1', label: '14.1 - Legend' },
+  { value: '14.2', series: 'Legend', cefr: 'C1', label: '14.2 - Legend' },
+  { value: '14.3', series: 'Legend', cefr: 'C1', label: '14.3 - Legend' },
+  { value: '15.1', series: 'Legend', cefr: 'C1', label: '15.1 - Legend' },
+  { value: '15.2', series: 'Legend', cefr: 'C1', label: '15.2 - Legend' },
+  { value: '15.3', series: 'Legend', cefr: 'C1', label: '15.3 - Legend' },
 ];
-
-const CEFR_OPTIONS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [metadata, setMetadata] = useState<ProjectMetadata>({
-    seriesName: 'Origins',
-    levelNumber: '3.1',
-    cefrLevel: 'A1',
-  });
+  const [selectedLevel, setSelectedLevel] = useState('3.1');
 
   useEffect(() => {
     if (open) {
@@ -78,7 +84,13 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
       const response = await fetch(`/api/projects/${projectId}/metadata`);
       if (response.ok) {
         const data = await response.json();
-        setMetadata(data);
+        // Find the matching level option
+        const option = LEVEL_OPTIONS.find(
+          opt => opt.value === data.levelNumber
+        );
+        if (option) {
+          setSelectedLevel(data.levelNumber);
+        }
       }
     } catch (error) {
       console.error('Failed to load metadata:', error);
@@ -90,6 +102,15 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
   const handleSave = async () => {
     setSaving(true);
     try {
+      const selectedOption = LEVEL_OPTIONS.find(opt => opt.value === selectedLevel);
+      if (!selectedOption) return;
+
+      const metadata: ProjectMetadata = {
+        seriesName: selectedOption.series,
+        levelNumber: selectedOption.value,
+        cefrLevel: selectedOption.cefr,
+      };
+
       const response = await fetch(`/api/projects/${projectId}/metadata`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -98,7 +119,6 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
 
       if (response.ok) {
         setOpen(false);
-        // Optionally trigger a refresh of the parent component
         window.location.reload();
       } else {
         console.error('Failed to save metadata');
@@ -109,6 +129,8 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
       setSaving(false);
     }
   };
+
+  const selectedOption = LEVEL_OPTIONS.find(opt => opt.value === selectedLevel);
 
   return (
     <>
@@ -122,8 +144,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
           <DialogHeader>
             <DialogTitle>Workbook Settings</DialogTitle>
             <DialogDescription>
-              Configure the series name, level, and CEFR level for this workbook.
-              This will appear in the lesson headers.
+              Select the workbook level. The series name and CEFR level are automatically determined.
             </DialogDescription>
           </DialogHeader>
 
@@ -134,18 +155,16 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
           ) : (
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="seriesName">Series Name</Label>
+                <Label htmlFor="level">Workbook Level</Label>
                 <Select
-                  value={metadata.seriesName}
-                  onValueChange={(value) =>
-                    setMetadata({ ...metadata, seriesName: value })
-                  }
+                  value={selectedLevel}
+                  onValueChange={setSelectedLevel}
                 >
-                  <SelectTrigger id="seriesName">
-                    <SelectValue placeholder="Select series" />
+                  <SelectTrigger id="level">
+                    <SelectValue placeholder="Select level" />
                   </SelectTrigger>
                   <SelectContent>
-                    {SERIES_OPTIONS.map((option) => (
+                    {LEVEL_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -154,52 +173,19 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
                 </Select>
               </div>
 
-              <div className="grid gap-2">
-                <Label htmlFor="levelNumber">Level Number</Label>
-                <Select
-                  value={metadata.levelNumber}
-                  onValueChange={(value) =>
-                    setMetadata({ ...metadata, levelNumber: value })
-                  }
-                >
-                  <SelectTrigger id="levelNumber">
-                    <SelectValue placeholder="Select level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {LEVEL_OPTIONS.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="cefrLevel">CEFR Level</Label>
-                <Select
-                  value={metadata.cefrLevel}
-                  onValueChange={(value) =>
-                    setMetadata({ ...metadata, cefrLevel: value })
-                  }
-                >
-                  <SelectTrigger id="cefrLevel">
-                    <SelectValue placeholder="Select CEFR level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CEFR_OPTIONS.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="text-sm text-muted-foreground">
-                <strong>Preview:</strong> Reading Advantage • {metadata.seriesName}{' '}
-                {metadata.levelNumber} • {metadata.cefrLevel}
-              </div>
+              {selectedOption && (
+                <div className="rounded-lg border p-3 space-y-1">
+                  <div className="text-sm">
+                    <span className="font-medium">Series:</span> {selectedOption.series}
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-medium">CEFR Level:</span> {selectedOption.cefr}
+                  </div>
+                  <div className="text-sm font-medium text-primary mt-2">
+                    Header will show: Reading Advantage • {selectedOption.series} {selectedOption.value} • {selectedOption.cefr}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
