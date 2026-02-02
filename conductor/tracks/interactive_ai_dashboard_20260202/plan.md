@@ -6,7 +6,7 @@
     - [ ] Add `grammar_search_term` (optional string)
     - [ ] Add `discussion_question` (optional string)
     - [ ] Add `writing_sentence_frames` (optional array of strings)
-- [ ] Task: Update `.env.local` and AI utilities
+- [x] Task: Update `.env.local` and AI utilities 2c3f928
     - [ ] Add `GEMINI_TEXT_MODEL` and `GEMINI_IMAGE_MODEL` to `.env.local`
     - [ ] Refactor `augmentLesson` to use environment variables and new pedagogical fields
 
