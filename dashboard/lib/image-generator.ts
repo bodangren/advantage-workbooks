@@ -23,43 +23,59 @@ export async function generateImage(
   request: ImageGenerationRequest,
   apiKey: string
 ): Promise<ImageGenerationResult> {
+  console.log('[generateImage] Starting image generation for:', request.lessonId);
+  console.log('[generateImage] Prompt length:', request.prompt.length);
+
   const ai = new GoogleGenAI({ apiKey });
 
   const imageModel = process.env.GEMINI_IMAGE_MODEL || 'gemini-2.5-flash-image';
+  console.log('[generateImage] Using model:', imageModel);
 
   // Generate image using Nano Banana
+  console.log('[generateImage] Calling Nano Banana API...');
   const response = await ai.models.generateContent({
     model: imageModel,
     contents: request.prompt,
   });
+  console.log('[generateImage] API response received');
 
   // Extract image data from response
   let imageData: string | undefined;
+  console.log('[generateImage] Response has', response.candidates?.length, 'candidates');
   for (const part of response.candidates[0].content.parts) {
+    console.log('[generateImage] Checking part:', part.inlineData ? 'has inlineData' : 'no inlineData');
     if (part.inlineData) {
       imageData = part.inlineData.data;
+      console.log('[generateImage] Found image data, length:', imageData?.length);
       break;
     }
   }
 
   if (!imageData) {
+    console.error('[generateImage] No image data found in response');
     throw new Error('No image data returned from Nano Banana API');
   }
 
   // Save the generated image
   const filename = `${request.lessonId}-visual-break.png`;
   const projectDir = path.join(process.cwd(), 'public', 'projects', request.projectId, 'images');
+  console.log('[generateImage] Saving to directory:', projectDir);
 
   // Ensure directory exists
   await fs.mkdir(projectDir, { recursive: true });
+  console.log('[generateImage] Directory created/verified');
 
   // Decode base64 and save as PNG
   const buffer = Buffer.from(imageData, 'base64');
   const filePath = path.join(projectDir, filename);
+  console.log('[generateImage] Writing file:', filePath);
+  console.log('[generateImage] File size:', buffer.length, 'bytes');
   await fs.writeFile(filePath, buffer);
+  console.log('[generateImage] File saved successfully');
 
   // Return the URL path (relative to public directory)
   const url = `/projects/${request.projectId}/images/${filename}`;
+  console.log('[generateImage] Returning URL:', url);
 
   return {
     url,
