@@ -1616,17 +1616,16 @@
                     <p class="prompt-text">
                         {{writing_prompt}}
                     </p>
-                    {{#if images_writing_prompt.length}}
-                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                        {{#each images_writing_prompt}}
-                        <div class="article-image-box" style="width: 45%;">
-                            <img src="{{url}}" alt="{{caption}}">
-                            <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
-                        </div>
-                        {{/each}}
-                    </div>
-                    {{/if}}
                 </div>
+
+                {{#if images_writing_prompt.length}}
+                    {{#each images_writing_prompt}}
+                    <div class="article-image-box" style="float: right; margin: 0 0 15px 15px; width: 40%; max-width: 250px;">
+                        <img src="{{url}}" alt="{{caption}}">
+                        <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                    </div>
+                    {{/each}}
+                {{/if}}
 
                 <div class="planning-area">
                     <div class="prompt-label" style="color: var(--accent-purple);">📝 Plan Your Writing</div>

@@ -173,7 +173,7 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
               {/* Preview image if it's a relative path */}
               {!currentUrl.startsWith('http') && (
                 <img
-                  src={`/${currentUrl}`}
+                  src={currentUrl.startsWith('/') ? currentUrl : `/${currentUrl}`}
                   alt="Preview"
                   className="mt-2 max-w-xs rounded border"
                   style={{ maxHeight: '200px' }}
