@@ -32,7 +32,7 @@
         body {
             font-family: 'Merriweather', serif; /* Switch to Serif for main body */
             color: var(--text-dark);
-            background: #555;
+            background: white;
             line-height: 1.7; /* Comfortable reading height */
             padding: 20px;
         }
@@ -52,8 +52,44 @@
         /* ... */
 
         .section-header {
-            /* ... */
-            font-family: 'Open Sans', sans-serif; /* Sans for structural headers */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-family: 'Open Sans', sans-serif;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .section-time {
+            font-size: 12px;
+            color: var(--text-medium);
+            font-weight: 600;
         }
 
         /* ... */
@@ -63,6 +99,7 @@
             font-family: 'Merriweather', serif;
             font-size: 15px; /* Slightly larger for readability */
             line-height: 2.0; /* Generous spacing */
+            overflow: auto; /* Create block formatting context to respect floated hero image */
             /* ... */
         }
 
@@ -478,6 +515,18 @@
             margin-bottom: 8px;
         }
 
+        .writing-line {
+            border-bottom: 1px solid var(--border-medium);
+            min-height: 24px;
+            margin: 8px 0;
+        }
+
+        .writing-line-small {
+            border-bottom: 1px solid var(--border-light);
+            min-height: 20px;
+            margin: 6px 0;
+        }
+
         .writing-lines {
             padding: 20px;
             background: white;
@@ -504,27 +553,22 @@
             padding: 16px;
         }
 
-        .emoji-scale {
+        .understanding-scale {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            gap: 8px;
             margin: 12px 0;
         }
 
-        .emoji-option {
+        .scale-option {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
         }
 
-        .emoji {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .emoji-label {
-            font-size: 9px;
-            color: var(--text-light);
+        .scale-label {
+            font-size: 11px;
+            color: var(--text-dark);
         }
 
         .star-rating {
@@ -953,6 +997,8 @@
                 border-bottom: 2px solid #1e40af !important;
                 print-color-adjust: exact;
                 -webkit-print-color-adjust: exact;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
 
             .section-icon {
@@ -1030,7 +1076,7 @@
         <!-- Header -->
         <header class="lesson-header">
             <div class="lesson-info">
-                <div class="workbook-title">Reading Advantage • {{series_name}} • {{series_level}}</div>
+                <div class="workbook-title">{{series_name}} • {{series_level}}</div>
                 <div class="lesson-number">{{lesson_number}}</div>
                 <h1 class="lesson-title">{{lesson_title}}</h1>
             </div>
@@ -1631,26 +1677,26 @@
                 <div class="flex gap-4 mt-4" style="justify-content: space-between;">
                     <div>
                         <p class="text-xs font-bold mb-2">How well did I understand?</p>
-                        <div class="emoji-scale" style="justify-content: flex-start; gap: 16px;">
-                            <div class="emoji-option">
-                                <span class="emoji">😕</span>
-                                <span class="emoji-label">confused</span>
+                        <div class="understanding-scale">
+                            <div class="scale-option">
+                                <span class="checkbox"></span>
+                                <span class="scale-label">1 - Confused</span>
                             </div>
-                            <div class="emoji-option">
-                                <span class="emoji">😐</span>
-                                <span class="emoji-label">okay</span>
+                            <div class="scale-option">
+                                <span class="checkbox"></span>
+                                <span class="scale-label">2 - Okay</span>
                             </div>
-                            <div class="emoji-option">
-                                <span class="emoji">🙂</span>
-                                <span class="emoji-label">good</span>
+                            <div class="scale-option">
+                                <span class="checkbox"></span>
+                                <span class="scale-label">3 - Good</span>
                             </div>
-                            <div class="emoji-option">
-                                <span class="emoji">😊</span>
-                                <span class="emoji-label">great</span>
+                            <div class="scale-option">
+                                <span class="checkbox"></span>
+                                <span class="scale-label">4 - Great</span>
                             </div>
-                            <div class="emoji-option">
-                                <span class="emoji">🤩</span>
-                                <span class="emoji-label">excellent</span>
+                            <div class="scale-option">
+                                <span class="checkbox"></span>
+                                <span class="scale-label">5 - Excellent</span>
                             </div>
                         </div>
                     </div>
@@ -1676,7 +1722,7 @@
 
         <section class="section mt-4">
             <div class="homework-box">
-                <div class="homework-title">🏠 HOMEWORK (Complete before next lesson)</div>
+                <div class="homework-title">HOMEWORK (Complete before next lesson)</div>
                 <div class="homework-item">
                     <span class="checkbox"></span>
                     <span>Add your collected vocabulary to the Reading Advantage app (5 min)</span>
