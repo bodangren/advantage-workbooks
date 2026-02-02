@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Enhance article JSON structure with AI-generated metadata, additional visual elements, and multiple image support to increase content density and professional appearance.**
+- [x] **Track: Enhance article JSON structure with AI-generated metadata, additional visual elements, and multiple image support to increase content density and professional appearance.** *(Completed: 2026-02-02)*
   *Link: [./tracks/enhance_article_json_20260201/](./tracks/enhance_article_json_20260201/)*
 
 ---
