@@ -69,4 +69,39 @@ describe('augmentLesson', () => {
     expect(augmented.writing_plan_prompts).toHaveLength(3);
     expect(augmented.reflection_focus).toBe('Think about the characters.');
   });
+
+  it('should generate article_images with prompts', async () => {
+    const mockResponseText = JSON.stringify({
+      short_answer_hint: 'Hint',
+      writing_plan_prompts: ['A', 'B', 'C'],
+      reflection_focus: 'Focus',
+      article_images: [
+        {
+          position: 'hero',
+          caption: 'Hero Image',
+          image_prompt: 'A beautiful hero image'
+        },
+        {
+          position: 'inline-para-1',
+          caption: 'Inline Image',
+          image_prompt: 'An inline image'
+        }
+      ]
+    });
+
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () => mockResponseText,
+      },
+    });
+
+    const augmented = await augmentLesson(mockLesson, 'fake-api-key');
+
+    expect(augmented.article_images).toBeDefined();
+    expect(augmented.article_images).toHaveLength(2);
+    expect(augmented.article_images![0].image_prompt).toBe('A beautiful hero image');
+    expect(augmented.article_images![0].position).toBe('hero');
+    // Ensure URL is handled (empty string default if not provided by AI, or handled by augmentLesson)
+    expect(augmented.article_images![0].url).toBe(''); 
+  });
 });

@@ -57,6 +57,7 @@ export const TranslationParagraphSchema = z.object({
 export const ArticleImageSchema = z.object({
     url: z.string(),
     caption: z.string(),
+    image_prompt: z.string().optional(),
     position: z.enum([
         'hero',
         'vocabulary',

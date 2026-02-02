@@ -19,8 +19,8 @@ export async function augmentLesson(lesson: WorkbookLesson, apiKey: string): Pro
 
     const prompt = `
     You are an expert educational content creator.
-    Analyze the following lesson content and generate metadata for the workbook.
-    Return ONLY a JSON object with the following keys: "short_answer_hint", "writing_plan_prompts", "reflection_focus".
+    Analyze the following lesson content and generate metadata for the workbook AND suggestions for images.
+    Return ONLY a JSON object with the following keys: "short_answer_hint", "writing_plan_prompts", "reflection_focus", "article_images".
 
     Lesson Title: ${lesson.lesson_title}
     Article:
@@ -33,6 +33,11 @@ export async function augmentLesson(lesson: WorkbookLesson, apiKey: string): Pro
     1. short_answer_hint (string): Provide a helpful hint for the short answer question, guiding the student to the relevant part of the text without giving the answer.
     2. writing_plan_prompts (array of 3 strings): Generate exactly 3 specific bullet points or questions to help the student plan their writing response.
     3. reflection_focus (string): Generate a single thought-provoking question or focus for the "Lesson Reflection" section that relates to the theme of the article.
+    4. article_images (array of objects): Suggest images to visually enhance the article.
+       Each object must have:
+       - position (enum: 'hero', 'inline-para-1', 'inline-para-2', ...): Where to place the image. 'hero' is mandatory. Suggest 1-2 inline images if appropriate. Use 'inline-para-N' where N is the paragraph number.
+       - caption (string): A short, engaging caption.
+       - image_prompt (string): A detailed, descriptive prompt for an AI image generator to create this image. Style should be consistent (e.g., "photorealistic" or "educational illustration").
     `;
 
     const result = await model.generateContent(prompt);
@@ -46,6 +51,12 @@ export async function augmentLesson(lesson: WorkbookLesson, apiKey: string): Pro
             short_answer_hint: generatedData.short_answer_hint,
             writing_plan_prompts: generatedData.writing_plan_prompts,
             reflection_focus: generatedData.reflection_focus,
+            article_images: generatedData.article_images?.map((img: any) => ({
+                url: "", // Placeholder for generated image URL
+                caption: img.caption,
+                position: img.position,
+                image_prompt: img.image_prompt
+            }))
         };
     } catch (e) {
         console.error("Failed to parse AI response:", text);
