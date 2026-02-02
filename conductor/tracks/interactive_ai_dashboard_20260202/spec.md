@@ -21,6 +21,7 @@ Implement an interactive AI-powered workflow within the Next.js Lesson Editor. T
     - `short_answer_hint`: (Step 8) A hint guiding students to the correct part of the text.
     - `writing_sentence_frames`: (Step 13) 2-3 sentence starters to scaffold the writing prompt.
     - `reflection_focus`: (Step 15) A thought-provoking question for the closing reflection.
+    - **Content QA:** The AI must also review and suggest corrections for existing practice sections (`vocab_match`, `vocab_fill`, `sentence_order_questions`) to fix errors like dropped punctuation or incomplete sentence components.
 
 ### 3. Visual Break Image Generator
 - Dedicated slot in the editor labeled **"Visual Break Image"**.

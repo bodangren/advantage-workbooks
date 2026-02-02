@@ -21,6 +21,7 @@
 - [ ] Task: Implement AI Prompt Logic for Pedagogical Connectors
     - [ ] Update AI prompt to include CEFR-aware grammar detection
     - [ ] Implement generation for Connection, Discussion, and Writing Frames
+    - [ ] Add Content QA logic to prompt (review/fix `vocab_match`, `vocab_fill`, `sentence_order`)
 - [ ] Task: Add "✨ Auto-Fill Lesson Pedagogy" button to Editor
     - [ ] Connect button to the updated `augmentLesson` action
     - [ ] Implement state updates with feedback
