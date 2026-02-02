@@ -1144,6 +1144,17 @@
                         <span class="star">☆</span>
                     </div>
                 </div>
+
+                {{#if connection_question}}
+                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%); border-left: 4px solid var(--primary-blue);">
+                    <div class="tip-label">🤔 Think About This</div>
+                    <p style="margin-top: 8px; font-size: 14px; line-height: 1.6;">{{connection_question}}</p>
+                    <div class="writing-lines" style="margin-top: 10px;">
+                        <div class="writing-line"></div>
+                        <div class="writing-line"></div>
+                    </div>
+                </div>
+                {{/if}}
             </div>
         </section>
 
@@ -1353,13 +1364,13 @@
         <section class="section phase-2">
             <div class="section-header">
                 <div class="section-icon icon-collect">6</div>
-                <h2 class="section-title">Collect Sentences</h2>
+                <h2 class="section-title">Collect Sentences{{#if grammar_search_term}} – {{grammar_search_term}}{{/if}}</h2>
                 <span class="section-time">⏱ 5 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
             </div>
 
             <p class="text-sm text-muted mb-3">Copy 2 sentences from the article that you want to practice. Mark
-                sentences with ⭐ in the article first.</p>
+                sentences with ⭐ in the article first.{{#if grammar_search_term}} <strong>Challenge:</strong> {{grammar_search_term}}{{/if}}</p>
 
             <div class="collection-box">
                 <div class="mb-3">
@@ -1443,6 +1454,18 @@
                 <div class="perf-option"><span class="checkbox"></span> Good (4/5)</div>
                 <div class="perf-option"><span class="checkbox"></span> Review needed (3 or less)</div>
             </div>
+
+            {{#if discussion_question}}
+            <div class="tip-box mt-4" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid var(--accent-orange);">
+                <div class="tip-label">💬 Turn & Talk</div>
+                <p style="margin-top: 8px; font-size: 14px; line-height: 1.6; font-weight: 500;">{{discussion_question}}</p>
+                <p style="margin-top: 6px; font-size: 12px; color: var(--text-medium); font-style: italic;">Discuss this question with a partner or write your thoughts below:</p>
+                <div class="writing-lines" style="margin-top: 10px;">
+                    <div class="writing-line"></div>
+                    <div class="writing-line"></div>
+                </div>
+            </div>
+            {{/if}}
         </section>
 
         <!-- STEP 8: Short Answer -->
@@ -1638,6 +1661,17 @@
                         {{/if}}
                     </div>
                 </div>
+
+                {{#if writing_sentence_frames}}
+                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green);">
+                    <div class="tip-label">💡 Sentence Starters to Help You</div>
+                    <ul style="margin-top: 8px; padding-left: 20px; font-size: 13px; line-height: 1.8;">
+                        {{#each writing_sentence_frames}}
+                        <li style="margin-bottom: 4px;">{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
 
                 <div class="writing-lines">
                     <div class="prompt-label" style="color: var(--accent-purple); margin-bottom: 12px;">✍️ Write Your
