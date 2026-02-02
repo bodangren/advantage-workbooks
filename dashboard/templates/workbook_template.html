@@ -99,7 +99,7 @@
             font-family: 'Merriweather', serif;
             font-size: 15px; /* Slightly larger for readability */
             line-height: 2.0; /* Generous spacing */
-            overflow: auto; /* Create block formatting context to respect floated hero image */
+            display: flow-root; /* Create block formatting context without overflow issues */
             /* ... */
         }
 
@@ -677,6 +677,7 @@
         /* Article Images */
         .article-container {
             position: relative;
+            overflow: auto; /* Clearfix to contain floated hero image */
         }
 
         .article-image-area {
