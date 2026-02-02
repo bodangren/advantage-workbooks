@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Save, Loader2, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Plus, Trash2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
 import type { WorkbookLesson, ArticleImage } from '@/lib/workbook-schema';
@@ -71,8 +71,10 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [lesson, setLesson] = useState<Partial<WorkbookLesson>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [augmenting, setAugmenting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [augmentSuccess, setAugmentSuccess] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
 
@@ -201,6 +203,34 @@ export default function LessonEditor({ params }: LessonEditorProps) {
     }
   };
 
+  const augmentWithAI = async () => {
+    setErrors({});
+    setAugmentSuccess(false);
+    setAugmenting(true);
+
+    try {
+      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}/augment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setLesson(data.lesson);
+        setAugmentSuccess(true);
+        setTimeout(() => setAugmentSuccess(false), 5000);
+      } else {
+        const data = await response.json();
+        setErrors({ _form: data.error || 'Failed to auto-fill pedagogy' });
+      }
+    } catch (error) {
+      console.error('Failed to augment lesson:', error);
+      setErrors({ _form: 'An error occurred while auto-filling pedagogy' });
+    } finally {
+      setAugmenting(false);
+    }
+  };
+
   if (loading) {
     return <div className="p-6">Loading lesson...</div>;
   }
@@ -221,26 +251,46 @@ export default function LessonEditor({ params }: LessonEditorProps) {
             </p>
           </div>
         </div>
-         <Button onClick={validateAndSave} disabled={saving}>
-           {saving ? (
-             <>
-               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-               Saving...
-             </>
-           ) : (
-             <>
-               <Save className="mr-2 h-4 w-4" />
-               Save Changes
-             </>
-           )}
-         </Button>
-         <Button
-           onClick={() => setShowPreview(!showPreview)}
-           variant={showPreview ? 'default' : 'outline'}
-         >
-           {showPreview ? 'Hide Preview' : 'Show Preview'}
-         </Button>
-       </div>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={augmentWithAI}
+            disabled={augmenting || saving}
+            variant="secondary"
+          >
+            {augmenting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Auto-Fill Pedagogy
+              </>
+            )}
+          </Button>
+          <Button onClick={validateAndSave} disabled={saving || augmenting}>
+            {saving ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Save Changes
+              </>
+            )}
+          </Button>
+          <Button
+            onClick={() => setShowPreview(!showPreview)}
+            variant={showPreview ? 'default' : 'outline'}
+            disabled={augmenting}
+          >
+            {showPreview ? 'Hide Preview' : 'Show Preview'}
+          </Button>
+        </div>
+      </div>
 
       {errors._form && (
         <Card className="border-destructive">
@@ -254,6 +304,14 @@ export default function LessonEditor({ params }: LessonEditorProps) {
         <Card className="border-green-600 bg-green-50 dark:bg-green-950">
           <CardContent className="py-4 text-green-700 dark:text-green-400">
             Lesson saved successfully!
+          </CardContent>
+        </Card>
+      )}
+
+      {augmentSuccess && (
+        <Card className="border-purple-600 bg-purple-50 dark:bg-purple-950">
+          <CardContent className="py-4 text-purple-700 dark:text-purple-400">
+            ✨ Pedagogical content auto-filled! Review the generated fields and save when ready.
           </CardContent>
         </Card>
       )}
