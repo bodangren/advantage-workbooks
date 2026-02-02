@@ -1,38 +1,40 @@
-# Specification: Interactive AI Dashboard & Image Generation
+# Specification: Interactive AI Dashboard & Pedagogical Connectors
 
 ## Overview
-Implement an interactive AI-powered workflow within the Next.js Lesson Editor. This includes automated metadata generation (Magic Wand), a "Visual Break" image generator, and real-time image previews. The system will be configurable via `.env.local` to support modern Gemini 3 models.
+Implement an interactive AI-powered workflow within the Next.js Lesson Editor. This track introduces "Pedagogical Connectors" that bridge the teacher-led app activities with the student's workbook, using context-aware AI generation (Gemini 3).
 
 ## Functional Requirements
 
 ### 1. Configuration (`.env.local`)
-- Support the following environment variables:
+- Support configurable model names:
     - `GEMINI_TEXT_MODEL`: Default `gemini-3-flash-preview`
     - `GEMINI_IMAGE_MODEL`: Default `gemini-3-pro`
-- The system must pull these values at runtime for all AI operations.
+- All AI operations must pull these values at runtime.
 
-### 2. Metadata "Magic Wand"
-- Add a button: `✨ Auto-Fill Metadata`.
-- **Logic:** Calls a Server Action/API route.
-- **Context:** Sends `lesson_title`, `article_paragraphs`, `short_answer_question`, and `writing_prompt`.
-- **Output:** Populates `short_answer_hint`, `writing_plan_prompts`, and `reflection_focus` in the UI.
+### 2. Pedagogical "Magic Wand" (Metadata)
+- Add a button: `✨ Auto-Fill Lesson Pedagogy`.
+- **Logic:** Calls a Server Action with full context (Title, Text, Questions, CEFR Level).
+- **Generated Fields:**
+    - `connection_question`: (Step 1) A question to activate background knowledge before reading.
+    - `grammar_search_term`: (Step 6) A CEFR-appropriate grammar challenge (e.g., "Find a sentence with 'can'").
+    - `discussion_question`: (Step 7) A "Turn & Talk" prompt for partner discussion.
+    - `short_answer_hint`: (Step 8) A hint guiding students to the correct part of the text.
+    - `writing_sentence_frames`: (Step 13) 2-3 sentence starters to scaffold the writing prompt.
+    - `reflection_focus`: (Step 15) A thought-provoking question for the closing reflection.
 
 ### 3. Visual Break Image Generator
 - Dedicated slot in the editor labeled **"Visual Break Image"**.
-- Default position: `writing-prompt`.
+- Position: `writing-prompt` (before the writing section).
 - **Workflow:**
     1. **Generate Prompt Button:** Sends **Lesson Title + FULL Article Text + Writing Prompt** to `GEMINI_TEXT_MODEL`.
     2. **User Review:** Displays the generated prompt in an editable text area.
     3. **Create Image Button:** Sends the (edited) prompt to `GEMINI_IMAGE_MODEL` via the `nanobanana` integration.
-    4. **Auto-Save:** Saves the generated image to the project folder and updates the lesson JSON.
 
-### 4. Image Previews
-- Implement real-time thumbnails for:
-    - Main Article Image.
-    - Visual Break Image.
-- Previews must update immediately after upload or generation.
+### 4. UI & Template Enhancements
+- **Image Previews:** Implement real-time thumbnails for the Main Article Image and the Visual Break Image.
+- **Template Rendering:** Update `workbook_template.html` to render the new pedagogical fields in "Teacher-Led" tip boxes or specific section headers (e.g., Grammar Detective in the sentence collection header).
 
 ## Technical Constraints
-- **Model Versions:** NEVER use Gemini 2.0. Strictly use Gemini 3.x as configured in `.env.local`.
-- **Context Isolation:** Use the specific context mapping defined for each AI task to ensure high-quality output.
-- **Backward Compatibility:** All new fields must be optional.
+- **Model Versions:** STRICTLY use Gemini 3.x as configured. NEVER use Gemini 2.0.
+- **CEFR Alignment:** The AI prompt for `grammar_search_term` must explicitly use the lesson's `cefr_level` to ensure the challenge is appropriate.
+- **Backward Compatibility:** All new fields must be optional in the Zod schema.
