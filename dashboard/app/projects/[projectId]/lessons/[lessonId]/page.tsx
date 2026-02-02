@@ -72,9 +72,12 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [augmenting, setAugmenting] = useState(false);
+  const [generatingImage, setGeneratingImage] = useState(false);
+  const [imagePrompt, setImagePrompt] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [augmentSuccess, setAugmentSuccess] = useState(false);
+  const [imageGenSuccess, setImageGenSuccess] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
 
@@ -231,6 +234,57 @@ export default function LessonEditor({ params }: LessonEditorProps) {
     }
   };
 
+  const generateImagePrompt = () => {
+    // Generate a context-aware prompt based on lesson content
+    const articleText = lesson.article_paragraphs?.map(p => p.text).join(' ') || '';
+    const prompt = `Create a photorealistic educational illustration for a CEFR ${lesson.cefr_level || 'B1'} level ESL lesson.
+
+Lesson Topic: ${lesson.lesson_title}
+Context: ${articleText.substring(0, 500)}${articleText.length > 500 ? '...' : ''}
+
+The image should:
+- Be appropriate for ${lesson.cefr_level || 'B1'} level students (ages 12-16)
+- Support the writing prompt: "${lesson.writing_prompt}"
+- Be clear, engaging, and educational
+- Use vibrant but not overwhelming colors
+- Be suitable for classroom display
+- Avoid text or words in the image
+
+Style: Photorealistic educational illustration with clear focus and good lighting`;
+
+    setImagePrompt(prompt);
+  };
+
+  const generateImage = async () => {
+    setErrors({});
+    setImageGenSuccess(false);
+    setGeneratingImage(true);
+
+    try {
+      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}/generate-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: imagePrompt }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Refresh the lesson to show the new image
+        await fetchLesson();
+        setImageGenSuccess(true);
+        setTimeout(() => setImageGenSuccess(false), 5000);
+      } else {
+        const data = await response.json();
+        setErrors({ _form: data.error || 'Failed to generate image' });
+      }
+    } catch (error) {
+      console.error('Failed to generate image:', error);
+      setErrors({ _form: 'An error occurred while generating image' });
+    } finally {
+      setGeneratingImage(false);
+    }
+  };
+
   if (loading) {
     return <div className="p-6">Loading lesson...</div>;
   }
@@ -312,6 +366,14 @@ export default function LessonEditor({ params }: LessonEditorProps) {
         <Card className="border-purple-600 bg-purple-50 dark:bg-purple-950">
           <CardContent className="py-4 text-purple-700 dark:text-purple-400">
             ✨ Pedagogical content auto-filled! Review the generated fields and save when ready.
+          </CardContent>
+        </Card>
+      )}
+
+      {imageGenSuccess && (
+        <Card className="border-blue-600 bg-blue-50 dark:bg-blue-950">
+          <CardContent className="py-4 text-blue-700 dark:text-blue-400">
+            🎨 Visual break image generated successfully! Check the Writing Prompt section.
           </CardContent>
         </Card>
       )}
@@ -711,6 +773,57 @@ export default function LessonEditor({ params }: LessonEditorProps) {
              <p className="text-xs text-muted-foreground">
                Sentence starters to scaffold student writing (JSON array)
              </p>
+           </div>
+
+           <div className="space-y-4 pt-4 border-t">
+             <div className="flex items-center justify-between">
+               <Label className="text-base font-semibold">Visual Break Image</Label>
+               <div className="flex gap-2">
+                 <Button
+                   type="button"
+                   variant="outline"
+                   size="sm"
+                   onClick={generateImagePrompt}
+                   disabled={generatingImage || augmenting}
+                 >
+                   Generate Prompt
+                 </Button>
+                 <Button
+                   type="button"
+                   variant="default"
+                   size="sm"
+                   onClick={generateImage}
+                   disabled={!imagePrompt || generatingImage || augmenting}
+                 >
+                   {generatingImage ? (
+                     <>
+                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                       Generating...
+                     </>
+                   ) : (
+                     <>
+                       <Sparkles className="mr-2 h-4 w-4" />
+                       Create Image
+                     </>
+                   )}
+                 </Button>
+               </div>
+             </div>
+
+             <div className="space-y-2">
+               <Label htmlFor="image_prompt">AI Image Prompt (Editable)</Label>
+               <Textarea
+                 id="image_prompt"
+                 value={imagePrompt}
+                 onChange={(e) => setImagePrompt(e.target.value)}
+                 rows={6}
+                 className="font-mono text-sm"
+                 placeholder="Click 'Generate Prompt' to create a context-aware image prompt, or write your own..."
+               />
+               <p className="text-xs text-muted-foreground">
+                 Edit the prompt as needed, then click "Create Image" to generate
+               </p>
+             </div>
            </div>
 
            <ImageUpload
