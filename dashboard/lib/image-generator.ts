@@ -59,7 +59,7 @@ export async function generateImage(
   await fs.writeFile(filePath, buffer);
 
   // Return the URL path (relative to public directory)
-  const url = `projects/${request.projectId}/images/${filename}`;
+  const url = `/projects/${request.projectId}/images/${filename}`;
 
   return {
     url,
