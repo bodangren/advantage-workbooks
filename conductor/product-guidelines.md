@@ -15,4 +15,4 @@
 - **Density:** Maximize content density on each page to ensure the workbooks feel substantial and valuable to parents and distributors.
 
 ## Implementation Constraints
-- **Data-Driven:** All visual enhancements must be implemented via the HTML/CSS template to work with the existing JSON exports (Article text, one main image, and structured exercises).
+- **Data-Driven:** All visual enhancements must be implemented via the HTML/CSS template to work with the existing JSON exports (Article text, flexible multi-image support, and structured exercises).

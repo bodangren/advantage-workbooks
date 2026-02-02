@@ -13,9 +13,10 @@
 ## Libraries & Utilities
 - **qrcode-generator:** Used to dynamically generate QR codes from article URLs for inclusion in the workbook.
 - **jsonschema (Python):** Validates content files against `schema.json`.
+- **@google/generative-ai:** SDK for integrating Gemini models for content augmentation.
 
 ## Development & Testing
-- **Jest:** The primary framework for unit testing JavaScript logic.
+- **Vitest:** The primary framework for unit testing JavaScript/TypeScript logic.
 - **JSDOM:** Provides a mock DOM environment for testing browser-based logic in Node.js.
 - **Zod / JSON Schema:** Used for strict data modeling and schema definition of the workbook content.
 

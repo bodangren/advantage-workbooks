@@ -18,3 +18,5 @@ Use data exports from our app to programatically develop grade 7-12 workbooks fo
 - **Automated Layout:** Automatic generation of Table of Contents, Preface, headers, footers, and pagination using Paged.js.
 - **Data Validation:** Strict schema validation to ensure input data meets print quality and consistency standards before compilation.
 - **Scalability:** Designed to handle content for Grades 7-12 now, with architecture to support Primary Grades 3-6 in the future.
+- **AI-Enhanced Content:** Integrated AI tools to generate pedagogical metadata (hints, reflection questions) and image prompts.
+- **Dynamic Visual Layouts:** Support for multi-image, magazine-style article layouts with flexible positioning.
