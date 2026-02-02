@@ -104,7 +104,7 @@
     - [x] Test in Chrome, Firefox, Safari
 
 ## Phase 7: AI Content Generation Script (Optional/Future)
-- [ ] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed)
+- [x] Task: Create `/dashboard/scripts/augment_lesson.ts` (if needed) - 25e84b4
     - [ ] Set up LLM integration for content generation
     - [ ] Generate `short_answer_hint` based on short_answer_question
     - [ ] Generate `writing_plan_prompts` based on writing_prompt
