@@ -16,33 +16,33 @@
 
 ## Phase 2: Directory Restructuring & Filesystem Layer
 
-- [ ] Task: Add `type` field to project interfaces and metadata
-    - [ ] Write unit tests for updated `WorkbookProject` and `ProjectMetadata` interfaces with `type: 'primary' | 'secondary'`
-    - [ ] Update `ProjectMetadata` interface in `lib/filesystem.ts` to include optional `type` field
-    - [ ] Update `WorkbookProject` interface to include `type` field
+- [x] Task: Add `type` field to project interfaces and metadata `4dd6f4f`
+    - [x] Write unit tests for updated `WorkbookProject` and `ProjectMetadata` interfaces with `type: 'primary' | 'secondary'`
+    - [x] Update `ProjectMetadata` interface in `lib/filesystem.ts` to include optional `type` field
+    - [x] Update `WorkbookProject` interface to include `type` field
 
-- [ ] Task: Implement structured naming convention
-    - [ ] Write unit tests for `generateProjectId(metadata)` function: input `{seriesName: 'Origins', levelNumber: '3.1', cefrLevel: 'A1'}` → output `origins-3.1-a1`
-    - [ ] Implement `generateProjectId()` helper in `lib/filesystem.ts`
-    - [ ] Refactor `createProject()` to accept `type` and metadata fields, generate directory name from metadata, and place project in `primary/` or `secondary/` subdirectory
-    - [ ] Update `createProject()` tests to verify new signature and directory placement
+- [x] Task: Implement structured naming convention `4dd6f4f`
+    - [x] Write unit tests for `generateProjectId(metadata)` function: input `{seriesName: 'Origins', levelNumber: '3.1', cefrLevel: 'A1'}` → output `origins-3.1-a1`
+    - [x] Implement `generateProjectId()` helper in `lib/filesystem.ts`
+    - [x] Refactor `createProject()` to accept `type` and metadata fields, generate directory name from metadata, and place project in `primary/` or `secondary/` subdirectory
+    - [x] Update `createProject()` tests to verify new signature and directory placement
 
-- [ ] Task: Refactor `listProjects()` for two-level directory scanning
-    - [ ] Write unit tests for `listProjects()` scanning `primary/` and `secondary/` subdirectories and returning `type` on each project
-    - [ ] Write unit tests for `listProjects()` with optional `type` filter parameter
-    - [ ] Implement updated `listProjects(type?)` that scans both subdirectories
-    - [ ] Ensure `listProjects()` ignores non-project directories (dashboard, conductor, .git, etc.)
+- [x] Task: Refactor `listProjects()` for two-level directory scanning `4dd6f4f`
+    - [x] Write unit tests for `listProjects()` scanning `primary/` and `secondary/` subdirectories and returning `type` on each project
+    - [x] Write unit tests for `listProjects()` with optional `type` filter parameter
+    - [x] Implement updated `listProjects(type?)` that scans both subdirectories
+    - [x] Ensure `listProjects()` ignores non-project directories (dashboard, conductor, .git, etc.)
 
-- [ ] Task: Update path resolution in all filesystem functions
-    - [ ] Write tests verifying `listLessons()`, `readLesson()`, `writeLesson()`, `readProjectMetadata()`, `writeProjectMetadata()` resolve paths correctly under `secondary/{projectId}/` and `primary/{projectId}/`
-    - [ ] Implement path resolution that includes the type subdirectory (e.g., `WORKBOOKS_ROOT/secondary/origins-3.1-a1/`)
-    - [ ] Ensure backward compatibility: functions accept either `type/projectId` or use a lookup if type is not provided
+- [x] Task: Update path resolution in all filesystem functions `4dd6f4f`
+    - [x] Write tests verifying `listLessons()`, `readLesson()`, `writeLesson()`, `readProjectMetadata()`, `writeProjectMetadata()` resolve paths correctly under `secondary/{projectId}/` and `primary/{projectId}/`
+    - [x] Implement path resolution that includes the type subdirectory (e.g., `WORKBOOKS_ROOT/secondary/origins-3.1-a1/`)
+    - [x] Ensure backward compatibility: functions accept either `type/projectId` or use a lookup if type is not provided
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Migrate Existing Projects
 
-- [ ] Task: Create migration script
+- [~] Task: Create migration script
     - [ ] Write test verifying migration moves `Origins 3.1/` to `secondary/origins-3.1-a1/` with all contents intact
     - [ ] Implement migration: create `secondary/` and `primary/` directories, move and rename existing projects
     - [ ] Update `project.json` in migrated project to include `type: "secondary"`
