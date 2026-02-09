@@ -48,6 +48,7 @@ export async function GET(
     const renderOptions = metadata ? {
       seriesName: `${metadata.seriesName} ${metadata.levelNumber}`,
       seriesLevel: metadata.cefrLevel,
+      type: metadata.type,
     } : undefined;
 
     // Render all lessons into a single HTML document

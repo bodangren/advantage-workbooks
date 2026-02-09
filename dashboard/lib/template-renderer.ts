@@ -34,6 +34,7 @@ export interface RenderOptions {
   seriesName?: string;
   seriesLevel?: string;
   seriesTagline?: string;
+  type?: 'primary' | 'secondary';
 }
 
 function prepareLessonData(
