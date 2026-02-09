@@ -38,18 +38,18 @@
     - [x] Implement path resolution that includes the type subdirectory (e.g., `WORKBOOKS_ROOT/secondary/origins-3.1-a1/`)
     - [x] Ensure backward compatibility: functions accept either `type/projectId` or use a lookup if type is not provided
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) `4dd6f4f`
 
 ## Phase 3: Migrate Existing Projects
 
-- [~] Task: Create migration script
-    - [ ] Write test verifying migration moves `Origins 3.1/` to `secondary/origins-3.1-a1/` with all contents intact
-    - [ ] Implement migration: create `secondary/` and `primary/` directories, move and rename existing projects
-    - [ ] Update `project.json` in migrated project to include `type: "secondary"`
-    - [ ] Verify all lesson files and images are intact after migration
+- [x] Task: Create migration script `832b7bb`
+    - [x] Write test verifying migration moves `Origins 3.1/` to `secondary/origins-3.1-a1/` with all contents intact
+    - [x] Implement migration: create `secondary/` and `primary/` directories, move and rename existing projects
+    - [x] Update `project.json` in migrated project to include `type: "secondary"`
+    - [x] Verify all lesson files and images are intact after migration
 
-- [ ] Task: Verify post-migration functionality
-    - [ ] Run existing test suite to confirm secondary project pipeline works after migration
+- [x] Task: Verify post-migration functionality `832b7bb`
+    - [x] Run existing test suite to confirm secondary project pipeline works after migration
     - [ ] Manually verify `origins-3.1-a1` is discoverable and compilable from the dashboard
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
