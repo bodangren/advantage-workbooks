@@ -2,15 +2,15 @@
 
 ## Phase 1: E2E Test Isolation & Root Cleanup
 
-- [~] Task: Fix e2e tests to use os.tmpdir()
-    - [ ] Write tests verifying test directories are created under os.tmpdir()
-    - [ ] Refactor `__tests__/e2e-integration.test.ts` to use `os.tmpdir()` instead of `path.resolve(process.cwd(), '..', 'test-workbooks')`
-    - [ ] Add vitest globalTeardown script to clean up any leftover test-e2e-* dirs in tmpdir
+- [x] Task: Fix e2e tests to use os.tmpdir() `000a5a9`
+    - [x] Write tests verifying test directories are created under os.tmpdir()
+    - [x] Refactor `__tests__/e2e-integration.test.ts` to use `os.tmpdir()` instead of `path.resolve(process.cwd(), '..', 'test-workbooks')`
+    - [x] Add vitest globalTeardown script to clean up any leftover test-e2e-* dirs in tmpdir
 
-- [ ] Task: Clean up root directory
-    - [ ] Delete leftover `test-e2e-*` and `test-project-*` directories from WORKBOOKS_ROOT
-    - [ ] Delete empty directories: `origins-5/`, `primary-advantage/`
-    - [ ] Add `.gitignore` entries for `test-e2e-*`, `test-project-*`, and `test-workbooks/`
+- [x] Task: Clean up root directory `291bff3`
+    - [x] Delete leftover `test-e2e-*` and `test-project-*` directories from WORKBOOKS_ROOT
+    - [x] Delete empty directories: `origins-5/`, `primary-advantage/`
+    - [x] Add `.gitignore` entries for `test-e2e-*`, `test-project-*`, and `test-workbooks/`
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
