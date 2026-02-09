@@ -9,18 +9,18 @@
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&family=Caveat:wght@500&display=swap');
 
         :root {
-            --primary-blue: #1e40af;
-            --primary-light: #3b82f6;
-            --accent-orange: #f97316;
-            --accent-green: #10b981;
-            --accent-purple: #8b5cf6;
+            --primary-blue: #0284c7;
+            --primary-light: #38bdf8;
+            --accent-orange: #fb923c;
+            --accent-green: #22c55e;
+            --accent-purple: #ec4899;
             --text-dark: #1f2937;
             --text-medium: #4b5563;
             --text-light: #6b7280;
-            --bg-cream: #fefce8;
-            --bg-light: #f8fafc;
-            --border-light: #e5e7eb;
-            --border-medium: #d1d5db;
+            --bg-cream: #fef9c3;
+            --bg-light: #f0f9ff;
+            --border-light: #bae6fd;
+            --border-medium: #7dd3fc;
         }
 
         * {
@@ -33,8 +33,8 @@
             font-family: 'Merriweather', serif; /* Switch to Serif for main body */
             color: var(--text-dark);
             background: white;
-            line-height: 1.7; /* Comfortable reading height */
-            padding: 20px;
+            line-height: 1.85;
+            padding: 24px;
         }
 
         /* ... (Container styles) ... */
@@ -55,8 +55,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%);
             border-radius: 8px;
             margin-bottom: 16px;
             font-family: 'Open Sans', sans-serif;
@@ -65,8 +65,8 @@
         }
 
         .section-icon {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--primary-blue);
             color: white;
@@ -74,20 +74,20 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
             flex-shrink: 0;
         }
 
         .section-title {
             flex: 1;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--primary-blue);
             margin: 0;
         }
 
         .section-time {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-medium);
             font-weight: 600;
         }
@@ -97,8 +97,8 @@
         .article-text {
             padding: 10px 0;
             font-family: 'Merriweather', serif;
-            font-size: 15px; /* Slightly larger for readability */
-            line-height: 2.0; /* Generous spacing */
+            font-size: 17px;
+            line-height: 2.2;
             /* ... */
         }
 
@@ -165,6 +165,33 @@
             letter-spacing: 0.5px;
         }
 
+        .vocab-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            font-size: 12px;
+            color: var(--primary-blue);
+            padding: 8px 10px;
+        }
+
+        .vocab-table td {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            vertical-align: top;
+        }
+
+        .vocab-word {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
         /* Questions */
         .question-box {
             background: transparent;
@@ -213,6 +240,8 @@
         .question-text {
             font-weight: 600;
             color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.7;
             margin-bottom: 12px;
         }
 
@@ -320,8 +349,8 @@
         /* Practice Section */
         .practice-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px; /* Generous gutter like a real book */
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
         .practice-box {
@@ -496,7 +525,7 @@
 
         .prompt-text {
             font-family: 'Merriweather', serif;
-            font-size: 14px;
+            font-size: 16px;
             font-style: italic;
             color: var(--text-dark);
             line-height: 1.6;
@@ -529,18 +558,18 @@
 
         .writing-line {
             border-bottom: 1px solid var(--border-medium);
-            min-height: 24px;
+            min-height: 28px;
             margin: 8px 0;
         }
 
         .writing-line-small {
             border-bottom: 1px solid var(--border-light);
-            min-height: 20px;
+            min-height: 24px;
             margin: 6px 0;
         }
 
         .writing-lines {
-            padding: 20px;
+            padding: 24px;
             background: white;
         }
 
@@ -559,8 +588,8 @@
 
         /* Reflection */
         .reflection-box {
-            background: linear-gradient(135deg, #faf5ff 0%, #f0fdf4 100%);
-            border: 1px solid #d8b4fe;
+            background: linear-gradient(135deg, #fff7ed 0%, #fef9c3 100%);
+            border: 1px solid #fdba74;
             border-radius: 8px;
             padding: 16px;
         }
@@ -595,8 +624,8 @@
 
         /* Homework */
         .homework-box {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
+            background: #fff7ed;
+            border: 1px solid #fdba74;
             border-radius: 8px;
             padding: 16px;
         }
@@ -695,7 +724,7 @@
         .article-image-area {
             /* Hero images float left to wrap text across multiple paragraphs */
             float: left;
-            width: 45%;
+            width: 55%;
             margin: 0 25px 15px 0;
         }
 
@@ -1068,7 +1097,7 @@
 
             .article-image-area {
                 float: left;
-                width: 45%;
+                width: 55%;
                 margin: 0 20px 10px 0;
                 page-break-inside: avoid;
                 break-inside: avoid;
@@ -1082,20 +1111,20 @@
             /* Ensure two-column layouts work in print */
             .practice-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
+                grid-template-columns: 1fr;
+                gap: 20px;
                 page-break-inside: auto;
             }
 
             /* Font adjustments for print clarity */
             body {
-                font-size: 11pt;
-                line-height: 1.5;
+                font-size: 12pt;
+                line-height: 1.65;
             }
 
             .article-text {
-                font-size: 11pt;
-                line-height: 1.8;
+                font-size: 12pt;
+                line-height: 2;
             }
 
             h1, h2, h3 {
@@ -1107,6 +1136,7 @@
 </head>
 
 <body>
+    <!-- template-variant-primary -->
 
     <!-- Main Content Wrapper -->
     <div class="workbook-container">
@@ -1169,10 +1199,8 @@
             <table class="vocab-table">
                 <thead>
                     <tr>
-                        <th style="width: 25%">Word</th>
-                        <th style="width: 10%">Know it?</th>
-                        <th style="width: 35%">Definition</th>
-                        <th style="width: 30%">My Translation / Notes</th>
+                        <th style="width: 40%">Word + Meaning</th>
+                        <th style="width: 60%">My Translation / Drawing / Sentence</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1180,11 +1208,10 @@
                     <tr>
                         <td>
                             <span class="vocab-word">{{word}}</span>
-                            <span class="phonetic">{{phonetic}}</span>
+                            <p class="text-sm text-muted mt-2"><strong>Meaning:</strong> {{definition}}</p>
                         </td>
-                        <td class="text-center"><span class="checkbox"></span></td>
-                        <td>{{definition}}</td>
                         <td>
+                            <div class="writing-line writing-line-small"></div>
                             <div class="writing-line writing-line-small"></div>
                         </td>
                     </tr>
@@ -1195,7 +1222,7 @@
             {{#if images_vocabulary.length}}
             <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
                 {{#each images_vocabulary}}
-                <div class="article-image-box" style="width: 30%;">
+                <div class="article-image-box" style="width: 45%;">
                     <img src="{{url}}" alt="{{caption}}">
                     <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
                 </div>
@@ -1276,7 +1303,7 @@
                         
                         {{#with (lookup ../images_inline (concat "inline-para-" number))}}
                             {{#each this}}
-                            <div class="article-image-box" style="float: right; margin: 0 0 10px 15px; width: 40%;">
+                            <div class="article-image-box" style="float: right; margin: 0 0 10px 15px; width: 50%;">
                                 <img src="{{url}}" alt="{{caption}}">
                                 <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
                             </div>
@@ -1420,6 +1447,7 @@
                         <span class="question-number">{{number}}</span>
                         {{question}}
                     </div>
+                    <p class="text-xs text-muted mb-2">Choose one answer, then write one clue from the article.</p>
                     <div class="options">
                         {{#each options}}
                         <div class="option">
@@ -1428,6 +1456,7 @@
                         </div>
                         {{/each}}
                     </div>
+                    <div class="writing-line writing-line-small"></div>
                     <div class="answer-row">
                         <div class="answer-field">
                             <span>My answer:</span>
@@ -1472,14 +1501,14 @@
         <section class="section phase-3">
             <div class="section-header">
                 <div class="section-icon icon-question">8</div>
-                <h2 class="section-title">Short Answer Question</h2>
+                <h2 class="section-title">Guided Response</h2>
                 <span class="section-time">⏱ 8 min</span>
                 <!-- <span class="phase-label phase-3">Phase 3</span> -->
             </div>
 
             <div class="short-answer-box">
                 <div class="question-text">
-                    <span class="question-number">SA</span>
+                    <span class="question-number">G1</span>
                     {{short_answer_question}}
                 </div>
 
@@ -1492,16 +1521,19 @@
 
                 {{#if sentence_starters}}
                 <div class="sentence-starters">
-                    <div class="starter-label">💡 Sentence Starters (optional):</div>
+                    <div class="starter-label">💡 Sentence Starters</div>
                     {{#each sentence_starters}}
                     <div class="starter-item">{{this}}</div>
                     {{/each}}
                 </div>
                 {{/if}}
 
+                <div class="tip-box mt-3" style="background: white; border-left-color: var(--accent-green);">
+                    <div class="tip-label" style="color: var(--accent-green);">🧩 Guided frame</div>
+                    <p class="text-sm">I think __________ because __________.</p>
+                </div>
+
                 <div class="writing-area">
-                    <div class="writing-line"></div>
-                    <div class="writing-line"></div>
                     <div class="writing-line"></div>
                     <div class="writing-line"></div>
                     <div class="writing-line"></div>
@@ -1600,15 +1632,15 @@
         <section class="section phase-4">
             <div class="section-header">
                 <div class="section-icon icon-write">11</div>
-                <h2 class="section-title">Writing Practice</h2>
+                <h2 class="section-title">Guided Writing</h2>
                 <span class="section-time">⏱ 15 min</span>
                 <!-- <span class="phase-label phase-4">Phase 4</span> -->
             </div>
 
             <div class="writing-section">
                 <div class="writing-header">
-                    <h3>Long Answer Writing</h3>
-                    <p>Write a thoughtful response to the prompt below. Use vocabulary from this lesson.</p>
+                    <h3>Step-by-step Paragraph</h3>
+                    <p>Use the planner and sentence frames first, then write a short paragraph.</p>
                 </div>
 
                 <div class="prompt-box">
@@ -1620,7 +1652,7 @@
 
                 {{#if images_writing_prompt.length}}
                     {{#each images_writing_prompt}}
-                    <div class="article-image-box" style="float: right; margin: 0 0 15px 15px; width: 40%; max-width: 250px;">
+                    <div class="article-image-box" style="float: right; margin: 0 0 15px 15px; width: 55%; max-width: 320px;">
                         <img src="{{url}}" alt="{{caption}}">
                         <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
                     </div>
@@ -1670,6 +1702,15 @@
                         {{/each}}
                     </ul>
                 </div>
+                {{else}}
+                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green);">
+                    <div class="tip-label">💡 Sentence Frames</div>
+                    <ul style="margin-top: 8px; padding-left: 20px; font-size: 13px; line-height: 1.8;">
+                        <li>First, I noticed __________.</li>
+                        <li>One important detail is __________.</li>
+                        <li>In conclusion, I learned __________.</li>
+                    </ul>
+                </div>
                 {{/if}}
 
                 <div class="writing-lines">
@@ -1677,10 +1718,6 @@
                         Draft</div>
                     
                     <div class="lined-area">
-                        <div class="writing-line"></div>
-                        <div class="writing-line"></div>
-                        <div class="writing-line"></div>
-                        <div class="writing-line"></div>
                         <div class="writing-line"></div>
                         <div class="writing-line"></div>
                         <div class="writing-line"></div>

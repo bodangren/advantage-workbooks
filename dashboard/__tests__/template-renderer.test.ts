@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { renderLessonTemplate, renderMultipleLessons } from '@/lib/template-renderer';
+import { renderLessonTemplate, renderMultipleLessons, clearTemplateCache } from '@/lib/template-renderer';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 describe('Template Renderer Tests', () => {
@@ -139,6 +139,24 @@ describe('Template Renderer Tests', () => {
       expect(html).toContain('Hello');
       expect(html).toContain('สวัสดี');
     });
+
+    it('should render article images by position buckets', async () => {
+      const lessonWithImages: WorkbookLesson = {
+        ...mockLesson,
+        article_images: [
+          { url: 'https://example.com/hero.jpg', caption: 'Hero image', position: 'hero' },
+          { url: 'https://example.com/vocab.jpg', caption: 'Vocab image', position: 'vocabulary' },
+          { url: 'https://example.com/inline.jpg', caption: 'Inline image', position: 'inline-para-1' },
+          { url: 'https://example.com/writing.jpg', caption: 'Writing image', position: 'writing-prompt' },
+        ],
+      };
+
+      const html = await renderLessonTemplate(lessonWithImages);
+      expect(html).toContain('https://example.com/hero.jpg');
+      expect(html).toContain('https://example.com/vocab.jpg');
+      expect(html).toContain('https://example.com/inline.jpg');
+      expect(html).toContain('https://example.com/writing.jpg');
+    });
   });
 
   describe('renderMultipleLessons', () => {
@@ -182,6 +200,27 @@ describe('Template Renderer Tests', () => {
 
       expect(html).toContain('Test Series');
       expect(html).toContain('A1');
+    });
+  });
+
+  describe('template selection by workbook type', () => {
+    beforeEach(() => {
+      clearTemplateCache();
+    });
+
+    it('loads secondary template when type is secondary', async () => {
+      const html = await renderLessonTemplate(mockLesson, { type: 'secondary' });
+      expect(html).toContain('template-variant-secondary');
+    });
+
+    it('loads primary template when type is primary', async () => {
+      const html = await renderLessonTemplate(mockLesson, { type: 'primary' });
+      expect(html).toContain('template-variant-primary');
+    });
+
+    it('defaults to secondary template when type is omitted', async () => {
+      const html = await renderLessonTemplate(mockLesson);
+      expect(html).toContain('template-variant-secondary');
     });
   });
 });

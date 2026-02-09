@@ -3,14 +3,19 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { WorkbookLesson } from './workbook-schema';
 
-let cachedTemplate: HandlebarsTemplateDelegate | null = null;
+type WorkbookType = 'primary' | 'secondary';
 
-async function getTemplate(): Promise<HandlebarsTemplateDelegate> {
+const cachedTemplates: Record<WorkbookType, HandlebarsTemplateDelegate | null> = {
+  primary: null,
+  secondary: null,
+};
+
+async function getTemplate(type: WorkbookType = 'secondary'): Promise<HandlebarsTemplateDelegate> {
   // Disable caching in development for hot-reloading
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  if (cachedTemplate && !isDevelopment) {
-    return cachedTemplate;
+  if (cachedTemplates[type] && !isDevelopment) {
+    return cachedTemplates[type];
   }
 
   // Register helpers (idempotent, safe to call multiple times)
@@ -19,12 +24,13 @@ async function getTemplate(): Promise<HandlebarsTemplateDelegate> {
     return args.slice(0, -1).join('');
   });
 
-  const templatePath = path.join(process.cwd(), 'templates/workbook_template.html');
+  const templateFileName = type === 'primary' ? 'primary_template.html' : 'secondary_template.html';
+  const templatePath = path.join(process.cwd(), 'templates', templateFileName);
   const templateContent = await fs.readFile(templatePath, 'utf-8');
   const compiledTemplate = Handlebars.compile(templateContent);
 
   if (!isDevelopment) {
-    cachedTemplate = compiledTemplate;
+    cachedTemplates[type] = compiledTemplate;
   }
 
   return compiledTemplate;
@@ -34,19 +40,34 @@ export interface RenderOptions {
   seriesName?: string;
   seriesLevel?: string;
   seriesTagline?: string;
-  type?: 'primary' | 'secondary';
+  type?: WorkbookType;
 }
+
+type PreparedLessonData = WorkbookLesson & {
+  lesson_number: string;
+  series_name: string;
+  series_level: string;
+  series_tagline: string;
+  qr_code_url?: string;
+  images_hero: NonNullable<WorkbookLesson['article_images']>;
+  images_vocabulary: NonNullable<WorkbookLesson['article_images']>;
+  images_writing_prompt: NonNullable<WorkbookLesson['article_images']>;
+  images_inline: Record<string, NonNullable<WorkbookLesson['article_images']>>;
+};
 
 function prepareLessonData(
   lesson: WorkbookLesson,
   index: number,
   options: RenderOptions = {}
-): any {
+): PreparedLessonData {
   const {
     seriesName = 'Reading Advantage',
     seriesLevel = 'A1',
     seriesTagline = 'Learning Made Fun'
   } = options;
+  const articleImages = lesson.article_images ?? [];
+  const qrCodeUrlValue = (lesson as Record<string, unknown>).qr_code_url;
+  const qrCodeUrl = typeof qrCodeUrlValue === 'string' ? qrCodeUrlValue : undefined;
 
   return {
     ...lesson,
@@ -54,20 +75,20 @@ function prepareLessonData(
     series_name: seriesName,
     series_level: seriesLevel,
     series_tagline: seriesTagline,
-    qr_code_url: (lesson as any).qr_code_url || undefined,
+    qr_code_url: qrCodeUrl,
     // Pre-process images for the template
-    images_hero: lesson.article_images?.filter(img => img.position === 'hero') || [],
-    images_vocabulary: lesson.article_images?.filter(img => img.position === 'vocabulary') || [],
-    images_writing_prompt: lesson.article_images?.filter(img => img.position === 'writing-prompt') || [],
+    images_hero: articleImages.filter(img => img.position === 'hero'),
+    images_vocabulary: articleImages.filter(img => img.position === 'vocabulary'),
+    images_writing_prompt: articleImages.filter(img => img.position === 'writing-prompt'),
     // Group inline images by paragraph index
-    images_inline: lesson.article_images?.reduce((acc, img) => {
+    images_inline: articleImages.reduce<Record<string, typeof articleImages>>((acc, img) => {
       if (img.position.startsWith('inline-para-')) {
         const key = img.position; // e.g., 'inline-para-1'
         if (!acc[key]) acc[key] = [];
         acc[key].push(img);
       }
       return acc;
-    }, {} as Record<string, typeof lesson.article_images>) || {},
+    }, {}),
   };
 }
 
@@ -75,7 +96,7 @@ export async function renderLessonTemplate(
   lesson: WorkbookLesson,
   options: RenderOptions = {}
 ): Promise<string> {
-  const template = await getTemplate();
+  const template = await getTemplate(options.type ?? 'secondary');
   const lessonData = prepareLessonData(lesson, 0, options);
   return template(lessonData);
 }
@@ -84,7 +105,7 @@ export async function renderMultipleLessons(
   lessons: WorkbookLesson[],
   options: RenderOptions = {}
 ): Promise<string> {
-  const template = await getTemplate();
+  const template = await getTemplate(options.type ?? 'secondary');
   
   const renderedLessons = lessons.map((lesson, index) => {
     const lessonData = prepareLessonData(lesson, index, options);
@@ -96,5 +117,6 @@ export async function renderMultipleLessons(
 }
 
 export function clearTemplateCache(): void {
-  cachedTemplate = null;
+  cachedTemplates.primary = null;
+  cachedTemplates.secondary = null;
 }
