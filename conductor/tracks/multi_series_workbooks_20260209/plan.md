@@ -14,7 +14,7 @@
 
 - [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) `1769789`
 
-## Phase 2: Directory Restructuring & Filesystem Layer
+## Phase 2: Directory Restructuring & Filesystem Layer [checkpoint: 4dd6f4f]
 
 - [x] Task: Add `type` field to project interfaces and metadata `4dd6f4f`
     - [x] Write unit tests for updated `WorkbookProject` and `ProjectMetadata` interfaces with `type: 'primary' | 'secondary'`
@@ -40,7 +40,7 @@
 
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md) `4dd6f4f`
 
-## Phase 3: Migrate Existing Projects
+## Phase 3: Migrate Existing Projects [checkpoint: 832b7bb]
 
 - [x] Task: Create migration script `832b7bb`
     - [x] Write test verifying migration moves `Origins 3.1/` to `secondary/origins-3.1-a1/` with all contents intact
@@ -56,6 +56,8 @@
 
 ## Phase 4: Template System for Primary Workbooks
 
+NOTE: This phase is NOT started. The template-renderer.ts RenderOptions interface was extended with `type` field as part of Phase 5, but the actual template fork has not been done yet.
+
 - [ ] Task: Rename and fork the template
     - [ ] Write test verifying template renderer selects `secondary_template.html` for secondary projects and `primary_template.html` for primary projects
     - [ ] Rename `dashboard/templates/workbook_template.html` → `dashboard/templates/secondary_template.html`
@@ -69,44 +71,44 @@
     - [ ] Simplify question sections (more guided, fewer open-ended)
     - [ ] Apply a brighter, more engaging color scheme
 
-- [ ] Task: Update compile endpoint to use correct template
-    - [ ] Write test verifying `/api/projects/[projectId]/compile` resolves the template based on project type
-    - [ ] Update compile route to read project type and pass it through to the renderer
+- [x] Task: Update compile endpoint to use correct template `fa4f4ad`
+    - [x] Write test verifying `/api/projects/[projectId]/compile` resolves the template based on project type
+    - [x] Update compile route to read project type and pass it through to the renderer
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
 
-## Phase 5: API Route Updates
+## Phase 5: API Route Updates [checkpoint: fa4f4ad]
 
-- [ ] Task: Update `GET /api/projects` with type filtering
-    - [ ] Write test for `GET /api/projects?type=secondary` returning only secondary projects
-    - [ ] Write test for `GET /api/projects?type=primary` returning only primary projects
-    - [ ] Write test for `GET /api/projects` (no filter) returning all projects with type field
-    - [ ] Implement query parameter parsing and pass-through to `listProjects()`
+- [x] Task: Update `GET /api/projects` with type filtering `fa4f4ad`
+    - [x] Write test for `GET /api/projects?type=secondary` returning only secondary projects
+    - [x] Write test for `GET /api/projects?type=primary` returning only primary projects
+    - [x] Write test for `GET /api/projects` (no filter) returning all projects with type field
+    - [x] Implement query parameter parsing and pass-through to `listProjects()`
 
-- [ ] Task: Update `POST /api/projects` with metadata-driven creation
-    - [ ] Write test for `POST /api/projects` with `{ type, seriesName, levelNumber, cefrLevel }` body
-    - [ ] Write test for validation: missing required fields returns 400
-    - [ ] Write test for duplicate project name detection
-    - [ ] Implement updated POST handler using new `createProject()` signature
+- [x] Task: Update `POST /api/projects` with metadata-driven creation `fa4f4ad`
+    - [x] Write test for `POST /api/projects` with `{ type, seriesName, levelNumber, cefrLevel }` body
+    - [x] Write test for validation: missing required fields returns 400
+    - [x] Write test for duplicate project name detection
+    - [x] Implement updated POST handler using new `createProject()` signature
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 5' (Protocol in workflow.md)
 
-## Phase 6: Dashboard UI — Tabbed Projects View
+## Phase 6: Dashboard UI — Tabbed Projects View [checkpoint: d68620c]
 
-- [ ] Task: Build tabbed projects page
-    - [ ] Replace flat project list in `app/projects/page.tsx` with tabbed UI (Secondary | Primary)
-    - [ ] Default to Secondary tab
-    - [ ] Each tab fetches projects filtered by type via `GET /api/projects?type=...`
-    - [ ] Display project type badge on project cards
+- [x] Task: Build tabbed projects page `d68620c`
+    - [x] Replace flat project list in `app/projects/page.tsx` with tabbed UI (Secondary | Primary)
+    - [x] Default to Secondary tab
+    - [x] Each tab fetches projects filtered by type via `GET /api/projects?type=...`
+    - [x] Display project type badge on project cards
 
-- [ ] Task: Update Create Project dialog
-    - [ ] Add type selector (Primary/Secondary) to `CreateProjectDialog`
-    - [ ] Replace free-text name field with structured metadata fields: Series Name, Level Number, CEFR Level
-    - [ ] Show auto-generated directory name preview (e.g., "origins-3.1-a1")
-    - [ ] Submit to updated `POST /api/projects` with type and metadata
+- [x] Task: Update Create Project dialog `d68620c`
+    - [x] Add type selector (Primary/Secondary) to `CreateProjectDialog`
+    - [x] Replace free-text name field with structured metadata fields: Series Name, Level Number, CEFR Level
+    - [x] Show auto-generated directory name preview (e.g., "origins-3.1-a1")
+    - [x] Submit to updated `POST /api/projects` with type and metadata
 
-- [ ] Task: Add type indicator to project detail page
-    - [ ] Display workbook type badge/header on `app/projects/[projectId]/page.tsx`
-    - [ ] Ensure breadcrumbs and navigation reflect the type context
+- [x] Task: Add type indicator to project detail page `d68620c`
+    - [x] Display workbook type badge/header on `app/projects/[projectId]/page.tsx`
+    - [x] Ensure breadcrumbs and navigation reflect the type context
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 6' (Protocol in workflow.md)
