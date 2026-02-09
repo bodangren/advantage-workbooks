@@ -1,6 +1,6 @@
 # Implementation Plan: Multi-Series Workbook Organization & Primary School Support
 
-## Phase 1: E2E Test Isolation & Root Cleanup
+## Phase 1: E2E Test Isolation & Root Cleanup [checkpoint: 1769789]
 
 - [x] Task: Fix e2e tests to use os.tmpdir() `000a5a9`
     - [x] Write tests verifying test directories are created under os.tmpdir()
@@ -12,7 +12,7 @@
     - [x] Delete empty directories: `origins-5/`, `primary-advantage/`
     - [x] Add `.gitignore` entries for `test-e2e-*`, `test-project-*`, and `test-workbooks/`
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md) `1769789`
 
 ## Phase 2: Directory Restructuring & Filesystem Layer
 
