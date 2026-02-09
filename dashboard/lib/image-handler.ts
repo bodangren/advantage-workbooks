@@ -4,11 +4,33 @@ import path from 'path';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
+type ProjectType = 'primary' | 'secondary';
+const SERIES_SUBDIRS: ProjectType[] = ['secondary', 'primary'];
+
 /**
  * Gets the workbooks root directory
  */
 function getWorkbooksRoot(): string {
   return process.env.WORKBOOKS_ROOT || path.resolve(process.cwd(), '..');
+}
+
+/**
+ * Resolves the project path by searching primary/ and secondary/ subdirectories.
+ */
+async function resolveProjectPath(projectId: string): Promise<string> {
+  const root = getWorkbooksRoot();
+  for (const subdir of SERIES_SUBDIRS) {
+    const candidate = path.join(root, subdir, projectId);
+    try {
+      const stat = await fs.stat(candidate);
+      if (stat.isDirectory()) {
+        return candidate;
+      }
+    } catch {
+      // Not in this subdir
+    }
+  }
+  throw new Error(`Project '${projectId}' not found`);
 }
 
 export interface UploadedImage {
@@ -69,9 +91,8 @@ export async function uploadImage(
   validateFilename(originalFilename);
   validateExtension(originalFilename);
 
-  // Create images directory if it doesn't exist
-  const workbooksRoot = getWorkbooksRoot();
-  const projectPath = path.join(workbooksRoot, projectId);
+  // Resolve project path through subdirectories
+  const projectPath = await resolveProjectPath(projectId);
   const imagesPath = path.join(projectPath, 'images');
   await fs.mkdir(imagesPath, { recursive: true });
 
@@ -96,8 +117,7 @@ export async function deleteImage(projectId: string, filename: string): Promise<
   // Validate filename to prevent directory traversal
   validateFilename(filename);
 
-  const workbooksRoot = getWorkbooksRoot();
-  const projectPath = path.join(workbooksRoot, projectId);
+  const projectPath = await resolveProjectPath(projectId);
   const filePath = path.join(projectPath, 'images', filename);
 
   try {
@@ -114,8 +134,7 @@ export async function deleteImage(projectId: string, filename: string): Promise<
  * Lists all images in the project's images folder
  */
 export async function listImages(projectId: string): Promise<ImageInfo[]> {
-  const workbooksRoot = getWorkbooksRoot();
-  const projectPath = path.join(workbooksRoot, projectId);
+  const projectPath = await resolveProjectPath(projectId);
   const imagesPath = path.join(projectPath, 'images');
 
   try {

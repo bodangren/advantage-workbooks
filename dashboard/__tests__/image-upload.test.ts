@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 import { uploadImage, deleteImage, listImages } from '@/lib/image-handler';
 
 describe('Image Upload Functionality', () => {
@@ -14,14 +15,14 @@ describe('Image Upload Functionality', () => {
     const timestamp = Date.now();
     const random = Math.floor(Math.random() * 1000);
     testProjectId = `test-project-${timestamp}-${random}`;
-    testWorkbooksRoot = path.resolve(process.cwd(), '..', 'test-workbooks');
-    testProjectPath = path.join(testWorkbooksRoot, testProjectId);
+    testWorkbooksRoot = path.join(os.tmpdir(), `test-workbooks-img-${timestamp}-${random}`);
+    testProjectPath = path.join(testWorkbooksRoot, 'secondary', testProjectId);
     testImagesPath = path.join(testProjectPath, 'images');
 
     // Set up test environment
     process.env.WORKBOOKS_ROOT = testWorkbooksRoot;
 
-    // Create test project directory structure
+    // Create test project directory structure under secondary/
     await fs.mkdir(testImagesPath, { recursive: true });
   });
 

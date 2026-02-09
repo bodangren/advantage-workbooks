@@ -20,6 +20,8 @@ describe('End-to-End Integration Tests', () => {
     process.env.WORKBOOKS_ROOT = testWorkbooksRoot;
 
     await fs.mkdir(testWorkbooksRoot, { recursive: true });
+    await fs.mkdir(path.join(testWorkbooksRoot, 'secondary'), { recursive: true });
+    await fs.mkdir(path.join(testWorkbooksRoot, 'primary'), { recursive: true });
   });
 
   afterEach(async () => {
