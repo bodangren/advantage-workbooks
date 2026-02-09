@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen } from 'lucide-react';
+import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
 import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
@@ -14,6 +14,13 @@ interface LessonFile {
   path: string;
 }
 
+interface ProjectMetadata {
+  seriesName: string;
+  levelNumber: string;
+  cefrLevel: string;
+  type?: 'primary' | 'secondary';
+}
+
 interface ProjectPageProps {
   params: Promise<{ projectId: string }>;
 }
@@ -22,6 +29,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const { projectId } = use(params);
   const decodedProjectId = decodeURIComponent(projectId);
   const [lessons, setLessons] = useState<LessonFile[]>([]);
+  const [metadata, setMetadata] = useState<ProjectMetadata | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchLessons = useCallback(async () => {
@@ -38,9 +46,22 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     }
   }, [projectId]);
 
+  const fetchMetadata = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}/metadata`);
+      if (response.ok) {
+        const data = await response.json();
+        setMetadata(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch metadata:', error);
+    }
+  }, [projectId]);
+
   useEffect(() => {
     fetchLessons();
-  }, [fetchLessons]);
+    fetchMetadata();
+  }, [fetchLessons, fetchMetadata]);
 
   const handleCreateLesson = () => {
     console.log('Create lesson for project:', projectId);
@@ -49,6 +70,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   if (loading) {
     return <div className="p-6">Loading lessons...</div>;
   }
+
+  const projectType = metadata?.type || 'secondary';
+  const TypeIcon = projectType === 'primary' ? BookOpen : GraduationCap;
 
   return (
     <div className="space-y-6">
@@ -60,9 +84,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{decodedProjectId}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold tracking-tight">{decodedProjectId}</h1>
+              <span className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${
+                projectType === 'primary'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-blue-100 text-blue-700'
+              }`}>
+                <TypeIcon className="h-3 w-3" />
+                {projectType === 'primary' ? 'Primary' : 'Secondary'}
+              </span>
+            </div>
             <p className="text-muted-foreground mt-2">
               {lessons.length} lesson{lessons.length !== 1 ? 's' : ''} in this project
+              {metadata && ` • ${metadata.seriesName} ${metadata.levelNumber} • ${metadata.cefrLevel}`}
             </p>
           </div>
         </div>
