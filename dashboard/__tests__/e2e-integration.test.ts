@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 import { createProject, listProjects, writeLesson, readLesson, listLessons } from '@/lib/filesystem';
 import { uploadImage, listImages } from '@/lib/image-handler';
 import { renderMultipleLessons } from '@/lib/template-renderer';
@@ -14,7 +15,7 @@ describe('End-to-End Integration Tests', () => {
     const timestamp = Date.now();
     const random = Math.floor(Math.random() * 1000);
     testProjectName = `test-e2e-${timestamp}-${random}`;
-    testWorkbooksRoot = path.resolve(process.cwd(), '..', 'test-workbooks');
+    testWorkbooksRoot = path.join(os.tmpdir(), `test-workbooks-${timestamp}-${random}`);
 
     process.env.WORKBOOKS_ROOT = testWorkbooksRoot;
 
@@ -27,6 +28,11 @@ describe('End-to-End Integration Tests', () => {
     } catch (error) {
       // Ignore cleanup errors
     }
+  });
+
+  it('should use os.tmpdir() for test directories', () => {
+    expect(testWorkbooksRoot.startsWith(os.tmpdir())).toBe(true);
+    expect(testWorkbooksRoot).not.toContain('Workbooks');
   });
 
   describe('Full Workflow: Project Creation to PDF Export', () => {
