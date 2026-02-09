@@ -7,3 +7,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Convert the project to a Next.js dashboard for professional workbook production workflows, including preview and automated directory processing.** *(Completed: 2026-02-01)*
   *Link: [./archive/nextjs_dashboard_20260201/](./archive/nextjs_dashboard_20260201/)*
+
+- [x] **Track: Multi-Series Workbook Organization & Primary School Support: Reorganize project structure for primary/secondary workbook series with dedicated templates, structured naming, and tabbed dashboard UI.** *(Completed: 2026-02-09)*
+  *Link: [./tracks/multi_series_workbooks_20260209/](./tracks/multi_series_workbooks_20260209/)*
