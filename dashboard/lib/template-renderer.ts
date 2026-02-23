@@ -117,7 +117,8 @@ export async function renderMultipleLessons(
   
   const renderedLessons = lessons.map((lesson, index) => {
     const lessonData = prepareLessonData(lesson, index, options);
-    return template(lessonData);
+    const lessonHtml = template(lessonData);
+    return `<div id="lesson-${index}" class="lesson-section">${lessonHtml}</div>`;
   });
 
   const fullHtml = renderedLessons.join('\n');

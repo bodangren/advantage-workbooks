@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
+import { wrapWorkbookDocument, type TocEntry } from '@/lib/workbook-document-wrapper';
+import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 export async function GET(
@@ -11,7 +13,6 @@ export async function GET(
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
 
-    // Get all lessons in the project
     const lessons = await listLessons(decodedProjectId);
 
     if (lessons.length === 0) {
@@ -21,16 +22,23 @@ export async function GET(
       );
     }
 
-    // Load all lessons
     const loadedLessons: WorkbookLesson[] = [];
+    const tocEntries: TocEntry[] = [];
 
-    for (const lessonFile of lessons) {
+    for (let i = 0; i < lessons.length; i++) {
+      const lessonFile = lessons[i];
       try {
-        const lesson = await readLesson(decodedProjectId, lessonFile.id);
-        loadedLessons.push(lesson as WorkbookLesson);
+        const lesson = await readLesson(decodedProjectId, lessonFile.id) as WorkbookLesson;
+        loadedLessons.push(lesson);
+        
+        tocEntries.push({
+          id: `lesson-${i}`,
+          title: `${lesson.lesson_number || `Lesson ${i + 1}`}: ${lesson.lesson_title || 'Untitled'}`,
+          genre: lesson.genre,
+          articleType: lesson.article_type,
+        });
       } catch (error) {
         console.error(`Failed to load lesson ${lessonFile.id}:`, error);
-        // Continue with other lessons even if one fails
       }
     }
 
@@ -41,21 +49,32 @@ export async function GET(
       );
     }
 
-    // Read project metadata
     const metadata = await readProjectMetadata(decodedProjectId);
 
-    // Prepare render options with metadata
+    const seriesName = metadata?.seriesName || 'Reading Advantage';
+    const seriesLevel = metadata?.levelNumber || '';
+    const cefrLevel = metadata?.cefrLevel || 'A1';
+    const seriesTagline = 'Learning Made Fun';
+
     const renderOptions = metadata ? {
-      seriesName: `${metadata.seriesName} ${metadata.levelNumber}`,
-      seriesLevel: metadata.cefrLevel,
+      seriesName,
+      seriesLevel: cefrLevel,
       type: metadata.type,
     } : undefined;
 
-    // Render all lessons into a single HTML document
-    const compiledHtml = await renderMultipleLessons(loadedLessons, renderOptions);
+    const lessonsHtml = await renderMultipleLessons(loadedLessons, renderOptions);
+
+    const prefaceData = getPrefaceByCefrLevel(cefrLevel);
+    
+    const fullHtml = wrapWorkbookDocument(lessonsHtml, tocEntries, {
+      seriesName: `${seriesName}${seriesLevel ? ` ${seriesLevel}` : ''}`,
+      seriesLevel: cefrLevel,
+      seriesTagline,
+      prefaceText: prefaceData?.text,
+    });
 
     return NextResponse.json({
-      html: compiledHtml,
+      html: fullHtml,
       lessonCount: loadedLessons.length,
       totalLessons: lessons.length,
     });

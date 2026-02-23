@@ -16,31 +16,31 @@
     - [x] Write unit test verifying manual `qr_code_url` is preserved over auto-generation
     - [x] Update `prepareLessonData()` in `lib/template-renderer.ts` to call QR generator
 
-- [~] Task: Conductor - User Manual Verification 'Phase 1: QR Code Generation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: QR Code Generation' (Protocol in workflow.md) a65cd5f
 
-## Phase 2: Full Document Wrapper for Compilation
+## Phase 2: Full Document Wrapper for Compilation [checkpoint: a65cd5f]
 
-- [ ] Task: Create workbook document wrapper module
-    - [ ] Write unit tests for `wrapWorkbookDocument()` function
-    - [ ] Create `lib/workbook-document-wrapper.ts` with:
-        - [ ] Paged.js script injection
-        - [ ] Title page HTML generation
-        - [ ] Preface section HTML generation
-        - [ ] TOC HTML generation with `target-counter` support
-        - [ ] Print CSS with `@page` rules
-        - [ ] Screen CSS for preview display
+- [x] Task: Create workbook document wrapper module
+    - [x] Write unit tests for `wrapWorkbookDocument()` function
+    - [x] Create `lib/workbook-document-wrapper.ts` with:
+        - [x] Paged.js script injection
+        - [x] Title page HTML generation
+        - [x] Preface section HTML generation
+        - [x] TOC HTML generation with `target-counter` support
+        - [x] Print CSS with `@page` rules
+        - [x] Screen CSS for preview display
 
-- [ ] Task: Create/extend preface data loading
-    - [ ] Write unit test for loading preface data by level
-    - [ ] Create or extend API to load `preface_data.json` content
-    - [ ] Map level keys to appropriate preface text
+- [x] Task: Create/extend preface data loading
+    - [x] Write unit test for loading preface data by level
+    - [x] Create or extend API to load `preface_data.json` content
+    - [x] Map level keys to appropriate preface text
 
-- [ ] Task: Integrate wrapper into compile API
-    - [ ] Write integration test for full document compilation
-    - [ ] Update `/api/projects/[projectId]/compile/route.ts` to use wrapper
-    - [ ] Verify title page, preface, TOC, and lessons all render
+- [x] Task: Integrate wrapper into compile API
+    - [x] Write integration test for full document compilation
+    - [x] Update `/api/projects/[projectId]/compile/route.ts` to use wrapper
+    - [x] Verify title page, preface, TOC, and lessons all render
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Full Document Wrapper' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Full Document Wrapper' (Protocol in workflow.md)
 
 ## Phase 3: Print CSS and Paged.js Configuration
 
