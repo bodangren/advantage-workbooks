@@ -5,6 +5,8 @@ import os from 'os';
 import { createProject, listProjects, writeLesson, readLesson, listLessons } from '@/lib/filesystem';
 import { uploadImage, listImages } from '@/lib/image-handler';
 import { renderMultipleLessons } from '@/lib/template-renderer';
+import { wrapWorkbookDocument, type TocEntry } from '@/lib/workbook-document-wrapper';
+import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 describe('End-to-End Integration Tests', () => {
@@ -237,6 +239,138 @@ describe('End-to-End Integration Tests', () => {
       await writeLesson(project.id, 'test', lesson);
       const readBack = await readLesson(project.id, 'test');
       expect(readBack.lesson_title).toBe('Special Chars Test');
+    });
+  });
+
+  describe('Full Document Compilation with Title Page and TOC', () => {
+    it('should generate complete workbook document with all sections', async () => {
+      const project = await createProject(testProjectName);
+
+      const lesson1: WorkbookLesson = {
+        lesson_number: 'Lesson 1',
+        lesson_title: 'First Article',
+        level_name: 'Origins',
+        cefr_level: 'A1',
+        article_type: 'Informational',
+        genre: 'Science',
+        article_url: 'https://example.com/article/1',
+        vocabulary: [{ word: 'test', definition: 'a test', phonetic: '/test/' }],
+        article_paragraphs: [{ number: 1, text: 'Content for lesson 1.' }],
+        comprehension_questions: [{ number: 1, question: 'Test?', options: ['A', 'B'] }],
+        short_answer_question: 'Answer?',
+        writing_prompt: 'Write!',
+      };
+
+      const lesson2: WorkbookLesson = {
+        ...lesson1,
+        lesson_number: 'Lesson 2',
+        lesson_title: 'Second Article',
+        article_url: 'https://example.com/article/2',
+        article_paragraphs: [{ number: 1, text: 'Content for lesson 2.' }],
+      };
+
+      await writeLesson(project.id, 'content_1', lesson1);
+      await writeLesson(project.id, 'content_2', lesson2);
+
+      const lessons = await listLessons(project.id);
+      const loadedLessons = [];
+      for (const lessonFile of lessons) {
+        const lesson = await readLesson(project.id, lessonFile.id);
+        loadedLessons.push(lesson as WorkbookLesson);
+      }
+
+      const lessonsHtml = await renderMultipleLessons(loadedLessons);
+
+      const tocEntries: TocEntry[] = loadedLessons.map((lesson, i) => ({
+        id: `lesson-${i}`,
+        title: `${(lesson as WorkbookLesson).lesson_number}: ${(lesson as WorkbookLesson).lesson_title}`,
+        genre: (lesson as WorkbookLesson).genre,
+        articleType: (lesson as WorkbookLesson).article_type,
+      }));
+
+      const fullHtml = wrapWorkbookDocument(lessonsHtml, tocEntries, {
+        seriesName: 'Origins 3.1',
+        seriesLevel: 'A1',
+        seriesTagline: 'Learning Made Fun',
+        prefaceText: getPrefaceByCefrLevel('A1')?.text,
+      });
+
+      expect(fullHtml).toContain('<!DOCTYPE html>');
+      expect(fullHtml).toContain('title-page');
+      expect(fullHtml).toContain('Origins 3.1');
+      expect(fullHtml).toContain('Level A1');
+      expect(fullHtml).toContain('section-preface');
+      expect(fullHtml).toContain('section-toc');
+      expect(fullHtml).toContain('Table of Contents');
+      expect(fullHtml).toContain('lesson-0');
+      expect(fullHtml).toContain('First Article');
+      expect(fullHtml).toContain('Second Article');
+      expect(fullHtml).toContain('paged.polyfill.js');
+      expect(fullHtml).toContain('@page');
+    });
+
+    it('should include QR codes in compiled output when article_url exists', async () => {
+      const lesson: WorkbookLesson = {
+        lesson_title: 'QR Test',
+        article_url: 'https://example.com/test-article',
+        vocabulary: [],
+        article_paragraphs: [{ number: 1, text: 'Test content' }],
+        comprehension_questions: [],
+        short_answer_question: '',
+        writing_prompt: '',
+      };
+
+      const compiledHtml = await renderMultipleLessons([lesson]);
+
+      expect(compiledHtml).toContain('data:image/svg+xml;base64,');
+    });
+
+    it('should generate TOC with correct number of entries', async () => {
+      const loadedLessons: WorkbookLesson[] = [];
+      for (let i = 1; i <= 5; i++) {
+        loadedLessons.push({
+          lesson_number: `Lesson ${i}`,
+          lesson_title: `Article ${i}`,
+          genre: 'Fiction',
+          article_type: 'Story',
+          vocabulary: [],
+          article_paragraphs: [{ number: 1, text: `Content ${i}` }],
+          comprehension_questions: [],
+          short_answer_question: '',
+          writing_prompt: '',
+        });
+      }
+
+      const lessonsHtml = await renderMultipleLessons(loadedLessons);
+      const tocEntries: TocEntry[] = loadedLessons.map((lesson, i) => ({
+        id: `lesson-${i}`,
+        title: `${lesson.lesson_number}: ${lesson.lesson_title}`,
+      }));
+
+      const fullHtml = wrapWorkbookDocument(lessonsHtml, tocEntries, {
+        seriesName: 'Test',
+        seriesLevel: 'A1',
+        seriesTagline: 'Test',
+      });
+
+      const tocMatches = fullHtml.match(/<li class="toc-item">/g);
+      expect(tocMatches).toHaveLength(5);
+
+      for (let i = 1; i <= 5; i++) {
+        expect(fullHtml).toContain(`Article ${i}`);
+      }
+    });
+
+    it('should include Paged.js target-counter for TOC page numbers', () => {
+      const lessonsHtml = '<div id="lesson-0">Test content</div>';
+      const fullHtml = wrapWorkbookDocument(lessonsHtml, [{ id: 'lesson-0', title: 'Test' }], {
+        seriesName: 'Test',
+        seriesLevel: 'A1',
+        seriesTagline: 'Test',
+      });
+
+      expect(fullHtml).toContain('target-counter');
+      expect(fullHtml).toContain("content: target-counter(attr(href), page)");
     });
   });
 });

@@ -29,38 +29,34 @@ The system separates content (JSON) from presentation (HTML/CSS), using a browse
 
 ## Usage Workflow
 
-### 1. Content Creation
-Create or edit a `.json` file. Refer to `workbook_schema.ts` or `template_data_structure.json` for the required fields. Key fields include:
-*   `lesson_title`, `cefr_level`
-*   `article_paragraphs`
-*   `vocabulary` (word, definition)
-*   `comprehension_questions`
-*   `writing_prompt`
+### Dashboard (Recommended)
+The Next.js dashboard at `/dashboard` provides a modern interface for managing and compiling workbooks.
 
-### 2. Validation
-Before compiling, ensure the JSON is valid to prevent rendering errors.
-```bash
-# Install dependency if needed
-pip install jsonschema
+1. **Start the dashboard:**
+   ```bash
+   cd dashboard && npm run dev
+   ```
+2. Open `http://localhost:3000` in your browser.
+3. Navigate to **Projects** to view existing workbook projects or create new ones.
+4. Select a project to view and edit lessons.
+5. Click **Compile All** to generate a full workbook with title page, TOC, and all lessons.
 
-# Run validator
-python3 validate_content.py
-```
+### PDF Generation from Dashboard
+1. In the compiled preview, click the **Print** button or press `Ctrl+P`.
+2. Set Destination to **"Save as PDF"** or your printer.
+3. **CRITICAL:** Enable **"Background graphics"** in More Settings (required for proper rendering).
+4. Set Margins to **Default** or **None**.
+5. Click Save/Print.
 
-### 3. Compilation (Browser)
-1.  Open `workbook_compiler_paged.html` in a modern browser (Chrome/Edge recommended for Paged.js).
-2.  **Select Files:**
+### Legacy Browser Compiler
+The original browser-based compiler is still available:
+1. Open `workbook_compiler_paged.html` in a modern browser (Chrome/Edge recommended for Paged.js).
+2. **Select Files:**
     *   **Template:** `workbook_template.html`
     *   **Preface:** `preface_data.json`
     *   **Content:** Select one or more `content_*.json` files.
-3.  Click **"Compile Workbook"**.
-4.  Preview the output in the new tab.
-
-### 4. PDF Generation
-1.  In the preview tab, press `Ctrl+P` (Print).
-2.  Destination: "Save as PDF".
-3.  **Important:** Enable "Background graphics".
-4.  Save the file.
+3. Click **"Compile Workbook"**.
+4. Preview the output in the new tab.
 
 ## Development Constraints & Style
 *   **JSON Strictness:** The compiler is sensitive to missing fields. Always validate.

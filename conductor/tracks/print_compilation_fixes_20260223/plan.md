@@ -60,24 +60,24 @@
     - [x] Add tooltip or info text explaining "Enable Background Graphics" for printing
     - [x] Add print instructions modal or collapsible section
 
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Print CSS and Paged.js' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Print CSS and Paged.js' (Protocol in workflow.md) 396bd36
 
-## Phase 4: End-to-End Testing and Polish
+## Phase 4: End-to-End Testing and Polish [checkpoint: 396bd36]
 
-- [ ] Task: E2E test for full compilation workflow
-    - [ ] Write E2E test creating project with multiple lessons
-    - [ ] Verify compile returns valid HTML with all sections
-    - [ ] Verify QR codes are present in output
-    - [ ] Verify TOC contains all lessons
+- [x] Task: E2E test for full compilation workflow
+    - [x] Write E2E test creating project with multiple lessons
+    - [x] Verify compile returns valid HTML with all sections
+    - [x] Verify QR codes are present in output
+    - [x] Verify TOC contains all lessons
 
-- [ ] Task: Manual print verification
-    - [ ] Test print preview in Chrome
-    - [ ] Test print preview in Edge
-    - [ ] Verify page breaks are sensible
-    - [ ] Verify page numbers are correct
+- [x] Task: Manual print verification
+    - [x] Test print preview in Chrome
+    - [x] Test print preview in Edge
+    - [x] Verify page breaks are sensible
+    - [x] Verify page numbers are correct
 
-- [ ] Task: Update documentation
-    - [ ] Update AGENTS.md with printing instructions
-    - [ ] Document the new compilation structure
+- [x] Task: Update documentation
+    - [x] Update AGENTS.md with printing instructions
+    - [x] Document the new compilation structure
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: End-to-End Testing' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 4: End-to-End Testing' (Protocol in workflow.md)
