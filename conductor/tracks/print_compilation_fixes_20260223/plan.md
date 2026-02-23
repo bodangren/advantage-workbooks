@@ -40,27 +40,27 @@
     - [x] Update `/api/projects/[projectId]/compile/route.ts` to use wrapper
     - [x] Verify title page, preface, TOC, and lessons all render
 
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Full Document Wrapper' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Full Document Wrapper' (Protocol in workflow.md) 96f3775
 
-## Phase 3: Print CSS and Paged.js Configuration
+## Phase 3: Print CSS and Paged.js Configuration [checkpoint: 96f3775]
 
-- [ ] Task: Implement comprehensive print stylesheet
-    - [ ] Write test verifying print CSS is included in compiled output
-    - [ ] Define `@page` rules (size, margins, page numbers)
-    - [ ] Define `@page :first` for title page (no page number)
-    - [ ] Define break rules (break-after, break-inside: avoid)
-    - [ ] Define screen preview styles (.pagedjs_pages, .pagedjs_page)
+- [x] Task: Implement comprehensive print stylesheet
+    - [x] Write test verifying print CSS is included in compiled output
+    - [x] Define `@page` rules (size, margins, page numbers)
+    - [x] Define `@page :first` for title page (no page number)
+    - [x] Define break rules (break-after, break-inside: avoid)
+    - [x] Define screen preview styles (.pagedjs_pages, .pagedjs_page)
 
-- [ ] Task: Configure Paged.js for proper rendering
-    - [ ] Verify Paged.js loads correctly in iframe preview
-    - [ ] Verify page counter works for TOC page numbers
-    - [ ] Test with multiple lessons (5+) to verify pagination
+- [x] Task: Configure Paged.js for proper rendering
+    - [x] Verify Paged.js loads correctly in iframe preview
+    - [x] Verify page counter works for TOC page numbers
+    - [x] Test with multiple lessons (5+) to verify pagination
 
-- [ ] Task: Add print instructions to UI
-    - [ ] Add tooltip or info text explaining "Enable Background Graphics" for printing
-    - [ ] Add print instructions modal or collapsible section
+- [x] Task: Add print instructions to UI
+    - [x] Add tooltip or info text explaining "Enable Background Graphics" for printing
+    - [x] Add print instructions modal or collapsible section
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Print CSS and Paged.js' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Print CSS and Paged.js' (Protocol in workflow.md)
 
 ## Phase 4: End-to-End Testing and Polish
 

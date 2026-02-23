@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Printer, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { ArrowLeft, Printer, Eye, EyeOff, Loader2, Info } from 'lucide-react';
 import { use } from 'react';
 
 interface CompilePageProps {
@@ -19,6 +19,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [lessonCount, setLessonCount] = useState(0);
   const [totalLessons, setTotalLessons] = useState(0);
   const [showFullscreen, setShowFullscreen] = useState(false);
+  const [showPrintInfo, setShowPrintInfo] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -73,6 +74,9 @@ export default function CompilePage({ params }: CompilePageProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Button onClick={() => setShowPrintInfo(!showPrintInfo)} variant="ghost" size="icon" title="Print Instructions">
+              <Info className="h-4 w-4" />
+            </Button>
             <Button onClick={() => setShowFullscreen(!showFullscreen)} variant="outline">
               {showFullscreen ? (
                 <>
@@ -95,6 +99,20 @@ export default function CompilePage({ params }: CompilePageProps) {
             </Button>
           </div>
         </div>
+        {showPrintInfo && (
+          <div className="container mx-auto mt-4">
+            <Card className="bg-blue-50 border-blue-200 p-4">
+              <h3 className="font-semibold text-blue-900 mb-2">Print Instructions</h3>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>1. Click the <strong>Print</strong> button or press <kbd className="px-1 py-0.5 bg-blue-100 rounded">Ctrl+P</kbd></li>
+                <li>2. Set Destination to <strong>&quot;Save as PDF&quot;</strong> or your printer</li>
+                <li>3. <strong className="text-red-600">Important:</strong> Enable <strong>&quot;Background graphics&quot;</strong> in More Settings</li>
+                <li>4. Set Margins to <strong>Default</strong> or <strong>None</strong></li>
+                <li>5. Click Save/Print</li>
+              </ul>
+            </Card>
+          </div>
+        )}
       </div>
 
       <div className="container mx-auto py-6">
