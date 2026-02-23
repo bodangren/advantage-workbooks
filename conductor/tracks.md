@@ -10,3 +10,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Multi-Series Workbook Organization & Primary School Support: Reorganize project structure for primary/secondary workbook series with dedicated templates, structured naming, and tabbed dashboard UI.** *(Completed: 2026-02-09)*
   *Link: [./tracks/multi_series_workbooks_20260209/](./tracks/multi_series_workbooks_20260209/)*
+
+- [~] **Track: Fix QR code generation, print pagination, and add title page/TOC to workbook compilation.**
+  *Link: [./tracks/print_compilation_fixes_20260223/](./tracks/print_compilation_fixes_20260223/)*

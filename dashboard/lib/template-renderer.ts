@@ -2,6 +2,7 @@ import Handlebars from 'handlebars';
 import fs from 'fs/promises';
 import path from 'path';
 import type { WorkbookLesson } from './workbook-schema';
+import { generateQRCodeDataURL } from './qr-generator';
 
 type WorkbookType = 'primary' | 'secondary';
 
@@ -66,8 +67,15 @@ function prepareLessonData(
     seriesTagline = 'Learning Made Fun'
   } = options;
   const articleImages = lesson.article_images ?? [];
-  const qrCodeUrlValue = (lesson as Record<string, unknown>).qr_code_url;
-  const qrCodeUrl = typeof qrCodeUrlValue === 'string' ? qrCodeUrlValue : undefined;
+  
+  const existingQRCodeUrl = (lesson as Record<string, unknown>).qr_code_url;
+  let qrCodeUrl: string | undefined;
+  
+  if (typeof existingQRCodeUrl === 'string' && existingQRCodeUrl.trim() !== '') {
+    qrCodeUrl = existingQRCodeUrl;
+  } else if (lesson.article_url) {
+    qrCodeUrl = generateQRCodeDataURL(lesson.article_url) ?? undefined;
+  }
 
   return {
     ...lesson,

@@ -223,4 +223,44 @@ describe('Template Renderer Tests', () => {
       expect(html).toContain('template-variant-secondary');
     });
   });
+
+  describe('QR code integration', () => {
+    it('should auto-generate QR code when article_url exists but qr_code_url is not set', async () => {
+      const lessonWithArticleUrl: WorkbookLesson = {
+        ...mockLesson,
+        article_url: 'https://example.com/article/123'
+      };
+
+      const html = await renderLessonTemplate(lessonWithArticleUrl);
+      expect(html).toContain('data:image/svg+xml;base64,');
+    });
+
+    it('should preserve manual qr_code_url over auto-generation', async () => {
+      const lessonWithManualQR: WorkbookLesson = {
+        ...mockLesson,
+        article_url: 'https://example.com/article/123',
+        qr_code_url: 'https://example.com/manual-qr.png'
+      } as WorkbookLesson & { qr_code_url: string };
+
+      const html = await renderLessonTemplate(lessonWithManualQR);
+      expect(html).toContain('https://example.com/manual-qr.png');
+      expect(html).not.toContain('data:image/svg+xml;base64,');
+    });
+
+    it('should not generate QR code when article_url is missing', async () => {
+      const html = await renderLessonTemplate(mockLesson);
+      expect(html).not.toContain('data:image/svg+xml;base64,');
+    });
+
+    it('should generate QR codes in multiple lessons', async () => {
+      const lessons: WorkbookLesson[] = [
+        { ...mockLesson, lesson_title: 'Lesson 1', article_url: 'https://example.com/1' },
+        { ...mockLesson, lesson_title: 'Lesson 2', article_url: 'https://example.com/2' }
+      ];
+
+      const html = await renderMultipleLessons(lessons);
+      const qrCount = (html.match(/data:image\/svg\+xml;base64,/g) || []).length;
+      expect(qrCount).toBe(2);
+    });
+  });
 });
