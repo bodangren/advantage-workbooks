@@ -13,7 +13,10 @@ export async function GET(
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
 
-    const lessons = await listLessons(decodedProjectId);
+    const [lessons, metadata] = await Promise.all([
+      listLessons(decodedProjectId),
+      readProjectMetadata(decodedProjectId),
+    ]);
 
     if (lessons.length === 0) {
       return NextResponse.json(
@@ -22,37 +25,38 @@ export async function GET(
       );
     }
 
-    const loadedLessons: WorkbookLesson[] = [];
-    const tocEntries: TocEntry[] = [];
+    const lessonResults = await Promise.all(
+      lessons.map(async (lessonFile, i) => {
+        try {
+          const lesson = await readLesson(decodedProjectId, lessonFile.id) as WorkbookLesson;
+          const tocEntry: TocEntry = {
+            id: `lesson-${i}`,
+            title: `${lesson.lesson_number || `Lesson ${i + 1}`}: ${lesson.lesson_title || 'Untitled'}`,
+            genre: lesson.genre,
+            articleType: lesson.article_type,
+          };
+          return { lesson, tocEntry };
+        } catch (error) {
+          console.error(`Failed to load lesson ${lessonFile.id}:`, error);
+          return null;
+        }
+      })
+    );
 
-    for (let i = 0; i < lessons.length; i++) {
-      const lessonFile = lessons[i];
-      try {
-        const lesson = await readLesson(decodedProjectId, lessonFile.id) as WorkbookLesson;
-        loadedLessons.push(lesson);
-        
-        tocEntries.push({
-          id: `lesson-${i}`,
-          title: `${lesson.lesson_number || `Lesson ${i + 1}`}: ${lesson.lesson_title || 'Untitled'}`,
-          genre: lesson.genre,
-          articleType: lesson.article_type,
-        });
-      } catch (error) {
-        console.error(`Failed to load lesson ${lessonFile.id}:`, error);
-      }
-    }
+    const successful = lessonResults.filter((r): r is NonNullable<typeof r> => r !== null);
 
-    if (loadedLessons.length === 0) {
+    if (successful.length === 0) {
       return NextResponse.json(
         { error: 'Failed to load any lessons' },
         { status: 500 }
       );
     }
 
-    const metadata = await readProjectMetadata(decodedProjectId);
+    const loadedLessons = successful.map(r => r.lesson);
+    const tocEntries = successful.map(r => r.tocEntry);
 
     const seriesName = metadata?.seriesName || 'Reading Advantage';
-    const seriesLevel = metadata?.levelNumber || '';
+    const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
     const seriesTagline = 'Learning Made Fun';
 
@@ -65,9 +69,9 @@ export async function GET(
     const lessonsHtml = await renderMultipleLessons(loadedLessons, renderOptions);
 
     const prefaceData = getPrefaceByCefrLevel(cefrLevel);
-    
+
     const fullHtml = wrapWorkbookDocument(lessonsHtml, tocEntries, {
-      seriesName: `${seriesName}${seriesLevel ? ` ${seriesLevel}` : ''}`,
+      seriesName: `${seriesName}${levelNumber ? ` ${levelNumber}` : ''}`,
       seriesLevel: cefrLevel,
       seriesTagline,
       prefaceText: prefaceData?.text,

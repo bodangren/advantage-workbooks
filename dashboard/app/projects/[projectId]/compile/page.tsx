@@ -147,13 +147,7 @@ export default function CompilePage({ params }: CompilePageProps) {
         ) : (
           <Card>
             <div className="border-b px-6 py-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold">All Lessons</h2>
-                <Button onClick={handlePrint} size="sm">
-                  <Printer className="mr-2 h-4 w-4" />
-                  Print
-                </Button>
-              </div>
+              <h2 className="text-lg font-bold">All Lessons</h2>
             </div>
             <div className="h-[calc(100vh-250px)] overflow-auto p-6">
               <iframe

@@ -65,8 +65,7 @@ function generateTocSection(tocEntries: TocEntry[]): string {
   `;
 }
 
-function generatePrintStyles(): string {
-  return `
+const PRINT_STYLES = `
     @page {
       size: 210mm 285mm;
       margin: 20mm;
@@ -250,8 +249,7 @@ function generatePrintStyles(): string {
     .question-box, .practice-box, .vocab-table tr {
       break-inside: avoid;
     }
-  `;
-}
+`;
 
 function escapeHtml(text: string): string {
   return text
@@ -270,7 +268,6 @@ export function wrapWorkbookDocument(
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
-  const printStyles = generatePrintStyles();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -279,7 +276,7 @@ export function wrapWorkbookDocument(
   <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
   <style>
-    ${printStyles}
+    ${PRINT_STYLES}
   </style>
 </head>
 <body>
