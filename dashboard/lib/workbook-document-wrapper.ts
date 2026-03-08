@@ -11,6 +11,26 @@ export interface GlossaryEntry {
   definition: string;
 }
 
+export interface McAnswer {
+  number: number;
+  letter: string;
+  text: string;
+}
+
+export interface OrderAnswer {
+  number: number;
+  sentence: string;
+}
+
+export interface AnswerKeyEntry {
+  lessonTitle: string;
+  mcAnswers?: McAnswer[];
+  vocabMatchAnswerString?: string;
+  vocabFillAnswerString?: string;
+  sentenceOrderAnswers?: OrderAnswer[];
+  shortAnswerHint?: string;
+}
+
 export interface WorkbookDocumentOptions {
   seriesName: string;
   seriesLevel: string;
@@ -18,6 +38,7 @@ export interface WorkbookDocumentOptions {
   prefaceText?: string;
   type?: 'primary' | 'secondary';
   glossary?: GlossaryEntry[];
+  answerKey?: AnswerKeyEntry[];
 }
 
 interface ThemeColors {
@@ -121,6 +142,54 @@ function generateGlossarySection(glossary?: GlossaryEntry[]): string {
       <h2 class="section-header">Glossary</h2>
       <div class="glossary-list">
         ${glossaryItems}
+      </div>
+    </div>
+  `;
+}
+
+function generateAnswerKeySection(answerKey?: AnswerKeyEntry[]): string {
+  if (!answerKey || answerKey.length === 0) return '';
+
+  const answerItems = answerKey.map(entry => {
+    let content = '';
+
+    if (entry.mcAnswers && entry.mcAnswers.length > 0) {
+      const mc = entry.mcAnswers.map(ans => `${ans.number}. ${ans.letter}`).join('  ');
+      content += `<div class="ak-block"><strong>Multiple Choice:</strong> ${escapeHtml(mc)}</div>`;
+    }
+
+    if (entry.vocabMatchAnswerString) {
+      content += `<div class="ak-block"><strong>Vocabulary Match:</strong> ${escapeHtml(entry.vocabMatchAnswerString)}</div>`;
+    }
+
+    if (entry.vocabFillAnswerString) {
+      content += `<div class="ak-block"><strong>Vocabulary Fill:</strong> ${escapeHtml(entry.vocabFillAnswerString)}</div>`;
+    }
+
+    if (entry.sentenceOrderAnswers && entry.sentenceOrderAnswers.length > 0) {
+      const order = entry.sentenceOrderAnswers.map(ans => `<div>${ans.number}. ${escapeHtml(ans.sentence)}</div>`).join('');
+      content += `<div class="ak-block"><strong>Sentence Order:</strong> ${order}</div>`;
+    }
+
+    if (entry.shortAnswerHint) {
+      content += `<div class="ak-block"><strong>Short Answer Hint:</strong> ${escapeHtml(entry.shortAnswerHint)}</div>`;
+    }
+
+    if (!content) return '';
+
+    return `
+      <div class="ak-lesson-entry">
+        <h3 class="ak-lesson-title">${escapeHtml(entry.lessonTitle)}</h3>
+        ${content}
+      </div>
+    `;
+  }).join('\n');
+
+  return `
+    <div class="section-answer-key">
+      <h2 class="section-header">Answer Key</h2>
+      <div class="ak-list">
+        ${answerItems}
       </div>
     </div>
   `;
@@ -276,7 +345,7 @@ function getPrintStyles(theme: ThemeColors): string {
       text-transform: uppercase;
     }
 
-    .section-preface, .section-toc, .section-glossary {
+    .section-preface, .section-toc, .section-glossary, .section-answer-key {
       break-after: page;
       padding-top: 40px;
       font-family: 'Open Sans', sans-serif;
@@ -367,6 +436,30 @@ function getPrintStyles(theme: ThemeColors): string {
       display: block;
     }
 
+    .ak-list {
+      column-count: 2;
+      column-gap: 30px;
+      font-size: 11pt;
+    }
+
+    .ak-lesson-entry {
+      break-inside: avoid;
+      margin-bottom: 20px;
+    }
+
+    .ak-lesson-title {
+      font-size: 13pt;
+      color: ${theme.primary};
+      margin: 0 0 8px 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 4px;
+    }
+
+    .ak-block {
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
     .lesson-section {
       break-after: page;
     }
@@ -404,6 +497,7 @@ export function wrapWorkbookDocument(
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
   const glossarySection = generateGlossarySection(options.glossary);
+  const answerKeySection = generateAnswerKeySection(options.answerKey);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -425,6 +519,8 @@ export function wrapWorkbookDocument(
   ${lessonsHtml}
 
   ${glossarySection}
+
+  ${answerKeySection}
 </body>
 </html>`;
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
-import { wrapWorkbookDocument, type TocEntry } from '@/lib/workbook-document-wrapper';
+import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry } from '@/lib/workbook-document-wrapper';
 import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
@@ -78,6 +78,26 @@ export async function GET(
       a.word.localeCompare(b.word)
     );
 
+    // Extract answer keys
+    const answerKey: AnswerKeyEntry[] = loadedLessons.map(lesson => {
+      const entry: AnswerKeyEntry = {
+        lessonTitle: `${lesson.lesson_number ? lesson.lesson_number + ': ' : ''}${lesson.lesson_title || 'Untitled'}`,
+        mcAnswers: lesson.mc_answers,
+        vocabMatchAnswerString: lesson.vocab_match_answer_string,
+        vocabFillAnswerString: lesson.vocab_fill_answer_string,
+        sentenceOrderAnswers: lesson.sentence_order_answers,
+        shortAnswerHint: lesson.short_answer_hint,
+      };
+      
+      const hasAnswers = (entry.mcAnswers && entry.mcAnswers.length > 0) || 
+                         entry.vocabMatchAnswerString || 
+                         entry.vocabFillAnswerString || 
+                         (entry.sentenceOrderAnswers && entry.sentenceOrderAnswers.length > 0) || 
+                         entry.shortAnswerHint;
+                         
+      return hasAnswers ? entry : null;
+    }).filter((e): e is AnswerKeyEntry => e !== null);
+
     const seriesName = metadata?.seriesName || 'Reading Advantage';
     const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
@@ -100,6 +120,7 @@ export async function GET(
       prefaceText: prefaceData?.text,
       type: metadata?.type,
       glossary: glossary.length > 0 ? glossary : undefined,
+      answerKey: answerKey.length > 0 ? answerKey : undefined,
     });
 
     return NextResponse.json({
