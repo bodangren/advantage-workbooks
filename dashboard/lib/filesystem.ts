@@ -41,6 +41,21 @@ const SERIES_SUBDIRS: ProjectType[] = ['secondary', 'primary'];
 const IGNORED_DIRS = new Set(['.git', 'node_modules', 'dashboard', 'conductor', 'v1-legacy', 'screenshots', 'Teacher guide']);
 
 /**
+ * Ensures that a target path is securely contained within a base path,
+ * preventing path traversal vulnerabilities (LFI).
+ */
+function assertSafePath(base: string, target: string): void {
+  const resolvedBase = path.resolve(base);
+  const resolvedTarget = path.resolve(target);
+  
+  const baseWithSep = resolvedBase.endsWith(path.sep) ? resolvedBase : resolvedBase + path.sep;
+  
+  if (!resolvedTarget.startsWith(baseWithSep) && resolvedTarget !== resolvedBase) {
+    throw new Error(`Path traversal detected: ${target} attempts to escape ${base}`);
+  }
+}
+
+/**
  * Generates a project ID from metadata fields.
  * Example: { seriesName: 'Origins', levelNumber: '3.1', cefrLevel: 'A1' } → 'origins-3.1-a1'
  */
@@ -57,7 +72,15 @@ export function generateProjectId(metadata: { seriesName: string; levelNumber: s
  */
 async function resolveProjectPath(projectId: string): Promise<{ fullPath: string; type: ProjectType }> {
   for (const subdir of SERIES_SUBDIRS) {
-    const candidate = path.join(getWorkbooksRoot(), subdir, projectId);
+    const rootPath = path.join(getWorkbooksRoot(), subdir);
+    const candidate = path.join(rootPath, projectId);
+    
+    try {
+      assertSafePath(rootPath, candidate);
+    } catch {
+      continue; // Skip if traversal detected, check next or eventually fail
+    }
+
     try {
       const stat = await fs.stat(candidate);
       if (stat.isDirectory()) {
@@ -136,6 +159,8 @@ export async function readLesson(projectId: string, lessonId: string): Promise<W
   const { fullPath } = await resolveProjectPath(projectId);
   const lessonPath = path.join(fullPath, `${lessonId}.json`);
 
+  assertSafePath(fullPath, lessonPath);
+
   try {
     const content = await fs.readFile(lessonPath, 'utf-8');
     return JSON.parse(content);
@@ -151,13 +176,23 @@ export async function writeLesson(projectId: string, lessonId: string, data: Wor
   const { fullPath } = await resolveProjectPath(projectId);
   const lessonPath = path.join(fullPath, `${lessonId}.json`);
 
+  assertSafePath(fullPath, lessonPath);
+
   await fs.writeFile(lessonPath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 export async function readProjectMetadata(projectId: string): Promise<ProjectMetadata | null> {
   // Try to find the project in subdirectories
   for (const subdir of SERIES_SUBDIRS) {
-    const metadataPath = path.join(getWorkbooksRoot(), subdir, projectId, 'project.json');
+    const rootPath = path.join(getWorkbooksRoot(), subdir);
+    const metadataPath = path.join(rootPath, projectId, 'project.json');
+    
+    try {
+      assertSafePath(rootPath, metadataPath);
+    } catch {
+      continue;
+    }
+
     try {
       const content = await fs.readFile(metadataPath, 'utf-8');
       return JSON.parse(content);
@@ -172,6 +207,8 @@ export async function writeProjectMetadata(projectId: string, metadata: ProjectM
   const { fullPath } = await resolveProjectPath(projectId);
   const metadataPath = path.join(fullPath, 'project.json');
 
+  assertSafePath(fullPath, metadataPath);
+
   await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
 }
 
@@ -183,7 +220,10 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
     // Legacy signature: createProject(name) — defaults to secondary
     const name = nameOrOptions;
     const projectId = name.toLowerCase().replace(/\s+/g, '-');
-    const projectPath = path.join(getWorkbooksRoot(), 'secondary', projectId);
+    const rootPath = path.join(getWorkbooksRoot(), 'secondary');
+    const projectPath = path.join(rootPath, projectId);
+
+    assertSafePath(rootPath, projectPath);
 
     await fs.mkdir(projectPath, { recursive: true });
 
@@ -208,7 +248,10 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
   // New signature: createProject({ type, seriesName, levelNumber, cefrLevel })
   const { type, seriesName, levelNumber, cefrLevel } = nameOrOptions;
   const projectId = generateProjectId({ seriesName, levelNumber, cefrLevel });
-  const projectPath = path.join(getWorkbooksRoot(), type, projectId);
+  const rootPath = path.join(getWorkbooksRoot(), type);
+  const projectPath = path.join(rootPath, projectId);
+
+  assertSafePath(rootPath, projectPath);
 
   await fs.mkdir(projectPath, { recursive: true });
 
