@@ -168,6 +168,32 @@ describe('Workbook Document Wrapper', () => {
     });
   });
 
+  describe('brand color by workbook type', () => {
+    it('uses primary blue (#0284c7) for primary workbooks', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        type: 'primary',
+      });
+      expect(html).toContain('#0284c7');
+      expect(html).not.toContain('#1e40af');
+    });
+
+    it('uses secondary blue (#1e40af) for secondary workbooks', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        type: 'secondary',
+      });
+      expect(html).toContain('#1e40af');
+      expect(html).not.toContain('#0284c7');
+    });
+
+    it('defaults to secondary blue when type is omitted', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(html).toContain('#1e40af');
+      expect(html).not.toContain('#0284c7');
+    });
+  });
+
   describe('print media styles', () => {
     it('should include @media print rules', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);

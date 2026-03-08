@@ -10,6 +10,7 @@ export interface WorkbookDocumentOptions {
   seriesLevel: string;
   seriesTagline: string;
   prefaceText?: string;
+  type?: 'primary' | 'secondary';
 }
 
 function generateTitlePage(options: WorkbookDocumentOptions): string {
@@ -65,7 +66,8 @@ function generateTocSection(tocEntries: TocEntry[]): string {
   `;
 }
 
-const PRINT_STYLES = `
+function getPrintStyles(brandColor: string): string {
+  return `
     @page {
       size: 210mm 285mm;
       margin: 20mm;
@@ -154,7 +156,7 @@ const PRINT_STYLES = `
       margin-bottom: 10px;
       text-transform: uppercase;
       font-family: 'Open Sans', sans-serif;
-      color: #1e40af;
+      color: ${brandColor};
     }
 
     .tp-level-info {
@@ -184,8 +186,8 @@ const PRINT_STYLES = `
 
     .section-header {
       font-size: 24pt;
-      border-bottom: 2px solid #1e40af;
-      color: #1e40af;
+      border-bottom: 2px solid ${brandColor};
+      color: ${brandColor};
       padding-bottom: 10px;
       margin-bottom: 30px;
       text-align: left;
@@ -249,7 +251,8 @@ const PRINT_STYLES = `
     .question-box, .practice-box, .vocab-table tr {
       break-inside: avoid;
     }
-`;
+  `;
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -265,6 +268,7 @@ export function wrapWorkbookDocument(
   tocEntries: TocEntry[],
   options: WorkbookDocumentOptions
 ): string {
+  const brandColor = options.type === 'primary' ? '#0284c7' : '#1e40af';
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
@@ -276,7 +280,7 @@ export function wrapWorkbookDocument(
   <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
   <style>
-    ${PRINT_STYLES}
+    ${getPrintStyles(brandColor)}
   </style>
 </head>
 <body>

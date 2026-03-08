@@ -192,6 +192,14 @@
             color: var(--primary-blue);
         }
 
+        .phonetic {
+            display: block;
+            font-size: 13px;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 2px;
+        }
+
         /* Questions */
         .question-box {
             background: transparent;
@@ -1208,6 +1216,7 @@
                     <tr>
                         <td>
                             <span class="vocab-word">{{word}}</span>
+                            {{#if phonetic}}<span class="phonetic">{{phonetic}}</span>{{/if}}
                             <p class="text-sm text-muted mt-2"><strong>Meaning:</strong> {{definition}}</p>
                         </td>
                         <td>
@@ -1235,6 +1244,13 @@
                 Check the words you already know. For new words, write a translation or draw a small picture to help you
                 remember.
             </div>
+
+            {{#if phonics_focus}}
+            <div class="tip-box mt-3" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-left: 4px solid var(--primary-blue);">
+                <div class="tip-label">🔤 Phonics Focus</div>
+                <p style="margin-top: 8px; font-size: 14px; line-height: 1.6;">{{phonics_focus}}</p>
+            </div>
+            {{/if}}
         </section>
 
         <!-- STEP 3: First Reading -->

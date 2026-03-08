@@ -10,14 +10,14 @@ describe('Pedagogical Connectors Schema', () => {
       comprehension_questions: [],
       short_answer_question: 'Q',
       writing_prompt: 'Prompt',
-      // @ts-ignore - Field not yet in schema
+      // @ts-expect-error - Field not yet mapped - Field not yet in schema
       connection_question: 'What do you know about this topic?',
     };
 
     const result = WorkbookLessonSchema.safeParse(lesson);
     expect(result.success).toBe(true);
     if (result.success) {
-      // @ts-ignore - Field not yet in schema type
+      // @ts-expect-error - Field not yet mapped - Field not yet in schema type
       expect(result.data.connection_question).toBe('What do you know about this topic?');
     }
   });
@@ -30,14 +30,14 @@ describe('Pedagogical Connectors Schema', () => {
       comprehension_questions: [],
       short_answer_question: 'Q',
       writing_prompt: 'Prompt',
-      // @ts-ignore - Field not yet in schema
+      // @ts-expect-error - Field not yet mapped - Field not yet in schema
       grammar_search_term: 'Find a past tense verb.',
     };
 
     const result = WorkbookLessonSchema.safeParse(lesson);
     expect(result.success).toBe(true);
     if (result.success) {
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       expect(result.data.grammar_search_term).toBe('Find a past tense verb.');
     }
   });
@@ -50,14 +50,14 @@ describe('Pedagogical Connectors Schema', () => {
       comprehension_questions: [],
       short_answer_question: 'Q',
       writing_prompt: 'Prompt',
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       discussion_question: 'Discuss with a partner.',
     };
 
     const result = WorkbookLessonSchema.safeParse(lesson);
     expect(result.success).toBe(true);
     if (result.success) {
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       expect(result.data.discussion_question).toBe('Discuss with a partner.');
     }
   });
@@ -70,16 +70,16 @@ describe('Pedagogical Connectors Schema', () => {
       comprehension_questions: [],
       short_answer_question: 'Q',
       writing_prompt: 'Prompt',
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       writing_sentence_frames: ['I think that...', 'Another reason is...'],
     };
 
     const result = WorkbookLessonSchema.safeParse(lesson);
     expect(result.success).toBe(true);
     if (result.success) {
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       expect(result.data.writing_sentence_frames).toHaveLength(2);
-      // @ts-ignore
+      // @ts-expect-error - Field not yet mapped
       expect(result.data.writing_sentence_frames[0]).toBe('I think that...');
     }
   });

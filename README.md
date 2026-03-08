@@ -6,6 +6,10 @@ A professional web-based dashboard for creating and managing printable, CEFR-ali
 
 The workbook generator now includes a modern web dashboard for easier content management!
 
+### Quality & Testing
+- ✅ Strict ESLint and TypeScript validation enforced.
+- ✅ Full Vitest suite with robust component and API tests passing.
+
 ### Features
 
 - **Web-Based Interface:** Professional dashboard for managing workbook projects

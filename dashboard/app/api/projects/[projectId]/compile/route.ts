@@ -75,6 +75,7 @@ export async function GET(
       seriesLevel: cefrLevel,
       seriesTagline,
       prefaceText: prefaceData?.text,
+      type: metadata?.type,
     });
 
     return NextResponse.json({

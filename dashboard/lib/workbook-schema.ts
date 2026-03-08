@@ -106,6 +106,7 @@ export const WorkbookLessonSchema = z.object({
 
     connection_question: z.string().optional(),
     grammar_search_term: z.string().optional(),
+    phonics_focus: z.string().optional(),
     discussion_question: z.string().optional(),
 
     reflection_focus: z.string().optional(),

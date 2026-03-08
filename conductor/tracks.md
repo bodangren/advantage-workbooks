@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Refactor and Security Cleanup: Fix ESLint errors, update typing, and perform security review.** *(Completed: 2026-03-08)*
+  *Link: [./archive/refactor_cleanup_20260308/](./archive/refactor_cleanup_20260308/)*
+
 - [x] **Track: Interactive AI Dashboard & Image Generation: Implement metadata "Magic Wand" and context-aware image generation with real-time previews.** *(Completed: 2026-02-02)*
   *Link: [./archive/interactive_ai_dashboard_20260202/](./archive/interactive_ai_dashboard_20260202/)*
 

@@ -821,7 +821,7 @@ Style: Photorealistic educational illustration with clear focus and good lightin
                  placeholder="Click 'Generate Prompt' to create a context-aware image prompt, or write your own..."
                />
                <p className="text-xs text-muted-foreground">
-                 Edit the prompt as needed, then click "Create Image" to generate
+                 Edit the prompt as needed, then click &quot;Create Image&quot; to generate
                </p>
              </div>
            </div>

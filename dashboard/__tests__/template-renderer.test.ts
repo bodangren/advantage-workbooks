@@ -224,6 +224,36 @@ describe('Template Renderer Tests', () => {
     });
   });
 
+  describe('phonics_focus field', () => {
+    beforeEach(() => {
+      clearTemplateCache();
+    });
+
+    it('renders phonics_focus in primary template when present', async () => {
+      const lessonWithPhonics: WorkbookLesson = {
+        ...mockLesson,
+        phonics_focus: 'Long vowel oo sound',
+      };
+      const html = await renderLessonTemplate(lessonWithPhonics, { type: 'primary' });
+      expect(html).toContain('Phonics Focus');
+      expect(html).toContain('Long vowel oo sound');
+    });
+
+    it('does not render phonics_focus block when field is absent in primary', async () => {
+      const html = await renderLessonTemplate(mockLesson, { type: 'primary' });
+      expect(html).not.toContain('Phonics Focus');
+    });
+
+    it('does not render phonics_focus in secondary template', async () => {
+      const lessonWithPhonics: WorkbookLesson = {
+        ...mockLesson,
+        phonics_focus: 'Long vowel oo sound',
+      };
+      const html = await renderLessonTemplate(lessonWithPhonics, { type: 'secondary' });
+      expect(html).not.toContain('Phonics Focus');
+    });
+  });
+
   describe('QR code integration', () => {
     it('should auto-generate QR code when article_url exists but qr_code_url is not set', async () => {
       const lessonWithArticleUrl: WorkbookLesson = {
