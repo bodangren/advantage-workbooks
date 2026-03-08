@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Automated Glossary Generation: Automatically extracts and deduplicates vocabulary to generate a glossary.** *(Completed: 2026-03-08)*
+  *Link: [./archive/automated_glossary_generation_20260308/](./archive/automated_glossary_generation_20260308/)*
+
 - [x] **Track: Thematic Cover Pages & Layout Integration: Implement fully styled, dynamic cover pages matching series themes.** *(Completed: 2026-03-08)*
   *Link: [./archive/thematic_covers_20260308/](./archive/thematic_covers_20260308/)*
 

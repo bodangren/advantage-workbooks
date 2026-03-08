@@ -18,6 +18,7 @@ A professional Next.js-based dashboard for creating and managing CEFR-aligned En
 ### 👁️ Live Preview & Compilation
 - **Live Preview:** Real-time preview of lessons using Paged.js
 - **Batch Compilation:** Compile all lessons in a project into a single document
+- **Automated Glossary Generation:** Automatically extracts, deduplicates, and sorts vocabulary from all lessons, appending a beautifully formatted Glossary section to compiled workbooks
 - **Print-Ready Output:** Generate PDF-ready layouts with proper pagination
 
 ### 📱 Modern Interface

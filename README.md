@@ -17,6 +17,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Image Upload:** Direct image upload with automatic path management
 - **Live Preview:** Real-time preview of lessons using Paged.js
 - **Batch Compilation:** One-click compilation of all lessons in a project
+- **Automated Glossary Generation:** Automatically extracts and deduplicates vocabulary from all lessons to generate an alphabetical glossary at the end of the workbook
 - **Mobile Responsive:** Works on desktop and mobile devices
 - **Schema Validation:** Automatic validation ensures data integrity
 - **Project Management:** Organize workbooks by project folders

@@ -55,6 +55,29 @@ export async function GET(
     const loadedLessons = successful.map(r => r.lesson);
     const tocEntries = successful.map(r => r.tocEntry);
 
+    // Extract, deduplicate, and sort glossary
+    const glossaryMap = new Map<string, { word: string; phonetic: string; definition: string }>();
+    loadedLessons.forEach(lesson => {
+      if (Array.isArray(lesson.vocabulary)) {
+        lesson.vocabulary.forEach(v => {
+          if (v && v.word) {
+            const key = v.word.trim().toLowerCase();
+            if (!glossaryMap.has(key)) {
+              glossaryMap.set(key, {
+                word: v.word.trim(),
+                phonetic: v.phonetic?.trim() || '',
+                definition: v.definition?.trim() || ''
+              });
+            }
+          }
+        });
+      }
+    });
+
+    const glossary = Array.from(glossaryMap.values()).sort((a, b) => 
+      a.word.localeCompare(b.word)
+    );
+
     const seriesName = metadata?.seriesName || 'Reading Advantage';
     const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
@@ -76,6 +99,7 @@ export async function GET(
       seriesTagline,
       prefaceText: prefaceData?.text,
       type: metadata?.type,
+      glossary: glossary.length > 0 ? glossary : undefined,
     });
 
     return NextResponse.json({

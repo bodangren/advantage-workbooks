@@ -5,12 +5,19 @@ export interface TocEntry {
   articleType?: string;
 }
 
+export interface GlossaryEntry {
+  word: string;
+  phonetic: string;
+  definition: string;
+}
+
 export interface WorkbookDocumentOptions {
   seriesName: string;
   seriesLevel: string;
   seriesTagline: string;
   prefaceText?: string;
   type?: 'primary' | 'secondary';
+  glossary?: GlossaryEntry[];
 }
 
 interface ThemeColors {
@@ -94,6 +101,27 @@ function generateTocSection(tocEntries: TocEntry[]): string {
       <ul class="toc-list">
         ${tocItems}
       </ul>
+    </div>
+  `;
+}
+
+function generateGlossarySection(glossary?: GlossaryEntry[]): string {
+  if (!glossary || glossary.length === 0) return '';
+
+  const glossaryItems = glossary.map(entry => `
+    <div class="glossary-item">
+      <span class="glossary-word">${escapeHtml(entry.word)}</span>
+      <span class="glossary-phonetic">${escapeHtml(entry.phonetic)}</span>
+      <span class="glossary-definition">${escapeHtml(entry.definition)}</span>
+    </div>
+  `).join('\n');
+
+  return `
+    <div class="section-glossary">
+      <h2 class="section-header">Glossary</h2>
+      <div class="glossary-list">
+        ${glossaryItems}
+      </div>
     </div>
   `;
 }
@@ -248,7 +276,7 @@ function getPrintStyles(theme: ThemeColors): string {
       text-transform: uppercase;
     }
 
-    .section-preface, .section-toc {
+    .section-preface, .section-toc, .section-glossary {
       break-after: page;
       padding-top: 40px;
       font-family: 'Open Sans', sans-serif;
@@ -306,6 +334,39 @@ function getPrintStyles(theme: ThemeColors): string {
       margin-right: 5px;
     }
 
+    .glossary-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .glossary-item {
+      margin-bottom: 15px;
+      break-inside: avoid;
+    }
+
+    .glossary-word {
+      font-weight: bold;
+      font-size: 12pt;
+      color: ${theme.primary};
+      display: block;
+    }
+
+    .glossary-phonetic {
+      font-style: italic;
+      color: #666;
+      font-size: 10.5pt;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .glossary-definition {
+      font-size: 11pt;
+      line-height: 1.4;
+      display: block;
+    }
+
     .lesson-section {
       break-after: page;
     }
@@ -342,6 +403,7 @@ export function wrapWorkbookDocument(
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
+  const glossarySection = generateGlossarySection(options.glossary);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -361,6 +423,8 @@ export function wrapWorkbookDocument(
   ${tocSection}
 
   ${lessonsHtml}
+
+  ${glossarySection}
 </body>
 </html>`;
 }

@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *.env|*.env.*) echo 'BLOCKED: Cannot edit .env files — contains secrets' && exit 1;; esac"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in */dashboard/*.ts|*/dashboard/*.tsx) cd /home/daniel-bo/Desktop/Workbooks/dashboard && npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null; exit 0;; esac"
+          }
+        ]
+      }
+    ]
+  }
+}

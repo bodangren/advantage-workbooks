@@ -2144,3 +2144,31 @@ MCP issues detected. Run /mcp list for status.[MCP error] Error during discovery
   code: -32000,
   data: undefined
 }
+Warning: Skipping extension in /home/daniel-bo/.gemini/extensions/nanobanana: Keychain is not available
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loaded cached credentials.
+Warning: Skipping extension in /home/daniel-bo/.gemini/extensions/nanobanana: Keychain is not available
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loading extension: chrome-devtools-mcp
+Loading extension: cloud-run
+Loading extension: code-review
+Loading extension: conductor
+Loading extension: gemini-cli-security
+Server 'osvScanner' supports tool updates. Listening for changes...
+Server 'osvScanner' supports prompt updates. Listening for changes...
+Server 'securityServer' supports tool updates. Listening for changes...
+Server 'securityServer' supports prompt updates. Listening for changes...
+[MCP error] Error during discovery for MCP server 'chrome-devtools': MCP error -32000: Connection closed McpError: MCP error -32000: Connection closed
+    at McpError.fromError (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js:2035:16)
+    at Client._onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:259:32)
+    at _transport.onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:223:18)
+    at ChildProcess.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js:85:31)
+    at ChildProcess.emit (node:events:507:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5) {
+  code: -32000,
+  data: undefined
+}
+MCP issues detected. Run /mcp list for status.Server 'cloud-run' supports tool updates. Listening for changes...
+Server 'cloud-run' supports prompt updates. Listening for changes...
+missing pgrep output
