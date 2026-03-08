@@ -8,8 +8,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
-    globalSetup: [],
-    globalTeardown: ['./vitest.global-teardown.ts'],
+    globalSetup: ['./vitest.global-teardown.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

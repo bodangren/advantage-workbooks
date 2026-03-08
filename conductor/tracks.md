@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Thematic Cover Pages & Layout Integration: Implement fully styled, dynamic cover pages matching series themes.** *(Completed: 2026-03-08)*
+  *Link: [./archive/thematic_covers_20260308/](./archive/thematic_covers_20260308/)*
+
 - [x] **Track: Refactor and Security Cleanup: Fix ESLint errors, update typing, and perform security review.** *(Completed: 2026-03-08)*
   *Link: [./archive/refactor_cleanup_20260308/](./archive/refactor_cleanup_20260308/)*
 
@@ -12,10 +15,10 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./archive/nextjs_dashboard_20260201/](./archive/nextjs_dashboard_20260201/)*
 
 - [x] **Track: Multi-Series Workbook Organization & Primary School Support: Reorganize project structure for primary/secondary workbook series with dedicated templates, structured naming, and tabbed dashboard UI.** *(Completed: 2026-02-09)*
-  *Link: [./tracks/multi_series_workbooks_20260209/](./tracks/multi_series_workbooks_20260209/)*
+  *Link: [./archive/multi_series_workbooks_20260209/](./archive/multi_series_workbooks_20260209/)*
 
 - [x] **Track: Fix QR code generation, print pagination, and add title page/TOC to workbook compilation.** *(Completed: 2026-02-23)*
-  *Link: [./tracks/print_compilation_fixes_20260223/](./tracks/print_compilation_fixes_20260223/)*
+  *Link: [./archive/print_compilation_fixes_20260223/](./archive/print_compilation_fixes_20260223/)*
 
 - [x] **Track: Code Simplification & Quality Pass: Remove redundant UI, fix variable naming, parallelize lesson loading, and hoist static CSS to module-level constant.** *(Completed: 2026-03-01)*
-  *Link: [./tracks/code_simplification_20260301/](./tracks/code_simplification_20260301/)*
+  *Link: [./archive/code_simplification_20260301/](./archive/code_simplification_20260301/)*

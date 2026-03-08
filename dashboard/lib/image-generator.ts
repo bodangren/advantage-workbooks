@@ -42,7 +42,14 @@ export async function generateImage(
   // Extract image data from response
   let imageData: string | undefined;
   console.log('[generateImage] Response has', response.candidates?.length, 'candidates');
-  for (const part of response.candidates[0].content.parts) {
+  if (!response.candidates || response.candidates.length === 0) {
+    throw new Error('No candidates returned from Nano Banana API');
+  }
+  const firstCandidate = response.candidates[0];
+  if (!firstCandidate || !firstCandidate.content || !firstCandidate.content.parts) {
+    throw new Error('No content returned from Nano Banana API');
+  }
+  for (const part of firstCandidate.content.parts) {
     console.log('[generateImage] Checking part:', part.inlineData ? 'has inlineData' : 'no inlineData');
     if (part.inlineData) {
       imageData = part.inlineData.data;

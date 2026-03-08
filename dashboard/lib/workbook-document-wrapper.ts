@@ -13,14 +13,46 @@ export interface WorkbookDocumentOptions {
   type?: 'primary' | 'secondary';
 }
 
+interface ThemeColors {
+  primary: string;
+  secondary: string;
+  gradient: string;
+}
+
+function getThemeColors(seriesName: string, type?: 'primary' | 'secondary'): ThemeColors {
+  const name = seriesName.toLowerCase();
+  if (name.includes('origins')) {
+    return { primary: '#228b22', secondary: '#8b4513', gradient: 'linear-gradient(135deg, #228b22, #8b4513)' };
+  }
+  if (name.includes('quest')) {
+    return { primary: '#0284c7', secondary: '#eab308', gradient: 'linear-gradient(135deg, #0ea5e9, #eab308)' };
+  }
+  if (name.includes('adventure')) {
+    return { primary: '#4c1d95', secondary: '#475569', gradient: 'linear-gradient(135deg, #4c1d95, #475569)' };
+  }
+  if (name.includes('hero')) {
+    return { primary: '#be123c', secondary: '#b45309', gradient: 'linear-gradient(135deg, #be123c, #b45309)' };
+  }
+  if (name.includes('legend')) {
+    return { primary: '#1e3a8a', secondary: '#ca8a04', gradient: 'linear-gradient(135deg, #1e3a8a, #ca8a04)' };
+  }
+  // Default fallback
+  const fallbackPrimary = type === 'primary' ? '#0284c7' : '#1e40af';
+  return { primary: fallbackPrimary, secondary: '#334155', gradient: `linear-gradient(135deg, ${fallbackPrimary}, #334155)` };
+}
+
 function generateTitlePage(options: WorkbookDocumentOptions): string {
+  const theme = getThemeColors(options.seriesName, options.type);
   return `
-    <div class="title-page">
-      <h1 class="tp-main-title">Reading Advantage</h1>
-      <h2 class="tp-series-title">${escapeHtml(options.seriesName)}</h2>
-      <div class="tp-level-info">Level ${escapeHtml(options.seriesLevel)}</div>
-      <div class="tp-tagline">${escapeHtml(options.seriesTagline)}</div>
-      <div class="tp-publisher">Reading Advantage Series • ${new Date().getFullYear()} Edition</div>
+    <div class="cover-page" style="background: ${theme.gradient};">
+      <div class="cover-content">
+        <h1 class="tp-main-title">Reading Advantage</h1>
+        <div class="tp-divider"></div>
+        <h2 class="tp-series-title">${escapeHtml(options.seriesName)}</h2>
+        <div class="tp-level-info">Level ${escapeHtml(options.seriesLevel)}</div>
+        <div class="tp-tagline">${escapeHtml(options.seriesTagline)}</div>
+      </div>
+      <div class="tp-publisher">Reading Advantage Series &bull; ${new Date().getFullYear()} Edition</div>
     </div>
   `;
 }
@@ -66,7 +98,7 @@ function generateTocSection(tocEntries: TocEntry[]): string {
   `;
 }
 
-function getPrintStyles(brandColor: string): string {
+function getPrintStyles(theme: ThemeColors): string {
   return `
     @page {
       size: 210mm 285mm;
@@ -112,6 +144,8 @@ function getPrintStyles(brandColor: string): string {
         width: 100%;
         margin: 0;
         padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
       .pagedjs_pages {
         display: block !important;
@@ -129,53 +163,89 @@ function getPrintStyles(brandColor: string): string {
       }
     }
 
-    .title-page {
-      height: 100vh;
+    .cover-page {
+      height: 285mm; /* Exact height of A4/custom page */
+      width: 210mm;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       break-after: page;
-      background: white;
-      color: black;
-      padding: 40px;
+      color: white;
       box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .cover-content {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 60px 80px;
+      border-radius: 12px;
+      color: #1f2937;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      max-width: 80%;
+      position: relative;
+      z-index: 10;
+      border: 4px solid ${theme.secondary};
     }
 
     .tp-main-title {
-      font-size: 24pt;
+      font-size: 28pt;
+      margin-top: 0;
       margin-bottom: 20px;
-      font-weight: normal;
+      font-weight: 300;
       font-family: 'Merriweather', serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+
+    .tp-divider {
+      height: 4px;
+      width: 60px;
+      background: ${theme.primary};
+      margin: 0 auto 30px auto;
     }
 
     .tp-series-title {
-      font-size: 48pt;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 52pt;
+      font-weight: 800;
+      margin-top: 0;
+      margin-bottom: 15px;
       text-transform: uppercase;
       font-family: 'Open Sans', sans-serif;
-      color: ${brandColor};
+      color: ${theme.primary};
+      letter-spacing: 4px;
+      line-height: 1.1;
     }
 
     .tp-level-info {
-      font-size: 18pt;
-      margin-bottom: 50px;
-      color: #555;
+      font-size: 22pt;
+      margin-bottom: 40px;
+      color: #4b5563;
+      font-weight: 600;
+      letter-spacing: 2px;
     }
 
     .tp-tagline {
-      font-size: 16pt;
+      font-size: 18pt;
       font-style: italic;
-      margin-top: auto;
-      margin-bottom: 80px;
+      color: ${theme.secondary};
+      margin-bottom: 0;
+      font-family: 'Merriweather', serif;
     }
 
     .tp-publisher {
-      font-size: 10pt;
-      margin-bottom: 40px;
-      color: #888;
+      position: absolute;
+      bottom: 40px;
+      font-size: 12pt;
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'Open Sans', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     .section-preface, .section-toc {
@@ -186,8 +256,8 @@ function getPrintStyles(brandColor: string): string {
 
     .section-header {
       font-size: 24pt;
-      border-bottom: 2px solid ${brandColor};
-      color: ${brandColor};
+      border-bottom: 2px solid ${theme.primary};
+      color: ${theme.primary};
       padding-bottom: 10px;
       margin-bottom: 30px;
       text-align: left;
@@ -268,7 +338,7 @@ export function wrapWorkbookDocument(
   tocEntries: TocEntry[],
   options: WorkbookDocumentOptions
 ): string {
-  const brandColor = options.type === 'primary' ? '#0284c7' : '#1e40af';
+  const theme = getThemeColors(options.seriesName, options.type);
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
@@ -278,9 +348,9 @@ export function wrapWorkbookDocument(
 <head>
   <meta charset="UTF-8">
   <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
-  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"><\/script>
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
   <style>
-    ${getPrintStyles(brandColor)}
+    ${getPrintStyles(theme)}
   </style>
 </head>
 <body>

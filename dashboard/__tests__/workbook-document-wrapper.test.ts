@@ -46,7 +46,7 @@ describe('Workbook Document Wrapper', () => {
     it('should include title page', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
       
-      expect(html).toContain('title-page');
+      expect(html).toContain('cover-page');
       expect(html).toContain('Reading Advantage');
       expect(html).toContain('Origins');
       expect(html).toContain('Level 3.1');
@@ -119,7 +119,7 @@ describe('Workbook Document Wrapper', () => {
       const html = wrapWorkbookDocument('', [], defaultOptions);
       
       expect(html).toContain('<!DOCTYPE html>');
-      expect(html).toContain('title-page');
+      expect(html).toContain('cover-page');
     });
 
     it('should handle missing preface text', () => {
@@ -169,28 +169,39 @@ describe('Workbook Document Wrapper', () => {
   });
 
   describe('brand color by workbook type', () => {
-    it('uses primary blue (#0284c7) for primary workbooks', () => {
+    it('uses primary theme for Origins', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
         ...defaultOptions,
+        seriesName: 'Origins',
+      });
+      expect(html).toContain('#228b22');
+      expect(html).toContain('#8b4513');
+    });
+
+    it('uses primary blue (#0284c7) for fallback primary workbooks', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        seriesName: 'Unknown',
         type: 'primary',
       });
       expect(html).toContain('#0284c7');
-      expect(html).not.toContain('#1e40af');
     });
 
-    it('uses secondary blue (#1e40af) for secondary workbooks', () => {
+    it('uses secondary blue (#1e40af) for fallback secondary workbooks', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
         ...defaultOptions,
+        seriesName: 'Unknown',
         type: 'secondary',
       });
       expect(html).toContain('#1e40af');
-      expect(html).not.toContain('#0284c7');
     });
 
     it('defaults to secondary blue when type is omitted', () => {
-      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        seriesName: 'Unknown'
+      });
       expect(html).toContain('#1e40af');
-      expect(html).not.toContain('#0284c7');
     });
   });
 

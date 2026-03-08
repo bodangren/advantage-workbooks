@@ -81,12 +81,14 @@ IMPORTANT: Return valid JSON matching the schema exactly.
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseJsonSchema: zodToJsonSchema(PedagogicalContentSchema),
+            responseJsonSchema: zodToJsonSchema(PedagogicalContentSchema as any) as any,
         },
     });
 
     // Parse and validate the response
-    const responseJson = JSON.parse(response.text);
+    const responseText = response.text;
+    if (!responseText) throw new Error("Empty response from AI");
+    const responseJson = JSON.parse(responseText);
     const validationResult = PedagogicalContentSchema.safeParse(responseJson);
 
     if (!validationResult.success) {

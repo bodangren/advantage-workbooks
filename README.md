@@ -20,6 +20,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Mobile Responsive:** Works on desktop and mobile devices
 - **Schema Validation:** Automatic validation ensures data integrity
 - **Project Management:** Organize workbooks by project folders
+- **Thematic Cover Pages:** Automatically generated CSS-based full-bleed cover pages matching the Origins, Quest, Adventure, Hero, and Legend series themes.
 
 ### Getting Started with the Dashboard
 

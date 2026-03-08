@@ -18,19 +18,12 @@ export interface WorkbookProject {
   metadata?: ProjectMetadata;
 }
 
+import type { WorkbookLesson } from './workbook-schema';
+
 export interface LessonFile {
   id: string;
   name: string;
   path: string;
-}
-
-export interface WorkbookLesson {
-  lesson_title: string;
-  cefr_level?: string;
-  article_paragraphs: Array<{ number: number; text: string }>;
-  vocabulary: Array<{ word: string; definition: string }>;
-  comprehension_questions: Array<{ number: number; question: string; options: string[] }>;
-  writing_prompt: string;
 }
 
 export interface CreateProjectOptions {

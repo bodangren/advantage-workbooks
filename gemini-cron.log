@@ -2064,3 +2064,83 @@ I will read the test file to see exactly how the remaining `@ts-expect-error` co
 I will now apply the required descriptive messages to all the `@ts-expect-error` directives in the pedagogical schema tests, and then run the full test suite to verify the changes.
 I am checking the root README and the Conductor tracks registry so that I can update the documentation and archive the completed refactoring track, and I am also preparing to commit the changes by reviewing the git status.
 I am now finalizing the track by marking it as completed, updating the project tracking files and README, moving the track folder to the archive, and finally committing and pushing the changes to the remote repository.
+The unattended autonomous pipeline for today's refactoring and cleanup track has successfully completed.
+
+### Summary of Actions
+- **Track Created:** `refactor_cleanup_20260308` was defined to address technical debt and run a codebase security review.
+- **Security Audit:** Searched for common vulnerabilities (e.g. exposed credentials, `eval`, `dangerouslySetInnerHTML`, and insecure file path injections). The codebase was determined to be secure against these typical vectors.
+- **Lint & Types Fixes:** 
+  - Adjusted `eslint.config.mjs` to properly disable explicit `any` rules only for testing and scripting code.
+  - Modified several `page.tsx` elements to remove unescaped quote errors and Next.js image tag warnings.
+  - Fixed multiple deprecated `@ts-ignore` comments in `pedagogical-schema.test.ts` to descriptive `@ts-expect-error` directives, fulfilling the newer ESLint requirements.
+- **Test Validation:** Ran the complete vitest suite, achieving a 100% pass rate across 171 tests.
+- **Documentation:** Updated the root `README.md` to note the clean lint state and robust test coverage. Updated `conductor/tracks.md` registry.
+- **Version Control:** All modifications, including the archived track files, were successfully committed and pushed to `origin/master` with the requested model telemetry.
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loaded cached credentials.
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loading extension: chrome-devtools-mcp
+Loading extension: cloud-run
+Loading extension: code-review
+Loading extension: conductor
+Loading extension: gemini-cli-security
+Loading extension: nanobanana
+Server 'osvScanner' supports tool updates. Listening for changes...
+Server 'osvScanner' supports prompt updates. Listening for changes...
+Server 'securityServer' supports tool updates. Listening for changes...
+Server 'securityServer' supports prompt updates. Listening for changes...
+[MCP error] Error during discovery for MCP server 'chrome-devtools': MCP error -32000: Connection closed McpError: MCP error -32000: Connection closed
+    at McpError.fromError (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js:2035:16)
+    at Client._onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:259:32)
+    at _transport.onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:223:18)
+    at ChildProcess.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js:85:31)
+    at ChildProcess.emit (node:events:507:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5) {
+  code: -32000,
+  data: undefined
+}
+MCP issues detected. Run /mcp list for status.Server 'cloud-run' supports tool updates. Listening for changes...
+Server 'cloud-run' supports prompt updates. Listening for changes...
+Operation cancelled.[ERROR] Operation cancelled.
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loaded cached credentials.
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loaded cached credentials.
+YOLO mode is enabled. All tool calls will be automatically approved.
+Loading extension: chrome-devtools-mcp
+Loading extension: cloud-run
+Loading extension: code-review
+Loading extension: conductor
+Loading extension: gemini-cli-security
+Loading extension: nanobanana
+Server 'osvScanner' supports tool updates. Listening for changes...
+Server 'osvScanner' supports prompt updates. Listening for changes...
+Server 'securityServer' supports tool updates. Listening for changes...
+Server 'securityServer' supports prompt updates. Listening for changes...
+[MCP error] Error during discovery for MCP server 'cloud-run': MCP error -32000: Connection closed McpError: MCP error -32000: Connection closed
+    at McpError.fromError (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js:2035:16)
+    at Client._onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:259:32)
+    at _transport.onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:223:18)
+    at ChildProcess.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js:85:31)
+    at ChildProcess.emit (node:events:507:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:457:11)
+    at Socket.emit (node:events:507:28)
+    at Pipe.<anonymous> (node:net:346:12) {
+  code: -32000,
+  data: undefined
+}
+MCP issues detected. Run /mcp list for status.[MCP error] Error during discovery for MCP server 'chrome-devtools': MCP error -32000: Connection closed McpError: MCP error -32000: Connection closed
+    at McpError.fromError (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js:2035:16)
+    at Client._onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:259:32)
+    at _transport.onclose (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js:223:18)
+    at ChildProcess.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js:85:31)
+    at ChildProcess.emit (node:events:507:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:457:11)
+    at Socket.emit (node:events:507:28)
+    at Pipe.<anonymous> (node:net:346:12) {
+  code: -32000,
+  data: undefined
+}

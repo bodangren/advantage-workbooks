@@ -296,7 +296,7 @@ describe('End-to-End Integration Tests', () => {
       });
 
       expect(fullHtml).toContain('<!DOCTYPE html>');
-      expect(fullHtml).toContain('title-page');
+      expect(fullHtml).toContain('cover-page');
       expect(fullHtml).toContain('Origins 3.1');
       expect(fullHtml).toContain('Level A1');
       expect(fullHtml).toContain('section-preface');
