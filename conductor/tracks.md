@@ -25,3 +25,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Code Simplification & Quality Pass: Remove redundant UI, fix variable naming, parallelize lesson loading, and hoist static CSS to module-level constant.** *(Completed: 2026-03-01)*
   *Link: [./archive/code_simplification_20260301/](./archive/code_simplification_20260301/)*
+
+- [x] **Track: Printable Vocabulary Flashcards Generator: Automatically generates a printable vocabulary flashcards section at the end of the workbook for students to cut out, fold, and practice.** *(Completed: 2026-03-09)*
+  *Link: [./archive/printable_flashcards_20260309/](./archive/printable_flashcards_20260309/)*

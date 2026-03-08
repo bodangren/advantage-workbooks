@@ -39,6 +39,7 @@ export interface WorkbookDocumentOptions {
   type?: 'primary' | 'secondary';
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
+  includeFlashcards?: boolean;
 }
 
 interface ThemeColors {
@@ -190,6 +191,33 @@ function generateAnswerKeySection(answerKey?: AnswerKeyEntry[]): string {
       <h2 class="section-header">Answer Key</h2>
       <div class="ak-list">
         ${answerItems}
+      </div>
+    </div>
+  `;
+}
+
+function generateFlashcardsSection(glossary?: GlossaryEntry[]): string {
+  if (!glossary || glossary.length === 0) return '';
+
+  const flashcardItems = glossary.map(entry => `
+    <div class="flashcard">
+      <div class="fc-front">
+        <div class="fc-word">${escapeHtml(entry.word)}</div>
+      </div>
+      <div class="fc-fold-line"></div>
+      <div class="fc-back">
+        <div class="fc-phonetic">${escapeHtml(entry.phonetic)}</div>
+        <div class="fc-definition">${escapeHtml(entry.definition)}</div>
+      </div>
+    </div>
+  `).join('\n');
+
+  return `
+    <div class="section-flashcards">
+      <h2 class="section-header">Vocabulary Flashcards</h2>
+      <p class="fc-instructions">Cut along the dashed lines and fold down the middle to create your flashcards.</p>
+      <div class="flashcard-grid">
+        ${flashcardItems}
       </div>
     </div>
   `;
@@ -475,6 +503,68 @@ function getPrintStyles(theme: ThemeColors): string {
     .question-box, .practice-box, .vocab-table tr {
       break-inside: avoid;
     }
+
+    .section-flashcards {
+      break-before: page;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .fc-instructions {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100%;
+      border-top: 1px dashed #999;
+      border-left: 1px dashed #999;
+    }
+
+    .flashcard {
+      display: flex;
+      flex-direction: row;
+      border-right: 1px dashed #999;
+      border-bottom: 1px dashed #999;
+      break-inside: avoid;
+      height: 60mm;
+    }
+
+    .fc-front, .fc-back {
+      flex: 1;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .fc-fold-line {
+      width: 1px;
+      background-color: #ddd;
+    }
+
+    .fc-word {
+      font-size: 16pt;
+      font-weight: bold;
+      color: ${theme.primary};
+    }
+
+    .fc-phonetic {
+      font-size: 11pt;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .fc-definition {
+      font-size: 12pt;
+    }
   `;
 }
 
@@ -498,6 +588,7 @@ export function wrapWorkbookDocument(
   const tocSection = generateTocSection(tocEntries);
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
+  const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -521,6 +612,8 @@ export function wrapWorkbookDocument(
   ${glossarySection}
 
   ${answerKeySection}
+
+  ${flashcardsSection}
 </body>
 </html>`;
 }

@@ -121,6 +121,7 @@ export async function GET(
       type: metadata?.type,
       glossary: glossary.length > 0 ? glossary : undefined,
       answerKey: answerKey.length > 0 ? answerKey : undefined,
+      includeFlashcards: true,
     });
 
     return NextResponse.json({
