@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Writing Task Digital Integration: Implements the blended learning workflow by adding a Writing Practice QR code and AI Feedback Tracker to the writing section in the templates.** *(Completed: 2026-03-09)*
+  *Link: [./archive/writing_task_digital_integration_20260309/](./archive/writing_task_digital_integration_20260309/)*
+
 - [x] **Track: Student Progress Tracker & Badges: Automatically generate a 'My Reading Journey' progress tracking page with badge coloring for each lesson.** *(Completed: 2026-03-09)*
   *Link: [./archive/student_progress_tracker_20260309/](./archive/student_progress_tracker_20260309/)*
 

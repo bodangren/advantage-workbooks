@@ -101,6 +101,7 @@ export const WorkbookLessonSchema = z.object({
     sentence_completion_prompts: z.array(CompletionPromptSchema).optional(),
 
     writing_prompt: z.string(),
+    writing_practice_url: z.string().optional(),
     writing_plan_prompts: z.array(z.string()).optional(),
     writing_sentence_frames: z.array(z.string()).optional(),
 

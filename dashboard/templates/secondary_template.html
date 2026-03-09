@@ -1701,6 +1701,28 @@
                     <div class="check-item"><span class="checkbox"></span> I checked my spelling</div>
                     <span><strong>Word count:</strong> ________</span>
                 </div>
+
+                <div class="writing-digital-integration">
+                    <div class="qr-box" style="margin-top: 20px; background-color: var(--bg-light); border: 1px solid var(--border-medium); padding: 15px; border-radius: 8px;">
+                        <div class="qr-code">
+                            {{#if writing_qr_code_url}}
+                                <img src="{{writing_qr_code_url}}" alt="Writing Practice QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+                            {{else}}
+                                <span>📱<br>QR</span>
+                            {{/if}}
+                        </div>
+                        <div class="qr-text" style="flex: 1;">
+                            <div class="qr-label">Step 2: Type and Get AI Feedback</div>
+                            <div class="qr-desc">Scan this QR code to type your draft in the app. The AI will give you a score and suggestions to improve!</div>
+                            <div class="feedback-tracker" style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                <div class="check-item" style="margin: 0;"><span class="checkbox"></span> I typed my draft in the app</div>
+                                <div style="font-weight: 600; border: 1px solid var(--border-dark); padding: 6px 12px; border-radius: 4px; background: white;">
+                                    My AI Score: <span style="display: inline-block; width: 40px; border-bottom: 1px solid black; margin-left: 5px;"></span> / 100
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

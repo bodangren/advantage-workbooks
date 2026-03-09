@@ -50,6 +50,7 @@ type PreparedLessonData = WorkbookLesson & {
   series_level: string;
   series_tagline: string;
   qr_code_url?: string;
+  writing_qr_code_url?: string;
   images_hero: NonNullable<WorkbookLesson['article_images']>;
   images_vocabulary: NonNullable<WorkbookLesson['article_images']>;
   images_writing_prompt: NonNullable<WorkbookLesson['article_images']>;
@@ -77,6 +78,17 @@ function prepareLessonData(
     qrCodeUrl = generateQRCodeDataURL(lesson.article_url) ?? undefined;
   }
 
+  let writingQrCodeUrl: string | undefined;
+  const existingWritingQrCodeUrl = (lesson as Record<string, unknown>).writing_qr_code_url;
+  if (typeof existingWritingQrCodeUrl === 'string' && existingWritingQrCodeUrl.trim() !== '') {
+    writingQrCodeUrl = existingWritingQrCodeUrl;
+  } else if (lesson.writing_practice_url) {
+    writingQrCodeUrl = generateQRCodeDataURL(lesson.writing_practice_url) ?? undefined;
+  } else if (lesson.article_url) {
+    const baseUrl = lesson.article_url.endsWith('/') ? lesson.article_url.slice(0, -1) : lesson.article_url;
+    writingQrCodeUrl = generateQRCodeDataURL(`${baseUrl}/writing`) ?? undefined;
+  }
+
   return {
     ...lesson,
     lesson_number: lesson.lesson_number || `Lesson ${index + 1}`,
@@ -84,6 +96,7 @@ function prepareLessonData(
     series_level: seriesLevel,
     series_tagline: seriesTagline,
     qr_code_url: qrCodeUrl,
+    writing_qr_code_url: writingQrCodeUrl,
     // Pre-process images for the template
     images_hero: articleImages.filter(img => img.position === 'hero'),
     images_vocabulary: articleImages.filter(img => img.position === 'vocabulary'),

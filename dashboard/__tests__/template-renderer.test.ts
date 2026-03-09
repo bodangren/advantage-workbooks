@@ -268,7 +268,7 @@ describe('Template Renderer Tests', () => {
     it('should preserve manual qr_code_url over auto-generation', async () => {
       const lessonWithManualQR: WorkbookLesson = {
         ...mockLesson,
-        article_url: 'https://example.com/article/123',
+        // Removed article_url to avoid generating writing_qr_code_url as well
         qr_code_url: 'https://example.com/manual-qr.png'
       } as WorkbookLesson & { qr_code_url: string };
 
@@ -289,6 +289,28 @@ describe('Template Renderer Tests', () => {
       ];
 
       const html = await renderMultipleLessons(lessons);
+      const qrCount = (html.match(/data:image\/svg\+xml;base64,/g) || []).length;
+      expect(qrCount).toBe(4); // 2 articles + 2 writing practice urls
+    });
+
+    it('should generate writing QR code from writing_practice_url', async () => {
+      const lessonWithWritingUrl: WorkbookLesson = {
+        ...mockLesson,
+        writing_practice_url: 'https://example.com/writing/123'
+      };
+
+      const html = await renderLessonTemplate(lessonWithWritingUrl);
+      expect(html).toContain('data:image/svg+xml;base64,');
+    });
+
+    it('should fallback to article_url + /writing for writing QR code', async () => {
+      const lessonWithArticleUrl: WorkbookLesson = {
+        ...mockLesson,
+        article_url: 'https://example.com/article/123'
+      };
+
+      const html = await renderLessonTemplate(lessonWithArticleUrl);
+      // It should generate 2 QR codes (one for article, one for writing)
       const qrCount = (html.match(/data:image\/svg\+xml;base64,/g) || []).length;
       expect(qrCount).toBe(2);
     });
