@@ -34,3 +34,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Printable Vocabulary Flashcards Generator: Automatically generates a printable vocabulary flashcards section at the end of the workbook for students to cut out, fold, and practice.** *(Completed: 2026-03-09)*
   *Link: [./archive/printable_flashcards_20260309/](./archive/printable_flashcards_20260309/)*
+
+- [x] **Track: Papercuts: Fixes compile page errors, progress tracker overflow, and Next.js print button functionality.** *(Completed: 2026-03-09)*
+  *Link: [./archive/papercuts_fixes_20260309/](./archive/papercuts_fixes_20260309/)*

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -14,6 +14,7 @@ interface CompilePageProps {
 export default function CompilePage({ params }: CompilePageProps) {
   const { projectId } = use(params);
   const router = useRouter();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [htmlContent, setHtmlContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [lessonCount, setLessonCount] = useState(0);
@@ -57,7 +58,11 @@ export default function CompilePage({ params }: CompilePageProps) {
   }, [projectId, includeFlashcards, includeProgressTracker]);
 
   const handlePrint = () => {
-    window.print();
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.print();
+    } else {
+      window.print();
+    }
   };
 
   const handleBack = () => {
@@ -178,6 +183,7 @@ export default function CompilePage({ params }: CompilePageProps) {
             </div>
             <div className="flex-1 overflow-auto">
               <iframe
+                ref={iframeRef}
                 srcDoc={htmlContent}
                 className="w-full h-full border-0"
                 title="Compiled Preview"
@@ -191,6 +197,7 @@ export default function CompilePage({ params }: CompilePageProps) {
             </div>
             <div className="h-[calc(100vh-250px)] overflow-auto p-6">
               <iframe
+                ref={iframeRef}
                 srcDoc={htmlContent}
                 className="w-full h-full border-0 rounded-md"
                 title="Compiled Preview"

@@ -54,7 +54,8 @@ describe('QR Code Generator', () => {
       const url = 'https://example.com/article/123';
       const dataUrl = generateQRCodeDataURL(url);
       
-      const base64Part = dataUrl.replace('data:image/svg+xml;base64,', '');
+      expect(dataUrl).toBeTruthy();
+      const base64Part = dataUrl!.replace('data:image/svg+xml;base64,', '');
       const decoded = Buffer.from(base64Part, 'base64').toString('utf-8');
       
       expect(decoded).toContain('<svg');

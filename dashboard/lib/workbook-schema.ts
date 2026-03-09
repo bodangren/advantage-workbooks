@@ -4,6 +4,7 @@ export const VocabularyItemSchema = z.object({
     word: z.string(),
     phonetic: z.string().optional(),
     definition: z.string(),
+    thai_definition: z.string().optional(),
 });
 
 export const ParagraphSchema = z.object({

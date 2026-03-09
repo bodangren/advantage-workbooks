@@ -89,9 +89,12 @@ function prepareLessonData(
     writingQrCodeUrl = generateQRCodeDataURL(`${baseUrl}/writing`) ?? undefined;
   }
 
+  // Force sequential lesson numbering regardless of JSON field
+  const forcedLessonNumber = `Lesson ${index + 1}`;
+
   return {
     ...lesson,
-    lesson_number: lesson.lesson_number || `Lesson ${index + 1}`,
+    lesson_number: forcedLessonNumber,
     series_name: seriesName,
     series_level: seriesLevel,
     series_tagline: seriesTagline,

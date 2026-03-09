@@ -33,9 +33,10 @@ export async function GET(
       lessons.map(async (lessonFile, i) => {
         try {
           const lesson = await readLesson(decodedProjectId, lessonFile.id) as WorkbookLesson;
+          const lessonNumber = `Lesson ${i + 1}`;
           const tocEntry: TocEntry = {
             id: `lesson-${i}`,
-            title: `${lesson.lesson_number || `Lesson ${i + 1}`}: ${lesson.lesson_title || 'Untitled'}`,
+            title: `${lessonNumber}: ${lesson.lesson_title || 'Untitled'}`,
             genre: lesson.genre,
             articleType: lesson.article_type,
           };
@@ -60,7 +61,7 @@ export async function GET(
     const tocEntries = successful.map(r => r.tocEntry);
 
     // Extract, deduplicate, and sort glossary
-    const glossaryMap = new Map<string, { word: string; phonetic: string; definition: string }>();
+    const glossaryMap = new Map<string, { word: string; phonetic: string; definition: string; thaiDefinition?: string }>();
     loadedLessons.forEach(lesson => {
       if (Array.isArray(lesson.vocabulary)) {
         lesson.vocabulary.forEach(v => {
@@ -70,7 +71,8 @@ export async function GET(
               glossaryMap.set(key, {
                 word: v.word.trim(),
                 phonetic: v.phonetic?.trim() || '',
-                definition: v.definition?.trim() || ''
+                definition: v.definition?.trim() || '',
+                thaiDefinition: v.thai_definition?.trim()
               });
             }
           }

@@ -97,7 +97,7 @@ describe('Workbook Document Wrapper', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
       
       expect(html).toContain('@page :first');
-      expect(html).toMatch(/@page\s*:\s*first.*content:\s*none/s);
+      expect(html).toMatch(/@page\s*:\s*first[^]*content:\s*none/);
     });
 
     it('should include screen preview styles', () => {

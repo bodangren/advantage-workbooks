@@ -12,3 +12,7 @@
 ## Management
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
+
+## Project Memory
+- [Tech Debt Registry](./tech-debt.md)
+- [Lessons Learned](./lessons-learned.md)

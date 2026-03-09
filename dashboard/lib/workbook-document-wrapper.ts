@@ -9,6 +9,7 @@ export interface GlossaryEntry {
   word: string;
   phonetic: string;
   definition: string;
+  thaiDefinition?: string;
 }
 
 export interface McAnswer {
@@ -155,7 +156,10 @@ function generateGlossarySection(glossary?: GlossaryEntry[]): string {
     <div class="glossary-item">
       <span class="glossary-word">${escapeHtml(entry.word)}</span>
       <span class="glossary-phonetic">${escapeHtml(entry.phonetic)}</span>
-      <span class="glossary-definition">${escapeHtml(entry.definition)}</span>
+      <span class="glossary-definition">
+        ${entry.thaiDefinition ? `<span class="glossary-thai">${escapeHtml(entry.thaiDefinition)}</span> ` : ''}
+        ${escapeHtml(entry.definition)}
+      </span>
     </div>
   `).join('\n');
 
@@ -220,26 +224,43 @@ function generateAnswerKeySection(answerKey?: AnswerKeyEntry[]): string {
 function generateFlashcardsSection(glossary?: GlossaryEntry[]): string {
   if (!glossary || glossary.length === 0) return '';
 
-  const flashcardItems = glossary.map(entry => `
-    <div class="flashcard">
-      <div class="fc-front">
-        <div class="fc-word">${escapeHtml(entry.word)}</div>
+  // Chunk flashcards into groups of 8 (4 rows x 2 columns) per page
+  const chunkSize = 8;
+  const chunks = [];
+  for (let i = 0; i < glossary.length; i += chunkSize) {
+    chunks.push(glossary.slice(i, i + chunkSize));
+  }
+
+  const pages = chunks.map((chunk, pageIndex) => {
+    const flashcardItems = chunk.map(entry => `
+      <div class="flashcard">
+        <div class="fc-front">
+          <div class="fc-word">${escapeHtml(entry.word)}</div>
+        </div>
+        <div class="fc-fold-line"></div>
+        <div class="fc-back">
+          <div class="fc-phonetic">${escapeHtml(entry.phonetic)}</div>
+          <div class="fc-definition">
+            ${entry.thaiDefinition ? `<div class="fc-thai">${escapeHtml(entry.thaiDefinition)}</div>` : ''}
+            ${escapeHtml(entry.definition)}
+          </div>
+        </div>
       </div>
-      <div class="fc-fold-line"></div>
-      <div class="fc-back">
-        <div class="fc-phonetic">${escapeHtml(entry.phonetic)}</div>
-        <div class="fc-definition">${escapeHtml(entry.definition)}</div>
+    `).join('\n');
+
+    return `
+      <div class="section-flashcards-page">
+        ${pageIndex === 0 ? '<h2 class="section-header">Vocabulary Flashcards</h2><p class="fc-instructions">Cut along the dashed lines and fold down the middle to create your flashcards. <strong>Note: This section is designed for single-sided printing/copying. Blank pages are inserted automatically between flashcard pages.</strong></p>' : ''}
+        <div class="flashcard-grid">
+          ${flashcardItems}
+        </div>
       </div>
-    </div>
-  `).join('\n');
+    `;
+  }).join('\n');
 
   return `
     <div class="section-flashcards">
-      <h2 class="section-header">Vocabulary Flashcards</h2>
-      <p class="fc-instructions">Cut along the dashed lines and fold down the middle to create your flashcards.</p>
-      <div class="flashcard-grid">
-        ${flashcardItems}
-      </div>
+      ${pages}
     </div>
   `;
 }
@@ -485,6 +506,12 @@ function getPrintStyles(theme: ThemeColors): string {
       display: block;
     }
 
+    .glossary-thai {
+      color: #4b5563;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+
     .ak-list {
       column-count: 2;
       column-gap: 30px;
@@ -526,9 +553,14 @@ function getPrintStyles(theme: ThemeColors): string {
     }
 
     .section-flashcards {
-      break-before: page;
+      break-before: right; /* Always start on an odd page */
       padding-top: 40px;
       font-family: 'Open Sans', sans-serif;
+    }
+
+    .section-flashcards-page {
+      break-after: right; /* Force blank page after each flashcards page */
+      height: 285mm;
     }
 
     .fc-instructions {
@@ -587,6 +619,12 @@ function getPrintStyles(theme: ThemeColors): string {
       font-size: 12pt;
     }
 
+    .fc-thai {
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 5px;
+    }
+
     .section-progress-tracker {
       break-after: page;
       padding-top: 40px;
@@ -601,10 +639,10 @@ function getPrintStyles(theme: ThemeColors): string {
     }
 
     .pt-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 30px;
-      justify-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
 
     .progress-badge {
@@ -612,7 +650,10 @@ function getPrintStyles(theme: ThemeColors): string {
       flex-direction: column;
       align-items: center;
       text-align: center;
-      width: 100px;
+      width: 110px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 20px;
     }
 
     .pb-circle {
