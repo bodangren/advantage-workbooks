@@ -10,6 +10,10 @@ export async function GET(
   { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const searchParams = request.nextUrl.searchParams;
+    const includeFlashcards = searchParams.get('includeFlashcards') !== 'false';
+    const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
+
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
 
@@ -121,7 +125,8 @@ export async function GET(
       type: metadata?.type,
       glossary: glossary.length > 0 ? glossary : undefined,
       answerKey: answerKey.length > 0 ? answerKey : undefined,
-      includeFlashcards: true,
+      includeFlashcards,
+      includeProgressTracker,
     });
 
     return NextResponse.json({

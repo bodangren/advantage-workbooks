@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Student Progress Tracker & Badges: Automatically generate a 'My Reading Journey' progress tracking page with badge coloring for each lesson.** *(Completed: 2026-03-09)*
+  *Link: [./archive/student_progress_tracker_20260309/](./archive/student_progress_tracker_20260309/)*
+
 - [x] **Track: Automated Glossary Generation: Automatically extracts and deduplicates vocabulary to generate a glossary.** *(Completed: 2026-03-08)*
   *Link: [./archive/automated_glossary_generation_20260308/](./archive/automated_glossary_generation_20260308/)*
 

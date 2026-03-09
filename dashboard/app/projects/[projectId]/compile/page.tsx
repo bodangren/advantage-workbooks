@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Printer, Eye, EyeOff, Loader2, Info } from 'lucide-react';
+import { ArrowLeft, Printer, Eye, EyeOff, Loader2, Info, Settings2 } from 'lucide-react';
 import { use } from 'react';
 
 interface CompilePageProps {
@@ -20,17 +20,27 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [totalLessons, setTotalLessons] = useState(0);
   const [showFullscreen, setShowFullscreen] = useState(false);
   const [showPrintInfo, setShowPrintInfo] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const [includeFlashcards, setIncludeFlashcards] = useState(true);
+  const [includeProgressTracker, setIncludeProgressTracker] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`/api/projects/${projectId}/compile`);
+        const queryParams = new URLSearchParams({
+          includeFlashcards: includeFlashcards.toString(),
+          includeProgressTracker: includeProgressTracker.toString()
+        });
+        const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
           const data = await response.json();
           setHtmlContent(data.html);
           setLessonCount(data.lessonCount);
           setTotalLessons(data.totalLessons);
+          setError(null);
         } else {
           const errorData = await response.json();
           setError(errorData.error || 'Failed to compile project');
@@ -44,7 +54,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId]);
+  }, [projectId, includeFlashcards, includeProgressTracker]);
 
   const handlePrint = () => {
     window.print();
@@ -74,6 +84,9 @@ export default function CompilePage({ params }: CompilePageProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Button onClick={() => setShowSettings(!showSettings)} variant="ghost" size="icon" title="Compilation Settings">
+              <Settings2 className="h-4 w-4" />
+            </Button>
             <Button onClick={() => setShowPrintInfo(!showPrintInfo)} variant="ghost" size="icon" title="Print Instructions">
               <Info className="h-4 w-4" />
             </Button>
@@ -99,6 +112,33 @@ export default function CompilePage({ params }: CompilePageProps) {
             </Button>
           </div>
         </div>
+        
+        {showSettings && (
+          <div className="container mx-auto mt-4">
+            <Card className="bg-gray-50 border-gray-200 p-4 flex gap-6 items-center">
+              <h3 className="font-semibold text-gray-900">Include Sections:</h3>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeProgressTracker} 
+                  onChange={(e) => setIncludeProgressTracker(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Progress Tracker
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeFlashcards} 
+                  onChange={(e) => setIncludeFlashcards(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Vocabulary Flashcards
+              </label>
+            </Card>
+          </div>
+        )}
+
         {showPrintInfo && (
           <div className="container mx-auto mt-4">
             <Card className="bg-blue-50 border-blue-200 p-4">

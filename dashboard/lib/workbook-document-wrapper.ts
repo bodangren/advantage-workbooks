@@ -40,6 +40,7 @@ export interface WorkbookDocumentOptions {
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
   includeFlashcards?: boolean;
+  includeProgressTracker?: boolean;
 }
 
 interface ThemeColors {
@@ -123,6 +124,26 @@ function generateTocSection(tocEntries: TocEntry[]): string {
       <ul class="toc-list">
         ${tocItems}
       </ul>
+    </div>
+  `;
+}
+
+function generateProgressTracker(tocEntries: TocEntry[], theme: ThemeColors): string {
+  const badges = tocEntries.map((entry, index) => `
+    <div class="progress-badge">
+      <div class="pb-number">${index + 1}</div>
+      <div class="pb-title">${escapeHtml(entry.title)}</div>
+      <div class="pb-circle" style="border-color: ${theme.primary};"></div>
+    </div>
+  `).join('\n');
+
+  return `
+    <div class="section-progress-tracker">
+      <h2 class="section-header">My Reading Journey</h2>
+      <p class="pt-instructions">Color in the circle for each lesson you complete!</p>
+      <div class="pt-grid">
+        ${badges}
+      </div>
     </div>
   `;
 }
@@ -565,6 +586,62 @@ function getPrintStyles(theme: ThemeColors): string {
     .fc-definition {
       font-size: 12pt;
     }
+
+    .section-progress-tracker {
+      break-after: page;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .pt-instructions {
+      font-size: 12pt;
+      margin-bottom: 30px;
+      color: #4b5563;
+      text-align: center;
+    }
+
+    .pt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 30px;
+      justify-items: center;
+    }
+
+    .progress-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100px;
+    }
+
+    .pb-circle {
+      width: 60px;
+      height: 60px;
+      border: 3px solid #ccc;
+      border-radius: 50%;
+      margin-top: 10px;
+      background-color: transparent;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .pb-number {
+      font-size: 24pt;
+      font-weight: 800;
+      color: ${theme.primary};
+      margin-bottom: 5px;
+    }
+
+    .pb-title {
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.2;
+      height: 40px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   `;
 }
 
@@ -586,6 +663,7 @@ export function wrapWorkbookDocument(
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
+  const progressTrackerSection = options.includeProgressTracker ? generateProgressTracker(tocEntries, theme) : '';
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
@@ -606,6 +684,8 @@ export function wrapWorkbookDocument(
   ${prefaceSection}
 
   ${tocSection}
+
+  ${progressTrackerSection}
 
   ${lessonsHtml}
 
