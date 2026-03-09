@@ -76,6 +76,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
     if (open) {
       loadMetadata();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const loadMetadata = async () => {

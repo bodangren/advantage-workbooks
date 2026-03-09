@@ -29,7 +29,7 @@ describe('End-to-End Integration Tests', () => {
   afterEach(async () => {
     try {
       await fs.rm(testWorkbooksRoot, { recursive: true, force: true });
-    } catch (error) {
+    } catch {
       // Ignore cleanup errors
     }
   });

@@ -9,6 +9,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 ### Quality & Testing
 - ✅ Strict ESLint and TypeScript validation enforced.
 - ✅ Full Vitest suite with robust component and API tests passing.
+- ✅ Regular security audits and automated dependency updates.
 
 ### Features
 

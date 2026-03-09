@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Refactor, Lint Fixes, and Security Cleanup: Refactored unused variables, fixed React Hooks dependencies, replaced `<img>` warnings, and resolved npm audit vulnerabilities.** *(Completed: 2026-03-10)*
+  *Link: [./archive/refactor_cleanup_20260310/](./archive/refactor_cleanup_20260310/)*
+
 - [x] **Track: Writing Task Digital Integration: Implements the blended learning workflow by adding a Writing Practice QR code and AI Feedback Tracker to the writing section in the templates.** *(Completed: 2026-03-09)*
   *Link: [./archive/writing_task_digital_integration_20260309/](./archive/writing_task_digital_integration_20260309/)*
 

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { renderLessonTemplate } from '@/lib/template-renderer';
 import { readProjectMetadata } from '@/lib/filesystem';
-import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 export async function POST(request: NextRequest) {
   try {

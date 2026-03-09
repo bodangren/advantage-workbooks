@@ -1,14 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { WorkbookLesson, MatchItemSchema, FillItemSchema, OrderQuestionSchema } from "./workbook-schema";
-
-// Schema for AI-generated article images
-const ArticleImageSuggestionSchema = z.object({
-    position: z.enum(['hero', 'vocabulary', 'inline-para-1', 'inline-para-2', 'inline-para-3', 'inline-para-4', 'inline-para-5', 'writing-prompt']),
-    caption: z.string().describe("Short, engaging caption for the image"),
-    image_prompt: z.string().describe("Detailed prompt for AI image generation"),
-});
+import { WorkbookLesson } from "./workbook-schema";
 
 // Schema for Content QA fixes
 const ContentQASchema = z.object({
@@ -30,7 +23,7 @@ const PedagogicalContentSchema = z.object({
     content_qa: z.union([ContentQASchema, z.string()]).optional().describe("Issues found in existing activities (object or string)"),
 });
 
-export async function augmentLesson(lesson: WorkbookLesson, apiKey: string): Promise<WorkbookLesson> {
+export async function augmentLesson(lesson: WorkbookLesson): Promise<WorkbookLesson> {
     const ai = new GoogleGenAI({});
 
     // Build content QA section if activities exist

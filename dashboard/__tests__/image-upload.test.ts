@@ -30,7 +30,7 @@ describe('Image Upload Functionality', () => {
     // Clean up test directories
     try {
       await fs.rm(testWorkbooksRoot, { recursive: true, force: true });
-    } catch (error) {
+    } catch {
       // Ignore cleanup errors
     }
   });

@@ -160,6 +160,7 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
           {previewUrl ? (
             <>
               <p className="text-sm text-muted-foreground">Preview (not yet uploaded)</p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={previewUrl}
                 alt="Preview"
@@ -172,6 +173,7 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
               <p className="text-sm text-muted-foreground">Current: {currentUrl}</p>
               {/* Preview image if it's a relative path */}
               {!currentUrl.startsWith('http') && (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={currentUrl.startsWith('/') ? currentUrl : `/${currentUrl}`}
                   alt="Preview"

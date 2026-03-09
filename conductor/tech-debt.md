@@ -10,3 +10,5 @@
 |------|-------|------|----------|--------|-------|
 | 2026-01-01 | example_track | Example: Hardcoded timeout value | Low | Resolved | Replaced with config value in v1.2 |
 | 2026-03-09 | papercuts_fixes_20260309 | Unused/invalid @ts-expect-error directives and regex flag in tests | Low | Resolved | Fixed via test refactoring |
+| 2026-03-10 | refactor_cleanup_20260310 | Unused variables, broken React Hook dependencies, and Next.js Image warnings | Medium | Resolved | Fixed in app and tests files |
+| 2026-03-10 | refactor_cleanup_20260310 | NPM audit vulnerabilities (minimatch, ajv, rollup) | High | Resolved | Run npm audit fix |

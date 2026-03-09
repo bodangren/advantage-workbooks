@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -124,7 +124,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
     } finally {
       renderingPreviewRef.current = false;
     }
-  }, []); // No dependencies needed!
+  }, [projectId]);
 
   // Debounced version - only updates after user stops typing for 500ms
   const debouncedUpdatePreview = useDebounce(updatePreview, 500);
@@ -268,7 +268,6 @@ Style: Photorealistic educational illustration with clear focus and good lightin
       });
 
       if (response.ok) {
-        const data = await response.json();
         // Refresh the lesson to show the new image
         await fetchLesson();
         setImageGenSuccess(true);

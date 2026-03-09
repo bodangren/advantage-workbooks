@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getPrefaceByCefrLevel, type PrefaceData } from '@/lib/preface-loader';
+import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 
 describe('Preface Loader', () => {
   describe('getPrefaceByCefrLevel', () => {

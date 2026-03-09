@@ -71,8 +71,7 @@ describe('ImageUpload Component', () => {
   it('clears image when X button is clicked', () => {
     render(<ImageUpload projectId={projectId} onUploadSuccess={mockOnUploadSuccess} currentUrl="images/existing.jpg" />);
     
-    const clearButton = screen.getByRole('button', { name: '' }); // X icon button might not have text
-    // We can find it by looking for the X icon or checking button count if unique,
+    // We can find the clear button by looking for the X icon or checking button count if unique,
     // but best to rely on current implementation.
     // The component renders 2 buttons when currentUrl is present: Upload and Clear (X).
     // Let's verify we have the clear button.
