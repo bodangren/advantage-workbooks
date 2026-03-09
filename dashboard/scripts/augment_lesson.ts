@@ -28,7 +28,7 @@ async function main() {
         const lesson = JSON.parse(content);
 
         console.log("Augmenting lesson with AI (Gemini)...");
-        const augmentedLesson = await augmentLesson(lesson as any, apiKey);
+        const augmentedLesson = await augmentLesson(lesson as any);
 
         console.log(`Writing augmented lesson to ${outputPath}...`);
         await fs.writeFile(outputPath, JSON.stringify(augmentedLesson, null, 2));

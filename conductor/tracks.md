@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Certificate of Completion Generation: Automatically generates a 'Certificate of Completion' at the very end of the workbook for students to get signed by their teacher.** *(Completed: 2026-03-10)*
+  *Link: [./archive/certificate_of_completion_20260310/](./archive/certificate_of_completion_20260310/)*
+
 - [x] **Track: Refactor, Lint Fixes, and Security Cleanup: Refactored unused variables, fixed React Hooks dependencies, replaced `<img>` warnings, and resolved npm audit vulnerabilities.** *(Completed: 2026-03-10)*
   *Link: [./archive/refactor_cleanup_20260310/](./archive/refactor_cleanup_20260310/)*
 

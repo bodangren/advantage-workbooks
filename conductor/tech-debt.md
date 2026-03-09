@@ -12,3 +12,4 @@
 | 2026-03-09 | papercuts_fixes_20260309 | Unused/invalid @ts-expect-error directives and regex flag in tests | Low | Resolved | Fixed via test refactoring |
 | 2026-03-10 | refactor_cleanup_20260310 | Unused variables, broken React Hook dependencies, and Next.js Image warnings | Medium | Resolved | Fixed in app and tests files |
 | 2026-03-10 | refactor_cleanup_20260310 | NPM audit vulnerabilities (minimatch, ajv, rollup) | High | Resolved | Run npm audit fix |
+| 2026-03-10 | certificate_of_completion_20260310 | Fixed Next.js build error caused by outdated ai-augmentor function signature taking extra argument | High | Resolved | Fixed in app and scripts |

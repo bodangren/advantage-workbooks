@@ -24,7 +24,7 @@ export async function POST(
     const lesson = await readLesson(projectId, lessonId);
 
     // Augment the lesson with AI-generated pedagogical content
-    const augmented = await augmentLesson(lesson, apiKey);
+    const augmented = await augmentLesson(lesson as any);
 
     // Save the augmented lesson back to disk
     await writeLesson(projectId, lessonId, augmented);

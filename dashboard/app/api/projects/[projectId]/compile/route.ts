@@ -13,6 +13,7 @@ export async function GET(
     const searchParams = request.nextUrl.searchParams;
     const includeFlashcards = searchParams.get('includeFlashcards') !== 'false';
     const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
+    const includeCertificate = searchParams.get('includeCertificate') !== 'false';
 
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
@@ -129,6 +130,7 @@ export async function GET(
       answerKey: answerKey.length > 0 ? answerKey : undefined,
       includeFlashcards,
       includeProgressTracker,
+      includeCertificate,
     });
 
     return NextResponse.json({

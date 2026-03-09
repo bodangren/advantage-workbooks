@@ -224,4 +224,29 @@ describe('Workbook Document Wrapper', () => {
       expect(html).toMatch(/@media print[\s\S]*box-shadow:\s*none/i);
     });
   });
+
+  describe('certificate section', () => {
+    it('should include certificate section when includeCertificate is true', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeCertificate: true
+      });
+      
+      expect(html).toContain('section-certificate');
+      expect(html).toContain('Certificate of Completion');
+    });
+
+    it('should not include certificate section when includeCertificate is false or undefined', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeCertificate: false
+      });
+      
+      expect(html).not.toContain('<div class="section-certificate">');
+      expect(html).not.toContain('Certificate of Completion');
+      
+      const htmlUndefined = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(htmlUndefined).not.toContain('<div class="section-certificate">');
+    });
+  });
 });

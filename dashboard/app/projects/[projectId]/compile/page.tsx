@@ -26,6 +26,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   
   const [includeFlashcards, setIncludeFlashcards] = useState(true);
   const [includeProgressTracker, setIncludeProgressTracker] = useState(true);
+  const [includeCertificate, setIncludeCertificate] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
@@ -33,7 +34,8 @@ export default function CompilePage({ params }: CompilePageProps) {
       try {
         const queryParams = new URLSearchParams({
           includeFlashcards: includeFlashcards.toString(),
-          includeProgressTracker: includeProgressTracker.toString()
+          includeProgressTracker: includeProgressTracker.toString(),
+          includeCertificate: includeCertificate.toString()
         });
         const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
@@ -55,7 +57,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId, includeFlashcards, includeProgressTracker]);
+  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate]);
 
   const handlePrint = () => {
     if (iframeRef.current?.contentWindow) {
@@ -139,6 +141,15 @@ export default function CompilePage({ params }: CompilePageProps) {
                   className="rounded border-gray-300"
                 />
                 Vocabulary Flashcards
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeCertificate} 
+                  onChange={(e) => setIncludeCertificate(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Certificate
               </label>
             </Card>
           </div>

@@ -42,6 +42,7 @@ export interface WorkbookDocumentOptions {
   answerKey?: AnswerKeyEntry[];
   includeFlashcards?: boolean;
   includeProgressTracker?: boolean;
+  includeCertificate?: boolean;
 }
 
 interface ThemeColors {
@@ -261,6 +262,34 @@ function generateFlashcardsSection(glossary?: GlossaryEntry[]): string {
   return `
     <div class="section-flashcards">
       ${pages}
+    </div>
+  `;
+}
+
+function generateCertificateSection(options: WorkbookDocumentOptions, theme: ThemeColors): string {
+  return `
+    <div class="section-certificate">
+      <div class="certificate-border">
+        <div class="certificate-inner">
+          <h1 class="cert-title" style="color: ${theme.primary};">Certificate of Completion</h1>
+          <div class="cert-subtitle">This is to certify that</div>
+          <div class="cert-student-name"></div>
+          <div class="cert-text">has successfully completed the Reading Advantage</div>
+          <div class="cert-course-name">${escapeHtml(options.seriesName)} Level ${escapeHtml(options.seriesLevel)}</div>
+          <div class="cert-text">workbook program, demonstrating dedication and outstanding effort in developing their English reading and writing skills.</div>
+          
+          <div class="cert-signatures">
+            <div class="cert-sig-block">
+              <div class="cert-sig-line"></div>
+              <div class="cert-sig-label">Teacher's Signature</div>
+            </div>
+            <div class="cert-sig-block">
+              <div class="cert-sig-line"></div>
+              <div class="cert-sig-label">Date</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -683,6 +712,105 @@ function getPrintStyles(theme: ThemeColors): string {
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+
+    .section-certificate {
+      break-before: right;
+      height: 285mm;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 20mm;
+      font-family: 'Merriweather', serif;
+    }
+
+    .certificate-border {
+      border: 8px solid ${theme.primary};
+      padding: 10px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      background-color: #fdfdfd;
+      box-shadow: inset 0 0 0 4px ${theme.secondary};
+    }
+
+    .certificate-inner {
+      border: 2px solid ${theme.secondary};
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .cert-title {
+      font-size: 36pt;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .cert-subtitle {
+      font-size: 16pt;
+      color: #4b5563;
+      margin-bottom: 30px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .cert-student-name {
+      border-bottom: 2px solid #333;
+      width: 70%;
+      height: 40px;
+      margin-bottom: 30px;
+    }
+
+    .cert-text {
+      font-size: 14pt;
+      color: #333;
+      max-width: 80%;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .cert-course-name {
+      font-size: 20pt;
+      font-weight: bold;
+      color: ${theme.primary};
+      margin: 15px 0;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .cert-signatures {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 60px;
+    }
+
+    .cert-sig-block {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cert-sig-line {
+      border-bottom: 1px solid #333;
+      width: 100%;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .cert-sig-label {
+      font-size: 12pt;
+      color: #4b5563;
+      font-family: 'Open Sans', sans-serif;
+    }
   `;
 }
 
@@ -708,6 +836,7 @@ export function wrapWorkbookDocument(
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
+  const certificateSection = options.includeCertificate ? generateCertificateSection(options, theme) : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -735,6 +864,8 @@ export function wrapWorkbookDocument(
   ${answerKeySection}
 
   ${flashcardsSection}
+
+  ${certificateSection}
 </body>
 </html>`;
 }
