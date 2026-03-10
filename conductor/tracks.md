@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Student Self-Assessment & Reflection Generator: Automatically generates a 'My Learning Reflection' page at the end of the workbook for students to evaluate their own reading, writing, and vocabulary skills.** *(Completed: 2026-03-10)*
+  *Link: [./archive/self_assessment_generator_20260310/](./archive/self_assessment_generator_20260310/)*
+
 - [x] **Track: Teacher Guide Generation: Add an automated Teacher's Guide section to compiled workbooks.** *(Completed: 2026-03-10)*
   *Link: [./archive/teacher_guide_generator_20260310/](./archive/teacher_guide_generator_20260310/)*
 

@@ -28,6 +28,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [includeProgressTracker, setIncludeProgressTracker] = useState(true);
   const [includeCertificate, setIncludeCertificate] = useState(true);
   const [includeTeacherGuide, setIncludeTeacherGuide] = useState(true);
+  const [includeSelfAssessment, setIncludeSelfAssessment] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
@@ -37,7 +38,8 @@ export default function CompilePage({ params }: CompilePageProps) {
           includeFlashcards: includeFlashcards.toString(),
           includeProgressTracker: includeProgressTracker.toString(),
           includeCertificate: includeCertificate.toString(),
-          includeTeacherGuide: includeTeacherGuide.toString()
+          includeTeacherGuide: includeTeacherGuide.toString(),
+          includeSelfAssessment: includeSelfAssessment.toString()
         });
         const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
@@ -59,7 +61,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide]);
+  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide, includeSelfAssessment]);
 
   const handlePrint = () => {
     if (iframeRef.current?.contentWindow) {
@@ -152,6 +154,15 @@ export default function CompilePage({ params }: CompilePageProps) {
                   className="rounded border-gray-300"
                 />
                 Teacher's Guide
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeSelfAssessment} 
+                  onChange={(e) => setIncludeSelfAssessment(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Self-Assessment
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input 

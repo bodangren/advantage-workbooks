@@ -55,6 +55,7 @@ export interface WorkbookDocumentOptions {
   includeProgressTracker?: boolean;
   includeCertificate?: boolean;
   includeTeacherGuide?: boolean;
+  includeSelfAssessment?: boolean;
 }
 
 interface ThemeColors {
@@ -348,6 +349,85 @@ function generateTeacherGuideSection(entries?: TeacherGuideEntry[], theme?: Them
       <h2 class="section-header">Teacher's Guide</h2>
       <p class="tg-intro">This section provides a quick reference for each lesson to assist with classroom instruction.</p>
       ${pages}
+    </div>
+  `;
+}
+
+function generateSelfAssessmentSection(theme: ThemeColors): string {
+  return `
+    <div class="section-self-assessment">
+      <h2 class="section-header">My Learning Reflection</h2>
+      <p class="sa-intro">Think about your learning journey in this workbook. Read each statement below and check the box that best describes how you feel.</p>
+      
+      <table class="sa-table">
+        <thead>
+          <tr>
+            <th class="sa-col-statement">I can...</th>
+            <th class="sa-col-rating">Needs Work<br/>🌱</th>
+            <th class="sa-col-rating">Getting There<br/>🌿</th>
+            <th class="sa-col-rating">Got It!<br/>🌳</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>...understand the main ideas of the reading passages.</td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+          </tr>
+          <tr>
+            <td>...find specific details and information in the text.</td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+          </tr>
+          <tr>
+            <td>...understand and use the new vocabulary words.</td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+          </tr>
+          <tr>
+            <td>...write clear and organized sentences.</td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+          </tr>
+          <tr>
+            <td>...express my own thoughts and opinions about the topics.</td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+            <td><div class="sa-checkbox"></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sa-questions">
+        <div class="sa-q-block">
+          <p class="sa-q-text">1. What was your favorite lesson or topic in this workbook? Why?</p>
+          <div class="sa-lines">
+            <div class="sa-line"></div>
+            <div class="sa-line"></div>
+            <div class="sa-line"></div>
+          </div>
+        </div>
+        <div class="sa-q-block">
+          <p class="sa-q-text">2. What was the most challenging part for you, and how did you overcome it?</p>
+          <div class="sa-lines">
+            <div class="sa-line"></div>
+            <div class="sa-line"></div>
+            <div class="sa-line"></div>
+          </div>
+        </div>
+        <div class="sa-q-block">
+          <p class="sa-q-text">3. Write down 3 new vocabulary words that you want to remember and use again:</p>
+          <div class="sa-lines">
+            <div class="sa-line">1.</div>
+            <div class="sa-line">2.</div>
+            <div class="sa-line">3.</div>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -799,6 +879,81 @@ function getPrintStyles(theme: ThemeColors): string {
       overflow: hidden;
     }
 
+    .section-self-assessment {
+      break-before: right;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .sa-intro {
+      font-size: 12pt;
+      margin-bottom: 30px;
+      color: #4b5563;
+    }
+
+    .sa-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+
+    .sa-table th, .sa-table td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .sa-table th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .sa-col-statement {
+      text-align: left !important;
+      width: 55%;
+    }
+
+    .sa-table td:first-child {
+      text-align: left;
+      font-size: 12pt;
+    }
+
+    .sa-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #94a3b8;
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+
+    .sa-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .sa-q-text {
+      font-weight: 600;
+      font-size: 12pt;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+
+    .sa-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sa-line {
+      border-bottom: 1px solid #cbd5e1;
+      height: 24px;
+      width: 100%;
+      color: #64748b;
+      font-size: 11pt;
+    }
+
     .section-certificate {
       break-before: right;
       height: 285mm;
@@ -1009,6 +1164,7 @@ export function wrapWorkbookDocument(
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
   const teacherGuideSection = options.includeTeacherGuide ? generateTeacherGuideSection(options.teacherGuide, theme) : '';
+  const selfAssessmentSection = options.includeSelfAssessment ? generateSelfAssessmentSection(theme) : '';
   const certificateSection = options.includeCertificate ? generateCertificateSection(options, theme) : '';
 
   return `<!DOCTYPE html>
@@ -1039,6 +1195,8 @@ export function wrapWorkbookDocument(
   ${flashcardsSection}
 
   ${teacherGuideSection}
+
+  ${selfAssessmentSection}
 
   ${certificateSection}
 </body>

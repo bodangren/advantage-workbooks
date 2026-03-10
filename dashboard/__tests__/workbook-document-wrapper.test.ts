@@ -250,6 +250,31 @@ describe('Workbook Document Wrapper', () => {
     });
   });
 
+  describe('self assessment section', () => {
+    it('should include self assessment section when includeSelfAssessment is true', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeSelfAssessment: true
+      });
+      
+      expect(html).toContain('section-self-assessment');
+      expect(html).toContain('My Learning Reflection');
+    });
+
+    it('should not include self assessment section when includeSelfAssessment is false or undefined', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeSelfAssessment: false
+      });
+      
+      expect(html).not.toContain('<div class="section-self-assessment">');
+      expect(html).not.toContain('My Learning Reflection');
+      
+      const htmlUndefined = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(htmlUndefined).not.toContain('<div class="section-self-assessment">');
+    });
+  });
+
   describe('teacher guide section', () => {
     const sampleTeacherGuide = [
       {

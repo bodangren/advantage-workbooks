@@ -15,6 +15,7 @@ export async function GET(
     const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
     const includeCertificate = searchParams.get('includeCertificate') !== 'false';
     const includeTeacherGuide = searchParams.get('includeTeacherGuide') !== 'false';
+    const includeSelfAssessment = searchParams.get('includeSelfAssessment') !== 'false';
 
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
@@ -177,6 +178,7 @@ export async function GET(
       includeProgressTracker,
       includeCertificate,
       includeTeacherGuide,
+      includeSelfAssessment,
     });
 
     return NextResponse.json({

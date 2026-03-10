@@ -19,6 +19,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Live Preview:** Real-time preview of lessons using Paged.js
 - **Batch Compilation:** One-click compilation of all lessons in a project
 - **Student Progress Tracker:** Automatically generates a 'My Reading Journey' progress tracking page with badge coloring for each lesson to gamify the workbook.
+- **Student Self-Assessment:** Automatically generates a CEFR-aligned 'My Learning Reflection' page at the end of the workbook for students to evaluate their own reading, writing, and vocabulary skills.
 - **Writing Task Digital Integration:** Implements the blended learning workflow by adding a Writing Practice QR code and AI Feedback Tracker to the writing section in the templates.
 - **Automated Glossary Generation:** Automatically extracts and deduplicates vocabulary from all lessons to generate an alphabetical glossary at the end of the workbook
 - **Automated Answer Key Generation:** Automatically extracts answers from each lesson and generates a formatted Answer Key section at the end of the workbook
