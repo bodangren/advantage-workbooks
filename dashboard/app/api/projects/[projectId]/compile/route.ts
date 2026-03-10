@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
-import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry } from '@/lib/workbook-document-wrapper';
+import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry, type TeacherGuideEntry } from '@/lib/workbook-document-wrapper';
 import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
@@ -14,6 +14,7 @@ export async function GET(
     const includeFlashcards = searchParams.get('includeFlashcards') !== 'false';
     const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
     const includeCertificate = searchParams.get('includeCertificate') !== 'false';
+    const includeTeacherGuide = searchParams.get('includeTeacherGuide') !== 'false';
 
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
@@ -105,6 +106,49 @@ export async function GET(
       return hasAnswers ? entry : null;
     }).filter((e): e is AnswerKeyEntry => e !== null);
 
+    // Extract teacher guide entries
+    const teacherGuide: TeacherGuideEntry[] = loadedLessons.map((lesson, i) => {
+      const lessonNumber = `Lesson ${i + 1}`;
+      const title = `${lessonNumber}: ${lesson.lesson_title || 'Untitled'}`;
+      
+      const vocab: { word: string; phonetic: string; definition: string; thaiDefinition?: string }[] = [];
+      if (Array.isArray(lesson.vocabulary)) {
+        lesson.vocabulary.forEach(v => {
+          if (v && v.word) {
+            vocab.push({
+              word: v.word.trim(),
+              phonetic: v.phonetic?.trim() || '',
+              definition: v.definition?.trim() || '',
+              thaiDefinition: v.thai_definition?.trim()
+            });
+          }
+        });
+      }
+
+      const compQs = lesson.comprehension_questions?.map(q => {
+        let answerStr = undefined;
+        if (lesson.mc_answers) {
+          const ans = lesson.mc_answers.find(a => a.number === q.number);
+          if (ans) answerStr = `${ans.letter}. ${ans.text}`;
+        }
+        return {
+          question: q.question,
+          options: q.options,
+          answer: answerStr
+        };
+      });
+
+      return {
+        lessonTitle: title,
+        genre: lesson.genre,
+        articleType: lesson.article_type,
+        cefrLevel: metadata?.cefrLevel || lesson.cefr_level,
+        vocabulary: vocab,
+        writingPrompt: lesson.writing_prompt,
+        comprehensionQuestions: compQs
+      };
+    });
+
     const seriesName = metadata?.seriesName || 'Reading Advantage';
     const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
@@ -128,9 +172,11 @@ export async function GET(
       type: metadata?.type,
       glossary: glossary.length > 0 ? glossary : undefined,
       answerKey: answerKey.length > 0 ? answerKey : undefined,
+      teacherGuide: teacherGuide.length > 0 ? teacherGuide : undefined,
       includeFlashcards,
       includeProgressTracker,
       includeCertificate,
+      includeTeacherGuide,
     });
 
     return NextResponse.json({

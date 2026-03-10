@@ -249,4 +249,41 @@ describe('Workbook Document Wrapper', () => {
       expect(htmlUndefined).not.toContain('<div class="section-certificate">');
     });
   });
+
+  describe('teacher guide section', () => {
+    const sampleTeacherGuide = [
+      {
+        lessonTitle: 'Lesson 1: Introduction',
+        genre: 'Fiction',
+        vocabulary: [{ word: 'Test', phonetic: '/tɛst/', definition: 'A procedure intended to establish the quality, performance, or reliability of something.' }],
+        writingPrompt: 'Write a story.',
+      }
+    ];
+
+    it('should include teacher guide section when includeTeacherGuide is true', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeTeacherGuide: true,
+        teacherGuide: sampleTeacherGuide
+      });
+      
+      expect(html).toContain('section-teacher-guide');
+      expect(html).toContain("Teacher's Guide");
+      expect(html).toContain('Lesson 1: Introduction');
+      expect(html).toContain('Write a story.');
+    });
+
+    it('should not include teacher guide section when includeTeacherGuide is false or undefined', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeTeacherGuide: false,
+        teacherGuide: sampleTeacherGuide
+      });
+      
+      expect(html).not.toContain('<div class="section-teacher-guide">');
+      
+      const htmlUndefined = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(htmlUndefined).not.toContain('<div class="section-teacher-guide">');
+    });
+  });
 });

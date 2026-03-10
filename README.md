@@ -22,6 +22,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Writing Task Digital Integration:** Implements the blended learning workflow by adding a Writing Practice QR code and AI Feedback Tracker to the writing section in the templates.
 - **Automated Glossary Generation:** Automatically extracts and deduplicates vocabulary from all lessons to generate an alphabetical glossary at the end of the workbook
 - **Automated Answer Key Generation:** Automatically extracts answers from each lesson and generates a formatted Answer Key section at the end of the workbook
+- **Automated Teacher's Guide:** Generates a complete 1-page summary per lesson at the end of the workbook including vocabulary, comprehension questions, and writing rubrics for classroom instruction.
 - **Printable Vocabulary Flashcards:** Automatically generates a printable vocabulary flashcards section at the end of the workbook for students to cut out, fold, and practice.
 - **Certificate of Completion:** Automatically generates a professional certificate at the end of the workbook for students to get signed by their teacher.
 - **Improved PDF Printing:** Optimized printing workflow directly from the Next.js compilation page with correctly rendered Paged.js paginated outputs and print dialog handling.

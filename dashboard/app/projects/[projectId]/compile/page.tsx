@@ -27,6 +27,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [includeFlashcards, setIncludeFlashcards] = useState(true);
   const [includeProgressTracker, setIncludeProgressTracker] = useState(true);
   const [includeCertificate, setIncludeCertificate] = useState(true);
+  const [includeTeacherGuide, setIncludeTeacherGuide] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
@@ -35,7 +36,8 @@ export default function CompilePage({ params }: CompilePageProps) {
         const queryParams = new URLSearchParams({
           includeFlashcards: includeFlashcards.toString(),
           includeProgressTracker: includeProgressTracker.toString(),
-          includeCertificate: includeCertificate.toString()
+          includeCertificate: includeCertificate.toString(),
+          includeTeacherGuide: includeTeacherGuide.toString()
         });
         const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
@@ -57,7 +59,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate]);
+  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide]);
 
   const handlePrint = () => {
     if (iframeRef.current?.contentWindow) {
@@ -141,6 +143,15 @@ export default function CompilePage({ params }: CompilePageProps) {
                   className="rounded border-gray-300"
                 />
                 Vocabulary Flashcards
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeTeacherGuide} 
+                  onChange={(e) => setIncludeTeacherGuide(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Teacher's Guide
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input 

@@ -32,6 +32,16 @@ export interface AnswerKeyEntry {
   shortAnswerHint?: string;
 }
 
+export interface TeacherGuideEntry {
+  lessonTitle: string;
+  genre?: string;
+  articleType?: string;
+  cefrLevel?: string;
+  vocabulary: GlossaryEntry[];
+  writingPrompt?: string;
+  comprehensionQuestions?: { question: string; options?: string[]; answer?: string }[];
+}
+
 export interface WorkbookDocumentOptions {
   seriesName: string;
   seriesLevel: string;
@@ -40,9 +50,11 @@ export interface WorkbookDocumentOptions {
   type?: 'primary' | 'secondary';
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
+  teacherGuide?: TeacherGuideEntry[];
   includeFlashcards?: boolean;
   includeProgressTracker?: boolean;
   includeCertificate?: boolean;
+  includeTeacherGuide?: boolean;
 }
 
 interface ThemeColors {
@@ -261,6 +273,80 @@ function generateFlashcardsSection(glossary?: GlossaryEntry[]): string {
 
   return `
     <div class="section-flashcards">
+      ${pages}
+    </div>
+  `;
+}
+
+function generateTeacherGuideSection(entries?: TeacherGuideEntry[], theme?: ThemeColors): string {
+  if (!entries || entries.length === 0) return '';
+
+  const pages = entries.map(entry => {
+    let vocabHtml = '';
+    if (entry.vocabulary && entry.vocabulary.length > 0) {
+      vocabHtml = `
+        <div class="tg-section">
+          <h4 class="tg-section-title">Key Vocabulary</h4>
+          <ul class="tg-vocab-list">
+            ${entry.vocabulary.map(v => `<li><strong>${escapeHtml(v.word)}</strong>: ${escapeHtml(v.definition)} ${v.thaiDefinition ? `<em>(${escapeHtml(v.thaiDefinition)})</em>` : ''}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    let compHtml = '';
+    if (entry.comprehensionQuestions && entry.comprehensionQuestions.length > 0) {
+      compHtml = `
+        <div class="tg-section">
+          <h4 class="tg-section-title">Comprehension Questions</h4>
+          <ol class="tg-comp-list">
+            ${entry.comprehensionQuestions.map(q => `<li><strong>Q:</strong> ${escapeHtml(q.question)}<br/><strong>A:</strong> ${q.answer ? escapeHtml(q.answer) : '<em>See Answer Key</em>'}</li>`).join('')}
+          </ol>
+        </div>
+      `;
+    }
+
+    let writingHtml = '';
+    if (entry.writingPrompt) {
+      writingHtml = `
+        <div class="tg-section">
+          <h4 class="tg-section-title">Writing Task</h4>
+          <p class="tg-writing-prompt"><strong>Prompt:</strong> ${escapeHtml(entry.writingPrompt)}</p>
+          <div class="tg-rubric">
+            <strong>Suggested Rubric:</strong>
+            <ul>
+              <li><strong>Content:</strong> Directly addresses the prompt (40%)</li>
+              <li><strong>Vocabulary:</strong> Uses key vocabulary from the lesson (30%)</li>
+              <li><strong>Grammar/Mechanics:</strong> Correct sentence structure and spelling (30%)</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="tg-lesson-page">
+        <div class="tg-header" style="border-bottom: 3px solid ${theme?.primary || '#333'};">
+          <h3 class="tg-lesson-title" style="color: ${theme?.primary || '#333'};">Teacher's Guide: ${escapeHtml(entry.lessonTitle)}</h3>
+          <div class="tg-meta">
+            ${entry.genre ? `<span class="tg-meta-item"><strong>Genre:</strong> ${escapeHtml(entry.genre)}</span>` : ''}
+            ${entry.articleType ? `<span class="tg-meta-item"><strong>Type:</strong> ${escapeHtml(entry.articleType)}</span>` : ''}
+            ${entry.cefrLevel ? `<span class="tg-meta-item"><strong>CEFR:</strong> ${escapeHtml(entry.cefrLevel)}</span>` : ''}
+          </div>
+        </div>
+        <div class="tg-content">
+          ${vocabHtml}
+          ${compHtml}
+          ${writingHtml}
+        </div>
+      </div>
+    `;
+  }).join('\\n');
+
+  return `
+    <div class="section-teacher-guide">
+      <h2 class="section-header">Teacher's Guide</h2>
+      <p class="tg-intro">This section provides a quick reference for each lesson to assist with classroom instruction.</p>
       ${pages}
     </div>
   `;
@@ -811,6 +897,92 @@ function getPrintStyles(theme: ThemeColors): string {
       color: #4b5563;
       font-family: 'Open Sans', sans-serif;
     }
+
+    .section-teacher-guide {
+      break-before: right;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .tg-intro {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 12pt;
+    }
+
+    .tg-lesson-page {
+      break-after: page;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+
+    .tg-header {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    .tg-lesson-title {
+      font-size: 18pt;
+      margin: 0 0 10px 0;
+    }
+
+    .tg-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 11pt;
+      color: #555;
+    }
+
+    .tg-meta-item strong {
+      color: #333;
+    }
+
+    .tg-section {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .tg-section-title {
+      font-size: 14pt;
+      margin: 0 0 10px 0;
+      color: #4b5563;
+    }
+
+    .tg-vocab-list, .tg-comp-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+
+    .tg-vocab-list li, .tg-comp-list li {
+      margin-bottom: 8px;
+    }
+
+    .tg-writing-prompt {
+      font-size: 11pt;
+      margin-bottom: 10px;
+    }
+
+    .tg-rubric {
+      font-size: 10pt;
+      color: #444;
+      background: #f8fafc;
+      padding: 10px;
+      border-left: 3px solid #cbd5e1;
+    }
+
+    .tg-rubric ul {
+      margin: 5px 0 0 0;
+      padding-left: 20px;
+    }
   `;
 }
 
@@ -836,6 +1008,7 @@ export function wrapWorkbookDocument(
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
+  const teacherGuideSection = options.includeTeacherGuide ? generateTeacherGuideSection(options.teacherGuide, theme) : '';
   const certificateSection = options.includeCertificate ? generateCertificateSection(options, theme) : '';
 
   return `<!DOCTYPE html>
@@ -864,6 +1037,8 @@ export function wrapWorkbookDocument(
   ${answerKeySection}
 
   ${flashcardsSection}
+
+  ${teacherGuideSection}
 
   ${certificateSection}
 </body>
