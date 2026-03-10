@@ -678,5 +678,65 @@ export function getPrintStyles(theme: ThemeColors): string {
       margin: 5px 0 0 0;
       padding-left: 20px;
     }
+
+    /* --- Spelling Practice Section --- */
+    .section-spelling-practice {
+      break-before: right;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .sp-intro {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .sp-lesson-page {
+      break-after: page;
+    }
+    .sp-header {
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+    }
+    .sp-lesson-title {
+      font-size: 18pt;
+      margin: 0 0 5px 0;
+    }
+    .sp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .sp-table th {
+      padding: 12px;
+      text-align: center;
+      font-size: 14pt;
+      border: 2px solid #ccc;
+    }
+    .sp-table td {
+      border: 2px solid #ccc;
+      padding: 15px 10px;
+      height: 40px;
+      vertical-align: middle;
+      font-size: 16pt;
+    }
+    .sp-col-word {
+      width: 25%;
+      text-align: center;
+    }
+    .sp-col-trace {
+      width: 25%;
+      text-align: center;
+    }
+    .sp-trace-text {
+      color: #e0e0e0;
+      font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+    }
+    .sp-col-write {
+      width: 25%;
+    }
+    .sp-col-cover {
+      width: 25%;
+    }
   `;
 }

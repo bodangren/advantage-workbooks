@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
-import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry, type TeacherGuideEntry } from '@/lib/workbook-document-wrapper';
+import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry, type TeacherGuideEntry, type SpellingPracticeEntry } from '@/lib/workbook-document-wrapper';
 import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
@@ -16,6 +16,7 @@ export async function GET(
     const includeCertificate = searchParams.get('includeCertificate') !== 'false';
     const includeTeacherGuide = searchParams.get('includeTeacherGuide') !== 'false';
     const includeSelfAssessment = searchParams.get('includeSelfAssessment') !== 'false';
+    const includeSpellingPractice = searchParams.get('includeSpellingPractice') !== 'false';
 
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);
@@ -150,6 +151,31 @@ export async function GET(
       };
     });
 
+    // Extract spelling practice entries
+    const spellingPractice: SpellingPracticeEntry[] = loadedLessons.map((lesson, i) => {
+      const lessonNumber = `Lesson ${i + 1}`;
+      const title = `${lessonNumber}: ${lesson.lesson_title || 'Untitled'}`;
+      
+      const vocab: { word: string; phonetic: string; definition: string; thaiDefinition?: string }[] = [];
+      if (Array.isArray(lesson.vocabulary)) {
+        lesson.vocabulary.forEach(v => {
+          if (v && v.word) {
+            vocab.push({
+              word: v.word.trim(),
+              phonetic: v.phonetic?.trim() || '',
+              definition: v.definition?.trim() || '',
+              thaiDefinition: v.thai_definition?.trim()
+            });
+          }
+        });
+      }
+
+      return {
+        lessonTitle: title,
+        vocabulary: vocab,
+      };
+    }).filter(e => e.vocabulary.length > 0);
+
     const seriesName = metadata?.seriesName || 'Reading Advantage';
     const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
@@ -174,11 +200,13 @@ export async function GET(
       glossary: glossary.length > 0 ? glossary : undefined,
       answerKey: answerKey.length > 0 ? answerKey : undefined,
       teacherGuide: teacherGuide.length > 0 ? teacherGuide : undefined,
+      spellingPractice: spellingPractice.length > 0 ? spellingPractice : undefined,
       includeFlashcards,
       includeProgressTracker,
       includeCertificate,
       includeTeacherGuide,
       includeSelfAssessment,
+      includeSpellingPractice,
     });
 
     return NextResponse.json({

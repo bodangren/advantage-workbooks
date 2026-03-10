@@ -311,4 +311,37 @@ describe('Workbook Document Wrapper', () => {
       expect(htmlUndefined).not.toContain('<div class="section-teacher-guide">');
     });
   });
+
+  describe('spelling practice section', () => {
+    const sampleSpellingPractice = [
+      {
+        lessonTitle: 'Lesson 1: Introduction',
+        vocabulary: [{ word: 'Test', phonetic: '/tɛst/', definition: 'A procedure' }]
+      }
+    ];
+
+    it('should include spelling practice section when includeSpellingPractice is true', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeSpellingPractice: true,
+        spellingPractice: sampleSpellingPractice
+      });
+      
+      expect(html).toContain('section-spelling-practice');
+      expect(html).toContain('Spelling Practice: Lesson 1: Introduction');
+    });
+
+    it('should not include spelling practice section when includeSpellingPractice is false or undefined', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeSpellingPractice: false,
+        spellingPractice: sampleSpellingPractice
+      });
+      
+      expect(html).not.toContain('<div class="section-spelling-practice">');
+      
+      const htmlUndefined = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(htmlUndefined).not.toContain('<div class="section-spelling-practice">');
+    });
+  });
 });

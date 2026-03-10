@@ -52,3 +52,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Papercuts: Fixes compile page errors, progress tracker overflow, and Next.js print button functionality.** *(Completed: 2026-03-09)*
   *Link: [./archive/papercuts_fixes_20260309/](./archive/papercuts_fixes_20260309/)*
+
+- [x] **Track: Spelling Practice Generator: Automatically generates a 'Spelling Practice' section at the end of the workbook for students to practice 'Look, Trace, Write, Check' for lesson vocabulary.** *(Completed: 2026-03-11)*
+  *Link: [./archive/spelling_practice_generator_20260311/](./archive/spelling_practice_generator_20260311/)*

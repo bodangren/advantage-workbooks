@@ -42,6 +42,11 @@ export interface TeacherGuideEntry {
   comprehensionQuestions?: { question: string; options?: string[]; answer?: string }[];
 }
 
+export interface SpellingPracticeEntry {
+  lessonTitle: string;
+  vocabulary: GlossaryEntry[];
+}
+
 export interface WorkbookDocumentOptions {
   seriesName: string;
   seriesLevel: string;
@@ -51,11 +56,13 @@ export interface WorkbookDocumentOptions {
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
   teacherGuide?: TeacherGuideEntry[];
+  spellingPractice?: SpellingPracticeEntry[];
   includeFlashcards?: boolean;
   includeProgressTracker?: boolean;
   includeCertificate?: boolean;
   includeTeacherGuide?: boolean;
   includeSelfAssessment?: boolean;
+  includeSpellingPractice?: boolean;
 }
 
 export interface ThemeColors {

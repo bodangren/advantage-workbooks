@@ -29,6 +29,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [includeCertificate, setIncludeCertificate] = useState(true);
   const [includeTeacherGuide, setIncludeTeacherGuide] = useState(true);
   const [includeSelfAssessment, setIncludeSelfAssessment] = useState(true);
+  const [includeSpellingPractice, setIncludeSpellingPractice] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
@@ -39,7 +40,8 @@ export default function CompilePage({ params }: CompilePageProps) {
           includeProgressTracker: includeProgressTracker.toString(),
           includeCertificate: includeCertificate.toString(),
           includeTeacherGuide: includeTeacherGuide.toString(),
-          includeSelfAssessment: includeSelfAssessment.toString()
+          includeSelfAssessment: includeSelfAssessment.toString(),
+          includeSpellingPractice: includeSpellingPractice.toString()
         });
         const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
@@ -61,7 +63,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide, includeSelfAssessment]);
+  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide, includeSelfAssessment, includeSpellingPractice]);
 
   const handlePrint = () => {
     if (iframeRef.current?.contentWindow) {
@@ -163,6 +165,15 @@ export default function CompilePage({ params }: CompilePageProps) {
                   className="rounded border-gray-300"
                 />
                 Self-Assessment
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeSpellingPractice} 
+                  onChange={(e) => setIncludeSpellingPractice(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Spelling Practice
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input 

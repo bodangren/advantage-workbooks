@@ -19,6 +19,7 @@
 - (2026-03-10, self_assessment_generator_20260310) Paged.js page breaks: For newly appended sections that need to be pushed to a new printed page, ensure you apply `break-before: right;` if you want it strictly on the right side, or just `break-after: page;` on the preceding element.
 - (2026-03-10, refactor_document_wrapper_20260310) Code splitting: When a central compiler file like `workbook-document-wrapper.ts` becomes too large, separating it into distinct modules (types, utils, individual generators) dramatically improves maintainability without altering output behavior, provided you re-export types correctly.
 - (2026-03-11, refactor_cleanup_20260311) Thematic consistency: When generating printable HTML sections, always utilize the provided `ThemeColors` to ensure visual consistency across the workbook. Avoid unused parameters which trigger ESLint warnings.
+- (2026-03-11, spelling_practice_generator_20260311) Paged.js tracing text: When generating spelling practice pages, use a light gray color (e.g. `#e0e0e0`) and fall back to standard sans-serif if tracing fonts aren't guaranteed to be installed on the print system.
 
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->

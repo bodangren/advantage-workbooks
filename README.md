@@ -26,6 +26,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Automated Answer Key Generation:** Automatically extracts answers from each lesson and generates a formatted Answer Key section at the end of the workbook
 - **Automated Teacher's Guide:** Generates a complete 1-page summary per lesson at the end of the workbook including vocabulary, comprehension questions, and writing rubrics for classroom instruction.
 - **Printable Vocabulary Flashcards:** Automatically generates a printable vocabulary flashcards section at the end of the workbook for students to cut out, fold, and practice.
+- **Spelling Practice Generator:** Automatically generates a 'Spelling Practice' section at the end of the workbook for students to practice 'Look, Trace, Write, Check' for lesson vocabulary.
 - **Certificate of Completion:** Automatically generates a professional certificate at the end of the workbook for students to get signed by their teacher.
 - **Improved PDF Printing:** Optimized printing workflow directly from the Next.js compilation page with correctly rendered Paged.js paginated outputs and print dialog handling.
 - **Mobile Responsive:** Works on desktop and mobile devices

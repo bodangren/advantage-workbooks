@@ -11,6 +11,7 @@ import { generateFlashcardsSection } from './document-wrapper/sections/flashcard
 import { generateTeacherGuideSection } from './document-wrapper/sections/teacher-guide';
 import { generateSelfAssessmentSection } from './document-wrapper/sections/self-assessment';
 import { generateCertificateSection } from './document-wrapper/sections/certificate';
+import { generateSpellingPracticeSection } from './document-wrapper/sections/spelling-practice';
 
 // Re-export all types so existing imports don't break
 export * from './document-wrapper/types';
@@ -29,6 +30,7 @@ export function wrapWorkbookDocument(
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
   const teacherGuideSection = options.includeTeacherGuide ? generateTeacherGuideSection(options.teacherGuide, theme) : '';
+  const spellingPracticeSection = options.includeSpellingPractice ? generateSpellingPracticeSection(options.spellingPractice, theme) : '';
   const selfAssessmentSection = options.includeSelfAssessment ? generateSelfAssessmentSection(theme) : '';
   const certificateSection = options.includeCertificate ? generateCertificateSection(options, theme) : '';
 
@@ -60,6 +62,8 @@ export function wrapWorkbookDocument(
   ${flashcardsSection}
 
   ${teacherGuideSection}
+  
+  ${spellingPracticeSection}
 
   ${selfAssessmentSection}
 
