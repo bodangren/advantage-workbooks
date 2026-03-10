@@ -14,3 +14,4 @@
 | 2026-03-10 | refactor_cleanup_20260310 | NPM audit vulnerabilities (minimatch, ajv, rollup) | High | Resolved | Run npm audit fix |
 | 2026-03-10 | certificate_of_completion_20260310 | Fixed Next.js build error caused by outdated ai-augmentor function signature taking extra argument | High | Resolved | Fixed in app and scripts |
 | 2026-03-10 | self_assessment_generator_20260310 | Consider moving the generated printable sections into separate files if workbook-document-wrapper.ts grows beyond manageable size | Medium | Resolved | Refactored in refactor_document_wrapper_20260310 |
+| 2026-03-11 | refactor_cleanup_20260311 | Fixed unused `_theme` warning in `self-assessment.ts` and improved section UI | Low | Resolved | Fixed via ESLint checks |

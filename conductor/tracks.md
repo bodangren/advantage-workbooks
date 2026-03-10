@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: Refactor, Lint Fixes, and Security Cleanup: Refactor code to fix unused variables in self-assessment section, perform a security analysis, and clean up testing framework warnings.** *(Completed: 2026-03-11)*
+  *Link: [./archive/refactor_cleanup_20260311/](./archive/refactor_cleanup_20260311/)*
+
 - [x] **Track: Student Self-Assessment & Reflection Generator: Automatically generates a 'My Learning Reflection' page at the end of the workbook for students to evaluate their own reading, writing, and vocabulary skills.** *(Completed: 2026-03-10)*
   *Link: [./archive/self_assessment_generator_20260310/](./archive/self_assessment_generator_20260310/)*
 

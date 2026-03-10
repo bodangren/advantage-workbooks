@@ -1,9 +1,9 @@
 import { ThemeColors } from '../types';
 
-export function generateSelfAssessmentSection(_theme: ThemeColors): string {
+export function generateSelfAssessmentSection(theme: ThemeColors): string {
   return `
     <div class="section-self-assessment">
-      <h2 class="section-header">My Learning Reflection</h2>
+      <h2 class="section-header" style="color: ${theme.primary}; border-bottom-color: ${theme.primary};">My Learning Reflection</h2>
       <p class="sa-intro">Think about your learning journey in this workbook. Read each statement below and check the box that best describes how you feel.</p>
       
       <table class="sa-table">
