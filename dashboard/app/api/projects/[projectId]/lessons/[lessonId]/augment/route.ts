@@ -24,6 +24,7 @@ export async function POST(
     const lesson = await readLesson(projectId, lessonId);
 
     // Augment the lesson with AI-generated pedagogical content
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const augmented = await augmentLesson(lesson as any);
 
     // Save the augmented lesson back to disk

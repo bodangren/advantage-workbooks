@@ -1,0 +1,682 @@
+import { ThemeColors } from './types';
+
+export function getPrintStyles(theme: ThemeColors): string {
+  return `
+    @page {
+      size: 210mm 285mm;
+      margin: 20mm;
+      
+      @bottom-center {
+        content: "Page " counter(page);
+        font-family: 'Open Sans', sans-serif;
+        font-size: 10pt;
+      }
+    }
+
+    @page :first {
+      margin: 0;
+      @bottom-center { content: none; }
+    }
+
+    body {
+      background-color: #555;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pagedjs_pages {
+      display: flex;
+      width: calc(var(--pagedjs-width) * 2);
+      min-width: 200%;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .pagedjs_page {
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .pagedjs_pages {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        transform: none !important;
+      }
+      .pagedjs_page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always;
+      }
+      .pagedjs_margin-bottom-center {
+        transform: translateY(-6mm) !important;
+      }
+    }
+
+    .cover-page {
+      height: 285mm; /* Exact height of A4/custom page */
+      width: 210mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      break-after: page;
+      color: white;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .cover-content {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 60px 80px;
+      border-radius: 12px;
+      color: #1f2937;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      max-width: 80%;
+      position: relative;
+      z-index: 10;
+      border: 4px solid ${theme.secondary};
+    }
+
+    .tp-main-title {
+      font-size: 28pt;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 300;
+      font-family: 'Merriweather', serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+
+    .tp-divider {
+      height: 4px;
+      width: 60px;
+      background: ${theme.primary};
+      margin: 0 auto 30px auto;
+    }
+
+    .tp-series-title {
+      font-size: 52pt;
+      font-weight: 800;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      font-family: 'Open Sans', sans-serif;
+      color: ${theme.primary};
+      letter-spacing: 4px;
+      line-height: 1.1;
+    }
+
+    .tp-level-info {
+      font-size: 22pt;
+      margin-bottom: 40px;
+      color: #4b5563;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+
+    .tp-tagline {
+      font-size: 18pt;
+      font-style: italic;
+      color: ${theme.secondary};
+      margin-bottom: 0;
+      font-family: 'Merriweather', serif;
+    }
+
+    .tp-publisher {
+      position: absolute;
+      bottom: 40px;
+      font-size: 12pt;
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'Open Sans', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-preface, .section-toc, .section-glossary, .section-answer-key {
+      break-after: page;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .section-header {
+      font-size: 24pt;
+      border-bottom: 2px solid ${theme.primary};
+      color: ${theme.primary};
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    .preface-content {
+      font-size: 12pt;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    ul.toc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    li.toc-item {
+      margin-bottom: 12px;
+    }
+
+    li.toc-item a {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: baseline;
+    }
+
+    li.toc-item a::after {
+      content: target-counter(attr(href), page);
+      float: right;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    li.toc-item a .toc-text {
+      font-weight: bold;
+    }
+
+    li.toc-item a .toc-meta {
+      font-size: 0.9em;
+      color: #666;
+      margin-left: 10px;
+      font-style: italic;
+      flex-grow: 1;
+      border-bottom: 1px dotted #ccc;
+      margin-right: 5px;
+    }
+
+    .glossary-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .glossary-item {
+      margin-bottom: 15px;
+      break-inside: avoid;
+    }
+
+    .glossary-word {
+      font-weight: bold;
+      font-size: 12pt;
+      color: ${theme.primary};
+      display: block;
+    }
+
+    .glossary-phonetic {
+      font-style: italic;
+      color: #666;
+      font-size: 10.5pt;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .glossary-definition {
+      font-size: 11pt;
+      line-height: 1.4;
+      display: block;
+    }
+
+    .glossary-thai {
+      color: #4b5563;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+
+    .ak-list {
+      column-count: 2;
+      column-gap: 30px;
+      font-size: 11pt;
+    }
+
+    .ak-lesson-entry {
+      break-inside: avoid;
+      margin-bottom: 20px;
+    }
+
+    .ak-lesson-title {
+      font-size: 13pt;
+      color: ${theme.primary};
+      margin: 0 0 8px 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 4px;
+    }
+
+    .ak-block {
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .lesson-section {
+      break-after: page;
+    }
+
+    .lesson-section > *:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    .lesson-header {
+      margin-top: 0;
+    }
+
+    .question-box, .practice-box, .vocab-table tr {
+      break-inside: avoid;
+    }
+
+    .section-flashcards {
+      break-before: right; /* Always start on an odd page */
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .section-flashcards-page {
+      break-after: right; /* Force blank page after each flashcards page */
+      height: 285mm;
+    }
+
+    .fc-instructions {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100%;
+      border-top: 1px dashed #999;
+      border-left: 1px dashed #999;
+    }
+
+    .flashcard {
+      display: flex;
+      flex-direction: row;
+      border-right: 1px dashed #999;
+      border-bottom: 1px dashed #999;
+      break-inside: avoid;
+      height: 60mm;
+    }
+
+    .fc-front, .fc-back {
+      flex: 1;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .fc-fold-line {
+      width: 1px;
+      background-color: #ddd;
+    }
+
+    .fc-word {
+      font-size: 16pt;
+      font-weight: bold;
+      color: ${theme.primary};
+    }
+
+    .fc-phonetic {
+      font-size: 11pt;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .fc-definition {
+      font-size: 12pt;
+    }
+
+    .fc-thai {
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 5px;
+    }
+
+    .section-progress-tracker {
+      break-after: page;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .pt-instructions {
+      font-size: 12pt;
+      margin-bottom: 30px;
+      color: #4b5563;
+      text-align: center;
+    }
+
+    .pt-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .progress-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 110px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 20px;
+    }
+
+    .pb-circle {
+      width: 60px;
+      height: 60px;
+      border: 3px solid #ccc;
+      border-radius: 50%;
+      margin-top: 10px;
+      background-color: transparent;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .pb-number {
+      font-size: 24pt;
+      font-weight: 800;
+      color: ${theme.primary};
+      margin-bottom: 5px;
+    }
+
+    .pb-title {
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.2;
+      height: 40px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .section-self-assessment {
+      break-before: right;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .sa-intro {
+      font-size: 12pt;
+      margin-bottom: 30px;
+      color: #4b5563;
+    }
+
+    .sa-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+
+    .sa-table th, .sa-table td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .sa-table th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .sa-col-statement {
+      text-align: left !important;
+      width: 55%;
+    }
+
+    .sa-table td:first-child {
+      text-align: left;
+      font-size: 12pt;
+    }
+
+    .sa-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #94a3b8;
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+
+    .sa-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .sa-q-text {
+      font-weight: 600;
+      font-size: 12pt;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+
+    .sa-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sa-line {
+      border-bottom: 1px solid #cbd5e1;
+      height: 24px;
+      width: 100%;
+      color: #64748b;
+      font-size: 11pt;
+    }
+
+    .section-certificate {
+      break-before: right;
+      height: 285mm;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 20mm;
+      font-family: 'Merriweather', serif;
+    }
+
+    .certificate-border {
+      border: 8px solid ${theme.primary};
+      padding: 10px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      background-color: #fdfdfd;
+      box-shadow: inset 0 0 0 4px ${theme.secondary};
+    }
+
+    .certificate-inner {
+      border: 2px solid ${theme.secondary};
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .cert-title {
+      font-size: 36pt;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .cert-subtitle {
+      font-size: 16pt;
+      color: #4b5563;
+      margin-bottom: 30px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .cert-student-name {
+      border-bottom: 2px solid #333;
+      width: 70%;
+      height: 40px;
+      margin-bottom: 30px;
+    }
+
+    .cert-text {
+      font-size: 14pt;
+      color: #333;
+      max-width: 80%;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .cert-course-name {
+      font-size: 20pt;
+      font-weight: bold;
+      color: ${theme.primary};
+      margin: 15px 0;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .cert-signatures {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 60px;
+    }
+
+    .cert-sig-block {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cert-sig-line {
+      border-bottom: 1px solid #333;
+      width: 100%;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .cert-sig-label {
+      font-size: 12pt;
+      color: #4b5563;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .section-teacher-guide {
+      break-before: right;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .tg-intro {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 12pt;
+    }
+
+    .tg-lesson-page {
+      break-after: page;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+
+    .tg-header {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    .tg-lesson-title {
+      font-size: 18pt;
+      margin: 0 0 10px 0;
+    }
+
+    .tg-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 11pt;
+      color: #555;
+    }
+
+    .tg-meta-item strong {
+      color: #333;
+    }
+
+    .tg-section {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .tg-section-title {
+      font-size: 14pt;
+      margin: 0 0 10px 0;
+      color: #4b5563;
+    }
+
+    .tg-vocab-list, .tg-comp-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+
+    .tg-vocab-list li, .tg-comp-list li {
+      margin-bottom: 8px;
+    }
+
+    .tg-writing-prompt {
+      font-size: 11pt;
+      margin-bottom: 10px;
+    }
+
+    .tg-rubric {
+      font-size: 10pt;
+      color: #444;
+      background: #f8fafc;
+      padding: 10px;
+      border-left: 3px solid #cbd5e1;
+    }
+
+    .tg-rubric ul {
+      margin: 5px 0 0 0;
+      padding-left: 20px;
+    }
+  `;
+}

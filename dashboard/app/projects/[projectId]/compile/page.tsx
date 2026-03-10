@@ -153,7 +153,7 @@ export default function CompilePage({ params }: CompilePageProps) {
                   onChange={(e) => setIncludeTeacherGuide(e.target.checked)}
                   className="rounded border-gray-300"
                 />
-                Teacher's Guide
+                Teacher&apos;s Guide
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input 
