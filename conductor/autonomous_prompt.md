@@ -1,8 +1,13 @@
 /conductor
-Step 1: Read `conductor/tech-debt.md` and `conductor/lessons-learned.md`. Define a new high-value feature, improvement, refactor, missing test implementation, or tech-debt solution for this project based on the Product Definition and current codebase. Create the corresponding Conductor track artifacts (metadata, spec, and plan).
-Step 2: Implement the entire track autonomously with high fidelity, following the Tech Stack and Product Guidelines.
-Step 3: Verify the implementation with **full automated test run** and a **successful production build**.
-Step 4: Commit all changes, archive completed tracks, push to remote, append relevant entries to `conductor/tech-debt.md` and `conductor/lessons-learned.md` (keeping each file at or below 50 lines by summarizing/removing resolved entries), archive the track, and update the README.md with the new functionality. (attach model name and version to commit messages.)
-CRITICAL: All shell commands MUST use non-interactive flags (e.g., --yes, --no-interactive) to prevent hanging. This run is entirely unattended.
-CAVEAT 1: If the previous LLM run did not complete, there may be hanging unfinished tracks which you need to finish and clean up before moving on.
-CAVEAT 2: The first new track of any calendar day should be a refactor / cleanup track: Use the code-review command on the previous day's tracks to find and refactor duplicate code; update documentation; improve UI and UX; do a security review and patch any serious or critical issues.
+Step 1: Check State. Read `conductor/current_directive.md`, `conductor/tech-debt.md`, and `conductor/lessons-learned.md`. 
+Step 2: Resume or Plan. 
+  - If there is an `[~] In Progress` track in `conductor/tracks.md`, DO NOT create a new track. Your sole job is to finish the existing track.
+  - If there are no incomplete tracks, define exactly ONE new track that strictly adheres to the goals in `conductor/current_directive.md`. Create the track artifacts.
+Step 3: Implement the track autonomously with high fidelity. For visual layout or print layout (Paged.js) tasks, prioritize adding automated layout tests or snapshot checks if the framework supports it.
+Step 4: Verify the implementation. You MUST run the full automated test suite and ensure a successful production build. Do not commit if tests fail.
+Step 5: Finalize. 
+  - Commit changes and push to remote (include model/version in commit message). 
+  - Update `tech-debt.md` and `lessons-learned.md` (keep under 50 lines).
+  - Move the completed track folder to `conductor/archive/` and remove it from `conductor/tracks.md`.
+  - Commit this cleanup with the message `chore(conductor): Archive completed track`.
+CRITICAL: All shell commands MUST use non-interactive flags (e.g., --yes, --no-interactive). This is an unattended run.

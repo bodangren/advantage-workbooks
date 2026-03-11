@@ -280,6 +280,16 @@ A task is complete when:
 9. Changes committed with proper message
 10. Git note with task summary attached to the commit
 
+## Track Completion & Archiving
+
+When all tasks within a track's `plan.md` are marked as complete (`[x]`), the track itself must be finalized and archived to keep the workspace clean.
+
+1. **Verify Track Completion:** Ensure all tasks and phases in the track's `plan.md` are marked `[x]`.
+2. **Update Metadata:** Update the track's `metadata.json` with the final `actual_tasks` count and any necessary `deviation_notes`.
+3. **Archive the Track Folder:** Move the entire track directory from `conductor/tracks/<track_id>` to `conductor/archive/<track_id>`. Create the `archive` directory if it does not exist.
+4. **Update Registry:** Remove the track's entry completely from `conductor/tracks.md`.
+5. **Commit Archive:** Commit the archiving action with a message like `chore(conductor): Archive completed track '<track_description>'`.
+
 ## Emergency Procedures
 
 ### Critical Bug in Production

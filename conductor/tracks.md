@@ -1,5 +1,10 @@
 # Project Tracks
 
+- [~] **Track: E2E Testing  Visual Stabilization**
+  *Link: [./tracks/e2e_testing_and_visual_stabilization_20260311/](./tracks/e2e_testing_and_visual_stabilization_20260311/)*
+
+# Project Tracks
+
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
 - [x] **Track: Goal Setting Worksheet Generator: Automatically generates a 'My English Learning Goals' worksheet section at the beginning of the workbook for students to set learning goals and action plans.** *(Completed: 2026-03-11)*

@@ -45,7 +45,7 @@ export default function CompilePage({ params }: CompilePageProps) {
           includeSpellingPractice: includeSpellingPractice.toString(),
           includeGoalSetting: includeGoalSetting.toString()
           });
-          const response = await fetch(`/api/projects/\${projectId}/compile?\${queryParams.toString()}`);
+          const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
         if (response.ok) {
           const data = await response.json();
           setHtmlContent(data.html);

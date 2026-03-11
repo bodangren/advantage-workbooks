@@ -25,270 +25,38 @@ Server 'securityServer' supports prompt updates. Listening for changes...
 }
 MCP issues detected. Run /mcp list for status.Server 'cloud-run' supports tool updates. Listening for changes...
 Server 'cloud-run' supports prompt updates. Listening for changes...
-I'll start by checking the `conductor/tracks/` directory for any unfinished tracks that might need completion, and then review the `tech-debt.md` and `lessons-learned.md` files as instructed.
-I'll read the contents of `conductor/tech-debt.md` and `conductor/lessons-learned.md` to identify a new high-value feature or refactor opportunity for our next track.
-I will read the Product Definition to identify a new high-value feature that aligns with the project goals.
-I will also check the `conductor/tech-stack.md` and `conductor/workflow.md` to understand the architecture and any specific rules for creating a track.
-I will examine the current pages in the dashboard application to identify a meaningful feature to add.
-I'll look at the `workbook_schema.ts` to see what kind of data we have available to build a new feature.
-I'll find the `workbook_schema.ts` file to see the structure of our JSON content.
-I'll look at the `workbook_schema` to see what kind of data we have available to build a new feature.
-I'll look for where Zod is used in the dashboard to find the schema definition.
-Attempt 1 failed with status 429. Retrying with backoff... GaxiosError: [{
-  "error": {
-    "code": 429,
-    "message": "No capacity available for model gemini-3.1-pro-preview on the server",
-    "errors": [
-      {
-        "message": "No capacity available for model gemini-3.1-pro-preview on the server",
-        "domain": "global",
-        "reason": "rateLimitExceeded"
-      }
-    ],
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
-        "reason": "MODEL_CAPACITY_EXHAUSTED",
-        "domain": "cloudcode-pa.googleapis.com",
-        "metadata": {
-          "model": "gemini-3.1-pro-preview"
-        }
-      }
-    ]
-  }
-}
-]
-    at Gaxios._request (/home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/node_modules/gaxios/build/cjs/src/gaxios.js:155:23)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async OAuth2Client.requestAsync (/home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/build/src/auth/oauth2client.js:463:20)
-    at async CodeAssistServer.requestStreamingPost (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/code_assist/server.js:256:21)
-    at async CodeAssistServer.generateContentStream (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/code_assist/server.js:48:27)
-    at async file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/loggingContentGenerator.js:256:26
-    at async file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/telemetry/trace.js:81:20
-    at async retryWithBackoff (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/utils/retry.js:130:28)
-    at async GeminiChat.makeApiCallAndProcessStream (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:445:32)
-    at async GeminiChat.streamWithRetries (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:265:40) {
-  config: {
-    url: URL {
-      href: 'https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse',
-      origin: 'https://cloudcode-pa.googleapis.com',
-      protocol: 'https:',
-      username: '',
-      password: '',
-      host: 'cloudcode-pa.googleapis.com',
-      hostname: 'cloudcode-pa.googleapis.com',
-      port: '',
-      pathname: '/v1internal:streamGenerateContent',
-      search: '?alt=sse',
-      searchParams: URLSearchParams { 'alt' => 'sse' },
-      hash: ''
-    },
-    method: 'POST',
-    params: { alt: 'sse' },
-    headers: Headers {
-      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-      'content-type': 'application/json',
-      'User-Agent': 'GeminiCLI/0.32.1/gemini-3.1-pro-preview (linux; x64) google-api-nodejs-client/10.6.1',
-      'x-goog-api-client': 'gl-node/24.4.0'
-    },
-    responseType: 'stream',
-    body: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-    signal: AbortSignal { aborted: false },
-    retry: false,
-    validateStatus: [Function: validateStatus],
-    errorRedactor: [Function: defaultErrorRedactor],
-    duplex: 'half'
-  },
-  response: Response {
-    size: 0,
-    data: undefined,
-    config: {
-      url: URL {},
-      method: 'POST',
-      params: [Object],
-      headers: Headers {
-        authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-        'content-type': 'application/json',
-        'User-Agent': 'GeminiCLI/0.32.1/gemini-3.1-pro-preview (linux; x64) google-api-nodejs-client/10.6.1',
-        'x-goog-api-client': 'gl-node/24.4.0'
-      },
-      responseType: 'stream',
-      body: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-      signal: [AbortSignal],
-      retry: false,
-      validateStatus: [Function: validateStatus],
-      errorRedactor: [Function: defaultErrorRedactor],
-      duplex: 'half'
-    },
-    Symbol(Body internals): {
-      body: [PassThrough],
-      stream: [PassThrough],
-      boundary: null,
-      disturbed: false,
-      error: null
-    },
-    Symbol(Response internals): {
-      type: 'default',
-      url: 'https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse',
-      status: 429,
-      statusText: 'Too Many Requests',
-      headers: [Object],
-      counter: 0,
-      highWaterMark: 16384
-    }
-  },
-  code: 429,
-  status: 429,
-  error: undefined,
-  Symbol(gaxios-gaxios-error): '7.1.3',
-  [cause]: {
-    message: '[{\n' +
-      '  "error": {\n' +
-      '    "code": 429,\n' +
-      '    "message": "No capacity available for model gemini-3.1-pro-preview on the server",\n' +
-      '    "errors": [\n' +
-      '      {\n' +
-      '        "message": "No capacity available for model gemini-3.1-pro-preview on the server",\n' +
-      '        "domain": "global",\n' +
-      '        "reason": "rateLimitExceeded"\n' +
-      '      }\n' +
-      '    ],\n' +
-      '    "status": "RESOURCE_EXHAUSTED",\n' +
-      '    "details": [\n' +
-      '      {\n' +
-      '        "@type": "type.googleapis.com/google.rpc.ErrorInfo",\n' +
-      '        "reason": "MODEL_CAPACITY_EXHAUSTED",\n' +
-      '        "domain": "cloudcode-pa.googleapis.com",\n' +
-      '        "metadata": {\n' +
-      '          "model": "gemini-3.1-pro-preview"\n' +
-      '        }\n' +
-      '      }\n' +
-      '    ]\n' +
-      '  }\n' +
-      '}\n' +
-      ']',
-    code: 429,
-    status: 'Too Many Requests'
-  }
-}
-I will read `dashboard/lib/workbook-schema.ts` to see what kind of data we have available to build a new feature.
-I will locate the folder containing the existing document generators to understand where to place a new one.
-I will search for the locations of recently built features like "self-assessment" to understand the project structure.
-I'll look at the existing document sections to see what has already been built and decide on a new feature.
-I will check the main document wrapper file to see how these sections are currently integrated and choose a new one that fits the architecture seamlessly.
-I'll look at the main compiler file to see how sections are put together.
-I'll read `dashboard/lib/workbook-document-wrapper.ts` to see the currently included document sections and find a gap for a new feature.
-I will check the types file to understand what data is passed into `WorkbookDocumentOptions` and see how to add our new feature's configuration.
-I will examine the `compiler.ts` file to see how the frontend options are mapped to the document wrapper options.
-Error executing tool read_file: File not found.
-I will check the directory contents of `dashboard/lib/` to locate the actual compiler file.
-I will check the compilation API route to see how the frontend sends data and how it interacts with the document wrapper.
-Error executing tool read_file: File not found.
-I will use a codebase search to find where the `wrapWorkbookDocument` function is invoked to understand the data flow.
-I will check the UI components to see how document compilation options (like toggles for sections) are presented to the user.
-I will review an existing section generator to see how they are structured so I can model my new feature (Goal Setting Worksheet) after it.
-I'll check the UI code for the compile page to see how the other toggles are structured, so I can add one for the Goal Setting Worksheet.
-I will check the CSS styles to see how to structure the styling for the new Goal Setting Worksheet.
-I'll read the CSS styles file to determine how I should style the new section and ensure it fits seamlessly into the document structure.
-I will review the track registry to understand the format before creating the artifacts for the new "Goal Setting Worksheet" track.
-I will create the necessary Conductor track artifacts (metadata, spec, and plan) to add the "Goal Setting Worksheet" feature to the workbook compiler.
-I will write the Conductor track metadata, specification, and execution plan files to define our exact approach.
-I'll start executing the plan by creating the new `goal-setting.ts` generator to build the HTML for the Goal Setting Worksheet.
-I'll add the necessary CSS styles to `styles.ts` to ensure the Goal Setting Worksheet is formatted correctly and forces a page break.
-I will now update the document wrapper types to include the new boolean flag `includeGoalSetting` so it can be passed through to the compiler.
-I will now integrate the new `goal-setting.ts` generator into the main compiler file `workbook-document-wrapper.ts` and add it to the final HTML string.
-I will update the API route for the compiler to extract the `includeGoalSetting` query parameter from the frontend request and pass it to the document wrapper options.
-I will add `includeGoalSetting` parsing to the API route and include it in the `wrapWorkbookDocument` options.
-I will now add a UI toggle for the new Goal Setting Worksheet feature in the compile page.
-I'll search the unit tests file to find the best place to add our new tests for the Goal Setting Worksheet generator.
-I'll read a portion of the `workbook-document-wrapper.test.ts` file to see how the other sections are tested, so I can accurately add a test for our new section.
-I will now add the unit tests for the Goal Setting Worksheet generator to ensure it renders correctly when enabled and is omitted when disabled.
-Error executing tool replace: Error: Failed to edit, expected 1 occurrence but found 53.
-My previous attempt to add the tests failed because there were multiple `});` in the file. I will use a more specific target block to insert the new tests right at the end of the file.
-I have implemented all the changes. Now I will run the automated test suite and the Next.js production build to verify the implementation.
-I see that the tests failed because my previous code replacement escaped the template literal variables (e.g. `\${titlePage}`). I will fix the `workbook-document-wrapper.ts` file to correctly evaluate the variables.
-I will re-run the tests to verify the fix resolved the template interpolation error.
-I will now run the Next.js production build to ensure that the application compiles successfully with the new changes.
-I will read the `README.md` file to determine where to document the newly added Goal Setting Worksheet feature.
-I will now update the `README.md` file to document the new Goal Setting Worksheet feature.
-I will record the newly completed track in the Conductor `tracks.md` registry.
-I will document a quick lesson learned about the process of adding new toggled sections to the compiler pipeline.
-I will archive the completed Conductor track by moving it from the active `tracks/` directory to the `archive/` directory.
-I will stage all the changes and commit them with a descriptive message referencing the model, and then push them to the remote repository.
-Attempt 1 failed. Retrying with backoff... GaxiosError: request to https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse failed, reason: read ECONNRESET
-    at Gaxios._request (/home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/node_modules/gaxios/build/cjs/src/gaxios.js:165:23)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async OAuth2Client.requestAsync (/home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/build/src/auth/oauth2client.js:463:20)
-    at async CodeAssistServer.requestStreamingPost (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/code_assist/server.js:256:21)
-    at async CodeAssistServer.generateContentStream (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/code_assist/server.js:48:27)
-    at async file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/loggingContentGenerator.js:256:26
-    at async file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/telemetry/trace.js:81:20
-    at async retryWithBackoff (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/utils/retry.js:130:28)
-    at async GeminiChat.makeApiCallAndProcessStream (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:445:32)
-    at async GeminiChat.streamWithRetries (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:265:40) {
-  config: {
-    url: URL {
-      href: 'https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse',
-      origin: 'https://cloudcode-pa.googleapis.com',
-      protocol: 'https:',
-      username: '',
-      password: '',
-      host: 'cloudcode-pa.googleapis.com',
-      hostname: 'cloudcode-pa.googleapis.com',
-      port: '',
-      pathname: '/v1internal:streamGenerateContent',
-      search: '?alt=sse',
-      searchParams: URLSearchParams { 'alt' => 'sse' },
-      hash: ''
-    },
-    method: 'POST',
-    params: { alt: 'sse' },
-    headers: Headers {
-      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-      'content-type': 'application/json',
-      'User-Agent': 'GeminiCLI/0.32.1/gemini-3.1-pro-preview (linux; x64) google-api-nodejs-client/10.6.1',
-      'x-goog-api-client': 'gl-node/24.4.0'
-    },
-    responseType: 'stream',
-    body: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',
-    signal: AbortSignal { aborted: false },
-    retry: false,
-    validateStatus: [Function: validateStatus],
-    errorRedactor: [Function: defaultErrorRedactor],
-    duplex: 'half'
-  },
-  response: undefined,
-  code: 'ECONNRESET',
-  status: undefined,
-  error: FetchError: request to https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse failed, reason: read ECONNRESET
-      at ClientRequest.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/node_modules/node-fetch/src/index.js:108:11)
-      at ClientRequest.emit (node:events:519:35)
-      at emitErrorEvent (node:_http_client:104:11)
-      at TLSSocket.socketErrorListener (node:_http_client:518:5)
-      at TLSSocket.emit (node:events:507:28)
-      at emitErrorNT (node:internal/streams/destroy:170:8)
-      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
-      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
-    type: 'system',
-    errno: 'ECONNRESET',
-    code: 'ECONNRESET',
-    erroredSysCall: 'read'
-  },
-  Symbol(gaxios-gaxios-error): '7.1.3',
-  [cause]: FetchError: request to https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse failed, reason: read ECONNRESET
-      at ClientRequest.<anonymous> (file:///home/daniel-bo/.nvm/versions/node/v24.4.0/lib/node_modules/@google/gemini-cli/node_modules/google-auth-library/node_modules/node-fetch/src/index.js:108:11)
-      at ClientRequest.emit (node:events:519:35)
-      at emitErrorEvent (node:_http_client:104:11)
-      at TLSSocket.socketErrorListener (node:_http_client:518:5)
-      at TLSSocket.emit (node:events:507:28)
-      at emitErrorNT (node:internal/streams/destroy:170:8)
-      at emitErrorCloseNT (node:internal/streams/destroy:129:3)
-      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
-    type: 'system',
-    errno: 'ECONNRESET',
-    code: 'ECONNRESET',
-    erroredSysCall: 'read'
-  }
-}
-I will add all these changes and commit them to the repository, followed by pushing the updates.
+I will start by reading the conductor state files to understand the current context and check for any in-progress tracks.
+I will check `dashboard/package.json` to see the current test frameworks configured, especially looking for Playwright or Cypress for E2E testing as requested in the current directive.
+I will create a new track for "E2E Testing & Visual Stabilization" and set up the track artifacts as required by the conductor process.
+I will update the `conductor/tracks.md` to add the new track and mark it as 'In Progress'. Then, I will install Playwright to set up the E2E testing framework.
+missing pgrep output
+I'll retry installing Playwright without the `--with-deps` flag to avoid the sudo prompt for system dependencies, as this is an unattended run.
+I will now create the Playwright configuration and a basic E2E test suite to verify dashboard navigation and project loading flows.
+I will use the codebase investigator to map out the dashboard application flows and DOM structure so I can write accurate E2E tests for them.
+I will write a basic E2E test in Playwright to cover the main dashboard navigation flows.
+I will run the Playwright tests to ensure the configuration and basic tests are working correctly.
+missing pgrep output
+I will read the layout and projects page files to find the correct expected title and tab selectors for the dashboard to fix the failing tests.
+I will fix the E2E test selectors based on the source code. The expected title is "Workbook Dashboard", and the project filters are standard buttons rather than strictly role="tab".
+I will run the updated Playwright tests to confirm the dashboard navigation works.
+I will write an additional E2E test to cover the project view and lesson preview flows, utilizing the sample projects available in the workspace.
+I will run the new E2E test to verify that the project and lesson preview flows work successfully.
+I will search for print-related CSS media queries to audit the Paged.js print layout configurations and identify any layout or pagination issues.
+I will read the styles generation file for the document wrapper to audit the CSS injected for Paged.js and standard printing layout.
+I will inspect the secondary template HTML to see if there are any specific print layout or Tailwind CSS issues that need standardizing.
+I will check the @media print blocks within the primary and secondary templates to ensure Paged.js print settings are consistent and standardized for optimal PDF generation.
+I will inspect the rest of the @media print block in the secondary template to understand what adjustments are being made and remove conflicting `@page` rules that would override the global Paged.js layout managed by the document wrapper.
+I will read the single lesson preview page to see if it relies on the global document wrapper or handles its own Paged.js setup. This will tell me whether the templates need their own `@page` configuration.
+I will check the API render route to see if a single lesson preview utilizes the global document wrapper. This will clarify if the individual templates' `@page` rules conflict with the global layout or if they are necessary for single-lesson previews.
+I will check `dashboard/lib/template-renderer.ts` to see if a single lesson uses Paged.js and understand what HTML wrappers are around it.
+I will update the `@page` specifications in the standalone HTML templates to match the Paged.js document wrapper configurations, ensuring that both full workbook compilation and single lesson preview produce the exact same size PDFs. I will also run the linter to catch any UI papercuts or Tailwind issues.
+I will fix the ESLint warning regarding the unused `queryParams` variable in the compile page component to ensure the codebase is clean.
+I will examine the exact line containing `queryParams` in the compile page to understand why ESLint is flagging it as unused and fix it correctly.
+I will correct the string interpolation in the `fetch` call on the compile page. The variables were incorrectly escaped with backslashes, causing ESLint to flag `queryParams` as unused since it wasn't being properly interpolated.
+I will now run the linter again to verify the fix, run the full test suite (including E2E and unit tests), and finally run a production build to ensure the application compiles cleanly.
+I will configure Vitest to exclude the `e2e` directory so that it doesn't attempt to run the Playwright tests, which causes the `test:run` script to fail.
+I will update `vitest.config.ts` to explicitly exclude the Playwright E2E tests so that Vitest only runs unit tests.
+I will now run the complete automated test suite and the production build to validate all our fixes.
+I will now update the `tech-debt.md` and `lessons-learned.md` files with the knowledge gained from this track, and then proceed to finalize the git commits and archive the track.
+I will add the lessons learned regarding Paged.js page rules and Playwright vs Vitest conflicts, as well as the string interpolation bug fixed in this track.
+I am committing and pushing the changes for the E2E testing framework, test suites, layout standardizations, and the papercuts fixes. Then I will clean up the track files.
