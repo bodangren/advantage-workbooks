@@ -344,4 +344,28 @@ describe('Workbook Document Wrapper', () => {
       expect(htmlUndefined).not.toContain('<div class="section-spelling-practice">');
     });
   });
+
+  describe('goal setting section', () => {
+    it('should include goal setting section when includeGoalSetting is true', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeGoalSetting: true
+      });
+      
+      expect(html).toContain('section-goal-setting');
+      expect(html).toContain('My English Learning Goals');
+    });
+
+    it('should not include goal setting section when includeGoalSetting is false or undefined', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeGoalSetting: false
+      });
+      
+      expect(html).not.toContain('<div class="section-goal-setting">');
+      
+      const htmlUndefined = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+      expect(htmlUndefined).not.toContain('<div class="section-goal-setting">');
+    });
+  });
 });

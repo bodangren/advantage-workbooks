@@ -63,6 +63,7 @@ export interface WorkbookDocumentOptions {
   includeTeacherGuide?: boolean;
   includeSelfAssessment?: boolean;
   includeSpellingPractice?: boolean;
+  includeGoalSetting?: boolean;
 }
 
 export interface ThemeColors {

@@ -738,5 +738,80 @@ export function getPrintStyles(theme: ThemeColors): string {
     .sp-col-cover {
       width: 25%;
     }
+
+    /* --- Goal Setting Section --- */
+    .section-goal-setting {
+      break-after: page;
+      padding-top: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .gs-intro {
+      font-size: 12pt;
+      margin-bottom: 30px;
+      color: #4b5563;
+    }
+    .gs-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .gs-row {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+    }
+    .gs-field {
+      display: flex;
+      align-items: flex-end;
+    }
+    .gs-label {
+      font-weight: 600;
+      margin-right: 10px;
+      font-size: 11pt;
+      color: #333;
+      white-space: nowrap;
+    }
+    .gs-line {
+      flex-grow: 1;
+      border-bottom: 1px solid #cbd5e1;
+      height: 20px;
+    }
+    .gs-section-title {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    .gs-prompt {
+      font-size: 11pt;
+      margin-bottom: 10px;
+      color: #444;
+      font-style: italic;
+    }
+    .gs-lines-block {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    .gs-long-line {
+      width: 100%;
+      border-bottom: 1px solid #cbd5e1;
+      height: 24px;
+    }
+    .gs-action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .gs-action-item {
+      display: flex;
+      align-items: flex-end;
+    }
+    .gs-number {
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 12pt;
+    }
   `;
 }

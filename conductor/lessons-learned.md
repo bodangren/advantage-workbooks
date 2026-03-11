@@ -11,6 +11,7 @@
 ### Recurring Gotchas
 <!-- Problems encountered repeatedly; save future tracks from the same pain -->
 
+- (2026-03-11, goal_setting_worksheet_20260311) Adding new compilation sections: When adding new UI toggles for generated sections, ensure the toggle flag is correctly wired through the frontend state, URL search params, the API route parser, and the `WorkbookDocumentOptions` type to prevent testing discrepancies.
 - (YYYY-MM-DD, track_id) Example: Always check for null before accessing config values
 - (2026-03-09, papercuts_fixes_20260309) Next.js printing: When printing a Paged.js output rendered within an iframe on a Next.js page, calling `window.print()` will print the Next.js outer UI. Always use `iframeRef.current.contentWindow.print()` to print only the Paged.js layout.
 - (2026-03-10, refactor_cleanup_20260310) Next.js Image Component: `next/image` does not work well with local `blob:` Object URLs in preview components. Use standard `<img>` and bypass ESLint warnings via `eslint-disable-next-line @next/next/no-img-element`.

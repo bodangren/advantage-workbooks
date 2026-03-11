@@ -30,6 +30,7 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [includeTeacherGuide, setIncludeTeacherGuide] = useState(true);
   const [includeSelfAssessment, setIncludeSelfAssessment] = useState(true);
   const [includeSpellingPractice, setIncludeSpellingPractice] = useState(true);
+  const [includeGoalSetting, setIncludeGoalSetting] = useState(true);
 
   useEffect(() => {
     const fetchCompiled = async () => {
@@ -41,9 +42,10 @@ export default function CompilePage({ params }: CompilePageProps) {
           includeCertificate: includeCertificate.toString(),
           includeTeacherGuide: includeTeacherGuide.toString(),
           includeSelfAssessment: includeSelfAssessment.toString(),
-          includeSpellingPractice: includeSpellingPractice.toString()
-        });
-        const response = await fetch(`/api/projects/${projectId}/compile?${queryParams.toString()}`);
+          includeSpellingPractice: includeSpellingPractice.toString(),
+          includeGoalSetting: includeGoalSetting.toString()
+          });
+          const response = await fetch(`/api/projects/\${projectId}/compile?\${queryParams.toString()}`);
         if (response.ok) {
           const data = await response.json();
           setHtmlContent(data.html);
@@ -63,7 +65,7 @@ export default function CompilePage({ params }: CompilePageProps) {
     };
 
     fetchCompiled();
-  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide, includeSelfAssessment, includeSpellingPractice]);
+  }, [projectId, includeFlashcards, includeProgressTracker, includeCertificate, includeTeacherGuide, includeSelfAssessment, includeSpellingPractice, includeGoalSetting]);
 
   const handlePrint = () => {
     if (iframeRef.current?.contentWindow) {
@@ -174,6 +176,15 @@ export default function CompilePage({ params }: CompilePageProps) {
                   className="rounded border-gray-300"
                 />
                 Spelling Practice
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={includeGoalSetting} 
+                  onChange={(e) => setIncludeGoalSetting(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                Goal Setting
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input 

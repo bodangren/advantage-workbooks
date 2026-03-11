@@ -12,6 +12,7 @@ import { generateTeacherGuideSection } from './document-wrapper/sections/teacher
 import { generateSelfAssessmentSection } from './document-wrapper/sections/self-assessment';
 import { generateCertificateSection } from './document-wrapper/sections/certificate';
 import { generateSpellingPracticeSection } from './document-wrapper/sections/spelling-practice';
+import { generateGoalSettingSection } from './document-wrapper/sections/goal-setting';
 
 // Re-export all types so existing imports don't break
 export * from './document-wrapper/types';
@@ -25,6 +26,7 @@ export function wrapWorkbookDocument(
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);
+  const goalSettingSection = options.includeGoalSetting ? generateGoalSettingSection(theme) : '';
   const progressTrackerSection = options.includeProgressTracker ? generateProgressTracker(tocEntries, theme) : '';
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
@@ -50,6 +52,8 @@ export function wrapWorkbookDocument(
   ${prefaceSection}
 
   ${tocSection}
+
+  ${goalSettingSection}
 
   ${progressTrackerSection}
 
