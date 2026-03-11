@@ -28,6 +28,7 @@
 <!-- Approaches worth repeating -->
 
 - (YYYY-MM-DD, track_id) Example: Writing acceptance criteria before implementation caught scope creep early
+- (2026-03-11, e2e_testing_and_visual_stabilization_20260311) Playwright iframe testing: When verifying content inside an iframe, always extract the frame using `.contentFrame()` before applying `.locator()` to ensure expectations resolve correctly.
 
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
