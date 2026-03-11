@@ -2,8 +2,8 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [~] **Track: E2E Testing & Visual Stabilization Phase 2: Expand E2E testing to cover newly added workbook sections, perform final Paged.js audit, and standardize CSS usage.**
-  *Link: [./tracks/e2e_testing_and_visual_stabilization_phase_2_20260312/](./tracks/e2e_testing_and_visual_stabilization_phase_2_20260312/)*
+- [x] **Track: E2E Testing & Visual Stabilization Phase 2: Expand E2E testing to cover newly added workbook sections, perform final Paged.js audit, and standardize CSS usage.** *(Completed: 2026-03-12)*
+  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_2_20260312/](./archive/e2e_testing_and_visual_stabilization_phase_2_20260312/)*
 
 - [x] **Track: E2E Testing & Visual Stabilization: Added Playwright tests for dashboard flows, verified Paged.js printing logic, and standardized CSS.** *(Completed: 2026-03-11)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_20260311/](./archive/e2e_testing_and_visual_stabilization_20260311/)*
