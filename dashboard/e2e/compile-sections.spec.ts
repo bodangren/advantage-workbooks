@@ -61,14 +61,17 @@ test.describe('Compile Flow - Sections Toggling', () => {
     const goalSettingCheckbox = page.getByLabel('Goal Setting');
     await goalSettingCheckbox.uncheck();
     await expect(goalSettingCheckbox).not.toBeChecked();
+    
+    // Wait for compile to finish after unchecking
+    await expect(page.locator('iframe')).toBeVisible({ timeout: 15000 });
 
     // Re-check it
     await goalSettingCheckbox.check();
     await expect(goalSettingCheckbox).toBeChecked();
 
-    // Verify iframe loads
+    // Verify iframe loads again
     const iframe = page.locator('iframe');
-    await expect(iframe).toBeVisible();
+    await expect(iframe).toBeVisible({ timeout: 15000 });
     
     const frame = iframe.contentFrame();
     await expect(frame.locator('body')).toBeVisible({ timeout: 15000 });
