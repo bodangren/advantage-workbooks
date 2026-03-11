@@ -16,3 +16,4 @@
 | 2026-03-10 | self_assessment_generator_20260310 | Consider moving the generated printable sections into separate files if workbook-document-wrapper.ts grows beyond manageable size | Medium | Resolved | Refactored in refactor_document_wrapper_20260310 |
 | 2026-03-11 | refactor_cleanup_20260311 | Fixed unused `_theme` warning in `self-assessment.ts` and improved section UI | Low | Resolved | Fixed via ESLint checks |
 | 2026-03-11 | e2e_testing_and_visual_stabilization_20260311 | Fixed literal string interpolation escaping in compile page fetch request | Low | Resolved | Fixed via removing backslashes in URL string |
+| 2026-03-12 | e2e_testing_and_visual_stabilization_phase_2_20260312 | Inline CSS in components | Low | Resolved | Converted remaining inline styles (maxHeight) in image-upload.tsx to Tailwind |

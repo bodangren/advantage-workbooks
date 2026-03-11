@@ -164,8 +164,7 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="mt-2 max-w-xs rounded border"
-                style={{ maxHeight: '200px' }}
+                className="mt-2 max-w-xs max-h-[200px] rounded border"
               />
             </>
           ) : currentUrl ? (
@@ -177,8 +176,7 @@ export function ImageUpload({ projectId, currentUrl, onUploadSuccess, label = 'I
                 <img
                   src={currentUrl.startsWith('/') ? currentUrl : `/${currentUrl}`}
                   alt="Preview"
-                  className="mt-2 max-w-xs rounded border"
-                  style={{ maxHeight: '200px' }}
+                  className="mt-2 max-w-xs max-h-[200px] rounded border"
                 />
               )}
             </>
