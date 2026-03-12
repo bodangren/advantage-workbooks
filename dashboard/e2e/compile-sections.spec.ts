@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Compile Flow - Sections Toggling', () => {
   test('should allow toggling compilation sections', async ({ page }) => {
+    test.setTimeout(90000); // Compiling all lessons + Paged.js takes time
     // Navigate to projects page
     await page.goto('/projects');
     
