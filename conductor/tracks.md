@@ -2,8 +2,8 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [~] **Track: E2E Testing & Visual Stabilization Phase 6: Fix failing Paged.js compilation test.** *(Started: 2026-03-13)*
-  *Link: [./tracks/e2e_testing_and_visual_stabilization_phase_6_20260313/](./tracks/e2e_testing_and_visual_stabilization_phase_6_20260313/)*
+- [x] **Track: E2E Testing & Visual Stabilization Phase 6: Fix failing Paged.js compilation test.** *(Completed: 2026-03-13)*
+  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_6_20260313/](./archive/e2e_testing_and_visual_stabilization_phase_6_20260313/)*
 
 - [x] **Track: E2E Testing & Visual Stabilization Phase 5: Standardize inline CSS in Paged.js templates and expand E2E testing for the lesson editor tabs.** *(Completed: 2026-03-13)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_5_20260313/](./archive/e2e_testing_and_visual_stabilization_phase_5_20260313/)*
