@@ -1134,6 +1134,60 @@
                 break-after: avoid;
             }
         }
+    
+        /* ============================================
+           Utility Classes for Inline Styles
+           ============================================ */
+        .w-10 { width: 10%; }
+        .w-25 { width: 25%; }
+        .w-30 { width: 30%; }
+        .w-35 { width: 35%; }
+        .w-40 { width: 40%; }
+        .w-45 { width: 45%; }
+        .w-50 { width: 50%; }
+        .w-55 { width: 55%; }
+        .w-60 { width: 60%; }
+        .max-w-250 { max-width: 250px; }
+        .max-w-320 { max-width: 320px; }
+
+        .vocab-images { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .qr-img { width: 100%; height: 100%; object-fit: contain; }
+        .hero-img-box { margin-bottom: 15px; }
+        .inline-img-box { float: right; margin: 0 0 10px 15px; }
+        .prompt-img-box { float: right; margin: 0 0 15px 15px; }
+        .clear-right { clear: right; }
+
+        .bg-orange { background: var(--accent-orange); }
+        .bg-light-blue { background: var(--primary-light); }
+        .text-purple { color: var(--accent-purple); }
+        .text-green { color: var(--accent-green); }
+
+        .checkbox-sm { width: 12px; height: 12px; }
+        .score-divider { font-size: 18px; align-self: center; }
+        .mt-10px { margin-top: 10px; }
+        .mb-4px { margin-bottom: 4px; }
+        .ml-40px { margin-left: 40px; }
+        .m-0 { margin: 0; }
+        .flex-1 { flex: 1; }
+        .justify-between { justify-content: space-between; }
+
+        .tip-blue { background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%); border-left: 4px solid var(--primary-blue); }
+        .tip-light-blue { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-left: 4px solid var(--primary-blue); }
+        .tip-yellow { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid var(--accent-orange); }
+        .tip-white-purple { background: white; border-left-color: var(--accent-purple); }
+        .tip-white-green { background: white; border-left-color: var(--accent-green); }
+        .tip-green-grad { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green); }
+
+        .think-text { margin-top: 8px; font-size: 14px; line-height: 1.6; }
+        .turn-talk-main { margin-top: 8px; font-size: 14px; line-height: 1.6; font-weight: 500; }
+        .turn-talk-sub { margin-top: 6px; font-size: 12px; color: var(--text-medium); font-style: italic; }
+        .starters-list { margin-top: 8px; padding-left: 20px; font-size: 13px; line-height: 1.8; }
+        .prompt-label-purple { color: var(--accent-purple); margin-bottom: 12px; }
+
+        .digital-qr-box { margin-top: 20px; background-color: var(--bg-light); border: 1px solid var(--border-medium); padding: 15px; border-radius: 8px; }
+        .feedback-tracker { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .ai-score-box { font-weight: 600; border: 1px solid var(--border-dark); padding: 6px 12px; border-radius: 4px; background: white; }
+        .ai-score-line { display: inline-block; width: 40px; border-bottom: 1px solid black; margin-left: 5px; }
     </style>
 </head>
 
@@ -1178,10 +1232,10 @@
                 </div>
 
                 {{#if connection_question}}
-                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%); border-left: 4px solid var(--primary-blue);">
+                <div class="tip-box mt-3 tip-blue">
                     <div class="tip-label">🤔 Think About This</div>
-                    <p style="margin-top: 8px; font-size: 14px; line-height: 1.6;">{{connection_question}}</p>
-                    <div class="writing-lines" style="margin-top: 10px;">
+                    <p class="think-text">{{connection_question}}</p>
+                    <div class="writing-lines mt-10px">
                         <div class="writing-line"></div>
                         <div class="writing-line"></div>
                     </div>
@@ -1201,8 +1255,8 @@
             <table class="vocab-table">
                 <thead>
                     <tr>
-                        <th style="width: 40%">Word + Meaning</th>
-                        <th style="width: 60%">My Translation / Drawing / Sentence</th>
+                        <th class="w-40">Word + Meaning</th>
+                        <th class="w-60">My Translation / Drawing / Sentence</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1223,11 +1277,11 @@
             </table>
 
             {{#if images_vocabulary.length}}
-            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+            <div class="vocab-images">
                 {{#each images_vocabulary}}
-                <div class="article-image-box" style="width: 45%;">
+                <div class="article-image-box w-45">
                     <img src="{{url}}" alt="{{caption}}">
-                    <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                    <span class="article-image-caption text-center">{{caption}}</span>
                 </div>
                 {{/each}}
             </div>
@@ -1240,9 +1294,9 @@
             </div>
 
             {{#if phonics_focus}}
-            <div class="tip-box mt-3" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-left: 4px solid var(--primary-blue);">
+            <div class="tip-box mt-3 tip-light-blue">
                 <div class="tip-label">🔤 Phonics Focus</div>
-                <p style="margin-top: 8px; font-size: 14px; line-height: 1.6;">{{phonics_focus}}</p>
+                <p class="think-text">{{phonics_focus}}</p>
             </div>
             {{/if}}
         </section>
@@ -1259,7 +1313,7 @@
             <div class="qr-box">
                 <div class="qr-code">
                     {{#if qr_code_url}}
-                        <img src="{{qr_code_url}}" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+                        <img class="qr-img" src="{{qr_code_url}}" alt="QR Code">
                     {{else}}
                         <span>📱<br>QR</span>
                     {{/if}}
@@ -1274,7 +1328,7 @@
                 <div class="article-image-area">
                     {{#if images_hero.length}}
                         {{#each images_hero}}
-                        <div class="article-image-box" style="margin-bottom: 15px;">
+                        <div class="article-image-box hero-img-box">
                             <img src="{{url}}" alt="{{caption}}">
                             <span class="article-image-caption">{{caption}}</span>
                         </div>
@@ -1313,15 +1367,15 @@
                         
                         {{#with (lookup ../images_inline (concat "inline-para-" number))}}
                             {{#each this}}
-                            <div class="article-image-box" style="float: right; margin: 0 0 10px 15px; width: 50%;">
+                            <div class="article-image-box inline-img-box w-50">
                                 <img src="{{url}}" alt="{{caption}}">
-                                <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                                <span class="article-image-caption text-center">{{caption}}</span>
                             </div>
                             {{/each}}
                         {{/with}}
 
                         {{text}}
-                        <div style="clear: right;"></div>
+                        <div class="clear-right"></div>
                     </div>
                     {{/each}}
 
@@ -1375,7 +1429,7 @@
         <!-- STEP 5: Deep Reading Notes -->
         <section class="section phase-2">
             <div class="section-header">
-                <div class="section-icon icon-read" style="background: var(--accent-orange);">5</div>
+                <div class="section-icon icon-read bg-orange">5</div>
                 <h2 class="section-title">Deep Reading Notes</h2>
                 <span class="section-time">⏱ 10 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
@@ -1416,11 +1470,11 @@
                     <div class="writing-line"></div>
                     <div class="flex gap-4 mt-2">
                         <span class="text-xs">Why I chose it:</span>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span>
                             grammar</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span>
                             vocabulary</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span> useful
                             phrase</label>
                     </div>
                 </div>
@@ -1430,11 +1484,11 @@
                     <div class="writing-line"></div>
                     <div class="flex gap-4 mt-2">
                         <span class="text-xs">Why I chose it:</span>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span>
                             grammar</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span>
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span>
                             vocabulary</label>
-                        <label class="text-xs"><span class="checkbox" style="width:12px;height:12px;"></span> useful
+                        <label class="text-xs"><span class="checkbox checkbox-sm"></span> useful
                             phrase</label>
                     </div>
                 </div>
@@ -1485,7 +1539,7 @@
                 <span class="score-label">MY SCORE:</span>
                 <div class="score-circles">
                     <span class="score-circle"></span>
-                    <span style="font-size: 18px; align-self: center;">/ 5</span>
+                    <span class="score-divider">/ 5</span>
                 </div>
             </div>
             <div class="performance-check">
@@ -1495,11 +1549,11 @@
             </div>
 
             {{#if discussion_question}}
-            <div class="tip-box mt-4" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid var(--accent-orange);">
+            <div class="tip-box mt-4 tip-yellow">
                 <div class="tip-label">💬 Turn & Talk</div>
-                <p style="margin-top: 8px; font-size: 14px; line-height: 1.6; font-weight: 500;">{{discussion_question}}</p>
-                <p style="margin-top: 6px; font-size: 12px; color: var(--text-medium); font-style: italic;">Discuss this question with a partner or write your thoughts below:</p>
-                <div class="writing-lines" style="margin-top: 10px;">
+                <p class="turn-talk-main">{{discussion_question}}</p>
+                <p class="turn-talk-sub">Discuss this question with a partner or write your thoughts below:</p>
+                <div class="writing-lines mt-10px">
                     <div class="writing-line"></div>
                     <div class="writing-line"></div>
                 </div>
@@ -1523,8 +1577,8 @@
                 </div>
 
                 {{#if short_answer_hint}}
-                <div class="tip-box mt-3" style="background: white; border-left-color: var(--accent-purple);">
-                    <div class="tip-label" style="color: var(--accent-purple);">💡 Hint</div>
+                <div class="tip-box mt-3 tip-white-purple">
+                    <div class="tip-label text-purple">💡 Hint</div>
                     {{short_answer_hint}}
                 </div>
                 {{/if}}
@@ -1538,8 +1592,8 @@
                 </div>
                 {{/if}}
 
-                <div class="tip-box mt-3" style="background: white; border-left-color: var(--accent-green);">
-                    <div class="tip-label" style="color: var(--accent-green);">🧩 Guided frame</div>
+                <div class="tip-box mt-3 tip-white-green">
+                    <div class="tip-label text-green">🧩 Guided frame</div>
                     <p class="text-sm">I think __________ because __________.</p>
                 </div>
 
@@ -1662,15 +1716,15 @@
 
                 {{#if images_writing_prompt.length}}
                     {{#each images_writing_prompt}}
-                    <div class="article-image-box" style="float: right; margin: 0 0 15px 15px; width: 55%; max-width: 320px;">
+                    <div class="article-image-box prompt-img-box w-55 max-w-320">
                         <img src="{{url}}" alt="{{caption}}">
-                        <span class="article-image-caption" style="text-align: center;">{{caption}}</span>
+                        <span class="article-image-caption text-center">{{caption}}</span>
                     </div>
                     {{/each}}
                 {{/if}}
 
                 <div class="planning-area">
-                    <div class="prompt-label" style="color: var(--accent-purple);">📝 Plan Your Writing</div>
+                    <div class="prompt-label text-purple">📝 Plan Your Writing</div>
                     <div class="planning-grid">
                         {{#if writing_plan_prompts}}
                             {{#each writing_plan_prompts}}
@@ -1704,18 +1758,18 @@
                 </div>
 
                 {{#if writing_sentence_frames}}
-                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green);">
+                <div class="tip-box mt-3 tip-green-grad">
                     <div class="tip-label">💡 Sentence Starters to Help You</div>
-                    <ul style="margin-top: 8px; padding-left: 20px; font-size: 13px; line-height: 1.8;">
+                    <ul class="starters-list">
                         {{#each writing_sentence_frames}}
-                        <li style="margin-bottom: 4px;">{{this}}</li>
+                        <li class="mb-4px">{{this}}</li>
                         {{/each}}
                     </ul>
                 </div>
                 {{else}}
-                <div class="tip-box mt-3" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green);">
+                <div class="tip-box mt-3 tip-green-grad">
                     <div class="tip-label">💡 Sentence Frames</div>
-                    <ul style="margin-top: 8px; padding-left: 20px; font-size: 13px; line-height: 1.8;">
+                    <ul class="starters-list">
                         <li>First, I noticed __________.</li>
                         <li>One important detail is __________.</li>
                         <li>In conclusion, I learned __________.</li>
@@ -1724,7 +1778,7 @@
                 {{/if}}
 
                 <div class="writing-lines">
-                    <div class="prompt-label" style="color: var(--accent-purple); margin-bottom: 12px;">✍️ Write Your
+                    <div class="prompt-label prompt-label-purple">✍️ Write Your
                         Draft</div>
                     
                     <div class="lined-area">
@@ -1749,21 +1803,21 @@
                 </div>
 
                 <div class="writing-digital-integration">
-                    <div class="qr-box" style="margin-top: 20px; background-color: var(--bg-light); border: 1px solid var(--border-medium); padding: 15px; border-radius: 8px;">
+                    <div class="qr-box digital-qr-box">
                         <div class="qr-code">
                             {{#if writing_qr_code_url}}
-                                <img src="{{writing_qr_code_url}}" alt="Writing Practice QR Code" style="width: 100%; height: 100%; object-fit: contain;">
+                                <img class="qr-img" src="{{writing_qr_code_url}}" alt="Writing Practice QR Code">
                             {{else}}
                                 <span>📱<br>QR</span>
                             {{/if}}
                         </div>
-                        <div class="qr-text" style="flex: 1;">
+                        <div class="qr-text flex-1">
                             <div class="qr-label">Step 2: Type and Get AI Feedback</div>
                             <div class="qr-desc">Scan this QR code to type your draft in the app. The AI will give you a score and suggestions to improve!</div>
-                            <div class="feedback-tracker" style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
-                                <div class="check-item" style="margin: 0;"><span class="checkbox"></span> I typed my draft in the app</div>
-                                <div style="font-weight: 600; border: 1px solid var(--border-dark); padding: 6px 12px; border-radius: 4px; background: white;">
-                                    My AI Score: <span style="display: inline-block; width: 40px; border-bottom: 1px solid black; margin-left: 5px;"></span> / 100
+                            <div class="feedback-tracker">
+                                <div class="check-item m-0"><span class="checkbox"></span> I typed my draft in the app</div>
+                                <div class="ai-score-box">
+                                    My AI Score: <span class="ai-score-line"></span> / 100
                                 </div>
                             </div>
                         </div>
@@ -1775,7 +1829,7 @@
         <!-- STEP 12: Language Questions -->
         <section class="section phase-4">
             <div class="section-header">
-                <div class="section-icon icon-question" style="background: var(--primary-light);">12</div>
+                <div class="section-icon icon-question bg-light-blue">12</div>
                 <h2 class="section-title">Language Questions</h2>
                 <span class="section-time">⏱ 5 min</span>
                 <!-- <span class="phase-label phase-4">Phase 4</span> -->
@@ -1814,7 +1868,7 @@
                 <div class="writing-line"></div>
                 <div class="writing-line"></div>
 
-                <div class="flex gap-4 mt-4" style="justify-content: space-between;">
+                <div class="flex gap-4 mt-4 justify-between">
                     <div>
                         <p class="text-xs font-bold mb-2">How well did I understand?</p>
                         <div class="understanding-scale">
@@ -1886,7 +1940,7 @@
 
                 <div class="signature-line">
                     <span>Parent/Guardian signature: ________________________________</span>
-                    <span style="margin-left: 40px;">Date: ______________</span>
+                    <span class="ml-40px">Date: ______________</span>
                 </div>
             </div>
         </section>
