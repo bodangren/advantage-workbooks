@@ -12,6 +12,7 @@
 <!-- Problems encountered repeatedly; save future tracks from the same pain -->
 
 - (2026-03-12, e2e_testing_and_visual_stabilization_phase_4_20260312) Playwright selectors with shadcn/ui: The `CardTitle` component is rendered as a `div` without an implicit heading role. Avoid `getByRole('heading')` for card titles; use `getByText()` or explicit locators instead.
+- (2026-03-13, e2e_testing_and_visual_stabilization_phase_5_20260313) Playwright strict mode: Avoid using `getByText('Some Field', { exact: true })` for section titles if a form label or select dropdown with the exact same text exists on the page. Relying on `getByLabel` is a more robust way to ensure both visibility and interactability without triggering strict mode violations.
 
 - (2026-03-11, goal_setting_worksheet_20260311) Adding new compilation sections: When adding new UI toggles for generated sections, ensure the toggle flag is correctly wired through the frontend state, URL search params, the API route parser, and the `WorkbookDocumentOptions` type to prevent testing discrepancies.
 - (YYYY-MM-DD, track_id) Example: Always check for null before accessing config values
