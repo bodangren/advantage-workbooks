@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: E2E Testing & Visual Stabilization Phase 4** *(In Progress)*
+  *Link: [./tracks/e2e_testing_and_visual_stabilization_phase_4_20260312/](./tracks/e2e_testing_and_visual_stabilization_phase_4_20260312/)*
+
 - [x] **Track: E2E Testing & Visual Stabilization Phase 3: Fix compile sections E2E test flakiness, remove conflicting Paged.js page rules from templates, and run final checks.** *(Completed: 2026-03-12)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_3_20260312/](./archive/e2e_testing_and_visual_stabilization_phase_3_20260312/)*
 

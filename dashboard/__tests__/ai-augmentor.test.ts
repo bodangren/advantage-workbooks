@@ -54,7 +54,7 @@ describe('augmentLesson', () => {
       text: mockResponseText,
     });
 
-    const augmented = await augmentLesson(mockLesson, 'fake-api-key');
+    const augmented = await augmentLesson(mockLesson);
 
     expect(GoogleGenAI).toHaveBeenCalled();
     expect(mockGenerateContent).toHaveBeenCalled();
@@ -90,7 +90,7 @@ describe('augmentLesson', () => {
       text: mockResponseText,
     });
 
-    const augmented = await augmentLesson(lessonWithImages, 'fake-api-key');
+    const augmented = await augmentLesson(lessonWithImages);
 
     // Should preserve existing article_images
     expect(augmented.article_images).toBeDefined();
@@ -113,7 +113,7 @@ describe('augmentLesson', () => {
       text: mockResponseText,
     });
 
-    const augmented = await augmentLesson(mockLesson, 'fake-api-key');
+    const augmented = await augmentLesson(mockLesson);
 
     expect(augmented.connection_question).toBe('Connect?');
     expect(augmented.grammar_search_term).toBe('Find verb');
@@ -136,7 +136,7 @@ describe('augmentLesson', () => {
 
     mockGenerateContent.mockResolvedValue({ text: mockResponseText });
 
-    await augmentLesson(mockLesson, 'fake-api-key');
+    await augmentLesson(mockLesson);
 
     // Check that the generateContent was called with the custom model
     expect(mockGenerateContent).toHaveBeenCalledWith(
@@ -153,7 +153,7 @@ describe('augmentLesson', () => {
       text: 'Invalid JSON',
     });
 
-    await expect(augmentLesson(mockLesson, 'fake-api-key')).rejects.toThrow();
+    await expect(augmentLesson(mockLesson)).rejects.toThrow();
   });
 
   it('should log Content QA issues if found', async () => {
@@ -181,7 +181,7 @@ describe('augmentLesson', () => {
 
     const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-    await augmentLesson(lessonWithActivities, 'fake-api-key');
+    await augmentLesson(lessonWithActivities);
 
     expect(consoleWarnSpy).toHaveBeenCalledWith('Content QA Issues Found:');
     expect(consoleWarnSpy).toHaveBeenCalledWith('Vocab Match:', ['Definition for "test" is too vague']);
