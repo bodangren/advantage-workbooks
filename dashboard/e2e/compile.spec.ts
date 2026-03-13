@@ -7,21 +7,21 @@ test.describe('Compile Flow', () => {
     await page.goto('/projects');
     
     // Wait for projects to load (either secondary or primary)
-    const projectLink = page.locator('a[href^="/projects/"]').first();
+    const projectLink = page.locator('a[href^="/projects/"]:not([href*="test-"])').first();
     
     await Promise.race([
-      page.waitForSelector('a[href^="/projects/"]'),
+      page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])'),
       page.waitForSelector('text=No secondary workbook projects found')
     ]);
 
     const count = await projectLink.count();
     if (count === 0) {
       await page.getByRole('button', { name: /Primary/i }).click();
-      await page.waitForSelector('a[href^="/projects/"]');
+      await page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])');
     }
 
     // Click the first project
-    await page.locator('a[href^="/projects/"]').first().click();
+    await page.locator('a[href^="/projects/"]:not([href*="test-"])').first().click();
     
     // Should be on the project details page
     await expect(page).toHaveURL(/.*\/projects\/[^\/]+/);

@@ -7,12 +7,12 @@ test.describe('Project and Lesson Flows', () => {
     
     // Wait for projects to load (either secondary or primary)
     // Click on a project card - we look for links that match /projects/
-    const projectLink = page.locator('a[href^="/projects/"]').first();
+    const projectLink = page.locator('a[href^="/projects/"]:not([href*="test-"])').first();
     
     // Check if there are any projects; if not, we skip the rest of the test
     // We wait briefly for either the project link or a 'No projects found' text
     await Promise.race([
-      page.waitForSelector('a[href^="/projects/"]'),
+      page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])'),
       page.waitForSelector('text=No secondary workbook projects found')
     ]);
 
@@ -20,11 +20,11 @@ test.describe('Project and Lesson Flows', () => {
     if (count === 0) {
       // If no secondary project, try primary tab
       await page.getByRole('button', { name: /Primary/i }).click();
-      await page.waitForSelector('a[href^="/projects/"]');
+      await page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])');
     }
 
     // Now click the first project
-    await page.locator('a[href^="/projects/"]').first().click();
+    await page.locator('a[href^="/projects/"]:not([href*="test-"])').first().click();
     
     // Should be on the project details page
     await expect(page).toHaveURL(/.*\/projects\/[^\/]+/);

@@ -6,10 +6,10 @@ test.describe('Lesson Editor Flow', () => {
     await page.goto('/projects');
     
     // Wait for projects to load
-    const projectLink = page.locator('a[href^="/projects/"]').first();
+    const projectLink = page.locator('a[href^="/projects/"]:not([href*="test-"])').first();
     
     await Promise.race([
-      page.waitForSelector('a[href^="/projects/"]'),
+      page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])'),
       page.waitForSelector('text=No secondary workbook projects found')
     ]);
 
@@ -17,11 +17,11 @@ test.describe('Lesson Editor Flow', () => {
     if (count === 0) {
       // If no secondary project, try primary tab
       await page.getByRole('button', { name: /Primary/i }).click();
-      await page.waitForSelector('a[href^="/projects/"]');
+      await page.waitForSelector('a[href^="/projects/"]:not([href*="test-"])');
     }
 
     // Click the first project
-    await page.locator('a[href^="/projects/"]').first().click();
+    await page.locator('a[href^="/projects/"]:not([href*="test-"])').first().click();
     
     // Check we're on the project details page
     await expect(page).toHaveURL(/.*\/projects\/[^\/]+/);

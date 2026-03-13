@@ -11,6 +11,8 @@
 ### Recurring Gotchas
 <!-- Problems encountered repeatedly; save future tracks from the same pain -->
 
+- (2026-03-14, e2e_testing_and_visual_stabilization_phase_9_20260314) Playwright parallel runs: When running Playwright and Vitest tests in parallel that create temporary directories in the workspace, ensure your E2E selectors explicitly exclude them (e.g. `a[href^="/projects/"]:not([href*="test-"])`) to avoid testing on empty dummy data.
+- (2026-03-14, e2e_testing_and_visual_stabilization_phase_9_20260314) Paged.js rendering times: Rendering a full workbook with 14+ lessons using Paged.js can take upwards of 45-60 seconds. When testing visibility of elements located at the very end of the document (like a Glossary), always increase the Playwright locator timeout to at least 60000ms.
 - (2026-03-14, e2e_testing_and_visual_stabilization_phase_8_20260314) Paged.js page splits: When asserting visibility of Paged.js rendered sections with Playwright, always use `.first()` if the element might be split across multiple printed pages to prevent strict mode violations.
 - (2026-03-13, e2e_testing_and_visual_stabilization_phase_6_20260313) Playwright test timeouts: When testing Paged.js heavy operations like compiling an entire workbook project, the default 30,000ms Playwright timeout is often insufficient. Always use `test.setTimeout(90000)` or similar for such tests.
 - (2026-03-12, e2e_testing_and_visual_stabilization_phase_4_20260312) Playwright selectors with shadcn/ui: The `CardTitle` component is rendered as a `div` without an implicit heading role. Avoid `getByRole('heading')` for card titles; use `getByText()` or explicit locators instead.
