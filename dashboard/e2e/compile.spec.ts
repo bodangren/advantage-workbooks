@@ -43,9 +43,8 @@ test.describe('Compile Flow', () => {
     await expect(iframe).toBeVisible();
 
     // Wait for iframe content to load
-    const frame = iframe.contentFrame();
-    await expect(frame.locator('body')).toBeVisible({ timeout: 15000 });
+    await expect(page.frameLocator('iframe').locator('body')).toBeVisible({ timeout: 30000 });
     // Attempt to wait for paged.js pages if they exist
-    await expect(frame.locator('.pagedjs_pages').or(frame.locator('.pagedjs_page'))).toBeVisible({ timeout: 15000 }).catch(() => console.log('Paged.js classes not immediately found'));
+    await expect(page.frameLocator('iframe').locator('.pagedjs_pages').or(page.frameLocator('iframe').locator('.pagedjs_page'))).toBeVisible({ timeout: 30000 }).catch(() => console.log('Paged.js classes not immediately found'));
   });
 });

@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: E2E Testing & Visual Stabilization Phase 7: Fix flakiness by waiting for network compile requests and replacing contentFrame with frameLocator for dynamic iframes.** *(Completed: 2026-03-13)*
+  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_7_20260313/](./archive/e2e_testing_and_visual_stabilization_phase_7_20260313/)*
+
 - [x] **Track: E2E Testing & Visual Stabilization Phase 6: Fix failing Paged.js compilation test.** *(Completed: 2026-03-13)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_6_20260313/](./archive/e2e_testing_and_visual_stabilization_phase_6_20260313/)*
 

@@ -20,3 +20,4 @@
 | 2026-03-12 | e2e_testing_and_visual_stabilization_phase_3_20260312 | Conflicting @page definitions in templates and flaky compile E2E test | High | Resolved | Removed explicit @page from media print in templates, stabilized Playwright iframe loading |
 | 2026-03-12 | e2e_testing_and_visual_stabilization_phase_4_20260312 | ai-augmentor.test.ts TypeScript error (TS2554) due to outdated signature | Medium | Resolved | Removed second argument in test file matching updated function signature |
 | 2026-03-13 | e2e_testing_and_visual_stabilization_phase_5_20260313 | Standardize inline CSS in Paged.js HTML templates | Low | Resolved | Extracted style="..." attributes into CSS classes in primary and secondary templates |
+| 2026-03-13 | e2e_testing_and_visual_stabilization_phase_7_20260313 | Flaky iframe reloading tests due to synchronous contentFrame evaluations | Medium | Resolved | Replaced contentFrame() with page.frameLocator() and wait for network responses |

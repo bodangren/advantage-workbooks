@@ -60,21 +60,27 @@ test.describe('Compile Flow - Sections Toggling', () => {
     // We can't easily detect iframe reload directly without observing network, 
     // but we can ensure the checkbox can be unchecked.
     const goalSettingCheckbox = page.getByLabel('Goal Setting');
-    await goalSettingCheckbox.uncheck();
+    
+    // Uncheck and wait for compile request
+    const [uncheckResponse] = await Promise.all([
+      page.waitForResponse(/.*\/api\/projects\/.*\/compile.*/),
+      goalSettingCheckbox.uncheck()
+    ]);
     await expect(goalSettingCheckbox).not.toBeChecked();
     
     // Wait for compile to finish after unchecking
-    await expect(page.locator('iframe')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('iframe')).toBeVisible({ timeout: 30000 });
 
-    // Re-check it
-    await goalSettingCheckbox.check();
+    // Re-check and wait for compile request
+    const [checkResponse] = await Promise.all([
+      page.waitForResponse(/.*\/api\/projects\/.*\/compile.*/),
+      goalSettingCheckbox.check()
+    ]);
     await expect(goalSettingCheckbox).toBeChecked();
 
     // Verify iframe loads again
-    const iframe = page.locator('iframe');
-    await expect(iframe).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('iframe')).toBeVisible({ timeout: 30000 });
     
-    const frame = iframe.contentFrame();
-    await expect(frame.locator('body')).toBeVisible({ timeout: 15000 });
+    await expect(page.frameLocator('iframe').locator('body')).toBeVisible({ timeout: 30000 });
   });
 });
