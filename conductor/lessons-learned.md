@@ -11,6 +11,7 @@
 ### Recurring Gotchas
 <!-- Problems encountered repeatedly; save future tracks from the same pain -->
 
+- (2026-03-14, e2e_testing_and_visual_stabilization_phase_8_20260314) Paged.js page splits: When asserting visibility of Paged.js rendered sections with Playwright, always use `.first()` if the element might be split across multiple printed pages to prevent strict mode violations.
 - (2026-03-13, e2e_testing_and_visual_stabilization_phase_6_20260313) Playwright test timeouts: When testing Paged.js heavy operations like compiling an entire workbook project, the default 30,000ms Playwright timeout is often insufficient. Always use `test.setTimeout(90000)` or similar for such tests.
 - (2026-03-12, e2e_testing_and_visual_stabilization_phase_4_20260312) Playwright selectors with shadcn/ui: The `CardTitle` component is rendered as a `div` without an implicit heading role. Avoid `getByRole('heading')` for card titles; use `getByText()` or explicit locators instead.
 - (2026-03-13, e2e_testing_and_visual_stabilization_phase_5_20260313) Playwright strict mode: Avoid using `getByText('Some Field', { exact: true })` for section titles if a form label or select dropdown with the exact same text exists on the page. Relying on `getByLabel` is a more robust way to ensure both visibility and interactability without triggering strict mode violations.
