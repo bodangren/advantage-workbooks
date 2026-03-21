@@ -140,11 +140,22 @@ export async function listLessons(projectId: string): Promise<LessonFile[]> {
     const lessons = entries
       .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
       .filter(entry => entry.name.startsWith('content_') || entry.name.endsWith('_workbook.json'))
-      .map(file => ({
-        id: file.name.replace('.json', ''),
-        name: file.name,
-        path: path.join(fullPath, file.name)
-      }))
+      .map(file => {
+        const id = file.name.replace('.json', '');
+        // Generate a nice name: replace underscores/dashes with spaces and capitalize
+        const name = id
+          .replace(/_workbook$/, '')
+          .replace(/[_-]/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(' ');
+          
+        return {
+          id,
+          name,
+          path: path.join(fullPath, file.name)
+        };
+      })
       .sort((a, b) => a.name.localeCompare(b.name));
     return lessons;
   } catch (error) {

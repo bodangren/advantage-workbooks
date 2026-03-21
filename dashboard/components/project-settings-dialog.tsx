@@ -19,58 +19,25 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Settings } from 'lucide-react';
+import { SECONDARY_LEVELS, PRIMARY_LEVELS } from '@/lib/constants';
 
 interface ProjectMetadata {
   seriesName: string;
   levelNumber: string;
   cefrLevel: string;
+  type?: 'primary' | 'secondary';
 }
 
 interface ProjectSettingsDialogProps {
   projectId: string;
 }
 
-// Exact mapping from v1
-const LEVEL_OPTIONS = [
-  { value: '1', series: 'Origins', cefr: 'A1', label: '1 - Origins' },
-  { value: '2', series: 'Origins', cefr: 'A1', label: '2 - Origins' },
-  { value: '3.1', series: 'Origins', cefr: 'A1', label: '3.1 - Origins' },
-  { value: '3.2', series: 'Origins', cefr: 'A1', label: '3.2 - Origins' },
-  { value: '4', series: 'Quest', cefr: 'A2', label: '4 - Quest' },
-  { value: '5', series: 'Quest', cefr: 'A2', label: '5 - Quest' },
-  { value: '6.1', series: 'Quest', cefr: 'A2', label: '6.1 - Quest' },
-  { value: '6.2', series: 'Quest', cefr: 'A2', label: '6.2 - Quest' },
-  { value: '7.1', series: 'Adventure', cefr: 'B1', label: '7.1 - Adventure' },
-  { value: '7.2', series: 'Adventure', cefr: 'B1', label: '7.2 - Adventure' },
-  { value: '8.1', series: 'Adventure', cefr: 'B1', label: '8.1 - Adventure' },
-  { value: '8.2', series: 'Adventure', cefr: 'B1', label: '8.2 - Adventure' },
-  { value: '8.3', series: 'Adventure', cefr: 'B1', label: '8.3 - Adventure' },
-  { value: '9.1', series: 'Adventure', cefr: 'B1', label: '9.1 - Adventure' },
-  { value: '9.2', series: 'Adventure', cefr: 'B1', label: '9.2 - Adventure' },
-  { value: '9.3', series: 'Adventure', cefr: 'B1', label: '9.3 - Adventure' },
-  { value: '10.1', series: 'Hero', cefr: 'B2', label: '10.1 - Hero' },
-  { value: '10.2', series: 'Hero', cefr: 'B2', label: '10.2 - Hero' },
-  { value: '11.1', series: 'Hero', cefr: 'B2', label: '11.1 - Hero' },
-  { value: '11.2', series: 'Hero', cefr: 'B2', label: '11.2 - Hero' },
-  { value: '11.3', series: 'Hero', cefr: 'B2', label: '11.3 - Hero' },
-  { value: '12.1', series: 'Hero', cefr: 'B2', label: '12.1 - Hero' },
-  { value: '12.2', series: 'Hero', cefr: 'B2', label: '12.2 - Hero' },
-  { value: '12.3', series: 'Hero', cefr: 'B2', label: '12.3 - Hero' },
-  { value: '13.1', series: 'Legend', cefr: 'C1', label: '13.1 - Legend' },
-  { value: '13.2', series: 'Legend', cefr: 'C1', label: '13.2 - Legend' },
-  { value: '14.1', series: 'Legend', cefr: 'C1', label: '14.1 - Legend' },
-  { value: '14.2', series: 'Legend', cefr: 'C1', label: '14.2 - Legend' },
-  { value: '14.3', series: 'Legend', cefr: 'C1', label: '14.3 - Legend' },
-  { value: '15.1', series: 'Legend', cefr: 'C1', label: '15.1 - Legend' },
-  { value: '15.2', series: 'Legend', cefr: 'C1', label: '15.2 - Legend' },
-  { value: '15.3', series: 'Legend', cefr: 'C1', label: '15.3 - Legend' },
-];
-
 export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState('3.1');
+  const [type, setType] = useState<'primary' | 'secondary'>('secondary');
 
   useEffect(() => {
     if (open) {
@@ -84,9 +51,12 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
     try {
       const response = await fetch(`/api/projects/${projectId}/metadata`);
       if (response.ok) {
-        const data = await response.json();
-        // Find the matching level option
-        const option = LEVEL_OPTIONS.find(
+        const data = await response.json() as ProjectMetadata;
+        const projectType = data.type || 'secondary';
+        setType(projectType);
+        
+        const levels = projectType === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+        const option = levels.find(
           opt => opt.value === data.levelNumber
         );
         if (option) {
@@ -103,13 +73,15 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
   const handleSave = async () => {
     setSaving(true);
     try {
-      const selectedOption = LEVEL_OPTIONS.find(opt => opt.value === selectedLevel);
+      const levels = type === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+      const selectedOption = levels.find(opt => opt.value === selectedLevel);
       if (!selectedOption) return;
 
       const metadata: ProjectMetadata = {
         seriesName: selectedOption.series,
         levelNumber: selectedOption.value,
         cefrLevel: selectedOption.cefr,
+        type: type,
       };
 
       const response = await fetch(`/api/projects/${projectId}/metadata`, {
@@ -131,7 +103,8 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
     }
   };
 
-  const selectedOption = LEVEL_OPTIONS.find(opt => opt.value === selectedLevel);
+  const levelOptions = type === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+  const selectedOption = levelOptions.find(opt => opt.value === selectedLevel);
 
   return (
     <>
@@ -165,7 +138,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
                   <SelectContent>
-                    {LEVEL_OPTIONS.map((option) => (
+                    {levelOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -175,7 +148,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
               </div>
 
               {selectedOption && (
-                <div className="rounded-lg border p-3 space-y-1">
+                <div className="rounded-lg border p-3 space-y-1.5 bg-muted/50">
                   <div className="text-sm">
                     <span className="font-medium">Series:</span> {selectedOption.series}
                   </div>

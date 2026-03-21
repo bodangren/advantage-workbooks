@@ -7,6 +7,7 @@ import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'l
 import Link from 'next/link';
 import { use } from 'react';
 import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
+import { CreateLessonDialog } from '@/components/create-lesson-dialog';
 
 interface LessonFile {
   id: string;
@@ -63,10 +64,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     fetchMetadata();
   }, [fetchLessons, fetchMetadata]);
 
-  const handleCreateLesson = () => {
-    console.log('Create lesson for project:', projectId);
-  };
-
   if (loading) {
     return <div className="p-6">Loading lessons...</div>;
   }
@@ -111,10 +108,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               </Button>
             </Link>
           )}
-          <Button onClick={handleCreateLesson}>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Lesson
-          </Button>
+          <CreateLessonDialog projectId={projectId} onSuccess={fetchLessons} />
         </div>
       </div>
 

@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: E2E Testing & Visual Stabilization Phase 10: Fix Add Lesson flow, address vulnerabilities, and consolidate level constants.** *(Completed: 2026-03-22)*
+  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/)*
+
 - [x] **Track: E2E Testing & Visual Stabilization Phase 9: Address E2E test flakiness by ignoring temporary test projects, increase Paged.js locator timeouts, and add a test for the Create Project flow.** *(Completed: 2026-03-14)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_9_20260314/](./archive/e2e_testing_and_visual_stabilization_phase_9_20260314/)*
 

@@ -20,6 +20,10 @@
 | 2026-03-12 | e2e_testing_and_visual_stabilization_phase_3_20260312 | Conflicting @page definitions in templates and flaky compile E2E test | High | Resolved | Removed explicit @page from media print in templates, stabilized Playwright iframe loading |
 | 2026-03-12 | e2e_testing_and_visual_stabilization_phase_4_20260312 | ai-augmentor.test.ts TypeScript error (TS2554) due to outdated signature | Medium | Resolved | Removed second argument in test file matching updated function signature |
 | 2026-03-13 | e2e_testing_and_visual_stabilization_phase_5_20260313 | Standardize inline CSS in Paged.js HTML templates | Low | Resolved | Extracted style="..." attributes into CSS classes in primary and secondary templates |
+| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | Non-functional "Add Lesson" button in project page | Medium | Resolved | Implemented CreateLessonDialog and POST API |
+| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | NPM vulnerabilities (flatted, next) | High | Resolved | Fixed via npm audit fix and next@16.1.7 update |
+| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | Duplicate workbook level definitions | Low | Resolved | Consolidated into shared lib/constants.ts |
+| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | Brittle lesson name capitalization in dashboard | Low | Resolved | Improved listLessons logic to handle underscores and capitalization |
 | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_9_20260314 | E2E flakiness due to temporary test directories and Paged.js timeouts | High | Resolved | Filtered out test directories and increased locator timeouts |
 | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_8_20260314 | Unused variables in compile-sections E2E test | Low | Resolved | Removed unused response variables and added explicit locators with increased timeouts |
 | 2026-03-13 | e2e_testing_and_visual_stabilization_phase_7_20260313 | Flaky iframe reloading tests due to synchronous contentFrame evaluations | Medium | Resolved | Replaced contentFrame() with page.frameLocator() and wait for network responses |
