@@ -2,19 +2,19 @@
 
 ## Phase 1: Foundation — Library & Schema Prep
 
-- [ ] Task: Read `dashboard/lib/workbook-schema.ts` in full and confirm the complete set of required vs. optional fields on `WorkbookLessonSchema`. Document any fields that Gemini must always populate vs. fields that may be omitted.
-- [ ] Task: Write failing Vitest unit tests in `dashboard/lib/__tests__/lesson-generator.test.ts`. Mock `@google/genai` to return a fixture JSON string. Assert that `generateLessonFromSource` returns a value that passes `WorkbookLessonSchema.safeParse()`. Confirm tests fail (Red).
-- [ ] Task: Create `dashboard/lib/lesson-generator.ts`. Implement `generateLessonFromSource(sourceText, cefrLevel)` with the Gemini structured-output prompt, JSON parse logic, and typed `LessonGenerationError`. Confirm unit tests now pass (Green).
-- [ ] Task: Write additional unit tests covering: (a) Gemini returns malformed JSON — expect `LessonGenerationError` thrown; (b) source text under 50 characters — expect `LessonGenerationError` with "source too short" message.
-- [ ] Task: Run `npm run test:run` in `dashboard/`. Verify >80% coverage on `lesson-generator.ts`. Fix any gaps.
+- [x] Task: Read `dashboard/lib/workbook-schema.ts` in full and confirm the complete set of required vs. optional fields on `WorkbookLessonSchema`. Document any fields that Gemini must always populate vs. fields that may be omitted.
+- [x] Task: Write failing Vitest unit tests in `dashboard/lib/__tests__/lesson-generator.test.ts`. Mock `@google/genai` to return a fixture JSON string. Assert that `generateLessonFromSource` returns a value that passes `WorkbookLessonSchema.safeParse()`. Confirm tests fail (Red).
+- [x] Task: Create `dashboard/lib/lesson-generator.ts`. Implement `generateLessonFromSource(sourceText, cefrLevel)` with the Gemini structured-output prompt, JSON parse logic, and typed `LessonGenerationError`. Confirm unit tests now pass (Green).
+- [x] Task: Write additional unit tests covering: (a) Gemini returns malformed JSON — expect `LessonGenerationError` thrown; (b) source text under 50 characters — expect `LessonGenerationError` with "source too short" message.
+- [x] Task: Run `npm run test:run` in `dashboard/`. Verify >80% coverage on `lesson-generator.ts`. Fix any gaps.
 - [ ] Task: Conductor — User Manual Verification 'Phase 1: Foundation — Library & Schema Prep' (Protocol in workflow.md)
 
 ## Phase 2: API Route — Server-Side Generation Endpoint
 
-- [ ] Task: Write failing Vitest unit tests in `dashboard/app/api/projects/[projectId]/lessons/generate/__tests__/route.test.ts`. Use `jsdom` and mock `lib/lesson-generator.ts` and `lib/filesystem.ts`. Cover: (a) success with `source_type: "text"`; (b) success with `source_type: "url"` (mock `fetch`); (c) URL with non-http scheme returns 400; (d) upstream fetch timeout returns 400; (e) Zod validation failure returns 422. Confirm tests fail (Red).
-- [ ] Task: Create `dashboard/app/api/projects/[projectId]/lessons/generate/route.ts`. Implement POST handler: parse request body, branch on `source_type`, fetch+strip HTML for URLs, call `generateLessonFromSource`, validate with Zod `.safeParse()`, write file via `filesystem.ts`, return 201 with lesson id. Confirm unit tests now pass (Green).
-- [ ] Task: Implement URL text extraction helper `extractTextFromHtml(html: string): string` in `dashboard/lib/url-extractor.ts`. Strip `<script>`, `<style>`, `<noscript>` tags and their content. Collapse whitespace. Write unit tests covering: tag stripping, whitespace collapsing, empty-body input.
-- [ ] Task: Run `npm run lint` and `npx tsc --noEmit` in `dashboard/`. Fix all errors.
+- [x] Task: Write failing Vitest unit tests in `dashboard/app/api/projects/[projectId]/lessons/generate/__tests__/route.test.ts`. Use `jsdom` and mock `lib/lesson-generator.ts` and `lib/filesystem.ts`. Cover: (a) success with `source_type: "text"`; (b) success with `source_type: "url"` (mock `fetch`); (c) URL with non-http scheme returns 400; (d) upstream fetch timeout returns 400; (e) Zod validation failure returns 422. Confirm tests fail (Red).
+- [x] Task: Create `dashboard/app/api/projects/[projectId]/lessons/generate/route.ts`. Implement POST handler: parse request body, branch on `source_type`, fetch+strip HTML for URLs, call `generateLessonFromSource`, validate with Zod `.safeParse()`, write file via `filesystem.ts`, return 201 with lesson id. Confirm unit tests now pass (Green).
+- [x] Task: Implement URL text extraction helper `extractTextFromHtml(html: string): string` in `dashboard/lib/url-extractor.ts`. Strip `<script>`, `<style>`, `<noscript>` tags and their content. Collapse whitespace. Write unit tests covering: tag stripping, whitespace collapsing, empty-body input.
+- [x] Task: Run `npm run lint` and `npx tsc --noEmit` in `dashboard/`. Fix all errors.
 - [ ] Task: Conductor — User Manual Verification 'Phase 2: API Route — Server-Side Generation Endpoint' (Protocol in workflow.md)
 
 ## Phase 3: Dashboard UI — Modal & Source Input
