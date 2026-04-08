@@ -6,6 +6,8 @@
 ### Architecture & Design
 <!-- Decisions made that future tracks should be aware of -->
 
+- (2026-03-22, e2e_testing_and_visual_stabilization_phase_11_20260322) Playwright strict mode: getByText can often match multiple elements (e.g., a label and its section header). Use .first() or more specific locators to avoid strict mode violations.
+- (2026-03-22, e2e_testing_and_visual_stabilization_phase_11_20260322) Overlapping UI: When a modal with fixed inset-0 is open, it will intercept pointer events for buttons underneath it, even if they are logically part of the same flow. Use the modal's own close controls (e.g., "×") to dismiss it in E2E tests.
 - (2026-03-22, e2e_testing_and_visual_stabilization_phase_10_20260322) Shared Level Constants: Consolidating primary and secondary workbook levels into a single `lib/constants.ts` ensures UI consistency across creation and settings dialogs and prevents duplicate maintenance effort.
 
 ### Recurring Gotchas

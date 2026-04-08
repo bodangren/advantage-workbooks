@@ -1,0 +1,223 @@
+[0m
+> build · minimax-m2.7
+[0m
+[0m→ [0mRead conductor/autonomous_prompt.md
+[0m→ [0mSkill "conductor"
+[0m→ [0mRead conductor/tech-debt.md
+[0m→ [0mRead conductor/tracks.md
+[0m→ [0mRead conductor/lessons-learned.md
+[0m→ [0mRead conductor/current_directive.md
+Let me check the workspace state and any in-progress tracks:
+[0m
+[0m$ [0mgit status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   conductor/autonomous_prompt.md
+	modified:   conductor/lessons-learned.md
+	modified:   conductor/tech-debt.md
+	modified:   conductor/tracks.md
+	modified:   dashboard/app/projects/[projectId]/page.tsx
+	modified:   dashboard/eslint.config.mjs
+	modified:   dashboard/playwright-report/index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	conductor/archive/e2e_testing_and_visual_stabilization_phase_11_20260322/
+	conductor/output.log
+	conductor/review-prompt.md
+	conductor/tracks/
+	dashboard/e2e/lesson-persistence.spec.ts
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[0m
+[0m$ [0mgit log -1 --oneline
+e67c98d chore(conductor): Archive completed track Phase 10
+[0m
+[0m✱ [0mGlob "conductor/tracks/*"[90m 0 matches[0m
+The workspace is dirty with uncommitted changes. I need to commit first, then check for in-progress tracks. Let me also look at the new E2E spec file:
+[0m→ [0mRead dashboard/e2e/lesson-persistence.spec.ts
+[0m
+[0m$ [0mgit diff --stat
+conductor/autonomous_prompt.md              | 40 +++++++++++++++++++----------
+ conductor/lessons-learned.md                |  2 ++
+ conductor/tech-debt.md                      |  2 ++
+ conductor/tracks.md                         | 27 +++++++++++++++++++
+ dashboard/app/projects/[projectId]/page.tsx |  2 +-
+ dashboard/eslint.config.mjs                 |  1 +
+ dashboard/playwright-report/index.html      |  2 +-
+ 7 files changed, 61 insertions(+), 15 deletions(-)
+[0m
+[0m$ [0mgit diff conductor/tracks.md | head -80
+diff --git a/conductor/tracks.md b/conductor/tracks.md
+index c6d3a67..c0e8a80 100644
+--- a/conductor/tracks.md
++++ b/conductor/tracks.md
+@@ -2,6 +2,9 @@
+ 
+ This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
+ 
++- [x] **Track: E2E Testing & Visual Stabilization Phase 11: Expand E2E testing coverage for lesson editor persistence and AI features, and resolve minor linting/UI issues.** *(Completed: 2026-03-22)*
++  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/)*
++
+ - [x] **Track: E2E Testing & Visual Stabilization Phase 10: Fix Add Lesson flow, address vulnerabilities, and consolidate level constants.** *(Completed: 2026-03-22)*
+   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/)*
+ 
+@@ -89,3 +92,27 @@ This file tracks all major tracks for the project. Each track has its own detail
+ 
+ - [x] **Track: Spelling Practice Generator: Automatically generates a 'Spelling Practice' section at the end of the workbook for students to practice 'Look, Trace, Write, Check' for lesson vocabulary.** *(Completed: 2026-03-11)*
+   *Link: [./archive/spelling_practice_generator_20260311/](./archive/spelling_practice_generator_20260311/)*
++
++---
++
++## Future Roadmap
++
++- [ ] **Track: AI Content Orchestration (Lesson-from-Source)**
++  *Link: [./tracks/ai_content_orchestration_20260408/](./tracks/ai_content_orchestration_20260408/)*
++  Move beyond simple metadata 'Magic Wand' tools to full lesson generation. Users paste raw article text or provide a URL; a Gemini-powered pipeline extracts vocabulary, generates comprehension questions, vocab-match/fill activities, sentence-order exercises, and writing prompts — producing a schema-valid `WorkbookLesson` JSON in one step.
++
++- [ ] **Track: Cloud Migration & Multi-User Collaboration**
++  *Link: [./tracks/cloud_migration_multi_user_20260408/](./tracks/cloud_migration_multi_user_20260408/)*
++  Transition from local-filesystem persistence to Supabase (Postgres for structured metadata, Supabase Storage for lesson JSON blobs and images). Add email+password authentication via Supabase Auth, protect all routes with Next.js middleware, and display real-time presence indicators so content team members can see who else has a project open.
++
++- [ ] **Track: Interactive Digital Export (Blended Learning Expansion)**
++  *Link: [./tracks/interactive_digital_export_20260408/](./tracks/interactive_digital_export_20260408/)*
++  Export workbook lesson content to a SCORM 1.2 package (`.zip` with `imsmanifest.xml` and per-lesson interactive HTML pages with client-side answer checking) or a single self-contained standalone HTML file. Both formats render all activities interactively and work offline, bridging the physical workbook with self-paced digital learning.
++
++- [ ] **Track: Advanced Layout & Component Customization**
++  *Link: [./tracks/advanced_layout_component_customization_20260408/](./tracks/advanced_layout_component_customization_20260408/)*
++  Implement a drag-and-drop Section Builder in the lesson editor that lets content authors reorder, remove, and add activity sections per lesson. Adds three new printable activity types: auto-generated Crossword Puzzle, Word Search Grid, and Match-the-Image activity. All changes are stored in an optional `section_order` field on the lesson JSON; existing lessons without this field compile with the current fixed order unchanged.
++
++- [ ] **Track: Localization & Thai-Market Teacher Support**
++  *Link: [./tracks/localization_thai_market_20260408/](./tracks/localization_thai_market_20260408/)*
++  Add bilingual English/Thai activity instructions to every workbook section (static Thai strings in `lib/i18n/th.ts`, rendered with Sarabun font). Generate AI-authored Thai-language Instructional Scripts (opening statement, per-activity facilitation notes, debrief) via Gemini and include them as a "Classroom Script" subsection in the Teacher Guide. Both features are opt-in per project via a new `localization` metadata field.
+[0m
+[0m$ [0mgit diff dashboard/app/projects/\[projectId\]/page.tsx
+diff --git a/dashboard/app/projects/[projectId]/page.tsx b/dashboard/app/projects/[projectId]/page.tsx
+index 137cf02..08941c6 100644
+--- a/dashboard/app/projects/[projectId]/page.tsx
++++ b/dashboard/app/projects/[projectId]/page.tsx
+@@ -3,7 +3,7 @@
+ import { useEffect, useState, useCallback } from 'react';
+ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+ import { Button } from '@/components/ui/button';
+-import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
++import { FileText, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
+ import Link from 'next/link';
+ import { use } from 'react';
+ import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
+[0m
+[0m$ [0mgit diff conductor/tech-debt.md conductor/lessons-learned.md
+diff --git a/conductor/lessons-learned.md b/conductor/lessons-learned.md
+index f5a1354..0342d7b 100644
+--- a/conductor/lessons-learned.md
++++ b/conductor/lessons-learned.md
+@@ -6,6 +6,8 @@
+ ### Architecture & Design
+ <!-- Decisions made that future tracks should be aware of -->
+ 
++- (2026-03-22, e2e_testing_and_visual_stabilization_phase_11_20260322) Playwright strict mode: getByText can often match multiple elements (e.g., a label and its section header). Use .first() or more specific locators to avoid strict mode violations.
++- (2026-03-22, e2e_testing_and_visual_stabilization_phase_11_20260322) Overlapping UI: When a modal with fixed inset-0 is open, it will intercept pointer events for buttons underneath it, even if they are logically part of the same flow. Use the modal's own close controls (e.g., "×") to dismiss it in E2E tests.
+ - (2026-03-22, e2e_testing_and_visual_stabilization_phase_10_20260322) Shared Level Constants: Consolidating primary and secondary workbook levels into a single `lib/constants.ts` ensures UI consistency across creation and settings dialogs and prevents duplicate maintenance effort.
+ 
+ ### Recurring Gotchas
+diff --git a/conductor/tech-debt.md b/conductor/tech-debt.md
+index fd520db..3dbd8bc 100644
+--- a/conductor/tech-debt.md
++++ b/conductor/tech-debt.md
+@@ -24,6 +24,8 @@
+ | 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | NPM vulnerabilities (flatted, next) | High | Resolved | Fixed via npm audit fix and next@16.1.7 update |
+ | 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | Duplicate workbook level definitions | Low | Resolved | Consolidated into shared lib/constants.ts |
+ | 2026-03-22 | e2e_testing_and_visual_stabilization_phase_10_20260322 | Brittle lesson name capitalization in dashboard | Low | Resolved | Improved listLessons logic to handle underscores and capitalization |
++| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_11_20260322 | Unused Plus import in project page | Low | Resolved | Removed unused import |
++| 2026-03-22 | e2e_testing_and_visual_stabilization_phase_11_20260322 | Coverage directory linting noise | Low | Resolved | Added coverage to eslint ignores |
+ | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_9_20260314 | E2E flakiness due to temporary test directories and Paged.js timeouts | High | Resolved | Filtered out test directories and increased locator timeouts |
+ | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_8_20260314 | Unused variables in compile-sections E2E test | Low | Resolved | Removed unused response variables and added explicit locators with increased timeouts |
+ | 2026-03-13 | e2e_testing_and_visual_stabilization_phase_7_20260313 | Flaky iframe reloading tests due to synchronous contentFrame evaluations | Medium | Resolved | Replaced contentFrame() with page.frameLocator() and wait for network responses |
+[0m
+Let me check for Phase 11 track folder and archive:
+[0m$ [0mls -la conductor/archive/ 2>/dev/null | head -20
+total 144
+drwxrwxr-x 36 daniel-bo daniel-bo 4096 Mar 22 15:01 .
+drwxrwxr-x  5 daniel-bo daniel-bo 4096 Apr  8 21:30 ..
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar  9 02:41 automated_answer_key_20260309
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar  8 22:32 automated_glossary_generation_20260308
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 10 06:32 certificate_of_completion_20260310
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar  1 21:24 code_simplification_20260301
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 11 14:31 e2e_testing_and_visual_stabilization_20260311
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 22 02:33 e2e_testing_and_visual_stabilization_phase_10_20260322
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 22 14:32 e2e_testing_and_visual_stabilization_phase_11_20260322
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 12 02:38 e2e_testing_and_visual_stabilization_phase_2_20260312
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 12 06:48 e2e_testing_and_visual_stabilization_phase_3_20260312
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 12 14:49 e2e_testing_and_visual_stabilization_phase_4_20260312
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 13 02:37 e2e_testing_and_visual_stabilization_phase_5_20260313
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 13 06:44 e2e_testing_and_visual_stabilization_phase_6_20260313
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 13 11:20 e2e_testing_and_visual_stabilization_phase_7_20260313
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 14 02:34 e2e_testing_and_visual_stabilization_phase_8_20260314
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 14 06:56 e2e_testing_and_visual_stabilization_phase_9_20260314
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Feb  2 08:18 enhance_article_json_20260201
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Mar 11 10:35 goal_setting_worksheet_20260311
+[0m
+[0m$ [0mls -la conductor/tracks/ 2>/dev/null
+total 28
+drwxrwxr-x 7 daniel-bo daniel-bo 4096 Apr  8 20:14 .
+drwxrwxr-x 5 daniel-bo daniel-bo 4096 Apr  8 21:30 ..
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr  8 20:19 advanced_layout_component_customization_20260408
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr  8 20:15 ai_content_orchestration_20260408
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr  8 20:16 cloud_migration_multi_user_20260408
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr  8 20:18 interactive_digital_export_20260408
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr  8 20:21 localization_thai_market_20260408
+[0m
+[0m$ [0mgit diff conductor/autonomous_prompt.md
+diff --git a/conductor/autonomous_prompt.md b/conductor/autonomous_prompt.md
+index d963fc0..8c6e619 100644
+--- a/conductor/autonomous_prompt.md
++++ b/conductor/autonomous_prompt.md
+@@ -1,13 +1,27 @@
+-/conductor
+-Step 1: Check State. Read `conductor/current_directive.md`, `conductor/tech-debt.md`, and `conductor/lessons-learned.md`. 
+-Step 2: Resume or Plan. 
+-  - If there is an `[~] In Progress` track in `conductor/tracks.md`, DO NOT create a new track. Your sole job is to finish the existing track.
+-  - If there are no incomplete tracks, define exactly ONE new track that strictly adheres to the goals in `conductor/current_directive.md`. Create the track artifacts.
+-Step 3: Implement the track autonomously with high fidelity. For visual layout or print layout (Paged.js) tasks, prioritize adding automated layout tests or snapshot checks if the framework supports it.
+-Step 4: Verify the implementation. You MUST run the full automated test suite and ensure a successful production build. Do not commit if tests fail.
+-Step 5: Finalize. 
+-  - Commit changes and push to remote (include model/version in commit message). 
+-  - Update `tech-debt.md` and `lessons-learned.md` (keep under 50 lines).
+-  - Move the completed track folder to `conductor/archive/` and remove it from `conductor/tracks.md`.
+-  - Commit this cleanup with the message `chore(conductor): Archive completed track`.
+-CRITICAL: All shell commands MUST use non-interactive flags (e.g., --yes, --no-interactive). This is an unattended run.
+\ No newline at end of file
++AUTONOMOUS CONDUCTOR — UNATTENDED RUN
++
++1. Load Context (skip any missing file silently):
++   Use the conductor skill.
++   Read conductor/tracks.md, conductor/tech-debt.md, conductor/lessons-learned.md.
++   Try conductor/current_directive.md — if absent, skip it.
++
++2. Workspace & Progress:
++   - Dirty? Commit with a brief note, push, continue.
++   - In-progress phase exists? Finish it.
++   - Nothing in progress? Create ONE new track from current_directive.md (or top tech-debt item if no directive).
++
++3. Implement ONE phase with TDD:
++   Red-Green-Refactor cycle. Run tests, correct build errors.
++   After each task: merge changes and push.
++
++4. Verify: full test suite + build. Fix all errors before continuing.
++
++5. Finalize:
++   Update tech-debt.md and lessons-learned.md (≤50 lines each).
++   Commit checkpoint with git note (include your model name in the commit title), push.
++
++CRITICAL UNATTENDED RULES:
++- Any prompt asking "Proceed?", "Continue?", or "Shall I?" → answer yes.
++- Any prompt asking "What would you like to work on next?" or similar → pick the first sensible option and execute it.
++- Use --yes, --no-interactive, --non-interactive flags wherever available.
++- Never wait for human input. Always make a decision and continue.
+[0m
+I need to commit the dirty workspace first. Phase 11 work is done but not committed. Let me stage and commit:

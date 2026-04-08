@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [x] **Track: E2E Testing & Visual Stabilization Phase 11: Expand E2E testing coverage for lesson editor persistence and AI features, and resolve minor linting/UI issues.** *(Completed: 2026-03-22)*
+  *Link: [./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/)*
+
 - [x] **Track: E2E Testing & Visual Stabilization Phase 10: Fix Add Lesson flow, address vulnerabilities, and consolidate level constants.** *(Completed: 2026-03-22)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_10_20260322/)*
 
@@ -89,3 +92,27 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Spelling Practice Generator: Automatically generates a 'Spelling Practice' section at the end of the workbook for students to practice 'Look, Trace, Write, Check' for lesson vocabulary.** *(Completed: 2026-03-11)*
   *Link: [./archive/spelling_practice_generator_20260311/](./archive/spelling_practice_generator_20260311/)*
+
+---
+
+## Future Roadmap
+
+- [ ] **Track: AI Content Orchestration (Lesson-from-Source)**
+  *Link: [./tracks/ai_content_orchestration_20260408/](./tracks/ai_content_orchestration_20260408/)*
+  Move beyond simple metadata 'Magic Wand' tools to full lesson generation. Users paste raw article text or provide a URL; a Gemini-powered pipeline extracts vocabulary, generates comprehension questions, vocab-match/fill activities, sentence-order exercises, and writing prompts — producing a schema-valid `WorkbookLesson` JSON in one step.
+
+- [ ] **Track: Cloud Migration & Multi-User Collaboration**
+  *Link: [./tracks/cloud_migration_multi_user_20260408/](./tracks/cloud_migration_multi_user_20260408/)*
+  Transition from local-filesystem persistence to Supabase (Postgres for structured metadata, Supabase Storage for lesson JSON blobs and images). Add email+password authentication via Supabase Auth, protect all routes with Next.js middleware, and display real-time presence indicators so content team members can see who else has a project open.
+
+- [ ] **Track: Interactive Digital Export (Blended Learning Expansion)**
+  *Link: [./tracks/interactive_digital_export_20260408/](./tracks/interactive_digital_export_20260408/)*
+  Export workbook lesson content to a SCORM 1.2 package (`.zip` with `imsmanifest.xml` and per-lesson interactive HTML pages with client-side answer checking) or a single self-contained standalone HTML file. Both formats render all activities interactively and work offline, bridging the physical workbook with self-paced digital learning.
+
+- [ ] **Track: Advanced Layout & Component Customization**
+  *Link: [./tracks/advanced_layout_component_customization_20260408/](./tracks/advanced_layout_component_customization_20260408/)*
+  Implement a drag-and-drop Section Builder in the lesson editor that lets content authors reorder, remove, and add activity sections per lesson. Adds three new printable activity types: auto-generated Crossword Puzzle, Word Search Grid, and Match-the-Image activity. All changes are stored in an optional `section_order` field on the lesson JSON; existing lessons without this field compile with the current fixed order unchanged.
+
+- [ ] **Track: Localization & Thai-Market Teacher Support**
+  *Link: [./tracks/localization_thai_market_20260408/](./tracks/localization_thai_market_20260408/)*
+  Add bilingual English/Thai activity instructions to every workbook section (static Thai strings in `lib/i18n/th.ts`, rendered with Sarabun font). Generate AI-authored Thai-language Instructional Scripts (opening statement, per-activity facilitation notes, debrief) via Gemini and include them as a "Classroom Script" subsection in the Teacher Guide. Both features are opt-in per project via a new `localization` metadata field.

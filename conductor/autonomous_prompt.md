@@ -1,13 +1,27 @@
-/conductor
-Step 1: Check State. Read `conductor/current_directive.md`, `conductor/tech-debt.md`, and `conductor/lessons-learned.md`. 
-Step 2: Resume or Plan. 
-  - If there is an `[~] In Progress` track in `conductor/tracks.md`, DO NOT create a new track. Your sole job is to finish the existing track.
-  - If there are no incomplete tracks, define exactly ONE new track that strictly adheres to the goals in `conductor/current_directive.md`. Create the track artifacts.
-Step 3: Implement the track autonomously with high fidelity. For visual layout or print layout (Paged.js) tasks, prioritize adding automated layout tests or snapshot checks if the framework supports it.
-Step 4: Verify the implementation. You MUST run the full automated test suite and ensure a successful production build. Do not commit if tests fail.
-Step 5: Finalize. 
-  - Commit changes and push to remote (include model/version in commit message). 
-  - Update `tech-debt.md` and `lessons-learned.md` (keep under 50 lines).
-  - Move the completed track folder to `conductor/archive/` and remove it from `conductor/tracks.md`.
-  - Commit this cleanup with the message `chore(conductor): Archive completed track`.
-CRITICAL: All shell commands MUST use non-interactive flags (e.g., --yes, --no-interactive). This is an unattended run.
+AUTONOMOUS CONDUCTOR — UNATTENDED RUN
+
+1. Load Context (skip any missing file silently):
+   Use the conductor skill.
+   Read conductor/tracks.md, conductor/tech-debt.md, conductor/lessons-learned.md.
+   Try conductor/current_directive.md — if absent, skip it.
+
+2. Workspace & Progress:
+   - Dirty? Commit with a brief note, push, continue.
+   - In-progress phase exists? Finish it.
+   - Nothing in progress? Create ONE new track from current_directive.md (or top tech-debt item if no directive).
+
+3. Implement ONE phase with TDD:
+   Red-Green-Refactor cycle. Run tests, correct build errors.
+   After each task: merge changes and push.
+
+4. Verify: full test suite + build. Fix all errors before continuing.
+
+5. Finalize:
+   Update tech-debt.md and lessons-learned.md (≤50 lines each).
+   Commit checkpoint with git note (include your model name in the commit title), push.
+
+CRITICAL UNATTENDED RULES:
+- Any prompt asking "Proceed?", "Continue?", or "Shall I?" → answer yes.
+- Any prompt asking "What would you like to work on next?" or similar → pick the first sensible option and execute it.
+- Use --yes, --no-interactive, --non-interactive flags wherever available.
+- Never wait for human input. Always make a decision and continue.

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Plus, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
+import { FileText, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
 import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
