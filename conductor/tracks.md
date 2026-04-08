@@ -95,11 +95,12 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## Future Roadmap
+## In Progress
 
-- [ ] **Track: AI Content Orchestration (Lesson-from-Source)**
+- [~] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Started: 2026-04-08)*
   *Link: [./tracks/ai_content_orchestration_20260408/](./tracks/ai_content_orchestration_20260408/)*
-  Move beyond simple metadata 'Magic Wand' tools to full lesson generation. Users paste raw article text or provide a URL; a Gemini-powered pipeline extracts vocabulary, generates comprehension questions, vocab-match/fill activities, sentence-order exercises, and writing prompts — producing a schema-valid `WorkbookLesson` JSON in one step.
+
+## Future Roadmap
 
 - [ ] **Track: Cloud Migration & Multi-User Collaboration**
   *Link: [./tracks/cloud_migration_multi_user_20260408/](./tracks/cloud_migration_multi_user_20260408/)*
