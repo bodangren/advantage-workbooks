@@ -96,7 +96,7 @@ export function LessonFromSourceModal({ projectId, onSuccess }: LessonFromSource
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="outline">
+      <Button onClick={() => handleOpenChange(true)} variant="outline">
         <Sparkles className="mr-2 h-4 w-4" />
         New Lesson from Source
       </Button>

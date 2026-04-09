@@ -85,4 +85,33 @@ describe('LessonFromSourceModal Component', () => {
     
     expect(screen.getByPlaceholderText(/paste your article text/i)).toBeInTheDocument();
   });
+
+  it('accepts URL input in URL mode', () => {
+    render(<LessonFromSourceModal projectId={projectId} onSuccess={mockOnSuccess} />);
+    
+    const button = screen.getByRole('button', { name: /new lesson from source/i });
+    fireEvent.click(button);
+    
+    const urlTab = screen.getByRole('button', { name: /url/i });
+    fireEvent.click(urlTab);
+    
+    const urlInput = screen.getByPlaceholderText(/https:\/\/example\.com/i);
+    fireEvent.change(urlInput, { target: { value: 'https://example.com/article' } });
+    
+    expect(urlInput).toHaveValue('https://example.com/article');
+  });
+
+  it('closes modal when cancel button is clicked', () => {
+    render(<LessonFromSourceModal projectId={projectId} onSuccess={mockOnSuccess} />);
+    
+    const openButton = screen.getByRole('button', { name: /new lesson from source/i });
+    fireEvent.click(openButton);
+    
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    
+    const cancelButton = screen.getByRole('button', { name: /cancel/i });
+    fireEvent.click(cancelButton);
+    
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
 });
