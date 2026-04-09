@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { use } from 'react';
 import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
 import { CreateLessonDialog } from '@/components/create-lesson-dialog';
+import { LessonFromSourceModal } from '@/components/lesson-from-source-modal';
 
 interface LessonFile {
   id: string;
@@ -109,6 +110,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             </Link>
           )}
           <CreateLessonDialog projectId={projectId} onSuccess={fetchLessons} />
+          <LessonFromSourceModal projectId={projectId} onSuccess={fetchLessons} />
         </div>
       </div>
 

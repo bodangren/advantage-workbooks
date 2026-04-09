@@ -77,6 +77,7 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [augmentSuccess, setAugmentSuccess] = useState(false);
+  const [sourceGeneratedSuccess, setSourceGeneratedSuccess] = useState(false);
   const [imageGenSuccess, setImageGenSuccess] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
@@ -166,6 +167,14 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   useEffect(() => {
     fetchLesson();
   }, [fetchLesson]);
+
+  useEffect(() => {
+    if (decodedLessonId.startsWith('generated-lesson-')) {
+      setSourceGeneratedSuccess(true);
+      const timer = setTimeout(() => setSourceGeneratedSuccess(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [decodedLessonId]);
 
   const validateAndSave = async () => {
     setErrors({});
@@ -375,6 +384,12 @@ Style: Photorealistic educational illustration with clear focus and good lightin
             🎨 Visual break image generated successfully! Check the Writing Prompt section.
           </CardContent>
         </Card>
+      )}
+
+      {sourceGeneratedSuccess && (
+        <div role="status" className="p-4 rounded-lg bg-green-100 border border-green-600 text-green-700 dark:bg-green-950 dark:text-green-400">
+          Lesson generated successfully.
+        </div>
       )}
 
       <Card>
