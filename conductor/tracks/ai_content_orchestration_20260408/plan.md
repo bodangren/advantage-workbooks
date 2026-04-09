@@ -19,12 +19,12 @@
 
 ## Phase 3: Dashboard UI — Modal & Source Input
 
-- [ ] Task: Write failing Vitest unit/component tests (using `@testing-library/react`) for the new `LessonFromSourceModal` component. Assert: modal renders on open; CEFR selector shows all 5 levels; "Generate Lesson" button is disabled when both inputs are empty; loading spinner appears during submission. Confirm tests fail (Red).
-- [ ] Task: Create `dashboard/components/LessonFromSourceModal.tsx`. Use `@radix-ui/react-dialog` for the modal shell, matching the existing dialog pattern in the codebase. Include textarea (paste mode), URL input (url mode), tab-style toggle between modes, CEFR select, and "Generate Lesson" button. Wire to the POST `/api/projects/[projectId]/lessons/generate` endpoint with `fetch`. Show loading state and inline error on failure. Confirm component tests pass (Green).
-- [ ] Task: Add "New Lesson from Source" button to `dashboard/app/projects/[projectId]/page.tsx`. Import and render `LessonFromSourceModal`. On successful generation, navigate to the new lesson editor using `next/navigation`'s `useRouter().push()`.
-- [ ] Task: Add success banner (inline `div`, `role="status"`, green Tailwind classes) that auto-dismisses after 4 seconds using a `useEffect` cleanup. Write a unit test asserting the banner renders after mock success and disappears after 4 seconds (use Vitest fake timers).
-- [ ] Task: Run `npm run test:run`. Verify >80% coverage on new component and modal files. Fix gaps.
-- [ ] Task: Conductor — User Manual Verification 'Phase 3: Dashboard UI — Modal & Source Input' (Protocol in workflow.md)
+- [x] Task: Write failing Vitest unit/component tests (using `@testing-library/react`) for the new `LessonFromSourceModal` component. Assert: modal renders on open; CEFR selector shows all 5 levels; "Generate Lesson" button is disabled when both inputs are empty; loading spinner appears during submission. Confirm tests fail (Red).
+- [x] Task: Create `dashboard/components/LessonFromSourceModal.tsx`. Use `@radix-ui/react-dialog` for the modal shell, matching the existing dialog pattern in the codebase. Include textarea (paste mode), URL input (url mode), tab-style toggle between modes, CEFR select, and "Generate Lesson" button. Wire to the POST `/api/projects/[projectId]/lessons/generate` endpoint with `fetch`. Show loading state and inline error on failure. Confirm component tests pass (Green).
+- [x] Task: Add "New Lesson from Source" button to `dashboard/app/projects/[projectId]/page.tsx`. Import and render `LessonFromSourceModal`. On successful generation, navigate to the new lesson editor using `next/navigation`'s `useRouter().push()`.
+- [x] Task: Add success banner (inline `div`, `role="status"`, green Tailwind classes) that auto-dismisses after 4 seconds using a `useEffect` cleanup. Write a unit test asserting the banner renders after mock success and disappears after 4 seconds (use Vitest fake timers).
+- [x] Task: Run `npm run test:run`. Verify >80% coverage on new component and modal files. Fix gaps.
+- [x] Task: Conductor — User Manual Verification 'Phase 3: Dashboard UI — Modal & Source Input' (Protocol in workflow.md)
 
 ## Phase 4: Integration & Final Quality Gate
 
