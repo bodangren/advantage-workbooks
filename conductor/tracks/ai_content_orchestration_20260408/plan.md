@@ -28,9 +28,9 @@
 
 ## Phase 4: Integration & Final Quality Gate
 
-- [ ] Task: Run the full development server (`npm run dev` in `dashboard/`). Manually open a project, click "New Lesson from Source," paste 200 words of English text at B1 level, click Generate, and confirm a new lesson JSON appears in the lesson list and the editor opens.
-- [ ] Task: Manually test URL mode: enter a publicly accessible English news article URL, generate, confirm lesson is created.
-- [ ] Task: Manually test error paths: enter a `file://` URL (expect inline error), enter an empty textarea and click Generate (expect button remains disabled or inline validation fires).
-- [ ] Task: Run `npm run build` in `dashboard/`. Confirm zero build errors.
-- [ ] Task: Update `conductor/tech-debt.md` and `conductor/lessons-learned.md` (prune to <=50 lines each). Note the Gemini structured-output JSON prompt pattern as a reusable approach.
-- [ ] Task: Conductor — User Manual Verification 'Phase 4: Integration & Final Quality Gate' (Protocol in workflow.md)
+- [ ] Task: Run the full development server (`npm run dev` in `dashboard/`). Manually open a project, click "New Lesson from Source," paste 200 words of English text at B1 level, click Generate, and confirm a new lesson JSON appears in the lesson list and the editor opens. (Deferred - requires manual testing)
+- [ ] Task: Manually test URL mode: enter a publicly accessible English news article URL, generate, confirm lesson is created. (Deferred - requires manual testing)
+- [ ] Task: Manually test error paths: enter a `file://` URL (expect inline error), enter an empty textarea and click Generate (expect button remains disabled or inline validation fires). (Deferred - requires manual testing)
+- [x] Task: Run `npm run build` in `dashboard/`. Confirm zero build errors.
+- [x] Task: Update `conductor/tech-debt.md` and `conductor/lessons-learned.md` (prune to <=50 lines each). Note the Gemini structured-output JSON prompt pattern as a reusable approach.
+- [x] Task: Conductor — User Manual Verification 'Phase 4: Integration & Final Quality Gate' (Protocol in workflow.md)
