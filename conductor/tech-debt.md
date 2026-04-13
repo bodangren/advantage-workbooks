@@ -29,3 +29,5 @@
 | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_9_20260314 | E2E flakiness due to temporary test directories and Paged.js timeouts | High | Resolved | Filtered out test directories and increased locator timeouts |
 | 2026-03-14 | e2e_testing_and_visual_stabilization_phase_8_20260314 | Unused variables in compile-sections E2E test | Low | Resolved | Removed unused response variables and added explicit locators with increased timeouts |
 | 2026-03-13 | e2e_testing_and_visual_stabilization_phase_7_20260313 | Flaky iframe reloading tests due to synchronous contentFrame evaluations | Medium | Resolved | Replaced contentFrame() with page.frameLocator() and wait for network responses |
+| 2026-04-13 | ai_content_orchestration_20260408 | Duplicate `stripHtmlTags` in generate route vs shared `extractTextFromHtml` in url-extractor | Low | Resolved | Deduplicated: route now imports from url-extractor |
+| 2026-04-13 | ai_content_orchestration_20260408 | Lesson editor page.tsx is ~900 lines; consider extracting sub-editors per section for maintainability | Medium | Open | Will become harder to maintain as more activity types are added |

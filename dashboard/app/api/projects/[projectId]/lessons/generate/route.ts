@@ -2,18 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeLesson } from '@/lib/filesystem';
 import { generateLessonFromSource, LessonGenerationError } from '@/lib/lesson-generator';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
+import { extractTextFromHtml } from '@/lib/url-extractor';
 
 const FETCH_TIMEOUT_MS = 10000;
-
-function stripHtmlTags(html: string): string {
-    return html
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-        .replace(/<noscript\b[^<]*(?:(?!<\/noscript>)<[^<]*)*<\/noscript>/gi, '')
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-}
 
 function generateLessonId(): string {
     const timestamp = Date.now();
@@ -88,7 +79,7 @@ export async function POST(
                 }
 
                 const html = await response.text();
-                sourceText = stripHtmlTags(html);
+                sourceText = extractTextFromHtml(html);
 
                 if (sourceText.length < 50) {
                     return NextResponse.json(
