@@ -95,6 +95,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
+## In Progress
+
+- [~] **Track: Lesson Editor Refactoring**: Extract sub-editors from ~900 line page.tsx into focused components for maintainability. *(Started: 2026-04-13)*
+  *Link: [./tracks/lesson_editor_refactor_20260413/](./tracks/lesson_editor_refactor_20260413/)*
+
 ## Completed
 
 - [x] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Completed: 2026-04-13)*
