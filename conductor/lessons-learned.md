@@ -38,7 +38,6 @@
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->
 
-- (YYYY-MM-DD, track_id) Example: Writing acceptance criteria before implementation caught scope creep early
 - (2026-03-13, e2e_testing_and_visual_stabilization_phase_7_20260313) Dynamic iframes: Avoid using `.contentFrame()` for dynamic iframes as it evaluates synchronously and may reference a detached DOM node if the iframe remounts. Always use `page.frameLocator('iframe')` so Playwright resolves the iframe lazily and handles remounts gracefully.
 - (2026-03-12, e2e_testing_and_visual_stabilization_phase_2_20260312) Playwright checkbox toggling: When unchecking inputs that trigger Paged.js layout rebuilds, verify the checkbox state using `not.toBeChecked()` and wait for the `iframe` to be visible again.
 - (2026-04-08, ai_content_orchestration_20260408) Gemini structured output: Using `responseMimeType: "application/json"` with `zodToJsonSchema` to embed the full Zod schema in the prompt ensures Gemini returns valid JSON that passes `Schema.safeParse()`. This pattern (from ai-augmentor.ts) is reusable for any structured output from Gemini.
