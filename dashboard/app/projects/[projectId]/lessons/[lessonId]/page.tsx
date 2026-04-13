@@ -13,6 +13,7 @@ import type { WorkbookLesson, ArticleImage } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
 import LessonPreview from '@/components/lesson-preview';
 import { ImageUpload } from '@/components/image-upload';
+import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
 import {
   Select,
   SelectContent,
@@ -392,66 +393,14 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         </div>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Basic Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="lesson_number">Lesson Number</Label>
-              <Input
-                id="lesson_number"
-                value={lesson.lesson_number || ''}
-                onChange={(e) => setLesson({ ...lesson, lesson_number: e.target.value })}
-                placeholder="e.g., Lesson 1"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="lesson_title">Lesson Title</Label>
-              <Input
-                id="lesson_title"
-                value={lesson.lesson_title || ''}
-                onChange={(e) => setLesson({ ...lesson, lesson_title: e.target.value })}
-                placeholder="e.g., The Library Map"
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <Label htmlFor="level_name">Level Name</Label>
-              <Input
-                id="level_name"
-                value={lesson.level_name || ''}
-                onChange={(e) => setLesson({ ...lesson, level_name: e.target.value })}
-                placeholder="e.g., Origins"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="cefr_level">CEFR Level</Label>
-              <Input
-                id="cefr_level"
-                value={lesson.cefr_level || ''}
-                onChange={(e) => setLesson({ ...lesson, cefr_level: e.target.value })}
-                placeholder="e.g., A1"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="genre">Genre</Label>
-              <Input
-                id="genre"
-                value={lesson.genre || ''}
-                onChange={(e) => setLesson({ ...lesson, genre: e.target.value })}
-                placeholder="e.g., Adventure"
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <BasicInfoEditor
+        lesson_number={lesson.lesson_number}
+        lesson_title={lesson.lesson_title}
+        level_name={lesson.level_name}
+        cefr_level={lesson.cefr_level}
+        genre={lesson.genre}
+        onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+      />
 
       <Card>
         <CardHeader>

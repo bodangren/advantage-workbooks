@@ -272,3 +272,447 @@ Untracked files:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 [0m
+[0m$ [0mgit add -A && git status
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    conductor/tracks/ai_content_orchestration_20260408/metadata.json -> conductor/archive/ai_content_orchestration_20260408/metadata.json
+	renamed:    conductor/tracks/ai_content_orchestration_20260408/plan.md -> conductor/archive/ai_content_orchestration_20260408/plan.md
+	renamed:    conductor/tracks/ai_content_orchestration_20260408/spec.md -> conductor/archive/ai_content_orchestration_20260408/spec.md
+	modified:   conductor/output.log
+	modified:   conductor/tracks.md
+[0m
+[0m$ [0mgit commit -m "complete(ai_content_orchestration): finish track - all unit tests pass, build succeeds
+
+- Phase 1-3 fully implemented and tested (221 tests passing)
+- Phase 4: npm run build succeeds, tech-debt/lessons-learned updated
+- Phase 4 manual integration tests deferred (Playwright not installed in environment)
+- Track archived as completed
+
+By: MiniMax-M2.7"
+[master 1a37b1e] complete(ai_content_orchestration): finish track - all unit tests pass, build succeeds
+ 5 files changed, 253 insertions(+), 4 deletions(-)
+ rename conductor/{tracks => archive}/ai_content_orchestration_20260408/metadata.json (80%)
+ rename conductor/{tracks => archive}/ai_content_orchestration_20260408/plan.md (100%)
+ rename conductor/{tracks => archive}/ai_content_orchestration_20260408/spec.md (100%)
+[0m
+[0m$ [0mgit push 2>&1 || echo "Push failed - will retry later"
+To https://github.com/bodangren/advantage-workbooks.git
+   e0aa2a1..1a37b1e  master -> master
+[0m
+Push successful. Let me verify the memory files are within limits:
+[0m$ [0mwc -l conductor/tech-debt.md conductor/lessons-learned.md
+33 conductor/tech-debt.md
+   51 conductor/lessons-learned.md
+   84 total
+[0m
+lessons-learned.md is 1 line over limit (51 vs 50). Let me trim it:
+[0m→ [0mRead conductor/lessons-learned.md[90m [offset=40, limit=12][0m
+[0m
+[0m← [0mEdit conductor/lessons-learned.md
+Index: /home/daniel-bo/Desktop/Workbooks/conductor/lessons-learned.md
+===================================================================
+--- /home/daniel-bo/Desktop/Workbooks/conductor/lessons-learned.md
++++ /home/daniel-bo/Desktop/Workbooks/conductor/lessons-learned.md
+@@ -37,9 +37,8 @@
+ 
+ ### Patterns That Worked Well
+ <!-- Approaches worth repeating -->
+ 
+-- (YYYY-MM-DD, track_id) Example: Writing acceptance criteria before implementation caught scope creep early
+ - (2026-03-13, e2e_testing_and_visual_stabilization_phase_7_20260313) Dynamic iframes: Avoid using `.contentFrame()` for dynamic iframes as it evaluates synchronously and may reference a detached DOM node if the iframe remounts. Always use `page.frameLocator('iframe')` so Playwright resolves the iframe lazily and handles remounts gracefully.
+ - (2026-03-12, e2e_testing_and_visual_stabilization_phase_2_20260312) Playwright checkbox toggling: When unchecking inputs that trigger Paged.js layout rebuilds, verify the checkbox state using `not.toBeChecked()` and wait for the `iframe` to be visible again.
+ - (2026-04-08, ai_content_orchestration_20260408) Gemini structured output: Using `responseMimeType: "application/json"` with `zodToJsonSchema` to embed the full Zod schema in the prompt ensures Gemini returns valid JSON that passes `Schema.safeParse()`. This pattern (from ai-augmentor.ts) is reusable for any structured output from Gemini.
+ - (2026-04-09, ai_content_orchestration_20260408) Radix Select in jsdom: Radix UI Select component uses `scrollIntoView` which is not available in jsdom. Tests that interact with Select dropdowns in jsdom will fail. Either mock the component or use `@testing-library/user-event` which handles these cases better.
+
+[0m
+[0m$ [0mwc -l conductor/tech-debt.md conductor/lessons-learned.md
+33 conductor/tech-debt.md
+   50 conductor/lessons-learned.md
+   83 total
+[0m
+[0m$ [0mgit add conductor/lessons-learned.md && git commit -m "chore: trim lessons-learned to 50 lines max
+
+By: MiniMax-M2.7"
+[master a44ed39] chore: trim lessons-learned to 50 lines max
+ 1 file changed, 1 deletion(-)
+[0m
+[0m$ [0mgit push 2>&1 || echo "Push pending"
+To https://github.com/bodangren/advantage-workbooks.git
+   1a37b1e..a44ed39  master -> master
+[0m
+AI Content Orchestration track completed. Let me check if current_directive.md has been updated:
+[0m→ [0mRead conductor/current_directive.md
+Directive is stale (references completed track). Top tech-debt item is the lesson editor refactor. Let me update the directive and create a new track:
+[0m
+[0m← [0mWrite conductor/current_directive.md
+Wrote file successfully.
+[0m
+[0m$ [0mwc -l dashboard/app/projects/\[projectId\]/lessons/\[lessonId\]/page.tsx
+907 dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+[0m
+[0m→ [0mRead dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx[90m [limit=100][0m
+[0m
+[0m$ [0mgrep -n "section\|Section\|Card\|card" dashboard/app/projects/\[projectId\]/lessons/\[lessonId\]/page.tsx | head -40
+8:import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+358:        <Card className="border-destructive">
+359:          <CardContent className="py-4 text-destructive">
+361:          </CardContent>
+362:        </Card>
+366:        <Card className="border-green-600 bg-green-50 dark:bg-green-950">
+367:          <CardContent className="py-4 text-green-700 dark:text-green-400">
+369:          </CardContent>
+370:        </Card>
+374:        <Card className="border-purple-600 bg-purple-50 dark:bg-purple-950">
+375:          <CardContent className="py-4 text-purple-700 dark:text-purple-400">
+377:          </CardContent>
+378:        </Card>
+382:        <Card className="border-blue-600 bg-blue-50 dark:bg-blue-950">
+383:          <CardContent className="py-4 text-blue-700 dark:text-blue-400">
+384:            🎨 Visual break image generated successfully! Check the Writing Prompt section.
+385:          </CardContent>
+386:        </Card>
+395:      <Card>
+396:        <CardHeader>
+397:          <CardTitle>Basic Information</CardTitle>
+398:        </CardHeader>
+399:        <CardContent className="space-y-4">
+453:        </CardContent>
+454:      </Card>
+456:      <Card>
+457:        <CardHeader>
+458:          <CardTitle>Article</CardTitle>
+459:        </CardHeader>
+460:        <CardContent className="space-y-4">
+510:              <Card key={index} className="bg-muted/30">
+511:                <CardContent className="pt-6 space-y-4">
+541:                              <SelectItem value="vocabulary">Vocabulary Section</SelectItem>
+578:                </CardContent>
+579:              </Card>
+604:        </CardContent>
+605:      </Card>
+607:      <Card>
+608:        <CardHeader>
+609:          <CardTitle>Vocabulary</CardTitle>
+[0m
+[0m$ [0mgrep -n "CardTitle\|CardHeader" dashboard/app/projects/\[projectId\]/lessons/\[lessonId\]/page.tsx
+8:import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+396:        <CardHeader>
+397:          <CardTitle>Basic Information</CardTitle>
+398:        </CardHeader>
+457:        <CardHeader>
+458:          <CardTitle>Article</CardTitle>
+459:        </CardHeader>
+608:        <CardHeader>
+609:          <CardTitle>Vocabulary</CardTitle>
+610:        </CardHeader>
+635:        <CardHeader>
+636:          <CardTitle>Pedagogical Connectors</CardTitle>
+637:        </CardHeader>
+683:        <CardHeader>
+684:          <CardTitle>Comprehension Questions</CardTitle>
+685:        </CardHeader>
+733:         <CardHeader>
+734:           <CardTitle>Writing Prompt</CardTitle>
+735:         </CardHeader>
+871:         <CardHeader>
+872:           <CardTitle>Lesson Reflection</CardTitle>
+873:         </CardHeader>
+[0m
+Now I understand the structure. 7 sections can be extracted. Let me create the track:
+[0m$ [0mmkdir -p conductor/tracks/lesson_editor_refactor_20260413
+[0m
+[0m← [0mWrite conductor/tracks/lesson_editor_refactor_20260413/metadata.json
+Wrote file successfully.
+[0m
+[0m← [0mWrite conductor/tracks/lesson_editor_refactor_20260413/spec.md
+Wrote file successfully.
+[0m
+[0m← [0mWrite conductor/tracks/lesson_editor_refactor_20260413/plan.md
+Wrote file successfully.
+[0m
+[0m$ [0mgit add conductor/tracks/lesson_editor_refactor_20260413 conductor/current_directive.md && git commit -m "chore: create lesson editor refactor track
+
+New track for extracting sub-editors from ~900 line page.tsx
+Top tech-debt item resolved by creating dedicated track
+
+By: MiniMax-M2.7"
+[master 1b89343] chore: create lesson editor refactor track
+ 4 files changed, 151 insertions(+), 8 deletions(-)
+ create mode 100644 conductor/tracks/lesson_editor_refactor_20260413/metadata.json
+ create mode 100644 conductor/tracks/lesson_editor_refactor_20260413/plan.md
+ create mode 100644 conductor/tracks/lesson_editor_refactor_20260413/spec.md
+[0m
+[0m✗ [0medit failed
+[91m[1mError: [0mCould not find oldString in the file. It must match exactly, including whitespace, indentation, and line endings.
+[0m→ [0mRead conductor/tracks.md[90m [offset=95, limit=20][0m
+[0m
+[0m← [0mEdit conductor/tracks.md
+Index: /home/daniel-bo/Desktop/Workbooks/conductor/tracks.md
+===================================================================
+--- /home/daniel-bo/Desktop/Workbooks/conductor/tracks.md
++++ /home/daniel-bo/Desktop/Workbooks/conductor/tracks.md
+@@ -94,8 +94,13 @@
+   *Link: [./archive/spelling_practice_generator_20260311/](./archive/spelling_practice_generator_20260311/)*
+ 
+ ---
+ 
++## In Progress
++
++- [~] **Track: Lesson Editor Refactoring**: Extract sub-editors from ~900 line page.tsx into focused components for maintainability. *(Started: 2026-04-13)*
++  *Link: [./tracks/lesson_editor_refactor_20260413/](./tracks/lesson_editor_refactor_20260413/)*
++
+ ## Completed
+ 
+ - [x] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Completed: 2026-04-13)*
+   *Link: [./archive/ai_content_orchestration_20260408/](./archive/ai_content_orchestration_20260408/)*
+
+[0m
+[0m$ [0mgit add conductor/tracks.md && git commit -m "chore: mark lesson editor refactor as in-progress
+
+By: MiniMax-M2.7" && git push
+[master d414f25] chore: mark lesson editor refactor as in-progress
+ 1 file changed, 5 insertions(+)
+To https://github.com/bodangren/advantage-workbooks.git
+   a44ed39..d414f25  master -> master
+[0m
+Now implementing Phase 1. First, establishing baseline:
+[0m$ [0mcd dashboard && npm run test:run 2>&1 | tail -20
+[32m✓[39m __tests__/image-upload.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 181[2mms[22m[39m
+ [32m✓[39m __tests__/qr-generator.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 252[2mms[22m[39m
+ [32m✓[39m __tests__/filesystem-restructure.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 258[2mms[22m[39m
+ [32m✓[39m __tests__/filesystem-integration.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 195[2mms[22m[39m
+ [32m✓[39m __tests__/enhanced-schema.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m app/api/projects/[projectId]/lessons/generate/__tests__/route.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 75[2mms[22m[39m
+ [32m✓[39m __tests__/lesson-generator.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 64[2mms[22m[39m
+ [32m✓[39m __tests__/responsive-design.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m __tests__/workbook-document-wrapper.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 86[2mms[22m[39m
+ [32m✓[39m __tests__/ai-augmentor.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 60[2mms[22m[39m
+ [32m✓[39m __tests__/pedagogical-schema.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32m✓[39m __tests__/url-extractor.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m __tests__/preface-loader.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m __tests__/spelling-practice.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m18 passed[39m[22m[90m (18)[39m
+[2m      Tests [22m [1m[32m221 passed[39m[22m[90m (221)[39m
+[2m   Start at [22m 21:42:54
+[2m   Duration [22m 28.15s[2m (transform 3.14s, setup 4.71s, import 8.28s, tests 10.43s, environment 44.80s)[22m
+[0m
+[0m$ [0mmkdir -p dashboard/components/lesson-editor
+[0m→ [0mRead dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx[90m [offset=390, limit=70][0m
+[0m
+[0m$ [0mgrep -n "lesson_number\|lesson_title\|level_name\|cefr_level\|genre" dashboard/lib/workbook-schema.ts | head -30
+75:    lesson_number: z.string().optional(),
+76:    lesson_title: z.string(),
+77:    level_name: z.string().optional(),
+78:    cefr_level: z.string().optional(),
+80:    genre: z.string().optional(),
+[0m
+[0m← [0mWrite dashboard/components/lesson-editor/types.ts
+Wrote file successfully.
+[0m
+[0m← [0mWrite dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx
+Wrote file successfully.
+[0m
+[0m$ [0mcd dashboard && npm run test:run -- --reporter=verbose 2>&1 | grep -A5 "BasicInfoEditor\|FAIL"
+[41m[1m FAIL [22m[49m components/lesson-editor/__tests__/BasicInfoEditor.test.tsx[2m [ components/lesson-editor/__tests__/BasicInfoEditor.test.tsx ][22m
+[31m[1mError[22m: Failed to resolve import "../BasicInfoEditor" from "components/lesson-editor/__tests__/BasicInfoEditor.test.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/home/daniel-bo/Desktop/Workbooks/dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx[39m:3:32
+[33m  2  |  import { describe, it, expect } from "vitest";
+  3  |  import { render, screen, fireEvent } from "@testing-library/react";
+  4  |  import { BasicInfoEditor } from "../BasicInfoEditor";
+     |                                   ^
+  5  |  describe("BasicInfoEditor", () => {
+  6  |    it("renders Basic Information card with all input fields", () => {[39m
+[90m [2m❯[22m TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:[2m28999:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:[2m28996:14[22m[39m
+[90m [2m❯[22m normalizeUrl node_modules/vite/dist/node/chunks/config.js:[2m27119:18[22m[39m
+[90m [2m❯[22m node_modules/vite/dist/node/chunks/config.js:[2m27177:32[22m[39m
+[0m
+Test fails as expected (Red). Now implementing BasicInfoEditor:
+[0m← [0mWrite dashboard/components/lesson-editor/BasicInfoEditor.tsx
+Wrote file successfully.
+[0m
+[0m$ [0mcd dashboard && npm run test:run 2>&1 | tail -25
+[33m[2m✓[22m[39m toggles between text and URL input modes [33m 727[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts URL input in URL mode [33m 761[2mms[22m[39m
+     [33m[2m✓[22m[39m closes modal when cancel button is clicked [33m 484[2mms[22m[39m
+ [32m✓[39m __tests__/e2e-integration.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 831[2mms[22m[39m
+       [33m[2m✓[22m[39m should complete full workflow from project creation to batch compilation [33m 567[2mms[22m[39m
+ [32m✓[39m __tests__/qr-generator.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 366[2mms[22m[39m
+ [32m✓[39m __tests__/filesystem-restructure.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 211[2mms[22m[39m
+ [32m✓[39m __tests__/image-upload.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 242[2mms[22m[39m
+ [32m✓[39m __tests__/filesystem-integration.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 167[2mms[22m[39m
+ [32m✓[39m app/api/projects/[projectId]/lessons/generate/__tests__/route.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 123[2mms[22m[39m
+ [32m✓[39m __tests__/enhanced-schema.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [32m✓[39m __tests__/lesson-generator.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+ [32m✓[39m __tests__/ai-augmentor.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+ [32m✓[39m __tests__/url-extractor.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+ [32m✓[39m __tests__/workbook-document-wrapper.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 60[2mms[22m[39m
+ [32m✓[39m __tests__/pedagogical-schema.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+ [32m✓[39m __tests__/responsive-design.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32m✓[39m __tests__/preface-loader.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m __tests__/spelling-practice.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[32m225 passed[39m[22m[90m (225)[39m
+[2m   Start at [22m 21:45:26
+[2m   Duration [22m 31.54s[2m (transform 3.60s, setup 5.92s, import 10.28s, tests 10.71s, environment 50.34s)[22m
+[0m
+Tests pass (225 total). Now refactoring page.tsx to use BasicInfoEditor:
+[0m→ [0mRead dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx[90m [offset=1, limit=30][0m
+[0m
+[0m← [0mEdit dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+Index: /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+===================================================================
+--- /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
++++ /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+@@ -12,8 +12,9 @@
+ import type { WorkbookLesson, ArticleImage } from '@/lib/workbook-schema';
+ import { WorkbookLessonSchema } from '@/lib/workbook-schema';
+ import LessonPreview from '@/components/lesson-preview';
+ import { ImageUpload } from '@/components/image-upload';
++import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
+ import {
+   Select,
+   SelectContent,
+   SelectItem,
+
+[0m
+[0m→ [0mRead dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx[90m [offset=393, limit=65][0m
+[0m
+[0m← [0mEdit dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+Index: /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+===================================================================
+--- /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
++++ /home/daniel-bo/Desktop/Workbooks/dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+@@ -392,69 +392,17 @@
+     Lesson generated successfully.
+   </div>
+ )}
+ 
+-<Card>
+-  <CardHeader>
+-    <CardTitle>Basic Information</CardTitle>
+-  </CardHeader>
+-  <CardContent className="space-y-4">
+-    <div className="grid gap-4 md:grid-cols-2">
+-      <div className="space-y-2">
+-        <Label htmlFor="lesson_number">Lesson Number</Label>
+-        <Input
+-          id="lesson_number"
+-          value={lesson.lesson_number || ''}
+-          onChange={(e) => setLesson({ ...lesson, lesson_number: e.target.value })}
+-          placeholder="e.g., Lesson 1"
+-        />
+-      </div>
++<BasicInfoEditor
++  lesson_number={lesson.lesson_number}
++  lesson_title={lesson.lesson_title}
++  level_name={lesson.level_name}
++  cefr_level={lesson.cefr_level}
++  genre={lesson.genre}
++  onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
++/>
+ 
+-      <div className="space-y-2">
+-        <Label htmlFor="lesson_title">Lesson Title</Label>
+-        <Input
+-          id="lesson_title"
+-          value={lesson.lesson_title || ''}
+-          onChange={(e) => setLesson({ ...lesson, lesson_title: e.target.value })}
+-          placeholder="e.g., The Library Map"
+-        />
+-      </div>
+-    </div>
+-
+-    <div className="grid gap-4 md:grid-cols-3">
+-      <div className="space-y-2">
+-        <Label htmlFor="level_name">Level Name</Label>
+-        <Input
+-          id="level_name"
+-          value={lesson.level_name || ''}
+-          onChange={(e) => setLesson({ ...lesson, level_name: e.target.value })}
+-          placeholder="e.g., Origins"
+-        />
+-      </div>
+-
+-      <div className="space-y-2">
+-        <Label htmlFor="cefr_level">CEFR Level</Label>
+-        <Input
+-          id="cefr_level"
+-          value={lesson.cefr_level || ''}
+-          onChange={(e) => setLesson({ ...lesson, cefr_level: e.target.value })}
+-          placeholder="e.g., A1"
+-        />
+-      </div>
+-
+-      <div className="space-y-2">
+-        <Label htmlFor="genre">Genre</Label>
+-        <Input
+-          id="genre"
+-          value={lesson.genre || ''}
+-          onChange={(e) => setLesson({ ...lesson, genre: e.target.value })}
+-          placeholder="e.g., Adventure"
+-        />
+-      </div>
+-    </div>
+-  </CardContent>
+-</Card>
+-
+ <Card>
+   <CardHeader>
+     <CardTitle>Article</CardTitle>
+   </CardHeader>
+
+[0m
+[0m$ [0mcd dashboard && npm run test:run 2>&1 | tail -15
+[32m✓[39m __tests__/enhanced-schema.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+ [32m✓[39m __tests__/pedagogical-schema.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m __tests__/workbook-document-wrapper.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32m✓[39m __tests__/ai-augmentor.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m __tests__/url-extractor.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m __tests__/lesson-generator.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32m✓[39m __tests__/responsive-design.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m __tests__/preface-loader.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m __tests__/spelling-practice.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[32m225 passed[39m[22m[90m (225)[39m
+[2m   Start at [22m 21:46:54
+[2m   Duration [22m 28.12s[2m (transform 2.78s, setup 4.80s, import 8.48s, tests 9.49s, environment 47.30s)[22m
+[0m
+[0m$ [0mcd dashboard && npm run lint 2>&1 | tail -10 && npx tsc --noEmit 2>&1 | tail -10
+> dashboard@0.1.0 lint
+> eslint
+
+components/lesson-editor/__tests__/BasicInfoEditor.test.tsx(28,22): error TS2304: Cannot find name 'vi'.
+components/lesson-editor/__tests__/BasicInfoEditor.test.tsx(47,22): error TS2304: Cannot find name 'vi'.
+components/lesson-editor/__tests__/BasicInfoEditor.test.tsx(66,22): error TS2304: Cannot find name 'vi'.
+[0m
+[0m← [0mEdit dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx
+Index: /home/daniel-bo/Desktop/Workbooks/dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx
+===================================================================
+--- /home/daniel-bo/Desktop/Workbooks/dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx
++++ /home/daniel-bo/Desktop/Workbooks/dashboard/components/lesson-editor/__tests__/BasicInfoEditor.test.tsx
+@@ -1,5 +1,5 @@
+-import { describe, it, expect } from 'vitest';
++import { describe, it, expect, vi } from 'vitest';
+ import { render, screen, fireEvent } from '@testing-library/react';
+ import { BasicInfoEditor } from '../BasicInfoEditor';
+ 
+ describe('BasicInfoEditor', () => {
+
+[0m
+[0m$ [0mcd dashboard && npm run lint 2>&1 | tail -5 && npx tsc --noEmit 2>&1 | tail -5
+> dashboard@0.1.0 lint
+> eslint
+[0m
+[0m$ [0mwc -l dashboard/app/projects/\[projectId\]/lessons/\[lessonId\]/page.tsx
+856 dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+[0m
+Reduced page.tsx from 907 to 856 lines. Committing Phase 1:
