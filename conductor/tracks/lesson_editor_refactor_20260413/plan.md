@@ -2,13 +2,13 @@
 
 ## Phase 1: Setup & BasicInfoEditor Extraction
 
-- [ ] Task: Run existing test suite (`npm run test:run`) to establish baseline
-- [ ] Task: Create `dashboard/components/lesson-editor/` directory structure
-- [ ] Task: Create `dashboard/components/lesson-editor/types.ts` with shared interfaces extracted from page.tsx
-- [ ] Task: Write failing unit tests for `BasicInfoEditor` component
-- [ ] Task: Implement `BasicInfoEditor.tsx` by extracting from page.tsx
-- [ ] Task: Refactor page.tsx to import and use BasicInfoEditor
-- [ ] Task: Verify tests pass and coverage maintained
+- [x] Task: Run existing test suite (`npm run test:run`) to establish baseline
+- [x] Task: Create `dashboard/components/lesson-editor/` directory structure
+- [x] Task: Create `dashboard/components/lesson-editor/types.ts` with shared interfaces extracted from page.tsx
+- [x] Task: Write failing unit tests for `BasicInfoEditor` component
+- [x] Task: Implement `BasicInfoEditor.tsx` by extracting from page.tsx
+- [x] Task: Refactor page.tsx to import and use BasicInfoEditor
+- [x] Task: Verify tests pass and coverage maintained
 
 ## Phase 2: ArticleEditor & VocabularyEditor Extraction
 
