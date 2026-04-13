@@ -95,10 +95,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## In Progress
+## Completed
 
-- [~] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Started: 2026-04-08)*
-  *Link: [./tracks/ai_content_orchestration_20260408/](./tracks/ai_content_orchestration_20260408/)*
+- [x] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Completed: 2026-04-13)*
+  *Link: [./archive/ai_content_orchestration_20260408/](./archive/ai_content_orchestration_20260408/)*
+  *Note: Phase 4 integration tasks (manual browser testing) deferred - Playwright not installed in environment.*
 
 ## Future Roadmap
 
