@@ -2,18 +2,17 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Save, Loader2, Plus, Trash2, Sparkles } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
-import type { WorkbookLesson, ArticleImage } from '@/lib/workbook-schema';
+import type { WorkbookLesson } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
 import LessonPreview from '@/components/lesson-preview';
 import { ImageUpload } from '@/components/image-upload';
 import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
+import { ArticleEditor } from '@/components/lesson-editor/ArticleEditor';
+import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
 import {
   Select,
   SelectContent,
@@ -21,6 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -402,183 +404,22 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Article</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="article_url">Article URL</Label>
-              <Input
-                id="article_url"
-                type="url"
-                value={lesson.article_url || ''}
-                onChange={(e) => setLesson({ ...lesson, article_url: e.target.value })}
-                placeholder="https://..."
-              />
-            </div>
+      <div className="grid md:grid-cols-1 gap-6">
+        <ArticleEditor
+          article_url={lesson.article_url}
+          article_caption={lesson.article_caption}
+          article_image_url={lesson.article_image_url}
+          article_images={lesson.article_images}
+          article_paragraphs={lesson.article_paragraphs}
+          projectId={decodedProjectId}
+          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+        />
 
-            <ImageUpload
-              projectId={decodedProjectId}
-              currentUrl={lesson.article_image_url || ''}
-              onUploadSuccess={(url) => setLesson({ ...lesson, article_image_url: url })}
-              label="Article Image"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="article_caption">Image Caption</Label>
-            <Input
-              id="article_caption"
-              value={lesson.article_caption || ''}
-              onChange={(e) => setLesson({ ...lesson, article_caption: e.target.value })}
-              placeholder="Image description"
-            />
-          </div>
-
-          <div className="pt-4 border-t space-y-4">
-            <div className="flex items-center justify-between">
-              <Label className="text-base font-semibold">Additional Article Images</Label>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  const newImages = [...(lesson.article_images || [])];
-                  newImages.push({ url: '', caption: '', position: 'inline-para-1' });
-                  setLesson({ ...lesson, article_images: newImages });
-                }}
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Add Image
-              </Button>
-            </div>
-
-            {(lesson.article_images || []).map((img, index) => (
-              <Card key={index} className="bg-muted/30">
-                <CardContent className="pt-6 space-y-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 space-y-4">
-                      <ImageUpload
-                        projectId={decodedProjectId}
-                        currentUrl={img.url}
-                        onUploadSuccess={(url) => {
-                          const newImages = [...(lesson.article_images || [])];
-                          newImages[index].url = url;
-                          setLesson({ ...lesson, article_images: newImages });
-                        }}
-                        label={`Image #${index + 1}`}
-                      />
-
-                      <div className="grid gap-4 md:grid-cols-2">
-                        <div className="space-y-2">
-                          <Label>Position</Label>
-                          <Select
-                            value={img.position}
-                            onValueChange={(value: ArticleImage['position']) => {
-                              const newImages = [...(lesson.article_images || [])];
-                              newImages[index].position = value;
-                              setLesson({ ...lesson, article_images: newImages });
-                            }}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select position" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="hero">Hero (Top)</SelectItem>
-                              <SelectItem value="vocabulary">Vocabulary Section</SelectItem>
-                              <SelectItem value="inline-para-1">After Paragraph 1</SelectItem>
-                              <SelectItem value="inline-para-2">After Paragraph 2</SelectItem>
-                              <SelectItem value="inline-para-3">After Paragraph 3</SelectItem>
-                              <SelectItem value="inline-para-4">After Paragraph 4</SelectItem>
-                              <SelectItem value="inline-para-5">After Paragraph 5</SelectItem>
-                              <SelectItem value="writing-prompt">Writing Prompt</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Caption</Label>
-                          <Input
-                            value={img.caption}
-                            onChange={(e) => {
-                              const newImages = [...(lesson.article_images || [])];
-                              newImages[index].caption = e.target.value;
-                              setLesson({ ...lesson, article_images: newImages });
-                            }}
-                            placeholder="Image caption"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="text-destructive"
-                      onClick={() => {
-                        const newImages = lesson.article_images?.filter((_, i) => i !== index);
-                        setLesson({ ...lesson, article_images: newImages });
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="article_paragraphs">Article Paragraphs</Label>
-            <Textarea
-              id="article_paragraphs"
-              value={JSON.stringify(lesson.article_paragraphs || [])}
-              onChange={(e) => {
-                try {
-                  const parsed = JSON.parse(e.target.value);
-                  setLesson({ ...lesson, article_paragraphs: parsed });
-                } catch (err) {
-                  console.error('Invalid JSON:', err);
-                }
-              }}
-              rows={8}
-              className="font-mono text-sm"
-              placeholder={PLACEHOLDERS.paragraphs}
-            />
-            <p className="text-xs text-muted-foreground">
-              Enter as JSON array
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Vocabulary</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <Label htmlFor="vocabulary">Vocabulary Items</Label>
-          <Textarea
-            id="vocabulary"
-            value={JSON.stringify(lesson.vocabulary || [])}
-            onChange={(e) => {
-              try {
-                const parsed = JSON.parse(e.target.value);
-                setLesson({ ...lesson, vocabulary: parsed });
-              } catch (err) {
-                console.error('Invalid JSON:', err);
-              }
-            }}
-            rows={8}
-            className="font-mono text-sm"
-            placeholder={PLACEHOLDERS.vocabulary}
-          />
-          <p className="text-xs text-muted-foreground">
-            Enter as JSON array
-          </p>
-        </CardContent>
-      </Card>
+        <VocabularyEditor
+          vocabulary={lesson.vocabulary}
+          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+        />
+      </div>
 
       <Card>
         <CardHeader>
