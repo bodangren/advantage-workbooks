@@ -47,4 +47,4 @@
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
 
-- (YYYY-MM-DD, track_id) Example: Underestimated integration testing time by 2x
+- (2026-04-14, lesson_editor_refactor_20260413) Component extraction: When extracting sub-editors from a large page, maintain the original field names and onChange signature (field, value) pattern to minimize refactoring surface area and preserve existing tests.

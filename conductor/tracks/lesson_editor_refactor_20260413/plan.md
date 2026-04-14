@@ -12,12 +12,12 @@
 
 ## Phase 2: ArticleEditor & VocabularyEditor Extraction
 
-- [ ] Task: Write failing unit tests for `ArticleEditor` component
-- [ ] Task: Implement `ArticleEditor.tsx` extracting article paragraph handling
-- [ ] Task: Write failing unit tests for `VocabularyEditor` component
-- [ ] Task: Implement `VocabularyEditor.tsx` extracting vocabulary list handling
-- [ ] Task: Refactor page.tsx to use both editors
-- [ ] Task: Verify tests pass and coverage maintained
+- [x] Task: Write failing unit tests for `ArticleEditor` component
+- [x] Task: Implement `ArticleEditor.tsx` extracting article paragraph handling
+- [x] Task: Write failing unit tests for `VocabularyEditor` component
+- [x] Task: Implement `VocabularyEditor.tsx` extracting vocabulary list handling
+- [x] Task: Refactor page.tsx to use both editors
+- [x] Task: Verify tests pass and coverage maintained
 
 ## Phase 3: PedagogicalConnectorsEditor & ComprehensionQuestionsEditor Extraction
 
