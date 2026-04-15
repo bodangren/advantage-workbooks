@@ -48,3 +48,4 @@
 <!-- Notes on where estimates were wrong and why -->
 
 - (2026-04-14, lesson_editor_refactor_20260413) Component extraction: When extracting sub-editors from a large page, maintain the original field names and onChange signature (field, value) pattern to minimize refactoring surface area and preserve existing tests.
+- (2026-04-15, lesson_editor_refactor_20260413) Pre-existing lint warnings: Phase 2 introduced unused Select imports in page.tsx (were used in ArticleEditor before extraction). Don't remove pre-existing warnings unless explicitly tasked to clean them up.
