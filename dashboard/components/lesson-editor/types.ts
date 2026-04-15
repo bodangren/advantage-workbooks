@@ -24,6 +24,13 @@ export interface VocabularyEditorProps {
   onChange: (field: 'vocabulary', value: { word: string; phonetic?: string; definition: string; thai_definition?: string }[]) => void;
 }
 
+export interface PedagogicalConnectorsEditorProps {
+  connection_question?: string;
+  grammar_search_term?: string;
+  discussion_question?: string;
+  onChange: (field: 'connection_question' | 'grammar_search_term' | 'discussion_question', value: string) => void;
+}
+
 export type LessonEditorSectionProps<T extends keyof WorkbookLesson = keyof WorkbookLesson> = {
   value: WorkbookLesson[T];
   onChange: (field: T, value: WorkbookLesson[T]) => void;

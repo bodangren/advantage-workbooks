@@ -13,6 +13,7 @@ import { ImageUpload } from '@/components/image-upload';
 import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
 import { ArticleEditor } from '@/components/lesson-editor/ArticleEditor';
 import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
+import { PedagogicalConnectorsEditor } from '@/components/lesson-editor/PedagogicalConnectorsEditor';
 import {
   Select,
   SelectContent,
@@ -421,53 +422,12 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Pedagogical Connectors</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="connection_question">Connection Question</Label>
-            <Textarea
-              id="connection_question"
-              value={lesson.connection_question || ''}
-              onChange={(e) => setLesson({ ...lesson, connection_question: e.target.value })}
-              rows={2}
-              placeholder="Question connecting article to student's life or experience..."
-            />
-            <p className="text-xs text-muted-foreground">
-              Helps students connect the article content to their own experiences
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="grammar_search_term">Grammar Search Term</Label>
-            <Input
-              id="grammar_search_term"
-              value={lesson.grammar_search_term || ''}
-              onChange={(e) => setLesson({ ...lesson, grammar_search_term: e.target.value })}
-              placeholder="e.g., simple past, present perfect..."
-            />
-            <p className="text-xs text-muted-foreground">
-              Grammar pattern for students to identify in the article (CEFR-aware)
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="discussion_question">Discussion Question</Label>
-            <Textarea
-              id="discussion_question"
-              value={lesson.discussion_question || ''}
-              onChange={(e) => setLesson({ ...lesson, discussion_question: e.target.value })}
-              rows={2}
-              placeholder="Open-ended question for class discussion..."
-            />
-            <p className="text-xs text-muted-foreground">
-              Thought-provoking question for deeper engagement with the topic
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <PedagogicalConnectorsEditor
+          connection_question={lesson.connection_question}
+          grammar_search_term={lesson.grammar_search_term}
+          discussion_question={lesson.discussion_question}
+          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+        />
 
       <Card>
         <CardHeader>
