@@ -2,15 +2,17 @@
 > build · MiniMax-M2.7
 [0m
 [0m→ [0mRead conductor/autonomous_prompt.md
-[0m→ [0mSkill "conductor"
+[0m✗ [0mskill failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
 [0m→ [0mRead conductor/tracks.md
-[0m→ [0mRead conductor/tech-debt.md
-[0m→ [0mRead conductor/lessons-learned.md
 [0m→ [0mRead conductor/current_directive.md
+[0m→ [0mRead conductor/lessons-learned.md
+[0m→ [0mRead conductor/tech-debt.md
 [0m
 [0m$ [0mgit status
 On branch master
-Your branch is up to date with 'origin/master'.
+Your branch is ahead of 'origin/master' by 3 commits.
+  (use "git push" to publish your local commits)
 
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
@@ -19,4 +21,92 @@ Changes not staged for commit:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 [0m
-[0m→ [0mRead conductor/tracks/lesson_editor_refactor_20260413/plan.md
+[0m→ [0mRead conductor/tracks/lesson_editor_refactor_20260413/spec.md
+[0m✗ [0mglob failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 204: wasm-simd is not enabled, in function at index 28
+[0m
+[0m$ [0mls -la dashboard/components/lesson-editor/
+total 32
+drwxrwxr-x 3 daniel-bo daniel-bo 4096 Apr 14 21:33 .
+drwxrwxr-x 4 daniel-bo daniel-bo 4096 Apr 13 21:43 ..
+-rw-rw-r-- 1 daniel-bo daniel-bo 5567 Apr 14 21:33 ArticleEditor.tsx
+-rw-rw-r-- 1 daniel-bo daniel-bo 2372 Apr 13 21:45 BasicInfoEditor.tsx
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr 14 21:32 __tests__
+-rw-rw-r-- 1 daniel-bo daniel-bo 1278 Apr 14 21:33 types.ts
+-rw-rw-r-- 1 daniel-bo daniel-bo 1260 Apr 14 21:33 VocabularyEditor.tsx
+[0m
+[0m$ [0mls -la dashboard/components/lesson-editor/__tests__/
+total 24
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr 14 21:32 .
+drwxrwxr-x 3 daniel-bo daniel-bo 4096 Apr 14 21:33 ..
+-rw-rw-r-- 1 daniel-bo daniel-bo 4163 Apr 14 21:38 ArticleEditor.test.tsx
+-rw-rw-r-- 1 daniel-bo daniel-bo 2375 Apr 13 21:48 BasicInfoEditor.test.tsx
+-rw-rw-r-- 1 daniel-bo daniel-bo 2065 Apr 14 21:38 VocabularyEditor.test.tsx
+[0m
+[0m$ [0mgit diff conductor/output.log | head -50
+diff --git a/conductor/output.log b/conductor/output.log
+index ab5172e..aeabb13 100644
+--- a/conductor/output.log
++++ b/conductor/output.log
+@@ -2,15 +2,17 @@
+ > build · MiniMax-M2.7
+ [0m
+ [0m→ [0mRead conductor/autonomous_prompt.md
+-[0m→ [0mSkill "conductor"
++[0m✗ [0mskill failed
++[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
+ [0m→ [0mRead conductor/tracks.md
+-[0m→ [0mRead conductor/tech-debt.md
+-[0m→ [0mRead conductor/lessons-learned.md
+ [0m→ [0mRead conductor/current_directive.md
++[0m→ [0mRead conductor/lessons-learned.md
++[0m→ [0mRead conductor/tech-debt.md
+ [0m
+ [0m$ [0mgit status
+ On branch master
+-Your branch is up to date with 'origin/master'.
++Your branch is ahead of 'origin/master' by 3 commits.
++  (use "git push" to publish your local commits)
+ 
+ Changes not staged for commit:
+   (use "git add <file>..." to update what will be committed)
+@@ -19,4 +21,25 @@ Changes not staged for commit:
+ 
+ no changes added to commit (use "git add" and/or "git commit -a")
+ [0m
+-[0m→ [0mRead conductor/tracks/lesson_editor_refactor_20260413/plan.md
++[0m→ [0mRead conductor/tracks/lesson_editor_refactor_20260413/spec.md
++[0m✗ [0mglob failed
++[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 204: wasm-simd is not enabled, in function at index 28
++[0m
++[0m$ [0mls -la dashboard/components/lesson-editor/
++total 32
++drwxrwxr-x 3 daniel-bo daniel-bo 4096 Apr 14 21:33 .
++drwxrwxr-x 4 daniel-bo daniel-bo 4096 Apr 13 21:43 ..
++-rw-rw-r-- 1 daniel-bo daniel-bo 5567 Apr 14 21:33 ArticleEditor.tsx
++-rw-rw-r-- 1 daniel-bo daniel-bo 2372 Apr 13 21:45 BasicInfoEditor.tsx
++drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr 14 21:32 __tests__
++-rw-rw-r-- 1 daniel-bo daniel-bo 1278 Apr 14 21:33 types.ts
++-rw-rw-r-- 1 daniel-bo daniel-bo 1260 Apr 14 21:33 VocabularyEditor.tsx
++[0m
++[0m$ [0mls -la dashboard/components/lesson-editor/__tests__/
++total 24
++drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr 14 21:32 .
++drwxrwxr-x 3 daniel-bo daniel-bo 4096 Apr 14 21:33 ..
++-rw-rw-r-- 1 daniel-bo daniel-bo 4163 Apr 14 21:38 ArticleEditor.test.tsx
+[0m
+[0m$ [0mgit log --oneline -5
+283a957 autonomous: checkpoint phase 2 complete - update tracking files
+6945694 autonomous: phase 2 - extract ArticleEditor and VocabularyEditor components
+5509c8d autonomous: checkpoint before continuing lesson editor refactor phase 2
+a9531f8 chore: update tech-debt - lesson editor refactor in progress
+f009953 chore(lesson-editor): mark Phase 1 complete in plan
+[0m
+[0m$ [0mwc -l dashboard/app/projects/*/lessons/*/page.tsx 2>/dev/null || ls dashboard/app/projects/*/lessons/*/
+697 dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+[0m
+[0m✗ [0mgrep failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
+[0m→ [0mRead dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx
+[0m→ [0mRead dashboard/components/lesson-editor/types.ts
+[0m→ [0mRead dashboard/components/lesson-editor/BasicInfoEditor.tsx
