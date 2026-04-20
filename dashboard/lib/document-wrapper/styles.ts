@@ -502,7 +502,6 @@ export function getPrintStyles(theme: ThemeColors): string {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 20mm;
       font-family: 'Merriweather', serif;
     }
 
