@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Settings } from 'lucide-react';
-import { SECONDARY_LEVELS, PRIMARY_LEVELS } from '@/lib/constants';
+import { ensureMetadataLevelOption, getWorkbookLevelOptions } from '@/lib/constants';
 
 interface ProjectMetadata {
   seriesName: string;
@@ -38,6 +38,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
   const [saving, setSaving] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState('3.1');
   const [type, setType] = useState<'primary' | 'secondary'>('secondary');
+  const [metadata, setMetadata] = useState<ProjectMetadata | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -53,15 +54,9 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
       if (response.ok) {
         const data = await response.json() as ProjectMetadata;
         const projectType = data.type || 'secondary';
+        setMetadata(data);
         setType(projectType);
-        
-        const levels = projectType === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
-        const option = levels.find(
-          opt => opt.value === data.levelNumber
-        );
-        if (option) {
-          setSelectedLevel(data.levelNumber);
-        }
+        setSelectedLevel(data.levelNumber);
       }
     } catch (error) {
       console.error('Failed to load metadata:', error);
@@ -73,11 +68,11 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
   const handleSave = async () => {
     setSaving(true);
     try {
-      const levels = type === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+      const levels = ensureMetadataLevelOption(getWorkbookLevelOptions(type), metadata);
       const selectedOption = levels.find(opt => opt.value === selectedLevel);
       if (!selectedOption) return;
 
-      const metadata: ProjectMetadata = {
+      const updatedMetadata: ProjectMetadata = {
         seriesName: selectedOption.series,
         levelNumber: selectedOption.value,
         cefrLevel: selectedOption.cefr,
@@ -87,7 +82,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
       const response = await fetch(`/api/projects/${projectId}/metadata`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(metadata),
+        body: JSON.stringify(updatedMetadata),
       });
 
       if (response.ok) {
@@ -103,7 +98,7 @@ export function ProjectSettingsDialog({ projectId }: ProjectSettingsDialogProps)
     }
   };
 
-  const levelOptions = type === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+  const levelOptions = ensureMetadataLevelOption(getWorkbookLevelOptions(type), metadata);
   const selectedOption = levelOptions.find(opt => opt.value === selectedLevel);
 
   return (

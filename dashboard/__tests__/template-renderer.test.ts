@@ -157,6 +157,30 @@ describe('Template Renderer Tests', () => {
       expect(html).toContain('https://example.com/inline.jpg');
       expect(html).toContain('https://example.com/writing.jpg');
     });
+
+    it('should map legacy article_image_url arrays to inline paragraph images', async () => {
+      const lessonWithLegacyImages = {
+        ...mockLesson,
+        article_image_url: [
+          'https://example.com/para-1.jpg',
+          'https://example.com/para-2.jpg',
+          'https://example.com/para-3.jpg',
+        ],
+        article_caption: 'Legacy article image',
+        article_paragraphs: [
+          { number: 1, text: 'First paragraph.' },
+          { number: 2, text: 'Second paragraph.' },
+          { number: 3, text: 'Third paragraph.' },
+        ],
+      } as unknown as WorkbookLesson;
+
+      const html = await renderLessonTemplate(lessonWithLegacyImages, { type: 'primary' });
+
+      expect(html).toContain('src="https://example.com/para-1.jpg"');
+      expect(html).toContain('src="https://example.com/para-2.jpg"');
+      expect(html).toContain('src="https://example.com/para-3.jpg"');
+      expect(html).not.toContain('src="https://example.com/para-1.jpg,https://example.com/para-2.jpg,https://example.com/para-3.jpg"');
+    });
   });
 
   describe('renderMultipleLessons', () => {

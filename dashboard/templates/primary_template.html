@@ -1334,10 +1334,12 @@
                         </div>
                         {{/each}}
                     {{else}}
+                        {{#if article_image_url}}
                         <div class="article-image-box">
                             <img src="{{article_image_url}}" alt="{{article_caption}}">
                         </div>
                         <span class="article-image-caption">{{article_caption}}</span>
+                        {{/if}}
                     {{/if}}
                 </div>
 

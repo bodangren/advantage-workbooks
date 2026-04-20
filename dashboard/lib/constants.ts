@@ -1,4 +1,11 @@
-export const SECONDARY_LEVELS = [
+export interface WorkbookLevelOption {
+  value: string;
+  series: string;
+  cefr: string;
+  label: string;
+}
+
+export const SECONDARY_LEVELS: WorkbookLevelOption[] = [
   { value: '1', series: 'Origins', cefr: 'A1', label: '1 - Origins' },
   { value: '2', series: 'Origins', cefr: 'A1', label: '2 - Origins' },
   { value: '3.1', series: 'Origins', cefr: 'A1', label: '3.1 - Origins' },
@@ -33,7 +40,8 @@ export const SECONDARY_LEVELS = [
   { value: '15.3', series: 'Legend', cefr: 'C1', label: '15.3 - Legend' },
 ];
 
-export const PRIMARY_LEVELS = [
+export const PRIMARY_LEVELS: WorkbookLevelOption[] = [
+  { value: '1.0', series: 'Adventures', cefr: 'A1', label: '1.0 - Adventures' },
   { value: '1.1', series: 'Phonics', cefr: 'Pre-A1', label: '1.1 - Phonics' },
   { value: '1.2', series: 'Phonics', cefr: 'Pre-A1', label: '1.2 - Phonics' },
   { value: '2.1', series: 'Starters', cefr: 'Pre-A1', label: '2.1 - Starters' },
@@ -43,3 +51,33 @@ export const PRIMARY_LEVELS = [
   { value: '4.1', series: 'Flyers', cefr: 'A2', label: '4.1 - Flyers' },
   { value: '4.2', series: 'Flyers', cefr: 'A2', label: '4.2 - Flyers' },
 ];
+
+export interface WorkbookLevelMetadata {
+  seriesName: string;
+  levelNumber: string;
+  cefrLevel: string;
+}
+
+export function getWorkbookLevelOptions(type: 'primary' | 'secondary'): WorkbookLevelOption[] {
+  return type === 'primary' ? PRIMARY_LEVELS : SECONDARY_LEVELS;
+}
+
+export function ensureMetadataLevelOption(
+  options: WorkbookLevelOption[],
+  metadata?: WorkbookLevelMetadata | null
+): WorkbookLevelOption[] {
+  if (!metadata) return options;
+
+  const hasExistingOption = options.some(option => option.value === metadata.levelNumber);
+  if (hasExistingOption) return options;
+
+  return [
+    {
+      value: metadata.levelNumber,
+      series: metadata.seriesName,
+      cefr: metadata.cefrLevel,
+      label: `${metadata.levelNumber} - ${metadata.seriesName}`,
+    },
+    ...options,
+  ];
+}

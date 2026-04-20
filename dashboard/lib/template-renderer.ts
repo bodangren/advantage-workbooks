@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 import fs from 'fs/promises';
 import path from 'path';
-import type { WorkbookLesson } from './workbook-schema';
+import type { ArticleImage, WorkbookLesson } from './workbook-schema';
 import { generateQRCodeDataURL } from './qr-generator';
 
 type WorkbookType = 'primary' | 'secondary';
@@ -44,18 +44,47 @@ export interface RenderOptions {
   type?: WorkbookType;
 }
 
-type PreparedLessonData = WorkbookLesson & {
+type ArticleImages = NonNullable<WorkbookLesson['article_images']>;
+
+type PreparedLessonData = Omit<WorkbookLesson, 'article_image_url' | 'article_images'> & {
   lesson_number: string;
   series_name: string;
   series_level: string;
   series_tagline: string;
+  article_image_url?: string;
+  article_images?: ArticleImages;
   qr_code_url?: string;
   writing_qr_code_url?: string;
-  images_hero: NonNullable<WorkbookLesson['article_images']>;
-  images_vocabulary: NonNullable<WorkbookLesson['article_images']>;
-  images_writing_prompt: NonNullable<WorkbookLesson['article_images']>;
-  images_inline: Record<string, NonNullable<WorkbookLesson['article_images']>>;
+  images_hero: ArticleImages;
+  images_vocabulary: ArticleImages;
+  images_writing_prompt: ArticleImages;
+  images_inline: Record<string, ArticleImages>;
 };
+
+function getArticleImageUrl(lesson: WorkbookLesson): string | undefined {
+  const value = (lesson as Record<string, unknown>).article_image_url;
+  return typeof value === 'string' && value.trim() !== '' ? value.trim() : undefined;
+}
+
+function getLegacyArticleImageUrls(lesson: WorkbookLesson): string[] {
+  const value = (lesson as Record<string, unknown>).article_image_url;
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .filter((url): url is string => typeof url === 'string' && url.trim() !== '')
+    .map(url => url.trim());
+}
+
+function normalizeArticleImages(lesson: WorkbookLesson): ArticleImages {
+  const articleImages = lesson.article_images ?? [];
+  if (articleImages.length > 0) return articleImages;
+
+  return getLegacyArticleImageUrls(lesson).map((url, index) => ({
+    url,
+    caption: lesson.article_caption || `Article image ${index + 1}`,
+    position: `inline-para-${Math.min(index + 1, 5)}` as ArticleImage['position'],
+  }));
+}
 
 function prepareLessonData(
   lesson: WorkbookLesson,
@@ -67,7 +96,8 @@ function prepareLessonData(
     seriesLevel = 'A1',
     seriesTagline = 'Learning Made Fun'
   } = options;
-  const articleImages = lesson.article_images ?? [];
+  const articleImageUrl = getArticleImageUrl(lesson);
+  const articleImages = normalizeArticleImages(lesson);
   
   const existingQRCodeUrl = (lesson as Record<string, unknown>).qr_code_url;
   let qrCodeUrl: string | undefined;
@@ -98,6 +128,8 @@ function prepareLessonData(
     series_name: seriesName,
     series_level: seriesLevel,
     series_tagline: seriesTagline,
+    article_image_url: articleImageUrl,
+    article_images: articleImages,
     qr_code_url: qrCodeUrl,
     writing_qr_code_url: writingQrCodeUrl,
     // Pre-process images for the template
