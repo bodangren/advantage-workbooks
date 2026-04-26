@@ -1,0 +1,39 @@
+[0m
+> build · MiniMax-M2.7
+[0m
+[0m✗ [0mread failed
+[91m[1mError: [0mFile not found: /home/daniel-bo/.agents/skills/measure/autonomous_prompt.md
+[0m✗ [0mglob failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
+[0m✗ [0mglob failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
+[0m→ [0mRead ../../.agents/skills/measure/SKILL.md
+[0m✗ [0mglob failed
+[91m[1mError: [0mWebAssembly.Module doesn't parse at byte 175: wasm-simd is not enabled, in function at index 81
+[0m
+[0m$ [0mls -la /home/daniel-bo/.agents/skills/measure/
+total 24
+drwxrwxr-x  4 daniel-bo daniel-bo 4096 Apr 13 22:35 .
+drwxrwxr-x 41 daniel-bo daniel-bo 4096 Apr 16 06:46 ..
+drwxrwxr-x  3 daniel-bo daniel-bo 4096 Apr 13 22:35 assets
+drwxrwxr-x  2 daniel-bo daniel-bo 4096 Apr 13 22:35 references
+-rw-rw-r--  1 daniel-bo daniel-bo 4858 Apr 13 22:35 SKILL.md
+[0m
+[0m$ [0mls -la /home/daniel-bo/.agents/skills/measure/references/
+total 76
+drwxrwxr-x 2 daniel-bo daniel-bo 4096 Apr 13 22:35 .
+drwxrwxr-x 4 daniel-bo daniel-bo 4096 Apr 13 22:35 ..
+-rw-rw-r-- 1 daniel-bo daniel-bo 3363 Apr 13 22:35 grill-me.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 8514 Apr 13 22:35 implement.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 6860 Apr 13 22:35 new-track.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 4910 Apr 13 22:35 revert.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 4523 Apr 13 22:35 review.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 9696 Apr 13 22:35 setup.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 4693 Apr 13 22:35 skills-catalog.md
+-rw-rw-r-- 1 daniel-bo daniel-bo 5239 Apr 13 22:35 status.md
+[0m
+[0m$ [0mfind /home/daniel-bo/.agents -name "*autonomous*" -type f 2>/dev/null
+The file `/home/daniel-bo/.agents/skills/measure/autonomous_prompt.md` doesn't exist. The measure skill references are in `references/` and include:
+- `grill-me.md`, `implement.md`, `new-track.md`, `revert.md`, `review.md`, `setup.md`, `skills-catalog.md`, `status.md`
+
+Did you mean one of these, or perhaps a different path?
