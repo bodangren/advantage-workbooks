@@ -96,3 +96,11 @@
 ---
 
 > **Primary lesson rule:** Keep the workbook page and the teacher talk in sync.
+
+---
+
+## Sample Lesson Page
+
+![Full lesson page example](screenshots/lesson01-page.png)
+
+*A complete primary workbook lesson page showing the article, images, and activity sections.*

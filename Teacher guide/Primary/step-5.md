@@ -18,3 +18,11 @@ Students do:
 * write one main idea for each paragraph
 
 Keep answers short and clear. This is not a full summary paragraph.
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of deep reading notes page -->
+
+*The deep reading notes page has space for students to write one main idea per paragraph.*

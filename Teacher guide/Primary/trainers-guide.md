@@ -66,3 +66,13 @@ Make sure the teacher finishes with reflection and homework on the printed final
 
 > In the primary workbook, clarity beats creativity.
 > If the teacher stays synchronized with the page, the lesson becomes much easier for students to follow.
+
+---
+
+## Completion Certificate
+
+At the end of a unit or level, students receive a completion certificate.
+
+![Completion certificate](screenshots/certificate.png)
+
+*The certificate recognizes student achievement and can be printed or shared digitally.*

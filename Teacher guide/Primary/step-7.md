@@ -22,3 +22,11 @@ Students do:
 Important note:
 
 The workbook flow should match the printed question count. Do not talk about a 5-question score routine when the page contains 4 questions.
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of comprehension check page showing 4 MC questions -->
+
+*The comprehension check page contains 4 multiple-choice questions with a line for students to write their evidence clue.*

@@ -25,3 +25,11 @@ Do not:
 
 * over-explain every word
 * turn the step into a long oral quiz
+
+---
+
+## Workbook Page Example
+
+![Key vocabulary and flashcards](screenshots/flashcards-page-1.png)
+
+*The "Key Vocabulary" page includes a word bank with space for students to write translations, drawings, or simple sentences. Some lessons also include flashcard-style review.*

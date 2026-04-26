@@ -26,3 +26,11 @@ If the lesson includes writing QR support, frame it as:
 > "After the draft, you can type it in the app for feedback."
 
 Never let app typing replace planning.
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of guided writing page showing planner and draft sections -->
+
+*The guided writing page includes a writing prompt, planner, sentence frames, draft space, and self-check list.*

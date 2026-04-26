@@ -18,3 +18,11 @@ Teacher language:
 > "Use the word bank carefully."
 
 Avoid turning this into long vocabulary teaching. It is practice and review.
+
+---
+
+## Workbook Page Example
+
+![Vocabulary and spelling practice](screenshots/spelling-lesson-1.png)
+
+*The vocabulary practice section includes matching, fill-in-the-blank, and spelling activities with a word bank.*

@@ -23,3 +23,11 @@ Watch for:
 
 * students waiting instead of writing
 * students trying to jump ahead
+
+---
+
+## Workbook Page Example
+
+![Goals and interest stars](screenshots/goals.png)
+
+*The "Before You Read" page typically includes the lesson title, an image, interest stars, and learning goals.*

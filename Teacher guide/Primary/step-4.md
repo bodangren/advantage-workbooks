@@ -20,3 +20,11 @@ Students do:
 Important note:
 
 The current primary workbook page supports **4 collected words in class**. Do not teach this as a 5-word in-class task.
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of vocabulary collection page showing 4 boxes -->
+
+*The vocabulary collection page provides 4 boxes for students to record new words and their paragraph numbers.*

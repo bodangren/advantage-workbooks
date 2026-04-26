@@ -21,3 +21,11 @@ Students do:
 * answer the question
 * support the answer with article information
 * complete the self-check
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of guided response page -->
+
+*The guided response page includes the question, hints, sentence starters, a guided frame, and a self-check box.*

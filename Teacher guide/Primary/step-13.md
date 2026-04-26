@@ -23,3 +23,11 @@ Students do:
 Important note:
 
 Do not teach this as a separate unnumbered ending. In the current primary workbook, reflection is **Step 13**.
+
+---
+
+## Workbook Page Example
+
+![Learning reflection page](screenshots/learning-reflection.png)
+
+*The reflection page includes understanding and effort ratings, reflection prompts, and the homework box.*

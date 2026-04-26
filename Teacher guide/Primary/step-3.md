@@ -23,3 +23,11 @@ Teacher language:
 > "Later, we will use our marks."
 
 Do not stop too often during the first pass.
+
+---
+
+## Workbook Page Example
+
+![Reading journey tracker](screenshots/reading-journey.png)
+
+*The article page includes a reading journey tracker and marking legend. Students use this to flag new words, confusing parts, interesting parts, and sentences worth saving.*

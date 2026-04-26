@@ -17,3 +17,11 @@ Teacher language:
 > "Make a real sentence, not just words."
 
 Use correction briefly and clearly. Do not expand into a grammar lecture.
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of sentence practice page -->
+
+*The sentence practice page includes word-order exercises (C) and sentence completion prompts (D).*

@@ -22,3 +22,11 @@ Students do:
 Rule:
 
 **Workbook first, AI second.**
+
+---
+
+## Workbook Page Example
+
+<!-- TODO: Add screenshot of language questions page -->
+
+*The language questions page provides space for students to write their questions and record the teacher-mediated answer.*
