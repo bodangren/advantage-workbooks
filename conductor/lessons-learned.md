@@ -34,6 +34,8 @@
 - (2026-03-11, e2e_testing_and_visual_stabilization_20260311) Paged.js page rules: When rendering single templates via an iframe alongside a global document wrapper, remove explicit `@page` definitions in the individual templates to avoid conflicting with the primary wrapper's layout and ensure consistency.
 - (2026-03-11, e2e_testing_and_visual_stabilization_20260311) Playwright testing: Ensure `e2e` directories or `.spec.ts` files are explicitly excluded in `vitest.config.ts` to prevent Vitest from attempting to run E2E suites which causes build failures.
 - (2026-03-11, spelling_practice_generator_20260311) Paged.js tracing text: When generating spelling practice pages, use a light gray color (e.g. `#e0e0e0`) and fall back to standard sans-serif if tracing fonts aren't guaranteed to be installed on the print system.
+- (2026-04-26, primary_compile_layout_papercuts) Primary Step 11 Guided Writing is height-sensitive in print. To keep the section title and writing box together, trim the primary template vertically first: reduce padding, planner line count, draft line count, and QR block size before reaching for harder page-break rules.
+- (2026-04-26, primary_pipeline_bugs) Imported primary lessons may still use legacy `article_image_url` arrays. The renderer tolerates them, but schema-backed edit/save paths expect `article_image_url` to be a string and `article_images` to hold positioned images, so canonicalize imported lessons before relying on validation.
 
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->

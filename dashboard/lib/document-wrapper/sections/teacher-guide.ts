@@ -64,7 +64,7 @@ export function generateTeacherGuideSection(entries?: TeacherGuideEntry[], theme
         </div>
       </div>
     `;
-  }).join('\\n');
+  }).join('\n');
 
   return `
     <div class="section-teacher-guide">

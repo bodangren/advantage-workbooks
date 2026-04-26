@@ -499,6 +499,137 @@
             overflow: hidden;
         }
 
+        .guided-writing-section .prompt-box {
+            padding: 10px 12px;
+        }
+
+        .guided-writing-section .prompt-label {
+            margin-bottom: 6px;
+        }
+
+        .guided-writing-section .prompt-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .guided-writing-step .section-header {
+            gap: 8px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+
+        .guided-writing-step .section-title {
+            font-size: 17px;
+        }
+
+        .guided-writing-step .section-time {
+            font-size: 12px;
+        }
+
+        .guided-writing-section .writing-header {
+            padding: 8px 12px;
+        }
+
+        .guided-writing-section .writing-header h3 {
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        .guided-writing-section .writing-header p {
+            font-size: 10px;
+            line-height: 1.35;
+        }
+
+        .guided-writing-section .planning-area {
+            padding: 10px 12px;
+        }
+
+        .guided-writing-section .planning-grid {
+            gap: 10px;
+        }
+
+        .guided-writing-section .planning-box {
+            padding: 8px;
+        }
+
+        .guided-writing-section .planning-label {
+            font-size: 9px;
+            margin-bottom: 6px;
+        }
+
+        .guided-writing-section .writing-lines {
+            padding: 12px;
+        }
+
+        .guided-writing-section .lined-area {
+            min-height: 132px;
+        }
+
+        .guided-writing-section .writing-line {
+            min-height: 20px;
+            margin: 4px 0;
+        }
+
+        .guided-writing-section .writing-line-small {
+            min-height: 16px;
+            margin: 3px 0;
+        }
+
+        .guided-writing-section .word-count-box {
+            gap: 10px;
+            padding: 8px 10px;
+            font-size: 10px;
+        }
+
+        .guided-writing-section .tip-box {
+            padding: 8px 10px;
+            margin: 6px 0;
+        }
+
+        .guided-writing-section .starters-list {
+            margin-top: 6px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .guided-writing-section .prompt-label-purple {
+            margin-bottom: 8px;
+        }
+
+        .guided-writing-section .digital-qr-box {
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .guided-writing-section .qr-code {
+            width: 48px;
+            height: 48px;
+        }
+
+        .guided-writing-section .qr-label {
+            font-size: 9px;
+        }
+
+        .guided-writing-section .qr-desc {
+            font-size: 10px;
+            line-height: 1.25;
+        }
+
+        .guided-writing-section .feedback-tracker {
+            margin-top: 6px;
+            gap: 8px;
+        }
+
+        .guided-writing-section .ai-score-box {
+            padding: 4px 8px;
+            font-size: 10px;
+        }
+
+        .guided-writing-section .check-item {
+            font-size: 10px;
+        }
+
         .writing-header {
             background: var(--accent-purple);
             color: white;
@@ -1110,6 +1241,24 @@
                 break-inside: avoid;
             }
 
+            .guided-writing-section {
+                overflow: visible;
+                page-break-inside: auto;
+                break-inside: auto;
+            }
+
+            .guided-writing-section > .writing-header,
+            .guided-writing-section > .prompt-box,
+            .guided-writing-section > .article-image-box,
+            .guided-writing-section > .planning-area,
+            .guided-writing-section > .tip-box,
+            .guided-writing-section > .writing-lines,
+            .guided-writing-section > .word-count-box,
+            .guided-writing-section > .writing-digital-integration {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
             /* Ensure two-column layouts work in print */
             .practice-grid {
                 display: grid;
@@ -1695,7 +1844,7 @@
         </section>
 
         <!-- STEP 11: Writing Practice -->
-        <section class="section phase-4">
+        <section class="section phase-4 guided-writing-step">
             <div class="section-header">
                 <div class="section-icon icon-write">11</div>
                 <h2 class="section-title">Guided Writing</h2>
@@ -1703,7 +1852,7 @@
                 <!-- <span class="phase-label phase-4">Phase 4</span> -->
             </div>
 
-            <div class="writing-section">
+            <div class="writing-section guided-writing-section">
                 <div class="writing-header">
                     <h3>Step-by-step Paragraph</h3>
                     <p>Use the planner and sentence frames first, then write a short paragraph.</p>
@@ -1733,18 +1882,15 @@
                             <div class="planning-box">
                                 <div class="planning-label">{{this}}</div>
                                 <div class="writing-line writing-line-small"></div>
-                                <div class="writing-line writing-line-small"></div>
                             </div>
                             {{/each}}
                         {{else}}
                             <div class="planning-box">
                                 <div class="planning-label">Main idea / discovery:</div>
                                 <div class="writing-line writing-line-small"></div>
-                                <div class="writing-line writing-line-small"></div>
                             </div>
                             <div class="planning-box">
                                 <div class="planning-label">Key details to include:</div>
-                                <div class="writing-line writing-line-small"></div>
                                 <div class="writing-line writing-line-small"></div>
                             </div>
                             <div class="planning-box">
@@ -1784,8 +1930,6 @@
                         Draft</div>
                     
                     <div class="lined-area">
-                        <div class="writing-line"></div>
-                        <div class="writing-line"></div>
                         <div class="writing-line"></div>
                         <div class="writing-line"></div>
                         <div class="writing-line"></div>
