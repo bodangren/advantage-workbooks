@@ -11,11 +11,12 @@ export function generateQRCode(url: string | null | undefined): string | null {
     qr.make();
 
     const cellSize = 10;
-    const margin = 1;
+    // QR readers expect a generous quiet zone around the code.
+    const margin = 4;
     const size = qr.getModuleCount();
     const totalSize = (size + margin * 2) * cellSize;
 
-    let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalSize}" height="${totalSize}" viewBox="0 0 ${totalSize} ${totalSize}">`;
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalSize}" height="${totalSize}" viewBox="0 0 ${totalSize} ${totalSize}" shape-rendering="crispEdges">`;
     svg += `<rect width="100%" height="100%" fill="#ffffff"/>`;
     svg += `<g transform="translate(${margin * cellSize}, ${margin * cellSize})">`;
 

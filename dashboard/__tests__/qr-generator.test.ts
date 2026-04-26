@@ -21,6 +21,14 @@ describe('QR Code Generator', () => {
       expect(svg).toMatch(/height="\d+"/);
     });
 
+    it('should include crisp-edge rendering and a standard quiet zone', () => {
+      const url = 'https://example.com/article/123';
+      const svg = generateQRCode(url);
+
+      expect(svg).toContain('shape-rendering="crispEdges"');
+      expect(svg).toContain('transform="translate(40, 40)"');
+    });
+
     it('should generate different QR codes for different URLs', () => {
       const url1 = 'https://example.com/article/1';
       const url2 = 'https://example.com/article/2';
