@@ -146,6 +146,30 @@ describe('Workbook Document Wrapper', () => {
       expect(html).toContain('break-inside');
       expect(html).toContain('avoid');
     });
+
+    it('should not emit literal backslash-n text nodes in generated sections', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        teacherGuide: [
+          {
+            lessonTitle: 'Lesson 1: Sample',
+            vocabulary: [{ word: 'word', phonetic: '', definition: 'meaning' }],
+            writingPrompt: 'Write something.',
+            comprehensionQuestions: [{ question: 'Q1?', answer: 'A1' }],
+          },
+        ],
+        spellingPractice: [
+          {
+            lessonTitle: 'Lesson 1: Sample',
+            vocabulary: [{ word: 'word', phonetic: '', definition: 'meaning' }],
+          },
+        ],
+        includeTeacherGuide: true,
+        includeSpellingPractice: true,
+      });
+
+      expect(html).not.toContain('\\n');
+    });
   });
 
   describe('TOC entry formatting', () => {

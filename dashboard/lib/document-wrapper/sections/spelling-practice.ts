@@ -14,7 +14,7 @@ export function generateSpellingPracticeSection(entries?: SpellingPracticeEntry[
         <td class="sp-col-write"></td>
         <td class="sp-col-cover"></td>
       </tr>
-    `).join('\\n');
+    `).join('\n');
 
     return `
       <div class="sp-lesson-page">
@@ -36,7 +36,7 @@ export function generateSpellingPracticeSection(entries?: SpellingPracticeEntry[
         </table>
       </div>
     `;
-  }).filter(html => html.length > 0).join('\\n');
+  }).filter(html => html.length > 0).join('\n');
 
   if (!pages) return '';
 

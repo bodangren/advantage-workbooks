@@ -11,7 +11,7 @@ describe('Template Renderer Tests', () => {
     article_type: 'Article',
     genre: 'Fiction',
     vocabulary: [
-      { word: 'test', phonetic: '/tɛst/', definition: 'a trial' }
+      { word: 'test', phonetic: '/tɛst/', definition: 'a trial', thai_definition: 'การทดสอบ' }
     ],
     article_paragraphs: [
       { number: 1, text: 'This is a test paragraph.' }
@@ -23,7 +23,7 @@ describe('Template Renderer Tests', () => {
     writing_prompt: 'Write about testing.',
     sentence_starters: ['I think that...', 'In my opinion...'],
     vocab_match: [
-      { number: 1, word: 'test', letter: 'A', definition: 'a trial' }
+      { number: 1, word: 'test', letter: 'A', definition: 'a trial', thai_definition: 'การทดสอบ' }
     ],
     vocab_fill: [
       { number: 1, sentence: 'This is a _____.' }
@@ -71,6 +71,7 @@ describe('Template Renderer Tests', () => {
     it('should include vocabulary in rendered HTML', async () => {
       const html = await renderLessonTemplate(mockLesson);
       expect(html).toContain('test');
+      expect(html).toContain('การทดสอบ');
     });
 
     it('should include comprehension questions in rendered HTML', async () => {
@@ -112,6 +113,7 @@ describe('Template Renderer Tests', () => {
       const html = await renderLessonTemplate(mockLesson);
       expect(html).toContain('test');
       expect(html).toContain('a trial');
+      expect(html).toContain('การทดสอบ');
     });
 
     it('should include vocabulary fill items if provided', async () => {

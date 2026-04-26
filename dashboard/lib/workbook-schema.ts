@@ -23,6 +23,7 @@ export const MatchItemSchema = z.object({
     word: z.string(),
     letter: z.string(),
     definition: z.string(),
+    thai_definition: z.string().optional(),
 });
 
 export const FillItemSchema = z.object({
