@@ -100,6 +100,9 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [~] **Track: Lesson Editor Refactoring**: Extract sub-editors from ~900 line page.tsx into focused components for maintainability. *(Started: 2026-04-13)*
   *Link: [./tracks/lesson_editor_refactor_20260413/](./tracks/lesson_editor_refactor_20260413/)*
 
+- [~] **Track: Per-Workbook Teacher Manual Generation**: Generate project-level teacher manuals from workbook JSON with step inserts, 4-period lesson plans, integrated bell-ringers, and blended learning guidance. *(Started: 2026-04-26)*
+  *Link: [./tracks/teacher_manual_generation_20260426/](./tracks/teacher_manual_generation_20260426/)*
+
 ## Completed
 
 - [x] **Track: AI Content Orchestration (Lesson-from-Source)**: Implement full lesson generation from raw article text or URL using Gemini API. *(Completed: 2026-04-13)*
