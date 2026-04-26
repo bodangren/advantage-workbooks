@@ -200,6 +200,12 @@
             margin-top: 2px;
         }
 
+        .thai-translation {
+            color: var(--text-light);
+            font-size: 11px;
+            font-style: italic;
+        }
+
         /* Questions */
         .question-box {
             background: transparent;
@@ -603,8 +609,8 @@
         }
 
         .guided-writing-section .qr-code {
-            width: 48px;
-            height: 48px;
+            width: 96px;
+            height: 96px;
         }
 
         .guided-writing-section .qr-label {
@@ -857,7 +863,13 @@
         /* Article Images */
         .article-container {
             position: relative;
-            overflow: auto; /* Clearfix to contain floated hero image */
+            overflow: visible;
+        }
+
+        .article-container::after {
+            content: "";
+            display: block;
+            clear: both;
         }
 
         .article-image-area {
@@ -865,6 +877,41 @@
             float: left;
             width: 55%;
             margin: 0 25px 15px 0;
+        }
+
+        .read-article-step .section-header {
+            margin-bottom: 12px;
+        }
+
+        .read-article-step .qr-box {
+            padding: 8px 12px;
+            margin: 8px 0 12px;
+        }
+
+        .read-article-step .qr-code {
+            width: 88px;
+            height: 88px;
+        }
+
+        .read-article-step .qr-label {
+            font-size: 9px;
+        }
+
+        .read-article-step .qr-desc {
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        .read-article-step .article-text {
+            overflow: visible;
+        }
+
+        .read-article-step .paragraph {
+            margin-bottom: 14px;
+        }
+
+        .read-article-step .inline-img-box {
+            margin: 0 0 8px 12px;
         }
 
         .article-image-box {
@@ -1069,17 +1116,17 @@
         }
 
         .qr-code {
-            width: 60px;
-            height: 60px;
-            background: #f3f4f6;
-            border-radius: 4px;
+            width: 96px;
+            height: 96px;
+            background: white;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 9px;
             color: var(--text-light);
             flex-shrink: 0;
-            border: 1px solid var(--border-light);
+            border: 1px solid #d1d5db;
         }
 
         .qr-text {
@@ -1143,6 +1190,11 @@
             }
 
             .section.phase-3 {
+                page-break-before: always;
+                break-before: page;
+            }
+
+            .read-article-step {
                 page-break-before: always;
                 break-before: page;
             }
@@ -1241,6 +1293,28 @@
                 break-inside: avoid;
             }
 
+            .read-article-step .section-header,
+            .read-article-step .qr-box,
+            .read-article-step .marking-legend,
+            .read-article-step .paragraph,
+            .read-article-step .inline-img-box,
+            .read-article-step .article-image-box {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .read-article-step .section-header,
+            .read-article-step .qr-box {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .read-article-step .article-container,
+            .read-article-step .article-text,
+            .read-article-step .paragraph {
+                overflow: visible;
+            }
+
             .guided-writing-section {
                 overflow: visible;
                 page-break-inside: auto;
@@ -1300,7 +1374,14 @@
         .max-w-320 { max-width: 320px; }
 
         .vocab-images { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .qr-img { width: 100%; height: 100%; object-fit: contain; }
+        .qr-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
         .hero-img-box { margin-bottom: 15px; }
         .inline-img-box { float: right; margin: 0 0 10px 15px; }
         .prompt-img-box { float: right; margin: 0 0 15px 15px; }
@@ -1414,7 +1495,11 @@
                         <td>
                             <span class="vocab-word">{{word}}</span>
                             {{#if phonetic}}<span class="phonetic">{{phonetic}}</span>{{/if}}
-                            <p class="text-sm text-muted mt-2"><strong>Meaning:</strong> {{definition}}</p>
+                            <p class="text-sm text-muted mt-2">
+                                <strong>Meaning:</strong>
+                                {{definition}}
+                                {{#if thai_definition}}<br><span class="thai-translation">Thai: {{thai_definition}}</span>{{/if}}
+                            </p>
                         </td>
                         <td>
                             <div class="writing-line writing-line-small"></div>
@@ -1451,7 +1536,7 @@
         </section>
 
         <!-- STEP 3: First Reading -->
-        <section class="section phase-1">
+        <section class="section phase-1 read-article-step">
             <div class="section-header">
                 <div class="section-icon icon-read">3</div>
                 <h2 class="section-title">Read the Article</h2>
@@ -1781,7 +1866,10 @@
                         <span class="match-word">{{word}}</span>
                         <span class="match-blank"></span>
                         <span class="match-letter">{{letter}}.</span>
-                        <span class="match-def">{{definition}}</span>
+                        <span class="match-def">
+                            {{definition}}
+                            {{#if thai_definition}}<br><span class="thai-translation">Thai: {{thai_definition}}</span>{{/if}}
+                        </span>
                     </div>
                     {{/each}}
                 </div>

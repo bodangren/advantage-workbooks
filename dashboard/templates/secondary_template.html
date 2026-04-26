@@ -376,6 +376,12 @@
             font-size: 11px;
         }
 
+        .thai-translation {
+            color: var(--text-light);
+            font-size: 11px;
+            font-style: italic;
+        }
+
         .match-letter {
             width: 20px;
             font-weight: 600;
@@ -901,17 +907,17 @@
         }
 
         .qr-code {
-            width: 60px;
-            height: 60px;
-            background: #f3f4f6;
-            border-radius: 4px;
+            width: 96px;
+            height: 96px;
+            background: white;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 9px;
             color: var(--text-light);
             flex-shrink: 0;
-            border: 1px solid var(--border-light);
+            border: 1px solid #d1d5db;
         }
 
         .qr-text {
@@ -1114,7 +1120,14 @@
         .max-w-320 { max-width: 320px; }
 
         .vocab-images { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .qr-img { width: 100%; height: 100%; object-fit: contain; }
+        .qr-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
         .hero-img-box { margin-bottom: 15px; }
         .inline-img-box { float: right; margin: 0 0 10px 15px; }
         .prompt-img-box { float: right; margin: 0 0 15px 15px; }
@@ -1232,7 +1245,10 @@
                             <span class="phonetic">{{phonetic}}</span>
                         </td>
                         <td class="text-center"><span class="checkbox"></span></td>
-                        <td>{{definition}}</td>
+                        <td>
+                            {{definition}}
+                            {{#if thai_definition}}<br><span class="thai-translation">Thai: {{thai_definition}}</span>{{/if}}
+                        </td>
                         <td>
                             <div class="writing-line writing-line-small"></div>
                         </td>
@@ -1585,7 +1601,10 @@
                         <span class="match-word">{{word}}</span>
                         <span class="match-blank"></span>
                         <span class="match-letter">{{letter}}.</span>
-                        <span class="match-def">{{definition}}</span>
+                        <span class="match-def">
+                            {{definition}}
+                            {{#if thai_definition}}<br><span class="thai-translation">Thai: {{thai_definition}}</span>{{/if}}
+                        </span>
                     </div>
                     {{/each}}
                 </div>

@@ -123,6 +123,31 @@ describe('Enhanced Schema Fields', () => {
     });
   });
 
+  describe('Thai Vocabulary Support', () => {
+    it('should accept thai_definition on vocabulary and vocab_match items', () => {
+      const lessonWithThai: Partial<WorkbookLesson> = {
+        lesson_title: 'Thai Support Lesson',
+        vocabulary: [{ word: 'test', definition: 'a trial', thai_definition: 'การทดสอบ' }],
+        article_paragraphs: [{ number: 1, text: 'Thai support content.' }],
+        comprehension_questions: [
+          { number: 1, question: 'What is this?', options: ['A', 'B'] }
+        ],
+        short_answer_question: 'What happened?',
+        writing_prompt: 'Write about it.',
+        vocab_match: [
+          { number: 1, word: 'test', letter: 'A', definition: 'a trial', thai_definition: 'การทดสอบ' }
+        ],
+      };
+
+      const result = WorkbookLessonSchema.safeParse(lessonWithThai);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.vocabulary[0].thai_definition).toBe('การทดสอบ');
+        expect(result.data.vocab_match?.[0].thai_definition).toBe('การทดสอบ');
+      }
+    });
+  });
+
   describe('Type Safety', () => {
     it('should reject non-string value for short_answer_hint', () => {
       const invalidLesson = {
