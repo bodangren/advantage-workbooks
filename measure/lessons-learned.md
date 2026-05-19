@@ -38,6 +38,7 @@
 - (2026-04-26, primary_pipeline_bugs) Imported primary lessons may still use legacy `article_image_url` arrays. The renderer tolerates them, but schema-backed edit/save paths expect `article_image_url` to be a string and `article_images` to hold positioned images, so canonicalize imported lessons before relying on validation.
 - (2026-04-26, primary_compile_layout_papercuts) For primary Step 3 article pages, avoid using `overflow:auto` as a clearfix around floated article imagery in printable containers. In Paged.js it can interact badly with fragmentation and clip images at page boundaries. Use a clearfix pseudo-element instead, and if the QR intro keeps orphaning the section title, start the article step on a fresh page in print.
 - (2026-04-26, thai_vocab_backfill_origins_a0) Bilingual support in this workbook stack is split: `vocabulary[].thai_definition` already feeds glossary/flashcards/teacher guide, but student lesson pages need explicit template rendering and worksheet matching needs its own `vocab_match[].thai_definition` if you want Thai to survive schema-backed editing instead of being baked into English strings.
+- (2026-05-06, font_package_20260506) Publisher font handoffs should package redistributable Google Fonts from official `google/fonts` with OFL files; do not bundle proprietary fallbacks like Comic Sans MS or Chalkboard SE unless licensed and available.
 
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->

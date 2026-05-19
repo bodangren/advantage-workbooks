@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, ArrowLeft, Edit, Eye, BookOpen, GraduationCap } from 'lucide-react';
+import { FileText, ArrowLeft, Edit, Eye, BookOpen, GraduationCap, BookOpenCheck } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
 import { ProjectSettingsDialog } from '@/components/project-settings-dialog';
@@ -102,12 +102,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         <div className="flex gap-2">
           <ProjectSettingsDialog projectId={projectId} />
           {lessons.length > 0 && (
-            <Link href={`/projects/${projectId}/compile`}>
-              <Button variant="outline">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Compile All
-              </Button>
-            </Link>
+            <>
+              <Link href={`/projects/${projectId}/compile`}>
+                <Button variant="outline">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Compile All
+                </Button>
+              </Link>
+              <Link href={`/projects/${projectId}/teacher-manual/preview`}>
+                <Button variant="outline">
+                  <BookOpenCheck className="mr-2 h-4 w-4" />
+                  Teacher Manual
+                </Button>
+              </Link>
+            </>
           )}
           <CreateLessonDialog projectId={projectId} onSuccess={fetchLessons} />
           <LessonFromSourceModal projectId={projectId} onSuccess={fetchLessons} />
