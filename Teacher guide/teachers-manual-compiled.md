@@ -99,7 +99,7 @@ Reading Advantage is built on three core instructional principles:
 We do not assume students know how to read strategically, select vocabulary, or self-assess. Every skill is **modeled explicitly** before students practice independently.
 
 ### 2. **Gradual Release of Responsibility**
-Lessons move from teacher-led (Steps 1–3) to collaborative (Steps 4–8) to independent practice (Steps 9–14). This ensures students develop the habits needed for autonomous reading.
+Lessons move from teacher-led (Steps 1–3) to collaborative (Steps 4–8) to independent practice (Steps 9–13). This ensures students develop the habits needed for autonomous reading.
 
 ### 3. **Evidence-Based Comprehension**
 We train students to justify their answers using text evidence, not guessing or relying on background knowledge alone. This builds critical reading skills essential for academic success.
@@ -163,7 +163,7 @@ Optional but helpful:
 The lesson plan in this manual describes a **full 60–90 minute lesson**. This is ideal for deep learning and habit formation.
 
 However, we understand that class periods vary. If you have less time:
-- **45-minute version:** Omit or shorten Steps 9–12 (vocabulary and sentence practice can be assigned as homework or done in a future lesson)
+- **45-minute version:** Omit or shorten Steps 9–10 (vocabulary and sentence practice can be assigned as homework or done in a future lesson)
 - **30-minute version:** Focus on Steps 1–8 only (orientation, reading, and comprehension), and assign practice steps as independent work
 
 **What you should never skip:**
@@ -270,14 +270,14 @@ Thank you for your commitment to your students' learning. We are honored to supp
 
 ## PHASE 4: PRACTICE
 
-### Steps 9–10 – Vocabulary Practice
+### Step 9 – Vocabulary Practice
 
 * Flashcards: Audio → choral → cold call
 * Matching: Whole class or student at board
 * Workbook: Matching + cloze
 * Check: Students show number correct
 
-### Steps 11–12 – Sentence Practice
+### Step 10 – Sentence Practice
 
 * Flashcards: Full sentence choral + individual
 * One app activity modeled
@@ -288,21 +288,21 @@ Thank you for your commitment to your students' learning. We are honored to supp
 
 ## PHASE 5: PRODUCTION & REFLECTION
 
-### Step 13 – Writing (Workbook Only)
+### Step 11 – Writing (Workbook Only)
 
 * Say: *"Plan first. Then write."*
 * Do: Model planning boxes only
 * Students: Draft + self-check
 * Check: Everyone wrote something
 
-### Step 14 – Language Questions (AI)
+### Step 12 – Language Questions (AI)
 
 * Rule: **Write first, AI second**
 * Do: Select questions, type, explain answers
 * Students: Record answers
 * Check: Questions are language-focused
 
-### Final – Reflection
+### Step 13 – Lesson Reflection
 
 * App: Brief summary
 * Workbook: Reflection + optional homework
@@ -589,7 +589,7 @@ For **each question**:
 
 # PHASE 4: PRACTICE, PRODUCTION, & REFLECTION
 
-## Steps 9–10: Vocabulary Practice
+## Step 9: Vocabulary Practice
 
 ### Teacher Actions
 
@@ -604,7 +604,7 @@ For **each question**:
 
 ---
 
-## Steps 11–12: Sentence Practice
+## Step 10: Sentence Practice
 
 ### Teacher Actions
 
@@ -618,7 +618,7 @@ For **each question**:
 
 ---
 
-## Step 13: Writing Practice (Workbook First)
+## Step 11: Writing Practice (Workbook First)
 
 ### Teacher Actions
 
@@ -634,7 +634,7 @@ For **each question**:
 
 ---
 
-## Step 14: Language Questions (AI Chatbot)
+## Step 12: Language Questions (AI Chatbot)
 
 ### Teacher Actions
 
@@ -649,7 +649,7 @@ For **each question**:
 
 ---
 
-## Step 15: Lesson Summary & Reflection
+## Step 13: Lesson Summary & Reflection
 
 ### Teacher Actions
 
@@ -1883,27 +1883,20 @@ But do not skip:
 * discussing the rubric.
 
 Those are what make this step transferable to independent app use.
-
----
-
-If you’re ready, I will continue with **Steps 9–10: Vocabulary Practice**, written at the same level of scripting.
-
-Continuing. Below are **Steps 9–10**, written as **one combined scripted instructional block**, at the **same explicit, novice-safe level** as previous steps. I am intentionally over-describing teacher behavior because this is where many teachers either rush or “hand the app back to itself.”
-
----
-
-# Steps 9–10: Vocabulary Practice
+# Step 9: Vocabulary Practice
 
 *(Reviewing and Strengthening Saved Vocabulary)*
 
 > **Important orientation for the teacher:**
-> In the app these are two steps, but in teaching they function as **one continuous practice cycle**. Do not treat them as separate lessons.
+> This step has three parts: two app activities followed by the workbook page. In teaching they function as **one continuous practice cycle**. Do not treat them as separate lessons.
+
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered the two app activities below as separate Steps 9 and 10; they are now App Activity A and App Activity B inside workbook Step 9.
 
 ---
 
-## Step 9 (App): Vocabulary Flashcards
+## App Activity A: Vocabulary Flashcards
 
-**What teachers project for Step 9:**
+**What teachers project for App Activity A:**
 
 ![Vocabulary flashcard interface showing word with audio playback and answer reveal](app step 9.png)
 
@@ -1985,9 +1978,9 @@ If repetition is weak, the teacher repeats **one or two cards only**, then moves
 
 ---
 
-## Step 10 (App): Vocabulary Matching Game
+## App Activity B: Vocabulary Matching Game
 
-**What teachers project for Step 10:**
+**What teachers project for App Activity B:**
 
 ![Vocabulary matching game interface with words and definitions to match](app step 10.png)
 
@@ -2056,7 +2049,7 @@ Students do **not**:
 
 ---
 
-## 4. Workbook follow-up (Workbook Step 9)
+## Workbook page: Step 9 – Vocabulary Practice
 
 After both app activities, the teacher directs students clearly.
 
@@ -2089,9 +2082,9 @@ After both app activities, the teacher directs students clearly.
 
 ---
 
-## 5. What the teacher checks before moving on
+## What the teacher checks before leaving Step 9
 
-Before leaving this block, the teacher:
+Before leaving this step, the teacher:
 
 * Asks students to **check their answers**.
 * Says:
@@ -2103,7 +2096,7 @@ Before leaving this block, the teacher:
 
 ---
 
-## 6. Coaching note (optional – for experienced teachers)
+## Coaching note (optional – for experienced teachers)
 
 **Why this step matters:**
 This is where vocabulary moves from *recognition* to *retrieval*.
@@ -2126,26 +2119,20 @@ But do not remove:
 
 Those are the anchors for weaker readers.
 
----
-
-If you’re ready, I will continue with **Steps 11–12: Sentence Practice**, written at the same level of scripting and control.
-
-Continuing. Below are **Steps 11–12**, written to the **same fully scripted, action-by-action standard**. This block mirrors the vocabulary practice but shifts the unit of attention from *words* to *sentences*, and the teacher’s modeling remains central.
-
----
-
-# Steps 11–12: Sentence Practice
+# Step 10: Sentence Practice
 
 *(Reviewing and Practicing Selected Sentences)*
 
 > **Orientation for the teacher:**
-> As with vocabulary, these are two app steps but **one instructional block**. Students are learning *how to practice sentences independently*, not just completing an activity.
+> As with vocabulary, this step contains two app activities and a workbook page, but it is **one instructional block**. Students are learning *how to practice sentences independently*, not just completing an activity.
+
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered the two app activities below as separate Steps 11 and 12; they are now App Activity A and App Activity B inside workbook Step 10.
 
 ---
 
-## Step 11 (App): Sentence Flashcards
+## App Activity A: Sentence Flashcards
 
-**What teachers project for Step 11:**
+**What teachers project for App Activity A:**
 
 ![Sentence flashcards screen in the app](app step 11.png)
 
@@ -2220,7 +2207,7 @@ Students do **not**:
 
 ## 4. What the teacher checks before moving on
 
-Before proceeding to Step 12, the teacher checks that:
+Before proceeding to App Activity B, the teacher checks that:
 
 * All saved sentences have been heard and repeated.
 * Students can repeat full sentences, not just fragments.
@@ -2232,9 +2219,9 @@ If students are mumbling or truncating sentences, the teacher repeats one model 
 
 ---
 
-## Step 12 (App): Sentence Practice Activities
+## App Activity B: Sentence Practice Activities
 
-**What teachers project for Step 12:**
+**What teachers project for App Activity B:**
 
 ![Sentence practice activities screen in the app](app step 12.png)
 
@@ -2298,7 +2285,7 @@ The teacher allows mistakes and models correction through repetition.
 
 ---
 
-## 4. Workbook follow-up (Workbook Step 10)
+## Workbook page: Step 10 – Sentence Practice
 
 After the app activity, the teacher gives clear instructions.
 
@@ -2329,7 +2316,7 @@ After the app activity, the teacher gives clear instructions.
 
 ---
 
-## 5. What the teacher checks before moving on
+## What the teacher checks before leaving Step 10
 
 Before continuing, the teacher:
 
@@ -2343,7 +2330,7 @@ Before continuing, the teacher:
 
 ---
 
-## 6. Coaching note (optional – for experienced teachers)
+## Coaching note (optional – for experienced teachers)
 
 **Why sentence practice follows vocabulary practice:**
 Students often know words but cannot *assemble meaning*. This step forces attention on order, structure, and completeness.
@@ -2356,26 +2343,20 @@ Advanced teachers may:
 But avoid turning this into grammar explanation.
 The strength here is **repeated exposure + correction**, not rules.
 
----
-
-If you’re ready, I will continue with **Step 13: Writing Practice (Workbook Only)**, maintaining the same scripted level.
-
-Continuing. Below is **Step 13**, written at the **same fully scripted, novice-safe level**. This step is intentionally different in nature, and the script makes that difference explicit so teachers do not try to “run it like the app.”
-
----
-
-# Step 13: Writing Practice (Workbook Only – Long Answer)
+# Step 11: Writing Practice (Workbook Only – Long Answer)
 
 > **Important framing for the teacher:**
 > This step is **not led through the app**. It is a **quiet, sustained writing task** designed to prepare students for later AI-supported writing at home or in another session.
+
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered this step 13. The app screen for this activity is still labelled "Step 13" in the current app build.
 
 ---
 
 ## What teachers project on screen:
 
-![App interface for Step 13 - Writing Practice](app step 13.png)
+![App interface for Writing Practice](app step 13.png)
 
-*The app shows Step 13 with the title "Writing Practice" and instructions for this offline writing activity.*
+*The app shows the "Writing Practice" screen with instructions for this offline writing activity.*
 
 ---
 
@@ -2532,25 +2513,19 @@ But do not remove:
 
 Those are what make the later AI feedback meaningful.
 
----
-
-If you’re ready, I will continue with **Step 14: Language Questions (AI Chatbot)**, maintaining the same scripted standard.
-
-Continuing. Below is **Step 14**, written to the **same fully scripted, explicit standard**. This step is sensitive because it involves AI; the script makes teacher control and sequencing unambiguous.
-
----
-
-# Step 14: Language Questions (AI Chatbot – Workbook First)
+# Step 12: Language Questions (AI Chatbot – Workbook First)
 
 > **Critical rule for this step:**
 > Students **must write their questions first**.
 > The AI is used **only after thinking and writing**.
 
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered this step 14. The app screen for this activity is still labelled "Step 14" in the current app build.
+
 ---
 
 ## What teachers project:
 
-![App interface for Step 14: Language Questions chatbot](app step 14.png)
+![App interface for Language Questions chatbot](app step 14.png)
 
 *The AI chatbot interface that teachers use to answer student questions after they have written them in their workbooks.*
 
@@ -2695,10 +2670,12 @@ But never allow:
 
 * free AI chat
 * unprepared questioning
+# Step 13: Lesson Summary & Reflection (Workbook Only)
 
----
+> **Important framing for the teacher:**
+> This is the last page of the workbook and the last step of the lesson. It is **not optional** and it is **not led through the app**. Protect the time for it.
 
-## Final Step: Lesson Summary & Reflection (Workbook)
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions of this manual treated reflection as an unnumbered "Final Step" appended to Step 14, and `complete-plan.md` numbered it Step 15. It is workbook **Step 13**.
 
 ---
 
@@ -2799,19 +2776,6 @@ Advanced teachers may:
 
 But avoid turning reflection into discussion every time.
 Its power is in **routine and honesty**, not performance.
-
----
-
-This completes the **fully scripted teacher-led Reading Advantage lesson**, written for novice implementation with optional expert insight.
-
-If you want, the next productive step would be:
-
-* a **teacher-facing quick-reference script**, or
-* a **trainer’s guide explaining why each step exists**, or
-* a **Primary Advantage adaptation**.
-
-You tell me how you’d like to proceed.
-
 # Trainer's Guide: Implementing the Reading Advantage Teacher-Led Lesson
 
 > **Audience:** Academic coaches, trainers, mentors, lead teachers
@@ -2860,7 +2824,88 @@ If any of these are violated, fidelity breaks.
 
 ---
 
-## 3. How to Train the Lesson (Recommended Training Flow)
+## 3. Classroom Technique: The Core Moves
+
+The scripted lesson tells a teacher **what to say**. It does not tell them **how to hold a room**. That gap is where most implementation failures actually happen — not in the sequence, but in the thirty seconds after a student mumbles an answer.
+
+This section adopts a small set of techniques from *Teach Like a Champion* (Doug Lemov, Uncommon Schools) and its literacy companion *Reading Reconsidered*. The descriptions below are written against our own lesson rather than quoted from those books; trainers who want the full treatment should read the originals.
+
+**Do not train all ten at once.** They are tiered deliberately — see the rollout table at the end of this section.
+
+> **Terminology note:** Technique names are kept in English — in Latin script — so they stay portable, match the published books, and remain searchable across the manual. The Thai edition pairs each name with a short Thai reminder of **the move itself**, not a translation of the label, then uses the English term alone thereafter.
+
+### Tier 1 — Behavioral foundation
+
+**What to Do** — Directions are specific, concrete, sequential, and observable. "Pay attention" is not a direction. "Pencils down, eyes on the screen" is.
+*Already in our lesson:* the scripts are written this way — "Everyone." / "Full sentence." / "Do this first."
+*Trainer watches for:* teachers paraphrasing crisp scripted directions into vague ones.
+
+**Positive Framing** — Correct by naming the behavior you want, not the one you are seeing. Address the group before the individual.
+*Trainer watches for:* running commentary on what is wrong ("stop talking", "you're not listening").
+
+**Precise Praise** — Acknowledge compliance; reserve praise for what exceeds expectation. Name the specific action, not the child.
+*Already in our lesson:* Step 1 tells teachers **not** to praise "high interest." That is this technique applied correctly — rating a five is not an achievement. "You wrote the paragraph number next to your word" is.
+*Trainer watches for:* generic praise ("good job", "very good") used as filler.
+
+**Least Invasive Intervention** — Use the smallest correction that works: non-verbal first, then anonymous group correction, then private individual, and only last a quick public one.
+*Already in our lesson:* Step 9 — "If incorrect, says calmly: *'That one does not match. Let's try again.'*"
+*Trainer watches for:* stopping the whole class to address one student.
+
+### Tier 2 — Making Cold Call safe
+
+Our lesson **cold calls by design** in Steps 2, 9 and 10. Cold Call is only safe when the next two techniques travel with it. Trained alone, it is just exposure.
+
+**Cold Call** — Call on students regardless of raised hands. It must be *universal* (everyone is eligible), *predictable* (it happens every lesson, not as a response to misbehavior), and *unthreatening* (neutral tone, no "gotcha").
+*Trainer watches for:* cold calling only inattentive students. This converts the technique into a disciplinary weapon and destroys it.
+
+**No Opt Out** — A student who cannot answer must still end up saying a correct answer. Take the answer from elsewhere, then return: "Now you say it."
+*Boundary:* accuracy work only — see The Answer Key Test below.
+*Trainer watches for:* moving on after "I don't know", which teaches students that silence is an exit.
+
+**Wait Time** — Three or more seconds between the question and the name. Narrate it: "I'm waiting for more hands."
+*Already in our lesson:* the quarterly observation form already scores this.
+*Trainer watches for:* sub-second questioning, which selects for the fastest student rather than the thinking one.
+
+### Tier 3 — Accuracy and rigor
+
+**Right Is Right** — Hold the standard at all-the-way-right. Do not round a partial answer up into a correct one.
+*Boundary:* accuracy work only — see below.
+
+**Format Matters** — Complete sentences and correct form are part of a correct answer.
+*Already in our lesson:* the Step 8 self-check ("I wrote 2+ complete sentences") and Step 10's "Full sentence."
+
+**Control the Game** *(Reading Reconsidered)* — Accountable oral reading: short unpredictable turns, no advance warning of who reads next, finger tracking, frequent switches.
+*Already in our lesson:* Step 5 implements this completely — unpredictable reader changes, paragraph-break stops, finger tracking. It has simply never been named.
+
+### The Answer Key Test
+
+**Right Is Right and No Opt Out apply only where a correct answer exists.** Applying them to a step that asks the student to *choose* is a category error, and it destroys the metacognitive training that Phase 2 exists to build.
+
+The workbook itself draws the line. The back-of-book Answer Key covers exactly three things: **Step 7** (multiple choice), **Step 9** (match and fill), and **Step 10C** (word order). Add oral accuracy work — **Step 2** repetition and the oral reading in **Steps 3 and 5** — and that is the entire accuracy domain.
+
+| Domain | Steps | Standard |
+|---|---|---|
+| **Accuracy** — a right answer exists | 2, 3, 5 (oral reading), 7, 9, 10C | Hold out for right. No Opt Out applies. |
+| **Choice** — the student's selection *is* the answer | 1, 4, 6, 10D, 11, 12, 13 | Accept, then probe reasoning. Never correct the choice. |
+
+Two cases need care:
+
+* **Step 5 splits.** The oral reading half is accuracy work. The main-idea writing half is not — the bar there is "most students have written *something*."
+* **Step 8 is about form, not opinion.** Hold the line on the self-check items — evidence used, reason given, complete sentences. Do not steer a student toward the opinion you would have written.
+
+### Rollout sequence
+
+| Session | Introduce | Do not yet mention |
+|---|---|---|
+| 1 | Tier 1 — the four behavioral moves | Cold Call theory, Right Is Right |
+| 2 | Tier 2, once cold calling is already happening | Tier 3 |
+| 3+ | Tier 3, once the step sequence is automatic | — |
+
+Teachers learning a scripted lesson **and** ten new techniques at the same time will do both badly.
+
+---
+
+## 4. How to Train the Lesson (Recommended Training Flow)
 
 ### Step 1: Live Modeling by the Trainer
 
@@ -2893,6 +2938,7 @@ Use the scripted lesson to point out:
 
 * Teachers practice **one step only**
 * They must follow the script closely
+* Trainer names **one technique from the current tier** as the focus of the rehearsal, and coaches only that one
 * Trainer interrupts if teachers:
 
   * explain vocabulary during Step 3
@@ -2905,7 +2951,7 @@ Trainer language to normalize interruption:
 
 ---
 
-## 4. Step‑by‑Step Training Focus (What Trainers Emphasize)
+## 5. Step‑by‑Step Training Focus (What Trainers Emphasize)
 
 ### Phase 1 (Steps 1–3): Discipline & Silence
 
@@ -2961,7 +3007,7 @@ Trainer correction:
 
 ---
 
-### Phase 4 (Steps 9–12): Practice, Not Explanation
+### Phase 4 (Steps 9–10): Practice, Not Explanation
 
 Train teachers to:
 
@@ -2978,7 +3024,7 @@ Trainer correction:
 
 ---
 
-### Phase 5 (Steps 13–14): Independence & Responsibility
+### Phase 5 (Steps 11–13): Independence & Responsibility
 
 Train teachers to:
 
@@ -2995,7 +3041,7 @@ Trainer correction:
 
 ---
 
-## 5. Observation Checklist for Trainers
+## 6. Observation Checklist for Trainers
 
 Use this during classroom visits:
 
@@ -3014,7 +3060,7 @@ Missing more than two items = follow‑up coaching needed.
 
 ---
 
-## 6. Coaching Language Trainers Should Use
+## 7. Coaching Language Trainers Should Use
 
 Avoid saying:
 
@@ -3029,7 +3075,7 @@ Prefer:
 
 ---
 
-## 7. Final Trainer Message
+## 8. Final Trainer Message
 
 > "This lesson is not about teacher performance.
 > It is about **student habits**.
