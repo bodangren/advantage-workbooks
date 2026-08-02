@@ -117,9 +117,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Future Roadmap
 
-- [ ] **Track: Cloud Migration & Multi-User Collaboration**
-  *Link: [./tracks/cloud_migration_multi_user_20260408/](./tracks/cloud_migration_multi_user_20260408/)*
-  Transition from local-filesystem persistence to Supabase (Postgres for structured metadata, Supabase Storage for lesson JSON blobs and images). Add email+password authentication via Supabase Auth, protect all routes with Next.js middleware, and display real-time presence indicators so content team members can see who else has a project open.
+- [~] **Track: Cloud Migration & Multi-User Collaboration** — *ARCHIVED, DO NOT IMPLEMENT*
+  *Link: [./archive/cloud_migration_multi_user_20260408/](./archive/cloud_migration_multi_user_20260408/)*
+  Specified a Supabase stack that does not exist and was never adopted. The monorepo runs a provider-neutral platform (Postgres + Drizzle via `@reading-advantage/db`, S3-compatible storage via `@reading-advantage/storage`, tRPC via `@reading-advantage/api`, first-party auth via `@reading-advantage/auth`), and direct `@supabase` imports are denylisted by architecture enforcement.
+  **Replaced by:** `measure/tracks/workbook_content_versioning_20260711` in the **reading-advantage-monorepo** repo — "Workbook Publishing Platform and Ecosystem Import", which imports this repo as `apps/workbooks`.
 
 - [ ] **Track: Interactive Digital Export (Blended Learning Expansion)**
   *Link: [./tracks/interactive_digital_export_20260408/](./tracks/interactive_digital_export_20260408/)*

@@ -1,0 +1,11 @@
+{
+  "track_id": "cloud_migration_multi_user_20260408",
+  "type": "feature",
+  "status": "archived",
+  "created_at": "2026-04-08T12:00:00Z",
+  "updated_at": "2026-04-08T12:00:00Z",
+  "description": "Migrate workbook project and lesson persistence from the local filesystem to Supabase (Postgres + Storage), and enable multiple content team members to collaborate on the same project simultaneously.",
+  "estimated_tasks": 22,
+  "actual_tasks": null,
+  "deviation_notes": "SUPERSEDED AND INCORRECT. The Supabase stack described here does not exist and was never adopted; the monorepo uses a provider-neutral platform (Postgres via @reading-advantage/db + Drizzle, S3-compatible object storage via @reading-advantage/storage, tRPC via @reading-advantage/api, first-party auth via @reading-advantage/auth). Direct @supabase imports are denylisted by monorepo architecture enforcement. The real migration is defined in the monorepo at measure/tracks/workbook_content_versioning_20260711 (Workbook Publishing Platform and Ecosystem Import), which imports this repo as apps/workbooks. Archived unstarted 2026-08-02; do not implement."
+}
