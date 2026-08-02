@@ -13,7 +13,9 @@ Use JSDoc for all exported functions. Describe params and returns without repeat
 
 ## Codebase Graph
 
-This project uses `build-graph`. Load the `build-graph` skill for commands.
+`repo-graph` is the executable; `build-graph` is the skill that documents it. Load the `build-graph` skill for commands, then invoke `repo-graph`.
+
+No `graph.db` exists in this repo yet — run `repo-graph scan . ./graph.db` before the first structural query.
 
 ## Critical Agent Knowledge
 * **Schema Truth:** `workbook_schema.ts` (Zod) is the definitive data structure.
