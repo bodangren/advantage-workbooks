@@ -7,7 +7,7 @@ echo "Building Reading Advantage Teacher's Manual (Thai Version)..."
 echo "กำลังสร้างคู่มือครูสำหรับ Reading Advantage (ฉบับภาษาไทย)..."
 
 # Define the Teacher guide directory
-GUIDE_DIR="/home/daniel-bo/Downloads/Workbooks/Teacher guide"
+GUIDE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change to the guide directory
 cd "$GUIDE_DIR"
@@ -58,10 +58,10 @@ if command -v wkhtmltopdf &> /dev/null; then
         --enable-local-file-access \
         --print-media-type \
         --encoding UTF-8 \
-        --margin-top 30mm \
-        --margin-bottom 30mm \
-        --margin-left 30mm \
-        --margin-right 30mm \
+        --margin-top 15mm \
+        --margin-bottom 15mm \
+        --margin-left 15mm \
+        --margin-right 15mm \
         --footer-center "หน้า [page] จาก [toPage]" \
         --footer-font-size 9 \
         --footer-spacing 5 \

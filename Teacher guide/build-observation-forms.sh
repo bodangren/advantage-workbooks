@@ -6,7 +6,7 @@
 echo "Building Reading Advantage Observation Forms..."
 
 # Define the Teacher guide directory
-GUIDE_DIR="/home/daniel-bo/Downloads/Workbooks/Teacher guide"
+GUIDE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change to the guide directory
 cd "$GUIDE_DIR"
@@ -17,7 +17,10 @@ if command -v pandoc &> /dev/null; then
     pandoc observation-form-quarterly.md \
         -o observation-form-quarterly.pdf \
         --pdf-engine=wkhtmltopdf \
-        -V geometry:margin=1in \
+        -V margin-top=15mm \
+        -V margin-bottom=15mm \
+        -V margin-left=15mm \
+        -V margin-right=15mm \
         -V papersize=letter
     echo "✓ Quarterly form PDF created: observation-form-quarterly.pdf"
 else
@@ -30,7 +33,10 @@ if command -v pandoc &> /dev/null; then
     pandoc observation-form-walkthrough.md \
         -o observation-form-walkthrough.pdf \
         --pdf-engine=wkhtmltopdf \
-        -V geometry:margin=1in \
+        -V margin-top=15mm \
+        -V margin-bottom=15mm \
+        -V margin-left=15mm \
+        -V margin-right=15mm \
         -V papersize=letter
     echo "✓ Walkthrough form PDF created: observation-form-walkthrough.pdf"
 else
@@ -43,7 +49,10 @@ if command -v pandoc &> /dev/null; then
     pandoc observation-form-quarterly-th.md \
         -o observation-form-quarterly-th.pdf \
         --pdf-engine=wkhtmltopdf \
-        -V geometry:margin=1in \
+        -V margin-top=15mm \
+        -V margin-bottom=15mm \
+        -V margin-left=15mm \
+        -V margin-right=15mm \
         -V papersize=letter
     echo "✓ Thai Quarterly form PDF created: observation-form-quarterly-th.pdf"
 else
@@ -56,7 +65,10 @@ if command -v pandoc &> /dev/null; then
     pandoc observation-form-walkthrough-th.md \
         -o observation-form-walkthrough-th.pdf \
         --pdf-engine=wkhtmltopdf \
-        -V geometry:margin=1in \
+        -V margin-top=15mm \
+        -V margin-bottom=15mm \
+        -V margin-left=15mm \
+        -V margin-right=15mm \
         -V papersize=letter
     echo "✓ Thai Walkthrough form PDF created: observation-form-walkthrough-th.pdf"
 else

@@ -6,7 +6,7 @@
 echo "Building Reading Advantage Training Slides (English)..."
 
 # Define the Teacher guide directory
-GUIDE_DIR="/home/daniel-bo/Downloads/Workbooks/Teacher guide"
+GUIDE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change to the guide directory
 cd "$GUIDE_DIR"

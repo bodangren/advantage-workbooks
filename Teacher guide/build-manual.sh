@@ -6,7 +6,7 @@
 echo "Building Reading Advantage Teacher's Manual..."
 
 # Define the Teacher guide directory
-GUIDE_DIR="/home/daniel-bo/Downloads/Workbooks/Teacher guide"
+GUIDE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Change to the guide directory
 cd "$GUIDE_DIR"
@@ -51,10 +51,10 @@ if command -v wkhtmltopdf &> /dev/null; then
     wkhtmltopdf \
         --enable-local-file-access \
         --print-media-type \
-        --margin-top 30mm \
-        --margin-bottom 30mm \
-        --margin-left 30mm \
-        --margin-right 30mm \
+        --margin-top 15mm \
+        --margin-bottom 15mm \
+        --margin-left 15mm \
+        --margin-right 15mm \
         --footer-center "Page [page] of [toPage]" \
         --footer-font-size 9 \
         --footer-spacing 5 \
