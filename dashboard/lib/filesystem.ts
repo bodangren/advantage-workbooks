@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { assertWritable } from './cutover';
 
 export type ProjectType = 'primary' | 'secondary';
 
@@ -184,6 +185,7 @@ export async function readLesson(projectId: string, lessonId: string): Promise<W
 }
 
 export async function writeLesson(projectId: string, lessonId: string, data: WorkbookLesson): Promise<void> {
+  assertWritable('writeLesson');
   const { fullPath } = await resolveProjectPath(projectId);
   const lessonPath = path.join(fullPath, `${lessonId}.json`);
 
@@ -215,6 +217,7 @@ export async function readProjectMetadata(projectId: string): Promise<ProjectMet
 }
 
 export async function writeProjectMetadata(projectId: string, metadata: ProjectMetadata): Promise<void> {
+  assertWritable('writeProjectMetadata');
   const { fullPath } = await resolveProjectPath(projectId);
   const metadataPath = path.join(fullPath, 'project.json');
 
@@ -227,6 +230,7 @@ export async function createProject(options: CreateProjectOptions): Promise<Work
 /** @deprecated Use the object-based signature with type and metadata fields */
 export async function createProject(name: string): Promise<WorkbookProject>;
 export async function createProject(nameOrOptions: string | CreateProjectOptions): Promise<WorkbookProject> {
+  assertWritable('createProject');
   if (typeof nameOrOptions === 'string') {
     // Legacy signature: createProject(name) — defaults to secondary
     const name = nameOrOptions;
