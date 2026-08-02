@@ -74,14 +74,14 @@
 
 ## PHASE 4: PRACTICE
 
-### Steps 9–10 – Vocabulary Practice
+### Step 9 – Vocabulary Practice
 
 * Flashcards: Audio → choral → cold call
 * Matching: Whole class or student at board
 * Workbook: Matching + cloze
 * Check: Students show number correct
 
-### Steps 11–12 – Sentence Practice
+### Step 10 – Sentence Practice
 
 * Flashcards: Full sentence choral + individual
 * One app activity modeled
@@ -92,21 +92,21 @@
 
 ## PHASE 5: PRODUCTION & REFLECTION
 
-### Step 13 – Writing (Workbook Only)
+### Step 11 – Writing (Workbook Only)
 
 * Say: *"Plan first. Then write."*
 * Do: Model planning boxes only
 * Students: Draft + self-check
 * Check: Everyone wrote something
 
-### Step 14 – Language Questions (AI)
+### Step 12 – Language Questions (AI)
 
 * Rule: **Write first, AI second**
 * Do: Select questions, type, explain answers
 * Students: Record answers
 * Check: Questions are language-focused
 
-### Final – Reflection
+### Step 13 – Lesson Reflection
 
 * App: Brief summary
 * Workbook: Reflection + optional homework

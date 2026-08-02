@@ -1,19 +1,17 @@
-Continuing. Below are **Steps 9–10**, written as **one combined scripted instructional block**, at the **same explicit, novice-safe level** as previous steps. I am intentionally over-describing teacher behavior because this is where many teachers either rush or “hand the app back to itself.”
-
----
-
-# Steps 9–10: Vocabulary Practice
+# Step 9: Vocabulary Practice
 
 *(Reviewing and Strengthening Saved Vocabulary)*
 
 > **Important orientation for the teacher:**
-> In the app these are two steps, but in teaching they function as **one continuous practice cycle**. Do not treat them as separate lessons.
+> This step has three parts: two app activities followed by the workbook page. In teaching they function as **one continuous practice cycle**. Do not treat them as separate lessons.
+
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered the two app activities below as separate Steps 9 and 10; they are now App Activity A and App Activity B inside workbook Step 9.
 
 ---
 
-## Step 9 (App): Vocabulary Flashcards
+## App Activity A: Vocabulary Flashcards
 
-**What teachers project for Step 9:**
+**What teachers project for App Activity A:**
 
 ![Vocabulary flashcard interface showing word with audio playback and answer reveal](app step 9.png)
 
@@ -95,9 +93,9 @@ If repetition is weak, the teacher repeats **one or two cards only**, then moves
 
 ---
 
-## Step 10 (App): Vocabulary Matching Game
+## App Activity B: Vocabulary Matching Game
 
-**What teachers project for Step 10:**
+**What teachers project for App Activity B:**
 
 ![Vocabulary matching game interface with words and definitions to match](app step 10.png)
 
@@ -166,7 +164,7 @@ Students do **not**:
 
 ---
 
-## 4. Workbook follow-up (Workbook Step 9)
+## Workbook page: Step 9 – Vocabulary Practice
 
 After both app activities, the teacher directs students clearly.
 
@@ -199,9 +197,9 @@ After both app activities, the teacher directs students clearly.
 
 ---
 
-## 5. What the teacher checks before moving on
+## What the teacher checks before leaving Step 9
 
-Before leaving this block, the teacher:
+Before leaving this step, the teacher:
 
 * Asks students to **check their answers**.
 * Says:
@@ -213,7 +211,7 @@ Before leaving this block, the teacher:
 
 ---
 
-## 6. Coaching note (optional – for experienced teachers)
+## Coaching note (optional – for experienced teachers)
 
 **Why this step matters:**
 This is where vocabulary moves from *recognition* to *retrieval*.
@@ -235,8 +233,4 @@ But do not remove:
 * saying the word before matching
 
 Those are the anchors for weaker readers.
-
----
-
-If you’re ready, I will continue with **Steps 11–12: Sentence Practice**, written at the same level of scripting and control.
 

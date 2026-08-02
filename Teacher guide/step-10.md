@@ -1,19 +1,17 @@
-Continuing. Below are **Steps 11–12**, written to the **same fully scripted, action-by-action standard**. This block mirrors the vocabulary practice but shifts the unit of attention from *words* to *sentences*, and the teacher’s modeling remains central.
-
----
-
-# Steps 11–12: Sentence Practice
+# Step 10: Sentence Practice
 
 *(Reviewing and Practicing Selected Sentences)*
 
 > **Orientation for the teacher:**
-> As with vocabulary, these are two app steps but **one instructional block**. Students are learning *how to practice sentences independently*, not just completing an activity.
+> As with vocabulary, this step contains two app activities and a workbook page, but it is **one instructional block**. Students are learning *how to practice sentences independently*, not just completing an activity.
+
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions numbered the two app activities below as separate Steps 11 and 12; they are now App Activity A and App Activity B inside workbook Step 10.
 
 ---
 
-## Step 11 (App): Sentence Flashcards
+## App Activity A: Sentence Flashcards
 
-**What teachers project for Step 11:**
+**What teachers project for App Activity A:**
 
 ![Sentence flashcards screen in the app](app step 11.png)
 
@@ -88,7 +86,7 @@ Students do **not**:
 
 ## 4. What the teacher checks before moving on
 
-Before proceeding to Step 12, the teacher checks that:
+Before proceeding to App Activity B, the teacher checks that:
 
 * All saved sentences have been heard and repeated.
 * Students can repeat full sentences, not just fragments.
@@ -100,9 +98,9 @@ If students are mumbling or truncating sentences, the teacher repeats one model 
 
 ---
 
-## Step 12 (App): Sentence Practice Activities
+## App Activity B: Sentence Practice Activities
 
-**What teachers project for Step 12:**
+**What teachers project for App Activity B:**
 
 ![Sentence practice activities screen in the app](app step 12.png)
 
@@ -166,7 +164,7 @@ The teacher allows mistakes and models correction through repetition.
 
 ---
 
-## 4. Workbook follow-up (Workbook Step 10)
+## Workbook page: Step 10 – Sentence Practice
 
 After the app activity, the teacher gives clear instructions.
 
@@ -197,7 +195,7 @@ After the app activity, the teacher gives clear instructions.
 
 ---
 
-## 5. What the teacher checks before moving on
+## What the teacher checks before leaving Step 10
 
 Before continuing, the teacher:
 
@@ -211,7 +209,7 @@ Before continuing, the teacher:
 
 ---
 
-## 6. Coaching note (optional – for experienced teachers)
+## Coaching note (optional – for experienced teachers)
 
 **Why sentence practice follows vocabulary practice:**
 Students often know words but cannot *assemble meaning*. This step forces attention on order, structure, and completeness.
@@ -223,8 +221,4 @@ Advanced teachers may:
 
 But avoid turning this into grammar explanation.
 The strength here is **repeated exposure + correction**, not rules.
-
----
-
-If you’re ready, I will continue with **Step 13: Writing Practice (Workbook Only)**, maintaining the same scripted level.
 

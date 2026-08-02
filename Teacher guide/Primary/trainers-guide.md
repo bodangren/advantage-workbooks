@@ -31,7 +31,7 @@ Good teacher language:
 
 Risk language:
 
-* "Now we are on Step 14."
+* "Now we are on Step 14." — there is no Step 14 in either track; the lesson ends at Step 13
 * "Save 5 words here."
 * "Save 5 sentences here."
 * "Skip the planner and type in the app."

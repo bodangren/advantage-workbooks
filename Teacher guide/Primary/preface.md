@@ -74,11 +74,13 @@ Implementation notes for coaches, heads of department, and mentors.
 
 ## Primary-Specific Differences From Older Guides
 
-This primary version differs from the older secondary guide in several important ways:
+Both the primary and secondary manuals now number their steps **1–13, matching the student workbook**. Older editions of the secondary guide used a 14-step teacher sequence (and numbered reflection as Step 15 in the complete plan); if you are holding one of those, its Steps 9–15 map onto Steps 9–13 here.
 
-* The workbook ends at **Step 13**, not Step 14 plus a separate final reflection
+This primary version differs from the secondary guide in several important ways:
+
+* There are **no standalone app activity steps**. In secondary, Steps 9 and 10 each contain two app activities before the workbook page; in primary the workbook page is the activity.
 * Reflection and homework are built directly into the printed lesson ending
-* Writing is **Step 11: Guided Writing**, not a later Step 13 writing block
+* Writing is **Step 11: Guided Writing**
 * Language Questions is **Step 12**
 * The student sees workbook labels such as **Deep Reading Notes**, **Guided Response**, and **Guided Writing**
 * The printed workbook currently gives students:

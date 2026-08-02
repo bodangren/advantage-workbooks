@@ -25,10 +25,11 @@ cat title-page.md \
     step-6.md \
     step-7.md \
     step-8.md \
-    step-9-10.md \
-    step-11-12.md \
+    step-9.md \
+    step-10.md \
+    step-11.md \
+    step-12.md \
     step-13.md \
-    step-14.md \
     trainers-guide.md \
     > teachers-manual-compiled.md
 

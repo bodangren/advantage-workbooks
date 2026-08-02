@@ -147,7 +147,7 @@ Trainer correction:
 
 ---
 
-### Phase 4 (Steps 9–12): Practice, Not Explanation
+### Phase 4 (Steps 9–10): Practice, Not Explanation
 
 Train teachers to:
 
@@ -164,7 +164,7 @@ Trainer correction:
 
 ---
 
-### Phase 5 (Steps 13–14): Independence & Responsibility
+### Phase 5 (Steps 11–13): Independence & Responsibility
 
 Train teachers to:
 

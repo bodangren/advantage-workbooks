@@ -1,176 +1,106 @@
-Continuing. Below is **Step 13**, written at the **same fully scripted, novice-safe level**. This step is intentionally different in nature, and the script makes that difference explicit so teachers do not try to “run it like the app.”
-
----
-
-# Step 13: Writing Practice (Workbook Only – Long Answer)
+# Step 13: Lesson Summary & Reflection (Workbook Only)
 
 > **Important framing for the teacher:**
-> This step is **not led through the app**. It is a **quiet, sustained writing task** designed to prepare students for later AI-supported writing at home or in another session.
+> This is the last page of the workbook and the last step of the lesson. It is **not optional** and it is **not led through the app**. Protect the time for it.
 
----
-
-## What teachers project on screen:
-
-![App interface for Step 13 - Writing Practice](app step 13.png)
-
-*The app shows Step 13 with the title "Writing Practice" and instructions for this offline writing activity.*
+> **Numbering note:** Step numbers in this manual follow the **student workbook**. Earlier editions of this manual treated reflection as an unnumbered "Final Step" appended to Step 14, and `complete-plan.md` numbered it Step 15. It is workbook **Step 13**.
 
 ---
 
 ## 1. What the teacher says
 
-The teacher stands at the front, holding the workbook or pointing to the projected image of the page.
+The teacher signals closure clearly.
 
-> “Now we will write.”
->
-> “This is your own writing.”
+> “We are finishing the lesson.”
 
-The teacher clarifies expectations immediately:
+The teacher adds:
 
-> “This is not copying.”
->
-> “This is not a test.”
-
-The teacher adds reassurance:
-
-> “You will plan first.”
->
-> “Then you will write.”
-
-The teacher then explains level expectations carefully:
-
-> “How much you write depends on your level.”
->
-> “Follow the advice in the workbook.”
+> “Now you will think about your learning.”
 
 ---
 
 ## 2. What the teacher does
 
-* Directs students to open the workbook to **Step 11: Writing Practice**.
+* Projects the **Lesson Summary** screen briefly.
+* Points to indicators such as:
 
-## What students see in their workbooks:
+  * completed steps,
+  * saved vocabulary,
+  * saved sentences,
+  * quiz results.
+* Says:
 
-![Workbook page - Step 11: Writing Practice](WB 11 Writing practice.png)
+> “These show what you practiced today.”
 
-*The workbook page shows planning boxes (main idea, key details, vocabulary to use, reason/explanation), writing space, and a self-check list at the bottom.*
+The teacher then directs attention back to the workbook.
+
+> "Open to the last page: Lesson Reflection."
 
 ---
 
-* Points to the **planning boxes** and names them one by one:
+## What students see for lesson reflection:
 
-  * Main idea
-  * Key details
-  * Vocabulary to use
-  * Reason / explanation
-* Says:
+![Workbook page: Step 13 - Lesson Reflection](WB 13 - Lesson Reflection.png)
 
-> “Do not start writing sentences yet.”
->
-> “Plan first.”
-
-The teacher models planning briefly by:
-
-* Writing one example word or phrase on the board (not a full sentence).
-* Saying:
-
-> “This is planning, not writing.”
-
-The teacher then sets the writing condition:
-
-> “You will write quietly.”
->
-> “I will not correct sentences now.”
-
-While students are writing, the teacher:
-
-* Walks slowly around the room.
-* Looks for:
-
-  * students planning before drafting,
-  * students actually writing,
-  * students stuck and not starting.
-* Encourages quietly:
-
-  > “Start with your main idea.”
-  > “Check your vocabulary list.”
-
-The teacher does **not**:
-
-* dictate sentences,
-* correct grammar line by line,
-* allow students to copy from the screen.
+*The reflection page where students record what they learned, rate their understanding and effort, and note questions.*
 
 ---
 
 ## 3. What students do
 
-* Open the workbook to the writing page.
-* Complete the planning boxes first.
-* Write a **first draft** based on their plan.
-* Use vocabulary from the lesson (at least 3 words, as indicated).
-* Organize ideas into clear sentences or paragraphs, appropriate to level.
-* Complete the self-check at the bottom of the page:
+Students complete the reflection section in the workbook:
 
-  * vocabulary use,
-  * organization,
-  * spelling check,
-  * word count.
+* Write one thing they learned.
+* Rate their understanding.
+* Rate their effort.
+* Note something interesting.
+* Write one remaining question (language or cultural).
 
-Students work **individually and quietly**.
+Students work quietly and individually.
 
 ---
 
-## 4. What the teacher checks before moving on
+## 4. Homework explanation (optional)
 
-Before ending this step, the teacher checks that:
+If the teacher chooses to assign homework, they say explicitly:
 
-* Every student has written **something**, even if short.
-* Planning boxes are completed, not skipped.
-* Students have attempted the self-check honestly.
+> “Your homework is written here.”
 
-If students have written very little, the teacher says calmly:
+The teacher points to the homework section and explains which items are required.
 
-> “This is a first draft.”
->
-> “It does not need to be perfect.”
+If the school uses guardian signatures, the teacher says:
 
----
+> “Ask a guardian to sign here.”
 
-## 5. Connection to the app (explained, not performed)
+If not, the teacher says:
 
-Before moving to the next step, the teacher explains clearly:
-
-> “Later, you will type this writing into the app.”
->
-> “The app will give you feedback.”
->
-> “You will improve your writing and submit again.”
-
-The teacher emphasizes:
-
-> “That happens **after** class, not now.”
+> “You do not need a signature.”
 
 ---
 
-## 6. Coaching note (optional – for experienced teachers)
+## 5. What the teacher checks before dismissal
 
-**Why this step stays offline first:**
-Writing quality improves when students **think before typing**. The workbook forces planning and reflection that many students skip in digital spaces.
+Before ending the lesson, the teacher checks that:
+
+* Students have completed the reflection.
+* Homework expectations are clear.
+* Materials are packed away.
+
+The teacher closes with:
+
+> “Next time, you will use the app more independently.”
+
+---
+
+## Coaching note (optional – for experienced teachers)
+
+**Why reflection matters:**
+This step trains students to connect effort, strategy, and outcome. Over time, it builds learner independence.
 
 Advanced teachers may:
 
-* allow peer sharing after drafting
-* extend writing length at higher levels
+* briefly discuss reflections
+* track patterns across lessons
 
-But do not remove:
-
-* the planning stage
-* the self-check list
-
-Those are what make the later AI feedback meaningful.
-
----
-
-If you’re ready, I will continue with **Step 14: Language Questions (AI Chatbot)**, maintaining the same scripted standard.
-
+But avoid turning reflection into discussion every time.
+Its power is in **routine and honesty**, not performance.

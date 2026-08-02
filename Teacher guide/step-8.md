@@ -196,8 +196,3 @@ But do not skip:
 * discussing the rubric.
 
 Those are what make this step transferable to independent app use.
-
----
-
-If you’re ready, I will continue with **Steps 9–10: Vocabulary Practice**, written at the same level of scripting.
-

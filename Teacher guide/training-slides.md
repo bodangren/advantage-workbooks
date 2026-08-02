@@ -370,11 +370,11 @@ Steps 7–8
 # PHASE 4
 
 ## Practice, Production & Reflection
-Steps 9–15
+Steps 9–13
 
 ---
 
-# Steps 9–10: Vocabulary Practice
+# Step 9: Vocabulary Practice
 
 <div class="columns">
 
@@ -398,7 +398,7 @@ Steps 9–15
 
 ---
 
-# Steps 11–12: Sentence Practice
+# Step 10: Sentence Practice
 
 <div class="columns">
 
@@ -422,7 +422,7 @@ Steps 9–15
 
 ---
 
-# Step 13: Writing Practice
+# Step 11: Writing Practice
 
 <div class="columns">
 
@@ -446,7 +446,7 @@ Steps 9–15
 
 ---
 
-# Step 14: Language Questions (AI)
+# Step 12: Language Questions (AI)
 
 <div class="columns">
 
@@ -470,7 +470,7 @@ Steps 9–15
 
 ---
 
-# Step 15: Summary & Reflection
+# Step 13: Summary & Reflection
 
 <div class="columns">
 

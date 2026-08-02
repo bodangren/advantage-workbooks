@@ -90,7 +90,7 @@ Reading Advantage is built on three core instructional principles:
 We do not assume students know how to read strategically, select vocabulary, or self-assess. Every skill is **modeled explicitly** before students practice independently.
 
 ### 2. **Gradual Release of Responsibility**
-Lessons move from teacher-led (Steps 1–3) to collaborative (Steps 4–8) to independent practice (Steps 9–14). This ensures students develop the habits needed for autonomous reading.
+Lessons move from teacher-led (Steps 1–3) to collaborative (Steps 4–8) to independent practice (Steps 9–13). This ensures students develop the habits needed for autonomous reading.
 
 ### 3. **Evidence-Based Comprehension**
 We train students to justify their answers using text evidence, not guessing or relying on background knowledge alone. This builds critical reading skills essential for academic success.
@@ -154,7 +154,7 @@ Optional but helpful:
 The lesson plan in this manual describes a **full 60–90 minute lesson**. This is ideal for deep learning and habit formation.
 
 However, we understand that class periods vary. If you have less time:
-- **45-minute version:** Omit or shorten Steps 9–12 (vocabulary and sentence practice can be assigned as homework or done in a future lesson)
+- **45-minute version:** Omit or shorten Steps 9–10 (vocabulary and sentence practice can be assigned as homework or done in a future lesson)
 - **30-minute version:** Focus on Steps 1–8 only (orientation, reading, and comprehension), and assign practice steps as independent work
 
 **What you should never skip:**

@@ -27,10 +27,11 @@ cat title-page-th.md \
     step-6-th.md \
     step-7-th.md \
     step-8-th.md \
-    step-9-10-th.md \
-    step-11-12-th.md \
+    step-9-th.md \
+    step-10-th.md \
+    step-11-th.md \
+    step-12-th.md \
     step-13-th.md \
-    step-14-th.md \
     trainers-guide-th.md \
     > teachers-manual-compiled-th.md
 

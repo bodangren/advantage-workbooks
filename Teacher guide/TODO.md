@@ -26,9 +26,9 @@ Create a comprehensive, illustrated Reading Advantage Teacher's Manual that comb
 - ✅ `quick-reference.md` - One-page condensed script
 - ✅ `complete-plan.md` - Full lesson walkthrough
 - ✅ `trainers-guide.md` - Coach/mentor implementation guide
-- ⏳ `step-1.md` through `step-14.md` - Detailed step descriptions (need review)
-- ⏳ `step-9-10.md` - Combined vocabulary practice steps
-- ⏳ `step-11-12.md` - Combined sentence practice steps
+- ⏳ `step-1.md` through `step-13.md` - Detailed step descriptions (need review)
+  - Numbering follows the student workbook: 13 steps, both tracks
+  - `step-9.md` and `step-10.md` each contain two app activities plus the workbook page
 
 ### Image Files
 **App Screenshots (14 files):**
@@ -66,10 +66,11 @@ Create a comprehensive, illustrated Reading Advantage Teacher's Manual that comb
 - [ ] Read `step-6.md` - Collect Sentences
 - [ ] Read `step-7.md` - Multiple Choice Comprehension
 - [ ] Read `step-8.md` - Short Answer Questions
-- [ ] Read `step-9-10.md` - Vocabulary Practice (combined)
-- [ ] Read `step-11-12.md` - Sentence Practice (combined)
-- [ ] Read `step-13.md` - Writing Practice
-- [ ] Read `step-14.md` - Language Questions (AI Chatbot)
+- [ ] Read `step-9.md` - Vocabulary Practice (2 app activities + workbook page)
+- [ ] Read `step-10.md` - Sentence Practice (2 app activities + workbook page)
+- [ ] Read `step-11.md` - Writing Practice
+- [ ] Read `step-12.md` - Language Questions (AI Chatbot)
+- [ ] Read `step-13.md` - Lesson Summary & Reflection
 
 ### Phase 2: Image Integration Planning
 - [ ] Map app screenshots to corresponding steps

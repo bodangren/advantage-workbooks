@@ -273,7 +273,7 @@ For **each question**:
 
 # PHASE 4: PRACTICE, PRODUCTION, & REFLECTION
 
-## Steps 9–10: Vocabulary Practice
+## Step 9: Vocabulary Practice
 
 ### Teacher Actions
 
@@ -288,7 +288,7 @@ For **each question**:
 
 ---
 
-## Steps 11–12: Sentence Practice
+## Step 10: Sentence Practice
 
 ### Teacher Actions
 
@@ -302,7 +302,7 @@ For **each question**:
 
 ---
 
-## Step 13: Writing Practice (Workbook First)
+## Step 11: Writing Practice (Workbook First)
 
 ### Teacher Actions
 
@@ -318,7 +318,7 @@ For **each question**:
 
 ---
 
-## Step 14: Language Questions (AI Chatbot)
+## Step 12: Language Questions (AI Chatbot)
 
 ### Teacher Actions
 
@@ -333,7 +333,7 @@ For **each question**:
 
 ---
 
-## Step 15: Lesson Summary & Reflection
+## Step 13: Lesson Summary & Reflection
 
 ### Teacher Actions
 
