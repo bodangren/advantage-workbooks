@@ -12,10 +12,10 @@ Create a comprehensive, illustrated Reading Advantage Teacher's Manual that comb
 ## Manual Structure (Final Order)
 
 1. **Preface** ✅ COMPLETE
-2. **Quick Reference** ✅ COMPLETE (split from summaries.md)
-3. **Complete Plan** ✅ COMPLETE (split from summaries.md)
+2. **Quick Reference** ✅ COMPLETE (split from the former summaries.md, since removed)
+3. **Complete Plan** ✅ COMPLETE (split from the former summaries.md, since removed)
 4. **Step-by-Step Detailed Description** ⏳ IN PROGRESS
-5. **Trainer's Guide** ✅ COMPLETE (split from summaries.md)
+5. **Trainer's Guide** ✅ COMPLETE (split from the former summaries.md, since removed)
 
 ---
 
