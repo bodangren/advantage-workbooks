@@ -46,7 +46,88 @@ If any of these are violated, fidelity breaks.
 
 ---
 
-## 3. How to Train the Lesson (Recommended Training Flow)
+## 3. Classroom Technique: The Core Moves
+
+The scripted lesson tells a teacher **what to say**. It does not tell them **how to hold a room**. That gap is where most implementation failures actually happen — not in the sequence, but in the thirty seconds after a student mumbles an answer.
+
+This section adopts a small set of techniques from *Teach Like a Champion* (Doug Lemov, Uncommon Schools) and its literacy companion *Reading Reconsidered*. The descriptions below are written against our own lesson rather than quoted from those books; trainers who want the full treatment should read the originals.
+
+**Do not train all ten at once.** They are tiered deliberately — see the rollout table at the end of this section.
+
+> **Terminology note:** Technique names are kept in English — in Latin script — so they stay portable, match the published books, and remain searchable across the manual. The Thai edition pairs each name with a short Thai reminder of **the move itself**, not a translation of the label, then uses the English term alone thereafter.
+
+### Tier 1 — Behavioral foundation
+
+**What to Do** — Directions are specific, concrete, sequential, and observable. "Pay attention" is not a direction. "Pencils down, eyes on the screen" is.
+*Already in our lesson:* the scripts are written this way — "Everyone." / "Full sentence." / "Do this first."
+*Trainer watches for:* teachers paraphrasing crisp scripted directions into vague ones.
+
+**Positive Framing** — Correct by naming the behavior you want, not the one you are seeing. Address the group before the individual.
+*Trainer watches for:* running commentary on what is wrong ("stop talking", "you're not listening").
+
+**Precise Praise** — Acknowledge compliance; reserve praise for what exceeds expectation. Name the specific action, not the child.
+*Already in our lesson:* Step 1 tells teachers **not** to praise "high interest." That is this technique applied correctly — rating a five is not an achievement. "You wrote the paragraph number next to your word" is.
+*Trainer watches for:* generic praise ("good job", "very good") used as filler.
+
+**Least Invasive Intervention** — Use the smallest correction that works: non-verbal first, then anonymous group correction, then private individual, and only last a quick public one.
+*Already in our lesson:* Step 9 — "If incorrect, says calmly: *'That one does not match. Let's try again.'*"
+*Trainer watches for:* stopping the whole class to address one student.
+
+### Tier 2 — Making Cold Call safe
+
+Our lesson **cold calls by design** in Steps 2, 9 and 10. Cold Call is only safe when the next two techniques travel with it. Trained alone, it is just exposure.
+
+**Cold Call** — Call on students regardless of raised hands. It must be *universal* (everyone is eligible), *predictable* (it happens every lesson, not as a response to misbehavior), and *unthreatening* (neutral tone, no "gotcha").
+*Trainer watches for:* cold calling only inattentive students. This converts the technique into a disciplinary weapon and destroys it.
+
+**No Opt Out** — A student who cannot answer must still end up saying a correct answer. Take the answer from elsewhere, then return: "Now you say it."
+*Boundary:* accuracy work only — see The Answer Key Test below.
+*Trainer watches for:* moving on after "I don't know", which teaches students that silence is an exit.
+
+**Wait Time** — Three or more seconds between the question and the name. Narrate it: "I'm waiting for more hands."
+*Already in our lesson:* the quarterly observation form already scores this.
+*Trainer watches for:* sub-second questioning, which selects for the fastest student rather than the thinking one.
+
+### Tier 3 — Accuracy and rigor
+
+**Right Is Right** — Hold the standard at all-the-way-right. Do not round a partial answer up into a correct one.
+*Boundary:* accuracy work only — see below.
+
+**Format Matters** — Complete sentences and correct form are part of a correct answer.
+*Already in our lesson:* the Step 8 self-check ("I wrote 2+ complete sentences") and Step 10's "Full sentence."
+
+**Control the Game** *(Reading Reconsidered)* — Accountable oral reading: short unpredictable turns, no advance warning of who reads next, finger tracking, frequent switches.
+*Already in our lesson:* Step 5 implements this completely — unpredictable reader changes, paragraph-break stops, finger tracking. It has simply never been named.
+
+### The Answer Key Test
+
+**Right Is Right and No Opt Out apply only where a correct answer exists.** Applying them to a step that asks the student to *choose* is a category error, and it destroys the metacognitive training that Phase 2 exists to build.
+
+The workbook itself draws the line. The back-of-book Answer Key covers exactly three things: **Step 7** (multiple choice), **Step 9** (match and fill), and **Step 10C** (word order). Add oral accuracy work — **Step 2** repetition and the oral reading in **Steps 3 and 5** — and that is the entire accuracy domain.
+
+| Domain | Steps | Standard |
+|---|---|---|
+| **Accuracy** — a right answer exists | 2, 3, 5 (oral reading), 7, 9, 10C | Hold out for right. No Opt Out applies. |
+| **Choice** — the student's selection *is* the answer | 1, 4, 6, 10D, 11, 12, 13 | Accept, then probe reasoning. Never correct the choice. |
+
+Two cases need care:
+
+* **Step 5 splits.** The oral reading half is accuracy work. The main-idea writing half is not — the bar there is "most students have written *something*."
+* **Step 8 is about form, not opinion.** Hold the line on the self-check items — evidence used, reason given, complete sentences. Do not steer a student toward the opinion you would have written.
+
+### Rollout sequence
+
+| Session | Introduce | Do not yet mention |
+|---|---|---|
+| 1 | Tier 1 — the four behavioral moves | Cold Call theory, Right Is Right |
+| 2 | Tier 2, once cold calling is already happening | Tier 3 |
+| 3+ | Tier 3, once the step sequence is automatic | — |
+
+Teachers learning a scripted lesson **and** ten new techniques at the same time will do both badly.
+
+---
+
+## 4. How to Train the Lesson (Recommended Training Flow)
 
 ### Step 1: Live Modeling by the Trainer
 
@@ -79,6 +160,7 @@ Use the scripted lesson to point out:
 
 * Teachers practice **one step only**
 * They must follow the script closely
+* Trainer names **one technique from the current tier** as the focus of the rehearsal, and coaches only that one
 * Trainer interrupts if teachers:
 
   * explain vocabulary during Step 3
@@ -91,7 +173,7 @@ Trainer language to normalize interruption:
 
 ---
 
-## 4. Step‑by‑Step Training Focus (What Trainers Emphasize)
+## 5. Step‑by‑Step Training Focus (What Trainers Emphasize)
 
 ### Phase 1 (Steps 1–3): Discipline & Silence
 
@@ -181,7 +263,7 @@ Trainer correction:
 
 ---
 
-## 5. Observation Checklist for Trainers
+## 6. Observation Checklist for Trainers
 
 Use this during classroom visits:
 
@@ -200,7 +282,7 @@ Missing more than two items = follow‑up coaching needed.
 
 ---
 
-## 6. Coaching Language Trainers Should Use
+## 7. Coaching Language Trainers Should Use
 
 Avoid saying:
 
@@ -215,7 +297,7 @@ Prefer:
 
 ---
 
-## 7. Final Trainer Message
+## 8. Final Trainer Message
 
 > "This lesson is not about teacher performance.
 > It is about **student habits**.
