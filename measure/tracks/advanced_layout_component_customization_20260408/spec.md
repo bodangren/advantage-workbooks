@@ -35,7 +35,7 @@ The Section Builder operates on a new optional `section_order` array in the `Wor
 - Dragging a card from the palette to the active list inserts it at the drop position.
 - Dragging within the active list reorders sections.
 - A trash-can icon on each active section card removes it from the active list.
-- Changes are applied immediately to the in-memory lesson state and saved to disk/Supabase when the author clicks the existing "Save" button in the lesson editor.
+- Changes are applied immediately to the in-memory lesson state and saved to disk (or Postgres after the monorepo import) when the author clicks the existing "Save" button in the lesson editor.
 
 ### 3. Compiler Integration
 - Update `dashboard/lib/template-renderer.ts` (or the workbook compiler entry point) to honor `section_order` when compiling a lesson.

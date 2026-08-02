@@ -23,7 +23,7 @@ Both features are opt-in at the project level via a new `localization` field in 
   }
   ```
 - Add UI controls for this setting in the project settings area of the dashboard (or the project creation modal). Use the existing Radix UI `Select` and checkbox-equivalent toggle pattern.
-- Persist to the project's `metadata.json` file (or Supabase `projects` table after the Cloud Migration track, if that track has been completed — this track assumes filesystem persistence for independence).
+- Persist to the project's `metadata.json` file (or the Postgres `projects` table after the monorepo import, if that has landed — this track assumes filesystem persistence for independence).
 
 ### 2. Bilingual Instruction Strings
 - Create `dashboard/lib/i18n/th.ts` exporting a constant `TH_INSTRUCTIONS` — a TypeScript object mapping section keys to Thai instruction strings:
