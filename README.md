@@ -30,6 +30,7 @@ The workbook generator now includes a modern web dashboard for easier content ma
 - **Spelling Practice Generator:** Automatically generates a 'Spelling Practice' section at the end of the workbook for students to practice 'Look, Trace, Write, Check' for lesson vocabulary.
 - **Certificate of Completion:** Automatically generates a professional certificate at the end of the workbook for students to get signed by their teacher.
 - **Improved PDF Printing:** Optimized printing workflow directly from the Next.js compilation page with correctly rendered Paged.js paginated outputs and print dialog handling.
+- **Teacher Manual Generation:** Automatically generates a complete per-workbook Teacher Manual — front matter, per-lesson 4-period teaching plans (student-view step inserts, teaching notes, bell-ringers, spelling, and online components), and end matter — in English or Thai.
 - **Mobile Responsive:** Works on desktop and mobile devices
 - **Schema Validation:** Automatic validation ensures data integrity
 - **Project Management:** Organize workbooks by project folders
@@ -65,6 +66,35 @@ The workbook generator now includes a modern web dashboard for easier content ma
    - Use "Show Preview" to see how your lesson will look
    - Navigate to the project page and click "Compile All Lessons"
    - Use your browser's print function (Ctrl+P) to save as PDF
+
+### Teacher Manual Generation
+
+Every workbook project can generate a separate, printable **Teacher Manual** — a companion document that turns the workbook's 13 lesson steps into a 4-period classroom plan.
+
+**What it produces:**
+
+- **Front matter** — title page, an introduction to the 4-period model and blended learning, the per-period lesson structure, pedagogical guidelines (pair work, discussion techniques, app usage), a flashcard games guide, a spelling routine guide, and a goal-setting introduction.
+- **Per-lesson 4-period plans** — one plan per workbook lesson, each split into four teaching periods:
+  - **Period 1 (Steps 1–4) — Launch & Vocabulary:** Before You Read, Key Vocabulary, Read the Article, Collect Vocabulary
+  - **Period 2 (Steps 5–7) — Deep Reading & Comprehension:** Deep Reading Notes, Collect Sentences, Comprehension Check
+  - **Period 3 (Steps 8–10) — Response & Practice:** Guided Response, Vocabulary Practice, Sentence Practice
+  - **Period 4 (Steps 11–13) — Writing & Reflection:** Guided Writing, Language Questions, Lesson Reflection
+  - Every step includes a realistic **"Student View" insert** of the corresponding workbook page plus **teaching notes** (teacher actions, teacher language, student actions, watch-fors). Each period also adds a **bell-ringer** (flashcard activity), a **spelling** component (periods 2–4: trace → write → cover-and-write), and **online components** (app article reading, extensive reading, app vocabulary review, AI writing feedback).
+- **End matter** — a self-assessment administration guide, certificate ceremony tips, and troubleshooting for common classroom issues.
+
+**How to use it:**
+
+1. Open a project in the dashboard and click **"Teacher Manual"** (next to "Compile All").
+2. The preview page compiles all lessons into one paginated document; choose **English** or **ไทย** with the language selector.
+3. Click **Print** (or Ctrl+P / Cmd+P) and save as PDF — **"Background graphics" MUST be enabled** in More Settings, with margins set to **Default** or **None**.
+
+You can also fetch the raw HTML directly:
+
+```bash
+curl "http://localhost:3000/api/projects/<projectId>/teacher-manual?lang=en"  # or lang=th
+```
+
+See [docs/teacher-manual.md](./docs/teacher-manual.md) for the full 4-period structure, and [this preview screenshot](./docs/screenshots/teacher-manual-preview.jpg) for a look at the rendered output.
 
 For detailed documentation, see [dashboard/README.md](./dashboard/README.md)
 
