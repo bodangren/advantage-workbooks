@@ -14,6 +14,7 @@ import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
 import { ArticleEditor } from '@/components/lesson-editor/ArticleEditor';
 import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
 import { PedagogicalConnectorsEditor } from '@/components/lesson-editor/PedagogicalConnectorsEditor';
+import { ComprehensionQuestionsEditor } from '@/components/lesson-editor/ComprehensionQuestionsEditor';
 import {
   Select,
   SelectContent,
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -429,55 +429,12 @@ Style: Photorealistic educational illustration with clear focus and good lightin
           onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
         />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Comprehension Questions</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="comprehension_questions">Questions</Label>
-            <Textarea
-              id="comprehension_questions"
-              value={JSON.stringify(lesson.comprehension_questions || [])}
-              onChange={(e) => {
-                try {
-                  const parsed = JSON.parse(e.target.value);
-                  setLesson({ ...lesson, comprehension_questions: parsed });
-                } catch (err) {
-                  console.error('Invalid JSON:', err);
-                }
-              }}
-              rows={8}
-              className="font-mono text-sm"
-              placeholder={PLACEHOLDERS.questions}
-            />
-            <p className="text-xs text-muted-foreground">
-              Enter as JSON array
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="short_answer_question">Short Answer Question</Label>
-            <Textarea
-              id="short_answer_question"
-              value={lesson.short_answer_question || ''}
-              onChange={(e) => setLesson({ ...lesson, short_answer_question: e.target.value })}
-              rows={3}
-              placeholder="Short answer question prompt..."
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="short_answer_hint">Short Answer Hint</Label>
-            <Input
-              id="short_answer_hint"
-              value={lesson.short_answer_hint || ''}
-              onChange={(e) => setLesson({ ...lesson, short_answer_hint: e.target.value })}
-              placeholder={PLACEHOLDERS.short_answer_hint}
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <ComprehensionQuestionsEditor
+        comprehension_questions={lesson.comprehension_questions}
+        short_answer_question={lesson.short_answer_question}
+        short_answer_hint={lesson.short_answer_hint}
+        onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+      />
 
        <Card>
          <CardHeader>

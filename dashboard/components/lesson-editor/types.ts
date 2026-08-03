@@ -31,6 +31,16 @@ export interface PedagogicalConnectorsEditorProps {
   onChange: (field: 'connection_question' | 'grammar_search_term' | 'discussion_question', value: string) => void;
 }
 
+export interface ComprehensionQuestionsEditorProps {
+  comprehension_questions?: { number: number; question: string; options: string[] }[];
+  short_answer_question?: string;
+  short_answer_hint?: string;
+  onChange: (
+    field: 'comprehension_questions' | 'short_answer_question' | 'short_answer_hint',
+    value: { number: number; question: string; options: string[] }[] | string
+  ) => void;
+}
+
 export type LessonEditorSectionProps<T extends keyof WorkbookLesson = keyof WorkbookLesson> = {
   value: WorkbookLesson[T];
   onChange: (field: T, value: WorkbookLesson[T]) => void;
