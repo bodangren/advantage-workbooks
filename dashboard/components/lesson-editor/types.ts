@@ -60,6 +60,11 @@ export interface WritingPromptEditorProps {
   onVisualBreakImageUpload: (url: string) => void;
 }
 
+export interface LessonReflectionEditorProps {
+  reflection_focus?: string;
+  onChange: (field: 'reflection_focus', value: string) => void;
+}
+
 export type LessonEditorSectionProps<T extends keyof WorkbookLesson = keyof WorkbookLesson> = {
   value: WorkbookLesson[T];
   onChange: (field: T, value: WorkbookLesson[T]) => void;

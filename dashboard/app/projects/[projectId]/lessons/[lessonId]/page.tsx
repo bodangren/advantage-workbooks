@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { use } from 'react';
@@ -15,6 +15,7 @@ import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
 import { PedagogicalConnectorsEditor } from '@/components/lesson-editor/PedagogicalConnectorsEditor';
 import { ComprehensionQuestionsEditor } from '@/components/lesson-editor/ComprehensionQuestionsEditor';
 import { WritingPromptEditor } from '@/components/lesson-editor/WritingPromptEditor';
+import { LessonReflectionEditor } from '@/components/lesson-editor/LessonReflectionEditor';
 import {
   Select,
   SelectContent,
@@ -22,8 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
@@ -39,10 +38,6 @@ const DEFAULTS = {
     "Why this discovery matters:"
   ],
   reflection_focus: "Today I learned:"
-} as const;
-
-const PLACEHOLDERS = {
-  reflection_focus: DEFAULTS.reflection_focus
 } as const;
 
 // Debounce utility
@@ -465,21 +460,10 @@ Style: Photorealistic educational illustration with clear focus and good lightin
          }}
        />
 
-       <Card>
-         <CardHeader>
-           <CardTitle>Lesson Reflection</CardTitle>
-         </CardHeader>
-         <CardContent className="space-y-2">
-           <Label htmlFor="reflection_focus">Reflection Focus</Label>
-           <Textarea
-             id="reflection_focus"
-             value={lesson.reflection_focus || ''}
-             onChange={(e) => setLesson({ ...lesson, reflection_focus: e.target.value })}
-             rows={3}
-             placeholder={PLACEHOLDERS.reflection_focus}
-           />
-         </CardContent>
-       </Card>
+       <LessonReflectionEditor
+         reflection_focus={lesson.reflection_focus}
+         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+       />
 
        {showPreview && previewHtml && (
          <div className="fixed inset-0 bg-black/50 z-50 p-4 overflow-hidden">
