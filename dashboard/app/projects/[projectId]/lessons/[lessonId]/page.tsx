@@ -9,12 +9,12 @@ import { use } from 'react';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 import { WorkbookLessonSchema } from '@/lib/workbook-schema';
 import LessonPreview from '@/components/lesson-preview';
-import { ImageUpload } from '@/components/image-upload';
 import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
 import { ArticleEditor } from '@/components/lesson-editor/ArticleEditor';
 import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
 import { PedagogicalConnectorsEditor } from '@/components/lesson-editor/PedagogicalConnectorsEditor';
 import { ComprehensionQuestionsEditor } from '@/components/lesson-editor/ComprehensionQuestionsEditor';
+import { WritingPromptEditor } from '@/components/lesson-editor/WritingPromptEditor';
 import {
   Select,
   SelectContent,
@@ -42,11 +42,6 @@ const DEFAULTS = {
 } as const;
 
 const PLACEHOLDERS = {
-  paragraphs: '[{"number": 1, "text": "..."}]',
-  vocabulary: '[{"word": "example", "definition": "..."}]',
-  questions: '[{"number": 1, "question": "...", "options": ["A", "B", "C"]}]',
-  writing_plan_prompts: JSON.stringify(DEFAULTS.writing_plan_prompts),
-  short_answer_hint: DEFAULTS.short_answer_hint,
   reflection_focus: DEFAULTS.reflection_focus
 } as const;
 
@@ -436,143 +431,39 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
       />
 
-       <Card>
-         <CardHeader>
-           <CardTitle>Writing Prompt</CardTitle>
-         </CardHeader>
-         <CardContent className="space-y-4">
-           <div className="space-y-2">
-             <Label htmlFor="writing_prompt">Writing Prompt</Label>
-             <Textarea
-               id="writing_prompt"
-               value={lesson.writing_prompt || ''}
-               onChange={(e) => setLesson({ ...lesson, writing_prompt: e.target.value })}
-               rows={4}
-               placeholder="Writing prompt for students..."
-             />
-           </div>
+       <WritingPromptEditor
+         writing_prompt={lesson.writing_prompt}
+         writing_plan_prompts={lesson.writing_plan_prompts}
+         writing_sentence_frames={lesson.writing_sentence_frames}
+         projectId={decodedProjectId}
+         imagePrompt={imagePrompt}
+         generatingImage={generatingImage}
+         augmenting={augmenting}
+         currentVisualBreakImageUrl={lesson.article_images?.find(img => img.position === 'writing-prompt')?.url || ''}
+         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+         onImagePromptChange={setImagePrompt}
+         onGenerateImagePrompt={generateImagePrompt}
+         onGenerateImage={generateImage}
+         onVisualBreakImageUpload={(url) => {
+           const existingImages = lesson.article_images || [];
+           const writingPromptImageIndex = existingImages.findIndex(img => img.position === 'writing-prompt');
 
-           <div className="space-y-2">
-             <Label htmlFor="writing_plan_prompts">Writing Plan Prompts</Label>
-             <Textarea
-               id="writing_plan_prompts"
-               value={JSON.stringify(lesson.writing_plan_prompts || [])}
-               onChange={(e) => {
-                 try {
-                   const parsed = JSON.parse(e.target.value);
-                   setLesson({ ...lesson, writing_plan_prompts: parsed });
-                 } catch (err) {
-                   console.error('Invalid JSON:', err);
-                 }
-               }}
-               rows={3}
-               className="font-mono text-sm"
-               placeholder={PLACEHOLDERS.writing_plan_prompts}
-             />
-             <p className="text-xs text-muted-foreground">
-               Enter as JSON array of strings
-             </p>
-           </div>
-
-           <div className="space-y-2">
-             <Label htmlFor="writing_sentence_frames">Writing Sentence Frames</Label>
-             <Textarea
-               id="writing_sentence_frames"
-               value={JSON.stringify(lesson.writing_sentence_frames || [])}
-               onChange={(e) => {
-                 try {
-                   const parsed = JSON.parse(e.target.value);
-                   setLesson({ ...lesson, writing_sentence_frames: parsed });
-                 } catch (err) {
-                   console.error('Invalid JSON:', err);
-                 }
-               }}
-               rows={3}
-               className="font-mono text-sm"
-               placeholder='["First, I will...", "Then, I will..."]'
-             />
-             <p className="text-xs text-muted-foreground">
-               Sentence starters to scaffold student writing (JSON array)
-             </p>
-           </div>
-
-           <div className="space-y-4 pt-4 border-t">
-             <div className="flex items-center justify-between">
-               <Label className="text-base font-semibold">Visual Break Image</Label>
-               <div className="flex gap-2">
-                 <Button
-                   type="button"
-                   variant="outline"
-                   size="sm"
-                   onClick={generateImagePrompt}
-                   disabled={generatingImage || augmenting}
-                 >
-                   Generate Prompt
-                 </Button>
-                 <Button
-                   type="button"
-                   variant="default"
-                   size="sm"
-                   onClick={generateImage}
-                   disabled={!imagePrompt || generatingImage || augmenting}
-                 >
-                   {generatingImage ? (
-                     <>
-                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                       Generating...
-                     </>
-                   ) : (
-                     <>
-                       <Sparkles className="mr-2 h-4 w-4" />
-                       Create Image
-                     </>
-                   )}
-                 </Button>
-               </div>
-             </div>
-
-             <div className="space-y-2">
-               <Label htmlFor="image_prompt">AI Image Prompt (Editable)</Label>
-               <Textarea
-                 id="image_prompt"
-                 value={imagePrompt}
-                 onChange={(e) => setImagePrompt(e.target.value)}
-                 rows={6}
-                 className="font-mono text-sm"
-                 placeholder="Click 'Generate Prompt' to create a context-aware image prompt, or write your own..."
-               />
-               <p className="text-xs text-muted-foreground">
-                 Edit the prompt as needed, then click &quot;Create Image&quot; to generate
-               </p>
-             </div>
-           </div>
-
-           <ImageUpload
-             projectId={decodedProjectId}
-             currentUrl={lesson.article_images?.find(img => img.position === 'writing-prompt')?.url || ''}
-             onUploadSuccess={(url) => {
-               const existingImages = lesson.article_images || [];
-               const writingPromptImageIndex = existingImages.findIndex(img => img.position === 'writing-prompt');
-
-               if (url === '') {
-                 // Remove the visual break image if cleared
-                 const newImages = existingImages.filter(img => img.position !== 'writing-prompt');
-                 setLesson({ ...lesson, article_images: newImages });
-               } else if (writingPromptImageIndex >= 0) {
-                 // Update existing visual break image
-                 const newImages = [...existingImages];
-                 newImages[writingPromptImageIndex].url = url;
-                 setLesson({ ...lesson, article_images: newImages });
-               } else {
-                 // Add new visual break image
-                 const newImages = [...existingImages, { url, caption: '', position: 'writing-prompt' as const }];
-                 setLesson({ ...lesson, article_images: newImages });
-               }
-             }}
-             label="Visual Break Image"
-           />
-         </CardContent>
-       </Card>
+           if (url === '') {
+             // Remove the visual break image if cleared
+             const newImages = existingImages.filter(img => img.position !== 'writing-prompt');
+             setLesson({ ...lesson, article_images: newImages });
+           } else if (writingPromptImageIndex >= 0) {
+             // Update existing visual break image
+             const newImages = [...existingImages];
+             newImages[writingPromptImageIndex].url = url;
+             setLesson({ ...lesson, article_images: newImages });
+           } else {
+             // Add new visual break image
+             const newImages = [...existingImages, { url, caption: '', position: 'writing-prompt' as const }];
+             setLesson({ ...lesson, article_images: newImages });
+           }
+         }}
+       />
 
        <Card>
          <CardHeader>

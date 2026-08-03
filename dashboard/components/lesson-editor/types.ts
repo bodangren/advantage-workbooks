@@ -41,6 +41,25 @@ export interface ComprehensionQuestionsEditorProps {
   ) => void;
 }
 
+export interface WritingPromptEditorProps {
+  writing_prompt?: string;
+  writing_plan_prompts?: string[];
+  writing_sentence_frames?: string[];
+  projectId: string;
+  imagePrompt: string;
+  generatingImage: boolean;
+  augmenting: boolean;
+  currentVisualBreakImageUrl: string;
+  onChange: (
+    field: 'writing_prompt' | 'writing_plan_prompts' | 'writing_sentence_frames',
+    value: string | string[]
+  ) => void;
+  onImagePromptChange: (value: string) => void;
+  onGenerateImagePrompt: () => void;
+  onGenerateImage: () => void;
+  onVisualBreakImageUpload: (url: string) => void;
+}
+
 export type LessonEditorSectionProps<T extends keyof WorkbookLesson = keyof WorkbookLesson> = {
   value: WorkbookLesson[T];
   onChange: (field: T, value: WorkbookLesson[T]) => void;
