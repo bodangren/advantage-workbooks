@@ -1,14 +1,12 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { use } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, Save, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { use } from 'react';
-import type { WorkbookLesson } from '@/lib/workbook-schema';
-import { WorkbookLessonSchema } from '@/lib/workbook-schema';
-import LessonPreview from '@/components/lesson-preview';
+import { useLessonEditor } from '@/components/lesson-editor/useLessonEditor';
+import { LessonStatusBanners } from '@/components/lesson-editor/LessonStatusBanners';
+import { LessonPreviewModal } from '@/components/lesson-editor/LessonPreviewModal';
 import { BasicInfoEditor } from '@/components/lesson-editor/BasicInfoEditor';
 import { ArticleEditor } from '@/components/lesson-editor/ArticleEditor';
 import { VocabularyEditor } from '@/components/lesson-editor/VocabularyEditor';
@@ -16,45 +14,9 @@ import { PedagogicalConnectorsEditor } from '@/components/lesson-editor/Pedagogi
 import { ComprehensionQuestionsEditor } from '@/components/lesson-editor/ComprehensionQuestionsEditor';
 import { WritingPromptEditor } from '@/components/lesson-editor/WritingPromptEditor';
 import { LessonReflectionEditor } from '@/components/lesson-editor/LessonReflectionEditor';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface LessonEditorProps {
   params: Promise<{ projectId: string; lessonId: string }>;
-}
-
-// Move defaults outside component to prevent recreating on every render
-const DEFAULTS = {
-  short_answer_hint: "Try to use at least two complete sentences in your answer.",
-  writing_plan_prompts: [
-    "Main idea / discovery:",
-    "Key details to include:",
-    "Vocabulary I will use:",
-    "Why this discovery matters:"
-  ],
-  reflection_focus: "Today I learned:"
-} as const;
-
-// Debounce utility
-function useDebounce<T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number
-): (...args: Parameters<T>) => void {
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-
-  return useCallback((...args: Parameters<T>) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      callback(...args);
-    }, delay);
-  }, [callback, delay]);
 }
 
 export default function LessonEditor({ params }: LessonEditorProps) {
@@ -62,230 +24,13 @@ export default function LessonEditor({ params }: LessonEditorProps) {
   const decodedProjectId = decodeURIComponent(projectId);
   const decodedLessonId = decodeURIComponent(lessonId);
 
-  const [lesson, setLesson] = useState<Partial<WorkbookLesson>>({});
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [augmenting, setAugmenting] = useState(false);
-  const [generatingImage, setGeneratingImage] = useState(false);
-  const [imagePrompt, setImagePrompt] = useState('');
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [saveSuccess, setSaveSuccess] = useState(false);
-  const [augmentSuccess, setAugmentSuccess] = useState(false);
-  const [sourceGeneratedSuccess, setSourceGeneratedSuccess] = useState(false);
-  const [imageGenSuccess, setImageGenSuccess] = useState(false);
-  const [previewHtml, setPreviewHtml] = useState<string>('');
-  const [showPreview, setShowPreview] = useState(false);
-
-  // Use ref instead of state to prevent dependency issues
-  const renderingPreviewRef = useRef(false);
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  const updatePreview = useCallback(async (currentLesson: Partial<WorkbookLesson>) => {
-    if (renderingPreviewRef.current) return;
-
-    // Cancel any pending request
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-
-    // Merge defaults for preview if missing
-    const lessonForPreview = {
-      ...currentLesson,
-      short_answer_hint: currentLesson.short_answer_hint || DEFAULTS.short_answer_hint,
-      writing_plan_prompts: currentLesson.writing_plan_prompts || DEFAULTS.writing_plan_prompts,
-      reflection_focus: currentLesson.reflection_focus || DEFAULTS.reflection_focus,
-    };
-
-    renderingPreviewRef.current = true;
-    try {
-      const response = await fetch('/api/render', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lesson: lessonForPreview, projectId }),
-        signal: abortControllerRef.current.signal,
-      });
-
-      if (response.ok) {
-        const { html } = await response.json();
-        setPreviewHtml(html);
-      }
-    } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        // Request was cancelled, ignore
-        return;
-      }
-      console.error('Failed to generate preview:', error);
-    } finally {
-      renderingPreviewRef.current = false;
-    }
-  }, [projectId]);
-
-  // Debounced version - only updates after user stops typing for 500ms
-  const debouncedUpdatePreview = useDebounce(updatePreview, 500);
-
-  useEffect(() => {
-    if (showPreview) {
-      debouncedUpdatePreview(lesson);
-    }
-
-    // Cleanup: cancel pending requests when modal closes or component unmounts
-    return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
-  }, [lesson, showPreview, debouncedUpdatePreview]);
-
-  const fetchLesson = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}`);
-      if (response.ok) {
-        const data = await response.json();
-        // Merge defaults into loaded data if fields are missing
-        setLesson({
-          ...data,
-          short_answer_hint: data.short_answer_hint || DEFAULTS.short_answer_hint,
-          writing_plan_prompts: data.writing_plan_prompts || DEFAULTS.writing_plan_prompts,
-          reflection_focus: data.reflection_focus || DEFAULTS.reflection_focus,
-        });
-      }
-    } catch (error) {
-      console.error('Failed to fetch lesson:', error);
-      setErrors({ _form: 'Failed to load lesson data' });
-    } finally {
-      setLoading(false);
-    }
-  }, [projectId, lessonId]);
-
-  useEffect(() => {
-    fetchLesson();
-  }, [fetchLesson]);
-
-  useEffect(() => {
-    if (decodedLessonId.startsWith('generated-lesson-')) {
-      setSourceGeneratedSuccess(true);
-      const timer = setTimeout(() => setSourceGeneratedSuccess(false), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [decodedLessonId]);
-
-  const validateAndSave = async () => {
-    setErrors({});
-    setSaveSuccess(false);
-
-    const validationResult = WorkbookLessonSchema.safeParse(lesson);
-
-    if (!validationResult.success) {
-      const fieldErrors: Record<string, string> = {};
-      validationResult.error.issues.forEach((issue) => {
-        const path = issue.path.join('.');
-        fieldErrors[path] = issue.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validationResult.data),
-      });
-
-      if (response.ok) {
-        setSaveSuccess(true);
-        setTimeout(() => setSaveSuccess(false), 3000);
-      } else {
-        const data = await response.json();
-        setErrors({ _form: data.error || 'Failed to save lesson' });
-      }
-    } catch (error) {
-      console.error('Failed to save lesson:', error);
-      setErrors({ _form: 'An error occurred while saving' });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const augmentWithAI = async () => {
-    setErrors({});
-    setAugmentSuccess(false);
-    setAugmenting(true);
-
-    try {
-      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}/augment`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setLesson(data.lesson);
-        setAugmentSuccess(true);
-        setTimeout(() => setAugmentSuccess(false), 5000);
-      } else {
-        const data = await response.json();
-        setErrors({ _form: data.error || 'Failed to auto-fill pedagogy' });
-      }
-    } catch (error) {
-      console.error('Failed to augment lesson:', error);
-      setErrors({ _form: 'An error occurred while auto-filling pedagogy' });
-    } finally {
-      setAugmenting(false);
-    }
-  };
-
-  const generateImagePrompt = () => {
-    // Generate a context-aware prompt based on lesson content
-    const articleText = lesson.article_paragraphs?.map(p => p.text).join(' ') || '';
-    const prompt = `Create a photorealistic educational illustration for a CEFR ${lesson.cefr_level || 'B1'} level ESL lesson.
-
-Lesson Topic: ${lesson.lesson_title}
-Context: ${articleText.substring(0, 500)}${articleText.length > 500 ? '...' : ''}
-
-The image should:
-- Be appropriate for ${lesson.cefr_level || 'B1'} level students (ages 12-16)
-- Support the writing prompt: "${lesson.writing_prompt}"
-- Be clear, engaging, and educational
-- Use vibrant but not overwhelming colors
-- Be suitable for classroom display
-- Avoid text or words in the image
-
-Style: Photorealistic educational illustration with clear focus and good lighting`;
-
-    setImagePrompt(prompt);
-  };
-
-  const generateImage = async () => {
-    setErrors({});
-    setImageGenSuccess(false);
-    setGeneratingImage(true);
-
-    try {
-      const response = await fetch(`/api/projects/${projectId}/lessons/${lessonId}/generate-image`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: imagePrompt }),
-      });
-
-      if (response.ok) {
-        // Refresh the lesson to show the new image
-        await fetchLesson();
-        setImageGenSuccess(true);
-        setTimeout(() => setImageGenSuccess(false), 5000);
-      } else {
-        const data = await response.json();
-        setErrors({ _form: data.error || 'Failed to generate image' });
-      }
-    } catch (error) {
-      console.error('Failed to generate image:', error);
-      setErrors({ _form: 'An error occurred while generating image' });
-    } finally {
-      setGeneratingImage(false);
-    }
-  };
+  const {
+    lesson, loading, saving, augmenting, generatingImage, imagePrompt, errors,
+    saveSuccess, augmentSuccess, sourceGeneratedSuccess, imageGenSuccess,
+    previewHtml, showPreview, currentVisualBreakImageUrl,
+    setLessonField, setImagePrompt, setShowPreview, updateVisualBreakImage,
+    validateAndSave, augmentWithAI, generateImagePrompt, generateImage,
+  } = useLessonEditor({ projectId, lessonId, decodedProjectId, decodedLessonId });
 
   if (loading) {
     return <div className="p-6">Loading lesson...</div>;
@@ -348,43 +93,13 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         </div>
       </div>
 
-      {errors._form && (
-        <Card className="border-destructive">
-          <CardContent className="py-4 text-destructive">
-            {errors._form}
-          </CardContent>
-        </Card>
-      )}
-
-      {saveSuccess && (
-        <Card className="border-green-600 bg-green-50 dark:bg-green-950">
-          <CardContent className="py-4 text-green-700 dark:text-green-400">
-            Lesson saved successfully!
-          </CardContent>
-        </Card>
-      )}
-
-      {augmentSuccess && (
-        <Card className="border-purple-600 bg-purple-50 dark:bg-purple-950">
-          <CardContent className="py-4 text-purple-700 dark:text-purple-400">
-            ✨ Pedagogical content auto-filled! Review the generated fields and save when ready.
-          </CardContent>
-        </Card>
-      )}
-
-      {imageGenSuccess && (
-        <Card className="border-blue-600 bg-blue-50 dark:bg-blue-950">
-          <CardContent className="py-4 text-blue-700 dark:text-blue-400">
-            🎨 Visual break image generated successfully! Check the Writing Prompt section.
-          </CardContent>
-        </Card>
-      )}
-
-      {sourceGeneratedSuccess && (
-        <div role="status" className="p-4 rounded-lg bg-green-100 border border-green-600 text-green-700 dark:bg-green-950 dark:text-green-400">
-          Lesson generated successfully.
-        </div>
-      )}
+      <LessonStatusBanners
+        formError={errors._form}
+        saveSuccess={saveSuccess}
+        augmentSuccess={augmentSuccess}
+        imageGenSuccess={imageGenSuccess}
+        sourceGeneratedSuccess={sourceGeneratedSuccess}
+      />
 
       <BasicInfoEditor
         lesson_number={lesson.lesson_number}
@@ -392,7 +107,7 @@ Style: Photorealistic educational illustration with clear focus and good lightin
         level_name={lesson.level_name}
         cefr_level={lesson.cefr_level}
         genre={lesson.genre}
-        onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+        onChange={setLessonField}
       />
 
       <div className="grid md:grid-cols-1 gap-6">
@@ -403,12 +118,12 @@ Style: Photorealistic educational illustration with clear focus and good lightin
           article_images={lesson.article_images}
           article_paragraphs={lesson.article_paragraphs}
           projectId={decodedProjectId}
-          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+          onChange={setLessonField}
         />
 
         <VocabularyEditor
           vocabulary={lesson.vocabulary}
-          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+          onChange={setLessonField}
         />
       </div>
 
@@ -416,14 +131,14 @@ Style: Photorealistic educational illustration with clear focus and good lightin
           connection_question={lesson.connection_question}
           grammar_search_term={lesson.grammar_search_term}
           discussion_question={lesson.discussion_question}
-          onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+          onChange={setLessonField}
         />
 
       <ComprehensionQuestionsEditor
         comprehension_questions={lesson.comprehension_questions}
         short_answer_question={lesson.short_answer_question}
         short_answer_hint={lesson.short_answer_hint}
-        onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+        onChange={setLessonField}
       />
 
        <WritingPromptEditor
@@ -434,55 +149,24 @@ Style: Photorealistic educational illustration with clear focus and good lightin
          imagePrompt={imagePrompt}
          generatingImage={generatingImage}
          augmenting={augmenting}
-         currentVisualBreakImageUrl={lesson.article_images?.find(img => img.position === 'writing-prompt')?.url || ''}
-         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+         currentVisualBreakImageUrl={currentVisualBreakImageUrl}
+         onChange={setLessonField}
          onImagePromptChange={setImagePrompt}
          onGenerateImagePrompt={generateImagePrompt}
          onGenerateImage={generateImage}
-         onVisualBreakImageUpload={(url) => {
-           const existingImages = lesson.article_images || [];
-           const writingPromptImageIndex = existingImages.findIndex(img => img.position === 'writing-prompt');
-
-           if (url === '') {
-             // Remove the visual break image if cleared
-             const newImages = existingImages.filter(img => img.position !== 'writing-prompt');
-             setLesson({ ...lesson, article_images: newImages });
-           } else if (writingPromptImageIndex >= 0) {
-             // Update existing visual break image
-             const newImages = [...existingImages];
-             newImages[writingPromptImageIndex].url = url;
-             setLesson({ ...lesson, article_images: newImages });
-           } else {
-             // Add new visual break image
-             const newImages = [...existingImages, { url, caption: '', position: 'writing-prompt' as const }];
-             setLesson({ ...lesson, article_images: newImages });
-           }
-         }}
+         onVisualBreakImageUpload={updateVisualBreakImage}
        />
 
        <LessonReflectionEditor
          reflection_focus={lesson.reflection_focus}
-         onChange={(field, value) => setLesson({ ...lesson, [field]: value })}
+         onChange={setLessonField}
        />
 
        {showPreview && previewHtml && (
-         <div className="fixed inset-0 bg-black/50 z-50 p-4 overflow-hidden">
-           <div className="h-full bg-white rounded-lg shadow-2xl flex flex-col">
-             <div className="flex items-center justify-between border-b px-4 py-3">
-               <h2 className="text-xl font-bold">Lesson Preview</h2>
-               <Button
-                 onClick={() => setShowPreview(false)}
-                 variant="ghost"
-                 className="h-9 w-9 p-0"
-               >
-                 ×
-               </Button>
-             </div>
-             <div className="flex-1 overflow-hidden">
-               <LessonPreview htmlContent={previewHtml} className="h-full" />
-             </div>
-           </div>
-         </div>
+         <LessonPreviewModal
+           previewHtml={previewHtml}
+           onClose={() => setShowPreview(false)}
+         />
        )}
      </div>
    );
