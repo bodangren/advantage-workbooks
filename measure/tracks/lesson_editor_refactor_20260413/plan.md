@@ -21,21 +21,21 @@
 
 ## Phase 3: PedagogicalConnectorsEditor & ComprehensionQuestionsEditor Extraction
 
-- [ ] Task: Write failing unit tests for `PedagogicalConnectorsEditor`
-- [ ] Task: Implement `PedagogicalConnectorsEditor.tsx`
-- [ ] Task: Write failing unit tests for `ComprehensionQuestionsEditor`
-- [ ] Task: Implement `ComprehensionQuestionsEditor.tsx`
-- [ ] Task: Refactor page.tsx to use both editors
-- [ ] Task: Verify tests pass and coverage maintained
+- [x] Task: Write failing unit tests for `PedagogicalConnectorsEditor`
+- [x] Task: Implement `PedagogicalConnectorsEditor.tsx`
+- [x] Task: Write failing unit tests for `ComprehensionQuestionsEditor`
+- [x] Task: Implement `ComprehensionQuestionsEditor.tsx`
+- [x] Task: Refactor page.tsx to use both editors
+- [x] Task: Verify tests pass and coverage maintained
 
 ## Phase 4: WritingPromptEditor & LessonReflectionEditor Extraction
 
-- [ ] Task: Write failing unit tests for `WritingPromptEditor`
-- [ ] Task: Implement `WritingPromptEditor.tsx`
-- [ ] Task: Write failing unit tests for `LessonReflectionEditor`
-- [ ] Task: Implement `LessonReflectionEditor.tsx`
-- [ ] Task: Refactor page.tsx to use both editors
-- [ ] Task: Verify tests pass and coverage maintained
+- [x] Task: Write failing unit tests for `WritingPromptEditor`
+- [x] Task: Implement `WritingPromptEditor.tsx`
+- [x] Task: Write failing unit tests for `LessonReflectionEditor`
+- [x] Task: Implement `LessonReflectionEditor.tsx`
+- [x] Task: Refactor page.tsx to use both editors
+- [x] Task: Verify tests pass and coverage maintained
 
 ## Phase 5: Final Verification & Cleanup
 
