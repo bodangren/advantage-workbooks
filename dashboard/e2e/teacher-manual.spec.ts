@@ -34,4 +34,66 @@ test.describe('Teacher Manual Paged.js Rendering', () => {
     expect(after).toBeGreaterThanOrEqual(count);
     expect(after).toBeGreaterThan(50);
   });
+
+  test('paginates even when native rAF silently drops every frame while visible', async ({ page }) => {
+    test.setTimeout(120000);
+
+    const res = await page.request.get('/api/projects/origins-2-a0/teacher-manual');
+    expect(res.ok()).toBeTruthy();
+    const { html } = await res.json();
+
+    // Install a frame-starvation shim BEFORE the wrapper's rAF shim. The
+    // wrapper captures this dropper as its "native" rAF, which never delivers
+    // a callback even though visibilityState stays "visible" — reproducing the
+    // occluded-tab freeze seen in real Chrome. Pagination must still complete
+    // via the wrapper's setTimeout(0) fallback.
+    const starved = html.replace(
+      '<head>',
+      '<head><script>' +
+        'window.requestAnimationFrame = function () { return 1; };' +
+        'window.cancelAnimationFrame = function () {};' +
+        '</script>'
+    );
+    expect(starved).not.toBe(html);
+
+    await page.setContent(starved);
+    await expect(page.locator('.pagedjs_pages')).toBeVisible({ timeout: 30000 });
+    await expect
+      .poll(async () => page.locator('.pagedjs_page').count(), { timeout: 90000 })
+      .toBeGreaterThan(50);
+  });
+
+  test('paginates when the tab is hidden mid-render and then shown again', async ({ page }) => {
+    test.setTimeout(120000);
+
+    const res = await page.request.get('/api/projects/origins-2-a0/teacher-manual');
+    expect(res.ok()).toBeTruthy();
+    const { html } = await res.json();
+
+    // Force the page to start "hidden" (background tab) with a test hook to
+    // flip visibility back. The shim queues rAF callbacks while hidden and
+    // must flush them immediately on visibilitychange.
+    const hiddenFirst = html.replace(
+      '<head>',
+      '<head><script>' +
+        'window.__tmHidden = true;' +
+        "Object.defineProperty(document, 'visibilityState', { configurable: true, get: function () { return window.__tmHidden ? 'hidden' : 'visible'; } });" +
+        '</script>'
+    );
+
+    await page.setContent(hiddenFirst);
+    await expect(page.locator('.pagedjs_pages')).toBeVisible({ timeout: 30000 });
+
+    // Let the queued (hidden) path run for a moment, then bring the tab back.
+    await page.waitForTimeout(2000);
+    await page.evaluate(() => {
+      const w = window as unknown as { __tmHidden: boolean };
+      w.__tmHidden = false;
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+
+    await expect
+      .poll(async () => page.locator('.pagedjs_page').count(), { timeout: 90000 })
+      .toBeGreaterThan(50);
+  });
 });

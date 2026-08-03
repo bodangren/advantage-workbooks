@@ -41,6 +41,24 @@ describe('Teacher Manual Document Wrapper', () => {
       expect(html).toContain('visibilityState');
     });
 
+    it('should arm a setTimeout(0) fallback alongside rAF so progress survives frame starvation', () => {
+      const html = wrapTeacherManualDocument(frontMatterHtml, lessonPlansHtml, endMatterHtml, defaultOptions);
+
+      // The visible path must not depend on native rAF: a callback is wrapped
+      // so whichever of rAF / setTimeout(0) fires first runs it once.
+      expect(html).toContain('nativeRaf(wrapped)');
+      expect(html).toContain('wrapped(performance.now())');
+      expect(html).toContain('setTimeout(function () {');
+    });
+
+    it('should flush the hidden-queue on visibilitychange so a hidden tab resumes on show', () => {
+      const html = wrapTeacherManualDocument(frontMatterHtml, lessonPlansHtml, endMatterHtml, defaultOptions);
+
+      expect(html).toContain("addEventListener('visibilitychange'");
+      expect(html).toContain('flushPending()');
+      expect(html).toContain('nativeCancelRaf');
+    });
+
     it('should not mark the full step block as unbreakable', () => {
       const html = wrapTeacherManualDocument(frontMatterHtml, lessonPlansHtml, endMatterHtml, defaultOptions);
 

@@ -17,35 +17,88 @@ const PAGED_RAF_SHIM = `
   // Paged.js paginates through a requestAnimationFrame callback chain: the
   // next frame is scheduled only from within the previous task, so a single
   // dropped rAF permanently stalls the render (few pages, idle main thread).
-  // Chrome stops firing rAF for background tabs, which can leave the manual
-  // frozen even after the tab is brought back. While the page is hidden we
-  // dispatch through a timer instead so the chain always makes progress and
-  // resumes at full speed once the tab is visible.
+  // Chrome stops firing rAF for background tabs AND for visible-but-occluded
+  // tabs (visibilityState stays "visible" while the compositor delivers no
+  // frames), so progress must not depend on a frame being delivered. Every
+  // tick is therefore armed twice: a native rAF plus a setTimeout(0) fallback.
+  // Whichever fires first wins and cancels the other, so the chain always
+  // advances even under frame starvation. While the page is hidden we dispatch
+  // through a timer instead, and flush the queue immediately on
+  // visibilitychange so a throttled hidden tab resumes at full speed as soon
+  // as it is shown.
   var nativeRaf = window.requestAnimationFrame.bind(window);
+  var nativeCancelRaf = window.cancelAnimationFrame.bind(window);
   var pending = [];
-  var timer = null;
-  function flush() {
-    var batch = pending;
-    pending = [];
-    timer = null;
-    for (var i = 0; i < batch.length; i++) {
-      try {
-        batch[i](performance.now());
-      } catch (e) {
-        /* ignore individual callback errors */
-      }
+  var flushTimer = null;
+  var armed = Object.create(null);
+
+  function run(cb, ts) {
+    try {
+      cb(ts);
+    } catch (e) {
+      /* ignore individual callback errors */
     }
   }
+
+  function flushPending() {
+    var batch = pending;
+    pending = [];
+    flushTimer = null;
+    for (var i = 0; i < batch.length; i++) {
+      run(batch[i], performance.now());
+    }
+  }
+
+  function kickHidden() {
+    if (!flushTimer) {
+      flushTimer = setTimeout(flushPending, 100);
+    }
+  }
+
   window.requestAnimationFrame = function (cb) {
-    if (document.visibilityState !== 'hidden') {
-      return nativeRaf(cb);
+    if (document.visibilityState === 'hidden') {
+      pending.push(cb);
+      kickHidden();
+      return pending.length;
     }
-    pending.push(cb);
-    if (!timer) {
-      timer = setTimeout(flush, 100);
-    }
-    return pending.length;
+    var done = false;
+    var rafId;
+    var fbTimer;
+    var wrapped = function (ts) {
+      if (done) {
+        return;
+      }
+      done = true;
+      if (rafId !== undefined) {
+        nativeCancelRaf(rafId);
+      }
+      if (fbTimer !== undefined) {
+        clearTimeout(fbTimer);
+      }
+      delete armed[rafId];
+      run(cb, ts);
+    };
+    rafId = nativeRaf(wrapped);
+    fbTimer = setTimeout(function () {
+      wrapped(performance.now());
+    }, 0);
+    armed[rafId] = fbTimer;
+    return rafId;
   };
+
+  window.cancelAnimationFrame = function (id) {
+    if (armed[id] !== undefined) {
+      clearTimeout(armed[id]);
+      delete armed[id];
+    }
+    return nativeCancelRaf(id);
+  };
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && pending.length) {
+      flushPending();
+    }
+  });
 })();
 </script>
 `;
