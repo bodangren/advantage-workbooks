@@ -15,13 +15,13 @@ const DEFAULTS = {
   reflection_focus: 'Today I learned:'
 } as const;
 
-function useDebounce<T extends (...args: any[]) => any>(
-  callback: T,
+function useDebounce<T extends unknown[]>(
+  callback: (...args: T) => void,
   delay: number
-): (...args: Parameters<T>) => void {
+): (...args: T) => void {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  return useCallback((...args: Parameters<T>) => {
+  return useCallback((...args: T) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
