@@ -1,9 +1,11 @@
 {
   "id": "teacher_manual_generation_20260426",
   "title": "Per-Workbook Teacher Manual Generation",
-  "status": "in_progress",
+  "status": "completed",
   "priority": "high",
   "created": "2026-04-26",
+  "completed": "2026-08-03",
   "owner": "AI Assistant",
-  "description": "Generate project-level teacher manuals from workbook JSON data with step inserts, 4-period lesson plans, integrated bell-ringers, and blended learning guidance."
+  "description": "Generate project-level teacher manuals from workbook JSON data with step inserts, 4-period lesson plans, integrated bell-ringers, and blended learning guidance.",
+  "deviation_notes": "Phase 9 surfaced a Paged.js rAF-chain freeze in real browsers (occluded-tab frame starvation); fixed via dual-arm frame-independent driver shim (708bed9). origins-2-a0: 14/14 lessons, 167 pages, print PDF verified. Compile <2s warm (<10s criterion met)."
 }

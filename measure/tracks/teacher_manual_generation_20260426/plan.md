@@ -170,49 +170,49 @@
 - [x] Build passes (new routes registered)
 - [x] API route: `ƒ /api/projects/[projectId]/teacher-manual`
 - [x] Preview route: `ƒ /projects/[projectId]/teacher-manual/preview`
-- [ ] Manual browser testing pending
+- [x] Manual browser testing pending → done 2026-08-03 via kimi-webbridge: preview page renders 167 Paged.js pages in iframe `708bed9`
 
 ## Phase 9: Testing & Validation
 
 ### Task 9.1: Compile Test
-- [ ] Compile teacher manual for `origins-2-a0`
-- [ ] Verify all 14 lessons included
-- [ ] Verify front matter renders correctly
-- [ ] Verify end matter renders correctly
-- [ ] Check total page count
+- [x] Compile teacher manual for `origins-2-a0` — 14/14 lessons, <2s warm, 167 pages
+- [x] Verify all 14 lessons included
+- [x] Verify front matter renders correctly
+- [x] Verify end matter renders correctly
+- [x] Check total page count — 167 (print PDF: 168)
 
 ### Task 9.2: Insert Accuracy Check
-- [ ] Compare step inserts against actual workbook pages
-- [ ] Verify vocabulary matches lesson
-- [ ] Verify article content matches
-- [ ] Check all images render
+- [x] Compare step inserts against actual workbook pages (spot-check 4 lessons)
+- [x] Verify vocabulary matches lesson — 5/5 per lesson
+- [x] Verify article content matches
+- [x] Check all images render — no <img> in this project; n/a
 
 ### Task 9.3: Print Test
-- [ ] Open in browser print dialog
-- [ ] Enable "Background graphics"
-- [ ] Check page breaks
-- [ ] Verify readability
-- [ ] Save as PDF and review
+- [x] Open in browser print dialog
+- [x] Enable "Background graphics"
+- [x] Check page breaks
+- [x] Verify readability
+- [x] Save as PDF and review — 168-page A4 PDF via CDP printToPDF w/ printBackground
 
 ### Task 9.4: Fix Issues
-- [ ] Address any scaling/readability issues
-- [ ] Fix page break problems
-- [ ] Adjust spacing as needed
-- [ ] Optimize performance if slow
+- [x] Address any scaling/readability issues
+- [x] Fix page break problems — Paged.js rAF-chain freeze root-caused & fixed (2b644eb shim, 3a55973 title-page overflow, 708bed9 dual-arm frame-independent driver)
+- [x] Adjust spacing as needed — .tm-step-block break-inside relaxed, manual packs to 167 pages
+- [x] Optimize performance if slow — full render ~20-40s, stable across runs
 
 ## Phase 10: Documentation & Cleanup
 
 ### Task 10.1: Update Documentation
-- [ ] Add teacher manual generation to project README
-- [ ] Document the 4-period structure
-- [ ] Add screenshots of preview UI
+- [x] Add teacher manual generation to project README `fc1751c`
+- [x] Document the 4-period structure — docs/teacher-manual.md `fc1751c`
+- [x] Add screenshots of preview UI — docs/screenshots/teacher-manual-preview.jpg `fc1751c`
 
 ### Task 10.2: Final Review
-- [ ] Run full test suite
+- [x] Run full test suite — 284 pass / 3 pre-existing failures (unrelated content/constants)
 - [x] TypeScript compiles with zero errors
 - [x] Linting passes (0 errors, warnings only for pre-existing code)
 - [x] Build passes successfully
-- [ ] Clean up any debug code
+- [x] Clean up any debug code — sweep clean; repro fixtures removed `c16f3e9`
 
 ## Success Criteria
 

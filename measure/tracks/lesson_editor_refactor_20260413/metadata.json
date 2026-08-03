@@ -1,9 +1,11 @@
 {
   "track_id": "lesson_editor_refactor_20260413",
   "type": "refactor",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-04-13T21:50:00Z",
+  "completed_at": "2026-08-03T00:00:00Z",
   "description": "Extract sub-editors from page.tsx (~900 lines) into separate, focused components for maintainability.",
   "estimated_tasks": 10,
-  "deviation_notes": ""
+  "actual_tasks": 31,
+  "deviation_notes": "Phase 5 <200-line gate met via useLessonEditor hook + LessonStatusBanners + LessonPreviewModal extraction (page.tsx 900→173). 3 pre-existing test failures (constants.test.ts, origins-thai-support.test.ts) confirmed unrelated to this track."
 }
