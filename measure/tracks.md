@@ -100,11 +100,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Publisher Font Package**: Package dashboard compile-output fonts for publisher handoff. *(Completed: 2026-05-06)*
   *Link: [./archive/font_package_20260506/](./archive/font_package_20260506/)*
 
-- [~] **Track: Lesson Editor Refactoring**: Extract sub-editors from ~900 line page.tsx into focused components for maintainability. *(Started: 2026-04-13)*
-  *Link: [./tracks/lesson_editor_refactor_20260413/](./tracks/lesson_editor_refactor_20260413/)*
+- [x] **Track: Lesson Editor Refactoring**: Extract sub-editors from ~900 line page.tsx into focused components for maintainability. *(Completed: 2026-08-03)*
+  *Link: [./archive/lesson_editor_refactor_20260413/](./archive/lesson_editor_refactor_20260413/)*
 
-- [~] **Track: Per-Workbook Teacher Manual Generation**: Generate project-level teacher manuals from workbook JSON with step inserts, 4-period lesson plans, integrated bell-ringers, and blended learning guidance. *(Started: 2026-04-26)*
-  *Link: [./tracks/teacher_manual_generation_20260426/](./tracks/teacher_manual_generation_20260426/)*
+- [x] **Track: Per-Workbook Teacher Manual Generation**: Generate project-level teacher manuals from workbook JSON with step inserts, 4-period lesson plans, integrated bell-ringers, and blended learning guidance. *(Completed: 2026-08-03)*
+  *Link: [./archive/teacher_manual_generation_20260426/](./archive/teacher_manual_generation_20260426/)*
 
 - [x] **Track: Teacher Manual Thai Localization**: Add Thai language support to teacher manual generation via `?lang=th` query parameter, Sarabun font, and dedicated i18n module. *(Completed: 2026-05-12)*
   *Link: [./archive/teacher_manual_thai_localization_20260512/](./archive/teacher_manual_thai_localization_20260512/)*
