@@ -127,7 +127,6 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       text-align: center;
       break-after: page;
       box-sizing: border-box;
-      overflow: hidden;
       margin: 0 !important;
       padding: 0 !important;
       background: linear-gradient(135deg, ${primaryColor}08, ${secondaryColor}08);
