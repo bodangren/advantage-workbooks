@@ -1,17 +1,9 @@
-import { getThemeColors } from '../document-wrapper/utils';
-import type { TeacherManualOptions } from './types';
-import { getTranslations } from './i18n';
-
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-const PAGED_RAF_SHIM = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher&#039;s Manual - Origins 2</title>
+  
 <script>
 (function () {
   // Paged.js paginates through a requestAnimationFrame callback chain: the
@@ -48,10 +40,11 @@ const PAGED_RAF_SHIM = `
   };
 })();
 </script>
-`;
 
-function getTeacherManualStyles(primaryColor: string, secondaryColor: string): string {
-  return `
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  
+  <style>
+    
     @page {
       size: 210mm 285mm;
       margin: 18mm;
@@ -130,7 +123,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       overflow: hidden;
       margin: 0 !important;
       padding: 0 !important;
-      background: linear-gradient(135deg, ${primaryColor}08, ${secondaryColor}08);
+      background: linear-gradient(135deg, #228b2208, #8b451308);
     }
 
     .tm-title-content {
@@ -139,7 +132,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       max-width: 75%;
-      border: 3px solid ${primaryColor};
+      border: 3px solid #228b22;
     }
 
     .tm-title-badge {
@@ -174,7 +167,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .tm-title-subtitle {
       font-size: 16pt;
-      color: ${secondaryColor};
+      color: #8b4513;
       font-style: italic;
       margin-bottom: 10px;
     }
@@ -281,7 +274,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       padding: 15px;
       background: #fafafa;
       border-radius: 6px;
-      border-left: 3px solid ${primaryColor};
+      border-left: 3px solid #228b22;
     }
 
     .tm-ped-block h3 {
@@ -323,7 +316,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
     .tm-game-card h4 {
       font-size: 12pt;
       margin: 0 0 6px 0;
-      color: ${primaryColor};
+      color: #228b22;
     }
 
     .tm-game-card p {
@@ -404,7 +397,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .tm-callout {
       background: #f0f9ff;
-      border-left: 3px solid ${primaryColor};
+      border-left: 3px solid #228b22;
       padding: 12px 15px;
       margin: 15px 0;
       border-radius: 0 6px 6px 0;
@@ -583,7 +576,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
     }
 
     .si-step-badge {
-      background: ${primaryColor};
+      background: #228b22;
       color: white;
       padding: 2px 8px;
       border-radius: 4px;
@@ -692,7 +685,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .si-box-num {
       font-weight: 700;
-      color: ${primaryColor};
+      color: #228b22;
       margin-right: 4px;
     }
 
@@ -711,7 +704,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .si-note-para {
       font-weight: 700;
-      color: ${primaryColor};
+      color: #228b22;
       white-space: nowrap;
     }
 
@@ -729,7 +722,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .si-sentence-num {
       font-weight: 700;
-      color: ${primaryColor};
+      color: #228b22;
     }
 
     .si-sentence-line {
@@ -811,7 +804,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       font-weight: 600;
       font-size: 9.5pt;
       margin: 0 0 4px 0;
-      color: ${primaryColor};
+      color: #228b22;
     }
 
     .si-match-item {
@@ -872,7 +865,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .si-lq-row span:first-child {
       font-weight: 700;
-      color: ${primaryColor};
+      color: #228b22;
     }
 
     .si-lq-line {
@@ -918,7 +911,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .tm-language-box {
       background: #f0f9ff;
-      border-left: 3px solid ${primaryColor};
+      border-left: 3px solid #228b22;
       padding: 6px 10px;
       border-radius: 0 4px 4px 0;
     }
@@ -988,62 +981,245 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
     .tm-online-list li {
       margin-bottom: 3px;
     }
-  `;
-}
-
-export function wrapTeacherManualDocument(
-  frontMatterHtml: string,
-  lessonPlansHtml: string,
-  endMatterHtml: string,
-  options: TeacherManualOptions
-): string {
-  const theme = options.theme || getThemeColors(options.seriesName, options.type);
-  const styles = getTeacherManualStyles(theme.primary, theme.secondary);
-  const lang = options.lang || 'en';
-  const isThai = lang === 'th';
-  const t = getTranslations(lang);
-  const dw = t.documentWrapper;
-
-  return `<!DOCTYPE html>
-<html lang="${lang}">
-<head>
-  <meta charset="UTF-8">
-  <title>${escapeHtml(dw.titlePrefix)} - ${escapeHtml(options.seriesName)} ${escapeHtml(options.seriesLevel)}</title>
-  ${PAGED_RAF_SHIM}
-  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-  ${isThai ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">' : ''}
-  <style>
-    ${styles}
-    ${isThai ? `
-    body, .tm-section, .tm-title-page, .tm-lesson-plan, .tm-period,
-    .step-insert, .tm-teaching-notes, .tm-bell-ringer, .tm-spelling,
-    .tm-online, .tm-vocab-overview, .tm-end-section, .tm-trouble-block,
-    .tm-game-card, .tm-ped-block, .si-section, .si-header, .si-content,
-    .si-vocab-table, .si-notes-rows, .si-comp-questions, .si-writing-lines,
-    .si-reflection, .tm-callout, .tm-note-section, .tm-language-box {
-      font-family: 'Sarabun', sans-serif;
-    }
-    .tm-section, .tm-title-content, .tm-preface-content, .tm-structure-content,
-    .tm-pedagogy-content, .tm-flashcard-content, .tm-spelling-content,
-    .tm-goals-content, .tm-lesson-objectives, .tm-vocab-overview,
-    .tm-bell-ringer, .tm-spelling, .tm-online, .tm-end-content,
-    .tm-trouble-block, .tm-game-block, .tm-ped-block, .si-section,
-    .si-vocab-table, .si-notes-rows, .si-comp-questions, .si-writing-lines,
-    .si-reflection, .tm-callout, .tm-note-section, .tm-language-box {
-      word-break: break-word;
-    }
-    ` : ''}
+  
+    
     @page {
       @bottom-center {
-        content: "${dw.pageCounter} " counter(page);
+        content: "Page " counter(page);
       }
     }
   </style>
 </head>
 <body>
-  ${frontMatterHtml}
-  ${lessonPlansHtml}
-  ${endMatterHtml}
+  
+    
+    <div class="tm-title-page">
+      <div class="tm-title-content" style="border-color: #228b22;">
+        <div class="tm-title-badge">Teacher&#039;s Manual</div>
+        <div class="tm-title-divider" style="background: #228b22;"></div>
+        <h1 class="tm-title-series" style="color: #228b22;">Origins</h1>
+        <p class="tm-title-level">2 &bull; A0</p>
+        <p class="tm-title-subtitle" style="color: #8b4513;">Blended Learning Edition</p>
+        <p class="tm-title-note">Per-Project Lesson Plans with Step Inserts, Teaching Notes &amp; Pacing Guides</p>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section tm-preface">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">Preface</h2>
+      <div class="tm-preface-content">
+        <p>Welcome to the <strong>Origins 2</strong> Teacher's Manual. This manual provides detailed lesson plans for all 14 lessons in this workbook level.</p>
+        <p>Each lesson is organized into <strong>4 class periods</strong> (approximately 40 minutes each), covering the 13-step workbook sequence:</p>
+        <div class="tm-period-overview-box">
+          <div class="tm-po-item"><strong>Period 1: Launch & Vocabulary (Steps 1-4)</strong></div>
+          <div class="tm-po-item"><strong>Period 2: Deep Reading & Comprehension (Steps 5-7)</strong></div>
+          <div class="tm-po-item"><strong>Period 3: Response & Practice (Steps 8-10)</strong></div>
+          <div class="tm-po-item"><strong>Period 4: Writing & Reflection (Steps 11-13)</strong></div>
+        </div>
+        <h3>How to Use This Manual</h3>
+        <ul>
+          <li><strong>Step Inserts:</strong> Each period includes a reduced-size "Student View" showing exactly what students see in their workbook. Use these to stay synchronized with the printed page.</li>
+          <li><strong>Teaching Notes:</strong> For each step, you'll find Teacher Actions, Teacher Language (scripted prompts), What Students Do, and Watch For sections.</li>
+          <li><strong>Bell-Ringers:</strong> Each period starts with a 5-minute flashcard activity to build vocabulary recall.</li>
+          <li><strong>Online Components:</strong> Notes about app-based activities (QR reading, AI writing feedback, progress tracking) are integrated into each period.</li>
+        </ul>
+        <h3>Blended Learning Model</h3>
+        <p>This workbook uses a blended learning approach combining the printed workbook with the Reading Advantage app:</p>
+        <ul>
+          <li>The <strong>workbook is the lesson path</strong> — follow it page by page.</li>
+          <li>The <strong>app supports the workbook</strong> — use QR codes for audio, AI for writing feedback, and the progress tracker for motivation.</li>
+          <li>The <strong>teacher anchors instruction</strong> — model tasks, use the scripted language, and mediate all AI interactions.</li>
+        </ul>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">General Lesson Plan Structure</h2>
+      <div class="tm-structure-content">
+        <p>Each of the 14 lessons in this workbook follows the same 4-period, 13-step structure. This consistency helps students know exactly what to expect each class.</p>
+
+        <div class="tm-period-detail">
+          <h3 style="color: #228b22;">Period 1: Launch &amp; Vocabulary (Steps 1-4)</h3>
+          <ul>
+            <li><strong>Step 1: Before You Read</strong> — Students preview the topic, mark interest level</li>
+            <li><strong>Step 2: Key Vocabulary</strong> — Teacher introduces words, students write meanings</li>
+            <li><strong>Step 3: Read the Article</strong> — First reading (listen & follow), second reading (mark & notice)</li>
+            <li><strong>Step 4: Collect Vocabulary</strong> — Students transfer key words to workbook boxes</li>
+          </ul>
+          <p class="tm-period-note">Bell-Ringer: Flashcard cut-out and organization (5 min)</p>
+          <p class="tm-period-note">Online: App article reading (QR/audio support)</p>
+        </div>
+
+        <div class="tm-period-detail">
+          <h3 style="color: #228b22;">Period 2: Deep Reading &amp; Comprehension (Steps 5-7)</h3>
+          <ul>
+            <li><strong>Step 5: Deep Reading Notes</strong> — Paragraph-by-paragraph main ideas</li>
+            <li><strong>Step 6: Collect Sentences</strong> — Choose 2 sentences to study</li>
+            <li><strong>Step 7: Comprehension Check</strong> — Multiple-choice with evidence</li>
+          </ul>
+          <p class="tm-period-note">Bell-Ringer: Flashcard vocabulary game (5 min)</p>
+          <p class="tm-period-note">Spelling: Trace activity</p>
+          <p class="tm-period-note">Online: Extensive reading (app)</p>
+        </div>
+
+        <div class="tm-period-detail">
+          <h3 style="color: #228b22;">Period 3: Response &amp; Practice (Steps 8-10)</h3>
+          <ul>
+            <li><strong>Step 8: Guided Response</strong> — Short written response with sentence frames</li>
+            <li><strong>Step 9: Vocabulary Practice</strong> — Match and fill-in-the-blank</li>
+            <li><strong>Step 10: Sentence Practice</strong> — Word order and sentence completion</li>
+          </ul>
+          <p class="tm-period-note">Bell-Ringer: Flashcard vocabulary game (5 min)</p>
+          <p class="tm-period-note">Spelling: Write activity</p>
+          <p class="tm-period-note">Online: App vocabulary/sentence review</p>
+        </div>
+
+        <div class="tm-period-detail">
+          <h3 style="color: #228b22;">Period 4: Writing &amp; Reflection (Steps 11-13)</h3>
+          <ul>
+            <li><strong>Step 11: Guided Writing</strong> — Plan, frame, draft, self-check</li>
+            <li><strong>Step 12: Language Questions</strong> — Write questions, teacher-mediated AI answers</li>
+            <li><strong>Step 13: Lesson Reflection</strong> — Understanding, effort, and homework</li>
+          </ul>
+          <p class="tm-period-note">Bell-Ringer: Flashcard vocabulary game (5 min)</p>
+          <p class="tm-period-note">Spelling: Cover-and-write activity</p>
+          <p class="tm-period-note">Online: AI writing feedback discussion + Progress tracker update</p>
+        </div>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">Pedagogical Guidelines</h2>
+      <div class="tm-pedagogy-content">
+
+        <div class="tm-ped-block">
+          <h3 style="color: #228b22;">Pair Work Protocols</h3>
+          <ul>
+            <li>Assign pairs at the start of the semester and keep them stable for 4-6 weeks.</li><li>Use pair work for: comprehension discussion (Step 7), sentence sharing (Step 6), and flashcard games.</li><li>Set a clear signal for returning attention to the teacher (e.g., "Eyes on me in 3-2-1").</li><li>Walk around during pair work to listen for misconceptions.</li>
+          </ul>
+        </div>
+
+        <div class="tm-ped-block">
+          <h3 style="color: #228b22;">Class Discussion Techniques</h3>
+          <ul>
+            <li><strong>Think-Pair-Share:</strong> Give students 30 seconds to think, 1 minute with a partner, then share with the class.</li>
+            <li><strong>Evidence First:</strong> Always ask "Which part of the article helps you?" before accepting answers.</li>
+            <li><strong>Cold Call with Warm-Up:</strong> Let students discuss with a partner before calling on individuals.</li>
+            <li><strong>No Wrong Interest:</strong> When marking interest stars, reinforce that all responses are valid.</li>
+          </ul>
+        </div>
+
+        <div class="tm-ped-block">
+          <h3 style="color: #228b22;">Using the App for Audio/QR Support</h3>
+          <ul>
+            <li>Each article has a QR code linking to audio narration in the app.</li><li>Use app audio for: first reading (Step 3), vocabulary pronunciation (Step 2), and homework review.</li><li>Ensure QR codes are tested before class — have a backup plan if the app is unavailable.</li><li>For schools without devices: the teacher can play audio from their phone through speakers.</li>
+          </ul>
+        </div>
+
+        <div class="tm-ped-block">
+          <h3 style="color: #228b22;">Managing the Blended Learning Flow</h3>
+          <ul>
+            <li>The workbook is the anchor. The app supports. Do not replace workbook time with screen time.</li><li>App-based activities (extensive reading, AI writing feedback) are typically assigned as homework.</li><li>In class, use the app only for: audio playback, QR demonstration, and progress tracker updates.</li><li>When students receive AI writing feedback at home, discuss it as a class in Period 4 of the next lesson.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">Flashcard Vocabulary Games</h2>
+      <div class="tm-flashcard-content">
+        <p>Vocabulary flashcards are included at the end of the student workbook. Each lesson has a set of cards with words on one side and definitions on the other.</p>
+
+        <div class="tm-game-block">
+          <h3 style="color: #228b22;">Period 1: Cut-Out &amp; Organization</h3>
+          <p>Students cut out the cards for the current lesson and fold them along the center line. Have students organize cards by topic or alphabetically.</p>
+        </div>
+
+        <div class="tm-game-block">
+          <h3 style="color: #228b22;">Periods 2-4: Vocabulary Games</h3>
+          <p>Use one of these games as a 5-minute bell-ringer at the start of each period. Rotate through different games to keep engagement high.</p>
+
+          <div class="tm-game-card">
+            <h4>Memory Match</h4>
+            <p>Spread cards face-down. Students flip two at a time, trying to match words with their definitions. If they match, the student keeps the pair. Most pairs wins.</p>
+          </div>
+
+          <div class="tm-game-card">
+            <h4>Go Fish</h4>
+            <p>Distribute 4-5 cards per student. Students ask partners: "Do you have the definition of ___?" If the partner has it, they hand it over. If not, they say "Go fish!" Collect the most pairs to win.</p>
+          </div>
+
+          <div class="tm-game-card">
+            <h4>Snap</h4>
+            <p>Teacher reads definitions aloud one at a time. Students race to slap the matching word card on their desk. First to slap correctly keeps the card.</p>
+          </div>
+
+          <div class="tm-game-card">
+            <h4>Quiz Show</h4>
+            <p>Teacher gives definitions. Students hold up the correct word card. Fastest correct answer wins a point. Use for whole-class review.</p>
+          </div>
+        </div>
+
+        <p class="tm-link-note">More game ideas: <strong>kidsclubenglish.com/small-group-card-games/</strong></p>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">Spelling Routine Guide</h2>
+      <div class="tm-spelling-content">
+        <p>Spelling practice appears in the workbook for lessons 2, 3, and 4 of each week. The spelling section uses a three-period cycle that builds from tracing to independent writing.</p>
+
+        <div class="tm-spelling-cycle">
+          <div class="tm-sp-block">
+            <h3 style="color: #228b22;">Period 2: Trace</h3>
+            <p>Students trace the vocabulary words using the light gray letters in the spelling practice section. Focus on correct letter formation and spacing. This is guided practice.</p>
+          </div>
+
+          <div class="tm-sp-block">
+            <h3 style="color: #228b22;">Period 3: Write</h3>
+            <p>Students write the vocabulary words from memory in the "Write" column. They should look at the model word, cover it, then write. Check letter formation and accuracy.</p>
+          </div>
+
+          <div class="tm-sp-block">
+            <h3 style="color: #228b22;">Period 4: Cover-and-Write</h3>
+            <p>Students cover the word model completely, then write the word from memory in the "Cover & Write" column. Uncover to check accuracy. This is the final assessment step.</p>
+          </div>
+        </div>
+
+        <p class="tm-spelling-note"><strong>Note:</strong> Spelling practice appears in lessons 2, 3, and 4 of each week. Lesson 1 introduces new vocabulary but does not include spelling practice.</p>
+      </div>
+    </div>
+  
+    
+    <div class="tm-section">
+      <h2 class="tm-section-header" style="color: #228b22; border-color: #228b22;">My English Learning Goals</h2>
+      <div class="tm-goals-content">
+        <p>At the beginning of each semester, introduce the "My English Learning Goals" page included at the front of the student workbook.</p>
+
+        <h3 style="color: #228b22;">How to Introduce Goal Setting</h3>
+        <ol>
+          <li><strong>Explain the purpose:</strong> "This page helps you think about what you want to learn this semester."</li>
+          <li><strong>Model a goal:</strong> Write an example goal on the board (e.g., "I want to read 14 articles this semester").</li>
+          <li><strong>Guide goal writing:</strong> Have students write 2-3 specific, achievable goals.</li>
+          <li><strong>Action plans:</strong> Help students write one action step for each goal.</li>
+          <li><strong>Revisit:</strong> At mid-semester, have students check their progress and adjust goals if needed.</li>
+        </ol>
+
+        <h3 style="color: #228b22;">Goal Categories</h3>
+        <ul>
+          <li><strong>Reading:</strong> "I want to read ___ articles independently."</li>
+          <li><strong>Writing:</strong> "I want to write ___ sentences without help."</li>
+          <li><strong>Vocabulary:</strong> "I want to learn ___ new words this semester."</li>
+        </ul>
+      </div>
+    </div>
+  
+  
+  
+  
 </body>
-</html>`;
-}
+</html>
