@@ -1,0 +1,2 @@
+[permissions]
+allow = ["Bash=podman images --format '{{.Repository}}:{{.Tag}} {{.Size}}' 2>/dev/null | head -50; echo '---'; podman system df 2>/dev/null"]
