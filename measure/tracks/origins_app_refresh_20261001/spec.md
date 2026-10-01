@@ -1,7 +1,7 @@
 # Spec: Origins 2 and 3.1 app refresh
 
 **Track:** `origins_app_refresh_20261001`
-**Version:** 1.0
+**Version:** 1.1
 **Date:** 2026-10-01
 **Status:** new
 
@@ -56,19 +56,20 @@ this point, but we can improve the app experience."
 - The packages update the existing articles (same ids), so links, progress, and assignments
   stay.
 - Before an upload, the old bucket objects of the article go to a backup prefix.
-- Old question rows: the decision waits for a read-only production check of the rows that point
-  at them (Q-ORF-01 below).
+- Old question rows: the package replaces them (Q-ORF-01 below).
+- Thai only: the old `cn`, `tw`, and `vi` translations become empty (Daniel, 2026-10-01).
 
 ## Open items
 
-- **Q-ORF-01:** Keep or replace the old app question rows of the 27 articles. Needs the
-  production read (`LEGACY_DATABASE_URL` in the session environment).
-- **Q-ORF-02:** The printed files say "Level 2 · CEFR A0" for both books (lesson 13 of Origins 3.1:
-  "Level 3 · CEFR A0+"). The packages keep these values until the production read shows the
-  app's values.
+- **Q-ORF-01 (closed 2026-10-01):** Replace. Each article had 10 MCQ, 5 SAQ, and 5 LAQ rows; no
+  row points at them, and the app picks 5 random MCQs from all rows of an article (Daniel chose
+  replace).
+- **Q-ORF-02 (closed 2026-10-01):** No change. The app has the printed values: 26 articles at
+  `ra_level` 2 / A0, and Origins 3.1 lesson 13 at 3 / A0+.
 
 ## Revision history
 
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-01 | First version |
+| 1.1 | 2026-10-01 | Q-ORF-01 and Q-ORF-02 closed from the production sample; Thai only |

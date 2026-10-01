@@ -1,10 +1,10 @@
 # Primary database field map (lesson package → app)
 
-Version 1.1 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
+Version 1.2 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
 
 Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantage/prisma/schema.prisma`, `types/index.d.ts`, `lib/storage-config.ts`, the generators in `server/utils/genaretors/`, `reading-advantage-monorepo/packages/db/src/schema/{content,questions,primary}.ts`, and `tutor-advantage/services/learning-service/src/services/PrimaryAdvantageDB.ts`.
 
-**Status:** this map comes from the code. The JSON shapes still need a check against real production rows (read-only). That check waits for Daniel's decision on database access (see "Open items").
+**Status:** this map comes from the code. A read-only sample of the 27 Origins 2 and 3.1 articles (`scripts/sample-legacy.ts`, 2026-10-01) confirmed the JSON shapes, the paragraph separator, and the level pairs.
 
 ## Where things are
 
@@ -21,7 +21,7 @@ Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantag
 | `id` | `db.legacy.articleId` | New cuid on the first insert; written back to the package |
 | `title` | `meta.title` | |
 | `summary` | `text.summary` | |
-| `passage` | `text.paragraphs` | Joined with a blank line (`\n\n`) |
+| `passage` | `text.paragraphs` | Joined with a blank line (`\n\n`). An existing passage that differs only in spaces and line breaks stays: 3 app articles break lines inside a paragraph, and the app shows them (`whitespace-pre-wrap`) |
 | `type` | `meta.appType` | `fiction` or `nonfiction`; default `fiction` |
 | `genre` | `meta.genre` | |
 | `sub_genre` | — | `null` |
@@ -32,8 +32,8 @@ Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantag
 | `audio_url` | `audio.article` | `/audios/articles/<id>.mp3` |
 | `audio_word_url` | `audio.words` | `/audios/words/<id>.mp3` |
 | `sentences` | `audio.sentences` | `SentenceTimepoint[]`: `{ sentence, startTime, endTime, words: { word, start, end }[] }`. Word times are estimated by word length inside each sentence (mmx gives no word times; the reading tasks highlight the word under the play head) |
-| `words` | `glossary` + `audio.wordTimes` | `WordListTimestamp[]`: `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }` |
-| `translated_passage` | `thai.paragraphs` | `{ th: string[], cn: [], tw: [], vi: [] }`, one Thai string per sentence in `sentences` order |
+| `words` | — | `null`. No production article has it (0 of 560); the app reads the vocabulary from `sentencs_and_words_for_flashcard.words` |
+| `translated_passage` | `thai.paragraphs` | `{ th: string[], cn: [], tw: [], vi: [] }`, one Thai string per sentence in `sentences` order. Thai only (Daniel, 2026-10-01): the old rows had full `cn`, `tw`, and `vi`, and the injection empties them |
 | `translated_summary` | `thai.summary` | `{ th, cn: "", tw: "", vi: "" }`. The app falls back to the English summary when a locale is empty |
 | `author_id` | — | `""` (the app's own create uses `""`) |
 | `is_published`, `is_approved` | `approval.lesson` | `true` |
@@ -51,6 +51,8 @@ Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantag
 
 Prisma left the camelCase names `textualEvidence`, `createdAt`, and `updatedAt` unmapped on these tables, so SQL must quote them.
 
+The package replaces the article's question rows (Q-ORF-01, Daniel 2026-10-01): rows of the article that the package does not have are deleted in the same transaction. No other row points at a question id; student activity points at the article id. The app picks 5 random MCQs from all rows of an article, so old and new rows would mix.
+
 ## `sentencs_and_words_for_flashcard` (legacy; Tutor reads it)
 
 | Column | Rule |
@@ -60,7 +62,7 @@ Prisma left the camelCase names `textualEvidence`, `createdAt`, and `updatedAt` 
 | `words` | `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }[]`, the same list as `article.words` |
 | `words_url` | `audios/words/<id>.mp3` (the same file as `audio_word_url`) |
 
-One row per article.
+One row per article: a second row of the article is deleted in the same transaction (the app reads the first one it finds).
 
 ## Bucket objects
 
@@ -70,6 +72,8 @@ One row per article.
 | `audios/articles/<id>.mp3` | `audio.article` |
 | `audios/words/<id>.mp3` | `audio.words` |
 | `audios/sentences/<id>.mp3` | the flashcard sentences |
+
+Before the upload for an existing article, the old objects go to `backup/<yyyymmdd-hhmmss>/<path>` in the same bucket (Tutor's old `manifest.json` too, in `tutor_advantage_bucket`).
 
 ## Tutor Advantage clips (bucket `tutor_advantage_bucket`)
 
@@ -90,5 +94,5 @@ Tutor matches the questions by index to `SELECT … WHERE article_id = $1` with 
 
 ## Open items
 
-1. Read-only production samples, to confirm: `passage` paragraph separator, `sentences[].words` shape, `type` and `genre` values on Primary rows, and the `cefr_level` format. Waits for Daniel's decision on database access.
-2. Chinese and Vietnamese (`cn`, `tw`, `vi`) stay empty. Ask Daniel whether any Primary student uses those locales.
+1. Done (2026-10-01): the paragraph separator is `\n\n`; `sentences[]` is `{ sentence, startTime, endTime, words: { word, start, end }[] }`; the flashcard row is as above; the 27 articles are `fiction` with the app's genre names; the level pairs are `ra_level` 2 = A0 and 3 = A0+.
+2. Decided (Daniel, 2026-10-01): Thai only. `cn`, `tw`, and `vi` are empty, and the app shows English for those locales.
