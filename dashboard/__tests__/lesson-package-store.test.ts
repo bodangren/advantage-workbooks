@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { packagePath, listBooks, readPackageFile, savePackage, approvePart, chooseImage, renderPictures, StoreError } from '../lib/lesson-package/store';
+import { packagePath, listBooks, readPackageFile, savePackage, approvePart, chooseImage, renderPictures, recordInjection, StoreError } from '../lib/lesson-package/store';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import type { PackageCheckContext } from '../lib/lesson-package/checks';
 import { fixturePackage, fixtureIndex, FIXTURE_PROFILE, FIXTURE_SHAPE, FIXTURE_OBJECTIVES } from './fixtures/lesson-package-fixture';
@@ -153,6 +153,22 @@ describe('lesson package store', () => {
             p.thai.summary = '';
         });
         expect(() => approvePart(root, 'b', 't01', 'thai', ctx(), '2026-10-02')).toThrow(/thai/);
+    });
+
+    it('records the database ids of an injection and keeps the approvals', () => {
+        put('b', 't01', (p) => {
+            p.approval = { text: { status: 'approved', date: '2026-10-01' } };
+        });
+        const ids = { articleId: 'cart1', mcq: { m1: 'cq1' }, saq: { s1: 'cs1' }, laq: { l1: 'cl1' }, flashcardId: 'cf1', contentHash: 'abc', injectedAt: '2026-10-02T03:00:00.000Z' };
+        recordInjection(root, 'b', 't01', 'legacy', ids);
+        const onDisk = readPackageFile(root, 'b', 't01') as { db: { legacy: unknown }; approval: { text: { status: string } } };
+        expect(onDisk.db.legacy).toEqual(ids);
+        expect(onDisk.approval.text.status).toBe('approved');
+        // A later edit on the review page keeps the ids.
+        const edited = fixturePackage();
+        edited.text.summary = 'Changed.';
+        savePackage(root, 'b', 't01', edited, ctx());
+        expect((readPackageFile(root, 'b', 't01') as { db: { legacy: unknown } }).db.legacy).toEqual(ids);
     });
 
     it('gives 404 for a missing package', () => {

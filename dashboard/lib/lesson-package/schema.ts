@@ -33,6 +33,8 @@ export const PackageMetaSchema = z.object({
     /** A text-check profile id from `lib/text-profile/check.ts`. */
     profile: z.string().min(1),
     brief: z.string().optional(),
+    /** The app's `article.type`; default `fiction`. */
+    appType: z.enum(['fiction', 'nonfiction']).optional(),
 });
 
 export const PackageTextSchema = z.object({
@@ -163,6 +165,9 @@ export const AudioSchema = z.object({
     sentences: z.array(TimingSchema).default([]),
     words: z.string().optional(),
     wordTimes: z.array(TimingSchema).default([]),
+    /** 3 to 5 sentences for the app's flashcards (`audios/sentences/<id>.mp3`), joined from the article clips. */
+    flashcard: z.string().optional(),
+    flashcardTimes: z.array(TimingSchema).default([]),
 });
 
 export const TagsSchema = z.object({
@@ -189,6 +194,8 @@ export const TargetIdsSchema = z.object({
     mcq: z.record(z.string(), z.string()).default({}),
     saq: z.record(z.string(), z.string()).default({}),
     laq: z.record(z.string(), z.string()).default({}),
+    /** The legacy `sentencs_and_words_for_flashcard` row (one per article). */
+    flashcardId: z.string().optional(),
     contentHash: z.string().optional(),
     injectedAt: z.string().optional(),
 });
@@ -208,7 +215,7 @@ export const LessonPackageSchema = z.object({
     activities: ActivitiesSchema,
     thai: ThaiSchema,
     images: z.array(PackageImageSchema),
-    audio: AudioSchema.default({ sentences: [], wordTimes: [] }),
+    audio: AudioSchema.default({ sentences: [], wordTimes: [], flashcardTimes: [] }),
     tags: TagsSchema,
     approval: ApprovalsSchema.default({
         text: DRAFT,

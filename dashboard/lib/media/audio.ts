@@ -197,3 +197,26 @@ export function clipKey(text: string, voice: string, speed: number): string {
 export function speechArgs(text: string, voice: string, speed: number, out: string): string[] {
     return ['speech', 'synthesize', '--text', text, '--voice', voice, '--speed', String(speed), '--language', 'English', '--format', 'wav', '--out', out];
 }
+
+/**
+ * The sentences for the app's flashcards: the ones with the most glossed words (3 to 5), in text
+ * order. Ties go to the longer sentence, then the earlier one.
+ * @param pkg A parsed package.
+ * @returns Sentence texts.
+ */
+export function flashcardSentences(pkg: LessonPackage, min = 3, max = 5): string[] {
+    const sentences = articleSentences(pkg).map((s) => s.text);
+    const glossed = pkg.glossary.map((g) => g.word.toLowerCase());
+    const score = (t: string) => {
+        const words: string[] = t.toLowerCase().match(/[a-z']+/g) ?? [];
+        return glossed.filter((g) => words.includes(g)).length;
+    };
+    const ranked = sentences
+        .map((text, index) => ({ text, index, score: score(text) }))
+        .sort((a, b) => b.score - a.score || b.text.length - a.text.length || a.index - b.index);
+    const count = Math.min(sentences.length, Math.max(min, Math.min(max, ranked.filter((r) => r.score > 0).length)));
+    return ranked
+        .slice(0, count)
+        .sort((a, b) => a.index - b.index)
+        .map((r) => r.text);
+}

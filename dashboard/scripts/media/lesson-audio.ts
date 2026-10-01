@@ -5,7 +5,7 @@ import { spawnSync } from 'child_process';
 import { LessonPackageSchema, type LessonPackage } from '../../lib/lesson-package/schema';
 import { checkContextFor } from '../../lib/lesson-package/context';
 import { savePackage } from '../../lib/lesson-package/store';
-import { audioClips, clipKey, joinClips, longestPause, parseWav, speechArgs, trimSilence, writeWav, type Clip } from '../../lib/media/audio';
+import { DEFAULT_GAPS, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, writeWav, type Clip } from '../../lib/media/audio';
 
 const DEFAULT_VOICE = 'English_expressive_narrator';
 const DEFAULT_SPEED = 0.75;
@@ -27,7 +27,8 @@ Options:
 
 Each sentence (from the Thai part) and each glossary word is one WAV clip, cached in
 <book>/media/<lesson>/.clips/ by voice, speed, and text. The clips are trimmed and joined with
-fixed gaps into article.mp3 and words.mp3, and the exact times go into the package (audio part
+fixed gaps into article.mp3, words.mp3, and sentences.mp3 (3 to 5 flashcard sentences), and the exact
+times go into the package (audio part
 back to draft). A clip with an inner pause over ${MAX_PAUSE_S} s is made again (${TRIES} tries; the take
 with the shortest pause stays). Jobs run one at a time (mmx gives no output for parallel calls).`;
 
@@ -173,7 +174,25 @@ function main(argv: string[]): number {
     const sentences = render(clips.article, voice, opts.speed, cache, path.join(media, 'article.mp3'), (i) => opts.redo.includes(String(i + 1)));
     console.log(`Words (${clips.words.length})`);
     const wordTimes = render(clips.words, voice, opts.speed, cache, path.join(media, 'words.mp3'), (i) => opts.redo.includes(`w${i + 1}`));
-    pkg.audio = { voice, article: path.join(mediaRel, 'article.mp3'), sentences, words: path.join(mediaRel, 'words.mp3'), wordTimes };
+    // The app's flashcards: 3 to 5 sentences, joined from the article clips (cached, so no new TTS).
+    const cards = flashcardSentences(pkg);
+    console.log(`Flashcard sentences (${cards.length})`);
+    const flashcardTimes = render(
+        cards.map((text, i) => ({ text, gapAfterMs: i === cards.length - 1 ? 0 : DEFAULT_GAPS.paragraphGapMs })),
+        voice,
+        opts.speed,
+        cache,
+        path.join(media, 'sentences.mp3'),
+    );
+    pkg.audio = {
+        voice,
+        article: path.join(mediaRel, 'article.mp3'),
+        sentences,
+        words: path.join(mediaRel, 'words.mp3'),
+        wordTimes,
+        flashcard: path.join(mediaRel, 'sentences.mp3'),
+        flashcardTimes,
+    };
     const result = savePackage(root, book, lesson, pkg, checkContextFor);
     console.log(`Saved ${path.relative(process.cwd(), opts.file)}; audio approval: ${result.pkg?.approval.audio.status}`);
     return 0;

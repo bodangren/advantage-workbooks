@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { LessonPackageSchema, APPROVAL_PARTS, type ApprovalPart, type LessonPackage } from './schema';
+import type { z } from 'zod';
+import { LessonPackageSchema, TargetIdsSchema, APPROVAL_PARTS, type ApprovalPart, type LessonPackage } from './schema';
 import { checkPackage, schemaFailure, type PackageCheckContext, type PackageReport } from './checks';
 import { loadPackageFolder } from './files';
 import { renderImage } from '../media/render';
@@ -240,4 +241,23 @@ export async function renderPictures(root: string, pkg: LessonPackage): Promise<
     for (const image of pkg.images) {
         if (image.file && fs.existsSync(path.resolve(root, image.file))) await drawSigns(root, image.file, image.overlay);
     }
+}
+
+/**
+ * Writes the database ids of an injection into the package (only the injector calls this). The
+ * approvals do not change.
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @param target `legacy` or `new`.
+ * @param ids The article id, the question id maps, the content hash, and the time.
+ * @returns The saved package.
+ */
+export function recordInjection(root: string, book: string, lesson: string, target: 'legacy' | 'new', ids: z.input<typeof TargetIdsSchema>): LessonPackage {
+    const parsed = LessonPackageSchema.safeParse(readPackageFile(root, book, lesson));
+    if (!parsed.success) throw new StoreError(400, 'The package does not parse');
+    const pkg = parsed.data;
+    pkg.db[target] = TargetIdsSchema.parse(ids);
+    write(packagePath(root, book, lesson), pkg);
+    return pkg;
 }

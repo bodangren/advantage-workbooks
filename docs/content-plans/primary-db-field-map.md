@@ -1,0 +1,81 @@
+# Primary database field map (lesson package → app)
+
+Version 1.0 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
+
+Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantage/prisma/schema.prisma`, `types/index.d.ts`, `lib/storage-config.ts`, the generators in `server/utils/genaretors/`, `reading-advantage-monorepo/packages/db/src/schema/{content,questions,primary}.ts`, and `tutor-advantage/services/learning-service/src/services/PrimaryAdvantageDB.ts`.
+
+**Status:** this map comes from the code. The JSON shapes still need a check against real production rows (read-only). That check waits for Daniel's decision on database access (see "Open items").
+
+## Where things are
+
+| Item | Value |
+|---|---|
+| Legacy database | Cloud SQL instance `reading-advantage:asia-southeast1:cloud-sql`, database `primary_advantage`. The app runs on Cloud Run in project `primary-advantage` (service `primary-advantage-app`); its URL is the `DATABASE_URL` secret in that project. |
+| Bucket | `primary-app-storage` (`STORAGE_BUCKET_NAME`), public URLs `https://storage.googleapis.com/primary-app-storage/<path>` |
+| Readers | The app (legacy now, monorepo after the cutover), the ETL, and Tutor (`PrimaryAdvantageDB.ts`: `article`, `multiple_choice_questions`, `short_answer_questions`, `sentencs_and_words_for_flashcard`) |
+
+## `article` (legacy, Prisma)
+
+| Column | From the package | Rule |
+|---|---|---|
+| `id` | `db.legacy.articleId` | New cuid on the first insert; written back to the package |
+| `title` | `meta.title` | |
+| `summary` | `text.summary` | |
+| `passage` | `text.paragraphs` | Joined with a blank line (`\n\n`) |
+| `type` | `meta.appType` | `fiction` or `nonfiction`; default `fiction` |
+| `genre` | `meta.genre` | |
+| `sub_genre` | — | `null` |
+| `image_description` | `images[0].prompt` | The hero prompt |
+| `cefr_level` | `meta.cefrLevel` | Must agree with `ra_level` by the app's `convertCefrLevel` table (A0− 1 … B2+ 15) |
+| `ra_level` | `meta.raLevel` | |
+| `rating` | — | `5` (Daniel approved the lesson; the app does not filter on it) |
+| `audio_url` | `audio.article` | `/audios/articles/<id>.mp3` |
+| `audio_word_url` | `audio.words` | `/audios/words/<id>.mp3` |
+| `sentences` | `audio.sentences` | `SentenceTimepoint[]`: `{ sentence, startTime, endTime, words: { word, start, end }[] }`. Word times are estimated by word length inside each sentence (mmx gives no word times; the reading tasks highlight the word under the play head) |
+| `words` | `glossary` + `audio.wordTimes` | `WordListTimestamp[]`: `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }` |
+| `translated_passage` | `thai.paragraphs` | `{ th: string[], cn: [], tw: [], vi: [] }`, one Thai string per sentence in `sentences` order |
+| `translated_summary` | `thai.summary` | `{ th, cn: "", tw: "", vi: "" }`. The app falls back to the English summary when a locale is empty |
+| `author_id` | — | `""` (the app's own create uses `""`) |
+| `is_published`, `is_approved` | `approval.lesson` | `true` |
+| `is_draft` | — | `false` |
+| `validation_status` | — | `OK`, `validated_at` = now, so the app's repair job leaves the row alone |
+| `topic`, `brainstorming`, `planning` | — | `null` |
+
+## Question tables (legacy)
+
+| Table | Columns | From the package |
+|---|---|---|
+| `multiple_choice_questions` | `id`, `question`, `options text[]` (4), `answer`, `"textualEvidence"`, `article_id` | `bank.mcq[]`; ids in `db.legacy.mcq` |
+| `short_answer_questions` | `id`, `question`, `answer`, `article_id` | `bank.saq[]`; ids in `db.legacy.saq` |
+| `long_answer_questions` | `id`, `question`, `article_id` | `bank.laq[]`; ids in `db.legacy.laq` |
+
+Prisma left the camelCase names `textualEvidence`, `createdAt`, and `updatedAt` unmapped on these tables, so SQL must quote them.
+
+## `sentencs_and_words_for_flashcard` (legacy; Tutor reads it)
+
+| Column | Rule |
+|---|---|
+| `sentence` | `{ sentence, translation: { th, cn, tw, vi }, timeSeconds }[]`: 3 to 5 sentences, the ones with the most glossed words |
+| `audio_sentences_url` | `audios/sentences/<id>.mp3`, joined from the cached article clips (no new TTS) |
+| `words` | `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }[]`, the same list as `article.words` |
+| `words_url` | `audios/words/<id>.mp3` (the same file as `audio_word_url`) |
+
+One row per article.
+
+## Bucket objects
+
+| Path | From |
+|---|---|
+| `images/<id>_1.png`, `_2.png`, `_3.png` | `images[]` in paragraph order (`hero` → 1, `inline-para-2` → 2, `inline-para-3` → 3), converted from JPEG to PNG. The app shows image n above paragraph group n |
+| `audios/articles/<id>.mp3` | `audio.article` |
+| `audios/words/<id>.mp3` | `audio.words` |
+| `audios/sentences/<id>.mp3` | the flashcard sentences |
+
+## New schema (monorepo, after the cutover)
+
+`articles` keeps the Prisma columns (`passage`, `translated_*`, `sentences`, `words`, `audio_*`, `ra_level`, `cefr_level`, `is_published`, …) plus `content` (text, not null: the passage), `level`, `published`. `multiple_choice_questions` adds `correct_answer` (index into `options`, jsonb) and `order`; `short_answer_questions` adds `sample_answer` and `order`. IDs are uuid; `legacy_id_map` links them to the cuids. `--target new` writes these after the cutover.
+
+## Open items
+
+1. Read-only production samples, to confirm: `passage` paragraph separator, `sentences[].words` shape, `type` and `genre` values on Primary rows, and the `cefr_level` format. Waits for Daniel's decision on database access.
+2. Chinese and Vietnamese (`cn`, `tw`, `vi`) stay empty. Ask Daniel whether any Primary student uses those locales.
