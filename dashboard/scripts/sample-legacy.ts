@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { Client } from 'pg';
 import { LessonPackageSchema, type LessonPackage } from '../lib/lesson-package/schema';
-import { isReadOnlySql, jsonShape, SAMPLE_QUERIES, sampleArticleId } from '../lib/inject/legacy-sample';
+import { appArticleId } from '../lib/inject/legacy';
+import { isReadOnlySql, jsonShape, SAMPLE_QUERIES } from '../lib/inject/legacy-sample';
 
 const USAGE = `Reads a sample of the legacy Primary database for the lessons' app articles (track origins_app_refresh_20261001).
 
@@ -49,7 +50,7 @@ async function run(files: string[], url: string): Promise<number> {
     const packages = new Map<string, LessonPackage>();
     for (const file of files) {
         const pkg = LessonPackageSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
-        const id = sampleArticleId(pkg);
+        const id = appArticleId(pkg);
         const label = `${path.basename(path.dirname(file))}/${path.basename(file, '.json')}`;
         if (id) {
             labels.set(id, label);

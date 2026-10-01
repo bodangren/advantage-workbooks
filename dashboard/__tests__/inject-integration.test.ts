@@ -70,6 +70,32 @@ describe.skipIf(!fs.existsSync(MIGRATIONS))('legacy injection (Postgres with the
         expect(await verifyLegacy(db, second)).toEqual(['article.summary differs']);
     });
 
+    it("replaces an app article's old rows, and keeps its passage when only the line breaks differ", async () => {
+        const id = newCuid();
+        const old = legacyRows(ready(), { articleId: id, mcq: {}, saq: {}, laq: {} }, new Date());
+        await applyStatements(db, legacyStatements(old, new Date()));
+        // The app's own rows: one more MCQ, a second flashcard row, and a passage with a line break in a paragraph.
+        await db.query('INSERT INTO multiple_choice_questions (id, question, options, answer, article_id, "updatedAt") VALUES ($1, $2, $3, $4, $5, now())', [newCuid(), 'Old?', ['a', 'b', 'c', 'd'], 'a', id]);
+        await db.query('INSERT INTO sentencs_and_words_for_flashcard (id, article_id, "updatedAt") VALUES ($1, $2, now())', [newCuid(), id]);
+        const appPassage = old.article.passage.replace('. ', '.\n');
+        await db.query('UPDATE article SET passage = $1 WHERE id = $2', [appPassage, id]);
+
+        // The printed lesson knows only the article id: every other row is new.
+        const rows = legacyRows(ready(), { articleId: id, mcq: {}, saq: {}, laq: {} }, new Date());
+        await applyStatements(db, legacyStatements(rows, new Date()));
+        expect(await count('multiple_choice_questions', id)).toBe(3);
+        expect(await count('short_answer_questions', id)).toBe(2);
+        expect(await count('long_answer_questions', id)).toBe(1);
+        expect(await count('sentencs_and_words_for_flashcard', id)).toBe(1);
+        expect((await db.query<{ passage: string }>('SELECT passage FROM article WHERE id = $1', [id])).rows[0].passage).toBe(appPassage);
+        expect(await verifyLegacy(db, rows)).toEqual([]);
+
+        await db.query('UPDATE article SET passage = $1 WHERE id = $2', ['Other words.', id]);
+        expect(await verifyLegacy(db, rows)).toEqual(['article.passage differs']);
+        await applyStatements(db, legacyStatements(rows, new Date()));
+        expect((await db.query<{ passage: string }>('SELECT passage FROM article WHERE id = $1', [id])).rows[0].passage).toBe(rows.article.passage);
+    });
+
     it('rolls back the whole lesson when one statement fails', async () => {
         const id = newCuid();
         const rows = legacyRows(ready(), { articleId: id, mcq: {}, saq: {}, laq: {} }, new Date());

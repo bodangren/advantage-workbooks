@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { LessonPackageSchema, type LessonPackage } from '../lib/lesson-package/schema';
 import { fixturePackage } from './fixtures/lesson-package-fixture';
-import { estimateWordTimes, levelProblem, legacyRows, newCuid, bucketObjects, rowsHash } from '../lib/inject/legacy';
+import { appArticleId, backupPath, estimateWordTimes, levelProblem, legacyRows, newCuid, bucketObjects, rowsHash } from '../lib/inject/legacy';
 import { flashcardSentences } from '../lib/media/audio';
 
 const NOW = new Date('2026-10-02T03:00:00Z');
@@ -81,7 +81,8 @@ describe('legacy rows', () => {
         expect(a.translated_summary.th).toBeTruthy();
         expect(a.sentences[1]).toMatchObject({ sentence: 'Pip is a small brown puppy.', startTime: 2, endTime: 3.5 });
         expect(a.sentences[1].words.map((w: { word: string }) => w.word)).toEqual(['Pip', 'is', 'a', 'small', 'brown', 'puppy.']);
-        expect(a.words[0]).toEqual({ vocabulary: 'sofa', definition: { en: 'A long soft seat.', th: 'โซฟา', cn: '', tw: '', vi: '' }, timeSeconds: 0 });
+        // The app reads the vocabulary from the flashcard row; no production article has `words` (sample 2026-10-01).
+        expect(a.words).toBeNull();
     });
 
     it('keeps the question ids it has and makes new ones for the rest', () => {
@@ -108,7 +109,16 @@ describe('legacy rows', () => {
             translation: { th: 'มันอยู่ใต้โซฟา!', cn: '', tw: '', vi: '' },
             timeSeconds: 0,
         });
-        expect(rows.flashcard.words).toEqual(rows.article.words);
+        expect(rows.flashcard.words[0]).toEqual({ vocabulary: 'sofa', definition: { en: 'A long soft seat.', th: 'โซฟา', cn: '', tw: '', vi: '' }, timeSeconds: 0 });
+    });
+
+    it('updates the app article of a printed lesson, and keeps an injected id first', () => {
+        const pkg = withMedia();
+        expect(appArticleId(pkg)).toBeUndefined();
+        pkg.meta.printed = { file: 'p.json', articleId: 'cprinted', thaiParagraphs: [], imageUrls: [] } as unknown as typeof pkg.meta.printed;
+        expect(appArticleId(pkg)).toBe('cprinted');
+        pkg.db.legacy = { ...IDS, articleId: 'cinjected' } as unknown as typeof pkg.db.legacy;
+        expect(appArticleId(pkg)).toBe('cinjected');
     });
 
     it('refuses a package that is not ready', () => {
@@ -130,6 +140,13 @@ describe('bucket objects', () => {
             { from: 'tb/media/1/words.mp3', to: 'audios/words/cart1.mp3', png: false },
             { from: 'tb/media/1/sentences.mp3', to: 'audios/sentences/cart1.mp3', png: false },
         ]);
+    });
+});
+
+describe('bucket backup', () => {
+    it('copies an old object under backup/<time>/ with its own path', () => {
+        expect(backupPath('images/cart1_1.png', NOW)).toBe('backup/20261002-030000/images/cart1_1.png');
+        expect(backupPath('articles/cart1/manifest.json', NOW)).toBe('backup/20261002-030000/articles/cart1/manifest.json');
     });
 });
 

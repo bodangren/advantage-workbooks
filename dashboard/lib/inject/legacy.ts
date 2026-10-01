@@ -133,7 +133,8 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
         audio_url: `/audios/articles/${id}.mp3`,
         audio_word_url: `/audios/words/${id}.mp3`,
         sentences: pkg.audio.sentences.map((s) => ({ sentence: s.text, startTime: s.startTime, endTime: s.endTime, words: estimateWordTimes(s.text, s.startTime, s.endTime) })),
-        words,
+        // The app reads the vocabulary from the flashcard row; no production article has `words` (sample 2026-10-01).
+        words: null,
         translated_passage: { th: thai.map((s) => s.th), cn: [], tw: [], vi: [] },
         translated_summary: { th: pkg.thai.summary, ...EMPTY_LOCALES },
         author_id: '',
@@ -155,6 +156,26 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
         words_url: `audios/words/${id}.mp3`,
     };
     return { article, mcq, saq, laq, flashcard, ids };
+}
+
+/**
+ * The app article that a package writes to: the injected id, else the printed lesson's article.
+ * @param pkg A parsed package.
+ * @returns The legacy cuid, or undefined for a new lesson (the injector makes a new id).
+ */
+export function appArticleId(pkg: LessonPackage): string | undefined {
+    return pkg.db.legacy?.articleId ?? pkg.meta.printed?.articleId;
+}
+
+/**
+ * Where an old bucket object goes before the upload replaces it (the same bucket).
+ * @param objectPath The object path in the bucket.
+ * @param now The run time.
+ * @returns `backup/<yyyymmdd-hhmmss>/<objectPath>` (UTC).
+ */
+export function backupPath(objectPath: string, now: Date): string {
+    const stamp = now.toISOString().slice(0, 19).replace(/[-:]/g, '').replace('T', '-');
+    return `backup/${stamp}/${objectPath}`;
 }
 
 /**

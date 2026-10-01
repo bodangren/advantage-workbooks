@@ -38,12 +38,14 @@ const canon = (v: unknown): unknown =>
             : v;
 const norm = (v: unknown) => JSON.stringify(canon(v));
 
-/** Differences between the expected columns and a database row. */
-function compare(label: string, expected: Record<string, unknown>, actual: Record<string, unknown> | undefined, skip: string[] = []): string[] {
+const flat = (v: unknown) => String(v ?? '').replace(/\s+/g, ' ').trim();
+
+/** Differences between the expected columns and a database row. `sameText` columns compare without spaces and line breaks. */
+function compare(label: string, expected: Record<string, unknown>, actual: Record<string, unknown> | undefined, skip: string[] = [], sameText: string[] = []): string[] {
     if (!actual) return [`${label}: missing`];
     return Object.entries(expected)
         .filter(([k]) => !skip.includes(k))
-        .filter(([k, v]) => norm(actual[k]) !== norm(v))
+        .filter(([k, v]) => (sameText.includes(k) ? flat(actual[k]) !== flat(v) : norm(actual[k]) !== norm(v)))
         .map(([k]) => `${label}.${k} differs`);
 }
 
@@ -56,7 +58,7 @@ function compare(label: string, expected: Record<string, unknown>, actual: Recor
 export async function verifyLegacy(client: Queryable, rows: Rows): Promise<string[]> {
     const id = rows.article.id;
     const one = async (table: string, rowId: string) => (await client.query(`SELECT * FROM "${table}" WHERE id = $1`, [rowId])).rows[0];
-    const diffs = compare('article', rows.article, await one('article', id), ['validated_at']);
+    const diffs = compare('article', rows.article, await one('article', id), ['validated_at'], ['passage']);
     for (const [table, list] of [
         ['multiple_choice_questions', rows.mcq],
         ['short_answer_questions', rows.saq],

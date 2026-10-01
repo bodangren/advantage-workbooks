@@ -41,6 +41,10 @@ describe('legacy statements', () => {
         expect(statements.map((s) => s.text.split(' ')[2])).toEqual([
             '"article"',
             '"multiple_choice_questions"',
+            '"short_answer_questions"',
+            '"long_answer_questions"',
+            '"sentencs_and_words_for_flashcard"',
+            '"multiple_choice_questions"',
             '"multiple_choice_questions"',
             '"multiple_choice_questions"',
             '"short_answer_questions"',
@@ -51,5 +55,29 @@ describe('legacy statements', () => {
         expect(statements[0].text).toContain('"validation_status" = EXCLUDED."validation_status"');
         expect(statements[0].text).toContain('"validated_at", "updated_at") VALUES');
         expect(statements[0].text).not.toMatch(/"created_at"/);
+    });
+
+    it('deletes the rows of the article that the package does not have, before the upserts', () => {
+        const pkg = LessonPackageSchema.parse(fixturePackage());
+        pkg.images[0].file = 'x.jpg';
+        pkg.audio = {
+            article: 'a.mp3',
+            words: 'w.mp3',
+            flashcard: 's.mp3',
+            sentences: pkg.thai.paragraphs.flat().map((s, i) => ({ text: s.en, startTime: i, endTime: i + 0.9 })),
+            wordTimes: pkg.glossary.map((g, i) => ({ text: g.word, startTime: i, endTime: i + 0.5 })),
+            flashcardTimes: [{ text: 'Pip is happy.', startTime: 0, endTime: 1 }],
+        };
+        const rows = legacyRows(pkg, { articleId: 'a1', mcq: {}, saq: {}, laq: {}, flashcardId: 'f1' }, NOW);
+        const [, mcq, , , flashcard] = legacyStatements(rows, NOW);
+        expect(mcq).toEqual({ text: 'DELETE FROM "multiple_choice_questions" WHERE "article_id" = $1 AND NOT ("id" = ANY($2::text[]))', values: ['a1', rows.mcq.map((q) => q.id)] });
+        expect(flashcard.values).toEqual(['a1', ['f1']]);
+    });
+
+    it('keeps the app passage when it differs only in spaces and line breaks', () => {
+        const { text } = upsertSql('article', { id: 'a1', passage: 'A. B.' }, { now: NOW, updatedAt: '"updated_at"', sameText: ['passage'] });
+        expect(text).toContain(
+            `"passage" = CASE WHEN btrim(regexp_replace("article"."passage", '\\s+', ' ', 'g')) = btrim(regexp_replace(EXCLUDED."passage", '\\s+', ' ', 'g')) THEN "article"."passage" ELSE EXCLUDED."passage" END`,
+        );
     });
 });

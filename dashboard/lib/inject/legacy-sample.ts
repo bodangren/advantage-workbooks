@@ -1,5 +1,3 @@
-import type { LessonPackage } from '../lesson-package/schema';
-
 /**
  * The read-only production sample (track origins_app_refresh_20261001): the field-map check, Q-ORF-01
  * (the old question rows), and Q-ORF-02 (the levels). Pure: the SQL and the output helpers; the
@@ -84,13 +82,4 @@ export function jsonShape(value: unknown, depth = 3): string {
         return `{${Object.entries(value as Record<string, unknown>).map(([k, v]) => `${k}:${jsonShape(v, depth - 1)}`).join(',')}}`;
     }
     return typeof value;
-}
-
-/**
- * The app article of a package: the injected id, else the printed source's id.
- * @param pkg A parsed package.
- * @returns The legacy cuid, or undefined for a new lesson that is not injected.
- */
-export function sampleArticleId(pkg: LessonPackage): string | undefined {
-    return pkg.db.legacy?.articleId ?? pkg.meta.printed?.articleId;
 }

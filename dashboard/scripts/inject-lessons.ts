@@ -6,7 +6,7 @@ import sharp from 'sharp';
 import { Client } from 'pg';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { recordInjection } from '../lib/lesson-package/store';
-import { bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
+import { appArticleId, backupPath, bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
 import { legacyStatements } from '../lib/inject/sql';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
 import { voicesFor } from '../lib/media/audio';
@@ -30,7 +30,9 @@ Options:
   --force                Write even when the content hash has not changed
 
 Only packages with approval.lesson = approved are written. Before the first write the script makes
-a Cloud SQL backup and waits for it. Media goes up first (the app's files, then the Tutor clips, then
+a Cloud SQL backup and waits for it. A printed lesson updates its app article (meta.printed.articleId):
+the old bucket objects go to backup/<time>/ first, and the article's old question and flashcard rows
+are replaced. Media goes up first (the app's files, then the Tutor clips, then
 the Tutor manifest), then one transaction per lesson, then the verify step. The ids go back into the package (db.legacy), and a line goes into
 content/primary/<book>/inject-log.jsonl.`;
 
@@ -108,6 +110,21 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
     }
 }
 
+/**
+ * Copies the objects that the upload replaces to backup/<time>/ in the same bucket. An object that
+ * does not exist yet has nothing to keep.
+ * @returns The count of objects copied.
+ */
+function backupObjects(bucket: string, paths: string[], now: Date): number {
+    let copied = 0;
+    for (const p of paths) {
+        const run = spawnSync('gcloud', ['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], { encoding: 'utf8', timeout: 300_000 });
+        if (run.status === 0) copied++;
+        else if (!/matched no objects|No URLs matched|not found/i.test(run.stderr)) throw new Error(`backup of gs://${bucket}/${p} failed: ${run.stderr.trim().slice(0, 300)}`);
+    }
+    return copied;
+}
+
 /** The Tutor clips go up in one copy (a folder in the bucket's layout); the manifest goes last, without a cache. */
 function uploadTutor(root: string, uploads: ReturnType<typeof tutorUploads>, manifest: ReturnType<typeof tutorManifest>, bucket: string) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'inject-tutor-'));
@@ -149,7 +166,9 @@ async function main(argv: string[]): Promise<number> {
             const pkg = parsed.data;
             const approved = pkg.approval.lesson.status === 'approved';
             const known = pkg.db.legacy;
-            const ids = { articleId: known?.articleId ?? newCuid(), mcq: known?.mcq ?? {}, saq: known?.saq ?? {}, laq: known?.laq ?? {}, flashcardId: known?.flashcardId };
+            // A printed lesson updates its app article; its other rows are replaced (Q-ORF-01).
+            const existing = appArticleId(pkg);
+            const ids = { articleId: existing ?? newCuid(), mcq: known?.mcq ?? {}, saq: known?.saq ?? {}, laq: known?.laq ?? {}, flashcardId: known?.flashcardId };
             let rows;
             try {
                 rows = legacyRows(pkg, ids, now);
@@ -175,11 +194,13 @@ async function main(argv: string[]): Promise<number> {
             const hash = rowsHash(rows, tutor && { ...tutor.manifest, generatedAt: undefined });
             const statements = legacyStatements(rows, now);
             const objects = bucketObjects(pkg, rows.ids.articleId);
-            const label = `${book}/${lesson} "${pkg.meta.title}" → article ${rows.ids.articleId} (${known ? 'update' : 'new'})`;
+            const label = `${book}/${lesson} "${pkg.meta.title}" → article ${rows.ids.articleId} (${existing ? 'update' : 'new'})`;
+            const tutorManifestPath = `articles/${rows.ids.articleId}/manifest.json`;
 
             if (opts.dryRun) {
                 console.log(`${label}${approved ? '' : '  [NOT APPROVED: a real run refuses it]'}`);
                 console.log(`  rows: 1 article, ${rows.mcq.length} MCQ, ${rows.saq.length} SAQ, ${rows.laq.length} LAQ, 1 flashcard row; hash ${hash}${known?.contentHash === hash ? ' (unchanged)' : ''}`);
+                if (existing) console.log(`  first: the old objects (when they exist) → gs://${opts.bucket}/${backupPath('', now)}${tutor ? ` and gs://${opts.tutorBucket}/${backupPath(tutorManifestPath, now)}` : ''}`);
                 for (const o of objects) console.log(`  ${o.from} → gs://${opts.bucket}/${o.to}${o.png ? ' (as PNG)' : ''}`);
                 if (tutor) console.log(`  ${tutor.uploads.length} Tutor clips and manifest.json → gs://${opts.tutorBucket}/articles/${rows.ids.articleId}/`);
                 if (opts.showSql) for (const s of statements) console.log(`  ${s.text}`);
@@ -206,12 +227,17 @@ async function main(argv: string[]): Promise<number> {
                 await client.connect();
             }
             console.log(label);
+            let backedUp = 0;
+            if (opts.upload && existing) {
+                backedUp = backupObjects(opts.bucket, objects.map((o) => o.to), now) + (tutor ? backupObjects(opts.tutorBucket, [tutorManifestPath], now) : 0);
+                console.log(`  ${backedUp} old object(s) → backup/${backupPath('', now).split('/')[1]}/`);
+            }
             if (opts.upload) await upload(root, objects, opts.bucket);
             if (opts.upload && tutor) uploadTutor(root, tutor.uploads, tutor.manifest, opts.tutorBucket);
             await applyStatements(client, statements);
             const diffs = await verifyLegacy(client, rows);
             recordInjection(root, book, lesson, 'legacy', { ...rows.ids, contentHash: hash, injectedAt: now.toISOString() });
-            const log = { time: now.toISOString(), target: 'legacy', lesson: `${book}/${lesson}`, articleId: rows.ids.articleId, backupId, hash, objects: opts.upload ? objects.map((o) => o.to) : [], tutorClips: opts.upload && tutor ? tutor.uploads.length : 0, verify: diffs };
+            const log = { time: now.toISOString(), target: 'legacy', lesson: `${book}/${lesson}`, articleId: rows.ids.articleId, backupId, bucketBackup: backedUp ? backupPath('', now) : undefined, hash, objects: opts.upload ? objects.map((o) => o.to) : [], tutorClips: opts.upload && tutor ? tutor.uploads.length : 0, verify: diffs };
             fs.appendFileSync(path.join(root, book, 'inject-log.jsonl'), `${JSON.stringify(log)}\n`);
             if (diffs.length) {
                 failed++;
