@@ -233,3 +233,24 @@ export function flashcardSentences(pkg: LessonPackage, min = 3, max = 5): string
         .sort((a, b) => a.index - b.index)
         .map((r) => r.text);
 }
+
+/**
+ * Calls `fn` until it returns, with one wait before each new try. mmx sometimes gets no answer from
+ * the server for 10 to 15 seconds (no HTTP status, so not a rate limit); one more try then works.
+ * @param fn The call. It throws on a failure.
+ * @param waitsMs The waits; their count is the count of extra tries.
+ * @param wait Waits the given milliseconds.
+ * @param onRetry Called with the error and the try number before each wait.
+ * @returns The first result. Throws the last error when every try fails.
+ */
+export function withRetries<T>(fn: () => T, waitsMs: number[], wait: (ms: number) => void, onRetry?: (error: Error, attempt: number) => void): T {
+    for (let attempt = 1; ; attempt++) {
+        try {
+            return fn();
+        } catch (e) {
+            if (attempt > waitsMs.length) throw e;
+            onRetry?.(e as Error, attempt);
+            wait(waitsMs[attempt - 1]);
+        }
+    }
+}

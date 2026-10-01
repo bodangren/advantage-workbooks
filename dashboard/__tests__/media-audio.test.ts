@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { parseWav, writeWav, trimSilence, longestPause, joinClips, articleSentences, audioClips, clipKey, speechArgs } from '../lib/media/audio';
+import { parseWav, writeWav, trimSilence, longestPause, joinClips, articleSentences, audioClips, clipKey, speechArgs, withRetries } from '../lib/media/audio';
 import { fixturePackage } from './fixtures/lesson-package-fixture';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 
@@ -119,5 +119,42 @@ describe('lesson clips', () => {
             '--out',
             '/tmp/a.wav',
         ]);
+    });
+});
+
+describe('retries', () => {
+    it('tries again after each wait, and returns the first result', () => {
+        const waits: number[] = [];
+        const notes: string[] = [];
+        let calls = 0;
+        const result = withRetries(
+            () => {
+                calls++;
+                if (calls < 3) throw new Error(`fail ${calls}`);
+                return 'ok';
+            },
+            [5, 15, 30],
+            (ms) => waits.push(ms),
+            (e, attempt) => notes.push(`${attempt}: ${e.message}`),
+        );
+        expect(result).toBe('ok');
+        expect(calls).toBe(3);
+        expect(waits).toEqual([5, 15]);
+        expect(notes).toEqual(['1: fail 1', '2: fail 2']);
+    });
+
+    it('throws the last error when every try fails', () => {
+        const waits: number[] = [];
+        let calls = 0;
+        expect(() =>
+            withRetries(
+                () => {
+                    throw new Error(`fail ${++calls}`);
+                },
+                [5, 15],
+                (ms) => waits.push(ms),
+            ),
+        ).toThrow('fail 3');
+        expect(waits).toEqual([5, 15]);
     });
 });

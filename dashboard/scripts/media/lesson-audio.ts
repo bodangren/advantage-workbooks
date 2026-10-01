@@ -5,13 +5,15 @@ import { spawnSync } from 'child_process';
 import { LessonPackageSchema, type LessonPackage } from '../../lib/lesson-package/schema';
 import { checkContextFor } from '../../lib/lesson-package/context';
 import { savePackage } from '../../lib/lesson-package/store';
-import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, writeWav, type Clip } from '../../lib/media/audio';
+import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, withRetries, writeWav, type Clip } from '../../lib/media/audio';
 import { tutorClips, tutorItems } from '../../lib/media/tutor-audio';
 
 const DEFAULT_SPEED = 0.75;
 /** An inner pause longer than this marks a bad take; the clip is made again (two more tries at most). */
 const MAX_PAUSE_S = 0.6;
 const TRIES = 3;
+/** The waits before each new try of a failed mmx call. */
+const CALL_WAITS_MS = [5_000, 15_000, 30_000, 60_000];
 
 const USAGE = `Makes the audio for a lesson package with mmx (track lesson_media_20261001).
 
@@ -78,13 +80,22 @@ function sentenceMismatch(pkg: LessonPackage): number | undefined {
     return bad >= 0 ? bad + 1 : undefined;
 }
 
-/** One take from mmx into `file`. */
+const sleep = (ms: number) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/** One take from mmx into `file`, tried again after a failed call. */
 function take(text: string, voice: string, speed: number, file: string) {
     const tmp = `${file}.part.wav`;
-    const run = spawnSync('mmx', speechArgs(text, voice, speed, tmp), { encoding: 'utf8', timeout: 120_000 });
-    if (run.status !== 0 || !fs.existsSync(tmp)) {
-        throw new Error(`mmx failed for "${text}": ${(run.stderr || run.stdout || String(run.error)).trim().slice(0, 300)}`);
-    }
+    withRetries(
+        () => {
+            const run = spawnSync('mmx', speechArgs(text, voice, speed, tmp), { encoding: 'utf8', timeout: 120_000 });
+            if (run.status !== 0 || !fs.existsSync(tmp)) {
+                throw new Error(`mmx failed for "${text}": ${(run.stderr || run.stdout || String(run.error)).trim().slice(0, 300)}`);
+            }
+        },
+        CALL_WAITS_MS,
+        sleep,
+        (_, attempt) => process.stdout.write(`    call ${attempt} failed for "${text}", again in ${CALL_WAITS_MS[attempt - 1] / 1000} s\n`),
+    );
     fs.renameSync(tmp, file);
 }
 
