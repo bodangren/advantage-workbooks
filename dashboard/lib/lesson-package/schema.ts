@@ -1,0 +1,220 @@
+import { z } from 'zod';
+
+/**
+ * Lesson package: one file per lesson that holds every asset (track lesson_packages_20261001).
+ * The workbook JSON, the database rows, and the tag file are all built from it.
+ * Counts (12 glossed words, 10/5/5 questions) are checked by `checks.ts`, not here, so that a
+ * package in draft (text first, bank later) still parses.
+ */
+
+/** The parts of a package that Daniel approves on the review page. */
+export const APPROVAL_PARTS = ['text', 'thai', 'bank', 'images', 'audio', 'lesson'] as const;
+export const ApprovalPartSchema = z.enum(APPROVAL_PARTS);
+export type ApprovalPart = z.infer<typeof ApprovalPartSchema>;
+
+const ObjectiveIdsSchema = z.array(z.string().min(1));
+
+export const ApprovalSchema = z.object({
+    status: z.enum(['draft', 'approved']),
+    date: z.string().optional(),
+});
+
+export const PackageMetaSchema = z.object({
+    book: z.string().min(1),
+    lesson: z.string().min(1),
+    number: z.number().int().min(1),
+    /** The stable book-and-lesson URL key (Origins 3.2 plan, decision D1), e.g. `o3-2/5`. */
+    key: z.string().regex(/^[a-z0-9-]+\/\d+$/),
+    title: z.string().min(1),
+    raLevel: z.number().int().min(1).max(15),
+    cefrLevel: z.string().min(1),
+    textType: z.string().min(1),
+    genre: z.string().min(1),
+    /** A text-check profile id from `lib/text-profile/check.ts`. */
+    profile: z.string().min(1),
+    brief: z.string().optional(),
+});
+
+export const PackageTextSchema = z.object({
+    paragraphs: z.array(z.string().min(1)).min(1),
+    summary: z.string(),
+    glossed: z.array(z.string().min(1)),
+    recycle: z.array(z.string().min(1)).default([]),
+    allow: z.array(z.string().min(1)).default([]),
+    names: z.array(z.string().min(1)).default([]),
+});
+
+export const GlossaryEntrySchema = z.object({
+    word: z.string().min(1),
+    pos: z.string().min(1),
+    definition: z.string().min(1),
+    thai: z.string(),
+    /** A sentence from the article that uses the word. */
+    example: z.string().min(1),
+});
+
+export const McqSchema = z.object({
+    id: z.string().min(1),
+    question: z.string().min(1),
+    /** Four options, as the app stores them. Print shows the answer and the first two others. */
+    options: z.array(z.string().min(1)),
+    answer: z.string().min(1),
+    /** A sentence from the article that proves the answer (the app's `textual_evidence`). */
+    evidence: z.string().min(1),
+    objectives: ObjectiveIdsSchema,
+});
+
+export const SaqSchema = z.object({
+    id: z.string().min(1),
+    question: z.string().min(1),
+    answer: z.string().min(1),
+    objectives: ObjectiveIdsSchema,
+});
+
+export const LaqSchema = z.object({
+    id: z.string().min(1),
+    question: z.string().min(1),
+    objectives: ObjectiveIdsSchema,
+});
+
+export const BankSchema = z.object({
+    mcq: z.array(McqSchema),
+    saq: z.array(SaqSchema),
+    laq: z.array(LaqSchema),
+});
+
+export const PrintSchema = z.object({
+    mcq: z.array(z.string().min(1)),
+    saq: z.string(),
+    saqHint: z.string().optional(),
+    /** Options per printed multiple-choice question. The printed Origins books use 3. */
+    mcqOptions: z.number().int().min(3).max(4).default(3),
+});
+
+export const VocabFillSchema = z.object({
+    /** The sentence with `___` where the word goes. */
+    sentence: z.string().min(1),
+    answer: z.string().min(1),
+});
+
+export const ActivitiesSchema = z.object({
+    sentenceStarters: z.array(z.string().min(1)),
+    vocabFill: z.array(VocabFillSchema),
+    /** Full sentences; the builder scrambles the words. */
+    sentenceOrder: z.array(z.string().min(1)),
+    sentenceCompletion: z.array(z.string().min(1)),
+    writingPrompt: z.string(),
+    writingFrames: z.array(z.string().min(1)).default([]),
+});
+
+export const SentencePairSchema = z.object({
+    en: z.string().min(1),
+    th: z.string(),
+});
+
+export const ThaiSchema = z.object({
+    /** One array per article paragraph, one pair per sentence. */
+    paragraphs: z.array(z.array(SentencePairSchema)),
+    summary: z.string(),
+});
+
+export const OverlaySchema = z.object({
+    /** The exact text to draw on the image (mmx cannot draw text). */
+    text: z.string().min(1),
+    /** x, y, width, height as fractions of the image size. */
+    box: z.tuple([z.number(), z.number(), z.number(), z.number()]).optional(),
+});
+
+export const ImagePositionSchema = z.enum([
+    'hero',
+    'vocabulary',
+    'inline-para-1',
+    'inline-para-2',
+    'inline-para-3',
+    'writing-prompt',
+]);
+
+export const PackageImageSchema = z.object({
+    position: ImagePositionSchema,
+    prompt: z.string().min(1),
+    /** Series-bible names; the first one's character sheet is the subject reference. */
+    characters: z.array(z.string().min(1)),
+    caption: z.string(),
+    file: z.string().optional(),
+    overlay: z.array(OverlaySchema).default([]),
+});
+
+export const TimingSchema = z.object({
+    text: z.string(),
+    startTime: z.number().min(0),
+    endTime: z.number().min(0),
+});
+
+export const AudioSchema = z.object({
+    voice: z.string().optional(),
+    article: z.string().optional(),
+    sentences: z.array(TimingSchema).default([]),
+    words: z.string().optional(),
+    wordTimes: z.array(TimingSchema).default([]),
+});
+
+export const TagsSchema = z.object({
+    targetObjectives: ObjectiveIdsSchema,
+    supportingObjectives: ObjectiveIdsSchema.default([]),
+    glossedNodes: z.array(z.string().min(1)).default([]),
+    recycledNodes: z.array(z.string().min(1)).default([]),
+});
+
+const DRAFT = { status: 'draft' as const };
+
+export const ApprovalsSchema = z.object({
+    text: ApprovalSchema.default(DRAFT),
+    thai: ApprovalSchema.default(DRAFT),
+    bank: ApprovalSchema.default(DRAFT),
+    images: ApprovalSchema.default(DRAFT),
+    audio: ApprovalSchema.default(DRAFT),
+    lesson: ApprovalSchema.default(DRAFT),
+});
+
+/** Database IDs for one target. The injector writes these; question maps are package id → row id. */
+export const TargetIdsSchema = z.object({
+    articleId: z.string().min(1),
+    mcq: z.record(z.string(), z.string()).default({}),
+    saq: z.record(z.string(), z.string()).default({}),
+    laq: z.record(z.string(), z.string()).default({}),
+    contentHash: z.string().optional(),
+    injectedAt: z.string().optional(),
+});
+
+export const DbSchema = z.object({
+    legacy: TargetIdsSchema.optional(),
+    new: TargetIdsSchema.optional(),
+});
+
+export const LessonPackageSchema = z.object({
+    version: z.literal(1),
+    meta: PackageMetaSchema,
+    text: PackageTextSchema,
+    glossary: z.array(GlossaryEntrySchema),
+    bank: BankSchema,
+    print: PrintSchema,
+    activities: ActivitiesSchema,
+    thai: ThaiSchema,
+    images: z.array(PackageImageSchema),
+    audio: AudioSchema.default({ sentences: [], wordTimes: [] }),
+    tags: TagsSchema,
+    approval: ApprovalsSchema.default({
+        text: DRAFT,
+        thai: DRAFT,
+        bank: DRAFT,
+        images: DRAFT,
+        audio: DRAFT,
+        lesson: DRAFT,
+    }),
+    db: DbSchema.default({}),
+});
+
+export type LessonPackage = z.infer<typeof LessonPackageSchema>;
+export type LessonPackageInput = z.input<typeof LessonPackageSchema>;
+export type Mcq = z.infer<typeof McqSchema>;
+export type PackageImage = z.infer<typeof PackageImageSchema>;
