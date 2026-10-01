@@ -32,7 +32,7 @@ Track: `origins_app_refresh_20261001`
 - [x] Muse test on E12 (sheets as reference pictures); `lesson-images.ts --model muse` (9f2913b)
 - [x] Style test A (flat 2D) and B (printed-book); Daniel chose B
 - [x] New cast sheets with Muse: complete descriptions (dark-brown eyes); Tom anchor (eye edit of the first clean Tom), then the other 14 with Tom as the style reference; old sheets archived; lineup `character-sheets/cast-lineup.jpg` for Daniel
-- [ ] E12 pictures again with the new sheets
+- [x] E12 pictures again with the new sheets (2 Muse candidates each; Claude chose 3; images approval back to draft)
 - [ ] The 81 Origins 2 and 3.1 pictures again with the new sheets (2 candidates each, about $1.60)
 - [ ] Daniel reviews the pictures on `/review`
 
