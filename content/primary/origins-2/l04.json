@@ -39,7 +39,7 @@
       "This sand is soft. Mia likes sand. She plays in sand. She builds a castle. This castle is big. Tom likes sand. He plays in sand. He builds a castle too. This castle is big. Pip looks at the castle. Pip is happy. Pip runs on sand. Mia likes water.",
       "She swims in water. The water is blue. Tom likes water. He swims in water. The water is cool. Pip likes water. Pip runs in water. Pip sees a fish. This is fun. They are happy. This is a good day."
     ],
-    "summary": "",
+    "summary": "Mia, Tom, and Pip are friends. They go to the beach. They build big sand castles and swim in the cool blue water. It is a good day.",
     "glossed": [
       "beach",
       "warm",
@@ -59,71 +59,71 @@
   "glossary": [
     {
       "word": "beach",
-      "pos": "?",
-      "definition": "An area of sand or small stones next to the sea.",
+      "pos": "noun",
+      "definition": "The sand next to the sea.",
       "thai": "ชายหาด",
       "example": "They are at the beach."
     },
     {
       "word": "warm",
-      "pos": "?",
-      "definition": "A little bit hot in a pleasant way.",
+      "pos": "adjective",
+      "definition": "A little hot. Nice, not cold.",
       "thai": "อบอุ่น",
       "example": "The sun is warm."
     },
     {
       "word": "sand",
-      "pos": "?",
-      "definition": "Tiny grains of crushed rock found at the beach.",
+      "pos": "noun",
+      "definition": "Very small yellow bits at the beach.",
       "thai": "ทราย",
       "example": "They see sand."
     },
     {
       "word": "soft",
-      "pos": "?",
-      "definition": "Easy to press and not hard.",
+      "pos": "adjective",
+      "definition": "Not hard.",
       "thai": "นุ่ม",
       "example": "This sand is soft."
     },
     {
       "word": "builds",
-      "pos": "?",
-      "definition": "To make something by putting parts together.",
+      "pos": "verb",
+      "definition": "Makes something by putting parts together.",
       "thai": "สร้าง",
       "example": "She builds a castle."
     },
     {
       "word": "castle",
-      "pos": "?",
-      "definition": "A big building, often made of sand for fun.",
+      "pos": "noun",
+      "definition": "A very big house for a king. You can make one with sand.",
       "thai": "ปราสาท",
       "example": "She builds a castle."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling good and full of joy.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is happy."
     },
     {
       "word": "swims",
-      "pos": "?",
-      "definition": "To move through water by moving your body.",
+      "pos": "verb",
+      "definition": "Moves in water with arms and legs.",
       "thai": "ว่ายน้ำ",
       "example": "She swims in water."
     },
     {
       "word": "cool",
-      "pos": "?",
-      "definition": "Slightly cold in a way that feels good.",
+      "pos": "adjective",
+      "definition": "A little cold. Nice, not hot.",
       "thai": "เย็นสบาย",
       "example": "The water is cool."
     },
     {
       "word": "friends",
-      "pos": "?",
-      "definition": "People who like to spend time and play together.",
+      "pos": "noun",
+      "definition": "People you like and play with.",
       "thai": "เพื่อนๆ",
       "example": "They are friends."
     }
@@ -136,11 +136,14 @@
         "options": [
           "yes",
           "no",
-          "maybe"
+          "maybe",
+          "not today"
         ],
         "answer": "yes",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Pip is happy.",
+        "objectives": [
+          "L12.1"
+        ]
       },
       {
         "id": "p2",
@@ -148,11 +151,14 @@
         "options": [
           "a dog",
           "a boy",
-          "a girl"
+          "a girl",
+          "a cat"
         ],
         "answer": "a dog",
         "evidence": "Pip is a dog.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -160,11 +166,14 @@
         "options": [
           "at the beach",
           "in the house",
-          "in the school"
+          "in the school",
+          "at the zoo"
         ],
         "answer": "at the beach",
         "evidence": "They are at the beach.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -172,22 +181,185 @@
         "options": [
           "blue",
           "yellow",
-          "red"
+          "red",
+          "green"
         ],
         "answer": "yellow",
         "evidence": "Sand is yellow.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What does Mia build?",
+        "options": [
+          "a castle",
+          "a house",
+          "a boat",
+          "a car"
+        ],
+        "answer": "a castle",
+        "evidence": "She builds a castle.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is the water?",
+        "options": [
+          "blue",
+          "yellow",
+          "red",
+          "black"
+        ],
+        "answer": "blue",
+        "evidence": "The water is blue.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Pip see in the water?",
+        "options": [
+          "a fish",
+          "a cat",
+          "a bird",
+          "a ball"
+        ],
+        "answer": "a fish",
+        "evidence": "Pip sees a fish.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "How is the sun?",
+        "options": [
+          "warm",
+          "cold",
+          "small",
+          "green"
+        ],
+        "answer": "warm",
+        "evidence": "The sun is warm.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Tom do in the water?",
+        "options": [
+          "He swims.",
+          "He reads.",
+          "He sleeps.",
+          "He eats."
+        ],
+        "answer": "He swims.",
+        "evidence": "He swims in water.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Is the castle big?",
+        "options": [
+          "Yes, it is big.",
+          "No, it is small.",
+          "No, it is red.",
+          "Yes, it is blue."
+        ],
+        "answer": "Yes, it is big.",
+        "evidence": "This castle is big.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a dog.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who is at the beach?",
+        "answer": "Mia, Tom, and Pip are at the beach.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Tom build?",
+        "answer": "Tom builds a castle.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "How is the water?",
+        "answer": "The water is blue and cool.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is it a good day? Why?",
+        "answer": "Yes. They play and they are happy.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you like the beach? Tell why.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a sand castle. Tell about it.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What do you do at the beach or at a pool?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Mia likes sand. Tom likes water. What do you like?",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Tell about a good day with your friends.",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -392,42 +564,68 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "เมีย ทอม และปิ๊ปเป็นเพื่อนกัน พวกเขาไปชายหาด พวกเขาสร้างปราสาททรายใหญ่และว่ายน้ำในน้ำสีฟ้าที่เย็นสบาย วันนี้เป็นวันที่ดี"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Mia, Tom, and their dog Pip are happy friends at the sunny beach, building big sandcastles and playing in the cool water.",
+      "prompt": "Mia, Tom, and Pip stand together on a sunny beach with yellow sand and a blue sea. A big warm sun shines in the sky. They smile.",
+      "characters": [
+        "Mia",
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Mia, Tom, and Pip are at the beach.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Mia and Tom kneel on the soft yellow sand and build two big sand castles. Pip runs on the sand next to the castles and looks happy.",
+      "characters": [
+        "Mia",
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Mia and Tom build big sand castles.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Mia and Tom swim and splash in the cool blue sea near the beach. Pip runs in the shallow water and looks at a small orange fish. Everyone is happy.",
+      "characters": [
+        "Mia",
+        "Tom",
+        "Pip"
+      ],
+      "caption": "They swim, and Pip sees a fish.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R21.2",
+      "R17.2",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

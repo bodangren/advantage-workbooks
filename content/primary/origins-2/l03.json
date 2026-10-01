@@ -39,7 +39,7 @@
       "Mom and Pip walk. They walk to a building. This building is big. It is a library. A library is quiet. Many books are here. Big books are here. Small books are here. Red books are here. Blue books are here. Mom is in the library. Pip is in the library. The library is good. It is a quiet place. Pip sees many books. Pip likes books. Mom sits. Mom reads a book.",
       "Mom is quiet. Pip sits too. Pip is quiet. Pip likes this quiet. Pip sees a boy. He is a friend. The boy has a book. He reads the book. Pip sees a girl. She is a friend. The girl has a book. She reads the book. Pip is happy. Friends are happy. The library is good. It is a happy place. Pip is very happy."
     ],
-    "summary": "",
+    "summary": "Pip the puppy looks at a book with Mom. They walk to a big library. It is quiet. Pip sees friends who read books. The library is a happy place.",
     "glossed": [
       "puppy",
       "picture",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "picture",
-      "pos": "?",
-      "definition": "A drawing, painting, or photograph.",
+      "pos": "noun",
+      "definition": "A drawing or a photo.",
       "thai": "รูปภาพ",
       "example": "Pip sees a picture."
     },
     {
       "word": "building",
-      "pos": "?",
-      "definition": "A structure with walls and a roof, such as a house or school.",
+      "pos": "noun",
+      "definition": "A house, a school, or a shop. It has walls and a roof.",
       "thai": "อาคาร",
       "example": "They walk to a building."
     },
     {
       "word": "library",
-      "pos": "?",
-      "definition": "A place where books are kept for people to read or borrow.",
+      "pos": "noun",
+      "definition": "A place with many books. You can read there.",
       "thai": "ห้องสมุด",
       "example": "It is a library."
     },
     {
       "word": "quiet",
-      "pos": "?",
-      "definition": "Making very little or no noise.",
+      "pos": "adjective",
+      "definition": "With very little noise.",
       "thai": "เงียบ",
       "example": "A library is quiet."
     },
     {
       "word": "place",
-      "pos": "?",
-      "definition": "A particular position or area.",
+      "pos": "noun",
+      "definition": "Where something is. A park is a place.",
       "thai": "สถานที่",
       "example": "It is a quiet place."
     },
     {
       "word": "friend",
-      "pos": "?",
-      "definition": "A person whom one knows and with whom one has a bond of mutual affection.",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "He is a friend."
     },
     {
       "word": "walk",
-      "pos": "?",
-      "definition": "To move at a regular pace by lifting and setting down each foot in turn.",
+      "pos": "verb",
+      "definition": "Move on your feet, step by step.",
       "thai": "เดิน",
       "example": "Mom and Pip walk."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure or contentment.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is happy."
     },
     {
       "word": "sits",
-      "pos": "?",
-      "definition": "To be in a position in which one's weight is supported by one's buttocks rather than one's feet.",
+      "pos": "verb",
+      "definition": "Rests on a chair or on the floor.",
       "thai": "นั่ง",
       "example": "Mom sits."
     },
     {
       "word": "reads",
-      "pos": "?",
-      "definition": "To look at and understand the meaning of written or printed matter.",
+      "pos": "verb",
+      "definition": "Looks at words and understands them.",
       "thai": "อ่าน",
       "example": "Mom reads a book."
     },
     {
       "word": "many",
-      "pos": "?",
-      "definition": "A large number of.",
+      "pos": "adjective",
+      "definition": "A lot of.",
       "thai": "มากมาย",
       "example": "Many books are here."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "a puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "brown",
         "evidence": "Pip is brown.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "a book",
         "evidence": "Pip sees a book.",
-        "objectives": []
+        "objectives": [
+          "R21.1"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "red",
         "evidence": "This book is red.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Who walks with Pip?",
+        "options": [
+          "Mom",
+          "Dad",
+          "Lily",
+          "Tom"
+        ],
+        "answer": "Mom",
+        "evidence": "Mom and Pip walk.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Where do Mom and Pip go?",
+        "options": [
+          "to a library",
+          "to a park",
+          "to a farm",
+          "to a beach"
+        ],
+        "answer": "to a library",
+        "evidence": "It is a library.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "How is the library?",
+        "options": [
+          "quiet",
+          "loud",
+          "small",
+          "dirty"
+        ],
+        "answer": "quiet",
+        "evidence": "A library is quiet.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Mom do in the library?",
+        "options": [
+          "She reads a book.",
+          "She sings a song.",
+          "She runs fast.",
+          "She eats a cake."
+        ],
+        "answer": "She reads a book.",
+        "evidence": "Mom reads a book.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What color is the cat in the picture?",
+        "options": [
+          "black",
+          "white",
+          "brown",
+          "red"
+        ],
+        "answer": "black",
+        "evidence": "The cat is black.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Who does Pip see in the library?",
+        "options": [
+          "a boy and a girl",
+          "a cat and a dog",
+          "a farmer",
+          "a teacher"
+        ],
+        "answer": "a boy and a girl",
+        "evidence": "Pip sees a boy.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a puppy.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who is Mom?",
+        "answer": "Mom is Pip's Mom.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What is in the picture?",
+        "answer": "The picture is a black cat.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do the boy and the girl do?",
+        "answer": "They read books.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Why does Pip like the library?",
+        "answer": "It is a quiet and happy place.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you like the library? Tell why.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw your favorite book. What color is it?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Who reads with you at home? Tell about it.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about a quiet place you like.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Pip sees friends in the library. Tell about your friends.",
+        "objectives": [
+          "R17.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -408,110 +576,133 @@
       [
         {
           "en": "Mom is quiet.",
-          "th": ""
+          "th": "แม่เงียบ"
         },
         {
           "en": "Pip sits too.",
-          "th": ""
+          "th": "ปิ๊ปก็นั่งด้วย"
         },
         {
           "en": "Pip is quiet.",
-          "th": ""
+          "th": "ปิ๊ปเงียบ"
         },
         {
           "en": "Pip likes this quiet.",
-          "th": ""
+          "th": "ปิ๊ปชอบความเงียบนี้"
         },
         {
           "en": "Pip sees a boy.",
-          "th": ""
+          "th": "ปิ๊ปเห็นเด็กผู้ชาย"
         },
         {
           "en": "He is a friend.",
-          "th": ""
+          "th": "เขาเป็นเพื่อน"
         },
         {
           "en": "The boy has a book.",
-          "th": ""
+          "th": "เด็กผู้ชายมีหนังสือ"
         },
         {
           "en": "He reads the book.",
-          "th": ""
+          "th": "เขาอ่านหนังสือ"
         },
         {
           "en": "Pip sees a girl.",
-          "th": ""
+          "th": "ปิ๊ปเห็นเด็กผู้หญิง"
         },
         {
           "en": "She is a friend.",
-          "th": ""
+          "th": "เธอเป็นเพื่อน"
         },
         {
           "en": "The girl has a book.",
-          "th": ""
+          "th": "เด็กผู้หญิงมีหนังสือ"
         },
         {
           "en": "She reads the book.",
-          "th": ""
+          "th": "เธออ่านหนังสือ"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "Friends are happy.",
-          "th": ""
+          "th": "เพื่อนๆ มีความสุข"
         },
         {
           "en": "The library is good.",
-          "th": ""
+          "th": "ห้องสมุดดี"
         },
         {
           "en": "It is a happy place.",
-          "th": ""
+          "th": "ที่นี่เป็นสถานที่ที่มีความสุข"
         },
         {
           "en": "Pip is very happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุขมาก"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปลูกสุนัขดูหนังสือกับแม่ พวกเขาเดินไปที่ห้องสมุดที่ใหญ่ ห้องสมุดเงียบ ปิ๊ปเห็นเพื่อนๆ ที่อ่านหนังสือ ห้องสมุดเป็นสถานที่ที่มีความสุข"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the puppy goes to a quiet library with Mom and sees friends reading many books.",
+      "prompt": "At home, Pip looks at a big red picture book on the floor. The open page shows a black cat. Mom sits next to him and smiles.",
+      "characters": [
+        "Pip",
+        "Mom"
+      ],
+      "caption": "Pip likes the big red book.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Mom and Pip walk into a big quiet library with tall shelves of big and small books in red and blue. Mom sits at a table and reads a book.",
+      "characters": [
+        "Mom",
+        "Pip"
+      ],
+      "caption": "Mom and Pip go to the quiet library.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the quiet library, Pip sits on the floor next to Mom. At a table, a boy with short brown hair in a green T-shirt reads a book, and a girl with long black hair in a pink dress reads a book. Everyone smiles.",
+      "characters": [
+        "Pip",
+        "Mom"
+      ],
+      "caption": "Pip sees friends who read books.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L21.1",
+      "R17.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

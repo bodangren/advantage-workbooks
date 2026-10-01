@@ -39,7 +39,7 @@
       "She is with Pip. Lily sees a garden. Pip sees a garden. This garden is green. Green plants are here. The farmer shows a plant. This is a carrot plant. Carrots are orange. This is a tomato plant. Tomatoes are red. The farmer gives water. The sun is hot. Plants grow big. Lily likes plants.",
       "Pip likes plants. Lily sees a red tomato. She eats it. This tomato is good. Pip sees an orange carrot. He eats it. This carrot is good. Lily is happy. Pip is happy. The farmer is happy. They like the farm. The farm is fun. Good food is here. We like this food."
     ],
-    "summary": "",
+    "summary": "Pip and Lily visit a farm. The farmer grows carrots and tomatoes in a green garden. They eat good food and they are happy.",
     "glossed": [
       "Puppy",
       "Farm",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "Puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a small puppy."
     },
     {
       "word": "Farm",
-      "pos": "?",
-      "definition": "An area of land used for growing crops or keeping animals.",
+      "pos": "noun",
+      "definition": "Land where people grow food and keep animals.",
       "thai": "ฟาร์ม",
       "example": "He sees a farm."
     },
     {
       "word": "Farmer",
-      "pos": "?",
-      "definition": "A person who owns or manages a farm.",
+      "pos": "noun",
+      "definition": "A person who works on a farm.",
       "thai": "เกษตรกร",
       "example": "A farmer is here."
     },
     {
       "word": "Grows",
-      "pos": "?",
-      "definition": "To produce a crop or plant by care and effort.",
+      "pos": "verb",
+      "definition": "Makes plants come up and get big.",
       "thai": "ปลูก",
       "example": "He grows food."
     },
     {
       "word": "Garden",
-      "pos": "?",
-      "definition": "A piece of ground where plants or vegetables are grown.",
+      "pos": "noun",
+      "definition": "A place with plants and flowers.",
       "thai": "สวน",
       "example": "Lily sees a garden."
     },
     {
       "word": "Plants",
-      "pos": "?",
-      "definition": "Living things that grow in the earth and have a stem and leaves.",
+      "pos": "noun",
+      "definition": "Green living things. They grow in the ground.",
       "thai": "พืช",
       "example": "Green plants are here."
     },
     {
       "word": "Carrot",
-      "pos": "?",
-      "definition": "A long orange vegetable that grows underground.",
+      "pos": "noun",
+      "definition": "A long orange vegetable.",
       "thai": "แครอท",
       "example": "This is a carrot plant."
     },
     {
       "word": "Tomato",
-      "pos": "?",
-      "definition": "A round red fruit used in salads and cooking.",
+      "pos": "noun",
+      "definition": "A round red food. It grows on a plant.",
       "thai": "มะเขือเทศ",
       "example": "This is a tomato plant."
     },
     {
       "word": "Orange",
-      "pos": "?",
-      "definition": "A color that is a mix of red and yellow.",
+      "pos": "adjective",
+      "definition": "The color of a carrot.",
       "thai": "สีส้ม",
       "example": "Carrots are orange."
     },
     {
       "word": "Green",
-      "pos": "?",
-      "definition": "The color of grass or leaves.",
+      "pos": "adjective",
+      "definition": "The color of grass and leaves.",
       "thai": "สีเขียว",
       "example": "This garden is green."
     },
     {
       "word": "Sun",
-      "pos": "?",
-      "definition": "The star that gives light and heat to the earth.",
+      "pos": "noun",
+      "definition": "The big light in the sky in the day.",
       "thai": "ดวงอาทิตย์",
       "example": "The sun is hot."
     },
     {
       "word": "Hot",
-      "pos": "?",
-      "definition": "Having a high temperature.",
+      "pos": "adjective",
+      "definition": "Very warm. Not cold.",
       "thai": "ร้อน",
       "example": "The sun is hot."
     }
@@ -152,11 +152,14 @@
         "options": [
           "A boy",
           "A farmer",
-          "A puppy"
+          "A puppy",
+          "A cat"
         ],
         "answer": "A puppy",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Pip is a small puppy.",
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -164,11 +167,14 @@
         "options": [
           "A puppy",
           "A girl",
-          "A farmer"
+          "A farmer",
+          "A boy"
         ],
         "answer": "A girl",
         "evidence": "A girl is here.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -176,11 +182,14 @@
         "options": [
           "Pip",
           "The farmer",
-          "Lily"
+          "Lily",
+          "Mom"
         ],
         "answer": "The farmer",
-        "evidence": "The farmer is nice.",
-        "objectives": []
+        "evidence": "He grows food.",
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -188,22 +197,185 @@
         "options": [
           "Red",
           "Green",
-          "Orange"
+          "Orange",
+          "Blue"
         ],
         "answer": "Orange",
         "evidence": "Carrots are orange.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color are tomatoes?",
+        "options": [
+          "red",
+          "orange",
+          "green",
+          "blue"
+        ],
+        "answer": "red",
+        "evidence": "Tomatoes are red.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What is the girl's name?",
+        "options": [
+          "Lily",
+          "Mia",
+          "Lisa",
+          "May"
+        ],
+        "answer": "Lily",
+        "evidence": "Her name is Lily.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Pip eat?",
+        "options": [
+          "a carrot",
+          "a tomato",
+          "a cake",
+          "a fish"
+        ],
+        "answer": "a carrot",
+        "evidence": "Pip sees an orange carrot.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Lily eat?",
+        "options": [
+          "a tomato",
+          "a carrot",
+          "an apple",
+          "a banana"
+        ],
+        "answer": "a tomato",
+        "evidence": "Lily sees a red tomato.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is the sun?",
+        "options": [
+          "hot",
+          "cold",
+          "small",
+          "blue"
+        ],
+        "answer": "hot",
+        "evidence": "The sun is hot.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does the farmer give the plants?",
+        "options": [
+          "water",
+          "milk",
+          "food",
+          "books"
+        ],
+        "answer": "water",
+        "evidence": "The farmer gives water.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is with Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Lily is with Pip.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What does the farmer grow?",
+        "answer": "The farmer grows food.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is the garden?",
+        "answer": "The garden is green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What two plants does the farmer show?",
+        "answer": "He shows a carrot plant and a tomato plant.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is the farm fun?",
+        "answer": "Yes, the farm is fun.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What food do you like? What color is it?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a garden with carrots and tomatoes. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What does a farmer do? Tell about it.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Do you have plants at home? Tell about them.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Why are Lily, Pip, and the farmer happy?",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -372,98 +544,120 @@
       [
         {
           "en": "Pip likes plants.",
-          "th": ""
+          "th": "ปิ๊ปชอบต้นไม้"
         },
         {
           "en": "Lily sees a red tomato.",
-          "th": ""
+          "th": "ลิลลี่เห็นมะเขือเทศสีแดง"
         },
         {
           "en": "She eats it.",
-          "th": ""
+          "th": "เธอกินมัน"
         },
         {
           "en": "This tomato is good.",
-          "th": ""
+          "th": "มะเขือเทศลูกนี้อร่อย"
         },
         {
           "en": "Pip sees an orange carrot.",
-          "th": ""
+          "th": "ปิ๊ปเห็นแครอทสีส้ม"
         },
         {
           "en": "He eats it.",
-          "th": ""
+          "th": "เขากินมัน"
         },
         {
           "en": "This carrot is good.",
-          "th": ""
+          "th": "แครอทนี้อร่อย"
         },
         {
           "en": "Lily is happy.",
-          "th": ""
+          "th": "ลิลลี่มีความสุข"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "The farmer is happy.",
-          "th": ""
+          "th": "ชาวนามีความสุข"
         },
         {
           "en": "They like the farm.",
-          "th": ""
+          "th": "พวกเขาชอบฟาร์ม"
         },
         {
           "en": "The farm is fun.",
-          "th": ""
+          "th": "ฟาร์มสนุก"
         },
         {
           "en": "Good food is here.",
-          "th": ""
+          "th": "ที่นี่มีอาหารดีๆ"
         },
         {
           "en": "We like this food.",
-          "th": ""
+          "th": "เราชอบอาหารนี้"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปและลิลลี่ไปเที่ยวฟาร์ม ชาวนาปลูกแครอทและมะเขือเทศในสวนสีเขียว พวกเขากินอาหารดีๆ และมีความสุข"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip and Lily visit a farm and learn that the farmer grows good food like carrots and tomatoes.",
+      "prompt": "A big sunny farm with a red barn and green fields. A kind farmer with short gray hair, a straw hat, a blue shirt, and brown overalls smiles and waves. Lily and Pip stand next to him and smile.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Pip and Lily meet a nice farmer.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a green garden, the farmer in a straw hat and brown overalls holds up a carrot plant with an orange carrot. Tomato plants with red tomatoes grow next to him. Lily and Pip look at the plants. The sun shines.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "The farmer shows a carrot plant and a tomato plant.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Lily eats a red tomato and Pip eats an orange carrot in the farm garden. The farmer in a straw hat smiles at them. Everyone is happy.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Lily and Pip eat good food from the farm.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R17.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

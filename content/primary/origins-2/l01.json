@@ -39,7 +39,7 @@
       "Pip sees a red rug. This rug is big. Pip walks on the rug. Pip feels the rug. It is rough. This rug is rough. Pip likes rough. Pip sees a yellow ball. This ball is small. Pip feels the ball. It is smooth. This ball is smooth. Pip likes smooth.",
       "Pip feels all things. Pip likes to feel. Pip feels soft things. Pip feels rough things. Pip feels smooth things. This is very good. Pip is a curious puppy. Pip is a good puppy. Pip is very happy. This is fun. My puppy is happy."
     ],
-    "summary": "",
+    "summary": "Pip is a curious puppy. He feels a soft blanket, a rough rug, and a smooth ball. Pip is very happy.",
     "glossed": [
       "puppy",
       "curious",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "curious",
-      "pos": "?",
-      "definition": "Eager to know or learn something.",
+      "pos": "adjective",
+      "definition": "You want to know about things.",
       "thai": "อยากรู้อยากเห็น",
       "example": "Pip is curious."
     },
     {
       "word": "blanket",
-      "pos": "?",
-      "definition": "A large piece of fabric used for warmth.",
+      "pos": "noun",
+      "definition": "A big soft cloth. It keeps you warm in bed.",
       "thai": "ผ้าห่ม",
       "example": "Pip sees a blue blanket."
     },
     {
       "word": "feels",
-      "pos": "?",
-      "definition": "To experience a sensation through touch.",
+      "pos": "verb",
+      "definition": "Touches something to know what it is like.",
       "thai": "รู้สึกสัมผัส",
       "example": "Pip feels the blanket."
     },
     {
       "word": "soft",
-      "pos": "?",
-      "definition": "Smooth and pleasant to touch; not hard.",
+      "pos": "adjective",
+      "definition": "Not hard. A soft thing is nice to touch.",
       "thai": "นุ่ม",
       "example": "It is soft."
     },
     {
       "word": "rug",
-      "pos": "?",
-      "definition": "A floor covering that does not cover the entire floor.",
+      "pos": "noun",
+      "definition": "A small carpet on the floor.",
       "thai": "พรม",
       "example": "Pip sees a red rug."
     },
     {
       "word": "rough",
-      "pos": "?",
-      "definition": "Having an uneven or irregular surface; not smooth.",
+      "pos": "adjective",
+      "definition": "Not smooth. A rough thing is bumpy to touch.",
       "thai": "ขรุขระ",
       "example": "It is rough."
     },
     {
       "word": "yellow",
-      "pos": "?",
-      "definition": "A bright color like the sun.",
+      "pos": "adjective",
+      "definition": "The color of the sun and of bananas.",
       "thai": "สีเหลือง",
       "example": "Pip sees a yellow ball."
     },
     {
       "word": "small",
-      "pos": "?",
-      "definition": "Little in size.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "This ball is small."
     },
     {
       "word": "smooth",
-      "pos": "?",
-      "definition": "Having an even and regular surface.",
+      "pos": "adjective",
+      "definition": "Flat and even to touch, like glass.",
       "thai": "เรียบ",
       "example": "It is smooth."
     },
     {
       "word": "things",
-      "pos": "?",
-      "definition": "Objects that one need not name specifically.",
+      "pos": "noun",
+      "definition": "Objects. A ball and a cup are things.",
       "thai": "สิ่งของ",
       "example": "Pip feels all things."
     },
     {
       "word": "walks",
-      "pos": "?",
-      "definition": "To move on foot at a regular pace.",
+      "pos": "verb",
+      "definition": "Moves on foot, step by step.",
       "thai": "เดิน",
       "example": "Pip walks on the blanket."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "Blue",
         "evidence": "Pip sees a blue blanket.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "Soft",
         "evidence": "It is soft.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "Red",
         "evidence": "Pip sees a red rug.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the ball?",
+        "options": [
+          "yellow",
+          "red",
+          "blue",
+          "green"
+        ],
+        "answer": "yellow",
+        "evidence": "Pip sees a yellow ball.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "How does the rug feel?",
+        "options": [
+          "soft",
+          "rough",
+          "smooth",
+          "wet"
+        ],
+        "answer": "rough",
+        "evidence": "This rug is rough.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "How does the ball feel?",
+        "options": [
+          "rough",
+          "soft",
+          "smooth",
+          "hot"
+        ],
+        "answer": "smooth",
+        "evidence": "This ball is smooth.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Pip do on the blanket?",
+        "options": [
+          "He walks.",
+          "He swims.",
+          "He eats.",
+          "He sings."
+        ],
+        "answer": "He walks.",
+        "evidence": "Pip walks on the blanket.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What is Pip like?",
+        "options": [
+          "curious",
+          "sad",
+          "angry",
+          "sleepy"
+        ],
+        "answer": "curious",
+        "evidence": "Pip is curious.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What is blue?",
+        "options": [
+          "the blanket",
+          "the rug",
+          "the ball",
+          "Pip"
+        ],
+        "answer": "the blanket",
+        "evidence": "Pip sees a blue blanket.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is the puppy's name?",
-        "answer": "?",
-        "objectives": []
+        "answer": "The puppy's name is Pip.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Where does Pip walk?",
+        "answer": "Pip walks on the blanket and on the rug.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Is the ball big or small?",
+        "answer": "The ball is small.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What three things does Pip feel?",
+        "answer": "Pip feels a blanket, a rug, and a ball.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "How is Pip at the end?",
+        "answer": "Pip is very happy.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Find something soft in your home. What is it? Tell about it.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Find something rough. What is it? What color is it?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Pip likes soft, rough, and smooth things. What do you like to feel? Why?",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw Pip on his blue blanket. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Is Pip a good puppy? Tell why.",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -412,42 +580,62 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปเป็นลูกสุนัขที่อยากรู้อยากเห็น เขาสัมผัสผ้าห่มที่นุ่ม พรมที่หยาบ และลูกบอลที่เรียบ ปิ๊ปมีความสุขมาก"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the curious puppy feels a soft blanket, a rough rug, and a smooth ball, and Pip is happy.",
+      "prompt": "Pip stands on a big blue blanket on the floor of a cozy living room and sniffs it with curious eyes.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip feels a soft blue blanket.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip walks on a big red rug. A small yellow ball is next to him on the rug.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip feels a rough red rug and a smooth yellow ball.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip sits happily in a cozy room with a blue blanket, a red rug, and a small yellow ball around him.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip likes to feel soft, rough, and smooth things.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },
