@@ -70,6 +70,11 @@ async function run(files: string[], url: string, buckets?: { app: string; tutor:
                 for (const o of bucketObjects(pkg, known.articleId)) {
                     const ls = spawnSync('gcloud', ['storage', 'ls', `gs://${buckets.app}/${o.to}`], { encoding: 'utf8' });
                     if (ls.status !== 0) diffs.push(`bucket: ${o.to} missing`);
+                    // The app reads the public URL; an object without the public access list gives 403.
+                    else {
+                        const head = await fetch(`https://storage.googleapis.com/${buckets.app}/${o.to}`, { method: 'HEAD' });
+                        if (!head.ok) diffs.push(`bucket: ${o.to} not public (HTTP ${head.status})`);
+                    }
                 }
                 if (pkg.audio.tutor) {
                     const prefix = `gs://${buckets.tutor}/articles/${known.articleId}/`;

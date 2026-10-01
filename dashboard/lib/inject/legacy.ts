@@ -168,6 +168,18 @@ export function appArticleId(pkg: LessonPackage): string | undefined {
 }
 
 /**
+ * The gcloud arguments for one app upload. `primary-app-storage` has per-object access lists (no
+ * uniform access), and the app reads the public URLs, so each object is made public like the app's own.
+ * @param file The local file.
+ * @param bucket The app bucket.
+ * @param to The object path.
+ * @returns The arguments (without the `gcloud` command).
+ */
+export function appUploadArgs(file: string, bucket: string, to: string): string[] {
+    return ['storage', 'cp', file, `gs://${bucket}/${to}`, '--cache-control=public, max-age=300', '--predefined-acl=publicRead'];
+}
+
+/**
  * Where an old bucket object goes before the upload replaces it (the same bucket).
  * @param objectPath The object path in the bucket.
  * @param now The run time.

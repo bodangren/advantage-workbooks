@@ -6,7 +6,7 @@ import sharp from 'sharp';
 import { Client } from 'pg';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { recordInjection } from '../lib/lesson-package/store';
-import { appArticleId, backupPath, bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
+import { appArticleId, appUploadArgs, backupPath, bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
 import { legacyStatements } from '../lib/inject/sql';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
 import { voicesFor } from '../lib/media/audio';
@@ -102,7 +102,7 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
                 await sharp(file).png().toFile(png);
                 file = png;
             }
-            gcloud(['storage', 'cp', file, `gs://${bucket}/${o.to}`, '--cache-control=public, max-age=300']);
+            gcloud(appUploadArgs(file, bucket, o.to));
             console.log(`  uploaded ${o.to}`);
         }
     } finally {

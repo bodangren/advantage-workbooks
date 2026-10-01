@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { LessonPackageSchema, type LessonPackage } from '../lib/lesson-package/schema';
 import { fixturePackage } from './fixtures/lesson-package-fixture';
-import { appArticleId, backupPath, estimateWordTimes, levelProblem, legacyRows, newCuid, bucketObjects, rowsHash } from '../lib/inject/legacy';
+import { appArticleId, appUploadArgs, backupPath, estimateWordTimes, levelProblem, legacyRows, newCuid, bucketObjects, rowsHash } from '../lib/inject/legacy';
 import { flashcardSentences } from '../lib/media/audio';
 
 const NOW = new Date('2026-10-02T03:00:00Z');
@@ -139,6 +139,19 @@ describe('bucket objects', () => {
             { from: 'tb/media/1/article.mp3', to: 'audios/articles/cart1.mp3', png: false },
             { from: 'tb/media/1/words.mp3', to: 'audios/words/cart1.mp3', png: false },
             { from: 'tb/media/1/sentences.mp3', to: 'audios/sentences/cart1.mp3', png: false },
+        ]);
+    });
+});
+
+describe('app upload', () => {
+    it('makes each object public like the app files (the bucket has per-object access lists)', () => {
+        expect(appUploadArgs('/tmp/x.png', 'primary-app-storage', 'images/cart1_1.png')).toEqual([
+            'storage',
+            'cp',
+            '/tmp/x.png',
+            'gs://primary-app-storage/images/cart1_1.png',
+            '--cache-control=public, max-age=300',
+            '--predefined-acl=publicRead',
         ]);
     });
 });
