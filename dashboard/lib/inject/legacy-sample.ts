@@ -39,7 +39,23 @@ export const SAMPLE_QUERIES = {
     levels: `select ra_level, cefr_level, count(*) as n, count(*) filter (where id = any($1)) as ours
         from article group by 1, 2 order by 1, 2`,
     /** The type and genre values at the Primary levels (ra_level 1 to 3). */
-    kinds: `select type, genre, count(*) as n from article where ra_level <= 3 group by 1, 2 order by 3 desc`,
+    kinds: `select type, genre, count(*) as n, count(*) filter (where id = any($1)) as ours
+        from article where ra_level <= 3 group by 1, 2 order by 3 desc`,
+    /** The filled sentences of each locale (the field map writes Thai only: are cn, tw, and vi in use?). */
+    locales: `select id,
+        (select count(*) from jsonb_array_elements_text((translated_passage::jsonb)->'th') x where x <> '') as th,
+        (select count(*) from jsonb_array_elements_text((translated_passage::jsonb)->'cn') x where x <> '') as cn,
+        (select count(*) from jsonb_array_elements_text((translated_passage::jsonb)->'tw') x where x <> '') as tw,
+        (select count(*) from jsonb_array_elements_text((translated_passage::jsonb)->'vi') x where x <> '') as vi,
+        coalesce((translated_summary::jsonb)->>'cn', '') <> '' as cn_summary,
+        coalesce((translated_summary::jsonb)->>'vi', '') <> '' as vi_summary
+        from article where id = any($1)`,
+    /** The flashcard row of each article (Tutor reads it): the script prints its shapes. */
+    flashcards: `select article_id, sentence, words, audio_sentences_url, words_url
+        from sentencs_and_words_for_flashcard where article_id = any($1)`,
+    /** Does any article use the `words` column? */
+    wordsColumn: `select count(*) as n, count(*) filter (where words is not null) as with_words,
+        count(*) filter (where words is not null and id = any($1)) as ours from article`,
 } as const;
 
 const WRITE_WORDS = /\b(insert|update|delete|merge|truncate|drop|alter|create|grant|revoke|copy|call|lock|vacuum|reindex|cluster|comment|set|reset|do)\b/i;

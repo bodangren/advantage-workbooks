@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Client } from 'pg';
-import { LessonPackageSchema } from '../lib/lesson-package/schema';
+import { LessonPackageSchema, type LessonPackage } from '../lib/lesson-package/schema';
 import { isReadOnlySql, jsonShape, SAMPLE_QUERIES, sampleArticleId } from '../lib/inject/legacy-sample';
 
 const USAGE = `Reads a sample of the legacy Primary database for the lessons' app articles (track origins_app_refresh_20261001).
@@ -46,12 +46,15 @@ function tally(values: string[]): string[] {
 
 async function run(files: string[], url: string): Promise<number> {
     const labels = new Map<string, string>();
+    const packages = new Map<string, LessonPackage>();
     for (const file of files) {
         const pkg = LessonPackageSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
         const id = sampleArticleId(pkg);
         const label = `${path.basename(path.dirname(file))}/${path.basename(file, '.json')}`;
-        if (id) labels.set(id, label);
-        else console.log(`${label}: no app article`);
+        if (id) {
+            labels.set(id, label);
+            packages.set(id, pkg);
+        } else console.log(`${label}: no app article`);
     }
     const ids = [...labels.keys()];
     const name = (id: unknown) => labels.get(String(id)) ?? String(id);
@@ -79,6 +82,18 @@ async function run(files: string[], url: string): Promise<number> {
                     `passage ${a.passage_len} ch, ${a.newlines} \\n, ${a.blank_lines} blank lines  audio ${audio}  "${a.title}"`,
             );
         }
+        // The app's sentence list against the package's (the per-sentence translations follow this list).
+        const norm = (t: unknown) => String(t).replace(/\s+/g, ' ').trim();
+        const split = articles.map((a) => {
+            const app = Array.isArray(a.sentences) ? (a.sentences as Row[]).map((x) => norm(x.sentence)) : [];
+            const ours = packages.get(String(a.id))!.thai.paragraphs.flat().map((p) => norm(p.en));
+            const same = app.length === ours.length && app.every((t, i) => t === ours[i]);
+            return same ? 'same sentences' : `differs (app ${app.length}, package ${ours.length}, first at ${app.findIndex((t, i) => t !== ours[i]) + 1})`;
+        });
+        console.log('\n== App sentences against the package sentences');
+        for (const line of tally(split.map((x) => x.replace(/ \(.*/, '')))) console.log(line);
+        articles.forEach((a, i) => split[i] !== 'same sentences' && console.log(`  ${name(a.id)}: ${split[i]}`));
+
         for (const col of ['sentences', 'words', 'translated_passage', 'translated_summary'] as const) {
             console.log(`\n== Shape of ${col}`);
             for (const line of tally(articles.map((a) => jsonShape(a[col])))) console.log(line);
@@ -106,7 +121,22 @@ async function run(files: string[], url: string): Promise<number> {
         for (const r of await q('levels')) console.log(`  ra ${r.ra_level}  cefr ${r.cefr_level}  ${r.n} articles${Number(r.ours) ? `, ours ${r.ours}` : ''}`);
 
         console.log('\n== Type and genre at ra_level 1 to 3');
-        for (const r of (await q('kinds')).slice(0, 25)) console.log(`  ${r.n} × ${r.type} / ${r.genre}`);
+        for (const r of (await q('kinds')).slice(0, 25)) console.log(`  ${r.n} × ${r.type} / ${r.genre}${Number(r.ours) ? `, ours ${r.ours}` : ''}`);
+
+        console.log('\n== Filled sentences per locale (th cn tw vi | summary cn vi)');
+        for (const line of tally((await q('locales')).map((r) => `${r.th} ${r.cn} ${r.tw} ${r.vi} | ${r.cn_summary} ${r.vi_summary}`))) console.log(line);
+
+        const flashcards = await q('flashcards');
+        console.log(`\n== Flashcard rows: ${flashcards.length}`);
+        for (const col of ['sentence', 'words'] as const) {
+            console.log(`  shape of ${col}:`);
+            for (const line of tally(flashcards.map((f) => jsonShape(f[col]).replace(/\(\d+\)$/, '(n)')))) console.log(`  ${line}`);
+        }
+        const urls = flashcards.map((f) => [f.audio_sentences_url, f.words_url].map((u) => (u ? String(u).replace(String(f.article_id), '<id>') : '-')).join(' '));
+        for (const line of tally(urls)) console.log(`  urls:${line}`);
+
+        const [w] = await q('wordsColumn');
+        console.log(`\n== words column: ${w.with_words} of ${w.n} articles have it (ours ${w.ours})`);
 
         await client.query('ROLLBACK');
         return 0;

@@ -33,4 +33,8 @@ describe('legacy sample', () => {
         expect(isReadOnlySql('with x as (delete from article returning id) select * from x')).toBe(false);
         for (const [name, sql] of Object.entries(SAMPLE_QUERIES)) expect(isReadOnlySql(sql), name).toBe(true);
     });
+
+    it('gives every query the article ids as $1, because the script binds them to each query', () => {
+        for (const [name, sql] of Object.entries(SAMPLE_QUERIES)) expect(sql, name).toMatch(/\$1\b/);
+    });
 });
