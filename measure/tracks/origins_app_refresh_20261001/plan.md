@@ -33,7 +33,7 @@ Track: `origins_app_refresh_20261001`
 
 ## Phase 4: Audio
 
-- [~] Narrator voice for each lesson; article, words, flashcards, and Tutor clips
+- [x] Narrator voice for each lesson; article, words, flashcards, and Tutor clips — all 27 lessons (85b2b63); a failed mmx call is tried again (0d35dab)
 
 ## Phase 5: Injection (needs the production read)
 
