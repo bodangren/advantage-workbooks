@@ -10,7 +10,7 @@ Track: `primary_injector_20261001`
 ## Phase 2: Contract and tests
 
 - [x] Pure mapping functions: package → legacy rows, bucket objects, upsert SQL (`lib/inject/`, 13 tests); package → new rows comes with `--target new`
-- [~] Local database from the Prisma migrations (`scripts/inject/test-db.sh`, Podman); integration tests written (insert, second run, update in place, verify, rollback); the image pull is slow
+- [x] Real Postgres with the legacy schema: PGlite in the test process loads the 62 Prisma migrations (a Podman pull from Docker Hub did not get through); integration tests: insert, second run, update in place, verify, rollback, stored types
 
 ## Phase 3: Implement
 

@@ -45,5 +45,5 @@ The ETL, the D1 stable-URL route, and Tutor's book records (Tutor spec T2–T4).
 
 ## Acceptance
 
-- Tests against a local Postgres made from a backup export or a schema-only fixture: insert, second run (no duplicates), update in place, and verify with zero differences.
+- Tests against a local Postgres with the legacy schema (PGlite with the Prisma migrations): insert, second run (no duplicates), update in place, and verify with zero differences.
 - E12 is in production; the verify script passes; the article opens in the app.
