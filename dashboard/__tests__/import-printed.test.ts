@@ -174,6 +174,16 @@ describe('checks for printed lessons', () => {
         expect(activities?.detail).toMatch(/fill 2: no ___ blank/);
     });
 
+    it('only warns when too few printed MCQs test a target objective, because the questions are on paper', () => {
+        const pkg = make();
+        pkg.tags.targetObjectives = ['R21.2'];
+        const printSet = find(pkg, 'print-set');
+        expect(printSet).toMatchObject({ status: 'warn', label: 'Print set (printed, locked)' });
+        expect(printSet?.detail).toMatch(/0 printed MCQ test a target objective/);
+        pkg.print.saq = 's9';
+        expect(find(pkg, 'print-set')?.status).toBe('fail');
+    });
+
     it('has no lock or todo check for a new lesson', async () => {
         const { fixturePackage } = await import('./fixtures/lesson-package-fixture');
         const ids = checkPackage(fixturePackage(), ctx).checks.map((c) => c.id);

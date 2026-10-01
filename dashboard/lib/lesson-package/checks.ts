@@ -182,15 +182,18 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     const targets = new Set(pkg.tags.targetObjectives);
     const printProblems: string[] = [];
     const printed = pkg.print.mcq.map((id) => mcq.find((q) => q.id === id));
-    if (pkg.print.mcq.length !== shape.printMcq) printProblems.push(`${pkg.print.mcq.length} MCQ (need ${shape.printMcq})`);
     if (new Set(pkg.print.mcq).size !== pkg.print.mcq.length) printProblems.push('an MCQ repeats');
     pkg.print.mcq.forEach((id, i) => {
         if (!printed[i]) printProblems.push(`unknown MCQ ${id}`);
     });
     if (!saq.some((q) => q.id === pkg.print.saq)) printProblems.push(`unknown SAQ "${pkg.print.saq}"`);
     const onTarget = printed.filter((q) => q?.objectives.some((o) => targets.has(o))).length;
-    if (onTarget < shape.printObjectiveMcqMin) printProblems.push(`${onTarget} printed MCQ test a target objective (need ${shape.printObjectiveMcqMin})`);
-    checks.push(check('print-set', 'Print set', printProblems));
+    const shapeProblems: string[] = [];
+    if (pkg.print.mcq.length !== shape.printMcq) shapeProblems.push(`${pkg.print.mcq.length} MCQ (need ${shape.printMcq})`);
+    if (onTarget < shape.printObjectiveMcqMin) shapeProblems.push(`${onTarget} printed MCQ test a target objective (need ${shape.printObjectiveMcqMin})`);
+    // A printed lesson's questions are on paper: their number and their objectives are a note, not a block.
+    const printStatus = printedSource && !printProblems.length ? 'warn' : 'fail';
+    checks.push(check('print-set', printedSource ? 'Print set (printed, locked)' : 'Print set', [...shapeProblems, ...printProblems], printStatus));
 
     // Glossary.
     const glossaryProblems: string[] = [];
