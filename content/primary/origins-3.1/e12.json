@@ -567,17 +567,23 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Tom, a nine-year-old Thai boy, waves hello in front of his house. The house is next to a park with trees and a playground. Pip, a small brown puppy with a red collar, sits next to Tom.",
+      "prompt": "Tom waves hello in front of his house. The house is next to a park with trees and a playground. Pip sits next to Tom.",
       "characters": [
         "Tom",
         "Pip"
       ],
       "caption": "Hello! I am Tom.",
-      "overlay": []
+      "file": "origins-3.1/media/e12/hero.jpg",
+      "overlay": [],
+      "candidates": [
+        "origins-3.1/media/e12/candidates/hero_001.jpg",
+        "origins-3.1/media/e12/candidates/hero_002.jpg"
+      ],
+      "chosenFrom": "origins-3.1/media/e12/candidates/hero_001.jpg"
     },
     {
       "position": "inline-para-2",
-      "prompt": "Tom's family in their living room: Mom, Dad, Lily (a seven-year-old Thai girl) holding a book and crayons, and Tom holding a football. All smile at the reader.",
+      "prompt": "Tom's family in their living room: Mom, Dad, Lily holding a book and crayons, and Tom holding a round black-and-white soccer ball. They all smile at the reader.",
       "characters": [
         "Tom",
         "Lily",
@@ -585,16 +591,32 @@
         "Dad"
       ],
       "caption": "This is my family.",
-      "overlay": []
+      "file": "origins-3.1/media/e12/inline-para-2.jpg",
+      "overlay": [],
+      "candidates": [
+        "origins-3.1/media/e12/candidates/inline-para-2_001.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-2_002.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-2-3_001.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-2-3_002.jpg"
+      ],
+      "chosenFrom": "origins-3.1/media/e12/candidates/inline-para-2-3_002.jpg"
     },
     {
       "position": "inline-para-3",
-      "prompt": "Pip, a small brown puppy with a red collar, sleeps in his bed in the living room. His red ball is next to him.",
+      "prompt": "Pip is asleep with his eyes closed, curled up in a small round dog bed on the floor of the living room. His red ball is next to the dog bed. Quiet evening light.",
       "characters": [
         "Pip"
       ],
       "caption": "Pip is our puppy.",
-      "overlay": []
+      "file": "origins-3.1/media/e12/inline-para-3.jpg",
+      "overlay": [],
+      "candidates": [
+        "origins-3.1/media/e12/candidates/inline-para-3_001.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-3_002.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-3-3_001.jpg",
+        "origins-3.1/media/e12/candidates/inline-para-3-3_002.jpg"
+      ],
+      "chosenFrom": "origins-3.1/media/e12/candidates/inline-para-3-3_001.jpg"
     }
   ],
   "audio": {

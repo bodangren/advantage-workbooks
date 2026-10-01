@@ -130,6 +130,25 @@ export default function ReviewLesson() {
     }
   };
 
+  const choosePicture = async (position: string, candidate: string) => {
+    if (!(await save())) return;
+    setBusy(true);
+    try {
+      const r = await fetch(`${api}/image`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ position, candidate }),
+      });
+      const body = await r.json();
+      if (!r.ok) return setMessage({ kind: "error", text: body.error });
+      setPkg(body.package);
+      setReport(body.report);
+      setMessage({ kind: "ok", text: `${position}: picture changed` });
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const go = async (delta: number) => {
     const target = order[order.indexOf(lesson) + delta];
     if (!target || !(await save())) return;
@@ -271,7 +290,12 @@ export default function ReviewLesson() {
         <ActivitiesEditor pkg={pkg} edit={edit} />
       </Section>
       <Section title="Images" {...section("images")}>
-        <ImagesEditor pkg={pkg} edit={edit} />
+        <ImagesEditor
+          pkg={pkg}
+          edit={edit}
+          choose={choosePicture}
+          busy={busy}
+        />
       </Section>
       <Section title="Audio" {...section("audio")}>
         <AudioPlayer pkg={pkg} />
@@ -844,7 +868,17 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
   );
 }
 
-function ImagesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
+function ImagesEditor({
+  pkg,
+  edit,
+  choose,
+  busy,
+}: {
+  pkg: LessonPackage;
+  edit: Edit;
+  choose: (position: string, candidate: string) => void;
+  busy: boolean;
+}) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {pkg.images.map((img, i) => (
@@ -852,7 +886,7 @@ function ImagesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
           <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md border bg-muted/40">
             {img.file ? (
               <img
-                src={fileUrl("content", img.file)}
+                src={`${fileUrl("content", img.file)}&v=${encodeURIComponent(img.chosenFrom ?? "")}`}
                 alt={img.caption}
                 className="h-full w-full object-contain"
               />
@@ -862,8 +896,49 @@ function ImagesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
               </span>
             )}
           </div>
-          <div className="text-xs font-semibold uppercase text-muted-foreground">
-            {img.position}
+          {img.candidates.length > 1 && (
+            <div className="flex flex-wrap gap-1">
+              {img.candidates.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  disabled={busy}
+                  title={`Use ${c.split("/").pop()}`}
+                  onClick={() => choose(img.position, c)}
+                  className={cn(
+                    "rounded border-2 p-0.5",
+                    c === img.chosenFrom
+                      ? "border-green-600"
+                      : "border-transparent hover:border-primary",
+                  )}
+                >
+                  <img
+                    src={fileUrl("content", c)}
+                    alt={c}
+                    className="h-14 w-14 object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold uppercase text-muted-foreground">
+              {img.position}
+            </span>
+            <Button
+              size="xs"
+              variant={img.redo ? "default" : "outline"}
+              className="ml-auto"
+              onClick={() =>
+                edit(
+                  (d) =>
+                    void (d.images[i].redo = !d.images[i].redo || undefined),
+                )
+              }
+              title="Ask Claude for new pictures for this position (then save)"
+            >
+              {img.redo ? "New pictures asked" : "Ask for new pictures"}
+            </Button>
           </div>
           <Label>Prompt</Label>
           <TextField

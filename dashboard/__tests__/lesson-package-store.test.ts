@@ -3,7 +3,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { packagePath, listBooks, readPackageFile, savePackage, approvePart, StoreError } from '../lib/lesson-package/store';
+import { packagePath, listBooks, readPackageFile, savePackage, approvePart, chooseImage, renderPictures, StoreError } from '../lib/lesson-package/store';
+import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import type { PackageCheckContext } from '../lib/lesson-package/checks';
 import { fixturePackage, fixtureIndex, FIXTURE_PROFILE, FIXTURE_SHAPE, FIXTURE_OBJECTIVES } from './fixtures/lesson-package-fixture';
 
@@ -16,6 +17,15 @@ function put(book: string, lesson: string, change?: (p: ReturnType<typeof fixtur
     fs.mkdirSync(path.join(root, book), { recursive: true });
     fs.writeFileSync(path.join(root, book, `${lesson}.json`), JSON.stringify(pkg));
     return pkg;
+}
+
+/** Gives the fixture a picture and audio, with the files on disk. */
+function withMedia(p: ReturnType<typeof fixturePackage>) {
+    p.images[0].file = 'b/media/t01/hero.jpg';
+    p.audio = { article: 'b/media/t01/article.mp3', sentences: [{ text: 'This is Pip.', startTime: 0, endTime: 1 }], wordTimes: [] };
+    fs.mkdirSync(path.join(root, 'b/media/t01'), { recursive: true });
+    fs.writeFileSync(path.join(root, 'b/media/t01/hero.jpg'), 'jpg');
+    fs.writeFileSync(path.join(root, 'b/media/t01/article.mp3'), 'mp3');
 }
 
 beforeEach(() => {
@@ -80,12 +90,62 @@ describe('lesson package store', () => {
     });
 
     it('approves a part with the date, and approves the lesson only when every part is approved and nothing fails', () => {
-        put('b', 't01');
+        put('b', 't01', withMedia);
         const pkg = approvePart(root, 'b', 't01', 'text', ctx(), '2026-10-02');
         expect(pkg.approval.text).toEqual({ status: 'approved', date: '2026-10-02' });
         expect(() => approvePart(root, 'b', 't01', 'lesson', ctx(), '2026-10-02')).toThrow(/not approved: thai, bank, images, audio/);
         for (const part of ['thai', 'bank', 'images', 'audio'] as const) approvePart(root, 'b', 't01', part, ctx(), '2026-10-02');
         expect(approvePart(root, 'b', 't01', 'lesson', ctx(), '2026-10-02').approval.lesson.status).toBe('approved');
+    });
+
+    it('refuses to approve images or audio before the files exist', () => {
+        put('b', 't01');
+        expect(() => approvePart(root, 'b', 't01', 'images', ctx(), '2026-10-02')).toThrow(/images: no picture for hero/);
+        expect(() => approvePart(root, 'b', 't01', 'audio', ctx(), '2026-10-02')).toThrow(/audio: no article audio/);
+        put('b', 't01', withMedia);
+        fs.rmSync(path.join(root, 'b/media/t01/hero.jpg'));
+        expect(() => approvePart(root, 'b', 't01', 'images', ctx(), '2026-10-02')).toThrow(/images: no picture for hero/);
+    });
+
+    it('copies a chosen candidate to the picture file, keeps the raw picture, and sends images back to draft', async () => {
+        put('b', 't01', (p) => {
+            p.images[0].candidates = ['b/media/t01/candidates/hero_001.jpg', 'b/media/t01/candidates/hero_002.jpg'];
+            p.approval = { images: { status: 'approved', date: '2026-10-01' } };
+        });
+        fs.mkdirSync(path.join(root, 'b/media/t01/candidates'), { recursive: true });
+        const sharp = (await import('sharp')).default;
+        await sharp({ create: { width: 64, height: 64, channels: 3, background: '#808080' } }).jpeg().toFile(path.join(root, 'b/media/t01/candidates/hero_002.jpg'));
+        await expect(chooseImage(root, 'b', 't01', 'hero', 'b/media/t01/candidates/other.jpg', ctx())).rejects.toThrow(/not a candidate/);
+        await expect(chooseImage(root, 'b', 't01', 'inline-para-3', 'x.jpg', ctx())).rejects.toThrow(/No image/);
+        const { pkg } = await chooseImage(root, 'b', 't01', 'hero', 'b/media/t01/candidates/hero_002.jpg', ctx());
+        expect(pkg?.images[0]).toMatchObject({ file: 'b/media/t01/hero.jpg', chosenFrom: 'b/media/t01/candidates/hero_002.jpg' });
+        expect(pkg?.approval.images.status).toBe('draft');
+        expect(fs.existsSync(path.join(root, 'b/media/t01/hero.jpg'))).toBe(true);
+        // No signs, so no raw copy: a picture without a raw copy has nothing drawn on it.
+        expect(fs.existsSync(path.join(root, 'b/media/t01/hero.raw.jpg'))).toBe(false);
+    });
+
+    it('keeps a raw copy while a picture has signs, and puts the raw picture back when the signs go', async () => {
+        const sharp = (await import('sharp')).default;
+        put('b', 't01', (p) => {
+            p.images[0].file = 'b/media/t01/hero.jpg';
+        });
+        fs.mkdirSync(path.join(root, 'b/media/t01'), { recursive: true });
+        const hero = path.join(root, 'b/media/t01/hero.jpg');
+        await sharp({ create: { width: 100, height: 100, channels: 3, background: '#2060c0' } }).jpeg().toFile(hero);
+        const plain = fs.readFileSync(hero);
+        const pkg = LessonPackageSchema.parse(readPackageFile(root, 'b', 't01'));
+        pkg.images[0].overlay = [{ text: 'PARK', box: [0.1, 0.1, 0.8, 0.3] }];
+        await renderPictures(root, pkg);
+        expect(fs.readFileSync(path.join(root, 'b/media/t01/hero.raw.jpg')).equals(plain)).toBe(true);
+        expect(fs.readFileSync(hero).equals(plain)).toBe(false);
+        pkg.images[0].overlay = [{ text: 'ZOO', box: [0.1, 0.1, 0.8, 0.3] }];
+        await renderPictures(root, pkg);
+        expect(fs.readFileSync(path.join(root, 'b/media/t01/hero.raw.jpg')).equals(plain)).toBe(true);
+        pkg.images[0].overlay = [];
+        await renderPictures(root, pkg);
+        expect(fs.readFileSync(hero).equals(plain)).toBe(true);
+        expect(fs.existsSync(path.join(root, 'b/media/t01/hero.raw.jpg'))).toBe(false);
     });
 
     it('refuses to approve a part while a check fails for it', () => {

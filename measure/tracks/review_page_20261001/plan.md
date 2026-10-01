@@ -16,7 +16,7 @@ Track: `review_page_20261001`
 - [x] `/review` list page
 - [x] `/review/[book]/[lesson]` page with the sections and the keys
 - [x] `/review/cast` page
-- [ ] `POST /api/media/regenerate` and the "Make again" button (after `lesson_media_20261001` has `lesson-images.ts`)
+- [x] Picture choice (`POST .../image`) and an "Ask for new pictures" flag (`images[].redo`) that `lesson-images.ts --redo-marked` reads; Claude runs the media scripts, so the page starts no mmx job
 
 ## Phase 4: Verify
 

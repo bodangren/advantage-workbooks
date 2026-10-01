@@ -61,9 +61,9 @@ describe('LessonPackageSchema', () => {
 });
 
 describe('checkPackage', () => {
-    it('passes every check on the fixture', () => {
+    it('passes every content check on the fixture; only the media check waits for pictures and audio', () => {
         const r = run();
-        expect(r.checks.filter((c) => c.status !== 'pass')).toEqual([]);
+        expect(r.checks.filter((c) => c.status !== 'pass').map((c) => [c.id, c.status])).toEqual([['media', 'warn']]);
     });
 
     it('fails "schema" and stops when the package does not parse', () => {
@@ -210,5 +210,24 @@ describe('buildWorkbookLesson', () => {
 
     it('is deterministic', () => {
         expect(buildWorkbookLesson(pkg)).toEqual(out);
+    });
+});
+
+describe('image and media checks', () => {
+    it('fails an image prompt with a skin, race, or nationality word (series bible v1.2)', () => {
+        const r = run((p) => (p.images[0].prompt = 'Tom, a nine-year-old Thai boy, waves.'));
+        expect(status(r, 'images')).toBe('fail');
+        expect(r.checks.find((c) => c.id === 'images')?.detail).toMatch(/hero: Thai/);
+    });
+
+    it('warns while a picture or the audio is missing, and passes when both are there', () => {
+        const missing = run();
+        expect(status(missing, 'media')).toBe('warn');
+        expect(missing.checks.find((c) => c.id === 'media')?.detail).toMatch(/hero[\s\S]*audio/);
+        const done = run((p) => {
+            p.images[0].file = 'tb/media/1/hero.jpg';
+            p.audio = { article: 'tb/media/1/article.mp3', sentences: [{ text: 'This is Pip.', startTime: 0, endTime: 1 }], wordTimes: [] };
+        });
+        expect(status(done, 'media')).toBe('pass');
     });
 });

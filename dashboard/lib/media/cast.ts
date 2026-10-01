@@ -9,7 +9,10 @@ import { z } from 'zod';
 
 export const CastCharacterSchema = z.object({
     name: z.string().regex(/^[a-z-]+$/),
+    /** The sheet prompt: look and a sheet pose. */
     description: z.string().min(1),
+    /** Hair and clothes only, for scene prompts (no pose). Without it, scenes use the description. */
+    look: z.string().optional(),
     source: z.object({ image: z.string().min(1), from: z.string().min(1) }).optional(),
     candidates: z.array(z.string()).default([]),
     /** The sheet file, named after the character. */

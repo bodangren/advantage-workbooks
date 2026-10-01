@@ -25,6 +25,7 @@ vi.mock('@/lib/lesson-package/context', () => ({
 import { GET as listGET } from '../route';
 import { GET, PUT } from '../[book]/[lesson]/route';
 import { POST as approvePOST } from '../[book]/[lesson]/approve/route';
+import { POST as imagePOST } from '../[book]/[lesson]/image/route';
 import { GET as fileGET } from '../../files/route';
 import { GET as castGET, POST as castPOST } from '../../cast/route';
 
@@ -103,6 +104,24 @@ describe('package routes', () => {
     expect((await ok.json()).package.approval.text.status).toBe('approved');
     expect((await approvePOST(json('http://x', 'POST', { part: 'everything' }), params('b', 't01'))).status).toBe(400);
     expect((await approvePOST(json('http://x', 'POST', { part: 'lesson' }), params('b', 't01'))).status).toBe(409);
+  });
+});
+
+describe('image route', () => {
+  it('makes a candidate the picture and refuses a file that is not a candidate', async () => {
+    const pkg = fixturePackage();
+    pkg.images[0].candidates = ['b/media/t01/candidates/hero_001.jpg'];
+    fs.writeFileSync(path.join(root, 'b', 't01.json'), JSON.stringify(pkg));
+    fs.mkdirSync(path.join(root, 'b/media/t01/candidates'), { recursive: true });
+    fs.writeFileSync(path.join(root, 'b/media/t01/candidates/hero_001.jpg'), 'jpg');
+    const ok = await imagePOST(
+      json('http://x', 'POST', { position: 'hero', candidate: 'b/media/t01/candidates/hero_001.jpg' }),
+      params('b', 't01'),
+    );
+    expect(ok.status).toBe(200);
+    expect((await ok.json()).package.images[0].file).toBe('b/media/t01/hero.jpg');
+    const bad = await imagePOST(json('http://x', 'POST', { position: 'hero', candidate: '../../etc/passwd' }), params('b', 't01'));
+    expect(bad.status).toBe(400);
   });
 });
 

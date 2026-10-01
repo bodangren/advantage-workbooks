@@ -26,11 +26,13 @@ On 2026-10-01 Daniel chose local `mmx image` and `mmx speech` over the app's Ope
 
 ## Lesson images
 
-- 3 per lesson from `images[].prompt`, with `--subject-ref type=character,image=<sheet of the main character>`.
-- Phase 1 tests if `--subject-ref` accepts 2 or more references. If not, the job uses the main character's sheet and describes the others in the prompt.
-- Signs, posters, clocks, and step labels: the generated image leaves the sign blank. A script then writes the exact `images[].overlay` text on it, so the picture always matches the article letter for letter (series bible §5).
-- Claude looks at every image before review: the characters match the sheets, the counts and clock hours match the text, and the image has no text errors.
-- Files: `content/primary/<book>/media/<lesson>_<n>.png`.
+- 3 per lesson from `images[].prompt`, 1:1 (the printed pictures are 1024 × 1024). The prompt is the house style, the scene, each character's `look` (hair and clothes; the sheet `description` holds a sheet pose that fights the scene), and "No words, letters, or numbers anywhere in the picture."
+- One `--subject-ref type=character,image=<sheet>` for each character in the image: the chosen sheet, or else the printed source crop. Two and four references work (probe, 2026-10-01).
+- Prompts with skin, race, or nationality words fail the `images` check, and the script refuses them (series bible v1.2).
+- Each run makes 2 candidates per image in `<book>/media/<lesson>/candidates/` (not in git). A later run gets its own prefix, because mmx numbers from 001 every run. An image with no picture gets its first candidate; Daniel picks another on the review page, or asks for new pictures (`redo`), and `--redo-marked` makes them.
+- Signs, posters, clocks, and step labels: the picture leaves the sign blank, and `images[].overlay` text is drawn on it (white sign, dark bold text, `sharp` + SVG). A picture with signs keeps a `.raw.jpg` copy so the signs can be drawn again after an edit; a picture without a raw copy has no signs. The review page's save draws the signs again.
+- Claude looks at every candidate before review: the characters match the sheets, the counts and objects match the text (E12: "football" is a soccer ball; Pip asleep means eyes closed), and the picture has no text.
+- Files: `content/primary/<book>/media/<lesson>/<position>.jpg`; `images[].file` is relative to `content/primary/`.
 
 ## Audio
 

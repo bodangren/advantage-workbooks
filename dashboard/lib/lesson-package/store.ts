@@ -3,6 +3,8 @@ import path from 'path';
 import { LessonPackageSchema, APPROVAL_PARTS, type ApprovalPart, type LessonPackage } from './schema';
 import { checkPackage, schemaFailure, type PackageCheckContext, type PackageReport } from './checks';
 import { loadPackageFolder } from './files';
+import { renderImage } from '../media/render';
+import type { Overlay } from '../media/images';
 
 /** Read and write lesson packages for the review page (track review_page_20261001). Server only. */
 
@@ -166,8 +168,76 @@ export function approvePart(root: string, book: string, lesson: string, part: Ap
     } else {
         const failing = report.checks.filter((c) => c.status === 'fail' && PART_CHECKS[part].includes(c.id)).map((c) => c.id);
         if (failing.length) throw new StoreError(409, `${part}: checks fail: ${failing.join(', ')}`);
+        const exists = (rel?: string) => !!rel && fs.existsSync(path.resolve(root, rel));
+        if (part === 'images') {
+            const none = pkg.images.filter((img) => !exists(img.file)).map((img) => img.position);
+            if (none.length) throw new StoreError(409, `images: no picture for ${none.join(', ')}`);
+        }
+        if (part === 'audio' && (!exists(pkg.audio.article) || pkg.audio.sentences.length === 0)) {
+            throw new StoreError(409, 'audio: no article audio with sentence times');
+        }
     }
     pkg.approval[part] = { status: 'approved', date };
     write(packagePath(root, book, lesson), pkg);
     return pkg;
+}
+
+/**
+ * The raw (no signs) copy of a final picture. Rule: a picture with signs always has a raw copy next
+ * to it; a picture without a raw copy has nothing drawn on it. So git holds one file per picture
+ * unless it has signs.
+ */
+export const rawPicture = (file: string) => file.replace(/\.(jpe?g|png)$/i, '.raw.$1');
+
+/** Draws the signs of one picture from its raw copy, or puts the raw picture back when it has none. */
+async function drawSigns(root: string, file: string, overlays: Overlay[]): Promise<void> {
+    const final = path.resolve(root, file);
+    const raw = path.resolve(root, rawPicture(file));
+    if (overlays.length) {
+        if (!fs.existsSync(raw)) fs.copyFileSync(final, raw);
+        await renderImage(raw, final, overlays);
+    } else if (fs.existsSync(raw)) {
+        fs.copyFileSync(raw, final);
+        fs.rmSync(raw);
+    }
+}
+
+/**
+ * Makes a candidate the picture for one image position: copies it to
+ * `<book>/media/<lesson>/<position>.jpg`, draws the signs, and saves the package (the images part
+ * goes back to draft).
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @param position The image position, for example `hero`.
+ * @param candidate One of the image's candidates (relative to the content root).
+ * @param ctx The check context, or a function that makes it for the package.
+ * @returns The save result.
+ */
+export async function chooseImage(root: string, book: string, lesson: string, position: string, candidate: string, ctx: ContextFor) {
+    const parsed = LessonPackageSchema.safeParse(readPackageFile(root, book, lesson));
+    if (!parsed.success) throw new StoreError(400, 'The package does not parse');
+    const pkg = parsed.data;
+    const image = pkg.images.find((img) => img.position === position);
+    if (!image) throw new StoreError(404, `No image at ${position}`);
+    if (!image.candidates.includes(candidate)) throw new StoreError(400, `${candidate} is not a candidate for ${position}`);
+    const file = `${book}/media/${lesson}/${position}.jpg`;
+    fs.mkdirSync(path.join(root, book, 'media', lesson), { recursive: true });
+    fs.rmSync(path.resolve(root, rawPicture(file)), { force: true });
+    fs.copyFileSync(path.resolve(root, candidate), path.resolve(root, file));
+    await drawSigns(root, file, image.overlay);
+    image.file = file;
+    image.chosenFrom = candidate;
+    return savePackage(root, book, lesson, pkg, ctx);
+}
+
+/**
+ * Draws the signs again on every picture (after an overlay edit).
+ * @param root The content root.
+ * @param pkg A parsed package.
+ */
+export async function renderPictures(root: string, pkg: LessonPackage): Promise<void> {
+    for (const image of pkg.images) {
+        if (image.file && fs.existsSync(path.resolve(root, image.file))) await drawSigns(root, image.file, image.overlay);
+    }
 }

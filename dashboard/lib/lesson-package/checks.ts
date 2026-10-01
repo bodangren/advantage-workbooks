@@ -2,6 +2,7 @@ import { LessonPackageSchema, type LessonPackage } from './schema';
 import { checkLesson, PROFILES, type CheckStatus, type LessonReport, type TextProfile } from '../text-profile/check';
 import type { LessonText } from '../text-profile/sources';
 import type { VocabularyIndex } from '../text-profile/vocabulary';
+import { promptProblems } from '../media/images';
 
 /** Counts for one lesson (Origins 3.2 plan §2 and §6). */
 export interface LessonShape {
@@ -236,7 +237,13 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     checks.push(check('activities', 'Workbook activities', activityProblems));
 
     const imageProblems = pkg.images.length !== shape.images ? [`${pkg.images.length} images (need ${shape.images})`] : [];
+    for (const img of pkg.images) {
+        const words = promptProblems(img.prompt);
+        if (words.length) imageProblems.push(`${img.position}: ${words.join(', ')} (describe hair and clothes only)`);
+    }
     checks.push(check('images', 'Image plan', imageProblems));
+    const notMade = [...pkg.images.filter((img) => !img.file).map((img) => img.position), ...(pkg.audio.article ? [] : ['audio'])];
+    checks.push(check('media', 'Pictures and audio made', notMade.length ? [`not made yet: ${notMade.join(', ')}`] : [], 'warn'));
 
     // Tags.
     const items = [...mcq, ...saq, ...laq];

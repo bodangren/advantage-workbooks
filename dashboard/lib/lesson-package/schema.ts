@@ -140,8 +140,15 @@ export const PackageImageSchema = z.object({
     /** Series-bible names; the first one's character sheet is the subject reference. */
     characters: z.array(z.string().min(1)),
     caption: z.string(),
+    /** The final picture (with its overlays), relative to the content root. */
     file: z.string().optional(),
     overlay: z.array(OverlaySchema).default([]),
+    /** mmx candidates, relative to the content root; Daniel picks one on the review page. */
+    candidates: z.array(z.string()).default([]),
+    /** The candidate behind `file`. */
+    chosenFrom: z.string().optional(),
+    /** Daniel asks for new candidates; the next `lesson-images.ts --redo-marked` run makes them. */
+    redo: z.boolean().optional(),
 });
 
 export const TimingSchema = z.object({
