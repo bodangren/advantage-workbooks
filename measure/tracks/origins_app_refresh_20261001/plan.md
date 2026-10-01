@@ -21,12 +21,14 @@ Track: `origins_app_refresh_20261001`
 
 ## Phase 2: Supporting content (Claude writes; Daniel checks the Thai)
 
-- [ ] Sentence Thai, summary, glossary, and app question bank for the 14 Origins 2 lessons
-- [ ] The same for the 13 Origins 3.1 lessons
+- [x] Supplement file per lesson (`lib/lesson-package/supplement.ts`, `scripts/apply-supplement.ts`); it refuses changes to the locked parts; tests
+- [x] Sentence Thai, summary, glossary, and app question bank for the 14 Origins 2 lessons
+- [x] The same for the 13 Origins 3.1 lessons (printed Thai paired where a sentence was split; one missing sentence written)
+- [x] Check `print-set` warns (not fails) for a printed lesson: its questions are on paper; test
 
 ## Phase 3: Pictures
 
-- [ ] 3 pictures for each lesson, 2 candidates each; Claude chooses; Daniel reviews
+- [~] 3 pictures for each lesson, 3 candidates each; Claude chooses; Daniel reviews against the old app pictures
 
 ## Phase 4: Audio
 
