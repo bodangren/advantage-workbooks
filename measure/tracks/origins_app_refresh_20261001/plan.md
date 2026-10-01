@@ -7,17 +7,17 @@ Track: `origins_app_refresh_20261001`
 - [x] Picture tests: subject references give a 3D look; flat style and looks give the same character (spec)
 - [x] `cast-sheets.ts`: no subject reference by default (`--with-source` keeps the old way); test
 - [x] `cast.json`: flat 2D style; a `look` for every character
-- [~] Two flat 2D sheet candidates for each of the 15 characters; Claude chooses on `/review/cast`
-- [ ] Scene prompts use the flat style and the looks with no reference; E12 pictures again
+- [x] Two flat 2D sheet candidates for each of the 15 characters; Claude chose 15 on `/review/cast`
+- [x] Scene prompts use the flat style and the looks with no reference; E12 pictures again (Daniel chose and approved E12)
 
 ## Phase 1: Importer (TDD)
 
-- [ ] Tests: printed workbook file → package (locked text, vocabulary, and print part; article id; level)
-- [ ] `lib/lesson-package/import-printed.ts` and `scripts/import-printed.ts`
-- [ ] Check `locked`: fails when the paragraphs, the vocabulary words, or the print part differ from the printed file
-- [ ] Text-profile checks report only (no fail) for printed lessons
-- [ ] Review page: the locked parts are read-only
-- [ ] Import the 27 lessons
+- [x] Tests: printed workbook file → package (locked text, vocabulary, and print part; article id; level)
+- [x] `lib/lesson-package/import-printed.ts` and `scripts/import-printed.ts`
+- [x] Check `locked`: fails when the paragraphs, the vocabulary words, or the print part differ from the printed file; check `todo` lists the "?" fields
+- [x] The text profile does not run on the locked text; printed activity defects only warn
+- [x] Review page: the locked parts are read-only
+- [x] Import the 27 lessons (Thai paired: 761 of 1,120 sentences)
 
 ## Phase 2: Supporting content (Claude writes; Daniel checks the Thai)
 
