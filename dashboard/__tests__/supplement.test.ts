@@ -77,6 +77,20 @@ describe('applySupplement', () => {
         expect(() => applySupplement(pkg, { mcq: { p1: { add: 'Her friend' } } })).toThrow(/p1 has 4 options/);
     });
 
+    it('gives the same Thai to every copy of a sentence', () => {
+        const pkg = base();
+        pkg.thai.paragraphs[1].push({ en: 'This is Lisa.', th: '' });
+        const next = applySupplement(pkg, { thai: { 'This is Lisa.': 'นี่คือลิซ่า' } });
+        expect(next.thai.paragraphs.flat().filter((p) => p.en === 'This is Lisa.').map((p) => p.th)).toEqual(['นี่คือลิซ่า', 'นี่คือลิซ่า']);
+    });
+
+    it('fills an empty sentence with the Thai of the same sentence elsewhere in the lesson', () => {
+        const pkg = base();
+        pkg.thai.paragraphs[1].push({ en: 'Her Aunt comes.', th: '' });
+        const next = applySupplement(pkg, {});
+        expect(next.thai.paragraphs[1][1]).toEqual({ en: 'Her Aunt comes.', th: 'ป้าของเธอมา' });
+    });
+
     it('leaves a field alone when the supplement does not give it', () => {
         const pkg = applySupplement(base(), { voice: 'male' });
         expect(pkg.audio.voice).toBe(VOICES.male);

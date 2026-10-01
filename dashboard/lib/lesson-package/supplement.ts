@@ -48,11 +48,14 @@ export function applySupplement(input: LessonPackage, sup: Supplement): LessonPa
     if (sup.thaiSummary !== undefined) pkg.thai.summary = sup.thaiSummary;
     if (sup.voice) pkg.audio.voice = VOICES[sup.voice];
 
+    // A sentence can repeat in a text ("Pip is happy."); every copy gets the Thai.
     for (const [en, th] of Object.entries(sup.thai ?? {})) {
-        const pair = pkg.thai.paragraphs.flat().find((p) => p.en === en.trim());
-        if (!pair) throw new Error(`"${en}" is not a sentence of the text`);
-        pair.th = th;
+        const pairs = pkg.thai.paragraphs.flat().filter((p) => p.en === en.trim());
+        if (!pairs.length) throw new Error(`"${en}" is not a sentence of the text`);
+        for (const pair of pairs) pair.th = th;
     }
+    const known = new Map(pkg.thai.paragraphs.flat().filter((p) => p.th).map((p) => [p.en, p.th]));
+    for (const pair of pkg.thai.paragraphs.flat()) if (!pair.th && known.has(pair.en)) pair.th = known.get(pair.en)!;
 
     for (const [word, change] of Object.entries(sup.glossary ?? {})) {
         const entry = pkg.glossary.find((g) => g.word === word);
