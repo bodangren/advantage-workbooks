@@ -12,6 +12,7 @@ import {
   type LessonPackage,
 } from "@/lib/lesson-package/schema";
 import type { PackageReport } from "@/lib/lesson-package/checks";
+import { oldPictureUrl } from "@/lib/lesson-package/printed-urls";
 import {
   LineField,
   LinesField,
@@ -897,6 +898,34 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
   );
 }
 
+/** The picture the app shows today (printed lessons); hidden when the bucket has none. */
+function OldPicture({ url }: { url: string }) {
+  const [missing, setMissing] = useState(false);
+  if (missing)
+    return (
+      <p className="text-xs text-muted-foreground">
+        No picture in the app today.
+      </p>
+    );
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center gap-2 text-xs text-muted-foreground"
+      title="Open the old picture"
+    >
+      <img
+        src={url}
+        alt="In the app today"
+        onError={() => setMissing(true)}
+        className="h-24 w-24 rounded border object-cover"
+      />
+      In the app today
+    </a>
+  );
+}
+
 function ImagesEditor({
   pkg,
   edit,
@@ -912,19 +941,33 @@ function ImagesEditor({
     <div className="grid gap-4 md:grid-cols-3">
       {pkg.images.map((img, i) => (
         <div key={i} className="space-y-2">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md border bg-muted/40">
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md border bg-muted/40">
             {img.file ? (
               <img
                 src={`${fileUrl("content", img.file)}&v=${encodeURIComponent(img.chosenFrom ?? "")}`}
                 alt={img.caption}
                 className="h-full w-full object-contain"
               />
+            ) : pkg.meta.printed ? (
+              <>
+                <img
+                  src={oldPictureUrl(pkg.meta.printed, i)}
+                  alt="In the app today"
+                  className="h-full w-full object-contain opacity-80"
+                />
+                <span className="absolute left-2 top-2 rounded bg-background/90 px-2 py-0.5 text-xs font-medium">
+                  In the app today (no new picture yet)
+                </span>
+              </>
             ) : (
               <span className="text-sm text-muted-foreground">
                 No image yet
               </span>
             )}
           </div>
+          {pkg.meta.printed && img.file && (
+            <OldPicture url={oldPictureUrl(pkg.meta.printed, i)} />
+          )}
           {img.candidates.length > 1 && (
             <div className="flex flex-wrap gap-1">
               {img.candidates.map((c) => (

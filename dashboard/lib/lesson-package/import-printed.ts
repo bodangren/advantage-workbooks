@@ -2,6 +2,8 @@ import { createHash } from 'crypto';
 import { splitSentences } from '../text-profile/text';
 import type { LessonPackageInput } from './schema';
 
+export { oldPictureUrl } from './printed-urls';
+
 /**
  * Printed lesson → lesson package (track origins_app_refresh_20261001). The printed books of
  * Origins 2 and 3.1 are on paper, so the article, the vocabulary words, and the printed questions
@@ -134,3 +136,4 @@ export function printedToPackage(raw: unknown, opts: { book: string; lesson: str
     pkg.meta.printed = { file: opts.file, articleId, thaiParagraphs, imageUrls: list(p.article_image_url).map(text).filter(Boolean), lock: lockHashes(pkg) };
     return pkg;
 }
+

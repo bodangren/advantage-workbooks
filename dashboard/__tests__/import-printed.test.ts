@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { checkPackage, PRIMARY_SHAPE, type PackageCheckContext } from '../lib/lesson-package/checks';
-import { printedArticleId, printedToPackage, TODO } from '../lib/lesson-package/import-printed';
+import { oldPictureUrl, printedArticleId, printedToPackage, TODO } from '../lib/lesson-package/import-printed';
 import { fixtureIndex, FIXTURE_OBJECTIVES } from './fixtures/lesson-package-fixture';
 
 /** A printed lesson in the shape of primary/origins-2-a0/*_workbook.json (trimmed). */
@@ -116,6 +116,12 @@ describe('printed lesson → package', () => {
         expect(a.sentenceCompletion).toEqual(['This is Lisa']);
         expect(a.sentenceStarters).toEqual(['I think...', 'The article says...']);
         expect(a.writingPrompt).toBe("Tell about Lisa's family.");
+    });
+
+    it("gives the app's picture of today for each position (the bucket path when the file lists none)", () => {
+        const printedSource = make().meta.printed!;
+        expect(oldPictureUrl(printedSource, 0)).toBe('https://storage.googleapis.com/primary-app-storage/images/cabc_1.png');
+        expect(oldPictureUrl(printedSource, 2)).toBe('https://storage.googleapis.com/primary-app-storage/images/cmgqx3ase02kmt79bokadq5kq_3.png');
     });
 
     it('plans 3 pictures with prompts to write', () => {
