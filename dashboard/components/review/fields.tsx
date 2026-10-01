@@ -11,6 +11,10 @@ export type Approval = { status: "draft" | "approved"; date?: string };
 const BOX =
   "w-full rounded-md border border-input bg-transparent px-2 py-1 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
 
+/** A locked field: the printed book has it (track origins_app_refresh_20261001). */
+const LOCKED = "cursor-default bg-muted text-muted-foreground";
+const LOCKED_TITLE = "Printed in the book: locked";
+
 /** A text area that grows with its content. */
 export function TextField({
   value,
@@ -18,20 +22,29 @@ export function TextField({
   className,
   lang,
   rows = 1,
+  readOnly,
 }: {
   value: string;
   onChange: (v: string) => void;
   className?: string;
   lang?: string;
   rows?: number;
+  readOnly?: boolean;
 }) {
   return (
     <textarea
       lang={lang}
       rows={rows}
       value={value}
+      readOnly={readOnly}
+      title={readOnly ? LOCKED_TITLE : undefined}
       onChange={(e) => onChange(e.target.value)}
-      className={cn(BOX, "field-sizing-content resize-none", className)}
+      className={cn(
+        BOX,
+        "field-sizing-content resize-none",
+        readOnly && LOCKED,
+        className,
+      )}
     />
   );
 }
@@ -42,18 +55,22 @@ export function LineField({
   onChange,
   className,
   placeholder,
+  readOnly,
 }: {
   value: string;
   onChange: (v: string) => void;
   className?: string;
   placeholder?: string;
+  readOnly?: boolean;
 }) {
   return (
     <input
       value={value}
       placeholder={placeholder}
+      readOnly={readOnly}
+      title={readOnly ? LOCKED_TITLE : undefined}
       onChange={(e) => onChange(e.target.value)}
-      className={cn(BOX, className)}
+      className={cn(BOX, readOnly && LOCKED, className)}
     />
   );
 }
@@ -68,12 +85,14 @@ function SplitField({
   sep,
   multiline,
   className,
+  readOnly,
 }: {
   value: string[];
   onChange: (v: string[]) => void;
   sep: string;
   multiline?: boolean;
   className?: string;
+  readOnly?: boolean;
 }) {
   const joined = value.join(multiline ? "\n" : ", ");
   const clean = (t: string) =>
@@ -91,17 +110,28 @@ function SplitField({
     setText(t);
     onChange(clean(t));
   };
+  const lock = {
+    readOnly,
+    title: readOnly ? LOCKED_TITLE : undefined,
+  };
   return multiline ? (
     <textarea
       value={text}
+      {...lock}
       onChange={(e) => change(e.target.value)}
-      className={cn(BOX, "field-sizing-content resize-none", className)}
+      className={cn(
+        BOX,
+        "field-sizing-content resize-none",
+        readOnly && LOCKED,
+        className,
+      )}
     />
   ) : (
     <input
       value={text}
+      {...lock}
       onChange={(e) => change(e.target.value)}
-      className={cn(BOX, className)}
+      className={cn(BOX, readOnly && LOCKED, className)}
     />
   );
 }
@@ -111,6 +141,7 @@ export function LinesField(props: {
   value: string[];
   onChange: (v: string[]) => void;
   className?: string;
+  readOnly?: boolean;
 }) {
   return <SplitField {...props} sep={"\n"} multiline />;
 }

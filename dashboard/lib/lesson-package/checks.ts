@@ -3,6 +3,7 @@ import { checkLesson, PROFILES, type CheckStatus, type LessonReport, type TextPr
 import type { LessonText } from '../text-profile/sources';
 import type { VocabularyIndex } from '../text-profile/vocabulary';
 import { promptProblems } from '../media/images';
+import { LOCK_LABELS, TODO, lockHashes } from './import-printed';
 
 /** Counts for one lesson (Origins 3.2 plan §2 and §6). */
 export interface LessonShape {
@@ -125,10 +126,13 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     const fullText = flat(pkg.text.paragraphs.join(' '));
     const { mcq, saq, laq } = pkg.bank;
 
-    // Text.
+    // Text. A printed lesson's text is locked, so the profile does not apply to it.
     const profile = ctx.profile ?? PROFILES[pkg.meta.profile];
+    const printedSource = pkg.meta.printed;
     let text: LessonReport | undefined;
-    if (!profile) {
+    if (printedSource) {
+        checks.push(check('text', 'Text check (printed text, locked)', []));
+    } else if (!profile) {
         checks.push(check('text', 'Text check', [`unknown profile "${pkg.meta.profile}"`]));
     } else {
         text = checkLesson(lessonText, { index: ctx.index, prior: ctx.prior, profile });
@@ -192,7 +196,7 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     const glossaryProblems: string[] = [];
     const glossed = new Set(lessonText.glossed);
     const entries = new Set(pkg.glossary.map((g) => g.word.toLowerCase()));
-    if (pkg.glossary.length !== shape.glossary) glossaryProblems.push(`${pkg.glossary.length} entries (need ${shape.glossary})`);
+    if (!printedSource && pkg.glossary.length !== shape.glossary) glossaryProblems.push(`${pkg.glossary.length} entries (need ${shape.glossary})`);
     const missing = [...glossed].filter((w) => !entries.has(w));
     const extra = [...entries].filter((w) => !glossed.has(w));
     if (missing.length) glossaryProblems.push(`not in the glossary: ${missing.join(', ')}`);
@@ -234,7 +238,8 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
         if (!f.sentence.includes('___')) activityProblems.push(`fill ${i + 1}: no ___ blank`);
     });
     if (!a.writingPrompt.trim()) activityProblems.push('no writing prompt');
-    checks.push(check('activities', 'Workbook activities', activityProblems));
+    // A printed lesson's activities are on paper: a defect there is a note, not a block.
+    checks.push(printedSource ? check('activities', 'Workbook activities (printed, locked)', activityProblems, 'warn') : check('activities', 'Workbook activities', activityProblems));
 
     const imageProblems = pkg.images.length !== shape.images ? [`${pkg.images.length} images (need ${shape.images})`] : [];
     for (const img of pkg.images) {
@@ -257,6 +262,25 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     }
     const untagged = items.filter((q) => q.objectives.length === 0).map((q) => q.id);
     checks.push(check('tags-coverage', 'Every question tagged', untagged.length ? [`no objective: ${untagged.join(', ')}`] : [], 'warn'));
+
+    // Printed lessons: the lock, and the fields still to write.
+    if (printedSource) {
+        const now = lockHashes(pkg);
+        const changed = Object.keys(LOCK_LABELS).filter((k) => printedSource.lock[k] !== now[k]).map((k) => LOCK_LABELS[k]);
+        checks.push(check('locked', 'Printed parts unchanged', changed.length ? [`changed: ${changed.join(', ')} (the printed book has them)`] : []));
+        const todo: [string, number][] = [
+            ['summary', pkg.text.summary.trim() ? 0 : 1],
+            ['glossary part of speech', pkg.glossary.filter((g) => g.pos === TODO).length],
+            ['glossary definition', pkg.glossary.filter((g) => g.definition === TODO).length],
+            ['glossary example', pkg.glossary.filter((g) => g.example === TODO).length],
+            ['MCQ evidence', mcq.filter((q) => q.evidence === TODO).length],
+            ['SAQ answer', saq.filter((q) => q.answer === TODO).length],
+            ['fill answer', pkg.activities.vocabFill.filter((f) => f.answer === TODO).length],
+            ['picture prompt', pkg.images.filter((i) => i.prompt === TODO).length],
+        ];
+        const left = todo.filter(([, n]) => n > 0).map(([name, n]) => `${name} (${n})`);
+        checks.push(check('todo', 'Nothing left to write', left.length ? [`to write: ${left.join(', ')}`] : []));
+    }
 
     return { lesson: pkg.meta.lesson, title: pkg.meta.title, checks, text };
 }

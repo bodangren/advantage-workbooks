@@ -395,8 +395,16 @@ function ArticleEditor({
   report: PackageReport | null;
 }) {
   const text = report?.text;
+  const printed = pkg.meta.printed;
   return (
     <div className="space-y-3">
+      {printed && (
+        <p className="rounded-md bg-muted p-2 text-sm text-muted-foreground">
+          Printed lesson ({printed.file.split("/").slice(-2).join("/")}): the
+          article, the vocabulary words, and the printed questions and
+          activities are locked. Everything else is for the app.
+        </p>
+      )}
       <div>
         <Label>Title</Label>
         <LineField
@@ -409,6 +417,7 @@ function ArticleEditor({
           <Label>Paragraph {i + 1}</Label>
           <TextField
             value={p}
+            readOnly={!!printed}
             onChange={(v) => edit((d) => void (d.text.paragraphs[i] = v))}
             className="text-base leading-relaxed"
           />
@@ -501,6 +510,7 @@ function GlossaryEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
               <td className="p-0.5">
                 <LineField
                   value={g.word}
+                  readOnly={!!pkg.meta.printed}
                   onChange={(v) => edit((d) => void (d.glossary[i].word = v))}
                 />
               </td>
@@ -580,17 +590,20 @@ function PrintStar({
   on,
   onClick,
   title,
+  disabled,
 }: {
   on: boolean;
   onClick: () => void;
   title: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      title={title}
-      className="mt-1 shrink-0 self-start"
+      title={disabled ? "The printed set is locked" : title}
+      disabled={disabled}
+      className="mt-1 shrink-0 self-start disabled:cursor-default"
     >
       <Star
         className={cn(
@@ -604,6 +617,9 @@ function PrintStar({
 
 function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
   const printMcq = new Set(pkg.print.mcq);
+  // A printed lesson: the printed questions, their printed options, and the answers are locked.
+  const printed = !!pkg.meta.printed;
+  const lockedMcq = (id: string) => printed && printMcq.has(id);
   const toggleMcq = (id: string) =>
     edit((d) => {
       const set = new Set(d.print.mcq);
@@ -633,6 +649,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                 on={printMcq.has(q.id)}
                 onClick={() => toggleMcq(q.id)}
                 title="Print this question"
+                disabled={printed}
               />
               <div className="flex-1 space-y-1">
                 <div className="flex gap-2">
@@ -641,6 +658,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                   </span>
                   <LineField
                     value={q.question}
+                    readOnly={lockedMcq(q.id)}
                     onChange={(v) =>
                       edit((d) => void (d.bank.mcq[i].question = v))
                     }
@@ -654,6 +672,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                         type="radio"
                         name={`answer-${q.id}`}
                         checked={o === q.answer}
+                        disabled={lockedMcq(q.id)}
                         onChange={() =>
                           edit(
                             (d) =>
@@ -665,6 +684,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                       />
                       <LineField
                         value={o}
+                        readOnly={lockedMcq(q.id) && k < pkg.print.mcqOptions}
                         onChange={(v) =>
                           edit((d) => {
                             const m = d.bank.mcq[i];
@@ -712,6 +732,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                 on={pkg.print.saq === q.id}
                 onClick={() => edit((d) => void (d.print.saq = q.id))}
                 title="Print this question"
+                disabled={printed}
               />
               <div className="grid flex-1 grid-cols-[3rem_1fr] gap-1 text-sm">
                 <span className="pt-1 font-mono text-xs text-muted-foreground">
@@ -719,6 +740,7 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
                 </span>
                 <LineField
                   value={q.question}
+                  readOnly={printed && pkg.print.saq === q.id}
                   onChange={(v) =>
                     edit((d) => void (d.bank.saq[i].question = v))
                   }
@@ -804,12 +826,14 @@ function BankEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
 
 function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
   const a = pkg.activities;
+  const locked = !!pkg.meta.printed;
   return (
     <div className="grid gap-3 md:grid-cols-2">
       <div>
         <Label>Sentence starters (one per line)</Label>
         <LinesField
           value={a.sentenceStarters}
+          readOnly={locked}
           onChange={(v) =>
             edit((d) => void (d.activities.sentenceStarters = v))
           }
@@ -821,6 +845,7 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
         </Label>
         <LinesField
           value={a.sentenceOrder}
+          readOnly={locked}
           onChange={(v) => edit((d) => void (d.activities.sentenceOrder = v))}
         />
       </div>
@@ -830,12 +855,14 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
           <div key={i} className="grid grid-cols-[1fr_10rem] gap-2 py-0.5">
             <LineField
               value={f.sentence}
+              readOnly={locked}
               onChange={(v) =>
                 edit((d) => void (d.activities.vocabFill[i].sentence = v))
               }
             />
             <LineField
               value={f.answer}
+              readOnly={locked}
               onChange={(v) =>
                 edit((d) => void (d.activities.vocabFill[i].answer = v))
               }
@@ -847,6 +874,7 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
         <Label>Sentence completion (one per line)</Label>
         <LinesField
           value={a.sentenceCompletion}
+          readOnly={locked}
           onChange={(v) =>
             edit((d) => void (d.activities.sentenceCompletion = v))
           }
@@ -856,6 +884,7 @@ function ActivitiesEditor({ pkg, edit }: { pkg: LessonPackage; edit: Edit }) {
         <Label>Writing prompt</Label>
         <TextField
           value={a.writingPrompt}
+          readOnly={locked}
           onChange={(v) => edit((d) => void (d.activities.writingPrompt = v))}
         />
         <Label>Writing frames (one per line)</Label>

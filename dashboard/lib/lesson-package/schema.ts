@@ -19,6 +19,20 @@ export const ApprovalSchema = z.object({
     date: z.string().optional(),
 });
 
+/** A lesson from a printed book (Origins 2 and 3.1): its source file, its app article, and the lock. */
+export const PrintedSourceSchema = z.object({
+    /** The printed workbook JSON, relative to the repo root. */
+    file: z.string().min(1),
+    /** The app article (legacy cuid) that the package updates. */
+    articleId: z.string().min(1),
+    /** The printed Thai, one string per paragraph. */
+    thaiParagraphs: z.array(z.string()).default([]),
+    /** The app's pictures before the refresh. */
+    imageUrls: z.array(z.string()).default([]),
+    /** Hashes of the locked parts at import (`lockHashes`). */
+    lock: z.record(z.string(), z.string()),
+});
+
 export const PackageMetaSchema = z.object({
     book: z.string().min(1),
     lesson: z.string().min(1),
@@ -35,6 +49,8 @@ export const PackageMetaSchema = z.object({
     brief: z.string().optional(),
     /** The app's `article.type`; default `fiction`. */
     appType: z.enum(['fiction', 'nonfiction']).optional(),
+    /** Set for a printed lesson: the article, the vocabulary, and the printed questions are locked. */
+    printed: PrintedSourceSchema.optional(),
 });
 
 export const PackageTextSchema = z.object({
