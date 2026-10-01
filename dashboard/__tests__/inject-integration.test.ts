@@ -7,6 +7,7 @@ import { LessonPackageSchema, type LessonPackage } from '../lib/lesson-package/s
 import { legacyRows, newCuid } from '../lib/inject/legacy';
 import { legacyStatements } from '../lib/inject/sql';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
+import { LOCALE_QUERIES, legacyLocalesFrom } from '../lib/inject/legacy-locales';
 import { fixturePackage } from './fixtures/lesson-package-fixture';
 
 /**
@@ -94,6 +95,20 @@ describe.skipIf(!fs.existsSync(MIGRATIONS))('legacy injection (Postgres with the
         expect(await verifyLegacy(db, rows)).toEqual(['article.passage differs']);
         await applyStatements(db, legacyStatements(rows, new Date()));
         expect((await db.query<{ passage: string }>('SELECT passage FROM article WHERE id = $1', [id])).rows[0].passage).toBe(rows.article.passage);
+    });
+
+    it("reads an article's old cn, tw, and vi with the fetch queries", async () => {
+        const id = newCuid();
+        const rows = legacyRows(ready(), { articleId: id, mcq: {}, saq: {}, laq: {} }, new Date());
+        await applyStatements(db, legacyStatements(rows, new Date()));
+        const old = { ...rows.article.translated_passage, cn: rows.article.translated_passage.cn.map((_, i) => `句子${i}`) };
+        await db.query('UPDATE article SET translated_passage = $1, translated_summary = $2 WHERE id = $3', [JSON.stringify(old), JSON.stringify({ th: 'ท', cn: '摘要', tw: '摘要', vi: 'Tóm tắt' }), id]);
+        const article = (await db.query<Record<string, unknown>>(LOCALE_QUERIES.article, [id])).rows[0];
+        const flashcards = (await db.query<Record<string, unknown>>(LOCALE_QUERIES.flashcards, [id])).rows;
+        const loc = legacyLocalesFrom(id, article, flashcards, new Date());
+        expect(loc.summary).toEqual({ cn: '摘要', tw: '摘要', vi: 'Tóm tắt' });
+        expect(loc.sentences[1]).toMatchObject({ en: 'Pip is a small brown puppy.', cn: '句子1' });
+        expect(loc.words.map((w) => w.word)).toEqual(['sofa', 'under', 'puppy']);
     });
 
     it('rolls back the whole lesson when one statement fails', async () => {

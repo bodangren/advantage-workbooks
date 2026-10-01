@@ -40,4 +40,8 @@ Track: `origins_app_refresh_20261001`
 - [x] Read-only production check: field map, the 27 articles, and the rows that point at their questions (Q-ORF-01, Q-ORF-02) — `scripts/sample-legacy.ts` (31e936f, 311a2a0)
 - [x] Bucket backup prefix for the old objects; update mode in the injector (printed article id, old rows replaced, passage line breaks kept, `words` null)
 - [x] Dry run passes for all 27 lessons (update) and E12 (new); only the lesson approval is missing
-- [ ] Daniel approves the lessons; inject and verify the 27 lessons and E12
+- [x] Old `cn`, `tw`, and `vi` (second decision): package part `locales`, `lib/inject/legacy-locales.ts` (match by sentence and word, English for gaps), `scripts/fetch-legacy-locales.ts` (read-only), the injector refuses a printed lesson without the copy; tests
+- [x] E12 SAQ s1 and s2: model answers without the note ("I am eight.", "My name is May."); bank and lesson approvals back to draft
+- [ ] Copy the old `cn`, `tw`, and `vi` of the 27 lessons (`scripts/fetch-legacy-locales.ts`; needs the production database URL)
+- [ ] Daniel approves the E12 bank and lesson again; inject E12 again (English in `cn`, `tw`, `vi`; the plain SAQ answers)
+- [ ] Daniel approves the lessons; inject and verify the 27 lessons

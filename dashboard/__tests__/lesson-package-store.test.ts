@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { packagePath, listBooks, readPackageFile, savePackage, approvePart, chooseImage, renderPictures, recordInjection, StoreError } from '../lib/lesson-package/store';
+import { packagePath, listBooks, readPackageFile, savePackage, approvePart, chooseImage, renderPictures, recordInjection, recordLocales, StoreError } from '../lib/lesson-package/store';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import type { PackageCheckContext } from '../lib/lesson-package/checks';
 import { fixturePackage, fixtureIndex, FIXTURE_PROFILE, FIXTURE_SHAPE, FIXTURE_OBJECTIVES } from './fixtures/lesson-package-fixture';
@@ -169,6 +169,22 @@ describe('lesson package store', () => {
         edited.text.summary = 'Changed.';
         savePackage(root, 'b', 't01', edited, ctx());
         expect((readPackageFile(root, 'b', 't01') as { db: { legacy: unknown } }).db.legacy).toEqual(ids);
+    });
+
+    it('records the old translations, keeps the approvals, and a review-page save cannot change them', () => {
+        put('b', 't01', (p) => {
+            p.approval = { bank: { status: 'approved', date: '2026-10-01' } };
+        });
+        const locales = { articleId: 'cart1', fetchedAt: '2026-10-02T03:00:00.000Z', summary: { cn: '摘要', tw: '摘要', vi: 'Tóm tắt' }, sentences: [{ en: 'This is Pip.', cn: '这是皮普。', tw: '這是皮普。', vi: 'Đây là Pip.' }], words: [] };
+        recordLocales(root, 'b', 't01', locales);
+        const onDisk = readPackageFile(root, 'b', 't01') as { locales: unknown; approval: { bank: { status: string } } };
+        expect(onDisk.locales).toEqual(locales);
+        expect(onDisk.approval.bank.status).toBe('approved');
+        const edited = fixturePackage();
+        edited.locales = { ...locales, summary: { cn: 'x', tw: 'x', vi: 'x' } };
+        savePackage(root, 'b', 't01', edited, ctx());
+        expect((readPackageFile(root, 'b', 't01') as { locales: unknown }).locales).toEqual(locales);
+        expect(() => recordLocales(root, 'b', 't01', { ...locales, articleId: '' })).toThrow();
     });
 
     it('gives 404 for a missing package', () => {

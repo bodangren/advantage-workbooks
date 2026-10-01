@@ -1,7 +1,7 @@
 # Spec: Origins 2 and 3.1 app refresh
 
 **Track:** `origins_app_refresh_20261001`
-**Version:** 1.1
+**Version:** 1.2
 **Date:** 2026-10-01
 **Status:** new
 
@@ -57,7 +57,21 @@ this point, but we can improve the app experience."
   stay.
 - Before an upload, the old bucket objects of the article go to a backup prefix.
 - Old question rows: the package replaces them (Q-ORF-01 below).
-- Thai only: the old `cn`, `tw`, and `vi` translations become empty (Daniel, 2026-10-01).
+- Other languages (Daniel, 2026-10-01, second decision): keep the old `cn`, `tw`, and `vi`
+  translations, matched by sentence. `scripts/fetch-legacy-locales.ts` copies them into each printed
+  package (`locales`) before the first injection; the injector refuses a printed lesson without the
+  copy. English fills each gap, because the app shows an empty string as empty (the summary uses
+  `?? summary`, the reading view `|| ""`). E12 has no old article, so it gets English only. The first
+  decision ("Thai only") came from a wrong statement that the app shows English for an empty value.
+
+## Pictures and the app page (Daniel, 2026-10-01)
+
+The 1024×1024 pictures fill the full width of the legacy reading page (about 926 px high each), and
+the lesson view crops them to 894×320. The pictures stay square for now. Daniel: "We are migrating to
+the monorepo version of primary advantage, so I want fix the page format there, not in the current
+deployment." The page notes from the E12 check go to the monorepo visual refresh: picture size and
+crop, the empty learning objectives, the reading time, the purple gradients, the English disclaimer in
+the Thai interface, and the red "Delete" button on the account page.
 
 ## Open items
 
@@ -73,3 +87,4 @@ this point, but we can improve the app experience."
 |---|---|---|
 | 1.0 | 2026-10-01 | First version |
 | 1.1 | 2026-10-01 | Q-ORF-01 and Q-ORF-02 closed from the production sample; Thai only |
+| 1.2 | 2026-10-01 | Keep the old cn, tw, and vi (matched by sentence, English for gaps); pictures stay square, page fixes go to the monorepo |

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { z } from 'zod';
-import { LessonPackageSchema, TargetIdsSchema, APPROVAL_PARTS, type ApprovalPart, type LessonPackage } from './schema';
+import { LessonPackageSchema, LegacyLocalesSchema, TargetIdsSchema, APPROVAL_PARTS, type ApprovalPart, type LegacyLocales, type LessonPackage } from './schema';
 import { checkPackage, schemaFailure, type PackageCheckContext, type PackageReport } from './checks';
 import { loadPackageFolder } from './files';
 import { renderImage } from '../media/render';
@@ -108,8 +108,9 @@ const write = (file: string, pkg: LessonPackage) => fs.writeFileSync(file, `${JS
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
- * Saves an edited package. The database ids always come from the file on disk (only the injector
- * changes them). A part that changes loses its approval, and any change resets the lesson approval.
+ * Saves an edited package. The database ids and the old translations always come from the file on
+ * disk (only the injector and the fetch script change them). A part that changes loses its approval,
+ * and any change resets the lesson approval.
  * @param root The content root.
  * @param book Book id.
  * @param lesson Lesson file id.
@@ -128,6 +129,7 @@ export function savePackage(root: string, book: string, lesson: string, input: u
     if (before?.success) {
         const old = before.data;
         next.db = old.db;
+        next.locales = old.locales;
         let changed = false;
         for (const part of Object.keys(PART_KEYS) as (keyof typeof PART_KEYS)[]) {
             const differs = PART_KEYS[part].some((k) => !same(old[k], next[k]));
@@ -139,6 +141,7 @@ export function savePackage(root: string, book: string, lesson: string, input: u
         if (changed) next.approval.lesson = { status: 'draft' };
     } else {
         next.db = {};
+        next.locales = undefined;
     }
     write(file, next);
     return { saved: true, pkg: next, report: checkPackage(next, contextFor(ctx, next)) };
@@ -258,6 +261,24 @@ export function recordInjection(root: string, book: string, lesson: string, targ
     if (!parsed.success) throw new StoreError(400, 'The package does not parse');
     const pkg = parsed.data;
     pkg.db[target] = TargetIdsSchema.parse(ids);
+    write(packagePath(root, book, lesson), pkg);
+    return pkg;
+}
+
+/**
+ * Writes a printed lesson's old cn, tw, and vi into the package (only
+ * `scripts/fetch-legacy-locales.ts` calls this). The approvals do not change.
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @param locales The values from `legacyLocalesFrom`.
+ * @returns The saved package.
+ */
+export function recordLocales(root: string, book: string, lesson: string, locales: LegacyLocales): LessonPackage {
+    const parsed = LessonPackageSchema.safeParse(readPackageFile(root, book, lesson));
+    if (!parsed.success) throw new StoreError(400, 'The package does not parse');
+    const pkg = parsed.data;
+    pkg.locales = LegacyLocalesSchema.parse(locales);
     write(packagePath(root, book, lesson), pkg);
     return pkg;
 }

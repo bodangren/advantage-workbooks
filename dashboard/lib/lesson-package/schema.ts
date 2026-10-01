@@ -226,6 +226,27 @@ export const DbSchema = z.object({
     new: TargetIdsSchema.optional(),
 });
 
+/** The app's other interface languages (Thai comes from the `thai` part). */
+export const LocaleTextSchema = z.object({ cn: z.string(), tw: z.string(), vi: z.string() });
+
+/**
+ * A printed lesson's old app translations, read before the first injection by
+ * `scripts/fetch-legacy-locales.ts`. Daniel (2026-10-01): keep them, matched by sentence. The
+ * injector matches them (`lib/inject/legacy-locales.ts`); English fills a gap.
+ */
+export const LegacyLocalesSchema = z.object({
+    /** The app article that the values came from. */
+    articleId: z.string().min(1),
+    /** When the script read them (ISO time). */
+    fetchedAt: z.string().min(1),
+    /** The old summary (a translation of the old English summary). */
+    summary: LocaleTextSchema,
+    /** Each old English sentence with its translations: the passage, then the flashcard sentences. */
+    sentences: z.array(LocaleTextSchema.extend({ en: z.string().min(1) })),
+    /** Each old vocabulary word with its translated definitions. */
+    words: z.array(LocaleTextSchema.extend({ word: z.string().min(1) })),
+});
+
 export const LessonPackageSchema = z.object({
     version: z.literal(1),
     meta: PackageMetaSchema,
@@ -238,6 +259,8 @@ export const LessonPackageSchema = z.object({
     images: z.array(PackageImageSchema),
     audio: AudioSchema.default({ sentences: [], wordTimes: [], flashcardTimes: [] }),
     tags: TagsSchema,
+    /** Printed lessons only; the fetch script writes it, never the review page. */
+    locales: LegacyLocalesSchema.optional(),
     approval: ApprovalsSchema.default({
         text: DRAFT,
         thai: DRAFT,
@@ -253,3 +276,4 @@ export type LessonPackage = z.infer<typeof LessonPackageSchema>;
 export type LessonPackageInput = z.input<typeof LessonPackageSchema>;
 export type Mcq = z.infer<typeof McqSchema>;
 export type PackageImage = z.infer<typeof PackageImageSchema>;
+export type LegacyLocales = z.infer<typeof LegacyLocalesSchema>;

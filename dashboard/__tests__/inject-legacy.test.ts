@@ -59,7 +59,8 @@ describe('flashcard sentences', () => {
 
 describe('legacy rows', () => {
     it('maps the article columns', () => {
-        const rows = legacyRows(withMedia(), IDS, NOW);
+        const pkg = withMedia();
+        const rows = legacyRows(pkg, IDS, NOW);
         const a = rows.article;
         expect(a).toMatchObject({
             id: 'cart1',
@@ -77,8 +78,9 @@ describe('legacy rows', () => {
         expect(a.passage.split('\n\n')).toHaveLength(2);
         expect(a.translated_passage.th).toHaveLength(6);
         expect(a.translated_passage.th[0]).toBe('นี่คือปิ๊ป');
-        expect(a.translated_passage.cn).toEqual([]);
-        expect(a.translated_summary.th).toBeTruthy();
+        // No old article (a new lesson): English fills cn, tw, and vi, so the app never shows an empty string.
+        expect(a.translated_passage.cn).toEqual(pkg.thai.paragraphs.flat().map((s) => s.en));
+        expect(a.translated_summary).toMatchObject({ th: pkg.thai.summary, vi: pkg.text.summary });
         expect(a.sentences[1]).toMatchObject({ sentence: 'Pip is a small brown puppy.', startTime: 2, endTime: 3.5 });
         expect(a.sentences[1].words.map((w: { word: string }) => w.word)).toEqual(['Pip', 'is', 'a', 'small', 'brown', 'puppy.']);
         // The app reads the vocabulary from the flashcard row; no production article has `words` (sample 2026-10-01).
@@ -106,10 +108,37 @@ describe('legacy rows', () => {
         });
         expect(rows.flashcard.sentence[0]).toEqual({
             sentence: 'It is under the sofa!',
-            translation: { th: 'มันอยู่ใต้โซฟา!', cn: '', tw: '', vi: '' },
+            translation: { th: 'มันอยู่ใต้โซฟา!', cn: 'It is under the sofa!', tw: 'It is under the sofa!', vi: 'It is under the sofa!' },
             timeSeconds: 0,
         });
-        expect(rows.flashcard.words[0]).toEqual({ vocabulary: 'sofa', definition: { en: 'A long soft seat.', th: 'โซฟา', cn: '', tw: '', vi: '' }, timeSeconds: 0 });
+        expect(rows.flashcard.words[0]).toEqual({ vocabulary: 'sofa', definition: { en: 'A long soft seat.', th: 'โซฟา', cn: 'A long soft seat.', tw: 'A long soft seat.', vi: 'A long soft seat.' }, timeSeconds: 0 });
+    });
+
+    it("writes a printed lesson's old cn, tw, and vi, matched by sentence and word", () => {
+        const pkg = withMedia();
+        pkg.meta.printed = { file: 'p.json', articleId: 'cart1', thaiParagraphs: [], imageUrls: [], lock: {} };
+        pkg.locales = {
+            articleId: 'cart1',
+            fetchedAt: NOW.toISOString(),
+            summary: { cn: '旧摘要', tw: '舊摘要', vi: 'Tóm tắt cũ' },
+            sentences: [{ en: 'It is under the sofa.', cn: '它在沙发下面！', tw: '它在沙發下面！', vi: 'Nó ở dưới ghế sofa!' }],
+            words: [{ word: 'sofa', cn: '沙发', tw: '沙發', vi: 'ghế sofa' }],
+        };
+        const rows = legacyRows(pkg, IDS, NOW);
+        const at = pkg.thai.paragraphs.flat().findIndex((s) => s.en === 'It is under the sofa!');
+        expect(rows.article.translated_passage.tw[at]).toBe('它在沙發下面！');
+        expect(rows.article.translated_passage.tw[0]).toBe('This is Pip.');
+        expect(rows.article.translated_summary).toEqual({ th: pkg.thai.summary, cn: '旧摘要', tw: '舊摘要', vi: 'Tóm tắt cũ' });
+        expect(rows.flashcard.sentence[0].translation).toEqual({ th: 'มันอยู่ใต้โซฟา!', cn: '它在沙发下面！', tw: '它在沙發下面！', vi: 'Nó ở dưới ghế sofa!' });
+        expect(rows.flashcard.words[0].definition).toEqual({ en: 'A long soft seat.', th: 'โซฟา', cn: '沙发', tw: '沙發', vi: 'ghế sofa' });
+    });
+
+    it('refuses a printed lesson without its old translations, or with the translations of another article', () => {
+        const pkg = withMedia();
+        pkg.meta.printed = { file: 'p.json', articleId: 'cart1', thaiParagraphs: [], imageUrls: [], lock: {} };
+        expect(() => legacyRows(pkg, IDS, NOW)).toThrow(/fetch-legacy-locales/);
+        pkg.locales = { articleId: 'cother', fetchedAt: NOW.toISOString(), summary: { cn: '', tw: '', vi: '' }, sentences: [], words: [] };
+        expect(() => legacyRows(pkg, IDS, NOW)).toThrow(/article cother/);
     });
 
     it('updates the app article of a printed lesson, and keeps an injected id first', () => {

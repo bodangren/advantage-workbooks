@@ -1,6 +1,6 @@
 # Primary database field map (lesson package → app)
 
-Version 1.2 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
+Version 1.3 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
 
 Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantage/prisma/schema.prisma`, `types/index.d.ts`, `lib/storage-config.ts`, the generators in `server/utils/genaretors/`, `reading-advantage-monorepo/packages/db/src/schema/{content,questions,primary}.ts`, and `tutor-advantage/services/learning-service/src/services/PrimaryAdvantageDB.ts`.
 
@@ -33,8 +33,8 @@ Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantag
 | `audio_word_url` | `audio.words` | `/audios/words/<id>.mp3` |
 | `sentences` | `audio.sentences` | `SentenceTimepoint[]`: `{ sentence, startTime, endTime, words: { word, start, end }[] }`. Word times are estimated by word length inside each sentence (mmx gives no word times; the reading tasks highlight the word under the play head) |
 | `words` | — | `null`. No production article has it (0 of 560); the app reads the vocabulary from `sentencs_and_words_for_flashcard.words` |
-| `translated_passage` | `thai.paragraphs` | `{ th: string[], cn: [], tw: [], vi: [] }`, one Thai string per sentence in `sentences` order. Thai only (Daniel, 2026-10-01): the old rows had full `cn`, `tw`, and `vi`, and the injection empties them |
-| `translated_summary` | `thai.summary` | `{ th, cn: "", tw: "", vi: "" }`. The app falls back to the English summary when a locale is empty |
+| `translated_passage` | `thai.paragraphs`, `locales` | `{ th, cn, tw, vi }`, one string per sentence in `sentences` order for each language. `cn`, `tw`, and `vi`: the old translation of the same sentence (`locales`, matched on lower-case letters and digits); English fills a gap. Never an empty string: the reading view shows `translatedPassage[locale][i] \|\| ""` |
+| `translated_summary` | `thai.summary`, `locales` | `{ th, cn, tw, vi }`. `cn`, `tw`, and `vi`: the old summary, else the English summary. Never an empty string: the app uses `translatedSummary[locale] ?? summary`, and `??` keeps `""` |
 | `author_id` | — | `""` (the app's own create uses `""`) |
 | `is_published`, `is_approved` | `approval.lesson` | `true` |
 | `is_draft` | — | `false` |
@@ -57,9 +57,9 @@ The package replaces the article's question rows (Q-ORF-01, Daniel 2026-10-01): 
 
 | Column | Rule |
 |---|---|
-| `sentence` | `{ sentence, translation: { th, cn, tw, vi }, timeSeconds }[]`: 3 to 5 sentences, the ones with the most glossed words |
+| `sentence` | `{ sentence, translation: { th, cn, tw, vi }, timeSeconds }[]`: 3 to 5 sentences, the ones with the most glossed words. `cn`, `tw`, `vi` as in `translated_passage` |
 | `audio_sentences_url` | `audios/sentences/<id>.mp3`, joined from the cached article clips (no new TTS) |
-| `words` | `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }[]`, the same list as `article.words` |
+| `words` | `{ vocabulary, definition: { en, th, cn, tw, vi }, timeSeconds }[]`, the same list as `article.words`. `cn`, `tw`, `vi`: the old definition of the same word (`locales`), else the English definition |
 | `words_url` | `audios/words/<id>.mp3` (the same file as `audio_word_url`) |
 
 One row per article: a second row of the article is deleted in the same transaction (the app reads the first one it finds).
@@ -95,4 +95,4 @@ Tutor matches the questions by index to `SELECT … WHERE article_id = $1` with 
 ## Open items
 
 1. Done (2026-10-01): the paragraph separator is `\n\n`; `sentences[]` is `{ sentence, startTime, endTime, words: { word, start, end }[] }`; the flashcard row is as above; the 27 articles are `fiction` with the app's genre names; the level pairs are `ra_level` 2 = A0 and 3 = A0+.
-2. Decided (Daniel, 2026-10-01): Thai only. `cn`, `tw`, and `vi` are empty, and the app shows English for those locales.
+2. Decided again (Daniel, 2026-10-01): keep the old `cn`, `tw`, and `vi`, matched by sentence. The first decision ("Thai only", empty values) came from a wrong statement: the app does not show English for an empty string. A printed lesson copies its old values into the package (`locales`, `scripts/fetch-legacy-locales.ts`) before its first injection, and the injector refuses it without the copy. English fills each gap and a new lesson (E12) has English only.

@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from 'crypto';
 import type { LessonPackage } from '../lesson-package/schema';
+import { matchLocales } from './legacy-locales';
 
 /**
  * Lesson package → legacy Primary rows (track primary_injector_20261001).
@@ -8,9 +9,6 @@ import type { LessonPackage } from '../lesson-package/schema';
 
 /** The app's level table (`convertCefrLevel` in primary-advantage/lib/utils.ts). */
 const LEVELS = ['A0-', 'A0', 'A0+', 'A1-', 'A1', 'A1+', 'A2-', 'A2', 'A2+', 'B1-', 'B1', 'B1+', 'B2-', 'B2', 'B2+'];
-
-/** Languages in the app's translation objects. Only Thai is written; the app falls back to English. */
-const EMPTY_LOCALES = { cn: '', tw: '', vi: '' };
 
 /**
  * A level problem, if the CEFR level and the app level do not agree.
@@ -101,13 +99,17 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
         problems.push('the audio sentences do not match the Thai part; make the audio again');
     }
     if (pkg.glossary.some((g, i) => pkg.audio.wordTimes[i]?.text !== g.word)) problems.push('the word audio does not match the glossary; make the audio again');
+    // The injection replaces the old cn, tw, and vi, so a printed lesson keeps a copy first.
+    if (pkg.meta.printed && !pkg.locales) problems.push('no copy of the old cn, tw, and vi; run scripts/fetch-legacy-locales.ts first');
+    if (pkg.locales && pkg.locales.articleId !== known.articleId) problems.push(`the old cn, tw, and vi are from article ${pkg.locales.articleId}, not ${known.articleId}`);
     if (problems.length) throw new Error(`Not ready to inject: ${problems.join('; ')}`);
 
     const id = known.articleId;
     const thaiOf = new Map(thai.map((s) => [s.en.trim(), s.th]));
+    const locales = matchLocales(pkg);
     const words = pkg.glossary.map((g, i) => ({
         vocabulary: g.word,
-        definition: { en: g.definition, th: g.thai, ...EMPTY_LOCALES },
+        definition: { en: g.definition, th: g.thai, ...locales.word(g.word, g.definition) },
         timeSeconds: pkg.audio.wordTimes[i].startTime,
     }));
     const ids = {
@@ -135,8 +137,8 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
         sentences: pkg.audio.sentences.map((s) => ({ sentence: s.text, startTime: s.startTime, endTime: s.endTime, words: estimateWordTimes(s.text, s.startTime, s.endTime) })),
         // The app reads the vocabulary from the flashcard row; no production article has `words` (sample 2026-10-01).
         words: null,
-        translated_passage: { th: thai.map((s) => s.th), cn: [], tw: [], vi: [] },
-        translated_summary: { th: pkg.thai.summary, ...EMPTY_LOCALES },
+        translated_passage: { th: thai.map((s) => s.th), ...locales.passage },
+        translated_summary: { th: pkg.thai.summary, ...locales.summary },
         author_id: '',
         is_published: true,
         is_approved: true,
@@ -150,7 +152,7 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
     const flashcard = {
         id: ids.flashcardId,
         article_id: id,
-        sentence: pkg.audio.flashcardTimes.map((s) => ({ sentence: s.text, translation: { th: thaiOf.get(s.text) ?? '', ...EMPTY_LOCALES }, timeSeconds: s.startTime })),
+        sentence: pkg.audio.flashcardTimes.map((s) => ({ sentence: s.text, translation: { th: thaiOf.get(s.text) ?? '', ...locales.sentence(s.text) }, timeSeconds: s.startTime })),
         audio_sentences_url: `audios/sentences/${id}.mp3`,
         words,
         words_url: `audios/words/${id}.mp3`,

@@ -7,6 +7,7 @@ import { Client } from 'pg';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { recordInjection } from '../lib/lesson-package/store';
 import { appArticleId, appUploadArgs, backupPath, bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
+import { matchLocales } from '../lib/inject/legacy-locales';
 import { legacyStatements } from '../lib/inject/sql';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
 import { voicesFor } from '../lib/media/audio';
@@ -32,7 +33,8 @@ Options:
 Only packages with approval.lesson = approved are written. Before the first write the script makes
 a Cloud SQL backup and waits for it. A printed lesson updates its app article (meta.printed.articleId):
 the old bucket objects go to backup/<time>/ first, and the article's old question and flashcard rows
-are replaced. Media goes up first (the app's files, then the Tutor clips, then
+are replaced. A printed lesson needs its copy of the old cn, tw, and vi first
+(scripts/fetch-legacy-locales.ts); English fills each gap. Media goes up first (the app's files, then the Tutor clips, then
 the Tutor manifest), then one transaction per lesson, then the verify step. The ids go back into the package (db.legacy), and a line goes into
 content/primary/<book>/inject-log.jsonl.`;
 
@@ -200,6 +202,8 @@ async function main(argv: string[]): Promise<number> {
             if (opts.dryRun) {
                 console.log(`${label}${approved ? '' : '  [NOT APPROVED: a real run refuses it]'}`);
                 console.log(`  rows: 1 article, ${rows.mcq.length} MCQ, ${rows.saq.length} SAQ, ${rows.laq.length} LAQ, 1 flashcard row; hash ${hash}${known?.contentHash === hash ? ' (unchanged)' : ''}`);
+                const m = matchLocales(pkg).matched;
+                console.log(`  cn/tw/vi: old values for ${m.sentences} of ${m.of} sentences, ${m.words} of ${m.ofWords} words, summary ${m.summary ? 'old' : 'English'}; English fills the rest`);
                 if (existing) console.log(`  first: the old objects (when they exist) → gs://${opts.bucket}/${backupPath('', now)}${tutor ? ` and gs://${opts.tutorBucket}/${backupPath(tutorManifestPath, now)}` : ''}`);
                 for (const o of objects) console.log(`  ${o.from} → gs://${opts.bucket}/${o.to}${o.png ? ' (as PNG)' : ''}`);
                 if (tutor) console.log(`  ${tutor.uploads.length} Tutor clips and manifest.json → gs://${opts.tutorBucket}/articles/${rows.ids.articleId}/`);
