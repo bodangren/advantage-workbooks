@@ -1,4 +1,4 @@
-import type { Cast } from './cast';
+import { castPrompt, type Cast, type CastCharacter } from './cast';
 import type { PackageImage } from '../lesson-package/schema';
 import { imagePrompt, sheetFor } from './images';
 
@@ -36,6 +36,8 @@ export function referencePrompt(cast: Cast, image: PackageImage, refs: string[])
     return [intro, imagePrompt(cast, image)].filter(Boolean).join(' ');
 }
 
+const dataUrl = (data: Buffer) => ({ type: 'image_url' as const, image_url: { url: `data:image/jpeg;base64,${data.toString('base64')}` } });
+
 /**
  * The request body for one picture.
  * @param cast The cast file.
@@ -50,14 +52,12 @@ export function museRequest(cast: Cast, image: PackageImage, readSheet: (rel: st
         return sheet ? [{ name, sheet }] : [];
     });
     const refs = withSheet.map((r) => r.name);
-    const body: { model: string; prompt: string; aspect_ratio: string; input_references?: { type: 'image_url'; image_url: { url: string } }[] } = {
+    const body: { model: string; prompt: string; aspect_ratio: string; input_references?: ReturnType<typeof dataUrl>[] } = {
         model: MUSE_MODEL,
         prompt: referencePrompt(cast, image, refs),
         aspect_ratio: opts.aspectRatio,
     };
-    if (withSheet.length) {
-        body.input_references = withSheet.map((r) => ({ type: 'image_url', image_url: { url: `data:image/jpeg;base64,${readSheet(r.sheet).toString('base64')}` } }));
-    }
+    if (withSheet.length) body.input_references = withSheet.map((r) => dataUrl(readSheet(r.sheet)));
     return { body, refs };
 }
 
@@ -73,4 +73,41 @@ export function imagesFromResponse(body: unknown): { images: { data: Buffer; med
     const images = (b.data ?? []).filter((d) => d.b64_json).map((d) => ({ data: Buffer.from(d.b64_json!, 'base64'), mediaType: d.media_type ?? 'image/png' }));
     if (images.length === 0) throw new Error('no image in the response');
     return { images, cost: b.usage?.cost };
+}
+
+/**
+ * The request body for one character sheet (Daniel, 2026-10-01: one style for the whole cast). The
+ * anchor (`cast.anchor`) comes from its printed picture in that picture's style. Every other
+ * character gets the anchor sheet as picture 1 (the style) and its printed picture, when it has one,
+ * as picture 2 (the face, hair, and clothes).
+ * @param cast The cast file.
+ * @param character One character.
+ * @param readFile Reads a file (path relative to the character-sheets folder).
+ * @returns The body. Throws when the character needs the anchor sheet and it has no approved one.
+ */
+export function castMuseRequest(cast: Cast, character: CastCharacter, readFile: (rel: string) => Buffer) {
+    const source = character.source?.image;
+    const refs: string[] = [];
+    let intro: string;
+    if (!cast.anchor || character.name === cast.anchor) {
+        if (source) refs.push(source);
+        intro = source ? 'The reference picture shows this character in a printed book. Keep the face, hair, and clothes, and the drawing style of the picture.' : '';
+    } else {
+        const anchor = cast.characters.find((c) => c.name === cast.anchor);
+        if (!anchor?.chosen || !anchor.approved) throw new Error(`Make and choose the sheet of ${cast.anchor} (the style anchor) first`);
+        refs.push(anchor.chosen);
+        // Without the second sentence, the anchor's clothes and eye color spread to the cast (Muse test 2026-10-01).
+        intro = 'Picture 1 shows the house style only: copy its drawing style, line weight, colors, shading, eye shape, and proportions. Copy nothing else from picture 1: not its face, eye color, hair, or clothes. Draw a different character.';
+        if (source) {
+            refs.push(source);
+            intro += ' Picture 2 shows this character in a printed book: keep the face, eye color, hair, and clothes.';
+        }
+    }
+    const body: { model: string; prompt: string; aspect_ratio: string; input_references?: ReturnType<typeof dataUrl>[] } = {
+        model: MUSE_MODEL,
+        prompt: [intro, castPrompt(cast, character)].filter(Boolean).join(' '),
+        aspect_ratio: '1:1',
+    };
+    if (refs.length) body.input_references = refs.map((r) => dataUrl(readFile(r)));
+    return { body, refs };
 }

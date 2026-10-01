@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { CastSchema } from '@/lib/media/cast';
+import { CastSchema, chooseSheet } from '@/lib/media/cast';
 import { errorResponse, sheetsDir, today } from '@/lib/review/server';
 
 export const dynamic = 'force-dynamic';
@@ -34,11 +34,7 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    const sheet = `${character.name}${path.extname(body.data.candidate).toLowerCase()}`;
-    fs.copyFileSync(path.join(sheetsDir(), body.data.candidate), path.join(sheetsDir(), sheet));
-    character.chosen = sheet;
-    character.chosenFrom = body.data.candidate;
-    character.approved = today();
+    chooseSheet(sheetsDir(), cast, character.name, body.data.candidate, today());
     fs.writeFileSync(castFile(), `${JSON.stringify(cast, null, 2)}\n`);
     return NextResponse.json(cast);
   } catch (e) {

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { z } from 'zod';
 
@@ -27,6 +28,8 @@ export const CastSchema = z.object({
     style: z.string().min(1),
     sheet: z.string().min(1),
     rules: z.string().optional(),
+    /** The character whose sheet is the style reference for every other sheet (Muse). */
+    anchor: z.string().optional(),
     characters: z.array(CastCharacterSchema),
 });
 
@@ -74,4 +77,26 @@ export function parseSavedFiles(stdout: string): string[] {
     } catch {
         return [];
     }
+}
+
+/**
+ * Makes a candidate the sheet of a character: copies it to `<name>.<ext>` and records it. The
+ * caller writes the cast file.
+ * @param dir The character-sheets folder.
+ * @param cast The cast (changed in place).
+ * @param name The character name.
+ * @param candidate One of its candidates (relative to `dir`).
+ * @param date The approval date (YYYY-MM-DD).
+ * @returns The changed character. Throws for an unknown character or candidate.
+ */
+export function chooseSheet(dir: string, cast: Cast, name: string, candidate: string, date: string): CastCharacter {
+    const character = cast.characters.find((c) => c.name === name);
+    if (!character) throw new Error(`No character ${name}`);
+    if (!character.candidates.includes(candidate)) throw new Error(`${candidate} is not a candidate for ${name}`);
+    const sheet = `${character.name}${path.extname(candidate).toLowerCase()}`;
+    fs.copyFileSync(path.join(dir, candidate), path.join(dir, sheet));
+    character.chosen = sheet;
+    character.chosenFrom = candidate;
+    character.approved = date;
+    return character;
 }
