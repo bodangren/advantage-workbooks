@@ -225,13 +225,19 @@ describe('image and media checks', () => {
         expect(r.checks.find((c) => c.id === 'images')?.detail).toMatch(/hero: Thai/);
     });
 
-    it('warns while a picture or the audio is missing, and passes when both are there', () => {
+    it('warns while a picture, the audio, or the Tutor clips are missing, and passes when all are there', () => {
         const missing = run();
         expect(status(missing, 'media')).toBe('warn');
-        expect(missing.checks.find((c) => c.id === 'media')?.detail).toMatch(/hero[\s\S]*audio/);
+        expect(missing.checks.find((c) => c.id === 'media')?.detail).toMatch(/hero[\s\S]*audio[\s\S]*Tutor clips/);
+        const article = { article: 'tb/media/1/article.mp3', sentences: [{ text: 'This is Pip.', startTime: 0, endTime: 1 }], wordTimes: [] };
+        const noTutor = run((p) => {
+            p.images[0].file = 'tb/media/1/hero.jpg';
+            p.audio = article;
+        });
+        expect(noTutor.checks.find((c) => c.id === 'media')?.detail).toBe('not made yet: Tutor clips');
         const done = run((p) => {
             p.images[0].file = 'tb/media/1/hero.jpg';
-            p.audio = { article: 'tb/media/1/article.mp3', sentences: [{ text: 'This is Pip.', startTime: 0, endTime: 1 }], wordTimes: [] };
+            p.audio = { ...article, tutor: 'tb/media/1/tutor' };
         });
         expect(status(done, 'media')).toBe('pass');
     });

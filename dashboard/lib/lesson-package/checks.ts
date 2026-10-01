@@ -242,7 +242,7 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
         if (words.length) imageProblems.push(`${img.position}: ${words.join(', ')} (describe hair and clothes only)`);
     }
     checks.push(check('images', 'Image plan', imageProblems));
-    const notMade = [...pkg.images.filter((img) => !img.file).map((img) => img.position), ...(pkg.audio.article ? [] : ['audio'])];
+    const notMade = [...pkg.images.filter((img) => !img.file).map((img) => img.position), ...(pkg.audio.article ? [] : ['audio']), ...(pkg.audio.tutor ? [] : ['Tutor clips'])];
     checks.push(check('media', 'Pictures and audio made', notMade.length ? [`not made yet: ${notMade.join(', ')}`] : [], 'warn'));
 
     // Tags.

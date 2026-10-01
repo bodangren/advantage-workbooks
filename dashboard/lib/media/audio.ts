@@ -33,6 +33,19 @@ export interface GapOptions {
 
 export const DEFAULT_GAPS: GapOptions = { sentenceGapMs: 450, paragraphGapMs: 900, wordGapMs: 700 };
 
+/** The American mmx voices Daniel chose (2026-10-01). */
+export const VOICES = { female: 'English_captivating_female1', male: 'English_magnetic_voiced_man' } as const;
+
+/**
+ * The voices of a lesson. The story uses the narrator's voice (`audio.voice`: the male voice when a
+ * boy or a man tells the story). Words, questions, and options use the teacher's voice.
+ * @param pkg A parsed package.
+ * @returns The narrator and teacher voice ids.
+ */
+export function voicesFor(pkg: LessonPackage): { narrator: string; teacher: string } {
+    return { narrator: pkg.audio.voice ?? VOICES.female, teacher: pkg.audio.teacherVoice ?? VOICES.female };
+}
+
 /**
  * Reads a 16-bit mono PCM WAV file.
  * @param buf The file.

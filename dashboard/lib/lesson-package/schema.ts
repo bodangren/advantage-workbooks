@@ -160,7 +160,10 @@ export const TimingSchema = z.object({
 });
 
 export const AudioSchema = z.object({
+    /** The narrator's mmx voice: the story (article, sentence clips, flashcards). */
     voice: z.string().optional(),
+    /** The teacher's mmx voice: words, questions, and options. */
+    teacherVoice: z.string().optional(),
     article: z.string().optional(),
     sentences: z.array(TimingSchema).default([]),
     words: z.string().optional(),
@@ -168,6 +171,8 @@ export const AudioSchema = z.object({
     /** 3 to 5 sentences for the app's flashcards (`audios/sentences/<id>.mp3`), joined from the article clips. */
     flashcard: z.string().optional(),
     flashcardTimes: z.array(TimingSchema).default([]),
+    /** Folder with one mp3 per sentence, word, question, and option for Tutor Advantage (`<id>.mp3`, Tutor's ids). */
+    tutor: z.string().optional(),
 });
 
 export const TagsSchema = z.object({

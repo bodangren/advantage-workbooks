@@ -1,6 +1,6 @@
 # Primary Advantage lesson packages
 
-Version 1.1 | Date 2026-10-01 | Status: Active | Owner: Daniel Bo | Internal
+Version 1.2 | Date 2026-10-01 | Status: Active | Owner: Daniel Bo | Internal
 
 One JSON file per lesson holds every asset: the article, glossary (English and Thai), the app question bank (10 MCQ, 5 SAQ, 5 LAQ), the print set, the workbook activities, the Thai translation, the image plans, the audio, the objective tags, the approvals, and the database IDs. The workbook JSON, the database rows, and the tag file are built from it. Claude writes the packages; Daniel tweaks and approves them on the review page. The Primary app's generator is not used.
 
@@ -12,7 +12,7 @@ Spec: `measure/tracks/lesson_packages_20261001/spec.md`. Plan context: `docs/con
 |---|---|
 | `origins-3.1/` | `e12.json`: the lesson-12 insert (replaces the duplicate "My Happy Holiday") |
 | `origins-3.2/` | `p01.json` … `p14.json` |
-| `<book>/media/<lesson>/` | `hero.jpg` and the other pictures, `article.mp3`, `words.mp3`. `candidates/`, `.clips/`, and `samples/` stay out of git |
+| `<book>/media/<lesson>/` | `hero.jpg` and the other pictures, `article.mp3`, `words.mp3`, `sentences.mp3`. `tutor/` (one mp3 per sentence, word, question, and option for Tutor Advantage), `candidates/`, `.clips/`, and `samples/` stay out of git; the script makes `tutor/` again from `.clips/` with no new speech calls |
 
 Keep this folder out of `primary/`: Tutor Advantage imports every folder there.
 
@@ -29,8 +29,9 @@ Media (track `lesson_media_20261001`; jobs run one at a time, because mmx gives 
 ```
 npx tsx scripts/media/lesson-images.ts ../content/primary/origins-3.1/e12.json            # candidates for images with none
 npx tsx scripts/media/lesson-images.ts <package> --redo-marked                            # Daniel asked for new pictures
-npx tsx scripts/media/lesson-audio.ts ../content/primary/origins-3.1/e12.json             # article.mp3 and words.mp3 with times
-npx tsx scripts/media/lesson-audio.ts <package> --redo 4,w2                               # make sentence 4 and word 2 again
+npx tsx scripts/media/lesson-audio.ts ../content/primary/origins-3.1/e12.json --voice English_magnetic_voiced_man   # a boy tells the story
+npx tsx scripts/media/lesson-audio.ts <package>                                           # article, words, flashcards, Tutor clips
+npx tsx scripts/media/lesson-audio.ts <package> --redo 4,w2,word-019-c51185c2d1          # make sentence 4, word 2, and one Tutor clip again
 npx tsx scripts/media/cast-sheets.ts --only mom --count 2                                 # more character-sheet candidates
 ```
 
@@ -46,6 +47,7 @@ A FAIL blocks approval. A WARN does not (for example, fewer than 6 new words: a 
 - Objective IDs are short IDs from `docs/content-plans/data/a0-objective-key.json`, which maps each one to its GSE graph node.
 - mmx cannot draw text. Signs, posters, and labels go in `images[].overlay`; a script writes them on the image.
 - Image prompts describe hair and clothes only. Skin, race, and nationality words fail the `images` check (series bible v1.2).
+- Voices (Daniel, 2026-10-01): the narrator reads the story (`audio.voice`: `English_magnetic_voiced_man` when a boy or a man tells it, else `English_captivating_female1`). The teacher voice (`English_captivating_female1`) reads the words, questions, and options. The script saves the voices in the package, so give `--voice` once.
 - Images and audio cannot be approved before their files exist. A changed part goes back to draft.
 - Never edit `db`, except through the injector.
 

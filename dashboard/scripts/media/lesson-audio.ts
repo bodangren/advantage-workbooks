@@ -5,36 +5,40 @@ import { spawnSync } from 'child_process';
 import { LessonPackageSchema, type LessonPackage } from '../../lib/lesson-package/schema';
 import { checkContextFor } from '../../lib/lesson-package/context';
 import { savePackage } from '../../lib/lesson-package/store';
-import { DEFAULT_GAPS, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, writeWav, type Clip } from '../../lib/media/audio';
+import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, writeWav, type Clip } from '../../lib/media/audio';
+import { tutorClips, tutorItems } from '../../lib/media/tutor-audio';
 
-const DEFAULT_VOICE = 'English_expressive_narrator';
 const DEFAULT_SPEED = 0.75;
 /** An inner pause longer than this marks a bad take; the clip is made again (two more tries at most). */
 const MAX_PAUSE_S = 0.6;
 const TRIES = 3;
 
-const USAGE = `Makes the article and word audio for a lesson package with mmx (track lesson_media_20261001).
+const USAGE = `Makes the audio for a lesson package with mmx (track lesson_media_20261001).
 
 Usage: npx tsx scripts/media/lesson-audio.ts <package.json> [options]
 
 Options:
-  --voice <id>             mmx voice (default: the package's audio.voice, or ${DEFAULT_VOICE})
+  --voice <id>             Narrator voice for the story (default: audio.voice, or ${VOICES.female}).
+                           Use ${VOICES.male} when a boy or a man tells the story.
+  --teacher-voice <id>     Voice for words, questions, and options (default: audio.teacherVoice, or ${VOICES.female})
   --speed <n>              Speed multiplier (default ${DEFAULT_SPEED})
   --dry-run                List the clips and which are cached; make nothing
-  --redo <n,...>           Make these article sentences again (1-based; a word: w1, w2, ...)
+  --redo <n,...>           Make these clips again: article sentence n (1-based), word wN, or a Tutor clip id
   --samples <a,b,c>        Make paragraph 1 in each voice into <media>/samples/ for Daniel; the
                            package does not change
 
-Each sentence (from the Thai part) and each glossary word is one WAV clip, cached in
-<book>/media/<lesson>/.clips/ by voice, speed, and text. The clips are trimmed and joined with
-fixed gaps into article.mp3, words.mp3, and sentences.mp3 (3 to 5 flashcard sentences), and the exact
-times go into the package (audio part
-back to draft). A clip with an inner pause over ${MAX_PAUSE_S} s is made again (${TRIES} tries; the take
-with the shortest pause stays). Jobs run one at a time (mmx gives no output for parallel calls).`;
+Each sentence (from the Thai part), word, question, and option is one WAV clip, cached in
+<book>/media/<lesson>/.clips/ by voice, speed, and text. The clips are trimmed and joined with fixed
+gaps into article.mp3 (narrator), words.mp3 (teacher), and sentences.mp3 (3 to 5 flashcard sentences,
+narrator). Each clip is also one mp3 in tutor/ with Tutor Advantage's id (lib/media/tutor-audio.ts).
+The exact times go into the package (audio part back to draft). A clip with an inner pause over
+${MAX_PAUSE_S} s is made again (${TRIES} tries; the take with the shortest pause stays). Jobs run one at a
+time (mmx gives no output for parallel calls).`;
 
 interface Options {
     file: string;
     voice?: string;
+    teacherVoice?: string;
     speed: number;
     dryRun: boolean;
     samples?: string[];
@@ -49,9 +53,10 @@ function parseArgs(argv: string[]): Options | number {
             console.log(USAGE);
             return 0;
         } else if (a === '--voice') opts.voice = argv[++i];
+        else if (a === '--teacher-voice') opts.teacherVoice = argv[++i];
         else if (a === '--speed') opts.speed = Number(argv[++i]);
         else if (a === '--dry-run') opts.dryRun = true;
-        else if (a === '--redo') opts.redo = argv[++i].split(',').map((s) => s.trim().toLowerCase());
+        else if (a === '--redo') opts.redo = argv[++i].split(',').map((s) => s.trim());
         else if (a === '--samples') opts.samples = argv[++i].split(',').map((s) => s.trim());
         else if (!a.startsWith('--') && !opts.file) opts.file = path.resolve(a);
         else {
@@ -108,6 +113,15 @@ function clip(text: string, voice: string, speed: number, cache: string, redo: b
     return readClip(file);
 }
 
+/** One mp3 from 16-bit samples. */
+function encode(rate: number, samples: Int16Array, out: string) {
+    const wav = path.join(os.tmpdir(), `lesson-audio-${process.pid}.wav`);
+    fs.writeFileSync(wav, writeWav({ rate, samples }));
+    const enc = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-codec:a', 'libmp3lame', '-q:a', '4', out], { encoding: 'utf8' });
+    fs.rmSync(wav, { force: true });
+    if (enc.status !== 0) throw new Error(`ffmpeg failed: ${enc.stderr.trim()}`);
+}
+
 function render(clips: Omit<Clip, 'samples'>[], voice: string, speed: number, cache: string, out: string, redo: (i: number) => boolean = () => false) {
     let rate = 0;
     const full: Clip[] = clips.map((c, i) => {
@@ -118,11 +132,7 @@ function render(clips: Omit<Clip, 'samples'>[], voice: string, speed: number, ca
         return { ...c, samples: made.samples };
     });
     const joined = joinClips(full, rate);
-    const wav = path.join(os.tmpdir(), `lesson-audio-${process.pid}.wav`);
-    fs.writeFileSync(wav, writeWav({ rate, samples: joined.samples }));
-    const enc = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-codec:a', 'libmp3lame', '-q:a', '4', out], { encoding: 'utf8' });
-    fs.rmSync(wav, { force: true });
-    if (enc.status !== 0) throw new Error(`ffmpeg failed: ${enc.stderr.trim()}`);
+    encode(rate, joined.samples, out);
     return joined.timings;
 }
 
@@ -147,14 +157,23 @@ function main(argv: string[]): number {
     const media = path.join(root, mediaRel);
     const cache = path.join(media, '.clips');
     fs.mkdirSync(cache, { recursive: true });
-    const voice = opts.voice ?? pkg.audio.voice ?? DEFAULT_VOICE;
+    const voices = voicesFor(pkg);
+    const voice = opts.voice ?? voices.narrator;
+    const teacher = opts.teacherVoice ?? voices.teacher;
     const clips = audioClips(pkg);
+    const tutor = tutorClips(tutorItems(pkg));
+    const voiceOf = (role: 'narrator' | 'teacher') => (role === 'narrator' ? voice : teacher);
 
     if (opts.dryRun) {
-        for (const c of [...clips.article, ...clips.words]) {
-            const cached = fs.existsSync(path.join(cache, `${clipKey(c.text, voice, opts.speed)}.wav`));
-            console.log(`${cached ? 'cached' : 'new   '}  ${c.text}`);
+        const all = [...clips.article.map((c) => ({ text: c.text, v: voice })), ...tutor.map((c) => ({ text: c.text, v: voiceOf(c.role) }))];
+        const seen = new Set<string>();
+        for (const c of all) {
+            const key = clipKey(c.text, c.v, opts.speed);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            console.log(`${fs.existsSync(path.join(cache, `${key}.wav`)) ? 'cached' : 'new   '}  ${c.v === voice ? 'N' : 'T'}  ${c.text}`);
         }
+        console.log(`${seen.size} clips (N narrator ${voice}, T teacher ${teacher})`);
         return 0;
     }
 
@@ -172,8 +191,8 @@ function main(argv: string[]): number {
 
     console.log(`Article (${clips.article.length} sentences, voice ${voice}, speed ${opts.speed})`);
     const sentences = render(clips.article, voice, opts.speed, cache, path.join(media, 'article.mp3'), (i) => opts.redo.includes(String(i + 1)));
-    console.log(`Words (${clips.words.length})`);
-    const wordTimes = render(clips.words, voice, opts.speed, cache, path.join(media, 'words.mp3'), (i) => opts.redo.includes(`w${i + 1}`));
+    console.log(`Words (${clips.words.length}, voice ${teacher})`);
+    const wordTimes = render(clips.words, teacher, opts.speed, cache, path.join(media, 'words.mp3'), (i) => opts.redo.includes(`w${i + 1}`));
     // The app's flashcards: 3 to 5 sentences, joined from the article clips (cached, so no new TTS).
     const cards = flashcardSentences(pkg);
     console.log(`Flashcard sentences (${cards.length})`);
@@ -184,14 +203,27 @@ function main(argv: string[]): number {
         cache,
         path.join(media, 'sentences.mp3'),
     );
+    // Tutor Advantage: one mp3 per clip, named with Tutor's id. Old files (changed text) go.
+    const tutorDir = path.join(media, 'tutor');
+    fs.mkdirSync(tutorDir, { recursive: true });
+    console.log(`Tutor clips (${tutor.length})`);
+    tutor.forEach((c, i) => {
+        process.stdout.write(`  ${i + 1}/${tutor.length} ${c.text}\n`);
+        const made = clip(c.text, voiceOf(c.role), opts.speed, cache, opts.redo.includes(c.id));
+        encode(made.rate, made.samples, path.join(tutorDir, `${c.id}.mp3`));
+    });
+    const keep = new Set(tutor.map((c) => `${c.id}.mp3`));
+    for (const f of fs.readdirSync(tutorDir)) if (!keep.has(f)) fs.rmSync(path.join(tutorDir, f));
     pkg.audio = {
         voice,
+        teacherVoice: teacher,
         article: path.join(mediaRel, 'article.mp3'),
         sentences,
         words: path.join(mediaRel, 'words.mp3'),
         wordTimes,
         flashcard: path.join(mediaRel, 'sentences.mp3'),
         flashcardTimes,
+        tutor: path.join(mediaRel, 'tutor'),
     };
     const result = savePackage(root, book, lesson, pkg, checkContextFor);
     console.log(`Saved ${path.relative(process.cwd(), opts.file)}; audio approval: ${result.pkg?.approval.audio.status}`);
