@@ -39,7 +39,7 @@
       "Mia feeds Pip. Pip eats food. Pip likes its food. This is Pip's food. Mia gives water. Pip drinks water. Pip plays. Mia plays with Pip. Pip runs. Pip runs fast. This puppy is fun. Pip is a good puppy. Mia is good to Pip. Mia likes Pip.",
       "Pip has a bed. This is Pip's bed. Pip sleeps in its bed. Mia gives Pip a toy. Pip plays with its toy. Pip is a happy puppy. Mia is happy too. This is my friend. My friend is Pip. Pip is my good puppy. Mia and Pip are friends. This friendship is strong. Mia loves her friend."
     ],
-    "summary": "",
+    "summary": "Mia has a new pet. It is a small white puppy, and his name is Pip. Mia gives Pip food and water, and they play. Pip sleeps in his bed. Mia and Pip are good friends.",
     "glossed": [
       "Puppy",
       "Soft",
@@ -59,71 +59,71 @@
   "glossary": [
     {
       "word": "Puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "It is a puppy."
     },
     {
       "word": "Soft",
-      "pos": "?",
-      "definition": "Smooth and pleasant to touch.",
+      "pos": "adjective",
+      "definition": "Not hard. Nice to touch.",
       "thai": "นุ่ม",
       "example": "Pip is soft."
     },
     {
       "word": "Nice",
-      "pos": "?",
-      "definition": "Kind or pleasant.",
+      "pos": "adjective",
+      "definition": "Good. You like it.",
       "thai": "ดี",
       "example": "This puppy is nice."
     },
     {
       "word": "Feeds",
-      "pos": "?",
-      "definition": "To give food to someone or an animal.",
+      "pos": "verb",
+      "definition": "Gives food to someone.",
       "thai": "ให้อาหาร",
       "example": "Mia feeds Pip."
     },
     {
       "word": "Fast",
-      "pos": "?",
-      "definition": "Moving at a high speed.",
+      "pos": "adjective",
+      "definition": "Very quick.",
       "thai": "เร็ว",
       "example": "Pip runs fast."
     },
     {
       "word": "Friendship",
-      "pos": "?",
-      "definition": "A relationship between friends.",
+      "pos": "noun",
+      "definition": "Friends like each other. That is friendship.",
       "thai": "มิตรภาพ",
       "example": "This friendship is strong."
     },
     {
       "word": "Strong",
-      "pos": "?",
-      "definition": "Powerful or firm.",
+      "pos": "adjective",
+      "definition": "Not weak. It does not break.",
       "thai": "แข็งแรง",
       "example": "This friendship is strong."
     },
     {
       "word": "Loves",
-      "pos": "?",
-      "definition": "Feeling deep affection for someone or something.",
+      "pos": "verb",
+      "definition": "Likes very, very much.",
       "thai": "รัก",
       "example": "Mia loves Pip."
     },
     {
       "word": "Small",
-      "pos": "?",
-      "definition": "Little in size.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "The puppy is small."
     },
     {
       "word": "Happy",
-      "pos": "?",
-      "definition": "Feeling joy or pleasure.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is a happy puppy."
     }
@@ -136,11 +136,14 @@
         "options": [
           "A boy",
           "A girl",
-          "A puppy"
+          "A puppy",
+          "A cat"
         ],
         "answer": "A girl",
         "evidence": "Mia is a girl.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -148,11 +151,14 @@
         "options": [
           "A cat",
           "A puppy",
-          "A bird"
+          "A bird",
+          "A fish"
         ],
         "answer": "A puppy",
         "evidence": "It is a puppy.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p3",
@@ -160,11 +166,14 @@
         "options": [
           "Red",
           "Blue",
-          "White"
+          "White",
+          "Green"
         ],
         "answer": "White",
         "evidence": "Pip is white.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -172,22 +181,185 @@
         "options": [
           "Toys",
           "Food",
-          "Water"
+          "Water",
+          "Books"
         ],
         "answer": "Food",
         "evidence": "Pip eats food.",
-        "objectives": []
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What is Pip's toy?",
+        "options": [
+          "a red ball",
+          "a blue car",
+          "a doll",
+          "a book"
+        ],
+        "answer": "a red ball",
+        "evidence": "This red ball is Pip's toy.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What does Pip drink?",
+        "options": [
+          "water",
+          "milk",
+          "juice",
+          "tea"
+        ],
+        "answer": "water",
+        "evidence": "Pip drinks water.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "How does Pip run?",
+        "options": [
+          "fast",
+          "slow",
+          "sad",
+          "small"
+        ],
+        "answer": "fast",
+        "evidence": "Pip runs fast.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Where does Pip sleep?",
+        "options": [
+          "in its bed",
+          "in a car",
+          "in a tree",
+          "in the zoo"
+        ],
+        "answer": "in its bed",
+        "evidence": "Pip sleeps in its bed.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is Pip?",
+        "options": [
+          "soft",
+          "hard",
+          "rough",
+          "big"
+        ],
+        "answer": "soft",
+        "evidence": "Pip is soft.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "How is Mia and Pip's friendship?",
+        "options": [
+          "strong",
+          "sad",
+          "small",
+          "bad"
+        ],
+        "answer": "strong",
+        "evidence": "This friendship is strong.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is the girl?",
-        "answer": "?",
-        "objectives": []
+        "answer": "The girl is Mia.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What is Mia's new pet?",
+        "answer": "It is a small puppy.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Mia give Pip?",
+        "answer": "She gives Pip food, water, and a toy.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What color is Pip's ball?",
+        "answer": "Pip's ball is red.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Who is Mia's friend?",
+        "answer": "Pip is Mia's friend.",
+        "objectives": [
+          "R17.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you have a pet? Tell about it.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What does a puppy need?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a pet with its toy. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "How do you play with a friend?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Who is your good friend? Tell about your friend.",
+        "objectives": [
+          "R17.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -408,42 +580,63 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "เมียมีสัตว์เลี้ยงตัวใหม่ มันเป็นลูกสุนัขตัวเล็กสีขาว ชื่อปิ๊ป เมียให้อาหารและน้ำปิ๊ป และพวกเขาเล่นด้วยกัน ปิ๊ปนอนบนเตียงของเขา เมียกับปิ๊ปเป็นเพื่อนที่ดีต่อกัน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Mia is a girl, and Pip is her small, happy puppy; Mia takes care of Pip and they play together, forming a strong friendship.",
+      "prompt": "Mia sits on the floor and smiles at her new pet, a small soft white puppy with floppy ears. The white puppy holds a red ball in his mouth.",
+      "characters": [
+        "Mia"
+      ],
+      "caption": "Mia has a new pet. His name is Pip.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a sunny yard, a small white puppy with floppy ears runs fast after a red ball. Mia runs and plays with him. A bowl of food and a bowl of water are on the ground.",
+      "characters": [
+        "Mia"
+      ],
+      "caption": "Mia plays with Pip.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "A small white puppy with floppy ears sleeps in a little dog bed with a red ball. Mia kneels next to the bed and smiles at him.",
+      "characters": [
+        "Mia"
+      ],
+      "caption": "Mia and Pip are friends.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.1",
+      "R21.2",
+      "L19.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

@@ -39,7 +39,7 @@
       "This is a game box. Grandpa opens the box. Look! This is a puzzle. A big puzzle. This puzzle is blue and green. It is a nice picture. Grandma has puzzle pieces. Lily has puzzle pieces. Grandpa has puzzle pieces. Pip sees the puzzle pieces. Pip is a curious dog. Lily puts a piece. Grandma puts a piece. Grandpa puts a piece. This is a red piece.",
       "This is a green piece. They work together. This is fun. They are a family. They are a happy family. Pip is happy too. Pip sees the puzzle grow. The puzzle is big now. This is their family game. Lily likes Grandma. Lily likes Grandpa. Pip likes them all. All are very happy. This is a good time."
     ],
-    "summary": "",
+    "summary": "Lily and her dog Pip visit Grandma and Grandpa. Grandpa opens a big box. It is a puzzle game. They all put the pieces together. They are a happy family.",
     "glossed": [
       "Curious",
       "Puzzle",
@@ -64,106 +64,106 @@
   "glossary": [
     {
       "word": "Curious",
-      "pos": "?",
-      "definition": "Wanting to know or learn something.",
+      "pos": "adjective",
+      "definition": "You want to know about something.",
       "thai": "อยากรู้อยากเห็น",
       "example": "Pip is a curious dog."
     },
     {
       "word": "Puzzle",
-      "pos": "?",
-      "definition": "A game or toy that tests your skill or knowledge.",
+      "pos": "noun",
+      "definition": "A game with many pieces. You put them together to make a picture.",
       "thai": "จิ๊กซอว์",
       "example": "This is a puzzle."
     },
     {
       "word": "Together",
-      "pos": "?",
-      "definition": "With each other or in a group.",
+      "pos": "adverb",
+      "definition": "With other people.",
       "thai": "ด้วยกัน",
       "example": "They work together."
     },
     {
       "word": "Family",
-      "pos": "?",
-      "definition": "A group of people related to each other.",
+      "pos": "noun",
+      "definition": "Mom, Dad, grandma, grandpa, and the children.",
       "thai": "ครอบครัว",
       "example": "They are a family."
     },
     {
       "word": "Pieces",
-      "pos": "?",
-      "definition": "Parts of something that has been broken or divided.",
+      "pos": "noun",
+      "definition": "Small parts of something.",
       "thai": "ชิ้นส่วน",
       "example": "Grandma has puzzle pieces."
     },
     {
       "word": "Grow",
-      "pos": "?",
-      "definition": "To become larger or greater over time.",
+      "pos": "verb",
+      "definition": "Get bigger.",
       "thai": "เติบโต",
       "example": "Pip sees the puzzle grow."
     },
     {
       "word": "Grandma",
-      "pos": "?",
-      "definition": "The mother of your father or mother.",
+      "pos": "noun",
+      "definition": "The mother of your mom or dad.",
       "thai": "คุณย่า/คุณยาย",
       "example": "They go to Grandma."
     },
     {
       "word": "Grandpa",
-      "pos": "?",
-      "definition": "The father of your father or mother.",
+      "pos": "noun",
+      "definition": "The father of your mom or dad.",
       "thai": "คุณปู่/คุณตา",
       "example": "They go to Grandpa."
     },
     {
       "word": "Picture",
-      "pos": "?",
-      "definition": "A painting, drawing, or photograph.",
+      "pos": "noun",
+      "definition": "A drawing or a photo.",
       "thai": "รูปภาพ",
       "example": "It is a nice picture."
     },
     {
       "word": "House",
-      "pos": "?",
-      "definition": "A building where people live.",
+      "pos": "noun",
+      "definition": "A building. People live in it.",
       "thai": "บ้าน",
       "example": "This is their house."
     },
     {
       "word": "Small",
-      "pos": "?",
-      "definition": "Little in size or amount.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "Pip is a small dog."
     },
     {
       "word": "Happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure or contentment.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is a happy dog."
     },
     {
       "word": "Opens",
-      "pos": "?",
-      "definition": "Moves something so that an opening is no longer closed.",
+      "pos": "verb",
+      "definition": "Makes something not closed.",
       "thai": "เปิด",
       "example": "Grandpa opens the box."
     },
     {
       "word": "Game",
-      "pos": "?",
-      "definition": "An activity that you do for fun.",
+      "pos": "noun",
+      "definition": "Something you play for fun.",
       "thai": "เกม",
       "example": "This is a game box."
     },
     {
       "word": "Nice",
-      "pos": "?",
-      "definition": "Pleasant, attractive, or enjoyable.",
+      "pos": "adjective",
+      "definition": "Good. You like it.",
       "thai": "ดี",
       "example": "It is a nice picture."
     }
@@ -181,7 +181,9 @@
         ],
         "answer": "A girl",
         "evidence": "Lily is a girl.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -194,7 +196,9 @@
         ],
         "answer": "A dog",
         "evidence": "Lily has a dog.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p3",
@@ -206,8 +210,10 @@
           "To a shop"
         ],
         "answer": "To Grandma and Grandpa's house",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "They go to Grandma.",
+        "objectives": [
+          "L21.1"
+        ]
       },
       {
         "id": "p4",
@@ -220,18 +226,180 @@
         ],
         "answer": "A puzzle",
         "evidence": "This is a puzzle.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Who opens the box?",
+        "options": [
+          "Grandpa",
+          "Grandma",
+          "Lily",
+          "Pip"
+        ],
+        "answer": "Grandpa",
+        "evidence": "Grandpa opens the box.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What colors is the puzzle?",
+        "options": [
+          "blue and green",
+          "red and white",
+          "yellow and black",
+          "pink and brown"
+        ],
+        "answer": "blue and green",
+        "evidence": "This puzzle is blue and green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "How is Pip?",
+        "options": [
+          "curious",
+          "sad",
+          "angry",
+          "sleepy"
+        ],
+        "answer": "curious",
+        "evidence": "Pip is a curious dog.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "How do they make the puzzle?",
+        "options": [
+          "They work together.",
+          "They sleep.",
+          "They run.",
+          "They eat."
+        ],
+        "answer": "They work together.",
+        "evidence": "They work together.",
+        "objectives": [
+          "L20.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is the puzzle at the end?",
+        "options": [
+          "big",
+          "small",
+          "broken",
+          "new"
+        ],
+        "answer": "big",
+        "evidence": "The puzzle is big now.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Who does Lily like?",
+        "options": [
+          "Grandma and Grandpa",
+          "a cat",
+          "a teacher",
+          "a lion"
+        ],
+        "answer": "Grandma and Grandpa",
+        "evidence": "Lily likes Grandma.",
+        "objectives": [
+          "L21.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Lily's dog's name?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Her dog's name is Pip.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who do Lily and Pip visit?",
+        "answer": "They visit Grandma and Grandpa.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What is in the big box?",
+        "answer": "A big puzzle is in the box.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Who has puzzle pieces?",
+        "answer": "Grandma, Lily, and Grandpa have puzzle pieces.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What colors are the pieces?",
+        "answer": "The pieces are red and green.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Who is in your family? Tell about them.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Do you visit your grandma or grandpa? What do you do?",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What game do you play with your family?",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw a puzzle picture. Tell about the colors.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Tell about a happy day with your family.",
+        "objectives": [
+          "R17.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -472,42 +640,70 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ลิลลี่และปิ๊ปสุนัขของเธอไปหาคุณยายและคุณตา คุณตาเปิดกล่องใบใหญ่ ในกล่องเป็นเกมจิ๊กซอว์ ทุกคนช่วยกันต่อชิ้นส่วน พวกเขาเป็นครอบครัวที่มีความสุข"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Lily and her dog Pip visit Grandma and Grandpa, and they all play a big puzzle game together, making everyone very happy.",
+      "prompt": "Lily and Pip arrive at Grandma and Grandpa's house. Grandma and Grandpa stand at the door and smile. Grandma holds a big box.",
+      "characters": [
+        "Lily",
+        "Pip",
+        "Grandma",
+        "Grandpa"
+      ],
+      "caption": "Lily and Pip visit Grandma and Grandpa.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At a table, Grandpa opens a big game box. Inside are many blue and green puzzle pieces. Lily and Grandma look in. Curious Pip puts his nose near the pieces.",
+      "characters": [
+        "Grandpa",
+        "Lily",
+        "Grandma",
+        "Pip"
+      ],
+      "caption": "Grandpa opens the box. It is a puzzle!",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Lily, Grandma, and Grandpa sit at a table and put puzzle pieces together. The big puzzle shows a nice blue and green picture. Pip watches happily.",
+      "characters": [
+        "Lily",
+        "Grandma",
+        "Grandpa",
+        "Pip"
+      ],
+      "caption": "They work together.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L21.1",
+      "R17.1",
+      "L20.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "R17.2",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

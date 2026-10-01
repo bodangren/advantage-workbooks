@@ -39,7 +39,7 @@
       "The food is big cheese. The cheese is yellow. The cheese is very big. The big cheese is in a big box. The box is a brown box. The box is very big. Other mice see the box. Other mice are big mice. Big mice want the cheese. Big mice are sad. Big mice are not in the box. The big box is closed for big mice. Squeaky looks at the box.",
       "Squeaky sees a small hole. The small hole is on the brown box. Squeaky is a small mouse. Squeaky runs to the hole. Squeaky goes in the hole. Squeaky is in the box. Squeaky is in the big box. Squeaky gets the big yellow cheese. Squeaky eats the cheese. Squeaky is very happy. Squeaky is a clever mouse. Small is very good. Small is special."
     ],
-    "summary": "",
+    "summary": "Squeaky is a very small brown mouse. One day, she sees big yellow cheese in a big brown box. The big mice cannot go in. Squeaky finds a small hole, goes in, and gets the cheese. Small is special.",
     "glossed": [
       "Mouse",
       "Home",
@@ -60,78 +60,78 @@
   "glossary": [
     {
       "word": "Mouse",
-      "pos": "?",
-      "definition": "A small furry animal with a long tail.",
+      "pos": "noun",
+      "definition": "A small animal with a long tail.",
       "thai": "หนู",
       "example": "Squeaky is a mouse."
     },
     {
       "word": "Home",
-      "pos": "?",
-      "definition": "The place where someone lives.",
+      "pos": "noun",
+      "definition": "The place where you live.",
       "thai": "บ้าน",
       "example": "Squeaky has a home."
     },
     {
       "word": "Under",
-      "pos": "?",
-      "definition": "In or to a lower position than something.",
+      "pos": "preposition",
+      "definition": "Below something.",
       "thai": "ใต้",
       "example": "Squeaky's home is under a big tree."
     },
     {
       "word": "Warm",
-      "pos": "?",
-      "definition": "A little bit hot in a pleasant way.",
+      "pos": "adjective",
+      "definition": "A little hot. It feels nice.",
       "thai": "อบอุ่น",
       "example": "Her home is warm."
     },
     {
       "word": "Grass",
-      "pos": "?",
-      "definition": "A common green plant that grows on the ground.",
+      "pos": "noun",
+      "definition": "Short green plants on the ground.",
       "thai": "หญ้า",
       "example": "Squeaky sees green grass."
     },
     {
       "word": "Flower",
-      "pos": "?",
-      "definition": "The colorful part of a plant.",
+      "pos": "noun",
+      "definition": "The pretty, colored part of a plant.",
       "thai": "ดอกไม้",
       "example": "Squeaky sees red flowers."
     },
     {
       "word": "Cheese",
-      "pos": "?",
-      "definition": "A yellow or white food made from milk.",
+      "pos": "noun",
+      "definition": "A yellow or white food. It is made from milk.",
       "thai": "ชีส",
       "example": "The food is big cheese."
     },
     {
       "word": "Closed",
-      "pos": "?",
-      "definition": "Not open so that people or things cannot go through.",
+      "pos": "adjective",
+      "definition": "Not open.",
       "thai": "ปิด",
       "example": "The big box is closed for big mice."
     },
     {
       "word": "Hole",
-      "pos": "?",
-      "definition": "An empty space or opening in something solid.",
+      "pos": "noun",
+      "definition": "An opening. You can go through it.",
       "thai": "รู",
       "example": "Squeaky sees a small hole."
     },
     {
       "word": "Clever",
-      "pos": "?",
-      "definition": "Quick to learn and understand things.",
+      "pos": "adjective",
+      "definition": "Smart. Good at thinking.",
       "thai": "ฉลาด",
       "example": "Squeaky is a clever mouse."
     },
     {
       "word": "Special",
-      "pos": "?",
-      "definition": "Better, greater, or different from what is usual.",
+      "pos": "adjective",
+      "definition": "Not like the others. Very good.",
       "thai": "พิเศษ",
       "example": "Small is special."
     }
@@ -144,11 +144,14 @@
         "options": [
           "a cat",
           "a mouse",
-          "a dog"
+          "a dog",
+          "a bird"
         ],
         "answer": "a mouse",
         "evidence": "Squeaky is a mouse.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -156,11 +159,14 @@
         "options": [
           "in a box",
           "under a big tree",
-          "on a flower"
+          "on a flower",
+          "in a car"
         ],
         "answer": "under a big tree",
         "evidence": "Squeaky's home is under a big tree.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -168,11 +174,14 @@
         "options": [
           "apple",
           "cheese",
-          "grass"
+          "grass",
+          "bread"
         ],
         "answer": "cheese",
         "evidence": "The food is big cheese.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -180,22 +189,185 @@
         "options": [
           "red",
           "yellow",
-          "green"
+          "green",
+          "blue"
         ],
         "answer": "yellow",
         "evidence": "The cheese is yellow.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is Squeaky?",
+        "options": [
+          "brown",
+          "white",
+          "gray",
+          "yellow"
+        ],
+        "answer": "brown",
+        "evidence": "Squeaky is a brown mouse.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color are the flowers?",
+        "options": [
+          "red",
+          "blue",
+          "yellow",
+          "green"
+        ],
+        "answer": "red",
+        "evidence": "Squeaky sees red flowers.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Where is the cheese?",
+        "options": [
+          "in a big box",
+          "under a tree",
+          "in the grass",
+          "on a flower"
+        ],
+        "answer": "in a big box",
+        "evidence": "The big cheese is in a big box.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Why are the big mice sad?",
+        "options": [
+          "They cannot get the cheese.",
+          "They are sleepy.",
+          "They are cold.",
+          "They have no home."
+        ],
+        "answer": "They cannot get the cheese.",
+        "evidence": "Big mice are not in the box.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Squeaky see on the box?",
+        "options": [
+          "a small hole",
+          "a big door",
+          "a red flower",
+          "a ball"
+        ],
+        "answer": "a small hole",
+        "evidence": "Squeaky sees a small hole.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Squeaky do with the cheese?",
+        "options": [
+          "She eats it.",
+          "She throws it.",
+          "She sorts it.",
+          "She gives it to a cat."
+        ],
+        "answer": "She eats it.",
+        "evidence": "Squeaky eats the cheese.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Squeaky?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Squeaky is a small brown mouse.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "How is Squeaky's home?",
+        "answer": "Her home is warm.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is the cheese?",
+        "answer": "The cheese is yellow.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "How does Squeaky go in the box?",
+        "answer": "She goes in the small hole.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Why is small good?",
+        "answer": "Squeaky is small, so she can go in the hole.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Are you big or small? Tell about a good thing about it.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What food do you like? Tell about it.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw Squeaky's home under the big tree.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about a clever animal.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What can a small animal do? What can a big animal do?",
+        "objectives": [
+          "L19.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -248,55 +420,55 @@
       [
         {
           "en": "This is Squeaky.",
-          "th": ""
+          "th": "นี่คือสควีกี้"
         },
         {
           "en": "Squeaky is a mouse.",
-          "th": ""
+          "th": "สควีกี้เป็นหนู"
         },
         {
           "en": "Squeaky is very small.",
-          "th": ""
+          "th": "สควีกี้ตัวเล็กมาก"
         },
         {
           "en": "Squeaky is a brown mouse.",
-          "th": ""
+          "th": "สควีกี้เป็นหนูสีน้ำตาล"
         },
         {
           "en": "Squeaky has a home.",
-          "th": ""
+          "th": "สควีกี้มีบ้าน"
         },
         {
           "en": "Squeaky's home is under a big tree.",
-          "th": ""
+          "th": "บ้านของสควีกี้อยู่ใต้ต้นไม้ใหญ่"
         },
         {
           "en": "Squeaky likes her home.",
-          "th": ""
+          "th": "สควีกี้ชอบบ้านของเธอ"
         },
         {
           "en": "Her home is warm.",
-          "th": ""
+          "th": "บ้านของเธออบอุ่น"
         },
         {
           "en": "Squeaky sees green grass.",
-          "th": ""
+          "th": "สควีกี้เห็นหญ้าสีเขียว"
         },
         {
           "en": "Squeaky sees red flowers.",
-          "th": ""
+          "th": "สควีกี้เห็นดอกไม้สีแดง"
         },
         {
           "en": "Squeaky is happy here.",
-          "th": ""
+          "th": "สควีกี้มีความสุขที่นี่"
         },
         {
           "en": "Squeaky is a happy mouse.",
-          "th": ""
+          "th": "สควีกี้เป็นหนูที่มีความสุข"
         },
         {
           "en": "One day, Squeaky sees food.",
-          "th": ""
+          "th": "วันหนึ่ง สควีกี้เห็นอาหาร"
         }
       ],
       [
@@ -356,94 +528,114 @@
       [
         {
           "en": "Squeaky sees a small hole.",
-          "th": ""
+          "th": "สควีกี้เห็นรูเล็กๆ"
         },
         {
           "en": "The small hole is on the brown box.",
-          "th": ""
+          "th": "รูเล็กๆ อยู่บนกล่องสีน้ำตาล"
         },
         {
           "en": "Squeaky is a small mouse.",
-          "th": ""
+          "th": "สควีกี้เป็นหนูตัวเล็ก"
         },
         {
           "en": "Squeaky runs to the hole.",
-          "th": ""
+          "th": "สควีกี้วิ่งไปที่รู"
         },
         {
           "en": "Squeaky goes in the hole.",
-          "th": ""
+          "th": "สควีกี้เข้าไปในรู"
         },
         {
           "en": "Squeaky is in the box.",
-          "th": ""
+          "th": "สควีกี้อยู่ในกล่อง"
         },
         {
           "en": "Squeaky is in the big box.",
-          "th": ""
+          "th": "สควีกี้อยู่ในกล่องใหญ่"
         },
         {
           "en": "Squeaky gets the big yellow cheese.",
-          "th": ""
+          "th": "สควีกี้ได้ชีสสีเหลืองชิ้นใหญ่"
         },
         {
           "en": "Squeaky eats the cheese.",
-          "th": ""
+          "th": "สควีกี้กินชีส"
         },
         {
           "en": "Squeaky is very happy.",
-          "th": ""
+          "th": "สควีกี้มีความสุขมาก"
         },
         {
           "en": "Squeaky is a clever mouse.",
-          "th": ""
+          "th": "สควีกี้เป็นหนูที่ฉลาด"
         },
         {
           "en": "Small is very good.",
-          "th": ""
+          "th": "การเป็นตัวเล็กนั้นดีมาก"
         },
         {
           "en": "Small is special.",
-          "th": ""
+          "th": "การเป็นตัวเล็กนั้นพิเศษ"
         }
       ]
     ],
-    "summary": ""
+    "summary": "สควีกี้เป็นหนูสีน้ำตาลตัวเล็กมาก วันหนึ่งเธอเห็นชีสสีเหลืองก้อนใหญ่อยู่ในกล่องสีน้ำตาลใบใหญ่ หนูตัวใหญ่เข้าไปไม่ได้ สควีกี้พบรูเล็กๆ เธอเข้าไปและได้ชีส การเป็นตัวเล็กนั้นพิเศษ"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Squeaky the small mouse finds cheese in a big box because her small size is special and helpful.",
+      "prompt": "Squeaky stands happily in front of her small home under a big tree. Green grass and red flowers are all around.",
+      "characters": [
+        "Squeaky"
+      ],
+      "caption": "Squeaky's home is under a big tree.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "A very big closed brown box stands on the grass with big yellow cheese inside. Three big gray mice stand around the box and look sad. Squeaky looks at the box.",
+      "characters": [
+        "Squeaky"
+      ],
+      "caption": "The big cheese is in a big box.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Inside the big brown box, Squeaky eats big yellow cheese and smiles. Light comes in through a small hole in the side of the box.",
+      "characters": [
+        "Squeaky"
+      ],
+      "caption": "Squeaky is a clever mouse.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

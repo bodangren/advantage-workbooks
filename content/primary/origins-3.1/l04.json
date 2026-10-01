@@ -39,7 +39,7 @@
       "Another car is blue. That car is blue too. Pip likes blue. A big bus is green. This bus is green. Pip likes green. A small truck is yellow. This truck is yellow. Yellow is a happy color. Pip likes yellow. Pip sees many colors. Red is a color.",
       "Blue is a color. Green is a color. Yellow is a color. Colors are fun. Pip is a happy puppy. Pip sees a friend. My friend is a boy. We play. This is a good day. Pip goes home. Pip is happy."
     ],
-    "summary": "",
+    "summary": "Pip is in the park on a sunny day. He sees many cars on the road: a red car, a blue car, a green bus, and a yellow truck. Then Pip plays with a friend.",
     "glossed": [
       "puppy",
       "park",
@@ -64,106 +64,106 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "park",
-      "pos": "?",
-      "definition": "A public area used for recreation and play.",
+      "pos": "noun",
+      "definition": "A place with grass and trees. You play there.",
       "thai": "สวนสาธารณะ",
       "example": "Pip is in the park."
     },
     {
       "word": "sunny",
-      "pos": "?",
-      "definition": "Bright with light from the sun.",
+      "pos": "adjective",
+      "definition": "With a lot of sun.",
       "thai": "แดดออก",
       "example": "It is a sunny day."
     },
     {
       "word": "road",
-      "pos": "?",
-      "definition": "A hard surface built for vehicles to travel on.",
+      "pos": "noun",
+      "definition": "Cars go on it.",
       "thai": "ถนน",
       "example": "Pip sees a road."
     },
     {
       "word": "bus",
-      "pos": "?",
-      "definition": "A large motor vehicle used for carrying many passengers.",
+      "pos": "noun",
+      "definition": "A big car. Many people go in it.",
       "thai": "รถบัส",
       "example": "Pip sees a bus."
     },
     {
       "word": "truck",
-      "pos": "?",
-      "definition": "A large vehicle used for carrying goods or heavy loads.",
+      "pos": "noun",
+      "definition": "A big car. It carries big things.",
       "thai": "รถบรรทุก",
       "example": "A small truck is yellow."
     },
     {
       "word": "yellow",
-      "pos": "?",
-      "definition": "The color of gold, butter, or a lemon.",
+      "pos": "adjective",
+      "definition": "The color of a banana.",
       "thai": "สีเหลือง",
       "example": "A small truck is yellow."
     },
     {
       "word": "color",
-      "pos": "?",
-      "definition": "The appearance of objects like red, blue, or green.",
+      "pos": "noun",
+      "definition": "Red, blue, and green are colors.",
       "thai": "สี",
       "example": "Yellow is a happy color."
     },
     {
       "word": "friend",
-      "pos": "?",
-      "definition": "A person who you like and enjoy spending time with.",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "Pip sees a friend."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure and contentment.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is a happy puppy."
     },
     {
       "word": "blue",
-      "pos": "?",
-      "definition": "The color of the sky on a clear day.",
+      "pos": "adjective",
+      "definition": "The color of the sky.",
       "thai": "สีฟ้า",
       "example": "Another car is blue."
     },
     {
       "word": "green",
-      "pos": "?",
-      "definition": "The color of grass or leaves.",
+      "pos": "adjective",
+      "definition": "The color of grass.",
       "thai": "สีเขียว",
       "example": "A big bus is green."
     },
     {
       "word": "small",
-      "pos": "?",
-      "definition": "Not large in size or amount.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "A small truck is yellow."
     },
     {
       "word": "home",
-      "pos": "?",
-      "definition": "The place where one lives.",
+      "pos": "noun",
+      "definition": "The place where you live.",
       "thai": "บ้าน",
       "example": "Pip goes home."
     },
     {
       "word": "play",
-      "pos": "?",
-      "definition": "To engage in activity for enjoyment and recreation.",
+      "pos": "verb",
+      "definition": "Have fun with games or toys.",
       "thai": "เล่น",
       "example": "We play."
     }
@@ -181,7 +181,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -194,7 +196,9 @@
         ],
         "answer": "In the park",
         "evidence": "Pip is in the park.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -207,7 +211,9 @@
         ],
         "answer": "Red",
         "evidence": "A car is red.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -220,18 +226,180 @@
         ],
         "answer": "Green",
         "evidence": "A big bus is green.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What day is it?",
+        "options": [
+          "a sunny day",
+          "a rainy day",
+          "a cold day",
+          "a windy day"
+        ],
+        "answer": "a sunny day",
+        "evidence": "It is a sunny day.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What is on the road?",
+        "options": [
+          "many cars",
+          "many trees",
+          "many dogs",
+          "many books"
+        ],
+        "answer": "many cars",
+        "evidence": "Many cars are on the road.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is the small truck?",
+        "options": [
+          "yellow",
+          "red",
+          "blue",
+          "green"
+        ],
+        "answer": "yellow",
+        "evidence": "A small truck is yellow.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What is big and green?",
+        "options": [
+          "the bus",
+          "the truck",
+          "the car",
+          "the road"
+        ],
+        "answer": "the bus",
+        "evidence": "A big bus is green.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Who does Pip see?",
+        "options": [
+          "a friend",
+          "a cat",
+          "a teacher",
+          "a lion"
+        ],
+        "answer": "a friend",
+        "evidence": "Pip sees a friend.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Where does Pip go at the end?",
+        "options": [
+          "home",
+          "to school",
+          "to the zoo",
+          "to the shop"
+        ],
+        "answer": "home",
+        "evidence": "Pip goes home.",
+        "objectives": [
+          "R21.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is the name of the puppy?",
-        "answer": "?",
-        "objectives": []
+        "answer": "The puppy's name is Pip.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What colors does Pip see?",
+        "answer": "He sees red, blue, green, and yellow.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is the other car?",
+        "answer": "The other car is blue.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What color is a happy color?",
+        "answer": "Yellow is a happy color.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What does Pip do with his friend?",
+        "answer": "They play.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What is your favorite color? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What cars do you see on your road?",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a car, a bus, and a truck. Color them.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What do you do in the park?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Tell about a fun day with a friend.",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -384,86 +552,107 @@
       [
         {
           "en": "Blue is a color.",
-          "th": ""
+          "th": "สีน้ำเงินเป็นสี"
         },
         {
           "en": "Green is a color.",
-          "th": ""
+          "th": "สีเขียวเป็นสี"
         },
         {
           "en": "Yellow is a color.",
-          "th": ""
+          "th": "สีเหลืองเป็นสี"
         },
         {
           "en": "Colors are fun.",
-          "th": ""
+          "th": "สีต่างๆ สนุกสนาน"
         },
         {
           "en": "Pip is a happy puppy.",
-          "th": ""
+          "th": "ปิ๊ปเป็นลูกสุนัขที่มีความสุข"
         },
         {
           "en": "Pip sees a friend.",
-          "th": ""
+          "th": "ปิ๊ปเห็นเพื่อน"
         },
         {
           "en": "My friend is a boy.",
-          "th": ""
+          "th": "เพื่อนของฉันเป็นเด็กผู้ชาย"
         },
         {
           "en": "We play.",
-          "th": ""
+          "th": "เราเล่นกัน"
         },
         {
           "en": "This is a good day.",
-          "th": ""
+          "th": "เป็นวันที่ดี"
         },
         {
           "en": "Pip goes home.",
-          "th": ""
+          "th": "ปิ๊ปกลับบ้าน"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปอยู่ในสวนสาธารณะในวันที่แดดออก เขาเห็นรถหลายคันบนถนน มีรถสีแดง รถสีน้ำเงิน รถบัสสีเขียว และรถบรรทุกสีเหลือง แล้วปิ๊ปก็เล่นกับเพื่อน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the happy puppy is in the park and sees many colorful cars, buses, and trucks, then plays with a friend.",
+      "prompt": "On a sunny day, Pip sits on the grass in a park next to a road. On the road are a red car and a blue car. Pip watches happily.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sees cars on the road.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "On the road next to the park, there is a big green bus and a small yellow truck. Pip watches them from the grass and wags his tail.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "A big bus is green. A small truck is yellow.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the sunny park, Pip plays with his friend Tom on the green grass. They run and laugh.",
+      "characters": [
+        "Pip",
+        "Tom"
+      ],
+      "caption": "Pip plays with a friend.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R20.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

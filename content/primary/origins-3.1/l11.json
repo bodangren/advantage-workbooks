@@ -39,7 +39,7 @@
       "They like to play. They play a game. Leo has a red ball. Mia has a blue ball. They play a game. The game is fun. They kick the ball. Mia kicks the ball fast. Leo kicks the ball fast. Pip runs. Pip runs very fast. Pip likes the ball. Pip is happy. The game is a ball game. They play a good game.",
       "Mia wins the game. Leo is not happy. He is sad. Mia says, \"Good game, Leo.\" Leo says, \"No. I want win.\" Mia says, \"Play fair. Play is fun.\" Leo says, \"Yes. Play fair. Play is fun.\" They play again. They play good. This is fair play. Good play is fun. Everyone is happy. Pip is happy too. They play a good game. This is good sportsmanship."
     ],
-    "summary": "",
+    "summary": "Leo, Mia, and Pip play a ball game in the park. Mia wins, and Leo is sad. Mia says, \"Play fair. Play is fun.\" They play again, and everyone is happy. This is good sportsmanship.",
     "glossed": [
       "Puppy",
       "Park",
@@ -60,78 +60,78 @@
   "glossary": [
     {
       "word": "Puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "Park",
-      "pos": "?",
-      "definition": "A large area of grass and trees where people can play.",
+      "pos": "noun",
+      "definition": "A place with grass and trees. You play there.",
       "thai": "สวนสาธารณะ",
       "example": "Leo, Mia, Pip are in the park."
     },
     {
       "word": "Kick",
-      "pos": "?",
-      "definition": "To hit something with your foot.",
+      "pos": "verb",
+      "definition": "Hit something with your foot.",
       "thai": "เตะ",
       "example": "They kick the ball."
     },
     {
       "word": "Fast",
-      "pos": "?",
-      "definition": "Moving at high speed.",
+      "pos": "adverb",
+      "definition": "Very quickly.",
       "thai": "เร็ว",
       "example": "Mia kicks the ball fast."
     },
     {
       "word": "Win",
-      "pos": "?",
-      "definition": "To come first or be the best in a game.",
+      "pos": "verb",
+      "definition": "Be first in a game.",
       "thai": "ชนะ",
       "example": "Mia wins the game."
     },
     {
       "word": "Sad",
-      "pos": "?",
-      "definition": "Feeling unhappy or sorry.",
+      "pos": "adjective",
+      "definition": "Not happy.",
       "thai": "เศร้า",
       "example": "He is sad."
     },
     {
       "word": "Fair",
-      "pos": "?",
-      "definition": "Treating everyone equally and following rules.",
+      "pos": "adjective",
+      "definition": "Good and the same for all the players.",
       "thai": "ยุติธรรม",
       "example": "Mia says, \"Play fair."
     },
     {
       "word": "Fair play",
-      "pos": "?",
-      "definition": "Playing a game while following the rules and being honest.",
+      "pos": "noun",
+      "definition": "Playing by the rules. You are kind to the other players.",
       "thai": "การเล่นอย่างยุติธรรม",
       "example": "This is fair play."
     },
     {
       "word": "Sportsmanship",
-      "pos": "?",
-      "definition": "Fair and generous behavior or treatment of others in a contest.",
+      "pos": "noun",
+      "definition": "Being kind in a game when you win and when you do not win.",
       "thai": "น้ำใจนักกีฬา",
       "example": "This is good sportsmanship."
     },
     {
       "word": "Again",
-      "pos": "?",
+      "pos": "adverb",
       "definition": "One more time.",
       "thai": "อีกครั้ง",
       "example": "They play again."
     },
     {
       "word": "Everyone",
-      "pos": "?",
-      "definition": "All the people in a group.",
+      "pos": "pronoun",
+      "definition": "All the people.",
       "thai": "ทุกคน",
       "example": "Everyone is happy."
     }
@@ -149,7 +149,9 @@
         ],
         "answer": "Leo",
         "evidence": "This is Leo.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -162,7 +164,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p3",
@@ -175,7 +179,9 @@
         ],
         "answer": "In the park",
         "evidence": "Leo, Mia, Pip are in the park.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p4",
@@ -188,18 +194,180 @@
         ],
         "answer": "Red",
         "evidence": "Leo has a red ball.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is Mia's ball?",
+        "options": [
+          "blue",
+          "red",
+          "green",
+          "brown"
+        ],
+        "answer": "blue",
+        "evidence": "Mia has a blue ball.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What do they do with the ball?",
+        "options": [
+          "They kick it.",
+          "They eat it.",
+          "They throw it in a pond.",
+          "They sleep on it."
+        ],
+        "answer": "They kick it.",
+        "evidence": "They kick the ball.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Who wins the game?",
+        "options": [
+          "Mia",
+          "Leo",
+          "Pip",
+          "Tom"
+        ],
+        "answer": "Mia",
+        "evidence": "Mia wins the game.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "How is Leo when Mia wins?",
+        "options": [
+          "sad",
+          "happy",
+          "sleepy",
+          "brave"
+        ],
+        "answer": "sad",
+        "evidence": "He is sad.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Mia say to Leo?",
+        "options": [
+          "Play fair.",
+          "Go home.",
+          "Good night.",
+          "Look at the box."
+        ],
+        "answer": "Play fair.",
+        "evidence": "Mia says, \"Play fair.",
+        "objectives": [
+          "L20.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What do they do at the end?",
+        "options": [
+          "They play again.",
+          "They go home.",
+          "They sleep.",
+          "They eat."
+        ],
+        "answer": "They play again.",
+        "evidence": "They play again.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What color is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is brown.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What game do they play?",
+        "answer": "They play a ball game.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Why is Leo sad?",
+        "answer": "Mia wins the game.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Leo say at the end?",
+        "answer": "He says, \"Yes. Play fair. Play is fun.\"",
+        "objectives": [
+          "L20.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "How is everyone at the end?",
+        "answer": "Everyone is happy.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What game do you like to play with friends?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "How do you feel when you do not win?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What is fair play? Tell about it.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What do you say to a friend after a game?",
+        "objectives": [
+          "L20.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Draw a ball game in the park. Tell about your picture.",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -252,63 +420,63 @@
       [
         {
           "en": "This is Leo.",
-          "th": ""
+          "th": "นี่คือลีโอ"
         },
         {
           "en": "Leo is a boy.",
-          "th": ""
+          "th": "ลีโอเป็นเด็กผู้ชาย"
         },
         {
           "en": "He is happy.",
-          "th": ""
+          "th": "เขามีความสุข"
         },
         {
           "en": "This is Mia.",
-          "th": ""
+          "th": "นี่คือมีอา"
         },
         {
           "en": "Mia is a girl.",
-          "th": ""
+          "th": "มีอาเป็นเด็กผู้หญิง"
         },
         {
           "en": "She is happy.",
-          "th": ""
+          "th": "เธอมีความสุข"
         },
         {
           "en": "This is Pip.",
-          "th": ""
+          "th": "นี่คือปิ๊ป"
         },
         {
           "en": "Pip is a puppy.",
-          "th": ""
+          "th": "ปิ๊ปเป็นลูกสุนัข"
         },
         {
           "en": "Pip is small.",
-          "th": ""
+          "th": "ปิ๊ปตัวเล็ก"
         },
         {
           "en": "Pip is brown.",
-          "th": ""
+          "th": "ปิ๊ปเป็นสีน้ำตาล"
         },
         {
           "en": "Leo, Mia, Pip are in the park.",
-          "th": ""
+          "th": "ลีโอ มีอา ปิ๊ป อยู่ในสวนสาธารณะ"
         },
         {
           "en": "The park is big.",
-          "th": ""
+          "th": "สวนสาธารณะใหญ่"
         },
         {
           "en": "The sun is big.",
-          "th": ""
+          "th": "ดวงอาทิตย์ดวงใหญ่"
         },
         {
           "en": "The day is good.",
-          "th": ""
+          "th": "วันนี้เป็นวันที่ดี"
         },
         {
           "en": "They are friends.",
-          "th": ""
+          "th": "พวกเขาเป็นเพื่อนกัน"
         }
       ],
       [
@@ -376,118 +544,145 @@
       [
         {
           "en": "Mia wins the game.",
-          "th": ""
+          "th": "มีอาชนะเกม"
         },
         {
           "en": "Leo is not happy.",
-          "th": ""
+          "th": "ลีโอไม่มีความสุข"
         },
         {
           "en": "He is sad.",
-          "th": ""
+          "th": "เขาทุกข์ใจ"
         },
         {
           "en": "Mia says, \"Good game, Leo.\"",
-          "th": ""
+          "th": "มีอาพูดว่า \"เกมที่ดี ลีโอ\""
         },
         {
           "en": "Leo says, \"No.",
-          "th": ""
+          "th": "ลีโอพูดว่า \"ไม่"
         },
         {
           "en": "I want win.\"",
-          "th": ""
+          "th": "ฉันอยากชนะ\""
         },
         {
           "en": "Mia says, \"Play fair.",
-          "th": ""
+          "th": "มีอาพูดว่า \"เล่นอย่างยุติธรรม"
         },
         {
           "en": "Play is fun.\"",
-          "th": ""
+          "th": "การเล่นเป็นเรื่องสนุก\""
         },
         {
           "en": "Leo says, \"Yes.",
-          "th": ""
+          "th": "ลีโอพูดว่า \"ใช่"
         },
         {
           "en": "Play fair.",
-          "th": ""
+          "th": "เล่นอย่างยุติธรรม"
         },
         {
           "en": "Play is fun.\"",
-          "th": ""
+          "th": "การเล่นเป็นเรื่องสนุก\""
         },
         {
           "en": "They play again.",
-          "th": ""
+          "th": "พวกเขาเล่นอีกครั้ง"
         },
         {
           "en": "They play good.",
-          "th": ""
+          "th": "พวกเขาเล่นได้ดี"
         },
         {
           "en": "This is fair play.",
-          "th": ""
+          "th": "นี่คือการเล่นที่ยุติธรรม"
         },
         {
           "en": "Good play is fun.",
-          "th": ""
+          "th": "การเล่นที่ดีเป็นเรื่องสนุก"
         },
         {
           "en": "Everyone is happy.",
-          "th": ""
+          "th": "ทุกคนมีความสุข"
         },
         {
           "en": "Pip is happy too.",
-          "th": ""
+          "th": "ปิ๊ปก็มีความสุขเช่นกัน"
         },
         {
           "en": "They play a good game.",
-          "th": ""
+          "th": "พวกเขาเล่นเกมที่ดี"
         },
         {
           "en": "This is good sportsmanship.",
-          "th": ""
+          "th": "นี่คือสปิริตนักกีฬาที่ดี"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ลีโอ เมีย และปิ๊ปเล่นเกมลูกบอลในสวนสาธารณะ เมียชนะ ลีโอจึงเศร้า เมียพูดว่า \"เล่นอย่างยุติธรรม การเล่นเป็นเรื่องสนุก\" พวกเขาเล่นกันอีกครั้ง และทุกคนมีความสุข นี่คือน้ำใจนักกีฬาที่ดี"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Leo, Mia, and Pip the puppy play a ball game in the park, and Leo learns about playing fair.",
+      "prompt": "On a sunny day in a big park, Leo, Mia, and Pip stand on the green grass and smile. Leo holds a red ball, and Mia holds a blue ball.",
+      "characters": [
+        "Leo",
+        "Mia",
+        "Pip"
+      ],
+      "caption": "Leo, Mia, and Pip are friends.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the park, Mia and Leo run and kick balls fast on the grass. Pip runs very fast next to them after the ball.",
+      "characters": [
+        "Mia",
+        "Leo",
+        "Pip"
+      ],
+      "caption": "They play a ball game.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the park, Mia shakes hands with Leo and smiles. Leo smiles too. Pip jumps happily next to them with a ball.",
+      "characters": [
+        "Mia",
+        "Leo",
+        "Pip"
+      ],
+      "caption": "Play fair. Play is fun.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L12.1",
+      "R21.2",
+      "L20.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

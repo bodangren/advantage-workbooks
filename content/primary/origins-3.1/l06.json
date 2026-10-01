@@ -39,7 +39,7 @@
       "It is brown. Pip sees the big lion. Mia sees the big lion. The lion is on the green grass. Mia likes the big lion. This is a monkey. The monkey is a funny animal. It is brown. It likes to jump. Pip sees the monkey. Mia likes the funny monkey.",
       "This is an elephant. The elephant is a very big animal. It has big ears. It likes water. Pip sees the big elephant. Mia sees the big elephant. Mia likes the big elephant. Pip likes the big elephant. The zoo is fun. Mia and Pip are happy. They like animals."
     ],
-    "summary": "",
+    "summary": "Mia and her puppy Pip go to the big zoo. They see a big brown lion, a funny brown monkey, and a very big elephant. The zoo is fun, and they like the animals.",
     "glossed": [
       "puppy",
       "friends",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
-      "definition": "a young dog",
+      "pos": "noun",
+      "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "friends",
-      "pos": "?",
-      "definition": "people or animals who like each other and spend time together",
+      "pos": "noun",
+      "definition": "People or animals who like each other.",
       "thai": "เพื่อนๆ",
       "example": "Mia and Pip are friends."
     },
     {
       "word": "zoo",
-      "pos": "?",
-      "definition": "a place where wild animals are kept so that people can look at them",
+      "pos": "noun",
+      "definition": "A place with many animals. People go to see them.",
       "thai": "สวนสัตว์",
       "example": "They go to the zoo."
     },
     {
       "word": "animals",
-      "pos": "?",
-      "definition": "living things that can move and eat",
+      "pos": "noun",
+      "definition": "Dogs, cats, and lions are animals.",
       "thai": "สัตว์ต่างๆ",
       "example": "The zoo has many animals."
     },
     {
       "word": "lion",
-      "pos": "?",
-      "definition": "a large, strong wild cat",
+      "pos": "noun",
+      "definition": "A big wild cat.",
       "thai": "สิงโต",
       "example": "This is a lion."
     },
     {
       "word": "brown",
-      "pos": "?",
-      "definition": "the color of earth or coffee",
+      "pos": "adjective",
+      "definition": "The color of chocolate.",
       "thai": "สีน้ำตาล",
       "example": "It is brown."
     },
     {
       "word": "grass",
-      "pos": "?",
-      "definition": "short green plants that grow on the ground",
+      "pos": "noun",
+      "definition": "Short green plants on the ground.",
       "thai": "หญ้า",
       "example": "The lion is on the green grass."
     },
     {
       "word": "monkey",
-      "pos": "?",
-      "definition": "an animal with a long tail that lives in trees",
+      "pos": "noun",
+      "definition": "An animal with a long tail. It lives in trees.",
       "thai": "ลิง",
       "example": "This is a monkey."
     },
     {
       "word": "funny",
-      "pos": "?",
-      "definition": "causing laughter or amusement",
+      "pos": "adjective",
+      "definition": "It makes you laugh.",
       "thai": "ตลก",
       "example": "The monkey is a funny animal."
     },
     {
       "word": "jump",
-      "pos": "?",
-      "definition": "to push yourself up into the air with your legs",
+      "pos": "verb",
+      "definition": "Go up in the air with your legs.",
       "thai": "กระโดด",
       "example": "It likes to jump."
     },
     {
       "word": "elephant",
-      "pos": "?",
-      "definition": "a very large animal with big ears and a long nose called a trunk",
+      "pos": "noun",
+      "definition": "A very big gray animal with a long nose.",
       "thai": "ช้าง",
       "example": "This is an elephant."
     },
     {
       "word": "ears",
-      "pos": "?",
-      "definition": "the parts of the body that are used for hearing",
+      "pos": "noun",
+      "definition": "You hear with your ears.",
       "thai": "หู",
       "example": "It has big ears."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "A girl",
         "evidence": "Mia is a girl.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "To the zoo",
         "evidence": "They go to the zoo.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "Brown",
         "evidence": "It is brown.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Where is the lion?",
+        "options": [
+          "on the green grass",
+          "in the water",
+          "in a tree",
+          "in a car"
+        ],
+        "answer": "on the green grass",
+        "evidence": "The lion is on the green grass.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is the monkey?",
+        "options": [
+          "brown",
+          "blue",
+          "green",
+          "yellow"
+        ],
+        "answer": "brown",
+        "evidence": "It is brown.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does the monkey like to do?",
+        "options": [
+          "jump",
+          "sleep",
+          "swim",
+          "read"
+        ],
+        "answer": "jump",
+        "evidence": "It likes to jump.",
+        "objectives": [
+          "L15.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What is a very big animal?",
+        "options": [
+          "the elephant",
+          "the monkey",
+          "Pip",
+          "the bird"
+        ],
+        "answer": "the elephant",
+        "evidence": "The elephant is a very big animal.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does the elephant have?",
+        "options": [
+          "big ears",
+          "a red ball",
+          "small eyes",
+          "a toy"
+        ],
+        "answer": "big ears",
+        "evidence": "It has big ears.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does the elephant like?",
+        "options": [
+          "water",
+          "books",
+          "cars",
+          "pajamas"
+        ],
+        "answer": "water",
+        "evidence": "It likes water.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a puppy.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What animals do Mia and Pip see?",
+        "answer": "They see a lion, a monkey, and an elephant.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "How is the monkey?",
+        "answer": "The monkey is funny.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "How is the zoo?",
+        "answer": "The zoo is big and fun.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What do Mia and Pip like?",
+        "answer": "They like animals.",
+        "objectives": [
+          "R20.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What is your favorite zoo animal? Tell why.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a zoo with three animals. Tell about them.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Tell about a lion, a monkey, or an elephant.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What animals can jump?",
+        "objectives": [
+          "L15.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Do you want to go to a zoo? Tell why.",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -396,42 +564,65 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "เมียและปิ๊ปลูกสุนัขของเธอไปสวนสัตว์ใหญ่ พวกเขาเห็นสิงโตตัวใหญ่สีน้ำตาล ลิงสีน้ำตาลที่ตลก และช้างตัวใหญ่มาก สวนสัตว์สนุก และพวกเขาชอบสัตว์ต่างๆ"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Mia and her puppy Pip visit a big zoo and see many different animals like a big brown lion, a funny brown monkey, and a very big elephant.",
+      "prompt": "Mia and Pip stand at a zoo fence and look at a big brown lion lying on the green grass. Mia smiles and points.",
+      "characters": [
+        "Mia",
+        "Pip"
+      ],
+      "caption": "Mia and Pip see a big lion.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At the zoo, a funny brown monkey jumps between tree branches. Mia laughs, and Pip looks up at the monkey.",
+      "characters": [
+        "Mia",
+        "Pip"
+      ],
+      "caption": "The monkey likes to jump.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At the zoo, a very big gray elephant with big ears sprays water from its long nose. Mia and Pip watch happily.",
+      "characters": [
+        "Mia",
+        "Pip"
+      ],
+      "caption": "The elephant is very big.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L19.2",
+      "R20.2",
+      "L15.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

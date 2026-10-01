@@ -39,7 +39,7 @@
       "Leo wears clothes. This is fun. Leo wears the red hat. He wears the hat on his hand. This is silly. Leo wears the yellow sock. He wears the sock on his head. This is silly. Leo wears the blue shirt. He wears the shirt on his leg. This is very silly. Leo is happy. Leo laughs. This is fun. Leo loves this fun.",
       "Mom is here. Mom sees Leo. Mom sees his red hat. Mom sees his yellow sock. Mom sees his blue shirt. Mom sees Leo's clothes. Mom smiles. Mom says, \"Fun!\" Leo is happy. Mom is happy too. This is a happy game. This is a good day. Leo likes Mom's smile."
     ],
-    "summary": "",
+    "summary": "Leo has a red hat, a blue shirt, a yellow sock, and a green shoe. He wears them in silly ways: the hat on his hand, the sock on his head, and the shirt on his leg. Mom sees him and smiles.",
     "glossed": [
       "clothes",
       "shirt",
@@ -59,71 +59,71 @@
   "glossary": [
     {
       "word": "clothes",
-      "pos": "?",
-      "definition": "things such as shirts and pants that people wear to cover their bodies",
+      "pos": "noun",
+      "definition": "Shirts, socks, shoes, and hats are clothes.",
       "thai": "เสื้อผ้า",
       "example": "Leo has clothes."
     },
     {
       "word": "shirt",
-      "pos": "?",
-      "definition": "a piece of clothing worn on the upper part of the body",
+      "pos": "noun",
+      "definition": "You wear it on the top part of your body.",
       "thai": "เสื้อเชิ้ต",
       "example": "He has a blue shirt."
     },
     {
       "word": "sock",
-      "pos": "?",
-      "definition": "a piece of clothing worn on the foot and bottom of the leg",
+      "pos": "noun",
+      "definition": "You wear it on your foot, in your shoe.",
       "thai": "ถุงเท้า",
       "example": "He has a yellow sock."
     },
     {
       "word": "shoe",
-      "pos": "?",
-      "definition": "one of a pair of outer coverings for your feet",
+      "pos": "noun",
+      "definition": "You wear it on your foot when you walk.",
       "thai": "รองเท้า",
       "example": "He has a green shoe."
     },
     {
       "word": "wears",
-      "pos": "?",
-      "definition": "to have something on your body as clothing or decoration",
+      "pos": "verb",
+      "definition": "Has clothes on the body.",
       "thai": "สวมใส่",
       "example": "Leo wears clothes."
     },
     {
       "word": "silly",
-      "pos": "?",
-      "definition": "funny in a foolish or strange way",
+      "pos": "adjective",
+      "definition": "Funny and not serious.",
       "thai": "ตลกๆ",
       "example": "This is silly."
     },
     {
       "word": "laughs",
-      "pos": "?",
-      "definition": "to make sounds and movements of the face that show you think something is funny",
+      "pos": "verb",
+      "definition": "Makes a happy sound. Ha, ha!",
       "thai": "หัวเราะ",
       "example": "Leo laughs."
     },
     {
       "word": "smiles",
-      "pos": "?",
-      "definition": "to make a happy expression by curving the corners of your mouth upward",
+      "pos": "verb",
+      "definition": "Makes a happy face.",
       "thai": "ยิ้ม",
       "example": "Mom smiles."
     },
     {
       "word": "game",
-      "pos": "?",
-      "definition": "an activity that you do for fun",
+      "pos": "noun",
+      "definition": "Something you play for fun.",
       "thai": "เกม",
       "example": "This is a happy game."
     },
     {
       "word": "loves",
-      "pos": "?",
-      "definition": "to like someone or something very much",
+      "pos": "verb",
+      "definition": "Likes very, very much.",
       "thai": "รัก",
       "example": "Leo loves this fun."
     }
@@ -141,7 +141,9 @@
         ],
         "answer": "Leo",
         "evidence": "This is Leo.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -154,7 +156,9 @@
         ],
         "answer": "Red",
         "evidence": "He has a red hat.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -167,7 +171,9 @@
         ],
         "answer": "On his hand",
         "evidence": "He wears the hat on his hand.",
-        "objectives": []
+        "objectives": [
+          "R21.2"
+        ]
       },
       {
         "id": "p4",
@@ -180,18 +186,180 @@
         ],
         "answer": "Yellow",
         "evidence": "He has a yellow sock.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is Leo's shirt?",
+        "options": [
+          "blue",
+          "red",
+          "yellow",
+          "green"
+        ],
+        "answer": "blue",
+        "evidence": "He has a blue shirt.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is Leo's shoe?",
+        "options": [
+          "green",
+          "red",
+          "blue",
+          "yellow"
+        ],
+        "answer": "green",
+        "evidence": "The shoe is green.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Where does Leo wear the sock?",
+        "options": [
+          "on his head",
+          "on his foot",
+          "on his hand",
+          "on his leg"
+        ],
+        "answer": "on his head",
+        "evidence": "He wears the sock on his head.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Where does Leo wear the shirt?",
+        "options": [
+          "on his leg",
+          "on his head",
+          "on his hand",
+          "on his foot"
+        ],
+        "answer": "on his leg",
+        "evidence": "He wears the shirt on his leg.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Leo do?",
+        "options": [
+          "He laughs.",
+          "He cries.",
+          "He sleeps.",
+          "He runs away."
+        ],
+        "answer": "He laughs.",
+        "evidence": "Leo laughs.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Mom say?",
+        "options": [
+          "Fun!",
+          "Go to bed!",
+          "No!",
+          "Good night!"
+        ],
+        "answer": "Fun!",
+        "evidence": "Mom says, \"Fun!\"",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Leo?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Leo is a boy.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What clothes does Leo have?",
+        "answer": "He has a red hat, a blue shirt, a yellow sock, and a green shoe.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Why is it silly?",
+        "answer": "Leo wears the hat on his hand.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Mom do?",
+        "answer": "Mom sees Leo and smiles.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What does Leo like?",
+        "answer": "Leo likes Mom's smile.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What clothes do you have? Tell about their colors.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What is your favorite piece of clothing? Tell why.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw Leo in his silly clothes.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What silly game do you play at home?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What clothes do you wear to school?",
+        "objectives": [
+          "R17.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -364,94 +532,114 @@
       [
         {
           "en": "Mom is here.",
-          "th": ""
+          "th": "แม่มาแล้ว"
         },
         {
           "en": "Mom sees Leo.",
-          "th": ""
+          "th": "แม่เห็นลีโอ"
         },
         {
           "en": "Mom sees his red hat.",
-          "th": ""
+          "th": "แม่เห็นหมวกสีแดงของเขา"
         },
         {
           "en": "Mom sees his yellow sock.",
-          "th": ""
+          "th": "แม่เห็นถุงเท้าสีเหลืองของเขา"
         },
         {
           "en": "Mom sees his blue shirt.",
-          "th": ""
+          "th": "แม่เห็นเสื้อเชิ้ตสีน้ำเงินของเขา"
         },
         {
           "en": "Mom sees Leo's clothes.",
-          "th": ""
+          "th": "แม่เห็นเสื้อผ้าของลีโอ"
         },
         {
           "en": "Mom smiles.",
-          "th": ""
+          "th": "แม่ยิ้ม"
         },
         {
           "en": "Mom says, \"Fun!\"",
-          "th": ""
+          "th": "แม่พูดว่า \"สนุก!\""
         },
         {
           "en": "Leo is happy.",
-          "th": ""
+          "th": "ลีโอมีความสุข"
         },
         {
           "en": "Mom is happy too.",
-          "th": ""
+          "th": "แม่ก็มีความสุขเช่นกัน"
         },
         {
           "en": "This is a happy game.",
-          "th": ""
+          "th": "นี่คือเกมที่สนุกสนาน"
         },
         {
           "en": "This is a good day.",
-          "th": ""
+          "th": "วันนี้เป็นวันที่ดี"
         },
         {
           "en": "Leo likes Mom's smile.",
-          "th": ""
+          "th": "ลีโอชอบรอยยิ้มของแม่"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ลีโอมีหมวกสีแดง เสื้อเชิ้ตสีน้ำเงิน ถุงเท้าสีเหลือง และรองเท้าสีเขียว เขาใส่มันแบบตลกๆ ใส่หมวกที่มือ ใส่ถุงเท้าบนหัว และใส่เสื้อเชิ้ตที่ขา แม่เห็นเขาแล้วยิ้ม"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Leo wears his colorful clothes in silly ways, and his mom sees him and shares in the fun.",
+      "prompt": "Leo stands in his bedroom next to his clothes on the bed: a red hat, a blue shirt, a yellow sock, and a green shoe. Leo smiles happily.",
+      "characters": [
+        "Leo"
+      ],
+      "caption": "These are Leo's clothes.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In his bedroom, Leo laughs. He wears a red hat on his hand, a yellow sock on his head, and a blue shirt on his leg. It looks very silly.",
+      "characters": [
+        "Leo"
+      ],
+      "caption": "This is very silly!",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Mom stands at the bedroom door and smiles at Leo. Leo wears the red hat on his hand, the yellow sock on his head, and the blue shirt on his leg. Both of them laugh.",
+      "characters": [
+        "Mom",
+        "Leo"
+      ],
+      "caption": "Mom smiles. Mom says, \"Fun!\"",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

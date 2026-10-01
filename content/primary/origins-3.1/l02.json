@@ -39,7 +39,7 @@
       "Water is warm. Pip likes the warm water. Pip is clean. His body is clean. He brushes his teeth. His teeth are clean. Pip puts on pajamas. His pajamas are blue. They are soft pajamas. Pip is ready. Mama reads a book. Pip likes his book.",
       "The book is small. This book is fun. Pip is in his bed. He is under his blanket. His blanket is warm. His bed is soft. Pip closes his eyes. Pip is sleepy. He sleeps now. Good night, Pip. Pip is a happy puppy. He loves sleep."
     ],
-    "summary": "",
+    "summary": "It is night, and Pip is sleepy. First he has a warm bath. He brushes his teeth and puts on soft blue pajamas. Mama reads a book. Then Pip sleeps in his warm bed.",
     "glossed": [
       "puppy",
       "sleepy",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "sleepy",
-      "pos": "?",
-      "definition": "Feeling a need to sleep.",
+      "pos": "adjective",
+      "definition": "You want to sleep.",
       "thai": "ง่วงนอน",
       "example": "Pip is sleepy."
     },
     {
       "word": "warm",
-      "pos": "?",
-      "definition": "A comfortable level of heat.",
+      "pos": "adjective",
+      "definition": "A little hot. It feels nice.",
       "thai": "อบอุ่น",
       "example": "His bed is warm."
     },
     {
       "word": "clean",
-      "pos": "?",
-      "definition": "Not dirty or stained.",
+      "pos": "adjective",
+      "definition": "Not dirty.",
       "thai": "สะอาด",
       "example": "His room is clean."
     },
     {
       "word": "bath",
-      "pos": "?",
-      "definition": "Washing the body in a container of water.",
+      "pos": "noun",
+      "definition": "You wash your body in water.",
       "thai": "การอาบน้ำ",
       "example": "First, a bath."
     },
     {
       "word": "brushes",
-      "pos": "?",
-      "definition": "Cleans or smooths something using a tool with bristles.",
+      "pos": "verb",
+      "definition": "Cleans with a brush.",
       "thai": "แปรง",
       "example": "He brushes his teeth."
     },
     {
       "word": "teeth",
-      "pos": "?",
-      "definition": "The hard white structures in the mouth used for biting.",
+      "pos": "noun",
+      "definition": "The hard white things in your mouth.",
       "thai": "ฟัน",
       "example": "He brushes his teeth."
     },
     {
       "word": "pajamas",
-      "pos": "?",
-      "definition": "Soft clothes designed for sleeping.",
+      "pos": "noun",
+      "definition": "Soft clothes for sleeping.",
       "thai": "ชุดนอน",
       "example": "Pip puts on pajamas."
     },
     {
       "word": "soft",
-      "pos": "?",
-      "definition": "Easy to press or touch; not hard.",
+      "pos": "adjective",
+      "definition": "Not hard. Nice to touch.",
       "thai": "นุ่ม",
       "example": "They are soft pajamas."
     },
     {
       "word": "ready",
-      "pos": "?",
-      "definition": "Prepared for action or use.",
+      "pos": "adjective",
+      "definition": "You can start now.",
       "thai": "พร้อม",
       "example": "Pip is ready."
     },
     {
       "word": "blanket",
-      "pos": "?",
-      "definition": "A large piece of cloth used as a bed covering for warmth.",
+      "pos": "noun",
+      "definition": "A big soft cloth on a bed.",
       "thai": "ผ้าห่ม",
       "example": "He is under his blanket."
     },
     {
       "word": "under",
-      "pos": "?",
-      "definition": "In a position below or beneath something.",
+      "pos": "preposition",
+      "definition": "Below something.",
       "thai": "ใต้",
       "example": "He is under his blanket."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "Night",
         "evidence": "Now it is night.",
-        "objectives": []
+        "objectives": [
+          "R19.1"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "Blue",
         "evidence": "His pajamas are blue.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "His blanket",
         "evidence": "He is under his blanket.",
-        "objectives": []
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What does Pip do first?",
+        "options": [
+          "He has a bath.",
+          "He reads a book.",
+          "He eats food.",
+          "He plays."
+        ],
+        "answer": "He has a bath.",
+        "evidence": "First, a bath.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "How is the water?",
+        "options": [
+          "warm",
+          "cold",
+          "dirty",
+          "blue"
+        ],
+        "answer": "warm",
+        "evidence": "Water is warm.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Pip brush?",
+        "options": [
+          "his teeth",
+          "his bed",
+          "his book",
+          "his room"
+        ],
+        "answer": "his teeth",
+        "evidence": "He brushes his teeth.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Who reads a book?",
+        "options": [
+          "Mama",
+          "Pip",
+          "Lily",
+          "Tom"
+        ],
+        "answer": "Mama",
+        "evidence": "Mama reads a book.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is the book?",
+        "options": [
+          "small and fun",
+          "big and old",
+          "red and sad",
+          "long and hard"
+        ],
+        "answer": "small and fun",
+        "evidence": "The book is small.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Pip do at the end?",
+        "options": [
+          "He sleeps.",
+          "He runs.",
+          "He eats.",
+          "He sings."
+        ],
+        "answer": "He sleeps.",
+        "evidence": "He sleeps now.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a puppy.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "How is Pip at night?",
+        "answer": "Pip is sleepy.",
+        "objectives": [
+          "R19.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Pip put on?",
+        "answer": "He puts on blue pajamas.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "How is Pip's bed?",
+        "answer": "His bed is warm and soft.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What does Pip close?",
+        "answer": "Pip closes his eyes.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What do you do at night before bed?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What color are your pajamas? Tell about them.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Do you like a book at night? Tell why.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about your bed and your room.",
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Draw Pip in his bed. Tell about your picture.",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -260,51 +428,51 @@
       [
         {
           "en": "Pip is a puppy.",
-          "th": ""
+          "th": "ปิ๊ปเป็นลูกหมา"
         },
         {
           "en": "He is a boy puppy.",
-          "th": ""
+          "th": "เขาเป็นลูกหมาตัวผู้"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "Now it is night.",
-          "th": ""
+          "th": "ตอนนี้เป็นกลางคืนแล้ว"
         },
         {
           "en": "Pip is sleepy.",
-          "th": ""
+          "th": "ปิ๊ปง่วงนอน"
         },
         {
           "en": "He wants his bed.",
-          "th": ""
+          "th": "เขาต้องการเตียงของเขา"
         },
         {
           "en": "Pip loves his bed.",
-          "th": ""
+          "th": "ปิ๊ปชอบเตียงของเขา"
         },
         {
           "en": "His bed is warm.",
-          "th": ""
+          "th": "เตียงของเขามีความอบอุ่น"
         },
         {
           "en": "This is Pip's room.",
-          "th": ""
+          "th": "นี่คือห้องของปิ๊ป"
         },
         {
           "en": "His room is clean.",
-          "th": ""
+          "th": "ห้องของเขาสะอาด"
         },
         {
           "en": "First, a bath.",
-          "th": ""
+          "th": "ก่อนอื่น อาบน้ำ"
         },
         {
           "en": "Pip is in the bath.",
-          "th": ""
+          "th": "ปิ๊ปอยู่ในอ่างอาบน้ำ"
         }
       ],
       [
@@ -360,90 +528,108 @@
       [
         {
           "en": "The book is small.",
-          "th": ""
+          "th": "หนังสือเล่มเล็ก"
         },
         {
           "en": "This book is fun.",
-          "th": ""
+          "th": "หนังสือเล่มนี้สนุก"
         },
         {
           "en": "Pip is in his bed.",
-          "th": ""
+          "th": "ปิ๊ปอยู่ในเตียงของเขา"
         },
         {
           "en": "He is under his blanket.",
-          "th": ""
+          "th": "เขาอยู่ใต้ผ้าห่มของเขา"
         },
         {
           "en": "His blanket is warm.",
-          "th": ""
+          "th": "ผ้าห่มของเขามีความอบอุ่น"
         },
         {
           "en": "His bed is soft.",
-          "th": ""
+          "th": "เตียงของเขานุ่ม"
         },
         {
           "en": "Pip closes his eyes.",
-          "th": ""
+          "th": "ปิ๊ปหลับตา"
         },
         {
           "en": "Pip is sleepy.",
-          "th": ""
+          "th": "ปิ๊ปง่วงนอน"
         },
         {
           "en": "He sleeps now.",
-          "th": ""
+          "th": "เขาหลับแล้ว"
         },
         {
           "en": "Good night, Pip.",
-          "th": ""
+          "th": "ราตรีสวัสดิ์นะ ปิ๊ป"
         },
         {
           "en": "Pip is a happy puppy.",
-          "th": ""
+          "th": "ปิ๊ปเป็นลูกหมาที่มีความสุข"
         },
         {
           "en": "He loves sleep.",
-          "th": ""
+          "th": "เขารักการนอน"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ตอนกลางคืน ปิ๊ปง่วงนอน ก่อนอื่นเขาอาบน้ำอุ่น เขาแปรงฟันและใส่ชุดนอนสีฟ้าที่นุ่ม แม่อ่านหนังสือให้ฟัง แล้วปิ๊ปก็นอนหลับบนเตียงที่อบอุ่น"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip is a puppy who gets ready for bed with a bath, brushes his teeth, and reads a book before happily falling asleep.",
+      "prompt": "At night, little Pip sits happily in a warm bath full of white bubbles. A small window shows the dark night sky with a moon.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "First, a bath.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a clean bathroom, Pip stands at a low sink and brushes his teeth with a small toothbrush. He wears soft blue pajamas.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip brushes his teeth.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a cozy bedroom at night, Pip lies in his soft bed under a warm blanket with his eyes closed. A small book is on the bed next to him.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Good night, Pip.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R19.1",
+      "R21.2",
+      "L21.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

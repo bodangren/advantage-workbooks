@@ -39,7 +39,7 @@
       "His name is Sam. Sam is a friend. Sam is a good friend. Sam has a ball. The ball is red. The ball is new. Sam throws the ball. The red ball is in the pond. Sam is happy. Sam smiles. Sam goes in the water. Sam plays in the water. Water is fun for Sam. Sam plays good. Pip sees Sam.",
       "Pip sees the red ball. The red ball is in the water. Sam is happy. Pip wants the red ball. Pip wants to play. Pip looks at the water. Pip is still scared. Pip goes in the water. Pip goes in the big water. Pip gets the ball. Pip is happy. Pip plays in the water. Water is fun for Pip. Pip is a brave puppy."
     ],
-    "summary": "",
+    "summary": "Pip sees a big pond, and he is scared of the water. His friend Sam throws a red ball into the pond and plays in the water. Pip wants the ball. He goes in, gets the ball, and is brave.",
     "glossed": [
       "pond",
       "scared",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "pond",
-      "pos": "?",
-      "definition": "A small body of still water.",
+      "pos": "noun",
+      "definition": "A small lake.",
       "thai": "สระน้ำ",
       "example": "Pip sees a pond."
     },
     {
       "word": "scared",
-      "pos": "?",
-      "definition": "Feeling afraid or frightened.",
+      "pos": "adjective",
+      "definition": "Afraid.",
       "thai": "ตกใจกลัว",
       "example": "Pip is scared."
     },
     {
       "word": "brave",
-      "pos": "?",
-      "definition": "Ready to face danger or pain; showing courage.",
+      "pos": "adjective",
+      "definition": "Not afraid.",
       "thai": "กล้าหาญ",
       "example": "Pip is a brave puppy."
     },
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "smiles",
-      "pos": "?",
-      "definition": "Forms a happy expression on the face.",
+      "pos": "verb",
+      "definition": "Makes a happy face.",
       "thai": "ยิ้ม",
       "example": "Sam smiles."
     },
     {
       "word": "throws",
-      "pos": "?",
-      "definition": "Uses hands to send something through the air.",
+      "pos": "verb",
+      "definition": "Sends something through the air with the hand.",
       "thai": "ขว้าง",
       "example": "Sam throws the ball."
     },
     {
       "word": "fast",
-      "pos": "?",
-      "definition": "Moving at high speed.",
+      "pos": "adverb",
+      "definition": "Very quickly.",
       "thai": "เร็ว",
       "example": "Pip runs fast."
     },
     {
       "word": "still",
-      "pos": "?",
-      "definition": "Continuing to happen or exist.",
+      "pos": "adverb",
+      "definition": "Now, and before too.",
       "thai": "ยัง",
       "example": "Pip is still scared."
     },
     {
       "word": "friend",
-      "pos": "?",
-      "definition": "A person who you like and enjoy being with.",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "Sam is a friend."
     },
     {
       "word": "wants",
-      "pos": "?",
-      "definition": "To feel a desire for something.",
+      "pos": "verb",
+      "definition": "Would like to have or do something.",
       "thai": "ต้องการ",
       "example": "Pip wants the red ball."
     },
     {
       "word": "away",
-      "pos": "?",
-      "definition": "To go to a different place.",
+      "pos": "adverb",
+      "definition": "To another place.",
       "thai": "ออกไป",
       "example": "Pip runs away."
     },
     {
       "word": "looks at",
-      "pos": "?",
-      "definition": "To direct your eyes toward something.",
+      "pos": "verb",
+      "definition": "Turns the eyes to see something.",
       "thai": "มองที่",
       "example": "Pip looks at the water."
     }
@@ -152,11 +152,14 @@
         "options": [
           "a puppy",
           "a boy",
-          "a girl"
+          "a girl",
+          "a cat"
         ],
         "answer": "a puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -164,11 +167,14 @@
         "options": [
           "a tree",
           "a pond",
-          "a cat"
+          "a cat",
+          "a car"
         ],
         "answer": "a pond",
         "evidence": "Pip sees a pond.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -176,11 +182,14 @@
         "options": [
           "blue",
           "green",
-          "red"
+          "red",
+          "yellow"
         ],
         "answer": "red",
         "evidence": "The ball is red.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -188,22 +197,185 @@
         "options": [
           "on the tree",
           "in the pond",
-          "under the table"
+          "under the table",
+          "in the box"
         ],
         "answer": "in the pond",
         "evidence": "The red ball is in the pond.",
-        "objectives": []
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the water?",
+        "options": [
+          "blue",
+          "red",
+          "green",
+          "yellow"
+        ],
+        "answer": "blue",
+        "evidence": "The water is blue.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "How is Pip at first?",
+        "options": [
+          "scared",
+          "happy",
+          "brave",
+          "sleepy"
+        ],
+        "answer": "scared",
+        "evidence": "Pip is scared.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Pip do at first?",
+        "options": [
+          "He runs away.",
+          "He swims.",
+          "He eats.",
+          "He sleeps."
+        ],
+        "answer": "He runs away.",
+        "evidence": "Pip runs away.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Sam do with the ball?",
+        "options": [
+          "He throws it.",
+          "He eats it.",
+          "He opens it.",
+          "He sleeps on it."
+        ],
+        "answer": "He throws it.",
+        "evidence": "Sam throws the ball.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Who plays in the water first?",
+        "options": [
+          "Sam",
+          "Pip",
+          "Mom",
+          "Lily"
+        ],
+        "answer": "Sam",
+        "evidence": "Sam plays in the water.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Pip get?",
+        "options": [
+          "the red ball",
+          "a blue car",
+          "a book",
+          "a fish"
+        ],
+        "answer": "the red ball",
+        "evidence": "Pip gets the ball.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What animal is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a puppy.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Why does Pip run away?",
+        "answer": "He is scared of the big water.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Who is Sam?",
+        "answer": "Sam is a boy. He is Pip's friend.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Pip want?",
+        "answer": "Pip wants the red ball.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "How is Pip at the end?",
+        "answer": "Pip is happy and brave.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you like water? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Tell about a time you were scared.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What games do you play with a ball?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw Pip in the pond. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What makes you brave?",
+        "objectives": [
+          "R17.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -436,42 +608,65 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปเห็นสระน้ำใหญ่และกลัวน้ำ แซมเพื่อนของเขาขว้างลูกบอลสีแดงลงในสระและเล่นน้ำ ปิ๊ปอยากได้ลูกบอล เขาลงไปในน้ำ ได้ลูกบอล และเป็นลูกสุนัขที่กล้าหาญ"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the puppy is scared of the big blue water, but he sees his friend Sam playing with a red ball in the pond, and then Pip bravely goes in the water to play too.",
+      "prompt": "Pip stands at the edge of a big blue pond and looks at the water. He is very scared, and his ears are down.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip is scared of the water.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Sam throws a new red ball into a big blue pond and smiles. Pip watches from the grass.",
+      "characters": [
+        "Sam",
+        "Pip"
+      ],
+      "caption": "Sam throws the red ball.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Brave Pip swims in the blue pond with the red ball in his mouth. Sam plays in the water next to him and laughs.",
+      "characters": [
+        "Pip",
+        "Sam"
+      ],
+      "caption": "Pip is a brave puppy.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R21.2",
+      "L19.2",
+      "R17.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

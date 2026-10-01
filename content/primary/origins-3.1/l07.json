@@ -39,7 +39,7 @@
       "Ben says, \"We fix car?\" Pip says, \"Yes. We fix car.\" Ben looks for a piece. Pip looks for a piece. Ben puts a small piece on. Pip helps Ben. Pip puts a small piece on. They work together. This is teamwork. Teamwork is good. They fix the red car.",
       "The red car is good. The red toy car is good now. Ben is happy. Pip is happy. They play with the red car. Ben and Pip play. This is fun. My friend is good. This good teamwork is fun. Teamwork is very good."
     ],
-    "summary": "",
+    "summary": "Ben has a red toy car, but it is broken. Ben and Pip are sad. They look for pieces and fix the car together. This is teamwork. Now they are happy and play with the car.",
     "glossed": [
       "Puppy",
       "Broken",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "Puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "Broken",
-      "pos": "?",
-      "definition": "Damaged or not working.",
+      "pos": "adjective",
+      "definition": "Not working.",
       "thai": "พัง",
       "example": "This red toy car is broken."
     },
     {
       "word": "Fix",
-      "pos": "?",
-      "definition": "To repair or mend something.",
+      "pos": "verb",
+      "definition": "Make a broken thing good again.",
       "thai": "ซ่อม",
       "example": "Ben says, \"We fix car?\""
     },
     {
       "word": "Look for",
-      "pos": "?",
-      "definition": "To search for something.",
+      "pos": "verb",
+      "definition": "Try to find something.",
       "thai": "มองหา",
-      "example": "?"
+      "example": "Ben looks for a piece."
     },
     {
       "word": "Piece",
-      "pos": "?",
-      "definition": "A part of something.",
+      "pos": "noun",
+      "definition": "A small part of something.",
       "thai": "ชิ้น",
       "example": "Ben looks for a piece."
     },
     {
       "word": "Together",
-      "pos": "?",
-      "definition": "With each other.",
+      "pos": "adverb",
+      "definition": "With other people.",
       "thai": "ด้วยกัน",
       "example": "They work together."
     },
     {
       "word": "Teamwork",
-      "pos": "?",
-      "definition": "Working together as a group.",
+      "pos": "noun",
+      "definition": "Working together.",
       "thai": "การทำงานเป็นทีม",
       "example": "This is teamwork."
     },
     {
       "word": "Fun",
-      "pos": "?",
-      "definition": "Enjoyment or pleasure.",
+      "pos": "noun",
+      "definition": "Something you like to do.",
       "thai": "สนุก",
       "example": "This is fun."
     },
     {
       "word": "Happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Ben is happy."
     },
     {
       "word": "Sad",
-      "pos": "?",
-      "definition": "Feeling or showing sorrow.",
+      "pos": "adjective",
+      "definition": "Not happy.",
       "thai": "เศร้า",
       "example": "Ben is very sad."
     },
     {
       "word": "Friend",
-      "pos": "?",
-      "definition": "A person you like and know well.",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "Ben is Pip's friend."
     },
     {
       "word": "Small",
-      "pos": "?",
-      "definition": "Not large in size.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "Ben puts a small piece on."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "Red",
         "evidence": "The toy car is red.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -182,8 +186,10 @@
           "It is small"
         ],
         "answer": "It is broken",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "This red toy car is broken.",
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "Sad",
         "evidence": "Ben is very sad.",
-        "objectives": []
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What does Ben say?",
+        "options": [
+          "We fix car?",
+          "Go home!",
+          "Good night.",
+          "I am sleepy."
+        ],
+        "answer": "We fix car?",
+        "evidence": "Ben says, \"We fix car?\"",
+        "objectives": [
+          "R10.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What does Pip say?",
+        "options": [
+          "Yes. We fix car.",
+          "No.",
+          "I am sad.",
+          "Good night."
+        ],
+        "answer": "Yes. We fix car.",
+        "evidence": "Pip says, \"Yes.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What do Ben and Pip look for?",
+        "options": [
+          "a piece",
+          "a ball",
+          "a book",
+          "a bed"
+        ],
+        "answer": "a piece",
+        "evidence": "Ben looks for a piece.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Who helps Ben?",
+        "options": [
+          "Pip",
+          "Mom",
+          "Lily",
+          "Grandpa"
+        ],
+        "answer": "Pip",
+        "evidence": "Pip helps Ben.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What is teamwork?",
+        "options": [
+          "good",
+          "bad",
+          "sad",
+          "broken"
+        ],
+        "answer": "good",
+        "evidence": "Teamwork is good.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "How is Ben at the end?",
+        "options": [
+          "happy",
+          "sad",
+          "angry",
+          "sleepy"
+        ],
+        "answer": "happy",
+        "evidence": "Ben is happy.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Ben's friend?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is Ben's friend.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What color is Ben's toy car?",
+        "answer": "The toy car is red.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Why is Ben sad?",
+        "answer": "His red toy car is broken.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do Ben and Pip put on the car?",
+        "answer": "They put small pieces on.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What do Ben and Pip do at the end?",
+        "answer": "They play with the red car.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Tell about a time a toy was broken. What did you do?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What do you do with a friend? Tell about teamwork.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw your favorite toy. Tell about its color.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Is teamwork good? Tell why.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Who helps you? Tell about them.",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -306,132 +474,154 @@
       [
         {
           "en": "Ben says, \"We fix car?\"",
-          "th": ""
+          "th": "เบ็นพูดว่า \"เราซ่อมรถกันไหม\""
         },
         {
           "en": "Pip says, \"Yes.",
-          "th": ""
+          "th": "ปิ๊ปพูดว่า \"ใช่"
         },
         {
           "en": "We fix car.\"",
-          "th": ""
+          "th": "เราซ่อมรถกัน\""
         },
         {
           "en": "Ben looks for a piece.",
-          "th": ""
+          "th": "เบ็นมองหาชิ้นส่วน"
         },
         {
           "en": "Pip looks for a piece.",
-          "th": ""
+          "th": "ปิ๊ปมองหาชิ้นส่วน"
         },
         {
           "en": "Ben puts a small piece on.",
-          "th": ""
+          "th": "เบ็นใส่วัสดุชิ้นเล็กๆ เข้าไป"
         },
         {
           "en": "Pip helps Ben.",
-          "th": ""
+          "th": "ปิ๊ปช่วยเบ็น"
         },
         {
           "en": "Pip puts a small piece on.",
-          "th": ""
+          "th": "ปิ๊ปใส่วัสดุชิ้นเล็กๆ เข้าไป"
         },
         {
           "en": "They work together.",
-          "th": ""
+          "th": "พวกเขาทำงานร่วมกัน"
         },
         {
           "en": "This is teamwork.",
-          "th": ""
+          "th": "นี่คือการทำงานเป็นทีม"
         },
         {
           "en": "Teamwork is good.",
-          "th": ""
+          "th": "การทำงานเป็นทีมเป็นสิ่งที่ดี"
         },
         {
           "en": "They fix the red car.",
-          "th": ""
+          "th": "พวกเขาซ่อมรถสีแดง"
         }
       ],
       [
         {
           "en": "The red car is good.",
-          "th": ""
+          "th": "รถสีแดงคันนั้นดีแล้ว"
         },
         {
           "en": "The red toy car is good now.",
-          "th": ""
+          "th": "รถของเล่นสีแดงคันนั้นดีแล้วตอนนี้"
         },
         {
           "en": "Ben is happy.",
-          "th": ""
+          "th": "เบ็นมีความสุข"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "They play with the red car.",
-          "th": ""
+          "th": "พวกเขาเล่นกับรถสีแดง"
         },
         {
           "en": "Ben and Pip play.",
-          "th": ""
+          "th": "เบ็นและปิ๊ปเล่นกัน"
         },
         {
           "en": "This is fun.",
-          "th": ""
+          "th": "นี่คือความสนุก"
         },
         {
           "en": "My friend is good.",
-          "th": ""
+          "th": "เพื่อนของฉันดี"
         },
         {
           "en": "This good teamwork is fun.",
-          "th": ""
+          "th": "การทำงานเป็นทีมที่ดีนี้สนุก"
         },
         {
           "en": "Teamwork is very good.",
-          "th": ""
+          "th": "การทำงานเป็นทีมดีมาก"
         }
       ]
     ],
-    "summary": ""
+    "summary": "เบ็นมีรถของเล่นสีแดง แต่มันพัง เบ็นและปิ๊ปเศร้า พวกเขามองหาชิ้นส่วนและช่วยกันซ่อมรถ นี่คือการทำงานเป็นทีม ตอนนี้พวกเขามีความสุขและเล่นรถด้วยกัน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Ben and Pip are friends; their red toy car is broken, but they work together to fix it, making them happy.",
+      "prompt": "Ben sits on the floor and holds a broken red toy car. One wheel is off. Ben looks very sad, and Pip sits next to him and looks sad too.",
+      "characters": [
+        "Ben",
+        "Pip"
+      ],
+      "caption": "The red toy car is broken.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Ben and Pip work together on the floor to fix the red toy car. Ben puts a small piece on the car, and Pip pushes a small wheel to him with his paw.",
+      "characters": [
+        "Ben",
+        "Pip"
+      ],
+      "caption": "They work together.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Ben and Pip play happily with the fixed red toy car on the floor. Ben pushes the car, and Pip runs after it.",
+      "characters": [
+        "Ben",
+        "Pip"
+      ],
+      "caption": "Teamwork is very good.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_magnetic_voiced_man",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R10.2",
+      "R17.2",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

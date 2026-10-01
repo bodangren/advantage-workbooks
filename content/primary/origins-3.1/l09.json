@@ -39,7 +39,7 @@
       "My family is good. See the big green tree. The tree is beautiful. Under the tree are many gifts. Pip sees a big gift. It is a red box. Tom opens his big gift. It is a new toy. A blue car. Tom likes his blue car. He plays with the blue car. Tom is happy. Tom has a gift for Pip. It is a small gift.",
       "Pip sees the small gift. Pip is very happy. Tom gives Pip the gift. Pip opens the gift. It is a new ball. A small red ball. Pip likes the red ball. Pip plays with the ball. Tom plays with Pip. Family is good. Giving is good. Sharing is good. We are all happy."
     ],
-    "summary": "",
+    "summary": "It is a holiday, a special day for Tom and his family. Many gifts are under the big green tree. Tom gets a blue toy car. He gives Pip a small gift, a red ball. Giving and sharing are good.",
     "glossed": [
       "holiday",
       "special",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "holiday",
-      "pos": "?",
-      "definition": "A day when people take time off from work or school to celebrate.",
+      "pos": "noun",
+      "definition": "A special day. There is no school or work.",
       "thai": "วันหยุด",
       "example": "It is a holiday."
     },
     {
       "word": "special",
-      "pos": "?",
-      "definition": "Something that is better or different from what is normal.",
+      "pos": "adjective",
+      "definition": "Not like other days. Very good.",
       "thai": "พิเศษ",
       "example": "It is a special day."
     },
     {
       "word": "beautiful",
-      "pos": "?",
-      "definition": "Very attractive or pleasing to look at.",
+      "pos": "adjective",
+      "definition": "Very pretty.",
       "thai": "สวยงาม",
       "example": "The tree is beautiful."
     },
     {
       "word": "gift",
-      "pos": "?",
-      "definition": "Something given to someone without asking for payment.",
+      "pos": "noun",
+      "definition": "Something you give to a person.",
       "thai": "ของขวัญ",
       "example": "Under the tree are many gifts."
     },
     {
       "word": "family",
-      "pos": "?",
-      "definition": "A group of people related to each other.",
+      "pos": "noun",
+      "definition": "Mom, Dad, and the children.",
       "thai": "ครอบครัว",
       "example": "My family is here."
     },
     {
       "word": "opens",
-      "pos": "?",
-      "definition": "To move a lid or cover so that you can see what is inside.",
+      "pos": "verb",
+      "definition": "Makes something not closed.",
       "thai": "เปิด",
       "example": "Tom opens his big gift."
     },
     {
       "word": "toy",
-      "pos": "?",
-      "definition": "An object that is made for children to play with.",
+      "pos": "noun",
+      "definition": "A thing that you play with.",
       "thai": "ของเล่น",
       "example": "It is a new toy."
     },
     {
       "word": "giving",
-      "pos": "?",
-      "definition": "The act of handing something to another person.",
+      "pos": "noun",
+      "definition": "Giving things to other people.",
       "thai": "การให้",
       "example": "Giving is good."
     },
     {
       "word": "sharing",
-      "pos": "?",
-      "definition": "To give a portion of something to others.",
+      "pos": "noun",
+      "definition": "Letting other people have some of your things.",
       "thai": "การแบ่งปัน",
       "example": "Sharing is good."
     },
     {
       "word": "new",
-      "pos": "?",
-      "definition": "Recently made, built, or created.",
+      "pos": "adjective",
+      "definition": "Not old.",
       "thai": "ใหม่",
       "example": "It is a new toy."
     },
     {
       "word": "under",
-      "pos": "?",
-      "definition": "In a position below or beneath something else.",
+      "pos": "preposition",
+      "definition": "Below something.",
       "thai": "ใต้",
       "example": "Under the tree are many gifts."
     },
     {
       "word": "likes",
-      "pos": "?",
-      "definition": "To find something pleasant or attractive.",
+      "pos": "verb",
+      "definition": "Thinks something is good.",
       "thai": "ชอบ",
       "example": "Tom likes his blue car."
     }
@@ -152,11 +152,14 @@
         "options": [
           "A boy",
           "A dog",
-          "A mum"
+          "A mum",
+          "A cat"
         ],
         "answer": "A boy",
         "evidence": "Tom is a boy.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -164,11 +167,14 @@
         "options": [
           "A boy",
           "A dog",
-          "A dad"
+          "A dad",
+          "A cat"
         ],
         "answer": "A dog",
         "evidence": "Pip is a dog.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p3",
@@ -176,11 +182,14 @@
         "options": [
           "A school day",
           "A special day",
-          "A work day"
+          "A work day",
+          "A rainy day"
         ],
         "answer": "A special day",
         "evidence": "It is a special day.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -188,22 +197,185 @@
         "options": [
           "Here",
           "At school",
-          "At work"
+          "At work",
+          "At the zoo"
         ],
         "answer": "Here",
         "evidence": "My family is here.",
-        "objectives": []
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Who is in Tom's family?",
+        "options": [
+          "Mum and Dad",
+          "Grandma and Grandpa",
+          "Lily and Mia",
+          "a teacher"
+        ],
+        "answer": "Mum and Dad",
+        "evidence": "My mum is here.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is the tree?",
+        "options": [
+          "green",
+          "red",
+          "blue",
+          "yellow"
+        ],
+        "answer": "green",
+        "evidence": "See the big green tree.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Where are the gifts?",
+        "options": [
+          "under the tree",
+          "on the bed",
+          "in the car",
+          "at school"
+        ],
+        "answer": "under the tree",
+        "evidence": "Under the tree are many gifts.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What is in Tom's big gift?",
+        "options": [
+          "a blue car",
+          "a red ball",
+          "a book",
+          "a dog"
+        ],
+        "answer": "a blue car",
+        "evidence": "A blue car.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What is in Pip's small gift?",
+        "options": [
+          "a small red ball",
+          "a blue car",
+          "a big box",
+          "a hat"
+        ],
+        "answer": "a small red ball",
+        "evidence": "A small red ball.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What is good?",
+        "options": [
+          "giving and sharing",
+          "being sad",
+          "sleeping",
+          "being angry"
+        ],
+        "answer": "giving and sharing",
+        "evidence": "Sharing is good.",
+        "objectives": [
+          "L21.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is happy?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Tom, Pip, and the family are happy.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What is under the tree?",
+        "answer": "Many gifts are under the tree.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is Tom's big gift box?",
+        "answer": "It is a red box.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Tom give Pip?",
+        "answer": "He gives Pip a small gift.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What does Pip do with the ball?",
+        "answer": "Pip plays with the ball.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Tell about a special day with your family.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What gift do you want? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Is sharing good? Tell why.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw gifts under a tree. Tell about their colors.",
+        "objectives": [
+          "R20.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What gift can you give to a friend?",
+        "objectives": [
+          "L21.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -424,42 +596,68 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "วันนี้เป็นวันหยุด เป็นวันพิเศษสำหรับทอมและครอบครัว มีของขวัญมากมายอยู่ใต้ต้นไม้สีเขียวต้นใหญ่ ทอมได้รถของเล่นสีน้ำเงิน เขาให้ของขวัญชิ้นเล็กแก่ปิ๊ป เป็นลูกบอลสีแดง การให้และการแบ่งปันเป็นสิ่งที่ดี"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Tom and Pip celebrate a holiday with family, open gifts, and share new toys, making everyone happy.",
+      "prompt": "On a happy holiday at home, Tom, Mom, Dad, and Pip stand next to a big, beautiful green tree. Many gifts in colorful boxes are under the tree.",
+      "characters": [
+        "Tom",
+        "Mom",
+        "Dad",
+        "Pip"
+      ],
+      "caption": "It is a special day.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Tom sits next to the green tree and opens a big red gift box. Inside is a new blue toy car. Tom smiles, and Pip watches.",
+      "characters": [
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Tom opens his big gift.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip opens a small gift with his paws and finds a small red ball. Tom kneels next to him and laughs. Mom and Dad smile behind them.",
+      "characters": [
+        "Pip",
+        "Tom",
+        "Mom",
+        "Dad"
+      ],
+      "caption": "Giving is good. Sharing is good.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_magnetic_voiced_man",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L21.1",
+      "R17.2",
+      "R20.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },
