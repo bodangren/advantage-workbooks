@@ -44,6 +44,21 @@
             /* ... */
         }
 
+        .insert-strip {
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            border: 2px solid #b45309;
+            border-radius: 6px;
+            background: #fef3c7;
+            color: #78350f;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            font-size: 11pt;
+            text-align: center;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
         .lesson-number {
             font-family: 'Open Sans', sans-serif; /* Clean sans for numbers */
             /* ... */
@@ -1509,6 +1524,9 @@
     <!-- Main Content Wrapper -->
     <div class="workbook-container">
 
+        {{#if header_strip}}
+        <div class="insert-strip">{{header_strip}}</div>
+        {{/if}}
         <!-- Header -->
         <header class="lesson-header">
             <div class="lesson-info">

@@ -122,11 +122,24 @@ describe('Workbook Document Wrapper', () => {
       expect(html).toContain('cover-page');
     });
 
-    it('should handle missing preface text', () => {
+    it('should leave out the preface page when there is no preface text (no empty page)', () => {
       const optionsWithoutPreface = { ...defaultOptions, prefaceText: undefined };
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, optionsWithoutPreface);
       
-      expect(html).toContain('section-preface');
+      expect(html).not.toContain('class="section-preface"');
+      expect(html).toContain('class="cover-page');
+    });
+
+    it('should print the lessons only for an insert (no cover, preface, contents, or back matter)', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, { ...defaultOptions, lessonsOnly: true, includeCertificate: true });
+
+      expect(html).toContain('paged.polyfill.js');
+      expect(html).toContain('Lesson 1: Introduction');
+      // Class names also appear in the print CSS, so check the markup.
+      expect(html).not.toContain('class="cover-page');
+      expect(html).not.toContain('class="section-preface"');
+      expect(html).not.toContain('class="section-toc"');
+      expect(html).not.toContain('class="section-certificate');
     });
 
     it('should handle multi-paragraph preface text', () => {

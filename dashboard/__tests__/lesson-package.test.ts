@@ -150,6 +150,11 @@ describe('buildWorkbookLesson', () => {
         expect(WorkbookLessonSchema.safeParse(out).success).toBe(true);
     });
 
+    it('labels the level the way the printed books do ("Level 2", "CEFR A0")', () => {
+        expect(out.level_name).toBe(`Level ${pkg.meta.raLevel}`);
+        expect(out.cefr_level).toBe(`CEFR ${pkg.meta.cefrLevel}`);
+    });
+
     it('prints the print-set questions in order with the answer and the first two other options', () => {
         expect(out.comprehension_questions).toEqual([
             { number: 1, question: 'Where is the ball?', options: ['under the sofa', 'on the bed', 'in the cat'] },

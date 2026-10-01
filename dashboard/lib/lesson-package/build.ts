@@ -45,12 +45,6 @@ function printOptions(q: Mcq, n: number): string[] {
     return q.options.filter((o) => o === q.answer || others.includes(o));
 }
 
-const titleOfBook = (book: string) =>
-    book
-        .split('-')
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ');
-
 /**
  * Builds the workbook lesson JSON from a package. No AI call; the same package always gives the
  * same output. Run the package checks first: this function throws on an unknown print-set id.
@@ -92,8 +86,9 @@ export function buildWorkbookLesson(pkg: LessonPackage, opts: { mediaBase?: stri
     return {
         lesson_number: String(pkg.meta.number),
         lesson_title: pkg.meta.title,
-        level_name: titleOfBook(pkg.meta.book),
-        cefr_level: pkg.meta.cefrLevel,
+        // The printed books label the badges "Level 2" and "CEFR A0".
+        level_name: `Level ${pkg.meta.raLevel}`,
+        cefr_level: `CEFR ${pkg.meta.cefrLevel}`,
         article_type: pkg.meta.textType,
         genre: pkg.meta.genre,
         vocabulary: pkg.glossary.map((g) => ({ word: g.word, definition: g.definition, thai_definition: g.thai })),

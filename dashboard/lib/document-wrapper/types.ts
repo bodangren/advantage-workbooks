@@ -53,6 +53,8 @@ export interface WorkbookDocumentOptions {
   seriesTagline: string;
   prefaceText?: string;
   type?: 'primary' | 'secondary';
+  /** Only the lesson pages (for an insert): no cover, preface, contents, or back matter. */
+  lessonsOnly?: boolean;
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
   teacherGuide?: TeacherGuideEntry[];

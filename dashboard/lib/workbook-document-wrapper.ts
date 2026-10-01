@@ -23,6 +23,22 @@ export function wrapWorkbookDocument(
   options: WorkbookDocumentOptions
 ): string {
   const theme = getThemeColors(options.seriesName, options.type);
+  if (options.lessonsOnly) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  <style>
+    ${getPrintStyles(theme)}
+  </style>
+</head>
+<body>
+  ${lessonsHtml}
+</body>
+</html>`;
+  }
   const titlePage = generateTitlePage(options);
   const prefaceSection = generatePrefaceSection(options.prefaceText);
   const tocSection = generateTocSection(tocEntries);

@@ -341,4 +341,22 @@ describe('Template Renderer Tests', () => {
       expect(qrCount).toBe(2);
     });
   });
+
+  describe('insert options', () => {
+    it('starts the lesson numbers at firstLessonNumber', async () => {
+      const html = await renderMultipleLessons([mockLesson, mockLesson], { type: 'primary', firstLessonNumber: 12 });
+      expect(html).toContain('<div class="lesson-number">Lesson 12</div>');
+      expect(html).toContain('<div class="lesson-number">Lesson 13</div>');
+      expect(html).not.toContain('<div class="lesson-number">Lesson 1</div>');
+    });
+
+    it('prints the header strip on the first lesson only, and nothing without it', async () => {
+      const strip = 'Primary Advantage Origins 3.1 — Lesson 12 (replacement)';
+      const html = await renderMultipleLessons([mockLesson, mockLesson], { type: 'primary', headerStrip: strip });
+      expect(html.match(/class="insert-strip"/g)).toHaveLength(1);
+      expect(html).toContain(strip);
+      const plain = await renderMultipleLessons([mockLesson], { type: 'primary' });
+      expect(plain).not.toContain('class="insert-strip"');
+    });
+  });
 });

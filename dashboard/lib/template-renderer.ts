@@ -42,12 +42,17 @@ export interface RenderOptions {
   seriesLevel?: string;
   seriesTagline?: string;
   type?: WorkbookType;
+  /** The number of the first lesson (default 1); an insert for lesson 12 renders as "Lesson 12". */
+  firstLessonNumber?: number;
+  /** A line above the first lesson's header, for example the insert label. */
+  headerStrip?: string;
 }
 
 type ArticleImages = NonNullable<WorkbookLesson['article_images']>;
 
 type PreparedLessonData = Omit<WorkbookLesson, 'article_image_url' | 'article_images'> & {
   lesson_number: string;
+  header_strip?: string;
   series_name: string;
   series_level: string;
   series_tagline: string;
@@ -120,11 +125,12 @@ function prepareLessonData(
   }
 
   // Force sequential lesson numbering regardless of JSON field
-  const forcedLessonNumber = `Lesson ${index + 1}`;
+  const forcedLessonNumber = `Lesson ${(options.firstLessonNumber ?? 1) + index}`;
 
   return {
     ...lesson,
     lesson_number: forcedLessonNumber,
+    header_strip: index === 0 ? options.headerStrip : undefined,
     series_name: seriesName,
     series_level: seriesLevel,
     series_tagline: seriesTagline,
