@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, Home, Settings, FileText } from "lucide-react";
+import { BookOpen, Home, Settings, FileText, CheckSquare } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -24,6 +24,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Button variant="ghost" className="w-full justify-start">
               <FileText className="mr-2 h-4 w-4" />
               Projects
+            </Button>
+          </Link>
+
+          <Link href="/review">
+            <Button variant="ghost" className="w-full justify-start">
+              <CheckSquare className="mr-2 h-4 w-4" />
+              Review
             </Button>
           </Link>
 

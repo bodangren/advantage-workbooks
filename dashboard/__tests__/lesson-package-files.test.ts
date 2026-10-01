@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { loadPackageFolder, priorPackageTexts, loadObjectiveIds, BOOK_ORDER } from '../lib/lesson-package/files';
+import { loadPackageFolder, priorPackageTexts, loadObjectiveIds, findRepoRoot, BOOK_ORDER } from '../lib/lesson-package/files';
 import { fixturePackage } from './fixtures/lesson-package-fixture';
 
 let root: string;
@@ -64,5 +64,12 @@ describe('lesson package files', () => {
         fs.writeFileSync(path.join(root, 'a0-objective-key.json'), JSON.stringify({ objectives: [{ id: 'R10.2' }, { id: 'L19.1' }] }));
         fs.writeFileSync(path.join(root, 'a1-objective-key.json'), JSON.stringify({ objectives: [{ id: 'R30.1' }] }));
         expect([...loadObjectiveIds(root)].sort()).toEqual(['L19.1', 'R10.2', 'R30.1']);
+    });
+
+    it('finds the repo root from the repo root, from dashboard/, and from WORKBOOKS_ROOT', () => {
+        const repo = path.resolve(process.cwd(), '..');
+        expect(findRepoRoot(repo)).toBe(repo);
+        expect(findRepoRoot(path.join(repo, 'dashboard'))).toBe(repo);
+        expect(findRepoRoot('/anywhere', '/some/root')).toBe('/some/root');
     });
 });

@@ -4,8 +4,16 @@ import { LessonPackageSchema, type LessonPackage } from './schema';
 import { packageToLessonText } from './checks';
 import type { LessonText } from '../text-profile/sources';
 
-/** Workbooks repo root (this file is dashboard/lib/lesson-package/files.ts). */
-export const REPO_ROOT = path.resolve(__dirname, '..', '..', '..');
+/**
+ * Workbooks repo root: WORKBOOKS_ROOT, or found from the working directory (the repo root or
+ * `dashboard/`). `__dirname` is wrong inside the Next.js bundle, so it is not used.
+ */
+export function findRepoRoot(cwd = process.cwd(), env = process.env.WORKBOOKS_ROOT): string {
+    if (env) return path.resolve(env);
+    return fs.existsSync(path.join(cwd, 'dashboard', 'package.json')) ? cwd : path.resolve(cwd, '..');
+}
+
+export const REPO_ROOT = findRepoRoot();
 export const CONTENT_ROOT = path.join(REPO_ROOT, 'content', 'primary');
 export const OBJECTIVE_KEY_DIR = path.join(REPO_ROOT, 'docs', 'content-plans', 'data');
 

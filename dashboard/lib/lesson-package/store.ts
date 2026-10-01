@@ -1,0 +1,173 @@
+import fs from 'fs';
+import path from 'path';
+import { LessonPackageSchema, APPROVAL_PARTS, type ApprovalPart, type LessonPackage } from './schema';
+import { checkPackage, schemaFailure, type PackageCheckContext, type PackageReport } from './checks';
+import { loadPackageFolder } from './files';
+
+/** Read and write lesson packages for the review page (track review_page_20261001). Server only. */
+
+export class StoreError extends Error {
+    constructor(
+        public status: number,
+        message: string,
+    ) {
+        super(message);
+    }
+}
+
+type ContextFor = PackageCheckContext | ((pkg: LessonPackage) => PackageCheckContext);
+
+const ID = /^[a-z0-9][a-z0-9.-]*$/;
+
+/** Package keys that belong to each approval part; a change to them resets that part. */
+const PART_KEYS: Record<Exclude<ApprovalPart, 'lesson'>, (keyof LessonPackage)[]> = {
+    text: ['meta', 'text'],
+    thai: ['thai', 'glossary'],
+    bank: ['bank', 'print', 'activities', 'tags', 'glossary'],
+    images: ['images'],
+    audio: ['audio'],
+};
+
+/** Checks that must not fail before a part can be approved. */
+const PART_CHECKS: Record<Exclude<ApprovalPart, 'lesson'>, string[]> = {
+    text: ['schema', 'text'],
+    thai: ['thai', 'glossary'],
+    bank: ['bank-size', 'mcq-answer', 'mcq-evidence', 'bank-unique', 'print-set', 'activities', 'tags'],
+    images: ['images'],
+    audio: [],
+};
+
+const contextFor = (ctx: ContextFor, pkg: LessonPackage) => (typeof ctx === 'function' ? ctx(pkg) : ctx);
+
+const countChecks = (report: PackageReport) => ({
+    fail: report.checks.filter((c) => c.status === 'fail').length,
+    warn: report.checks.filter((c) => c.status === 'warn').length,
+});
+
+/**
+ * The file path of one package, refusing ids that could leave the content folder.
+ * @param root The content root (`content/primary`).
+ * @param book Book id, for example `origins-3.2`.
+ * @param lesson Lesson file id, for example `p05`.
+ * @returns The absolute path of `<root>/<book>/<lesson>.json`.
+ */
+export function packagePath(root: string, book: string, lesson: string): string {
+    if (!ID.test(book) || !ID.test(lesson) || book.includes('..') || lesson.includes('..')) {
+        throw new StoreError(400, `Invalid book or lesson id: ${book}/${lesson}`);
+    }
+    const file = path.resolve(root, book, `${lesson}.json`);
+    if (!file.startsWith(path.resolve(root) + path.sep)) throw new StoreError(400, 'Path outside the content folder');
+    return file;
+}
+
+/**
+ * Every book folder and its lessons, with titles, approval states, and (with a context) the FAIL
+ * and WARN counts.
+ * @param root The content root.
+ * @param ctx The check context, or a function that makes it; without it there are no counts.
+ * @returns Books in name order; lessons in lesson-number order.
+ */
+export function listBooks(root: string, ctx?: ContextFor) {
+    if (!fs.existsSync(root)) return [];
+    return fs
+        .readdirSync(root, { withFileTypes: true })
+        .filter((d) => d.isDirectory() && ID.test(d.name))
+        .map((d) => d.name)
+        .sort()
+        .map((book) => ({
+            book,
+            lessons: loadPackageFolder(path.join(root, book)).map((f) => ({
+                lesson: path.basename(f.file, '.json'),
+                title: f.pkg?.meta.title,
+                number: f.pkg?.meta.number,
+                code: f.pkg?.meta.lesson,
+                approval: f.pkg?.approval,
+                error: f.error,
+                ...(ctx && f.pkg ? countChecks(checkPackage(f.pkg, contextFor(ctx, f.pkg))) : {}),
+            })),
+        }));
+}
+
+/**
+ * Reads one package as stored (not parsed).
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @returns The JSON value; throws StoreError 404 when the file does not exist.
+ */
+export function readPackageFile(root: string, book: string, lesson: string): unknown {
+    const file = packagePath(root, book, lesson);
+    if (!fs.existsSync(file)) throw new StoreError(404, `No package ${book}/${lesson}`);
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+const write = (file: string, pkg: LessonPackage) => fs.writeFileSync(file, `${JSON.stringify(pkg, null, 2)}\n`);
+const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * Saves an edited package. The database ids always come from the file on disk (only the injector
+ * changes them). A part that changes loses its approval, and any change resets the lesson approval.
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @param input The edited package from the page.
+ * @param ctx The check context, or a function that makes it for the package.
+ * @returns Whether it was saved, the saved package, and the check report.
+ */
+export function savePackage(root: string, book: string, lesson: string, input: unknown, ctx: ContextFor): { saved: boolean; pkg?: LessonPackage; report: PackageReport } {
+    const file = packagePath(root, book, lesson);
+    const parsed = LessonPackageSchema.safeParse(input);
+    if (!parsed.success) {
+        return { saved: false, report: schemaFailure(parsed.error.issues) };
+    }
+    const next = parsed.data;
+    const before = fs.existsSync(file) ? LessonPackageSchema.safeParse(JSON.parse(fs.readFileSync(file, 'utf8'))) : undefined;
+    if (before?.success) {
+        const old = before.data;
+        next.db = old.db;
+        let changed = false;
+        for (const part of Object.keys(PART_KEYS) as (keyof typeof PART_KEYS)[]) {
+            const differs = PART_KEYS[part].some((k) => !same(old[k], next[k]));
+            if (differs) {
+                changed = true;
+                next.approval[part] = { status: 'draft' };
+            }
+        }
+        if (changed) next.approval.lesson = { status: 'draft' };
+    } else {
+        next.db = {};
+    }
+    write(file, next);
+    return { saved: true, pkg: next, report: checkPackage(next, contextFor(ctx, next)) };
+}
+
+/**
+ * Approves one part (or the whole lesson) with a date.
+ * @param root The content root.
+ * @param book Book id.
+ * @param lesson Lesson file id.
+ * @param part The part to approve.
+ * @param ctx The check context, or a function that makes it for the package.
+ * @param date The approval date (YYYY-MM-DD).
+ * @returns The saved package. Throws StoreError 409 when a check for the part fails, or (for the
+ * lesson) when a part is not approved or any check fails.
+ */
+export function approvePart(root: string, book: string, lesson: string, part: ApprovalPart, ctx: ContextFor, date: string): LessonPackage {
+    const raw = readPackageFile(root, book, lesson);
+    const parsed = LessonPackageSchema.safeParse(raw);
+    if (!parsed.success) throw new StoreError(400, 'The package does not parse; fix it before approval');
+    const pkg = parsed.data;
+    const report = checkPackage(pkg, contextFor(ctx, pkg));
+    if (part === 'lesson') {
+        const open = APPROVAL_PARTS.filter((p) => p !== 'lesson' && pkg.approval[p].status !== 'approved');
+        if (open.length) throw new StoreError(409, `Parts not approved: ${open.join(', ')}`);
+        const failing = report.checks.filter((c) => c.status === 'fail').map((c) => c.id);
+        if (failing.length) throw new StoreError(409, `Checks fail: ${failing.join(', ')}`);
+    } else {
+        const failing = report.checks.filter((c) => c.status === 'fail' && PART_CHECKS[part].includes(c.id)).map((c) => c.id);
+        if (failing.length) throw new StoreError(409, `${part}: checks fail: ${failing.join(', ')}`);
+    }
+    pkg.approval[part] = { status: 'approved', date };
+    write(packagePath(root, book, lesson), pkg);
+    return pkg;
+}
