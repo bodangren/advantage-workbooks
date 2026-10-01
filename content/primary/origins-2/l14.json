@@ -35,7 +35,7 @@
       "The block is blue. Pip feels the block. Pip's paw is on the block. It is hard. Yes, it is hard. This material is hard. Pip feels hard. Lily has a smooth stone. The stone is small. The stone is gray. Pip feels the stone. It is smooth. Yes, it is smooth. This material is smooth. My paw is on smooth. Lily has a rough mat.",
       "The mat is green. Pip feels the mat. Pip's paw is on the mat. It is rough. Yes, it is rough. This fabric is rough. Pip likes to feel fabric. Pip likes to feel material. Pip feels soft. Pip feels hard. Pip feels smooth. Pip feels rough. Pip is a good dog. Lily is happy. Pip is happy too. What a good dog."
     ],
-    "summary": "",
+    "summary": "Lily shows Pip different materials. Pip feels a soft toy, a hard block, a smooth stone, and a rough mat with his paw. Pip is a good dog, and they are happy.",
     "glossed": [
       "fabric",
       "material",
@@ -58,92 +58,92 @@
   "glossary": [
     {
       "word": "fabric",
-      "pos": "?",
-      "definition": "cloth or other material produced by weaving or knitting fibers",
+      "pos": "noun",
+      "definition": "Cloth. Clothes are made of fabric.",
       "thai": "ผ้า",
       "example": "This fabric is soft."
     },
     {
       "word": "material",
-      "pos": "?",
-      "definition": "the matter from which a thing is or can be made",
+      "pos": "noun",
+      "definition": "What a thing is made of, like wood or cloth.",
       "thai": "วัสดุ",
       "example": "This material is hard."
     },
     {
       "word": "smooth",
-      "pos": "?",
-      "definition": "having an even and regular surface; free from perceptible projections or lumps",
+      "pos": "adjective",
+      "definition": "Flat and even to touch, like glass.",
       "thai": "เรียบ",
       "example": "Lily has a smooth stone."
     },
     {
       "word": "rough",
-      "pos": "?",
-      "definition": "having an uneven or irregular surface; not smooth or level",
+      "pos": "adjective",
+      "definition": "Not smooth. Bumpy to touch.",
       "thai": "ขรุขระ",
       "example": "Lily has a rough mat."
     },
     {
       "word": "paw",
-      "pos": "?",
-      "definition": "an animal's foot having claws and pads",
+      "pos": "noun",
+      "definition": "The foot of a dog or a cat.",
       "thai": "อุ้งเท้า",
       "example": "Pip's paw is on the toy."
     },
     {
       "word": "mat",
-      "pos": "?",
-      "definition": "a piece of thick material used as a floor covering or for wiping shoes",
+      "pos": "noun",
+      "definition": "A small rug on the floor.",
       "thai": "เสื่อ",
       "example": "Lily has a rough mat."
     },
     {
       "word": "stone",
-      "pos": "?",
-      "definition": "a hard solid nonmetallic mineral matter of which rock is made",
+      "pos": "noun",
+      "definition": "A small hard rock.",
       "thai": "หิน",
       "example": "Lily has a smooth stone."
     },
     {
       "word": "block",
-      "pos": "?",
-      "definition": "a solid piece of hard material, especially one with flat square sides",
+      "pos": "noun",
+      "definition": "A hard piece with flat sides. You build with blocks.",
       "thai": "ก้อน",
       "example": "Lily has a hard block."
     },
     {
       "word": "toy",
-      "pos": "?",
-      "definition": "an object for a child or pet to play with",
+      "pos": "noun",
+      "definition": "A thing that you play with.",
       "thai": "ของเล่น",
       "example": "Lily has a soft toy."
     },
     {
       "word": "feel",
-      "pos": "?",
-      "definition": "to examine or search by touch",
+      "pos": "verb",
+      "definition": "Touch something to know what it is like.",
       "thai": "สัมผัส",
       "example": "Pip feels the toy."
     },
     {
       "word": "friend",
-      "pos": "?",
-      "definition": "a person whom one knows and with whom one has a bond of mutual affection",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "Lily is Pip's friend."
     },
     {
       "word": "small",
-      "pos": "?",
-      "definition": "of a size that is less than normal or usual",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "Pip is a small dog."
     },
     {
       "word": "nice",
-      "pos": "?",
-      "definition": "pleasant; agreeable; satisfactory",
+      "pos": "adjective",
+      "definition": "Good. You like it.",
       "thai": "ดี",
       "example": "This soft toy is nice."
     }
@@ -161,7 +161,9 @@
         ],
         "answer": "A dog",
         "evidence": "Pip is a dog.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -174,7 +176,9 @@
         ],
         "answer": "Brown",
         "evidence": "The toy is brown.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -186,8 +190,10 @@
           "With his tail"
         ],
         "answer": "With his paw",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Pip's paw is on the toy.",
+        "objectives": [
+          "L21.2"
+        ]
       },
       {
         "id": "p4",
@@ -199,19 +205,181 @@
           "The stone"
         ],
         "answer": "The block",
-        "evidence": "The block is big.",
-        "objectives": []
+        "evidence": "Lily has a hard block.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the block?",
+        "options": [
+          "blue",
+          "brown",
+          "green",
+          "gray"
+        ],
+        "answer": "blue",
+        "evidence": "The block is blue.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "How does the stone feel?",
+        "options": [
+          "smooth",
+          "rough",
+          "soft",
+          "wet"
+        ],
+        "answer": "smooth",
+        "evidence": "Lily has a smooth stone.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is the stone?",
+        "options": [
+          "gray",
+          "blue",
+          "red",
+          "yellow"
+        ],
+        "answer": "gray",
+        "evidence": "The stone is gray.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What is rough?",
+        "options": [
+          "the mat",
+          "the toy",
+          "the stone",
+          "the block"
+        ],
+        "answer": "the mat",
+        "evidence": "Lily has a rough mat.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How does the toy feel?",
+        "options": [
+          "soft",
+          "hard",
+          "rough",
+          "cold"
+        ],
+        "answer": "soft",
+        "evidence": "This soft toy is nice.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Is the stone big or small?",
+        "options": [
+          "small",
+          "big",
+          "long",
+          "tall"
+        ],
+        "answer": "small",
+        "evidence": "The stone is small.",
+        "objectives": [
+          "L21.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Pip's friend?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Lily is Pip's friend.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What four things does Pip feel?",
+        "answer": "He feels a toy, a block, a stone, and a mat.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What is hard?",
+        "answer": "The blue block is hard.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What color is the mat?",
+        "answer": "The mat is green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is Lily happy at the end?",
+        "answer": "Yes, Lily is happy.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Find something hard and something soft at home. Tell about them.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What toy do you have? How does it feel?",
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a stone, a block, a toy, and a mat. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Do you like smooth things or rough things? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Pip feels things with his paw. What do you feel with your hand?",
+        "objectives": [
+          "L21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -264,238 +432,259 @@
       [
         {
           "en": "This is Pip.",
-          "th": ""
+          "th": "นี่คือปิ๊ป"
         },
         {
           "en": "Pip is a dog.",
-          "th": ""
+          "th": "ปิ๊ปเป็นสุนัข"
         },
         {
           "en": "Pip is a small dog.",
-          "th": ""
+          "th": "ปิ๊ปเป็นสุนัขตัวเล็ก"
         },
         {
           "en": "Lily is Pip's friend.",
-          "th": ""
+          "th": "ลิลลี่เป็นเพื่อนของปิ๊ป"
         },
         {
           "en": "Lily has a soft toy.",
-          "th": ""
+          "th": "ลิลลี่มีของเล่นนุ่มนิ่ม"
         },
         {
           "en": "The toy is brown.",
-          "th": ""
+          "th": "ของเล่นมีสีน้ำตาล"
         },
         {
           "en": "Pip feels the toy.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสของเล่น"
         },
         {
           "en": "Pip's paw is on the toy.",
-          "th": ""
+          "th": "อุ้งเท้าของปิ๊ปอยู่บนของเล่น"
         },
         {
           "en": "It is soft.",
-          "th": ""
+          "th": "มันนุ่ม"
         },
         {
           "en": "Yes, it is soft.",
-          "th": ""
+          "th": "ใช่ มันนุ่ม"
         },
         {
           "en": "This soft toy is nice.",
-          "th": ""
+          "th": "ของเล่นนุ่มชิ้นนี้ดี"
         },
         {
           "en": "Pip likes soft.",
-          "th": ""
+          "th": "ปิ๊ปชอบความนุ่ม"
         },
         {
           "en": "This fabric is soft.",
-          "th": ""
+          "th": "ผ้านี้มันนุ่ม"
         },
         {
           "en": "My paw is on soft.",
-          "th": ""
+          "th": "อุ้งเท้าของฉันอยู่บนความนุ่ม"
         },
         {
           "en": "Lily has a hard block.",
-          "th": ""
+          "th": "ลิลลี่มีบล็อกแข็ง"
         },
         {
           "en": "The block is big.",
-          "th": ""
+          "th": "บล็อกมีขนาดใหญ่"
         }
       ],
       [
         {
           "en": "The block is blue.",
-          "th": ""
+          "th": "บล็อกมีสีฟ้า"
         },
         {
           "en": "Pip feels the block.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสบล็อก"
         },
         {
           "en": "Pip's paw is on the block.",
-          "th": ""
+          "th": "อุ้งเท้าของปิ๊ปอยู่บนบล็อก"
         },
         {
           "en": "It is hard.",
-          "th": ""
+          "th": "มันแข็ง"
         },
         {
           "en": "Yes, it is hard.",
-          "th": ""
+          "th": "ใช่ มันแข็ง"
         },
         {
           "en": "This material is hard.",
-          "th": ""
+          "th": "วัสดุนี้มันแข็ง"
         },
         {
           "en": "Pip feels hard.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสแข็ง"
         },
         {
           "en": "Lily has a smooth stone.",
-          "th": ""
+          "th": "ลิลลี่มีหินเรียบ"
         },
         {
           "en": "The stone is small.",
-          "th": ""
+          "th": "หินมีขนาดเล็ก"
         },
         {
           "en": "The stone is gray.",
-          "th": ""
+          "th": "หินมีสีเทา"
         },
         {
           "en": "Pip feels the stone.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสหิน"
         },
         {
           "en": "It is smooth.",
-          "th": ""
+          "th": "มันเรียบ"
         },
         {
           "en": "Yes, it is smooth.",
-          "th": ""
+          "th": "ใช่ มันเรียบ"
         },
         {
           "en": "This material is smooth.",
-          "th": ""
+          "th": "วัสดุนี้มันเรียบ"
         },
         {
           "en": "My paw is on smooth.",
-          "th": ""
+          "th": "อุ้งเท้าของฉันอยู่บนความเรียบ"
         },
         {
           "en": "Lily has a rough mat.",
-          "th": ""
+          "th": "ลิลลี่มีเสื่อหยาบ"
         }
       ],
       [
         {
           "en": "The mat is green.",
-          "th": ""
+          "th": "เสื่อมีสีเขียว"
         },
         {
           "en": "Pip feels the mat.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสเสื่อ"
         },
         {
           "en": "Pip's paw is on the mat.",
-          "th": ""
+          "th": "อุ้งเท้าของปิ๊ปอยู่บนเสื่อ"
         },
         {
           "en": "It is rough.",
-          "th": ""
+          "th": "มันหยาบ"
         },
         {
           "en": "Yes, it is rough.",
-          "th": ""
+          "th": "ใช่ มันหยาบ"
         },
         {
           "en": "This fabric is rough.",
-          "th": ""
+          "th": "ผ้านี้มันหยาบ"
         },
         {
           "en": "Pip likes to feel fabric.",
-          "th": ""
+          "th": "ปิ๊ปชอบสัมผัสผ้า"
         },
         {
           "en": "Pip likes to feel material.",
-          "th": ""
+          "th": "ปิ๊ปชอบสัมผัสวัสดุ"
         },
         {
           "en": "Pip feels soft.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสนุ่ม"
         },
         {
           "en": "Pip feels hard.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสแข็ง"
         },
         {
           "en": "Pip feels smooth.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสเรียบ"
         },
         {
           "en": "Pip feels rough.",
-          "th": ""
+          "th": "ปิ๊ปสัมผัสหยาบ"
         },
         {
           "en": "Pip is a good dog.",
-          "th": ""
+          "th": "ปิ๊ปเป็นสุนัขที่ดี"
         },
         {
           "en": "Lily is happy.",
-          "th": ""
+          "th": "ลิลลี่มีความสุข"
         },
         {
           "en": "Pip is happy too.",
-          "th": ""
+          "th": "ปิ๊ปก็มีความสุขเช่นกัน"
         },
         {
           "en": "What a good dog.",
-          "th": ""
+          "th": "เป็นสุนัขที่ดีจริงๆ"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ลิลลี่ให้ปิ๊ปลองสัมผัสวัสดุต่างๆ ปิ๊ปใช้อุ้งเท้าสัมผัสของเล่นที่นุ่ม บล็อกที่แข็ง หินที่เรียบ และเสื่อที่หยาบ ปิ๊ปเป็นสุนัขที่ดี และพวกเขามีความสุข"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the dog feels different materials and learns about soft, hard, smooth, and rough textures.",
+      "prompt": "Lily sits on the floor and holds a soft brown teddy bear toy. Pip puts his paw on the soft toy. A big blue block is next to them.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Pip feels a soft toy.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip puts his paw on a big hard blue block. Lily holds a small smooth gray stone and shows it to Pip.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Pip feels a hard block and a smooth stone.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip puts his paw on a rough green mat on the floor. A soft brown toy, a blue block, and a gray stone are around them. Lily and Pip smile.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Pip feels a rough mat. What a good dog!",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "L21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

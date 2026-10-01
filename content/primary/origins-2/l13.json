@@ -39,7 +39,7 @@
       "Wow! This is good. Paper is in the box. Many pens are in the box. A red pen. A blue pen. A green pen. Pip likes colors. Pip likes red. Pip likes blue. Pip likes green. Pip wants to draw. Pip wants to make art. Pip draws a picture. Pip draws a big house.",
       "The house is blue. Pip draws a car. The car is red. Pip draws a flower. The flower is green. Pip draws a friend. This is Pip's friend. Pip is happy. This is fun art. Pip likes art. Pip is a happy puppy. This is a good day. No more sad Pip."
     ],
-    "summary": "",
+    "summary": "It is a rainy day, and Pip is sad. He opens an old box and finds paper and colorful pens. Pip draws a house, a car, a flower, and a friend. Now he is happy.",
     "glossed": [
       "puppy",
       "rainy",
@@ -63,99 +63,99 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "rainy",
-      "pos": "?",
-      "definition": "Having a lot of rain.",
+      "pos": "adjective",
+      "definition": "With a lot of rain.",
       "thai": "ฝนตก",
       "example": "The day is rainy."
     },
     {
       "word": "sees",
-      "pos": "?",
-      "definition": "To look at something with your eyes.",
+      "pos": "verb",
+      "definition": "Looks at something with the eyes.",
       "thai": "เห็น",
       "example": "Pip sees the rain."
     },
     {
       "word": "wants",
-      "pos": "?",
-      "definition": "To feel like you would like to have or do something.",
+      "pos": "verb",
+      "definition": "Would like to have or do something.",
       "thai": "ต้องการ",
       "example": "Pip wants to play."
     },
     {
       "word": "opens",
-      "pos": "?",
-      "definition": "To move something so that it is no longer closed.",
+      "pos": "verb",
+      "definition": "Makes something not closed.",
       "thai": "เปิด",
       "example": "Pip opens the box."
     },
     {
       "word": "paper",
-      "pos": "?",
-      "definition": "Thin material used for writing or drawing.",
+      "pos": "noun",
+      "definition": "Thin white sheets. You draw or write on them.",
       "thai": "กระดาษ",
       "example": "Paper is in the box."
     },
     {
       "word": "colors",
-      "pos": "?",
-      "definition": "Things like red, blue, and green.",
+      "pos": "noun",
+      "definition": "Red, blue, and green are colors.",
       "thai": "สีต่างๆ",
       "example": "Pip likes colors."
     },
     {
       "word": "draw",
-      "pos": "?",
-      "definition": "To make a picture with a pen, pencil, or brush.",
+      "pos": "verb",
+      "definition": "Make a picture with a pen or a pencil.",
       "thai": "วาด",
       "example": "Pip wants to draw."
     },
     {
       "word": "make art",
-      "pos": "?",
-      "definition": "To create something beautiful or creative.",
+      "pos": "verb",
+      "definition": "Make pictures and other nice things.",
       "thai": "ทำงานศิลปะ",
       "example": "Pip wants to make art."
     },
     {
       "word": "picture",
-      "pos": "?",
-      "definition": "A drawing, painting, or photograph.",
+      "pos": "noun",
+      "definition": "A drawing or a photo.",
       "thai": "รูปภาพ",
       "example": "Pip draws a picture."
     },
     {
       "word": "flower",
-      "pos": "?",
-      "definition": "The colored part of a plant.",
+      "pos": "noun",
+      "definition": "The pretty, colored part of a plant.",
       "thai": "ดอกไม้",
       "example": "Pip draws a flower."
     },
     {
       "word": "friend",
-      "pos": "?",
-      "definition": "A person you know and like.",
+      "pos": "noun",
+      "definition": "A person you like and play with.",
       "thai": "เพื่อน",
       "example": "Pip draws a friend."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is happy."
     },
     {
       "word": "sad",
-      "pos": "?",
-      "definition": "Feeling unhappy or showing sorrow.",
+      "pos": "adjective",
+      "definition": "Not happy.",
       "thai": "เศร้า",
       "example": "Pip is sad."
     }
@@ -173,7 +173,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -186,7 +188,9 @@
         ],
         "answer": "Yellow",
         "evidence": "Pip is yellow.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -199,7 +203,9 @@
         ],
         "answer": "Rainy",
         "evidence": "The day is rainy.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -212,18 +218,180 @@
         ],
         "answer": "In the house",
         "evidence": "Pip is in the house.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What is in the old box?",
+        "options": [
+          "paper and pens",
+          "toys",
+          "food",
+          "books"
+        ],
+        "answer": "paper and pens",
+        "evidence": "Paper is in the box.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is the house in Pip's picture?",
+        "options": [
+          "blue",
+          "red",
+          "green",
+          "yellow"
+        ],
+        "answer": "blue",
+        "evidence": "The house is blue.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is the car?",
+        "options": [
+          "red",
+          "blue",
+          "green",
+          "black"
+        ],
+        "answer": "red",
+        "evidence": "The car is red.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Pip draw first?",
+        "options": [
+          "a big house",
+          "a red car",
+          "a green flower",
+          "a friend"
+        ],
+        "answer": "a big house",
+        "evidence": "Pip draws a big house.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is Pip at first?",
+        "options": [
+          "sad",
+          "happy",
+          "angry",
+          "brave"
+        ],
+        "answer": "sad",
+        "evidence": "Pip is sad.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Pip do with the box?",
+        "options": [
+          "He opens it.",
+          "He eats it.",
+          "He throws it.",
+          "He sits on it."
+        ],
+        "answer": "He opens it.",
+        "evidence": "Pip opens the box.",
+        "objectives": [
+          "R21.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a small yellow puppy.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Why is Pip sad?",
+        "answer": "It is rainy, and he wants to play.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What colors are the pens?",
+        "answer": "The pens are red, blue, and green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Pip draw?",
+        "answer": "He draws a house, a car, a flower, and a friend.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is Pip happy at the end?",
+        "answer": "Yes, Pip is a happy puppy.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What do you do on a rainy day?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a picture with three colors. Tell about it.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What is your favorite color? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What can you find in an old box at home?",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Do you like to make art? Tell why.",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -452,42 +620,62 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "วันนี้ฝนตก ปิ๊ปเศร้า เขาเปิดกล่องเก่าและพบกระดาษกับปากกาหลายสี ปิ๊ปวาดบ้าน รถ ดอกไม้ และเพื่อน ตอนนี้เขามีความสุขแล้ว"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the puppy is sad on a rainy day, but he finds pens and paper and draws fun pictures.",
+      "prompt": "Inside the house on a rainy day, Pip sits by a window and looks sadly at the big rain outside. A big old box is on the floor next to him.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "It is rainy. Pip is sad.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip opens a big old box and finds white paper and many pens: a red pen, a blue pen, and a green pen. He looks excited.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip finds paper and pens in the box.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip sits on the floor with sheets of paper. His drawings show a blue house, a red car, a green flower, and a friend. Pip smiles happily.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip draws. Art is fun!",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "R21.2",
+      "L19.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

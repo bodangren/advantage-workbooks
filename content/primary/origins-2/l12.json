@@ -39,7 +39,7 @@
       "Mom is here. Dad is here. Mom sees little Pip. Dad sees little Pip. Mom comes near Pip. Dad comes near Pip. Mom sits down. Dad sits down. Mom pets Pip. Dad pets Pip. This is my puppy. Pip feels Mom's hand. Pip feels Dad's hand. That is a good hand. This is comfort. Pip feels comfort.",
       "Pip feels good. This is a good feeling. Mom says, \"Good puppy, Pip.\" Dad says, \"Good Pip.\" Pip is good now. Pip is happy. Mom is happy. Dad is happy. The family is happy. This is a good family. Pip loves Mom. Pip loves Dad. Pip loves family. Family loves Pip. Pip is a happy puppy. Yes, Pip is a brave puppy now."
     ],
-    "summary": "",
+    "summary": "Little Pip is in a dark room. He hears a big sound, and he is afraid. Mom and Dad come and pet him. Pip feels comfort. Now he is a happy, brave puppy.",
     "glossed": [
       "puppy",
       "dark",
@@ -62,92 +62,92 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "dark",
-      "pos": "?",
-      "definition": "Having no light.",
+      "pos": "adjective",
+      "definition": "With no light.",
       "thai": "มืด",
       "example": "The room is dark."
     },
     {
       "word": "sound",
-      "pos": "?",
+      "pos": "noun",
       "definition": "Something you hear.",
       "thai": "เสียง",
       "example": "A big sound."
     },
     {
       "word": "afraid",
-      "pos": "?",
+      "pos": "adjective",
       "definition": "Feeling scared.",
       "thai": "กลัว",
       "example": "Pip is a little afraid."
     },
     {
       "word": "brave",
-      "pos": "?",
-      "definition": "Not being afraid.",
+      "pos": "adjective",
+      "definition": "Not afraid.",
       "thai": "กล้าหาญ",
       "example": "Pip is not brave."
     },
     {
       "word": "comes near",
-      "pos": "?",
+      "pos": "verb",
       "definition": "Moves close to someone.",
       "thai": "เข้ามาใกล้",
       "example": "Mom comes near Pip."
     },
     {
       "word": "pets",
-      "pos": "?",
-      "definition": "To touch an animal gently.",
+      "pos": "verb",
+      "definition": "Touches an animal gently with the hand.",
       "thai": "ลูบ",
       "example": "Mom pets Pip."
     },
     {
       "word": "hand",
-      "pos": "?",
-      "definition": "The part of the body at the end of the arm.",
+      "pos": "noun",
+      "definition": "The part at the end of your arm.",
       "thai": "มือ",
       "example": "Pip feels Mom's hand."
     },
     {
       "word": "comfort",
-      "pos": "?",
-      "definition": "A feeling of being safe and happy.",
+      "pos": "noun",
+      "definition": "Something that makes you feel safe and better.",
       "thai": "ความสบายใจ",
       "example": "This is comfort."
     },
     {
       "word": "feeling",
-      "pos": "?",
-      "definition": "An emotion like being happy or sad.",
+      "pos": "noun",
+      "definition": "Something you feel inside, like happy or sad.",
       "thai": "ความรู้สึก",
       "example": "This is a good feeling."
     },
     {
       "word": "family",
-      "pos": "?",
-      "definition": "A group of people who love each other.",
+      "pos": "noun",
+      "definition": "Mom, Dad, and the children. They love each other.",
       "thai": "ครอบครัว",
       "example": "The family is happy."
     },
     {
       "word": "little",
-      "pos": "?",
-      "definition": "Small in size.",
+      "pos": "adjective",
+      "definition": "Small.",
       "thai": "เล็ก",
       "example": "Pip is a little puppy."
     },
     {
       "word": "hears",
-      "pos": "?",
-      "definition": "To listen or notice a sound.",
+      "pos": "verb",
+      "definition": "Gets a sound with the ears.",
       "thai": "ได้ยิน",
       "example": "Pip hears the sound."
     }
@@ -165,7 +165,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -178,7 +180,10 @@
         ],
         "answer": "Brown",
         "evidence": "Pip is brown.",
-        "objectives": []
+        "objectives": [
+          "R17.1",
+          "R17.2"
+        ]
       },
       {
         "id": "p3",
@@ -191,7 +196,9 @@
         ],
         "answer": "In a room",
         "evidence": "Pip is in a room.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p4",
@@ -204,18 +211,180 @@
         ],
         "answer": "Dark",
         "evidence": "The room is dark.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Who comes near Pip?",
+        "options": [
+          "Mom and Dad",
+          "Lily and Tom",
+          "a cat",
+          "a teacher"
+        ],
+        "answer": "Mom and Dad",
+        "evidence": "Mom comes near Pip.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What do Mom and Dad do?",
+        "options": [
+          "They pet Pip.",
+          "They run.",
+          "They sing.",
+          "They eat."
+        ],
+        "answer": "They pet Pip.",
+        "evidence": "Mom pets Pip.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Pip hear?",
+        "options": [
+          "a big sound",
+          "a small bird",
+          "a car",
+          "a song"
+        ],
+        "answer": "a big sound",
+        "evidence": "Pip hears the sound.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Mom say?",
+        "options": [
+          "Good puppy, Pip.",
+          "Bad dog!",
+          "Go to bed.",
+          "Hello, Pip."
+        ],
+        "answer": "Good puppy, Pip.",
+        "evidence": "Mom says, \"Good puppy, Pip.\"",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Who loves Pip?",
+        "options": [
+          "his family",
+          "a cat",
+          "the farmer",
+          "the teacher"
+        ],
+        "answer": "his family",
+        "evidence": "Family loves Pip.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "How is Pip at the end?",
+        "options": [
+          "brave",
+          "afraid",
+          "sad",
+          "angry"
+        ],
+        "answer": "brave",
+        "evidence": "Yes, Pip is a brave puppy now.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a little brown puppy.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Why is Pip afraid?",
+        "answer": "The room is dark, and he hears a big sound.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What do Mom and Dad do?",
+        "answer": "They sit down and pet Pip.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Who is in Pip's family?",
+        "answer": "Mom and Dad are in Pip's family.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is Pip brave at the end?",
+        "answer": "Yes, Pip is a brave puppy now.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Who is in your family? Tell about them.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What makes you feel safe?",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw your family. Tell about your picture.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What do you do when you hear a big sound?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Tell about a time your family helped you.",
+        "objectives": [
+          "L21.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -400,106 +569,129 @@
       [
         {
           "en": "Pip feels good.",
-          "th": ""
+          "th": "ปิ๊ปรู้สึกดี"
         },
         {
           "en": "This is a good feeling.",
-          "th": ""
+          "th": "นี่เป็นความรู้สึกที่ดี"
         },
         {
           "en": "Mom says, \"Good puppy, Pip.\"",
-          "th": ""
+          "th": "แม่พูดว่า \"เด็กดี ปิ๊ป\""
         },
         {
           "en": "Dad says, \"Good Pip.\"",
-          "th": ""
+          "th": "พ่อพูดว่า \"ปิ๊ปเด็กดี\""
         },
         {
           "en": "Pip is good now.",
-          "th": ""
+          "th": "ตอนนี้ปิ๊ปรู้สึกดีแล้ว"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "Mom is happy.",
-          "th": ""
+          "th": "แม่มีความสุข"
         },
         {
           "en": "Dad is happy.",
-          "th": ""
+          "th": "พ่อมีความสุข"
         },
         {
           "en": "The family is happy.",
-          "th": ""
+          "th": "ครอบครัวมีความสุข"
         },
         {
           "en": "This is a good family.",
-          "th": ""
+          "th": "นี่เป็นครอบครัวที่ดี"
         },
         {
           "en": "Pip loves Mom.",
-          "th": ""
+          "th": "ปิ๊ปรักแม่"
         },
         {
           "en": "Pip loves Dad.",
-          "th": ""
+          "th": "ปิ๊ปรักพ่อ"
         },
         {
           "en": "Pip loves family.",
-          "th": ""
+          "th": "ปิ๊ปรักครอบครัว"
         },
         {
           "en": "Family loves Pip.",
-          "th": ""
+          "th": "ครอบครัวรักปิ๊ป"
         },
         {
           "en": "Pip is a happy puppy.",
-          "th": ""
+          "th": "ปิ๊ปเป็นลูกสุนัขที่มีความสุข"
         },
         {
           "en": "Yes, Pip is a brave puppy now.",
-          "th": ""
+          "th": "ใช่แล้ว ตอนนี้ปิ๊ปเป็นลูกสุนัขที่กล้าหาญ"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปตัวน้อยอยู่ในห้องมืด เขาได้ยินเสียงดังและรู้สึกกลัว แม่และพ่อมาลูบตัวเขา ปิ๊ปรู้สึกสบายใจ ตอนนี้เขาเป็นลูกสุนัขที่มีความสุขและกล้าหาญ"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip is a small puppy who is afraid of a big sound in a dark room, but Mom and Dad pet Pip, and Pip feels comfort, becomes happy, and is brave.",
+      "prompt": "In a dark room at night, little Pip sits alone on the floor and looks afraid. He hears a big sound from outside.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip is in a dark room. He is afraid.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the room, Mom and Dad sit down on the floor next to Pip and gently pet him with their hands.",
+      "characters": [
+        "Mom",
+        "Dad",
+        "Pip"
+      ],
+      "caption": "Mom and Dad pet Pip.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a warm, softly lit room, Mom, Dad, and Pip sit together on the floor and smile. Pip wags his tail. They are a happy family.",
+      "characters": [
+        "Mom",
+        "Dad",
+        "Pip"
+      ],
+      "caption": "Pip is a happy, brave puppy now.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L21.1",
+      "R21.2",
+      "R17.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },
