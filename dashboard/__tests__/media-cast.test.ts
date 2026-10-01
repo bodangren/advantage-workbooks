@@ -20,8 +20,10 @@ describe('cast sheets', () => {
         );
     });
 
-    it('passes the source image as the subject reference, and none when there is no source', () => {
-        const withRef = castImageArgs(cast, cast.characters[0], { dir: '/sheets', count: 4 });
+    it('uses no subject reference by default; with withSource it passes the source image', () => {
+        // A subject reference pulls MiniMax toward a 3D look, so a sheet uses the text only by default.
+        expect(castImageArgs(cast, cast.characters[0], { dir: '/sheets', count: 4 })).not.toContain('--subject-ref');
+        const withRef = castImageArgs(cast, cast.characters[0], { dir: '/sheets', count: 4, withSource: true });
         expect(withRef).toContain('--subject-ref');
         expect(withRef[withRef.indexOf('--subject-ref') + 1]).toBe('type=character,image=/sheets/source/pip.jpg');
         expect(withRef).toEqual(expect.arrayContaining(['image', 'generate', '--n', '4', '--out-dir', '/sheets/candidates', '--out-prefix', 'pip']));

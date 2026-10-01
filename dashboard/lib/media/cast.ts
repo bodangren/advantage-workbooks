@@ -50,9 +50,10 @@ export function castPrompt(cast: Cast, character: CastCharacter): string {
  * @param opts `dir` is the character-sheets folder; `count` is the number of candidates.
  * @returns The argument list (without the `mmx` command).
  */
-export function castImageArgs(cast: Cast, character: CastCharacter, opts: { dir: string; count: number }): string[] {
+export function castImageArgs(cast: Cast, character: CastCharacter, opts: { dir: string; count: number; withSource?: boolean }): string[] {
     const args = ['image', 'generate', '--prompt', castPrompt(cast, character), '--aspect-ratio', '1:1', '--n', String(opts.count)];
-    if (character.source) args.push('--subject-ref', `type=character,image=${path.join(opts.dir, character.source.image)}`);
+    // A subject reference pulls MiniMax toward a 3D look (test 2026-10-01), so the text alone is the default.
+    if (opts.withSource && character.source) args.push('--subject-ref', `type=character,image=${path.join(opts.dir, character.source.image)}`);
     // mmx numbers files from 001 on every run, so a later run needs its own prefix.
     const prefix = character.candidates.length ? `${character.name}-${character.candidates.length + 1}` : character.name;
     args.push('--out-dir', path.join(opts.dir, 'candidates'), '--out-prefix', prefix);
