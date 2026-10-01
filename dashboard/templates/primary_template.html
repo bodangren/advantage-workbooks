@@ -167,9 +167,22 @@
 
         .vocab-table {
             width: 100%;
+            table-layout: fixed; /* column widths come from <colgroup>, never from cell content */
             border-collapse: separate;
             border-spacing: 0 10px;
         }
+
+        /* Same widths on every cell, so a table fragment that Paged.js clones onto a new page keeps both columns. */
+        .vocab-table th:nth-child(1),
+        .vocab-table td:nth-child(1) { width: 42%; }
+        .vocab-table th:nth-child(2),
+        .vocab-table td:nth-child(2) { width: 58%; min-width: 55mm; }
+
+        .vocab-table thead { display: table-header-group; }
+        .vocab-table tr { break-inside: avoid; page-break-inside: avoid; }
+        .vocab-table td { overflow-wrap: anywhere; word-break: normal; }
+        /* The write-in cell keeps a fixed height, so it never collapses even if its lines are removed. */
+        .vocab-table td:nth-child(2) { min-height: 20mm; height: 20mm; }
 
         .vocab-table th {
             text-align: left;
@@ -517,6 +530,8 @@
             font-size: 14px;
             line-height: 1.4;
         }
+
+        .guided-writing-step { break-before: page; page-break-before: always; }
 
         .guided-writing-step .section-header {
             gap: 8px;
@@ -1418,6 +1433,73 @@
         .feedback-tracker { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
         .ai-score-box { font-weight: 600; border: 1px solid var(--border-dark); padding: 6px 12px; border-radius: 4px; background: white; }
         .ai-score-line { display: inline-block; width: 40px; border-bottom: 1px solid black; margin-left: 5px; }
+
+        /* ============================================
+           Page-break control for Paged.js
+           Paged.js does not honour break-after: avoid, so a heading is
+           kept with its first block by wrapping both in .keep-together.
+           ============================================ */
+        .keep-together,
+        .keep-section,
+        .tip-box,
+        .collection-box,
+        .short-answer-box,
+        .reflection-box,
+        .homework-box,
+        .answer-key,
+        .language-q-box,
+        .score-box,
+        .performance-check,
+        .word-bank,
+        .translation-para,
+        .para-note,
+        .qr-box,
+        .sentence-starters,
+        .digital-qr-box,
+        .writing-header,
+        .prompt-box,
+        .planning-area,
+        .word-count-box {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .paragraph { break-inside: avoid; page-break-inside: avoid; }
+        .translation-header { break-after: avoid; }
+
+        /* Tick boxes: the markup uses <span class="checkbox"> but no base style existed, so no box printed. */
+        .checkbox {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            border: 1.5px solid var(--border-medium);
+            border-radius: 3px;
+            background: white;
+            vertical-align: middle;
+        }
+
+        /* Marking key under the QR box: one compact row. */
+        .marking-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 18px;
+            margin: 0 0 12px;
+            padding: 6px 10px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 11px;
+            color: var(--text-medium);
+            background: var(--bg-light);
+            border-radius: 6px;
+            line-height: 1.4;
+        }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-symbol { font-weight: 700; color: var(--primary-blue); }
+        .match-item, .fill-blank p, .order-item { break-inside: avoid; }
+        /* Thai has no spaces: allow a break between any characters instead of overflow. */
+        .translation-para, .thai-translation, .match-def, .vocab-table td {
+            overflow-wrap: anywhere;
+            line-break: loose;
+        }
     </style>
 </head>
 
@@ -1441,7 +1523,7 @@
         </header>
 
         <!-- STEP 1: Introduction -->
-        <section class="section phase-1">
+        <section class="keep-section section phase-1">
             <div class="section-header">
                 <div class="section-icon icon-intro">1</div>
                 <h2 class="section-title">Before You Read</h2>
@@ -1483,10 +1565,14 @@
             </div>
 
             <table class="vocab-table">
+                <colgroup>
+                    <col style="width: 42%">
+                    <col style="width: 58%">
+                </colgroup>
                 <thead>
                     <tr>
-                        <th class="w-40">Word + Meaning</th>
-                        <th class="w-60">My Translation / Drawing / Sentence</th>
+                        <th>Word + Meaning</th>
+                        <th>My Translation / Drawing / Sentence</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1621,7 +1707,7 @@
         </section>
 
         <!-- STEP 4: Collect Vocabulary -->
-        <section class="section phase-1">
+        <section class="keep-section section phase-1">
             <div class="section-header">
                 <div class="section-icon icon-collect">4</div>
                 <h2 class="section-title">Collect Vocabulary</h2>
@@ -1663,7 +1749,7 @@
         </section>
 
         <!-- STEP 5: Deep Reading Notes -->
-        <section class="section phase-2">
+        <section class="keep-section section phase-2">
             <div class="section-header">
                 <div class="section-icon icon-read bg-orange">5</div>
                 <h2 class="section-title">Deep Reading Notes</h2>
@@ -1688,7 +1774,7 @@
         </section>
 
         <!-- STEP 6: Collect Sentences -->
-        <section class="section phase-2">
+        <section class="keep-section section phase-2">
             <div class="section-header">
                 <div class="section-icon icon-collect">6</div>
                 <h2 class="section-title">Collect Sentences{{#if grammar_search_term}} – {{grammar_search_term}}{{/if}}</h2>
@@ -1733,15 +1819,14 @@
 
         <!-- STEP 7: Multiple Choice Questions -->
         <section class="section phase-3">
-            <div class="section-header">
-                <div class="section-icon icon-question">7</div>
-                <h2 class="section-title">Comprehension Check</h2>
-                <span class="section-time">⏱ 10 min</span>
-                <!-- <span class="phase-label phase-3">Phase 3</span> -->
-            </div>
-
             <div class="practice-grid">
                 {{#each comprehension_questions}}
+                {{#if @first}}<div class="keep-together">
+                <div class="section-header">
+                    <div class="section-icon icon-question">7</div>
+                    <h2 class="section-title">Comprehension Check</h2>
+                    <span class="section-time">⏱ 10 min</span>
+                </div>{{/if}}
                 <div class="question-box">
                     <div class="question-text">
                         <span class="question-number">{{number}}</span>
@@ -1768,6 +1853,7 @@
                         </div>
                     </div>
                 </div>
+                {{#if @first}}</div>{{/if}}
                 {{/each}}
             </div>
 
@@ -1798,7 +1884,7 @@
         </section>
 
         <!-- STEP 8: Short Answer -->
-        <section class="section phase-3">
+        <section class="keep-section section phase-3">
             <div class="section-header">
                 <div class="section-icon icon-question">8</div>
                 <h2 class="section-title">Guided Response</h2>
@@ -1850,14 +1936,13 @@
 
         <!-- STEP 9: Vocabulary Practice -->
         <section class="section phase-4">
-            <div class="section-header">
-                <div class="section-icon icon-practice">9</div>
-                <h2 class="section-title">Vocabulary Practice</h2>
-                <span class="section-time">⏱ 10 min</span>
-                <!-- <span class="phase-label phase-4">Phase 4</span> -->
-            </div>
-
             <div class="practice-grid">
+                <div class="keep-together">
+                <div class="section-header">
+                    <div class="section-icon icon-practice">9</div>
+                    <h2 class="section-title">Vocabulary Practice</h2>
+                    <span class="section-time">⏱ 10 min</span>
+                </div>
                 <div class="practice-box">
                     <div class="practice-title">A. Match the Words</div>
                     {{#each vocab_match}}
@@ -1872,6 +1957,7 @@
                         </span>
                     </div>
                     {{/each}}
+                </div>
                 </div>
 
                 <div class="practice-box">
@@ -1895,14 +1981,13 @@
 
         <!-- STEP 10: Sentence Practice -->
         <section class="section phase-4">
-            <div class="section-header">
-                <div class="section-icon icon-practice">10</div>
-                <h2 class="section-title">Sentence Practice</h2>
-                <span class="section-time">⏱ 8 min</span>
-                <!-- <span class="phase-label phase-4">Phase 4</span> -->
-            </div>
-
             <div class="practice-grid">
+                <div class="keep-together">
+                <div class="section-header">
+                    <div class="section-icon icon-practice">10</div>
+                    <h2 class="section-title">Sentence Practice</h2>
+                    <span class="section-time">⏱ 8 min</span>
+                </div>
                 <div class="practice-box">
                     <div class="practice-title">C. Put the Words in Order</div>
                     <p class="text-xs text-muted mb-2">Write the sentence in the correct order:</p>
@@ -1917,6 +2002,7 @@
                     </div>
                     <div class="writing-line mt-2"></div>
                     {{/each}}
+                </div>
                 </div>
 
                 <div class="practice-box">
@@ -2061,7 +2147,7 @@
         </section>
 
         <!-- STEP 12: Language Questions -->
-        <section class="section phase-4">
+        <section class="keep-section section phase-4">
             <div class="section-header">
                 <div class="section-icon icon-question bg-light-blue">12</div>
                 <h2 class="section-title">Language Questions</h2>
@@ -2090,7 +2176,7 @@
         </section>
 
         <!-- STEP 13: Reflection -->
-        <section class="section">
+        <section class="keep-section section">
             <div class="section-header">
                 <div class="section-icon icon-reflect">13</div>
                 <h2 class="section-title">Lesson Reflection</h2>
