@@ -46,8 +46,10 @@ describe('image job', () => {
         );
     });
 
-    it('passes one subject reference for each character with a sheet, and a run prefix', () => {
-        const args = imageArgs(cast, image({ characters: ['Tom', 'Pip', 'Teacher Kim'] }), { sheetsDir: '/s', outDir: '/m/candidates', prefix: 'hero-2', count: 2 });
+    it('uses the text only by default (a reference gives a 3D look); with withSheets one reference per sheet', () => {
+        const opts = { sheetsDir: '/s', outDir: '/m/candidates', prefix: 'hero-2', count: 2 };
+        expect(imageArgs(cast, image({ characters: ['Tom', 'Pip'] }), opts)).not.toContain('--subject-ref');
+        const args = imageArgs(cast, image({ characters: ['Tom', 'Pip', 'Teacher Kim'] }), { ...opts, withSheets: true });
         const refs = args.flatMap((a, i) => (a === '--subject-ref' ? [args[i + 1]] : []));
         expect(refs).toEqual(['type=character,image=/s/tom.jpg', 'type=character,image=/s/source/pip.jpg']);
         expect(args).toEqual(expect.arrayContaining(['--aspect-ratio', '1:1', '--n', '2', '--out-dir', '/m/candidates', '--out-prefix', 'hero-2']));

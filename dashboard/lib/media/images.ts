@@ -67,9 +67,10 @@ export function imagePrompt(cast: Cast, image: PackageImage): string {
  * @param opts Folders, the file prefix for this run, and the number of candidates.
  * @returns The argument list (without the `mmx` command).
  */
-export function imageArgs(cast: Cast, image: PackageImage, opts: { sheetsDir: string; outDir: string; prefix: string; count: number }): string[] {
+export function imageArgs(cast: Cast, image: PackageImage, opts: { sheetsDir: string; outDir: string; prefix: string; count: number; withSheets?: boolean }): string[] {
     const args = ['image', 'generate', '--prompt', imagePrompt(cast, image), '--aspect-ratio', '1:1', '--n', String(opts.count)];
-    for (const name of image.characters) {
+    // A subject reference gives a 3D look (tests 2026-10-01); the flat style and the looks keep the cast the same.
+    for (const name of opts.withSheets ? image.characters : []) {
         const sheet = sheetFor(cast, name);
         if (sheet) args.push('--subject-ref', `type=character,image=${path.join(opts.sheetsDir, sheet)}`);
     }

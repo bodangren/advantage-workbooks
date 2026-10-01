@@ -19,6 +19,8 @@ Options:
   --redo-marked      Only the images Daniel marked "new pictures" on the review page
   --count <n>        Candidates per image (default 2)
   --render           Draw the overlays again on the chosen pictures; make nothing new
+  --with-sheets      Pass the chosen cast sheets as subject references (off by default: a
+                     reference gives a 3D look; the flat style and the looks keep the cast the same)
   --dry-run          Print the prompts and references; make nothing
 
 By default it makes candidates for every image that has none. The character sheets in
@@ -30,13 +32,14 @@ interface Options {
     file: string;
     only?: string[];
     redoMarked: boolean;
+    withSheets: boolean;
     count: number;
     render: boolean;
     dryRun: boolean;
 }
 
 function parseArgs(argv: string[]): Options | number {
-    const opts: Partial<Options> = { redoMarked: false, count: 2, render: false, dryRun: false };
+    const opts: Partial<Options> = { redoMarked: false, withSheets: false, count: 2, render: false, dryRun: false };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -46,6 +49,7 @@ function parseArgs(argv: string[]): Options | number {
         else if (a === '--redo-marked') opts.redoMarked = true;
         else if (a === '--count') opts.count = Number(argv[++i]);
         else if (a === '--render') opts.render = true;
+        else if (a === '--with-sheets') opts.withSheets = true;
         else if (a === '--dry-run') opts.dryRun = true;
         else if (!a.startsWith('--') && !opts.file) opts.file = path.resolve(a);
         else {
@@ -96,7 +100,7 @@ async function main(argv: string[]): Promise<number> {
     for (const img of todo) {
         // mmx numbers files from 001 on every run, so a later run needs its own prefix.
         const prefix = img.candidates.length ? `${img.position}-${img.candidates.length + 1}` : img.position;
-        const args = imageArgs(cast, img, { sheetsDir: SHEETS, outDir: path.join(root, outRel), prefix, count: opts.count });
+        const args = imageArgs(cast, img, { sheetsDir: SHEETS, outDir: path.join(root, outRel), prefix, count: opts.count, withSheets: opts.withSheets });
         const refs = img.characters.map((n) => `${n}=${sheetFor(cast, n) ?? 'none'}`).join(', ');
         if (opts.dryRun) {
             console.log(`${img.position} [${refs}]\n  ${args[args.indexOf('--prompt') + 1]}`);
