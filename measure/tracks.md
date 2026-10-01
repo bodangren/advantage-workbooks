@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Origins 2 and 3.1 app refresh: new pictures, audio, Tutor clips, and supporting content for the 27 printed lessons; articles and vocabulary locked.** *(Created: 2026-10-01)*
+  *Link: [./tracks/origins_app_refresh_20261001/](./tracks/origins_app_refresh_20261001/)*
+
 - [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
   *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
 
