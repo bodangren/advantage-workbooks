@@ -150,4 +150,12 @@ describe('content hash', () => {
         changed.text.summary = 'Another summary.';
         expect(rowsHash(legacyRows(changed, ids, NOW))).not.toBe(a);
     });
+
+    it('counts the Tutor clips too, so a new voice uploads again', () => {
+        const rows = legacyRows(withMedia(), { articleId: 'cart1', mcq: {}, saq: {}, laq: {}, flashcardId: 'g' }, NOW);
+        expect(rowsHash(rows, undefined)).toBe(rowsHash(rows));
+        const female = rowsHash(rows, { voice: 'English_captivating_female1' });
+        expect(female).not.toBe(rowsHash(rows));
+        expect(rowsHash(rows, { voice: 'English_magnetic_voiced_man' })).not.toBe(female);
+    });
 });

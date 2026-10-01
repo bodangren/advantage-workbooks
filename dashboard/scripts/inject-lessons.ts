@@ -9,6 +9,8 @@ import { recordInjection } from '../lib/lesson-package/store';
 import { bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
 import { legacyStatements } from '../lib/inject/sql';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
+import { voicesFor } from '../lib/media/audio';
+import { tutorItems, tutorManifest, tutorUploads } from '../lib/media/tutor-audio';
 
 const USAGE = `Injects approved lesson packages into the legacy Primary database (track primary_injector_20261001).
 Field map: docs/content-plans/primary-db-field-map.md.
@@ -20,14 +22,16 @@ Options:
   --show-sql             With --dry-run: print the SQL (without the values)
   --db-env <NAME>        Env var with the database URL (default LEGACY_DATABASE_URL); never printed
   --bucket <name>        Bucket for the media (default primary-app-storage)
+  --tutor-bucket <name>  Bucket for the Tutor Advantage clips and manifest (default tutor_advantage_bucket)
+  --no-tutor             Skip the Tutor clips (only for a local test database)
   --backup-instance <i>  Cloud SQL instance to back up first (default cloud-sql, project reading-advantage)
   --no-backup            Skip the backup (only for a local test database)
   --no-upload            Skip the media upload (only for a local test database)
   --force                Write even when the content hash has not changed
 
 Only packages with approval.lesson = approved are written. Before the first write the script makes
-a Cloud SQL backup and waits for it. Media goes up first, then one transaction per lesson, then the
-verify step. The ids go back into the package (db.legacy), and a line goes into
+a Cloud SQL backup and waits for it. Media goes up first (the app's files, then the Tutor clips, then
+the Tutor manifest), then one transaction per lesson, then the verify step. The ids go back into the package (db.legacy), and a line goes into
 content/primary/<book>/inject-log.jsonl.`;
 
 interface Options {
@@ -36,6 +40,8 @@ interface Options {
     showSql: boolean;
     dbEnv: string;
     bucket: string;
+    tutorBucket: string;
+    tutor: boolean;
     backupInstance: string;
     backup: boolean;
     upload: boolean;
@@ -43,7 +49,7 @@ interface Options {
 }
 
 function parseArgs(argv: string[]): Options | number {
-    const o: Options = { files: [], dryRun: false, showSql: false, dbEnv: 'LEGACY_DATABASE_URL', bucket: 'primary-app-storage', backupInstance: 'cloud-sql', backup: true, upload: true, force: false };
+    const o: Options = { files: [], dryRun: false, showSql: false, dbEnv: 'LEGACY_DATABASE_URL', bucket: 'primary-app-storage', tutorBucket: 'tutor_advantage_bucket', tutor: true, backupInstance: 'cloud-sql', backup: true, upload: true, force: false };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -53,6 +59,8 @@ function parseArgs(argv: string[]): Options | number {
         else if (a === '--show-sql') o.showSql = true;
         else if (a === '--db-env') o.dbEnv = argv[++i];
         else if (a === '--bucket') o.bucket = argv[++i];
+        else if (a === '--tutor-bucket') o.tutorBucket = argv[++i];
+        else if (a === '--no-tutor') o.tutor = false;
         else if (a === '--backup-instance') o.backupInstance = argv[++i];
         else if (a === '--no-backup') o.backup = false;
         else if (a === '--no-upload') o.upload = false;
@@ -100,6 +108,26 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
     }
 }
 
+/** The Tutor clips go up in one copy (a folder in the bucket's layout); the manifest goes last, without a cache. */
+function uploadTutor(root: string, uploads: ReturnType<typeof tutorUploads>, manifest: ReturnType<typeof tutorManifest>, bucket: string) {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'inject-tutor-'));
+    try {
+        const prefix = `articles/${manifest.articleId}/`;
+        for (const u of uploads) {
+            const to = path.join(tmp, manifest.articleId, u.to.slice(prefix.length));
+            fs.mkdirSync(path.dirname(to), { recursive: true });
+            fs.copyFileSync(path.resolve(root, u.from), to);
+        }
+        gcloud(['storage', 'cp', '-r', path.join(tmp, manifest.articleId), `gs://${bucket}/articles/`, '--cache-control=public, max-age=300']);
+        const file = path.join(tmp, 'manifest.json');
+        fs.writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`);
+        gcloud(['storage', 'cp', file, `gs://${bucket}/${prefix}manifest.json`, '--cache-control=no-cache,max-age=0,must-revalidate', '--content-type=application/json']);
+        console.log(`  uploaded ${uploads.length} Tutor clips and ${prefix}manifest.json`);
+    } finally {
+        fs.rmSync(tmp, { recursive: true, force: true });
+    }
+}
+
 async function main(argv: string[]): Promise<number> {
     const opts = parseArgs(argv);
     if (typeof opts === 'number') return opts;
@@ -130,7 +158,21 @@ async function main(argv: string[]): Promise<number> {
                 failed++;
                 continue;
             }
-            const hash = rowsHash(rows);
+            let tutor: { uploads: ReturnType<typeof tutorUploads>; manifest: ReturnType<typeof tutorManifest> } | undefined;
+            if (opts.tutor) {
+                const items = tutorItems(pkg);
+                const voices = voicesFor(pkg);
+                const uploads = pkg.audio.tutor ? tutorUploads(items, pkg.audio.tutor, rows.ids.articleId) : [];
+                const missing = uploads.filter((u) => !fs.existsSync(path.resolve(root, u.from))).length;
+                if (!pkg.audio.tutor || missing) {
+                    console.error(`${book}/${lesson}: Not ready to inject: ${pkg.audio.tutor ? `${missing} Tutor clip(s) missing` : 'no Tutor clips'}; run scripts/media/lesson-audio.ts`);
+                    failed++;
+                    continue;
+                }
+                const manifest = tutorManifest(items, { articleId: rows.ids.articleId, bucket: opts.tutorBucket, title: pkg.meta.title, narratorVoice: voices.narrator, teacherVoice: voices.teacher, speed: 0.75, generatedAt: now.toISOString() });
+                tutor = { uploads, manifest };
+            }
+            const hash = rowsHash(rows, tutor && { ...tutor.manifest, generatedAt: undefined });
             const statements = legacyStatements(rows, now);
             const objects = bucketObjects(pkg, rows.ids.articleId);
             const label = `${book}/${lesson} "${pkg.meta.title}" → article ${rows.ids.articleId} (${known ? 'update' : 'new'})`;
@@ -139,6 +181,7 @@ async function main(argv: string[]): Promise<number> {
                 console.log(`${label}${approved ? '' : '  [NOT APPROVED: a real run refuses it]'}`);
                 console.log(`  rows: 1 article, ${rows.mcq.length} MCQ, ${rows.saq.length} SAQ, ${rows.laq.length} LAQ, 1 flashcard row; hash ${hash}${known?.contentHash === hash ? ' (unchanged)' : ''}`);
                 for (const o of objects) console.log(`  ${o.from} → gs://${opts.bucket}/${o.to}${o.png ? ' (as PNG)' : ''}`);
+                if (tutor) console.log(`  ${tutor.uploads.length} Tutor clips and manifest.json → gs://${opts.tutorBucket}/articles/${rows.ids.articleId}/`);
                 if (opts.showSql) for (const s of statements) console.log(`  ${s.text}`);
                 continue;
             }
@@ -164,10 +207,11 @@ async function main(argv: string[]): Promise<number> {
             }
             console.log(label);
             if (opts.upload) await upload(root, objects, opts.bucket);
+            if (opts.upload && tutor) uploadTutor(root, tutor.uploads, tutor.manifest, opts.tutorBucket);
             await applyStatements(client, statements);
             const diffs = await verifyLegacy(client, rows);
             recordInjection(root, book, lesson, 'legacy', { ...rows.ids, contentHash: hash, injectedAt: now.toISOString() });
-            const log = { time: now.toISOString(), target: 'legacy', lesson: `${book}/${lesson}`, articleId: rows.ids.articleId, backupId, hash, objects: opts.upload ? objects.map((o) => o.to) : [], verify: diffs };
+            const log = { time: now.toISOString(), target: 'legacy', lesson: `${book}/${lesson}`, articleId: rows.ids.articleId, backupId, hash, objects: opts.upload ? objects.map((o) => o.to) : [], tutorClips: opts.upload && tutor ? tutor.uploads.length : 0, verify: diffs };
             fs.appendFileSync(path.join(root, book, 'inject-log.jsonl'), `${JSON.stringify(log)}\n`);
             if (diffs.length) {
                 failed++;

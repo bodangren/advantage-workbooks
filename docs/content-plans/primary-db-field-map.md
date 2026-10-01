@@ -1,6 +1,6 @@
 # Primary database field map (lesson package → app)
 
-Version 1.0 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
+Version 1.1 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
 
 Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantage/prisma/schema.prisma`, `types/index.d.ts`, `lib/storage-config.ts`, the generators in `server/utils/genaretors/`, `reading-advantage-monorepo/packages/db/src/schema/{content,questions,primary}.ts`, and `tutor-advantage/services/learning-service/src/services/PrimaryAdvantageDB.ts`.
 
@@ -70,6 +70,19 @@ One row per article.
 | `audios/articles/<id>.mp3` | `audio.article` |
 | `audios/words/<id>.mp3` | `audio.words` |
 | `audios/sentences/<id>.mp3` | the flashcard sentences |
+
+## Tutor Advantage clips (bucket `tutor_advantage_bucket`)
+
+Tutor plays one mp3 for each sentence, word, question, and option. It finds them through `articles/<id>/manifest.json` (version 1); without a manifest it points at files that do not exist. The ids copy `tutor-advantage/scripts/generate-article-tts.mjs` (`lib/media/tutor-audio.ts`), so Tutor's own generator skips the files we upload.
+
+| Path | From |
+|---|---|
+| `articles/<id>/sentences/sentence-NNN-<sha1>.mp3` | each article sentence, in order (narrator voice) |
+| `articles/<id>/words/word-NNN-<sha1>.mp3` | the glossary words (`words`, Tutor's vocabulary step), then every other story word (`sentenceWords`, for the sentence games) |
+| `articles/<id>/questions/<mcq\|saq>-NNN-<sha1>[-optionN-<sha1>].mp3` | the MCQs in bank order with their options, then the SAQs |
+| `articles/<id>/manifest.json` | uploaded last, with `no-cache` |
+
+Tutor matches the questions by index to `SELECT … WHERE article_id = $1` with no `ORDER BY`; the injector writes them in bank order, and the new ids sort in that order.
 
 ## New schema (monorepo, after the cutover)
 

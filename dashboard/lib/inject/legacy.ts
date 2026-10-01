@@ -177,10 +177,12 @@ export function bucketObjects(pkg: LessonPackage, articleId: string): { from: st
  * A hash of the rows' content, so a second run can tell whether anything changed. The validation
  * time does not count.
  * @param rows The output of `legacyRows`.
+ * @param extra Other content that goes up with the rows (the Tutor manifest without its time).
  * @returns 16 hex characters.
  */
-export function rowsHash(rows: ReturnType<typeof legacyRows>): string {
+export function rowsHash(rows: ReturnType<typeof legacyRows>, extra?: unknown): string {
     const { validated_at: _time, ...article } = rows.article;
     void _time;
-    return createHash('sha256').update(JSON.stringify({ ...rows, article })).digest('hex').slice(0, 16);
+    const content = extra === undefined ? { ...rows, article } : { ...rows, article, extra };
+    return createHash('sha256').update(JSON.stringify(content)).digest('hex').slice(0, 16);
 }

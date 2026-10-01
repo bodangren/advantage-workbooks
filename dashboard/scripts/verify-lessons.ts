@@ -5,19 +5,22 @@ import { Client } from 'pg';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { bucketObjects, legacyRows } from '../lib/inject/legacy';
 import { verifyLegacy } from '../lib/inject/run';
+import { tutorItems, tutorUploads } from '../lib/media/tutor-audio';
 
 const USAGE = `Compares injected lesson packages with the legacy Primary database and bucket (track primary_injector_20261001).
 
-Usage: npx tsx scripts/verify-lessons.ts <package.json>... [--db-env LEGACY_DATABASE_URL] [--bucket primary-app-storage] [--no-bucket]
+Usage: npx tsx scripts/verify-lessons.ts <package.json>... [--db-env LEGACY_DATABASE_URL] [--bucket primary-app-storage]
+       [--tutor-bucket tutor_advantage_bucket] [--no-bucket]
 
 Reads only. Reports changed or missing rows, question rows that the package does not have, and
-missing bucket objects. Run it after each injection, after each rehearsal, and after the cutover.
+missing bucket objects (the app's files, the Tutor clips, and the Tutor manifest). Run it after each injection, after each rehearsal, and after the cutover.
 Exit code: 0 when everything matches, 1 when something differs.`;
 
 function main(argv: string[]): Promise<number> | number {
     const files: string[] = [];
     let dbEnv = 'LEGACY_DATABASE_URL';
     let bucket = 'primary-app-storage';
+    let tutorBucket = 'tutor_advantage_bucket';
     let checkBucket = true;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
@@ -26,6 +29,7 @@ function main(argv: string[]): Promise<number> | number {
             return 0;
         } else if (a === '--db-env') dbEnv = argv[++i];
         else if (a === '--bucket') bucket = argv[++i];
+        else if (a === '--tutor-bucket') tutorBucket = argv[++i];
         else if (a === '--no-bucket') checkBucket = false;
         else if (!a.startsWith('--')) files.push(path.resolve(a));
         else {
@@ -38,10 +42,16 @@ function main(argv: string[]): Promise<number> | number {
         console.error(url ? USAGE : `Set ${dbEnv} to the database URL`);
         return 2;
     }
-    return run(files, url, checkBucket ? bucket : undefined);
+    return run(files, url, checkBucket ? { app: bucket, tutor: tutorBucket } : undefined);
 }
 
-async function run(files: string[], url: string, bucket?: string): Promise<number> {
+/** Every object under a prefix, in one listing. */
+function listed(prefix: string): Set<string> {
+    const ls = spawnSync('gcloud', ['storage', 'ls', `${prefix}**`], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+    return new Set(ls.status === 0 ? ls.stdout.split('\n').map((l) => l.trim()).filter(Boolean) : []);
+}
+
+async function run(files: string[], url: string, buckets?: { app: string; tutor: string }): Promise<number> {
     const client = new Client({ connectionString: url });
     await client.connect();
     let differs = 0;
@@ -56,10 +66,17 @@ async function run(files: string[], url: string, bucket?: string): Promise<numbe
                 continue;
             }
             const diffs = await verifyLegacy(client, legacyRows(pkg, known, new Date()));
-            if (bucket) {
+            if (buckets) {
                 for (const o of bucketObjects(pkg, known.articleId)) {
-                    const ls = spawnSync('gcloud', ['storage', 'ls', `gs://${bucket}/${o.to}`], { encoding: 'utf8' });
+                    const ls = spawnSync('gcloud', ['storage', 'ls', `gs://${buckets.app}/${o.to}`], { encoding: 'utf8' });
                     if (ls.status !== 0) diffs.push(`bucket: ${o.to} missing`);
+                }
+                if (pkg.audio.tutor) {
+                    const prefix = `gs://${buckets.tutor}/articles/${known.articleId}/`;
+                    const have = listed(prefix);
+                    const want = [...tutorUploads(tutorItems(pkg), pkg.audio.tutor, known.articleId).map((u) => `gs://${buckets.tutor}/${u.to}`), `${prefix}manifest.json`];
+                    const gone = want.filter((w) => !have.has(w));
+                    if (gone.length) diffs.push(`tutor bucket: ${gone.length} of ${want.length} objects missing (first: ${gone[0].slice(prefix.length)})`);
                 }
             }
             if (diffs.length) differs++;
