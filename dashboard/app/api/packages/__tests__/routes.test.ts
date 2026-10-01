@@ -117,6 +117,27 @@ describe('file route', () => {
   });
 });
 
+describe('file ranges', () => {
+  it('answers a byte range with 206 so the audio player can seek', async () => {
+    const req = new NextRequest('http://x/api/files?root=sheets&path=candidates/pip_001.jpg', {
+      headers: { range: 'bytes=2-4' },
+    });
+    const res = await fileGET(req);
+    expect(res.status).toBe(206);
+    expect(res.headers.get('content-range')).toBe('bytes 2-4/9');
+    expect(res.headers.get('accept-ranges')).toBe('bytes');
+    expect(Buffer.from(await res.arrayBuffer()).toString()).toBe('g-b');
+    const open = await fileGET(
+      new NextRequest('http://x/api/files?root=sheets&path=candidates/pip_001.jpg', { headers: { range: 'bytes=5-' } }),
+    );
+    expect(Buffer.from(await open.arrayBuffer()).toString()).toBe('ytes');
+    const bad = await fileGET(
+      new NextRequest('http://x/api/files?root=sheets&path=candidates/pip_001.jpg', { headers: { range: 'bytes=20-30' } }),
+    );
+    expect(bad.status).toBe(416);
+  });
+});
+
 describe('cast route', () => {
   it("reads the cast and records Daniel's choice as the sheet", async () => {
     const cast = await (await castGET()).json();

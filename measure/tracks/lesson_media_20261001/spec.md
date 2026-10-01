@@ -34,11 +34,13 @@ On 2026-10-01 Daniel chose local `mmx image` and `mmx speech` over the app's Ope
 
 ## Audio
 
-- Article: `mmx speech synthesize --subtitles`. One English voice for all Primary lessons; Daniel picks it once from 3 samples. The speed suits young learners.
-- The script changes the subtitle timing into the app's sentence-timing format (the shape comes from the injector's field map).
-- Words: one file with the 12 glossed words and their timing, in the same form as the app's `audios/words/<id>.mp3`.
+- Article: one WAV clip per sentence (`mmx speech synthesize --format wav --language English`), because `--subtitles` gives one segment for the whole text, even with one sentence per line (probe, 2026-10-01). The sentences come from the Thai part, whose check proves they join to each paragraph.
+- The clips are trimmed (60 ms pad) and joined with gaps (450 ms between sentences, 900 ms between paragraphs). The sentence times come from the sample counts, so they are exact. One MP3 encode at the end (`libmp3lame -q:a 4`).
+- Takes vary: the same sentence differs by up to 40% in length between runs, more than the speed setting changes it. A take with an inner pause over 0.6 s is made again (3 tries; the take with the shortest pause stays). `--redo 4,w2` makes named sentences or words again.
+- One English voice for all Primary lessons; Daniel picks it once from 3 samples (paragraph 1 of E12 at speed 0.75: `English_expressive_narrator`, `English_Graceful_Lady`, `English_Gentle-voiced_man`). Default until then: the narrator. Speed 0.75 gives about 124 words a minute with the gaps (the legacy app used 0.7 on Lemonfox).
+- Words: one file with the 12 glossed words and their timing (700 ms gaps), for the app's `audios/words/<id>.mp3`. The injector maps both timing lists to the app's fields.
 - Chant and song audio (P03, P04) is a later task.
-- Files: `content/primary/<book>/media/<lesson>.mp3` and `<lesson>_words.mp3`.
+- Files: `content/primary/<book>/media/<lesson>/article.mp3` and `words.mp3`; clips are cached in `.clips/` (not in git). The review page serves them with byte ranges, so the player can seek.
 
 ## Out of scope
 
@@ -46,5 +48,5 @@ Video and music.
 
 ## Acceptance
 
-- Unit tests for the timing conversion and the overlay step, on fixture inputs.
+- Unit tests for the WAV parts, the trim, the join timing, the clip key, and the overlay step, on fixture inputs.
 - E12 has 3 approved images and 2 audio files, and the app's timing format accepts the timing.

@@ -27,5 +27,19 @@ export async function GET(req: NextRequest) {
   const file = path.resolve(base, rel);
   if (!file.startsWith(base + path.sep)) return NextResponse.json({ error: 'Invalid path' }, { status: 400 });
   if (!fs.existsSync(file)) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-  return new NextResponse(fs.readFileSync(file), { headers: { 'content-type': type, 'cache-control': 'no-store' } });
+  const body = fs.readFileSync(file);
+  const headers = { 'content-type': type, 'cache-control': 'no-store', 'accept-ranges': 'bytes' };
+  // The audio player seeks with byte ranges; without a 206 answer Chrome starts again at 0.
+  const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.get('range') ?? '');
+  if (!range) return new NextResponse(body, { headers });
+  const size = body.length;
+  const start = range[1] ? Number(range[1]) : Math.max(0, size - Number(range[2]));
+  const end = range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+  if (start >= size || start > end) {
+    return new NextResponse(null, { status: 416, headers: { ...headers, 'content-range': `bytes */${size}` } });
+  }
+  return new NextResponse(body.subarray(start, end + 1), {
+    status: 206,
+    headers: { ...headers, 'content-range': `bytes ${start}-${end}/${size}` },
+  });
 }
