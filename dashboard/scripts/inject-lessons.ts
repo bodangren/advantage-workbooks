@@ -84,7 +84,7 @@ function parseArgs(argv: string[]): Options | number {
 
 function gcloud(args: string[]): string {
     const run = spawnSync('gcloud', args, { encoding: 'utf8', timeout: 1_800_000 });
-    if (run.status !== 0) throw new Error(`gcloud ${args.slice(0, 3).join(' ')} failed: ${(run.stderr || String(run.error)).trim().slice(0, 400)}`);
+    if (run.status !== 0) throw new Error(`gcloud ${args.slice(0, 3).join(' ')} failed: ${(run.stderr || String(run.error)).trim().slice(-400)}`);
     return run.stdout.trim();
 }
 
@@ -122,7 +122,7 @@ function backupObjects(bucket: string, paths: string[], now: Date): number {
     for (const p of paths) {
         const run = spawnSync('gcloud', ['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], { encoding: 'utf8', timeout: 300_000 });
         if (run.status === 0) copied++;
-        else if (!/matched no objects|No URLs matched|not found/i.test(run.stderr)) throw new Error(`backup of gs://${bucket}/${p} failed: ${run.stderr.trim().slice(0, 300)}`);
+        else if (!/matched no objects|No URLs matched|not found/i.test(run.stderr)) throw new Error(`backup of gs://${bucket}/${p} failed: ${run.stderr.trim().slice(-400)}`);
     }
     return copied;
 }
