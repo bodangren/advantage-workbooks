@@ -39,7 +39,7 @@
       "This is Pip. Pip is a dog. Pip is a small dog. Pip is brown. Pip is good. Lisa has a new game. The game is a ball. The ball is red. The ball is big. Ben sees the red ball. Pip sees the red ball. Everyone sees the red ball.",
       "Lisa and Ben play. They play with the red ball. Pip plays too. Pip runs fast. Ben runs fast. Lisa runs fast. They are in the park. The park is big. The game is fun. They are happy. Pip is happy. This is a happy day."
     ],
-    "summary": "",
+    "summary": "Lisa's Aunt, Uncle, and cousin Ben come to visit. Lisa has a new game: a big red ball. Lisa, Ben, and Pip play in the park. It is a happy day.",
     "glossed": [
       "Aunt",
       "Uncle",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "Aunt",
-      "pos": "?",
-      "definition": "The sister of your father or mother.",
+      "pos": "noun",
+      "definition": "Your mom's sister or your dad's sister.",
       "thai": "ป้า/น้า",
       "example": "Her Aunt comes."
     },
     {
       "word": "Uncle",
-      "pos": "?",
-      "definition": "The brother of your father or mother.",
+      "pos": "noun",
+      "definition": "Your mom's brother or your dad's brother.",
       "thai": "ลุง/น้า/อา",
       "example": "Her Uncle comes."
     },
     {
       "word": "Cousin",
-      "pos": "?",
+      "pos": "noun",
       "definition": "The child of your aunt or uncle.",
       "thai": "ลูกพี่ลูกน้อง",
       "example": "Ben is her cousin."
     },
     {
       "word": "Everyone",
-      "pos": "?",
-      "definition": "All the people in a group.",
+      "pos": "pronoun",
+      "definition": "All the people.",
       "thai": "ทุกคน",
       "example": "Everyone sees the red ball."
     },
     {
       "word": "Game",
-      "pos": "?",
-      "definition": "An activity that you play for fun or according to rules.",
+      "pos": "noun",
+      "definition": "Something you play for fun.",
       "thai": "เกม",
       "example": "Lisa has a new game."
     },
     {
       "word": "Park",
-      "pos": "?",
-      "definition": "A large public green area for people to enjoy.",
+      "pos": "noun",
+      "definition": "A big green place with trees. People play there.",
       "thai": "สวนสาธารณะ",
       "example": "They are in the park."
     },
     {
       "word": "Fast",
-      "pos": "?",
-      "definition": "Moving or capable of moving at high speed.",
+      "pos": "adverb",
+      "definition": "Quickly. Not slow.",
       "thai": "เร็ว",
       "example": "Pip runs fast."
     },
     {
       "word": "Fun",
-      "pos": "?",
-      "definition": "Enjoyment or something that is amusing.",
+      "pos": "adjective",
+      "definition": "Good to do. It makes you happy.",
       "thai": "สนุก",
       "example": "The game is fun."
     },
     {
       "word": "Happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Lisa is happy."
     },
     {
       "word": "Brown",
-      "pos": "?",
-      "definition": "A dark color like the color of wood or soil.",
+      "pos": "adjective",
+      "definition": "The color of wood.",
       "thai": "สีน้ำตาล",
       "example": "Pip is brown."
     },
     {
       "word": "Small",
-      "pos": "?",
-      "definition": "Not large in size.",
+      "pos": "adjective",
+      "definition": "Little. Not big.",
       "thai": "เล็ก",
       "example": "Pip is a small dog."
     },
     {
       "word": "Ball",
-      "pos": "?",
-      "definition": "A round object used in games and sports.",
+      "pos": "noun",
+      "definition": "A round thing. You play games with it.",
       "thai": "ลูกบอล",
       "example": "The game is a ball."
     }
@@ -152,11 +152,14 @@
         "options": [
           "Her Mom and Dad",
           "Her Aunt, Uncle, Ben",
-          "Her friends"
+          "Her friends",
+          "Her teacher"
         ],
         "answer": "Her Aunt, Uncle, Ben",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Her Aunt comes.",
+        "objectives": [
+          "L21.1"
+        ]
       },
       {
         "id": "p2",
@@ -164,11 +167,14 @@
         "options": [
           "Lisa's brother",
           "Lisa's cousin",
-          "Lisa's friend"
+          "Lisa's friend",
+          "Lisa's dad"
         ],
         "answer": "Lisa's cousin",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Ben is her cousin.",
+        "objectives": [
+          "L21.1"
+        ]
       },
       {
         "id": "p3",
@@ -176,11 +182,14 @@
         "options": [
           "A cat",
           "A dog",
-          "A bird"
+          "A bird",
+          "A fish"
         ],
         "answer": "A dog",
         "evidence": "Pip is a dog.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -188,22 +197,185 @@
         "options": [
           "Blue",
           "Yellow",
-          "Red"
+          "Red",
+          "Green"
         ],
         "answer": "Red",
         "evidence": "The ball is red.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What is the girl's name?",
+        "options": [
+          "Lisa",
+          "Lily",
+          "Mia",
+          "May"
+        ],
+        "answer": "Lisa",
+        "evidence": "This is Lisa.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Is Ben a boy or a girl?",
+        "options": [
+          "a boy",
+          "a girl",
+          "a dog",
+          "a man"
+        ],
+        "answer": "a boy",
+        "evidence": "Ben is a boy.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What is the new game?",
+        "options": [
+          "a ball",
+          "a book",
+          "a car",
+          "a kite"
+        ],
+        "answer": "a ball",
+        "evidence": "The game is a ball.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "How does Pip run?",
+        "options": [
+          "fast",
+          "slow",
+          "sad",
+          "small"
+        ],
+        "answer": "fast",
+        "evidence": "Pip runs fast.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Where do they play?",
+        "options": [
+          "in the park",
+          "at school",
+          "at the zoo",
+          "in the library"
+        ],
+        "answer": "in the park",
+        "evidence": "They are in the park.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Is the ball big or small?",
+        "options": [
+          "big",
+          "small",
+          "long",
+          "short"
+        ],
+        "answer": "big",
+        "evidence": "The ball is big.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who comes to Lisa's house?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Her Aunt, her Uncle, and Ben come.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who is Ben?",
+        "answer": "Ben is Lisa's cousin.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is Pip?",
+        "answer": "Pip is brown.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do they do in the park?",
+        "answer": "They play with the red ball.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is the game fun?",
+        "answer": "Yes, the game is fun.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Tell about your aunt, your uncle, or your cousin.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What game do you like? Tell about it.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw Lisa, Ben, and Pip in the park. Tell about your picture.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Who comes to your house? Tell about a good day.",
+        "objectives": [
+          "L21.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Can you run fast? What else can you do?",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -404,42 +576,65 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ป้า ลุง และเบ็นลูกพี่ลูกน้องมาเยี่ยมลิซ่า ลิซ่ามีเกมใหม่ คือลูกบอลสีแดงลูกใหญ่ ลิซ่า เบ็น และปิ๊ปเล่นกันในสวนสาธารณะ วันนี้เป็นวันที่มีความสุข"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Lisa is happy because her Aunt, Uncle, and cousin Ben visit, and they all play a new game with Pip the dog and a red ball in the park.",
+      "prompt": "Lisa smiles at her front door. Her aunt, her uncle, and her cousin Ben arrive for a visit and wave. Lisa, a girl with shoulder-length curly brown hair, wears a purple T-shirt, blue jeans, and pink sneakers. Lisa's aunt, a young woman with a short black bob, wears a green dress. Lisa's uncle, a tall man with short brown hair and round glasses, wears a blue shirt and gray trousers.",
+      "characters": [
+        "Ben"
+      ],
+      "caption": "Lisa's Aunt, Uncle, and cousin Ben come.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the front yard, Lisa holds up a big red ball. Ben and Pip look at the ball with happy faces. Lisa, a girl with shoulder-length curly brown hair, wears a purple T-shirt, blue jeans, and pink sneakers.",
+      "characters": [
+        "Ben",
+        "Pip"
+      ],
+      "caption": "Lisa has a new game: a big red ball.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Lisa, Ben, and Pip run fast after a big red ball in a big green park. They laugh. Lisa, a girl with shoulder-length curly brown hair, wears a purple T-shirt, blue jeans, and pink sneakers.",
+      "characters": [
+        "Ben",
+        "Pip"
+      ],
+      "caption": "They play with the red ball in the park.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "L21.1",
+      "R17.1",
+      "R21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

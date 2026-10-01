@@ -39,7 +39,7 @@
       "Pip sees a monkey. This monkey is small. The monkey is brown. It is on a tree. The monkey is funny. Pip likes the monkey. Pip sees a green bird. The bird is green. It is in a cage. Pip likes the green bird. The bird is pretty.",
       "Pip sees a zebra. This is a zebra. The zebra is white. It is black. The zebra is big. Pip sees the big zebra. The zoo is fun. Pip likes the animals. All animals are good. Pip is happy. My dog Pip is happy."
     ],
-    "summary": "",
+    "summary": "Pip the dog is at the big zoo. He sees a big brown lion, a funny monkey, a pretty green bird, and a big zebra. Pip likes all the animals.",
     "glossed": [
       "animal",
       "lion",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "animal",
-      "pos": "?",
-      "definition": "A living creature that is not a plant or person.",
+      "pos": "noun",
+      "definition": "A living thing that can move, like a dog or a bird.",
       "thai": "สัตว์",
       "example": "Pip sees an animal."
     },
     {
       "word": "lion",
-      "pos": "?",
-      "definition": "A large wild cat that has a mane and lives in groups.",
+      "pos": "noun",
+      "definition": "A big wild cat. It is brown.",
       "thai": "สิงโต",
       "example": "This is a lion."
     },
     {
       "word": "monkey",
-      "pos": "?",
-      "definition": "A small animal with a long tail that lives in trees.",
+      "pos": "noun",
+      "definition": "An animal with a long tail. It climbs trees.",
       "thai": "ลิง",
       "example": "Pip sees a monkey."
     },
     {
       "word": "funny",
-      "pos": "?",
-      "definition": "Something that makes you laugh.",
+      "pos": "adjective",
+      "definition": "It makes you laugh.",
       "thai": "ตลก",
       "example": "The monkey is funny."
     },
     {
       "word": "cage",
-      "pos": "?",
-      "definition": "A box made of wire or bars to keep animals inside.",
+      "pos": "noun",
+      "definition": "A box with bars. It keeps an animal in.",
       "thai": "กรง",
       "example": "It is in a cage."
     },
     {
       "word": "pretty",
-      "pos": "?",
-      "definition": "Something that is pleasing to look at.",
+      "pos": "adjective",
+      "definition": "Nice to look at.",
       "thai": "สวย",
       "example": "The bird is pretty."
     },
     {
       "word": "zebra",
-      "pos": "?",
-      "definition": "A wild animal that looks like a horse with black and white stripes.",
+      "pos": "noun",
+      "definition": "An animal like a horse with black and white stripes.",
       "thai": "ม้าลาย",
       "example": "Pip sees a zebra."
     },
     {
       "word": "brown",
-      "pos": "?",
-      "definition": "A dark color like wood or coffee.",
+      "pos": "adjective",
+      "definition": "The color of wood.",
       "thai": "สีน้ำตาล",
       "example": "The lion is brown."
     },
     {
       "word": "green",
-      "pos": "?",
+      "pos": "adjective",
       "definition": "The color of grass and leaves.",
       "thai": "สีเขียว",
       "example": "Pip sees a green bird."
     },
     {
       "word": "white",
-      "pos": "?",
-      "definition": "The lightest color, like snow or milk.",
+      "pos": "adjective",
+      "definition": "The color of milk and snow.",
       "thai": "สีขาว",
       "example": "The zebra is white."
     },
     {
       "word": "black",
-      "pos": "?",
-      "definition": "The darkest color, like the night sky.",
+      "pos": "adjective",
+      "definition": "The color of the night sky.",
       "thai": "สีดำ",
       "example": "It is black."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure and joy.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Pip is a happy dog."
     }
@@ -157,7 +157,9 @@
         ],
         "answer": "A dog",
         "evidence": "Pip is a dog.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "At the zoo",
         "evidence": "Pip is at the zoo.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "Brown",
         "evidence": "The lion is brown.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -195,19 +201,181 @@
           "Funny"
         ],
         "answer": "Big",
-        "evidence": "He is at the big zoo.",
-        "objectives": []
+        "evidence": "The lion is big.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the bird?",
+        "options": [
+          "green",
+          "red",
+          "brown",
+          "white"
+        ],
+        "answer": "green",
+        "evidence": "The bird is green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Where is the monkey?",
+        "options": [
+          "on a tree",
+          "in a cage",
+          "in the water",
+          "on a car"
+        ],
+        "answer": "on a tree",
+        "evidence": "It is on a tree.",
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Where is the bird?",
+        "options": [
+          "in a cage",
+          "on a tree",
+          "in a house",
+          "on the lion"
+        ],
+        "answer": "in a cage",
+        "evidence": "It is in a cage.",
+        "objectives": [
+          "L21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What is the monkey like?",
+        "options": [
+          "funny",
+          "sad",
+          "big",
+          "green"
+        ],
+        "answer": "funny",
+        "evidence": "The monkey is funny.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What colors is the zebra?",
+        "options": [
+          "black and white",
+          "brown and green",
+          "red and blue",
+          "yellow"
+        ],
+        "answer": "black and white",
+        "evidence": "The zebra is white.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Which animal is small?",
+        "options": [
+          "the monkey",
+          "the lion",
+          "the zebra",
+          "the elephant"
+        ],
+        "answer": "the monkey",
+        "evidence": "This monkey is small.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a happy dog.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What animals does Pip see?",
+        "answer": "He sees a lion, a monkey, a bird, and a zebra.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is the monkey?",
+        "answer": "The monkey is brown.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Is the zebra big or small?",
+        "answer": "The zebra is big.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is the zoo fun?",
+        "answer": "Yes, the zoo is fun.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What is your favorite zoo animal? Tell about it.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a zebra. What colors do you use?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "The monkey is funny. What animal is funny to you? Tell why.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about a trip to a zoo or a farm.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Pip likes all animals. Do you like animals? Tell why.",
+        "objectives": [
+          "L21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -352,86 +520,104 @@
       [
         {
           "en": "Pip sees a zebra.",
-          "th": ""
+          "th": "ปิ๊ปเห็นม้าลาย"
         },
         {
           "en": "This is a zebra.",
-          "th": ""
+          "th": "นี่คือม้าลาย"
         },
         {
           "en": "The zebra is white.",
-          "th": ""
+          "th": "ม้าลายมีสีขาว"
         },
         {
           "en": "It is black.",
-          "th": ""
+          "th": "มันมีสีดำ"
         },
         {
           "en": "The zebra is big.",
-          "th": ""
+          "th": "ม้าลายตัวใหญ่"
         },
         {
           "en": "Pip sees the big zebra.",
-          "th": ""
+          "th": "ปิ๊ปเห็นม้าลายตัวใหญ่"
         },
         {
           "en": "The zoo is fun.",
-          "th": ""
+          "th": "สวนสัตว์สนุก"
         },
         {
           "en": "Pip likes the animals.",
-          "th": ""
+          "th": "ปิ๊ปชอบสัตว์ต่างๆ"
         },
         {
           "en": "All animals are good.",
-          "th": ""
+          "th": "สัตว์ทุกตัวดี"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "My dog Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปสุนัขของฉันมีความสุข"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปสุนัขอยู่ที่สวนสัตว์ใหญ่ เขาเห็นสิงโตสีน้ำตาลตัวใหญ่ ลิงตลก นกสีเขียวที่สวยงาม และม้าลายตัวใหญ่ ปิ๊ปชอบสัตว์ทุกตัว"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the dog is at the zoo. He sees many animals. Pip is very happy.",
+      "prompt": "Pip stands at a big zoo and looks up at a big brown lion behind a low fence. Pip looks happy.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sees a big brown lion.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At the zoo, Pip looks at a small brown monkey in a tree and a pretty green bird in a big cage.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sees a funny monkey and a green bird.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At the zoo, Pip looks at a big black-and-white zebra. Pip wags his tail and smiles.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sees a big zebra. The zoo is fun.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "L21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

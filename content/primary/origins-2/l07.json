@@ -39,7 +39,7 @@
       "Lily puts on her shoes. Pip looks at Lily. Pip is happy. Lily takes her bag. Her bag is yellow. The bag has a book. The book is big. Lily says, \"Bye, Pip!\" Pip says, \"Woof!\" Lily goes to school. School is big. Many children are here. This is a boy. He has a red shirt. This is a girl. She has a blue dress.",
       "They are new friends. Lily smiles. Her new friends smile. They go inside. The room is big. A teacher is here. The teacher is kind. Lily sees a red ball. Lily plays. Friends play. They like the red ball. Lily is happy. Friends are happy. School is fun. Lily likes school. This is a good day."
     ],
-    "summary": "",
+    "summary": "Lily puts on her new clothes for school. She says goodbye to Pip. At school, she meets new friends and a kind teacher. They play with a red ball. Lily likes school.",
     "glossed": [
       "puppy",
       "clothes",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is Lily's puppy."
     },
     {
       "word": "clothes",
-      "pos": "?",
-      "definition": "Items that people wear to cover their body.",
+      "pos": "noun",
+      "definition": "Things you wear, like a shirt or a skirt.",
       "thai": "เสื้อผ้า",
       "example": "Lily has new clothes."
     },
     {
       "word": "shirt",
-      "pos": "?",
-      "definition": "A piece of clothing worn on the upper part of the body.",
+      "pos": "noun",
+      "definition": "Clothes for the top part of your body.",
       "thai": "เสื้อเชิ้ต",
       "example": "Lily has a new shirt."
     },
     {
       "word": "skirt",
-      "pos": "?",
-      "definition": "A piece of clothing that hangs from the waist.",
+      "pos": "noun",
+      "definition": "Clothes that hang down from the waist.",
       "thai": "กระโปรง",
       "example": "Lily has a new skirt."
     },
     {
       "word": "puts on",
-      "pos": "?",
-      "definition": "To dress oneself in a piece of clothing.",
+      "pos": "verb",
+      "definition": "Dresses in something.",
       "thai": "สวม",
       "example": "Lily puts on her shirt."
     },
     {
       "word": "children",
-      "pos": "?",
-      "definition": "Young people who are not yet adults.",
+      "pos": "noun",
+      "definition": "Young people. Boys and girls.",
       "thai": "เด็กๆ",
       "example": "Many children are here."
     },
     {
       "word": "friends",
-      "pos": "?",
-      "definition": "People who know and like each other.",
+      "pos": "noun",
+      "definition": "People you like and play with.",
       "thai": "เพื่อนๆ",
       "example": "They are new friends."
     },
     {
       "word": "smiles",
-      "pos": "?",
-      "definition": "An expression on the face that shows happiness.",
+      "pos": "verb",
+      "definition": "Makes a happy face.",
       "thai": "ยิ้ม",
       "example": "Lily smiles."
     },
     {
       "word": "inside",
-      "pos": "?",
-      "definition": "In or into a room or building.",
+      "pos": "adverb",
+      "definition": "In a room or a building.",
       "thai": "ข้างใน",
       "example": "They go inside."
     },
     {
       "word": "teacher",
-      "pos": "?",
-      "definition": "A person who helps students to learn.",
+      "pos": "noun",
+      "definition": "A person who helps you learn at school.",
       "thai": "ครู",
       "example": "A teacher is here."
     },
     {
       "word": "kind",
-      "pos": "?",
-      "definition": "Friendly, caring, and helpful to others.",
+      "pos": "adjective",
+      "definition": "Nice and good to people.",
       "thai": "ใจดี",
       "example": "The teacher is kind."
     },
     {
       "word": "fun",
-      "pos": "?",
-      "definition": "Something that is enjoyable or entertaining.",
+      "pos": "adjective",
+      "definition": "Good to do. It makes you happy.",
       "thai": "สนุก",
       "example": "School is fun."
     }
@@ -152,11 +152,14 @@
         "options": [
           "A girl",
           "A boy",
-          "A puppy"
+          "A puppy",
+          "A teacher"
         ],
         "answer": "A girl",
         "evidence": "Lily is a girl.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -164,11 +167,14 @@
         "options": [
           "A cat",
           "A puppy",
-          "A bird"
+          "A bird",
+          "A fish"
         ],
         "answer": "A puppy",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Pip is Lily's puppy.",
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -176,11 +182,14 @@
         "options": [
           "Red",
           "Blue",
-          "Yellow"
+          "Yellow",
+          "Green"
         ],
         "answer": "Blue",
         "evidence": "The shirt is blue.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -188,22 +197,185 @@
         "options": [
           "Red",
           "White",
-          "Blue"
+          "Blue",
+          "Black"
         ],
         "answer": "White",
         "evidence": "The shoes are white.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is Lily's skirt?",
+        "options": [
+          "red",
+          "blue",
+          "white",
+          "yellow"
+        ],
+        "answer": "red",
+        "evidence": "The skirt is red.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is Lily's bag?",
+        "options": [
+          "yellow",
+          "red",
+          "blue",
+          "white"
+        ],
+        "answer": "yellow",
+        "evidence": "Her bag is yellow.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Lily say to Pip?",
+        "options": [
+          "Bye, Pip!",
+          "Hello, Pip!",
+          "Thank you, Pip!",
+          "Sorry, Pip!"
+        ],
+        "answer": "Bye, Pip!",
+        "evidence": "Lily says, \"Bye, Pip!\"",
+        "objectives": [
+          "R18.3"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Pip say?",
+        "options": [
+          "Woof!",
+          "Meow!",
+          "Hello!",
+          "Moo!"
+        ],
+        "answer": "Woof!",
+        "evidence": "Pip says, \"Woof!\"",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Who is kind?",
+        "options": [
+          "the teacher",
+          "the boy",
+          "the girl",
+          "Pip"
+        ],
+        "answer": "the teacher",
+        "evidence": "The teacher is kind.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does the girl have?",
+        "options": [
+          "a blue dress",
+          "a red shirt",
+          "a yellow bag",
+          "white shoes"
+        ],
+        "answer": "a blue dress",
+        "evidence": "She has a blue dress.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Lily's puppy's name?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Lily's puppy's name is Pip.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What new clothes does Lily have?",
+        "answer": "She has a new shirt, a new skirt, and new shoes.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What is in Lily's bag?",
+        "answer": "A big book is in her bag.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do Lily and her friends play with?",
+        "answer": "They play with a red ball.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Does Lily like school?",
+        "answer": "Yes, Lily likes school.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What clothes do you wear to school? What colors are they?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw Lily in her new clothes. Tell about your picture.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "How do you say goodbye to your family in the morning?",
+        "objectives": [
+          "R18.3"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about your teacher.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What do you play with your friends at school?",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -322,172 +494,194 @@
       [
         {
           "en": "Lily puts on her shoes.",
-          "th": ""
+          "th": "ลิลลี่สวมรองเท้า"
         },
         {
           "en": "Pip looks at Lily.",
-          "th": ""
+          "th": "ปิ๊ปมองลิลลี่"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "Lily takes her bag.",
-          "th": ""
+          "th": "ลิลลี่หยิบกระเป๋าของเธอ"
         },
         {
           "en": "Her bag is yellow.",
-          "th": ""
+          "th": "กระเป๋าของเธอสีเหลือง"
         },
         {
           "en": "The bag has a book.",
-          "th": ""
+          "th": "ในกระเป๋ามีหนังสือ"
         },
         {
           "en": "The book is big.",
-          "th": ""
+          "th": "หนังสือเล่มใหญ่"
         },
         {
           "en": "Lily says, \"Bye, Pip!\"",
-          "th": ""
+          "th": "ลิลลี่พูดว่า \"บ๊ายบาย ปิ๊ป!\""
         },
         {
           "en": "Pip says, \"Woof!\"",
-          "th": ""
+          "th": "ปิ๊ปพูดว่า \"โฮ่ง!\""
         },
         {
           "en": "Lily goes to school.",
-          "th": ""
+          "th": "ลิลลี่ไปโรงเรียน"
         },
         {
           "en": "School is big.",
-          "th": ""
+          "th": "โรงเรียนใหญ่"
         },
         {
           "en": "Many children are here.",
-          "th": ""
+          "th": "ที่นี่มีเด็กๆ มากมาย"
         },
         {
           "en": "This is a boy.",
-          "th": ""
+          "th": "นี่คือเด็กผู้ชาย"
         },
         {
           "en": "He has a red shirt.",
-          "th": ""
+          "th": "เขาใส่เสื้อสีแดง"
         },
         {
           "en": "This is a girl.",
-          "th": ""
+          "th": "นี่คือเด็กผู้หญิง"
         },
         {
           "en": "She has a blue dress.",
-          "th": ""
+          "th": "เธอใส่ชุดกระโปรงสีฟ้า"
         }
       ],
       [
         {
           "en": "They are new friends.",
-          "th": ""
+          "th": "พวกเขาเป็นเพื่อนใหม่"
         },
         {
           "en": "Lily smiles.",
-          "th": ""
+          "th": "ลิลลี่ยิ้ม"
         },
         {
           "en": "Her new friends smile.",
-          "th": ""
+          "th": "เพื่อนใหม่ของเธอยิ้ม"
         },
         {
           "en": "They go inside.",
-          "th": ""
+          "th": "พวกเขาเข้าไปข้างใน"
         },
         {
           "en": "The room is big.",
-          "th": ""
+          "th": "ห้องใหญ่"
         },
         {
           "en": "A teacher is here.",
-          "th": ""
+          "th": "มีครูอยู่ที่นี่"
         },
         {
           "en": "The teacher is kind.",
-          "th": ""
+          "th": "ครูใจดี"
         },
         {
           "en": "Lily sees a red ball.",
-          "th": ""
+          "th": "ลิลลี่เห็นลูกบอลสีแดง"
         },
         {
           "en": "Lily plays.",
-          "th": ""
+          "th": "ลิลลี่เล่น"
         },
         {
           "en": "Friends play.",
-          "th": ""
+          "th": "เพื่อนๆ เล่น"
         },
         {
           "en": "They like the red ball.",
-          "th": ""
+          "th": "พวกเขาชอบลูกบอลสีแดง"
         },
         {
           "en": "Lily is happy.",
-          "th": ""
+          "th": "ลิลลี่มีความสุข"
         },
         {
           "en": "Friends are happy.",
-          "th": ""
+          "th": "เพื่อนๆ มีความสุข"
         },
         {
           "en": "School is fun.",
-          "th": ""
+          "th": "โรงเรียนสนุก"
         },
         {
           "en": "Lily likes school.",
-          "th": ""
+          "th": "ลิลลี่ชอบโรงเรียน"
         },
         {
           "en": "This is a good day.",
-          "th": ""
+          "th": "วันนี้เป็นวันที่ดี"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ลิลลี่สวมเสื้อผ้าใหม่ไปโรงเรียน เธอบอกลาปิ๊ป ที่โรงเรียนเธอพบเพื่อนใหม่และครูใจดี พวกเขาเล่นลูกบอลสีแดงด้วยกัน ลิลลี่ชอบโรงเรียน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Lily puts on her new clothes for school, says goodbye to her puppy Pip, meets new friends at school, and plays with them.",
+      "prompt": "In her bedroom, Lily puts on her new clothes: a blue shirt, a red skirt, and new white shoes (today her shoes are white). Pip watches her and smiles.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Lily puts on her new clothes.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At the gate of a big school, Lily carries a yellow school bag. She meets a boy with short black hair in a red shirt and a girl with long brown hair in a blue dress. Many children play in the schoolyard. Lily wears her new white shoes.",
+      "characters": [
+        "Lily"
+      ],
+      "caption": "Lily meets new friends at school.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a big bright classroom, Lily and her two new friends, the boy in a red shirt and the girl in a blue dress, play with a red ball. Their kind teacher smiles at them.",
+      "characters": [
+        "Lily",
+        "Teacher Kim"
+      ],
+      "caption": "Lily and her friends play. School is fun.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R18.3"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

@@ -39,7 +39,7 @@
       "Pip likes quiet places. Pip sees many books. Books are on a table. Books are on a shelf. Books are red. Books are blue. Books are green. Pip sees a boy. The boy is happy. He reads a book. Pip sees a girl. She also reads. Books are good. Pip sits on the floor.",
       "This floor is clean. Pip looks at the books. A book is red. A book is yellow. Pip likes books. This place is good. The boy smiles at Pip. The girl smiles at Pip. Pip is happy. Pip is a happy puppy. This book house is fun. Reading is fun."
     ],
-    "summary": "",
+    "summary": "Pip walks in the park. He finds a quiet book house with many books. A boy and a girl read there. Pip sits on the floor and looks at the books. Reading is fun.",
     "glossed": [
       "puppy",
       "park",
@@ -64,106 +64,106 @@
   "glossary": [
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "park",
-      "pos": "?",
-      "definition": "A large public area of land used for recreation.",
+      "pos": "noun",
+      "definition": "A big green place with trees. People play there.",
       "thai": "สวนสาธารณะ",
       "example": "Pip walks in the park."
     },
     {
       "word": "quiet",
-      "pos": "?",
-      "definition": "Making very little or no noise.",
+      "pos": "adjective",
+      "definition": "With very little noise.",
       "thai": "เงียบ",
       "example": "The book house is quiet."
     },
     {
       "word": "shelf",
-      "pos": "?",
-      "definition": "A flat board used to store items like books.",
+      "pos": "noun",
+      "definition": "A flat board on a wall. You put books on it.",
       "thai": "ชั้นวาง",
       "example": "Books are on a shelf."
     },
     {
       "word": "floor",
-      "pos": "?",
-      "definition": "The surface of a room on which one stands.",
+      "pos": "noun",
+      "definition": "The part of a room you walk on.",
       "thai": "พื้น",
       "example": "Pip sits on the floor."
     },
     {
       "word": "smiles",
-      "pos": "?",
-      "definition": "To show a happy expression on the face.",
+      "pos": "verb",
+      "definition": "Makes a happy face.",
       "thai": "ยิ้ม",
       "example": "The boy smiles at Pip."
     },
     {
       "word": "clean",
-      "pos": "?",
-      "definition": "Free from dirt or marks.",
+      "pos": "adjective",
+      "definition": "Not dirty.",
       "thai": "สะอาด",
       "example": "This floor is clean."
     },
     {
       "word": "place",
-      "pos": "?",
-      "definition": "A particular area or building.",
+      "pos": "noun",
+      "definition": "Where something is. A park is a place.",
       "thai": "สถานที่",
       "example": "Pip likes quiet places."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "The boy is happy."
     },
     {
       "word": "reading",
-      "pos": "?",
-      "definition": "Looking at and understanding written words.",
+      "pos": "noun",
+      "definition": "Looking at words and understanding them.",
       "thai": "การอ่าน",
       "example": "Reading is fun."
     },
     {
       "word": "door",
-      "pos": "?",
-      "definition": "A barrier used to open or close an entrance.",
+      "pos": "noun",
+      "definition": "You open it to go in or out of a room.",
       "thai": "ประตู",
       "example": "He walks to the door."
     },
     {
       "word": "table",
-      "pos": "?",
-      "definition": "Furniture with a flat top and legs.",
+      "pos": "noun",
+      "definition": "A flat top on legs. You eat or work at it.",
       "thai": "โต๊ะ",
       "example": "Books are on a table."
     },
     {
       "word": "also",
-      "pos": "?",
-      "definition": "In addition to something else.",
+      "pos": "adverb",
+      "definition": "Too.",
       "thai": "ด้วย",
       "example": "She also reads."
     },
     {
       "word": "many",
-      "pos": "?",
-      "definition": "A large number of people or things.",
+      "pos": "adjective",
+      "definition": "A lot of.",
       "thai": "มากมาย",
       "example": "Pip sees many books."
     },
     {
       "word": "fun",
-      "pos": "?",
-      "definition": "Something that provides enjoyment.",
+      "pos": "adjective",
+      "definition": "Good to do. It makes you happy.",
       "thai": "สนุก",
       "example": "This book house is fun."
     }
@@ -181,7 +181,9 @@
         ],
         "answer": "a puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p2",
@@ -194,7 +196,9 @@
         ],
         "answer": "in the park",
         "evidence": "Pip walks in the park.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -207,7 +211,9 @@
         ],
         "answer": "a book house",
         "evidence": "This is a book house.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -220,18 +226,180 @@
         ],
         "answer": "quiet",
         "evidence": "The book house is quiet.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the park?",
+        "options": [
+          "green",
+          "red",
+          "blue",
+          "black"
+        ],
+        "answer": "green",
+        "evidence": "The park is green.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Where are the books?",
+        "options": [
+          "on a table and a shelf",
+          "in a car",
+          "in the park",
+          "on a tree"
+        ],
+        "answer": "on a table and a shelf",
+        "evidence": "Books are on a shelf.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does the boy do?",
+        "options": [
+          "He reads a book.",
+          "He runs fast.",
+          "He swims.",
+          "He sleeps."
+        ],
+        "answer": "He reads a book.",
+        "evidence": "He reads a book.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Where does Pip sit?",
+        "options": [
+          "on the floor",
+          "on a chair",
+          "on a table",
+          "in a bag"
+        ],
+        "answer": "on the floor",
+        "evidence": "Pip sits on the floor.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How is the floor?",
+        "options": [
+          "clean",
+          "dirty",
+          "wet",
+          "red"
+        ],
+        "answer": "clean",
+        "evidence": "This floor is clean.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Is the door open?",
+        "options": [
+          "Yes, it is open.",
+          "No, it is closed.",
+          "No, it is red.",
+          "Yes, it is small."
+        ],
+        "answer": "Yes, it is open.",
+        "evidence": "The door is open.",
+        "objectives": [
+          "R17.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a puppy.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What does Pip see in the park?",
+        "answer": "Pip sees a big book house.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What colors are the books?",
+        "answer": "The books are red, blue, green, and yellow.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do the boy and the girl do?",
+        "answer": "They read books and smile at Pip.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is reading fun?",
+        "answer": "Yes, reading is fun.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you like to read? Tell why.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Draw a book house. What is in it?",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Tell about a quiet place you like.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What is your favorite book? What color is it?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Pip walks in the park. Where do you like to walk?",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -448,42 +616,61 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปเดินเล่นในสวนสาธารณะ เขาพบบ้านหนังสือที่เงียบและมีหนังสือมากมาย เด็กผู้ชายและเด็กผู้หญิงอ่านหนังสืออยู่ที่นั่น ปิ๊ปนั่งบนพื้นและดูหนังสือ การอ่านสนุก"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the puppy walks in the park. He finds a quiet book house. Many colorful books are inside. Pip is happy to see children reading.",
+      "prompt": "Pip walks in a big green park and sees a nice little book house with an open door. Colorful books show through its window.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sees a book house in the park.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Inside the quiet book house, many red, blue, and green books stand on a table and on a shelf. A boy with short brown hair in a green T-shirt reads a book, and a girl with long black hair in a pink dress reads a book too. Pip looks at them.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "A boy and a girl read books.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Pip sits on the clean floor of the book house and looks at a red book and a yellow book. The boy with short brown hair in a green T-shirt and the girl with long black hair in a pink dress smile at Pip.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "Pip sits on the floor. Reading is fun.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R17.2",
+      "L19.2",
+      "R21.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },
