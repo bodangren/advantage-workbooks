@@ -39,7 +39,7 @@
       "This is a scary sound. Pip is afraid. Pip is very afraid. Pip is not happy. Pip wants mom. Pip wants dad. Pip is a small puppy. This is a bad night. Mom is here. Dad is here. Mom comes to Pip. Dad comes to Pip. Mom holds Pip. This is comfort.",
       "Dad holds Pip. This is comfort. Pip is safe. Pip is warm. Pip is not afraid now. Mom says, \"You are brave, Pip.\" Dad says, \"You are brave.\" Pip is brave. Pip is happy. This is a good night. Pip loves Mom. Pip loves Dad. This is good."
     ],
-    "summary": "",
+    "summary": "It is night, and it is dark. Pip sees a big shadow and hears a scary sound. He is afraid. Mom and Dad come and hold him. Pip feels safe and brave.",
     "glossed": [
       "shadow",
       "scary",
@@ -61,85 +61,85 @@
   "glossary": [
     {
       "word": "shadow",
-      "pos": "?",
-      "definition": "A dark shape made when something blocks the light.",
+      "pos": "noun",
+      "definition": "A dark shape. Light makes it.",
       "thai": "เงา",
       "example": "Pip sees a big shadow."
     },
     {
       "word": "scary",
-      "pos": "?",
-      "definition": "Something that makes you feel frightened.",
+      "pos": "adjective",
+      "definition": "It makes you afraid.",
       "thai": "น่ากลัว",
       "example": "This is a scary sound."
     },
     {
       "word": "afraid",
-      "pos": "?",
-      "definition": "Feeling fear or being scared.",
+      "pos": "adjective",
+      "definition": "Feeling scared.",
       "thai": "กลัว",
       "example": "Pip is afraid."
     },
     {
       "word": "comfort",
-      "pos": "?",
-      "definition": "A feeling of being safe, relaxed, and happy.",
+      "pos": "noun",
+      "definition": "Something that makes you feel safe and better.",
       "thai": "ความสบายใจ",
       "example": "This is comfort."
     },
     {
       "word": "brave",
-      "pos": "?",
-      "definition": "Showing no fear in difficult situations.",
+      "pos": "adjective",
+      "definition": "Not afraid.",
       "thai": "กล้าหาญ",
       "example": "Mom says, \"You are brave, Pip.\""
     },
     {
       "word": "quiet",
-      "pos": "?",
-      "definition": "Making very little or no sound.",
+      "pos": "adjective",
+      "definition": "With very little noise.",
       "thai": "เงียบ",
       "example": "Pip is quiet."
     },
     {
       "word": "puppy",
-      "pos": "?",
-      "definition": "A baby dog.",
+      "pos": "noun",
+      "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a small puppy."
     },
     {
       "word": "safe",
-      "pos": "?",
-      "definition": "Not in danger of being hurt.",
+      "pos": "adjective",
+      "definition": "Not in danger. Nothing can hurt you.",
       "thai": "ปลอดภัย",
       "example": "Pip is safe."
     },
     {
       "word": "warm",
-      "pos": "?",
-      "definition": "A little bit hot in a nice way.",
+      "pos": "adjective",
+      "definition": "A little hot. Nice, not cold.",
       "thai": "อบอุ่น",
       "example": "Pip is warm."
     },
     {
       "word": "dark",
-      "pos": "?",
-      "definition": "Having very little or no light.",
+      "pos": "adjective",
+      "definition": "With no light.",
       "thai": "มืด",
       "example": "It is dark."
     },
     {
       "word": "sound",
-      "pos": "?",
-      "definition": "Something that you can hear.",
+      "pos": "noun",
+      "definition": "Something you hear.",
       "thai": "เสียง",
       "example": "Pip hears a sound."
     },
     {
       "word": "house",
-      "pos": "?",
-      "definition": "A building where people or animals live.",
+      "pos": "noun",
+      "definition": "A home for a family.",
       "thai": "บ้าน",
       "example": "Pip is in the house."
     }
@@ -156,8 +156,10 @@
           "A girl"
         ],
         "answer": "A puppy",
-        "evidence": "?",
-        "objectives": []
+        "evidence": "Pip is a small puppy.",
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p2",
@@ -170,7 +172,9 @@
         ],
         "answer": "In the house",
         "evidence": "Pip is in the house.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
       },
       {
         "id": "p3",
@@ -183,7 +187,9 @@
         ],
         "answer": "It is dark",
         "evidence": "It is dark.",
-        "objectives": []
+        "objectives": [
+          "R19.1"
+        ]
       },
       {
         "id": "p4",
@@ -196,18 +202,180 @@
         ],
         "answer": "A big shadow",
         "evidence": "Pip sees a big shadow.",
-        "objectives": []
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "How does Pip feel at first?",
+        "options": [
+          "afraid",
+          "happy",
+          "hungry",
+          "sleepy"
+        ],
+        "answer": "afraid",
+        "evidence": "Pip is afraid.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Who comes to Pip?",
+        "options": [
+          "Mom and Dad",
+          "Lily and Tom",
+          "a cat",
+          "the farmer"
+        ],
+        "answer": "Mom and Dad",
+        "evidence": "Mom comes to Pip.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Is it a good night at the end?",
+        "options": [
+          "Yes, it is a good night.",
+          "No, it is a bad night.",
+          "No, it is a cold night.",
+          "Yes, it is a sunny day."
+        ],
+        "answer": "Yes, it is a good night.",
+        "evidence": "This is a good night.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Pip hear?",
+        "options": [
+          "a big sound",
+          "a happy song",
+          "a phone",
+          "a bell"
+        ],
+        "answer": "a big sound",
+        "evidence": "The sound is big.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "When is it dark?",
+        "options": [
+          "at night",
+          "in the morning",
+          "at lunch",
+          "in the day"
+        ],
+        "answer": "at night",
+        "evidence": "Night is here.",
+        "objectives": [
+          "R19.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Where is Pip at night?",
+        "options": [
+          "in his bed",
+          "in the park",
+          "at school",
+          "in the car"
+        ],
+        "answer": "in his bed",
+        "evidence": "Pip is in his bed.",
+        "objectives": [
+          "R19.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "Who is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a small puppy.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Why is Pip afraid?",
+        "answer": "He sees a big shadow and hears a scary sound.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What do Mom and Dad do?",
+        "answer": "They hold Pip.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Mom say?",
+        "answer": "She says, \"You are brave, Pip.\"",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Is it a good night at the end?",
+        "answer": "Yes, it is a good night.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "What do you do when you are afraid?",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Who helps you at night? Tell about it.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw Pip with Mom and Dad. Tell about your picture.",
+        "objectives": [
+          "L18.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Tell about a time you were brave.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What do you see and hear at night?",
+        "objectives": [
+          "R19.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -376,94 +544,114 @@
       [
         {
           "en": "Dad holds Pip.",
-          "th": ""
+          "th": "พ่อกอดปิ๊ป"
         },
         {
           "en": "This is comfort.",
-          "th": ""
+          "th": "นี่คือความสบายใจ"
         },
         {
           "en": "Pip is safe.",
-          "th": ""
+          "th": "ปิ๊ปปลอดภัย"
         },
         {
           "en": "Pip is warm.",
-          "th": ""
+          "th": "ปิ๊ปอบอุ่น"
         },
         {
           "en": "Pip is not afraid now.",
-          "th": ""
+          "th": "ตอนนี้ปิ๊ปไม่กลัวแล้ว"
         },
         {
           "en": "Mom says, \"You are brave, Pip.\"",
-          "th": ""
+          "th": "แม่พูดว่า \"ปิ๊ป ลูกกล้าหาญมาก\""
         },
         {
           "en": "Dad says, \"You are brave.\"",
-          "th": ""
+          "th": "พ่อพูดว่า \"ลูกกล้าหาญมาก\""
         },
         {
           "en": "Pip is brave.",
-          "th": ""
+          "th": "ปิ๊ปกล้าหาญ"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "This is a good night.",
-          "th": ""
+          "th": "คืนนี้เป็นคืนที่ดี"
         },
         {
           "en": "Pip loves Mom.",
-          "th": ""
+          "th": "ปิ๊ปรักแม่"
         },
         {
           "en": "Pip loves Dad.",
-          "th": ""
+          "th": "ปิ๊ปรักพ่อ"
         },
         {
           "en": "This is good.",
-          "th": ""
+          "th": "แบบนี้ดีจัง"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ตอนกลางคืนมืดมาก ปิ๊ปเห็นเงาใหญ่และได้ยินเสียงน่ากลัว เขากลัว แม่และพ่อมากอดเขา ปิ๊ปรู้สึกปลอดภัยและกล้าหาญ"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the small puppy is afraid of the dark night, but Mom and Dad give comfort, and Pip becomes brave and happy.",
+      "prompt": "At night in a dark bedroom, Pip lies in his small dog bed and looks with big worried eyes at a big shadow on the wall. Moonlight comes through the window.",
+      "characters": [
+        "Pip"
+      ],
+      "caption": "It is dark. Pip sees a big shadow.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "At night, Mom kneels in the dark bedroom and holds Pip gently in her arms. Dad stands next to them with a kind face. Pip still looks a little afraid.",
+      "characters": [
+        "Mom",
+        "Dad",
+        "Pip"
+      ],
+      "caption": "Mom and Dad come to Pip.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a warm, softly lit bedroom at night, Dad holds Pip, and Mom pets him. Pip smiles and feels safe and brave.",
+      "characters": [
+        "Dad",
+        "Mom",
+        "Pip"
+      ],
+      "caption": "Pip is safe, warm, and brave.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R19.1",
+      "L12.1",
+      "L18.1"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L19.4",
+      "R14.1",
+      "R21.4"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

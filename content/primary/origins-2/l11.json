@@ -39,7 +39,7 @@
       "They are very happy. They play and play. The park has green grass. The park has brown mud. Pip runs. Pip runs on the grass. Pip runs in the mud. Oh, no! Mud is on Pip. Pip is very dirty. Tom helps Pip. Mud is on Tom. Tom's blue shirt is dirty. His hands are dirty. His face is dirty. Tom is sad. Pip is sad too. This mud is bad.",
       "Mom is near. Mom sees Pip. Mom sees Tom. Mom says, \"Oh, my! This is mud!\" Mom smiles. Mom says, \"It is okay. Accidents happen.\" Mom has water. The water is clean. Mom cleans Pip. Mom cleans Tom. Pip is clean now. Tom is clean now. Play is fun. Mud is okay. Accidents happen. Tom is happy. Pip is happy. They are good friends."
     ],
-    "summary": "",
+    "summary": "Pip and Tom play with a red ball in the park. Pip runs in the mud, and they get very dirty. Mom smiles and cleans them. Accidents happen, and they are still good friends.",
     "glossed": [
       "Accidents happen",
       "Dirty",
@@ -62,92 +62,92 @@
   "glossary": [
     {
       "word": "Accidents happen",
-      "pos": "?",
-      "definition": "A common expression used to say that unexpected and unfortunate events can occur to anyone.",
+      "pos": "phrase",
+      "definition": "We say this when something bad happens by mistake.",
       "thai": "อุบัติเหตุเกิดขึ้นได้",
       "example": "Accidents happen.\""
     },
     {
       "word": "Dirty",
-      "pos": "?",
-      "definition": "Not clean; marked or covered with something like mud, dust, or stains.",
+      "pos": "adjective",
+      "definition": "Not clean.",
       "thai": "สกปรก",
       "example": "Pip is very dirty."
     },
     {
       "word": "Clean",
-      "pos": "?",
-      "definition": "Free from dirt, marks, or stains; not dirty.",
+      "pos": "adjective",
+      "definition": "Not dirty.",
       "thai": "สะอาด",
       "example": "The water is clean."
     },
     {
       "word": "Near",
-      "pos": "?",
-      "definition": "At or to a short distance away; close by.",
+      "pos": "adverb",
+      "definition": "Close. Not far.",
       "thai": "ใกล้",
       "example": "Mom is near."
     },
     {
       "word": "Smiles",
-      "pos": "?",
-      "definition": "Forms a pleased or kind expression with the corners of the mouth turned up.",
+      "pos": "verb",
+      "definition": "Makes a happy face.",
       "thai": "ยิ้ม",
       "example": "Mom smiles."
     },
     {
       "word": "Grass",
-      "pos": "?",
-      "definition": "Vegetation consisting of short green plants with narrow leaves.",
+      "pos": "noun",
+      "definition": "Short green plants on the ground.",
       "thai": "หญ้า",
       "example": "The park has green grass."
     },
     {
       "word": "Mud",
-      "pos": "?",
-      "definition": "Soft, sticky matter consisting of mixed earth and water.",
+      "pos": "noun",
+      "definition": "Wet, soft dirt.",
       "thai": "โคลน",
       "example": "The park has brown mud."
     },
     {
       "word": "Fast",
-      "pos": "?",
-      "definition": "Moving or capable of moving at high speed.",
+      "pos": "adverb",
+      "definition": "Quickly. Not slow.",
       "thai": "เร็ว",
       "example": "Pip runs fast."
     },
     {
       "word": "Friends",
-      "pos": "?",
-      "definition": "People who have a bond of mutual affection and like to spend time together.",
+      "pos": "noun",
+      "definition": "People you like and play with.",
       "thai": "เพื่อนๆ",
       "example": "Pip and Tom are friends."
     },
     {
       "word": "Shirt",
-      "pos": "?",
-      "definition": "A garment for the upper body made of cotton or a similar fabric.",
+      "pos": "noun",
+      "definition": "Clothes for the top part of your body.",
       "thai": "เสื้อเชิ้ต",
       "example": "Tom's blue shirt is dirty."
     },
     {
       "word": "Throws",
-      "pos": "?",
-      "definition": "To propel something through the air with a motion of the arm and hand.",
+      "pos": "verb",
+      "definition": "Sends something through the air with the hand.",
       "thai": "ขว้าง",
       "example": "Tom throws the red ball."
     },
     {
       "word": "Happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure or contentment.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "They are very happy."
     },
     {
       "word": "Park",
-      "pos": "?",
-      "definition": "A large public green area used for recreation.",
+      "pos": "noun",
+      "definition": "A big green place with trees. People play there.",
       "thai": "สวนสาธารณะ",
       "example": "They play in the park."
     }
@@ -160,11 +160,14 @@
         "options": [
           "a boy",
           "a puppy",
-          "a girl"
+          "a girl",
+          "a cat"
         ],
         "answer": "a puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p2",
@@ -172,11 +175,14 @@
         "options": [
           "in the house",
           "in the car",
-          "in the park"
+          "in the park",
+          "at the zoo"
         ],
         "answer": "in the park",
         "evidence": "They play in the park.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p3",
@@ -184,11 +190,14 @@
         "options": [
           "blue",
           "green",
-          "red"
+          "red",
+          "yellow"
         ],
         "answer": "red",
         "evidence": "Tom has a red ball.",
-        "objectives": []
+        "objectives": [
+          "R17.2"
+        ]
       },
       {
         "id": "p4",
@@ -196,22 +205,185 @@
         "options": [
           "water",
           "grass",
-          "mud"
+          "mud",
+          "sand"
         ],
         "answer": "mud",
-        "evidence": "The park has brown mud.",
-        "objectives": []
+        "evidence": "Mud is on Pip.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What does Tom throw?",
+        "options": [
+          "a red ball",
+          "a stick",
+          "a book",
+          "a hat"
+        ],
+        "answer": "a red ball",
+        "evidence": "Tom throws the red ball.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Where does Pip run?",
+        "options": [
+          "in the mud",
+          "in the house",
+          "in the water",
+          "in the car"
+        ],
+        "answer": "in the mud",
+        "evidence": "Pip runs in the mud.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is Tom's shirt?",
+        "options": [
+          "blue",
+          "red",
+          "green",
+          "yellow"
+        ],
+        "answer": "blue",
+        "evidence": "Tom's blue shirt is dirty.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "How are Tom and Pip after the mud?",
+        "options": [
+          "dirty",
+          "clean",
+          "dry",
+          "cold"
+        ],
+        "answer": "dirty",
+        "evidence": "Pip is very dirty.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Mom say?",
+        "options": [
+          "It is okay.",
+          "Go home!",
+          "You are bad.",
+          "No more play!"
+        ],
+        "answer": "It is okay.",
+        "evidence": "Mom says, \"It is okay.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Is mud okay?",
+        "options": [
+          "Yes, mud is okay.",
+          "No, mud is bad.",
+          "No, mud is hot.",
+          "Yes, mud is blue."
+        ],
+        "answer": "Yes, mud is okay.",
+        "evidence": "Mud is okay.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a small brown puppy.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who is Tom?",
+        "answer": "Tom is a boy. He is Pip's friend.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What happens to Pip in the mud?",
+        "answer": "Mud is on Pip. He is very dirty.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Mom do?",
+        "answer": "Mom cleans Pip and Tom with water.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Are Tom and Pip happy at the end?",
+        "answer": "Yes, they are happy.",
+        "objectives": [
+          "L12.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Do you like to play in the park? What do you play?",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Tell about a time you got dirty.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What do you say when an accident happens?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw Pip and Tom in the mud. Tell about your picture.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Who helps you when you have a problem?",
+        "objectives": [
+          "L18.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -338,196 +510,221 @@
       [
         {
           "en": "They are very happy.",
-          "th": ""
+          "th": "พวกเขามีความสุขมาก"
         },
         {
           "en": "They play and play.",
-          "th": ""
+          "th": "พวกเขาเล่นไปเรื่อยๆ"
         },
         {
           "en": "The park has green grass.",
-          "th": ""
+          "th": "ในสวนสาธารณะมีหญ้าสีเขียว"
         },
         {
           "en": "The park has brown mud.",
-          "th": ""
+          "th": "ในสวนสาธารณะมีโคลนสีน้ำตาล"
         },
         {
           "en": "Pip runs.",
-          "th": ""
+          "th": "ปิ๊ปวิ่ง"
         },
         {
           "en": "Pip runs on the grass.",
-          "th": ""
+          "th": "ปิ๊ปวิ่งบนหญ้า"
         },
         {
           "en": "Pip runs in the mud.",
-          "th": ""
+          "th": "ปิ๊ปวิ่งลงไปในโคลน"
         },
         {
           "en": "Oh, no!",
-          "th": ""
+          "th": "โอ๊ะ ไม่นะ!"
         },
         {
           "en": "Mud is on Pip.",
-          "th": ""
+          "th": "โคลนติดตัวปิ๊ป"
         },
         {
           "en": "Pip is very dirty.",
-          "th": ""
+          "th": "ปิ๊ปสกปรกมาก"
         },
         {
           "en": "Tom helps Pip.",
-          "th": ""
+          "th": "ทอมช่วยปิ๊ป"
         },
         {
           "en": "Mud is on Tom.",
-          "th": ""
+          "th": "โคลนติดตัวทอม"
         },
         {
           "en": "Tom's blue shirt is dirty.",
-          "th": ""
+          "th": "เสื้อสีฟ้าของทอมสกปรก"
         },
         {
           "en": "His hands are dirty.",
-          "th": ""
+          "th": "มือของเขาสกปรก"
         },
         {
           "en": "His face is dirty.",
-          "th": ""
+          "th": "หน้าของเขาสกปรก"
         },
         {
           "en": "Tom is sad.",
-          "th": ""
+          "th": "ทอมเสียใจ"
         },
         {
           "en": "Pip is sad too.",
-          "th": ""
+          "th": "ปิ๊ปก็เสียใจเหมือนกัน"
         },
         {
           "en": "This mud is bad.",
-          "th": ""
+          "th": "โคลนนี้ไม่ดีเลย"
         }
       ],
       [
         {
           "en": "Mom is near.",
-          "th": ""
+          "th": "แม่อยู่ใกล้ๆ"
         },
         {
           "en": "Mom sees Pip.",
-          "th": ""
+          "th": "แม่เห็นปิ๊ป"
         },
         {
           "en": "Mom sees Tom.",
-          "th": ""
+          "th": "แม่เห็นทอม"
         },
         {
           "en": "Mom says, \"Oh, my!",
-          "th": ""
+          "th": "แม่พูดว่า \"โอ้โห!"
         },
         {
           "en": "This is mud!\"",
-          "th": ""
+          "th": "นี่มันโคลน!\""
         },
         {
           "en": "Mom smiles.",
-          "th": ""
+          "th": "แม่ยิ้ม"
         },
         {
           "en": "Mom says, \"It is okay.",
-          "th": ""
+          "th": "แม่พูดว่า \"ไม่เป็นไรจ้ะ"
         },
         {
           "en": "Accidents happen.\"",
-          "th": ""
+          "th": "อุบัติเหตุเกิดขึ้นได้\""
         },
         {
           "en": "Mom has water.",
-          "th": ""
+          "th": "แม่มีน้ำ"
         },
         {
           "en": "The water is clean.",
-          "th": ""
+          "th": "น้ำสะอาด"
         },
         {
           "en": "Mom cleans Pip.",
-          "th": ""
+          "th": "แม่ทำความสะอาดตัวปิ๊ป"
         },
         {
           "en": "Mom cleans Tom.",
-          "th": ""
+          "th": "แม่ทำความสะอาดตัวทอม"
         },
         {
           "en": "Pip is clean now.",
-          "th": ""
+          "th": "ตอนนี้ปิ๊ปสะอาดแล้ว"
         },
         {
           "en": "Tom is clean now.",
-          "th": ""
+          "th": "ตอนนี้ทอมสะอาดแล้ว"
         },
         {
           "en": "Play is fun.",
-          "th": ""
+          "th": "การเล่นสนุก"
         },
         {
           "en": "Mud is okay.",
-          "th": ""
+          "th": "โคลนไม่เป็นไร"
         },
         {
           "en": "Accidents happen.",
-          "th": ""
+          "th": "อุบัติเหตุเกิดขึ้นได้"
         },
         {
           "en": "Tom is happy.",
-          "th": ""
+          "th": "ทอมมีความสุข"
         },
         {
           "en": "Pip is happy.",
-          "th": ""
+          "th": "ปิ๊ปมีความสุข"
         },
         {
           "en": "They are good friends.",
-          "th": ""
+          "th": "พวกเขาเป็นเพื่อนที่ดีต่อกัน"
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปและทอมเล่นลูกบอลสีแดงในสวนสาธารณะ ปิ๊ปวิ่งลงไปในโคลน พวกเขาสกปรกมาก แม่ยิ้มและทำความสะอาดให้ อุบัติเหตุเกิดขึ้นได้ และพวกเขายังเป็นเพื่อนที่ดีต่อกัน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip and Tom play in the park, get dirty in the mud, but Mom cleans them and says accidents happen.",
+      "prompt": "In a big green park, Tom throws a red ball, and Pip runs fast after it on the grass. They smile.",
+      "characters": [
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Tom and Pip play with a red ball.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the park, next to a big puddle of brown mud, Pip and Tom are covered in mud. Tom's shirt, hands, and face are dirty. They look sad.",
+      "characters": [
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Oh, no! Pip and Tom are dirty.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In the park, Mom smiles and cleans muddy Pip and Tom with clean water from a bucket. Tom and Pip are clean and happy again.",
+      "characters": [
+        "Mom",
+        "Tom",
+        "Pip"
+      ],
+      "caption": "Mom cleans them. Accidents happen.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R21.2",
+      "L12.1",
+      "R17.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "L21.2",
+      "R17.2",
+      "L10.6",
+      "L15.1"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },

@@ -39,7 +39,7 @@
       "Farmer Ben says, \"Hello.\" Lily says, \"Hello.\" Pip looks at plants. Plants are green. These are vegetable plants. Plants grow food. Vegetables are food. This is a carrot plant. Carrots are orange. This is a green plant. That is a red plant. Farmer Ben grows these plants. The sun helps plants.",
       "Water helps plants. Farmer Ben gives Lily a carrot. The carrot is orange. He gives Pip a carrot. Pip likes the carrot. Lily likes the carrot. This is good food. Farmer Ben grows good food. The farm food is good. Farmer Ben is good. Lily and Pip are happy. They like the farm. They like the farm food."
     ],
-    "summary": "",
+    "summary": "Pip and Lily visit Farmer Ben's farm. He says hello and shows them his vegetable plants. He gives them orange carrots. The farm food is good.",
     "glossed": [
       "curious",
       "puppy",
@@ -59,71 +59,71 @@
   "glossary": [
     {
       "word": "curious",
-      "pos": "?",
-      "definition": "Wanting to learn or know about something.",
+      "pos": "adjective",
+      "definition": "You want to know about things.",
       "thai": "อยากรู้อยากเห็น",
       "example": "Pip is a curious puppy."
     },
     {
       "word": "puppy",
-      "pos": "?",
+      "pos": "noun",
       "definition": "A young dog.",
       "thai": "ลูกสุนัข",
       "example": "Pip is a puppy."
     },
     {
       "word": "farmer",
-      "pos": "?",
-      "definition": "A person who owns or works on a farm.",
+      "pos": "noun",
+      "definition": "A person who works on a farm.",
       "thai": "เกษตรกร",
       "example": "They see a farmer."
     },
     {
       "word": "vegetable",
-      "pos": "?",
-      "definition": "A plant or part of a plant used as food.",
+      "pos": "noun",
+      "definition": "A plant we eat, like a carrot.",
       "thai": "ผัก",
       "example": "These are vegetable plants."
     },
     {
       "word": "carrot",
-      "pos": "?",
-      "definition": "A long orange root vegetable.",
+      "pos": "noun",
+      "definition": "A long orange vegetable.",
       "thai": "แครอท",
       "example": "This is a carrot plant."
     },
     {
       "word": "farm",
-      "pos": "?",
-      "definition": "A place where people grow crops and keep animals.",
+      "pos": "noun",
+      "definition": "Land where people grow food and keep animals.",
       "thai": "ฟาร์ม",
       "example": "They are at a farm."
     },
     {
       "word": "plants",
-      "pos": "?",
-      "definition": "Living things that grow in the earth and have stems, leaves, and roots.",
+      "pos": "noun",
+      "definition": "Green living things. They grow in the ground.",
       "thai": "พืช",
       "example": "Pip looks at plants."
     },
     {
       "word": "grow",
-      "pos": "?",
-      "definition": "To become larger or to help something live and increase in size.",
+      "pos": "verb",
+      "definition": "Get bigger, or make plants get bigger.",
       "thai": "เติบโต",
       "example": "Plants grow food."
     },
     {
       "word": "works",
-      "pos": "?",
-      "definition": "To do a job or task to earn money or achieve a goal.",
+      "pos": "verb",
+      "definition": "Does a job.",
       "thai": "ทำงาน",
       "example": "Ben works on the farm."
     },
     {
       "word": "happy",
-      "pos": "?",
-      "definition": "Feeling or showing pleasure or contentment.",
+      "pos": "adjective",
+      "definition": "Feeling good.",
       "thai": "มีความสุข",
       "example": "Lily and Pip are happy."
     }
@@ -141,7 +141,9 @@
         ],
         "answer": "A puppy",
         "evidence": "Pip is a puppy.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p2",
@@ -154,7 +156,9 @@
         ],
         "answer": "A girl",
         "evidence": "Lily is a girl.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
       },
       {
         "id": "p3",
@@ -167,7 +171,9 @@
         ],
         "answer": "At a farm",
         "evidence": "They are at a farm.",
-        "objectives": []
+        "objectives": [
+          "L19.2"
+        ]
       },
       {
         "id": "p4",
@@ -180,18 +186,180 @@
         ],
         "answer": "A man",
         "evidence": "The farmer is a man.",
-        "objectives": []
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What is the farmer's name?",
+        "options": [
+          "Ben",
+          "Tom",
+          "Leo",
+          "Sam"
+        ],
+        "answer": "Ben",
+        "evidence": "His name is Ben.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What does Farmer Ben say first?",
+        "options": [
+          "Hello.",
+          "Goodbye.",
+          "Thank you.",
+          "Sorry."
+        ],
+        "answer": "Hello.",
+        "evidence": "Farmer Ben says, \"Hello.\"",
+        "objectives": [
+          "R18.3"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does Lily say to Farmer Ben?",
+        "options": [
+          "Hello.",
+          "Bye.",
+          "Good night.",
+          "Sorry."
+        ],
+        "answer": "Hello.",
+        "evidence": "Lily says, \"Hello.\"",
+        "objectives": [
+          "L13.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What color are carrots?",
+        "options": [
+          "orange",
+          "blue",
+          "black",
+          "white"
+        ],
+        "answer": "orange",
+        "evidence": "Carrots are orange.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What helps plants?",
+        "options": [
+          "the sun and water",
+          "the moon",
+          "a car",
+          "a book"
+        ],
+        "answer": "the sun and water",
+        "evidence": "The sun helps plants.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Farmer Ben give Lily?",
+        "options": [
+          "a carrot",
+          "a tomato",
+          "a ball",
+          "a book"
+        ],
+        "answer": "a carrot",
+        "evidence": "Farmer Ben gives Lily a carrot.",
+        "objectives": [
+          "L19.2"
+        ]
       }
     ],
     "saq": [
       {
         "id": "s1",
         "question": "What is Pip?",
-        "answer": "?",
-        "objectives": []
+        "answer": "Pip is a curious puppy.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Who is Ben?",
+        "answer": "Ben is a farmer.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Farmer Ben grow?",
+        "answer": "He grows vegetables.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What do Lily and Farmer Ben say?",
+        "answer": "They say, \"Hello.\"",
+        "objectives": [
+          "R18.3"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Do Lily and Pip like the farm food?",
+        "answer": "Yes, they like the farm food.",
+        "objectives": [
+          "L18.1"
+        ]
       }
     ],
-    "laq": []
+    "laq": [
+      {
+        "id": "l1",
+        "question": "How do you say hello to a new friend?",
+        "objectives": [
+          "R18.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What vegetables do you like? What color are they?",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a farm. What plants are on it?",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What helps plants grow? Tell about it.",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Tell about a person who works near your home.",
+        "objectives": [
+          "R17.1"
+        ]
+      }
+    ]
   },
   "print": {
     "mcq": [
@@ -298,55 +466,55 @@
       [
         {
           "en": "Farmer Ben says, \"Hello.\"",
-          "th": ""
+          "th": "ชาวนาเบนพูดว่า \"สวัสดี\""
         },
         {
           "en": "Lily says, \"Hello.\"",
-          "th": ""
+          "th": "ลิลลี่พูดว่า \"สวัสดี\""
         },
         {
           "en": "Pip looks at plants.",
-          "th": ""
+          "th": "ปิ๊ปมองดูต้นไม้"
         },
         {
           "en": "Plants are green.",
-          "th": ""
+          "th": "ต้นไม้มีสีเขียว"
         },
         {
           "en": "These are vegetable plants.",
-          "th": ""
+          "th": "พวกนี้คือต้นผัก"
         },
         {
           "en": "Plants grow food.",
-          "th": ""
+          "th": "ต้นไม้ให้อาหาร"
         },
         {
           "en": "Vegetables are food.",
-          "th": ""
+          "th": "ผักเป็นอาหาร"
         },
         {
           "en": "This is a carrot plant.",
-          "th": ""
+          "th": "นี่คือต้นแครอท"
         },
         {
           "en": "Carrots are orange.",
-          "th": ""
+          "th": "แครอทมีสีส้ม"
         },
         {
           "en": "This is a green plant.",
-          "th": ""
+          "th": "นี่คือต้นไม้สีเขียว"
         },
         {
           "en": "That is a red plant.",
-          "th": ""
+          "th": "นั่นคือต้นไม้สีแดง"
         },
         {
           "en": "Farmer Ben grows these plants.",
-          "th": ""
+          "th": "ชาวนาเบนปลูกต้นไม้เหล่านี้"
         },
         {
           "en": "The sun helps plants.",
-          "th": ""
+          "th": "ดวงอาทิตย์ช่วยต้นไม้"
         }
       ],
       [
@@ -404,42 +572,64 @@
         }
       ]
     ],
-    "summary": ""
+    "summary": "ปิ๊ปและลิลลี่ไปเที่ยวฟาร์มของชาวนาเบน เขาทักทายและพาพวกเขาดูต้นผัก เขาให้แครอทสีส้มแก่พวกเขา อาหารจากฟาร์มอร่อย"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "?",
-      "characters": [],
-      "caption": "Pip the puppy and Lily visit Farmer Ben on his farm. He grows vegetable plants and gives them good orange carrots to eat.",
+      "prompt": "Lily and Pip stand at a big farm with green fields and a red barn. Farmer Ben waves hello to them. Farmer Ben, a kind farmer with short gray hair, wears a straw hat, a blue shirt, and brown overalls.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Lily and Pip meet Farmer Ben.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-2",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "In a sunny vegetable garden, Farmer Ben shows Lily and Pip a carrot plant with an orange carrot. Green plants and red plants grow in rows. Farmer Ben, a kind farmer with short gray hair, wears a straw hat, a blue shirt, and brown overalls.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Farmer Ben shows his vegetable plants.",
       "overlay": [],
       "candidates": []
     },
     {
       "position": "inline-para-3",
-      "prompt": "?",
-      "characters": [],
-      "caption": "",
+      "prompt": "Farmer Ben gives Lily and Pip orange carrots. Lily and Pip eat the carrots and smile. Farmer Ben, a kind farmer with short gray hair, wears a straw hat, a blue shirt, and brown overalls.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Farmer Ben gives them good carrots.",
       "overlay": [],
       "candidates": []
     }
   ],
   "audio": {
+    "voice": "English_captivating_female1",
     "sentences": [],
     "wordTimes": [],
     "flashcardTimes": []
   },
   "tags": {
-    "targetObjectives": [],
-    "supportingObjectives": [],
+    "targetObjectives": [
+      "R18.3",
+      "R17.1",
+      "L13.2"
+    ],
+    "supportingObjectives": [
+      "R21.1",
+      "L18.1",
+      "L19.4",
+      "R14.1",
+      "R21.4",
+      "R17.2",
+      "L10.6"
+    ],
     "glossedNodes": [],
     "recycledNodes": []
   },
