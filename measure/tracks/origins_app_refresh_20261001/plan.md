@@ -28,11 +28,12 @@ Track: `origins_app_refresh_20261001`
 
 ## Phase 3: Pictures
 
-- [~] 3 pictures for each lesson, 3 candidates each; Claude chooses; Daniel reviews against the old app pictures
+- [x] 3 pictures for each lesson, 3 candidates each; Claude chose all 81 against the old app pictures (redo for 16 pictures: non-cast looks, story looks, one mmx timeout)
+- [ ] Daniel reviews the pictures on `/review`
 
 ## Phase 4: Audio
 
-- [ ] Narrator voice for each lesson; article, words, flashcards, and Tutor clips
+- [~] Narrator voice for each lesson; article, words, flashcards, and Tutor clips
 
 ## Phase 5: Injection (needs the production read)
 
