@@ -2,6 +2,24 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
+  *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
+
+- [ ] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Created: 2026-10-01)*
+  *Link: [./tracks/lesson_packages_20261001/](./tracks/lesson_packages_20261001/)*
+
+- [ ] **Track: Review page: Daniel tweaks and approves lesson packages in the dashboard (task C8).** *(Created: 2026-10-01)*
+  *Link: [./tracks/review_page_20261001/](./tracks/review_page_20261001/)*
+
+- [ ] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Created: 2026-10-01)*
+  *Link: [./tracks/lesson_media_20261001/](./tracks/lesson_media_20261001/)*
+
+- [ ] **Track: Primary injector: write lesson packages into the live and cutover Primary databases, and verify them (task C10).** *(Created: 2026-10-01)*
+  *Link: [./tracks/primary_injector_20261001/](./tracks/primary_injector_20261001/)*
+
+- [x] **Track: Text-profile lint for new Primary Origins lessons (task C3 of the Origins 3.2 plan): checks word counts, sentence length, Cambridge Starters share, and glossed words.** *(Completed: 2026-09-30)*
+  *Link: [./tracks/text_profile_lint_20260930/](./tracks/text_profile_lint_20260930/)*
+
 - [x] **Track: E2E Testing & Visual Stabilization Phase 11: Expand E2E testing coverage for lesson editor persistence and AI features, and resolve minor linting/UI issues.** *(Completed: 2026-03-22)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/)*
 
