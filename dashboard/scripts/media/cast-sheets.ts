@@ -48,7 +48,7 @@ function main(argv: string[]): number {
             console.error(`${character.name}: no image (${(run.stderr || run.stdout || String(run.error)).trim().slice(0, 300)})`);
             continue;
         }
-        character.candidates.push(...saved.map((s) => path.join('candidates', path.basename(s))));
+        character.candidates = [...new Set([...character.candidates, ...saved.map((s) => path.join('candidates', path.basename(s)))])];
         fs.writeFileSync(file, `${JSON.stringify(cast, null, 2)}\n`);
         console.log(`${character.name}: ${saved.join(', ')}`);
     }

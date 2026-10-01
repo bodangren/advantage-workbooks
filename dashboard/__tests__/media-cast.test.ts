@@ -28,6 +28,13 @@ describe('cast sheets', () => {
         expect(castImageArgs(cast, cast.characters[1], { dir: '/sheets', count: 2 })).not.toContain('--subject-ref');
     });
 
+    it('gives a later run its own file prefix, because mmx numbers files from 001 on every run', () => {
+        const first = castImageArgs(cast, cast.characters[1], { dir: '/sheets', count: 2 });
+        expect(first[first.indexOf('--out-prefix') + 1]).toBe('may');
+        const later = castImageArgs({ ...cast }, { ...cast.characters[1], candidates: ['candidates/may_001.jpg', 'candidates/may_002.jpg'] }, { dir: '/sheets', count: 2 });
+        expect(later[later.indexOf('--out-prefix') + 1]).toBe('may-3');
+    });
+
     it('reads the saved file names from the mmx output', () => {
         const out = 'progress line\n{\n  "saved": [\n    "pip_001.jpg",\n    "pip_002.jpg"\n  ]\n}\n';
         expect(parseSavedFiles(out)).toEqual(['pip_001.jpg', 'pip_002.jpg']);
