@@ -68,14 +68,14 @@ describe('Muse cast sheets', () => {
     it('makes the anchor from its printed picture, in the style of that picture', () => {
         const { body } = castMuseRequest(muse, muse.characters[0], read);
         expect(refsOf(body)).toEqual(['source/tom.jpg']);
-        expect(body.prompt).toMatch(/^The reference picture shows this character in a printed book\. Keep the face, hair, and clothes, and the drawing style of the picture\. 2D picture-book style/);
+        expect(body.prompt).toMatch(/^The reference picture shows this character in a printed book\. Keep the face and the drawing style of the picture\. Follow the description below for the eyes, hair, clothes, and colors\. 2D picture-book style/);
         expect(body.prompt).toContain('Tom, a boy. Full body, plain white background.');
     });
 
     it('gives every other character the anchor sheet as the style and its printed picture for the look', () => {
         const pip = castMuseRequest(muse, muse.characters[1], read).body;
         expect(refsOf(pip)).toEqual(['tom.jpg', 'source/pip.jpg']);
-        expect(pip.prompt).toMatch(/^Picture 1 shows the house style only: copy its drawing style, line weight, colors, shading, eye shape, and proportions\. Copy nothing else from picture 1: not its face, eye color, hair, or clothes\. Draw a different character\. Picture 2 shows this character in a printed book: keep the face, eye color, hair, and clothes\./);
+        expect(pip.prompt).toMatch(/^Picture 1 shows the house style only: copy its drawing style, line weight, colors, shading, eye shape, and proportions\. Copy nothing else from picture 1: not its face, eye color, hair, or clothes\. Draw a different character\. Picture 2 shows this character in a printed book: keep the face\. Follow the description below for the eyes, hair, clothes, and colors\./);
         const may = castMuseRequest(muse, muse.characters[2], read).body;
         expect(refsOf(may)).toEqual(['tom.jpg']);
         expect(may.prompt).not.toContain('Picture 2');

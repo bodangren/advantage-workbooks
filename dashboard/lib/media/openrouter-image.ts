@@ -78,8 +78,8 @@ export function imagesFromResponse(body: unknown): { images: { data: Buffer; med
 /**
  * The request body for one character sheet (Daniel, 2026-10-01: one style for the whole cast). The
  * anchor (`cast.anchor`) comes from its printed picture in that picture's style. Every other
- * character gets the anchor sheet as picture 1 (the style) and its printed picture, when it has one,
- * as picture 2 (the face, hair, and clothes).
+ * character gets the anchor sheet as picture 1 (the style only) and its printed picture, when it has
+ * one, as picture 2 (the face). The complete description gives the eyes, hair, clothes, and colors.
  * @param cast The cast file.
  * @param character One character.
  * @param readFile Reads a file (path relative to the character-sheets folder).
@@ -91,7 +91,7 @@ export function castMuseRequest(cast: Cast, character: CastCharacter, readFile: 
     let intro: string;
     if (!cast.anchor || character.name === cast.anchor) {
         if (source) refs.push(source);
-        intro = source ? 'The reference picture shows this character in a printed book. Keep the face, hair, and clothes, and the drawing style of the picture.' : '';
+        intro = source ? 'The reference picture shows this character in a printed book. Keep the face and the drawing style of the picture. Follow the description below for the eyes, hair, clothes, and colors.' : '';
     } else {
         const anchor = cast.characters.find((c) => c.name === cast.anchor);
         if (!anchor?.chosen || !anchor.approved) throw new Error(`Make and choose the sheet of ${cast.anchor} (the style anchor) first`);
@@ -100,7 +100,7 @@ export function castMuseRequest(cast: Cast, character: CastCharacter, readFile: 
         intro = 'Picture 1 shows the house style only: copy its drawing style, line weight, colors, shading, eye shape, and proportions. Copy nothing else from picture 1: not its face, eye color, hair, or clothes. Draw a different character.';
         if (source) {
             refs.push(source);
-            intro += ' Picture 2 shows this character in a printed book: keep the face, eye color, hair, and clothes.';
+            intro += ' Picture 2 shows this character in a printed book: keep the face. Follow the description below for the eyes, hair, clothes, and colors.';
         }
     }
     const body: { model: string; prompt: string; aspect_ratio: string; input_references?: ReturnType<typeof dataUrl>[] } = {

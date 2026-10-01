@@ -37,7 +37,7 @@ this point, but we can improve the app experience."
 - **Summary** and Thai summary.
 - **Glossary:** simple English definitions and Thai for the locked words.
 - **App question bank:** MCQ, SAQ, and LAQ for the app (more than the 4 printed MCQs).
-- **Pictures:** 3 for each lesson (hero, paragraph 2, paragraph 3), in the flat 2D cast style
+- **Pictures:** 3 for each lesson (hero, paragraph 2, paragraph 3), in the printed-book cast style
   (below). Origins 2 lesson 14 has no pictures today.
 - **Audio:** article, words, flashcard sentences, and the Tutor Advantage clips with the American
   voices (narrator: `English_magnetic_voiced_man` when a boy or a man tells the story, else
@@ -50,6 +50,28 @@ this point, but we can improve the app experience."
   character in each picture, with no reference.
 - So: the cast sheets are flat 2D and made from the text only. Scene pictures use the style and
   the looks. A sheet is the standard that Claude and Daniel compare a picture against.
+
+**Superseded (Daniel, 2026-10-01, second decision):** the mmx pictures and sheets were not consistent
+enough, and the 15 sheets did not share one style. New model: Meta Muse Image through OpenRouter
+(`--model muse`). Tests on E12: with the sheets as reference pictures, Muse keeps faces, hair, and
+clothes close to the sheets and does not go 3D; about $0.01 and 20–35 s per picture.
+
+- **Style (Daniel chose B of A/B):** the printed-book look: a 2D digital painting with clean dark
+  outlines, soft painted shading, and natural proportions (a child about 4.5 heads tall, an adult
+  about 6.5). It is closer to the printed Origins 2 and 3.1 pictures than the flat 2D style.
+- **One style for the cast:** Tom is the anchor (`cast.json` `anchor`). His sheet comes from his
+  printed picture. Every other sheet gets Tom's approved sheet as the style reference and its own
+  printed picture (when it has one) for the face, hair, and clothes.
+- **Complete descriptions (Daniel, 2026-10-01):** each `look` gives age and height against the other
+  characters, eyes, hair, every clothing item with its color, and shoes. Eyes are dark brown for every
+  character (Daniel chose this; the printed Tom had blue eyes). The text decides eyes, hair, clothes,
+  and colors; the printed picture gives the face; the anchor gives the style only. Without this, the
+  anchor's blue eyes and even its clothes spread to other sheets.
+- **Edits:** Muse can change one detail of a good picture and keep the rest (the Tom anchor is the
+  first clean Tom with only the eyes changed to dark brown). Use an edit before a new candidate when
+  one detail is wrong.
+- The old flat 2D sheets are in `docs/content-plans/character-sheets/archive/flat-2d-mmx/`.
+- Scene pictures: the chosen sheets as reference pictures, then the style, the scene, and the looks.
 
 ## Injection
 
