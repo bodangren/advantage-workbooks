@@ -39,5 +39,5 @@ Track: `origins_app_refresh_20261001`
 
 - [x] Read-only production check: field map, the 27 articles, and the rows that point at their questions (Q-ORF-01, Q-ORF-02) — `scripts/sample-legacy.ts` (31e936f, 311a2a0)
 - [x] Bucket backup prefix for the old objects; update mode in the injector (printed article id, old rows replaced, passage line breaks kept, `words` null)
-- [~] Dry run passes for Origins 2 l01–l14, Origins 3.1 l01–l06, and E12
+- [x] Dry run passes for all 27 lessons (update) and E12 (new); only the lesson approval is missing
 - [ ] Daniel approves the lessons; inject and verify the 27 lessons and E12
