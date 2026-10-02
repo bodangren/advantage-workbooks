@@ -827,39 +827,6 @@
             font-size: 11px;
         }
 
-        /* Answer Key Page */
-        .answer-key {
-            background: #f0f9ff;
-            border: 2px solid var(--primary-light);
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .answer-key h3 {
-            color: var(--primary-blue);
-            font-size: 16px;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--primary-blue);
-        }
-
-        .answer-section {
-            margin-bottom: 16px;
-        }
-
-        .answer-section h4 {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .answer-list {
-            font-size: 12px;
-            color: var(--text-medium);
-            line-height: 1.8;
-        }
-
         /* Translation Section */
         .translation-section {
             background: #fff7ed;
@@ -1461,7 +1428,6 @@
         .short-answer-box,
         .reflection-box,
         .homework-box,
-        .answer-key,
         .language-q-box,
         .score-box,
         .performance-check,
@@ -2283,42 +2249,8 @@
             </div>
         </section>
 
-        <!-- Answer Key -->
+        <!-- Translation (own page; it shared the page with the per-lesson answer key, removed 2026-10-02) -->
         <section class="section force-page-break">
-            <div class="answer-key">
-                <h3>📋 Answer Key</h3>
-
-                <div class="answer-section">
-                    <h4>Multiple Choice Questions</h4>
-                    <div class="answer-list">
-                        {{#each mc_answers}}
-                        <p><strong>{{number}}. {{letter}})</strong> {{text}}</p>
-                        {{/each}}
-                    </div>
-                </div>
-
-                <div class="answer-section">
-                    <h4>Vocabulary Practice</h4>
-                    <div class="answer-list">
-                        <p><strong>A. Match the Words:</strong> {{vocab_match_answer_string}}</p>
-                        <p><strong>B. Fill in the Blanks:</strong> {{vocab_fill_answer_string}}</p>
-                    </div>
-                </div>
-
-                <div class="answer-section">
-                    <h4>Sentence Practice</h4>
-                    <div class="answer-list">
-                        <p><strong>C. Word Order:</strong></p>
-                        {{#each sentence_order_answers}}
-                        <p>{{number}}. {{sentence}}</p>
-                        {{/each}}
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Translation -->
-        <section class="section mt-4">
             <div class="translation-section">
                 <div class="translation-header">🌐 Full Article Translation (Thai / ภาษาไทย)</div>
                 <div class="translation-content">

@@ -11,13 +11,14 @@ export async function GET(
 ) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const includeFlashcards = searchParams.get('includeFlashcards') !== 'false';
+    // Off unless asked for (Daniel, 2026-10-02): fewer non-lesson pages in the printed book.
+    const includeFlashcards = searchParams.get('includeFlashcards') === 'true';
     const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
     const includeCertificate = searchParams.get('includeCertificate') !== 'false';
     const includeTeacherGuide = searchParams.get('includeTeacherGuide') !== 'false';
-    const includeSelfAssessment = searchParams.get('includeSelfAssessment') !== 'false';
+    const includeSelfAssessment = searchParams.get('includeSelfAssessment') === 'true';
     const includeSpellingPractice = searchParams.get('includeSpellingPractice') !== 'false';
-    const includeGoalSetting = searchParams.get('includeGoalSetting') !== 'false';
+    const includeGoalSetting = searchParams.get('includeGoalSetting') === 'true';
 
     const { projectId } = await params;
     const decodedProjectId = decodeURIComponent(projectId);

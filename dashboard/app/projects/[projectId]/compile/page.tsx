@@ -24,13 +24,13 @@ export default function CompilePage({ params }: CompilePageProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const [includeFlashcards, setIncludeFlashcards] = useState(true);
+  const [includeFlashcards, setIncludeFlashcards] = useState(false);
   const [includeProgressTracker, setIncludeProgressTracker] = useState(true);
   const [includeCertificate, setIncludeCertificate] = useState(true);
   const [includeTeacherGuide, setIncludeTeacherGuide] = useState(true);
-  const [includeSelfAssessment, setIncludeSelfAssessment] = useState(true);
+  const [includeSelfAssessment, setIncludeSelfAssessment] = useState(false);
   const [includeSpellingPractice, setIncludeSpellingPractice] = useState(true);
-  const [includeGoalSetting, setIncludeGoalSetting] = useState(true);
+  const [includeGoalSetting, setIncludeGoalSetting] = useState(false);
 
   useEffect(() => {
     const fetchCompiled = async () => {

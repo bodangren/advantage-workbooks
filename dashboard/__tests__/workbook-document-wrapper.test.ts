@@ -382,6 +382,25 @@ describe('Workbook Document Wrapper', () => {
     });
   });
 
+  describe('glossary section', () => {
+    it('should list each word with its Thai only, in three columns', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        glossary: [
+          { word: 'aunt', phonetic: '/ænt/', definition: 'The sister of your father or mother.', thaiDefinition: 'ป้า/น้า' },
+          { word: 'kite', phonetic: '/kaɪt/', definition: 'A toy that flies in the wind.' }
+        ]
+      });
+
+      expect(html).toContain('<span class="glossary-word">aunt</span>');
+      expect(html).toContain('<span class="glossary-thai">ป้า/น้า</span>');
+      expect(html).toContain('<span class="glossary-word">kite</span>');
+      expect(html).not.toContain('/ænt/');
+      expect(html).not.toContain('The sister of your father or mother.');
+      expect(html).toMatch(/\.glossary-list\s*{[^}]*grid-template-columns:\s*repeat\(3, 1fr\)/);
+    });
+  });
+
   describe('goal setting section', () => {
     it('should include goal setting section when includeGoalSetting is true', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {

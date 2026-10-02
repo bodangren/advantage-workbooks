@@ -142,6 +142,15 @@ describe('Template Renderer Tests', () => {
       expect(html).toContain('สวัสดี');
     });
 
+    it('should leave the answer key out of a primary lesson and keep the translation', async () => {
+      // Daniel (2026-10-02): students self-check with the teacher after the work; the book
+      // answer key at the back stays, the page after each lesson goes.
+      const html = await renderLessonTemplate(mockLesson, { type: 'primary' });
+      expect(html).not.toContain('Answer Key');
+      expect(html).not.toContain('1-A');
+      expect(html).toContain('สวัสดี');
+    });
+
     it('should render article images by position buckets', async () => {
       const lessonWithImages: WorkbookLesson = {
         ...mockLesson,

@@ -210,41 +210,29 @@ export function getPrintStyles(theme: ThemeColors): string {
 
     .glossary-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px 16px;
       font-family: 'Open Sans', sans-serif;
     }
 
     .glossary-item {
-      margin-bottom: 15px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 3px 0;
+      border-bottom: 1px dotted #ccc;
       break-inside: avoid;
     }
 
     .glossary-word {
       font-weight: bold;
-      font-size: 12pt;
-      color: ${theme.primary};
-      display: block;
-    }
-
-    .glossary-phonetic {
-      font-style: italic;
-      color: #666;
-      font-size: 10.5pt;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .glossary-definition {
       font-size: 11pt;
-      line-height: 1.4;
-      display: block;
+      color: ${theme.primary};
     }
 
     .glossary-thai {
       color: #4b5563;
-      font-weight: 600;
-      margin-right: 5px;
+      font-size: 11pt;
     }
 
     .ak-list {
