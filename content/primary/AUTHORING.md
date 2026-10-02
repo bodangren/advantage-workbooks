@@ -144,6 +144,7 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
   - Ben's dad: a man of about forty with short straight black hair parted on the side, a dark blue T-shirt, gray shorts, and black sneakers
   When the story gives a parent other clothes, the story wins.
 - The model cannot draw text. Text that must show (signs, a book title, a notice, a clock face as words) goes in the overlay field: `overlay text ; second text`. The prompt describes a blank sign or board in the right place.
+- The image service's filter blocks some harmless scenes. Do not show a child in distress on a bed or with the hands on the face, and write "a juice box", not "a drink", when an adult says no. Show a feeling with a face and a place ("looks unhappy next to an empty shelf").
 - Prompts describe the action, the place, and the light. One scene per picture. No words in the prompt like "photo" or "3D".
 
 ## 7. Batches with a plan
