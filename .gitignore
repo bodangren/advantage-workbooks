@@ -18,3 +18,5 @@ content/primary/*/media/*/samples/
 content/primary/*/media/*/candidates/
 # Tutor Advantage clips (made again from .clips/; the bucket holds the published copies)
 content/primary/*/media/*/tutor/
+# Package writes that a stopped job left (store.ts writes a .tmp file, then renames it)
+content/primary/**/*.tmp

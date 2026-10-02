@@ -137,7 +137,12 @@ export function readPackageFile(root: string, book: string, lesson: string): unk
     return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
-const write = (file: string, pkg: LessonPackage) => fs.writeFileSync(file, `${JSON.stringify(pkg, null, 2)}\n`);
+/** Writes a temporary file and renames it, so a stopped job leaves the old or the new package, never half. */
+const write = (file: string, pkg: LessonPackage) => {
+    const tmp = `${file}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, `${JSON.stringify(pkg, null, 2)}\n`);
+    fs.renameSync(tmp, file);
+};
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
