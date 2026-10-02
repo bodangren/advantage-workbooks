@@ -229,7 +229,10 @@ function main(argv: string[]): number {
         const keep = new Set(tutor.map((c) => `${c.id}.mp3`));
         for (const f of fs.readdirSync(tutorDir)) if (!keep.has(f)) fs.rmSync(path.join(tutorDir, f));
     }
-    pkg.audio = {
+    // A writer can rebuild the package while the audio is made: save the audio into the package as
+    // it is on disk now. If the text changed, make-media.ts sees the mismatch and makes it again.
+    const fresh = LessonPackageSchema.parse(JSON.parse(fs.readFileSync(opts.file, 'utf8')));
+    fresh.audio = {
         voice,
         teacherVoice: teacher,
         article: path.join(mediaRel, 'article.mp3'),
@@ -240,7 +243,7 @@ function main(argv: string[]): number {
         flashcardTimes,
         tutor: bank ? undefined : path.join(mediaRel, 'tutor'),
     };
-    const result = savePackage(root, book, lesson, pkg, checkContextFor);
+    const result = savePackage(root, book, lesson, fresh, checkContextFor);
     console.log(`Saved ${path.relative(process.cwd(), opts.file)}; audio approval: ${result.pkg?.approval.audio.status}`);
     return 0;
 }

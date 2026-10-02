@@ -189,7 +189,18 @@ async function main(argv: string[]): Promise<number> {
         console.log(`${img.position}: ${saved.map((s) => path.basename(s)).join(', ')}`);
     }
     if (opts.dryRun) return 0;
-    pkg = savePackage(root, book, lesson, pkg, checkContextFor).pkg ?? pkg;
+    // The pictures take minutes, and a writer can rebuild the package in that time. Add the new
+    // candidates to the package as it is on disk now, so that the writer's change stays.
+    const made = new Map(todo.map((img) => [img.position, img]));
+    const fresh = LessonPackageSchema.parse(JSON.parse(fs.readFileSync(opts.file, 'utf8')));
+    for (const img of fresh.images) {
+        const done = made.get(img.position);
+        const added = done ? done.candidates.filter((c) => !img.candidates.includes(c)) : [];
+        if (!added.length) continue;
+        img.candidates = [...img.candidates, ...added];
+        img.redo = undefined;
+    }
+    pkg = savePackage(root, book, lesson, fresh, checkContextFor).pkg ?? fresh;
     for (const img of pkg.images.filter((i) => !i.file && i.candidates.length)) {
         pkg = (await chooseImage(root, book, lesson, img.position, img.candidates[0], checkContextFor)).pkg ?? pkg;
     }
