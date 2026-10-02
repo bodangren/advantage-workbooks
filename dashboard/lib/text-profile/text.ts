@@ -72,8 +72,10 @@ function suffixCandidates(t: string): string[] {
     const c: string[] = [];
     const doubled = (stem: string) => (stem.length > 2 && stem.at(-1) === stem.at(-2) ? [stem.slice(0, -1)] : []);
     if (t.endsWith('ies')) c.push(t.slice(0, -3) + 'y');
-    if (t.endsWith('es')) c.push(t.slice(0, -2));
+    // "-s" before "-es": "planes" is "plane" (not "plan"), "toes" is "toe" (not "to"); "boxes"
+    // still finds "box", because "boxe" is not a word.
     if (t.endsWith('s')) c.push(t.slice(0, -1));
+    if (t.endsWith('es')) c.push(t.slice(0, -2));
     if (t.endsWith('ing')) {
         const stem = t.slice(0, -3);
         c.push(stem, stem + 'e', ...doubled(stem));

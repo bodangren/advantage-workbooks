@@ -97,6 +97,9 @@ describe('text helpers', () => {
 
     it('gives lemma candidates for plurals, contractions, irregulars, and possessives', () => {
         expect(lemmaCandidates('mangoes')).toContain('mango');
+        // "-s" comes before "-es", so the first candidate in the graph is the right word.
+        expect(lemmaCandidates('planes').indexOf('plane')).toBeLessThan(lemmaCandidates('planes').indexOf('plan'));
+        expect(lemmaCandidates('toes').indexOf('toe')).toBeLessThan(lemmaCandidates('toes').indexOf('to'));
         expect(lemmaCandidates("don't")).toContain('do');
         expect(lemmaCandidates('feet')).toContain('foot');
         expect(lemmaCandidates("Tom's")[0]).toBe("tom's");
