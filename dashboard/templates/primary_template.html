@@ -70,7 +70,7 @@
             align-items: center;
             gap: 12px;
             padding: 14px 18px;
-            background: linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%);
+            background: #dbeafe;
             border-radius: 8px;
             margin-bottom: 16px;
             font-family: 'Open Sans', 'Sarabun', sans-serif;
@@ -98,6 +98,16 @@
             font-weight: 700;
             color: var(--primary-blue);
             margin: 0;
+        }
+
+        /* Inline SVG icons (lib/document-wrapper/icons.ts) replace emoji: a color emoji is a
+           bitmap with a soft mask, and PDF/X-1a has no transparency. */
+        .icon {
+            display: inline-block;
+            width: 1.1em;
+            height: 1.1em;
+            vertical-align: -0.18em;
+            flex-shrink: 0;
         }
 
         .section-time {
@@ -152,11 +162,23 @@
         }
 
         /* Collection Boxes */
+        /* A dashed or dotted border + border-radius + background is a transparency group in
+           Chrome's PDF. The background of these boxes is a layer under the content. */
         .collection-box {
             border: 2px dashed var(--border-medium);
             border-radius: 8px;
             padding: 16px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .collection-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
             background: var(--bg-light);
+            z-index: -1;
         }
 
         .collection-grid {
@@ -679,7 +701,6 @@
 
         .writing-header p {
             font-size: 11px;
-            opacity: 0.9;
         }
 
         .prompt-box {
@@ -762,7 +783,7 @@
 
         /* Reflection */
         .reflection-box {
-            background: linear-gradient(135deg, #fff7ed 0%, #fef9c3 100%);
+            background: #fff8d8;
             border: 1px solid #fdba74;
             border-radius: 8px;
             padding: 16px;
@@ -1055,7 +1076,7 @@
 
         /* Score Box */
         .score-box {
-            background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+            background: #e4e2fe;
             border-radius: 8px;
             padding: 12px 16px;
             display: flex;
@@ -1104,11 +1125,21 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: white;
             border: 2px dashed var(--primary-light);
             border-radius: 8px;
             padding: 10px 14px;
             margin: 10px 0;
+            position: relative;
+            z-index: 0;
+        }
+
+        .qr-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
+            background: white;
+            z-index: -1;
         }
 
         .qr-code {
@@ -1397,12 +1428,14 @@
         .flex-1 { flex: 1; }
         .justify-between { justify-content: space-between; }
 
-        .tip-blue { background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%); border-left: 4px solid var(--primary-blue); }
-        .tip-light-blue { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-left: 4px solid var(--primary-blue); }
-        .tip-yellow { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid var(--accent-orange); }
+        /* Solid colors (the middle color of the old gradients): Ghostscript turns a gradient into a
+           low-resolution image for PDF/X-1a (track print_ready_pdf_20261002). */
+        .tip-blue { background: #e4e2fe; border-left: 4px solid var(--primary-blue); }
+        .tip-light-blue { background: #cdecfe; border-left: 4px solid var(--primary-blue); }
+        .tip-yellow { background: #feeca8; border-left: 4px solid var(--accent-orange); }
         .tip-white-purple { background: white; border-left-color: var(--accent-purple); }
         .tip-white-green { background: white; border-left-color: var(--accent-green); }
-        .tip-green-grad { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid var(--accent-green); }
+        .tip-green-grad { background: #ccfadc; border-left: 4px solid var(--accent-green); }
 
         .think-text { margin-top: 8px; font-size: 14px; line-height: 1.6; }
         .turn-talk-main { margin-top: 8px; font-size: 14px; line-height: 1.6; font-weight: 500; }
@@ -1510,7 +1543,7 @@
             <div class="section-header">
                 <div class="section-icon icon-intro">1</div>
                 <h2 class="section-title">Before You Read</h2>
-                <span class="section-time">⏱ 5 min</span>
+                <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
 
@@ -1518,17 +1551,17 @@
                 <div class="interest-rating">
                     <span>How interested are you in this topic?</span>
                     <div class="stars">
-                        <span class="star">☆</span>
-                        <span class="star">☆</span>
-                        <span class="star">☆</span>
-                        <span class="star">☆</span>
-                        <span class="star">☆</span>
+                        <span class="star">{{icon "star"}}</span>
+                        <span class="star">{{icon "star"}}</span>
+                        <span class="star">{{icon "star"}}</span>
+                        <span class="star">{{icon "star"}}</span>
+                        <span class="star">{{icon "star"}}</span>
                     </div>
                 </div>
 
                 {{#if connection_question}}
                 <div class="tip-box mt-3 tip-blue">
-                    <div class="tip-label">🤔 Think About This</div>
+                    <div class="tip-label">{{icon "think"}} Think About This</div>
                     <p class="think-text">{{connection_question}}</p>
                     <div class="writing-lines mt-10px">
                         <div class="writing-line"></div>
@@ -1544,7 +1577,7 @@
             <div class="section-header">
                 <div class="section-icon icon-vocab">2</div>
                 <h2 class="section-title">Key Vocabulary</h2>
-                <span class="section-time">⏱ 8 min</span>
+                <span class="section-time">{{icon "timer"}} 8 min</span>
             </div>
 
             <table class="vocab-table">
@@ -1591,14 +1624,14 @@
             {{/if}}
 
             <div class="tip-box mt-3">
-                <div class="tip-label">💡 Vocabulary Tip</div>
+                <div class="tip-label">{{icon "lightbulb"}} Vocabulary Tip</div>
                 Check the words you already know. For new words, write a translation or draw a small picture to help you
                 remember.
             </div>
 
             {{#if phonics_focus}}
             <div class="tip-box mt-3 tip-light-blue">
-                <div class="tip-label">🔤 Phonics Focus</div>
+                <div class="tip-label">{{icon "letters"}} Phonics Focus</div>
                 <p class="think-text">{{phonics_focus}}</p>
             </div>
             {{/if}}
@@ -1609,7 +1642,7 @@
             <div class="section-header">
                 <div class="section-icon icon-read">3</div>
                 <h2 class="section-title">Read the Article</h2>
-                <span class="section-time">⏱ 10 min</span>
+                <span class="section-time">{{icon "timer"}} 10 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
 
@@ -1618,7 +1651,7 @@
                     {{#if qr_code_url}}
                         <img class="qr-img" src="{{qr_code_url}}" alt="QR Code">
                     {{else}}
-                        <span>📱<br>QR</span>
+                        <span>{{icon "phone"}}<br>QR</span>
                     {{/if}}
                 </div>
                 <div class="qr-text">
@@ -1660,7 +1693,7 @@
                         <span>= interesting</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-symbol">⭐</span>
+                        <span class="legend-symbol">{{icon "star" filled=true}}</span>
                         <span>= save this sentence</span>
                     </div>
                 </div>
@@ -1694,7 +1727,7 @@
             <div class="section-header">
                 <div class="section-icon icon-collect">4</div>
                 <h2 class="section-title">Collect Vocabulary</h2>
-                <span class="section-time">⏱ 5 min</span>
+                <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
 
@@ -1736,7 +1769,7 @@
             <div class="section-header">
                 <div class="section-icon icon-read bg-orange">5</div>
                 <h2 class="section-title">Deep Reading Notes</h2>
-                <span class="section-time">⏱ 10 min</span>
+                <span class="section-time">{{icon "timer"}} 10 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
             </div>
 
@@ -1761,12 +1794,12 @@
             <div class="section-header">
                 <div class="section-icon icon-collect">6</div>
                 <h2 class="section-title">Collect Sentences{{#if grammar_search_term}} – {{grammar_search_term}}{{/if}}</h2>
-                <span class="section-time">⏱ 5 min</span>
+                <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
             </div>
 
             <p class="text-sm text-muted mb-3">Copy 2 sentences from the article that you want to practice. Mark
-                sentences with ⭐ in the article first.{{#if grammar_search_term}} <strong>Challenge:</strong> {{grammar_search_term}}{{/if}}</p>
+                sentences with {{icon "star" filled=true}} in the article first.{{#if grammar_search_term}} <strong>Challenge:</strong> {{grammar_search_term}}{{/if}}</p>
 
             <div class="collection-box">
                 <div class="mb-3">
@@ -1808,7 +1841,7 @@
                 <div class="section-header">
                     <div class="section-icon icon-question">7</div>
                     <h2 class="section-title">Comprehension Check</h2>
-                    <span class="section-time">⏱ 10 min</span>
+                    <span class="section-time">{{icon "timer"}} 10 min</span>
                 </div>{{/if}}
                 <div class="question-box">
                     <div class="question-text">
@@ -1855,7 +1888,7 @@
 
             {{#if discussion_question}}
             <div class="tip-box mt-4 tip-yellow">
-                <div class="tip-label">💬 Turn & Talk</div>
+                <div class="tip-label">{{icon "talk"}} Turn & Talk</div>
                 <p class="turn-talk-main">{{discussion_question}}</p>
                 <p class="turn-talk-sub">Discuss this question with a partner or write your thoughts below:</p>
                 <div class="writing-lines mt-10px">
@@ -1871,7 +1904,7 @@
             <div class="section-header">
                 <div class="section-icon icon-question">8</div>
                 <h2 class="section-title">Guided Response</h2>
-                <span class="section-time">⏱ 8 min</span>
+                <span class="section-time">{{icon "timer"}} 8 min</span>
                 <!-- <span class="phase-label phase-3">Phase 3</span> -->
             </div>
 
@@ -1883,14 +1916,14 @@
 
                 {{#if short_answer_hint}}
                 <div class="tip-box mt-3 tip-white-purple">
-                    <div class="tip-label text-purple">💡 Hint</div>
+                    <div class="tip-label text-purple">{{icon "lightbulb"}} Hint</div>
                     {{short_answer_hint}}
                 </div>
                 {{/if}}
 
                 {{#if sentence_starters}}
                 <div class="sentence-starters">
-                    <div class="starter-label">💡 Sentence Starters</div>
+                    <div class="starter-label">{{icon "lightbulb"}} Sentence Starters</div>
                     {{#each sentence_starters}}
                     <div class="starter-item">{{this}}</div>
                     {{/each}}
@@ -1898,7 +1931,7 @@
                 {{/if}}
 
                 <div class="tip-box mt-3 tip-white-green">
-                    <div class="tip-label text-green">🧩 Guided frame</div>
+                    <div class="tip-label text-green">{{icon "puzzle"}} Guided frame</div>
                     <p class="text-sm">I think __________ because __________.</p>
                 </div>
 
@@ -1924,7 +1957,7 @@
                 <div class="section-header">
                     <div class="section-icon icon-practice">9</div>
                     <h2 class="section-title">Vocabulary Practice</h2>
-                    <span class="section-time">⏱ 10 min</span>
+                    <span class="section-time">{{icon "timer"}} 10 min</span>
                 </div>
                 <div class="practice-box">
                     <div class="practice-title">A. Match the Words</div>
@@ -1969,7 +2002,7 @@
                 <div class="section-header">
                     <div class="section-icon icon-practice">10</div>
                     <h2 class="section-title">Sentence Practice</h2>
-                    <span class="section-time">⏱ 8 min</span>
+                    <span class="section-time">{{icon "timer"}} 8 min</span>
                 </div>
                 <div class="practice-box">
                     <div class="practice-title">C. Put the Words in Order</div>
@@ -2005,7 +2038,7 @@
             <div class="section-header">
                 <div class="section-icon icon-write">11</div>
                 <h2 class="section-title">Guided Writing</h2>
-                <span class="section-time">⏱ 15 min</span>
+                <span class="section-time">{{icon "timer"}} 15 min</span>
                 <!-- <span class="phase-label phase-4">Phase 4</span> -->
             </div>
 
@@ -2016,7 +2049,7 @@
                 </div>
 
                 <div class="prompt-box">
-                    <div class="prompt-label">✍️ Writing Prompt</div>
+                    <div class="prompt-label">{{icon "pen"}} Writing Prompt</div>
                     <p class="prompt-text">
                         {{writing_prompt}}
                     </p>
@@ -2032,7 +2065,7 @@
                 {{/if}}
 
                 <div class="planning-area">
-                    <div class="prompt-label text-purple">📝 Plan Your Writing</div>
+                    <div class="prompt-label text-purple">{{icon "plan"}} Plan Your Writing</div>
                     <div class="planning-grid">
                         {{#if writing_plan_prompts}}
                             {{#each writing_plan_prompts}}
@@ -2064,7 +2097,7 @@
 
                 {{#if writing_sentence_frames}}
                 <div class="tip-box mt-3 tip-green-grad">
-                    <div class="tip-label">💡 Sentence Starters to Help You</div>
+                    <div class="tip-label">{{icon "lightbulb"}} Sentence Starters to Help You</div>
                     <ul class="starters-list">
                         {{#each writing_sentence_frames}}
                         <li class="mb-4px">{{this}}</li>
@@ -2073,7 +2106,7 @@
                 </div>
                 {{else}}
                 <div class="tip-box mt-3 tip-green-grad">
-                    <div class="tip-label">💡 Sentence Frames</div>
+                    <div class="tip-label">{{icon "lightbulb"}} Sentence Frames</div>
                     <ul class="starters-list">
                         <li>First, I noticed __________.</li>
                         <li>One important detail is __________.</li>
@@ -2083,7 +2116,7 @@
                 {{/if}}
 
                 <div class="writing-lines">
-                    <div class="prompt-label prompt-label-purple">✍️ Write Your
+                    <div class="prompt-label prompt-label-purple">{{icon "pen"}} Write Your
                         Draft</div>
                     
                     <div class="lined-area">
@@ -2111,7 +2144,7 @@
                             {{#if writing_qr_code_url}}
                                 <img class="qr-img" src="{{writing_qr_code_url}}" alt="Writing Practice QR Code">
                             {{else}}
-                                <span>📱<br>QR</span>
+                                <span>{{icon "phone"}}<br>QR</span>
                             {{/if}}
                         </div>
                         <div class="qr-text flex-1">
@@ -2134,7 +2167,7 @@
             <div class="section-header">
                 <div class="section-icon icon-question bg-light-blue">12</div>
                 <h2 class="section-title">Language Questions</h2>
-                <span class="section-time">⏱ 5 min</span>
+                <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-4">Phase 4</span> -->
             </div>
 
@@ -2163,7 +2196,7 @@
             <div class="section-header">
                 <div class="section-icon icon-reflect">13</div>
                 <h2 class="section-title">Lesson Reflection</h2>
-                <span class="section-time">⏱ 5 min</span>
+                <span class="section-time">{{icon "timer"}} 5 min</span>
             </div>
 
             <div class="reflection-box">
@@ -2200,11 +2233,11 @@
                     <div>
                         <p class="text-xs font-bold mb-2">My effort today:</p>
                         <div class="star-rating">
-                            <span class="rating-star">☆</span>
-                            <span class="rating-star">☆</span>
-                            <span class="rating-star">☆</span>
-                            <span class="rating-star">☆</span>
-                            <span class="rating-star">☆</span>
+                            <span class="rating-star">{{icon "star"}}</span>
+                            <span class="rating-star">{{icon "star"}}</span>
+                            <span class="rating-star">{{icon "star"}}</span>
+                            <span class="rating-star">{{icon "star"}}</span>
+                            <span class="rating-star">{{icon "star"}}</span>
                         </div>
                     </div>
                 </div>
@@ -2251,7 +2284,7 @@
         <!-- Translation (own page; it shared the page with the per-lesson answer key, removed 2026-10-02) -->
         <section class="section force-page-break">
             <div class="translation-section">
-                <div class="translation-header">🌐 Full Article Translation (Thai / ภาษาไทย)</div>
+                <div class="translation-header">{{icon "globe"}} Full Article Translation (Thai / ภาษาไทย)</div>
                 <div class="translation-content">
                     {{#each translation_paragraphs}}
                     <div class="translation-para">

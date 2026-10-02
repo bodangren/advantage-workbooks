@@ -1,4 +1,5 @@
 import { ThemeColors } from '../types';
+import { icon } from '../icons';
 
 export function generateSelfAssessmentSection(theme: ThemeColors): string {
   return `
@@ -10,9 +11,9 @@ export function generateSelfAssessmentSection(theme: ThemeColors): string {
         <thead>
           <tr>
             <th class="sa-col-statement">I can...</th>
-            <th class="sa-col-rating">Needs Work<br/>🌱</th>
-            <th class="sa-col-rating">Getting There<br/>🌿</th>
-            <th class="sa-col-rating">Got It!<br/>🌳</th>
+            <th class="sa-col-rating">Needs Work<br/>${icon('sprout')}</th>
+            <th class="sa-col-rating">Getting There<br/>${icon('leaf')}</th>
+            <th class="sa-col-rating">Got It!<br/>${icon('tree')}</th>
           </tr>
         </thead>
         <tbody>

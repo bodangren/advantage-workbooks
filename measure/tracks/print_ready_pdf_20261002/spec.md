@@ -1,6 +1,6 @@
 # Spec: Print-ready PDF/X-1a workbooks
 
-Version 1.0 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal
+Version 1.1 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal
 
 ## Goal
 
@@ -24,8 +24,10 @@ PDF"; that step stays.
      (any two of the three make no group)
    - `opacity` < 1, `box-shadow`: a group with alpha
    - `rgba()` color or background: an alpha graphics state
-   - not a source: solid borders with radius, `overflow: hidden` with radius, linear gradients
-     (smooth shading is PDF 1.3), JPG pictures with radius
+   - not a source: solid borders with radius, `overflow: hidden` with radius, JPG pictures with
+     radius
+   - gradients are not transparency, but Ghostscript turns each one into an image that fits its
+     256 KB default: 90 ppi for a tip box, 22 ppi for the full-page title gradient
 3. RGB color, PDF 1.4, no output intent. No bleed (the printer has accepted that so far).
 
 ## Requirements
@@ -44,9 +46,16 @@ PDF"; that step stays.
   solid fill, no opacity) replace them.
 - R4. No transparency sources in the Primary print CSS: no `rgba()`, `opacity` < 1, or shadows in
   print; dashed or dotted boxes with rounded corners draw their background on a `::before` layer.
+  No gradients: solid colors (the middle color of each old gradient; the title page uses the
+  series color).
 - R5. A full Primary Advantage Origins 3.2 render passes R1 with fonts kept (not outlined).
 
 ## Out of scope
 
 Bleed and crop marks (the printer accepted files without them; ask him after his holiday,
 2026-10-07). K-only black text. The secondary (Reading Advantage) template. The cover (Canva).
+
+## Revision history
+
+- 1.1 (2026-10-02): gradients found in the full-book test; solid colors (R4).
+- 1.0 (2026-10-02): first version.

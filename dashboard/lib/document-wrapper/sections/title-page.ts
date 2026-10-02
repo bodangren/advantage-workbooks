@@ -4,7 +4,7 @@ import { escapeHtml, getThemeColors } from '../utils';
 export function generateTitlePage(options: WorkbookDocumentOptions): string {
   const theme = getThemeColors(options.seriesName, options.type);
   return `
-    <div class="cover-page" style="background: ${theme.gradient};">
+    <div class="cover-page" style="background: ${theme.primary};">
       <div class="cover-content">
         <h1 class="tp-main-title">Reading Advantage</h1>
         <div class="tp-divider"></div>

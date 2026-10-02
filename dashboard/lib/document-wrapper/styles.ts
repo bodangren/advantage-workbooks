@@ -36,8 +36,22 @@ export function getPrintStyles(theme: ThemeColors): string {
 
     .pagedjs_page {
       background: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       margin-bottom: 20px;
+    }
+
+    /* Screen preview only. Print CSS has no rgba, opacity, or shadows: PDF/X-1a has no
+       transparency (track print_ready_pdf_20261002). */
+    @media screen {
+      .pagedjs_page {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      }
+    }
+
+    .icon {
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      vertical-align: -0.18em;
     }
 
     @media print {
@@ -83,11 +97,10 @@ export function getPrintStyles(theme: ThemeColors): string {
     }
 
     .cover-content {
-      background: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
       padding: 60px 80px;
       border-radius: 12px;
       color: #1f2937;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       max-width: 80%;
       position: relative;
       z-index: 10;
@@ -144,7 +157,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       position: absolute;
       bottom: 40px;
       font-size: 12pt;
-      color: rgba(255, 255, 255, 0.9);
+      color: #ffffff;
       font-family: 'Open Sans', 'Sarabun', sans-serif;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -386,7 +399,6 @@ export function getPrintStyles(theme: ThemeColors): string {
       border-radius: 50%;
       margin-top: 10px;
       background-color: transparent;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
     }
 
     .pb-number {
@@ -500,7 +512,9 @@ export function getPrintStyles(theme: ThemeColors): string {
       height: 100%;
       box-sizing: border-box;
       background-color: #fdfdfd;
-      box-shadow: inset 0 0 0 4px ${theme.secondary};
+      /* The inner 4px line inside the 8px border (was an inset box-shadow). */
+      outline: 4px solid ${theme.secondary};
+      outline-offset: -12px;
     }
 
     .certificate-inner {

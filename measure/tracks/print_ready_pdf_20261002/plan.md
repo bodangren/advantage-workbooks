@@ -22,11 +22,17 @@
       Comic Sans MS, which is not installed; it now uses Open Sans.
 
 ## Phase 3: Icons and transparency (R3, R4)
-- [ ] Tests: no emoji or symbol characters and no `rgba(`, `opacity`, or `box-shadow` in the
-      rendered Primary print document
-- [ ] Inline SVG icons (Lucide, ISC) for the emoji; solid colors; `::before` backgrounds for
-      dashed rounded boxes
+- [x] Tests: no emoji or symbol characters, no `rgba(`, `opacity`, shadows, filters, or gradients
+      in print CSS, no dashed rounded box with a background (`__tests__/print-transparency.test.ts`)
+- [x] Inline SVG icons (Lucide, ISC; `lib/document-wrapper/icons.ts`, Handlebars helper `icon`)
+      for the 13 emoji kinds; solid colors; `::before` backgrounds for `.collection-box` and
+      `.qr-box`; the certificate inset shadow is an outline. Gradients became solid (the middle
+      color; the title page uses the series color): Ghostscript turned each gradient into an image
+      that fits 256 KB (90 ppi for a tip box, 22 ppi for the full-page title gradient).
 
 ## Phase 4: Verify (R5)
-- [ ] Render Origins 3.2 (Playwright, Paged.js), convert, check: 0 pages as images, 0 Type 3 fonts
-- [ ] Compare page pictures before and after
+- [x] Render Origins 3.2 (Playwright, Paged.js), convert, check: 0 pages as images, 0 Type 3 fonts.
+      Full book with the default sections: 277 pages (same count as before), 35.5 MB, 13 embedded
+      TrueType fonts, all checks pass, Ghostscript 162 s. Two lessons with all sections on: 55
+      pages, all checks pass. Before: 9 of 12 pages of an old book became 300 ppi page images.
+- [x] Compare page pictures before and after: same layout; icons in place of emoji, solid boxes.

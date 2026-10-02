@@ -169,7 +169,7 @@ export function checkPdfx(o: { info: PdfInfo; pdfxVersion?: string; hasOutputInt
     if (loose.length) errors.push(`fonts not embedded: ${[...new Set(loose.map((f) => f.name))].join(', ')}`);
     const source = new Set(o.sourcePageImages ?? []);
     const rendered = pageImages(o.images, o.info).filter((p) => !source.has(p));
-    if (rendered.length) errors.push(`page(s) ${pageList(rendered)} became one image each (transparency in the source: emoji, rgba, opacity, shadows, or dashed rounded boxes with a background)`);
+    if (rendered.length) errors.push(`page(s) ${pageList(rendered)} became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)`);
     const rgb = o.images.filter((i) => i.color === 'rgb');
     if (rgb.length) errors.push(`RGB image(s) on page(s) ${pageList(rgb.map((i) => i.page))}`);
     const masks = o.images.filter((i) => i.type === 'smask');

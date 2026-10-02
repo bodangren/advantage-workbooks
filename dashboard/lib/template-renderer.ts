@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars';
+import { icon, type IconName } from './document-wrapper/icons';
 import fs from 'fs/promises';
 import path from 'path';
 import type { ArticleImage, WorkbookLesson } from './workbook-schema';
@@ -20,6 +21,12 @@ async function getTemplate(type: WorkbookType = 'secondary'): Promise<Handlebars
   }
 
   // Register helpers (idempotent, safe to call multiple times)
+  // Inline SVG icons instead of emoji (track print_ready_pdf_20261002): {{icon "timer"}},
+  // {{icon "star" filled=true}}.
+  Handlebars.registerHelper('icon', function(name: IconName, options: Handlebars.HelperOptions) {
+    return new Handlebars.SafeString(icon(name, { filled: options.hash?.filled === true }));
+  });
+
   Handlebars.registerHelper('concat', function(...args) {
     // Slice off the options object at the end
     return args.slice(0, -1).join('');
