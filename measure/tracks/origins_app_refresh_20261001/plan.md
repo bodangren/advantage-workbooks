@@ -34,7 +34,7 @@ Track: `origins_app_refresh_20261001`
 - [x] New cast sheets with Muse: complete descriptions (dark-brown eyes); Tom anchor (eye edit of the first clean Tom), then the other 14 with Tom as the style reference; old sheets archived; lineup `character-sheets/cast-lineup.jpg` for Daniel
 - [x] E12 pictures again with the new sheets (2 Muse candidates each; Claude chose 3; images approval back to draft)
 - [x] The 81 Origins 2 and 3.1 pictures again with the new sheets (2 Muse candidates each, $1.62; Claude chose all 81; 4 prompts changed: 2 refused by the Muse content filter, 2 with wrong scenes)
-- [ ] Daniel reviews the pictures on `/review`
+- [x] Daniel reviews the pictures on `/review` (Daniel: "The image consistency is great. Almost flawless."; images approved) e3aa353
 
 ## Phase 4: Audio
 
@@ -47,6 +47,6 @@ Track: `origins_app_refresh_20261001`
 - [x] Dry run passes for all 27 lessons (update) and E12 (new); only the lesson approval is missing
 - [x] Old `cn`, `tw`, and `vi` (second decision): package part `locales`, `lib/inject/legacy-locales.ts` (match by sentence and word, English for gaps), `scripts/fetch-legacy-locales.ts` (read-only), the injector refuses a printed lesson without the copy; tests
 - [x] E12 SAQ s1 and s2: model answers without the note ("I am eight.", "My name is May."); bank and lesson approvals back to draft
-- [ ] Copy the old `cn`, `tw`, and `vi` of the 27 lessons (`scripts/fetch-legacy-locales.ts`; needs the production database URL)
-- [ ] Daniel approves the E12 bank and lesson again; inject E12 again (English in `cn`, `tw`, `vi`; the plain SAQ answers)
-- [ ] Daniel approves the lessons; inject and verify the 27 lessons
+- [x] Copy the old `cn`, `tw`, and `vi` of the 27 lessons (`scripts/fetch-legacy-locales.ts`; 1,123 of 1,136 sentences matched, English for 13) e3aa353
+- [x] Daniel approves the E12 bank and lesson again; inject E12 again (English in `cn`, `tw`, `vi`; the plain SAQ answers) 37ec194
+- [x] Daniel approves the lessons; inject and verify the 27 lessons (Origins 2 lessons 1–3: Cloud SQL backup 1790895430450, dde53f9; the other 24 and E12: backup 1790898530051, Daniel's terminal, 37ec194; verify list empty for all; 150 bucket objects checked) dde53f9 37ec194
