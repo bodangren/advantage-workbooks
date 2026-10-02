@@ -13,11 +13,13 @@ Usage: npx tsx scripts/media/make-media.ts <book folder>... [--images] [--audio]
                the first one becomes the picture until someone picks another on /review)
   --audio      Audio for each package whose audio is missing or no longer matches the text
   --count <n>  Muse candidates per image (default 1)
-  --jobs <n>   Picture jobs at the same time (default 3). Audio jobs run one at a time (mmx gives
-               no output for parallel calls).
+  --jobs <n>   Picture jobs at the same time (default 3). Audio runs one lesson at a time in a
+               run; for more speed, start runs on different book folders (separate mmx
+               processes work in parallel, tested 2026-10-02).
 
 Without --images and --audio it does both. A failed lesson is reported, and the run goes on.
-Run it when no writer is changing the packages: the scripts save the package.`;
+Each lesson is checked again just before its turn, so two runs on the same folders do not
+repeat a lesson that the other run finished.`;
 
 const DASHBOARD = path.resolve(__dirname, '..', '..');
 
@@ -99,7 +101,11 @@ async function main(argv: string[]): Promise<number> {
             return p.success && needsImages(p.data);
         });
         console.log(`Pictures: ${todo.length} package(s), ${count} candidate(s) per image, ${jobs} at a time`);
-        failed += await pool(todo, jobs, (f) => run(['scripts/media/lesson-images.ts', f, '--model', 'muse', '--count', String(count)], `pictures ${label(f)}`));
+        failed += await pool(todo, jobs, async (f) => {
+            const p = read(f);
+            if (p.success && !needsImages(p.data)) return true;
+            return run(['scripts/media/lesson-images.ts', f, '--model', 'muse', '--count', String(count)], `pictures ${label(f)}`);
+        });
     }
     if (audio) {
         const todo = files.filter((f) => {
@@ -107,7 +113,11 @@ async function main(argv: string[]): Promise<number> {
             return p.success && needsAudio(p.data);
         });
         console.log(`Audio: ${todo.length} package(s), one at a time`);
-        failed += await pool(todo, 1, (f) => run(['scripts/media/lesson-audio.ts', f], `audio ${label(f)}`));
+        failed += await pool(todo, 1, async (f) => {
+            const p = read(f);
+            if (p.success && !needsAudio(p.data)) return true;
+            return run(['scripts/media/lesson-audio.ts', f], `audio ${label(f)}`);
+        });
     }
     console.log(failed ? `${failed} job(s) failed; run again to retry them` : 'All jobs done');
     return failed ? 1 : 0;
