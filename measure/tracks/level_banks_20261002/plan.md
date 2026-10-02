@@ -30,12 +30,13 @@ Track: `level_banks_20261002`
 
 ## Phase 3: Banks
 
-- [ ] Level 4: 36 packages
+- [x] Level 4: 36 packages
 - [x] Level 1: 36 packages
-- [ ] Level 2: 24 packages
-- [ ] Level 3: 84 packages
+- [x] Level 2: 24 packages
+- [x] Level 3: 84 packages
+- [x] Cross-batch QA: repeated stories rewritten (16 articles), giveaway MCQ options fixed (45), end commas in quoted options removed
 - [ ] Pictures and audio for the bank packages
-- [ ] Coverage report: every level objective in 2 or more articles
+- [x] Coverage report: every level objective in 2 or more articles (level 1: 11 of 11; level 2: 8 of 8; level 3: 24 of 24; level 4: 20 of 20)
 
 ## Phase 4: Approval and injection
 
