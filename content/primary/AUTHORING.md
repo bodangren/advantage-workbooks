@@ -140,6 +140,8 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
   - Leo's dad: a man of about forty with short black hair and a small mustache, a white shirt, black trousers, and black shoes
   - Leo's grandma: a woman of about seventy with short curly white hair and red glasses, a green dress, and brown sandals
   - May and Pat's mom: a woman of about thirty-five with shoulder-length black hair and a white headband, a light green dress, and white sandals
+  - May and Pat's grandma: a woman of about seventy with short straight gray hair, a light blue blouse, a long black skirt, and white sandals
+  - Ben's dad: a man of about forty with short straight black hair parted on the side, a dark blue T-shirt, gray shorts, and black sneakers
   When the story gives a parent other clothes, the story wins.
 - The model cannot draw text. Text that must show (signs, a book title, a notice, a clock face as words) goes in the overlay field: `overlay text ; second text`. The prompt describes a blank sign or board in the right place.
 - Prompts describe the action, the place, and the light. One scene per picture. No words in the prompt like "photo" or "3D".
