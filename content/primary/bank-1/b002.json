@@ -1,0 +1,591 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "bank-1",
+    "lesson": "B002",
+    "number": 2,
+    "key": "bank-1/2",
+    "title": "Sam's Toy Shop",
+    "raLevel": 1,
+    "cefrLevel": "A0-",
+    "textType": "counting: numbers one to ten",
+    "genre": "Toys & Play",
+    "profile": "bank-1",
+    "appType": "fiction",
+    "role": "bank",
+    "replaces": "cmq5c9lhe0000s601d29yqgit"
+  },
+  "text": {
+    "paragraphs": [
+      "Sam has a toy shop. It is on the floor. Leo comes to the shop. \"Hello, Sam!\" says Leo. \"I want a helicopter.\" \"I have two,\" says Sam. \"Red or blue?\" \"Blue, please,\" says Leo. Sam gives Leo the helicopter.",
+      "\"Look!\" says Sam. These are my lorries. \"One, two, three lorries!\" \"A monster!\" says Leo. \"Yes.\" It is funny. \"It has four eyes!\" \"Is it ugly?\" asks Leo. \"No, it is nice.\"",
+      "Sam has fruit too. \"Four apples.\" \"Five bananas.\" \"How many fruits?\" asks Sam. \"Nine!\" says Leo. \"Good!\" says Sam. Leo eats an apple. It is good."
+    ],
+    "summary": "Sam plays shop with his toys on the floor. Leo counts the lorries and the fruit.",
+    "glossed": [
+      "shop",
+      "floor",
+      "helicopter",
+      "lorry",
+      "monster",
+      "want",
+      "give",
+      "please",
+      "fruit",
+      "apple",
+      "banana",
+      "eat"
+    ],
+    "recycle": [],
+    "allow": [],
+    "names": [
+      "Sam",
+      "Leo"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "shop",
+      "pos": "noun",
+      "definition": "A place with things to sell.",
+      "thai": "ร้านค้า",
+      "example": "Sam has a toy shop."
+    },
+    {
+      "word": "floor",
+      "pos": "noun",
+      "definition": "The bottom of a room. You stand on it.",
+      "thai": "พื้น",
+      "example": "It is on the floor."
+    },
+    {
+      "word": "helicopter",
+      "pos": "noun",
+      "definition": "A plane with a big fan on top.",
+      "thai": "เฮลิคอปเตอร์",
+      "example": "\"I want a helicopter.\""
+    },
+    {
+      "word": "lorry",
+      "pos": "noun",
+      "definition": "A big car for heavy things.",
+      "thai": "รถบรรทุก",
+      "example": "These are my lorries."
+    },
+    {
+      "word": "monster",
+      "pos": "noun",
+      "definition": "A big, scary animal in a story.",
+      "thai": "มอนสเตอร์, สัตว์ประหลาด",
+      "example": "\"A monster!\" says Leo."
+    },
+    {
+      "word": "want",
+      "pos": "verb",
+      "definition": "To say \"I like it. I need it.\"",
+      "thai": "ต้องการ, อยากได้",
+      "example": "\"I want a helicopter.\""
+    },
+    {
+      "word": "give",
+      "pos": "verb",
+      "definition": "To put a thing in a hand.",
+      "thai": "ให้",
+      "example": "Sam gives Leo the helicopter."
+    },
+    {
+      "word": "please",
+      "pos": "exclamation",
+      "definition": "A nice word to ask for a thing.",
+      "thai": "ได้โปรด, ขอ...หน่อย",
+      "example": "\"Blue, please,\" says Leo."
+    },
+    {
+      "word": "fruit",
+      "pos": "noun",
+      "definition": "An apple or a banana is fruit.",
+      "thai": "ผลไม้",
+      "example": "Sam has fruit too."
+    },
+    {
+      "word": "apple",
+      "pos": "noun",
+      "definition": "A round fruit. It is red or green.",
+      "thai": "แอปเปิ้ล",
+      "example": "\"Four apples.\""
+    },
+    {
+      "word": "banana",
+      "pos": "noun",
+      "definition": "A long yellow fruit.",
+      "thai": "กล้วย",
+      "example": "\"Five bananas.\""
+    },
+    {
+      "word": "eat",
+      "pos": "verb",
+      "definition": "To put food in your mouth.",
+      "thai": "กิน",
+      "example": "Leo eats an apple."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "Where is the toy shop?",
+        "options": [
+          "in the park",
+          "at school",
+          "on a bus",
+          "on the floor"
+        ],
+        "answer": "on the floor",
+        "evidence": "It is on the floor.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "Who comes to the shop?",
+        "options": [
+          "Tom",
+          "Pip",
+          "Mia",
+          "Leo"
+        ],
+        "answer": "Leo",
+        "evidence": "Leo comes to the shop.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "What does Leo want?",
+        "options": [
+          "a lorry",
+          "an apple",
+          "a monster",
+          "a helicopter"
+        ],
+        "answer": "a helicopter",
+        "evidence": "\"I want a helicopter.\"",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "How many helicopters does Sam have?",
+        "options": [
+          "one",
+          "three",
+          "four",
+          "two"
+        ],
+        "answer": "two",
+        "evidence": "\"I have two,\" says Sam.",
+        "objectives": [
+          "R13.2",
+          "L10.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color helicopter does Leo have?",
+        "options": [
+          "green",
+          "yellow",
+          "red",
+          "blue"
+        ],
+        "answer": "blue",
+        "evidence": "\"Blue, please,\" says Leo.",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "How many lorries are there?",
+        "options": [
+          "two",
+          "four",
+          "five",
+          "three"
+        ],
+        "answer": "three",
+        "evidence": "\"One, two, three lorries!\"",
+        "objectives": [
+          "R12.1",
+          "L10.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "How many eyes does the monster have?",
+        "options": [
+          "two",
+          "three",
+          "five",
+          "four"
+        ],
+        "answer": "four",
+        "evidence": "\"It has four eyes!\"",
+        "objectives": [
+          "R13.2",
+          "L10.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Is the monster ugly?",
+        "options": [
+          "Yes, it is big.",
+          "No, it is small.",
+          "Yes, it is ugly.",
+          "No, it is nice."
+        ],
+        "answer": "No, it is nice.",
+        "evidence": "\"No, it is nice.\"",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "How many bananas are there?",
+        "options": [
+          "nine",
+          "one",
+          "four",
+          "five"
+        ],
+        "answer": "five",
+        "evidence": "\"Five bananas.\"",
+        "objectives": [
+          "R12.1",
+          "L10.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "How many fruits are there?",
+        "options": [
+          "five",
+          "ten",
+          "four",
+          "nine"
+        ],
+        "answer": "nine",
+        "evidence": "\"Nine!\" says Leo.",
+        "objectives": [
+          "R13.2",
+          "L10.2"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "What does Sam have?",
+        "answer": "Sam has a toy shop.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "How many apples are there?",
+        "answer": "There are four apples.",
+        "objectives": [
+          "R12.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Leo say to Sam at the start?",
+        "answer": "He says, \"Hello, Sam!\"",
+        "objectives": [
+          "L11.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Leo eat?",
+        "answer": "Leo eats an apple.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What fruit do you like?",
+        "answer": "I like ...",
+        "objectives": [
+          "R17.2"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Draw a toy shop. What toys do you see?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "What do you want in a toy shop?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Count three things in your room.",
+        "objectives": [
+          "R12.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Is your favorite fruit big or small?",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Draw two lorries. What colors are they?",
+        "objectives": [
+          "L19.3"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [],
+    "saq": "",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [],
+    "vocabFill": [],
+    "sentenceOrder": [],
+    "sentenceCompletion": [],
+    "writingPrompt": "",
+    "writingFrames": []
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "Sam has a toy shop.",
+          "th": "แซมมีร้านของเล่น"
+        },
+        {
+          "en": "It is on the floor.",
+          "th": "ร้านอยู่บนพื้น"
+        },
+        {
+          "en": "Leo comes to the shop.",
+          "th": "ลีโอมาที่ร้าน"
+        },
+        {
+          "en": "\"Hello, Sam!\" says Leo.",
+          "th": "\"สวัสดี แซม!\" ลีโอพูด"
+        },
+        {
+          "en": "\"I want a helicopter.\"",
+          "th": "\"ฉันอยากได้เฮลิคอปเตอร์\""
+        },
+        {
+          "en": "\"I have two,\" says Sam.",
+          "th": "\"ฉันมีสองลำ\" แซมพูด"
+        },
+        {
+          "en": "\"Red or blue?\"",
+          "th": "\"สีแดงหรือสีน้ำเงิน\""
+        },
+        {
+          "en": "\"Blue, please,\" says Leo.",
+          "th": "\"สีน้ำเงินครับ\" ลีโอพูด"
+        },
+        {
+          "en": "Sam gives Leo the helicopter.",
+          "th": "แซมให้เฮลิคอปเตอร์กับลีโอ"
+        }
+      ],
+      [
+        {
+          "en": "\"Look!\" says Sam.",
+          "th": "\"ดูสิ!\" แซมพูด"
+        },
+        {
+          "en": "These are my lorries.",
+          "th": "นี่คือรถบรรทุกของฉัน"
+        },
+        {
+          "en": "\"One, two, three lorries!\"",
+          "th": "\"รถบรรทุกหนึ่ง สอง สามคัน!\""
+        },
+        {
+          "en": "\"A monster!\" says Leo.",
+          "th": "\"มอนสเตอร์!\" ลีโอพูด"
+        },
+        {
+          "en": "\"Yes.\"",
+          "th": "\"ใช่\""
+        },
+        {
+          "en": "It is funny.",
+          "th": "มันตลก"
+        },
+        {
+          "en": "\"It has four eyes!\"",
+          "th": "\"มันมีสี่ตา!\""
+        },
+        {
+          "en": "\"Is it ugly?\" asks Leo.",
+          "th": "\"มันน่าเกลียดไหม\" ลีโอถาม"
+        },
+        {
+          "en": "\"No, it is nice.\"",
+          "th": "\"ไม่ มันน่ารัก\""
+        }
+      ],
+      [
+        {
+          "en": "Sam has fruit too.",
+          "th": "แซมมีผลไม้ด้วย"
+        },
+        {
+          "en": "\"Four apples.\"",
+          "th": "\"แอปเปิ้ลสี่ลูก\""
+        },
+        {
+          "en": "\"Five bananas.\"",
+          "th": "\"กล้วยห้าลูก\""
+        },
+        {
+          "en": "\"How many fruits?\" asks Sam.",
+          "th": "\"มีผลไม้กี่ผล\" แซมถาม"
+        },
+        {
+          "en": "\"Nine!\" says Leo.",
+          "th": "\"เก้า!\" ลีโอตอบ"
+        },
+        {
+          "en": "\"Good!\" says Sam.",
+          "th": "\"เก่งมาก!\" แซมพูด"
+        },
+        {
+          "en": "Leo eats an apple.",
+          "th": "ลีโอกินแอปเปิ้ลหนึ่งลูก"
+        },
+        {
+          "en": "It is good.",
+          "th": "มันอร่อย"
+        }
+      ]
+    ],
+    "summary": "แซมเล่นขายของด้วยของเล่นบนพื้น ลีโอนับรถบรรทุกและผลไม้"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Sam sits on the floor behind a small toy shop made of boxes. Toy helicopters and lorries stand in rows. Leo stands in front of the shop and points at a blue helicopter.",
+      "characters": [
+        "Sam",
+        "Leo"
+      ],
+      "caption": "Sam has a toy shop.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "Three toy lorries and a funny toy monster with four eyes stand on the floor. Sam and Leo look at them and smile.",
+      "characters": [
+        "Sam",
+        "Leo"
+      ],
+      "caption": "Three lorries and a monster",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Four red apples and five yellow bananas lie on a small table. Leo holds one apple and eats it. Sam smiles.",
+      "characters": [
+        "Sam",
+        "Leo"
+      ],
+      "caption": "Nine fruits!",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_magnetic_voiced_man",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "R12.1",
+      "R13.2",
+      "L10.2"
+    ],
+    "supportingObjectives": [
+      "R10.2"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.shop-us-store.noun",
+      "english.vocabulary.skill.store-uk-shop.noun",
+      "english.vocabulary.skill.floor.noun",
+      "english.vocabulary.skill.floor-e-g-ground-1st-etc.noun",
+      "english.vocabulary.skill.helicopter.noun",
+      "english.vocabulary.skill.lorry.noun",
+      "english.vocabulary.skill.lorry-us-truck.noun",
+      "english.vocabulary.skill.truck-uk-lorry.noun",
+      "english.vocabulary.skill.monster.noun",
+      "english.vocabulary.skill.want.verb",
+      "english.vocabulary.skill.give.verb",
+      "english.vocabulary.skill.please.discourse-marker",
+      "english.vocabulary.skill.please.exclamation-verb",
+      "english.vocabulary.skill.fruit.noun",
+      "english.vocabulary.skill.apple.noun",
+      "english.vocabulary.skill.banana.noun",
+      "english.vocabulary.skill.eat.verb"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}

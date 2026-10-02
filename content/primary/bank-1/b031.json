@@ -1,0 +1,579 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "bank-1",
+    "lesson": "B031",
+    "number": 31,
+    "key": "bank-1/31",
+    "title": "The Box on the Chair",
+    "raLevel": 1,
+    "cefrLevel": "A0-",
+    "textType": "game: yes or no questions",
+    "genre": "Games",
+    "profile": "bank-1",
+    "appType": "fiction",
+    "role": "bank",
+    "replaces": "cmu7397pj001as601irvkoegs"
+  },
+  "text": {
+    "paragraphs": [
+      "Grandpa has a box. It is a big box. It is on a chair. \"What is it?\" asks Lily. \"Ask me,\" says Grandpa. \"Is it lunch?\" \"No, it isn't.\" \"Is it a lime?\" \"No, it isn't.\"",
+      "\"Is it small?\" \"Yes, it is.\" \"Is it green?\" \"No, it is black.\" \"Is it a camera?\" \"Yes, it is!\" Lily opens the box.",
+      "\"Wow!\" \"For me?\" \"Yes, for you,\" says Grandpa. \"Thank you!\" Lily looks at the camera. Lily takes a photo. \"Smile, Grandpa!\" Grandpa smiles. Lily is very happy."
+    ],
+    "summary": "Grandpa has a box on a chair. Lily asks yes or no questions and finds a camera, and then she takes a photo of Grandpa.",
+    "glossed": [
+      "box",
+      "chair",
+      "lunch",
+      "lime",
+      "green",
+      "small",
+      "black",
+      "camera",
+      "open",
+      "photo",
+      "smile",
+      "thank you"
+    ],
+    "recycle": [],
+    "allow": [],
+    "names": [
+      "Lily",
+      "Grandpa"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "box",
+      "pos": "noun",
+      "definition": "A thing with a lid. You put things in it.",
+      "thai": "กล่อง",
+      "example": "Grandpa has a box."
+    },
+    {
+      "word": "chair",
+      "pos": "noun",
+      "definition": "You sit on it.",
+      "thai": "เก้าอี้",
+      "example": "It is on a chair."
+    },
+    {
+      "word": "lunch",
+      "pos": "noun",
+      "definition": "The food you eat in the middle of the day.",
+      "thai": "อาหารกลางวัน",
+      "example": "\"Is it lunch?\""
+    },
+    {
+      "word": "lime",
+      "pos": "noun",
+      "definition": "A small green fruit.",
+      "thai": "มะนาว",
+      "example": "\"Is it a lime?\""
+    },
+    {
+      "word": "green",
+      "pos": "adjective",
+      "definition": "The color of grass.",
+      "thai": "สีเขียว",
+      "example": "\"Is it green?\""
+    },
+    {
+      "word": "small",
+      "pos": "adjective",
+      "definition": "Not big.",
+      "thai": "เล็ก",
+      "example": "\"Is it small?\""
+    },
+    {
+      "word": "black",
+      "pos": "adjective",
+      "definition": "The color of night.",
+      "thai": "สีดำ",
+      "example": "\"No, it is black.\""
+    },
+    {
+      "word": "camera",
+      "pos": "noun",
+      "definition": "You use it to take a photo.",
+      "thai": "กล้องถ่ายรูป",
+      "example": "\"Is it a camera?\""
+    },
+    {
+      "word": "open",
+      "pos": "verb",
+      "definition": "To make a box or a door not closed.",
+      "thai": "เปิด",
+      "example": "Lily opens the box."
+    },
+    {
+      "word": "photo",
+      "pos": "noun",
+      "definition": "A picture from a camera.",
+      "thai": "รูปถ่าย",
+      "example": "Lily takes a photo."
+    },
+    {
+      "word": "smile",
+      "pos": "verb",
+      "definition": "To look happy with your mouth.",
+      "thai": "ยิ้ม",
+      "example": "\"Smile, Grandpa!\""
+    },
+    {
+      "word": "thank you",
+      "pos": "phrase",
+      "definition": "Words you say when you get a gift.",
+      "thai": "ขอบคุณ",
+      "example": "\"Thank you!\""
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "Who has a box?",
+        "options": [
+          "Lily",
+          "Tom",
+          "Mom",
+          "Grandpa"
+        ],
+        "answer": "Grandpa",
+        "evidence": "Grandpa has a box.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "Where is the box?",
+        "options": [
+          "in a car",
+          "under a tree",
+          "on a bed",
+          "on a chair"
+        ],
+        "answer": "on a chair",
+        "evidence": "It is on a chair.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "What does Lily ask first?",
+        "options": [
+          "\"Is it a lime?\"",
+          "\"Is it small?\"",
+          "\"Is it a camera?\"",
+          "\"Is it lunch?\""
+        ],
+        "answer": "\"Is it lunch?\"",
+        "evidence": "\"Is it lunch?\"",
+        "objectives": [
+          "R10.2"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "Is it a lime?",
+        "options": [
+          "Yes, it is.",
+          "No, I don't.",
+          "Yes, it can.",
+          "No, it isn't."
+        ],
+        "answer": "No, it isn't.",
+        "evidence": "\"No, it isn't.\"",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Is it small?",
+        "options": [
+          "No, it isn't.",
+          "No, it is big.",
+          "Yes, I am.",
+          "Yes, it is."
+        ],
+        "answer": "Yes, it is.",
+        "evidence": "\"Yes, it is.\"",
+        "objectives": [
+          "L12.1",
+          "L10.6"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What color is it?",
+        "options": [
+          "red",
+          "white",
+          "green",
+          "black"
+        ],
+        "answer": "black",
+        "evidence": "\"No, it is black.\"",
+        "objectives": [
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What is in the box?",
+        "options": [
+          "a book",
+          "a ball",
+          "a lime",
+          "a camera"
+        ],
+        "answer": "a camera",
+        "evidence": "\"Is it a camera?\"",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Lily open?",
+        "options": [
+          "the door",
+          "the bag",
+          "the book",
+          "the box"
+        ],
+        "answer": "the box",
+        "evidence": "Lily opens the box.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What does Lily say to Grandpa?",
+        "options": [
+          "\"Sorry!\"",
+          "\"No, thanks!\"",
+          "\"Goodbye!\"",
+          "\"Thank you!\""
+        ],
+        "answer": "\"Thank you!\"",
+        "evidence": "\"Thank you!\"",
+        "objectives": [
+          "L11.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Lily take?",
+        "options": [
+          "a bag",
+          "a book",
+          "a bus",
+          "a photo"
+        ],
+        "answer": "a photo",
+        "evidence": "Lily takes a photo.",
+        "objectives": [
+          "R21.1"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "Who has the box?",
+        "answer": "Grandpa has the box.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Is it green?",
+        "answer": "No, it isn't.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What is in the box?",
+        "answer": "A camera is in the box.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What does Lily say?",
+        "answer": "Lily says, \"Thank you!\"",
+        "objectives": [
+          "L11.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Do you like photos?",
+        "answer": "Yes, I do. / No, I don't.",
+        "objectives": [
+          "L12.1"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Draw a box. What is in it?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Do you have a camera? Say yes or no.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a photo of your family.",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Ask a friend: \"Is it small?\"",
+        "objectives": [
+          "R10.2"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What color is your chair?",
+        "objectives": [
+          "R17.2"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [],
+    "saq": "",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [],
+    "vocabFill": [],
+    "sentenceOrder": [],
+    "sentenceCompletion": [],
+    "writingPrompt": "",
+    "writingFrames": []
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "Grandpa has a box.",
+          "th": "คุณตามีกล่องใบหนึ่ง"
+        },
+        {
+          "en": "It is a big box.",
+          "th": "เป็นกล่องใบใหญ่"
+        },
+        {
+          "en": "It is on a chair.",
+          "th": "มันวางอยู่บนเก้าอี้"
+        },
+        {
+          "en": "\"What is it?\" asks Lily.",
+          "th": "\"ในนั้นคืออะไร\" ลิลลี่ถาม"
+        },
+        {
+          "en": "\"Ask me,\" says Grandpa.",
+          "th": "\"ถามตาสิ\" คุณตาพูด"
+        },
+        {
+          "en": "\"Is it lunch?\"",
+          "th": "\"เป็นอาหารกลางวันหรือเปล่า\""
+        },
+        {
+          "en": "\"No, it isn't.\"",
+          "th": "\"ไม่ใช่\""
+        },
+        {
+          "en": "\"Is it a lime?\"",
+          "th": "\"เป็นมะนาวเขียวหรือเปล่า\""
+        },
+        {
+          "en": "\"No, it isn't.\"",
+          "th": "\"ไม่ใช่\""
+        }
+      ],
+      [
+        {
+          "en": "\"Is it small?\"",
+          "th": "\"ตัวเล็กไหม\""
+        },
+        {
+          "en": "\"Yes, it is.\"",
+          "th": "\"ใช่\""
+        },
+        {
+          "en": "\"Is it green?\"",
+          "th": "\"สีเขียวหรือเปล่า\""
+        },
+        {
+          "en": "\"No, it is black.\"",
+          "th": "\"ไม่ใช่ สีดำ\""
+        },
+        {
+          "en": "\"Is it a camera?\"",
+          "th": "\"เป็นกล้องถ่ายรูปหรือเปล่า\""
+        },
+        {
+          "en": "\"Yes, it is!\"",
+          "th": "\"ใช่แล้ว!\""
+        },
+        {
+          "en": "Lily opens the box.",
+          "th": "ลิลลี่เปิดกล่อง"
+        }
+      ],
+      [
+        {
+          "en": "\"Wow!\"",
+          "th": "\"ว้าว!\""
+        },
+        {
+          "en": "\"For me?\"",
+          "th": "\"ให้หนูเหรอคะ\""
+        },
+        {
+          "en": "\"Yes, for you,\" says Grandpa.",
+          "th": "\"ใช่ ให้หนู\" คุณตาพูด"
+        },
+        {
+          "en": "\"Thank you!\"",
+          "th": "\"ขอบคุณค่ะ!\""
+        },
+        {
+          "en": "Lily looks at the camera.",
+          "th": "ลิลลี่มองกล้อง"
+        },
+        {
+          "en": "Lily takes a photo.",
+          "th": "ลิลลี่ถ่ายรูป"
+        },
+        {
+          "en": "\"Smile, Grandpa!\"",
+          "th": "\"ยิ้มหน่อยค่ะ คุณตา!\""
+        },
+        {
+          "en": "Grandpa smiles.",
+          "th": "คุณตายิ้ม"
+        },
+        {
+          "en": "Lily is very happy.",
+          "th": "ลิลลี่มีความสุขมาก"
+        }
+      ]
+    ],
+    "summary": "คุณตามีกล่องวางอยู่บนเก้าอี้ ลิลลี่ถามคำถามใช่หรือไม่ใช่และเจอกล้องถ่ายรูป แล้วเธอก็ถ่ายรูปคุณตา"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Grandpa stands next to a wooden chair with a closed brown box on it. Lily looks at the box and points at it with a smile.",
+      "characters": [
+        "Grandpa",
+        "Lily"
+      ],
+      "caption": "What is in the box?",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "Lily holds up a small black camera and looks at it with wide eyes. The open brown box sits on a chair. Grandpa smiles.",
+      "characters": [
+        "Lily",
+        "Grandpa"
+      ],
+      "caption": "A camera!",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Lily holds the camera up to her eye. Grandpa sits on a chair and smiles at her.",
+      "characters": [
+        "Lily",
+        "Grandpa"
+      ],
+      "caption": "Smile, Grandpa!",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_captivating_female1",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "R10.2",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "L10.6"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.box.noun",
+      "english.vocabulary.skill.chair.noun",
+      "english.vocabulary.skill.lunch.noun",
+      "english.vocabulary.skill.lime.noun",
+      "english.vocabulary.skill.green.adjective",
+      "english.vocabulary.skill.small.adjective",
+      "english.vocabulary.skill.black.adjective",
+      "english.vocabulary.skill.camera.noun",
+      "english.vocabulary.skill.open.adjective-verb",
+      "english.vocabulary.skill.photo.noun",
+      "english.vocabulary.skill.photo-graph.noun",
+      "english.vocabulary.skill.smile.noun-verb",
+      "english.vocabulary.skill.thank-you.discourse-marker",
+      "english.vocabulary.skill.thank-you.exclamation"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}

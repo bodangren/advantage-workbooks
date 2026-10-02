@@ -1,0 +1,572 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "bank-1",
+    "lesson": "B012",
+    "number": 12,
+    "key": "bank-1/12",
+    "title": "Grandma's Things",
+    "raLevel": 1,
+    "cefrLevel": "A0-",
+    "textType": "describing: colors and sizes",
+    "genre": "Clothes",
+    "profile": "bank-1",
+    "appType": "nonfiction",
+    "role": "bank",
+    "replaces": "cmsesj9m3001ws6010brfnxn4"
+  },
+  "text": {
+    "paragraphs": [
+      "I am Grandma. Look at my glasses. They are green. Are they big? Yes, they are. Are they new? No, they are old. I like them.",
+      "This is my handbag. It is orange. Is it small? No, it is big. It is a good bag. My shirt is pink. Is it new? Yes, it is.",
+      "Grandpa has glasses too. His glasses are black. Are they small? Yes, they are. Grandpa is funny. Lily says, \"I like your handbag!\" \"Thank you, Lily,\" says Grandma."
+    ],
+    "summary": "Grandma shows her green glasses, her big orange handbag, and her pink shirt. She says the color and size of each thing.",
+    "glossed": [
+      "glasses",
+      "handbag",
+      "shirt",
+      "green",
+      "orange",
+      "pink",
+      "black",
+      "new",
+      "old",
+      "big",
+      "small",
+      "funny"
+    ],
+    "recycle": [],
+    "allow": [],
+    "names": [
+      "Grandma",
+      "Grandpa",
+      "Lily"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "glasses",
+      "pos": "noun",
+      "definition": "You wear them on your eyes to see well.",
+      "thai": "แว่นตา",
+      "example": "Look at my glasses."
+    },
+    {
+      "word": "handbag",
+      "pos": "noun",
+      "definition": "A bag that a woman holds in her hand.",
+      "thai": "กระเป๋าถือ",
+      "example": "This is my handbag."
+    },
+    {
+      "word": "shirt",
+      "pos": "noun",
+      "definition": "Clothes for the top of your body.",
+      "thai": "เสื้อเชิ้ต, เสื้อ",
+      "example": "My shirt is pink."
+    },
+    {
+      "word": "green",
+      "pos": "adjective",
+      "definition": "The color of grass.",
+      "thai": "สีเขียว",
+      "example": "They are green."
+    },
+    {
+      "word": "orange",
+      "pos": "adjective",
+      "definition": "The color of a carrot.",
+      "thai": "สีส้ม",
+      "example": "It is orange."
+    },
+    {
+      "word": "pink",
+      "pos": "adjective",
+      "definition": "The color of a light red flower.",
+      "thai": "สีชมพู",
+      "example": "My shirt is pink."
+    },
+    {
+      "word": "black",
+      "pos": "adjective",
+      "definition": "The color of the night.",
+      "thai": "สีดำ",
+      "example": "His glasses are black."
+    },
+    {
+      "word": "new",
+      "pos": "adjective",
+      "definition": "Not old.",
+      "thai": "ใหม่",
+      "example": "Are they new?"
+    },
+    {
+      "word": "old",
+      "pos": "adjective",
+      "definition": "Not new.",
+      "thai": "เก่า",
+      "example": "No, they are old."
+    },
+    {
+      "word": "big",
+      "pos": "adjective",
+      "definition": "Not small.",
+      "thai": "ใหญ่",
+      "example": "Are they big?"
+    },
+    {
+      "word": "small",
+      "pos": "adjective",
+      "definition": "Not big.",
+      "thai": "เล็ก",
+      "example": "Is it small?"
+    },
+    {
+      "word": "funny",
+      "pos": "adjective",
+      "definition": "It makes you smile.",
+      "thai": "ตลก",
+      "example": "Grandpa is funny."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "Who is talking?",
+        "options": [
+          "Mom",
+          "Grandpa",
+          "Lily",
+          "Grandma"
+        ],
+        "answer": "Grandma",
+        "evidence": "I am Grandma.",
+        "objectives": [
+          "R17.1"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "What color are Grandma's glasses?",
+        "options": [
+          "black",
+          "orange",
+          "pink",
+          "green"
+        ],
+        "answer": "green",
+        "evidence": "They are green.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "Are the glasses big?",
+        "options": [
+          "No, they are small.",
+          "No, they are new.",
+          "Yes, they are pink.",
+          "Yes, they are."
+        ],
+        "answer": "Yes, they are.",
+        "evidence": "Yes, they are.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "Are the glasses new?",
+        "options": [
+          "Yes, they are new.",
+          "Yes, they are green.",
+          "No, they are small.",
+          "No, they are old."
+        ],
+        "answer": "No, they are old.",
+        "evidence": "No, they are old.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the handbag?",
+        "options": [
+          "green",
+          "pink",
+          "black",
+          "orange"
+        ],
+        "answer": "orange",
+        "evidence": "It is orange.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Is the handbag small?",
+        "options": [
+          "Yes, it is small.",
+          "No, it is pink.",
+          "Yes, it is old.",
+          "No, it is big."
+        ],
+        "answer": "No, it is big.",
+        "evidence": "No, it is big.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is the shirt?",
+        "options": [
+          "orange",
+          "green",
+          "black",
+          "pink"
+        ],
+        "answer": "pink",
+        "evidence": "My shirt is pink.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Is the shirt new?",
+        "options": [
+          "No, it is old.",
+          "No, it is green.",
+          "Yes, it is orange.",
+          "Yes, it is."
+        ],
+        "answer": "Yes, it is.",
+        "evidence": "Yes, it is.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What color are Grandpa's glasses?",
+        "options": [
+          "green",
+          "orange",
+          "pink",
+          "black"
+        ],
+        "answer": "black",
+        "evidence": "His glasses are black.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Lily like?",
+        "options": [
+          "the glasses",
+          "the hat",
+          "the shirt",
+          "the handbag"
+        ],
+        "answer": "the handbag",
+        "evidence": "Lily says, \"I like your handbag!\"",
+        "objectives": [
+          "L12.1"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "What color are Grandma's glasses?",
+        "answer": "They are green.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Is Grandma's handbag big or small?",
+        "answer": "It is big.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What color is Grandma's shirt?",
+        "answer": "It is pink.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Are Grandpa's glasses small?",
+        "answer": "Yes, they are.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What color is your shirt?",
+        "answer": "My shirt is ...",
+        "objectives": [
+          "L10.6"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Draw Grandma's glasses. What color are they?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Do you like orange? Yes or no?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a handbag. Is it big or small?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What color is your favorite shirt?",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Is your bag new or old?",
+        "objectives": [
+          "L12.1"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [],
+    "saq": "",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [],
+    "vocabFill": [],
+    "sentenceOrder": [],
+    "sentenceCompletion": [],
+    "writingPrompt": "",
+    "writingFrames": []
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "I am Grandma.",
+          "th": "ยายเองนะ"
+        },
+        {
+          "en": "Look at my glasses.",
+          "th": "ดูแว่นตาของยายสิ"
+        },
+        {
+          "en": "They are green.",
+          "th": "มันสีเขียว"
+        },
+        {
+          "en": "Are they big?",
+          "th": "ใหญ่ไหม"
+        },
+        {
+          "en": "Yes, they are.",
+          "th": "ใหญ่จ้ะ"
+        },
+        {
+          "en": "Are they new?",
+          "th": "ใหม่ไหม"
+        },
+        {
+          "en": "No, they are old.",
+          "th": "ไม่ใหม่จ้ะ เก่าแล้ว"
+        },
+        {
+          "en": "I like them.",
+          "th": "ยายชอบมัน"
+        }
+      ],
+      [
+        {
+          "en": "This is my handbag.",
+          "th": "นี่คือกระเป๋าถือของยาย"
+        },
+        {
+          "en": "It is orange.",
+          "th": "มันสีส้ม"
+        },
+        {
+          "en": "Is it small?",
+          "th": "เล็กไหม"
+        },
+        {
+          "en": "No, it is big.",
+          "th": "ไม่เล็กจ้ะ ใหญ่"
+        },
+        {
+          "en": "It is a good bag.",
+          "th": "เป็นกระเป๋าที่ดี"
+        },
+        {
+          "en": "My shirt is pink.",
+          "th": "เสื้อของยายสีชมพู"
+        },
+        {
+          "en": "Is it new?",
+          "th": "ใหม่ไหม"
+        },
+        {
+          "en": "Yes, it is.",
+          "th": "ใหม่จ้ะ"
+        }
+      ],
+      [
+        {
+          "en": "Grandpa has glasses too.",
+          "th": "คุณตาก็มีแว่นตาเหมือนกัน"
+        },
+        {
+          "en": "His glasses are black.",
+          "th": "แว่นตาของเขาสีดำ"
+        },
+        {
+          "en": "Are they small?",
+          "th": "เล็กไหม"
+        },
+        {
+          "en": "Yes, they are.",
+          "th": "เล็กจ้ะ"
+        },
+        {
+          "en": "Grandpa is funny.",
+          "th": "คุณตาตลก"
+        },
+        {
+          "en": "Lily says, \"I like your handbag!\"",
+          "th": "ลิลลี่พูดว่า \"หนูชอบกระเป๋าถือของคุณยาย!\""
+        },
+        {
+          "en": "\"Thank you, Lily,\" says Grandma.",
+          "th": "\"ขอบใจจ้ะ ลิลลี่\" คุณยายพูด"
+        }
+      ]
+    ],
+    "summary": "คุณยายเล่าถึงแว่นตาสีเขียว กระเป๋าถือสีส้มใบใหญ่ และเสื้อสีชมพู โดยบอกสีและขนาดของแต่ละอย่าง"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Grandma sits in a chair at home and wears green glasses and a pink shirt. A big orange handbag is next to her. She smiles.",
+      "characters": [
+        "Grandma"
+      ],
+      "caption": "Grandma's things",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "Grandma holds a big orange handbag in her hands. She smiles at the camera.",
+      "characters": [
+        "Grandma"
+      ],
+      "caption": "A big orange handbag",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Grandpa wears small black glasses and makes a funny face. Lily and Grandma smile at him.",
+      "characters": [
+        "Lily",
+        "Grandma",
+        "Grandpa"
+      ],
+      "caption": "Grandpa is funny.",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_captivating_female1",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "L10.6",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "R10.2"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.glasses.noun",
+      "english.vocabulary.skill.handbag.noun",
+      "english.vocabulary.skill.shirt.noun",
+      "english.vocabulary.skill.green.adjective",
+      "english.vocabulary.skill.orange.adjective-noun",
+      "english.vocabulary.skill.pink.adjective",
+      "english.vocabulary.skill.black.adjective",
+      "english.vocabulary.skill.new.adjective",
+      "english.vocabulary.skill.old.adjective",
+      "english.vocabulary.skill.big.adjective",
+      "english.vocabulary.skill.small.adjective",
+      "english.vocabulary.skill.funny.adjective"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}

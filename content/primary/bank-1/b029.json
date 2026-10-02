@@ -1,0 +1,564 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "bank-1",
+    "lesson": "B029",
+    "number": 29,
+    "key": "bank-1/29",
+    "title": "What Am I?",
+    "raLevel": 1,
+    "cefrLevel": "A0-",
+    "textType": "game: yes or no questions",
+    "genre": "Games",
+    "profile": "bank-1",
+    "appType": "fiction",
+    "role": "bank",
+    "replaces": "cmu48ah380000s601erktdvys"
+  },
+  "text": {
+    "paragraphs": [
+      "Leo has a paper face. \"Mia, look at me,\" says Leo. \"I have two eyes.\" \"I have two ears.\" \"What am I?\" \"Is it a mouse?\" asks Mia. \"No, it isn't.\"",
+      "\"I have a long tail.\" \"Are you a cat?\" \"No, I am not.\" \"I like bananas.\" \"Are you a monkey?\" \"Yes, I am!\"",
+      "Leo smiles. \"Now you draw,\" says Leo. Mia draws a funny face. It has big ears. It has one big eye. \"Is it Pip?\" asks Leo. \"Yes, it is!\" Pip says, \"Woof!\""
+    ],
+    "summary": "Leo wears a paper face and Mia asks yes or no questions. Mia says monkey, and then Mia draws a funny face for Leo to guess.",
+    "glossed": [
+      "paper",
+      "face",
+      "eye",
+      "ear",
+      "mouse",
+      "tail",
+      "long",
+      "cat",
+      "monkey",
+      "banana",
+      "draw",
+      "funny"
+    ],
+    "recycle": [],
+    "allow": [],
+    "names": [
+      "Leo",
+      "Mia",
+      "Pip"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "paper",
+      "pos": "noun",
+      "definition": "A thin thing for drawing and writing.",
+      "thai": "กระดาษ",
+      "example": "Leo has a paper face."
+    },
+    {
+      "word": "face",
+      "pos": "noun",
+      "definition": "The front of your head.",
+      "thai": "ใบหน้า",
+      "example": "Leo has a paper face."
+    },
+    {
+      "word": "eye",
+      "pos": "noun",
+      "definition": "You see with it.",
+      "thai": "ตา",
+      "example": "\"I have two eyes.\""
+    },
+    {
+      "word": "ear",
+      "pos": "noun",
+      "definition": "You hear with it.",
+      "thai": "หู",
+      "example": "\"I have two ears.\""
+    },
+    {
+      "word": "mouse",
+      "pos": "noun",
+      "definition": "A small animal with a long tail.",
+      "thai": "หนู",
+      "example": "\"Is it a mouse?\" asks Mia."
+    },
+    {
+      "word": "tail",
+      "pos": "noun",
+      "definition": "The long part at the back of an animal.",
+      "thai": "หาง",
+      "example": "\"I have a long tail.\""
+    },
+    {
+      "word": "long",
+      "pos": "adjective",
+      "definition": "Not short.",
+      "thai": "ยาว",
+      "example": "\"I have a long tail.\""
+    },
+    {
+      "word": "cat",
+      "pos": "noun",
+      "definition": "A small animal with a tail. It says \"meow\".",
+      "thai": "แมว",
+      "example": "\"Are you a cat?\""
+    },
+    {
+      "word": "monkey",
+      "pos": "noun",
+      "definition": "An animal that jumps in trees. It likes bananas.",
+      "thai": "ลิง",
+      "example": "\"Are you a monkey?\""
+    },
+    {
+      "word": "banana",
+      "pos": "noun",
+      "definition": "A long yellow fruit.",
+      "thai": "กล้วย",
+      "example": "\"I like bananas.\""
+    },
+    {
+      "word": "draw",
+      "pos": "verb",
+      "definition": "To make a picture with a pen.",
+      "thai": "วาด",
+      "example": "\"Now you draw,\" says Leo."
+    },
+    {
+      "word": "funny",
+      "pos": "adjective",
+      "definition": "Makes you smile.",
+      "thai": "ตลก",
+      "example": "Mia draws a funny face."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "What does Leo have?",
+        "options": [
+          "a paper bag",
+          "a toy cat",
+          "a red hat",
+          "a paper face"
+        ],
+        "answer": "a paper face",
+        "evidence": "Leo has a paper face.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "How many eyes does Leo have?",
+        "options": [
+          "three",
+          "four",
+          "one",
+          "two"
+        ],
+        "answer": "two",
+        "evidence": "\"I have two eyes.\"",
+        "objectives": [
+          "R12.1"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "How many ears does Leo have?",
+        "options": [
+          "one",
+          "five",
+          "ten",
+          "two"
+        ],
+        "answer": "two",
+        "evidence": "\"I have two ears.\"",
+        "objectives": [
+          "R12.1"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "What does Leo ask?",
+        "options": [
+          "\"Where am I?\"",
+          "\"Who are you?\"",
+          "\"How old am I?\"",
+          "\"What am I?\""
+        ],
+        "answer": "\"What am I?\"",
+        "evidence": "\"What am I?\"",
+        "objectives": [
+          "R10.2"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What is Mia's first guess?",
+        "options": [
+          "a cat",
+          "a monkey",
+          "a frog",
+          "a mouse"
+        ],
+        "answer": "a mouse",
+        "evidence": "\"Is it a mouse?\" asks Mia.",
+        "objectives": [
+          "R10.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "What is long?",
+        "options": [
+          "the ears",
+          "the hat",
+          "the paper",
+          "the tail"
+        ],
+        "answer": "the tail",
+        "evidence": "\"I have a long tail.\"",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "Is Leo a cat?",
+        "options": [
+          "Yes, he is.",
+          "No, he can't.",
+          "Yes, he can.",
+          "No, he isn't."
+        ],
+        "answer": "No, he isn't.",
+        "evidence": "\"No, I am not.\"",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does Leo like?",
+        "options": [
+          "cake",
+          "rice",
+          "apples",
+          "bananas"
+        ],
+        "answer": "bananas",
+        "evidence": "\"I like bananas.\"",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What is Leo?",
+        "options": [
+          "a mouse",
+          "a dog",
+          "a cat",
+          "a monkey"
+        ],
+        "answer": "a monkey",
+        "evidence": "\"Are you a monkey?\"",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Mia draw?",
+        "options": [
+          "a big cat",
+          "a red car",
+          "a big tree",
+          "a funny face"
+        ],
+        "answer": "a funny face",
+        "evidence": "Mia draws a funny face.",
+        "objectives": [
+          "R21.2"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "Who has a paper face?",
+        "answer": "Leo has a paper face.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "Is Leo a mouse?",
+        "answer": "No, he isn't.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "What does Mia draw?",
+        "answer": "She draws a funny face.",
+        "objectives": [
+          "R21.2"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Is the face Pip?",
+        "answer": "Yes, it is.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "How many eyes do you have?",
+        "answer": "I have two eyes.",
+        "objectives": [
+          "R12.1"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Draw a funny face. How many eyes does it have?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Do you like monkeys? Say yes or no.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Play the game. Say: \"I have a long tail. What am I?\"",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Draw a cat. What color is it?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "What animal do you like?",
+        "objectives": [
+          "R21.1"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [],
+    "saq": "",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [],
+    "vocabFill": [],
+    "sentenceOrder": [],
+    "sentenceCompletion": [],
+    "writingPrompt": "",
+    "writingFrames": []
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "Leo has a paper face.",
+          "th": "ลีโอมีหน้ากากกระดาษ"
+        },
+        {
+          "en": "\"Mia, look at me,\" says Leo.",
+          "th": "\"มีอา ดูฉันสิ\" ลีโอพูด"
+        },
+        {
+          "en": "\"I have two eyes.\"",
+          "th": "\"ฉันมีตาสองข้าง\""
+        },
+        {
+          "en": "\"I have two ears.\"",
+          "th": "\"ฉันมีหูสองข้าง\""
+        },
+        {
+          "en": "\"What am I?\"",
+          "th": "\"ฉันคืออะไร\""
+        },
+        {
+          "en": "\"Is it a mouse?\" asks Mia.",
+          "th": "\"เป็นหนูหรือเปล่า\" มีอาถาม"
+        },
+        {
+          "en": "\"No, it isn't.\"",
+          "th": "\"ไม่ใช่\""
+        }
+      ],
+      [
+        {
+          "en": "\"I have a long tail.\"",
+          "th": "\"ฉันมีหางยาว\""
+        },
+        {
+          "en": "\"Are you a cat?\"",
+          "th": "\"เธอเป็นแมวหรือเปล่า\""
+        },
+        {
+          "en": "\"No, I am not.\"",
+          "th": "\"ไม่ใช่\""
+        },
+        {
+          "en": "\"I like bananas.\"",
+          "th": "\"ฉันชอบกล้วย\""
+        },
+        {
+          "en": "\"Are you a monkey?\"",
+          "th": "\"เธอเป็นลิงหรือเปล่า\""
+        },
+        {
+          "en": "\"Yes, I am!\"",
+          "th": "\"ใช่แล้ว!\""
+        }
+      ],
+      [
+        {
+          "en": "Leo smiles.",
+          "th": "ลีโอยิ้ม"
+        },
+        {
+          "en": "\"Now you draw,\" says Leo.",
+          "th": "\"ทีนี้เธอวาดบ้าง\" ลีโอพูด"
+        },
+        {
+          "en": "Mia draws a funny face.",
+          "th": "มีอาวาดหน้าตลกๆ"
+        },
+        {
+          "en": "It has big ears.",
+          "th": "มันมีหูใหญ่"
+        },
+        {
+          "en": "It has one big eye.",
+          "th": "มันมีตาโตข้างเดียว"
+        },
+        {
+          "en": "\"Is it Pip?\" asks Leo.",
+          "th": "\"เป็นปิ๊ปหรือเปล่า\" ลีโอถาม"
+        },
+        {
+          "en": "\"Yes, it is!\"",
+          "th": "\"ใช่แล้ว!\""
+        },
+        {
+          "en": "Pip says, \"Woof!\"",
+          "th": "ปิ๊ปเห่าว่า \"โฮ่ง!\""
+        }
+      ]
+    ],
+    "summary": "ลีโอสวมหน้ากากกระดาษ มีอาถามคำถามใช่หรือไม่ใช่ มีอาทายว่าเป็นลิง แล้วมีอาวาดหน้าตลกๆ ให้ลีโอทาย"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Leo holds a paper face with two eyes and big ears in front of his own face. Mia sits next to him and points at him with a smile.",
+      "characters": [
+        "Leo",
+        "Mia"
+      ],
+      "caption": "What am I?",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "Leo jumps like a monkey with a paper face on his face. Mia laughs and holds up a hand. A banana is on the table.",
+      "characters": [
+        "Leo",
+        "Mia"
+      ],
+      "caption": "I like bananas.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Mia holds up a drawing of a funny face with big ears and one big eye. Leo looks at it. Pip sits next to them.",
+      "characters": [
+        "Mia",
+        "Leo",
+        "Pip"
+      ],
+      "caption": "Is it Pip?",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_captivating_female1",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "R10.2",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "L10.6"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.paper.noun",
+      "english.vocabulary.skill.face.noun",
+      "english.vocabulary.skill.eye.noun",
+      "english.vocabulary.skill.ear.noun",
+      "english.vocabulary.skill.mouse.noun",
+      "english.vocabulary.skill.mouse-computer.noun",
+      "english.vocabulary.skill.mouse-mice.noun",
+      "english.vocabulary.skill.tail.noun",
+      "english.vocabulary.skill.long.adjective",
+      "english.vocabulary.skill.cat.noun",
+      "english.vocabulary.skill.monkey.noun",
+      "english.vocabulary.skill.banana.noun",
+      "english.vocabulary.skill.draw.verb",
+      "english.vocabulary.skill.funny.adjective"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}

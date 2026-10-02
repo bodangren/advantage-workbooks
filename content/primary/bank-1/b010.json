@@ -1,0 +1,569 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "bank-1",
+    "lesson": "B010",
+    "number": 10,
+    "key": "bank-1/10",
+    "title": "Ben's Big Toy Room",
+    "raLevel": 1,
+    "cefrLevel": "A0-",
+    "textType": "describing: colors and sizes",
+    "genre": "Toys & Play",
+    "profile": "bank-1",
+    "appType": "nonfiction",
+    "role": "bank",
+    "replaces": "cms1xhz8v001bs601oc2am5wl"
+  },
+  "text": {
+    "paragraphs": [
+      "This is my room. It is big. I have many toys. Look at my helicopter. It is white. Is it small? No, it is big!",
+      "I have a lorry. It is small. It is yellow. Is it a good lorry? Yes, it is! My monster is green. It is very big. Is it scary? Yes, it is scary!",
+      "I have a crocodile. Is it scary? No, it is a toy. I have a toy dog too. It is brown and small. I like my big room. Do you like it?"
+    ],
+    "summary": "Ben shows his toys in his room. He says the color and the size of his helicopter, lorry, monster, crocodile, and dog.",
+    "glossed": [
+      "room",
+      "toy",
+      "helicopter",
+      "lorry",
+      "monster",
+      "crocodile",
+      "dog",
+      "big",
+      "small",
+      "scary",
+      "white",
+      "green"
+    ],
+    "recycle": [],
+    "allow": [],
+    "names": [
+      "Ben"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "room",
+      "pos": "noun",
+      "definition": "A part of a house, like a kitchen.",
+      "thai": "ห้อง",
+      "example": "This is my room."
+    },
+    {
+      "word": "toy",
+      "pos": "noun",
+      "definition": "A thing that you play with.",
+      "thai": "ของเล่น",
+      "example": "I have many toys."
+    },
+    {
+      "word": "helicopter",
+      "pos": "noun",
+      "definition": "A plane with a big fan on top.",
+      "thai": "เฮลิคอปเตอร์",
+      "example": "Look at my helicopter."
+    },
+    {
+      "word": "lorry",
+      "pos": "noun",
+      "definition": "A big car for heavy things.",
+      "thai": "รถบรรทุก",
+      "example": "I have a lorry."
+    },
+    {
+      "word": "monster",
+      "pos": "noun",
+      "definition": "A big, scary animal in a story.",
+      "thai": "มอนสเตอร์, สัตว์ประหลาด",
+      "example": "My monster is green."
+    },
+    {
+      "word": "crocodile",
+      "pos": "noun",
+      "definition": "A long, green animal with a big mouth.",
+      "thai": "จระเข้",
+      "example": "I have a crocodile."
+    },
+    {
+      "word": "dog",
+      "pos": "noun",
+      "definition": "An animal that says \"woof\".",
+      "thai": "สุนัข",
+      "example": "I have a toy dog too."
+    },
+    {
+      "word": "big",
+      "pos": "adjective",
+      "definition": "Not small.",
+      "thai": "ใหญ่",
+      "example": "It is big."
+    },
+    {
+      "word": "small",
+      "pos": "adjective",
+      "definition": "Not big.",
+      "thai": "เล็ก",
+      "example": "Is it small?"
+    },
+    {
+      "word": "scary",
+      "pos": "adjective",
+      "definition": "It makes you afraid.",
+      "thai": "น่ากลัว",
+      "example": "Is it scary?"
+    },
+    {
+      "word": "white",
+      "pos": "adjective",
+      "definition": "The color of milk.",
+      "thai": "สีขาว",
+      "example": "It is white."
+    },
+    {
+      "word": "green",
+      "pos": "adjective",
+      "definition": "The color of grass.",
+      "thai": "สีเขียว",
+      "example": "My monster is green."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "Where are the toys?",
+        "options": [
+          "at the beach",
+          "on a bus",
+          "in the park",
+          "in Ben's room"
+        ],
+        "answer": "in Ben's room",
+        "evidence": "This is my room.",
+        "objectives": [
+          "R21.1"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "Is the room big or small?",
+        "options": [
+          "short",
+          "scary",
+          "small",
+          "big"
+        ],
+        "answer": "big",
+        "evidence": "It is big.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "What color is the helicopter?",
+        "options": [
+          "green",
+          "yellow",
+          "brown",
+          "white"
+        ],
+        "answer": "white",
+        "evidence": "It is white.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "Is the helicopter small?",
+        "options": [
+          "Yes, it is small.",
+          "Yes, it is green.",
+          "No, it is yellow.",
+          "No, it is big."
+        ],
+        "answer": "No, it is big.",
+        "evidence": "No, it is big!",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "What color is the lorry?",
+        "options": [
+          "white",
+          "brown",
+          "green",
+          "yellow"
+        ],
+        "answer": "yellow",
+        "evidence": "It is yellow.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Is the lorry big?",
+        "options": [
+          "Yes, it is big.",
+          "No, it is white.",
+          "Yes, it is green.",
+          "No, it is small."
+        ],
+        "answer": "No, it is small.",
+        "evidence": "It is small.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What color is the monster?",
+        "options": [
+          "white",
+          "brown",
+          "yellow",
+          "green"
+        ],
+        "answer": "green",
+        "evidence": "My monster is green.",
+        "objectives": [
+          "L10.6",
+          "R17.2"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "Is the monster scary?",
+        "options": [
+          "No, it is funny.",
+          "No, it is white.",
+          "No, it is small.",
+          "Yes, it is."
+        ],
+        "answer": "Yes, it is.",
+        "evidence": "Yes, it is scary!",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Is the crocodile scary?",
+        "options": [
+          "Yes, it is big.",
+          "No, it is a dog.",
+          "Yes, it is scary.",
+          "No, it is a toy."
+        ],
+        "answer": "No, it is a toy.",
+        "evidence": "No, it is a toy.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Ben ask at the end?",
+        "options": [
+          "\"Is it big?\"",
+          "\"Is it a lorry?\"",
+          "\"Is it scary?\"",
+          "\"Do you like it?\""
+        ],
+        "answer": "\"Do you like it?\"",
+        "evidence": "Do you like it?",
+        "objectives": [
+          "R10.2"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "What is the helicopter like?",
+        "answer": "It is white and big.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What color is the monster?",
+        "answer": "It is green.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Is the crocodile a toy?",
+        "answer": "Yes, it is.",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What color is the toy dog?",
+        "answer": "It is brown.",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "Do you have a toy dog?",
+        "answer": "Yes, I do. / No, I do not.",
+        "objectives": [
+          "L12.1"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Draw a toy. What color is it?",
+        "objectives": [
+          "L19.2"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Is your room big or small?",
+        "objectives": [
+          "L10.6"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Draw a green monster. Is it scary?",
+        "objectives": [
+          "L19.3"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "What is your favorite toy?",
+        "objectives": [
+          "L12.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Do you like crocodiles? Yes or no?",
+        "objectives": [
+          "L12.1"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [],
+    "saq": "",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [],
+    "vocabFill": [],
+    "sentenceOrder": [],
+    "sentenceCompletion": [],
+    "writingPrompt": "",
+    "writingFrames": []
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "This is my room.",
+          "th": "นี่คือห้องของฉัน"
+        },
+        {
+          "en": "It is big.",
+          "th": "มันใหญ่"
+        },
+        {
+          "en": "I have many toys.",
+          "th": "ฉันมีของเล่นมากมาย"
+        },
+        {
+          "en": "Look at my helicopter.",
+          "th": "ดูเฮลิคอปเตอร์ของฉันสิ"
+        },
+        {
+          "en": "It is white.",
+          "th": "มันเป็นสีขาว"
+        },
+        {
+          "en": "Is it small?",
+          "th": "มันเล็กไหม"
+        },
+        {
+          "en": "No, it is big!",
+          "th": "ไม่ มันใหญ่!"
+        }
+      ],
+      [
+        {
+          "en": "I have a lorry.",
+          "th": "ฉันมีรถบรรทุก"
+        },
+        {
+          "en": "It is small.",
+          "th": "มันเล็ก"
+        },
+        {
+          "en": "It is yellow.",
+          "th": "มันเป็นสีเหลือง"
+        },
+        {
+          "en": "Is it a good lorry?",
+          "th": "มันเป็นรถบรรทุกที่ดีไหม"
+        },
+        {
+          "en": "Yes, it is!",
+          "th": "ใช่!"
+        },
+        {
+          "en": "My monster is green.",
+          "th": "มอนสเตอร์ของฉันสีเขียว"
+        },
+        {
+          "en": "It is very big.",
+          "th": "มันใหญ่มาก"
+        },
+        {
+          "en": "Is it scary?",
+          "th": "มันน่ากลัวไหม"
+        },
+        {
+          "en": "Yes, it is scary!",
+          "th": "ใช่ มันน่ากลัว!"
+        }
+      ],
+      [
+        {
+          "en": "I have a crocodile.",
+          "th": "ฉันมีจระเข้"
+        },
+        {
+          "en": "Is it scary?",
+          "th": "มันน่ากลัวไหม"
+        },
+        {
+          "en": "No, it is a toy.",
+          "th": "ไม่ มันเป็นของเล่น"
+        },
+        {
+          "en": "I have a toy dog too.",
+          "th": "ฉันมีสุนัขของเล่นด้วย"
+        },
+        {
+          "en": "It is brown and small.",
+          "th": "มันสีน้ำตาลและตัวเล็ก"
+        },
+        {
+          "en": "I like my big room.",
+          "th": "ฉันชอบห้องใหญ่ของฉัน"
+        },
+        {
+          "en": "Do you like it?",
+          "th": "เธอชอบไหม"
+        }
+      ]
+    ],
+    "summary": "เบ็นพาดูของเล่นในห้องของเขา เขาบอกสีและขนาดของเฮลิคอปเตอร์ รถบรรทุก มอนสเตอร์ จระเข้ และสุนัข"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Ben stands in his big bedroom and points at a large white toy helicopter on the floor. A small yellow toy lorry is next to it.",
+      "characters": [
+        "Ben"
+      ],
+      "caption": "Ben's big toy room",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "A big green toy monster and a small yellow toy lorry stand on the floor. Ben smiles and holds the monster.",
+      "characters": [
+        "Ben"
+      ],
+      "caption": "Is it scary?",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Ben sits on the floor with a green toy crocodile and a small brown toy dog.",
+      "characters": [
+        "Ben"
+      ],
+      "caption": "A toy crocodile",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_magnetic_voiced_man",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "L10.6",
+      "L12.1"
+    ],
+    "supportingObjectives": [
+      "R10.2"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.room.noun",
+      "english.vocabulary.skill.toy.noun",
+      "english.vocabulary.skill.helicopter.noun",
+      "english.vocabulary.skill.lorry.noun",
+      "english.vocabulary.skill.lorry-us-truck.noun",
+      "english.vocabulary.skill.truck-uk-lorry.noun",
+      "english.vocabulary.skill.monster.noun",
+      "english.vocabulary.skill.crocodile.noun",
+      "english.vocabulary.skill.dog.noun",
+      "english.vocabulary.skill.big.adjective",
+      "english.vocabulary.skill.small.adjective",
+      "english.vocabulary.skill.scary.adjective",
+      "english.vocabulary.skill.white.adjective",
+      "english.vocabulary.skill.green.adjective"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}

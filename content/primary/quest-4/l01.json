@@ -1,0 +1,667 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "quest-4",
+    "lesson": "L01",
+    "number": 1,
+    "key": "q4/1",
+    "title": "I'm Lily, and I'm Eight",
+    "raLevel": 4,
+    "cefrLevel": "A1-",
+    "textType": "functional: a profile page with questions and answers",
+    "genre": "Family & Friends",
+    "profile": "quest-4",
+    "brief": "docs/content-plans/primary-quest-4-plan.md",
+    "appType": "nonfiction",
+    "role": "workbook"
+  },
+  "text": {
+    "paragraphs": [
+      "Hello! Please read about me on my About me page. \"What's your name?\" I'm Lily, and I'm in Teacher Kim's class. \"How old are you?\" My age is eight, and my brother Tom is ten. \"Where do you live?\" My address is twelve Green Road, near the park. \"Who lives with you?\" I live with Mom, Dad, and Tom. We have a small brown puppy, too. His name is Pip.",
+      "\"Who is in your family?\" Mom and Dad are my parents. I'm their daughter, and Tom is their son. \"Do you have a grandparent?\" Yes, I do! Grandma and Grandpa are my grandparents, and they live near us. \"Do you have an aunt or an uncle?\" Yes, I do. Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother. They're always kind to me.",
+      "\"Who is your best friend?\" My best friend is Mia, and she's eight, too. She lives in the house next to ours. \"What do you like?\" I like drawing, and Mia likes animals. We play in the park with Pip every day. \"Is that all?\" Yes, that's all about me! Now it's your day to write."
+    ],
+    "summary": "Lily fills in her About me page. She answers questions about her name, her age, her address, her family, and her best friend.",
+    "glossed": [
+      "age",
+      "address",
+      "parent",
+      "daughter",
+      "son",
+      "grandparent",
+      "aunt",
+      "uncle",
+      "best",
+      "always",
+      "live",
+      "brother"
+    ],
+    "recycle": [
+      "park",
+      "family",
+      "puppy",
+      "small",
+      "friend",
+      "house"
+    ],
+    "allow": [
+      "Road"
+    ],
+    "names": [
+      "Lily",
+      "Tom",
+      "Pip",
+      "Mia",
+      "Sue",
+      "Dan"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "age",
+      "pos": "noun",
+      "definition": "How many years old you are.",
+      "thai": "อายุ",
+      "example": "My age is eight, and my brother Tom is ten."
+    },
+    {
+      "word": "address",
+      "pos": "noun",
+      "definition": "The name of the road and the number of the house where you live.",
+      "thai": "ที่อยู่",
+      "example": "My address is twelve Green Road, near the park."
+    },
+    {
+      "word": "parent",
+      "pos": "noun",
+      "definition": "Your mother or your father.",
+      "thai": "พ่อหรือแม่",
+      "example": "Mom and Dad are my parents."
+    },
+    {
+      "word": "daughter",
+      "pos": "noun",
+      "definition": "A girl child of a mother and a father.",
+      "thai": "ลูกสาว",
+      "example": "I'm their daughter, and Tom is their son."
+    },
+    {
+      "word": "son",
+      "pos": "noun",
+      "definition": "A boy child of a mother and a father.",
+      "thai": "ลูกชาย",
+      "example": "I'm their daughter, and Tom is their son."
+    },
+    {
+      "word": "grandparent",
+      "pos": "noun",
+      "definition": "The mother or the father of your mother or father.",
+      "thai": "ปู่ ย่า ตา ยาย",
+      "example": "\"Do you have a grandparent?\""
+    },
+    {
+      "word": "aunt",
+      "pos": "noun",
+      "definition": "The sister of your mother or father.",
+      "thai": "น้าสาว ป้า อา (ผู้หญิง)",
+      "example": "\"Do you have an aunt or an uncle?\""
+    },
+    {
+      "word": "uncle",
+      "pos": "noun",
+      "definition": "The brother of your mother or father.",
+      "thai": "ลุง น้า อา (ผู้ชาย)",
+      "example": "\"Do you have an aunt or an uncle?\""
+    },
+    {
+      "word": "best",
+      "pos": "adjective",
+      "definition": "Better than all the others.",
+      "thai": "ที่สุด สนิทที่สุด",
+      "example": "\"Who is your best friend?\""
+    },
+    {
+      "word": "always",
+      "pos": "adverb",
+      "definition": "Every time.",
+      "thai": "เสมอ",
+      "example": "They're always kind to me."
+    },
+    {
+      "word": "live",
+      "pos": "verb",
+      "definition": "To have your home in a place.",
+      "thai": "อาศัยอยู่",
+      "example": "\"Where do you live?\""
+    },
+    {
+      "word": "brother",
+      "pos": "noun",
+      "definition": "A boy with the same mother and father as you.",
+      "thai": "พี่ชาย น้องชาย",
+      "example": "My age is eight, and my brother Tom is ten."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "How old is Lily?",
+        "options": [
+          "nine",
+          "ten",
+          "seven",
+          "eight"
+        ],
+        "answer": "eight",
+        "evidence": "My age is eight, and my brother Tom is ten.",
+        "objectives": [
+          "R22.1",
+          "L23.4"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "What is Lily's address?",
+        "options": [
+          "ten Park Road",
+          "eight Green Road",
+          "twelve Park Road",
+          "twelve Green Road"
+        ],
+        "answer": "twelve Green Road",
+        "evidence": "My address is twelve Green Road, near the park.",
+        "objectives": [
+          "L23.4",
+          "R22.1"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "Who is Tom?",
+        "options": [
+          "Lily's uncle",
+          "Lily's friend",
+          "Lily's father",
+          "Lily's brother"
+        ],
+        "answer": "Lily's brother",
+        "evidence": "My age is eight, and my brother Tom is ten.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "What is Pip?",
+        "options": [
+          "a big black cat",
+          "a big brown horse",
+          "a small white rabbit",
+          "a small brown puppy"
+        ],
+        "answer": "a small brown puppy",
+        "evidence": "We have a small brown puppy, too.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "Who is Aunt Sue?",
+        "options": [
+          "Dad's sister",
+          "Lily's friend",
+          "Mom's mother",
+          "Mom's sister"
+        ],
+        "answer": "Mom's sister",
+        "evidence": "Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother.",
+        "objectives": [
+          "R22.1",
+          "L25.1"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Who is Uncle Dan?",
+        "options": [
+          "Mom's brother",
+          "Tom's friend",
+          "Dad's father",
+          "Dad's brother"
+        ],
+        "answer": "Dad's brother",
+        "evidence": "Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What does \"They're\" mean in \"They're always kind to me\"?",
+        "options": [
+          "They were",
+          "They have",
+          "They can",
+          "They are"
+        ],
+        "answer": "They are",
+        "evidence": "They're always kind to me.",
+        "objectives": [
+          "R22.3",
+          "L23.6"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "What does \"I'm\" mean in \"I'm Lily\"?",
+        "options": [
+          "I was",
+          "I have",
+          "I can",
+          "I am"
+        ],
+        "answer": "I am",
+        "evidence": "I'm Lily, and I'm in Teacher Kim's class.",
+        "objectives": [
+          "R22.3",
+          "L23.6"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "Where does Mia live?",
+        "options": [
+          "in the park",
+          "near the shop",
+          "at school",
+          "in the house next to Lily's"
+        ],
+        "answer": "in the house next to Lily's",
+        "evidence": "She lives in the house next to ours.",
+        "objectives": [
+          "L23.4"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "What does Lily like?",
+        "options": [
+          "football",
+          "skating",
+          "skipping",
+          "drawing"
+        ],
+        "answer": "drawing",
+        "evidence": "I like drawing, and Mia likes animals.",
+        "objectives": [
+          "L25.1"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "What's your name?",
+        "answer": "My name is Lily.",
+        "objectives": [
+          "L23.4"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "How old are you?",
+        "answer": "I'm eight years old.",
+        "objectives": [
+          "L23.4"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Who is Lily's best friend?",
+        "answer": "Lily's best friend is Mia.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "Who are Lily's grandparents?",
+        "answer": "Grandma and Grandpa are Lily's grandparents.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What is Lily's address?",
+        "answer": "Lily's address is twelve Green Road.",
+        "objectives": [
+          "L23.4"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Who is in your family? Tell us about them.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Tell us about your best friend.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "What do you like doing? What does your best friend like doing?",
+        "objectives": [
+          "L25.1"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Do you have an aunt or an uncle? Tell us about them.",
+        "objectives": [
+          "R22.1"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Why is an About me page a good idea for a new class?",
+        "objectives": [
+          "L23.4"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [
+      "m1",
+      "m5",
+      "m7",
+      "m10"
+    ],
+    "saq": "s1",
+    "saqHint": "My name is ___. I'm ___ years old.",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [
+      "My name is ...",
+      "I'm ... years old",
+      "My address is ..."
+    ],
+    "vocabFill": [
+      {
+        "sentence": "My name is ___.",
+        "answer": "Lily"
+      },
+      {
+        "sentence": "I'm eight years ___.",
+        "answer": "old"
+      },
+      {
+        "sentence": "Mom and Dad are my ___.",
+        "answer": "parents"
+      },
+      {
+        "sentence": "Mia is my ___ friend.",
+        "answer": "best"
+      }
+    ],
+    "sentenceOrder": [
+      "Mom and Dad are my parents.",
+      "My best friend is Mia."
+    ],
+    "sentenceCompletion": [
+      "My best friend is ...",
+      "I live with ...",
+      "I like ..."
+    ],
+    "writingPrompt": "Write about you. Write your name, your age, your family, and your best friend.",
+    "writingFrames": [
+      "My name is ___.",
+      "I'm ___ years old.",
+      "My best friend is ___."
+    ]
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "Hello! Please read about me on my About me page.",
+          "th": "สวัสดี! โปรดอ่านเรื่องของฉันในหน้า \"เกี่ยวกับฉัน\" นะ"
+        },
+        {
+          "en": "\"What's your name?\"",
+          "th": "\"เธอชื่ออะไร\""
+        },
+        {
+          "en": "I'm Lily, and I'm in Teacher Kim's class.",
+          "th": "ฉันชื่อลิลลี่ และฉันอยู่ในห้องของครูคิม"
+        },
+        {
+          "en": "\"How old are you?\"",
+          "th": "\"เธออายุเท่าไร\""
+        },
+        {
+          "en": "My age is eight, and my brother Tom is ten.",
+          "th": "อายุของฉันคือแปดขวบ และทอมพี่ชายของฉันอายุสิบขวบ"
+        },
+        {
+          "en": "\"Where do you live?\"",
+          "th": "\"เธออาศัยอยู่ที่ไหน\""
+        },
+        {
+          "en": "My address is twelve Green Road, near the park.",
+          "th": "ที่อยู่ของฉันคือเลขที่สิบสอง ถนนกรีน ใกล้สวนสาธารณะ"
+        },
+        {
+          "en": "\"Who lives with you?\"",
+          "th": "\"ใครอยู่กับเธอบ้าง\""
+        },
+        {
+          "en": "I live with Mom, Dad, and Tom.",
+          "th": "ฉันอยู่กับแม่ พ่อ และทอม"
+        },
+        {
+          "en": "We have a small brown puppy, too.",
+          "th": "เรามีลูกสุนัขตัวเล็กสีน้ำตาลด้วย"
+        },
+        {
+          "en": "His name is Pip.",
+          "th": "เขาชื่อปิ๊ป"
+        }
+      ],
+      [
+        {
+          "en": "\"Who is in your family?\"",
+          "th": "\"ใครอยู่ในครอบครัวของเธอบ้าง\""
+        },
+        {
+          "en": "Mom and Dad are my parents.",
+          "th": "แม่กับพ่อคือพ่อแม่ของฉัน"
+        },
+        {
+          "en": "I'm their daughter, and Tom is their son.",
+          "th": "ฉันเป็นลูกสาวของท่าน และทอมเป็นลูกชายของท่าน"
+        },
+        {
+          "en": "\"Do you have a grandparent?\"",
+          "th": "\"เธอมีปู่ย่าตายายไหม\""
+        },
+        {
+          "en": "Yes, I do!",
+          "th": "มีสิ!"
+        },
+        {
+          "en": "Grandma and Grandpa are my grandparents, and they live near us.",
+          "th": "คุณยายกับคุณตาคือปู่ย่าตายายของฉัน และท่านอยู่ใกล้บ้านเรา"
+        },
+        {
+          "en": "\"Do you have an aunt or an uncle?\"",
+          "th": "\"เธอมีน้าหรือลุงไหม\""
+        },
+        {
+          "en": "Yes, I do.",
+          "th": "มีสิ"
+        },
+        {
+          "en": "Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother.",
+          "th": "คุณน้าซูเป็นน้องสาวของแม่ และคุณลุงแดนเป็นพี่ชายของพ่อ"
+        },
+        {
+          "en": "They're always kind to me.",
+          "th": "ท่านใจดีกับฉันเสมอ"
+        }
+      ],
+      [
+        {
+          "en": "\"Who is your best friend?\"",
+          "th": "\"เพื่อนสนิทของเธอคือใคร\""
+        },
+        {
+          "en": "My best friend is Mia, and she's eight, too.",
+          "th": "เพื่อนสนิทของฉันคือมีอา และเธออายุแปดขวบเหมือนกัน"
+        },
+        {
+          "en": "She lives in the house next to ours.",
+          "th": "เธออยู่บ้านหลังข้าง ๆ บ้านเรา"
+        },
+        {
+          "en": "\"What do you like?\"",
+          "th": "\"เธอชอบอะไร\""
+        },
+        {
+          "en": "I like drawing, and Mia likes animals.",
+          "th": "ฉันชอบวาดรูป และมีอาชอบสัตว์"
+        },
+        {
+          "en": "We play in the park with Pip every day.",
+          "th": "เราเล่นในสวนสาธารณะกับปิ๊ปทุกวัน"
+        },
+        {
+          "en": "\"Is that all?\"",
+          "th": "\"แค่นี้ใช่ไหม\""
+        },
+        {
+          "en": "Yes, that's all about me!",
+          "th": "ใช่ นี่คือเรื่องของฉันทั้งหมด!"
+        },
+        {
+          "en": "Now it's your day to write.",
+          "th": "ตอนนี้ถึงวันของเธอที่จะเขียนแล้ว"
+        }
+      ]
+    ],
+    "summary": "ลิลลี่เขียนหน้า \"เกี่ยวกับฉัน\" เธอตอบคำถามเรื่องชื่อ อายุ ที่อยู่ ครอบครัว และเพื่อนสนิท"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Lily sits at a desk at home and writes on a big sheet of paper. Pip sits on the floor next to her chair. Warm light comes from a window.",
+      "characters": [
+        "Lily",
+        "Pip"
+      ],
+      "caption": "Lily writes her About me page.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "The whole family stands together in a living room and smiles. Grandma and Grandpa stand in the middle.",
+      "characters": [
+        "Lily",
+        "Tom",
+        "Mom",
+        "Dad",
+        "Grandma",
+        "Grandpa"
+      ],
+      "caption": "This is my family.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Lily and Mia sit on the grass in a park and draw in a book. Pip lies next to them.",
+      "characters": [
+        "Lily",
+        "Mia",
+        "Pip"
+      ],
+      "caption": "Mia is my best friend.",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_captivating_female1",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "R22.1",
+      "R22.3",
+      "L23.4",
+      "L23.6"
+    ],
+    "supportingObjectives": [
+      "L25.1"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.age.noun",
+      "english.vocabulary.skill.address.noun",
+      "english.vocabulary.skill.parent.noun",
+      "english.vocabulary.skill.daughter.noun",
+      "english.vocabulary.skill.son.noun",
+      "english.vocabulary.skill.grandparent.noun",
+      "english.vocabulary.skill.aunt.noun",
+      "english.vocabulary.skill.uncle.noun",
+      "english.vocabulary.skill.best.adjective-adverb",
+      "english.vocabulary.skill.always.adverb",
+      "english.vocabulary.skill.live.verb",
+      "english.vocabulary.skill.brother.noun"
+    ],
+    "recycledNodes": [
+      "english.vocabulary.skill.park.noun",
+      "english.vocabulary.skill.park.noun-verb",
+      "english.vocabulary.skill.family.noun",
+      "english.vocabulary.skill.puppy.noun",
+      "english.vocabulary.skill.small.adjective",
+      "english.vocabulary.skill.friend.noun",
+      "english.vocabulary.skill.house.noun"
+    ]
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}
