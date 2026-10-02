@@ -190,12 +190,14 @@ async function main(argv: string[]): Promise<number> {
     }
     if (opts.dryRun) return 0;
     // The pictures take minutes, and a writer can rebuild the package in that time. Add the new
-    // candidates to the package as it is on disk now, so that the writer's change stays.
+    // candidates to the package as it is on disk now, so that the writer's change stays. A picture
+    // whose prompt or cast changed in the meantime is for the old text: it is not added.
     const made = new Map(todo.map((img) => [img.position, img]));
     const fresh = LessonPackageSchema.parse(JSON.parse(fs.readFileSync(opts.file, 'utf8')));
     for (const img of fresh.images) {
         const done = made.get(img.position);
-        const added = done ? done.candidates.filter((c) => !img.candidates.includes(c)) : [];
+        const same = done && done.prompt === img.prompt && JSON.stringify(done.characters) === JSON.stringify(img.characters);
+        const added = same ? done.candidates.filter((c) => !img.candidates.includes(c)) : [];
         if (!added.length) continue;
         img.candidates = [...img.candidates, ...added];
         img.redo = undefined;
