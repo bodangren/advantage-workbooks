@@ -70,6 +70,39 @@ export function packagePath(root: string, book: string, lesson: string): string 
  * @param ctx The check context, or a function that makes it; without it there are no counts.
  * @returns Books in name order; lessons in lesson-number order.
  */
+/**
+ * Approves every lesson of a book that is ready (track level_banks_20261002): no FAIL, all
+ * pictures and the audio made. Each part goes through `approvePart`, so its checks apply; a lesson
+ * with a refused part stays as it is (its earlier parts keep their new approval).
+ * @param root The content root.
+ * @param book The book folder.
+ * @param ctx The check context.
+ * @param date The approval date.
+ * @returns The approved lessons and the skipped lessons with the reason.
+ */
+export function approveBook(root: string, book: string, ctx: ContextFor, date: string): { approved: string[]; skipped: { lesson: string; reason: string }[] } {
+    if (!ID.test(book)) throw new StoreError(400, `Bad book name: ${book}`);
+    const approved: string[] = [];
+    const skipped: { lesson: string; reason: string }[] = [];
+    for (const f of loadPackageFolder(path.join(root, book))) {
+        const lesson = path.basename(f.file, '.json');
+        if (!f.pkg) {
+            skipped.push({ lesson, reason: 'does not parse' });
+            continue;
+        }
+        if (f.pkg.approval.lesson.status === 'approved') continue;
+        try {
+            for (const part of APPROVAL_PARTS) {
+                if (f.pkg.approval[part].status !== 'approved') approvePart(root, book, lesson, part, ctx, date);
+            }
+            approved.push(lesson);
+        } catch (e) {
+            skipped.push({ lesson, reason: (e as Error).message });
+        }
+    }
+    return { approved, skipped };
+}
+
 export function listBooks(root: string, ctx?: ContextFor) {
     if (!fs.existsSync(root)) return [];
     return fs

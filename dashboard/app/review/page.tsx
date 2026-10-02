@@ -21,13 +21,27 @@ type BookRow = { book: string; lessons: LessonRow[] };
 export default function ReviewList() {
   const [books, setBooks] = useState<BookRow[] | null>(null);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
-  useEffect(() => {
+  const load = () =>
     fetch("/api/packages")
       .then((r) => r.json())
       .then((b) => (Array.isArray(b) ? setBooks(b) : setError(b.error)))
       .catch((e) => setError(String(e)));
+
+  useEffect(() => {
+    load();
   }, []);
+
+  /** Approves every ready lesson of a book (no FAIL, pictures and audio made). */
+  const approveAll = async (book: string, ready: number) => {
+    if (!window.confirm(`Approve every part of the ${ready} ready lesson(s) in ${book}? Check the picture sheet first.`)) return;
+    const r = await fetch(`/api/packages/${book}/approve-all`, { method: "POST" });
+    const out = await r.json();
+    if (out.error) setNotice(out.error);
+    else setNotice(`${book}: ${out.approved.length} approved, ${out.skipped.length} skipped${out.skipped.length ? ` (${out.skipped.map((x: { lesson: string; reason: string }) => `${x.lesson}: ${x.reason}`).join("; ")})` : ""}`);
+    load();
+  };
 
   return (
     <div className="space-y-6">
@@ -38,6 +52,7 @@ export default function ReviewList() {
         </Link>
       </div>
       {error && <p className="text-red-700">{error}</p>}
+      {notice && <p className="rounded bg-muted p-2 text-sm">{notice}</p>}
       {!books && !error && (
         <p className="text-muted-foreground">
           Loading and checking the packages…
@@ -46,7 +61,22 @@ export default function ReviewList() {
       {books?.length === 0 && <p>No packages in content/primary.</p>}
       {books?.map((b) => (
         <section key={b.book} className="space-y-2">
-          <h2 className="text-lg font-semibold">{b.book}</h2>
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="text-lg font-semibold">{b.book}</h2>
+            <div className="flex items-baseline gap-4 text-sm">
+              <Link href={`/review/sheet/${b.book}`} className="text-primary underline">
+                Picture sheet
+              </Link>
+              {(() => {
+                const ready = b.lessons.filter((l) => !l.error && l.fail === 0 && l.approval?.lesson?.status !== "approved").length;
+                return ready > 0 ? (
+                  <button type="button" onClick={() => approveAll(b.book, ready)} className="rounded border px-2 py-1 hover:bg-muted">
+                    Approve all ready ({ready})
+                  </button>
+                ) : null;
+              })()}
+            </div>
+          </div>
           <table className="w-full text-sm">
             <tbody>
               {b.lessons.map((l) => (

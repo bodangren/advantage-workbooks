@@ -26,6 +26,8 @@ import { GET as listGET } from '../route';
 import { GET, PUT } from '../[book]/[lesson]/route';
 import { POST as approvePOST } from '../[book]/[lesson]/approve/route';
 import { POST as imagePOST } from '../[book]/[lesson]/image/route';
+import { POST as approveAllPOST } from '../[book]/approve-all/route';
+import { GET as sheetGET } from '../[book]/route';
 import { GET as fileGET } from '../../files/route';
 import { GET as castGET, POST as castPOST } from '../../cast/route';
 
@@ -104,6 +106,19 @@ describe('package routes', () => {
     expect((await ok.json()).package.approval.text.status).toBe('approved');
     expect((await approvePOST(json('http://x', 'POST', { part: 'everything' }), params('b', 't01'))).status).toBe(400);
     expect((await approvePOST(json('http://x', 'POST', { part: 'lesson' }), params('b', 't01'))).status).toBe(409);
+  });
+});
+
+describe('book routes (track level_banks_20261002)', () => {
+  it('skips a lesson whose pictures are not made, and lists the pictures of a book', async () => {
+    const r = await approveAllPOST(new Request('http://x', { method: 'POST' }), { params: Promise.resolve({ book: 'b' }) });
+    const out = await r.json();
+    expect(out.approved).toEqual([]);
+    expect(out.skipped[0].lesson).toBe('t01');
+    expect(out.skipped[0].reason).toMatch(/images|audio/);
+    const sheet = await (await sheetGET(new Request('http://x'), { params: Promise.resolve({ book: 'b' }) })).json();
+    expect(sheet.lessons[0]).toMatchObject({ lesson: 't01', imagesApproved: false });
+    expect((await sheetGET(new Request('http://x'), { params: Promise.resolve({ book: '../x' }) })).status).toBe(400);
   });
 });
 
