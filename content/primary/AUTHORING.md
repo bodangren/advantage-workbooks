@@ -1,6 +1,6 @@
 # How to write a Primary Advantage lesson file
 
-Version 1.1 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 1.2 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `level_banks_20261002`. This guide is for every writer (Claude or a subagent) of a workbook lesson (Origins 1, Origins 3.2, Quest 4) or a bank article (`bank-1` … `bank-4`). Write all lesson content yourself. Do not call any other AI model or the Primary app's generator.
 
@@ -129,6 +129,18 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
 - Three lines: `hero`, `inline-para-2`, `inline-para-3`. Each shows a different moment of the text.
 - `characters`: the cast names in the picture (series bible names: Pip, Tom, Lily, Mia, Ben, Leo, Sam, May, Pat, Teacher Kim, Mom, Dad, Grandma, Grandpa, Squeaky), the main one first; `-` for none. The character sheets fix their looks, so do not describe the cast's looks.
 - A person who is not in the cast: describe age, hair, and every clothing item with its color. Never describe skin, race, or nationality. The words thai, asian, western, american, chinese, japanese, korean, indian, european, african, ethnic, race, skin, and complexion fail the check, even in "Thai school uniform": write "a white school shirt and dark blue shorts (or skirt)".
+- `Mom`, `Dad`, `Grandma`, and `Grandpa` in `characters` are Tom and Lily's family (their sheets). Another child's parent is not cast: leave the name out of `characters` and write the look at the first mention in each prompt. Use these looks, so that a parent looks the same in every article:
+  - Mia's mom: a woman of about thirty-five with long straight black hair in a low ponytail, a pink blouse, dark blue jeans, and white sneakers
+  - Mia's dad: a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals
+  - Sam's mom: a woman of about forty with short curly black hair, a yellow blouse, a brown skirt, and brown sandals
+  - Sam's dad: a man of about forty with short spiky black hair and black glasses, a green T-shirt, black shorts, and gray sneakers
+  - Sam's grandma: a woman of about seventy with gray hair in a bun, a purple blouse, a long dark green skirt, and black sandals
+  - Sam's grandpa: a man of about seventy with thin white hair and a white mustache, a light gray shirt, dark brown trousers, and black sandals
+  - Leo's mom: a woman of about thirty-five with a short black bob, an orange T-shirt, blue jeans, and white sneakers
+  - Leo's dad: a man of about forty with short black hair and a small mustache, a white shirt, black trousers, and black shoes
+  - Leo's grandma: a woman of about seventy with short curly white hair and red glasses, a green dress, and brown sandals
+  - May and Pat's mom: a woman of about thirty-five with shoulder-length black hair and a white headband, a light green dress, and white sandals
+  When the story gives a parent other clothes, the story wins.
 - The model cannot draw text. Text that must show (signs, a book title, a notice, a clock face as words) goes in the overlay field: `overlay text ; second text`. The prompt describes a blank sign or board in the right place.
 - Prompts describe the action, the place, and the light. One scene per picture. No words in the prompt like "photo" or "3D".
 
@@ -147,3 +159,4 @@ Bank plans: `docs/content-plans/level-plans/bank-<level>.md` (one row per articl
 |---|---|---|
 | 1.0 | 2026-10-02 | First version |
 | 1.1 | 2026-10-02 | How the check counts sentences; level-4 word traps; accents (from the first writer reports) |
+| 1.2 | 2026-10-02 | Another child's parents are not cast: fixed looks for Mia's, Sam's, Leo's, and May's family |
