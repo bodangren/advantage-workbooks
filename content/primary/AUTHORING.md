@@ -1,6 +1,6 @@
 # How to write a Primary Advantage lesson file
 
-Version 1.0 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 1.1 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `level_banks_20261002`. This guide is for every writer (Claude or a subagent) of a workbook lesson (Origins 1, Origins 3.2, Quest 4) or a bank article (`bank-1` … `bank-4`). Write all lesson content yourself. Do not call any other AI model or the Primary app's generator.
 
@@ -85,6 +85,7 @@ frames: My toy is ___. ; It is ___. ; I play with it in the ___.  (2 or 3 frames
 
 Rules of the format:
 - One sentence per line in `## Text`, then ` | `, then its Thai. Never put `|` in a sentence.
+- The check counts sentences, not lines: a line also splits after `.`, `!`, or `?` when a capital letter or a quotation mark follows. `"Clap, clap! One, two, three!"` is 2 sentences; `"Where is Pip?" says Tom.` is 1. To raise the mean sentence length, join short sentences with a comma or `and`. To lower it, split a sentence.
 - Evidence: copy the exact sentence from the text, or write `@N` (sentence N of the whole text) or `@P.S` (paragraph P, sentence S).
 - Glossary examples are found in the text for you. If the converter says a word is not found, add the sentence as a fifth field.
 - The converter shuffles the MCQ options. Write the answer anywhere and mark it with `*`.
@@ -101,7 +102,7 @@ Rules of the format:
 
 "Running words on the list" does not count names, the glossed words, or the `allow` words. Word lists: `docs/content-plans/data/yle-starters-words.md` and `yle-movers-words.md` (the numbers one to twenty are Starters words). The check prints every word that is off the list. Change those words, or (rarely) put a needed word in `allow`.
 
-Every word that a level-1 to level-3 text needs is easy to replace with a Starters word. Common traps (above Starters): up, down, all, everyone, when, only, near, around, bad, laugh, little, help, first, next, together, time, buy, money, party, present, afraid, brave, kind, puppy, sign, market, Monday–Sunday, week, dear, soon, finish, ready, away, touch, feed, sky, high, rain, windy, fast, over, pull, tall, leaf, slowly, after, into, why, feel, lost. Use: "Stand, please." / "the children" / two short sentences / "next to" / "not good" / "smile" / "small" / "Can you find it?" / "Then" / "Tom and Lily" / "Here you are." / "happy" / "Pip" or "dog" / "It says: …". Level 4 uses Movers words freely; its traps are Flyers and Key words (race, quarter, half, past, timetable, cut, glue, middle, notice, lost, title, report).
+Every word that a level-1 to level-3 text needs is easy to replace with a Starters word. Common traps (above Starters): up, down, all, everyone, when, only, near, around, bad, laugh, little, help, first, next, together, time, buy, money, party, present, afraid, brave, kind, puppy, sign, market, Monday–Sunday, week, dear, soon, finish, ready, away, touch, feed, sky, high, rain, windy, fast, over, pull, tall, leaf, slowly, after, into, why, feel, lost. Use: "Stand, please." / "the children" / two short sentences / "next to" / "not good" / "smile" / "small" / "Can you find it?" / "Then" / "Tom and Lily" / "Here you are." / "happy" / "Pip" or "dog" / "It says: …". Level 4 uses Movers words freely; its traps are Flyers and Key words (race, quarter, half, past, timetable, cut, glue, middle, notice, lost, title, report, use, shelf, skating) and common words that are on no list (heavy, dark, soft, side, together, feel, ready, bench, paw, hug, poor, each, yet, other, math, art, time, welcome, also, turn, left). The tens (thirty to ninety) are on no list: put them in `allow`. Accents are removed before the check ("café" is "cafe", a Key word).
 
 ## 4. Writing rules (all levels)
 
@@ -145,3 +146,4 @@ Bank plans: `docs/content-plans/level-plans/bank-<level>.md` (one row per articl
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-02 | First version |
+| 1.1 | 2026-10-02 | How the check counts sentences; level-4 word traps; accents (from the first writer reports) |
