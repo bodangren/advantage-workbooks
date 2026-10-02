@@ -12,8 +12,11 @@ const DEFAULT_SPEED = 0.75;
 /** An inner pause longer than this marks a bad take; the clip is made again (two more tries at most). */
 const MAX_PAUSE_S = 0.6;
 const TRIES = 3;
-/** The waits before each new try of a failed mmx call. */
-const CALL_WAITS_MS = [5_000, 15_000, 30_000, 60_000];
+/**
+ * The waits before each new try of a failed mmx call. The long waits are for the per-minute limit
+ * ("rate limit exceeded(RPM)"), which parallel runs reach (2026-10-02: four runs).
+ */
+const CALL_WAITS_MS = [5_000, 15_000, 30_000, 60_000, 120_000, 180_000];
 
 const USAGE = `Makes the audio for a lesson package with mmx (track lesson_media_20261001).
 
