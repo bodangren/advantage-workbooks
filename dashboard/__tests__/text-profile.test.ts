@@ -74,6 +74,10 @@ describe('text helpers', () => {
         expect(tokenize("Tom's dog can't run. T-shirt!")).toEqual(["Tom's", 'dog', "can't", 'run', 'T', 'shirt']);
     });
 
+    it('removes accents, so an accented word stays one token', () => {
+        expect(tokenize('We go to the café.')).toEqual(['We', 'go', 'to', 'the', 'cafe']);
+    });
+
     it('keeps a quotation and its speech tag in one sentence', () => {
         expect(splitSentences('"Where is Pip?" says Tom. Pip is in the kitchen! Is he happy? Yes.')).toEqual([
             '"Where is Pip?" says Tom.',

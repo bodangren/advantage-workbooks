@@ -6,12 +6,14 @@
 const WORD_RE = /[A-Za-z']+/g;
 
 /**
- * Splits text into word tokens (letters and apostrophes). A hyphen splits a word.
+ * Splits text into word tokens (letters and apostrophes). A hyphen splits a word. Accents are
+ * removed first, so "café" is one token, "cafe".
  * @param text Any text.
  * @returns The tokens in order, with leading and trailing apostrophes removed.
  */
 export function tokenize(text: string): string[] {
-    return (text.match(WORD_RE) ?? []).map((t) => t.replace(/^'+|'+$/g, '')).filter(Boolean);
+    const plain = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return (plain.match(WORD_RE) ?? []).map((t) => t.replace(/^'+|'+$/g, '')).filter(Boolean);
 }
 
 /**
