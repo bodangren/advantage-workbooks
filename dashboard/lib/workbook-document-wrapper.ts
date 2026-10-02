@@ -6,6 +6,7 @@ import { generatePrefaceSection } from './document-wrapper/sections/preface';
 import { generateTocSection } from './document-wrapper/sections/toc';
 import { generateProgressTracker } from './document-wrapper/sections/progress-tracker';
 import { generateGlossarySection } from './document-wrapper/sections/glossary';
+import { printFontFaceCss } from './document-wrapper/print-fonts';
 import { generateAnswerKeySection } from './document-wrapper/sections/answer-key';
 import { generateFlashcardsSection } from './document-wrapper/sections/flashcards';
 import { generateTeacherGuideSection } from './document-wrapper/sections/teacher-guide';
@@ -30,6 +31,9 @@ export function wrapWorkbookDocument(
   <meta charset="UTF-8">
   <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  <style>
+${printFontFaceCss()}
+  </style>
   <style>
     ${getPrintStyles(theme)}
   </style>
@@ -58,6 +62,9 @@ export function wrapWorkbookDocument(
   <meta charset="UTF-8">
   <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  <style>
+${printFontFaceCss()}
+  </style>
   <style>
     ${getPrintStyles(theme)}
   </style>

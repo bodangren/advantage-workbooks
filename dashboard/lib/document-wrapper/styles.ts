@@ -8,7 +8,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       
       @bottom-center {
         content: "Page " counter(page);
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', 'Sarabun', sans-serif;
         font-size: 10pt;
       }
     }
@@ -99,7 +99,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       margin-top: 0;
       margin-bottom: 20px;
       font-weight: 300;
-      font-family: 'Merriweather', serif;
+      font-family: 'Merriweather', 'Sarabun', serif;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #4b5563;
@@ -118,7 +118,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       margin-top: 0;
       margin-bottom: 15px;
       text-transform: uppercase;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
       color: ${theme.primary};
       letter-spacing: 4px;
       line-height: 1.1;
@@ -137,7 +137,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       font-style: italic;
       color: ${theme.secondary};
       margin-bottom: 0;
-      font-family: 'Merriweather', serif;
+      font-family: 'Merriweather', 'Sarabun', serif;
     }
 
     .tp-publisher {
@@ -145,7 +145,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       bottom: 40px;
       font-size: 12pt;
       color: rgba(255, 255, 255, 0.9);
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
@@ -153,7 +153,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-preface, .section-toc, .section-glossary, .section-answer-key {
       break-after: page;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .section-header {
@@ -212,7 +212,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 4px 16px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .glossary-item {
@@ -278,7 +278,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-flashcards {
       break-before: right; /* Always start on an odd page */
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .section-flashcards-page {
@@ -351,7 +351,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-progress-tracker {
       break-after: page;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .pt-instructions {
@@ -410,7 +410,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-self-assessment {
       break-before: right;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .sa-intro {
@@ -490,7 +490,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      font-family: 'Merriweather', serif;
+      font-family: 'Merriweather', 'Sarabun', serif;
     }
 
     .certificate-border {
@@ -527,7 +527,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       font-size: 16pt;
       color: #4b5563;
       margin-bottom: 30px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .cert-student-name {
@@ -550,7 +550,7 @@ export function getPrintStyles(theme: ThemeColors): string {
       font-weight: bold;
       color: ${theme.primary};
       margin: 15px 0;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .cert-signatures {
@@ -577,13 +577,13 @@ export function getPrintStyles(theme: ThemeColors): string {
     .cert-sig-label {
       font-size: 12pt;
       color: #4b5563;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .section-teacher-guide {
       break-before: right;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
 
     .tg-intro {
@@ -670,7 +670,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-spelling-practice {
       break-before: right;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
     .sp-intro {
       text-align: center;
@@ -717,7 +717,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     }
     .sp-trace-text {
       color: #e0e0e0;
-      font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
     .sp-col-write {
       width: 25%;
@@ -730,7 +730,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     .section-goal-setting {
       break-after: page;
       padding-top: 40px;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
     .gs-intro {
       font-size: 12pt;
