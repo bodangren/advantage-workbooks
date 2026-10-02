@@ -172,7 +172,8 @@ function main(argv: string[]): number {
     const voice = opts.voice ?? voices.narrator;
     const teacher = opts.teacherVoice ?? voices.teacher;
     const clips = audioClips(pkg);
-    const tutor = tutorClips(tutorItems(pkg));
+    // Bank articles are online only: no Tutor Advantage clips (track level_banks_20261002).
+    const tutor = pkg.meta.role === 'bank' ? [] : tutorClips(tutorItems(pkg));
     const voiceOf = (role: 'narrator' | 'teacher') => (role === 'narrator' ? voice : teacher);
 
     if (opts.dryRun) {
@@ -216,15 +217,18 @@ function main(argv: string[]): number {
     );
     // Tutor Advantage: one mp3 per clip, named with Tutor's id. Old files (changed text) go.
     const tutorDir = path.join(media, 'tutor');
-    fs.mkdirSync(tutorDir, { recursive: true });
-    console.log(`Tutor clips (${tutor.length})`);
-    tutor.forEach((c, i) => {
-        process.stdout.write(`  ${i + 1}/${tutor.length} ${c.text}\n`);
-        const made = clip(c.text, voiceOf(c.role), opts.speed, cache, opts.redo.includes(c.id));
-        encode(made.rate, made.samples, path.join(tutorDir, `${c.id}.mp3`));
-    });
-    const keep = new Set(tutor.map((c) => `${c.id}.mp3`));
-    for (const f of fs.readdirSync(tutorDir)) if (!keep.has(f)) fs.rmSync(path.join(tutorDir, f));
+    const bank = pkg.meta.role === 'bank';
+    if (!bank) {
+        fs.mkdirSync(tutorDir, { recursive: true });
+        console.log(`Tutor clips (${tutor.length})`);
+        tutor.forEach((c, i) => {
+            process.stdout.write(`  ${i + 1}/${tutor.length} ${c.text}\n`);
+            const made = clip(c.text, voiceOf(c.role), opts.speed, cache, opts.redo.includes(c.id));
+            encode(made.rate, made.samples, path.join(tutorDir, `${c.id}.mp3`));
+        });
+        const keep = new Set(tutor.map((c) => `${c.id}.mp3`));
+        for (const f of fs.readdirSync(tutorDir)) if (!keep.has(f)) fs.rmSync(path.join(tutorDir, f));
+    }
     pkg.audio = {
         voice,
         teacherVoice: teacher,
@@ -234,7 +238,7 @@ function main(argv: string[]): number {
         wordTimes,
         flashcard: path.join(mediaRel, 'sentences.mp3'),
         flashcardTimes,
-        tutor: path.join(mediaRel, 'tutor'),
+        tutor: bank ? undefined : path.join(mediaRel, 'tutor'),
     };
     const result = savePackage(root, book, lesson, pkg, checkContextFor);
     console.log(`Saved ${path.relative(process.cwd(), opts.file)}; audio approval: ${result.pkg?.approval.audio.status}`);

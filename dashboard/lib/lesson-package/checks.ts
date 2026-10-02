@@ -193,7 +193,10 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     if (onTarget < shape.printObjectiveMcqMin) shapeProblems.push(`${onTarget} printed MCQ test a target objective (need ${shape.printObjectiveMcqMin})`);
     // A printed lesson's questions are on paper: their number and their objectives are a note, not a block.
     const printStatus = printedSource && !printProblems.length ? 'warn' : 'fail';
-    checks.push(check('print-set', printedSource ? 'Print set (printed, locked)' : 'Print set', [...shapeProblems, ...printProblems], printStatus));
+    // A bank article is online only (track level_banks_20261002): no print set and no workbook activities.
+    const bankRole = pkg.meta.role === 'bank';
+    if (bankRole) checks.push(check('print-set', 'Print set (online only: none)', pkg.print.mcq.length ? ['a bank article has no print set'] : []));
+    else checks.push(check('print-set', printedSource ? 'Print set (printed, locked)' : 'Print set', [...shapeProblems, ...printProblems], printStatus));
 
     // Glossary.
     const glossaryProblems: string[] = [];
@@ -242,7 +245,8 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
     });
     if (!a.writingPrompt.trim()) activityProblems.push('no writing prompt');
     // A printed lesson's activities are on paper: a defect there is a note, not a block.
-    checks.push(printedSource ? check('activities', 'Workbook activities (printed, locked)', activityProblems, 'warn') : check('activities', 'Workbook activities', activityProblems));
+    if (bankRole) checks.push(check('activities', 'Workbook activities (online only: none)', []));
+    else checks.push(printedSource ? check('activities', 'Workbook activities (printed, locked)', activityProblems, 'warn') : check('activities', 'Workbook activities', activityProblems));
 
     const imageProblems = pkg.images.length !== shape.images ? [`${pkg.images.length} images (need ${shape.images})`] : [];
     for (const img of pkg.images) {
@@ -250,7 +254,7 @@ export function checkPackage(input: unknown, ctx: PackageCheckContext): PackageR
         if (words.length) imageProblems.push(`${img.position}: ${words.join(', ')} (describe hair and clothes only)`);
     }
     checks.push(check('images', 'Image plan', imageProblems));
-    const notMade = [...pkg.images.filter((img) => !img.file).map((img) => img.position), ...(pkg.audio.article ? [] : ['audio']), ...(pkg.audio.tutor ? [] : ['Tutor clips'])];
+    const notMade = [...pkg.images.filter((img) => !img.file).map((img) => img.position), ...(pkg.audio.article ? [] : ['audio']), ...(pkg.audio.tutor || bankRole ? [] : ['Tutor clips'])];
     checks.push(check('media', 'Pictures and audio made', notMade.length ? [`not made yet: ${notMade.join(', ')}`] : [], 'warn'));
 
     // Tags.

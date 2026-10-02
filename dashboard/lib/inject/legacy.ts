@@ -161,12 +161,13 @@ export function legacyRows(pkg: LessonPackage, known: LegacyIds, now: Date) {
 }
 
 /**
- * The app article that a package writes to: the injected id, else the printed lesson's article.
+ * The app article that a package writes to: the injected id, else the printed lesson's article,
+ * else the old article that the package replaces.
  * @param pkg A parsed package.
  * @returns The legacy cuid, or undefined for a new lesson (the injector makes a new id).
  */
 export function appArticleId(pkg: LessonPackage): string | undefined {
-    return pkg.db.legacy?.articleId ?? pkg.meta.printed?.articleId;
+    return pkg.db.legacy?.articleId ?? pkg.meta.printed?.articleId ?? pkg.meta.replaces;
 }
 
 /**

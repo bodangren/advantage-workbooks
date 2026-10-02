@@ -23,12 +23,19 @@ export interface TextProfile {
     paragraphs: number;
     meanSentenceLength: [number, number];
     longestSentence: number;
-    /** Share of running words on the Starters list, names not counted (0–1). */
+    /**
+     * The word list of the level (default Starters). Level 4 (A1-) uses Movers: a running word counts
+     * when it is on Starters or Movers, and the glossed-word rules move up one list.
+     */
+    listLevel?: YleLevel;
+    /** Share of running words on the list (or an easier one), names not counted (0–1). */
     startersShare: number;
     glossedCount: number;
+    /** Glossed words on the list level (Starters, or Movers for a Movers profile). */
     glossedStartersMin: number;
+    /** Glossed words one list above (Movers, or Flyers for a Movers profile). */
     glossedMoversMax: number;
-    /** Glossed Starters words that no earlier text uses. */
+    /** Glossed list-level words that no earlier text uses. */
     newStartersMin: number;
     /** Glossed words of earlier lessons that occur again in the text. */
     recycledMin: number;
@@ -56,9 +63,71 @@ const LEVEL_3: TextProfile = {
     book: { lessons: 14, questionLessonsMin: 10, dialogueLessonsMin: 6 },
 };
 
+/** Level 1 (A0-): Origins 1 and the level-1 bank (track level_banks_20261002). */
+const LEVEL_1: TextProfile = {
+    id: 'origins-1',
+    label: 'Primary level 1 (Origins 1)',
+    words: [80, 120],
+    paragraphs: 3,
+    meanSentenceLength: [3.0, 4.2],
+    longestSentence: 7,
+    startersShare: 0.95,
+    glossedCount: 12,
+    glossedStartersMin: 11,
+    glossedMoversMax: 1,
+    newStartersMin: 4,
+    recycledMin: 2,
+    questionMarksMin: 1,
+    spelling: 'american',
+    book: { lessons: 14, questionLessonsMin: 10, dialogueLessonsMin: 4 },
+};
+
+/** Level 4 (A1-): Quest 4 and the level-4 bank. Movers list. */
+const LEVEL_4: TextProfile = {
+    id: 'quest-4',
+    label: 'Primary level 4 (Quest 4)',
+    words: [190, 250],
+    paragraphs: 3,
+    meanSentenceLength: [5.6, 7.0],
+    longestSentence: 12,
+    listLevel: 'Movers',
+    startersShare: 0.95,
+    glossedCount: 12,
+    glossedStartersMin: 7,
+    glossedMoversMax: 1,
+    newStartersMin: 6,
+    recycledMin: 4,
+    questionMarksMin: 2,
+    spelling: 'american',
+    book: { lessons: 14, questionLessonsMin: 10, dialogueLessonsMin: 6 },
+};
+
+/** An online-only bank profile: the book's text targets, no book rules, no new or recycled words. */
+const bank = (base: TextProfile, id: string, label: string, over: Partial<TextProfile> = {}): TextProfile => ({
+    ...base,
+    id,
+    label,
+    newStartersMin: 0,
+    recycledMin: 0,
+    book: undefined,
+    ...over,
+});
+
 /** Built-in profiles. */
 export const PROFILES: Record<string, TextProfile> = {
+    'origins-1': LEVEL_1,
     'origins-3.2': LEVEL_3,
+    'quest-4': LEVEL_4,
+    'bank-1': bank(LEVEL_1, 'bank-1', 'Primary level 1 bank (online only)'),
+    'bank-2': bank(LEVEL_1, 'bank-2', 'Primary level 2 bank (online only)', {
+        words: [120, 175],
+        meanSentenceLength: [3.6, 4.8],
+        longestSentence: 8,
+        glossedStartersMin: 10,
+        glossedMoversMax: 2,
+    }),
+    'bank-3': bank(LEVEL_3, 'bank-3', 'Primary level 3 bank (online only)', { meanSentenceLength: [4.8, 5.8], questionMarksMin: 1 }),
+    'bank-4': bank(LEVEL_4, 'bank-4', 'Primary level 4 bank (online only)', { meanSentenceLength: [5.4, 7.2], questionMarksMin: 1 }),
     'origins-3.1-insert': {
         ...LEVEL_3,
         id: 'origins-3.1-insert',
@@ -222,6 +291,9 @@ export function checkLesson(
     const isName = (t: string) => /^[A-Z]/.test(t) && (cast.has(stripPossessive(t)) || guessed.has(stripPossessive(t)));
 
     const levels = tokenLevels(text, index);
+    const listLevel = profile.listLevel ?? 'Starters';
+    const listRank = LEVEL_RANK[listLevel];
+    const onList = (l: YleLevel | undefined) => l !== undefined && LEVEL_RANK[l] <= listRank;
     // Allowed words: the brief's allow list, the glossed words (the page teaches them), and series words.
     // Like names, they count neither for nor against the Starters share.
     const allowAt: ({ word: string; start: number } | undefined)[] = new Array(text.tokens.length);
@@ -242,7 +314,7 @@ export function checkLesson(
             nameTokens++;
             return;
         }
-        if (levels[i] === 'Starters') {
+        if (onList(levels[i])) {
             starterTokens++;
             return;
         }
@@ -274,11 +346,14 @@ export function checkLesson(
     // Glossed words.
     const glossLevel = (g: string) => index.levelOf(g) ?? index.levelOf(index.lemmaOf(g));
     const glossed = lesson.glossed;
-    const gStarters = glossed.filter((g) => glossLevel(g) === 'Starters');
-    const gMovers = glossed.filter((g) => glossLevel(g) === 'Movers');
+    // "Starters" and "Movers" below mean the list level and the list above it (Movers and Flyers for level 4).
+    const LISTS: YleLevel[] = ['Starters', 'Movers', 'Flyers', 'Key/PET'];
+    const nextLevel = LISTS[listRank + 1];
+    const gStarters = glossed.filter((g) => glossLevel(g) === listLevel);
+    const gMovers = glossed.filter((g) => glossLevel(g) === nextLevel);
     const gAbove = glossed.filter((g) => {
         const l = glossLevel(g);
-        return l === undefined || l === 'Flyers' || l === 'Key/PET';
+        return l === undefined || LEVEL_RANK[l] > listRank + 1;
     });
     const missing = glossed.filter((g) => !occurs(text, g, index));
 
@@ -318,7 +393,7 @@ export function checkLesson(
         },
         {
             id: 'starters',
-            label: 'Starters words (names not counted)',
+            label: listLevel === 'Starters' ? 'Starters words (names not counted)' : `${listLevel} or easier words (names not counted)`,
             status: shareWithoutNames >= profile.startersShare ? 'pass' : 'fail',
             value: `${(shareWithoutNames * 100).toFixed(1)}%`,
             target: `${Math.round(profile.startersShare * 100)}% or more`,
@@ -332,14 +407,14 @@ export function checkLesson(
         },
         {
             id: 'gloss-starters',
-            label: 'Glossed on Starters',
+            label: `Glossed on ${listLevel}`,
             status: gStarters.length >= profile.glossedStartersMin ? 'pass' : 'fail',
             value: String(gStarters.length),
             target: `${profile.glossedStartersMin} or more`,
         },
         {
             id: 'gloss-movers',
-            label: 'Glossed on Movers',
+            label: `Glossed on ${nextLevel}`,
             status: gMovers.length <= profile.glossedMoversMax ? 'pass' : 'fail',
             value: String(gMovers.length),
             target: `${profile.glossedMoversMax} or less`,
@@ -347,7 +422,7 @@ export function checkLesson(
         },
         {
             id: 'gloss-above',
-            label: 'Glossed above Movers',
+            label: `Glossed above ${nextLevel}`,
             status: gAbove.length === 0 ? 'pass' : 'fail',
             value: String(gAbove.length),
             target: '0',
@@ -363,7 +438,7 @@ export function checkLesson(
         },
         {
             id: 'new',
-            label: 'New Starters words',
+            label: `New ${listLevel} words`,
             // A target, not a gate: a good story comes before exact word order (Daniel, 2026-10-01).
             status: newWords.length >= profile.newStartersMin ? 'pass' : 'warn',
             value: String(newWords.length),
@@ -372,7 +447,8 @@ export function checkLesson(
         {
             id: 'recycled',
             label: 'Recycled words',
-            status: recycled.length >= profile.recycledMin ? 'pass' : 'fail',
+            // The first lesson of a series has nothing to recycle.
+            status: recycled.length >= profile.recycledMin || priorGlossed.length === 0 ? 'pass' : 'fail',
             value: String(recycled.length),
             target: `${profile.recycledMin} or more`,
         },

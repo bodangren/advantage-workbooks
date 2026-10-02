@@ -221,6 +221,22 @@ describe('checkLesson', () => {
         expect(r.allowed).toEqual([{ word: 'puppy', count: 1 }]);
     });
 
+    it('counts Movers words as on the list for a Movers profile and moves the glossed rules up one list', () => {
+        const movers: TextProfile = { ...TEST_PROFILE, listLevel: 'Movers', glossedStartersMin: 1, glossedMoversMax: 0 };
+        const r = checkLesson({ ...good, glossed: ['sofa', 'under', 'puppy'] }, { index, prior, profile: movers });
+        expect(r.nonStarters).toEqual([]);
+        const c = (id: string) => r.checks.find((x) => x.id === id);
+        expect(c('gloss-starters')).toMatchObject({ status: 'pass', value: '1', label: 'Glossed on Movers' });
+        expect(c('gloss-movers')?.label).toBe('Glossed on Flyers');
+        const above = checkLesson({ ...good, paragraphs: [...good.paragraphs.slice(0, 1), 'The pond is big. Pip is happy.'], glossed: ['sofa', 'pond', 'puppy'] }, { index, prior, profile: movers });
+        expect(above.checks.find((x) => x.id === 'gloss-above')).toMatchObject({ status: 'fail' });
+    });
+
+    it('passes the recycled-word check for the first lesson of a series (nothing to recycle)', () => {
+        const r = checkLesson(good, { index, prior: [], profile: TEST_PROFILE });
+        expect(r.checks.find((x) => x.id === 'recycled')?.status).toBe('pass');
+    });
+
     it('lists non-Starters words with their level and treats cast names as names', () => {
         const r = checkLesson({ ...good, glossed: ['sofa', 'under', 'ball'] }, { index, prior, profile: TEST_PROFILE });
         expect(r.nonStarters).toEqual([{ word: 'puppy', level: 'Movers', count: 1 }]);
@@ -389,6 +405,17 @@ describe('checkBook', () => {
         expect(() =>
             checkBook([lesson('x', ['Text.'], [], { profile: 'nope' })], { index, prior: [], profiles: { test: TEST_PROFILE } }),
         ).toThrow(/Unknown profile "nope"/);
+    });
+
+    it('ships the level 1, level 4, and bank profiles (track level_banks_20261002)', () => {
+        expect(PROFILES['origins-1'].words).toEqual([80, 120]);
+        expect(PROFILES['quest-4'].listLevel).toBe('Movers');
+        for (const id of ['bank-1', 'bank-2', 'bank-3', 'bank-4']) {
+            expect(PROFILES[id].book).toBeUndefined();
+            expect(PROFILES[id].newStartersMin).toBe(0);
+            expect(PROFILES[id].recycledMin).toBe(0);
+        }
+        expect(PROFILES['bank-4'].listLevel).toBe('Movers');
     });
 
     it('ships the level-3 and insert profiles from the Origins 3.2 plan', () => {

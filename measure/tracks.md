@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Levels 1–4 workbook lessons (Origins 1, Origins 3.2, Quest 4) and rebuilt online banks of 50 or more articles per level.** *(Created: 2026-10-02)*
+  *Link: [./tracks/level_banks_20261002/](./tracks/level_banks_20261002/)*
+
 - [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
   *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
 

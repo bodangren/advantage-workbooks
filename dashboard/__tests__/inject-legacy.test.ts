@@ -150,6 +150,14 @@ describe('legacy rows', () => {
         expect(appArticleId(pkg)).toBe('cinjected');
     });
 
+    it('updates the old article that a rebuilt bank package replaces', () => {
+        const pkg = withMedia();
+        pkg.meta.replaces = 'cold';
+        expect(appArticleId(pkg)).toBe('cold');
+        pkg.db.legacy = { ...IDS, articleId: 'cinjected' } as unknown as typeof pkg.db.legacy;
+        expect(appArticleId(pkg)).toBe('cinjected');
+    });
+
     it('refuses a package that is not ready', () => {
         const pkg = withMedia();
         pkg.audio.article = undefined;

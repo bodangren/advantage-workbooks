@@ -22,9 +22,11 @@ export function checkContextFor(pkg: LessonPackage, graph: string = process.env.
     if (!cache || cache.graph !== graph) {
         cache = { graph, index: loadVocabularyIndex(graph), printed: PRINTED.flatMap((p) => loadLessonFolder(p)), objectiveIds: loadObjectiveIds() };
     }
+    // Origins 1 comes before the printed Origins 2 and 3.1, so only its own earlier lessons count.
+    const printed = pkg.meta.book === 'origins-1' ? [] : cache.printed;
     return {
         index: cache.index,
-        prior: [...cache.printed, ...priorPackageTexts(CONTENT_ROOT, pkg.meta.book, pkg.meta.number)],
+        prior: [...printed, ...priorPackageTexts(CONTENT_ROOT, pkg.meta.book, pkg.meta.number)],
         objectiveIds: cache.objectiveIds,
     };
 }

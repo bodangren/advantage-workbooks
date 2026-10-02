@@ -1,0 +1,153 @@
+import fs from 'fs';
+import path from 'path';
+import { REPO_ROOT } from '../lib/lesson-package/files';
+
+const USAGE = `Groups similar old online articles per level and keeps the best one of each group
+(track level_banks_20261002).
+
+Usage: npx tsx scripts/plan-dedup.ts --inventory <inventory.json>
+
+<inventory.json> is the output of scripts/inventory-legacy.ts --out (with the passages).
+Daniel (2026-10-02): "Keep information about all duplicates, but delete all but the best and
+rebuild that. ... The levels with two books need about 100 and the levels with one book need
+about 50." Level 3 has two books (Origins 3.1 and 3.2); levels 1, 2, and 4 have one.
+
+Writes docs/content-plans/data/duplicates-levels-1-4.json (every group: the kept article and the
+articles to delete, with their title, summary, passage, and use counts) and
+docs/content-plans/level-plans/duplicates.md (the readable list).`;
+
+/** Articles a level should have in total (printed + workbook + bank). */
+export const LEVEL_TARGETS: Record<number, number> = { 1: 50, 2: 50, 3: 100, 4: 50 };
+
+interface Article {
+    id: string;
+    raLevel: number;
+    title: string;
+    type: string;
+    genre: string;
+    approved: boolean;
+    createdAt: string;
+    words: number;
+    summary: string;
+    passage: string;
+    use: { progress: number; assignments: number; activityLogs: number };
+}
+
+const STOP = new Set(
+    'a an and are at be big but can do for from go good has have he her him his i in is it its like look looks me my no not of on one our she so the them then they this to too two very was we what where who with yes you your happy fun day nice new small all says said see sees'.split(' '),
+);
+const CAST = new Set('pip tom lily mia ben leo sam may pat kim squeaky mom dad grandma grandpa'.split(' '));
+
+function tokens(text: string): string[] {
+    return (text.toLowerCase().match(/[a-z]+/g) ?? [])
+        .map((t) => t.replace(/(ies)$/, 'y').replace(/([^s])s$/, '$1'))
+        .filter((t) => t.length > 2 && !STOP.has(t) && !CAST.has(t));
+}
+
+/** Weighted bag of words: the title counts three times, the summary twice, the passage once. */
+function bag(a: Article): Map<string, number> {
+    const m = new Map<string, number>();
+    const add = (text: string, w: number) => tokens(text).forEach((t) => m.set(t, (m.get(t) ?? 0) + w));
+    add(a.title, 3);
+    add(a.summary, 2);
+    add(a.passage, 1);
+    return m;
+}
+
+function cosine(x: Map<string, number>, y: Map<string, number>): number {
+    let dot = 0;
+    let nx = 0;
+    let ny = 0;
+    for (const [k, v] of x) {
+        nx += v * v;
+        const w = y.get(k);
+        if (w) dot += v * w;
+    }
+    for (const v of y.values()) ny += v * v;
+    return nx && ny ? dot / Math.sqrt(nx * ny) : 0;
+}
+
+/** Use first (student history), then approved, then the newest. */
+function better(a: Article, b: Article): number {
+    const use = (x: Article) => x.use.progress + x.use.assignments + x.use.activityLogs;
+    return use(b) - use(a) || Number(b.approved) - Number(a.approved) || b.createdAt.localeCompare(a.createdAt);
+}
+
+/**
+ * Average-link clustering until `k` groups are left.
+ * @param items The articles.
+ * @param sim The similarity of two articles (0–1).
+ * @param k The number of groups to keep.
+ * @returns Groups of indexes, and the similarity at which each merge happened.
+ */
+function cluster(n: number, sim: (i: number, j: number) => number, k: number): { groups: number[][]; mergedAt: number[] } {
+    let groups = Array.from({ length: n }, (_, i) => [i]);
+    const mergedAt: number[] = [];
+    const s = Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => (i === j ? 0 : sim(i, j))));
+    const link = (g: number[], h: number[]) => g.reduce((t, i) => t + h.reduce((u, j) => u + s[i][j], 0), 0) / (g.length * h.length);
+    while (groups.length > k) {
+        let best = -1;
+        let bi = 0;
+        let bj = 1;
+        for (let i = 0; i < groups.length; i++) {
+            for (let j = i + 1; j < groups.length; j++) {
+                const l = link(groups[i], groups[j]);
+                if (l > best) [best, bi, bj] = [l, i, j];
+            }
+        }
+        mergedAt.push(best);
+        groups = [...groups.filter((_, i) => i !== bi && i !== bj), [...groups[bi], ...groups[bj]]];
+    }
+    return { groups, mergedAt };
+}
+
+function main(argv: string[]): number {
+    const at = argv.indexOf('--inventory');
+    if (at < 0 || !argv[at + 1]) {
+        console.error(USAGE);
+        return 2;
+    }
+    const inv = JSON.parse(fs.readFileSync(path.resolve(argv[at + 1]), 'utf8')) as { readAt: string; articles: Article[] };
+    const meta = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs/content-plans/data/legacy-levels-1-4-2026-10-02.json'), 'utf8')) as { articles: { id: string; printed: boolean }[] };
+    const printed = new Set(meta.articles.filter((a) => a.printed).map((a) => a.id));
+    const out: Record<string, unknown>[] = [];
+    const md: string[] = [
+        '# Levels 1–4: old online articles, grouped',
+        '',
+        'Generated by `dashboard/scripts/plan-dedup.ts` (track level_banks_20261002) from the read-only production inventory of ' + inv.readAt + '. Daniel (2026-10-02): keep the information on every duplicate, delete all but the best, and rebuild the best. Targets: about 100 articles at level 3 (two books), about 50 at levels 1, 2, and 4.',
+        '',
+        'In each group, **keep** is the best article (most student use, then approved, then newest). It gets new text from the level plan. The others are deleted after Daniel approves the level bank (backup first). Their title, summary, and passage stay in `data/duplicates-levels-1-4.json`.',
+        '',
+    ];
+    for (const level of [1, 2, 3, 4]) {
+        const all = inv.articles.filter((a) => a.raLevel === level);
+        const online = all.filter((a) => !printed.has(a.id));
+        const keepCount = Math.min(online.length, LEVEL_TARGETS[level] - (all.length - online.length));
+        const bags = online.map(bag);
+        const { groups, mergedAt } = cluster(online.length, (i, j) => cosine(bags[i], bags[j]), keepCount);
+        const sorted = groups
+            .map((g) => g.map((i) => online[i]).sort(better))
+            .sort((a, b) => b.length - a.length || a[0].title.localeCompare(b[0].title));
+        const merged = sorted.filter((g) => g.length > 1);
+        const lowest = mergedAt.length ? Math.min(...mergedAt) : 1;
+        md.push(`## Level ${level}`, '', `${all.length} articles: ${all.length - online.length} printed, ${online.length} online. Keep ${keepCount} online articles (target ${LEVEL_TARGETS[level]} in total with the printed ones); delete ${online.length - keepCount}. ${merged.length} groups have more than one article; the weakest merge had similarity ${lowest.toFixed(2)}.`, '');
+        if (merged.length) {
+            md.push('| Keep | Delete (similar) |', '|---|---|');
+            for (const g of merged) md.push(`| ${g[0].title} (\`${g[0].id}\`) | ${g.slice(1).map((a) => `${a.title} (\`${a.id}\`)`).join('; ')} |`);
+            md.push('');
+        }
+        for (const g of sorted) {
+            out.push({
+                level,
+                keep: g[0].id,
+                articles: g.map((a) => ({ id: a.id, title: a.title, type: a.type, genre: a.genre, approved: a.approved, createdAt: a.createdAt, words: a.words, use: a.use, summary: a.summary, passage: a.passage })),
+            });
+        }
+        console.log(`level ${level}: ${online.length} online → keep ${keepCount}, delete ${online.length - keepCount} (${merged.length} groups of 2+; weakest merge ${lowest.toFixed(2)})`);
+    }
+    fs.writeFileSync(path.join(REPO_ROOT, 'docs/content-plans/data/duplicates-levels-1-4.json'), `${JSON.stringify({ source: `scripts/plan-dedup.ts, inventory of ${inv.readAt}`, targets: LEVEL_TARGETS, groups: out }, null, 1)}\n`);
+    fs.writeFileSync(path.join(REPO_ROOT, 'docs/content-plans/level-plans/duplicates.md'), `${md.join('\n')}\n`);
+    return 0;
+}
+
+process.exitCode = main(process.argv.slice(2));

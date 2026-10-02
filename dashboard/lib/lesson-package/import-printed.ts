@@ -56,10 +56,11 @@ export const LOCK_LABELS: Record<string, string> = {
  * @returns One hash per part in `LOCK_LABELS`.
  */
 export function lockHashes(pkg: Lockable): Record<string, string> {
-    const shown = pkg.print.mcqOptions ?? 3;
-    const mcq = pkg.print.mcq.map((id) => pkg.bank.mcq.find((q) => q.id === id)).map((q) => q && { q: q.question, o: q.options.slice(0, shown), a: q.answer });
-    const saq = pkg.bank.saq.find((q) => q.id === pkg.print.saq)?.question;
-    const a = pkg.activities;
+    const print = { mcq: pkg.print?.mcq ?? [], saq: pkg.print?.saq ?? '', mcqOptions: pkg.print?.mcqOptions ?? 3 };
+    const shown = print.mcqOptions;
+    const mcq = print.mcq.map((id) => pkg.bank.mcq.find((q) => q.id === id)).map((q) => q && { q: q.question, o: q.options.slice(0, shown), a: q.answer });
+    const saq = pkg.bank.saq.find((q) => q.id === print.saq)?.question;
+    const a = { sentenceStarters: [], vocabFill: [], sentenceOrder: [], sentenceCompletion: [], writingPrompt: '', ...pkg.activities };
     return {
         paragraphs: hash(pkg.text.paragraphs),
         vocabulary: hash(pkg.glossary.map((g) => g.word)),

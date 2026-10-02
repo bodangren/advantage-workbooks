@@ -51,6 +51,13 @@ export const PackageMetaSchema = z.object({
     appType: z.enum(['fiction', 'nonfiction']).optional(),
     /** Set for a printed lesson: the article, the vocabulary, and the printed questions are locked. */
     printed: PrintedSourceSchema.optional(),
+    /**
+     * `workbook` (default): a lesson of a printed book. `bank`: an online-only article of a level
+     * bank (track level_banks_20261002): no print set, no workbook activities, no Tutor clips.
+     */
+    role: z.enum(['workbook', 'bank']).default('workbook'),
+    /** The old app article (legacy cuid) that this new text replaces in place (same id, new content). */
+    replaces: z.string().min(1).optional(),
 });
 
 export const PackageTextSchema = z.object({
@@ -102,8 +109,8 @@ export const BankSchema = z.object({
 });
 
 export const PrintSchema = z.object({
-    mcq: z.array(z.string().min(1)),
-    saq: z.string(),
+    mcq: z.array(z.string().min(1)).default([]),
+    saq: z.string().default(''),
     saqHint: z.string().optional(),
     /** Options per printed multiple-choice question. The printed Origins books use 3. */
     mcqOptions: z.number().int().min(3).max(4).default(3),
@@ -116,12 +123,12 @@ export const VocabFillSchema = z.object({
 });
 
 export const ActivitiesSchema = z.object({
-    sentenceStarters: z.array(z.string().min(1)),
-    vocabFill: z.array(VocabFillSchema),
+    sentenceStarters: z.array(z.string().min(1)).default([]),
+    vocabFill: z.array(VocabFillSchema).default([]),
     /** Full sentences; the builder scrambles the words. */
-    sentenceOrder: z.array(z.string().min(1)),
-    sentenceCompletion: z.array(z.string().min(1)),
-    writingPrompt: z.string(),
+    sentenceOrder: z.array(z.string().min(1)).default([]),
+    sentenceCompletion: z.array(z.string().min(1)).default([]),
+    writingPrompt: z.string().default(''),
     writingFrames: z.array(z.string().min(1)).default([]),
 });
 
@@ -253,8 +260,9 @@ export const LessonPackageSchema = z.object({
     text: PackageTextSchema,
     glossary: z.array(GlossaryEntrySchema),
     bank: BankSchema,
-    print: PrintSchema,
-    activities: ActivitiesSchema,
+    /** Workbook lessons only; a bank package leaves both out. */
+    print: PrintSchema.default({ mcq: [], saq: '', mcqOptions: 3 }),
+    activities: ActivitiesSchema.default({ sentenceStarters: [], vocabFill: [], sentenceOrder: [], sentenceCompletion: [], writingPrompt: '', writingFrames: [] }),
     thai: ThaiSchema,
     images: z.array(PackageImageSchema),
     audio: AudioSchema.default({ sentences: [], wordTimes: [], flashcardTimes: [] }),

@@ -38,7 +38,17 @@ describe('LessonPackageSchema', () => {
         expect(pkg.db).toEqual({});
     });
 
-    it.each(['meta', 'text', 'glossary', 'bank', 'print', 'activities', 'thai', 'images', 'tags'] as const)(
+    it('parses a bank package with no print set and no activities (track level_banks_20261002)', () => {
+        const pkg = fixturePackage() as Record<string, unknown>;
+        delete pkg.print;
+        delete pkg.activities;
+        const parsed = LessonPackageSchema.parse(pkg);
+        expect(parsed.print.mcq).toEqual([]);
+        expect(parsed.activities.sentenceStarters).toEqual([]);
+        expect(parsed.meta.role).toBe('workbook');
+    });
+
+    it.each(['meta', 'text', 'glossary', 'bank', 'thai', 'images', 'tags'] as const)(
         'fails when the "%s" part is missing',
         (part) => {
             const pkg = fixturePackage() as Record<string, unknown>;
@@ -105,9 +115,9 @@ describe('checkPackage', () => {
     });
 
     it('fails "print-set" on an unknown id, a wrong count, or too few objective questions', () => {
-        expect(status(run((p) => (p.print.mcq = ['m1', 'm9'])), 'print-set')).toBe('fail');
-        expect(status(run((p) => (p.print.mcq = ['m1'])), 'print-set')).toBe('fail');
-        expect(status(run((p) => (p.print.saq = 's9')), 'print-set')).toBe('fail');
+        expect(status(run((p) => (p.print!.mcq = ['m1', 'm9'])), 'print-set')).toBe('fail');
+        expect(status(run((p) => (p.print!.mcq = ['m1'])), 'print-set')).toBe('fail');
+        expect(status(run((p) => (p.print!.saq = 's9')), 'print-set')).toBe('fail');
         const none = run((p) => {
             p.bank.mcq[0].objectives = [];
             p.bank.mcq[1].objectives = [];
@@ -128,8 +138,20 @@ describe('checkPackage', () => {
     });
 
     it('fails "activities" when a count is wrong or a fill sentence has no blank', () => {
-        expect(status(run((p) => (p.activities.sentenceStarters = [])), 'activities')).toBe('fail');
-        expect(status(run((p) => (p.activities.vocabFill[0].sentence = 'Pip is a small brown puppy.')), 'activities')).toBe('fail');
+        expect(status(run((p) => (p.activities!.sentenceStarters = [])), 'activities')).toBe('fail');
+        expect(status(run((p) => (p.activities!.vocabFill![0].sentence = 'Pip is a small brown puppy.')), 'activities')).toBe('fail');
+    });
+
+    it('passes "print-set" and "activities" for a bank package with neither, and fails a bank print set', () => {
+        const bank = (p: LessonPackageInput) => {
+            p.meta.role = 'bank';
+            p.print = { mcq: [], saq: '' };
+            p.activities = { sentenceStarters: [], vocabFill: [], sentenceOrder: [], sentenceCompletion: [], writingPrompt: '' };
+        };
+        const r = run(bank);
+        expect(status(r, 'print-set')).toBe('pass');
+        expect(status(r, 'activities')).toBe('pass');
+        expect(status(run((p) => { bank(p); p.print!.mcq = ['m1']; }), 'print-set')).toBe('fail');
     });
 
     it('fails "tags" on an unknown objective id and warns on "tags-coverage" for an untagged item', () => {

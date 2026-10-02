@@ -19,9 +19,11 @@ export const OBJECTIVE_KEY_DIR = path.join(REPO_ROOT, 'docs', 'content-plans', '
 
 /**
  * Primary books in teaching order. A lesson's prior texts are the packages of earlier books and
- * the earlier lessons of its own book. The Origins 3.1 folder holds only the lesson-12 insert.
+ * the earlier lessons of its own book. The Origins 3.1 folder holds the printed lessons and the
+ * lesson-12 insert. A bank folder (`bank-<level>`) is not in the order: its profiles count no new or
+ * recycled words.
  */
-export const BOOK_ORDER = ['origins-3.1', 'origins-3.2', 'quest-4', 'quest-5', 'quest-6.1', 'quest-6.2'];
+export const BOOK_ORDER = ['origins-1', 'origins-3.1', 'origins-3.2', 'quest-4', 'quest-5', 'quest-6.1', 'quest-6.2'];
 
 export interface PackageFile {
     file: string;

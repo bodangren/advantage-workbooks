@@ -31,7 +31,8 @@ Options:
   --force                Write even when the content hash has not changed
 
 Only packages with approval.lesson = approved are written. Before the first write the script makes
-a Cloud SQL backup and waits for it. A printed lesson updates its app article (meta.printed.articleId):
+a Cloud SQL backup and waits for it. A printed lesson updates its app article (meta.printed.articleId), and so does a package with
+meta.replaces (a rebuilt online article). A bank package (meta.role = bank) has no Tutor clips:
 the old bucket objects go to backup/<time>/ first, and the article's old question and flashcard rows
 are replaced. A printed lesson needs its copy of the old cn, tw, and vi first
 (scripts/fetch-legacy-locales.ts); English fills each gap. Media goes up first (the app's files, then the Tutor clips, then
@@ -180,7 +181,8 @@ async function main(argv: string[]): Promise<number> {
                 continue;
             }
             let tutor: { uploads: ReturnType<typeof tutorUploads>; manifest: ReturnType<typeof tutorManifest> } | undefined;
-            if (opts.tutor) {
+            // Bank articles are online only: Tutor Advantage sells the printed books, so they have no Tutor clips.
+            if (opts.tutor && pkg.meta.role !== 'bank') {
                 const items = tutorItems(pkg);
                 const voices = voicesFor(pkg);
                 const uploads = pkg.audio.tutor ? tutorUploads(items, pkg.audio.tutor, rows.ids.articleId) : [];
