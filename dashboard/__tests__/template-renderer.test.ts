@@ -159,6 +159,12 @@ describe('Template Renderer Tests', () => {
       expect(html).not.toContain('Reading Advantage');
     });
 
+    it('should keep a section header in one piece at a page break', async () => {
+      // Paged.js left an empty part of a header at the bottom of a page (Origins 3.1, 2026-10-03).
+      const html = await renderLessonTemplate(mockLesson, { type: 'primary' });
+      expect(html).toMatch(/\.section-header\s*\{[^}]*break-inside:\s*avoid/);
+    });
+
     it('should render article images by position buckets', async () => {
       const lessonWithImages: WorkbookLesson = {
         ...mockLesson,

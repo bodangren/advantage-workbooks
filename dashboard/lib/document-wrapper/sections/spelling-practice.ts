@@ -17,7 +17,7 @@ export function generateSpellingPracticeSection(entries?: SpellingPracticeEntry[
     `).join('\n');
 
     return `
-      <div class="sp-lesson-page">
+      <div class="sp-lesson">
         <div class="sp-header" style="border-bottom: 3px solid ${theme?.primary || '#333'};">
           <h3 class="sp-lesson-title" style="color: ${theme?.primary || '#333'};">Spelling Practice: ${escapeHtml(entry.lessonTitle)}</h3>
         </div>

@@ -11,11 +11,12 @@ export async function GET(
 ) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    // Off unless asked for (Daniel, 2026-10-02): fewer non-lesson pages in the printed book.
+    // Off unless asked for (Daniel, 2026-10-02): fewer non-lesson pages in the printed book. The
+    // teacher guide goes in the separate teacher's manual (Daniel, 2026-10-03).
     const includeFlashcards = searchParams.get('includeFlashcards') === 'true';
     const includeProgressTracker = searchParams.get('includeProgressTracker') !== 'false';
     const includeCertificate = searchParams.get('includeCertificate') !== 'false';
-    const includeTeacherGuide = searchParams.get('includeTeacherGuide') !== 'false';
+    const includeTeacherGuide = searchParams.get('includeTeacherGuide') === 'true';
     const includeSelfAssessment = searchParams.get('includeSelfAssessment') === 'true';
     const includeSpellingPractice = searchParams.get('includeSpellingPractice') !== 'false';
     const includeGoalSetting = searchParams.get('includeGoalSetting') === 'true';
@@ -90,10 +91,11 @@ export async function GET(
       a.word.localeCompare(b.word)
     );
 
-    // Extract answer keys
-    const answerKey: AnswerKeyEntry[] = loadedLessons.map(lesson => {
+    // Extract answer keys. The lesson number is the place in the book, as in the table of contents:
+    // the printed lesson files all say "Lesson 1" in lesson_number.
+    const answerKey: AnswerKeyEntry[] = loadedLessons.map((lesson, i) => {
       const entry: AnswerKeyEntry = {
-        lessonTitle: `${lesson.lesson_number ? lesson.lesson_number + ': ' : ''}${lesson.lesson_title || 'Untitled'}`,
+        lessonTitle: `Lesson ${i + 1}: ${lesson.lesson_title || 'Untitled'}`,
         mcAnswers: lesson.mc_answers,
         vocabMatchAnswerString: lesson.vocab_match_answer_string,
         vocabFillAnswerString: lesson.vocab_fill_answer_string,

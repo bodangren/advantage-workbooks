@@ -83,6 +83,9 @@
             font-family: 'Open Sans', 'Sarabun', sans-serif;
             page-break-after: avoid;
             break-after: avoid;
+            /* Paged.js otherwise can leave part of a header at the bottom of a page. */
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         .section-icon {

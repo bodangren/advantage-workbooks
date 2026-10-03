@@ -2,10 +2,11 @@ import { TocEntry, ThemeColors } from '../types';
 import { escapeHtml } from '../utils';
 
 export function generateProgressTracker(tocEntries: TocEntry[], theme: ThemeColors): string {
+  // The big number above the title is the lesson number, so the title leaves out "Lesson N:".
   const badges = tocEntries.map((entry, index) => `
     <div class="progress-badge">
       <div class="pb-number">${index + 1}</div>
-      <div class="pb-title">${escapeHtml(entry.title)}</div>
+      <div class="pb-title">${escapeHtml(entry.title.replace(/^Lesson \d+:\s*/, ''))}</div>
       <div class="pb-circle" style="border-color: ${theme.primary};"></div>
     </div>
   `).join('\n');

@@ -408,15 +408,12 @@ export function getPrintStyles(theme: ThemeColors): string {
       margin-bottom: 5px;
     }
 
+    /* The whole title shows; it grows so the circles in a row stay on one line. */
     .pb-title {
+      flex: 1;
       font-size: 10pt;
       color: #333;
       line-height: 1.2;
-      height: 40px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .section-self-assessment {
@@ -495,7 +492,7 @@ export function getPrintStyles(theme: ThemeColors): string {
     }
 
     .section-certificate {
-      break-before: right;
+      break-before: page; /* "right" left a blank page before it */
       height: 285mm;
       width: 100%;
       display: flex;
@@ -682,44 +679,57 @@ export function getPrintStyles(theme: ThemeColors): string {
 
     /* --- Spelling Practice Section --- */
     .section-spelling-practice {
-      break-before: right;
-      padding-top: 40px;
+      break-before: page; /* "right" left a blank page before it */
       font-family: 'Open Sans', 'Sarabun', sans-serif;
     }
     .sp-intro {
       text-align: center;
       font-style: italic;
       color: #666;
-      margin-bottom: 30px;
+      margin-bottom: 12px;
     }
-    .sp-lesson-page {
-      break-after: page;
+    /* The lessons follow each other. A lesson's table fits on one page and does not split, so the
+       child can cover the words of the whole lesson; the title stays with its table. */
+    .sp-lesson {
+      margin-bottom: 24px;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
     .sp-header {
-      margin-bottom: 20px;
-      padding-bottom: 5px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    .sp-row {
+      break-inside: avoid;
     }
     .sp-lesson-title {
-      font-size: 18pt;
-      margin: 0 0 5px 0;
+      font-size: 16pt;
+      margin: 0;
     }
     .sp-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 6px;
     }
     .sp-table th {
-      padding: 12px;
+      padding: 6px;
       text-align: center;
-      font-size: 14pt;
+      font-size: 12pt;
+      line-height: 1.2;
       border: 2px solid #ccc;
     }
+    /* About 11 mm a row (room to write a word by hand), so a lesson of up to 17 words fits on one
+       page. The height includes padding and border (border-box); the line height is set because
+       the inherited one made each row 55px. */
     .sp-table td {
       border: 2px solid #ccc;
-      padding: 15px 10px;
-      height: 40px;
+      padding: 6px 10px;
+      height: 42px;
+      line-height: 1.2;
       vertical-align: middle;
-      font-size: 16pt;
+      font-size: 15pt;
     }
     .sp-col-word {
       width: 25%;

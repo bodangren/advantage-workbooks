@@ -40,14 +40,15 @@ test.describe('Compile Flow - Sections Toggling', () => {
     await settingsButton.click();
     
     // Verify all checkboxes exist. Flashcards, self-assessment, and goal setting are off by
-    // default (2026-10-02: fewer non-lesson pages in the printed book).
+    // default (2026-10-02: fewer non-lesson pages in the printed book). The teacher guide is off
+    // too (2026-10-03: each workbook gets a separate teacher's manual).
     const onByDefault = [
       'Progress Tracker',
-      "Teacher's Guide",
       'Spelling Practice',
       'Certificate'
     ];
     const offByDefault = [
+      "Teacher's Guide",
       'Vocabulary Flashcards',
       'Self-Assessment',
       'Goal Setting'
@@ -104,8 +105,8 @@ test.describe('Compile Flow - Sections Toggling', () => {
     // Flashcards (off by default)
     await expect(frame.locator('.section-flashcards')).toHaveCount(0);
 
-    // Teacher's Guide
-    await expect(frame.locator('.section-teacher-guide').first()).toBeVisible({ timeout: 60000 });
+    // Teacher's Guide (off by default)
+    await expect(frame.locator('.section-teacher-guide')).toHaveCount(0);
 
     // Spelling Practice
     await expect(frame.locator('.section-spelling-practice').first()).toBeVisible({ timeout: 60000 });

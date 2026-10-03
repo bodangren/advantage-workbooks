@@ -363,6 +363,19 @@ describe('Workbook Document Wrapper', () => {
     });
   });
 
+  describe('progress tracker section', () => {
+    it('should show each lesson title in full, without the "Lesson N:" label', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, [{ id: 'lesson-0', title: 'Lesson 11: Pip and the Fair Game at the Big Zoo' }], {
+        ...defaultOptions,
+        includeProgressTracker: true
+      });
+
+      expect(html).toContain('<div class="pb-title">Pip and the Fair Game at the Big Zoo</div>');
+      expect(html).not.toMatch(/line-clamp/);
+      expect(html).not.toMatch(/\.pb-title\s*\{[^}]*overflow:\s*hidden/);
+    });
+  });
+
   describe('spelling practice section', () => {
     const sampleSpellingPractice = [
       {
@@ -380,6 +393,27 @@ describe('Workbook Document Wrapper', () => {
       
       expect(html).toContain('section-spelling-practice');
       expect(html).toContain('Spelling Practice: Lesson 1: Introduction');
+    });
+
+    it('should let the lessons follow each other, not start each lesson on a new page', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, {
+        ...defaultOptions,
+        includeSpellingPractice: true,
+        spellingPractice: sampleSpellingPractice
+      });
+
+      expect(html).toContain('<div class="sp-lesson">');
+      expect(html).not.toMatch(/\.sp-lesson[\w-]*\s*\{[^}]*break-after:\s*page/);
+      expect(html).toMatch(/\.sp-header\s*\{[^}]*break-after:\s*avoid/);
+      // A lesson's table fits on one page and does not split.
+      expect(html).toMatch(/\.sp-lesson\s*\{[^}]*break-inside:\s*avoid/);
+    });
+
+    it('should start the spelling practice and the certificate on the next page, with no blank page before them', () => {
+      const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
+
+      expect(html).toMatch(/\.section-spelling-practice\s*\{[^}]*break-before:\s*page/);
+      expect(html).toMatch(/\.section-certificate\s*\{[^}]*break-before:\s*page/);
     });
 
     it('should not include spelling practice section when includeSpellingPractice is false or undefined', () => {
