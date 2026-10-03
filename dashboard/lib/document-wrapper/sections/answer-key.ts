@@ -1,5 +1,30 @@
 import { AnswerKeyEntry } from '../types';
 import { escapeHtml } from '../utils';
+import type { WorkbookLesson } from '../../workbook-schema';
+
+/**
+ * The answer key entry of one lesson. The number is the lesson's place in the book: the printed
+ * lesson files all say "Lesson 1" in lesson_number.
+ * @param lesson The workbook lesson.
+ * @param lessonNumber The lesson's place in the book, from 1.
+ * @returns The entry, or null when the lesson has no answers.
+ */
+export function answerKeyEntry(lesson: WorkbookLesson, lessonNumber: number): AnswerKeyEntry | null {
+  const entry: AnswerKeyEntry = {
+    lessonTitle: `Lesson ${lessonNumber}: ${lesson.lesson_title || 'Untitled'}`,
+    mcAnswers: lesson.mc_answers,
+    vocabMatchAnswerString: lesson.vocab_match_answer_string,
+    vocabFillAnswerString: lesson.vocab_fill_answer_string,
+    sentenceOrderAnswers: lesson.sentence_order_answers,
+    shortAnswerHint: lesson.short_answer_hint,
+  };
+  const hasAnswers = (entry.mcAnswers && entry.mcAnswers.length > 0) ||
+                     entry.vocabMatchAnswerString ||
+                     entry.vocabFillAnswerString ||
+                     (entry.sentenceOrderAnswers && entry.sentenceOrderAnswers.length > 0) ||
+                     entry.shortAnswerHint;
+  return hasAnswers ? entry : null;
+}
 
 export function generateAnswerKeySection(answerKey?: AnswerKeyEntry[]): string {
   if (!answerKey || answerKey.length === 0) return '';

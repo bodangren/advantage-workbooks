@@ -3,6 +3,7 @@ import { listLessons, readLesson, readProjectMetadata } from '@/lib/filesystem';
 import { renderMultipleLessons } from '@/lib/template-renderer';
 import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry, type TeacherGuideEntry, type SpellingPracticeEntry } from '@/lib/workbook-document-wrapper';
 import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
+import { answerKeyEntry } from '@/lib/document-wrapper/sections/answer-key';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 export async function GET(
@@ -91,26 +92,10 @@ export async function GET(
       a.word.localeCompare(b.word)
     );
 
-    // Extract answer keys. The lesson number is the place in the book, as in the table of contents:
-    // the printed lesson files all say "Lesson 1" in lesson_number.
-    const answerKey: AnswerKeyEntry[] = loadedLessons.map((lesson, i) => {
-      const entry: AnswerKeyEntry = {
-        lessonTitle: `Lesson ${i + 1}: ${lesson.lesson_title || 'Untitled'}`,
-        mcAnswers: lesson.mc_answers,
-        vocabMatchAnswerString: lesson.vocab_match_answer_string,
-        vocabFillAnswerString: lesson.vocab_fill_answer_string,
-        sentenceOrderAnswers: lesson.sentence_order_answers,
-        shortAnswerHint: lesson.short_answer_hint,
-      };
-      
-      const hasAnswers = (entry.mcAnswers && entry.mcAnswers.length > 0) || 
-                         entry.vocabMatchAnswerString || 
-                         entry.vocabFillAnswerString || 
-                         (entry.sentenceOrderAnswers && entry.sentenceOrderAnswers.length > 0) || 
-                         entry.shortAnswerHint;
-                         
-      return hasAnswers ? entry : null;
-    }).filter((e): e is AnswerKeyEntry => e !== null);
+    // Extract answer keys (numbered by the place in the book, as in the table of contents)
+    const answerKey: AnswerKeyEntry[] = loadedLessons
+      .map((lesson, i) => answerKeyEntry(lesson, i + 1))
+      .filter((e): e is AnswerKeyEntry => e !== null);
 
     // Extract teacher guide entries
     const teacherGuide: TeacherGuideEntry[] = loadedLessons.map((lesson, i) => {

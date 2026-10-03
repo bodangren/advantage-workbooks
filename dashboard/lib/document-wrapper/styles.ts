@@ -1,9 +1,23 @@
 import { ThemeColors } from './types';
 
-export function getPrintStyles(theme: ThemeColors): string {
+/**
+ * The print CSS of a workbook document.
+ * @param theme The book colors.
+ * @param opts pageSize: CSS page size, the book page (the printer's 210 x 285 mm) by default.
+ *   cover: the first page is the cover (no margin, no page number); false for a document that
+ *   starts with a lesson.
+ */
+export function getPrintStyles(theme: ThemeColors, opts: { pageSize?: string; cover?: boolean } = {}): string {
+  const { pageSize = '210mm 285mm', cover = true } = opts;
+  const coverPage = cover ? `
+    @page :first {
+      margin: 0;
+      @bottom-center { content: none; }
+    }
+` : '';
   return `
     @page {
-      size: 210mm 285mm;
+      size: ${pageSize};
       margin: 20mm;
       
       @bottom-center {
@@ -12,12 +26,7 @@ export function getPrintStyles(theme: ThemeColors): string {
         font-size: 10pt;
       }
     }
-
-    @page :first {
-      margin: 0;
-      @bottom-center { content: none; }
-    }
-
+${coverPage}
     body {
       background-color: #555;
       margin: 0;
@@ -161,6 +170,11 @@ export function getPrintStyles(theme: ThemeColors): string {
       font-family: 'Open Sans', 'Sarabun', sans-serif;
       letter-spacing: 1px;
       text-transform: uppercase;
+    }
+
+    /* A single-lesson PDF: the answer key is the last page */
+    .single-lesson-key {
+      break-before: page;
     }
 
     .section-preface, .section-toc, .section-glossary, .section-answer-key {

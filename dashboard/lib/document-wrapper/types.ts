@@ -55,6 +55,8 @@ export interface WorkbookDocumentOptions {
   type?: 'primary' | 'secondary';
   /** Only the lesson pages (for an insert): no cover, preface, contents, or back matter. */
   lessonsOnly?: boolean;
+  /** CSS page size; the book page (210mm 285mm) when absent. */
+  pageSize?: string;
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
   teacherGuide?: TeacherGuideEntry[];
