@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
 import { CastSchema } from '../lib/media/cast';
-import { promptProblems, castKey, sheetFor, imagePrompt, imageArgs, overlayLayout, overlaySvg, NO_TEXT } from '../lib/media/images';
+import { promptProblems, castKey, sheetFor, imagePrompt, imageArgs, overlayLayout, overlayLayouts, overlaySvg, NO_TEXT, SIGN_TEXT, quotedTexts } from '../lib/media/images';
 import { PackageImageSchema } from '../lib/lesson-package/schema';
 
 const cast = CastSchema.parse({
@@ -46,6 +46,16 @@ describe('image job', () => {
         );
     });
 
+    it('asks for exact sign text when the prompt quotes it (Muse draws text; track editorial_prereview_20261003)', () => {
+        const signed = image({ prompt: 'A white sign on the gate says "NO DOGS."' });
+        const prompt = imagePrompt(cast, signed);
+        expect(prompt).not.toContain(NO_TEXT);
+        expect(prompt).toContain(SIGN_TEXT);
+        expect(prompt).toContain('"NO DOGS."');
+        expect(quotedTexts(signed.prompt)).toEqual(['NO DOGS.']);
+        expect(quotedTexts('Tom waves.')).toEqual([]);
+    });
+
     it('uses the text only by default (a reference gives a 3D look); with withSheets one reference per sheet', () => {
         const opts = { sheetsDir: '/s', outDir: '/m/candidates', prefix: 'hero-2', count: 2 };
         expect(imageArgs(cast, image({ characters: ['Tom', 'Pip'] }), opts)).not.toContain('--subject-ref');
@@ -61,9 +71,43 @@ describe('text overlay', () => {
         const layout = overlayLayout({ text: 'PARK' }, 1000, 1000);
         expect(layout.box).toEqual({ x: 100, y: 820, w: 800, h: 120 });
         expect(layout.fontSize).toBe(72);
+        expect(layout.lines).toEqual(['PARK']);
         const long = overlayLayout({ text: 'Welcome to our very big school' }, 1000, 1000);
         expect(long.fontSize).toBeLessThan(72);
-        expect(long.fontSize * 0.6 * 30).toBeLessThanOrEqual(800 * 0.92);
+        for (const line of long.lines) expect(long.fontSize * 0.6 * line.length).toBeLessThanOrEqual(800 * 0.92);
+        expect(long.lines.length * long.fontSize * 1.2).toBeLessThanOrEqual(120 * 0.9);
+    });
+
+    it('wraps a long text onto more lines in a tall box, with a bigger font than one line allows (track editorial_prereview_20261003)', () => {
+        const text = 'Where is Pat\'s teddy? It is small and brown. It has got a red hat.';
+        const tall = overlayLayout({ text, box: [0.6, 0.05, 0.3, 0.4] }, 1000, 1000);
+        expect(tall.lines.length).toBeGreaterThan(2);
+        expect(tall.lines.join(' ')).toBe(text);
+        expect(tall.fontSize).toBeGreaterThan(Math.floor((300 * 0.92) / (text.length * 0.6)));
+        for (const line of tall.lines) expect(tall.fontSize * 0.6 * line.length).toBeLessThanOrEqual(300 * 0.92);
+        expect(tall.lines.length * tall.fontSize * 1.2).toBeLessThanOrEqual(400 * 0.9);
+    });
+
+    it('stacks overlays with no place in rows that do not overlap', () => {
+        const layouts = overlayLayouts(Array.from({ length: 9 }, (_, i) => ({ text: `Line ${i + 1}` })), 1000, 1000);
+        expect(layouts).toHaveLength(9);
+        for (const l of layouts) {
+            expect(l.box.y).toBeGreaterThanOrEqual(0);
+            expect(l.box.y + l.box.h).toBeLessThanOrEqual(1000);
+        }
+        for (let i = 1; i < layouts.length; i++) expect(layouts[i].box.y).toBeGreaterThanOrEqual(layouts[i - 1].box.y + layouts[i - 1].box.h);
+        const one = overlayLayouts([{ text: 'PARK' }], 1000, 1000);
+        expect(one[0].box).toEqual({ x: 100, y: 820, w: 800, h: 120 });
+    });
+
+    it('draws a placed text on a plain panel and an unplaced text on a bordered sign, one tspan per line', () => {
+        const svg = overlaySvg([{ text: 'NO DOGS', box: [0.1, 0.1, 0.3, 0.1] }, { text: 'OPEN' }], 1000, 1000);
+        const rects = svg.match(/<rect [^>]*>/g) ?? [];
+        expect(rects).toHaveLength(2);
+        expect(rects[0]).not.toContain('stroke=');
+        expect(rects[1]).toContain('stroke=');
+        const wrapped = overlaySvg([{ text: 'Where is Pat\'s teddy? It is small and brown.', box: [0.6, 0.05, 0.3, 0.4] }], 1000, 1000);
+        expect((wrapped.match(/<tspan /g) ?? []).length).toBeGreaterThan(1);
     });
 
     it('uses a given box and escapes the text for SVG', () => {

@@ -1,6 +1,6 @@
 # How to write a Primary Advantage lesson file
 
-Version 1.2 | Date 2026-10-02 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 1.3 | Date 2026-10-03 | Status: Active | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `level_banks_20261002`. This guide is for every writer (Claude or a subagent) of a workbook lesson (Origins 1, Origins 3.2, Quest 4) or a bank article (`bank-1` … `bank-4`). Write all lesson content yourself. Do not call any other AI model or the Primary app's generator.
 
@@ -64,6 +64,8 @@ hero | Tom, Lily, Pip | Tom runs on the grass in a sunny park … | Tom and Lily
 inline-para-2 | Lily, Tom | … | The kite is in a tall tree!
 inline-para-3 | Pip, Tom, Lily | … | Good dog, Pip!
                                          (3 lines: position | characters or - | prompt | caption | overlay text ; overlay text)
+                                         (sign text goes in the prompt in "double quotes"; the overlay
+                                          field is a fallback; see §6)
 ```
 
 Workbook lessons (not bank articles) add two sections:
@@ -143,7 +145,8 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
   - May and Pat's grandma: a woman of about seventy with short straight gray hair, a light blue blouse, a long black skirt, and white sandals
   - Ben's dad: a man of about forty with short straight black hair parted on the side, a dark blue T-shirt, gray shorts, and black sneakers
   When the story gives a parent other clothes, the story wins.
-- The model cannot draw text. Text that must show (signs, a book title, a notice, a clock face as words) goes in the overlay field: `overlay text ; second text`. The prompt describes a blank sign or board in the right place.
+- Muse draws text well (tested 2026-10-03). Text that must show (signs, a notice, a timetable, a book title) goes in the prompt in double quotation marks, on the thing that carries it: `A white sign on the gate says "NO DOGS."` The prompt then asks for exact spelling instead of "no words". Put nobody in front of the sign, and say where each line goes when there are several (`The chart says, in four lines: "…" / "…"`). Make pictures with text with `--model muse` (mmx cannot draw text), and check every letter by eye.
+- Fallback when Muse misspells a word: the overlay field (`text ; second text`) draws the text with a script. Give each text its place on the sign: `text @ x, y, w, h` (fractions of the picture, from the top left); a long text wraps. A text with no place goes in a white box at the bottom, over the picture; the `image-text` check warns when an image has two or more texts and one has no place. The caption is the fourth field: never put the texts there.
 - The image service's filter blocks some harmless scenes. Do not show a child in distress on a bed or with the hands on the face, and write "a juice box", not "a drink", when an adult says no. Show a feeling with a face and a place ("looks unhappy next to an empty shelf").
 - Prompts describe the action, the place, and the light. One scene per picture. No words in the prompt like "photo" or "3D".
 
@@ -163,3 +166,4 @@ Bank plans: `docs/content-plans/level-plans/bank-<level>.md` (one row per articl
 | 1.0 | 2026-10-02 | First version |
 | 1.1 | 2026-10-02 | How the check counts sentences; level-4 word traps; accents (from the first writer reports) |
 | 1.2 | 2026-10-02 | Another child's parents are not cast: fixed looks for Mia's, Sam's, Leo's, and May's family |
+| 1.3 | 2026-10-03 | Sign text in the prompt in quotation marks (Muse draws it); overlay with a place (`@ x, y, w, h`) only as a fallback; the caption is never the text list (track editorial_prereview_20261003) |

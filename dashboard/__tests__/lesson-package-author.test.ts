@@ -92,6 +92,25 @@ describe('parseAuthorSource (track level_banks_20261002)', () => {
         expect(errors.join('\n')).toMatch(/must be "English \| Thai"/);
         expect(errors.join('\n')).toMatch(/bank article has no Print/);
     });
+
+    it('reads a place for an overlay text (track editorial_prereview_20261003)', () => {
+        const placed = SOURCE.replace('NO DOGS ; OPEN', 'NO DOGS @ 0.1, 0.05, 0.4, 0.15 ; OPEN');
+        const { pkg, errors } = parseAuthorSource(placed, where, index, nodesOf);
+        expect(errors).toEqual([]);
+        expect(LessonPackageSchema.parse(pkg).images[1].overlay).toEqual([{ text: 'NO DOGS', box: [0.1, 0.05, 0.4, 0.15] }, { text: 'OPEN' }]);
+    });
+
+    it('rejects a place outside the picture and a caption that holds a text list', () => {
+        const outside = SOURCE.replace('NO DOGS ; OPEN', 'NO DOGS @ 0.7, 0.1, 0.5, 0.1 ; OPEN @ 0.1, 0.1, 0.2');
+        const r1 = parseAuthorSource(outside, where, index, nodesOf);
+        expect(r1.pkg).toBeUndefined();
+        expect(r1.errors.join('\n')).toMatch(/"NO DOGS": the place must be inside the picture/);
+        expect(r1.errors.join('\n')).toMatch(/"OPEN @ 0.1, 0.1, 0.2": a place is "@ x, y, w, h"/);
+        const listInCaption = SOURCE.replace('| A sign. | NO DOGS ; OPEN', '| NO DOGS ; OPEN');
+        const r2 = parseAuthorSource(listInCaption, where, index, nodesOf);
+        expect(r2.pkg).toBeUndefined();
+        expect(r2.errors.join('\n')).toMatch(/inline-para-2: the caption has " ; "/);
+    });
 });
 
 describe('author helpers', () => {

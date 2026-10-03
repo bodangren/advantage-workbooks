@@ -247,6 +247,15 @@ describe('image and media checks', () => {
         expect(r.checks.find((c) => c.id === 'images')?.detail).toMatch(/hero: Thai/);
     });
 
+    it('warns when an image has two or more texts and one has no place (track editorial_prereview_20261003)', () => {
+        expect(status(run(), 'image-text')).toBe('pass');
+        const unplaced = run((p) => (p.images[0].overlay = [{ text: 'NO DOGS' }, { text: 'OPEN', box: [0.1, 0.1, 0.2, 0.1] }]));
+        expect(status(unplaced, 'image-text')).toBe('warn');
+        expect(unplaced.checks.find((c) => c.id === 'image-text')?.detail).toMatch(/hero: 1 of 2 texts have no place/);
+        const placed = run((p) => (p.images[0].overlay = [{ text: 'NO DOGS', box: [0.5, 0.1, 0.2, 0.1] }, { text: 'OPEN', box: [0.1, 0.1, 0.2, 0.1] }]));
+        expect(status(placed, 'image-text')).toBe('pass');
+    });
+
     it('warns while a picture, the audio, or the Tutor clips are missing, and passes when all are there', () => {
         const missing = run();
         expect(status(missing, 'media')).toBe('warn');

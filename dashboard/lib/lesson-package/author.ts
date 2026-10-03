@@ -77,6 +77,27 @@ function sections(source: string): { front: Record<string, string>; parts: Recor
     return { front, parts, errors };
 }
 
+/**
+ * One overlay text of an image line: `text` or `text @ x, y, w, h` (its place as fractions of the
+ * picture, track editorial_prereview_20261003).
+ * @param item The text, with or without a place.
+ * @param errors Format errors go here.
+ * @returns The overlay.
+ */
+function parseOverlay(item: string, errors: string[]): { text: string; box?: [number, number, number, number] } {
+    const at = item.lastIndexOf(' @ ');
+    if (at < 0) return { text: item };
+    const text = item.slice(0, at).trim();
+    const nums = item.slice(at + 3).split(',').map((n) => Number(n.trim()));
+    if (nums.length !== 4 || nums.some((n) => !Number.isFinite(n))) {
+        errors.push(`images: "${item}": a place is "@ x, y, w, h" (fractions of the picture)`);
+        return { text };
+    }
+    const [x, y, w, h] = nums;
+    if (x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > 1.0001 || y + h > 1.0001) errors.push(`images: "${text}": the place must be inside the picture (x + w and y + h at most 1)`);
+    return { text, box: [x, y, w, h] };
+}
+
 /** A small stable number from a string, for the option shuffle. */
 function seed(s: string): number {
     return parseInt(createHash('sha256').update(s).digest('hex').slice(0, 8), 16);
@@ -245,12 +266,13 @@ export function parseAuthorSource(
             const [position, chars, prompt, caption, overlay] = split(line);
             if (!IMAGE_POSITIONS.includes(position)) errors.push(`images: unknown position "${position}" (use ${IMAGE_POSITIONS.join(', ')})`);
             if (!prompt) errors.push(`images: "${line.trim()}" must be "position | characters | prompt | caption"`);
+            if (caption?.includes(' ; ')) errors.push(`images: ${position}: the caption has " ; " (the texts on the picture go in the fifth field, after the caption)`);
             return {
                 position: position as LessonPackage['images'][number]['position'],
                 characters: chars === '-' ? [] : list(chars),
                 prompt: prompt ?? '',
                 caption: caption ?? '',
-                overlay: list(overlay, ';').map((text) => ({ text })),
+                overlay: list(overlay, ';').map((item) => parseOverlay(item, errors)),
                 candidates: [],
             };
         });
