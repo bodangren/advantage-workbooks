@@ -22,6 +22,11 @@ export function getThemeColors(seriesName: string, type?: 'primary' | 'secondary
   return { primary: fallbackPrimary, secondary: '#334155', gradient: `linear-gradient(135deg, ${fallbackPrimary}, #334155)` };
 }
 
+/** The product name printed in a workbook: Primary Advantage or Reading Advantage. */
+export function brandName(type?: 'primary' | 'secondary'): string {
+  return type === 'primary' ? 'Primary Advantage' : 'Reading Advantage';
+}
+
 export function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')

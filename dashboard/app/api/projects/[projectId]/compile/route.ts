@@ -182,9 +182,11 @@ export async function GET(
     const levelNumber = metadata?.levelNumber || '';
     const cefrLevel = metadata?.cefrLevel || 'A1';
     const seriesTagline = 'Learning Made Fun';
+    // The book name with its number ("Origins 3.1"), on the title page and in each lesson header.
+    const bookName = `${seriesName}${levelNumber ? ` ${levelNumber}` : ''}`;
 
     const renderOptions = metadata ? {
-      seriesName,
+      seriesName: bookName,
       seriesLevel: cefrLevel,
       type: metadata.type,
     } : undefined;
@@ -194,7 +196,7 @@ export async function GET(
     const prefaceData = getPrefaceByCefrLevel(cefrLevel);
 
     const fullHtml = wrapWorkbookDocument(lessonsHtml, tocEntries, {
-      seriesName: `${seriesName}${levelNumber ? ` ${levelNumber}` : ''}`,
+      seriesName: bookName,
       seriesLevel: cefrLevel,
       seriesTagline,
       prefaceText: prefaceData?.text,

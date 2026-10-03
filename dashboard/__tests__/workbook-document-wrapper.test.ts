@@ -53,6 +53,20 @@ describe('Workbook Document Wrapper', () => {
       expect(html).toContain('Learning Made Fun');
     });
 
+    it('should print the product name of the book: Primary Advantage or Reading Advantage', () => {
+      const primary = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, { ...defaultOptions, type: 'primary', includeCertificate: true });
+      expect(primary).toContain('<title>Primary Advantage Workbook - Origins</title>');
+      expect(primary).toContain('<h1 class="tp-main-title">Primary Advantage</h1>');
+      expect(primary).toContain('Primary Advantage Series');
+      expect(primary).toContain('completed the Primary Advantage');
+      expect(primary).not.toContain('Reading Advantage');
+
+      const secondary = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, { ...defaultOptions, type: 'secondary', includeCertificate: true });
+      expect(secondary).toContain('<h1 class="tp-main-title">Reading Advantage</h1>');
+      expect(secondary).toContain('completed the Reading Advantage');
+      expect(secondary).not.toContain('Primary Advantage');
+    });
+
     it('should include preface section', () => {
       const html = wrapWorkbookDocument(sampleLessonsHtml, sampleTocEntries, defaultOptions);
       

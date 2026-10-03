@@ -151,6 +151,14 @@ describe('Template Renderer Tests', () => {
       expect(html).toContain('สวัสดี');
     });
 
+    it('should print the Primary Advantage name and the book name in a primary lesson', async () => {
+      // Daniel (2026-10-03): a Primary book carries its product name, never "Reading Advantage".
+      const html = await renderLessonTemplate(mockLesson, { type: 'primary', seriesName: 'Origins 3.1', seriesLevel: 'A0' });
+      expect(html).toContain('Primary Advantage • Origins 3.1 • A0');
+      expect(html).toContain('the Primary Advantage app');
+      expect(html).not.toContain('Reading Advantage');
+    });
+
     it('should render article images by position buckets', async () => {
       const lessonWithImages: WorkbookLesson = {
         ...mockLesson,

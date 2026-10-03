@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Advantage Workbook - {{lesson_number}}: {{lesson_title}}</title>
+    <title>Primary Advantage Workbook - {{lesson_number}}: {{lesson_title}}</title>
     <style>
 
         :root {
@@ -61,6 +61,13 @@
         .lesson-number {
             font-family: 'Open Sans', 'Sarabun', sans-serif; /* Clean sans for numbers */
             /* ... */
+        }
+
+        /* "Level 3" and "CEFR A0+" printed as two separate labels, not "Level 3CEFR A0+" */
+        .level-badges {
+            display: flex;
+            gap: 12px;
+            font-family: 'Open Sans', 'Sarabun', sans-serif;
         }
 
         /* ... */
@@ -1528,7 +1535,7 @@
         <!-- Header -->
         <header class="lesson-header">
             <div class="lesson-info">
-                <div class="workbook-title">Reading Advantage • {{series_name}} • {{series_level}}</div>
+                <div class="workbook-title">Primary Advantage • {{series_name}} • {{series_level}}</div>
                 <div class="lesson-number">{{lesson_number}}</div>
                 <h1 class="lesson-title">{{lesson_title}}</h1>
             </div>
@@ -2255,7 +2262,7 @@
                 <div class="homework-title">HOMEWORK (Complete before next lesson)</div>
                 <div class="homework-item">
                     <span class="checkbox"></span>
-                    <span>Add your collected vocabulary to the Reading Advantage app (5 min)</span>
+                    <span>Add your collected vocabulary to the Primary Advantage app (5 min)</span>
                 </div>
                 <div class="homework-item">
                     <span class="checkbox"></span>

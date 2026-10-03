@@ -1,5 +1,5 @@
 import { TocEntry, WorkbookDocumentOptions } from './document-wrapper/types';
-import { getThemeColors, escapeHtml } from './document-wrapper/utils';
+import { getThemeColors, escapeHtml, brandName } from './document-wrapper/utils';
 import { getPrintStyles } from './document-wrapper/styles';
 import { generateTitlePage } from './document-wrapper/sections/title-page';
 import { generatePrefaceSection } from './document-wrapper/sections/preface';
@@ -29,7 +29,7 @@ export function wrapWorkbookDocument(
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
+  <title>${brandName(options.type)} Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
   <style>
 ${printFontFaceCss()}
@@ -60,7 +60,7 @@ ${printFontFaceCss()}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Reading Advantage Workbook - ${escapeHtml(options.seriesName)}</title>
+  <title>${brandName(options.type)} Workbook - ${escapeHtml(options.seriesName)}</title>
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
   <style>
 ${printFontFaceCss()}
