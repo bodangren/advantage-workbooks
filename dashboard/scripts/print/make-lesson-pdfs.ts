@@ -3,6 +3,7 @@ import os from 'os';
 import path from 'path';
 import { spawnSync } from 'child_process';
 import { chromium, type Browser } from '@playwright/test';
+import sharp from 'sharp';
 import { LessonPackageSchema } from '../../lib/lesson-package/schema';
 import { buildWorkbookLesson } from '../../lib/lesson-package/build';
 import { renderMultipleLessons } from '../../lib/template-renderer';
@@ -24,7 +25,7 @@ Usage: npx tsx scripts/print/make-lesson-pdfs.ts [<book>...] [--out <dir>] [--le
 
 A book with a dashboard project (primary/<project>) uses the project's lesson files, the same as
 the compile page; Origins 1 has none and uses its lesson packages. Bank lessons are online only and
-have no PDF. Bucket pictures are cached in ~/.cache/workbooks-print/images. Needs system Chrome and
+have no PDF. Bucket pictures are cached as JPEG in ~/.cache/workbooks-print/images. Needs system Chrome and
 poppler (pdfinfo, pdffonts, pdftotext).
 
 Checks for each file: A4 pages, every font embedded, no Type 3 font, the answer key on the last page.
@@ -74,7 +75,7 @@ async function bookLessons(book: string): Promise<BookLessons> {
     return { name: name ?? book, level: packages[0]?.meta.cefrLevel ?? '', lessons };
 }
 
-/** Downloads the bucket pictures that the cache does not have yet (three tries each). */
+/** Downloads the bucket pictures that the cache does not have yet (three tries each), as JPEG files. */
 async function download(files: { url: string; file: string }[]): Promise<void> {
     for (const { url, file } of files) {
         if (fs.existsSync(file) && fs.statSync(file).size > 0) continue;
@@ -84,7 +85,8 @@ async function download(files: { url: string; file: string }[]): Promise<void> {
             try {
                 const res = await fetch(url);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                fs.writeFileSync(`${file}.part`, Buffer.from(await res.arrayBuffer()));
+                const jpeg = await sharp(Buffer.from(await res.arrayBuffer())).flatten({ background: '#ffffff' }).jpeg({ quality: 88 }).toBuffer();
+                fs.writeFileSync(`${file}.part`, jpeg);
                 fs.renameSync(`${file}.part`, file);
                 last = '';
                 break;

@@ -52,7 +52,7 @@ describe('single-lesson print PDF', () => {
     expect(lessonPdfName('Quest 4', 13, 'Have You Seen Our Kitten?')).toBe('Primary-Advantage-Quest-4-Lesson-13-Have-You-Seen-Our-Kitten.pdf');
   });
 
-  it('points the pictures at local files: bucket pictures in a cache, package pictures in content', () => {
+  it('points the pictures at local files: bucket pictures in a cache as JPEG, package pictures in content', () => {
     const html = [
       '<img src="https://storage.googleapis.com/primary-app-storage/images/abc_1.png">',
       '<img src="/api/files?root&#x3D;content&amp;path&#x3D;origins-3.2/media/p05/hero.jpg">',
@@ -60,10 +60,10 @@ describe('single-lesson print PDF', () => {
     ].join('');
     const r = localPictures(html, '/cache/img', '/repo/content/primary');
     expect(r.html).toBe([
-      '<img src="file:///cache/img/abc_1.png">',
+      '<img src="file:///cache/img/abc_1.jpg">',
       '<img src="file:///repo/content/primary/origins-3.2/media/p05/hero.jpg">',
       '<img src="file:///repo/content/primary/quest-4/media/l01/hero.jpg">',
     ].join(''));
-    expect(r.downloads).toEqual([{ url: 'https://storage.googleapis.com/primary-app-storage/images/abc_1.png', file: '/cache/img/abc_1.png' }]);
+    expect(r.downloads).toEqual([{ url: 'https://storage.googleapis.com/primary-app-storage/images/abc_1.png', file: '/cache/img/abc_1.jpg' }]);
   });
 });

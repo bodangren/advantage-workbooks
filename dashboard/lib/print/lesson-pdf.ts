@@ -19,7 +19,8 @@ export function lessonPdfName(bookName: string, lessonNumber: number, title: str
 
 /**
  * Points the pictures of a rendered document at local files, so Chrome does not wait on the network:
- * bucket pictures go to a cache folder (the caller downloads the missing ones), dashboard file-route
+ * bucket pictures go to a cache folder as JPEG files (the caller downloads and converts the missing
+ * ones; the bucket PNGs are about 5 MB each and made a lesson PDF about 16 MB), dashboard file-route
  * pictures (/api/files?root=content&path=..., also HTML-escaped) go to content/primary.
  * @param html The document.
  * @param cacheDir Folder for the bucket pictures.
@@ -29,7 +30,7 @@ export function lessonPdfName(bookName: string, lessonNumber: number, title: str
 export function localPictures(html: string, cacheDir: string, contentDir: string): { html: string; downloads: { url: string; file: string }[] } {
     const downloads = new Map<string, string>();
     let out = html.replace(/https:\/\/storage\.googleapis\.com\/primary-app-storage\/images\/([A-Za-z0-9_.-]+)/g, (url, name: string) => {
-        const file = path.join(cacheDir, name);
+        const file = path.join(cacheDir, `${path.parse(name).name}.jpg`);
         downloads.set(url, file);
         return `file://${file}`;
     });
