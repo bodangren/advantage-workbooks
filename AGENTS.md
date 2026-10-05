@@ -39,7 +39,3 @@ All repos are siblings under `~/Desktop/`. Workbooks is the source of truth for 
 **Google Cloud:** `gcloud` is installed and signed in (project `reading-advantage`, Cloud SQL instance `cloud-sql`, Postgres 17). Use it for bucket uploads, database backups, and logs. Take a backup before any production write.
 
 **Media:** use `mmx image` (`--subject-ref type=character,image=<sheet>`) and `mmx speech` (`--subtitles` for timing). Character sheets for the series bible cast are the image references.
-
-## Automation Supervisor
-
-Do NOT modify measure/automation-supervisor.py. This file is centrally managed and hardlinked across all projects.
