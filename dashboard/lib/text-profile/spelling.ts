@@ -29,6 +29,11 @@ export const AMERICAN_SPELLING: Record<string, string> = {
     cosy: 'cozy',
     ageing: 'aging',
     skilful: 'skillful',
+    chilli: 'chili',
+    omelette: 'omelet',
+    'sports centre': 'sports center',
+    'city centre': 'city center',
+    'shopping centre': 'shopping center',
 };
 
 /**

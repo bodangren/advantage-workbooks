@@ -176,6 +176,8 @@ describe('American spelling of the required words', () => {
     it('finds the British headword of an American form', () => {
         expect(britishHeadword('practice')).toBe('practise');
         expect(britishHeadword('mustache')).toBe('moustache');
+        expect(britishHeadword('chili')).toBe('chilli');
+        expect(britishHeadword('sports center')).toBe('sports centre');
         expect(britishHeadword('banana')).toBeUndefined();
     });
     it('writes the pools and the rows in American spelling and removes doubles', () => {

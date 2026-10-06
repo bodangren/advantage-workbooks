@@ -159,6 +159,12 @@ describe('vocabulary index', () => {
         expect(us.levelOf('check')).toBe('Starters');
     });
 
+    it('gives the American spelling of an A2 Key word or phrase its level', () => {
+        const key = ['chilli', 'omelette', 'sports centre', 'city centre', 'shopping centre'];
+        const us = buildVocabularyIndex({ nodes: key.map((w) => node(w, KET)) });
+        for (const w of ['chili', 'omelet', 'sports center', 'city center', 'shopping center']) expect(us.levelOf(w), w).toBe('Key');
+    });
+
     it('adds the number words to twenty as Starters', () => {
         expect(index.levelOf('twelve')).toBe('Starters');
         expect(index.levelOf('twenty')).toBe('Starters');
