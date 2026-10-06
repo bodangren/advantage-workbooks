@@ -42,6 +42,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 ## Phase 5: Level 8
 
 - [ ] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media
+- [ ] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): the Adventure 8 maps (then 9) take the new A2 Key words first; then generate the bank-8 (then bank-9) required words again in `lib/lesson-package/bank-plan.ts` from words that earlier packages and the level's maps gloss, so that the bank does not use up the A2 Key list (the current bank-8 plan needs 432 Key places with each word once before any word twice). Test first.
 - [ ] bank-8: 108 packages; QA; media
 - [ ] Coverage report (95% of Flyers); tags export; Daniel's review
 
