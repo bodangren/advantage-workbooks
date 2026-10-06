@@ -11,18 +11,18 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level (`glossedFrom`); paragraph ranges; book folders in `BOOK_ORDER`, `BOOK_KEYS`, and `BOOK_PROFILES`; tests (levels 1–4 check results unchanged; mutation test passed)
 - [x] Coverage report for levels 5–9 (`scripts/level-coverage.ts --levels 5-9` → `level-plans/coverage-5-9.md`): the book rule, the level rule, and the list coverage; tests
 - [x] Recycling (Daniel, 2026-10-06): the coverage report shows the first teaching and the practice after it for each A1 and A2 objective; `--next <book>` prints the lists for a lesson map; tests
-- [~] Supporting objectives: every objective that a package gives practice in. Done for Quest 4 and bank-4 (`data/availability-quest-4.json`, `data/availability-bank-4.json`; R23.3, R24.6, and R25.2 are in every package). Not done for levels 1–3 (A0 band)
-- [x] Fault fixed: the MCQ option shuffle put 99% of the answers last (222 lessons, app and print); print files and lesson PDFs rebuilt (4625ff3). Book PDFs of Origins 3.2 and Quest 4 still to make again
+- [~] Supporting objectives: every objective that a package gives practice in. Done for Quest 4, bank-4, Origins 1, and Origins 3.2 (`data/availability-*.json`; generic objectives are in every package of their band). Not done for Origins 2, Origins 3.1, and bank-1 to bank-3
+- [x] Fault fixed: the MCQ option shuffle put 99% of the answers last (222 lessons, app and print); print files, lesson PDFs, and the Origins 3.2 and Quest 4 book PDFs made again (4625ff3, 323da27)
 - [x] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts 5`…`9` → `level-plans/bank-5…9`); word lists by topic for Flyers and A2 Key; tests. Follow-up: required words come mostly in alphabetical order, not by topic
 - [x] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks (`data/grammar-levels-5-9.md`; spot check of 6 items in the PDFs)
 - [x] Calibration: two sample texts for each level pass the text check (`calibration/levels-5-9/`); a 480-word level 9 article prints on 2.5 pages (the lesson grows from 15 to 16 pages). Follow-up: 5 small profile changes and the text-check faults in `report.md` (past forms, -ied/-ier, lines with no end stop)
 - [~] Injector: a new-database target (`--target new`; UUID ids, `primary_legacy_id_map`, picture key in `articles.image`); tests; dry run only. Open: agreement with the monorepo side (7 questions in the field map, open item 3)
 - [ ] Dialogue audio with one voice for each speaker (D5)
-- [~] Series bible: Quest ages and an Adventure section (`primary-quest-adventure-series-bible.md`, draft); new cast sheets (13 people, 3 priorities) not made yet (D3)
+- [~] Series bible: Quest ages and an Adventure section (`primary-quest-adventure-series-bible.md`, draft); cast-sheet candidates for 8 of the 13 new people (4324f47), for Daniel to choose on `/review/cast` (D3)
 
 ## Phase 2: Level 5
 
-- [ ] Quest 5: lesson map, 14 packages, editorial pre-review, pictures, audio, Tutor clips
+- [~] Quest 5: lesson map (draft `primary-quest-5-plan.md`; 6 questions for Daniel), 14 packages, editorial pre-review, pictures, audio, Tutor clips
 - [ ] bank-5: plan and 36 packages; cross-batch QA; pictures and audio
 - [ ] Coverage report for level 5; tags export; Daniel's review
 
