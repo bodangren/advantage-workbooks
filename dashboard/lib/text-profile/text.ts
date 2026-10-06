@@ -19,11 +19,14 @@ export function tokenize(text: string): string[] {
 /**
  * Splits a paragraph into sentences. A sentence ends at `.`, `!` or `?` (and an optional closing
  * quotation mark) when the next word starts with a capital letter or an opening quotation mark.
- * So `"Where is Pip?" says Tom.` stays one sentence.
+ * So `"Where is Pip?" says Tom.` stays one sentence. A line break (a line with no end stop) also
+ * ends a sentence.
  * @param paragraph One paragraph of text.
  * @returns The sentences, trimmed.
  */
 export function splitSentences(paragraph: string): string[] {
+    // A line break ends a sentence, so a subject line or a greeting does not join the next line.
+    if (paragraph.includes('\n')) return paragraph.split('\n').flatMap(splitSentences);
     const text = paragraph.replace(/\s+/g, ' ').trim();
     if (!text) return [];
     const out: string[] = [];
@@ -41,14 +44,21 @@ export function splitSentences(paragraph: string): string[] {
 }
 
 /**
- * Splits text into paragraphs at blank lines and joins the lines of each paragraph with a space.
+ * Splits text into paragraphs at blank lines. A line that ends with `.`, `!` or `?` joins the next
+ * line with a space. A line with no end stop keeps a line break, so it ends a sentence.
  * @param text Multi-line text.
  * @returns The non-empty paragraphs.
  */
 export function splitParagraphs(text: string): string[] {
     return text
         .split(/\n\s*\n/)
-        .map((p) => p.split('\n').map((l) => l.trim()).filter(Boolean).join(' '))
+        .map((p) =>
+            p
+                .split('\n')
+                .map((l) => l.trim())
+                .filter(Boolean)
+                .reduce((acc, line) => (acc ? acc + (/[.!?]["”’]?$/.test(acc) ? ' ' : '\n') + line : line), ''),
+        )
         .filter(Boolean);
 }
 
@@ -60,6 +70,22 @@ const IRREGULAR: Record<string, string> = {
     drank: 'drink', sang: 'sing', rode: 'ride', wrote: 'write', caught: 'catch', threw: 'throw',
     found: 'find', told: 'tell', children: 'child', mice: 'mouse', feet: 'foot', teeth: 'tooth',
     men: 'man', women: 'woman', people: 'person', an: 'a',
+    // Past simple and past participle of the irregular verbs on the Starters, Movers, Flyers, and
+    // A2 Key lists. "been" and "felt" have no graph node, so they reach "be" and "feel" here.
+    became: 'become', been: 'be', began: 'begin', begun: 'begin', bought: 'buy', broke: 'break',
+    broken: 'break', brought: 'bring', built: 'build', burnt: 'burn', chose: 'choose', chosen: 'choose',
+    done: 'do', drawn: 'draw', dreamt: 'dream', driven: 'drive', drove: 'drive', drunk: 'drink',
+    eaten: 'eat', fallen: 'fall', fed: 'feed', fell: 'fall', felt: 'feel', flown: 'fly',
+    forgot: 'forget', forgotten: 'forget', given: 'give', gone: 'go', gotten: 'get', grew: 'grow',
+    grown: 'grow', heard: 'hear', held: 'hold', hidden: 'hide', hid: 'hide', kept: 'keep',
+    knew: 'know', known: 'know', lain: 'lie', lay: 'lie', learnt: 'learn', left: 'leave',
+    lent: 'lend', lit: 'light', lost: 'lose', meant: 'mean', met: 'meet', mistaken: 'mistake',
+    mistook: 'mistake', paid: 'pay', rang: 'ring', ridden: 'ride', rung: 'ring',
+    sank: 'sink', seen: 'see', sent: 'send', slept: 'sleep', smelt: 'smell', sold: 'sell',
+    spelt: 'spell', spent: 'spend', spoken: 'speak', spoke: 'speak', stolen: 'steal', stole: 'steal',
+    stood: 'stand', sung: 'sing', sunk: 'sink', swum: 'swim', swung: 'swing', taken: 'take',
+    taught: 'teach', thought: 'think', thrown: 'throw', understood: 'understand', woken: 'wake',
+    woke: 'wake', won: 'win', wore: 'wear', worn: 'wear', written: 'write',
     // American spelling of a word the graph holds only in its British form.
     mom: 'mum', moms: 'mum', mommy: 'mum',
 };
@@ -72,6 +98,11 @@ function suffixCandidates(t: string): string[] {
     const c: string[] = [];
     const doubled = (stem: string) => (stem.length > 2 && stem.at(-1) === stem.at(-2) ? [stem.slice(0, -1)] : []);
     if (t.endsWith('ies')) c.push(t.slice(0, -3) + 'y');
+    // "carried" is "carry", "funnier" and "funniest" are "funny". "tied" still finds "tie" below.
+    if (t.endsWith('ied')) c.push(t.slice(0, -3) + 'y');
+    if (t.endsWith('ier')) c.push(t.slice(0, -3) + 'y');
+    if (t.endsWith('iest')) c.push(t.slice(0, -4) + 'y');
+    if (t.endsWith('ying')) c.push(t.slice(0, -4) + 'ie');
     // "-s" before "-es": "planes" is "plane" (not "plan"), "toes" is "toe" (not "to"); "boxes"
     // still finds "box", because "boxe" is not a word.
     if (t.endsWith('s')) c.push(t.slice(0, -1));

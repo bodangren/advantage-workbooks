@@ -6,7 +6,6 @@ text_type: story: a club story with dialogue
 profile: adventure-7
 names: Tom, Lily, Pip, Teacher Kim, Mia
 glossed: camp, tent, torch, adventure, creature, alone, dark, empty, broken, explore, hurry, decide
-allow: felt, heard, woke, been, seen, eaten, forgotten, slept, brought, fell, closer, thought
 ---
 
 The Adventure Club went to camp for the first time. There were twelve children, and Teacher Kim came with them. Lily had never slept in a tent before. "Have you ever been to a camp?" she asked Mia. "No, never," said Mia. "But I have already got my torch." Tom was thirteen and went to the camp as a helper. He had brought Pip, too.

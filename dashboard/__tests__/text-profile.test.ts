@@ -95,6 +95,39 @@ describe('text helpers', () => {
         expect(splitParagraphs('One.\nStill one.\n\n\nTwo.')).toEqual(['One. Still one.', 'Two.']);
     });
 
+    it('ends a sentence at a line break that has no end stop', () => {
+        const [paragraph] = splitParagraphs('Subject: Our class\nHello Ben,\nWe like your photos. Thank you.');
+        expect(splitSentences(paragraph)).toEqual(['Subject: Our class', 'Hello Ben,', 'We like your photos.', 'Thank you.']);
+        expect(splitParagraphs('One.\nStill one.\n\nTwo')).toEqual(['One. Still one.', 'Two']);
+    });
+
+    it('gives the base verb for irregular past forms and participles', () => {
+        const pairs: [string, string][] = [
+            ['heard', 'hear'], ['fell', 'fall'], ['stood', 'stand'], ['felt', 'feel'], ['began', 'begin'],
+            ['knew', 'know'], ['brought', 'bring'], ['met', 'meet'], ['woke', 'wake'], ['forgot', 'forget'],
+            ['slept', 'sleep'], ['been', 'be'], ['seen', 'see'], ['eaten', 'eat'], ['taken', 'take'],
+            ['given', 'give'], ['written', 'write'], ['chosen', 'choose'], ['built', 'build'], ['sold', 'sell'],
+        ];
+        for (const [form, base] of pairs) expect(lemmaCandidates(form)).toContain(base);
+        expect(lemmaCandidates('been')[0]).toBe('be');
+    });
+
+    it('turns -ied, -ier, -iest, and -ying into the base word', () => {
+        expect(lemmaCandidates('carried')).toContain('carry');
+        expect(lemmaCandidates('studied')).toContain('study');
+        expect(lemmaCandidates('funnier')).toContain('funny');
+        expect(lemmaCandidates('funniest')).toContain('funny');
+        expect(lemmaCandidates('happier')).toContain('happy');
+        expect(lemmaCandidates('lying')).toContain('lie');
+    });
+
+    it('keeps the base word of -ied words that end in -e', () => {
+        expect(lemmaCandidates('tied')).toContain('tie');
+        expect(lemmaCandidates('died')).toContain('die');
+        expect(lemmaCandidates('planes').indexOf('plane')).toBeLessThan(lemmaCandidates('planes').indexOf('plan'));
+        expect(lemmaCandidates('babies')).toContain('baby');
+    });
+
     it('gives lemma candidates for plurals, contractions, irregulars, and possessives', () => {
         expect(lemmaCandidates('mangoes')).toContain('mango');
         // "-s" comes before "-es", so the first candidate in the graph is the right word.

@@ -6,7 +6,7 @@ text_type: informational: a school science text for a class blog, with paragraph
 profile: adventure-9
 names: Tom, Lily, Teacher Kim, Adventure Club, Thailand
 glossed: electricity, battery, scientist, invention, discover, experiment, recently, normal, national, reason, probably, nature
-allow: carried, studied, gas, panels, pipe, coin, product, shine, thought, been, built, made, known, used, found, given, written, blog, dam, turbine, generator, power, solar, coal, wire, wires, kilowatt
+allow: gas, panels
 ---
 
 Every morning, we turn on the light in our classroom without thinking about it. However, electricity does not come from the wall. It is made in a power station, and then it is carried to our school along long wires. Our Adventure Club wanted to learn more, so we visited a small power station near our town. This is what we found out. It was a normal school day, but we did not want it to end.

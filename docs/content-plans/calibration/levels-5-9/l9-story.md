@@ -6,7 +6,7 @@ text_type: story: a family story with dialogue, feelings that the text does not 
 profile: adventure-9
 names: Tom, Lily, Pip, Grandpa, Ben, Mom, Dad
 glossed: notice, upset, certainly, memory, continue, offer, advice, afterwards, however, anymore, match, receive
-allow: began, knew, lying, deal, goalkeeper, sat, felt, lost, kept, heard, thought, been, given, left, missed
+allow: goalkeeper
 ---
 
 On Saturday afternoon, Tom came home from the football match. He did not say hello to anyone. He walked past the kitchen, went straight to the garden, and sat under the old mango tree. Pip followed him and put his head on Tom's knee. Lily watched them from the window. She knew that something was wrong, because Tom always talked about his games.

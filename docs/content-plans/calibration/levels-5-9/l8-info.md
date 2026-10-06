@@ -6,7 +6,7 @@ text_type: functional: an email with an opening, a closing, and arrangements
 profile: adventure-8
 names: Tom, Lily, Pip, Teacher Kim, Mia, Ben, Anna, Mr Hill
 glossed: festival, event, local, ingredient, recipe, popular, include, available, fresh, international, discount, relax
-allow: sold, been, given, seen, written, judge, sticky, baht, enough, blog, Thai
+allow: baht
 ---
 
 Subject: Our Food Festival.

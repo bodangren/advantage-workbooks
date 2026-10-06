@@ -6,7 +6,7 @@ text_type: informational: a class blog post with facts and a map key
 profile: adventure-7
 names: Tom, Lily, Mia, Teacher Kim, Adventure Club
 glossed: tortoise, butterfly, insect, wing, nest, fur, wild, several, million, camp, creature, adventure
-allow: been, seen, built, heard, written, blog, baht, deer, forty, nature, bone, bug, own, plan, nobody, least, bone, bug, own, plan
+allow: deer, bug, baht
 ---
 
 Our Adventure Club has just visited the nature park near our school. We have written about it on the class blog. This post tells you about the wild animals that we saw. There is a map at the end. Use its key to find each animal.

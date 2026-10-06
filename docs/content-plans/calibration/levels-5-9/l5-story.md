@@ -6,7 +6,6 @@ text_type: story: a cartoon story with dialogue
 profile: quest-5
 names: Tom, Lily, Pip, Grandpa, Jim, X
 glossed: treasure, forest, waterfall, dangerous, brave, afraid, noise, hide, bridge, suddenly, rock, pirate
-allow: heard, stood, hid, felt, dug
 ---
 
 On Saturday, Tom and Lily found an old map in Grandpa's book. The map showed a forest, a river, and a waterfall. A red X was behind the waterfall. "It's a treasure map!" said Lily. "Maybe a pirate drew it!" "Let's go," said Tom. They put some sandwiches in a bag and called Pip. Pip ran to the door first, and his tail went round and round.

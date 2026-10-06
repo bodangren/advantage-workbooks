@@ -6,7 +6,6 @@ text_type: story: a school club story with dialogue
 profile: adventure-8
 names: Tom, Lily, Pip, Teacher Kim, Mia, Ben
 glossed: nervous, perfect, serious, crowded, opinion, similar, celebrate, exactly, especially, prize, competition, member
-allow: chosen, shake, been, taken, seen, given, won, thought, held, felt, heard
 ---
 
 Lily has been a member of the Photo Club since September. Today there is a big competition at school. The prize is a new camera. The hall is crowded with parents and children, and Lily feels nervous. "If I win, I will take photos of everything," she tells Mia. "And if you don't win?" asks Mia. "Then I will be sad for a few days," says Lily. "But I am not going to cry."

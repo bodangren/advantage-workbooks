@@ -6,7 +6,6 @@ text_type: story: a school story with dialogue
 profile: quest-6
 names: Tom, Lily, Pip, Teacher Kim, Mom, Dad
 glossed: costume, crown, umbrella, enormous, whisper, surprise, secret, disappear, pocket, silver, wonderful, plastic
-allow: felt, began, fell, forgot, met, stood
 ---
 
 It was Costume Day at Lily's school. Lily was going to be a queen. She had a gold crown and a long red dress. Tom was going to be a robot, but his costume was a secret. That morning, he put an enormous box on his head. Then he went out of the house. "You will see it at school," he said.

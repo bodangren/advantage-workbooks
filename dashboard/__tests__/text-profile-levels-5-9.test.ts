@@ -158,11 +158,11 @@ describe('the level 5-9 profiles', () => {
 
     it('ships the five workbook profiles', () => {
         expect(PROFILES['quest-5']).toMatchObject({
-            ...common, label: 'Primary level 5 (Quest 5)', words: [230, 300], paragraphs: [3, 4], meanSentenceLength: [6.5, 8.0],
+            ...common, label: 'Primary level 5 (Quest 5)', words: [230, 300], paragraphs: [3, 4], meanSentenceLength: [6.2, 8.0],
             longestSentence: 14, listLevel: 'Movers', glossedStartersMin: 8, glossedMoversMax: 2,
         });
         expect(PROFILES['quest-6']).toMatchObject({
-            ...common, label: 'Primary level 6 (Quest 6.1, 6.2)', words: [270, 340], paragraphs: 4, meanSentenceLength: [7.0, 8.5],
+            ...common, label: 'Primary level 6 (Quest 6.1, 6.2)', words: [260, 340], paragraphs: 4, meanSentenceLength: [7.0, 8.5],
             longestSentence: 15, listLevel: 'Flyers', glossedFrom: 'Movers', glossedStartersMin: 6, glossedMoversMax: 1,
         });
         expect(PROFILES['adventure-7']).toMatchObject({
@@ -170,18 +170,18 @@ describe('the level 5-9 profiles', () => {
             longestSentence: 16, listLevel: 'Flyers', glossedStartersMin: 8, glossedMoversMax: 2,
         });
         expect(PROFILES['adventure-8']).toMatchObject({
-            ...common, label: 'Primary level 8 (Adventure 8.1–8.3)', words: [340, 430], paragraphs: 5, meanSentenceLength: [8.0, 9.5],
+            ...common, label: 'Primary level 8 (Adventure 8.1–8.3)', words: [340, 430], paragraphs: 5, meanSentenceLength: [7.8, 9.5], newStartersMin: 5,
             longestSentence: 18, listLevel: 'Key', glossedStartersMin: 5, glossedMoversMax: 1,
         });
         expect(PROFILES['adventure-9']).toMatchObject({
-            ...common, label: 'Primary level 9 (Adventure 9.1–9.3)', words: [380, 480], paragraphs: [5, 6], meanSentenceLength: [8.5, 10.5],
+            ...common, label: 'Primary level 9 (Adventure 9.1–9.3)', words: [380, 480], paragraphs: [5, 6], meanSentenceLength: [8.3, 10.5], newStartersMin: 6,
             longestSentence: 20, listLevel: 'Key', glossedStartersMin: 8, glossedMoversMax: 2,
         });
         expect(PROFILES['adventure-7'].glossedFrom).toBeUndefined();
     });
 
     it('ships the five banks with wider sentences and no book rules', () => {
-        const msl: Record<number, [number, number]> = { 5: [6.3, 8.2], 6: [6.8, 8.7], 7: [7.3, 9.2], 8: [7.8, 9.7], 9: [8.3, 10.7] };
+        const msl: Record<number, [number, number]> = { 5: [6.0, 8.2], 6: [6.8, 8.7], 7: [7.3, 9.2], 8: [7.6, 9.7], 9: [8.1, 10.7] };
         const from: Record<number, string> = { 5: 'quest-5', 6: 'quest-6', 7: 'adventure-7', 8: 'adventure-8', 9: 'adventure-9' };
         for (const n of [5, 6, 7, 8, 9]) {
             const b = PROFILES[`bank-${n}`];

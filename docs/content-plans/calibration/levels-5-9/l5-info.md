@@ -6,7 +6,6 @@ text_type: functional: a family page with names, ages, jobs and likes
 profile: quest-5
 names: Tom, Lily, Pip, Grandma, Grandpa, Mom, Dad, Mia
 glossed: curly, beard, moustache, thin, driver, nurse, doctor, cook, thirsty, grown-up, grandson, granddaughter
-allow: funniest, tallest
 ---
 
 This is my family page. My name is Lily, and I am nine. I live with my parents, my brother Tom, and my puppy, Pip. Tom is eleven. He is taller than I am. His hair is curly, but my hair is straight. I am not a grown-up!

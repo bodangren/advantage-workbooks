@@ -114,6 +114,7 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
 - Short declarative sentences; real questions; dialogue in double quotation marks; one short closing line with a feeling or a value. Vary the first line; do not start every text with "This is …".
 - Numbers as words ("twelve"). Full hours at levels 1–3 ("seven o'clock"). American spelling (color, favorite, Mom, gray).
 - Nonfiction (`type: nonfiction`) is a real information or functional text: a description, signs, a routine, instructions, a list. It can have a child narrator.
+- In an email, a letter, or a blog post, put the subject, the greeting, and the closing inside the first and the last paragraph. Give each an end stop. Each blank-line block counts as a paragraph, and a line with no end stop counts as its own sentence.
 - A good text comes first. Never bend a story to fit a count: fix the count with other words.
 - Each article must be new and different from the others in your batch: a new situation, not the same story with new words.
 

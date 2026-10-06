@@ -43,4 +43,15 @@ describe.skipIf(!fs.existsSync(GRAPH))('text profile with the real vocabulary gr
         expect(index.levelOf("o'clock")).toBe('Movers');
         expect(index.lemmaOf('feet')).toBe('foot');
     });
+
+    it('finds the level of irregular forms and -ied or -ier forms', () => {
+        for (const w of ['heard', 'fell', 'stood', 'began', 'knew', 'brought', 'met', 'woke', 'slept', 'seen', 'eaten', 'taken', 'built']) {
+            expect(index.levelOf(index.lemmaOf(w)), w).toBeDefined();
+        }
+        // "been" and "felt" have no node of their own; they reach "be" and "feel".
+        expect(index.lemmaOf('been')).toBe('be');
+        expect(index.lemmaOf('felt')).toBe('feel');
+        expect(index.levelOf(index.lemmaOf('carried'))).toBeDefined();
+        expect(index.levelOf(index.lemmaOf('funniest'))).toBeDefined();
+    });
 });
