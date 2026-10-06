@@ -83,13 +83,33 @@ export function lowestList(examAlignments: string[] | undefined): string | undef
 export interface ListNode {
     id: string;
     kind: string;
+    title?: string;
     metadata?: { normalizedForm?: string; examAlignments?: string[] };
+}
+
+const YLE_LISTS = new Set(['pre-a1-starters', 'a1-movers', 'a2-flyers']);
+/** Capitalized YLE headwords that are not people's names. */
+const NOT_NAMES = new Set(['english', 'london', 'ok', 'tv/television']);
+/** Words that the program does not teach (Daniel, 2026-10-06: "no CD/DVD (not used anymore)"). */
+const NOT_TAUGHT = new Set(['cd', 'dvd', 'cd player', 'dvd player']);
+
+/**
+ * Whether a node is out of the list goals: a person's name (a capitalized headword on the YLE lists
+ * only; Daniel, 2026-10-06: names are not in the Movers goal) or a word that the program does not teach.
+ * @param n A graph node.
+ * @returns True when the list coverage leaves the node out.
+ */
+export function outOfGoal(n: ListNode): boolean {
+    const word = (n.metadata?.normalizedForm ?? '').toLowerCase();
+    if (NOT_TAUGHT.has(word)) return true;
+    const exams = n.metadata?.examAlignments ?? [];
+    return /^[A-Z]/.test(n.title ?? '') && exams.length > 0 && exams.every((e) => YLE_LISTS.has(e)) && !NOT_NAMES.has(word);
 }
 
 /**
  * The words of each exam list and the word of each node.
  * @param nodes The nodes of the vocabulary graph.
- * @returns The words whose lowest list is the exam (nodes with one normalized form are one word, and a word has the lowest list of its nodes), and the word of each node id.
+ * @returns The words whose lowest list is the exam (nodes with one normalized form are one word, and a word has the lowest list of its nodes; names and words out of the goal are left out), and the word of each node id.
  */
 export function wordLists(nodes: ListNode[]): { lists: Map<string, Set<string>>; wordOf: Map<string, string> } {
     const wordOf = new Map<string, string>();
@@ -98,6 +118,7 @@ export function wordLists(nodes: ListNode[]): { lists: Map<string, Set<string>>;
         const word = n.metadata?.normalizedForm;
         if (n.kind !== 'skill' || !n.id.startsWith('english.vocabulary.skill.') || !word) continue;
         wordOf.set(n.id, word);
+        if (outOfGoal(n)) continue;
         const low = lowestList(n.metadata?.examAlignments);
         const rank = low ? EXAM_ORDER.indexOf(low as (typeof EXAM_ORDER)[number]) : EXAM_ORDER.length;
         best.set(word, Math.min(best.get(word) ?? EXAM_ORDER.length, rank));

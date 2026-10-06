@@ -8,9 +8,9 @@ A word belongs to the lowest list that holds it in the vocabulary graph (Starter
 
 | List | Words | Goal | End of level 1 | End of level 2 | End of level 3 | End of level 4 | End of level 5 | End of level 6 | End of level 7 | End of level 8 | End of level 9 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Movers | 372 | 100% by level 6 | – | – | – | 241 | 241 | 241 ⚠ | 241 | 241 | 241 |
-| Flyers | 491 | 95% by level 8 | – | – | – | 30 | 30 | 30 | 30 | 30 ⚠ | 30 |
-| A2 Key | 577 | 90% by level 9 | – | – | – | 7 | 7 | 7 | 7 | 7 | 7 ⚠ |
+| Movers | 355 | 100% by level 6 | – | – | – | 241 | 241 | 241 ⚠ | 241 | 241 | 241 |
+| Flyers | 476 | 95% by level 8 | – | – | – | 30 | 30 | 30 | 30 | 30 ⚠ | 30 |
+| A2 Key | 578 | 90% by level 9 | – | – | – | 7 | 7 | 7 | 7 | 7 | 7 ⚠ |
 
 The levels 1–3 columns show "–" because the books of levels 1–4 form one block; the level 4 column holds their total.
 
@@ -104,7 +104,7 @@ Gaps: R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, R28.1, R28.2, R28.3, R28.
 | quest-6.2 | 0 of 16 | R28.1, R28.2, R28.3, R28.4, L28.1, L28.2, L28.3, L28.4, R29.2, R29.3, R29.4, R29.5, R29.6, R29.8, L29.1, L29.2 |
 | bank-6 | no lead objectives in the plan | – |
 
-List goal not met: Movers 241 of 372 (goal 100%).
+List goal not met: Movers 241 of 355 (goal 100%).
 
 ## Level 7 (GSE 30–33)
 
@@ -250,7 +250,7 @@ Gaps: R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, R35
 | adventure-8.3 | 0 of 20 | L36.2, L36.3, L36.4, L36.5, L36.6, R37.1, R37.2, R37.3, R37.4, R37.5, R37.6, R37.7, R37.9, R37.10, L37.1, L37.2, L37.3, L37.4, R38.1, R38.2 |
 | bank-8 | no lead objectives in the plan | – |
 
-List goal not met: Flyers 30 of 491 (goal 95%).
+List goal not met: Flyers 30 of 476 (goal 95%).
 
 ## Level 9 (GSE 39–42)
 
@@ -311,7 +311,7 @@ Gaps: R39.1, R39.2, R39.3, R39.4, R39.5, R39.6, R39.7, R40.1, R40.2, R40.3, R40.
 | adventure-9.3 | 0 of 20 | R41.2, R41.3, R41.4, R41.5, L41.1, L41.3, L41.4, L41.5, R42.1, R42.2, R42.3, R42.4, R42.5, R42.6, L42.1, L42.2, L42.3, L42.4, L42.5, L42.6 |
 | bank-9 | no lead objectives in the plan | – |
 
-List goal not met: A2 Key 7 of 577 (goal 90%).
+List goal not met: A2 Key 7 of 578 (goal 90%).
 
 ## Recycling
 

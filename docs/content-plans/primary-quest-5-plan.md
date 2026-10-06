@@ -1,6 +1,6 @@
 # Primary Advantage Quest 5 — Lesson Map
 
-Version 0.1 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.2 | Date 2026-10-06 | Status: Approved (Daniel, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `levels_5_9_20261006`. Companion files: [`primary-quest-4-plan.md`](primary-quest-4-plan.md) (the model for this map), [`primary-levels-5-9-plan.md`](primary-levels-5-9-plan.md) (§3 band rule, §5 profiles, §6 vocabulary, §7 grammar, §8 cast), [`primary-quest-adventure-series-bible.md`](primary-quest-adventure-series-bible.md) (§1–§3), [`level-plans/levels-5-9-objectives.json`](level-plans/levels-5-9-objectives.json), [`level-plans/bank-5.md`](level-plans/bank-5.md), [`data/grammar-levels-5-9.md`](data/grammar-levels-5-9.md), [`../../content/primary/AUTHORING.md`](../../content/primary/AUTHORING.md).
 
@@ -15,7 +15,7 @@ Rule checks (run on this map with a script, 2026-10-06):
 - **Book rule:** 16 of 16 objectives of `books["quest-5"].objectives` are a target in 1 or more lessons (section 5.1).
 - **Targets per lesson:** every lesson has 2–4 targets (4 lessons have 4 targets and 10 lessons have 3). The map has 46 target slots and 42 different target objectives. They are the 16 book objectives and 26 other objectives from the `--next` list, with the lowest practice first.
 - **Level rule:** each of the 31 in-scope objectives of level 5 is a target in 3 or more packages (Quest 5 plus bank-5). Result: 31 of 31, none under 3 (section 5.3). Four objectives reach 3 only through bank-5 (section 5.3).
-- **Words:** 168 different glossed words, no word twice. Movers 115, Flyers 28, Starters 25 (section 7). No Movers word of the graph stays unglossed except *get undressed* and 15 first names.
+- **Words:** 168 different glossed words, no word twice. Movers 113, Flyers 28, Starters 27 (section 7). No Movers word of the graph stays unglossed except *get undressed* (Quest 6.1), *CD* and *DVD* (not taught: Daniel, 2026-10-06), and 15 first names (not in the Movers goal).
 
 **Cast (series bible §2–§3):** Quest 5 is one school year after Quest 4. Tom is 11 (P6), Lily is 9 (P4), Mia and Leo are 9, Ben is 11, Sam is 10, May is 10. Pip is a small brown puppy. New adults: Teacher Nick (Tom's class teacher, L07 and L12), Coach Matt (sports, L04 and L13), and Aunt Sue (L02 and L09). The three adults have cast sheets in `character-sheets/`. "One name, one person": no new child name appears in this book. Places have plain nouns. The only proper place name is *Chiang Mai* (L02): see question 3.
 
@@ -149,7 +149,7 @@ Lily writes the plan for Sunday at the lake. The plan lists times and activities
 
 Text type: functional: an email about a birthday. Genre: Family & Friends. App type: nonfiction. Place: home (the dining room) and Aunt Sue's phone.
 
-Lily writes an email to Aunt Sue on Mom's laptop. She invites her to Grandpa's seventy-fifth birthday. The party is a secret. Lily gives the day and the date, and asks, "Would you like to come?" She tells Aunt Sue about presents: Mom wants to buy a CD or a DVD, but Lily has a better idea. She asks Aunt Sue to bring Grandma's old photo. The email shows a subject line, a greeting, and a closing. Aunt Sue will be surprised. The email ends with a thank-you and a hug from Lily. (Put the subject, greeting, and closing inside the first and last paragraph, with full stops: checker fault C4.)
+Lily writes an email to Aunt Sue on Mom's laptop. She invites her to Grandpa's seventy-fifth birthday. The party is a secret. Lily gives the day and the date, and asks, "Would you like to come?" She tells Aunt Sue about presents: Mom wants to buy a board game, but Lily has a better idea. She asks Aunt Sue to bring Grandma's old photo. The email shows a subject line, a greeting, and a closing. Aunt Sue will be surprised. The email ends with a thank-you and a hug from Lily. (Put the subject, greeting, and closing inside the first and last paragraph, with full stops: checker fault C4.)
 
 - hero: Lily sits at the dining table with a laptop, and Mom stands behind her. A wall calendar shows the page "NOVEMBER" with one date circled in red.
 - inline-para-2: Tom holds a wrapped box and a card in the living room and puts a finger on his lips (a secret).
@@ -340,19 +340,19 @@ Each lesson glosses 12 words. Each lesson has 8–10 Movers words that no packag
 | L06 | pasta, salad, sauce, thirsty, why, because, terrible, excuse me | delicious, taste | a lot of, me too |
 | L07 | along, down, into, shall, square, bus station, get on, get off | corner, way | thanks, now |
 | L08 | when, by, back, sail, out, more, how much, café | early, minute | on, watermelon |
-| L09 | invite, laptop, idea, surprised, buy, change, go shopping, would, CD, DVD | secret, calendar | – |
+| L09 | invite, laptop, idea, surprised, buy, change, go shopping, would | secret, calendar | board game, dining room |
 | L10 | pancake, cook, dangerous, nothing, shopping, boring, come on, difference | flour, mix | add, well done |
 | L11 | bad, worse, worst, better, jungle, star, fat, swimming pool | umbrella, wild | oh dear, say |
 | L12 | headache, stomach, stomach-ache, temperature, toothache, sick, weak, matter | medicine, sore | well, don't worry |
 | L13 | ice skates, ice skating, roller skating, practice, exciting, badly, mean, shoulder | team, race | tennis racket, skateboarding |
 | L14 | funfair, pirate, pop star, film star, famous, could, blond, curly, beard | costume, missing | polar bear |
 
-Counts: 115 Movers + 28 Flyers + 25 Starters = 168 glossed words, 168 different (no word twice). Movers per lesson: 8 in 11 lessons, 9 in L14, and 10 in L09. Flyers per lesson: 2. The `quest-5` rules hold: 8 or more Movers, 2 Flyers at most.
+Counts: 113 Movers + 28 Flyers + 27 Starters = 168 glossed words, 168 different (no word twice). Movers per lesson: 8 in 13 lessons and 9 in L14. Flyers per lesson: 2. The `quest-5` rules hold: 8 or more Movers, 2 Flyers at most.
 
-**Movers words still not glossed after Quest 5: 16 of the graph's 131.** One is *get undressed*, for the pool lessons of Quest 6.1. The other 15 are first names: *Charlie, Clare, Daisy, Fred, Jack, Jane, Jim, Julia, Lily, Mary, Paul, Peter, Sally, Vicky, Zoe*. Names are not glossary words (question 2). The plan said about 110 of 131: this map glosses 115, because the 8-Movers rule needs 112.
+**Movers words still not glossed after Quest 5: 18 of the graph's 131.** One is *get undressed*, for the pool lessons of Quest 6.1. *CD* and *DVD* are not taught (Daniel, 2026-10-06: not used any more). The other 15 are first names: *Charlie, Clare, Daisy, Fred, Jack, Jane, Jim, Julia, Lily, Mary, Paul, Peter, Sally, Vicky, Zoe*. Names, *CD*, and *DVD* are not in the Movers goal (decision 2). The plan said about 110 of 131: this map glosses 113, because the 8-Movers rule needs 112.
 
 Word notes for writers:
-- The seven day names are glossed in L03 (the plan gives each lesson 8 Movers words; the graph has the days as Movers words). *CD* and *DVD* are glossed in L09 for the same reason.
+- The seven day names are glossed in L03 (the plan gives each lesson 8 Movers words; the graph has the days as Movers words). Do not use *CD* or *DVD* in any lesson.
 - Function words (*by, on, out, off, down, into, than, most, when, why, which, would, could, must*) get a glossary entry with the sense of the text and a simple example. Use the entry style of Quest 4 (*always, never, every*).
 - *Café* has an accent in the Movers list. The converter removes accents before the check (AUTHORING §3). Try it in L06 or L08. If it fails, swap *café* for another unglossed Movers word of the topic and tell the lead.
 - Swap rule: a writer can swap at most 2 words of a lesson for other unglossed Movers words of the same topic. Tell the lead which, so that the count of 168 stays true.
@@ -367,6 +367,8 @@ Word notes for writers:
 
 ## 9. Questions for Daniel
 
+Daniel (2026-10-06): "1A but no CD/DVD (not used anymore), 2A, 3A, 4A, 5A, 6A". So: the day names are glossed in L03, and *CD* and *DVD* are not taught; names (and *CD*, *DVD*) are out of the Movers goal; L02 keeps *Chiang Mai*; Aunt Sue is a nurse and Teacher Nick is new in town; L26.4 stays supporting in L02 (Quest 6.1 teaches it first); the Starters words stay.
+
 1. **Weekday names, CD, and DVD as glossed words.** The profile needs 8 Movers words in each lesson, which is 112. The graph holds only 107 unglossed Movers words that are not names, days, *CD*, or *DVD*, and this map uses 106 of them. So this map also glosses the 7 day names (L03) and *CD* and *DVD* (L09). Option A (this map): gloss them. Option B: keep the days in `allow` and change the Quest 5 minimum to 7 Movers words, with 1 more Starters or Flyers word.
 2. **Names and the Movers goal.** The graph counts 15 first names and *get undressed* as Movers words that are not glossed after Quest 5. Names cannot go in a glossary. Option A: the coverage report excludes names from the 100% goal. Option B: a glossary entry for each name (not recommended). *Get undressed* goes to Quest 6.1 (the pool lessons).
 3. **Place names in L02.** R24.5 needs capital letters on names of places. The bible says that places have plain nouns. This map uses *Chiang Mai* in L02 (Aunt Sue's town) and nothing else. Option A: keep it. Option B: use only names of people, days, and months, and drop R24.5 from L02. Bank-5 b008 and b009 already use Bangkok and the City Park.
@@ -377,3 +379,4 @@ Word notes for writers:
 ## Revision history
 
 - 0.1 — 2026-10-06 — First version (track levels_5_9_20261006).
+- 0.2 — 2026-10-06 — Daniel's decisions on §9: 1A without *CD* and *DVD* (L09 glosses *board game* and *dining room*), 2A, 3A, 4A, 5A, 6A.

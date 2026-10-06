@@ -75,6 +75,21 @@ describe('list coverage', () => {
         expect(wordOf.get('english.vocabulary.skill.run.noun')).toBe('run');
         expect(wordOf.has('english.gse.skill.x')).toBe(false);
     });
+    it('leaves people\'s names and the words that the program does not teach out of the lists', () => {
+        const t = (id: string, title: string, form: string, exams: string[]) => ({ id: `english.vocabulary.skill.${id}`, kind: 'skill', title, metadata: { normalizedForm: form, examAlignments: exams } });
+        const { lists, wordOf } = wordLists([
+            t('charlie.noun', 'Charlie', 'charlie', ['a1-movers']),
+            t('monday.noun', 'Monday', 'monday', ['a1-movers', 'a2-key-for-schools']),
+            t('english.noun', 'English', 'english', ['pre-a1-starters']),
+            t('bill.noun', 'Bill', 'bill', ['pre-a1-starters', 'a2-key-for-schools']),
+            t('cd.noun', 'CD', 'cd', ['a1-movers', 'a2-key-for-schools']),
+            t('dvd-player.noun', 'DVD player', 'dvd player', ['a1-movers']),
+        ]);
+        expect([...lists.get('a1-movers')!].sort()).toEqual(['monday']);
+        expect([...lists.get('pre-a1-starters')!].sort()).toEqual(['bill', 'english']);
+        expect(wordOf.get('english.vocabulary.skill.charlie.noun')).toBe('charlie');
+    });
+
     it('counts the list words that the packages gloss, each one time', () => {
         const { lists, wordOf } = wordLists(nodes);
         const pkgs = [pkg([], [], ['english.vocabulary.skill.run.noun', 'english.vocabulary.skill.cat.noun']), pkg([], [], ['english.vocabulary.skill.run.verb'])];
