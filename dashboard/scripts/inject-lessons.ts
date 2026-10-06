@@ -139,9 +139,18 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
 function backupObjects(bucket: string, paths: string[], now: Date): number {
     let copied = 0;
     for (const p of paths) {
-        const run = spawnSync('gcloud', ['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], { encoding: 'utf8', timeout: 300_000 });
-        if (run.status === 0) copied++;
-        else if (!/matched no objects|No URLs matched|not found/i.test(run.stderr)) throw new Error(`backup of gs://${bucket}/${p} failed: ${run.stderr.trim().slice(-400)}`);
+        // Three tries: a server-side copy can hang until the timeout (2026-10-06), and then stderr is empty.
+        for (let attempt = 1; ; attempt++) {
+            const run = spawnSync('gcloud', ['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], { encoding: 'utf8', timeout: 300_000 });
+            if (run.status === 0) {
+                copied++;
+                break;
+            }
+            if (/matched no objects|No URLs matched|not found/i.test(run.stderr ?? '')) break;
+            const why = (run.stderr ?? '').trim().slice(-400) || run.error?.message || `stopped by ${run.signal ?? 'an unknown signal'}`;
+            if (attempt >= 3) throw new Error(`backup of gs://${bucket}/${p} failed after ${attempt} tries: ${why}`);
+            console.log(`  backup of ${p}: try ${attempt} failed (${why.split('\n').pop()}); trying again`);
+        }
     }
     return copied;
 }
