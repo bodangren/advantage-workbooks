@@ -44,6 +44,21 @@ describe('tag export entry', () => {
         expect(entry.questions.map((q) => `${q.type}:${q.id}:${q.objectives.join('+')}`)).toEqual(['mcq:m1:L19.2', 'mcq:m2:R17.2', 'mcq:m3:R17.2', 'saq:s1:L19.2', 'saq:s2:R17.2', 'laq:l1:R17.2']);
     });
 
+    it('gives the exact glossary form of a glossed node (an inflected form too), and none for a recycled node', () => {
+        const p = pkg();
+        p.glossary[2].word = 'puppies';
+        p.tags.glossedNodes = ['english.vocabulary.skill.puppy.noun', 'english.vocabulary.skill.ball.noun'];
+        p.tags.recycledNodes = ['english.vocabulary.skill.sorry.adjective-interrogative'];
+        const vocab = new Map(VOCAB).set('english.vocabulary.skill.puppy.noun', { id: 'english.vocabulary.skill.puppy.noun', word: 'puppy', pos: 'noun', forms: ['puppy', 'puppies'] });
+        const { entry } = tagExportEntry(p, new Set(OBJECTIVES.map((o) => o.id)), vocab);
+        expect(entry.vocabulary.map((v) => [v.word, v.glossaryWord])).toEqual([
+            ['puppy', 'puppies'],
+            ['ball', undefined],
+            ['sorry', undefined],
+        ]);
+        expect(Object.keys(entry.vocabulary[0])).toEqual(['word', 'glossaryWord', 'pos', 'nodeId', 'role']);
+    });
+
     it('gives the legacy article and question ids of an injected package, keyed by the package question id', () => {
         const p = pkg();
         p.db.legacy = { articleId: 'cart1', mcq: { m1: 'cq1', m2: 'cq2', m3: 'cq3' }, saq: { s1: 'cs1', s2: 'cs2' }, laq: { l1: 'cl1' }, flashcardId: 'cfl1' };
@@ -91,7 +106,9 @@ describe('tag export', () => {
 describe('vocabulary graph node', () => {
     it('takes the word from the normalized form and the part of speech from the node id', () => {
         const node = { id: 'english.vocabulary.skill.bat-as-sports-equipment.noun', kind: 'skill', title: 'bat (as sports equipment)', metadata: { normalizedForm: 'bat' } };
-        expect(vocabNodeFromGraph(node)).toEqual({ id: node.id, word: 'bat', pos: 'noun' });
+        expect(vocabNodeFromGraph(node)).toEqual({ id: node.id, word: 'bat', pos: 'noun', forms: ['bat'] });
+        const bats = { ...node, metadata: { normalizedForm: 'bat', matchForms: ['bats', 'Bat'] } };
+        expect(vocabNodeFromGraph(bats)?.forms).toEqual(['bat', 'bats']);
         expect(vocabNodeFromGraph({ id: 'english.vocabulary.domain', kind: 'domain', title: 'English CEFR Vocabulary' })).toBeUndefined();
     });
 });

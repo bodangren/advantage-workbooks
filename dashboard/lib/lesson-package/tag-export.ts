@@ -22,6 +22,8 @@ export interface VocabNode {
     id: string;
     word: string;
     pos: string;
+    /** The normalized form and the match forms, in lower case (for the glossary form of a node). */
+    forms?: string[];
 }
 
 /** The graph file that the tags were made against. */
@@ -48,7 +50,8 @@ export interface TagExportEntry {
     /** The legacy rows after the injection; `null` before it. Re-export after each injection. */
     legacy: { articleId: string; questions: Record<string, string> } | null;
     articleObjectives: { shortId: string; role: 'target' | 'supporting' }[];
-    vocabulary: { word: string; pos: string; nodeId: string; role: 'glossed' | 'recycled' }[];
+    /** `glossaryWord`: the exact glossary form of a glossed node ("pets" for `pet`), when the glossary has it. */
+    vocabulary: { word: string; glossaryWord?: string; pos: string; nodeId: string; role: 'glossed' | 'recycled' }[];
     questions: { id: string; type: QuestionType; objectives: string[] }[];
 }
 
@@ -64,11 +67,14 @@ export interface TagExport {
 /**
  * Reads one vocabulary graph node.
  * @param node A node of `cefr-vocabulary-knowledge-space.json`.
- * @returns The word (the normalized form) and the part of speech (the last part of the node id), or `undefined` for a node that is not a vocabulary skill.
+ * @returns The word (the normalized form), the part of speech (the last part of the node id), and the forms
+ *   (the word and the match forms), or `undefined` for a node that is not a vocabulary skill.
  */
-export function vocabNodeFromGraph(node: { id: string; kind: string; title?: string; metadata?: { normalizedForm?: string } }): VocabNode | undefined {
+export function vocabNodeFromGraph(node: { id: string; kind: string; title?: string; metadata?: { normalizedForm?: string; matchForms?: string[] } }): VocabNode | undefined {
     if (node.kind !== 'skill' || !node.id.startsWith('english.vocabulary.skill.')) return undefined;
-    return { id: node.id, word: node.metadata?.normalizedForm ?? node.title ?? '', pos: node.id.slice(node.id.lastIndexOf('.') + 1) };
+    const word = node.metadata?.normalizedForm ?? node.title ?? '';
+    const forms = [...new Set([word, ...(node.metadata?.matchForms ?? [])].map((f) => f.toLowerCase().trim()).filter(Boolean))];
+    return { id: node.id, word, pos: node.id.slice(node.id.lastIndexOf('.') + 1), forms };
 }
 
 /**
@@ -102,7 +108,9 @@ export function tagExportEntry(pkg: LessonPackage, keyIds: Set<string>, vocab: M
                 problems.push(`${where}: vocabulary node ${nodeId} is not in the vocabulary graph`);
                 return [];
             }
-            return [{ word: node.word, pos: node.pos, nodeId, role }];
+            const forms = node.forms ?? [node.word.toLowerCase()];
+            const glossaryWord = role === 'glossed' ? pkg.glossary.find((g) => forms.includes(g.word.trim().toLowerCase()))?.word.trim() : undefined;
+            return [{ word: node.word, ...(glossaryWord ? { glossaryWord } : {}), pos: node.pos, nodeId, role }];
         }),
     );
     const ids = pkg.db.legacy;

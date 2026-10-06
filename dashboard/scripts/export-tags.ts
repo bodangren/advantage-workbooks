@@ -22,7 +22,7 @@ Env: MASTERY_VOCAB_GRAPH (vocabulary graph), MASTERY_GSE_GRAPH (GSE graph).`;
 const DEFAULT_GSE_GRAPH = path.resolve(REPO_ROOT, '..', 'mastery-advantage/english/gse-knowledge-space.json');
 
 interface GraphFile {
-    nodes: { id: string; kind: string; title?: string; metadata?: { normalizedForm?: string; schemaVersion?: string; version?: string } }[];
+    nodes: { id: string; kind: string; title?: string; metadata?: { normalizedForm?: string; matchForms?: string[]; schemaVersion?: string; version?: string } }[];
 }
 
 function release(file: string, graph: GraphFile): GraphRelease {
