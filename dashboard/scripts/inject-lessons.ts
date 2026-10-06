@@ -9,11 +9,12 @@ import { recordInjection } from '../lib/lesson-package/store';
 import { appArticleId, appUploadArgs, backupPath, bucketObjects, legacyRows, newCuid, rowsHash } from '../lib/inject/legacy';
 import { matchLocales } from '../lib/inject/legacy-locales';
 import { legacyStatements } from '../lib/inject/sql';
+import { newRows, newRowsHash, newStatements, planIds, readLegacyMap, verifyNew } from '../lib/inject/new-db';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
 import { voicesFor } from '../lib/media/audio';
 import { tutorItems, tutorManifest, tutorUploads } from '../lib/media/tutor-audio';
 
-const USAGE = `Injects approved lesson packages into the legacy Primary database (track primary_injector_20261001).
+const USAGE = `Injects approved lesson packages into the Primary database: the legacy one (default), or the new one after the cutover (--target new).
 Field map: docs/content-plans/primary-db-field-map.md.
 
 Usage: npx tsx scripts/inject-lessons.ts <package.json>... [options]
@@ -21,7 +22,9 @@ Usage: npx tsx scripts/inject-lessons.ts <package.json>... [options]
 Options:
   --dry-run              Show what would change; no backup, no upload, no database
   --show-sql             With --dry-run: print the SQL (without the values)
-  --db-env <NAME>        Env var with the database URL (default LEGACY_DATABASE_URL); never printed
+  --target <legacy|new>  Which database (default legacy). The new target writes the monorepo schema (uuid ids)
+  --db-env <NAME>        Env var with the database URL (default LEGACY_DATABASE_URL, or NEW_DATABASE_URL for --target new); never printed
+  --backup-project <p>   GCP project of the Cloud SQL instance (default reading-advantage)
   --bucket <name>        Bucket for the media (default primary-app-storage)
   --tutor-bucket <name>  Bucket for the Tutor Advantage clips and manifest (default tutor_advantage_bucket)
   --no-tutor             Skip the Tutor clips (only for a local test database)
@@ -37,13 +40,19 @@ the old bucket objects go to backup/<time>/ first, and the article's old questio
 are replaced. A printed lesson needs its copy of the old cn, tw, and vi first
 (scripts/fetch-legacy-locales.ts); English fills each gap. Media goes up first (the app's files, then the Tutor clips, then
 the Tutor manifest), then one transaction per lesson, then the verify step. The ids go back into the package (db.legacy), and a line goes into
-content/primary/<book>/inject-log.jsonl.`;
+content/primary/<book>/inject-log.jsonl.
+
+New target: a package with db.legacy ids (or a printed or replaced article) went into the legacy database before the
+cutover, so the cutover ETL moved it. The script finds its uuids in primary_legacy_id_map and updates those rows; the other rows
+are inserted. The bucket key is the legacy cuid when the article has one, else the uuid. The ids go into db.new.`;
 
 interface Options {
     files: string[];
+    target: 'legacy' | 'new';
+    backupProject: string;
     dryRun: boolean;
     showSql: boolean;
-    dbEnv: string;
+    dbEnv: string | undefined;
     bucket: string;
     tutorBucket: string;
     tutor: boolean;
@@ -54,7 +63,7 @@ interface Options {
 }
 
 function parseArgs(argv: string[]): Options | number {
-    const o: Options = { files: [], dryRun: false, showSql: false, dbEnv: 'LEGACY_DATABASE_URL', bucket: 'primary-app-storage', tutorBucket: 'tutor_advantage_bucket', tutor: true, backupInstance: 'cloud-sql', backup: true, upload: true, force: false };
+    const o: Options = { files: [], target: 'legacy', backupProject: 'reading-advantage', dryRun: false, showSql: false, dbEnv: undefined, bucket: 'primary-app-storage', tutorBucket: 'tutor_advantage_bucket', tutor: true, backupInstance: 'cloud-sql', backup: true, upload: true, force: false };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -62,6 +71,14 @@ function parseArgs(argv: string[]): Options | number {
             return 0;
         } else if (a === '--dry-run') o.dryRun = true;
         else if (a === '--show-sql') o.showSql = true;
+        else if (a === '--target') {
+            const t = argv[++i];
+            if (t !== 'legacy' && t !== 'new') {
+                console.error(USAGE);
+                return 2;
+            }
+            o.target = t;
+        } else if (a === '--backup-project') o.backupProject = argv[++i];
         else if (a === '--db-env') o.dbEnv = argv[++i];
         else if (a === '--bucket') o.bucket = argv[++i];
         else if (a === '--tutor-bucket') o.tutorBucket = argv[++i];
@@ -80,6 +97,7 @@ function parseArgs(argv: string[]): Options | number {
         console.error(USAGE);
         return 2;
     }
+    o.dbEnv ??= o.target === 'new' ? 'NEW_DATABASE_URL' : 'LEGACY_DATABASE_URL';
     return o;
 }
 
@@ -90,9 +108,9 @@ function gcloud(args: string[]): string {
 }
 
 /** Makes a Cloud SQL backup, waits for it, and returns its id. */
-function backup(instance: string, description: string): string {
-    gcloud(['sql', 'backups', 'create', '--instance', instance, '--project', 'reading-advantage', '--description', description]);
-    return gcloud(['sql', 'backups', 'list', '--instance', instance, '--project', 'reading-advantage', '--limit', '1', '--sort-by', '~windowStartTime', '--format', 'value(id)']);
+function backup(instance: string, description: string, project = 'reading-advantage'): string {
+    gcloud(['sql', 'backups', 'create', '--instance', instance, '--project', project, '--description', description]);
+    return gcloud(['sql', 'backups', 'list', '--instance', instance, '--project', project, '--limit', '1', '--sort-by', '~windowStartTime', '--format', 'value(id)']);
 }
 
 async function upload(root: string, objects: ReturnType<typeof bucketObjects>, bucket: string) {
@@ -148,6 +166,129 @@ function uploadTutor(root: string, uploads: ReturnType<typeof tutorUploads>, man
     }
 }
 
+/** The connection and the backup of one run; the new target shares them across packages. */
+interface RunState {
+    client?: Client;
+    backupId?: string;
+}
+
+/**
+ * Injects one package into the new database (monorepo schema).
+ * @returns 0 when the lesson is written and verified (or skipped as unchanged), 1 otherwise.
+ */
+async function injectNew(opts: Options, state: RunState, file: string, now: Date): Promise<number> {
+    const root = path.dirname(path.dirname(file));
+    const book = path.basename(path.dirname(file));
+    const lesson = path.basename(file, '.json');
+    const parsed = LessonPackageSchema.safeParse(JSON.parse(fs.readFileSync(file, 'utf8')));
+    if (!parsed.success) {
+        console.error(`${book}/${lesson}: the package does not parse`);
+        return 1;
+    }
+    const pkg = parsed.data;
+    const approved = pkg.approval.lesson.status === 'approved';
+    const known = pkg.db.new;
+    // A package with legacy ids was moved by the cutover ETL; its rows are updated through the id map.
+    const legacyArticleId = appArticleId(pkg);
+    const bank = { mcq: pkg.bank.mcq.map((q) => q.id), saq: pkg.bank.saq.map((q) => q.id), laq: pkg.bank.laq.map((q) => q.id) };
+    const input = { legacyArticleId, legacy: pkg.db.legacy, current: known, bank };
+
+    // The checks and the dry run need no database: legacy ids count as mapped.
+    let plan = planIds(input, new Map(), { dryRun: true });
+    let rows: ReturnType<typeof newRows>;
+    try {
+        rows = newRows(pkg, plan, now);
+    } catch (e) {
+        console.error(`${book}/${lesson}: ${(e as Error).message}`);
+        return 1;
+    }
+    const tutorFor = (key: string) => {
+        // Bank articles are online only: Tutor Advantage sells the printed books, so they have no Tutor clips.
+        if (!opts.tutor || pkg.meta.role === 'bank') return { tutor: undefined as undefined | { uploads: ReturnType<typeof tutorUploads>; manifest: ReturnType<typeof tutorManifest> } };
+        const items = tutorItems(pkg);
+        const voices = voicesFor(pkg);
+        const uploads = pkg.audio.tutor ? tutorUploads(items, pkg.audio.tutor, key) : [];
+        const missing = uploads.filter((u) => !fs.existsSync(path.resolve(root, u.from))).length;
+        if (!pkg.audio.tutor || missing) throw new Error(`Not ready to inject: ${pkg.audio.tutor ? `${missing} Tutor clip(s) missing` : 'no Tutor clips'}; run scripts/media/lesson-audio.ts`);
+        const manifest = tutorManifest(items, { articleId: key, bucket: opts.tutorBucket, title: pkg.meta.title, narratorVoice: voices.narrator, teacherVoice: voices.teacher, speed: 0.75, generatedAt: now.toISOString() });
+        return { tutor: { uploads, manifest } };
+    };
+    let tutor;
+    try {
+        tutor = tutorFor(plan.key).tutor;
+    } catch (e) {
+        console.error(`${book}/${lesson}: ${(e as Error).message}`);
+        return 1;
+    }
+    const objects = bucketObjects(pkg, plan.key);
+    const hashOf = (r: ReturnType<typeof newRows>) => newRowsHash(r, tutor && { ...tutor.manifest, generatedAt: undefined });
+    const describe = (p: typeof plan) => {
+        const all = [p.article, ...Object.values(p.mcq), ...Object.values(p.saq), ...Object.values(p.laq), p.flashcard];
+        return `${all.filter((x) => x.action === 'update').length} update, ${all.filter((x) => x.action === 'insert').length} insert`;
+    };
+
+    if (opts.dryRun) {
+        console.log(`${book}/${lesson} "${pkg.meta.title}" → articles ${rows.article.id} (target new; ${plan.article.action}, bucket key ${plan.key})${approved ? '' : '  [NOT APPROVED: a real run refuses it]'}`);
+        console.log(`  rows: 1 article, ${rows.mcq.length} MCQ, ${rows.saq.length} SAQ, ${rows.laq.length} LAQ, 1 flashcard row (${describe(plan)}); hash ${hashOf(rows)}${known?.contentHash === hashOf(rows) ? ' (unchanged)' : ''}`);
+        if (legacyArticleId && !known) console.log(`  ids of legacy rows: read from primary_legacy_id_map in a real run (shown as <uuid of ...>); a missing article stops the run`);
+        const a = rows.article;
+        console.log(`  article: level ${a.level}/${a.cefr_level}, type ${a.type}, genre ${a.genre}, image (picture key) ${a.image}, audio ${a.audio_url}`);
+        rows.mcq.forEach((q, i) => console.log(`  MCQ ${i + 1} [${plan.mcq[rows.order.mcq[i]].action}] ${q.id}: correct_answer ${q.correct_answer} (${q.options[q.correct_answer]}), order ${q.order}`));
+        rows.saq.forEach((q, i) => console.log(`  SAQ ${i + 1} [${plan.saq[rows.order.saq[i]].action}] ${q.id}: order ${q.order}, sample_answer "${q.sample_answer}"`));
+        rows.laq.forEach((q, i) => console.log(`  LAQ ${i + 1} [${plan.laq[rows.order.laq[i]].action}] ${q.id}`));
+        console.log(`  flashcard [${plan.flashcard.action}] ${rows.flashcard.id}: ${rows.flashcard.sentence.length} sentences, ${rows.flashcard.words.length} words`);
+        if (legacyArticleId) console.log(`  first: the old objects (when they exist) → gs://${opts.bucket}/${backupPath('', now)}`);
+        for (const o of objects) console.log(`  ${o.from} → gs://${opts.bucket}/${o.to}${o.png ? ' (as PNG)' : ''}`);
+        if (tutor) console.log(`  ${tutor.uploads.length} Tutor clips and manifest.json → gs://${opts.tutorBucket}/articles/${plan.key}/`);
+        if (opts.showSql) for (const s of newStatements(rows, plan, now)) console.log(`  ${s.text}`);
+        return 0;
+    }
+    if (!approved) {
+        console.error(`${book}/${lesson}: not approved (approval.lesson is draft); skipped`);
+        return 1;
+    }
+    const url = process.env[opts.dbEnv!];
+    if (!url) throw new Error(`Set ${opts.dbEnv} to the database URL`);
+    if (!state.client) {
+        state.client = new Client({ connectionString: url });
+        await state.client.connect();
+    }
+    // Read the id map, then plan again with the real uuids of the rows that the cutover moved.
+    plan = planIds(input, await readLegacyMap(state.client, pkg.db.legacy, legacyArticleId));
+    rows = newRows(pkg, plan, now);
+    const hash = hashOf(rows);
+    const label = `${book}/${lesson} "${pkg.meta.title}" → articles ${rows.article.id} (${plan.article.action}; ${describe(plan)})`;
+    if (known?.contentHash === hash && !opts.force) {
+        console.log(`${label}: unchanged; skipped`);
+        return 0;
+    }
+    if (opts.backup && !state.backupId) {
+        console.log(`Backup of ${opts.backupInstance} (waits until it is done)...`);
+        state.backupId = backup(opts.backupInstance, `inject new ${book}/${lesson} ${now.toISOString()}`, opts.backupProject);
+        console.log(`  backup ${state.backupId}`);
+    }
+    console.log(label);
+    const tutorManifestPath = `articles/${plan.key}/manifest.json`;
+    let backedUp = 0;
+    if (opts.upload && legacyArticleId) {
+        backedUp = backupObjects(opts.bucket, objects.map((o) => o.to), now) + (tutor ? backupObjects(opts.tutorBucket, [tutorManifestPath], now) : 0);
+        console.log(`  ${backedUp} old object(s) → backup/${backupPath('', now).split('/')[1]}/`);
+    }
+    if (opts.upload) await upload(root, objects, opts.bucket);
+    if (opts.upload && tutor) uploadTutor(root, tutor.uploads, tutor.manifest, opts.tutorBucket);
+    await applyStatements(state.client, newStatements(rows, plan, now));
+    const diffs = await verifyNew(state.client, rows);
+    recordInjection(root, book, lesson, 'new', { ...rows.ids, contentHash: hash, injectedAt: now.toISOString() });
+    const log = { time: now.toISOString(), target: 'new', lesson: `${book}/${lesson}`, articleId: rows.ids.articleId, key: plan.key, backupId: state.backupId, bucketBackup: backedUp ? backupPath('', now) : undefined, hash, objects: opts.upload ? objects.map((o) => o.to) : [], tutorClips: opts.upload && tutor ? tutor.uploads.length : 0, verify: diffs };
+    fs.appendFileSync(path.join(root, book, 'inject-log.jsonl'), `${JSON.stringify(log)}\n`);
+    if (diffs.length) {
+        console.error(`  verify: ${diffs.join('; ')}`);
+        return 1;
+    }
+    console.log('  written and verified');
+    return 0;
+}
+
 async function main(argv: string[]): Promise<number> {
     const opts = parseArgs(argv);
     if (typeof opts === 'number') return opts;
@@ -155,8 +296,13 @@ async function main(argv: string[]): Promise<number> {
     let client: Client | undefined;
     let backupId: string | undefined;
     let failed = 0;
+    const state: RunState = {};
     try {
         for (const file of opts.files) {
+            if (opts.target === 'new') {
+                failed += await injectNew(opts, state, file, now);
+                continue;
+            }
             const root = path.dirname(path.dirname(file));
             const book = path.basename(path.dirname(file));
             const lesson = path.basename(file, '.json');
@@ -221,11 +367,11 @@ async function main(argv: string[]): Promise<number> {
                 console.log(`${label}: unchanged; skipped`);
                 continue;
             }
-            const url = process.env[opts.dbEnv];
+            const url = process.env[opts.dbEnv!];
             if (!url) throw new Error(`Set ${opts.dbEnv} to the database URL`);
             if (opts.backup && !backupId) {
                 console.log(`Backup of ${opts.backupInstance} (waits until it is done)...`);
-                backupId = backup(opts.backupInstance, `inject ${book}/${lesson} ${now.toISOString()}`);
+                backupId = backup(opts.backupInstance, `inject ${book}/${lesson} ${now.toISOString()}`, opts.backupProject);
                 console.log(`  backup ${backupId}`);
             }
             if (!client) {
@@ -252,6 +398,7 @@ async function main(argv: string[]): Promise<number> {
         }
     } finally {
         await client?.end();
+        await state.client?.end();
     }
     return failed ? 1 : 0;
 }

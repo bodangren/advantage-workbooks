@@ -90,9 +90,92 @@ Tutor matches the questions by index to `SELECT … WHERE article_id = $1` with 
 
 ## New schema (monorepo, after the cutover)
 
-`articles` keeps the Prisma columns (`passage`, `translated_*`, `sentences`, `words`, `audio_*`, `ra_level`, `cefr_level`, `is_published`, …) plus `content` (text, not null: the passage), `level`, `published`. `multiple_choice_questions` adds `correct_answer` (index into `options`, jsonb) and `order`; `short_answer_questions` adds `sample_answer` and `order`. IDs are uuid; `legacy_id_map` links them to the cuids. `--target new` writes these after the cutover.
+Command: `inject-lessons.ts --target new` (the default database variable is `NEW_DATABASE_URL`). Code: `dashboard/lib/inject/new-db.ts`. Sources: `packages/db/src/schema/{content,questions,primary}.ts` in `reading-advantage-monorepo`, and the migrations `0060_primary_legacy_id_map.sql` and `0061_tutor_compat_views.sql`. Those two migrations exist only in the worktree `~/Desktop/rama-worktrees/integration` (checked 2026-10-06); the master checkout has no id map yet.
+
+The new target uses the same text rules as the legacy target (passage, translations, word times, flashcard sentences, `\n\n` separator, English fill for `cn`, `tw`, and `vi`). This section lists only the column names and the differences.
+
+### Ids and the update-or-insert rule
+
+All ids are `uuid` (`crypto.randomUUID`). `primary_legacy_id_map (table_name, legacy_id, new_id)` links a legacy cuid to its uuid. The column `table_name` holds the legacy table name: `article`, `multiple_choice_questions`, `short_answer_questions`, `long_answer_questions`, or `sentencs_and_words_for_flashcard`.
+
+| Case | Action |
+|---|---|
+| The package has `db.new` ids (an earlier new-database run) | UPDATE those rows |
+| The package has `db.legacy` ids, or names a printed or replaced article, and the map knows them | UPDATE the rows with the uuids from the map. The cutover ETL moved them. |
+| The article has a legacy id and the map does not know it | The run stops. An insert would give the printed QR code a second article. |
+| A question or flashcard row has no legacy id, or the map does not know it | INSERT with a new uuid |
+| A new lesson | INSERT every row with a new uuid |
+
+The package replaces the article's question rows (Q-ORF-01), as in the legacy target. Rows of the article that the package does not have are deleted in the same transaction. A flashcard row of the article that the package does not have is deleted too. The map keeps entries for deleted rows; they do no harm.
+
+The run step reads the map with one SELECT. A dry run reads no database: a legacy id shows as `<uuid of ...>`. The ids go into `db.new` after a real run.
+
+### Bucket key and picture key
+
+The bucket key of an article is its legacy cuid when it has one, else its uuid. This is the plan of the monorepo side; it is not final. The bucket objects use the key: `images/<key>_<n>.png`, `audios/articles/<key>.mp3`, `audios/words/<key>.mp3`, `audios/sentences/<key>.mp3`. The Tutor clips use the key too (`articles/<key>/manifest.json`), because `tutor_compat.article.id` is `coalesce(legacy_id, id::text)`. The injector writes the key to `articles.image` (a nullable `text` column that exists in the shared schema).
+
+### `articles`
+
+| Column | From the package | Rule |
+|---|---|---|
+| `id` | plan | uuid |
+| `title` | `meta.title` | |
+| `content` | `text.paragraphs` | NOT NULL. The same text as `passage`. |
+| `summary` | `text.summary` | |
+| `level` | `meta.raLevel` | The same value as `ra_level` |
+| `cefr_level` | `meta.cefrLevel` | Must agree with `ra_level` (the legacy level table) |
+| `image` | bucket key | See above |
+| `published` | — | `true` |
+| `type`, `genre` | `meta.appType`, `meta.genre` | As in the legacy target |
+| `sub_genre` | — | `null` |
+| `passage` | `text.paragraphs` | Joined with `\n\n`. An existing passage that differs only in spaces and line breaks stays (the same rule as the legacy target; `content` too). |
+| `translated_summary`, `translated_passage` | `thai`, `locales` | jsonb `{ th, cn, tw, vi }`, as in the legacy target |
+| `image_description` | `images[0].prompt` | |
+| `ra_level` | `meta.raLevel` | integer |
+| `rating` | — | `5` |
+| `audio_url`, `audio_word_url` | `audio.article`, `audio.words` | `/audios/articles/<key>.mp3`, `/audios/words/<key>.mp3` |
+| `sentences` | `audio.sentences` | The sentence timing: `{ sentence, startTime, endTime, words: { word, start, end }[] }[]` |
+| `words` | — | `null` (SQL null) |
+| `is_approved`, `is_published` | `approval.lesson` | `true` |
+| `is_draft` | — | `false` |
+| `updated_at` | — | The run time. `created_at` has a database default. |
+
+The injector does not write these columns:
+
+- `author_id`: it is a foreign key to `users.id`, so the legacy value `''` would fail.
+- `is_public`: default `false`. Its use in the new app is unknown.
+- `topic`, `brainstorming`, `planning`: `null`.
+- `validation_status` and `validated_at`: the new table does not have them.
+
+### Questions and flashcard rows
+
+| Table | Columns | From the package |
+|---|---|---|
+| `multiple_choice_questions` | `id`, `article_id`, `question`, `options` (jsonb array of 4), `correct_answer` (integer), `answer`, `textual_evidence`, `order`, `updated_at` | `bank.mcq[]`. `correct_answer` is the index of `answer` in `options` (the run stops when it is not there). `order` is the position in the bank, from 0. `textual_evidence` is `evidence`. |
+| `short_answer_questions` | `id`, `article_id`, `question`, `sample_answer`, `answer`, `order`, `updated_at` | `bank.saq[]`. `sample_answer` and `answer` both hold `answer`. `order` is the position in the bank, from 0. |
+| `long_answer_questions` | `id`, `article_id`, `question`, `updated_at` | `bank.laq[]`. The table has no `order` column. |
+| `sentencs_and_words_for_flashcard` | `id`, `article_id`, `sentence` (jsonb), `audio_sentences_url`, `words` (jsonb), `words_url`, `updated_at` | As in the legacy target, with `audios/sentences/<key>.mp3` and `audios/words/<key>.mp3` |
+
+The new tables use snake_case names (`textual_evidence`, `updated_at`), so SQL needs no special quoting. The injector does not write `explanation`, `rubric`, or `chapter_id`.
+
+### Safety
+
+- Cloud SQL backup first (`--backup-instance`, `--backup-project`), then the media, then one transaction per lesson, then the verify step.
+- The content hash is in `db.new.contentHash`. An unchanged lesson is skipped unless `--force` is set.
+- The log line in `content/primary/<book>/inject-log.jsonl` has `target: 'new'`.
+- The verify step compares every column the injector writes, and lists rows of the article that the package does not have.
 
 ## Open items
 
 1. Done (2026-10-01): the paragraph separator is `\n\n`; `sentences[]` is `{ sentence, startTime, endTime, words: { word, start, end }[] }`; the flashcard row is as above; the 27 articles are `fiction` with the app's genre names; the level pairs are `ra_level` 2 = A0 and 3 = A0+.
 2. Decided again (Daniel, 2026-10-01): keep the old `cn`, `tw`, and `vi`, matched by sentence. The first decision ("Thai only", empty values) came from a wrong statement: the app does not show English for an empty string. A printed lesson copies its old values into the package (`locales`, `scripts/fetch-legacy-locales.ts`) before its first injection, and the injector refuses it without the copy. English fills each gap and a new lesson (E12) has English only.
+3. Open for the monorepo side (2026-10-06), from the new target:
+   - The picture key is the plan of the monorepo side. The injector writes the key to `articles.image`; the format is a guess (key only, no path). Confirm it, or name another column.
+   - The ETL (A6) does not exist yet. Rule needed: an article that the injector wrote to the new database must not get a second copy from the ETL. The ETL must skip, or map, a row that already exists.
+   - `packages/domain/src/primary-books/import.ts` (`importLessonPackage`) also inserts a new article for an approved workbook package with no legacy article. The injector would insert a second one. Choose one writer, or let the importer link to the injector's article.
+   - The importer looks up the map with `table_name = 'articles'`; the migration and the views use `'article'`. One of them is wrong.
+   - The importer does not change an article that has a legacy id (Tutor reads it). The injector updates it. Confirm that an update is allowed.
+   - `articles.author_id` is a foreign key to `users`, `is_public` has a default of `false`, and `sub_genre` and `topic` stay empty. Confirm that the app needs none of them.
+   - The worktree `lane-h` has the tables `primary_article_objectives`, `primary_question_objectives`, and `primary_article_word_nodes` (`primary-mastery.ts`). The injector does not write them yet.
+   - The injector deletes question rows that the package does not have. Student answers keep a text `question_id` with no foreign key, so they stay, but they point at a deleted row.
+
