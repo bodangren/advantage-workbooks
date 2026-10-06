@@ -40,7 +40,7 @@
 <!-- Approaches worth repeating -->
 
 - (2026-04-08, ai_content_orchestration_20260408) Gemini structured output: Using `responseMimeType: "application/json"` with `zodToJsonSchema` to embed the full Zod schema in the prompt ensures Gemini returns valid JSON that passes `Schema.safeParse()`. This pattern (from ai-augmentor.ts) is reusable for any structured output from Gemini.
-- (2026-04-09, ai_content_orchestration_20260408) Radix Select in jsdom: Radix UI Select component uses `scrollIntoView` which is not available in jsdom. Tests that interact with Select dropdowns in jsdom will fail. Either mock the component or use `@testing-library/user-event` which handles these cases better.
+- (2026-10-06, levels_5_9_20261006) Parallel content writers: put the cast facts (names in use, ages, kinship, dates fixed in other books) in each writer's prompt, and give each subagent a private scratch folder. Writers reused a bible name ("Alex", a pen pal), made a blond Thai boy, and set dates that clashed across books; one agent ran another agent's script from the shared scratchpad. A separate editor pass after the writers found 168 faults that the checks cannot see (two true MCQ options, fill items with two answers, pictures that disagree with the text).
 
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
