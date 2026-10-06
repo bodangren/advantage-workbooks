@@ -154,8 +154,10 @@ const LEVEL_7: TextProfile = {
     meanSentenceLength: [7.5, 9.0],
     longestSentence: 16,
     listLevel: 'Flyers',
-    glossedStartersMin: 8,
-    glossedMoversMax: 2,
+    // Daniel, 2026-10-06: levels 5-6 glossed almost every Flyers word once, so the books of level 7
+    // teach 4-6 new A2 Key words in each lesson. The level 7 bank keeps 8 Flyers and 2 Key at most.
+    glossedStartersMin: 6,
+    glossedMoversMax: 6,
 };
 
 /** Level 8 (A2): Adventure 8.1 to 8.3. Key list. */
@@ -223,7 +225,7 @@ export const PROFILES: Record<string, TextProfile> = {
     'adventure-9': LEVEL_9,
     'bank-5': bank(LEVEL_5, 'bank-5', 'Primary level 5 bank (online only)', { meanSentenceLength: widen(LEVEL_5.meanSentenceLength), questionMarksMin: 1 }),
     'bank-6': bank(LEVEL_6, 'bank-6', 'Primary level 6 bank (online only)', { meanSentenceLength: widen(LEVEL_6.meanSentenceLength), questionMarksMin: 1 }),
-    'bank-7': bank(LEVEL_7, 'bank-7', 'Primary level 7 bank (online only)', { meanSentenceLength: widen(LEVEL_7.meanSentenceLength), questionMarksMin: 1 }),
+    'bank-7': bank(LEVEL_7, 'bank-7', 'Primary level 7 bank (online only)', { meanSentenceLength: widen(LEVEL_7.meanSentenceLength), questionMarksMin: 1, glossedStartersMin: 8, glossedMoversMax: 2 }),
     'bank-8': bank(LEVEL_8, 'bank-8', 'Primary level 8 bank (online only)', { meanSentenceLength: widen(LEVEL_8.meanSentenceLength), questionMarksMin: 1 }),
     'bank-9': bank(LEVEL_9, 'bank-9', 'Primary level 9 bank (online only)', { meanSentenceLength: widen(LEVEL_9.meanSentenceLength), questionMarksMin: 1 }),
     'origins-3.1-insert': {

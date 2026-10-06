@@ -167,7 +167,7 @@ describe('the level 5-9 profiles', () => {
         });
         expect(PROFILES['adventure-7']).toMatchObject({
             ...common, label: 'Primary level 7 (Adventure 7.1, 7.2)', words: [300, 380], paragraphs: [4, 5], meanSentenceLength: [7.5, 9.0],
-            longestSentence: 16, listLevel: 'Flyers', glossedStartersMin: 8, glossedMoversMax: 2,
+            longestSentence: 16, listLevel: 'Flyers', glossedStartersMin: 6, glossedMoversMax: 6,
         });
         expect(PROFILES['adventure-8']).toMatchObject({
             ...common, label: 'Primary level 8 (Adventure 8.1–8.3)', words: [340, 430], paragraphs: 5, meanSentenceLength: [7.8, 9.5], newStartersMin: 5,
@@ -178,6 +178,11 @@ describe('the level 5-9 profiles', () => {
             longestSentence: 20, listLevel: 'Key', glossedStartersMin: 8, glossedMoversMax: 2,
         });
         expect(PROFILES['adventure-7'].glossedFrom).toBeUndefined();
+    });
+
+    it('lets the Adventure 7 books gloss up to 6 A2 Key words, and keeps bank-7 at 2 (Daniel, 2026-10-06)', () => {
+        expect(PROFILES['adventure-7']).toMatchObject({ glossedStartersMin: 6, glossedMoversMax: 6 });
+        expect(PROFILES['bank-7']).toMatchObject({ glossedStartersMin: 8, glossedMoversMax: 2 });
     });
 
     it('ships the five banks with wider sentences and no book rules', () => {
