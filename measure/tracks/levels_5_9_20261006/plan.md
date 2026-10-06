@@ -9,7 +9,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [ ] Read-only inventory of levels 5–9 (`scripts/inventory-legacy.ts`; needs read access to the legacy database); similar old articles grouped (`scripts/plan-dedup.ts`)
 - [ ] Vocabulary index: A2 Key and B1 Preliminary as separate levels (now one "Key/PET" group); tests
 - [ ] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level; book folders in `BOOK_ORDER` and `BOOK_PROFILES`; tests
-- [ ] Coverage report for levels 5–9 (`scripts/level-coverage.ts`): the book rule, the level rule, and the list coverage
+- [x] Coverage report for levels 5–9 (`scripts/level-coverage.ts --levels 5-9` → `level-plans/coverage-5-9.md`): the book rule, the level rule, and the list coverage; tests
 - [ ] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts`) from the lead objectives
 - [ ] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks
 - [ ] Calibration: two sample texts for each level through the text check; one print test of a 480-word article in the 13-step template (the article may need two pages)
