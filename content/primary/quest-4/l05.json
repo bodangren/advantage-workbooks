@@ -17,9 +17,9 @@
   },
   "text": {
     "paragraphs": [
-      "This is our class timetable. Our class is with Teacher Kim. She puts the timetable on the board. We have school every day from Monday to Friday. School starts at eight o'clock. On Monday at a quarter past eight, we have English. We have a computer lesson at half past nine. There is a break at ten o'clock. Lunch is at twelve o'clock. It is nice. Leo and May are my good friends. We always eat rice at lunch.",
+      "This is our class timetable. Our teacher is Teacher Kim. She puts the timetable on the board. We have school every day from Monday to Friday. School starts at eight o'clock. On Monday at a quarter past eight, we have English. We have a computer lesson at half past nine. There is a break at ten o'clock. Lunch is at twelve o'clock. I sit with my good friends, Leo and May. We always eat rice at lunch.",
       "On Tuesday, we have music after lunch. Music is at one o'clock. We sing songs. On Wednesday at half past one, we draw pictures. On Thursday at two o'clock, we play football. On Friday at a quarter past two, we read stories. We have homework on Monday and Wednesday. We never have homework on Friday.",
-      "\"Do we have English every day?\" asks Leo. \"No,\" says May. \"We have English on Monday and Thursday.\" \"What time is football?\" asks Leo. \"It's at two o'clock,\" says Lily. Teacher Kim sometimes reads a story before break. I like music, and I like football, too. Leo likes our timetable, too. What is your favorite lesson in the week?"
+      "\"Do we have English every day?\" asks Leo. \"No,\" says May. \"We have English on Monday and Thursday.\" \"What time is football?\" asks Leo. \"It's at two o'clock,\" I say. Teacher Kim sometimes reads a story before break. I like music, and I like football, too. Leo likes our timetable, too. What is your favorite lesson in the week?"
     ],
     "summary": "Lily tells us about her class timetable. It shows the times of English, computer lessons, music, football, and lunch for one week.",
     "glossed": [
@@ -306,10 +306,10 @@
     "saq": [
       {
         "id": "s1",
-        "question": "What do you like doing at the weekend?",
-        "answer": "At the weekend, I like ...",
+        "question": "What is your favorite lesson? When is it?",
+        "answer": "My favorite lesson is music. It is on Tuesday at one o'clock.",
         "objectives": [
-          "R23.3"
+          "L22.2"
         ]
       },
       {
@@ -330,8 +330,8 @@
       },
       {
         "id": "s4",
-        "question": "When is the class English?",
-        "answer": "English is on Monday and Thursday.",
+        "question": "When does the class have English?",
+        "answer": "They have English on Monday and Thursday.",
         "objectives": [
           "L22.2"
         ]
@@ -391,7 +391,7 @@
       "m10"
     ],
     "saq": "s1",
-    "saqHint": "At the weekend, I like ___.",
+    "saqHint": "My favorite lesson is ___. It is on ___.",
     "mcqOptions": 3
   },
   "activities": {
@@ -406,7 +406,7 @@
         "answer": "quarter"
       },
       {
-        "sentence": "We have math at ___ past nine.",
+        "sentence": "We have a computer lesson at ___ past nine.",
         "answer": "half"
       },
       {
@@ -442,8 +442,8 @@
           "th": "นี่คือตารางเรียนของห้องเรา"
         },
         {
-          "en": "Our class is with Teacher Kim.",
-          "th": "ห้องเราเรียนกับครูคิม"
+          "en": "Our teacher is Teacher Kim.",
+          "th": "ครูของเราคือครูคิม"
         },
         {
           "en": "She puts the timetable on the board.",
@@ -474,12 +474,8 @@
           "th": "อาหารกลางวันคือตอนเที่ยง"
         },
         {
-          "en": "It is nice.",
-          "th": "อร่อยมาก"
-        },
-        {
-          "en": "Leo and May are my good friends.",
-          "th": "ลีโอกับเมย์เป็นเพื่อนสนิทของฉัน"
+          "en": "I sit with my good friends, Leo and May.",
+          "th": "ฉันนั่งกับเพื่อนสนิทของฉัน ลีโอและเมย์"
         },
         {
           "en": "We always eat rice at lunch.",
@@ -501,7 +497,7 @@
         },
         {
           "en": "On Wednesday at half past one, we draw pictures.",
-          "th": "วันพุธตอนบ่ายโมงครึ่ง เรามีวิชาศิลปะ"
+          "th": "วันพุธตอนบ่ายโมงครึ่ง เราวาดรูปกัน"
         },
         {
           "en": "On Thursday at two o'clock, we play football.",
@@ -538,8 +534,8 @@
           "th": "\"ฟุตบอลเริ่มกี่โมง\" ลีโอถาม"
         },
         {
-          "en": "\"It's at two o'clock,\" says Lily.",
-          "th": "\"ตอนบ่ายสองโมง\" ลิลลี่ตอบ"
+          "en": "\"It's at two o'clock,\" I say.",
+          "th": "\"ตอนบ่ายสองโมง\" ฉันตอบ"
         },
         {
           "en": "Teacher Kim sometimes reads a story before break.",
@@ -564,7 +560,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Lily, May, and Leo stand in a bright classroom next to a big wooden board. The board holds a blank paper chart with rows and columns.",
+      "prompt": "A bright classroom. A big wooden board on the wall holds a white paper chart. Lily, May, and Leo stand to the right of the board and look at it; nobody stands in front of it. The chart says, in four lines: \"Our Class Timetable\" / \"Monday 8:15 English\" / \"Monday 9:30 Computer\" / \"Thursday 2:00 Football\".",
       "characters": [
         "Lily",
         "May",
@@ -572,25 +568,12 @@
       ],
       "caption": "Our class timetable.",
       "file": "quest-4/media/l05/hero.jpg",
-      "overlay": [
-        {
-          "text": "Our Class Timetable"
-        },
-        {
-          "text": "Monday 8:15 English"
-        },
-        {
-          "text": "Monday 9:30 Computer"
-        },
-        {
-          "text": "Thursday 2:00 Football"
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "quest-4/media/l05/candidates/hero-muse_001.jpg",
         "quest-4/media/l05/candidates/hero-muse_002.jpg"
       ],
-      "chosenFrom": "quest-4/media/l05/candidates/hero-muse_001.jpg"
+      "chosenFrom": "quest-4/media/l05/candidates/hero-muse_002.jpg"
     },
     {
       "position": "inline-para-2",
@@ -638,144 +621,139 @@
         "endTime": 2.427
       },
       {
-        "text": "Our class is with Teacher Kim.",
+        "text": "Our teacher is Teacher Kim.",
         "startTime": 2.877,
-        "endTime": 5.261
+        "endTime": 5.312
       },
       {
         "text": "She puts the timetable on the board.",
-        "startTime": 5.711,
-        "endTime": 8.195
+        "startTime": 5.762,
+        "endTime": 8.246
       },
       {
         "text": "We have school every day from Monday to Friday.",
-        "startTime": 8.645,
-        "endTime": 12.183
+        "startTime": 8.696,
+        "endTime": 12.234
       },
       {
         "text": "School starts at eight o'clock.",
-        "startTime": 12.633,
-        "endTime": 14.686
+        "startTime": 12.684,
+        "endTime": 14.737
       },
       {
         "text": "On Monday at a quarter past eight, we have English.",
-        "startTime": 15.136,
-        "endTime": 19.613
+        "startTime": 15.187,
+        "endTime": 19.664
       },
       {
         "text": "We have a computer lesson at half past nine.",
-        "startTime": 20.063,
-        "endTime": 23.549
+        "startTime": 20.114,
+        "endTime": 23.6
       },
       {
         "text": "There is a break at ten o'clock.",
-        "startTime": 23.999,
-        "endTime": 26.25
+        "startTime": 24.05,
+        "endTime": 26.301
       },
       {
         "text": "Lunch is at twelve o'clock.",
-        "startTime": 26.7,
-        "endTime": 29.262
+        "startTime": 26.751,
+        "endTime": 29.313
       },
       {
-        "text": "It is nice.",
-        "startTime": 29.712,
-        "endTime": 31.213
-      },
-      {
-        "text": "Leo and May are my good friends.",
-        "startTime": 31.663,
-        "endTime": 34.444
+        "text": "I sit with my good friends, Leo and May.",
+        "startTime": 29.763,
+        "endTime": 33.442
       },
       {
         "text": "We always eat rice at lunch.",
-        "startTime": 34.894,
-        "endTime": 37.329
+        "startTime": 33.892,
+        "endTime": 36.327
       },
       {
         "text": "On Tuesday, we have music after lunch.",
-        "startTime": 38.229,
-        "endTime": 41.676
+        "startTime": 37.227,
+        "endTime": 40.674
       },
       {
         "text": "Music is at one o'clock.",
-        "startTime": 42.126,
-        "endTime": 44.009
+        "startTime": 41.124,
+        "endTime": 43.007
       },
       {
         "text": "We sing songs.",
-        "startTime": 44.459,
-        "endTime": 45.871
+        "startTime": 43.457,
+        "endTime": 44.869
       },
       {
         "text": "On Wednesday at half past one, we draw pictures.",
-        "startTime": 46.321,
-        "endTime": 50.692
+        "startTime": 45.319,
+        "endTime": 49.69
       },
       {
         "text": "On Thursday at two o'clock, we play football.",
-        "startTime": 51.142,
-        "endTime": 55.326
+        "startTime": 50.14,
+        "endTime": 54.325
       },
       {
         "text": "On Friday at a quarter past two, we read stories.",
-        "startTime": 55.776,
-        "endTime": 60.325
+        "startTime": 54.775,
+        "endTime": 59.324
       },
       {
         "text": "We have homework on Monday and Wednesday.",
-        "startTime": 60.775,
-        "endTime": 63.507
+        "startTime": 59.774,
+        "endTime": 62.506
       },
       {
         "text": "We never have homework on Friday.",
-        "startTime": 63.957,
-        "endTime": 66.716
+        "startTime": 62.956,
+        "endTime": 65.715
       },
       {
         "text": "\"Do we have English every day?\" asks Leo.",
-        "startTime": 67.616,
-        "endTime": 71.154
+        "startTime": 66.615,
+        "endTime": 70.153
       },
       {
         "text": "\"No,\" says May.",
-        "startTime": 71.604,
-        "endTime": 73.577
+        "startTime": 70.603,
+        "endTime": 72.575
       },
       {
         "text": "\"We have English on Monday and Thursday.\"",
-        "startTime": 74.027,
-        "endTime": 76.698
+        "startTime": 73.025,
+        "endTime": 75.696
       },
       {
         "text": "\"What time is football?\" asks Leo.",
-        "startTime": 77.148,
-        "endTime": 80.182
+        "startTime": 76.146,
+        "endTime": 79.18
       },
       {
-        "text": "\"It's at two o'clock,\" says Lily.",
-        "startTime": 80.632,
-        "endTime": 83.733
+        "text": "\"It's at two o'clock,\" I say.",
+        "startTime": 79.63,
+        "endTime": 82.068
       },
       {
         "text": "Teacher Kim sometimes reads a story before break.",
-        "startTime": 84.183,
-        "endTime": 87.721
+        "startTime": 82.518,
+        "endTime": 86.056
       },
       {
         "text": "I like music, and I like football, too.",
-        "startTime": 88.171,
-        "endTime": 92.036
+        "startTime": 86.506,
+        "endTime": 90.371
       },
       {
         "text": "Leo likes our timetable, too.",
-        "startTime": 92.486,
-        "endTime": 94.926
+        "startTime": 90.821,
+        "endTime": 93.261
       },
       {
         "text": "What is your favorite lesson in the week?",
-        "startTime": 95.376,
-        "endTime": 98.049
+        "startTime": 93.711,
+        "endTime": 96.384
       }
     ],
     "words": "quest-4/media/l05/words.mp3",

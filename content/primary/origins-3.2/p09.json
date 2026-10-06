@@ -565,24 +565,14 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Lily and May walk in a school hall and look at signs on the wall. A blank white sign, a blank blue sign, and a blank red sign hang on the wall next to doors. Bright daylight.",
+      "prompt": "Lily and May walk in a school hall and look at signs on the wall next to doors. A white sign over one door says \"COMPUTER ROOM\". A blue sign over the next door says \"BATHROOM\". A red sign on the wall says \"DON'T RUN\". Nobody stands in front of the signs. Bright daylight.",
       "characters": [
         "Lily",
         "May"
       ],
       "caption": "Lily and May read the signs.",
       "file": "origins-3.2/media/p09/hero.jpg",
-      "overlay": [
-        {
-          "text": "COMPUTER ROOM."
-        },
-        {
-          "text": "BATHROOM."
-        },
-        {
-          "text": "DON'T RUN."
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "origins-3.2/media/p09/candidates/hero-muse_001.jpg",
         "origins-3.2/media/p09/candidates/hero-muse_002.jpg"
@@ -591,7 +581,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Teacher Kim stands next to a green board with a blank white strip across the top. May sits at a desk with an open book. Leo stands next to an open cupboard and holds crayons.",
+      "prompt": "Teacher Kim stands next to a green board. Across the top of the board, white chalk letters say \"Listen. Ask. Answer.\" Nobody stands in front of the words. May sits at a desk with an open book. Leo stands next to an open cupboard and holds crayons.",
       "characters": [
         "Teacher Kim",
         "May",
@@ -599,11 +589,7 @@
       ],
       "caption": "Teacher Kim says, \"Let's start.\"",
       "file": "origins-3.2/media/p09/inline-para-2.jpg",
-      "overlay": [
-        {
-          "text": "Listen. Ask. Answer."
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "origins-3.2/media/p09/candidates/inline-para-2-muse_001.jpg",
         "origins-3.2/media/p09/candidates/inline-para-2-muse_002.jpg"
@@ -612,7 +598,7 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "The children stand in a line at a classroom door. Leo walks at the end of the line. Lily points to a blank red sign on the wall next to the door. Teacher Kim smiles.",
+      "prompt": "The children stand in a line at a classroom door. Leo walks at the end of the line. Lily points to a red sign on the wall next to the door. The red sign says \"DON'T RUN\" in big white letters. Teacher Kim smiles.",
       "characters": [
         "Lily",
         "Leo",
@@ -620,11 +606,7 @@
       ],
       "caption": "Leo! Don't run!",
       "file": "origins-3.2/media/p09/inline-para-3.jpg",
-      "overlay": [
-        {
-          "text": "DON'T RUN."
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "origins-3.2/media/p09/candidates/inline-para-3-muse_001.jpg",
         "origins-3.2/media/p09/candidates/inline-para-3-muse_002.jpg"

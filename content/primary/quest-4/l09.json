@@ -17,9 +17,9 @@
   },
   "text": {
     "paragraphs": [
-      "This is my street, and I live here with Pat. Look at my map. My white house is next to the school. The cinema is between my house and the supermarket. The library is opposite the cinema. The bus stop is near the library. There is a car park behind the supermarket. A small shop is next to the car park. Our street is in a small town. It is not big, but it is very nice.",
-      "Pat asks, \"Where is the library, May?\" \"Go straight on,\" I say. \"Go to the cinema. The library is opposite.\" \"Is the bus stop near?\" asks Pat. \"Yes, it is near the library,\" I say. \"Can we go to the supermarket too?\" \"Yes, go straight on. It is after the cinema.\" Pat likes books about animals. We go to the library every Saturday.",
-      "Then we go to the cinema for a film. Pat is always hungry after the film! He is tired too. I like my street. It is small, but there are many nice places. Now you can try. Do you have a street like this? What is near your house? Draw a map of your street."
+      "Hello! I'm May, and this is my street. I live here with my brother Pat. Look at my map. My white house is next to the school. The cinema is between my house and the supermarket. The library is opposite the cinema. The bus stop is near the library. There is a car park behind the supermarket. A small shop is next to the car park. Our street is in a small town. It is not big, but it is very nice.",
+      "Pat asks, \"Where is the library, May?\" \"Go straight on,\" I say. \"Go to the cinema. The library is opposite.\" \"Is the bus stop near?\" asks Pat. \"Yes, it is near the library,\" I say. \"Can we go to the supermarket, too?\" asks Pat. \"Yes, go straight on. It is after the cinema.\" Pat likes books about animals. We go to the library every Saturday.",
+      "Then we go to the cinema for a film. Pat is always hungry after the film! He is tired too. I like my street. It is small, but there are many nice places. Do you have a street like this? What is near your house? Now draw a map of your street!"
     ],
     "summary": "May describes her street and shows it on a map. She tells her brother Pat how to walk to the library and the bus stop.",
     "glossed": [
@@ -318,8 +318,8 @@
       },
       {
         "id": "s4",
-        "question": "Why is Pat hungry?",
-        "answer": "He is hungry after the library.",
+        "question": "When is Pat always hungry?",
+        "answer": "Pat is always hungry after the film.",
         "objectives": [
           "R23.8"
         ]
@@ -426,8 +426,12 @@
     "paragraphs": [
       [
         {
-          "en": "This is my street, and I live here with Pat.",
-          "th": "นี่คือถนนของฉัน ฉันอาศัยอยู่ที่นี่กับแพท"
+          "en": "Hello! I'm May, and this is my street.",
+          "th": "สวัสดี! ฉันชื่อเมย์ และนี่คือถนนของฉัน"
+        },
+        {
+          "en": "I live here with my brother Pat.",
+          "th": "ฉันอาศัยอยู่ที่นี่กับแพทน้องชายของฉัน"
         },
         {
           "en": "Look at my map.",
@@ -488,8 +492,8 @@
           "th": "\"ใกล้จ้ะ มันอยู่ใกล้ห้องสมุด\" ฉันตอบ"
         },
         {
-          "en": "\"Can we go to the supermarket too?\"",
-          "th": "\"เราไปซูเปอร์มาร์เก็ตด้วยได้ไหม\""
+          "en": "\"Can we go to the supermarket, too?\" asks Pat.",
+          "th": "\"เราไปซูเปอร์มาร์เก็ตด้วยได้ไหม\" แพทถาม"
         },
         {
           "en": "\"Yes, go straight on. It is after the cinema.\"",
@@ -526,10 +530,6 @@
           "th": "ถนนเล็ก แต่มีสถานที่ดีๆ หลายแห่ง"
         },
         {
-          "en": "Now you can try.",
-          "th": "ตอนนี้เธอลองทำดูนะ"
-        },
-        {
           "en": "Do you have a street like this?",
           "th": "บ้านของเธอมีถนนแบบนี้ไหม"
         },
@@ -538,8 +538,8 @@
           "th": "ใกล้บ้านของเธอมีอะไรบ้าง"
         },
         {
-          "en": "Draw a map of your street.",
-          "th": "วาดแผนที่ถนนของเธอสิ"
+          "en": "Now draw a map of your street!",
+          "th": "ตอนนี้ลองวาดแผนที่ถนนของเธอดูสิ!"
         }
       ]
     ],
@@ -548,16 +548,16 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "A simple children's map of one street from above. A school, a white house, a cinema, and a supermarket stand in a row on one side. A library with a blue door and a bus stop stand on the other side. A car park is behind the supermarket. Each building has a blank label.",
+      "prompt": "A simple, colorful children's map of one street in a small town, seen from above. Along the top side of the street, from left to right: a school with a label \"school\", a white house with a label \"my house\", a cinema with a label \"cinema\", and a supermarket with a label \"supermarket\". Behind the supermarket is a car park with a label \"car park\", and next to the car park is a small shop with a label \"shop\". On the other side of the street, opposite the cinema, is a library with a blue door and a label \"library\", and next to it is a bus stop with a label \"bus stop\". Each label is on a small white card.",
       "characters": [],
-      "caption": "school ; my house ; cinema ; supermarket ; library ; bus stop ; car park",
+      "caption": "May's map of her street.",
       "file": "quest-4/media/l09/hero.jpg",
       "overlay": [],
       "candidates": [
         "quest-4/media/l09/candidates/hero-muse_001.jpg",
         "quest-4/media/l09/candidates/hero-muse_002.jpg"
       ],
-      "chosenFrom": "quest-4/media/l09/candidates/hero-muse_001.jpg"
+      "chosenFrom": "quest-4/media/l09/candidates/hero-muse_002.jpg"
     },
     {
       "position": "inline-para-2",
@@ -597,144 +597,144 @@
     "article": "quest-4/media/l09/article.mp3",
     "sentences": [
       {
-        "text": "This is my street, and I live here with Pat.",
+        "text": "Hello! I'm May, and this is my street.",
         "startTime": 0,
-        "endTime": 3.977
+        "endTime": 3.8
+      },
+      {
+        "text": "I live here with my brother Pat.",
+        "startTime": 4.25,
+        "endTime": 6.873
       },
       {
         "text": "Look at my map.",
-        "startTime": 4.427,
-        "endTime": 5.962
+        "startTime": 7.323,
+        "endTime": 8.858
       },
       {
         "text": "My white house is next to the school.",
-        "startTime": 6.412,
-        "endTime": 9.195
+        "startTime": 9.308,
+        "endTime": 12.092
       },
       {
         "text": "The cinema is between my house and the supermarket.",
-        "startTime": 9.645,
-        "endTime": 14.008
+        "startTime": 12.542,
+        "endTime": 16.905
       },
       {
         "text": "The library is opposite the cinema.",
-        "startTime": 14.458,
-        "endTime": 17.484
+        "startTime": 17.355,
+        "endTime": 20.38
       },
       {
         "text": "The bus stop is near the library.",
-        "startTime": 17.934,
-        "endTime": 20.756
+        "startTime": 20.83,
+        "endTime": 23.653
       },
       {
         "text": "There is a car park behind the supermarket.",
-        "startTime": 21.206,
-        "endTime": 24.663
+        "startTime": 24.103,
+        "endTime": 27.559
       },
       {
         "text": "A small shop is next to the car park.",
-        "startTime": 25.113,
-        "endTime": 28.251
+        "startTime": 28.009,
+        "endTime": 31.147
       },
       {
         "text": "Our street is in a small town.",
-        "startTime": 28.701,
-        "endTime": 31.256
+        "startTime": 31.597,
+        "endTime": 34.153
       },
       {
         "text": "It is not big, but it is very nice.",
-        "startTime": 31.706,
-        "endTime": 35.28
+        "startTime": 34.603,
+        "endTime": 38.177
       },
       {
         "text": "Pat asks, \"Where is the library, May?\"",
-        "startTime": 36.18,
-        "endTime": 40.022
+        "startTime": 39.077,
+        "endTime": 42.918
       },
       {
         "text": "\"Go straight on,\" I say.",
-        "startTime": 40.472,
-        "endTime": 42.924
+        "startTime": 43.368,
+        "endTime": 45.821
       },
       {
         "text": "\"Go to the cinema. The library is opposite.\"",
-        "startTime": 43.374,
-        "endTime": 48.05
+        "startTime": 46.271,
+        "endTime": 50.946
       },
       {
         "text": "\"Is the bus stop near?\" asks Pat.",
-        "startTime": 48.5,
-        "endTime": 51.632
+        "startTime": 51.396,
+        "endTime": 54.528
       },
       {
         "text": "\"Yes, it is near the library,\" I say.",
-        "startTime": 52.082,
-        "endTime": 55.821
+        "startTime": 54.978,
+        "endTime": 58.718
       },
       {
-        "text": "\"Can we go to the supermarket too?\"",
-        "startTime": 56.271,
-        "endTime": 58.562
+        "text": "\"Can we go to the supermarket, too?\" asks Pat.",
+        "startTime": 59.168,
+        "endTime": 63.102
       },
       {
         "text": "\"Yes, go straight on. It is after the cinema.\"",
-        "startTime": 59.012,
-        "endTime": 63.288
+        "startTime": 63.552,
+        "endTime": 67.828
       },
       {
         "text": "Pat likes books about animals.",
-        "startTime": 63.738,
-        "endTime": 66.051
+        "startTime": 68.278,
+        "endTime": 70.591
       },
       {
         "text": "We go to the library every Saturday.",
-        "startTime": 66.501,
-        "endTime": 69.284
+        "startTime": 71.041,
+        "endTime": 73.823
       },
       {
         "text": "Then we go to the cinema for a film.",
-        "startTime": 70.184,
-        "endTime": 73.155
+        "startTime": 74.723,
+        "endTime": 77.694
       },
       {
         "text": "Pat is always hungry after the film!",
-        "startTime": 73.605,
-        "endTime": 76.483
+        "startTime": 78.144,
+        "endTime": 81.023
       },
       {
         "text": "He is tired too.",
-        "startTime": 76.933,
-        "endTime": 78.998
+        "startTime": 81.473,
+        "endTime": 83.537
       },
       {
         "text": "I like my street.",
-        "startTime": 79.448,
-        "endTime": 81.207
+        "startTime": 83.987,
+        "endTime": 85.747
       },
       {
         "text": "It is small, but there are many nice places.",
-        "startTime": 81.657,
-        "endTime": 85.911
-      },
-      {
-        "text": "Now you can try.",
-        "startTime": 86.361,
-        "endTime": 87.712
+        "startTime": 86.197,
+        "endTime": 90.451
       },
       {
         "text": "Do you have a street like this?",
-        "startTime": 88.162,
-        "endTime": 90.409
+        "startTime": 90.901,
+        "endTime": 93.147
       },
       {
         "text": "What is near your house?",
-        "startTime": 90.859,
-        "endTime": 92.879
+        "startTime": 93.597,
+        "endTime": 95.618
       },
       {
-        "text": "Draw a map of your street.",
-        "startTime": 93.329,
-        "endTime": 95.294
+        "text": "Now draw a map of your street!",
+        "startTime": 96.068,
+        "endTime": 98.282
       }
     ],
     "words": "quest-4/media/l09/words.mp3",

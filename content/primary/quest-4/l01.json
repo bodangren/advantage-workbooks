@@ -17,9 +17,9 @@
   },
   "text": {
     "paragraphs": [
-      "Hello! Please read about me on my About me page. \"What's your name?\" I'm Lily, and I'm in Teacher Kim's class. \"How old are you?\" My age is eight, and my brother Tom is ten. \"Where do you live?\" My address is twelve Green Road, near the park. \"Who lives with you?\" I live with Mom, Dad, and Tom. We have a small brown puppy, too. His name is Pip.",
-      "\"Who is in your family?\" Mom and Dad are my parents. I'm their daughter, and Tom is their son. \"Do you have a grandparent?\" Yes, I do! Grandma and Grandpa are my grandparents, and they live near us. \"Do you have an aunt or an uncle?\" Yes, I do. Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother. They're always kind to me.",
-      "\"Who is your best friend?\" My best friend is Mia, and she's eight, too. She lives in the house next to ours. \"What do you like?\" I like drawing, and Mia likes animals. We play in the park with Pip every day. \"Is that all?\" Yes, that's all about me! Now it's your day to write."
+      "Hello! Here is my About me page. \"What's your name?\" I'm Lily, and I'm in Teacher Kim's class. \"How old are you?\" I'm eight years old, and my brother Tom is ten. \"Where do you live?\" My address is twelve Green Road, near the park. \"Who lives with you?\" I live with Mom, Dad, and my brother Tom. We have a small brown puppy, too. His name is Pip.",
+      "\"Who is in your family?\" Mom and Dad are my parents. I'm their daughter, and Tom is their son. \"Do you have grandparents?\" Yes, I do! Grandma and Grandpa are my grandparents, and they live near us. \"Do you have an aunt or an uncle?\" Yes, I do. Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother. They're always kind to me.",
+      "\"Who is your best friend?\" My best friend is Mia, and she's my age. She lives in the house next to ours. \"What do you like?\" I like drawing pictures, and Mia likes animals. We play in the park with Pip every day. \"Is that all?\" Yes, that's all about me! Now please write your About me page!"
     ],
     "summary": "Lily fills in her About me page. She answers questions about her name, her age, her address, her family, and her best friend.",
     "glossed": [
@@ -62,7 +62,7 @@
       "pos": "noun",
       "definition": "How many years old you are.",
       "thai": "อายุ",
-      "example": "My age is eight, and my brother Tom is ten."
+      "example": "My best friend is Mia, and she's my age."
     },
     {
       "word": "address",
@@ -97,7 +97,7 @@
       "pos": "noun",
       "definition": "The mother or the father of your mother or father.",
       "thai": "ปู่ ย่า ตา ยาย",
-      "example": "\"Do you have a grandparent?\""
+      "example": "\"Do you have grandparents?\""
     },
     {
       "word": "aunt",
@@ -139,7 +139,7 @@
       "pos": "noun",
       "definition": "A boy with the same mother and father as you.",
       "thai": "พี่ชาย น้องชาย",
-      "example": "My age is eight, and my brother Tom is ten."
+      "example": "I'm eight years old, and my brother Tom is ten."
     }
   ],
   "bank": {
@@ -154,7 +154,7 @@
           "eight"
         ],
         "answer": "eight",
-        "evidence": "My age is eight, and my brother Tom is ten.",
+        "evidence": "I'm eight years old, and my brother Tom is ten.",
         "objectives": [
           "R22.1",
           "L23.4"
@@ -186,7 +186,7 @@
           "Lily's brother"
         ],
         "answer": "Lily's brother",
-        "evidence": "My age is eight, and my brother Tom is ten.",
+        "evidence": "I'm eight years old, and my brother Tom is ten.",
         "objectives": [
           "R22.1"
         ]
@@ -294,7 +294,7 @@
           "drawing"
         ],
         "answer": "drawing",
-        "evidence": "I like drawing, and Mia likes animals.",
+        "evidence": "I like drawing pictures, and Mia likes animals.",
         "objectives": [
           "L25.1"
         ]
@@ -435,8 +435,8 @@
     "paragraphs": [
       [
         {
-          "en": "Hello! Please read about me on my About me page.",
-          "th": "สวัสดี! โปรดอ่านเรื่องของฉันในหน้า \"เกี่ยวกับฉัน\" นะ"
+          "en": "Hello! Here is my About me page.",
+          "th": "สวัสดี! นี่คือหน้า \"เกี่ยวกับฉัน\" ของฉัน"
         },
         {
           "en": "\"What's your name?\"",
@@ -451,8 +451,8 @@
           "th": "\"เธออายุเท่าไร\""
         },
         {
-          "en": "My age is eight, and my brother Tom is ten.",
-          "th": "อายุของฉันคือแปดขวบ และทอมพี่ชายของฉันอายุสิบขวบ"
+          "en": "I'm eight years old, and my brother Tom is ten.",
+          "th": "ฉันอายุแปดขวบ และทอมพี่ชายของฉันอายุสิบขวบ"
         },
         {
           "en": "\"Where do you live?\"",
@@ -467,8 +467,8 @@
           "th": "\"ใครอยู่กับเธอบ้าง\""
         },
         {
-          "en": "I live with Mom, Dad, and Tom.",
-          "th": "ฉันอยู่กับแม่ พ่อ และทอม"
+          "en": "I live with Mom, Dad, and my brother Tom.",
+          "th": "ฉันอยู่กับแม่ พ่อ และทอมพี่ชายของฉัน"
         },
         {
           "en": "We have a small brown puppy, too.",
@@ -493,7 +493,7 @@
           "th": "ฉันเป็นลูกสาวของท่าน และทอมเป็นลูกชายของท่าน"
         },
         {
-          "en": "\"Do you have a grandparent?\"",
+          "en": "\"Do you have grandparents?\"",
           "th": "\"เธอมีปู่ย่าตายายไหม\""
         },
         {
@@ -527,8 +527,8 @@
           "th": "\"เพื่อนสนิทของเธอคือใคร\""
         },
         {
-          "en": "My best friend is Mia, and she's eight, too.",
-          "th": "เพื่อนสนิทของฉันคือมีอา และเธออายุแปดขวบเหมือนกัน"
+          "en": "My best friend is Mia, and she's my age.",
+          "th": "เพื่อนสนิทของฉันคือมีอา และเธออายุเท่ากับฉัน"
         },
         {
           "en": "She lives in the house next to ours.",
@@ -539,7 +539,7 @@
           "th": "\"เธอชอบอะไร\""
         },
         {
-          "en": "I like drawing, and Mia likes animals.",
+          "en": "I like drawing pictures, and Mia likes animals.",
           "th": "ฉันชอบวาดรูป และมีอาชอบสัตว์"
         },
         {
@@ -555,8 +555,8 @@
           "th": "ใช่ นี่คือเรื่องของฉันทั้งหมด!"
         },
         {
-          "en": "Now it's your day to write.",
-          "th": "ตอนนี้ถึงวันของเธอที่จะเขียนแล้ว"
+          "en": "Now please write your About me page!",
+          "th": "ตอนนี้เขียนหน้า \"เกี่ยวกับฉัน\" ของเธอบ้างนะ!"
         }
       ]
     ],
@@ -623,154 +623,154 @@
     "article": "quest-4/media/l01/article.mp3",
     "sentences": [
       {
-        "text": "Hello! Please read about me on my About me page.",
+        "text": "Hello! Here is my About me page.",
         "startTime": 0,
-        "endTime": 4.073
+        "endTime": 3.332
       },
       {
         "text": "\"What's your name?\"",
-        "startTime": 4.523,
-        "endTime": 5.992
+        "startTime": 3.782,
+        "endTime": 5.25
       },
       {
         "text": "I'm Lily, and I'm in Teacher Kim's class.",
-        "startTime": 6.442,
-        "endTime": 9.74
+        "startTime": 5.7,
+        "endTime": 8.999
       },
       {
         "text": "\"How old are you?\"",
-        "startTime": 10.19,
-        "endTime": 11.406
+        "startTime": 9.449,
+        "endTime": 10.664
       },
       {
-        "text": "My age is eight, and my brother Tom is ten.",
-        "startTime": 11.856,
-        "endTime": 16.117
+        "text": "I'm eight years old, and my brother Tom is ten.",
+        "startTime": 11.114,
+        "endTime": 15.26
       },
       {
         "text": "\"Where do you live?\"",
-        "startTime": 16.567,
-        "endTime": 17.998
+        "startTime": 15.71,
+        "endTime": 17.141
       },
       {
         "text": "My address is twelve Green Road, near the park.",
-        "startTime": 18.448,
-        "endTime": 22.569
+        "startTime": 17.591,
+        "endTime": 21.712
       },
       {
         "text": "\"Who lives with you?\"",
-        "startTime": 23.019,
-        "endTime": 24.333
+        "startTime": 22.162,
+        "endTime": 23.476
       },
       {
-        "text": "I live with Mom, Dad, and Tom.",
-        "startTime": 24.783,
-        "endTime": 27.693
+        "text": "I live with Mom, Dad, and my brother Tom.",
+        "startTime": 23.926,
+        "endTime": 27.607
       },
       {
         "text": "We have a small brown puppy, too.",
-        "startTime": 28.143,
-        "endTime": 31.006
+        "startTime": 28.057,
+        "endTime": 30.92
       },
       {
         "text": "His name is Pip.",
-        "startTime": 31.456,
-        "endTime": 33.593
+        "startTime": 31.37,
+        "endTime": 33.507
       },
       {
         "text": "\"Who is in your family?\"",
-        "startTime": 34.493,
-        "endTime": 36.207
+        "startTime": 34.407,
+        "endTime": 36.121
       },
       {
         "text": "Mom and Dad are my parents.",
-        "startTime": 36.657,
-        "endTime": 39.189
+        "startTime": 36.571,
+        "endTime": 39.103
       },
       {
         "text": "I'm their daughter, and Tom is their son.",
-        "startTime": 39.639,
-        "endTime": 42.963
+        "startTime": 39.553,
+        "endTime": 42.877
       },
       {
-        "text": "\"Do you have a grandparent?\"",
-        "startTime": 43.413,
-        "endTime": 45.292
+        "text": "\"Do you have grandparents?\"",
+        "startTime": 43.327,
+        "endTime": 45.812
       },
       {
         "text": "Yes, I do!",
-        "startTime": 45.742,
-        "endTime": 47.515
+        "startTime": 46.262,
+        "endTime": 48.035
       },
       {
         "text": "Grandma and Grandpa are my grandparents, and they live near us.",
-        "startTime": 47.965,
-        "endTime": 52.737
+        "startTime": 48.485,
+        "endTime": 53.257
       },
       {
         "text": "\"Do you have an aunt or an uncle?\"",
-        "startTime": 53.187,
-        "endTime": 55.595
+        "startTime": 53.707,
+        "endTime": 56.115
       },
       {
         "text": "Yes, I do.",
-        "startTime": 56.045,
-        "endTime": 57.654
+        "startTime": 56.565,
+        "endTime": 58.174
       },
       {
         "text": "Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother.",
-        "startTime": 58.104,
-        "endTime": 63.866
+        "startTime": 58.624,
+        "endTime": 64.386
       },
       {
         "text": "They're always kind to me.",
-        "startTime": 64.316,
-        "endTime": 66.132
+        "startTime": 64.836,
+        "endTime": 66.652
       },
       {
         "text": "\"Who is your best friend?\"",
-        "startTime": 67.032,
-        "endTime": 69.282
+        "startTime": 67.552,
+        "endTime": 69.802
       },
       {
-        "text": "My best friend is Mia, and she's eight, too.",
-        "startTime": 69.732,
-        "endTime": 73.588
+        "text": "My best friend is Mia, and she's my age.",
+        "startTime": 70.252,
+        "endTime": 74.212
       },
       {
         "text": "She lives in the house next to ours.",
-        "startTime": 74.038,
-        "endTime": 76.854
+        "startTime": 74.662,
+        "endTime": 77.477
       },
       {
         "text": "\"What do you like?\"",
-        "startTime": 77.304,
-        "endTime": 78.426
+        "startTime": 77.927,
+        "endTime": 79.05
       },
       {
-        "text": "I like drawing, and Mia likes animals.",
-        "startTime": 78.876,
-        "endTime": 82.306
+        "text": "I like drawing pictures, and Mia likes animals.",
+        "startTime": 79.5,
+        "endTime": 83.58
       },
       {
         "text": "We play in the park with Pip every day.",
-        "startTime": 82.756,
-        "endTime": 85.993
+        "startTime": 84.03,
+        "endTime": 87.267
       },
       {
         "text": "\"Is that all?\"",
-        "startTime": 86.443,
-        "endTime": 87.686
+        "startTime": 87.717,
+        "endTime": 88.961
       },
       {
         "text": "Yes, that's all about me!",
-        "startTime": 88.136,
-        "endTime": 90.865
+        "startTime": 89.411,
+        "endTime": 92.14
       },
       {
-        "text": "Now it's your day to write.",
-        "startTime": 91.315,
-        "endTime": 93.249
+        "text": "Now please write your About me page!",
+        "startTime": 92.59,
+        "endTime": 95.642
       }
     ],
     "words": "quest-4/media/l01/words.mp3",
@@ -839,29 +839,29 @@
     "flashcard": "quest-4/media/l01/sentences.mp3",
     "flashcardTimes": [
       {
-        "text": "My age is eight, and my brother Tom is ten.",
+        "text": "I live with Mom, Dad, and my brother Tom.",
         "startTime": 0,
-        "endTime": 4.261
+        "endTime": 3.681
       },
       {
         "text": "I'm their daughter, and Tom is their son.",
-        "startTime": 5.161,
-        "endTime": 8.485
-      },
-      {
-        "text": "Grandma and Grandpa are my grandparents, and they live near us.",
-        "startTime": 9.385,
-        "endTime": 14.156
+        "startTime": 4.581,
+        "endTime": 7.905
       },
       {
         "text": "\"Do you have an aunt or an uncle?\"",
-        "startTime": 15.056,
-        "endTime": 17.464
+        "startTime": 8.805,
+        "endTime": 11.213
       },
       {
         "text": "Aunt Sue is Mom's sister, and Uncle Dan is Dad's brother.",
-        "startTime": 18.364,
-        "endTime": 24.126
+        "startTime": 12.113,
+        "endTime": 17.875
+      },
+      {
+        "text": "My best friend is Mia, and she's my age.",
+        "startTime": 18.775,
+        "endTime": 22.734
       }
     ],
     "tutor": "quest-4/media/l01/tutor"

@@ -18,9 +18,9 @@
   },
   "text": {
     "paragraphs": [
-      "Mia and her dad are at the zoo. A sign is on the door. It says: \"NO DOGS.\" \"Sorry, Pip!\" says Mia. Pip is at home. \"What does this sign say, Mia?\" asks Dad. \"I can read it!\" says Mia.",
-      "One sign says: \"TIGERS AND BEARS.\" Mia and Dad look at the big tigers. Then Mia sees a sign next to the bears. It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" \"Can we give food to the bears?\" asks Dad. \"No, Dad! Read the sign!\" says Mia. Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\" Dad sees a sign by the water. It says: \"CROCODILES! DON'T SWIM HERE!\" Mia and Dad smile.",
-      "\"Count the hippos, Mia,\" says Dad. \"What is the number?\" \"Three!\" says Mia. A sign is next to the giraffes. It says: \"FOOD AND DRINK.\" Mia and Dad eat ice cream there. \"Thank you, Dad!\" says Mia. Mia loves the zoo. She can read the signs!"
+      "Mia and her dad are at the zoo. A sign is on the door. It says: \"NO DOGS.\" \"Pip can't come here!\" says Mia. Pip is at home. \"What does this sign say, Mia?\" asks Dad. \"I can read it!\" says Mia.",
+      "One sign says: \"TIGERS AND BEARS.\" Mia and Dad look at the big tigers. Then Mia sees a sign next to the bears. It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" \"Can we give food to the bears?\" asks Dad. \"No, Dad! Read the sign!\" says Mia. Mia points. A sign says: \"SNAKES, LIZARDS AND SPIDERS.\" Dad sees a sign by the water. It says: \"CROCODILES! DON'T SWIM HERE!\" Mia and Dad smile.",
+      "\"Count the hippos, Mia,\" says Dad. \"Tell me the number.\" \"Three!\" says Mia. \"Good!\" says Dad. A sign is next to the giraffes. It says: \"FOOD AND DRINK.\" Mia and Dad eat ice cream there. \"Thank you, Dad!\" says Mia. Mia loves the zoo. She can read the signs!"
     ],
     "summary": "Mia and her dad visit the zoo. Mia reads the signs, and Dad asks her what they say.",
     "glossed": [
@@ -72,7 +72,7 @@
       "pos": "noun",
       "definition": "A long animal with no legs.",
       "thai": "งู",
-      "example": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
+      "example": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
     },
     {
       "word": "crocodile",
@@ -107,7 +107,7 @@
       "pos": "noun",
       "definition": "A small animal with eight legs.",
       "thai": "แมงมุม",
-      "example": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
+      "example": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
     },
     {
       "word": "food",
@@ -128,7 +128,7 @@
       "pos": "noun",
       "definition": "A small animal with four legs and a long tail.",
       "thai": "กิ้งก่า, จิ้งจก",
-      "example": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
+      "example": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\""
     },
     {
       "word": "look",
@@ -243,7 +243,7 @@
           "snakes, lizards, and spiders"
         ],
         "answer": "snakes, lizards, and spiders",
-        "evidence": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
+        "evidence": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
         "objectives": [
           "R19.2",
           "R20.2"
@@ -442,8 +442,8 @@
           "th": "ป้ายบอกว่า \"ห้ามนำสุนัขเข้า\""
         },
         {
-          "en": "\"Sorry, Pip!\" says Mia.",
-          "th": "\"ขอโทษนะ ปิ๊ป!\" มีอาพูด"
+          "en": "\"Pip can't come here!\" says Mia.",
+          "th": "\"ปิ๊ปเข้ามาที่นี่ไม่ได้!\" มีอาพูด"
         },
         {
           "en": "Pip is at home.",
@@ -484,8 +484,12 @@
           "th": "\"ไม่ได้ค่ะพ่อ! อ่านป้ายสิ!\" มีอาพูด"
         },
         {
-          "en": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
-          "th": "ดูสิ! ป้ายบอกว่า \"งู กิ้งก่า และแมงมุม\""
+          "en": "Mia points.",
+          "th": "มีอาชี้"
+        },
+        {
+          "en": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
+          "th": "ป้ายบอกว่า \"งู กิ้งก่า และแมงมุม\""
         },
         {
           "en": "Dad sees a sign by the water.",
@@ -506,12 +510,16 @@
           "th": "\"นับฮิปโปนะ มีอา\" พ่อพูด"
         },
         {
-          "en": "\"What is the number?\"",
-          "th": "\"มีกี่ตัวนะ\""
+          "en": "\"Tell me the number.\"",
+          "th": "\"บอกพ่อหน่อยว่ากี่ตัว\""
         },
         {
           "en": "\"Three!\" says Mia.",
           "th": "\"สามตัว!\" มีอาตอบ"
+        },
+        {
+          "en": "\"Good!\" says Dad.",
+          "th": "\"เก่งมาก!\" พ่อพูด"
         },
         {
           "en": "A sign is next to the giraffes.",
@@ -544,17 +552,13 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand at the door of a zoo. A big blank white sign hangs on the door. Mia points at the sign. Her dad smiles. Green trees and a sunny sky are behind them.",
+      "prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand at the door of a zoo. A big white sign on the door says \"NO DOGS.\" Mia points at the sign. Her dad smiles. Nobody stands in front of the sign. Green trees and a sunny sky are behind them.",
       "characters": [
         "Mia"
       ],
       "caption": "Mia and Dad are at the zoo.",
       "file": "origins-3.2/media/p06/hero.jpg",
-      "overlay": [
-        {
-          "text": "NO DOGS."
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "origins-3.2/media/p06/candidates/hero-muse_001.jpg",
         "origins-3.2/media/p06/candidates/hero-muse_002.jpg"
@@ -563,26 +567,13 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand in front of animal enclosures. Next to them is a blank white sign by the bears. A tiger walks behind a fence and a bear sits on a rock. A blank white sign stands at a crocodile pond with a snake, a lizard, and a spider on a rock.",
+      "prompt": "A sunny day at a zoo. Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) walk on a wide path and smile. Behind a tall fence on the left, a tiger and a bear rest on rocks. Four white signs stand along the path, and nobody stands in front of them. The first sign says \"TIGERS AND BEARS.\" The second sign says \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" The third sign, next to a glass house with a snake, a lizard, and a spider, says \"SNAKES, LIZARDS AND SPIDERS.\" The fourth sign, far behind a fence at a pond with a sleepy crocodile, says \"CROCODILES! DON'T SWIM HERE!\"",
       "characters": [
         "Mia"
       ],
       "caption": "Mia reads the signs.",
       "file": "origins-3.2/media/p06/inline-para-2.jpg",
-      "overlay": [
-        {
-          "text": "TIGERS AND BEARS."
-        },
-        {
-          "text": "PLEASE DON'T GIVE FOOD TO THE ANIMALS."
-        },
-        {
-          "text": "SNAKES, LIZARDS AND SPIDERS."
-        },
-        {
-          "text": "CROCODILES! DON'T SWIM HERE!"
-        }
-      ],
+      "overlay": [],
       "candidates": [
         "origins-3.2/media/p06/candidates/inline-para-2-muse_001.jpg",
         "origins-3.2/media/p06/candidates/inline-para-2-muse_002.jpg"
@@ -591,22 +582,17 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) sit together and eat ice cream. A blank white sign hangs over them. Tall giraffes stand behind them.",
+      "prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) sit at a small table and eat ice cream. A white sign on a post above them says \"FOOD AND DRINK.\" Nobody covers the sign. Tall giraffes stand behind a fence.",
       "characters": [
         "Mia"
       ],
       "caption": "Ice cream at the zoo!",
       "file": "origins-3.2/media/p06/inline-para-3.jpg",
-      "overlay": [
-        {
-          "text": "FOOD AND DRINK."
-        }
-      ],
+      "overlay": [],
       "candidates": [
-        "origins-3.2/media/p06/candidates/inline-para-3-muse_001.jpg",
         "origins-3.2/media/p06/candidates/inline-para-3-muse_002.jpg"
       ],
-      "chosenFrom": "origins-3.2/media/p06/candidates/inline-para-3-muse_001.jpg"
+      "chosenFrom": "origins-3.2/media/p06/candidates/inline-para-3-muse_002.jpg"
     }
   ],
   "audio": {
@@ -630,119 +616,129 @@
         "endTime": 8.069
       },
       {
-        "text": "\"Sorry, Pip!\" says Mia.",
+        "text": "\"Pip can't come here!\" says Mia.",
         "startTime": 8.519,
-        "endTime": 11.055
+        "endTime": 11.453
       },
       {
         "text": "Pip is at home.",
-        "startTime": 11.505,
-        "endTime": 12.926
+        "startTime": 11.903,
+        "endTime": 13.325
       },
       {
         "text": "\"What does this sign say, Mia?\" asks Dad.",
-        "startTime": 13.376,
-        "endTime": 17.228
+        "startTime": 13.775,
+        "endTime": 17.627
       },
       {
         "text": "\"I can read it!\" says Mia.",
-        "startTime": 17.678,
-        "endTime": 20.393
+        "startTime": 18.077,
+        "endTime": 20.792
       },
       {
         "text": "One sign says: \"TIGERS AND BEARS.\"",
-        "startTime": 21.293,
-        "endTime": 25.223
+        "startTime": 21.692,
+        "endTime": 25.621
       },
       {
         "text": "Mia and Dad look at the big tigers.",
-        "startTime": 25.673,
-        "endTime": 28.661
+        "startTime": 26.071,
+        "endTime": 29.06
       },
       {
         "text": "Then Mia sees a sign next to the bears.",
-        "startTime": 29.111,
-        "endTime": 32.556
+        "startTime": 29.51,
+        "endTime": 32.955
       },
       {
         "text": "It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\"",
-        "startTime": 33.006,
-        "endTime": 37.196
+        "startTime": 33.405,
+        "endTime": 37.595
       },
       {
         "text": "\"Can we give food to the bears?\" asks Dad.",
-        "startTime": 37.646,
-        "endTime": 41.051
+        "startTime": 38.045,
+        "endTime": 41.45
       },
       {
         "text": "\"No, Dad! Read the sign!\" says Mia.",
-        "startTime": 41.501,
-        "endTime": 45.805
+        "startTime": 41.9,
+        "endTime": 46.204
       },
       {
-        "text": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
-        "startTime": 46.255,
-        "endTime": 52.549
+        "text": "Mia points.",
+        "startTime": 46.654,
+        "endTime": 48.059
+      },
+      {
+        "text": "A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
+        "startTime": 48.509,
+        "endTime": 53.596
       },
       {
         "text": "Dad sees a sign by the water.",
-        "startTime": 52.999,
-        "endTime": 55.513
+        "startTime": 54.046,
+        "endTime": 56.56
       },
       {
         "text": "It says: \"CROCODILES! DON'T SWIM HERE!\"",
-        "startTime": 55.963,
-        "endTime": 60.03
+        "startTime": 57.01,
+        "endTime": 61.076
       },
       {
         "text": "Mia and Dad smile.",
-        "startTime": 60.48,
-        "endTime": 62.262
+        "startTime": 61.526,
+        "endTime": 63.309
       },
       {
         "text": "\"Count the hippos, Mia,\" says Dad.",
-        "startTime": 63.162,
-        "endTime": 66.313
+        "startTime": 64.209,
+        "endTime": 67.359
       },
       {
-        "text": "\"What is the number?\"",
-        "startTime": 66.763,
-        "endTime": 68.025
+        "text": "\"Tell me the number.\"",
+        "startTime": 67.809,
+        "endTime": 69.489
       },
       {
         "text": "\"Three!\" says Mia.",
-        "startTime": 68.475,
-        "endTime": 70.543
+        "startTime": 69.939,
+        "endTime": 72.007
+      },
+      {
+        "text": "\"Good!\" says Dad.",
+        "startTime": 72.457,
+        "endTime": 74.562
       },
       {
         "text": "A sign is next to the giraffes.",
-        "startTime": 70.993,
-        "endTime": 73.996
+        "startTime": 75.012,
+        "endTime": 78.015
       },
       {
         "text": "It says: \"FOOD AND DRINK.\"",
-        "startTime": 74.446,
-        "endTime": 77.562
+        "startTime": 78.465,
+        "endTime": 81.581
       },
       {
         "text": "Mia and Dad eat ice cream there.",
-        "startTime": 78.012,
-        "endTime": 80.889
+        "startTime": 82.031,
+        "endTime": 84.908
       },
       {
         "text": "\"Thank you, Dad!\" says Mia.",
-        "startTime": 81.339,
-        "endTime": 83.781
+        "startTime": 85.358,
+        "endTime": 87.8
       },
       {
         "text": "Mia loves the zoo.",
-        "startTime": 84.231,
-        "endTime": 85.936
+        "startTime": 88.25,
+        "endTime": 89.956
       },
       {
         "text": "She can read the signs!",
-        "startTime": 86.386,
-        "endTime": 88.282
+        "startTime": 90.406,
+        "endTime": 92.302
       }
     ],
     "words": "origins-3.2/media/p06/words.mp3",
@@ -811,29 +807,29 @@
     "flashcard": "origins-3.2/media/p06/sentences.mp3",
     "flashcardTimes": [
       {
-        "text": "Mia and Dad look at the big tigers.",
+        "text": "Mia and her dad are at the zoo.",
         "startTime": 0,
-        "endTime": 2.989
+        "endTime": 2.304
+      },
+      {
+        "text": "Mia and Dad look at the big tigers.",
+        "startTime": 3.204,
+        "endTime": 6.192
       },
       {
         "text": "It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\"",
-        "startTime": 3.889,
-        "endTime": 8.079
+        "startTime": 7.092,
+        "endTime": 11.283
       },
       {
         "text": "\"Can we give food to the bears?\" asks Dad.",
-        "startTime": 8.979,
-        "endTime": 12.384
-      },
-      {
-        "text": "Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\"",
-        "startTime": 13.284,
-        "endTime": 19.578
+        "startTime": 12.183,
+        "endTime": 15.588
       },
       {
         "text": "It says: \"FOOD AND DRINK.\"",
-        "startTime": 20.478,
-        "endTime": 23.595
+        "startTime": 16.488,
+        "endTime": 19.604
       }
     ],
     "tutor": "origins-3.2/media/p06/tutor"

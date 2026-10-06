@@ -18,7 +18,7 @@
   "text": {
     "paragraphs": [
       "Lily is at Grandpa's house today. Grandpa has an old shed in the garden. Lily and Pip go in with him. Grandpa opens the door, and the light comes in. There are many old things inside. \"What's this, Grandpa?\" asks Lily. She points at a big gray thing on the floor. \"It's a machine,\" says Grandpa. \"Does it work?\" asks Lily. \"No, it's very old,\" says Grandpa.",
-      "Then Lily looks at the shelf on the wall. \"What's this?\" she asks. \"It's my model boat,\" says Grandpa. It's small, and it's blue. Lily sees a green glass bottle next to it. \"And what's that?\" she asks. \"It's a bottle,\" says Grandpa. \"It's round and white.\" \"Is it a hat?\" asks Lily. \"No, it's a plate,\" laughs Grandpa.",
+      "Then Lily looks at the shelf on the wall. \"What's this?\" she asks. \"It's my model boat,\" says Grandpa. It's small, and it's blue. There is a green glass bottle next to it. Then Lily sees a big round white thing. \"What's that?\" she asks. \"Is it a hat?\" \"No, it's an old plate,\" laughs Grandpa.",
       "Pip is on the ground by the door. He has a small brown bowl in his mouth. \"Woof!\" says Pip. \"That's a dog's bowl,\" says Grandpa. \"It's for you, Pip.\" Lily hears a noise on the roof. \"What's that noise, Grandpa?\" asks Lily. \"It's rain on the roof,\" says Grandpa. Grandpa fills the bowl with water. Pip drinks from his new bowl. \"I like your shed, Grandpa!\" says Lily."
     ],
     "summary": "Lily and Pip find old things in Grandpa's shed. Lily asks, \"What's this?\" and Grandpa tells her about each one.",
@@ -72,7 +72,7 @@
       "pos": "noun",
       "definition": "A glass or plastic thing for water or milk.",
       "thai": "ขวด",
-      "example": "Lily sees a green glass bottle next to it."
+      "example": "There is a green glass bottle next to it."
     },
     {
       "word": "bowl",
@@ -86,14 +86,14 @@
       "pos": "noun",
       "definition": "A flat round thing that you eat from.",
       "thai": "จาน",
-      "example": "\"No, it's a plate,\" laughs Grandpa."
+      "example": "\"No, it's an old plate,\" laughs Grandpa."
     },
     {
       "word": "glass",
       "pos": "noun",
       "definition": "A hard thing that you can see through.",
       "thai": "แก้ว",
-      "example": "Lily sees a green glass bottle next to it."
+      "example": "There is a green glass bottle next to it."
     },
     {
       "word": "roof",
@@ -135,7 +135,7 @@
       "pos": "adjective",
       "definition": "Like a ball or a circle.",
       "thai": "กลม",
-      "example": "\"It's round and white.\""
+      "example": "Then Lily sees a big round white thing."
     }
   ],
   "bank": {
@@ -197,7 +197,7 @@
           "green"
         ],
         "answer": "green",
-        "evidence": "Lily sees a green glass bottle next to it.",
+        "evidence": "There is a green glass bottle next to it.",
         "objectives": [
           "R23.7"
         ]
@@ -212,7 +212,7 @@
           "a hat"
         ],
         "answer": "a hat",
-        "evidence": "\"Is it a hat?\" asks Lily.",
+        "evidence": "\"Is it a hat?\"",
         "objectives": [
           "R23.7",
           "L22.1"
@@ -228,7 +228,7 @@
           "a plate"
         ],
         "answer": "a plate",
-        "evidence": "\"No, it's a plate,\" laughs Grandpa.",
+        "evidence": "\"No, it's an old plate,\" laughs Grandpa.",
         "objectives": [
           "R24.2"
         ]
@@ -297,10 +297,10 @@
     "saq": [
       {
         "id": "s1",
-        "question": "What's this, Grandpa?",
-        "answer": "It's a machine.",
+        "question": "Whose house is Lily at today?",
+        "answer": "Lily is at Grandpa's house.",
         "objectives": [
-          "L22.1"
+          "R23.3"
         ]
       },
       {
@@ -353,7 +353,7 @@
       },
       {
         "id": "l3",
-        "question": "Why does Lily laugh at the plate?",
+        "question": "Why does Grandpa laugh at Lily's question?",
         "objectives": [
           "R23.3"
         ]
@@ -411,7 +411,7 @@
     ],
     "sentenceOrder": [
       "Lily and Pip go in with him.",
-      "Pip drinks water from his new bowl."
+      "Pip drinks from his new bowl."
     ],
     "sentenceCompletion": [
       "In the shed I see ...",
@@ -487,28 +487,24 @@
           "th": "มันเล็กและเป็นสีน้ำเงิน"
         },
         {
-          "en": "Lily sees a green glass bottle next to it.",
-          "th": "ลิลลี่เห็นขวดแก้วสีเขียวอยู่ข้าง ๆ"
+          "en": "There is a green glass bottle next to it.",
+          "th": "มีขวดแก้วสีเขียวอยู่ข้าง ๆ"
         },
         {
-          "en": "\"And what's that?\" she asks.",
-          "th": "\"แล้วนั่นคืออะไรคะ\" เธอถาม"
+          "en": "Then Lily sees a big round white thing.",
+          "th": "แล้วลิลลี่ก็เห็นของกลม ๆ สีขาวชิ้นใหญ่"
         },
         {
-          "en": "\"It's a bottle,\" says Grandpa.",
-          "th": "\"มันคือขวดจ้ะ\" คุณตาตอบ"
+          "en": "\"What's that?\" she asks.",
+          "th": "\"นั่นคืออะไรคะ\" เธอถาม"
         },
         {
-          "en": "\"It's round and white.\"",
-          "th": "\"มันกลมและเป็นสีขาว\""
+          "en": "\"Is it a hat?\"",
+          "th": "\"มันเป็นหมวกหรือเปล่าคะ\""
         },
         {
-          "en": "\"Is it a hat?\" asks Lily.",
-          "th": "\"มันเป็นหมวกหรือเปล่าคะ\" ลิลลี่ถาม"
-        },
-        {
-          "en": "\"No, it's a plate,\" laughs Grandpa.",
-          "th": "\"ไม่ใช่ มันคือจาน\" คุณตาหัวเราะ"
+          "en": "\"No, it's an old plate,\" laughs Grandpa.",
+          "th": "\"ไม่ใช่หรอก มันคือจานเก่า\" คุณตาหัวเราะ"
         }
       ],
       [
@@ -688,89 +684,84 @@
         "endTime": 48.17
       },
       {
-        "text": "Lily sees a green glass bottle next to it.",
+        "text": "There is a green glass bottle next to it.",
         "startTime": 48.62,
-        "endTime": 51.827
+        "endTime": 51.584
       },
       {
-        "text": "\"And what's that?\" she asks.",
-        "startTime": 52.277,
-        "endTime": 54.828
+        "text": "Then Lily sees a big round white thing.",
+        "startTime": 52.034,
+        "endTime": 55.701
       },
       {
-        "text": "\"It's a bottle,\" says Grandpa.",
-        "startTime": 55.278,
-        "endTime": 58.112
+        "text": "\"What's that?\" she asks.",
+        "startTime": 56.151,
+        "endTime": 58.708
       },
       {
-        "text": "\"It's round and white.\"",
-        "startTime": 58.562,
-        "endTime": 60.583
+        "text": "\"Is it a hat?\"",
+        "startTime": 59.158,
+        "endTime": 60.399
       },
       {
-        "text": "\"Is it a hat?\" asks Lily.",
-        "startTime": 61.033,
-        "endTime": 63.804
-      },
-      {
-        "text": "\"No, it's a plate,\" laughs Grandpa.",
-        "startTime": 64.254,
-        "endTime": 67.192
+        "text": "\"No, it's an old plate,\" laughs Grandpa.",
+        "startTime": 60.849,
+        "endTime": 65.231
       },
       {
         "text": "Pip is on the ground by the door.",
-        "startTime": 68.092,
-        "endTime": 70.361
+        "startTime": 66.131,
+        "endTime": 68.4
       },
       {
         "text": "He has a small brown bowl in his mouth.",
-        "startTime": 70.811,
-        "endTime": 73.946
+        "startTime": 68.85,
+        "endTime": 71.985
       },
       {
         "text": "\"Woof!\" says Pip.",
-        "startTime": 74.396,
-        "endTime": 76.652
+        "startTime": 72.435,
+        "endTime": 74.691
       },
       {
         "text": "\"That's a dog's bowl,\" says Grandpa.",
-        "startTime": 77.102,
-        "endTime": 80.181
+        "startTime": 75.141,
+        "endTime": 78.22
       },
       {
         "text": "\"It's for you, Pip.\"",
-        "startTime": 80.631,
-        "endTime": 82.201
+        "startTime": 78.67,
+        "endTime": 80.24
       },
       {
         "text": "Lily hears a noise on the roof.",
-        "startTime": 82.651,
-        "endTime": 85.368
+        "startTime": 80.69,
+        "endTime": 83.407
       },
       {
         "text": "\"What's that noise, Grandpa?\" asks Lily.",
-        "startTime": 85.818,
-        "endTime": 89.511
+        "startTime": 83.857,
+        "endTime": 87.55
       },
       {
         "text": "\"It's rain on the roof,\" says Grandpa.",
-        "startTime": 89.961,
-        "endTime": 93.546
+        "startTime": 88,
+        "endTime": 91.584
       },
       {
         "text": "Grandpa fills the bowl with water.",
-        "startTime": 93.996,
-        "endTime": 96.415
+        "startTime": 92.034,
+        "endTime": 94.454
       },
       {
         "text": "Pip drinks from his new bowl.",
-        "startTime": 96.865,
-        "endTime": 99.073
+        "startTime": 94.904,
+        "endTime": 97.112
       },
       {
         "text": "\"I like your shed, Grandpa!\" says Lily.",
-        "startTime": 99.523,
-        "endTime": 103.189
+        "startTime": 97.562,
+        "endTime": 101.228
       }
     ],
     "words": "quest-4/media/l03/words.mp3",
@@ -844,24 +835,24 @@
         "endTime": 3.212
       },
       {
-        "text": "Lily sees a green glass bottle next to it.",
+        "text": "There is a green glass bottle next to it.",
         "startTime": 4.112,
-        "endTime": 7.319
+        "endTime": 7.076
       },
       {
-        "text": "He has a small brown bowl in his mouth.",
-        "startTime": 8.219,
-        "endTime": 11.354
+        "text": "\"No, it's an old plate,\" laughs Grandpa.",
+        "startTime": 7.976,
+        "endTime": 12.357
       },
       {
         "text": "Lily hears a noise on the roof.",
-        "startTime": 12.254,
-        "endTime": 14.971
+        "startTime": 13.257,
+        "endTime": 15.975
       },
       {
         "text": "\"What's that noise, Grandpa?\" asks Lily.",
-        "startTime": 15.871,
-        "endTime": 19.564
+        "startTime": 16.875,
+        "endTime": 20.568
       }
     ],
     "tutor": "quest-4/media/l03/tutor"
