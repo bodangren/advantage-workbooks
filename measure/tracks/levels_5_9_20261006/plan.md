@@ -15,7 +15,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] Fault fixed: the MCQ option shuffle put 99% of the answers last (222 lessons, app and print); print files and lesson PDFs rebuilt (4625ff3). Book PDFs of Origins 3.2 and Quest 4 still to make again
 - [x] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts 5`…`9` → `level-plans/bank-5…9`); word lists by topic for Flyers and A2 Key; tests. Follow-up: required words come mostly in alphabetical order, not by topic
 - [x] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks (`data/grammar-levels-5-9.md`; spot check of 6 items in the PDFs)
-- [ ] Calibration: two sample texts for each level through the text check; one print test of a 480-word article in the 13-step template (the article may need two pages)
+- [x] Calibration: two sample texts for each level pass the text check (`calibration/levels-5-9/`); a 480-word level 9 article prints on 2.5 pages (the lesson grows from 15 to 16 pages). Follow-up: 5 small profile changes and the text-check faults in `report.md` (past forms, -ied/-ier, lines with no end stop)
 - [~] Injector: a new-database target (`--target new`; UUID ids, `primary_legacy_id_map`, picture key in `articles.image`); tests; dry run only. Open: agreement with the monorepo side (7 questions in the field map, open item 3)
 - [ ] Dialogue audio with one voice for each speaker (D5)
 - [~] Series bible: Quest ages and an Adventure section (`primary-quest-adventure-series-bible.md`, draft); new cast sheets (13 people, 3 priorities) not made yet (D3)
