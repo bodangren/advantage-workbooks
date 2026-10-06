@@ -42,14 +42,14 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 ## Phase 5: Level 8
 
 - [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — 42 written and edited (42 PASS; 146 change rows); committed 8ceba82, 79ffad8, 5a7ca16; report `reviews/2026-10-07-prereview-adventure-8.md`; pictures made for 8.1, in progress for 8.2 and 8.3; audio queued. Waits for Daniel.
-- [~] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): `plan-level-bank.ts --a2key-from` (fd97e9f, test-first); bank-8 plan generated again from the Adventure 7 and 8 words (4b13fd8: 0 new A2 Key words, was 143). bank-9: after the Adventure 9 maps.
+- [x] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): `plan-level-bank.ts --a2key-from` (fd97e9f, test-first); bank-8 plan generated again from the Adventure 7 and 8 words (4b13fd8: 0 new A2 Key words, was 143). bank-9 plan generated again from the Adventure 7, 8, and 9 words (cceb53a).
 - [~] bank-8: 108 packages; QA; media — 108 written and edited (108 PASS; 216 change rows); report `reviews/2026-10-07-prereview-bank-8.md`; pictures and audio started. Provisional approval after the media.
 - [ ] Coverage report (95% of Flyers); tags export; Daniel's review
 
 ## Phase 6: Level 9
 
 - [~] Adventure 9.1, 9.2, and 9.3: lesson maps, 42 packages, pre-review, media — maps committed (cceb53a); 42 written (42 PASS, no word twice in a book); 9.1 pre-review in progress.
-- [~] bank-9: 108 packages; QA; media — plan generated again with --a2key-from (cceb53a); b001–b018 written (18 PASS); writers 2 and 3 in progress.
+- [~] bank-9: 108 packages; QA; media — plan generated again with --a2key-from (cceb53a); 108 written and edited (108 PASS; 272 change rows); report `reviews/2026-10-07-prereview-bank-9.md`; pictures and audio next. Provisional approval after the media.
 - [ ] A2 band report: every A2 objective, 90% of A2 Key; tags export; Daniel's review
 
 ## Phase 7: Into the app
