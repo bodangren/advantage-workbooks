@@ -1,6 +1,6 @@
 # Primary Advantage Adventure 8.2 — Lesson Map
 
-Version 0.2 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.3 | Date 2026-10-07 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `levels_5_9_20261006`. Companion files: [`primary-adventure-7.1-plan.md`](primary-adventure-7.1-plan.md) (the model for this map), [`primary-levels-5-9-plan.md`](primary-levels-5-9-plan.md) (§3 band rule, §5 profiles, §6 vocabulary, §7 grammar, §8 cast), [`primary-quest-adventure-series-bible.md`](primary-quest-adventure-series-bible.md) (§2, §4–§7), [`level-plans/levels-5-9-objectives.json`](level-plans/levels-5-9-objectives.json), [`level-plans/bank-8.md`](level-plans/bank-8.md), [`data/grammar-levels-5-9.md`](data/grammar-levels-5-9.md), [`calibration/levels-5-9/l8-story.md`](calibration/levels-5-9/l8-story.md), [`calibration/levels-5-9/l8-info.md`](calibration/levels-5-9/l8-info.md), [`reviews/2026-10-06-prereview-level-5.md`](reviews/2026-10-06-prereview-level-5.md), [`reviews/2026-10-06-prereview-bank-6.md`](reviews/2026-10-06-prereview-bank-6.md), [`../../content/primary/AUTHORING.md`](../../content/primary/AUTHORING.md). The sister maps are [`primary-adventure-8.1-plan.md`](primary-adventure-8.1-plan.md) and [`primary-adventure-8.3-plan.md`](primary-adventure-8.3-plan.md) (written at the same time).
 
@@ -53,7 +53,7 @@ Targets are A2 key ids (`a2-objective-key.json`, GSE 33–36 for this book, plus
 | L09 | Alex's Robot Game | Wednesday, December 16 | functional: an email with game instructions and screen feedback | Technology & Games | nonfiction | Alex (by email), Tom, Ben, Pip; the living room | R36.3, R36.2, R31.3 | R35.1, R33.1, R34.5, R30.4 | first conditional (also: How often?) |
 | L10 | The Lion and the Mouse | Thursday, December 17 | story: a traditional tale told by Teacher Kim | Pets & Animals | fiction | Teacher Kim, Lily, Mia, Leo, May; the school library (club hour) | R36.1, R35.5, R35.2 | R33.4, R31.6, L35.4, R34.4 | gerunds (also: that clauses) |
 | L11 | Chef Lucy's Egg Fried Rice | Saturday, December 19 | functional: a recipe and a short talk | Food & Drink | nonfiction | Chef Lucy, Lily, Mia, Leo, May, Teacher Kim; the cooking class | R36.2, L36.1, L34.5, L35.1 | R35.1, R38.11, L31.10, R34.1 | would for polite requests (also: How much / How many?) |
-| L12 | Miss Alice and the Book Boat | Monday, December 21 | functional: a biography of a person of the past, a blog post | History | nonfiction | May (writer), Lily; May's desk and the school library | R35.4, R35.6, L35.6, L35.5 | R35.3, R34.3, R33.5, R33.2 | present perfect with for / since (also: participles as adjectives) |
+| L12 | Miss Nora and the Book Boat | Monday, December 21 | functional: a biography of a person of the past, a blog post | History | nonfiction | May (writer), Lily; May's desk and the school library | R35.4, R35.6, L35.6, L35.5 | R35.3, R34.3, R33.5, R33.2 | present perfect with for / since (also: participles as adjectives) |
 | L13 | Two Emails, Two Places | Tuesday, December 22 | functional: two emails on one topic, to compare | Travel & Holidays | nonfiction | Ravi and Nadia (by email), Lily, Mia, Leo; the library computer | L35.3, R35.3, L35.4 | R35.4, R35.1, R35.6, R33.1 | (not) as ... as (also: too) |
 | L14 | A Card for Palm Lake | Wednesday, December 23 | story: a class card and plans for the new year | School | fiction | Teacher Kim, Lily, Mia, Leo, May, Ms. Ong (by email), Pip; the classroom and home | R35.5, R36.1, L35.2, L34.4 | R35.2, L34.3, R33.1, L35.1 | present continuous for the future (also: would for requests) |
 
@@ -65,7 +65,7 @@ Notes:
 - L03 is a call from Mom's cell phone in a family scene (the bible lets children use a phone in family stories only). Guide Ann and the receptionist are voices only; no picture shows them.
 - Leaflets, maps, signs, recipe cards, game screens, and notes (L03, L06, L07, L09, L11, L12) show their words in double quotation marks, exactly as in the text. Section 4 gives them.
 - Dates and times: the museum is open Tuesday to Sunday, 9:00 a.m. to 5:00 p.m.; a child's ticket is 30 baht (L02, L03). The group meets the assistant at 10:30 a.m. on December 12, and Guide Ann's talk is at 11:00 a.m. (L03, L07). The cooking class costs 80 baht (L02).
-- Biography: Miss Alice is an invented person of the past with fixed dates (born 1912, teacher at 22 in 1934, boat license 1936, stops in 1968, lived to 78, died 1990; her boat has been in the museum since 2005). The numbers agree in L12 and in the quiz questions.
+- Biography: Miss Nora is an invented person of the past with fixed dates (born 1912, teacher at 22 in 1934, boat license 1936, stops in 1968, lived to 78, died 1990; her boat has been in the museum since 2005). The numbers agree in L12 and in the quiz questions.
 
 ## 4. Lesson briefs and pictures
 
@@ -181,14 +181,14 @@ On Saturday, December 19, the Explorers walk from the bus stop to the cooking cl
 - inline-para-2: Mia cuts mushrooms with a small knife on a board while Chef Lucy watches her hands; May beats eggs in a bowl with a fork; Leo holds a spoon.
 - inline-para-3: A table with five plates of egg fried rice, each with a thin slice of chilli on top; Leo holds up a spoon and grins; Chef Lucy smiles; the others eat.
 
-### L12 Miss Alice and the Book Boat
+### L12 Miss Nora and the Book Boat
 
 Text type: functional: a biography of a person of the past, a blog post. Genre: History. App type: nonfiction. Place: May's desk and the school library.
 
-On Monday, December 21, May writes the blog post "Miss Alice and the Book Boat" ("Posted by May") with facts from a book in the school library. Miss Alice was born in nineteen twelve in a small river village, and her father built boats. Her occupation was teacher: she began at the age of twenty-two, and in nineteen thirty-four she started a book boat, twelve meters long and two meters wide, with two hundred books. She got her boat license in nineteen thirty-six, married a boat builder, wrote a book about the river, and stopped teaching in nineteen sixty-eight; she had two grandchildren. Her boat has been in the museum since two thousand five. Lily reads the post and asks, "How long was her career?"
+On Monday, December 21, May writes the blog post "Miss Nora and the Book Boat" ("Posted by May") with facts from a book in the school library. Miss Nora was born in nineteen twelve in a small river village, and her father built boats. Her occupation was teacher: she began at the age of twenty-two, and in nineteen thirty-four she started a book boat, twelve meters long and two meters wide, with two hundred books. She got her boat license in nineteen thirty-six, married a boat builder, wrote a book about the river, and stopped teaching in nineteen sixty-eight; she had two grandchildren. Her boat has been in the museum since two thousand five. Lily reads the post and asks, "How long was her career?"
 
 - hero: May sits at a desk in the school library with an open book and a laptop. The screen shows a blog page headed "MISS ALICE AND THE BOOK BOAT" with the line "Posted by May". Lily stands beside her and reads.
-- inline-para-2: An old black-and-white photo of Miss Alice (a woman of about forty with her hair in a bun, a white blouse with a high collar, and a long gray skirt) standing on a long wooden boat with shelves full of books and a small roof. The caption says "Miss Alice, 1912-1990".
+- inline-para-2: An old black-and-white photo of Miss Nora (a woman of about forty with her hair in a bun, a white blouse with a high collar, and a long gray skirt) standing on a long wooden boat with shelves full of books and a small roof. The caption says "Miss Nora, 1912-1990".
 - inline-para-3: A timeline strip on a page of May's notebook: "1912 born", "1934 the book boat", "1936 boat license", "1968 stops teaching", "2005 the boat in the museum", and a small drawing of the boat marked "12 m long, 2 m wide".
 
 ### L13 Two Emails, Two Places
@@ -386,8 +386,8 @@ Word notes for writers:
 
 1. **Calendar and trips.** The book runs from Tuesday, December 1 to Wednesday, December 23 and has two club trips (museum, cooking class), in a month in which the bible plans one trip. Adventure 8.1 covers November and Adventure 8.3 should start in January. Option A: two trips in each book, as in Adventure 7.2. Option B: one trip in each book and one place only.
 2. **Public days.** No lesson falls on Saturday, December 5 or Thursday, December 10, and no text names a holiday or Christmas. Option A: keep holidays out of the books. Option B: add one secular school day to a book.
-3. **New facts.** A science museum with a blue whale model and a whale quiz (L03, L07); a sports store (L04); Chef Lucy's cooking class (L11); Miss Alice, an invented teacher of a book boat, born in 1912 (L12). Do you accept them? Option A: accept. Option B: drop the fact and the writer takes a swap.
-4. **The biography.** L12 gives Miss Alice dates from 1912 to 1990, a boat license, a husband, and two grandchildren. Option A: keep. Option B: write a shorter life with no end date, so that the text stays simple.
+3. **New facts.** A science museum with a blue whale model and a whale quiz (L03, L07); a sports store (L04); Chef Lucy's cooking class (L11); Miss Nora, an invented teacher of a book boat, born in 1912 (L12). Do you accept them? Option A: accept. Option B: drop the fact and the writer takes a swap.
+4. **The biography.** L12 gives Miss Nora dates from 1912 to 1990, a boat license, a husband, and one grandchild. Option A: keep. Option B: write a shorter life with no end date, so that the text stays simple.
 5. **Traditional tale.** *The Lion and the Mouse* is a fable that Teacher Kim tells in the club hour (L10). Option A: keep it. Option B: use a Thai animal tale that you choose.
 6. **Pen pals in pictures.** This map shows each pen pal only as email text on a laptop screen. Option A: keep this. Option B: wait for the sheets and draw the children.
 7. **Figures.** The lesson text writes every number, time, date, and price as a word, because the converter refuses digits. Pictures, signs, maps, and recipe cards show figures. Option A: keep this. Option B: allow figures in a recipe, a timetable, or a game screen (a change to the converter).
@@ -403,3 +403,4 @@ Word notes for writers:
 
 - 0.1 — 2026-10-06 — First version (track levels_5_9_20261006).
 - 0.2 — 2026-10-06 — Lead decisions for the writers in §9 (Daniel can change them in his review).
+- 0.3 — 2026-10-07 — Claude: L12 names the invented woman "Miss Nora" (the name Alice is on the list of names not to use for new people); one grandchild, as in the lesson.
