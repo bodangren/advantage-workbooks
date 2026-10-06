@@ -1,6 +1,6 @@
 # Primary Advantage Quest 6.2 — Lesson Map
 
-Version 0.2 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.3 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `levels_5_9_20261006`. Companion files: [`primary-quest-5-plan.md`](primary-quest-5-plan.md) (the model for this map), [`primary-levels-5-9-plan.md`](primary-levels-5-9-plan.md) (§3 band rule, §5 profiles, §6 vocabulary, §7 grammar, §8 cast), [`primary-quest-adventure-series-bible.md`](primary-quest-adventure-series-bible.md) (§1–§3), [`level-plans/levels-5-9-objectives.json`](level-plans/levels-5-9-objectives.json), [`level-plans/bank-6.md`](level-plans/bank-6.md), [`data/grammar-levels-5-9.md`](data/grammar-levels-5-9.md), [`reviews/2026-10-06-prereview-level-5.md`](reviews/2026-10-06-prereview-level-5.md), [`../../content/primary/AUTHORING.md`](../../content/primary/AUTHORING.md). The sister map is [`primary-quest-6.1-plan.md`](primary-quest-6.1-plan.md).
 
@@ -351,6 +351,20 @@ Word notes for writers:
 - **Swap rule.** A writer can swap at most 2 words of a lesson for other Flyers words of the same topic that no other lesson of the two books uses. Tell the lead which, so that the counts stay true. Never swap a free-pool word for a word glossed before.
 - **Allowed words.** Weekdays, months, ordinal and cardinal number words, *baht*, and the Flyers time words (*quarter, half, past, timetable*) go in `allow` if the check marks them. Names of places (*Chiang Mai, Green Hill*) go in `names` or `allow`.
 
+**Lead correction (v0.3, 2026-10-06): 12 glossed words.** The converter's `quest-6` profile needs exactly 12 glossed words, and the printed glossary has room for 12. The 15-word table above was a fault in the lead's brief to the map drafter. Each writer removed the Starters word and 2 Flyers words glossed before. Every new free-pool word and every Movers word stays. A removed word can stay in the text as an ordinary word.
+
+| # | Removed from the glossary |
+|---|---|
+| L08 | number, group, student |
+| L09 | garden, wood, stay |
+| L10 | class, stadium, speak |
+| L11 | robot, gold, design |
+| L12 | teacher, college, ambulance |
+| L13 | evening, million, thousand |
+| L14 | shop, pocket, step |
+
+L01–L07: the writer reports the removed words when the lessons are done.
+
 ## 8. Questions and tasks
 
 - MCQ (4 printed of 10): at least 2 test a target objective (L03: "What do you do after you glue the tube?"; L05: "Where do Tom and Ben meet?"; L08: "How much is the pencil?"; L10: "Who was third?").
@@ -373,4 +387,5 @@ Word notes for writers:
 ## Revision history
 
 - 0.1 — 2026-10-06 — First version (track levels_5_9_20261006).
+- 0.3 — 2026-10-06 — §7: 12 glossed words in each lesson (lead correction) and the removed words.
 - 0.2 — 2026-10-06 — Lead decisions for the writers in section 9 (Daniel can change them in his review).

@@ -45,7 +45,7 @@ The script checks did not find these faults.
 The editors kept the text in these places. Claude agrees with each choice until Daniel decides.
 
 1. **Children on the bus.** Lily (10) and Tom (12) take the bus to Green Hill (b012, b014, b016). Tom and Ben take the bus to school (b029); in Quest 5 Tom walks to school with Lily. The plan for b029 glosses "bus" and "travel".
-2. **British Cambridge words.** "motorway", "midday", "century", "football", and "chemist" (b046, b055, b066, b068, b070). The same question is open for level 5.
+2. **British Cambridge words.** "motorway", "midday", "century", and "chemist" (b046, b055, b066, b070). The same question is open for level 5. "football" stays, because the series bible §5 says to write "football", not "soccer".
 3. **New facts.** Aunt Sue comes by night train (b017). Leo has a mom and a dad who cooks (b045). Pip stays at home alone for a day (b028).
 4. **A king game and paper crowns** (b023, b036). The Thai text says ราชา.
 5. **A fee for a club game** (b068: "To play: twenty baht").

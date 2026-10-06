@@ -45,6 +45,6 @@
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
 
-- (2026-04-14, lesson_editor_refactor_20260413) Component extraction: When extracting sub-editors from a large page, maintain the original field names and onChange signature (field, value) pattern to minimize refactoring surface area and preserve existing tests.
+- (2026-10-06, levels_5_9_20261006) Map briefs: copy the hard counts of the converter profile (`glossedCount`, word range, paragraphs) from `lib/text-profile/check.ts` into a map-drafter prompt, not from memory. A brief that said 15 glossed words gave two Quest 6 maps with 15 words in each lesson; the profile needs exactly 12, so 28 lessons needed a cut during the writing.
 - (2026-10-01, text_profile_lint_20260930) Content checks: make targets that shape a story (new-word counts, word order) WARN, and keep FAIL for hard limits (length, level, spelling). Daniel ranks a good story above exact sequencing. Also, "new word" counts must include earlier lessons' draft text, not only their glossed lists.
 - (2026-08-03, lesson_editor_refactor_20260413) Hitting a "<200 line page" gate: bare hook extraction leaves JSX behind; also extract pure-presentational pieces (status banners, preview modal) as verbatim-copy components. Keep generic hooks (useDebounce) private in the hook file when single-consumer.
