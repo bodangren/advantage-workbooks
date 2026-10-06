@@ -28,9 +28,9 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 3: Level 6
 
-- [ ] Quest 6.1: lesson map, 14 packages, pre-review, media
-- [ ] Quest 6.2: lesson map, 14 packages, pre-review, media
-- [ ] bank-6: 72 packages; QA; media
+- [~] Quest 6.1: lesson map, 14 packages, pre-review, media — map v0.2 (`docs/content-plans/primary-quest-6.1-plan.md`, lead decisions in §9); writers started 2026-10-06
+- [~] Quest 6.2: lesson map, 14 packages, pre-review, media — map v0.2 (`docs/content-plans/primary-quest-6.2-plan.md`, lead decisions in §9); writers started 2026-10-06
+- [~] bank-6: 72 packages; QA; media — 72 drafts, 0 FAIL; pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-bank-6.md`, 205 changes); media next
 - [ ] A1 band report: every A1 objective and every Movers word; tags export; Daniel's review
 
 ## Phase 4: Level 7
