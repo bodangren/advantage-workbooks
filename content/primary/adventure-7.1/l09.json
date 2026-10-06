@@ -1,0 +1,682 @@
+{
+  "version": 1,
+  "meta": {
+    "book": "adventure-7.1",
+    "lesson": "L09",
+    "number": 9,
+    "key": "a7-1/9",
+    "title": "Race to the Flag",
+    "raLevel": 7,
+    "cefrLevel": "A2-",
+    "textType": "functional: board-game rules sent by email",
+    "genre": "Technology & Games",
+    "profile": "adventure-7",
+    "brief": "docs/content-plans/primary-adventure-7.1-plan.md",
+    "appType": "nonfiction",
+    "role": "workbook"
+  },
+  "text": {
+    "paragraphs": [
+      "Dear Alex, this is Tom. Thank you for the instructions for your game. Your email came on a quiet morning. On Saturday, July eighteenth, I read your email at ten o'clock. Ben and Hugo came to my house at one o'clock. Hugo is a boy in my class. The board is made of cardboard, and it has twenty squares. Ben cut paper flags, and he cut one extra flag for us. I drew red and green squares with a marker. Six squares are red, and four squares are green. The other squares are white.",
+      "Here are your rules, as we wrote them on a card. Each player puts a flag on START. On your turn, throw the dice and move your flag. If you land on a red square, go back three squares. If you land on a green square, throw again. The first player on FINISH is the winner. Ben said, \"Everyone must follow the rules!\"",
+      "When everyone was ready, we started at three o'clock. Hugo landed on a green square and threw again. Ben threw a six and moved fast. I landed on a red square, so I went back three squares. Then Pip jumped on the board and took a flag. We put the flag back, and I said, \"Pip, please stay on the floor!\" Pip sat next to the sofa with his red ball. The game took a long time, and nobody wanted to stop. Finally, Hugo got to FINISH first, and he has just won the game!",
+      "Is your game on a computer, or do you play it on paper? Have you made a new game yet? Your game is fun, and we want to play it again next week. P.S. How is your robot? Thank you again for the fun game. Best wishes, Tom."
+    ],
+    "summary": "Tom writes an email to Alex. He tells Alex the rules of Race to the Flag and how he, Ben, and Hugo played it. Pip takes a flag, and Hugo wins.",
+    "glossed": [
+      "instructions",
+      "extra",
+      "turn",
+      "win",
+      "winner",
+      "card",
+      "ready",
+      "stay",
+      "nobody",
+      "finally",
+      "move",
+      "square"
+    ],
+    "recycle": [],
+    "allow": [
+      "Saturday",
+      "July",
+      "eighteenth",
+      "o'clock",
+      "dice",
+      "cardboard",
+      "marker",
+      "START",
+      "FINISH",
+      "follow"
+    ],
+    "names": [
+      "Tom",
+      "Alex",
+      "Ben",
+      "Hugo",
+      "Pip"
+    ]
+  },
+  "glossary": [
+    {
+      "word": "instructions",
+      "pos": "noun",
+      "definition": "Words that tell you how to do or play something.",
+      "thai": "วิธีเล่น, คำแนะนำ, คำสั่ง",
+      "example": "Thank you for the instructions for your game."
+    },
+    {
+      "word": "extra",
+      "pos": "adjective",
+      "definition": "More than you need, or more than usual.",
+      "thai": "เพิ่ม, พิเศษ",
+      "example": "Ben cut paper flags, and he cut one extra flag for us."
+    },
+    {
+      "word": "turn",
+      "pos": "noun",
+      "definition": "The time when it is your chance to play.",
+      "thai": "ตา, รอบ",
+      "example": "On your turn, throw the dice and move your flag."
+    },
+    {
+      "word": "win",
+      "pos": "verb",
+      "definition": "To be the first or the best in a game.",
+      "thai": "ชนะ",
+      "example": "Finally, Hugo got to FINISH first, and he has just won the game!"
+    },
+    {
+      "word": "winner",
+      "pos": "noun",
+      "definition": "The person who wins.",
+      "thai": "ผู้ชนะ",
+      "example": "The first player on FINISH is the winner."
+    },
+    {
+      "word": "card",
+      "pos": "noun",
+      "definition": "A small piece of stiff paper with words or pictures.",
+      "thai": "การ์ด, บัตร",
+      "example": "Here are your rules, as we wrote them on a card."
+    },
+    {
+      "word": "ready",
+      "pos": "adjective",
+      "definition": "With everything done, so that you can start.",
+      "thai": "พร้อม",
+      "example": "When everyone was ready, we started at three o'clock."
+    },
+    {
+      "word": "stay",
+      "pos": "verb",
+      "definition": "To not move; to be in the same place.",
+      "thai": "อยู่, อยู่กับที่",
+      "example": "We put the flag back, and I said, \"Pip, please stay on the floor!\""
+    },
+    {
+      "word": "nobody",
+      "pos": "pronoun",
+      "definition": "Not one person.",
+      "thai": "ไม่มีใคร",
+      "example": "The game took a long time, and nobody wanted to stop."
+    },
+    {
+      "word": "finally",
+      "pos": "adverb",
+      "definition": "At the end, after a long time or many things.",
+      "thai": "ในที่สุด",
+      "example": "Finally, Hugo got to FINISH first, and he has just won the game!"
+    },
+    {
+      "word": "move",
+      "pos": "verb",
+      "definition": "To go from one place to another place.",
+      "thai": "เดิน, ขยับ, เคลื่อนที่",
+      "example": "On your turn, throw the dice and move your flag."
+    },
+    {
+      "word": "square",
+      "pos": "noun",
+      "definition": "A shape with four sides of the same length; a box on a game board.",
+      "thai": "ช่องสี่เหลี่ยม, สี่เหลี่ยมจัตุรัส",
+      "example": "The board is made of cardboard, and it has twenty squares."
+    }
+  ],
+  "bank": {
+    "mcq": [
+      {
+        "id": "m1",
+        "question": "What happens if you land on a red square?",
+        "options": [
+          "You stay for one turn.",
+          "You go back three squares.",
+          "You throw again.",
+          "You win the game."
+        ],
+        "answer": "You go back three squares.",
+        "evidence": "If you land on a red square, go back three squares.",
+        "objectives": [
+          "R31.3",
+          "R30.4"
+        ]
+      },
+      {
+        "id": "m2",
+        "question": "What happens if you land on a green square?",
+        "options": [
+          "You throw again.",
+          "You lose your flag.",
+          "You go back three squares.",
+          "You go to FINISH."
+        ],
+        "answer": "You throw again.",
+        "evidence": "If you land on a green square, throw again.",
+        "objectives": [
+          "R31.3",
+          "R31.1"
+        ]
+      },
+      {
+        "id": "m3",
+        "question": "Who is the winner of the game?",
+        "options": [
+          "the player on START",
+          "the last player on the board",
+          "the player with the most flags",
+          "the first player on FINISH"
+        ],
+        "answer": "the first player on FINISH",
+        "evidence": "The first player on FINISH is the winner.",
+        "objectives": [
+          "R31.3",
+          "R30.4"
+        ]
+      },
+      {
+        "id": "m4",
+        "question": "What is the board made of?",
+        "options": [
+          "metal",
+          "wood",
+          "plastic",
+          "cardboard"
+        ],
+        "answer": "cardboard",
+        "evidence": "The board is made of cardboard, and it has twenty squares.",
+        "objectives": [
+          "L31.3",
+          "R30.4"
+        ]
+      },
+      {
+        "id": "m5",
+        "question": "How many squares does the board have?",
+        "options": [
+          "twenty",
+          "ten",
+          "six",
+          "thirty"
+        ],
+        "answer": "twenty",
+        "evidence": "The board is made of cardboard, and it has twenty squares.",
+        "objectives": [
+          "R31.3",
+          "L31.3"
+        ]
+      },
+      {
+        "id": "m6",
+        "question": "Who is Hugo?",
+        "options": [
+          "Ben's cousin",
+          "Alex's friend",
+          "Tom's brother",
+          "a boy in Tom's class"
+        ],
+        "answer": "a boy in Tom's class",
+        "evidence": "Hugo is a boy in my class.",
+        "objectives": [
+          "R30.4",
+          "R31.2"
+        ]
+      },
+      {
+        "id": "m7",
+        "question": "What did Ben cut?",
+        "options": [
+          "paper flags",
+          "a card",
+          "red squares",
+          "green squares"
+        ],
+        "answer": "paper flags",
+        "evidence": "Ben cut paper flags, and he cut one extra flag for us.",
+        "objectives": [
+          "R30.4",
+          "R31.1"
+        ]
+      },
+      {
+        "id": "m8",
+        "question": "When did the boys start to play?",
+        "options": [
+          "at three o'clock",
+          "at five o'clock",
+          "at one o'clock",
+          "at ten o'clock"
+        ],
+        "answer": "at three o'clock",
+        "evidence": "When everyone was ready, we started at three o'clock.",
+        "objectives": [
+          "R31.3",
+          "R25.2"
+        ]
+      },
+      {
+        "id": "m9",
+        "question": "What did Pip take from the board?",
+        "options": [
+          "the card",
+          "a flag",
+          "the marker",
+          "the dice"
+        ],
+        "answer": "a flag",
+        "evidence": "Then Pip jumped on the board and took a flag.",
+        "objectives": [
+          "R30.4",
+          "L31.3"
+        ]
+      },
+      {
+        "id": "m10",
+        "question": "Who has just won the game?",
+        "options": [
+          "Hugo",
+          "Pip",
+          "Tom",
+          "Ben"
+        ],
+        "answer": "Hugo",
+        "evidence": "Finally, Hugo got to FINISH first, and he has just won the game!",
+        "objectives": [
+          "R31.2",
+          "R30.4"
+        ]
+      }
+    ],
+    "saq": [
+      {
+        "id": "s1",
+        "question": "What do you do on your turn?",
+        "answer": "You throw the dice and move your flag.",
+        "objectives": [
+          "R31.3"
+        ]
+      },
+      {
+        "id": "s2",
+        "question": "What did Tom draw on the cardboard?",
+        "answer": "He drew red and green squares.",
+        "objectives": [
+          "R30.4"
+        ]
+      },
+      {
+        "id": "s3",
+        "question": "Where did the boys write the rules?",
+        "answer": "They wrote the rules on a card.",
+        "objectives": [
+          "R30.4"
+        ]
+      },
+      {
+        "id": "s4",
+        "question": "What did Tom say to Pip?",
+        "answer": "He said, \"Pip, please stay on the floor!\"",
+        "objectives": [
+          "R31.2"
+        ]
+      },
+      {
+        "id": "s5",
+        "question": "What game do you like to play with your friends?",
+        "answer": "I like to play chess with my friends.",
+        "objectives": [
+          "R24.6"
+        ]
+      }
+    ],
+    "laq": [
+      {
+        "id": "l1",
+        "question": "Write three rules for a game that you know.",
+        "objectives": [
+          "R31.3"
+        ]
+      },
+      {
+        "id": "l2",
+        "question": "Why is it important to follow the rules of a game?",
+        "objectives": [
+          "R31.3"
+        ]
+      },
+      {
+        "id": "l3",
+        "question": "Add a new color of square to the game. What does it do?",
+        "objectives": [
+          "R31.3"
+        ]
+      },
+      {
+        "id": "l4",
+        "question": "Do you like board games? Why or why not?",
+        "objectives": [
+          "R24.6"
+        ]
+      },
+      {
+        "id": "l5",
+        "question": "Write a short reply to Tom's email.",
+        "objectives": [
+          "R30.4"
+        ]
+      }
+    ]
+  },
+  "print": {
+    "mcq": [
+      "m1",
+      "m2",
+      "m3",
+      "m5"
+    ],
+    "saq": "s1",
+    "saqHint": "On your turn, you ___ the dice and move your flag.",
+    "mcqOptions": 3
+  },
+  "activities": {
+    "sentenceStarters": [
+      "If you land on ...",
+      "On your turn, ...",
+      "The winner is ..."
+    ],
+    "vocabFill": [
+      {
+        "sentence": "If you land on a red square, go ___ three squares.",
+        "answer": "back"
+      },
+      {
+        "sentence": "The first player on FINISH is the ___.",
+        "answer": "winner"
+      },
+      {
+        "sentence": "The board is made ___ cardboard.",
+        "answer": "of"
+      },
+      {
+        "sentence": "Each player puts a flag on ___.",
+        "answer": "START"
+      }
+    ],
+    "sentenceOrder": [
+      "Ben and Hugo came to my house at one o'clock.",
+      "Then Pip jumped on the board and took a flag."
+    ],
+    "sentenceCompletion": [
+      "If you land on a blue square, ...",
+      "On my turn, I ...",
+      "The winner of the game is ..."
+    ],
+    "writingPrompt": "Write three rules of a game.",
+    "writingFrames": [
+      "Each player ___.",
+      "If you land on ___, ___.",
+      "The first player on ___ is ___."
+    ]
+  },
+  "thai": {
+    "paragraphs": [
+      [
+        {
+          "en": "Dear Alex, this is Tom.",
+          "th": "อเล็กซ์ที่รัก ทอมเองนะ"
+        },
+        {
+          "en": "Thank you for the instructions for your game.",
+          "th": "ขอบคุณสำหรับวิธีเล่นเกมของเธอ"
+        },
+        {
+          "en": "Your email came on a quiet morning.",
+          "th": "อีเมลของเธอมาในเช้าที่เงียบสงบ"
+        },
+        {
+          "en": "On Saturday, July eighteenth, I read your email at ten o'clock.",
+          "th": "วันเสาร์ที่สิบแปดกรกฎาคม ฉันอ่านอีเมลของเธอตอนสิบโมง"
+        },
+        {
+          "en": "Ben and Hugo came to my house at one o'clock.",
+          "th": "เบ็นกับฮิวโก้มาที่บ้านของฉันตอนบ่ายโมง"
+        },
+        {
+          "en": "Hugo is a boy in my class.",
+          "th": "ฮิวโก้เป็นเด็กผู้ชายในห้องของฉัน"
+        },
+        {
+          "en": "The board is made of cardboard, and it has twenty squares.",
+          "th": "กระดานทำจากกระดาษแข็ง และมีสี่เหลี่ยมยี่สิบช่อง"
+        },
+        {
+          "en": "Ben cut paper flags, and he cut one extra flag for us.",
+          "th": "เบ็นตัดธงกระดาษ และตัดธงเพิ่มให้เราอีกหนึ่งอัน"
+        },
+        {
+          "en": "I drew red and green squares with a marker.",
+          "th": "ฉันวาดช่องสีแดงและสีเขียวด้วยปากกามาร์คเกอร์"
+        },
+        {
+          "en": "Six squares are red, and four squares are green.",
+          "th": "หกช่องเป็นสีแดง และสี่ช่องเป็นสีเขียว"
+        },
+        {
+          "en": "The other squares are white.",
+          "th": "ช่องที่เหลือเป็นสีขาว"
+        }
+      ],
+      [
+        {
+          "en": "Here are your rules, as we wrote them on a card.",
+          "th": "นี่คือกติกาของเธอ ตามที่เราเขียนไว้บนการ์ด"
+        },
+        {
+          "en": "Each player puts a flag on START.",
+          "th": "ผู้เล่นแต่ละคนวางธงไว้ที่ START"
+        },
+        {
+          "en": "On your turn, throw the dice and move your flag.",
+          "th": "ถึงตาของเธอ ให้ทอยลูกเต๋าแล้วเดินธงของเธอ"
+        },
+        {
+          "en": "If you land on a red square, go back three squares.",
+          "th": "ถ้าธงตกที่ช่องสีแดง ให้ถอยหลังสามช่อง"
+        },
+        {
+          "en": "If you land on a green square, throw again.",
+          "th": "ถ้าธงตกที่ช่องสีเขียว ให้ทอยอีกครั้ง"
+        },
+        {
+          "en": "The first player on FINISH is the winner.",
+          "th": "ผู้เล่นคนแรกที่ถึง FINISH เป็นผู้ชนะ"
+        },
+        {
+          "en": "Ben said, \"Everyone must follow the rules!\"",
+          "th": "เบ็นพูดว่า \"ทุกคนต้องทำตามกติกานะ\""
+        }
+      ],
+      [
+        {
+          "en": "When everyone was ready, we started at three o'clock.",
+          "th": "เมื่อทุกคนพร้อมแล้ว เราก็เริ่มเล่นตอนบ่ายสามโมง"
+        },
+        {
+          "en": "Hugo landed on a green square and threw again.",
+          "th": "ฮิวโก้ลงช่องสีเขียวและทอยอีกครั้ง"
+        },
+        {
+          "en": "Ben threw a six and moved fast.",
+          "th": "เบ็นทอยได้หกและเดินไปได้เร็ว"
+        },
+        {
+          "en": "I landed on a red square, so I went back three squares.",
+          "th": "ฉันลงช่องสีแดง ฉันจึงถอยหลังสามช่อง"
+        },
+        {
+          "en": "Then Pip jumped on the board and took a flag.",
+          "th": "แล้วปิ๊ปก็กระโดดขึ้นบนกระดานและคาบธงไป"
+        },
+        {
+          "en": "We put the flag back, and I said, \"Pip, please stay on the floor!\"",
+          "th": "เราเอาธงไปวางคืน และฉันพูดว่า \"ปิ๊ป อยู่บนพื้นนะ\""
+        },
+        {
+          "en": "Pip sat next to the sofa with his red ball.",
+          "th": "ปิ๊ปไปนั่งข้างโซฟาพร้อมลูกบอลสีแดงของเขา"
+        },
+        {
+          "en": "The game took a long time, and nobody wanted to stop.",
+          "th": "เกมใช้เวลานาน และไม่มีใครอยากหยุดเล่น"
+        },
+        {
+          "en": "Finally, Hugo got to FINISH first, and he has just won the game!",
+          "th": "ในที่สุดฮิวโก้ก็ถึง FINISH ก่อน และเขาเพิ่งชนะเกมนี้!"
+        }
+      ],
+      [
+        {
+          "en": "Is your game on a computer, or do you play it on paper?",
+          "th": "เกมของเธออยู่ในคอมพิวเตอร์ หรือเธอเล่นบนกระดาษ"
+        },
+        {
+          "en": "Have you made a new game yet?",
+          "th": "เธอทำเกมใหม่หรือยัง"
+        },
+        {
+          "en": "Your game is fun, and we want to play it again next week.",
+          "th": "เกมของเธอสนุก และเราอยากเล่นอีกในสัปดาห์หน้า"
+        },
+        {
+          "en": "P.S. How is your robot?",
+          "th": "ป.ล. หุ่นยนต์ของเธอเป็นอย่างไรบ้าง"
+        },
+        {
+          "en": "Thank you again for the fun game.",
+          "th": "ขอบคุณอีกครั้งสำหรับเกมสนุก ๆ นะ"
+        },
+        {
+          "en": "Best wishes, Tom.",
+          "th": "ด้วยความปรารถนาดี ทอม"
+        }
+      ]
+    ],
+    "summary": "ทอมเขียนอีเมลถึงอเล็กซ์ เขาเล่ากติกาของเกม Race to the Flag และเล่าว่าเขา เบ็น และฮิวโก้เล่นกันอย่างไร ปิ๊ปคาบธงไป และฮิวโก้เป็นผู้ชนะ"
+  },
+  "images": [
+    {
+      "position": "hero",
+      "prompt": "Tom and Ben stand at a table in a living room around a cardboard game board with twenty squares in red, green, and white. A boy named Hugo, a thirteen-year-old with short black hair, a yellow T-shirt, and blue jeans, stands with them. A white card lies next to the board with five lines: \"Each player puts a flag on START.\" / \"On your turn, throw the dice and move your flag.\" / \"If you land on a red square, go back three squares.\" / \"If you land on a green square, throw again.\" / \"The first player on FINISH is the winner.\" Spell every word exactly.",
+      "characters": [
+        "Tom",
+        "Ben"
+      ],
+      "caption": "The boys play the flag game.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-2",
+      "prompt": "Ben cuts small paper flags with scissors at a table in a living room. Tom draws red and green squares on a big piece of cardboard with a marker.",
+      "characters": [
+        "Ben",
+        "Tom"
+      ],
+      "caption": "Ben and Tom make the game.",
+      "overlay": [],
+      "candidates": []
+    },
+    {
+      "position": "inline-para-3",
+      "prompt": "Pip stands on the cardboard game board on the table with a small paper flag in his mouth. Tom and Ben laugh. A boy named Hugo, a thirteen-year-old with short black hair, a yellow T-shirt, and blue jeans, laughs next to them.",
+      "characters": [
+        "Pip",
+        "Tom",
+        "Ben"
+      ],
+      "caption": "Pip takes a flag.",
+      "overlay": [],
+      "candidates": []
+    }
+  ],
+  "audio": {
+    "voice": "English_magnetic_voiced_man",
+    "teacherVoice": "English_captivating_female1",
+    "sentences": [],
+    "wordTimes": [],
+    "flashcardTimes": []
+  },
+  "tags": {
+    "targetObjectives": [
+      "R31.3",
+      "R30.4",
+      "L31.3"
+    ],
+    "supportingObjectives": [
+      "R31.1",
+      "R30.2",
+      "R31.2",
+      "R27.1",
+      "R23.3",
+      "R24.6",
+      "R25.2"
+    ],
+    "glossedNodes": [
+      "english.vocabulary.skill.instructions.noun",
+      "english.vocabulary.skill.extra.adjective",
+      "english.vocabulary.skill.turn.noun-verb",
+      "english.vocabulary.skill.turn.verb",
+      "english.vocabulary.skill.win.verb",
+      "english.vocabulary.skill.winner.noun",
+      "english.vocabulary.skill.card.noun",
+      "english.vocabulary.skill.ready.adjective",
+      "english.vocabulary.skill.stay.verb",
+      "english.vocabulary.skill.nobody.pronoun",
+      "english.vocabulary.skill.finally.adverb",
+      "english.vocabulary.skill.move.verb",
+      "english.vocabulary.skill.square.adjective-noun"
+    ],
+    "recycledNodes": []
+  },
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "bank": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "lesson": {
+      "status": "draft"
+    }
+  },
+  "db": {}
+}
