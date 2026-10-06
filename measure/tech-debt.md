@@ -8,7 +8,6 @@
 
 | Date | Track | Item | Severity | Status | Notes |
 |------|-------|------|----------|--------|-------|
-| 2026-03-10 | refactor_cleanup_20260310 | NPM audit vulnerabilities (minimatch, ajv, rollup) | High | Resolved | Run npm audit fix |
 | 2026-03-10 | certificate_of_completion_20260310 | Fixed Next.js build error caused by outdated ai-augmentor function signature taking extra argument | High | Resolved | Fixed in app and scripts |
 | 2026-03-10 | self_assessment_generator_20260310 | Consider moving the generated printable sections into separate files if workbook-document-wrapper.ts grows beyond manageable size | Medium | Resolved | Refactored in refactor_document_wrapper_20260310 |
 | 2026-03-11 | refactor_cleanup_20260311 | Fixed unused `_theme` warning in `self-assessment.ts` and improved section UI | Low | Resolved | Fixed via ESLint checks |
@@ -48,3 +47,4 @@
 | 2026-10-02 | print_ready_pdf_20261002 | No bleed or crop marks; dark text prints as four-color black after the RGB-to-CMYK conversion. | Low | Open | Ask the printer after his holiday (2026-10-07). Paged.js `@page { bleed: 3mm; marks: crop; }` is the bleed path. |
 | 2026-10-06 | level_banks_20261002 | The 222 new lessons have Thai only. The injector puts English in the app's cn, tw, and vi fields; 179 of them replace old articles that had those translations. | Medium | Open | Daniel (2026-10-06): acceptable during the term break. Make cn, tw, and vi before the schools use the app again. |
 | 2026-10-06 | lesson_packages_20261001 | No database stores the objective and vocabulary tags; the injector writes none. | Medium | Open | `content/primary/tags.json` (`scripts/export-tags.ts`) carries them. Monorepo track `primary_objective_tags_20261006` imports it. Export again after each injection. |
+| 2026-10-07 | levels_5_9_20261006 | The text check's sentence splitter does not split after a nested quote that ends a sentence (`.'"`), so two sentences count as one and can give a false "longest sentence" FAIL. | Low | Open | Writers avoid the form; fix the splitter in `lib/text-profile/text.ts` with a test. |
