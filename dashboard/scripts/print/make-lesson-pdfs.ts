@@ -1,9 +1,7 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { spawnSync } from 'child_process';
-import { chromium, type Browser } from '@playwright/test';
-import sharp from 'sharp';
+import { chromium } from '@playwright/test';
 import { LessonPackageSchema } from '../../lib/lesson-package/schema';
 import { buildWorkbookLesson } from '../../lib/lesson-package/build';
 import { renderMultipleLessons } from '../../lib/template-renderer';
@@ -12,6 +10,7 @@ import { answerKeyEntry } from '../../lib/document-wrapper/sections/answer-key';
 import { listLessons, readLesson, readProjectMetadata } from '../../lib/filesystem';
 import { lessonPdfName, localPictures } from '../../lib/print/lesson-pdf';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
+import { downloadPictures, renderPagedPdf, run } from '../../lib/print/render';
 import type { WorkbookLesson } from '../../lib/workbook-schema';
 
 const USAGE = `Makes one A4 PDF for each lesson of the Primary books, for teachers and parents to print
@@ -49,13 +48,6 @@ interface BookLessons {
     lessons: { number: number; lesson: WorkbookLesson }[];
 }
 
-function run(cmd: string, args: string[]): string {
-    const r = spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
-    if (r.error) throw new Error(`${cmd}: ${r.error.message}`);
-    if (r.status !== 0) throw new Error(`${cmd} failed (${r.status}): ${(r.stderr || r.stdout).trim().split('\n').slice(-3).join('\n')}`);
-    return r.stdout;
-}
-
 /** The lessons of a book: from its dashboard project, or else from its lesson packages. */
 async function bookLessons(book: string): Promise<BookLessons> {
     const { project, name } = BOOKS[book];
@@ -73,48 +65,6 @@ async function bookLessons(book: string): Promise<BookLessons> {
         .sort((a, b) => a.meta.number - b.meta.number);
     const lessons = packages.map((p) => ({ number: p.meta.number, lesson: buildWorkbookLesson(p, { mediaBase: `file://${CONTENT}/` }) }));
     return { name: name ?? book, level: packages[0]?.meta.cefrLevel ?? '', lessons };
-}
-
-/** Downloads the bucket pictures that the cache does not have yet (three tries each), as JPEG files. */
-async function download(files: { url: string; file: string }[]): Promise<void> {
-    for (const { url, file } of files) {
-        if (fs.existsSync(file) && fs.statSync(file).size > 0) continue;
-        fs.mkdirSync(path.dirname(file), { recursive: true });
-        let last = '';
-        for (let attempt = 1; attempt <= 3; attempt++) {
-            try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const jpeg = await sharp(Buffer.from(await res.arrayBuffer())).flatten({ background: '#ffffff' }).jpeg({ quality: 88 }).toBuffer();
-                fs.writeFileSync(`${file}.part`, jpeg);
-                fs.renameSync(`${file}.part`, file);
-                last = '';
-                break;
-            } catch (e) {
-                last = e instanceof Error ? e.message : String(e);
-            }
-        }
-        if (last) throw new Error(`picture download failed: ${url} (${last})`);
-    }
-}
-
-/** Renders one HTML file with Paged.js in Chrome and prints it to PDF; returns the page count. */
-async function renderPdf(browser: Browser, htmlFile: string, pdfFile: string, pagedSrc: string): Promise<number> {
-    const page = await browser.newPage();
-    try {
-        page.setDefaultTimeout(300_000);
-        await page.goto(`file://${htmlFile}`, { waitUntil: 'load', timeout: 180_000 });
-        await page.addScriptTag({ content: 'window.PagedConfig = { auto: false };' });
-        await page.addScriptTag({ content: pagedSrc });
-        await page.evaluate('(async () => { await document.fonts.ready; await window.PagedPolyfill.preview(); await document.fonts.ready; })()');
-        const pages = (await page.evaluate('document.querySelectorAll(".pagedjs_page").length')) as number;
-        // As in Chrome's print dialog: Paged.js lays out the pages, then the print CSS applies.
-        await page.emulateMedia({ media: 'print' });
-        await page.pdf({ path: pdfFile, preferCSSPageSize: true, printBackground: true });
-        return pages;
-    } finally {
-        await page.close();
-    }
 }
 
 /** The failed checks of a lesson PDF (empty when it is good). */
@@ -165,11 +115,11 @@ async function main(argv: string[]): Promise<number> {
                     const lessonHtml = await renderMultipleLessons([lesson], { type: 'primary', seriesName: name, seriesLevel: level, firstLessonNumber: number });
                     const doc = wrapSingleLessonDocument(lessonHtml, answerKeyEntry(lesson, number), { seriesName: name, seriesLevel: level, seriesTagline: '', type: 'primary' });
                     const local = localPictures(doc.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''), cache, CONTENT);
-                    await download(local.downloads);
+                    await downloadPictures(local.downloads);
                     const htmlFile = path.join(tmp, `${book}-${number}.html`);
                     fs.writeFileSync(htmlFile, local.html);
                     const pdfFile = path.join(dir, lessonPdfName(name, number, lesson.lesson_title));
-                    const pages = await renderPdf(browser, htmlFile, pdfFile, pagedSrc);
+                    const pages = await renderPagedPdf(browser, htmlFile, pdfFile, pagedSrc);
                     const problems = checkPdf(pdfFile);
                     if (problems.length) {
                         failed++;
