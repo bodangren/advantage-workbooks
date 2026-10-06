@@ -36,19 +36,19 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 ## Phase 4: Level 7
 
 - [~] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media — maps v0.3; 28 lessons PASS (4–6 new A2 Key words each, Daniel 2026-10-06); pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-adventure-7.md`); pictures started; audio and Daniel's approval next
-- [~] bank-7: 72 packages; QA; media — writers started 2026-10-06
+- [~] bank-7: 72 packages; QA; media — 72 written (72 PASS); pre-review b001–b036 done (75 changes), b037–b072 in progress; report `reviews/2026-10-06-prereview-bank-7.md` (draft). Three November dates moved into the first term (Adventure 8.1 holds November 14 and 21).
 - [ ] Coverage report; tags export; Daniel's review
 
 ## Phase 5: Level 8
 
-- [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — maps v0.2 (5 new A2 Key words in each lesson; November 2026 to January 2027); writers started
+- [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — maps v0.2 (5 new A2 Key words in each lesson; November 2026 to January 2027); 8.1 written (14 PASS), 8.2 L01–L07 written (7 PASS), 8.2 L08–L14 and 8.3 in progress. Four swap clashes between 8.1 and the 8.2 map fixed (8.2 L05, L10, L13).
 - [~] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): `plan-level-bank.ts --a2key-from` (fd97e9f, test-first); bank-8 plan generated again from the Adventure 7 and 8 words (4b13fd8: 0 new A2 Key words, was 143). bank-9: after the Adventure 9 maps.
 - [ ] bank-8: 108 packages; QA; media
 - [ ] Coverage report (95% of Flyers); tags export; Daniel's review
 
 ## Phase 6: Level 9
 
-- [ ] Adventure 9.1, 9.2, and 9.3: lesson maps, 42 packages, pre-review, media
+- [~] Adventure 9.1, 9.2, and 9.3: lesson maps, 42 packages, pre-review, media — next-objective lists and three separate A2 Key pools (55 words each; 165 usable free words after the Adventure 8 maps); calendar option A: 9.1 February 2027, 9.2 March 2027 (end of P6), 9.3 the April–May holiday; 9.1 map in progress
 - [ ] bank-9: 108 packages; QA; media
 - [ ] A2 band report: every A2 objective, 90% of A2 Key; tags export; Daniel's review
 
