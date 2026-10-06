@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: Levels 5–9 workbook lessons (Quest 5, Quest 6.1, 6.2, Adventure 7.1–9.3) and online banks of 50 articles per book.** *(Created: 2026-10-06)*
+  *Link: [./tracks/levels_5_9_20261006/](./tracks/levels_5_9_20261006/)*
+
 - [~] **Track: Editorial pre-review of Origins 1, Origins 3.2, and Quest 4 before Daniel approves them, and sign text on the blank signs in the pictures.** *(Created: 2026-10-03)*
   *Link: [./tracks/editorial_prereview_20261003/](./tracks/editorial_prereview_20261003/)*
 
