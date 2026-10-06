@@ -342,6 +342,20 @@ export function normalizePools(pools: WordPools): WordPools {
     return out;
 }
 
+/**
+ * Keeps only the allowed words of one list (word pacing, levels plan v0.5): a bank of level 8 or 9
+ * requires the A2 Key words that the level's books gloss, so that the bank does not take the first
+ * glosses that the next level needs.
+ * @param pools the word lists by topic
+ * @param list the list to restrict
+ * @param allowed the words that the list may keep (lower case; a British headword stays when its American spelling is allowed)
+ * @returns new pools; the other lists are the same objects
+ */
+export function restrictPool(pools: WordPools, list: WordList, allowed: Set<string>): WordPools {
+    const kept = Object.fromEntries(Object.entries(pools[list]).map(([topic, words]) => [topic, words.filter((w) => allowed.has(w) || allowed.has(americanSpelling(w)))]).filter(([, words]) => words.length > 0));
+    return { ...pools, [list]: kept };
+}
+
 /** Shared state of the word plan: how often each word is required so far (across levels). */
 export type UsedCounts = Map<string, number>;
 

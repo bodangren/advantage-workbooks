@@ -3,12 +3,12 @@ import path from 'path';
 import { REPO_ROOT } from '../lib/lesson-package/files';
 import { NUMBER_WORDS } from '../lib/text-profile/vocabulary';
 import { CONTENT_ROOT, loadPackageFolder } from '../lib/lesson-package/files';
-import { BANK_COUNTS, LEVEL_BOOKS, WORKBOOK_LESSONS, buildBankRows, britishHeadword, normalizePools, targetCounts, type BankRow, type UsedCounts, type WordPools } from '../lib/lesson-package/bank-plan';
+import { BANK_COUNTS, LEVEL_BOOKS, WORKBOOK_LESSONS, buildBankRows, britishHeadword, normalizePools, restrictPool, targetCounts, type BankRow, type UsedCounts, type WordPools } from '../lib/lesson-package/bank-plan';
 
 const USAGE = `Writes the article plan of a level bank (track level_banks_20261002). No alphabet, phonics, or
 first-words articles: schools (K-2) and Storytime Advantage hold them (Daniel, 2026-10-02).
 
-Usage: npx tsx scripts/plan-level-bank.ts <level 1-9>
+Usage: npx tsx scripts/plan-level-bank.ts <level 1-9> [--a2key-from <words file>]
 
 Reads docs/content-plans/data/legacy-levels-1-4-2026-10-02.json (the old ids) and the YLE word
 lists (docs/content-plans/data/yle-*-words.md). Writes docs/content-plans/level-plans/bank-<level>.json
@@ -20,7 +20,11 @@ files are not read. The text types are in lib/lesson-package/bank-plan.ts. Requi
 the Movers, Flyers, and A2 Key lists (docs/content-plans/data/*-words.md) minus the words that a package of
 levels 1-4 already glossed. The script prints a check: article count, the target count of each in-scope
 objective (2 or more), and how many list words the plan requires. It plans levels 5 up to <level> in
-order, because the words that an earlier level takes are not taken again.`;
+order, because the words that an earlier level takes are not taken again.
+
+--a2key-from <file> (levels 8 and 9; word pacing, levels plan v0.5): the A2 Key words that <level> may
+require, one per line (for example the words that the level's books gloss). The earlier levels of the
+run keep the full lists.`;
 
 interface Template {
     type: string;
@@ -159,7 +163,7 @@ function spellingNote(rows: BankRow[], raw: WordPools): string {
 }
 
 /** Writes the plan of a level 5-9 bank: no old ids, no deletes. */
-function writeNewBank(level: number): number {
+function writeNewBank(level: number, a2keyFrom?: string): number {
     const data = path.join(REPO_ROOT, 'docs', 'content-plans', 'data');
     const glossed = readGlossed();
     const lists: [keyof WordPools, string][] = [['movers', 'yle-movers-words.md'], ['flyers', 'yle-flyers-words.md'], ['a2key', 'a2-key-words.md']];
@@ -178,7 +182,8 @@ function writeNewBank(level: number): number {
     const used: UsedCounts = new Map();
     let rows: BankRow[] = [];
     let uncovered: string[] = [];
-    for (let l = 5; l <= level; l++) ({ rows, uncovered } = buildBankRows(l, raw, used));
+    const allowed = a2keyFrom ? new Set(fs.readFileSync(a2keyFrom, 'utf8').split('\n').map((w) => w.trim().toLowerCase()).filter(Boolean)) : undefined;
+    for (let l = 5; l <= level; l++) ({ rows, uncovered } = buildBankRows(l, allowed && l === level ? restrictPool(raw, 'a2key', allowed) : raw, used));
     const outDir = path.join(REPO_ROOT, 'docs', 'content-plans', 'level-plans');
     fs.mkdirSync(outDir, { recursive: true });
     const books = LEVEL_BOOKS[level];
@@ -239,7 +244,8 @@ function isLowerLevel(id: string, level: number): boolean {
 
 function main(argv: string[]): number {
     const level = Number(argv[0]);
-    if (BANK_COUNTS[level]) return writeNewBank(level);
+    const from = argv.indexOf('--a2key-from');
+    if (BANK_COUNTS[level]) return writeNewBank(level, from >= 0 ? argv[from + 1] : undefined);
     if (!T[level]) {
         console.error(USAGE);
         return 2;

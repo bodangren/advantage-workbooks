@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { REPO_ROOT } from '../lib/lesson-package/files';
-import { AMERICAN_SPELLING, BANK_COUNTS, BANK_TEMPLATES, LEVEL_BOOKS, americanSpelling, americanTopic, assignWords, bankTemplates, britishHeadword, buildBankRows, normalizePools, pickTopics, targetCounts, topicGroup, wordSegments, type WordPools } from '../lib/lesson-package/bank-plan';
+import { AMERICAN_SPELLING, BANK_COUNTS, BANK_TEMPLATES, LEVEL_BOOKS, americanSpelling, americanTopic, assignWords, bankTemplates, britishHeadword, buildBankRows, normalizePools, pickTopics, restrictPool, targetCounts, topicGroup, wordSegments, type WordPools } from '../lib/lesson-package/bank-plan';
 
 const objectivesFile = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'content-plans', 'level-plans', 'levels-5-9-objectives.json'), 'utf8')) as { outOfScope: Record<string, string>; levels: Record<string, string[]> };
 const LEVELS = [5, 6, 7, 8, 9];
@@ -211,5 +211,27 @@ describe('levels 1-4 stay as they are', () => {
         expect(plan.articles[0].lesson).toBe('b001');
         expect(plan.articles[0].requiredGlossed).toHaveLength(6);
         expect(plan.articles[0].topics).toEqual(['family-and-friends', 'sports-and-leisure']);
+    });
+});
+
+describe('restrictPool (word pacing, levels plan v0.5)', () => {
+    it('keeps only the allowed words of one list, in their topics, and leaves the other lists alone', () => {
+        const pools = syntheticPools();
+        const allowed = new Set(['k0x1', 'k2x5', 'k3x7', 'not-a-list-word']);
+        const out = restrictPool(pools, 'a2key', allowed);
+        expect(Object.values(out.a2key).flat().sort()).toEqual(['k0x1', 'k2x5', 'k3x7']);
+        expect(out.a2key.education).toEqual(['k0x1']);
+        expect(out.flyers).toEqual(pools.flyers);
+        expect(out.movers).toEqual(pools.movers);
+        expect(Object.values(pools.a2key).flat()).toHaveLength(600);
+    });
+
+    it('makes a level-8 bank require only allowed A2 Key words', () => {
+        const pools = syntheticPools();
+        const allowed = new Set(Object.values(pools.a2key).flat().filter((_, i) => i % 3 === 0));
+        const { rows } = buildBankRows(8, restrictPool(pools, 'a2key', allowed), new Map());
+        const keyWords = rows.flatMap((r) => r.requiredGlossed).filter((w) => w.startsWith('k'));
+        expect(keyWords.length).toBeGreaterThan(0);
+        expect(keyWords.every((w) => allowed.has(w))).toBe(true);
     });
 });
