@@ -11,7 +11,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level (`glossedFrom`); paragraph ranges; book folders in `BOOK_ORDER`, `BOOK_KEYS`, and `BOOK_PROFILES`; tests (levels 1–4 check results unchanged; mutation test passed)
 - [x] Coverage report for levels 5–9 (`scripts/level-coverage.ts --levels 5-9` → `level-plans/coverage-5-9.md`): the book rule, the level rule, and the list coverage; tests
 - [x] Recycling (Daniel, 2026-10-06): the coverage report shows the first teaching and the practice after it for each A1 and A2 objective; `--next <book>` prints the lists for a lesson map; tests
-- [~] Supporting objectives: every objective that a package gives practice in. Done for Quest 4, bank-4, Origins 1, and Origins 3.2 (`data/availability-*.json`; generic objectives are in every package of their band). Not done for Origins 2, Origins 3.1, and bank-1 to bank-3
+- [~] Supporting objectives: every objective that a package gives practice in. Done for Quest 4, bank-4, Origins 1, Origins 3.2, Origins 2, and Origins 3.1 (8241be9) (`data/availability-*.json`; generic objectives are in every package of their band). bank-1 to bank-3: data checked (`availability-bank-1-2.json`, `availability-bank-3.json`); the merge into the packages waits for the end of the production load, because the injector writes those packages
 - [x] Fault fixed: the MCQ option shuffle put 99% of the answers last (222 lessons, app and print); print files, lesson PDFs, and the Origins 3.2 and Quest 4 book PDFs made again (4625ff3, 323da27)
 - [x] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts 5`…`9` → `level-plans/bank-5…9`); word lists by topic for Flyers and A2 Key; tests. Follow-up: required words come mostly in alphabetical order, not by topic
 - [x] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks (`data/grammar-levels-5-9.md`; spot check of 6 items in the PDFs)
@@ -22,7 +22,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 2: Level 5
 
-- [~] Quest 5: lesson map (draft `primary-quest-5-plan.md`; 6 questions for Daniel), 14 packages, editorial pre-review, pictures, audio, Tutor clips
+- [~] Quest 5: lesson map (v0.2, approved), 14 packages (0a2ef3c, drafts, 0 FAIL; my review fixed 8 text faults), editorial pre-review, pictures, audio, Tutor clips
 - [ ] bank-5: plan and 36 packages; cross-batch QA; pictures and audio
 - [ ] Coverage report for level 5; tags export; Daniel's review
 
