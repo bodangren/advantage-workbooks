@@ -153,6 +153,7 @@ describe('author helpers', () => {
                 n('foot-feet.noun', 'feet', ['feet', 'foot', 'foot/feet']),
                 n('run.noun', 'run', ['run']),
                 n('run.verb', 'run', ['run']),
+                n('take-a-photo-picture.verb', 'take a photo/picture', ['take a photo/picture']),
                 { id: 'english.vocabulary.domain', kind: 'domain' },
             ],
         });
@@ -161,6 +162,8 @@ describe('author helpers', () => {
         expect(lookup('foot')).toEqual(['english.vocabulary.skill.foot.noun', 'english.vocabulary.skill.foot-feet.noun']);
         expect(lookup('feet')).toEqual(['english.vocabulary.skill.foot-feet.noun']);
         expect(lookup('run')).toEqual(['english.vocabulary.skill.run.noun', 'english.vocabulary.skill.run.verb']);
+        expect(lookup('take a picture')).toEqual(['english.vocabulary.skill.take-a-photo-picture.verb']);
+        expect(lookup('take a photo')).toEqual(['english.vocabulary.skill.take-a-photo-picture.verb']);
         expect(lookup('zzz')).toEqual([]);
     });
 

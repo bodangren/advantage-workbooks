@@ -175,8 +175,20 @@ const FALSE_MATCH_FORMS: Record<string, string[]> = {
 };
 
 /**
+ * The phrases of a slash form with a space: the graph keeps some phrases as one form ("take a
+ * photo/picture" gives "take a photo" and "take a picture").
+ * @param form A lower-case graph form.
+ * @returns The phrases, or an empty list when the form is not a slash phrase.
+ */
+function slashPhrases(form: string): string[] {
+    if (!form.includes('/') || !form.includes(' ')) return [];
+    return form.split(/\s+/).reduce<string[]>((acc, t) => acc.flatMap((a) => t.split('/').map((alt) => (a ? `${a} ${alt}` : alt))), ['']);
+}
+
+/**
  * A lookup from a word to its vocabulary graph nodes: every node whose normalized form or match
- * forms hold the word, without the false match forms of `FALSE_MATCH_FORMS`.
+ * forms hold the word (a slash phrase counts as each of its phrases), without the false match
+ * forms of `FALSE_MATCH_FORMS`.
  * @param graph The vocabulary graph (`cefr-vocabulary-knowledge-space.json`).
  * @returns The node ids of a word, or an empty list.
  */
@@ -186,9 +198,11 @@ export function graphNodeLookup(graph: { nodes: { id: string; kind: string; meta
         if (n.kind !== 'skill' || !n.id.startsWith('english.vocabulary.skill.')) continue;
         for (const f of [n.metadata?.normalizedForm, ...(n.metadata?.matchForms ?? [])]) {
             if (!f) continue;
-            const key = f.toLowerCase().trim();
-            if (FALSE_MATCH_FORMS[key]?.includes(n.id)) continue;
-            byForm.set(key, [...new Set([...(byForm.get(key) ?? []), n.id])]);
+            const form = f.toLowerCase().trim();
+            for (const key of [form, ...slashPhrases(form)]) {
+                if (FALSE_MATCH_FORMS[key]?.includes(n.id)) continue;
+                byForm.set(key, [...new Set([...(byForm.get(key) ?? []), n.id])]);
+            }
         }
     }
     return (word: string) => byForm.get(word.toLowerCase().trim()) ?? [];
