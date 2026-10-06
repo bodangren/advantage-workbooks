@@ -1,6 +1,6 @@
 # Primary Advantage Levels 5–9 — Progression Plan
 
-Version 0.1 | Date 2026-10-06 | Status: Draft (Claude), for Daniel's decisions in §11 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.2 | Date 2026-10-06 | Status: Approved (Daniel approved all proposals D1–D7, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `measure/tracks/levels_5_9_20261006/`. Data: [`level-plans/levels-5-9-objectives.md`](level-plans/levels-5-9-objectives.md) (the objectives of each book), [`data/a2-objective-key.json`](data/a2-objective-key.json) (new), [`data/a1-objective-key.json`](data/a1-objective-key.json). Book catalogue: `advantage-pr/08-strategy/product-strategy-2026-2027.md` §2.
 
@@ -76,7 +76,7 @@ The profiles continue the levels 1–4 steps. Phase 1 calibrates them with two s
 |---|---|---|---|---|---|---|---|
 | 4 (now) | `quest-4` | 190–250 | 3 | 5.6–7.0 | 12 | Starters, Movers | 7+ Movers, 1 Flyers at most |
 | 5 | `quest-5` | 230–300 | 3–4 | 6.5–8.0 | 14 | Starters, Movers | 8+ Movers, 2 Flyers at most |
-| 6 | `quest-6` | 270–340 | 4 | 7.0–8.5 | 15 | Starters to Flyers | 6.1: 6+ Movers, 3+ Flyers. 6.2: 6+ Flyers. 1 A2 Key at most |
+| 6 | `quest-6` | 270–340 | 4 | 7.0–8.5 | 15 | Starters to Flyers | 6+ Movers or Flyers (the lesson map sets the share: 6.1 more Movers, 6.2 more Flyers), 1 A2 Key at most |
 | 7 | `adventure-7` | 300–380 | 4–5 | 7.5–9.0 | 16 | Starters to Flyers | 8+ Flyers, 2 A2 Key at most |
 | 8 | `adventure-8` | 340–430 | 5 | 8.0–9.5 | 18 | Starters to A2 Key | 5+ A2 Key, the rest Flyers or A2 Key, 1 B1 at most |
 | 9 | `adventure-9` | 380–480 | 5–6 | 8.5–10.5 | 20 | Starters to A2 Key | 8+ A2 Key, 2 B1 at most |
@@ -138,7 +138,9 @@ This is a draft from the Cambridge YLE Movers and Flyers grammar and the A2 Key 
 
 Each book is a unit of work and review: map, packages, pre-review, media, Daniel's approval, injection. Levels 1–4 made 222 packages, with their pictures and audio, from 2026-10-02 to 2026-10-03. Levels 5–9 have 2.5 times as many packages, and the texts are longer. Daniel's review time sets the real speed.
 
-## 11. Decisions for Daniel
+## 11. Decisions
+
+Daniel (2026-10-06): "Approve all proposals, start Phase 1." Every proposal below is a decision.
 
 | # | Decision | Proposal |
 |---|---|---|
@@ -153,3 +155,4 @@ Each book is a unit of work and review: map, packages, pre-review, media, Daniel
 ## Revision history
 
 - 0.1 — 2026-10-06 — First draft (track `levels_5_9_20261006`).
+- 0.2 — 2026-10-06 — Daniel approved D1–D7. One level-6 glossed-word rule for Quest 6.1 and 6.2.

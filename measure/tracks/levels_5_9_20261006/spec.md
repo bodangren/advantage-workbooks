@@ -1,6 +1,6 @@
 # Spec: Levels 5–9 workbook lessons and online banks
 
-Version 0.1 | Date 2026-10-06 | Status: Draft (waits for Daniel's decisions D1–D7) | Owner: Daniel Bo | Internal
+Version 0.2 | Date 2026-10-06 | Status: Active | Owner: Daniel Bo | Internal
 
 ## Goal
 
@@ -30,7 +30,7 @@ The progression plan, with the tables, is `docs/content-plans/primary-levels-5-9
 - Each article has 2–4 targets. Each question carries its objectives.
 - Book rule: each lead objective of a book is a target in 1 or more of its 14 lessons.
 - Level rule: each in-scope objective of a level is a target in 3 or more packages of the level.
-- Out of scope (proposal D1): R25.6, R26.4, R29.1, R32.3 (sounds); R24.1, R29.7, R37.8 (dictionary); L30.2, L31.8, L41.2, R38.13 (media and online tasks).
+- Out of scope (D1): R25.6, R26.4, R29.1, R32.3 (sounds); R24.1, R29.7, R37.8 (dictionary); L30.2, L31.8, L41.2, R38.13 (media and online tasks).
 
 ### Vocabulary
 
@@ -51,7 +51,7 @@ The progression plan, with the tables, is `docs/content-plans/primary-levels-5-9
 
 ## Decisions
 
-Open (plan §11): D1 out-of-scope objectives; D2 text lengths; D3 cast; D4 old articles; D5 dialogue audio; D6 order and print dates; D7 Thai in print.
+Daniel (2026-10-06): "Approve all proposals, start Phase 1. Use four sonnet subagents at a time to work as quickly as possible." So D1–D7 in plan §11 are decisions: the 11 out-of-scope objectives; the text profiles of §5 (calibrated in Phase 1); the cast of §8; the levels 1–4 rule for old articles; one voice for each speaker in dialogue from Adventure 7 on; Quest 5 and 6 first, then Adventure in level order; Thai for each sentence (print shows Thai only in the glossary from Adventure 8 on).
 
 ## Out of scope
 
