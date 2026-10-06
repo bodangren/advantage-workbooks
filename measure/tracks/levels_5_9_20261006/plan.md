@@ -41,15 +41,15 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 5: Level 8
 
-- [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — maps v0.2 (5 new A2 Key words in each lesson; November 2026 to January 2027); 8.1 written (14 PASS), 8.2 L01–L07 written (7 PASS), 8.2 L08–L14 and 8.3 in progress. Four swap clashes between 8.1 and the 8.2 map fixed (8.2 L05, L10, L13).
+- [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — 42 written and edited (42 PASS; 146 change rows); committed 8ceba82, 79ffad8, 5a7ca16; report `reviews/2026-10-07-prereview-adventure-8.md`; pictures made for 8.1, in progress for 8.2 and 8.3; audio queued. Waits for Daniel.
 - [~] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): `plan-level-bank.ts --a2key-from` (fd97e9f, test-first); bank-8 plan generated again from the Adventure 7 and 8 words (4b13fd8: 0 new A2 Key words, was 143). bank-9: after the Adventure 9 maps.
-- [ ] bank-8: 108 packages; QA; media
+- [~] bank-8: 108 packages; QA; media — 108 written (108 PASS; every row agrees with the plan except 6 planned swaps and 2 American spellings); pre-review b073–b108 done, b001–b036 in progress, b037–b072 next.
 - [ ] Coverage report (95% of Flyers); tags export; Daniel's review
 
 ## Phase 6: Level 9
 
-- [~] Adventure 9.1, 9.2, and 9.3: lesson maps, 42 packages, pre-review, media — next-objective lists and three separate A2 Key pools (55 words each; 165 usable free words after the Adventure 8 maps); calendar option A: 9.1 February 2027, 9.2 March 2027 (end of P6), 9.3 the April–May holiday; 9.1 map in progress
-- [ ] bank-9: 108 packages; QA; media
+- [~] Adventure 9.1, 9.2, and 9.3: lesson maps, 42 packages, pre-review, media — maps committed (cceb53a); 42 written (42 PASS, no word twice in a book); 9.1 pre-review in progress.
+- [~] bank-9: 108 packages; QA; media — plan generated again with --a2key-from (cceb53a); b001–b018 written (18 PASS); writers 2 and 3 in progress.
 - [ ] A2 band report: every A2 objective, 90% of A2 Key; tags export; Daniel's review
 
 ## Phase 7: Into the app
