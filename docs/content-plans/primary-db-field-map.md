@@ -1,6 +1,6 @@
 # Primary database field map (lesson package → app)
 
-Version 1.3 | Date 2026-10-01 | Status: Draft | Owner: Daniel Bo | Internal
+Version 1.4 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal
 
 Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantage/prisma/schema.prisma`, `types/index.d.ts`, `lib/storage-config.ts`, the generators in `server/utils/genaretors/`, `reading-advantage-monorepo/packages/db/src/schema/{content,questions,primary}.ts`, and `tutor-advantage/services/learning-service/src/services/PrimaryAdvantageDB.ts`.
 
@@ -13,6 +13,35 @@ Track: `measure/tracks/primary_injector_20261001`. Sources: `../primary-advantag
 | Legacy database | Cloud SQL instance `reading-advantage:asia-southeast1:cloud-sql`, database `primary_advantage`. The app runs on Cloud Run in project `primary-advantage` (service `primary-advantage-app`); its URL is the `DATABASE_URL` secret in that project. |
 | Bucket | `primary-app-storage` (`STORAGE_BUCKET_NAME`), public URLs `https://storage.googleapis.com/primary-app-storage/<path>` |
 | Readers | The app (legacy now, monorepo after the cutover), the ETL, and Tutor (`PrimaryAdvantageDB.ts`: `article`, `multiple_choice_questions`, `short_answer_questions`, `sentencs_and_words_for_flashcard`) |
+
+## Production load and local copy (method of 2026-10-06)
+
+Daniel runs these commands in his own terminal. An agent does not read the secret and does not start the proxy. An agent writes the packages, gives the commands, and checks the results.
+
+1. Start the Cloud SQL proxy, and keep it open:
+
+   ```
+   cloud-sql-proxy --gcloud-auth --address 127.0.0.1 --port 5433 reading-advantage:asia-southeast1:cloud-sql
+   ```
+
+2. Run the injector. The URL comes from the `DATABASE_URL` secret, and `proxy-url.js` changes its host to the proxy. No step prints the URL.
+
+   ```
+   cd ~/Desktop/Workbooks/dashboard
+   LEGACY_DATABASE_URL="$(gcloud secrets versions access latest --secret=DATABASE_URL --project=primary-advantage | node scripts/db/proxy-url.js)" npx tsx scripts/inject-lessons.ts ../content/primary/<book>/*.json
+   ```
+
+   The injector makes a Cloud SQL backup first. It then writes the lessons one at a time and writes `db.legacy` back into each package. A lesson with no change shows "(unchanged)", so a second run continues where the first run stopped. A workbook lesson takes about 5 to 8 minutes (bucket backup, upload, and Tutor clips).
+
+3. After the load, copy production into a new local database for the ETL and the graphs work:
+
+   ```
+   bash ~/Desktop/Workbooks/dashboard/scripts/db/copy-legacy-db.sh primary_legacy_<YYYYMMDD>
+   ```
+
+   The copy goes into the `reading-advantage-postgres` container (port 5432). It does not change `primary_advantage` (the monorepo database) or an older copy. Tell the monorepo and graphs sessions the new name.
+
+4. Commit the packages (they now hold the `db.legacy` ids and `inject-log.jsonl`), and export `content/primary/tags.json` again.
 
 ## `article` (legacy, Prisma)
 
