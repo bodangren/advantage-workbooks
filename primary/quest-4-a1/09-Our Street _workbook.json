@@ -71,8 +71,8 @@
   "article_images": [
     {
       "url": "/api/files?root=content&path=quest-4/media/l09/hero.jpg",
-      "caption": "school ; my house ; cinema ; supermarket ; library ; bus stop ; car park",
-      "image_prompt": "A simple children's map of one street from above. A school, a white house, a cinema, and a supermarket stand in a row on one side. A library with a blue door and a bus stop stand on the other side. A car park is behind the supermarket. Each building has a blank label.",
+      "caption": "May's map of her street.",
+      "image_prompt": "A simple, colorful children's map of one street in a small town, seen from above. Along the top side of the street, from left to right: a school with a label \"school\", a white house with a label \"my house\", a cinema with a label \"cinema\", and a supermarket with a label \"supermarket\". Behind the supermarket is a car park with a label \"car park\", and next to the car park is a small shop with a label \"shop\". On the other side of the street, opposite the cinema, is a library with a blue door and a label \"library\", and next to it is a bus stop with a label \"bus stop\". Each label is on a small white card.",
       "position": "hero"
     },
     {
@@ -91,15 +91,15 @@
   "article_paragraphs": [
     {
       "number": 1,
-      "text": "This is my street, and I live here with Pat. Look at my map. My white house is next to the school. The cinema is between my house and the supermarket. The library is opposite the cinema. The bus stop is near the library. There is a car park behind the supermarket. A small shop is next to the car park. Our street is in a small town. It is not big, but it is very nice."
+      "text": "Hello! I'm May, and this is my street. I live here with my brother Pat. Look at my map. My white house is next to the school. The cinema is between my house and the supermarket. The library is opposite the cinema. The bus stop is near the library. There is a car park behind the supermarket. A small shop is next to the car park. Our street is in a small town. It is not big, but it is very nice."
     },
     {
       "number": 2,
-      "text": "Pat asks, \"Where is the library, May?\" \"Go straight on,\" I say. \"Go to the cinema. The library is opposite.\" \"Is the bus stop near?\" asks Pat. \"Yes, it is near the library,\" I say. \"Can we go to the supermarket too?\" \"Yes, go straight on. It is after the cinema.\" Pat likes books about animals. We go to the library every Saturday."
+      "text": "Pat asks, \"Where is the library, May?\" \"Go straight on,\" I say. \"Go to the cinema. The library is opposite.\" \"Is the bus stop near?\" asks Pat. \"Yes, it is near the library,\" I say. \"Can we go to the supermarket, too?\" asks Pat. \"Yes, go straight on. It is after the cinema.\" Pat likes books about animals. We go to the library every Saturday."
     },
     {
       "number": 3,
-      "text": "Then we go to the cinema for a film. Pat is always hungry after the film! He is tired too. I like my street. It is small, but there are many nice places. Now you can try. Do you have a street like this? What is near your house? Draw a map of your street."
+      "text": "Then we go to the cinema for a film. Pat is always hungry after the film! He is tired too. I like my street. It is small, but there are many nice places. Do you have a street like this? What is near your house? Now draw a map of your street!"
     }
   ],
   "comprehension_questions": [
@@ -108,7 +108,7 @@
       "question": "Where is May's white house?",
       "options": [
         "opposite the library",
-        "behind the supermarket",
+        "near the bus stop",
         "next to the school"
       ]
     },
@@ -117,7 +117,7 @@
       "question": "Where is the cinema?",
       "options": [
         "opposite the park and the bus stop",
-        "behind the car park and the school",
+        "next to the bus stop and the shop",
         "between May's house and the supermarket"
       ]
     },
@@ -125,8 +125,8 @@
       "number": 3,
       "question": "What does May say when Pat asks about the library?",
       "options": [
-        "\"Go home.\"",
         "\"Ask Mom.\"",
+        "\"Go home.\"",
         "\"Go straight on.\""
       ]
     },
@@ -134,9 +134,9 @@
       "number": 4,
       "question": "Where do May and Pat go after the library?",
       "options": [
+        "to the cinema",
         "to the bus stop",
-        "to the supermarket",
-        "to the cinema"
+        "to the car park"
       ]
     }
   ],
@@ -158,7 +158,7 @@
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "to the cinema"
     }
   ],
@@ -342,15 +342,15 @@
   "translation_paragraphs": [
     {
       "label": "Paragraph 1",
-      "text": "นี่คือถนนของฉัน ฉันอาศัยอยู่ที่นี่กับแพท ดูแผนที่ของฉันสิ บ้านสีขาวของฉันอยู่ติดกับโรงเรียน โรงหนังอยู่ระหว่างบ้านของฉันกับซูเปอร์มาร์เก็ต ห้องสมุดอยู่ตรงข้ามกับโรงหนัง ป้ายรถเมล์อยู่ใกล้ห้องสมุด มีที่จอดรถอยู่ข้างหลังซูเปอร์มาร์เก็ต ร้านค้าเล็กๆ อยู่ติดกับที่จอดรถ ถนนของเราอยู่ในเมืองเล็กๆ ไม่ได้ใหญ่ แต่น่าอยู่มาก"
+      "text": "สวัสดี! ฉันชื่อเมย์ และนี่คือถนนของฉัน ฉันอาศัยอยู่ที่นี่กับแพทน้องชายของฉัน ดูแผนที่ของฉันสิ บ้านสีขาวของฉันอยู่ติดกับโรงเรียน โรงหนังอยู่ระหว่างบ้านของฉันกับซูเปอร์มาร์เก็ต ห้องสมุดอยู่ตรงข้ามกับโรงหนัง ป้ายรถเมล์อยู่ใกล้ห้องสมุด มีที่จอดรถอยู่ข้างหลังซูเปอร์มาร์เก็ต ร้านค้าเล็กๆ อยู่ติดกับที่จอดรถ ถนนของเราอยู่ในเมืองเล็กๆ ไม่ได้ใหญ่ แต่น่าอยู่มาก"
     },
     {
       "label": "Paragraph 2",
-      "text": "แพทถามว่า \"ห้องสมุดอยู่ที่ไหนเหรอ เมย์\" \"เดินตรงไป\" ฉันบอก \"ไปที่โรงหนัง ห้องสมุดอยู่ตรงข้าม\" \"ป้ายรถเมล์อยู่ใกล้ไหม\" แพทถาม \"ใกล้จ้ะ มันอยู่ใกล้ห้องสมุด\" ฉันตอบ \"เราไปซูเปอร์มาร์เก็ตด้วยได้ไหม\" \"ได้จ้ะ เดินตรงไป มันอยู่หลังโรงหนัง\" แพทชอบหนังสือเกี่ยวกับสัตว์ เราไปห้องสมุดทุกวันเสาร์"
+      "text": "แพทถามว่า \"ห้องสมุดอยู่ที่ไหนเหรอ เมย์\" \"เดินตรงไป\" ฉันบอก \"ไปที่โรงหนัง ห้องสมุดอยู่ตรงข้าม\" \"ป้ายรถเมล์อยู่ใกล้ไหม\" แพทถาม \"ใกล้จ้ะ มันอยู่ใกล้ห้องสมุด\" ฉันตอบ \"เราไปซูเปอร์มาร์เก็ตด้วยได้ไหม\" แพทถาม \"ได้จ้ะ เดินตรงไป มันอยู่หลังโรงหนัง\" แพทชอบหนังสือเกี่ยวกับสัตว์ เราไปห้องสมุดทุกวันเสาร์"
     },
     {
       "label": "Paragraph 3",
-      "text": "จากนั้นเราไปโรงหนังเพื่อดูหนัง แพทหิวทุกครั้งหลังดูหนังจบ! เขาเหนื่อยด้วย ฉันชอบถนนของฉัน ถนนเล็ก แต่มีสถานที่ดีๆ หลายแห่ง ตอนนี้เธอลองทำดูนะ บ้านของเธอมีถนนแบบนี้ไหม ใกล้บ้านของเธอมีอะไรบ้าง วาดแผนที่ถนนของเธอสิ"
+      "text": "จากนั้นเราไปโรงหนังเพื่อดูหนัง แพทหิวทุกครั้งหลังดูหนังจบ! เขาเหนื่อยด้วย ฉันชอบถนนของฉัน ถนนเล็ก แต่มีสถานที่ดีๆ หลายแห่ง บ้านของเธอมีถนนแบบนี้ไหม ใกล้บ้านของเธอมีอะไรบ้าง ตอนนี้ลองวาดแผนที่ถนนของเธอดูสิ!"
     }
   ]
 }

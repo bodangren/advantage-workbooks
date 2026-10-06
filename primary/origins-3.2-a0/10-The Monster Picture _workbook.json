@@ -78,12 +78,12 @@
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p10/inline-para-2.jpg",
       "caption": "A funny monster with three eyes!",
-      "image_prompt": "A funny monster drawing lies on a table. The monster has a big head, three eyes, two noses, one big mouth, one big ear, eight short arms like a spider, a pink face, and purple hair. Lily and Leo look at it and smile.",
+      "image_prompt": "A white sheet of paper lies on a table. On it is a child's flat crayon drawing of a funny monster: a big head, three eyes, two noses, one big mouth, one big ear, eight short arms like a spider, a pink face, and purple hair. Lily and Leo look at the drawing and smile.",
       "position": "inline-para-2"
     },
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p10/inline-para-3.jpg",
-      "caption": "Pip is not sad now.",
+      "caption": "It is a picture, Pip!",
       "image_prompt": "Pip hides behind a sofa and looks at the monster picture that Lily holds out. Lily smiles and bends toward him.",
       "position": "inline-para-3"
     }
@@ -99,7 +99,7 @@
     },
     {
       "number": 3,
-      "text": "Lily shows the monster to Pip. \"Woof!\" says Pip. Pip runs behind the sofa. \"It is a picture, Pip!\" says Lily. \"Look!\" Pip looks at the picture. The monster has a funny face. Pip is not sad now. Now he is happy again. Leo and Lily smile at Pip. It is a funny monster."
+      "text": "Lily shows the monster to Pip. \"Woof!\" says Pip. Pip runs behind the sofa. \"It is a picture, Pip!\" says Lily. \"Look!\" Pip looks at the picture. The monster has a funny face. Pip comes out from behind the sofa. Now he is happy again. Leo and Lily smile at Pip. It is a funny monster."
     }
   ],
   "comprehension_questions": [
@@ -107,17 +107,17 @@
       "number": 1,
       "question": "How many eyes has the monster got?",
       "options": [
-        "eight",
-        "one",
-        "three"
+        "three",
+        "two",
+        "one"
       ]
     },
     {
       "number": 2,
       "question": "What color is the monster's hair?",
       "options": [
-        "pink",
         "green",
+        "pink",
         "purple"
       ]
     },
@@ -126,24 +126,24 @@
       "question": "Which picture is Lily's monster?",
       "options": [
         "A monster with two eyes, two ears, and pink hair",
-        "A monster with three eyes, no ears, and green hair",
-        "A monster with three eyes, one big ear, and purple hair"
+        "A monster with three eyes, one big ear, and purple hair",
+        "A monster with one eye, no ears, and purple hair"
       ]
     },
     {
       "number": 4,
       "question": "Where does Pip go?",
       "options": [
-        "under the table",
-        "next to the door",
-        "behind the sofa"
+        "behind the sofa",
+        "into the kitchen",
+        "under the table"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "a",
       "text": "three"
     },
     {
@@ -153,12 +153,12 @@
     },
     {
       "number": 3,
-      "letter": "c",
+      "letter": "b",
       "text": "A monster with three eyes, one big ear, and purple hair"
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "behind the sofa"
     }
   ],
@@ -356,7 +356,7 @@
     },
     {
       "label": "Paragraph 3",
-      "text": "ลิลลี่เอามอนสเตอร์ให้ปิ๊ปดู \"โฮ่ง!\" ปิ๊ปเห่า ปิ๊ปวิ่งไปหลังโซฟา \"มันเป็นแค่รูปนะ ปิ๊ป!\" ลิลลี่พูด \"ดูสิ!\" ปิ๊ปมองดูรูป มอนสเตอร์มีหน้าตาตลก ตอนนี้ปิ๊ปไม่เสียใจแล้ว ตอนนี้เขามีความสุขอีกครั้ง ลีโอกับลิลลี่ยิ้มให้ปิ๊ป เป็นมอนสเตอร์ที่ตลกจริงๆ"
+      "text": "ลิลลี่เอามอนสเตอร์ให้ปิ๊ปดู \"โฮ่ง!\" ปิ๊ปเห่า ปิ๊ปวิ่งไปหลังโซฟา \"มันเป็นแค่รูปนะ ปิ๊ป!\" ลิลลี่พูด \"ดูสิ!\" ปิ๊ปมองดูรูป มอนสเตอร์มีหน้าตาตลก ปิ๊ปออกมาจากหลังโซฟา ตอนนี้เขามีความสุขอีกครั้ง ลีโอกับลิลลี่ยิ้มให้ปิ๊ป เป็นมอนสเตอร์ที่ตลกจริงๆ"
     }
   ]
 }

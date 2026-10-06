@@ -72,7 +72,7 @@
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p03/hero.jpg",
       "caption": "Hi, May! Happy birthday!",
-      "image_prompt": "Lily, Mia, and Pip stand at the door of a house. Lily holds a purple balloon. May opens the door and smiles. Pink and purple balloons hang next to the door.",
+      "image_prompt": "May opens the door of her white house and smiles. Lily, Mia, and Pip stand at the door. Mia holds a purple balloon. Pink and purple balloons hang next to the door.",
       "position": "hero"
     },
     {
@@ -84,7 +84,7 @@
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p03/inline-para-3.jpg",
       "caption": "Happy birthday to May!",
-      "image_prompt": "Children stand around a table with a big chocolate cake with eight candles. They sing and clap. May smiles in the middle. Pip sits under the table.",
+      "image_prompt": "Children stand around a table with a big chocolate cake with eight candles. They sing and clap. May smiles in the middle. Pip, the small brown puppy, sits under the table.",
       "position": "inline-para-3"
     }
   ],
@@ -107,18 +107,18 @@
       "number": 1,
       "question": "How old is May today?",
       "options": [
-        "seven",
         "ten",
-        "eight"
+        "eight",
+        "seven"
       ]
     },
     {
       "number": 2,
       "question": "What does Pat say?",
       "options": [
-        "\"Can I have some cake, please?\"",
+        "\"Can I have some juice, please?\"",
         "\"Can I have a balloon, please?\"",
-        "\"Can I have some juice, please?\""
+        "\"Can I have some candy, please?\""
       ]
     },
     {
@@ -135,20 +135,20 @@
       "question": "What is not good for dogs?",
       "options": [
         "ice cream",
-        "water",
-        "chocolate"
+        "chocolate",
+        "juice"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "b",
       "text": "eight"
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "a",
       "text": "\"Can I have some juice, please?\""
     },
     {
@@ -158,7 +158,7 @@
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "b",
       "text": "chocolate"
     }
   ],

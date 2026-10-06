@@ -72,7 +72,7 @@
     {
       "url": "/api/files?root=content&path=quest-4/media/l05/hero.jpg",
       "caption": "Our class timetable.",
-      "image_prompt": "Lily, May, and Leo stand in a bright classroom next to a big wooden board. The board holds a blank paper chart with rows and columns.",
+      "image_prompt": "A bright classroom. A big wooden board on the wall holds a white paper chart. Lily, May, and Leo stand to the right of the board and look at it; nobody stands in front of it. The chart says, in four lines: \"Our Class Timetable\" / \"Monday 8:15 English\" / \"Monday 9:30 Computer\" / \"Thursday 2:00 Football\".",
       "position": "hero"
     },
     {
@@ -91,7 +91,7 @@
   "article_paragraphs": [
     {
       "number": 1,
-      "text": "This is our class timetable. Our class is with Teacher Kim. She puts the timetable on the board. We have school every day from Monday to Friday. School starts at eight o'clock. On Monday at a quarter past eight, we have English. We have a computer lesson at half past nine. There is a break at ten o'clock. Lunch is at twelve o'clock. It is nice. Leo and May are my good friends. We always eat rice at lunch."
+      "text": "This is our class timetable. Our teacher is Teacher Kim. She puts the timetable on the board. We have school every day from Monday to Friday. School starts at eight o'clock. On Monday at a quarter past eight, we have English. We have a computer lesson at half past nine. There is a break at ten o'clock. Lunch is at twelve o'clock. I sit with my good friends, Leo and May. We always eat rice at lunch."
     },
     {
       "number": 2,
@@ -99,7 +99,7 @@
     },
     {
       "number": 3,
-      "text": "\"Do we have English every day?\" asks Leo. \"No,\" says May. \"We have English on Monday and Thursday.\" \"What time is football?\" asks Leo. \"It's at two o'clock,\" says Lily. Teacher Kim sometimes reads a story before break. I like music, and I like football, too. Leo likes our timetable, too. What is your favorite lesson in the week?"
+      "text": "\"Do we have English every day?\" asks Leo. \"No,\" says May. \"We have English on Monday and Thursday.\" \"What time is football?\" asks Leo. \"It's at two o'clock,\" I say. Teacher Kim sometimes reads a story before break. I like music, and I like football, too. Leo likes our timetable, too. What is your favorite lesson in the week?"
     }
   ],
   "comprehension_questions": [
@@ -107,17 +107,17 @@
       "number": 1,
       "question": "What time is English on Monday?",
       "options": [
-        "half past eight",
-        "eight o'clock",
-        "a quarter past eight"
+        "a quarter past nine",
+        "a quarter past eight",
+        "eight o'clock"
       ]
     },
     {
       "number": 2,
       "question": "When is the computer lesson?",
       "options": [
+        "at nine o'clock",
         "at a quarter past nine",
-        "at ten o'clock",
         "at half past nine"
       ]
     },
@@ -125,8 +125,8 @@
       "number": 3,
       "question": "When do they never have homework?",
       "options": [
+        "on Tuesday",
         "on Monday",
-        "on Wednesday",
         "on Friday"
       ]
     },
@@ -134,16 +134,16 @@
       "number": 4,
       "question": "When does Teacher Kim sometimes read a story?",
       "options": [
-        "on Friday night",
+        "before break",
         "at eight o'clock",
-        "before break"
+        "after lunch"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "b",
       "text": "a quarter past eight"
     },
     {
@@ -158,12 +158,12 @@
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "before break"
     }
   ],
-  "short_answer_question": "What do you like doing at the weekend?",
-  "short_answer_hint": "At the weekend, I like ___.",
+  "short_answer_question": "What is your favorite lesson? When is it?",
+  "short_answer_hint": "My favorite lesson is ___. It is on ___.",
   "sentence_starters": [
     "On Monday, we have ...",
     "At ... o'clock, I ...",
@@ -263,7 +263,7 @@
     },
     {
       "number": 2,
-      "sentence": "We have math at <span class=\"blank\"></span> past nine."
+      "sentence": "We have a computer lesson at <span class=\"blank\"></span> past nine."
     },
     {
       "number": 3,
@@ -346,15 +346,15 @@
   "translation_paragraphs": [
     {
       "label": "Paragraph 1",
-      "text": "นี่คือตารางเรียนของห้องเรา ห้องเราเรียนกับครูคิม ครูติดตารางเรียนไว้บนกระดาน เราเรียนทุกวันตั้งแต่วันจันทร์ถึงวันศุกร์ โรงเรียนเริ่มตอนแปดโมง วันจันทร์ตอนแปดโมงสิบห้านาที เรามีวิชาภาษาอังกฤษ เรามีคาบคอมพิวเตอร์ตอนเก้าโมงครึ่ง มีช่วงพักตอนสิบโมง อาหารกลางวันคือตอนเที่ยง อร่อยมาก ลีโอกับเมย์เป็นเพื่อนสนิทของฉัน เรากินข้าวตอนอาหารกลางวันเสมอ"
+      "text": "นี่คือตารางเรียนของห้องเรา ครูของเราคือครูคิม ครูติดตารางเรียนไว้บนกระดาน เราเรียนทุกวันตั้งแต่วันจันทร์ถึงวันศุกร์ โรงเรียนเริ่มตอนแปดโมง วันจันทร์ตอนแปดโมงสิบห้านาที เรามีวิชาภาษาอังกฤษ เรามีคาบคอมพิวเตอร์ตอนเก้าโมงครึ่ง มีช่วงพักตอนสิบโมง อาหารกลางวันคือตอนเที่ยง ฉันนั่งกับเพื่อนสนิทของฉัน ลีโอและเมย์ เรากินข้าวตอนอาหารกลางวันเสมอ"
     },
     {
       "label": "Paragraph 2",
-      "text": "วันอังคาร เรามีวิชาดนตรีหลังอาหารกลางวัน วิชาดนตรีคือตอนบ่ายโมง เราร้องเพลงกัน วันพุธตอนบ่ายโมงครึ่ง เรามีวิชาศิลปะ วันพฤหัสบดีตอนบ่ายสองโมง เราเล่นฟุตบอล วันศุกร์ตอนบ่ายสองโมงสิบห้านาที เราอ่านนิทาน เรามีการบ้านวันจันทร์และวันพุธ เราไม่มีการบ้านวันศุกร์เลย"
+      "text": "วันอังคาร เรามีวิชาดนตรีหลังอาหารกลางวัน วิชาดนตรีคือตอนบ่ายโมง เราร้องเพลงกัน วันพุธตอนบ่ายโมงครึ่ง เราวาดรูปกัน วันพฤหัสบดีตอนบ่ายสองโมง เราเล่นฟุตบอล วันศุกร์ตอนบ่ายสองโมงสิบห้านาที เราอ่านนิทาน เรามีการบ้านวันจันทร์และวันพุธ เราไม่มีการบ้านวันศุกร์เลย"
     },
     {
       "label": "Paragraph 3",
-      "text": "\"เรามีวิชาภาษาอังกฤษทุกวันหรือเปล่า\" ลีโอถาม \"ไม่ใช่\" เมย์ตอบ \"เรามีวิชาภาษาอังกฤษวันจันทร์และวันพฤหัสบดี\" \"ฟุตบอลเริ่มกี่โมง\" ลีโอถาม \"ตอนบ่ายสองโมง\" ลิลลี่ตอบ บางครั้งครูคิมอ่านนิทานให้ฟังก่อนช่วงพัก ฉันชอบวิชาดนตรี และฉันชอบฟุตบอลด้วย ลีโอก็ชอบตารางเรียนของเรา วิชาที่เธอชอบที่สุดในสัปดาห์นี้คือวิชาอะไร"
+      "text": "\"เรามีวิชาภาษาอังกฤษทุกวันหรือเปล่า\" ลีโอถาม \"ไม่ใช่\" เมย์ตอบ \"เรามีวิชาภาษาอังกฤษวันจันทร์และวันพฤหัสบดี\" \"ฟุตบอลเริ่มกี่โมง\" ลีโอถาม \"ตอนบ่ายสองโมง\" ฉันตอบ บางครั้งครูคิมอ่านนิทานให้ฟังก่อนช่วงพัก ฉันชอบวิชาดนตรี และฉันชอบฟุตบอลด้วย ลีโอก็ชอบตารางเรียนของเรา วิชาที่เธอชอบที่สุดในสัปดาห์นี้คือวิชาอะไร"
     }
   ]
 }

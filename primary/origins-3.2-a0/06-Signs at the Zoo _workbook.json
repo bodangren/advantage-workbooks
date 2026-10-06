@@ -72,34 +72,34 @@
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p06/hero.jpg",
       "caption": "Mia and Dad are at the zoo.",
-      "image_prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand at the door of a zoo. A big blank white sign hangs on the door. Mia points at the sign. Her dad smiles. Green trees and a sunny sky are behind them.",
+      "image_prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand at the door of a zoo. A big white sign on the door says \"NO DOGS.\" Mia points at the sign. Her dad smiles. Nobody stands in front of the sign. Green trees and a sunny sky are behind them.",
       "position": "hero"
     },
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p06/inline-para-2.jpg",
       "caption": "Mia reads the signs.",
-      "image_prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) stand in front of animal enclosures. Next to them is a blank white sign by the bears. A tiger walks behind a fence and a bear sits on a rock. A blank white sign stands at a crocodile pond with a snake, a lizard, and a spider on a rock.",
+      "image_prompt": "A sunny day at a zoo. Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) walk on a wide path and smile. Behind a tall fence on the left, a tiger and a bear rest on rocks. Four white signs stand along the path, and nobody stands in front of them. The first sign says \"TIGERS AND BEARS.\" The second sign says \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" The third sign, next to a glass house with a snake, a lizard, and a spider, says \"SNAKES, LIZARDS AND SPIDERS.\" The fourth sign, far behind a fence at a pond with a sleepy crocodile, says \"CROCODILES! DON'T SWIM HERE!\"",
       "position": "inline-para-2"
     },
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p06/inline-para-3.jpg",
       "caption": "Ice cream at the zoo!",
-      "image_prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) sit together and eat ice cream. A blank white sign hangs over them. Tall giraffes stand behind them.",
+      "image_prompt": "Mia and Mia's dad (a man of about forty with short wavy black hair and a short beard, a light blue polo shirt, khaki trousers, and brown sandals) sit at a small table and eat ice cream. A white sign on a post above them says \"FOOD AND DRINK.\" Nobody covers the sign. Tall giraffes stand behind a fence.",
       "position": "inline-para-3"
     }
   ],
   "article_paragraphs": [
     {
       "number": 1,
-      "text": "Mia and her dad are at the zoo. A sign is on the door. It says: \"NO DOGS.\" \"Sorry, Pip!\" says Mia. Pip is at home. \"What does this sign say, Mia?\" asks Dad. \"I can read it!\" says Mia."
+      "text": "Mia and her dad are at the zoo. A sign is on the door. It says: \"NO DOGS.\" \"Pip can't come here!\" says Mia. Pip is at home. \"What does this sign say, Mia?\" asks Dad. \"I can read it!\" says Mia."
     },
     {
       "number": 2,
-      "text": "One sign says: \"TIGERS AND BEARS.\" Mia and Dad look at the big tigers. Then Mia sees a sign next to the bears. It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" \"Can we give food to the bears?\" asks Dad. \"No, Dad! Read the sign!\" says Mia. Look! A sign says: \"SNAKES, LIZARDS AND SPIDERS.\" Dad sees a sign by the water. It says: \"CROCODILES! DON'T SWIM HERE!\" Mia and Dad smile."
+      "text": "One sign says: \"TIGERS AND BEARS.\" Mia and Dad look at the big tigers. Then Mia sees a sign next to the bears. It says: \"PLEASE DON'T GIVE FOOD TO THE ANIMALS.\" \"Can we give food to the bears?\" asks Dad. \"No, Dad! Read the sign!\" says Mia. Mia points. A sign says: \"SNAKES, LIZARDS AND SPIDERS.\" Dad sees a sign by the water. It says: \"CROCODILES! DON'T SWIM HERE!\" Mia and Dad smile."
     },
     {
       "number": 3,
-      "text": "\"Count the hippos, Mia,\" says Dad. \"What is the number?\" \"Three!\" says Mia. A sign is next to the giraffes. It says: \"FOOD AND DRINK.\" Mia and Dad eat ice cream there. \"Thank you, Dad!\" says Mia. Mia loves the zoo. She can read the signs!"
+      "text": "\"Count the hippos, Mia,\" says Dad. \"Tell me the number.\" \"Three!\" says Mia. \"Good!\" says Dad. A sign is next to the giraffes. It says: \"FOOD AND DRINK.\" Mia and Dad eat ice cream there. \"Thank you, Dad!\" says Mia. Mia loves the zoo. She can read the signs!"
     }
   ],
   "comprehension_questions": [
@@ -107,9 +107,9 @@
       "number": 1,
       "question": "Where can you eat at the zoo?",
       "options": [
-        "at the \"NO DOGS\" sign",
         "at the \"BATHROOM\" sign",
-        "at the \"FOOD AND DRINK\" sign"
+        "at the \"FOOD AND DRINK\" sign",
+        "at the \"TIGERS AND BEARS\" sign"
       ]
     },
     {
@@ -117,8 +117,8 @@
       "question": "What does \"PLEASE DON'T GIVE FOOD TO THE ANIMALS\" tell you?",
       "options": [
         "Give food to the animals.",
-        "Look at the animals.",
-        "Don't give food to the animals."
+        "Don't give food to the animals.",
+        "Look at the animals."
       ]
     },
     {
@@ -126,39 +126,39 @@
       "question": "Why can't Pip go to the zoo?",
       "options": [
         "Pip is sad.",
-        "Pip is not at home.",
-        "The sign says \"NO DOGS.\""
+        "The sign says \"NO DOGS.\"",
+        "The zoo is closed."
       ]
     },
     {
       "number": 4,
       "question": "How many hippos does Mia count?",
       "options": [
+        "three",
         "two",
-        "ten",
-        "three"
+        "five"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "b",
       "text": "at the \"FOOD AND DRINK\" sign"
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "b",
       "text": "Don't give food to the animals."
     },
     {
       "number": 3,
-      "letter": "c",
+      "letter": "b",
       "text": "The sign says \"NO DOGS.\""
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "three"
     }
   ],
@@ -347,15 +347,15 @@
   "translation_paragraphs": [
     {
       "label": "Paragraph 1",
-      "text": "มีอากับพ่อของเธออยู่ที่สวนสัตว์ มีป้ายอยู่ที่ประตู ป้ายบอกว่า \"ห้ามนำสุนัขเข้า\" \"ขอโทษนะ ปิ๊ป!\" มีอาพูด ปิ๊ปอยู่ที่บ้าน \"ป้ายนี้บอกว่าอะไร มีอา\" พ่อถาม \"หนูอ่านได้!\" มีอาพูด"
+      "text": "มีอากับพ่อของเธออยู่ที่สวนสัตว์ มีป้ายอยู่ที่ประตู ป้ายบอกว่า \"ห้ามนำสุนัขเข้า\" \"ปิ๊ปเข้ามาที่นี่ไม่ได้!\" มีอาพูด ปิ๊ปอยู่ที่บ้าน \"ป้ายนี้บอกว่าอะไร มีอา\" พ่อถาม \"หนูอ่านได้!\" มีอาพูด"
     },
     {
       "label": "Paragraph 2",
-      "text": "ป้ายหนึ่งบอกว่า \"เสือและหมี\" มีอากับพ่อมองเสือตัวใหญ่ แล้วมีอาก็เห็นป้ายข้างๆ หมี ป้ายบอกว่า \"กรุณาอย่าให้อาหารสัตว์\" \"เราให้อาหารหมีได้ไหม\" พ่อถาม \"ไม่ได้ค่ะพ่อ! อ่านป้ายสิ!\" มีอาพูด ดูสิ! ป้ายบอกว่า \"งู กิ้งก่า และแมงมุม\" พ่อเห็นป้ายอยู่ข้างน้ำ ป้ายบอกว่า \"จระเข้! ห้ามว่ายน้ำที่นี่!\" มีอากับพ่อยิ้ม"
+      "text": "ป้ายหนึ่งบอกว่า \"เสือและหมี\" มีอากับพ่อมองเสือตัวใหญ่ แล้วมีอาก็เห็นป้ายข้างๆ หมี ป้ายบอกว่า \"กรุณาอย่าให้อาหารสัตว์\" \"เราให้อาหารหมีได้ไหม\" พ่อถาม \"ไม่ได้ค่ะพ่อ! อ่านป้ายสิ!\" มีอาพูด มีอาชี้ ป้ายบอกว่า \"งู กิ้งก่า และแมงมุม\" พ่อเห็นป้ายอยู่ข้างน้ำ ป้ายบอกว่า \"จระเข้! ห้ามว่ายน้ำที่นี่!\" มีอากับพ่อยิ้ม"
     },
     {
       "label": "Paragraph 3",
-      "text": "\"นับฮิปโปนะ มีอา\" พ่อพูด \"มีกี่ตัวนะ\" \"สามตัว!\" มีอาตอบ มีป้ายอยู่ข้างๆ ยีราฟ ป้ายบอกว่า \"อาหารและเครื่องดื่ม\" มีอากับพ่อกินไอศกรีมที่นั่น \"ขอบคุณค่ะพ่อ!\" มีอาพูด มีอารักสวนสัตว์ เธออ่านป้ายได้!"
+      "text": "\"นับฮิปโปนะ มีอา\" พ่อพูด \"บอกพ่อหน่อยว่ากี่ตัว\" \"สามตัว!\" มีอาตอบ \"เก่งมาก!\" พ่อพูด มีป้ายอยู่ข้างๆ ยีราฟ ป้ายบอกว่า \"อาหารและเครื่องดื่ม\" มีอากับพ่อกินไอศกรีมที่นั่น \"ขอบคุณค่ะพ่อ!\" มีอาพูด มีอารักสวนสัตว์ เธออ่านป้ายได้!"
     }
   ]
 }

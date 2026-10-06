@@ -95,7 +95,7 @@
     },
     {
       "number": 2,
-      "text": "Then Lily looks at the shelf on the wall. \"What's this?\" she asks. \"It's my model boat,\" says Grandpa. It's small, and it's blue. Lily sees a green glass bottle next to it. \"And what's that?\" she asks. \"It's a bottle,\" says Grandpa. \"It's round and white.\" \"Is it a hat?\" asks Lily. \"No, it's a plate,\" laughs Grandpa."
+      "text": "Then Lily looks at the shelf on the wall. \"What's this?\" she asks. \"It's my model boat,\" says Grandpa. It's small, and it's blue. There is a green glass bottle next to it. Then Lily sees a big round white thing. \"What's that?\" she asks. \"Is it a hat?\" \"No, it's an old plate,\" laughs Grandpa."
     },
     {
       "number": 3,
@@ -107,26 +107,26 @@
       "number": 1,
       "question": "What is the big gray thing?",
       "options": [
-        "a boat",
-        "a plate",
-        "a machine"
+        "a machine",
+        "a bowl",
+        "a plate"
       ]
     },
     {
       "number": 2,
       "question": "What color is the glass bottle?",
       "options": [
-        "white",
+        "green",
         "brown",
-        "green"
+        "blue"
       ]
     },
     {
       "number": 3,
       "question": "What is the white thing?",
       "options": [
+        "a hat",
         "a bottle",
-        "a model",
         "a plate"
       ]
     },
@@ -134,21 +134,21 @@
       "number": 4,
       "question": "What does Pip have in his mouth?",
       "options": [
-        "a green bottle",
+        "a small brown bowl",
         "a blue boat",
-        "a small brown bowl"
+        "a white plate"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "a",
       "text": "a machine"
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "a",
       "text": "green"
     },
     {
@@ -158,7 +158,7 @@
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "a small brown bowl"
     }
   ],
@@ -305,11 +305,10 @@
     },
     {
       "words": [
-        "from",
         "bowl",
+        "from",
         "his",
         "new",
-        "water",
         "drinks",
         "Pip"
       ]
@@ -322,7 +321,7 @@
     },
     {
       "number": 2,
-      "sentence": "Pip drinks water from his new bowl."
+      "sentence": "Pip drinks from his new bowl."
     }
   ],
   "sentence_completion_prompts": [
@@ -353,7 +352,7 @@
     },
     {
       "label": "Paragraph 2",
-      "text": "จากนั้นลิลลี่มองไปที่ชั้นวางของบนผนัง \"นี่คืออะไรคะ\" เธอถาม \"นั่นคือเรือจำลองของตา\" คุณตาตอบ มันเล็กและเป็นสีน้ำเงิน ลิลลี่เห็นขวดแก้วสีเขียวอยู่ข้าง ๆ \"แล้วนั่นคืออะไรคะ\" เธอถาม \"มันคือขวดจ้ะ\" คุณตาตอบ \"มันกลมและเป็นสีขาว\" \"มันเป็นหมวกหรือเปล่าคะ\" ลิลลี่ถาม \"ไม่ใช่ มันคือจาน\" คุณตาหัวเราะ"
+      "text": "จากนั้นลิลลี่มองไปที่ชั้นวางของบนผนัง \"นี่คืออะไรคะ\" เธอถาม \"นั่นคือเรือจำลองของตา\" คุณตาตอบ มันเล็กและเป็นสีน้ำเงิน มีขวดแก้วสีเขียวอยู่ข้าง ๆ แล้วลิลลี่ก็เห็นของกลม ๆ สีขาวชิ้นใหญ่ \"นั่นคืออะไรคะ\" เธอถาม \"มันเป็นหมวกหรือเปล่าคะ\" \"ไม่ใช่หรอก มันคือจานเก่า\" คุณตาหัวเราะ"
     },
     {
       "label": "Paragraph 3",

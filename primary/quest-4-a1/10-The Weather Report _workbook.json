@@ -91,15 +91,15 @@
   "article_paragraphs": [
     {
       "number": 1,
-      "text": "Good morning, everyone! This is our weather report for the week. I am Lily, and this is Tom. Tom shows the clothes for every day. The whole class watches us on the TV. On Monday, the weather is sunny and hot. There is a big sun in the sky. Tom wears a hat and shorts. \"Is it always hot?\" asks Tom. \"No,\" says Lily. \"Look at Tuesday!\""
+      "text": "Good morning, everyone! This is our weather report for the week. I am Lily, and this is Tom. Tom shows the clothes for every day. The whole class watches us. On Monday, the weather is sunny and hot. There is a big sun in the sky. Tom wears a hat and shorts. \"Is it always hot?\" asks Tom. \"No,\" I say. \"Look at Tuesday!\""
     },
     {
       "number": 2,
-      "text": "On Tuesday, there is rain. The ground is wet. The rain is loud on the roof. Tom wears a coat and boots. On Wednesday, it is cloudy. There are gray clouds, but there is no rain. It is a little cold, so Tom wears a sweater. On Thursday, it is windy. The wind is strong! \"Hold your hat!\" says Tom. Lily laughs. The children in the class clap."
+      "text": "On Tuesday, there is rain. The ground is wet. The rain is loud on the roof. Tom wears a coat and boots. On Wednesday, it is cloudy. There are gray clouds, but there is no rain. It is a little cold, so Tom wears a sweater. On Thursday, it is windy. The wind is strong! \"Hold your hat!\" says Tom. I laugh. The children in the class clap."
     },
     {
       "number": 3,
-      "text": "On Friday morning, there is rain again. In the afternoon, the sun comes out. \"Look!\" says Lily. \"I can see a rainbow!\" It has red, orange, yellow, green, and blue. What is the weather today, class? Is it sunny, cloudy, or windy? Look out of the window. Tom smiles and takes off his coat. Tom says, \"I like all weather, with the right clothes!\""
+      "text": "On Friday morning, there is rain again. In the afternoon, the sun comes out. Then there is a big rainbow in the sky! It has red, orange, yellow, green, blue, and purple. What is the weather today, class? Is it sunny, cloudy, or windy? Look out of the window. Tom takes off his coat and smiles. \"I like all weather, with the right clothes!\" he says."
     }
   ],
   "comprehension_questions": [
@@ -107,26 +107,26 @@
       "number": 1,
       "question": "What is the weather on Monday?",
       "options": [
-        "cloudy and wet",
-        "wet and cold",
-        "sunny and hot"
+        "cold and windy",
+        "sunny and hot",
+        "wet and cold"
       ]
     },
     {
       "number": 2,
       "question": "What does Tom wear on Tuesday?",
       "options": [
-        "a sweater",
-        "a hat",
-        "a coat and boots"
+        "a coat and boots",
+        "shorts",
+        "a sweater"
       ]
     },
     {
       "number": 3,
       "question": "Which day is windy?",
       "options": [
-        "Wednesday",
         "Friday",
+        "Wednesday",
         "Thursday"
       ]
     },
@@ -134,21 +134,21 @@
       "number": 4,
       "question": "Which word goes with sunny, cloudy, and windy?",
       "options": [
-        "coat",
+        "rainbow",
         "class",
-        "rainbow"
+        "coat"
       ]
     }
   ],
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "b",
       "text": "sunny and hot"
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "a",
       "text": "a coat and boots"
     },
     {
@@ -158,7 +158,7 @@
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "a",
       "text": "rainbow"
     }
   ],
@@ -301,8 +301,12 @@
     },
     {
       "words": [
-        "laughs",
-        "Lily"
+        "class",
+        "children",
+        "The",
+        "clap",
+        "the",
+        "in"
       ]
     }
   ],
@@ -313,7 +317,7 @@
     },
     {
       "number": 2,
-      "sentence": "Lily laughs."
+      "sentence": "The children in the class clap."
     }
   ],
   "sentence_completion_prompts": [
@@ -340,15 +344,15 @@
   "translation_paragraphs": [
     {
       "label": "Paragraph 1",
-      "text": "สวัสดีตอนเช้าค่ะ ทุกคน! นี่คือรายงานสภาพอากาศของเราสำหรับสัปดาห์นี้ ฉันคือลิลลี่ และนี่คือทอม ทอมจะโชว์เสื้อผ้าสำหรับทุกวัน ทั้งห้องกำลังดูเราอยู่ทางทีวี วันจันทร์ อากาศแจ่มใสและร้อน มีดวงอาทิตย์ดวงใหญ่อยู่บนท้องฟ้า ทอมสวมหมวกและกางเกงขาสั้น \"อากาศร้อนตลอดเลยหรือเปล่า\" ทอมถาม \"ไม่ใช่จ้ะ\" ลิลลี่ตอบ \"ดูวันอังคารสิ!\""
+      "text": "สวัสดีตอนเช้าค่ะ ทุกคน! นี่คือรายงานสภาพอากาศของเราสำหรับสัปดาห์นี้ ฉันคือลิลลี่ และนี่คือทอม ทอมจะโชว์เสื้อผ้าสำหรับทุกวัน ทั้งห้องกำลังดูเราอยู่ วันจันทร์ อากาศแจ่มใสและร้อน มีดวงอาทิตย์ดวงใหญ่อยู่บนท้องฟ้า ทอมสวมหมวกและกางเกงขาสั้น \"อากาศร้อนตลอดเลยหรือเปล่า\" ทอมถาม \"ไม่ใช่จ้ะ\" ฉันตอบ \"ดูวันอังคารสิ!\""
     },
     {
       "label": "Paragraph 2",
-      "text": "วันอังคาร ฝนตก พื้นเปียก เสียงฝนดังบนหลังคา ทอมสวมเสื้อโค้ตและรองเท้าบู๊ต วันพุธ ท้องฟ้ามีเมฆมาก มีเมฆสีเทา แต่ฝนไม่ตก อากาศหนาวนิดหน่อย ทอมจึงใส่เสื้อสเวตเตอร์ วันพฤหัสบดี ลมแรง ลมแรงมาก! \"จับหมวกไว้นะ!\" ทอมพูด ลิลลี่หัวเราะ เด็กๆ ในห้องปรบมือ"
+      "text": "วันอังคาร ฝนตก พื้นเปียก เสียงฝนดังบนหลังคา ทอมสวมเสื้อโค้ตและรองเท้าบู๊ต วันพุธ ท้องฟ้ามีเมฆมาก มีเมฆสีเทา แต่ฝนไม่ตก อากาศหนาวนิดหน่อย ทอมจึงใส่เสื้อสเวตเตอร์ วันพฤหัสบดี ลมแรง ลมแรงมาก! \"จับหมวกไว้นะ!\" ทอมพูด ฉันหัวเราะ เด็กๆ ในห้องปรบมือ"
     },
     {
       "label": "Paragraph 3",
-      "text": "เช้าวันศุกร์ ฝนตกอีกครั้ง ตอนบ่าย ดวงอาทิตย์โผล่ออกมา \"ดูสิ!\" ลิลลี่พูด \"หนูเห็นรุ้ง!\" มีสีแดง ส้ม เหลือง เขียว และน้ำเงิน วันนี้อากาศเป็นอย่างไรบ้างคะ ทุกคน แดดออก มีเมฆ หรือลมแรง ลองมองออกไปนอกหน้าต่างดูสิ ทอมยิ้มแล้วถอดเสื้อโค้ตออก ทอมพูดว่า \"ผมชอบอากาศทุกแบบ ถ้ามีเสื้อผ้าที่เหมาะ!\""
+      "text": "เช้าวันศุกร์ ฝนตกอีกครั้ง ตอนบ่าย ดวงอาทิตย์โผล่ออกมา แล้วก็มีรุ้งกินน้ำขนาดใหญ่บนท้องฟ้า! มีสีแดง ส้ม เหลือง เขียว น้ำเงิน และม่วง วันนี้อากาศเป็นอย่างไรบ้างคะ ทุกคน แดดออก มีเมฆ หรือลมแรง ลองมองออกไปนอกหน้าต่างดูสิ ทอมถอดเสื้อโค้ตออกแล้วยิ้ม \"ผมชอบอากาศทุกแบบ ถ้ามีเสื้อผ้าที่เหมาะ!\" เขาพูด"
     }
   ]
 }

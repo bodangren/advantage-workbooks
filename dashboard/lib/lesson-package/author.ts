@@ -126,17 +126,18 @@ function seed(s: string): number {
 }
 
 /**
- * The four options in a stable shuffled order, so the answer is not always first.
+ * The four options in a stable shuffled order, so the answer is not always in one place.
+ * The options are sorted first, so the written order does not change the result and a
+ * shuffled list shuffles to itself. Each swap takes its own hash: an integer generator
+ * on JavaScript numbers lost its low bits and put 99% of answers last (2026-10-06).
  * @param options The options as written.
  * @param key A stable key (book, lesson, question id).
  * @returns The options in the new order.
  */
 export function shuffleOptions(options: string[], key: string): string[] {
-    const out = [...options];
-    let s = seed(key);
+    const out = [...options].sort();
     for (let i = out.length - 1; i > 0; i--) {
-        s = (s * 1103515245 + 12345) % 2 ** 31;
-        const j = s % (i + 1);
+        const j = seed(`${key}:${i}`) % (i + 1);
         [out[i], out[j]] = [out[j], out[i]];
     }
     return out;

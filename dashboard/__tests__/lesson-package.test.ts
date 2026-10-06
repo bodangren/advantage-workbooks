@@ -165,6 +165,7 @@ describe('checkPackage', () => {
 });
 
 describe('buildWorkbookLesson', () => {
+    const LETTERS = 'abc';
     const pkg = LessonPackageSchema.parse(fixturePackage());
     const out = buildWorkbookLesson(pkg);
 
@@ -177,16 +178,45 @@ describe('buildWorkbookLesson', () => {
         expect(out.cefr_level).toBe(`CEFR ${pkg.meta.cefrLevel}`);
     });
 
-    it('prints the print-set questions in order with the answer and the first two other options', () => {
-        expect(out.comprehension_questions).toEqual([
+    it('prints the questions of a printed lesson or book in bank order with the answer and the first two other options', () => {
+        const printed = LessonPackageSchema.parse(fixturePackage());
+        printed.meta.printed = { file: 'primary/tb/01.json' } as NonNullable<typeof printed.meta.printed>;
+        const built = buildWorkbookLesson(printed);
+        expect(built.comprehension_questions).toEqual([
             { number: 1, question: 'Where is the ball?', options: ['under the sofa', 'on the bed', 'in the cat'] },
             { number: 2, question: 'What color is the ball?', options: ['blue', 'red', 'green'] },
         ]);
-        expect(out.mc_answers).toEqual([
+        expect(built.mc_answers).toEqual([
             { number: 1, letter: 'a', text: 'under the sofa' },
             { number: 2, letter: 'b', text: 'red' },
         ]);
-        expect(out.short_answer_question).toBe('Where is the ball?');
+        expect(built.short_answer_question).toBe('Where is the ball?');
+        const insert = LessonPackageSchema.parse(fixturePackage());
+        insert.meta.book = 'origins-3.1';
+        for (let n = 2; n <= 20; n++) {
+            printed.meta.key = `tb/${n}`;
+            insert.meta.key = `tb/${n}`;
+            expect(buildWorkbookLesson(printed).comprehension_questions?.[0].options).toEqual(['under the sofa', 'on the bed', 'in the cat']);
+            expect(buildWorkbookLesson(insert).comprehension_questions?.[0].options).toEqual(['under the sofa', 'on the bed', 'in the cat']);
+        }
+    });
+
+    it('prints the same three options in a seeded order for an authored lesson', () => {
+        expect(out.comprehension_questions?.map((q) => [...q.options].sort())).toEqual([
+            ['in the cat', 'on the bed', 'under the sofa'],
+            ['blue', 'green', 'red'],
+        ]);
+        out.mc_answers?.forEach((a, i) => expect(out.comprehension_questions?.[i].options[LETTERS.indexOf(a.letter)]).toBe(a.text));
+    });
+
+    it('puts the answer at a, b, and c about equally often for authored lessons', () => {
+        const count: Record<string, number> = { a: 0, b: 0, c: 0 };
+        for (let n = 1; n <= 300; n++) {
+            const p = LessonPackageSchema.parse(fixturePackage());
+            p.meta.key = `tb/${n}`;
+            for (const a of buildWorkbookLesson(p).mc_answers ?? []) count[a.letter]++;
+        }
+        for (const c of Object.values(count)) expect(c).toBeGreaterThan(150);
     });
 
     it('builds the vocabulary, the match activity, and its answer string', () => {

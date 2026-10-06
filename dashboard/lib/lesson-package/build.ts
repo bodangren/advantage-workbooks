@@ -39,10 +39,29 @@ function shuffle<T>(items: T[], seed: string): T[] {
     return out;
 }
 
-/** The answer and the first other options, in bank order. */
-function printOptions(q: Mcq, n: number): string[] {
+/** Books printed before 2026-10-06. Their lessons (the E12 insert too) keep the options in bank order. */
+const BANK_ORDER_BOOKS = new Set(['origins-2', 'origins-3.1']);
+
+/**
+ * The answer and the first other options. A printed lesson keeps them in bank order, the same as
+ * the printed book. Other lessons take a seeded order, because bank order put the answer in the
+ * last printed place half the time (2026-10-06).
+ * @param q The question.
+ * @param n The number of printed options.
+ * @param seed A stable seed, or undefined for bank order.
+ * @returns The printed options.
+ */
+function printOptions(q: Mcq, n: number, seed?: string): string[] {
     const others = q.options.filter((o) => o !== q.answer).slice(0, n - 1);
-    return q.options.filter((o) => o === q.answer || others.includes(o));
+    const kept = q.options.filter((o) => o === q.answer || others.includes(o));
+    if (seed === undefined) return kept;
+    const next = random(seed);
+    const out = kept.sort();
+    for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(next() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+    }
+    return out;
 }
 
 /**
@@ -61,7 +80,7 @@ export function buildWorkbookLesson(pkg: LessonPackage, opts: { mediaBase?: stri
     };
 
     const printed = pkg.print.mcq.map((id) => find(pkg.bank.mcq, id, 'MCQ'));
-    const questions = printed.map((q, i) => ({ number: i + 1, question: q.question, options: printOptions(q, pkg.print.mcqOptions) }));
+    const questions = printed.map((q, i) => ({ number: i + 1, question: q.question, options: printOptions(q, pkg.print.mcqOptions, pkg.meta.printed || BANK_ORDER_BOOKS.has(pkg.meta.book) ? undefined : `${seed}:mcq:${q.id}`) }));
     const saq = find(pkg.bank.saq, pkg.print.saq, 'SAQ');
 
     const definitions = shuffle(pkg.glossary, `${seed}:match`);

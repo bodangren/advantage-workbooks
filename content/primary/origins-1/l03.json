@@ -141,10 +141,10 @@
         "id": "m1",
         "question": "What does Pip want?",
         "options": [
-          "his blue box",
-          "his yellow toy",
           "his green book",
-          "his red ball"
+          "his yellow toy",
+          "his red ball",
+          "his blue box"
         ],
         "answer": "his red ball",
         "evidence": "Pip wants his red ball.",
@@ -157,10 +157,10 @@
         "id": "m2",
         "question": "What color is the box that Tom looks in?",
         "options": [
-          "red",
-          "yellow",
+          "blue",
           "green",
-          "blue"
+          "red",
+          "yellow"
         ],
         "answer": "blue",
         "evidence": "There is a blue box.",
@@ -173,9 +173,9 @@
         "id": "m3",
         "question": "What color is the box that Lily looks in?",
         "options": [
-          "blue",
-          "red",
           "yellow",
+          "red",
+          "blue",
           "green"
         ],
         "answer": "green",
@@ -189,10 +189,10 @@
         "id": "m4",
         "question": "Who looks in the green box?",
         "options": [
-          "Pip",
-          "Mom",
           "Tom",
-          "Lily"
+          "Lily",
+          "Pip",
+          "Mom"
         ],
         "answer": "Lily",
         "evidence": "Lily looks in the box.",
@@ -206,8 +206,8 @@
         "options": [
           "a blue pen",
           "a brown dog",
-          "a red ball",
-          "a yellow toy"
+          "a yellow toy",
+          "a red ball"
         ],
         "answer": "a yellow toy",
         "evidence": "She finds a yellow toy.",
@@ -219,10 +219,10 @@
         "id": "m6",
         "question": "Which line is a question?",
         "options": [
+          "Where is the ball?",
           "There is a blue box.",
-          "Pip runs to the tree.",
           "Pip is happy.",
-          "Where is the ball?"
+          "Pip runs to the tree."
         ],
         "answer": "Where is the ball?",
         "evidence": "\"Where is the ball?\" asks Tom.",
@@ -234,9 +234,9 @@
         "id": "m7",
         "question": "Where is the red ball?",
         "options": [
-          "in the blue box",
           "in the green box",
           "in the garden house",
+          "in the blue box",
           "under the tree"
         ],
         "answer": "under the tree",
@@ -249,10 +249,10 @@
         "id": "m8",
         "question": "Does Pip find the ball?",
         "options": [
-          "No, he does not.",
           "No, it is a toy.",
-          "No, it is a box.",
-          "Yes, he does."
+          "Yes, he does.",
+          "No, he does not.",
+          "No, it is a box."
         ],
         "answer": "Yes, he does.",
         "evidence": "The red ball is under the tree!",
@@ -264,9 +264,9 @@
         "id": "m9",
         "question": "How is Pip at the end?",
         "options": [
+          "angry",
           "sad",
           "small",
-          "angry",
           "happy"
         ],
         "answer": "happy",
@@ -279,10 +279,10 @@
         "id": "m10",
         "question": "What does Tom say about the tree?",
         "options": [
-          "\"Not here.\"",
           "\"Goodbye!\"",
           "\"Look in the box!\"",
-          "\"Yes, it is!\""
+          "\"Yes, it is!\"",
+          "\"Not here.\""
         ],
         "answer": "\"Yes, it is!\"",
         "evidence": "\"Yes, it is!\" says Tom.",

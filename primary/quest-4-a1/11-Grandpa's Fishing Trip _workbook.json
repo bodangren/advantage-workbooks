@@ -83,7 +83,7 @@
     },
     {
       "url": "/api/files?root=content&path=quest-4/media/l11/inline-para-3.jpg",
-      "caption": "Today I catch a wet puppy!",
+      "caption": "My first catch is a wet puppy!",
       "image_prompt": "Grandpa holds up a net with a wet Pip in it. Tom laughs and holds a sandwich. The lake is behind them.",
       "position": "inline-para-3"
     }
@@ -91,15 +91,15 @@
   "article_paragraphs": [
     {
       "number": 1,
-      "text": "Today is the day of the fishing trip. Tom and Grandpa are at the lake with Pip. Grandpa has a net and an old hat. He has a bag of sandwiches too. \"What do you bring, Tom?\" asks Grandpa. \"I have a bottle of water,\" says Tom. \"Good!\" says Grandpa. \"Now we need the boat.\" The boat is small and blue. Grandpa puts the bag in the boat. Pip wants to come too. \"You can come, Pip,\" says Tom, \"but be quiet and careful!\""
+      "text": "Today is the day of the fishing trip. Tom and Grandpa are at the lake with Pip. Grandpa has a net and an old hat. He has a bag of sandwiches too. \"What's in your bag, Tom?\" asks Grandpa. \"I always bring a bottle of water,\" says Tom. \"Good!\" says Grandpa. \"Now we need the boat.\" The boat is small and blue. Grandpa puts the bag in the boat. Pip wants to come too. \"You can come, Pip,\" says Tom, \"but be quiet and careful!\""
     },
     {
       "number": 2,
-      "text": "They sit in the boat on the lake. The water is green and quiet. Grandpa holds the net in the water. He says, \"Fish don't like noise.\" Tom is quiet. Pip is quiet too, but not for long. He sees a fish in the water. \"Woof!\" says Pip. Splash! Pip is in the lake!"
+      "text": "They sit in the boat on the lake. The water is green and quiet. Grandpa holds the net in the water. He says, \"Fish don't like noise.\" Tom is quiet. Pip is quiet too, but not for long. He sees a fish in the water. \"Woof!\" says Pip. Splash! Pip jumps into the lake!"
     },
     {
       "number": 3,
-      "text": "\"Pip!\" shouts Tom. Grandpa is quick. He puts the net in the water and catches Pip. Pip is wet, and he is very sad. Tom and Grandpa laugh. \"Today I catch a wet puppy!\" says Grandpa. Pip is tired and hungry. Tom gives him some of his sandwich. \"Is it a good trip?\" asks Grandpa. \"Yes, it is!\" says Tom."
+      "text": "\"Pip!\" shouts Tom. Grandpa is quick. He puts the net in the water and catches Pip. Pip is wet, and he is very sad. Tom and Grandpa laugh. \"My first catch today is a wet puppy!\" says Grandpa. Pip is tired and hungry. Tom gives him some of his sandwich. \"Is it a good trip?\" asks Grandpa. \"Yes, it is!\" says Tom."
     }
   ],
   "comprehension_questions": [
@@ -107,7 +107,7 @@
       "number": 1,
       "question": "What does Grandpa have?",
       "options": [
-        "a bottle and a kite",
+        "a boat and a coat",
         "a ball and a bag",
         "a net and an old hat"
       ]
@@ -116,9 +116,9 @@
       "number": 2,
       "question": "What is in Grandpa's bag?",
       "options": [
-        "fish",
-        "hats",
-        "sandwiches"
+        "sandwiches",
+        "water",
+        "hats"
       ]
     },
     {
@@ -126,17 +126,17 @@
       "question": "Why must everyone be quiet?",
       "options": [
         "Pip is asleep.",
-        "The boat is old.",
-        "Fish don't like noise."
+        "Fish don't like noise.",
+        "Grandpa is tired."
       ]
     },
     {
       "number": 4,
       "question": "How does Grandpa catch Pip?",
       "options": [
-        "with his hands",
-        "with the bottle",
-        "with the net"
+        "with the hat",
+        "with the net",
+        "with the bottle"
       ]
     }
   ],
@@ -148,17 +148,17 @@
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "a",
       "text": "sandwiches"
     },
     {
       "number": 3,
-      "letter": "c",
+      "letter": "b",
       "text": "Fish don't like noise."
     },
     {
       "number": 4,
-      "letter": "c",
+      "letter": "b",
       "text": "with the net"
     }
   ],
@@ -304,9 +304,9 @@
     },
     {
       "words": [
-        "in",
+        "into",
         "lake",
-        "is",
+        "jumps",
         "the",
         "Pip"
       ]
@@ -319,7 +319,7 @@
     },
     {
       "number": 2,
-      "sentence": "Pip is in the lake!"
+      "sentence": "Pip jumps into the lake!"
     }
   ],
   "sentence_completion_prompts": [
@@ -346,15 +346,15 @@
   "translation_paragraphs": [
     {
       "label": "Paragraph 1",
-      "text": "วันนี้เป็นวันไปตกปลา ทอมกับคุณตาอยู่ที่ทะเลสาบพร้อมกับปิ๊ป คุณตามีสวิงกับหมวกใบเก่า คุณตามีถุงแซนด์วิชด้วย \"หลานเอาอะไรมาบ้างล่ะ ทอม\" คุณตาถาม \"ผมมีขวดน้ำครับ\" ทอมตอบ \"ดีมาก!\" คุณตาพูด \"ทีนี้เราต้องใช้เรือ\" เรือลำนั้นเล็กและเป็นสีฟ้า คุณตาวางถุงไว้ในเรือ ปิ๊ปอยากไปด้วย \"มาได้เลย ปิ๊ป\" ทอมบอก \"แต่ต้องเงียบและระวังนะ!\""
+      "text": "วันนี้เป็นวันไปตกปลา ทอมกับคุณตาอยู่ที่ทะเลสาบพร้อมกับปิ๊ป คุณตามีสวิงกับหมวกใบเก่า คุณตามีถุงแซนด์วิชด้วย \"ในกระเป๋าของหลานมีอะไรล่ะ ทอม\" คุณตาถาม \"ผมเอาขวดน้ำมาด้วยเสมอครับ\" ทอมตอบ \"ดีมาก!\" คุณตาพูด \"ทีนี้เราต้องใช้เรือ\" เรือลำนั้นเล็กและเป็นสีฟ้า คุณตาวางถุงไว้ในเรือ ปิ๊ปอยากไปด้วย \"มาได้เลย ปิ๊ป\" ทอมบอก \"แต่ต้องเงียบและระวังนะ!\""
     },
     {
       "label": "Paragraph 2",
-      "text": "พวกเขานั่งในเรือกลางทะเลสาบ น้ำสีเขียวและเงียบสงบ คุณตาจับสวิงไว้ในน้ำ คุณตาพูดว่า \"ปลาไม่ชอบเสียงดัง\" ทอมเงียบ ปิ๊ปก็เงียบเหมือนกัน แต่ไม่นานนัก เขาเห็นปลาตัวหนึ่งในน้ำ \"โฮ่ง!\" ปิ๊ปเห่า ตูม! ปิ๊ปตกลงไปในทะเลสาบ!"
+      "text": "พวกเขานั่งในเรือกลางทะเลสาบ น้ำสีเขียวและเงียบสงบ คุณตาจับสวิงไว้ในน้ำ คุณตาพูดว่า \"ปลาไม่ชอบเสียงดัง\" ทอมเงียบ ปิ๊ปก็เงียบเหมือนกัน แต่ไม่นานนัก เขาเห็นปลาตัวหนึ่งในน้ำ \"โฮ่ง!\" ปิ๊ปเห่า ตูม! ปิ๊ปกระโดดลงไปในทะเลสาบ!"
     },
     {
       "label": "Paragraph 3",
-      "text": "\"ปิ๊ป!\" ทอมตะโกน คุณตาเร็วมาก คุณตาเอาสวิงลงไปในน้ำและช้อนปิ๊ปขึ้นมา ปิ๊ปเปียกโชก และเขาเสียใจมาก ทอมกับคุณตาหัวเราะ \"วันนี้ตาจับได้ลูกหมาเปียกๆ!\" คุณตาพูด ปิ๊ปเหนื่อยและหิว ทอมแบ่งแซนด์วิชของเขาให้ปิ๊ป \"ทริปนี้สนุกไหม\" คุณตาถาม \"สนุกครับ!\" ทอมตอบ"
+      "text": "\"ปิ๊ป!\" ทอมตะโกน คุณตาเร็วมาก คุณตาเอาสวิงลงไปในน้ำและช้อนปิ๊ปขึ้นมา ปิ๊ปเปียกโชก และเขาเสียใจมาก ทอมกับคุณตาหัวเราะ \"ของที่ตาจับได้เป็นตัวแรกวันนี้คือลูกหมาเปียก ๆ!\" คุณตาพูด ปิ๊ปเหนื่อยและหิว ทอมแบ่งแซนด์วิชของเขาให้ปิ๊ป \"ทริปนี้สนุกไหม\" คุณตาถาม \"สนุกครับ!\" ทอมตอบ"
     }
   ]
 }

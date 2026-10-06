@@ -78,7 +78,7 @@
     {
       "url": "/api/files?root=content&path=origins-3.2/media/p04/inline-para-2.jpg",
       "caption": "Let's count!",
-      "image_prompt": "A large colorful poster on a classroom wall. The poster is blank where the words go. Small pictures of two hands and two feet are on the poster. Big colorful numbers from one to twenty are in a row at the bottom.",
+      "image_prompt": "A large colorful poster on a classroom wall, with nobody in front of it. Small pictures of two hands and two feet are in the top corners. The poster says, in big clear letters on nine short lines: \"One, two, three, four.\" / \"Clap your hands with me!\" / \"Five, six, seven, eight.\" / \"Nine and ten, clap again!\" / \"Eleven, twelve, jump, jump, jump!\" / \"Thirteen, fourteen, fifteen, sixteen.\" / \"Sixteen, show me your two feet!\" / \"Seventeen, eighteen, nineteen, twenty!\" / \"Twenty, clap and jump with me!\"",
       "position": "inline-para-2"
     },
     {
@@ -95,7 +95,7 @@
     },
     {
       "number": 2,
-      "text": "The children clap and count with Teacher Kim. \"One, two, three, four.\" \"Clap your hands with me!\" \"Five, six, seven, eight.\" \"Nine and ten, clap again!\" \"Eleven, twelve, jump, jump, jump!\" \"Thirteen, fourteen, fifteen, sixteen.\" \"Fifteen, show me your two feet!\" \"Seventeen, eighteen, nineteen, twenty!\" \"Twenty, clap and jump with me!\""
+      "text": "The children clap and count with Teacher Kim. \"One, two, three, four.\" \"Clap your hands with me!\" \"Five, six, seven, eight.\" \"Nine and ten, clap again!\" \"Eleven, twelve, jump, jump, jump!\" \"Thirteen, fourteen, fifteen, sixteen.\" \"Sixteen, show me your two feet!\" \"Seventeen, eighteen, nineteen, twenty!\" \"Twenty, clap and jump with me!\""
     },
     {
       "number": 3,
@@ -107,26 +107,26 @@
       "number": 1,
       "question": "What do the children do at \"Eleven, twelve\"?",
       "options": [
-        "They clap.",
         "They sit.",
-        "They jump."
+        "They jump.",
+        "They clap."
       ]
     },
     {
       "number": 2,
       "question": "Which number is between eleven and thirteen?",
       "options": [
-        "ten",
+        "twelve",
         "twenty",
-        "twelve"
+        "ten"
       ]
     },
     {
       "number": 3,
       "question": "How many feet have you got?",
       "options": [
-        "one",
         "three",
+        "four",
         "two"
       ]
     },
@@ -135,7 +135,7 @@
       "question": "What is the song about?",
       "options": [
         "colors",
-        "food",
+        "animals",
         "numbers"
       ]
     }
@@ -143,12 +143,12 @@
   "mc_answers": [
     {
       "number": 1,
-      "letter": "c",
+      "letter": "b",
       "text": "They jump."
     },
     {
       "number": 2,
-      "letter": "c",
+      "letter": "a",
       "text": "twelve"
     },
     {
@@ -267,7 +267,7 @@
     },
     {
       "number": 3,
-      "sentence": "\"Fifteen! Show me your two <span class=\"blank\"></span>!\""
+      "sentence": "\"Sixteen, show me your two <span class=\"blank\"></span>!\""
     },
     {
       "number": 4,
@@ -347,7 +347,7 @@
     },
     {
       "label": "Paragraph 2",
-      "text": "เด็กๆ ตบมือและนับไปกับครูคิม \"หนึ่ง สอง สาม สี่\" \"ตบมือไปกับครู!\" \"ห้า หก เจ็ด แปด\" \"เก้ากับสิบ ตบมืออีกที!\" \"สิบเอ็ด สิบสอง กระโดด กระโดด กระโดด!\" \"สิบสาม สิบสี่ สิบห้า สิบหก\" \"สิบห้า โชว์เท้าสองข้างของเธอ!\" \"สิบเจ็ด สิบแปด สิบเก้า ยี่สิบ!\" \"ยี่สิบ ตบมือและกระโดดไปกับครู!\""
+      "text": "เด็กๆ ตบมือและนับไปกับครูคิม \"หนึ่ง สอง สาม สี่\" \"ตบมือไปกับครู!\" \"ห้า หก เจ็ด แปด\" \"เก้ากับสิบ ตบมืออีกที!\" \"สิบเอ็ด สิบสอง กระโดด กระโดด กระโดด!\" \"สิบสาม สิบสี่ สิบห้า สิบหก\" \"สิบหก โชว์เท้าสองข้างของเธอ!\" \"สิบเจ็ด สิบแปด สิบเก้า ยี่สิบ!\" \"ยี่สิบ ตบมือและกระโดดไปกับครู!\""
     },
     {
       "label": "Paragraph 3",

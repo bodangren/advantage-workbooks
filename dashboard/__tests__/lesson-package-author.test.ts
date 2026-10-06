@@ -120,6 +120,19 @@ describe('author helpers', () => {
         expect([...shuffleOptions(o, 'x/y/m1')].sort()).toEqual(o);
     });
 
+    it('puts the first option in each place about equally often', () => {
+        const count = [0, 0, 0, 0];
+        for (let n = 0; n < 2000; n++) count[shuffleOptions(['answer', 'b', 'c', 'd'], `bank-1/b${n}/m${n % 10}`).indexOf('answer')]++;
+        for (const c of count) expect(c).toBeGreaterThan(400);
+    });
+
+    it('gives the same order whatever the written order', () => {
+        const key = 'quest-4/l01/m3';
+        const order = shuffleOptions(['a', 'b', 'c', 'd'], key);
+        expect(shuffleOptions(['d', 'c', 'b', 'a'], key)).toEqual(order);
+        expect(shuffleOptions(order, key)).toEqual(order);
+    });
+
     it('finds an example sentence through sibling forms', () => {
         expect(findExample('foot', ['Hi.', 'My feet are big.'], index)).toBe('My feet are big.');
         expect(findExample('kite', ['Hi.'], index)).toBeUndefined();

@@ -11,6 +11,7 @@
 ### Recurring Gotchas
 <!-- Problems encountered repeatedly; save future tracks from the same pain -->
 - (2026-10-03, editorial_prereview_20261003) When the image model changes, test again what the old one could not do. Every prompt kept the mmx "no words" rule after the switch to Muse, so every sign was blank and a script drew the text in one box at the bottom (several texts on top of each other). Muse draws quoted text well. Also: script checks pass lessons with grammar and story-logic errors ("We lose Snow!"); a human-style read of every lesson is still needed before approval.
+- (2026-10-06, levels_5_9_20261006) Test the distribution of a seeded shuffle, not only that it is stable. The option shuffle multiplied a 32-bit seed in a JavaScript number, lost the low bits, and put 99% of the answers last in 2,220 MCQs; a "same input, same output" test passed. Also: a print file in `primary/<project>/` is a build output; rebuild it after any package edit (the Quest 4 and Origins 3.2 print files missed the pre-review fixes for 3 days).
 - (2026-03, consolidated) Section toggles travel as query strings: wire a new toggle through the frontend state, the URL params, and the compile route, and read it with `=== 'true'` or `!== 'false'`, never a truthy check.
 - (2026-03, consolidated) Next.js previews: print a Paged.js iframe with `iframeRef.current.contentWindow.print()` (`window.print()` prints the outer UI), and show `blob:` URLs with a plain `<img>`, not `next/image`.
 - (2026-10-01, origins_app_refresh_20261001) mmx `--subject-ref` pulls image-01 to a 3D look, even from flat 2D sheets. For the same character in flat 2D, give the flat style and a full hair-and-clothes `look` in the text, with no reference. Repeat the full look of a non-cast person in every prompt. When a story changes a cast look (new shoes, a hat on a hand), leave that character out of `characters` and write the lesson's look in the prompt. mmx sometimes adds letters or a signature: check the corners.
@@ -40,7 +41,6 @@
 
 - (2026-04-08, ai_content_orchestration_20260408) Gemini structured output: Using `responseMimeType: "application/json"` with `zodToJsonSchema` to embed the full Zod schema in the prompt ensures Gemini returns valid JSON that passes `Schema.safeParse()`. This pattern (from ai-augmentor.ts) is reusable for any structured output from Gemini.
 - (2026-04-09, ai_content_orchestration_20260408) Radix Select in jsdom: Radix UI Select component uses `scrollIntoView` which is not available in jsdom. Tests that interact with Select dropdowns in jsdom will fail. Either mock the component or use `@testing-library/user-event` which handles these cases better.
-- (2026-04-09, ai_content_orchestration_20260408) Modal form reset: When using Radix Dialog with controlled open state, the form reset logic in `onOpenChange` only triggers when closing. To reset form when opening, use the same handler for both open and close, or reset state before calling setOpen(true).
 
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
