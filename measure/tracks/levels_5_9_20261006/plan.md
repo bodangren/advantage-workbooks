@@ -43,7 +43,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 - [~] Adventure 8.1, 8.2, and 8.3: lesson maps, 42 packages, pre-review, media — 42 written and edited (42 PASS; 146 change rows); committed 8ceba82, 79ffad8, 5a7ca16; report `reviews/2026-10-07-prereview-adventure-8.md`; pictures made for 8.1, in progress for 8.2 and 8.3; audio queued. Waits for Daniel.
 - [~] Word pacing before bank-8 and bank-9 (levels plan §6, v0.5): `plan-level-bank.ts --a2key-from` (fd97e9f, test-first); bank-8 plan generated again from the Adventure 7 and 8 words (4b13fd8: 0 new A2 Key words, was 143). bank-9: after the Adventure 9 maps.
-- [~] bank-8: 108 packages; QA; media — 108 written (108 PASS; every row agrees with the plan except 6 planned swaps and 2 American spellings); pre-review b073–b108 done, b001–b036 in progress, b037–b072 next.
+- [~] bank-8: 108 packages; QA; media — 108 written and edited (108 PASS; 216 change rows); report `reviews/2026-10-07-prereview-bank-8.md`; pictures and audio started. Provisional approval after the media.
 - [ ] Coverage report (95% of Flyers); tags export; Daniel's review
 
 ## Phase 6: Level 9
