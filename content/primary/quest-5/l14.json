@@ -17,7 +17,7 @@
   "text": {
     "paragraphs": [
       "On Saturday, the family went to the town funfair. It was a hot day, and the sky was blue. A costume show was on the green. The music was loud, and the people clapped. Leo was a pirate with a long black beard. Mia was a famous pop star with a blond curly wig. Ben was a film star in big sunglasses. Sam wore a polar bear costume. He looked very hot. \"You all look great!\" said Mom. Pip sat next to Lily and watched the show. He had his red ball in his mouth.",
-      "Then Pip saw a cat and dropped his red ball. He ran after the cat between the people. \"Where is Pip?\" asked Lily. Tom looked all around, but he couldn't see him. \"Pip is missing!\" said Dad. The children went looking for him. Lily asked a man, \"Did you see a small brown puppy?\" \"No, I didn't,\" said the man. Leo said, \"I couldn't see him, but I looked at all the rides.\" Mia said, \"I could hear a bark, but I couldn't see Pip.\"",
+      "Then Pip saw a cat and ran after it. He ran between the people with his red ball. \"Where is Pip?\" asked Lily. Tom looked all around, but he couldn't see him. \"Pip is missing!\" said Dad. The children went looking for him. Lily asked a man, \"Did you see a small brown puppy?\" \"No, I didn't,\" said the man. Leo said, \"I couldn't see him, but I looked at all the rides.\" Mia said, \"I could hear a bark, but I couldn't see Pip.\"",
       "Everyone looked for Pip at the rides. They went to a red chair near the rides. Pip was asleep under the chair with his red ball. Lily sat next to him and smiled. \"Stay close, Pip!\" she said. Pip woke up and jumped on her. \"Pip didn't want to be a star,\" said Tom. \"He wanted to play with his ball.\" Everyone laughed."
     ],
     "summary": "The family goes to the town funfair. Pip runs after his red ball and is missing, but the children find him asleep under a chair.",
@@ -145,12 +145,12 @@
         "id": "m1",
         "question": "What was the weather on Saturday?",
         "options": [
-          "cold and wet",
-          "cloudy and cold",
-          "hot and blue",
-          "windy and gray"
+          "a cold day with snow",
+          "a cold day with rain",
+          "a hot day with a blue sky",
+          "a windy day with gray clouds"
         ],
-        "answer": "hot and blue",
+        "answer": "a hot day with a blue sky",
         "evidence": "It was a hot day, and the sky was blue.",
         "objectives": [
           "R25.5"
@@ -207,8 +207,8 @@
         "id": "m5",
         "question": "What did Ben wear?",
         "options": [
-          "a white costume",
           "a red hat",
+          "a polar bear costume",
           "big sunglasses",
           "a long beard"
         ],
@@ -229,7 +229,7 @@
           "He saw another dog."
         ],
         "answer": "He saw a cat.",
-        "evidence": "Then Pip saw a cat and dropped his red ball.",
+        "evidence": "Then Pip saw a cat and ran after it.",
         "objectives": [
           "L25.4"
         ]
@@ -271,7 +271,7 @@
           "under a red chair",
           "in a red car",
           "behind a red tree",
-          "next to a red ball"
+          "inside a red box"
         ],
         "answer": "under a red chair",
         "evidence": "Pip was asleep under the chair with his red ball.",
@@ -480,12 +480,12 @@
       ],
       [
         {
-          "en": "Then Pip saw a cat and dropped his red ball.",
-          "th": "แล้วปิ๊ปก็เห็นแมวและทำลูกบอลสีแดงของเขาหล่น"
+          "en": "Then Pip saw a cat and ran after it.",
+          "th": "แล้วปิ๊ปก็เห็นแมวและวิ่งตามมันไป"
         },
         {
-          "en": "He ran after the cat between the people.",
-          "th": "เขาวิ่งตามแมวไประหว่างผู้คน"
+          "en": "He ran between the people with his red ball.",
+          "th": "เขาวิ่งผ่านผู้คนไปพร้อมลูกบอลสีแดง"
         },
         {
           "en": "\"Where is Pip?\" asked Lily.",
@@ -559,7 +559,7 @@
         }
       ]
     ],
-    "summary": "ครอบครัวไปงานวัดในเมือง ปิ๊ปวิ่งตามลูกบอลสีแดงจนหายไป แต่เด็กๆ พบเขาหลับอยู่ใต้เก้าอี้"
+    "summary": "ครอบครัวไปงานรื่นเริงในเมือง ปิ๊ปวิ่งตามลูกบอลสีแดงจนหายไป แต่เด็กๆ พบเขาหลับอยู่ใต้เก้าอี้"
   },
   "images": [
     {
@@ -576,7 +576,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "A costume parade on a green lawn at a funfair. Leo is a pirate with a long black beard. Mia is a pop star with a blond curly wig. Ben wears big sunglasses. Sam wears a polar bear costume. A small red lead lies empty on the grass.",
+      "prompt": "A costume parade on a green lawn at a funfair. Leo is a pirate with a long black beard. Mia is a pop star with a blond curly wig. Ben is a film star in big sunglasses. Sam wears a polar bear costume. People clap around them.",
       "characters": [
         "Leo",
         "Mia",

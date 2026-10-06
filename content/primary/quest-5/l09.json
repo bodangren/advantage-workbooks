@@ -17,8 +17,8 @@
   },
   "text": {
     "paragraphs": [
-      "Subject: A secret party for Grandpa. Dear Aunt Sue. I write this email on Mom's laptop in the dining room. I want to invite you to Grandpa's birthday party. He is seventy-one years old on the twenty-second of November. The party is in our house on Saturday at four o'clock. It's a secret, so please don't tell him. Grandpa thinks that we have a small family dinner. We love Grandpa very much. Would you like to come?",
-      "Mom wants to buy a board game for Grandpa. But I have a better idea. It is a big day for us. Grandpa likes old photos, so I want you to bring one. Please find a photo of Grandpa and Grandma. Tom and I go shopping on Friday to buy a book. We clean the room after that, and Dad cooks. Tom says, \"I want to make a big cake.\" His cake is big, but it is not easy to make. Mom has twenty names for the party. She asks them to come at three o'clock, before Grandpa. Can you change your work days at the hospital? I put a red circle on the calendar.",
+      "Subject: A secret party for Grandpa. Dear Aunt Sue. I write this email on Mom's laptop in the dining room. I want to invite you to Grandpa's birthday party. He is seventy-one years old on the twenty-second of November. The party is in our house on Saturday, the twenty-first, at four o'clock. It's a secret, so please don't tell him. Grandpa thinks that we have a small family dinner. We love Grandpa very much. Would you like to come?",
+      "Mom wants to buy a board game for Grandpa. But I have a better idea. It is a big day for us. Grandpa likes old photos, so I want you to bring one. Please find a photo of Grandpa and Grandma. Tom and I go shopping on Friday to buy a book. We clean the room after that, and Dad cooks. Tom says, \"I want to make a big cake.\" His cake is big, but it is not easy to make. Mom invites twenty people to the party. She asks them to come at three o'clock, before Grandpa. Can you change your work days at the hospital? I put a red circle on the calendar.",
       "Are you surprised by this email? Mom says that you always say yes. Please write to me today, and I can tell Mom. I think that you can come. We miss you! Thank you, Aunt Sue. Love and a big hug from Lily."
     ],
     "summary": "Lily writes an email to Aunt Sue. She invites her to a secret birthday party for Grandpa and asks her to bring an old photo.",
@@ -229,7 +229,7 @@
           "Monday"
         ],
         "answer": "Saturday",
-        "evidence": "The party is in our house on Saturday at four o'clock.",
+        "evidence": "The party is in our house on Saturday, the twenty-first, at four o'clock.",
         "objectives": [
           "L26.1",
           "L22.2"
@@ -267,7 +267,7 @@
       },
       {
         "id": "m9",
-        "question": "How many names does Mom have for the party?",
+        "question": "How many people does Mom invite to the party?",
         "options": [
           "forty",
           "fifteen",
@@ -275,7 +275,7 @@
           "twelve"
         ],
         "answer": "twenty",
-        "evidence": "Mom has twenty names for the party.",
+        "evidence": "Mom invites twenty people to the party.",
         "objectives": [
           "R23.4"
         ]
@@ -307,8 +307,8 @@
       },
       {
         "id": "s2",
-        "question": "Why is the party a secret?",
-        "answer": "Grandpa thinks that they have a normal family dinner.",
+        "question": "What does Grandpa think?",
+        "answer": "Grandpa thinks that they have a small family dinner.",
         "objectives": [
           "R24.6"
         ]
@@ -324,7 +324,7 @@
       {
         "id": "s4",
         "question": "What do Tom and Lily buy on Friday?",
-        "answer": "They buy a card.",
+        "answer": "They buy a book.",
         "objectives": [
           "R24.6"
         ]
@@ -451,8 +451,8 @@
           "th": "คุณตาจะอายุเจ็ดสิบเอ็ดปีในวันที่ยี่สิบสองพฤศจิกายน"
         },
         {
-          "en": "The party is in our house on Saturday at four o'clock.",
-          "th": "งานเลี้ยงจัดที่บ้านของเราวันเสาร์ตอนสี่โมงเย็น"
+          "en": "The party is in our house on Saturday, the twenty-first, at four o'clock.",
+          "th": "งานเลี้ยงจัดที่บ้านของเราวันเสาร์ที่ยี่สิบเอ็ด ตอนสี่โมงเย็น"
         },
         {
           "en": "It's a secret, so please don't tell him.",
@@ -509,8 +509,8 @@
           "th": "เค้กของเขาใหญ่ แต่ทำไม่ง่ายเลย"
         },
         {
-          "en": "Mom has twenty names for the party.",
-          "th": "แม่มีรายชื่อยี่สิบคนสำหรับงานเลี้ยง"
+          "en": "Mom invites twenty people to the party.",
+          "th": "แม่เชิญคนยี่สิบคนมางานเลี้ยง"
         },
         {
           "en": "She asks them to come at three o'clock, before Grandpa.",
@@ -582,8 +582,10 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "A woman of about forty with a light blue nurse top sits in a hospital break room and reads a phone. She smiles with one hand over her mouth. Aunt Sue has a short black bob.",
-      "characters": [],
+      "prompt": "Aunt Sue sits in a hospital break room in a light blue nurse top and reads a phone. She smiles with one hand over her mouth.",
+      "characters": [
+        "Aunt Sue"
+      ],
       "caption": "Aunt Sue reads the email.",
       "overlay": [],
       "candidates": []

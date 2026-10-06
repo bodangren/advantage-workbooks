@@ -18,7 +18,7 @@
     "paragraphs": [
       "On Monday morning, Tom sat at his desk in class. He had a headache and a stomach-ache. He didn't eat any breakfast, and his legs were weak. He had a toothache last night, and his tooth was sore. Teacher Nick looked at him carefully. \"What's the matter, Tom?\" asked Teacher Nick. \"I don't feel well,\" said Tom. \"My head hurts, and my stomach hurts.\" \"You look sick,\" said Teacher Nick. \"Come with me to the nurse.\"",
       "The nurse's room was small and quiet. Tom sat on a chair, and the nurse took his temperature. \"It is OK,\" she said. \"Did you eat breakfast today?\" \"No, I didn't,\" said Tom. \"I got up late.\" The nurse smiled and gave him some water and a small cake. Tom had to sit and drink slowly. \"You are weak because you didn't eat,\" she said. She gave Tom some medicine for his headache. The medicine didn't help his stomach, but the cake did. \"Don't worry, Tom,\" said the nurse. \"Rest here, please.\"",
-      "Mom came to school and took Tom home. Pip waited at the door and said, \"Woof!\" Tom sat on the sofa all day. Lily drew a card for him. It said, \"Get well, Tom!\" Tom smiled and said, \"Thank you, Lily.\" At dinner, Tom was well again. He ate a big bowl of rice. \"Is your stomach OK now?\" asked Mom. \"Yes, it is,\" said Tom. \"On Tuesday, I want a big breakfast.\""
+      "Mom came to school and took Tom home. Pip waited at the door and said, \"Woof!\" Tom sat on the sofa all afternoon. Lily drew a card for him. It said, \"Get well, Tom!\" Tom smiled and said, \"Thank you, Lily.\" At dinner, Tom was well again. He ate a big bowl of rice. \"Is your stomach OK now?\" asked Mom. \"Yes, it is,\" said Tom. \"On Tuesday, I want a big breakfast.\""
     ],
     "summary": "Tom feels sick at school on Monday. The nurse finds the reason, Mom takes him home, and Lily makes him a card.",
     "glossed": [
@@ -168,15 +168,15 @@
       },
       {
         "id": "m3",
-        "question": "What did Tom not do before school?",
+        "question": "When did Tom get up on Monday?",
         "options": [
-          "He didn't eat breakfast.",
-          "He didn't see Lily.",
-          "He didn't walk Pip.",
-          "He didn't wash his face."
+          "after school",
+          "at night",
+          "early",
+          "late"
         ],
-        "answer": "He didn't eat breakfast.",
-        "evidence": "He didn't eat any breakfast, and his legs were weak.",
+        "answer": "late",
+        "evidence": "\"I got up late.\"",
         "objectives": [
           "R25.4"
         ]
@@ -232,10 +232,10 @@
         "id": "m7",
         "question": "Why did Tom feel weak?",
         "options": [
-          "He didn't eat.",
-          "He ran a lot.",
           "He had a bad dream.",
-          "He didn't drink."
+          "He ran a lot.",
+          "He had a high temperature.",
+          "He didn't eat."
         ],
         "answer": "He didn't eat.",
         "evidence": "\"You are weak because you didn't eat,\" she said.",
@@ -377,7 +377,7 @@
       "m8"
     ],
     "saq": "s1",
-    "saqHint": "Tom had a ___.",
+    "saqHint": "Tom had a ___ and a ___.",
     "mcqOptions": 3
   },
   "activities": {
@@ -388,16 +388,16 @@
     ],
     "vocabFill": [
       {
-        "sentence": "Tom had a headache and a ___.",
-        "answer": "stomach-ache"
+        "sentence": "Teacher Nick asked, \"What's the ___, Tom?\"",
+        "answer": "matter"
       },
       {
         "sentence": "The nurse took his ___.",
         "answer": "temperature"
       },
       {
-        "sentence": "Tom didn't ___ any breakfast.",
-        "answer": "eat"
+        "sentence": "Mom came to school and took Tom ___.",
+        "answer": "home"
       },
       {
         "sentence": "Lily drew a ___ for Tom.",
@@ -528,8 +528,8 @@
           "th": "ปิ๊ปรออยู่ที่ประตูและเห่า \"โฮ่ง!\""
         },
         {
-          "en": "Tom sat on the sofa all day.",
-          "th": "ทอมนั่งอยู่บนโซฟาตลอดทั้งวัน"
+          "en": "Tom sat on the sofa all afternoon.",
+          "th": "ทอมนั่งอยู่บนโซฟาตลอดบ่าย"
         },
         {
           "en": "Lily drew a card for him.",
@@ -591,7 +591,7 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "Lily gives Tom a card that she drew, at the kitchen table at home. Tom sits on a chair, smiles, and holds a glass of water. Pip sits on the floor and looks up at them.",
+      "prompt": "Lily gives Tom a card that she drew, in the living room at home. Tom sits on the sofa and smiles. Pip sits on the floor and looks up at them.",
       "characters": [
         "Lily",
         "Tom",

@@ -18,8 +18,8 @@
   "text": {
     "paragraphs": [
       "It is Saturday evening, and Mom is out. Mom's telephone rings in the living room. Lily looks at the screen. \"It is Aunt Sue!\" she says. Aunt Sue calls from Chiang Mai on a phone app. Lily sits on the sofa, and Pip sits next to her. \"Hello, Lily! How old are you now?\" asks Aunt Sue. \"I am nine,\" says Lily. \"Who is at home?\" asks Aunt Sue. \"My brother Tom is here, and Dad is at work,\" says Lily. \"What is Tom like now?\" asks Aunt Sue. \"He is very tall and very loud!\" says Lily.",
-      "Aunt Sue is a nurse at a hospital in Chiang Mai. She works every day, but she always calls Lily's family. \"How often do you travel to see us?\" asks Lily. \"Not often,\" says Aunt Sue. \"Some nights I am awake, and the sick children are asleep.\" \"Is someone with you?\" asks Aunt Sue. \"Yes, Pip is here,\" says Lily. She holds the phone up to the puppy. \"Woof!\" says Pip. \"Is he awake?\" asks Aunt Sue. \"Yes, he is not asleep at all!\" says Lily. They chat about Pip and his red ball.",
-      "Aunt Sue says her new number slowly. \"Zero, eight, one, four, five, five, two, two, nine, six.\" \"Pardon?\" says Lily. \"The line is bad,\" says Aunt Sue. She says the number again, and Lily says \"Pardon?\" again. \"Shall I write it down?\" asks Lily. Tom comes in and laughs at the phone. Lily writes the number on a note and puts it on the fridge. Mom comes home. \"Really?\" says Mom. \"Aunt Sue is on the phone?\" Lily gives the phone to Mom. \"How about a kiss for Pip?\" says Aunt Sue. Lily gives Pip a big kiss, and he says, \"Woof!\""
+      "Aunt Sue is a nurse at a hospital in Chiang Mai. She works every day, but she always calls Lily's family. \"How often do you travel to see us?\" asks Lily. \"Not often,\" says Aunt Sue. \"I am awake at night, when the sick children are asleep.\" \"Is someone with you on the sofa?\" asks Aunt Sue. \"Yes, Pip is here,\" says Lily. She holds the phone up to the puppy. \"Woof!\" says Pip. \"Is he awake?\" asks Aunt Sue. \"Yes, he is not asleep at all!\" says Lily. They chat about Pip and his red ball.",
+      "Aunt Sue says her new number slowly. \"Zero, eight, one, four, five, five, two, two, nine, six.\" \"Pardon?\" says Lily. \"The line is bad,\" says Aunt Sue. She says the number again, and Lily says \"Pardon?\" again. \"Shall I write it down?\" asks Lily. Tom comes to the sofa and laughs at the phone. Lily writes the number on a note and puts it on the fridge. \"How about a kiss for Pip?\" says Aunt Sue. Lily gives Pip a big kiss, and he says, \"Woof!\" Mom comes home. \"Really?\" says Mom. \"Aunt Sue is on the phone?\" Lily gives the phone to Mom."
     ],
     "summary": "Aunt Sue calls from Chiang Mai on a Saturday evening. Lily answers the phone, and they talk about Tom, Pip, and Aunt Sue's new number.",
     "glossed": [
@@ -83,21 +83,21 @@
       "pos": "adjective",
       "definition": "Sleeping.",
       "thai": "หลับอยู่",
-      "example": "\"Some nights I am awake, and the sick children are asleep.\""
+      "example": "\"I am awake at night, when the sick children are asleep.\""
     },
     {
       "word": "awake",
       "pos": "adjective",
       "definition": "Not sleeping.",
       "thai": "ตื่นอยู่",
-      "example": "\"Some nights I am awake, and the sick children are asleep.\""
+      "example": "\"I am awake at night, when the sick children are asleep.\""
     },
     {
       "word": "someone",
       "pos": "pronoun",
       "definition": "A person that you do not name.",
       "thai": "ใครบางคน",
-      "example": "\"Is someone with you?\" asks Aunt Sue."
+      "example": "\"Is someone with you on the sofa?\" asks Aunt Sue."
     },
     {
       "word": "how often",
@@ -271,7 +271,7 @@
       },
       {
         "id": "m9",
-        "question": "Who is awake, and who is not asleep at all?",
+        "question": "Who is \"not asleep at all\"?",
         "options": [
           "Dad",
           "Mom",
@@ -405,16 +405,16 @@
         "answer": "nurse"
       },
       {
-        "sentence": "\"Is ___ with you?\"",
-        "answer": "someone"
+        "sentence": "Aunt Sue is ___ at night, when the sick children are asleep.",
+        "answer": "awake"
       },
       {
         "sentence": "Pip is not ___ at all.",
         "answer": "asleep"
       },
       {
-        "sentence": "\"___ ?\" says Lily.",
-        "answer": "Pardon"
+        "sentence": "Aunt Sue calls on a phone ___.",
+        "answer": "app"
       }
     ],
     "sentenceOrder": [
@@ -503,12 +503,12 @@
           "th": "\"ไม่บ่อยเลยจ้ะ\" คุณน้าซูตอบ"
         },
         {
-          "en": "\"Some nights I am awake, and the sick children are asleep.\"",
-          "th": "\"บางคืนน้าตื่นอยู่ ส่วนเด็ก ๆ ที่ป่วยนอนหลับกัน\""
+          "en": "\"I am awake at night, when the sick children are asleep.\"",
+          "th": "\"น้าตื่นทำงานตอนกลางคืน ตอนที่เด็ก ๆ ที่ป่วยนอนหลับ\""
         },
         {
-          "en": "\"Is someone with you?\" asks Aunt Sue.",
-          "th": "\"มีใครอยู่กับหนูไหมจ๊ะ\" คุณน้าซูถาม"
+          "en": "\"Is someone with you on the sofa?\" asks Aunt Sue.",
+          "th": "\"มีใครอยู่กับหนูบนโซฟาไหมจ๊ะ\" คุณน้าซูถาม"
         },
         {
           "en": "\"Yes, Pip is here,\" says Lily.",
@@ -561,12 +561,20 @@
           "th": "\"หนูจดไว้ดีไหมคะ\" ลิลลี่ถาม"
         },
         {
-          "en": "Tom comes in and laughs at the phone.",
-          "th": "ทอมเดินเข้ามาและหัวเราะใส่โทรศัพท์"
+          "en": "Tom comes to the sofa and laughs at the phone.",
+          "th": "ทอมเดินมาที่โซฟาและหัวเราะใส่โทรศัพท์"
         },
         {
           "en": "Lily writes the number on a note and puts it on the fridge.",
           "th": "ลิลลี่จดเบอร์ลงบนกระดาษโน้ตและแปะไว้ที่ตู้เย็น"
+        },
+        {
+          "en": "\"How about a kiss for Pip?\" says Aunt Sue.",
+          "th": "\"จูบให้ปิ๊ปสักทีดีไหมจ๊ะ\" คุณน้าซูพูด"
+        },
+        {
+          "en": "Lily gives Pip a big kiss, and he says, \"Woof!\"",
+          "th": "ลิลลี่จูบปิ๊ปฟอดใหญ่ และเขาเห่าว่า \"โฮ่ง!\""
         },
         {
           "en": "Mom comes home.",
@@ -579,14 +587,6 @@
         {
           "en": "Lily gives the phone to Mom.",
           "th": "ลิลลี่ส่งโทรศัพท์ให้แม่"
-        },
-        {
-          "en": "\"How about a kiss for Pip?\" says Aunt Sue.",
-          "th": "\"จูบให้ปิ๊ปสักทีดีไหมจ๊ะ\" คุณน้าซูพูด"
-        },
-        {
-          "en": "Lily gives Pip a big kiss, and he says, \"Woof!\"",
-          "th": "ลิลลี่จูบปิ๊ปฟอดใหญ่ และเขาเห่าว่า \"โฮ่ง!\""
         }
       ]
     ],
@@ -595,10 +595,11 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Lily sits on a sofa in the living room and holds a phone. The screen shows Aunt Sue in a coral blouse with a black bob, and she waves. Pip sits next to Lily. Warm evening light comes from a lamp.",
+      "prompt": "Lily sits on a sofa in the living room and holds a phone. The screen shows Aunt Sue, and she waves. Pip sits next to Lily. Warm evening light comes from a lamp.",
       "characters": [
         "Lily",
-        "Pip"
+        "Pip",
+        "Aunt Sue"
       ],
       "caption": "Aunt Sue calls from Chiang Mai.",
       "overlay": [],

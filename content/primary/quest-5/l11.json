@@ -65,21 +65,21 @@
     {
       "word": "worse",
       "pos": "adjective",
-      "definition": "More bad than before.",
+      "definition": "Not as good as before.",
       "thai": "แย่กว่า",
       "example": "\"Worse, worse, worse weather!\""
     },
     {
       "word": "worst",
       "pos": "adjective",
-      "definition": "The most bad of all.",
+      "definition": "The least good of all.",
       "thai": "แย่ที่สุด",
       "example": "\"The worst weather in the jungle!\""
     },
     {
       "word": "better",
       "pos": "adjective",
-      "definition": "More good than before.",
+      "definition": "Nicer than before.",
       "thai": "ดีกว่า",
       "example": "\"The end must be better,\" she says."
     },
@@ -193,7 +193,7 @@
         "id": "m4",
         "question": "What does May have?",
         "options": [
-          "an umbrella",
+          "blue boots",
           "a yellow hat",
           "a green sweater",
           "a red coat"
@@ -291,7 +291,7 @@
           "a fat frog",
           "a bright star",
           "a big rainbow",
-          "a gray cloud"
+          "a red balloon"
         ],
         "answer": "a big rainbow",
         "evidence": "There is a big rainbow in the sky behind the playground!",
@@ -574,7 +574,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Rain runs down a big classroom window. Teacher Kim writes \"BAD, BAD, BAD WEATHER!\" on the board. Lily, Mia, Leo, and May sit at their desks and look at the board. Spell every word exactly.",
+      "prompt": "Rain runs down a big classroom window. Teacher Kim writes \"BAD, BAD, BAD WEATHER!\" on the board. Lily, Mia, Leo, and May sit at their desks and look at the board. Mia wears a red coat, Leo has blue boots, May wears a yellow hat, and Lily wears a green sweater. Spell every word exactly.",
       "characters": [
         "Teacher Kim",
         "Lily",
@@ -588,9 +588,11 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Leo holds a big paper frog and a paper star above his head in the classroom. The class laughs.",
+      "prompt": "Leo stands at the board in the classroom and draws a fat green frog and a small yellow star behind a gray cloud. Leo has blue boots. Lily wears a green sweater and May wears a yellow hat; both sit at their desks and laugh.",
       "characters": [
-        "Leo"
+        "Leo",
+        "Lily",
+        "May"
       ],
       "caption": "Leo adds a fat frog.",
       "overlay": [],
@@ -598,7 +600,7 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "The children stand at the classroom window with open umbrellas and look at a big rainbow in the sky behind the playground.",
+      "prompt": "The children stand at the classroom window with open umbrellas and look at a big rainbow in the sky behind the playground. Mia wears a red coat, Leo has blue boots, May wears a yellow hat, and Lily wears a green sweater.",
       "characters": [
         "Lily",
         "Mia",

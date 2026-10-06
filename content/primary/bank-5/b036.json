@@ -16,8 +16,8 @@
   },
   "text": {
     "paragraphs": [
-      "Today I am in Leo's room. Leo is my classmate, and he is very funny. Look at the first picture. This is Leo's room, and all his things are on the floor. Here is his bed. A blue blanket is on the bed. A wet towel is on the blanket. Here is the wall, and it is very big. A poster of a famous robot is on the wall. The robot has a round head and two red eyes.",
-      "Now look at the second picture. This is the desk, and the laptop is on it. A comic is open next to the laptop. A model boat is on the shelf. The shelf is weak, and it goes down. This is Leo's chair, and a sock is on it. Two more socks are under the chair. The desk is bad, but the floor is worse! \"Is this a room or a shop?\" I ask. \"It is a room,\" says Leo, and he laughs.",
+      "Today I am in Leo's room. Leo is my classmate, and he is very funny. Look at the first picture. This is Leo's room, and many things are on the floor. Here is his bed. A blue blanket is on the floor. A wet towel is on the blanket. Here is the wall, and it is very big. A poster of a famous robot is on the wall. The robot has a round head and two red eyes.",
+      "Now look at the second picture. This is the desk, and the laptop is on it. A comic is open on the floor next to the desk. A model boat is on the shelf. The shelf is weak, and it goes down. This is Leo's chair, and a sock is on it. Two more socks are under the chair. The desk is bad, but the floor is worse! \"Is this a room or a shop?\" I ask. \"It is a room,\" says Leo, and he laughs.",
       "Now Leo's mom stands at the door. She says, \"Leo, take your things off the floor.\" Leo puts the blanket on his bed. He puts the comic on the desk and the towel on the chair. I put the model boat on the desk, too. Look at the last picture of the room. The floor is clean now. \"Where is my sock?\" asks Leo. It is on his head, and we all laugh!"
     ],
     "summary": "Lily shows three pictures of her classmate Leo's room. Each sentence names a thing in a picture, and Leo's mom helps him with his things.",
@@ -88,14 +88,14 @@
       "pos": "preposition",
       "definition": "Above something and touching it.",
       "thai": "บน",
-      "example": "This is Leo's room, and all his things are on the floor."
+      "example": "This is Leo's room, and many things are on the floor."
     },
     {
       "word": "floor",
       "pos": "noun",
       "definition": "The part of a room that you walk on.",
       "thai": "พื้นห้อง",
-      "example": "This is Leo's room, and all his things are on the floor."
+      "example": "This is Leo's room, and many things are on the floor."
     },
     {
       "word": "model",
@@ -116,7 +116,7 @@
       "pos": "noun",
       "definition": "A soft cover for a bed.",
       "thai": "ผ้าห่ม",
-      "example": "A blue blanket is on the bed."
+      "example": "A blue blanket is on the floor."
     },
     {
       "word": "towel",
@@ -130,22 +130,22 @@
       "pos": "noun",
       "definition": "A book with funny pictures and short words.",
       "thai": "หนังสือการ์ตูน",
-      "example": "A comic is open next to the laptop."
+      "example": "A comic is open on the floor next to the desk."
     }
   ],
   "bank": {
     "mcq": [
       {
         "id": "m1",
-        "question": "Where are all of Leo's things at first?",
+        "question": "Where is the blue blanket at first?",
         "options": [
           "on the floor",
-          "in a bag",
+          "on the bed",
           "on the shelf",
-          "on the desk"
+          "on the chair"
         ],
         "answer": "on the floor",
-        "evidence": "This is Leo's room, and all his things are on the floor.",
+        "evidence": "A blue blanket is on the floor.",
         "objectives": [
           "R25.2"
         ]
@@ -160,7 +160,7 @@
           "blue"
         ],
         "answer": "blue",
-        "evidence": "A blue blanket is on the bed.",
+        "evidence": "A blue blanket is on the floor.",
         "objectives": [
           "R24.2"
         ]
@@ -299,7 +299,7 @@
       {
         "id": "s2",
         "question": "What is on the desk in the second picture?",
-        "answer": "The laptop and a comic are on the desk.",
+        "answer": "The laptop is on the desk.",
         "objectives": [
           "R25.2"
         ]
@@ -396,16 +396,16 @@
           "th": "ดูรูปแรกสิ"
         },
         {
-          "en": "This is Leo's room, and all his things are on the floor.",
-          "th": "นี่คือห้องของลีโอ และของทุกอย่างของเขาอยู่บนพื้น"
+          "en": "This is Leo's room, and many things are on the floor.",
+          "th": "นี่คือห้องของลีโอ และของมากมายอยู่บนพื้น"
         },
         {
           "en": "Here is his bed.",
           "th": "นี่คือเตียงของเขา"
         },
         {
-          "en": "A blue blanket is on the bed.",
-          "th": "ผ้าห่มสีฟ้าอยู่บนเตียง"
+          "en": "A blue blanket is on the floor.",
+          "th": "ผ้าห่มสีฟ้าอยู่บนพื้น"
         },
         {
           "en": "A wet towel is on the blanket.",
@@ -413,7 +413,7 @@
         },
         {
           "en": "Here is the wall, and it is very big.",
-          "th": "นี่คือผนัง และมันสีฟ้ามาก"
+          "th": "นี่คือผนัง และมันใหญ่มาก"
         },
         {
           "en": "A poster of a famous robot is on the wall.",
@@ -434,8 +434,8 @@
           "th": "นี่คือโต๊ะ และแล็ปท็อปอยู่บนโต๊ะ"
         },
         {
-          "en": "A comic is open next to the laptop.",
-          "th": "หนังสือการ์ตูนเปิดอยู่ข้างแล็ปท็อป"
+          "en": "A comic is open on the floor next to the desk.",
+          "th": "หนังสือการ์ตูนเปิดอยู่บนพื้นข้างโต๊ะ"
         },
         {
           "en": "A model boat is on the shelf.",
@@ -510,7 +510,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Leo stands in a bedroom with many things on the floor: a blue blanket on the bed, a wet towel on the blanket, and a big poster of a robot with a round head and two red eyes on the wall. Lily stands in the door and looks at the room.",
+      "prompt": "Leo stands in a bedroom with many things on the floor: a blue blanket on the floor, a wet towel on the blanket, and a big poster of a robot with a round head and two red eyes on the wall. Lily stands in the door and looks at the room.",
       "characters": [
         "Leo",
         "Lily"
@@ -521,7 +521,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "A desk with a laptop and an open comic next to it, a chair with a sock on it, two more socks under the chair, and a weak wooden shelf that leans down with a small model boat on it. Leo stands next to the desk and laughs.",
+      "prompt": "A desk with a laptop on it and an open comic on the floor next to it, a chair with a sock on it, two more socks under the chair, and a weak wooden shelf that leans down with a small model boat on it. Leo stands next to the desk and laughs.",
       "characters": [
         "Leo"
       ],

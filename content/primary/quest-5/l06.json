@@ -160,15 +160,15 @@
       },
       {
         "id": "m2",
-        "question": "What does Grandpa like?",
+        "question": "What does Grandpa say about the fish?",
         "options": [
-          "fish",
-          "vegetables",
-          "salad",
-          "pasta"
+          "It is delicious.",
+          "It is too small.",
+          "It is too cold.",
+          "It is terrible."
         ],
-        "answer": "fish",
-        "evidence": "\"I like fish,\" he says.",
+        "answer": "It is delicious.",
+        "evidence": "\"The fish here is delicious.\"",
         "objectives": [
           "R26.6",
           "L25.3"
@@ -208,14 +208,14 @@
       },
       {
         "id": "m5",
-        "question": "What does Lily like?",
+        "question": "Who likes salad more than fish?",
         "options": [
-          "juice",
-          "fish",
-          "pasta",
-          "salad"
+          "Lily",
+          "Grandpa",
+          "Pip",
+          "Tom"
         ],
-        "answer": "salad",
+        "answer": "Lily",
         "evidence": "\"I like fish, but I like salad more,\" she says.",
         "objectives": [
           "R26.6",
@@ -227,9 +227,9 @@
         "question": "What does Tom not like?",
         "options": [
           "vegetables",
-          "pasta",
-          "carrots",
-          "juice"
+          "the sauce",
+          "juice",
+          "pasta"
         ],
         "answer": "vegetables",
         "evidence": "\"I don't like vegetables,\" says Tom.",
@@ -240,7 +240,7 @@
       },
       {
         "id": "m7",
-        "question": "Who does not like salad?",
+        "question": "Who says, \"And I don't like salad\"?",
         "options": [
           "Tom",
           "Lily",
@@ -369,7 +369,7 @@
       },
       {
         "id": "l4",
-        "question": "Tom and Grandpa do not like the same things as Lily. Why is it good to share?",
+        "question": "Tom, Lily, and Grandpa like different food. Why is it good to share?",
         "objectives": [
           "R25.4"
         ]
@@ -592,11 +592,12 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Grandpa, Tom, and Lily sit at a café table by a window. On the table are a plate of pasta, a bowl of salad, and a plate of fish. Warm light comes through the window.",
+      "prompt": "Grandpa, Tom, and Lily sit at a café table by a window. On the table are three glasses of juice and a menu. Pip sits under the table. Warm light comes through the window.",
       "characters": [
         "Grandpa",
         "Tom",
-        "Lily"
+        "Lily",
+        "Pip"
       ],
       "caption": "Grandpa takes the children to the café.",
       "overlay": [],
@@ -604,7 +605,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Tom looks at a plate of fish and frowns. Lily watches him, and Grandpa holds a menu.",
+      "prompt": "Tom looks at the menu and frowns. Lily watches him, and Grandpa holds a menu.",
       "characters": [
         "Tom",
         "Lily",

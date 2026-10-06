@@ -18,7 +18,7 @@
     "paragraphs": [
       "Aunt Sue comes to our house on Saturday. She takes a bus from the city, and she does not know our street. I write a message for her. Get off the bus at the bus stop near the school. Walk along the big road for five minutes. Go straight, and do not turn. The road is busy and dangerous, so look left and right. Cross the road at the crossing next to the fruit shop. You can buy mangoes there. I think Mom likes mangoes.",
       "Turn left at the corner of the fruit shop. Our street is next to the park. Walk by the park and look for a white house. The house has a red gate. A sign on the gate says \"Please close the gate.\" You may be surprised and ask, \"What does it mean?\" It means that Pip is in the garden. He is small, but he runs very quickly. Pip waits behind the gate, and he says, \"Woof!\"",
-      "Now you are at our house. Take off your shoes and put them next to the door. Mom is in the kitchen, and Dad is on the sofa. Tom is in his room, and Pip is under the table. Your room is upstairs. Your room is next to Tom's room. Your bed is under the window. Is it difficult? I do not think so! Aunt Sue, we are happy to see you."
+      "Now you are at our house. Take off your shoes and put them next to the door. Mom is in the kitchen, and Dad is on the sofa. Tom is in his room, and Pip runs in and goes under the table. Your room is upstairs. Your room is next to Tom's room. Your bed is under the window. Is it difficult? I do not think so! Aunt Sue, we are happy to see you."
     ],
     "summary": "Lily writes the way from the bus stop to her house for Aunt Sue. She also tells her where things are inside the house.",
     "glossed": [
@@ -87,7 +87,7 @@
     {
       "word": "along",
       "pos": "preposition",
-      "definition": "From one end of a road to the other end.",
+      "definition": "Next to the long side of a road, or on a road, from one place to another.",
       "thai": "ตามไป, ไปตาม",
       "example": "Walk along the big road for five minutes."
     },
@@ -275,7 +275,7 @@
           "on the sofa"
         ],
         "answer": "under the table",
-        "evidence": "Tom is in his room, and Pip is under the table.",
+        "evidence": "Tom is in his room, and Pip runs in and goes under the table.",
         "objectives": [
           "L24.4"
         ]
@@ -486,8 +486,8 @@
           "th": "แม่อยู่ในครัว และพ่ออยู่บนโซฟา"
         },
         {
-          "en": "Tom is in his room, and Pip is under the table.",
-          "th": "ทอมอยู่ในห้องของเขา และปิ๊ปอยู่ใต้โต๊ะ"
+          "en": "Tom is in his room, and Pip runs in and goes under the table.",
+          "th": "ทอมอยู่ในห้องของเขา และปิ๊ปวิ่งเข้าไปอยู่ใต้โต๊ะ"
         },
         {
           "en": "Your room is upstairs.",
@@ -520,9 +520,10 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Lily stands at a bus stop near a school and points down a busy road. A woman in a blue dress with a bag gets off a bus behind her. Sunny morning.",
+      "prompt": "Lily stands at a bus stop near a school and points down a busy road. Aunt Sue gets off a bus behind her with a bag. Sunny morning.",
       "characters": [
-        "Lily"
+        "Lily",
+        "Aunt Sue"
       ],
       "caption": "Aunt Sue gets off the bus.",
       "overlay": [],
@@ -530,7 +531,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Pip stands behind a red gate of a white house and looks out. A small sign hangs on the gate. A park with trees is next to the house.",
+      "prompt": "Pip stands behind a red gate of a white house and looks out. A small white sign on the gate says \"Please close the gate.\" A park with trees is next to the house.",
       "characters": [
         "Pip"
       ],
@@ -542,7 +543,6 @@
       "position": "inline-para-3",
       "prompt": "Inside a bright house, Mom stands in the kitchen, Dad sits on a sofa, and Pip lies under a table. Tom looks out of a door at the top of the stairs.",
       "characters": [
-        "Lily",
         "Mom",
         "Dad",
         "Tom",

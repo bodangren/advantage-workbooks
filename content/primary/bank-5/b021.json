@@ -16,7 +16,7 @@
   },
   "text": {
     "paragraphs": [
-      "My favorite book is The Little Hospital. It has many pictures, and I look at them every day. Three people are in the book. Shall I tell you about them? The first person is Nurse Alice. She is twenty-five years old. She has short blond hair. Her eyes are green. She is not tall. She wears a white coat and a yellow scarf round her neck. She is a nurse at the hospital. She always smiles at the sick children.",
+      "My favorite book is The Little Hospital. It has many pictures, and I look at them every day. Three people are in the book. Shall I tell you about them? The first person is Nurse Alice. She is twenty-five years old. She has short blond hair. Her eyes are green. She is not tall. She wears a white coat and a yellow scarf around her neck. She is a nurse at the hospital. She always smiles at the sick children.",
       "The second person is Doctor Mark. He is forty years old, and he is very tall. His hair is gray. He has a long beard. His eyes are brown. He wears round glasses and a blue sweater. Doctor Mark has a kind face. He helps many sick people every day. He looks at a child and says, \"Don't worry. You are fine!\"",
       "The third person is a small boy. He is eight years old, and he is sick. He has a headache and a temperature. The boy's hair is black and curly. His eyes are big and brown. He is small, and he wears a blue shirt. The boy is in the hospital, but he is not afraid. A small red ball is on his bed. Alice and Mark are in his room all day. Alice and Mark help him, and he is better after one day. Which person do you like? Do you have a favorite book?"
     ],
@@ -56,7 +56,7 @@
     {
       "word": "temperature",
       "pos": "noun",
-      "definition": "How hot or cold your body is.",
+      "definition": "How hot or cold your body is. A high temperature means you are sick.",
       "thai": "อุณหภูมิ, ไข้",
       "example": "He has a headache and a temperature."
     },
@@ -72,7 +72,7 @@
       "pos": "noun",
       "definition": "The part of your body between your head and your shoulders.",
       "thai": "คอ",
-      "example": "She wears a white coat and a yellow scarf round her neck."
+      "example": "She wears a white coat and a yellow scarf around her neck."
     },
     {
       "word": "headache",
@@ -119,9 +119,9 @@
     {
       "word": "scarf",
       "pos": "noun",
-      "definition": "A long piece of cloth that you wear round your neck.",
+      "definition": "A long piece of cloth that you wear around your neck.",
       "thai": "ผ้าพันคอ",
-      "example": "She wears a white coat and a yellow scarf round her neck."
+      "example": "She wears a white coat and a yellow scarf around her neck."
     },
     {
       "word": "doctor",
@@ -198,7 +198,7 @@
       },
       {
         "id": "m5",
-        "question": "What does Alice wear round her neck?",
+        "question": "What does Alice wear around her neck?",
         "options": [
           "a yellow scarf",
           "a blue sweater",
@@ -206,7 +206,7 @@
           "round glasses"
         ],
         "answer": "a yellow scarf",
-        "evidence": "She wears a white coat and a yellow scarf round her neck.",
+        "evidence": "She wears a white coat and a yellow scarf around her neck.",
         "objectives": [
           "R24.2",
           "L24.1"
@@ -425,7 +425,7 @@
           "th": "เธอตัวไม่สูง"
         },
         {
-          "en": "She wears a white coat and a yellow scarf round her neck.",
+          "en": "She wears a white coat and a yellow scarf around her neck.",
           "th": "เธอใส่เสื้อคลุมสีขาวและพันผ้าพันคอสีเหลืองรอบคอ"
         },
         {
@@ -531,7 +531,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Mia sits on a sofa and holds an open picture book with a drawing of a small hospital on the cover. She looks at the pages and smiles. Warm light from a window.",
+      "prompt": "Mia sits on a sofa and holds an open picture book. The cover has a drawing of a small hospital and the title \"The Little Hospital\". Spell every word exactly. She looks at the pages and smiles. Warm light from a window.",
       "characters": [
         "Mia"
       ],
@@ -541,7 +541,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "A young woman with short blond hair, a white coat, and a yellow scarf round her neck stands next to a tall man with gray hair, a long beard, round glasses, and a blue sweater. They stand in a bright hospital room and smile.",
+      "prompt": "A young woman with short blond hair, a white coat, and a yellow scarf around her neck stands next to a tall man with gray hair, a long beard, round glasses, and a blue sweater. They stand in a bright hospital room and smile.",
       "characters": [],
       "caption": "Nurse Alice and Doctor Mark",
       "overlay": [],
@@ -549,7 +549,7 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "A small boy of eight with black curly hair and a blue shirt sits in a hospital bed with a pillow. A tall man with a long gray beard, round glasses, and a blue sweater stands next to the bed and smiles at him.",
+      "prompt": "A small boy of eight with black curly hair and a blue shirt sits up in a hospital bed, smiles, and holds a small red ball. A tall man with a long gray beard, round glasses, and a blue sweater stands next to the bed and smiles at him.",
       "characters": [],
       "caption": "The boy is in the hospital.",
       "overlay": [],

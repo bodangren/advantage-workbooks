@@ -96,7 +96,7 @@
     },
     {
       "word": "off",
-      "pos": "adverb",
+      "pos": "preposition",
       "definition": "Down from a place.",
       "thai": "ลง, ออกจาก",
       "example": "It is hot, so Tom takes off his jacket."
@@ -247,8 +247,8 @@
         "options": [
           "It is too big.",
           "It is green.",
-          "It has no pocket.",
-          "It has no stripe."
+          "It has a white hat.",
+          "It has no pocket."
         ],
         "answer": "It has no pocket.",
         "evidence": "One jacket is wrong because it has no pocket.",
@@ -409,8 +409,8 @@
         "answer": "takes off"
       },
       {
-        "sentence": "Tom takes a T-shirt ___ his bag.",
-        "answer": "out of"
+        "sentence": "Tom takes a dry T-shirt ___ of his bag.",
+        "answer": "out"
       },
       {
         "sentence": "One jacket is ___ because it has no pocket.",
@@ -423,7 +423,7 @@
     ],
     "sentenceOrder": [
       "Tom looks at the bottom of the box.",
-      "Tom gives Pip a big hug."
+      "Tom drops his bag."
     ],
     "sentenceCompletion": [
       "My jacket has ...",
@@ -596,7 +596,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Coach Matt holds up a blue jacket with a white stripe and a pocket. A big wooden box is behind him. Lily points at the pocket.",
+      "prompt": "Coach Matt holds up a plain blue jacket with a pocket and no stripe. A big wooden box is behind him. Lily points at the pocket.",
       "characters": [
         "Coach Matt",
         "Lily"
@@ -648,6 +648,7 @@
       "english.vocabulary.skill.bottom.noun",
       "english.vocabulary.skill.wrong.adjective",
       "english.vocabulary.skill.off.adverb",
+      "english.vocabulary.skill.off.adverb-preposition",
       "english.vocabulary.skill.out-of.preposition",
       "english.vocabulary.skill.neck.noun",
       "english.vocabulary.skill.striped.adjective",

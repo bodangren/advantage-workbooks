@@ -22,8 +22,8 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 2: Level 5
 
-- [~] Quest 5: lesson map (v0.2, approved), 14 packages (0a2ef3c, drafts, 0 FAIL; my review fixed 8 text faults), editorial pre-review, pictures, audio, Tutor clips
-- [~] bank-5: plan and 36 packages (9a276cc, drafts, 0 FAIL; my review fixed names, May's family, the November dates, and the Thai for Aunt Sue); cross-batch QA; pictures and audio
+- [~] Quest 5: lesson map (v0.2, approved), 14 packages (0a2ef3c, drafts, 0 FAIL; my review fixed 8 text faults), editorial pre-review (done: `reviews/2026-10-06-prereview-level-5.md`, 76 changes), pictures, audio, Tutor clips
+- [~] bank-5: plan and 36 packages (9a276cc, drafts, 0 FAIL; my review fixed names, May's family, the November dates, and the Thai for Aunt Sue); cross-batch QA; editorial pre-review (done, 92 changes, same report); pictures and audio
 - [~] Coverage report for level 5 (every goal met: 31 of 31 objectives at 3+, 0 book gaps; Movers 354 of 355, "get undressed" left for level 6); tags export; Daniel's review
 
 ## Phase 3: Level 6

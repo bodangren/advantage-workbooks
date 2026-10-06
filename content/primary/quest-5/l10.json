@@ -19,7 +19,7 @@
     "paragraphs": [
       "It is Sunday morning, and Lily and Dad make pancakes. \"Today we cook breakfast,\" says Dad. He goes shopping for flour, eggs, and milk. Tom says, \"I do not like to cook. It is boring.\" \"Come on, Tom!\" says Lily. \"It is fun.\" Tom comes to the kitchen and helps. Dad has a big blue bowl and a pan. Lily reads the steps in Grandma's old book. Pip waits next to the table.",
       "Step one: put the flour in a big bowl. Step two: add two eggs. Step three: mix the flour and the milk slowly. Tom mixes quickly, and the flour goes on the floor. \"Slowly, Tom!\" says Dad. He asks Tom to clean the floor. Step four: put the mix in the pan carefully. The pan is hot and dangerous, so Lily stands back. \"Do not put your hand in it,\" says Dad. Dad cooks the pancake until it is yellow.",
-      "Step five: turn the pancake and cook it again. Tom puts salt in the bowl, not sugar. \"Is there a difference?\" asks Lily. Tom eats a pancake and says, \"Yuck!\" \"This pancake is not good.\" Dad laughs and says, \"Nothing is wrong with the pan.\" \"We try again, and now we read the steps.\" Dad makes a new pancake, and it is yellow and round. Tom eats three pancakes! Step six: add sugar and say, \"Well done!\" Do you like pancakes with sugar? Lily gives Pip a small bit, and he says, \"Woof!\""
+      "Step five: turn the pancake and cook it again. Tom puts salt on his pancake, not sugar. \"Is there a difference?\" asks Lily. Tom eats the pancake and says, \"Yuck!\" \"This pancake is not good.\" Dad laughs and says, \"Nothing is wrong with the pan.\" \"We try again, and now we read the steps.\" Dad makes a new pancake, and it is yellow and round. Tom eats three pancakes! Step six: add sugar and say, \"Well done!\" Do you like pancakes with sugar? Lily gives Pip a small bit, and he says, \"Woof!\""
     ],
     "summary": "Lily and Dad make pancakes on Sunday. The text gives the steps one by one. Tom puts in salt, not sugar, and they try again.",
     "glossed": [
@@ -252,7 +252,7 @@
       },
       {
         "id": "m8",
-        "question": "What does Tom put in the bowl?",
+        "question": "What does Tom put on his pancake?",
         "options": [
           "milk",
           "sugar",
@@ -260,7 +260,7 @@
           "flour"
         ],
         "answer": "salt",
-        "evidence": "Tom puts salt in the bowl, not sugar.",
+        "evidence": "Tom puts salt on his pancake, not sugar.",
         "objectives": [
           "R25.4",
           "R23.8"
@@ -325,8 +325,8 @@
       },
       {
         "id": "s4",
-        "question": "What is the difference between salt and sugar?",
-        "answer": "Salt is not sweet, and sugar is sweet.",
+        "question": "Why does Tom say, \"Yuck!\"?",
+        "answer": "He puts salt on his pancake, not sugar.",
         "objectives": [
           "R25.4"
         ]
@@ -397,19 +397,19 @@
     ],
     "vocabFill": [
       {
-        "sentence": "Step one: put the ___ in a big bowl.",
-        "answer": "flour"
+        "sentence": "Step ___: turn the pancake and cook it again.",
+        "answer": "five"
       },
       {
-        "sentence": "Step two: ___ two eggs.",
-        "answer": "add"
+        "sentence": "Tom mixes quickly, and the flour goes on the ___.",
+        "answer": "floor"
       },
       {
-        "sentence": "Mix the flour and the milk ___.",
-        "answer": "slowly"
+        "sentence": "The pan is hot and ___, so Lily stands back.",
+        "answer": "dangerous"
       },
       {
-        "sentence": "Tom puts ___ in the bowl, not sugar.",
+        "sentence": "Tom puts ___ on his pancake, not sugar.",
         "answer": "salt"
       }
     ],
@@ -521,15 +521,15 @@
           "th": "ขั้นที่ห้า: พลิกแพนเค้กและทำอีกด้าน"
         },
         {
-          "en": "Tom puts salt in the bowl, not sugar.",
-          "th": "ทอมใส่เกลือลงในชาม ไม่ใช่น้ำตาล"
+          "en": "Tom puts salt on his pancake, not sugar.",
+          "th": "ทอมใส่เกลือบนแพนเค้กของเขา ไม่ใช่น้ำตาล"
         },
         {
           "en": "\"Is there a difference?\" asks Lily.",
           "th": "\"มันต่างกันไหม\" ลิลลี่ถาม"
         },
         {
-          "en": "Tom eats a pancake and says, \"Yuck!\"",
+          "en": "Tom eats the pancake and says, \"Yuck!\"",
           "th": "ทอมกินแพนเค้กแล้วพูดว่า \"แหวะ!\""
         },
         {
@@ -571,7 +571,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "Lily and Dad stand at a kitchen table in warm morning light. On the table are a bowl of flour, two eggs, and a jug of milk. A paper note on the table is headed \"SHOPPING LIST\". Spell the heading exactly.",
+      "prompt": "Lily and Dad stand at a kitchen table in warm morning light. On the table are a big blue bowl of flour, two eggs, a jug of milk, and an old open recipe book. Lily points at the book.",
       "characters": [
         "Lily",
         "Dad"
@@ -593,12 +593,13 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "Tom flips a pancake in the air in the kitchen. Pip jumps up and the pancake nearly lands on his nose.",
+      "prompt": "Tom sits at the kitchen table, looks at a pancake on a plate, and wrinkles his nose. Dad laughs next to the cooker. Pip sits next to the table and looks up.",
       "characters": [
         "Tom",
+        "Dad",
         "Pip"
       ],
-      "caption": "Oh no, Pip!",
+      "caption": "Yuck!",
       "overlay": [],
       "candidates": []
     }

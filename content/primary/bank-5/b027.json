@@ -69,7 +69,7 @@
       "word": "funfair",
       "pos": "noun",
       "definition": "A place with games and rides, like a big wheel.",
-      "thai": "งานวัด, งานเลี้ยงสนุก",
+      "thai": "งานรื่นเริง, งานเลี้ยงสนุก",
       "example": "Mom, Pat, and I are at the funfair in the town square."
     },
     {
@@ -270,9 +270,9 @@
         "id": "m9",
         "question": "Where is Pat?",
         "options": [
-          "next to the café",
-          "in the funfair",
           "on a chair under the tree",
+          "next to the café",
+          "on the big wheel",
           "on the bus"
         ],
         "answer": "on a chair under the tree",
@@ -326,8 +326,8 @@
       },
       {
         "id": "s4",
-        "question": "What does May say to ask the way?",
-        "answer": "She says, \"Where is the funfair, please?\"",
+        "question": "What can Grandma say to ask the way?",
+        "answer": "She can say, \"Where is the funfair, please?\"",
         "objectives": [
           "R25.2"
         ]
@@ -405,7 +405,7 @@
         },
         {
           "en": "Mom, Pat, and I are at the funfair in the town square.",
-          "th": "แม่ แพท และหนูอยู่ที่งานวัดในจัตุรัสของเมือง"
+          "th": "แม่ แพท และหนูอยู่ที่งานรื่นเริงในจัตุรัสของเมือง"
         },
         {
           "en": "Please come to us after lunch.",
@@ -481,7 +481,7 @@
         },
         {
           "en": "The funfair is behind the tree.",
-          "th": "งานวัดอยู่ข้างหลังต้นไม้"
+          "th": "งานรื่นเริงอยู่ข้างหลังต้นไม้"
         },
         {
           "en": "Pat is sitting on a chair under the tree.",
@@ -509,7 +509,7 @@
         },
         {
           "en": "Say, \"Where is the funfair, please?\"",
-          "th": "ถามว่า \"งานวัดอยู่ที่ไหนคะ\""
+          "th": "ถามว่า \"งานรื่นเริงอยู่ที่ไหนคะ\""
         },
         {
           "en": "Do you know the way now?",
@@ -525,12 +525,12 @@
         }
       ]
     ],
-    "summary": "เมย์ส่งข้อความถึงคุณยายพร้อมบอกทางจากป้ายรถเมล์ไปงานวัดที่จัตุรัสของเมือง เธอบอกด้วยว่าแม่กับแพทอยู่ตรงไหน"
+    "summary": "เมย์ส่งข้อความถึงคุณยายพร้อมบอกทางจากป้ายรถเมล์ไปงานรื่นเริงที่จัตุรัสของเมือง เธอบอกด้วยว่าแม่กับแพทอยู่ตรงไหน"
   },
   "images": [
     {
       "position": "hero",
-      "prompt": "May and Pat stand in a town square in the sun. A big wheel and colorful tents of a funfair are behind a tall tree. May holds a phone and smiles. Pat holds a red balloon.",
+      "prompt": "May and Pat stand in a town square in the sun. A big wheel and colorful tents of a funfair are behind a tall tree. May holds a phone and smiles. Pat sits on a chair under the tree.",
       "characters": [
         "May",
         "Pat"
@@ -541,7 +541,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "A town road with a big white building with a red roof on the left. A supermarket is on the right, and a small cafe is at the corner. The road goes straight to a square at the end. Nobody is in the picture.",
+      "prompt": "A town road with a big white building with a red roof at the near end. A supermarket is on the right, and a small cafe is at the corner. The road goes straight to a square at the end. Nobody is in the picture.",
       "characters": [],
       "caption": "Go straight. Turn right at the cafe.",
       "overlay": [],

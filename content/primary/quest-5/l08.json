@@ -17,7 +17,7 @@
   },
   "text": {
     "paragraphs": [
-      "This is our day at the lake. Here is what we do. Seven o'clock: we get up early and eat rice. Ten past eight: we take the bus with Grandpa. \"Is it a long ride?\" asks Tom. \"No,\" says Dad. \"It is only twenty-five minutes by bus.\" Mom has a big bag with water and fruit in it. Pip sits on the bag and looks out of the window. Twenty-five to nine: we get to the lake. When we get off the bus, Pip runs to the water.",
+      "I am Lily. This is our Sunday at the lake. Here is what we do. Seven o'clock: we get up early and eat rice. Ten past eight: we take the bus with Grandpa. \"Is it a long ride?\" asks Tom. \"No,\" says Dad. \"It is only twenty-five minutes by bus.\" Mom has a big bag with water and fruit in it. Pip sits on the bag and looks out of the window. Twenty-five to nine: we get to the lake. When we get off the bus, Pip runs to the water.",
       "Ten o'clock: we walk by the water and take pictures. Eleven o'clock: Grandpa and I sail a small boat. When the wind comes, the boat moves on the lake. The lake is green and quiet, and we see two ducks. I help Grandpa with the boat, and he says, \"Well done, Lily!\" Tom and Dad play with Pip by the water. \"Can Pip come in the boat?\" I ask. \"Not today,\" says Grandpa. Pip finds his red ball and is happy again.",
       "Twelve o'clock: we eat lunch at the café. We have sandwiches and a big watermelon. \"How much watermelon do you want, Tom?\" asks Mom. \"More, please!\" says Tom. The sun is hot, so we sit under a big tree. Half past two: Tom and I swim in the lake. A quarter to four: we walk back to the bus. A quarter past four: the bus goes home. Pip is asleep on my legs. A good day!"
     ],
@@ -87,7 +87,7 @@
     },
     {
       "word": "more",
-      "pos": "adverb",
+      "pos": "adjective",
       "definition": "A bigger number or a bigger amount.",
       "thai": "มากขึ้น, อีก",
       "example": "\"More, please!\" says Tom."
@@ -139,7 +139,7 @@
     "mcq": [
       {
         "id": "m1",
-        "question": "What time do they take the bus?",
+        "question": "What time do they take the bus to the lake?",
         "options": [
           "ten to eight",
           "ten past nine",
@@ -312,8 +312,8 @@
       },
       {
         "id": "s3",
-        "question": "Why can't Pip come in the boat?",
-        "answer": "Grandpa says, \"Not today.\"",
+        "question": "Can Pip come in the boat?",
+        "answer": "No, he can't. Grandpa says, \"Not today.\"",
         "objectives": [
           "R25.3"
         ]
@@ -381,7 +381,7 @@
       "m7"
     ],
     "saq": "s1",
-    "saqHint": "I get up at ___.",
+    "saqHint": "They get up at ___.",
     "mcqOptions": 3
   },
   "activities": {
@@ -428,8 +428,12 @@
     "paragraphs": [
       [
         {
-          "en": "This is our day at the lake.",
-          "th": "นี่คือวันของเราที่ทะเลสาบ"
+          "en": "I am Lily.",
+          "th": "ฉันชื่อลิลลี่"
+        },
+        {
+          "en": "This is our Sunday at the lake.",
+          "th": "นี่คือวันอาทิตย์ของเราที่ทะเลสาบ"
         },
         {
           "en": "Here is what we do.",
@@ -566,7 +570,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Grandpa and Lily sit in a small sailboat on a calm blue lake on a sunny day. Lily holds a rope and smiles. Grandpa sits next to her.",
+      "prompt": "Grandpa and Lily sit in a small sailboat on a calm green lake on a sunny day. Lily holds a rope and smiles. Grandpa sits next to her.",
       "characters": [
         "Lily",
         "Grandpa"
@@ -577,8 +581,10 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "A café table by the lake has a big plate of red watermelon slices. Dad, Mom, and Tom sit at the table and eat. Pip sleeps in the shade under the table.",
+      "prompt": "A café table under a big tree by the lake has sandwiches and a big plate of red watermelon slices. Lily, Grandpa, Dad, Mom, and Tom sit at the table and eat. Pip sleeps in the shade under the table.",
       "characters": [
+        "Lily",
+        "Grandpa",
         "Dad",
         "Mom",
         "Tom",

@@ -18,7 +18,7 @@
   "text": {
     "paragraphs": [
       "On Tuesday, Teacher Kim's class goes to the school library. There is a notice on the door. Lily reads it to the class. The children listen. \"You must be quiet.\" \"You mustn't run.\" \"You have to wash your hands first.\" \"You can choose only two books every week.\" Mia puts up her hand. \"Can I take two comic books?\" she asks. \"Yes, you can,\" says Teacher Kim, \"but you can't take any more.\" Mia nods.",
-      "The library has books, comic books, magazines, and e-books. Every child in the class is a member of the library. The children walk to the tables. Lily wants to pick up a book about dogs from a big box. Mia says, \"Look at this magazine!\" and smiles. Then Leo laughs loudly at a funny comic book. Lily puts her hand on her mouth. \"Do I have to be quiet at the comic book table too?\" asks Leo. \"Yes, you do,\" says Teacher Kim, \"and you mustn't laugh loudly.\" Leo says sorry. Leo smiles too. The library is quiet again. Mia has two books.",
+      "The library has books, comic books, magazines, and e-books. Every child in the class is a member of the library. The children walk to the tables. Lily wants to pick up a book about dogs from a big box. Mia says, \"Look at this magazine!\" and smiles. Then Leo laughs loudly at a funny comic book. Lily puts her hand on her mouth. \"Do I have to be quiet at the comic book table too?\" asks Leo. \"Yes, you do,\" says Teacher Kim, \"and you mustn't laugh loudly.\" Leo says sorry. Teacher Kim smiles, and Leo smiles too. The library is quiet again. Mia has two books.",
       "At the end, the children move their chairs back to the tables. Mia reads an e-book on a tablet and waits. Lily reads her book. Then Teacher Kim writes a short note for the class. Dear class, thank you for a quiet morning. Come again on Tuesday. You can choose two new books and read them at home. From Teacher Kim. The children say thank you. Everybody smiles."
     ],
     "summary": "Teacher Kim's class visits the school library. Lily reads the rules on the notice, and Teacher Kim writes a thank-you note.",
@@ -88,8 +88,8 @@
     {
       "word": "any",
       "pos": "determiner",
-      "definition": "One or some, no matter which.",
-      "thai": "ใด ๆ, อะไรก็ได้",
+      "definition": "A word that you use in a \"no\" sentence, like \"not any\".",
+      "thai": "เลย (ใช้ในประโยคปฏิเสธ), ใด ๆ",
       "example": "\"Yes, you can,\" says Teacher Kim, \"but you can't take any more.\""
     },
     {
@@ -218,7 +218,7 @@
           "if she can read an e-book"
         ],
         "answer": "if she can take two comic books",
-        "evidence": "Mia puts up her hand.",
+        "evidence": "\"Can I take two comic books?\" she asks.",
         "objectives": [
           "L23.1",
           "R24.3"
@@ -422,7 +422,7 @@
     ],
     "sentenceOrder": [
       "You have to wash your hands first.",
-      "Mia reads an e-book on a tablet while she waits."
+      "Mia reads an e-book on a tablet and waits."
     ],
     "sentenceCompletion": [
       "In the library, you must ...",
@@ -530,8 +530,8 @@
           "th": "ลีโอขอโทษ"
         },
         {
-          "en": "Leo smiles too.",
-          "th": "ลีโอยิ้มด้วย"
+          "en": "Teacher Kim smiles, and Leo smiles too.",
+          "th": "ครูคิมยิ้ม และลีโอก็ยิ้มด้วย"
         },
         {
           "en": "The library is quiet again.",
@@ -590,7 +590,7 @@
   "images": [
     {
       "position": "hero",
-      "prompt": "A wooden sign on the door of a bright school library says, in five lines: \"LIBRARY RULES\" / \"Be quiet.\" / \"No running.\" / \"Wash your hands.\" / \"Two books only.\" Write each word with exact spelling. Nobody stands in front of the sign.",
+      "prompt": "A wooden sign on the door of a bright school library says, in five lines: \"LIBRARY RULES\" / \"You must be quiet.\" / \"You mustn't run.\" / \"You have to wash your hands first.\" / \"You can choose only two books every week.\" Write each word with exact spelling. Nobody stands in front of the sign.",
       "characters": [],
       "caption": "The rules are on the door.",
       "overlay": [],
@@ -598,7 +598,7 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Lily and Mia choose books from the low shelves in a bright library. Leo sits at a low table and reads a comic book.",
+      "prompt": "Lily and Mia pick up books from a big box in a bright library. Leo sits at a low table and reads a comic book.",
       "characters": [
         "Lily",
         "Mia",
@@ -610,12 +610,13 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "Lily puts her hand on her mouth while Mia whispers to her. A girl at the next table reads an e-book on a tablet.",
+      "prompt": "Lily puts her hand on her mouth. At a low table, Leo laughs at a comic book, and Mia looks at him.",
       "characters": [
         "Lily",
+        "Leo",
         "Mia"
       ],
-      "caption": "Lily says, \"Shh!\"",
+      "caption": "Lily puts her hand on her mouth.",
       "overlay": [],
       "candidates": []
     }

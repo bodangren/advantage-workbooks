@@ -149,7 +149,7 @@ Lily writes the plan for Sunday at the lake. The plan lists times and activities
 
 Text type: functional: an email about a birthday. Genre: Family & Friends. App type: nonfiction. Place: home (the dining room) and Aunt Sue's phone.
 
-Lily writes an email to Aunt Sue on Mom's laptop. She invites her to Grandpa's seventy-fifth birthday. The party is a secret. Lily gives the day and the date, and asks, "Would you like to come?" She tells Aunt Sue about presents: Mom wants to buy a board game, but Lily has a better idea. She asks Aunt Sue to bring Grandma's old photo. The email shows a subject line, a greeting, and a closing. Aunt Sue will be surprised. The email ends with a thank-you and a hug from Lily. (Put the subject, greeting, and closing inside the first and last paragraph, with full stops: checker fault C4.)
+Lily writes an email to Aunt Sue on Mom's laptop. She invites her to Grandpa's birthday (he is seventy-one; seventy in L01). The party is a secret. Lily gives the day and the date, and asks, "Would you like to come?" She tells Aunt Sue about presents: Mom wants to buy a board game, but Lily has a better idea. She asks Aunt Sue to bring Grandma's old photo. The email shows a subject line, a greeting, and a closing. Aunt Sue will be surprised. The email ends with a thank-you and a hug from Lily. (Put the subject, greeting, and closing inside the first and last paragraph, with full stops: checker fault C4.)
 
 - hero: Lily sits at the dining table with a laptop, and Mom stands behind her. A wall calendar shows the page "NOVEMBER" with one date circled in red.
 - inline-para-2: Tom holds a wrapped box and a card in the living room and puts a finger on his lips (a secret).

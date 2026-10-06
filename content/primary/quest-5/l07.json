@@ -65,8 +65,8 @@
     },
     {
       "word": "down",
-      "pos": "preposition",
-      "definition": "To a lower place, or to a place at the end of a road.",
+      "pos": "adverb",
+      "definition": "To a lower place, or farther along a road.",
       "thai": "ลงไป, ไปตาม (ถนน)",
       "example": "\"Then go down to the square.\""
     },
@@ -212,7 +212,7 @@
         "question": "Where must he turn left?",
         "options": [
           "at the café",
-          "at the square",
+          "at the school",
           "at the library",
           "at the bus station"
         ],
@@ -315,8 +315,8 @@
       },
       {
         "id": "s2",
-        "question": "How do Tom and Lily know the library?",
-        "answer": "It has a blue door.",
+        "question": "What does Lily say about the library?",
+        "answer": "She says that the library has a blue door.",
         "objectives": [
           "R23.6"
         ]
@@ -411,8 +411,8 @@
         "answer": "square"
       },
       {
-        "sentence": "___ I show you?",
-        "answer": "Shall"
+        "sentence": "Tom takes Pip ___ of the café.",
+        "answer": "out"
       },
       {
         "sentence": "The library has a ___ door.",
@@ -494,7 +494,7 @@
         },
         {
           "en": "\"Yes, please,\" says Teacher Nick.",
-          "th": "\"ได้สิ ขอบใจนะ\" ครูนิคตอบ"
+          "th": "\"ดีเลย ช่วยพาไปหน่อยนะ\" ครูนิคตอบ"
         },
         {
           "en": "\"Thanks, Tom!\"",
@@ -605,9 +605,10 @@
     },
     {
       "position": "inline-para-2",
-      "prompt": "Tom points along a road toward a square with a café. A sign on a post on the left says \"BUS STATION.\" Lily holds Pip's red ball.",
+      "prompt": "Tom points along a road toward a square with a café, and Teacher Nick walks next to him. A sign on a post on the left says \"BUS STATION.\" Lily holds Pip's red ball.",
       "characters": [
         "Tom",
+        "Teacher Nick",
         "Lily",
         "Pip"
       ],
@@ -617,10 +618,11 @@
     },
     {
       "position": "inline-para-3",
-      "prompt": "Teacher Nick and Tom stand at a library door that is blue. Pip sits at their feet with the red ball.",
+      "prompt": "Teacher Nick, Tom, and Lily stand at a library door that is blue. Pip sits at their feet with the red ball.",
       "characters": [
         "Teacher Nick",
         "Tom",
+        "Lily",
         "Pip"
       ],
       "caption": "Here is the library!",
