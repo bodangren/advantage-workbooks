@@ -35,7 +35,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 4: Level 7
 
-- [~] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media — maps v0.2 (`docs/content-plans/primary-adventure-7.1-plan.md`, `-7.2-plan.md`; 2 new A2 Key words in each lesson, Flyers words recycled); writers started 2026-10-06
+- [~] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media — maps v0.3; 28 lessons PASS (4–6 new A2 Key words each, Daniel 2026-10-06); pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-adventure-7.md`); pictures started; audio and Daniel's approval next
 - [~] bank-7: 72 packages; QA; media — writers started 2026-10-06
 - [ ] Coverage report; tags export; Daniel's review
 
