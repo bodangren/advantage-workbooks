@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { CONTENT_ROOT, OBJECTIVE_KEY_DIR, REPO_ROOT, loadPackageFolder } from '../lib/lesson-package/files';
 import { DEFAULT_GRAPH } from '../lib/lesson-package/context';
-import { LIST_GOALS, bookCoverage, glossedOnList, goalMet, levelCoverage, wordLists, type ListNode } from '../lib/lesson-package/coverage';
+import { LIST_GOALS, bookCoverage, curriculumOrder, glossedOnList, goalMet, levelCoverage, needsPractice, nextBookLists, recyclingRows, recyclingSummary, toCurriculumEntry, wordLists, MIN_PRACTICE_AFTER, type ListNode } from '../lib/lesson-package/coverage';
 import type { LessonPackage } from '../lib/lesson-package/schema';
 
 const USAGE = `Coverage of the Mastery Advantage graph per level (track level_banks_20261002).
 
-Usage: npx tsx scripts/level-coverage.ts [--levels 5-9] [--out <file.md>]
+Usage: npx tsx scripts/level-coverage.ts [--levels 5-9] [--next <book>] [--out <file.md>]
 
 For each of the levels 1–4: the packages of the level (workbook books and the bank), each objective
 of the level's own GSE range with the count of packages that target it (tags.targetObjectives) and
@@ -20,7 +20,14 @@ with the packages that target it (goal: 3 or more); per book, the lead objective
 docs/content-plans/level-plans/levels-5-9-objectives.json (goal: each is a target in its number of the book's lessons);
 and the Movers, Flyers, and A2 Key words that the packages gloss, against the goals of the plan.
 A level whose book folders do not exist is "not started". Exit code 1 when a goal of a started level is
-not met. Default output: docs/content-plans/level-plans/coverage-5-9.md. Env: MASTERY_VOCAB_GRAPH.`;
+not met. Default output: docs/content-plans/level-plans/coverage-5-9.md. Env: MASTERY_VOCAB_GRAPH.
+The 5-9 report ends with a "Recycling" section for each band (A1, A2): per in-scope objective, the first teaching
+(the first package in curriculum order that targets it) and the packages after it where the objective is available
+(target or supporting). A warning shows when the count is under 3 and the last book folder of the band exists.
+
+--next <book> (for example quest-5) prints, as markdown on stdout, the lists for the lesson map of the book: the
+objectives that the plan gives the book to teach first, and the band objectives taught before the book, lowest
+practice-after first. Only the packages before the book in curriculum order count.`;
 
 /** Book folders per level. Origins 3.1 lessons 1–11, 13, 14 are stored at level 2 in the app. */
 const LEVEL_BOOKS: Record<number, string[]> = { 1: ['origins-1', 'bank-1'], 2: ['origins-2', 'origins-3.1', 'bank-2'], 3: ['origins-3.1', 'origins-3.2', 'bank-3'], 4: ['quest-4', 'bank-4'] };
@@ -64,6 +71,17 @@ const LEVEL_BOOKS_59: Record<number, string[]> = {
 const GSE_59: Record<number, [number, number]> = { 5: [24, 26], 6: [27, 29], 7: [30, 33], 8: [34, 38], 9: [39, 42] };
 /** The folders of levels 1–4, for the word-list count that is cumulative over the levels. */
 const FOLDERS_1_4 = ['origins-1', 'origins-2', 'origins-3.1', 'origins-3.2', 'quest-4', 'bank-1', 'bank-2', 'bank-3', 'bank-4'];
+
+/** The bands of levels 1–9: the GSE range, the book folders, and the last book folder. */
+const BANDS = [
+    { name: 'A1', gse: [22, 29] as [number, number], books: ['quest-4', 'quest-5', 'quest-6.1', 'quest-6.2'], last: 'quest-6.2' },
+    { name: 'A2', gse: [30, 42] as [number, number], books: ['adventure-7.1', 'adventure-7.2', 'adventure-8.1', 'adventure-8.2', 'adventure-8.3', 'adventure-9.1', 'adventure-9.2', 'adventure-9.3'], last: 'adventure-9.3' },
+];
+
+/** The text of a first teaching for the report. */
+function firstText(first: { book: string; lesson: string } | null): string {
+    return first ? `${first.book} ${first.lesson}` : 'not yet';
+}
 
 function loadBook(book: string): LessonPackage[] {
     const dir = path.join(CONTENT_ROOT, book);
@@ -131,10 +149,48 @@ function main59(argv: string[]): number {
         if (started) failed += bad;
         console.log(`level ${level}: ${started ? 'started' : 'not started'}; ${pkgs.length} packages; ${rows.length - gaps.length} of ${rows.length} objectives at ${LEVEL_MIN_TARGETS}+; ${bookGaps} book gap(s); ${goalsMissed.length} list goal(s) missed`);
     }
+    const ordered = curriculumOrder([...books.values()].flat().map(toCurriculumEntry));
+    md.push('## Recycling', '', `An objective is available in a package when it is a target or a supporting objective. The first teaching is the first package in curriculum order (level, then workbook books, then the bank of the level) that targets the objective. Practice after counts the packages after it where the objective is available. A ⚠ shows when the count is under ${MIN_PRACTICE_AFTER} and the last book folder of the band exists.`, '');
+    for (const band of BANDS) {
+        const bandObjectives = objectives.filter((o) => o.gse >= band.gse[0] && o.gse <= band.gse[1] && !outOfScope.has(o.id) && !OUT_OF_SCOPE.has(o.id));
+        const rows = recyclingRows(ordered, bandObjectives);
+        const done = fs.existsSync(path.join(CONTENT_ROOT, band.last));
+        const sum = recyclingSummary(rows);
+        md.push(`### Recycling ${band.name} (GSE ${band.gse[0]}–${band.gse[1]})`, '', `${band.name}: ${sum.taught} of ${sum.total} objectives taught; ${sum.practiced} with ${MIN_PRACTICE_AFTER}+ practice after. ${done ? '' : `The last book folder (${band.last}) does not exist, so no warning shows.`}`, '', '| Objective | First teaching | Practice after | Text |', '|---|---|---|---|');
+        for (const r of rows) md.push(`| ${r.id} | ${firstText(r.first)} | ${r.practiceAfter}${needsPractice(r, done) ? ' ⚠' : ''} | ${r.text} |`);
+        md.push('');
+        console.log(`recycling ${band.name}: ${sum.taught} of ${sum.total} taught; ${sum.practiced} with ${MIN_PRACTICE_AFTER}+ practice after`);
+    }
     for (const g of listCounts) console.log(`${g.label}: ${g.counts[3]} of ${g.total} glossed at the end of level 4`);
     fs.writeFileSync(out, `${md.join('\n')}\n`);
     console.log(`Wrote ${path.relative(process.cwd(), out)}`);
     return failed ? 1 : 0;
+}
+
+function mainNext(book: string | undefined): number {
+    const band = BANDS.find((b) => book !== undefined && b.books.includes(book));
+    if (!book || !band) {
+        console.error(`--next needs a book of the A1 or A2 band (${BANDS.flatMap((b) => b.books).join(', ')})`);
+        return 1;
+    }
+    const objectives = readObjectives();
+    const plan = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs/content-plans/level-plans/levels-5-9-objectives.json'), 'utf8')) as { outOfScope: Record<string, string>; books: Record<string, { level: number; objectives: string[] }> };
+    const outOfScope = new Set(Object.keys(plan.outOfScope));
+    const level = plan.books[book]?.level;
+    if (!level) {
+        console.error(`The plan has no level for ${book}`);
+        return 1;
+    }
+    const bandObjectives = objectives.filter((o) => o.gse >= band.gse[0] && o.gse <= band.gse[1] && !outOfScope.has(o.id) && !OUT_OF_SCOPE.has(o.id));
+    const entries = [...FOLDERS_1_4, ...Object.values(LEVEL_BOOKS_59).flat()].flatMap((b) => loadBook(b).map(toCurriculumEntry));
+    const { teach, candidates } = nextBookLists(entries, book, level, plan.books[book].objectives, bandObjectives);
+    const text = new Map(objectives.map((o) => [o.id, o.text]));
+    const out = [`# Lesson map lists for ${book} (band ${band.name})`, '', 'Only the packages before the book in curriculum order count.', '', `## The plan gives ${book} these objectives to teach first (${teach.length})`, '', '| Objective | GSE | Text |', '|---|---|---|'];
+    for (const o of teach) out.push(`| ${o.id} | ${o.gse || '–'} | ${text.get(o.id) ?? o.text} |`);
+    out.push('', `## Band objectives taught before ${book}, lowest practice after first (${candidates.length})`, '', '| Objective | First teaching | Practice after | Text |', '|---|---|---|---|');
+    for (const r of candidates) out.push(`| ${r.id} | ${firstText(r.first)} | ${r.practiceAfter} | ${r.text} |`);
+    console.log(out.join('\n'));
+    return 0;
 }
 
 function main(argv: string[]): number {
@@ -142,6 +198,8 @@ function main(argv: string[]): number {
         console.log(USAGE);
         return 0;
     }
+    const nextAt = argv.indexOf('--next');
+    if (nextAt >= 0) return mainNext(argv[nextAt + 1]);
     const levelsAt = argv.indexOf('--levels');
     if (levelsAt >= 0) {
         if (argv[levelsAt + 1] !== '5-9') {

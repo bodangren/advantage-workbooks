@@ -10,6 +10,9 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] Vocabulary index: A2 Key and B1 Preliminary as separate levels (`Key`, `PET`, `Above`); tests
 - [x] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level (`glossedFrom`); paragraph ranges; book folders in `BOOK_ORDER`, `BOOK_KEYS`, and `BOOK_PROFILES`; tests (levels 1–4 check results unchanged; mutation test passed)
 - [x] Coverage report for levels 5–9 (`scripts/level-coverage.ts --levels 5-9` → `level-plans/coverage-5-9.md`): the book rule, the level rule, and the list coverage; tests
+- [x] Recycling (Daniel, 2026-10-06): the coverage report shows the first teaching and the practice after it for each A1 and A2 objective; `--next <book>` prints the lists for a lesson map; tests
+- [~] Supporting objectives: every objective that a package gives practice in. Done for Quest 4 and bank-4 (`data/availability-quest-4.json`, `data/availability-bank-4.json`; R23.3, R24.6, and R25.2 are in every package). Not done for levels 1–3 (A0 band)
+- [x] Fault fixed: the MCQ option shuffle put 99% of the answers last (222 lessons, app and print); print files and lesson PDFs rebuilt (4625ff3). Book PDFs of Origins 3.2 and Quest 4 still to make again
 - [x] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts 5`…`9` → `level-plans/bank-5…9`); word lists by topic for Flyers and A2 Key; tests. Follow-up: required words come mostly in alphabetical order, not by topic
 - [x] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks (`data/grammar-levels-5-9.md`; spot check of 6 items in the PDFs)
 - [ ] Calibration: two sample texts for each level through the text check; one print test of a 480-word article in the 13-step template (the article may need two pages)

@@ -56,7 +56,7 @@ Gaps: R24.2, R24.3, R24.4, R24.5, R24.6, R25.1, R25.2, R25.3, R25.4, R25.5, R26.
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| quest-5 | 0 of 41 | R22.1, R22.2, R22.3, L22.1, R23.1, R23.3, R23.4, R23.6, R23.7, R23.8, L23.2, L23.3, L23.4, L23.5, L23.6, L23.7, R24.2, R24.4, R24.5, R24.6, L24.5, L24.6, R25.1, R25.2, R25.3, R25.5, L25.1, L25.2, L25.3, L25.4, L25.5, L25.6, R26.1, R26.2, R26.3, R26.5, R26.6, L26.1, L26.2, L26.3, L26.4 |
+| quest-5 | 0 of 16 | R23.1, R23.3, L23.7, R24.6, R25.2, L25.1, L25.3, L25.6, R26.1, R26.2, R26.3, R26.5, R26.6, L26.1, L26.2, L26.3 |
 | bank-5 | no lead objectives in the plan | – |
 
 ## Level 6 (GSE 27–29)
@@ -100,8 +100,8 @@ Gaps: R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, R28.1, R28.2, R28.3, R28.
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| quest-6.1 | 0 of 35 | R25.2, L25.1, L25.3, L25.6, R26.1, R26.2, R26.3, R26.5, R26.6, L26.1, L26.2, L26.3, L26.4, R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, L27.1, L27.2, L27.3, L27.4, L27.5, L27.6, L27.7, R28.1, R28.2, R28.3, R28.4, L28.1, L28.2, L28.3, L28.4 |
-| quest-6.2 | 0 of 34 | R23.1, R23.3, L23.7, R24.6, R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, L27.1, L27.2, L27.3, L27.4, L27.5, L27.6, L27.7, R28.1, R28.2, R28.3, R28.4, L28.1, L28.2, L28.3, L28.4, R29.2, R29.3, R29.4, R29.5, R29.6, R29.8, L29.1, L29.2 |
+| quest-6.1 | 0 of 15 | L26.4, R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, L27.1, L27.2, L27.3, L27.4, L27.5, L27.6, L27.7 |
+| quest-6.2 | 0 of 16 | R28.1, R28.2, R28.3, R28.4, L28.1, L28.2, L28.3, L28.4, R29.2, R29.3, R29.4, R29.5, R29.6, R29.8, L29.1, L29.2 |
 | bank-6 | no lead objectives in the plan | – |
 
 List goal not met: Movers 241 of 372 (goal 100%).
@@ -163,8 +163,8 @@ Gaps: R30.1, R30.2, R30.3, R30.4, R30.5, R30.6, R30.7, R30.8, R31.1, R31.2, R31.
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| adventure-7.1 | 0 of 36 | R30.1, R30.2, R30.3, R30.4, R30.5, R30.6, R30.7, R30.8, L30.1, L30.3, R31.1, R31.2, R31.3, R31.4, R31.5, R31.6, L31.1, L31.2, L31.3, L31.4, L31.5, L31.6, L31.7, L31.9, L31.10, L31.11, L31.12, L31.13, R32.1, R32.2, R32.4, R32.5, R32.6, R32.7, R32.8, L32.1 |
-| adventure-7.2 | 0 of 42 | R30.1, R30.2, R30.3, R30.4, R30.5, R30.6, R30.7, R30.8, L30.1, L30.3, R31.1, R31.2, R31.3, R31.4, R31.5, R31.6, R33.1, R33.2, R33.3, R33.4, R33.5, R33.6, L33.1, L33.2, L33.3, L33.4, R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, L34.1, L34.2, L34.3, L34.4, L34.5, L34.6 |
+| adventure-7.1 | 0 of 20 | R30.1, R30.2, R30.3, R30.4, R30.5, R30.6, R30.7, R30.8, L30.1, L30.3, R31.1, R31.2, R31.3, R31.4, R31.5, R31.6, L31.1, L31.2, L31.3, L31.4 |
+| adventure-7.2 | 0 of 19 | L31.5, L31.6, L31.7, L31.9, L31.10, L31.11, L31.12, L31.13, R32.1, R32.2, R32.4, R32.5, R32.6, R32.7, R32.8, L32.1, R33.1, R33.2, R33.3 |
 | bank-7 | no lead objectives in the plan | – |
 
 ## Level 8 (GSE 34–38)
@@ -245,9 +245,9 @@ Gaps: R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, R35
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| adventure-8.1 | 0 of 42 | R33.1, R33.2, R33.3, R33.4, R33.5, R33.6, L33.1, L33.2, L33.3, L33.4, R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, L34.1, R35.1, R35.2, R35.3, R35.4, R35.5, R35.6, L35.1, L35.2, L35.3, L35.4, L35.5, L35.6, R36.1, R36.2, R36.3, L36.1, L36.2, L36.3, L36.4, L36.5, L36.6 |
-| adventure-8.2 | 0 of 39 | L34.2, L34.3, L34.4, L34.5, L34.6, R35.1, R35.2, R35.3, R35.4, R35.5, R35.6, L35.1, L35.2, L35.3, L35.4, L35.5, L35.6, R36.1, R36.2, R36.3, L36.1, L36.2, L36.3, L36.4, L36.5, L36.6, R37.1, R37.2, R37.3, R37.4, R37.5, R37.6, R37.7, R37.9, R37.10, L37.1, L37.2, L37.3, L37.4 |
-| adventure-8.3 | 0 of 30 | R37.1, R37.2, R37.3, R37.4, R37.5, R37.6, R37.7, R37.9, R37.10, L37.1, L37.2, L37.3, L37.4, R38.1, R38.2, R38.3, R38.4, R38.5, R38.6, R38.7, R38.8, R38.9, R38.10, R38.11, R38.12, L38.1, L38.2, L38.3, L38.4, L38.5 |
+| adventure-8.1 | 0 of 19 | R33.4, R33.5, R33.6, L33.1, L33.2, L33.3, L33.4, R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, L34.1, L34.2 |
+| adventure-8.2 | 0 of 20 | L34.3, L34.4, L34.5, L34.6, R35.1, R35.2, R35.3, R35.4, R35.5, R35.6, L35.1, L35.2, L35.3, L35.4, L35.5, L35.6, R36.1, R36.2, R36.3, L36.1 |
+| adventure-8.3 | 0 of 20 | L36.2, L36.3, L36.4, L36.5, L36.6, R37.1, R37.2, R37.3, R37.4, R37.5, R37.6, R37.7, R37.9, R37.10, L37.1, L37.2, L37.3, L37.4, R38.1, R38.2 |
 | bank-8 | no lead objectives in the plan | – |
 
 List goal not met: Flyers 30 of 491 (goal 95%).
@@ -306,10 +306,265 @@ Gaps: R39.1, R39.2, R39.3, R39.4, R39.5, R39.6, R39.7, R40.1, R40.2, R40.3, R40.
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| adventure-9.1 | 0 of 39 | R38.1, R38.2, R38.3, R38.4, R38.5, R38.6, R38.7, R38.8, R38.9, R38.10, R38.11, R38.12, L38.1, L38.2, L38.3, L38.4, L38.5, R39.1, R39.2, R39.3, R39.4, R39.5, R39.6, R39.7, L39.1, L39.2, L39.3, L39.4, L39.5, L39.6, R40.1, R40.2, R40.3, R40.4, R40.5, R40.6, R40.7, R40.8, R40.9 |
-| adventure-9.2 | 0 of 42 | R39.1, R39.2, R39.3, R39.4, R39.5, R39.6, R39.7, L39.1, L39.2, L39.3, L39.4, L39.5, L39.6, R40.1, R40.2, R40.3, R40.4, R40.5, R40.6, R40.7, R40.8, R41.1, R41.2, R41.3, R41.4, R41.5, L41.1, L41.3, L41.4, L41.5, R42.1, R42.2, R42.3, R42.4, R42.5, R42.6, L42.1, L42.2, L42.3, L42.4, L42.5, L42.6 |
-| adventure-9.3 | 0 of 42 | L31.1, L31.2, L31.3, L31.4, L31.5, L31.6, L31.7, L31.9, L31.10, L31.11, L31.12, L31.13, R32.1, R32.2, R32.4, R32.5, R32.6, R32.7, R32.8, L32.1, R40.9, R41.1, R41.2, R41.3, R41.4, R41.5, L41.1, L41.3, L41.4, L41.5, R42.1, R42.2, R42.3, R42.4, R42.5, R42.6, L42.1, L42.2, L42.3, L42.4, L42.5, L42.6 |
+| adventure-9.1 | 0 of 19 | R38.3, R38.4, R38.5, R38.6, R38.7, R38.8, R38.9, R38.10, R38.11, R38.12, L38.1, L38.2, L38.3, L38.4, L38.5, R39.1, R39.2, R39.3, R39.4 |
+| adventure-9.2 | 0 of 19 | R39.5, R39.6, R39.7, L39.1, L39.2, L39.3, L39.4, L39.5, L39.6, R40.1, R40.2, R40.3, R40.4, R40.5, R40.6, R40.7, R40.8, R40.9, R41.1 |
+| adventure-9.3 | 0 of 20 | R41.2, R41.3, R41.4, R41.5, L41.1, L41.3, L41.4, L41.5, R42.1, R42.2, R42.3, R42.4, R42.5, R42.6, L42.1, L42.2, L42.3, L42.4, L42.5, L42.6 |
 | bank-9 | no lead objectives in the plan | – |
 
 List goal not met: A2 Key 7 of 577 (goal 90%).
+
+## Recycling
+
+An objective is available in a package when it is a target or a supporting objective. The first teaching is the first package in curriculum order (level, then workbook books, then the bank of the level) that targets the objective. Practice after counts the packages after it where the objective is available. A ⚠ shows when the count is under 3 and the last book folder of the band exists.
+
+### Recycling A1 (GSE 22–29)
+
+A1: 37 of 81 objectives taught; 30 with 3+ practice after. The last book folder (quest-6.2) does not exist, so no warning shows.
+
+| Objective | First teaching | Practice after | Text |
+|---|---|---|---|
+| R22.1 | quest-4 L01 | 14 | Can recognise some familiar words related to themselves and their family (e.g. ‘girl’, ‘brother’). |
+| R22.2 | quest-4 L02 | 7 | Can recognise ordinal numbers up to 20 written as words. |
+| R22.3 | quest-4 L01 | 34 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
+| R23.1 | bank-4 B035 | 1 | Can read sentences correctly from left to right. |
+| R23.2 | quest-4 L07 | 4 | Can understand basic written instructions for classroom activities (e.g. ‘Read and match’). |
+| R23.3 | bank-4 B035 | 1 | Can identify familiar words in short, simple texts. |
+| R23.4 | quest-4 L08 | 4 | Can recognise cardinal numbers up to 100 written as words. |
+| R23.5 | quest-4 L08 | 8 | Can understand the relationship between words from the same vocabulary set (e.g. ‘colours’, ‘foods’, ‘classroom objects’). |
+| R23.6 | quest-4 L09 | 6 | Can understand short, simple descriptions of familiar places, if supported by pictures. |
+| R23.7 | quest-4 L03 | 4 | Can guess the meaning of a word from an accompanying picture. |
+| R23.8 | quest-4 L09 | 4 | Can recognise simple words and phrases related to familiar topics if supported by pictures. |
+| R24.2 | quest-4 L03 | 9 | Can understand basic sentences naming familiar everyday items, if supported by pictures. |
+| R24.3 | quest-4 L07 | 9 | Can understand simple sentences, given prompts. |
+| R24.4 | quest-4 L11 | 21 | Can recognise key words and basic phrases in short, simple cartoon stories. |
+| R24.5 | quest-4 L13 | 2 | Can find proper names (e.g. ‘people’, ‘places’, ‘nationalities’) in short, simple texts by looking for capital letters. |
+| R24.6 | not yet | 0 | Can understand basic phrases in short, simple texts. |
+| R25.1 | quest-4 L13 | 0 | Can recognise words or phrases that are repeated in a short text or poem. |
+| R25.2 | not yet | 0 | Can understand a simple text if supported by pictures. |
+| R25.3 | quest-4 L14 | 9 | Can understand a few simple phrases related to familiar, everyday activities. |
+| R25.4 | quest-4 L04 | 31 | Can distinguish between a negative statement and a positive statement. |
+| R25.5 | quest-4 L10 | 10 | Can understand simple sentences about the weather, if supported by pictures. |
+| R26.1 | not yet | 0 | Can identify repeated words or phrases in a short text. |
+| R26.2 | not yet | 0 | Can understand basic sentences describing someone’s physical appearance, (e.g. ‘eye/hair colour’, ‘height’), if supported by pictures. |
+| R26.3 | not yet | 0 | Can understand basic sentences about things people have, if supported by pictures. |
+| R26.5 | not yet | 0 | Can follow simple dialogues in short illustrated stories, if they can listen while reading. |
+| R26.6 | not yet | 0 | Can understand basic information about people’s likes and dislikes, if supported by pictures. |
+| R27.1 | not yet | 0 | Can follow short, simple written directions (e.g. ‘go from X to Y’). |
+| R27.2 | not yet | 0 | Can guess what a story or text is about from the pictures. |
+| R27.3 | not yet | 0 | Can understand short, simple descriptions of objects, people and animals if supported by pictures. |
+| R27.4 | not yet | 0 | Can understand the information in a simple school timetable giving days and times of classes. |
+| R27.5 | not yet | 0 | Can understand basic sentences describing familiar everyday items (e.g. ‘colour’, ‘size’), if supported by pictures. |
+| R27.6 | not yet | 0 | Can understand simple informational material containing familiar words, if supported by pictures (e.g. ‘a menu with pictures of food’). |
+| R27.7 | not yet | 0 | Can understand basic sentences about where things, animals or people are. |
+| R28.1 | not yet | 0 | Can recognise familiar words on product labels. |
+| R28.2 | not yet | 0 | Can get the gist of a very simple illustrated story. |
+| R28.3 | not yet | 0 | Can read the time when written as words. |
+| R28.4 | not yet | 0 | Can follow basic instructions for making something (e.g. ‘a mask’, ‘a clock’), if supported by pictures. |
+| R29.2 | not yet | 0 | Can guess what happens next in a story from the pictures. |
+| R29.3 | not yet | 0 | Can infer basic information about a character’s preferences from pictures. |
+| R29.4 | not yet | 0 | Can understand short, simple messages about when and where to meet. |
+| R29.5 | not yet | 0 | Can understand short, simple illustrated narratives about everyday activities. |
+| R29.6 | not yet | 0 | Can recognise ordinal numbers up to 50 written as words. |
+| R29.8 | not yet | 0 | Can understand basic key words in short notes or messages. |
+| L22.1 | quest-4 L03 | 5 | Can understand basic questions about what things are in their immediate surroundings or in pictures (e.g. ‘What’s this?’). |
+| L22.2 | quest-4 L05 | 18 | Can recognise basic time words (e.g. ‘days’, ‘months’) in simple phrases or sentences. |
+| L23.1 | quest-4 L02 | 7 | Can distinguish between ‘can’ and ‘can’t’. |
+| L23.2 | quest-4 L05 | 4 | Can understand the time of day when expressed to the quarter hour. |
+| L23.3 | quest-4 L06 | 19 | Can understand simple phrases about likes and dislikes. |
+| L23.4 | quest-4 L01 | 4 | Can understand short, simple questions related to basic personal information, if spoken slowly and clearly. |
+| L23.5 | quest-4 L07 | 5 | Can understand simple feedback from a teacher. |
+| L23.6 | quest-4 L01 | 34 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
+| L23.7 | bank-4 B020 | 2 | Can understand the time of day when expressed to within five minutes. |
+| L24.1 | quest-4 L12 | 1 | Can recognise familiar key words and phrases in short, basic descriptions (e.g. of ‘objects’, ‘people’ or ‘animals’), if spoken slowly and clearly. |
+| L24.2 | quest-4 L04 | 26 | Can recognise familiar words and basic phrases in short illustrated stories, if read out slowly and clearly. |
+| L24.3 | quest-4 L06 | 19 | Can understand basic phrases or sentences about things people have if supported by pictures. |
+| L24.4 | quest-4 L08 | 27 | Can understand basic statements about where things or people are, if spoken slowly and clearly and supported by pictures or gestures. |
+| L24.5 | quest-4 L10 | 10 | Can understand basic phrases about the weather, if spoken slowly and clearly. |
+| L24.6 | quest-4 L02 | 6 | Can recognise ordinal numbers up to 50, if spoken slowly and clearly. |
+| L25.1 | not yet | 0 | Can understand basic questions about personal details if spoken slowly and clearly and supported by pictures. |
+| L25.2 | quest-4 L09 | 0 | Can understand simple directions, if spoken slowly and clearly. |
+| L25.3 | not yet | 0 | Can recognise words and simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
+| L25.4 | quest-4 L14 | 20 | Can get the gist of short, simple stories, if told slowly and clearly and supported by pictures or gestures. |
+| L25.5 | quest-4 L05 | 3 | Can understand the time of day when expressed to the half hour. |
+| L25.6 | not yet | 0 | Can understand basic expressions or questions related to immediate personal needs, if delivered slowly and clearly. |
+| L26.1 | not yet | 0 | Can identify the day and date in short, simple dialogues, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.2 | not yet | 0 | Can understand basic information about someone’s immediate family, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.3 | not yet | 0 | Can understand simple language related to naming and describing people’s clothes. |
+| L26.4 | not yet | 0 | Can identify a caller’s name and phone number from a short, simple telephone conversation. |
+| L27.1 | not yet | 0 | Can understand straightforward instructions, if spoken slowly and clearly. |
+| L27.2 | not yet | 0 | Can recognise words or phrases that are repeated in a short dialogue or poem. |
+| L27.3 | not yet | 0 | Can understand simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
+| L27.4 | not yet | 0 | Can understand simple questions and answers about peoples likes and dislikes. |
+| L27.5 | not yet | 0 | Can identify the names of people or places in short, simple dialogues, if spoken slowly and clearly. |
+| L27.6 | not yet | 0 | Can identify people in their immediate surroundings or in pictures from a short, simple description of their physical appearance and clothes. |
+| L27.7 | not yet | 0 | Can recognise key information (e.g. ‘place’, ‘time’) about everyday events, if spoken slowly and clearly. |
+| L28.1 | not yet | 0 | Can identify common objects from descriptions, if spoken slowly and clearly. |
+| L28.2 | not yet | 0 | Can understand simple sentences on familiar topics if spoken slowly and clearly and with pauses. |
+| L28.3 | not yet | 0 | Can understand what people say they can or can’t do from simple sentences spoken slowly and clearly. |
+| L28.4 | not yet | 0 | Can follow a short, familiar traditional story, if supported by gestures and repetition. |
+| L29.1 | not yet | 0 | Can understand basic information in short passages about everyday activities or routines, if spoken slowly and clearly and supported by prompts. |
+| L29.2 | not yet | 0 | Can understand basic information about prices, times, and dates in familiar contexts, if spoken slowly and clearly. |
+
+### Recycling A2 (GSE 30–42)
+
+A2: 0 of 156 objectives taught; 0 with 3+ practice after. The last book folder (adventure-9.3) does not exist, so no warning shows.
+
+| Objective | First teaching | Practice after | Text |
+|---|---|---|---|
+| R30.1 | not yet | 0 | Can understand some details in short, simple dialogues on familiar everyday topics, if supported by pictures. |
+| R30.2 | not yet | 0 | Can understand simple information on everyday signs in a public building. |
+| R30.3 | not yet | 0 | Can understand the main idea in a short, simple picture story. |
+| R30.4 | not yet | 0 | Can understand basic factual statements relating to pictures or simple texts. |
+| R30.5 | not yet | 0 | Can identify people in their immediate surroundings or in pictures from a short, simple description of their physical appearance and clothes. |
+| R30.6 | not yet | 0 | Can understand a short, simple description of a house or flat (e.g. ‘rooms’, ‘furniture’), if supported by pictures. |
+| R30.7 | not yet | 0 | Can understand simple feedback from a teacher or classmate. |
+| R30.8 | not yet | 0 | Can identify the main information for an event (e.g. ‘day’, ‘time, place’). |
+| R31.1 | not yet | 0 | Can identify key information in a text to answer simple yes/no questions. |
+| R31.2 | not yet | 0 | Can follow a simple dialogue about familiar, everyday activities. |
+| R31.3 | not yet | 0 | Can follow basic instructions on how to play a simple board game, if supported by pictures. |
+| R31.4 | not yet | 0 | Can understand short, simple descriptions of someone’s typical day, if supported by pictures. |
+| R31.5 | not yet | 0 | Can understand and make connections between words in the same area of meaning, e.g. ‘head’ and ‘hat’. |
+| R31.6 | not yet | 0 | Can follow a short, familiar, traditional story, if supported by pictures. |
+| R32.1 | not yet | 0 | Can understand simple notes. |
+| R32.2 | not yet | 0 | Can understand and make connections between words in the same area of meaning, e.g. ‘head’ and ‘hat’ |
+| R32.4 | not yet | 0 | Can identify key buildings on a plan or key features on a map. |
+| R32.5 | not yet | 0 | Can follow the sequence of events in short, simple cartoon stories that use familiar key words. |
+| R32.6 | not yet | 0 | Can understand a simple written dialogue on a familiar topic. |
+| R32.7 | not yet | 0 | Can understand everyday written signs and notices found in public places (e.g. ‘rules’, ‘directions’), if supported by the context. |
+| R32.8 | not yet | 0 | Can understand some simple details about a holiday from a postcard, if supported by pictures. |
+| R33.1 | not yet | 0 | Can understand key information about time and place in short, simple messages from family or friends. |
+| R33.2 | not yet | 0 | Can identify key information in short, simple factual texts from the headings and illustrations. |
+| R33.3 | not yet | 0 | Can get the gist of short, simple texts on familiar topics, if supported by pictures. |
+| R33.4 | not yet | 0 | Can identify the overall theme of a simple illustrated story, if guided by questions or prompts. |
+| R33.5 | not yet | 0 | Can follow the sequence of events in a short text on a familiar, everyday topic |
+| R33.6 | not yet | 0 | Can understand a key to locate buildings or simple features on a map. |
+| R34.1 | not yet | 0 | Can understand some simple details in a short text. |
+| R34.2 | not yet | 0 | Can understand the main points of short, simple dialogues related to everyday situations, if guided by questions. |
+| R34.3 | not yet | 0 | Can identify key information in short, simple, factual texts. |
+| R34.4 | not yet | 0 | Can recognise the use of simple linking words e.g. ‘and’, ‘so’, or ‘but’ to connect ideas in a short phrase or sentence. |
+| R34.5 | not yet | 0 | Can understand short, simple notes from family or friends communicating information of immediate relevance. |
+| R34.6 | not yet | 0 | Can understand basic details in simple informational texts (e.g. ‘brochures’, ‘leaflets’). |
+| R34.7 | not yet | 0 | Can understand short paragraphs on subjects of personal interest (e.g. ‘sports’, ‘music’, ‘travel’) if written using simple language and supported by pictures. |
+| R34.8 | not yet | 0 | Can extract specific information (e.g. ‘facts and numbers’) from simple informational texts related to everyday life (e.g. ‘posters’, ‘leaflets’). |
+| R34.9 | not yet | 0 | Can use a simple contents page to locate information. |
+| R34.10 | not yet | 0 | Can understand safety instructions if expressed in simple language and supported by pictures. |
+| R35.1 | not yet | 0 | Can use key words or captions to find information in a simple text. |
+| R35.2 | not yet | 0 | Can identify specific information in a simple story, if guided by questions. |
+| R35.3 | not yet | 0 | Can understand the main ideas in simple informational texts, if supported by pictures. |
+| R35.4 | not yet | 0 | Can understand information about someone’s personal details in a simple paragraph or short text. |
+| R35.5 | not yet | 0 | Can follow simple stories with basic dialogue and simple narrative. |
+| R35.6 | not yet | 0 | Can identify the context of a short, simple text related to familiar situations. |
+| R36.1 | not yet | 0 | Can understand the main themes of a simplified story. |
+| R36.2 | not yet | 0 | Can follow a simple series of written instructions to carry out a task. |
+| R36.3 | not yet | 0 | Can follow instructions and feedback in a computer game. |
+| R37.1 | not yet | 0 | Can understand the main information in basic diagrams related to familiar topics. |
+| R37.2 | not yet | 0 | Can understand the correct sequence of events in a simple story or dialogue. |
+| R37.3 | not yet | 0 | Can guess the meaning of unfamiliar words in short, simple stories, if supported by pictures. |
+| R37.4 | not yet | 0 | Can identify basic similarities and differences in the facts between two short simple texts on the same familiar topic, if supported by pictures and questions. |
+| R37.5 | not yet | 0 | Can recognise the use of simple linking words to connect ideas in short paragraphs. |
+| R37.6 | not yet | 0 | Can identify specific information related to a familiar topic in a short, simple text. |
+| R37.7 | not yet | 0 | Can identify basic biographical information in short simple texts about other people. |
+| R37.9 | not yet | 0 | Can understand likes and preferences in short, simple personal texts (e.g. ‘diary entries’ or ‘emails’). |
+| R37.10 | not yet | 0 | Can understand the meaning of short texts using information they already know. |
+| R38.1 | not yet | 0 | Can find appropriate words or phrases to describe a picture. |
+| R38.2 | not yet | 0 | Can identify words and phrases from different places in a simple text to support their answers. |
+| R38.3 | not yet | 0 | Can understand a simple text about a past event. |
+| R38.4 | not yet | 0 | Can identify which people or objects are being referred to in a text. |
+| R38.5 | not yet | 0 | Can recognise familiar words in unfamiliar contexts in descriptive texts and stories. |
+| R38.6 | not yet | 0 | Can understand simple details in short animal factfiles containing some unfamiliar language, if supported by pictures. |
+| R38.7 | not yet | 0 | Can recognise the use of ‘because’ to signal the relationship between an action and a reason or explanation. |
+| R38.8 | not yet | 0 | Can identify the main topic of a simple structured text. |
+| R38.9 | not yet | 0 | Can identify key parts of simple stories (e.g. ‘beginning’, ‘middle’, ‘end’). |
+| R38.10 | not yet | 0 | Can recognise basic fixed expressions used to start or end an email. |
+| R38.11 | not yet | 0 | Can follow simple recipes, if supported by pictures. |
+| R38.12 | not yet | 0 | Can understand the main ideas in short, simple stories on familiar topics. |
+| R39.1 | not yet | 0 | Can understand short school-related messages in emails, text messages and social media postings. |
+| R39.2 | not yet | 0 | Can predict what a short, simple text is about from the title, a picture etc., if guided by questions or prompts. |
+| R39.3 | not yet | 0 | Can understand the main points in simple descriptive texts on familiar topics. |
+| R39.4 | not yet | 0 | Can recognise the use of ‘because’ to signal the relationship between an opinion and a reason. |
+| R39.5 | not yet | 0 | Can recognise different phrases used for a similar purpose (e.g. ‘Let’s’ / ‘Shall we’) to make a suggestion. |
+| R39.6 | not yet | 0 | Can find specific information about typical free-time activities for young people in simple illustrated information leaflets. |
+| R39.7 | not yet | 0 | Can extract specific information in short texts on familiar topics. |
+| R40.1 | not yet | 0 | Can make simple inferences about a character’s feelings in a familiar story, if supported by questions or prompts. |
+| R40.2 | not yet | 0 | Can recognise some basic features of short non-fiction texts (e.g. ‘a heading’). |
+| R40.3 | not yet | 0 | Can guess the meaning of a new word from knowledge of part of it (e.g. ‘children’/ ‘child’, ‘your/you’, ‘going/go’). |
+| R40.4 | not yet | 0 | Can recognise most frequent everyday words, including those with regular prefixes and suffixes. |
+| R40.5 | not yet | 0 | Can make basic inferences from simple information in a short text. |
+| R40.6 | not yet | 0 | Can understand short, simple texts giving information about important places in a town, with the support of a map. |
+| R40.7 | not yet | 0 | Can understand who a simple text was written for. |
+| R40.8 | not yet | 0 | Can extract factual details from a simple text. |
+| R40.9 | not yet | 0 | Can extract key information from advertisements for familiar products, if guided by questions or prompts. |
+| R41.1 | not yet | 0 | Can understand basic opinions related to familiar topics, expressed in simple language. |
+| R41.2 | not yet | 0 | Can get the gist of short factual school texts. |
+| R41.3 | not yet | 0 | Can understand the order in which events happen (e.g. ‘in diary entries’ or ‘a story’). |
+| R41.4 | not yet | 0 | Can scan a simple text to find specific information. |
+| R41.5 | not yet | 0 | Can identify main paragraph topics in simple texts on familiar subjects, if supported by prompts or questions. |
+| R42.1 | not yet | 0 | Can identify a point of view in a short, simple narrative text. |
+| R42.2 | not yet | 0 | Can read a short text and predict what they think will happen next. |
+| R42.3 | not yet | 0 | Can follow the sequence of events in simple narrative texts by recognising common linking words/ phrases. |
+| R42.4 | not yet | 0 | Can identify key vocabulary and expressions in unfamiliar texts related to school subjects. |
+| R42.5 | not yet | 0 | Can identify the parts of some short, non-fictional text types (e.g. ‘notes’, ‘captions’, ‘blogs’, ‘instructions’). |
+| R42.6 | not yet | 0 | Can identify the differences between two similar versions of a text, if guided by questions. |
+| L30.1 | not yet | 0 | Can identify people in their immediate surroundings or in pictures from a short, simple description of where they are and what they are doing. |
+| L30.3 | not yet | 0 | Can understand basic information about someone’s house or flat (e.g. ‘rooms’, ‘furniture’), if spoken slowly and clearly and supported by pictures. |
+| L31.1 | not yet | 0 | Can follow a simple conversation between two people or characters, if supported by pictures. |
+| L31.2 | not yet | 0 | Can understand some unfamiliar words in a short description, if supported by pictures. |
+| L31.3 | not yet | 0 | Can identify objects, places or people from short descriptions. |
+| L31.4 | not yet | 0 | Can understand basic information about common jobs, if spoken slowly and clearly and supported by pictures. |
+| L31.5 | not yet | 0 | Can identify key information (e.g. ‘places’, ‘times’) from short audio recordings, if spoken slowly and clearly. |
+| L31.6 | not yet | 0 | Can identify how much something costs in short, simple dialogues about the price of something e.g. ‘in a shop’, ‘if speech is slow and clear.’ |
+| L31.7 | not yet | 0 | Can understand basic personal information in short, simple dialogues, if spoken slowly and clearly and guided by written prompts. |
+| L31.9 | not yet | 0 | Can understand how people are feeling if they use simple language and speak slowly and clearly. |
+| L31.10 | not yet | 0 | Can understand a simple instruction containing a qualifying clause (e.g. ‘If your birthday is in March, stand here.’) |
+| L31.11 | not yet | 0 | Can understand the main information in short, simple dialogues about someone’s daily routines, if spoken slowly and clearly and supported by pictures. |
+| L31.12 | not yet | 0 | Can understand simple expressions about likes and dislikes in short, simple stories or dialogues, if spoken slowly and clearly. |
+| L31.13 | not yet | 0 | Can understand simple comparisons between objects or people, if spoken slowly and clearly. |
+| L32.1 | not yet | 0 | Can identify the context of short, simple dialogues related to familiar everyday situations. |
+| L33.1 | not yet | 0 | Can recognise simple phrases related to familiar topics in slow, clear speech. |
+| L33.2 | not yet | 0 | Can identify basic factual information in short, simple dialogues or stories on familiar everyday topics, if spoken slowly and clearly. |
+| L33.3 | not yet | 0 | Can understand the main information in short, simple dialogues about someone’s hobbies and interests, if spoken slowly and clearly and supported by pictures. |
+| L33.4 | not yet | 0 | Can identify key information (e.g. ‘day’, ‘date’, ‘location’) in short announcements about events, if spoken slowly and clearly. |
+| L34.1 | not yet | 0 | Can get the gist of a short weather forecast, if delivered slowly and clearly and supported by pictures. |
+| L34.2 | not yet | 0 | Can identify specific information in short, simple dialogues, if there is some repetition and rephrasing. |
+| L34.3 | not yet | 0 | Can recognise the use of simple linking words e.g. ‘and’, ‘so’, or ‘but’ to connect ideas in a short phrase or sentence. |
+| L34.4 | not yet | 0 | Can understand excuses if expressed in simple language. |
+| L34.5 | not yet | 0 | Can understand simple directions for how to get somewhere on foot, if spoken slowly and clearly and using a map. |
+| L34.6 | not yet | 0 | Can identify key information in short conversations on school-related topics e.g. ‘subjects’, ‘timetables’, ‘homework.’ |
+| L35.1 | not yet | 0 | Can understand the main information in short, simple dialogues about familiar activities, if spoken slowly and clearly. |
+| L35.2 | not yet | 0 | Can identify key information about future plans in short, simple dialogues. |
+| L35.3 | not yet | 0 | Can understand simple comparisons between two places, if spoken slowly and clearly. |
+| L35.4 | not yet | 0 | Can identify the context in which an everyday conversation is taking place. |
+| L35.5 | not yet | 0 | Can identify numbers relating to height, weight, length etc. in simple descriptions of objects, animals or buildings, if guided by questions. |
+| L35.6 | not yet | 0 | Can identify key information such as prices, times and dates in a short description, if supported by prompts or questions. |
+| L36.1 | not yet | 0 | Can identify the main points in short talks on familiar topics, if delivered slowly and clearly. |
+| L36.2 | not yet | 0 | Can identify activities occurring in the past in short, simple dialogues. |
+| L36.3 | not yet | 0 | Can follow the sequence of events in a simple story or narrative, if told slowly and clearly. |
+| L36.4 | not yet | 0 | Can understand people’s likes in informal conversations, if the speakers talk slowly and clearly. |
+| L36.5 | not yet | 0 | Can identify specific information in short, simple dialogues in which speakers make arrangements to do something, if spoken slowly and clearly. |
+| L36.6 | not yet | 0 | Can identify specific information about people’s personalities in short, simple dialogues, if spoken slowly and clearly. |
+| L37.1 | not yet | 0 | Can follow multi-step instructions if given slowly and clearly. |
+| L37.2 | not yet | 0 | Can understand most of the concrete details in informal conversations on familiar everyday topics, if the speakers talk slowly and clearly. |
+| L37.3 | not yet | 0 | Can recognise simple expressions of agreement and disagreement in short, informal discussions, if the speakers talk slowly and clearly. |
+| L37.4 | not yet | 0 | Can understand simple directions on how to get somewhere by public transport, with reference to a map. |
+| L38.1 | not yet | 0 | Can identify key details (e.g. ‘name’, ‘number’) in factual talks on familiar topics, if spoken slowly and clearly. |
+| L38.2 | not yet | 0 | Can identify key information in a short passage or description, if supported by prompts or questions. |
+| L38.3 | not yet | 0 | Can understand people’s preferences in informal conversations, if the speakers talk slowly and clearly. |
+| L38.4 | not yet | 0 | Can identify the key information in short, simple recorded phone messages related to everyday situations (e.g. ‘what’s on at the cinema’). |
+| L38.5 | not yet | 0 | Can understand specific information in a short, simple phone call. |
+| L39.1 | not yet | 0 | Can understand the main idea of a simple news story, with visual support. |
+| L39.2 | not yet | 0 | Can extract factual information from short, simple dialogues or stories about past events if spoken slowly and clearly and guided by questions or prompts. |
+| L39.3 | not yet | 0 | Can make basic inferences about simple information in a short conversation or passage. |
+| L39.4 | not yet | 0 | Can understand a limited range of basic language related to common symptoms and illnesses. |
+| L39.5 | not yet | 0 | Can understand the meaning of short conversations or passages using information they already know. |
+| L39.6 | not yet | 0 | Can recognise simple examples used to support the speaker’s points in short talks on familiar topics, if clearly introduced by linking words/phrases. |
+| L41.1 | not yet | 0 | Can follow detailed instructions to complete familiar tasks. |
+| L41.3 | not yet | 0 | Can identify simple information in a short conversation or passage that isn’t explicitly stated. |
+| L41.4 | not yet | 0 | Can understand differences between the information given in short conversations or passages on similar topics. |
+| L41.5 | not yet | 0 | Can understand similarities between the information given in short conversations or passages on similar topics. |
+| L42.1 | not yet | 0 | Can guess the meaning of new words from a familiar vocabulary set by relating them to known words in the same set. |
+| L42.2 | not yet | 0 | Can understand some details in longer dialogues on familiar everyday topics, if guided by questions or prompts. |
+| L42.3 | not yet | 0 | Can identify basic biographical information in short simple talks about famous people from the past, if delivered slowly and clearly. |
+| L42.4 | not yet | 0 | Can understand simple conversations about things that have happened in the past. |
+| L42.5 | not yet | 0 | Can identify ideas that are connected in a short conversation or passage. |
+| L42.6 | not yet | 0 | Can guess the meaning of simple, unknown words in short dialogues on familiar topics. |
 

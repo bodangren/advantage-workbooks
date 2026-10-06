@@ -1,4 +1,5 @@
 import type { LessonPackage } from './schema';
+import { BOOK_ORDER } from './files';
 
 /**
  * Pure functions of the coverage report for levels 5-9 (`scripts/level-coverage.ts --levels 5-9`).
@@ -131,4 +132,153 @@ export function glossedOnList(pkgs: LessonPackage[], list: Set<string>, wordOf: 
  */
 export function goalMet(count: number, total: number, share: number): boolean {
     return count >= Math.ceil(total * share - 1e-9);
+}
+
+/** A package, reduced to the parts that the recycling count needs. */
+export interface CurriculumEntry {
+    book: string;
+    lesson: string;
+    number: number;
+    level: number;
+    /** The objectives that the package teaches (tags.targetObjectives). */
+    targets: string[];
+    /** The objectives that the package practices (tags.supportingObjectives). */
+    supporting: string[];
+}
+
+/** The place of an objective in the curriculum: the package that teaches it first. */
+export interface FirstTeaching {
+    book: string;
+    lesson: string;
+    level: number;
+}
+
+/** The recycling of one objective. */
+export interface RecyclingRow {
+    id: string;
+    text: string;
+    first: FirstTeaching | null;
+    /** The count of packages after the first teaching where the objective is available. */
+    practiceAfter: number;
+    /** The count of packages where the objective is available, per level. */
+    perLevel: Record<number, number>;
+}
+
+/** The workbook books in curriculum order. Origins 2 has no entry in `BOOK_ORDER`, so it goes after Origins 1. */
+const WORKBOOK_ORDER = ['origins-1', 'origins-2', ...BOOK_ORDER.filter((b) => b !== 'origins-1')];
+
+/** The sort key of a book inside its level: the workbook books first, then the bank. */
+function bookRank(book: string): number {
+    if (book.startsWith('bank-')) return WORKBOOK_ORDER.length;
+    const at = WORKBOOK_ORDER.indexOf(book);
+    return at < 0 ? WORKBOOK_ORDER.length - 1 : at;
+}
+
+/**
+ * The entry of a package.
+ * @param pkg The lesson package.
+ * @returns The book, the lesson, the level (meta.raLevel), and the target and supporting objectives.
+ */
+export function toCurriculumEntry(pkg: LessonPackage): CurriculumEntry {
+    return { book: pkg.meta.book, lesson: pkg.meta.lesson, number: pkg.meta.number, level: pkg.meta.raLevel, targets: pkg.tags.targetObjectives, supporting: pkg.tags.supportingObjectives };
+}
+
+/**
+ * Sort the packages into curriculum order.
+ * @param entries The packages, in any order.
+ * @returns A new array: by level, then the workbook books in book order, then the bank of the level; each book in lesson-number order.
+ */
+export function curriculumOrder(entries: CurriculumEntry[]): CurriculumEntry[] {
+    return [...entries].sort((a, b) => a.level - b.level || bookRank(a.book) - bookRank(b.book) || a.book.localeCompare(b.book) || a.number - b.number);
+}
+
+/**
+ * Whether an objective is available in a package.
+ * @param entry The package.
+ * @param id The objective id.
+ * @returns True when the objective is a target or a supporting objective of the package.
+ */
+export function isAvailable(entry: CurriculumEntry, id: string): boolean {
+    return entry.targets.includes(id) || entry.supporting.includes(id);
+}
+
+/**
+ * The first teaching, the practice after it, and the availability per level of each objective.
+ * @param ordered The packages in curriculum order (see `curriculumOrder`).
+ * @returns One row per objective that at least one package lists. The text is empty: the caller adds it.
+ */
+export function recycling(ordered: CurriculumEntry[]): Map<string, RecyclingRow> {
+    const rows = new Map<string, RecyclingRow>();
+    const row = (id: string): RecyclingRow => {
+        let r = rows.get(id);
+        if (!r) rows.set(id, (r = { id, text: '', first: null, practiceAfter: 0, perLevel: {} }));
+        return r;
+    };
+    for (const e of ordered) {
+        for (const id of new Set([...e.targets, ...e.supporting])) {
+            const r = row(id);
+            r.perLevel[e.level] = (r.perLevel[e.level] ?? 0) + 1;
+            if (r.first) r.practiceAfter += 1;
+            else if (e.targets.includes(id)) r.first = { book: e.book, lesson: e.lesson, level: e.level };
+        }
+    }
+    return rows;
+}
+
+/** The minimum practice after the first teaching. */
+export const MIN_PRACTICE_AFTER = 3;
+
+/**
+ * The recycling rows of a list of objectives.
+ * @param ordered The packages in curriculum order.
+ * @param objectives The objectives to report, in report order.
+ * @returns One row for each objective, with the text. An objective that no package teaches has no first teaching and 0 practice after.
+ */
+export function recyclingRows(ordered: CurriculumEntry[], objectives: CoverageObjective[]): RecyclingRow[] {
+    const all = recycling(ordered);
+    return objectives.map((o) => {
+        const r = all.get(o.id);
+        return { id: o.id, text: o.text, first: r?.first ?? null, practiceAfter: r?.first ? r.practiceAfter : 0, perLevel: r?.perLevel ?? {} };
+    });
+}
+
+/**
+ * Whether a row needs a warning.
+ * @param row The recycling row.
+ * @param bandComplete True when the last book folder of the band exists.
+ * @returns True when the practice after is below the minimum and the band is complete.
+ */
+export function needsPractice(row: RecyclingRow, bandComplete: boolean): boolean {
+    return bandComplete && row.practiceAfter < MIN_PRACTICE_AFTER;
+}
+
+/**
+ * The summary of the rows of a band.
+ * @param rows The recycling rows of the band.
+ * @returns The count of objectives that a package teaches, and the count with the minimum practice after.
+ */
+export function recyclingSummary(rows: RecyclingRow[]): { taught: number; practiced: number; total: number } {
+    return { taught: rows.filter((r) => r.first).length, practiced: rows.filter((r) => r.first && r.practiceAfter >= MIN_PRACTICE_AFTER).length, total: rows.length };
+}
+
+/**
+ * The lists for the lesson map of a book.
+ * @param entries The packages, in any order.
+ * @param book The book folder.
+ * @param level The level of the book.
+ * @param lead The objectives that the plan gives the book to teach first.
+ * @param band The in-scope objectives of the band of the book.
+ * @returns `teach`: the lead objectives with their text. `candidates`: the band objectives that the packages before the book teach, without the lead, with the lowest practice after first. Only the packages before the book count.
+ */
+export function nextBookLists(entries: CurriculumEntry[], book: string, level: number, lead: string[], band: CoverageObjective[]): { teach: CoverageObjective[]; candidates: RecyclingRow[] } {
+    const key = (e: { level: number; book: string }) => [e.level, bookRank(e.book)];
+    const [bl, br] = key({ level, book });
+    const before = curriculumOrder(entries).filter((e) => e.book !== book && (e.level < bl || (e.level === bl && bookRank(e.book) < br)));
+    const text = new Map(band.map((o) => [o.id, o.text]));
+    const teach = lead.map((id) => ({ id, gse: band.find((o) => o.id === id)?.gse ?? 0, text: text.get(id) ?? '' }));
+    const inLead = new Set(lead);
+    const candidates = recyclingRows(before, band.filter((o) => !inLead.has(o.id)))
+        .filter((r) => r.first)
+        .sort((a, b) => a.practiceAfter - b.practiceAfter);
+    return { teach, candidates };
 }
