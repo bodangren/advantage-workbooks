@@ -15,7 +15,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [ ] Calibration: two sample texts for each level through the text check; one print test of a 480-word article in the 13-step template (the article may need two pages)
 - [~] Injector: a new-database target (`--target new`; UUID ids, `primary_legacy_id_map`, picture key in `articles.image`); tests; dry run only. Open: agreement with the monorepo side (7 questions in the field map, open item 3)
 - [ ] Dialogue audio with one voice for each speaker (D5)
-- [ ] Series bible: Quest ages; an Adventure section and new cast sheets (D3)
+- [~] Series bible: Quest ages and an Adventure section (`primary-quest-adventure-series-bible.md`, draft); new cast sheets (13 people, 3 priorities) not made yet (D3)
 
 ## Phase 2: Level 5
 
