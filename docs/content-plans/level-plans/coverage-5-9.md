@@ -8,55 +8,55 @@ A word belongs to the lowest list that holds it in the vocabulary graph (Starter
 
 | List | Words | Goal | End of level 1 | End of level 2 | End of level 3 | End of level 4 | End of level 5 | End of level 6 | End of level 7 | End of level 8 | End of level 9 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Movers | 355 | 100% by level 6 | – | – | – | 241 | 241 | 241 ⚠ | 241 | 241 | 241 |
-| Flyers | 476 | 95% by level 8 | – | – | – | 30 | 30 | 30 | 30 | 30 ⚠ | 30 |
+| Movers | 355 | 100% by level 6 | – | – | – | 242 | 354 | 354 ⚠ | 354 | 354 | 354 |
+| Flyers | 476 | 95% by level 8 | – | – | – | 29 | 59 | 59 | 59 | 59 ⚠ | 59 |
 | A2 Key | 578 | 90% by level 9 | – | – | – | 7 | 7 | 7 | 7 | 7 | 7 ⚠ |
 
 The levels 1–3 columns show "–" because the books of levels 1–4 form one block; the level 4 column holds their total.
 
 ## Level 5 (GSE 24–26)
 
-Not started: 0 packages (quest-5 missing, bank-5 missing). 0 of 31 objectives are a target in 3+ packages.
+Started: 50 packages (quest-5, bank-5). 31 of 31 objectives are a target in 3+ packages.
 
 | Objective | Packages (target) | Packages (supporting) | Questions | Text |
 |---|---|---|---|---|
-| R24.2 | 0 ⚠ | 0 | 0 | Can understand basic sentences naming familiar everyday items, if supported by pictures. |
-| R24.3 | 0 ⚠ | 0 | 0 | Can understand simple sentences, given prompts. |
-| R24.4 | 0 ⚠ | 0 | 0 | Can recognise key words and basic phrases in short, simple cartoon stories. |
-| R24.5 | 0 ⚠ | 0 | 0 | Can find proper names (e.g. ‘people’, ‘places’, ‘nationalities’) in short, simple texts by looking for capital letters. |
-| R24.6 | 0 ⚠ | 0 | 0 | Can understand basic phrases in short, simple texts. |
-| R25.1 | 0 ⚠ | 0 | 0 | Can recognise words or phrases that are repeated in a short text or poem. |
-| R25.2 | 0 ⚠ | 0 | 0 | Can understand a simple text if supported by pictures. |
-| R25.3 | 0 ⚠ | 0 | 0 | Can understand a few simple phrases related to familiar, everyday activities. |
-| R25.4 | 0 ⚠ | 0 | 0 | Can distinguish between a negative statement and a positive statement. |
-| R25.5 | 0 ⚠ | 0 | 0 | Can understand simple sentences about the weather, if supported by pictures. |
-| R26.1 | 0 ⚠ | 0 | 0 | Can identify repeated words or phrases in a short text. |
-| R26.2 | 0 ⚠ | 0 | 0 | Can understand basic sentences describing someone’s physical appearance, (e.g. ‘eye/hair colour’, ‘height’), if supported by pictures. |
-| R26.3 | 0 ⚠ | 0 | 0 | Can understand basic sentences about things people have, if supported by pictures. |
-| R26.5 | 0 ⚠ | 0 | 0 | Can follow simple dialogues in short illustrated stories, if they can listen while reading. |
-| R26.6 | 0 ⚠ | 0 | 0 | Can understand basic information about people’s likes and dislikes, if supported by pictures. |
-| L24.1 | 0 ⚠ | 0 | 0 | Can recognise familiar key words and phrases in short, basic descriptions (e.g. of ‘objects’, ‘people’ or ‘animals’), if spoken slowly and clearly. |
-| L24.2 | 0 ⚠ | 0 | 0 | Can recognise familiar words and basic phrases in short illustrated stories, if read out slowly and clearly. |
-| L24.3 | 0 ⚠ | 0 | 0 | Can understand basic phrases or sentences about things people have if supported by pictures. |
-| L24.4 | 0 ⚠ | 0 | 0 | Can understand basic statements about where things or people are, if spoken slowly and clearly and supported by pictures or gestures. |
-| L24.5 | 0 ⚠ | 0 | 0 | Can understand basic phrases about the weather, if spoken slowly and clearly. |
-| L24.6 | 0 ⚠ | 0 | 0 | Can recognise ordinal numbers up to 50, if spoken slowly and clearly. |
-| L25.1 | 0 ⚠ | 0 | 0 | Can understand basic questions about personal details if spoken slowly and clearly and supported by pictures. |
-| L25.2 | 0 ⚠ | 0 | 0 | Can understand simple directions, if spoken slowly and clearly. |
-| L25.3 | 0 ⚠ | 0 | 0 | Can recognise words and simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
-| L25.4 | 0 ⚠ | 0 | 0 | Can get the gist of short, simple stories, if told slowly and clearly and supported by pictures or gestures. |
-| L25.5 | 0 ⚠ | 0 | 0 | Can understand the time of day when expressed to the half hour. |
-| L25.6 | 0 ⚠ | 0 | 0 | Can understand basic expressions or questions related to immediate personal needs, if delivered slowly and clearly. |
-| L26.1 | 0 ⚠ | 0 | 0 | Can identify the day and date in short, simple dialogues, if spoken slowly and clearly and supported by pictures or gestures. |
-| L26.2 | 0 ⚠ | 0 | 0 | Can understand basic information about someone’s immediate family, if spoken slowly and clearly and supported by pictures or gestures. |
-| L26.3 | 0 ⚠ | 0 | 0 | Can understand simple language related to naming and describing people’s clothes. |
-| L26.4 | 0 ⚠ | 0 | 0 | Can identify a caller’s name and phone number from a short, simple telephone conversation. |
+| R24.2 | 5 | 4 | 35 | Can understand basic sentences naming familiar everyday items, if supported by pictures. |
+| R24.3 | 3 | 5 | 46 | Can understand simple sentences, given prompts. |
+| R24.4 | 4 | 1 | 28 | Can recognise key words and basic phrases in short, simple cartoon stories. |
+| R24.5 | 3 | 0 | 17 | Can find proper names (e.g. ‘people’, ‘places’, ‘nationalities’) in short, simple texts by looking for capital letters. |
+| R24.6 | 6 | 44 | 220 | Can understand basic phrases in short, simple texts. |
+| R25.1 | 4 | 0 | 16 | Can recognise words or phrases that are repeated in a short text or poem. |
+| R25.2 | 7 | 43 | 85 | Can understand a simple text if supported by pictures. |
+| R25.3 | 3 | 0 | 24 | Can understand a few simple phrases related to familiar, everyday activities. |
+| R25.4 | 4 | 4 | 44 | Can distinguish between a negative statement and a positive statement. |
+| R25.5 | 4 | 3 | 31 | Can understand simple sentences about the weather, if supported by pictures. |
+| R26.1 | 5 | 0 | 19 | Can identify repeated words or phrases in a short text. |
+| R26.2 | 3 | 4 | 31 | Can understand basic sentences describing someone’s physical appearance, (e.g. ‘eye/hair colour’, ‘height’), if supported by pictures. |
+| R26.3 | 3 | 4 | 30 | Can understand basic sentences about things people have, if supported by pictures. |
+| R26.5 | 5 | 8 | 78 | Can follow simple dialogues in short illustrated stories, if they can listen while reading. |
+| R26.6 | 3 | 0 | 32 | Can understand basic information about people’s likes and dislikes, if supported by pictures. |
+| L24.1 | 3 | 0 | 11 | Can recognise familiar key words and phrases in short, basic descriptions (e.g. of ‘objects’, ‘people’ or ‘animals’), if spoken slowly and clearly. |
+| L24.2 | 4 | 12 | 42 | Can recognise familiar words and basic phrases in short illustrated stories, if read out slowly and clearly. |
+| L24.3 | 3 | 0 | 15 | Can understand basic phrases or sentences about things people have if supported by pictures. |
+| L24.4 | 3 | 2 | 20 | Can understand basic statements about where things or people are, if spoken slowly and clearly and supported by pictures or gestures. |
+| L24.5 | 3 | 2 | 22 | Can understand basic phrases about the weather, if spoken slowly and clearly. |
+| L24.6 | 3 | 1 | 10 | Can recognise ordinal numbers up to 50, if spoken slowly and clearly. |
+| L25.1 | 6 | 0 | 31 | Can understand basic questions about personal details if spoken slowly and clearly and supported by pictures. |
+| L25.2 | 3 | 0 | 20 | Can understand simple directions, if spoken slowly and clearly. |
+| L25.3 | 4 | 0 | 20 | Can recognise words and simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
+| L25.4 | 5 | 0 | 26 | Can get the gist of short, simple stories, if told slowly and clearly and supported by pictures or gestures. |
+| L25.5 | 3 | 1 | 26 | Can understand the time of day when expressed to the half hour. |
+| L25.6 | 3 | 0 | 17 | Can understand basic expressions or questions related to immediate personal needs, if delivered slowly and clearly. |
+| L26.1 | 3 | 1 | 19 | Can identify the day and date in short, simple dialogues, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.2 | 3 | 1 | 15 | Can understand basic information about someone’s immediate family, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.3 | 4 | 2 | 42 | Can understand simple language related to naming and describing people’s clothes. |
+| L26.4 | 3 | 1 | 27 | Can identify a caller’s name and phone number from a short, simple telephone conversation. |
 
-Gaps: R24.2, R24.3, R24.4, R24.5, R24.6, R25.1, R25.2, R25.3, R25.4, R25.5, R26.1, R26.2, R26.3, R26.5, R26.6, L24.1, L24.2, L24.3, L24.4, L24.5, L24.6, L25.1, L25.2, L25.3, L25.4, L25.5, L25.6, L26.1, L26.2, L26.3, L26.4.
+Gaps: none.
 
 | Book | Objectives covered | Gaps |
 |---|---|---|
-| quest-5 | 0 of 16 | R23.1, R23.3, L23.7, R24.6, R25.2, L25.1, L25.3, L25.6, R26.1, R26.2, R26.3, R26.5, R26.6, L26.1, L26.2, L26.3 |
+| quest-5 | 16 of 16 | none |
 | bank-5 | no lead objectives in the plan | – |
 
 ## Level 6 (GSE 27–29)
@@ -104,7 +104,7 @@ Gaps: R27.1, R27.2, R27.3, R27.4, R27.5, R27.6, R27.7, R28.1, R28.2, R28.3, R28.
 | quest-6.2 | 0 of 16 | R28.1, R28.2, R28.3, R28.4, L28.1, L28.2, L28.3, L28.4, R29.2, R29.3, R29.4, R29.5, R29.6, R29.8, L29.1, L29.2 |
 | bank-6 | no lead objectives in the plan | – |
 
-List goal not met: Movers 241 of 355 (goal 100%).
+List goal not met: Movers 354 of 355 (goal 100%).
 
 ## Level 7 (GSE 30–33)
 
@@ -250,7 +250,7 @@ Gaps: R34.1, R34.2, R34.3, R34.4, R34.5, R34.6, R34.7, R34.8, R34.9, R34.10, R35
 | adventure-8.3 | 0 of 20 | L36.2, L36.3, L36.4, L36.5, L36.6, R37.1, R37.2, R37.3, R37.4, R37.5, R37.6, R37.7, R37.9, R37.10, L37.1, L37.2, L37.3, L37.4, R38.1, R38.2 |
 | bank-8 | no lead objectives in the plan | – |
 
-List goal not met: Flyers 30 of 476 (goal 95%).
+List goal not met: Flyers 59 of 476 (goal 95%).
 
 ## Level 9 (GSE 39–42)
 
@@ -319,36 +319,36 @@ An objective is available in a package when it is a target or a supporting objec
 
 ### Recycling A1 (GSE 22–29)
 
-A1: 37 of 81 objectives taught; 30 with 3+ practice after. The last book folder (quest-6.2) does not exist, so no warning shows.
+A1: 51 of 81 objectives taught; 47 with 3+ practice after. The last book folder (quest-6.2) does not exist, so no warning shows.
 
 | Objective | First teaching | Practice after | Text |
 |---|---|---|---|
-| R22.1 | quest-4 L01 | 14 | Can recognise some familiar words related to themselves and their family (e.g. ‘girl’, ‘brother’). |
-| R22.2 | quest-4 L02 | 7 | Can recognise ordinal numbers up to 20 written as words. |
-| R22.3 | quest-4 L01 | 34 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
-| R23.1 | bank-4 B035 | 1 | Can read sentences correctly from left to right. |
-| R23.2 | quest-4 L07 | 4 | Can understand basic written instructions for classroom activities (e.g. ‘Read and match’). |
-| R23.3 | bank-4 B035 | 1 | Can identify familiar words in short, simple texts. |
-| R23.4 | quest-4 L08 | 4 | Can recognise cardinal numbers up to 100 written as words. |
-| R23.5 | quest-4 L08 | 8 | Can understand the relationship between words from the same vocabulary set (e.g. ‘colours’, ‘foods’, ‘classroom objects’). |
-| R23.6 | quest-4 L09 | 6 | Can understand short, simple descriptions of familiar places, if supported by pictures. |
-| R23.7 | quest-4 L03 | 4 | Can guess the meaning of a word from an accompanying picture. |
-| R23.8 | quest-4 L09 | 4 | Can recognise simple words and phrases related to familiar topics if supported by pictures. |
-| R24.2 | quest-4 L03 | 9 | Can understand basic sentences naming familiar everyday items, if supported by pictures. |
-| R24.3 | quest-4 L07 | 9 | Can understand simple sentences, given prompts. |
-| R24.4 | quest-4 L11 | 21 | Can recognise key words and basic phrases in short, simple cartoon stories. |
-| R24.5 | quest-4 L13 | 2 | Can find proper names (e.g. ‘people’, ‘places’, ‘nationalities’) in short, simple texts by looking for capital letters. |
-| R24.6 | not yet | 0 | Can understand basic phrases in short, simple texts. |
-| R25.1 | quest-4 L13 | 0 | Can recognise words or phrases that are repeated in a short text or poem. |
-| R25.2 | not yet | 0 | Can understand a simple text if supported by pictures. |
-| R25.3 | quest-4 L14 | 9 | Can understand a few simple phrases related to familiar, everyday activities. |
-| R25.4 | quest-4 L04 | 31 | Can distinguish between a negative statement and a positive statement. |
-| R25.5 | quest-4 L10 | 10 | Can understand simple sentences about the weather, if supported by pictures. |
-| R26.1 | not yet | 0 | Can identify repeated words or phrases in a short text. |
-| R26.2 | not yet | 0 | Can understand basic sentences describing someone’s physical appearance, (e.g. ‘eye/hair colour’, ‘height’), if supported by pictures. |
-| R26.3 | not yet | 0 | Can understand basic sentences about things people have, if supported by pictures. |
-| R26.5 | not yet | 0 | Can follow simple dialogues in short illustrated stories, if they can listen while reading. |
-| R26.6 | not yet | 0 | Can understand basic information about people’s likes and dislikes, if supported by pictures. |
+| R22.1 | quest-4 L01 | 21 | Can recognise some familiar words related to themselves and their family (e.g. ‘girl’, ‘brother’). |
+| R22.2 | quest-4 L02 | 11 | Can recognise ordinal numbers up to 20 written as words. |
+| R22.3 | quest-4 L01 | 49 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
+| R23.1 | bank-4 B035 | 2 | Can read sentences correctly from left to right. |
+| R23.2 | quest-4 L07 | 5 | Can understand basic written instructions for classroom activities (e.g. ‘Read and match’). |
+| R23.3 | bank-4 B035 | 51 | Can identify familiar words in short, simple texts. |
+| R23.4 | quest-4 L08 | 7 | Can recognise cardinal numbers up to 100 written as words. |
+| R23.5 | quest-4 L08 | 10 | Can understand the relationship between words from the same vocabulary set (e.g. ‘colours’, ‘foods’, ‘classroom objects’). |
+| R23.6 | quest-4 L09 | 7 | Can understand short, simple descriptions of familiar places, if supported by pictures. |
+| R23.7 | quest-4 L03 | 5 | Can guess the meaning of a word from an accompanying picture. |
+| R23.8 | quest-4 L09 | 12 | Can recognise simple words and phrases related to familiar topics if supported by pictures. |
+| R24.2 | quest-4 L03 | 18 | Can understand basic sentences naming familiar everyday items, if supported by pictures. |
+| R24.3 | quest-4 L07 | 17 | Can understand simple sentences, given prompts. |
+| R24.4 | quest-4 L11 | 26 | Can recognise key words and basic phrases in short, simple cartoon stories. |
+| R24.5 | quest-4 L13 | 5 | Can find proper names (e.g. ‘people’, ‘places’, ‘nationalities’) in short, simple texts by looking for capital letters. |
+| R24.6 | quest-5 L05 | 45 | Can understand basic phrases in short, simple texts. |
+| R25.1 | quest-4 L13 | 4 | Can recognise words or phrases that are repeated in a short text or poem. |
+| R25.2 | quest-5 L03 | 47 | Can understand a simple text if supported by pictures. |
+| R25.3 | quest-4 L14 | 12 | Can understand a few simple phrases related to familiar, everyday activities. |
+| R25.4 | quest-4 L04 | 39 | Can distinguish between a negative statement and a positive statement. |
+| R25.5 | quest-4 L10 | 17 | Can understand simple sentences about the weather, if supported by pictures. |
+| R26.1 | quest-5 L03 | 4 | Can identify repeated words or phrases in a short text. |
+| R26.2 | quest-5 L04 | 5 | Can understand basic sentences describing someone’s physical appearance, (e.g. ‘eye/hair colour’, ‘height’), if supported by pictures. |
+| R26.3 | quest-5 L01 | 6 | Can understand basic sentences about things people have, if supported by pictures. |
+| R26.5 | quest-5 L02 | 12 | Can follow simple dialogues in short illustrated stories, if they can listen while reading. |
+| R26.6 | quest-5 L06 | 2 | Can understand basic information about people’s likes and dislikes, if supported by pictures. |
 | R27.1 | not yet | 0 | Can follow short, simple written directions (e.g. ‘go from X to Y’). |
 | R27.2 | not yet | 0 | Can guess what a story or text is about from the pictures. |
 | R27.3 | not yet | 0 | Can understand short, simple descriptions of objects, people and animals if supported by pictures. |
@@ -366,31 +366,31 @@ A1: 37 of 81 objectives taught; 30 with 3+ practice after. The last book folder 
 | R29.5 | not yet | 0 | Can understand short, simple illustrated narratives about everyday activities. |
 | R29.6 | not yet | 0 | Can recognise ordinal numbers up to 50 written as words. |
 | R29.8 | not yet | 0 | Can understand basic key words in short notes or messages. |
-| L22.1 | quest-4 L03 | 5 | Can understand basic questions about what things are in their immediate surroundings or in pictures (e.g. ‘What’s this?’). |
-| L22.2 | quest-4 L05 | 18 | Can recognise basic time words (e.g. ‘days’, ‘months’) in simple phrases or sentences. |
-| L23.1 | quest-4 L02 | 7 | Can distinguish between ‘can’ and ‘can’t’. |
-| L23.2 | quest-4 L05 | 4 | Can understand the time of day when expressed to the quarter hour. |
-| L23.3 | quest-4 L06 | 19 | Can understand simple phrases about likes and dislikes. |
-| L23.4 | quest-4 L01 | 4 | Can understand short, simple questions related to basic personal information, if spoken slowly and clearly. |
-| L23.5 | quest-4 L07 | 5 | Can understand simple feedback from a teacher. |
-| L23.6 | quest-4 L01 | 34 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
-| L23.7 | bank-4 B020 | 2 | Can understand the time of day when expressed to within five minutes. |
-| L24.1 | quest-4 L12 | 1 | Can recognise familiar key words and phrases in short, basic descriptions (e.g. of ‘objects’, ‘people’ or ‘animals’), if spoken slowly and clearly. |
-| L24.2 | quest-4 L04 | 26 | Can recognise familiar words and basic phrases in short illustrated stories, if read out slowly and clearly. |
-| L24.3 | quest-4 L06 | 19 | Can understand basic phrases or sentences about things people have if supported by pictures. |
-| L24.4 | quest-4 L08 | 27 | Can understand basic statements about where things or people are, if spoken slowly and clearly and supported by pictures or gestures. |
-| L24.5 | quest-4 L10 | 10 | Can understand basic phrases about the weather, if spoken slowly and clearly. |
-| L24.6 | quest-4 L02 | 6 | Can recognise ordinal numbers up to 50, if spoken slowly and clearly. |
-| L25.1 | not yet | 0 | Can understand basic questions about personal details if spoken slowly and clearly and supported by pictures. |
-| L25.2 | quest-4 L09 | 0 | Can understand simple directions, if spoken slowly and clearly. |
-| L25.3 | not yet | 0 | Can recognise words and simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
-| L25.4 | quest-4 L14 | 20 | Can get the gist of short, simple stories, if told slowly and clearly and supported by pictures or gestures. |
-| L25.5 | quest-4 L05 | 3 | Can understand the time of day when expressed to the half hour. |
-| L25.6 | not yet | 0 | Can understand basic expressions or questions related to immediate personal needs, if delivered slowly and clearly. |
-| L26.1 | not yet | 0 | Can identify the day and date in short, simple dialogues, if spoken slowly and clearly and supported by pictures or gestures. |
-| L26.2 | not yet | 0 | Can understand basic information about someone’s immediate family, if spoken slowly and clearly and supported by pictures or gestures. |
-| L26.3 | not yet | 0 | Can understand simple language related to naming and describing people’s clothes. |
-| L26.4 | not yet | 0 | Can identify a caller’s name and phone number from a short, simple telephone conversation. |
+| L22.1 | quest-4 L03 | 6 | Can understand basic questions about what things are in their immediate surroundings or in pictures (e.g. ‘What’s this?’). |
+| L22.2 | quest-4 L05 | 22 | Can recognise basic time words (e.g. ‘days’, ‘months’) in simple phrases or sentences. |
+| L23.1 | quest-4 L02 | 9 | Can distinguish between ‘can’ and ‘can’t’. |
+| L23.2 | quest-4 L05 | 7 | Can understand the time of day when expressed to the quarter hour. |
+| L23.3 | quest-4 L06 | 24 | Can understand simple phrases about likes and dislikes. |
+| L23.4 | quest-4 L01 | 5 | Can understand short, simple questions related to basic personal information, if spoken slowly and clearly. |
+| L23.5 | quest-4 L07 | 6 | Can understand simple feedback from a teacher. |
+| L23.6 | quest-4 L01 | 39 | Can understand simple contractions (e.g. ‘I’m’, ‘he’s’, ‘we’re’). |
+| L23.7 | bank-4 B020 | 3 | Can understand the time of day when expressed to within five minutes. |
+| L24.1 | quest-4 L12 | 4 | Can recognise familiar key words and phrases in short, basic descriptions (e.g. of ‘objects’, ‘people’ or ‘animals’), if spoken slowly and clearly. |
+| L24.2 | quest-4 L04 | 42 | Can recognise familiar words and basic phrases in short illustrated stories, if read out slowly and clearly. |
+| L24.3 | quest-4 L06 | 22 | Can understand basic phrases or sentences about things people have if supported by pictures. |
+| L24.4 | quest-4 L08 | 32 | Can understand basic statements about where things or people are, if spoken slowly and clearly and supported by pictures or gestures. |
+| L24.5 | quest-4 L10 | 15 | Can understand basic phrases about the weather, if spoken slowly and clearly. |
+| L24.6 | quest-4 L02 | 10 | Can recognise ordinal numbers up to 50, if spoken slowly and clearly. |
+| L25.1 | quest-5 L02 | 5 | Can understand basic questions about personal details if spoken slowly and clearly and supported by pictures. |
+| L25.2 | quest-4 L09 | 3 | Can understand simple directions, if spoken slowly and clearly. |
+| L25.3 | quest-5 L06 | 3 | Can recognise words and simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
+| L25.4 | quest-4 L14 | 25 | Can get the gist of short, simple stories, if told slowly and clearly and supported by pictures or gestures. |
+| L25.5 | quest-4 L05 | 7 | Can understand the time of day when expressed to the half hour. |
+| L25.6 | quest-5 L12 | 2 | Can understand basic expressions or questions related to immediate personal needs, if delivered slowly and clearly. |
+| L26.1 | quest-5 L03 | 3 | Can identify the day and date in short, simple dialogues, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.2 | quest-5 L01 | 3 | Can understand basic information about someone’s immediate family, if spoken slowly and clearly and supported by pictures or gestures. |
+| L26.3 | quest-5 L04 | 5 | Can understand simple language related to naming and describing people’s clothes. |
+| L26.4 | bank-5 B016 | 2 | Can identify a caller’s name and phone number from a short, simple telephone conversation. |
 | L27.1 | not yet | 0 | Can understand straightforward instructions, if spoken slowly and clearly. |
 | L27.2 | not yet | 0 | Can recognise words or phrases that are repeated in a short dialogue or poem. |
 | L27.3 | not yet | 0 | Can understand simple phrases related to familiar topics, if spoken slowly and clearly and supported by pictures. |
