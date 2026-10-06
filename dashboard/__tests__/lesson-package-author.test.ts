@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { carryMedia, findExample, nodesForSense, parseAuthorSource, shuffleOptions } from '../lib/lesson-package/author';
+import { carryMedia, findExample, graphNodeLookup, nodesForSense, parseAuthorSource, shuffleOptions } from '../lib/lesson-package/author';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { buildVocabularyIndex, type GraphNode } from '../lib/text-profile/vocabulary';
 
@@ -141,6 +141,27 @@ describe('author helpers', () => {
     it('narrows graph nodes to the part of speech', () => {
         expect(nodesForSense('run', 'verb', nodesOf)).toEqual(['english.vocabulary.skill.run.verb']);
         expect(nodesForSense('run', 'adverb', nodesOf)).toHaveLength(2);
+    });
+
+    it('finds every node of a form, without the false match forms of the graph', () => {
+        const n = (id: string, head: string, forms: string[]) => ({ id: `english.vocabulary.skill.${id}`, kind: 'skill', metadata: { normalizedForm: head, matchForms: forms } });
+        const lookup = graphNodeLookup({
+            nodes: [
+                n('businessman-woman.noun', 'businessman', ['businessman', 'businessman/woman', 'woman']),
+                n('woman.noun', 'woman', ['woman']),
+                n('foot.noun', 'foot', ['foot']),
+                n('foot-feet.noun', 'feet', ['feet', 'foot', 'foot/feet']),
+                n('run.noun', 'run', ['run']),
+                n('run.verb', 'run', ['run']),
+                { id: 'english.vocabulary.domain', kind: 'domain' },
+            ],
+        });
+        expect(lookup('Woman')).toEqual(['english.vocabulary.skill.woman.noun']);
+        expect(lookup('businessman')).toEqual(['english.vocabulary.skill.businessman-woman.noun']);
+        expect(lookup('foot')).toEqual(['english.vocabulary.skill.foot.noun', 'english.vocabulary.skill.foot-feet.noun']);
+        expect(lookup('feet')).toEqual(['english.vocabulary.skill.foot-feet.noun']);
+        expect(lookup('run')).toEqual(['english.vocabulary.skill.run.noun', 'english.vocabulary.skill.run.verb']);
+        expect(lookup('zzz')).toEqual([]);
     });
 
     it('finds the node of an American spelling through its British headword', () => {

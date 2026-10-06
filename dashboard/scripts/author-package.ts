@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { LessonPackageSchema } from '../lib/lesson-package/schema';
-import { carryMedia, parseAuthorSource } from '../lib/lesson-package/author';
+import { carryMedia, graphNodeLookup, parseAuthorSource } from '../lib/lesson-package/author';
 import { checkContextFor, DEFAULT_GRAPH } from '../lib/lesson-package/context';
 import { savePackage } from '../lib/lesson-package/store';
 import { loadVocabularyIndex } from '../lib/text-profile/vocabulary';
@@ -18,22 +18,8 @@ the saved package when their part did not change (a changed part goes back to dr
 Prints one block per lesson: FAIL lines (they block approval), WARN lines, and the text numbers.
 --quiet prints only the lessons with a FAIL. Exit code 1 when a file has an error or a FAIL.`;
 
-interface GraphFile {
-    nodes: { id: string; kind: string; metadata?: { normalizedForm?: string; matchForms?: string[] } }[];
-}
-
 function nodeLookup(graphFile: string): (word: string) => string[] {
-    const graph = JSON.parse(fs.readFileSync(graphFile, 'utf8')) as GraphFile;
-    const byForm = new Map<string, string[]>();
-    for (const n of graph.nodes) {
-        if (n.kind !== 'skill' || !n.id.startsWith('english.vocabulary.skill.')) continue;
-        for (const f of [n.metadata?.normalizedForm, ...(n.metadata?.matchForms ?? [])]) {
-            if (!f) continue;
-            const key = f.toLowerCase().trim();
-            byForm.set(key, [...new Set([...(byForm.get(key) ?? []), n.id])]);
-        }
-    }
-    return (word: string) => byForm.get(word.toLowerCase().trim()) ?? [];
+    return graphNodeLookup(JSON.parse(fs.readFileSync(graphFile, 'utf8')));
 }
 
 function sourceFiles(args: string[]): string[] {

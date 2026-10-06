@@ -166,6 +166,35 @@ export function findExample(word: string, sentences: string[], index: Vocabulary
 }
 
 /**
+ * Match forms in the vocabulary graph that are wrong: the graph split "businessman/woman" into
+ * "woman", so a glossed "woman" also found the businessman node (2026-10-06; reported to the graph
+ * owners). Remove an entry when the graph is fixed.
+ */
+const FALSE_MATCH_FORMS: Record<string, string[]> = {
+    woman: ['english.vocabulary.skill.businessman-woman.noun'],
+};
+
+/**
+ * A lookup from a word to its vocabulary graph nodes: every node whose normalized form or match
+ * forms hold the word, without the false match forms of `FALSE_MATCH_FORMS`.
+ * @param graph The vocabulary graph (`cefr-vocabulary-knowledge-space.json`).
+ * @returns The node ids of a word, or an empty list.
+ */
+export function graphNodeLookup(graph: { nodes: { id: string; kind: string; metadata?: { normalizedForm?: string; matchForms?: string[] } }[] }): (word: string) => string[] {
+    const byForm = new Map<string, string[]>();
+    for (const n of graph.nodes) {
+        if (n.kind !== 'skill' || !n.id.startsWith('english.vocabulary.skill.')) continue;
+        for (const f of [n.metadata?.normalizedForm, ...(n.metadata?.matchForms ?? [])]) {
+            if (!f) continue;
+            const key = f.toLowerCase().trim();
+            if (FALSE_MATCH_FORMS[key]?.includes(n.id)) continue;
+            byForm.set(key, [...new Set([...(byForm.get(key) ?? []), n.id])]);
+        }
+    }
+    return (word: string) => byForm.get(word.toLowerCase().trim()) ?? [];
+}
+
+/**
  * The graph nodes of a glossed word, narrowed to its part of speech when a node has it
  * (`kite.noun`); all of the word's nodes when none matches. An American spelling also tries its
  * British headword, the form of the graph node ("mustache" finds `moustache`, the verb
