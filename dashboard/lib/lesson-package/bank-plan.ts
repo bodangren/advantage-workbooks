@@ -73,7 +73,7 @@ const TOPIC_GROUPS: string[][] = [
     ['animals', 'the-natural-world', 'the-world-around-us', 'places-countryside'],
     ['the-body-and-the-face', 'health', 'health-medicine-and-exercise'],
     ['clothes', 'clothes-and-accessories'],
-    ['colours'],
+    ['colours', 'colors'],
     ['family-and-friends'],
     ['food-and-drink'],
     ['the-home', 'house-and-home', 'appliances', 'materials'],
@@ -113,7 +113,7 @@ export const BANK_TEMPLATES: Record<number, BankTemplate[]> = {
         f('story: a phone call', 3, ['L26.4', 'L25.1'], ['R26.5'], ['family-and-friends', 'time', 'the-home'], 'A phone call. The caller says a name and a phone number (digits as words). Put the number in the text.'),
         n('family page', 2, ['L26.2', 'R26.3', 'L24.3'], ['R22.1'], ['family-and-friends', 'the-home', 'animals'], 'A page about one family: who is in it, and what each person has (a bike, a cat, two books).'),
         n('describing a person', 2, ['R26.2', 'L24.1', 'R24.2'], ['L23.6'], ['the-body-and-the-face', 'clothes', 'family-and-friends'], 'Hair, eyes, height, and age of a child or an animal. Short sentences, one fact in each.'),
-        n('clothes and what people wear', 2, ['L26.3', 'R25.2'], ['R22.1'], ['clothes', 'colours', 'weather'], 'People and their clothes: "Lily has a red coat." The pictures show the clothes.'),
+        n('clothes and what people wear', 2, ['L26.3', 'R25.2'], ['R22.1'], ['clothes', 'colors', 'weather'], 'People and their clothes: "Lily has a red coat." The pictures show the clothes.'),
         n('likes and dislikes', 2, ['R26.6', 'R25.4'], ['L23.3'], ['food-and-drink', 'sports-and-leisure', 'animals', 'school'], 'A child says what she or he likes and does not like. Positive and negative sentences in pairs.'),
         n('directions and where things are', 2, ['L25.2', 'L24.4', 'R25.2'], ['R23.8'], ['places-and-directions', 'transport', 'the-home'], 'Simple directions ("Go straight. Turn left.") and where things or people are (in, on, under, next to).'),
         n('a day plan to the half hour', 2, ['L25.5', 'R25.3'], ['L23.2'], ['time', 'school', 'sports-and-leisure'], 'A plan with times as full and half hours ("at half past four"). Numbers in words.'),
@@ -137,7 +137,7 @@ export const BANK_TEMPLATES: Record<number, BankTemplate[]> = {
         n('a school timetable', 3, ['R27.4', 'R28.3'], ['R22.2'], ['school', 'time'], 'A timetable with days, times, and classes. The times are in words and numbers.'),
         n('time as words', 3, ['R28.3', 'L29.2'], ['L25.5'], ['time', 'sports-and-leisure', 'transport'], 'Times written as words ("a quarter to eight") in a day plan, a bus list, or a TV list.'),
         n('a menu with pictures', 3, ['R27.6', 'L29.2'], ['R26.6'], ['food-and-drink', 'places-and-directions'], 'A menu with pictures, names, and prices. A short note says who orders what.'),
-        n('describing an object', 3, ['R27.5', 'R27.3'], ['R24.2'], ['toys', 'the-home', 'animals', 'colours', 'materials'], 'Colour, size, and shape of an object, an animal, or a person. Short sentences with pictures.'),
+        n('describing an object', 3, ['R27.5', 'R27.3'], ['R24.2'], ['toys', 'the-home', 'animals', 'colors', 'materials'], 'Color, size, and shape of an object, an animal, or a person. Short sentences with pictures.'),
         n('product labels', 3, ['R28.1', 'R29.8'], ['R24.2'], ['food-and-drink', 'clothes', 'health', 'toys'], 'Labels on products (a food box, a toy, a medicine bottle, a T-shirt). Put each label text in a picture overlay.'),
         n('making something', 4, ['R28.4'], ['R27.1', 'R29.8'], ['school', 'toys', 'materials', 'the-home'], 'Numbered steps to make a mask, a clock, or a card, with a list of things to use. Pictures show the steps.'),
         n('notes and messages', 4, ['R29.8', 'R29.4'], ['R24.3'], ['family-and-friends', 'school', 'the-home', 'places-and-directions'], 'Short notes and messages (a note on the fridge, a text to a friend, a note from a teacher). Key words about when and where.'),
@@ -263,7 +263,7 @@ export const BANK_TEMPLATES: Record<number, BankTemplate[]> = {
         n('an advertisement', 2, ['R40.9', 'R41.1'], ['R34.8'], ['shopping', 'entertainment-and-media', 'hobbies-and-leisure'], 'An advertisement for a familiar product, a trip, or a film. Key facts and a few opinions.'),
         n('a school fact text', 2, ['R41.2', 'R41.4'], ['R33.2'], ['education', 'the-natural-world', 'measurements'], 'A short factual school text (science, geography, history). The gist is easy to find.'),
         n('a diary in order', 2, ['R41.3', 'R42.3'], ['R38.3'], ['hobbies-and-leisure', 'travel-and-transport', 'sports-and-leisure'], 'A diary with several days. The order of events is clear.'),
-        n('scanning a text', 2, ['R41.4', 'R39.7'], ['R34.8'], ['travel-and-transport', 'entertainment-and-media', 'time'], 'A timetable, a programme, or a list of facts. Scanning finds one detail fast.'),
+        n('scanning a text', 2, ['R41.4', 'R39.7'], ['R34.8'], ['travel-and-transport', 'entertainment-and-media', 'time'], 'A timetable, a program, or a list of facts. Scanning finds one detail fast.'),
         n('paragraph topics', 3, ['R41.5', 'R41.2'], ['R38.8'], ['the-natural-world', 'education', 'places-countryside'], 'A school text of 5 short paragraphs with one topic in each.'),
         n('parts of notes, captions, and blogs', 3, ['R42.5', 'R42.1'], ['R40.2'], ['communication-and-technology', 'school', 'hobbies-and-leisure'], 'A note, a caption, a class blog post, and a set of instructions, each with its parts marked.'),
         n('school-subject texts', 3, ['R42.4', 'R41.2'], ['R40.3'], ['education', 'the-natural-world', 'measurements'], 'A short science or geography text with key words for the subject.'),
@@ -309,98 +309,215 @@ export function pickTopics(t: BankTemplate, i: number): [string, string] {
     return [primary, secondary];
 }
 
+/**
+ * American spelling of the British headwords in the Cambridge lists. The program writes American
+ * English (content/primary/AUTHORING.md). The graph node keeps the British headword, so a package
+ * that glosses the American form must resolve its node by the headword (see `britishHeadword`).
+ */
+export const AMERICAN_SPELLING: Record<string, string> = {
+    practise: 'practice',
+    moustache: 'mustache',
+    colour: 'color',
+    colours: 'colors',
+    harbour: 'harbor',
+    neighbour: 'neighbor',
+    licence: 'license',
+    programme: 'program',
+    aeroplane: 'airplane',
+    cheque: 'check',
+    grey: 'gray',
+    favourite: 'favorite',
+    centre: 'center',
+    theatre: 'theater',
+    metre: 'meter',
+    litre: 'liter',
+    mum: 'mom',
+    jewellery: 'jewelry',
+    pyjamas: 'pajamas',
+    tyre: 'tire',
+    plough: 'plow',
+    storey: 'story',
+    cosy: 'cozy',
+    ageing: 'aging',
+    skilful: 'skillful',
+};
+
+/**
+ * Writes a word in American spelling.
+ * @param word a word of a Cambridge list
+ * @returns the American form, or the word itself when the map has no entry
+ */
+export function americanSpelling(word: string): string {
+    return AMERICAN_SPELLING[word] ?? word;
+}
+
+/**
+ * Finds the British headword of an American form.
+ * @param word a required word in American spelling
+ * @returns the British headword that the graph node uses, or undefined when the map has no entry
+ */
+export function britishHeadword(word: string): string | undefined {
+    return Object.entries(AMERICAN_SPELLING).find(([, us]) => us === word)?.[0];
+}
+
+/**
+ * Writes a topic key in American spelling.
+ * @param key a topic key from a word list or from a text type spec
+ * @returns the key with American spelling ("colours" becomes "colors")
+ */
+export function americanTopic(key: string): string {
+    return key === 'colours' ? 'colors' : key;
+}
+
+/**
+ * Writes the word lists in American spelling. A word that appears twice after the change (for
+ * example "program" and "programme") stays once, in its first topic.
+ * @param pools the word lists by topic
+ * @returns new pools with American words and American topic keys
+ */
+export function normalizePools(pools: WordPools): WordPools {
+    const out = {} as WordPools;
+    for (const list of Object.keys(pools) as WordList[]) {
+        const seen = new Set<string>();
+        out[list] = {};
+        for (const [key, words] of Object.entries(pools[list])) {
+            const topic = americanTopic(key);
+            const fresh = words.map(americanSpelling).filter((w) => !seen.has(w) && seen.add(w));
+            out[list][topic] = [...(out[list][topic] ?? []), ...fresh];
+        }
+    }
+    return out;
+}
+
 /** Shared state of the word plan: how often each word is required so far (across levels). */
 export type UsedCounts = Map<string, number>;
 
-interface Slot {
+/** The words of one article for one list: `count` places, filled by the rotation. */
+interface Segment {
+    index: number;
     list: WordList;
-    words: string[];
+    count: number;
     topics: [string, string];
-}
-
-/** Words of a list that have the topic group of `topic`, or an empty array. */
-function groupWords(pool: Record<string, string[]>, topic: string): string[] {
-    const group = topicGroup(topic);
-    return Object.entries(pool).filter(([key]) => topicGroup(key) === group).flatMap(([, ws]) => ws);
+    words: string[];
 }
 
 /**
  * Assigns the required glossed words of the articles of one level.
- * Words that fit the topics of an article come first, and words that are used least come first.
- * Then each word of the level lists that nothing required yet replaces an often-used word of a
- * matching article, so that every list word has a place when the slot count allows it.
+ * Rule 1 (rotation): the words that are used least come first, so that each word of a list is
+ * required once before any word is required a second time (the counts in `used` carry over from
+ * earlier levels).
+ * Rule 2 (topics): in each round, a word with a topic goes to an article that has the topic, the
+ * scarcest topics last. An article takes at most 2 of its words from its second topic first.
+ * Rule 3 (function words): a word with no topic at this level ("any", "along", "would") goes into
+ * the places that rule 2 leaves, spread evenly over the articles (each article keeps a share
+ * in proportion to the number of such words).
+ * Rule 4: a topic word with no place left in its topics fills a free place of another article, so
+ * that the rotation does not stop.
  * @param level the level (5-9)
  * @param topics the two topics of each article, in plan order
  * @param pools the word lists by topic, without the words that a package already glossed
  * @param used how often each word is required so far; the function adds the new uses
- * @returns the words of each article, in the order of `topics`, and the list words that no article got
+ * @returns the words of each article, in the order of `topics`, and the cover-list words that no article got
  */
 export function assignWords(level: number, topics: [string, string][], pools: WordPools, used: UsedCounts): { words: string[][]; uncovered: string[] } {
-    const all = (list: WordList) => [...new Set(Object.values(pools[list]).flat())];
-    const order = (ws: string[]) => [...ws].sort((a, b) => (used.get(a) ?? 0) - (used.get(b) ?? 0) || a.localeCompare(b));
-    const slots: Slot[][] = topics.map((tp, index) => {
-        const taken = new Set<string>();
-        return wordSegments(level, index).map(({ list, count }) => {
-            const out: string[] = [];
-            // Topic words come first, but not when they are used much more than the least-used word of the list.
-            const floor = Math.min(...all(list).map((x) => used.get(x) ?? 0));
-            const take = (candidates: string[], limit: number, fit = true) => {
-                for (const w of order([...new Set(candidates)]).filter((x) => !taken.has(x) && (!fit || (used.get(x) ?? 0) <= floor + 1))) {
-                    if (out.length >= limit) break;
-                    out.push(w);
-                    taken.add(w);
-                    used.set(w, (used.get(w) ?? 0) + 1);
+    const segments: Segment[] = topics.flatMap((tp, index) => wordSegments(level, index).map(({ list, count }) => ({ index, list, count, topics: tp, words: [] })));
+    const levelGroups = new Set(topics.flat().map(topicGroup));
+    const use = (w: string) => used.set(w, (used.get(w) ?? 0) + 1);
+    const uses = (w: string) => used.get(w) ?? 0;
+    const place = (s: Segment, w: string) => {
+        s.words.push(w);
+        use(w);
+    };
+    const free = (s: Segment) => s.count - s.words.length;
+    /** The segment with most free places (then lowest index) among those that pass `ok`. */
+    const roomiest = (segs: Segment[], w: string, ok: (s: Segment) => boolean = () => true) =>
+        segs.filter((s) => free(s) > 0 && !s.words.includes(w) && ok(s)).sort((a, b) => free(b) - free(a) || a.index - b.index)[0];
+    for (const list of ['movers', 'flyers', 'a2key'] as WordList[]) {
+        const segs = segments.filter((s) => s.list === list);
+        if (!segs.length) continue;
+        const keyOf = new Map<string, string>();
+        for (const [key, ws] of Object.entries(pools[list])) for (const w of ws) if (!keyOf.has(w)) keyOf.set(w, key);
+        const all = [...keyOf.keys()];
+        const groupOf = (w: string) => topicGroup(keyOf.get(w)!);
+        const bound = (w: string) => levelGroups.has(groupOf(w));
+        let stuck = 0;
+        while (segs.some((s) => free(s) > 0) && stuck < 2) {
+            const floor = Math.min(...all.map(uses));
+            const round = all.filter((w) => uses(w) === floor);
+            const before = segs.reduce((n, s) => n + s.words.length, 0);
+            const slots = segs.reduce((n, s) => n + free(s), 0);
+            const topicWords = round.filter(bound);
+            const spread = round.filter((w) => !bound(w));
+            // Each segment keeps a share of its places for words with no topic.
+            const keep = new Map(segs.map((s) => [s, Math.round((free(s) * spread.length) / Math.max(1, round.length))]));
+            const fits = (s: Segment, w: string) => s.topics.some((t) => topicGroup(t) === groupOf(w));
+            // Rule 2: topic words, the groups with the most free places for each word first.
+            const groups = [...new Set(topicWords.map(groupOf))].sort((a, b) => {
+                const room = (g: string) => segs.filter((s) => s.topics.some((t) => topicGroup(t) === g)).reduce((n, s) => n + free(s), 0);
+                const load = (g: string) => topicWords.filter((w) => groupOf(w) === g).length / Math.max(1, room(g));
+                return load(a) - load(b) || a.localeCompare(b);
+            });
+            const left: string[] = [];
+            for (const g of groups) {
+                for (const w of topicWords.filter((x) => groupOf(x) === g)) {
+                    const second = (s: Segment) => topicGroup(s.topics[0]) !== g;
+                    // A first pass limits the words of the second topic; a second pass does not.
+                    const target =
+                        roomiest(segs, w, (s) => fits(s, w) && free(s) > keep.get(s)! && (!second(s) || s.words.filter((x) => topicGroup(s.topics[0]) !== groupOf(x)).length < 2)) ??
+                        roomiest(segs, w, (s) => fits(s, w) && free(s) > keep.get(s)!);
+                    if (target) place(target, w);
+                    else left.push(w);
                 }
-            };
-            const second = Math.min(2, Math.floor(count / 2));
-            take(groupWords(pools[list], tp[0]), count - second);
-            take(groupWords(pools[list], tp[1]), count);
-            take(all(list), count, false);
-            return { list, words: out, topics: tp };
-        });
-    });
-    // Repair: give each list word that no article required (for the lists of this level) a place.
-    const levelLists = new Set(COVER_LISTS[level] ?? []);
-    const wordTopic = (list: WordList, w: string) => Object.entries(pools[list]).find(([, ws]) => ws.includes(w))?.[0] ?? 'other';
-    const uncovered: string[] = [];
-    for (const list of levelLists) {
-        for (const w of order(all(list)).filter((x) => (used.get(x) ?? 0) === 0)) {
-            const group = topicGroup(wordTopic(list, w));
-            const candidates = slots.flat().filter((s) => s.list === list && !s.words.includes(w));
-            // A slot whose word is used 2 or more times can give it up. Prefer a slot with the same topic group.
-            let best: { slot: Slot; at: number; score: number } | undefined;
-            for (const slot of candidates) {
-                slot.words.forEach((x, at) => {
-                    const uses = used.get(x) ?? 0;
-                    if (uses < 2) return;
-                    const score = (slot.topics.some((t) => topicGroup(t) === group) ? 1000 : 0) + uses;
-                    if (!best || score > best.score) best = { slot, at, score };
-                });
             }
-            if (!best) {
-                uncovered.push(w);
-                continue;
+            // Rule 3: words with no topic, evenly.
+            for (const w of spread) {
+                const target = roomiest(segs, w);
+                if (target) place(target, w);
             }
-            const old = best.slot.words[best.at];
-            best.slot.words[best.at] = w;
-            used.set(old, (used.get(old) ?? 0) - 1);
-            used.set(w, (used.get(w) ?? 0) + 1);
+            // Rule 4: topic words with no place in their topics.
+            for (const w of left) {
+                const target = roomiest(segs, w, (s) => fits(s, w)) ?? roomiest(segs, w);
+                if (target) place(target, w);
+            }
+            stuck = segs.reduce((n, s) => n + s.words.length, 0) === before || slots === 0 ? stuck + 1 : 0;
+        }
+        // Rule 5: a topic word in an article that lacks its topic swaps with a word with no topic
+        // in an article that has the topic. The use counts do not change.
+        const fitsTopic = (s: Segment, w: string) => s.topics.some((t) => topicGroup(t) === groupOf(w));
+        for (const s of segs) {
+            for (let k = 0; k < s.words.length; k++) {
+                const w = s.words[k];
+                if (!bound(w) || fitsTopic(s, w)) continue;
+                for (const t of segs) {
+                    if (t === s || !fitsTopic(t, w) || t.words.includes(w)) continue;
+                    const at = t.words.findIndex((x) => !bound(x) && !s.words.includes(x));
+                    if (at < 0) continue;
+                    s.words[k] = t.words[at];
+                    t.words[at] = w;
+                    break;
+                }
+            }
         }
     }
-    const words = slots.map((s) => s.flatMap((x) => x.words));
+    const uncovered: string[] = [];
+    for (const list of COVER_LISTS[level] ?? []) {
+        for (const ws of Object.values(pools[list])) for (const w of ws) if (!uses(w) && !uncovered.includes(w)) uncovered.push(w);
+    }
+    const words = topics.map((_, i) => segments.filter((s) => s.index === i).flatMap((s) => s.words));
     // No two articles may get the same set of words.
+    const listWords = (list: WordList) => [...new Set(Object.values(pools[list]).flat())];
     const seen = new Set<string>();
     words.forEach((ws, i) => {
         let key = [...ws].sort().join(',');
         let guard = 0;
         while (seen.has(key) && guard++ < 50) {
             const list = wordSegments(level, i).at(-1)!.list;
-            const spare = order(all(list)).find((x) => !ws.includes(x));
+            const spare = listWords(list).filter((x) => !ws.includes(x)).sort((a, b) => uses(a) - uses(b) || a.localeCompare(b))[0];
             if (!spare) break;
             const old = ws.pop()!;
-            used.set(old, (used.get(old) ?? 0) - 1);
+            used.set(old, uses(old) - 1);
             ws.push(spare);
-            used.set(spare, (used.get(spare) ?? 0) + 1);
+            use(spare);
             key = [...ws].sort().join(',');
         }
         seen.add(key);
@@ -411,22 +528,22 @@ export function assignWords(level: number, topics: [string, string][], pools: Wo
 /**
  * Builds the rows of a level bank, with the glossed words.
  * @param level the level (5-9)
- * @param pools the word lists by topic, without the words that a package already glossed
- * @param used the required-word counts so far; pass the same map for levels 5, 6, ... in order
+ * @param pools the word lists by topic, without the words that a package already glossed (British headwords; the rows get American spelling)
+ * @param used the required-word counts so far, keyed by American spelling; pass the same map for levels 5, 6, ... in order
  * @returns the rows in plan order, and the list words that no article could take
  */
 export function buildBankRows(level: number, pools: WordPools, used: UsedCounts): { rows: BankRow[]; uncovered: string[] } {
     const specs: { t: BankTemplate; topics: [string, string] }[] = [];
     for (const t of bankTemplates(level)) for (let i = 0; i < t.count; i++) specs.push({ t, topics: pickTopics(t, i) });
     if (specs.length !== BANK_COUNTS[level]) throw new Error(`level ${level}: ${specs.length} planned articles, expected ${BANK_COUNTS[level]}`);
-    const { words, uncovered } = assignWords(level, specs.map((s) => s.topics), pools, used);
+    const { words, uncovered } = assignWords(level, specs.map((s) => s.topics), normalizePools(pools), used);
     const rows = specs.map((s, i) => ({
         lesson: `b${String(i + 1).padStart(3, '0')}`,
         type: s.t.type,
         app: s.t.app,
         objectives: s.t.objectives,
         supporting: s.t.supporting ?? [],
-        topics: s.topics,
+        topics: [americanTopic(s.topics[0]), americanTopic(s.topics[1])] as [string, string],
         requiredGlossed: words[i],
         note: s.t.note,
     }));
