@@ -43,6 +43,12 @@ describe('book rule', () => {
     it('reports every objective as a gap for a book with no package', () => {
         expect(bookCoverage([], ['R24.2'])).toEqual({ total: 1, covered: 0, gaps: ['R24.2'] });
     });
+
+    it('asks for the given number of lessons for an objective (the last book of a band)', () => {
+        const lessons = { 'R29.2': 2 };
+        expect(bookCoverage([pkg(['R29.2'])], ['R29.2'], lessons)).toEqual({ total: 1, covered: 0, gaps: ['R29.2'] });
+        expect(bookCoverage([pkg(['R29.2']), pkg(['R29.2', 'L29.1'])], ['R29.2', 'L29.1'], lessons)).toEqual({ total: 2, covered: 2, gaps: [] });
+    });
 });
 
 const node = (id: string, form: string, exams: string[]) => ({ id: `english.vocabulary.skill.${id}`, kind: 'skill', metadata: { normalizedForm: form, examAlignments: exams } });

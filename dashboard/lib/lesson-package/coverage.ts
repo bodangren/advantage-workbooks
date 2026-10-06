@@ -56,14 +56,16 @@ export function levelCoverage(pkgs: LessonPackage[], objectives: CoverageObjecti
 }
 
 /**
- * The lead objectives of a book that no lesson of the book targets.
+ * The book rule: each objective that the plan gives a book is a target in its number of the book's lessons.
  * @param pkgs The packages of the book folder.
- * @param lead The lead objective ids of the book.
- * @returns The number of lead objectives and the ids that are a target in no lesson.
+ * @param lead The objectives that the plan gives the book.
+ * @param lessons The minimum number of lessons for each objective (default 1).
+ * @returns The count of objectives, the count that meet their number, and the ids that do not.
  */
-export function bookCoverage(pkgs: LessonPackage[], lead: string[]): { total: number; covered: number; gaps: string[] } {
-    const targeted = new Set(pkgs.flatMap((p) => p.tags.targetObjectives));
-    const gaps = lead.filter((id) => !targeted.has(id));
+export function bookCoverage(pkgs: LessonPackage[], lead: string[], lessons: Record<string, number> = {}): { total: number; covered: number; gaps: string[] } {
+    const count = new Map<string, number>();
+    for (const p of pkgs) for (const id of new Set(p.tags.targetObjectives)) count.set(id, (count.get(id) ?? 0) + 1);
+    const gaps = lead.filter((id) => (count.get(id) ?? 0) < (lessons[id] ?? 1));
     return { total: lead.length, covered: lead.length - gaps.length, gaps };
 }
 

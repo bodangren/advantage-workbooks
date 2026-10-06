@@ -26,10 +26,11 @@ The progression plan, with the tables, is `docs/content-plans/primary-levels-5-9
 ### Objectives
 
 - Source: young-learner reading and listening objectives in `mastery-advantage/english/gse-knowledge-space.json`. Level ranges from `mastery-advantage/english/gse-to-primary-advantage.csv`: level 5 GSE 24–26, 6 GSE 27–29, 7 GSE 30–33, 8 GSE 34–38, 9 GSE 39–42.
-- The lead objectives of each book: `docs/content-plans/level-plans/levels-5-9-objectives.json`.
+- Band rule (Daniel, 2026-09-30): the books of a CEFR band share its objectives; no book is pinned to a GSE range. The objectives that each book teaches first: `docs/content-plans/level-plans/levels-5-9-objectives.json` (`books`).
 - Each article has 2–4 targets. Each question carries its objectives.
-- Book rule: each lead objective of a book is a target in 1 or more of its 14 lessons.
-- Level rule: each in-scope objective of a level is a target in 3 or more packages of the level.
+- Book rule: each objective that a book teaches first is a target in 1 or more of its 14 lessons.
+- Level rule: each in-scope objective of a level's own GSE range (`levels`) is a target in 3 or more packages of the level.
+- Recycling (Daniel, 2026-10-06): each package lists every objective that it gives practice in (targets and supporting objectives). The coverage report counts the practice after the first teaching, and the lesson maps choose their other targets from the lowest counts.
 - Out of scope (D1): R25.6, R26.4, R29.1, R32.3 (sounds); R24.1, R29.7, R37.8 (dictionary); L30.2, L31.8, L41.2, R38.13 (media and online tasks).
 
 ### Vocabulary

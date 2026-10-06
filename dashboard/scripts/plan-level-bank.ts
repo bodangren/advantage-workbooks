@@ -2,16 +2,25 @@ import fs from 'fs';
 import path from 'path';
 import { REPO_ROOT } from '../lib/lesson-package/files';
 import { NUMBER_WORDS } from '../lib/text-profile/vocabulary';
+import { CONTENT_ROOT, loadPackageFolder } from '../lib/lesson-package/files';
+import { BANK_COUNTS, LEVEL_BOOKS, WORKBOOK_LESSONS, buildBankRows, targetCounts, type BankRow, type UsedCounts, type WordPools } from '../lib/lesson-package/bank-plan';
 
 const USAGE = `Writes the article plan of a level bank (track level_banks_20261002). No alphabet, phonics, or
 first-words articles: schools (K-2) and Storytime Advantage hold them (Daniel, 2026-10-02).
 
-Usage: npx tsx scripts/plan-level-bank.ts <level 1-4>
+Usage: npx tsx scripts/plan-level-bank.ts <level 1-9>
 
 Reads docs/content-plans/data/legacy-levels-1-4-2026-10-02.json (the old ids) and the YLE word
 lists (docs/content-plans/data/yle-*-words.md). Writes docs/content-plans/level-plans/bank-<level>.json
 and .md: one row per article with its text type, target objectives, required glossed words, and the
-old article id that it replaces. The same input gives the same plan.`;
+old article id that it replaces. The same input gives the same plan.
+
+Levels 5-9 (track levels_5_9_20261006) have no production inventory: every article is new, and the old-id
+files are not read. The text types are in lib/lesson-package/bank-plan.ts. Required glossed words come from
+the Movers, Flyers, and A2 Key lists (docs/content-plans/data/*-words.md) minus the words that a package of
+levels 1-4 already glossed. The script prints a check: article count, the target count of each in-scope
+objective (2 or more), and how many list words the plan requires. It plans levels 5 up to <level> in
+order, because the words that an earlier level takes are not taken again.`;
 
 interface Template {
     type: string;
@@ -101,8 +110,114 @@ function readWordList(file: string): Record<string, string[]> {
     return out;
 }
 
+/** Words that a package of levels 1-4 already glossed (text.glossed, and glossedNodes through the graph). */
+function readGlossed(): Set<string> {
+    const out = new Set<string>();
+    const graphFile = process.env.MASTERY_VOCAB_GRAPH ?? path.join(REPO_ROOT, '..', 'mastery-advantage', 'english', 'cefr-vocabulary', 'cefr-vocabulary-knowledge-space.json');
+    const forms = new Map<string, string>();
+    if (fs.existsSync(graphFile)) {
+        const graph = JSON.parse(fs.readFileSync(graphFile, 'utf8')) as { nodes: { id: string; metadata?: { normalizedForm?: string } }[] };
+        for (const node of graph.nodes) if (node.metadata?.normalizedForm) forms.set(node.id, node.metadata.normalizedForm);
+    }
+    for (const book of fs.readdirSync(CONTENT_ROOT)) {
+        const dir = path.join(CONTENT_ROOT, book);
+        if (!fs.statSync(dir).isDirectory() || book.startsWith('_')) continue;
+        for (const file of loadPackageFolder(dir)) {
+            // Only levels 1-4 count: the plan must not change when a level 5-9 package is written.
+            if (!file.pkg || file.pkg.meta.raLevel > 4) continue;
+            for (const g of file.pkg.text.glossed) out.add(g.toLowerCase());
+            for (const id of file.pkg.tags.glossedNodes) {
+                const form = forms.get(id);
+                if (form) out.add(form);
+            }
+        }
+    }
+    return out;
+}
+
+/** In-scope objectives of a level: its own GSE range (`levels` in the plan file; the books share their band's objectives). */
+function readLevelObjectives(level: number): string[] {
+    const file = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'docs', 'content-plans', 'level-plans', 'levels-5-9-objectives.json'), 'utf8')) as { outOfScope: Record<string, string>; levels: Record<string, string[]> };
+    return file.levels[String(level)].filter((id) => !(id in file.outOfScope));
+}
+
+/** Writes the plan of a level 5-9 bank: no old ids, no deletes. */
+function writeNewBank(level: number): number {
+    const data = path.join(REPO_ROOT, 'docs', 'content-plans', 'data');
+    const glossed = readGlossed();
+    const lists: [keyof WordPools, string][] = [['movers', 'yle-movers-words.md'], ['flyers', 'yle-flyers-words.md'], ['a2key', 'a2-key-words.md']];
+    const pools = {} as WordPools;
+    const listSizes: Record<string, number> = {};
+    const lower = new Set<string>();
+    for (const [name, file] of lists) {
+        const all = readWordList(path.join(data, file));
+        // A word belongs to its lowest list: a word of a lower list is not in a higher pool.
+        pools[name] = Object.fromEntries(Object.entries(all).map(([topic, ws]) => [topic, ws.filter((w) => !glossed.has(w) && !lower.has(w))]));
+        for (const ws of Object.values(all)) for (const w of ws) lower.add(w);
+        listSizes[name] = new Set(Object.values(pools[name]).flat()).size;
+    }
+    const used: UsedCounts = new Map();
+    let rows: BankRow[] = [];
+    let uncovered: string[] = [];
+    for (let l = 5; l <= level; l++) ({ rows, uncovered } = buildBankRows(l, pools, used));
+    const outDir = path.join(REPO_ROOT, 'docs', 'content-plans', 'level-plans');
+    fs.mkdirSync(outDir, { recursive: true });
+    const books = LEVEL_BOOKS[level];
+    const total = WORKBOOK_LESSONS[level] + rows.length;
+    const plan = {
+        level,
+        profile: `bank-${level}`,
+        generatedBy: 'dashboard/scripts/plan-level-bank.ts',
+        books,
+        inventory: 'none: every article is new',
+        deletes: [] as string[],
+        totalAfter: total,
+        articles: rows.map((r) => ({ ...r, replaces: null, oldTitle: null })),
+    };
+    fs.writeFileSync(path.join(outDir, `bank-${level}.json`), `${JSON.stringify(plan, null, 1)}\n`);
+    const md = [
+        `# Level ${level} bank: article plan`,
+        '',
+        `Generated by \`dashboard/scripts/plan-level-bank.ts ${level}\` (track levels_5_9_20261006). Profile \`bank-${level}\`. ${rows.length} articles, all new (no production inventory for this level). Level ${level} after the change: ${total} articles (${WORKBOOK_LESSONS[level]} workbook lessons of ${books.join(', ')}, ${rows.length} bank).`,
+        '',
+        'Targets: 1 to 3 for each article. Supporting objectives can come from an earlier level. Required glossed words: 6 for each article, from the list of the level, matched to the topics. Word lists: `data/yle-movers-words.md`, `data/yle-flyers-words.md`, `data/a2-key-words.md`.',
+        '',
+        '| Lesson | Replaces | Old title | Type | App type | Targets | Supporting | Topics | Required glossed words | Notes |',
+        '|---|---|---|---|---|---|---|---|---|---|',
+        ...rows.map((r) => `| ${r.lesson} | new | — | ${r.type} | ${r.app} | ${r.objectives.join(', ')} | ${r.supporting.join(', ')} | ${r.topics.join(', ')} | ${r.requiredGlossed.join(', ')} | ${r.note} |`),
+        '',
+    ].join('\n');
+    fs.writeFileSync(path.join(outDir, `bank-${level}.md`), md);
+    // The check: counts per level, target count of each in-scope objective, required list words.
+    const counts = targetCounts(rows);
+    const objectives = readLevelObjectives(level);
+    const low = objectives.filter((id) => (counts.get(id) ?? 0) < 2);
+    const outside = [...counts.keys()].filter((id) => !objectives.includes(id) && !isLowerLevel(id, level));
+    const required = new Set(rows.flatMap((r) => r.requiredGlossed));
+    // Per list: words that this level requires, and words that levels 5 up to this level required, of all unglossed list words.
+    const perList = lists.map(([name]) => {
+        const all = new Set(Object.values(pools[name]).flat());
+        const here = [...all].filter((w) => required.has(w)).length;
+        const so = [...all].filter((w) => (used.get(w) ?? 0) > 0).length;
+        return `${name} ${here} here, ${so}/${all.size} by this level`;
+    });
+    const sizes = rows.map((r) => r.requiredGlossed.length);
+    const sets = new Set(rows.map((r) => [...r.requiredGlossed].sort().join(',')));
+    console.log(`bank-${level}: ${rows.length} articles (expected ${BANK_COUNTS[level]}); targets ${Math.min(...rows.map((r) => r.objectives.length))}-${Math.max(...rows.map((r) => r.objectives.length))} each; ${objectives.length} in-scope objectives, ${objectives.length - low.length} at 2+ targets (min ${Math.min(...objectives.map((id) => counts.get(id) ?? 0))})${low.length ? `; LOW: ${low.join(', ')}` : ''}${outside.length ? `; targets outside the level range: ${outside.join(', ')}` : ''}`);
+    console.log(`  required glossed words: ${required.size} different (6 per article: ${sizes.every((x) => x === 6)}; ${sets.size} different sets of ${rows.length}); unglossed list words required: ${perList.join('; ')}${uncovered.length ? `; no slot for: ${uncovered.join(', ')}` : ''}`);
+    return low.length || sets.size !== rows.length || !sizes.every((x) => x === 6) ? 1 : 0;
+}
+
+/** True when the objective id belongs to a GSE value below the level range (an earlier level). */
+function isLowerLevel(id: string, level: number): boolean {
+    const gse = Number(id.slice(1).split('.')[0]);
+    const first = { 5: 24, 6: 27, 7: 30, 8: 34, 9: 39 }[level] ?? 0;
+    return gse < first;
+}
+
 function main(argv: string[]): number {
     const level = Number(argv[0]);
+    if (BANK_COUNTS[level]) return writeNewBank(level);
     if (!T[level]) {
         console.error(USAGE);
         return 2;
