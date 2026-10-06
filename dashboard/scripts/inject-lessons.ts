@@ -11,6 +11,7 @@ import { matchLocales } from '../lib/inject/legacy-locales';
 import { legacyStatements } from '../lib/inject/sql';
 import { newRows, newRowsHash, newStatements, planIds, readLegacyMap, verifyNew } from '../lib/inject/new-db';
 import { applyStatements, verifyLegacy } from '../lib/inject/run';
+import { runWithRetry } from '../lib/inject/gcloud';
 import { voicesFor } from '../lib/media/audio';
 import { tutorItems, tutorManifest, tutorUploads } from '../lib/media/tutor-audio';
 
@@ -107,6 +108,16 @@ function gcloud(args: string[]): string {
     return run.stdout.trim();
 }
 
+/** A bucket copy or upload with a short timeout and new tries (a request can hang behind the proxy). */
+function gcloudStorage(args: string[], timeoutMs: number, tries: number, giveUp?: RegExp): string | undefined {
+    return runWithRetry((a, timeout) => spawnSync('gcloud', a, { encoding: 'utf8', timeout }), args, {
+        timeoutMs,
+        tries,
+        giveUp,
+        onRetry: (attempt, why) => console.log(`  gcloud ${args.slice(0, 2).join(' ')}: try ${attempt} failed (${why}); trying again`),
+    });
+}
+
 /** Makes a Cloud SQL backup, waits for it, and returns its id. */
 function backup(instance: string, description: string, project = 'reading-advantage'): string {
     gcloud(['sql', 'backups', 'create', '--instance', instance, '--project', project, '--description', description]);
@@ -123,7 +134,7 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
                 await sharp(file).png().toFile(png);
                 file = png;
             }
-            gcloud(appUploadArgs(file, bucket, o.to));
+            gcloudStorage(appUploadArgs(file, bucket, o.to), 120_000, 4);
             console.log(`  uploaded ${o.to}`);
         }
     } finally {
@@ -139,18 +150,10 @@ async function upload(root: string, objects: ReturnType<typeof bucketObjects>, b
 function backupObjects(bucket: string, paths: string[], now: Date): number {
     let copied = 0;
     for (const p of paths) {
-        // Three tries: a server-side copy can hang until the timeout (2026-10-06), and then stderr is empty.
-        for (let attempt = 1; ; attempt++) {
-            const run = spawnSync('gcloud', ['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], { encoding: 'utf8', timeout: 300_000 });
-            if (run.status === 0) {
-                copied++;
-                break;
-            }
-            if (/matched no objects|No URLs matched|not found/i.test(run.stderr ?? '')) break;
-            const why = (run.stderr ?? '').trim().slice(-400) || run.error?.message || `stopped by ${run.signal ?? 'an unknown signal'}`;
-            if (attempt >= 3) throw new Error(`backup of gs://${bucket}/${p} failed after ${attempt} tries: ${why}`);
-            console.log(`  backup of ${p}: try ${attempt} failed (${why.split('\n').pop()}); trying again`);
-        }
+        // A server-side copy takes about 8 s; behind the proxy one request in 20 hangs (2026-10-06), so a
+        // short timeout and a new try cost less than one long wait. A missing object has nothing to keep.
+        const out = gcloudStorage(['storage', 'cp', `gs://${bucket}/${p}`, `gs://${bucket}/${backupPath(p, now)}`], 60_000, 5, /matched no objects|No URLs matched|not found/i);
+        if (out !== undefined) copied++;
     }
     return copied;
 }
@@ -165,10 +168,10 @@ function uploadTutor(root: string, uploads: ReturnType<typeof tutorUploads>, man
             fs.mkdirSync(path.dirname(to), { recursive: true });
             fs.copyFileSync(path.resolve(root, u.from), to);
         }
-        gcloud(['storage', 'cp', '-r', path.join(tmp, manifest.articleId), `gs://${bucket}/articles/`, '--cache-control=public, max-age=300']);
+        gcloudStorage(['storage', 'cp', '-r', path.join(tmp, manifest.articleId), `gs://${bucket}/articles/`, '--cache-control=public, max-age=300'], 600_000, 3);
         const file = path.join(tmp, 'manifest.json');
         fs.writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`);
-        gcloud(['storage', 'cp', file, `gs://${bucket}/${prefix}manifest.json`, '--cache-control=no-cache,max-age=0,must-revalidate', '--content-type=application/json']);
+        gcloudStorage(['storage', 'cp', file, `gs://${bucket}/${prefix}manifest.json`, '--cache-control=no-cache,max-age=0,must-revalidate', '--content-type=application/json'], 60_000, 5);
         console.log(`  uploaded ${uploads.length} Tutor clips and ${prefix}manifest.json`);
     } finally {
         fs.rmSync(tmp, { recursive: true, force: true });
