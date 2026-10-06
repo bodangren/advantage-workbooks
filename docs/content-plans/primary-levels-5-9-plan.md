@@ -1,6 +1,6 @@
 # Primary Advantage Levels 5–9 — Progression Plan
 
-Version 0.4 | Date 2026-10-06 | Status: Approved (Daniel approved all proposals D1–D7, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.5 | Date 2026-10-06 | Status: Approved (Daniel approved all proposals D1–D7, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `measure/tracks/levels_5_9_20261006/`. Data: [`level-plans/levels-5-9-objectives.md`](level-plans/levels-5-9-objectives.md) (the objectives of each book), [`data/a2-objective-key.json`](data/a2-objective-key.json) (new), [`data/a1-objective-key.json`](data/a1-objective-key.json). Book catalogue: `advantage-pr/08-strategy/product-strategy-2026-2027.md` §2.
 
@@ -82,7 +82,7 @@ The profiles continue the levels 1–4 steps. Phase 1 calibrates them with two s
 | 4 (now) | `quest-4` | 190–250 | 3 | 5.6–7.0 | 12 | Starters, Movers | 7+ Movers, 1 Flyers at most |
 | 5 | `quest-5` | 230–300 | 3–4 | 6.5–8.0 | 14 | Starters, Movers | 8+ Movers, 2 Flyers at most |
 | 6 | `quest-6` | 270–340 | 4 | 7.0–8.5 | 15 | Starters to Flyers | 6+ Movers or Flyers (the lesson map sets the share: 6.1 more Movers, 6.2 more Flyers), 1 A2 Key at most |
-| 7 | `adventure-7` | 300–380 | 4–5 | 7.5–9.0 | 16 | Starters to Flyers | 8+ Flyers, 2 A2 Key at most |
+| 7 | `adventure-7` | 300–380 | 4–5 | 7.5–9.0 | 16 | Starters to Flyers | 6+ Flyers, 4–6 A2 Key (books; Daniel, 2026-10-06); `bank-7`: 8+ Flyers, 2 A2 Key at most |
 | 8 | `adventure-8` | 340–430 | 5 | 8.0–9.5 | 18 | Starters to A2 Key | 5+ A2 Key, the rest Flyers or A2 Key, 1 B1 at most |
 | 9 | `adventure-9` | 380–480 | 5–6 | 8.5–10.5 | 20 | Starters to A2 Key | 8+ A2 Key, 2 B1 at most |
 
@@ -107,6 +107,8 @@ Shares for the workbooks (the banks glossed the rest and repeat the book words):
 | Adventure 7.1, 7.2 | about 220 Flyers words |
 | Adventure 8.1–8.3 | the rest of the Flyers words; about 250 A2 Key words |
 | Adventure 9.1–9.3 | about 300 A2 Key words |
+
+**Result after level 6 (2026-10-06).** Levels 5 and 6 gave a first gloss to 452 of the 476 Flyers words (level 6 alone: 393 — Quest 6.1 134, Quest 6.2 133, bank-6 126). The Movers list had its first glosses by the end of level 5 (354 of 355). The bank plans give each list word one gloss before any word gets a second gloss, and nothing limited the first glosses of one level, so the lists ran out one level early. Daniel's decision (2026-10-06): keep level 6 as written; each Adventure 7 lesson glosses 4–6 new A2 Key words and 6 or more Flyers words for practice; bank-7 practices (2 A2 Key words at most). Rule for levels 8 and 9: a level takes at most its share of first glosses from the table above, and the bank plans repeat the book words of the level before they give a first gloss.
 
 A book's lesson map gives each lesson its list words by topic, as the Quest 4 map does. The coverage report counts the glossed words of each list after each book.
 
@@ -165,3 +167,4 @@ Daniel (2026-10-06): "Approve all proposals, start Phase 1." Every proposal belo
 - 0.2 — 2026-10-06 — Daniel approved D1–D7. One level-6 glossed-word rule for Quest 6.1 and 6.2.
 - 0.3 — 2026-10-06 — §7 grammar checked against the Cambridge handbooks (`data/grammar-levels-5-9.md`).
 - 0.4 — 2026-10-06 — §3: the band rule of 2026-09-30 again (no book pinned to a GSE range); first teaching split evenly over each band's books; recycling tracked through the objectives that each package practices (Daniel).
+- 0.5 — 2026-10-06 — §5 and §6: level 7 books gloss 4–6 A2 Key words (Daniel); the Flyers result after level 6; a pacing rule for levels 8 and 9.

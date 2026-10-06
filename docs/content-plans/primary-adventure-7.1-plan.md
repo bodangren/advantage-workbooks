@@ -1,6 +1,6 @@
 # Primary Advantage Adventure 7.1 — Lesson Map
 
-Version 0.2 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.3 | Date 2026-10-06 | Status: Draft | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `levels_5_9_20261006`. Companion files: [`primary-quest-6.1-plan.md`](primary-quest-6.1-plan.md) (the model for this map), [`primary-levels-5-9-plan.md`](primary-levels-5-9-plan.md) (§3 band rule, §5 profiles, §6 vocabulary, §7 grammar, §8 cast), [`primary-quest-adventure-series-bible.md`](primary-quest-adventure-series-bible.md) (§2, §4–§7), [`level-plans/levels-5-9-objectives.json`](level-plans/levels-5-9-objectives.json), [`level-plans/bank-7.md`](level-plans/bank-7.md), [`data/grammar-levels-5-9.md`](data/grammar-levels-5-9.md), [`calibration/levels-5-9/l7-story.md`](calibration/levels-5-9/l7-story.md), [`calibration/levels-5-9/l7-info.md`](calibration/levels-5-9/l7-info.md), [`reviews/2026-10-06-prereview-level-5.md`](reviews/2026-10-06-prereview-level-5.md), [`reviews/2026-10-06-prereview-bank-6.md`](reviews/2026-10-06-prereview-bank-6.md), [`../../content/primary/AUTHORING.md`](../../content/primary/AUTHORING.md). The sister map is [`primary-adventure-7.2-plan.md`](primary-adventure-7.2-plan.md).
 
@@ -345,6 +345,8 @@ Word notes for writers:
 - **Months, times, and numbers.** Months, weekdays, *a.m.*, *p.m.*, *baht*, and figures in times, prices, and dates are allowed in Adventure (bible §5). Months that this map glosses are free-pool words; if the converter refuses one, the writer takes a swap.
 - **Names.** *Thailand*, *Singapore*, *Explorers*, and the names of the cast go in `names` or `allow`.
 
+**Change after the map (Daniel, 2026-10-06): 4–6 A2 Key words in each lesson.** The `adventure-7` profile now allows up to 6 A2 Key words and needs 6 or more Flyers words. Each writer keeps the 2 A2 Key words of the table above and replaces 2–4 of the Flyers words glossed before with new A2 Key words from the free pool. The writers' reports and the pre-review report list the changes.
+
 ## 8. Questions and tasks
 
 - MCQ (4 printed of 10): at least 2 test a target objective (L01: "When is the first meeting of the Explorers?"; L03: "When is the library closed?"; L07: "What time does Ranger Mark open the gate?"; L09: "What happens if you land on a red square?").
@@ -367,5 +369,6 @@ Word notes for writers:
 
 ## Revision history
 
+- 0.3 — 2026-10-06 — §7: 4–6 A2 Key words in each lesson (Daniel).
 - 0.2 — 2026-10-06 — Lead decisions for the writers in §9 (Daniel can change them in his review).
 - 0.1 — 2026-10-06 — First version (track levels_5_9_20261006).
