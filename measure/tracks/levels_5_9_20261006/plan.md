@@ -28,15 +28,15 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 ## Phase 3: Level 6
 
-- [~] Quest 6.1: lesson map, 14 packages, pre-review, media — map v0.2 (`docs/content-plans/primary-quest-6.1-plan.md`, lead decisions in §9); writers started 2026-10-06
-- [~] Quest 6.2: lesson map, 14 packages, pre-review, media — map v0.2 (`docs/content-plans/primary-quest-6.2-plan.md`, lead decisions in §9); writers started 2026-10-06
+- [~] Quest 6.1: lesson map, 14 packages, pre-review, media — map v0.3; 14 lessons PASS; pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-quest-6.md`); pictures started; audio and Daniel's approval next
+- [~] Quest 6.2: lesson map, 14 packages, pre-review, media — map v0.3; 14 lessons PASS; pre-review done (same report); media and Daniel's approval next
 - [~] bank-6: 72 packages; QA; media — 72 drafts, 0 FAIL; pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-bank-6.md`, 205 changes); media next
 - [ ] A1 band report: every A1 objective and every Movers word; tags export; Daniel's review
 
 ## Phase 4: Level 7
 
-- [ ] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media
-- [ ] bank-7: 72 packages; QA; media
+- [~] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media — maps v0.2 (`docs/content-plans/primary-adventure-7.1-plan.md`, `-7.2-plan.md`; 2 new A2 Key words in each lesson, Flyers words recycled); writers started 2026-10-06
+- [~] bank-7: 72 packages; QA; media — writers started 2026-10-06
 - [ ] Coverage report; tags export; Daniel's review
 
 ## Phase 5: Level 8
