@@ -135,7 +135,7 @@ Avoid at levels 5–9: *used to*, the second conditional, the present perfect co
 - Parallel writers read the folder's titles and summaries before each article. `scripts/qa-packages.ts` runs after each batch.
 - Sign text goes in the picture prompt in quotation marks (Muse draws it). Each overlay gets a place on its sign.
 - Old articles at levels 5–9: the levels 1–4 rule (§11 D4). A read-only inventory comes first.
-- **After the cutover (Oct 14–16), every injection writes to the new database.** The injector writes only to the legacy database today. So a new-database target is a Phase 1 task, together with the monorepo (the picture key is the UUID when an article has no legacy id; the tags go through `content/primary/tags.json`).
+- **After the cutover deploy (Sunday Oct 11; test Oct 7; calendar of 2026-10-06), every injection writes to the new database.** The injector writes only to the legacy database today. So a new-database target is a Phase 1 task, together with the monorepo (the picture key is the UUID when an article has no legacy id; the tags go through `content/primary/tags.json`).
 
 ## 10. Order
 

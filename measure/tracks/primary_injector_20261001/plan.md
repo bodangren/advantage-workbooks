@@ -20,6 +20,6 @@ Track: `primary_injector_20261001`
 
 ## Phase 4: Cutover support
 
-- [ ] Verify on the rehearsal databases (Oct 8–9, Oct 12–13)
+- [ ] Verify on the cutover test database (Oct 7) and after the deploy (Sunday Oct 11); calendar of 2026-10-06
 - [ ] `--target new` with `legacy_id_map`; verify after the cutover
 - [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`

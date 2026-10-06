@@ -4,7 +4,7 @@ Version 1.0 | Date 2026-10-06 | Status: Active | Owner: Daniel Bo | Internal
 
 Daniel (2026-10-06): "The articles have been AI reviewed already. Please approve for now, get them in the DB, and I will manually approve later this week. If we need to make changes, we can update at that time."
 
-Reason: the injector writes only to the legacy Primary database. The cutover (Oct 14–16) copies that database into the new one, so an article must be in the legacy database before the rehearsals (Oct 8).
+Reason: the injector writes only to the legacy Primary database. The cutover (test Wednesday Oct 7, deploy Sunday Oct 11; calendar of 2026-10-06, strategy v1.4) copies that database into the new one, so an article must be in the legacy database before the deploy on Oct 11.
 
 ## What Claude approved
 

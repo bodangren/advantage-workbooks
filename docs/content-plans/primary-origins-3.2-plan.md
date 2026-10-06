@@ -174,10 +174,10 @@ Print lead time is 3–4 weeks. Files at the printer on 2026-10-24 means books i
 | Oct 2–5 | Pilot: E12 goes through the whole new path (package, review page, character sheets, images, audio, injector into the live database) | Claude; Daniel approves on the review page |
 | Oct 3–7 | 14 articles drafted and checked; Daniel approves the texts on the review page | Claude (draft), Daniel (approve) |
 | Oct 8 | Texts frozen; packages injected into the live database (IDs exist). Quest 4 progress check | Claude; Daniel |
-| Oct 8–9, 12–13 | Cutover rehearsals 1 and 2; verify script on the rehearsal database | Daniel (monorepo), Claude (verify) |
+| Oct 7 | Cutover test (calendar of 2026-10-06; it replaces the rehearsals of Oct 8–9 and 12–13); verify script on the test database | Daniel (monorepo), Claude (verify) |
 | Oct 8–13 | Question banks, print sets, activities, Thai, 45 images, audio for all 15 lessons; Daniel checks the Thai on the review page | Claude; Daniel |
 | Oct 14 | Workbook JSON built from the packages; tag file written (C5); first render | Claude |
-| Oct 14–16 | Primary cutover (if rehearsal 2 passed); verify script on the new database. Last cutover date Oct 20 | Daniel, Claude (verify) |
+| Oct 11 (Sunday) | Primary cutover deploy (if the Oct 7 test passed; it replaces Oct 14–16); verify script on the new database. Last cutover date Oct 20 | Daniel, Claude (verify) |
 | Oct 15–17 | Full proof: Origins 3.2, the insert, and Quest 4 (29 lessons) | Daniel |
 | Oct 18–21 | Corrections; final PDFs; printer pre-flight | Daniel |
 | Oct 22–24 | Files to printer | Daniel |
