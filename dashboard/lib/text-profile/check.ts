@@ -1,5 +1,5 @@
 import { lemmaCandidates, splitSentences, tokenize } from './text';
-import { LEVEL_RANK, type VocabularyIndex, type YleLevel } from './vocabulary';
+import { LEVELS, LEVEL_RANK, type VocabularyIndex, type YleLevel } from './vocabulary';
 import type { LessonText } from './sources';
 
 /** "warn" marks a lesson value that a book rule decides; "pending" marks a book rule before the book is complete. */
@@ -20,22 +20,29 @@ export interface TextProfile {
     id: string;
     label: string;
     words: [number, number];
-    paragraphs: number;
+    /** A number of paragraphs, or a [min, max] range. */
+    paragraphs: number | [number, number];
     meanSentenceLength: [number, number];
     longestSentence: number;
     /**
      * The word list of the level (default Starters). Level 4 (A1-) uses Movers: a running word counts
-     * when it is on Starters or Movers, and the glossed-word rules move up one list.
+     * when it is on Starters or Movers, and the glossed-word rules move up one list. Levels 6 to 9
+     * use Flyers or Key in the same way.
      */
     listLevel?: YleLevel;
+    /**
+     * When set, the glossed minimum counts the glossed words from this level up to the list level.
+     * Default: the list level only.
+     */
+    glossedFrom?: YleLevel;
     /** Share of running words on the list (or an easier one), names not counted (0–1). */
     startersShare: number;
     glossedCount: number;
-    /** Glossed words on the list level (Starters, or Movers for a Movers profile). */
+    /** Glossed words on the list level (or from `glossedFrom` up to the list level). */
     glossedStartersMin: number;
-    /** Glossed words one list above (Movers, or Flyers for a Movers profile). */
+    /** Glossed words one list above the list level. Nothing may be above that. */
     glossedMoversMax: number;
-    /** Glossed list-level words that no earlier text uses. */
+    /** Glossed words that count for the minimum (list level or `glossedFrom`) and that no earlier text uses. */
     newStartersMin: number;
     /** Glossed words of earlier lessons that occur again in the text. */
     recycledMin: number;
@@ -102,6 +109,85 @@ const LEVEL_4: TextProfile = {
     book: { lessons: 14, questionLessonsMin: 10, dialogueLessonsMin: 6 },
 };
 
+/** Level 5 (A1): Quest 5 and the level-5 bank. Movers list. */
+const LEVEL_5: TextProfile = {
+    id: 'quest-5',
+    label: 'Primary level 5 (Quest 5)',
+    words: [230, 300],
+    paragraphs: [3, 4],
+    meanSentenceLength: [6.5, 8.0],
+    longestSentence: 14,
+    listLevel: 'Movers',
+    startersShare: 0.95,
+    glossedCount: 12,
+    glossedStartersMin: 8,
+    glossedMoversMax: 2,
+    newStartersMin: 6,
+    recycledMin: 4,
+    questionMarksMin: 2,
+    spelling: 'american',
+    book: { lessons: 14, questionLessonsMin: 10, dialogueLessonsMin: 6 },
+};
+
+/** Level 6 (A1+): Quest 6.1 and 6.2. Flyers list; glossed Movers or Flyers words count. */
+const LEVEL_6: TextProfile = {
+    ...LEVEL_5,
+    id: 'quest-6',
+    label: 'Primary level 6 (Quest 6.1, 6.2)',
+    words: [270, 340],
+    paragraphs: 4,
+    meanSentenceLength: [7.0, 8.5],
+    longestSentence: 15,
+    listLevel: 'Flyers',
+    glossedFrom: 'Movers',
+    glossedStartersMin: 6,
+    glossedMoversMax: 1,
+};
+
+/** Level 7 (A2-): Adventure 7.1 and 7.2. Flyers list. */
+const LEVEL_7: TextProfile = {
+    ...LEVEL_5,
+    id: 'adventure-7',
+    label: 'Primary level 7 (Adventure 7.1, 7.2)',
+    words: [300, 380],
+    paragraphs: [4, 5],
+    meanSentenceLength: [7.5, 9.0],
+    longestSentence: 16,
+    listLevel: 'Flyers',
+    glossedStartersMin: 8,
+    glossedMoversMax: 2,
+};
+
+/** Level 8 (A2): Adventure 8.1 to 8.3. Key list. */
+const LEVEL_8: TextProfile = {
+    ...LEVEL_5,
+    id: 'adventure-8',
+    label: 'Primary level 8 (Adventure 8.1–8.3)',
+    words: [340, 430],
+    paragraphs: 5,
+    meanSentenceLength: [8.0, 9.5],
+    longestSentence: 18,
+    listLevel: 'Key',
+    glossedStartersMin: 5,
+    glossedMoversMax: 1,
+};
+
+/** Level 9 (A2+): Adventure 9.1 to 9.3. Key list. */
+const LEVEL_9: TextProfile = {
+    ...LEVEL_8,
+    id: 'adventure-9',
+    label: 'Primary level 9 (Adventure 9.1–9.3)',
+    words: [380, 480],
+    paragraphs: [5, 6],
+    meanSentenceLength: [8.5, 10.5],
+    longestSentence: 20,
+    glossedStartersMin: 8,
+    glossedMoversMax: 2,
+};
+
+/** The mean sentence range of a bank: the book range, wider by 0.2 at each end. */
+const widen = ([lo, hi]: [number, number]): [number, number] => [Math.round((lo - 0.2) * 10) / 10, Math.round((hi + 0.2) * 10) / 10];
+
 /** An online-only bank profile: the book's text targets, no book rules, no new or recycled words. */
 const bank = (base: TextProfile, id: string, label: string, over: Partial<TextProfile> = {}): TextProfile => ({
     ...base,
@@ -128,6 +214,16 @@ export const PROFILES: Record<string, TextProfile> = {
     }),
     'bank-3': bank(LEVEL_3, 'bank-3', 'Primary level 3 bank (online only)', { meanSentenceLength: [4.8, 5.8], questionMarksMin: 1 }),
     'bank-4': bank(LEVEL_4, 'bank-4', 'Primary level 4 bank (online only)', { meanSentenceLength: [5.4, 7.2], questionMarksMin: 1 }),
+    'quest-5': LEVEL_5,
+    'quest-6': LEVEL_6,
+    'adventure-7': LEVEL_7,
+    'adventure-8': LEVEL_8,
+    'adventure-9': LEVEL_9,
+    'bank-5': bank(LEVEL_5, 'bank-5', 'Primary level 5 bank (online only)', { meanSentenceLength: widen(LEVEL_5.meanSentenceLength), questionMarksMin: 1 }),
+    'bank-6': bank(LEVEL_6, 'bank-6', 'Primary level 6 bank (online only)', { meanSentenceLength: widen(LEVEL_6.meanSentenceLength), questionMarksMin: 1 }),
+    'bank-7': bank(LEVEL_7, 'bank-7', 'Primary level 7 bank (online only)', { meanSentenceLength: widen(LEVEL_7.meanSentenceLength), questionMarksMin: 1 }),
+    'bank-8': bank(LEVEL_8, 'bank-8', 'Primary level 8 bank (online only)', { meanSentenceLength: widen(LEVEL_8.meanSentenceLength), questionMarksMin: 1 }),
+    'bank-9': bank(LEVEL_9, 'bank-9', 'Primary level 9 bank (online only)', { meanSentenceLength: widen(LEVEL_9.meanSentenceLength), questionMarksMin: 1 }),
     'origins-3.1-insert': {
         ...LEVEL_3,
         id: 'origins-3.1-insert',
@@ -347,9 +443,12 @@ export function checkLesson(
     const glossLevel = (g: string) => index.levelOf(g) ?? index.levelOf(index.lemmaOf(g));
     const glossed = lesson.glossed;
     // "Starters" and "Movers" below mean the list level and the list above it (Movers and Flyers for level 4).
-    const LISTS: YleLevel[] = ['Starters', 'Movers', 'Flyers', 'Key/PET'];
-    const nextLevel = LISTS[listRank + 1];
-    const gStarters = glossed.filter((g) => glossLevel(g) === listLevel);
+    const nextLevel = LEVELS[listRank + 1];
+    const fromRank = profile.glossedFrom ? Math.min(LEVEL_RANK[profile.glossedFrom], listRank) : listRank;
+    const gStarters = glossed.filter((g) => {
+        const l = glossLevel(g);
+        return l !== undefined && LEVEL_RANK[l] >= fromRank && LEVEL_RANK[l] <= listRank;
+    });
     const gMovers = glossed.filter((g) => glossLevel(g) === nextLevel);
     const gAbove = glossed.filter((g) => {
         const l = glossLevel(g);
@@ -374,14 +473,15 @@ export function checkLesson(
     const wrongSpelling = [...new Set(text.tokens.map((t) => t.toLowerCase()).filter((t) => spellMap[t]))];
     const digits = [...new Set(joined.match(/\d+/g) ?? [])];
 
+    const paragraphRange: [number, number] = Array.isArray(profile.paragraphs) ? profile.paragraphs : [profile.paragraphs, profile.paragraphs];
     const checks: CheckResult[] = [
         rangeCheck('words', 'Running words', words, profile.words),
         {
             id: 'paragraphs',
             label: 'Paragraphs',
-            status: lesson.paragraphs.length === profile.paragraphs ? 'pass' : 'fail',
+            status: lesson.paragraphs.length >= paragraphRange[0] && lesson.paragraphs.length <= paragraphRange[1] ? 'pass' : 'fail',
             value: String(lesson.paragraphs.length),
-            target: String(profile.paragraphs),
+            target: Array.isArray(profile.paragraphs) ? `${paragraphRange[0]}–${paragraphRange[1]}` : String(profile.paragraphs),
         },
         rangeCheck('msl', 'Mean sentence length', msl, profile.meanSentenceLength, msl.toFixed(2)),
         {
@@ -407,7 +507,7 @@ export function checkLesson(
         },
         {
             id: 'gloss-starters',
-            label: `Glossed on ${listLevel}`,
+            label: fromRank < listRank ? `Glossed on ${LEVELS[fromRank]} to ${listLevel}` : `Glossed on ${listLevel}`,
             status: gStarters.length >= profile.glossedStartersMin ? 'pass' : 'fail',
             value: String(gStarters.length),
             target: `${profile.glossedStartersMin} or more`,

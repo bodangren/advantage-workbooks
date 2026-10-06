@@ -114,7 +114,7 @@ describe('vocabulary index', () => {
     it('uses the lowest YLE level of all nodes for a form', () => {
         expect(index.levelOf('may')).toBe('Starters');
         expect(index.levelOf('foot')).toBe('Starters');
-        expect(index.levelOf('pond')).toBe('Key/PET');
+        expect(index.levelOf('pond')).toBe('Key');
         expect(index.levelOf('zzz')).toBeUndefined();
     });
 

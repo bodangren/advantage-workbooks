@@ -23,7 +23,10 @@ export const OBJECTIVE_KEY_DIR = path.join(REPO_ROOT, 'docs', 'content-plans', '
  * lesson-12 insert. A bank folder (`bank-<level>`) is not in the order: its profiles count no new or
  * recycled words.
  */
-export const BOOK_ORDER = ['origins-1', 'origins-3.1', 'origins-3.2', 'quest-4', 'quest-5', 'quest-6.1', 'quest-6.2'];
+export const BOOK_ORDER = [
+    'origins-1', 'origins-3.1', 'origins-3.2', 'quest-4', 'quest-5', 'quest-6.1', 'quest-6.2',
+    'adventure-7.1', 'adventure-7.2', 'adventure-8.1', 'adventure-8.2', 'adventure-8.3', 'adventure-9.1', 'adventure-9.2', 'adventure-9.3',
+];
 
 export interface PackageFile {
     file: string;

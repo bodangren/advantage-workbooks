@@ -1,11 +1,17 @@
 import fs from 'fs';
 import { lemmaCandidates, tokenize } from './text';
 
-/** Cambridge YLE level of a word. "Key/PET" means the word is above Flyers. */
-export type YleLevel = 'Starters' | 'Movers' | 'Flyers' | 'Key/PET';
+/**
+ * Cambridge level of a word. Starters, Movers, and Flyers are the YLE exams. "Key" and "PET" are
+ * A2 Key for Schools and B1 Preliminary for Schools. "Above" is a word with no listed exam.
+ */
+export type YleLevel = 'Starters' | 'Movers' | 'Flyers' | 'Key' | 'PET' | 'Above';
+
+/** The levels from easiest to hardest. The index of a level is its rank. */
+export const LEVELS: YleLevel[] = ['Starters', 'Movers', 'Flyers', 'Key', 'PET', 'Above'];
 
 /** Lower rank means an easier level. */
-export const LEVEL_RANK: Record<YleLevel, number> = { Starters: 0, Movers: 1, Flyers: 2, 'Key/PET': 3 };
+export const LEVEL_RANK: Record<YleLevel, number> = { Starters: 0, Movers: 1, Flyers: 2, Key: 3, PET: 4, Above: 5 };
 
 /** The fields the lint reads from a node of the Mastery Advantage vocabulary graph. */
 export interface GraphNode {
@@ -38,13 +44,15 @@ export const NUMBER_WORDS = [
 /**
  * Maps a node's exam alignments to its lowest YLE level.
  * @param exams Values such as "pre-a1-starters" or "a2-key-for-schools".
- * @returns The level; "Key/PET" when no YLE exam is listed.
+ * @returns The lowest level of the exams; "Above" when no listed exam applies.
  */
 export function levelFromExams(exams: string[]): YleLevel {
     if (exams.includes('pre-a1-starters')) return 'Starters';
     if (exams.includes('a1-movers')) return 'Movers';
     if (exams.includes('a2-flyers')) return 'Flyers';
-    return 'Key/PET';
+    if (exams.includes('a2-key-for-schools')) return 'Key';
+    if (exams.includes('b1-preliminary-for-schools')) return 'PET';
+    return 'Above';
 }
 
 /**

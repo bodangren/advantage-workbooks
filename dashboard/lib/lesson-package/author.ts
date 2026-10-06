@@ -20,6 +20,17 @@ export const BOOK_KEYS: Record<string, string> = {
     'origins-3.1': 'o3-1',
     'origins-3.2': 'o3-2',
     'quest-4': 'q4',
+    'quest-5': 'q5',
+    'quest-6.1': 'q6-1',
+    'quest-6.2': 'q6-2',
+    'adventure-7.1': 'a7-1',
+    'adventure-7.2': 'a7-2',
+    'adventure-8.1': 'a8-1',
+    'adventure-8.2': 'a8-2',
+    'adventure-8.3': 'a8-3',
+    'adventure-9.1': 'a9-1',
+    'adventure-9.2': 'a9-2',
+    'adventure-9.3': 'a9-3',
 };
 
 /** The default text profile of each book folder. */
@@ -27,6 +38,17 @@ export const BOOK_PROFILES: Record<string, string> = {
     'origins-1': 'origins-1',
     'origins-3.2': 'origins-3.2',
     'quest-4': 'quest-4',
+    'quest-5': 'quest-5',
+    'quest-6.1': 'quest-6',
+    'quest-6.2': 'quest-6',
+    'adventure-7.1': 'adventure-7',
+    'adventure-7.2': 'adventure-7',
+    'adventure-8.1': 'adventure-8',
+    'adventure-8.2': 'adventure-8',
+    'adventure-8.3': 'adventure-8',
+    'adventure-9.1': 'adventure-9',
+    'adventure-9.2': 'adventure-9',
+    'adventure-9.3': 'adventure-9',
 };
 
 /** mmx voices (content/primary/README.md). */

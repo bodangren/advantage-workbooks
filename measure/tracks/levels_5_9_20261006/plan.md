@@ -7,8 +7,8 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] A2 objective key (`data/a2-objective-key.json`, GSE 30–42); lead objectives per book (`level-plans/levels-5-9-objectives.*`)
 - [x] Daniel's decisions D1–D7 (plan §11): all proposals approved, 2026-10-06
 - [ ] Read-only inventory of levels 5–9 (`scripts/inventory-legacy.ts`; needs read access to the legacy database); similar old articles grouped (`scripts/plan-dedup.ts`)
-- [ ] Vocabulary index: A2 Key and B1 Preliminary as separate levels (now one "Key/PET" group); tests
-- [ ] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level; book folders in `BOOK_ORDER` and `BOOK_PROFILES`; tests
+- [x] Vocabulary index: A2 Key and B1 Preliminary as separate levels (`Key`, `PET`, `Above`); tests
+- [x] Profiles `quest-5`, `quest-6`, `adventure-7`, `adventure-8`, `adventure-9`, and `bank-5` … `bank-9`; glossed-word rules for a Flyers and an A2 Key list level (`glossedFrom`); paragraph ranges; book folders in `BOOK_ORDER`, `BOOK_KEYS`, and `BOOK_PROFILES`; tests (levels 1–4 check results unchanged; mutation test passed)
 - [x] Coverage report for levels 5–9 (`scripts/level-coverage.ts --levels 5-9` → `level-plans/coverage-5-9.md`): the book rule, the level rule, and the list coverage; tests
 - [ ] Bank text types for levels 5–9 (`scripts/plan-level-bank.ts`) from the lead objectives
 - [ ] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks
