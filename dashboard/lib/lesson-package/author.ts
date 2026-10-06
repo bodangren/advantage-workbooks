@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import type { LessonPackage, LessonPackageInput } from './schema';
 import type { VocabularyIndex } from '../text-profile/vocabulary';
 import { tokenize } from '../text-profile/text';
+import { britishHeadword } from '../text-profile/spelling';
 
 /**
  * The authoring format (track level_banks_20261002): one short text file per lesson that a writer
@@ -166,17 +167,27 @@ export function findExample(word: string, sentences: string[], index: Vocabulary
 
 /**
  * The graph nodes of a glossed word, narrowed to its part of speech when a node has it
- * (`kite.noun`); all of the word's nodes when none matches.
+ * (`kite.noun`); all of the word's nodes when none matches. An American spelling also tries its
+ * British headword, the form of the graph node ("mustache" finds `moustache`, the verb
+ * "practice" finds `practise.verb`).
  * @param word The glossed word.
  * @param pos The glossary part of speech, for example `noun`.
  * @param nodesOf All graph node ids of a word.
  * @returns Node ids.
  */
 export function nodesForSense(word: string, pos: string | undefined, nodesOf: (word: string) => string[]): string[] {
+    const pick = (ids: string[]) => (pos ? ids.filter((id) => id.endsWith(`.${pos.toLowerCase()}`)) : ids);
     const all = nodesOf(word);
-    if (!pos) return all;
-    const exact = all.filter((id) => id.endsWith(`.${pos.toLowerCase()}`));
-    return exact.length ? exact : all;
+    const exact = pick(all);
+    if (exact.length) return exact;
+    const british = britishHeadword(word.toLowerCase().trim());
+    if (british) {
+        const other = nodesOf(british);
+        const otherExact = pick(other);
+        if (otherExact.length) return otherExact;
+        if (!all.length) return other;
+    }
+    return all;
 }
 
 /**
@@ -355,7 +366,7 @@ export function parseAuthorSource(
             targetObjectives: objectives(front.objectives),
             supportingObjectives: objectives(front.supporting),
             glossedNodes: [...new Set(glossed.flatMap((w) => nodesForSense(w, glossary.find((g) => g.word.toLowerCase() === w.toLowerCase())?.pos, nodesOf)))],
-            recycledNodes: [...new Set(recycle.flatMap(nodesOf))],
+            recycledNodes: [...new Set(recycle.flatMap((w) => nodesForSense(w, undefined, nodesOf)))],
         },
     };
     if (!bank) {

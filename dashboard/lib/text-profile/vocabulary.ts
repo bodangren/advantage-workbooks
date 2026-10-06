@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { lemmaCandidates, tokenize } from './text';
+import { AMERICAN_SPELLING } from './spelling';
 
 /**
  * Cambridge level of a word. Starters, Movers, and Flyers are the YLE exams. "Key" and "PET" are
@@ -105,6 +106,16 @@ export function buildVocabularyIndex(graph: { nodes: GraphNode[] }): VocabularyI
         }
     }
     for (const n of NUMBER_WORDS) setLevel(n, 'Starters');
+    // An American spelling ("mustache") takes the level and the sibling forms of its British headword,
+    // when the graph has no node for it.
+    for (const [british, us] of Object.entries(AMERICAN_SPELLING)) {
+        const level = levels.get(british);
+        if (!level || levels.has(us)) continue;
+        setLevel(us, level);
+        const s = new Set([us, ...(siblings.get(british) ?? [british])]);
+        siblings.set(us, s);
+        for (const f of s) siblings.get(f)?.add(us);
+    }
 
     const phrases = [...levels.keys()].filter((f) => f.includes(' ')).map((f) => tokenize(f).map((t) => t.toLowerCase()));
 

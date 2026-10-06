@@ -151,6 +151,14 @@ describe('vocabulary index', () => {
         expect(index.levelOf('zzz')).toBeUndefined();
     });
 
+    it('gives an American spelling the level of its British headword', () => {
+        const us = buildVocabularyIndex({ nodes: [node('moustache', M), node('check', S), node('cheque', KET)] });
+        expect(us.levelOf('mustache')).toBe('Movers');
+        expect(us.lemmaOf('mustaches')).toBe('mustache');
+        expect(us.siblingsOf('mustache').has('moustache')).toBe(true);
+        expect(us.levelOf('check')).toBe('Starters');
+    });
+
     it('adds the number words to twenty as Starters', () => {
         expect(index.levelOf('twelve')).toBe('Starters');
         expect(index.levelOf('twenty')).toBe('Starters');

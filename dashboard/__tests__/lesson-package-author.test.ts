@@ -143,6 +143,19 @@ describe('author helpers', () => {
         expect(nodesForSense('run', 'adverb', nodesOf)).toHaveLength(2);
     });
 
+    it('finds the node of an American spelling through its British headword', () => {
+        const graph: Record<string, string[]> = {
+            practice: ['english.vocabulary.skill.practice.noun'],
+            practise: ['english.vocabulary.skill.practise.verb'],
+            moustache: ['english.vocabulary.skill.moustache.noun'],
+        };
+        const lookup = (w: string) => graph[w] ?? [];
+        expect(nodesForSense('mustache', 'noun', lookup)).toEqual(['english.vocabulary.skill.moustache.noun']);
+        expect(nodesForSense('mustache', undefined, lookup)).toEqual(['english.vocabulary.skill.moustache.noun']);
+        expect(nodesForSense('practice', 'verb', lookup)).toEqual(['english.vocabulary.skill.practise.verb']);
+        expect(nodesForSense('practice', 'noun', lookup)).toEqual(['english.vocabulary.skill.practice.noun']);
+    });
+
     it('carries a picture with the same prompt, and the audio when the sentences did not change', () => {
         const first = LessonPackageSchema.parse(parseAuthorSource(SOURCE, { book: 'bank-3', lesson: 'b001' }, index, nodesOf).pkg);
         first.images[0].file = 'bank-3/media/b001/hero.jpg';
