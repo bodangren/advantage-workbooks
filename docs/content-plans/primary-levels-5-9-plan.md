@@ -1,6 +1,6 @@
 # Primary Advantage Levels 5–9 — Progression Plan
 
-Version 0.2 | Date 2026-10-06 | Status: Approved (Daniel approved all proposals D1–D7, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.3 | Date 2026-10-06 | Status: Approved (Daniel approved all proposals D1–D7, 2026-10-06) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `measure/tracks/levels_5_9_20261006/`. Data: [`level-plans/levels-5-9-objectives.md`](level-plans/levels-5-9-objectives.md) (the objectives of each book), [`data/a2-objective-key.json`](data/a2-objective-key.json) (new), [`data/a1-objective-key.json`](data/a1-objective-key.json). Book catalogue: `advantage-pr/08-strategy/product-strategy-2026-2027.md` §2.
 
@@ -105,17 +105,19 @@ Shares for the workbooks (the banks glossed the rest and repeat the book words):
 
 A book's lesson map gives each lesson its list words by topic, as the Quest 4 map does. The coverage report counts the glossed words of each list after each book.
 
-## 7. Grammar (draft)
+## 7. Grammar
 
-This is a draft from the Cambridge YLE Movers and Flyers grammar and the A2 Key grammar. Phase 1 checks it against the handbooks before the first lesson map.
+Checked against the Cambridge Young Learners handbook (2024; Movers and Flyers grammar lists) and the A2 Key handbook (inventory of grammatical areas) on 2026-10-06. The full lists, examples, sources, and the items to avoid are in [`data/grammar-levels-5-9.md`](data/grammar-levels-5-9.md). That file is the rule for writers.
 
-| Level | New grammar |
+| Level | New grammar (summary) |
 |---|---|
-| 5 | Past simple of *be* and of common verbs (*went, saw, had*); comparatives and superlatives; adverbs of frequency; *must* and *mustn't* for rules; *could* for past ability; *Why? Because …*; relative clauses with *who, which, where* |
-| 6 | Past simple questions and negatives; past continuous; *be going to* for plans; *will* for predictions; *should* for advice; *might*; *Have you ever …?* (6.2) |
-| 7 | Present perfect with *ever, never, just, already, yet*; past continuous and past simple with *when* and *while*; zero and first conditional; *too* and *enough*; *a few, a little* |
-| 8 | Present perfect with *for* and *since*; *used to*; *have to* and *don't have to*; *(not) as … as*; present continuous for arrangements; infinitive of purpose; *-ing* after *like, enjoy, love* |
-| 9 | Present and past simple passive of common verbs; sequence linkers (*first, then, after that, finally*); *so* and *because* for results and reasons; reported statements with *said* (check against A2 Key) |
+| 5 | Movers: past simple with questions and negatives; comparatives and superlatives (also of adverbs); adverbs of frequency; *have to / had to*; *could* for past ability; *Why? Because …*; *when* clauses; relative clauses with *who, which, where*; infinitive of purpose; verb + infinitive and verb + *-ing*; *shall I …?*; *What is … like?* |
+| 6 | The rest of Movers (6.1); Flyers starts: past continuous (with *when*); *be going to*; *will*; *should*; *might, may*; *so*; zero conditional; tag questions; *first, then, next, finally* (6.2); *Have you ever been …?* as a fixed question only |
+| 7 | Flyers: present perfect with *ever, never, just, already, yet*; *before / after* clauses; *be made of*; *look / sound / feel like*; *shall* and *could* for suggestions |
+| 8 | A2 Key: first conditional; present perfect with *for / since*; *don't have to*, *needn't*; *too*, *a few* (also *enough*, *a little*); present continuous for arrangements; *would* for requests; *whose*; *while*; *(not) as … as* (GSE only) |
+| 9 | A2 Key: present and past simple passive of common verbs (no agent; not in every lesson); *says that / tells him that* (and *said that* with a simple clause, no tense changes); gerunds as subjects; participles as adjectives |
+
+Avoid at levels 5–9: *used to*, the second conditional, the present perfect continuous, and reported speech with tense changes (B1).
 
 ## 8. Cast and world (proposal; Daniel decides, §11 D3)
 
@@ -156,3 +158,4 @@ Daniel (2026-10-06): "Approve all proposals, start Phase 1." Every proposal belo
 
 - 0.1 — 2026-10-06 — First draft (track `levels_5_9_20261006`).
 - 0.2 — 2026-10-06 — Daniel approved D1–D7. One level-6 glossed-word rule for Quest 6.1 and 6.2.
+- 0.3 — 2026-10-06 — §7 grammar checked against the Cambridge handbooks (`data/grammar-levels-5-9.md`).
