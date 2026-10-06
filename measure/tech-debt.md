@@ -8,8 +8,6 @@
 
 | Date | Track | Item | Severity | Status | Notes |
 |------|-------|------|----------|--------|-------|
-| 2026-03-09 | papercuts_fixes_20260309 | Unused/invalid @ts-expect-error directives and regex flag in tests | Low | Resolved | Fixed via test refactoring |
-| 2026-03-10 | refactor_cleanup_20260310 | Unused variables, broken React Hook dependencies, and Next.js Image warnings | Medium | Resolved | Fixed in app and tests files |
 | 2026-03-10 | refactor_cleanup_20260310 | NPM audit vulnerabilities (minimatch, ajv, rollup) | High | Resolved | Run npm audit fix |
 | 2026-03-10 | certificate_of_completion_20260310 | Fixed Next.js build error caused by outdated ai-augmentor function signature taking extra argument | High | Resolved | Fixed in app and scripts |
 | 2026-03-10 | self_assessment_generator_20260310 | Consider moving the generated printable sections into separate files if workbook-document-wrapper.ts grows beyond manageable size | Medium | Resolved | Refactored in refactor_document_wrapper_20260310 |
@@ -48,3 +46,5 @@
 | 2026-10-02 | level_banks_20261002 | The glossary example finder needs the exact glossed form in the text ("stair" vs "stairs", "ask" vs "asked") | Low | Open | Writers add the base form to the text or a fifth glossary field |
 | 2026-10-02 | print_ready_pdf_20261002 | The secondary (Reading Advantage) template still loads Google variable fonts and uses emoji, gradients, and transparency, so its PDFs fail `scripts/print/make-pdfx.ts`. | Medium | Open | Apply the Primary changes (print fonts, `icon` helper, solid colors) before the next Reading Advantage print run. |
 | 2026-10-02 | print_ready_pdf_20261002 | No bleed or crop marks; dark text prints as four-color black after the RGB-to-CMYK conversion. | Low | Open | Ask the printer after his holiday (2026-10-07). Paged.js `@page { bleed: 3mm; marks: crop; }` is the bleed path. |
+| 2026-10-06 | level_banks_20261002 | The 222 new lessons have Thai only. The injector puts English in the app's cn, tw, and vi fields; 179 of them replace old articles that had those translations. | Medium | Open | Daniel (2026-10-06): acceptable during the term break. Make cn, tw, and vi before the schools use the app again. |
+| 2026-10-06 | lesson_packages_20261001 | No database stores the objective and vocabulary tags; the injector writes none. | Medium | Open | `content/primary/tags.json` (`scripts/export-tags.ts`) carries them. Monorepo track `primary_objective_tags_20261006` imports it. Export again after each injection. |

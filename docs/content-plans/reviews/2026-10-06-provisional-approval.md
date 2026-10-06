@@ -28,6 +28,10 @@ Claude approved every part of 218 lessons with the store's "approve all" functio
 2. The 180 bank articles: no person read them. Only the script checks and the AI review at generation looked at them.
 3. Ten bank-3 pictures have sign text with no place on the sign (WARN `image-text`): B011, B028, B029, B030, B031, B032, B033, B034, B035, B048. The script draws the text in stacked boxes. Give each text a place, or make the picture again with the text in the prompt.
 
+## Known gap: cn, tw, and vi
+
+The new lessons have Thai only, so the injector puts English in the app's cn, tw, and vi fields. 179 of them replace old articles that had those translations. Daniel (2026-10-06): "Everyone is on term break now. No problem." Make cn, tw, and vi before the schools use the app again (`measure/tech-debt.md`).
+
 ## How to change a lesson after the injection
 
 1. Change the lesson on `/review` (or in its source, then convert). The changed part goes back to draft.
