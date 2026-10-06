@@ -299,3 +299,4 @@ All 36 converters: PASS, 0 FAIL.
 ## Revision History
 
 - 1.0 — 2026-10-07 — First version: three editors, Claude's plan, story-world, and calendar check.
+- 1.1 — 2026-10-07 — b051 "A Note on the Fridge" -> "Mom's Morning Note" (bank-7 b049 has the same title). Picture prompts softened after the image filter refused them: b026, b061, b086.
