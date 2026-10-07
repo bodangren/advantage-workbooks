@@ -134,7 +134,8 @@ export function coverDocument(pages: string[], fontCss: string): string {
 ${fontCss}
 @page { size: 210mm 285mm; margin: 0; }
 html, body { margin: 0; padding: 0; background: #ffffff; }
-.page { position: relative; width: 210mm; height: 285mm; overflow: hidden; break-after: page; }
+.page { position: relative; width: 210mm; height: 285mm; overflow: hidden; }
+.page + .page { break-before: page; }
 .page > img, .page > svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 .text { position: absolute; color: #000000; font-family: 'League Spartan', 'Noto Sans Thai'; font-weight: 400; font-synthesis: none; }
 .text p { margin: 0; }

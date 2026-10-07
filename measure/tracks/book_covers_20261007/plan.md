@@ -47,13 +47,17 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
 
 ## Phase 3: Print files
 
-- [ ] Task: Compose. sharp combines all picture layers of a side into one opaque image
-      (2480 × 3366 px, 300 ppi); the template draws only text and solid shapes on it. Test: the
-      print PDF passes `make-pdfx.ts --check` with the fonts kept
-- [ ] Task: `make-cover.ts <book> --print`: a 2-page Chrome PDF, then `make-pdfx.ts`, to
-      `~/Desktop/print-ready/Primary-Advantage-<Book>-Cover_PDFX-1a.pdf`
-- [ ] Task: The Origins 3.2 and Quest 4 print PDFs after Daniel approves the PNGs (printer: week of
-      2026-10-12)
+- [x] Task: Compose. sharp combines all picture layers of a side into one opaque image
+      (2480 × 3366 px, 300 ppi); the template draws only text on it. The Quest 4 test print passes
+      every `make-pdfx.ts` check with the fonts kept: one CMYK JPEG per page at 300 ppi, League
+      Spartan and Noto Sans Thai embedded (CID TrueType), no Type 3 font, page 594.96 × 808.08 pt
+      (Chrome's 210 × 285 mm, as the workbooks). CMYK makes the RA-logo cyan and the badge pink a
+      little lighter (out of gamut; the same for any CMYK print of the Canva art)
+- [x] Task: `make-cover.ts <book> --print`: a 2-page Chrome PDF (`print-ready/chrome/<book>-cover.pdf`,
+      checked: 2 pages, page size, no Type 3, fonts embedded), then `make-pdfx.ts --keep-fonts`, to
+      `~/Desktop/print-ready/Primary-Advantage-<Book>-Cover_PDFX-1a.pdf` (`--out-dir` for a test)
+- [ ] Task: The Origins 3.2 and Quest 4 print PDFs after Daniel approves the Thai text (printer: week
+      of 2026-10-12). Contact lines fixed (Daniel, 2026-10-07): 099-005-8038, TikTok 4cd3d23
 - [ ] Task: Docs. tech-stack.md (League Spartan, the cover pipeline), lessons-learned.md,
       tech-debt.md
 - [ ] Task: Measure - User Manual Verification 'Phase 3' (Protocol in workflow.md)

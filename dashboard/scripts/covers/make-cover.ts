@@ -1,4 +1,6 @@
+import { spawnSync } from 'child_process';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { chromium, type Browser } from '@playwright/test';
 import sharp from 'sharp';
@@ -9,19 +11,25 @@ import { backText } from '../../lib/covers/back-text';
 import { composeSide, cutWide, placeArt } from '../../lib/covers/compose';
 import { COVER_FONT_FACES, backPage, coverDocument, frontPage } from '../../lib/covers/template';
 import { fontFaceCss } from '../../lib/document-wrapper/print-fonts';
+import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
+import { run } from '../../lib/print/render';
 
 const USAGE = `Makes the cover of a Primary Advantage book from its data, its art, and the cover kit
 (track book_covers_20261007).
 
-Usage: npx tsx scripts/covers/make-cover.ts <book> [--front] [--back] [--draft] [--out-dir <dir>]
+Usage: npx tsx scripts/covers/make-cover.ts <book> [--front] [--back] [--print] [--draft] [--out-dir <dir>]
 
   <book>      A book folder name, for example quest-4 or origins-3.2
   --front     The front PNG: <out-dir>/PA-<Book>-Front Cover.png, 1474 x 2000 RGB
   --back      The back PNG: <out-dir>/PA-<Book>-Back Cover.png (needs content/covers/<book>.json
               and content/covers/series.json; fails on a copy-check error or text that is too long)
+  --print     The print file: a 2-page Chrome PDF (front, back; 210 x 285 mm) in
+              <dir>/chrome/<book>-cover.pdf, checked, then converted by scripts/print/make-pdfx.ts
+              (fonts kept) to <dir>/Primary-Advantage-<Book>-Cover_PDFX-1a.pdf; <dir> is
+              ~/Desktop/print-ready, or --out-dir when given
   --draft     Write the back PNG also when the text is too long (a warning, not an error), to see
               where the lines wrap
-  --out-dir   Output folder (default assets/ in the repo)
+  --out-dir   Output folder (default: assets/ in the repo for PNGs, ~/Desktop/print-ready for --print)
 
 The art comes from content/covers/<book>.json ("art": {"front", "back", "align"} or {"wide"});
 without that file, from assets/PA-<Book>-background.png and assets/PA-<Book>-back-cover-background.png,
@@ -31,6 +39,9 @@ centered on the page.`;
 const PNG_SIZE = { width: 1474, height: 2000 };
 /** The page in CSS px (210 x 285 mm). */
 const PAGE_PX = { width: 794, height: 1077 };
+/** The book page in points (210 x 285 mm), and how far a page may be from it (as `make-book-pdf.ts`). */
+const PAGE_PT = { width: 595.28, height: 807.87, slack: 2 };
+const PRINT_DIR = path.join(os.homedir(), 'Desktop', 'print-ready');
 
 interface Kit {
     pixels: { width: number; height: number };
@@ -70,12 +81,38 @@ async function renderPng(browser: Browser, html: string, file: string, draft: bo
     }
 }
 
+/**
+ * Prints the cover document to a Chrome PDF and checks it: two pages of 210 x 285 mm, no Type 3
+ * font, every font embedded. Throws when a text box is too long.
+ */
+async function renderPdf(browser: Browser, html: string, file: string): Promise<string[]> {
+    const page = await browser.newPage();
+    try {
+        await page.setContent(html, { waitUntil: 'load' });
+        await page.waitForSelector('body[data-ready]');
+        const overflow = await page.evaluate(() => document.body.dataset.overflow);
+        if (overflow) throw new Error(`Text too long for its box: ${overflow}`);
+        await page.pdf({ path: file, width: '210mm', height: '285mm', printBackground: true, preferCSSPageSize: true });
+    } finally {
+        await page.close();
+    }
+    const problems: string[] = [];
+    const info = parsePdfinfo(run('pdfinfo', ['-box', file]));
+    if (info.pages !== 2) problems.push(`${info.pages} pages (expected 2: front, back)`);
+    if (Math.abs(info.width - PAGE_PT.width) > PAGE_PT.slack || Math.abs(info.height - PAGE_PT.height) > PAGE_PT.slack) problems.push(`page size ${info.width} x ${info.height} pt is not 210 x 285 mm`);
+    const fonts = parsePdffonts(run('pdffonts', [file]));
+    if (fonts.some((f) => f.type === 'Type 3')) problems.push('Type 3 font');
+    if (fonts.some((f) => !f.embedded)) problems.push('a font is not embedded');
+    return problems;
+}
+
 async function main(argv: string[]): Promise<number> {
     let id: string | undefined;
     let front = false;
     let back = false;
     let draft = false;
-    let outDir = path.join(REPO_ROOT, 'assets');
+    let print = false;
+    let outDir: string | undefined;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -84,6 +121,7 @@ async function main(argv: string[]): Promise<number> {
         } else if (a === '--front') front = true;
         else if (a === '--back') back = true;
         else if (a === '--draft') draft = true;
+        else if (a === '--print') print = true;
         else if (a === '--out-dir') outDir = path.resolve(argv[++i]);
         else if (!a.startsWith('-') && !id) id = a;
         else {
@@ -91,6 +129,7 @@ async function main(argv: string[]): Promise<number> {
             return 2;
         }
     }
+    if (print) front = back = true;
     if (!id || !(front || back)) {
         console.error(USAGE);
         return 2;
@@ -116,18 +155,34 @@ async function main(argv: string[]): Promise<number> {
         pages.push({ side: 'Back', html: backPage(jpegUrl(picture), text) });
     }
 
-    fs.mkdirSync(outDir, { recursive: true });
     const browser = await chromium.launch({ channel: 'chrome' });
+    let chromePdf: string | undefined;
     try {
-        for (const p of pages) {
-            const file = path.join(outDir, `${book.fileStem}-${p.side} Cover.png`);
-            await renderPng(browser, coverDocument([p.html], fontCss), file, draft);
-            console.log(`${p.side}: ${file}`);
+        if (print) {
+            chromePdf = path.join(outDir ?? PRINT_DIR, 'chrome', `${book.id}-cover.pdf`);
+            fs.mkdirSync(path.dirname(chromePdf), { recursive: true });
+            const problems = await renderPdf(browser, coverDocument(pages.map((p) => p.html), fontCss), chromePdf);
+            if (problems.length) {
+                console.error(`FAIL  ${chromePdf}: ${problems.join('; ')}`);
+                return 1;
+            }
+            console.log(`Chrome PDF: ${chromePdf}`);
+        } else {
+            const pngDir = outDir ?? path.join(REPO_ROOT, 'assets');
+            fs.mkdirSync(pngDir, { recursive: true });
+            for (const p of pages) {
+                const file = path.join(pngDir, `${book.fileStem}-${p.side} Cover.png`);
+                await renderPng(browser, coverDocument([p.html], fontCss), file, draft);
+                console.log(`${p.side}: ${file}`);
+            }
         }
     } finally {
         await browser.close();
     }
-    return 0;
+    if (!chromePdf) return 0;
+    const out = path.join(outDir ?? PRINT_DIR, `Primary-Advantage-${book.name.replace(/ /g, '-')}-Cover_PDFX-1a.pdf`);
+    const pdfx = spawnSync('npx', ['tsx', path.join(process.cwd(), 'scripts', 'print', 'make-pdfx.ts'), chromePdf, '--out', out, '--keep-fonts'], { stdio: 'inherit' });
+    return pdfx.status ?? 1;
 }
 
 main(process.argv.slice(2)).then(
