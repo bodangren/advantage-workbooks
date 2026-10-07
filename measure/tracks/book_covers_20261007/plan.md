@@ -47,8 +47,14 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
 
 ## Phase 4 (later; separate approval): levels 5–9
 
-- [ ] Task: Hero reference sheets (the boy, the girl, the fox) from the Quest 4 front, for
-      `--subject-ref`; a test of one wide picture
+- [~] Task: Hero references and a test of one wide picture (Quest 5, 2026-10-07). mmx image-01
+      (`--subject-ref` with the heroes cut from the Quest 4 front, 2048 × 1392): generic cartoon
+      style, other faces, heroes over the center line; failed. Muse (`meta/muse-image`, OpenRouter,
+      `aspect_ratio 3:2` = 1920 × 1280, references: heroes from Quest 4, fox from Origins 3.2, the
+      Origins 3.2 front art for the style): same style, same heroes and fox; chosen. Prompt rules: never
+      say "left half = back cover" (Muse then draws a divider); say "one continuous painting, no
+      divider"; give the hero size by place (heads at the middle of the height, feet one sixth above
+      the bottom). Cut: 1886 × 1280 → two pages of 943 × 1280 (about 114 ppi)
 - [ ] Task: One wide picture (R8) for each of Quest 5, Quest 6.1, 6.2, and Adventure 7.1–9.3, from
       `docs/content-plans/primary-cover-art-plan.md`; Daniel approves each picture
 - [ ] Task: Adventure series text; the CEFR badge for levels 7–9 (Daniel's decision)

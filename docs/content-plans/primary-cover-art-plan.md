@@ -8,9 +8,14 @@ it still works"). Track: `measure/tracks/book_covers_20261007/`.
 - **One scene for each book.** The back art and the front art are one continuous picture. In the
   flat cover, the back is on the left and the front is on the right. New books get one wide
   picture that the cover script cuts into the back and the front.
-- **Size.** `mmx image` makes at most 2048 px on a side. A wide picture of 2048 × 1392 px gives
-  two pages of 1024 × 1392 px (about 124 ppi at 210 × 285 mm; the Canva art of levels 1–4 is about
-  128 ppi).
+- **Model and size.** Muse (`meta/muse-image` through OpenRouter) with three reference pictures: the
+  heroes (cut from the Quest 4 front), the fox (cut from the Origins 3.2 front), and a cover art for
+  the style. mmx image-01 failed the test (other style, other faces). Muse gives 1920 × 1280 px for
+  `3:2`; the cut gives two pages of 943 × 1280 px (about 114 ppi at 210 × 285 mm; the Canva art of
+  levels 1–4 is about 128 ppi).
+- **Prompt.** Say "one single continuous wide painting, no divider" and never "left half = back
+  cover" (Muse then draws a line in the middle). Place the heroes at about three quarters of the
+  width, heads at the middle of the height, feet one sixth above the bottom.
 - **Layout zones.** The front has the level bar and the PA logo at the top and the title banner at
   the bottom; the heroes stand in the middle of the front half, away from the center line. The back
   has the logos and the CEFR badge at the top, the paper panel with the text in the middle, and the

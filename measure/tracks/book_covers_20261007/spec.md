@@ -68,8 +68,9 @@ printer in the week of 2026-10-12. Then new, improved backs for Origins 1, 2, an
   side are combined into one opaque image, so the PDF has no transparency and the text stays
   vector.
 - R7. Daniel approves each cover PNG before the print PDF is made.
-- R8. Wide art: the cover data can name one wide picture (2048 × 1392 px from `mmx image`) in
-  place of two pictures; the script cuts it into the back (left half) and the front (right half).
+- R8. Wide art: the cover data can name one wide picture (Muse, 1920 × 1280 px) in place of two
+  pictures; the script cuts the middle 210:285 × 2 part into the back (left half) and the front
+  (right half). Daniel (2026-10-07): test mmx first, use Muse when mmx fails; mmx failed.
 
 ## Out of scope
 
