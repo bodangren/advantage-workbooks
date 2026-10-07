@@ -32,18 +32,31 @@ export const PRINT_FONT_FACES: PrintFontFace[] = [
 
 let cached: string | undefined;
 
+/** The folder with the print font files. */
+export const PRINT_FONT_DIR = path.join(process.cwd(), 'assets', 'print-fonts');
+
+/**
+ * `@font-face` rules for a list of faces, with each font file as a data URL.
+ * @param list The faces.
+ * @param dir The folder with the font files.
+ * @returns The CSS.
+ */
+export function fontFaceCss(list: PrintFontFace[], dir: string = PRINT_FONT_DIR): string {
+    return list.map((f) => {
+        const data = fs.readFileSync(path.join(dir, f.file)).toString('base64');
+        const range = f.unicodeRange ? ` unicode-range: ${f.unicodeRange};` : '';
+        return `@font-face { font-family: '${f.family}'; font-weight: ${f.weight}; font-style: ${f.style}; src: url(data:font/woff2;base64,${data}) format('woff2');${range} }`;
+    }).join('\n');
+}
+
 /**
  * The `@font-face` rules for the print document, with each font file as a data URL, so the
  * dashboard iframe, a file:// render, and Playwright all load the same fonts.
  * @param dir The folder with the font files.
  * @returns The CSS.
  */
-export function printFontFaceCss(dir: string = path.join(process.cwd(), 'assets', 'print-fonts')): string {
+export function printFontFaceCss(dir: string = PRINT_FONT_DIR): string {
     if (cached) return cached;
-    cached = PRINT_FONT_FACES.map((f) => {
-        const data = fs.readFileSync(path.join(dir, f.file)).toString('base64');
-        const range = f.unicodeRange ? ` unicode-range: ${f.unicodeRange};` : '';
-        return `@font-face { font-family: '${f.family}'; font-weight: ${f.weight}; font-style: ${f.style}; src: url(data:font/woff2;base64,${data}) format('woff2');${range} }`;
-    }).join('\n');
+    cached = fontFaceCss(PRINT_FONT_FACES, dir);
     return cached;
 }
