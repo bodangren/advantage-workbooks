@@ -62,3 +62,11 @@ describe('cover data files', () => {
         }
     });
 });
+
+describe('cover contact lines', () => {
+    it('has the Thai phone form and the brand spelling (Daniel, 2026-10-07)', () => {
+        expect(BACK_LINES.contact).toContain('โทรศัพท์: **099-005-8038**');
+        expect(BACK_LINES.contact).toContain('**TikTok @reading.advantage**');
+        expect(BACK_LINES.contact.join(' ')).not.toMatch(/\+66|Tiktok/);
+    });
+});

@@ -8,13 +8,16 @@ import type { CoverData, CoverSeries } from './schema';
  * `**bold**` and `\n` for a line break that the author wants.
  */
 
-/** The fixed lines (from the Canva back, 2026-10-07). */
+/**
+ * The fixed lines (from the Canva back, 2026-10-07). Daniel (2026-10-07): the phone number in the
+ * Thai form, without +66 (the Canva line "+66 099-005-8038" mixed two forms), and "TikTok".
+ */
 export const BACK_LINES = {
     seriesHeading: 'เกี่ยวกับซีรีส์ **{series}**',
     bookHeading: 'เกี่ยวกับเล่มนี้',
     canDoIntro: 'เมื่อเรียนจบเล่มนี้ คุณจะสามารถ:',
     nextPoint: 'พร้อมก้าวสู่ **{next}** เพื่อเดินทางต่อไป',
-    contact: ['ติดต่อเรา', 'อีเมล: **support@reading-advantage.com**', 'โทรศัพท์: **+66 099-005-8038**', 'ขอนแก่น ประเทศไทย', '**Tiktok @reading.advantage**'],
+    contact: ['ติดต่อเรา', 'อีเมล: **support@reading-advantage.com**', 'โทรศัพท์: **099-005-8038**', 'ขอนแก่น ประเทศไทย', '**TikTok @reading.advantage**'],
 };
 
 /** The back text with the names filled in. */

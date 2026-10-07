@@ -32,8 +32,7 @@ reading, vocabulary, comprehension, and writing activities), as on the Canva bac
 | Origins 3.2 | **Origins 3.2** เป็นเล่มสุดท้ายของซีรีส์ **Origins** มี **14** บทเรียน ทั้งเรื่องสั้นและงานเขียนจากชีวิตจริง เช่น ป้าย กิจวัตรประจำวัน และวิธีทำว่าว — the last book of the Origins series: 14 lessons, short stories and real-life texts such as signs, a daily routine, and how to make a kite | อ่านป้าย คำสั่ง และขั้นตอนสั้นๆ ที่ใช้ในชีวิตจริง (read signs, instructions, and short steps) · นับเลขถึงยี่สิบ และบอกเวลาในกิจวัตรประจำวัน (count to twenty and tell the time of a daily routine) · ถามและตอบคำถามง่ายๆ เกี่ยวกับตัวเองและงานอดิเรก (ask and answer simple questions about yourself and hobbies) |
 | Quest 4 | **Quest 4** เป็นเล่มแรกของซีรีส์ **Quest** ประกอบด้วย **14** บทเรียน ทั้งเรื่องเล่าและงานเขียนจากชีวิตจริง เช่น ตารางเรียน แผนที่ รายงานสภาพอากาศ และประกาศตามหาสัตว์เลี้ยง — the first book of the Quest series: 14 lessons, stories and real-life texts such as a timetable, a map, a weather report, and a lost-pet notice | อ่านตารางเรียน แผนที่ และประกาศสั้นๆ แล้วหาข้อมูลที่ต้องการ (read a timetable, a map, and short notices to find information) · บอกสิ่งที่ทำได้และทำไม่ได้ สิ่งที่ชอบและไม่ชอบ (say what you can and cannot do, and what you like and dislike) · บอกเวลา วันในสัปดาห์ และสภาพอากาศเป็นภาษาอังกฤษ (say the time, the days of the week, and the weather) |
 
-## Open
+## Contact lines (Daniel, 2026-10-07)
 
-- Phone number: the Canva contact line is "+66 099-005-8038". With +66 the leading 0 drops
-  ("+66 99-005-8038"); inside Thailand it is "099-005-8038". Daniel chooses one.
-- "Tiktok" on the Canva back; the brand writes "TikTok".
+- Phone: "099-005-8038" (the Thai form). The Canva line "+66 099-005-8038" mixed two forms.
+- "TikTok @reading.advantage" (the brand spelling; Canva had "Tiktok").
