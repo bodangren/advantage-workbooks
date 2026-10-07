@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Book covers from data: a cover kit from the Canva SVGs, front and back templates, web PNGs and PDF/X-1a print files.** *(Created: 2026-10-07)*
+  *Link: [./tracks/book_covers_20261007/](./tracks/book_covers_20261007/)*
+
 - [~] **Track: Levels 5–9 workbook lessons (Quest 5, Quest 6.1, 6.2, Adventure 7.1–9.3) and online banks of 50 articles per book.** *(Created: 2026-10-06)*
   *Link: [./tracks/levels_5_9_20261006/](./tracks/levels_5_9_20261006/)*
 
