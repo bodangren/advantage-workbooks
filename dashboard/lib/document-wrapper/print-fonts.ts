@@ -17,9 +17,11 @@ export interface PrintFontFace {
     file: string;
     /** Set for a face that only gives the glyphs of one script. */
     unicodeRange?: string;
+    /** The CSS `size-adjust` descriptor, for example `83.18%`. */
+    sizeAdjust?: string;
 }
 
-const THAI = 'U+0E01-0E5B, U+200C-200D, U+25CC';
+export const THAI = 'U+0E01-0E5B, U+200C-200D, U+25CC';
 
 const faces = (family: string, slug: string, subset: string, list: [number, 'normal' | 'italic'][], unicodeRange?: string): PrintFontFace[] =>
     list.map(([weight, style]) => ({ family, weight, style, file: `${slug}-${subset}-${weight}-${style}.woff2`, unicodeRange }));
@@ -45,7 +47,8 @@ export function fontFaceCss(list: PrintFontFace[], dir: string = PRINT_FONT_DIR)
     return list.map((f) => {
         const data = fs.readFileSync(path.join(dir, f.file)).toString('base64');
         const range = f.unicodeRange ? ` unicode-range: ${f.unicodeRange};` : '';
-        return `@font-face { font-family: '${f.family}'; font-weight: ${f.weight}; font-style: ${f.style}; src: url(data:font/woff2;base64,${data}) format('woff2');${range} }`;
+        const adjust = f.sizeAdjust ? ` size-adjust: ${f.sizeAdjust};` : '';
+        return `@font-face { font-family: '${f.family}'; font-weight: ${f.weight}; font-style: ${f.style}; src: url(data:font/woff2;base64,${data}) format('woff2');${range}${adjust} }`;
     }).join('\n');
 }
 

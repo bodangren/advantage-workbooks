@@ -24,15 +24,23 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       26.9): Daniel moved those Canva titles by hand (baselines 731.1 and 733.6 pt). Canva centered
       the art on every page except the Origins 3.2 front, so the placement is cover data
       (`art.align`, default center), not kit data
-- [~] Task: The Quest 4 front PNG (`assets/PA-Quest-4-Front Cover.png`); Daniel's check
-- [ ] Task: Measure - User Manual Verification 'Phase 1' (Protocol in workflow.md)
+- [x] Task: The Quest 4 front PNG (`assets/PA-Quest-4-Front Cover.png`); Daniel approved it (2026-10-07) b61b1ba
+- [x] Task: Measure - User Manual Verification 'Phase 1' (Protocol in workflow.md): 24 tests pass; Daniel checked the Quest 4 front
 
 ## Phase 2: Back cover and the new back text
 
-- [ ] Task: Thai face. Identify the Canva fallback face; use it if it is OFL, else Sarabun
-- [ ] Task: Back template. Layout from the Canva back (logo, steps, badge, panel, sign, QR, text
-      blocks). Test: a rebuild of the Canva Origins 3.2 back with the Canva text (R4)
-- [ ] Task: Back text data for Origins 1, 2, 3.1, 3.2, and Quest 4 (improved; Thai drafted by
+- [x] Task: Thai face. The Canva fallback is Noto Sans Thai 400 (OFL; pixel overlap 0.953 at
+      13.6 pt). Latin text on the back is League Spartan 700 at 16.35 pt (0.889): Canva has only the
+      bold face, so every Latin letter is bold. One font size with `size-adjust: 83.18%` on Noto
+      Sans Thai gives both sizes
+- [x] Task: Back template (`backPage`, `lib/covers/back-text.ts`). Two text boxes at the Canva
+      baselines (the page script measures the first baseline and moves the box: Chrome rounds font
+      metrics to whole pixels); line pitch 18.94 / 18.16 pt. R4: the rebuilt Canva Origins 3.2 back
+      (Canva text and line breaks) differs by 10.2 per channel on the page, 12.0 in the text box.
+      Lines break only at spaces (Chrome alone splits Thai compounds: "งาน / อดิเรก";
+      `word-break: keep-all` has no effect on Thai); `|` marks more break points. The render fails
+      when the text is longer than the panel or a run is wider than the box (`--draft` to see it)
+- [~] Task: Back text data for Origins 1, 2, 3.1, 3.2, and Quest 4 (back art: the current art, Daniel 2026-10-07) (improved; Thai drafted by
       Claude); the copy check passes; Daniel checks the Thai
 - [ ] Task: The back PNGs of the five books; Daniel's check
 - [ ] Task: Measure - User Manual Verification 'Phase 2' (Protocol in workflow.md)
