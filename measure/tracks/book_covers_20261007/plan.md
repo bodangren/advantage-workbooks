@@ -58,8 +58,8 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       `~/Desktop/print-ready/Primary-Advantage-<Book>-Cover_PDFX-1a.pdf` (`--out-dir` for a test)
 - [ ] Task: The Origins 3.2 and Quest 4 print PDFs after Daniel approves the Thai text (printer: week
       of 2026-10-12). Contact lines fixed (Daniel, 2026-10-07): 099-005-8038, TikTok 4cd3d23
-- [ ] Task: Docs. tech-stack.md (League Spartan, the cover pipeline), lessons-learned.md,
-      tech-debt.md
+- [x] Task: Docs. tech-stack.md (League Spartan, the cover pipeline), lessons-learned.md,
+      tech-debt.md 1fcc23a
 - [ ] Task: Measure - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4 (later; separate approval): levels 5–9
