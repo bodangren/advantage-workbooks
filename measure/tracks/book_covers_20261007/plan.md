@@ -72,3 +72,14 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       `docs/content-plans/primary-cover-art-plan.md`; Daniel approves each picture
 - [ ] Task: Adventure series text; the CEFR badge for levels 7–9 (Daniel's decision)
 - [ ] Task: Covers for each book
+
+## Later: Reading Advantage (Secondary) covers (not in this track)
+
+Daniel's Canva export, 2026-10-07: `~/Downloads/Reading Advantage (210 x 285 mm).zip` (38 SVGs,
+186 MB): front and back of Level 1, 2, 3.1, 3.2, 4, 5, 6.1, 6.2, 7.1, 7.2, 8.1–8.3, 9.1–9.3; fronts of
+Level 10.1, 10.2, 11.1, 11.2; the Teacher's Manual. Same page size and back layout as Primary; own
+front design (RA logo, LV/XP bar, script title banner with a subtitle, painted older heroes). Its
+backs have CEFR badges beyond A1 (B1 on Level 9.3), a source for the Primary level 7–9 badges.
+Its backs also have the old "+66 099-005-8038" and "Tiktok": apply the Primary fix when they are
+made. The 1.svg "QUEST 4.1 / Your quest awaits" of the Primary export is this design.
+
