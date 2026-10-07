@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'crypto';
 import type { LessonPackage } from '../lesson-package/schema';
-import { legacyRows } from './legacy';
+import { appArticleId, legacyRows } from './legacy';
 import type { Queryable } from './run';
 import type { Statement } from './sql';
 
@@ -344,4 +344,37 @@ export async function verifyNew(client: Queryable, rows: NewRows): Promise<strin
         if (extra.length) diffs.push(`${table}: rows not in the package: ${extra.join(', ')}`);
     }
     return diffs;
+}
+
+/**
+ * Verifies one package in the new database (after a rehearsal or the cutover). The ids come from
+ * `db.new` (an earlier new-database run) or from `primary_legacy_id_map` (the rows that the cutover
+ * moved). A row with neither id is reported once as not in the map, and it is not compared.
+ * @param client A connected client of the new database; the function only reads.
+ * @param pkg A parsed package.
+ * @param now The time for the legacy checks.
+ * @returns The bucket key, the new article id, and the differences (empty when the database matches);
+ * undefined when the package has no article in either database.
+ */
+export async function verifyPackageNew(client: Queryable, pkg: LessonPackage, now: Date): Promise<{ key: string; articleId: string; diffs: string[] } | undefined> {
+    const legacyArticleId = appArticleId(pkg);
+    if (!legacyArticleId && !pkg.db.new) return undefined;
+    const bank = { mcq: pkg.bank.mcq.map((q) => q.id), saq: pkg.bank.saq.map((q) => q.id), laq: pkg.bank.laq.map((q) => q.id) };
+    const input = { legacyArticleId, legacy: pkg.db.legacy, current: pkg.db.new, bank };
+    let plan: IdPlan;
+    let rows: NewRows;
+    try {
+        plan = planIds(input, await readLegacyMap(client, pkg.db.legacy, legacyArticleId));
+        rows = newRows(pkg, plan, now);
+    } catch (e) {
+        return { key: legacyArticleId ?? pkg.db.new?.articleId ?? '', articleId: '', diffs: [(e as Error).message] };
+    }
+    // The rows that would be inserted have no id in the database to compare.
+    const unmapped = new Map<string, string>();
+    for (const key of ['mcq', 'saq', 'laq'] as const) {
+        for (const [id, row] of Object.entries(plan[key])) if (row.source === 'fresh') unmapped.set(row.id, `${MAP_TABLES[key]} ${id}`);
+    }
+    if (plan.flashcard.source === 'fresh') unmapped.set(plan.flashcard.id, MAP_TABLES.flashcard);
+    const diffs = (await verifyNew(client, rows)).filter((d) => ![...unmapped.keys()].some((id) => d.includes(`[${id}]`)));
+    return { key: plan.key, articleId: rows.article.id, diffs: [...[...unmapped.values()].map((l) => `${l}: not in primary_legacy_id_map`), ...diffs] };
 }

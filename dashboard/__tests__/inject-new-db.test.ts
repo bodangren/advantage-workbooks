@@ -12,6 +12,7 @@ import {
     readLegacyMap,
     updateSql,
     verifyNew,
+    verifyPackageNew,
     type IdMap,
 } from '../lib/inject/new-db';
 
@@ -316,5 +317,91 @@ describe('database steps', () => {
         expect(diffs).toContain('articles.title differs');
         expect(diffs.some((d) => d.includes('multiple_choice_questions[uuid') && d.endsWith('missing'))).toBe(true);
         expect(diffs).toContain('short_answer_questions: rows not in the package: old');
+    });
+});
+
+describe('verify one package in the new database', () => {
+    const LEGACY = { articleId: 'cart1', mcq: { m1: 'cq1', m2: 'cq2', m3: 'cq3' }, saq: { s1: 'cs1', s2: 'cs2' }, laq: { l1: 'cl1' }, flashcardId: 'cfl1' };
+    const MAP: [string, string, string][] = [
+        ['article', 'cart1', 'u-art'],
+        ['multiple_choice_questions', 'cq1', 'u-q1'],
+        ['multiple_choice_questions', 'cq2', 'u-q2'],
+        ['multiple_choice_questions', 'cq3', 'u-q3'],
+        ['short_answer_questions', 'cs1', 'u-s1'],
+        ['short_answer_questions', 'cs2', 'u-s2'],
+        ['long_answer_questions', 'cl1', 'u-l1'],
+        ['sentencs_and_words_for_flashcard', 'cfl1', 'u-fl'],
+    ];
+
+    /** A database after the cutover: the id map and the rows that the package makes. */
+    function database(pkg: LessonPackage, map: [string, string, string][]) {
+        const plan = planIds({ legacyArticleId: 'cart1', legacy: LEGACY, bank: bank(pkg) }, new Map(MAP.map(([t, l, n]) => [`${t}:${l}`, n])));
+        const rows = newRows(pkg, plan, NOW);
+        const stored: Record<string, Record<string, unknown>[]> = {
+            articles: [{ ...rows.article }],
+            multiple_choice_questions: rows.mcq.map((q) => ({ ...q })),
+            short_answer_questions: rows.saq.map((q) => ({ ...q })),
+            long_answer_questions: rows.laq.map((q) => ({ ...q })),
+            sentencs_and_words_for_flashcard: [{ ...rows.flashcard }],
+        };
+        const client = {
+            async query(text: string, values?: unknown[]) {
+                if (text.includes('"primary_legacy_id_map"')) {
+                    const [tables, ids] = values as [string[], string[]];
+                    return { rows: map.filter(([t, l]) => tables.includes(t) && ids.includes(l)).map(([table_name, legacy_id, new_id]) => ({ table_name, legacy_id, new_id })) };
+                }
+                if (/^\s*(INSERT|UPDATE|DELETE)/i.test(text)) throw new Error(`write: ${text}`);
+                const table = /FROM "(\w+)"/.exec(text)![1];
+                const list = stored[table] ?? [];
+                if (text.includes('WHERE id = $1')) return { rows: list.filter((r) => r.id === values![0]) };
+                return { rows: list.filter((r) => r.article_id === values![0]).map((r) => ({ id: r.id })) };
+            },
+        };
+        return { client, stored };
+    }
+
+    const injected = () => {
+        const pkg = withMedia();
+        pkg.db.legacy = LEGACY;
+        return pkg;
+    };
+
+    it('finds the rows through the id map, uses the cuid as the bucket key, and reports no difference', async () => {
+        const pkg = injected();
+        const { client } = database(pkg, MAP);
+        expect(await verifyPackageNew(client, pkg, NOW)).toEqual({ key: 'cart1', articleId: 'u-art', diffs: [] });
+    });
+
+    it('reports a changed text and an extra row', async () => {
+        const pkg = injected();
+        const { client, stored } = database(pkg, MAP);
+        stored.multiple_choice_questions[0].question = 'Other';
+        stored.long_answer_questions.push({ id: 'u-old', article_id: 'u-art' });
+        const r = await verifyPackageNew(client, pkg, NOW);
+        expect(r!.diffs).toEqual(['multiple_choice_questions[u-q1].question differs', 'long_answer_questions: rows not in the package: u-old']);
+    });
+
+    it('reports a legacy row that the id map does not hold once, and does not compare it', async () => {
+        const pkg = injected();
+        const { client } = database(pkg, MAP.filter(([, l]) => l !== 'cq2' && l !== 'cfl1'));
+        const r = await verifyPackageNew(client, pkg, NOW);
+        expect(r!.diffs).toEqual([
+            'multiple_choice_questions m2: not in primary_legacy_id_map',
+            'sentencs_and_words_for_flashcard: not in primary_legacy_id_map',
+            'multiple_choice_questions: rows not in the package: u-q2',
+            'sentencs_and_words_for_flashcard: rows not in the package: u-fl',
+        ]);
+    });
+
+    it('reports an article that the id map does not hold', async () => {
+        const pkg = injected();
+        const { client } = database(pkg, MAP.filter(([t]) => t !== 'article'));
+        const r = await verifyPackageNew(client, pkg, NOW);
+        expect(r).toEqual({ key: 'cart1', articleId: '', diffs: ['Article cart1 is not in the legacy id map; the cutover ETL has not moved it'] });
+    });
+
+    it('returns nothing for a package that no target has', async () => {
+        const client = { query: async () => Promise.reject(new Error('no query expected')) };
+        expect(await verifyPackageNew(client, withMedia(), NOW)).toBeUndefined();
     });
 });
