@@ -20,6 +20,6 @@ Track: `primary_injector_20261001`
 
 ## Phase 4: Cutover support
 
-- [~] Verify on the cutover test database (Oct 7) and after the deploy (Sunday Oct 11); calendar of 2026-10-06. Rehearsal 1 (2026-10-08, local copies): `primary_legacy_20261008` 250 of 250 match; `primary_rehearsal1_20261008` 239 of 250 match, and the 11 others differ only in the question `order` (the ETL numbers tied `createdAt` rows with no tie-breaker; fix `ORDER BY "createdAt", id` sent to the monorepo session). Open: rehearsal 2 and the deploy
+- [~] Verify on the cutover test database (Oct 7) and after the deploy (Sunday Oct 11); calendar of 2026-10-06. Rehearsal 1 (2026-10-08, local copies): `primary_legacy_20261008` 250 of 250 match; `primary_rehearsal1_20261008` 239 of 250 match, and the 11 others differ only in the question `order` (the ETL numbers tied `createdAt` rows with no tie-breaker; fix `ORDER BY "createdAt", id` sent to the monorepo session). ETL run 4 (integration 7bb6b1065, same ids): 250 of 250 match. Open: rehearsal 2 and the deploy
 - [~] `--target new` with `legacy_id_map`: inject (dry run only) and verify (`verify-lessons.ts --target new`, `verifyPackageNew`, tests). Open: a real write after the cutover
 - [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
