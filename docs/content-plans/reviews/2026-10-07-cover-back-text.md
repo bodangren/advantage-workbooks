@@ -1,5 +1,7 @@
 # Cover back text: review (2026-10-07)
 
+**Approved:** Daniel approved all the Thai text below on 2026-10-07.
+
 Track `book_covers_20261007`. Daniel checks every Thai line before a cover goes to print. The data
 is in `content/covers/`; the PNGs are made with
 `npx tsx scripts/covers/make-cover.ts <book> --back` (in `dashboard/`).

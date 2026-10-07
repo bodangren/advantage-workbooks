@@ -40,8 +40,8 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       Lines break only at spaces (Chrome alone splits Thai compounds: "งาน / อดิเรก";
       `word-break: keep-all` has no effect on Thai); `|` marks more break points. The render fails
       when the text is longer than the panel or a run is wider than the box (`--draft` to see it)
-- [~] Task: Back text data for Origins 1, 2, 3.1, 3.2, and Quest 4 (back art: the current art, Daniel 2026-10-07) (improved; Thai drafted by
-      Claude); the copy check passes; Daniel checks the Thai
+- [x] Task: Back text data for Origins 1, 2, 3.1, 3.2, and Quest 4 (back art: the current art, Daniel 2026-10-07) (improved; Thai drafted by
+      Claude); the copy check passes; Daniel approved the Thai (2026-10-07)
 - [ ] Task: The back PNGs of the five books; Daniel's check
 - [ ] Task: Measure - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
@@ -56,8 +56,12 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
 - [x] Task: `make-cover.ts <book> --print`: a 2-page Chrome PDF (`print-ready/chrome/<book>-cover.pdf`,
       checked: 2 pages, page size, no Type 3, fonts embedded), then `make-pdfx.ts --keep-fonts`, to
       `~/Desktop/print-ready/Primary-Advantage-<Book>-Cover_PDFX-1a.pdf` (`--out-dir` for a test)
-- [ ] Task: The Origins 3.2 and Quest 4 print PDFs after Daniel approves the Thai text (printer: week
-      of 2026-10-12). Contact lines fixed (Daniel, 2026-10-07): 099-005-8038, TikTok 4cd3d23
+- [x] Task: The Origins 3.2 and Quest 4 print PDFs after Daniel approves the Thai text (printer: week
+      of 2026-10-12). Contact lines fixed (Daniel, 2026-10-07): 099-005-8038, TikTok 4cd3d23.
+      `~/Desktop/print-ready/Primary-Advantage-{Origins-3.2,Quest-4}-Cover_PDFX-1a.pdf` (7.3 / 6.2 MB):
+      every `make-pdfx.ts` check passes; poppler: 2 pages 594.96 × 808.08 pt, one 2480 × 3366 CMYK
+      JPEG per page at 300 ppi, League Spartan Bold and Noto Sans Thai Regular embedded (no bold
+      Thai in the text, so the Thai 700 face is not used); pages looked at
 - [x] Task: Docs. tech-stack.md (League Spartan, the cover pipeline), lessons-learned.md,
       tech-debt.md 1fcc23a
 - [ ] Task: Measure - User Manual Verification 'Phase 3' (Protocol in workflow.md)
