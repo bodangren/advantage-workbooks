@@ -41,6 +41,18 @@ Daniel runs these commands in his own terminal. An agent does not read the secre
 
    The copy goes into the `reading-advantage-postgres` container (port 5432). It does not change `primary_advantage` (the monorepo database) or an older copy. Tell the monorepo and graphs sessions the new name.
 
+   If the VPN tunnel breaks the dump (2026-10-07: "server closed the connection unexpectedly" three times), use a Cloud SQL export to the private `backupsqldatabase` bucket. The export runs on the server in a few seconds, and `gcloud storage cp` continues a broken download. The `\restrict` lines of pg_dump 17.11 are unknown to the local psql 16, so `sed` removes them:
+
+   ```
+   N=primary_legacy_<YYYYMMDD>; F=$HOME/$N.sql.gz
+   gcloud sql export sql cloud-sql gs://backupsqldatabase/Copy_$N.sql.gz --database=primary_advantage --project=reading-advantage
+   gcloud storage cp gs://backupsqldatabase/Copy_$N.sql.gz "$F" && gzip -t "$F"
+   podman exec reading-advantage-postgres createdb -U postgres $N
+   zcat "$F" | sed -E '/^\\(un)?restrict /d' | podman exec -i reading-advantage-postgres psql -q -U postgres -d $N > /tmp/copy-$N.log 2>&1; grep -c ERROR /tmp/copy-$N.log; rm -f "$F"
+   ```
+
+   One ERROR line (`transaction_timeout`) is normal.
+
 4. Commit the packages (they now hold the `db.legacy` ids and `inject-log.jsonl`), and export `content/primary/tags.json` again.
 
 ## `article` (legacy, Prisma)

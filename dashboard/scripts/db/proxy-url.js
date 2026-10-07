@@ -9,6 +9,8 @@ process.stdin.on('data', (d) => (s += d)).on('end', () => {
         const [, scheme, auth = '', , path = '/primary_advantage', query = ''] = m;
         const params = new URLSearchParams(query.slice(1));
         params.delete('host');
+        // Prisma-only parameters: libpq (pg_dump, psql) stops on them ("invalid URI query parameter").
+        for (const p of ['pool_timeout', 'connection_limit', 'pgbouncer', 'schema', 'socket_timeout', 'statement_cache_size']) params.delete(p);
         const q = params.toString();
         process.stdout.write(`${scheme}${auth}127.0.0.1:5433${path}${q ? `?${q}` : ''}`);
     } catch (e) {
