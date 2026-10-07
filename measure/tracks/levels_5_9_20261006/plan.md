@@ -37,7 +37,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 
 - [~] Adventure 7.1 and 7.2: lesson maps, 28 packages, pre-review, media — maps v0.3; 28 lessons PASS (4–6 new A2 Key words each, Daniel 2026-10-06); pre-review done (`docs/content-plans/reviews/2026-10-06-prereview-adventure-7.md`); pictures started; audio and Daniel's approval next
 - [~] bank-7: 72 packages; QA; media — 72 written (72 PASS); pre-review b001–b036 done (75 changes), b037–b072 in progress; report `reviews/2026-10-06-prereview-bank-7.md` (draft). Three November dates moved into the first term (Adventure 8.1 holds November 14 and 21).
-- [ ] Coverage report; tags export; Daniel's review
+- [~] Coverage report; tags export; Daniel's review — 2026-10-08: level 7 meets every objective goal (46 of 46 at 3+, 0 book gaps). The tags export waits for the injection (export-tags.ts runs after each injection); Daniel's review next
 
 ## Phase 5: Level 8
 
