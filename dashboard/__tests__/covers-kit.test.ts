@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { KIT_LAYERS, artPlacement, findArt, findBadge, pagePictures, pageSize, parseSvg, parseTransform, stripLayer } from '../lib/covers/kit';
+import { KIT_LAYERS, findArt, findBadge, pagePictures, pageSize, parseSvg, parseTransform, stripLayer } from '../lib/covers/kit';
 
 // Track book_covers_20261007: a small page in the structure of Daniel's Canva export (white page
 // fill, art, a masked picture, a badge, a masked vector group, one text run).
@@ -33,14 +33,12 @@ describe('cover kit', () => {
         expect(pics[2].box.x).toBeCloseTo(418.37, 2);
     });
 
-    it('finds the art and the badge, and the art placement', () => {
+    it('finds the art and the badge', () => {
         const doc = parseSvg(PAGE);
         const page = pageSize(doc);
         const pics = pagePictures(doc);
         expect(findArt(pics, page)).toBe(pics[0]);
         expect(findBadge(pics, page)).toBe(pics[2]);
-        expect(artPlacement(pics[0], page)).toEqual({ align: 'center' });
-        expect(artPlacement({ ...pics[0], box: { ...pics[0].box, y: 0.21 } }, page)).toEqual({ align: 'top' });
         expect(() => findArt(pics.slice(1), page)).toThrow('Expected one full-width art picture, found 0');
     });
 

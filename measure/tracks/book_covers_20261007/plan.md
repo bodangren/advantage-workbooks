@@ -6,20 +6,25 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
 
 ## Phase 1: Cover kit, cover data, and the front cover
 
-- [ ] Task: Kit. `scripts/covers/extract-kit.ts <svg-dir>` writes the shared layers to
-      `assets/cover-kit/` (frame as RGBA = frame × mask, paper panel, RA logo, CEFR steps, A1 badge,
-      QR code, wooden sign) and a README with the source file and SHA-256 of each layer
-- [ ] Task: Fonts. League Spartan static woff2 files (Fontsource) for the weights in use, with the
-      OFL file, in `dashboard/assets/print-fonts/`; the weight measured against the Canva title
-- [ ] Task: Contract. `lib/covers/schema.ts` (Zod cover data) and `lib/covers/catalogue.ts` (cover
-      order Origins 1 → Adventure 9.3, display name, level, next book, CEFR badge A1 for levels
-      1–6); tests first
-- [ ] Task: Copy check. `lib/covers/check.ts` (R5); tests first, with the Canva Origins 3.2 back
-      text as a failing fixture
-- [ ] Task: Front template and render. `lib/covers/template.ts` (front) and
-      `scripts/covers/make-cover.ts <book> --front`: a 1474 × 2000 PNG. Test: rebuilt Origins 1, 2,
-      3.1, and 3.2 fronts against the Canva renders (R3)
-- [ ] Task: The Quest 4 front PNG; Daniel's check
+- [x] Task: Kit. `scripts/covers/extract-kit.ts --front <svg> --back <svg>` writes the shared layers
+      to `assets/cover-kit/` (front frame, back overlay with the panel, logos, QR code, and sign, A1
+      badge; each the Canva page with every other element removed, rendered by Chrome with a
+      transparent background) and a README with the source files and SHA-256 2d39a44
+- [x] Task: Fonts. League Spartan 700 (Fontsource 5.3.0, OFL) in `dashboard/assets/print-fonts/`;
+      measured against the Canva title: 82.7 CSS px, pixel overlap 0.89 70e204e
+- [x] Task: Contract. `lib/covers/schema.ts` (Zod cover data) and `lib/covers/catalogue.ts` (16
+      books, Origins 1 → Adventure 9.3, display name, level, next book, CEFR badge A1 for levels
+      1–6) 70e204e
+- [x] Task: Copy check. `lib/covers/check.ts` (R5); the Canva Origins 3.2 back text fails; three
+      mutations caught 70e204e
+- [x] Task: Front template and render. `lib/covers/compose.ts`, `lib/covers/template.ts`, and
+      `scripts/covers/make-cover.ts <book> --front`: a 1474 × 2000 PNG. R3 (mean difference per
+      channel against the Canva render, 1474 × 2000): Origins 1 page 8.4, title band 13.7; Origins
+      3.2 (art at the top) 11.7 and 14.8. Origins 2 and 3.1 differ only in the title band (27.0,
+      26.9): Daniel moved those Canva titles by hand (baselines 731.1 and 733.6 pt). Canva centered
+      the art on every page except the Origins 3.2 front, so the placement is cover data
+      (`art.align`, default center), not kit data
+- [~] Task: The Quest 4 front PNG (`assets/PA-Quest-4-Front Cover.png`); Daniel's check
 - [ ] Task: Measure - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Back cover and the new back text

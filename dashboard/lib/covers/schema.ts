@@ -11,9 +11,15 @@ import { COVER_BOOKS } from './catalogue';
 /** One text: Thai or English, with `**bold**` and placeholders. */
 export const CoverTextSchema = z.string().trim().min(1);
 
+/**
+ * Where a picture sits when it is taller than the page. Canva centered the art on every page
+ * except the Origins 3.2 front (top), so `center` is the default.
+ */
+const AlignSchema = z.object({ front: z.enum(['top', 'center']).optional(), back: z.enum(['top', 'center']).optional() }).strict();
+
 /** The art: two pictures, or one wide picture that the script cuts (back left, front right). Paths are relative to the repo root. */
 export const CoverArtSchema = z.union([
-    z.object({ front: z.string().min(1), back: z.string().min(1) }).strict(),
+    z.object({ front: z.string().min(1), back: z.string().min(1), align: AlignSchema.optional() }).strict(),
     z.object({ wide: z.string().min(1) }).strict(),
 ]);
 

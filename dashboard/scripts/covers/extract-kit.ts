@@ -4,7 +4,7 @@ import path from 'path';
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
 import { REPO_ROOT } from '../../lib/lesson-package/files';
-import { KIT_LAYERS, artPlacement, findArt, pagePictures, pageSize, parseSvg, stripLayer, type PagePicture } from '../../lib/covers/kit';
+import { KIT_LAYERS, pageSize, parseSvg, stripLayer } from '../../lib/covers/kit';
 
 const USAGE = `Cuts the cover kit (the layers that every cover shares) from Daniel's Canva SVG export
 (track book_covers_20261007).
@@ -17,7 +17,7 @@ Usage: npx tsx scripts/covers/extract-kit.ts --front <front.svg> --back <back.sv
 
 Writes front-frame.png, back-overlay.png, and badge-a1.png (RGBA, 2480 x 3366 px = 210 x 285 mm
 at 300 ppi; Chrome renders each layer with a transparent background), and kit.json (the source
-files with their SHA-256 and the art placement of each side).`;
+files with their SHA-256). The art placement is part of each book's cover data, not of the kit.`;
 
 /** 210 x 285 mm at 300 ppi. */
 const KIT_PIXELS = { width: 2480, height: 3366 };
@@ -58,14 +58,7 @@ async function main(argv: string[]): Promise<number> {
     }
     const frontSvg = fs.readFileSync(front, 'utf8');
     const backSvg = fs.readFileSync(back, 'utf8');
-    const placement = (svg: string) => {
-        const doc = parseSvg(svg);
-        const size = pageSize(doc);
-        const pictures: PagePicture[] = pagePictures(doc);
-        return { size, align: artPlacement(findArt(pictures, size), size).align };
-    };
-    const f = placement(frontSvg);
-    const b = placement(backSvg);
+    const size = pageSize(parseSvg(frontSvg));
 
     fs.mkdirSync(out, { recursive: true });
     const browser = await chromium.launch({ channel: 'chrome' });
@@ -82,13 +75,12 @@ async function main(argv: string[]): Promise<number> {
             front: { file: path.basename(front), sha256: sha256(front) },
             back: { file: path.basename(back), sha256: sha256(back) },
         },
-        page: f.size,
+        page: size,
         pixels: KIT_PIXELS,
-        art: { front: { align: f.align }, back: { align: b.align } },
         layers: { frontFrame: 'front-frame.png', backOverlay: 'back-overlay.png', badges: { A1: 'badge-a1.png' } },
     };
     fs.writeFileSync(path.join(out, 'kit.json'), JSON.stringify(kit, null, 2) + '\n');
-    console.log(`Kit written to ${out}: front art ${f.align}, back art ${b.align}`);
+    console.log(`Kit written to ${out}`);
     return 0;
 }
 

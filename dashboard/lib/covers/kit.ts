@@ -178,22 +178,6 @@ export function stripLayer(svg: string, select: (pictures: PagePicture[], page: 
     return new (doc.defaultView as unknown as { XMLSerializer: typeof XMLSerializer }).XMLSerializer().serializeToString(doc);
 }
 
-/** How Canva placed the book art: scaled to the page width, aligned to the top or the middle. */
-export interface ArtPlacement {
-    align: 'top' | 'center';
-}
-
-/**
- * The art placement of a page.
- * @param art The art picture.
- * @param page The page size.
- * @returns `top` when the art starts at the top edge, else `center`.
- */
-export function artPlacement(art: PagePicture, page: { height: number }): ArtPlacement {
-    const centerOffset = (page.height - art.box.height) / 2;
-    return { align: Math.abs(art.box.y) <= Math.abs(art.box.y - centerOffset) ? 'top' : 'center' };
-}
-
 /** The kit layers and the pictures each one keeps. */
 export const KIT_LAYERS = {
     /** Front: the level bar, the PA logo, and the empty title banner. */
