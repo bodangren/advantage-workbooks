@@ -38,6 +38,11 @@ printer in the week of 2026-10-12. Then new, improved backs for Origins 1, 2, an
 - Claude writes the new Thai text; Daniel checks every Thai line before a cover goes to print.
 - CEFR badge: A1 for levels 1–6 (Pre-A1 is not an official CEFR level).
 - New, improved back covers for Origins 1, 2, and 3.1 too.
+- The back art and the front art of a book are one continuous scene (the back on the left).
+  Concepts and character progression: `docs/content-plans/primary-cover-art-plan.md`.
+- Fonts measured (2026-10-07): the Canva title is League Spartan 700 at 82.7 CSS px (Canva "50";
+  Canva size × 1.653 = CSS px), pixel overlap 0.89 with the Canva outlines. Title centered at
+  x = 296.5 pt, baseline 738.8 pt; level number centered at x = 133.1 pt, baseline 51.0 pt.
 
 ## Requirements
 
@@ -63,6 +68,8 @@ printer in the week of 2026-10-12. Then new, improved backs for Origins 1, 2, an
   side are combined into one opaque image, so the PDF has no transparency and the text stays
   vector.
 - R7. Daniel approves each cover PNG before the print PDF is made.
+- R8. Wide art: the cover data can name one wide picture (2048 × 1392 px from `mmx image`) in
+  place of two pictures; the script cuts it into the back (left half) and the front (right half).
 
 ## Out of scope
 

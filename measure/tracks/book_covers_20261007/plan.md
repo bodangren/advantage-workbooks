@@ -47,7 +47,9 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
 
 ## Phase 4 (later; separate approval): levels 5–9
 
-- [ ] Task: Front and back art for Quest 5, Quest 6.1, 6.2, and Adventure 7.1–9.3 (mmx image with
-      the cast sheets); Daniel approves each picture
+- [ ] Task: Hero reference sheets (the boy, the girl, the fox) from the Quest 4 front, for
+      `--subject-ref`; a test of one wide picture
+- [ ] Task: One wide picture (R8) for each of Quest 5, Quest 6.1, 6.2, and Adventure 7.1–9.3, from
+      `docs/content-plans/primary-cover-art-plan.md`; Daniel approves each picture
 - [ ] Task: Adventure series text; the CEFR badge for levels 7–9 (Daniel's decision)
 - [ ] Task: Covers for each book
