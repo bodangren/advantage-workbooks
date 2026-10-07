@@ -42,7 +42,8 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       when the text is longer than the panel or a run is wider than the box (`--draft` to see it)
 - [x] Task: Back text data for Origins 1, 2, 3.1, 3.2, and Quest 4 (back art: the current art, Daniel 2026-10-07) (improved; Thai drafted by
       Claude); the copy check passes; Daniel approved the Thai (2026-10-07)
-- [ ] Task: The back PNGs of the five books; Daniel's check
+- [x] Task: The back PNGs of the five books; Daniel's check. `assets/PA-<Book>-Back Cover.png`
+      (1474 × 2000 RGB); the Origins 2 and 3.1 pictures replace the Canva backs 7a79602
 - [ ] Task: Measure - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Print files
