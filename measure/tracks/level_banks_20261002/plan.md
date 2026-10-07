@@ -26,7 +26,7 @@ Track: `level_banks_20261002`
 - [x] Origins 3.2: 14 packages from the briefs
 - [x] Quest 4: lesson map and 14 packages
 - [x] Origins 1: lesson map and 14 packages
-- [ ] Pictures (Muse) and audio with Tutor clips for the 42 lessons
+- [x] Pictures (Muse) and audio with Tutor clips for the 42 lessons (checked 2026-10-08: every package of Origins 1, Origins 3.2, and Quest 4 has all pictures, complete audio, and Tutor clips)
 
 ## Phase 3: Banks
 
@@ -35,12 +35,12 @@ Track: `level_banks_20261002`
 - [x] Level 2: 24 packages
 - [x] Level 3: 84 packages
 - [x] Cross-batch QA: repeated stories rewritten (16 articles), giveaway MCQ options fixed (45), end commas in quoted options removed
-- [ ] Pictures and audio for the bank packages
+- [x] Pictures and audio for the bank packages (checked 2026-10-08: bank-1 to bank-4 complete)
 - [x] Coverage report: every level objective in 2 or more articles (level 1: 11 of 11; level 2: 8 of 8; level 3: 24 of 24; level 4: 20 of 20)
 
 ## Phase 4: Approval and injection
 
 - [x] Review page: approve a whole folder of lessons that pass every check; picture sheet per book
 - [x] Delete script for the similar old articles (backup first; after Daniel approves the level)
-- [ ] Daniel approves; inject (backup first); verify; level counts 50, 50, 100, 50
+- [x] Daniel approves; inject (backup first); verify; level counts 50, 50, 100, 50 (2026-10-08: 250 of 250 packages approved and injected, 0 verify differences in the logs; the legacy export of 2026-10-07 22:13 UTC matches all 250 and holds 50, 50, 100, 50 Workbooks articles at levels 1–4. Level 3 also has one live May article of the nightly generator, "The Happy Flower")
 - [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
