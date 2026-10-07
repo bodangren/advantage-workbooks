@@ -178,6 +178,26 @@ export function stripLayer(svg: string, select: (pictures: PagePicture[], page: 
     return new (doc.defaultView as unknown as { XMLSerializer: typeof XMLSerializer }).XMLSerializer().serializeToString(doc);
 }
 
+/**
+ * Puts the badge picture of another back page in the place of the page's own badge, so that a
+ * badge of another CEFR level renders at the same place and size.
+ * @param svg The Canva SVG text of the back page that gives the place.
+ * @param from The Canva SVG text of a back page with the wanted badge (for example a Reading
+ * Advantage back with the A2 badge).
+ * @returns The back page with the other badge picture.
+ */
+export function swapBadge(svg: string, from: string): string {
+    const source = parseSvg(from);
+    const picture = findBadge(pagePictures(source), pageSize(source)).element;
+    const href = picture.getAttribute('xlink:href') ?? picture.getAttribute('href');
+    if (!href) throw new Error('The badge picture has no href');
+    const doc = parseSvg(svg);
+    const badge = findBadge(pagePictures(doc), pageSize(doc)).element;
+    badge.removeAttribute('href');
+    badge.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
+    return new (doc.defaultView as unknown as { XMLSerializer: typeof XMLSerializer }).XMLSerializer().serializeToString(doc);
+}
+
 /** The kit layers and the pictures each one keeps. */
 export const KIT_LAYERS = {
     /** Front: the level bar, the PA logo, and the empty title banner. */

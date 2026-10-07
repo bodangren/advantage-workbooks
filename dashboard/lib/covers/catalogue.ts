@@ -19,8 +19,11 @@ export interface CoverBook {
     /** The next book in the order; undefined for the last book. */
     next?: CoverBook;
     lessons: number;
-    /** The CEFR badge on the back (Daniel, 2026-10-07: A1 for levels 1–6); undefined when not decided. */
-    badge?: 'A1';
+    /**
+     * The CEFR badge on the back: A1 for levels 1–6 (Daniel, 2026-10-07), A2 for levels 7–9 (GSE
+     * 30–42 in `gse-to-primary-advantage.csv`, Pearson's A2 band; the program stops at A2).
+     */
+    badge: 'A1' | 'A2';
     /** The asset file name stem, for example `PA-Origins-3.2` (`PA-Origins-3.2-Front Cover.png`). */
     fileStem: string;
 }
@@ -48,7 +51,7 @@ export function coverBook(id: string): CoverBook {
         level,
         next: nextId ? coverBook(nextId) : undefined,
         lessons: WORKBOOK_LESSONS,
-        badge: level <= 6 ? 'A1' : undefined,
+        badge: level <= 6 ? 'A1' : 'A2',
         fileStem: `PA-${name.replace(/ /g, '-')}`,
     };
 }

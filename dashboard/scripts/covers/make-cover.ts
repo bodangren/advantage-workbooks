@@ -149,7 +149,7 @@ async function main(argv: string[]): Promise<number> {
         const data = CoverDataSchema.parse(readJson(path.join(COVERS_DIR, `${book.id}.json`)));
         const series = CoverSeriesSchema.parse(readJson(path.join(COVERS_DIR, 'series.json')));
         const text = backText(book, data, series);
-        const badge = book.badge ? kit.layers.badges[book.badge] : undefined;
+        const badge = kit.layers.badges[book.badge];
         if (!badge) throw new Error(`${book.name}: no CEFR badge for level ${book.level} in the kit`);
         const picture = await composeSide(await placeArt(art.back, kit.pixels, art.align.back), [layer(kit.layers.backOverlay), layer(badge)]);
         pages.push({ side: 'Back', html: backPage(jpegUrl(picture), text) });

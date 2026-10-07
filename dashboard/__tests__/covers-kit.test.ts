@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { KIT_LAYERS, findArt, findBadge, pagePictures, pageSize, parseSvg, parseTransform, stripLayer } from '../lib/covers/kit';
+import { KIT_LAYERS, findArt, findBadge, pagePictures, pageSize, parseSvg, parseTransform, stripLayer, swapBadge } from '../lib/covers/kit';
 
 // Track book_covers_20261007: a small page in the structure of Daniel's Canva export (white page
 // fill, art, a masked picture, a badge, a masked vector group, one text run).
@@ -56,5 +56,16 @@ describe('cover kit', () => {
         expect(badge).toContain('418.374231, 4.395521)"><image');
         expect(badge).not.toContain('#b57739');
         expect(pagePictures(parseSvg(badge))).toHaveLength(1);
+    });
+
+    it('puts the badge picture of another back in the place of the page badge', () => {
+        const other = PAGE.replace('418.374231, 4.395521)">' + img(700, 700), '419.985965, 4.571461)">' + img(800, 800).replace(PNG, 'data:image/png;base64,QTI='));
+        const swapped = swapBadge(PAGE, other);
+        const doc = parseSvg(swapped);
+        const badge = findBadge(pagePictures(doc), pageSize(doc));
+        expect(badge.box.x).toBeCloseTo(418.37, 2);
+        expect(badge.element.getAttribute('xlink:href')).toBe('data:image/png;base64,QTI=');
+        expect(swapped.match(/base64,QTI=/g)).toHaveLength(1);
+        expect(() => swapBadge(PAGE, PAGE.replace(img(700, 700), ''))).toThrow('found 0');
     });
 });

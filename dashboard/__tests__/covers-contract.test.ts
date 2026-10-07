@@ -20,7 +20,8 @@ describe('cover catalogue', () => {
         expect(b.next?.name).toBe('Quest 4');
         expect(coverBook('quest-4')).toMatchObject({ name: 'Quest 4', level: 4, fileStem: 'PA-Quest-4' });
         expect(coverBook('quest-6.2').badge).toBe('A1');
-        expect(coverBook('adventure-7.1').badge).toBeUndefined();
+        expect(coverBook('adventure-7.1').badge).toBe('A2');
+        expect(coverBook('adventure-9.3').badge).toBe('A2');
         expect(coverBook('adventure-9.3').next).toBeUndefined();
         expect(() => coverBook('bank-4')).toThrow('not a Primary Advantage book');
     });
