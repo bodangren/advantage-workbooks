@@ -355,6 +355,13 @@ Word notes for writers:
 
 | # | Removed from the glossary |
 |---|---|
+| L01 | drink, large, glass |
+| L02 | bear, noisy, deep |
+| L03 | paper, pull, finish |
+| L04 | sand, burn, pleased |
+| L05 | bye, chat, tonight |
+| L06 | choose, golf, excellent |
+| L07 | sing, win, perhaps |
 | L08 | number, group, student |
 | L09 | garden, wood, stay |
 | L10 | class, stadium, speak |
@@ -362,8 +369,6 @@ Word notes for writers:
 | L12 | teacher, college, ambulance |
 | L13 | evening, million, thousand |
 | L14 | shop, pocket, step |
-
-L01–L07: the writer reports the removed words when the lessons are done.
 
 ## 8. Questions and tasks
 
