@@ -21,5 +21,5 @@ Track: `review_page_20261001`
 ## Phase 4: Verify
 
 - [x] Run the dashboard on a scratch copy; a headless Chrome script edits, saves (Ctrl+S), approves (Ctrl+Enter), stars a fifth MCQ (print-set FAIL blocks the bank approval), saves an invalid title (400, file unchanged), and picks a cast sheet
-- [ ] Daniel approves the E12 pilot on the page (his review, not an agent's)
+- [x] Daniel approves the E12 pilot on the page (his review, not an agent's) — checked 2026-10-08: every part of `origins-3.1/e12.json` is approved (lesson on 2026-10-02), and E12 is injected
 - [x] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
