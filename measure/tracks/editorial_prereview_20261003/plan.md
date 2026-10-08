@@ -9,17 +9,19 @@
       full stop on a sign [9c1a288]
 
 ## Phase 2: Quest 4 (R2)
-- [ ] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
-- [ ] Sign places; new pictures where a prompt changed; audio again where the text changed
+- [x] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
+- [x] Sign places; new pictures where a prompt changed; audio again where the text changed
 
 ## Phase 3: Origins 3.2 (R2)
-- [ ] Read P01–P14 and the pictures; fix the sources; convert; checks PASS
-- [ ] Sign places; new pictures; audio
+- [x] Read P01–P14 and the pictures; fix the sources; convert; checks PASS
+- [x] Sign places; new pictures; audio
 
 ## Phase 4: Origins 1 (R2)
-- [ ] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
-- [ ] New pictures; audio
+- [x] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
+- [x] New pictures; audio
 
 ## Phase 5: Review log
-- [ ] `docs/content-plans/reviews/2026-10-03-prereview.md`: each change and its reason; open
+- [x] `docs/content-plans/reviews/2026-10-03-prereview.md`: each change and its reason; open
       questions; what Daniel must still check
+- [x] Fixes of all three books committed in de4a36e (2026-10-06): 42 packages, 0 FAIL in
+      check-lesson-package. Marks checked 2026-10-08 against the commit and the review log.

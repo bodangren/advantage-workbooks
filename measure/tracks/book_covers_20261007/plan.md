@@ -79,7 +79,8 @@ Spec: [spec.md](./spec.md). Source SVGs: `~/Downloads/Primary ADVANTAGE (210 x 2
       the bottom). Cut: 1886 × 1280 → two pages of 943 × 1280 (about 114 ppi)
 - [ ] Task: One wide picture (R8) for each of Quest 5, Quest 6.1, 6.2, and Adventure 7.1–9.3, from
       `docs/content-plans/primary-cover-art-plan.md`; Daniel approves each picture
-- [ ] Task: Adventure series text; the CEFR badge for levels 7–9 (Daniel's decision)
+- [~] Task: Adventure series text; the CEFR badge for levels 7–9 (Daniel's decision). The A2
+      badge for levels 7–9 is done (8ae5985, 2026-10-07). Open: the Adventure series text
 - [ ] Task: Covers for each book
 
 ## Later: Reading Advantage (Secondary) covers (not in this track)

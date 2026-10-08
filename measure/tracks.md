@@ -8,28 +8,28 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [~] **Track: Levels 5–9 workbook lessons (Quest 5, Quest 6.1, 6.2, Adventure 7.1–9.3) and online banks of 50 articles per book.** *(Created: 2026-10-06)*
   *Link: [./tracks/levels_5_9_20261006/](./tracks/levels_5_9_20261006/)*
 
-- [~] **Track: Editorial pre-review of Origins 1, Origins 3.2, and Quest 4 before Daniel approves them, and sign text on the blank signs in the pictures.** *(Created: 2026-10-03)*
+- [x] **Track: Editorial pre-review of Origins 1, Origins 3.2, and Quest 4 before Daniel approves them, and sign text on the blank signs in the pictures.** *(Completed: 2026-10-06)*
   *Link: [./tracks/editorial_prereview_20261003/](./tracks/editorial_prereview_20261003/)*
 
 - [~] **Track: Levels 1–4 workbook lessons (Origins 1, Origins 3.2, Quest 4) and rebuilt online banks of 50 or more articles per level.** *(Created: 2026-10-02)*
   *Link: [./tracks/level_banks_20261002/](./tracks/level_banks_20261002/)*
 
-- [~] **Track: Print-ready PDF/X-1a for the printer: real fonts, no transparency, and a convert-and-check command.** *(Created: 2026-10-02)*
+- [x] **Track: Print-ready PDF/X-1a for the printer: real fonts, no transparency, and a convert-and-check command.** *(Completed: 2026-10-02)*
   *Link: [./tracks/print_ready_pdf_20261002/](./tracks/print_ready_pdf_20261002/)*
 
 - [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
   *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
 
-- [ ] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Created: 2026-10-01)*
+- [~] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Created: 2026-10-01)*
   *Link: [./tracks/lesson_packages_20261001/](./tracks/lesson_packages_20261001/)*
 
-- [ ] **Track: Review page: Daniel tweaks and approves lesson packages in the dashboard (task C8).** *(Created: 2026-10-01)*
+- [x] **Track: Review page: Daniel tweaks and approves lesson packages in the dashboard (task C8).** *(Completed: 2026-10-08)*
   *Link: [./tracks/review_page_20261001/](./tracks/review_page_20261001/)*
 
-- [ ] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Created: 2026-10-01)*
+- [~] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Created: 2026-10-01)*
   *Link: [./tracks/lesson_media_20261001/](./tracks/lesson_media_20261001/)*
 
-- [ ] **Track: Primary injector: write lesson packages into the live and cutover Primary databases, and verify them (task C10).** *(Created: 2026-10-01)*
+- [~] **Track: Primary injector: write lesson packages into the live and cutover Primary databases, and verify them (task C10).** *(Created: 2026-10-01)*
   *Link: [./tracks/primary_injector_20261001/](./tracks/primary_injector_20261001/)*
 
 - [x] **Track: Text-profile lint for new Primary Origins lessons (task C3 of the Origins 3.2 plan): checks word counts, sentence length, Cambridge Starters share, and glossed words.** *(Completed: 2026-09-30)*
@@ -167,4 +167,4 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/localization_thai_market_20260408/](./tracks/localization_thai_market_20260408/)*
   Add bilingual English/Thai activity instructions to every workbook section (static Thai strings in `lib/i18n/th.ts`, rendered with Sarabun font). Generate AI-authored Thai-language Instructional Scripts (opening statement, per-activity facilitation notes, debrief) via Gemini and include them as a "Classroom Script" subsection in the Teacher Guide. Both features are opt-in per project via a new `localization` metadata field.
 
-- [~] [Visual Refresh: Define Unique Identity](tracks/visual_refresh_20260425/index.md)
+- [ ] [Visual Refresh: Define Unique Identity](tracks/visual_refresh_20260425/)
