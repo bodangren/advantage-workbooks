@@ -17,7 +17,7 @@ Track: `levels_5_9_20261006`. Progression plan: `docs/content-plans/primary-leve
 - [x] Grammar draft (plan §7) checked against the Movers, Flyers, and A2 Key handbooks (`data/grammar-levels-5-9.md`; spot check of 6 items in the PDFs)
 - [x] Calibration: two sample texts for each level pass the text check (`calibration/levels-5-9/`); a 480-word level 9 article prints on 2.5 pages (the lesson grows from 15 to 16 pages). Follow-up: 5 small profile changes and the text-check faults in `report.md` (past forms, -ied/-ier, lines with no end stop)
 - [~] Injector: a new-database target (`--target new`; UUID ids, `primary_legacy_id_map`, picture key in `articles.image`); tests; dry run only. Open: agreement with the monorepo side (7 questions in the field map, open item 3)
-- [ ] Dialogue audio with one voice for each speaker (D5)
+- [ ] Dialogue audio with one voice for each speaker (D5) — deferred (Daniel, 2026-10-08): this release keeps narrator-only audio for dialogue texts, as if one person reads the passage aloud. D5 needs its own plan later: speaker data for each sentence, sentences that mix a quote and narration, a voice for each character, and the Tutor clips for each voice. About 87 dialogue packages of levels 7–9 then need new audio
 - [~] Series bible: Quest ages and an Adventure section (`primary-quest-adventure-series-bible.md`, draft); cast-sheet candidates for 8 of the 13 new people (4324f47), for Daniel to choose on `/review/cast` (D3) Sheets chosen by Claude on Daniel's instruction (2026-10-07, f4a962a); the 69 pictures made before the choice were made again with the sheets.
 
 ## Phase 2: Level 5
