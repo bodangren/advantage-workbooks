@@ -90,6 +90,23 @@ describe('list coverage', () => {
         expect(wordOf.get('english.vocabulary.skill.charlie.noun')).toBe('charlie');
     });
 
+    it('leaves the British-only forms and the UK money, titles, and symbols out of the A2 Key goal', () => {
+        const t = (id: string, form: string) => ({ id: `english.vocabulary.skill.${id}`, kind: 'skill', title: form, metadata: { normalizedForm: form, examAlignments: ['a2-key-for-schools'] } });
+        const { lists, wordOf } = wordLists([
+            t('petrol.noun', 'petrol'),
+            t('city-centre.noun', 'city centre'),
+            t('washing-up.noun', 'washing-up'),
+            t('mr.noun', 'mr'),
+            t('pence.noun', 'pence'),
+            t('at.symbol', 'at / @'),
+            t('colour.noun', 'colour'),
+            t('passport.noun', 'passport'),
+        ]);
+        // British spellings of a US word stay in the list (option 2 of a2-key-gap.md was not chosen).
+        expect([...lists.get('a2-key-for-schools')!].sort()).toEqual(['colour', 'passport']);
+        expect(wordOf.get('english.vocabulary.skill.petrol.noun')).toBe('petrol');
+    });
+
     it('counts the list words that the packages gloss, each one time', () => {
         const { lists, wordOf } = wordLists(nodes);
         const pkgs = [pkg([], [], ['english.vocabulary.skill.run.noun', 'english.vocabulary.skill.cat.noun']), pkg([], [], ['english.vocabulary.skill.run.verb'])];

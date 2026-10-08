@@ -1,6 +1,8 @@
 # A2 Key gap at the end of level 9
 
-Version 1.0 | Date 2026-10-08 | Status: Draft (decision for Daniel) | Owner: Daniel Bo | Internal
+Version 1.1 | Date 2026-10-08 | Status: Decided | Owner: Daniel Bo | Internal
+
+**Decision (Daniel, 2026-10-08): option 1.** Groups C and D are out of the goal (`NOT_TAUGHT` in `dashboard/lib/lesson-package/coverage.ts`). The coverage report now gives A2 Key 496 of 547 (90.7%), and every goal of levels 5–9 is met.
 
 Track: `measure/tracks/levels_5_9_20261006/`. Source: `coverage-5-9.md` of 2026-10-08 (`dashboard/scripts/level-coverage.ts --levels 5-9`).
 
@@ -25,6 +27,6 @@ These words are already in a text with no gloss: by post, dead, department store
 
 ## 3. Options
 
-1. **Recommended: leave groups C and D out of the goal**, as Daniel did for CD and DVD on 2026-10-06. The list then has 547 words, and the current packages reach 496 (90.7%). No package changes. The rule goes into `NOT_TAUGHT` in `dashboard/lib/lesson-package/coverage.ts`.
+1. **Chosen: leave groups C and D out of the goal**, as Daniel did for CD and DVD on 2026-10-06. The list then has 547 words, and the current packages reach 496 (90.7%). No package changes. The rule goes into `NOT_TAUGHT` in `dashboard/lib/lesson-package/coverage.ts`.
 2. Also count group B through the US form, and fix the matcher for group A. Then the count is 510 of 547 (93.2%). This needs a code change to the coverage rule and tests.
 3. Keep the full list. Then 25 more words need a gloss. Each gloss change makes the word audio of that package invalid, and the audio of levels 8 and 9 is in progress now.

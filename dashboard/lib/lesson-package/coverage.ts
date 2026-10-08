@@ -90,8 +90,50 @@ export interface ListNode {
 const YLE_LISTS = new Set(['pre-a1-starters', 'a1-movers', 'a2-flyers']);
 /** Capitalized YLE headwords that are not people's names. */
 const NOT_NAMES = new Set(['english', 'london', 'ok', 'tv/television']);
-/** Words that the program does not teach (Daniel, 2026-10-06: "no CD/DVD (not used anymore)"). */
-const NOT_TAUGHT = new Set(['cd', 'dvd', 'cd player', 'dvd player']);
+/**
+ * Words that the program does not teach (Daniel, 2026-10-06: "no CD/DVD (not used anymore)"). Daniel,
+ * 2026-10-08 (option 1 of docs/content-plans/level-plans/a2-key-gap.md): the series uses US English
+ * in Thailand, so the British-only forms and the UK money, titles, and symbols of A2 Key are out too.
+ */
+const NOT_TAUGHT = new Set([
+    'cd',
+    'dvd',
+    'cd player',
+    'dvd player',
+    // British-only forms (group C)
+    'aeroplane',
+    'cheque',
+    'city centre',
+    'guest-house',
+    'harbour',
+    'have got to',
+    'headteacher',
+    'neighbour',
+    'penfriend',
+    'petrol',
+    'petrol station',
+    'roundabout',
+    'shopping centre',
+    'sports centre',
+    'till',
+    'tights',
+    'tourist information centre',
+    'trainer',
+    'underground',
+    'washing-up',
+    // UK money, titles, and symbols (group D)
+    'at / @',
+    'dr',
+    'euro',
+    'mr',
+    'mrs',
+    'ms',
+    'pc',
+    'pence',
+    'penny',
+    'pound',
+    'v',
+]);
 
 /**
  * Whether a node is out of the list goals: a person's name (a capitalized headword on the YLE lists
