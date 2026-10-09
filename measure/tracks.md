@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Origins 2 semester 1 test package out of `primary/`, into `content/primary/origins-2/assessments/semester-1/`.** *(Created: 2026-10-08)*
+  *Link: [./tracks/origins2_test_package_20261008/](./tracks/origins2_test_package_20261008/)*
+
 - [~] **Track: Book covers from data: a cover kit from the Canva SVGs, front and back templates, web PNGs and PDF/X-1a print files.** *(Created: 2026-10-07)*
   *Link: [./tracks/book_covers_20261007/](./tracks/book_covers_20261007/)*
 
