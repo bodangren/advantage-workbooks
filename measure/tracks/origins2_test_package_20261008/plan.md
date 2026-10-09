@@ -8,5 +8,6 @@
       recursively (`readdirSync` readers take only top-level `.json` files)
 
 ## Phase 2: Git
-- [ ] Daniel's decision: commit all files, or leave out the zip and `test-media/audio/_work`
-- [ ] Commit the chosen files
+- [x] Daniel's decision: commit all files, or leave out the zip and `test-media/audio/_work`
+      (2026-10-09: leave out only the zip; `.gitignore` has the rule)
+- [x] Commit the chosen files (`f68a3aa`)
