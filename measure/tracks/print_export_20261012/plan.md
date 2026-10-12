@@ -11,4 +11,4 @@
 - [x] Check: every bucket URL answers HTTP 200 (210 of 210; 9 needed a second try after a network timeout)
 - [x] Check: the golden differs from the PDF document of the lesson only in the 3 picture URLs; the
       no-key file differs only by the answer key block
-- [ ] Commit, and send the commit id to the monorepo session
+- [x] Commit (`08bb160`), and send the commit id to the monorepo session
