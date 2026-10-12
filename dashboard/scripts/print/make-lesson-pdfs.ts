@@ -2,16 +2,11 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import { chromium } from '@playwright/test';
-import { LessonPackageSchema } from '../../lib/lesson-package/schema';
-import { buildWorkbookLesson } from '../../lib/lesson-package/build';
-import { renderMultipleLessons } from '../../lib/template-renderer';
-import { wrapSingleLessonDocument } from '../../lib/workbook-document-wrapper';
-import { answerKeyEntry } from '../../lib/document-wrapper/sections/answer-key';
-import { listLessons, readLesson, readProjectMetadata } from '../../lib/filesystem';
+import { PRINT_BOOKS, bookLessons } from '../../lib/print/book-lessons';
+import { lessonDocument } from '../../lib/print/print-export';
 import { lessonPdfName, localPictures } from '../../lib/print/lesson-pdf';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
 import { downloadPictures, renderPagedPdf, run } from '../../lib/print/render';
-import type { WorkbookLesson } from '../../lib/workbook-schema';
 
 const USAGE = `Makes one A4 PDF for each lesson of the Primary books, for teachers and parents to print
 (Daniel, 2026-10-03). The lesson pages come first; the lesson's answer key is the last page.
@@ -32,40 +27,8 @@ Exit code 1 when a check fails.`;
 
 const REPO = path.resolve(process.cwd(), '..');
 const CONTENT = path.join(REPO, 'content', 'primary');
-const BOOKS: Record<string, { project?: string; name?: string }> = {
-    'origins-1': { name: 'Origins 1' },
-    'origins-2': { project: 'origins-2-a0' },
-    'origins-3.1': { project: 'origins-3.1-a0' },
-    'origins-3.2': { project: 'origins-3.2-a0' },
-    'quest-4': { project: 'quest-4-a1' },
-};
 /** A4 in points, and how far a page may be from it. */
 const A4 = { width: 595.28, height: 841.89, slack: 2 };
-
-interface BookLessons {
-    name: string;
-    level: string;
-    lessons: { number: number; lesson: WorkbookLesson }[];
-}
-
-/** The lessons of a book: from its dashboard project, or else from its lesson packages. */
-async function bookLessons(book: string): Promise<BookLessons> {
-    const { project, name } = BOOKS[book];
-    if (project) {
-        const meta = await readProjectMetadata(project);
-        if (!meta) throw new Error(`${project}: no project.json`);
-        const files = await listLessons(project);
-        const lessons = await Promise.all(files.map(async (f, i) => ({ number: i + 1, lesson: await readLesson(project, f.id) })));
-        return { name: `${meta.seriesName}${meta.levelNumber ? ` ${meta.levelNumber}` : ''}`, level: meta.cefrLevel ?? '', lessons };
-    }
-    const dir = path.join(CONTENT, book);
-    const packages = fs.readdirSync(dir)
-        .filter((f) => /^l\d+\.json$/.test(f))
-        .map((f) => LessonPackageSchema.parse(JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))))
-        .sort((a, b) => a.meta.number - b.meta.number);
-    const lessons = packages.map((p) => ({ number: p.meta.number, lesson: buildWorkbookLesson(p, { mediaBase: `file://${CONTENT}/` }) }));
-    return { name: name ?? book, level: packages[0]?.meta.cefrLevel ?? '', lessons };
-}
 
 /** The failed checks of a lesson PDF (empty when it is good). */
 function checkPdf(file: string): string[] {
@@ -91,7 +54,7 @@ async function main(argv: string[]): Promise<number> {
             return 0;
         } else if (a === '--out') out = path.resolve(argv[++i]);
         else if (a === '--lesson') only = Number(argv[++i]);
-        else if (BOOKS[a]) books.push(a);
+        else if (PRINT_BOOKS[a]) books.push(a);
         else {
             console.error(`Unknown argument: ${a}\n\n${USAGE}`);
             return 2;
@@ -104,16 +67,15 @@ async function main(argv: string[]): Promise<number> {
     let made = 0;
     let failed = 0;
     try {
-        for (const book of books.length ? books : Object.keys(BOOKS)) {
-            const { name, level, lessons } = await bookLessons(book);
+        for (const book of books.length ? books : Object.keys(PRINT_BOOKS)) {
+            const { name, level, lessons } = await bookLessons(book, CONTENT);
             const dir = path.join(out, name.replace(/\s+/g, '-'));
             fs.mkdirSync(dir, { recursive: true });
             for (const { number, lesson } of lessons) {
                 if (only !== undefined && number !== only) continue;
                 const label = `${book} lesson ${number}`;
                 try {
-                    const lessonHtml = await renderMultipleLessons([lesson], { type: 'primary', seriesName: name, seriesLevel: level, firstLessonNumber: number });
-                    const doc = wrapSingleLessonDocument(lessonHtml, answerKeyEntry(lesson, number), { seriesName: name, seriesLevel: level, seriesTagline: '', type: 'primary' });
+                    const doc = await lessonDocument(lesson, number, name, level);
                     const local = localPictures(doc.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''), cache, CONTENT);
                     await downloadPictures(local.downloads);
                     const htmlFile = path.join(tmp, `${book}-${number}.html`);

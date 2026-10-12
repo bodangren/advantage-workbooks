@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: Print data of the five printed Primary books (70 files with bucket pictures) and a golden lesson for the monorepo print kit.** *(Created: 2026-10-12)*
+  *Link: [./tracks/print_export_20261012/](./tracks/print_export_20261012/)*
+
 - [x] **Track: Origins 2 semester 1 test package out of `primary/`, into `content/primary/origins-2/assessments/semester-1/`.** *(Completed: 2026-10-09)*
   *Link: [./tracks/origins2_test_package_20261008/](./tracks/origins2_test_package_20261008/)*
 
