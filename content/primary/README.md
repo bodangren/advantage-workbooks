@@ -4,7 +4,7 @@ Version 1.2 | Date 2026-10-01 | Status: Active | Owner: Daniel Bo | Internal
 
 One JSON file per lesson holds every asset: the article, glossary (English and Thai), the app question bank (10 MCQ, 5 SAQ, 5 LAQ), the print set, the workbook activities, the Thai translation, the image plans, the audio, the objective tags, the approvals, and the database IDs. The workbook JSON, the database rows, and the tag file are built from it. Claude writes the packages; Daniel tweaks and approves them on the review page. The Primary app's generator is not used.
 
-Spec: `measure/tracks/lesson_packages_20261001/spec.md`. Plan context: `docs/content-plans/primary-origins-3.2-plan.md` §6 and §8.
+Spec: `measure/archive/lesson_packages_20261001/spec.md`. Plan context: `docs/content-plans/primary-origins-3.2-plan.md` §6 and §8.
 
 ## Folders
 

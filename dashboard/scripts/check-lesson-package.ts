@@ -5,7 +5,7 @@ import { REPO_ROOT, loadPackageFolder } from '../lib/lesson-package/files';
 import { checkContextFor, DEFAULT_GRAPH } from '../lib/lesson-package/context';
 import { formatPackageReports } from '../lib/lesson-package/report';
 
-const USAGE = `Checks lesson packages (measure/tracks/lesson_packages_20261001/spec.md).
+const USAGE = `Checks lesson packages (measure/archive/lesson_packages_20261001/spec.md).
 
 Usage: npx tsx scripts/check-lesson-package.ts <book-folder-or-package.json>... [options]
 
