@@ -24,6 +24,6 @@ Track: `lesson_packages_20261001`
 ## Phase 4: Docs
 
 - [x] `content/primary/README.md`: format and commands
-- [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
+- [x] Update `measure/tech-debt.md` and `measure/lessons-learned.md` (2026-10-20)
 
-Note: no commits yet; Daniel has not answered the commit question (2026-10-01). Tests: 37 new (lesson-package 34, files 3).
+Note: committed in 6f066c7 (2026-10-01). Tests: 37 new (lesson-package 34, files 3).

@@ -43,4 +43,4 @@ Track: `level_banks_20261002`
 - [x] Review page: approve a whole folder of lessons that pass every check; picture sheet per book
 - [x] Delete script for the similar old articles (backup first; after Daniel approves the level)
 - [x] Daniel approves; inject (backup first); verify; level counts 50, 50, 100, 50 (2026-10-08: 250 of 250 packages approved and injected, 0 verify differences in the logs; the legacy export of 2026-10-07 22:13 UTC matches all 250 and holds 50, 50, 100, 50 Workbooks articles at levels 1–4. Level 3 also has one live May article of the nightly generator, "The Happy Flower")
-- [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
+- [x] Update `measure/tech-debt.md` and `measure/lessons-learned.md` (2026-10-20)

@@ -25,4 +25,4 @@ Track: `lesson_media_20261001`
 ## Phase 4: Docs
 
 - [x] Media section in `content/primary/README.md`
-- [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
+- [x] Update `measure/tech-debt.md` and `measure/lessons-learned.md` (2026-10-20)

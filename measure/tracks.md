@@ -17,7 +17,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Editorial pre-review of Origins 1, Origins 3.2, and Quest 4 before Daniel approves them, and sign text on the blank signs in the pictures.** *(Completed: 2026-10-06)*
   *Link: [./tracks/editorial_prereview_20261003/](./tracks/editorial_prereview_20261003/)*
 
-- [~] **Track: Levels 1–4 workbook lessons (Origins 1, Origins 3.2, Quest 4) and rebuilt online banks of 50 or more articles per level.** *(Created: 2026-10-02)*
+- [x] **Track: Levels 1–4 workbook lessons (Origins 1, Origins 3.2, Quest 4) and rebuilt online banks of 50 or more articles per level.** *(Completed: 2026-10-20)*
   *Link: [./tracks/level_banks_20261002/](./tracks/level_banks_20261002/)*
 
 - [x] **Track: Print-ready PDF/X-1a for the printer: real fonts, no transparency, and a convert-and-check command.** *(Completed: 2026-10-02)*
@@ -26,13 +26,13 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
   *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
 
-- [~] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Created: 2026-10-01)*
+- [x] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Completed: 2026-10-20)*
   *Link: [./tracks/lesson_packages_20261001/](./tracks/lesson_packages_20261001/)*
 
 - [x] **Track: Review page: Daniel tweaks and approves lesson packages in the dashboard (task C8).** *(Completed: 2026-10-08)*
   *Link: [./tracks/review_page_20261001/](./tracks/review_page_20261001/)*
 
-- [~] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Created: 2026-10-01)*
+- [x] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Completed: 2026-10-20)*
   *Link: [./tracks/lesson_media_20261001/](./tracks/lesson_media_20261001/)*
 
 - [~] **Track: Primary injector: write lesson packages into the live and cutover Primary databases, and verify them (task C10).** *(Created: 2026-10-01)*
