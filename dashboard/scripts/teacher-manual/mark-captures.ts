@@ -27,6 +27,11 @@ export interface ScreenSpec {
      * Without the capture or a mark label, the script skips the screen and keeps its JPEG.
      */
     optional?: string;
+    /**
+     * Captures of the same page at the same scroll whose boxes are added: a window covers the page,
+     * and a button under it has its box only in the capture before the window opened.
+     */
+    boxesFrom?: string[];
 }
 
 /** The screenshots, in the order of the PR teacher guide (K1): sign in, find the class, start the class, the book, the lesson, homework, the class sheet and QR cards. */
@@ -50,6 +55,9 @@ export const SCREENS: ScreenSpec[] = [
     { id: 'article-assign', capture: '10b-article-assign-button-desktop-th', marks: ['งานที่กำหนด'], crop: { x: 290, y: 80, w: 970, h: 300 } },
     { id: 'assign-form', capture: '10c-assign-form-filled-top-desktop-th', marks: ['ห้องเรียน', 'ชื่องานที่กำหนด', 'คำอธิบายงานที่กำหนด', 'เลือกนักเรียนทั้งหมด'], crop: { x: 386, y: 255, w: 508, h: 465 } },
     { id: 'class-sheet-confirm', capture: '06b-class-sheet-confirm-desktop-th', marks: ['ตั้งรหัสผ่านใหม่'], crop: { x: 280, y: 140, w: 960, h: 360 } },
+    // After the fix d9c02df5b (app section `--reset new`): the confirm window (05g) over the class list,
+    // with the box of the row button from 05f (same page, same scroll, row of Student Demo (A1)).
+    { id: 'reset-one-student-th', capture: '05g-new-password-confirm-desktop-th', boxesFrom: ['05f-roster-row-new-password-desktop-th'], marks: ['รหัสผ่านใหม่', 'ตั้งรหัสผ่านใหม่'], crop: { x: 300, y: 250, w: 810, h: 250 }, optional: 'the retake after the one-student password fix d9c02df5b' },
     { id: 'qr-cards', capture: '07a-qr-cards-page-desktop-th', marks: ['ทำบัตรให้นักเรียนที่ยังไม่มีบัตร 4 คน', 'พิมพ์'], crop: { x: 268, y: 80, w: 992, h: 440 } },
 ];
 
@@ -136,7 +144,12 @@ async function main(argv: string[]): Promise<number> {
     for (const spec of SCREENS) {
         const png = path.join(inDir, `${spec.capture}.png`);
         const json = path.join(inDir, `${spec.capture}.json`);
-        const all = fs.existsSync(json) || !spec.optional ? (JSON.parse(fs.readFileSync(json, 'utf8')) as Box[]) : [];
+        const own = fs.existsSync(json) || !spec.optional ? (JSON.parse(fs.readFileSync(json, 'utf8')) as Box[]) : [];
+        const extra = (spec.boxesFrom ?? []).flatMap((c) => {
+            const file = path.join(inDir, `${c}.json`);
+            return fs.existsSync(file) ? (JSON.parse(fs.readFileSync(file, 'utf8')) as Box[]) : [];
+        });
+        const all = [...own, ...extra];
         const missing = spec.marks.find((label) => !all.some((b) => b.label === label));
         if (missing !== undefined && spec.optional) {
             // Keep the JPEG and its entry from an earlier run.

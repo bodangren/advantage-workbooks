@@ -144,12 +144,20 @@ describe('teacher manual app section', () => {
         for (const label of ['นักเรียน', 'รหัสผ่านใหม่', 'ตั้งรหัสผ่านใหม่ให้ … ใช่ไหม', 'ตั้งรหัสผ่านใหม่', 'พิมพ์']) expect(sheet.notes[0].text, label).toContain(`“${label}”`);
         expect(sheet.notes[0].text).toContain('นักเรียนคนอื่นใช้รหัสผ่านเดิมต่อได้');
         expect(JSON.stringify(appParts('en', NEW)[7])).not.toMatch(/2 copies|kept copy/);
+        // The picture of the button (1) and its confirm window (2) comes last, just before the note.
+        expect(sheet.screens.at(-1)?.id).toBe('reset-one-student-th');
+        expect(sheet.notes[0].text).toContain('“รหัสผ่านใหม่” (1)');
+        expect(sheet.notes[0].text).toContain('“ตั้งรหัสผ่านใหม่” (2)');
+        expect(appParts('th')[7].screens.map((s) => s.id)).not.toContain('reset-one-student-th');
+        expect(generateAppSection('th', undefined, NEW)).not.toContain('class="tm-app-placeholder"');
     });
 
     it('shows a placeholder until the retake, then the marked screen', () => {
         const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tm-app-screens-'));
         try {
             for (const f of fs.readdirSync(APP_SCREEN_DIR)) if (f.endsWith('.jpg')) fs.copyFileSync(path.join(APP_SCREEN_DIR, f), path.join(dir, f));
+            // The state before the retake: no Thai sign-in screens yet.
+            for (const id of ['signin-teacher-tab-th', 'signin-new-password-th']) fs.rmSync(path.join(dir, `${id}.jpg`), { force: true });
             const signinOnly: AppVariant = { signin: 'new', reset: 'live' };
             const before = generateAppSection('th', undefined, signinOnly, dir);
             expect(before.match(/class="tm-app-placeholder"/g)).toHaveLength(2);

@@ -430,6 +430,8 @@ interface FixText {
     resetPrintStep: string;
     /** The note "A student forgets the password". */
     resetForgot: string;
+    /** The one-student password button and its confirm window, after the class-sheet screens. */
+    resetScreen: AppScreen;
 }
 
 const FIX_TEXT: Record<SupportedLanguage, FixText> = {
@@ -445,7 +447,8 @@ const FIX_TEXT: Record<SupportedLanguage, FixText> = {
         signinNote: { title: 'ครูที่ย้ายมาจากระบบเดิม', text: 'หน้าจอบอกว่า “พิมพ์ชื่อผู้ใช้ของคุณ ครูที่ย้ายมาจากระบบเดิมให้พิมพ์อีเมลของตนเอง”' },
         resetWarning: 'นักเรียนคนเดียวลืมรหัสผ่าน: ใช้ปุ่ม “รหัสผ่านใหม่” ที่แถวของนักเรียนคนนั้น (ด้านล่าง)',
         resetPrintStep: 'กด “พิมพ์” ทันที ก่อนออกจากหน้านี้ ตัดใบรายชื่อ แล้วแจกให้นักเรียนแต่ละคนเฉพาะส่วนที่มีชื่อของตนเอง',
-        resetForgot: 'ในรายชื่อ “นักเรียน” กด “รหัสผ่านใหม่” ที่แถวของนักเรียนคนนั้น ในหน้าต่าง “ตั้งรหัสผ่านใหม่ให้ … ใช่ไหม” กด “ตั้งรหัสผ่านใหม่” แอปตั้งรหัสผ่านใหม่ให้นักเรียนคนนั้นคนเดียว และนักเรียนคนนั้นออกจากระบบ นักเรียนคนอื่นใช้รหัสผ่านเดิมต่อได้ รหัสผ่านใหม่แสดงเพียงครั้งเดียว ให้นักเรียนจดไว้ทันที หรือกด “พิมพ์”',
+        resetScreen: { id: 'reset-one-student-th', caption: 'ปุ่ม “รหัสผ่านใหม่” ของนักเรียนคนเดียว และหน้าต่างยืนยัน (ภาพจากชั้นเรียนทดสอบ)', pending: 'รอภาพ: ปุ่มรหัสผ่านใหม่ของนักเรียนคนเดียว (หลังการแก้ไข)' },
+        resetForgot: 'ในรายชื่อ “นักเรียน” กด “รหัสผ่านใหม่” (1) ที่แถวของนักเรียนคนนั้น ในหน้าต่าง “ตั้งรหัสผ่านใหม่ให้ … ใช่ไหม” กด “ตั้งรหัสผ่านใหม่” (2) แอปตั้งรหัสผ่านใหม่ให้นักเรียนคนนั้นคนเดียว และนักเรียนคนนั้นออกจากระบบ นักเรียนคนอื่นใช้รหัสผ่านเดิมต่อได้ รหัสผ่านใหม่แสดงเพียงครั้งเดียว ให้นักเรียนจดไว้ทันที หรือกด “พิมพ์”',
     },
     en: {
         signinSteps: [
@@ -459,7 +462,8 @@ const FIX_TEXT: Record<SupportedLanguage, FixText> = {
         signinNote: { title: 'Teachers from the old system', text: 'The screen says “Type your username. Teachers from the old app type their e-mail address.”' },
         resetWarning: 'One student forgot the password: use the “New password” button on that student\'s row (below).',
         resetPrintStep: 'Press “Print” at once, before you leave the page. Cut the sheet and give each student only the part with the student\'s name.',
-        resetForgot: 'In the “Students” list, press “New password” on that student\'s row. In the window “Set a new password for …?”, press “Set new password”. The app sets a new password for that student only, and signs that student out. The other students keep their passwords. The new password shows only once: the student writes it down at once, or you press “Print”.',
+        resetScreen: { id: 'reset-one-student-th', caption: 'The “New password” button of one student, and its confirm window (test class)', pending: 'Picture to come: the one-student password button (after the fix)' },
+        resetForgot: 'In the “Students” list, press “New password” (1) on that student\'s row. In the window “Set a new password for …?”, press “Set new password” (2). The app sets a new password for that student only, and signs that student out. The other students keep their passwords. The new password shows only once: the student writes it down at once, or you press “Print”.',
     },
 };
 
@@ -486,6 +490,8 @@ export function appParts(lang: SupportedLanguage, app: AppVariant = LIVE_APP): A
                 ...p,
                 before: [{ ...warning, text: `${warning.text} ${f.resetWarning}` }, ...rest],
                 steps: p.steps.map((s, i) => (i === PRINT_STEP ? f.resetPrintStep : s)),
+                // Last screen: the note "A student forgets the password" follows it.
+                screens: [...p.screens, f.resetScreen],
                 notes: p.notes.map((n, i) => (i === 0 ? { ...n, text: f.resetForgot } : n)),
             };
         }
