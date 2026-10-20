@@ -248,6 +248,13 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string, pa
       margin: 0 auto 20px auto;
     }
 
+    .tm-title-product {
+      font-size: 16pt;
+      font-weight: 700;
+      color: #374151;
+      margin: 0 0 6px 0;
+    }
+
     .tm-title-series {
       font-size: 42pt;
       font-weight: 800;

@@ -1,7 +1,7 @@
 import type { WorkbookLesson } from '../workbook-schema';
 import type { TeacherManualOptions, TeacherManualPaper } from './types';
 import type { SupportedLanguage } from './i18n';
-import { getThemeColors } from '../document-wrapper/utils';
+import { brandName, getThemeColors } from '../document-wrapper/utils';
 import { generateFrontMatter } from './front-matter';
 import { generateEndMatter } from './end-matter';
 import { buildLessonPlan, renderLessonPlan } from './lesson-plan';
@@ -44,7 +44,7 @@ export function compileTeacherManual(
   };
 
   const frontMatterHtml = generateFrontMatter(
-    { seriesName, seriesLevel, cefrLevel },
+    { productName: brandName(type), seriesName, seriesLevel, cefrLevel },
     theme,
     lang
   );

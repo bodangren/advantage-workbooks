@@ -69,6 +69,8 @@ export interface LessonPlan {
 }
 
 export interface FrontMatterData {
+  /** The product name before the series, for example "Primary Advantage": a book always carries it (PR naming rule). */
+  productName?: string;
   seriesName: string;
   seriesLevel: string;
   cefrLevel: string;

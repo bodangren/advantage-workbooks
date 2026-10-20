@@ -52,6 +52,7 @@ function generateTitlePage(
       <div class="tm-title-content" style="border-color: ${primaryColor};">
         <div class="tm-title-badge">${escapeHtml(t.titlePage.badge)}</div>
         <div class="tm-title-divider" style="background: ${primaryColor};"></div>
+        ${data.productName ? `<p class="tm-title-product">${escapeHtml(data.productName)}</p>` : ''}
         <h1 class="tm-title-series" style="color: ${primaryColor};">${escapeHtml(data.seriesName)}</h1>
         <p class="tm-title-level">${escapeHtml(data.seriesLevel)} &bull; ${escapeHtml(data.cefrLevel)}</p>
         <p class="tm-title-subtitle" style="color: ${secondaryColor};">${escapeHtml(t.titlePage.subtitle)}</p>
@@ -70,7 +71,7 @@ function generatePreface(
     <div class="tm-section tm-preface">
       <h2 class="tm-section-header" style="color: ${primaryColor}; border-color: ${primaryColor};">${escapeHtml(t.preface.heading)}</h2>
       <div class="tm-preface-content">
-        <p>${t.preface.welcome(data.seriesName, data.seriesLevel)}</p>
+        <p>${t.preface.welcome(data.productName ? `${data.productName} ${data.seriesName}` : data.seriesName, data.seriesLevel)}</p>
         <p>${t.preface.periodOverviewIntro}</p>
         <div class="tm-period-overview-box">
           <div class="tm-po-item"><strong>${t.preface.period1Overview}</strong></div>

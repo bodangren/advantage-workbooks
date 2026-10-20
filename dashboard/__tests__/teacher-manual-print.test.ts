@@ -105,6 +105,14 @@ describe('teacher manual: office print (Phase 1)', () => {
         expect(bad.map((s) => s.at)).toEqual([]);
     });
 
+    it('names the product before the series on the title page and in the preface (PR naming rule)', () => {
+        for (const lang of LANGS) {
+            const html = manual(lang, 'a4');
+            expect(html, lang).toMatch(/<p class="tm-title-product">Primary Advantage<\/p>\s*<h1 class="tm-title-series"/);
+            expect(html, lang).toContain('<strong>Primary Advantage Origins 3.1');
+        }
+    });
+
     it('prints each step 13 reflection label with one colon', () => {
         for (const lang of ['en', 'th'] as const) {
             const html = renderStepInsert(13, LESSON, lang);
