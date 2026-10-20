@@ -16,6 +16,18 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#039;');
 }
 
+/** The blank of a fill-in sentence: the lesson-package build stores it as an HTML span (lib/lesson-package/build.ts). */
+const BLANK_SPAN = /<span class="blank"><\/span>/g;
+
+/**
+ * A fill-in sentence as printed in the manual: the escaped text with each blank span as a line.
+ * @param sentence The sentence from the lesson data.
+ * @returns The HTML.
+ */
+function fillSentence(sentence: string): string {
+  return sentence.split(BLANK_SPAN).map(escapeHtml).join('________________');
+}
+
 function renderStep1Insert(lesson: WorkbookLesson, s: ReturnType<typeof getTranslations>['stepInsert']): string {
   return `
     <div class="si-section">
@@ -191,7 +203,7 @@ function renderStep9Insert(lesson: WorkbookLesson, s: ReturnType<typeof getTrans
         <div class="si-sub-section">
           <p class="si-sub-title">${s.fillBlanks}</p>
           ${fills.slice(0, 3).map(f => `
-            <div class="si-fill-item">${f.number}. ${escapeHtml(f.sentence)}</div>
+            <div class="si-fill-item">${f.number}. ${fillSentence(f.sentence)}</div>
           `).join('')}
         </div>
       ` : ''}

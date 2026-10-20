@@ -304,6 +304,18 @@ describe('teacher manual: the new Primary Advantage app (Phase 2)', () => {
         }
     });
 
+    it('prints the blank of a fill-in sentence as a line, not as HTML text (lesson-package build stores a span)', () => {
+        const lesson = { ...LESSON, vocab_fill: [{ number: 1, sentence: 'This place is a new <span class="blank"></span>.' }, { number: 2, sentence: 'A <b> & a ____ day.' }] } as unknown as WorkbookLesson;
+        for (const lang of LANGS) {
+            const html = renderStepInsert(9, lesson, lang);
+            expect(html, lang).toContain('1. This place is a new ________________.');
+            expect(html, lang).not.toContain('&lt;span');
+            expect(html, lang).not.toContain('<span class="blank">');
+            // Other markup in a sentence stays escaped.
+            expect(html, lang).toContain('2. A &lt;b&gt; &amp; a ____ day.');
+        }
+    });
+
     it('tells the teacher that step 11 has no app step, in the notes that the app imports', () => {
         expect(en.teachingNotesContent[11].teacherActions.join(' ')).toMatch(/no app step/);
         expect(th.teachingNotesContent[11].teacherActions.join(' ')).toContain('ไม่มีขั้นในแอป');
