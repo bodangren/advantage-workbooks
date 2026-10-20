@@ -87,12 +87,16 @@ const th: AppSectionText = {
             intro: 'ครูเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน ปุ่ม Google ไม่มีแล้ว',
             steps: [
                 'เปิด primary.reading-advantage.com',
-                'กดแท็บ “ครู” หน้าเข้าสู่ระบบเปิดแท็บ “นักเรียน” ไว้ก่อนเสมอ',
-                'ในช่องชื่อผู้ใช้ พิมพ์อีเมลของคุณ ในช่องรหัสผ่าน พิมพ์รหัสผ่าน แล้วกดปุ่มเข้าสู่ระบบ',
-                'เข้าสู่ระบบครั้งแรก: ใช้รหัสผ่านชั่วคราวที่โรงเรียนให้ แอปให้ตั้งรหัสผ่านใหม่ พิมพ์รหัสผ่านใหม่สองครั้ง แล้วกดบันทึก',
+                'กดแท็บ “ครู” (1) หน้าเข้าสู่ระบบเปิดแท็บ “นักเรียน” ไว้ก่อนเสมอ',
+                'ในช่องชื่อผู้ใช้ (2) พิมพ์อีเมลของคุณ ในช่องรหัสผ่าน (3) พิมพ์รหัสผ่าน แล้วกดปุ่มเข้าสู่ระบบ (4)',
+                'เข้าสู่ระบบครั้งแรก: ใช้รหัสผ่านชั่วคราวที่โรงเรียนให้ แอปเปิดหน้าตั้งรหัสผ่านใหม่ พิมพ์รหัสผ่านใหม่ (1) พิมพ์อีกครั้ง (2) แล้วกดปุ่มบันทึกและเข้าสู่ระบบ (3)',
             ],
-            screens: [{ id: null, caption: 'หน้าเข้าสู่ระบบของครู (ภาพจะเพิ่มเมื่อหน้าจอใหม่พร้อม)' }],
+            screens: [
+                { id: 'signin-teacher-tab', caption: 'หน้าเข้าสู่ระบบ แท็บครู' },
+                { id: 'signin-new-password', caption: 'หน้าตั้งรหัสผ่านใหม่ (เข้าสู่ระบบครั้งแรก)' },
+            ],
             notes: [
+                { title: 'คำบนฟอร์มเป็นภาษาอังกฤษ', text: 'ตอนนี้คำบนฟอร์มเข้าสู่ระบบของครูยังเป็นภาษาอังกฤษ: Username = ชื่อผู้ใช้ · Password = รหัสผ่าน · Login = เข้าสู่ระบบ · New password = รหัสผ่านใหม่ · Type the new password again = พิมพ์รหัสผ่านใหม่อีกครั้ง · Save and sign in = บันทึกและเข้าสู่ระบบ' },
                 { title: 'รหัสผ่านใหม่', text: 'มีอย่างน้อย 8 ตัวอักษร และต้องไม่ซ้ำกับรหัสผ่านชั่วคราว หลังจากนี้ รหัสผ่านชั่วคราวใช้ไม่ได้อีก' },
                 { title: 'ลืมรหัสผ่าน', text: 'ติดต่อผู้ดูแลระบบของโรงเรียน เพื่อขอรหัสผ่านชั่วคราวใหม่' },
             ],
@@ -244,12 +248,16 @@ const en: AppSectionText = {
             intro: 'Teachers sign in with an e-mail address and a password. The Google button is gone.',
             steps: [
                 'Open primary.reading-advantage.com.',
-                'Press the “Teacher” tab. The sign-in page always opens on the “Student” tab.',
-                'In the username field, type your e-mail address. In the password field, type your password. Then press the sign-in button.',
-                'First sign-in: use the temporary password from the school. The app asks for a new password. Type the new password two times, then save.',
+                'Press the “Teacher” tab (1). The sign-in page always opens on the “Student” tab.',
+                'In the username field (2), type your e-mail address. In the password field (3), type your password. Then press the sign-in button (4).',
+                'First sign-in: use the temporary password from the school. The app opens the new-password page. Type the new password (1), type it again (2), then press the save-and-sign-in button (3).',
             ],
-            screens: [{ id: null, caption: 'The teacher sign-in page (the picture comes when the new screen is ready)' }],
+            screens: [
+                { id: 'signin-teacher-tab', caption: 'The sign-in page, Teacher tab' },
+                { id: 'signin-new-password', caption: 'The new-password page (first sign-in)' },
+            ],
             notes: [
+                { title: 'The form words are English', text: 'The words on the teacher sign-in form are English for now: Username, Password, Login; New password, Type the new password again, Save and sign in.' },
                 { title: 'New password', text: '8 characters or more, and not the temporary password. After this, the temporary password stops working.' },
                 { title: 'Forgot the password', text: "Ask the school's administrator for a new temporary password." },
             ],

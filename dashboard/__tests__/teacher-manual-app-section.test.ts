@@ -38,13 +38,14 @@ describe('teacher manual app section', () => {
         expect(text).toContain('ผู้ดูแลระบบของโรงเรียน');
     });
 
-    it('has a marked screenshot file for each screen, and a placeholder only for the sign-in page', () => {
+    it('has a marked screenshot file for each screen, also for the sign-in page', () => {
         const screens = APP_SECTION.th.parts.flatMap((p) => p.screens);
-        expect(screens.filter((s) => s.id === null)).toHaveLength(1);
-        expect(APP_SECTION.th.parts[0].screens[0].id).toBeNull();
-        for (const s of screens.filter((x) => x.id)) expect(fs.existsSync(path.join(APP_SCREEN_DIR, `${s.id}.jpg`)), String(s.id)).toBe(true);
+        expect(screens.filter((s) => s.id === null)).toHaveLength(0);
+        expect(APP_SECTION.th.parts[0].screens.map((s) => s.id)).toEqual(['signin-teacher-tab', 'signin-new-password']);
+        for (const s of screens) expect(fs.existsSync(path.join(APP_SCREEN_DIR, `${s.id}.jpg`)), String(s.id)).toBe(true);
         const html = generateAppSection('th');
-        expect(html.match(/<img src="data:image\/jpeg;base64,/g)).toHaveLength(screens.length - 1);
+        expect(html.match(/<img src="data:image\/jpeg;base64,/g)).toHaveLength(screens.length);
+        expect(html).not.toContain('tm-app-placeholder"');
         expect(html.match(/class="tm-app-part"/g)).toHaveLength(8);
     });
 
