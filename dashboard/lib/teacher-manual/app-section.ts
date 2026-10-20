@@ -80,7 +80,7 @@ const th: AppSectionText = {
     ],
     lesson12Title: 'บทที่ 12 ในหนังสือ',
     lesson12:
-        'บทที่ 12 ในหนังสือที่พิมพ์แล้วผิด (เป็นเรื่อง “My Happy Holiday” ซ้ำกับบทที่ 9) ให้สอนบทที่ 12 ใหม่ “Hello! I Am Tom” แอปแสดงบทนี้แล้ว หน้าพิมพ์ของบทที่ 12 ใหม่จะมากับหนังสือรอบถัดไป ระหว่างนี้ ให้ฉายบทเรียนบนโปรเจกเตอร์ หรือกด “พิมพ์บทเรียนนี้” ในแอป (ข้อ 4.3)',
+        'บทที่ 12 ในหนังสือที่พิมพ์แล้วผิด (เป็นเรื่อง “My Happy Holiday” ซ้ำกับบทที่ 9) ให้สอนบทที่ 12 ใหม่ “Hello! I Am Tom” แอปแสดงบทนี้แล้ว ให้ฉายบทเรียนบนโปรเจกเตอร์ หรือกด “พิมพ์บทเรียนนี้” ในแอป แล้วพิมพ์ให้นักเรียน (ข้อ 4.3)',
     parts: [
         {
             heading: '1. เข้าสู่ระบบ',
@@ -241,7 +241,7 @@ const en: AppSectionText = {
     prepare: ['A computer with a projector', 'The e-mail address and password from the school', "The students' workbooks"],
     lesson12Title: 'Lesson 12 in the book',
     lesson12:
-        'Lesson 12 in the printed book is a printing error (it repeats "My Happy Holiday" from lesson 9). Teach the new lesson 12, "Hello! I Am Tom". The app shows this lesson. The printed pages of the new lesson 12 come with the next book delivery. Until then, show the lesson on the projector, or press “Print this lesson” in the app (4.3).',
+        'Lesson 12 in the printed book is a printing error (it repeats "My Happy Holiday" from lesson 9). Teach the new lesson 12, "Hello! I Am Tom". The app shows this lesson. Show the lesson on the projector, or press “Print this lesson” in the app and print it for the students (4.3).',
     parts: [
         {
             heading: '1. Sign in',
