@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: Origins 3.1 Teacher's Manual for the new Primary app: app text, a new app section, Thai fixes, and an A4 office-print PDF; draft 2026-10-23, final 2026-10-26.** *(Created: 2026-10-20)*
+  *Link: [./tracks/teacher_manual_app_20261020/](./tracks/teacher_manual_app_20261020/)*
+
 - [~] **Track: v2 workbook look: the Chibi Quest look of the new app and its step names for the Primary levels 5–9 books; Quest 5 printer file by 2026-11-06.** *(Created: 2026-10-20)*
   *Link: [./tracks/primary_v2_look_20261020/](./tracks/primary_v2_look_20261020/)*
 
