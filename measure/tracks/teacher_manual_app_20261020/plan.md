@@ -35,7 +35,8 @@ Dates: Thai draft PDF to PR and Daniel by 2026-10-23; fact check 10-24 and 10-25
 
 Defaults chosen on 2026-10-20 for Daniel's check:
 - Workbook word: "หนังสือเรียน" in the whole manual (the existing term; the live guides use it). K1 uses "หนังสือแบบฝึกหัด".
-- Lesson 12: teach "Hello! I Am Tom"; the insert pages come with the next delivery; meanwhile the projector or "พิมพ์บทเรียนนี้".
+- Lesson 12: teach "Hello! I Am Tom"; the printed pages come later, with no date (errata insert: strategy v1.11, Daniel 2026-09-30); meanwhile the projector or "พิมพ์บทเรียนนี้" (7fe2dfd, as PR asked). Daniel decides whether the packet carries the current A4 PDF `print-ready/lessons/Origins-3.1/Primary-Advantage-Origins-3.1-Lesson-12-Hello-I-Am-Tom.pdf` (PR review page).
+- Sign-in: the live English screens 01a and 02b with marks and a note with the Thai meanings (122cdea); the Thai screens replace them after the M2 retake.
 - The printed QR codes and old app boxes: one note (the QR codes open the article after sign-in; follow the manual, not the old app tasks). No AI feedback, audio, or AI chip in the manual until a browser check.
 - Section 6: version-neutral (C14 open); "print 2 copies, keep one" until the one-student password button is deployed (facts v0.5).
 - Open: the cover photo of the school's printed manual; the sign-in screens after the M2 retake; the English working copy is not checked (Thai only is printed).
