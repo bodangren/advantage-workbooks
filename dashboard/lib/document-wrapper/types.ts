@@ -47,6 +47,12 @@ export interface SpellingPracticeEntry {
   vocabulary: GlossaryEntry[];
 }
 
+/**
+ * The print look of a book (track primary_v2_look_20261020). `classic` is the look of Origins 1 to
+ * Quest 4; `chibi-quest` is the Chibi Quest look of the v2 app, for Quest 5 to Adventure 9.3.
+ */
+export type WorkbookLook = 'classic' | 'chibi-quest';
+
 export interface WorkbookDocumentOptions {
   seriesName: string;
   seriesLevel: string;
@@ -57,6 +63,8 @@ export interface WorkbookDocumentOptions {
   lessonsOnly?: boolean;
   /** CSS page size; the book page (210mm 285mm) when absent. */
   pageSize?: string;
+  /** The print look; `classic` when absent. */
+  look?: WorkbookLook;
   glossary?: GlossaryEntry[];
   answerKey?: AnswerKeyEntry[];
   teacherGuide?: TeacherGuideEntry[];

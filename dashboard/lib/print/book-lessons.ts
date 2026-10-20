@@ -4,6 +4,7 @@ import { LessonPackageSchema, type LessonPackage } from '../lesson-package/schem
 import { buildWorkbookLesson } from '../lesson-package/build';
 import { listLessons, readLesson, readProjectMetadata } from '../filesystem';
 import type { WorkbookLesson } from '../workbook-schema';
+import { bookLook, projectLook, type WorkbookLook } from '../look';
 
 /**
  * The printed Primary books. A book with a dashboard project (primary/<project>) prints the
@@ -20,6 +21,8 @@ export const PRINT_BOOKS: Record<string, { project?: string; name?: string }> = 
 export interface BookLessons {
     name: string;
     level: string;
+    /** The print look: project.json or the book's look (lib/look.ts). */
+    look: WorkbookLook;
     lessons: { number: number; lesson: WorkbookLesson }[];
 }
 
@@ -42,7 +45,7 @@ export function bookPackages(contentDir: string, book: string): { file: string; 
  * lesson packages (pictures as file:// URLs under content/primary).
  * @param book A key of `PRINT_BOOKS`.
  * @param contentDir The content/primary folder.
- * @returns The book name with its number, the CEFR level, and the lessons with their place in the book.
+ * @returns The book name with its number, the CEFR level, the print look, and the lessons with their place in the book.
  */
 export async function bookLessons(book: string, contentDir: string): Promise<BookLessons> {
     const { project, name } = PRINT_BOOKS[book];
@@ -51,9 +54,9 @@ export async function bookLessons(book: string, contentDir: string): Promise<Boo
         if (!meta) throw new Error(`${project}: no project.json`);
         const files = await listLessons(project);
         const lessons = await Promise.all(files.map(async (f, i) => ({ number: i + 1, lesson: await readLesson(project, f.id) })));
-        return { name: `${meta.seriesName}${meta.levelNumber ? ` ${meta.levelNumber}` : ''}`, level: meta.cefrLevel ?? '', lessons };
+        return { name: `${meta.seriesName}${meta.levelNumber ? ` ${meta.levelNumber}` : ''}`, level: meta.cefrLevel ?? '', look: projectLook(meta), lessons };
     }
     const packages = bookPackages(contentDir, book).map((p) => p.pkg);
     const lessons = packages.map((p) => ({ number: p.meta.number, lesson: buildWorkbookLesson(p, { mediaBase: `file://${contentDir}/` }) }));
-    return { name: name ?? book, level: packages[0]?.meta.cefrLevel ?? '', lessons };
+    return { name: name ?? book, level: packages[0]?.meta.cefrLevel ?? '', look: bookLook(book), lessons };
 }

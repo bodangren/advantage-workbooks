@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { renderLessonTemplate } from '@/lib/template-renderer';
 import { readProjectMetadata } from '@/lib/filesystem';
+import { projectLook } from '@/lib/look';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
         renderOptions = {
           seriesName: `${metadata.seriesName} ${metadata.levelNumber}`,
           seriesLevel: metadata.cefrLevel,
+          look: projectLook(metadata),
         };
         console.log('[render] renderOptions:', renderOptions);
       }

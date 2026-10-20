@@ -3,6 +3,7 @@ import { icon, type IconName } from './document-wrapper/icons';
 import fs from 'fs/promises';
 import path from 'path';
 import type { ArticleImage, WorkbookLesson } from './workbook-schema';
+import type { WorkbookLook } from './document-wrapper/types';
 import { generateQRCodeDataURL } from './qr-generator';
 
 type WorkbookType = 'primary' | 'secondary';
@@ -53,6 +54,8 @@ export interface RenderOptions {
   firstLessonNumber?: number;
   /** A line above the first lesson's header, for example the insert label. */
   headerStrip?: string;
+  /** The print look of the book; `classic` when absent. */
+  look?: WorkbookLook;
 }
 
 type ArticleImages = NonNullable<WorkbookLesson['article_images']>;
@@ -60,6 +63,9 @@ type ArticleImages = NonNullable<WorkbookLesson['article_images']>;
 type PreparedLessonData = Omit<WorkbookLesson, 'article_image_url' | 'article_images'> & {
   lesson_number: string;
   header_strip?: string;
+  /** The print look; the template reads `chibi_quest` for the parts that differ. */
+  look: WorkbookLook;
+  chibi_quest: boolean;
   series_name: string;
   series_level: string;
   series_tagline: string;
@@ -138,6 +144,8 @@ function prepareLessonData(
     ...lesson,
     lesson_number: forcedLessonNumber,
     header_strip: index === 0 ? options.headerStrip : undefined,
+    look: options.look ?? 'classic',
+    chibi_quest: options.look === 'chibi-quest',
     series_name: seriesName,
     series_level: seriesLevel,
     series_tagline: seriesTagline,

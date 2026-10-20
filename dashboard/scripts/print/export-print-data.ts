@@ -43,7 +43,7 @@ async function main(argv: string[]): Promise<number> {
     }
     let written = 0;
     for (const book of books.length ? books : Object.keys(PRINT_BOOKS)) {
-        const { name, level, lessons } = await bookLessons(book, CONTENT);
+        const { name, level, look, lessons } = await bookLessons(book, CONTENT);
         const packages = new Map(bookPackages(CONTENT, book).map((p) => [p.pkg.meta.number, p]));
         const dir = path.join(CONTENT, book, 'print');
         fs.mkdirSync(dir, { recursive: true });
@@ -58,8 +58,8 @@ async function main(argv: string[]): Promise<number> {
                 const gdir = path.join(dir, 'golden');
                 const base = `lesson-${String(number).padStart(2, '0')}`;
                 fs.mkdirSync(gdir, { recursive: true });
-                fs.writeFileSync(path.join(gdir, `${base}.html`), await lessonDocument(record.lesson, number, name, level));
-                fs.writeFileSync(path.join(gdir, `${base}-no-key.html`), await lessonDocument(record.lesson, number, name, level, { answerKey: false }));
+                fs.writeFileSync(path.join(gdir, `${base}.html`), await lessonDocument(record.lesson, number, name, level, { look }));
+                fs.writeFileSync(path.join(gdir, `${base}-no-key.html`), await lessonDocument(record.lesson, number, name, level, { answerKey: false, look }));
                 console.log(`golden  ${path.relative(REPO, gdir)}/${base}.html, ${base}-no-key.html`);
             }
         }

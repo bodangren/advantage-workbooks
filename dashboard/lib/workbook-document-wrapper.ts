@@ -7,6 +7,7 @@ import { generateTocSection } from './document-wrapper/sections/toc';
 import { generateProgressTracker } from './document-wrapper/sections/progress-tracker';
 import { generateGlossarySection } from './document-wrapper/sections/glossary';
 import { printFontFaceCss } from './document-wrapper/print-fonts';
+import { getChibiQuestStyles } from './document-wrapper/chibi-quest-styles';
 import { generateAnswerKeySection } from './document-wrapper/sections/answer-key';
 import { generateFlashcardsSection } from './document-wrapper/sections/flashcards';
 import { generateTeacherGuideSection } from './document-wrapper/sections/teacher-guide';
@@ -21,7 +22,20 @@ export * from './document-wrapper/types';
 /** CSS page size of A4 paper, for a lesson that a teacher or a parent prints. */
 export const A4_PAGE = '210mm 297mm';
 
-/** The document head: title, Paged.js, the print fonts, and the print CSS with the page size. */
+/** The style block of a look: empty for `classic`, so the classic head does not change. */
+function lookStyle(options: WorkbookDocumentOptions): string {
+  return options.look === 'chibi-quest' ? `
+  <style data-look="chibi-quest">
+${getChibiQuestStyles()}
+  </style>` : '';
+}
+
+/** The body tag: a look class for `chibi-quest`, the plain tag for `classic`. */
+function bodyTag(options: WorkbookDocumentOptions): string {
+  return options.look === 'chibi-quest' ? '<body class="look-chibi-quest">' : '<body>';
+}
+
+/** The document head: title, Paged.js, the print fonts, the print CSS with the page size, and the look CSS. */
 function documentHead(options: WorkbookDocumentOptions, theme: ThemeColors): string {
   return `<head>
   <meta charset="UTF-8">
@@ -32,7 +46,7 @@ ${printFontFaceCss()}
   </style>
   <style>
     ${getPrintStyles(theme, { pageSize: options.pageSize, cover: !options.lessonsOnly })}
-  </style>
+  </style>${lookStyle(options)}
 </head>`;
 }
 
@@ -50,7 +64,7 @@ export function wrapSingleLessonDocument(lessonHtml: string, answerKey: AnswerKe
   return `<!DOCTYPE html>
 <html lang="en">
 ${documentHead({ ...options, pageSize: options.pageSize ?? A4_PAGE, lessonsOnly: true }, theme)}
-<body>
+${bodyTag(options)}
   ${lessonHtml}
   ${key}
 </body>
@@ -67,7 +81,7 @@ export function wrapWorkbookDocument(
     return `<!DOCTYPE html>
 <html lang="en">
 ${documentHead(options, theme)}
-<body>
+${bodyTag(options)}
   ${lessonsHtml}
 </body>
 </html>`;
@@ -88,7 +102,7 @@ ${documentHead(options, theme)}
   return `<!DOCTYPE html>
 <html lang="en">
 ${documentHead(options, theme)}
-<body>
+${bodyTag(options)}
   ${titlePage}
 
   ${prefaceSection}

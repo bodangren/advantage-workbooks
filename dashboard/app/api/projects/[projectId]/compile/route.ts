@@ -4,6 +4,7 @@ import { renderMultipleLessons } from '@/lib/template-renderer';
 import { wrapWorkbookDocument, type TocEntry, type AnswerKeyEntry, type TeacherGuideEntry, type SpellingPracticeEntry } from '@/lib/workbook-document-wrapper';
 import { getPrefaceByCefrLevel } from '@/lib/preface-loader';
 import { answerKeyEntry } from '@/lib/document-wrapper/sections/answer-key';
+import { projectLook } from '@/lib/look';
 import type { WorkbookLesson } from '@/lib/workbook-schema';
 
 export async function GET(
@@ -171,11 +172,14 @@ export async function GET(
     const seriesTagline = 'Learning Made Fun';
     // The book name with its number ("Origins 3.1"), on the title page and in each lesson header.
     const bookName = `${seriesName}${levelNumber ? ` ${levelNumber}` : ''}`;
+    // The print look (track primary_v2_look_20261020): project.json, or else the book's look.
+    const look = projectLook(metadata);
 
     const renderOptions = metadata ? {
       seriesName: bookName,
       seriesLevel: cefrLevel,
       type: metadata.type,
+      look,
     } : undefined;
 
     const lessonsHtml = await renderMultipleLessons(loadedLessons, renderOptions);
@@ -188,6 +192,7 @@ export async function GET(
       seriesTagline,
       prefaceText: prefaceData?.text,
       type: metadata?.type,
+      look,
       glossary: glossary.length > 0 ? glossary : undefined,
       answerKey: answerKey.length > 0 ? answerKey : undefined,
       teacherGuide: teacherGuide.length > 0 ? teacherGuide : undefined,

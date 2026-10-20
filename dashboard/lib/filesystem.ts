@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { assertWritable } from './cutover';
+import type { WorkbookLook } from './document-wrapper/types';
 
 export type ProjectType = 'primary' | 'secondary';
 
@@ -9,6 +10,8 @@ export interface ProjectMetadata {
   levelNumber: string; // e.g., "3.1", "4.2", "5.3"
   cefrLevel: string; // e.g., "A1", "A2", "B1", "B2", "C1"
   type?: ProjectType;
+  /** The print look ("classic" or "chibi-quest"); when absent, the book's look (`projectLook` in lib/look.ts). */
+  look?: WorkbookLook;
 }
 
 export interface WorkbookProject {

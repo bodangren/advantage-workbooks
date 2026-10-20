@@ -68,14 +68,14 @@ async function main(argv: string[]): Promise<number> {
     let failed = 0;
     try {
         for (const book of books.length ? books : Object.keys(PRINT_BOOKS)) {
-            const { name, level, lessons } = await bookLessons(book, CONTENT);
+            const { name, level, look, lessons } = await bookLessons(book, CONTENT);
             const dir = path.join(out, name.replace(/\s+/g, '-'));
             fs.mkdirSync(dir, { recursive: true });
             for (const { number, lesson } of lessons) {
                 if (only !== undefined && number !== only) continue;
                 const label = `${book} lesson ${number}`;
                 try {
-                    const doc = await lessonDocument(lesson, number, name, level);
+                    const doc = await lessonDocument(lesson, number, name, level, { look });
                     const local = localPictures(doc.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''), cache, CONTENT);
                     await downloadPictures(local.downloads);
                     const htmlFile = path.join(tmp, `${book}-${number}.html`);

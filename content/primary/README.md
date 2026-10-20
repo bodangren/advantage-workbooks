@@ -1,6 +1,6 @@
 # Primary Advantage lesson packages
 
-Version 1.2 | Date 2026-10-01 | Status: Active | Owner: Daniel Bo | Internal
+Version 1.3 | Date 2026-10-20 | Status: Active | Owner: Daniel Bo | Internal
 
 One JSON file per lesson holds every asset: the article, glossary (English and Thai), the app question bank (10 MCQ, 5 SAQ, 5 LAQ), the print set, the workbook activities, the Thai translation, the image plans, the audio, the objective tags, the approvals, and the database IDs. The workbook JSON, the database rows, and the tag file are built from it. Claude writes the packages; Daniel tweaks and approves them on the review page. The Primary app's generator is not used.
 
@@ -50,6 +50,7 @@ A FAIL blocks approval. A WARN does not (for example, fewer than 6 new words: a 
 - Voices (Daniel, 2026-10-01): the narrator reads the story (`audio.voice`: `English_magnetic_voiced_man` when a boy or a man tells it, else `English_captivating_female1`). The teacher voice (`English_captivating_female1`) reads the words, questions, and options. The script saves the voices in the package, so give `--voice` once.
 - Images and audio cannot be approved before their files exist. A changed part goes back to draft.
 - Never edit `db`, except through the injector.
+- Print look (track `primary_v2_look_20261020`): Quest 5 to Adventure 9.3 print in `chibi-quest`, the Chibi Quest look of the v2 app. Every other book prints in `classic`. The book list is `CHIBI_QUEST_BOOKS` in `dashboard/lib/look.ts`. A project sets its look with `"look"` in `primary/<project>/project.json`; a project with no `look` gets the look of its book (series and number). `scripts/render-lesson-html.ts --look <name>` sets the look of one render. The `classic` output does not change.
 
 ## Revision History
 
@@ -57,3 +58,4 @@ A FAIL blocks approval. A WARN does not (for example, fewer than 6 new words: a 
 |---|---|---|
 | 1.0 | 2026-10-01 | First version |
 | 1.1 | 2026-10-01 | Media commands, folders, and rules |
+| 1.3 | 2026-10-20 | Print look option (`classic`, `chibi-quest`) |

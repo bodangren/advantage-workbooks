@@ -4,6 +4,7 @@ import { LessonPackageSchema } from '../lib/lesson-package/schema';
 import { buildWorkbookLesson } from '../lib/lesson-package/build';
 import { renderMultipleLessons } from '../lib/template-renderer';
 import { wrapWorkbookDocument } from '../lib/workbook-document-wrapper';
+import { bookLook, parseLook, type WorkbookLook } from '../lib/look';
 
 const USAGE = `Renders lesson packages to print HTML with Paged.js (lesson pages only).
 
@@ -15,6 +16,8 @@ Options:
   --series <name>      Series line in the header (default "Primary Advantage"). An insert uses the
                        book's project.json values (Origins 3.1: --series Origins --level A0)
   --level <text>       Level in the header (default: meta.cefrLevel)
+  --look <name>        classic or chibi-quest (default: the look of the first package's book folder;
+                       Quest 5 to Adventure 9.3 are chibi-quest)
 
 Pictures load from content/primary as file:// URLs. Open the file in Chrome and print, or use
 the PDF check in measure/tracks/print_layout_audit_20261001.`;
@@ -26,6 +29,7 @@ async function main(argv: string[]): Promise<number> {
     let strip: string | undefined;
     let series = 'Primary Advantage';
     let levelText: string | undefined;
+    let look: WorkbookLook | undefined;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -36,6 +40,7 @@ async function main(argv: string[]): Promise<number> {
         else if (a === '--strip') strip = argv[++i];
         else if (a === '--series') series = argv[++i];
         else if (a === '--level') levelText = argv[++i];
+        else if (a === '--look') look = parseLook(argv[++i], '--look');
         else if (!a.startsWith('--')) files.push(path.resolve(a));
         else {
             console.error(USAGE);
@@ -50,15 +55,17 @@ async function main(argv: string[]): Promise<number> {
     const mediaBase = `file://${path.dirname(path.dirname(files[0]))}/`;
     const lessons = packages.map((p) => buildWorkbookLesson(p, { mediaBase }));
     const level = levelText ?? packages[0].meta.cefrLevel;
+    look ??= bookLook(path.basename(path.dirname(files[0])));
     const html = await renderMultipleLessons(lessons, {
         type: 'primary',
         seriesName: series,
         seriesLevel: level,
         firstLessonNumber: first ?? packages[0].meta.number,
         headerStrip: strip,
+        look,
     });
-    fs.writeFileSync(out, wrapWorkbookDocument(html, [], { seriesName: series, seriesLevel: level, seriesTagline: '', type: 'primary', lessonsOnly: true }));
-    console.log(`Wrote ${path.relative(process.cwd(), out)} (${packages.length} lesson(s))`);
+    fs.writeFileSync(out, wrapWorkbookDocument(html, [], { seriesName: series, seriesLevel: level, seriesTagline: '', type: 'primary', lessonsOnly: true, look }));
+    console.log(`Wrote ${path.relative(process.cwd(), out)} (${packages.length} lesson(s), ${look} look)`);
     return 0;
 }
 
