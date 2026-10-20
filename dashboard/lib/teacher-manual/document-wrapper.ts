@@ -137,6 +137,8 @@ const OFFICE_PRINT_CSS = `
     .si-sentence-reason, .tm-title-note, .tm-br-duration, .tm-link-note { color: #444; }
     .si-note-line, .si-sentence-line, .si-lq-line, .si-order-line { color: #777; }
     .tm-lesson-objectives, .tm-period-header, .tm-lesson-header { border: 1px solid #999; }
+    /* The "In the App" box stays whole: no heading alone at the foot of a page. */
+    .tm-online { break-inside: avoid; }
     /* Letter spacing splits Thai vowel and tone marks from their consonants. */
     :lang(th) .tm-title-badge { letter-spacing: 0; }
     /* The screen padding of .pagedjs_pages pushed the first page 20px down in print, and its end
@@ -246,6 +248,16 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string, pa
       height: 3px;
       width: 50px;
       margin: 0 auto 20px auto;
+    }
+
+    /* A note that is true for this printed book only (BOOK_NOTES in app-section.ts). */
+    .tm-lesson-note {
+      border: 1px solid #000;
+      border-left: 5px solid #000;
+      padding: 6px 10px;
+      margin: 0 0 12px 0;
+      font-size: 10pt;
+      break-inside: avoid;
     }
 
     .tm-title-product {

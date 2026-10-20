@@ -32,7 +32,7 @@ export function generateFrontMatter(
   return `
     ${generateTitlePage(data, primaryColor, secondaryColor, t)}
     ${generatePreface(data, primaryColor, t)}
-    ${generateAppSection(lang)}
+    ${generateAppSection(lang, data)}
     ${generateLessonPlanStructure(primaryColor, t)}
     ${generatePedagogicalGuidelines(primaryColor, t)}
     ${generateFlashcardGamesGuide(primaryColor, t)}

@@ -6,6 +6,7 @@ import { generateFrontMatter } from './front-matter';
 import { generateEndMatter } from './end-matter';
 import { buildLessonPlan, renderLessonPlan } from './lesson-plan';
 import { wrapTeacherManualDocument } from './document-wrapper';
+import { bookLessonNote } from './app-section';
 
 export interface CompileTeacherManualResult {
   html: string;
@@ -51,7 +52,7 @@ export function compileTeacherManual(
 
   const lessonPlansHtml = lessons.map((lesson, index) => {
     const plan = buildLessonPlan(lesson, index, cefrLevel, lang);
-    return renderLessonPlan(plan, theme, lang);
+    return renderLessonPlan(plan, theme, lang, bookLessonNote({ seriesName, seriesLevel }, index + 1, lang));
   }).join('\n');
 
   const endMatterHtml = generateEndMatter(

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { compileTeacherManual } from '@/lib/teacher-manual/compiler';
 import { renderStepInsert } from '@/lib/teacher-manual/step-insert';
+import { buildLessonPlan, renderLessonPlan } from '@/lib/teacher-manual/lesson-plan';
 import { en } from '@/lib/teacher-manual/i18n/en';
 import { th } from '@/lib/teacher-manual/i18n/th';
 import type { SupportedLanguage } from '@/lib/teacher-manual/i18n';
@@ -110,6 +111,22 @@ describe('teacher manual: office print (Phase 1)', () => {
             const html = manual(lang, 'a4');
             expect(html, lang).toMatch(/<p class="tm-title-product">Primary Advantage<\/p>\s*<h1 class="tm-title-series"/);
             expect(html, lang).toContain('<strong>Primary Advantage Origins 3.1');
+        }
+    });
+
+    it('keeps each "In the App" box whole in the A4 print, and prints a book lesson note as a box', () => {
+        expect(manual('th', 'a4')).toContain('.tm-online { break-inside: avoid; }');
+        const plan = renderLessonPlan(buildLessonPlan(LESSON, 11, 'A0+', 'th'), undefined, 'th', 'หมายเหตุของบทที่ 12');
+        expect(plan).toContain('<div class="tm-lesson-note">หมายเหตุของบทที่ 12</div>');
+        expect(renderLessonPlan(buildLessonPlan(LESSON, 0, 'A0+', 'th'), undefined, 'th')).not.toContain('tm-lesson-note');
+    });
+
+    it('adds the session limits and the page reload to the troubleshooting (PR fact check 11)', () => {
+        for (const lang of LANGS) {
+            const tr = (lang === 'th' ? th : en).endMatter.troubleshooting;
+            expect(tr.appSolutions.join(' '), lang).toMatch(/30/);
+            expect(tr.appSolutions.join(' '), lang).toMatch(/17:00/);
+            expect(tr.aiSolutions.length, lang).toBe(5);
         }
     });
 

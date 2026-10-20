@@ -30,7 +30,7 @@ export const SCREENS: ScreenSpec[] = [
     { id: 'signin-teacher-tab', capture: '01a-signin-teacher-tab-desktop-th', marks: ['ครู', 'Username', 'Password', 'Login'], crop: { x: 405, y: 205, w: 470, h: 405 } },
     { id: 'signin-new-password', capture: '02b-new-password-empty-desktop-th', marks: ['New password', 'Type the new password again', 'Save and sign in'], crop: { x: 405, y: 205, w: 470, h: 405 } },
     { id: 'teacher-menu', capture: '03b-my-classes-desktop-th', marks: ['ชั้นเรียนของฉัน', 'Demo Classroom'], crop: { x: 8, y: 70, w: 1242, h: 380 } },
-    { id: 'class-signin-card', capture: '04b-class-signin-card-started-desktop-th', marks: ['รหัสชั้นเรียน', 'รหัสใหม่', 'จบชั้นเรียน', 'รหัสรูปภาพ', 'บัตร QR'], crop: { x: 268, y: 90, w: 992, h: 520 }, masks: [{ x: 540, y: 200, w: 460, h: 100, text: 'ABC123', size: 80 }] },
+    { id: 'class-signin-card', capture: '04c-picture-password-on-desktop-th', marks: ['รหัสชั้นเรียน', 'รหัสใหม่', 'จบชั้นเรียน', 'รหัสรูปภาพ', 'บัตร QR'], crop: { x: 268, y: 90, w: 992, h: 520 }, masks: [{ x: 540, y: 200, w: 460, h: 100, text: 'ABC123', size: 80 }] },
     { id: 'assign-book', capture: '08a-assign-book-form-desktop-th', marks: ['หนังสือ', 'รูปแบบการเรียน', 'วันเริ่ม', 'กำหนด'], crop: { x: 268, y: 140, w: 992, h: 300 } },
     { id: 'class-book', capture: '08b-class-book-assigned-desktop-th', marks: ['เปิดบทเรียน', 'แผนการสอน'], crop: { x: 268, y: 80, w: 992, h: 400 } },
     { id: 'lesson-guide', capture: '09c-lesson-guide-desktop-th', marks: [], crop: { x: 280, y: 90, w: 980, h: 545 } },

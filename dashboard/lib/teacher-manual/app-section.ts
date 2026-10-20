@@ -23,6 +23,8 @@ export interface AppScreen {
 export interface AppPart {
     heading: string;
     intro?: string;
+    /** Notes to read before the steps (a warning, or the meanings of English screen words). */
+    before?: { title: string; text: string }[];
     steps: string[];
     screens: AppScreen[];
     notes: { title: string; text: string }[];
@@ -33,8 +35,6 @@ export interface AppSectionText {
     intro: string[];
     prepareTitle: string;
     prepare: string[];
-    lesson12Title: string;
-    lesson12: string;
     parts: AppPart[];
     stepMapTitle: string;
     stepMapIntro: string;
@@ -78,13 +78,13 @@ const th: AppSectionText = {
         'อีเมลและรหัสผ่านที่โรงเรียนให้',
         'หนังสือเรียนของนักเรียน',
     ],
-    lesson12Title: 'บทที่ 12 ในหนังสือ',
-    lesson12:
-        'บทที่ 12 ในหนังสือที่พิมพ์แล้วผิด (เป็นเรื่อง “My Happy Holiday” ซ้ำกับบทที่ 9) ให้สอนบทที่ 12 ใหม่ “Hello! I Am Tom” แอปแสดงบทนี้แล้ว หน้าพิมพ์ของบทที่ 12 ใหม่จะส่งตามมาภายหลัง ระหว่างนี้ ให้ฉายบทเรียนบนโปรเจกเตอร์ หรือกด “พิมพ์บทเรียนนี้” ในแอป แล้วพิมพ์ให้นักเรียน (ข้อ 4.3)',
     parts: [
         {
             heading: '1. เข้าสู่ระบบ',
             intro: 'ครูเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน ปุ่ม Google ไม่มีแล้ว',
+            before: [
+                { title: 'คำบนฟอร์มเป็นภาษาอังกฤษ', text: 'ตอนนี้คำบนฟอร์มเข้าสู่ระบบของครูยังเป็นภาษาอังกฤษ: Username = ชื่อผู้ใช้ · Password = รหัสผ่าน · Login = เข้าสู่ระบบ · New password = รหัสผ่านใหม่ · Type the new password again = พิมพ์รหัสผ่านใหม่อีกครั้ง · Save and sign in = บันทึกและเข้าสู่ระบบ' },
+            ],
             steps: [
                 'เปิด primary.reading-advantage.com',
                 'กดแท็บ “ครู” (1) หน้าเข้าสู่ระบบเปิดแท็บ “นักเรียน” ไว้ก่อนเสมอ',
@@ -96,9 +96,8 @@ const th: AppSectionText = {
                 { id: 'signin-new-password', caption: 'หน้าตั้งรหัสผ่านใหม่ (เข้าสู่ระบบครั้งแรก)' },
             ],
             notes: [
-                { title: 'คำบนฟอร์มเป็นภาษาอังกฤษ', text: 'ตอนนี้คำบนฟอร์มเข้าสู่ระบบของครูยังเป็นภาษาอังกฤษ: Username = ชื่อผู้ใช้ · Password = รหัสผ่าน · Login = เข้าสู่ระบบ · New password = รหัสผ่านใหม่ · Type the new password again = พิมพ์รหัสผ่านใหม่อีกครั้ง · Save and sign in = บันทึกและเข้าสู่ระบบ' },
                 { title: 'รหัสผ่านใหม่', text: 'มีอย่างน้อย 8 ตัวอักษร และต้องไม่ซ้ำกับรหัสผ่านชั่วคราว หลังจากนี้ รหัสผ่านชั่วคราวใช้ไม่ได้อีก' },
-                { title: 'ลืมรหัสผ่าน', text: 'ติดต่อผู้ดูแลระบบของโรงเรียน เพื่อขอรหัสผ่านชั่วคราวใหม่' },
+                { title: 'ลืมรหัสผ่าน', text: 'ติดต่อผู้ดูแลระบบของโรงเรียน เพื่อขอรหัสผ่านใหม่' },
             ],
         },
         {
@@ -134,7 +133,7 @@ const th: AppSectionText = {
             intro: 'ทำครั้งเดียวต่อชั้นเรียน ก่อนบทเรียนแรก',
             steps: [
                 'บนหน้าชั้นเรียน เลื่อนลงไปที่ส่วนหนังสือ ชั้นเรียนใหม่แสดงข้อความ “ยังไม่ได้กำหนดหนังสือให้ชั้นเรียนนี้ เลือกหนังสือด้านล่างเพื่อเริ่มต้น”',
-                'ที่ “หนังสือ” (1) เลือก Primary Advantage Origins 3.1',
+                'ที่ “หนังสือ” (1) เลือก {book}',
                 'ที่ “รูปแบบการเรียน” (2) เลือก “ครูนำ (ทำแบบฝึกหัดก่อน)”',
                 'ที่ “วันเริ่ม” (3) เลือกวันของบทเรียนแรก แล้วกด “กำหนด” (4) แอปแสดง “กำหนดหนังสือแล้ว”',
             ],
@@ -149,14 +148,14 @@ const th: AppSectionText = {
             intro: 'ครูสอนจากหนังสือเรียน และกดในแอปทีละขั้น แอปเปิดขั้นเดียวกันให้นักเรียน',
             steps: [
                 'บนหน้าชั้นเรียน ที่กรอบ “กำลังเรียนในชั้น” กด “เปิดบทเรียน” (1) กรอบนี้แสดงบทที่สอนอยู่และ “ขั้นต่อไป”',
-                'หน้าบทเรียนแสดงขั้นที่ชั้นเรียนยังไม่ได้ทำ ทีละขั้น: “สิ่งที่ครูทำ” “ภาษาที่ครูใช้” “สิ่งที่นักเรียนทำ” “สิ่งที่ต้องสังเกต” และ “สคริปต์ฉบับเต็ม”',
-                'เมื่อชั้นเรียนทำขั้นนั้นในแบบฝึกหัดเสร็จ กด “ทำเครื่องหมายว่าทำขั้นนี้แล้ว” แอปเปิดขั้นเดียวกันให้นักเรียน และแสดงขั้นต่อไป กดผิด: กด “ยกเลิก”',
+                'หน้าบทเรียนมีกรอบ “คู่มือสด” ของขั้นแรกที่ชั้นเรียนยังไม่ได้ทำ: สิ่งที่ครูทำ ภาษาที่ครูใช้ และ “เคล็ดลับ” ใต้กรอบนี้ “คู่มือครู” แสดงทั้ง 13 ขั้น แต่ละขั้นมี “สิ่งที่ครูทำ” “ภาษาที่ครูใช้” “สิ่งที่นักเรียนทำ” “สิ่งที่ต้องสังเกต” และ “สคริปต์ฉบับเต็ม”',
+                'เมื่อชั้นเรียนทำขั้นนั้นในหนังสือเรียนเสร็จ กด “ทำเครื่องหมายว่าทำขั้นนี้แล้ว” แอปเปิดขั้นเดียวกันให้นักเรียน และปุ่มเปลี่ยนเป็น “ยกเลิก” กด “ถัดไป” เพื่อไปขั้นต่อไป กดผิด: กด “ยกเลิก”',
                 'อ่านทั้งชั้น: กด “โปรเจกเตอร์” คลิกย่อหน้าเพื่อโฟกัส กด “แสดงคำตอบ” เพื่อเฉลย',
                 'ใน “แผนการสอน” (2) ครูเห็นปุ่มของทั้ง 13 ขั้นของบทเรียนปัจจุบัน และกดทำเครื่องหมายได้ที่นี่ด้วย',
             ],
             screens: [
                 { id: 'class-book', caption: 'กรอบกำลังเรียนในชั้น (ภาพจากชั้นเรียนทดสอบ)' },
-                { id: 'lesson-guide', caption: 'หน้าบทเรียน: คู่มือของขั้นที่ชั้นเรียนกำลังทำ' },
+                { id: 'lesson-guide', caption: 'หน้าบทเรียน: กรอบ “คู่มือสด” ของขั้นที่ชั้นเรียนกำลังทำ' },
                 { id: 'lesson-plan', caption: 'แผนการสอน: ปุ่มของ 13 ขั้น (1) และ “ความก้าวหน้าของชั้นเรียน” (2)' },
             ],
             notes: [
@@ -175,6 +174,7 @@ const th: AppSectionText = {
             ],
             notes: [
                 { title: 'สีในตาราง (บนหน้าจอ)', text: 'เขียว: เสร็จแล้ว · น้ำเงิน: กำลังทำ · เทา: ยังไม่เริ่ม · วงแดง: ชั้นเรียนสอนบทนี้แล้ว แต่นักเรียนยังไม่เสร็จ ดูสีบนหน้าจอ เพราะคู่มือพิมพ์เป็นขาวดำ' },
+                { title: 'กด “ทำเครื่องหมายว่าสอนแล้ว” หลังจบบทเรียนเท่านั้น', text: 'ปุ่มนี้ทำเครื่องหมายทั้ง 13 ขั้นของบทเรียนว่าทำแล้ว นักเรียนจึงเปิดทุกขั้นในแอปได้ ถ้าเป็นบทเรียนปัจจุบัน ชั้นเรียนไปต่อที่บทเรียนถัดไป' },
                 { title: 'ปุ่มที่มีประโยชน์ในหน้าบทเรียน', text: '“ซ้อมสอน (มุมมองนักเรียน)”: ครูเห็นบทเรียนแบบที่นักเรียนเห็น สิ่งที่ครูทำในหน้านี้ไม่ถูกบันทึก “พิมพ์บทเรียนนี้”: ในหน้าต่างพิมพ์ เลือกกระดาษ A4 และปิด “ส่วนหัวและส่วนท้าย” “สอนอีกครั้ง” (ในแผนการสอน): เริ่มบทเรียนใหม่ ผลงานของนักเรียนแต่ละคนถูกเก็บไว้ในประวัติ และ XP ยังอยู่' },
             ],
         },
@@ -184,7 +184,7 @@ const th: AppSectionText = {
             steps: [
                 'ที่เมนู กด “งานที่กำหนด” แล้วกด “สร้างงานใหม่” แอปเปิดหน้ารวมเรื่อง',
                 'เลือกเรื่อง แล้วเปิดเรื่องนั้น ในหน้าเรื่อง กดปุ่ม “งานที่กำหนด” (1)',
-                'ในหน้าต่าง “สร้างงานที่กำหนด”: เลือก “ห้องเรียน” (1) พิมพ์ “ชื่องานที่กำหนด” (2) และ “คำอธิบายงานที่กำหนด” (3) เลือกนักเรียน หรือ “เลือกนักเรียนทั้งหมด” (4) เลือก “วันที่กำหนด” แล้วกดส่ง แอปแสดง “บันทึกงานที่กำหนดแล้ว”',
+                'ในหน้าต่าง “สร้างงานที่กำหนด”: เลือก “ห้องเรียน” (1) พิมพ์ “ชื่องานที่กำหนด” (2) และ “คำอธิบายงานที่กำหนด” (3) เลือกนักเรียน หรือ “เลือกนักเรียนทั้งหมด” (4) เลือก “วันที่กำหนด” แล้วกด “ส่ง” แอปแสดง “บันทึกงานที่กำหนดแล้ว”',
                 'ดูผล: ที่เมนู “งานที่กำหนด” เลือกห้องเรียน แล้วกดชื่องาน เพื่อดูความก้าวหน้าของนักเรียนแต่ละคน',
             ],
             screens: [
@@ -198,6 +198,9 @@ const th: AppSectionText = {
         },
         {
             heading: '6. ใบรายชื่อชั้นเรียนและบัตร QR: อ่านก่อนกด',
+            before: [
+                { title: 'เมื่อกด “ทำใบรายชื่อชั้นเรียน”', text: 'แอปตั้งรหัสผ่านใหม่ให้นักเรียนทุกคนในชั้นเรียนนี้ นักเรียนทุกคนออกจากระบบ ใบรายชื่อเดิมใช้ไม่ได้อีก และรหัสผ่านใหม่แสดงเพียงครั้งเดียว' },
+            ],
             intro: 'ทั้งสองปุ่มอยู่บนหน้าชั้นเรียน ในกรอบ “การเข้าสู่ระบบของชั้นเรียน”: “ใบรายชื่อชั้นเรียน” และ “บัตร QR” ใบรายชื่อแสดงชื่อผู้ใช้และรหัสผ่านของนักเรียนแต่ละคน สำหรับเข้าสู่ระบบนอกห้องเรียน เช่น ทำการบ้านที่บ้าน',
             steps: [
                 'ถ้าทีมงานแจกใบรายชื่อชั้นเรียนให้ชั้นเรียนของคุณแล้ว ให้ใช้ชุดนั้น และเก็บสำเนาไว้หนึ่งชุด',
@@ -211,7 +214,6 @@ const th: AppSectionText = {
                 { id: 'qr-cards', caption: 'หน้าบัตร QR สำหรับเข้าสู่ระบบ' },
             ],
             notes: [
-                { title: 'เมื่อกด “ทำใบรายชื่อชั้นเรียน”', text: 'แอปตั้งรหัสผ่านใหม่ให้นักเรียนทุกคนในชั้นเรียนนี้ นักเรียนทุกคนออกจากระบบ ใบรายชื่อเดิมใช้ไม่ได้อีก และรหัสผ่านใหม่แสดงเพียงครั้งเดียว' },
                 { title: 'นักเรียนลืมรหัสผ่าน', text: 'ครูดูชื่อผู้ใช้และรหัสผ่านของนักเรียนจากชุดที่ครูเก็บไว้ ที่โรงเรียน นักเรียนเข้าสู่ระบบด้วยรหัส 6 ตัวและรูป 3 รูป หรือบัตร QR ได้เสมอเมื่อครูเปิดชั้นเรียน' },
                 { title: 'บัตรหาย', text: 'ในรายชื่อ “นักเรียน” กด “บัตรใหม่” ที่แถวของนักเรียนคนนั้น แล้วยืนยัน บัตรเดิมใช้ไม่ได้ทันที และนักเรียนคนนั้นออกจากระบบ' },
             ],
@@ -226,7 +228,7 @@ const th: AppSectionText = {
     ],
     noAppStep: 'ไม่มีในแอป (ทำในหนังสือเท่านั้น)',
     bookNoteTitle: 'คิวอาร์โค้ดและกรอบงานในแอปในหนังสือ',
-    bookNote: 'คิวอาร์โค้ดในหนังสือนำนักเรียนไปยังบทความของบทเรียนในแอป นักเรียนต้องเข้าสู่ระบบก่อน กรอบบางกรอบในหนังสือพูดถึงงานในแอปที่คู่มือนี้ไม่ได้ใช้ เช่น คำแนะนำจาก AI การเพิ่มคำศัพท์ในแอป และบัตรคำในแอป ให้สอนตามคู่มือนี้: ขั้นที่ 11 นักเรียนเขียนบนกระดาษ การบ้านในแอปคือบทความ (ข้อ 5)',
+    bookNote: 'คิวอาร์โค้ดในหนังสือเปิดบทความของบทเรียนในแอป ถ้านักเรียนยังไม่ได้เข้าสู่ระบบ แอปเปิดหน้าเข้าสู่ระบบก่อน หลังเข้าสู่ระบบ แอปเปิดหน้าหลัก ให้นักเรียนสแกนคิวอาร์โค้ดอีกครั้ง กรอบบางกรอบในหนังสือพูดถึงงานในแอปที่คู่มือนี้ไม่ได้ใช้ เช่น คำแนะนำจาก AI การเพิ่มคำศัพท์ในแอป และบัตรคำในแอป ให้สอนตามคู่มือนี้: ขั้นที่ 11 นักเรียนเขียนบนกระดาษ การบ้านในแอปคือบทความ (ข้อ 5)',
     helpTitle: 'ต้องการความช่วยเหลือ',
     help: 'LINE: ReadingAdvantage · อีเมล: support@reading-advantage.com · โทร: 099-005-8038',
 };
@@ -239,13 +241,13 @@ const en: AppSectionText = {
     ],
     prepareTitle: 'You need',
     prepare: ['A computer with a projector', 'The e-mail address and password from the school', "The students' workbooks"],
-    lesson12Title: 'Lesson 12 in the book',
-    lesson12:
-        'Lesson 12 in the printed book is a printing error (it repeats "My Happy Holiday" from lesson 9). Teach the new lesson 12, "Hello! I Am Tom". The app shows this lesson. The printed pages of the new lesson 12 come later. Until then, show the lesson on the projector, or press “Print this lesson” in the app and print it for the students (4.3).',
     parts: [
         {
             heading: '1. Sign in',
             intro: 'Teachers sign in with an e-mail address and a password. The Google button is gone.',
+            before: [
+                { title: 'The form words are English', text: 'The words on the teacher sign-in form are English for now: Username, Password, Login; New password, Type the new password again, Save and sign in.' },
+            ],
             steps: [
                 'Open primary.reading-advantage.com.',
                 'Press the “Teacher” tab (1). The sign-in page always opens on the “Student” tab.',
@@ -257,9 +259,8 @@ const en: AppSectionText = {
                 { id: 'signin-new-password', caption: 'The new-password page (first sign-in)' },
             ],
             notes: [
-                { title: 'The form words are English', text: 'The words on the teacher sign-in form are English for now: Username, Password, Login; New password, Type the new password again, Save and sign in.' },
                 { title: 'New password', text: '8 characters or more, and not the temporary password. After this, the temporary password stops working.' },
-                { title: 'Forgot the password', text: "Ask the school's administrator for a new temporary password." },
+                { title: 'Forgot the password', text: "Ask the school's administrator for a new password." },
             ],
         },
         {
@@ -292,7 +293,7 @@ const en: AppSectionText = {
             intro: 'Do this once for each class, before the first lesson.',
             steps: [
                 'On the class page, go down to the book part. A new class shows “No book is assigned to this class yet. Choose a book below to start.”',
-                'At “Book” (1), choose Primary Advantage Origins 3.1.',
+                'At “Book” (1), choose {book}.',
                 'At “Mode” (2), choose “Teacher-led (workbook first)”.',
                 'At “Start date” (3), choose the day of the first lesson. Then press “Assign” (4). The app shows “Book assigned”.',
             ],
@@ -307,14 +308,14 @@ const en: AppSectionText = {
             intro: 'The teacher teaches from the workbook and presses in the app one step at a time. The app opens the same step for the students.',
             steps: [
                 'On the class page, in the “Now in class” card, press “Open lesson” (1). The card shows the current lesson and the “Next step”.',
-                'The lesson page shows the first step that the class has not done, one step at a time: “Teacher actions”, “Teacher language”, “Student actions”, “Watch for”, and “Full script”.',
-                'When the class finishes the step in the workbook, press “Mark this step done”. The app opens the same step for the students and shows the next step. A wrong press: press “Undo”.',
+                'The lesson page has the “Live guide” box for the first step that the class has not done: the teacher actions, the teacher language, and a “Tip”. Under this box, the “Teacher guide” shows all 13 steps, each with “Teacher actions”, “Teacher language”, “Student actions”, “Watch for”, and “Full script”.',
+                'When the class finishes the step in the workbook, press “Mark step done”. The app opens the same step for the students, and the button changes to “Undo”. Press “Next” to go to the next step. A wrong press: press “Undo”.',
                 'Whole-class reading: press “Projector”. Click a paragraph to focus it. Press “Show answers” to reveal the answers.',
                 'In the “Lesson plan” (2), the teacher sees the buttons of all 13 steps of the current lesson, and can mark them there too.',
             ],
             screens: [
                 { id: 'class-book', caption: 'The “Now in class” card (test class)' },
-                { id: 'lesson-guide', caption: 'The lesson page: the guide of the step that the class is doing' },
+                { id: 'lesson-guide', caption: 'The lesson page: the “Live guide” box of the step that the class is doing' },
                 { id: 'lesson-plan', caption: 'Lesson plan: the 13 step buttons (1) and “Class progress” (2)' },
             ],
             notes: [{ title: 'Mark every step', text: 'A student opens an app step only after the teacher presses “Mark this step done”. Until then, the student sees “The teacher will open this lesson in class”.' }],
@@ -331,6 +332,7 @@ const en: AppSectionText = {
             ],
             notes: [
                 { title: 'Colors in the table (on the screen)', text: 'Green: done · blue: in progress · gray: not started · red ring: the class was taught this lesson, but the student has not finished. Look at the colors on the screen, because this manual prints in black and white.' },
+                { title: 'Press “Mark taught” only after the lesson', text: 'This button marks all 13 steps of the lesson done, so the students can open every app step. If it is the current lesson, the class moves on to the next lesson.' },
                 { title: 'Useful buttons on the lesson page', text: '“Rehearse (student view)”: see the lesson as a student sees it; nothing saves. “Print this lesson”: in the print window, choose A4 and turn off “Headers and footers”. “Teach again” (lesson plan): starts the lesson again; each student\'s work stays in the history, and the XP stays.' },
             ],
         },
@@ -340,7 +342,7 @@ const en: AppSectionText = {
             steps: [
                 'In the menu, press “Assignments”, then “New assignment”. The app opens the story list.',
                 'Choose a story and open it. On the story page, press the “Assignments” button (1).',
-                'In the “Create assignment” window: choose the “Classroom” (1), type the “Assignment name” (2) and the “Assignment description” (3), choose the students or “Select all students” (4), choose the “Due date”, then submit. The app shows “Assignment saved”.',
+                'In the “Create assignment” window: choose the “Classroom” (1), type the “Assignment name” (2) and the “Assignment description” (3), choose the students or “Select all students” (4), choose the “Due date”, then press “Submit”. The app shows “Assignment saved”.',
                 'See the results: in the menu “Assignments”, choose the class, then press the assignment name to see the progress of each student.',
             ],
             screens: [
@@ -354,6 +356,9 @@ const en: AppSectionText = {
         },
         {
             heading: '6. Class sheet and QR cards: read before you press',
+            before: [
+                { title: 'When you press “Make class sheet”', text: 'The app sets a new password for every student in this class, every student is signed out, the old sheet stops working, and the new passwords show only once.' },
+            ],
             intro: 'Both buttons are on the class page, in the “Class sign-in” card: “Class sheet” and “QR cards”. The class sheet shows each student\'s username and password, for sign-in away from the classroom, for example homework at home.',
             steps: [
                 'If the team already gave your class its class sheet, use that sheet and keep one copy.',
@@ -367,7 +372,6 @@ const en: AppSectionText = {
                 { id: 'qr-cards', caption: 'The QR sign-in card page' },
             ],
             notes: [
-                { title: 'When you press “Make class sheet”', text: 'The app sets a new password for every student in this class, every student is signed out, the old sheet stops working, and the new passwords show only once.' },
                 { title: 'A student forgets the password', text: "The teacher reads the student's username and password on the kept copy. At school, the student can always sign in with the 6-character code and the 3 pictures, or the QR card, while the class is open." },
                 { title: 'Lost card', text: 'In the “Students” list, press “New card” on that student\'s row and confirm. The old card stops at once, and that student is signed out.' },
             ],
@@ -382,7 +386,7 @@ const en: AppSectionText = {
     ],
     noAppStep: 'Not in the app (workbook only)',
     bookNoteTitle: 'QR codes and app boxes in the book',
-    bookNote: 'The QR codes in the book take the students to the article of the lesson in the app. The students sign in first. Some boxes in the book name app tasks that this manual does not use, for example AI feedback, adding words to the app, and flashcards in the app. Teach from this manual: in step 11, the students write on paper; homework in the app is an article (section 5).',
+    bookNote: 'The QR codes in the book open the article of the lesson in the app. A student who is not signed in sees the sign-in page first; after the sign-in, the app opens the home page, so the student scans the QR code again. Some boxes in the book name app tasks that this manual does not use, for example AI feedback, adding words to the app, and flashcards in the app. Teach from this manual: in step 11, the students write on paper; homework in the app is an article (section 5).',
     helpTitle: 'Help',
     help: 'LINE: ReadingAdvantage · E-mail: support@reading-advantage.com · Phone: 099-005-8038',
 };
@@ -391,6 +395,76 @@ const en: AppSectionText = {
 export const APP_SECTION: Record<SupportedLanguage, AppSectionText> = { en, th };
 
 /** The folder of the marked screenshots. */
+/** The book of a manual: the product name, the series, and the level. */
+export interface ManualBook {
+    productName?: string;
+    seriesName: string;
+    seriesLevel: string;
+}
+
+/**
+ * The series and level of a book, once: the dashboard route passes the level inside the series name
+ * too ("Origins 3.1" and "3.1").
+ * @param book The book.
+ * @returns For example "Origins 3.1".
+ */
+function seriesAndLevel(book: ManualBook): string {
+    const series = book.seriesName.trim();
+    const level = book.seriesLevel.trim();
+    return series.toLowerCase().endsWith(level.toLowerCase()) ? series : `${series} ${level}`;
+}
+
+/**
+ * The key of a book in BOOK_NOTES.
+ * @param book The book.
+ * @returns For example "origins 3.1".
+ */
+export function bookKey(book: ManualBook): string {
+    return seriesAndLevel(book).toLowerCase();
+}
+
+/** The notes of one printed book: a note in the app section, and notes at the top of some lesson plans. */
+export interface BookNotes {
+    appNote: Record<SupportedLanguage, { title: string; text: string }>;
+    lessons: Record<number, Record<SupportedLanguage, string>>;
+}
+
+/**
+ * Notes that are true for one printed book only. Origins 3.1: the printed lesson 12 repeats lesson 9
+ * (Daniel, 2026-09-30: an errata insert replaces it; advantage-pr product strategy v1.11).
+ */
+export const BOOK_NOTES: Record<string, BookNotes> = {
+    'origins 3.1': {
+        appNote: {
+            th: {
+                title: 'บทที่ 12 ในหนังสือ',
+                text: 'บทที่ 12 ในหนังสือที่พิมพ์แล้วผิด (เป็นเรื่อง “My Happy Holiday” ซ้ำกับบทที่ 9) ให้สอนบทที่ 12 ใหม่ “Hello! I Am Tom” แอปแสดงบทนี้แล้ว หน้าพิมพ์ของบทที่ 12 ใหม่จะส่งตามมาภายหลัง ระหว่างนี้ ให้ฉายบทเรียนบนโปรเจกเตอร์ หรือกด “พิมพ์บทเรียนนี้” ในแอป แล้วพิมพ์ให้นักเรียน (ข้อ 4.3) คิวอาร์โค้ดในหน้าบทที่ 12 ของหนังสือเปิดบทความเดียวกับบทที่ 9',
+            },
+            en: {
+                title: 'Lesson 12 in the book',
+                text: 'Lesson 12 in the printed book is a printing error (it repeats "My Happy Holiday" from lesson 9). Teach the new lesson 12, "Hello! I Am Tom". The app shows this lesson. The printed pages of the new lesson 12 come later. Until then, show the lesson on the projector, or press “Print this lesson” in the app and print it for the students (4.3). The QR code on the lesson 12 page of the book opens the same article as lesson 9.',
+            },
+        },
+        lessons: {
+            12: {
+                th: 'หนังสือที่พิมพ์แล้ว: บทที่ 12 เป็นเรื่อง “My Happy Holiday” ซ้ำกับบทที่ 9 แผนนี้สอนบทที่ 12 ใหม่ “Hello! I Am Tom” (ดู “บทที่ 12 ในหนังสือ” ในบท “แอป Primary Advantage”) คิวอาร์โค้ดในหน้าบทที่ 12 ของหนังสือเปิดบทความเดียวกับบทที่ 9',
+                en: 'The printed book: lesson 12 is "My Happy Holiday", the same as lesson 9. This plan teaches the new lesson 12, "Hello! I Am Tom" (see "Lesson 12 in the book" in the section "The Primary Advantage app"). The QR code on the lesson 12 page of the book opens the same article as lesson 9.',
+            },
+        },
+    },
+};
+
+/**
+ * The note at the top of one lesson plan, if the book has one.
+ * @param book The book.
+ * @param lessonNumber The lesson number in the book.
+ * @param lang The manual language.
+ * @returns The note text, or null.
+ */
+export function bookLessonNote(book: ManualBook, lessonNumber: number, lang: SupportedLanguage): string | null {
+    return BOOK_NOTES[bookKey(book)]?.lessons[lessonNumber]?.[lang] ?? null;
+}
+
 export const APP_SCREEN_DIR = path.join(process.cwd(), 'assets', 'teacher-manual', 'app');
 
 function escapeHtml(text: string): string {
@@ -432,18 +506,22 @@ function screenHtml(screen: AppScreen, dir: string): string {
 /**
  * The section "The Primary Advantage app" for the front matter.
  * @param lang The manual language.
+ * @param book The book: its name goes into step 4.1, and its notes (BOOK_NOTES) into the section. Without it, the text names "the class's book" and has no book note.
  * @param dir The folder of the marked screenshots (default `assets/teacher-manual/app`).
  * @returns The HTML of the section, with its own style block.
  */
-export function generateAppSection(lang: SupportedLanguage = 'en', dir: string = APP_SCREEN_DIR): string {
+export function generateAppSection(lang: SupportedLanguage = 'en', book?: ManualBook, dir: string = APP_SCREEN_DIR): string {
     const t = APP_SECTION[lang];
+    const name = book ? `${book.productName ? `${book.productName} ` : ''}${seriesAndLevel(book)}` : lang === 'th' ? 'หนังสือของชั้นเรียน' : "the class's book";
+    const bookNote = book ? BOOK_NOTES[bookKey(book)]?.appNote[lang] : undefined;
     const note = (n: { title: string; text: string }) => `<div class="tm-app-note"><strong>${escapeHtml(n.title)}</strong>${escapeHtml(n.text)}</div>`;
     const parts = t.parts.map((p) => `
       <div class="tm-app-part">
         <div class="tm-app-head">
           <h3>${escapeHtml(p.heading)}</h3>
           ${p.intro ? `<p class="tm-app-intro">${escapeHtml(p.intro)}</p>` : ''}
-          <ol class="tm-app-steps">${p.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+          ${(p.before ?? []).map(note).join('')}
+          <ol class="tm-app-steps">${p.steps.map((s) => `<li>${escapeHtml(s.replace('{book}', name))}</li>`).join('')}</ol>
         </div>
         ${p.screens.map((s) => screenHtml(s, dir)).join('')}
         ${p.notes.map(note).join('')}
@@ -458,7 +536,7 @@ export function generateAppSection(lang: SupportedLanguage = 'en', dir: string =
       <h2 class="tm-section-header">${escapeHtml(t.heading)}</h2>
       ${t.intro.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
       ${note({ title: t.prepareTitle, text: t.prepare.join(' · ') })}
-      ${note({ title: t.lesson12Title, text: t.lesson12 })}
+      ${bookNote ? note(bookNote) : ''}
       <div class="tm-app-head">
         <h3>${escapeHtml(t.stepMapTitle)}</h3>
         <p class="tm-app-intro">${escapeHtml(t.stepMapIntro)}</p>

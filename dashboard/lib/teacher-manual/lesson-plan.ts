@@ -50,10 +50,19 @@ export function buildLessonPlan(
   };
 }
 
+/**
+ * The HTML of one lesson plan: the header, an optional book note, the objectives, the vocabulary, and the 4 periods.
+ * @param plan The lesson plan.
+ * @param theme The book colors.
+ * @param lang The manual language.
+ * @param note A note that is true for this printed book only (for example the Origins 3.1 lesson 12 errata), or null.
+ * @returns The HTML.
+ */
 export function renderLessonPlan(
   plan: LessonPlan,
   theme?: { primary: string },
-  lang: SupportedLanguage = 'en'
+  lang: SupportedLanguage = 'en',
+  note?: string | null
 ): string {
   const primaryColor = theme?.primary || '#1e40af';
   const t = getTranslations(lang);
@@ -87,6 +96,7 @@ export function renderLessonPlan(
           <span class="tm-meta-item"><strong>${escapeHtml(lp.duration)}:</strong> ${escapeHtml(lp.durationValue)}</span>
         </div>
       </div>
+      ${note ? `<div class="tm-lesson-note">${escapeHtml(note)}</div>` : ''}
       <div class="tm-lesson-objectives">
         <h4 style="color: ${primaryColor};">${escapeHtml(lp.objectives)}</h4>
         <ul>
