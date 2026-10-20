@@ -33,17 +33,18 @@ _Story ref: spec.md#story-s2_
 ## Phase S3: Chibi Quest print kit
 _Story ref: spec.md#story-s3_
 
-- [ ] Task: Contract: a token table for print (the `--cq-*` hex values as flat fills) and the part list: wood step sign with rivets, gold step medal, time chip, parchment panel frame, white write-in box, right and wrong boxes with a word or icon, score medal
-- [ ] Task: Tests (first)
-    - [ ] The `chibi-quest` CSS has no `gradient`, `rgba(`, `opacity`, `box-shadow`, `text-shadow`, or emoji
-    - [ ] The step header HTML has the medal, the title, and the time chip; right and wrong boxes always have a word or an icon
-- [ ] Task: Implement
-    - [ ] Tokens, step sign, medal, and chip
-    - [ ] Panels and write-in boxes (white page, parchment accents)
-    - [ ] Answer key, score box, self-assessment, glossary, flashcards, and TOC in the kit
-    - [ ] SVG icons in `icons.ts` for the steps (no emoji)
-    - [ ] Tech debt: step 11 (title and writing box on one page) and step 3 (QR block, header, inline pictures), checked on Quest 5 and Adventure 9 lessons
-- [ ] Task: Verify: a scratch render of Quest 5 lesson 1; `make-pdfx.ts --check` passes; every page on a contact sheet
+- [x] Task: Contract: a token table for print (the `--cq-*` hex values as flat fills) and the part list: wood step sign with rivets, gold step medal, time chip, parchment panel frame, white write-in box, right and wrong boxes with a word or icon, score medal [76b5975]
+- [x] Task: Tests (first) [76b5975]: `__tests__/chibi-quest-kit.test.ts` (6 tests)
+    - [x] The `chibi-quest` CSS has no `gradient`, `rgba(`, `opacity`, `box-shadow`, `text-shadow`, or emoji
+    - [x] The step header HTML has the medal, the title, and the time chip; right and wrong boxes always have a word or an icon
+- [x] Task: Implement [76b5975]
+    - [x] Tokens, step sign, medal, and chip
+    - [x] Panels and write-in boxes (white page, parchment accents)
+    - [x] Answer key, score box, self-assessment, glossary, flashcards, and TOC in the kit
+    - [x] SVG icons in `icons.ts` for the steps (no emoji): no change needed. The medals show the step number, as in the app; `icons.ts` is SVG already; 0 emoji in the render
+    - [x] Tech debt: step 11 (title and writing box on one page) and step 3 (QR block, header, inline pictures), checked on Quest 5 and Adventure 9 lessons
+- [x] Task: Verify: a scratch render of Quest 5 lesson 1; `make-pdfx.ts --check` passes; every page on a contact sheet [76b5975]
+    - Quest 5 test book (l01, l02, all back matter): 47 pages, PDF/X-1a:2001, 9 fonts, no Type 3, all checks pass; classic: 78 of 78 HTML outputs byte-identical
 - [ ] Task: Measure - User Manual Verification 'Phase S3: Chibi Quest print kit' (Protocol in workflow.md)
 
 ## Phase S4: App step names in the v2 books
