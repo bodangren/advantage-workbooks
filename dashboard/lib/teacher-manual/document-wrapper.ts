@@ -139,6 +139,8 @@ const OFFICE_PRINT_CSS = `
     .tm-lesson-objectives, .tm-period-header, .tm-lesson-header { border: 1px solid #999; }
     /* The "In the App" box stays whole: no heading alone at the foot of a page. */
     .tm-online { break-inside: avoid; }
+    /* The short note boxes of a step (teacher actions, language, student actions, watch for) stay whole. */
+    .tm-note-section { break-inside: avoid; }
     /* Letter spacing splits Thai vowel and tone marks from their consonants. */
     :lang(th) .tm-title-badge { letter-spacing: 0; }
     /* The screen padding of .pagedjs_pages pushed the first page 20px down in print, and its end

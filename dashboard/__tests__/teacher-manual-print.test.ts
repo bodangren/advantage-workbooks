@@ -304,6 +304,13 @@ describe('teacher manual: the new Primary Advantage app (Phase 2)', () => {
         }
     });
 
+    it('keeps each short note box of a step whole in the A4 print (no box title alone at the foot of a page)', () => {
+        for (const lang of LANGS) {
+            expect(manual(lang, 'a4'), lang).toMatch(/\.tm-note-section \{ break-inside: avoid; \}/);
+            expect(manual(lang, 'a4').match(/class="tm-note-section/g)?.length ?? 0, lang).toBeGreaterThan(0);
+        }
+    });
+
     it('keeps each period heading with its warm-up box, so that no heading stands alone at the foot of a page', () => {
         for (const lang of LANGS) {
             for (const paper of PAPERS) {
