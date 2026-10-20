@@ -4,7 +4,7 @@ Track: `primary_v2_look_20261020`. Spec: [spec.md](./spec.md).
 
 Dates (printer file due 2026-11-06): S1–S4 by 2026-10-27; proofs to Daniel on 2026-10-28 (S5); Quest 5 build 2026-11-02 to 05 (S6). Every heavy job: a message to the monorepo session first, then `flock ~/Desktop/primary-parity-progress/heavy.lock`. Every commit on a template path: send the id to the monorepo session (S7).
 
-## Phase S1: Look switch per book
+## Phase S1: Look switch per book [checkpoint: 9829649]
 _Story ref: spec.md#story-s1_
 
 - [x] Task: Contract `50fdec2`
@@ -17,7 +17,7 @@ _Story ref: spec.md#story-s1_
     - [x] The chibi-quest CSS goes in a separate block that only the `chibi-quest` look adds (`lib/document-wrapper/chibi-quest-styles.ts`, body class `look-chibi-quest`), so the classic HTML does not change
     - [x] Pass `look` through the compile and render routes, `render-lesson-html.ts` (`--look`), `make-lesson-pdfs.ts`, `export-print-data.ts`, and `print-export.ts`; `make-book-pdf.ts` calls the compile route and needs no change
 - [x] Task: Docs: the option in `content/primary/README.md` (v1.3) `50fdec2`
-- [ ] Task: Measure - User Manual Verification 'Phase S1: Look switch per book' (Protocol in workflow.md)
+- [x] Task: Measure - User Manual Verification 'Phase S1: Look switch per book' (Protocol in workflow.md) (Daniel: yes, 2026-10-20)
 
 ## Phase S2: Static print fonts for the new look
 _Story ref: spec.md#story-s2_
