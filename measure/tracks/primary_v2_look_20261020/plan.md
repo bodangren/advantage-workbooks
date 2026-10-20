@@ -7,16 +7,16 @@ Dates (printer file due 2026-11-06): S1–S4 by 2026-10-27; proofs to Daniel on 
 ## Phase S1: Look switch per book
 _Story ref: spec.md#story-s1_
 
-- [ ] Task: Contract
-    - [ ] `look?: 'classic' | 'chibi-quest'` in the render options of `lib/template-renderer.ts` (next to `firstLessonNumber` and `headerStrip`); default `classic`
-    - [ ] The book's look: `look` in `primary/<project>/project.json`, and a book-folder map in `lib/lesson-package/files.ts` (Quest 5 to Adventure 9.3 → `chibi-quest`)
-- [ ] Task: Tests (first)
-    - [ ] Classic is byte-identical: the golden `origins-3.2/print/golden/lesson-05{,-no-key}.html` and the 70 print files of 08bb160 (`export-print-data.ts` output compared with git)
-    - [ ] A Quest 5 package renders with `chibi-quest`; no `look` gives `classic`
-- [ ] Task: Implement
-    - [ ] The chibi-quest CSS goes in a separate block that only the `chibi-quest` look adds, so the classic HTML does not change
-    - [ ] Pass `look` through the compile route, `render-lesson-html.ts`, `make-book-pdf.ts`, `make-lesson-pdfs.ts`, and `print-export.ts`
-- [ ] Task: Docs: the option in `content/primary/README.md`
+- [x] Task: Contract `50fdec2`
+    - [x] `look?: 'classic' | 'chibi-quest'` in the render options of `lib/template-renderer.ts` (next to `firstLessonNumber` and `headerStrip`); default `classic`
+    - [x] The book's look: `look` in `primary/<project>/project.json` (when absent: the look of the book, from series and number); the book-folder map `CHIBI_QUEST_BOOKS` is in `lib/look.ts` (not `files.ts`: the wrapper must not import `fs`)
+- [x] Task: Tests (first) `50fdec2` (`__tests__/workbook-look.test.ts`, 10 tests; 5 of 5 mutations caught)
+    - [x] Classic is byte-identical: the golden `origins-3.2/print/golden/lesson-05{,-no-key}.html` (a test), 78 of 78 print HTML outputs (8 book compiles, 70 lessons; snapshot before and after), and the 70 print files of 08bb160 (`export-print-data.ts` gives no git change)
+    - [x] A Quest 5 package renders with `chibi-quest`; no `look` gives `classic`
+- [x] Task: Implement `50fdec2`
+    - [x] The chibi-quest CSS goes in a separate block that only the `chibi-quest` look adds (`lib/document-wrapper/chibi-quest-styles.ts`, body class `look-chibi-quest`), so the classic HTML does not change
+    - [x] Pass `look` through the compile and render routes, `render-lesson-html.ts` (`--look`), `make-lesson-pdfs.ts`, `export-print-data.ts`, and `print-export.ts`; `make-book-pdf.ts` calls the compile route and needs no change
+- [x] Task: Docs: the option in `content/primary/README.md` (v1.3) `50fdec2`
 - [ ] Task: Measure - User Manual Verification 'Phase S1: Look switch per book' (Protocol in workflow.md)
 
 ## Phase S2: Static print fonts for the new look
