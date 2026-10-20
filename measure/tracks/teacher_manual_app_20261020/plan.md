@@ -45,6 +45,7 @@ Defaults chosen on 2026-10-20 for Daniel's check:
 - [ ] Task: Daniel's Thai notes and the PR fact notes fixed (date and notes in this plan)
 - [ ] Task: Lesson 12 as Daniel decides
 - [ ] Task: The final A4 PDF in `~/Desktop/print-ready/teacher-manual/` by 2026-10-26; every page looked at
+    - Steps: (1) if the M2 sign-in fix is live, add the Thai retakes to `SCREENS` in `scripts/teacher-manual/mark-captures.ts`, run it in full (not through `head`), and remove the note "คำบนฟอร์มเป็นภาษาอังกฤษ"; if the one-student password button is live, add its text and the retakes 05f–05h, as in K1 `r-new`; (2) apply Daniel's choices (workbook word, C14 text of section 6, lesson 12 PDF); (3) before any i18n commit, send the Monorepo session the diff summary; (4) tests, tsc, and the render under the lock: `flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx scripts/print/make-teacher-manual-pdf.ts origins-3.1-a0 --lang th` (default output is the final name); (5) contact sheets of every page; (6) send PR the path; delete the DRAFT file only after Daniel approves the final.
 - [ ] Task: Measure - User Manual Verification 'Phase 4: Fixes and final PDF' (Protocol in workflow.md)
 
 ## Close
