@@ -6,7 +6,7 @@ import { generatePrefaceSection } from './document-wrapper/sections/preface';
 import { generateTocSection } from './document-wrapper/sections/toc';
 import { generateProgressTracker } from './document-wrapper/sections/progress-tracker';
 import { generateGlossarySection } from './document-wrapper/sections/glossary';
-import { printFontFaceCss } from './document-wrapper/print-fonts';
+import { chibiQuestFontFaceCss, printFontFaceCss } from './document-wrapper/print-fonts';
 import { getChibiQuestStyles } from './document-wrapper/chibi-quest-styles';
 import { generateAnswerKeySection } from './document-wrapper/sections/answer-key';
 import { generateFlashcardsSection } from './document-wrapper/sections/flashcards';
@@ -22,10 +22,11 @@ export * from './document-wrapper/types';
 /** CSS page size of A4 paper, for a lesson that a teacher or a parent prints. */
 export const A4_PAGE = '210mm 297mm';
 
-/** The style block of a look: empty for `classic`, so the classic head does not change. */
+/** The style block of a look (its fonts and CSS): empty for `classic`, so the classic head does not change. */
 function lookStyle(options: WorkbookDocumentOptions): string {
   return options.look === 'chibi-quest' ? `
   <style data-look="chibi-quest">
+${chibiQuestFontFaceCss()}
 ${getChibiQuestStyles()}
   </style>` : '';
 }

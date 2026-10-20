@@ -32,7 +32,20 @@ export const PRINT_FONT_FACES: PrintFontFace[] = [
     ...faces('Sarabun', 'sarabun', 'thai', [[400, 'normal'], [400, 'italic'], [600, 'normal'], [700, 'normal'], [700, 'italic']], THAI),
 ];
 
+/**
+ * The faces of the Chibi Quest look (track primary_v2_look_20261020), the fonts of the v2 app:
+ * Fredoka (Latin) and Mitr (Thai) for signs, titles, and labels, and Quicksand (Latin) for text,
+ * with Sarabun for its Thai. Static Fontsource 5.3.0 builds; none of the three has an italic face.
+ * The document wrapper adds them only for `look: 'chibi-quest'`.
+ */
+export const CHIBI_QUEST_FONT_FACES: PrintFontFace[] = [
+    ...faces('Fredoka', 'fredoka', 'latin', [[500, 'normal'], [600, 'normal'], [700, 'normal']]),
+    ...faces('Mitr', 'mitr', 'thai', [[400, 'normal'], [500, 'normal'], [700, 'normal']], THAI),
+    ...faces('Quicksand', 'quicksand', 'latin', [[400, 'normal'], [500, 'normal'], [700, 'normal']]),
+];
+
 let cached: string | undefined;
+let cachedChibiQuest: string | undefined;
 
 /** The folder with the print font files. */
 export const PRINT_FONT_DIR = path.join(process.cwd(), 'assets', 'print-fonts');
@@ -62,4 +75,15 @@ export function printFontFaceCss(dir: string = PRINT_FONT_DIR): string {
     if (cached) return cached;
     cached = fontFaceCss(PRINT_FONT_FACES, dir);
     return cached;
+}
+
+/**
+ * The `@font-face` rules of the Chibi Quest faces, with each font file as a data URL.
+ * @param dir The folder with the font files.
+ * @returns The CSS.
+ */
+export function chibiQuestFontFaceCss(dir: string = PRINT_FONT_DIR): string {
+    if (cachedChibiQuest) return cachedChibiQuest;
+    cachedChibiQuest = fontFaceCss(CHIBI_QUEST_FONT_FACES, dir);
+    return cachedChibiQuest;
 }

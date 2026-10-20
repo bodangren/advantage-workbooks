@@ -41,7 +41,10 @@ export const CHIBI_QUEST_TOKENS: Readonly<Record<string, string>> = {
  */
 export function getChibiQuestStyles(): string {
   const tokens = Object.entries(CHIBI_QUEST_TOKENS).map(([name, value]) => `  --cq-${name}: ${value};`).join('\n');
+  // Chrome writes a synthetic bold or italic as a Type 3 font, and Fredoka, Mitr, and Quicksand
+  // have no italic face: a missing face prints upright and at the nearest weight instead.
   return `:root {
 ${tokens}
-}`;
+}
+.look-chibi-quest { font-synthesis: none; }`;
 }

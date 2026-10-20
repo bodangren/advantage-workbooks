@@ -26,6 +26,7 @@
 ## Print output (track print_ready_pdf_20261002)
 - **Ghostscript (`gs`) and poppler (`pdfinfo`, `pdffonts`, `pdfimages`):** `dashboard/scripts/print/make-pdfx.ts` converts a Chrome PDF to PDF/X-1a:2001 (CMYK, Japan Color 2001 Coated output intent) and checks the result. System tools, not npm packages. The printer uses Adobe Acrobat 9 Pro.
 - **Print fonts:** static font files only. Chrome writes variable fonts (what Google Fonts serves) as Type 3 fonts, which the printer cannot use.
+- **Chibi Quest print fonts (2026-10-20, track `primary_v2_look_20261020`):** the `chibi-quest` look (levels 5–9) adds the app fonts: Fredoka 500/600/700 (Latin) and Mitr 400/500/700 (Thai) for signs, titles, and labels, and Quicksand 400/500/700 (Latin) for text, with Sarabun for its Thai. Static Fontsource 5.3.0 files with their OFL files in `dashboard/assets/print-fonts/` (`CHIBI_QUEST_FONT_FACES`). The look sets `font-synthesis: none`, because none of the three has an italic face. The `classic` font list does not change.
 
 ## Book covers (track book_covers_20261007)
 - **Cover pipeline:** `dashboard/lib/covers/` and `dashboard/scripts/covers/`. `extract-kit.ts` cuts the fixed layers (frame, badge, back panel) from Daniel's Canva SVG export with jsdom and Chrome; `make-cover.ts` puts the art, the kit layers, and the text together with sharp and Chrome. One opaque JPEG for each side keeps the PDF free of transparency; `--print` writes the PDF/X-1a file with `make-pdfx.ts --keep-fonts`.
