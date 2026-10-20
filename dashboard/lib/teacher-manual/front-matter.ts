@@ -1,6 +1,7 @@
 import type { FrontMatterData } from './types';
 import type { SupportedLanguage } from './i18n';
 import { getTranslations } from './i18n';
+import { generateAppSection } from './app-section';
 
 function escapeHtml(text: string): string {
   return text
@@ -11,6 +12,14 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#039;');
 }
 
+/**
+ * The front matter of the teacher's manual: the title page, the preface, the section about the
+ * Primary Advantage app (track teacher_manual_app_20261020), and the guides for the lesson plans.
+ * @param data The series, the level, and the CEFR level.
+ * @param theme The book colors.
+ * @param lang The manual language.
+ * @returns The HTML of the front matter.
+ */
 export function generateFrontMatter(
   data: FrontMatterData,
   theme?: { primary: string; secondary: string },
@@ -23,6 +32,7 @@ export function generateFrontMatter(
   return `
     ${generateTitlePage(data, primaryColor, secondaryColor, t)}
     ${generatePreface(data, primaryColor, t)}
+    ${generateAppSection(lang)}
     ${generateLessonPlanStructure(primaryColor, t)}
     ${generatePedagogicalGuidelines(primaryColor, t)}
     ${generateFlashcardGamesGuide(primaryColor, t)}
