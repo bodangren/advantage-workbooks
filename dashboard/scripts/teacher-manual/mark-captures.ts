@@ -48,7 +48,7 @@ export const SCREENS: ScreenSpec[] = [
     { id: 'progress-grid', capture: '09f-class-progress-grid-desktop-th', marks: [], crop: { x: 280, y: 70, w: 980, h: 560 } },
     { id: 'mark-taught', capture: '09g-mark-lesson-taught-desktop-th', marks: ['คู่มือ', 'ทำเครื่องหมายว่าสอนแล้ว'], crop: { x: 290, y: 60, w: 970, h: 330 } },
     { id: 'article-assign', capture: '10b-article-assign-button-desktop-th', marks: ['งานที่กำหนด'], crop: { x: 290, y: 80, w: 970, h: 300 } },
-    { id: 'assign-form', capture: '10c-assign-form-filled-top-desktop-th', marks: ['ห้องเรียน', 'ชื่องานที่กำหนด', 'คำอธิบายงานที่กำหนด', 'เลือกนักเรียนทั้งหมด'], crop: { x: 386, y: 235, w: 508, h: 465 } },
+    { id: 'assign-form', capture: '10c-assign-form-filled-top-desktop-th', marks: ['ห้องเรียน', 'ชื่องานที่กำหนด', 'คำอธิบายงานที่กำหนด', 'เลือกนักเรียนทั้งหมด'], crop: { x: 386, y: 255, w: 508, h: 465 } },
     { id: 'class-sheet-confirm', capture: '06b-class-sheet-confirm-desktop-th', marks: ['ตั้งรหัสผ่านใหม่'], crop: { x: 280, y: 140, w: 960, h: 360 } },
     { id: 'qr-cards', capture: '07a-qr-cards-page-desktop-th', marks: ['ทำบัตรให้นักเรียนที่ยังไม่มีบัตร 4 คน', 'พิมพ์'], crop: { x: 268, y: 80, w: 992, h: 440 } },
 ];
