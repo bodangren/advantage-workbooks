@@ -304,6 +304,18 @@ describe('teacher manual: the new Primary Advantage app (Phase 2)', () => {
         }
     });
 
+    it('keeps each period heading with its warm-up box, so that no heading stands alone at the foot of a page', () => {
+        for (const lang of LANGS) {
+            for (const paper of PAPERS) {
+                const html = manual(lang, paper);
+                const heads = html.match(/<div class="tm-period-head">\s*<div class="tm-period-header"[\s\S]*?<\/h3>\s*<\/div>\s*<div class="tm-bell-ringer">/g) ?? [];
+                expect(heads.length, `${lang} ${paper}`).toBe((html.match(/class="tm-period-header"/g) ?? []).length);
+                expect(heads.length, `${lang} ${paper}`).toBeGreaterThan(0);
+                expect(html, `${lang} ${paper}`).toMatch(/\.tm-period-head \{ break-inside: avoid; \}/);
+            }
+        }
+    });
+
     it('prints the blank of a fill-in sentence as a line, not as HTML text (lesson-package build stores a span)', () => {
         const lesson = { ...LESSON, vocab_fill: [{ number: 1, sentence: 'This place is a new <span class="blank"></span>.' }, { number: 2, sentence: 'A <b> & a ____ day.' }] } as unknown as WorkbookLesson;
         for (const lang of LANGS) {

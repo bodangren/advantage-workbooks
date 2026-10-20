@@ -186,10 +186,12 @@ export function renderPeriodPlan(
 
   return `
     <div class="tm-period" data-period="${period.periodNumber}">
+      <div class="tm-period-head">
       <div class="tm-period-header" style="border-left: 4px solid ${primaryColor};">
         <h3 class="tm-period-title" style="color: ${primaryColor};">${pp.period} ${period.periodNumber}: ${escapeHtml(period.title)}</h3>
       </div>
       ${bellRingerHtml}
+      </div>
       ${stepsHtml}
       ${spellingHtml}
       ${onlineHtml}

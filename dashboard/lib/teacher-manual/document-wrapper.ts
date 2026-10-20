@@ -616,6 +616,9 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string, pa
       margin-bottom: 20px;
     }
 
+    /* The heading stays with its warm-up box: no heading alone at the foot of a page. */
+    .tm-period-head { break-inside: avoid; }
+
     .tm-period-header {
       padding: 10px 15px;
       background: #f8fafc;
