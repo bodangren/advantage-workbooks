@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: v2 workbook look: the Chibi Quest look of the new app and its step names for the Primary levels 5–9 books; Quest 5 printer file by 2026-11-06.** *(Created: 2026-10-20)*
+  *Link: [./tracks/primary_v2_look_20261020/](./tracks/primary_v2_look_20261020/)*
+
 - [x] **Track: Print data of the five printed Primary books (70 files with bucket pictures) and a golden lesson for the monorepo print kit.** *(Completed: 2026-10-12)*
   *Link: [./tracks/print_export_20261012/](./tracks/print_export_20261012/)*
 

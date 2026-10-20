@@ -1,0 +1,67 @@
+{
+  "track_id": "primary_v2_look_20261020",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-10-20T06:00:00Z",
+  "updated_at": "2026-10-20T06:00:00Z",
+  "description": "Make the printed lesson pages of the Primary levels 5–9 books (Quest 5 to Adventure 9.3) match the new v2 app look (Chibi Quest), with the app step names; Origins 1 to Quest 4 keep their look. Quest 5 printer file by 2026-11-06.",
+  "estimated_tasks": 49,
+  "actual_tasks": null,
+  "deviation_notes": "Daniel's decisions of 2026-10-20 in this session and in advantage-pr 02-brand/naming-conventions.md v1.4 (ad6dca9, 2bbcfd4). Look facts from the monorepo integration worktree (HEAD 95b9498df). Skill registry search skipped (pdf and frontend-design skills already installed). graph.db missing: no graph probe.",
+  "sprint": {
+    "goal": "Quest 5 goes to the printer by 2026-11-06 in the Chibi Quest look of the app, and the books of levels 1–4 print exactly as before.",
+    "stories": [
+      {
+        "id": "S1",
+        "title": "Look switch per book",
+        "size": "M",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "title": "Static print fonts for the new look",
+        "size": "S",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "title": "Chibi Quest print kit",
+        "size": "L",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "title": "App step names in the v2 books",
+        "size": "S",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "title": "Page proofs for Daniel",
+        "size": "S",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "title": "Quest 5 printer file",
+        "size": "M",
+        "priority": "Must",
+        "status": "pending"
+      },
+      {
+        "id": "S7",
+        "title": "Monorepo print kit sync",
+        "size": "S",
+        "priority": "Should",
+        "status": "pending"
+      }
+    ],
+    "demo_notes": null,
+    "retro_ref": null
+  }
+}
