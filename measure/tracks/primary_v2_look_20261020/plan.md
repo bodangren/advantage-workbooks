@@ -19,7 +19,7 @@ _Story ref: spec.md#story-s1_
 - [x] Task: Docs: the option in `content/primary/README.md` (v1.3) `50fdec2`
 - [x] Task: Measure - User Manual Verification 'Phase S1: Look switch per book' (Protocol in workflow.md) (Daniel: yes, 2026-10-20)
 
-## Phase S2: Static print fonts for the new look
+## Phase S2: Static print fonts for the new look [checkpoint: 478e0ea]
 _Story ref: spec.md#story-s2_
 
 - [x] Task: Contract: the faces that the kit uses (measure them on a first S3 render): Fredoka 500/600/700, Mitr 400/500/700 (Thai range), Quicksand 400/500/700 `c3ebffc` (`CHIBI_QUEST_FONT_FACES`)
@@ -28,7 +28,7 @@ _Story ref: spec.md#story-s2_
     - [x] Static woff2 files (Fontsource 5.3.0 builds of Google Fonts) and the OFL texts in `dashboard/assets/print-fonts/`; each licence read (SIL OFL 1.1; Quicksand has a Reserved Font Name, so the files stay unchanged)
     - [x] Register the faces in `lib/document-wrapper/print-fonts.ts`; add them only for the `chibi-quest` look (with `font-synthesis: none`: no italic faces)
 - [x] Task: Docs: `assets/print-fonts/README.md`, `measure/tech-stack.md` `c3ebffc`
-- [ ] Task: Measure - User Manual Verification 'Phase S2: Static print fonts for the new look' (Protocol in workflow.md)
+- [x] Task: Measure - User Manual Verification 'Phase S2: Static print fonts for the new look' (Protocol in workflow.md) (Daniel: yes, 2026-10-20)
 
 ## Phase S3: Chibi Quest print kit
 _Story ref: spec.md#story-s3_
