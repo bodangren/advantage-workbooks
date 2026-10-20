@@ -175,6 +175,11 @@ describe('teacher manual app section', () => {
         }
     });
 
+    it('names the picture-guide word for the workbook in the Thai intro', () => {
+        expect(APP_SECTION.th.intro[0]).toContain('“หนังสือแบบฝึกหัด”');
+        expect(generateAppSection('th')).toContain('ทั้งสองคำหมายถึงหนังสือเล่มเดียวกัน');
+    });
+
     it('passes the app version from the compiler to the front matter', () => {
         const fm = generateFrontMatter({ seriesName: 'Origins', seriesLevel: '3.1', cefrLevel: 'A1' }, undefined, 'th', NEW);
         expect(fm).toContain('ครูที่ย้ายมาจากระบบเดิม');

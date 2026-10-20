@@ -117,14 +117,14 @@ export const en: TranslationKeys = {
   // Spelling routine
   spellingRoutine: {
     heading: 'Spelling Routine Guide',
-    intro: 'Spelling practice appears in the workbook for lessons 2, 3, and 4 of each week. The spelling section uses a three-period cycle that builds from tracing to independent writing.',
+    intro: 'Spelling practice is in periods 2, 3, and 4 of each lesson. The spelling section uses a three-period cycle that builds from tracing to independent writing.',
     traceTitle: 'Period 2: Trace',
     traceDesc: 'Students trace the vocabulary words using the light gray letters in the spelling practice section. Focus on correct letter formation and spacing. This is guided practice.',
     writeTitle: 'Period 3: Write',
     writeDesc: 'Students write the vocabulary words from memory in the "Write" column. They should look at the model word, cover it, then write. Check letter formation and accuracy.',
     coverWriteTitle: 'Period 4: Cover-and-Write',
     coverWriteDesc: 'Students cover the word model completely, then write the word from memory in the "Cover & Write" column. Uncover to check accuracy. This is the final assessment step.',
-    note: '<strong>Note:</strong> Spelling practice appears in lessons 2, 3, and 4 of each week. Lesson 1 introduces new vocabulary but does not include spelling practice.',
+    note: '<strong>Note:</strong> Spelling practice is in periods 2, 3, and 4 of each lesson. Period 1 introduces new vocabulary but does not include spelling practice.',
   },
 
   // Goal setting
