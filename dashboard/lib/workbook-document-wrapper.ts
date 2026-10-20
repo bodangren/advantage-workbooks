@@ -1,5 +1,5 @@
 import { TocEntry, WorkbookDocumentOptions, AnswerKeyEntry, ThemeColors } from './document-wrapper/types';
-import { getThemeColors, escapeHtml, brandName } from './document-wrapper/utils';
+import { bookTheme, escapeHtml, brandName } from './document-wrapper/utils';
 import { getPrintStyles } from './document-wrapper/styles';
 import { generateTitlePage } from './document-wrapper/sections/title-page';
 import { generatePrefaceSection } from './document-wrapper/sections/preface';
@@ -60,7 +60,7 @@ ${printFontFaceCss()}
  * @returns The HTML document for Paged.js.
  */
 export function wrapSingleLessonDocument(lessonHtml: string, answerKey: AnswerKeyEntry | null, options: WorkbookDocumentOptions): string {
-  const theme = getThemeColors(options.seriesName, options.type);
+  const theme = bookTheme(options);
   const key = answerKey ? `<div class="single-lesson-key">${generateAnswerKeySection([answerKey])}</div>` : '';
   return `<!DOCTYPE html>
 <html lang="en">
@@ -77,7 +77,7 @@ export function wrapWorkbookDocument(
   tocEntries: TocEntry[],
   options: WorkbookDocumentOptions
 ): string {
-  const theme = getThemeColors(options.seriesName, options.type);
+  const theme = bookTheme(options);
   if (options.lessonsOnly) {
     return `<!DOCTYPE html>
 <html lang="en">

@@ -1,4 +1,5 @@
-import { ThemeColors } from './types';
+import { CHIBI_QUEST_THEME } from './chibi-quest-styles';
+import { ThemeColors, WorkbookLook } from './types';
 
 export function getThemeColors(seriesName: string, type?: 'primary' | 'secondary'): ThemeColors {
   const name = seriesName.toLowerCase();
@@ -20,6 +21,15 @@ export function getThemeColors(seriesName: string, type?: 'primary' | 'secondary
   // Default fallback
   const fallbackPrimary = type === 'primary' ? '#0284c7' : '#1e40af';
   return { primary: fallbackPrimary, secondary: '#334155', gradient: `linear-gradient(135deg, ${fallbackPrimary}, #334155)` };
+}
+
+/**
+ * The book colors for a look: the Chibi Quest wood and gold, or the classic series colors.
+ * @param options The series name, the product type, and the look (classic when absent).
+ * @returns The theme colors.
+ */
+export function bookTheme(options: { seriesName: string; type?: 'primary' | 'secondary'; look?: WorkbookLook }): ThemeColors {
+  return options.look === 'chibi-quest' ? { ...CHIBI_QUEST_THEME } : getThemeColors(options.seriesName, options.type);
 }
 
 /** The product name printed in a workbook: Primary Advantage or Reading Advantage. */

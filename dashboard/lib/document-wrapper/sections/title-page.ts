@@ -1,8 +1,8 @@
 import { WorkbookDocumentOptions } from '../types';
-import { brandName, escapeHtml, getThemeColors } from '../utils';
+import { bookTheme, brandName, escapeHtml } from '../utils';
 
 export function generateTitlePage(options: WorkbookDocumentOptions): string {
-  const theme = getThemeColors(options.seriesName, options.type);
+  const theme = bookTheme(options);
   const brand = brandName(options.type);
   return `
     <div class="cover-page" style="background: ${theme.primary};">
