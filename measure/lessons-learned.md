@@ -6,7 +6,6 @@
 ### Architecture & Design
 <!-- Decisions made that future tracks should be aware of -->
 
-- (2026-03-22, e2e_testing_and_visual_stabilization_phase_10_20260322) Shared Level Constants: Consolidating primary and secondary workbook levels into a single `lib/constants.ts` ensures UI consistency across creation and settings dialogs and prevents duplicate maintenance effort.
 - (2026-10-01, lesson_packages_20261001) One lesson package (`content/primary/<book>/<lesson>.json`, schema `lib/lesson-package/schema.ts`) holds every part of a lesson: text, glossary, bank, print set, activities, Thai, pictures, audio, tags, approval, and database ids. For a new lesson, the print JSON in `primary/<project>/` (`scripts/build-workbook-json.ts`), the app rows (injector), `tags.json`, and the print data are outputs of it: edit the package, then build again. An old printed lesson (Origins 2, 3.1) keeps its text in `primary/`, and `meta.printed.lock` holds its hashes.
 
 ### Recurring Gotchas
@@ -42,6 +41,7 @@
 
 - (2026-04-08, ai_content_orchestration_20260408) Gemini structured output: Using `responseMimeType: "application/json"` with `zodToJsonSchema` to embed the full Zod schema in the prompt ensures Gemini returns valid JSON that passes `Schema.safeParse()`. This pattern (from ai-augmentor.ts) is reusable for any structured output from Gemini.
 - (2026-10-06, levels_5_9_20261006) Parallel content writers: put the cast facts (names in use, ages, kinship, dates fixed in other books) in each writer's prompt, and give each subagent a private scratch folder. Writers reused a bible name ("Alex", a pen pal), made a blond Thai boy, and set dates that clashed across books; one agent ran another agent's script from the shared scratchpad. A separate editor pass after the writers found 168 faults that the checks cannot see (two true MCQ options, fill items with two answers, pictures that disagree with the text). Give each writer its own list of free swap words that excludes every map: Adventure 8.1 writers swapped in 4 words that the 8.2 map held, and bank-7 used November Saturdays that Adventure 8.1 trips held.
+- (2026-10-21, teacher_manual_app_20261020) Translated Thai for print: a term count and a CJK sweep are not a Thai check. One independent proofread subagent (all Thai sources plus the app's `th.json`, read-only, findings with file:line, current text, proposed text, severity) found 3 High errors (a wrong fact, "โครงการ" for lesson, a reversed instruction) and many word-for-word lines. Check each finding against the code before you apply it: the guide importer reads the prefix "ขั้นตอนที่", so one valid style finding had to stay out.
 
 ### Planning Improvements
 <!-- Notes on where estimates were wrong and why -->
