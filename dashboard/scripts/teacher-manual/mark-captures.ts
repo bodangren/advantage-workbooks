@@ -22,13 +22,23 @@ export interface ScreenSpec {
     crop?: { x: number; y: number; w: number; h: number };
     /** Areas to cover in CSS pixels, with sample text: no class code, password, or name is printed (PR rule). */
     masks?: { x: number; y: number; w: number; h: number; text: string; size: number }[];
+    /**
+     * Why the capture set may not have this screen: a retake after an app fix adds it, or replaces it.
+     * Without the capture or a mark label, the script skips the screen and keeps its JPEG.
+     */
+    optional?: string;
 }
 
 /** The screenshots, in the order of the PR teacher guide (K1): sign in, find the class, start the class, the book, the lesson, homework, the class sheet and QR cards. */
 export const SCREENS: ScreenSpec[] = [
     // The teacher sign-in has English form labels until the fix a492b16c1 is live (PR README: use 01a for print).
-    { id: 'signin-teacher-tab', capture: '01a-signin-teacher-tab-desktop-th', marks: ['ครู', 'Username', 'Password', 'Login'], crop: { x: 405, y: 205, w: 470, h: 405 } },
-    { id: 'signin-new-password', capture: '02b-new-password-empty-desktop-th', marks: ['New password', 'Type the new password again', 'Save and sign in'], crop: { x: 405, y: 205, w: 470, h: 405 } },
+    { id: 'signin-teacher-tab', capture: '01a-signin-teacher-tab-desktop-th', marks: ['ครู', 'Username', 'Password', 'Login'], crop: { x: 405, y: 205, w: 470, h: 405 }, optional: 'the live English sign-in (a retake may replace it)' },
+    { id: 'signin-new-password', capture: '02b-new-password-empty-desktop-th', marks: ['New password', 'Type the new password again', 'Save and sign in'], crop: { x: 405, y: 205, w: 470, h: 405 }, optional: 'the live English sign-in (a retake may replace it)' },
+    // After the fix a492b16c1: the same screens with Thai labels (app section `--signin new`). The retake
+    // replaces 01a and 02b and keeps their names (Monorepo, 2026-10-20). The crop is the live crop; if
+    // the Thai form is taller, the box check below stops the script, and the crop needs a new value.
+    { id: 'signin-teacher-tab-th', capture: '01a-signin-teacher-tab-desktop-th', marks: ['ครู', 'ชื่อผู้ใช้', 'รหัสผ่าน', 'เข้าสู่ระบบ'], crop: { x: 405, y: 205, w: 470, h: 405 }, optional: 'the retake after the sign-in fix a492b16c1' },
+    { id: 'signin-new-password-th', capture: '02b-new-password-empty-desktop-th', marks: ['รหัสผ่านใหม่', 'พิมพ์รหัสผ่านใหม่อีกครั้ง', 'บันทึกและเข้าสู่ระบบ'], crop: { x: 405, y: 205, w: 470, h: 405 }, optional: 'the retake after the sign-in fix a492b16c1' },
     { id: 'teacher-menu', capture: '03b-my-classes-desktop-th', marks: ['ชั้นเรียนของฉัน', 'Demo Classroom'], crop: { x: 8, y: 70, w: 1242, h: 380 } },
     { id: 'class-signin-card', capture: '04c-picture-password-on-desktop-th', marks: ['รหัสชั้นเรียน', 'รหัสใหม่', 'จบชั้นเรียน', 'รหัสรูปภาพ', 'บัตร QR'], crop: { x: 268, y: 90, w: 992, h: 520 }, masks: [{ x: 540, y: 200, w: 460, h: 100, text: 'ABC123', size: 80 }] },
     { id: 'assign-book', capture: '08a-assign-book-form-desktop-th', marks: ['หนังสือ', 'รูปแบบการเรียน', 'วันเริ่ม', 'กำหนด'], crop: { x: 268, y: 140, w: 992, h: 300 } },
@@ -118,10 +128,23 @@ async function main(argv: string[]): Promise<number> {
         }
     }
     fs.mkdirSync(outDir, { recursive: true });
-    const index: Record<string, { file: string; width: number; height: number; capture: string; marks: string[] }> = {};
+    type Entry = { file: string; width: number; height: number; capture: string; marks: string[] };
+    const indexFile = path.join(outDir, 'screens.json');
+    const old: Record<string, Entry> = fs.existsSync(indexFile) ? JSON.parse(fs.readFileSync(indexFile, 'utf8')) : {};
+    const index: Record<string, Entry> = {};
+    let skipped = 0;
     for (const spec of SCREENS) {
         const png = path.join(inDir, `${spec.capture}.png`);
-        const all = JSON.parse(fs.readFileSync(path.join(inDir, `${spec.capture}.json`), 'utf8')) as Box[];
+        const json = path.join(inDir, `${spec.capture}.json`);
+        const all = fs.existsSync(json) || !spec.optional ? (JSON.parse(fs.readFileSync(json, 'utf8')) as Box[]) : [];
+        const missing = spec.marks.find((label) => !all.some((b) => b.label === label));
+        if (missing !== undefined && spec.optional) {
+            // Keep the JPEG and its entry from an earlier run.
+            if (old[spec.id]) index[spec.id] = old[spec.id];
+            skipped++;
+            console.log(`${spec.id}: skipped, no box "${missing}" in ${spec.capture} (${spec.optional})${old[spec.id] ? '; the old JPEG stays' : ''}`);
+            continue;
+        }
         const boxes = spec.marks.map((label) => {
             const box = all.find((b) => b.label === label);
             if (!box) throw new Error(`${spec.id}: no box "${label}" in ${spec.capture}.json`);
@@ -130,6 +153,9 @@ async function main(argv: string[]): Promise<number> {
         const meta = await sharp(png).metadata();
         const size = { w: (meta.width ?? 0) / SCALE, h: (meta.height ?? 0) / SCALE };
         const crop = cropOf(spec, boxes, size);
+        // A fixed crop must not cut a marked control.
+        const out = boxes.find((b) => b.x < crop.x || b.y < crop.y || b.x + b.w > crop.x + crop.w || b.y + b.h > crop.y + crop.h);
+        if (out) throw new Error(`${spec.id}: the box "${out.label}" is outside the crop ${JSON.stringify(crop)} of ${spec.capture}`);
         const local = boxes.map((b) => ({ ...b, x: b.x - crop.x, y: b.y - crop.y }));
         const masks = (spec.masks ?? []).map((m) => ({ ...m, x: m.x - crop.x, y: m.y - crop.y }));
         const file = `${spec.id}.jpg`;
@@ -142,8 +168,8 @@ async function main(argv: string[]): Promise<number> {
         index[spec.id] = { file, width: crop.w * SCALE, height: crop.h * SCALE, capture: spec.capture, marks: spec.marks };
         console.log(`${spec.id}: ${spec.capture} (${spec.marks.length} marks, ${crop.w} x ${crop.h} CSS px)`);
     }
-    fs.writeFileSync(path.join(outDir, 'screens.json'), `${JSON.stringify(index, null, 2)}\n`);
-    console.log(`${SCREENS.length} screens in ${path.relative(process.cwd(), outDir)}/`);
+    fs.writeFileSync(indexFile, `${JSON.stringify(index, null, 2)}\n`);
+    console.log(`${SCREENS.length - skipped} screens made, ${skipped} skipped, in ${path.relative(process.cwd(), outDir)}/`);
     return 0;
 }
 

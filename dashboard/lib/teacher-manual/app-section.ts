@@ -17,10 +17,14 @@ export interface AppScreen {
     /** The screen id (the JPEG name), or null for a placeholder. */
     id: string | null;
     caption: string;
+    /** The placeholder text while the JPEG does not exist yet (a screen after an app fix, before the retake). */
+    pending?: string;
 }
 
 /** One part of the section: a heading, numbered steps, screens, and notes in boxes. */
 export interface AppPart {
+    /** The parts that change with an app fix (AppVariant). */
+    id?: 'signin' | 'class-sheet';
     heading: string;
     intro?: string;
     /** Notes to read before the steps (a warning, or the meanings of English screen words). */
@@ -80,6 +84,7 @@ const th: AppSectionText = {
     ],
     parts: [
         {
+            id: 'signin',
             heading: '1. เข้าสู่ระบบ',
             intro: 'ครูเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน ปุ่ม Google ไม่มีแล้ว',
             before: [
@@ -197,6 +202,7 @@ const th: AppSectionText = {
             ],
         },
         {
+            id: 'class-sheet',
             heading: '6. ใบรายชื่อชั้นเรียนและบัตร QR: อ่านก่อนกด',
             before: [
                 { title: 'เมื่อกด “ทำใบรายชื่อชั้นเรียน”', text: 'แอปตั้งรหัสผ่านใหม่ให้นักเรียนทุกคนในชั้นเรียนนี้ นักเรียนทุกคนออกจากระบบ ใบรายชื่อเดิมใช้ไม่ได้อีก และรหัสผ่านใหม่แสดงเพียงครั้งเดียว' },
@@ -243,6 +249,7 @@ const en: AppSectionText = {
     prepare: ['A computer with a projector', 'The e-mail address and password from the school', "The students' workbooks"],
     parts: [
         {
+            id: 'signin',
             heading: '1. Sign in',
             intro: 'Teachers sign in with an e-mail address and a password. The Google button is gone.',
             before: [
@@ -355,6 +362,7 @@ const en: AppSectionText = {
             ],
         },
         {
+            id: 'class-sheet',
             heading: '6. Class sheet and QR cards: read before you press',
             before: [
                 { title: 'When you press “Make class sheet”', text: 'The app sets a new password for every student in this class, every student is signed out, the old sheet stops working, and the new passwords show only once.' },
@@ -394,7 +402,97 @@ const en: AppSectionText = {
 /** The section text in each language. */
 export const APP_SECTION: Record<SupportedLanguage, AppSectionText> = { en, th };
 
-/** The folder of the marked screenshots. */
+/**
+ * The app version that the section describes. `live` is the app on primary.reading-advantage.com
+ * on 2026-10-20. `new` is the app after a fix (Daniel's go, 2026-10-20; the deploy is Daniel's
+ * decision): `signin` is the teacher sign-in with Thai labels (monorepo a492b16c1), and `reset` is
+ * the "New password" button for one student (monorepo d9c02df5b). The text is the PR picture guide
+ * K1 with the classes `v-new` and `r-new`.
+ */
+export interface AppVariant {
+    signin: 'live' | 'new';
+    reset: 'live' | 'new';
+}
+
+/** The live app (the default). */
+export const LIVE_APP: AppVariant = { signin: 'live', reset: 'live' };
+
+/** The text of the parts after the fixes. */
+interface FixText {
+    /** Sign-in steps 3 and 4 with the Thai labels. */
+    signinSteps: [string, string];
+    signinScreens: AppScreen[];
+    /** A note before the other sign-in notes. */
+    signinNote: { title: string; text: string };
+    /** Added to the class-sheet warning. */
+    resetWarning: string;
+    /** Class-sheet step 4: one copy, because the teacher can now reset one student's password. */
+    resetPrintStep: string;
+    /** The note "A student forgets the password". */
+    resetForgot: string;
+}
+
+const FIX_TEXT: Record<SupportedLanguage, FixText> = {
+    th: {
+        signinSteps: [
+            'ในช่อง “ชื่อผู้ใช้” (2) พิมพ์อีเมลของคุณ ในช่อง “รหัสผ่าน” (3) พิมพ์รหัสผ่าน แล้วกด “เข้าสู่ระบบ” (4)',
+            'เข้าสู่ระบบครั้งแรก: ใช้รหัสผ่านชั่วคราวที่โรงเรียนให้ แอปแสดงหน้า “ตั้งรหัสผ่านใหม่” พิมพ์รหัสผ่านใหม่ในช่อง “รหัสผ่านใหม่” (1) พิมพ์อีกครั้งในช่อง “พิมพ์รหัสผ่านใหม่อีกครั้ง” (2) แล้วกด “บันทึกและเข้าสู่ระบบ” (3)',
+        ],
+        signinScreens: [
+            { id: 'signin-teacher-tab-th', caption: 'หน้าเข้าสู่ระบบ แท็บครู', pending: 'รอภาพ: หน้าเข้าสู่ระบบของครูภาษาไทย (หลังการแก้ไข)' },
+            { id: 'signin-new-password-th', caption: 'หน้าตั้งรหัสผ่านใหม่ (เข้าสู่ระบบครั้งแรก)', pending: 'รอภาพ: หน้าตั้งรหัสผ่านใหม่ภาษาไทย (หลังการแก้ไข)' },
+        ],
+        signinNote: { title: 'ครูที่ย้ายมาจากระบบเดิม', text: 'หน้าจอบอกว่า “พิมพ์ชื่อผู้ใช้ของคุณ ครูที่ย้ายมาจากระบบเดิมให้พิมพ์อีเมลของตนเอง”' },
+        resetWarning: 'นักเรียนคนเดียวลืมรหัสผ่าน: ใช้ปุ่ม “รหัสผ่านใหม่” ที่แถวของนักเรียนคนนั้น (ด้านล่าง)',
+        resetPrintStep: 'กด “พิมพ์” ทันที ก่อนออกจากหน้านี้ ตัดใบรายชื่อ แล้วให้นักเรียนแต่ละคนเฉพาะส่วนที่มีชื่อของตนเอง',
+        resetForgot: 'ในรายชื่อ “นักเรียน” กด “รหัสผ่านใหม่” ที่แถวของนักเรียนคนนั้น ในหน้าต่าง “ตั้งรหัสผ่านใหม่ให้ … ใช่ไหม” กด “ตั้งรหัสผ่านใหม่” แอปตั้งรหัสผ่านใหม่ให้นักเรียนคนนั้นคนเดียว และนักเรียนคนนั้นออกจากระบบ นักเรียนคนอื่นใช้รหัสผ่านเดิมต่อได้ รหัสผ่านใหม่แสดงเพียงครั้งเดียว ให้นักเรียนจดไว้ทันที หรือกด “พิมพ์”',
+    },
+    en: {
+        signinSteps: [
+            'In the “Username” field (2), type your e-mail address. In the “Password” field (3), type your password. Then press “Sign in” (4).',
+            'First sign-in: use the temporary password from the school. The app shows the page “Set a new password”. Type the new password in “New password” (1), type it again in “Type the new password again” (2), then press “Save and sign in” (3).',
+        ],
+        signinScreens: [
+            { id: 'signin-teacher-tab-th', caption: 'The sign-in page, Teacher tab', pending: 'Picture to come: the Thai teacher sign-in page (after the fix)' },
+            { id: 'signin-new-password-th', caption: 'The new-password page (first sign-in)', pending: 'Picture to come: the Thai new-password page (after the fix)' },
+        ],
+        signinNote: { title: 'Teachers from the old system', text: 'The screen says “Type your username. Teachers from the old app type their e-mail address.”' },
+        resetWarning: 'One student forgot the password: use the “New password” button on that student\'s row (below).',
+        resetPrintStep: 'Press “Print” at once, before you leave the page. Cut the sheet and give each student only the part with the student\'s name.',
+        resetForgot: 'In the “Students” list, press “New password” on that student\'s row. In the window “Set a new password for …?”, press “Set new password”. The app sets a new password for that student only, and signs that student out. The other students keep their passwords. The new password shows only once: the student writes it down at once, or you press “Print”.',
+    },
+};
+
+/** The index of the print step in part 6. */
+const PRINT_STEP = 3;
+
+/**
+ * The parts of the section for one app version: the live parts, with the sign-in part and the
+ * class-sheet part changed after a fix.
+ * @param lang The manual language.
+ * @param app The app version.
+ * @returns The parts.
+ */
+export function appParts(lang: SupportedLanguage, app: AppVariant = LIVE_APP): AppPart[] {
+    const f = FIX_TEXT[lang];
+    return APP_SECTION[lang].parts.map((p) => {
+        if (p.id === 'signin' && app.signin === 'new') {
+            // No note about English form words: the form has Thai labels.
+            return { ...p, before: undefined, steps: [...p.steps.slice(0, 2), ...f.signinSteps], screens: f.signinScreens, notes: [f.signinNote, ...p.notes] };
+        }
+        if (p.id === 'class-sheet' && app.reset === 'new') {
+            const [warning, ...rest] = p.before ?? [];
+            return {
+                ...p,
+                before: [{ ...warning, text: `${warning.text} ${f.resetWarning}` }, ...rest],
+                steps: p.steps.map((s, i) => (i === PRINT_STEP ? f.resetPrintStep : s)),
+                notes: p.notes.map((n, i) => (i === 0 ? { ...n, text: f.resetForgot } : n)),
+            };
+        }
+        return p;
+    });
+}
+
 /** The book of a manual: the product name, the series, and the level. */
 export interface ManualBook {
     productName?: string;
@@ -465,6 +563,7 @@ export function bookLessonNote(book: ManualBook, lessonNumber: number, lang: Sup
     return BOOK_NOTES[bookKey(book)]?.lessons[lessonNumber]?.[lang] ?? null;
 }
 
+/** The folder of the marked screenshots. */
 export const APP_SCREEN_DIR = path.join(process.cwd(), 'assets', 'teacher-manual', 'app');
 
 function escapeHtml(text: string): string {
@@ -485,6 +584,8 @@ const APP_SECTION_CSS = `
 .tm-app-section .tm-app-placeholder { border: 1.5pt dashed #555555; padding: 18pt 8pt; text-align: center; color: #333333; }
 .tm-app-section .tm-app-note { border: 1pt solid #000000; border-left: 5pt solid #000000; padding: 5pt 8pt; margin: 0 0 6pt; break-inside: avoid; }
 .tm-app-section .tm-app-note strong { display: block; margin-bottom: 2pt; }
+/* A contact item (for example the phone number) stays on one line. */
+.tm-app-section .tm-app-keep { white-space: nowrap; }
 .tm-app-section table.tm-app-map { width: 100%; border-collapse: collapse; font-size: 10pt; break-inside: avoid; }
 .tm-app-section table.tm-app-map th, .tm-app-section table.tm-app-map td { border: 0.75pt solid #000000; padding: 3pt 5pt; text-align: left; vertical-align: top; }
 .tm-app-section table.tm-app-map th { background: #e6e6e6; }
@@ -499,7 +600,9 @@ const APP_SECTION_CSS = `
 function screenHtml(screen: AppScreen, dir: string): string {
     const caption = `<figcaption>${escapeHtml(screen.caption)}</figcaption>`;
     if (!screen.id) return `<figure><div class="tm-app-placeholder">${escapeHtml(screen.caption)}</div></figure>`;
-    const data = fs.readFileSync(path.join(dir, `${screen.id}.jpg`)).toString('base64');
+    const file = path.join(dir, `${screen.id}.jpg`);
+    if (screen.pending && !fs.existsSync(file)) return `<figure><div class="tm-app-placeholder">${escapeHtml(screen.pending)}</div>${caption}</figure>`;
+    const data = fs.readFileSync(file).toString('base64');
     return `<figure><img src="data:image/jpeg;base64,${data}" alt="${escapeHtml(screen.caption)}">${caption}</figure>`;
 }
 
@@ -507,15 +610,16 @@ function screenHtml(screen: AppScreen, dir: string): string {
  * The section "The Primary Advantage app" for the front matter.
  * @param lang The manual language.
  * @param book The book: its name goes into step 4.1, and its notes (BOOK_NOTES) into the section. Without it, the text names "the class's book" and has no book note.
+ * @param app The app version (default: the live app).
  * @param dir The folder of the marked screenshots (default `assets/teacher-manual/app`).
  * @returns The HTML of the section, with its own style block.
  */
-export function generateAppSection(lang: SupportedLanguage = 'en', book?: ManualBook, dir: string = APP_SCREEN_DIR): string {
+export function generateAppSection(lang: SupportedLanguage = 'en', book?: ManualBook, app: AppVariant = LIVE_APP, dir: string = APP_SCREEN_DIR): string {
     const t = APP_SECTION[lang];
     const name = book ? `${book.productName ? `${book.productName} ` : ''}${seriesAndLevel(book)}` : lang === 'th' ? 'หนังสือของชั้นเรียน' : "the class's book";
     const bookNote = book ? BOOK_NOTES[bookKey(book)]?.appNote[lang] : undefined;
     const note = (n: { title: string; text: string }) => `<div class="tm-app-note"><strong>${escapeHtml(n.title)}</strong>${escapeHtml(n.text)}</div>`;
-    const parts = t.parts.map((p) => `
+    const parts = appParts(lang, app).map((p) => `
       <div class="tm-app-part">
         <div class="tm-app-head">
           <h3>${escapeHtml(p.heading)}</h3>
@@ -544,6 +648,6 @@ export function generateAppSection(lang: SupportedLanguage = 'en', book?: Manual
       <table class="tm-app-map"><thead><tr>${t.stepMapHead.map((h) => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>
       ${note({ title: t.bookNoteTitle, text: t.bookNote })}
       ${parts}
-      ${note({ title: t.helpTitle, text: t.help })}
+      <div class="tm-app-note"><strong>${escapeHtml(t.helpTitle)}</strong>${t.help.split(' · ').map((item) => `<span class="tm-app-keep">${escapeHtml(item)}</span>`).join(' · ')}</div>
     </div>`;
 }

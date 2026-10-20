@@ -1,7 +1,8 @@
 import type { FrontMatterData } from './types';
 import type { SupportedLanguage } from './i18n';
 import { getTranslations } from './i18n';
-import { generateAppSection } from './app-section';
+import { generateAppSection, LIVE_APP } from './app-section';
+import type { AppVariant } from './app-section';
 
 function escapeHtml(text: string): string {
   return text
@@ -18,12 +19,14 @@ function escapeHtml(text: string): string {
  * @param data The series, the level, and the CEFR level.
  * @param theme The book colors.
  * @param lang The manual language.
+ * @param app The app version of the app section (default: the live app).
  * @returns The HTML of the front matter.
  */
 export function generateFrontMatter(
   data: FrontMatterData,
   theme?: { primary: string; secondary: string },
-  lang: SupportedLanguage = 'en'
+  lang: SupportedLanguage = 'en',
+  app: AppVariant = LIVE_APP
 ): string {
   const primaryColor = theme?.primary || '#1e40af';
   const secondaryColor = theme?.secondary || '#334155';
@@ -32,7 +35,7 @@ export function generateFrontMatter(
   return `
     ${generateTitlePage(data, primaryColor, secondaryColor, t)}
     ${generatePreface(data, primaryColor, t)}
-    ${generateAppSection(lang, data)}
+    ${generateAppSection(lang, data, app)}
     ${generateLessonPlanStructure(primaryColor, t)}
     ${generatePedagogicalGuidelines(primaryColor, t)}
     ${generateFlashcardGamesGuide(primaryColor, t)}

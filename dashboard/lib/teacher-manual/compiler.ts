@@ -6,7 +6,8 @@ import { generateFrontMatter } from './front-matter';
 import { generateEndMatter } from './end-matter';
 import { buildLessonPlan, renderLessonPlan } from './lesson-plan';
 import { wrapTeacherManualDocument } from './document-wrapper';
-import { bookLessonNote } from './app-section';
+import { bookLessonNote, LIVE_APP } from './app-section';
+import type { AppVariant } from './app-section';
 
 export interface CompileTeacherManualResult {
   html: string;
@@ -22,6 +23,7 @@ export interface CompileTeacherManualResult {
  * @param type The product line.
  * @param lang The manual language.
  * @param paper `book` (the 210 x 285 mm book page, the default) or `a4` (the office print).
+ * @param app The app version of the app section (default: the live app).
  * @returns The HTML document and the lesson count.
  */
 export function compileTeacherManual(
@@ -31,7 +33,8 @@ export function compileTeacherManual(
   cefrLevel: string,
   type: 'primary' | 'secondary' = 'primary',
   lang: SupportedLanguage = 'en',
-  paper: TeacherManualPaper = 'book'
+  paper: TeacherManualPaper = 'book',
+  app: AppVariant = LIVE_APP
 ): CompileTeacherManualResult {
   const theme = getThemeColors(seriesName, type);
   const options: TeacherManualOptions = {
@@ -47,7 +50,8 @@ export function compileTeacherManual(
   const frontMatterHtml = generateFrontMatter(
     { productName: brandName(type), seriesName, seriesLevel, cefrLevel },
     theme,
-    lang
+    lang,
+    app
   );
 
   const lessonPlansHtml = lessons.map((lesson, index) => {

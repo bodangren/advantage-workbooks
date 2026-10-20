@@ -1,7 +1,10 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { describe, it, expect } from 'vitest';
-import { APP_SCREEN_DIR, APP_SECTION, BOOK_NOTES, STEP_MAP, bookKey, bookLessonNote, generateAppSection } from '../lib/teacher-manual/app-section';
+import { APP_SCREEN_DIR, APP_SECTION, BOOK_NOTES, LIVE_APP, STEP_MAP, appParts, bookKey, bookLessonNote, generateAppSection } from '../lib/teacher-manual/app-section';
+import type { AppVariant } from '../lib/teacher-manual/app-section';
+import { compileTeacherManual } from '../lib/teacher-manual/compiler';
 import { generateFrontMatter } from '../lib/teacher-manual/front-matter';
 
 // Track teacher_manual_app_20261020: the manual section "The Primary Advantage app" agrees with the
@@ -89,6 +92,99 @@ describe('teacher manual app section', () => {
             expect(html.indexOf(APP_SECTION[lang].heading), lang).toBeGreaterThan(app);
             expect(html.match(/class="tm-section tm-app-section"/g), lang).toHaveLength(1);
         }
+    });
+
+    // The PR picture guide K1, classes v-new and r-new. The Thai labels are the integration messages
+    // (monorepo b8f4c1371, th.json): LoginForm staff.username/password/submit and temporary.title/
+    // newPassword/confirm/save; the roster newPassword and password.title/confirm/print.
+    const NEW: AppVariant = { signin: 'new', reset: 'new' };
+
+    it('describes the live app by default, and the app fixes behind a switch', () => {
+        for (const lang of ['en', 'th'] as const) {
+            expect(appParts(lang)).toEqual(APP_SECTION[lang].parts);
+            expect(generateAppSection(lang)).toBe(generateAppSection(lang, undefined, LIVE_APP));
+            const parts = appParts(lang, NEW);
+            parts.forEach((p, i) => {
+                // Only the sign-in part and the class-sheet part change.
+                if (p.id === undefined) expect(p, `${lang} ${p.heading}`).toBe(APP_SECTION[lang].parts[i]);
+            });
+            expect(appParts(lang, { signin: 'new', reset: 'live' })[7]).toBe(APP_SECTION[lang].parts[7]);
+            expect(appParts(lang, { signin: 'live', reset: 'new' })[0]).toBe(APP_SECTION[lang].parts[0]);
+        }
+        const th = appParts('th', NEW);
+        const en = appParts('en', NEW);
+        th.forEach((p, i) => {
+            const e = en[i];
+            expect([e.before?.length ?? 0, e.steps.length, e.screens.length, e.notes.length], p.heading).toEqual([p.before?.length ?? 0, p.steps.length, p.screens.length, p.notes.length]);
+            expect(e.screens.map((s) => s.id)).toEqual(p.screens.map((s) => s.id));
+        });
+    });
+
+    it('has the Thai sign-in labels after the sign-in fix, and no English form words', () => {
+        const signin = appParts('th', NEW)[0];
+        expect(signin.before).toBeUndefined();
+        const steps = signin.steps.join(' ');
+        expect(steps).not.toMatch(/Username|Password|Login|Save and sign in/);
+        for (const label of ['ครู', 'ชื่อผู้ใช้', 'รหัสผ่าน', 'เข้าสู่ระบบ', 'ตั้งรหัสผ่านใหม่', 'รหัสผ่านใหม่', 'พิมพ์รหัสผ่านใหม่อีกครั้ง', 'บันทึกและเข้าสู่ระบบ']) {
+            expect(steps, label).toContain(`“${label}”`);
+        }
+        expect(signin.notes[0].text).toContain('“พิมพ์ชื่อผู้ใช้ของคุณ ครูที่ย้ายมาจากระบบเดิมให้พิมพ์อีเมลของตนเอง”');
+        expect(signin.screens.map((s) => s.id)).toEqual(['signin-teacher-tab-th', 'signin-new-password-th']);
+        expect(appParts('en', NEW)[0].steps[2]).toContain('“Sign in” (4)');
+    });
+
+    it('has the one-student password button after the reset fix, and one printed copy', () => {
+        const sheet = appParts('th', NEW)[7];
+        const text = JSON.stringify(sheet);
+        expect(text).not.toContain('2 ชุด');
+        expect(text).not.toContain('ชุดที่ครูเก็บไว้');
+        expect(sheet.before?.[0].text).toContain('นักเรียนคนเดียวลืมรหัสผ่าน: ใช้ปุ่ม “รหัสผ่านใหม่”');
+        expect(sheet.steps[3]).toContain('ให้นักเรียนแต่ละคนเฉพาะส่วนที่มีชื่อของตนเอง');
+        expect(sheet.notes[0].title).toBe('นักเรียนลืมรหัสผ่าน');
+        for (const label of ['นักเรียน', 'รหัสผ่านใหม่', 'ตั้งรหัสผ่านใหม่ให้ … ใช่ไหม', 'ตั้งรหัสผ่านใหม่', 'พิมพ์']) expect(sheet.notes[0].text, label).toContain(`“${label}”`);
+        expect(sheet.notes[0].text).toContain('นักเรียนคนอื่นใช้รหัสผ่านเดิมต่อได้');
+        expect(JSON.stringify(appParts('en', NEW)[7])).not.toMatch(/2 copies|kept copy/);
+    });
+
+    it('shows a placeholder until the retake, then the marked screen', () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tm-app-screens-'));
+        try {
+            for (const f of fs.readdirSync(APP_SCREEN_DIR)) if (f.endsWith('.jpg')) fs.copyFileSync(path.join(APP_SCREEN_DIR, f), path.join(dir, f));
+            const signinOnly: AppVariant = { signin: 'new', reset: 'live' };
+            const before = generateAppSection('th', undefined, signinOnly, dir);
+            expect(before.match(/class="tm-app-placeholder"/g)).toHaveLength(2);
+            expect(before).toContain('รอภาพ: หน้าเข้าสู่ระบบของครูภาษาไทย (หลังการแก้ไข)');
+            for (const id of ['signin-teacher-tab', 'signin-new-password']) fs.copyFileSync(path.join(dir, `${id}.jpg`), path.join(dir, `${id}-th.jpg`));
+            const after = generateAppSection('th', undefined, signinOnly, dir);
+            expect(after).not.toContain('class="tm-app-placeholder"');
+            expect(after.match(/<img src="data:image\/jpeg;base64,/g)).toHaveLength(APP_SECTION.th.parts.flatMap((p) => p.screens).length);
+            // A screen with no pending text still needs its file.
+            fs.rmSync(path.join(dir, 'teacher-menu.jpg'));
+            expect(() => generateAppSection('th', undefined, signinOnly, dir)).toThrow();
+        } finally {
+            fs.rmSync(dir, { recursive: true, force: true });
+        }
+    });
+
+    it('keeps each contact item of the help box on one line', () => {
+        for (const lang of ['en', 'th'] as const) {
+            const html = generateAppSection(lang);
+            expect(html, lang).toContain('<span class="tm-app-keep">');
+            expect(html, lang).toMatch(/<span class="tm-app-keep">[^<]*099-005-8038<\/span>/);
+            expect(html, lang).toContain('.tm-app-keep { white-space: nowrap; }');
+        }
+    });
+
+    it('passes the app version from the compiler to the front matter', () => {
+        const fm = generateFrontMatter({ seriesName: 'Origins', seriesLevel: '3.1', cefrLevel: 'A1' }, undefined, 'th', NEW);
+        expect(fm).toContain('ครูที่ย้ายมาจากระบบเดิม');
+        const lesson = { lesson_title: 'Test', vocabulary: [] } as unknown as Parameters<typeof compileTeacherManual>[0][number];
+        const live = compileTeacherManual([lesson], 'Origins', '3.1', 'A0+', 'primary', 'th', 'a4').html;
+        const fixed = compileTeacherManual([lesson], 'Origins', '3.1', 'A0+', 'primary', 'th', 'a4', NEW).html;
+        expect(live).toContain('คำบนฟอร์มเป็นภาษาอังกฤษ');
+        expect(live).not.toContain('ครูที่ย้ายมาจากระบบเดิม');
+        expect(fixed).toContain('ครูที่ย้ายมาจากระบบเดิม');
+        expect(fixed).not.toContain('คำบนฟอร์มเป็นภาษาอังกฤษ');
     });
 
     it('prints in black, white, and gray only, with no emoji, gradient, rgba, or shadow', () => {
