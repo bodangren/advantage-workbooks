@@ -2,6 +2,10 @@ import type { WorkbookLesson } from '../workbook-schema';
 import type { SupportedLanguage } from './i18n';
 import { getTranslations } from './i18n';
 import { STEP_TITLES } from './types';
+import { icon } from '../document-wrapper/icons';
+
+/** An empty check box drawn with CSS (no symbol glyph, so no fallback font). */
+const CHECK = '<span class="si-check" aria-hidden="true"></span>';
 
 function escapeHtml(text: string): string {
   return text
@@ -21,7 +25,7 @@ function renderStep1Insert(lesson: WorkbookLesson, s: ReturnType<typeof getTrans
       </div>
       <div class="si-stars">
         <span class="si-stars-label">${s.interestLabel}</span>
-        ${[1,2,3,4,5].map(() => `<span class="si-star">☆</span>`).join('')}
+        ${[1,2,3,4,5].map(() => `<span class="si-star">${icon('star')}</span>`).join('')}
       </div>
       ${lesson.article_images?.find(img => img.position === 'hero') ? `
         <div class="si-hero-image">
@@ -116,9 +120,9 @@ function renderStep6Insert(_lesson: WorkbookLesson, s: ReturnType<typeof getTran
           <div class="si-sentence-num">${i}.</div>
           <div class="si-sentence-line">________________________________________</div>
           <div class="si-sentence-reason">
-            <label>☐ ${s.grammar}</label>
-            <label>☐ ${s.vocabulary}</label>
-            <label>☐ ${s.usefulPhrase}</label>
+            <label>${CHECK}${s.grammar}</label>
+            <label>${CHECK}${s.vocabulary}</label>
+            <label>${CHECK}${s.usefulPhrase}</label>
           </div>
         </div>
       `).join('')}
@@ -272,8 +276,8 @@ function renderStep13Insert(lesson: WorkbookLesson, s: ReturnType<typeof getTran
     <div class="si-section">
       ${lesson.reflection_focus ? `<p class="si-instruction">${escapeHtml(lesson.reflection_focus)}</p>` : ''}
       <div class="si-reflection">
-        <div class="si-refl-row">${s.understood}: ☐ ${s.all} ☐ ${s.most} ☐ ${s.some} ☐ ${s.aLittle}</div>
-        <div class="si-refl-row">${s.effortWas}: ☐ ${s.great} ☐ ${s.good} ☐ ${s.okay} ☐ ${s.needsWork}</div>
+        <div class="si-refl-row">${s.understood} ${CHECK}${s.all} ${CHECK}${s.most} ${CHECK}${s.some} ${CHECK}${s.aLittle}</div>
+        <div class="si-refl-row">${s.effortWas} ${CHECK}${s.great} ${CHECK}${s.good} ${CHECK}${s.okay} ${CHECK}${s.needsWork}</div>
         <div class="si-refl-row">${s.wantToLearn} ________________</div>
       </div>
     </div>

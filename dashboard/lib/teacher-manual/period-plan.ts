@@ -5,6 +5,7 @@ import { getTranslations } from './i18n';
 import { PERIOD_MAP, STEP_TITLES } from './types';
 import { renderStepInsert } from './step-insert';
 import { getTeachingNotes, renderTeachingNotes } from './teaching-notes';
+import { icon } from '../document-wrapper/icons';
 
 function getBellRinger(periodNumber: number, _lessonIndex: number, t: ReturnType<typeof getTranslations>): BellRingerActivity {
   const pp = t.periodPlan;
@@ -142,7 +143,7 @@ export function renderPeriodPlan(
     bellRingerHtml = `
       <div class="tm-bell-ringer">
         <h4 class="tm-br-title" style="color: ${primaryColor};">
-          <span class="tm-br-icon">🔔</span> ${pp.bellRinger}: ${escapeHtml(br.title)}
+          ${icon('timer')} ${pp.bellRinger}: ${escapeHtml(br.title)}
           <span class="tm-br-duration">(${escapeHtml(br.duration)})</span>
         </h4>
         <ul class="tm-br-list">
@@ -165,7 +166,7 @@ export function renderPeriodPlan(
     const sp = period.spellingActivity;
     spellingHtml = `
       <div class="tm-spelling">
-        <h5 class="tm-spelling-title" style="color: ${primaryColor};">✏️ ${escapeHtml(sp.title)}</h5>
+        <h5 class="tm-spelling-title" style="color: ${primaryColor};">${icon('pen')} ${escapeHtml(sp.title)}</h5>
         <p class="tm-spelling-instruction">${escapeHtml(sp.instructions)}</p>
       </div>
     `;
@@ -175,7 +176,7 @@ export function renderPeriodPlan(
   if (period.onlineComponents.length > 0) {
     onlineHtml = `
       <div class="tm-online">
-        <h5 class="tm-online-title" style="color: ${primaryColor};">📱 ${pp.onlineTitle}</h5>
+        <h5 class="tm-online-title" style="color: ${primaryColor};">${icon('phone')} ${pp.onlineTitle}</h5>
         <ul class="tm-online-list">
           ${period.onlineComponents.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
         </ul>

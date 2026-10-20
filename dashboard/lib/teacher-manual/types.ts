@@ -2,6 +2,13 @@ import type { WorkbookLesson } from '../workbook-schema';
 import type { ThemeColors } from '../document-wrapper/types';
 import type { SupportedLanguage } from './i18n';
 
+/**
+ * The page of the manual: `book` is the printer's 210 x 285 mm book page with a full-bleed title
+ * page (the dashboard preview); `a4` is the office print, A4 with 18 mm margins on every page
+ * (track teacher_manual_app_20261020).
+ */
+export type TeacherManualPaper = 'book' | 'a4';
+
 export interface TeacherManualOptions {
   seriesName: string;
   seriesLevel: string;
@@ -9,6 +16,7 @@ export interface TeacherManualOptions {
   type?: 'primary' | 'secondary';
   theme?: ThemeColors;
   lang?: SupportedLanguage;
+  paper?: TeacherManualPaper;
 }
 
 export interface TeachingNote {

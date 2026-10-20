@@ -78,7 +78,7 @@ export function renderLessonPlan(
 
   return `
     <div class="tm-lesson-plan" id="lesson-${plan.lessonNumber}">
-      <div class="tm-lesson-header" style="background: linear-gradient(135deg, ${primaryColor}15, ${primaryColor}05); border-left: 4px solid ${primaryColor};">
+      <div class="tm-lesson-header" style="background: #f3f4f6; border-left: 4px solid ${primaryColor};">
         <h2 class="tm-lesson-title" style="color: ${primaryColor};">${escapeHtml(lp.lesson)} ${plan.lessonNumber}: ${escapeHtml(plan.lessonTitle)}</h2>
         <div class="tm-lesson-meta">
           ${plan.genre ? `<span class="tm-meta-item"><strong>${escapeHtml(lp.genre)}:</strong> ${escapeHtml(plan.genre)}</span>` : ''}

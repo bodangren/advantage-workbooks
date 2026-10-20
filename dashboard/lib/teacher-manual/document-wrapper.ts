@@ -1,5 +1,6 @@
 import { getThemeColors } from '../document-wrapper/utils';
-import type { TeacherManualOptions } from './types';
+import { fontFaceCss, PRINT_FONT_FACES } from '../document-wrapper/print-fonts';
+import type { TeacherManualOptions, TeacherManualPaper } from './types';
 import { getTranslations } from './i18n';
 
 function escapeHtml(text: string): string {
@@ -103,11 +104,54 @@ const PAGED_RAF_SHIM = `
 </script>
 `;
 
-function getTeacherManualStyles(primaryColor: string, secondaryColor: string): string {
+/**
+ * The page box of each paper. `book`: the printer's 210 x 285 mm page, with a full-bleed title
+ * page. `a4`: the office print (track teacher_manual_app_20261020), 18 mm margins on every page,
+ * because an office printer cannot print to the edge of the sheet.
+ */
+const PAPER: Record<TeacherManualPaper, { size: string; margin: string; firstMargin: string; titleWidth: string; titleHeight: string }> = {
+  book: { size: '210mm 285mm', margin: '18mm', firstMargin: '0', titleWidth: '210mm', titleHeight: '285mm' },
+  // 297 mm less two 18 mm margins is 261 mm; the title page stays a little shorter so that it never spills.
+  a4: { size: 'A4', margin: '18mm', firstMargin: '18mm', titleWidth: 'auto', titleHeight: '255mm' },
+};
+
+/**
+ * The static print fonts (`assets/print-fonts/`), never Google Fonts: Open Sans for Latin text, and
+ * Sarabun for Thai (its faces cover only the Thai block, so Latin text in a Thai manual stays Open Sans).
+ */
+const fontCss = new Map<string, string>();
+function manualFontFaceCss(isThai: boolean): string {
+  const key = isThai ? 'th' : 'en';
+  if (!fontCss.has(key)) {
+    fontCss.set(key, fontFaceCss(PRINT_FONT_FACES.filter((f) => f.family === 'Open Sans' || (isThai && f.family === 'Sarabun'))));
+  }
+  return fontCss.get(key)!;
+}
+
+/**
+ * Office print overrides (A4 mode only): the school prints in black and white, so small gray text
+ * gets darker, and boxes that only had a tint get a border.
+ */
+const OFFICE_PRINT_CSS = `
+    .si-view-label, .si-empty, .si-more, .si-q-clue, .si-match-arrow, .si-box-word, .si-box-para,
+    .si-sentence-reason, .tm-title-note, .tm-br-duration, .tm-link-note { color: #444; }
+    .si-note-line, .si-sentence-line, .si-lq-line, .si-order-line { color: #777; }
+    .tm-lesson-objectives, .tm-period-header, .tm-lesson-header { border: 1px solid #999; }
+    /* Letter spacing splits Thai vowel and tone marks from their consonants. */
+    :lang(th) .tm-title-badge { letter-spacing: 0; }
+    /* The screen padding of .pagedjs_pages pushed the first page 20px down in print, and its end
+       spilled onto a blank second sheet. */
+    @media print {
+      .pagedjs_pages { padding: 0 !important; }
+    }
+`;
+
+function getTeacherManualStyles(primaryColor: string, secondaryColor: string, paper: TeacherManualPaper = 'book'): string {
+  const page = PAPER[paper];
   return `
     @page {
-      size: 210mm 285mm;
-      margin: 18mm;
+      size: ${page.size};
+      margin: ${page.margin};
 
       @bottom-center {
         content: "Page " counter(page);
@@ -117,7 +161,7 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
     }
 
     @page :first {
-      margin: 0;
+      margin: ${page.firstMargin};
       @bottom-center { content: none; }
     }
 
@@ -140,7 +184,6 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     .pagedjs_page {
       background: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       margin-bottom: 20px;
     }
 
@@ -161,7 +204,6 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       }
       .pagedjs_page {
         margin: 0 !important;
-        box-shadow: none !important;
         page-break-after: always;
       }
       .pagedjs_margin-bottom-center {
@@ -171,8 +213,8 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
 
     /* --- Title Page --- */
     .tm-title-page {
-      height: 285mm;
-      width: 210mm;
+      height: ${page.titleHeight};
+      width: ${page.titleWidth};
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -182,14 +224,12 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
       box-sizing: border-box;
       margin: 0 !important;
       padding: 0 !important;
-      background: linear-gradient(135deg, ${primaryColor}08, ${secondaryColor}08);
     }
 
     .tm-title-content {
       background: white;
       padding: 50px 70px;
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       max-width: 75%;
       border: 3px solid ${primaryColor};
     }
@@ -1040,6 +1080,29 @@ function getTeacherManualStyles(primaryColor: string, secondaryColor: string): s
     .tm-online-list li {
       margin-bottom: 3px;
     }
+
+    /* --- Icons (inline SVG in the text color; no emoji) --- */
+    .icon {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.125em;
+    }
+
+    .si-star .icon {
+      width: 1.1em;
+      height: 1.1em;
+    }
+
+    .si-check {
+      display: inline-block;
+      width: 0.8em;
+      height: 0.8em;
+      border: 1px solid #555;
+      vertical-align: -0.1em;
+      margin-right: 2px;
+      box-sizing: border-box;
+    }
   `;
 }
 
@@ -1050,7 +1113,8 @@ export function wrapTeacherManualDocument(
   options: TeacherManualOptions
 ): string {
   const theme = options.theme || getThemeColors(options.seriesName, options.type);
-  const styles = getTeacherManualStyles(theme.primary, theme.secondary);
+  const paper = options.paper || 'book';
+  const styles = getTeacherManualStyles(theme.primary, theme.secondary, paper);
   const lang = options.lang || 'en';
   const isThai = lang === 'th';
   const t = getTranslations(lang);
@@ -1063,9 +1127,12 @@ export function wrapTeacherManualDocument(
   <title>${escapeHtml(dw.titlePrefix)} - ${escapeHtml(options.seriesName)} ${escapeHtml(options.seriesLevel)}</title>
   ${PAGED_RAF_SHIM}
   <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-  ${isThai ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">' : ''}
+  <style>
+    ${manualFontFaceCss(isThai)}
+  </style>
   <style>
     ${styles}
+    ${paper === 'a4' ? OFFICE_PRINT_CSS : ''}
     ${isThai ? `
     body, .tm-section, .tm-title-page, .tm-lesson-plan, .tm-period,
     .step-insert, .tm-teaching-notes, .tm-bell-ringer, .tm-spelling,
@@ -1073,7 +1140,7 @@ export function wrapTeacherManualDocument(
     .tm-game-card, .tm-ped-block, .si-section, .si-header, .si-content,
     .si-vocab-table, .si-notes-rows, .si-comp-questions, .si-writing-lines,
     .si-reflection, .tm-callout, .tm-note-section, .tm-language-box {
-      font-family: 'Sarabun', sans-serif;
+      font-family: 'Sarabun', 'Open Sans', sans-serif;
     }
     .tm-section, .tm-title-content, .tm-preface-content, .tm-structure-content,
     .tm-pedagogy-content, .tm-flashcard-content, .tm-spelling-content,
@@ -1088,6 +1155,7 @@ export function wrapTeacherManualDocument(
     @page {
       @bottom-center {
         content: "${dw.pageCounter} " counter(page);
+        ${isThai ? "font-family: 'Sarabun', 'Open Sans', sans-serif;" : ''}
       }
     }
   </style>
