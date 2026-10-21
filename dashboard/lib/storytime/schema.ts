@@ -152,6 +152,11 @@ export const BookAudioSchema = z.object({
 
 export const BookSchema = z.object({
     kind: z.enum(['readalong', 'decodable']),
+    /**
+     * A decodable of a week before the first vowel (Storytime, 2026-10-22: only Level 2 week 1, n):
+     * one picture word on each page, so the decodability rule does not apply.
+     */
+    soundBook: z.boolean().optional(),
     title: z.string().min(1),
     cover: StorytimeImageSchema.optional(),
     pages: z.array(BookPageSchema).min(1),
@@ -182,6 +187,11 @@ export const SongSchema = z.object({
     /** Ukulele, hand claps, glockenspiel; the tempo and key (design §6.3). */
     styleBrief: z.string().default(''),
     bpm: z.number().int().min(60).max(160).optional(),
+    /**
+     * The lyric exactly as the music model gets it: `[intro]`, `[verse]`, `[chorus]`, `[outro]` tags
+     * on their own lines. Its other lines are `lines`, in order.
+     */
+    lyricSheet: z.string().default(''),
     /** Every line as it is sung, the repeated chorus lines too. */
     lines: z.array(SongLineSchema).min(1),
     audio: z.string().optional(),

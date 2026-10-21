@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, type StorytimeWeek, type StorytimeWeekInput } from '../lib/storytime/schema';
-import { compileStorytimeManual, renderStorytimeWeek } from '../lib/storytime/manual';
+import { compileStorytimeManual, mergeMaterials, renderStorytimeWeek } from '../lib/storytime/manual';
 import { getTranslations } from '../lib/teacher-manual/i18n';
 import { fixtureWeek } from './fixtures/storytime-week-fixture';
 
@@ -108,6 +108,20 @@ describe('Storytime manual template', () => {
         const { html } = compileStorytimeManual([w2, week()], { lang: 'en' });
         expect(html.indexOf('Week 1:')).toBeLessThan(html.indexOf('Week 2:'));
         expect(() => compileStorytimeManual([week(), week((w) => (w.meta.level = 3))], { lang: 'en' })).toThrow(/one level/);
+    });
+
+    it('lists the materials of the week once, with the words of one kind merged', () => {
+        expect(mergeMaterials(['picture cards: nest, net, cat', 'board', 'picture cards: net, nut', 'board', 'sound card: n'])).toEqual([
+            'picture cards: nest, net, cat, nut',
+            'board',
+            'sound card: n',
+        ]);
+    });
+
+    it('keeps the heading of the moved steps in one block with the steps', () => {
+        const html = renderStorytimeWeek(week(), 'en');
+        expect(daySection(html, 2)).toMatch(/<div class="st-moved-group"><h4>Recall from the last lesson/);
+        expect(daySection(html, 5)).toMatch(/<div class="st-moved-group"><h4>At the next opening/);
     });
 
     it('escapes the package text', () => {

@@ -18,4 +18,5 @@
 
 ## Phase 4: Level 2 week 1 (S17, approved 2026-10-22)
 
-- [ ] Task: write week 1 from the Storytime sequence row (element n, frame "Hello, I am ___.", names and greetings): the read-along, the decodable, the song lyrics, the five scripts, the strips, the check, and the home card; checks clean; the Storytime review, then Daniel's Thai check.
+- [~] Task: write week 1 from the Storytime sequence row (element n, frame "Hello, I am ___.", names and greetings): the read-along, the decodable, the song lyrics, the five scripts, the strips, the check, and the home card; checks clean; the Storytime review, then Daniel's Thai check.
+  - 2026-10-22: written (`content/storytime/l2/w01.json`): read-along "Hello!" (8 pages, 33 words, Pip twist), sound book "Nan Can Nod" (`soundBook`, Storytime option A), the song lyric that Daniel rated "really good" (unchanged, `lyricSheet`), five 30-minute scripts. An independent review gave 33 findings; 32 applied (graph ids wait for graph v0, as Storytime asked). Changes against design §3.3, sent to Storytime: the Friday check E5 stays on day 5; the song steps B7 and D6 are item 3 of the next opening; E6 joins D6; A8 is a home-time task. The n action is a nod (n for nod).

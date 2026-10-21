@@ -37,6 +37,8 @@ const CSS = `
     .st-variants { border-top: 1px dashed #999; padding: 4px 12px 0 12px; font-size: 9.5pt; break-inside: avoid; }
     .st-variants p { margin: 2px 0; }
     .st-moved { border-left: 4px solid #000; padding-left: 8px; }
+    /* The heading of the moved steps stays with them (Paged.js keeps a heading only inside one avoid block). */
+    .st-moved-group { break-inside: avoid; }
 `;
 
 function escapeHtml(text: string): string {
@@ -76,6 +78,27 @@ function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLa
     </div>`;
 }
 
+/**
+ * The materials of a week, once each: items of one kind ("picture cards: nest, net") become one item
+ * with every word once, in the order of first use.
+ * @param items The materials of every step.
+ * @returns The merged list.
+ */
+export function mergeMaterials(items: string[]): string[] {
+    const order: string[] = [];
+    const lists = new Map<string, string[]>();
+    for (const item of items) {
+        const m = item.match(/^([^:]+):\s*(.+)$/);
+        const key = m ? m[1].trim() : item;
+        if (!lists.has(key)) {
+            lists.set(key, []);
+            order.push(key);
+        }
+        if (m) for (const part of m[2].split(',').map((x) => x.trim())) if (part && !lists.get(key)!.includes(part)) lists.get(key)!.push(part);
+    }
+    return order.map((key) => (lists.get(key)!.length ? `${key}: ${lists.get(key)!.join(', ')}` : key));
+}
+
 function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabels): string {
     const { focus, books, song, home } = w;
     const rows: [string, string][] = [];
@@ -87,8 +110,8 @@ function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLab
     for (const b of books) rows.push([b.kind === 'readalong' ? l.readAlong : l.decodable, b.title]);
     if (song) rows.push([l.song, song.title]);
     if (home) rows.push([l.homeLine, pick(home.line, lang)]);
-    const materials = [...new Set(w.scripts.flatMap((s) => s.steps.flatMap((st) => st.materials)))];
-    if (materials.length) rows.push([l.materials, materials.join(', ')]);
+    const materials = mergeMaterials(w.scripts.flatMap((s) => s.steps.flatMap((st) => st.materials)));
+    if (materials.length) rows.push([l.materials, materials.join('; ')]);
     const kind = w.meta.kind === 'review' ? ` (${l.reviewWeek})` : '';
     return `
   <section class="st-week" id="week-${w.meta.week}">
@@ -123,9 +146,9 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}
     </div>
-    ${recall.length ? `<h4>${escapeHtml(l.recall)}</h4>${recall.map((st) => renderStep(st, lang, l)).join('')}` : ''}
+    ${recall.length ? `<div class="st-moved-group"><h4>${escapeHtml(l.recall)}</h4>${recall.map((st) => renderStep(st, lang, l)).join('')}</div>` : ''}
     ${s.steps.filter((st) => !st.moved).map((st) => renderStep(st, lang, l)).join('')}
-    ${i === scripts.length - 1 && moved.length ? `<h4>${escapeHtml(l.nextOpening)}</h4>${moved.map((st) => renderStep(st, lang, l)).join('')}` : ''}
+    ${i === scripts.length - 1 && moved.length ? `<div class="st-moved-group"><h4>${escapeHtml(l.nextOpening)}</h4>${moved.map((st) => renderStep(st, lang, l)).join('')}</div>` : ''}
   </section>`;
     });
     return renderHeader(w, lang, l) + days.join('');

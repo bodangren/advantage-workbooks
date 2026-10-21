@@ -128,6 +128,18 @@ describe('storytime-week checks', () => {
         expect(status(run((w) => (w.song!.lines[0].gesture = 'jump')), 'song-gestures')).toBe('fail');
     });
 
+    it('fails a lyric sheet whose lines differ from the song lines', () => {
+        const sheet = (w: StorytimeWeekInput) => ['[intro]', '[verse]', ...w.song!.lines.map((l) => l.text), '[outro]'].join('\n');
+        expect(status(run((w) => (w.song!.lyricSheet = sheet(w))), 'song-sheet')).toBe('pass');
+        expect(status(run((w) => (w.song!.lyricSheet = sheet(w).replace('Hello, hello, hello to you!', 'Hello to you!'))), 'song-sheet')).toBe('fail');
+        expect(status(run((w) => (w.song!.lyricSheet = `${sheet(w)}\nOne more line`)), 'song-sheet')).toBe('fail');
+    });
+
+    it('fails a read-along marked as a sound book', () => {
+        expect(status(run((w) => (w.books![0].soundBook = true)), 'books')).toBe('fail');
+        expect(status(run((w) => (w.books![1].soundBook = true)), 'books')).toBe('pass');
+    });
+
     it('warns about a song line without a picture, unless an earlier line with the same text has one', () => {
         expect(status(run(), 'song-pictures')).toBe('pass');
         expect(status(run((w) => delete w.song!.lines[1].image), 'song-pictures')).toBe('warn');

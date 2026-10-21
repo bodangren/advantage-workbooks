@@ -123,6 +123,7 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
             bookProblems.push(`read-along: ${readAlong.pages.length} pages, not ${level <= 3 ? '8' : '8 to 12'}`);
         }
         if (level >= 2 && !decodable) bookProblems.push('no decodable book');
+        if (readAlong?.soundBook) bookProblems.push('a read-along is not a sound book');
         else if (decodable && decodable.pages.length !== 8) bookProblems.push(`decodable: ${decodable.pages.length} pages, not 8`);
     }
     checks.push(check('books', 'Books', bookProblems));
@@ -134,6 +135,16 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
         checks.push(check('song-frame', 'The frame 8 or more times in the song', !w.song ? ['no song'] : n < 8 ? [`${n} times`] : []));
     }
     if (w.song) {
+        const sheet = w.song.lyricSheet.split('\n').map((x) => x.trim()).filter((x) => x && !/^\[[a-z -]+\]$/i.test(x));
+        const sung = w.song.lines.map((x) => x.text);
+        const differ = sheet.findIndex((x, i) => x !== sung[i]);
+        checks.push(
+            check(
+                'song-sheet',
+                'The lyric sheet and the song lines agree',
+                !w.song.lyricSheet ? [] : differ >= 0 ? [`line ${differ + 1}: "${sheet[differ]}" in the sheet, "${sung[differ] ?? '(none)'}" in the lines`] : sheet.length !== sung.length ? [`${sheet.length} sheet lines, ${sung.length} song lines`] : [],
+            ),
+        );
         checks.push(check('song-gestures', 'A gesture of the 24 on every song line', w.song.lines.filter((l) => !GESTURE_SET.has(l.gesture)).map((l) => `"${l.text}": ${l.gesture}`)));
         const pictured = new Set<string>();
         const missing: string[] = [];
