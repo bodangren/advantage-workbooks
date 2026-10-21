@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: The storytime-week package (one Storytime Advantage week in one file), its checks, and the Storytime template of the teacher manual generator.** *(Created: 2026-10-22)*
+  *Link: [./tracks/storytime_week_package_20261022/](./tracks/storytime_week_package_20261022/)*
+
 - [ ] **Track: Origins 3.1 Teacher's Manual for the new Primary app: app text, a new app section, Thai fixes, and an A4 office-print PDF; draft 2026-10-23, final 2026-10-26.** *(Created: 2026-10-20)*
   *Link: [./tracks/teacher_manual_app_20261020/](./tracks/teacher_manual_app_20261020/)*
 
