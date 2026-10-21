@@ -5,7 +5,8 @@ import { spawnSync } from 'child_process';
 import { LessonPackageSchema, type LessonPackage } from '../../lib/lesson-package/schema';
 import { checkContextFor } from '../../lib/lesson-package/context';
 import { savePackage } from '../../lib/lesson-package/store';
-import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, withRetries, writeWav, type Clip } from '../../lib/media/audio';
+import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, withRetries, writeWav, type Clip, type Pcm } from '../../lib/media/audio';
+import { readClipOpus, writeClipOpus } from '../../lib/media/clip-cache';
 import { tutorClips, tutorItems } from '../../lib/media/tutor-audio';
 
 const DEFAULT_SPEED = 0.75;
@@ -32,9 +33,10 @@ Options:
   --samples <a,b,c>        Make paragraph 1 in each voice into <media>/samples/ for Daniel; the
                            package does not change
 
-Each sentence (from the Thai part), word, question, and option is one WAV clip, cached in
-<book>/media/<lesson>/.clips/ by voice, speed, and text. The clips are trimmed and joined with fixed
-gaps into article.mp3 (narrator), words.mp3 (teacher), and sentences.mp3 (3 to 5 flashcard sentences,
+Each sentence (from the Thai part), word, question, and option is one clip (a WAV from mmx). The clip
+is trimmed and cached as Opus (64 kbps, with its exact sample count) in <book>/media/<lesson>/.clips/
+by voice, speed, and text; an old WAV in the cache becomes Opus when it is used. The clips are joined
+with fixed gaps into article.mp3 (narrator), words.mp3 (teacher), and sentences.mp3 (3 to 5 flashcard sentences,
 narrator). Each clip is also one mp3 in tutor/ with Tutor Advantage's id (lib/media/tutor-audio.ts).
 The exact times go into the package (audio part back to draft). A clip with an inner pause over
 ${MAX_PAUSE_S} s is made again (${TRIES} tries; the take with the shortest pause stays). Jobs run one at a
@@ -108,23 +110,34 @@ const readClip = (file: string) => {
     return { rate: pcm.rate, samples, pause: longestPause(samples, pcm.rate) };
 };
 
-/** Makes one clip (with retries for a bad take), or reads it from the cache. */
-function clip(text: string, voice: string, speed: number, cache: string, redo: boolean): { rate: number; samples: Int16Array } {
-    const file = path.join(cache, `${clipKey(text, voice, speed)}.wav`);
-    if (redo) fs.rmSync(file, { force: true });
-    if (fs.existsSync(file)) return readClip(file);
+/**
+ * Stores a trimmed clip as Opus, deletes its WAV files, and reads the clip back, so that the first
+ * build and every later build use the same samples.
+ */
+function cacheClip(trimmed: Pcm, file: string, wavs: string[]): Pcm {
+    writeClipOpus(trimmed, file);
+    for (const w of wavs) fs.rmSync(w, { force: true });
+    return readClipOpus(file);
+}
+
+/** Makes one clip (with retries for a bad take), or reads it from the cache (lib/media/clip-cache.ts). */
+function clip(text: string, voice: string, speed: number, cache: string, redo: boolean): Pcm {
+    const base = path.join(cache, clipKey(text, voice, speed));
+    const file = `${base}.opus`;
+    const wav = `${base}.wav`; // the cache before 2026-10-21
+    if (redo) for (const f of [file, wav]) fs.rmSync(f, { force: true });
+    if (fs.existsSync(file)) return readClipOpus(file);
+    if (fs.existsSync(wav)) return cacheClip(readClip(wav), file, [wav]);
+    const takes = Array.from({ length: TRIES }, (_, t) => `${base}.take${t + 1}.wav`);
     let best: { file: string; pause: number } | undefined;
-    for (let t = 1; t <= TRIES; t++) {
-        const attempt = `${file}.take${t}.wav`;
+    for (const [t, attempt] of takes.entries()) {
         take(text, voice, speed, attempt);
         const { pause } = readClip(attempt);
         if (!best || pause < best.pause) best = { file: attempt, pause };
         if (pause <= MAX_PAUSE_S) break;
-        process.stdout.write(`    take ${t}: pause ${pause.toFixed(2)} s${t < TRIES ? ', again' : ''}\n`);
+        process.stdout.write(`    take ${t + 1}: pause ${pause.toFixed(2)} s${t + 1 < TRIES ? ', again' : ''}\n`);
     }
-    fs.renameSync(best!.file, file);
-    for (let t = 1; t <= TRIES; t++) fs.rmSync(`${file}.take${t}.wav`, { force: true });
-    return readClip(file);
+    return cacheClip(readClip(best!.file), file, takes);
 }
 
 /** One mp3 from 16-bit samples. */
@@ -186,7 +199,8 @@ function main(argv: string[]): number {
             const key = clipKey(c.text, c.v, opts.speed);
             if (seen.has(key)) continue;
             seen.add(key);
-            console.log(`${fs.existsSync(path.join(cache, `${key}.wav`)) ? 'cached' : 'new   '}  ${c.v === voice ? 'N' : 'T'}  ${c.text}`);
+            const cached = ['opus', 'wav'].some((ext) => fs.existsSync(path.join(cache, `${key}.${ext}`)));
+            console.log(`${cached ? 'cached' : 'new   '}  ${c.v === voice ? 'N' : 'T'}  ${c.text}`);
         }
         console.log(`${seen.size} clips (N narrator ${voice}, T teacher ${teacher})`);
         return 0;
