@@ -89,7 +89,7 @@ export const ElementSchema = z.object({
     /** The pure sound, e.g. `/s/`. */
     sound: z.string().min(1),
     /** The action that the class does with the sound (design §3.2, A2). */
-    action: z.string().min(1),
+    action: BiTextSchema,
 });
 
 export const FamilyWordSchema = z.object({
@@ -100,15 +100,15 @@ export const FamilyWordSchema = z.object({
 export const FocusSchema = z.object({
     /** Absent in the Level 1 listening weeks and in review weeks. */
     element: ElementSchema.optional(),
-    /** The phonemic awareness skill of the week (design §5.2), e.g. `initial-sound`. */
-    paSkill: z.string().min(1),
+    /** The phonemic awareness skill of the week (design §5.2), e.g. "the first sound n". */
+    paSkill: BiTextSchema,
     /** The new tricky words of the week (design §6.1: 3 or fewer). */
     trickyWords: z.array(z.string().min(1)).default([]),
     /** The sentence frame with `___` for the family word, e.g. `I can see a ___.` */
     frame: z.string().min(1),
     /** The vocabulary family of the week: its name and its 6 to 8 picture words. */
     family: z.object({
-        name: z.string().min(1),
+        name: BiTextSchema,
         words: z.array(FamilyWordSchema).default([]),
     }),
     /** The decodable words taught to date (design §5.6), for the word wall card. */

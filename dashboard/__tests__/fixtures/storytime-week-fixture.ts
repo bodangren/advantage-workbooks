@@ -42,11 +42,11 @@ export function fixtureWeek(): StorytimeWeekInput {
             title: 'Hello, I am Nat',
         },
         focus: {
-            element: { id: 'english.phonics.gpc.n', graphemes: ['n'], sound: '/n/', action: 'Hands on head, hum n-n-n.' },
-            paSkill: 'initial-sound',
+            element: { id: 'english.phonics.gpc.n', graphemes: ['n'], sound: '/n/', action: { en: 'Hands on head, hum n-n-n.' } },
+            paSkill: { en: 'initial-sound' },
             trickyWords: ['a', 'and', 'can'],
             frame: 'Hello, I am ___.',
-            family: { name: 'Names and greetings', words: ['hello', 'goodbye', 'boy', 'girl', 'friend', 'teacher'].map((word) => ({ word })) },
+            family: { name: { en: 'Names and greetings' }, words: ['hello', 'goodbye', 'boy', 'girl', 'friend', 'teacher'].map((word) => ({ word })) },
             wordWall: ['Nan'],
         },
         books: [

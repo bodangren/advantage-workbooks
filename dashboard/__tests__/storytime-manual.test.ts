@@ -65,6 +65,18 @@ describe('Storytime manual template', () => {
         for (const s of ['/n/', 'Hello, I am ___.', 'goodbye', 'a, and, can', 'Hello!', 'Nan', 'Hello, I Am ___']) expect(header).toContain(s);
     });
 
+    it('prints the Thai action, listening skill, and family name in the Thai header, and the English without Thai', () => {
+        const thai = week((w) => {
+            w.focus.element!.action.th = 'ฮัมเสียง nnn';
+            w.focus.paSkill.th = 'ฟังเสียงแรก';
+            w.focus.family.name.th = 'ชื่อและการทักทาย';
+        });
+        const header = renderStorytimeWeek(thai, 'th').split('<section class="st-day"')[0];
+        for (const s of ['ฮัมเสียง nnn', 'ฟังเสียงแรก', 'ชื่อและการทักทาย: hello']) expect(header).toContain(s);
+        expect(renderStorytimeWeek(thai, 'en').split('<section class="st-day"')[0]).toContain('Names and greetings: hello');
+        expect(renderStorytimeWeek(week(), 'th').split('<section class="st-day"')[0]).toContain('initial-sound');
+    });
+
     it('prints the Thai notes, with the teacher English kept and the Thai gloss under it', () => {
         const html = renderStorytimeWeek(
             week((w) => {

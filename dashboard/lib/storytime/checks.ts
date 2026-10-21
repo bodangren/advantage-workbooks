@@ -144,8 +144,9 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
         checks.push(
             check(
                 'song-sheet',
-                'The lyric sheet and the song lines agree',
+                'The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)',
                 !w.song.lyricSheet ? [] : differ >= 0 ? [`line ${differ + 1}: "${sheet[differ]}" in the sheet, "${sung[differ] ?? '(none)'}" in the lines`] : sheet.length !== sung.length ? [`${sheet.length} sheet lines, ${sung.length} song lines`] : [],
+                'warn',
             ),
         );
         checks.push(check('song-gestures', 'A gesture of the 24 on every song line', w.song.lines.filter((l) => !GESTURE_SET.has(l.gesture)).map((l) => `"${l.text}": ${l.gesture}`)));
@@ -172,7 +173,17 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
         if (!HEADINGS.some((h) => step.th![h].some((l) => THAI.test(l)))) lineProblems.push(`${step.id}: no Thai character`);
     }
     checks.push(check('thai-lines', 'Thai notes have the English line counts', lineProblems));
-    const bi = [...steps.flatMap(({ step }) => [step.title, step.easier, step.harder, step.group]), ...w.scripts.map((s) => s.title), ...(w.home ? [w.home.line, w.home.activity] : [])];
+    const { element, paSkill, family: focusFamily } = w.focus;
+    const songNotes = w.song ? [...w.song.lines.flatMap((x) => (x.note ? [x.note] : [])), ...[w.song.choreography.intro, w.song.choreography.outro].filter((x) => x !== undefined)] : [];
+    const bi = [
+        ...(element ? [element.action] : []),
+        paSkill,
+        focusFamily.name,
+        ...steps.flatMap(({ step }) => [step.title, step.easier, step.harder, step.group]),
+        ...w.scripts.flatMap((s) => [s.title, ...s.prep]),
+        ...songNotes,
+        ...(w.home ? [w.home.line, w.home.activity] : []),
+    ];
     const noThai = bi.filter((t) => !t.th).length;
     checks.push(check('thai', 'Thai written (Daniel checks it)', thaiMissing || noThai ? [`${thaiMissing} of ${steps.length} step notes and ${noThai} of ${bi.length} lines have no Thai`] : [], 'warn'));
 

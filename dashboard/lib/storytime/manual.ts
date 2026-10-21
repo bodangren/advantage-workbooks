@@ -130,10 +130,10 @@ export function mergeMaterials(items: string[]): string[] {
 function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabels): string {
     const { focus, books, song, home } = w;
     const rows: [string, string][] = [];
-    if (focus.element) rows.push([l.element, `${focus.element.graphemes.join(', ')} ${focus.element.sound}: ${focus.element.action}`]);
-    rows.push([l.paSkill, focus.paSkill]);
+    if (focus.element) rows.push([l.element, `${focus.element.graphemes.join(', ')} ${focus.element.sound}: ${pick(focus.element.action, lang)}`]);
+    rows.push([l.paSkill, pick(focus.paSkill, lang)]);
     rows.push([l.frame, focus.frame]);
-    if (focus.family.words.length) rows.push([l.family, `${focus.family.name}: ${focus.family.words.map((x) => x.word).join(', ')}`]);
+    if (focus.family.words.length) rows.push([l.family, `${pick(focus.family.name, lang)}: ${focus.family.words.map((x) => x.word).join(', ')}`]);
     if (focus.trickyWords.length) rows.push([l.tricky, focus.trickyWords.join(', ')]);
     for (const b of books) rows.push([b.kind === 'readalong' ? l.readAlong : l.decodable, b.title]);
     if (song) rows.push([l.song, song.title]);

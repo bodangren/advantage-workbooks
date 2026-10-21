@@ -128,11 +128,11 @@ describe('storytime-week checks', () => {
         expect(status(run((w) => (w.song!.lines[0].gesture = 'jump')), 'song-gestures')).toBe('fail');
     });
 
-    it('fails a lyric sheet whose lines differ from the song lines', () => {
+    it('warns when the sung lines differ from the lyric sheet (the lines follow the audio)', () => {
         const sheet = (w: StorytimeWeekInput) => ['[intro]', '[verse]', ...w.song!.lines.map((l) => l.text), '[outro]'].join('\n');
         expect(status(run((w) => (w.song!.lyricSheet = sheet(w))), 'song-sheet')).toBe('pass');
-        expect(status(run((w) => (w.song!.lyricSheet = sheet(w).replace('Hello, hello, hello to you!', 'Hello to you!'))), 'song-sheet')).toBe('fail');
-        expect(status(run((w) => (w.song!.lyricSheet = `${sheet(w)}\nOne more line`)), 'song-sheet')).toBe('fail');
+        expect(status(run((w) => (w.song!.lyricSheet = sheet(w).replace('Hello, hello, hello to you!', 'Hello to you!'))), 'song-sheet')).toBe('warn');
+        expect(status(run((w) => (w.song!.lyricSheet = `${sheet(w)}\nOne more line`)), 'song-sheet')).toBe('warn');
         // A sung echo in parentheses where the sheet has "(clap clap)" is the same line.
         expect(
             status(
@@ -201,6 +201,15 @@ describe('storytime-week checks', () => {
 
     it('fails Thai notes whose line counts differ from the English, and warns while Thai is missing', () => {
         expect(status(run(), 'thai')).toBe('warn');
+        // The focus texts, the prep lines, and the song notes count as lines.
+        const missing = (r: ReturnType<typeof run>) => Number(r.checks.find((c) => c.id === 'thai')?.detail?.match(/(\d+) of \d+ lines/)?.[1]);
+        const fill = run((w) => {
+            w.focus.paSkill.th = 'ฟัง';
+            w.focus.family.name.th = 'ชื่อ';
+            w.focus.element!.action.th = 'ฮัม';
+        });
+        expect(missing(run()) - missing(fill)).toBe(3);
+        expect(missing(run((w) => (w.scripts[0].prep = [{ en: 'Cut the cards.' }]))) - missing(run())).toBe(1);
         const report = run((w) => {
             const s = script(w, 'A').steps[0];
             s.th = { teacherActions: ['ทำ', 'สอง'], teacherLanguage: ['ฟัง'], studentActions: ['ทำ'], watchFor: ['ดู'] };
