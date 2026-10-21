@@ -192,7 +192,8 @@ export const SongSchema = z.object({
     bpm: z.number().int().min(60).max(160).optional(),
     /**
      * The lyric exactly as the music model gets it: `[intro]`, `[verse]`, `[chorus]`, `[outro]` tags
-     * on their own lines. Its other lines are `lines`, in order.
+     * on their own lines. Its other lines are `lines`, in order; a part in parentheses can differ,
+     * because `lines` hold the words as sung (an echo where the sheet says "(clap clap)").
      */
     lyricSheet: z.string().default(''),
     /** Every line as it is sung, the repeated chorus lines too. */

@@ -1,0 +1,13 @@
+{
+ "week": "st2/1",
+ "chosen": "01.mp3",
+ "duration_s": 78.37,
+ "backup": "03.mp3",
+ "model": "lyria-3-pro-preview via Vertex AI (global)",
+ "price_usd_per_song": 0.08,
+ "prompt_rule": "no 'children' or 'five-year-olds' in the style text (Pro content filter)",
+ "style_text": "Children's classroom hello song for a kindergarten English classroom, young learners, 104 bpm, C major, bright and playful, one warm clear female lead with an American accent, every word slowly and clearly sung, call-and-response chorus where a small group of young singers echo the short lines, acoustic guitar, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 80 seconds long.",
+ "lines_timed_by_lyria": "[[A0]]\n[[B1]]\n[11.4:] Hello, hello, I am Pip\n[:] Hello, hello, I am Nan\n[:] Wave your hand and say it too\n[:] Hello, I am you\n[[C2]]\n[29.7:] Hello, I am Pip (Hello, I am Pip!)\n[:] Hello, I am Nan (Hello, I am Nan!)\n[:] Hello, I am, hello, I am (Hello, I am, hello, I am!)\n[:] Hello, who are you? (Hello, who are you?)\n[[B3]]\n[45.7:] Point to me, I am Pip\n[:] Point to you, you are Nan\n[:] Nod your head and say it too\n[:] Hello, I am you\n[[C4]]\n[64.0:] Hello, I am Pip (Hello, I am Pip!)\n[:] Hello, I am Nan (Hello, I am Nan!)\n[:] Hello, I am, hello, I am (Hello, I am, hello, I am!)\n[:] Hello, who are you? (Hello, who are you?)",
+ "karaoke": "vocal separation of 01.mp3 (Demucs) on the GPU session; not a Lyria instrumental",
+ "timing_note": "Lyria's Pro response gives only a first-line start (11.4 s) and no end times; line and word times need forced alignment of 01.mp3 against the lyric (e.g. whisper-timestamped or aeneas)."
+}

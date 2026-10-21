@@ -136,8 +136,10 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
         checks.push(check('song-frame', 'The frame 8 or more times in the song', !w.song ? ['no song'] : n < 8 ? [`${n} times`] : []));
     }
     if (w.song) {
-        const sheet = w.song.lyricSheet.split('\n').map((x) => x.trim()).filter((x) => x && !/^\[[a-z -]+\]$/i.test(x));
-        const sung = w.song.lines.map((x) => x.text);
+        // A part in parentheses is how the line is sung (claps, an echo), so it can differ from the sheet.
+        const base = (x: string) => x.replace(/\s*\([^)]*\)/g, '').trim();
+        const sheet = w.song.lyricSheet.split('\n').map((x) => x.trim()).filter((x) => x && !/^\[[a-z -]+\]$/i.test(x)).map(base);
+        const sung = w.song.lines.map((x) => base(x.text));
         const differ = sheet.findIndex((x, i) => x !== sung[i]);
         checks.push(
             check(

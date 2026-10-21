@@ -331,9 +331,9 @@
   ],
   "song": {
     "title": "Hello, I Am Pip",
-    "styleBrief": "children's classroom hello song, 104 bpm, C major, bright and playful; one warm clear female lead with an American accent, every word slowly and clearly sung, no vibrato; call-and-response chorus with a small group of children echoing; acoustic guitar, ukulele in the chorus, glockenspiel melody, hand claps on two and four, soft upright bass; dry, uncluttered, the words lead.",
+    "styleBrief": "Children's classroom hello song for a kindergarten English classroom, young learners, 104 bpm, C major, bright and playful, one warm clear female lead with an American accent, every word slowly and clearly sung, call-and-response chorus where a small group of young singers echo the short lines, acoustic guitar, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 80 seconds long.",
     "bpm": 104,
-    "lyricSheet": "[intro]\n[verse]\nHello, hello, I am Pip\nHello, hello, I am Nan\nWave your hand and say it too\nHello, I am you\n[chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?\n[verse]\nPoint to me, I am Pip\nPoint to you, you are Nan\nNod your head and say it too\nHello, I am you\n[chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?\n[outro]",
+    "lyricSheet": "[Verse]\nHello, hello, I am Pip\nHello, hello, I am Nan\nWave your hand and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?\n\n[Verse]\nPoint to me, I am Pip\nPoint to you, you are Nan\nNod your head and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?",
     "lines": [
       {
         "text": "Hello, hello, I am Pip",
@@ -378,11 +378,11 @@
         },
         "note": {
           "en": "The song's play on words; sing it as written.",
-          "th": ""
+          "th": "บรรทัดนี้เป็นการเล่นคำของเพลง ให้ร้องตามที่เขียนไว้"
         }
       },
       {
-        "text": "Hello, I am Pip (clap clap)",
+        "text": "Hello, I am Pip (Hello, I am Pip!)",
         "part": "chorus",
         "gesture": "clap",
         "image": {
@@ -394,7 +394,7 @@
         }
       },
       {
-        "text": "Hello, I am Nan (clap clap)",
+        "text": "Hello, I am Nan (Hello, I am Nan!)",
         "part": "chorus",
         "gesture": "clap",
         "image": {
@@ -404,7 +404,7 @@
         }
       },
       {
-        "text": "Hello, I am, hello, I am",
+        "text": "Hello, I am, hello, I am (Hello, I am, hello, I am!)",
         "part": "chorus",
         "gesture": "point to self",
         "image": {
@@ -416,7 +416,7 @@
         }
       },
       {
-        "text": "Hello, who are you?",
+        "text": "Hello, who are you? (Hello, who are you?)",
         "part": "chorus",
         "gesture": "hands out",
         "image": {
@@ -466,29 +466,29 @@
         "imageOf": 3,
         "note": {
           "en": "The song's play on words; sing it as written.",
-          "th": ""
+          "th": "บรรทัดนี้เป็นการเล่นคำของเพลง ให้ร้องตามที่เขียนไว้"
         }
       },
       {
-        "text": "Hello, I am Pip (clap clap)",
+        "text": "Hello, I am Pip (Hello, I am Pip!)",
         "part": "chorus",
         "gesture": "clap",
         "imageOf": 4
       },
       {
-        "text": "Hello, I am Nan (clap clap)",
+        "text": "Hello, I am Nan (Hello, I am Nan!)",
         "part": "chorus",
         "gesture": "clap",
         "imageOf": 5
       },
       {
-        "text": "Hello, I am, hello, I am",
+        "text": "Hello, I am, hello, I am (Hello, I am, hello, I am!)",
         "part": "chorus",
         "gesture": "point to self",
         "imageOf": 6
       },
       {
-        "text": "Hello, who are you?",
+        "text": "Hello, who are you? (Hello, who are you?)",
         "part": "chorus",
         "gesture": "hands out",
         "imageOf": 7
@@ -498,9 +498,10 @@
     "choreography": {
       "outro": {
         "en": "After the last line, the class nods slowly and hums nnn (the action of n).",
-        "th": ""
+        "th": "หลังบรรทัดสุดท้าย ทั้งชั้นพยักหน้าช้า ๆ และฮัมเสียง nnn (ท่าประจำเสียง n)"
       }
-    }
+    },
+    "audio": "l2/media/w01/song.mp3"
   },
   "scripts": [
     {
@@ -508,14 +509,14 @@
       "day": 1,
       "title": {
         "en": "Sound Lesson",
-        "th": ""
+        "th": "บทเรียนเสียง"
       },
       "steps": [
         {
           "id": "A1",
           "title": {
             "en": "Hear it",
-            "th": ""
+            "th": "ฟังเสียง"
           },
           "minutes": 4,
           "en": {
@@ -542,26 +543,48 @@
           },
           "easier": {
             "en": "Use only three cards (nest, nose, cat) and say the first sound two times.",
-            "th": ""
+            "th": "ใช้บัตรเพียง 3 ใบ (nest, nose, cat) และพูดเสียงแรก 2 ครั้ง"
           },
           "harder": {
             "en": "Ask about the last sound too: \"Sun. Does sun end with nnn?\"",
-            "th": ""
+            "th": "ถามเรื่องเสียงสุดท้ายด้วย: \"Sun. Does sun end with nnn?\" (sun ลงท้ายด้วย nnn ไหม)"
           },
           "group": {
             "en": "Pairs: you hold up a card; partner A says the word, and partner B shows the thumbs.",
-            "th": ""
+            "th": "ทำเป็นคู่: ชูบัตร 1 ใบ คู่คนที่ 1 พูดคำ และคู่คนที่ 2 แสดงนิ้วโป้งขึ้นหรือลง"
           },
           "materials": [
             "picture cards: nose, cat, sun, dog, bus",
             "sound picture cards: nest, net, nut"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรภาพทีละใบ แล้วพูดคำช้า ๆ",
+              "ลากเสียงแรกให้ยาว: nnnest",
+              "สลับคำที่ขึ้นต้นด้วย n กับคำอื่น",
+              "เมื่อบทพูดเขียนว่า nnn ให้ออกเสียง เมื่อบทพูดเขียนว่า \"the letter n\" ให้พูดชื่อตัวอักษร"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง Nnnest nest\"",
+              "\"เสียงแรกคือ nnn ไหม? ยกนิ้วโป้งขึ้นหรือคว่ำนิ้วโป้งลง?\"",
+              "\"ใช่! Nnnest ขึ้นต้นด้วย nnn\"",
+              "\"ฟัง cat คำว่า cat ขึ้นต้นด้วย nnn ไหม? ไม่ใช่!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละคำตามครู",
+              "เด็ก ๆ ยกนิ้วโป้งขึ้นสำหรับคำที่ขึ้นต้นด้วย n และคว่ำนิ้วโป้งลงสำหรับคำอื่น"
+            ],
+            "watchFor": [
+              "เด็กที่ทำนิ้วโป้งตามเพื่อน: ให้เด็กคนนั้นตอบคนเดียวด้วยบัตรอีก 1 ใบ",
+              "เด็กที่ออกเสียงเป็น \"nuh\": เสียงที่ถูกคือ n ไม่มี \"uh\" ต่อท้าย"
+            ]
+          }
         },
         {
           "id": "A2",
           "title": {
             "en": "See it",
-            "th": ""
+            "th": "ดูตัวอักษร"
           },
           "minutes": 4,
           "en": {
@@ -587,25 +610,46 @@
           },
           "easier": {
             "en": "Children put one finger on the nose and feel the hum while they say nnn.",
-            "th": ""
+            "th": "เด็ก ๆ ใช้นิ้ว 1 นิ้วแตะจมูก และรู้สึกถึงเสียงฮัมขณะพูด nnn"
           },
           "harder": {
             "en": "Show the n, m, and s cards in a mixed order. Children do the n action only for n.",
-            "th": ""
+            "th": "ชูบัตร n, m และ s แบบสลับลำดับ เด็ก ๆ ทำท่าประจำเสียง n เฉพาะเมื่อเห็นบัตร n"
           },
           "group": {
             "en": "Two halves: one half says the sound, and the other half does the action. Then the halves change.",
-            "th": ""
+            "th": "แบ่งชั้นเป็น 2 ฝั่ง: ฝั่งหนึ่งออกเสียง อีกฝั่งหนึ่งทำท่า แล้วสลับกัน"
           },
           "materials": [
             "sound cards: n, m, s"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรเสียง n และชี้ที่ตัวอักษร",
+              "ออกเสียงล้วน: ริมฝีปากเปิดเล็กน้อย ปลายลิ้นแตะปุ่มเหงือกหลังฟันบน เปล่งเสียง ลมออกทางจมูก เป็นเสียงของตัวอักษรไทย น (เสียง n ใน \"nok\") โดยไม่มีสระตามหลัง",
+              "ทำท่าประจำเสียง n: พยักหน้าช้า ๆ เหมือนตอบว่า \"ใช่\" และฮัมเสียง nnn"
+            ],
+            "teacherLanguage": [
+              "\"ดู นี่คือตัวอักษร n ออกเสียงว่า nnn\"",
+              "\"ฟัง: nnn ไม่ใช่ 'nuh' แต่เป็น nnn\"",
+              "\"ดูครู: nnn พยักหน้า พยักหน้า พยักหน้า\"",
+              "\"ถึงตาเด็ก ๆ แล้ว ออกเสียงและทำท่า 3 ครั้ง\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูด nnn และพยักหน้าช้า ๆ 3 ครั้ง",
+              "เด็ก ๆ ชี้ที่ตัวอักษร n บนบัตร"
+            ],
+            "watchFor": [
+              "เสียงล้วน: ไม่มี \"uh\" ต่อท้าย",
+              "เด็กทุกคนทำท่า ไม่ใช่เฉพาะแถวหน้า"
+            ]
+          }
         },
         {
           "id": "A3",
           "title": {
             "en": "Form it",
-            "th": ""
+            "th": "เขียนตัวอักษร"
           },
           "minutes": 5,
           "en": {
@@ -630,26 +674,46 @@
           },
           "easier": {
             "en": "Children trace the n in the book with a finger first. Then they trace it with the pencil.",
-            "th": ""
+            "th": "เด็ก ๆ ใช้นิ้วลากเส้นตาม n ในหนังสือก่อน แล้วจึงใช้ดินสอลากเส้นตาม"
           },
           "harder": {
             "en": "Write n two more times on the empty line, with no dots.",
-            "th": ""
+            "th": "เขียน n อีก 2 ครั้งบนบรรทัดว่าง โดยไม่มีจุดนำ"
           },
           "group": {
             "en": "Pairs: partner A writes n on partner B's back with a finger; partner B says nnn.",
-            "th": ""
+            "th": "ทำเป็นคู่: คู่คนที่ 1 ใช้นิ้วเขียน n บนหลังของคู่คนที่ 2 คู่คนที่ 2 พูด nnn"
           },
           "materials": [
             "board",
             "student book: letter box n"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เขียนตัว n ตัวใหญ่บนกระดาน และพูดคำบอกวิธีเขียนขณะเขียน",
+              "เขียน n กลางอากาศโดยหันหลังให้ชั้น เพื่อให้มือเคลื่อนไปทางเดียวกับมือของเด็ก ๆ",
+              "เด็ก ๆ เขียน n กลางอากาศ แล้วลากเส้นตาม n ในหนังสือ 3 ครั้ง"
+            ],
+            "teacherLanguage": [
+              "\"เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง\"",
+              "\"ยกนิ้วขึ้น เขียน n กลางอากาศพร้อมครู\"",
+              "\"เปิดหนังสือ หาตัว n ลากเส้นตาม 3 ครั้ง เริ่มที่จุด\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ใช้นิ้ว 1 นิ้วเขียน n กลางอากาศ และพูดคำบอกวิธีเขียน",
+              "เด็ก ๆ ลากเส้นตาม n ในหนังสือ 3 ครั้ง โดยเริ่มที่จุด"
+            ],
+            "watchFor": [
+              "เด็กที่เริ่มเขียนจากด้านล่าง: จับมือเด็กแล้วเริ่มที่จุด",
+              "เด็กที่เขียน N ตัวพิมพ์ใหญ่: ชี้ให้ดู n ตัวพิมพ์เล็กบนบัตร"
+            ]
+          }
         },
         {
           "id": "A4",
           "title": {
             "en": "Blend it",
-            "th": ""
+            "th": "ผสมเสียง"
           },
           "minutes": 5,
           "en": {
@@ -677,26 +741,49 @@
           },
           "easier": {
             "en": "Say the sounds closer together: nnne-t.",
-            "th": ""
+            "th": "พูดเสียงให้ชิดกันมากขึ้น: nnne-t"
           },
           "harder": {
             "en": "Say a word; children say its three sounds: \"Nut.\" \"Nnn - u - t.\"",
-            "th": ""
+            "th": "พูดคำ 1 คำ เด็ก ๆ พูด 3 เสียงของคำนั้น: \"Nut.\" \"Nnn - u - t.\""
           },
           "group": {
             "en": "Pairs: partner A says the word, partner B points to the picture.",
-            "th": ""
+            "th": "ทำเป็นคู่: คู่คนที่ 1 พูดคำ คู่คนที่ 2 ชี้ที่ภาพ"
           },
           "materials": [
             "sound picture cards: net, nut",
             "picture cards: nose"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "คว่ำบัตรภาพ net, nut และ nose ไว้",
+              "พูด 3 เสียงของคำ โดยหยุดสั้น ๆ ระหว่างเสียง แล้วพูดเร็ว ๆ ลากเสียง n ไว้: nnn",
+              "เปิดให้ดูภาพหลังจากทั้งชั้นพูดคำ",
+              "ออกเสียง ไม่ใช่ชื่อตัวอักษร: e เหมือนใน \"egg\" u เหมือนใน \"up\" o เหมือนใน \"go\" t โดยไม่มี \"uh\" ตามหลัง"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง Nnn - e - t คำนี้คือคำอะไร?\"",
+              "\"พูดเร็ว ๆ: net!\"",
+              "\"ดู นี่คือ net ใช่แล้ว!\"",
+              "\"คำต่อไป Nnn - u - t\"",
+              "\"คำสุดท้าย Nnn - o - zzz\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ฟัง 3 เสียง แล้วพูดคำ",
+              "เด็ก ๆ ปรบมือ 1 ครั้งต่อ 1 เสียง แล้วพูดคำ"
+            ],
+            "watchFor": [
+              "เด็กที่พูดแค่เสียงแรก: พูด 3 เสียงอีกครั้ง ให้ชิดกันมากขึ้น",
+              "สัปดาห์นี้ฝึกผสมเสียงด้วยการฟังเท่านั้น ตัวอักษรจะมาในสัปดาห์ถัดไป"
+            ]
+          }
         },
         {
           "id": "A5",
           "title": {
             "en": "Word wall",
-            "th": ""
+            "th": "ผนังคำศัพท์"
           },
           "minutes": 2,
           "en": {
@@ -719,26 +806,44 @@
           },
           "easier": {
             "en": "Point to the n card and say nnn together two times.",
-            "th": ""
+            "th": "ชี้ที่บัตร n แล้วพูด nnn พร้อมกัน 2 ครั้ง"
           },
           "harder": {
             "en": "Children say a word for the wall that starts with n: nose, nest, nine.",
-            "th": ""
+            "th": "เด็ก ๆ บอกคำที่ขึ้นต้นด้วย n สำหรับผนังคำศัพท์: nose, nest, nine"
           },
           "group": {
             "en": "Whole class: the children with an n name lead the sound.",
-            "th": ""
+            "th": "ทั้งชั้น: เด็กที่มีชื่อขึ้นต้นด้วย n เป็นผู้นำออกเสียง"
           },
           "materials": [
             "word wall",
             "sound cards: n"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ติดบัตร n บนผนังคำศัพท์: เป็นบัตรใบแรกของปี",
+              "ถามว่าชื่อใครขึ้นต้นด้วย n เด็กกลุ่มนั้นยืนขึ้นและพูดชื่อของตัวเอง"
+            ],
+            "teacherLanguage": [
+              "\"นี่คือผนังคำศัพท์ของเรา นี่คือตัวอักษร n ออกเสียงว่า nnn\"",
+              "\"ชื่อใครขึ้นต้นด้วย nnn? ยืนขึ้น!\"",
+              "\"ทุกสัปดาห์ เราจะติดคำใหม่ที่นี่\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูด nnn ที่ผนังคำศัพท์",
+              "เด็กที่มีชื่อขึ้นต้นด้วย n ยืนขึ้นและพูดชื่อของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่ยืนขึ้นทั้งที่ชื่อขึ้นต้นด้วยเสียงอื่น: พูดทั้ง 2 ชื่อช้า ๆ แล้วเปรียบเทียบเสียงแรก"
+            ]
+          }
         },
         {
           "id": "A6",
           "title": {
             "en": "New tricky words",
-            "th": ""
+            "th": "คำที่ต้องจำคำใหม่"
           },
           "minutes": 4,
           "en": {
@@ -765,25 +870,47 @@
           },
           "easier": {
             "en": "Teach \"a\" and \"and\" today; \"can\" comes on the review strip tomorrow.",
-            "th": ""
+            "th": "สอน \"a\" และ \"and\" วันนี้ ส่วน \"can\" จะอยู่บนแถบทบทวนพรุ่งนี้"
           },
           "harder": {
             "en": "Children say a sentence with \"can\": \"I can jump.\"",
-            "th": ""
+            "th": "เด็ก ๆ พูดประโยคที่มีคำ \"can\": \"I can jump.\" (ฉันกระโดดได้)"
           },
           "group": {
             "en": "Pairs: you show a card; partner A reads it to partner B. Then the partners change.",
-            "th": ""
+            "th": "ทำเป็นคู่: ชูบัตร 1 ใบ คู่คนที่ 1 อ่านให้คู่คนที่ 2 ฟัง แล้วสลับกัน"
           },
           "materials": [
             "tricky word cards: a, and, can"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรคำ a, and, can ทีละใบ",
+              "อ่านคำนั้น แล้วชี้ตัวอักษรที่ทั้งชั้นยังสะกดออกเสียงไม่ได้: ทุกตัวยกเว้น n สำหรับคำ \"a\" คือทั้งคำ",
+              "สะกดแต่ละคำด้วยชื่อตัวอักษร แล้วเขียนคำนั้นกลางอากาศ",
+              "ออกเสียง a แบบใน \"a cat\": เสียง \"uh\" สั้น ๆ (schwa) ไม่ใช่ชื่อตัวอักษร \"ay\" นี่คือเสียง \"uh\" เพียงเสียงเดียวในสัปดาห์นี้"
+            ],
+            "teacherLanguage": [
+              "\"คำนี้คือ a เช่น a cat (แมว 1 ตัว) a nest (รังนก 1 รัง)\"",
+              "\"คำนี้คือ and (และ) เช่น Pat and May (Pat และ May)\"",
+              "\"คำนี้คือ can (ทำได้) เช่น ฉันกระโดดได้!\"",
+              "\"นี่คือคำที่ต้องจำ เราจำคำนี้ไว้ พูดพร้อมครู\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านบัตรแต่ละใบ 3 ครั้ง: ดัง เบา ดัง",
+              "เด็ก ๆ หาตัว n ในคำ \"and\" และ \"can\"",
+              "เด็ก ๆ เขียน \"a\" กลางอากาศ"
+            ],
+            "watchFor": [
+              "เด็กที่อ่าน \"and\" เป็น \"an\": ชี้ที่ตัว d แล้วให้อ่านอีกครั้ง"
+            ]
+          }
         },
         {
           "id": "A7",
           "title": {
             "en": "Read it",
-            "th": ""
+            "th": "อ่าน"
           },
           "minutes": 1,
           "en": {
@@ -804,26 +931,42 @@
           },
           "easier": {
             "en": "Read only the line of n.",
-            "th": ""
+            "th": "อ่านเฉพาะบรรทัดของ n"
           },
           "harder": {
             "en": "Children read \"A nest. A net.\" alone.",
-            "th": ""
+            "th": "เด็ก ๆ อ่าน \"A nest. A net.\" ด้วยตัวเอง"
           },
           "group": {
             "en": "Pairs point to the lines for each other.",
-            "th": ""
+            "th": "ทำเป็นคู่: ชี้บรรทัดให้กันและกัน"
           },
           "materials": [
             "student book: practice sheet"
           ],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "เปิดหน้าฝึกอ่านในหนังสือ และชี้แต่ละบรรทัด 1 ครั้ง"
+            ],
+            "teacherLanguage": [
+              "\"ดูหน้านี้ อ่านเสียงพร้อมครู: nnn, nnn, nnn\"",
+              "\"a nest (รังนก 1 รัง) a net (สวิง 1 อัน)\"",
+              "\"หาคำว่า and ชี้!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านบรรทัดของ n และชี้ที่คำที่ต้องจำ \"and\""
+            ],
+            "watchFor": [
+              "เด็กที่ดูผิดบรรทัด: ชี้ภาพที่ต้นบรรทัดให้ดู"
+            ]
+          }
         },
         {
           "id": "A8",
           "title": {
             "en": "Home card",
-            "th": ""
+            "th": "บัตรกิจกรรมที่บ้าน"
           },
           "minutes": 0,
           "en": {
@@ -844,20 +987,36 @@
           },
           "easier": {
             "en": "Put the card in the bag for the child.",
-            "th": ""
+            "th": "ใส่บัตรในกระเป๋าให้เด็ก"
           },
           "harder": {
             "en": "A child shows the card to a friend and says: \"Nnn, nnn, nnn. Hello, I am ___.\"",
-            "th": ""
+            "th": "เด็กคนหนึ่งเอาบัตรให้เพื่อนดูและพูดว่า: \"Nnn, nnn, nnn. Hello, I am ___.\""
           },
           "group": {
             "en": "The line leader gives out the cards.",
-            "th": ""
+            "th": "หัวหน้าแถวแจกบัตร"
           },
           "materials": [
             "student book: home card"
           ],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "วันนี้ (วันที่ 2): ฉีกบัตรกิจกรรมที่บ้านของสัปดาห์ที่ 1 ออกจากหนังสือนักเรียนของเด็กแต่ละคน แล้วแจกบัตรตอนเวลากลับบ้าน",
+              "อ่านข้อความภาษาไทยบนบัตรให้ทั้งชั้นฟัง"
+            ],
+            "teacherLanguage": [
+              "\"นี่คือบัตรกิจกรรมที่บ้าน เอากลับบ้านไปด้วย\"",
+              "\"เอาให้ครอบครัวดู ร้องเพลงที่บ้านด้วย!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ใส่บัตรกิจกรรมที่บ้านในกระเป๋า"
+            ],
+            "watchFor": [
+              "เด็กที่ลืมบัตรไว้บนโต๊ะ: ตรวจกระเป๋าตอนเวลากลับบ้าน"
+            ]
+          }
         }
       ]
     },
@@ -866,14 +1025,14 @@
       "day": 2,
       "title": {
         "en": "Story Lesson",
-        "th": ""
+        "th": "บทเรียนนิทาน"
       },
       "steps": [
         {
           "id": "B1",
           "title": {
             "en": "Family words",
-            "th": ""
+            "th": "คำศัพท์ประจำหมวด"
           },
           "minutes": 5,
           "en": {
@@ -900,25 +1059,47 @@
           },
           "easier": {
             "en": "Use four cards: hello, goodbye, boy, girl.",
-            "th": ""
+            "th": "ใช้บัตร 4 ใบ: hello, goodbye, boy, girl"
           },
           "harder": {
             "en": "A child points to the boy or girl card and asks the class: \"Is it a boy or a girl?\"",
-            "th": ""
+            "th": "เด็กคนหนึ่งชี้ที่บัตร boy หรือบัตร girl แล้วถามทั้งชั้นว่า: \"Is it a boy or a girl?\" (เป็นเด็กผู้ชายหรือเด็กผู้หญิง)"
           },
           "group": {
             "en": "Pairs: partner A points to a card, partner B says the word.",
-            "th": ""
+            "th": "ทำเป็นคู่: คู่คนที่ 1 ชี้ที่บัตร คู่คนที่ 2 พูดคำ"
           },
           "materials": [
             "family picture cards: hello, goodbye, boy, girl, friend, teacher"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรภาพคำศัพท์แต่ละใบ แล้วพูดคำ 2 ครั้ง",
+              "ติดบัตรบนกระดาน ชี้ที่บัตร 1 ใบ ทั้งชั้นพูดคำนั้น",
+              "ถามว่า \"Is it a boy or a girl?\" (เป็นเด็กผู้ชายหรือเด็กผู้หญิง) สำหรับบัตร boy และบัตร girl"
+            ],
+            "teacherLanguage": [
+              "\"ดู นี่คือ boy พูดตาม: boy\"",
+              "\"ดู เป็น boy หรือ girl? เป็น girl\"",
+              "\"ตอนเช้าเราพูดว่าอะไร? Hello!\"",
+              "\"ตอนกลับบ้านเราพูดว่าอะไร? Goodbye!\"",
+              "\"ชี้ที่บัตร teacher!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละคำตามครู 2 ครั้ง",
+              "เด็ก ๆ ชี้ที่บัตรที่ครูพูด",
+              "เด็ก ๆ โบกมือสำหรับ hello และ goodbye"
+            ],
+            "watchFor": [
+              "เด็กที่สับสนระหว่าง boy กับ girl: พูดทั้ง 2 คำอีกครั้ง โดยวางมือบนบัตรแต่ละใบ"
+            ]
+          }
         },
         {
           "id": "B2",
           "title": {
             "en": "Picture walk",
-            "th": ""
+            "th": "ดูภาพก่อนอ่าน"
           },
           "minutes": 4,
           "en": {
@@ -943,25 +1124,45 @@
           },
           "easier": {
             "en": "Ask yes or no questions: \"Is it a girl?\"",
-            "th": ""
+            "th": "ถามคำถามแบบใช่หรือไม่ใช่: \"Is it a girl?\" (เป็นเด็กผู้หญิงไหม)"
           },
           "harder": {
             "en": "Before you turn the page, ask: \"Who is next?\"",
-            "th": ""
+            "th": "ก่อนพลิกหน้า ถามว่า: \"Who is next?\" (ใครจะมาต่อไป)"
           },
           "group": {
             "en": "Whole class; quiet children tell a partner first, then the class.",
-            "th": ""
+            "th": "ทั้งชั้น เด็กที่เงียบบอกคู่ก่อน แล้วจึงบอกทั้งชั้น"
           },
           "materials": [
             "big book or screen: \"Hello!\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้ดูปกและหน้า 1 ถึง 7 ของ \"Hello!\" ใช้มือปิดคำไว้ เก็บหน้า 8 ไว้ทีหลัง",
+              "ถามว่าเด็ก ๆ เห็นอะไร เด็ก ๆ ตอบเป็นภาษาไทยได้ จากนั้นพูดคำตอบนั้นเป็นภาษาอังกฤษให้เด็ก ๆ ฟัง"
+            ],
+            "teacherLanguage": [
+              "\"ดูที่ปก เด็ก ๆ เห็นอะไร?\"",
+              "\"boy คนหนึ่ง เขากำลังโบกมือ\"",
+              "\"นี่คือใคร? เป็น teacher\"",
+              "\"ดูกระเป๋า! ในกระเป๋ามีอะไร?\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ บอกสิ่งที่เห็น เป็นภาษาไทยหรือภาษาอังกฤษ",
+              "เด็ก ๆ โบกมือเมื่อเด็กในหนังสือโบกมือ"
+            ],
+            "watchFor": [
+              "เด็กที่ตอบเป็นภาษาไทย: พูดเป็นภาษาอังกฤษ แล้วให้เด็กพูดตาม",
+              "เก็บหน้าสุดท้ายไว้ก่อน: ให้ลูกสุนัขเป็นเรื่องที่เด็ก ๆ ประหลาดใจตอนอ่าน"
+            ]
+          }
         },
         {
           "id": "B3",
           "title": {
             "en": "Listen",
-            "th": ""
+            "th": "ฟัง"
           },
           "minutes": 2,
           "en": {
@@ -983,25 +1184,42 @@
           },
           "easier": {
             "en": "Play the audio at 0.75 speed.",
-            "th": ""
+            "th": "เปิดเสียงที่ความเร็ว 0.75"
           },
           "harder": {
             "en": "Stop the audio before the name on a page; the class says the name.",
-            "th": ""
+            "th": "หยุดเสียงก่อนถึงชื่อในหน้านั้น ทั้งชั้นพูดชื่อ"
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [
             "book audio, on the tablet or by the QR code: \"Hello!\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เปิดเสียงอ่าน \"Hello!\" 1 รอบ ที่ความเร็ว 1.0",
+              "ชี้ที่ภาพขณะเสียงอ่านหน้านั้น และพลิกหน้าไปพร้อมกับเสียง"
+            ],
+            "teacherLanguage": [
+              "\"ทีนี้ฟังหนังสือ ตาดูที่ภาพ\"",
+              "\"ชู่ว ฟัง\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ฟังและดูภาพ",
+              "เด็ก ๆ โบกมือทุกครั้งที่ได้ยิน \"Hello\""
+            ],
+            "watchFor": [
+              "เด็กที่ไม่ดูภาพ: ถือหนังสือให้ใกล้เด็กมากขึ้น"
+            ]
+          }
         },
         {
           "id": "B4",
           "title": {
             "en": "Read with me",
-            "th": ""
+            "th": "อ่านกับครู"
           },
           "minutes": 6,
           "en": {
@@ -1025,25 +1243,44 @@
           },
           "easier": {
             "en": "Read pages 1 to 4 and page 8 only.",
-            "th": ""
+            "th": "อ่านเฉพาะหน้า 1 ถึง 4 และหน้า 8"
           },
           "harder": {
             "en": "Children read \"Hello, I am\" alone; you say only the names.",
-            "th": ""
+            "th": "เด็ก ๆ อ่าน \"Hello, I am\" ด้วยตัวเอง ส่วนครูพูดเฉพาะชื่อ"
           },
           "group": {
             "en": "Half the class reads one page, the other half reads the next.",
-            "th": ""
+            "th": "ครึ่งชั้นอ่าน 1 หน้า อีกครึ่งชั้นอ่านหน้าถัดไป"
           },
           "materials": [
             "big book or screen: \"Hello!\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "อ่านรอบแรก: อ่านแต่ละหน้าและชี้ใต้แต่ละคำ ทั้งชั้นพูดหน้านั้นตาม",
+              "อ่านรอบที่สอง: อ่าน \"Hello, I am\" แล้วหยุด ทั้งชั้นพูดชื่อ"
+            ],
+            "teacherLanguage": [
+              "\"ตาครู: Hello, I am Pat ถึงตาเด็ก ๆ!\"",
+              "\"ดูที่คำ Hello, I am ... ?\"",
+              "\"อ่านหน้าสุดท้ายพร้อมครู: Hello, I am Pip!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละหน้าตามครู และชี้ในอากาศ",
+              "เด็ก ๆ พูดชื่อในแต่ละหน้า"
+            ],
+            "watchFor": [
+              "เด็กที่พูดคำได้แต่ไม่ดูหนังสือ: ชี้ใต้แต่ละคำช้า ๆ",
+              "ที่หน้าสุดท้าย ปล่อยให้เด็ก ๆ หัวเราะ แล้วอ่านอีกครั้งพร้อมกัน"
+            ]
+          }
         },
         {
           "id": "B5",
           "title": {
             "en": "Frame practice",
-            "th": ""
+            "th": "ฝึกกรอบประโยค"
           },
           "minutes": 7,
           "en": {
@@ -1069,26 +1306,47 @@
           },
           "easier": {
             "en": "The child says \"Hello\" and the name, together with the teacher.",
-            "th": ""
+            "th": "เด็กพูด \"Hello\" และชื่อของตัวเองพร้อมกับครู"
           },
           "harder": {
             "en": "The child adds a second sentence: \"Hello, I am May. I am a girl.\"",
-            "th": ""
+            "th": "เด็กเพิ่มประโยคที่สอง: \"Hello, I am May. I am a girl.\" (สวัสดี ฉันชื่อ May ฉันเป็นเด็กผู้หญิง)"
           },
           "group": {
             "en": "Pairs, then two pairs together: four children say hello to each other.",
-            "th": ""
+            "th": "ทำเป็นคู่ แล้วรวม 2 คู่เข้าด้วยกัน: เด็ก 4 คนพูด hello กัน"
           },
           "materials": [
             "board",
             "family picture cards: boy, girl"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เขียน \"Hello, I am ___.\" บนกระดาน และชี้ที่แต่ละคำ",
+              "พูดกรอบประโยคด้วยชื่อของตัวเอง จากนั้นชูบัตร boy และบัตร girl เด็กแต่ละคนชี้ที่บัตรที่ตรงกับตัวเอง",
+              "เด็ก 6 คนยืนขึ้นทีละคน และพูดกรอบประโยคด้วยชื่อของตัวเอง จากนั้นเด็กทุกคนพูดกับคู่"
+            ],
+            "teacherLanguage": [
+              "\"Hello, I am Teacher ___ (สวัสดี ฉันคือครู ___)\"",
+              "\"ถึงตาหนูแล้ว Hello, I am ... ?\"",
+              "\"พูด 'Hello, I am' แล้วตามด้วยชื่อของหนู จากนั้นชี้ที่บัตร: boy หรือ girl?\"",
+              "\"เก่งมาก! พูดกับคู่ของตัวเอง\""
+            ],
+            "studentActions": [
+              "เด็ก 6 คนยืนขึ้น โบกมือ และพูด \"Hello, I am ___.\" ด้วยชื่อของตัวเอง",
+              "เด็กทุกคนยืนขึ้นและพูด \"Hello, I am ___.\" กับคู่ ด้วยชื่อของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่พูดแค่ชื่อ: พูด \"Hello, I am\" พร้อมเด็ก แล้วให้เด็กเติมชื่อ",
+              "เด็กที่พูด \"I'm\": ชมก่อน แล้วขอให้พูด \"I am\" แบบในหนังสือ"
+            ]
+          }
         },
         {
           "id": "B6",
           "title": {
             "en": "Act it",
-            "th": ""
+            "th": "แสดงตามเรื่อง"
           },
           "minutes": 1,
           "en": {
@@ -1109,24 +1367,40 @@
           },
           "easier": {
             "en": "The class says only the names; you say \"Hello, I am\".",
-            "th": ""
+            "th": "ทั้งชั้นพูดเฉพาะชื่อ ส่วนครูพูด \"Hello, I am\""
           },
           "harder": {
             "en": "Children act the book with their own names.",
-            "th": ""
+            "th": "เด็ก ๆ แสดงตามหนังสือโดยใช้ชื่อของตัวเอง"
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "ทั้งชั้นแสดงตามหนังสือ พูดแต่ละหน้า ทั้งชั้นพูดตามและโบกมือ",
+              "ที่หน้าสุดท้าย ทั้งชั้นกระโดดขึ้นและพูดว่า: \"Hello, I am Pip!\""
+            ],
+            "teacherLanguage": [
+              "\"พูดพร้อมครู: Hello, I am Pat!\"",
+              "\"ทุกคนเป็น Pip กระโดดขึ้น! Hello, I am Pip!\""
+            ],
+            "studentActions": [
+              "ทั้งชั้นพูดแต่ละหน้าและโบกมือ ที่หน้าสุดท้าย เด็ก ๆ กระโดดขึ้น"
+            ],
+            "watchFor": [
+              "เด็กที่ดูอย่างเดียว: โบกมือกับเด็กและพูดชื่อพร้อมกัน"
+            ]
+          }
         },
         {
           "id": "B7",
           "title": {
             "en": "Sing it",
-            "th": ""
+            "th": "ร้องเพลง"
           },
           "minutes": 0,
           "en": {
@@ -1145,20 +1419,34 @@
           },
           "easier": {
             "en": "Sing only the chorus.",
-            "th": ""
+            "th": "ร้องเฉพาะท่อนฮุก (chorus)"
           },
           "harder": {
             "en": "Children sing the verse without the video.",
-            "th": ""
+            "th": "เด็ก ๆ ร้องท่อนเวิร์ส (verse) โดยไม่ใช้วิดีโอ"
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [
             "videos: \"Hello, I Am Pip\" (song, karaoke)"
           ],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "ในช่วงเปิดคาบ เปิดวิดีโอคาราโอเกะเป็นเพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ) เนื้อเพลงอยู่บนจอ"
+            ],
+            "teacherLanguage": [
+              "\"ร้องตามเนื้อเพลงบนจอ ชี้ที่คำ!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ร้องเพลงและชี้ที่คำบนจอ"
+            ],
+            "watchFor": [
+              "เด็กที่ดูอย่างเดียว: ให้เด็กทำท่าประกอบเพลง (โบกมือ ปรบมือ)"
+            ]
+          }
         }
       ]
     },
@@ -1167,14 +1455,14 @@
       "day": 3,
       "title": {
         "en": "Spell and Read",
-        "th": ""
+        "th": "สะกดและอ่าน"
       },
       "steps": [
         {
           "id": "C1",
           "title": {
             "en": "Sound review",
-            "th": ""
+            "th": "ทบทวนเสียง"
           },
           "minutes": 2,
           "en": {
@@ -1195,25 +1483,41 @@
           },
           "easier": {
             "en": "Say the sound with the class two times before the fast round.",
-            "th": ""
+            "th": "ออกเสียงพร้อมทั้งชั้น 2 ครั้งก่อนรอบเร็ว"
           },
           "harder": {
             "en": "Mix the n card with the m and s cards. Children say the sound only for n.",
-            "th": ""
+            "th": "สลับบัตร n กับบัตร m และ s เด็ก ๆ ออกเสียงเฉพาะเมื่อเห็นบัตร n"
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [
             "sound cards: n, m, s"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตร n อย่างรวดเร็ว ซ่อน แล้วชูอีกครั้ง",
+              "เด็ก ๆ ออกเสียงและทำท่าประจำเสียง"
+            ],
+            "teacherLanguage": [
+              "\"เสียงอะไร? Nnn!\"",
+              "\"อีกครั้ง เร็วขึ้น!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูด nnn และพยักหน้าช้า ๆ"
+            ],
+            "watchFor": [
+              "เสียงล้วน ไม่มี \"uh\""
+            ]
+          }
         },
         {
           "id": "C2",
           "title": {
             "en": "Letter cards",
-            "th": ""
+            "th": "บัตรตัวอักษร"
           },
           "minutes": 5,
           "en": {
@@ -1236,26 +1540,44 @@
           },
           "easier": {
             "en": "Use only the words nest and cat, two times each.",
-            "th": ""
+            "th": "ใช้เฉพาะคำ nest และ cat คำละ 2 ครั้ง"
           },
           "harder": {
             "en": "Add a word with n at the end (sun): children push the card into the last box.",
-            "th": ""
+            "th": "เพิ่มคำที่มี n อยู่ท้ายคำ (sun): เด็ก ๆ เลื่อนบัตรไปที่ช่องสุดท้าย"
           },
           "group": {
             "en": "Pairs share one workmat and take turns to push the card.",
-            "th": ""
+            "th": "ทำเป็นคู่: ใช้แผ่นรองกิจกรรมร่วมกัน 1 แผ่น และผลัดกันเลื่อนบัตร"
           },
           "materials": [
             "workmats (class set)",
             "letter cards (class set): n"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็กแต่ละคนมีแผ่นรองกิจกรรม 1 แผ่น และบัตรตัวอักษร n 1 ใบ",
+              "พูดคำ 1 คำ ถ้าคำขึ้นต้นด้วย n เด็ก ๆ เลื่อนบัตร n ไปที่ช่องแรก ถ้าไม่ใช่ ให้ช่องนั้นว่างไว้",
+              "คำ 4 คำ: nest, cat, nose, dog"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง: nest Nnnest เสียงแรกคือ nnn ไหม?\"",
+              "\"ใช่ไหม? ถ้าใช่ เลื่อนบัตร n ไปที่ช่องแรก แล้วพูด nnn\"",
+              "\"ฟัง: cat เสียงแรกคือ nnn ไหม? ไม่ใช่ ปล่อยช่องให้ว่าง\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ฟัง เลื่อนบัตร n เมื่อเป็นคำที่ขึ้นต้นด้วย n และออกเสียง"
+            ],
+            "watchFor": [
+              "เด็กที่เลื่อนบัตรทุกคำ: พูดคำนั้นอีกครั้งและลากเสียงแรกให้ยาว"
+            ]
+          }
         },
         {
           "id": "C3",
           "title": {
             "en": "Dictation",
-            "th": ""
+            "th": "เขียนตามคำบอก"
           },
           "minutes": 4,
           "en": {
@@ -1278,25 +1600,43 @@
           },
           "easier": {
             "en": "Children trace n before they write it.",
-            "th": ""
+            "th": "เด็ก ๆ ลากเส้นตาม n ก่อนเขียนเอง"
           },
           "harder": {
             "en": "Children write n with their eyes closed, then check it.",
-            "th": ""
+            "th": "เด็ก ๆ หลับตาเขียน n แล้วลืมตาตรวจดู"
           },
           "group": {
             "en": "Pairs check each other's n: start at the top, down, up, over the hill, down.",
-            "th": ""
+            "th": "ทำเป็นคู่: ตรวจ n ของกันและกัน (เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง)"
           },
           "materials": [
             "student book: dictation lines"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ออกเสียง n เด็ก ๆ พูดตาม แล้วเขียนตัวอักษรในหนังสือ",
+              "ทำ 3 ครั้ง จากนั้นเด็ก ๆ ลากเส้นตามคำ \"a\" บนบรรทัด"
+            ],
+            "teacherLanguage": [
+              "\"เมื่อครูพูด nnn ให้เด็ก ๆ เขียนตัวอักษร พร้อมไหม? Nnn\"",
+              "\"ฟัง: nnn เขียนอีกครั้ง เริ่มที่ด้านบน\"",
+              "\"ทีนี้ลากเส้นตามคำ a เริ่มที่จุด วนกลม ขึ้น ลง\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ออกเสียงและเขียน n 3 ครั้งในหนังสือ",
+              "เด็ก ๆ ลากเส้นตามคำที่ต้องจำ \"a\""
+            ],
+            "watchFor": [
+              "เด็กที่เขียน n จากด้านล่าง: ชี้จุดเริ่มต้นให้ดูอีกครั้ง"
+            ]
+          }
         },
         {
           "id": "C4",
           "title": {
             "en": "Decodable: read together",
-            "th": ""
+            "th": "หนังสือฝึกสะกดอ่าน: อ่านด้วยกัน"
           },
           "minutes": 7,
           "en": {
@@ -1321,25 +1661,45 @@
           },
           "easier": {
             "en": "The child reads with the teacher, page by page.",
-            "th": ""
+            "th": "เด็กอ่านพร้อมครูทีละหน้า"
           },
           "harder": {
             "en": "The child reads two pages alone: \"a\", then the first sound, then the picture word.",
-            "th": ""
+            "th": "เด็กอ่าน 2 หน้าด้วยตัวเอง: \"a\" แล้วเสียงแรก แล้วคำที่ตรงกับภาพ"
           },
           "group": {
             "en": "Pairs; the teacher sits with one pair.",
-            "th": ""
+            "th": "ทำเป็นคู่ ครูนั่งกับ 1 คู่"
           },
           "materials": [
             "books (one for each pair): \"Nan Can Nod\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้ดูปกของ \"Nan Can Nod\" อ่านชื่อเรื่อง แล้วถามว่าหนังสือเล่มนี้เกี่ยวกับอะไร",
+              "อ่านหน้า 1 พร้อมทั้งชั้น: ชี้ที่ \"A\" (คำที่ต้องจำ) และชี้ที่ n ต้นคำที่ตรงกับภาพ",
+              "จากนั้นให้อ่านเป็นคู่: คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป"
+            ],
+            "teacherLanguage": [
+              "\"ดู Nan Can Nod (Nan พยักหน้าได้) Nan ทำอะไรได้?\"",
+              "\"ชี้ที่ตัว n Nnnest a nest (รังนก)!\"",
+              "\"ถึงตาเด็ก ๆ อ่านกับคู่ คู่คนที่ 1 อ่าน คู่คนที่ 2 อ่าน คู่คนที่ 1 อ่าน\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านแต่ละหน้า: \"A\" และคำที่ตรงกับภาพซึ่งขึ้นต้นด้วย n",
+              "คู่ผลัดกันอ่านทีละหน้า"
+            ],
+            "watchFor": [
+              "เด็กที่เรียกภาพด้วยคำอื่น (bird แทน nest): ชี้ที่ n และลากเสียงแรกให้ยาว",
+              "หนังสือเล่มนี้เป็นหนังสือเสียง เด็กอ่าน \"a\" แล้วใช้เสียงแรก nnn เพื่อพูดคำที่ตรงกับภาพ"
+            ]
+          }
         },
         {
           "id": "C5",
           "title": {
             "en": "Comprehension",
-            "th": ""
+            "th": "ถามความเข้าใจ"
           },
           "minutes": 3,
           "en": {
@@ -1359,25 +1719,40 @@
           },
           "easier": {
             "en": "Ask only yes or no questions.",
-            "th": ""
+            "th": "ถามเฉพาะคำถามแบบใช่หรือไม่ใช่"
           },
           "harder": {
             "en": "A child asks a question about a page: \"Is it a nut?\"",
-            "th": ""
+            "th": "เด็กคนหนึ่งถามคำถามเกี่ยวกับหน้าหนึ่ง: \"Is it a nut?\" (นี่คือ nut ไหม)"
           },
           "group": {
             "en": "Pairs ask each other one question.",
-            "th": ""
+            "th": "ทำเป็นคู่: ผลัดกันถามคำถามคนละ 1 ข้อ"
           },
           "materials": [
             "books (one for each pair): \"Nan Can Nod\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ถามคำถาม 2 ข้อเกี่ยวกับหนังสือ เด็ก ๆ ตอบเป็นประโยคสั้น ๆ"
+            ],
+            "teacherLanguage": [
+              "\"ดูหน้า 2 นี่คือ nut ไหม? ไม่ใช่! นี่คือ net\"",
+              "\"ใครพยักหน้าได้? Nan พยักหน้าได้!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ตอบ \"Yes\" หรือ \"No\" แล้วพูดประโยคเต็มพร้อมครู"
+            ],
+            "watchFor": [
+              "เด็กที่ตอบแค่ \"yes\": พูดประโยคเต็ม แล้วให้เด็กพูดตาม"
+            ]
+          }
         },
         {
           "id": "C6",
           "title": {
             "en": "Favorite page",
-            "th": ""
+            "th": "หน้าที่ชอบ"
           },
           "minutes": 1,
           "en": {
@@ -1396,26 +1771,40 @@
           },
           "easier": {
             "en": "The child points to the page; the class reads it.",
-            "th": ""
+            "th": "เด็กชี้ที่หน้านั้น ทั้งชั้นอ่าน"
           },
           "harder": {
             "en": "The child reads the page and says why: \"I like Pip!\"",
-            "th": ""
+            "th": "เด็กอ่านหน้านั้นและบอกเหตุผล: \"I like Pip!\" (หนูชอบ Pip!)"
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [
             "books (one for each pair): \"Nan Can Nod\""
           ],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "ให้เด็ก 2 หรือ 3 คนอ่านหน้าที่ชอบใน \"Nan Can Nod\""
+            ],
+            "teacherLanguage": [
+              "\"หนูชอบหน้าไหน? อ่านให้เราฟัง\""
+            ],
+            "studentActions": [
+              "เด็ก 2 หรือ 3 คนอ่านคนละ 1 หน้า"
+            ],
+            "watchFor": [
+              "เด็กที่ไม่แน่ใจ: ให้เด็กเลือกหน้า แล้วอ่านพร้อมเด็ก"
+            ]
+          }
         },
         {
           "id": "C7",
           "title": {
             "en": "Sticker",
-            "th": ""
+            "th": "สติกเกอร์"
           },
           "minutes": 3,
           "en": {
@@ -1436,20 +1825,36 @@
           },
           "easier": {
             "en": "Put the sticker on the map with the child.",
-            "th": ""
+            "th": "ติดสติกเกอร์บนแผนที่หนังสือพร้อมกับเด็ก"
           },
           "harder": {
             "en": "The child says the title and one word from the book.",
-            "th": ""
+            "th": "เด็กพูดชื่อหนังสือและคำ 1 คำจากหนังสือ"
           },
           "group": {
             "en": "The table leader gives out the stickers.",
-            "th": ""
+            "th": "หัวหน้าโต๊ะแจกสติกเกอร์"
           },
           "materials": [
             "stickers: \"Nan Can Nod\"",
             "student book: book map"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "แจกสติกเกอร์ \"Nan Can Nod\" ให้เด็กแต่ละคน",
+              "เด็ก ๆ ติดสติกเกอร์ที่หมายเลข 1 ของแผนที่หนังสือในหนังสือของตัวเอง"
+            ],
+            "teacherLanguage": [
+              "\"เด็ก ๆ อ่านหนังสือจบแล้ว! นี่คือสติกเกอร์ของเด็ก ๆ\"",
+              "\"ติดที่แผนที่หนังสือ ที่หมายเลข 1\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ติดสติกเกอร์บนแผนที่หนังสือ และพูดชื่อหนังสือ"
+            ],
+            "watchFor": [
+              "เด็กที่ติดสติกเกอร์ผิดที่: ชี้หมายเลข 1 บนแผนที่หนังสือให้ดู"
+            ]
+          }
         }
       ]
     },
@@ -1458,14 +1863,14 @@
       "day": 4,
       "title": {
         "en": "Read and Write",
-        "th": ""
+        "th": "อ่านและเขียน"
       },
       "steps": [
         {
           "id": "D1",
           "title": {
             "en": "Re-read",
-            "th": ""
+            "th": "อ่านซ้ำ"
           },
           "minutes": 5,
           "en": {
@@ -1486,26 +1891,42 @@
           },
           "easier": {
             "en": "The child reads together with the partner.",
-            "th": ""
+            "th": "เด็กอ่านพร้อมกับคู่"
           },
           "harder": {
             "en": "The child reads the book alone to the partner: \"a\", the first sound, and the picture word on each page.",
-            "th": ""
+            "th": "เด็กอ่านหนังสือให้คู่ฟังด้วยตัวเอง: \"a\" เสียงแรก และคำที่ตรงกับภาพในแต่ละหน้า"
           },
           "group": {
             "en": "Pairs; the teacher listens to one table.",
-            "th": ""
+            "th": "ทำเป็นคู่ ครูฟัง 1 โต๊ะ"
           },
           "materials": [
             "books (one for each pair): \"Nan Can Nod\"",
             "record sheet"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ อ่าน \"Nan Can Nod\" อีกครั้งเป็นคู่ โดยวางนิ้วใต้คำ คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป",
+              "นั่งกับ 1 โต๊ะ และฟังเด็กแต่ละคนอ่าน 2 หน้า"
+            ],
+            "teacherLanguage": [
+              "\"อ่านหนังสืออีกครั้ง วางนิ้วใต้คำ\"",
+              "\"อ่านหน้า 3 ให้ครูฟัง เก่งมาก! a nut (ถั่ว 1 เม็ด)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านหนังสือเป็นคู่ โดยวางนิ้วใต้แต่ละคำ"
+            ],
+            "watchFor": [
+              "จดในแบบบันทึกการอ่าน: เด็กที่ยังเรียกภาพด้วยคำที่มีเสียงแรกต่างไป"
+            ]
+          }
         },
         {
           "id": "D2",
           "title": {
             "en": "Tricky words",
-            "th": ""
+            "th": "คำที่ต้องจำ"
           },
           "minutes": 3,
           "en": {
@@ -1527,26 +1948,43 @@
           },
           "easier": {
             "en": "Show only \"a\" and \"and\".",
-            "th": ""
+            "th": "ชูเฉพาะ \"a\" และ \"and\""
           },
           "harder": {
             "en": "Erase two letters of \"can\".",
-            "th": ""
+            "th": "ลบตัวอักษร 2 ตัวของ \"can\""
           },
           "group": {
             "en": "Whole class.",
-            "th": ""
+            "th": "ทั้งชั้น"
           },
           "materials": [
             "tricky word cards: a, and, can",
             "board"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตร a, and, can อย่างรวดเร็ว",
+              "เขียน \"and\" บนกระดาน แล้วลบตัวอักษร 1 ตัว เด็ก ๆ บอกตัวอักษรที่หายไป"
+            ],
+            "teacherLanguage": [
+              "\"อ่านเร็ว ๆ! and, can, a\"",
+              "\"หลับตา ... ลืมตา อะไรหายไป?\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านบัตรอย่างรวดเร็ว",
+              "เด็ก ๆ บอกชื่อตัวอักษรที่หายไป"
+            ],
+            "watchFor": [
+              "เด็กที่บอกเสียงของตัวอักษรที่หายไป: รับคำตอบนั้น แล้วพูดชื่อตัวอักษร"
+            ]
+          }
         },
         {
           "id": "D3",
           "title": {
             "en": "Leveled reader",
-            "th": ""
+            "th": "หนังสืออ่านแบ่งระดับ"
           },
           "minutes": 6,
           "en": {
@@ -1567,25 +2005,41 @@
           },
           "easier": {
             "en": "Pairs read only pages 1 to 4.",
-            "th": ""
+            "th": "คู่อ่านเฉพาะหน้า 1 ถึง 4"
           },
           "harder": {
             "en": "The child reads the whole book to the partner.",
-            "th": ""
+            "th": "เด็กอ่านทั้งเล่มให้คู่ฟัง"
           },
           "group": {
             "en": "Pairs.",
-            "th": ""
+            "th": "ทำเป็นคู่"
           },
           "materials": [
             "books (one for each pair): \"Hello!\""
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "แจกหนังสือ \"Hello!\" ชุดสำหรับทั้งชั้น (ระดับ Sprout)",
+              "อ่านพร้อมกัน 1 รอบ แล้วให้คู่อ่านทีละหน้า"
+            ],
+            "teacherLanguage": [
+              "\"เปิดหนังสือ อ่านพร้อมครู\"",
+              "\"ทีนี้อ่านกับคู่ คู่คนที่ 1 อ่าน คู่คนที่ 2 อ่าน\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่าน \"Hello!\" พร้อมกัน แล้วอ่านเป็นคู่"
+            ],
+            "watchFor": [
+              "เด็กที่อ่านชื่อผิด: ชี้ที่ภาพของเด็กในหน้านั้น"
+            ]
+          }
         },
         {
           "id": "D4",
           "title": {
             "en": "Write it",
-            "th": ""
+            "th": "เขียน"
           },
           "minutes": 10,
           "en": {
@@ -1610,28 +2064,48 @@
           },
           "easier": {
             "en": "Write the child's name with a highlighter; the child traces it.",
-            "th": ""
+            "th": "เขียนชื่อเด็กด้วยปากกาเน้นข้อความ แล้วให้เด็กลากเส้นตาม"
           },
           "harder": {
             "en": "The child traces a second line: \"I am a boy.\" or \"I am a girl.\"",
-            "th": ""
+            "th": "เด็กลากเส้นตามบรรทัดที่สอง: \"I am a boy.\" (ฉันเป็นเด็กผู้ชาย) หรือ \"I am a girl.\" (ฉันเป็นเด็กผู้หญิง)"
           },
           "group": {
             "en": "Alone; pairs show each other the page at the end.",
-            "th": ""
+            "th": "ทำคนเดียว ตอนท้ายจับคู่ให้กันและกันดูหน้านั้น"
           },
           "materials": [
             "student book: writing page",
             "name cards",
             "crayons",
             "highlighter"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ ลากเส้นตาม \"Hello, I am\" ในหนังสือ",
+              "จากนั้นเด็ก ๆ คัดชื่อของตัวเองจากบัตรชื่อลงบนบรรทัด",
+              "ชี้ให้ดูว่าตัวพิมพ์ใหญ่และจุด (full stop) อยู่ที่ไหน"
+            ],
+            "teacherLanguage": [
+              "\"ลากเส้นตามคำ: Hello, I am\"",
+              "\"ทีนี้เขียนชื่อของหนู ดูที่บัตรชื่อ\"",
+              "\"ใช้ตัวพิมพ์ใหญ่ที่ต้นชื่อ ใส่จุดที่ท้ายประโยค\"",
+              "\"ทีนี้วาดภาพตัวเอง โบกมือ hello!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ลากเส้นตามกรอบประโยค และเขียนชื่อของตัวเอง",
+              "เด็ก ๆ วาดภาพตัวเองกำลังโบกมือในช่องวาดภาพ"
+            ],
+            "watchFor": [
+              "เด็กที่เขียนชื่อโดยไม่มีตัวพิมพ์ใหญ่: ชี้ที่ตัวพิมพ์ใหญ่บนบัตรชื่อ"
+            ]
+          }
         },
         {
           "id": "D5",
           "title": {
             "en": "Share",
-            "th": ""
+            "th": "นำเสนอ"
           },
           "minutes": 1,
           "en": {
@@ -1650,24 +2124,38 @@
           },
           "easier": {
             "en": "The child reads with the teacher.",
-            "th": ""
+            "th": "เด็กอ่านพร้อมครู"
           },
           "harder": {
             "en": "The child reads both lines.",
-            "th": ""
+            "th": "เด็กอ่านทั้ง 2 บรรทัด"
           },
           "group": {
             "en": "Whole class; the class waves back.",
-            "th": ""
+            "th": "ทั้งชั้น: ทั้งชั้นโบกมือตอบ"
           },
           "materials": [],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "ให้เด็ก 4 คนอ่านประโยคของตัวเองให้ทั้งชั้นฟัง"
+            ],
+            "teacherLanguage": [
+              "\"อ่านประโยคของหนูให้เราฟัง ชูหนังสือขึ้น\""
+            ],
+            "studentActions": [
+              "เด็ก 4 คนอ่าน \"Hello, I am ___.\" จากหนังสือของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่อ่านเบาเกินไป: ยืนข้างเด็กและอ่านพร้อมเด็ก"
+            ]
+          }
         },
         {
           "id": "D6",
           "title": {
             "en": "Sing it: song show",
-            "th": ""
+            "th": "ร้องเพลง: การแสดงร้องเพลง"
           },
           "minutes": 0,
           "en": {
@@ -1689,27 +2177,44 @@
           },
           "easier": {
             "en": "Sing only the chorus with the gestures.",
-            "th": ""
+            "th": "ร้องเฉพาะท่อนฮุก (chorus) พร้อมท่าประกอบเพลง"
           },
           "harder": {
             "en": "The leaders sing the verse alone.",
-            "th": ""
+            "th": "ผู้นำร้องท่อนเวิร์ส (verse) เอง"
           },
           "group": {
             "en": "One table leads each week.",
-            "th": ""
+            "th": "โต๊ะหนึ่งเป็นผู้นำในแต่ละสัปดาห์"
           },
           "materials": [
             "videos: \"Hello, I Am Pip\" (song, karaoke)",
             "class tablet"
           ],
-          "moved": "next-opening"
+          "moved": "next-opening",
+          "th": {
+            "teacherActions": [
+              "ในช่วงเปิดคาบของวันที่ 5 เพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ) เป็นการแสดงร้องเพลง ทั้งชั้นร้องพร้อมทำท่าประกอบเพลงทุกท่า โต๊ะหนึ่งเป็นผู้นำ",
+              "ถ้าโรงเรียนอนุญาต ให้ถ่ายวิดีโอการร้องเพลงด้วยแท็บเล็ตของห้อง"
+            ],
+            "teacherLanguage": [
+              "\"โต๊ะ 1 วันนี้เป็นผู้นำ ทำท่าให้เพื่อน ๆ ดู!\"",
+              "\"ถึงเวลาแสดงแล้ว! ร้องพร้อมทำท่าทุกท่า!\""
+            ],
+            "studentActions": [
+              "ผู้นำทำท่าประกอบเพลงอยู่ด้านหน้า ทั้งชั้นร้องและทำท่าตาม"
+            ],
+            "watchFor": [
+              "ผู้นำที่ลืมท่า: ชี้ที่จอ",
+              "เด็กที่อายกล้อง: ให้ยืนแถวหลังได้"
+            ]
+          }
         }
       ],
       "prep": [
         {
           "en": "Write each child's English name on a name card.",
-          "th": ""
+          "th": "เขียนชื่อภาษาอังกฤษของเด็กแต่ละคนบนบัตรชื่อ"
         }
       ]
     },
@@ -1718,14 +2223,14 @@
       "day": 5,
       "title": {
         "en": "Play and Check",
-        "th": ""
+        "th": "เล่นและตรวจสอบ"
       },
       "steps": [
         {
           "id": "E1",
           "title": {
             "en": "Centers set-up",
-            "th": ""
+            "th": "จัดมุมกิจกรรม"
           },
           "minutes": 2,
           "en": {
@@ -1746,26 +2251,42 @@
           },
           "easier": {
             "en": "Put a picture of each group on its center.",
-            "th": ""
+            "th": "ติดภาพของแต่ละกลุ่มไว้ที่มุมกิจกรรมของกลุ่มนั้น"
           },
           "harder": {
             "en": "A group leader shows the center card to the group and does the first turn.",
-            "th": ""
+            "th": "หัวหน้ากลุ่มให้กลุ่มดูบัตรมุมกิจกรรม และเล่นเป็นคนแรก"
           },
           "group": {
             "en": "Four groups.",
-            "th": ""
+            "th": "4 กลุ่ม"
           },
           "materials": [
             "center cards",
             "group signs"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "แนะนำมุมกิจกรรม 4 มุมและป้ายกลุ่ม ส่งแต่ละกลุ่มไปที่มุมกิจกรรมแรกของกลุ่ม",
+              "กลุ่ม 1 และ 2 เริ่มที่มุมบัตรเสียงและมุมบัตรตัวอักษร กลุ่ม 3 และ 4 เริ่มที่มุมหนังสือและมุมคาราโอเกะ"
+            ],
+            "teacherLanguage": [
+              "\"กลุ่ม 1 ไปที่บัตรเสียง กลุ่ม 2 ไปที่บัตรตัวอักษร\"",
+              "\"กลุ่ม 3 ไปมุมหนังสือ กลุ่ม 4 ไปมุมคาราโอเกะ\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ไปที่มุมกิจกรรมของตัวเองและนั่งลง"
+            ],
+            "watchFor": [
+              "กลุ่มที่ไม่รู้ว่าต้องไปที่ไหน: ชี้ที่ป้ายกลุ่มของแต่ละมุมกิจกรรม"
+            ]
+          }
         },
         {
           "id": "E2",
           "title": {
             "en": "Centers, rotation 1",
-            "th": ""
+            "th": "มุมกิจกรรม รอบที่ 1"
           },
           "minutes": 7,
           "en": {
@@ -1788,15 +2309,15 @@
           },
           "easier": {
             "en": "At the reading table, the child reads with the teacher.",
-            "th": ""
+            "th": "ที่โต๊ะบันทึกการอ่าน เด็กอ่านพร้อมครู"
           },
           "harder": {
             "en": "At the reading table, the child says the first sound and the picture word alone on pages 1 to 6.",
-            "th": ""
+            "th": "ที่โต๊ะบันทึกการอ่าน เด็กพูดเสียงแรกและคำที่ตรงกับภาพด้วยตัวเองในหน้า 1 ถึง 6"
           },
           "group": {
             "en": "Four groups; the teacher with two children.",
-            "th": ""
+            "th": "4 กลุ่ม ครูอยู่กับเด็ก 2 คน"
           },
           "materials": [
             "sorting mat: n / not n",
@@ -1809,13 +2330,31 @@
             "class tablet",
             "videos: \"Hello, I Am Pip\" (song, karaoke)",
             "record sheet"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "แต่ละกลุ่มทำกิจกรรมที่มุมของตัวเอง มุมบัตรเสียง: แยกบัตรภาพเป็นกลุ่ม n และกลุ่มที่ไม่ใช่ n มุมบัตรตัวอักษร: เด็กคนหนึ่งพลิกบัตรภาพและพูดคำ กลุ่มเลื่อนบัตร n เมื่อเป็นคำที่ขึ้นต้นด้วย n มุมหนังสือ: อ่าน \"Hello!\" และ \"Nan Can Nod\" มุมคาราโอเกะ: ร้องเพลงตามวิดีโอคาราโอเกะบนแท็บเล็ต โดยเปิดเสียงเบา",
+              "นั่งที่โต๊ะบันทึกการอ่านกับเด็ก 2 คนแรกในรายชื่อของแบบบันทึกการอ่าน เด็กแต่ละคนอ่าน \"Nan Can Nod\" แล้วบันทึกในแบบบันทึกการอ่าน",
+              "ในสัปดาห์ที่ 1 เดินไปมาระหว่างมุมกิจกรรมในช่วง 3 นาทีแรก และสาธิตงานให้แต่ละกลุ่มดู"
+            ],
+            "teacherLanguage": [
+              "\"อ่านหนังสือให้ครูฟัง วางนิ้วใต้คำ\"",
+              "\"เก่งมาก! เสียงอะไร? Nnn\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ทำกิจกรรมที่มุมกิจกรรม",
+              "เด็ก 2 คนอ่านให้ครูฟัง"
+            ],
+            "watchFor": [
+              "จดภาพที่เด็กแต่ละคนเรียกด้วยเสียงแรกที่ผิด"
+            ]
+          }
         },
         {
           "id": "E3",
           "title": {
             "en": "Centers, rotation 2",
-            "th": ""
+            "th": "มุมกิจกรรม รอบที่ 2"
           },
           "minutes": 7,
           "en": {
@@ -1837,23 +2376,40 @@
           },
           "easier": {
             "en": "Keep the same center for a group that needs more time.",
-            "th": ""
+            "th": "ให้กลุ่มที่ต้องการเวลามากขึ้นอยู่ที่มุมเดิม"
           },
           "harder": {
             "en": "Groups that finish early make a new sort with the picture cards.",
-            "th": ""
+            "th": "กลุ่มที่ทำเสร็จเร็วแยกบัตรภาพแบบใหม่"
           },
           "group": {
             "en": "Four groups; the teacher with two children.",
-            "th": ""
+            "th": "4 กลุ่ม ครูอยู่กับเด็ก 2 คน"
           },
-          "materials": []
+          "materials": [],
+          "th": {
+            "teacherActions": [
+              "กลุ่มสลับมุม: กลุ่ม 1 และ 2 ไปที่มุมหนังสือและมุมคาราโอเกะ กลุ่ม 3 และ 4 ไปที่มุมบัตรเสียงและมุมบัตรตัวอักษร",
+              "ฟังเด็กคนที่ 3 และคนที่ 4 อ่านที่โต๊ะบันทึกการอ่าน"
+            ],
+            "teacherLanguage": [
+              "\"เปลี่ยน! กลุ่ม 1 ไปมุมหนังสือ กลุ่ม 2 ไปมุมคาราโอเกะ กลุ่ม 3 ไปที่บัตรเสียง กลุ่ม 4 ไปที่บัตรตัวอักษร\"",
+              "\"อ่านหนังสือให้ครูฟัง วางนิ้วใต้คำ\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ เปลี่ยนมุมกิจกรรมและทำกิจกรรม",
+              "เด็ก 2 คนอ่านให้ครูฟัง"
+            ],
+            "watchFor": [
+              "กลุ่มที่เปลี่ยนมุมช้า: นับถอยหลังจาก 5"
+            ]
+          }
         },
         {
           "id": "E4",
           "title": {
             "en": "Game",
-            "th": ""
+            "th": "เกม"
           },
           "minutes": 5,
           "en": {
@@ -1876,26 +2432,44 @@
           },
           "easier": {
             "en": "Put only three picture cards on the board.",
-            "th": ""
+            "th": "ติดบัตรภาพเพียง 3 ใบบนกระดาน"
           },
           "harder": {
             "en": "Say only the first sound; the child finds a picture with that sound.",
-            "th": ""
+            "th": "พูดเฉพาะเสียงแรก เด็กหาภาพที่ขึ้นต้นด้วยเสียงนั้น"
           },
           "group": {
             "en": "Two teams; one child from each team at a time.",
-            "th": ""
+            "th": "2 ทีม ทีมละ 1 คนในแต่ละครั้ง"
           },
           "materials": [
             "picture cards: nose, cat, sun",
             "sound picture cards: nest, net, nut"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เล่นเกม \"Swat the n\": ติดบัตรภาพ 6 ใบบนกระดาน",
+              "พูดคำของภาพ 1 ภาพ เด็ก 2 คนวิ่งไปที่กระดาน เด็กคนแรกที่แตะภาพนั้นพูดคำนั้น"
+            ],
+            "teacherLanguage": [
+              "\"พร้อมไหม? nose!\"",
+              "\"แตะภาพ คำนี้ขึ้นต้นด้วย nnn ไหม? ใช่! Nnnose\"",
+              "\"2 คนต่อไป พร้อมไหม?\""
+            ],
+            "studentActions": [
+              "เด็กครั้งละ 2 คนแตะภาพและพูดคำ",
+              "ทั้งชั้นพูด \"Nnn!\" ทุกครั้งที่เป็นคำที่ขึ้นต้นด้วย n"
+            ],
+            "watchFor": [
+              "เด็กที่เร็วและชนะทุกครั้ง: ให้แตะด้วยมือซ้าย หรือกระโดดขาเดียวไปที่กระดาน"
+            ]
+          }
         },
         {
           "id": "E5",
           "title": {
             "en": "Check",
-            "th": ""
+            "th": "ตรวจสอบ"
           },
           "minutes": 3,
           "en": {
@@ -1918,30 +2492,48 @@
           },
           "easier": {
             "en": "Sit next to the child and point to each picture while you say it.",
-            "th": ""
+            "th": "นั่งข้างเด็ก และชี้แต่ละภาพขณะพูดคำ"
           },
           "harder": {
             "en": "The child writes a second n with no dots.",
-            "th": ""
+            "th": "เด็กเขียน n ตัวที่สองโดยไม่มีจุดนำ"
           },
           "group": {
             "en": "Alone.",
-            "th": ""
+            "th": "ทำคนเดียว"
           },
           "materials": [
             "student book: check page",
             "record sheet"
-          ]
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ ทำหน้าตรวจสอบ: วงกลมภาพที่ขึ้นต้นด้วย n ในแต่ละแถว และเขียนตัวอักษร n",
+              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"
+            ],
+            "teacherLanguage": [
+              "\"แถว 1: nest, cat, fish คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
+              "\"แถว 2: dog, nose, bus คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
+              "\"แถว 3: hat, cup, net คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
+              "\"ทีนี้เขียนตัวอักษร n\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ วงกลมภาพ 1 ภาพในแต่ละแถว และเขียน n"
+            ],
+            "watchFor": [
+              "เด็กที่วงกลมทุกภาพ: บันทึกในแบบบันทึกการอ่านว่า n ยังไม่แม่น แล้ว n จะกลับไปอยู่บนแถบทบทวน"
+            ]
+          }
         }
       ],
       "prep": [
         {
           "en": "Set up the four centers: sound cards game, letter cards, book corner, and karaoke corner. Use the same places every week.",
-          "th": ""
+          "th": "จัดมุมกิจกรรม 4 มุม: เกมบัตรเสียง บัตรตัวอักษร มุมหนังสือ และมุมคาราโอเกะ ใช้ที่เดิมทุกสัปดาห์"
         },
         {
           "en": "Put the children in four groups. Make a group sign for each center.",
-          "th": ""
+          "th": "แบ่งเด็ก ๆ เป็น 4 กลุ่ม ทำป้ายกลุ่มสำหรับแต่ละมุมกิจกรรม"
         }
       ]
     }
@@ -2061,11 +2653,11 @@
     ],
     "line": {
       "en": "This week, your child learns the sound \"nnn\" (not the letter name \"en\"), as in \"nose\". Your child also learns to say \"Hello, I am ___.\" in English.",
-      "th": ""
+      "th": "สัปดาห์นี้ ลูกเรียนเสียง \"nnn\" (ไม่ใช่ชื่อตัวอักษร \"en\") เหมือนในคำว่า \"nose\" ลูกยังเรียนพูด \"Hello, I am ___.\" เป็นภาษาอังกฤษด้วย"
     },
     "activity": {
       "en": "Say \"Hello!\" to your child in English. Your child answers \"Hello, I am ___.\" with his or her name. Then point to your nose and say \"nnnose\". Find a nut and say \"nnnut\".",
-      "th": ""
+      "th": "พูด \"Hello!\" กับลูกเป็นภาษาอังกฤษ ลูกตอบว่า \"Hello, I am ___.\" โดยใส่ชื่อของลูกเอง จากนั้นชี้ที่จมูกของตัวเองแล้วพูดว่า \"nnnose\" หาถั่ว 1 เม็ดแล้วพูดว่า \"nnnut\""
     },
     "songUrl": "/th/st/2/1?part=song",
     "readAlongUrl": "/th/st/2/1?part=book"

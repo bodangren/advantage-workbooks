@@ -166,6 +166,11 @@ describe('Storytime manual template', () => {
         expect(song).toContain('<strong>End:</strong> Nod and hum nnn.');
     });
 
+    it('prints the Thai gesture name after the English one in the Thai book only', () => {
+        expect(renderStorytimeWeek(week(), 'th')).toContain('<td>wave (โบกมือ)</td>');
+        expect(renderStorytimeWeek(week(), 'en')).toContain('<td>wave</td>');
+    });
+
     it('gives the English book the Thai print font when a step has Thai text', () => {
         const plain = compileStorytimeManual([week()], { lang: 'en' }).html;
         expect(plain).not.toContain("'Open Sans', 'Sarabun'");

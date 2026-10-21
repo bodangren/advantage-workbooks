@@ -204,7 +204,8 @@ function renderSong(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabel
             rows.push(`<tr class="st-part"><td colspan="2">${escapeHtml(l.parts[line.part])}</td></tr>`);
         }
         const note = line.note ? `<br><em>${escapeHtml(pick(line.note, lang))}</em>` : '';
-        rows.push(`<tr><td>${escapeHtml(line.text)}${note}</td><td>${escapeHtml(line.gesture)}</td></tr>`);
+        const thai = l.gestures[line.gesture];
+        rows.push(`<tr><td>${escapeHtml(line.text)}${note}</td><td>${escapeHtml(line.gesture)}${thai ? ` (${escapeHtml(thai)})` : ''}</td></tr>`);
     }
     const { intro, outro } = song.choreography;
     return `

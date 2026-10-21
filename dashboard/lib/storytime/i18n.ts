@@ -35,6 +35,8 @@ export interface StorytimeLabels {
     parts: Record<'verse' | 'chorus', string>;
     songStart: string;
     songEnd: string;
+    /** Thai names of the 24 gestures, printed after the English name (empty in English). */
+    gestures: Record<string, string>;
     openingSteps: string[];
     strip: string;
     noCards: string;
@@ -76,6 +78,7 @@ const en: StorytimeLabels = {
     parts: { verse: 'Verse', chorus: 'Chorus' },
     songStart: 'Start',
     songEnd: 'End',
+    gestures: {},
     openingSteps: [
         'Greeting song and call-and-response: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'Calendar: the day and the weather. One child points.',
@@ -122,6 +125,32 @@ const th: StorytimeLabels = {
     parts: { verse: 'ท่อนร้อง', chorus: 'ท่อนฮุก' },
     songStart: 'เริ่มเพลง',
     songEnd: 'จบเพลง',
+    gestures: {
+        'clap': 'ปรบมือ',
+        'stamp': 'กระทืบเท้า',
+        'point up': 'ชี้ขึ้นข้างบน',
+        'point to self': 'ชี้ที่ตัวเอง',
+        'wave': 'โบกมือ',
+        'reach': 'เอื้อมมือ',
+        'hop': 'กระโดดขาเดียว',
+        'turn': 'หมุนตัว',
+        'sway': 'โยกตัว',
+        'hands on head': 'วางมือบนหัว',
+        'stretch up': 'ยืดตัวขึ้น',
+        'crouch': 'ย่อตัวลง',
+        'nod': 'พยักหน้า',
+        'shake head': 'ส่ายหน้า',
+        'count fingers': 'นับนิ้ว',
+        'point forward': 'ชี้ไปข้างหน้า',
+        'hands out': 'แบมือยื่นออกไป',
+        'hug self': 'กอดตัวเอง',
+        'march': 'เดินย่ำเท้า',
+        'sleep': 'ทำท่านอนหลับ',
+        'eat': 'ทำท่ากิน',
+        'look': 'ทำท่ามอง',
+        'listen': 'ทำท่าฟัง',
+        'bow': 'โค้งคำนับ',
+    },
     openingSteps: [
         'ร้องเพลงทักทายและพูดโต้ตอบ: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'ปฏิทิน: วันและสภาพอากาศ ให้เด็กหนึ่งคนชี้',

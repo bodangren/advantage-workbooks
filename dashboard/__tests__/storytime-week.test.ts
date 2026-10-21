@@ -133,6 +133,16 @@ describe('storytime-week checks', () => {
         expect(status(run((w) => (w.song!.lyricSheet = sheet(w))), 'song-sheet')).toBe('pass');
         expect(status(run((w) => (w.song!.lyricSheet = sheet(w).replace('Hello, hello, hello to you!', 'Hello to you!'))), 'song-sheet')).toBe('fail');
         expect(status(run((w) => (w.song!.lyricSheet = `${sheet(w)}\nOne more line`)), 'song-sheet')).toBe('fail');
+        // A sung echo in parentheses where the sheet has "(clap clap)" is the same line.
+        expect(
+            status(
+                run((w) => {
+                    w.song!.lyricSheet = sheet(w).replace('Hello, I am Nat!', 'Hello, I am Nat! (clap clap)');
+                    w.song!.lines[1].text = 'Hello, I am Nat! (Hello, I am Nat!)';
+                }),
+                'song-sheet',
+            ),
+        ).toBe('pass');
     });
 
     it('fails a read-along marked as a sound book', () => {
