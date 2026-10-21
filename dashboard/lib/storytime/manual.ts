@@ -1,3 +1,4 @@
+import { fontFaceCss, PRINT_FONT_FACES } from '../document-wrapper/print-fonts';
 import type { ThemeColors } from '../document-wrapper/types';
 import { wrapTeacherManualDocument } from '../teacher-manual/document-wrapper';
 import { getTranslations, type SupportedLanguage } from '../teacher-manual/i18n';
@@ -37,8 +38,15 @@ const CSS = `
     .st-variants { border-top: 1px dashed #999; padding: 4px 12px 0 12px; font-size: 9.5pt; break-inside: avoid; }
     .st-variants p { margin: 2px 0; }
     .st-moved { border-left: 4px solid #000; padding-left: 8px; }
-    /* The heading of the moved steps stays with them (Paged.js keeps a heading only inside one avoid block). */
+    /* The heading of the moved steps stays with the first of them (Paged.js keeps a heading only inside one avoid block). */
     .st-moved-group { break-inside: avoid; }
+    .st-prep { border: 2px solid #000; padding: 4px 10px; margin-bottom: 8px; font-size: 9.5pt; break-inside: avoid; }
+    .st-prep h4 { margin: 2px 0; }
+    .st-prep ul { margin: 0; padding-left: 18px; }
+    .st-song { break-before: page; }
+    .st-song table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    .st-song th, .st-song td { border: 1px solid #999; padding: 3px 8px; text-align: left; vertical-align: top; }
+    .st-song .st-part td { font-weight: 700; background: #eee; }
 `;
 
 function escapeHtml(text: string): string {
@@ -78,6 +86,26 @@ function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLa
     </div>`;
 }
 
+/** Splits "a, b, "Hello, I Am Pip" (song, karaoke)" at the commas outside quotes and parentheses. */
+function splitList(text: string): string[] {
+    const parts: string[] = [];
+    let depth = 0;
+    let quoted = false;
+    let start = 0;
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') quoted = !quoted;
+        else if (!quoted && c === '(') depth++;
+        else if (!quoted && c === ')') depth = Math.max(0, depth - 1);
+        else if (c === ',' && !quoted && depth === 0) {
+            parts.push(text.slice(start, i));
+            start = i + 1;
+        }
+    }
+    parts.push(text.slice(start));
+    return parts.map((x) => x.trim()).filter(Boolean);
+}
+
 /**
  * The materials of a week, once each: items of one kind ("picture cards: nest, net") become one item
  * with every word once, in the order of first use.
@@ -94,7 +122,7 @@ export function mergeMaterials(items: string[]): string[] {
             lists.set(key, []);
             order.push(key);
         }
-        if (m) for (const part of m[2].split(',').map((x) => x.trim())) if (part && !lists.get(key)!.includes(part)) lists.get(key)!.push(part);
+        if (m) for (const part of splitList(m[2])) if (!lists.get(key)!.includes(part)) lists.get(key)!.push(part);
     }
     return order.map((key) => (lists.get(key)!.length ? `${key}: ${lists.get(key)!.join(', ')}` : key));
 }
@@ -130,28 +158,62 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
     const l = storytimeLabels(lang);
     const scripts = [...w.scripts].sort((a, b) => a.day - b.day);
     const days = scripts.map((s, i) => {
+        const prep = s.prep.length ? `<div class="st-prep"><h4>${escapeHtml(l.prep)}</h4><ul>${s.prep.map((x) => `<li>${escapeHtml(pick(x, lang))}</li>`).join('')}</ul></div>` : '';
         const strip = w.review.find((r) => r.day === s.day)?.cards ?? [];
         const kinds = (['sound', 'tricky', 'frame', 'word'] as const).filter((k) => strip.some((c) => c.kind === k));
         const stripHtml = strip.length
             ? kinds.map((k) => `<p><strong>${escapeHtml(l.cardKinds[k])}:</strong> ${strip.filter((c) => c.kind === k).map((c) => `<span class="st-card">${escapeHtml(c.text)}</span>`).join('')}</p>`).join('')
             : `<p>${escapeHtml(l.noCards)}</p>`;
         const recall = i > 0 ? scripts[i - 1].steps.filter((st) => st.moved) : [];
+        const recallMinutes = recall.reduce((n, st) => n + st.minutes, 0);
         const moved = s.steps.filter((st) => st.moved);
         return `
   <section class="st-day" id="week-${w.meta.week}-day-${s.day}">
     <h3 class="st-day-title">${escapeHtml(l.day(s.day))} · ${escapeHtml(l.script(s.id, pick(s.title, lang)))} <span class="st-min">${escapeHtml(l.minutes(w.meta.periodMinutes))}</span></h3>
+    ${prep}
     <div class="st-opening">
-      <h4>${escapeHtml(l.opening(w.meta.openingMinutes))}</h4>
+      <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
       <ol>${l.openingSteps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}
     </div>
-    ${recall.length ? `<div class="st-moved-group"><h4>${escapeHtml(l.recall)}</h4>${recall.map((st) => renderStep(st, lang, l)).join('')}</div>` : ''}
+    ${movedGroup(l.recall, recall, lang, l)}
     ${s.steps.filter((st) => !st.moved).map((st) => renderStep(st, lang, l)).join('')}
-    ${i === scripts.length - 1 && moved.length ? `<div class="st-moved-group"><h4>${escapeHtml(l.nextOpening)}</h4>${moved.map((st) => renderStep(st, lang, l)).join('')}</div>` : ''}
+    ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l) : ''}
   </section>`;
     });
-    return renderHeader(w, lang, l) + days.join('');
+    return renderHeader(w, lang, l) + days.join('') + renderSong(w, lang, l);
+}
+
+/** A heading and moved steps: the heading and the first step in one block, the other steps after it. */
+function movedGroup(heading: string, steps: StorytimeStep[], lang: SupportedLanguage, l: StorytimeLabels): string {
+    if (!steps.length) return '';
+    const [first, ...rest] = steps.map((st) => renderStep(st, lang, l));
+    return `<div class="st-moved-group"><h4>${escapeHtml(heading)}</h4>${first}</div>${rest.join('')}`;
+}
+
+/** The choreography sheet of the song (design §6.3): each line with its action, in the order sung. */
+function renderSong(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabels): string {
+    const song = w.song;
+    if (!song) return '';
+    const rows: string[] = [];
+    let part = '';
+    for (const line of song.lines) {
+        if (line.part !== part) {
+            part = line.part;
+            rows.push(`<tr class="st-part"><td colspan="2">${escapeHtml(l.parts[line.part])}</td></tr>`);
+        }
+        const note = line.note ? `<br><em>${escapeHtml(pick(line.note, lang))}</em>` : '';
+        rows.push(`<tr><td>${escapeHtml(line.text)}${note}</td><td>${escapeHtml(line.gesture)}</td></tr>`);
+    }
+    const { intro, outro } = song.choreography;
+    return `
+  <section class="st-song" id="week-${w.meta.week}-song">
+    <h3 class="st-day-title">${escapeHtml(l.songActions(song.title))}</h3>
+    ${intro ? `<p><strong>${escapeHtml(l.songStart)}:</strong> ${escapeHtml(pick(intro, lang))}</p>` : ''}
+    <table><tr><th>${escapeHtml(l.lyricLine)}</th><th>${escapeHtml(l.action)}</th></tr>${rows.join('')}</table>
+    ${outro ? `<p><strong>${escapeHtml(l.songEnd)}:</strong> ${escapeHtml(pick(outro, lang))}</p>` : ''}
+  </section>`;
 }
 
 export interface StorytimeManualOptions {
@@ -193,6 +255,10 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
         lang,
         paper: options.paper ?? 'a4',
     });
+    // The English book also has Thai text (a Thai letter in a step): the Thai print font, not a system font.
+    const thaiInEnglish = lang === 'en' && /[\u0e00-\u0e7f]/.test(body)
+        ? `${fontFaceCss(PRINT_FONT_FACES.filter((f) => f.family === 'Sarabun'))}\n    body, body * { font-family: 'Open Sans', 'Sarabun', sans-serif; }`
+        : '';
     // In the head, not the body: Paged.js reads its page breaks only from the head styles.
-    return { html: html.replace('</head>', `<style>${CSS}</style>\n</head>`), weekCount: weeks.length };
+    return { html: html.replace('</head>', `<style>${CSS}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
 }

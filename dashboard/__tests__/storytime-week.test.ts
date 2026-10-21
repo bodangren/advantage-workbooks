@@ -140,9 +140,30 @@ describe('storytime-week checks', () => {
         expect(status(run((w) => (w.books![1].soundBook = true)), 'books')).toBe('pass');
     });
 
-    it('warns about a song line without a picture, unless an earlier line with the same text has one', () => {
+    it('warns about a song line with no picture and no imageOf, and fails an imageOf that is not an earlier pictured line', () => {
         expect(status(run(), 'song-pictures')).toBe('pass');
-        expect(status(run((w) => delete w.song!.lines[1].image), 'song-pictures')).toBe('warn');
+        expect(status(run(), 'song-picture-refs')).toBe('pass');
+        expect(status(run((w) => delete w.song!.lines[3].imageOf), 'song-pictures')).toBe('warn');
+        expect(status(run((w) => (w.song!.lines[3].imageOf = 5)), 'song-picture-refs')).toBe('fail');
+        expect(status(run((w) => delete w.song!.lines[1].image), 'song-picture-refs')).toBe('fail');
+    });
+
+    it('takes 0 minutes only for a moved step', () => {
+        expect(status(run((w) => (w.scripts[0].steps[5].minutes = 0)), 'step-minutes')).toBe('pass');
+        const report = run((w) => {
+            w.scripts[0].steps[0].minutes = 0;
+            w.scripts[0].steps[1].minutes = 9;
+        });
+        expect(report.checks.find((c) => c.id === 'step-minutes')?.detail).toBe('A1 0 min');
+    });
+
+    it('parses a write-letter check item and a script prep line', () => {
+        const w = fixtureWeek();
+        w.check = { items: [{ kind: 'write-letter', letter: 'n' }] };
+        w.scripts[3].prep = [{ en: "Write each child's name on a name card." }];
+        const parsed = StorytimeWeekSchema.parse(w);
+        expect(parsed.check.items[0]).toEqual({ kind: 'write-letter', letter: 'n' });
+        expect(parsed.scripts[3].prep[0].th).toBe('');
     });
 
     it('fails a teach week without the read-along, the decodable (Level 2 up), or the song', () => {

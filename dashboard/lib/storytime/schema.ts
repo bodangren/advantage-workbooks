@@ -178,8 +178,11 @@ export const SongLineSchema = z.object({
     part: z.enum(['verse', 'chorus']),
     /** One of the 24 named gestures (design §6.3). */
     gesture: z.string().min(1),
-    /** A repeated line can leave it out: it reuses the picture of the first line with the same text. */
     image: StorytimeImageSchema.optional(),
+    /** A repeated line shows the picture of an earlier line: its 0-based index in `lines`. */
+    imageOf: z.number().int().min(0).optional(),
+    /** A note for the teacher on the choreography sheet. */
+    note: BiTextSchema.optional(),
 });
 
 export const SongSchema = z.object({
@@ -194,6 +197,8 @@ export const SongSchema = z.object({
     lyricSheet: z.string().default(''),
     /** Every line as it is sung, the repeated chorus lines too. */
     lines: z.array(SongLineSchema).min(1),
+    /** The choreography sheet: what the class does before the first line and after the last. */
+    choreography: z.object({ intro: BiTextSchema.optional(), outro: BiTextSchema.optional() }).default({}),
     audio: z.string().optional(),
     video: z.string().optional(),
     /** The video with the lyric line highlighted word by word. */
@@ -215,7 +220,8 @@ export const StepSchema = z.object({
     /** The script letter and the step number, e.g. `A1`. */
     id: z.string().regex(/^[A-Z]\d{1,2}$/),
     title: BiTextSchema,
-    minutes: z.number().int().min(1).max(20),
+    /** 0 only for a moved step that takes no class time (a song in the opening, a home-time task). */
+    minutes: z.number().int().min(0).max(20),
     en: NoteSchema,
     /** Daniel's Thai, with the same number of lines under each heading as `en`. */
     th: NoteSchema.optional(),
@@ -235,6 +241,8 @@ export const ScriptSchema = z.object({
     id: ScriptIdSchema,
     day: z.number().int().min(1).max(5),
     title: BiTextSchema,
+    /** What the teacher prepares before this lesson, printed at the top of the day. */
+    prep: z.array(BiTextSchema).default([]),
     steps: z.array(StepSchema).min(1),
 });
 
@@ -263,6 +271,10 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
     z.object({
         kind: z.literal('write-word'),
         word: z.string().min(1),
+    }),
+    z.object({
+        kind: z.literal('write-letter'),
+        letter: z.string().min(1),
     }),
 ]);
 

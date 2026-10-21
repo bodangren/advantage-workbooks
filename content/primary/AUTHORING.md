@@ -130,7 +130,7 @@ Every word that a level-1 to level-3 text needs is easy to replace with a Starte
 ## 6. Pictures
 
 - Three lines: `hero`, `inline-para-2`, `inline-para-3`. Each shows a different moment of the text.
-- `characters`: the cast names in the picture (series bible names: Pip, Tom, Lily, Mia, Ben, Leo, Sam, May, Pat, Teacher Kim, Mom, Dad, Grandma, Grandpa, Squeaky), the main one first; `-` for none. The character sheets fix their looks, so do not describe the cast's looks.
+- `characters`: the cast names in the picture (series bible names: Pip, Tom, Lily, Mia, Ben, Leo, Sam, May, Pat, Teacher Kim, Mom, Dad, Grandma, Grandpa, Squeaky; Nan is a five-year-old in the Storytime books only, with no sheet yet, so a prompt writes her `look` from `cast.json` and leaves her out of `characters`), the main one first; `-` for none. The character sheets fix their looks, so do not describe the cast's looks.
 - A person who is not in the cast: describe age, hair, and every clothing item with its color. Never describe skin, race, or nationality. The words thai, asian, western, american, chinese, japanese, korean, indian, european, african, ethnic, race, skin, and complexion fail the check, even in "Thai school uniform": write "a white school shirt and dark blue shorts (or skirt)".
 - `Mom`, `Dad`, `Grandma`, and `Grandpa` in `characters` are Tom and Lily's family (their sheets). Another child's parent is not cast: leave the name out of `characters` and write the look at the first mention in each prompt. Use these looks, so that a parent looks the same in every article:
   - Mia's mom: a woman of about thirty-five with long straight black hair in a low ponytail, a pink blouse, dark blue jeans, and white sneakers

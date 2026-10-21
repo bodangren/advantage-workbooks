@@ -116,12 +116,62 @@ describe('Storytime manual template', () => {
             'board',
             'sound card: n',
         ]);
+        // A comma in a title or in parentheses does not split the item.
+        expect(mergeMaterials(['videos: "Hello, I Am Pip" (song, karaoke)', 'videos: "Hello!"', 'videos: "Hello, I Am Pip" (song, karaoke)'])).toEqual([
+            'videos: "Hello, I Am Pip" (song, karaoke), "Hello!"',
+        ]);
     });
 
     it('keeps the heading of the moved steps in one block with the steps', () => {
         const html = renderStorytimeWeek(week(), 'en');
-        expect(daySection(html, 2)).toMatch(/<div class="st-moved-group"><h4>Recall from the last lesson/);
+        const day2 = daySection(html, 2);
+        const group = day2.indexOf('<div class="st-moved-group"><h4>Recall from the last lesson');
+        expect(group).toBeGreaterThan(-1);
+        // A7 is inside the block; at the A8 title only the A8 step's own div is open, so the block is closed.
+        const open = (text: string) => (text.match(/<div/g)?.length ?? 0) - (text.match(/<\/div>/g)?.length ?? 0);
+        expect(day2.slice(group, day2.indexOf('A7 · Read it'))).toMatch(/st-moved-group/);
+        expect(open(day2.slice(group, day2.indexOf('A8 · Home card')))).toBe(1);
         expect(daySection(html, 5)).toMatch(/<div class="st-moved-group"><h4>At the next opening/);
+    });
+
+    it('prints the prep box at the top of the day and the recall minutes in the opening', () => {
+        const html = renderStorytimeWeek(
+            week((w) => {
+                w.scripts[3].prep = [{ en: "Write each child's name on a name card." }];
+                w.scripts[0].steps.find((s) => s.id === 'A8')!.minutes = 0;
+            }),
+            'en',
+        );
+        expect(daySection(html, 4)).toMatch(/^[^>]*>\s*<h3[\s\S]*?<div class="st-prep"><h4>Before this lesson<\/h4><ul><li>Write each child&#039;s name/);
+        expect(daySection(html, 1)).not.toContain('st-prep');
+        // Day 2 recalls A7 (1 min) and A8 (0 min); day 3 recalls B6 and B7 (1 min each).
+        expect(daySection(html, 2)).toContain('Opening routine (6 min + recall 1 min)');
+        expect(daySection(html, 3)).toContain('Opening routine (6 min + recall 2 min)');
+        expect(daySection(html, 1)).toContain('Opening routine (6 min)<');
+    });
+
+    it('prints the choreography sheet after day 5: parts, lines, actions, notes, start and end', () => {
+        const html = renderStorytimeWeek(
+            week((w) => {
+                w.song!.lines[0].note = { en: 'Sing it as written.' };
+                w.song!.choreography = { outro: { en: 'Nod and hum nnn.' } };
+            }),
+            'en',
+        );
+        const song = html.slice(html.indexOf('<section class="st-song"'));
+        expect(html.indexOf('<section class="st-song"')).toBeGreaterThan(html.lastIndexOf('<section class="st-day"'));
+        expect(song).toContain('Song actions: Hello, I Am ___');
+        expect(song).toMatch(/>Verse<[\s\S]*Hello, hello, hello to you![\s\S]*Sing it as written\.[\s\S]*>wave<[\s\S]*>Chorus</);
+        expect(song.split('<tr><td>').length - 1).toBe(week().song!.lines.length);
+        expect(song).toContain('<strong>End:</strong> Nod and hum nnn.');
+    });
+
+    it('gives the English book the Thai print font when a step has Thai text', () => {
+        const plain = compileStorytimeManual([week()], { lang: 'en' }).html;
+        expect(plain).not.toContain("'Open Sans', 'Sarabun'");
+        const html = compileStorytimeManual([week((w) => (w.scripts[0].steps[1].en.teacherActions![0] = 'It is the Thai letter น.'))], { lang: 'en' }).html;
+        expect(html).toMatch(/font-family: 'Sarabun'/);
+        expect(html).toContain("body, body * { font-family: 'Open Sans', 'Sarabun', sans-serif; }");
     });
 
     it('escapes the package text', () => {

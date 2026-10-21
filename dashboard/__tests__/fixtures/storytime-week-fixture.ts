@@ -59,7 +59,7 @@ export function fixtureWeek(): StorytimeWeekInput {
                 { text: 'Hello, hello, hello to you!', part: 'verse', gesture: 'wave', image: { prompt: 'Sprouts wave hello', characters: [], caption: '' } },
                 { ...chorus, image: { prompt: 'Nat waves', characters: [], caption: '' } },
                 { text: 'Hello, I am Nan!', part: 'chorus', gesture: 'point to self', image: { prompt: 'Nan points to herself', characters: [], caption: '' } },
-                ...[0, 1, 2].flatMap(() => [chorus, { text: 'Hello, I am Nan!', part: 'chorus' as const, gesture: 'point to self' }]),
+                ...[0, 1, 2].flatMap(() => [{ ...chorus, imageOf: 1 }, { text: 'Hello, I am Nan!', part: 'chorus' as const, gesture: 'point to self', imageOf: 2 }]),
             ],
         },
         scripts: [

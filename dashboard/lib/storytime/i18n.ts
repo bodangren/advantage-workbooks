@@ -27,7 +27,14 @@ export interface StorytimeLabels {
     song: string;
     homeLine: string;
     materials: string;
-    opening: (minutes: number) => string;
+    opening: (minutes: number, recall: number) => string;
+    prep: string;
+    songActions: (title: string) => string;
+    lyricLine: string;
+    action: string;
+    parts: Record<'verse' | 'chorus', string>;
+    songStart: string;
+    songEnd: string;
     openingSteps: string[];
     strip: string;
     noCards: string;
@@ -61,7 +68,14 @@ const en: StorytimeLabels = {
     song: 'Song',
     homeLine: 'Home card',
     materials: 'Materials',
-    opening: (minutes) => `Opening routine (${minutes} min)`,
+    opening: (minutes, recall) => `Opening routine (${minutes} min${recall ? ` + recall ${recall} min` : ''})`,
+    prep: 'Before this lesson',
+    songActions: (title) => `Song actions: ${title}`,
+    lyricLine: 'Line',
+    action: 'Action',
+    parts: { verse: 'Verse', chorus: 'Chorus' },
+    songStart: 'Start',
+    songEnd: 'End',
     openingSteps: [
         'Greeting song and call-and-response: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'Calendar: the day and the weather. One child points.',
@@ -100,7 +114,14 @@ const th: StorytimeLabels = {
     song: 'เพลง',
     homeLine: 'บัตรกิจกรรมที่บ้าน',
     materials: 'สื่อการสอน',
-    opening: (minutes) => `กิจวัตรเปิดคาบ (${minutes} นาที)`,
+    opening: (minutes, recall) => `กิจวัตรเปิดคาบ (${minutes} นาที${recall ? ` + ทบทวน ${recall} นาที` : ''})`,
+    prep: 'ก่อนเริ่มคาบ',
+    songActions: (title) => `ท่าทางประกอบเพลง: ${title}`,
+    lyricLine: 'เนื้อเพลง',
+    action: 'ท่าทาง',
+    parts: { verse: 'ท่อนร้อง', chorus: 'ท่อนฮุก' },
+    songStart: 'เริ่มเพลง',
+    songEnd: 'จบเพลง',
     openingSteps: [
         'ร้องเพลงทักทายและพูดโต้ตอบ: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'ปฏิทิน: วันและสภาพอากาศ ให้เด็กหนึ่งคนชี้',

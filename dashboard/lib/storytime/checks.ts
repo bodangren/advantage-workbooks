@@ -89,6 +89,7 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
             }),
         ),
     );
+    checks.push(check('step-minutes', 'Every step in the period has minutes', steps.filter(({ step }) => !step.moved && step.minutes === 0).map(({ step }) => `${step.id} 0 min`)));
     if (level === 1) {
         // Four-year-olds move every 5 to 7 minutes; no step is longer than 8 (design §3.4).
         checks.push(check('step-length', 'Level 1 steps of 8 minutes or less', steps.filter(({ step }) => step.minutes > 8).map(({ step }) => `${step.id} ${step.minutes} min`)));
@@ -146,12 +147,12 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
             ),
         );
         checks.push(check('song-gestures', 'A gesture of the 24 on every song line', w.song.lines.filter((l) => !GESTURE_SET.has(l.gesture)).map((l) => `"${l.text}": ${l.gesture}`)));
-        const pictured = new Set<string>();
-        const missing: string[] = [];
-        for (const l of w.song.lines) {
-            if (l.image) pictured.add(stem(l.text));
-            else if (!pictured.has(stem(l.text))) missing.push(`"${l.text}"`);
-        }
+        const lines = w.song.lines;
+        const badRefs = lines.flatMap((l, i) =>
+            l.imageOf === undefined ? [] : l.imageOf >= i || !lines[l.imageOf].image ? [`line ${i + 1} imageOf ${l.imageOf}: not an earlier line with a picture`] : [],
+        );
+        checks.push(check('song-picture-refs', 'imageOf names an earlier line with a picture', badRefs));
+        const missing = lines.flatMap((l, i) => (l.image || l.imageOf !== undefined ? [] : [`line ${i + 1} "${l.text}"`]));
         checks.push(check('song-pictures', 'A picture for every song line (S9)', missing, 'warn'));
     }
 
