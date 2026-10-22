@@ -170,6 +170,8 @@ export const BookSchema = z.object({
         .optional(),
     /** The back-cover word list. */
     backWords: z.array(z.string().min(1)).default([]),
+    /** Names that the reader learns as whole words: the decodability rule lists them and does not count them as untaught (design §6.1). */
+    names: z.array(z.string().min(1)).default([]),
     audio: BookAudioSchema.default({ sentences: [], slowSentences: [] }),
 });
 

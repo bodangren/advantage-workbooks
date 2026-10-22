@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeWeekInput } from '../lib/storytime/schema';
-import { checkStorytimeWeek, frameCount } from '../lib/storytime/checks';
+import { checkStorytimeWeek, decodability, frameCount, taughtTo } from '../lib/storytime/checks';
 import { storytimeMediaDir, storytimeWeekFile } from '../lib/storytime/files';
 import { fixtureWeek } from './fixtures/storytime-week-fixture';
 
@@ -254,6 +254,48 @@ describe('storytime-week checks', () => {
             w.meta.key = 'st2/9';
         });
         expect(broken.checks.find((c) => c.id === 'published')?.detail).toBe('key fails');
+    });
+
+    it('counts decodable, tricky, name, and untaught words (design §5.6)', () => {
+        const taught = { graphemes: ['n', 'a', 'sh'], tricky: ['I', 'can', 'and'] };
+        expect(decodability('Nan can. Can I? An ash!', taught)).toMatchObject({ running: 6, decodable: 3, tricky: 3, untaught: [], ratio: 1 });
+        // Every letter of a word must be taught; a name is listed, not untaught, and counts against the ratio.
+        const d = decodability('Nan and Pip can nap.', taught, ['Pip']);
+        expect(d).toMatchObject({ running: 5, decodable: 1, tricky: 2, names: ['Pip'], untaught: ['nap'] });
+        expect(d.ratio).toBeCloseTo(0.6);
+        expect(decodability('', taught).ratio).toBe(1);
+    });
+
+    it('collects the taught letters and tricky words from Level 2 week 1 to the week', () => {
+        const at = (level: number, week: number, graphemes: string[], tricky: string[]) => {
+            const w = StorytimeWeekSchema.parse(fixtureWeek());
+            w.meta = { ...w.meta, level, week };
+            w.focus = { ...w.focus, element: { ...w.focus.element!, graphemes }, trickyWords: tricky };
+            return w;
+        };
+        const weeks = [at(1, 3, ['n'], []), at(2, 1, ['n'], ['a']), at(2, 3, ['p'], ['the']), at(3, 1, ['sh'], ['was'])];
+        expect(taughtTo(weeks, at(2, 2, ['a'], ['I']))).toEqual({ graphemes: ['n', 'a'], tricky: ['a', 'I'] });
+        expect(taughtTo(weeks, at(3, 2, ['ch'], []))).toEqual({ graphemes: ['n', 'p', 'sh', 'ch'], tricky: ['a', 'the', 'was'] });
+    });
+
+    it('fails a decodable under 90 percent or with an untaught word, lists names, skips a sound book, and warns with no level', () => {
+        const taught = { graphemes: ['n', 'a'], tricky: ['a', 'and', 'can', 'I'] };
+        const week = (pages: string[], change?: (w: StorytimeWeekInput) => void) => {
+            const w = fixtureWeek();
+            w.books![1] = { kind: 'decodable', title: 'Nan Can', pages: pages.map((text) => ({ text })) };
+            change?.(w);
+            return checkStorytimeWeek(w, taught);
+        };
+        const good = ['Nan can.', 'Can I?', 'I can!', 'Nan can.', 'Can I?', 'I can!', 'Can Nan?', 'Nan and I can!'];
+        expect(status(week(good), 'decodable')).toBe('pass');
+        const nap = week(good.map((p, i) => (i === 7 ? 'Nan can nap!' : p)));
+        expect(nap.checks.find((c) => c.id === 'decodable')?.detail).toMatch(/untaught: nap/);
+        const pip = ['Pip can.', 'Pip can.', 'Pip can.', 'Can I?', 'I can!', 'Can I?', 'I can!', 'Nan can!'];
+        const named = week(pip, (w) => (w.books![1].names = ['Pip']));
+        expect(named.checks.find((c) => c.id === 'decodable')).toMatchObject({ status: 'fail', label: expect.stringContaining('names: Pip') });
+        expect(named.checks.find((c) => c.id === 'decodable')?.detail).toMatch(/^83 percent of 18 words$/);
+        expect(status(week(good, (w) => (w.books![1].soundBook = true)), 'decodable')).toBeUndefined();
+        expect(status(checkStorytimeWeek(fixtureWeek()), 'decodable')).toBe('warn');
     });
 
     it('warns about a teach week without a Friday check or a home card with other than 3 words', () => {

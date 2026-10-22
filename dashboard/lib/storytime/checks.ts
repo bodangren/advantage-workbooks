@@ -1,6 +1,6 @@
 import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-package/checks';
 import type { CheckStatus } from '../text-profile/check';
-import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeNote } from './schema';
+import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeNote, type StorytimeWeek } from './schema';
 
 /** The headings of a step note, in print order. */
 const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
@@ -33,14 +33,75 @@ export function frameCount(frame: string, lines: string[]): number {
     return lines.filter((l) => re.test(stem(l))).length;
 }
 
+/** The letters and the tricky words that the books of a week can use. */
+export interface TaughtSet {
+    graphemes: string[];
+    tricky: string[];
+}
+
+/**
+ * The graphemes and tricky words taught from Level 2 week 1 to a week, the week included (design §6.1,
+ * cumulative rule). Level 1 teaches the letters by ear and has no decodable, so it does not count.
+ * @param weeks The known weeks (the weeks after the week, and Level 1, are ignored).
+ * @param week The week.
+ * @returns The taught graphemes and tricky words.
+ */
+export function taughtTo(weeks: StorytimeWeek[], week: StorytimeWeek): TaughtSet {
+    const { level } = week.meta;
+    const earlier = weeks.filter((w) => w.meta.level >= 2 && (w.meta.level < level || (w.meta.level === level && w.meta.week < week.meta.week)));
+    const before = [...earlier, week];
+    return {
+        graphemes: [...new Set(before.flatMap((w) => w.focus.element?.graphemes ?? []))],
+        tricky: [...new Set(before.flatMap((w) => w.focus.trickyWords))],
+    };
+}
+
+export interface Decodability {
+    running: number;
+    decodable: number;
+    tricky: number;
+    /** The names in the text (excepted from the untaught words, counted against the ratio). */
+    names: string[];
+    /** The words that are not decodable, not taught tricky words, and not names. */
+    untaught: string[];
+    /** (decodable + tricky) / running. */
+    ratio: number;
+}
+
+/**
+ * The decodability of a text (design §5.6, before the lexicon exists). A word is decodable when the
+ * taught graphemes spell all of it; case does not count.
+ * @param text The text.
+ * @param taught The taught graphemes and tricky words.
+ * @param names The names that the book lists.
+ * @returns The counts, the names, the untaught words, and the ratio.
+ */
+export function decodability(text: string, taught: TaughtSet, names: string[] = []): Decodability {
+    const words = text.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) ?? [];
+    const graphemes = taught.graphemes.map((g) => g.toLowerCase());
+    const tricky = new Set(taught.tricky.map((t) => t.toLowerCase()));
+    const nameSet = new Set(names);
+    const spells = (word: string, i = 0): boolean => i === word.length || graphemes.some((g) => word.startsWith(g, i) && spells(word, i + g.length));
+    const result: Decodability = { running: words.length, decodable: 0, tricky: 0, names: [], untaught: [], ratio: 1 };
+    for (const word of words) {
+        if (spells(word.toLowerCase())) result.decodable++;
+        else if (tricky.has(word.toLowerCase())) result.tricky++;
+        else if (nameSet.has(word)) result.names.push(word);
+        else result.untaught.push(word);
+    }
+    if (words.length) result.ratio = (result.decodable + result.tricky) / words.length;
+    return result;
+}
+
 /**
  * Checks one Storytime week against the design rules (design §3, §4, §6). A FAIL blocks approval;
  * a WARN marks a part that is not yet done (Thai, pictures) or a rule that the Storytime session
  * can waive.
  * @param input The week as read from disk (not yet parsed).
+ * @param taught The graphemes and tricky words taught to this week (`taughtTo`); without it, the decodability check warns.
  * @returns The report in the Primary package report format (`lesson` is the URL key).
  */
-export function checkStorytimeWeek(input: unknown): PackageReport {
+export function checkStorytimeWeek(input: unknown, taught?: TaughtSet): PackageReport {
     const parsed = StorytimeWeekSchema.safeParse(input);
     if (!parsed.success) return schemaFailure(parsed.error.issues);
     const w = parsed.data;
@@ -128,6 +189,19 @@ export function checkStorytimeWeek(input: unknown): PackageReport {
         else if (decodable && decodable.pages.length !== 8) bookProblems.push(`decodable: ${decodable.pages.length} pages, not 8`);
     }
     checks.push(check('books', 'Books', bookProblems));
+    if (decodable && !decodable.soundBook && level >= 2) {
+        // Design §6.1: 90 percent or more of the running words decodable, no untaught word except names.
+        if (!taught) checks.push(check('decodable', 'Decodable: 90 percent or more of the words, no untaught word', ['the earlier weeks are not given (check the level)'], 'warn'));
+        else {
+            const d = decodability([decodable.title, ...decodable.pages.map((p) => p.text)].join(' '), taught, decodable.names);
+            const names = d.names.length ? ` (names: ${[...new Set(d.names)].join(', ')})` : '';
+            const problems = [
+                ...(d.ratio < 0.9 ? [`${Math.floor(d.ratio * 100)} percent of ${d.running} words`] : []),
+                ...(d.untaught.length ? [`untaught: ${[...new Set(d.untaught)].join(', ')}`] : []),
+            ];
+            checks.push(check('decodable', `Decodable: 90 percent or more of the words, no untaught word${names}`, problems));
+        }
+    }
 
     // Song.
     if (teach) {

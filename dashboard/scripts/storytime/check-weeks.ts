@@ -1,6 +1,6 @@
 import path from 'path';
 import { formatPackageReports } from '../../lib/lesson-package/report';
-import { checkStorytimeWeek } from '../../lib/storytime/checks';
+import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 
 const USAGE = `Checks the Storytime week files of a level (track storytime_week_package_20261022).
@@ -17,7 +17,12 @@ function main(argv: string[]): number {
         return argv.includes('--help') ? 0 : 2;
     }
     const weeks = readLevelWeeks(STORYTIME_ROOT, level);
-    const reports = weeks.map((w) => ({ ...checkStorytimeWeek(w.raw), file: path.relative(process.cwd(), w.file) }));
+    // The decodability rule counts every week from Level 2 week 1.
+    const known = [2, 3, 4].filter((l) => l <= level).flatMap((l) => readLevelWeeks(STORYTIME_ROOT, l)).flatMap((w) => (w.week ? [w.week] : []));
+    const reports = weeks.map((w) => ({
+        ...checkStorytimeWeek(w.raw, w.week ? taughtTo(known, w.week) : undefined),
+        file: path.relative(process.cwd(), w.file),
+    }));
     console.log(formatPackageReports(reports));
     return reports.some((r) => r.checks.some((c) => c.status === 'fail')) ? 1 : 0;
 }

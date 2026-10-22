@@ -5,7 +5,7 @@ import { chromium } from '@playwright/test';
 import { formatPackageReports } from '../../lib/lesson-package/report';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
 import { renderPagedPdf, run } from '../../lib/print/render';
-import { checkStorytimeWeek } from '../../lib/storytime/checks';
+import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { compileStorytimeManual } from '../../lib/storytime/manual';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../../lib/storytime/schema';
@@ -69,7 +69,10 @@ async function main(argv: string[]): Promise<number> {
         console.error('No week files');
         return 1;
     }
-    console.log(formatPackageReports(read.map((r) => ({ ...checkStorytimeWeek(r.raw), file: path.relative(process.cwd(), r.file) }))));
+    // The decodability rule counts every week from Level 2 week 1 to the week.
+    const known = [2, 3, 4].flatMap((l) => readLevelWeeks(STORYTIME_ROOT, l)).flatMap((w) => (w.week ? [w.week] : []));
+    const taught = (r: (typeof read)[number]) => (r.week ? taughtTo(known, r.week) : undefined);
+    console.log(formatPackageReports(read.map((r) => ({ ...checkStorytimeWeek(r.raw, taught(r)), file: path.relative(process.cwd(), r.file) }))));
     const broken = read.filter((r) => !r.week);
     if (broken.length) {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);
