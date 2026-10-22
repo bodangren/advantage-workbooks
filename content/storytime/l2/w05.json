@@ -73,16 +73,6 @@
           }
         },
         {
-          "word": "mouth",
-          "image": {
-            "prompt": "Sam (drawn young, about five years old) points at his open smiling mouth. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
-            "characters": [
-              "Sam"
-            ],
-            "caption": "mouth"
-          }
-        },
-        {
           "word": "hands",
           "image": {
             "prompt": "Sam (drawn young, about five years old) holds up his two open hands. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
@@ -339,9 +329,9 @@
           }
         },
         {
-          "text": "Nan saw Sam!",
+          "text": "Pam is off Sam!",
           "image": {
-            "prompt": "Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers, stands at the open door of the same cozy living room with her hands on her hips and a big surprised face; Sam (drawn young, about five years old) sits up on the rug and holds a small rag doll with yellow yarn hair and a red dress behind his back. No letters, words, or numbers anywhere.",
+            "prompt": "Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers, stands at the open door of the same cozy living room with her hands on her hips and a big surprised face; Sam (drawn young, about five years old) sits up fast on the soft rug, and a small rag doll with yellow yarn hair and a red dress falls off his tummy onto the rug. No letters, words, or numbers anywhere.",
             "characters": [
               "Sam"
             ],
@@ -366,6 +356,7 @@
         ],
         "tricky": [
           "saw",
+          "off",
           "with"
         ]
       },
@@ -377,6 +368,7 @@
         "map",
         "nap",
         "saw",
+        "off",
         "with"
       ],
       "audio": {
@@ -546,7 +538,7 @@
       },
       "prep": [
         {
-          "en": "Put the picture cards in order on your table: the sss cards and the other cards for A1, then sad, bag, and cat for A4, with the word card \"am\" and the letter cards s and p.",
+          "en": "Put the picture cards in order on your table: the sss cards and the other cards for A1, then sad, bag, and cat for A4, with the word card \"am\" and the cards for the letters s and p.",
           "th": "เรียงบัตรภาพไว้บนโต๊ะครูตามลำดับ: บัตรภาพคำที่มีเสียง sss และบัตรภาพอื่นสำหรับ A1 แล้วตามด้วยบัตรภาพ sad, bag และ cat สำหรับ A4 พร้อมบัตรคำ \"am\" และบัตรตัวอักษร s และ p"
         }
       ],
@@ -579,7 +571,8 @@
             "watchFor": [
               "Children who say \"suh\" or \"sa\": the sound is sss, with no vowel at the end.",
               "Children who copy a friend's thumbs: ask them alone with one more card.",
-              "Children who say \"but\" for \"bus\": keep the hiss at the end: busss. In Thai, ส at the end of a word sounds like /t/; in English, sss at the end stays a hiss."
+              "Children who say \"but\" for \"bus\": keep the hiss at the end: busss.",
+              "In Thai, ส at the end of a word sounds like /t/. In English, sss at the end of a word stays a hiss."
             ]
           },
           "easier": {
@@ -620,7 +613,8 @@
             "watchFor": [
               "เด็กที่ออกเสียงเป็น \"suh\" (เซอะ) หรือ \"sa\" (ซะ): เสียงที่ถูกคือ sss ไม่มีสระตามหลัง",
               "เด็กที่ทำนิ้วโป้งตามเพื่อน: ให้เด็กคนนั้นตอบคนเดียวด้วยบัตรอีก 1 ใบ",
-              "เด็กที่ออกเสียง \"bus\" เป็น \"but\": ให้คงเสียงลมลอดฟันไว้ที่ท้ายคำ: busss ในภาษาไทย ส ที่เป็นตัวสะกดออกเสียงเหมือน /t/ (แม่กด) แต่ในภาษาอังกฤษ sss ที่ท้ายคำยังคงเป็นเสียงลมลอดฟัน"
+              "เด็กที่ออกเสียง \"bus\" เป็น \"but\": ให้คงเสียงลมลอดฟันไว้ที่ท้ายคำ: busss",
+              "ในภาษาไทย ส ที่เป็นตัวสะกดออกเสียงเหมือน /t/ (แม่กด) แต่ในภาษาอังกฤษ sss ที่ท้ายคำยังคงเป็นเสียงลมลอดฟัน"
             ]
           }
         },
@@ -657,8 +651,8 @@
             "th": "เด็ก ๆ ยกมือ 1 ข้างไว้หน้าปาก แล้วรู้สึกถึงลมที่ออกมาขณะพูด sss"
           },
           "harder": {
-            "en": "Show the cards for the letters s, m, p, a, and n in a mixed order. Children do the action of the card.",
-            "th": "ชูบัตร s, m, p, a และ n แบบสลับลำดับ เด็ก ๆ ทำท่าประจำเสียงของบัตรนั้น"
+            "en": "Show the five sound cards in a mixed order. Children do the action of the card.",
+            "th": "ชูบัตรเสียงทั้ง 5 ใบแบบสลับลำดับ เด็ก ๆ ทำท่าประจำเสียงของบัตรนั้น"
           },
           "group": {
             "en": "Two halves: one half says the sound, and the other half does the action. Then the halves change.",
@@ -698,7 +692,7 @@
           "minutes": 4,
           "en": {
             "teacherActions": [
-              "Write the letter s (the small s, not the big S) large on the board, and say the formation words while you write.",
+              "Write the lower-case letter s large on the board, and say the formation words while you write.",
               "Write the letter s in the air with your back to the class, so your hand moves the same way as theirs.",
               "Children write the letter s in the air, then trace it in the book three times."
             ],
@@ -734,7 +728,7 @@
           ],
           "th": {
             "teacherActions": [
-              "เขียนตัวอักษร s ขนาดใหญ่บนกระดาน (s ตัวพิมพ์เล็ก ไม่ใช่ S ตัวพิมพ์ใหญ่) และพูดคำบอกวิธีเขียนขณะเขียน",
+              "เขียนตัวอักษร s ตัวพิมพ์เล็กขนาดใหญ่บนกระดาน และพูดคำบอกวิธีเขียนขณะเขียน",
               "เขียนตัวอักษร s กลางอากาศโดยหันหลังให้เด็ก ๆ เพื่อให้มือของครูเคลื่อนไปทางเดียวกับมือของเด็ก ๆ",
               "เด็ก ๆ เขียนตัวอักษร s กลางอากาศ แล้วลากเส้นตามตัวอักษร s ในหนังสือ 3 ครั้ง"
             ],
@@ -836,7 +830,7 @@
             ],
             "teacherLanguage": [
               "\"Here is the letter s. It says sss.\"",
-              "\"Our new word! Read it with me: Sam. It is a name, so it starts with a big S.\"",
+              "\"Our new word! Read it with me: Sam. It is a name, so it starts with a big letter S.\"",
               "\"Now read all the words: an, Nan, pan, nap, am, man, map, Pam, Sam.\""
             ],
             "studentActions": [
@@ -865,7 +859,7 @@
           ],
           "th": {
             "teacherActions": [
-              "ติดบัตร s บนผนังคำศัพท์ ข้างบัตร n, a, p และ m",
+              "ติดบัตรตัวอักษร s บนผนังคำศัพท์ ข้างบัตรตัวอักษร n, a, p และ m",
               "ติดคำใหม่บนผนังคำศัพท์: \"Sam\" ทั้งชั้นอ่านคำนี้ แล้วอ่านทุกคำบนผนังคำศัพท์"
             ],
             "teacherLanguage": [
@@ -891,7 +885,7 @@
           "en": {
             "teacherActions": [
               "Show the cards saw, off, and with. Show one card at a time.",
-              "Read the word. Show the letters that the class can sound out: the s in \"saw\". The other letters are tricky.",
+              "Read the word. Show the letters that the class can sound out: the letter s in \"saw\". The other letters are tricky.",
               "Spell each word with letter names, then write it in the air."
             ],
             "teacherLanguage": [
@@ -902,11 +896,11 @@
             ],
             "studentActions": [
               "Children read each card three times: loud, quiet, loud.",
-              "Children find the s in \"saw\".",
+              "Children find the letter s in \"saw\".",
               "Children act \"off\": they take off a pretend hat."
             ],
             "watchFor": [
-              "Children who read \"saw\" as \"was\": point to the first letter, s, and say sss."
+              "Children who read \"saw\" as \"was\": point to the first letter, the letter s, and say sss."
             ]
           },
           "easier": {
@@ -942,7 +936,7 @@
               "เด็ก ๆ แสดงท่าทางคำ \"off\": ทำท่าเหมือนถอดหมวกออก"
             ],
             "watchFor": [
-              "เด็กที่อ่าน \"saw\" เป็น \"was\": ชี้ที่ตัวอักษรตัวแรก คือ s แล้วพูด sss"
+              "เด็กที่อ่าน \"saw\" เป็น \"was\": ชี้ที่ตัวอักษรตัวแรก คือตัวอักษร s แล้วพูด sss"
             ]
           }
         },
@@ -1101,8 +1095,8 @@
             ]
           },
           "easier": {
-            "en": "Use four cards: eyes, ears, nose, mouth.",
-            "th": "ใช้บัตร 4 ใบ: eyes, ears, nose, mouth"
+            "en": "Use four cards: eyes, ears, nose, hands.",
+            "th": "ใช้บัตร 4 ใบ: eyes, ears, nose, hands"
           },
           "harder": {
             "en": "A child says a word; the class touches that part of the body.",
@@ -1113,7 +1107,7 @@
             "th": "ทำเป็นคู่: คู่คนที่ 1 ชี้ที่บัตร คู่คนที่ 2 พูดคำนั้นและแตะส่วนนั้นของร่างกาย"
           },
           "materials": [
-            "family picture cards: eyes, ears, nose, mouth, hands, arms, legs, feet"
+            "family picture cards: eyes, ears, nose, hands, arms, legs, feet"
           ],
           "th": {
             "teacherActions": [
@@ -1363,7 +1357,7 @@
           },
           "materials": [
             "board",
-            "family picture cards: eyes, ears, nose, mouth, hands, arms, legs, feet"
+            "family picture cards: eyes, ears, nose, hands, arms, legs, feet"
           ],
           "th": {
             "teacherActions": [
@@ -1505,8 +1499,8 @@
       },
       "prep": [
         {
-          "en": "Put one s card in each child's letter card set (with the n, a, p, and m cards).",
-          "th": "ใส่บัตร s 1 ใบ ในชุดบัตรตัวอักษรของเด็กแต่ละคน (รวมกับบัตร n, a, p และ m)"
+          "en": "Put one card for the letter s in each child's letter card set (with the cards for the letters n, a, p, and m).",
+          "th": "ใส่บัตรตัวอักษร s 1 ใบ ในชุดบัตรตัวอักษรของเด็กแต่ละคน (รวมกับบัตรตัวอักษร n, a, p และ m)"
         }
       ],
       "steps": [
@@ -1519,7 +1513,7 @@
           "minutes": 2,
           "en": {
             "teacherActions": [
-              "Show the cards for the letters s, m, p, a, and n fast, in a mixed order.",
+              "Show the five sound cards fast, in a mixed order.",
               "Children say the sound and do the action of the card."
             ],
             "teacherLanguage": [
@@ -1552,7 +1546,7 @@
           ],
           "th": {
             "teacherActions": [
-              "ชูบัตร s, m, p, a และ n อย่างรวดเร็ว แบบสลับลำดับ",
+              "ชูบัตรเสียงทั้ง 5 ใบอย่างรวดเร็ว แบบสลับลำดับ",
               "เด็ก ๆ ออกเสียงและทำท่าประจำเสียงของบัตรนั้น"
             ],
             "teacherLanguage": [
@@ -1578,7 +1572,7 @@
           "minutes": 5,
           "en": {
             "teacherActions": [
-              "Each child has a workmat and the letter cards s, n, a, p, m.",
+              "Each child has a workmat and the five letter cards of the week.",
               "Build a chain, one change at a time: the word am, then Sam, then Pam, then pan, then man, then map.",
               "Children push one card into a box for each sound and say the sound, then read the word."
             ],
@@ -1613,13 +1607,13 @@
           ],
           "th": {
             "teacherActions": [
-              "เด็กแต่ละคนมีแผ่นรองกิจกรรม 1 แผ่น และบัตรตัวอักษร s, n, a, p, m",
+              "เด็กแต่ละคนมีแผ่นรองกิจกรรม 1 แผ่น และบัตรตัวอักษร 5 ใบของสัปดาห์นี้",
               "ต่อคำทีละขั้น โดยเพิ่มหรือเปลี่ยนบัตรครั้งละ 1 ใบ: คำ am แล้ว Sam แล้ว Pam แล้ว pan แล้ว man แล้ว map",
               "เด็ก ๆ เลื่อนบัตรเข้าช่องทีละใบ ใบละ 1 เสียง และออกเสียงนั้น แล้วอ่านคำ"
             ],
             "teacherLanguage": [
               "\"ต่อคำ am /a/ - mmm เลื่อนบัตร\"",
-              "\"วางบัตร s ไว้ข้างหน้า Sss - /a/ - mmm Sam!\"",
+              "\"วางบัตรตัวอักษร s ไว้ข้างหน้า Sss - /a/ - mmm Sam!\"",
               "\"เปลี่ยนตัวอักษร s เป็นตัวอักษร p ตอนนี้เป็นคำอะไร? Pam!\"",
               "\"เปลี่ยนตัวอักษร m เป็นตัวอักษร n: pan เปลี่ยนตัวอักษร p เป็นตัวอักษร m: man เปลี่ยนตัวอักษร n เป็นตัวอักษร p: map!\""
             ],
@@ -1641,13 +1635,13 @@
           "en": {
             "teacherActions": [
               "Say the sound sss; children say it, then write the letter s in the book. Do it two times.",
-              "Say \"Sam\". Children say the sounds on three fingers, then write the word in three boxes, with a big S.",
+              "Say \"Sam\". Children say the sounds on three fingers, then write the word in three boxes, with a big letter S.",
               "Then children trace the sentence \"Sam saw Pam.\" on the line."
             ],
             "teacherLanguage": [
               "\"When I say sss, you write the letter s. Ready? Sss.\"",
-              "\"Listen: Sam. Say the sounds on your fingers: sss - /a/ - mmm. Write one letter in each box. Sam is a name: a big S.\"",
-              "\"Now trace: Sam saw Pam. A big S at the start. A full stop at the end.\""
+              "\"Listen: Sam. Say the sounds on your fingers: sss - /a/ - mmm. Write one letter in each box. Sam is a name: a big letter S.\"",
+              "\"Now trace: Sam saw Pam. A big letter S at the start. A full stop at the end.\""
             ],
             "studentActions": [
               "Children write the letter s two times and the word \"Sam\" in the book.",
@@ -1702,7 +1696,7 @@
           "en": {
             "teacherActions": [
               "Show the cover of \"Sam and Pam\". Read the title and ask what the book is about.",
-              "Show the \"Sounds in this book\" page: the class says sss, sounds out \"Sam\", and reads the tricky words \"saw\" and \"with\". Show the word list on the back cover: these are all the words of the book.",
+              "Show the \"Sounds in this book\" page: the class says sss, sounds out \"Sam\", and reads the tricky words \"saw\", \"off\", and \"with\". Show the word list on the back cover: these are all the words of the book.",
               "Read page 1 with the class: sound out \"Sam\" and \"Pam\" with your finger under the letters, and read \"saw\" as a tricky word.",
               "Then pairs read: partner A reads a page, partner B reads the next."
             ],
@@ -1718,7 +1712,7 @@
             ],
             "watchFor": [
               "Children who read \"saw\" as \"was\": point to the first letter and say sss.",
-              "Children sound out \"Sam\", \"Pam\", \"Nan\", \"pan\", \"map\", and \"nap\" with the letters. The other words are tricky words: saw, can, get, is, with, in, on, a, and."
+              "Children sound out \"Sam\", \"Pam\", \"Nan\", \"pan\", \"map\", and \"nap\" with the letters. The other words are tricky words: saw, off, can, get, is, with, in, on, a, and."
             ]
           },
           "easier": {
@@ -1739,7 +1733,7 @@
           "th": {
             "teacherActions": [
               "ให้ดูปกของ \"Sam and Pam\" อ่านชื่อเรื่อง แล้วถามว่าหนังสือเล่มนี้เกี่ยวกับอะไร",
-              "ให้ดูหน้า \"Sounds in this book\" (เสียงในหนังสือเล่มนี้): ทั้งชั้นพูด sss สะกดออกเสียง \"Sam\" และอ่านคำที่ต้องจำ \"saw\" และ \"with\" จากนั้นให้ดูรายการคำที่ปกหลัง: นี่คือคำทั้งหมดในหนังสือเล่มนี้",
+              "ให้ดูหน้า \"Sounds in this book\" (เสียงในหนังสือเล่มนี้): ทั้งชั้นพูด sss สะกดออกเสียง \"Sam\" และอ่านคำที่ต้องจำ \"saw\", \"off\" และ \"with\" จากนั้นให้ดูรายการคำที่ปกหลัง: นี่คือคำทั้งหมดในหนังสือเล่มนี้",
               "อ่านหน้า 1 พร้อมทั้งชั้น: สะกดออกเสียง \"Sam\" และ \"Pam\" โดยวางนิ้วใต้ตัวอักษร และอ่าน \"saw\" เป็นคำที่ต้องจำ",
               "จากนั้นให้อ่านเป็นคู่: คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป"
             ],
@@ -1755,7 +1749,7 @@
             ],
             "watchFor": [
               "เด็กที่อ่าน \"saw\" เป็น \"was\": ชี้ที่ตัวอักษรตัวแรก แล้วพูด sss",
-              "เด็ก ๆ สะกดออกเสียง \"Sam\", \"Pam\", \"Nan\", \"pan\", \"map\" และ \"nap\" ด้วยตัวอักษร คำอื่นเป็นคำที่ต้องจำ: saw, can, get, is, with, in, on, a, and"
+              "เด็ก ๆ สะกดออกเสียง \"Sam\", \"Pam\", \"Nan\", \"pan\", \"map\" และ \"nap\" ด้วยตัวอักษร คำอื่นเป็นคำที่ต้องจำ: saw, off, can, get, is, with, in, on, a, and"
             ]
           }
         },
@@ -1771,7 +1765,7 @@
               "Ask two questions about the book, one with the frame of the week. Children answer with a short sentence."
             ],
             "teacherLanguage": [
-              "\"Look at page 7. Who saw Sam? Nan saw Sam!\"",
+              "\"Look at page 7. Is Pam on Sam? No! Pam is off Sam!\"",
               "\"Look at page 3. Sam holds Pam with his two hands. How many hands do you have? I have two hands!\""
             ],
             "studentActions": [
@@ -1801,7 +1795,7 @@
               "ถามคำถาม 2 ข้อเกี่ยวกับหนังสือ โดยให้ 1 ข้อใช้กรอบประโยคของสัปดาห์ เด็ก ๆ ตอบเป็นประโยคสั้น ๆ"
             ],
             "teacherLanguage": [
-              "\"ดูหน้า 7 Who saw Sam? (ใครเห็น Sam) Nan saw Sam! (Nan เห็น Sam)\"",
+              "\"ดูหน้า 7 Is Pam on Sam? (Pam อยู่บนตัว Sam ไหม) No! Pam is off Sam! (ไม่ใช่! Pam ตกลงจากตัว Sam แล้ว)\"",
               "\"ดูหน้า 3 Sam อุ้ม Pam ไว้ด้วยมือทั้ง 2 ข้าง How many hands do you have? (หนูมีมือกี่ข้าง) I have two hands! (ฉันมีมือ 2 ข้าง)\""
             ],
             "studentActions": [
@@ -2122,7 +2116,7 @@
               "Part 2 (5 min): in the second box, children draw two hands, two ears, or two feet. They find the word under the box (hands, ears, feet) and trace it."
             ],
             "teacherLanguage": [
-              "\"A big I. A full stop at the end.\"",
+              "\"A big letter I. A full stop at the end.\"",
               "\"Trace the words: I have two eyes.\"",
               "\"Draw your eyes in the face.\"",
               "\"Stand up! Show me two hands! I have two hands!\"",
@@ -2316,7 +2310,7 @@
             "teacherActions": [
               "Show the four centers and the group signs. Send each group to its first center.",
               "Groups 1 and 2 start at the picture sort and the karaoke corner; groups 3 and 4 at the book corner and the letter cards.",
-              "Hold up each sound picture card and say the word with the class: sun, sock, sofa, sandwich."
+              "Hold up each sound picture card and say the word with the class: sun, sock, sofa, sandwich, bus, dress."
             ],
             "teacherLanguage": [
               "\"Group 1, go to the picture sort. Group 2, the karaoke corner.\"",
@@ -2344,13 +2338,13 @@
           "materials": [
             "center cards",
             "group signs",
-            "sound picture cards: sun, sock, sofa, sandwich"
+            "sound picture cards: sun, sock, sofa, sandwich, bus, dress"
           ],
           "th": {
             "teacherActions": [
               "แนะนำมุมกิจกรรม 4 มุมและป้ายกลุ่ม ส่งแต่ละกลุ่มไปที่มุมกิจกรรมแรกของกลุ่ม",
               "กลุ่ม 1 และ 2 เริ่มที่มุมแยกภาพและมุมคาราโอเกะ กลุ่ม 3 และ 4 เริ่มที่มุมหนังสือและมุมบัตรตัวอักษร",
-              "ชูบัตรภาพประจำเสียงแต่ละใบ และพูดคำพร้อมทั้งชั้น: sun, sock, sofa, sandwich"
+              "ชูบัตรภาพประจำเสียงแต่ละใบ และพูดคำพร้อมทั้งชั้น: sun, sock, sofa, sandwich, bus, dress"
             ],
             "teacherLanguage": [
               "\"กลุ่ม 1 ไปที่มุมแยกภาพ กลุ่ม 2 ไปมุมคาราโอเกะ\"",
@@ -2373,7 +2367,7 @@
           "minutes": 7,
           "en": {
             "teacherActions": [
-              "Groups work at their center. Picture sort: sort the picture cards into \"sss at the start\" and \"not sss\". Letter cards: build the words \"Sam\" and \"map\", and read them. Book corner: read the ten books of weeks 1 to 5. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.",
+              "Groups work at their center. Picture sort: sort the picture cards into \"sss at the start or the end\" and \"no sss\". Letter cards: build the words \"Sam\" and \"map\", and read them. Book corner: read the ten books of weeks 1 to 5. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.",
               "Sit at the reading-record table with the first two children on the record sheet list. Each child reads \"Sam and Pam\"; mark the record sheet."
             ],
             "teacherLanguage": [
@@ -2401,8 +2395,8 @@
             "th": "4 กลุ่ม ครูอยู่กับเด็ก 2 คน"
           },
           "materials": [
-            "sorting mat: sss / not sss",
-            "sound picture cards: sun, sock, sofa, sandwich",
+            "sorting mat: sss / no sss",
+            "sound picture cards: sun, sock, sofa, sandwich, bus, dress",
             "picture cards: cat, dog, pen",
             "workmats (class set)",
             "letter cards (class set): s, n, a, p, m",
@@ -2413,7 +2407,7 @@
           ],
           "th": {
             "teacherActions": [
-              "แต่ละกลุ่มทำกิจกรรมที่มุมของตัวเอง มุมแยกภาพ: แยกบัตรภาพเป็นกองที่ขึ้นต้นด้วย sss และกองที่ไม่ได้ขึ้นต้นด้วย sss มุมบัตรตัวอักษร: ต่อคำ \"Sam\" และ \"map\" แล้วอ่าน มุมหนังสือ: อ่านหนังสือ 10 เล่มของสัปดาห์ที่ 1 ถึง 5 มุมคาราโอเกะ: ร้องเพลงตามวิดีโอคาราโอเกะบนแท็บเล็ต โดยเปิดเสียงเบา",
+              "แต่ละกลุ่มทำกิจกรรมที่มุมของตัวเอง มุมแยกภาพ: แยกบัตรภาพเป็นกองที่มีเสียง sss ที่ต้นคำหรือท้ายคำ และกองที่ไม่มีเสียง sss มุมบัตรตัวอักษร: ต่อคำ \"Sam\" และ \"map\" แล้วอ่าน มุมหนังสือ: อ่านหนังสือ 10 เล่มของสัปดาห์ที่ 1 ถึง 5 มุมคาราโอเกะ: ร้องเพลงตามวิดีโอคาราโอเกะบนแท็บเล็ต โดยเปิดเสียงเบา",
               "นั่งที่โต๊ะบันทึกการอ่านกับเด็ก 2 คนแรกในรายชื่อของแบบบันทึกการอ่าน เด็กแต่ละคนอ่าน \"Sam and Pam\" แล้วบันทึกในแบบบันทึกการอ่าน"
             ],
             "teacherLanguage": [
@@ -2566,7 +2560,7 @@
               "\"Row 3: cup, hat, sofa. Which one starts with sss? Circle it.\"",
               "\"Row 4. Find the word Sam. Circle it.\"",
               "\"Row 5. Find the word saw. Circle it.\"",
-              "\"Now write the letter s. Then write the word Sam, with a big S.\""
+              "\"Now write the letter s. Then write the word Sam, with a big letter S.\""
             ],
             "studentActions": [
               "Children circle one picture in each of rows 1 to 3 and one word in each of rows 4 and 5, write the letter s, and write \"Sam\"."
