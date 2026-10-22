@@ -1,5 +1,6 @@
 import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-package/checks';
 import type { CheckStatus } from '../text-profile/check';
+import { programWeek, wordNeed, type PhonicsGraph } from './phonics';
 import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeNote, type StorytimeWeek } from './schema';
 
 /** The headings of a step note, in print order. */
@@ -35,8 +36,11 @@ export function frameCount(frame: string, lines: string[]): number {
 
 /** The letters and the tricky words that the books of a week can use. */
 export interface TaughtSet {
+    /** The graphemes of the elements taught to date (the letter spelling, when no phonics graph is given). */
     graphemes: string[];
     tricky: string[];
+    /** The program week of the book (Level 2 week 1 = 33): with a phonics graph, the week that the parse must be taught by. */
+    programWeek?: number;
 }
 
 /**
@@ -53,6 +57,7 @@ export function taughtTo(weeks: StorytimeWeek[], week: StorytimeWeek): TaughtSet
     return {
         graphemes: [...new Set(before.flatMap((w) => w.focus.element?.graphemes ?? []))],
         tricky: [...new Set(before.flatMap((w) => w.focus.trickyWords))],
+        programWeek: programWeek(level, week.meta.week),
     };
 }
 
@@ -62,32 +67,40 @@ export interface Decodability {
     tricky: number;
     /** The names in the text (excepted from the untaught words, counted against the ratio). */
     names: string[];
-    /** The words that are not decodable, not taught tricky words, and not names. */
+    /** The words that are not decodable, not taught tricky words, and not names; with a graph, "word (first untaught grapheme or cluster)". */
     untaught: string[];
     /** (decodable + tricky) / running. */
     ratio: number;
 }
 
 /**
- * The decodability of a text (design §5.6, before the lexicon exists). A word is decodable when the
- * taught graphemes spell all of it; case does not count.
+ * The decodability of a text (design §5.6). With the phonics graph and a program week, a word is
+ * decodable when the graph parse is taught by that week (`wordNeed`: the GPCs and the cluster rule);
+ * without them, when the taught graphemes spell all of it. Case does not count.
  * @param text The text.
- * @param taught The taught graphemes and tricky words.
+ * @param taught The taught graphemes, tricky words, and program week.
  * @param names The names that the book lists.
+ * @param graph The phonics graph facts (`phonicsGraphFrom`).
  * @returns The counts, the names, the untaught words, and the ratio.
  */
-export function decodability(text: string, taught: TaughtSet, names: string[] = []): Decodability {
+export function decodability(text: string, taught: TaughtSet, names: string[] = [], graph?: PhonicsGraph): Decodability {
     const words = text.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) ?? [];
     const graphemes = taught.graphemes.map((g) => g.toLowerCase());
     const tricky = new Set(taught.tricky.map((t) => t.toLowerCase()));
     const nameSet = new Set(names);
     const spells = (word: string, i = 0): boolean => i === word.length || graphemes.some((g) => word.startsWith(g, i) && spells(word, i + g.length));
+    const week = taught.programWeek;
+    const need = (word: string) => (graph && week ? wordNeed(word, graph, week) : undefined);
+    const isDecodable = (word: string) => {
+        const n = need(word);
+        return n ? n.week !== null && n.week <= week! : spells(word.toLowerCase());
+    };
     const result: Decodability = { running: words.length, decodable: 0, tricky: 0, names: [], untaught: [], ratio: 1 };
     for (const word of words) {
-        if (spells(word.toLowerCase())) result.decodable++;
+        if (isDecodable(word)) result.decodable++;
         else if (tricky.has(word.toLowerCase())) result.tricky++;
         else if (nameSet.has(word)) result.names.push(word);
-        else result.untaught.push(word);
+        else result.untaught.push(need(word) ? `${word} (${need(word)!.missing || 'not in the graph'})` : word);
     }
     if (words.length) result.ratio = (result.decodable + result.tricky) / words.length;
     return result;
@@ -99,9 +112,10 @@ export function decodability(text: string, taught: TaughtSet, names: string[] = 
  * can waive.
  * @param input The week as read from disk (not yet parsed).
  * @param taught The graphemes and tricky words taught to this week (`taughtTo`); without it, the decodability check warns.
+ * @param graph The phonics graph facts; without them, the decodability check spells letter by letter and says so.
  * @returns The report in the Primary package report format (`lesson` is the URL key).
  */
-export function checkStorytimeWeek(input: unknown, taught?: TaughtSet): PackageReport {
+export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: PhonicsGraph): PackageReport {
     const parsed = StorytimeWeekSchema.safeParse(input);
     if (!parsed.success) return schemaFailure(parsed.error.issues);
     const w = parsed.data;
@@ -193,13 +207,14 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet): PackageR
         // Design §6.1: 90 percent or more of the running words decodable, no untaught word except names.
         if (!taught) checks.push(check('decodable', 'Decodable: 90 percent or more of the words, no untaught word', ['the earlier weeks are not given (check the level)'], 'warn'));
         else {
-            const d = decodability([decodable.title, ...decodable.pages.map((p) => p.text)].join(' '), taught, decodable.names);
-            const names = d.names.length ? ` (names: ${[...new Set(d.names)].join(', ')})` : '';
+            const d = decodability([decodable.title, ...decodable.pages.map((p) => p.text)].join(' '), taught, decodable.names, graph);
+            const how = graph && taught.programWeek ? `phonics graph, program week ${taught.programWeek}` : 'letter spelling: no phonics graph';
+            const names = d.names.length ? `; names: ${[...new Set(d.names)].join(', ')}` : '';
             const problems = [
                 ...(d.ratio < 0.9 ? [`${Math.floor(d.ratio * 100)} percent of ${d.running} words`] : []),
                 ...(d.untaught.length ? [`untaught: ${[...new Set(d.untaught)].join(', ')}`] : []),
             ];
-            checks.push(check('decodable', `Decodable: 90 percent or more of the words, no untaught word${names}`, problems));
+            checks.push(check('decodable', `Decodable: 90 percent or more of the words, no untaught word (${how}${names})`, problems));
         }
     }
 

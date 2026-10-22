@@ -274,8 +274,8 @@ describe('storytime-week checks', () => {
             return w;
         };
         const weeks = [at(1, 3, ['n'], []), at(2, 1, ['n'], ['a']), at(2, 3, ['p'], ['the']), at(3, 1, ['sh'], ['was'])];
-        expect(taughtTo(weeks, at(2, 2, ['a'], ['I']))).toEqual({ graphemes: ['n', 'a'], tricky: ['a', 'I'] });
-        expect(taughtTo(weeks, at(3, 2, ['ch'], []))).toEqual({ graphemes: ['n', 'p', 'sh', 'ch'], tricky: ['a', 'the', 'was'] });
+        expect(taughtTo(weeks, at(2, 2, ['a'], ['I']))).toEqual({ graphemes: ['n', 'a'], tricky: ['a', 'I'], programWeek: 34 });
+        expect(taughtTo(weeks, at(3, 2, ['ch'], []))).toEqual({ graphemes: ['n', 'p', 'sh', 'ch'], tricky: ['a', 'the', 'was'], programWeek: 66 });
     });
 
     it('fails a decodable under 90 percent or with an untaught word, lists names, skips a sound book, and warns with no level', () => {

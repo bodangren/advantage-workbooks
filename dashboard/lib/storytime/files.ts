@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { REPO_ROOT } from '../lesson-package/files';
+import { phonicsGraphFrom, type PhonicsGraph } from './phonics';
 import { StorytimeWeekSchema, type StorytimeWeek } from './schema';
 
 /** The Storytime content folder: `l<level>/w<nn>.json`, media in `l<level>/media/w<nn>/`. */
@@ -49,4 +50,18 @@ export function readLevelWeeks(root: string, level: number): { file: string; raw
             const issue = parsed.error.issues[0];
             return { file, raw, error: `${issue.path.map(String).join('.')}: ${issue.message}` };
         });
+}
+
+/** The phonics graph v1 (mastery-advantage, a sibling repo); `MASTERY_PHONICS_GRAPH` overrides the path. */
+export const PHONICS_GRAPH_FILE =
+    process.env.MASTERY_PHONICS_GRAPH ?? path.join(REPO_ROOT, '..', 'mastery-advantage', 'english', 'phonics', 'phonics-knowledge-space.json');
+
+/**
+ * Reads the decodability facts of the phonics graph.
+ * @param file The graph JSON file.
+ * @returns The facts, or undefined when the file does not exist.
+ */
+export function readPhonicsGraph(file: string = PHONICS_GRAPH_FILE): PhonicsGraph | undefined {
+    if (!fs.existsSync(file)) return undefined;
+    return phonicsGraphFrom(JSON.parse(fs.readFileSync(file, 'utf8')));
 }
