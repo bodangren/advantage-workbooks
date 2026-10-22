@@ -58,6 +58,9 @@ export interface StorytimeLabels {
     paperPart: (minutes: number) => string;
     pictureItem: Record<'first' | 'middle' | 'last', (sound: string) => string>;
     circleWord: string;
+    pictureSort: Record<'first' | 'middle' | 'last', string>;
+    reviewPages: string;
+    reviewPage: (day: number) => string;
     writeLetterFor: (sound: string) => string;
     writeLetter: (letter: string) => string;
     writeWord: (word: string) => string;
@@ -135,6 +138,9 @@ const en: StorytimeLabels = {
         last: (sound) => `Circle the picture with ${sound} at the end`,
     },
     circleWord: 'Circle the word that I say',
+    pictureSort: { first: 'Sort the pictures by the first sound', middle: 'Sort the pictures by the middle sound', last: 'Sort the pictures by the last sound' },
+    reviewPages: 'Review pages: answer key (the paper center)',
+    reviewPage: (day) => `Review page ${day} (day ${day})`,
     writeLetterFor: (sound) => `Write the letter for ${sound}`,
     writeLetter: (letter) => `Write the letter ${letter}`,
     writeWord: (word) => `Write the word ${word}`,
@@ -238,6 +244,9 @@ const th: StorytimeLabels = {
         last: (sound) => `วงกลมภาพที่มีเสียง ${sound} ท้ายคำ`,
     },
     circleWord: 'วงกลมคำที่ครูพูด',
+    pictureSort: { first: 'แยกภาพตามเสียงแรก', middle: 'แยกภาพตามเสียงกลางคำ', last: 'แยกภาพตามเสียงท้ายคำ' },
+    reviewPages: 'หน้าทบทวน: เฉลย (มุมใบงาน)',
+    reviewPage: (day) => `หน้าทบทวน ${day} (วันที่ ${day})`,
     writeLetterFor: (sound) => `เขียนตัวอักษรของเสียง ${sound}`,
     writeLetter: (letter) => `เขียนตัวอักษร ${letter}`,
     writeWord: (word) => `เขียนคำ ${word}`,

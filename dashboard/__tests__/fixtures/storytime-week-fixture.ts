@@ -102,6 +102,12 @@ export function fixtureBlockWeeks(): StorytimeWeekInput[] {
     return [w1, w2];
 }
 
+/** A review page: one circle-word row and one picture sort over the two sounds of the block. */
+const PAGE = [
+    { kind: 'circle-word' as const, words: ['an', 'Nan', 'nap'], answer: 'Nan' },
+    { kind: 'picture-sort' as const, groups: [{ sound: '/n/', pictures: ['nest', 'nose'] }, { sound: '/a/', pictures: ['apple', 'ant'] }] },
+];
+
 /**
  * Level 2 week 3 as the review week of weeks 1 and 2 (design §3.5 in small): five days of 6 + 24
  * minutes, the block day plan with the medley, and Benchmark 1 with both block decodables.
@@ -129,11 +135,11 @@ export function fixtureReviewWeek(): StorytimeWeekInput {
         block: {
             weeks: [1, 2],
             days: [
-                { day: 1, weeks: [1], medley: ['Hello, I Am ___', 'How Many? One, Two!'] },
-                { day: 2, weeks: [2], medley: ['How Many? One, Two!', 'Hello, I Am ___'] },
-                { day: 3, weeks: [1, 2], medley: ['Hello, I Am ___', 'How Many? One, Two!'] },
-                { day: 4, weeks: [2], note: { en: 'and the weakest week from the Friday checks' }, medley: ['How Many? One, Two!', 'Hello, I Am ___'] },
-                { day: 5, weeks: [], note: { en: "the child's choice" }, medley: ['Hello, I Am ___', 'How Many? One, Two!'] },
+                { day: 1, weeks: [1], medley: ['Hello, I Am ___', 'How Many? One, Two!'], paper: PAGE },
+                { day: 2, weeks: [2], medley: ['How Many? One, Two!', 'Hello, I Am ___'], paper: PAGE },
+                { day: 3, weeks: [1, 2], medley: ['Hello, I Am ___', 'How Many? One, Two!'], paper: PAGE },
+                { day: 4, weeks: [2], note: { en: 'and the weakest week from the Friday checks' }, medley: ['How Many? One, Two!', 'Hello, I Am ___'], paper: PAGE },
+                { day: 5, weeks: [], note: { en: "the child's choice" }, medley: ['Hello, I Am ___', 'How Many? One, Two!'], paper: PAGE },
             ],
         },
         benchmark: {

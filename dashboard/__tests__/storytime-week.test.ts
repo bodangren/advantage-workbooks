@@ -388,6 +388,23 @@ describe('storytime review week checks (design §3.5)', () => {
         expect(d).toContain('"The Pan" is not the decodable of week 2');
     });
 
+    it('fails a day with no review page, a review-page answer that is not a choice, and a picture in two sort columns', () => {
+        const report = review((w) => {
+            w.block!.days[0].paper = [];
+            w.block!.days[1].paper = [{ kind: 'circle-word', words: ['an', 'nap'], answer: 'Nan' }];
+            w.block!.days[2].paper = [{ kind: 'picture-sort', groups: [{ sound: '/n/', pictures: ['nest', 'ant'] }, { sound: '/a/', pictures: ['ant'] }] }];
+        });
+        const d = detail(report, 'block');
+        expect(d).toContain('day 1: no review page');
+        expect(d).toContain('day 2 review page item 1: "Nan" is not one of an, nap');
+        expect(d).toContain('day 3 review page item 1: ant in two columns');
+    });
+
+    it('defaults a picture sort to the first sound', () => {
+        const sort = StorytimeWeekSchema.parse(fixtureReviewWeek()).block!.days[0].paper[1];
+        expect(sort).toMatchObject({ kind: 'picture-sort', position: 'first' });
+    });
+
     it('counts the benchmark and the day notes in the Thai warning', () => {
         const report = review();
         expect(detail(report, 'thai')).toContain('16 of 16 step notes');

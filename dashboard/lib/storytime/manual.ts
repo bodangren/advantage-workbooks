@@ -241,6 +241,8 @@ function paperItem(item: StorytimeCheckItem, l: StorytimeLabels): string {
             return item.sound ? `${l.writeLetterFor(item.sound)} (${l.answer}: ${item.letter})` : l.writeLetter(item.letter);
         case 'write-word':
             return l.writeWord(item.word);
+        case 'picture-sort':
+            return `${l.pictureSort[item.position]}: ${item.groups.map((g) => `${g.sound}: ${g.pictures.join(', ')}`).join('; ')}`;
     }
 }
 
@@ -269,6 +271,11 @@ function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: Storytime
     </div>`,
         )
         .join('');
+    // The answer key of the review pages (the paper center, one page a day).
+    const days = [...(w.block?.days ?? [])].filter((d) => d.paper.length).sort((x, y) => x.day - y.day);
+    const pages = days.length
+        ? `<h4>${escapeHtml(l.reviewPages)}</h4>${days.map((d) => `<p><strong>${escapeHtml(l.reviewPage(d.day))}</strong></p><ol>${d.paper.map((item) => `<li>${escapeHtml(paperItem(item, l))}</li>`).join('')}</ol>`).join('')}`
+        : '';
     return `
   <section class="st-bench" id="week-${w.meta.week}-benchmark">
     <h3 class="st-day-title">${escapeHtml(pick(b.title, lang))}</h3>
@@ -284,6 +291,7 @@ function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: Storytime
     <ol>${o.blend.map((x) => `<li>${escapeHtml(x.sounds)} → ${escapeHtml(x.word)}</li>`).join('')}</ol>
     <h4>${escapeHtml(l.readingRecord(r.minutes, r.pass))}</h4>
     <p>${escapeHtml(l.formMarks)}</p>
+    ${pages}
   </section>
   <section class="st-record" id="week-${w.meta.week}-record">
     <h3 class="st-day-title">${escapeHtml(l.recordSheet)}</h3>

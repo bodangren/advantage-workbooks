@@ -240,6 +240,14 @@ describe('Storytime manual: review week (design §3.5)', () => {
         expect(bench).toContain('Pass: 90 percent.');
     });
 
+    it('prints the answer key of the review pages after the benchmark: the circle-word rows and the sort columns', () => {
+        const bench = review().split('<section class="st-bench"')[1].split('<section class="st-record"')[0];
+        expect(bench).toContain('Review pages: answer key (the paper center)');
+        expect(bench).toContain('Review page 5 (day 5)');
+        expect(bench).toContain('Circle the word that I say: an, Nan, nap (answer: Nan)');
+        expect(bench).toContain('Sort the pictures by the first sound: /n/: nest, nose; /a/: apple, ant');
+    });
+
     it('prints the class record sheet with 30 rows and the counts, and one reading form per decodable with each word marked', () => {
         const html = review();
         const [, sheet, forms] = html.split('<section class="st-record"');

@@ -319,9 +319,14 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     return { lesson: w.meta.key, title: w.meta.title, checks };
 }
 
-/** The circle items whose answer is not one of their choices, as "item n: ..." lines. */
+/** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
 function wrongAnswers(items: StorytimeCheckItem[]): string[] {
     return items.flatMap((item, i) => {
+        if (item.kind === 'picture-sort') {
+            const all = item.groups.flatMap((g) => g.pictures);
+            const twice = [...new Set(all.filter((x, j) => all.indexOf(x) !== j))];
+            return twice.length ? [`item ${i + 1}: ${twice.join(', ')} in two columns`] : [];
+        }
         if (item.kind !== 'circle-picture' && item.kind !== 'circle-word') return [];
         const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
         return choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
@@ -348,6 +353,10 @@ function reviewChecks(w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWe
         for (let d = 1; d <= 5; d++) if (!days.has(d)) blockProblems.push(`no day ${d}`);
         for (const n of block.weeks) if (n >= w.meta.week) blockProblems.push(`week ${n} is not before the review week`);
         for (const d of block.days) for (const n of d.weeks) if (!block.weeks.includes(n)) blockProblems.push(`day ${d.day}: week ${n} is not in the block`);
+        for (const d of block.days) {
+            if (!d.paper.length) blockProblems.push(`day ${d.day}: no review page`);
+            blockProblems.push(...wrongAnswers(d.paper).map((x) => `day ${d.day} review page ${x}`));
+        }
         const covered = new Set(block.days.filter((d) => d.day <= 4).flatMap((d) => d.weeks));
         const missing = block.weeks.filter((n) => !covered.has(n));
         if (missing.length) blockProblems.push(`days 1 to 4 do not cover week ${missing.join(', ')}`);
@@ -356,7 +365,7 @@ function reviewChecks(w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWe
             for (const d of block.days) for (const t of d.medley) if (!songs.has(t)) blockProblems.push(`day ${d.day}: "${t}" is not a song of the block`);
         }
     }
-    out.push(check('block', 'Review block: five days, every block week on days 1 to 4, the medley from the block songs (design §3.5)', blockProblems));
+    out.push(check('block', 'Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)', blockProblems));
 
     const b = w.benchmark;
     const benchProblems: string[] = [];

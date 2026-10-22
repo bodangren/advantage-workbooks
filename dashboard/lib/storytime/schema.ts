@@ -286,6 +286,13 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
         sound: z.string().min(1).optional(),
     }),
     z.object({
+        kind: z.literal('picture-sort'),
+        /** The columns of the sort: a sound and the pictures that have it at the position (the answer key). */
+        groups: z.array(z.object({ sound: z.string().min(1), pictures: z.array(z.string().min(1)).min(1) })).min(2),
+        /** Where the sound is in each picture word: at the start (the default), in the middle, or at the end. */
+        position: z.enum(['first', 'middle', 'last']).default('first'),
+    }),
+    z.object({
         kind: z.literal('circle-word'),
         /** The printed words; the teacher says the answer, and the child circles it (a decodable or tricky word read on paper). */
         words: z.array(z.string().min(1)).min(2),
@@ -302,6 +309,8 @@ export const BlockDaySchema = z.object({
     note: BiTextSchema.optional(),
     /** The two karaoke videos of the opening medley: song titles of the block. */
     medley: z.array(z.string().min(1)).length(2),
+    /** The review page of the day in the student book, for the paper center (circle-word rows and a picture sort). */
+    paper: z.array(CheckItemSchema).default([]),
 });
 
 /** The teaching weeks that a review week covers, and its day plan (design §3.5). */
