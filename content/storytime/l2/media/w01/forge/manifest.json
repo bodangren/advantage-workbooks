@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "week": 1,
+  "ppm": 1080,
+  "canvas": [
+    1024,
+    1200
+  ],
+  "footPoint": {
+    "col": 512,
+    "row": 1184
+  },
+  "notes": "Cast and gesture cut-outs share this scale and canvas; the foot point is the ground origin. scenes/rug.png has its own scale in scenes/manifest.json (450 px/m). Ratings are independent reviews out of 10 (bar 7.5); pip and ben are at 7.0 with follow-ups. The wave hand reaches the jaw, not the eye: the age-5 arm reach. All renders face +Z and are unmirrored.",
+  "cast": {
+    "pip": {
+      "asset": "sprout-pip",
+      "front": "cast/sprout-pip/front.png",
+      "threeQuarter": "cast/sprout-pip/three-quarter.png",
+      "sit": "cast/sprout-pip/sit.png",
+      "heightM": 0.436,
+      "rating": 7.0
+    },
+    "nan": {
+      "asset": "sprout-nan",
+      "front": "cast/sprout-nan/front.png",
+      "threeQuarter": "cast/sprout-nan/three-quarter.png",
+      "rating": 7.5
+    },
+    "sam": {
+      "asset": "sprout-sam",
+      "front": "cast/sprout-sam/front.png",
+      "threeQuarter": "cast/sprout-sam/three-quarter.png",
+      "rating": 7.5
+    },
+    "mia": {
+      "asset": "sprout-mia",
+      "front": "cast/sprout-mia/front.png",
+      "threeQuarter": "cast/sprout-mia/three-quarter.png",
+      "rating": 7.5
+    },
+    "pat": {
+      "asset": "sprout-pat",
+      "front": "cast/sprout-pat/front.png",
+      "threeQuarter": "cast/sprout-pat/three-quarter.png",
+      "rating": 7.5
+    },
+    "may": {
+      "asset": "sprout-may",
+      "front": "cast/sprout-may/front.png",
+      "threeQuarter": "cast/sprout-may/three-quarter.png",
+      "rating": 7.5
+    },
+    "ben": {
+      "asset": "sprout-ben",
+      "front": "cast/sprout-ben/front.png",
+      "threeQuarter": "cast/sprout-ben/three-quarter.png",
+      "rating": 7.0
+    },
+    "adventurer": {
+      "asset": "sprout-adventurer",
+      "front": "cast/sprout-adventurer/front.png",
+      "threeQuarter": "cast/sprout-adventurer/three-quarter.png",
+      "rating": 7.5
+    }
+  },
+  "gestures": {
+    "adventurer": {
+      "clap": [
+        "gestures/adventurer/clap-apart.png",
+        "gestures/adventurer/clap-together.png"
+      ],
+      "wave": [
+        "gestures/adventurer/wave-left.png",
+        "gestures/adventurer/wave-right.png"
+      ],
+      "nod": [
+        "gestures/adventurer/nod-up.png",
+        "gestures/adventurer/nod-down.png"
+      ],
+      "point-to-self": [
+        "gestures/adventurer/point-to-self.png"
+      ],
+      "point-forward": [
+        "gestures/adventurer/point-forward.png"
+      ],
+      "hands-out": [
+        "gestures/adventurer/hands-out.png"
+      ],
+      "idle": [
+        "gestures/adventurer/idle.png"
+      ]
+    }
+  },
+  "scenes": {
+    "classroom": {
+      "file": "scenes/classroom.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "floor": {
+        "rowFrom": 700,
+        "rowTo": 850
+      },
+      "camera": "scene=classroom&clean&az=0&el=14&dist=10&tx=0&tz=0 (FORGE_SHOT_SIZE=1920x1080 node scripts/shoot-map.mjs)"
+    },
+    "rug": {
+      "file": "scenes/rug.png",
+      "ppm": 450,
+      "canvas": [
+        1024,
+        600
+      ],
+      "footPoint": {
+        "col": 512,
+        "row": 584
+      }
+    }
+  },
+  "files": {},
+  "sheets": {
+    "cast": "cast-sheet.png",
+    "gestures": "gesture-sheet.png"
+  }
+}

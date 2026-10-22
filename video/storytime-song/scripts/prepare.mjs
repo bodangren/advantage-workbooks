@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { alphaBox, forgeSpec } from "./forge.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const PROJECT = path.resolve(HERE, "..");
@@ -151,7 +152,44 @@ export function buildSpec(week, duration) {
 }
 
 /**
- * Writes public/<rel>/spec.json and public/<rel>/song.mp3 for a week.
+ * The actors, gestures, and scenes that the song of a spec shows.
+ * @param {any} spec The line spec.
+ * @returns {{actors: string[], gestures: string[], scenes: string[]}} Each one once, in order of use.
+ */
+export function usedArt(spec) {
+  const once = (list) => [...new Set(list)];
+  return {
+    actors: once(spec.lines.flatMap((l) => l.actors)),
+    gestures: once(spec.lines.map((l) => l.gesture).filter(Boolean)),
+    scenes: once(spec.lines.map((l) => l.scene)),
+  };
+}
+
+/**
+ * Copies the Forge files that a week uses, and the manifest, from a Forge set into the media folder of the week
+ * (content/storytime/l<level>/media/w<nn>/forge/). Forge never writes into this repo.
+ * @param {string} rel The week, as "l2/w01".
+ * @param {string} setDir The Forge set folder, as advantage-forge/out/chibi-sprouts/r1/week1.
+ * @returns {string[]} The copied files.
+ */
+export function copyForge(rel, setDir) {
+  const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
+  const manifest = JSON.parse(fs.readFileSync(path.join(setDir, "manifest.json"), "utf8"));
+  const { files } = forgeSpec(manifest, usedArt(buildSpec(week, 0)), (f) => alphaBox(path.join(setDir, f)), "");
+  const dir = forgeDir(rel);
+  for (const f of [...files, "manifest.json"]) {
+    fs.mkdirSync(path.dirname(path.join(dir, f)), { recursive: true });
+    fs.copyFileSync(path.join(setDir, f), path.join(dir, f));
+  }
+  return files;
+}
+
+/** The Forge folder of a week: content/storytime/l2/media/w01/forge for "l2/w01". */
+const forgeDir = (rel) => path.join(CONTENT, rel.replace(/\/(w\d\d)$/, "/media/$1"), "forge");
+
+/**
+ * Writes public/<rel>/spec.json and public/<rel>/song.mp3 for a week, and the Forge art of the week when its
+ * media folder has a forge/manifest.json (else the video draws the placeholder art).
  * @param {string} rel The week, as "l2/w01".
  * @returns {string} The spec file.
  */
@@ -178,6 +216,18 @@ export function prepare(rel) {
   fs.mkdirSync(out, { recursive: true });
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
   spec.audio = `${rel}/song.mp3`;
+  const art = forgeDir(rel);
+  fs.rmSync(path.join(out, "forge"), { recursive: true, force: true });
+  if (fs.existsSync(path.join(art, "manifest.json"))) {
+    const manifest = JSON.parse(fs.readFileSync(path.join(art, "manifest.json"), "utf8"));
+    const { forge, files } = forgeSpec(manifest, usedArt(spec), (f) => alphaBox(path.join(art, f)), `${rel}/forge`);
+    for (const f of files) {
+      fs.mkdirSync(path.dirname(path.join(out, "forge", f)), { recursive: true });
+      fs.copyFileSync(path.join(art, f), path.join(out, "forge", f));
+    }
+    spec.art = "forge";
+    spec.forge = forge;
+  }
   const file = path.join(out, "spec.json");
   fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
   return file;
@@ -185,9 +235,11 @@ export function prepare(rel) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const rel = process.argv[2];
-  if (!/^l\d\/w\d\d$/.test(rel ?? "")) {
-    console.error("Usage: node scripts/prepare.mjs l2/w01");
+  const at = process.argv.indexOf("--forge");
+  if (!/^l\d\/w\d\d$/.test(rel ?? "") || (at > 0 && !process.argv[at + 1])) {
+    console.error("Usage: node scripts/prepare.mjs l2/w01 [--forge <Forge set folder>]");
     process.exit(2);
   }
+  if (at > 0) console.log("forge", copyForge(rel, process.argv[at + 1]).length, "files");
   console.log("spec", prepare(rel));
 }

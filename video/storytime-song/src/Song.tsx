@@ -42,7 +42,10 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
             durationInFrames={Math.max(1, f(run.end) - f(run.start))}
             layout="none"
           >
-            <SceneBackground scene={run.scene} />
+            <SceneBackground
+              scene={run.scene}
+              render={spec.forge?.scenes[run.scene]}
+            />
           </Sequence>
         ))}
         {list.map((shot) => (
@@ -54,7 +57,7 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
               f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
             )}
           >
-            <Actors shot={shot} bpm={spec.bpm} />
+            <Actors shot={shot} bpm={spec.bpm} forge={spec.forge} />
           </Sequence>
         ))}
         <Lyrics spec={spec} />

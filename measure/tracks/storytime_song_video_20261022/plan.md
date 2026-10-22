@@ -14,7 +14,7 @@ Hold (Daniel, 2026-10-22 18:10): the animals, props, and bubbles of weeks 2 to 7
 
 ## Phase 2: Forge art
 
-- [ ] Task: the manifest reader for the Forge renders (paths and names from Storytime).
+- [x] Task: the manifest reader for the Forge renders (`scripts/forge.mjs`, `prepare.mjs --forge`; 3 tests). Week 1 set of 2026-10-23 copied and rendered for Daniel's look check.
 - [ ] Task: weeks 1 to 7 with Forge art by 2026-11-25; the karaoke cuts when the instrumentals come.
 
 ## Phase 3: Hand-off

@@ -1,15 +1,16 @@
 import React from "react";
-import { useCurrentFrame, useVideoConfig } from "remotion";
+import { Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Figure, GESTURES, LOOKS, NEUTRAL } from "./art/Figure";
 import { gestureLineAt } from "./timeline";
-import type { Spec } from "./types";
+import type { ForgeArt, Spec } from "./types";
 
 /** The inset box: lower right, 30 percent of the frame height. */
 export const INSET = { width: 270, height: 324, right: 48, bottom: 48 };
 
 /**
  * A Sprout that does the gesture of the line, mirrored (the class copies it like a mirror), held for the line.
- * A moving gesture swaps its two key frames on each beat; a whole-body gesture moves the sprite.
+ * A moving gesture swaps its two key frames on each beat; a whole-body gesture moves the sprite. With Forge art,
+ * the Sprout is the Adventurer: the frames of the gesture, or the idle frame between lines.
  * @param props.spec The line spec.
  */
 export const GestureInset: React.FC<{ spec: Spec }> = ({ spec }) => {
@@ -33,6 +34,26 @@ export const GestureInset: React.FC<{ spec: Spec }> = ({ spec }) => {
     if (line?.gesture === "turn") turn = Math.cos((2 * Math.PI * beats) / 4);
   }
   const h = INSET.height - 60;
+  const figure = spec.forge ? (
+    <ForgeFigure
+      forge={spec.forge}
+      frames={(line && spec.forge.gestures[line.gesture]) || spec.forge.idle}
+      beats={beats}
+    />
+  ) : (
+    <div
+      style={{
+        position: "absolute",
+        left: (INSET.width - 16 - (h * 240) / 340) / 2,
+        top: 30 - lift,
+        scale: `${-1 * turn} 1`,
+        rotate: `${rotate}deg`,
+        transformOrigin: "50% 90%",
+      }}
+    >
+      <Figure look={LOOKS.Sprout} pose={pose} height={h} />
+    </div>
+  );
   return (
     <div
       style={{
@@ -48,18 +69,49 @@ export const GestureInset: React.FC<{ spec: Spec }> = ({ spec }) => {
         overflow: "hidden",
       }}
     >
-      <div
+      {figure}
+    </div>
+  );
+};
+
+/** The inner size of the inset box (inside the 8 px border). */
+const INNER = { width: INSET.width - 16, height: INSET.height - 16 };
+
+/**
+ * One Forge frame of the Adventurer in the inset, mirrored: the gesture box of the set fills the inner height, with
+ * the feet near the bottom. A gesture with two frames swaps them on each beat.
+ * @param props.forge The Forge art.
+ * @param props.frames The frames of the gesture.
+ * @param props.beats The beats since the line start.
+ */
+const ForgeFigure: React.FC<{ forge: ForgeArt; frames: string[]; beats: number }> = ({
+  forge,
+  frames,
+  beats,
+}) => {
+  const box = forge.gestureBox;
+  const s = Math.min((INNER.width - 24) / box.w, (INNER.height - 20) / box.h);
+  const frame = frames[Math.floor(Math.max(0, beats)) % frames.length];
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: INNER.width,
+        height: INNER.height,
+        scale: "-1 1",
+        overflow: "hidden",
+      }}
+    >
+      <Img
+        src={staticFile(frame)}
         style={{
           position: "absolute",
-          left: (INSET.width - 16 - (h * 240) / 340) / 2,
-          top: 30 - lift,
-          scale: `${-1 * turn} 1`,
-          rotate: `${rotate}deg`,
-          transformOrigin: "50% 90%",
+          left: INNER.width / 2 - (box.x + box.w / 2) * s,
+          top: INNER.height - 8 - (box.y + box.h) * s,
+          width: forge.canvas[0] * s,
+          height: forge.canvas[1] * s,
         }}
-      >
-        <Figure look={LOOKS.Sprout} pose={pose} height={h} />
-      </div>
+      />
     </div>
   );
 };

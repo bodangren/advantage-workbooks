@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Img, staticFile } from "remotion";
 
 /** The ground line of the actors (their feet), in the 1920 x 1080 frame. */
 export const GROUND = 800;
@@ -56,10 +56,21 @@ const Window: React.FC<{ x: number; y: number }> = ({ x, y }) => (
 );
 
 /**
- * A flat placeholder background for a scene id (not for release; Forge delivers one render per scene).
+ * The background of a scene: the Forge render when the week has one, else a flat placeholder for the scene id.
  * @param props.scene The scene id from the line spec.
+ * @param props.render The Forge render under public/ (1920 x 1080).
  */
-export const SceneBackground: React.FC<{ scene: string }> = ({ scene }) => {
+export const SceneBackground: React.FC<{ scene: string; render?: string }> = ({
+  scene,
+  render,
+}) => {
+  if (render)
+    return (
+      <Img
+        src={staticFile(render)}
+        style={{ position: "absolute", width: 1920, height: 1080 }}
+      />
+    );
   switch (scene) {
     case "sky":
       return (

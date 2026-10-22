@@ -2,13 +2,16 @@ import React from "react";
 import {
   AbsoluteFill,
   Easing,
+  Img,
   interpolate,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { Figure, LOOKS, NEUTRAL, Puppy } from "./art/Figure";
 import { GROUND } from "./art/Scene";
 import type { Shot } from "./timeline";
+import type { ForgeArt } from "./types";
 
 const ENTER = 0.45;
 /** The new actors start to slide in after the old ones have mostly left. */
@@ -25,10 +28,12 @@ const RIGHT = 1480;
  * in from the right when `shot.enter`, and slide out to the left after the shot end when `shot.exit`.
  * @param props.shot The shot.
  * @param props.bpm The tempo of the song (the actors bob on the beat).
+ * @param props.forge The Forge art: each actor is its front cut-out, at one scale, with the foot point on the ground.
  */
-export const Actors: React.FC<{ shot: Shot; bpm: number }> = ({
+export const Actors: React.FC<{ shot: Shot; bpm: number; forge?: ForgeArt }> = ({
   shot,
   bpm,
+  forge,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -57,6 +62,22 @@ export const Actors: React.FC<{ shot: Shot; bpm: number }> = ({
       {shot.actors.map((name, i) => {
         const x = LEFT + ((i + 0.5) * (RIGHT - LEFT)) / n;
         const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
+        if (forge) {
+          const s = forge.scale;
+          return (
+            <Img
+              key={name}
+              src={staticFile(forge.cast[name])}
+              style={{
+                position: "absolute",
+                left: x - forge.foot.col * s,
+                top: GROUND - forge.foot.row * s - bob,
+                width: forge.canvas[0] * s,
+                height: forge.canvas[1] * s,
+              }}
+            />
+          );
+        }
         const look = LOOKS[name];
         const h = name === "Pip" ? kid * 0.55 : kid * (look?.scale ?? 1);
         const w = name === "Pip" ? (h * 240) / 200 : (h * 240) / 340;
