@@ -108,7 +108,8 @@ function splitList(text: string): string[] {
 
 /**
  * The materials of a week, once each: items of one kind ("picture cards: nest, net") become one item
- * with every word once, in the order of first use.
+ * with every word once, in the order of first use. A word that one item repeats ("letter cards: p, a, n, n")
+ * keeps that count.
  * @param items The materials of every step.
  * @returns The merged list.
  */
@@ -122,7 +123,15 @@ export function mergeMaterials(items: string[]): string[] {
             lists.set(key, []);
             order.push(key);
         }
-        if (m) for (const part of splitList(m[2])) if (!lists.get(key)!.includes(part)) lists.get(key)!.push(part);
+        if (!m) continue;
+        // A part that one item repeats (letter cards: p, a, n, n) keeps its count; the same part in two items counts once.
+        const list = lists.get(key)!;
+        const seen = new Map<string, number>();
+        for (const part of splitList(m[2])) {
+            const n = (seen.get(part) ?? 0) + 1;
+            seen.set(part, n);
+            if (list.filter((x) => x === part).length < n) list.push(part);
+        }
     }
     return order.map((key) => (lists.get(key)!.length ? `${key}: ${lists.get(key)!.join(', ')}` : key));
 }

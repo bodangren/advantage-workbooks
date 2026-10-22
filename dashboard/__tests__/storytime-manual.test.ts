@@ -128,6 +128,8 @@ describe('Storytime manual template', () => {
             'board',
             'sound card: n',
         ]);
+        // A part that one item repeats keeps its count.
+        expect(mergeMaterials(['letter cards (class set): p, a, n, n', 'letter cards (class set): p, a, n'])).toEqual(['letter cards (class set): p, a, n, n']);
         // A comma in a title or in parentheses does not split the item.
         expect(mergeMaterials(['videos: "Hello, I Am Pip" (song, karaoke)', 'videos: "Hello!"', 'videos: "Hello, I Am Pip" (song, karaoke)'])).toEqual([
             'videos: "Hello, I Am Pip" (song, karaoke), "Hello!"',
