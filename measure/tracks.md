@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [~] **Track: The Storytime song video compositor (Remotion): classroom, phone, poster, and karaoke cuts of each week from the package and the Forge renders; placeholder proof first, Forge art by 2026-11-25.** *(Created: 2026-10-22)*
+  *Link: [./tracks/storytime_song_video_20261022/](./tracks/storytime_song_video_20261022/)*
+
 - [~] **Track: The storytime-week package (one Storytime Advantage week in one file), its checks, and the Storytime template of the teacher manual generator.** *(Created: 2026-10-22)*
   *Link: [./tracks/storytime_week_package_20261022/](./tracks/storytime_week_package_20261022/)*
 
