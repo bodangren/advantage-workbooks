@@ -48,6 +48,33 @@ export interface StorytimeLabels {
     easier: string;
     harder: string;
     group: string;
+    /** Review weeks (design §3.5). */
+    block: string;
+    weeksList: (weeks: number[]) => string;
+    dayPlan: string;
+    benchmark: string;
+    /** Opening item 3 in a review week: the two karaoke videos of the day. */
+    medley: (titles: string) => string;
+    paperPart: (minutes: number) => string;
+    pictureItem: Record<'first' | 'middle' | 'last', (sound: string) => string>;
+    circleWord: string;
+    writeLetterFor: (sound: string) => string;
+    writeLetter: (letter: string) => string;
+    writeWord: (word: string) => string;
+    answer: string;
+    pass: string;
+    oneToOne: (minutes: number) => string;
+    letterStrip: (pass: number, of: number) => string;
+    soundCards: (pass: number, of: number) => string;
+    blendWords: (pass: number, of: number) => string;
+    readingRecord: (minutes: number, pass: number) => string;
+    recordSheet: string;
+    recordColumns: { no: string; name: string; letters: string; sounds: string; blend: string; pictures: string; written: string; book: string; accuracy: string; date: string };
+    readingForm: (title: string, week: number) => string;
+    formChild: string;
+    formDate: string;
+    formMarks: string;
+    formTotals: string[];
 }
 
 const en: StorytimeLabels = {
@@ -96,6 +123,36 @@ const en: StorytimeLabels = {
     easier: 'Easier',
     harder: 'Harder',
     group: 'Group',
+    block: 'Block',
+    weeksList: (weeks) => `${weeks.length === 1 ? 'week' : 'weeks'} ${weeks.join(', ')}`,
+    dayPlan: 'Day plan',
+    benchmark: 'Benchmark',
+    medley: (titles) => `Song medley (2 min): ${titles}.`,
+    paperPart: (minutes) => `Paper part, whole class (${minutes} min)`,
+    pictureItem: {
+        first: (sound) => `Circle the picture with ${sound} at the start`,
+        middle: (sound) => `Circle the picture with ${sound} in the middle`,
+        last: (sound) => `Circle the picture with ${sound} at the end`,
+    },
+    circleWord: 'Circle the word that I say',
+    writeLetterFor: (sound) => `Write the letter for ${sound}`,
+    writeLetter: (letter) => `Write the letter ${letter}`,
+    writeWord: (word) => `Write the word ${word}`,
+    answer: 'answer',
+    pass: 'Pass',
+    oneToOne: (minutes) => `One to one, at the check table (${minutes} min)`,
+    letterStrip: (pass, of) => `Letter strip: the child says the name of each letter (pass: ${pass} of ${of})`,
+    soundCards: (pass, of) => `Sound cards: the child says the sound of each letter (pass: ${pass} of ${of})`,
+    blendWords: (pass, of) => `Blend by ear: say the sounds; the child says the word (pass: ${pass} of ${of})`,
+    readingRecord: (minutes, pass) =>
+        `Reading record (${minutes} min): the child reads one decodable as far as possible in ${minutes} min. Mark each error and each self-correction. Accuracy = words correct ÷ words read × 100. Pass: ${pass} percent.`,
+    recordSheet: 'Class record sheet',
+    recordColumns: { no: 'No.', name: 'Name', letters: 'Letter names', sounds: 'Sounds', blend: 'Blend', pictures: 'Paper: pictures', written: 'Paper: letters', book: 'Book', accuracy: 'Accuracy %', date: 'Date' },
+    readingForm: (title, week) => `Reading record: "${title}" (week ${week})`,
+    formChild: 'Child',
+    formDate: 'Date',
+    formMarks: 'Under each word: a tick for a correct word, a line for an error, and SC for a self-correction.',
+    formTotals: ['Words read', 'Errors', 'Self-corrections', 'Accuracy %'],
 };
 
 const th: StorytimeLabels = {
@@ -169,6 +226,36 @@ const th: StorytimeLabels = {
     easier: 'ง่ายขึ้น',
     harder: 'ท้าทายขึ้น',
     group: 'คู่หรือกลุ่ม',
+    block: 'ช่วงที่ทบทวน',
+    weeksList: (weeks) => `สัปดาห์ที่ ${weeks.join(', ')}`,
+    dayPlan: 'แผนรายวัน',
+    benchmark: 'การประเมิน',
+    medley: (titles) => `เพลงรวม (2 นาที): ${titles}`,
+    paperPart: (minutes) => `แบบทดสอบบนกระดาษ ทั้งชั้น (${minutes} นาที)`,
+    pictureItem: {
+        first: (sound) => `วงกลมภาพที่มีเสียง ${sound} ที่ต้นคำ`,
+        middle: (sound) => `วงกลมภาพที่มีเสียง ${sound} กลางคำ`,
+        last: (sound) => `วงกลมภาพที่มีเสียง ${sound} ท้ายคำ`,
+    },
+    circleWord: 'วงกลมคำที่ครูพูด',
+    writeLetterFor: (sound) => `เขียนตัวอักษรของเสียง ${sound}`,
+    writeLetter: (letter) => `เขียนตัวอักษร ${letter}`,
+    writeWord: (word) => `เขียนคำ ${word}`,
+    answer: 'คำตอบ',
+    pass: 'เกณฑ์ผ่าน',
+    oneToOne: (minutes) => `ประเมินรายบุคคลที่โต๊ะประเมิน (${minutes} นาที)`,
+    letterStrip: (pass, of) => `แถบตัวอักษร: เด็กบอกชื่อตัวอักษรทีละตัว (ผ่าน: ${pass} จาก ${of})`,
+    soundCards: (pass, of) => `บัตรเสียง: เด็กออกเสียงของตัวอักษรทีละใบ (ผ่าน: ${pass} จาก ${of})`,
+    blendWords: (pass, of) => `ฟังแล้วผสมเสียง: ครูพูดเสียงทีละเสียง เด็กบอกคำ (ผ่าน: ${pass} จาก ${of})`,
+    readingRecord: (minutes, pass) =>
+        `บันทึกการอ่าน (${minutes} นาที): เด็กอ่านหนังสือฝึกสะกดอ่าน 1 เล่มให้ได้มากที่สุดใน ${minutes} นาที ครูทำเครื่องหมายทุกคำที่อ่านผิดและทุกคำที่เด็กแก้เองได้ ความแม่นยำ = จำนวนคำที่อ่านถูก ÷ จำนวนคำที่อ่าน × 100 เกณฑ์ผ่าน: ร้อยละ ${pass}`,
+    recordSheet: 'แบบบันทึกผลทั้งชั้น',
+    recordColumns: { no: 'ที่', name: 'ชื่อ', letters: 'ชื่อตัวอักษร', sounds: 'เสียง', blend: 'ผสมเสียง', pictures: 'กระดาษ: ภาพ', written: 'กระดาษ: ตัวอักษร', book: 'หนังสือ', accuracy: 'ความแม่นยำ %', date: 'วันที่' },
+    readingForm: (title, week) => `บันทึกการอ่าน: "${title}" (สัปดาห์ที่ ${week})`,
+    formChild: 'ชื่อเด็ก',
+    formDate: 'วันที่',
+    formMarks: 'ใต้แต่ละคำ: ทำเครื่องหมายถูกเมื่ออ่านถูก ขีดเส้นเมื่ออ่านผิด และเขียน SC เมื่อเด็กแก้เองได้',
+    formTotals: ['จำนวนคำที่อ่าน', 'อ่านผิด', 'แก้เองได้', 'ความแม่นยำ %'],
 };
 
 /**

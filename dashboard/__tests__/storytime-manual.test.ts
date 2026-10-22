@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, type StorytimeWeek, type StorytimeWeekInput } from '../lib/storytime/schema';
 import { compileStorytimeManual, mergeMaterials, renderStorytimeWeek } from '../lib/storytime/manual';
 import { getTranslations } from '../lib/teacher-manual/i18n';
-import { fixtureWeek } from './fixtures/storytime-week-fixture';
+import { fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
 
 const CJK = /[぀-ヿ㐀-鿿豈-﫿]/;
 
@@ -205,5 +205,66 @@ describe('Storytime manual template', () => {
     it('escapes the package text', () => {
         const html = renderStorytimeWeek(week((w) => (w.meta.title = 'Cats <b> & dogs')), 'en');
         expect(html).toContain('Cats &lt;b&gt; &amp; dogs');
+    });
+});
+
+describe('Storytime manual: review week (design §3.5)', () => {
+    const review = (lang: 'en' | 'th' = 'en', change?: (w: StorytimeWeekInput) => void) => {
+        const w = fixtureReviewWeek();
+        change?.(w);
+        return renderStorytimeWeek(StorytimeWeekSchema.parse(w), lang);
+    };
+
+    it('prints the block, the day plan, and the benchmark in the header, and the medley of the day as opening item 3', () => {
+        const html = review();
+        expect(html).toContain('Review week');
+        expect(html).toContain('weeks 1, 2');
+        expect(html).toContain('Day 4: week 2, and the weakest week from the Friday checks');
+        expect(html).toContain('Day 5: the child&#039;s choice');
+        expect(daySection(html, 2)).toContain('Song medley (2 min): &quot;How Many? One, Two!&quot;, &quot;Hello, I Am ___&quot;.');
+        expect(daySection(html, 2)).not.toContain('Song of the week with the actions.');
+    });
+
+    it('prints the benchmark page: the paper items with the position and the dictated sound, the sitting, the strip, the cards, and the blend words', () => {
+        const html = review();
+        const bench = html.split('<section class="st-bench"')[1].split('<section class="st-record"')[0];
+        expect(bench).toContain('Paper part, whole class (10 min)');
+        expect(bench).toContain('Circle the picture with /n/ at the start: nest, cat (answer: nest)');
+        expect(bench).toContain('Circle the picture with /n/ at the end: sun, cup (answer: sun)');
+        expect(bench).toContain('Write the letter for nnn (answer: n)');
+        expect(bench).toContain('One to one, at the check table (2 min)');
+        expect(bench).toContain('&quot;What is this letter?&quot;');
+        expect(bench.match(/<div class="st-strip">(.*?)<\/div>/)![1].match(/<span>/g)).toHaveLength(26);
+        expect(bench).toContain('pass: 20 of 26');
+        expect(bench).toContain('/k/ - /a/ - /t/ → cat');
+        expect(bench).toContain('Pass: 90 percent.');
+    });
+
+    it('prints the class record sheet with 30 rows and the counts, and one reading form per decodable with each word marked', () => {
+        const html = review();
+        const [, sheet, forms] = html.split('<section class="st-record"');
+        expect(sheet).toContain('Letter names /26');
+        expect(sheet).toContain('Paper: pictures /2');
+        expect(sheet).toContain('Paper: letters /2');
+        expect(sheet.match(/<tr><td>/g)).toHaveLength(30);
+        expect(forms).toContain('Reading record: &quot;Nan&quot; (week 1)');
+        expect(forms).toContain('Reading record: &quot;Can I?&quot; (week 2)');
+        expect(forms).toContain('<span class="st-word">nap?</span>');
+        expect(forms).toContain('Self-corrections: ______');
+    });
+
+    it('prints the Thai labels and the Thai sitting in the Thai book', () => {
+        const html = review('th', (w) => {
+            w.benchmark!.oneToOne.th = { teacherActions: ['ชูแถบตัวอักษร'], teacherLanguage: ['(นี่คือตัวอักษรอะไร)'], studentActions: ['เด็กบอกชื่อตัวอักษร'], watchFor: ['เด็กที่ออกเสียงแทนชื่อ'] };
+        });
+        expect(html).toContain('เพลงรวม (2 นาที)');
+        expect(html).toContain('วงกลมภาพที่มีเสียง /n/ ท้ายคำ');
+        expect(html).toContain('ชูแถบตัวอักษร');
+        expect(html).toContain('แบบบันทึกผลทั้งชั้น');
+        expect(html).not.toMatch(CJK);
+    });
+
+    it('prints no benchmark pages for a teaching week', () => {
+        expect(renderStorytimeWeek(week(), 'en')).not.toContain('st-bench');
     });
 });

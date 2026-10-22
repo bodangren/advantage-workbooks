@@ -269,7 +269,9 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
         kind: z.literal('circle-picture'),
         /** The sound, e.g. `/s/`. */
         sound: z.string().min(1),
-        /** The picture words; one starts with the sound. */
+        /** Where the answer word has the sound: at the start (the default), in the middle, or at the end. */
+        position: z.enum(['first', 'middle', 'last']).default('first'),
+        /** The picture words; one has the sound at the position. */
         pictures: z.array(z.string().min(1)).min(2),
         answer: z.string().min(1),
     }),
@@ -280,6 +282,8 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
     z.object({
         kind: z.literal('write-letter'),
         letter: z.string().min(1),
+        /** The sound that the teacher says ("Write the letter for sss"); without it, the teacher says the letter name. */
+        sound: z.string().min(1).optional(),
     }),
     z.object({
         kind: z.literal('circle-word'),
@@ -288,6 +292,66 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
         answer: z.string().min(1),
     }),
 ]);
+
+/** One day of a review week (design §3.5): the weeks that its centers and strips use, and the opening medley. */
+export const BlockDaySchema = z.object({
+    day: z.number().int().min(1).max(5),
+    /** The teaching weeks of the day; empty on the day of the child's choice. */
+    weeks: z.array(z.number().int().min(1)).default([]),
+    /** What the teacher adds to the day, e.g. the weakest week from the Friday checks. */
+    note: BiTextSchema.optional(),
+    /** The two karaoke videos of the opening medley: song titles of the block. */
+    medley: z.array(z.string().min(1)).length(2),
+});
+
+/** The teaching weeks that a review week covers, and its day plan (design §3.5). */
+export const BlockSchema = z.object({
+    weeks: z.array(z.number().int().min(1)).min(1),
+    days: z.array(BlockDaySchema).length(5),
+});
+
+/** The one-to-one sitting of a benchmark (design §3.5 (b)): the letter strip, the sound cards, and the blend words. */
+export const OneToOneSchema = z.object({
+    minutes: z.number().int().min(1).max(10),
+    /** The lower-case letters of the strip, in the printed order. */
+    letters: z.array(z.string().regex(/^[a-z]$/)).min(1),
+    letterPass: z.number().int().min(1),
+    /** The taught letters on the sound cards, in the order shown. */
+    sounds: z.array(z.string().min(1)).min(1),
+    soundPass: z.number().int().min(1),
+    /** Words blended by ear: the sounds that the teacher says, and the word. */
+    blend: z.array(z.object({ sounds: z.string().min(1), word: z.string().min(1) })).min(1),
+    blendPass: z.number().int().min(1),
+    /** The script of the sitting, with the four headings. */
+    en: NoteSchema,
+    /** Daniel's Thai, with the line counts of `en`. */
+    th: NoteSchema.optional(),
+});
+
+/** A decodable that the reading record can use, with its text for the printed form. */
+export const RecordBookSchema = z.object({
+    title: z.string().min(1),
+    week: z.number().int().min(1),
+    pages: z.array(z.string().min(1)).min(1),
+});
+
+/** A benchmark of a review week (design §3.5 and §7): a whole-class paper part, a one-to-one sitting, and a reading record. */
+export const BenchmarkSchema = z.object({
+    title: BiTextSchema,
+    paper: z.object({
+        minutes: z.number().int().min(1).max(20),
+        items: z.array(CheckItemSchema).min(1),
+        /** The pass marks, e.g. 6 of 8 pictures and 5 of 7 letters. */
+        pass: BiTextSchema,
+    }),
+    oneToOne: OneToOneSchema,
+    readingRecord: z.object({
+        minutes: z.number().int().min(1).max(5),
+        /** Words correct over words read, in percent. */
+        pass: z.number().int().min(50).max(100),
+        books: z.array(RecordBookSchema).min(1),
+    }),
+});
 
 export const HomeCardSchema = z.object({
     /** The three words of the week. */
@@ -341,6 +405,10 @@ export const StorytimeWeekSchema = z.object({
     scripts: z.array(ScriptSchema),
     review: z.array(StripSchema).default([]),
     check: z.object({ items: z.array(CheckItemSchema).default([]) }).default({ items: [] }),
+    /** A review week: the block weeks and the day plan (design §3.5). */
+    block: BlockSchema.optional(),
+    /** A review week: the benchmark of the block (design §3.5). */
+    benchmark: BenchmarkSchema.optional(),
     home: HomeCardSchema.optional(),
     tags: StorytimeTagsSchema.default({ graphVersion: '', taught: [], reviewed: [] }),
     approval: StorytimeApprovalsSchema.default({
@@ -366,4 +434,6 @@ export type StorytimeStep = z.infer<typeof StepSchema>;
 export type StorytimeScript = z.infer<typeof ScriptSchema>;
 export type StorytimeNote = z.infer<typeof NoteSchema>;
 export type BiText = z.infer<typeof BiTextSchema>;
+export type StorytimeBenchmark = z.infer<typeof BenchmarkSchema>;
+export type StorytimeCheckItem = z.infer<typeof CheckItemSchema>;
 export type StorytimeBook = z.infer<typeof BookSchema>;

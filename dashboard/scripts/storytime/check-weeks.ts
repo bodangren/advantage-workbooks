@@ -22,7 +22,7 @@ function main(argv: string[]): number {
     const graph = readPhonicsGraph();
     if (!graph) console.warn(`No phonics graph at ${PHONICS_GRAPH_FILE}: the decodable check spells letter by letter.`);
     const reports = weeks.map((w) => ({
-        ...checkStorytimeWeek(w.raw, w.week ? taughtTo(known, w.week) : undefined, graph),
+        ...checkStorytimeWeek(w.raw, w.week ? taughtTo(known, w.week) : undefined, graph, known),
         file: path.relative(process.cwd(), w.file),
     }));
     console.log(formatPackageReports(reports));

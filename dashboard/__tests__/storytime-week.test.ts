@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeWeekInput } from '../lib/storytime/schema';
 import { checkStorytimeWeek, decodability, frameCount, taughtTo } from '../lib/storytime/checks';
 import { storytimeMediaDir, storytimeWeekFile } from '../lib/storytime/files';
-import { fixtureWeek } from './fixtures/storytime-week-fixture';
+import { fixtureBlockWeeks, fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
 
 function run(change?: (w: StorytimeWeekInput) => void) {
     const week = fixtureWeek();
@@ -192,14 +192,14 @@ describe('storytime-week checks', () => {
         expect(status(run((w) => delete w.song), 'song-frame')).toBe('fail');
     });
 
-    it('lets a review week leave out the books, the song, and the family', () => {
+    it('lets a review week leave out the books, the song, and the family (it needs its block and benchmark instead)', () => {
         const report = run((w) => {
             w.meta.kind = 'review';
             w.books = [];
             delete w.song;
             w.focus.family.words = [];
         });
-        expect(failed(report)).toEqual([]);
+        expect(failed(report)).toEqual(['block: no block', 'benchmark: no benchmark']);
     });
 
     it('fails a Level 1 week with a decodable', () => {
@@ -317,5 +317,79 @@ describe('storytime-week checks', () => {
         expect(wrong.checks.find((c) => c.id === 'check-answers')).toMatchObject({ status: 'fail', detail: expect.stringMatching(/item 1: "an".*item 2: "apple"/) });
         expect(status(run((w) => (w.home!.words = ['a'])), 'home')).toBe('warn');
         expect(status(run((w) => delete w.home), 'home')).toBe('fail');
+    });
+});
+
+describe('storytime review week checks (design §3.5)', () => {
+    const block = fixtureBlockWeeks().map((w) => StorytimeWeekSchema.parse(w));
+    function review(change?: (w: StorytimeWeekInput) => void) {
+        const w = fixtureReviewWeek();
+        change?.(w);
+        const parsed = StorytimeWeekSchema.safeParse(w);
+        return checkStorytimeWeek(w, parsed.success ? taughtTo(block, parsed.data) : undefined, undefined, block);
+    }
+    const detail = (report: ReturnType<typeof review>, id: string) => report.checks.find((c) => c.id === id)?.detail ?? '';
+
+    it('passes the review fixture: the block, the benchmark, and no teaching-week rule', () => {
+        const report = review();
+        expect(failed(report)).toEqual([]);
+        expect(status(report, 'block')).toBe('pass');
+        expect(status(report, 'benchmark')).toBe('pass');
+        expect(report.checks.find((c) => c.id === 'family')).toMatchObject({ status: 'pass' });
+        expect(report.checks.find((c) => c.id === 'song-frame')).toBeUndefined();
+    });
+
+    it('defaults a circle-picture item to the first sound', () => {
+        const parsed = StorytimeWeekSchema.parse(fixtureReviewWeek());
+        const items = parsed.benchmark!.paper.items;
+        expect(items[0]).toMatchObject({ kind: 'circle-picture', position: 'first' });
+        expect(items[1]).toMatchObject({ kind: 'circle-picture', position: 'last' });
+    });
+
+    it('fails a review week with no block or no benchmark', () => {
+        const report = review((w) => {
+            delete w.block;
+            delete w.benchmark;
+        });
+        expect(detail(report, 'block')).toBe('no block');
+        expect(detail(report, 'benchmark')).toBe('no benchmark');
+    });
+
+    it('fails a block week missing on days 1 to 4, a week not before the review week, and a medley song outside the block', () => {
+        const report = review((w) => {
+            w.block!.weeks = [1, 2, 3];
+            w.block!.days[2].weeks = [1];
+            w.block!.days[1].weeks = [];
+            w.block!.days[3].weeks = [];
+            w.block!.days[0].medley = ['Hello, I Am ___', 'Old MacDonald'];
+        });
+        expect(status(report, 'block')).toBe('fail');
+        expect(detail(report, 'block')).toContain('week 3 is not before the review week');
+        expect(detail(report, 'block')).toContain('days 1 to 4 do not cover week 2, 3');
+        expect(detail(report, 'block')).toContain('day 1: "Old MacDonald" is not a song of the block');
+    });
+
+    it('fails a strip that is not the 26 letters, cards and letters that are not the taught ones, a wrong answer, and a changed reading-record text', () => {
+        const report = review((w) => {
+            const b = w.benchmark!;
+            b.oneToOne.letters = b.oneToOne.letters.slice(1);
+            b.oneToOne.sounds = ['n'];
+            b.paper.items = b.paper.items.filter((i) => !(i.kind === 'write-letter' && i.letter === 'a'));
+            b.paper.items[0] = { kind: 'circle-picture', sound: '/n/', pictures: ['cat', 'sun'], answer: 'nest' };
+            b.readingRecord.books[1].pages = ['Nan can nap.'];
+            b.readingRecord.books.push({ title: 'The Pan', week: 2, pages: ['A pan.'] });
+        });
+        const d = detail(report, 'benchmark');
+        expect(d).toContain('the letter strip is not the 26 letters once each');
+        expect(d).toContain('the sound cards (n) are not the taught letters (n, a)');
+        expect(d).toContain('the written letters (n) are not the taught letters');
+        expect(d).toContain('paper item 1: "nest" is not one of cat, sun');
+        expect(d).toContain('the text of "Can I?" differs from week 2');
+        expect(d).toContain('"The Pan" is not the decodable of week 2');
+    });
+
+    it('counts the benchmark and the day notes in the Thai warning', () => {
+        const report = review();
+        expect(detail(report, 'thai')).toContain('of 16 step notes');
     });
 });

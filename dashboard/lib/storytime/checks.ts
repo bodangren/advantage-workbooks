@@ -1,7 +1,7 @@
 import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-package/checks';
 import type { CheckStatus } from '../text-profile/check';
 import { programWeek, wordNeed, type PhonicsGraph } from './phonics';
-import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeNote, type StorytimeWeek } from './schema';
+import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
 
 /** The headings of a step note, in print order. */
 const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
@@ -113,9 +113,10 @@ export function decodability(text: string, taught: TaughtSet, names: string[] = 
  * @param input The week as read from disk (not yet parsed).
  * @param taught The graphemes and tricky words taught to this week (`taughtTo`); without it, the decodability check warns.
  * @param graph The phonics graph facts; without them, the decodability check spells letter by letter and says so.
+ * @param others The other weeks of the level: a review week checks its medley and its reading-record books against them.
  * @returns The report in the Primary package report format (`lesson` is the URL key).
  */
-export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: PhonicsGraph): PackageReport {
+export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: PhonicsGraph, others?: StorytimeWeek[]): PackageReport {
     const parsed = StorytimeWeekSchema.safeParse(input);
     if (!parsed.success) return schemaFailure(parsed.error.issues);
     const w = parsed.data;
@@ -263,6 +264,10 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         }
         if (!HEADINGS.some((h) => step.th![h].some((l) => THAI.test(l)))) lineProblems.push(`${step.id}: no Thai character`);
     }
+    const sitting = w.benchmark?.oneToOne;
+    if (sitting?.th) {
+        for (const h of HEADINGS) if (sitting.th[h].length !== sitting.en[h].length) lineProblems.push(`benchmark ${h}: ${sitting.th[h].length} Thai, ${sitting.en[h].length} English`);
+    }
     checks.push(check('thai-lines', 'Thai notes have the English line counts', lineProblems));
     const { element, paSkill, family: focusFamily } = w.focus;
     const songNotes = w.song ? [...w.song.lines.flatMap((x) => (x.note ? [x.note] : [])), ...[w.song.choreography.intro, w.song.choreography.outro].filter((x) => x !== undefined)] : [];
@@ -275,9 +280,12 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         ...w.scripts.flatMap((s) => [s.title, ...s.prep]),
         ...songNotes,
         ...(w.home ? [w.home.line, w.home.activity] : []),
+        ...(w.block?.days.flatMap((d) => (d.note ? [d.note] : [])) ?? []),
+        ...(w.benchmark ? [w.benchmark.title, w.benchmark.paper.pass] : []),
     ];
-    const noThai = bi.filter((t) => !t.th).length;
-    checks.push(check('thai', 'Thai written (Daniel checks it)', thaiMissing || noThai ? [`${thaiMissing} of ${steps.length} step notes and ${noThai} of ${bi.length} lines have no Thai`] : [], 'warn'));
+    const noThai = bi.filter((t) => !t.th).length + (sitting && !sitting.th ? 1 : 0);
+    const notes = steps.length + (sitting ? 1 : 0);
+    checks.push(check('thai', 'Thai written (Daniel checks it)', thaiMissing || noThai ? [`${thaiMissing} of ${notes} step notes and ${noThai} of ${bi.length} lines have no Thai`] : [], 'warn'));
 
     // Review strips: one a day, 18 cards or fewer, only items already taught (design §4).
     const reviewProblems: string[] = [];
@@ -292,15 +300,12 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
 
     if (teach) {
         checks.push(check('check', 'Friday check (E5)', w.check.items.length ? [] : ['no items'], 'warn'));
-        const answers = w.check.items.flatMap((item, i) => {
-            if (item.kind !== 'circle-picture' && item.kind !== 'circle-word') return [];
-            const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
-            return choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
-        });
-        checks.push(check('check-answers', 'Friday check: each answer is one of the choices', answers));
+        checks.push(check('check-answers', 'Friday check: each answer is one of the choices', wrongAnswers(w.check.items)));
         if (!w.home) checks.push(check('home', 'Home card', ['no home card']));
         else checks.push(check('home', 'Home card with 3 words', w.home.words.length === 3 ? [] : [`${w.home.words.length} words`], 'warn'));
     }
+
+    if (w.meta.kind === 'review') checks.push(...reviewChecks(w, taught, others));
 
     // A published week is on the public page: every part approved, no failed check.
     if (w.meta.status === 'published') {
@@ -310,4 +315,72 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     }
 
     return { lesson: w.meta.key, title: w.meta.title, checks };
+}
+
+/** The circle items whose answer is not one of their choices, as "item n: ..." lines. */
+function wrongAnswers(items: StorytimeCheckItem[]): string[] {
+    return items.flatMap((item, i) => {
+        if (item.kind !== 'circle-picture' && item.kind !== 'circle-word') return [];
+        const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
+        return choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
+    });
+}
+
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
+
+/**
+ * The checks of a review week (design §3.5): the block and its day plan, and the benchmark.
+ * @param w The parsed review week.
+ * @param taught The letters taught to the week; without them, the letter lists are not compared.
+ * @param others The other weeks of the level; without them, the medley and the books are not compared.
+ * @returns The checks.
+ */
+function reviewChecks(w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWeek[]): PackageCheck[] {
+    const out: PackageCheck[] = [];
+    const block = w.block;
+    const blockProblems: string[] = [];
+    const blockWeeks = (others ?? []).filter((o) => o.meta.level === w.meta.level && block?.weeks.includes(o.meta.week));
+    if (!block) blockProblems.push('no block');
+    else {
+        const days = new Set(block.days.map((d) => d.day));
+        for (let d = 1; d <= 5; d++) if (!days.has(d)) blockProblems.push(`no day ${d}`);
+        for (const n of block.weeks) if (n >= w.meta.week) blockProblems.push(`week ${n} is not before the review week`);
+        for (const d of block.days) for (const n of d.weeks) if (!block.weeks.includes(n)) blockProblems.push(`day ${d.day}: week ${n} is not in the block`);
+        const covered = new Set(block.days.filter((d) => d.day <= 4).flatMap((d) => d.weeks));
+        const missing = block.weeks.filter((n) => !covered.has(n));
+        if (missing.length) blockProblems.push(`days 1 to 4 do not cover week ${missing.join(', ')}`);
+        if (others) {
+            const songs = new Set(blockWeeks.flatMap((o) => (o.song ? [o.song.title] : [])));
+            for (const d of block.days) for (const t of d.medley) if (!songs.has(t)) blockProblems.push(`day ${d.day}: "${t}" is not a song of the block`);
+        }
+    }
+    out.push(check('block', 'Review block: five days, every block week on days 1 to 4, the medley from the block songs (design §3.5)', blockProblems));
+
+    const b = w.benchmark;
+    const benchProblems: string[] = [];
+    if (!b) benchProblems.push('no benchmark');
+    else {
+        const { oneToOne: o, paper, readingRecord: r } = b;
+        const strip = [...o.letters].sort().join('');
+        if (strip !== ALPHABET) benchProblems.push(`the letter strip is not the 26 letters once each (${o.letters.join('')})`);
+        if (o.letterPass > o.letters.length) benchProblems.push(`letter pass ${o.letterPass} of ${o.letters.length}`);
+        if (o.soundPass > o.sounds.length) benchProblems.push(`sound pass ${o.soundPass} of ${o.sounds.length}`);
+        if (o.blendPass > o.blend.length) benchProblems.push(`blend pass ${o.blendPass} of ${o.blend.length}`);
+        const same = (a: string[], c: string[]) => [...new Set(a)].sort().join(',') === [...new Set(c)].sort().join(',');
+        const written = paper.items.flatMap((i) => (i.kind === 'write-letter' ? [i.letter] : []));
+        if (taught) {
+            if (!same(o.sounds, taught.graphemes)) benchProblems.push(`the sound cards (${o.sounds.join(', ')}) are not the taught letters (${taught.graphemes.join(', ')})`);
+            if (!same(written, taught.graphemes)) benchProblems.push(`the written letters (${written.join(', ')}) are not the taught letters`);
+        }
+        benchProblems.push(...wrongAnswers(paper.items).map((x) => `paper ${x}`));
+        if (others) {
+            for (const rb of r.books) {
+                const src = blockWeeks.find((o2) => o2.meta.week === rb.week)?.books.find((bk) => bk.kind === 'decodable');
+                if (!src || src.title !== rb.title) benchProblems.push(`reading record: "${rb.title}" is not the decodable of week ${rb.week}`);
+                else if (src.pages.map((p) => p.text).join(' ') !== rb.pages.join(' ')) benchProblems.push(`reading record: the text of "${rb.title}" differs from week ${rb.week}`);
+            }
+        }
+    }
+    out.push(check('benchmark', 'Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)', benchProblems));
+    return out;
 }

@@ -4,7 +4,7 @@ import { wrapTeacherManualDocument } from '../teacher-manual/document-wrapper';
 import { getTranslations, type SupportedLanguage } from '../teacher-manual/i18n';
 import type { TeacherManualPaper } from '../teacher-manual/types';
 import { storytimeLabels, type StorytimeLabels } from './i18n';
-import type { BiText, StorytimeStep, StorytimeWeek } from './schema';
+import type { BiText, StorytimeCheckItem, StorytimeNote, StorytimeStep, StorytimeWeek } from './schema';
 
 /**
  * The Storytime template of the teacher manual generator (track storytime_week_package_20261022,
@@ -47,6 +47,19 @@ const CSS = `
     .st-song table { width: 100%; border-collapse: collapse; font-size: 10pt; }
     .st-song th, .st-song td { border: 1px solid #999; padding: 3px 8px; text-align: left; vertical-align: top; }
     .st-song .st-part td { font-weight: 700; background: #eee; }
+    /* Review weeks: the benchmark page, the class record sheet, and the reading record forms. */
+    .st-bench, .st-record { break-before: page; }
+    .st-bench h4 { margin: 10px 0 4px 0; color: ${THEME.primary}; }
+    .st-bench ol { margin: 0 0 4px 0; padding-left: 20px; font-size: 10pt; }
+    .st-strip { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px 0; }
+    .st-strip span { display: inline-block; min-width: 26px; text-align: center; border: 1px solid #000; font-size: 20pt; padding: 2px 4px; }
+    .st-record table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+    .st-record th, .st-record td { border: 1px solid #000; padding: 2px 4px; text-align: left; vertical-align: top; }
+    .st-record td { height: 18px; }
+    .st-form { break-inside: avoid; border: 1px solid #000; padding: 6px 10px; margin-bottom: 10px; font-size: 10pt; }
+    .st-form h4 { margin: 0 0 4px 0; }
+    .st-form p { margin: 3px 0; }
+    .st-word { display: inline-block; border-bottom: 1px solid #000; padding: 0 2px 12px 2px; margin: 0 4px 6px 0; font-size: 12pt; }
 `;
 
 function escapeHtml(text: string): string {
@@ -56,28 +69,36 @@ function escapeHtml(text: string): string {
 /** The Thai of a text in the Thai book when Daniel has written it, else the English. */
 const pick = (t: BiText, lang: SupportedLanguage) => (lang === 'th' && t.th ? t.th : t.en);
 
-function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels): string {
+/**
+ * The four headings of a note. The teacher says the English in both books; the Thai book prints the
+ * Thai of the other headings and adds the gloss under each English line.
+ */
+function renderNote(en: StorytimeNote, th: StorytimeNote | undefined, lang: SupportedLanguage): string {
     const h = getTranslations(lang).teachingNotes;
-    const thai = lang === 'th' ? step.th : undefined;
-    const note = thai ?? step.en;
+    const thai = lang === 'th' ? th : undefined;
+    const note = thai ?? en;
     const list = (lines: string[]) => `<ul class="tm-note-list">${lines.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>`;
-    // The teacher says the English in both books; the Thai book adds the gloss under each line.
-    const language = step.en.teacherLanguage
+    const language = en.teacherLanguage
         .map((x, i) => `<p class="tm-language-quote">${escapeHtml(x)}</p>${thai?.teacherLanguage[i] ? `<p class="st-gloss">${escapeHtml(thai.teacherLanguage[i])}</p>` : ''}`)
         .join('');
-    const title = lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
     const section = (label: string, body: string, cls = '') => `<div class="tm-note-section${cls}"><h5 class="tm-note-title${cls ? ' tm-watch-title' : ''}" style="color: ${THEME.primary};">${escapeHtml(label)}</h5>${body}</div>`;
-    const variant = (label: string, t: BiText) => `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(pick(t, lang))}</p>`;
     return `
-    <div class="st-step${step.moved ? ' st-moved' : ''}">
-      <h4 class="st-step-title">${escapeHtml(step.id)} · ${title} <span class="st-min">${escapeHtml(l.minutes(step.minutes))}</span></h4>
-      ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.join(', '))}</p>` : ''}
       <div class="tm-teaching-notes">
         ${section(h.teacherActions, list(note.teacherActions))}
         ${section(h.teacherLanguage, `<div class="tm-language-box">${language}</div>`)}
         ${section(h.studentActions, list(note.studentActions))}
         ${section(h.watchFor, `<ul class="tm-note-list tm-watch-list">${note.watchFor.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>`, ' tm-watch-for')}
-      </div>
+      </div>`;
+}
+
+function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels): string {
+    const title = lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
+    const variant = (label: string, t: BiText) => `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(pick(t, lang))}</p>`;
+    return `
+    <div class="st-step${step.moved ? ' st-moved' : ''}">
+      <h4 class="st-step-title">${escapeHtml(step.id)} · ${title} <span class="st-min">${escapeHtml(l.minutes(step.minutes))}</span></h4>
+      ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.join(', '))}</p>` : ''}
+      ${renderNote(step.en, step.th, lang)}
       <div class="st-variants">
         ${variant(l.easier, step.easier)}
         ${variant(l.harder, step.harder)}
@@ -146,6 +167,12 @@ function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLab
     if (focus.trickyWords.length) rows.push([l.tricky, focus.trickyWords.join(', ')]);
     for (const b of books) rows.push([b.kind === 'readalong' ? l.readAlong : l.decodable, b.title]);
     if (song) rows.push([l.song, song.title]);
+    if (w.block) {
+        rows.push([l.block, l.weeksList(w.block.weeks)]);
+        const plan = [...w.block.days].sort((a, b) => a.day - b.day).map((d) => `${l.day(d.day)}: ${[d.weeks.length ? l.weeksList(d.weeks) : '', d.note ? pick(d.note, lang) : ''].filter(Boolean).join(', ')}`);
+        rows.push([l.dayPlan, plan.join('; ')]);
+    }
+    if (w.benchmark) rows.push([l.benchmark, pick(w.benchmark.title, lang)]);
     if (home) rows.push([l.homeLine, pick(home.line, lang)]);
     const materials = mergeMaterials(w.scripts.flatMap((s) => s.steps.flatMap((st) => st.materials)));
     if (materials.length) rows.push([l.materials, materials.join('; ')]);
@@ -177,13 +204,15 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
         const recallMinutes = recall.reduce((n, st) => n + st.minutes, 0);
         const moved = s.steps.filter((st) => st.moved);
         const soundGame = w.opening?.pa[s.day - 1];
+        const medley = w.block?.days.find((d) => d.day === s.day)?.medley;
+        const item = (x: string, j: number) => (j === 1 && soundGame ? l.soundGame(pick(soundGame, lang)) : j === 2 && medley ? l.medley(medley.map((t) => `"${t}"`).join(', ')) : x);
         return `
   <section class="st-day" id="week-${w.meta.week}-day-${s.day}">
     <h3 class="st-day-title">${escapeHtml(l.day(s.day))} · ${escapeHtml(l.script(s.id, pick(s.title, lang)))} <span class="st-min">${escapeHtml(l.minutes(w.meta.periodMinutes))}</span></h3>
     ${prep}
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
-      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(j === 1 && soundGame ? l.soundGame(pick(soundGame, lang)) : x)}</li>`).join('')}</ol>
+      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}
     </div>
@@ -192,7 +221,73 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
     ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l) : ''}
   </section>`;
     });
-    return renderHeader(w, lang, l) + days.join('') + renderSong(w, lang, l);
+    return renderHeader(w, lang, l) + days.join('') + renderBenchmark(w, lang, l) + renderSong(w, lang, l);
+}
+
+/** The rows of the class record sheet: one a child, for a class of up to 30 (design §3.5). */
+const RECORD_ROWS = 30;
+
+/** What the teacher says for one paper item, with the answer of a circle item. */
+function paperItem(item: StorytimeCheckItem, l: StorytimeLabels): string {
+    switch (item.kind) {
+        case 'circle-picture':
+            return `${l.pictureItem[item.position](item.sound)}: ${item.pictures.join(', ')} (${l.answer}: ${item.answer})`;
+        case 'circle-word':
+            return `${l.circleWord}: ${item.words.join(', ')} (${l.answer}: ${item.answer})`;
+        case 'write-letter':
+            return item.sound ? `${l.writeLetterFor(item.sound)} (${l.answer}: ${item.letter})` : l.writeLetter(item.letter);
+        case 'write-word':
+            return l.writeWord(item.word);
+    }
+}
+
+/**
+ * The benchmark of a review week (design §3.5): the page that the teacher reads from (the paper items,
+ * the one-to-one script, the letter strip, the sound cards, the blend words, and the reading record),
+ * the class record sheet, and one reading record form for each decodable.
+ */
+function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabels): string {
+    const b = w.benchmark;
+    if (!b) return '';
+    const { paper, oneToOne: o, readingRecord: r } = b;
+    const pictures = paper.items.filter((i) => i.kind === 'circle-picture' || i.kind === 'circle-word').length;
+    const written = paper.items.length - pictures;
+    const c = l.recordColumns;
+    const columns = [c.no, c.name, `${c.letters} /${o.letters.length}`, `${c.sounds} /${o.sounds.length}`, `${c.blend} /${o.blend.length}`, `${c.pictures} /${pictures}`, `${c.written} /${written}`, c.book, c.accuracy, c.date];
+    const rows = Array.from({ length: RECORD_ROWS }, (_, i) => `<tr><td>${i + 1}</td>${columns.slice(1).map(() => '<td></td>').join('')}</tr>`).join('');
+    const forms = r.books
+        .map(
+            (book) => `
+    <div class="st-form">
+      <h4>${escapeHtml(l.readingForm(book.title, book.week))}</h4>
+      <p>${escapeHtml(l.formChild)}: ____________________ ${escapeHtml(l.formDate)}: ____________</p>
+      ${book.pages.map((page) => `<p>${page.split(/\s+/).map((x) => `<span class="st-word">${escapeHtml(x)}</span>`).join('')}</p>`).join('')}
+      <p>${l.formTotals.map((x) => `${escapeHtml(x)}: ______`).join(' ')}</p>
+    </div>`,
+        )
+        .join('');
+    return `
+  <section class="st-bench" id="week-${w.meta.week}-benchmark">
+    <h3 class="st-day-title">${escapeHtml(pick(b.title, lang))}</h3>
+    <h4>${escapeHtml(l.paperPart(paper.minutes))}</h4>
+    <ol>${paper.items.map((item) => `<li>${escapeHtml(paperItem(item, l))}</li>`).join('')}</ol>
+    <p><strong>${escapeHtml(l.pass)}:</strong> ${escapeHtml(pick(paper.pass, lang))}</p>
+    <h4>${escapeHtml(l.oneToOne(o.minutes))}</h4>
+    ${renderNote(o.en, o.th, lang)}
+    <p><strong>${escapeHtml(l.letterStrip(o.letterPass, o.letters.length))}</strong></p>
+    <div class="st-strip">${o.letters.map((x) => `<span>${escapeHtml(x)}</span>`).join('')}</div>
+    <p><strong>${escapeHtml(l.soundCards(o.soundPass, o.sounds.length))}:</strong> ${o.sounds.map((x) => `<span class="st-card">${escapeHtml(x)}</span>`).join('')}</p>
+    <p><strong>${escapeHtml(l.blendWords(o.blendPass, o.blend.length))}</strong></p>
+    <ol>${o.blend.map((x) => `<li>${escapeHtml(x.sounds)} → ${escapeHtml(x.word)}</li>`).join('')}</ol>
+    <h4>${escapeHtml(l.readingRecord(r.minutes, r.pass))}</h4>
+    <p>${escapeHtml(l.formMarks)}</p>
+  </section>
+  <section class="st-record" id="week-${w.meta.week}-record">
+    <h3 class="st-day-title">${escapeHtml(l.recordSheet)}</h3>
+    <table><tr>${columns.map((x) => `<th>${escapeHtml(x)}</th>`).join('')}</tr>${rows}</table>
+  </section>
+  <section class="st-record" id="week-${w.meta.week}-forms">${forms}
+  </section>`;
 }
 
 /** A heading and moved steps: the heading and the first step in one block, the other steps after it. */
