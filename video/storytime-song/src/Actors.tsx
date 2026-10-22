@@ -1,8 +1,14 @@
-import React from 'react';
-import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
-import { Figure, LOOKS, NEUTRAL, Puppy } from './art/Figure';
-import { GROUND } from './art/Scene';
-import type { Shot } from './timeline';
+import React from "react";
+import {
+  AbsoluteFill,
+  Easing,
+  interpolate,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { Figure, LOOKS, NEUTRAL, Puppy } from "./art/Figure";
+import { GROUND } from "./art/Scene";
+import type { Shot } from "./timeline";
 
 const ENTER = 0.45;
 /** The new actors start to slide in after the old ones have mostly left. */
@@ -20,31 +26,57 @@ const RIGHT = 1480;
  * @param props.shot The shot.
  * @param props.bpm The tempo of the song (the actors bob on the beat).
  */
-export const Actors: React.FC<{ shot: Shot; bpm: number }> = ({ shot, bpm }) => {
-    const frame = useCurrentFrame();
-    const { fps } = useVideoConfig();
-    const t = frame / fps;
-    const length = shot.end - shot.start;
-    const n = shot.actors.length;
-    if (!n) return null;
-    const kid = n <= 2 ? 520 : n <= 4 ? 470 : 400;
-    const slideIn = shot.enter ? interpolate(t, [ENTER_DELAY, ENTER_DELAY + ENTER], [1500, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.back(1.1)) }) : 0;
-    const slideOut = shot.exit ? interpolate(t, [length, length + EXIT], [0, -1700], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.quad) }) : 0;
-    const beat = (t * bpm) / 60;
-    return (
-        <AbsoluteFill style={{ translate: `${slideIn + slideOut}px 0px` }}>
-            {shot.actors.map((name, i) => {
-                const x = LEFT + ((i + 0.5) * (RIGHT - LEFT)) / n;
-                const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
-                const look = LOOKS[name];
-                const h = name === 'Pip' ? kid * 0.55 : kid * (look?.scale ?? 1);
-                const w = name === 'Pip' ? (h * 240) / 200 : (h * 240) / 340;
-                return (
-                    <div key={name} style={{ position: 'absolute', left: x - w / 2, top: GROUND - h - bob }}>
-                        {name === 'Pip' ? <Puppy height={h} /> : <Figure look={look ?? LOOKS.Pat} pose={NEUTRAL} height={h} />}
-                    </div>
-                );
-            })}
-        </AbsoluteFill>
-    );
+export const Actors: React.FC<{ shot: Shot; bpm: number }> = ({
+  shot,
+  bpm,
+}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = frame / fps;
+  const length = shot.end - shot.start;
+  const n = shot.actors.length;
+  if (!n) return null;
+  const kid = n <= 2 ? 520 : n <= 4 ? 470 : 400;
+  const slideIn = shot.enter
+    ? interpolate(t, [ENTER_DELAY, ENTER_DELAY + ENTER], [1500, 0], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+        easing: Easing.out(Easing.back(1.1)),
+      })
+    : 0;
+  const slideOut = shot.exit
+    ? interpolate(t, [length, length + EXIT], [0, -1700], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+        easing: Easing.in(Easing.quad),
+      })
+    : 0;
+  const beat = (t * bpm) / 60;
+  return (
+    <AbsoluteFill style={{ translate: `${slideIn + slideOut}px 0px` }}>
+      {shot.actors.map((name, i) => {
+        const x = LEFT + ((i + 0.5) * (RIGHT - LEFT)) / n;
+        const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
+        const look = LOOKS[name];
+        const h = name === "Pip" ? kid * 0.55 : kid * (look?.scale ?? 1);
+        const w = name === "Pip" ? (h * 240) / 200 : (h * 240) / 340;
+        return (
+          <div
+            key={name}
+            style={{
+              position: "absolute",
+              left: x - w / 2,
+              top: GROUND - h - bob,
+            }}
+          >
+            {name === "Pip" ? (
+              <Puppy height={h} />
+            ) : (
+              <Figure look={look ?? LOOKS.Pat} pose={NEUTRAL} height={h} />
+            )}
+          </div>
+        );
+      })}
+    </AbsoluteFill>
+  );
 };
