@@ -97,14 +97,6 @@
             "characters": [],
             "caption": "horse"
           }
-        },
-        {
-          "word": "lizard",
-          "image": {
-            "prompt": "One small green lizard sits on a flat rock, full body. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
-            "characters": [],
-            "caption": "lizard"
-          }
         }
       ]
     },
@@ -253,7 +245,8 @@
         "fish",
         "frog",
         "duck",
-        "horse"
+        "horse",
+        "Pip"
       ],
       "audio": {
         "sentences": [],
@@ -396,7 +389,7 @@
     "title": "I Can See a Cat",
     "styleBrief": "Cheerful classroom animal song for a kindergarten English class, 100 bpm, C major, the melody between C4 and C5, playful and bouncy, one warm clear female lead with an American accent, every word slowly and clearly sung, a small group of young singers sings the chorus with the lead, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 75 seconds long.",
     "bpm": 100,
-    "lyricSheet": "[Verse]\nI can see a cat. Meow, meow!\nI can see a dog. Woof, woof!\n\n[Chorus]\nTa, ta, tap! Look and see!\nI can see a pet, and the pet can see me!\n\n[Verse]\nI can see a bird. Tweet, tweet!\nI can see a fish. Swim, swim!\n\n[Chorus]\nTa, ta, tap! Look and see!\nI can see a pet, and the pet can see me!\n\n[Verse]\nI can see a frog. Hop, hop!\nI can see a duck. Quack, quack!\n\n[Chorus]\nTa, ta, tap! Look and see!\nI can see a pet, and the pet can see me!\n\n[Chorus]\nTa, ta, tap! Look and see!\nI can see a pet, and the pet can see me!",
+    "lyricSheet": "[Verse]\nI can see a cat. Meow, meow!\nI can see a dog. Woof, woof!\n\n[Chorus]\nTa, ta, tap! Look and see!\nWhat can you see? I can see an animal!\n\n[Verse]\nI can see a bird. Tweet, tweet!\nI can see a fish. Swim, swim!\n\n[Chorus]\nTa, ta, tap! Look and see!\nWhat can you see? I can see an animal!\n\n[Verse]\nI can see a frog. Hop, hop!\nI can see a duck. Quack, quack!\n\n[Chorus]\nTa, ta, tap! Look and see!\nWhat can you see? I can see an animal!\n\n[Chorus]\nTa, ta, tap! Look and see!\nWhat can you see? I can see an animal!",
     "lines": [
       {
         "text": "I can see a cat. Meow, meow!",
@@ -437,13 +430,12 @@
         }
       },
       {
-        "text": "I can see a pet, and the pet can see me!",
+        "text": "What can you see? I can see an animal!",
         "part": "chorus",
-        "gesture": "point to self",
+        "gesture": "look",
         "image": {
-          "prompt": "Pip the puppy and Mia (drawn young, about five years old) look at each other nose to nose and smile. Pip: a small puppy with golden-brown fur, a cream chest, a cream muzzle, a cream stripe on his forehead, floppy ears with darker tips, large dark-brown eyes, a black nose, a fluffy tail, and a red collar with a small round gold tag. No letters, words, or numbers anywhere.",
+          "prompt": "Mia (drawn young, about five years old) stands in a sunny meadow with one hand flat above her eyes and looks at a gray cat, a white duck, and a green frog. No letters, words, or numbers anywhere.",
           "characters": [
-            "Pip",
             "Mia"
           ],
           "caption": ""
@@ -476,9 +468,9 @@
         "imageOf": 2
       },
       {
-        "text": "I can see a pet, and the pet can see me!",
+        "text": "What can you see? I can see an animal!",
         "part": "chorus",
-        "gesture": "point to self",
+        "gesture": "look",
         "imageOf": 3
       },
       {
@@ -508,9 +500,9 @@
         "imageOf": 2
       },
       {
-        "text": "I can see a pet, and the pet can see me!",
+        "text": "What can you see? I can see an animal!",
         "part": "chorus",
-        "gesture": "point to self",
+        "gesture": "look",
         "imageOf": 3
       },
       {
@@ -520,9 +512,9 @@
         "imageOf": 2
       },
       {
-        "text": "I can see a pet, and the pet can see me!",
+        "text": "What can you see? I can see an animal!",
         "part": "chorus",
-        "gesture": "point to self",
+        "gesture": "look",
         "imageOf": 3
       }
     ],
@@ -558,10 +550,12 @@
           "minutes": 4,
           "en": {
             "teacherActions": [
-              "When the script says /t/, say the sound: a short tap of the tongue, with a small puff of air and no \"uh\". When it says \"the letter t\", say the letter name \"tee\".",
+              "When the script says /t/, say the sound: a short tap of the tongue, with a small puff of air and no \"uh\".",
+              "When the script says \"the letter t\", say the letter name \"tee\".",
               "Hold up one picture card at a time and say the word slowly.",
               "Say the first sound two times, short and quick: /t/, /t/, tiger.",
-              "Mix the /t/ words with other words. Then say three words with /t/ at the end: cat, hat, boat. At the end of each word, let the tongue go with a small puff of air. A Thai final t, as in มด, has no puff, and the class cannot hear it."
+              "Mix the /t/ words with other words. Then say three words with /t/ at the end: cat, hat, boat.",
+              "At the end of each word, let the tongue go with a small puff of air. A Thai final /t/, as in มด, has no puff, and the class cannot hear it."
             ],
             "teacherLanguage": [
               "\"Listen. /t/, /t/, tiger. Tiger.\"",
@@ -577,6 +571,7 @@
             "watchFor": [
               "Children who say \"tuh\" or \"tor\": the sound is a short /t/, with no vowel after it.",
               "Children who say a Thai ต for /t/: an English /t/ at the start of a word has a small puff of air, close to the Thai ท.",
+              "Children who stop a word with no release at the end (\"ca\" for \"cat\"): let the tongue go with a small puff of air at the end.",
               "Children who copy a friend's thumbs: ask them alone with one more card."
             ]
           },
@@ -599,10 +594,12 @@
           ],
           "th": {
             "teacherActions": [
-              "เมื่อบทพูดเขียนว่า /t/ ให้ออกเสียงโดยใช้ปลายลิ้นแตะสั้น ๆ มีลมพ่นออกมาเล็กน้อย และไม่มี \"uh\" ตามหลัง เมื่อบทพูดเขียนว่า \"the letter t\" ให้พูดชื่อตัวอักษร \"tee\" (ที)",
+              "เมื่อบทพูดเขียนว่า /t/ ให้ออกเสียงโดยใช้ปลายลิ้นแตะสั้น ๆ มีลมพ่นออกมาเล็กน้อย และไม่มี \"uh\" ตามหลัง",
+              "เมื่อบทพูดเขียนว่า \"the letter t\" ให้พูดชื่อตัวอักษร \"tee\" (ที)",
               "ชูบัตรภาพทีละใบ แล้วพูดคำช้า ๆ",
               "พูดเสียงแรก 2 ครั้ง สั้น ๆ และเร็ว ๆ: /t/, /t/, tiger",
-              "คละคำที่ขึ้นต้นด้วย /t/ กับคำอื่น จากนั้นพูดคำ 3 คำที่มี /t/ อยู่ท้ายคำ: cat, hat, boat ที่ท้ายแต่ละคำ ให้ปล่อยลิ้นออกโดยมีลมพ่นออกมาเล็กน้อย เพราะเสียงตัวสะกดแม่กด (ต หรือ ด) ในภาษาไทย เช่นในคำว่า มด ไม่ปล่อยลิ้นและไม่มีลมพ่นออก และทั้งชั้นจะไม่ได้ยินเสียงนี้"
+              "คละคำที่ขึ้นต้นด้วย /t/ กับคำอื่น จากนั้นพูดคำ 3 คำที่มี /t/ อยู่ท้ายคำ: cat, hat, boat",
+              "ที่ท้ายแต่ละคำ ให้ยกปลายลิ้นออกจากหลังฟันบน โดยมีลมพ่นออกมาเล็กน้อย เพราะเสียงตัวสะกดแม่กด (ต หรือ ด) ในภาษาไทย เช่นในคำว่า มด ปลายลิ้นแตะค้างไว้และไม่มีลมพ่นออก และทั้งชั้นจะไม่ได้ยินเสียงนี้"
             ],
             "teacherLanguage": [
               "\"ฟัง /t/, /t/, tiger, tiger (เสือ)\"",
@@ -618,6 +615,7 @@
             "watchFor": [
               "เด็กที่ออกเสียงเป็น \"tuh\" (เทอะ) หรือ \"tor\" (ทอ): เสียงที่ถูกคือ /t/ สั้น ๆ ไม่มีสระตามหลัง",
               "เด็กที่ออกเสียง /t/ เป็นเสียง ต ในภาษาไทย: เสียง /t/ ที่ต้นคำในภาษาอังกฤษมีลมพ่นออกมาเล็กน้อย ใกล้กับเสียง ท ในภาษาไทย",
+              "เด็กที่หยุดเสียงท้ายคำโดยปลายลิ้นแตะค้างไว้ (\"ca\" แทน \"cat\"): ให้ยกปลายลิ้นออกจากหลังฟันบน โดยมีลมพ่นออกมาเล็กน้อยที่ท้ายคำ",
               "เด็กที่ทำนิ้วโป้งตามเพื่อน: ให้เด็กคนนั้นตอบคนเดียวด้วยบัตรอีก 1 ใบ"
             ]
           }
@@ -762,7 +760,8 @@
           "minutes": 6,
           "en": {
             "teacherActions": [
-              "First by ear: keep the picture cards cat, hat, and ten face down. Say the three sounds with a short stop between them, then say them fast. Show the picture after the class says the word.",
+              "First by ear: keep the picture cards cat, hat, and ten face down.",
+              "Say the three sounds with a short stop between them, then say them fast. Show the picture after the class says the word.",
               "Then with letters: show the word cards \"sat\", \"mat\", and \"tap\". Put your finger under each letter and say its sound, then slide under the whole word.",
               "Show the word card \"Pat\". The big letter P at the start of a name says /p/, too.",
               "Say the sounds, not the letter names: /k/ and /h/ with no \"uh\" after them, and a short /t/."
@@ -801,7 +800,8 @@
           ],
           "th": {
             "teacherActions": [
-              "ขั้นแรกฝึกด้วยการฟัง: คว่ำบัตรภาพ cat, hat และ ten ไว้ พูด 3 เสียงโดยหยุดสั้น ๆ ระหว่างเสียง แล้วพูดเร็ว ๆ เปิดให้ดูภาพหลังจากทั้งชั้นพูดคำ",
+              "ขั้นแรกฝึกด้วยการฟัง: คว่ำบัตรภาพ cat, hat และ ten ไว้",
+              "พูด 3 เสียงโดยหยุดสั้น ๆ ระหว่างเสียง แล้วพูดเร็ว ๆ เปิดให้ดูภาพหลังจากทั้งชั้นพูดคำ",
               "จากนั้นฝึกด้วยตัวอักษร: ชูบัตรคำ \"sat\", \"mat\" และ \"tap\" วางนิ้วใต้ตัวอักษรทีละตัวและออกเสียงของตัวอักษรนั้น แล้วลากนิ้วผ่านใต้ทั้งคำ",
               "ชูบัตรคำ \"Pat\" P ตัวพิมพ์ใหญ่ที่ต้นชื่อก็ออกเสียง /p/ เหมือนกัน",
               "ออกเสียงของตัวอักษร ไม่ใช่ชื่อตัวอักษร: /k/ และ /h/ ไม่มี \"uh\" ตามหลัง และออกเสียง /t/ สั้น ๆ"
@@ -809,7 +809,7 @@
             "teacherLanguage": [
               "\"ฟัง /k/ - /a/ - /t/ คำนี้คือคำอะไร? Cat! (แมว)\"",
               "\"คำต่อไป /h/ - /a/ - /t/ Hat! (หมวก)\"",
-              "\"อีกคำ /t/ - /e/ - nnn Ten! (สิบ)\"",
+              "\"/t/ - /e/ - nnn Ten! (สิบ)\"",
               "\"ทีนี้ดูตัวอักษร Sss - /a/ - /t/ Sat! (นั่ง) Mmm - /a/ - /t/ Mat! (เสื่อ)\"",
               "\"คำต่อไป /t/ - /a/ - /p/ Tap! (เคาะ) ส่วนคำนี้: /p/ - /a/ - /t/ Pat! คำนี้เป็นชื่อคน\""
             ],
@@ -832,7 +832,7 @@
           "minutes": 2,
           "en": {
             "teacherActions": [
-              "Put the letter t card on the word wall, next to the cards for the letters s, m, p, a, and n.",
+              "Put the card for the letter t on the word wall, next to the five sound cards.",
               "Put the new words on the wall: \"sat\", \"mat\", \"tap\", and \"Pat\". The class reads the new words, then all the words on the wall."
             ],
             "teacherLanguage": [
@@ -866,7 +866,7 @@
           ],
           "th": {
             "teacherActions": [
-              "ติดบัตรตัวอักษร t บนผนังคำศัพท์ ข้างบัตรตัวอักษร s, m, p, a และ n",
+              "ติดบัตรตัวอักษร t บนผนังคำศัพท์ ข้างบัตรเสียงทั้ง 5 ใบ",
               "ติดคำใหม่บนผนังคำศัพท์: \"sat\", \"mat\", \"tap\" และ \"Pat\" ทั้งชั้นอ่านคำใหม่ แล้วอ่านทุกคำบนผนังคำศัพท์"
             ],
             "teacherLanguage": [
@@ -892,7 +892,8 @@
           "en": {
             "teacherActions": [
               "Show the tricky word cards \"he\", \"put\", and \"see\". Show one card at a time.",
-              "Read the word. Show the letters that the class can sound out: the letters p and t in \"put\", and the letter s in \"see\". The other letters are tricky. In \"put\", the letter u says a short \"oo\", as in \"foot\". In \"he\", the letter h comes in a later week, and the letter e says a long eee. In \"see\", the two letters e say one long eee.",
+              "Read the word. Show the letters that the class can sound out: the letter p and the letter t in \"put\", and the letter s in \"see\".",
+              "The other letters are tricky. In \"put\", the letter u says a short \"oo\", as in \"foot\". In \"he\", the letter h comes in a later week, and the letter e says a long eee. In \"see\", the two letters e say one long eee.",
               "Spell each word with letter names, then write it in the air."
             ],
             "teacherLanguage": [
@@ -929,7 +930,8 @@
           "th": {
             "teacherActions": [
               "ชูบัตรคำที่ต้องจำ \"he\", \"put\" และ \"see\" ทีละใบ",
-              "อ่านคำนั้น ชี้ให้ดูตัวอักษรที่ทั้งชั้นสะกดออกเสียงได้: ตัวอักษร p และ t ในคำ \"put\" และตัวอักษร s ในคำ \"see\" ตัวอักษรอื่นเป็นส่วนที่ต้องจำ ในคำ \"put\" ตัวอักษร u ออกเสียง \"oo\" สั้น ๆ (อุ) เหมือนในคำ \"foot\" ในคำ \"he\" ตัวอักษร h จะได้เรียนในสัปดาห์ต่อ ๆ ไป และตัวอักษร e ออกเสียง eee ยาว (อี) ในคำ \"see\" ตัวอักษร e 2 ตัวออกเสียงเป็น eee ยาวเสียงเดียว",
+              "อ่านคำนั้น ชี้ให้ดูตัวอักษรที่ทั้งชั้นสะกดออกเสียงได้: ตัวอักษร p และตัวอักษร t ในคำ \"put\" และตัวอักษร s ในคำ \"see\"",
+              "ตัวอักษรอื่นเป็นส่วนที่ต้องจำ ในคำ \"put\" ตัวอักษร u ออกเสียง \"oo\" สั้น ๆ (อุ) เหมือนในคำ \"foot\" ในคำ \"he\" ตัวอักษร h จะได้เรียนในสัปดาห์ต่อ ๆ ไป และตัวอักษร e ออกเสียง eee ยาว (อี) ในคำ \"see\" ตัวอักษร e 2 ตัวออกเสียงเป็น eee ยาวเสียงเดียว",
               "สะกดแต่ละคำด้วยชื่อตัวอักษร แล้วเขียนคำนั้นกลางอากาศ"
             ],
             "teacherLanguage": [
@@ -1116,7 +1118,7 @@
             "th": "ทำเป็นคู่: คู่คนที่ 1 ชี้ที่บัตร คู่คนที่ 2 พูดคำนั้นและทำเสียงร้องของสัตว์ตัวนั้น"
           },
           "materials": [
-            "family picture cards: cat, dog, bird, fish, frog, duck, horse, lizard"
+            "family picture cards: cat, dog, bird, fish, frog, duck, horse"
           ],
           "th": {
             "teacherActions": [
@@ -1305,7 +1307,7 @@
             "teacherActions": [
               "อ่านรอบแรก: อ่านแต่ละหน้าและชี้ใต้แต่ละคำ ทั้งชั้นพูดหน้านั้นตาม",
               "อ่านรอบที่สอง: อ่าน \"I can see a\" แล้วหยุด ทั้งชั้นพูดคำศัพท์ชื่อสัตว์",
-              "ชี้ที่ \"I can see a\" ในหน้า 1 ถึง 7: นี่คือกรอบประโยคของสัปดาห์ ที่หน้า 8 ชี้ให้ดูว่าประโยคเปลี่ยน: \"I can see Pip!\" หน้าชื่อจะไม่มีคำว่า \"a\""
+              "ชี้ที่ \"I can see a\" ในหน้า 1 ถึง 7: นี่คือกรอบประโยคของสัปดาห์ ที่หน้า 8 ชี้ให้ดูว่าประโยคเปลี่ยน: \"I can see Pip!\" ชื่อไม่มีคำว่า \"a\" นำหน้า"
             ],
             "teacherLanguage": [
               "\"ตาครู: I can see a cat. ถึงตาเด็ก ๆ!\"",
@@ -1313,7 +1315,7 @@
               "\"อ่านหน้าสุดท้ายพร้อมครู: I can see Pip! (ฉันมองเห็น Pip)\""
             ],
             "studentActions": [
-              "เด็ก ๆ พูดแต่ละหน้าตามครู และชี้นิ้วไปข้างหน้ากลางอากาศ",
+              "เด็ก ๆ พูดแต่ละหน้าตามครู และชี้ในอากาศ",
               "เด็ก ๆ พูดคำศัพท์ชื่อสัตว์ในแต่ละหน้า"
             ],
             "watchFor": [
@@ -1363,7 +1365,7 @@
           },
           "materials": [
             "board",
-            "family picture cards: cat, dog, bird, fish, frog, duck, horse, lizard"
+            "family picture cards: cat, dog, bird, fish, frog, duck, horse"
           ],
           "th": {
             "teacherActions": [
@@ -1505,8 +1507,8 @@
       },
       "prep": [
         {
-          "en": "Put one card for the letter t in each child's letter card set (with the cards for the letters s, m, p, a, and n).",
-          "th": "ใส่บัตรตัวอักษร t 1 ใบ ในชุดบัตรตัวอักษรของเด็กแต่ละคน (รวมกับบัตรตัวอักษร s, m, p, a และ n)"
+          "en": "Put one card for the letter t in each child's letter card set, with the five other letter cards.",
+          "th": "ใส่บัตรตัวอักษร t 1 ใบ ในชุดบัตรตัวอักษรของเด็กแต่ละคน รวมกับบัตรตัวอักษรอีก 5 ใบ"
         }
       ],
       "steps": [
@@ -1772,7 +1774,7 @@
             ],
             "teacherLanguage": [
               "\"Look at page 5. What can Sam see? Sam can see a pan!\"",
-              "\"Look at page 8. What can you see? I can see a dog!\""
+              "\"Look at page 8. What can you see? I can see Pip!\""
             ],
             "studentActions": [
               "Children answer, then say the full answer with the teacher."
@@ -1802,7 +1804,7 @@
             ],
             "teacherLanguage": [
               "\"ดูหน้า 5 What can Sam see? (Sam มองเห็นอะไร) Sam can see a pan! (Sam มองเห็นกระทะ)\"",
-              "\"ดูหน้า 8 What can you see? (หนูมองเห็นอะไร) I can see a dog! (ฉันมองเห็นสุนัข)\""
+              "\"ดูหน้า 8 What can you see? (หนูมองเห็นอะไร) I can see Pip! (ฉันมองเห็น Pip)\""
             ],
             "studentActions": [
               "เด็ก ๆ ตอบ แล้วพูดคำตอบเต็มพร้อมครู"
@@ -2118,7 +2120,8 @@
             "teacherActions": [
               "Part 1 (5 min): write \"I can see a ___.\" on the board. Show where the big letter and the full stop go. \"I\" is always a big letter.",
               "Children trace \"I can see a cat.\" in the book. Then they color the cat above it.",
-              "Stand-and-move break (at minute 5): all children stand up. Say an animal; the class makes its move (hop like a frog, flap like a bird) and says the frame with that animal (\"I can see a frog!\"). Do it three times, then sit down.",
+              "Stand-and-move break (at minute 5): all children stand up.",
+              "Say an animal; the class makes its move (hop like a frog, flap like a bird) and says the frame with that animal (\"I can see a frog!\"). Do it three times, then sit down.",
               "Part 2 (5 min): in the second box, children draw a dog, a fish, or a bird. They find the word under the box (dog, fish, bird) and trace it."
             ],
             "teacherLanguage": [
@@ -2158,7 +2161,8 @@
             "teacherActions": [
               "ส่วนที่ 1 (5 นาที): เขียน \"I can see a ___.\" บนกระดาน ชี้ให้ดูว่าตัวพิมพ์ใหญ่และจุด (full stop) อยู่ที่ไหน \"I\" เป็นตัวพิมพ์ใหญ่เสมอ",
               "เด็ก ๆ ลากเส้นตาม \"I can see a cat.\" ในหนังสือ จากนั้นระบายสีแมวที่อยู่เหนือประโยค",
-              "พักยืนขยับตัว (เมื่อครบ 5 นาที): เด็กทุกคนยืนขึ้น ครูพูดชื่อสัตว์ 1 ชนิด ทั้งชั้นทำท่าทางของสัตว์ตัวนั้น (กระโดดเหมือนกบ กระพือแขนเหมือนนก) และพูดกรอบประโยคกับสัตว์ตัวนั้น (เช่น \"I can see a frog!\" (ฉันมองเห็นกบ)) ทำ 3 ครั้ง แล้วนั่งลง",
+              "พักยืนขยับตัว (เมื่อครบ 5 นาที): เด็กทุกคนยืนขึ้น",
+              "ครูพูดชื่อสัตว์ 1 ชนิด ทั้งชั้นทำท่าทางของสัตว์ตัวนั้น (กระโดดเหมือนกบ กระพือแขนเหมือนนก) และพูดกรอบประโยคกับสัตว์ตัวนั้น (เช่น \"I can see a frog!\" (ฉันมองเห็นกบ)) ทำ 3 ครั้ง แล้วนั่งลง",
               "ส่วนที่ 2 (5 นาที): ในช่องที่สอง เด็ก ๆ วาดสุนัข ปลา หรือนก แล้วหาคำใต้ช่องที่ตรงกับภาพ (dog, fish, bird) และลากเส้นตามคำนั้น"
             ],
             "teacherLanguage": [
