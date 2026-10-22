@@ -187,6 +187,13 @@ export const SongLineSchema = z.object({
     imageOf: z.number().int().min(0).optional(),
     /** A note for the teacher on the choreography sheet. */
     note: BiTextSchema.optional(),
+    /**
+     * Video cue: a bubble over the child of the picture. A "thought" bubble shows the render of a prop: the guess
+     * of a question line ("Is it a ball?"; Daniel's week 7 note, 2026-10-22). The prop name is a Forge prop.
+     */
+    bubble: z.object({ kind: z.literal('thought'), prop: z.string().min(1) }).optional(),
+    /** Video cue: the prop (a Forge prop name) that pops out at the start of the line, the answer of a guessing song. */
+    pop: z.string().min(1).optional(),
 });
 
 export const SongSchema = z.object({

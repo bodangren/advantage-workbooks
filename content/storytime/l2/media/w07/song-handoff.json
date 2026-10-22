@@ -1,0 +1,11 @@
+{
+ "week": "st2/7",
+ "chosen": "s25c-w07-02.mp3",
+ "duration_s": 71.73,
+ "backup": null,
+ "model": "Lyria 3 Pro via Vertex AI (Storytime)",
+ "lyric_sheet": "v2b sheet from Workbooks (primary-parity-progress/storytime/s25-lyric-sheet-w07-v2b.json): every line 4 + 3 one-syllable words; the hook is 'Look in the box! Knock, knock, knock!' (Daniel's Option B, check B74)",
+ "times_source": "storytime-approval/songs/vertex/week7-song-times.json (forced alignment against the v2b sheet; transcript in week7-song-times.debug.txt)",
+ "times_changes": "Storytime, 2026-10-22: all 14 lines sung one time in order after an 8.6 s instrumental intro; the transcript ends at 'box' (69.38 s), so the last 'Yes, yes, yes!' was interpolated. Workbooks, 2026-10-22: two transcriptions with no lyric prompt end at 'box' (70.12 s), and the voice band falls from -15 dB to -34 dB at 70.0 s and to -61 dB at 71.5 s, so the last 'Yes, yes, yes!' is not sung: line 14 is 'Top in the box!' and ends at 70.12 s. Daniel rejected v2 and the other v2b candidates (singing faults), so there is no backup.",
+ "open": ""
+}
