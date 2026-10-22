@@ -204,9 +204,21 @@ export const SongSchema = z.object({
     lines: z.array(SongLineSchema).min(1),
     /** The choreography sheet: what the class does before the first line and after the last. */
     choreography: z.object({ intro: BiTextSchema.optional(), outro: BiTextSchema.optional() }).default({}),
+    /**
+     * The song (vocals), as `l<level>/media/w<nn>/song.mp3` under the Storytime content folder. Every
+     * media path below is in the same form. Optional until the song of the week is chosen.
+     */
     audio: z.string().optional(),
+    /**
+     * The classroom video (1920x1080, H.264, the song with vocals), with the line text highlighted word
+     * by word. When it is absent, the QR page plays `audio` with the read-along player.
+     */
     video: z.string().optional(),
-    /** The video with the lyric line highlighted word by word. */
+    /** The phone copy of `video` (1280x720, H.264 CRF about 28, AAC 96k) that the QR page plays. */
+    videoPhone: z.string().optional(),
+    /** The first frame of `video` (JPG, 1280x720), shown on the QR page before the tap. */
+    poster: z.string().optional(),
+    /** The karaoke cut: the same picture as `video` over the instrumental (vocal separation). */
     karaoke: z.string().optional(),
     /** One entry per sung line, with its word times (the karaoke cut). */
     times: z.array(SentenceTimepointSchema).default([]),

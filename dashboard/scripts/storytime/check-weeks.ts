@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { formatPackageReports } from '../../lib/lesson-package/report';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
@@ -21,10 +22,22 @@ function main(argv: string[]): number {
     const known = [2, 3, 4].filter((l) => l <= level).flatMap((l) => readLevelWeeks(STORYTIME_ROOT, l)).flatMap((w) => (w.week ? [w.week] : []));
     const graph = readPhonicsGraph();
     if (!graph) console.warn(`No phonics graph at ${PHONICS_GRAPH_FILE}: the decodable check spells letter by letter.`);
-    const reports = weeks.map((w) => ({
-        ...checkStorytimeWeek(w.raw, w.week ? taughtTo(known, w.week) : undefined, graph, known),
-        file: path.relative(process.cwd(), w.file),
-    }));
+    const reports = weeks.map((w) => {
+        const report = checkStorytimeWeek(w.raw, w.week ? taughtTo(known, w.week) : undefined, graph, known);
+        // The song files that the package names must exist: the QR page copy step reads them.
+        const song = w.week?.song;
+        if (song) {
+            const named = [song.audio, song.video, song.videoPhone, song.poster, song.karaoke].filter((p): p is string => !!p);
+            const missing = named.filter((p) => !fs.existsSync(path.join(STORYTIME_ROOT, p)));
+            report.checks.push({
+                id: 'song-media',
+                label: 'The song files named in the package exist',
+                status: missing.length ? 'fail' : 'pass',
+                detail: missing.length ? `missing: ${missing.join(', ')}` : undefined,
+            });
+        }
+        return { ...report, file: path.relative(process.cwd(), w.file) };
+    });
     console.log(formatPackageReports(reports));
     return reports.some((r) => r.checks.some((c) => c.status === 'fail')) ? 1 : 0;
 }
