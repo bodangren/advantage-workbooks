@@ -1,6 +1,8 @@
 // @vitest-environment node
+import fs from 'fs';
 import { describe, it, expect } from 'vitest';
 import { checkStorytimeWeek, decodability } from '../lib/storytime/checks';
+import { PHONICS_GRAPH_FILE } from '../lib/storytime/files';
 import { parseWord, phonicsGraphFrom, programWeek, wordNeed } from '../lib/storytime/phonics';
 import { fixtureWeek } from './fixtures/storytime-week-fixture';
 
@@ -92,5 +94,24 @@ describe('storytime phonics graph', () => {
         });
         const letters = checkStorytimeWeek(week, { graphemes: ['n', 'a', 'p', 'm'], tricky: ['can', 'I'] });
         expect(letters.checks.find((c) => c.id === 'decodable')?.label).toContain('letter spelling: no phonics graph');
+    });
+});
+
+// The real graph (mastery-advantage, a sibling repo): its tricky nodes carry the week from the graph build's own parser.
+const realJson = fs.existsSync(PHONICS_GRAPH_FILE) ? JSON.parse(fs.readFileSync(PHONICS_GRAPH_FILE, 'utf8')) : undefined;
+
+describe.skipIf(!realJson)('storytime phonics graph: the gate parser agrees with the graph build', () => {
+    it('gives every tricky node its decodable_from_week', () => {
+        const graph = phonicsGraphFrom(realJson);
+        const tricky = (realJson.nodes as { id: string; metadata: { word: string; decodable_from_week: number | null } }[]).filter((n) =>
+            n.id.startsWith('english.phonics.tricky.'),
+        );
+        expect(tricky.length).toBeGreaterThan(50);
+        const differ = tricky.flatMap(({ metadata: { word, decodable_from_week } }) => {
+            const weeks = parseWord(word, graph).map(([g, ph]) => graph.pairWeek.get(`${g}|${ph}`));
+            const week = weeks.includes(undefined) ? null : Math.max(...(weeks as number[]));
+            return week === decodable_from_week ? [] : [`${word}: ${week} in the gate, ${decodable_from_week} in the graph`];
+        });
+        expect(differ).toEqual([]);
     });
 });
