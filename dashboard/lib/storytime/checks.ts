@@ -182,6 +182,7 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     const family = w.focus.family.words.length;
     const familyMax = w.focus.family.max;
     checks.push(check('family', `Family of 6 to ${familyMax} picture words`, teach && (family < 6 || family > familyMax) ? [`${family} words`] : []));
+    if (teach) checks.push(check('opening-pa', 'Sound game in the opening, one line a day (opening.pa)', w.opening ? [] : ['no opening.pa lines'], 'warn'));
     const tricky = w.focus.trickyWords.length;
     checks.push(check('tricky', '3 or fewer new tricky words (design §3.2, A6)', tricky > 3 ? [`${tricky} words: ${w.focus.trickyWords.join(', ')}`] : [], 'warn'));
 
@@ -269,6 +270,7 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         ...(element ? [element.action] : []),
         paSkill,
         focusFamily.name,
+        ...(w.opening?.pa ?? []),
         ...steps.flatMap(({ step }) => [step.title, step.easier, step.harder, step.group]),
         ...w.scripts.flatMap((s) => [s.title, ...s.prep]),
         ...songNotes,

@@ -167,13 +167,14 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
         const recall = i > 0 ? scripts[i - 1].steps.filter((st) => st.moved) : [];
         const recallMinutes = recall.reduce((n, st) => n + st.minutes, 0);
         const moved = s.steps.filter((st) => st.moved);
+        const soundGame = w.opening?.pa[s.day - 1];
         return `
   <section class="st-day" id="week-${w.meta.week}-day-${s.day}">
     <h3 class="st-day-title">${escapeHtml(l.day(s.day))} · ${escapeHtml(l.script(s.id, pick(s.title, lang)))} <span class="st-min">${escapeHtml(l.minutes(w.meta.periodMinutes))}</span></h3>
     ${prep}
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
-      <ol>${l.openingSteps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol>
+      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(j === 1 && soundGame ? l.soundGame(pick(soundGame, lang)) : x)}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}
     </div>

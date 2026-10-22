@@ -162,6 +162,15 @@ describe('Storytime manual template', () => {
         expect(daySection(html, 1)).toContain('Opening routine (6 min)<');
     });
 
+    it('prints the sound game of the day as opening item 2, and the calendar without it', () => {
+        const pa = [1, 2, 3, 4, 5].map((d) => ({ en: `"Listen: day ${d}."`, th: `"ฟัง: วันที่ ${d}"` }));
+        const html = renderStorytimeWeek(week((w) => (w.opening = { pa })), 'en');
+        expect(daySection(html, 3)).toContain('<li>Sound game (1 min): &quot;Listen: day 3.&quot;</li>');
+        expect(daySection(html, 3)).not.toContain('Calendar');
+        expect(renderStorytimeWeek(week((w) => (w.opening = { pa })), 'th')).toContain('เกมเสียง (1 นาที): &quot;ฟัง: วันที่ 1&quot;');
+        expect(daySection(renderStorytimeWeek(week(), 'en'), 3)).toContain('Calendar');
+    });
+
     it('prints the choreography sheet after day 5: parts, lines, actions, notes, start and end', () => {
         const html = renderStorytimeWeek(
             week((w) => {

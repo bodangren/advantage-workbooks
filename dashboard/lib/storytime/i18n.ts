@@ -38,6 +38,8 @@ export interface StorytimeLabels {
     /** Thai names of the 24 gestures, printed after the English name (empty in English). */
     gestures: Record<string, string>;
     openingSteps: string[];
+    /** Opening item 2 when the week has a sound game line for the day (it replaces the calendar). */
+    soundGame: (line: string) => string;
     strip: string;
     noCards: string;
     cardKinds: Record<'sound' | 'tricky' | 'frame' | 'word', string>;
@@ -79,6 +81,7 @@ const en: StorytimeLabels = {
     songStart: 'Start',
     songEnd: 'End',
     gestures: {},
+    soundGame: (line) => `Sound game (1 min): ${line}`,
     openingSteps: [
         'Greeting song and call-and-response: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'Calendar: the day and the weather. One child points.',
@@ -151,6 +154,7 @@ const th: StorytimeLabels = {
         'listen': 'ป้องหูฟัง',
         'bow': 'โค้งคำนับ',
     },
+    soundGame: (line) => `เกมเสียง (1 นาที): ${line}`,
     openingSteps: [
         'ร้องเพลงทักทายและพูดโต้ตอบ: "Hello, Sprouts!" "Hello, Teacher ___!"',
         'ปฏิทิน: วันและสภาพอากาศ ให้เด็กหนึ่งคนชี้',

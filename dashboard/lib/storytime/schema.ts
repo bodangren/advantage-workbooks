@@ -327,6 +327,11 @@ export const StorytimeWeekSchema = z.object({
     meta: StorytimeMetaSchema,
     focus: FocusSchema,
     /**
+     * The daily 1-minute sound game, opening item 2 (Storytime, 2026-10-22): one teacher line for each day.
+     * Days 1 and 2 find the first and the last sound of the week; days 3 to 5 blend three sounds by ear.
+     */
+    opening: z.object({ pa: z.array(BiTextSchema).length(5) }).optional(),
+    /**
      * The read-along book and, from Level 2, the decodable (design §6.7): one of each kind. A review
      * week can leave them out: it re-reads the books of its block.
      */

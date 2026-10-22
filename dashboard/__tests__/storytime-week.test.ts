@@ -308,6 +308,9 @@ describe('storytime-week checks', () => {
 
     it('warns about a teach week without a Friday check or a home card with other than 3 words, and fails a check answer that is not a choice', () => {
         expect(status(run((w) => (w.check = { items: [] })), 'check')).toBe('warn');
+        expect(status(run(), 'opening-pa')).toBe('warn');
+        expect(status(run((w) => (w.opening = { pa: [1, 2, 3, 4, 5].map((d) => ({ en: `day ${d}` })) })), 'opening-pa')).toBe('pass');
+        expect(StorytimeWeekSchema.safeParse({ ...fixtureWeek(), opening: { pa: [{ en: 'one day' }] } }).success).toBe(false);
         const word = { kind: 'circle-word' as const, words: ['in', 'on', 'I'], answer: 'in' };
         expect(status(run((w) => (w.check = { items: [word] })), 'check-answers')).toBe('pass');
         const wrong = run((w) => (w.check = { items: [{ ...word, answer: 'an' }, { kind: 'circle-picture', sound: '/a/', pictures: ['ant', 'dog'], answer: 'apple' }] }));
