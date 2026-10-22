@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeWeekInput } from '../lib/storytime/schema';
 import { checkStorytimeWeek, decodability, frameCount, taughtTo } from '../lib/storytime/checks';
-import { storytimeMediaDir, storytimeWeekFile } from '../lib/storytime/files';
+import { storytimeMediaDir, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { fixtureBlockWeeks, fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
 
 function run(change?: (w: StorytimeWeekInput) => void) {
@@ -48,6 +48,13 @@ describe('storytime-week schema', () => {
         expect(storytimeWeekFile('/c', 2, 1)).toBe('/c/l2/w01.json');
         expect(storytimeWeekFile('/c', 1, 32)).toBe('/c/l1/w32.json');
         expect(storytimeMediaDir('/c', 2, 1)).toBe('/c/l2/media/w01');
+    });
+
+    it('gives the printed QR address of a page path on the Storytime host (S23)', () => {
+        expect(storytimeQrUrl('/th/st/2/1')).toBe('https://storytime.reading-advantage.com/th/st/2/1');
+        expect(storytimeQrUrl('/th/st/2/1?part=song')).toBe('https://storytime.reading-advantage.com/th/st/2/1?part=song');
+        expect(() => storytimeQrUrl('th/st/2/1')).toThrow();
+        expect(() => storytimeQrUrl('https://primary.reading-advantage.com/th/st/2/1')).toThrow();
     });
 });
 

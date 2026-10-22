@@ -7,6 +7,20 @@ import { StorytimeWeekSchema, type StorytimeWeek } from './schema';
 /** The Storytime content folder: `l<level>/w<nn>.json`, media in `l<level>/media/w<nn>/`. */
 export const STORYTIME_ROOT = path.join(REPO_ROOT, 'content', 'storytime');
 
+/** The host of the printed Storytime QR codes: a subdomain of its own, not the Primary app (Daniel, 2026-10-22, S23). */
+export const STORYTIME_QR_HOST = 'https://storytime.reading-advantage.com';
+
+/**
+ * The address that a printed QR code holds: the Storytime host and a page path of the package
+ * (`home.songUrl`, `home.readAlongUrl`). The package keeps the path only.
+ * @param pagePath The path of the public page, as "/th/st/2/1?part=song".
+ * @returns The full address.
+ */
+export function storytimeQrUrl(pagePath: string): string {
+    if (!pagePath.startsWith('/th/st/')) throw new Error(`not a Storytime page path: ${pagePath}`);
+    return STORYTIME_QR_HOST + pagePath;
+}
+
 /**
  * The package file of a week: `<root>/l<level>/w<nn>.json`.
  * @param root The Storytime content folder.
