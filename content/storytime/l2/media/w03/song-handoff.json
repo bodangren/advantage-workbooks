@@ -1,10 +1,12 @@
 {
  "week": "st2/3",
- "chosen": "w03-02.mp3",
- "duration_s": 75.36,
- "backup": "w03-01.mp3",
+ "chosen": "s25-w03-03.mp3",
+ "duration_s": 74.08,
+ "backup": "s25-w03-01.mp3",
  "model": "Lyria 3 Pro via Vertex AI (Storytime)",
- "times_source": "storytime-approval/songs/vertex/week3-song-times.json (forced alignment; transcript in week3-song-times.debug.txt)",
- "times_changes": "Workbooks, 2026-10-22: line 1 starts at its first singing (4.62 s) and holds its repeat (10.28 s) in parentheses; lines 5 and 9 hold the sung repeats 'It is green!' and 'It is pink!'; lines 6 and 10 start after those repeats (37.38 s, 59.96 s); the final block does not sing the fourth 'Pa, pa, paint! What color is it?', so song.lines has 13 lines. The singer does not sing 'too' (four transcriptions agree), so the four chorus lines are 'It is red! It is blue! It is yellow!'; the lyric sheet keeps the text that Lyria got.",
- "open": "'Pa, pa, paint' or 'Pop, pop, paint' in the choruses: Daniel decides (Storytime check R4); the lines keep 'Pa, pa, paint!' until then."
+ "lyric_sheet": "S25 sheet from Workbooks (primary-parity-progress/storytime/s25-lyric-sheets-w02-w07.json): the hook is 'Paint, paint, paint! What color is it?'",
+ "replaces": "The first week 3 song (w03-02.mp3, 6e54cbf and 44939fc), with the hook 'Pa, pa, paint!'. S25 made it void.",
+ "times_source": "storytime-approval/songs/vertex/week3-song-times.json (forced alignment against the S25 sheet; transcript in week3-song-times.debug.txt)",
+ "times_changes": "Storytime, 2026-10-22: each verse line is sung one time, and 'too' is sung in each chorus. The final block sings the chorus one time, so song.lines has 12 lines. Workbooks, 2026-10-22: a transcription with no lyric prompt found no sung words in the gaps (0-4.7 s, 8.0-10.1 s, 24.3-30.2 s, after 69.9 s) and 'too' in all three choruses; no change to the times.",
+ "open": ""
 }
