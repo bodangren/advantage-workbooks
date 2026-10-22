@@ -109,9 +109,17 @@ describe('storytime-week checks', () => {
         expect(status(report, 'moved')).toBe('warn');
     });
 
-    it('fails a family of fewer than 6 or more than 8 words, and warns about more than 3 new tricky words', () => {
+    it('fails a family of fewer than 6 or more than max (8 by default) words, and warns about more than 3 new tricky words', () => {
         expect(status(run((w) => w.focus.family.words!.splice(5)), 'family')).toBe('fail');
         expect(status(run((w) => w.focus.family.words!.push(...['a', 'b', 'c'].map((word) => ({ word })))), 'family')).toBe('fail');
+        // A family such as the numbers to ten sets max (8 to 10).
+        const ten = (w: StorytimeWeekInput) => {
+            w.focus.family.words!.push(...['a', 'b', 'c', 'd'].map((word) => ({ word })));
+            w.focus.family.max = 10;
+        };
+        expect(status(run(ten), 'family')).toBe('pass');
+        expect(status(run((w) => (ten(w), w.focus.family.words!.push({ word: 'e' }))), 'family')).toBe('fail');
+        expect(StorytimeWeekSchema.safeParse({ ...fixtureWeek(), focus: { ...fixtureWeek().focus, family: { ...fixtureWeek().focus.family, max: 11 } } }).success).toBe(false);
         expect(status(run((w) => (w.focus.trickyWords = ['cannot', 'he', 'put', 'see'])), 'tricky')).toBe('warn');
     });
 
@@ -298,8 +306,12 @@ describe('storytime-week checks', () => {
         expect(status(checkStorytimeWeek(fixtureWeek()), 'decodable')).toBe('warn');
     });
 
-    it('warns about a teach week without a Friday check or a home card with other than 3 words', () => {
+    it('warns about a teach week without a Friday check or a home card with other than 3 words, and fails a check answer that is not a choice', () => {
         expect(status(run((w) => (w.check = { items: [] })), 'check')).toBe('warn');
+        const word = { kind: 'circle-word' as const, words: ['in', 'on', 'I'], answer: 'in' };
+        expect(status(run((w) => (w.check = { items: [word] })), 'check-answers')).toBe('pass');
+        const wrong = run((w) => (w.check = { items: [{ ...word, answer: 'an' }, { kind: 'circle-picture', sound: '/a/', pictures: ['ant', 'dog'], answer: 'apple' }] }));
+        expect(wrong.checks.find((c) => c.id === 'check-answers')).toMatchObject({ status: 'fail', detail: expect.stringMatching(/item 1: "an".*item 2: "apple"/) });
         expect(status(run((w) => (w.home!.words = ['a'])), 'home')).toBe('warn');
         expect(status(run((w) => delete w.home), 'home')).toBe('fail');
     });

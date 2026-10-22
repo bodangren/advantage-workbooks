@@ -157,8 +157,8 @@ describe('Storytime manual template', () => {
         expect(daySection(html, 4)).toMatch(/^[^>]*>\s*<h3[\s\S]*?<div class="st-prep"><h4>Before this lesson<\/h4><ul><li>Write each child&#039;s name/);
         expect(daySection(html, 1)).not.toContain('st-prep');
         // Day 2 recalls A7 (1 min) and A8 (0 min); day 3 recalls B6 and B7 (1 min each).
-        expect(daySection(html, 2)).toContain('Opening routine (6 min + recall 1 min)');
-        expect(daySection(html, 3)).toContain('Opening routine (6 min + recall 2 min)');
+        expect(daySection(html, 2)).toContain('Opening routine (6 min, incl. 1 min recall)');
+        expect(daySection(html, 3)).toContain('Opening routine (6 min, incl. 2 min recall)');
         expect(daySection(html, 1)).toContain('Opening routine (6 min)<');
     });
 

@@ -106,10 +106,12 @@ export const FocusSchema = z.object({
     trickyWords: z.array(z.string().min(1)).default([]),
     /** The sentence frame with `___` for the family word, e.g. `I can see a ___.` */
     frame: z.string().min(1),
-    /** The vocabulary family of the week: its name and its 6 to 8 picture words. */
+    /** The vocabulary family of the week: its name and its 6 to `max` picture words. */
     family: z.object({
         name: BiTextSchema,
         words: z.array(FamilyWordSchema).default([]),
+        /** The most picture words (Storytime, 2026-10-22: 8, or up to 10 for a family such as the numbers to ten). */
+        max: z.number().int().min(8).max(10).default(8),
     }),
     /** The decodable words taught to date (design §5.6), for the word wall card. */
     wordWall: z.array(z.string().min(1)).default([]),
@@ -278,6 +280,12 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
     z.object({
         kind: z.literal('write-letter'),
         letter: z.string().min(1),
+    }),
+    z.object({
+        kind: z.literal('circle-word'),
+        /** The printed words; the teacher says the answer, and the child circles it (a decodable or tricky word read on paper). */
+        words: z.array(z.string().min(1)).min(2),
+        answer: z.string().min(1),
     }),
 ]);
 

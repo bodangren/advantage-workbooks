@@ -180,7 +180,8 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
 
     // Focus.
     const family = w.focus.family.words.length;
-    checks.push(check('family', 'Family of 6 to 8 picture words', teach && (family < 6 || family > 8) ? [`${family} words`] : []));
+    const familyMax = w.focus.family.max;
+    checks.push(check('family', `Family of 6 to ${familyMax} picture words`, teach && (family < 6 || family > familyMax) ? [`${family} words`] : []));
     const tricky = w.focus.trickyWords.length;
     checks.push(check('tricky', '3 or fewer new tricky words (design §3.2, A6)', tricky > 3 ? [`${tricky} words: ${w.focus.trickyWords.join(', ')}`] : [], 'warn'));
 
@@ -289,6 +290,12 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
 
     if (teach) {
         checks.push(check('check', 'Friday check (E5)', w.check.items.length ? [] : ['no items'], 'warn'));
+        const answers = w.check.items.flatMap((item, i) => {
+            if (item.kind !== 'circle-picture' && item.kind !== 'circle-word') return [];
+            const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
+            return choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
+        });
+        checks.push(check('check-answers', 'Friday check: each answer is one of the choices', answers));
         if (!w.home) checks.push(check('home', 'Home card', ['no home card']));
         else checks.push(check('home', 'Home card with 3 words', w.home.words.length === 3 ? [] : [`${w.home.words.length} words`], 'warn'));
     }
