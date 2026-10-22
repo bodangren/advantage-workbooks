@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { REPO_ROOT } from '../lesson-package/files';
 import { phonicsGraphFrom, type PhonicsGraph } from './phonics';
+import { PHONEME_BANK_DIR, phonemeBankFrom, type PhonemeBank } from './phonemes';
 import { StorytimeWeekSchema, type StorytimeWeek } from './schema';
 
 /** The Storytime content folder: `l<level>/w<nn>.json`, media in `l<level>/media/w<nn>/`. */
@@ -78,4 +79,15 @@ export const PHONICS_GRAPH_FILE =
 export function readPhonicsGraph(file: string = PHONICS_GRAPH_FILE): PhonicsGraph | undefined {
     if (!fs.existsSync(file)) return undefined;
     return phonicsGraphFrom(JSON.parse(fs.readFileSync(file, 'utf8')));
+}
+
+/**
+ * Reads Daniel's phoneme bank (S22) from its manifest.
+ * @param root The Storytime content folder.
+ * @returns The bank, or undefined when the manifest does not exist.
+ */
+export function readPhonemeBank(root: string = STORYTIME_ROOT): PhonemeBank | undefined {
+    const file = path.join(root, PHONEME_BANK_DIR, 'manifest.json');
+    if (!fs.existsSync(file)) return undefined;
+    return phonemeBankFrom(JSON.parse(fs.readFileSync(file, 'utf8')));
 }

@@ -90,6 +90,8 @@ export const ElementSchema = z.object({
     sound: z.string().min(1),
     /** The action that the class does with the sound (design §3.2, A2). */
     action: BiTextSchema,
+    /** Daniel's recording of the sound (S22), a path under content/storytime (`phonemes/daniel/04-n.mp3`). */
+    audio: z.string().min(1).optional(),
 });
 
 export const FamilyWordSchema = z.object({
@@ -275,6 +277,8 @@ export const StripCardSchema = z.object({
     text: z.string().min(1),
     /** The week that taught the item. */
     week: z.number().int().min(1),
+    /** A sound card: Daniel's recording of the sound (S22), a path under content/storytime. */
+    audio: z.string().min(1).optional(),
 });
 
 /** The printed review deck of one day (design §4). */
@@ -346,9 +350,20 @@ export const OneToOneSchema = z.object({
     letterPass: z.number().int().min(1),
     /** The taught letters on the sound cards, in the order shown. */
     sounds: z.array(z.string().min(1)).min(1),
+    /** Daniel's recording (S22) of the sound of each card, in the order of `sounds`. */
+    soundAudio: z.array(z.string().min(1)).optional(),
     soundPass: z.number().int().min(1),
     /** Words blended by ear: the sounds that the teacher says, and the word. */
-    blend: z.array(z.object({ sounds: z.string().min(1), word: z.string().min(1) })).min(1),
+    blend: z
+        .array(
+            z.object({
+                sounds: z.string().min(1),
+                word: z.string().min(1),
+                /** Daniel's recordings (S22) of the sounds, in the order of `sounds`. */
+                audio: z.array(z.string().min(1)).optional(),
+            }),
+        )
+        .min(1),
     blendPass: z.number().int().min(1),
     /** The script of the sitting, with the four headings. */
     en: NoteSchema,
@@ -422,7 +437,13 @@ export const StorytimeWeekSchema = z.object({
      * The daily 1-minute sound game, opening item 2 (Storytime, 2026-10-22): one teacher line for each day.
      * Days 1 and 2 find the first and the last sound of the week; days 3 to 5 blend three sounds by ear.
      */
-    opening: z.object({ pa: z.array(BiTextSchema).length(5) }).optional(),
+    opening: z
+        .object({
+            pa: z.array(BiTextSchema).length(5),
+            /** For each day, Daniel's recordings (S22) of the sounds that the teacher says, in the order of the line. */
+            audio: z.array(z.array(z.string().min(1))).length(5).optional(),
+        })
+        .optional(),
     /**
      * The read-along book and, from Level 2, the decodable (design §6.7): one of each kind. A review
      * week can leave them out: it re-reads the books of its block.

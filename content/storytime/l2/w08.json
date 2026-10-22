@@ -126,6 +126,38 @@
         "en": "\"Listen: cat. What is the last sound? /t/! Listen: mmm - /o/ - mmm. What is the word? Mom!\"",
         "th": "\"ฟัง: cat เสียงสุดท้ายคือเสียงอะไร? /t/! ฟัง: mmm - /o/ - mmm คำนี้คือคำอะไร? Mom!\""
       }
+    ],
+    "audio": [
+      [
+        "phonemes/daniel/04-n.mp3",
+        "phonemes/daniel/04-n.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/03-p.mp3"
+      ],
+      [
+        "phonemes/daniel/03-p.mp3",
+        "phonemes/daniel/05-m.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/03-p.mp3"
+      ],
+      [
+        "phonemes/daniel/01-s.mp3",
+        "phonemes/daniel/02-t.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/03-p.mp3"
+      ],
+      [
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/03-p.mp3",
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/02-t.mp3"
+      ],
+      [
+        "phonemes/daniel/02-t.mp3",
+        "phonemes/daniel/05-m.mp3",
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/05-m.mp3"
+      ]
     ]
   },
   "books": [],
@@ -1242,7 +1274,8 @@
         {
           "kind": "sound",
           "text": "n",
-          "week": 1
+          "week": 1,
+          "audio": "phonemes/daniel/04-n.mp3"
         },
         {
           "kind": "tricky",
@@ -1262,7 +1295,8 @@
         {
           "kind": "sound",
           "text": "a",
-          "week": 2
+          "week": 2,
+          "audio": "phonemes/daniel/26-a-short.mp3"
         },
         {
           "kind": "tricky",
@@ -1297,7 +1331,8 @@
         {
           "kind": "sound",
           "text": "p",
-          "week": 3
+          "week": 3,
+          "audio": "phonemes/daniel/03-p.mp3"
         },
         {
           "kind": "tricky",
@@ -1312,7 +1347,8 @@
         {
           "kind": "sound",
           "text": "m",
-          "week": 4
+          "week": 4,
+          "audio": "phonemes/daniel/05-m.mp3"
         },
         {
           "kind": "tricky",
@@ -1342,7 +1378,8 @@
         {
           "kind": "sound",
           "text": "s",
-          "week": 5
+          "week": 5,
+          "audio": "phonemes/daniel/01-s.mp3"
         },
         {
           "kind": "tricky",
@@ -1362,7 +1399,8 @@
         {
           "kind": "sound",
           "text": "t",
-          "week": 6
+          "week": 6,
+          "audio": "phonemes/daniel/02-t.mp3"
         },
         {
           "kind": "tricky",
@@ -1397,37 +1435,44 @@
         {
           "kind": "sound",
           "text": "n",
-          "week": 1
+          "week": 1,
+          "audio": "phonemes/daniel/04-n.mp3"
         },
         {
           "kind": "sound",
           "text": "a",
-          "week": 2
+          "week": 2,
+          "audio": "phonemes/daniel/26-a-short.mp3"
         },
         {
           "kind": "sound",
           "text": "p",
-          "week": 3
+          "week": 3,
+          "audio": "phonemes/daniel/03-p.mp3"
         },
         {
           "kind": "sound",
           "text": "m",
-          "week": 4
+          "week": 4,
+          "audio": "phonemes/daniel/05-m.mp3"
         },
         {
           "kind": "sound",
           "text": "s",
-          "week": 5
+          "week": 5,
+          "audio": "phonemes/daniel/01-s.mp3"
         },
         {
           "kind": "sound",
           "text": "t",
-          "week": 6
+          "week": 6,
+          "audio": "phonemes/daniel/02-t.mp3"
         },
         {
           "kind": "sound",
           "text": "o",
-          "week": 7
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
         },
         {
           "kind": "tricky",
@@ -1457,37 +1502,44 @@
         {
           "kind": "sound",
           "text": "n",
-          "week": 1
+          "week": 1,
+          "audio": "phonemes/daniel/04-n.mp3"
         },
         {
           "kind": "sound",
           "text": "a",
-          "week": 2
+          "week": 2,
+          "audio": "phonemes/daniel/26-a-short.mp3"
         },
         {
           "kind": "sound",
           "text": "p",
-          "week": 3
+          "week": 3,
+          "audio": "phonemes/daniel/03-p.mp3"
         },
         {
           "kind": "sound",
           "text": "m",
-          "week": 4
+          "week": 4,
+          "audio": "phonemes/daniel/05-m.mp3"
         },
         {
           "kind": "sound",
           "text": "s",
-          "week": 5
+          "week": 5,
+          "audio": "phonemes/daniel/01-s.mp3"
         },
         {
           "kind": "sound",
           "text": "t",
-          "week": 6
+          "week": 6,
+          "audio": "phonemes/daniel/02-t.mp3"
         },
         {
           "kind": "sound",
           "text": "o",
-          "week": 7
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
         },
         {
           "kind": "frame",
@@ -2052,19 +2104,39 @@
       "blend": [
         {
           "sounds": "mmm - /a/ - nnn",
-          "word": "man"
+          "word": "man",
+          "audio": [
+            "phonemes/daniel/05-m.mp3",
+            "phonemes/daniel/26-a-short.mp3",
+            "phonemes/daniel/04-n.mp3"
+          ]
         },
         {
           "sounds": "sss - /a/ - /t/",
-          "word": "sat"
+          "word": "sat",
+          "audio": [
+            "phonemes/daniel/01-s.mp3",
+            "phonemes/daniel/26-a-short.mp3",
+            "phonemes/daniel/02-t.mp3"
+          ]
         },
         {
           "sounds": "/t/ - /o/ - /p/",
-          "word": "top"
+          "word": "top",
+          "audio": [
+            "phonemes/daniel/02-t.mp3",
+            "phonemes/daniel/29-o-short.mp3",
+            "phonemes/daniel/03-p.mp3"
+          ]
         },
         {
           "sounds": "/p/ - /a/ - nnn",
-          "word": "pan"
+          "word": "pan",
+          "audio": [
+            "phonemes/daniel/03-p.mp3",
+            "phonemes/daniel/26-a-short.mp3",
+            "phonemes/daniel/04-n.mp3"
+          ]
         }
       ],
       "blendPass": 3,
@@ -2127,7 +2199,16 @@
           "เด็กที่อ่านจากภาพ: ชี้ใต้คำ และนับเฉพาะคำที่เด็กอ่านจากตัวอักษร",
           "เด็กที่ขาดเรียน: เขียน \"ขาดเรียน\" ในแถวของเด็กคนนั้น เด็กรับการประเมินในช่วงบทสอน E ของสัปดาห์ที่ 9"
         ]
-      }
+      },
+      "soundAudio": [
+        "phonemes/daniel/02-t.mp3",
+        "phonemes/daniel/05-m.mp3",
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/01-s.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/03-p.mp3",
+        "phonemes/daniel/04-n.mp3"
+      ]
     },
     "readingRecord": {
       "minutes": 1,
