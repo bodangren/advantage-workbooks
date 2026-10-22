@@ -56,6 +56,9 @@ const CSS = `
     .st-record table { width: 100%; border-collapse: collapse; font-size: 9pt; }
     .st-record th, .st-record td { border: 1px solid #000; padding: 2px 4px; text-align: left; vertical-align: top; }
     .st-record td { height: 18px; }
+    /* The name column takes the space: a child's full name fits on one line. */
+    .st-record th:first-child { width: 4%; }
+    .st-record th:nth-child(2) { width: 30%; }
     .st-form { break-inside: avoid; border: 1px solid #000; padding: 6px 10px; margin-bottom: 10px; font-size: 10pt; }
     .st-form h4 { margin: 0 0 4px 0; }
     .st-form p { margin: 3px 0; }

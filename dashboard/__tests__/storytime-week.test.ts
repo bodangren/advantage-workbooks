@@ -390,6 +390,6 @@ describe('storytime review week checks (design §3.5)', () => {
 
     it('counts the benchmark and the day notes in the Thai warning', () => {
         const report = review();
-        expect(detail(report, 'thai')).toContain('of 16 step notes');
+        expect(detail(report, 'thai')).toContain('16 of 16 step notes');
     });
 });

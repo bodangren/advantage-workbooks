@@ -283,9 +283,11 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         ...(w.block?.days.flatMap((d) => (d.note ? [d.note] : [])) ?? []),
         ...(w.benchmark ? [w.benchmark.title, w.benchmark.paper.pass] : []),
     ];
-    const noThai = bi.filter((t) => !t.th).length + (sitting && !sitting.th ? 1 : 0);
+    const noThai = bi.filter((t) => !t.th).length;
+    // The benchmark sitting is a note with the four headings, as a step is.
     const notes = steps.length + (sitting ? 1 : 0);
-    checks.push(check('thai', 'Thai written (Daniel checks it)', thaiMissing || noThai ? [`${thaiMissing} of ${notes} step notes and ${noThai} of ${bi.length} lines have no Thai`] : [], 'warn'));
+    const notesMissing = thaiMissing + (sitting && !sitting.th ? 1 : 0);
+    checks.push(check('thai', 'Thai written (Daniel checks it)', notesMissing || noThai ? [`${notesMissing} of ${notes} step notes and ${noThai} of ${bi.length} lines have no Thai`] : [], 'warn'));
 
     // Review strips: one a day, 18 cards or fewer, only items already taught (design §4).
     const reviewProblems: string[] = [];
