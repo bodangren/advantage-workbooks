@@ -28,12 +28,14 @@ const MARK = "#92400E";
 const PAPER = "#FFFBEB";
 
 /**
- * The start screen (silent): the product, the song title, and the level, week, and theme.
+ * The start screen (silent): the product, the song title, and the level, week, and theme. In a portrait frame
+ * (the phone cut), the theme is on a line of its own.
  * @param props.spec The line spec.
  */
 export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
+  const portrait = height > width;
   const pop = spring({ frame, fps, config: { damping: 12, mass: 0.6 } });
   const fade = interpolate(frame, [0.25 * fps, 0.8 * fps], [0, 1], {
     extrapolateLeft: "clamp",
@@ -53,8 +55,8 @@ export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
           position: "absolute",
           width: 640,
           height: 640,
-          left: (1920 - 640) / 2,
-          top: 540 - 320,
+          left: (width - 640) / 2,
+          top: height / 2 - 320,
           borderRadius: "50%",
           background: TILE,
           opacity: 0.55,
@@ -63,7 +65,7 @@ export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
       />
       <Img
         src={staticFile("brand/storytime-advantage.svg")}
-        style={{ position: "absolute", top: 70, height: 120 }}
+        style={{ position: "absolute", top: portrait ? 200 : 70, height: 120 }}
       />
       <div
         style={{
@@ -71,7 +73,7 @@ export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
           fontWeight: 700,
           fontSize: 132,
           textAlign: "center",
-          padding: "0 160px",
+          padding: portrait ? "0 80px" : "0 160px",
           lineHeight: 1.1,
           scale: `${0.6 + 0.4 * pop}`,
         }}
@@ -81,13 +83,15 @@ export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
       <div
         style={{
           position: "absolute",
-          bottom: 150,
+          bottom: portrait ? 260 : 150,
           color: MARK,
           fontSize: 60,
           opacity: fade,
+          textAlign: "center",
+          whiteSpace: "pre-line",
         }}
       >
-        {`Level ${spec.level}  ·  Week ${spec.week}${spec.theme ? `  ·  ${spec.theme}` : ""}`}
+        {`Level ${spec.level}  ·  Week ${spec.week}${spec.theme ? `${portrait ? "\n" : "  ·  "}${spec.theme}` : ""}`}
       </div>
     </AbsoluteFill>
   );
@@ -95,11 +99,12 @@ export const StartScreen: React.FC<{ spec: Spec }> = ({ spec }) => {
 
 /**
  * The end screen: the Storytime Advantage logo pops in, with "Reading Advantage" sung from the company jingle,
- * and the Reading Advantage contact line.
+ * and the Reading Advantage contact line (two lines in a portrait frame).
  */
 export const EndScreen: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
+  const portrait = height > width;
   const pop = spring({
     frame: frame - 3,
     fps,
@@ -121,20 +126,22 @@ export const EndScreen: React.FC = () => {
     >
       <Img
         src={staticFile("brand/storytime-advantage.svg")}
-        style={{ height: 300, scale: `${pop}` }}
+        style={{ height: portrait ? 280 : 300, scale: `${pop}` }}
       />
       <div
         style={{
           position: "absolute",
-          bottom: 170,
+          bottom: portrait ? 260 : 170,
           color: MARK,
           fontSize: 56,
           fontWeight: 700,
           opacity: line,
           translate: `0px ${(1 - line) * 30}px`,
+          textAlign: "center",
+          whiteSpace: "pre-line",
         }}
       >
-        Reading Advantage · www.reading-advantage.com
+        {`Reading Advantage${portrait ? "\n" : " · "}www.reading-advantage.com`}
       </div>
       <Sequence from={Math.round(JINGLE_AT * fps)} layout="none">
         <Audio src={staticFile("brand/jingle-reading-advantage.mp3")} />

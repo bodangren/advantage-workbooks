@@ -1,7 +1,9 @@
 import React from "react";
 import { CalculateMetadataFunction, Composition, staticFile } from "remotion";
+import { PORTRAIT, SCENE } from "./layout";
 import { END_SECONDS, START_SECONDS } from "./Screens";
 import { Song, type SongProps } from "./Song";
+import { SongPortrait } from "./SongPortrait";
 import type { Spec } from "./types";
 
 const FPS = 30;
@@ -22,15 +24,28 @@ const calculateMetadata: CalculateMetadataFunction<SongProps> = async ({
   };
 };
 
+/** The classroom cut (landscape) and the phone cut for the QR page (portrait), from the same line spec. */
 export const RemotionRoot: React.FC = () => (
-  <Composition
-    id="StorytimeSong"
-    component={Song}
-    durationInFrames={FPS * 75}
-    fps={FPS}
-    width={1920}
-    height={1080}
-    defaultProps={{ week: "l2/w01", spec: null } satisfies SongProps}
-    calculateMetadata={calculateMetadata}
-  />
+  <>
+    <Composition
+      id="StorytimeSong"
+      component={Song}
+      durationInFrames={FPS * 75}
+      fps={FPS}
+      width={SCENE.width}
+      height={SCENE.height}
+      defaultProps={{ week: "l2/w01", spec: null } satisfies SongProps}
+      calculateMetadata={calculateMetadata}
+    />
+    <Composition
+      id="StorytimeSongPortrait"
+      component={SongPortrait}
+      durationInFrames={FPS * 75}
+      fps={FPS}
+      width={PORTRAIT.width}
+      height={PORTRAIT.height}
+      defaultProps={{ week: "l2/w01", spec: null } satisfies SongProps}
+      calculateMetadata={calculateMetadata}
+    />
+  </>
 );

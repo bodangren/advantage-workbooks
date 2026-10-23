@@ -223,10 +223,16 @@ export const SongSchema = z.object({
      * by word. When it is absent, the QR page plays `audio` with the read-along player.
      */
     video: z.string().optional(),
-    /** The phone copy of `video` (1280x720, H.264 CRF about 28, AAC 96k) that the QR page plays. */
+    /**
+     * The phone cut that the QR page plays: portrait, 720x1280, H.264 CRF about 28, AAC 96k (Daniel, 2026-10-23).
+     * The same song and screens as `video`; the scene is at the top, the line text in the middle, and a large
+     * gesture figure at the bottom.
+     */
     videoPhone: z.string().optional(),
-    /** The first frame of `video` (JPG, 1280x720), shown on the QR page before the tap. */
+    /** The title card of `video` (JPG, 1280x720), shown before the tap when the page plays `video`. */
     poster: z.string().optional(),
+    /** The title card of `videoPhone` (JPG, 720x1280), shown on the QR page before the tap. */
+    posterPhone: z.string().optional(),
     /** The karaoke cut: the same picture as `video` over the instrumental (vocal separation). */
     karaoke: z.string().optional(),
     /** One entry per sung line, with its word times (the karaoke cut). */

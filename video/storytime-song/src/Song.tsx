@@ -4,6 +4,7 @@ import { AbsoluteFill, Sequence, staticFile, useVideoConfig } from "remotion";
 import { Actors, EXIT_SECONDS } from "./Actors";
 import { SceneBackground } from "./art/Scene";
 import { GestureInset } from "./GestureInset";
+import { ACTOR_SPAN } from "./layout";
 import { Lyrics } from "./Lyrics";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
 import { sceneRuns, shots } from "./timeline";
@@ -20,7 +21,6 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
   const { fps } = useVideoConfig();
   if (!spec) return null;
   const f = (s: number) => Math.round(s * fps);
-  const list = shots(spec);
   const songFrames = f(spec.duration);
   return (
     <AbsoluteFill style={{ backgroundColor: "#FFFFFF" }}>
@@ -35,35 +35,60 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
       </Sequence>
       {/* The song: all package times are song-relative, so the song layers start after the start screen. */}
       <Sequence from={f(START_SECONDS)} durationInFrames={songFrames}>
-        {sceneRuns(list).map((run) => (
-          <Sequence
-            key={`scene-${run.start}`}
-            from={f(run.start)}
-            durationInFrames={Math.max(1, f(run.end) - f(run.start))}
-            layout="none"
-          >
-            <SceneBackground
-              scene={run.scene}
-              render={spec.forge?.scenes[run.scene]}
-            />
-          </Sequence>
-        ))}
-        {list.map((shot) => (
-          <Sequence
-            key={`shot-${shot.start}`}
-            from={f(shot.start)}
-            durationInFrames={Math.max(
-              1,
-              f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
-            )}
-          >
-            <Actors shot={shot} bpm={spec.bpm} forge={spec.forge} />
-          </Sequence>
-        ))}
+        <SceneShots spec={spec} />
         <Lyrics spec={spec} />
         <GestureInset spec={spec} />
         <Audio src={staticFile(spec.audio)} />
       </Sequence>
     </AbsoluteFill>
+  );
+};
+
+/**
+ * The scene of each run of lines and the actors of each shot, in the 1920 x 1080 scene frame. Inside the Sequence
+ * of the song (the times are song-relative).
+ * @param props.spec The line spec.
+ * @param props.portrait True for the phone cut: the actor row is centred on the rug.
+ */
+export const SceneShots: React.FC<{ spec: Spec; portrait?: boolean }> = ({
+  spec,
+  portrait = false,
+}) => {
+  const { fps } = useVideoConfig();
+  const f = (s: number) => Math.round(s * fps);
+  const list = shots(spec);
+  return (
+    <>
+      {sceneRuns(list).map((run) => (
+        <Sequence
+          key={`scene-${run.start}`}
+          from={f(run.start)}
+          durationInFrames={Math.max(1, f(run.end) - f(run.start))}
+          layout="none"
+        >
+          <SceneBackground
+            scene={run.scene}
+            render={spec.forge?.scenes[run.scene]}
+          />
+        </Sequence>
+      ))}
+      {list.map((shot) => (
+        <Sequence
+          key={`shot-${shot.start}`}
+          from={f(shot.start)}
+          durationInFrames={Math.max(
+            1,
+            f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
+          )}
+        >
+          <Actors
+            shot={shot}
+            bpm={spec.bpm}
+            forge={spec.forge}
+            span={portrait ? ACTOR_SPAN.portrait : ACTOR_SPAN.landscape}
+          />
+        </Sequence>
+      ))}
+    </>
   );
 };

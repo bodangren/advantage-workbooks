@@ -10,6 +10,7 @@ import {
 } from "remotion";
 import { Figure, LOOKS, NEUTRAL, Puppy } from "./art/Figure";
 import { GROUND } from "./art/Scene";
+import { ACTOR_SPAN } from "./layout";
 import type { Shot } from "./timeline";
 import type { ForgeArt } from "./types";
 
@@ -20,21 +21,21 @@ const EXIT = 0.3;
 /** The seconds that the actors of a shot stay after its end to slide out. */
 export const EXIT_SECONDS = EXIT;
 
-const LEFT = 200;
-const RIGHT = 1480;
-
 /**
  * The actors of one shot on the ground line. Inside a Sequence that starts at the shot start: the actors slide
  * in from the right when `shot.enter`, and slide out to the left after the shot end when `shot.exit`.
  * @param props.shot The shot.
  * @param props.bpm The tempo of the song (the actors bob on the beat).
  * @param props.forge The Forge art: each actor is its front cut-out, at one scale, with the foot point on the ground.
+ * @param props.span The left and right ends of the actor row in the scene frame.
  */
-export const Actors: React.FC<{ shot: Shot; bpm: number; forge?: ForgeArt }> = ({
-  shot,
-  bpm,
-  forge,
-}) => {
+export const Actors: React.FC<{
+  shot: Shot;
+  bpm: number;
+  forge?: ForgeArt;
+  span?: readonly [number, number];
+}> = ({ shot, bpm, forge, span = ACTOR_SPAN.landscape }) => {
+  const [left, right] = span;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -60,7 +61,7 @@ export const Actors: React.FC<{ shot: Shot; bpm: number; forge?: ForgeArt }> = (
   return (
     <AbsoluteFill style={{ translate: `${slideIn + slideOut}px 0px` }}>
       {shot.actors.map((name, i) => {
-        const x = LEFT + ((i + 0.5) * (RIGHT - LEFT)) / n;
+        const x = left + ((i + 0.5) * (right - left)) / n;
         const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
         if (forge) {
           const s = forge.scale;
