@@ -9,7 +9,7 @@ import { spawnSync } from "node:child_process";
 export const SCREEN_PPM = 556;
 
 /** The gesture key of the manifest for a gesture of the package: "point to self" is "point-to-self". */
-const slug = (gesture) => gesture.trim().toLowerCase().replace(/\s+/g, "-");
+export const slug = (gesture) => gesture.trim().toLowerCase().replace(/\s+/g, "-");
 
 /**
  * Builds the Forge part of a line spec from the manifest.

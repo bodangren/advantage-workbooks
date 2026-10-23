@@ -29,7 +29,8 @@ function main(argv: string[]): number {
         // The song files that the package names must exist: the QR page copy step reads them.
         const song = w.week?.song;
         if (song) {
-            const named = [song.audio, song.video, song.videoPhone, song.poster, song.posterPhone, song.karaoke].filter((p): p is string => !!p);
+            const lines = song.lines.map((l) => l.image?.file);
+            const named = [song.audio, song.video, song.videoPhone, song.poster, song.posterPhone, song.karaoke, ...lines].filter((p): p is string => !!p);
             const missing = named.filter((p) => !fs.existsSync(path.join(STORYTIME_ROOT, p)));
             report.checks.push({
                 id: 'song-media',
