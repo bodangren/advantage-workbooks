@@ -2,7 +2,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { buildSpec, CONTENT, sceneOf, segments } from "../scripts/prepare.mjs";
+import {
+  buildSpec,
+  CONTENT,
+  sceneOf,
+  sceneVideoProblems,
+  segments,
+} from "../scripts/prepare.mjs";
 
 const w = (word, start, end) => ({ word, start, end });
 
@@ -54,4 +60,31 @@ test("week 1: every line has its picture, actors, and the times of the package",
   assert.deepEqual(spec.lines[7].actors, spec.lines[6].actors);
   assert.deepEqual(spec.lines[2].actors, ["Pat", "May", "Sam", "Mia", "Ben"]);
   assert.equal(spec.lines[0].start, week.song.times[0].startTime);
+});
+
+test("a Forge scene video must be 1920x1080, silent, and as long as the song", () => {
+  const good = { duration: 85.42, width: 1920, height: 1080, audio: false };
+  assert.deepEqual(sceneVideoProblems(good, 85.4), []);
+  // One frame at 24 fps is in the slack.
+  assert.deepEqual(
+    sceneVideoProblems({ ...good, duration: 85.4 + 1 / 24 }, 85.4),
+    [],
+  );
+  assert.match(
+    sceneVideoProblems({ ...good, duration: 88.4 }, 85.4).join(),
+    /88.4 s long/,
+  );
+  assert.match(
+    sceneVideoProblems({ ...good, width: 1080, height: 1920 }, 85.4).join(),
+    /1080x1920/,
+  );
+  assert.match(
+    sceneVideoProblems({ ...good, height: 1200 }, 85.4).join(),
+    /1920x1200/,
+  );
+  assert.match(
+    sceneVideoProblems({ ...good, audio: true }, 85.4).join(),
+    /sound stream/,
+  );
+  assert.equal(sceneVideoProblems({ ...good, duration: NaN }, 85.4).length, 1);
 });

@@ -1,10 +1,10 @@
-import { Audio } from "@remotion/media";
+import { Audio, Video } from "@remotion/media";
 import React from "react";
 import { AbsoluteFill, Sequence, staticFile, useVideoConfig } from "remotion";
 import { Actors, EXIT_SECONDS } from "./Actors";
 import { SceneBackground } from "./art/Scene";
 import { GestureInset } from "./GestureInset";
-import { ACTOR_SPAN } from "./layout";
+import { ACTOR_SPAN, SCENE } from "./layout";
 import { Lyrics } from "./Lyrics";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
 import { sceneRuns, shots } from "./timeline";
@@ -35,7 +35,7 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
       </Sequence>
       {/* The song: all package times are song-relative, so the song layers start after the start screen. */}
       <Sequence from={f(START_SECONDS)} durationInFrames={songFrames}>
-        <SceneShots spec={spec} />
+        <SceneLayer spec={spec} />
         <Lyrics spec={spec} />
         <GestureInset spec={spec} />
         <Audio src={staticFile(spec.audio)} />
@@ -43,6 +43,26 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
     </AbsoluteFill>
   );
 };
+
+/**
+ * The scene layer of the song in the 1920 x 1080 scene frame: the Forge scene video when the week has one (S27
+ * option C), else the scene and the actors of each shot. Inside the Sequence of the song.
+ * @param props.spec The line spec.
+ * @param props.portrait True for the phone cut (only the actor row of the cut-out scene moves).
+ */
+export const SceneLayer: React.FC<{ spec: Spec; portrait?: boolean }> = ({
+  spec,
+  portrait = false,
+}) =>
+  spec.sceneVideo ? (
+    <Video
+      src={staticFile(spec.sceneVideo)}
+      muted
+      style={{ width: SCENE.width, height: SCENE.height }}
+    />
+  ) : (
+    <SceneShots spec={spec} portrait={portrait} />
+  );
 
 /**
  * The scene of each run of lines and the actors of each shot, in the 1920 x 1080 scene frame. Inside the Sequence

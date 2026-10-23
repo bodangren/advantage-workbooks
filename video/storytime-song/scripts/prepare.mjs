@@ -1,6 +1,7 @@
 // Turns one Storytime week package into the line spec of the song video (public/<level>/<week>/spec.json)
-// and copies the song audio next to it. Usage: node scripts/prepare.mjs l2/w01
+// and copies the song audio next to it. Usage: node scripts/prepare.mjs l2/w01 [--forge <set>] [--scene <video>]
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -165,6 +166,62 @@ export function usedArt(spec) {
   };
 }
 
+/** The largest difference in seconds between the Forge scene video and the song audio (one frame at 24 fps, and slack). */
+export const SCENE_SLACK = 0.1;
+
+/**
+ * The stream facts of a media file, by ffprobe.
+ * @param {string} file The file.
+ * @returns {{duration: number, width?: number, height?: number, audio: boolean}} The length in seconds, the size of
+ *   the first video stream, and whether the file has a sound stream.
+ */
+function probe(file) {
+  const info = JSON.parse(
+    execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration:stream=codec_type,width,height", "-of", "json", file]).toString(),
+  );
+  const video = info.streams.find((s) => s.codec_type === "video");
+  return {
+    duration: Number(info.format.duration),
+    width: video?.width,
+    height: video?.height,
+    audio: info.streams.some((s) => s.codec_type === "audio"),
+  };
+}
+
+/**
+ * The problems of a Forge scene video (S27 option C contract: 1920 x 1080, no sound, t = 0 at the song start, the
+ * length of the song).
+ * @param {{duration: number, width?: number, height?: number, audio: boolean}} info The stream facts of the video.
+ * @param {number} duration The length of the song audio in seconds.
+ * @returns {string[]} The problems (none for a good video).
+ */
+export function sceneVideoProblems(info, duration) {
+  const problems = [];
+  if (info.width !== 1920 || info.height !== 1080) problems.push(`the size is ${info.width}x${info.height}, not 1920x1080`);
+  if (info.audio) problems.push("the video has a sound stream");
+  if (!(Math.abs(info.duration - duration) <= SCENE_SLACK))
+    problems.push(`the video is ${info.duration} s long; the song is ${duration} s`);
+  return problems;
+}
+
+/**
+ * Copies a Forge scene video into the Forge folder of the week as scene.mp4, and writes scene.json beside it (the
+ * source, the SHA-256, and the stream facts). Forge never writes into this repo; scene.mp4 is not in git.
+ * @param {string} rel The week, as "l2/w01".
+ * @param {string} file The Forge video, as advantage-forge/out/.../song.mp4.
+ * @returns {string} The copy.
+ */
+export function copySceneVideo(rel, file) {
+  const dir = forgeDir(rel);
+  fs.mkdirSync(dir, { recursive: true });
+  const copy = path.join(dir, "scene.mp4");
+  fs.copyFileSync(file, copy);
+  const sha256 = createHash("sha256").update(fs.readFileSync(copy)).digest("hex");
+  const record = { source: path.resolve(file), sha256, bytes: fs.statSync(copy).size, ...probe(copy) };
+  fs.writeFileSync(path.join(dir, "scene.json"), JSON.stringify(record, null, 2) + "\n");
+  return copy;
+}
+
 /**
  * Copies the Forge files that a week uses, and the manifest, from a Forge set into the media folder of the week
  * (content/storytime/l<level>/media/w<nn>/forge/). Forge never writes into this repo.
@@ -198,19 +255,7 @@ export function prepare(rel) {
     fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"),
   );
   const audio = path.join(CONTENT, week.song.audio);
-  const duration = Number(
-    execFileSync("ffprobe", [
-      "-v",
-      "error",
-      "-show_entries",
-      "format=duration",
-      "-of",
-      "csv=p=0",
-      audio,
-    ])
-      .toString()
-      .trim(),
-  );
+  const duration = probe(audio).duration;
   const spec = buildSpec(week, duration);
   const out = path.join(PROJECT, "public", rel);
   fs.mkdirSync(out, { recursive: true });
@@ -228,6 +273,15 @@ export function prepare(rel) {
     spec.art = "forge";
     spec.forge = forge;
   }
+  // The Forge scene video (S27 option C), when the week has one: it replaces the scene and the actors.
+  const scene = path.join(art, "scene.mp4");
+  fs.rmSync(path.join(out, "scene.mp4"), { force: true });
+  if (fs.existsSync(scene)) {
+    const problems = sceneVideoProblems(probe(scene), duration);
+    if (problems.length) throw new Error(`The scene video of ${rel}: ${problems.join("; ")}`);
+    fs.copyFileSync(scene, path.join(out, "scene.mp4"));
+    spec.sceneVideo = `${rel}/scene.mp4`;
+  }
   const file = path.join(out, "spec.json");
   fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
   return file;
@@ -236,10 +290,16 @@ export function prepare(rel) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const rel = process.argv[2];
   const at = process.argv.indexOf("--forge");
-  if (!/^l\d\/w\d\d$/.test(rel ?? "") || (at > 0 && !process.argv[at + 1])) {
-    console.error("Usage: node scripts/prepare.mjs l2/w01 [--forge <Forge set folder>]");
+  const sceneAt = process.argv.indexOf("--scene");
+  if (
+    !/^l\d\/w\d\d$/.test(rel ?? "") ||
+    (at > 0 && !process.argv[at + 1]) ||
+    (sceneAt > 0 && !process.argv[sceneAt + 1])
+  ) {
+    console.error("Usage: node scripts/prepare.mjs l2/w01 [--forge <Forge set folder>] [--scene <Forge scene video>]");
     process.exit(2);
   }
   if (at > 0) console.log("forge", copyForge(rel, process.argv[at + 1]).length, "files");
+  if (sceneAt > 0) console.log("scene", copySceneVideo(rel, process.argv[sceneAt + 1]));
   console.log("spec", prepare(rel));
 }

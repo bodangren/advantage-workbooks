@@ -16,6 +16,7 @@ Hold (Daniel, 2026-10-22 18:10): the animals, props, and bubbles of weeks 2 to 7
 
 - [x] Task: the manifest reader for the Forge renders (`scripts/forge.mjs`, `prepare.mjs --forge`; 3 tests). Week 1 set of 2026-10-23 copied and rendered for Daniel's look check.
 - [~] Task: the portrait phone cut (Daniel, 2026-10-23, F8 failed on the landscape phone copy): the composition `StorytimeSongPortrait` (`src/SongPortrait.tsx`, `src/layout.ts`), `render.mjs --cut`, the key `song.posterPhone` (Monorepo chose it: each poster has the shape of its video). Confirmed with Storytime, Monorepo, and chibi-sprouts first. The classroom cut is pixel-identical after the refactor (frames 753 and 1652). Tests: 4 for the layout; 4 mutants caught. 3 test frames on Daniel's page (F8).
+- [~] Task: the Forge scene video input (S27 option C, Daniel 2026-10-23): `spec.sceneVideo`, `SceneLayer` in both cuts, `prepare.mjs --scene` with the contract check (1 test; 4 mutants caught), placeholder test (24 fps test pattern). The motion sample (option A) is dropped. Next: Forge's week 1 test cut (target 2026-10-25), then the render for Daniel's look check.
 - [ ] Task: weeks 1 to 7 with Forge art by 2026-11-25; the karaoke cuts when the instrumentals come.
 
 ## Phase 3: Hand-off

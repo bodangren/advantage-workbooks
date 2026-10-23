@@ -55,5 +55,10 @@ export type Spec = {
   art: "placeholder" | "forge";
   /** The Forge art, when the week has a Forge set (else the placeholder art). */
   forge?: ForgeArt;
+  /**
+   * The Forge scene video under public/ (S27 option C, Daniel 2026-10-23): 1920 x 1080, no sound, t = 0 at the
+   * song start. It replaces the scene and the actors; the lyrics, the inset, and the screens stay on top of it.
+   */
+  sceneVideo?: string;
   lines: Line[];
 };

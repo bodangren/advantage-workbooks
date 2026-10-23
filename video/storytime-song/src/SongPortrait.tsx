@@ -5,7 +5,7 @@ import { GesturePanel } from "./GestureInset";
 import { PORTRAIT_BOXES, PORTRAIT_SCENE_SCALE, SCENE } from "./layout";
 import { Lyrics } from "./Lyrics";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
-import { SceneShots, type SongProps } from "./Song";
+import { SceneLayer, type SongProps } from "./Song";
 
 /** The background of the portrait frame under the scene band (amber 100, beside the amber of the screens). */
 const PAGE = "#FEF3C7";
@@ -47,7 +47,7 @@ export const SongPortrait: React.FC<SongProps> = ({ spec }) => {
             backgroundColor: "#FFFFFF",
           }}
         >
-          <SceneShots spec={spec} portrait />
+          <SceneLayer spec={spec} portrait />
         </div>
         <Lyrics spec={spec} portrait />
         <GesturePanel spec={spec} />
