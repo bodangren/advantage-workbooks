@@ -35,13 +35,15 @@ export function gestureSet(weekSet, library) {
 }
 
 /**
- * The frame of a gesture that shows it best: the last frame (the beat frame: clap together, wave right, nod down).
+ * The frame of a gesture that shows it best: its picture pose ("<gesture>-picture", a still for a gesture that a
+ * video frame does not show, as march), else the last frame (the beat frame: clap together, wave right, nod down).
  * @param {any} manifest The parsed manifest.json of the Forge set.
  * @param {string} gesture The gesture of the package, as "point to self".
  * @returns {string} The frame file, relative to the set folder.
  */
 export function beatFrame(manifest, gesture) {
-  const list = manifest.gestures?.adventurer?.[slug(gesture)];
+  const frames = manifest.gestures?.adventurer ?? {};
+  const list = frames[`${slug(gesture)}-picture`] ?? frames[slug(gesture)];
   if (!list?.length)
     throw new Error(`The Forge set has no frames of the gesture ${gesture}`);
   return list[list.length - 1];
@@ -68,6 +70,28 @@ export function pictureCrop(boxes, canvas) {
 }
 
 /**
+ * The square crop of a picture pose: the whole figure (a raised knee is below the belt), from above the head to the
+ * bottom of the frame, centred on the figure and moved into the frame. The pose does not change the crop of the others.
+ * @param {{x1: number, x2: number, y1: number, y2: number}} box The alpha box of the pose.
+ * @param {[number, number]} canvas The width and height of the frames.
+ * @returns {{x: number, y: number, side: number}} The crop in canvas pixels.
+ */
+export function poseCrop(box, canvas) {
+  const side = Math.max(
+    Math.round((canvas[1] - box.y1) / 0.95),
+    box.x2 - box.x1,
+  );
+  if (side > canvas[0] || side > canvas[1])
+    throw new Error("The picture crop is outside the frame");
+  const x = Math.round((box.x1 + box.x2 - side) / 2);
+  return {
+    x: Math.min(Math.max(x, 0), canvas[0] - side),
+    y: canvas[1] - side,
+    side,
+  };
+}
+
+/**
  * Makes the pictures of the song gestures of one week.
  * @param {string} rel The week, as "l2/w01".
  * @returns {Record<string, string>} The picture of each gesture, relative to content/storytime.
@@ -86,15 +110,22 @@ export function linePictures(rel) {
   );
   const gestures = [...new Set(pkg.song.lines.map((l) => l.gesture))];
   const frames = gestures.map((g) => beatFrame(manifest, g));
-  const crop = pictureCrop(
-    frames.map((f) => alphaBox(path.join(set, f))),
-    manifest.canvas,
+  const boxes = frames.map((f) => alphaBox(path.join(set, f)));
+  const pose = gestures.map((g) =>
+    Boolean(manifest.gestures.adventurer[`${slug(g)}-picture`]),
   );
+  const shared = pose.every(Boolean)
+    ? null
+    : pictureCrop(
+        boxes.filter((_, i) => !pose[i]),
+        manifest.canvas,
+      );
   const dir = path.join(level, "media", week, "song-lines");
   fs.mkdirSync(path.join(CONTENT, dir), { recursive: true });
   const out = {};
   gestures.forEach((g, i) => {
     const file = path.join(dir, `${slug(g)}.jpg`);
+    const crop = pose[i] ? poseCrop(boxes[i], manifest.canvas) : shared;
     execFileSync("ffmpeg", [
       ...["-v", "error", "-y"],
       ...["-f", "lavfi", "-i", `color=c=${PAGE}:s=${crop.side}x${crop.side}`],

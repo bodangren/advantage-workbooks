@@ -9,7 +9,7 @@
     "col": 512,
     "row": 1184
   },
-  "notes": "The Adventurer gesture frames of all weeks, copied from Forge: week 1 from the r1 week 1 set (content/storytime/l2/media/w01/forge), weeks 2 to 7 from advantage-forge out/chibi-sprouts/r1/week2-7/gestures (2026-10-24; set 2 0bb18f6e, turn not reviewed yet). The last frame of a gesture is the beat frame; all renders face +Z and are unmirrored. Only scripts/line-pictures.mjs reads this set; the PNG files are not in git.",
+  "notes": "The Adventurer gesture frames of all weeks, copied from Forge: week 1 from the r1 week 1 set (content/storytime/l2/media/w01/forge), weeks 2 to 7 from advantage-forge out/chibi-sprouts/r1/week2-7/gestures (2026-10-24; set 2 0bb18f6e, turn not reviewed yet). The last frame of a gesture is the beat frame; a \"<gesture>-picture\" key is a still pose for the line picture only (march, stamp, sway; chibi-sprouts 2026-10-24); all renders face +Z and are unmirrored. Only scripts/line-pictures.mjs reads this set; the PNG files are not in git.",
   "gestures": {
     "adventurer": {
       "clap": [
@@ -85,6 +85,15 @@
       "turn": [
         "gestures/adventurer/turn-side.png",
         "gestures/adventurer/turn-back.png"
+      ],
+      "march-picture": [
+        "gestures/adventurer/march-picture.png"
+      ],
+      "stamp-picture": [
+        "gestures/adventurer/stamp-picture.png"
+      ],
+      "sway-picture": [
+        "gestures/adventurer/sway-picture.png"
       ]
     }
   }

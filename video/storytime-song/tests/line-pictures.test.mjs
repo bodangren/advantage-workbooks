@@ -7,6 +7,7 @@ import {
   beatFrame,
   gestureSet,
   pictureCrop,
+  poseCrop,
 } from "../scripts/line-pictures.mjs";
 
 const manifest = {
@@ -17,6 +18,11 @@ const manifest = {
         "gestures/adventurer/clap-together.png",
       ],
       "point-to-self": ["gestures/adventurer/point-to-self.png"],
+      march: [
+        "gestures/adventurer/march-left.png",
+        "gestures/adventurer/march-right.png",
+      ],
+      "march-picture": ["gestures/adventurer/march-picture.png"],
     },
   },
 };
@@ -31,7 +37,7 @@ const week1 = [
   { x1: 233, x2: 792, y1: 243, y2: 1184 },
 ];
 
-test("the beat frame is the last frame of the gesture", () => {
+test("the frame is the picture pose of the gesture, else the last frame (the beat frame)", () => {
   assert.equal(
     beatFrame(manifest, "clap"),
     "gestures/adventurer/clap-together.png",
@@ -39,6 +45,11 @@ test("the beat frame is the last frame of the gesture", () => {
   assert.equal(
     beatFrame(manifest, "point to self"),
     "gestures/adventurer/point-to-self.png",
+  );
+  assert.equal(
+    beatFrame(manifest, "march"),
+    "gestures/adventurer/march-picture.png",
+    "a picture pose wins over the video frames",
   );
   assert.throws(
     () => beatFrame(manifest, "jump"),
@@ -82,4 +93,22 @@ test("a week with its own Forge set uses it; another week uses the gesture libra
   fs.writeFileSync(path.join(week, "manifest.json"), "{}");
   assert.equal(gestureSet(week, library), week);
   fs.rmSync(root, { recursive: true, force: true });
+});
+
+test("a picture pose has its own crop: the whole figure with the raised foot, in the frame", () => {
+  // The march and sway picture poses (chibi-sprouts, 2026-10-24).
+  for (const box of [
+    { x1: 206, x2: 789, y1: 248, y2: 1184 },
+    { x1: 331, x2: 950, y1: 276, y2: 1184 },
+  ]) {
+    const { x, y, side } = poseCrop(box, [1024, 1200]);
+    assert.ok(y < box.y1, "a margin above the head");
+    assert.equal(y + side, 1200, "down to the bottom of the frame");
+    assert.ok(x <= box.x1 && x + side >= box.x2, "every hand is in the square");
+    assert.ok(x >= 0 && x + side <= 1024, "in the frame");
+  }
+  assert.throws(
+    () => poseCrop({ x1: 0, x2: 1000, y1: 5, y2: 1184 }, [1024, 1200]),
+    /outside the frame/,
+  );
 });
