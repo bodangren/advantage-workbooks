@@ -39,6 +39,17 @@ function main(argv: string[]): number {
                 detail: missing.length ? `missing: ${missing.join(', ')}` : undefined,
             });
         }
+        // The book audio files (scripts/storytime/book-audio.ts); the QR page copy step reads them too.
+        const books = (w.week?.books ?? []).flatMap((b) => [b.audio.file, b.audio.slowFile]).filter((p): p is string => !!p);
+        if (books.length) {
+            const missing = books.filter((p) => !fs.existsSync(path.join(STORYTIME_ROOT, p)));
+            report.checks.push({
+                id: 'book-audio',
+                label: 'The book audio files named in the package exist',
+                status: missing.length ? 'fail' : 'pass',
+                detail: missing.length ? `missing: ${missing.join(', ')}` : undefined,
+            });
+        }
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.
         if (w.week && bank) {
             const problems = phonemeAudioProblems(w.week, bank);

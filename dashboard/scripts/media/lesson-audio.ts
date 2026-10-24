@@ -1,23 +1,13 @@
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
-import { spawnSync } from 'child_process';
 import { LessonPackageSchema, type LessonPackage } from '../../lib/lesson-package/schema';
 import { checkContextFor } from '../../lib/lesson-package/context';
 import { savePackage } from '../../lib/lesson-package/store';
-import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, longestPause, parseWav, speechArgs, trimSilence, voicesFor, withRetries, writeWav, type Clip, type Pcm } from '../../lib/media/audio';
-import { readClipOpus, writeClipOpus } from '../../lib/media/clip-cache';
+import { DEFAULT_GAPS, VOICES, audioClips, clipKey, flashcardSentences, joinClips, voicesFor, type Clip } from '../../lib/media/audio';
+import { MAX_PAUSE_S, TRIES, encodeMp3, makeClip } from '../../lib/media/make-clip';
 import { tutorClips, tutorItems } from '../../lib/media/tutor-audio';
 
 const DEFAULT_SPEED = 0.75;
-/** An inner pause longer than this marks a bad take; the clip is made again (two more tries at most). */
-const MAX_PAUSE_S = 0.6;
-const TRIES = 3;
-/**
- * The waits before each new try of a failed mmx call. The long waits are for the per-minute limit
- * ("rate limit exceeded(RPM)"), which parallel runs reach (2026-10-02: four runs).
- */
-const CALL_WAITS_MS = [5_000, 15_000, 30_000, 60_000, 120_000, 180_000];
 
 const USAGE = `Makes the audio for a lesson package with mmx (track lesson_media_20261001).
 
@@ -85,81 +75,17 @@ function sentenceMismatch(pkg: LessonPackage): number | undefined {
     return bad >= 0 ? bad + 1 : undefined;
 }
 
-const sleep = (ms: number) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
-
-/** One take from mmx into `file`, tried again after a failed call. */
-function take(text: string, voice: string, speed: number, file: string) {
-    const tmp = `${file}.part.wav`;
-    withRetries(
-        () => {
-            const run = spawnSync('mmx', speechArgs(text, voice, speed, tmp), { encoding: 'utf8', timeout: 120_000 });
-            if (run.status !== 0 || !fs.existsSync(tmp)) {
-                throw new Error(`mmx failed for "${text}": ${(run.stderr || run.stdout || String(run.error)).trim().slice(0, 300)}`);
-            }
-        },
-        CALL_WAITS_MS,
-        sleep,
-        (_, attempt) => process.stdout.write(`    call ${attempt} failed for "${text}", again in ${CALL_WAITS_MS[attempt - 1] / 1000} s\n`),
-    );
-    fs.renameSync(tmp, file);
-}
-
-const readClip = (file: string) => {
-    const pcm = parseWav(fs.readFileSync(file));
-    const samples = trimSilence(pcm.samples, pcm.rate);
-    return { rate: pcm.rate, samples, pause: longestPause(samples, pcm.rate) };
-};
-
-/**
- * Stores a trimmed clip as Opus, deletes its WAV files, and reads the clip back, so that the first
- * build and every later build use the same samples.
- */
-function cacheClip(trimmed: Pcm, file: string, wavs: string[]): Pcm {
-    writeClipOpus(trimmed, file);
-    for (const w of wavs) fs.rmSync(w, { force: true });
-    return readClipOpus(file);
-}
-
-/** Makes one clip (with retries for a bad take), or reads it from the cache (lib/media/clip-cache.ts). */
-function clip(text: string, voice: string, speed: number, cache: string, redo: boolean): Pcm {
-    const base = path.join(cache, clipKey(text, voice, speed));
-    const file = `${base}.opus`;
-    const wav = `${base}.wav`; // the cache before 2026-10-21
-    if (redo) for (const f of [file, wav]) fs.rmSync(f, { force: true });
-    if (fs.existsSync(file)) return readClipOpus(file);
-    if (fs.existsSync(wav)) return cacheClip(readClip(wav), file, [wav]);
-    const takes = Array.from({ length: TRIES }, (_, t) => `${base}.take${t + 1}.wav`);
-    let best: { file: string; pause: number } | undefined;
-    for (const [t, attempt] of takes.entries()) {
-        take(text, voice, speed, attempt);
-        const { pause } = readClip(attempt);
-        if (!best || pause < best.pause) best = { file: attempt, pause };
-        if (pause <= MAX_PAUSE_S) break;
-        process.stdout.write(`    take ${t + 1}: pause ${pause.toFixed(2)} s${t + 1 < TRIES ? ', again' : ''}\n`);
-    }
-    return cacheClip(readClip(best!.file), file, takes);
-}
-
-/** One mp3 from 16-bit samples. */
-function encode(rate: number, samples: Int16Array, out: string) {
-    const wav = path.join(os.tmpdir(), `lesson-audio-${process.pid}.wav`);
-    fs.writeFileSync(wav, writeWav({ rate, samples }));
-    const enc = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-codec:a', 'libmp3lame', '-q:a', '4', out], { encoding: 'utf8' });
-    fs.rmSync(wav, { force: true });
-    if (enc.status !== 0) throw new Error(`ffmpeg failed: ${enc.stderr.trim()}`);
-}
-
 function render(clips: Omit<Clip, 'samples'>[], voice: string, speed: number, cache: string, out: string, redo: (i: number) => boolean = () => false) {
     let rate = 0;
     const full: Clip[] = clips.map((c, i) => {
         process.stdout.write(`  ${i + 1}/${clips.length} ${c.text}\n`);
-        const made = clip(c.text, voice, speed, cache, redo(i));
+        const made = makeClip(c.text, voice, speed, cache, redo(i));
         if (rate && made.rate !== rate) throw new Error(`Sample rates differ: ${made.rate} and ${rate}`);
         rate = made.rate;
         return { ...c, samples: made.samples };
     });
     const joined = joinClips(full, rate);
-    encode(rate, joined.samples, out);
+    encodeMp3(rate, joined.samples, out);
     return joined.timings;
 }
 
@@ -240,8 +166,8 @@ function main(argv: string[]): number {
         console.log(`Tutor clips (${tutor.length})`);
         tutor.forEach((c, i) => {
             process.stdout.write(`  ${i + 1}/${tutor.length} ${c.text}\n`);
-            const made = clip(c.text, voiceOf(c.role), opts.speed, cache, opts.redo.includes(c.id));
-            encode(made.rate, made.samples, path.join(tutorDir, `${c.id}.mp3`));
+            const made = makeClip(c.text, voiceOf(c.role), opts.speed, cache, opts.redo.includes(c.id));
+            encodeMp3(made.rate, made.samples, path.join(tutorDir, `${c.id}.mp3`));
         });
         const keep = new Set(tutor.map((c) => `${c.id}.mp3`));
         for (const f of fs.readdirSync(tutorDir)) if (!keep.has(f)) fs.rmSync(path.join(tutorDir, f));
