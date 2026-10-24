@@ -3,6 +3,9 @@
 // head to below the belt on amber 100, mirrored as in the gesture inset of the video (the child copies it as in a
 // mirror). The page shows each picture at 64 x 64 px beside its line.
 //   content/storytime/l<level>/media/w<nn>/song-lines/<gesture>.jpg   256 x 256
+// The frames come from the week's Forge set (media/w<nn>/forge/manifest.json) when the week has one, else from the
+// gesture library content/storytime/forge-gestures/ (a Forge set with gestures only, copied from Forge; the video
+// does not read it, so a week without its own set keeps the placeholder art).
 // Usage: node scripts/line-pictures.mjs l2/w01. The script prints the file of each gesture; the package names it
 // in song.lines[i].image.file (a repeated line keeps its imageOf).
 import { execFileSync } from "node:child_process";
@@ -17,6 +20,19 @@ export const SIDE = 256;
 
 /** The background of a picture: amber 100, the page colour of the phone cut. */
 const PAGE = "0xFEF3C7";
+
+/** The gesture library: the Adventurer gesture frames of all weeks, in the folder layout of a Forge set. */
+export const LIBRARY = path.join(CONTENT, "forge-gestures");
+
+/**
+ * The Forge set that gives the gesture frames of a week: the week's own set, else the gesture library.
+ * @param {string} weekSet The Forge folder of the week, as content/storytime/l2/media/w01/forge.
+ * @param {string} library The gesture library folder.
+ * @returns {string} The set folder (it has a manifest.json).
+ */
+export function gestureSet(weekSet, library) {
+  return fs.existsSync(path.join(weekSet, "manifest.json")) ? weekSet : library;
+}
 
 /**
  * The frame of a gesture that shows it best: the last frame (the beat frame: clap together, wave right, nod down).
@@ -61,7 +77,10 @@ export function linePictures(rel) {
   const pkg = JSON.parse(
     fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"),
   );
-  const set = path.join(CONTENT, level, "media", week, "forge");
+  const set = gestureSet(
+    path.join(CONTENT, level, "media", week, "forge"),
+    LIBRARY,
+  );
   const manifest = JSON.parse(
     fs.readFileSync(path.join(set, "manifest.json"), "utf8"),
   );

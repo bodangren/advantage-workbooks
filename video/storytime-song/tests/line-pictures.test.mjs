@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { test } from "node:test";
-import { beatFrame, pictureCrop } from "../scripts/line-pictures.mjs";
+import {
+  beatFrame,
+  gestureSet,
+  pictureCrop,
+} from "../scripts/line-pictures.mjs";
 
 const manifest = {
   gestures: {
@@ -57,4 +64,22 @@ test("a crop outside the frame is an error", () => {
     () => pictureCrop([{ x1: 0, x2: 1000, y1: 10, y2: 1190 }], [1024, 1200]),
     /outside the frame/,
   );
+});
+
+test("a week with its own Forge set uses it; another week uses the gesture library", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "line-pictures-"));
+  const library = path.join(root, "forge-gestures");
+  const week = path.join(root, "w01", "forge");
+  fs.mkdirSync(library, { recursive: true });
+  fs.writeFileSync(path.join(library, "manifest.json"), "{}");
+  assert.equal(gestureSet(week, library), library);
+  fs.mkdirSync(week, { recursive: true });
+  assert.equal(
+    gestureSet(week, library),
+    library,
+    "a forge folder without a manifest",
+  );
+  fs.writeFileSync(path.join(week, "manifest.json"), "{}");
+  assert.equal(gestureSet(week, library), week);
+  fs.rmSync(root, { recursive: true, force: true });
 });

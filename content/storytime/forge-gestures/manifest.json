@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "ppm": 1080,
+  "canvas": [
+    1024,
+    1200
+  ],
+  "footPoint": {
+    "col": 512,
+    "row": 1184
+  },
+  "notes": "The Adventurer gesture frames of all weeks, copied from Forge: week 1 from the r1 week 1 set (content/storytime/l2/media/w01/forge), weeks 2 to 7 from advantage-forge out/chibi-sprouts/r1/week2-7/gestures (2026-10-24; set 2 0bb18f6e, turn not reviewed yet). The last frame of a gesture is the beat frame; all renders face +Z and are unmirrored. Only scripts/line-pictures.mjs reads this set; the PNG files are not in git.",
+  "gestures": {
+    "adventurer": {
+      "clap": [
+        "gestures/adventurer/clap-apart.png",
+        "gestures/adventurer/clap-together.png"
+      ],
+      "wave": [
+        "gestures/adventurer/wave-left.png",
+        "gestures/adventurer/wave-right.png"
+      ],
+      "nod": [
+        "gestures/adventurer/nod-up.png",
+        "gestures/adventurer/nod-down.png"
+      ],
+      "point-to-self": [
+        "gestures/adventurer/point-to-self.png"
+      ],
+      "point-forward": [
+        "gestures/adventurer/point-forward.png"
+      ],
+      "hands-out": [
+        "gestures/adventurer/hands-out.png"
+      ],
+      "idle": [
+        "gestures/adventurer/idle.png"
+      ],
+      "point-up": [
+        "gestures/adventurer/point-up.png"
+      ],
+      "reach": [
+        "gestures/adventurer/reach.png"
+      ],
+      "count-fingers": [
+        "gestures/adventurer/count-fingers-low.png",
+        "gestures/adventurer/count-fingers-high.png"
+      ],
+      "sway": [
+        "gestures/adventurer/sway-left.png",
+        "gestures/adventurer/sway-right.png"
+      ],
+      "look": [
+        "gestures/adventurer/look-left.png",
+        "gestures/adventurer/look-right.png"
+      ],
+      "hop": [
+        "gestures/adventurer/hop-crouch.png",
+        "gestures/adventurer/hop-up.png"
+      ],
+      "stretch-up": [
+        "gestures/adventurer/stretch-up.png"
+      ],
+      "eat": [
+        "gestures/adventurer/eat-lift.png",
+        "gestures/adventurer/eat-bite.png"
+      ],
+      "hug-self": [
+        "gestures/adventurer/hug-self.png"
+      ],
+      "bow": [
+        "gestures/adventurer/bow.png"
+      ],
+      "listen": [
+        "gestures/adventurer/listen.png"
+      ],
+      "stamp": [
+        "gestures/adventurer/stamp-lift.png",
+        "gestures/adventurer/stamp-down.png"
+      ],
+      "march": [
+        "gestures/adventurer/march-left.png",
+        "gestures/adventurer/march-right.png"
+      ],
+      "turn": [
+        "gestures/adventurer/turn-side.png",
+        "gestures/adventurer/turn-back.png"
+      ]
+    }
+  }
+}
