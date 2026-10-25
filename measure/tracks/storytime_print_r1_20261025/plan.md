@@ -51,7 +51,10 @@ Risk: the weeks 2 to 7 pictures (about 96 story pages, 12 covers, and the pictur
 _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files.ts`, `phonemes.ts`; `scripts/storytime/book-audio.ts`, `set-phoneme-audio.ts`, `make-manual-pdf.ts`; `__tests__/storytime-week.test.ts`, `storytime-manual.test.ts`, `storytime-phonemes.test.ts`); `StorytimeApprovalsSchema` (only `schema.ts`). The change is additive._
 
 - [x] Task: Orchestrator setup. Add `measure/anti-patterns.md` (a copy of the canonical catalog A1 to A10 of the measure-orchestrator skill) in its own `docs(measure):` commit, because the orchestrator reads it and the file does not exist. Done when: `test -f measure/anti-patterns.md` and `grep -c '^## A' measure/anti-patterns.md` gives 10. Evidence: automated (ecd28a4, grep count 10).
-- [ ] Task (Red): `__tests__/storytime-print-contract.test.ts` on the shipped weeks.
+- [x] Task (Red): `__tests__/storytime-print-contract.test.ts` on the shipped weeks. commit 62a0998. Evidence: automated.
+    - Red evidence: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts` exited 1: `Tests  39 failed | 8 passed (47)`. All failures occur inside test bodies. The eight characterization tests pass.
+    - Failure counts: schema or approval behavior (17), text-check module (7), WARN (8), week 1 block (1), picture module (5), picture list (1).
+    - Regression evidence: `PROJECT_TESTS` reports `Tests  39 failed | 127 passed (166)`; only the new file fails. The existing tests pass separately: 10 files, 119 tests. The new test file passes ESLint. Logs: `measure/runs/storytime_print_r1_20261025/mid-red-*-fbefeff.txt`.
     - The 8 shipped weeks parse without a `print` block; `approval.print` defaults to draft.
     - A `print` block for week 1 (letter box n, practice sheet, dictation lines, writing page) parses; a block with an unknown part fails.
     - The print-text check passes on week 1 with its block. On a broken copy (one A7 word removed from the practice sheet), it gives the error id `print-practice`.
@@ -65,7 +68,7 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
     - R9: an approved `print` part with no date or no words fails the parse (F6, F7); a published week with six approved app parts and a draft `print` part gives no `published` problem for `print` (rule G5).
     - R10: drift guard (A10): the committed `content/storytime/l2/print/pictures.json` equals the output of the list function on the shipped weeks; this test is red at Red, because the file does not exist.
     - Done when: `RED_TEST_COMMAND` fails only on these new tests, and the commit holds only the test file.
-- [ ] Task (Green): the contract and the picture list.
+- [~] Task (Green): the contract and the picture list.
     - `lib/storytime/schema.ts`: the optional `print` block and the `print` approval part (FR-1). The `print` approval part has a `words` field (Daniel's exact words) and a date. `checks.ts` keeps the published rule on the six app parts (strategy rule G5).
     - `lib/storytime/print/text-check.ts` (the A3, A7, C3, D4, and E5 comparison) and its entry in `checks.ts`.
     - `lib/storytime/print/pictures.ts` and `scripts/storytime/print-pictures.ts --level 2`, which writes `content/storytime/l2/print/pictures.json` and `pictures.md` (FR-2).
