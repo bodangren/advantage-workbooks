@@ -22,7 +22,24 @@ export interface StorytimePictureRow {
     sizeClass: 'A' | 'B' | 'C';
     /** The file name with the version (`l2-w01-story-page-a-nest-v1.png`, rule 12.2). */
     fileName: string;
+    /** The line-art file name of FR-9: the color name with `-line` before the version. */
+    lineArtFileName: string;
+    /** The pixel width of the FR-9 size class; the line art shares it. */
+    width: number;
+    /** The pixel height of the FR-9 size class; the line art shares it. */
+    height: number;
 }
+
+/**
+ * The picture spec for Forge, version 1 (FR-9, 2026-10-25): the pixel size of each size class.
+ * Class A is a story page, class B a cover, class C a picture word. Each class gives one color
+ * output and one line-art output at the same pixel size.
+ */
+export const STORYTIME_PICTURE_SPEC: Record<'A' | 'B' | 'C', { width: number; height: number }> = {
+    A: { width: 4000, height: 3000 },
+    B: { width: 4000, height: 3000 },
+    C: { width: 1500, height: 1500 },
+};
 
 /** The FR-9 size class of each use. */
 export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> = {
@@ -77,24 +94,38 @@ export function pictureObjectCounts(text: string): Record<string, number> {
 const itemPictures = (item: StorytimeCheckItem): string[] =>
     item.kind === 'circle-picture' ? item.pictures : item.kind === 'picture-sort' ? item.groups.flatMap((g) => g.pictures) : [];
 
+/** The line-art name of FR-9: the color name with `-line` before the version. */
+const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png');
+
 /**
  * The picture list of the given weeks (FR-2): the story pages and covers of the books, the
  * picture words of the Friday check rows, and the practice-line picture words of the weeks with
  * a `print` block. The card and sticker rows come with the card kit (Phase 8). Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix (`-b`), because the
- * file name carries no digits between the week and the version (FR-2.3).
+ * file name carries no digits between the week and the version (FR-2.3). A color or line-art
+ * name that another row already holds throws with both row ids (F13): a silent duplicate would
+ * make Forge render two pictures into one file.
  * @param weeks The parsed weeks of one level, in week order.
  * @returns The rows in week and data order.
  */
 export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePictureRow[] {
     const rows: StorytimePictureRow[] = [];
     const used = new Set<string>();
+    const names = new Map<string, string>();
     const add = (week: StorytimeWeek, use: StorytimePictureUse, text: string, prompt: string, caption: string, objectCounts: Record<string, number>) => {
         const base = `l${week.meta.level}-w${String(week.meta.week).padStart(2, '0')}-${use}-${slugOf(text)}`;
         let id = base;
         for (let i = 0; used.has(id); i++) id = `${base}-${String.fromCharCode(97 + (i % 26))}`;
         used.add(id);
-        rows.push({ id, week: week.meta.week, use, text, prompt, caption, objectCounts, sizeClass: STORYTIME_SIZE_CLASS[use], fileName: `${id}-v1.png` });
+        const size = STORYTIME_PICTURE_SPEC[STORYTIME_SIZE_CLASS[use]];
+        const fileName = `${id}-v1.png`;
+        const lineArtFileName = lineArtNameOf(fileName);
+        for (const name of [fileName, lineArtFileName]) {
+            const other = names.get(name);
+            if (other && other !== id) throw new Error(`picture file name collision: "${name}" belongs to both ${other} and ${id}`);
+            names.set(name, id);
+        }
+        rows.push({ id, week: week.meta.week, use, text, prompt, caption, objectCounts, sizeClass: STORYTIME_SIZE_CLASS[use], fileName, lineArtFileName, width: size.width, height: size.height });
     };
     for (const week of weeks) {
         for (const book of week.books) {
@@ -109,14 +140,15 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
 
 /**
  * The readable copy of the picture list (`pictures.md`, FR-2.1): one table per week, with the
- * file name, the use, the text, the size class, and the object counts. The picture prompt stays
- * in `pictures.json`.
+ * file name, the line-art file name, the pixel size, the use, the text, and the object counts.
+ * List version 2 adds the line-art name and the pixel size of FR-9 version 1. The picture
+ * prompt stays in `pictures.json`.
  * @param rows The rows of `storytimePrintPictures`.
  * @param level The level of the list.
  * @returns The markdown page.
  */
 export function pictureListMarkdown(rows: StorytimePictureRow[], level: number): string {
-    const out: string[] = [`# Storytime Advantage — print picture list (Level ${level})`, '', 'Version 1 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.', ''];
+    const out: string[] = [`# Storytime Advantage — print picture list (Level ${level})`, '', 'Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.', ''];
     const byWeek = new Map<number, StorytimePictureRow[]>();
     for (const row of rows) {
         const list = byWeek.get(row.week) ?? [];
@@ -124,10 +156,10 @@ export function pictureListMarkdown(rows: StorytimePictureRow[], level: number):
         byWeek.set(row.week, list);
     }
     for (const [week, list] of [...byWeek.entries()].sort((a, b) => a[0] - b[0])) {
-        out.push(`## Week ${week}`, '', '| File | Use | Text | Class | Objects |', '|---|---|---|---|---|');
+        out.push(`## Week ${week}`, '', '| File | Line art | Pixels | Use | Text | Class | Objects |', '|---|---|---|---|---|---|---|');
         for (const row of list) {
             const objects = Object.entries(row.objectCounts).map(([k, v]) => `${k} ${v}`).join(', ') || '—';
-            out.push(`| ${row.fileName} | ${row.use} | ${row.text} | ${row.sizeClass} | ${objects} |`);
+            out.push(`| ${row.fileName} | ${row.lineArtFileName} | ${row.width} × ${row.height} | ${row.use} | ${row.text} | ${row.sizeClass} | ${objects} |`);
         }
         out.push('');
     }

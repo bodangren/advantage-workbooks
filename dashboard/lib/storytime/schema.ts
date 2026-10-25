@@ -448,6 +448,17 @@ export const StorytimePrintApprovalSchema = z
     });
 
 /**
+ * One app approval part with its record (FR-1.3, P14): `ApprovalSchema` plus the optional
+ * `source` that cites where the approval is recorded, and the optional `words` of the approval.
+ * The extension is strict, so a misspelled key fails the parse instead of being stripped.
+ * `ApprovalSchema` in `lib/lesson-package/schema.ts` stays unchanged; Primary packages use it.
+ */
+export const StorytimeAppApprovalSchema = ApprovalSchema.extend({
+    source: z.string().min(1).optional(),
+    words: z.string().min(1).optional(),
+}).strict();
+
+/**
  * The student-book print text of a week (FR-1.1): the parts that the daily scripts name but that
  * the app package does not store. Unknown keys fail the parse, so a print file cannot silently
  * drop a renamed part.
@@ -486,12 +497,12 @@ export const StorytimePrintBlockSchema = z
 export type StorytimePrintBlock = z.infer<typeof StorytimePrintBlockSchema>;
 
 export const StorytimeApprovalsSchema = z.object({
-    text: ApprovalSchema.default(DRAFT),
-    thai: ApprovalSchema.default(DRAFT),
-    images: ApprovalSchema.default(DRAFT),
-    audio: ApprovalSchema.default(DRAFT),
-    song: ApprovalSchema.default(DRAFT),
-    scripts: ApprovalSchema.default(DRAFT),
+    text: StorytimeAppApprovalSchema.default(DRAFT),
+    thai: StorytimeAppApprovalSchema.default(DRAFT),
+    images: StorytimeAppApprovalSchema.default(DRAFT),
+    audio: StorytimeAppApprovalSchema.default(DRAFT),
+    song: StorytimeAppApprovalSchema.default(DRAFT),
+    scripts: StorytimeAppApprovalSchema.default(DRAFT),
     print: StorytimePrintApprovalSchema.default(DRAFT),
 });
 

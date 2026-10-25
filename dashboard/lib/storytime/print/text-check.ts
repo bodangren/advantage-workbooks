@@ -19,6 +19,7 @@ export function checkStorytimePrintText(week: StorytimeWeek): PackageCheck[] {
     return [
         formationCheck(print, say('A3'), week),
         practiceCheck(print, say('A7')),
+        pictureWordCheck(print, week),
         dictationCheck(print, say('C3'), week),
         writingCheck(print, say('D4')),
         fridayCheckCheck(print, say('E5'), week.check.items),
@@ -167,6 +168,47 @@ function writingCheck(print: StorytimePrintBlock, d4: string[]): PackageCheck {
 /** The picture words of a check item, in data order; the write items name no picture. */
 const itemPictures = (item: StorytimeCheckItem): string[] =>
     item.kind === 'circle-picture' ? item.pictures : item.kind === 'picture-sort' ? item.groups.flatMap((g) => g.pictures) : [];
+
+/**
+ * The words of the week that a picture may name (review finding F1): a word of a reader page
+ * text, a picture word of `check.items`, or a word of the home card.
+ * @param week The parsed week.
+ * @returns The lower-case stems of the week words.
+ */
+function weekWordsOf(week: StorytimeWeek): Set<string> {
+    const words = new Set<string>();
+    for (const book of week.books) for (const page of book.pages) for (const wd of wordsOf(page.text)) words.add(wd);
+    for (const item of week.check.items) for (const pic of itemPictures(item)) words.add(stem(pic));
+    for (const wd of week.home?.words ?? []) words.add(stem(wd));
+    return words;
+}
+
+/**
+ * The picture word of each practice line names its own line and nothing else (F1, review of
+ * 1c4b47a): it is not a word of another practice line of the block, and it is a week word. The
+ * compare is lower case with punctuation removed (`stem`), so "Net" fails like "net". A word on
+ * its own line is allowed (A7): the rule is not over-broad.
+ * @param print The print block.
+ * @param week The parsed week.
+ * @returns The check `print-picture-word`.
+ */
+function pictureWordCheck(print: StorytimePrintBlock, week: StorytimeWeek): PackageCheck {
+    const problems: string[] = [];
+    const lines = print.practice;
+    const weekWords = weekWordsOf(week);
+    lines.forEach((line, i) => {
+        const pictureWord = stem(line.pictureWord);
+        if (!pictureWord) return;
+        const repeated = lines.find((other, j) => j !== i && wordsOf(other.text).includes(pictureWord));
+        const reasons: string[] = [];
+        if (repeated) reasons.push(`it is a word of the other practice line "${repeated.text}"`);
+        if (!weekWords.has(pictureWord)) reasons.push('it is not a week word');
+        if (!reasons.length) return;
+        const list = lines.map((l) => `"${l.text}"`).join(', ');
+        problems.push(`the picture word "${line.pictureWord}" of the line "${line.text}" ${reasons.join(' and ')} (the practice lines are ${list})`);
+    });
+    return check('print-picture-word', 'Practice sheet: each picture word names its own line and is a week word', problems);
+}
 
 /**
  * The Friday check against step E5: each circle row of `check.items` is the picture list of the
