@@ -6,8 +6,9 @@ Spec: [spec.md](./spec.md). Release-1 goal: 2026-12-01. Daniel's approval of the
 
 - Tests first. The Red task writes failing tests and commits them. The Green task makes them pass. A review role does not fix code; it reports.
 - New tests load the shipped week files `content/storytime/l2/w01.json` to `w08.json` (rule 11.3). Each new check has a mutation test on a copy in a temporary folder (rule 11.1). Keep a copy of a source file before an in-place mutation, and compare it after a stopped run (lessons-learned, 2026-10-22).
-- A task becomes `[x]` only with its commit SHA and its evidence class: owner-approved, person-checked, automated, or peer-report (rules 7.1 and 7.2).
-- A task that waits for Daniel stays `[ ]`, so that its phase stays open. Do not mark it `[b]`.
+- A task becomes `[x]` only with its commit SHA and its evidence class: owner-approved, person-checked, automated, or peer-report (rules 7.1 and 7.2). Write each SHA as `commit <sha>`.
+- A task that waits for Daniel stays `[ ]`, so that its phase stays open. Use `[b] … — deferred:daniel` only for a task that Daniel takes out of release 1. The checker does not count a `[b]` line in any gate or at closeout.
+- Use the word "deferred" only in that trailer. In other text, write "later" or "waits for" (the checker drops any task line that contains the word).
 - Heavy jobs (tsc, Chrome, Ghostscript) run under `flock ~/Desktop/primary-parity-progress/heavy.lock`. No `pnpm install`. Run `git checkout -- pnpm-lock.yaml` after a gate if the lock file changed.
 - Stage files path by path. Do not touch `video/**` (another session has an uncommitted change there).
 - This repo has no `measure/generate.sh` or `measure/doctor.sh`. The doctor step of each phase is the `PROJECT_CHECKS` gate.
@@ -56,15 +57,22 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
     - The print-text check passes on week 1 with its block. On a broken copy (one A7 word removed from the practice sheet), it gives the error id `print-practice`.
     - The picture list of week 1 has 16 story-page rows, 2 cover rows, and the 9 check-row pictures of `check.items` (nest, cat, fish, dog, nose, bus, hat, cup, net), and the practice-line pictures of the block.
     - Every row has a size class A, B, or C of spec FR-9 and a file name that matches `^l2-w\d{2}-[a-z-]+-v\d+\.png$`.
+    - R3: on a copy with the teacher-only words "Look at the page" added to the practice sheet, the print-text check gives an error too (spec FR-1.2: "A difference is an error").
+    - R4: a week with no `print` block gives a WARN with a fixed id (proposal: `print-missing`), not a FAIL, and a test asserts that week 1 has the block and that its print checks have status PASS, so that a deleted block does not pass silently (A4).
+    - R6: size class by use: story page A, cover B, check row and practice line C (FR-9).
+    - R7: every file name matches `^l2-w\d{2}-[a-z-]+-v\d+\.png$`; ids and file names are unique across weeks 1 to 8; the week part of the name equals the row week.
+    - R8: week 8 (`books: []`) gives 0 story-page rows and 0 cover rows and does not throw.
+    - R9: an approved `print` part with no date or no words fails the parse (F6, F7); a published week with six approved app parts and a draft `print` part gives no `published` problem for `print` (rule G5).
+    - R10: drift guard (A10): the committed `content/storytime/l2/print/pictures.json` equals the output of the list function on the shipped weeks; this test is red at Red, because the file does not exist.
     - Done when: `RED_TEST_COMMAND` fails only on these new tests, and the commit holds only the test file.
 - [ ] Task (Green): the contract and the picture list.
-    - `lib/storytime/schema.ts`: the optional `print` block and the `print` approval part (FR-1).
+    - `lib/storytime/schema.ts`: the optional `print` block and the `print` approval part (FR-1). The `print` approval part has a `words` field (Daniel's exact words) and a date. `checks.ts` keeps the published rule on the six app parts (strategy rule G5).
     - `lib/storytime/print/text-check.ts` (the A3, A7, C3, D4, and E5 comparison) and its entry in `checks.ts`.
     - `lib/storytime/print/pictures.ts` and `scripts/storytime/print-pictures.ts --level 2`, which writes `content/storytime/l2/print/pictures.json` and `pictures.md` (FR-2).
     - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
-- [ ] Task (Content): the week 1 `print` block in `w01.json`, from the steps A3, A7, C3, and D4. The print-text check passes. One independent review subagent reads the block against the scripts and reports findings with file and line (lessons-learned, 2026-10-22). Daniel sees the block in the week 1 proof. Evidence: automated plus peer-report.
-- [ ] Task (Hand-off): send the picture list (weeks 1 to 8, as planning data) and the FR-9 picture spec to the PM session for Forge. The message gives what, why, done-when, and the dates needed: week 1 pictures by 2026-11-02, weeks 2 to 7 by 2026-11-16 (the renders of weeks 2 to 7 start after Daniel's week 1 approval unless Daniel says otherwise). Send the open points P1 to P14 to Daniel through the PM session on one page. Done when: the PM session confirms receipt (peer-report).
-- [ ] Task: Measure - User Manual Verification 'Phase 1: Contracts and the picture list' (Protocol in workflow.md)
+- [ ] Task (Content): the week 1 `print` block in `w01.json`, from the steps A3, A7, C3, and D4. Owner: jr-green. The review subagent uses a model family other than the Green model. The print-text check passes. One independent review subagent reads the block against the scripts and reports findings with file and line (lessons-learned, 2026-10-22). Daniel sees the block in the week 1 proof. Evidence: automated plus peer-report.
+- [ ] Task (Hand-off): send the picture list (version 1, before review; a change after review goes out as version 2 with new file versions, rule 12.2) (weeks 1 to 8, as planning data) and the FR-9 picture spec to the PM session for Forge. The message gives what, why, done-when, and the dates needed: week 1 pictures by 2026-11-02 (Forge started the week 1 pictures on the PM's go of 2026-10-25), weeks 2 to 7 by 2026-11-16 (the renders of weeks 2 to 7 start after Daniel's week 1 approval unless Daniel says otherwise). Send the open points P1, P2, P3, P4, P6, P7, P8, P9, P10, P11, P14 to Daniel through the PM session on one page. Done when: the PM session confirms receipt (peer-report).
+- [ ] Task: Measure - User Manual Verification 'Phase 1: Contracts and the picture list' (Protocol in workflow.md). Owner: the orchestrator. Phase 1 has no owner gate.
 
 ## Phase 2: Student book template, week 1 (2026-10-27 to 2026-11-05)
 
@@ -130,7 +138,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 ## Phase 6: Week 1 proof and Daniel's approval (2026-11-05 to 2026-11-09)
 
 - [ ] Task: the week 1 proof. The print files of the week 1 student-book pages, the two week 1 books with their covers, and the week 1 teacher book in Thai and English. A contact sheet of every page, and a list with the SHA-256 and the source commit of each file. The agent opens every page first (rule 6.5). The proof goes to Daniel through the PM session on 2026-11-05.
-- [ ] Task (Owner gate): Daniel approves the week 1 print. Record his exact words and the date in `approval.print` of `w01.json` (rules 12.1 and 12.3). No answer is not an approval (rule 0.3). If he has not approved by 2026-11-09, ask him about the stop rule (spec P5). Evidence: owner-approved.
+- [ ] Task (Owner gate): Daniel approves the week 1 print. Record his exact words and the date in `approval.print` of `w01.json` (rules 12.1 and 12.3). No answer is not an approval (rule 0.3). If he has not approved by 2026-11-09, tell him the Phase 7 date risk (line 46). The old 11-05 stop rule does not apply (PM relay of Daniel's standing words, 2026-10-25, peer-report). Evidence: owner-approved.
 - [ ] Task: the fix list from Daniel's notes. Each changed file gets a new version (rule 12.2), passes its gates again, and goes back to Daniel until he approves.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
 
