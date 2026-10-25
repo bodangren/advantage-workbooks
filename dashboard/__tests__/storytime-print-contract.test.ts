@@ -76,7 +76,7 @@ function withPrint(): PrintWeek & { print: PrintBlock } {
             practice: [
                 { text: 'n n n', pictureWord: 'nose' },
                 { text: practiceText, pictureWord: 'nest' },
-                { text: 'and', pictureWord: 'net' },
+                { text: 'and', pictureWord: 'nut' },
             ],
             dictation: { letters: ['n', 'n', 'n'], words: ['a'] },
             writing: { traceText: 'Hello, I am', line: 'name', pictureBox: true },
