@@ -9,7 +9,7 @@ Spec: [spec.md](./spec.md). Release-1 goal: 2026-12-01. Daniel's approval of the
 - A task becomes `[x]` only with its commit SHA and its evidence class: owner-approved, person-checked, automated, or peer-report (rules 7.1 and 7.2). Write each SHA as `commit <sha>`.
 - A task that waits for Daniel stays `[ ]`, so that its phase stays open. Use `[b] … — deferred:daniel` only for a task that Daniel takes out of release 1. The checker does not count a `[b]` line in any gate or at closeout.
 - Use the word "deferred" only in that trailer. In other text, write "later" or "waits for" (the checker drops any task line that contains the word).
-- Heavy jobs (tsc, Chrome, Ghostscript) run under `flock ~/Desktop/primary-parity-progress/heavy.lock`. No `pnpm install`. Run `git checkout -- pnpm-lock.yaml` after a gate if the lock file changed.
+- Heavy jobs (vitest runs, tsc, Chrome, Ghostscript, PDF/X builds, contact sheets) run with ONE command: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). It takes the lock and runs the pre-flight inside the lock. Exit 75 means that the pre-flight hold lasted longer than its wait. Never use a plain `flock` on the lock inside a heavy job, because a nested plain flock deadlocks. Report a "heavy-run: lock wait over 600 s" line to the PM session. No `pnpm install`. Run `git checkout -- pnpm-lock.yaml` after a gate if the lock file changed.
 - Stage files path by path. Do not touch `video/**` (another session has an uncommitted change there).
 - This repo has no `measure/generate.sh` or `measure/doctor.sh`. The doctor step of each phase is the `PROJECT_CHECKS` gate.
 
@@ -20,7 +20,7 @@ RED_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-pri
 GREEN_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts'  # must pass after Green
 PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'
 PROJECT_LINT='cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts'
-PROJECT_CHECKS='cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && flock ~/Desktop/primary-parity-progress/heavy.lock npx tsc --noEmit'
+PROJECT_CHECKS='cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh npx tsc --noEmit'
 UX_REQUIRED=never   # print files: the visual checks are the contact-sheet tasks and Daniel's proof checks
 PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --check'   # exit 0 for each print file
 ```
