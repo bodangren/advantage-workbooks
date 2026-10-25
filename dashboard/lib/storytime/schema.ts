@@ -421,10 +421,69 @@ export const StorytimeTagsSchema = z.object({
     reviewed: z.array(z.string().min(1)).default([]),
 });
 
-/** The parts of a week that Daniel approves. */
+/** The parts of a week that Daniel approves. The print part is a seventh, separate part: it gates the print files, not the app publication (rule G5 of the test strategy). */
 export const STORYTIME_APPROVAL_PARTS = ['text', 'thai', 'images', 'audio', 'song', 'scripts'] as const;
 
+/** The name of the print approval part in `approval` (FR-1.3). */
+export const STORYTIME_PRINT_PART = 'print' as const;
+
 const DRAFT = { status: 'draft' as const };
+
+/**
+ * Daniel's approval of the print of a week (FR-1.3): a draft default, and an approved part that
+ * holds his exact words and the date (generation rules 12.1 and 12.3). An approved part without
+ * the date or the words does not parse (anti-pattern A2: no approval without consent words).
+ */
+export const StorytimePrintApprovalSchema = z
+    .object({
+        status: z.enum(['draft', 'approved']),
+        date: z.string().optional(),
+        words: z.string().optional(),
+    })
+    .superRefine((part, ctx) => {
+        if (part.status !== 'approved') return;
+        if (!part.date) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['date'], message: 'an approved print part needs the date of the approval' });
+        if (part.words === undefined || !part.words.trim())
+            ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['words'], message: 'an approved print part needs the exact words of the approval' });
+    });
+
+/**
+ * The student-book print text of a week (FR-1.1): the parts that the daily scripts name but that
+ * the app package does not store. Unknown keys fail the parse, so a print file cannot silently
+ * drop a renamed part.
+ */
+export const StorytimePrintBlockSchema = z
+    .object({
+        /** The letter formation box: the letter, the formation words of step A3, and the start point. */
+        letterBox: z
+            .object({
+                letter: z.string().min(1),
+                formationWords: z.string().min(1),
+                startPoint: z.string().min(1),
+            })
+            .strict(),
+        /** The practice sheet: one entry per line of print text, with the picture word at its start (step A7). */
+        practice: z.array(z.object({ text: z.string().min(1), pictureWord: z.string().min(1) }).strict()).min(1),
+        /** The dictation lines: the dictated letters, the dictated and traced words, and the sentence to trace (step C3). */
+        dictation: z
+            .object({
+                letters: z.array(z.string().min(1)).min(1),
+                words: z.array(z.string().min(1)).default([]),
+                traceSentence: z.string().optional(),
+            })
+            .strict(),
+        /** The writing page: the trace text, the name or word line, and the picture box (step D4). */
+        writing: z
+            .object({
+                traceText: z.string().min(1),
+                line: z.enum(['name', 'word']),
+                pictureBox: z.boolean(),
+            })
+            .strict(),
+    })
+    .strict();
+
+export type StorytimePrintBlock = z.infer<typeof StorytimePrintBlockSchema>;
 
 export const StorytimeApprovalsSchema = z.object({
     text: ApprovalSchema.default(DRAFT),
@@ -433,6 +492,7 @@ export const StorytimeApprovalsSchema = z.object({
     audio: ApprovalSchema.default(DRAFT),
     song: ApprovalSchema.default(DRAFT),
     scripts: ApprovalSchema.default(DRAFT),
+    print: StorytimePrintApprovalSchema.default(DRAFT),
 });
 
 export const StorytimeWeekSchema = z.object({
@@ -465,6 +525,8 @@ export const StorytimeWeekSchema = z.object({
     /** A review week: the benchmark of the block (design §3.5). */
     benchmark: BenchmarkSchema.optional(),
     home: HomeCardSchema.optional(),
+    /** The student-book print text (FR-1.1); the print files of Phases 2 to 5 read it, and the print check (FR-1.2) compares it with the scripts. */
+    print: StorytimePrintBlockSchema.optional(),
     tags: StorytimeTagsSchema.default({ graphVersion: '', taught: [], reviewed: [] }),
     approval: StorytimeApprovalsSchema.default({
         text: DRAFT,
@@ -473,6 +535,7 @@ export const StorytimeWeekSchema = z.object({
         audio: DRAFT,
         song: DRAFT,
         scripts: DRAFT,
+        print: DRAFT,
     }),
     /** The injector writes these (key: program, level, week). */
     db: z
@@ -485,6 +548,7 @@ export const StorytimeWeekSchema = z.object({
 
 export type StorytimeWeek = z.infer<typeof StorytimeWeekSchema>;
 export type StorytimeWeekInput = z.input<typeof StorytimeWeekSchema>;
+export type StorytimePrintApproval = z.infer<typeof StorytimePrintApprovalSchema>;
 export type StorytimeStep = z.infer<typeof StepSchema>;
 export type StorytimeScript = z.infer<typeof ScriptSchema>;
 export type StorytimeNote = z.infer<typeof NoteSchema>;

@@ -1,7 +1,8 @@
 import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-package/checks';
 import type { CheckStatus } from '../text-profile/check';
 import { programWeek, wordNeed, type PhonicsGraph } from './phonics';
-import { GESTURES, NoteSchema, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
+import { checkStorytimePrintText } from './print/text-check';
+import { GESTURES, NoteSchema, STORYTIME_PRINT_PART, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
 
 /** The headings of a step note, in print order. */
 const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
@@ -309,9 +310,17 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
 
     if (w.meta.kind === 'review') checks.push(...reviewChecks(w, taught, others));
 
-    // A published week is on the public page: every part approved, no failed check.
+    // The print text of the week (FR-1.2): the print block against the script steps. A week
+    // without a block gets the print-missing WARN, so weeks 2 to 8 do not fail while they wait
+    // for their blocks (Phase 7).
+    checks.push(...checkStorytimePrintText(w));
+
+    // A published week is on the public page: every app part approved, no failed check. The
+    // print part stays out (rule G5): the print approval is its own later gate.
     if (w.meta.status === 'published') {
-        const draft = Object.entries(w.approval).filter(([, a]) => a.status !== 'approved').map(([part]) => `${part} not approved`);
+        const draft = Object.entries(w.approval)
+            .filter(([part, a]) => part !== STORYTIME_PRINT_PART && a.status !== 'approved')
+            .map(([part]) => `${part} not approved`);
         const failed = checks.filter((c) => c.status === 'fail').map((c) => `${c.id} fails`);
         checks.push(check('published', 'Published only when approved and clean', [...draft, ...failed]));
     }
