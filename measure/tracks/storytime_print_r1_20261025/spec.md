@@ -61,6 +61,17 @@ Results:
 5. Karaoke is not in release 1, and the song audio goes to no outside service.
 6. P7 (models and price of the picture pre-check) stays open. The PM session asked for a proposal with two models of two providers and their price, before Phase 4.
 
+## Decisions of 2026-10-27
+
+The PM session relayed Daniel's morning page at 05:42 ICT on 2026-10-27. Evidence class: owner words relayed by the PM session (peer-report of owner words).
+
+Daniel's words, verbatim: "Deliver 12-01"
+
+Results:
+
+1. Release 1 delivers on 2026-12-01 (internal date; not a public date). This confirms the goal in the introduction; no task changes.
+2. The teacher prints the Storytime reader pages on A3. This confirms D2 item 2 and FR-5.8 (the color A3 reader PDFs); no task changes.
+
 ## Sources
 
 Other repositories are read-only for this track.
