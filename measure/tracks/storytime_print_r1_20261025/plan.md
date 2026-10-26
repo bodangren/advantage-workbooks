@@ -157,7 +157,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - No exit 75 occurred. `pnpm-lock.yaml` stayed unchanged. Logs: `measure/runs/storytime_print_r1_20261025/mid-red-70883c1-{red,lint,tsc}.txt`; report: `mid-red-70883c1.log`.
     - Check observations: the letter "n" stroke guide sits left of the glyph on page 4. Check it again after the font fix.
     - The reader strip labels sit at the top trim edge on pages 9 to 14. Phase 4 builds the readers.
-- [ ] Task (Green 2b): fix the embedded PDF fonts and remove the QR proof mark from final mode.
+- [~] Task (Green 2b): fix the embedded PDF fonts and remove the QR proof mark from final mode.
     - Preserve the proof-mode mark and all existing expectations. Preserve the default PDF/X arguments and the opt-in K-only path.
     - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass, including the R36 checks on both printed QR codes.
     - Run mutants M45 to M49: restore `format('ttf')`; force an English fallback family; print the mark in final mode; remove the proof-mode mark; swap the encoded song and book inputs.
