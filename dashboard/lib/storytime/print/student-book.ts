@@ -106,8 +106,10 @@ function pageCss(profile: StorytimePrintProfile): string {
     return `${fontFaceCss()}
 @page { size: ${widthMm}mm ${heightMm}mm; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; background: #fff; }
-.student-page { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; break-after: page; page-break-after: always; padding: 14mm; }
+/* The default ink of the book is the trace gray: raster 176, a K tone of 31 % (D2). The
+ * page scope resets to black, and each trace item opts back into the gray. */
+body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; background: #fff; }
+.student-page { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; break-after: page; page-break-after: always; padding: 14mm; color: #000; }
 .student-page:last-of-type { break-after: auto; page-break-after: auto; }
 [lang="th"], .th-run { font-family: 'Sarabun', 'Andika', sans-serif; font-weight: 400; }
 .th-run { white-space: nowrap; }
@@ -121,8 +123,16 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .letter-model { width: 46mm; height: 55mm; display: block; }
 .model-letter { font-family: 'Andika', sans-serif; font-size: 92px; }
 .formation-words { font-size: 12pt; margin-top: 4mm; }
+/* The trace items the children follow print in the trace gray, never solid black (D2). */
+.student-page [data-part="trace-letter"],
+.student-page [data-part="dictation-word"],
+.student-page [data-part="writing-trace"] { color: #b0b0b0; }
 .trace-row { display: flex; gap: 8mm; margin-top: 6mm; }
-.trace-cell { width: 26mm; height: 26mm; border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 44pt; }
+.trace-cell { width: 26mm; height: 26mm; border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 44pt; position: relative; }
+/* The black start dot marks the first stroke of each trace item (D2). */
+.start-dot { display: inline-block; width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #000; }
+.trace-cell .start-dot { position: absolute; left: 13%; top: 42%; }
+.dictation-line .start-dot, .writing-trace .start-dot { margin-right: 2.5mm; vertical-align: 4mm; }
 .practice-sheet { margin-top: 8mm; }
 .practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
 .practice-picture { width: 30mm; height: 30mm; }
@@ -130,7 +140,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .picture-box { border: 0.6mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
 .picture-box img { width: 100%; height: 100%; object-fit: contain; }
 .dictation-line { font-size: 18pt; margin-top: 4mm; }
-.dictation-line span { display: inline-block; min-width: 18mm; border-bottom: 0.4mm solid #000; margin-right: 6mm; text-align: center; }
+.dictation-line [data-part="dictation-letter"], .dictation-line [data-part="dictation-word"] { display: inline-block; min-width: 18mm; border-bottom: 0.4mm solid #000; margin-right: 6mm; text-align: center; }
 .writing-trace { font-size: 22pt; border-bottom: 0.6mm solid #000; display: block; padding: 3mm 0; margin-top: 10mm; }
 .write-line { display: block; border-bottom: 0.6mm solid #000; height: 14mm; margin-top: 8mm; }
 .picture-draw-box { width: 70mm; height: 55mm; border: 0.6mm solid #000; margin-top: 10mm; }
@@ -152,7 +162,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .song-lines { margin-top: 8mm; font-size: 11pt; }
 .song-lines p { padding: 1mm 0; }
 .strip-mark { position: absolute; top: 1mm; left: 2mm; font-size: 7pt; }
-.cut-line { position: absolute; left: ${profile.perforationMm}mm; width: ${2 * profile.readerPage.widthMm}mm; border-top: 0.4mm dashed #000; }
+.cut-line { position: absolute; border-top: 0.4mm dashed #000; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0.5mm; border-left: 0.5mm dashed #000; }
 .blank-page { }`;
 }
@@ -219,15 +229,17 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
   <svg class="letter-model" viewBox="0 0 100 120" aria-hidden="true">
     <defs><marker id="${arrowId}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#000"/></marker></defs>
     <text class="model-letter" data-part="letter" x="56" y="108" text-anchor="middle">${esc(box.letter)}</text>
-    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="26" cy="22" r="3"/>
-    <path d="M26 28 L26 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
-    <path d="M26 72 C26 44 72 44 72 72 L72 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+    <!-- The guide sits on the measured Andika stems: the left stem center is at 40.5 and the
+         right stem center is at 72.2 of this 100-unit box (R37, limit 1 mm). -->
+    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="40.5" cy="54" r="3"/>
+    <path d="M40.5 59 L40.5 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+    <path d="M40.5 70 C40.5 58 72.2 58 72.2 70 L72.2 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
   </svg>
   <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
   <div class="trace-row">
-    <span class="trace-cell"><span data-part="trace-letter">${esc(box.letter)}</span></span>
-    <span class="trace-cell"><span data-part="trace-letter">${esc(box.letter)}</span></span>
-    <span class="trace-cell"><span data-part="trace-letter">${esc(box.letter)}</span></span>
+    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
+    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
+    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
     <span class="trace-cell"><span class="write-letter" data-part="write-letter" data-student-work></span></span>
   </div>
 </div>
@@ -244,9 +256,14 @@ ${week.print!.practice.map((line, i) => {
 /** The right page of the weekly spread: the dictation lines and the writing page (FR-3, C3, D4). */
 function writingPage(week: StorytimeWeek): PageSpec {
     const print = week.print!;
+    // The dictation letter lines stay empty: the children write the letters after the teacher
+    // dictates them (D3). The count stays `dictation.letters.length`. Each trace item keeps a
+    // black start dot at the start of its first stroke (D2).
+    const letterLines = print.dictation.letters.map(() => '<span data-part="dictation-letter"></span>').join('');
+    const wordLines = print.dictation.words.map((w) => `<span data-part="dictation-word">${esc(w)}</span>`).join('');
     const body = `<h2 class="page-title">Write</h2>
-<div data-part="dictation" class="dictation-line">${print.dictation.letters.map((l) => `<span data-part="dictation-letter">${esc(l)}</span>`).join('')}${print.dictation.words.map((w) => `<span data-part="dictation-word">${esc(w)}</span>`).join('')}</div>
-<span class="writing-trace" data-part="writing-trace">${esc(print.writing.traceText)}</span>
+<div data-part="dictation" class="dictation-line">${letterLines}<span class="start-dot" data-part="start-dot"></span>${wordLines}</div>
+<span class="writing-trace" data-part="writing-trace"><span class="start-dot" data-part="start-dot"></span>${esc(print.writing.traceText)}</span>
 <span class="write-line" data-part="${print.writing.line}-line" data-line="${print.writing.line}" data-student-work></span>
 ${print.writing.pictureBox ? '<div class="picture-draw-box" data-part="writing-picture-box" data-student-work></div>' : ''}`;
     return { kind: 'writing', body };
@@ -334,8 +351,12 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile): PageS
                 const left = isBack ? 0 : profile.perforationMm;
                 return `<div class="reader-strip" data-part="reader-strip" data-reader="${strip.kind}" data-strip="${strip.n}" data-slot="${slot === 0 ? 'top' : 'bottom'}" style="position:absolute;left:${left}mm;top:${top}mm;width:${leafWidth}mm;height:${profile.readerPage.heightMm}mm;"><span class="strip-mark">${esc(strip.title)} &middot; strip ${strip.n} of 3${isBack ? ' (back)' : ''}</span></div>`;
             };
+            // The cut line mirrors with the spine parity (D4): a back side cuts from the outer
+            // edge (x = 0) to the perforation, a front side from the perforation to the outer edge.
+            const cutLeft = isBack ? 0 : profile.perforationMm;
+            const cutWidth = profile.trim.widthMm - profile.perforationMm;
             const body = `${stripHtml(slotStrips[0], 0)}${stripHtml(slotStrips[1], 1)}
-<div class="cut-line" style="position:absolute;top:${profile.readerPage.heightMm + (profile.trim.heightMm - profile.readerPage.heightMm * 2) / 4}mm;"></div>`;
+<div class="cut-line" style="position:absolute;left:${cutLeft}mm;top:${profile.readerPage.heightMm + (profile.trim.heightMm - profile.readerPage.heightMm * 2) / 4}mm;width:${cutWidth}mm;"></div>`;
             sides.push({ kind: 'reader', body });
         }
     }
