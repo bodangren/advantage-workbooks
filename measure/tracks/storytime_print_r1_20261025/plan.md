@@ -110,13 +110,16 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
 
 ## Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
 
-_Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts`; `__tests__/storytime-week.test.ts` asserts the host). The host stays. P4 was answered on 2026-10-25: the prints use the S23 address (spec P4)._
+_Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts`; `__tests__/storytime-week.test.ts` asserts the host). Add `lib/print/pdfx.ts` and `scripts/print/make-pdfx.ts` for the opt-in flag only; the default conversion stays unchanged. The host stays. P4 was answered on 2026-10-25: the prints use the S23 address (spec P4)._
 
 - [ ] Task (Hand-off 3): send picture list version 3 (reviewed in Phase 1) to the PM session for Forge, before 2026-10-28; it replaces version 2, which the PM has not forwarded. Done when: the PM session confirms receipt (peer-report).
-- [x] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`. commit d9b6ecd. Evidence: automated.
+- [x] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`. commit d9b6ecd; retry commit c9b6544. Evidence: automated.
     - Red evidence: `RED_TEST_COMMAND` (`cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts`) exited 1 through `heavy-run.sh`: `Tests  23 failed | 146 passed (169)`. Only the new file fails. All 23 failures are missing-module assertions inside test bodies: `student-book.ts` or `profile.ts`. The 146 existing print tests pass. No new test passes at this baseline.
     - Failure counts by bullet: page order and map (2), letter box (1), practice lines (1), writing page (1), check page (1), home card and QR inputs (3), labels and fonts (4), trim profile (3), K-only PDF/X (2), perforation and duplex geometry (2), mutations (3). Tests use the P2, P11, and P15 defaults. P6, P7, and P9 do not affect these tests.
     - `PROJECT_LINT` exited 0 through `heavy-run.sh`. No lock wait warning or exit 75 occurred. `pnpm-lock.yaml` stayed unchanged. Final logs: `measure/runs/storytime_print_r1_20261025/mid-red-03a803c-final-red.txt` and `mid-red-03a803c-final-lint.txt`. The report and Green handoff are in `mid-red-03a803c.log`. The first run found a jsdom path error before collection; the corrected final run has no collection failure.
+    - Red fixes: commit c9b6544 corrects the nine type errors without changing expectations. The build helper now passes `--keep-fonts --k-only`. R31 keeps zero CMY, page count, positive K coverage, the PDF/X-1 marker, and cyan-patch detection. Two light checks cover the exact default Ghostscript arguments and `STORYTIME_STUDENT_PDFX_FLAGS = ['--keep-fonts', '--k-only']` in the production conversion call.
+    - Retry evidence: automated. `RED_TEST_COMMAND` exited 1: `Tests  24 failed | 147 passed (171)`; only the student-book file fails. The 146 earlier tests pass; the default-argument characterization check also passes. `PROJECT_LINT` exited 0. `npx tsc --noEmit` exited 0 with 0 errors, including 0 in the student-book test. All three commands used `heavy-run.sh`.
+    - No lock wait warning or exit 75 occurred. `pnpm-lock.yaml` stayed unchanged. Logs: `measure/runs/storytime_print_r1_20261025/mid-red-9466b31-{red,lint,tsc}.txt`; report: `mid-red-9466b31.log`.
     - Page order: the name page, the book map, the week 1 spread, the check page, the home card leaf. The spread starts on a left page.
     - The letter box shows "n" with a start dot, three trace copies, and one write space.
     - The practice sheet lines are the lines of `print.practice`, in order.
@@ -132,7 +135,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - Andika static faces (SIL OFL) and `OFL-andika.txt` in `dashboard/assets/print-fonts/` (no package change).
     - `lib/storytime/print/profile.ts` (trim, margins, bleed, page sizes in one place).
     - `lib/storytime/print/student-book.ts` (drawings for the letter box, the book map, and the cut line of the home card; Thai runs with `white-space: nowrap`, lessons-learned 2026-10-07).
-    - `scripts/storytime/make-student-book-pdf.ts --level 2 --weeks 1 [--proof|--final]`: Paged.js in system Chrome, then `make-pdfx.ts --keep-fonts`, to `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v<n>_PDFX-1a.pdf`.
+    - `scripts/storytime/make-student-book-pdf.ts --level 2 --weeks 1 [--proof|--final]`: Paged.js in system Chrome, then `make-pdfx.ts --keep-fonts --k-only (an opt-in flag; the default does not change)`, to `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v<n>_PDFX-1a.pdf`.
     - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Check): the week 1 workbook pages under the heavy lock. `PRINT_GATE` passes. A contact sheet of every page at 100 dpi. The agent looks at every page and lists defects (rule 6.5). A person scans both QR codes on a printed page with a phone and records the result (person-checked; the URL answers after the monorepo deploy; monorepo plan task 7.4 checks every printed path on 2026-11-15).
 - [ ] Task: Measure - User Manual Verification 'Phase 2: Student workbook template, week 1' (Protocol in workflow.md)
