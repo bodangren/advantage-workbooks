@@ -1,6 +1,6 @@
 # Storytime Advantage — print picture list (Level 2)
 
-Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
 
 ## Week 1
 
@@ -41,21 +41,21 @@ Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 
 | File | Line art | Pixels | Use | Text | Class | Objects |
 |---|---|---|---|---|---|---|
-| l2-w02-story-page-how-many-suns-one-v1.png | l2-w02-story-page-how-many-suns-one-line-v1.png | 4000 × 3000 | story-page | How many suns? One! | A | — |
-| l2-w02-story-page-how-many-kites-two-v1.png | l2-w02-story-page-how-many-kites-two-line-v1.png | 4000 × 3000 | story-page | How many kites? Two! | A | — |
-| l2-w02-story-page-how-many-ducks-three-v1.png | l2-w02-story-page-how-many-ducks-three-line-v1.png | 4000 × 3000 | story-page | How many ducks? Three! | A | — |
-| l2-w02-story-page-how-many-birds-four-v1.png | l2-w02-story-page-how-many-birds-four-line-v1.png | 4000 × 3000 | story-page | How many birds? Four! | A | — |
-| l2-w02-story-page-how-many-balls-five-v1.png | l2-w02-story-page-how-many-balls-five-line-v1.png | 4000 × 3000 | story-page | How many balls? Five! | A | — |
-| l2-w02-story-page-how-many-friends-six-v1.png | l2-w02-story-page-how-many-friends-six-line-v1.png | 4000 × 3000 | story-page | How many friends? Six! | A | — |
-| l2-w02-story-page-how-many-cakes-seven-v1.png | l2-w02-story-page-how-many-cakes-seven-line-v1.png | 4000 × 3000 | story-page | How many cakes? Seven! | A | — |
+| l2-w02-story-page-how-many-suns-one-v1.png | l2-w02-story-page-how-many-suns-one-line-v1.png | 4000 × 3000 | story-page | How many suns? One! | A | sun 1 |
+| l2-w02-story-page-how-many-kites-two-v1.png | l2-w02-story-page-how-many-kites-two-line-v1.png | 4000 × 3000 | story-page | How many kites? Two! | A | kite 2 |
+| l2-w02-story-page-how-many-ducks-three-v1.png | l2-w02-story-page-how-many-ducks-three-line-v1.png | 4000 × 3000 | story-page | How many ducks? Three! | A | duck 3 |
+| l2-w02-story-page-how-many-birds-four-v1.png | l2-w02-story-page-how-many-birds-four-line-v1.png | 4000 × 3000 | story-page | How many birds? Four! | A | bird 4 |
+| l2-w02-story-page-how-many-balls-five-v1.png | l2-w02-story-page-how-many-balls-five-line-v1.png | 4000 × 3000 | story-page | How many balls? Five! | A | ball 5 |
+| l2-w02-story-page-how-many-friends-six-v1.png | l2-w02-story-page-how-many-friends-six-line-v1.png | 4000 × 3000 | story-page | How many friends? Six! | A | friend 6 |
+| l2-w02-story-page-how-many-cakes-seven-v1.png | l2-w02-story-page-how-many-cakes-seven-line-v1.png | 4000 × 3000 | story-page | How many cakes? Seven! | A | cake 7 |
 | l2-w02-story-page-how-many-cakes-oh-no-pip-v1.png | l2-w02-story-page-how-many-cakes-oh-no-pip-line-v1.png | 4000 × 3000 | story-page | How many cakes? Oh no, Pip! | A | — |
 | l2-w02-cover-how-many-v1.png | l2-w02-cover-how-many-line-v1.png | 4000 × 3000 | cover | How Many? | B | — |
 | l2-w02-story-page-nan-can-v1.png | l2-w02-story-page-nan-can-line-v1.png | 4000 × 3000 | story-page | Nan can. | A | — |
 | l2-w02-story-page-can-i-v1.png | l2-w02-story-page-can-i-line-v1.png | 4000 × 3000 | story-page | Can I? | A | — |
 | l2-w02-story-page-i-can-v1.png | l2-w02-story-page-i-can-line-v1.png | 4000 × 3000 | story-page | I can! | A | — |
-| l2-w02-story-page-nan-can-a-v1.png | l2-w02-story-page-nan-can-a-line-v1.png | 4000 × 3000 | story-page | Nan can. | A | — |
-| l2-w02-story-page-can-i-a-v1.png | l2-w02-story-page-can-i-a-line-v1.png | 4000 × 3000 | story-page | Can I? | A | — |
-| l2-w02-story-page-i-can-a-v1.png | l2-w02-story-page-i-can-a-line-v1.png | 4000 × 3000 | story-page | I can! | A | — |
+| l2-w02-story-page-nan-can-b-v1.png | l2-w02-story-page-nan-can-b-line-v1.png | 4000 × 3000 | story-page | Nan can. | A | — |
+| l2-w02-story-page-can-i-b-v1.png | l2-w02-story-page-can-i-b-line-v1.png | 4000 × 3000 | story-page | Can I? | A | — |
+| l2-w02-story-page-i-can-b-v1.png | l2-w02-story-page-i-can-b-line-v1.png | 4000 × 3000 | story-page | I can! | A | — |
 | l2-w02-story-page-can-nan-v1.png | l2-w02-story-page-can-nan-line-v1.png | 4000 × 3000 | story-page | Can Nan? | A | — |
 | l2-w02-story-page-nan-and-i-can-v1.png | l2-w02-story-page-nan-and-i-can-line-v1.png | 4000 × 3000 | story-page | Nan and I can! | A | — |
 | l2-w02-cover-can-i-v1.png | l2-w02-cover-can-i-line-v1.png | 4000 × 3000 | cover | Can I? | B | — |
@@ -89,7 +89,7 @@ Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w03-story-page-a-pan-on-nan-v1.png | l2-w03-story-page-a-pan-on-nan-line-v1.png | 4000 × 3000 | story-page | A pan on Nan! | A | pan 1 |
 | l2-w03-story-page-can-i-get-the-pan-v1.png | l2-w03-story-page-can-i-get-the-pan-line-v1.png | 4000 × 3000 | story-page | Can I get the pan? | A | pan 1 |
 | l2-w03-story-page-i-can-get-the-pan-v1.png | l2-w03-story-page-i-can-get-the-pan-line-v1.png | 4000 × 3000 | story-page | I can get the pan! | A | pan 1 |
-| l2-w03-story-page-a-nap-in-the-pan-v1.png | l2-w03-story-page-a-nap-in-the-pan-line-v1.png | 4000 × 3000 | story-page | A nap in the pan! | A | nap 1, pan 1 |
+| l2-w03-story-page-a-nap-in-the-pan-v1.png | l2-w03-story-page-a-nap-in-the-pan-line-v1.png | 4000 × 3000 | story-page | A nap in the pan! | A | pan 1 |
 | l2-w03-cover-the-pan-v1.png | l2-w03-cover-the-pan-line-v1.png | 4000 × 3000 | cover | The Pan | B | — |
 | l2-w03-check-row-pen-v1.png | l2-w03-check-row-pen-line-v1.png | 1500 × 1500 | check-row | pen | C | pen 1 |
 | l2-w03-check-row-cat-v1.png | l2-w03-check-row-cat-line-v1.png | 1500 × 1500 | check-row | cat | C | cat 1 |
@@ -142,7 +142,7 @@ Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w05-story-page-i-have-two-hands-v1.png | l2-w05-story-page-i-have-two-hands-line-v1.png | 4000 × 3000 | story-page | I have two hands. | A | hand 2 |
 | l2-w05-story-page-i-have-two-arms-v1.png | l2-w05-story-page-i-have-two-arms-line-v1.png | 4000 × 3000 | story-page | I have two arms. | A | arm 2 |
 | l2-w05-story-page-i-have-two-legs-v1.png | l2-w05-story-page-i-have-two-legs-line-v1.png | 4000 × 3000 | story-page | I have two legs. | A | leg 2 |
-| l2-w05-story-page-i-have-two-feet-v1.png | l2-w05-story-page-i-have-two-feet-line-v1.png | 4000 × 3000 | story-page | I have two feet. | A | feet 2 |
+| l2-w05-story-page-i-have-two-feet-v1.png | l2-w05-story-page-i-have-two-feet-line-v1.png | 4000 × 3000 | story-page | I have two feet. | A | foot 2 |
 | l2-w05-story-page-i-have-one-nose-v1.png | l2-w05-story-page-i-have-one-nose-line-v1.png | 4000 × 3000 | story-page | I have one nose. | A | nose 1 |
 | l2-w05-story-page-i-have-four-legs-v1.png | l2-w05-story-page-i-have-four-legs-line-v1.png | 4000 × 3000 | story-page | I have four legs! | A | leg 4 |
 | l2-w05-cover-i-have-two-v1.png | l2-w05-cover-i-have-two-line-v1.png | 4000 × 3000 | cover | I Have Two | B | — |
@@ -183,7 +183,7 @@ Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w06-story-page-tap-tap-tap-v1.png | l2-w06-story-page-tap-tap-tap-line-v1.png | 4000 × 3000 | story-page | Tap, tap, tap! | A | — |
 | l2-w06-story-page-pat-can-see-a-map-v1.png | l2-w06-story-page-pat-can-see-a-map-line-v1.png | 4000 × 3000 | story-page | Pat can see a map. | A | map 1 |
 | l2-w06-story-page-sam-can-see-a-pan-v1.png | l2-w06-story-page-sam-can-see-a-pan-line-v1.png | 4000 × 3000 | story-page | Sam can see a pan. | A | pan 1 |
-| l2-w06-story-page-tap-tap-tap-a-v1.png | l2-w06-story-page-tap-tap-tap-a-line-v1.png | 4000 × 3000 | story-page | Tap, tap, tap! | A | — |
+| l2-w06-story-page-tap-tap-tap-b-v1.png | l2-w06-story-page-tap-tap-tap-b-line-v1.png | 4000 × 3000 | story-page | Tap, tap, tap! | A | — |
 | l2-w06-story-page-he-can-see-pip-v1.png | l2-w06-story-page-he-can-see-pip-line-v1.png | 4000 × 3000 | story-page | He can see Pip! | A | — |
 | l2-w06-story-page-pip-sat-on-the-mat-v1.png | l2-w06-story-page-pip-sat-on-the-mat-line-v1.png | 4000 × 3000 | story-page | Pip sat on the mat! | A | mat 1 |
 | l2-w06-cover-tap-tap-v1.png | l2-w06-cover-tap-tap-line-v1.png | 4000 × 3000 | cover | Tap, Tap! | B | — |
@@ -201,13 +201,13 @@ Version 2 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 
 | File | Line art | Pixels | Use | Text | Class | Objects |
 |---|---|---|---|---|---|---|
-| l2-w07-story-page-is-it-a-ball-no-v1.png | l2-w07-story-page-is-it-a-ball-no-line-v1.png | 4000 × 3000 | story-page | Is it a ball? No! | A | ball 1 |
-| l2-w07-story-page-is-it-a-doll-no-v1.png | l2-w07-story-page-is-it-a-doll-no-line-v1.png | 4000 × 3000 | story-page | Is it a doll? No! | A | doll 1 |
-| l2-w07-story-page-is-it-a-car-no-v1.png | l2-w07-story-page-is-it-a-car-no-line-v1.png | 4000 × 3000 | story-page | Is it a car? No! | A | car 1 |
-| l2-w07-story-page-is-it-a-kite-no-v1.png | l2-w07-story-page-is-it-a-kite-no-line-v1.png | 4000 × 3000 | story-page | Is it a kite? No! | A | kite 1 |
-| l2-w07-story-page-is-it-a-drum-no-v1.png | l2-w07-story-page-is-it-a-drum-no-line-v1.png | 4000 × 3000 | story-page | Is it a drum? No! | A | drum 1 |
-| l2-w07-story-page-is-it-a-train-no-v1.png | l2-w07-story-page-is-it-a-train-no-line-v1.png | 4000 × 3000 | story-page | Is it a train? No! | A | train 1 |
-| l2-w07-story-page-is-it-a-teddy-no-v1.png | l2-w07-story-page-is-it-a-teddy-no-line-v1.png | 4000 × 3000 | story-page | Is it a teddy? No! | A | teddy 1 |
+| l2-w07-story-page-is-it-a-ball-no-v1.png | l2-w07-story-page-is-it-a-ball-no-line-v1.png | 4000 × 3000 | story-page | Is it a ball? No! | A | — |
+| l2-w07-story-page-is-it-a-doll-no-v1.png | l2-w07-story-page-is-it-a-doll-no-line-v1.png | 4000 × 3000 | story-page | Is it a doll? No! | A | — |
+| l2-w07-story-page-is-it-a-car-no-v1.png | l2-w07-story-page-is-it-a-car-no-line-v1.png | 4000 × 3000 | story-page | Is it a car? No! | A | — |
+| l2-w07-story-page-is-it-a-kite-no-v1.png | l2-w07-story-page-is-it-a-kite-no-line-v1.png | 4000 × 3000 | story-page | Is it a kite? No! | A | — |
+| l2-w07-story-page-is-it-a-drum-no-v1.png | l2-w07-story-page-is-it-a-drum-no-line-v1.png | 4000 × 3000 | story-page | Is it a drum? No! | A | — |
+| l2-w07-story-page-is-it-a-train-no-v1.png | l2-w07-story-page-is-it-a-train-no-line-v1.png | 4000 × 3000 | story-page | Is it a train? No! | A | — |
+| l2-w07-story-page-is-it-a-teddy-no-v1.png | l2-w07-story-page-is-it-a-teddy-no-line-v1.png | 4000 × 3000 | story-page | Is it a teddy? No! | A | — |
 | l2-w07-story-page-is-it-pip-yes-v1.png | l2-w07-story-page-is-it-pip-yes-line-v1.png | 4000 × 3000 | story-page | Is it Pip? Yes! | A | — |
 | l2-w07-cover-is-it-a-ball-v1.png | l2-w07-cover-is-it-a-ball-line-v1.png | 4000 × 3000 | cover | Is It a Ball? | B | — |
 | l2-w07-story-page-tom-can-see-a-top-v1.png | l2-w07-story-page-tom-can-see-a-top-line-v1.png | 4000 × 3000 | story-page | Tom can see a top. | A | top 1 |
