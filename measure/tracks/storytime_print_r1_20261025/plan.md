@@ -113,7 +113,10 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
 _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts`; `__tests__/storytime-week.test.ts` asserts the host). The host stays. P4 was answered on 2026-10-25: the prints use the S23 address (spec P4)._
 
 - [ ] Task (Hand-off 3): send picture list version 3 (reviewed in Phase 1) to the PM session for Forge, before 2026-10-28; it replaces version 2, which the PM has not forwarded. Done when: the PM session confirms receipt (peer-report).
-- [ ] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`.
+- [x] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`. commit d9b6ecd. Evidence: automated.
+    - Red evidence: `RED_TEST_COMMAND` (`cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts`) exited 1 through `heavy-run.sh`: `Tests  23 failed | 146 passed (169)`. Only the new file fails. All 23 failures are missing-module assertions inside test bodies: `student-book.ts` or `profile.ts`. The 146 existing print tests pass. No new test passes at this baseline.
+    - Failure counts by bullet: page order and map (2), letter box (1), practice lines (1), writing page (1), check page (1), home card and QR inputs (3), labels and fonts (4), trim profile (3), K-only PDF/X (2), perforation and duplex geometry (2), mutations (3). Tests use the P2, P11, and P15 defaults. P6, P7, and P9 do not affect these tests.
+    - `PROJECT_LINT` exited 0 through `heavy-run.sh`. No lock wait warning or exit 75 occurred. `pnpm-lock.yaml` stayed unchanged. Final logs: `measure/runs/storytime_print_r1_20261025/mid-red-03a803c-final-red.txt` and `mid-red-03a803c-final-lint.txt`. The report and Green handoff are in `mid-red-03a803c.log`. The first run found a jsdom path error before collection; the corrected final run has no collection failure.
     - Page order: the name page, the book map, the week 1 spread, the check page, the home card leaf. The spread starts on a left page.
     - The letter box shows "n" with a start dot, three trace copies, and one write space.
     - The practice sheet lines are the lines of `print.practice`, in order.
@@ -125,7 +128,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - The inside pages of the PDF/X file use only the black (K) channel: `gs -sDEVICE=inkcov` gives C, M, and Y 0.00000 on every inside page.
     - The reader leaves and the home-card leaves carry the perforation mark 12 mm from the spine; the perforation side follows the page parity. The test checks the duplex registration of the strips. The strip width check: two reader pages of 99 mm fill the 198 mm leaf width after the tear (P15 default).
     - Mutations: a removed home card, an answer mark, and a spread on a right page each fail a test.
-- [ ] Task (Green): the student workbook.
+- [~] Task (Green): the student workbook.
     - Andika static faces (SIL OFL) and `OFL-andika.txt` in `dashboard/assets/print-fonts/` (no package change).
     - `lib/storytime/print/profile.ts` (trim, margins, bleed, page sizes in one place).
     - `lib/storytime/print/student-book.ts` (drawings for the letter box, the book map, and the cut line of the home card; Thai runs with `white-space: nowrap`, lessons-learned 2026-10-07).
