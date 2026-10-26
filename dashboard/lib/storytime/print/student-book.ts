@@ -58,7 +58,7 @@ interface PrintFace {
     family: 'Andika' | 'Sarabun';
     weight: number;
     file: string;
-    format: 'ttf' | 'woff2';
+    format: 'truetype' | 'opentype' | 'woff' | 'woff2';
     unicodeRange?: string;
 }
 
@@ -68,8 +68,8 @@ interface PrintFace {
  * would become a Type 3 font in the PDF/X file, lessons-learned 2026-10-02).
  */
 const PRINT_FACES: PrintFace[] = [
-    { family: 'Andika', weight: 400, file: 'andika-regular.ttf', format: 'ttf' },
-    { family: 'Andika', weight: 700, file: 'andika-bold.ttf', format: 'ttf' },
+    { family: 'Andika', weight: 400, file: 'andika-regular.ttf', format: 'truetype' },
+    { family: 'Andika', weight: 700, file: 'andika-bold.ttf', format: 'truetype' },
     { family: 'Sarabun', weight: 400, file: 'sarabun-thai-400-normal.woff2', format: 'woff2', unicodeRange: THAI },
 ];
 
@@ -282,7 +282,7 @@ ${week.check.items.map(itemHtml).join('\n')}`;
 }
 
 /** The two sides of the home-card leaf (FR-3): the Thai card with the QR codes, then the English card. */
-function homePages(week: StorytimeWeek): PageSpec[] {
+function homePages(week: StorytimeWeek, mode: 'proof' | 'final'): PageSpec[] {
     const home = week.home;
     if (!home) throw new Error(`week ${week.meta.week} has no home card`);
     const qr = (url: string | undefined, label: string): string => {
@@ -300,7 +300,7 @@ function homePages(week: StorytimeWeek): PageSpec[] {
 <p class="home-frame" data-part="home-frame">${esc(week.focus.frame)}</p>
 <p class="home-activity" data-part="home-activity" lang="th">${thaiText(home.activity.th)}</p>
 <div class="qr-row">${qr(home.songUrl, 'The song of the week')}${qr(home.readAlongUrl, 'The book of the week')}</div>
-<p class="qr-note">QR target answers after the deploy (monorepo task 7.4)</p>`;
+${mode === 'proof' ? '<p class="qr-note">QR target answers after the deploy (monorepo task 7.4)</p>' : ''}`;
     const songLines = week.song
         ? week.song.lines.map((line) => `<p data-part="song-line">${esc(line.text)}</p>`).join('')
         : '<p data-part="song-line">The songs of unit 1</p>';
@@ -362,7 +362,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             practicePage(week, rows, o),
             writingPage(week),
             checkPage(week, rows, o),
-            ...homePages(week),
+            ...homePages(week, o.mode),
             ...readerPages(week, o.profile),
         ];
         // The weekly spread starts on a left page (a 0-based odd index), so that its two pages
