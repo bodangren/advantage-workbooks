@@ -125,8 +125,9 @@ describe('Storytime print v2: line-art names of the picture list (R11)', () => {
             rows = await pictures([week]);
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
-            expect(message, 'A thrown collision names both ids.').toContain('l2-w01-story-page-a-line');
-            expect(message).toContain('l2-w01-story-page-a');
+            expect(message, 'A thrown collision names both full ids.').toEqual(
+                'picture file name collision: "l2-w01-story-page-a-line-v1.png" belongs to both l2-w01-story-page-a-line and l2-w01-story-page-a',
+            );
             return;
         }
         const colorNames = rows.map((row) => row.fileName);
