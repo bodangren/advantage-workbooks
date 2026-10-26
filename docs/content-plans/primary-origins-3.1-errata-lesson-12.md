@@ -1,6 +1,6 @@
 # Primary Advantage Origins 3.1 — Replacement Lesson 12 (Errata Insert)
 
-Version 1.2 | Date 2026-10-01 | Status: Text approved by Daniel 2026-10-01 | Owner: Daniel Bo | Internal
+Version 1.3 | Date 2026-10-26 | Status: Text approved by Daniel 2026-10-01; insert Thai lines passed by Daniel 2026-10-26 | Owner: Daniel Bo | Internal
 
 Companion files: [`primary-origins-3.2-plan.md`](primary-origins-3.2-plan.md), [`primary-origins-series-bible.md`](primary-origins-series-bible.md).
 
@@ -80,11 +80,13 @@ Edit the text in [`origins-3.2-drafts/e12-hello-i-am-tom.md`](origins-3.2-drafts
 | Oct 7 | Insert rendered; page count checked against the printed lesson 12 |
 | Oct 15–17 | Proof with Origins 3.2 and Quest 4 |
 | Oct 22–24 | To the printer |
+| Oct 26 | Daniel passed the two Thai lines of the insert on the approval page (18:53 ICT): "Primary Advantage Origins 3.1 — บทที่ 12 (ฉบับทดแทน)" and "หมายเหตุสำหรับครู". He confirmed that the printer got the instruction: the teacher note goes in front of the insert, and the printer confirms the paper — **done** |
 
 The insert is the smallest item in the print order. Finishing it first tests the whole article-to-print path (§8 of the 3.2 plan) before the 28 new lessons use it.
 
 ## Revision history
 
+- 1.3 — 2026-10-26 — Daniel passed the two Thai lines of the insert ("Primary Advantage Origins 3.1 — บทที่ 12 (ฉบับทดแทน)" and "หมายเหตุสำหรับครู") on the approval page at 18:53 ICT; the PM session relayed it at 21:08 ICT. The printer got the instruction: the teacher note goes in front of the insert, and the printer confirms the paper.
 - 1.2 — 2026-10-01 — Text approved as is. E12 is the pilot for the new production path (3.2 plan v1.2 §8). QR decision B. Thai written by Claude and checked by Daniel.
 - 1.1 — 2026-09-30 — The v0 text is now a draft file for the text check; it passes all checks.
 - 1.0 — 2026-09-30 — First draft with v0 article text, questions, and insert rules.
