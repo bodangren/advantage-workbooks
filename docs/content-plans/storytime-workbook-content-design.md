@@ -1,6 +1,6 @@
 # Storytime Advantage — Write-in Student Workbook Content Design
 
-Version 0.1 | Date 2026-10-27 | Status: Draft for Daniel's check (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
+Version 0.2 | Date 2026-10-27 | Status: Draft for Daniel's check (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
 
 ## 1. Summary
 
@@ -487,9 +487,11 @@ The page also has circle-word, circle-word, write-letter, and write-word rows. T
 
 The paper also has 7 write-letter rows. They carry no picture, so they stay out of the read-aloud list.
 
+**A note on the /t/ (last) row.** That row holds a Thai risk for the child. See Q7 in section 8.
+
 **A note on the short vowels.** The packages write the short vowels as `/a/`, `/e/`, `/i/`, `/o/`, and `/u/`. The bank calls them `/a-short/` to `/u-short/` (design §6.4; `dashboard/lib/storytime/phonemes.ts`). The app maps the label with that table.
 
-**A note on week 7.** The design writes the element of week 7 as "RAZ 7: short o". The package writes the prompt `/o/`, and the words of the week (octopus, ox, olive) hold the short o sound. The teacher page says "short o".
+**A note on week 7.** The design writes the element of week 7 as "RAZ 7: short o". The package writes the prompt `/o/`. The words of the week take /ɑ/ in American English and /ɒ/ in British English. Every recording of "octopus", "ox", and "olive" uses the American vowel (row 8 of section 5). The teacher page says "short o".
 
 ## 5. Requirement 3: the changes to standard native-speaker phonics workbooks
 
@@ -504,9 +506,9 @@ A standard phonics workbook assumes that the child knows the word in the picture
 | 5 | A picture-word glossary with audio. | The family words of the week are the words the child must know by ear (§1.2). The glossary gives a name to every picture. | All levels; family page, app |
 | 6 | A picture word comes from the picture word bank of the unit. | A word outside the bank is new on the page and breaks the "known by ear" base of the program (design §8, line 572). | All levels; every picture page |
 | 7 | No picture word whose first letter differs from its first sound appears on an initial-sound item. | The child matches a sound to a letter. A word like "knife" or "phone" makes the item wrong. | All levels; initial-sound items |
-| 8 | Every word and every sound uses American pronunciation. | "alligator" starts with /æ/ in American English and /ɒ/ in British English. The week 2 item needs the American sound. | All levels; every picture page |
+| 8 | Every word and every sound uses American pronunciation. | The short o of week 7 is /ɑ/ in American English and /ɒ/ in British English. The words "octopus" and "ox" need the American vowel in every recording. | All levels; every picture page |
 | 9 | No picture that a Thai child may name with a Thai word or another English word. One clear name for each picture. The same picture appears in the book, the app, and the cards. | Two names for one picture make the answer wrong. The child hears one name in class and sees another name at home. | All levels; every picture page |
-| 10 | No final-sound item holds a final stop that Thai does not release, before the T1 week. | Thai does not release a final /p/, /t/, /k/, or /d/. The child cannot hear that final. The design teaches these finals in Level 3, week 9 (T1). | Level 3 and 4; final-sound items |
+| 10 | No final-sound item puts a picture with a final that Thai does not have next to a target whose final is the sound the child hears in its place. | A Thai child hears an English final that Thai does not have as a Thai final. The child can then hear two pictures with the same final. The rule holds until the Thai week that teaches that final. | All levels; final-sound items |
 | 11 | The Thai weeks of the design hold their own picture items. | A contrast week needs Thai minimal pairs and a Thai gloss. | Level 3 weeks 9, 17, 18, 29, 31; Level 4 week 23 (E4) |
 | 12 | The student page shows no answer mark. The answers stay in the teacher book. | The Friday check is an assessment (design §7). A printed answer turns the check into a copying task. | All levels; check pages |
 | 13 | No picture holds a letter, a word, or a number. | The child cannot read at Level 1, and a printed letter gives the answer away at every level. | All levels; every picture |
@@ -514,6 +516,8 @@ A standard phonics workbook assumes that the child knows the word in the picture
 | 15 | A row holds at most 3 pictures. A check page holds at most 9. | The Level 2 check page holds 9 pictures today. A child of 5 years scans a short row. | All levels; check pages |
 | 16 | The pre-writing strokes are crayon paths. No letter form appears before week 20. | A child of 4 or 5 years cannot hold a pencil well. The program teaches sounds before letters. | Level 1, weeks 1 to 19 |
 | 17 | The family page holds one Thai gloss under each picture. | The child needs the Thai name of the picture to hold the English word. | Level 1 and 2; family page |
+
+**The Thai finals.** Thai words end in /p/, /t/, /k/, /m/, /n/, /ŋ/, /w/, and /j/. A Thai child hears an English final of /b/, /d/, /g/, /s/, /z/, /f/, /v/, /ʃ/, /tʃ/, or /l/ as a Thai final. So "bed" sounds like "bet" and "bus" sounds like "but". The Thai weeks that teach a final are these. T1 (Level 3, week 9) teaches /d/. T3 (Level 3, week 18) teaches /s/. T4 (Level 3, week 29) teaches /s/ and /f/. T5 (Level 3, week 31) teaches /l/ and /v/. The design has no Thai week for /b/, /g/, /z/, /ʃ/, or /tʃ/, so the rule holds for them at every level.
 
 **The picture word bank.** The bank of a unit holds every picture word of that unit: the family words, the home card words, and the words of the check pages. Every picture word of the pages of Level 2 Unit 1 is in the bank of unit 1. The sound picture set of the design sits in the bank through the check words. Its words carry the target sound, and they are not Starters picture words (design §8, line 572).
 
@@ -575,8 +579,14 @@ Each question has a default. The default holds until Daniel answers.
 **Q6. The picture-sort page and the sound of its second column.** The page holds two columns and two sounds.
 *Default:* each column is one group with its own prompt, and the app reads the column sound when the teacher taps the column heading.
 
-**Q7. The two final-sound rows of the Benchmark 1 paper.** Row 5 holds the answer "cat" with a final /t/. Row 8 holds the answer "cup" with a final /p/. Thai does not release these finals. The design teaches them in Level 3, week 9 (T1).
-*Default:* keep the paper as it is for release 1. The rule of row 10 in section 5 applies to every new final-sound item from Level 3 on. Daniel decides whether the two rows change to words with a released final, such as "sun" or "ten".
+**Q7. The /t/ (last) row of the Benchmark 1 paper.** The row is in `w08.json`, `benchmark.paper`. It holds the answer "cat" and the other pictures "sun" and "bed". A Thai child can hear "bed" as "bet", so the child can circle two pictures with a heard /t/. The three other final-sound rows have no such pair.
+*Default:* no change until Daniel decides, because the paper is approved week text. The recommendation is to replace "bed" in that row. The new picture needs a final that Thai has, and that final must not be /t/. One example is "pen" (`l2-w03-check-row-pen`). "Pen" is in the picture word bank of unit 1, and it has a picture row.
+
+The three other final-sound rows hold no pair.
+
+- The /m/ (last) row holds "drum", "dog", and "bus". The final /g/ of "dog" and the final /s/ of "bus" fall to a Thai final, so neither picture sounds like the target /m/.
+- The /n/ (last) row holds "sun", "cup", and "hat". The final /p/ of "cup" and the final /t/ of "hat" are Thai finals, so the child hears both, and neither is the target /n/.
+- The /p/ (last) row holds "cup", "bed", and "fish". The final /d/ of "bed" and the final /ʃ/ of "fish" fall to a Thai final, so neither picture sounds like the target /p/.
 
 **Q8. The sound label of week 7.** The design writes "RAZ 7: short o". The package writes the prompt `/o/`.
 *Default:* keep the package label. The teacher page says "short o".
@@ -595,4 +605,5 @@ Each question has a default. The default holds until Daniel answers.
 
 ## 9. Revision history
 
+- 0.2 — 2026-10-27 — Corrected the vowel example of row 8 and the Thai final-sound rule of row 10 and Q7 (orchestrator review).
 - 0.1 — 2026-10-27 — First draft (A-18 b).
