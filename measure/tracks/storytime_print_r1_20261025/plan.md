@@ -97,10 +97,20 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
 - [x] Task: Measure - User Manual Verification 'Phase 1: Contracts and the picture list' (Protocol in workflow.md). Owner: the orchestrator. Phase 1 has no owner gate. commit aaea4a3.
     - Evidence: automated. The orchestrator verified HEAD aaea4a3: the gates of jr-green-35f6838 ran on 8109758 (GREEN_TEST_COMMAND 71/71, PROJECT_TESTS 190/190, PROJECT_LINT 0 problems, PROJECT_CHECKS exit 0 with only the accepted `published` row of st2/1); a87316d and aaea4a3 change only plan.md; the week 1 rows of pictures.json are 16 story, 2 covers, 9 check, 3 practice; video/ is untouched; the Phase 1 commit SHAs resolve.
 
+- [x] Task (Red 3): test B1 and N1 to N6 in `dashboard/__tests__/storytime-print-contract-r3.test.ts`; strengthen N2 in the v2 file. Measured failures: 28. commit c955bfa. Evidence: automated.
+    - Red evidence: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts` exited 1 through `heavy-run.sh`. Result: `Tests  28 failed | 80 passed (108)` on 3 files. All failures occur inside the new R3 test bodies for the expected reasons. The 47 cycle 1 tests and 24 cycle 2 tests pass.
+    - Failure counts: R15 counted answers (7), R16 counts and singular keys (10), R19 print strictness (1), R20 suffixes (6), R21 version (4).
+    - Already satisfied at HEAD c955bfa: R18 rejects unknown keys on all six app parts because `.strict()` exists. The stronger N2 collision assertion passes because the error already names both full ids. R15 gives no count for the unanswered cake question. R20 preserves all 30 week 1 ids. R21 preserves the JSON array with 192 rows and no version field. No false Red claim applies to these checks.
+    - `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts` exited 0 through `heavy-run.sh`. No lint problems. No lock wait warning or exit 75 occurred. `pnpm-lock.yaml` stayed unchanged. Logs: `measure/runs/storytime_print_r1_20261025/mid-red-4695c59-red.txt` and `mid-red-4695c59-lint.txt`.
+- [~] Task (Green 3): fix counts after "how many", negated questions, non-object nouns, and singular keys in `pictures.ts`. Start the suffix at "-b" and stop after "z". Export the list version constant with value 3. Make the print approval part strict. Rerun `print-pictures.ts --level 2` for list version 3. Run mutants M23 and up for each new rule. Fix the N8 plan wording. Record tech-debt rows for N7 (`text-check.ts:141,161,223`) and NC-1 (`STORYTIME_APPROVAL_PARTS` unused, `schema.ts:425`). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+    - The new version export is `STORYTIME_PICTURE_LIST_VERSION`. Keep `pictures.json` as a top-level array. Keep the picture spec at FR-9 version 1. Keep the 30 week 1 ids unchanged.
+    - Update the historical R10b version assertion and its test name in the v2 file to Version 3 during Green 3. Its drift comparison stays. Red 3 changes only the N2 assertion in that file.
+
 ## Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
 
 _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts`; `__tests__/storytime-week.test.ts` asserts the host). The host stays. P4 was answered on 2026-10-25: the prints use the S23 address (spec P4)._
 
+- [ ] Task (Hand-off 3): send picture list version 3 (reviewed in Phase 1) to the PM session for Forge, before 2026-10-28; it replaces version 2, which the PM has not forwarded. Done when: the PM session confirms receipt (peer-report).
 - [ ] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`.
     - Page order: the name page, the book map, the week 1 spread, the check page, the home card leaf. The spread starts on a left page.
     - The letter box shows "n" with a start dot, three trace copies, and one write space.
