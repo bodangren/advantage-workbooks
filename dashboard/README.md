@@ -196,7 +196,7 @@ This project follows the Conductor development workflow. See `/conductor/workflo
 
 ## License
 
-This project is part of the Reading Advantage workbook production system.
+Proprietary. All rights reserved. See [LICENSE](../LICENSE) at the repository root.
 
 ## Support
 
