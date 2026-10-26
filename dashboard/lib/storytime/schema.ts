@@ -431,8 +431,9 @@ const DRAFT = { status: 'draft' as const };
 
 /**
  * Daniel's approval of the print of a week (FR-1.3): a draft default, and an approved part that
- * holds his exact words and the date (generation rules 12.1 and 12.3). An approved part without
- * the date or the words does not parse (anti-pattern A2: no approval without consent words).
+ * holds his exact words and the date (generation rules 12.1 and 12.3). The part is strict, so a
+ * misspelled key fails the parse instead of being stripped (anti-pattern A7). An approved part
+ * without the date or the words does not parse (anti-pattern A2: no approval without consent words).
  */
 export const StorytimePrintApprovalSchema = z
     .object({
@@ -440,6 +441,7 @@ export const StorytimePrintApprovalSchema = z
         date: z.string().optional(),
         words: z.string().optional(),
     })
+    .strict()
     .superRefine((part, ctx) => {
         if (part.status !== 'approved') return;
         if (!part.date) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['date'], message: 'an approved print part needs the date of the approval' });
