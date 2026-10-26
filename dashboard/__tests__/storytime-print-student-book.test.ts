@@ -244,6 +244,98 @@ function buildPdfx(html: string): string {
     return pdfxFile;
 }
 
+// ---- Phase 2 Red 2c helpers (the Check findings D1 to D4, 2026-10-27) ----
+
+/** Pixels per millimeter at the 300 dpi raster the built PDF/X pages use. */
+const MM_PX_300 = 300 / 25.4;
+
+function isolateMeasurementHtml(title: string, style: string, body: string): string {
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${title}</title><style>${style}</style></head><body>${body}</body></html>`;
+}
+
+/** Rasterizes one page of a built PDF/X file to a greyscale raw buffer. */
+async function rasterPage(file: string, pageNumber: number, dpi = 300): Promise<{ width: number; height: number; data: Buffer }> {
+    requireHeavyWrapper();
+    const prefix = path.join(temporaryFolder(), `raster-p${pageNumber}-${dpi}`);
+    execFileSync('pdftoppm', ['-f', String(pageNumber), '-l', String(pageNumber), '-singlefile',
+        '-r', String(dpi), '-png', file, prefix], { encoding: 'utf8', timeout: 60000 });
+    const { default: sharp } = await import('sharp');
+    const raster = await sharp(`${prefix}.png`).greyscale().raw().toBuffer({ resolveWithObject: true });
+    expect(raster.info.channels, 'The raster must be one greyscale channel.').toBe(1);
+    return { width: raster.info.width, height: raster.info.height, data: raster.data };
+}
+
+function median(values: number[]): number {
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+/** Contiguous row bands that hold ink (value below 250). */
+function inkBands(data: Buffer, width: number, height: number): { top: number; bottom: number }[] {
+    const rows = new Uint8Array(height);
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) if (data[y * width + x] < 250) { rows[y] = 1; break; }
+    }
+    const bands: { top: number; bottom: number }[] = [];
+    let start = -1;
+    for (let y = 0; y <= height; y++) {
+        const on = y < height && rows[y] === 1;
+        if (on && start < 0) start = y;
+        if (!on && start >= 0) { bands.push({ top: start, bottom: y - 1 }); start = -1; }
+    }
+    return bands;
+}
+
+/** The median ink tone (0 = black, 255 = white) inside one row band. */
+function bandInkMedian(data: Buffer, width: number, band: { top: number; bottom: number }): number {
+    const values: number[] = [];
+    for (let y = band.top; y <= band.bottom; y++) for (let x = 0; x < width; x++) {
+        const v = data[y * width + x];
+        if (v < 250) values.push(v);
+    }
+    return median(values);
+}
+
+/** Counts small, near-black, solid disks (a start dot is one such disk). */
+function solidBlackDots(data: Buffer, width: number, height: number): number {
+    let dots = 0;
+    const seen = new Uint8Array(width * height);
+    for (let start = 0; start < width * height; start++) {
+        if (seen[start] || data[start] >= 25) continue;
+        const queue = [start]; seen[start] = 1;
+        let minX = width, maxX = -1, minY = height, maxY = -1, area = 0;
+        for (let i = 0; i < queue.length; i++) {
+            const p = queue[i], x = p % width, y = Math.floor(p / width);
+            area++; minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+            if (x > 0 && !seen[p - 1] && data[p - 1] < 25) { seen[p - 1] = 1; queue.push(p - 1); }
+            if (x + 1 < width && !seen[p + 1] && data[p + 1] < 25) { seen[p + 1] = 1; queue.push(p + 1); }
+            if (y > 0 && !seen[p - width] && data[p - width] < 25) { seen[p - width] = 1; queue.push(p - width); }
+            if (y + 1 < height && !seen[p + width] && data[p + width] < 25) { seen[p + width] = 1; queue.push(p + width); }
+        }
+        const w = maxX - minX + 1, h = maxY - minY + 1;
+        const fill = area / (w * h);
+        if (w >= 6 && w <= 60 && h >= 6 && h <= 60 && area >= 24 && fill >= 0.55 && w <= h * 2 && h <= w * 2) dots++;
+    }
+    return dots;
+}
+
+/** The horizontal extent of the reader-leaf cut line, in millimeters from the page left edge. */
+function cutLineExtent(data: Buffer, width: number): { minMm: number; maxMm: number } {
+    const top = Math.round(138 * MM_PX_300), bottom = Math.round(148 * MM_PX_300);
+    let bestRow = -1, bestCount = -1;
+    for (let y = top; y <= bottom; y++) {
+        let count = 0;
+        for (let x = 0; x < width; x++) if (data[y * width + x] < 128) count++;
+        if (count > bestCount) { bestCount = count; bestRow = y; }
+    }
+    let minX = width, maxX = -1;
+    for (let y = bestRow - 2; y <= bestRow + 2; y++) {
+        for (let x = 0; x < width; x++) if (data[y * width + x] < 128) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); }
+    }
+    return { minMm: minX / MM_PX_300, maxMm: maxX / MM_PX_300 };
+}
+
 afterEach(() => {
     const cachedFolders = new Set(Array.from(builtPdfx.values(), (file) => path.dirname(file)));
     for (const folder of temporaryFolders.splice(0)) {
@@ -312,7 +404,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const { doc } = await render();
         const right = page(doc, 'writing');
         const dictation = part(right, 'dictation');
-        expect(texts(dictation, '[data-part="dictation-letter"]')).toEqual(['n', 'n', 'n']);
+        // D3 (Check 2026-10-27): the dictation letter lines are empty write-in lines; the children write "n".
+        expect(texts(dictation, '[data-part="dictation-letter"]')).toEqual(['', '', '']);
         expect(texts(dictation, '[data-part="dictation-word"]')).toEqual(['a']);
         expect(text(part(right, 'writing-trace'))).toBe('Hello, I am');
         expect(text(part(right, 'name-line'))).toBe('');
@@ -731,4 +824,136 @@ describe('Storytime student workbook: the shipped week 1', () => {
         });
         expect(() => assertLeftSpread(broken)).toThrow();
     });
+
+    it('R37: sits the n stroke guide on the rendered stems within 1 mm (D1)', async () => {
+        const { doc } = await render();
+        const model = page(doc, 'practice').querySelector('svg.letter-model');
+        expect(model, 'The letter model must print.').not.toBeNull();
+        const dot = model!.querySelector('[data-part="start-dot"]');
+        const arrows = Array.from(model!.querySelectorAll('path[data-part="formation-arrow"]'));
+        expect(dot, 'The letter model must keep its start dot.').not.toBeNull();
+        expect(arrows, 'The letter model must keep its two formation arrows.').toHaveLength(2);
+        const dotX = Number(dot!.getAttribute('cx'));
+        const downX = Number(arrows[0].getAttribute('d')!.match(/^M\s*([\d.]+)/)![1]);
+        const archEndX = Number(arrows[1].getAttribute('d')!.trim().slice(arrows[1].getAttribute('d')!.lastIndexOf('L') + 1).trim().split(/[\s,]+/)[0]);
+        // Isolate the letter glyph (the text) so the raster holds no guide stroke.
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const letter = model!.querySelector('text[data-part="letter"]')!;
+        expect(letter, 'The model letter must print as an SVG text.').not.toBeNull();
+        const isolatedSvg = `<svg class="letter-model" viewBox="${model!.getAttribute('viewBox')}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><text class="model-letter" x="${letter.getAttribute('x')}" y="${letter.getAttribute('y')}" text-anchor="middle" fill="#000">${text(letter)}</text></svg>`;
+        const file = buildPdfx(isolateMeasurementHtml('d1', style, isolatedSvg));
+        const { width, height, data } = await rasterPage(file, 1, 300);
+        const unitPx = 46 * MM_PX_300 / 100; // .letter-model is 46 mm wide for a 100-unit viewBox
+        let minX = width, maxX = -1, minY = height, maxY = -1;
+        for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) if (data[y * width + x] < 128) {
+            minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+        }
+        expect(maxX, 'The isolated n must render ink.').toBeGreaterThanOrEqual(0);
+        const bandTop = maxY - Math.round((maxY - minY) * 0.25);
+        const bandHeight = maxY - bandTop + 1;
+        const counts = new Int32Array(width);
+        for (let y = bandTop; y <= maxY; y++) for (let x = minX; x <= maxX; x++) if (data[y * width + x] < 128) counts[x]++;
+        const threshold = Math.max(1, Math.round(bandHeight * 0.5));
+        const runs: { left: number; right: number }[] = [];
+        let runStart = -1;
+        for (let x = minX; x <= maxX; x++) {
+            if (counts[x] >= threshold) { if (runStart < 0) runStart = x; }
+            else if (runStart >= 0) { runs.push({ left: runStart, right: x - 1 }); runStart = -1; }
+        }
+        if (runStart >= 0) runs.push({ left: runStart, right: maxX });
+        expect(runs, 'The isolated n must expose exactly two vertical stems.').toHaveLength(2);
+        const leftStem = (runs[0].left + runs[0].right) / 2;
+        const rightStem = (runs[1].left + runs[1].right) / 2;
+        expect(Math.abs(downX * unitPx - leftStem), 'The down line must sit on the left stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
+        expect(Math.abs(dotX * unitPx - leftStem), 'The start dot must sit on the left stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
+        expect(Math.abs(archEndX * unitPx - rightStem), 'The arch must meet the right stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
+    }, 230000);
+
+    it('R38: gives every trace item a start dot (D2)', async () => {
+        const { doc } = await render();
+        const box = part(page(doc, 'practice'), 'letter-box');
+        const cells = Array.from(box.querySelectorAll('.trace-cell'));
+        expect(cells, 'Three copies to trace and one write space.').toHaveLength(4);
+        for (let i = 0; i < 3; i++) {
+            expect(cells[i].querySelector('[data-part="trace-letter"]'), `Cell ${i + 1} traces a letter.`).not.toBeNull();
+            expect(cells[i].querySelector('[data-part="start-dot"], [data-part="trace-dot"]'),
+                `Trace copy ${i + 1} must hold a start dot.`).not.toBeNull();
+        }
+        expect(cells[3].querySelector('[data-part="trace-letter"]'), 'The fourth cell stays empty for writing.').toBeNull();
+        expect(cells[3].querySelector('[data-part="start-dot"], [data-part="trace-dot"]'), 'The write space has no dot.').toBeNull();
+        const writing = page(doc, 'writing');
+        const dictWord = writing.querySelector('[data-part="dictation-word"]');
+        expect(dictWord, 'The dictation trace word prints.').not.toBeNull();
+        expect(dictWord!.parentElement!.querySelector('[data-part="start-dot"], [data-part="trace-dot"]') ?? dictWord!.querySelector('[data-part="start-dot"], [data-part="trace-dot"]'),
+            'The dictation trace word must hold a start dot.').not.toBeNull();
+        expect(writing.querySelector('[data-part="writing-trace"] [data-part="start-dot"], [data-part="writing-trace"] [data-part="trace-dot"]'),
+            'The writing trace text must hold a start dot.').not.toBeNull();
+    });
+
+    it('R38: prints each trace item in a K 20-40% gray, never solid black (D2)', async () => {
+        const week = shipped();
+        const { doc } = await render(week);
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const body = `<div style="font-size:44pt;margin-bottom:40mm">${week.print!.letterBox.letter}</div>` +
+            `<div style="font-size:18pt;margin-bottom:40mm">${week.print!.dictation.words[0]}</div>` +
+            `<div style="font-size:22pt">${week.print!.writing.traceText}</div>`;
+        const file = buildPdfx(isolateMeasurementHtml('d2-gray', style, body));
+        const { width, height, data } = await rasterPage(file, 1, 300);
+        const bands = inkBands(data, width, height);
+        expect(bands, 'One trace item each: the letter copy, the word, the sentence.').toHaveLength(3);
+        for (const band of bands) {
+            const tone = bandInkMedian(data, width, band);
+            expect(tone, 'Each trace item prints in a K 20-40% gray.').toBeGreaterThanOrEqual(153);
+            expect(tone).toBeLessThanOrEqual(204);
+        }
+    }, 230000);
+
+    it('R38: prints a black start dot on each letter copy (D2)', async () => {
+        const { doc } = await render();
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const box = part(page(doc, 'practice'), 'letter-box');
+        const traceRow = box.querySelector('.trace-row')!;
+        expect(traceRow, 'The trace row prints.').not.toBeNull();
+        const file = buildPdfx(isolateMeasurementHtml('d2-dots', style, traceRow.outerHTML));
+        const { width, height, data } = await rasterPage(file, 1, 300);
+        const dots = solidBlackDots(data, width, height);
+        expect(dots, 'Each of the three letter copies holds a black start dot.').toBeGreaterThanOrEqual(3);
+    }, 230000);
+
+    it('R39: leaves the dictation letter lines empty write-in lines (D3)', async () => {
+        const week = shipped();
+        const { doc } = await render(week);
+        const dictation = part(page(doc, 'writing'), 'dictation');
+        expect(dictation.querySelectorAll('[data-part="dictation-letter"]'), 'The dictation letter lines keep their count.')
+            .toHaveLength(week.print!.dictation.letters.length);
+        expect(texts(dictation, '[data-part="dictation-letter"]'), 'The children write the letters; the book prints none.').toEqual(['', '', '']);
+        const broken = htmlCopy(doc, (copy) => {
+            let index = 0;
+            for (const span of part(page(copy, 'writing'), 'dictation').querySelectorAll('[data-part="dictation-letter"]')) {
+                span.textContent = week.print!.dictation.letters[index++];
+            }
+        });
+        expect(() => expect(texts(part(page(broken, 'writing'), 'dictation'), '[data-part="dictation-letter"]')).toEqual(['', '', ''])).toThrow();
+    });
+
+    it('R40: mirrors the horizontal cut line with the strip parity (D4)', async () => {
+        const { html, doc } = await render();
+        const file = buildPdfx(html);
+        const readerSides = pages(doc).map((side, index) => ({ side, pageNumber: index + 1 }))
+            .filter(({ side }) => side.getAttribute('data-page-kind') === 'reader');
+        expect(readerSides, 'Three reader leaves.').toHaveLength(6);
+        const front = readerSides[0], back = readerSides[1];
+        expect(front.pageNumber % 2, 'The first reader side is a front.').toBe(1);
+        expect(back.pageNumber, 'The back follows the front.').toBe(front.pageNumber + 1);
+        const frontRaster = await rasterPage(file, front.pageNumber, 300);
+        const backRaster = await rasterPage(file, back.pageNumber, 300);
+        const frontExtent = cutLineExtent(frontRaster.data, frontRaster.width);
+        const backExtent = cutLineExtent(backRaster.data, backRaster.width);
+        expect(backExtent.minMm, 'The back cut line starts at the outer edge (x=0).').toBeLessThanOrEqual(3);
+        expect(backExtent.maxMm, 'The back cut line reaches the perforation.').toBeGreaterThanOrEqual(195);
+        expect(backExtent.maxMm, 'The back cut line never crosses into the bound stub.').toBeLessThanOrEqual(201);
+        expect(frontExtent.minMm, 'The front cut line starts at the perforation.').toBeGreaterThanOrEqual(9);
+        expect(frontExtent.minMm).toBeLessThanOrEqual(15);
+        expect(frontExtent.maxMm, 'The front cut line ends at the outer edge.').toBeGreaterThanOrEqual(207);
+    }, 250000);
 });
