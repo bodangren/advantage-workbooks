@@ -7,13 +7,18 @@ import { JAPAN_COLOR_2001_COATED, checkPdfx, ghostscriptArgs, pageImages, parseP
 const USAGE = `Converts a Chrome PDF of a workbook to PDF/X-1a for the printer and checks the result
 (track print_ready_pdf_20261002).
 
-Usage: npx tsx scripts/print/make-pdfx.ts <book.pdf> [--out <file.pdf>] [--outline | --keep-fonts]
+Usage: npx tsx scripts/print/make-pdfx.ts <book.pdf> [--out <file.pdf>] [--outline | --keep-fonts] [--k-only]
        npx tsx scripts/print/make-pdfx.ts <file.pdf> --check
 
   --out         Output file (default: <book>-pdfx1a.pdf next to the input)
   --outline     Draw all text as vector outlines, so the file has no fonts. This is the default
                 when the input has Type 3 fonts (old renders); the text stays sharp.
   --keep-fonts  Keep the fonts, also when the input has Type 3 fonts (the check then fails)
+  --k-only      Opt-in: pre-convert the document to DeviceGray before the PDF/X-1a conversion,
+                so that black ink stays on the K plate only (gs inkcov C=M=Y=0.00000). Chrome
+                writes every fill as DeviceRGB, and the plain conversion turns RGB black into
+                four-color rich black. The default (without the flag) is unchanged. The student
+                workbook (storytime_print_r1) passes this flag; the Primary files do not.
   --check       Only check <file.pdf>; convert nothing
 
 Output: CMYK, output intent Japan Color 2001 Coated, PDF 1.3, TrimBox = page size, no bleed.
@@ -94,6 +99,7 @@ async function main(argv: string[]): Promise<number> {
     let out: string | undefined;
     let outline: boolean | undefined;
     let check = false;
+    let kOnly = false;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -103,6 +109,7 @@ async function main(argv: string[]): Promise<number> {
         else if (a === '--outline') outline = true;
         else if (a === '--keep-fonts') outline = false;
         else if (a === '--check') check = true;
+        else if (a === '--k-only') kOnly = true;
         else if (!a.startsWith('--') && !input) input = path.resolve(a);
         else {
             console.error(USAGE);
@@ -124,9 +131,27 @@ async function main(argv: string[]): Promise<number> {
     const output = out ?? input.replace(/(\.pdf)?$/i, '-pdfx1a.pdf');
     const profile = await profilePath();
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'pdfx-'));
+    // The opt-in K-only path (storytime_print_r1): Chrome writes every fill as DeviceRGB, and
+    // the plain PDF/X conversion turns RGB black into four-color rich black. A DeviceGray
+    // source keeps its ink on the K plate (measured: gs inkcov C=M=Y=0.00000), so the gray
+    // pre-conversion must run before the PDF/X-1a conversion. `source` still describes the
+    // original file (title, page count, source page images for the checks).
+    if (kOnly) {
+        const gray = path.join(tmp, 'k-only-gray.pdf');
+        console.log('Pre-converting to DeviceGray (K-only) ...');
+        const grayGs = spawnSync('gs', ['-q', '-dBATCH', '-dNOPAUSE', '-sDEVICE=pdfwrite',
+            '-sColorConversionStrategy=Gray', '-dProcessColorModel=/DeviceGray',
+            `-sOutputFile=${gray}`, input], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+        if (grayGs.status !== 0 || !fs.existsSync(gray)) {
+            fs.rmSync(tmp, { recursive: true, force: true });
+            console.error(`The DeviceGray pre-conversion failed (${grayGs.status}):\n${(grayGs.stderr || grayGs.stdout).trim().split('\n').slice(-5).join('\n')}`);
+            return 1;
+        }
+        input = gray;
+    }
     const definition = path.join(tmp, 'pdfx_def.ps');
     fs.writeFileSync(definition, pdfxDefinition(profile, source.title));
-    console.log(`Converting ${source.info.pages} pages with Ghostscript (${outline ? 'text as outlines' : 'fonts kept'}) ...`);
+    console.log(`Converting ${source.info.pages} pages with Ghostscript (${outline ? 'text as outlines' : 'fonts kept'}${kOnly ? ', K-only' : ''}) ...`);
     const started = Date.now();
     const gs = spawnSync('gs', ghostscriptArgs({ input, output, definition, profile, outline }), { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
     fs.rmSync(tmp, { recursive: true, force: true });
