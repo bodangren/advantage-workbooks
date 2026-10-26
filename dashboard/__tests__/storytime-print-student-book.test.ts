@@ -177,7 +177,7 @@ function buildPdfx(html: string): string {
                 fs.readFileSync('node_modules/pagedjs/dist/paged.polyfill.js', 'utf8'));
         } finally { await browser.close(); }
         execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts',
-            ${JSON.stringify(chromeFile)}, '--out', ${JSON.stringify(pdfxFile)}, '--keep-fonts'],
+            ${JSON.stringify(chromeFile)}, '--out', ${JSON.stringify(pdfxFile)}, '--keep-fonts', '--k-only'],
             { stdio: 'inherit', timeout: 45000 });
     `;
     execFileSync('timeout', ['--signal=TERM', '--kill-after=3s', '180s', process.execPath,
@@ -272,11 +272,11 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const { doc } = await render(week);
         assertHomeLeaf(doc);
         const front = page(doc, 'home-front');
-        expect(text(part(front, 'home-line'))).toBe(week.home.line.th);
+        expect(text(part(front, 'home-line'))).toBe(week.home!.line.th);
         expect(text(part(front, 'home-sound'))).toBe('/n/');
         expect(texts(front, '[data-part="home-word"]')).toEqual(['net', 'nut', 'nose']);
         expect(text(part(front, 'home-frame'))).toBe('Hello, I am ___.');
-        expect(text(part(front, 'home-activity'))).toBe(week.home.activity.th);
+        expect(text(part(front, 'home-activity'))).toBe(week.home!.activity.th);
         expect(text(part(front, 'home-frame'))).toBe(week.focus.frame);
     });
 
@@ -286,7 +286,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const codes = Array.from(page(doc, 'home-front').querySelectorAll('[data-qr-input]'));
         expect(STORYTIME_QR_HOST).toBe('https://storytime.reading-advantage.com');
         expect(codes.map((code) => code.getAttribute('data-qr-input'))).toEqual([
-            storytimeQrUrl(week.home.songUrl), storytimeQrUrl(week.home.readAlongUrl),
+            storytimeQrUrl(week.home!.songUrl!), storytimeQrUrl(week.home!.readAlongUrl!),
         ]);
         expect(codes.map((code) => code.getAttribute('data-qr-input'))).toEqual([
             'https://storytime.reading-advantage.com/th/st/2/1?part=song',
@@ -321,8 +321,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const week = shipped();
         const { doc } = await render(week);
         const back = page(doc, 'home-back');
-        expect(text(part(back, 'home-line'))).toBe(week.home.line.en);
-        expect(text(part(back, 'home-activity'))).toBe(week.home.activity.en);
+        expect(text(part(back, 'home-line'))).toBe(week.home!.line.en);
+        expect(text(part(back, 'home-activity'))).toBe(week.home!.activity.en);
         expect(texts(back, '[data-part="home-word"]')).toEqual(['net', 'nut', 'nose']);
         expect(text(part(back, 'home-frame'))).toBe(week.focus.frame);
         expect(texts(back, '[data-part="song-line"]')).toHaveLength(15);
@@ -344,7 +344,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const thai = Array.from(page(doc, 'home-front').querySelectorAll('[lang="th"]'));
         expect(thai.length).toBeGreaterThan(0);
         expect(doc.querySelector('style')?.textContent ?? '').toMatch(/white-space:\s*nowrap/);
-        expect(thai.map(text).join(' ')).toContain(shipped().home.line.th.split(' ')[0]);
+        expect(thai.map(text).join(' ')).toContain(shipped().home!.line.th.split(' ')[0]);
     });
 
     it('R28: selects the line-art file for every picture, including a proof placeholder', async () => {
@@ -412,6 +412,52 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect([...new Set(sizes)]).toEqual([`210mm ${heightMm}mm`]);
         assertLeftSpread(doc);
         assertHomeLeaf(doc);
+    });
+
+    it('R31: preserves the exact default Ghostscript arguments without the K-only option', async () => {
+        const { ghostscriptArgs } = await import('../lib/print/pdfx');
+        for (const outline of [false, true]) {
+            expect(ghostscriptArgs({
+                input: '/in/book.pdf', output: '/out/book-pdfx1a.pdf',
+                definition: '/tmp/opencode/pdfx_def.ps', profile: '/cache/icc/JC.icc', outline,
+            })).toEqual([
+                '-dPDFX=1', '--permit-file-read=/cache/icc/', '-sDEVICE=pdfwrite',
+                '-sColorConversionStrategy=CMYK', '-sProcessColorModel=DeviceCMYK',
+                '-sOutputICCProfile=/cache/icc/JC.icc', '-dPDFSETTINGS=/prepress',
+                ...(outline ? ['-dNoOutputFonts'] : []),
+                '-o', '/out/book-pdfx1a.pdf', '/tmp/opencode/pdfx_def.ps', '/in/book.pdf',
+            ]);
+        }
+    });
+
+    it('R31: uses the exported K-only flags in the production student-book conversion call', async () => {
+        const scriptFile = path.join(dashboardRoot, 'scripts/storytime/make-student-book-pdf.ts');
+        expect(fs.existsSync(scriptFile), 'Missing script: scripts/storytime/make-student-book-pdf.ts').toBe(true);
+        // Read the wiring without running the CLI, Chrome, or Ghostscript.
+        const ts = await import('typescript');
+        const source = ts.createSourceFile(scriptFile, fs.readFileSync(scriptFile, 'utf8'), ts.ScriptTarget.Latest, true);
+        const flagName = 'STORYTIME_STUDENT_PDFX_FLAGS';
+        const statement = source.statements.find((node) => ts.isVariableStatement(node)
+            && node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword)
+            && node.declarationList.declarations.some((declaration) => declaration.name.getText(source) === flagName));
+        const declaration = statement && ts.isVariableStatement(statement)
+            ? statement.declarationList.declarations.find((node) => node.name.getText(source) === flagName) : undefined;
+        const value = declaration?.initializer;
+        const array = value && ts.isAsExpression(value) ? value.expression : value;
+        expect(array && ts.isArrayLiteralExpression(array), `Export ${flagName} as a literal flag list.`).toBe(true);
+        if (!array || !ts.isArrayLiteralExpression(array)) throw new Error(`Missing ${flagName} flag list.`);
+        expect(array.elements.map((node) => ts.isStringLiteral(node) ? node.text : node.getText(source)))
+            .toEqual(['--keep-fonts', '--k-only']);
+        let wired = false;
+        const visit = (node: import('typescript').Node): void => {
+            if (ts.isCallExpression(node) && node.arguments.some((arg) => ts.isArrayLiteralExpression(arg)
+                && arg.elements.some((item) => ts.isStringLiteral(item) && item.text === 'scripts/print/make-pdfx.ts')
+                && arg.elements.some((item) => ts.isSpreadElement(item) && ts.isIdentifier(item.expression)
+                    && item.expression.text === flagName))) wired = true;
+            ts.forEachChild(node, visit);
+        };
+        visit(source);
+        expect(wired, `The make-pdfx call must spread ${flagName}.`).toBe(true);
     });
 
     it('R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count', async () => {
