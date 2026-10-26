@@ -94,12 +94,13 @@ describe('Storytime print Red 3: exact counts (R15, R16)', () => {
         const rows = await pictures(shippedWeeks());
         const keys = [...new Set(rows.flatMap((row) => Object.keys(row.objectCounts)))].sort();
         // Foot replaces feet. Bus, fish, octopus, mouse, and ox retain their singular forms.
+        // The 53 keys exclude nap and five negated-only nouns. Counting answers add cake and friend.
         expect(keys).toEqual([
-            'alligator', 'ant', 'apple', 'arm', 'bag', 'ball', 'bed', 'bird', 'bus', 'cake', 'car', 'cat',
-            'cup', 'dog', 'doll', 'drum', 'duck', 'ear', 'eye', 'fish', 'foot', 'friend', 'frog', 'hand',
+            'alligator', 'ant', 'apple', 'arm', 'bag', 'ball', 'bed', 'bird', 'bus', 'cake', 'cat',
+            'cup', 'dog', 'duck', 'ear', 'eye', 'fish', 'foot', 'friend', 'frog', 'hand',
             'hat', 'horse', 'kite', 'leg', 'man', 'map', 'mat', 'milk', 'monkey', 'mouse', 'neck', 'nest',
             'net', 'nose', 'nurse', 'nut', 'octopus', 'olive', 'ox', 'pan', 'pear', 'pen', 'pencil', 'pig',
-            'pot', 'sock', 'sofa', 'sun', 'table', 'teddy', 'ten', 'tiger', 'top', 'train',
+            'pot', 'sock', 'sofa', 'sun', 'table', 'ten', 'tiger', 'top',
         ]);
     });
 });
