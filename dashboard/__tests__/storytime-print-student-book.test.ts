@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_QR_HOST, STORYTIME_ROOT, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 
@@ -33,6 +33,7 @@ const studentModule = path.join(dashboardRoot, 'lib/storytime/print/student-book
 const profileModule = path.join(dashboardRoot, 'lib/storytime/print/profile.ts');
 const fontDir = path.join(dashboardRoot, 'assets/print-fonts');
 const temporaryFolders: string[] = [];
+const builtPdfx = new Map<string, string>();
 const pictureIds = ['nest', 'cat', 'fish', 'dog', 'nose', 'bus', 'hat', 'cup', 'net']
     .map((word) => `l2-w01-check-row-${word}`);
 
@@ -63,12 +64,12 @@ async function profile(): Promise<PrintProfile> {
     return exports.STORYTIME_PRINT_PROFILE;
 }
 
-async function render(week = shipped(), selectedProfile?: PrintProfile): Promise<{ html: string; doc: Document }> {
+async function render(week = shipped(), selectedProfile?: PrintProfile, mode: 'proof' | 'final' = 'proof'): Promise<{ html: string; doc: Document }> {
     expect(fs.existsSync(studentModule), 'Missing module: lib/storytime/print/student-book.ts').toBe(true);
     const exports = await import(studentModule) as StudentModule;
     expect(exports.compileStorytimeStudentBook, 'Export compileStorytimeStudentBook.').toBeTypeOf('function');
     const { html } = await exports.compileStorytimeStudentBook([week], {
-        profile: selectedProfile ?? await profile(), mode: 'proof',
+        profile: selectedProfile ?? await profile(), mode,
     });
     expect(html).toBeTypeOf('string');
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -158,9 +159,63 @@ function inkRows(output: string): string[][] {
         (match) => match.slice(1, 5));
 }
 
+interface PrintedQr {
+    left: number; top: number; right: number; bottom: number;
+    modules: boolean[][];
+}
+
+// Find isolated 7-module finder rings in the raster. No HTML coordinates identify the codes.
+function printedQrs(data: Buffer, width: number, height: number, sizes: number[]): PrintedQr[] {
+    const dark = (x: number, y: number): boolean => data[Math.floor(y) * width + Math.floor(x)] < 128;
+    const remaining = Uint8Array.from(data, (value) => value < 128 ? 1 : 0);
+    const finders: { x: number; y: number; pitch: number }[] = [];
+    for (let start = 0; start < remaining.length; start++) {
+        if (!remaining[start]) continue;
+        const queue = [start];
+        remaining[start] = 0;
+        let left = width, right = 0, top = height, bottom = 0;
+        for (let index = 0; index < queue.length; index++) {
+            const pixel = queue[index], x = pixel % width, y = Math.floor(pixel / width);
+            left = Math.min(left, x); right = Math.max(right, x);
+            top = Math.min(top, y); bottom = Math.max(bottom, y);
+            const neighbors = [x > 0 ? pixel - 1 : -1, x + 1 < width ? pixel + 1 : -1,
+                y > 0 ? pixel - width : -1, y + 1 < height ? pixel + width : -1];
+            for (const next of neighbors) {
+                if (next >= 0 && remaining[next]) { remaining[next] = 0; queue.push(next); }
+            }
+        }
+        const w = right - left + 1, h = bottom - top + 1;
+        if (w < 21 || w > 150 || Math.abs(w - h) > 2 || Math.abs(queue.length / (w * h) - 24 / 49) > 0.06) continue;
+        let finder = true;
+        for (let row = 0; row < 7; row++) for (let col = 0; col < 7; col++) {
+            const expected = row === 0 || row === 6 || col === 0 || col === 6
+                || (row >= 2 && row <= 4 && col >= 2 && col <= 4);
+            if (dark(left + (col + 0.5) * w / 7, top + (row + 0.5) * h / 7) !== expected) finder = false;
+        }
+        if (finder) finders.push({ x: left + w / 2, y: top + h / 2, pitch: (w + h) / 14 });
+    }
+    const codes: PrintedQr[] = [];
+    for (const corner of finders) for (const size of sizes) {
+        const distance = (size - 7) * corner.pitch;
+        const across = finders.find((f) => Math.abs(f.x - corner.x - distance) < corner.pitch
+            && Math.abs(f.y - corner.y) < corner.pitch);
+        const below = finders.find((f) => Math.abs(f.y - corner.y - distance) < corner.pitch
+            && Math.abs(f.x - corner.x) < corner.pitch);
+        if (!across || !below) continue;
+        const dx = (across.x - corner.x) / (size - 7), dy = (below.y - corner.y) / (size - 7);
+        const left = corner.x - 3.5 * dx, top = corner.y - 3.5 * dy;
+        codes.push({ left, top, right: left + size * dx, bottom: top + size * dy,
+            modules: Array.from({ length: size }, (_, row) => Array.from({ length: size }, (_, col) =>
+                dark(left + (col + 0.5) * dx, top + (row + 0.5) * dy))) });
+    }
+    return codes;
+}
+
 /** Build the rendered HTML, not a prepared PDF. The outer timeout kills the child process group. */
 function buildPdfx(html: string): string {
     requireHeavyWrapper();
+    const cached = builtPdfx.get(html);
+    if (cached) return cached;
     const folder = temporaryFolder();
     const htmlFile = path.join(folder, 'student.html');
     const chromeFile = path.join(folder, 'student.pdf');
@@ -185,11 +240,20 @@ function buildPdfx(html: string): string {
         cwd: dashboardRoot, encoding: 'utf8', timeout: 185000, maxBuffer: 8 * 1024 * 1024,
     });
     expect(fs.existsSync(pdfxFile), 'The real PDF/X output must exist.').toBe(true);
+    builtPdfx.set(html, pdfxFile);
     return pdfxFile;
 }
 
 afterEach(() => {
-    for (const folder of temporaryFolders.splice(0)) fs.rmSync(folder, { recursive: true, force: true });
+    const cachedFolders = new Set(Array.from(builtPdfx.values(), (file) => path.dirname(file)));
+    for (const folder of temporaryFolders.splice(0)) {
+        if (!cachedFolders.has(folder)) fs.rmSync(folder, { recursive: true, force: true });
+    }
+});
+
+afterAll(() => {
+    for (const file of builtPdfx.values()) fs.rmSync(path.dirname(file), { recursive: true, force: true });
+    builtPdfx.clear();
 });
 
 describe('Storytime student workbook: the shipped week 1', () => {
@@ -330,6 +394,29 @@ describe('Storytime student workbook: the shipped week 1', () => {
         assertHomeLeaf(doc);
     });
 
+    it('R35: keeps the QR deploy mark in proof mode and excludes it from final mode', async () => {
+        const week = shipped();
+        const mark = 'QR target answers after the deploy (monorepo task 7.4)';
+        const proof = await render(week);
+        expect(text(page(proof.doc, 'home-front'))).toContain(mark);
+        const { storytimePrintPictures } = await import('../lib/storytime/print/pictures');
+        const pictureFiles = new Set(storytimePrintPictures([week]).flatMap((row) =>
+            [row.fileName, row.lineArtFileName].map((name) => path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', name))));
+        // Isolate mode behavior from Forge file availability. This test builds no final PDF.
+        const existsSync = fs.existsSync;
+        const pictureExists = vi.spyOn(fs, 'existsSync').mockImplementation((file) =>
+            typeof file === 'string' && pictureFiles.has(file) ? true : existsSync(file));
+        try {
+            const final = await render(week, undefined, 'final');
+            assertHomeLeaf(final.doc);
+            expect(final.doc.querySelectorAll('[data-picture-id] img').length).toBeGreaterThanOrEqual(12);
+            expect(final.html).not.toContain(mark);
+            expect(text(final.doc.body)).not.toContain(mark);
+        } finally {
+            pictureExists.mockRestore();
+        }
+    });
+
     it('R28: excludes the four forbidden labels and every CJK character from the HTML', async () => {
         const { html } = await render();
         expect(html).not.toMatch(/CEFR|Pre[-‑–\s]?A1|Starters|Reading\s+A[-‑–]Z/i);
@@ -395,6 +482,18 @@ describe('Storytime student workbook: the shipped week 1', () => {
             expect(match[1]).not.toMatch(/Comic Sans|Arial|Chalkboard|Google/i);
         }
     }, 30000);
+
+    it('R34: uses valid CSS format hints for every font face', async () => {
+        const { doc } = await render();
+        const css = Array.from(doc.querySelectorAll('style'), (style) => style.textContent).join('\n');
+        const faces = Array.from(css.matchAll(/@font-face\s*\{([^}]+)\}/g), (match) => match[1]);
+        expect(faces.length).toBeGreaterThanOrEqual(3);
+        for (const face of faces) {
+            const hints = Array.from(face.matchAll(/format\(\s*(['"]?)([^)'"\s]+)\1\s*\)/g), (match) => match[2]);
+            expect(hints.length, 'Each static face must declare its format.').toBeGreaterThan(0);
+            for (const hint of hints) expect(['truetype', 'opentype', 'woff', 'woff2']).toContain(hint);
+        }
+    });
 
     it('R30: exports the P2 and P15 default profile in millimeters', async () => {
         expect(await profile()).toMatchObject({
@@ -471,6 +570,65 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const info = execFileSync('pdfinfo', ['-custom', file], { encoding: 'utf8', timeout: 5000 });
         expect(info).toMatch(/GTS_PDFXVersion:\s+PDF\/X-1/);
     }, 230000);
+
+    it('R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X', async () => {
+        const { html } = await render();
+        const file = buildPdfx(html);
+        const output = execFileSync('pdffonts', [file], { encoding: 'utf8', timeout: 5000 });
+        console.info(`R34 pdffonts:\n${output}`);
+        const rows = output.trim().split('\n').slice(2).map((line) => line.trim().split(/\s+/));
+        const names = rows.map((row) => row[0].replace(/^[A-Z]{6}\+/, ''));
+        expect([...new Set(names)].sort(), 'The PDF must contain the three required faces and no fallback family.')
+            .toEqual(['Andika', 'Andika-Bold', 'Sarabun-Regular']);
+        for (const row of rows) expect(row.at(-5), `The font ${row[0]} must be embedded.`).toBe('yes');
+    }, 230000);
+
+    it('R36: matches both printed PDF/X QR matrices to their labeled song and book addresses', async () => {
+        const week = shipped();
+        const { html, doc } = await render(week);
+        const file = buildPdfx(html);
+        const homePage = String(pages(doc).indexOf(page(doc, 'home-front')) + 1);
+        const prefix = path.join(temporaryFolder(), 'home-front');
+        requireHeavyWrapper();
+        execFileSync('pdftoppm', ['-f', homePage, '-l', homePage, '-singlefile', '-r', '300', '-png', file, prefix],
+            { encoding: 'utf8', timeout: 20000 });
+        const { default: sharp } = await import('sharp');
+        const raster = await sharp(`${prefix}.png`).greyscale().raw().toBuffer({ resolveWithObject: true });
+        expect(raster.info.channels).toBe(1);
+        const { default: qrcode } = await import('qrcode-generator');
+        const expected = [week.home!.songUrl!, week.home!.readAlongUrl!].map((url) => {
+            const qr = qrcode(0, 'M');
+            qr.addData(storytimeQrUrl(url));
+            qr.make();
+            return Array.from({ length: qr.getModuleCount() }, (_, row) =>
+                Array.from({ length: qr.getModuleCount() }, (_, col) => qr.isDark(row, col)));
+        });
+        const codes = printedQrs(raster.data, raster.info.width, raster.info.height, [...new Set(expected.map((matrix) => matrix.length))]);
+        expect(codes, 'The raster must contain two complete QR codes.').toHaveLength(2);
+        const bbox = execFileSync('pdftotext', ['-f', homePage, '-l', homePage, '-bbox', file, '-'],
+            { encoding: 'utf8', timeout: 5000 });
+        const words = Array.from(new DOMParser().parseFromString(bbox, 'text/xml').querySelectorAll('word'));
+        const printed = ['The song of the week', 'The book of the week'].map((label) => {
+            const tokens = label.split(' ');
+            const starts = words.map((_word, index) => index).filter((index) =>
+                tokens.every((token, offset) => words[index + offset]?.textContent === token));
+            expect(starts, `The PDF must contain one label: ${label}`).toHaveLength(1);
+            const first = words[starts[0]], last = words[starts[0] + tokens.length - 1];
+            const centerX = (Number(first.getAttribute('xMin')) + Number(last.getAttribute('xMax'))) / 2 * 300 / 72;
+            const top = Number(first.getAttribute('yMin')) * 300 / 72;
+            const above = codes.filter((code) => centerX >= code.left && centerX <= code.right
+                && top > code.bottom && top - code.bottom < 12 * 300 / 25.4);
+            expect(above, `Find the printed code above ${label}.`).toHaveLength(1);
+            return above[0];
+        });
+        expect(printed[0]).not.toBe(printed[1]);
+        const assertMatrices = (copy: PrintedQr[]): void => { expect(copy.map((code) => code.modules)).toEqual(expected); };
+        assertMatrices(printed);
+        const swapped = savedCopy(printed, (copy) => {
+            [copy[0].modules, copy[1].modules] = [copy[1].modules, copy[0].modules];
+        });
+        expect(() => assertMatrices(swapped), 'Swapped printed addresses must fail the same matrix check.').toThrow();
+    }, 250000);
 
     it('R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch', async () => {
         const { html } = await render();
