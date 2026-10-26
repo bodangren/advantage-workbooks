@@ -185,7 +185,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - Gates, all in the foreground through `heavy-run.sh`. `PROJECT_LINT` exits 0 with no output. `npx tsc --noEmit` exits 0 with no output. Logs: `mid-red-0d23375-{red,lint,tsc}.txt`. Report: `mid-red-0d23375.log`.
     - An earlier Red attempt reported `heavy-run: lock wait over 600 s`, holder PID 710467, a stuck install in `rama-worktrees/security-upgrade`. No exit 75. `pnpm-lock.yaml` stayed unchanged.
     - Model deviation. Earlier Red roles of this track ran on OpenAI. The model table of 2026-10-26 moves Red to DeepSeek. This role started on deepseek-v4-pro. The DeepSeek routes had no room. Red 2c now runs on xai/grok-4.7. The Red family changes from DeepSeek to Grok. Green of this phase is GLM.
-- [ ] Task (Green 2c): fix D1 to D4 in the student workbook.
+- [~] Task (Green 2c): fix D1 to D4 in the student workbook.
     - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
     - Run mutants M50 to M54. Keep a source copy before each mutation. Compare the restored file after the run.
     - M50: shift the stroke guide back 4 mm. R37 must fail.
