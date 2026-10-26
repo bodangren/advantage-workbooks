@@ -1,6 +1,6 @@
 # Primary Advantage Quest 4 — Lesson Map
 
-Version 1.0 | Date 2026-10-02 | Status: Draft (Claude); Daniel reviews on `/review` | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 1.1 | Date 2026-10-27 | Status: Ordered from the printer 2026-10-26 with Origins 3.2; delivery about 2026-11-23 to 11-30 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Track: `level_banks_20261002`. Companion files: [`primary-origins-3.2-plan.md`](primary-origins-3.2-plan.md) (§10, lesson shape §2, QR decision D1), [`primary-origins-series-bible.md`](primary-origins-series-bible.md), [`../../content/primary/AUTHORING.md`](../../content/primary/AUTHORING.md).
 
@@ -61,4 +61,5 @@ Notes:
 
 ## Revision history
 
+- 1.1 — 2026-10-27 — Quest 4 was ordered with Origins 3.2 on the night of 2026-10-26; expected delivery 2026-11-23 to 2026-11-30. Daniel: "Primary Advantage 3.2 nd 4 have been ordered last night. Approximate delivery date -- four to five weeks." (relayed by the PM session on 2026-10-27 at 05:42 ICT).
 - 1.0 — 2026-10-02 — First version (track level_banks_20261002).

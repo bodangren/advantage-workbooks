@@ -1,6 +1,6 @@
 # Primary Advantage Origins 3.2 — Coverage and Production Plan
 
-Version 1.2 | Date 2026-10-01 | Status: Decisions D1–D3 made; production path changed (§6, §8) | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 1.3 | Date 2026-10-27 | Status: Decisions D1–D3 made; production path changed (§6, §8); Origins 3.2 and Quest 4 ordered 2026-10-26 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 Companion files: [`primary-origins-series-bible.md`](primary-origins-series-bible.md) (story world), [`primary-origins-3.1-errata-lesson-12.md`](primary-origins-3.1-errata-lesson-12.md) (replacement lesson), [`primary-origins-3.2-lesson-briefs.md`](primary-origins-3.2-lesson-briefs.md) (task C1), and [`origins-3.2-drafts/`](origins-3.2-drafts/README.md) (drafts and the text check, task C3). Strategy source: `advantage-pr/08-strategy/product-strategy-2026-2027.md` §3.1 and §6.
 
@@ -181,6 +181,8 @@ Print lead time is 3–4 weeks. Files at the printer on 2026-10-24 means books i
 | Oct 15–17 | Full proof: Origins 3.2, the insert, and Quest 4 (29 lessons) | Daniel |
 | Oct 18–21 | Corrections; final PDFs; printer pre-flight | Daniel |
 | Oct 22–24 | Files to printer | Daniel |
+| Oct 26 | Origins 3.2 and Quest 4 ordered from the printer (Daniel: "Primary Advantage 3.2 nd 4 have been ordered last night. Approximate delivery date -- four to five weeks.") — **done** | Daniel |
+| Nov 23–30 | Expected delivery of the printed books (four to five weeks after the order) | Printer |
 | After print | Add the books to Tutor Advantage (Tutor spec) | Wannachok |
 
 Tasks:
@@ -201,6 +203,7 @@ Quest 4 is the first A1 book. The four Quest books (4, 5, 6.1, 6.2) share the 86
 
 ## Revision history
 
+- 1.3 — 2026-10-27 — Origins 3.2 and Quest 4 were ordered on the night of 2026-10-26; expected delivery 2026-11-23 to 2026-11-30 (Daniel's morning page, relayed by the PM session on 2026-10-27 at 05:42 ICT).
 - 1.2 — 2026-10-01 — Decisions D1 (B), D2 (American), D3 (names kept) made. New-word count is a target, not a gate; glossed Starters minimum 10. One question bank per lesson, print set chosen from it. New production path (§8): Claude-made lesson packages, mmx media, review page, injector into both databases; the admin tool is only a fallback. Calendar and tasks C7–C10 updated; Thai checked by Daniel.
 - 1.1 — 2026-09-30 — Starters-share target corrected to 95% with names not counted (the 80% baseline counted names against the text). New-word count measured with the text check: 115 (not about 125). Glossed-word swaps in P01 and P10. C1 drafted and C3 done.
 - 1.0 — 2026-09-30 — First draft. Lesson map, vocabulary, and coverage projection computed from `tagging-data.json` and the vocabulary graph on 2026-09-30.
