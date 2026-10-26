@@ -35,7 +35,7 @@ Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines com
 |---|---|---|
 | 1 Contracts and the picture list | 2026-10-26 to 2026-10-28 | The picture list and the picture spec go to the PM session by 2026-10-28 |
 | 2 Student workbook template, week 1 | 2026-10-27 to 2026-11-05 | The template is due on 2026-11-05 (monorepo plan, Phase 2) |
-| 3 Teacher book print file, week 1 | 2026-10-27 to 2026-10-30 | The week 1 print files in Thai and English |
+| 3 Teacher book print file, week 1 | 2026-10-27 to 2026-10-30 | The week 1 print files in Thai |
 | 4 Readers, week 1 (workbook pages and color A3 PDFs) | 2026-10-28 to 2026-11-05 | The week 1 pictures from Forge are needed by 2026-11-02 |
 | 5 Covers, week 1 | 2026-11-02 to 2026-11-05 | Daniel approves the two week 1 cover pictures |
 | 6 Week 1 proof and Daniel's approval | 2026-11-05 to 2026-11-09 | Daniel approves the week 1 print (rule 0.1) |
@@ -112,7 +112,8 @@ _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files
 
 _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts`; `__tests__/storytime-week.test.ts` asserts the host). Add `lib/print/pdfx.ts` and `scripts/print/make-pdfx.ts` for the opt-in flag only; the default conversion stays unchanged. The host stays. P4 was answered on 2026-10-25: the prints use the S23 address (spec P4)._
 
-- [ ] Task (Hand-off 3): send picture list version 3 (reviewed in Phase 1) to the PM session for Forge, before 2026-10-28; it replaces version 2, which the PM has not forwarded. Done when: the PM session confirms receipt (peer-report).
+- [x] Task (Hand-off 3): send picture list version 3 (reviewed in Phase 1) to the PM session for Forge, before 2026-10-28; it replaces version 2, which the PM has not forwarded. Done when: the PM session confirms receipt (peer-report). commit 078917f (picture list version 3).
+    - Evidence: peer-report. The orchestrator sent the list to the PM session on 2026-10-26 at 18:05 ICT (pictures.json sha256 c3e23cfdace136c7ed602b3aefee83383241833537ba56f0257668eb1e2c686b, pictures.md sha256 e97d649f8de5597494730ee17c8785a1ebe36ee2f7f7c0897701d5422929f848). The PM session confirmed at 18:10 ICT: "Picture list v3 (hand-off 3) is forwarded to Forge now; I relay Forge's receipt to you."
 - [x] Task (Red): `__tests__/storytime-print-student-book.test.ts` on the shipped `w01.json`. commit d9b6ecd; retry commit c9b6544. Evidence: automated.
     - Red evidence: `RED_TEST_COMMAND` (`cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts`) exited 1 through `heavy-run.sh`: `Tests  23 failed | 146 passed (169)`. Only the new file fails. All 23 failures are missing-module assertions inside test bodies: `student-book.ts` or `profile.ts`. The 146 existing print tests pass. No new test passes at this baseline.
     - Failure counts by bullet: page order and map (2), letter box (1), practice lines (1), writing page (1), check page (1), home card and QR inputs (3), labels and fonts (4), trim profile (3), K-only PDF/X (2), perforation and duplex geometry (2), mutations (3). Tests use the P2, P11, and P15 defaults. P6, P7, and P9 do not affect these tests.
@@ -165,7 +166,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - Make a new version with `make-student-book-pdf.ts --level 2 --weeks 1 --proof`. Run `PRINT_GATE` and the K-channel check.
     - Record `pdffonts` evidence for Andika regular, Andika bold, and Sarabun only. Replace the false font claim in the Green evidence above.
     - Memory handoff: record that CSS declarations do not prove embedded PDF fonts. Keep both memory files within their 50-line limits.
-- [ ] Task (Check): the week 1 workbook pages under the heavy lock. `PRINT_GATE` passes. A contact sheet of every page at 100 dpi. The agent looks at every page and lists defects (rule 6.5). A person scans both QR codes on a printed page with a phone and records the result (person-checked; the URL answers after the monorepo deploy; monorepo plan task 7.4 checks every printed path on 2026-11-15).
+- [ ] Task (Check): the week 1 workbook pages under the heavy lock. `PRINT_GATE` passes. A contact sheet of every page at 100 dpi. The agent looks at every page and lists defects (rule 6.5). The machine check of both printed QR codes passes: test R36 (the printed module grid of each code on the PDF/X page equals the QR encoder output for its exact address, and each code sits over its label). This machine has no QR decoder, so the check compares modules; a true decoder needs a tool install and Daniel's go. The person scan moved to Phase 9 (PM approval 2026-10-26 18:35 ICT, peer-report).
 - [ ] Task: Measure - User Manual Verification 'Phase 2: Student workbook template, week 1' (Protocol in workflow.md)
 
 ## Phase 3: Teacher book print file, week 1 (2026-10-27 to 2026-10-30)
@@ -176,8 +177,8 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - The text gate (`lib/storytime/print/text-diff.ts`) takes two `pdftotext -layout` outputs and reports each line that differs, except page numbers. A changed Thai word in a copy gives one difference. The same text gives none.
     - The print file name has a version and the language: `Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf`.
     - The Thai HTML of the shipped `w01.json` has every step id of the week and the four headings (`getTranslations('th').teachingNotes`).
-- [ ] Task (Green): `scripts/storytime/make-teacher-book-print.ts --level 2 --weeks <list> --lang th|en`. It calls `compileStorytimeManual` (A4), renders the Chrome PDF, runs the text gate against the draft of each week, and runs `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
-- [ ] Task (Check): the week 1 teacher book in Thai and English. `PRINT_GATE` passes. The text gate against `~/Desktop/primary-parity-progress/storytime/Storytime-L2-W01-Teachers-Book-{TH,EN}-draft.pdf` gives 0 differences, or each difference is listed with its cause for Daniel. A contact sheet of every page.
+- [ ] Task (Green): `scripts/storytime/make-teacher-book-print.ts --level 2 --weeks <list> --lang th`. It calls `compileStorytimeManual` (A4), renders the Chrome PDF, runs the text gate against the draft of each week, and runs `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+- [ ] Task (Check): the week 1 teacher book in Thai. `PRINT_GATE` passes. The text gate against `~/Desktop/primary-parity-progress/storytime/Storytime-L2-W01-Teachers-Book-TH-draft.pdf` gives 0 differences, or each difference is listed with its cause for Daniel. A contact sheet of every page.
 - [ ] Task: Measure - User Manual Verification 'Phase 3: Teacher book print file, week 1' (Protocol in workflow.md)
 
 ## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
@@ -210,7 +211,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 
 ## Phase 6: Week 1 proof and Daniel's approval (2026-11-05 to 2026-11-09)
 
-- [ ] Task: the week 1 proof. The week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai and English. A contact sheet of every page, and a list with the SHA-256 and the source commit of each file. The agent opens every page first (rule 6.5). The proof goes to Daniel through the PM session on 2026-11-05.
+- [ ] Task: the week 1 proof. The week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai. A contact sheet of every page, and a list with the SHA-256 and the source commit of each file. The agent opens every page first (rule 6.5). The proof goes to Daniel through the PM session on 2026-11-05.
 - [ ] Task (Owner gate): Daniel approves the week 1 print. Record his exact words and the date in `approval.print` of `w01.json` (rules 12.1 and 12.3). No answer is not an approval (rule 0.3). If he has not approved by 2026-11-09, tell him the Phase 7 date risk (line 47). The old 11-05 stop rule does not apply (PM relay of Daniel's standing words, 2026-10-25, peer-report). Evidence: owner-approved.
 - [ ] Task: the fix list from Daniel's notes. Each changed file gets a new version (rule 12.2), passes its gates again, and goes back to Daniel until he approves.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
@@ -224,7 +225,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The text gate of the Thai teacher book has 0 differences for each of the 8 weeks, or each difference is listed.
 - [ ] Task (Green): the template changes that weeks 2 to 8 need (for example, the circle-word rows and the picture sort of the review pages). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Pictures, weeks 2 to 7): the Forge batches, needed by 2026-11-16. The three picture stages of Phase 4 for each batch. Daniel looks at each batch.
-- [ ] Task (Check): the unit 1 workbook with the 14 readers, the 14 color A3 reader PDFs, the unit 1 teacher book in Thai and English, and the workbook and teacher book covers. `PRINT_GATE` passes for each print file. A contact sheet of every page. The agent opens every page.
+- [ ] Task (Check): the unit 1 workbook with the 14 readers, the 14 color A3 reader PDFs, the unit 1 teacher book in Thai, and the workbook and teacher book covers. `PRINT_GATE` passes for each print file. A contact sheet of every page. The agent opens every page.
 - [ ] Task: Measure - User Manual Verification 'Phase 7: Weeks 2 to 8' (Protocol in workflow.md)
 
 ## Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)
@@ -235,6 +236,10 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The sound and symbol cards are A5. The picture cards and the tricky-word cards are A6 (design §8).
     - The sticker sheet has 8 stickers: the 7 decodable covers and unit 1.
 - [ ] Task (Green): `lib/storytime/print/card-kit.ts` and `scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks <list>`: cards n-up on A4 with cut lines, one print file for each card size. The classroom language card only after Daniel gives its text (spec P9). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+- [b] Task (Later, after release 1): center cards for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
+- [b] Task (Later, after release 1): group signs for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
+- [b] Task (Later, after release 1): name cards for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
+- [b] Task (Later, after release 1): the alphabet frieze for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
 - [ ] Task (Check): the card kit print files; `PRINT_GATE` passes. A person cuts one test sheet of each size and measures one card (person-checked).
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
@@ -243,6 +248,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 - [ ] Task: the release proof by 2026-11-20. All print files, the contact sheets, and the print order sheet (item, file, SHA-256, trim, pages, paper, binding, colors, quantity for each classroom). The print order sheet lists printer jobs only; the color A3 reader PDFs get their own file list with the SHA-256 of each file, for the teachers. Each print file passes `PRINT_GATE` and is newer than the last commit of its sources (`git log -1 --format=%cI -- <sources>`). Each printed QR URL (the S23 address) answers on the live host.
 - [ ] Task (Owner gate): Daniel approves the release proof by 2026-11-24. Record his exact words and the date in `approval.print` of each week package. Evidence: owner-approved.
 - [ ] Task: the print order on 2026-11-25. Daniel gives the go to send. Record the printer, the order date, and the delivery date in this plan.
+- [ ] Task (Check, person): a person scans both QR codes on a printed page of the week 1 workbook with a phone and records the address that opens and the result (person-checked). The address answers after the monorepo deploy; monorepo plan task 7.4 checks every printed path on 2026-11-15. Moved from Phase 2 (PM approval 2026-10-26 18:35 ICT, peer-report).
 - [ ] Task: Measure - User Manual Verification 'Phase 9: Release proof and print order' (Protocol in workflow.md)
 
 ## Phase 10: Hand-off (2026-11-25 to 2026-11-27)

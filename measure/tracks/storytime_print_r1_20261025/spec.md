@@ -44,6 +44,23 @@ Results:
 - Teacher book, home cards, cards, and stickers: unchanged (teacher book: A4, black only, 80 gsm, wire-o).
 - The picture box is about 90 × 67 mm (the A6 box scaled 0.943), so about 269 × 202 mm on A3.
 
+## Decisions of 2026-10-26
+
+Daniel answered on his approval page on 2026-10-26 at 18:52 ICT. The PM session relayed the answers. Evidence class: owner-approved.
+
+The PM relay, verbatim:
+
+> "(8) Student book title "Storytime Advantage, Level 2, Unit 1, Student Book": PASS. (9) Teacher book Thai only: PASS. No A3 big book in release 1: PASS. Centre cards, group signs, name cards, frieze out of release 1: PASS with his words: "We will not deliver STA for about 2-3 months, but we will begin presales soon. We want to keep the class accessories like these in the plan. Let's not forget them. We will also move to put STA into the Tutor Advantage app once STA is workable." So keep the four extras in the plan as later items, not deleted. Karaoke: not in release 1, and song audio goes to no outside service: PASS."
+
+Results:
+
+1. The student book title is "Storytime Advantage, Level 2, Unit 1, Student Book" (P11).
+2. The teacher book is Thai only (P6). This track makes the Thai teacher-book print file only. The existing English drafts stay as they are. This track makes no English print file.
+3. No A3 big book in release 1 (P8).
+4. Center cards, group signs, name cards, and the alphabet frieze are out of release 1 and stay in the plan as later items (P9, FR-7.5). Daniel's words are in the relay above.
+5. Karaoke is not in release 1, and the song audio goes to no outside service.
+6. P7 (models and price of the picture pre-check) stays open. The PM session asked for a proposal with two models of two providers and their price, before Phase 4.
+
 ## Sources
 
 Other repositories are read-only for this track.
@@ -136,11 +153,11 @@ Rules:
 2. Sizes: design §8 gives A5 for the sound and symbol cards, and A6 for the picture cards and the tricky-word cards. Open point P2 gives defaults for the other items.
 3. The review deck (S10) is the sound cards, the tricky-word cards, the word cards, and the frame cards that the day strips of the teacher book name. The kit has each card once for each classroom.
 4. Benchmark 1 (S11): the paper part is a workbook page (FR-3). The one-to-one part uses the letter strip and the sound cards. The class record sheet and the reading record forms are in the teacher book already (`manual.ts`).
-5. Items with no content in the design or in the data (center cards, group signs, name cards, the alphabet frieze) stay out of release 1 unless Daniel adds them (open point P9).
+5. Center cards, group signs, name cards, and the alphabet frieze are out of release 1 (owner-approved 2026-10-26) and stay in the plan as later items (open point P9). The classroom language card still waits for Daniel's text (unchanged).
 
 ### FR-8 The proofs and the print order
 
-1. The week 1 proof: the week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai and in English.
+1. The week 1 proof: the week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai.
 2. The release proof, by 2026-11-20: all print files, the contact sheets, and the print order sheet (item, file, SHA-256, trim, pages, paper, binding, colors, quantity for each classroom). The print order sheet lists printer jobs only. The color A3 reader PDFs get their own file list, with the SHA-256 of each file, for the teachers.
 3. Every print file passes `make-pdfx.ts --check`. Every print file is newer than the last commit of its sources (lessons-learned, 2026-10-20).
 4. Daniel approves the release proof by 2026-11-24. No answer is not an approval (rule 0.3).
@@ -216,12 +233,12 @@ The pictures sit in frames on white pages, so they need no bleed. S19 also lets 
 | P3 | Picture spec and picture style | FR-9 is a default. Design §6.5 and S7 say the books use the Primary picture-book style with the Pip-world children "drawn young", and the packages hold 2D prompts. The 2026-10-25 split gives the pictures to Forge (3D chibi renders). | Answered 2026-10-25 (owner-answer relayed by the PM session): the books use Forge 3D renders, with one character look for the books and the videos. Forge makes more poses on request; new assets are made when needed. Daniel's words: "We can use the same style for the entire system, I think. We have the 3D assets from Forge. If they need more poses, we can request them. If we need additional assets, we can create them. One character look for both books and videos seems like a good idea!" Forge starts the paid week 1 renders on 2026-10-25 (PM session). |
 | P4 | The QR link after the S23 move | The packages and `storytimeQrUrl()` print `https://storytime.reading-advantage.com/th/st/<level>/<week>`. S23 dies (survival report). On 2026-10-25 at 18:50 (+08) that URL returned HTTP 404 (curl, also with `?part=song`). The brief says that the `/th/st/` URLs must keep working; the survival report does not say this. | Answered 2026-10-25 (D2 item 3 and the PM mapping; peer-report of owner words): print the S23 address `https://storytime.reading-advantage.com/th/st/<level>/<week>`. Source: decisions.md S23 (Daniel 2026-10-22: "Workbooks prints https://storytime.reading-advantage.com/th/st/2/1"). The address gives HTTP 404 today. The new app serves it (apps/storytime, build plan task 3.1). Monorepo plan task 7.4 checks every printed path on 2026-11-15. |
 | P5 | Stop rule of week 1 | Monorepo plan: "if Daniel has not approved week 1 by 2026-11-05, release 1 ships weeks 1 to 4 in print on 2026-12-01 and weeks 5 to 8 in January 2027." This track sends the week 1 print proof on 2026-11-05 and asks for approval by 2026-11-09. | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): the old 11-05 stop rule does not apply to the week 1 print approval. |
-| P6 | Teacher book language on the print order | Drafts exist in Thai and English. | Print the Thai book; keep the English file for review and sales. |
-| P7 | Models and cost of the model pre-check | Rule 6.7 needs two models of two providers for release files, named with their price before the run. | No paid run before Daniel's go. |
-| P8 | The A3 big book | Design §8: "the big book of the 28 read-along books (A3) or a tablet for the board". The scripts say "big book or screen". | Answered 2026-10-25 (D2 item 2; peer-report of owner words): the color A3 reader PDFs replace the big book. No big-book print file. |
-| P9 | The classroom language card and items without content | Design §8 lists the 12 instructions and the 24 gestures, but not the praise lines. Center cards, group signs, name cards, and the frieze have no content. | The card waits for Daniel's text; the other items stay out. |
+| P6 | Teacher book language on the print order | Drafts exist in Thai and English. | Answered 2026-10-26 (owner-approved): the teacher book is Thai only. Orchestrator mapping, for Daniel's check: this track makes the Thai teacher-book print file only; the existing English drafts stay as they are, and this track makes no English print file. |
+| P7 | Models and cost of the model pre-check | Rule 6.7 needs two models of two providers for release files, named with their price before the run. | No paid run before Daniel's go. 2026-10-26: the PM session asked for a proposal with two models of two providers and their price, before Phase 4. |
+| P8 | The A3 big book | Design §8: "the big book of the 28 read-along books (A3) or a tablet for the board". The scripts say "big book or screen". | Answered 2026-10-25 (D2 item 2; peer-report of owner words): the color A3 reader PDFs replace the big book. No big-book print file. Confirmed 2026-10-26 (owner-approved): no A3 big book in release 1. |
+| P9 | The classroom language card and items without content | Design §8 lists the 12 instructions and the 24 gestures, but not the praise lines. Center cards, group signs, name cards, and the frieze have no content. | The classroom language card still waits for Daniel's text (unchanged). Center cards, group signs, name cards, and the alphabet frieze are out of release 1 (owner-approved 2026-10-26) and stay in the plan as later items. |
 | P10 | Class set size | Design §8: "class sets of 8 (pairs)". The scripts give "one for each pair", and design §3.5 counts 30 children (15 books). | Moot 2026-10-25 (D2 item 1; peer-report of owner words): each child has the readers in the workbook, so there is no class set of books. Dropped. |
-| P11 | Title and scope of the student book | Release 1 is unit 1 only. | A unit 1 book: "Storytime Advantage, Level 2, Unit 1, Student Book". |
+| P11 | Title and scope of the student book | Release 1 is unit 1 only. | Answered 2026-10-26 (owner-approved): the title "Storytime Advantage, Level 2, Unit 1, Student Book". |
 | P12 | Start of the Forge picture work | The Storytime repository says that its rebuild track starts after Daniel reads the survival report. The monorepo plan put the week 1 pictures on hold (`[b]`, 2026-10-25). | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): yes, Forge starts the week 1 pictures now. |
 | P13 | Does the week text carry? | Draft 2 rules list "book" and "check" among the things to make again. The monorepo plan and the survival report say that the authored weeks and the Thai checks carry. | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): yes, the authored text of weeks 1 to 8 and their Thai checks carry over, and the print does not make "book" or "check" content again. |
 | P14 | Approvals not recorded | Week 1 is published, but its file records no approval. `check-weeks.ts --level 2` exits 1 at 8e6df79 (st2/1 `published`: "text not approved; thai not approved; images not approved; audio not approved; song not approved; scripts not approved"). | Answered 2026-10-25 (D2 item 4 and the PM mapping; peer-report of owner words). The week files record the approval sources. Mapping (a default; Daniel checks it): (a) weeks 1 to 8, part `thai`: approved, date 2026-10-22, source = monorepo `storytime_advantage_program_20261021/plan.md` line 67 (week 1), line 80 (weeks 2 to 4), line 82 (weeks 5 to 7), line 155 (week 8); (b) week 1, parts `text` and `scripts`: approved, date 2026-10-23, words "publish week 1", source = Workbooks commit 4d78b21 (decision S29); (c) week 1, parts `images`, `audio`, `song`: stay draft, because Daniel's stop of 2026-10-24 (relayed by Storytime) discards the produced media, and the publish words came before the stop. The `published` check of st2/1 then names only images, audio, and song. The six app parts get optional `source` and `words` fields (FR-1.3). |
