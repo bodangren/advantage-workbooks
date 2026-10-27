@@ -538,6 +538,8 @@ The fifth idea is accepted in part. The strict form of "picture words only from 
 3. The measurement stage and the model pre-check of rules 6.6 and 6.7.
 4. Daniel's listen check of a sample.
 
+Status 2026-10-27: option A is done. The run made 98 recordings (576 characters, MiniMax Token Plan quota, no extra charge). Daniel passed the 12-word sample on 2026-10-27: "Approved, American, ox and axe correct". The files are in `content/storytime/words/` with `manifest.json`.
+
 The voice is the same text-to-speech voice that Primary uses (design §6.4). The app never uses the phone voice as a fallback (rule 10.5).
 
 **Option B.** Daniel records the words himself. This option costs no money. It costs his time.
@@ -605,6 +607,7 @@ The three other final-sound rows hold no pair.
 
 ## 9. Revision history
 
+- 0.4 — 2026-10-27 — Recorded Daniel's pass of the 98 word recordings and their place in the repo (section 6).
 - 0.3 — 2026-10-27 — Corrected the family word count (68 distinct words; "mom" is in weeks 4 and 8) and the audio count (98 words), as measured by the audio run.
 - 0.2 — 2026-10-27 — Corrected the vowel example of row 8 and the Thai final-sound rule of row 10 and Q7 (orchestrator review).
 - 0.1 — 2026-10-27 — First draft (A-18 b).
