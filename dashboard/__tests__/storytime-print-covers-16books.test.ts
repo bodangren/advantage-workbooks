@@ -807,4 +807,40 @@ describe('Storytime 16-book covers', () => {
         const broken = htmlCopy(html, (copy) => copy.querySelector('[data-part="panel"]')?.remove());
         expect(() => assertPanel(side(broken, 'back'), book.summary)).toThrow();
     });
+
+    it('R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible', async () => {
+        const out = buildCover(2, 1, true);
+        const { default: sharp } = await import('sharp');
+        const countInk = async (file: string, boxMm: { left: number; top: number; width: number; height: number }, tone: 'light' | 'dark') => {
+            const image = await sharp(file).raw().toBuffer({ resolveWithObject: true });
+            const scale = image.info.width / 210;
+            const x1 = Math.floor(boxMm.left * scale);
+            const y1 = Math.floor(boxMm.top * scale);
+            const x2 = Math.ceil((boxMm.left + boxMm.width) * scale);
+            const y2 = Math.ceil((boxMm.top + boxMm.height) * scale);
+            let count = 0;
+            for (let y = y1; y < y2; y++) for (let x = x1; x < x2; x++) {
+                const i = (y * image.info.width + x) * image.info.channels;
+                const r = image.data[i], g = image.data[i + 1], b = image.data[i + 2];
+                if (tone === 'light' ? r >= 245 && g >= 245 && b >= 245 : r <= 80 && g <= 80 && b <= 80) count++;
+            }
+            return count;
+        };
+        const front = path.join(out, 'front.png');
+        const frontBands = [
+            { left: 18, top: 224, width: 174, height: 23 },
+            { left: 18, top: 251, width: 174, height: 23 },
+        ];
+        for (const [index, band] of frontBands.entries()) {
+            expect(await countInk(front, band, 'light'), `Front PNG near-white card ink band ${index + 1}`).toBeGreaterThan(1000);
+        }
+        const prefix = path.join(temporaryFolder(), 'print-front');
+        requireHeavyWrapper();
+        execFileSync('pdftoppm', ['-f', '1', '-l', '1', '-singlefile', '-r', '72', '-png', path.join(out, pdfxName(2, 1)), prefix], { encoding: 'utf8', timeout: 60000 });
+        const pdfxRaster = `${prefix}.png`;
+        for (const [index, band] of frontBands.entries()) {
+            expect(await countInk(pdfxRaster, band, 'light'), `PDF/X raster near-white card ink band ${index + 1}`).toBeGreaterThan(50);
+        }
+        expect(await countInk(path.join(out, 'back.png'), { left: 28, top: 61, width: 160, height: 110 }, 'dark'), 'Back panel dark text ink').toBeGreaterThan(1000);
+    }, 300000);
 });
