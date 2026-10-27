@@ -1,6 +1,6 @@
 # Primary Advantage Book Tests and Level Tests — Design
 
-Version 0.2 | Date 2026-10-27 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.3 | Date 2026-10-27 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 This document designs the assessment for the Primary Advantage programme. It designs two tests for each printed book and it designs the listening form for the three level tests. It does not write any test item.
 
@@ -293,7 +293,35 @@ The template keeps the wording of last semester's build script. The words `[n]`,
 
 **Default:** the teacher reads the English line, then the Thai line. The teacher does not play the direction file when the teacher stands in front of the class. The file exists for a tutor who teaches without a live teacher.
 
-### 3.5 The pictures for listen-and-point
+### 3.5 The rule for the Thai word meanings
+
+The PM decided this on 2026-10-27 at 22:41 ICT. His words were: "the Thai word meanings in the tests come only from the glossary Thai of the lesson packages. One condition: use only glossary Thai that Daniel already checked, that is, the Thai in the printed and ordered books. For a book that is not made yet, its test Thai comes from its glossary, and Daniel checks that Thai one time, with the book."
+
+The rule has four parts.
+
+| Part | Rule |
+|---|---|
+| The source | Every Thai word meaning in a test comes from the glossary Thai of the lesson packages. A test writes no new Thai. |
+| The condition | The glossary Thai must be Thai that Daniel already checked. That is the Thai of the printed and ordered books. |
+| The books that are not made yet | The test Thai comes from the glossary of the book. Daniel checks that Thai one time, with the book. |
+| The other Thai | Every other Thai in a test comes from the direction templates of section 3.4. Daniel approves those one time. |
+
+The printed and ordered books are these four.
+
+| Book | State | Source |
+|---|---|---|
+| Primary Advantage Origins 2 | Printed | Strategy §2, line 41 |
+| Primary Advantage Origins 3.1 | Printed | Strategy §2, line 41 |
+| Primary Advantage Origins 3.2 | Ordered on 2026-10-26 | Strategy §3.1, line 74 |
+| Primary Advantage Quest 4 | Ordered on 2026-10-26 | Strategy §3.1, line 74 |
+
+The other 12 books are not made yet. Their Thai comes with the book, and the same Thai serves both tests of that book.
+
+**Default:** the rule holds for every test in this design. No test holds new Thai. The build script reads the Thai from the glossary of the lesson packages. It writes no Thai of its own.
+
+**Default:** the check for the 12 books that are not made yet sits with the book. It is not a test check. Section 7.5 holds the test check time.
+
+### 3.6 The pictures for listen-and-point
 
 | Rule | Detail |
 |---|---|
@@ -309,7 +337,7 @@ The template keeps the wording of last semester's build script. The words `[n]`,
 
 **Default:** the picture for a listening item is not the same picture as the picture in the lesson. The test must not ask the student to recall a picture.
 
-### 3.6 The faults in last semester's audio kit
+### 3.7 The faults in last semester's audio kit
 
 The PM relayed these faults to Workbooks. They must not appear in a new test.
 
@@ -527,7 +555,7 @@ The manifest is the machine-readable source of the test. The check script reads 
 | Input | Source | Use |
 |---|---|---|
 | The lesson packages | `content/primary/<book>/l*.json` | The glossary, the questions, the activities and the tags |
-| The glossary | `package.glossary` | Part A, Part D1 and Part D3 |
+| The glossary | `package.glossary` | Part A, Part D1 and Part D3, and the Thai word meanings |
 | The bank | `package.bank.mcq`, `package.bank.saq` | Parts C1 and C2 |
 | The print set | `package.print.mcq` | The layout of the multiple choice items |
 | The activities | `package.activities` | Parts D2, D4 and E1 |
@@ -546,6 +574,9 @@ The manifest is the machine-readable source of the test. The check script reads 
 | The option count | Every multiple choice item has 3 options at band Pre-A1 and 4 options at bands A1 and A2 | `PrintSchema.mcqOptions` |
 | The objective cover | Every part lists the objectives it covers, and every target objective of the covered lessons appears at least once | `package.tags.targetObjectives` |
 | The band word list | Every word of the test is in the Cambridge word list of the band | `cambridge-vocabulary-inventory.json` |
+| The Thai source | Every Thai word meaning in the test comes from the glossary Thai of the lesson packages | Section 3.5 |
+| The Thai condition | The glossary Thai comes from a book whose Thai Daniel already checked | Section 3.5 |
+| The new Thai | The test holds no Thai that the glossary does not hold | Section 3.5 |
 
 Workbooks runs these checks. Workbooks also runs a page check on the printed PDF. The page check covers the paper, the answers, the key and the English audio.
 
@@ -581,14 +612,13 @@ The English audio needs no ear check from Daniel. The recognizer check holds it.
 
 **Default:** the machine checks and the Workbooks page check cover the papers, the answers, the keys and the English audio. The English audio needs no ear check from Daniel. The recognizer check is enough for the English. Daniel's ear is the only check for the Thai.
 
-Daniel makes three kinds of check.
+Daniel makes two kinds of check.
 
 | Check | What Daniel does | How many | Minutes a check | Minutes |
 |---|---|---|---|---|
 | The Thai direction template | Daniel listens to the seven direction files and approves the Thai once | 1 | 15 | 15 |
-| One full book test a band | Daniel reads the paper, checks the Thai and listens to the audio | 3 | 25 | 75 |
-| The Thai of each further test | Daniel checks only the Thai that differs from the approved template | 32 | 5 | 160 |
-| **Total** | | | | **250** |
+| One full book test for each band | Daniel reads the paper, checks the Thai and listens to the audio | 3 | 25 | 75 |
+| **Total** | | | | **90** |
 
 The 25 minutes of a full check break down as follows.
 
@@ -599,9 +629,9 @@ The 25 minutes of a full check break down as follows.
 | Listen to the passage and to the item clips | 7 |
 | **Total** | **25** |
 
-The 5 minutes of a further check cover the Thai that the template does not hold. That Thai is the list of word meanings in the answer key and the Thai of the writing prompt. The direction Thai is the approved template, so it does not need a check again.
+**Default:** Daniel's total is 90 minutes. That is 1.5 hours.
 
-**Default:** Daniel's total is 250 minutes. That is about 4 hours. The 32 further tests hold the same direction files, so their direction Thai never changes.
+**Default:** the Thai of the 12 books that are not made yet is checked one time with each book. That check sits with the book, not with the test. It adds no test check time. The same Thai serves both tests of that book.
 
 **Default:** the full review is an option. In that option Daniel checks every test in full by ear. The cost is 40 minutes a book test and 80 minutes a level test. The 32 book tests and the 3 level tests then need 1,520 minutes. That is about 25 hours.
 
@@ -696,7 +726,7 @@ The level test picture count follows the Cambridge reference. The Pre-A1 count h
 | Audio files, joined | 155 |
 | Speech characters | 84,030 |
 | Pictures | 226 |
-| Daniel's review time | about 250 minutes |
+| Daniel's review time | about 90 minutes |
 
 The 155 joined audio files hold 21 shared direction files, 120 book test files, and 14 level test files. A Pre-A1 book test holds 3 files: the passage, the multiple choice clips, and the picture clips. An A1 and A2 book test holds 4 files, because it also holds the gap clips. A Pre-A1 level test holds 4 files, one for each part. An A1 and A2 level test holds 5 files, one for each part.
 
@@ -726,6 +756,8 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 | 16 | Who marks the level test and holds its answer key? | The assessor whom Daniel names. Daniel names himself. | Daniel |
 | 17 | Who holds the access to the private place? | Daniel and the person he names. | Daniel |
 | 18 | Does Daniel check every test in full or only the Thai? | Only the Thai, plus one full book test a band. The full review costs 1,520 minutes. | Daniel |
+| 19 | Which books hold Thai that Daniel already checked? | The printed and ordered books: Primary Advantage Origins 2, Origins 3.1, Origins 3.2 and Quest 4. | Daniel |
+| 20 | When is the Thai of a book that is not made yet checked? | One time, with the book. The same Thai serves both tests of that book. | Daniel |
 
 ---
 
@@ -736,11 +768,12 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 3. The character count is an estimate. It uses a fixed length for each clip type. The real count may differ by 10 percent.
 4. The last semester's test still reads "v0.1 (draft for approval)". The document does not change that file.
 5. The rule that external copy names CEFR only applies to customer, press and partner material. This document is internal and it names the Cambridge lists.
-6. The 250 minutes of Daniel's check time assume one thing. The Thai of the further tests differs from the approved template only in the answer key word meanings and in the writing prompt. A test with new Thai needs more time.
+6. The 90 minutes of Daniel's check time cover the test checks only. The Thai of the 12 books that are not made yet is checked one time with each book. That check sits with the book and it adds no test check time.
 
 ---
 
 **Revision history**
 
 - **v0.1** — 2026-10-27 — First draft for the PM. The design covers 32 book tests and 3 level tests. It also covers the listening form, the private place, the build, the checks and the counts.
-- **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person he names hold the access to the private place. Daniel's check time is 250 minutes, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
+- **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person he names hold the access to the private place. Daniel's check time was 250 minutes at that version, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
+- **v0.3** — 2026-10-27 — The PM decided that the Thai word meanings in a test come only from glossary Thai that Daniel already checked. Section 3.5 holds that rule. The Thai of the 12 books that are not made yet is checked one time with each book, so it adds no test check time. Daniel's test check time is 90 minutes.

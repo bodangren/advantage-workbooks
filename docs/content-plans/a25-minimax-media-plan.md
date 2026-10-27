@@ -1,6 +1,8 @@
 # A-25 MiniMax media plan
 
-Version 0.2 | Date 2026-10-27 | Status: draft for the PM
+Version 0.3 | Date 2026-10-27 | Status: draft for the PM
+
+History: v0.2 (2026-10-27) measured the counts of the Workbooks repository. v0.3 (2026-10-27) takes the item 7 Daniel check minutes from design v0.3 section 7.5. The PM decision of 2026-10-27 22:41 ICT set the Thai of the tests to the glossary Thai that Daniel already checked.
 
 ## 1. Summary
 
@@ -38,7 +40,7 @@ The `bank-1` to `bank-9` folders hold online-only articles. They are reported ap
 | 4. Two-voice dialogues for the Tutor pair phase | 224 lessons in the 16 books. One dialogue a lesson. | Two voices: `English_captivating_female1` and `English_magnetic_voiced_man` | 5 | 224 dialogues, 35,168 characters at 4 turns a dialogue (measured average sentence: 39.3 characters). 9 nights, cap 25 dialogues a night. | 90 |
 | 5. Minimal-pair listening drills for Storytime | 38 candidate pairs in the 98 approved Storytime words (one letter differs). The pair words use 30 distinct words, and all 30 already have a clip. The PM confirms the final pair list. | `English_captivating_female1`, speed 0.9; the pair reads as one clip and one prompt | 6 | 38 drills, 760 characters for the prompts. One night. | 20 |
 | 6. How-to-play audio for the games | 28 games in the Monorepo registry. The game texts arrive from the Monorepo through the PM. | English, plus one Thai template that Daniel approves one time | 7 | 28 clips plus 1 Thai template. The character count is an open input. | 25 |
-| 7. Book tests and level-test listening parts | 32 book tests (16 books × 2) and 3 level-test listening forms. 84,030 characters, 226 pictures, 155 audio files. | `English_captivating_female1` at speed 0.9; the passage at 0.85; Thai `Thai_male_1_sample8` at 1.0 | 1 | 84,030 characters, 226 pictures, 155 audio files. 11 nights, cap 8,000 characters a night. | 250 |
+| 7. Book tests and level-test listening parts | 32 book tests (16 books × 2) and 3 level-test listening forms. 84,030 characters, 226 pictures, 155 audio files. | `English_captivating_female1` at speed 0.9; the passage at 0.85; Thai `Thai_male_1_sample8` at 1.0 | 1 | 84,030 characters, 226 pictures, 155 audio files. 11 nights, cap 8,000 characters a night. | 90 |
 | 10. One picture for each article that has none | 0 book packages and 0 bank packages lack a picture. Live-app gap is an open input (Monorepo, due 10-30). | Printed-book style; characters show hair and clothes only | 8 | 0 pictures in Workbooks. The live-app count arrives on 10-30. | 0 |
 | 11. Simple object pictures for flashcards | 836 distinct noun words in the 16 books (5,286 characters). Method: glossary part of speech, nouns only. The upper bound is the 1,540 distinct words. | Printed-book style; one object; no text | 9 | 836 pictures, 5 nights, cap 200 pictures a night. | 60 |
 | 12. Speaking-prompt pictures for Tutor pair work and the tests | 224 lessons in the 16 books (one set a lesson) plus the 226 test pictures from the design document. | Printed-book style; characters show hair and clothes only | 10 | 224 pictures for the lessons, 226 for the tests. 3 nights, cap 150 pictures a night. | 45 |
@@ -209,7 +211,7 @@ The "New characters" column holds the length of the words. The batch sends the w
 
 **The files.** The private place holds `tests/book/<book>/<test>/` and `tests/level/<band>/`. This repository keeps the form document and the build tools.
 
-**Daniel's check time.** 250 minutes, from design v0.2 section 7.5: the Thai direction template once (15 minutes), one full book test for each band (3 x 25 minutes), and the Thai of each further test (32 x 5 minutes). The full review of every test (1,520 minutes) stays an option only.
+**Daniel's check time.** 90 minutes, from design v0.3 section 7.5. The Thai direction template takes 15 minutes, once. One full book test for each band takes 25 minutes, so 75 minutes. The Thai of the 12 books that are not made yet is checked once with each book. That check adds no test check time. The full review of every test (1,520 minutes) stays an option only.
 
 ## 9. Item 10: One picture for each article that has none
 
@@ -418,7 +420,7 @@ Every default below is a choice this plan made where the brief left the choice o
 8. **Default:** the item 3 instruction is 27 characters, so 6,048 characters.
 9. **Default:** the item 6 Thai template is one template that Daniel approves one time.
 10. **Default:** the picture batches run at night with the caps in the summary table.
-11. **Default:** the Daniel check minutes for items 2, 3, 4, 5, 6, 11 and 12 are estimates. Item 7 uses the 250 minutes of design v0.2 section 7.5.
+11. **Default:** the Daniel check minutes for items 2, 3, 4, 5, 6, 11 and 12 are estimates. Item 7 uses the 90 minutes of design v0.3 section 7.5.
 12. **Default:** the item 2 batch speed is 0.9 with the word and a full stop. This is the spec of the test batch and of the 98 Storytime words. The lesson clip cache holds the words at speed 0.75, so those clips are a different clip.
 
 ## 18. The known limits
