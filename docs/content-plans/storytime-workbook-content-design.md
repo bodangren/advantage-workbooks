@@ -1,6 +1,6 @@
 # Storytime Advantage — Write-in Student Workbook Content Design
 
-Version 0.3 | Date 2026-10-27 | Status: Draft for Daniel's check (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
+Version 0.5 | Date 2026-10-27 | Status: Daniel answered the questions on 2026-10-27 (section 8) (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
 
 ## 1. Summary
 
@@ -8,7 +8,7 @@ Storytime Advantage has 16 write-in student books: 4 levels x 4 units x 8 weeks.
 
 This plan decides four things.
 
-1. The page types of Level 1, where the child does no writing before week 20.
+1. The page types of Level 1, where the child traces letters but writes nothing before week 20.
 2. The read-aloud interface of the teacher app, with the full word lists of Level 2 Unit 1.
 3. The changes to the standard native-speaker phonics workbooks, with one reason for each change.
 4. The audio source of the word lists of every book.
@@ -37,7 +37,7 @@ This plan decides four things.
 
 ## 3. Requirement 1: the pages of Level 1
 
-Level 1 is Anuban 2, for children of 4 to 5 years. The child does not read English. The child does not write before week 20.
+Level 1 is Anuban 2, for children of 4 to 5 years. The child does not read English. The child traces letters, but the child does not write before week 20. Tracing is not writing (Daniel, 2026-10-27, section 3.3).
 
 ### 3.1 The page types
 
@@ -50,13 +50,15 @@ Level 1 is Anuban 2, for children of 4 to 5 years. The child does not read Engli
 | Sort the pictures | The child puts each picture in the box of its first sound. | The app reads each word and each box sound. | Initial sound and sort (weeks 10, 19, 21, 30) | `icon-picture-sort` |
 | Cut and stick | The child cuts out a picture and sticks it in the box of its sound. | The app reads each word. | Syllable deletion (week 12); segment onset-rime (weeks 13, 18); phoneme addition (week 14); phoneme deletion (week 15) | `icon-cut-and-stick` |
 | Circle the letter (added) | The child circles the letter of the week among letters that look alike. | The app reads the letter name and the sound. | The 26 letter names by song (§1.2); find the letter in the frieze (§3.4) | `icon-circle-letter` |
-| Trace the path (added) | The child traces a crayon path with a finger and a crayon. The path has no letter form. | None. | Pre-writing strokes (§1.2) | `icon-trace-path` |
+| Trace the path (added) | The child traces a crayon path with a finger and a crayon. The path has no letter form. | None. | Pre-writing strokes (§1.2); weeks 1 and 2 | `icon-trace-path` |
+| Trace the letter (added) | The child traces the letter of the week. The letter prints in gray with a black start dot and black arrows. | The app says the sound of the letter and the formation words. | Traces 10 letters (§1.2); Daniel's answer to Q1 (2026-10-27) | `icon-trace-letter` |
 | Name page (week 20 to 32) | The child traces the child's own name and copies it. | The app reads the child's name. | Writes own name by copy (§1.2); name writing from week 20 (§2) | `icon-name-copy` |
 
-Three page types are added to the list in the requirement. Each one has a reason.
+Four page types are added to the list in the requirement. Each one has a reason.
 
 - **Circle the letter.** The exit profile holds the 26 letter names by song (§1.2). The Level 1 script finds the letter in the frieze (§3.4, line 359). The page gives that same search to the child.
-- **Trace the path.** The exit profile holds pre-writing strokes (§1.2). A crayon path gives the child that work without a letter form.
+- **Trace the path.** The exit profile holds pre-writing strokes (§1.2). A crayon path gives the child that work in weeks 1 and 2, before the first letter.
+- **Trace the letter.** The exit profile holds "traces 10 letters" (§1.2). Daniel answered Q1 on 2026-10-27: tracing is not writing, and tracing is fine in Level 1. The child traces the letter of each letter week from week 3. Level 1 has 26 letter weeks, so the child traces 26 letters.
 - **Name page.** The §2 table holds the note "(none; name writing wk 20+)" in the tricky-word column of every teaching week of Level 1. This page carries that work and it is the only page where the child writes.
 
 Two rules hold on every Level 1 page.
@@ -72,24 +74,24 @@ The map comes from §2 of the design. The page types serve the PA focus of the w
 |---|---|---|---|---|
 | 1 | Listening only | Listening: start-stop, name the sound (DSS A1-A3) | Names and greetings (ViU 52) | Colour the picture; listen and point; trace the path |
 | 2 | Listening only | Listening: first, next, last sound (DSS A4-A6) | Numbers 1-10 (Starters) | Listen and point; sort the pictures; trace the path |
-| 3 | Letter n name+sound (song) | Listening: sound effects, silly songs, directions (DSS A7-A9) | Colours (Starters) | Colour the picture; circle the picture; trace the path |
-| 4 | Letter a name+sound (song) | Word awareness | Family (Starters) | Match the pictures; circle the letter; trace the path |
-| 5 | Letter p name+sound (song) | Syllable counting | Body and face (Starters) | Circle the picture; listen and point; trace the path |
-| 6 | Letter m name+sound (song) | Rhyme 1 | Animals (pets) (ViU 31) | Match the pictures; sort the pictures; trace the path |
-| 7 | Letter s name+sound (song) | Rhyme 2 | Toys (Starters) | Match the pictures; circle the picture; trace the path |
-| 8 | REVIEW WEEK | Review | Review | Circle the picture; listen and point; trace the path |
-| 9 | Letter t name+sound (song) | Rhyme 3 | Food and drink (ViU 22) | Match the pictures; circle the picture; trace the path |
-| 10 | Letter o name+sound (song) | Initial sound; alliteration | Clothes (Starters) | Circle the picture; sort the pictures; trace the path |
-| 11 | Letter d name+sound (song) | Initial sound; syllable blending | Home (ViU 11/13) | Listen and point; circle the picture; trace the path |
-| 12 | Letter e name+sound (song) | Syllable deletion; blend onset-rime | School (ViU 15) | Cut and stick; circle the picture; trace the path |
-| 13 | Letter h name+sound (song) | Segment onset-rime | Actions (verbs) (ViU 47/49) | Cut and stick; circle the picture; trace the path |
-| 14 | Letter f name+sound (song) | Phoneme addition | Weather (ViU 28) | Circle the picture; cut and stick; trace the path |
-| 15 | Letter g name+sound (song) | Phoneme deletion | Transport (ViU 32/49) | Circle the picture; cut and stick; trace the path |
-| 16 | REVIEW WEEK | Review | Review | Circle the picture; listen and point; trace the path |
-| 17 | Letter i name+sound (song) | Rhyme; phoneme substitution | Places (park, shop) (ViU 29) | Match the pictures; circle the picture; trace the path |
-| 18 | Letter b name+sound (song) | Segment onset-rime; addition | Feelings (ViU 7) | Cut and stick; circle the picture; trace the path |
-| 19 | Letter c name+sound (song) | Final sound | Sports and play (ViU 23) | Circle the picture; sort the pictures; trace the path |
-| 20 | Letter r name+sound (song) | Phoneme substitution | Time and days (ViU 51) | Name page; circle the picture; trace the path |
+| 3 | Letter n name+sound (song) | Listening: sound effects, silly songs, directions (DSS A7-A9) | Colours (Starters) | Colour the picture; circle the picture; trace the letter |
+| 4 | Letter a name+sound (song) | Word awareness | Family (Starters) | Match the pictures; circle the letter; trace the letter |
+| 5 | Letter p name+sound (song) | Syllable counting | Body and face (Starters) | Circle the picture; listen and point; trace the letter |
+| 6 | Letter m name+sound (song) | Rhyme 1 | Animals (pets) (ViU 31) | Match the pictures; sort the pictures; trace the letter |
+| 7 | Letter s name+sound (song) | Rhyme 2 | Toys (Starters) | Match the pictures; circle the picture; trace the letter |
+| 8 | REVIEW WEEK | Review | Review | Circle the picture; listen and point; trace the letter (the letters of the block) |
+| 9 | Letter t name+sound (song) | Rhyme 3 | Food and drink (ViU 22) | Match the pictures; circle the picture; trace the letter |
+| 10 | Letter o name+sound (song) | Initial sound; alliteration | Clothes (Starters) | Circle the picture; sort the pictures; trace the letter |
+| 11 | Letter d name+sound (song) | Initial sound; syllable blending | Home (ViU 11/13) | Listen and point; circle the picture; trace the letter |
+| 12 | Letter e name+sound (song) | Syllable deletion; blend onset-rime | School (ViU 15) | Cut and stick; circle the picture; trace the letter |
+| 13 | Letter h name+sound (song) | Segment onset-rime | Actions (verbs) (ViU 47/49) | Cut and stick; circle the picture; trace the letter |
+| 14 | Letter f name+sound (song) | Phoneme addition | Weather (ViU 28) | Circle the picture; cut and stick; trace the letter |
+| 15 | Letter g name+sound (song) | Phoneme deletion | Transport (ViU 32/49) | Circle the picture; cut and stick; trace the letter |
+| 16 | REVIEW WEEK | Review | Review | Circle the picture; listen and point; trace the letter (the letters of the block) |
+| 17 | Letter i name+sound (song) | Rhyme; phoneme substitution | Places (park, shop) (ViU 29) | Match the pictures; circle the picture; trace the letter |
+| 18 | Letter b name+sound (song) | Segment onset-rime; addition | Feelings (ViU 7) | Cut and stick; circle the picture; trace the letter |
+| 19 | Letter c name+sound (song) | Final sound | Sports and play (ViU 23) | Circle the picture; sort the pictures; trace the letter |
+| 20 | Letter r name+sound (song) | Phoneme substitution | Time and days (ViU 51) | Name page; circle the picture; trace the letter |
 | 21 | Letter u name+sound (song) | Final + initial; phoneme blending | Animals (farm and zoo) (ViU 31) | Cut and stick; sort the pictures; name page |
 | 22 | Letter l name+sound (song) | Initial, medial, final; segment and blend | Fruit (Starters) | Circle the picture; cut and stick; name page |
 | 23 | Letter w name+sound (song) | Medial vowel; segmentation | The world around us (nature) (ViU 30) | Circle the picture; cut and stick; name page |
@@ -105,15 +107,21 @@ The map comes from §2 of the design. The page types serve the PA focus of the w
 
 Every week also has a family page. The app reads the 6 to 8 family words, and the child points and says each word. The numbers week has 10 words. The page holds one Thai gloss under each picture (design §6.5).
 
+In weeks 21 to 31, the name page also holds the trace of the letter of the week. The top half holds the letter trace, and the bottom half holds the name trace and the name copy.
+
 ### 3.3 The conflict between the exit profile and requirement 1
 
 The exit profile of Level 1 holds "Pre-writing strokes; traces 10 letters; writes own name by copy" (§1.2, line 89). Requirement 1 holds no writing before the week 20 name writing. The two texts disagree about the traced letters.
 
 A third text agrees with requirement 1. Section 3.4 of the design holds "Nothing is written except name copying from week 20" (line 364).
 
-**Default for Daniel.** The pre-writing strokes become colouring paths that the child traces with a finger and a crayon. No letter form appears before week 20. The letter tracing and the name copy start in week 20.
+**Daniel's answer to Q1.** Daniel answered on 2026-10-27 (Google Tasks, 12:02 ICT, PM relay). His point 1, verbatim: "1. Tracing is different to working. Tracing is fine in k2." The PM reads "working" as "writing", and this plan uses that reading. K2 is Anuban 2, so Level 1.
 
-The default keeps the outcome of the exit profile. Level 1 teaches 11 letters from week 20 to week 31: r, u, l, w, j, k, v, y, q, x, z. The child traces more than the 10 letters of the profile.
+**Decision.** Letter tracing is not writing. The child traces letters in Level 1, also before week 20. The exit profile keeps "traces 10 letters". The rule of no writing before week 20 holds for writing, so the name copy starts in week 20.
+
+The crayon paths stay for the pre-writing strokes in weeks 1 and 2, before the first letter. From week 3, the child traces the letter of each letter week (sections 3.1 and 3.2).
+
+Section 3.4 of the design ("Nothing is written except name copying from week 20") still holds, because tracing is not writing.
 
 **Question 1.** See section 8.
 
@@ -508,16 +516,16 @@ A standard phonics workbook assumes that the child knows the word in the picture
 | 7 | No picture word whose first letter differs from its first sound appears on an initial-sound item. | The child matches a sound to a letter. A word like "knife" or "phone" makes the item wrong. | All levels; initial-sound items |
 | 8 | Every word and every sound uses American pronunciation. | The short o of week 7 is /ɑ/ in American English and /ɒ/ in British English. The words "octopus" and "ox" need the American vowel in every recording. | All levels; every picture page |
 | 9 | No picture that a Thai child may name with a Thai word or another English word. One clear name for each picture. The same picture appears in the book, the app, and the cards. | Two names for one picture make the answer wrong. The child hears one name in class and sees another name at home. | All levels; every picture page |
-| 10 | No final-sound item puts a picture with a final that Thai does not have next to a target whose final is the sound the child hears in its place. | A Thai child hears an English final that Thai does not have as a Thai final. The child can then hear two pictures with the same final. The rule holds until the Thai week that teaches that final. | All levels; final-sound items |
+| 10 | A final-sound item may put a picture with a final that Thai does not have next to a picture whose final is the Thai sound of that final (for example "bed" next to "cat"). The teacher app reads both words, and the teacher book names the pair. | Daniel, 2026-10-27, verbatim: "The goal is to teach them to hear the difference. A lot of phonics lessons double as pronunciation and listening discernment". The pair trains the child to hear the English final. | All levels; final-sound items |
 | 11 | The Thai weeks of the design hold their own picture items. | A contrast week needs Thai minimal pairs and a Thai gloss. | Level 3 weeks 9, 17, 18, 29, 31; Level 4 week 23 (E4) |
 | 12 | The student page shows no answer mark. The answers stay in the teacher book. | The Friday check is an assessment (design §7). A printed answer turns the check into a copying task. | All levels; check pages |
 | 13 | No picture holds a letter, a word, or a number. | The child cannot read at Level 1, and a printed letter gives the answer away at every level. | All levels; every picture |
 | 14 | Each picture holds one object, or one person who does the action. | A scene of many things does not name one answer. | All levels; picture words |
 | 15 | A row holds at most 3 pictures. A check page holds at most 9. | The Level 2 check page holds 9 pictures today. A child of 5 years scans a short row. | All levels; check pages |
-| 16 | The pre-writing strokes are crayon paths. No letter form appears before week 20. | A child of 4 or 5 years cannot hold a pencil well. The program teaches sounds before letters. | Level 1, weeks 1 to 19 |
+| 16 | Letter tracing is not writing. The child traces the letter of the week from week 3, in gray with a black start dot. The child writes nothing before week 20. | Daniel, 2026-10-27, verbatim: "Tracing is different to working. Tracing is fine in k2." The exit profile holds "traces 10 letters" (§1.2). | Level 1 |
 | 17 | The family page holds one Thai gloss under each picture. | The child needs the Thai name of the picture to hold the English word. | Level 1 and 2; family page |
 
-**The Thai finals.** Thai words end in /p/, /t/, /k/, /m/, /n/, /ŋ/, /w/, and /j/. A Thai child hears an English final of /b/, /d/, /g/, /s/, /z/, /f/, /v/, /ʃ/, /tʃ/, or /l/ as a Thai final. So "bed" sounds like "bet" and "bus" sounds like "but". The Thai weeks that teach a final are these. T1 (Level 3, week 9) teaches /d/. T3 (Level 3, week 18) teaches /s/. T4 (Level 3, week 29) teaches /s/ and /f/. T5 (Level 3, week 31) teaches /l/ and /v/. The design has no Thai week for /b/, /g/, /z/, /ʃ/, or /tʃ/, so the rule holds for them at every level.
+**The Thai finals.** Thai words end in /p/, /t/, /k/, /m/, /n/, /ŋ/, /w/, and /j/. A Thai child hears an English final of /b/, /d/, /g/, /s/, /z/, /f/, /v/, /ʃ/, /tʃ/, or /l/ as a Thai final. So "bed" sounds like "bet" and "bus" sounds like "but". The Thai weeks that teach a final are these. T1 (Level 3, week 9) teaches /d/. T3 (Level 3, week 18) teaches /s/. T4 (Level 3, week 29) teaches /s/ and /f/. T5 (Level 3, week 31) teaches /l/ and /v/. The design has no Thai week for /b/, /g/, /z/, /ʃ/, or /tʃ/, so a picture with one of these finals makes a listening item at every level (row 10).
 
 **The picture word bank.** The bank of a unit holds every picture word of that unit: the family words, the home card words, and the words of the check pages. Every picture word of the pages of Level 2 Unit 1 is in the bank of unit 1. The sound picture set of the design sits in the bank through the check words. Its words carry the target sound, and they are not Starters picture words (design §8, line 572).
 
@@ -563,8 +571,11 @@ The date holds with the default scope: the rules, the app interface, and the wor
 
 Each question has a default. The default holds until Daniel answers.
 
+Daniel answered on 2026-10-27 (Google Tasks, 12:02 ICT, PM relay; evidence class peer-report). His words, verbatim: "1. Tracing is different to working. Tracing is fine in k2. 2. The goal is to teach them to hear the difference. A lot of phonics lessons double as pronunciation and listening discernment". Point 1 answers Q1, and point 2 answers Q7. He made no change to Q2 to Q6 and Q8 to Q12, so those defaults hold.
+
 **Q1. The pre-writing strokes and the traced letters of Level 1.** The exit profile holds "Pre-writing strokes; traces 10 letters" (§1.2, line 89). Requirement 1 holds no writing before week 20.
 *Default:* the pre-writing strokes become crayon paths with no letter form, and the letter traces and the name copy start in week 20. The level then traces 11 letters.
+*Decision (Daniel, 2026-10-27):* letter tracing stays in Level 1, also before week 20. The exit profile keeps "traces 10 letters". The no-writing rule before week 20 holds for writing. The default above does not hold (section 3.3).
 
 **Q2. The three added Level 1 page types.** The list in the requirement holds six types. This plan adds circle the letter, trace the path, and the name page.
 *Default:* accept all three.
@@ -583,6 +594,7 @@ Each question has a default. The default holds until Daniel answers.
 
 **Q7. The /t/ (last) row of the Benchmark 1 paper.** The row is in `w08.json`, `benchmark.paper`. It holds the answer "cat" and the other pictures "sun" and "bed". A Thai child can hear "bed" as "bet", so the child can circle two pictures with a heard /t/. The three other final-sound rows have no such pair.
 *Default:* no change until Daniel decides, because the paper is approved week text. The recommendation is to replace "bed" in that row. The new picture needs a final that Thai has, and that final must not be /t/. One example is "pen" (`l2-w03-check-row-pen`). "Pen" is in the picture word bank of unit 1, and it has a picture row.
+*Decision (Daniel, 2026-10-27):* "bed" stays in the /t/ (last) row. The row teaches the child to hear the difference between a final /d/ and a final /t/. The recommendation to replace "bed" does not hold. Row 10 of section 5 changes to match.
 
 The three other final-sound rows hold no pair.
 
@@ -607,6 +619,7 @@ The three other final-sound rows hold no pair.
 
 ## 9. Revision history
 
+- 0.5 — 2026-10-27 — Recorded Daniel's answers to Q1 and Q7 verbatim. Q1: letter tracing stays in Level 1 (sections 1, 3.1 to 3.3, row 16 of section 5, Q1). Q7: "bed" stays in the /t/ (last) row; row 10 of section 5 becomes a listening rule. The other defaults hold.
 - 0.4 — 2026-10-27 — Recorded Daniel's pass of the 98 word recordings and their place in the repo (section 6).
 - 0.3 — 2026-10-27 — Corrected the family word count (68 distinct words; "mom" is in weeks 4 and 8) and the audio count (98 words), as measured by the audio run.
 - 0.2 — 2026-10-27 — Corrected the vowel example of row 8 and the Thai final-sound rule of row 10 and Q7 (orchestrator review).
