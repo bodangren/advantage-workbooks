@@ -1,6 +1,6 @@
 # Storytime Advantage — Write-in Student Workbook Content Design
 
-Version 0.2 | Date 2026-10-27 | Status: Draft for Daniel's check (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
+Version 0.3 | Date 2026-10-27 | Status: Draft for Daniel's check (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
 
 ## 1. Summary
 
@@ -224,7 +224,7 @@ The file holds one record for each group on a page. A group is one question, or 
 | `st-l2-u1-w08-benchmark` | Exists | `w08.json`, `benchmark.paper` |
 | `st-l2-u1-w02-practice` to `st-l2-u1-w07-practice` | Come with Phase 7 | Print track plan, Phase 7, lines 248 to 256 |
 
-**The counts.** The pages of unit 1 hold 121 picture items. These items hold 35 distinct words. The home cards of weeks 1 to 7 hold 21 words. The family pages hold 69 words. The three lists together hold 99 distinct words.
+**The counts.** The pages of unit 1 hold 121 picture items. These items hold 35 distinct words. The home cards of weeks 1 to 7 hold 21 words. The family pages hold 69 rows, 68 distinct words; mom is in weeks 4 and 8. The three lists together hold 98 distinct words.
 
 **The picture list has no row for week 8.** `pictures.json` holds rows for weeks 1 to 7 only. The list script reads the books, the check items, and the practice lines. It does not read the review pages or the benchmark paper. The words "moon", "mango", "ostrich", and "drum" have no row in the file at all. The other week 8 words reuse a row of weeks 1 to 7. The week 8 rows come with the next version of the picture list.
 
@@ -548,10 +548,10 @@ The voice is the same text-to-speech voice that Primary uses (design §6.4). The
 |---|---|---|---|
 | The read-aloud pages of unit 1 | 35 | 35 recordings | 35 recordings |
 | The home card words of weeks 1 to 7 | 21 | 21 recordings | 21 recordings |
-| The family picture words of weeks 1 to 8 | 69 | 69 recordings | 69 recordings |
-| The three lists together | 99 | 99 recordings | 99 recordings |
+| The family picture words of weeks 1 to 8 | 68 | 68 recordings | 68 recordings |
+| The three lists together | 98 | 98 recordings | 98 recordings |
 
-The read-aloud pages hold 121 picture items, but they hold 35 distinct words.
+The read-aloud pages hold 121 picture items, but they hold 35 distinct words. The family picture words hold 69 rows, 68 distinct words; mom is in weeks 4 and 8.
 
 ## 7. The date 2026-11-06
 
@@ -595,7 +595,7 @@ The three other final-sound rows hold no pair.
 *Default:* Option A, a text-to-speech run with one voice, after Daniel's go, with the price named first, the pre-checks of rules 6.6 and 6.7, and Daniel's listen check of a sample.
 
 **Q10. The number of recordings in the first run.** The read-aloud pages of unit 1 hold 35 distinct words. The home card needs 21 words with recorded audio (app track spec FR-5, line 135).
-*Default:* the first run makes 99 recordings, the union of the three lists of section 6, and it covers the home card and the glossary with the same files.
+*Default:* the first run makes 98 recordings, the union of the three lists of section 6, and it covers the home card and the glossary with the same files.
 
 **Q11. The Thai gloss on the student page.** The design holds the glossed family words in the student book (§6.5). The requirement holds the Thai in the teacher and parent text.
 *Default:* one Thai gloss under each family picture on the family page. No other Thai on a student page.
@@ -605,5 +605,6 @@ The three other final-sound rows hold no pair.
 
 ## 9. Revision history
 
+- 0.3 — 2026-10-27 — Corrected the family word count (68 distinct words; "mom" is in weeks 4 and 8) and the audio count (98 words), as measured by the audio run.
 - 0.2 — 2026-10-27 — Corrected the vowel example of row 8 and the Thai final-sound rule of row 10 and Q7 (orchestrator review).
 - 0.1 — 2026-10-27 — First draft (A-18 b).
