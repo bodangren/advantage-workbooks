@@ -185,8 +185,7 @@ export async function composeStorytimeCoverPicture(
     bookTitle = 'Storytime Advantage',
 ): Promise<Buffer> {
     if (!files.length) throw new Error(`${bookTitle}: the picture recipe is empty.`);
-    const sprites: Sprite[] = [];
-    for (const file of files) sprites.push(await loadSprite(file, bookTitle));
+    const sprites: Sprite[] = await Promise.all(files.map((file) => loadSprite(file, bookTitle)));
 
     const tallest = Math.max(...sprites.map((s) => s.height));
     const small = sprites.filter((s) => s.height < tallest * SMALL_SHARE);
@@ -262,10 +261,14 @@ export async function composeStorytimeCoverPicture(
 
     const finalWidth = Math.max(1, Math.round(groupWidth * scale));
     const finalHeight = Math.max(1, Math.round(groupHeight * scale));
-    const scaled = await sharp(group.data, { raw: { width: group.info.width, height: group.info.height, channels: group.info.channels } })
-        .resize(finalWidth, finalHeight, { fit: 'fill', kernel: 'lanczos3' })
-        .raw()
-        .toBuffer({ resolveWithObject: true });
+    // A group of the size of the frame keeps its own pixels: the cut-outs are not resampled.
+    const scaled =
+        finalWidth === group.info.width && finalHeight === group.info.height
+            ? group
+            : await sharp(group.data, { raw: { width: group.info.width, height: group.info.height, channels: group.info.channels } })
+                  .resize(finalWidth, finalHeight, { fit: 'fill', kernel: 'lanczos3' })
+                  .raw()
+                  .toBuffer({ resolveWithObject: true });
 
     // The group sits in the middle of the picture area; a group that is bigger than the picture
     // area is cut off at its edges.
@@ -275,25 +278,34 @@ export async function composeStorytimeCoverPicture(
     const cutTop = Math.max(0, -offsetY);
     const cutWidth = Math.min(finalWidth - cutLeft, sizePx.width);
     const cutHeight = Math.min(finalHeight - cutTop, sizePx.height);
-    const picture = await sharp(scaled.data, { raw: { width: finalWidth, height: finalHeight, channels: scaled.info.channels } })
-        .extract({ left: cutLeft, top: cutTop, width: cutWidth, height: cutHeight })
-        .raw()
-        .toBuffer();
+    const input =
+        cutLeft === 0 && cutTop === 0 && cutWidth === finalWidth && cutHeight === finalHeight
+            ? { data: scaled.data, width: finalWidth, height: finalHeight }
+            : {
+                  data: await sharp(scaled.data, { raw: { width: finalWidth, height: finalHeight, channels: scaled.info.channels } })
+                      .extract({ left: cutLeft, top: cutTop, width: cutWidth, height: cutHeight })
+                      .raw()
+                      .toBuffer(),
+                  width: cutWidth,
+                  height: cutHeight,
+              };
+    const left = cutLeft + offsetX;
+    const top = cutTop + offsetY;
 
     return sharp({
         create: { width: sizePx.width, height: sizePx.height, channels: 3, background: GROUND },
     })
         .composite([
             {
-                input: picture,
-                raw: { width: cutWidth, height: cutHeight, channels: scaled.info.channels },
-                left: cutLeft + offsetX,
-                top: cutTop + offsetY,
+                input: input.data,
+                raw: { width: input.width, height: input.height, channels: scaled.info.channels },
+                left,
+                top,
             },
         ])
         .flatten({ background: GROUND })
         .removeAlpha()
-        .png()
+        .png({ compressionLevel: 3 })
         .toBuffer();
 }
 
