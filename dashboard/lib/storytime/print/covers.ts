@@ -438,8 +438,8 @@ body { font-family: 'Andika', 'Sarabun', sans-serif; font-synthesis: none; color
 .picture-area img { display: block; width: 100%; height: 100%; }
 .level-card { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3.5mm; }
 .level-card img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
-.level-line { font-weight: 700; font-size: 32pt; line-height: 1; color: #ffffff; }
-.book-line { font-weight: 400; font-size: 17pt; line-height: 1; color: #ffffff; }
+.level-line { position: relative; font-weight: 700; font-size: 32pt; line-height: 1; color: #ffffff; }
+.book-line { position: relative; font-weight: 400; font-size: 17pt; line-height: 1; color: #ffffff; }
 .logo { position: absolute; }
 .logo img { display: block; width: 100%; height: 100%; }
 .panel { position: absolute; }
