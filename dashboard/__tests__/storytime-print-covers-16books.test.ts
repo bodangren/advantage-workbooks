@@ -302,7 +302,7 @@ function htmlCopy(html: string, change: (copy: Document) => void): Document {
     return new DOMParser().parseFromString(fs.readFileSync(file, 'utf8'), 'text/html');
 }
 
-function assertPanel(doc: Document, summary: StorytimeCoverBook['summary']): void {
+function assertPanel(doc: ParentNode, summary: StorytimeCoverBook['summary']): void {
     const panel = doc.querySelector('[data-part="panel"]');
     if (summary === null) expect(panel, 'A null summary must not print a panel element.').toBeNull();
     else {
@@ -649,7 +649,8 @@ describe('Storytime 16-book covers', () => {
         expect(mod.checkStorytimeCoverPicture(buffer), 'Cast picture errors').toEqual([]);
         const { default: sharp } = await import('sharp');
         const raw = await sharp(buffer).raw().toBuffer({ resolveWithObject: true });
-        expect(raw.info.hasAlpha, 'Composed picture alpha').toBe(false);
+        expect((await sharp(buffer).metadata()).hasAlpha, 'Composed picture alpha').toBe(false);
+        expect(raw.info.channels, 'Composed picture channels').toBe(3);
         const pixel = (x: number, y: number) => {
             const index = (y * raw.info.width + x) * raw.info.channels;
             return [raw.data[index], raw.data[index + 1], raw.data[index + 2]];
