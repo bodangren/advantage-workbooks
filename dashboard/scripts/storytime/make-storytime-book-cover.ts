@@ -106,7 +106,8 @@ async function renderPdf(browser: Browser, htmlFile: string, file: string): Prom
     try {
         await page.goto(`file://${htmlFile}`, { waitUntil: 'load', timeout: 120000 });
         await page.evaluate('document.fonts.ready');
-        await page.pdf({ path: file, preferCSSPageSize: true, printBackground: true, media: 'print' });
+        await page.emulateMedia({ media: 'print' });
+        await page.pdf({ path: file, preferCSSPageSize: true, printBackground: true });
     } finally {
         await page.close();
     }
