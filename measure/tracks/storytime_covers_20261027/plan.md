@@ -47,7 +47,7 @@ Risk: Phase 2 waits for Daniel's approval on Drive. If his approval comes after 
 
 _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/covers/make-cover.ts`, `__tests__/covers-render.test.ts`) and `lib/covers/back-text.ts` (2 callers) are read, not changed. `lib/qr-generator.ts` (3 callers) is read, not changed. `lib/covers/catalogue.ts` (`COVER_BOOKS`) does not change. The print track Phase 5 must not create `lib/storytime/print/covers.ts` again: the orchestrator routes that change._
 
-- [ ] Task (Red): `__tests__/storytime-print-covers-16books.test.ts`. Done when: `RED_TEST_COMMAND` fails only on these new tests, and the commit holds only the test file.
+- [x] Task (Red): `__tests__/storytime-print-covers-16books.test.ts`. Done when: `RED_TEST_COMMAND` fails only on these new tests, and the commit holds only the test file. commit b08310c6f4c1b8d4aa3b3dbd4a82447b349841fe. Evidence: automated.
     - The data file `content/storytime/covers/books.json` holds 16 books: level 1 to 4, unit 1 to 4. Each row holds the level, the unit, the first week, and the last week. It also holds the title, the level colour, the picture recipe, and the unit summary. The title is "Storytime Advantage, Level N, Unit M, Student Book".
     - The weeks of a unit are 1 to 8, 9 to 16, 17 to 24, and 25 to 32, at every level.
     - The level colours are L1 #E06A1F, L2 #2A77B8, L3 #3C9B57, L4 #8151B8.
@@ -63,7 +63,18 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - The PDF holds 2 pages of A4 portrait, 210 x 297 mm. Every font is embedded, and no font is Type 3.
     - A build with a missing picture file stops with an error and names the book. No delivered file holds a placeholder.
     - Mutation tests: six broken copies each fail a test. The copies drop a contact line, change a Thai tone mark, swap a QR module, use a wrong level colour, put a year in the summary, and drop the panel.
-- [ ] Task (Green): the cover module, the data file, the build script, and the picture composer. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+    - Evidence: `RED_TEST_COMMAND` exit 1. The line is `Tests  23 failed | 1 passed (24)`. The output has no `No test files found`.
+    - R1 fails. The data file `content/storytime/covers/books.json` does not exist.
+    - R2 fails. The picture recipes are not in that data file.
+    - R3 fails. The unit summaries are not in that data file.
+    - R4, R5, both R6 tests, both R7 tests, both R8 tests, R9, and R12 fail. The module `lib/storytime/print/covers.ts` does not exist.
+    - R13 fails. The module `lib/storytime/print/cover-picture.ts` does not exist.
+    - R10, R11, and R14 fail. The script `scripts/storytime/make-storytime-book-cover.ts` does not exist.
+    - R16 M1 to M6 fail. Each copy calls a missing export of `lib/storytime/print/covers.ts`.
+    - R15 passes. The Primary cover files and the Primary cover tests are unchanged at this commit.
+    - `PROJECT_LINT` exit 0. The new test file has no lint error. One warning is in the unrelated dirty file `student-book.ts`. This phase did not edit that file.
+    - The existing cover tests pass. `covers-*.test.ts` reports `Tests  27 passed (27)` and exit 0.
+- [~] Task (Green): the cover module, the data file, the build script, and the picture composer. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
     - `content/storytime/covers/books.json`: the 16 rows, the level colours, the LINE address, and the picture recipes. The Level 2 Unit 1 row names the 7 cast cut-outs of `content/storytime/l2/media/w01/forge/cast/`. The other rows name their picture recipe too, so that a later build needs no new data work.
     - `lib/storytime/print/covers.ts`: the module. It reads the data file, the week packages, and the fonts. It writes the front and the back HTML, and it returns the checks of FR-4 and FR-6.
     - `lib/storytime/print/cover-picture.ts`: the composer. It places the cut-out files on a white ground. It writes one opaque picture for the picture area of the front, at 300 ppi for the trim, through `lib/covers/compose.ts`.
