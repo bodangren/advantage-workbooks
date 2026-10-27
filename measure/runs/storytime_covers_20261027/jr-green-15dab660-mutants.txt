@@ -1,0 +1,18 @@
+mutants: 15, caught: 15
+command: each mutant breaks one behaviour in a copy of the source file, the gate GREEN_TEST_COMMAND runs in the foreground under heavy-run, the file is then restored and compared with the copy.
+---- table ----
+M1 | gate exit 1 | R7 | R7 | one contact line is dropped from the back page
+M2 | gate exit 1 | R7 | R7 | one Thai tone mark of the contact lines changes
+M3 | gate exit 1 | R8 | R8 | one dark module of the drawn QR code is removed
+M4 | gate exit 1 | R1 | R1, R6, R7, R8, R9, R10, R13, R14 | the level colour of Level 1 Unit 1 is wrong in the data file
+M5 | gate exit 1 | R6 | R3, R6 | the unit summary of Level 2 Unit 1 holds the year 2026
+M6 | gate exit 1 | R5 | R5, R16 M6 | the back page draws no panel
+M7 | gate exit 1 | R5 | R5 | the back page draws the panel when the summary is null
+M8 | gate exit 1 | R6 | R6 | the copy check stops normalising the dashes, the soft hyphen, and the zero width space, and drops the hyphen-free token
+M9 | gate exit 1 | R2 | R1, R2, R6, R7, R8, R9, R10, R13, R14 | the picture recipe of Level 2 Unit 1 names class-waves.png
+M10 | gate exit 1 | R13 | R12, R13 | the composed picture keeps its alpha channel
+M11 | gate exit 1 | R14 | R14 | the level card keeps its alpha channel, so the PDF/X file holds a soft mask and the fallback does not run
+M12 | gate exit 1 | R11 | R11 | the build ignores a missing picture file and writes a PNG
+M13 | gate exit 1 | R10 | R4, R10, R14 | the @font-face rules use format('ttf')
+M14 | gate exit 1 | R8 | R8 | the expected QR grid comes from a fixed quiet zone of 3 modules, not from the encoder
+M15 | gate exit 1 | R3 | R3 | the unit summary holds a word of the approval only

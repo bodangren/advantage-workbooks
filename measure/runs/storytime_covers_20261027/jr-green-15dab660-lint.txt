@@ -1,0 +1,4 @@
+command: PROJECT_LINT='cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-covers*.test.ts'
+exit_code: 0
+result: no error and no warning
+---- output ----

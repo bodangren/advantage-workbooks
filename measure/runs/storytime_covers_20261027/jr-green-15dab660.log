@@ -1,0 +1,29 @@
+role: jr-green
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 15dab660
+status: complete
+date: 2026-10-27
+model: minimax-cn-coding-plan/MiniMax-M3#high. One earlier turn ran on opencode-go/glm-5.3#high by quota substitution. The Red family of this phase is Grok, so the Green and the Red models stay in different families.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 15dab660
+head: b88acc43
+commits: 057c8fe5 331a8616 c6e10981 ffbe3569 6d6c73eb 84c25fab b88acc43
+tests_run: GREEN_TEST_COMMAND exit 0, Tests 24 passed (24); PROJECT_TESTS exit 0, Tests 325 passed (325) over 16 files; PROJECT_LINT exit 0, no error and no warning; PROJECT_CHECKS exit 0, no type error. Each gate ran in the foreground inside one heavy-run wrapper. No line "heavy-run: lock wait over 600 s" appeared.
+mutants: 15, caught: 15
+built_files: three covers in ~/Desktop/print-ready/storytime/proof/. The SHA-256 of each file:
+  Level 2 Unit 1: front.png fa286d37628f3cf275d67ec89e99cf49dd3b1a9d2b17093cadd1c8b066dde2e3; back.png 6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc; cover.pdf d9e427cd52b5501ebc6ccd1cd3eecaf3cd3497cdc0eeccfa0a0be05ed7858d27; Storytime-Advantage-L2-U1-Student-Book-Cover-v1_PDFX-1a.pdf 6174484c7617c2de1ae696d7f1979978ed0b355586b6ef283f4a3ecd651eeff9; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  Level 1 Unit 1: front.png d28bcb27a16d23be0a4690cfb783101e20b563a87b3f92895d1a4e9081120aa5; back.png 7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d; cover.pdf 5b716efcdeab143e75dad9a5ced3365aa405175fe6b16c3bf0bb5a65bcac9b0c; Storytime-Advantage-L1-U1-Student-Book-Cover-v1_PDFX-1a.pdf 605ef87e801a96441a8bfe9fec4f964a0d18af606d5a9b45c3ce62ffcc7ab7cc; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  Level 4 Unit 4: front.png 8d08461fd3dbfc1d42fbab6545446f4687b8511b2e94f0341adab71303dbb2d5; back.png 61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca; cover.pdf 29a2cee90df857d542507feed4c35b0400e29c2e57a76e51076bf7b71eb9bcc9; Storytime-Advantage-L4-U4-Student-Book-Cover-v1_PDFX-1a.pdf 39b217be37bb83525fda4aa4657c3ff3ec13b5ca727f25ab53fb38e1e3dbbea3; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  The PNG files hold 2480 x 3508 px, RGB, with no alpha channel. The corner mode of the three covers is "radius in the picture layer". PRINT_GATE exits 0 on each print file; each line reads "All checks pass.".
+tasks_flipped_x: the Green task of Phase 1, commit 057c8fe5 331a8616 c6e10981 ffbe3569 6d6c73eb 84c25fab, plan evidence commit b88acc43. The Check task, the Hand-off task, and the Manual Verification task stay open.
+facts_changed: none
+handoff: The cover module, the data file, the picture composer, and the build script are in the repo, and the four gates pass. The three Drive covers are built and their PRINT_GATE passes. The Check task builds the contact sheet and lists the defects; the Hand-off task sends the files to the PM session for Google Drive with their SHA-256, the default summary of the Level 2 Unit 1 panel, and the open points P1 to P6. The plan note holds the gate lines, the mutant table, the SHA-256 of every built file, the PRINT_GATE result of each print file, and the corner mode. The run files of this role (green, project, lint, checks, mutants, and this log) are in the commit after the plan commit. The Red corrections of 2026-10-27 (83d98286 and 81dcfb6f) changed the Red test file; the Green code needed no change for them, except the one-line fix of the print media in the build script (6d6c73eb) and the faster composer (84c25fab), which keep R12 inside its 5 s test timeout under the load of the combined suite.
+END_MEASURE_AGENT_RESULT
