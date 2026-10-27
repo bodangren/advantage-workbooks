@@ -1,0 +1,774 @@
+{
+  "bank": "step-directions-primary-2026-10-27",
+  "version": 1,
+  "status": "passed by Daniel's listen check, 2026-10-27 15:51 ICT",
+  "listen_check": {
+    "words": "Beautiful, champ",
+    "by": "Daniel",
+    "where": "Tasks",
+    "time_ict": "2026-10-27 15:51",
+    "relayed": "PM session, 2026-10-27 15:58 ICT",
+    "sample": [
+      "sd-01",
+      "sd-07",
+      "sd-12"
+    ],
+    "reading": "The PM reads it as Daniel's pass for the 13 joined files."
+  },
+  "model": "speech-2.8-hd",
+  "voices": {
+    "en": "English_captivating_female1",
+    "th": "Thai_male_1_sample8"
+  },
+  "speeds": {
+    "en": 0.9,
+    "th": 1.0
+  },
+  "language_flags": {
+    "en": "--language English",
+    "th": "none, the help of mmx speech synthesize lists no value for --language"
+  },
+  "button": "One button. The joined file plays English first, 1.2 s of silence, then Thai.",
+  "button_rule": "B",
+  "approval": "A. Yes. B. One button. English first. Thai second. C. Yes",
+  "approval_by": "Daniel, Tasks, 2026-10-27 13:31 ICT",
+  "approval_relayed": "PM session, 2026-10-27 13:35 ICT",
+  "source": "Workbooks messages to the PM session, 2026-10-27 12:43 ICT (13 steps) and 13:37 ICT (Tutor drafts)",
+  "tutor_map_status": "Derived by Workbooks from tutor-advantage apps/tutor-pwa/src/lib/lessonPhases.ts on 2026-10-27. Tutor must confirm it.",
+  "build": {
+    "parts": "build/sd-NN.en.wav and build/sd-NN.th.wav, 32 kHz mono 16-bit",
+    "joined": "out/sd-NN.mp3, MP3 128 kbps, 32 kHz, mono",
+    "part_level": "-18 LUFS, peak at most -1.5 dBFS",
+    "silence_s": 1.2
+  },
+  "build_folder": "~/Desktop/asset-requests/2026-10-27/step-directions/ (takes, build inputs, checks, tools; not in git)",
+  "clips": [
+    {
+      "id": "sd-01",
+      "step": 1,
+      "tutor_phases": [
+        1
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.03 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": false,
+          "reason": "peak -0.02 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 4,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 1 before you read look at the title and the pictures how interested are you color the stars",
+        "th": "1"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 17.229,
+      "peak_dbfs": -1.91,
+      "lufs": -18.4,
+      "en_lufs": -18.4,
+      "th_lufs": -18.6,
+      "part_difference_lu": 0.2,
+      "en_duration_s": 9.518,
+      "th_duration_s": 6.511,
+      "sha256": "5f01a160cdce99521dc43a52b0655625048b83d4326338a669117864191ae9c2",
+      "file": "sd-01.mp3"
+    },
+    {
+      "id": "sd-02",
+      "step": 2,
+      "tutor_phases": [],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.0 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 2 key vocabulary read each word and its meaning write the time meaning draw a picture or write a sentence",
+        "th": "2"
+      },
+      "wer": "0.0476",
+      "cer": "1.0",
+      "duration_s": 17.11,
+      "peak_dbfs": -1.88,
+      "lufs": -18.7,
+      "en_lufs": -18.4,
+      "th_lufs": -19.1,
+      "part_difference_lu": 0.7,
+      "en_duration_s": 8.973,
+      "th_duration_s": 6.938,
+      "sha256": "d84b9a63bc73a6555447955f6752ee8ee6f8a694fa1cf077c8bcf0fd75f2b81d",
+      "file": "sd-02.mp3"
+    },
+    {
+      "id": "sd-03",
+      "step": 3,
+      "tutor_phases": [
+        3
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 3 read the article first listen and read along then read it again and mark the text with the four marks",
+        "th": "3 2 4"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 20.024,
+      "peak_dbfs": -1.86,
+      "lufs": -18.6,
+      "en_lufs": -18.3,
+      "th_lufs": -18.7,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 10.164,
+      "th_duration_s": 8.66,
+      "sha256": "47d8ed284afef51155f21c757e1cf5aaee9f35e799d0f6c998d6d3c5b6522fc6",
+      "file": "sd-03.mp3"
+    },
+    {
+      "id": "sd-04",
+      "step": 4,
+      "tutor_phases": [
+        4
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 4 collect vocabulary find four useful words in the article write each word and its paragraph number",
+        "th": "4 4"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.164,
+      "peak_dbfs": -1.89,
+      "lufs": -18.6,
+      "en_lufs": -18.5,
+      "th_lufs": -18.9,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 8.527,
+      "th_duration_s": 5.438,
+      "sha256": "907ccb88b62af6a1c9ef3dba4850188ab562320508e5a8752b0ac895fa221be8",
+      "file": "sd-04.mp3"
+    },
+    {
+      "id": "sd-05",
+      "step": 5,
+      "tutor_phases": [
+        5
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.32 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step five deep reading notes read each paragraph again write the main idea of each paragraph",
+        "th": "5"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.211,
+      "peak_dbfs": -1.84,
+      "lufs": -18.5,
+      "en_lufs": -18.4,
+      "th_lufs": -18.6,
+      "part_difference_lu": 0.2,
+      "en_duration_s": 7.486,
+      "th_duration_s": 6.525,
+      "sha256": "f081e11ee83935216a140f892adfe71efbdac566a410290a4bb6c12b29a4e76e",
+      "file": "sd-05.mp3"
+    },
+    {
+      "id": "sd-06",
+      "step": 6,
+      "tutor_phases": [
+        6
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.31 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": false,
+          "reason": "peak -0.08 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 3,
+          "pass": false,
+          "reason": "peak -0.5 dBFS"
+        }
+      ],
+      "take_count": 4,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 3,
+          "pass": false,
+          "reason": "peak -0.5 dBFS"
+        }
+      },
+      "recognized": {
+        "en": "step 6 collect sentences find two sentences that you like copy them on the lines",
+        "th": "6 2"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 13.073,
+      "peak_dbfs": -1.75,
+      "lufs": -18.6,
+      "en_lufs": -18.4,
+      "th_lufs": -18.8,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 7.134,
+      "th_duration_s": 4.739,
+      "sha256": "1045cf8b63e1356555e367eca5c6f46d15f6f320b549f2210c908e14a7778f3d",
+      "file": "sd-06.mp3"
+    },
+    {
+      "id": "sd-07",
+      "step": 7,
+      "tutor_phases": [
+        7
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 7 comprehension check read each question choose the best answer find the proof in the article",
+        "th": "7"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.554,
+      "peak_dbfs": -1.87,
+      "lufs": -18.7,
+      "en_lufs": -18.5,
+      "th_lufs": -18.9,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 7.875,
+      "th_duration_s": 6.479,
+      "sha256": "2d8c90078409266d04fb6682430fdfa09bd0242a84813b5b99a887dd0b3144db",
+      "file": "sd-07.mp3"
+    },
+    {
+      "id": "sd-08",
+      "step": 8,
+      "tutor_phases": [
+        8
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.33 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 8 guided response read the question use the sentence starter write your answer",
+        "th": "8"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.639,
+      "peak_dbfs": -1.7,
+      "lufs": -18.5,
+      "en_lufs": -18.5,
+      "th_lufs": -18.5,
+      "part_difference_lu": 0.0,
+      "en_duration_s": 7.989,
+      "th_duration_s": 6.45,
+      "sha256": "7250c6d5fc1bb0ef72ea6c5d3fa523256024158045aae9acae892ca794f29f4f",
+      "file": "sd-08.mp3"
+    },
+    {
+      "id": "sd-09",
+      "step": 9,
+      "tutor_phases": [
+        9
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step nine vocabulary practice match each word to its meaning then fill each blank with a word",
+        "th": "9"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 13.952,
+      "peak_dbfs": -1.85,
+      "lufs": -18.6,
+      "en_lufs": -18.4,
+      "th_lufs": -18.7,
+      "part_difference_lu": 0.3,
+      "en_duration_s": 8.428,
+      "th_duration_s": 4.324,
+      "sha256": "3ad9fc8901886f249d44f92efff8da7a89b6aca38c5b71bcdba0d1737f12f8aa",
+      "file": "sd-09.mp3"
+    },
+    {
+      "id": "sd-10",
+      "step": 10,
+      "tutor_phases": [
+        11,
+        12
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 10 sentence practice put the words in order then finish each sentence",
+        "th": "10"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 12.668,
+      "peak_dbfs": -1.83,
+      "lufs": -18.7,
+      "en_lufs": -18.4,
+      "th_lufs": -18.8,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 6.537,
+      "th_duration_s": 4.93,
+      "sha256": "f3262c3d287461f031cb9abd95350cd72ecb2f58480561663aa95d904aa307b7",
+      "file": "sd-10.mp3"
+    },
+    {
+      "id": "sd-11",
+      "step": 11,
+      "tutor_phases": [
+        13
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.18 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 11 guided writing read the writing prompt plan your ideas in the boxes then write use the sentence starters",
+        "th": "11"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 19.226,
+      "peak_dbfs": -1.87,
+      "lufs": -18.6,
+      "en_lufs": -18.5,
+      "th_lufs": -18.6,
+      "part_difference_lu": 0.1,
+      "en_duration_s": 10.002,
+      "th_duration_s": 8.024,
+      "sha256": "37f7422565a61362f58afad4e0a479aed4aa0214bd8c9f87957544efeadc2e20",
+      "file": "sd-11.mp3"
+    },
+    {
+      "id": "sd-12",
+      "step": 12,
+      "tutor_phases": [
+        15
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak 0.0 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 12 language questions write one or two questions about the english in the article we find the answers together",
+        "th": "12 1 2"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 18.416,
+      "peak_dbfs": -1.85,
+      "lufs": -18.8,
+      "en_lufs": -18.4,
+      "th_lufs": -19.2,
+      "part_difference_lu": 0.8,
+      "en_duration_s": 8.443,
+      "th_duration_s": 8.772,
+      "sha256": "5bbff1c0e38b06fc36f7d6aa1a95a46f64d5f4cdf71e1cd1cf6e46ed8bc84566",
+      "file": "sd-12.mp3"
+    },
+    {
+      "id": "sd-13",
+      "step": 13,
+      "tutor_phases": [
+        16
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "step 13 lesson reflection how well do you know this lesson now circle one number one to five",
+        "th": "13 1 5"
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.875,
+      "peak_dbfs": -1.86,
+      "lufs": -18.7,
+      "en_lufs": -18.5,
+      "th_lufs": -18.8,
+      "part_difference_lu": 0.3,
+      "en_duration_s": 8.424,
+      "th_duration_s": 6.252,
+      "sha256": "e9463e2963abe52c176d6d8d8bd0a561e0601cb9673c4600cfa93f04d7a90a93",
+      "file": "sd-13.mp3"
+    }
+  ],
+  "totals": {
+    "calls": 35,
+    "characters_sent": 3160,
+    "list_price_usd_per_million_characters": 100.0,
+    "list_price_cost_usd": 0.316,
+    "quota": "MiniMax Token Plan quota, no extra charge",
+    "clips": 13,
+    "clips_without_a_passing_take": [
+      "sd-06 th"
+    ]
+  }
+}
