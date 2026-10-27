@@ -10,6 +10,7 @@ Spec: [spec.md](./spec.md). Phase 1 ends 2026-11-01, before the print track Phas
 - A task that waits for Daniel stays `[ ]`, so that its phase stays open. Use `[b] … — deferred:daniel` only for a task that Daniel takes out of release 1. The checker does not count a `[b]` line in any gate or at closeout.
 - Use the word "deferred" only in that trailer. In other text, write "later" or "waits for" (the checker drops any task line that contains the word).
 - Heavy jobs (vitest runs, tsc, Chrome, Ghostscript, PDF/X builds, contact sheets) run with ONE command: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). It takes the lock and runs the pre-flight inside the lock. Exit 75 means that the pre-flight hold lasted longer than its wait. Never use a plain `flock` on the lock inside a heavy job, because a nested plain flock deadlocks. Report a "heavy-run: lock wait over 600 s" line to the PM session. No `pnpm install`. Run `git checkout -- pnpm-lock.yaml` after a gate if the lock file changed.
+- Until the clip check of the A-25 job ends, no heavy job of this track runs (PM, 2026-10-28 05:25 ICT).
 - Stage files path by path. Do not touch `video/**` (another session has an uncommitted change there).
 - This repo has no `measure/generate.sh` or `measure/doctor.sh`. The doctor step of each phase is the `PROJECT_CHECKS` gate.
 
@@ -37,7 +38,7 @@ Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines com
 
 | Phase | Dates | End gate |
 |---|---|---|
-| 1 The cover module and the three Drive covers | 2026-10-27 to 2026-11-01 | The three covers and the contact sheet are on Google Drive for Daniel |
+| 1 The cover module and the three Drive covers | 2026-10-27 to 2026-11-01 | The three v2 covers and the contact sheet are on Google Drive for Daniel |
 | 2 The Level 2 Unit 1 cover print file | 2026-11-02 to 2026-11-05 | `PRINT_GATE` passes on the print file; Daniel approved the cover on Drive |
 | 3 The other 13 covers | later, after release 1 | Not release 1 work |
 
@@ -128,15 +129,37 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - Level 2 Unit 1: `front.png` 6e93811711329000a3f81d3dd179c99ea9caaf2a7e8fb97b6abf4dc05ac5c097, `back.png` 6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc, `cover.pdf` 28399b42f32be6625708dd4870e83873ebd8a0a328b67f3889bd7bd15169e350, `Storytime-Advantage-L2-U1-Student-Book-Cover-v1_PDFX-1a.pdf` 001b46cc81768b9ef9e08c9a6587cfaa3f97e85acac95e509a72a761b00135a0, `corner-mode.txt` 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf.
     - Level 1 Unit 1: `front.png` 00ac6efffbafee482c013abfc312e1faa1b5b8b319d1e4aedeab053fd23ff6e7, `back.png` 7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d, `cover.pdf` e124ce52673b5c05b1ed5a0856164e1b893a5cc783629c949790395591a704ba, `Storytime-Advantage-L1-U1-Student-Book-Cover-v1_PDFX-1a.pdf` d79d42f11d3c02c0d116442bc79e7211cb98c9258acffdb0c28b59d8848c3651, `corner-mode.txt` 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf.
     - Level 4 Unit 4: `front.png` b402b994557f187f1220c32f31eb2612ea744213ad513c723d18d058fe9a5a5c, `back.png` 61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca, `cover.pdf` 4bcc67035d9e4387a6a843131b5051c921dfc786d4ab9dd740090e4d50100a4b, `Storytime-Advantage-L4-U4-Student-Book-Cover-v1_PDFX-1a.pdf` 7d2ae8a8c59be63f8a6b82fba09a5e98fe731e09622328312cd3431d6cdca6f0, `corner-mode.txt` 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf.
-- [ ] Task (Check): the three covers. The Level 2 Unit 1 group picture stays (D3). The Level 4 Unit 4 front is the cut-out style, not the room scene (D4). `PRINT_GATE` passes on the 2-page PDF of each book. The Thai byte check, the QR module check, and the copy check pass on each built file. A contact sheet of every page of every cover. The agent looks at every page and lists the defects (rule 6.5).
-- [ ] Task (Hand-off): the three covers go to the PM session for Google Drive. The message names the front PNG, the back PNG, and the 2-page PDF of each of the three books. It also gives the SHA-256 of each file, the default summary of the Level 2 Unit 1 panel, and the open points P1 to P6. Daniel checks the files there and answers his Tasks item. Done when: the PM session confirms receipt (peer-report).
+- [x] Task (Check): the three covers. The Level 2 Unit 1 group picture stays (D3). The Level 4 Unit 4 front is the cut-out style, not the room scene (D4). `PRINT_GATE` passes on the 2-page PDF of each book. The Thai byte check, the QR module check, and the copy check pass on each built file. A contact sheet of every page of every cover. The agent looks at every page and lists the defects (rule 6.5). Evidence: peer-report.
+    - Evidence: the orchestrator page check of 2026-10-27 found C1 (Red C1 and Green C1 tasks above). After commit `6c41128e`, the orchestrator looked at the three rebuilt fronts and backs and found C1 fixed.
+    - Evidence: the contact sheet is `/tmp/opencode/cover-check2/storytime-covers-contact-sheet.png`. SHA-256: `7c44ef3e10a8d4a4bc443da005ea5266cd95d97f608894a67598a85085f4a34e`.
+    - `PRINT_GATE` and the file checks: see the Green C1 evidence.
+- [x] Task (Hand-off): the three covers go to the PM session for Google Drive. The message names the front PNG, the back PNG, and the 2-page PDF of each of the three books. It also gives the SHA-256 of each file, the default summary of the Level 2 Unit 1 panel, and the open points P1 to P6. Daniel checks the files there and answers Daniel's Tasks item. Done when: the PM session confirms receipt (peer-report). Evidence: peer-report.
+    - Evidence: the PM session confirmed receipt on 2026-10-27 at 23:16 ICT. All 10 SHA-256 values matched.
+    - Evidence: the PM uploaded the 3 `cover.pdf` files and the contact sheet to the Drive folder "2026-10-27 Storytime cover mocks". Their names start "v1 2026-10-27".
+    - Daniel's Tasks item id is `Zi00RXRtQUpFVFVna3dIYw`.
+    - Note: Daniel's look of 2026-10-28 did not pass v1 (spec, D5 to D10). The v2 tasks follow.
+- [ ] Task (Red v2): tests for D5 to D9 in `dashboard/__tests__/storytime-print-covers-16books.test.ts`, or a new file that matches `storytime-print-covers*.test.ts`. Done when: `RED_TEST_COMMAND` fails only on the new or changed tests; the commit holds only test files; the v1 measurements are recorded.
+    - Change the existing tests that encode the white ground of D4. This includes the white-corner check and AC-3. Use the ground tint.
+    - New tests: the ground tint sample points (FR-2.4) and the fill thresholds set from the v1 files (FR-2.7).
+    - New tests: at most 3 figures and at most 1 animal per recipe. Level 2 Unit 1 holds nan. No two non-empty recipes hold the same set.
+    - Each new check has a mutation test.
+- [ ] Task (Green v2): the data, the composer, the picture check, and the v2 build of the three covers with `--print`.
+    - The data holds the recipes, the kinds, and the groups of FR-2.8.
+    - The composer draws the ground tint, the rounded corners, and the fill. It allows the bottom crop.
+    - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+    - Done when: `PRINT_GATE` passes on each v2 print file.
+    - Done when: the Thai byte check, the QR module check, the copy check, and the card text measure (R17) pass on each v2 file.
+    - Done when: the SHA-256 of each v2 file is recorded, and the v1 files are unchanged.
+- [ ] Task (Check v2): a contact sheet of every page of the three v2 covers. Done when: the defects are listed or none are found.
+    - The agent looks at every page and checks Daniel's 5 points: coloured ground, the L1U1 model, L2U1 not crowded, L4U4 close, and no repeated group.
+- [ ] Task (Hand-off v2): the v2 files and the contact sheet go to the PM session with the SHA-256 of each file, by 2026-10-30. Done when: the PM session confirms receipt (peer-report).
 - [ ] Task: Measure - User Manual Verification 'Phase 1: The cover module and the three Drive covers' (Protocol in workflow.md)
 
 ## Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
 
 _Blast radius: the module and the script of Phase 1. The print track Phase 5 reads the module._
 
-- [ ] Task (Owner gate): Daniel approves the Level 2 Unit 1 cover on Google Drive. Record his exact words and the date in this plan. No answer is not an approval (rule 0.3). Evidence: owner-approved.
+- [ ] Task (Owner gate): Daniel approves the Level 2 Unit 1 v2 cover on Google Drive. Record Daniel's exact words and the date in this plan. No answer is not an approval (rule 0.3). Evidence: owner-approved.
 - [ ] Task (Green): the print file. `make-storytime-book-cover.ts --level 2 --unit 1 --print` writes the PDF/X-1a file to `~/Desktop/print-ready/storytime/`. Done when: `PRINT_GATE` exits 0 on the file, and the file is newer than the last commit of its sources (lessons-learned, 2026-10-20).
 - [ ] Task (Check): the print file. `pdffonts` shows only embedded Andika and Sarabun faces, and no Type 3 face. `pdfimages -list` shows no soft mask and no page that is one image. The Thai byte check and the QR module check pass on the Chrome PDF of the same build. A contact sheet of the two pages. The agent looks at both pages.
 - [ ] Task (Hand-off): the print file goes to the PM session for the print track Phase 5. The message gives the file name, the SHA-256, the page count, and the date. Done when: the PM session confirms receipt (peer-report).
