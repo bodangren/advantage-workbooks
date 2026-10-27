@@ -257,7 +257,7 @@ These rules follow `semester-test-plan.md` §5 and `semester-test-teacher-script
 
 **Default:** the reading passage uses speed 0.85. A slow passage gives the young learner time to hear each word. Last semester's build script already used 0.85 for the passage.
 
-The bilingual direction file keeps the form that Daniel approved on 2026-10-27. His words were: "A. Yes. B. One button. English first. Thai second. C. Yes". The form is one joined file. The file plays English first. It plays 1.2 seconds of silence. It plays Thai second.
+The bilingual direction file keeps the form that Daniel approved on 2026-10-27. Daniel's words were: "A. Yes. B. One button. English first. Thai second. C. Yes". The form is one joined file. The file plays English first. It plays 1.2 seconds of silence. It plays Thai second.
 
 ### 3.3 The speech recognizer check
 
@@ -295,7 +295,7 @@ The template keeps the wording of last semester's build script. The words `[n]`,
 
 ### 3.5 The rule for the Thai word meanings
 
-The PM decided this on 2026-10-27 at 22:41 ICT. His words were: "the Thai word meanings in the tests come only from the glossary Thai of the lesson packages. One condition: use only glossary Thai that Daniel already checked, that is, the Thai in the printed and ordered books. For a book that is not made yet, its test Thai comes from its glossary, and Daniel checks that Thai one time, with the book."
+The PM decided this on 2026-10-27 at 22:41 ICT. The PM's words were: "the Thai word meanings in the tests come only from the glossary Thai of the lesson packages. One condition: use only glossary Thai that Daniel already checked, that is, the Thai in the printed and ordered books. For a book that is not made yet, its test Thai comes from its glossary, and Daniel checks that Thai one time, with the book."
 
 The rule has four parts.
 
@@ -435,7 +435,7 @@ The parts follow the Cambridge A2 Flyers listening paper: five parts, twenty-fiv
 | The builder | Workbooks | Workbooks builds the tests and runs the checks |
 | The assessor | The person whom Daniel names. Default: Daniel | The assessor marks the level test and holds the answer key |
 | The teacher | The teacher of the class | The teacher runs a book test in the room and marks it |
-| The holder of the private place | Daniel and the person he names | The holder has the access to the private place |
+| The holder of the private place | Daniel and the person whom Daniel names | The holder has the access to the private place |
 | The PM | The PM orchestrator session | The PM relays the files to Daniel's Drive. The PM relays Daniel's answers back to Workbooks. |
 
 The PM is an AI coordinator session. It holds no key, marks no paper and builds no test.
@@ -468,7 +468,7 @@ The first book test is for Primary Advantage Origins 2. The strategy lists Origi
 
 **Decision 2. Who holds the access to the private place?**
 
-- **Default:** Daniel and the person he names hold the access. The teacher holds a book test only while the test day runs. The teacher never holds a level test answer key.
+- **Default:** Daniel and the person whom Daniel names hold the access. The teacher holds a book test only while the test day runs. The teacher never holds a level test answer key.
 
 **Decision 3. What happens to last semester's test?**
 
@@ -492,7 +492,7 @@ The 13 step directions and the 5 Tutor directions live in `content/primary/_step
 | `sd-01.mp3` … `sd-13.mp3` | The 13 joined step direction files |
 | `sd-flashcards.mp3`, `sd-pair-conversation.mp3`, `sd-sentence-game.mp3`, `sd-vocabulary-game.mp3`, `sd-wrap-up.mp3` | The 5 joined Tutor direction files |
 
-Daniel's listen check on the 13 files passed on 2026-10-27 at 15:51 ICT. His words were: "Beautiful, champ". His check on the 5 Tutor files passed on 2026-10-27 at 17:42 ICT. His words were: "Approved". The test directions in section 3.4 follow the same form and the same voices.
+Daniel's listen check on the 13 files passed on 2026-10-27 at 15:51 ICT. Daniel's words were: "Beautiful, champ". Daniel's check on the 5 Tutor files passed on 2026-10-27 at 17:42 ICT. Daniel's words were: "Approved". The test directions in section 3.4 follow the same form and the same voices.
 
 ---
 
@@ -754,7 +754,7 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 | 14 | Does the answer key use a band scale or a mark total? | A mark total in the key. The band scale goes in the teacher script, once Daniel sets the bands. | Daniel |
 | 15 | Does the level test have a spoken section? | Yes. The spoken section sits on the same day as the written section. | Daniel |
 | 16 | Who marks the level test and holds its answer key? | The assessor whom Daniel names. Daniel names himself. | Daniel |
-| 17 | Who holds the access to the private place? | Daniel and the person he names. | Daniel |
+| 17 | Who holds the access to the private place? | Daniel and the person whom Daniel names. | Daniel |
 | 18 | Does Daniel check every test in full or only the Thai? | Only the Thai, plus one full book test a band. The full review costs 1,520 minutes. | Daniel |
 | 19 | Which books hold Thai that Daniel already checked? | The printed and ordered books: Primary Advantage Origins 2, Origins 3.1, Origins 3.2 and Quest 4. | Daniel |
 | 20 | When is the Thai of a book that is not made yet checked? | One time, with the book. The same Thai serves both tests of that book. | Daniel |
@@ -775,5 +775,5 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 **Revision history**
 
 - **v0.1** — 2026-10-27 — First draft for the PM. The design covers 32 book tests and 3 level tests. It also covers the listening form, the private place, the build, the checks and the counts.
-- **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person he names hold the access to the private place. Daniel's check time was 250 minutes at that version, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
+- **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person whom Daniel names hold the access to the private place. Daniel's check time was 250 minutes at that version, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
 - **v0.3** — 2026-10-27 — The PM decided that the Thai word meanings in a test come only from glossary Thai that Daniel already checked. Section 3.5 holds that rule. The Thai of the 12 books that are not made yet is checked one time with each book, so it adds no test check time. Daniel's test check time is 90 minutes.
