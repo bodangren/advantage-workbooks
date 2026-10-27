@@ -48,7 +48,7 @@ Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines com
 
 Risk: the weeks 2 to 7 pictures (about 96 story pages, 12 covers, and the picture words) have 7 days after Daniel's week 1 approval, and each needs two outputs (line art and color; spec FR-9). If Forge cannot meet 2026-11-16, Daniel chooses between a later print order and the stop-rule split (weeks 1 to 4 on 2026-12-01, weeks 5 to 8 in January 2027).
 
-## Phase 1: Contracts and the picture list (2026-10-26 to 2026-10-28)
+## Phase 1: Contracts and the picture list (2026-10-26 to 2026-10-28) [checkpoint: 24d85cd]
 
 _Blast radius: `StorytimeWeekSchema` (9 files: `lib/storytime/checks.ts`, `files.ts`, `phonemes.ts`; `scripts/storytime/book-audio.ts`, `set-phoneme-audio.ts`, `make-manual-pdf.ts`; `__tests__/storytime-week.test.ts`, `storytime-manual.test.ts`, `storytime-phonemes.test.ts`); `StorytimeApprovalsSchema` (only `schema.ts`). The change is additive._
 
