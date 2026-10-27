@@ -27,6 +27,8 @@ PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --ch
 
 The whole command of each gate runs inside one heavy-run wrapper (line 12). The `PROJECT_TESTS` list holds the print track's files too, so a change in the Storytime print modules shows up here. `check-weeks.ts` does not run in this track, because the track changes no week file.
 
+The `RED_TEST_COMMAND` and `GREEN_TEST_COMMAND` glob also matches the test file of the print track Phase 5, `__tests__/storytime-print-covers.test.ts`, once that file exists. This track uses the file name `__tests__/storytime-print-covers-16books.test.ts`, so the two tracks never write the same file. The gate of this track then runs both files, and both must pass.
+
 Baseline at 253edfaa (2026-10-27): the print track measured `PROJECT_TESTS` at 12 files and 227 tests on 078917f. This planning session ran no gate, so it gives no new number.
 
 Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines come from `grep`, not from `build-graph`.
