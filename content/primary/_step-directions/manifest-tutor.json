@@ -1,0 +1,346 @@
+{
+  "bank": "step-directions-tutor-2026-10-27",
+  "version": 1,
+  "status": "passed by Daniel's listen check, 2026-10-27 17:42 ICT",
+  "listen_check": {
+    "words": "Approved",
+    "by": "Daniel",
+    "where": "Tasks",
+    "time_ict": "2026-10-27 17:42",
+    "relayed": "PM session, 2026-10-27 17:47 ICT",
+    "sample": "all 5 files"
+  },
+  "model": "speech-2.8-hd",
+  "voices": {
+    "en": "English_captivating_female1",
+    "th": "Thai_male_1_sample8"
+  },
+  "speeds": {
+    "en": 0.9,
+    "th": 1.0
+  },
+  "language_flags": {
+    "en": "--language English",
+    "th": "none, the help of mmx speech synthesize lists no value for --language"
+  },
+  "button": "One button. The joined file plays English first, 1.2 s of silence, then Thai.",
+  "button_rule": "B",
+  "approval": "Acceptable",
+  "approval_by": "Daniel, Tasks, 2026-10-27 15:53 ICT",
+  "approval_relayed": "PM session, 2026-10-27 16:01 ICT",
+  "source": "Workbooks messages to the PM session, 2026-10-27 12:43 ICT (13 steps) and 13:37 ICT (Tutor drafts)",
+  "texts_source": "directions.json of the parent run, read only",
+  "tutor_map_status": "Derived by Workbooks from tutor-advantage apps/tutor-pwa/src/lib/lessonPhases.ts on 2026-10-27. The PM read the map as the default until Daniel's Tutor developer corrects it.",
+  "build": {
+    "parts": "build/<id>.en.wav and build/<id>.th.wav, 32 kHz mono 16-bit",
+    "joined": "out/<id>.mp3, MP3 128 kbps, 32 kHz, mono",
+    "part_level": "-18 LUFS, peak at most -1.5 dBFS",
+    "silence_s": 1.2
+  },
+  "build_folder": "~/Desktop/asset-requests/2026-10-27/step-directions/tutor/ (takes, build inputs, checks, tools; not in git)",
+  "checks": {
+    "not_silent": true,
+    "peak_below_dbfs": -0.5,
+    "max_inner_silence_s": 1.2,
+    "max_seconds_per_character_shift": 0.35,
+    "max_english_wer": 0.1,
+    "medians": "medians.json of the parent run, the take-1 clips of each language",
+    "thai_recognizer": "for information only"
+  },
+  "clips": [
+    {
+      "id": "sd-flashcards",
+      "step": null,
+      "tutor_phases": [
+        2
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.21 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": false,
+          "reason": "peak -0.14 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 4,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "flashcards read the word on the card say the meaning then tap the card and check listen and say the word",
+        "th": ""
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 16.202,
+      "peak_dbfs": -1.84,
+      "lufs": -18.7,
+      "en_lufs": -18.4,
+      "th_lufs": -19.1,
+      "part_difference_lu": 0.7,
+      "en_duration_s": 9.195,
+      "th_duration_s": 5.807,
+      "sha256": "94d22f6bd33c961a97ef18019d74b0720f47d93be91b25f62f37bca80d48c1be",
+      "file": "sd-flashcards.mp3"
+    },
+    {
+      "id": "sd-vocabulary-game",
+      "step": null,
+      "tutor_phases": [
+        10
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "vocabulary game vote for a game watch how to play then play with the words of this lesson",
+        "th": ""
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 13.425,
+      "peak_dbfs": -1.81,
+      "lufs": -18.5,
+      "en_lufs": -18.5,
+      "th_lufs": -18.6,
+      "part_difference_lu": 0.1,
+      "en_duration_s": 6.724,
+      "th_duration_s": 5.501,
+      "sha256": "b20ab6a4e7ed20c1fc830c5f4cb052dbf6466c8e9d551d7a03fcdd6d951c0461",
+      "file": "sd-vocabulary-game.mp3"
+    },
+    {
+      "id": "sd-sentence-game",
+      "step": null,
+      "tutor_phases": [
+        14
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "seconds per character 0.1086 outside 35 % of 0.0780"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": false,
+          "reason": "peak -0.25 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 4,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 3,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "sentence game vote for a game read each sentence to the end then send your answer",
+        "th": ""
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 12.973,
+      "peak_dbfs": -1.76,
+      "lufs": -18.6,
+      "en_lufs": -18.4,
+      "th_lufs": -18.9,
+      "part_difference_lu": 0.5,
+      "en_duration_s": 6.81,
+      "th_duration_s": 4.963,
+      "sha256": "a47ec4268f06e3bacfe77f8b510f73e889259d911fd086ea5d4d1fa5ec806de1",
+      "file": "sd-sentence-game.mp3"
+    },
+    {
+      "id": "sd-pair-conversation",
+      "step": null,
+      "tutor_phases": [
+        17
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 2,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "pair conversation find your partner ask the question on the screen answer in english then change roles",
+        "th": ""
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 15.676,
+      "peak_dbfs": -1.85,
+      "lufs": -18.6,
+      "en_lufs": -18.4,
+      "th_lufs": -18.8,
+      "part_difference_lu": 0.4,
+      "en_duration_s": 8.726,
+      "th_duration_s": 5.749,
+      "sha256": "103db848f178e73cb73beace611396cfbe242eeb26b671bc71be7f093f8f74d3",
+      "file": "sd-pair-conversation.mp3"
+    },
+    {
+      "id": "sd-wrap-up",
+      "step": null,
+      "tutor_phases": [
+        18
+      ],
+      "text_status": "approved",
+      "takes": [
+        {
+          "lang": "en",
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        {
+          "lang": "th",
+          "take": 1,
+          "pass": false,
+          "reason": "peak -0.07 dBFS"
+        },
+        {
+          "lang": "th",
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      ],
+      "take_count": 3,
+      "chosen": {
+        "en": {
+          "take": 1,
+          "pass": true,
+          "reason": ""
+        },
+        "th": {
+          "take": 2,
+          "pass": true,
+          "reason": ""
+        }
+      },
+      "recognized": {
+        "en": "wrap up look at our lesson results well done everyone see you next time",
+        "th": ""
+      },
+      "wer": "0.0",
+      "cer": "1.0",
+      "duration_s": 13.059,
+      "peak_dbfs": -1.9,
+      "lufs": -18.8,
+      "en_lufs": -18.5,
+      "th_lufs": -19.0,
+      "part_difference_lu": 0.5,
+      "en_duration_s": 6.01,
+      "th_duration_s": 5.849,
+      "sha256": "e8294568729396c1f576a7b1c587d1e449f134c302f7f88a6b4ad545175ebf4e",
+      "file": "sd-wrap-up.mp3"
+    }
+  ],
+  "totals": {
+    "calls": 15,
+    "characters_sent": 1131,
+    "list_price_usd_per_million_characters": 100.0,
+    "list_price_cost_usd": 0.1131,
+    "quota": "MiniMax Token Plan quota, no extra charge",
+    "clips": 5,
+    "clips_without_a_passing_take": []
+  }
+}
