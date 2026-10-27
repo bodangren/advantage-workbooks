@@ -1,0 +1,31 @@
+role: jr-green
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 1a967c25
+status: complete
+date: 2026-10-28
+model: minimax-cn-coding-plan/MiniMax-M3#high. The Red model of this task is openai/gpt-6-luna#high, so the Green and the Red models stay in different families.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 1a967c25
+head: 4c7c05bd
+commits: 6c41128e (the fix), 4c7c05bd (the plan evidence). The run files of this role and this log are in the commit after the plan commit.
+tests_run: RED_TEST_COMMAND exit 1 before the fix, Tests 1 failed | 24 passed (25), only R17 fails. GREEN_TEST_COMMAND exit 0, Tests 25 passed (25). PROJECT_TESTS exit 0, Tests 326 passed (326) over 16 files. PROJECT_LINT exit 0, no error and no warning. PROJECT_CHECKS exit 0, no type error. Every gate ran in the foreground inside one heavy-run wrapper. No line "heavy-run: lock wait over 600 s" appeared. A first run of PROJECT_TESTS exited 1 because R12 hit its 5000 ms vitest timeout under a load average of 5.70 with other sessions on the machine. R12 does not read the cover CSS. The second run passed and R12 took 3598 ms. Both outputs are in the run file.
+mutants: 3, caught: 3. M1 removes the position of .level-line. M2 removes the position of .book-line. M3 changes the colour of .level-line to the card colour. Each mutant makes GREEN_TEST_COMMAND exit 1, and only R17 fails. The file was restored after each run, and git diff --quiet on dashboard/lib/storytime/print/covers.ts exited 0 every time.
+built_files: three covers in ~/Desktop/print-ready/storytime/proof/. Each holds a front PNG and a back PNG of 2480 x 3508 px, 8-bit, RGB, with no alpha channel, the 2-page Chrome PDF, the PDF/X-1a file, and corner-mode.txt. The corner mode of the three covers is "radius in the picture layer". The SHA-256 of each file:
+  Level 2 Unit 1: front.png 6e93811711329000a3f81d3dd179c99ea9caaf2a7e8fb97b6abf4dc05ac5c097; back.png 6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc; cover.pdf 28399b42f32be6625708dd4870e83873ebd8a0a328b67f3889bd7bd15169e350; Storytime-Advantage-L2-U1-Student-Book-Cover-v1_PDFX-1a.pdf 001b46cc81768b9ef9e08c9a6587cfaa3f97e85acac95e509a72a761b00135a0; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  Level 1 Unit 1: front.png 00ac6efffbafee482c013abfc312e1faa1b5b8b319d1e4aedeab053fd23ff6e7; back.png 7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d; cover.pdf e124ce52673b5c05b1ed5a0856164e1b893a5cc783629c949790395591a704ba; Storytime-Advantage-L1-U1-Student-Book-Cover-v1_PDFX-1a.pdf d79d42f11d3c02c0d116442bc79e7211cb98c9258acffdb0c28b59d8848c3651; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  Level 4 Unit 4: front.png b402b994557f187f1220c32f31eb2612ea744213ad513c723d18d058fe9a5a5c; back.png 61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca; cover.pdf 4bcc67035d9e4387a6a843131b5051c921dfc786d4ab9dd740090e4d50100a4b; Storytime-Advantage-L4-U4-Student-Book-Cover-v1_PDFX-1a.pdf 7d2ae8a8c59be63f8a6b82fba09a5e98fe731e09622328312cd3431d6cdca6f0; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  PRINT_GATE exits 0 on each print file. Each line reads "All checks pass.".
+  The Thai byte check, the QR module check, and the copy check pass on each built file. The Thai byte check reads the Chrome PDF, as the Red test R7 says. The PDF/X extract re-orders the Thai runs, so its byte order differs and its character set equals the approved set. The QR module check finds 0 different modules on every file.
+  The card measurement of the three delivered files: the front PNG near-white counts are 17429 and 5370 for Level 2 Unit 1, 17137 and 5360 for Level 1 Unit 1, and 19113 and 5408 for Level 4 Unit 4. The PDF/X 72 dpi counts are 849 and 173, 840 and 169, and 913 and 175. The back PNG dark panel count is 13043 for Level 2 Unit 1. The other two rows hold no summary, so their back page has no panel.
+tasks_flipped_x: the Green C1 task, commit 6c41128e, plan evidence commit 4c7c05bd. The Check task, the Hand-off task, and the Manual Verification task stay open.
+facts_changed: none
+handoff: The fix of C1 is in the repo. The module lib/storytime/print/covers.ts now gives position relative to .level-line and to .book-line, so the level card text paints above the card picture. The committed Red test file is unchanged. The three Drive covers are built again and their PRINT_GATE passes. The plan note holds the gate lines, the mutant table, the card measurement, the file checks, and the SHA-256 of every built file. The run files of this role are in measure/runs/storytime_covers_20261027/jr-green-1a967c2-red.txt, jr-green-1a967c2-green.txt, jr-green-1a967c2-project.txt, jr-green-1a967c2-lint.txt, jr-green-1a967c2-checks.txt, jr-green-1a967c2-mutants.txt, jr-green-1a967c2-printgate.txt, jr-green-1a967c2-filechecks.txt, jr-green-1a967c2-measure.txt, jr-green-1a967c2-sha256.txt, and this log. The Check task builds the contact sheet and lists the defects. The Hand-off task sends the files to the PM session for Google Drive with their SHA-256, the default summary of the Level 2 Unit 1 panel, and the open points P1 to P6. Phase 2 waits for the approval of Daniel on Drive.
+END_MEASURE_AGENT_RESULT

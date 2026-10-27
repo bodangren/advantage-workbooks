@@ -1,0 +1,204 @@
+command: PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'
+exit_code: 0
+result: Tests  326 passed (326); 16 test files; run on commit 6c41128e
+note: a first run of the same command exited 1 because R12 hit its 5000 ms vitest timeout under a load average of 5.70 with other sessions on the machine. R12 does not read the cover CSS. The second run passed and R12 took 3598 ms. The first output follows at the end of this file.
+---- output (passing run) ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 6450[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 711[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 509[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 472[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 581[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 649[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 935[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 770[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 744[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 633[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 929[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 988[2mms[22m[39m
+     [33m[2m✓[22m[39m cuts the middle two pages of a wide picture into the back (left) and the front (right) [33m 831[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+UZBXJA+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+KFVQOZ+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+TLHDTB+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     46  0
+
+
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 1161[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 1008[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 233[2mms[22m[39m
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 390[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 74[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 110[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m40 tests[22m[2m)[22m[33m 305[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 108[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 64405[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE [33m 365[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 17682[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1936[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 5883[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 3598[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 839[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 31314[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 352[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 1632[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 HEAD letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-4WeZdA/r41-guide-inside.html
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m36 tests[22m[2m)[22m[33m 76945[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 839[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 482[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 753[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 1074[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 13734[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 4090[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 1250[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 346[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 348[2mms[22m[39m
+     [33m[2m✓[22m[39m R37: sits the n stroke guide on the rendered stems within 1 mm (D1) [33m 10962[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 14043[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 11725[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 579[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal cut line with the strip parity (D4) [33m 2019[2mms[22m[39m
+     [33m[2m✓[22m[39m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5) [33m 11076[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m16 passed[39m[22m[90m (16)[39m
+[2m      Tests [22m [1m[32m326 passed[39m[22m[90m (326)[39m
+[2m   Start at [22m 22:49:07
+[2m   Duration [22m 81.84s[2m (transform 4.31s, setup 4.02s, import 10.43s, tests 153.24s, environment 38.20s)[22m
+
+
+---- output (first run, R12 timeout under load) ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 6987[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 1146[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 722[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 643[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 591[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 807[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 720[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 724[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 681[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 577[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 1052[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 904[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 1529[2mms[22m[39m
+     [33m[2m✓[22m[39m cuts the middle two pages of a wide picture into the back (left) and the front (right) [33m 1331[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 2478[2mms[22m[39m
+     [33m[2m✓[22m[39m R20: throws on the 27th occurrence instead of cycling suffixes [33m 861[2mms[22m[39m
+     [33m[2m✓[22m[39m R21: uses level 2 as the level and the exported constant as Version 3 [33m 479[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 200[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+UZBXJA+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+KFVQOZ+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+TLHDTB+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     46  0
+
+
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 245[2mms[22m[39m
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 299[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 207[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 115[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 228[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 71076[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 96[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 10[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 54[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 190[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE [33m 393[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 9[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 20729[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 4[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 88[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 31[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 2813[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 6[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 80[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 7812[2mms[22m[39m
+[31m     [31m×[31m R12: cut-out corners are white, the center is not, and class-waves.png does not pass[39m[33m 5038[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 1259[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 29456[2mms[22m[39m
+     [33m[2m✓[22m[39m R15: this phase does not change the Primary cover contract [33m 617[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 10[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 30[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 20[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 378[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 1941[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 HEAD letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-JZuEMs/r41-guide-inside.html
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m36 tests[22m[2m)[22m[33m 81032[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 714[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: uses the P11 default title and the eight book-map places [33m 347[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 474[2mms[22m[39m
+     [33m[2m✓[22m[39m R35: keeps the QR deploy mark in proof mode and excludes it from final mode [33m 341[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 1342[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 1139[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 16868[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 433[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 4002[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 848[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a removed home leaf on a temporary HTML copy [33m 338[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 329[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 351[2mms[22m[39m
+     [33m[2m✓[22m[39m R37: sits the n stroke guide on the rendered stems within 1 mm (D1) [33m 9998[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: gives every trace item a start dot (D2) [33m 765[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 11337[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 7878[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 574[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal cut line with the strip parity (D4) [33m 2768[2mms[22m[39m
+     [33m[2m✓[22m[39m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5) [33m 17668[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR12: cut-out corners are white, the center is not, and class-waves.png does not pass
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m644:5[22m[39m
+    [90m642| [39m    }[33m,[39m [34m230000[39m)[33m;[39m
+    [90m643| [39m
+    [90m644| [39m    it('R12: cut-out corners are white, the center is not, and class-w…
+    [90m   | [39m    [31m^[39m
+    [90m645| [39m        [35mconst[39m coversMod [33m=[39m [35mawait[39m [34mcovers[39m([32m'storytimeCoverMmToPx'[39m)[33m;[39m
+    [90m646| [39m        const mod = await pictures('composeStorytimeCoverPicture', 'ch…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m15 passed[39m[22m[90m (16)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m325 passed[39m[22m[90m (326)[39m
+[2m   Start at [22m 22:43:16
+[2m   Duration [22m 86.49s[2m (transform 4.90s, setup 6.12s, import 11.34s, tests 166.44s, environment 24.67s)[22m
+

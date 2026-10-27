@@ -1,0 +1,55 @@
+command: RED_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts'
+exit_code: 1
+result: Tests  1 failed | 24 passed (25). Only R17 fails. Run at role_base_sha 1a967c25, before the Green C1 fix.
+---- output ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 47911[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 72[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 10[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 46[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 84[2mms[22m[39m
+     [32m✓[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[32m 165[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 19923[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 14[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 48[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 29[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1465[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 4[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 49[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 1808[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 2398[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 625[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 20627[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 73[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 18[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 11[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 320[2mms[22m[39m
+[31m     [31m×[31m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible[39m[32m 106[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+[31m[1mAssertionError[22m: Front PNG near-white card ink band 1: expected 0 to be greater than 1000[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m835:109[22m[39m
+    [90m833| [39m        ][33m;[39m
+    [90m834| [39m        [35mfor[39m ([35mconst[39m [index[33m,[39m band] [35mof[39m frontBands[33m.[39m[34mentries[39m()) {
+    [90m835| [39m            expect(await countInk(front, band, 'light'), `Front PNG ne…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m836| [39m        }
+    [90m837| [39m        [35mconst[39m prefix [33m=[39m path[33m.[39m[34mjoin[39m([34mtemporaryFolder[39m()[33m,[39m [32m'print-front'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 22:32:16
+[2m   Duration [22m 53.67s[2m (transform 660ms, setup 490ms, import 995ms, tests 47.91s, environment 3.25s)[22m
+

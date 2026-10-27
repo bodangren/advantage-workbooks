@@ -1,0 +1,168 @@
+mutants: 3, caught: 3
+command: each mutant breaks one behaviour in a copy of the source file, the gate GREEN_TEST_COMMAND runs in the foreground inside one heavy-run wrapper, the file is then restored with the edit tool and compared with the copy.
+---- table ----
+M1 | gate exit 1 | R17 | R17 | the position relative of .level-line is removed, so the card picture paints over the level line
+M2 | gate exit 1 | R17 | R17 | the position relative of .book-line is removed, so the card picture paints over the book line
+M3 | gate exit 1 | R17 | R17 | the colour of .level-line changes from white to the card colour #2a77b8, so the text has no contrast
+---- restore proof ----
+M1 restore: git diff --quiet -- dashboard/lib/storytime/print/covers.ts exit 0; the file is identical to /tmp/opencode/green-c1/covers.ts.pristine
+M2 restore: git diff --quiet -- dashboard/lib/storytime/print/covers.ts exit 0; the file is identical to /tmp/opencode/green-c1/covers.ts.pristine
+M3 restore: git diff --quiet -- dashboard/lib/storytime/print/covers.ts exit 0; the file is identical to /tmp/opencode/green-c1/covers.ts.pristine
+---- output (M1) ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 40552[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 57[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 6[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 40[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 102[2mms[22m[39m
+     [32m✓[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[32m 192[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 12942[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 3[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 47[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 16[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1605[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 5[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 54[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 4001[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 2120[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 641[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 18229[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 83[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 30[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 5[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M6: a Level 2 Unit 1 back without the panel fails[32m 257[2mms[22m[39m
+[31m     [31m×[31m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible[39m[32m 98[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+[31m[1mAssertionError[22m: Front PNG near-white card ink band 1: expected 0 to be greater than 1000[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m835:109[22m[39m
+    [90m833| [39m        ][33m;[39m
+    [90m834| [39m        [35mfor[39m ([35mconst[39m [index[33m,[39m band] [35mof[39m frontBands[33m.[39m[34mentries[39m()) {
+    [90m835| [39m            expect(await countInk(front, band, 'light'), `Front PNG ne…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m836| [39m        }
+    [90m837| [39m        [35mconst[39m prefix [33m=[39m path[33m.[39m[34mjoin[39m([34mtemporaryFolder[39m()[33m,[39m [32m'print-front'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 23:02:57
+[2m   Duration [22m 46.41s[2m (transform 586ms, setup 148ms, import 825ms, tests 40.55s, environment 3.86s)[22m
+
+
+---- output (M2) ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 38012[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 62[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 9[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 42[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 82[2mms[22m[39m
+     [32m✓[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[32m 163[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 10920[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 3[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 50[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 15[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1857[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 3[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 49[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 3470[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 2173[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 590[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 18002[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 72[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 22[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M6: a Level 2 Unit 1 back without the panel fails[32m 239[2mms[22m[39m
+[31m     [31m×[31m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible[39m[32m 169[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+[31m[1mAssertionError[22m: Front PNG near-white card ink band 2: expected 0 to be greater than 1000[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m835:109[22m[39m
+    [90m833| [39m        ][33m;[39m
+    [90m834| [39m        [35mfor[39m ([35mconst[39m [index[33m,[39m band] [35mof[39m frontBands[33m.[39m[34mentries[39m()) {
+    [90m835| [39m            expect(await countInk(front, band, 'light'), `Front PNG ne…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m836| [39m        }
+    [90m837| [39m        [35mconst[39m prefix [33m=[39m path[33m.[39m[34mjoin[39m([34mtemporaryFolder[39m()[33m,[39m [32m'print-front'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 23:08:01
+[2m   Duration [22m 43.35s[2m (transform 580ms, setup 358ms, import 813ms, tests 38.01s, environment 3.17s)[22m
+
+
+---- output (M3) ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 42579[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 64[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 8[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 42[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 95[2mms[22m[39m
+     [32m✓[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[32m 174[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 13364[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 3[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 44[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 14[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1519[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 4[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 49[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 3297[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 2079[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 579[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 20792[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 85[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 18[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 3[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M6: a Level 2 Unit 1 back without the panel fails[32m 242[2mms[22m[39m
+[31m     [31m×[31m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible[39m[32m 89[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+[31m[1mAssertionError[22m: Front PNG near-white card ink band 1: expected 0 to be greater than 1000[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m835:109[22m[39m
+    [90m833| [39m        ][33m;[39m
+    [90m834| [39m        [35mfor[39m ([35mconst[39m [index[33m,[39m band] [35mof[39m frontBands[33m.[39m[34mentries[39m()) {
+    [90m835| [39m            expect(await countInk(front, band, 'light'), `Front PNG ne…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m836| [39m        }
+    [90m837| [39m        [35mconst[39m prefix [33m=[39m path[33m.[39m[34mjoin[39m([34mtemporaryFolder[39m()[33m,[39m [32m'print-front'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 23:13:28
+[2m   Duration [22m 49.05s[2m (transform 600ms, setup 505ms, import 1.02s, tests 42.58s, environment 4.47s)[22m
+

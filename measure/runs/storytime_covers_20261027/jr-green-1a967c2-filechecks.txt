@@ -1,0 +1,44 @@
+command: cd dashboard && npx tsx /tmp/opencode/green-c1/file-checks.ts
+exit_code: 0
+result: the copy check, the Thai byte check, and the QR module check of the module lib/storytime/print/covers.ts, on each built file of the three rebuilt covers. The page text and the module grid come from the same extraction as the Red test file (R6, R7, R8).
+note: the Thai byte check reads the Chrome PDF, as the Red test R7 says. The PDF/X extract re-orders the Thai runs, so the byte check does not apply to it; the character set of the PDF/X extract equals the approved set.
+---- output ----
+the encoder grid: 29 modules, 434 dark cells
+
+== l2u1 (Storytime Advantage, Level 2, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l1u1 (Storytime Advantage, Level 1, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l4u4 (Storytime Advantage, Level 4, Unit 4, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+file checks: all pass

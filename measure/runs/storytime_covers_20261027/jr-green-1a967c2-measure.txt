@@ -1,0 +1,27 @@
+command: cd dashboard && npx tsx /tmp/opencode/green-c1/measure-cards.ts
+exit_code: 0
+result: the card text measurement of the three rebuilt covers, with the boxes and the thresholds of the Red test R17.
+---- output ----
+
+== l2u1 ==
+PASS front PNG near-white card ink band 1: 17429 (threshold > 1000)
+PASS front PNG near-white card ink band 2: 5370 (threshold > 1000)
+PASS PDF/X 72 dpi near-white card ink band 1: 849 (threshold > 50)
+PASS PDF/X 72 dpi near-white card ink band 2: 173 (threshold > 50)
+PASS back PNG dark panel text ink: 13043 (threshold > 1000)
+
+== l1u1 ==
+PASS front PNG near-white card ink band 1: 17137 (threshold > 1000)
+PASS front PNG near-white card ink band 2: 5360 (threshold > 1000)
+PASS PDF/X 72 dpi near-white card ink band 1: 840 (threshold > 50)
+PASS PDF/X 72 dpi near-white card ink band 2: 169 (threshold > 50)
+SKIP back PNG dark panel text ink: 0; no panel by design (summary null)
+
+== l4u4 ==
+PASS front PNG near-white card ink band 1: 19113 (threshold > 1000)
+PASS front PNG near-white card ink band 2: 5408 (threshold > 1000)
+PASS PDF/X 72 dpi near-white card ink band 1: 913 (threshold > 50)
+PASS PDF/X 72 dpi near-white card ink band 2: 175 (threshold > 50)
+SKIP back PNG dark panel text ink: 0; no panel by design (summary null)
+
+card measurement: all pass

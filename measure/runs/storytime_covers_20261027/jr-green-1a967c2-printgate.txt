@@ -1,0 +1,14 @@
+command: PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --check'
+exit_code: 0 on each of the three print files
+result: each line reads 'All checks pass.'.
+---- output (Level 2 Unit 1) ----
+../../print-ready/storytime/proof/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v1_PDFX-1a.pdf: 2 pages, 1.3 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+
+---- output (Level 1 Unit 1) ----
+../../print-ready/storytime/proof/l1u1/Storytime-Advantage-L1-U1-Student-Book-Cover-v1_PDFX-1a.pdf: 2 pages, 1.2 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+
+---- output (Level 4 Unit 4) ----
+../../print-ready/storytime/proof/l4u4/Storytime-Advantage-L4-U4-Student-Book-Cover-v1_PDFX-1a.pdf: 2 pages, 1.2 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.

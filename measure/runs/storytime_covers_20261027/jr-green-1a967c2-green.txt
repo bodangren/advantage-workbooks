@@ -1,0 +1,22 @@
+command: GREEN_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts'
+exit_code: 0
+result: Tests  25 passed (25); run on commit 6c41128e
+---- output ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 52726[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 17412[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 2451[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 3959[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners are white, the center is not, and class-waves.png does not pass [33m 3290[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 831[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 22295[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 1576[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m25 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 22:37:24
+[2m   Duration [22m 59.51s[2m (transform 959ms, setup 941ms, import 1.43s, tests 52.73s, environment 3.36s)[22m
+
