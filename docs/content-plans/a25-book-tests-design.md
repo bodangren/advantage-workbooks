@@ -420,7 +420,7 @@ The parts follow the Cambridge A2 Flyers listening paper: five parts, twenty-fiv
 6. The teacher runs the level test. The assessor keeps the answer key.
 7. The level test papers stay closed during the listening part.
 
-**Default:** the assessor is the person whom Daniel names. Daniel names himself. The assessor holds the answer key and reports the level test band.
+**Default:** the assessor is the person whom Daniel names. Daniel is the assessor. The assessor holds the answer key and reports the level test band.
 
 **Default:** the level test does not show a CEFR level, a Cambridge name or a band number on the student paper. The paper shows the book title and the student name.
 
@@ -478,7 +478,7 @@ It is now at `content/primary/origins-2/assessments/semester-1/` in this public 
 
 **Decision 4. Who reports the level test band?**
 
-- **Default:** the assessor reports the level test band. The assessor is the person whom Daniel names. Daniel names himself. The teacher reports the band of the book test and reports no number for the level test.
+- **Default:** the assessor reports the level test band. The assessor is the person whom Daniel names. Daniel is the assessor. The teacher reports the band of the book test and reports no number for the level test.
 
 ### 5.4 The approved direction library
 
@@ -753,7 +753,7 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 | 13 | Does the first book test cover lessons 1 to 7 of Origins 2 or of Origins 3.1? | Origins 2. The strategy says Tutor Advantage "Sells Primary Origins 2, Primary Origins 3.1, and Reading Advantage Origins 2 today, because those books are printed." | Workbooks |
 | 14 | Does the answer key use a band scale or a mark total? | A mark total in the key. The band scale goes in the teacher script, once Daniel sets the bands. | Daniel |
 | 15 | Does the level test have a spoken section? | Yes. The spoken section sits on the same day as the written section. | Daniel |
-| 16 | Who marks the level test and holds its answer key? | The assessor whom Daniel names. Daniel names himself. | Daniel |
+| 16 | Who marks the level test and holds its answer key? | The assessor whom Daniel names. Daniel is the assessor. | Daniel |
 | 17 | Who holds the access to the private place? | Daniel and the person whom Daniel names. | Daniel |
 | 18 | Does Daniel check every test in full or only the Thai? | Only the Thai, plus one full book test a band. The full review costs 1,520 minutes. | Daniel |
 | 19 | Which books hold Thai that Daniel already checked? | The printed and ordered books: Primary Advantage Origins 2, Origins 3.1, Origins 3.2 and Quest 4. | Daniel |
