@@ -117,7 +117,7 @@ The PM session relayed six decisions for covers v2.
 3. The data holds 16 rows: level 1 to 4, unit 1 to 4. The weeks of a unit are 1 to 8, 9 to 16, 17 to 24, and 25 to 32, at every level.
 4. The title of a row is "Storytime Advantage, Level N, Unit M, Student Book".
 5. The level colours are L1 #E06A1F, L2 #2A77B8, L3 #3C9B57, L4 #8151B8.
-6. The picture recipe names the cut-outs. Each entry also states the kind: child or animal. A recipe holds at most 3 figures and at most 1 animal. No two non-empty recipes hold the same set of figures (D9). A row with no picture has an empty recipe. Today 3 rows have a picture and 13 rows have none.
+6. The picture recipe names the cut-outs. Each entry also states the kind: child or animal. A recipe holds at most 2 children and at most 1 animal, so at most 3 figures (D5, D7). No two non-empty recipes hold the same set of figures (D9). A row with no picture has an empty recipe. Today 3 rows have a picture and 13 rows have none.
 7. The unit summary holds the English summary text and the week that the text comes from.
 
 ### FR-2 The front cover
@@ -129,7 +129,7 @@ The PM session relayed six decisions for covers v2.
 5. The level card is 186 x 65 mm, at 12 mm from the left and 217 mm from the top. It has the level colour and rounded corners of 5 mm. It holds "Level N · Unit M" and "Student Book" in white.
 6. The front shows no CEFR level badge. The level card is not a badge.
 7. The figures fill the picture area (D5 and D8). The measure is the share of figure pixels in the picture area and the bounding box of the figures. The Red role sets the thresholds from the v1 files. The Level 1 Unit 1 v1 picture passes, and the Level 4 Unit 4 v1 picture fails. Red records the measured values. A crop at the bottom edge is allowed. No head is cut. The figures stand in one row, so no figure stands behind another figure.
-8. Level 1 Unit 1 keeps pat, nan, and pip (the model of D5). Level 2 Unit 1 holds nan, may, and sam (Nan leads unit 1, D7). Level 4 Unit 4 holds mia and ben. Nan is the only figure on two covers. The repo holds the 7 cut-outs of Level 2 week 1 only.
+8. Level 1 Unit 1 keeps pat, nan, and pip (the model of D5). Level 2 Unit 1 holds nan and sam (Nan leads unit 1, D7; Nan and Sam share the week 5 story 'Sam and Pam'). Level 4 Unit 4 holds mia and ben. Nan is the only figure on two covers. The repo holds the 7 cut-outs of Level 2 week 1 only.
 
 ### FR-3 The back cover
 
@@ -195,7 +195,7 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 - AC-7: The Level 2 Unit 1 print file passes `PRINT_GATE`. Daniel's approval of the cover picture on Drive is recorded with Daniel's exact words and the date.
 - AC-8: The other 13 covers are not in release 1. They wait for their week text and pictures.
 - AC-9: The fill checks of FR-2.7 pass on all three v2 covers.
-- AC-10: Each recipe holds at most 3 figures and at most 1 animal. Level 2 Unit 1 holds nan.
+- AC-10: Each recipe holds at most 2 children and at most 1 animal. Level 2 Unit 1 holds nan.
 - AC-11: No two non-empty recipes hold the same set of figures.
 
 ## Out of Scope
@@ -221,6 +221,6 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 | P5 | The boundary with the print track | The print track FR-6 (lines 154 to 159) already plans a Storytime cover module: `lib/storytime/print/covers.ts`, the reuse of `lib/covers/compose.ts`, the PDF/X path, a copy check, and Daniel's approval of each cover picture. Its plan Phase 5 (lines 228 to 238) is dated 2026-11-02 to 2026-11-05 and names the same files. The PM approval of 2026-10-27 06:41 ICT sets the boundary below. | This track owns the shared cover module, the data of the 16 books, and the 16 student-book covers: the front and back PNGs for Daniel's Drive, and the PDF/X print file of a book whose week text exists. The print track Phase 5 uses this module for the Level 2 Unit 1 workbook print file, and keeps the teacher-book cover. Phase 1 of this track ends on 2026-11-01, so the module exists before Phase 5 starts. The orchestrator routes the matching print-plan change later. |
 | P6 | The hand-off to Google Drive | Daniel (Google Tasks, 2026-10-27 06:33 ICT, point 2) wants the files on Google Drive before he approves. The PM session made the folder "2026-10-27 Storytime cover mocks" in "Asset requests" (PM log, 2026-10-27 06:22 ICT). The project rules send cross-project files through the PM session. | The track sends the three front PNGs, the three back PNGs, the three 2-page PDFs, and the contact sheet to the PM session, with the SHA-256 of each file. The PM session uploads them to that folder and answers Daniel's Tasks item. The track does not write to Drive. |
 | P7 | The tint strength | D6 requires a light tint of the level colour. The Ground tint term gives the colours. | Use 20 % of the level colour on white: L1 #F9E1D2, L2 #D4E4F1, L3 #D8EBDD, L4 #E6DCF1. |
-| P8 | The groups of FR-2.8 | D5 names Level 1 Unit 1 as the model. D7 names Nan for Level 2 Unit 1. The repo holds 7 cut-outs. | Level 1 Unit 1 keeps pat, nan, and pip. Level 2 Unit 1 holds nan, may, and sam. Level 4 Unit 4 holds mia and ben. |
+| P8 | The groups of FR-2.8 | D5 names Level 1 Unit 1 as the model. D5 allows two main characters and at most one animal. D7 names Nan for Level 2 Unit 1. The repo holds 7 cut-outs. | Level 1 Unit 1 keeps pat, nan, and pip. Level 2 Unit 1 holds nan and sam. Level 4 Unit 4 holds mia and ben. |
 | P9 | The 5 mm rounded corners of the picture area | FR-2.4 matches the level card. The picture layer holds the corners. | Keep the 5 mm radius and the sample points of FR-2.4. |
 | P10 | The bottom crop, no head cut | FR-2.7 permits a crop at the bottom edge. No head is cut. | Allow the bottom crop. Keep every head whole. |

@@ -141,7 +141,7 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
 - [ ] Task (Red v2): tests for D5 to D9 in `dashboard/__tests__/storytime-print-covers-16books.test.ts`, or a new file that matches `storytime-print-covers*.test.ts`. Done when: `RED_TEST_COMMAND` fails only on the new or changed tests; the commit holds only test files; the v1 measurements are recorded.
     - Change the existing tests that encode the white ground of D4. This includes the white-corner check and AC-3. Use the ground tint.
     - New tests: the ground tint sample points (FR-2.4) and the fill thresholds set from the v1 files (FR-2.7).
-    - New tests: at most 3 figures and at most 1 animal per recipe. Level 2 Unit 1 holds nan. No two non-empty recipes hold the same set.
+    - New tests: at most 2 children and at most 1 animal per recipe. Level 2 Unit 1 holds nan. No two non-empty recipes hold the same set.
     - Each new check has a mutation test.
 - [ ] Task (Green v2): the data, the composer, the picture check, and the v2 build of the three covers with `--print`.
     - The data holds the recipes, the kinds, and the groups of FR-2.8.
