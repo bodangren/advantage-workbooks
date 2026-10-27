@@ -320,6 +320,236 @@ function solidBlackDots(data: Buffer, width: number, height: number): number {
     return dots;
 }
 
+// ---- Phase 2 Red 2d helpers (Check finding D5, 2026-10-27) ----
+
+/** K 20% is 204. K 40% is 153. Black guide ink is below this value. */
+const GUIDE_GRAY_LO = 153;
+const GUIDE_GRAY_HI = 204;
+const GUIDE_BLACK = 40;
+/** The raster tolerance for guide ink outside the letter. At most 0.5 mm. */
+const GUIDE_TOLERANCE_MM = 0.5;
+
+interface GuideRead {
+    letterMedian: number;
+    downFraction: number;
+    archFraction: number;
+    arrowWings: number;
+    outsidePx: number;
+}
+
+function pathPoints(d: string): { x: number; y: number }[] {
+    const tokens = d.match(/[MLC]|-?\d*\.?\d+/g) ?? [];
+    const points: { x: number; y: number }[] = [];
+    let i = 0;
+    let cx = 0;
+    let cy = 0;
+    const pushLine = (x: number, y: number): void => {
+        const steps = Math.max(2, Math.ceil(Math.hypot(x - cx, y - cy) * 2));
+        for (let s = 1; s <= steps; s++) {
+            const t = s / steps;
+            points.push({ x: cx + (x - cx) * t, y: cy + (y - cy) * t });
+        }
+        cx = x;
+        cy = y;
+    };
+    while (i < tokens.length) {
+        const op = tokens[i];
+        if (op === 'M') {
+            cx = Number(tokens[i + 1]);
+            cy = Number(tokens[i + 2]);
+            i += 3;
+        } else if (op === 'L') {
+            pushLine(Number(tokens[i + 1]), Number(tokens[i + 2]));
+            i += 3;
+        } else if (op === 'C') {
+            const x1 = Number(tokens[i + 1]);
+            const y1 = Number(tokens[i + 2]);
+            const x2 = Number(tokens[i + 3]);
+            const y2 = Number(tokens[i + 4]);
+            const x = Number(tokens[i + 5]);
+            const y = Number(tokens[i + 6]);
+            for (let s = 1; s <= 24; s++) {
+                const t = s / 24;
+                const u = 1 - t;
+                points.push({
+                    x: u * u * u * cx + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t * x,
+                    y: u * u * u * cy + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t * y,
+                });
+            }
+            cx = x;
+            cy = y;
+            i += 7;
+        } else {
+            i += 1;
+        }
+    }
+    return points;
+}
+
+function guideContract(read: GuideRead): {
+    letterInBand: boolean; downCovered: boolean; archCovered: boolean; arrowsShown: boolean; guideInside: boolean;
+} {
+    return {
+        letterInBand: read.letterMedian >= GUIDE_GRAY_LO && read.letterMedian <= GUIDE_GRAY_HI,
+        downCovered: read.downFraction >= 0.75,
+        archCovered: read.archFraction >= 0.75,
+        arrowsShown: read.arrowWings >= 2,
+        guideInside: read.outsidePx === 0,
+    };
+}
+
+/** A gray model letter and a guide that stays inside the Andika stems. Proves R41 can pass. */
+function guideInsideSvg(model: Element): string {
+    const copy = model.cloneNode(true) as Element;
+    copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    const letter = copy.querySelector('text');
+    expect(letter, 'The copy needs the model letter.').not.toBeNull();
+    letter!.setAttribute('fill', '#b0b0b0');
+    const marker = copy.querySelector('marker');
+    expect(marker, 'The copy needs the arrow marker.').not.toBeNull();
+    marker!.setAttribute('markerWidth', '4');
+    marker!.setAttribute('markerHeight', '4');
+    const dot = copy.querySelector('[data-part="start-dot"]');
+    expect(dot, 'The copy needs the start dot.').not.toBeNull();
+    dot!.setAttribute('cx', '40.5');
+    dot!.setAttribute('cy', '90');
+    dot!.setAttribute('r', '1.4');
+    const paths = copy.querySelectorAll('path[data-part="formation-arrow"]');
+    expect(paths, 'The copy needs the two guide strokes.').toHaveLength(2);
+    paths[0].setAttribute('d', 'M40.5 82 L40.5 100');
+    paths[1].setAttribute('d', 'M40.5 70 L44 74.5 L48 71.2 L52 67.8 L56 65.9 L60 65.2 L64 65.8 L68 70.2 L72.2 74 L72.2 100');
+    return copy.outerHTML;
+}
+
+function letterOnlySvg(modelHtml: string): string {
+    const svg = new DOMParser().parseFromString(modelHtml, 'text/html').querySelector('svg');
+    expect(svg, 'The letter model must be an SVG.').not.toBeNull();
+    const copy = svg!.cloneNode(true) as Element;
+    copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    copy.querySelector('defs')?.remove();
+    for (const node of Array.from(copy.querySelectorAll('circle, path'))) node.remove();
+    return copy.outerHTML;
+}
+
+function cropRaster(
+    data: Buffer, width: number, y0: number, y1: number,
+): { width: number; height: number; data: Buffer } {
+    const height = y1 - y0;
+    const out = Buffer.alloc(width * height);
+    for (let y = 0; y < height; y++) data.copy(out, y * width, (y0 + y) * width, (y0 + y) * width + width);
+    return { width, height, data: out };
+}
+
+function guideOrigin(data: Buffer, width: number, height: number): { ox: number; oy: number } {
+    const unitX = 46 * MM_PX_300 / 100;
+    const unitY = 55 * MM_PX_300 / 120;
+    let minX = width;
+    let maxX = -1;
+    let maxY = -1;
+    let minY = height;
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) if (data[y * width + x] < 230) {
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+    }
+    expect(maxX, 'The model letter must render ink.').toBeGreaterThanOrEqual(0);
+    const bandTop = maxY - Math.round((maxY - minY) * 0.25);
+    const bandHeight = maxY - bandTop + 1;
+    const counts = new Int32Array(width);
+    for (let y = bandTop; y <= maxY; y++) for (let x = minX; x <= maxX; x++) if (data[y * width + x] < 230) counts[x]++;
+    const threshold = Math.max(1, Math.round(bandHeight * 0.5));
+    const runs: { left: number; right: number }[] = [];
+    let runStart = -1;
+    for (let x = minX; x <= maxX; x++) {
+        if (counts[x] >= threshold) {
+            if (runStart < 0) runStart = x;
+        } else if (runStart >= 0) {
+            runs.push({ left: runStart, right: x - 1 });
+            runStart = -1;
+        }
+    }
+    if (runStart >= 0) runs.push({ left: runStart, right: maxX });
+    expect(runs.length, 'The model letter must expose two stems.').toBeGreaterThanOrEqual(2);
+    const leftStem = (runs[0].left + runs[0].right) / 2;
+    return { ox: leftStem - 40.5 * unitX, oy: maxY - 108 * unitY };
+}
+
+function blackOnGray(full: Buffer, letter: Buffer, width: number, height: number, x: number, y: number): boolean {
+    if (x < 1 || y < 1 || x + 1 >= width || y + 1 >= height) return false;
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const i = (y + dy) * width + (x + dx);
+        if (full[i] < GUIDE_BLACK && letter[i] >= GUIDE_GRAY_LO && letter[i] <= GUIDE_GRAY_HI) return true;
+    }
+    return false;
+}
+
+function readGuide(
+    full: Buffer, letter: Buffer, width: number, height: number, paths: string[],
+): GuideRead {
+    const unitX = 46 * MM_PX_300 / 100;
+    const unitY = 55 * MM_PX_300 / 120;
+    const origin = guideOrigin(letter, width, height);
+    console.info(`R41 origin ox=${origin.ox.toFixed(1)} oy=${origin.oy.toFixed(1)}`);
+    const toPx = (ux: number, uy: number): { x: number; y: number } => ({
+        x: Math.round(origin.ox + ux * unitX),
+        y: Math.round(origin.oy + uy * unitY),
+    });
+    const cover = (d: string): number => {
+        const points = pathPoints(d);
+        expect(points.length, 'A guide stroke must have a path.').toBeGreaterThan(4);
+        let hit = 0;
+        for (const point of points) {
+            const px = toPx(point.x, point.y);
+            if (blackOnGray(full, letter, width, height, px.x, px.y)) hit++;
+        }
+        return hit / points.length;
+    };
+    let arrowWings = 0;
+    for (const d of paths) {
+        const points = pathPoints(d);
+        const end = points[points.length - 1];
+        const prev = points[Math.max(0, points.length - 6)];
+        let dx = end.x - prev.x;
+        let dy = end.y - prev.y;
+        const len = Math.hypot(dx, dy) || 1;
+        dx /= len;
+        dy /= len;
+        let wings = 0;
+        for (let along = -2.8; along <= 0.8; along += 0.4) {
+            for (const side of [-1.8, -1.3, -1.0, 1.0, 1.3, 1.8]) {
+                const px = toPx(end.x + dx * along - dy * side, end.y + dy * along + dx * side);
+                if (blackOnGray(full, letter, width, height, px.x, px.y)) wings++;
+            }
+        }
+        if (wings >= 4) arrowWings++;
+    }
+    const tol = Math.round(GUIDE_TOLERANCE_MM * MM_PX_300);
+    let outsidePx = 0;
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+        const i = y * width + x;
+        if (full[i] >= GUIDE_BLACK || letter[i] <= 235) continue;
+        let near = false;
+        for (let dy = -tol; dy <= tol && !near; dy++) for (let dx = -tol; dx <= tol && !near; dx++) {
+            const yy = y + dy;
+            const xx = x + dx;
+            if (yy < 0 || xx < 0 || yy >= height || xx >= width) continue;
+            if (dx * dx + dy * dy > tol * tol) continue;
+            if (letter[yy * width + xx] < 230) near = true;
+        }
+        if (!near) outsidePx++;
+    }
+    const ink: number[] = [];
+    for (let i = 0; i < letter.length; i++) if (letter[i] < 240) ink.push(letter[i]);
+    return {
+        letterMedian: median(ink),
+        downFraction: cover(paths[0]),
+        archFraction: cover(paths[1]),
+        arrowWings,
+        outsidePx,
+    };
+}
+
 /** The horizontal extent of the reader-leaf cut line, in millimeters from the page left edge. */
 function cutLineExtent(data: Buffer, width: number): { minMm: number; maxMm: number } {
     const top = Math.round(138 * MM_PX_300), bottom = Math.round(148 * MM_PX_300);
@@ -956,4 +1186,43 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(frontExtent.minMm).toBeLessThanOrEqual(15);
         expect(frontExtent.maxMm, 'The front cut line ends at the outer edge.').toBeGreaterThanOrEqual(207);
     }, 250000);
+
+    it('R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)', async () => {
+        const { doc } = await render();
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const model = page(doc, 'practice').querySelector('svg.letter-model');
+        expect(model, 'The letter box must print the model SVG.').not.toBeNull();
+        const paths = Array.from(model!.querySelectorAll('path[data-part="formation-arrow"]'), (node) => node.getAttribute('d') ?? '');
+        expect(paths, 'The shipped week keeps the down line and the arch.').toHaveLength(2);
+        const gapMm = 20;
+        const splitMm = 55 + gapMm / 2;
+        const secondMm = 55 + gapMm;
+        const measurePair = async (top: string, bottom: string, pathList: string[]): Promise<GuideRead> => {
+            const file = buildPdfx(isolateMeasurementHtml('r41', style, `${top}<div style="height:${gapMm}mm"></div>${bottom}`));
+            const raster = await rasterPage(file, 1, 300);
+            const split = Math.round(splitMm * MM_PX_300);
+            const second = Math.round(secondMm * MM_PX_300);
+            expect(raster.height, 'The probe page must hold both letter rasters.').toBeGreaterThan(second + split);
+            const full = cropRaster(raster.data, raster.width, 0, split);
+            const letter = cropRaster(raster.data, raster.width, second, second + split);
+            return readGuide(full.data, letter.data, full.width, letter.height, pathList);
+        };
+        const head = await measurePair(model!.outerHTML, letterOnlySvg(model!.outerHTML), paths);
+        const copySvg = guideInsideSvg(model!);
+        const copyPaths = Array.from(
+            new DOMParser().parseFromString(copySvg, 'text/html').querySelectorAll('path[data-part="formation-arrow"]'),
+            (node) => node.getAttribute('d') ?? '',
+        );
+        const copyFile = path.join(temporaryFolder(), 'r41-guide-inside.html');
+        const copyHtml = isolateMeasurementHtml('r41-copy', style, `${copySvg}<div style="height:${gapMm}mm"></div>${letterOnlySvg(copySvg)}`);
+        fs.writeFileSync(copyFile, copyHtml);
+        const copy = await measurePair(copySvg, letterOnlySvg(copySvg), copyPaths);
+        const wanted = {
+            letterInBand: true, downCovered: true, archCovered: true, arrowsShown: true, guideInside: true,
+        };
+        console.info(`R41 HEAD letterMedian=${head.letterMedian} downFraction=${head.downFraction.toFixed(2)} archFraction=${head.archFraction.toFixed(2)} arrowWings=${head.arrowWings} outsidePx=${head.outsidePx}`);
+        console.info(`R41 COPY letterMedian=${copy.letterMedian} downFraction=${copy.downFraction.toFixed(2)} archFraction=${copy.archFraction.toFixed(2)} arrowWings=${copy.arrowWings} outsidePx=${copy.outsidePx} file=${copyFile}`);
+        expect(guideContract(copy), 'A gray letter with the guide inside the outline can pass R41.').toEqual(wanted);
+        expect(guideContract(head), 'D5: the guide is black on the black model letter. The down line and the arrowheads do not show.').toEqual(wanted);
+    }, 500000);
 });
