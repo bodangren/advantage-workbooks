@@ -74,6 +74,15 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - R15 passes. The Primary cover files and the Primary cover tests are unchanged at this commit.
     - `PROJECT_LINT` exit 0. The new test file has no lint error. One warning is in the unrelated dirty file `student-book.ts`. This phase did not edit that file.
     - The existing cover tests pass. `covers-*.test.ts` reports `Tests  27 passed (27)` and exit 0.
+    - Correction r2, 2026-10-27, commit 83d98286fc6dd4e83ffc6d2b4532980838bf88b7:
+    - R12 read `raw.info.hasAlpha`. Sharp `OutputInfo` has no `hasAlpha` field. The value is always undefined. No implementation can pass that line. `tsc` reports TS2339.
+    - The fix expects `(await sharp(buffer).metadata()).hasAlpha` to be false. The fix also expects `raw.info.channels` to be 3.
+    - `assertPanel` took a `Document`. Three call sites pass an `Element`. The code runs. `tsc` reports TS2345 on those lines. `PROJECT_CHECKS` fails on the test file.
+    - The fix types the first parameter as `ParentNode`. An `Element` and a `Document` both type-check. The check behavior does not change.
+    - Evidence: an RGBA copy from `sharp(buffer).ensureAlpha()` fails both new checks. The real composed picture passes both checks. Output: `measure/runs/storytime_covers_20261027/mid-red-ba2b72a-alpha.txt`.
+    - Evidence: R16 M6 still throws on a back without the panel. The test passes. Output: `measure/runs/storytime_covers_20261027/mid-red-ba2b72a-m6.txt`.
+    - Evidence: `RED_TEST_COMMAND` exits 0. The count is 24 passed of 24. Green code is already committed, so a pass is expected.
+    - Evidence: `PROJECT_LINT` exits 0. `PROJECT_CHECKS` exits 2. The test file has zero errors. One known Green error remains on `scripts/storytime/make-storytime-book-cover.ts` line 109. The error is `media: 'print'` in `page.pdf()`. This correction does not fix that error.
 - [~] Task (Green): the cover module, the data file, the build script, and the picture composer. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
     - `content/storytime/covers/books.json`: the 16 rows, the level colours, the LINE address, and the picture recipes. The Level 2 Unit 1 row names the 7 cast cut-outs of `content/storytime/l2/media/w01/forge/cast/`. The other rows name their picture recipe too, so that a later build needs no new data work.
     - `lib/storytime/print/covers.ts`: the module. It reads the data file, the week packages, and the fonts. It writes the front and the back HTML, and it returns the checks of FR-4 and FR-6.
