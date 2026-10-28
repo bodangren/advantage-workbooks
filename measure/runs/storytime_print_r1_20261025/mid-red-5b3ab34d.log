@@ -37,3 +37,27 @@ copied_gaps_mm: n 1.22, 1.22, 1.22; a 1.27; H 1.27; all pass the 1.5 mm limit
 proof_cross_check: proof v5 estimate about 4 mm for n; corrected result is within about 1 mm
 handoff: Green must correct the three n dots and the a dot location, retain the 1.5 mm limit, and preserve the Red checks. The test uses full compiled print layout and separately detects black dots and trace-gray letter ink.
 END_MEASURE_AGENT_RESULT
+
+Type-fix correction facts
+
+The type failure reported for commit `7f5eb435` was `TS2339: Property 'targetSelector' does not exist on type '{ selector: string; letter: string; rightStem: boolean; } | { selector: string; targetSelector: string; letter: string; rightStem: boolean; }'` at test lines 1481 and 1492. The cause was that `PROJECT_CHECKS`, including `npx tsc --noEmit`, was not run after the dot-test commit.
+
+The fix declares one array type: `{ selector: string; targetSelector?: string; letter: string; rightStem: boolean }[]`. It changes no selector, measure, limit, assertion, or runtime value. Fix commit: `bd5b94ed94cefc0cc27f1bd00d7543d0b6626fe1`, test file only.
+
+`npx tsc --noEmit`: one foreground heavy-run wrapper; exit 0; no output and no type errors in the test or other files. `PROJECT_LINT` command `npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts`: one foreground heavy-run wrapper; exit 0; no output. `RED_TEST_COMMAND` was not run.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: Phase 2 Red 2f type-fix correction
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: 053d85e9741c038033c830f363c73b771cf095cb
+resulting_head: bd5b94ed94cefc0cc27f1bd00d7543d0b6626fe1
+commits: bd5b94ed94cefc0cc27f1bd00d7543d0b6626fe1 (test); plan and log commit follows
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-5b3ab34d.log
+prior_tsc_errors: TS2339 targetSelector at lines 1481 and 1492 in commit 7f5eb435; fixed by optional targetSelector in the common probe array type
+npx_tsc_noEmit: exit 0; no output; no errors
+PROJECT_LINT: exit 0; no output
+RED_TEST_COMMAND: not run, as instructed
+END_MEASURE_AGENT_RESULT
