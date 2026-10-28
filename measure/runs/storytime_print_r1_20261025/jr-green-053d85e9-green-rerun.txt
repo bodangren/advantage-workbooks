@@ -1,0 +1,32 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/storytime-print-student-book.test.ts -t "R43|R44|R45|R46|R42|R38: places each trace dot"
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 start-dot gap n 1: 1.21 mm (dot 113,142; gray start 116,156; box 309x309; black <=60; gray 153-204)
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 start-dot gap n 2: 1.28 mm (dot 112,142; gray start 114,157; box 309x309; black <=60; gray 153-204)
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 start-dot gap n 3: 1.20 mm (dot 113.5,142; gray start 116,156; box 309x309; black <=60; gray 153-204)
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 start-dot gap a 4: 1.23 mm (dot 972.5,53.5; gray start 973,68; box 2153x125; black <=60; gray 153-204)
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 start-dot gap H 5: 1.27 mm (dot 25.5,83; gray start 26.5,98; box 2153x228; black <=60; gray 153-204)
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: places each trace dot within 1.5 mm of its first letter stroke
+[22m[39mR38 copied dot gaps: 1.27, 1.27, 1.19, 1.31, 1.27 mm
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m44 tests[22m[2m | [22m[33m37 skipped[39m[2m)[22m[33m 30979[2mms[22m[39m
+     [33m[2m✓[22m[39m R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract [33m 393[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: places each trace dot within 1.5 mm of its first letter stroke [33m 30273[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m7 passed[39m[22m[2m | [22m[33m37 skipped[39m[90m (44)[39m
+[2m   Start at [22m 23:12:13
+[2m   Duration [22m 32.76s[2m (transform 505ms, setup 91ms, import 586ms, tests 30.98s, environment 712ms)[22m
+
+EXIT: 0
