@@ -1192,6 +1192,60 @@ describe('Storytime student workbook: the shipped week 1', () => {
             .not.toThrow();
     });
 
+    it('R47: requires an explicit output file strictly inside the print folder', async () => {
+        const modulePath = path.join(dashboardRoot, 'lib/storytime/print/student-book-cli.ts');
+        expect(fs.existsSync(modulePath), 'The pure student-book CLI module must exist.').toBe(true);
+        if (!fs.existsSync(modulePath)) return;
+        const mod = await import(modulePath) as Record<string, unknown>;
+        expect(typeof mod.parseStorytimeStudentBookArgs, 'Export parseStorytimeStudentBookArgs(argv, home, unit).').toBe('function');
+        if (typeof mod.parseStorytimeStudentBookArgs !== 'function') return;
+        const parseArgs = mod.parseStorytimeStudentBookArgs as (argv: string[], home: string, unit: number) => unknown;
+        const home = path.join('/tmp/opencode', 'r47-parser-home');
+        const folder = path.join(home, 'Desktop', 'print-ready', 'storytime');
+        for (const output of [folder, `${folder}${path.sep}`, path.join(folder, 'x.txt')]) {
+            expect(() => parseArgs(['--level', '2', '--weeks', '1', '--out', output], home, 1),
+                `Reject non-PDF output target ${output}.`).toThrow();
+        }
+        expect(() => parseArgs(['--level', '2', '--weeks', '1', '--out', path.join(folder, 'x.pdf')], home, 1),
+            'Accept a PDF file strictly inside the print folder.').not.toThrow();
+    });
+
+    it('R47: rejects output paths that filesystem links redirect outside the print folder', async () => {
+        const modulePath = path.join(dashboardRoot, 'lib/storytime/print/student-book-cli.ts');
+        expect(fs.existsSync(modulePath), 'The pure student-book CLI module must exist.').toBe(true);
+        if (!fs.existsSync(modulePath)) return;
+        const mod = await import(modulePath) as Record<string, unknown>;
+        expect(typeof mod.checkStorytimeOutputContainment,
+            'Export checkStorytimeOutputContainment(outputPath, home).').toBe('function');
+        if (typeof mod.checkStorytimeOutputContainment !== 'function') return;
+        const check = mod.checkStorytimeOutputContainment as (outputPath: string, home: string) => void;
+        const root = fs.mkdtempSync(path.join('/tmp/opencode', 'storytime-r47-'));
+        try {
+            const home = path.join(root, 'home');
+            const outside = path.join(root, 'outside');
+            const folder = path.join(home, 'Desktop', 'print-ready', 'storytime');
+            fs.mkdirSync(folder, { recursive: true });
+            fs.mkdirSync(outside, { recursive: true });
+            fs.writeFileSync(path.join(outside, 'existing.pdf'), 'outside');
+            fs.symlinkSync(outside, path.join(folder, 'link'), 'dir');
+            fs.symlinkSync(path.join(outside, 'existing.pdf'), path.join(folder, 'out.pdf'), 'file');
+
+            expect(() => check(path.join(folder, 'link', 'x.pdf'), home), 'Reject an output below an outside-pointing folder link.')
+                .toThrow();
+            expect(() => check(path.join(folder, 'out.pdf'), home), 'Reject an existing output link to an outside file.')
+                .toThrow();
+            expect(() => check(path.join(folder, 'x.pdf'), home), 'Accept a plain PDF output inside the real folder.')
+                .not.toThrow();
+
+            const newHome = path.join(root, 'new-home');
+            fs.mkdirSync(path.join(newHome, 'Desktop', 'print-ready'), { recursive: true });
+            expect(() => check(path.join(newHome, 'Desktop', 'print-ready', 'storytime', 'nested', 'x.pdf'), newHome),
+                'Accept an inside output when the Storytime folder does not exist yet.').not.toThrow();
+        } finally {
+            fs.rmSync(root, { recursive: true, force: true });
+        }
+    });
+
     it('R36: matches both printed PDF/X QR matrices to their labeled song and book addresses', async () => {
         const week = shipped();
         const { html, doc } = await render(week);
