@@ -229,18 +229,12 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         }
     }, 30000);
 
-    it('A1: keeps a hostile QR query as text in the address attribute', async () => {
+    it('A1: stops the build when the QR query is hostile', async () => {
         const week = changedWeek((copy) => {
             copy.home!.songUrl = '/th/st/2/1?part=song&x=<script>alert(1)</script>';
         });
-        const { doc } = await render(week);
-        const codes = Array.from(page(doc, 'home-front').querySelectorAll('[data-qr-input]'));
-        expect(codes).toHaveLength(2);
-        expect(codes[0].getAttribute('data-qr-input'))
-            .toBe('https://storytime.reading-advantage.com/th/st/2/1?part=song&x=<script>alert(1)</script>');
-        expect(doc.querySelectorAll('script').length).toBe(0);
-        expect(doc.querySelectorAll('img').length).toBe(0);
-    });
+        await expect(render(week)).rejects.toThrow('/th/st/2/1?part=song&x=<script>alert(1)</script>');
+    }, 30000);
 
     it.each(['https://evil.example/th/st/2/1', '//evil.example/th/st/2/1'])(
         'A1: stops the build when the QR path is "%s"', async (url) => {
@@ -261,7 +255,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         // The control: the same check must catch the answer when a broken page prints it.
         const broken = html.replace('<p class="check-cue">', '<p class="check-cue">ZZ-ANSWER-9f3 ');
         expect(broken, 'The control must print the answer.').toContain('ZZ-ANSWER-9f3');
-    });
+    }, 30000);
 
     it('A2: carries no answer element anywhere in the book', async () => {
         const { doc } = await render();
