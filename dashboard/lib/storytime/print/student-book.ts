@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { generateQRCode } from '../../qr-generator';
 import { THAI } from '../../document-wrapper/print-fonts';
-import { STORYTIME_ROOT } from '../files';
+import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
 import type { StorytimePrintProfile } from './profile';
@@ -15,8 +15,9 @@ import type { StorytimePrintProfile } from './profile';
  * hooks. The weekly spread starts on a left page (a blank aligns it when needed), the home-card
  * leaf carries no student work, and every tear-out leaf is perforated 12 mm from the
  * parity-dependent spine (P2). The reader leaves hold empty strip boxes until Phase 4 adds the
- * reader content (plan, Phase 2 Red contract). All ink is black on white: no gray fill, because
- * the print profile converts a gray to four-color black (strategy 5.1).
+ * reader content (plan, Phase 2 Red contract). The text ink is the trace gray #b0b0b0 (a K tone
+ * of about 31 %) and the guide and line ink is black; the --k-only PDF/X conversion keeps the
+ * C, M, and Y plates empty (D2, spec FR-3).
  */
 
 /** One side of a physical sheet before the page numbers are assigned. */
@@ -129,10 +130,16 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .student-page [data-part="writing-trace"] { color: #b0b0b0; }
 .trace-row { display: flex; gap: 8mm; margin-top: 6mm; }
 .trace-cell { width: 26mm; height: 26mm; border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 44pt; position: relative; }
-/* The black start dot marks the first stroke of each trace item (D2). */
+/* The black start dot marks the first stroke of each trace item (D2). The dot is black and
+ * 2.4 mm, and its offset puts the dot center on the measured first stroke of the letter:
+ * n at the top of the left stem, a (Andika) at the top of its right stem, H at the top of its
+ * left stem (R38 letter probes at 300 dpi, Green 2f; A-P2-04). */
 .start-dot { display: inline-block; width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #000; }
-.trace-cell .start-dot { position: absolute; left: 13%; top: 42%; }
-.dictation-line .start-dot, .writing-trace .start-dot { margin-right: 2.5mm; vertical-align: 4mm; }
+.trace-cell .start-dot { position: absolute; left: 31.19%; top: 40.92%; }
+.dictation-line { position: relative; }
+.dictation-line .start-dot { position: absolute; left: 80.98mm; top: 3.46mm; }
+.writing-trace { position: relative; text-indent: 1.3mm; }
+.writing-trace .start-dot { position: absolute; left: 0.8mm; top: 5.66mm; }
 .practice-sheet { margin-top: 8mm; }
 .practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
 .practice-picture { width: 30mm; height: 30mm; }
@@ -178,8 +185,9 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
 
 /**
  * The picture element of a picture-list row: a proof placeholder box, or (final mode) the
- * line-art picture file (FR-9: the workbook prints line art only). A final build stops and
- * names the picture id when the file is missing (FR-5.6).
+ * line-art picture file (FR-9: the workbook prints line art only). A final build stops and names
+ * the picture id when the line-art file is missing (FR-5.6). Final mode loads `row.lineArtFileName`,
+ * never the color file `row.fileName` (B-P2-02).
  * @param row The picture-list row.
  * @param week The week that needs the picture.
  * @param o The compile options.
@@ -188,9 +196,9 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
  */
 function pictureElement(row: StorytimePictureRow, week: StorytimeWeek, o: StorytimeStudentBookOptions, className: string): string {
     const dir = pictureDirOf(week);
-    const file = path.join(dir, row.fileName);
+    const file = path.join(dir, o.mode === 'final' ? row.lineArtFileName : row.fileName);
     if (o.mode === 'final') {
-        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${row.fileName})`);
+        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
         return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}"><img src="file://${file}" alt=""></div>`;
     }
     return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
@@ -239,8 +247,9 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
     <!-- D6 look (default until Daniel decides at the week 1 proof): the second stroke starts on
          the left shoulder (y 75 of this 100-unit box, R42 rule 1), rises over one smooth hill
          with no corner (R42 rules 2 and 3, smooth cubic curves), then falls onto and down the
-         right stem. The path keeps the guide ink inside the letter outline (R41, 0.5 mm). -->
-    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+         right stem on one smooth join. The path keeps the guide ink inside the letter outline
+         (R41, 0.5 mm). -->
+    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 72.2 65.4 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
   </svg>
   <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
   <div class="trace-row">
@@ -311,7 +320,9 @@ function homePages(week: StorytimeWeek, mode: 'proof' | 'final'): PageSpec[] {
     if (!home) throw new Error(`week ${week.meta.week} has no home card`);
     const qr = (url: string | undefined, label: string): string => {
         if (!url) return '';
-        const address = `https://storytime.reading-advantage.com${url}`;
+        // B-P2-01: each printed code encodes storytimeQrUrl of the package page path, so a
+        // path outside /th/st/ stops the build instead of printing a wrong address.
+        const address = storytimeQrUrl(url);
         const svg = generateQRCode(address);
         if (!svg) throw new Error(`QR code failed for ${address}`);
         return `<span class="qr" data-qr-input="${esc(address)}">${svg}<span class="qr-label">${esc(label)}</span></span>`;
@@ -381,6 +392,15 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile): PageS
  */
 export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: StorytimeStudentBookOptions): { html: string } {
     if (!weeks.length) throw new Error('no weeks');
+    // FR-9 + B-P2-02: a final build needs the line-art file of every picture row of the
+    // compiled weeks, in list order, so the first missing row names itself before any page
+    // renders (R44). Proof mode prints placeholders instead.
+    if (o.mode === 'final') {
+        const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
+        for (const row of storytimePrintPictures(weeks)) {
+            if (!fs.existsSync(path.join(dir, row.lineArtFileName))) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
+        }
+    }
     const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
     for (const week of weeks) {
         if (week.meta.kind === 'review') throw new Error(`student book: the review pages of week ${week.meta.week} come with the weeks 2 to 8 phase`);

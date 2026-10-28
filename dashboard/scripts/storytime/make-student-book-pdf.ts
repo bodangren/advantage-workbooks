@@ -6,6 +6,7 @@ import { chromium } from '@playwright/test';
 import { renderPagedPdf } from '../../lib/print/render';
 import { STORYTIME_PRINT_PROFILE } from '../../lib/storytime/print/profile';
 import { compileStorytimeStudentBook } from '../../lib/storytime/print/student-book';
+import { checkRequestedWeeks, parseStorytimeStudentBookArgs, type StorytimeStudentBookArgs } from '../../lib/storytime/print/student-book-cli';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
 
@@ -19,49 +20,42 @@ export const STORYTIME_STUDENT_PDFX_FLAGS = ['--keep-fonts', '--k-only'] as cons
 
 const USAGE = `Builds the PDF/X-1a print file of the Storytime Advantage student workbook (spec FR-3):
 the HTML template in system Chrome with Paged.js (from node_modules), then make-pdfx.ts
-(--keep-fonts) to PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
+(--keep-fonts and --k-only) to PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
 
 Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <list> [--proof|--final] [--version <n>] [--out <file.pdf>]
 
-  --level     The Storytime level, e.g. 2
-  --weeks     The teaching weeks to include, comma separated, e.g. 1
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks to include, each a whole number from 1 to 32, comma separated, e.g. 1;
+              every requested week must load exactly once (checkRequestedWeeks)
   --proof     Proof mode: picture boxes print the placeholder (default)
   --final     Final mode: the build stops when a picture file is missing and names the picture id (FR-5.6)
-  --version   The version in the file name (rule 12.2; default 1)
-  --out       Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --out       Output file, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
 
-Exit code 1 when a week does not parse, a review week is included, or the PDF/X checks fail.`;
+Exit code 2 on an argument or --out error; exit code 1 when a week does not parse or does not
+load exactly once, a review week is included, or the PDF/X checks fail.`;
 
 async function main(argv: string[]): Promise<number> {
-    let level: number | undefined;
-    let weeks: number[] | undefined;
-    let mode: 'proof' | 'final' = 'proof';
-    let version = 1;
-    let out: string | undefined;
-    for (let i = 0; i < argv.length; i++) {
-        const a = argv[i];
-        if (a === '--help' || a === '-h') {
-            console.log(USAGE);
-            return 0;
-        } else if (a === '--level') level = Number(argv[++i]);
-        else if (a === '--weeks') weeks = String(argv[++i]).split(',').map(Number);
-        else if (a === '--proof') mode = 'proof';
-        else if (a === '--final') mode = 'final';
-        else if (a === '--version') version = Number(argv[++i]);
-        else if (a === '--out') out = path.resolve(argv[++i]);
-        else {
-            console.error(`Unknown argument: ${a}\n\n${USAGE}`);
-            return 2;
-        }
+    if (argv.length === 0 || argv.some((a) => a === '--help' || a === '-h')) {
+        console.log(USAGE);
+        return argv.length === 0 ? 2 : 0;
     }
-    if (level === undefined || !weeks?.length || weeks.some((w) => !(w >= 1 && w <= 32)) || !(version >= 1)) {
-        console.error(USAGE);
+    let args: StorytimeStudentBookArgs;
+    try {
+        // Release 1 is unit 1 only (spec P11), so the pure parser resolves the default file
+        // name with unit 1; the loaded weeks carry no second unit yet.
+        args = parseStorytimeStudentBookArgs(argv, os.homedir(), 1);
+    } catch (e) {
+        console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
         return 2;
     }
+    const { level, weeks, mode, outputPath } = args;
     const read = readLevelWeeks(STORYTIME_ROOT, level).filter((r) => {
         const meta = (r.raw as { meta?: { week?: number } }).meta;
-        return weeks!.includes(meta?.week ?? -1);
+        return weeks.includes(meta?.week ?? -1);
     });
+    checkRequestedWeeks(weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     const broken = read.filter((r) => !r.week);
     if (broken.length) {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);
@@ -75,7 +69,7 @@ async function main(argv: string[]): Promise<number> {
     }
     const result = compileStorytimeStudentBook(parsed, { profile: STORYTIME_PRINT_PROFILE, mode });
     const unit = parsed[0].meta.unit;
-    out ??= path.join(os.homedir(), 'Desktop', 'print-ready', 'storytime', `Storytime-Advantage-L${level}-U${unit}-Student-Book-v${version}_PDFX-1a.pdf`);
+    const out = outputPath;
 
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-student-'));
     const htmlFile = path.join(tmp, 'student-book.html');
