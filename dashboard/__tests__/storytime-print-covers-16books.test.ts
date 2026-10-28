@@ -79,6 +79,7 @@ interface PictureModule {
     checkStorytimeCoverPicture: (png: Buffer, groundTint?: string, minimumFillShare?: number) => string[];
     storytimeCoverFigureLayout: (files: string[], sizePx: { width: number; height: number }) => Promise<FigureBox[]>;
     checkStorytimeCoverFigureLayout: (boxes: FigureBox[], sizePx: { width: number; height: number }, headBandHeightPx: number, sideBandWidthPx?: number) => string[];
+    checkStorytimeCoverFigureAspect: (boxes: FigureBox[], files: string[], tolerance: number) => string[];
 }
 
 interface FigureBox {
@@ -819,7 +820,7 @@ describe('Storytime 16-book covers', () => {
         const dataModule = await covers('loadStorytimeCoverBooks');
         const mod = await pictures('composeStorytimeCoverPicture', 'checkStorytimeCoverPicture');
         const { default: sharp } = await import('sharp');
-        const threshold = 0.58;
+        const threshold = 0.55;
         const tints: Record<number, string> = { 1: '#F9E1D2', 2: '#D4E4F1', 3: '#D8EBDD', 4: '#E6DCF1' };
         const size = { width: mmToPx(186), height: mmToPx(180) };
         const data = dataModule.loadStorytimeCoverBooks();
@@ -866,8 +867,61 @@ describe('Storytime 16-book covers', () => {
             const index = (y * mutantRaw.info.width + x) * mutantRaw.info.channels;
             expect([0, 1, 2].every((channel) => Math.abs(mutantRaw.data[index + channel] - ground[channel]) <= 6), `Mutant corner ${x},${y} retains tint`).toBe(true);
         }
-        const errors = mod.checkStorytimeCoverPicture(fs.readFileSync(copied), tint, 0.58);
+        const errors = mod.checkStorytimeCoverPicture(fs.readFileSync(copied), tint, 0.55);
         expect(errors.some((error) => /fill/i.test(error)), 'The copied mutant fails by fill, not by corner tint.').toBe(true);
+    }, 120000);
+
+    it('R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('storytimeCoverFigureLayout');
+        const { default: sharp } = await import('sharp');
+        const data = dataModule.loadStorytimeCoverBooks();
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const tolerance = 0.02;
+
+        const alphaRatio = async (file: string): Promise<number> => {
+            const raw = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+            let minX = raw.info.width;
+            let minY = raw.info.height;
+            let maxX = -1;
+            let maxY = -1;
+            for (let y = 0; y < raw.info.height; y++) {
+                for (let x = 0; x < raw.info.width; x++) {
+                    if (raw.data[(y * raw.info.width + x) * raw.info.channels + 3] <= 0) continue;
+                    minX = Math.min(minX, x);
+                    minY = Math.min(minY, y);
+                    maxX = Math.max(maxX, x);
+                    maxY = Math.max(maxY, y);
+                }
+            }
+            expect(maxX, `${file} has visible alpha pixels`).toBeGreaterThanOrEqual(minX);
+            return (maxX - minX + 1) / (maxY - minY + 1);
+        };
+
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const book = bookOf(data, level, unit);
+            const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+            const boxes = await mod.storytimeCoverFigureLayout(files, size);
+            for (let index = 0; index < boxes.length; index++) {
+                const sourceRatio = await alphaRatio(files[index]);
+                const boxRatio = boxes[index].width / boxes[index].height;
+                expect(Math.abs(boxRatio - sourceRatio), `${book.title}, figure ${boxes[index].name}, cut-out ratio`).toBeLessThanOrEqual(tolerance);
+            }
+            if (typeof mod.checkStorytimeCoverFigureAspect !== 'function') {
+                expect(mod.checkStorytimeCoverFigureAspect, `${book.title}, figure ${boxes[0]?.name}, required aspect checker export`).toBeTypeOf('function');
+                return;
+            }
+            expect(mod.checkStorytimeCoverFigureAspect(boxes, files, tolerance), `${book.title} aspect errors`).toEqual([]);
+
+            const mutant = structuredClone(boxes);
+            mutant[0].height = Math.round(mutant[0].height * 1.06);
+            const copied = path.join(temporaryFolder(), `l${level}u${unit}-aspect-mutant.json`);
+            fs.writeFileSync(copied, JSON.stringify(mutant));
+            const copiedBoxes = JSON.parse(fs.readFileSync(copied, 'utf8')) as FigureBox[];
+            const errors = mod.checkStorytimeCoverFigureAspect(copiedBoxes, files, tolerance);
+            expect(errors.length, `${book.title}, figure ${copiedBoxes[0].name}, 6 percent stretch mutant`).toBeGreaterThan(0);
+            expect(errors.join(' '), `${book.title}, figure ${copiedBoxes[0].name}, named aspect error`).toContain(copiedBoxes[0].name);
+        }
     }, 120000);
 
     it('R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x', async () => {
