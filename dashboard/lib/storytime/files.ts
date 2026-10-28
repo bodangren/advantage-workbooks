@@ -11,14 +11,28 @@ export const STORYTIME_ROOT = path.join(REPO_ROOT, 'content', 'storytime');
 /** The host of the printed Storytime QR codes: a subdomain of its own, not the Primary app (Daniel, 2026-10-22, S23). */
 export const STORYTIME_QR_HOST = 'https://storytime.reading-advantage.com';
 
+/** The canonical Storytime page path: the route, the level, the week, and an optional part query. */
+const STORYTIME_PAGE_PATH = /^\/th\/st\/([1-9]\d*)\/([1-9]\d*)(\?part=(?:book|decodable|song))?$/;
+
 /**
- * The address that a printed QR code holds: the Storytime host and a page path of the package
+ * The address that a printed QR code holds: the Storytime host and a canonical page path of the package
  * (`home.songUrl`, `home.readAlongUrl`). The package keeps the path only.
+ *
+ * The canonical path is `/th/st/<level>/<week>` and then nothing, or one query: `?part=book`,
+ * `?part=decodable`, or `?part=song`. The level is an integer from 1 to 4. The week is an integer from
+ * 1 to 32. Neither has a leading zero. So no dot segment, no extra segment, no other query, and no
+ * upper-case part value reaches the printed code (adversarial finding on c8aba128, spec P4).
  * @param pagePath The path of the public page, as "/th/st/2/1?part=song".
  * @returns The full address.
+ * @throws Error When `pagePath` is not a canonical Storytime page path. The message names the path.
  */
 export function storytimeQrUrl(pagePath: string): string {
-    if (!pagePath.startsWith('/th/st/')) throw new Error(`not a Storytime page path: ${pagePath}`);
+    const page = STORYTIME_PAGE_PATH.exec(pagePath);
+    const level = Number(page?.[1] ?? 0);
+    const week = Number(page?.[2] ?? 0);
+    if (!page || level < 1 || level > 4 || week < 1 || week > 32) {
+        throw new Error(`not a Storytime page path: ${pagePath}`);
+    }
     return STORYTIME_QR_HOST + pagePath;
 }
 
