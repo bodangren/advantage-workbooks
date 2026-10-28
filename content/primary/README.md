@@ -14,6 +14,8 @@ Spec: `measure/archive/lesson_packages_20261001/spec.md`. Plan context: `docs/co
 | `origins-3.2/` | `p01.json` … `p14.json` |
 | `<book>/media/<lesson>/` | `hero.jpg` and the other pictures, `article.mp3`, `words.mp3`, `sentences.mp3`. `tutor/` (one mp3 per sentence, word, question, and option for Tutor Advantage), `candidates/`, `.clips/` (each speech clip trimmed, as Opus at 64 kbps with its exact sample count; WAV before 2026-10-21), and `samples/` stay out of git; the script makes `tutor/` again from `.clips/` with no new speech calls |
 
+Each book has a tracked `media/clips.sha256` list. Run `cd dashboard && npx tsx scripts/media/clips-sha256.ts` after each clip batch and commit the changed lists. `--check` shows a lost or changed take. Keep `.clips/` in place for the PM Drive backup (Daniel, 2026-10-29).
+
 Keep this folder out of `primary/`: Tutor Advantage imports every folder there.
 
 ## Commands (run from `dashboard/`)
