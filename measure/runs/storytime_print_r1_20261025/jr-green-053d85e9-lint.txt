@@ -1,0 +1,5 @@
+GATE: PROJECT_LINT
+COMMAND: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts
+WRAPPER: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '...'
+HEAD at run start: 6963e96b20a299e9a88748de8a5b5a6de7e5663a
+exit=0

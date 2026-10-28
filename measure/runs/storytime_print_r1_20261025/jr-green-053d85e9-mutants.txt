@@ -1,0 +1,42 @@
+== prerogueCheck: pristine copies from committed HEAD 6963e96b ==
+(empty above means clean baseline)
+
+== M61: apply (fix: student-book.ts) ==
+applied: student-book.ts: "import { STORYTIME_ROOT, storytimeQrUrl } from '" -> 'import { STORYTIME_ROOT, storytimeQrUrl as _qrPa'
+M61: vitest exit=1 (nonzero means the Red test catches the mutant)
+ Test Files  1 failed (1)
+M61: restore cmp OK
+M61: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M62: apply (fix: student-book.ts) ==
+applied: student-book.ts: "const file = path.join(dir, o.mode === 'final' ?" -> 'const file = path.join(dir, row.fileName);'
+M62: vitest exit=1 (nonzero means the Red test catches the mutant)
+ Test Files  1 failed (1)
+M62: restore cmp OK
+M62: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M63: apply (fix: student-book-cli.ts) ==
+applied: student-book-cli.ts: 'if (resolved !== folder && !resolved.startsWith(' -> 'if (false) {'
+M63: vitest exit=1 (nonzero means the Red test catches the mutant)
+ Test Files  1 failed (1)
+M63: restore cmp OK
+M63: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M64: apply (fix: student-book.ts) ==
+applied: student-book.ts: 'C66 65.4 72.2 65.4 72.2 74' -> 'C66 65.4 69 70 72.2 74'
+M64: vitest exit=1 (nonzero means the Red test catches the mutant)
+ Test Files  1 failed (1)
+M64: restore cmp OK
+M64: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M65: apply (fix: student-book.ts) ==
+applied: student-book.ts: '.trace-cell .start-dot { position: absolute; lef' -> '.trace-cell .start-dot { position: absolute; lef'
+M65: vitest exit=1 (nonzero means the Red test catches the mutant)
+ Test Files  1 failed (1)
+M65: restore cmp OK
+M65: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== final check ==
+student-book.ts restored cmp OK
+student-book-cli.ts restored cmp OK
+final git diff --quiet -- dashboard/lib/storytime/print/ exit=0

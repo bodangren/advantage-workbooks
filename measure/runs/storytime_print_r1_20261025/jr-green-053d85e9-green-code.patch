@@ -1,0 +1,341 @@
+diff --git a/dashboard/lib/storytime/print/student-book-cli.ts b/dashboard/lib/storytime/print/student-book-cli.ts
+new file mode 100644
+index 00000000..77af51ce
+--- /dev/null
++++ b/dashboard/lib/storytime/print/student-book-cli.ts
+@@ -0,0 +1,134 @@
++import path from 'path';
++
++/**
++ * The pure CLI contract of the student workbook build (spec FR-3; Review B findings B-P2-03
++ * and B-P2-04): argument validation and the requested-week check with no file access, so the
++ * tests run them without rendering. `make-student-book-pdf.ts` passes its own arguments here
++ * before it touches the week files.
++ */
++
++/** The validated arguments of one student book build. */
++export interface StorytimeStudentBookArgs {
++    /** The Storytime level. */
++    level: number;
++    /** The requested teaching weeks, each a safe integer in range. */
++    weeks: number[];
++    /** The build mode: `proof` prints the picture placeholders (default), `final` needs them. */
++    mode: 'proof' | 'final';
++    /** The version in the output file name. */
++    version: number;
++    /** The resolved output file, or undefined when the default path is used. */
++    out?: string;
++    /** The resolved output file: the explicit `--out`, else the default path for the unit. */
++    outputPath: string;
++}
++
++/** The safe `--level` range, as `check-weeks.ts` accepts levels 1 to 4. */
++const MIN_LEVEL = 1;
++const MAX_LEVEL = 4;
++/** The safe `--weeks` range for one week pack. */
++const MIN_WEEK = 1;
++const MAX_WEEK = 32;
++/** The safe `--version` range: it labels the print file (rule 12.2), so it needs no upper end. */
++const MIN_VERSION = 1;
++const MAX_VERSION = Number.MAX_SAFE_INTEGER;
++
++/** The print-ready Storytime folder that holds every student book file (spec P2). */
++const printReadyDir = (home: string): string => path.join(home, 'Desktop', 'print-ready', 'storytime');
++
++/**
++ * Parses and validates the one `number` value of a flag line.
++ * @param value The raw flag value.
++ * @param name The flag name for the error.
++ * @param min The same lower end as the accepted whole values.
++ * @param max The accepted upper end.
++ * @returns The value as a safe integer in range.
++ */
++function safeInt(value: string, name: string, min: number, max: number): number {
++    const parsed = Number(value);
++    if (!Number.isSafeInteger(parsed) || parsed < min || parsed > max) {
++        throw new Error(`${name} must be a whole number from ${min} to ${max}, got "${value}"`);
++    }
++    return parsed;
++}
++
++/**
++ * Builds the default output file name of a student book (P11: release 1 is unit 1 only).
++ * @param home The user home folder.
++ * @param level The validated level.
++ * @param unit The unit from the loaded week data (release 1: pass 1).
++ * @param version The validated version.
++ * @returns The absolute path of the default PDF/X file.
++ */
++function defaultOutputPath(home: string, level: number, unit: number, version: number): string {
++    return path.join(printReadyDir(home),
++        `Storytime-Advantage-L${level}-U${unit}-Student-Book-v${version}_PDFX-1a.pdf`);
++}
++
++/**
++ * Parses the arguments of `make-student-book-pdf.ts` with no file access (B-P2-03). Each level,
++ * week, and version value must parse to a safe integer in range, `--proof` and `--final` are
++ * exclusive, and an explicit `--out` must resolve inside the print-ready Storytime folder of
++ * `home` (B-P2-04); a `~` form or a `..` escape stops the build.
++ * @param argv The CLI arguments, without the node command.
++ * @param home The user home folder that resolves the default output path.
++ * @param unit The unit from the loaded week data; release 1 knows unit 1 (spec P11).
++ * @returns The validated arguments.
++ */
++export function parseStorytimeStudentBookArgs(argv: string[], home: string, unit: number): StorytimeStudentBookArgs {
++    let level: number | undefined;
++    let weeks: number[] | undefined;
++    let proof = false;
++    let final = false;
++    let version = 1;
++    let out: string | undefined;
++    for (let i = 0; i < argv.length; i++) {
++        const arg = argv[i];
++        if (arg === '--level') level = safeInt(argv[++i], '--level', MIN_LEVEL, MAX_LEVEL);
++        else if (arg === '--weeks') {
++            weeks = String(argv[++i]).split(',').map((week) => safeInt(week, `--weeks "${week}"`, MIN_WEEK, MAX_WEEK));
++        } else if (arg === '--proof') proof = true;
++        else if (arg === '--final') final = true;
++        else if (arg === '--version') version = safeInt(argv[++i], '--version', MIN_VERSION, MAX_VERSION);
++        else if (arg === '--out') {
++            out = argv[++i];
++            if (!path.isAbsolute(out)) throw new Error(`--out must be an absolute path inside ${printReadyDir(home)}, got "${out}"`);
++        } else throw new Error(`unknown argument: ${arg}`);
++    }
++    if (level === undefined) throw new Error('a --level value is required');
++    if (!weeks?.length) throw new Error('a --weeks list is required');
++    if (proof && final) throw new Error('use --proof or --final, not both');
++    const folder = printReadyDir(home);
++    let outputPath: string;
++    if (out) {
++        const resolved = path.resolve(out);
++        if (resolved !== folder && !resolved.startsWith(folder + path.sep)) {
++            throw new Error(`--out must stay inside ${folder}, got "${out}"`);
++        }
++        outputPath = resolved;
++    } else {
++        outputPath = defaultOutputPath(home, level, unit, version);
++    }
++    const mode: 'proof' | 'final' = final ? 'final' : 'proof';
++    return { level, weeks, mode, version, out, outputPath };
++}
++
++/**
++ * Checks that every requested week is in the loaded week list exactly once (B-P2-03).
++ * @param requested The requested week numbers, as the parser returned them.
++ * @param loaded The week numbers that the level folder loaded with the shape the build needs.
++ */
++export function checkRequestedWeeks(requested: number[], loaded: number[]): void {
++    for (const week of new Set(requested)) {
++        if (!Number.isSafeInteger(week) || week < MIN_WEEK || week > MAX_WEEK) {
++            throw new Error(`requested week ${week} is not a whole number from ${MIN_WEEK} to ${MAX_WEEK}`);
++        }
++    }
++    if (new Set(requested).size !== requested.length) throw new Error('the requested weeks contain a duplicate');
++    for (const week of requested) {
++        const found = loaded.filter((loadedWeek) => loadedWeek === week).length;
++        if (found !== 1) {
++            throw new Error(`requested week ${week} is not loaded exactly once (loaded ${found} of the level)`);
++        }
++    }
++}
+diff --git a/dashboard/lib/storytime/print/student-book.ts b/dashboard/lib/storytime/print/student-book.ts
+index d68625d2..24f4238f 100644
+--- a/dashboard/lib/storytime/print/student-book.ts
++++ b/dashboard/lib/storytime/print/student-book.ts
+@@ -3,7 +3,7 @@ import path from 'path';
+ import { fileURLToPath } from 'url';
+ import { generateQRCode } from '../../qr-generator';
+ import { THAI } from '../../document-wrapper/print-fonts';
+-import { STORYTIME_ROOT } from '../files';
++import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
+ import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
+ import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+ import type { StorytimePrintProfile } from './profile';
+@@ -15,8 +15,9 @@ import type { StorytimePrintProfile } from './profile';
+  * hooks. The weekly spread starts on a left page (a blank aligns it when needed), the home-card
+  * leaf carries no student work, and every tear-out leaf is perforated 12 mm from the
+  * parity-dependent spine (P2). The reader leaves hold empty strip boxes until Phase 4 adds the
+- * reader content (plan, Phase 2 Red contract). All ink is black on white: no gray fill, because
+- * the print profile converts a gray to four-color black (strategy 5.1).
++ * reader content (plan, Phase 2 Red contract). The text ink is the trace gray #b0b0b0 (a K tone
++ * of about 31 %) and the guide and line ink is black; the --k-only PDF/X conversion keeps the
++ * C, M, and Y plates empty (D2, spec FR-3).
+  */
+ 
+ /** One side of a physical sheet before the page numbers are assigned. */
+@@ -129,10 +130,16 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
+ .student-page [data-part="writing-trace"] { color: #b0b0b0; }
+ .trace-row { display: flex; gap: 8mm; margin-top: 6mm; }
+ .trace-cell { width: 26mm; height: 26mm; border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 44pt; position: relative; }
+-/* The black start dot marks the first stroke of each trace item (D2). */
++/* The black start dot marks the first stroke of each trace item (D2). The dot is black and
++ * 2.4 mm, and its offset puts the dot center on the measured first stroke of the letter:
++ * n at the top of the left stem, a (Andika) at the top of its right stem, H at the top of its
++ * left stem (R38 letter probes at 300 dpi, Green 2f; A-P2-04). */
+ .start-dot { display: inline-block; width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #000; }
+-.trace-cell .start-dot { position: absolute; left: 13%; top: 42%; }
+-.dictation-line .start-dot, .writing-trace .start-dot { margin-right: 2.5mm; vertical-align: 4mm; }
++.trace-cell .start-dot { position: absolute; left: 31.19%; top: 40.92%; }
++.dictation-line { position: relative; }
++.dictation-line .start-dot { position: absolute; left: 80.98mm; top: 3.46mm; }
++.writing-trace { position: relative; text-indent: 1.3mm; }
++.writing-trace .start-dot { position: absolute; left: 0.8mm; top: 5.66mm; }
+ .practice-sheet { margin-top: 8mm; }
+ .practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
+ .practice-picture { width: 30mm; height: 30mm; }
+@@ -178,8 +185,9 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
+ 
+ /**
+  * The picture element of a picture-list row: a proof placeholder box, or (final mode) the
+- * line-art picture file (FR-9: the workbook prints line art only). A final build stops and
+- * names the picture id when the file is missing (FR-5.6).
++ * line-art picture file (FR-9: the workbook prints line art only). A final build stops and names
++ * the picture id when the line-art file is missing (FR-5.6). Final mode loads `row.lineArtFileName`,
++ * never the color file `row.fileName` (B-P2-02).
+  * @param row The picture-list row.
+  * @param week The week that needs the picture.
+  * @param o The compile options.
+@@ -188,9 +196,9 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
+  */
+ function pictureElement(row: StorytimePictureRow, week: StorytimeWeek, o: StorytimeStudentBookOptions, className: string): string {
+     const dir = pictureDirOf(week);
+-    const file = path.join(dir, row.fileName);
++    const file = path.join(dir, o.mode === 'final' ? row.lineArtFileName : row.fileName);
+     if (o.mode === 'final') {
+-        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${row.fileName})`);
++        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
+         return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}"><img src="file://${file}" alt=""></div>`;
+     }
+     return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
+@@ -239,8 +247,9 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
+     <!-- D6 look (default until Daniel decides at the week 1 proof): the second stroke starts on
+          the left shoulder (y 75 of this 100-unit box, R42 rule 1), rises over one smooth hill
+          with no corner (R42 rules 2 and 3, smooth cubic curves), then falls onto and down the
+-         right stem. The path keeps the guide ink inside the letter outline (R41, 0.5 mm). -->
+-    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
++         right stem on one smooth join. The path keeps the guide ink inside the letter outline
++         (R41, 0.5 mm). -->
++    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 72.2 65.4 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+   </svg>
+   <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
+   <div class="trace-row">
+@@ -311,7 +320,9 @@ function homePages(week: StorytimeWeek, mode: 'proof' | 'final'): PageSpec[] {
+     if (!home) throw new Error(`week ${week.meta.week} has no home card`);
+     const qr = (url: string | undefined, label: string): string => {
+         if (!url) return '';
+-        const address = `https://storytime.reading-advantage.com${url}`;
++        // B-P2-01: each printed code encodes storytimeQrUrl of the package page path, so a
++        // path outside /th/st/ stops the build instead of printing a wrong address.
++        const address = storytimeQrUrl(url);
+         const svg = generateQRCode(address);
+         if (!svg) throw new Error(`QR code failed for ${address}`);
+         return `<span class="qr" data-qr-input="${esc(address)}">${svg}<span class="qr-label">${esc(label)}</span></span>`;
+@@ -381,6 +392,15 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile): PageS
+  */
+ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: StorytimeStudentBookOptions): { html: string } {
+     if (!weeks.length) throw new Error('no weeks');
++    // FR-9 + B-P2-02: a final build needs the line-art file of every picture row of the
++    // compiled weeks, in list order, so the first missing row names itself before any page
++    // renders (R44). Proof mode prints placeholders instead.
++    if (o.mode === 'final') {
++        const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
++        for (const row of storytimePrintPictures(weeks)) {
++            if (!fs.existsSync(path.join(dir, row.lineArtFileName))) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
++        }
++    }
+     const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
+     for (const week of weeks) {
+         if (week.meta.kind === 'review') throw new Error(`student book: the review pages of week ${week.meta.week} come with the weeks 2 to 8 phase`);
+diff --git a/dashboard/scripts/storytime/make-student-book-pdf.ts b/dashboard/scripts/storytime/make-student-book-pdf.ts
+index d8f38a4b..8ec57bc0 100644
+--- a/dashboard/scripts/storytime/make-student-book-pdf.ts
++++ b/dashboard/scripts/storytime/make-student-book-pdf.ts
+@@ -6,6 +6,7 @@ import { chromium } from '@playwright/test';
+ import { renderPagedPdf } from '../../lib/print/render';
+ import { STORYTIME_PRINT_PROFILE } from '../../lib/storytime/print/profile';
+ import { compileStorytimeStudentBook } from '../../lib/storytime/print/student-book';
++import { checkRequestedWeeks, parseStorytimeStudentBookArgs, type StorytimeStudentBookArgs } from '../../lib/storytime/print/student-book-cli';
+ import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+ import type { StorytimeWeek } from '../../lib/storytime/schema';
+ 
+@@ -19,49 +20,42 @@ export const STORYTIME_STUDENT_PDFX_FLAGS = ['--keep-fonts', '--k-only'] as cons
+ 
+ const USAGE = `Builds the PDF/X-1a print file of the Storytime Advantage student workbook (spec FR-3):
+ the HTML template in system Chrome with Paged.js (from node_modules), then make-pdfx.ts
+-(--keep-fonts) to PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
++(--keep-fonts and --k-only) to PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
+ 
+ Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <list> [--proof|--final] [--version <n>] [--out <file.pdf>]
+ 
+-  --level     The Storytime level, e.g. 2
+-  --weeks     The teaching weeks to include, comma separated, e.g. 1
++  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
++  --weeks     The weeks to include, each a whole number from 1 to 32, comma separated, e.g. 1;
++              every requested week must load exactly once (checkRequestedWeeks)
+   --proof     Proof mode: picture boxes print the placeholder (default)
+   --final     Final mode: the build stops when a picture file is missing and names the picture id (FR-5.6)
+-  --version   The version in the file name (rule 12.2; default 1)
+-  --out       Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
++  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
++  --out       Output file, an absolute path inside <home>/Desktop/print-ready/storytime/
++              (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
+ 
+-Exit code 1 when a week does not parse, a review week is included, or the PDF/X checks fail.`;
++Exit code 2 on an argument or --out error; exit code 1 when a week does not parse or does not
++load exactly once, a review week is included, or the PDF/X checks fail.`;
+ 
+ async function main(argv: string[]): Promise<number> {
+-    let level: number | undefined;
+-    let weeks: number[] | undefined;
+-    let mode: 'proof' | 'final' = 'proof';
+-    let version = 1;
+-    let out: string | undefined;
+-    for (let i = 0; i < argv.length; i++) {
+-        const a = argv[i];
+-        if (a === '--help' || a === '-h') {
+-            console.log(USAGE);
+-            return 0;
+-        } else if (a === '--level') level = Number(argv[++i]);
+-        else if (a === '--weeks') weeks = String(argv[++i]).split(',').map(Number);
+-        else if (a === '--proof') mode = 'proof';
+-        else if (a === '--final') mode = 'final';
+-        else if (a === '--version') version = Number(argv[++i]);
+-        else if (a === '--out') out = path.resolve(argv[++i]);
+-        else {
+-            console.error(`Unknown argument: ${a}\n\n${USAGE}`);
+-            return 2;
+-        }
++    if (argv.length === 0 || argv.some((a) => a === '--help' || a === '-h')) {
++        console.log(USAGE);
++        return argv.length === 0 ? 2 : 0;
+     }
+-    if (level === undefined || !weeks?.length || weeks.some((w) => !(w >= 1 && w <= 32)) || !(version >= 1)) {
+-        console.error(USAGE);
++    let args: StorytimeStudentBookArgs;
++    try {
++        // Release 1 is unit 1 only (spec P11), so the pure parser resolves the default file
++        // name with unit 1; the loaded weeks carry no second unit yet.
++        args = parseStorytimeStudentBookArgs(argv, os.homedir(), 1);
++    } catch (e) {
++        console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
+         return 2;
+     }
++    const { level, weeks, mode, outputPath } = args;
+     const read = readLevelWeeks(STORYTIME_ROOT, level).filter((r) => {
+         const meta = (r.raw as { meta?: { week?: number } }).meta;
+-        return weeks!.includes(meta?.week ?? -1);
++        return weeks.includes(meta?.week ?? -1);
+     });
++    checkRequestedWeeks(weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+     const broken = read.filter((r) => !r.week);
+     if (broken.length) {
+         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);
+@@ -75,7 +69,7 @@ async function main(argv: string[]): Promise<number> {
+     }
+     const result = compileStorytimeStudentBook(parsed, { profile: STORYTIME_PRINT_PROFILE, mode });
+     const unit = parsed[0].meta.unit;
+-    out ??= path.join(os.homedir(), 'Desktop', 'print-ready', 'storytime', `Storytime-Advantage-L${level}-U${unit}-Student-Book-v${version}_PDFX-1a.pdf`);
++    const out = outputPath;
+ 
+     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-student-'));
+     const htmlFile = path.join(tmp, 'student-book.html');

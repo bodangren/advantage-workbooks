@@ -1,0 +1,59 @@
+# Green role log, jr-green-053d85e9, track storytime_print_r1_20261025, Phase 2 task Green 2f
+
+status: partial
+Start: 2026-10-28 21:45:56 +07 (TZ=Asia/Bangkok). HEAD 053d85e9 (role_base 053d85e9741c038033c830f363c73b771cf095cb), phase_base 03a803c8.
+Red model independence: the phase Red roles were OpenAI, DeepSeek, and xai. This run is opencode/glm-5.3-flash-free#high (GLM). No coder was delegated; no Red model family ran.
+
+## Red contract verification
+
+- The committed Red changes of this task sit in phase_base_sha..HEAD: Review A tests cc5fa0b8, the dot check 7f5eb43574403773c994fe0dce249450113499a5, Review B tests 3d53f9c1 (merge-base checks exit 0).
+- Targeted Red rerun before the fix (one heavy-run wrapper, full output jr-green-053d85e9-red-rerun.txt): `cd dashboard && CI=true npx vitest run __tests__/storytime-print-student-book.test.ts -t "R43|R44|R45|R46|R42|R38: places each trace dot"` exit 1, `Tests 6 failed | 1 passed | 37 skipped (44)`. The six failures are exactly R43, R44, R45, R46, the R42 shoulder test, and the R38 trace-dot test.
+
+## Implementation draft in the working tree (uncommitted; saved as jr-green-053d85e9-green-code.patch)
+
+- student-book.ts: homePages builds each QR address with storytimeQrUrl(url), so a path outside /th/st/ throws (B-P2-01/R43); pictureElement final mode joins and loads row.lineArtFileName and names the picture id when it is missing (B-P2-02/R44); compileStorytimeStudentBook checks, in final mode only, every listed row of the compiled weeks in list order and throws at the first missing line-art file, so the build names rows[0] as R44 expects; the second formation-arrow path is the Red-measured smooth join `M40.5 75 C47 65 54 65 60 65.2 C66 65.4 72.2 65.4 72.2 74 L72.2 103` (A-P2-03/R42); the trace-dot CSS places the dot center on the measured first stroke of the letter (A-P2-04); the stale "no gray fill" comment is corrected to the current K-only text ink (A-P2-07).
+- student-book-cli.ts (new, 6229 bytes): pure exports parseStorytimeStudentBookArgs(argv, home, unit) and checkRequestedWeeks(requested, loaded), with JSDoc; --level 1..4, --weeks 1..32, --version and >= 1 as safe integers; --proof and --final exclusive; an explicit --out must be an absolute path inside <home>/Desktop/print-ready/storytime/ (tilde forms and .. escapes rejected); the parser returns outputPath with the default file name Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf (B-P2-03, B-P2-04/R45, R46).
+- make-student-book-pdf.ts: calls both functions, passes unit 1 per the Red contract (release 1 is unit 1 only, spec P11), and the USAGE text names --keep-fonts and --k-only plus the ranges (A-P2-07). Evidence: lint passes for the three files.
+
+## Dot calibration evidence (jr-green-053d85e9-calibrate.txt, one heavy-run wrapper)
+
+- Pass 1 parks each dot far from its letter, measures the five first-stroke starts at the 300 dpi device scale on the rendered page; pass 2 sets the dots there and re-measures. Gaps: n 1.21, 1.28, 1.20 mm; a 1.23 mm; H 1.28 mm (ALL_GAPS_LE_1_4).
+- Production values baked in: .trace-cell .start-dot left 31.19 % top 40.92 %; .dictation-line .start-dot left 80.98 mm top 3.46 mm; .writing-trace left 0.8 mm top 5.66 mm (with text-indent 1.3 mm so the dot keeps inside the element box). The dots stay black and 2.4 mm.
+- The one accepted residual is the dot-radius occlusion of about 1.2 mm, the same deficit Red measured for the copied page (1.22 to 1.27 mm, limit 1.5 mm).
+
+## Targeted Green rerun on the draft (jr-green-053d85e9-green-rerun.txt, one heavy-run wrapper)
+
+- The same targeted command exits 0: `Tests 7 passed | 37 skipped (44)`. Recorded dot gaps on the direct pass: n 1.21/1.28/1.20 mm, a 1.23 mm, H 1.27 mm; copied gaps 1.27/1.27/1.19/1.31/1.27 mm; all <= 1.5 mm.
+- R41 rerun on the draft (jr-green-053d85e9-r41-rerun.txt, one heavy-run wrapper) exits 0: HEAD letterMedian 175, downFraction 1.00, archFraction 0.99, arrowWings 2, outsidePx 0, dotTopGap 0.76 mm, downTopGap 1.02 mm, downBottomGap 2.29 mm, archBottomGap 2.29 mm.
+
+## Blocker: PROJECT_CHECKS cannot pass, because of the committed Red test (npx tsc --noEmit)
+
+- `cd dashboard && npx tsc --noEmit` exits 1 on HEAD 053d85e9 with exactly two errors, both in the committed Red dot test (blame: commit 7f5eb43554403773c994fe0dce249450113499a5): line 1481 and line 1492, TS2339 `Property 'targetSelector' does not exist on type '{ selector: string; letter: string; rightStem: boolean; } | { selector: string; targetSelector: string; letter: string; rightStem: boolean; }'`. The probe list mixes shapes and both loops read `probe.targetSelector`.
+- PROJECT_CHECKS of plan.md line 23 ends with `npx tsc --noEmit`, so the gate exits 1 before and after any Green work. The test file is immutable for this role, so the four-gate done-when of Green 2f is not reachable by any implementation. The full four gate suites were not run; gate 4 fails deterministically, and each gate must run again on the code after the Red retry.
+- ESLint on the three changed files exits 0 (waived full gate run, see above).
+
+## Scope kept
+
+- scripts render.mjs (video) and the untracked cover/run files of other sessions stay unstaged. No git add -A, no amend or rebase. pnpm-lock.yaml stays unchanged. The implementation draft stays in the working tree for the retry (patch: jr-green-053d85e9-green-code.patch).
+- status: blocked
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_print_r1_20261025
+phase: Phase 2 Green 2f
+status: complete
+phase_base_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: e2b2c558bc594f27ea0e17492f344b356f774978
+red_retry_commits: bd5b94ed (test type fix, test file only); e2b2c558 (plan and log)
+implementation_commit: 6963e96b fix(storytime): correct student book trace dots, --final line art, QR contract, and CLI checks (student-book.ts and make-student-book-pdf.ts modified; student-book-cli.ts new)
+plan_evidence_commit: follows this log entry with the message measure(plan): record Phase 2 Green 2f evidence (a commit cannot carry its own SHA)
+targeted_red_before_fix: exit 1, Tests 6 failed | 1 passed | 37 skipped (44) (jr-green-053d85e9-red-rerun.txt)
+targeted_green_draft: exit 0, Tests 7 passed | 37 skipped (44) (jr-green-053d85e9-green-rerun.txt); R41 rerun exit 0 (jr-green-053d85e9-r41-rerun.txt); dot calibration ALL_GAPS_LE_1_4 (jr-green-053d85e9-calibrate.txt)
+gates_on_6963e96b: GREEN_TEST_COMMAND exit 0, Tests 190 passed (190) on 5 files (jr-green-053d85e9-green.txt); PROJECT_TESTS exit 0, Tests 343 passed (343) on 16 files (jr-green-053d85e9-project.txt); PROJECT_LINT exit 0, no output (jr-green-053d85e9-lint.txt); PROJECT_CHECKS exit 0, one accepted FAIL (published for st2/1), clean tsc, plus a standalone check-weeks run in the same file that reports the accepted FAIL (jr-green-053d85e9-checks.txt)
+proof_v6: ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v6_PDFX-1a.pdf; sha256 f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7; 14 pages; PDF/X-1a:2001; PRINT_GATE exit 0, All checks pass (jr-green-053d85e9-proof.txt)
+k_channel: gs inkcov gives C, M, and Y 0.00000 on all 14 pages, K above 0 on 13 pages; pdffonts embeds UZBXJA+Andika, KFVQOZ+Andika-Bold, TLHDTB+Sarabun-Regular (jr-green-053d85e9-inkcov.txt); proof v5 sha256 unchanged 543620989440c45eff454b905b8ad7040f0a9435b04c3031998f4d60cefb9fff
+mutants: 5 applied, 5 caught, each one expected failing Red test; M61 QR address bypasses storytimeQrUrl (R43), M62 final pictureElement loads the color fileName (R44), M63 shared-folder --out check removed (R46), M64 shoulder join back to one corner (R42 shoulder test), M65 trace-cell dot back at left 13% top 42% (R38 dot check); every restore gives cmp OK and git diff --quiet exit 0 (jr-green-053d85e9-mutants.txt and jr-green-053d85e9-mutant-M61..M65.txt)
+tasks_flipped: Task (Green 2f) to [x] with commit 6963e96b and Evidence: automated; plan line 222 gains the source citation Review A on 7b98d98f (A-P2-01)
+new_files: dashboard/lib/storytime/print/student-book-cli.ts
+handoff: to the review roles: audit scope is the three dashboard files of 6963e96b and the plan-evidence commit that follows; the committed Red tests are untouched; the A-P2-01 claim stands as written by the Red 5b3ab34d commit with the added source citation.
+END_MEASURE_AGENT_RESULT
