@@ -1,0 +1,13 @@
+Measure Red 2f started: 2026-10-28
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: 7b98d98f6cf8d25f17f9aa3fcea346be00d4d3f8
+Initial status: `video/storytime-song/scripts/render.mjs` is unrelated user work. Existing untracked `measure/runs/**` reports are generated or other sessions' artifacts. I will not stage them.
+
+RED_TEST_COMMAND: exit 1 through one foreground heavy-run wrapper. `Tests 4 failed | 184 passed (188)` on 5 files. R43-R46 fail only. Each new test fails inside its body. The 184 earlier tests pass. No collection errors or `No test files found` occurred.
+PROJECT_LINT: exit 0 through one foreground heavy-run wrapper; no output.
+PROJECT_CHECKS: exit 0 through one foreground heavy-run wrapper; one accepted `published` failure; `tsc --noEmit` clean.
+No lock wait over 600 seconds, exit 75, or lockfile change occurred.
+Test commit: 3d53f9c14081707e5ab3cf71e5a86258d26e0773 (`test(storytime): cover Phase 2 Review B findings`). It contains only `dashboard/__tests__/storytime-print-student-book.test.ts`.
+Red failures: R43, unsafe QR paths reach rendered output instead of rejection. R44, final mode checks the color file and throws when only line-art files exist. R45/R46, `student-book-cli.ts` is absent. Green contract: `parseStorytimeStudentBookArgs(argv, home, unit)` and `checkRequestedWeeks(requested, loaded)` in `dashboard/lib/storytime/print/student-book-cli.ts`.
+Status: partial. Green work remains. The Green handoff is in plan.md.
