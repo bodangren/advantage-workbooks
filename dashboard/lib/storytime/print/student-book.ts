@@ -236,7 +236,11 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
          stays inside the letter outline (R41, tolerance 0.5 mm). -->
     <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="40.5" cy="64" r="1.3"/>
     <path d="M40.5 64 L40.5 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
-    <path d="M40.5 66 L44 74.5 L48 71.2 L52 67.8 L56 65.9 L60 65.2 L64 65.8 L68 70.2 L72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+    <!-- D6 look (default until Daniel decides at the week 1 proof): the second stroke starts on
+         the left shoulder (y 75 of this 100-unit box, R42 rule 1), rises over one smooth hill
+         with no corner (R42 rules 2 and 3, smooth cubic curves), then falls onto and down the
+         right stem. The path keeps the guide ink inside the letter outline (R41, 0.5 mm). -->
+    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
   </svg>
   <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
   <div class="trace-row">
