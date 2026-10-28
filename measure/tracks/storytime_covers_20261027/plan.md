@@ -152,7 +152,7 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - The fill tests load the shipped data and compose L1U1, L2U1, and L4U4 at 186 x 180 mm and 300 ppi. They compare each pixel with the level tint at a tolerance of 24 and require a share of at least 0.58. A copied L4U4 image at 75 percent must keep the tint at its four 8 mm corner samples and fail with a fill error.
     - The figure-layout test interface is `storytimeCoverFigureLayout(files, sizePx) -> Promise<FigureBox[]>` and `checkStorytimeCoverFigureLayout(boxes, sizePx, headBandHeightPx) -> string[]`. Each `FigureBox` has `name`, `left`, `top`, `width`, and `height` in pixels. The head band is 8 mm. The copied mutants move a figure to the top edge and overlap two boxes in x. A copied one-pixel bottom crop must pass.
     - Mutation checks use copied PNG and JSON files in temporary folders. The final Red run proves the 75 percent mutant fails because the checker does not report a fill error yet. The figure-layout mutations are asserted after the new layout exports become available.
-- [ ] Task (Green v2): the data, the composer, the picture check, and the v2 build of the three covers with `--print`.
+- [~] Task (Green v2): the data, the composer, the picture check, and the v2 build of the three covers with `--print`.
     - The data holds the recipes, the kinds, and the groups of FR-2.8.
     - The composer draws the ground tint, the rounded corners, and the fill. It allows the bottom crop.
     - Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
