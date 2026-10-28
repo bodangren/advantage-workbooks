@@ -1,6 +1,6 @@
 # Primary Advantage Book Tests and Level Tests — Design
 
-Version 0.3 | Date 2026-10-27 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.4 | Date 2026-10-28 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 This document designs the assessment for the Primary Advantage programme. It designs two tests for each printed book and it designs the listening form for the three level tests. It does not write any test item.
 
@@ -14,7 +14,7 @@ Every choice that the brief left open is marked **Default:**. The PM relays this
 | `../advantage-pr/AGENTS.md` | The rule that external copy names CEFR only |
 | `content/primary/<book>/l*.json` | The lesson packages, 12 glossed words, 10 MCQ, 5 SAQ, 5 LAQ, print set, activities |
 | `dashboard/lib/lesson-package/schema.ts` | The lesson package contract |
-| `content/primary/origins-2/assessments/semester-1/` | Last semester's test, teacher script, answer key, audio kit, build script |
+| `~/Desktop/level-tests/primary/origins-2/semester-1/` | Last semester's test, teacher script, answer key, audio kit and build script; it moved out of this repository on 2026-10-28 |
 | `content/primary/_step-directions/` | 13 approved step directions and 5 approved Tutor directions, their manifests |
 | `../mastery-advantage/english/cefr-vocabulary/data/cambridge-vocabulary-inventory.json` | Starters 495 words, Movers 399 words, Flyers 513 words |
 | <https://www.cambridgeenglish.org/exams-and-tests/starters/test-format> | The Cambridge listening part types used as an internal reference |
@@ -47,9 +47,9 @@ The design makes 35 tests.
 
 Each test draws its content from the lesson packages of the book. A first book test covers lessons 1 to 7. A second book test covers lessons 8 to 14. A level test covers every lesson of the band.
 
-**Default:** a book test is a classroom progress test. The teacher holds the paper, the script, the answer key and the audio. The teacher marks the paper. A level test is a secure test. Its items live in a private place and never enter this repository.
+**Default:** a book test is a classroom progress test. The teacher holds the paper, the script, the answer key and the audio. The teacher marks the paper. A level test is a secure test. Its items live in a private place and never enter a repository.
 
-**Default:** this repository keeps the form document and the build tools. The last semester's test moves to the private place when the private place exists. Until then the last semester's test stays at `content/primary/origins-2/assessments/semester-1/`, and Daniel decides.
+The last semester's test moved to `~/Desktop/level-tests/primary/origins-2/semester-1/` on 2026-10-28 (Daniel's request). This repository keeps the form document and the build tools.
 
 ---
 
@@ -360,7 +360,7 @@ This document holds the listening form of the three level tests. It holds the pa
 
 This document holds no level test item. It holds no passage. It holds no answer key. It holds no audio file. The level test items live in the private place described in section 6.
 
-**Default:** the level test papers and the level test answer keys never enter this repository. The Workbooks repository is public.
+**Default:** the level test papers and the level test answer keys never enter a repository. The Workbooks repository is public.
 
 ### 4.2 The three level tests
 
@@ -452,7 +452,7 @@ The PM is an AI coordinator session. It holds no key, marks no paper and builds 
 
 1. A book test checks taught content. A leak harms one class. The teacher needs the paper in the room.
 2. A level test checks the whole band. A leak harms every future class in that band.
-3. This repository is public. Any level test item in it stays in it.
+3. This repository is public. Any test item that was in it stays in its git history.
 4. The book test paper is useful in the room on the day. The level test paper is useful once.
 5. The teacher marks the book test because the teacher knows the class. The assessor marks the level test because the answer key must stay with one person.
 6. The book test needs no new process. The teacher already runs a test day. Last semester's teacher script has the timing table and the contingencies.
@@ -463,7 +463,7 @@ The PM is an AI coordinator session. It holds no key, marks no paper and builds 
 
 The first book test is for Primary Advantage Origins 2. The strategy lists Origins 2 as a printed book on sale. It says of Tutor Advantage: "Sells Primary Origins 2, Primary Origins 3.1, and Reading Advantage Origins 2 today, because those books are printed." (`advantage-pr/08-strategy/product-strategy-2026-2027.md` §2, line 34.)
 
-- **Default:** Workbooks builds the Origins 2 book test in a working folder outside this repository, at `~/Desktop/asset-requests/<date>/book-tests/`. That folder is not in git. The private place receives the files when Daniel creates it. The public repository keeps only this form document and the build tools.
+- **Answered 2026-10-28:** The private place is `~/Desktop/level-tests/`. Workbooks builds the Origins 2 book test in `~/Desktop/level-tests/primary/origins-2/<test>/`. The public repository keeps only this form document and the build tools.
 - **Why:** the test must not wait for a new repository, and the test must not sit in the public repository.
 
 **Decision 2. Who holds the access to the private place?**
@@ -472,9 +472,9 @@ The first book test is for Primary Advantage Origins 2. The strategy lists Origi
 
 **Decision 3. What happens to last semester's test?**
 
-It is now at `content/primary/origins-2/assessments/semester-1/` in this public repository. It holds the paper, the plan, the teacher script, the answer key, the audio and the build script.
+It was in this public repository. It held the paper, the plan, the teacher script, the answer key, the audio and the build script.
 
-- **Default:** the last semester's test moves to the private place when the private place exists. Until then it stays in this repository, and Daniel decides.
+- **Answered 2026-10-28:** Daniel said, "Move them to a test directory on the desktop." The 121 files moved to `~/Desktop/level-tests/primary/origins-2/semester-1/`. Each SHA-256 matched. The git history still holds the old files. Daniel decides about the history.
 
 **Decision 4. Who reports the level test band?**
 
@@ -500,18 +500,17 @@ Daniel's listen check on the 13 files passed on 2026-10-27 at 15:51 ICT. Daniel'
 
 ### 6.1 The private place
 
-**Default:** a new private repository holds the tests. Its name is `advantage-assessment`. Daniel approves the name and the repository before Workbooks creates it. The repository is private and it is not a fork of a public repository.
+The private place is the plain folder `~/Desktop/level-tests/` on Daniel's machine. It is not a git repository.
+
+**Rule** (Daniel, PM relay 2026-10-28): secure test items, test papers, answer keys, and test audio go only into `~/Desktop/level-tests/`, never into a repository. The `advantage-assessment` repository default is withdrawn on 2026-10-28.
 
 | Path | Content |
 |---|---|
-| `tests/book/<book>/<test>/` | One folder per book test |
-| `tests/level/<band>/` | One folder per level test |
-| `tests/legacy/origins-2-semester-1/` | Last semester's test, after it moves |
-| `tools/` | The generator and the checks |
-| `media/pictures/` | The generated pictures |
-| `media/audio/` | The joined audio files |
+| `primary/<book>/<test>/` | One folder per book test |
+| `primary/level/<band>/` | One folder per level test |
+| `primary/origins-2/semester-1/` | Last semester's test, moved 2026-10-28 |
 
-The folder name of a book test uses the book key and the test number. An example: `tests/book/quest-4/t1-after-lesson-7/`.
+The pictures and the audio of a test stay in its own folder. The folder name of a book test uses the book key and the test number. An example: `primary/quest-4/t1-after-lesson-7/`.
 
 ### 6.2 The files of one book test
 
@@ -544,7 +543,7 @@ The manifest is the machine-readable source of the test. The check script reads 
 | The lesson packages that the tests draw from | `content/primary/<book>/l*.json` |
 | The direction library | `content/primary/_step-directions/` |
 
-**Default:** the generator and the checks stay in this repository. They hold no test item. Workbooks runs the generator. It reads a manifest from the private place and writes the paper, the script and the answer key into the private place.
+**Default:** the generator and the checks stay in this repository. They hold no test item. Workbooks runs the generator. It reads a manifest from the private place and writes the paper, the script and the answer key into the private place. The generator never writes a test file under this repository.
 
 ---
 
@@ -738,9 +737,9 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 
 | # | Question | Default | Who decides |
 |---|---|---|---|
-| 1 | Does the private place exist before the Origins 2 book test ships? | Workbooks builds the test in a working folder outside this repository, at `~/Desktop/asset-requests/<date>/book-tests/`. The private place receives the files when Daniel creates it. | Daniel |
-| 2 | What is the name of the private repository? | `advantage-assessment` | Daniel |
-| 3 | Does last semester's test move to the private place? | It moves when the private place exists. Until then it stays in this repository. | Daniel |
+| 1 | Does the private place exist before the Origins 2 book test ships? | Answered 2026-10-28: the private place is `~/Desktop/level-tests/`. | Daniel |
+| 2 | What is the name of the private repository? | Withdrawn 2026-10-28: the private place is a plain folder, not a repository. | Daniel |
+| 3 | Does last semester's test move to the private place? | Answered 2026-10-28: it moved to `~/Desktop/level-tests/primary/origins-2/semester-1/`. | Daniel |
 | 4 | Is the second book test after lesson 14 or at the end of the book? | After lesson 14. The paper is ready before the last lesson. | Daniel |
 | 5 | Does the teacher report a score to the school? | The teacher reports the band of the book test. No number goes to the school. | Daniel |
 | 6 | Does the book test hold a speaking part? | No. The teacher holds a separate reading check, as last semester's plan set out. | Daniel |
@@ -769,6 +768,7 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 4. The last semester's test still reads "v0.1 (draft for approval)". The document does not change that file.
 5. The rule that external copy names CEFR only applies to customer, press and partner material. This document is internal and it names the Cambridge lists.
 6. The 90 minutes of Daniel's check time cover the test checks only. The Thai of the 12 books that are not made yet is checked one time with each book. That check sits with the book and it adds no test check time.
+7. The folder `~/Desktop/level-tests/` is not in git, so it has no version history and no remote copy. Daniel decides about a backup.
 
 ---
 
@@ -777,3 +777,4 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 - **v0.1** — 2026-10-27 — First draft for the PM. The design covers 32 book tests and 3 level tests. It also covers the listening form, the private place, the build, the checks and the counts.
 - **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person whom Daniel names hold the access to the private place. Daniel's check time was 250 minutes at that version, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
 - **v0.3** — 2026-10-27 — The PM decided that the Thai word meanings in a test come only from glossary Thai that Daniel already checked. Section 3.5 holds that rule. The Thai of the 12 books that are not made yet is checked one time with each book, so it adds no test check time. Daniel's test check time is 90 minutes.
+- **v0.4** — 2026-10-28 — Daniel asked to move the test papers and keys out of the public repository. Section 6.1 holds the storage rule. Decisions 1 and 3 are answered. The repository default is withdrawn.

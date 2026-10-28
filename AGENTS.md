@@ -23,6 +23,7 @@ No `graph.db` exists in this repo yet — run `repo-graph scan . ./graph.db` bef
 * **PDF Generation Gotcha:** To generate PDFs via the Dashboard print dialog, **"Background graphics" MUST be enabled**. Margins should be "Default" or "None".
 * **Layout Engine:** Paged.js handles print layout. CSS print changes require testing in the browser print preview.
 * **Memory Protocol:** You must read and update `measure/tech-debt.md` and `measure/lessons-learned.md` as part of your standard track workflow.
+* **Test Items:** Secure test items, test papers, answer keys, and test audio go only into `~/Desktop/level-tests/`, never into a repository. This repository is public (Daniel, 2026-10-28).
 
 ## Connected Repositories
 

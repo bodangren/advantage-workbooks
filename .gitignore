@@ -20,8 +20,8 @@ content/primary/*/media/*/candidates/
 content/primary/*/media/*/tutor/
 # Package writes that a stopped job left (store.ts writes a .tmp file, then renames it)
 content/primary/**/*.tmp
-# Test package zip (a copy of the tracked files; made again on demand)
-content/primary/*/assessments/*/*-Test-Package.zip
+# Test items, papers, keys and test audio live in ~/Desktop/level-tests/, never in a repository.
+content/primary/*/assessments/
 # Storytime song videos (made again from the package and the art by video/storytime-song/scripts/render.mjs)
 content/storytime/*/media/*/song.mp4
 content/storytime/*/media/*/song-phone.mp4
