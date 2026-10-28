@@ -1,0 +1,31 @@
+Measure Red 2f Review A follow-up started: 2026-10-28
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: fa85b95de42278d9c7a9a338af6afa2153c005d4
+Initial status: `video/storytime-song/scripts/render.mjs` is unrelated user work. Existing run artifacts from other sessions remain untouched.
+
+Review A findings: A-P2-02 (R38 gray), A-P2-03 (R42 full-path geometry), A-P2-04 (trace-dot placement), A-P2-06 (tech debt), and A-P2-07 (Green handoff). The orchestrator selected the first three for this Red extension.
+RED_TEST_COMMAND: exit 1. Result: `Tests 6 failed | 184 passed (190)` on 5 files. Existing tests all passed. R38 gray itself passes on the five real trace fragments: medians 175, 175, 175, 175, 175. The copied CSS without the gray opt-in gives 0, 0, 0, 0, 0 and fails the explicit range assertion. R42 fails only because the shipped path turns 37.2 degrees at the right-stem join. The copied vertical-tangent path passes R42 and all eight R41 checks. Its R41 values: median 175, down fraction 1.00, arch fraction 0.99, 2 arrow wings, 0 px outside, dot/top gap 0.76 mm, down gaps 1.02/2.29 mm, arch gap 2.29 mm.
+Dot gaps at 300 dpi with the 1.5 mm limit: n copies 1.21, 1.21, and 1.21 mm; dictation `a` 14.87 mm; writing `H` 1.19 mm. The `a` assertion fails. The measured `a` dot center is (1029, 241.5), and its right-stem start is (1195, 299).
+Other Red failures: R43 unsafe QR paths; R44 final-mode picture selection; R45 and R46 absent pure CLI exports. They remain for Green 2f.
+PROJECT_LINT: exit 0. No lint output.
+PROJECT_CHECKS: exit 0. The command and exit are in `mid-red-fa85b95d-checks.txt`. The gate prints no output when it passes. TypeScript check is clean; one accepted published FAIL is the only check failure.
+Test commit: cc5fa0b857e25e5305797e1bc0be9dbeb8bc15e2 (`test(storytime): cover the Review A test gaps (R38, R42, start dots)`). It contains only the student-book test file.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: P2 Red 2f Review A extension
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: fa85b95de42278d9c7a9a338af6afa2153c005d4
+resulting_head: cc5fa0b857e25e5305797e1bc0be9dbeb8bc15e2
+commits: cc5fa0b857e25e5305797e1bc0be9dbeb8bc15e2 (tests); plan and report commit follows
+red_test: exit 1; Tests 6 failed | 184 passed (190); 5 files; earlier tests passed
+project_lint: exit 0
+project_checks: exit 0; command, exit code, and no-output fact recorded
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/tech-debt.md; measure/runs/storytime_print_r1_20261025/mid-red-fa85b95d.log; mid-red-fa85b95d-red.txt; mid-red-fa85b95d-lint.txt; mid-red-fa85b95d-checks.txt
+failing_checks: R43 unsafe QR inputs; R44 line-art file selection; R45 and R46 pure CLI parser and output containment; trace-dot alignment for a (14.87 mm vs 1.5 mm); R42 shipped path turn at the stem join
+measurements: gray medians 175,175,175,175,175; copied no-opt-in medians 0,0,0,0,0; dot gaps n 1.21, n 1.21, n 1.21, a 14.87, H 1.19 mm; smooth target R41: median 175, down 1.00, arch 0.99, arrow wings 2, outside 0 px, dot/top 0.76 mm, down 1.02/2.29 mm, arch 2.29 mm
+handoff: Green 2f fixes B-P2-01 to B-P2-04 and the Review A findings named in plan.md. Preserve all Red tests. Green also corrects the prior Green 2e gate claim and stale comments.
+END_MEASURE_AGENT_RESULT
