@@ -1229,10 +1229,16 @@ describe('Storytime student workbook: the shipped week 1', () => {
             fs.writeFileSync(path.join(outside, 'existing.pdf'), 'outside');
             fs.symlinkSync(outside, path.join(folder, 'link'), 'dir');
             fs.symlinkSync(path.join(outside, 'existing.pdf'), path.join(folder, 'out.pdf'), 'file');
+            fs.symlinkSync(path.join(outside, 'not-created.pdf'), path.join(folder, 'dangling.pdf'), 'file');
+            fs.symlinkSync(path.join(outside, 'not-created-folder'), path.join(folder, 'dangling'), 'dir');
 
             expect(() => check(path.join(folder, 'link', 'x.pdf'), home), 'Reject an output below an outside-pointing folder link.')
                 .toThrow();
             expect(() => check(path.join(folder, 'out.pdf'), home), 'Reject an existing output link to an outside file.')
+                .toThrow();
+            expect.soft(() => check(path.join(folder, 'dangling.pdf'), home), 'Reject an output link to a missing outside file.')
+                .toThrow();
+            expect.soft(() => check(path.join(folder, 'dangling', 'x.pdf'), home), 'Reject an output below a missing outside folder link.')
                 .toThrow();
             expect(() => check(path.join(folder, 'x.pdf'), home), 'Accept a plain PDF output inside the real folder.')
                 .not.toThrow();
