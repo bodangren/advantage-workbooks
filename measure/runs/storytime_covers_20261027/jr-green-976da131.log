@@ -1,0 +1,29 @@
+role: jr-green
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 976da131
+status: complete
+date: 2026-10-28
+model: deepseek/deepseek-flash#high. The Red model of this task is openai/gpt-6-luna#high, so the Green and the Red models stay in different families. No coder subagent ran.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 976da131
+head: the implementation commit b53ad48b, then the plan-evidence commit of this log
+commits: b53ad48b (the data, the composer, the picture check, and the build script). This log and the run files are in the plan-evidence commit after it.
+tests_run: GREEN_TEST_COMMAND exit 0, Tests 29 passed (29). PROJECT_TESTS exit 0, Tests 330 passed (330) over 16 files. PROJECT_LINT exit 0, no error and no warning. PROJECT_CHECKS exit 0, no type error. PRINT_GATE exit 0 on each of the three v2 print files, each line "All checks pass.". Every gate ran in the foreground inside one heavy-run wrapper. The Red rerun before the implementation waited for the heavy lock for 25 minutes and ended with no test output; the committed Red evidence stays the Red proof. One line "heavy-run: lock wait over 600 s" appeared, and the orchestrator reports it to the PM.
+mutants: 4, caught: 4. M1 sets the ground to white and R12 fails. M2 scales the row to 0.75 and the R12 v2 fill test fails. M3 makes the animal 0.8 of the row and the R12 v2 layout test fails. M4 removes the child limit and the order rule that would mask it, and R2 v2 fails. Each gate exited 1. Each file was restored, and git diff --quiet exited 0 every time.
+built_files: three v2 covers. Each folder holds front.png, back.png, cover.pdf, the v2 PDF/X-1a file, and corner-mode.txt. The PNG files hold 2480 x 3508 px, 8-bit RGB, with no alpha channel. The corner mode is "radius in the picture layer". The fill shares of the fronts are 0.6328, 0.5982, and 0.6436. The v1 files in ~/Desktop/print-ready/storytime/proof/ are unchanged.
+  ~/Desktop/print-ready/storytime/proof-v2/l1u1/: front.png 038946a1285e7ea41cc494dbd9137d7de776cc2e7537fa99ccd8c30068aecae9; back.png 7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d; cover.pdf 3f859fa4ca8954c7797b54ec48ed9cba33be27734c651225916a6094f8825cd6; Storytime-Advantage-L1-U1-Student-Book-Cover-v2_PDFX-1a.pdf dc73db9467626d55215c48d66ebdb3dd3a4ef8e980d94a20e72bc56124e723a9; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  ~/Desktop/print-ready/storytime/proof-v2/l2u1/: front.png 2f62cafdd2f644f2f5a05dd867801c49cc581fd8f8fa5c67f4e94c40a71d051c; back.png 6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc; cover.pdf 1c08c18ff70fff6089332deb9630bf253179b6a3e5e8f1396d642f49723c414f; Storytime-Advantage-L2-U1-Student-Book-Cover-v2_PDFX-1a.pdf 696d47dc2c69b51918a53462c1b9e66be32f9145fa1762031440c35f893c5bc2; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  ~/Desktop/print-ready/storytime/proof-v2/l4u4/: front.png bd24df575c8f033e2cc785d85657c7cb0e313eaf16c13f8c41a3756ad809ef61; back.png 61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca; cover.pdf cb0d41cde7394a4b847776743a608ee4f82e22b4752f030f88fc983e8f47470b; Storytime-Advantage-L4-U4-Student-Book-Cover-v2_PDFX-1a.pdf 7b6a83d0cf55bf476092d3c8ba35b0e7cebcbac424a5d27588ddd9a32a214cc3; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  The copy check, the Thai byte check on the Chrome PDF, and the QR module check pass on each file. The QR module check finds 0 different modules on every file. The card measurement (R17) passes on each file: the front PNG near-white counts are 17429 and 5370, 17137 and 5360, and 19113 and 5408; the PDF/X 72 dpi counts are 849 and 173, 840 and 169, and 913 and 175; the back panel dark count is 13043 on Level 2 Unit 1.
+tasks_flipped_x: Task (Green v2), commit b53ad48b, Evidence: automated. Task (Check v2), Task (Hand-off v2), and the Manual Verification task stay open.
+facts_changed: none
+handoff: The product decision of option A is in the code and in the plan. The layout check reports an x-overlap inside the one row only when no box top is lower than the vertical middle of the other box, so pip stands in front of the children's feet, as in Daniel's model (D5). The three v2 covers are in ~/Desktop/print-ready/storytime/proof-v2/l1u1, l2u1, and l4u4, and their SHA-256 values are above and in measure/runs/storytime_covers_20261027/jr-green-976da131-sha256.txt. The Check v2 task builds the contact sheet of every page of the three v2 covers and lists the defects against Daniel's 5 points: coloured ground, the Level 1 Unit 1 model, Level 2 Unit 1 not crowded, Level 4 Unit 4 close, and no repeated group. The Hand-off v2 task sends the files and the contact sheet to the PM session by 2026-10-30. The run files are measure/runs/storytime_covers_20261027/jr-green-976da131-red.txt, green.txt, project.txt, lint.txt, checks.txt, printgate.txt, filechecks.txt, measure.txt, mutants.txt, sha256.txt, fill.txt, and this log. Note: ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh was changed by another session during this run; two wrapper calls failed and passed on a retry, and one lock-wait line is in filechecks.txt.
+END_MEASURE_AGENT_RESULT

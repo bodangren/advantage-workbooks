@@ -1,0 +1,39 @@
+command: cd dashboard && node --input-type=module -e "$(cat /tmp/opencode/green-v2/layout-fill.mjs)"
+exit_code: 0
+date: 2026-10-28 12:20 ICT
+result: the fill share of the picture area for the layout variants of the three shipped groups. The measure uses the rule of the committed Red test R12 v2: a pixel counts as a figure pixel when one RGB channel differs from the level tint by more than 24. The picture area is 186 x 180 mm at 300 ppi, thus 2197 x 2126 px. The head band is 8 mm, thus 94 px. The figures are the shipped cut-outs of content/storytime/l2/media/w01/forge/cast/, trimmed to their alpha box. The ground is the level tint, with the 5 mm rounded corners in the picture layer.
+---- output ----
+L1U1: strict one row 0.3449 | strict row, animal at 0.62 0.3662 | D5 model, animal in front 0.6311 | Red threshold 0.58
+L2U1: strict one row 0.5966 | D5 model 0.5966 | Red threshold 0.58
+L4U4: strict one row 0.6425 | D5 model 0.6425 | Red threshold 0.58
+---- second command ----
+command: cd dashboard && node --input-type=module -e "$(cat /tmp/opencode/green-v2/degenerate.mjs)"
+exit_code: 0
+result: the best fill that a strict one-row layout reaches for Level 1 Unit 1. pat takes 90 percent of the width, nan and pip take 5 percent each.
+---- output ----
+L1U1 strict one row, pat 90 percent, nan and pip 5 percent each: fill 0.5704
+---- finding ----
+- A strict one-row layout gives Level 1 Unit 1 a fill of 0.3449. The figures share the width in proportion to their shapes, all tops sit on the 8 mm band, and the row is as wide as the picture area.
+- The same layout with the animal at 62 percent height gives 0.3662.
+- The D5 model gives Level 1 Unit 1 a fill of 0.6311. The two children stand in one row, and pip stands in front of their feet, as in the v1 Level 1 Unit 1 cover of Daniel's model.
+- Level 2 Unit 1 (nan and sam) and Level 4 Unit 4 (mia and ben) hold two children, so the strict row and the D5 model give the same result: 0.5966 and 0.6425. Both pass the 0.58 threshold.
+- A strict one-row layout of pat, nan, and pip cannot reach 0.58. Even the degenerate layout of one full figure and two slivers of 5 percent gives 0.5704. A pass of the 0.58 threshold needs slivers of about 2.5 percent, or a horizontal squeeze of about 17 percent.
+- The cause: three narrow cut-outs (aspect 0.51, 0.62, and 0.73) cannot cover a picture area of aspect 1.03 when they share one row and do not overlap. Two cut-outs can.
+- The v1 Level 1 Unit 1 fill of 0.612758 comes from the same D5 model composition. The v1 Level 2 Unit 1 fill of 0.582000 and the v1 Level 4 Unit 4 fill of 0.543016 come from a two-row composition of 7 and 6 figures.
+
+---- delivered fill share of the three v2 builds (the rule of R12 v2, tolerance 24) ----
+PASS front picture fill share: 0.6328 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 249,225,210 against #F9E1D2
+PASS ground tint at 2102,94: 249,225,210 against #F9E1D2
+PASS ground tint at 94,2031: 249,225,210 against #F9E1D2
+PASS ground tint at 2102,2031: 249,225,210 against #F9E1D2
+PASS front picture fill share: 0.5982 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 212,228,241 against #D4E4F1
+PASS ground tint at 2102,94: 212,228,241 against #D4E4F1
+PASS ground tint at 94,2031: 212,228,241 against #D4E4F1
+PASS ground tint at 2102,2031: 212,228,241 against #D4E4F1
+PASS front picture fill share: 0.6436 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 230,220,241 against #E6DCF1
+PASS ground tint at 2102,94: 230,220,241 against #E6DCF1
+PASS ground tint at 94,2031: 230,220,241 against #E6DCF1
+PASS ground tint at 2102,2031: 230,220,241 against #E6DCF1

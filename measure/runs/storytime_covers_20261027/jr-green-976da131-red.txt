@@ -1,0 +1,8 @@
+command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts'
+date: 2026-10-28 11:55 to 12:20 ICT
+exit_code: none. The wrapper waited for the heavy lock, and the tool timeout ended the call after 25 minutes. No test output was produced.
+lock holder at 12:03 ICT: PID 185255 and PID 190607, `bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c cd /home/daniebo/Desktop/reading-advantage-monorepo && timeout 2700 pnpm install --prefer-offline --ignore-scripts`, with a second session in the lock queue.
+heavy-run line to report to the PM session: "heavy-run: lock wait over 600 s", 25 minutes, holder PID 185255 (a monorepo pnpm install with a 2700 s timeout).
+result: no new Red output. The committed Red evidence stays the current Red proof: measure/runs/storytime_covers_20261027/mid-red-9922d0a7-red.txt reports `Tests 7 failed | 22 passed (29)`, and every failure is an assertion failure. The seven failures are R2, R2 v2, R11, R12 tinted corners, R12 v2 composed fill, the 75 percent L4U4 fill mutant, and the R12 v2 figure-layout contract.
+note: this role did not change a committed Red test and did not commit an implementation file. The Green gate did not run.
+correction 2026-10-28 14:45 ICT: after the implementation commit b53ad48b, the same command ran inside one heavy-run wrapper and exited 0 with `Tests 29 passed (29)`. Output: jr-green-976da131-green.txt. The lock wait of the attempt above ended before any test output.

@@ -1,0 +1,89 @@
+command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx /tmp/opencode/green-v2/file-checks.ts'
+date: 2026-10-28 13:04 +07
+heavy-run: lock wait over 600 s — holder PID 315281: flock -w 600 -E 201 /home/daniebo/Desktop/primary-parity-progress/heavy.lock /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh --locked -c cd /home/daniebo/Desktop/rama-worktrees/security-upgrade; timeout 1800 pnpm --filter primary-advantage run check-types > measure/runs/security_upgrade_20261026/p2/primary-advantage-check-types-r4.log 2>&1; c=$?; echo script_heap=6144 run_heap=6144 exit_code=$c >> measure/runs/security_upgrade_20261026/p2/primary-advantage-check-types-r4.log; echo primary_check_types_exit=$c; timeout 900 pnpm --filter primary-advantage run lint > measure/runs/security_upgrade_20261026/p2/primary-advantage-lint-r4.log 2>&1; c=$?; echo exit_code=$c >> measure/runs/security_upgrade_20261026/p2/primary-advantage-lint-r4.log; echo primary_lint_exit=$c; timeout 1200 pnpm --filter primary-advantage exec vitest run --maxWorkers=1 > measure/runs/security_upgrade_20261026/p2/primary-advantage-test-r4.log 2>&1; c=$?; echo exit_code=$c >> measure/runs/security_upgrade_20261026/p2/primary-advantage-test-r4.log; echo primary_test_exit=$c; timeout 2400 pnpm --filter primary-advantage run build > measure/runs/security_upgrade_20261026/p2/primary-advantage-build-r4.log 2>&1; c=$?; echo script_heap=4096 run_heap=4096 exit_code=$c >> measure/runs/security_upgrade_20261026/p2/primary-advantage-build-r4.log; echo primary_build_exit=$c; git checkout -- apps/accounting/next-env.d.ts apps/accounts/next-env.d.ts apps/sales-advantage/next-env.d.ts apps/workbooks/next-env.d.ts 
+the encoder grid: 29 modules, 434 dark cells
+
+== l2u1 (Storytime Advantage, Level 2, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l1u1 (Storytime Advantage, Level 1, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l4u4 (Storytime Advantage, Level 4, Unit 4, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+file checks: all pass
+exit_code: 0
+
+---- PNG format, delivered fill share, corner samples, and SHA-256 ----
+command: cd dashboard && npx tsx /tmp/opencode/green-v2/png-fill-sha.mts
+date: 2026-10-28 13:33 +07
+== l1u1 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS front picture fill share: 0.6328 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 249,225,210 against #F9E1D2
+PASS ground tint at 2102,94: 249,225,210 against #F9E1D2
+PASS ground tint at 94,2031: 249,225,210 against #F9E1D2
+PASS ground tint at 2102,2031: 249,225,210 against #F9E1D2
+== l2u1 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS front picture fill share: 0.5982 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 212,228,241 against #D4E4F1
+PASS ground tint at 2102,94: 212,228,241 against #D4E4F1
+PASS ground tint at 94,2031: 212,228,241 against #D4E4F1
+PASS ground tint at 2102,2031: 212,228,241 against #D4E4F1
+== l4u4 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS front picture fill share: 0.6436 (threshold 0.58), picture area 2197 x 2126 px
+PASS ground tint at 94,94: 230,220,241 against #E6DCF1
+PASS ground tint at 2102,94: 230,220,241 against #E6DCF1
+PASS ground tint at 94,2031: 230,220,241 against #E6DCF1
+PASS ground tint at 2102,2031: 230,220,241 against #E6DCF1
+---- SHA-256 of every v2 file ----
+dc73db9467626d55215c48d66ebdb3dd3a4ef8e980d94a20e72bc56124e723a9  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l1u1/Storytime-Advantage-L1-U1-Student-Book-Cover-v2_PDFX-1a.pdf
+7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l1u1/back.png
+4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l1u1/corner-mode.txt
+3f859fa4ca8954c7797b54ec48ed9cba33be27734c651225916a6094f8825cd6  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l1u1/cover.pdf
+038946a1285e7ea41cc494dbd9137d7de776cc2e7537fa99ccd8c30068aecae9  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l1u1/front.png
+696d47dc2c69b51918a53462c1b9e66be32f9145fa1762031440c35f893c5bc2  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v2_PDFX-1a.pdf
+6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l2u1/back.png
+4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l2u1/corner-mode.txt
+1c08c18ff70fff6089332deb9630bf253179b6a3e5e8f1396d642f49723c414f  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l2u1/cover.pdf
+2f62cafdd2f644f2f5a05dd867801c49cc581fd8f8fa5c67f4e94c40a71d051c  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l2u1/front.png
+7b6a83d0cf55bf476092d3c8ba35b0e7cebcbac424a5d27588ddd9a32a214cc3  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l4u4/Storytime-Advantage-L4-U4-Student-Book-Cover-v2_PDFX-1a.pdf
+61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l4u4/back.png
+4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l4u4/corner-mode.txt
+cb0d41cde7394a4b847776743a608ee4f82e22b4752f030f88fc983e8f47470b  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l4u4/cover.pdf
+bd24df575c8f033e2cc785d85657c7cb0e313eaf16c13f8c41a3756ad809ef61  /home/daniebo/Desktop/print-ready/storytime/proof-v2/l4u4/front.png
+v2 format and fill: all pass
+exit_code: 0

@@ -1,0 +1,64 @@
+date: 2026-10-28 14:42 +07
+result: four mutants of the v2 cover code, each one gate run of GREEN_TEST_COMMAND in the foreground inside one heavy-run wrapper.
+---- table ----
+
+== M1 | dashboard/lib/storytime/print/cover-picture.ts | expected R12: ==
+M1 change: +1 -1
+M1 gate exit 1
+× R6: the copy check passes the Chrome PDF text of a built cover 2780ms
+× R7: the Thai check reads the Chrome PDF, not a PDF/X extract 3167ms
+× R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data 3336ms
+× R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha 2647ms
+× R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face 2702ms
+× R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails 780ms
+× R12 v2: all three shipped compositions meet the fill threshold on their tinted ground 1016ms
+× R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image 3004ms
+× R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 2883ms
+× R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 2630ms
+Tests  10 failed | 19 passed (29)
+M1 caught on R12:
+M1 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 0
+M1 restore: the source files equal the pristine copies
+
+== M2 | dashboard/lib/storytime/print/cover-picture.ts | expected R12 v2: all three ==
+M2 change: +1 -1
+M2 gate exit 1
+× R6: the copy check passes the Chrome PDF text of a built cover 2646ms
+× R7: the Thai check reads the Chrome PDF, not a PDF/X extract 2454ms
+× R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data 2474ms
+× R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha 2361ms
+× R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face 2422ms
+× R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails 2093ms
+× R12 v2: all three shipped compositions meet the fill threshold on their tinted ground 921ms
+× R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x 46ms
+× R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image 2855ms
+× R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 2519ms
+× R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 2371ms
+Tests  11 failed | 18 passed (29)
+M2 caught on R12 v2: all three
+M2 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 0
+M2 restore: the source files equal the pristine copies
+
+== M3 | dashboard/lib/storytime/print/cover-picture.ts | expected R12 v2 layout ==
+M3 change: +1 -1
+M3 gate exit 1
+× R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x 50ms
+Tests  1 failed | 28 passed (29)
+M3 caught on R12 v2 layout
+M3 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 0
+M3 restore: the source files equal the pristine copies
+
+== M4 | dashboard/lib/storytime/print/covers.ts | expected R2 v2 ==
+M4 change: +0 -5
+M4 gate exit 1
+× R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations 19ms
+Tests  1 failed | 28 passed (29)
+M4 caught on R2 v2
+M4 restore: git diff --quiet -- dashboard/lib/storytime/print/covers.ts exit 0
+M4 restore: the source files equal the pristine copies
+
+---- final tree ----
+cover-picture.ts equals HEAD
+covers.ts equals HEAD
+mutants: 4, caught: 4
+date_end: 2026-10-28 14:45 +07
