@@ -1,0 +1,45 @@
+date: 2026-10-28 17:03 +07
+result: three mutants of the C2 side bands, each one gate run of GREEN_TEST_COMMAND in the foreground inside one heavy-run wrapper.
+
+== M1 | dashboard/lib/storytime/print/cover-picture.ts | expected R18 v2 side band ==
+M1 change: +70 -12
+M1 gate exit 1
+× R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge 2105ms
+Tests  1 failed | 32 passed (33)
+M1 caught on R18 v2 side band
+M1 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 1
+M1 restore: the source files equal the pristine copies
+
+== M2 | dashboard/lib/storytime/print/cover-picture.ts | expected R18 v2 layout ==
+M2 change: +65 -12
+M2 gate exit 1
+× R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge 55ms
+Tests  1 failed | 32 passed (33)
+M2 caught on R18 v2 layout
+M2 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 1
+M2 restore: the source files equal the pristine copies
+
+== M3 | dashboard/lib/storytime/print/cover-picture.ts | expected R18 v2 sides ==
+M3 change: +71 -12
+M3 gate exit 1
+× R6: the copy check passes the Chrome PDF text of a built cover 2879ms
+× R7: the Thai check reads the Chrome PDF, not a PDF/X extract 2571ms
+× R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data 2561ms
+× R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha 2528ms
+× R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face 2638ms
+× R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails 857ms
+× R12 v2: all three shipped compositions meet the fill threshold on their tinted ground 1038ms
+× R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x 48ms
+× R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image 2651ms
+× R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 2612ms
+× R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 2509ms
+× R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture 818ms
+× R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge 1121ms
+Tests  13 failed | 20 passed (33)
+M3 caught on R18 v2 sides
+M3 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 1
+M3 restore: the source files equal the pristine copies
+
+---- final tree ----
+mutants: 3, caught: 3
+date_end: 2026-10-28 17:06 +07

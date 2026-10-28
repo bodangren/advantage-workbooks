@@ -1,0 +1,33 @@
+role: jr-green
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+status: complete
+date: 2026-10-28
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: f69df11483413164a8d491b64c661a30722724cb
+model: deepseek/deepseek-flash#high. The Red models of this phase are openai (Red v2) and minimax (Red C2), so the Green model stays outside both families. No coder subagent ran.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: f69df11483413164a8d491b64c661a30722724cb
+head: 9ca660f0 (the implementation), then the plan-evidence commit that holds this log
+commits: 9ca660f0 feat(storytime-covers): clear the side bands so no head is cut (C2). The plan evidence, the run files, and this log are in the plan-evidence commit after it.
+tests_run: the Red rerun at role base exit 1, Tests 3 failed | 30 passed (33), on R18 v2 sides, R18 v2 side band, and R18 v2 layout. GREEN_TEST_COMMAND exit 0, Tests 33 passed (33). PROJECT_TESTS exit 0, Tests 334 passed (334) over 16 files. PROJECT_LINT exit 0, no error and no warning. PROJECT_CHECKS exit 0, no type error. PRINT_GATE exit 0 on each of the three v2 print files, each line "All checks pass.". Every gate and every build ran in the foreground inside one heavy-run wrapper.
+mutants: 3, caught: 3. M1 removes the side scan of checkStorytimeCoverPicture and R18 v2 side band fails. M2 removes the side rule of the layout check and R18 v2 layout fails. M3 sets the side margin of the composer to 0 and R18 v2 sides fails. Each gate exited 1 on its test, and each source file equals the pristine copy after the restore.
+files_changed: dashboard/lib/storytime/print/covers.ts (STORYTIME_COVER_SIDE_BAND_MM = 3), dashboard/lib/storytime/print/cover-picture.ts (sideBandPx, the row inside the usable width, the row-height growth up to 1.06, the side clause of the layout check, the side scan of the picture check). No committed test changed. The build script and the data file did not change.
+plan_updates: Task (Green C2) is [x] with commit 9ca660f0 and Evidence: automated, with the role base note, the Red rerun, each gate, PRINT_GATE, the file checks, R17, the fills, the gaps, the mutants, the new and old v2 SHA-256 values, the unchanged v1 values, and the row-height fact. Task (Check v2) and Task (Hand-off v2) stay open. The orchestrator records the row-height growth as Check v2 finding C3.
+known_failures: none in this track. Note: the page raster rounds the picture edges by one pixel, so the side and top gaps are measured on the composed picture, with measure/runs/storytime_covers_20261027/jr-green-f69df114-composed-gaps.mts.txt.
+built_files: three v2 covers, each folder with front.png, back.png, cover.pdf, the v2 PDF/X-1a file, and corner-mode.txt. The PNG files hold 2480 x 3508 px, 8-bit RGB, no alpha. The corner mode is "radius in the picture layer". The composed fills are 0.6268, 0.5906, and 0.6323; the page fills are 0.6285, 0.5922, and 0.6335. The side gaps are 3.13 mm on both sides of all three composed pictures, and the top gap is 7.96 mm.
+  ~/Desktop/print-ready/storytime/proof-v2/l1u1/: front.png 32e0545d8127041ca7644e7b1ce4d6161da1b160e337578c3881213db16c4be9; back.png 7e190c338c7832db4bf6e3581d82c7de262da3c571b5ccc313ec3a0c39abb15d; cover.pdf 3f52028efe167bc841797945998ac02c36dd3f2a0ce1d135527e41e6b706baa4; Storytime-Advantage-L1-U1-Student-Book-Cover-v2_PDFX-1a.pdf a80929bbb837eb21801b7a5157d90f9f43118429b768d9510c742509b459f4e0; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  ~/Desktop/print-ready/storytime/proof-v2/l2u1/: front.png 89680b4227d75d5fd12f425e61e1138bbfc8560a44119a5335809364ac11afc3; back.png 6bf071bf59d0fc2c1395788707c74cb3bc099b7fa96de968429600e4669055cc; cover.pdf 0f0b2dcd3ff87deb55cc5e87b3b2cbcd1a70627d933803b7755f2958f3723a8b; Storytime-Advantage-L2-U1-Student-Book-Cover-v2_PDFX-1a.pdf f5999d27665d0caec5e22a400f6d6751a53365d6fec8c122b5f8aa13b8e95204; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  ~/Desktop/print-ready/storytime/proof-v2/l4u4/: front.png 023c14ede9f6834e9ba53c93ad1477c1a20aa0eb81392588302f3fd140b201bd; back.png 61d033be1e58a949056258c95dd5e1aaa0c23dc5378d15f56a5793dc3a7953ca; cover.pdf 600fb8bc09085ee84b1390322118fb6607a31f1295bc96181252630d777217c2; Storytime-Advantage-L4-U4-Student-Book-Cover-v2_PDFX-1a.pdf 29b56c56aac98c31e0dec8e5eb5bead1fa21394a53d34233e3b24c6fdc40c279; corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+  The copy check, the Thai byte check on the Chrome PDF, and the QR module check pass on each file. The QR module check finds 0 different modules on every file. The card measurement (R17) passes on each file. The v1 files in ~/Desktop/print-ready/storytime/proof/ are unchanged: the 12 SHA-256 values equal plan lines 129 to 131.
+tasks_flipped_x: Task (Green C2), commit 9ca660f0, Evidence: automated. Task (Check v2), Task (Hand-off v2), and the Manual Verification task stay open.
+facts_changed: none
+handoff: The side bands of 3 mm at the left edge and at the right edge now hold only the ground tint on all three covers, and the head band stays clear. The row height is up to 6 percent above the shape of the cut-outs, so each figure prints up to 6 percent taller than its cut-out; without it the Level 2 Unit 1 fill is 0.5593, below 0.58. The orchestrator records that growth as Check v2 finding C3, so the Check v2 task lists it against Daniel's 5 points. The three v2 covers are in ~/Desktop/print-ready/storytime/proof-v2/l1u1, l2u1, and l4u4, and their SHA-256 values are above and in measure/runs/storytime_covers_20261027/jr-green-f69df114-sha256.txt. The run files are measure/runs/storytime_covers_20261027/jr-green-f69df114-red.txt, green.txt, project.txt, lint.txt, checks.txt, printgate.txt, filechecks.txt, measure.txt, gaps.txt, mutants.txt, sha256.txt, composed-gaps.mts.txt, and this log. HEAD was 4af2f7f2, a plan commit of the print track, when this role started; the commit 9ca660f0 sits on d2f76bc5. No code changed after 9ca660f0, and no gate ran again after it.
+END_MEASURE_AGENT_RESULT
