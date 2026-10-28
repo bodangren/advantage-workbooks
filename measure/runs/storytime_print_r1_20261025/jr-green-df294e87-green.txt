@@ -1,0 +1,58 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 909[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 720[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 1213[2mms[22m[39m
+     [33m[2m✓[22m[39m R20: throws on the 27th occurrence instead of cycling suffixes [33m 576[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 5788[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 1231[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 651[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 593[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 769[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 486[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 371[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 397[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 386[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 386[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+UZBXJA+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+KFVQOZ+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+TLHDTB+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     46  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 origin ox=-0.5 oy=-3.6
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[22m[39mR41 HEAD letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 D6 smooth shoulder copy letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-bmCr7l/r41-guide-inside.html
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 45331[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 633[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 417[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 1570[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 836[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 8870[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 2905[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 756[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 353[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 368[2mms[22m[39m
+     [33m[2m✓[22m[39m R37: sits the n stroke guide on the rendered stems within 1 mm (D1) [33m 5202[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 4775[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 4513[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 582[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal cut line with the strip parity (D4) [33m 1969[2mms[22m[39m
+     [33m[2m✓[22m[39m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5) [33m 8425[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m184 passed[39m[22m[90m (184)[39m
+[2m   Start at [22m 20:33:33
+[2m   Duration [22m 47.61s[2m (transform 2.86s, setup 591ms, import 3.77s, tests 53.96s, environment 921ms)[22m
+

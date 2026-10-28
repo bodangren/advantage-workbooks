@@ -1,0 +1,70 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m38 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m36 skipped[39m[2m)[22m[33m 442[2mms[22m[39m
+     [2m[90m↓[39m[22m R22: prints the page order and a left-page spread
+     [2m[90m↓[39m[22m R22: uses the P11 default title and the eight book-map places
+     [2m[90m↓[39m[22m R23: draws n with the top start dot, arrows, three trace copies, and one write space
+     [2m[90m↓[39m[22m R24: prints the three practice lines and their picture ids in data order
+     [2m[90m↓[39m[22m R25: prints the dictation, Hello, I am, the name line, and the picture box
+     [2m[90m↓[39m[22m R26: prints three unmarked check rows, nine picture ids, and one empty write-letter box
+     [2m[90m↓[39m[22m R27: prints the Thai home front, the sound, net nut nose, the frame, and the activity
+     [2m[90m↓[39m[22m R27: gives the two real QR generators the S23 song and read-along inputs (P4)
+     [2m[90m↓[39m[22m R27: prints the English home back and all 15 sung lines, not the lyric sheet
+     [2m[90m↓[39m[22m R35: keeps the QR deploy mark in proof mode and excludes it from final mode
+     [2m[90m↓[39m[22m R28: excludes the four forbidden labels and every CJK character from the HTML
+     [2m[90m↓[39m[22m R28: keeps Thai only on the home card and keeps each Thai run unbroken
+     [2m[90m↓[39m[22m R28: selects the line-art file for every picture, including a proof placeholder
+     [2m[90m↓[39m[22m R29: loads only static Andika and Sarabun font faces with their OFL files
+     [2m[90m↓[39m[22m R34: uses valid CSS format hints for every font face
+     [2m[90m↓[39m[22m R30: exports the P2 and P15 default profile in millimeters
+     [2m[90m↓[39m[22m R30: renders the same week at 210 x 297 mm from one profile constant
+     [2m[90m↓[39m[22m R30: renders the same week at 210 x 285 mm from one profile constant
+     [2m[90m↓[39m[22m R31: preserves the exact default Ghostscript arguments without the K-only option
+     [2m[90m↓[39m[22m R31: uses the exported K-only flags in the production student-book conversion call
+     [2m[90m↓[39m[22m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count
+     [2m[90m↓[39m[22m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+     [2m[90m↓[39m[22m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses
+     [2m[90m↓[39m[22m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch
+     [2m[90m↓[39m[22m R32: puts each reader and home perforation 12 mm from the parity-dependent spine (P2 default)
+     [2m[90m↓[39m[22m R32: registers the duplex strips and fits two 99 x 140 mm pages in the 198 mm torn leaf (P15 default)
+     [2m[90m↓[39m[22m R33: rejects a removed home leaf on a temporary HTML copy
+     [2m[90m↓[39m[22m R33: rejects an answer mark on a temporary HTML copy
+     [2m[90m↓[39m[22m R33: rejects a right-page spread on a temporary HTML copy
+     [2m[90m↓[39m[22m R37: sits the n stroke guide on the rendered stems within 1 mm (D1)
+     [2m[90m↓[39m[22m R38: gives every trace item a start dot (D2)
+     [2m[90m↓[39m[22m R38: prints each trace item in a K 20-40% gray, never solid black (D2)
+     [2m[90m↓[39m[22m R38: prints a black start dot on each letter copy (D2)
+     [2m[90m↓[39m[22m R39: leaves the dictation letter lines empty write-in lines (D3)
+     [2m[90m↓[39m[22m R40: mirrors the horizontal cut line with the strip parity (D4)
+     [2m[90m↓[39m[22m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+[31m     [31m×[31m R42: starts the second stroke at the shoulder, rises over one smooth hill, then falls (D6)[39m[33m 436[2mms[22m[39m
+     [32m✓[39m R42: catches copied V and corner paths and accepts a smooth shoulder path[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR42: starts the second stroke at the shoulder, rises over one smooth hill, then falls (D6)
+[31m[1mAssertionError[22m: D6: the second stroke starts at the shoulder.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-print-student-book.test.ts:[2m1363:94[22m[39m
+    [90m1361| [39m        expect(paths, 'The letter box keeps two guide strokes.').toHav…
+    [90m1362| [39m        [35mconst[39m shippedResult [33m=[39m [34msecondStrokeContract[39m(paths[[34m1[39m])[33m;[39m
+    [90m1363| [39m        expect(shippedResult.shoulderStart, 'D6: the second stroke sta…
+    [90m   | [39m                                                                                             [31m^[39m
+    [90m1364| [39m        expect(shippedResult.risesThenFalls, 'D6: the path rises to it…
+    [90m1365| [39m        expect(shippedResult.smoothHill, 'D6: the hill has no sharp co…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m36 skipped[39m[90m (38)[39m
+[2m   Start at [22m 20:40:13
+[2m   Duration [22m 7.70s[2m (transform 592ms, setup 116ms, import 701ms, tests 442ms, environment 6.10s)[22m
+
