@@ -1471,7 +1471,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
 
     it('R38: places each trace dot within 1.5 mm of its first letter stroke', async () => {
         const { html } = await render(shipped());
-        const probes = [
+        const probes: { selector: string; targetSelector?: string; letter: string; rightStem: boolean }[] = [
             ...[1, 2, 3].map((index) => ({ selector: `.student-page[data-page-kind="practice"] .trace-cell:nth-child(${index})`, letter: 'n', rightStem: false })),
             { selector: '.student-page[data-page-kind="writing"] [data-part="dictation"]', targetSelector: '.student-page[data-page-kind="writing"] [data-part="dictation-word"]', letter: 'a', rightStem: true },
             { selector: '.student-page[data-page-kind="writing"] [data-part="writing-trace"]', letter: 'H', rightStem: false },
