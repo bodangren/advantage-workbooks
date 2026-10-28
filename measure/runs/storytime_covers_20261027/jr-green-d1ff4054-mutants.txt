@@ -1,0 +1,39 @@
+date: 2026-10-28 17:58 +07
+result: two mutants of the C3 shape rule, each one gate run of GREEN_TEST_COMMAND in the foreground inside one heavy-run wrapper.
+
+== M1 | dashboard/lib/storytime/print/cover-picture.ts | expected R19 v2 ==
+M1 change: +0 -3
+M1 gate exit 1
+× R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant 438ms
+× R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge 4143ms
+Tests  2 failed | 32 passed (34)
+M1 caught on R19 v2
+M1 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 0
+M1 restore: the source files equal the pristine copies
+
+== M2 | dashboard/lib/storytime/print/cover-picture.ts | expected R19 v2 ==
+M2 change: +1 -1
+M2 gate exit 1
+× R6: the copy check passes the Chrome PDF text of a built cover 6498ms
+× R7: the Thai check reads the Chrome PDF, not a PDF/X extract 3487ms
+× R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data 2802ms
+× R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha 3453ms
+× R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face 2906ms
+× R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails 1511ms
+× R12 v2: all three shipped compositions meet the fill threshold on their tinted ground 2091ms
+× R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x 115ms
+× R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image 7241ms
+× R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 7061ms
+× R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 6988ms
+× R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture 1630ms
+× R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge 2427ms
+Tests  13 failed | 21 passed (34)
+M2 caught on R19 v2
+M2 restore: git diff --quiet -- dashboard/lib/storytime/print/cover-picture.ts exit 0
+M2 restore: the source files equal the pristine copies
+
+---- final tree ----
+cover-picture.ts equals the pristine copy
+covers.ts equals HEAD
+mutants: 2, caught: 2
+date_end: 2026-10-28 18:01 +07
