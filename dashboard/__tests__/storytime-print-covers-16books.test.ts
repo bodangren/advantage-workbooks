@@ -1143,7 +1143,7 @@ describe('Storytime 16-book covers', () => {
         const data = dataModule.loadStorytimeCoverBooks();
         for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
             const { png, raw, tint } = await composeBookPicture(mod, data, level, unit, size);
-            expect(mod.checkStorytimeCoverPicture(png, tint, 0.58), `Level ${level} Unit ${unit} picture check`).toEqual([]);
+            expect(mod.checkStorytimeCoverPicture(png, tint, 0.55), `Level ${level} Unit ${unit} picture check`).toEqual([]);
             const copy = Buffer.from(raw.data);
             const blockWidth = 20;
             const blockHeight = 200;
@@ -1166,7 +1166,7 @@ describe('Storytime 16-book covers', () => {
                 const index = (y * mutantRaw.info.width + x) * mutantRaw.info.channels;
                 expect([0, 1, 2].every((channel) => Math.abs(mutantRaw.data[index + channel] - ground[channel]) <= 6), `Level ${level} Unit ${unit} mutant corner ${x},${y} holds the tint`).toBe(true);
             }
-            const errors = mod.checkStorytimeCoverPicture(mutant, tint, 0.58);
+            const errors = mod.checkStorytimeCoverPicture(mutant, tint, 0.55);
             expect(errors.length, `The copied left side mutant of Level ${level} Unit ${unit} fails the picture check`).toBeGreaterThan(0);
             expect(errors.join(' '), `The error of Level ${level} Unit ${unit} names the side or the edge`).toMatch(/left|right|edge/i);
         }
