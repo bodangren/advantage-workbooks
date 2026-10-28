@@ -391,6 +391,85 @@ function pathPoints(d: string): { x: number; y: number }[] {
     return points;
 }
 
+/** Flattens one SVG path, then samples it at equal arc-length intervals. */
+function formationSamples(d: string): { x: number; y: number }[] {
+    const tokens = d.match(/[MLCQ]|-?\d*\.?\d+/g) ?? [];
+    const points: { x: number; y: number }[] = [];
+    let i = 0, x = 0, y = 0;
+    while (i < tokens.length) {
+        const command = tokens[i++];
+        if (command === 'M') { x = Number(tokens[i++]); y = Number(tokens[i++]); points.push({ x, y }); }
+        else if (command === 'L') {
+            const ex = Number(tokens[i++]), ey = Number(tokens[i++]);
+            const count = Math.ceil(Math.hypot(ex - x, ey - y) / 0.125);
+            for (let j = 1; j <= count; j++) points.push({ x: x + (ex - x) * j / count, y: y + (ey - y) * j / count });
+            x = ex; y = ey;
+        } else if (command === 'C') {
+            const x1 = Number(tokens[i++]), y1 = Number(tokens[i++]), x2 = Number(tokens[i++]), y2 = Number(tokens[i++]);
+            const ex = Number(tokens[i++]), ey = Number(tokens[i++]);
+            const count = Math.ceil((Math.hypot(x1 - x, y1 - y) + Math.hypot(x2 - x1, y2 - y1)
+                + Math.hypot(ex - x2, ey - y2)) / 0.125);
+            for (let j = 1; j <= count; j++) {
+                const t = j / count, u = 1 - t;
+                points.push({ x: u ** 3 * x + 3 * u ** 2 * t * x1 + 3 * u * t ** 2 * x2 + t ** 3 * ex,
+                    y: u ** 3 * y + 3 * u ** 2 * t * y1 + 3 * u * t ** 2 * y2 + t ** 3 * ey });
+            }
+            x = ex; y = ey;
+        } else if (command === 'Q') {
+            const x1 = Number(tokens[i++]), y1 = Number(tokens[i++]), ex = Number(tokens[i++]), ey = Number(tokens[i++]);
+            const count = Math.ceil((Math.hypot(x1 - x, y1 - y) + Math.hypot(ex - x1, ey - y1)) / 0.125);
+            for (let j = 1; j <= count; j++) {
+                const t = j / count, u = 1 - t;
+                points.push({ x: u * u * x + 2 * u * t * x1 + t * t * ex, y: u * u * y + 2 * u * t * y1 + t * t * ey });
+            }
+            x = ex; y = ey;
+        } else throw new Error(`Unsupported formation path command: ${command}`);
+    }
+    const sampled = [points[0]];
+    let carry = 0;
+    let cursor = points[0];
+    for (const point of points.slice(1)) {
+        let start = cursor;
+        let remaining = Math.hypot(point.x - start.x, point.y - start.y);
+        while (carry + remaining >= 0.25) {
+            const distance = 0.25 - carry;
+            const ratio = distance / remaining;
+            start = { x: start.x + (point.x - start.x) * ratio, y: start.y + (point.y - start.y) * ratio };
+            sampled.push(start);
+            remaining = Math.hypot(point.x - start.x, point.y - start.y);
+            carry = 0;
+        }
+        carry += remaining;
+        cursor = point;
+    }
+    if (Math.hypot(sampled.at(-1)!.x - points.at(-1)!.x, sampled.at(-1)!.y - points.at(-1)!.y) > 1e-6) sampled.push(points.at(-1)!);
+    return sampled;
+}
+
+function secondStrokeContract(d: string): { shoulderStart: boolean; risesThenFalls: boolean; smoothHill: boolean } {
+    const points = formationSamples(d);
+    const peak = points.reduce((best, point, index) => point.y < points[best].y ? index : best, 0);
+    const shoulderStart = points[0].y >= 74 && points[0].y <= 76;
+    let risesThenFalls = true;
+    for (let index = 0; index + 4 <= peak; index += 4) {
+        if (points[index + 4].y - points[index].y > 0.25) risesThenFalls = false;
+    }
+    for (let index = peak; index + 4 < points.length; index += 4) {
+        if (points[index].y - points[index + 4].y > 0.25) risesThenFalls = false;
+    }
+    const hill = points.slice(0, Math.min(points.length, peak + 5));
+    let smoothHill = true;
+    for (let i = 4; i + 4 < hill.length; i++) {
+        const before = hill[i - 4], current = hill[i], after = hill[i + 4];
+        const turn = Math.abs(Math.atan2(after.y - current.y, after.x - current.x)
+            - Math.atan2(current.y - before.y, current.x - before.x));
+        if (Math.min(turn, Math.PI * 2 - turn) > 12 * Math.PI / 180) smoothHill = false;
+    }
+    return { shoulderStart, risesThenFalls, smoothHill };
+}
+
+const D6_SMOOTH_PATH = 'M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103';
+
 function guideContract(read: GuideRead): {
     letterInBand: boolean; downCovered: boolean; archCovered: boolean; arrowsShown: boolean; guideInside: boolean;
     dotAtTop: boolean; downSpansStem: boolean; archAtBottom: boolean;
@@ -1254,24 +1333,49 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const head = await measurePair(model!.outerHTML, letterOnlySvg(model!.outerHTML), paths, headDotXy);
         const copySvg = guideInsideSvg(model!);
         const copyDoc = new DOMParser().parseFromString(copySvg, 'text/html');
-        const copyPaths = Array.from(
-            copyDoc.querySelectorAll('path[data-part="formation-arrow"]'),
-            (node) => node.getAttribute('d') ?? '',
-        );
         const copyDot = copyDoc.querySelector('[data-part="start-dot"]');
         const copyDotXy = { x: Number(copyDot!.getAttribute('cx')), y: Number(copyDot!.getAttribute('cy')) };
         const copyFile = path.join(temporaryFolder(), 'r41-guide-inside.html');
         const copyHtml = isolateMeasurementHtml('r41-copy', style, `${copySvg}<div style="height:${gapMm}mm"></div>${letterOnlySvg(copySvg)}`);
         fs.writeFileSync(copyFile, copyHtml);
-        const copy = await measurePair(copySvg, letterOnlySvg(copySvg), copyPaths, copyDotXy);
+        copyDoc.querySelectorAll('path[data-part="formation-arrow"]')[1].setAttribute('d', D6_SMOOTH_PATH);
+        const smoothPaths = Array.from(copyDoc.querySelectorAll('path[data-part="formation-arrow"]'),
+            (node) => node.getAttribute('d') ?? '');
+        const smoothSvg = copyDoc.querySelector('svg')!.outerHTML;
+        const copy = await measurePair(smoothSvg, letterOnlySvg(smoothSvg), smoothPaths, copyDotXy);
         const wanted = {
             letterInBand: true, downCovered: true, archCovered: true, arrowsShown: true, guideInside: true,
             dotAtTop: true, downSpansStem: true, archAtBottom: true,
         };
         const gapLog = (read: GuideRead): string => `dotTopGap=${read.dotTopGapMm.toFixed(2)}mm downTopGap=${read.downTopGapMm.toFixed(2)}mm downBottomGap=${read.downBottomGapMm.toFixed(2)}mm archBottomGap=${read.archBottomGapMm.toFixed(2)}mm dotBlack=${read.dotBlack}`;
         console.info(`R41 HEAD letterMedian=${head.letterMedian} downFraction=${head.downFraction.toFixed(2)} archFraction=${head.archFraction.toFixed(2)} arrowWings=${head.arrowWings} outsidePx=${head.outsidePx} ${gapLog(head)}`);
-        console.info(`R41 COPY letterMedian=${copy.letterMedian} downFraction=${copy.downFraction.toFixed(2)} archFraction=${copy.archFraction.toFixed(2)} arrowWings=${copy.arrowWings} outsidePx=${copy.outsidePx} ${gapLog(copy)} file=${copyFile}`);
-        expect(guideContract(copy), 'A gray letter with the guide at the stem top and inside the outline can pass R41.').toEqual(wanted);
+        console.info(`R41 D6 smooth shoulder copy letterMedian=${copy.letterMedian} downFraction=${copy.downFraction.toFixed(2)} archFraction=${copy.archFraction.toFixed(2)} arrowWings=${copy.arrowWings} outsidePx=${copy.outsidePx} ${gapLog(copy)} file=${copyFile}`);
+        expect(guideContract(copy), 'A smooth shoulder-start guide inside the gray letter can pass R41.').toEqual(wanted);
         expect(guideContract(head), 'D5: the guide is black on the black model letter. The down line and the arrowheads do not show.').toEqual(wanted);
     }, 500000);
+
+    it('R42: starts the second stroke at the shoulder, rises over one smooth hill, then falls (D6)', async () => {
+        const { doc } = await render();
+        const model = page(doc, 'practice').querySelector('svg.letter-model')!;
+        const paths = Array.from(model.querySelectorAll('path[data-part="formation-arrow"]'), (node) => node.getAttribute('d') ?? '');
+        expect(paths, 'The letter box keeps two guide strokes.').toHaveLength(2);
+        const shippedResult = secondStrokeContract(paths[1]);
+        expect(shippedResult.shoulderStart, 'D6: the second stroke starts at the shoulder.').toBe(true);
+        expect(shippedResult.risesThenFalls, 'D6: the path rises to its peak and then falls.').toBe(true);
+        expect(shippedResult.smoothHill, 'D6: the hill has no sharp corners.').toBe(true);
+
+    });
+
+    it('R42: catches copied V and corner paths and accepts a smooth shoulder path', () => {
+        const currentV = secondStrokeContract('M40.5 66 L44 74.5 L48 71.2 L52 67.8 L56 65.9 L60 65.2 L64 65.8 L68 70.2 L72.2 74 L72.2 103');
+        expect(currentV.risesThenFalls, 'Mutant: the current V path fails the direction rule.').toBe(false);
+        const corners = secondStrokeContract('M40.5 75 C48 65 55 61 60 61 L72.2 75 L72.2 103');
+        expect(corners.risesThenFalls, 'Mutant: the corner path still passes the direction rule.').toBe(true);
+        expect(corners.smoothHill, 'Mutant: a segmented corner path fails the smoothness rule.').toBe(false);
+        const smoothCopy = secondStrokeContract(D6_SMOOTH_PATH);
+        expect(smoothCopy.risesThenFalls, 'Mutant: the smooth path passes the direction rule.').toBe(true);
+        expect(smoothCopy.smoothHill, 'Mutant: the smooth path passes the smoothness rule.').toBe(true);
+        expect(smoothCopy, 'Mutant: the smooth shoulder-start path passes all R42 rules.')
+            .toEqual({ shoulderStart: true, risesThenFalls: true, smoothHill: true });
+    });
 });
