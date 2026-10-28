@@ -1,0 +1,22 @@
+status: complete
+Summary: Red C3 adds R19 v2 and changes the R12 v2 fill limit to 0.55. The Red gate fails only on the new R19 assertion. The test commit contains only the test file. The plan and evidence commit is separate.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 7cc94eeb39af6268d99d248b8f395ca519002c9c
+resulting_head: recorded after the plan and evidence commit
+commits: 4b4854d6d3b5ced38b332ee7efb3fa6412d742c0 (test-only); plan and evidence commit pending
+commands: RED_TEST_COMMAND exit 1, `Tests 1 failed | 33 passed (34)`. Only R19 v2 fails, with an assertion on the aspect ratio of the L1U1 pat figure. The R12 v2 composed fill test and 75 percent L4U4 mutant pass at 0.55. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. All gates ran inside one foreground heavy-run wrapper.
+measure: Copied no-stretch layout math measured the composed fills at 186 x 180 mm and 300 ppi, with 24-channel tolerance: L1U1 0.589813, L2U1 0.557762, L4U4 0.600590. All values meet 0.55.
+contract: R19 v2 compares each figure box ratio with its cut-out's trimmed alpha-box ratio. Absolute tolerance is 0.02. This permits whole-pixel rounding and catches 1.06 stretch. Green should add `checkStorytimeCoverFigureAspect(boxes, files, tolerance) -> string[]`, with an error that names the figure. The copied mutant increases one child box height by 6 percent.
+files: `dashboard/__tests__/storytime-print-covers-16books.test.ts`; `measure/tracks/storytime_covers_20261027/plan.md`; this log; `mid-red-7cc94eeb-red.txt`; `mid-red-7cc94eeb-lint.txt`; `mid-red-7cc94eeb-checks.txt`; `mid-red-7cc94eeb-measure.txt`.
+plan: Red C3 is [x] with its test commit and automated evidence. Green C3 is [~]. The plan records finding C3, the decision, the tolerance, the fill values, and all gate results.
+remaining_failures: R19 v2 is the only failing test. It fails because the C2 layout stretches figures and the aspect checker is not implemented. No other test failure, syntax error, import error, lint error, or TypeScript error remains.
+worktree: Before edits, dirty paths in the print track and `video/storytime/scripts/render.mjs` were classified as unrelated parallel/user work. They were not staged, edited, restored, or committed. Pre-existing cover run artifacts were generated/ignorable and untouched.
+handoff: Green C3 must remove `ROW_HEIGHT_STRETCH_MAX = 1.06` and `fit: 'fill'` distortion, keep each figure at its cut-out ratio within 0.02 absolute ratio units, set the fill limit to 0.55, and preserve the 24-channel tolerance. Expected no-stretch fills are L1U1 0.589813, L2U1 0.557762, and L4U4 0.600590. The side bands remain 3 mm, the top band remains 8 mm, and bottom crop remains allowed.
+END_MEASURE_AGENT_RESULT
