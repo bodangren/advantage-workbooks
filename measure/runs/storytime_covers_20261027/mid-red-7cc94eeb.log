@@ -9,8 +9,8 @@ phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-
 phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 role_base_sha: 7cc94eeb39af6268d99d248b8f395ca519002c9c
-resulting_head: recorded after the plan and evidence commit
-commits: 4b4854d6d3b5ced38b332ee7efb3fa6412d742c0 (test-only); plan and evidence commit pending
+resulting_head: 7ac05fc1f085e532810943588b28fb8770ae5e94
+commits: 4b4854d6d3b5ced38b332ee7efb3fa6412d742c0 (test-only); 7ac05fc1f085e532810943588b28fb8770ae5e94 (plan and Red evidence)
 commands: RED_TEST_COMMAND exit 1, `Tests 1 failed | 33 passed (34)`. Only R19 v2 fails, with an assertion on the aspect ratio of the L1U1 pat figure. The R12 v2 composed fill test and 75 percent L4U4 mutant pass at 0.55. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. All gates ran inside one foreground heavy-run wrapper.
 measure: Copied no-stretch layout math measured the composed fills at 186 x 180 mm and 300 ppi, with 24-channel tolerance: L1U1 0.589813, L2U1 0.557762, L4U4 0.600590. All values meet 0.55.
 contract: R19 v2 compares each figure box ratio with its cut-out's trimmed alpha-box ratio. Absolute tolerance is 0.02. This permits whole-pixel rounding and catches 1.06 stretch. Green should add `checkStorytimeCoverFigureAspect(boxes, files, tolerance) -> string[]`, with an error that names the figure. The copied mutant increases one child box height by 6 percent.
