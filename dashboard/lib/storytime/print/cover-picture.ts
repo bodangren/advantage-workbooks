@@ -3,7 +3,7 @@ import path from 'path';
 import sharp from 'sharp';
 import { inflateSync } from 'zlib';
 import { REPO_ROOT } from '../../lesson-package/files';
-import { STORYTIME_COVER_HEAD_BAND_MM, storytimeCoverMmToPx } from './covers';
+import { STORYTIME_COVER_HEAD_BAND_MM, STORYTIME_COVER_SIDE_BAND_MM, storytimeCoverMmToPx } from './covers';
 
 /**
  * The cover picture of a Storytime student book (track storytime_covers_20261027): the Forge 3D
@@ -13,8 +13,9 @@ import { STORYTIME_COVER_HEAD_BAND_MM, storytimeCoverMmToPx } from './covers';
  *
  * The layout follows the v1 Level 1 Unit 1 cover, the model of D5: the children stand in one row
  * and fill the picture area, and at most one animal stands in front of their feet. The figures
- * fill the area (D8), and a crop at the bottom edge is allowed (P10). The top band of 8 mm holds
- * only the ground tint, so every head is whole (FR-2.7, orchestrator decision 2026-10-28).
+ * fill the area (D8), and a crop at the bottom edge is allowed (P10). The top band of 8 mm and the
+ * side bands of 3 mm hold only the ground tint, so no head is cut (FR-2.7, orchestrator decision
+ * 2026-10-28, Check v2 finding C2).
  */
 
 /** The picture area of the front cover: 186 x 180 mm (spec FR-2.3). */
@@ -26,8 +27,19 @@ export const STORYTIME_COVER_PPI = 300;
 /** The corner radius of the picture layer, in millimetres (spec FR-2.4, P9). */
 const PICTURE_RADIUS_MM = 5;
 
+/** The rows of the picture that the rounded corners do not reach, in millimetres (R18 v2 sides). */
+const SIDE_BAND_ROWS_MM = 6;
+
 /** The share of the children's height that the animal occupies (the model of D5: 0.42). */
 const ANIMAL_HEIGHT_SHARE = 0.42;
+
+/**
+ * The largest growth of the row height above the shape of the cut-outs: 6 percent. The 3 mm side
+ * bands take 6 mm from the picture width, and two children in one row then fill 55.9 percent of
+ * Level 2 Unit 1 (Green measure, 2026-10-28). The small growth gives the figures the fill of D5
+ * and D8 again, and it keeps the shape of the cast close to the cut-outs (FR-2.7, C2).
+ */
+const ROW_HEIGHT_STRETCH_MAX = 1.06;
 
 /** A sprite whose trimmed height is below this share of the tallest one is the animal. */
 const ANIMAL_SHARE = 0.75;
@@ -152,9 +164,23 @@ function headBandPx(sizePx: { width: number; height: number }): number {
 }
 
 /**
+ * The width of the clear band at the left edge and at the right edge of the picture, in pixels.
+ * The band rounds up and keeps one more pixel: the rasteriser places the picture area on a whole
+ * pixel, so the clear distance from the edge stays at 3 mm or more. A small picture keeps a
+ * smaller band, so that the layout stays possible for a test picture.
+ * @param sizePx The size of the picture area, in pixels.
+ * @returns The width of one side band.
+ */
+function sideBandPx(sizePx: { width: number; height: number }): number {
+    const band = Math.ceil((STORYTIME_COVER_SIDE_BAND_MM / 25.4) * STORYTIME_COVER_PPI) + 1;
+    return Math.max(1, Math.min(band, Math.round(sizePx.width / 10)));
+}
+
+/**
  * Plans the figures of one cover picture: the children in one row, large enough to fill the
- * picture area, and the small figure (the animal) centred in front of their feet. The order of
- * the figures is the order of the recipe, so the animal draws on top of the children.
+ * picture area, and the small figure (the animal) centred in front of their feet. The row stays
+ * inside the side bands, so no head or arm is cut at a side edge (FR-2.7, C2). The order of the
+ * figures is the order of the recipe, so the animal draws on top of the children.
  * @param files The cut-out files of the recipe, the children first and the animal last.
  * @param sizePx The size of the picture area, in pixels.
  * @param bookTitle The book of the cover, named in the error.
@@ -172,18 +198,25 @@ async function planFigureLayout(
     const row = sprites.map((_, index) => index).filter((index) => !small[index]);
     const rowIndexes = row.length ? row : sprites.map((_, index) => index);
     const band = headBandPx(sizePx);
+    const side = sideBandPx(sizePx);
+    const usableWidth = Math.max(1, sizePx.width - 2 * side);
     const totalAspect = rowIndexes.reduce((sum, index) => sum + sprites[index].width / sprites[index].height, 0);
-    const rowHeight = Math.min(sizePx.height - band, sizePx.width / totalAspect);
-    const widths = rowIndexes.map((index) => (sprites[index].width / sprites[index].height) * rowHeight);
+    const aspectHeight = usableWidth / totalAspect;
+    const rowHeight = Math.min(sizePx.height - band, aspectHeight * ROW_HEIGHT_STRETCH_MAX);
+    // The row fills the usable width. A row that is taller than the shape of the cut-outs is
+    // narrowed to that width, so no figure enters a side band.
+    const widthScale = Math.min(1, usableWidth / (totalAspect * rowHeight));
+    const widths = rowIndexes.map((index) => (sprites[index].width / sprites[index].height) * rowHeight * widthScale);
     const totalWidth = widths.reduce((sum, width) => sum + width, 0);
-    const left0 = (sizePx.width - totalWidth) / 2;
+    const left0 = side + (usableWidth - totalWidth) / 2;
     const edges: number[] = [Math.round(left0)];
     let cumulative = 0;
     for (const width of widths) {
         cumulative += width;
         edges.push(Math.round(left0 + cumulative));
     }
-    // The row stands on the 8 mm band, or in the middle of a picture area that it does not fill.
+    // The row stands on the head band, or in the middle of a picture area that it does not fill, so
+    // the figures of a picture with many cut-outs still reach the middle (R12).
     const top = Math.max(Math.round(band), Math.round((sizePx.height - rowHeight) / 2));
     const placed: PlacedFigure[] = rowIndexes.map((index, position) => ({
         name: figureName(files[index]),
@@ -235,19 +268,23 @@ export async function storytimeCoverFigureLayout(
  * model of D5):
  *
  * 1. No figure box starts inside the head band at the top, so every head is whole.
- * 2. Two boxes may overlap in x only when the top of one box is lower than the vertical middle of
+ * 2. No figure box enters the side band at the left edge or at the right edge, so no head or arm
+ *    is cut at a side edge (spec FR-2.7, Check v2 finding C2).
+ * 3. Two boxes may overlap in x only when the top of one box is lower than the vertical middle of
  *    the other box. A short figure may stand in front of the lower half of a tall figure, and the
  *    children never overlap.
- * 3. A box may reach or pass the bottom edge of the picture area: the bottom crop is allowed.
+ * 4. A box may reach or pass the bottom edge of the picture area: the bottom crop is allowed.
  * @param boxes The boxes of the figures.
  * @param sizePx The size of the picture area, in pixels.
  * @param headBandHeightPx The height of the clear band at the top, in pixels.
+ * @param sideBandWidthPx The width of one clear side band, in pixels. The default is 3 mm.
  * @returns The errors (empty when the layout is good).
  */
 export function checkStorytimeCoverFigureLayout(
     boxes: StorytimeCoverFigureBox[],
     sizePx: { width: number; height: number },
     headBandHeightPx: number,
+    sideBandWidthPx: number = storytimeCoverMmToPx(STORYTIME_COVER_SIDE_BAND_MM),
 ): string[] {
     const errors: string[] = [];
     for (const box of boxes) {
@@ -255,6 +292,12 @@ export function checkStorytimeCoverFigureLayout(
             errors.push(`The head of ${box.name} is inside the ${headBandHeightPx} px band at the top (top ${box.top} px).`);
         }
         if (box.width <= 0 || box.height <= 0) errors.push(`The figure ${box.name} has no box.`);
+        if (box.left < sideBandWidthPx) {
+            errors.push(`The figure ${box.name} enters the ${sideBandWidthPx} px band at the left edge of the picture area (left ${box.left} px), so the left side is cut.`);
+        }
+        if (box.left + box.width > sizePx.width - sideBandWidthPx) {
+            errors.push(`The figure ${box.name} enters the ${sideBandWidthPx} px band at the right edge of the picture area (right ${box.left + box.width} px), so the right side is cut.`);
+        }
     }
     for (let first = 0; first < boxes.length; first++) {
         for (let second = first + 1; second < boxes.length; second++) {
@@ -437,7 +480,8 @@ function parseColour(value: string): [number, number, number] {
 /**
  * Checks a composed cover picture (spec FR-2.4, FR-2.7, AC-3, AC-9): the picture is opaque, each
  * of the four corner samples 8 mm inside the corner holds the ground tint, the picture holds
- * figure pixels, and the figures cover the minimum share of the picture area.
+ * figure pixels, the figures cover the minimum share of the picture area, and the side bands of
+ * 3 mm at the left edge and at the right edge hold only the ground tint (C2).
  * @param png The composed picture.
  * @param groundTint The ground tint of the level.
  * @param minimumFillShare The share of figure pixels that the picture area needs. The shape check
@@ -478,6 +522,21 @@ export function checkStorytimeCoverPicture(png: Buffer, groundTint: string, mini
     if (!figurePixels) errors.push('The picture holds no figure pixels.');
     else if (minimumFillShare > 0 && share < minimumFillShare) {
         errors.push(`The figures cover ${(share * 100).toFixed(1)} percent of the picture area; the fill is below the ${(minimumFillShare * 100).toFixed(0)} percent minimum.`);
+    }
+    // The side bands hold only the ground tint, so no head or arm is cut at a side edge (C2).
+    const sideBand = sideBandPx({ width: image.width, height: image.height });
+    const rowInset = Math.min(storytimeCoverMmToPx(SIDE_BAND_ROWS_MM), Math.floor(image.height / 4));
+    const sideRows = { top: rowInset, height: Math.max(1, image.height - 2 * rowInset) };
+    for (const [side, left] of [['left', 0], ['right', image.width - sideBand]] as const) {
+        let sidePixels = 0;
+        for (let y = sideRows.top; y < sideRows.top + sideRows.height; y++) {
+            for (let x = Math.max(0, left); x < Math.min(image.width, left + sideBand); x++) {
+                if (pixel(x, y).some((channel, index) => Math.abs(channel - ground[index]) > FIGURE_TOLERANCE)) sidePixels++;
+            }
+        }
+        if (sidePixels) {
+            errors.push(`The ${sideBand} px band at the ${side} edge of the picture area holds ${sidePixels} figure pixels; the ${side} side cuts a figure.`);
+        }
     }
     return errors;
 }

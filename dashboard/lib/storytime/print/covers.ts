@@ -49,6 +49,13 @@ export const STORYTIME_COVER_FIGURE_LIMITS = { children: 2, animals: 1 };
 /** The height of the clear band at the top of the picture area, in millimetres (spec FR-2.7). */
 export const STORYTIME_COVER_HEAD_BAND_MM = 8;
 
+/**
+ * The width of the clear band at the left edge and at the right edge of the picture area, in
+ * millimetres (spec FR-2.7, Check v2 finding C2, 2026-10-28). The band holds only the ground
+ * tint, so no head or arm is cut at a side edge.
+ */
+export const STORYTIME_COVER_SIDE_BAND_MM = 3;
+
 /** The weeks of a unit: unit 1 holds weeks 1 to 8, unit 4 holds weeks 25 to 32 (spec FR-1.3). */
 export const STORYTIME_UNIT_WEEKS: Record<number, [number, number]> = {
     1: [1, 8],
