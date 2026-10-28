@@ -227,13 +227,16 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
     const body = `<h2 class="page-title">Week ${week.meta.week}: the sound ${esc(week.focus.element?.sound ?? '')}</h2>
 <div class="letter-box" data-part="letter-box">
   <svg class="letter-model" viewBox="0 0 100 120" aria-hidden="true">
-    <defs><marker id="${arrowId}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#000"/></marker></defs>
-    <text class="model-letter" data-part="letter" x="56" y="108" text-anchor="middle">${esc(box.letter)}</text>
-    <!-- The guide sits on the measured Andika stems: the left stem center is at 40.5 and the
-         right stem center is at 72.2 of this 100-unit box (R37, limit 1 mm). -->
-    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="40.5" cy="54" r="3"/>
-    <path d="M40.5 59 L40.5 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
-    <path d="M40.5 70 C40.5 58 72.2 58 72.2 70 L72.2 104" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+    <defs><marker id="${arrowId}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#000"/></marker></defs>
+    <text class="model-letter" data-part="letter" x="56" y="108" text-anchor="middle" fill="#b0b0b0">${esc(box.letter)}</text>
+    <!-- D5 look (default until Daniel decides at the week 1 proof): the model letter prints in
+         the trace gray #b0b0b0 (K 31 %) and the guide prints in black on top of it. The guide
+         sits on the measured Andika stems (left stem center 40.5, right stem center 72.2 of
+         this 100-unit box, R37 limit 1 mm) and follows the arch ink, so every guide stroke
+         stays inside the letter outline (R41, tolerance 0.5 mm). -->
+    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="40.5" cy="64" r="1.3"/>
+    <path d="M40.5 64 L40.5 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
+    <path d="M40.5 66 L44 74.5 L48 71.2 L52 67.8 L56 65.9 L60 65.2 L64 65.8 L68 70.2 L72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
   </svg>
   <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
   <div class="trace-row">
