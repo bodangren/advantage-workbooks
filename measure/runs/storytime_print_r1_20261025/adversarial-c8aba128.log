@@ -1,0 +1,121 @@
+# Adversarial testing log: storytime_print_r1_20261025 Phase 2
+
+Reviewed HEAD: c8aba128a684c394d1b2f2186c2d072132380915 (c8aba128). role_base_sha: c8aba128.
+Phase baseline: 03a803c8d3a45361e403d9ab2cee1225077adc43.
+Guard commit: cf2f2022d2f21a7845715cfbd9b0f5957571df9d (cf2f2022).
+Session name: Adversarial · P2 · storytime_print_r1.
+Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (a recorded deviation; the table model Kimi k3
+was at 93.4 percent of its weekly quota). No mmx call ran. No paid generation. No proof rebuilt.
+
+## Work
+
+Wrote `dashboard/__tests__/storytime-print-student-book-adversarial.test.ts`. The file holds 30
+test blocks and 55 test cases. All 55 pass on c8aba128.
+
+The split by area:
+
+- Area 1, the HTML escape and the QR input: 16 cases in 9 blocks.
+- Area 2, the layout rules of the inside pages: 9 cases in 9 blocks.
+- Area 3, the CLI and the output path: 30 cases in 12 blocks.
+
+The 5 it.each blocks give 25 plain it blocks, which matches the 25 lines that a grep for `it(`
+finds. Vitest reports `storytime-print-student-book-adversarial.test.ts (55 tests)`.
+
+### Area 1: the HTML escape and the QR input (16 cases)
+
+- The hostile text `"><img src=x onerror=alert(1)><script>alert(2)</script>&` in 12 English
+  week fields (the practice text, the formation words, the start point, the dictation word, the
+  writing trace, the home words, the English home line and activity, the first song line, the
+  frame, the sound, and the book title) creates no element: the element count of the whole book
+  equals the element count of the clean render, and the document holds no script element, no img
+  element, and no event attribute.
+- The same hostile text prints as literal text on the practice page, the home front, the home
+  back, and the writing page.
+- A hostile start point stays inside its attribute.
+- The hostile Thai text prints as text, keeps one span per run, and creates no element.
+- The negative control: a broken copy with the raw payload does create an img element and a
+  script element, so the escape guard is not vacuous.
+- `storytimeQrUrl` rejects a full URL, a protocol-relative URL, another prefix, another case, a
+  leading space, another locale, and an empty path.
+- Both printed codes keep the S23 host and the `/th/st/2/1` route, and each code holds a module
+  grid.
+- A hostile query in the QR path stays text in the address attribute and creates no element.
+- The build stops when the QR path is a full URL or a protocol-relative URL.
+
+### Area 2: the layout rules of the inside pages (9 cases)
+
+- The answer of a check row never prints; the control shows that the same check catches the
+  answer when a broken page prints it.
+- The whole book carries no answer element and no answer mark.
+- Only the tear-out sides (the home front, the home back, and the six reader sides) carry a
+  perforation mark.
+- Every strip mark names the book, the strip number 1 to 3, and the back side; only a back side
+  names the back.
+- Each of the two readers has the strips 1, 2, and 3 over three leaves.
+- A reader side holds only the two strip marks; the reader content waits for Phase 4.
+- The two QR codes print on the home front and none on the home back.
+- The aligner side holds no text, no student work, and no perforation mark.
+- No attribute of any element names a color picture file; only the line-art file name prints.
+
+### Area 3: the CLI and the output path (30 cases)
+
+- The parser rejects the hostile `--weeks` values (a list separator, a space, an empty item, a
+  leading comma, a trailing comma, a huge number, a negative number, an underscore number, an
+  exponent, and a fraction) and the hostile `--version` values (0, a negative number, a fraction,
+  Infinity, NaN, a value above the safe integer range, and an exponent).
+- The parser rejects a flag without a value, an unknown argument, and both build modes at once.
+- The parser rejects an `--out` path that is relative, a tilde path, an upper-case extension, the
+  print folder, the print folder with a trailing separator, a dot-dot escape, and a non-PDF name.
+- The parser accepts an `--out` path inside the print folder, including a dot-dot that stays
+  inside.
+- The output check rejects an output below a chain of two links that ends outside, an output
+  below a relative link that points outside, an output below a relative chain, and an output that
+  is a relative link to an outside file. Each test also accepts a plain inside output, so the
+  check is not a rule that always throws.
+- The static reading of `make-student-book-pdf.ts` shows that the output check runs before the
+  folder creation, the browser launch, and the PDF/X write, and that the checked path is the
+  written path.
+
+## Findings
+
+One NEW defect, not in the exclude list. `storytimeQrUrl` (dashboard/lib/storytime/files.ts:21)
+accepts a path that leaves the `/th/st/` route, for example `/th/st/../evil`. The address then
+normalises to a path outside the route, so a printed QR code can point outside the route of spec
+P4. The route is Red, then Green.
+
+Three nonblocking findings: the numeric flags accept a hex, an exponent, or a padded form; a
+missing `--out` value ends in a TypeError; the query of a QR path is not checked.
+
+## Gates
+
+Each gate ran in the foreground through heavy-run.sh, one wrapper per gate.
+
+- GREEN_TEST_COMMAND: exit 0. Test Files 6 passed (6), Tests 247 passed (247). The 55 cases of
+  the guard file are part of the 247.
+- PROJECT_TESTS: exit 0. Test Files 17 passed (17), Tests 400 passed (400).
+- PROJECT_LINT: exit 0, no output.
+
+The first gate call reported `heavy-run: lock wait over 600 s` with holder PID 1442919, the
+advantage-mmorpg E2E suite. The report goes to the PM session. Under that load the first green
+run failed on one guard of this file, and the first project run failed on that guard and on the
+R12 test of the cover track, each on the 5 s test timeout. The guard was made fast with one pass
+over the attribute values, and every guard of the file got a 30 s timeout. The second run of
+each gate passes. The full output of each gate is in `adversarial-c8aba128-green.txt`,
+`-project.txt`, and `-lint.txt`.
+
+Proof v6 is unchanged: sha256 `f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7`.
+`pnpm-lock.yaml` is unchanged. The working tree changes of other sessions
+(`video/storytime-song/scripts/render.mjs` and `dashboard/raw.json`) stayed unstaged. No push.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
+commits: cf2f2022d2f21a7845715cfbd9b0f5957571df9d
+tests_run: 55 new guards pass (30 blocks; area 1 16 cases, area 2 9 cases, area 3 30 cases); GREEN_TEST_COMMAND exit 0 with 247/247 on 6 files; PROJECT_TESTS exit 0 with 400/400 on 17 files; PROJECT_LINT exit 0 with no output
+files_changed: dashboard/__tests__/storytime-print-student-book-adversarial.test.ts; measure/runs/storytime_print_r1_20261025/adversarial-c8aba128.json; measure/runs/storytime_print_r1_20261025/adversarial-c8aba128.log; measure/runs/storytime_print_r1_20261025/adversarial-c8aba128-green.txt; measure/runs/storytime_print_r1_20261025/adversarial-c8aba128-project.txt; measure/runs/storytime_print_r1_20261025/adversarial-c8aba128-lint.txt
+plan_updates: none
+known_failures: none
+handoff: one new defect in storytimeQrUrl at dashboard/lib/storytime/files.ts:21; the route is Red, then Green; the retry recommendation is retry_tests
+END_MEASURE_AGENT_RESULT
