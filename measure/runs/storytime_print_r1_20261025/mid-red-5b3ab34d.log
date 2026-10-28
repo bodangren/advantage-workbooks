@@ -1,0 +1,39 @@
+Measure Red 2f dot-check correction started: 2026-10-28
+Status: active
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: 5b3ab34d7df4a274bc91658aeb945ddab14d9b4b
+Initial status: `video/storytime-song/scripts/render.mjs` and other untracked run outputs are unrelated work. They remain untouched.
+
+A-P2-04 correction evidence
+
+The prior fragment measurements were n 1.21 mm ×3, a 14.87 mm, and H 1.19 mm. The defect was the start detector: it read black pixels from the dot as the first-stroke start. It did not inspect letter ink.
+
+The corrected check loads the compiled week 1 HTML from `render(shipped())`. It uses the same local fonts, CSS, and page size as the print build. Its Chrome pipeline loads Paged.js, waits for fonts, runs `PagedPolyfill.preview()`, then sets print media. The browser context uses `deviceScaleFactor: 300 / 96`. The check takes screenshots of each real trace box, not isolated HTML fragments. Gray glyph pixels are restricted to 153–204. Dot pixels are restricted to <=60. The first-stroke start is the top row of the left stem for n and H, and the top row of the right stem for a. It converts 300-dpi pixels to millimeters and keeps the 1.5 mm limit.
+
+Corrected HEAD gaps: n 1 = 4.51 mm; n 2 = 4.59 mm; n 3 = 4.51 mm; a = 14.14 mm; H = 4.50 mm. The three n gaps agree within 1 mm with the proof v5 raster cross-check: page 4, `/tmp/opencode/print-check-2e/p4-top-300-04.png`, first trace box x 198–442, dot center about (243,1168), and left-stem start near x 283, y 1160; estimated gap about 4 mm. Moving the five dots onto the detected gray starts passes at 1.22, 1.22, 1.22, 1.27, and 1.27 mm.
+
+RED_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"`; one foreground heavy-run wrapper; exit 1; `Tests 6 failed | 184 passed (190)` on 5 files. The six failures are R43, R44, R45, R46, this dot check, and R42 at the join. Each is an assertion. All other tests pass.
+PROJECT_LINT: one foreground heavy-run wrapper; exit 0, no lint output.
+Targeted dot test: the corrected gaps and copied-page results above; the intended HEAD assertion fails at n 1 because 4.51 mm exceeds 1.5 mm.
+Proof cross-check: n 4.51 mm is within about 1 mm of the approximately 4 mm proof estimate.
+Test commit: `7f5eb43554403773c994fe0dce249450113499a5` (`test(storytime): measure the trace start dots on the gray letter ink`), test file only.
+Plan correction: added below Task (Red 2f); the prior Red findings and their tests remain unchanged.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: Phase 2 Red 2f dot-check correction
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: 5b3ab34d7df4a274bc91658aeb945ddab14d9b4b
+resulting_head: 7f5eb43554403773c994fe0dce249450113499a5
+commits: 7f5eb43554403773c994fe0dce249450113499a5 (test); plan and run evidence commit follows
+RED_TEST_COMMAND: exit 1; Tests 6 failed | 184 passed (190); 5 files
+PROJECT_LINT: exit 0; no output
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-5b3ab34d.log; mid-red-5b3ab34d-red.txt; mid-red-5b3ab34d-lint.txt
+failing_checks: R43 unsafe QR inputs; R44 final-mode line art selection; R45 and R46 pure CLI contracts; R42 shipped path join; A-P2-04 trace-dot placement
+measured_gaps_mm: n 4.51, 4.59, 4.51; a 14.14; H 4.50
+copied_gaps_mm: n 1.22, 1.22, 1.22; a 1.27; H 1.27; all pass the 1.5 mm limit
+proof_cross_check: proof v5 estimate about 4 mm for n; corrected result is within about 1 mm
+handoff: Green must correct the three n dots and the a dot location, retain the 1.5 mm limit, and preserve the Red checks. The test uses full compiled print layout and separately detects black dots and trace-gray letter ink.
+END_MEASURE_AGENT_RESULT
