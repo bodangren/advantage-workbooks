@@ -1,6 +1,8 @@
 status: complete
 Summary: Red C3 adds R19 v2 and changes the R12 v2 fill limit to 0.55. The Red gate fails only on the new R19 assertion. The test commit contains only the test file. The plan and evidence commit is separate.
 
+Correction (2026-10-28, orchestrator brief error): the R18 v2 side band test still passed 0.58 at lines 1146 and 1169. Commit 5570d6c8d59fa625fdea6d75fad8920cf44bc085 changes both to 0.55. RED_TEST_COMMAND after the correction: `Tests  34 passed (34)`.
+
 MEASURE_AGENT_RESULT
 role: measure-mid-red
 status: complete
