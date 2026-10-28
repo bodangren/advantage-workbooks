@@ -1,6 +1,6 @@
 # Primary Advantage Book Tests and Level Tests — Design
 
-Version 0.4 | Date 2026-10-28 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
+Version 0.5 | Date 2026-10-28 | Status: draft for the PM | Due 2026-10-31 | Owner: Daniel Bo | Internal (names GSE and Cambridge YLE; do not quote in external copy)
 
 This document designs the assessment for the Primary Advantage programme. It designs two tests for each printed book and it designs the listening form for the three level tests. It does not write any test item.
 
@@ -504,6 +504,10 @@ The private place is the plain folder `~/Desktop/level-tests/` on Daniel's machi
 
 **Rule** (Daniel, PM relay 2026-10-28): secure test items, test papers, answer keys, and test audio go only into `~/Desktop/level-tests/`, never into a repository. The `advantage-assessment` repository default is withdrawn on 2026-10-28.
 
+**Audio rule** (Daniel, PM relay 2026-10-28): test audio stays out of git, in `~/Desktop/level-tests/`. All other audio goes into git.
+
+**Backup** (PM, 2026-10-28): the PM keeps a copy of `~/Desktop/level-tests/` on Google Drive, in a folder that only the owner can open. The PM updates the copy every Friday. On 2026-10-28 the copy held 124 files.
+
 | Path | Content |
 |---|---|
 | `primary/<book>/<test>/` | One folder per book test |
@@ -768,7 +772,7 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 4. The last semester's test still reads "v0.1 (draft for approval)". The document does not change that file.
 5. The rule that external copy names CEFR only applies to customer, press and partner material. This document is internal and it names the Cambridge lists.
 6. The 90 minutes of Daniel's check time cover the test checks only. The Thai of the 12 books that are not made yet is checked one time with each book. That check sits with the book and it adds no test check time.
-7. The folder `~/Desktop/level-tests/` is not in git, so it has no version history and no remote copy. Daniel decides about a backup.
+7. The folder `~/Desktop/level-tests/` is not in git, so it has no version history. The PM keeps a copy on Google Drive and updates it every Friday (section 6.1). The copy is a backup, not a version history.
 
 ---
 
@@ -778,3 +782,4 @@ Each question holds a default. The PM relays the questions to Daniel. The PM rel
 - **v0.2** — 2026-10-27 — The PM no longer acts as a person. Workbooks builds and checks the tests. The assessor marks the level test. Daniel and the person whom Daniel names hold the access to the private place. Daniel's check time was 250 minutes at that version, and the 1,520-minute full review stays an option. The Boonyathat claim is gone, and the printed-book sale now carries that reason.
 - **v0.3** — 2026-10-27 — The PM decided that the Thai word meanings in a test come only from glossary Thai that Daniel already checked. Section 3.5 holds that rule. The Thai of the 12 books that are not made yet is checked one time with each book, so it adds no test check time. Daniel's test check time is 90 minutes.
 - **v0.4** — 2026-10-28 — Daniel asked to move the test papers and keys out of the public repository. Section 6.1 holds the storage rule. Decisions 1 and 3 are answered. The repository default is withdrawn.
+- **v0.5** — 2026-10-28 — Daniel's audio rule and the PM's Drive backup of the level-test folder are in section 6.1. Section 10, item 7 no longer waits for a backup decision.
