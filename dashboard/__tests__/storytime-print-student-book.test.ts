@@ -244,6 +244,43 @@ function buildPdfx(html: string): string {
     return pdfxFile;
 }
 
+async function screenshotTraceBox(html: string, selector: string, moveBy?: { dx: number; dy: number }, targetSelector?: string): Promise<{ width: number; height: number; data: Buffer; target?: { x: number; y: number; width: number; height: number } }> {
+    requireHeavyWrapper();
+    const folder = temporaryFolder();
+    const htmlFile = path.join(folder, 'trace-screenshot.html');
+    const pngFile = path.join(folder, 'trace-box.png');
+    const rawFile = path.join(folder, 'trace-box.raw');
+    fs.writeFileSync(htmlFile, html);
+    const script = `
+      import fs from 'node:fs'; import { chromium } from '@playwright/test'; import sharp from 'sharp';
+      const browser = await chromium.launch({ channel: 'chrome', timeout: 15000 });
+      try {
+        const context = await browser.newContext({ deviceScaleFactor: 300 / 96 });
+        const page = await context.newPage();
+        await page.goto('file://' + ${JSON.stringify(htmlFile)}, { waitUntil: 'load' });
+        await page.addScriptTag({ content: 'window.PagedConfig = { auto: false };' });
+        await page.addScriptTag({ content: fs.readFileSync('node_modules/pagedjs/dist/paged.polyfill.js', 'utf8') });
+        await page.evaluate('(async () => { await document.fonts.ready; await window.PagedPolyfill.preview(); await document.fonts.ready; })()');
+        await page.emulateMedia({ media: 'print' });
+        const box = page.locator(${JSON.stringify(selector)});
+        await box.waitFor({ state: 'visible' });
+        ${moveBy ? `await box.evaluate((el, shift) => { const dot = el.matches('.start-dot') ? el : el.querySelector('.start-dot'); dot.style.transform = 'translate(' + shift.dx + 'px,' + shift.dy + 'px)'; }, ${JSON.stringify(moveBy)});` : ''}
+        await box.screenshot({ path: ${JSON.stringify(pngFile)}, animations: 'disabled' });
+        const root = await box.boundingBox();
+        const target = ${targetSelector ? `await page.locator(${JSON.stringify(targetSelector)}).boundingBox()` : 'null'};
+        const result = await sharp(${JSON.stringify(pngFile)}).greyscale().raw().toBuffer({ resolveWithObject: true });
+        fs.writeFileSync(${JSON.stringify(rawFile)}, result.data);
+        fs.writeFileSync(${JSON.stringify(rawFile + '.json')}, JSON.stringify({ width: result.info.width, height: result.info.height,
+          target: target && root ? { x: (target.x - root.x) * 300 / 96, y: (target.y - root.y) * 300 / 96, width: target.width * 300 / 96, height: target.height * 300 / 96 } : null }));
+      } finally { await browser.close(); }
+    `;
+    execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
+        cwd: dashboardRoot, encoding: 'utf8', timeout: 185000, maxBuffer: 8 * 1024 * 1024,
+    });
+    const { width, height, target } = JSON.parse(fs.readFileSync(`${rawFile}.json`, 'utf8')) as { width: number; height: number; target?: { x: number; y: number; width: number; height: number } };
+    return { width, height, data: fs.readFileSync(rawFile), target };
+}
+
 // ---- Phase 2 Red 2c helpers (the Check findings D1 to D4, 2026-10-27) ----
 
 /** Pixels per millimeter at the 300 dpi raster the built PDF/X pages use. */
@@ -343,24 +380,35 @@ function rasterDotCenter(data: Buffer, width: number, height: number): { x: numb
     return candidates[0];
 }
 
-function rasterFirstStrokeStart(data: Buffer, width: number, height: number, rightStem: boolean): { x: number; y: number } {
-    let minX = width, maxX = -1, minY = height, maxY = -1;
-    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-        const tone = data[y * width + x];
-        if (tone >= GUIDE_GRAY_LO && tone <= GUIDE_GRAY_HI) {
-            minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+function rasterFirstStrokeStart(data: Buffer, width: number, height: number, dot: { x: number; y: number }, rightStem: boolean, target?: { x: number; y: number; width: number; height: number }): { x: number; y: number } {
+    const seen = new Uint8Array(width * height);
+    const components: { points: { x: number; y: number }[]; distance: number }[] = [];
+    for (let seed = 0; seed < data.length; seed++) {
+        if (seen[seed] || data[seed] < GUIDE_GRAY_LO || data[seed] > GUIDE_GRAY_HI) continue;
+        const queue = [seed]; seen[seed] = 1;
+        const points: { x: number; y: number }[] = [];
+        let minX = width, maxX = -1, minY = height, maxY = -1;
+        for (let i = 0; i < queue.length; i++) {
+            const p = queue[i], x = p % width, y = Math.floor(p / width);
+            points.push({ x, y }); minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+            for (const next of [x > 0 ? p - 1 : -1, x + 1 < width ? p + 1 : -1,
+                y > 0 ? p - width : -1, y + 1 < height ? p + width : -1]) {
+                if (next >= 0 && !seen[next] && data[next] >= GUIDE_GRAY_LO && data[next] <= GUIDE_GRAY_HI) { seen[next] = 1; queue.push(next); }
+            }
         }
+        if (points.length < 30 || maxX - minX > 250 || maxY - minY > 180) continue;
+        if (target && (maxX < target.x - 2 || minX > target.x + target.width + 2 || maxY < target.y - 2 || minY > target.y + target.height + 2)) continue;
+        const dx = dot.x < minX ? minX - dot.x : dot.x > maxX ? dot.x - maxX : 0;
+        const dy = dot.y < minY ? minY - dot.y : dot.y > maxY ? dot.y - maxY : 0;
+        components.push({ points, distance: Math.hypot(dx, dy) });
     }
-    expect(maxX, 'The isolated trace glyph has gray ink.').toBeGreaterThanOrEqual(0);
-    const candidates = rightStem
-        ? Array.from({ length: 10 }, (_, i) => maxX - i)
-        : Array.from({ length: 10 }, (_, i) => minX + i);
-    for (const x of candidates) {
-        for (let y = minY; y <= Math.min(maxY, minY + 100); y++) {
-            if (data[y * width + x] >= GUIDE_GRAY_LO && data[y * width + x] <= GUIDE_GRAY_HI) return { x, y };
-        }
-    }
-    throw new Error('The first stem start is not visible in the isolated raster.');
+    components.sort((a, b) => a.distance - b.distance);
+    const glyph = components[0];
+    expect(glyph, 'The item has a separate trace-gray glyph component.').toBeDefined();
+    const edge = rightStem ? Math.max(...glyph.points.map((p) => p.x)) : Math.min(...glyph.points.map((p) => p.x));
+    const stem = glyph.points.filter((p) => rightStem ? p.x >= edge - 2 : p.x <= edge + 2);
+    const top = Math.min(...stem.map((p) => p.y));
+    return { x: median(stem.filter((p) => p.y <= top + 1).map((p) => p.x)), y: top };
 }
 
 // ---- Phase 2 Red 2d helpers (Check finding D5, 2026-10-27) ----
@@ -1422,29 +1470,32 @@ describe('Storytime student workbook: the shipped week 1', () => {
     }, 230000);
 
     it('R38: places each trace dot within 1.5 mm of its first letter stroke', async () => {
-        const { doc } = await render(shipped());
-        const style = doc.querySelector('style')!.textContent ?? '';
-        const box = part(page(doc, 'practice'), 'letter-box');
-        const cells = Array.from(box.querySelectorAll('.trace-cell')).slice(0, 3);
-        const dictation = page(doc, 'writing').querySelector('[data-part="dictation"]')!;
-        const writing = page(doc, 'writing').querySelector('[data-part="writing-trace"]')!;
+        const { html } = await render(shipped());
         const probes = [
-            ...cells.map((element) => ({ html: element.outerHTML, letter: 'n', rightStem: false })),
-            { html: dictation.outerHTML, letter: 'a', rightStem: true },
-            { html: writing.outerHTML, letter: 'H', rightStem: false },
+            ...[1, 2, 3].map((index) => ({ selector: `.student-page[data-page-kind="practice"] .trace-cell:nth-child(${index})`, letter: 'n', rightStem: false })),
+            { selector: '.student-page[data-page-kind="writing"] [data-part="dictation"]', targetSelector: '.student-page[data-page-kind="writing"] [data-part="dictation-word"]', letter: 'a', rightStem: true },
+            { selector: '.student-page[data-page-kind="writing"] [data-part="writing-trace"]', letter: 'H', rightStem: false },
         ];
-        const gaps: number[] = [];
+        const gaps: number[] = [], shifts: { dx: number; dy: number }[] = [];
         for (const [index, probe] of probes.entries()) {
-            const html = isolateMeasurementHtml(`r38-dot-${index}`, style,
-                `<section class="student-page">${probe.html}</section>`);
-            const raster = await rasterPage(buildPdfx(html), 1, 300);
+            const raster = await screenshotTraceBox(html, probe.selector, undefined, probe.targetSelector);
             const dot = rasterDotCenter(raster.data, raster.width, raster.height);
-            const start = rasterFirstStrokeStart(raster.data, raster.width, raster.height, probe.rightStem);
+            const start = rasterFirstStrokeStart(raster.data, raster.width, raster.height, dot, probe.rightStem, raster.target);
             const gap = Math.hypot(dot.x - start.x, dot.y - start.y) / MM_PX_300;
             gaps.push(gap);
-            console.info(`R38 start-dot gap ${probe.letter} ${index + 1}: ${gap.toFixed(2)} mm (dot ${dot.x},${dot.y}; start ${start.x},${start.y})`);
+            shifts.push({ dx: (start.x - dot.x) / (300 / 96), dy: (start.y - dot.y) / (300 / 96) });
+            console.info(`R38 start-dot gap ${probe.letter} ${index + 1}: ${gap.toFixed(2)} mm (dot ${dot.x},${dot.y}; gray start ${start.x},${start.y}; box ${raster.width}x${raster.height}; black <=60; gray 153-204)`);
         }
         expect(gaps).toHaveLength(5);
+        const copiedGaps: number[] = [];
+        for (const [index, probe] of probes.entries()) {
+            const raster = await screenshotTraceBox(html, probe.selector, shifts[index], probe.targetSelector);
+            const dot = rasterDotCenter(raster.data, raster.width, raster.height);
+            const start = rasterFirstStrokeStart(raster.data, raster.width, raster.height, dot, probe.rightStem, raster.target);
+            copiedGaps.push(Math.hypot(dot.x - start.x, dot.y - start.y) / MM_PX_300);
+        }
+        console.info(`R38 copied dot gaps: ${copiedGaps.map((gap) => gap.toFixed(2)).join(', ')} mm`);
+        expect(copiedGaps.every((gap) => gap <= 1.5), 'The page copy with dots moved onto their gray start points passes.').toBe(true);
         for (const [index, gap] of gaps.entries())
             expect(gap, `Trace ${probes[index].letter} start dot is within 1.5 mm of its first stroke.`).toBeLessThanOrEqual(1.5);
     }, 1200000);
