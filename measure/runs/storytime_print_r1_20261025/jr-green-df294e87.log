@@ -1,0 +1,47 @@
+# Measure Green run log · Phase 2 Task 2e (Green 2e) · storytime_print_r1
+
+- Role: measure-jr-green. Model: opencode/glm-5.3-flash-free (GLM). Session name: `Green · P2 T2e · storytime_print_r1`.
+- Run start: 2026-10-28 20:28 ICT. Run end: 2026-10-28 20:42 ICT.
+- Repository: /home/daniebo/Desktop/Workbooks. HEAD at start: df294e8783b8d514a05f05cbb4adcc5ca97e4810 (role_base_sha).
+- phase_base_sha: 03a803c (immutable). Red 2e commit 87f2b11f verified inside phase_base_sha..HEAD with `git merge-base --is-ancestor` before any edit.
+- Working tree at start: `video/storytime-song/scripts/render.mjs` modified (other session), untracked run files under `measure/runs/`. Preserved; never staged.
+- Defect D6: `dashboard/lib/storytime/print/student-book.ts`, letter box of `practicePage`. The committed Red test R42 (commit 87f2b11f) failed on the shipped V path `M40.5 66 L44 74.5 ... L72.2 74 L72.2 103`.
+
+## Steps
+
+1. Read plan.md rules and gate commands (lines 1 to 33), Green 2d (line 202), Red 2e (lines 210 to 218), and task Green 2e (line 219). Read the R42 contract (`secondStrokeContract`, test line 449) and the two R42 tests (test lines 1357 to 1380).
+2. Targeted Red rerun inside one heavy-run wrapper: `ci=true npx vitest run __tests__/storytime-print-student-book.test.ts -t "R42: starts the second stroke at the shoulder"`. Exit 1, `Tests 1 failed | 37 skipped (38)`, fails at the shoulder-start assertion. Output: `jr-green-df294e87-red-rerun.txt`.
+3. Implementation commit b65b81aa `fix(storytime): start the second stroke guide on the shoulder and rise over one smooth hill`: `dashboard/lib/storytime/print/student-book.ts` only, 5 insertions, 1 deletion. The second `formation-arrow` path becomes the Red-measured smooth path `M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103`, with a D6 comment beside the D5 comment. First down stroke, start dot, gray letter #b0b0b0, and arrow marker stay. No test file touched.
+4. Gates on HEAD b65b81aa, each in one foreground `heavy-run.sh` wrapper, no nested lock:
+   - `GREEN_TEST_COMMAND` exit 0, `Tests 184 passed (184)` on 5 files (`jr-green-df294e87-green.txt`).
+   - `PROJECT_TESTS` exit 0, `Tests 337 passed (337)` on 16 files, includes the cover tests at 34/34 per handoff expectation (`jr-green-df294e87-project.txt`).
+   - `PROJECT_LINT` exit 0, no output (`jr-green-df294e87-lint.txt`).
+   - `PROJECT_CHECKS` exit 0 in one wrapper: no FAIL line from `check-weeks.ts --level 2`, `tsc` clean (`jr-green-df294e87-checks.txt`).
+   - No lock-wait line in any run. `pnpm-lock.yaml` stayed unchanged; no `git checkout` needed.
+5. Proof v5 and print checks in one heavy-run wrapper, build and checks from the committed source (script `/tmp/opencode/green-2e/proof.sh`):
+   - Build `make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 5`, exit 0.
+   - File `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v5_PDFX-1a.pdf`, sha256 `543620989440c45eff454b905b8ad7040f0a9435b04c3031998f4d60cefb9fff`, 14 pages, A4, PDF/X-1a:2001, 475188 bytes.
+   - `PRINT_GATE` (`make-pdfx.ts --check`) exit 0, the tool prints "All checks pass" (`jr-green-df294e87-proof.txt`).
+   - K-channel check (`jr-green-df294e87-inkcov.txt`): `gs -sDEVICE=inkcov` gives C, M, and Y `0.00000` on all 14 pages; K is above 0 on 13 pages. `pdffonts` embeds only UZBXJA+Andika, KFVQOZ+Andika-Bold, and TLHDTB+Sarabun-Regular.
+   - Proof v4 unchanged: sha256 `062c0af1ef41bd34c3ebba7277034aa0b91c35dc810ed0ef181c45c09d00a6e7`.
+6. Mutants M59 and M60 in one heavy-run wrapper (script `/tmp/opencode/green-2e/mutants.sh`), each mutation on a copy of the committed file, then restore:
+   - M59 second stroke start back at the stem top (y 66): exit 1, `Tests 1 failed | 1 passed | 36 skipped (38)`, fails the shoulder-start assertion (`jr-green-df294e87-mutant-M59.txt`).
+   - M60 the hill ends in one straight corner: exit 1, `Tests 1 failed | 1 passed | 36 skipped (38)`, the profile rule passes and the smoothness assertion fails (`jr-green-df294e87-mutant-M60.txt`).
+   - Each restore: `cmp` OK and `git diff --quiet -- dashboard/lib/storytime/print/student-book.ts` exit 0.
+7. Plan update: Task (Green 2e) marked `[x]` with `commit b65b81aa`, `Evidence: automated`, and sub-lines for the Red rerun, each gate, proof v5 (SHA-256 and page count), PRINT_GATE, the inkcov result, the unchanged v4 SHA-256, and both mutants. Task (Check) left `[ ]` for the orchestrator.
+8. Plan-evidence commit f210df84 `measure(plan): record Phase 2 Green 2e evidence`: `measure/tracks/storytime_print_r1_20261025/plan.md` plus the ten `jr-green-df294e87-*.txt` outputs, staged path by path.
+
+## Anti-pattern check
+
+No substring heuristic touched (`measure/automation-supervisor.py` untouched). No A5 claim without exit evidence; every "All checks pass" quote pairs with the wrapper exit code. No `measure/tracks.md` write. No `rg -v` filter change.
+
+MEASURE_AGENT_RESULT
+title: Green 2e complete, D6 fixed, proof v5 passes
+task_id: storytime_print_r1_20261025.green-2e
+phase: P2
+status: complete
+summary: D6 fixed in the student workbook with the Red-measured smooth shoulder path. Implementation commit b65b81aa changes `dashboard/lib/storytime/print/student-book.ts` only. All four gates pass on it (GREEN exit 0, 184 tests; PROJECT_TESTS exit 0, 337 tests; LINT exit 0; CHECKS exit 0, tsc clean). Proof v5 `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v5_PDFX-1a.pdf`, sha256 543620989440c45eff454b905b8ad7040f0a9435b04c3031998f4d60cefb9fff, 14 pages, PDF/X-1a:2001, PRINT_GATE exit 0, C/M/Y ink 0 on all pages, and proof v4 unchanged (062c0af1ef41bd34c3ebba7277034aa0b91c35dc810ed0ef181c45c09d00a6e7). Mutants M59 and M60 caught. Plan evidence commit f210df84.
+tasks_completed: Green 2e only. Task (Check) stays open for the orchestrator.
+tasks_deferred: none. No human-only action belongs to this task.
+handoff: For review roles: implementation commit b65b81aa and plan-evidence commit f210df84; new files are only `measure/runs/storytime_print_r1_20261025/jr-green-df294e87-*.txt` (10 raw outputs) and `jr-green-df294e87.log`. Scoped new code: the second `formation-arrow` path plus a D6 comment in `dashboard/lib/storytime/print/student-book.ts` (letter box of `practicePage`); nothing else changed in that file. phase_base_sha 03a803c is immutable; my work spans it and ends at f210df84 (covers commits fa51afe2 and the track's own commits landed around mine; that is expected parallel work). Proof for Check: the v5 file above, page 4 letter box. Open risk for review: the D6 comment and R41 look default wait for Daniel's Phase 6 proof decision; no fabrication and no look decision made.
+END_MEASURE_AGENT_RESULT
