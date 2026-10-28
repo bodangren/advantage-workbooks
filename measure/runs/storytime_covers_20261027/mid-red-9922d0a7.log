@@ -1,19 +1,19 @@
-status: complete
-Summary: Red v2 tests and plan evidence are committed. The test gate is red on the changed test file. The v1 front PNG hashes match before and after measurement.
+status: partial
+Summary: Red v2 tests and plan evidence are committed. The targeted gate is red as expected. Three required figure-layout assertions remain unwritten: allowed bottom crop, complete heads, and one-row placement.
 
 MEASURE_AGENT_RESULT
 role: measure-mid-red
-status: complete
+status: partial
 track: storytime_covers_20261027
 phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
 phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 role_base_sha: 9922d0a71270ba94308ed4a2adf3c0539e3d7197
-resulting_head: the measure(plan) commit that contains this log
+resulting_head: the final measure(log) commit that contains this log
 commits: a269f46d (test-only); measure(plan) commit includes plan and run evidence
  tests_run: RED_TEST_COMMAND exit 1; 4 failed and 23 passed, all in storytime-print-covers-16books.test.ts. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. V1 image measurement ran inside heavy-run; before and after hashes match.
-files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-9922d0a7-{red,lint,checks,v1measure,log}.txt
+files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-9922d0a7-{red,lint,checks,v1measure}.txt; measure/runs/storytime_covers_20261027/mid-red-9922d0a7.log
 plan_updates: Task (Red v2) is [x] with test commit a269f46d and automated evidence. Added Red output, lint/check exits, v1 fill measurements, corner samples, and unchanged hashes.
 known_failures: Red gate: R2 recipe entries still use strings; R2 v2 group and recipe constraints do not exist; R11 reports an object-path error before it can name the missing-file book; R12 still checks white corners and fails the tinted sample. The R2 mutation assertions cannot reach the checker until Green supports structured entries. No unrelated source errors appeared in PROJECT_CHECKS.
-handoff: Green must implement recipe entries with kind, name, and file; enforce per-recipe child and animal limits, required groups, and unique sets; draw each level tint and rounded picture corners; measure figure pixels against the ground tint with tolerance 24 and threshold 0.58; allow bottom crop, keep heads whole, and place figures in one row. R14 now requests `--version 2` and expects `v2` in the print filename. Dirty unrelated paths remain untouched: dashboard/lib/storytime/print/student-book.ts and video/storytime-song/scripts/render.mjs. Existing prior run artifacts remain untouched.
+handoff: Before Green starts, add Red tests for permitted bottom crop, uncropped heads, and figures in one row. Green must implement recipe entries with kind, name, and file; enforce per-recipe child and animal limits, required groups, and unique sets; draw each level tint and rounded picture corners; measure figure pixels against the ground tint with tolerance 24 and threshold 0.58; allow bottom crop, keep heads whole, and place figures in one row. R14 now requests `--version 2` and expects `v2` in the print filename. Dirty unrelated paths remain untouched: dashboard/lib/storytime/print/student-book.ts and video/storytime-song/scripts/render.mjs. Existing prior run artifacts remain untouched.
 END_MEASURE_AGENT_RESULT
