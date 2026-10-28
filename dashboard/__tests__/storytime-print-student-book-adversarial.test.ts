@@ -232,7 +232,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
     it('A1: keeps a hostile QR query as text in the address attribute', async () => {
         const week = changedWeek((copy) => {
             copy.home!.songUrl = '/th/st/2/1?part=song&x=<script>alert(1)</script>';
-        }, 30000);
+        });
         const { doc } = await render(week);
         const codes = Array.from(page(doc, 'home-front').querySelectorAll('[data-qr-input]'));
         expect(codes).toHaveLength(2);
@@ -254,7 +254,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         const week = changedWeek((copy) => {
             const item = copy.check.items[0];
             if ('answer' in item) item.answer = 'ZZ-ANSWER-9f3';
-        }, 30000);
+        });
         const { html, doc } = await render(week);
         expect(html, 'The answer of a check row must not print.').not.toContain('ZZ-ANSWER-9f3');
         expect(text(page(doc, 'check')), 'The answer of a check row must not print.').not.toContain('ZZ-ANSWER-9f3');
