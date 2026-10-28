@@ -1,0 +1,37 @@
+Measure Phase 2 Red 2g started: 2026-10-28
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: f6f506575821ab582bb67c6a20ec3c0135992f6a
+Initial status: Green draft files, `video/**`, `dashboard/raw.json`, and existing untracked run outputs are unrelated or other-session work. They remain untouched.
+
+Review B finding B-P2-04 remains open after Green 2f. The parser allowed an output path equal to the print folder, and it accepted lexical children that can redirect through symbolic links.
+
+Orchestrator default: explicit `--out` must end with `.pdf` and name a file strictly inside `<home>/Desktop/print-ready/storytime/`. The pure-enough export is `checkStorytimeOutputContainment(outputPath, home)`. It checks that the real path of the deepest existing ancestor of the output parent lies inside the real print folder, or inside its deepest existing ancestor when the print folder is absent. An existing output path cannot be a symbolic link. Violations must name the path.
+
+R47 is in `dashboard/__tests__/storytime-print-student-book.test.ts`. It rejects the folder itself, a folder path with a trailing separator, and a `.txt` child. It accepts an inside `.pdf`. Filesystem checks reject a child through a link folder to an outside directory and an existing output symlink to an outside file. They accept a normal inside PDF and a path inside a not-yet-created print folder. The missing-export guard uses an assertion. The filesystem test cleans its temporary root.
+
+RED_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"`; one foreground heavy-run wrapper; exit 1; `Tests 2 failed | 190 passed (192)` on 5 files. R47 failed on assertions: the parser accepted the folder target, and `checkStorytimeOutputContainment` was not exported. All earlier tests passed. Full command and output are in `mid-red-f6f50657-red.txt`.
+PROJECT_LINT: `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts`; one foreground heavy-run wrapper; exit 0, no output. Command and output are in `mid-red-f6f50657-lint.txt`.
+PROJECT_CHECKS: one foreground heavy-run wrapper; exit 0. The command is recorded in `mid-red-f6f50657-checks.txt`. It emitted no output; the accepted `published` FAIL was held in the command variable and `npx tsc --noEmit` emitted no errors. The evidence file records that full no-output result.
+
+Review A A-P2-09 plan corrections: calibration far-park gaps are 12.09, 12.04, 12.06, 80.53, and 5.17 mm; only the target gaps are about 1.2 mm. The accepted FAIL evidence names the full-output file `jr-green-053d85e9-checks.txt`. The v6 proof re-check time is corrected to 22:45 ICT.
+
+Test commit: `7244d7a262c99501f233875d9652e0b83227d935` (`test(storytime): test that the output path stays inside the print folder on the filesystem`), test file only.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: Phase 2 Red 2g
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: f6f506575821ab582bb67c6a20ec3c0135992f6a
+resulting_head: 7244d7a262c99501f233875d9652e0b83227d935
+commits: 7244d7a262c99501f233875d9652e0b83227d935 (test); plan and run evidence commit follows
+RED_TEST_COMMAND: exit 1; Tests 2 failed | 190 passed (192); 5 files
+PROJECT_LINT: exit 0; no output
+PROJECT_CHECKS: exit 0; accepted published FAIL; tsc emitted no errors
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-f6f50657.log; mid-red-f6f50657-red.txt; mid-red-f6f50657-lint.txt; mid-red-f6f50657-checks.txt
+failed_assertions: R47 parser accepted the folder target; R47 filesystem containment export is missing
+contract_names: parseStorytimeStudentBookArgs(argv, home, unit); checkStorytimeOutputContainment(outputPath, home)
+handoff: Green 2g implements strict PDF-file parser validation and filesystem realpath containment, including linked parents and existing output symlinks. Preserve Red tests. No production files changed or staged by Red.
+END_MEASURE_AGENT_RESULT
