@@ -77,6 +77,16 @@ interface PictureModule {
         bookTitle?: string,
     ) => Promise<Buffer>;
     checkStorytimeCoverPicture: (png: Buffer, groundTint?: string, minimumFillShare?: number) => string[];
+    storytimeCoverFigureLayout: (files: string[], sizePx: { width: number; height: number }) => Promise<FigureBox[]>;
+    checkStorytimeCoverFigureLayout: (boxes: FigureBox[], sizePx: { width: number; height: number }, headBandHeightPx: number) => string[];
+}
+
+interface FigureBox {
+    name: string;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
 }
 
 const LINE = 'https://line.me/ti/p/Pf7_EF98Pv';
@@ -105,6 +115,10 @@ function mmToPx(mm: number): number {
 
 function castPath(name: string): string {
     return `content/storytime/l2/media/w01/forge/cast/sprout-${name}/front.png`;
+}
+
+function recipeFiles(book: StorytimeCoverBook): string[] {
+    return (book.pictureRecipe as unknown as Array<string | { file: string }>).map((figure) => typeof figure === 'string' ? figure : figure.file);
 }
 
 function readBooksFile(): StorytimeCoverData {
@@ -686,7 +700,7 @@ describe('Storytime 16-book covers', () => {
         const size = { width: coversMod.storytimeCoverMmToPx(186), height: coversMod.storytimeCoverMmToPx(180) };
         const tint = '#D4E4F1';
         const buffer = await mod.composeStorytimeCoverPicture(CAST.map((name) => path.join(repoRoot, castPath(name))), size, tint, 'Storytime Advantage, Level 2, Unit 1, Student Book');
-        expect(mod.checkStorytimeCoverPicture(buffer), 'Cast picture errors').toEqual([]);
+        expect(mod.checkStorytimeCoverPicture(buffer, tint), 'Cast picture errors').toEqual([]);
         const { default: sharp } = await import('sharp');
         const raw = await sharp(buffer).raw().toBuffer({ resolveWithObject: true });
         expect((await sharp(buffer).metadata()).hasAlpha, 'Composed picture alpha').toBe(false);
@@ -724,7 +738,7 @@ describe('Storytime 16-book covers', () => {
         await sharp({ create: { width: size.width, height: size.height, channels: 3, background: '#8B5A2B' } }).png().toFile(badFile);
         let passed = false;
         try {
-            const bad = await mod.composeStorytimeCoverPicture([badFile], size, 'Storytime Advantage, Level 4, Unit 4, Student Book');
+            const bad = await mod.composeStorytimeCoverPicture([badFile], size, '#D4E4F1', 'Storytime Advantage, Level 4, Unit 4, Student Book');
             const badRaw = await sharp(bad).raw().toBuffer({ resolveWithObject: true });
             const corner = (x: number, y: number) => {
                 const index = (y * badRaw.info.width + x) * badRaw.info.channels;
@@ -738,36 +752,94 @@ describe('Storytime 16-book covers', () => {
         expect(passed, 'A picture with white corners must not pass the tinted-corner check.').toBe(false);
     });
 
-    it('R12 v2: figure fill uses the ground-independent threshold and rejects the v1 loose crop', async () => {
-        const mod = await pictures('checkStorytimeCoverPicture');
+    it('R12 v2: all three shipped compositions meet the fill threshold on their tinted ground', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('composeStorytimeCoverPicture', 'checkStorytimeCoverPicture');
         const { default: sharp } = await import('sharp');
-        const tint = '#F9E1D2';
         const threshold = 0.58;
-        const v1L1 = path.join(path.resolve(repoRoot, '..'), 'print-ready/storytime/proof/l1u1/front.png');
-        const v1L4 = path.join(path.resolve(repoRoot, '..'), 'print-ready/storytime/proof/l4u4/front.png');
-        requireHeavyWrapper();
-        const share = async (file: string): Promise<number> => {
-            const raw = await sharp(file).extract({ left: mmToPx(12), top: mmToPx(31), width: mmToPx(186), height: mmToPx(180) }).raw().toBuffer({ resolveWithObject: true });
+        const tints: Record<number, string> = { 1: '#F9E1D2', 2: '#D4E4F1', 3: '#D8EBDD', 4: '#E6DCF1' };
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const data = dataModule.loadStorytimeCoverBooks();
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const book = bookOf(data, level, unit);
+            const tint = tints[level];
+            const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+            const png = await mod.composeStorytimeCoverPicture(files, size, tint, book.title);
+            expect(mod.checkStorytimeCoverPicture(png, tint, threshold), `${book.title} picture check`).toEqual([]);
+            const raw = await sharp(png).raw().toBuffer({ resolveWithObject: true });
+            const ground = [0, 1, 2].map((channel) => Number.parseInt(tint.slice(channel * 2 + 1, channel * 2 + 3), 16));
+            const inset = mmToPx(8);
+            for (const [x, y] of [[inset, inset], [raw.info.width - 1 - inset, inset], [inset, raw.info.height - 1 - inset], [raw.info.width - 1 - inset, raw.info.height - 1 - inset]]) {
+                const index = (y * raw.info.width + x) * raw.info.channels;
+                expect([0, 1, 2].every((channel) => Math.abs(raw.data[index + channel] - ground[channel]) <= 6), `${book.title} ground tint at ${x},${y}`).toBe(true);
+            }
             let figurePixels = 0;
             for (let i = 0; i < raw.data.length; i += raw.info.channels) {
-                const rgb = [raw.data[i], raw.data[i + 1], raw.data[i + 2]];
-                if (rgb.some((channel, c) => Math.abs(channel - Number.parseInt('#FFFFFF'.slice(c * 2 + 1, c * 2 + 3), 16)) > 24)) figurePixels++;
+                if ([0, 1, 2].some((channel) => Math.abs(raw.data[i + channel] - ground[channel]) > 24)) figurePixels++;
             }
-            return figurePixels / (raw.info.width * raw.info.height);
-        };
-        const l1Share = await share(v1L1);
-        const l4Share = await share(v1L4);
-        expect(l1Share, 'Level 1 Unit 1 v1 fill share').toBeGreaterThanOrEqual(threshold);
-        expect(l4Share, 'Level 4 Unit 4 v1 fill share').toBeLessThan(threshold);
-        const groundOnly = await sharp({ create: { width: 80, height: 80, channels: 3, background: tint } }).png().toBuffer();
-        const copied = path.join(temporaryFolder(), 'ground-only.png');
-        fs.copyFileSync(await (async () => {
-            const source = path.join(temporaryFolder(), 'ground-source.png');
-            fs.writeFileSync(source, groundOnly);
-            return source;
-        })(), copied);
-        expect(mod.checkStorytimeCoverPicture(fs.readFileSync(copied), tint, threshold).length, 'A copied ground-only image fails the fill threshold.').toBeGreaterThan(0);
-    }, 30000);
+            const fillShare = figurePixels / (raw.info.width * raw.info.height);
+            expect(fillShare, `${book.title} v2 fill share`).toBeGreaterThanOrEqual(threshold);
+        }
+    }, 120000);
+
+    it('R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('composeStorytimeCoverPicture', 'checkStorytimeCoverPicture');
+        const { default: sharp } = await import('sharp');
+        const book = bookOf(dataModule.loadStorytimeCoverBooks(), 4, 4);
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const tint = '#E6DCF1';
+        const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+        const original = await mod.composeStorytimeCoverPicture(files, size, tint, book.title);
+        const reduced = await sharp(original).resize(Math.round(size.width * 0.75), Math.round(size.height * 0.75)).png().toBuffer();
+        const mutant = await sharp({ create: { width: size.width, height: size.height, channels: 3, background: tint } })
+            .composite([{ input: reduced, left: Math.floor(size.width * 0.125), top: Math.floor(size.height * 0.125) }]).png().toBuffer();
+        const copied = path.join(temporaryFolder(), 'l4u4-fill-mutant.png');
+        fs.writeFileSync(copied, mutant);
+        const mutantRaw = await sharp(fs.readFileSync(copied)).raw().toBuffer({ resolveWithObject: true });
+        const ground = [0, 1, 2].map((channel) => Number.parseInt(tint.slice(channel * 2 + 1, channel * 2 + 3), 16));
+        const inset = mmToPx(8);
+        for (const [x, y] of [[inset, inset], [size.width - 1 - inset, inset], [inset, size.height - 1 - inset], [size.width - 1 - inset, size.height - 1 - inset]]) {
+            const index = (y * mutantRaw.info.width + x) * mutantRaw.info.channels;
+            expect([0, 1, 2].every((channel) => Math.abs(mutantRaw.data[index + channel] - ground[channel]) <= 6), `Mutant corner ${x},${y} retains tint`).toBe(true);
+        }
+        const errors = mod.checkStorytimeCoverPicture(fs.readFileSync(copied), tint, 0.58);
+        expect(errors.some((error) => /fill/i.test(error)), 'The copied mutant fails by fill, not by corner tint.').toBe(true);
+    }, 120000);
+
+    it('R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('storytimeCoverFigureLayout', 'checkStorytimeCoverFigureLayout');
+        const data = dataModule.loadStorytimeCoverBooks();
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const headBandHeight = mmToPx(8);
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const book = bookOf(data, level, unit);
+            const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+            const boxes = await mod.storytimeCoverFigureLayout(files, size);
+            expect(boxes.length, `${book.title} figure box count`).toBe(book.pictureRecipe.length);
+            expect(mod.checkStorytimeCoverFigureLayout(boxes, size, headBandHeight), `${book.title} figure layout`).toEqual([]);
+
+            const bottom = structuredClone(boxes);
+            const last = bottom.reduce((best, box, index) => box.top + box.height > bottom[best].top + bottom[best].height ? index : best, 0);
+            bottom[last].top = size.height - bottom[last].height + 1;
+            const bottomFile = path.join(temporaryFolder(), `l${level}u${unit}-bottom.json`);
+            fs.writeFileSync(bottomFile, JSON.stringify(bottom));
+            expect(mod.checkStorytimeCoverFigureLayout(JSON.parse(fs.readFileSync(bottomFile, 'utf8')) as FigureBox[], size, headBandHeight), 'A copied bottom-edge crop is allowed.').toEqual([]);
+
+            const head = structuredClone(boxes);
+            head[0].top = 0;
+            const headFile = path.join(temporaryFolder(), `l${level}u${unit}-head.json`);
+            fs.writeFileSync(headFile, JSON.stringify(head));
+            expect(mod.checkStorytimeCoverFigureLayout(JSON.parse(fs.readFileSync(headFile, 'utf8')) as FigureBox[], size, headBandHeight).join(' '), 'A copied top-edge mutant fails.').toMatch(/head|top/i);
+
+            const overlap = structuredClone(boxes);
+            overlap[1].left = overlap[0].left;
+            const overlapFile = path.join(temporaryFolder(), `l${level}u${unit}-overlap.json`);
+            fs.writeFileSync(overlapFile, JSON.stringify(overlap));
+            expect(mod.checkStorytimeCoverFigureLayout(JSON.parse(fs.readFileSync(overlapFile, 'utf8')) as FigureBox[], size, headBandHeight).join(' '), 'A copied x-overlap mutant fails.').toMatch(/row|overlap/i);
+        }
+    }, 120000);
 
     it('R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image', async () => {
         const mod = await pictures('composeStorytimeCoverPicture');
