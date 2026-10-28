@@ -1,0 +1,24 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 98166[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 20162[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1395[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 6661[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 3294[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 3629[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 1957[2mms[22m[39m
+     [33m[2m✓[22m[39m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant [33m 721[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 325[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 23784[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 19485[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture [33m 3884[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge [33m 8231[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 3550[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m34 passed[39m[22m[90m (34)[39m
+[2m   Start at [22m 21:27:53
+[2m   Duration [22m 104.15s[2m (transform 1.03s, setup 558ms, import 1.71s, tests 98.17s, environment 2.95s)[22m
+
