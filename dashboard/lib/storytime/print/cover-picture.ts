@@ -3,17 +3,18 @@ import path from 'path';
 import sharp from 'sharp';
 import { inflateSync } from 'zlib';
 import { REPO_ROOT } from '../../lesson-package/files';
+import { STORYTIME_COVER_HEAD_BAND_MM, storytimeCoverMmToPx } from './covers';
 
 /**
  * The cover picture of a Storytime student book (track storytime_covers_20261027): the Forge 3D
- * cast, cut out and placed on a white ground (D4: one picture style for all 16 books). The
- * composer writes one opaque picture for the picture area of the front cover, at 300 ppi for the
- * trim, so that the PDF/X file holds no alpha channel and no soft mask.
+ * cast, cut out on the ground tint of the level (D5, D6). The composer writes one opaque picture
+ * for the picture area of the front cover, at 300 ppi for the trim, so that the PDF/X file holds
+ * no alpha channel and no soft mask (R13).
  *
- * The layout follows the mock build (`compose_pictures.py`, 2026-10-26): a back row of the taller
- * characters, a front row of the first and the last character, and the small one (the dog Pip) in
- * the middle of the front row. The rows overlap, the front row stands lower, and the whole group
- * is scaled to the frame.
+ * The layout follows the v1 Level 1 Unit 1 cover, the model of D5: the children stand in one row
+ * and fill the picture area, and at most one animal stands in front of their feet. The figures
+ * fill the area (D8), and a crop at the bottom edge is allowed (P10). The top band of 8 mm holds
+ * only the ground tint, so every head is whole (FR-2.7, orchestrator decision 2026-10-28).
  */
 
 /** The picture area of the front cover: 186 x 180 mm (spec FR-2.3). */
@@ -22,29 +23,23 @@ export const STORYTIME_COVER_PICTURE_MM = { width: 186, height: 180 };
 /** The resolution of every cover picture: 300 ppi (spec FR-5.1). */
 export const STORYTIME_COVER_PPI = 300;
 
-/** The height of the back row, in units of the tallest character. */
-const BACK_HEIGHT = 1;
+/** The corner radius of the picture layer, in millimetres (spec FR-2.4, P9). */
+const PICTURE_RADIUS_MM = 5;
 
-/** The height of the front row, in units of the tallest character (the mock: 1120 of 1000). */
-const FRONT_HEIGHT = 1.12;
+/** The share of the children's height that the animal occupies (the model of D5: 0.42). */
+const ANIMAL_HEIGHT_SHARE = 0.42;
 
-/** The height of the small one (the dog), in units of the tallest character. */
-const SMALL_HEIGHT = 0.62;
+/** A sprite whose trimmed height is below this share of the tallest one is the animal. */
+const ANIMAL_SHARE = 0.75;
 
-/** How much the back row overlaps: the step of a row is its width times this share. */
-const BACK_OVERLAP = 0.5;
-
-/** How much the front row overlaps. */
-const FRONT_OVERLAP = 0.06;
-
-/** How much lower the feet of the front row stand, in units of the tallest character. */
-const FRONT_DROP = 0.54;
-
-/** A sprite whose height is below this share of the tallest one is a small one (the dog). */
-const SMALL_SHARE = 0.75;
-
-/** The white ground of the picture area. */
+/** The white outside the rounded corners of the picture layer: the colour of the page. */
 const GROUND = '#ffffff';
+
+/** The tolerance of a ground tint sample, per RGB channel (spec FR-2.4, AC-3). */
+const TINT_TOLERANCE = 6;
+
+/** The tolerance of a figure pixel against the ground tint (the Red contract of FR-2.7). */
+const FIGURE_TOLERANCE = 24;
 
 /** One cut-out character, trimmed to its alpha box. */
 interface Sprite {
@@ -54,21 +49,29 @@ interface Sprite {
     buffer: Buffer;
 }
 
-/** One sprite of a row, in the units of the group. */
-interface Placed {
+/** One figure of the picture, in the pixels of the picture area. */
+interface PlacedFigure {
+    name: string;
+    index: number;
     left: number;
     top: number;
     width: number;
     height: number;
-    buffer: Buffer;
+    sprite: Sprite;
 }
 
-/** A row of sprites. */
-interface Row {
+/** The box of one figure of the picture area, in pixels (the layout contract of D5). */
+export interface StorytimeCoverFigureBox {
+    /** The name of the figure, from its cut-out folder. */
+    name: string;
+    /** The left edge of the figure, in pixels. */
+    left: number;
+    /** The top edge of the figure, in pixels. */
+    top: number;
+    /** The width of the figure, in pixels. */
     width: number;
-    feet: number;
+    /** The height of the figure, in pixels. */
     height: number;
-    items: Placed[];
 }
 
 /**
@@ -127,24 +130,145 @@ async function loadSprite(file: string, bookTitle: string): Promise<Sprite> {
 }
 
 /**
- * Builds one row of sprites: every sprite at the given height, the row from left to right with
- * an overlap. The row is placed on the baseline of its feet.
- * @param sprites The sprites of the row, in order.
- * @param height The height of every sprite of the row, in pixels.
- * @param overlap The share of a sprite that the next one covers.
- * @param feet The baseline of the row, in pixels.
- * @returns The row.
+ * The name of a figure, from its cut-out path: the folder name after "sprout-", or the file name.
+ * @param file The path of the cut-out.
+ * @returns The name of the figure.
  */
-async function buildRow(sprites: Sprite[], height: number, overlap: number, feet: number): Promise<Row> {
-    const items: Placed[] = [];
-    let x = 0;
-    for (const sprite of sprites) {
-        const width = Math.max(1, Math.round((sprite.width / sprite.height) * height));
-        items.push({ left: x, top: feet - height, width, height, buffer: await resizeSprite(sprite.buffer, sprite, width, height) });
-        x += width * (1 - overlap);
+function figureName(file: string): string {
+    const match = file.match(/sprout-([^/\\]+)/i);
+    if (match) return match[1];
+    return path.basename(file).replace(/\.[^.]+$/, '');
+}
+
+/**
+ * The height of the clear band at the top of the picture, in pixels. A small picture keeps a
+ * smaller band, so that the layout stays possible for a test picture.
+ * @param sizePx The size of the picture area, in pixels.
+ * @returns The height of the band.
+ */
+function headBandPx(sizePx: { width: number; height: number }): number {
+    const band = storytimeCoverMmToPx(STORYTIME_COVER_HEAD_BAND_MM);
+    return Math.max(1, Math.min(band, Math.round(sizePx.height / 10)));
+}
+
+/**
+ * Plans the figures of one cover picture: the children in one row, large enough to fill the
+ * picture area, and the small figure (the animal) centred in front of their feet. The order of
+ * the figures is the order of the recipe, so the animal draws on top of the children.
+ * @param files The cut-out files of the recipe, the children first and the animal last.
+ * @param sizePx The size of the picture area, in pixels.
+ * @param bookTitle The book of the cover, named in the error.
+ * @returns The placed figures.
+ */
+async function planFigureLayout(
+    files: string[],
+    sizePx: { width: number; height: number },
+    bookTitle: string,
+): Promise<PlacedFigure[]> {
+    if (!files.length) throw new Error(`${bookTitle}: the picture recipe is empty.`);
+    const sprites: Sprite[] = await Promise.all(files.map((file) => loadSprite(file, bookTitle)));
+    const tallest = Math.max(...sprites.map((sprite) => sprite.height));
+    const small = sprites.map((sprite) => sprite.height < tallest * ANIMAL_SHARE);
+    const row = sprites.map((_, index) => index).filter((index) => !small[index]);
+    const rowIndexes = row.length ? row : sprites.map((_, index) => index);
+    const band = headBandPx(sizePx);
+    const totalAspect = rowIndexes.reduce((sum, index) => sum + sprites[index].width / sprites[index].height, 0);
+    const rowHeight = Math.min(sizePx.height - band, sizePx.width / totalAspect);
+    const widths = rowIndexes.map((index) => (sprites[index].width / sprites[index].height) * rowHeight);
+    const totalWidth = widths.reduce((sum, width) => sum + width, 0);
+    const left0 = (sizePx.width - totalWidth) / 2;
+    const edges: number[] = [Math.round(left0)];
+    let cumulative = 0;
+    for (const width of widths) {
+        cumulative += width;
+        edges.push(Math.round(left0 + cumulative));
     }
-    const last = items[items.length - 1];
-    return { width: last ? last.left + last.width : 0, feet, height, items };
+    // The row stands on the 8 mm band, or in the middle of a picture area that it does not fill.
+    const top = Math.max(Math.round(band), Math.round((sizePx.height - rowHeight) / 2));
+    const placed: PlacedFigure[] = rowIndexes.map((index, position) => ({
+        name: figureName(files[index]),
+        index,
+        left: edges[position],
+        top,
+        width: edges[position + 1] - edges[position],
+        height: Math.round(rowHeight),
+        sprite: sprites[index],
+    }));
+    const feet = top + rowHeight;
+    const animalHeight = rowHeight * ANIMAL_HEIGHT_SHARE;
+    for (let index = 0; index < sprites.length; index++) {
+        if (!small[index] && row.length) continue;
+        if (small[index] && !row.length) continue;
+        const sprite = sprites[index];
+        const width = (sprite.width / sprite.height) * animalHeight;
+        placed.push({
+            name: figureName(files[index]),
+            index,
+            left: Math.round((sizePx.width - width) / 2),
+            top: Math.round(feet - animalHeight),
+            width: Math.round(width),
+            height: Math.round(animalHeight),
+            sprite,
+        });
+    }
+    // Keep the order of the recipe, so the figures draw in that order, the animal on top.
+    placed.sort((a, b) => a.index - b.index);
+    return placed;
+}
+
+/**
+ * The layout of the figures of one cover picture, in the order of the recipe (spec FR-2.7).
+ * @param files The cut-out files of the recipe, the children first and the animal last.
+ * @param sizePx The size of the picture area, in pixels.
+ * @returns The box of each figure, in pixels.
+ */
+export async function storytimeCoverFigureLayout(
+    files: string[],
+    sizePx: { width: number; height: number },
+): Promise<StorytimeCoverFigureBox[]> {
+    const figures = await planFigureLayout(files, sizePx, 'Storytime Advantage');
+    return figures.map(({ name, left, top, width, height }) => ({ name, left, top, width, height }));
+}
+
+/**
+ * Checks the layout of the figures of one cover picture (orchestrator decision 2026-10-28, the
+ * model of D5):
+ *
+ * 1. No figure box starts inside the head band at the top, so every head is whole.
+ * 2. Two boxes may overlap in x only when the top of one box is lower than the vertical middle of
+ *    the other box. A short figure may stand in front of the lower half of a tall figure, and the
+ *    children never overlap.
+ * 3. A box may reach or pass the bottom edge of the picture area: the bottom crop is allowed.
+ * @param boxes The boxes of the figures.
+ * @param sizePx The size of the picture area, in pixels.
+ * @param headBandHeightPx The height of the clear band at the top, in pixels.
+ * @returns The errors (empty when the layout is good).
+ */
+export function checkStorytimeCoverFigureLayout(
+    boxes: StorytimeCoverFigureBox[],
+    sizePx: { width: number; height: number },
+    headBandHeightPx: number,
+): string[] {
+    const errors: string[] = [];
+    for (const box of boxes) {
+        if (box.top < headBandHeightPx) {
+            errors.push(`The head of ${box.name} is inside the ${headBandHeightPx} px band at the top (top ${box.top} px).`);
+        }
+        if (box.width <= 0 || box.height <= 0) errors.push(`The figure ${box.name} has no box.`);
+    }
+    for (let first = 0; first < boxes.length; first++) {
+        for (let second = first + 1; second < boxes.length; second++) {
+            const a = boxes[first];
+            const b = boxes[second];
+            const overlapX = a.left < b.left + b.width && b.left < a.left + a.width;
+            if (!overlapX) continue;
+            const inFront = a.top > b.top + b.height / 2 || b.top > a.top + a.height / 2;
+            if (!inFront) {
+                errors.push(`The figures ${a.name} and ${b.name} overlap in x in one row; only a short figure in front of the lower half of a tall figure may overlap.`);
+            }
+        }
+    }
+    return errors;
 }
 
 /**
@@ -168,141 +292,36 @@ async function resizeSprite(buffer: Buffer, source: { width: number; height: num
 }
 
 /**
- * Composes the cover picture of one book: the cut-out characters on a white ground, at the size
- * of the picture area of the front cover.
- *
- * The group is scaled so that it fills the frame, and never below the size of its own pictures:
- * a picture that already fills the frame keeps its size, so its corners stay its own colour
- * (D4: a room scene in a box fails the white-corner rule).
- * @param files The cut-out files of the recipe.
+ * Composes the cover picture of one book: the cut-out figures on the ground tint of the level, to
+ * the four edges of the picture area, with the 5 mm rounded corners in the picture layer. The
+ * children stand in one row and fill the area, and the animal stands in front of their feet (D5,
+ * D6, D8). The picture is opaque: no alpha channel and no soft mask (R13).
+ * @param files The cut-out files of the recipe, the children first and the animal last.
  * @param sizePx The size of the picture area, in pixels.
+ * @param groundTint The ground tint of the level.
  * @param bookTitle The book of the cover, named in the error.
  * @returns The opaque picture, as a PNG without an alpha channel.
  */
 export async function composeStorytimeCoverPicture(
     files: string[],
     sizePx: { width: number; height: number },
+    groundTint: string,
     bookTitle = 'Storytime Advantage',
 ): Promise<Buffer> {
-    if (!files.length) throw new Error(`${bookTitle}: the picture recipe is empty.`);
-    const sprites: Sprite[] = await Promise.all(files.map((file) => loadSprite(file, bookTitle)));
-
-    const tallest = Math.max(...sprites.map((s) => s.height));
-    const small = sprites.filter((s) => s.height < tallest * SMALL_SHARE);
-    const tall = sprites.filter((s) => s.height >= tallest * SMALL_SHARE);
-
-    // The back row holds the tall characters between the first and the last one; the front row
-    // holds the first and the last character, and the small one.
-    const backSprites = tall.length >= 4 ? tall.slice(1, tall.length - 1) : [];
-    const frontSprites = tall.length >= 4 ? [tall[0], tall[tall.length - 1]] : [...tall];
-
-    // The group, in the pixels of the cut-outs: the tallest character is the unit.
-    const backHeight = Math.round(BACK_HEIGHT * tallest);
-    // The front row stands a little taller, but never taller than the picture area.
-    const frontHeight = Math.min(Math.round(FRONT_HEIGHT * tallest), sizePx.height);
-    const smallHeight = Math.round(SMALL_HEIGHT * tallest);
-    const drop = Math.round(FRONT_DROP * tallest);
-    const back = await buildRow(backSprites, backHeight, BACK_OVERLAP, backHeight);
-    const front = await buildRow(frontSprites, frontHeight, FRONT_OVERLAP, backHeight + drop);
-
-    // The small one stands in the middle of the group, its feet at the feet of the front row.
-    const smallItems: Placed[] = [];
-    for (const sprite of small) {
-        const width = Math.max(1, Math.round((sprite.width / sprite.height) * smallHeight));
-        smallItems.push({
-            left: 0,
-            top: backHeight + drop - smallHeight,
-            width,
-            height: smallHeight,
-            buffer: await resizeSprite(sprite.buffer, sprite, width, smallHeight),
+    const figures = await planFigureLayout(files, sizePx, bookTitle);
+    const radius = Math.min(storytimeCoverMmToPx(PICTURE_RADIUS_MM), Math.floor(Math.min(sizePx.width, sizePx.height) / 2));
+    const ground = `<svg xmlns="http://www.w3.org/2000/svg" width="${sizePx.width}" height="${sizePx.height}"><rect x="0" y="0" width="${sizePx.width}" height="${sizePx.height}" rx="${radius}" ry="${radius}" fill="${groundTint}"/></svg>`;
+    const layers: sharp.OverlayOptions[] = [];
+    for (const figure of figures) {
+        layers.push({
+            input: await resizeSprite(figure.sprite.buffer, figure.sprite, figure.width, figure.height),
+            raw: { width: Math.max(1, figure.width), height: Math.max(1, figure.height), channels: 4 },
+            left: figure.left,
+            top: figure.top,
         });
     }
-
-    // The box of the group.
-    const groupWidth = Math.max(back.width, front.width, ...smallItems.map((item) => item.width));
-    const groupTop = Math.min(
-        ...back.items.map((item) => item.top),
-        ...front.items.map((item) => item.top),
-        ...smallItems.map((item) => item.top),
-    );
-    const groupBottom = Math.max(back.feet, front.feet);
-    const groupHeight = groupBottom - groupTop;
-
-    // The scale of the group: it fills the frame, and it never shrinks below the size of the
-    // cut-outs, so that a picture that fills the frame keeps its own corners.
-    const pad = Math.round(Math.min(sizePx.width, sizePx.height) * 0.03);
-    const scale = Math.max(
-        Math.min((sizePx.width - 2 * pad) / groupWidth, (sizePx.height - 2 * pad) / groupHeight),
-        1,
-    );
-
-    // The group, drawn on its own ground, then scaled once.
-    const layers: sharp.OverlayOptions[] = [];
-    const place = (item: Placed, x: number, y: number) => {
-        layers.push({
-            input: item.buffer,
-            raw: { width: item.width, height: item.height, channels: 4 },
-            left: Math.round(x),
-            top: Math.round(y),
-        });
-    };
-    const backShift = (groupWidth - back.width) / 2;
-    for (const item of back.items) place(item, backShift + item.left, item.top - groupTop);
-    const frontShift = (groupWidth - front.width) / 2;
-    for (const item of front.items) place(item, frontShift + item.left, item.top - groupTop);
-    for (const item of smallItems) place(item, (groupWidth - item.width) / 2, item.top - groupTop);
-
-    const group = await sharp({
-        create: { width: Math.round(groupWidth), height: Math.round(groupHeight), channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
-    })
-        .composite(layers)
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-
-    const finalWidth = Math.max(1, Math.round(groupWidth * scale));
-    const finalHeight = Math.max(1, Math.round(groupHeight * scale));
-    // A group of the size of the frame keeps its own pixels: the cut-outs are not resampled.
-    const scaled =
-        finalWidth === group.info.width && finalHeight === group.info.height
-            ? group
-            : await sharp(group.data, { raw: { width: group.info.width, height: group.info.height, channels: group.info.channels } })
-                  .resize(finalWidth, finalHeight, { fit: 'fill', kernel: 'lanczos3' })
-                  .raw()
-                  .toBuffer({ resolveWithObject: true });
-
-    // The group sits in the middle of the picture area; a group that is bigger than the picture
-    // area is cut off at its edges.
-    const offsetX = Math.round((sizePx.width - finalWidth) / 2);
-    const offsetY = Math.round((sizePx.height - finalHeight) / 2);
-    const cutLeft = Math.max(0, -offsetX);
-    const cutTop = Math.max(0, -offsetY);
-    const cutWidth = Math.min(finalWidth - cutLeft, sizePx.width);
-    const cutHeight = Math.min(finalHeight - cutTop, sizePx.height);
-    const input =
-        cutLeft === 0 && cutTop === 0 && cutWidth === finalWidth && cutHeight === finalHeight
-            ? { data: scaled.data, width: finalWidth, height: finalHeight }
-            : {
-                  data: await sharp(scaled.data, { raw: { width: finalWidth, height: finalHeight, channels: scaled.info.channels } })
-                      .extract({ left: cutLeft, top: cutTop, width: cutWidth, height: cutHeight })
-                      .raw()
-                      .toBuffer(),
-                  width: cutWidth,
-                  height: cutHeight,
-              };
-    const left = cutLeft + offsetX;
-    const top = cutTop + offsetY;
-
-    return sharp({
-        create: { width: sizePx.width, height: sizePx.height, channels: 3, background: GROUND },
-    })
-        .composite([
-            {
-                input: input.data,
-                raw: { width: input.width, height: input.height, channels: scaled.info.channels },
-                left,
-                top,
-            },
-        ])
+    return sharp({ create: { width: sizePx.width, height: sizePx.height, channels: 3, background: GROUND } })
+        .composite([{ input: Buffer.from(ground), left: 0, top: 0 }, ...layers])
         .flatten({ background: GROUND })
         .removeAlpha()
         .png({ compressionLevel: 3 })
@@ -325,7 +344,7 @@ function paeth(a: number, b: number, c: number): number {
     return pb <= pc ? b : c;
 }
 
-/** A decoded PNG: the pixels of every channel. */
+/** A decoded PNG: the pixels of the picture. */
 interface PngImage {
     width: number;
     height: number;
@@ -335,7 +354,7 @@ interface PngImage {
 
 /**
  * Decodes a PNG of 8 bits per channel without interlacing, in the process, so that a check of a
- * composed picture stays a plain function (the Red contract of the cover module).
+ * composed picture stays a plain function (the Red contract of the picture module).
  * @param png The PNG file.
  * @returns The pixels, or null when the file is not a PNG of that kind.
  */
@@ -405,15 +424,32 @@ function decodePng(png: Buffer): PngImage | null {
 }
 
 /**
- * Checks a composed cover picture: the four corners of the picture area are white, and the middle
- * of the picture is not (D4: cut-out characters on white, not a room scene in a box).
+ * Parses a colour of the data file or of the spec, as #rrggbb.
+ * @param value The colour.
+ * @returns The red, green, and blue values.
+ */
+function parseColour(value: string): [number, number, number] {
+    const hex = (value ?? '').trim().replace(/^#/, '');
+    if (!/^[0-9a-f]{6}$/i.test(hex)) return [255, 255, 255];
+    return [0, 2, 4].map((index) => Number.parseInt(hex.slice(index, index + 2), 16)) as [number, number, number];
+}
+
+/**
+ * Checks a composed cover picture (spec FR-2.4, FR-2.7, AC-3, AC-9): the picture is opaque, each
+ * of the four corner samples 8 mm inside the corner holds the ground tint, the picture holds
+ * figure pixels, and the figures cover the minimum share of the picture area.
  * @param png The composed picture.
+ * @param groundTint The ground tint of the level.
+ * @param minimumFillShare The share of figure pixels that the picture area needs. The shape check
+ *   of R12 calls without it; the fill checks and the build give `STORYTIME_COVER_FILL_SHARE`.
  * @returns The errors (empty when the picture is good).
  */
-export function checkStorytimeCoverPicture(png: Buffer): string[] {
+export function checkStorytimeCoverPicture(png: Buffer, groundTint: string, minimumFillShare = 0): string[] {
     const errors: string[] = [];
     const image = decodePng(png);
     if (!image) return ['The picture is not a PNG of 8 bits per channel.'];
+    if (image.channels === 4) errors.push('The picture holds an alpha channel.');
+    const ground = parseColour(groundTint);
     const pixel = (x: number, y: number): number[] => {
         const index = (y * image.width + x) * image.channels;
         const first = image.data[index];
@@ -421,28 +457,28 @@ export function checkStorytimeCoverPicture(png: Buffer): string[] {
         const third = image.channels >= 3 ? image.data[index + 2] : first;
         return [first, second, third];
     };
-    const white = (x: number, y: number) => {
-        const [r, g, b] = pixel(x, y);
-        return r === 255 && g === 255 && b === 255;
-    };
+    const near = (x: number, y: number) => pixel(x, y).every((channel, index) => Math.abs(channel - ground[index]) <= TINT_TOLERANCE);
+    const inset = Math.min(storytimeCoverMmToPx(STORYTIME_COVER_HEAD_BAND_MM), Math.floor(Math.min(image.width, image.height) / 4));
     const corners: [number, number][] = [
-        [2, 2],
-        [image.width - 3, 2],
-        [2, image.height - 3],
-        [image.width - 3, image.height - 3],
+        [inset, inset],
+        [image.width - 1 - inset, inset],
+        [inset, image.height - 1 - inset],
+        [image.width - 1 - inset, image.height - 1 - inset],
     ];
     for (const [x, y] of corners) {
-        if (!white(x, y)) errors.push(`The corner ${x},${y} is not white (a room scene in a box fails the cut-out rule).`);
+        if (!near(x, y)) errors.push(`The corner sample ${x},${y} does not hold the ground tint ${groundTint} within ${TINT_TOLERANCE} per channel.`);
     }
-    const cx = Math.floor(image.width / 2) - 20;
-    const cy = Math.floor(image.height / 2) - 20;
-    let ink = false;
-    for (let y = cy; y < cy + 40 && y < image.height; y++) {
-        for (let x = cx; x < cx + 40 && x < image.width; x++) {
-            if (pixel(x, y).some((channel) => channel !== 255)) ink = true;
+    let figurePixels = 0;
+    for (let y = 0; y < image.height; y++) {
+        for (let x = 0; x < image.width; x++) {
+            if (pixel(x, y).some((channel, index) => Math.abs(channel - ground[index]) > FIGURE_TOLERANCE)) figurePixels++;
         }
     }
-    if (!ink) errors.push('The middle of the picture is empty.');
+    const share = figurePixels / (image.width * image.height);
+    if (!figurePixels) errors.push('The picture holds no figure pixels.');
+    else if (minimumFillShare > 0 && share < minimumFillShare) {
+        errors.push(`The figures cover ${(share * 100).toFixed(1)} percent of the picture area; the fill is below the ${(minimumFillShare * 100).toFixed(0)} percent minimum.`);
+    }
     return errors;
 }
 

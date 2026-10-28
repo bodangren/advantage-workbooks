@@ -13,10 +13,13 @@ import {
     storytimeCoverFileUrl,
     storytimeCoverMmToPx,
     STORYTIME_COVER_BOX,
+    STORYTIME_COVER_FILL_SHARE,
+    STORYTIME_COVER_GROUND_TINTS,
     STORYTIME_COVER_LOGO_FILE,
     type StorytimeCoverBook,
 } from '../../lib/storytime/print/covers';
 import {
+    checkStorytimeCoverPicture,
     composeStorytimeCoverPicture,
     storytimeCoverBlock,
 } from '../../lib/storytime/print/cover-picture';
@@ -26,9 +29,9 @@ import {
  * the front PNG, the back PNG, the 2-page Chrome PDF, and, with `--print`, the PDF/X-1a print
  * file (spec FR-5). Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
  *
- * The picture of the front is the Forge 3D cast, cut out on white (D4). The corner radius of the
- * level card and of the unit summary panel is flattened into the opaque picture layer, so the
- * page text stays text and the PDF/X file holds no soft mask.
+ * The picture of the front is the Forge 3D cast, cut out on the ground tint of the level (D5,
+ * D6). The corner radius of the level card and of the unit summary panel is flattened into the
+ * opaque picture layer, so the page text stays text and the PDF/X file holds no soft mask.
  */
 
 const USAGE = `Builds the cover of one Storytime Advantage student book (spec FR-5):
@@ -190,7 +193,18 @@ async function main(argv: string[]): Promise<number> {
             width: storytimeCoverMmToPx(STORYTIME_COVER_BOX.pictureArea.width),
             height: storytimeCoverMmToPx(STORYTIME_COVER_BOX.pictureArea.height),
         };
-        const picture = await composeStorytimeCoverPicture(book.pictureRecipe, pictureSize, book.title);
+        const groundTint = STORYTIME_COVER_GROUND_TINTS[level];
+        const picture = await composeStorytimeCoverPicture(
+            book.pictureRecipe.map((figure) => figure.file),
+            pictureSize,
+            groundTint,
+            book.title,
+        );
+        const pictureErrors = checkStorytimeCoverPicture(picture, groundTint, STORYTIME_COVER_FILL_SHARE);
+        if (pictureErrors.length) {
+            for (const error of pictureErrors) console.error(`${book.title}: ${error}`);
+            return 1;
+        }
         const pictureFile = path.join(tmp, 'cover-picture.png');
         fs.writeFileSync(pictureFile, picture);
 

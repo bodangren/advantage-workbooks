@@ -14,7 +14,8 @@ import type { StorytimeWeek } from '../schema';
  *
  * The copy of a cover follows the assignment A-18 (a): the Storytime look, the full product
  * name, no CEFR text, no level badge, no date, and the five approved Thai contact lines on the
- * back. The picture of every book is the Forge 3D cast, cut out on white (D4).
+ * back. The picture of every book is the Forge 3D cast, cut out on the ground tint of the level
+ * (D5, D6).
  */
 
 /** The name of the series, on every cover (assignment A-18 (a), rule 2). */
@@ -30,6 +31,23 @@ export const STORYTIME_LEVEL_COLOURS: Record<number, string> = {
     3: '#3C9B57',
     4: '#8151B8',
 };
+
+/** The ground tint of the cover picture: 20 % of the level colour on white (spec FR-2.4, P7). */
+export const STORYTIME_COVER_GROUND_TINTS: Record<number, string> = {
+    1: '#F9E1D2',
+    2: '#D4E4F1',
+    3: '#D8EBDD',
+    4: '#E6DCF1',
+};
+
+/** The share of figure pixels that the picture area needs (spec FR-2.7, AC-9). */
+export const STORYTIME_COVER_FILL_SHARE = 0.58;
+
+/** The figures of a recipe: at most 2 children and at most 1 animal (spec FR-1.6, D5, D7). */
+export const STORYTIME_COVER_FIGURE_LIMITS = { children: 2, animals: 1 };
+
+/** The height of the clear band at the top of the picture area, in millimetres (spec FR-2.7). */
+export const STORYTIME_COVER_HEAD_BAND_MM = 8;
 
 /** The weeks of a unit: unit 1 holds weeks 1 to 8, unit 4 holds weeks 25 to 32 (spec FR-1.3). */
 export const STORYTIME_UNIT_WEEKS: Record<number, [number, number]> = {
@@ -66,6 +84,13 @@ export const STORYTIME_COVER_RADIUS_MM = { levelCard: 5, panel: 3 };
 /** The corner mode of the build: the radius is flattened into the opaque picture layer. */
 export const STORYTIME_COVER_CORNER_MODE = 'radius in the picture layer';
 
+/** One figure of a picture recipe: a child or an animal, its name, and its cut-out file. */
+export interface StorytimeCoverFigure {
+    kind: 'child' | 'animal';
+    name: string;
+    file: string;
+}
+
 /** One row of the data file: one student book. */
 export interface StorytimeCoverBook {
     level: number;
@@ -74,7 +99,7 @@ export interface StorytimeCoverBook {
     lastWeek: number;
     title: string;
     levelColour: string;
-    pictureRecipe: string[];
+    pictureRecipe: StorytimeCoverFigure[];
     summary: null | { text: string; week: number };
 }
 
@@ -154,7 +179,7 @@ export function loadStorytimeCoverBooks(file: string = STORYTIME_COVER_BOOKS_FIL
  * @param recipe The recipe of a book.
  * @returns True when the book has a picture.
  */
-export function storytimeCoverHasPicture(recipe: readonly string[]): boolean {
+export function storytimeCoverHasPicture(recipe: readonly StorytimeCoverFigure[]): boolean {
     return recipe.length > 0;
 }
 
@@ -189,6 +214,7 @@ export function checkStorytimeCoverData(data: StorytimeCoverData): string[] {
     const books = Array.isArray(data.books) ? data.books : [];
     if (books.length !== 16) errors.push(`The data holds ${books.length} books, not 16.`);
     const seen = new Set<string>();
+    const figureGroups = new Map<string, string>();
     for (const book of books) {
         const title = book.title ?? `${STORYTIME_SERIES}, Level ${book.level}, Unit ${book.unit}, Student Book`;
         const key = `${book.level}-${book.unit}`;
@@ -205,12 +231,42 @@ export function checkStorytimeCoverData(data: StorytimeCoverData): string[] {
         else if (book.firstWeek !== weeks[0] || book.lastWeek !== weeks[1]) {
             errors.push(`${title}: the weeks are ${book.firstWeek} to ${book.lastWeek}, not ${weeks[0]} to ${weeks[1]}.`);
         }
-        if (!Array.isArray(book.pictureRecipe)) errors.push(`${title}: the picture recipe is not a list.`);
-        else {
-            for (const file of book.pictureRecipe) {
-                const abs = path.isAbsolute(file) ? file : path.join(REPO_ROOT, file);
-                if (!fs.existsSync(abs)) errors.push(`${title}: the picture file is missing: ${file}`);
+        if (!Array.isArray(book.pictureRecipe)) {
+            errors.push(`${title}: the picture recipe is not a list.`);
+        } else {
+            let animals = 0;
+            let animalSeen = false;
+            for (const figure of book.pictureRecipe as StorytimeCoverFigure[]) {
+                if (!figure || typeof figure !== 'object' || (figure.kind !== 'child' && figure.kind !== 'animal') || typeof figure.name !== 'string' || !figure.name.trim() || typeof figure.file !== 'string' || !figure.file.trim()) {
+                    errors.push(`${title}: a figure of the recipe does not state a kind (child or animal), a name, and a file.`);
+                    continue;
+                }
+                if (figure.kind === 'animal') {
+                    animals++;
+                    animalSeen = true;
+                } else if (animalSeen) {
+                    errors.push(`${title}: the child "${figure.name}" comes after the animal; the children come first and the animal last.`);
+                }
+                const abs = path.isAbsolute(figure.file) ? figure.file : path.join(REPO_ROOT, figure.file);
+                if (!fs.existsSync(abs)) errors.push(`${title}: the picture file is missing: ${figure.file}`);
             }
+            const children = book.pictureRecipe.filter((figure) => figure && figure.kind === 'child').length;
+            if (children > STORYTIME_COVER_FIGURE_LIMITS.children) {
+                errors.push(`${title}: the recipe holds ${children} children; ${STORYTIME_COVER_FIGURE_LIMITS.children} is the maximum.`);
+            }
+            if (animals > STORYTIME_COVER_FIGURE_LIMITS.animals) {
+                errors.push(`${title}: the recipe holds ${animals} animals; ${STORYTIME_COVER_FIGURE_LIMITS.animals} is the maximum.`);
+            }
+        }
+        if (Array.isArray(book.pictureRecipe) && book.pictureRecipe.length) {
+            const group = book.pictureRecipe
+                .map((figure) => (figure ? figure.name : ''))
+                .filter(Boolean)
+                .sort()
+                .join(', ');
+            const first = figureGroups.get(group);
+            if (first) errors.push(`${title}: the figure group (${group}) repeats the group of ${first}.`);
+            else figureGroups.set(group, title);
         }
         if (book.summary !== null) {
             if (!book.summary || typeof book.summary.text !== 'string' || !book.summary.text.trim()) {
