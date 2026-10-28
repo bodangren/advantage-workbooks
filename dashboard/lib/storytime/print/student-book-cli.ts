@@ -142,14 +142,26 @@ export function checkRequestedWeeks(requested: number[], loaded: number[]): void
 }
 
 /**
- * The real path of the deepest existing folder at or above `start` (B-P2-04).
+ * The real path of the deepest existing folder at or above `start` (B-P2-04). A symbolic link
+ * on the way is an entry whether or not its target exists: an existing target resolves through
+ * the link, and a dangling link (lstat sees the link, the target is missing) is rejected with
+ * an error that names the path (R47, Green 2h). `existsSync` would walk past a dangling link.
  * @param start The folder whose existing ancestor chain starts the walk.
  * @returns The resolved real path of the deepest existing folder.
+ * @throws An error when the walk meets a dangling symbolic link or finds no existing folder above `start`.
  */
 function realDeepestExisting(start: string): string {
     let probe = path.resolve(start);
     for (;;) {
-        if (fs.existsSync(probe)) return fs.realpathSync(probe);
+        const entry = fs.lstatSync(probe, { throwIfNoEntry: false });
+        if (entry?.isSymbolicLink()) {
+            try {
+                return fs.realpathSync(probe);
+            } catch {
+                throw new Error(`--out path ${start} sits under the dangling symbolic link ${probe}`);
+            }
+        }
+        if (entry) return fs.realpathSync(probe);
         const parent = path.dirname(probe);
         if (parent === probe) throw new Error(`no existing folder above ${start}`);
         probe = parent;
@@ -161,16 +173,20 @@ function realDeepestExisting(start: string): string {
  * Storytime folder (B-P2-04, R47): the real path of the deepest existing ancestor of the
  * output's parent folder must lie inside the real path of the print-ready Storytime folder,
  * or inside the real path of that folder's deepest existing ancestor when the folder does not
- * exist yet. An existing output path must not be a symbolic link. The parser checks the lexical
+ * exist yet. An output entry must not be a symbolic link, whether or not the link target
+ * exists (a dangling link is one). The parser checks the lexical
  * form; this check runs after the parse and before the build writes anything.
  * @param outputPath The resolved output file of one build.
  * @param home The user home folder that resolves the print-ready Storytime folder.
  * @throws An error that names the offending path when a link redirects the output outside the
- *   folder, or when an existing output is a symbolic link.
+ *   folder, when a link on the way is dangling, or when the output entry is a symbolic link.
  */
 export function checkStorytimeOutputContainment(outputPath: string, home: string): void {
     const out = path.resolve(outputPath);
-    if (fs.existsSync(out) && fs.lstatSync(out).isSymbolicLink()) {
+    // B-P2-04 (Green 2h): lstatSync does not follow the link, so a dangling output link is an
+    // entry too and is rejected here; existsSync would miss it. The error names the path.
+    const outputEntry = fs.lstatSync(out, { throwIfNoEntry: false });
+    if (outputEntry?.isSymbolicLink()) {
         throw new Error(`--out must not be a symbolic link: ${outputPath}`);
     }
     const target = realDeepestExisting(path.dirname(out));
