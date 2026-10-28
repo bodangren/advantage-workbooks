@@ -1,0 +1,72 @@
+Measure of the three v2 composed cover pictures (Check finding C2)
+Date: 2026-10-28 15:52 ICT
+Role: measure-mid-red, task Task (Red C2).
+Base commit: 7c34165da96afab4f2e12ab9ea6102fa440f6185
+Script: /tmp/opencode/red-c2/measure2.ts (a scratch script, outside the repo).
+Method: composeStorytimeCoverPicture at 186 x 180 mm and 300 ppi on the ground tint of the level.
+A figure pixel is a pixel that differs from the level tint by more than 24 in one RGB channel.
+The side rows run from 6 mm to (height - 6 mm), so the 5 mm rounded corners do not count.
+The top columns run from 6 mm to (width - 6 mm).
+The gap is the distance from the edge of the picture to the first figure pixel.
+
+Level 1 Unit 1 tint #F9E1D2: 2197 x 2126 px, rows 71..2054
+  first figure column 0, last figure column 2196
+  first column figure pixels: 15 at 67.39 to 68.58 mm
+  last column figure pixels: 22 at 30.23 to 32.00 mm
+  figure pixels per column 0..46: 15,15,48,64,70,78,82,90,94,102,106,112,112,118,123,131,134,203,208,249,257,282,292,314,323,332,336,344,348,354,359,363,368,370,377,378,384,387,393,396,401,402,407,408,413,415,418
+  figure pixels per column 2150..2196: 198,196,194,191,190,188,185,184,181,179,176,174,172,170,167,166,163,161,158,156,153,151,148,145,143,138,136,131,130,125,123,119,117,112,110,105,101,95,91,87,80,78,68,64,50,46,22
+  top gap 7.96 mm (row 94), 8 mm band is rows 0..93
+  box pat: left 0 top 94 width 989 height 1956 right 989
+    visible figure pixels in box: left 0 top 94 right 988 bottom 2049
+  box nan: left 989 top 94 width 1208 height 1956 right 2197
+    visible figure pixels in box: left 989 top 94 right 2196 bottom 2049
+  box pip: left 800 top 1229 width 597 height 822 right 1397
+    visible figure pixels in box: left 800 top 1229 right 1396 bottom 2050
+Level 2 Unit 1 tint #D4E4F1: 2197 x 2126 px, rows 71..2054
+  first figure column 0, last figure column 2196
+  first column figure pixels: 21 at 30.56 to 32.26 mm
+  last column figure pixels: 57 at 61.72 to 66.46 mm
+  figure pixels per column 0..46: 21,21,44,50,65,67,76,78,85,89,95,99,105,108,111,114,118,121,124,128,130,134,136,140,142,146,148,152,154,158,159,163,164,167,168,172,173,176,177,179,181,183,186,188,190,192,194
+  figure pixels per column 2150..2196: 433,432,426,424,421,419,414,411,407,402,399,394,391,385,383,376,374,366,364,357,355,340,335,317,311,289,284,244,239,182,174,141,138,134,131,127,123,120,116,111,104,100,94,87,78,75,57
+  top gap 8.72 mm (row 103), 8 mm band is rows 0..93
+  box nan: left 0 top 103 width 1185 height 1919 right 1185
+    visible figure pixels in box: left 0 top 103 right 1184 bottom 2021
+  box sam: left 1185 top 103 width 1012 height 1919 right 2197
+    visible figure pixels in box: left 1185 top 105 right 2196 bottom 2021
+Level 4 Unit 4 tint #E6DCF1: 2197 x 2126 px, rows 71..2054
+  first figure column 0, last figure column 2196
+  first column figure pixels: 13 at 96.86 to 97.87 mm
+  last column figure pixels: 20 at 51.82 to 53.42 mm
+  figure pixels per column 0..46: 13,14,27,30,39,42,46,49,69,114,124,138,144,163,170,198,216,250,264,296,311,330,359,363,402,405,432,439,463,472,494,502,513,522,533,545,549,565,570,586,591,605,609,623,626,636,644
+  figure pixels per column 2150..2196: 178,176,173,172,170,167,166,165,163,162,160,158,155,154,151,149,145,143,139,138,134,133,127,125,120,119,113,110,103,101,94,91,85,83,76,73,66,63,56,55,48,47,40,38,32,30,20
+  top gap 7.96 mm (row 94), 8 mm band is rows 0..93
+  box mia: left 0 top 94 width 1083 height 1995 right 1083
+    visible figure pixels in box: left 0 top 94 right 1082 bottom 2088
+  box ben: left 1083 top 94 width 1114 height 1995 right 2197
+    visible figure pixels in box: left 1083 top 94 right 2196 bottom 2088
+
+Side band counts, the same rows and columns as the new test R18 v2 sides:
+Level 1 Unit 1: left 3 mm band 7173 figure pixels; right 3 mm band 4181 figure pixels; top 8 mm band 0 figure pixels; whole picture 2947928 figure pixels.
+Level 2 Unit 1: left 3 mm band 3980 figure pixels; right 3 mm band 7802 figure pixels; top 8 mm band 0 figure pixels; whole picture 2786630 figure pixels.
+Level 4 Unit 4: left 3 mm band 8946 figure pixels; right 3 mm band 3356 figure pixels; top 8 mm band 0 figure pixels; whole picture 3000949 figure pixels.
+
+The gap of each side of each composed picture, in millimetres:
+  Level 1 Unit 1: left 0.00, right 0.00, top 7.96
+  Level 2 Unit 1: left 0.00, right 0.00, top 8.72
+  Level 4 Unit 4: left 0.00, right 0.00, top 7.96
+
+The track default of 2026-10-28 is a side band of 3 mm at the left edge and at the right edge.
+The gap must be 3.00 mm or more at each side. Green may keep a wider margin.
+The fill limit stays 0.58 at a tolerance of 24.
+
+The layout boxes of storytimeCoverFigureLayout and the visible figure pixels:
+  Level 1 Unit 1 pat: box left 0, width 989; visible figure pixels left 0, right 988.
+  Level 1 Unit 1 nan: box left 989, width 1208; visible figure pixels left 989, right 2196.
+  Level 1 Unit 1 pip: box left 800, width 597; visible figure pixels left 800, right 1396.
+  Level 2 Unit 1 nan: box left 0, width 1185; visible figure pixels left 0, right 1184.
+  Level 2 Unit 1 sam: box left 1185, width 1012; visible figure pixels left 1185, right 2196.
+  Level 4 Unit 4 mia: box left 0, width 1083; visible figure pixels left 0, right 1082.
+  Level 4 Unit 4 ben: box left 1083, width 1114; visible figure pixels left 1083, right 2196.
+  Each box holds no transparent padding. The box of a figure is the box of its visible pixels.
+  The first box of every group starts at left 0, and the last box of every group ends at the right edge.
+  The layout check can carry the side rule. The rule stays in the picture check too.

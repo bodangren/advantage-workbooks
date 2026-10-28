@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 7c34165da96afab4f2e12ab9ea6102fa440f6185
+commits: 85f1e264, the plan commit of this run
+resulting_head: the plan commit of this run
+tests_run: RED_TEST_COMMAND exit 1 (run 1: Tests 4 failed | 29 passed (33), R12 hit its 5000 ms timeout at load 7.93; run 2: Tests 3 failed | 30 passed (33), only the three new C2 tests fail). PROJECT_LINT exit 0, no error and no warning. PROJECT_CHECKS exit 0, no type error.
+files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-7c34165d.log; measure/runs/storytime_covers_20261027/mid-red-7c34165d-red.txt; measure/runs/storytime_covers_20261027/mid-red-7c34165d-lint.txt; measure/runs/storytime_covers_20261027/mid-red-7c34165d-checks.txt; measure/runs/storytime_covers_20261027/mid-red-7c34165d-measure.txt
+plan_updates: Task (Red C2) is [x] with commit 85f1e264e0898a5abbaf258e8478a581f0cef9f2 and Evidence: automated. Task (Green C2) is [~]. The Task (Check) line and the Task (Hand-off) line now end with "Evidence commit a794e6f0."
+known_failures: R18 v2 sides, R18 v2 side band, and R18 v2 layout. R18 v2 top band passes.
+handoff: The side band is 3 mm at the left edge and at the right edge of the picture area. The tolerance is 24 per RGB channel against the level tint. The fill limit stays 0.58. A crop at the bottom edge stays allowed. The side rows run from 6 mm to (height - 6 mm) and the top columns from 6 mm to (width - 6 mm), so the 5 mm rounded corners do not count. The measured gaps of the composed pictures are: Level 1 Unit 1 left 0.00 mm, right 0.00 mm, top 7.96 mm; Level 2 Unit 1 left 0.00 mm, right 0.00 mm, top 8.72 mm; Level 4 Unit 4 left 0.00 mm, right 0.00 mm, top 7.96 mm. The 3 mm band holds 7173, 3980, and 8946 figure pixels at the left, and 4181, 7802, and 3356 at the right. The top 8 mm band holds no figure pixel, so the top band is not a second part of C2. The interface of the layout check is checkStorytimeCoverFigureLayout(boxes, sizePx, headBandHeightPx, sideBandWidthPx?), where the fourth parameter is the side band in pixels and the default is 3 mm. The layout box of a figure is the box of its visible pixels, so Green must move the boxes out of the side band. checkStorytimeCoverPicture(png, tint, 0.58) must report an error that names the side or the edge for a picture with figure pixels in a side band. The measure is in measure/runs/storytime_covers_20261027/mid-red-7c34165d-measure.txt.
+END_MEASURE_AGENT_RESULT

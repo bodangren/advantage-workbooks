@@ -1,0 +1,196 @@
+=== Red run 1 (2026-10-28, load average 7.93 on 4 cores) ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m33 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 174749[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 168[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 25[2mms[22m[39m
+     [32m✓[39m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations[32m 27[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 178[2mms[22m[39m
+     [33m[2m✓[22m[39m R4: the front holds the series name, the picture area, and the level card, and no badge [33m 674[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE [33m 484[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 7[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 32324[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 15[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 79[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 33[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 3107[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 8[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 117[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 9096[2mms[22m[39m
+[31m     [31m×[31m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails[39m[33m 6788[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 17322[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 3778[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x [33m 462[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 901[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 43269[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 215[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 26[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 10[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 10[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 480[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 42903[2mms[22m[39m
+[31m     [31m×[31m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture[39m[33m 2553[2mms[22m[39m
+[31m     [31m×[31m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge[39m[33m 4558[2mms[22m[39m
+[31m     [31m×[31m R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge[39m[32m 147[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 4957[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR12: cut-out corners match the level ground tint, the center has figures, and a white corner fails
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m760:5[22m[39m
+    [90m758| [39m    }[33m,[39m [34m230000[39m)[33m;[39m
+    [90m759| [39m
+    [90m760| [39m    it('R12: cut-out corners match the level ground tint, the center h…
+    [90m   | [39m    [31m^[39m
+    [90m761| [39m        [35mconst[39m coversMod [33m=[39m [35mawait[39m [34mcovers[39m([32m'storytimeCoverMmToPx'[39m)[33m;[39m
+    [90m762| [39m        const mod = await pictures('composeStorytimeCoverPicture', 'ch…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture
+[31m[1mAssertionError[22m: Level 1 Unit 1 left side band holds no figure pixel: expected 7173 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 7173[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1078:94[22m[39m
+    [90m1076| [39m            const rows = { top: mmToPx(CORNER_ROWS_MM), height: raw.in…
+    [90m1077| [39m            const left = figurePixels(raw, tint, { left: 0, top: rows.…
+    [90m1078| [39m            expect(left, `Level ${level} Unit ${unit} left side band h…
+    [90m   | [39m                                                                                             [31m^[39m
+    [90m1079| [39m            const right = figurePixels(raw, tint, { left: raw.info.wid…
+    [90m1080| [39m            expect(right, `Level ${level} Unit ${unit} right side band…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge
+[31m[1mAssertionError[22m: The copied left side mutant of Level 1 Unit 1 fails the picture check: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1116:121[22m[39m
+    [90m1114| [39m            }
+    [90m1115| [39m            const errors = mod.checkStorytimeCoverPicture(mutant, tint…
+    [90m1116| [39m            expect(errors.length, `The copied left side mutant of Leve…
+    [90m   | [39m                                                                                                                        [31m^[39m
+    [90m1117| [39m            expect(errors.join(' '), `The error of Level ${level} Unit…
+    [90m1118| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 layout: the layout check rejects a copied box list with a figure at the left edge
+[31m[1mAssertionError[22m: A copied box list with a figure at the left edge fails the layout check: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1137:106[22m[39m
+    [90m1135| [39m        const loaded = JSON.parse(fs.readFileSync(file, 'utf8')) as Fi…
+    [90m1136| [39m        const errors = mod.checkStorytimeCoverFigureLayout(loaded, siz…
+    [90m1137| [39m        expect(errors.length, 'A copied box list with a figure at the …
+    [90m   | [39m                                                                                                         [31m^[39m
+    [90m1138| [39m        expect(errors.join(' '), 'The layout error names the side or t…
+    [90m1139| [39m    }[33m,[39m [34m120000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m29 passed[39m[22m[90m (33)[39m
+[2m   Start at [22m 16:40:32
+[2m   Duration [22m 190.93s[2m (transform 3.65s, setup 1.50s, import 5.21s, tests 174.75s, environment 7.33s)[22m
+
+
+=== Red run 2 (the same command, R12 passed in 2873 ms) ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m33 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 122353[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 101[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 10[2mms[22m[39m
+     [32m✓[39m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations[32m 6[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 64[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 193[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE [33m 454[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 10[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 18779[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 9[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 91[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 31[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 2017[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 4[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 67[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 4315[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 2873[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 9644[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 2544[2mms[22m[39m
+     [32m✓[39m R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x[32m 202[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 525[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 31458[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 161[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 19[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 410[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 38913[2mms[22m[39m
+[31m     [31m×[31m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture[39m[33m 2591[2mms[22m[39m
+[31m     [31m×[31m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge[39m[33m 2918[2mms[22m[39m
+[31m     [31m×[31m R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge[39m[32m 82[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 3847[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture
+[31m[1mAssertionError[22m: Level 1 Unit 1 left side band holds no figure pixel: expected 7173 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 7173[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1078:94[22m[39m
+    [90m1076| [39m            const rows = { top: mmToPx(CORNER_ROWS_MM), height: raw.in…
+    [90m1077| [39m            const left = figurePixels(raw, tint, { left: 0, top: rows.…
+    [90m1078| [39m            expect(left, `Level ${level} Unit ${unit} left side band h…
+    [90m   | [39m                                                                                             [31m^[39m
+    [90m1079| [39m            const right = figurePixels(raw, tint, { left: raw.info.wid…
+    [90m1080| [39m            expect(right, `Level ${level} Unit ${unit} right side band…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge
+[31m[1mAssertionError[22m: The copied left side mutant of Level 1 Unit 1 fails the picture check: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1116:121[22m[39m
+    [90m1114| [39m            }
+    [90m1115| [39m            const errors = mod.checkStorytimeCoverPicture(mutant, tint…
+    [90m1116| [39m            expect(errors.length, `The copied left side mutant of Leve…
+    [90m   | [39m                                                                                                                        [31m^[39m
+    [90m1117| [39m            expect(errors.join(' '), `The error of Level ${level} Unit…
+    [90m1118| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR18 v2 layout: the layout check rejects a copied box list with a figure at the left edge
+[31m[1mAssertionError[22m: A copied box list with a figure at the left edge fails the layout check: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1137:106[22m[39m
+    [90m1135| [39m        const loaded = JSON.parse(fs.readFileSync(file, 'utf8')) as Fi…
+    [90m1136| [39m        const errors = mod.checkStorytimeCoverFigureLayout(loaded, siz…
+    [90m1137| [39m        expect(errors.length, 'A copied box list with a figure at the …
+    [90m   | [39m                                                                                                         [31m^[39m
+    [90m1138| [39m        expect(errors.join(' '), 'The layout error names the side or t…
+    [90m1139| [39m    }[33m,[39m [34m120000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m30 passed[39m[22m[90m (33)[39m
+[2m   Start at [22m 16:49:09
+[2m   Duration [22m 130.79s[2m (transform 830ms, setup 501ms, import 1.88s, tests 122.35s, environment 5.12s)[22m
+
