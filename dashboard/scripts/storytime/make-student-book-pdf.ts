@@ -6,7 +6,7 @@ import { chromium } from '@playwright/test';
 import { renderPagedPdf } from '../../lib/print/render';
 import { STORYTIME_PRINT_PROFILE } from '../../lib/storytime/print/profile';
 import { compileStorytimeStudentBook } from '../../lib/storytime/print/student-book';
-import { checkRequestedWeeks, parseStorytimeStudentBookArgs, type StorytimeStudentBookArgs } from '../../lib/storytime/print/student-book-cli';
+import { checkRequestedWeeks, checkStorytimeOutputContainment, parseStorytimeStudentBookArgs, type StorytimeStudentBookArgs } from '../../lib/storytime/print/student-book-cli';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
 
@@ -30,7 +30,8 @@ Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <l
   --proof     Proof mode: picture boxes print the placeholder (default)
   --final     Final mode: the build stops when a picture file is missing and names the picture id (FR-5.6)
   --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
-  --out       Output file, an absolute path inside <home>/Desktop/print-ready/storytime/
+  --out       Output PDF file, an absolute .pdf path strictly inside <home>/Desktop/print-ready/storytime/
+              (filesystem links are checked too: checkStorytimeOutputContainment)
               (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
 
 Exit code 2 on an argument or --out error; exit code 1 when a week does not parse or does not
@@ -56,6 +57,9 @@ async function main(argv: string[]): Promise<number> {
         return weeks.includes(meta?.week ?? -1);
     });
     checkRequestedWeeks(weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+    // B-P2-04: the output cannot escape the print folder through filesystem links. Runs after
+    // the parse and before any file write or browser launch.
+    checkStorytimeOutputContainment(outputPath, os.homedir());
     const broken = read.filter((r) => !r.week);
     if (broken.length) {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);

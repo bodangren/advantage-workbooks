@@ -1,10 +1,12 @@
 import path from 'path';
+import fs from 'fs';
 
 /**
  * The pure CLI contract of the student workbook build (spec FR-3; Review B findings B-P2-03
- * and B-P2-04): argument validation and the requested-week check with no file access, so the
- * tests run them without rendering. `make-student-book-pdf.ts` passes its own arguments here
- * before it touches the week files.
+ * and B-P2-04): argument validation and the requested-week check with no file access, plus the
+ * filesystem containment check of an explicit output path (`checkStorytimeOutputContainment`),
+ * so the tests run them without rendering. `make-student-book-pdf.ts` passes its own arguments
+ * here before it touches the week files.
  */
 
 /** The validated arguments of one student book build. */
@@ -101,9 +103,15 @@ export function parseStorytimeStudentBookArgs(argv: string[], home: string, unit
     const folder = printReadyDir(home);
     let outputPath: string;
     if (out) {
+        // B-P2-04: an explicit target is a `.pdf` file strictly inside the print folder, never
+        // the folder itself and never a name that ends in a separator.
+        if (out.endsWith(path.sep)) throw new Error(`--out must name a .pdf file, not a folder, got "${out}"`);
         const resolved = path.resolve(out);
-        if (resolved !== folder && !resolved.startsWith(folder + path.sep)) {
-            throw new Error(`--out must stay inside ${folder}, got "${out}"`);
+        if (!resolved.startsWith(folder + path.sep)) {
+            throw new Error(`--out must name a PDF file strictly inside ${folder}, got "${out}"`);
+        }
+        if (path.extname(resolved) !== '.pdf') {
+            throw new Error(`--out must name a .pdf file, got "${out}"`);
         }
         outputPath = resolved;
     } else {
@@ -130,5 +138,45 @@ export function checkRequestedWeeks(requested: number[], loaded: number[]): void
         if (found !== 1) {
             throw new Error(`requested week ${week} is not loaded exactly once (loaded ${found} of the level)`);
         }
+    }
+}
+
+/**
+ * The real path of the deepest existing folder at or above `start` (B-P2-04).
+ * @param start The folder whose existing ancestor chain starts the walk.
+ * @returns The resolved real path of the deepest existing folder.
+ */
+function realDeepestExisting(start: string): string {
+    let probe = path.resolve(start);
+    for (;;) {
+        if (fs.existsSync(probe)) return fs.realpathSync(probe);
+        const parent = path.dirname(probe);
+        if (parent === probe) throw new Error(`no existing folder above ${start}`);
+        probe = parent;
+    }
+}
+
+/**
+ * Checks that the filesystem cannot redirect an explicit output outside the print-ready
+ * Storytime folder (B-P2-04, R47): the real path of the deepest existing ancestor of the
+ * output's parent folder must lie inside the real path of the print-ready Storytime folder,
+ * or inside the real path of that folder's deepest existing ancestor when the folder does not
+ * exist yet. An existing output path must not be a symbolic link. The parser checks the lexical
+ * form; this check runs after the parse and before the build writes anything.
+ * @param outputPath The resolved output file of one build.
+ * @param home The user home folder that resolves the print-ready Storytime folder.
+ * @throws An error that names the offending path when a link redirects the output outside the
+ *   folder, or when an existing output is a symbolic link.
+ */
+export function checkStorytimeOutputContainment(outputPath: string, home: string): void {
+    const out = path.resolve(outputPath);
+    if (fs.existsSync(out) && fs.lstatSync(out).isSymbolicLink()) {
+        throw new Error(`--out must not be a symbolic link: ${outputPath}`);
+    }
+    const target = realDeepestExisting(path.dirname(out));
+    const folder = printReadyDir(home);
+    const boundary = realDeepestExisting(folder);
+    if (target !== boundary && !target.startsWith(boundary + path.sep)) {
+        throw new Error(`--out resolves outside ${folder} on the filesystem: ${outputPath}`);
     }
 }
