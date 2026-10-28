@@ -33,14 +33,6 @@ const SIDE_BAND_ROWS_MM = 6;
 /** The share of the children's height that the animal occupies (the model of D5: 0.42). */
 const ANIMAL_HEIGHT_SHARE = 0.42;
 
-/**
- * The largest growth of the row height above the shape of the cut-outs: 6 percent. The 3 mm side
- * bands take 6 mm from the picture width, and two children in one row then fill 55.9 percent of
- * Level 2 Unit 1 (Green measure, 2026-10-28). The small growth gives the figures the fill of D5
- * and D8 again, and it keeps the shape of the cast close to the cut-outs (FR-2.7, C2).
- */
-const ROW_HEIGHT_STRETCH_MAX = 1.06;
-
 /** A sprite whose trimmed height is below this share of the tallest one is the animal. */
 const ANIMAL_SHARE = 0.75;
 
@@ -177,10 +169,11 @@ function sideBandPx(sizePx: { width: number; height: number }): number {
 }
 
 /**
- * Plans the figures of one cover picture: the children in one row, large enough to fill the
- * picture area, and the small figure (the animal) centred in front of their feet. The row stays
- * inside the side bands, so no head or arm is cut at a side edge (FR-2.7, C2). The order of the
- * figures is the order of the recipe, so the animal draws on top of the children.
+ * Plans the figures of one cover picture: the children in one row at the shape of their cut-outs,
+ * large enough to fill the picture area, and the small figure (the animal) centred in front of
+ * their feet. The row stays inside the side bands, so no head or arm is cut at a side edge
+ * (FR-2.7, C2). The order of the figures is the order of the recipe, so the animal draws on top
+ * of the children.
  * @param files The cut-out files of the recipe, the children first and the animal last.
  * @param sizePx The size of the picture area, in pixels.
  * @param bookTitle The book of the cover, named in the error.
@@ -201,12 +194,10 @@ async function planFigureLayout(
     const side = sideBandPx(sizePx);
     const usableWidth = Math.max(1, sizePx.width - 2 * side);
     const totalAspect = rowIndexes.reduce((sum, index) => sum + sprites[index].width / sprites[index].height, 0);
-    const aspectHeight = usableWidth / totalAspect;
-    const rowHeight = Math.min(sizePx.height - band, aspectHeight * ROW_HEIGHT_STRETCH_MAX);
-    // The row fills the usable width. A row that is taller than the shape of the cut-outs is
-    // narrowed to that width, so no figure enters a side band.
-    const widthScale = Math.min(1, usableWidth / (totalAspect * rowHeight));
-    const widths = rowIndexes.map((index) => (sprites[index].width / sprites[index].height) * rowHeight * widthScale);
+    // The row keeps the shape of the cut-outs: the height follows from the usable width and the
+    // summed ratios of the row, so no figure is stretched (FR-2.7, C3).
+    const rowHeight = Math.min(sizePx.height - band, usableWidth / totalAspect);
+    const widths = rowIndexes.map((index) => (sprites[index].width / sprites[index].height) * rowHeight);
     const totalWidth = widths.reduce((sum, width) => sum + width, 0);
     const left0 = side + (usableWidth - totalWidth) / 2;
     const edges: number[] = [Math.round(left0)];
@@ -309,6 +300,85 @@ export function checkStorytimeCoverFigureLayout(
             if (!inFront) {
                 errors.push(`The figures ${a.name} and ${b.name} overlap in x in one row; only a short figure in front of the lower half of a tall figure may overlap.`);
             }
+        }
+    }
+    return errors;
+}
+
+/** The default tolerance of a figure box ratio against the ratio of its cut-out (R19 v2). */
+const FIGURE_ASPECT_TOLERANCE = 0.02;
+
+/** The cache of the cut-out boxes of the aspect check, by absolute file path. */
+const cutOutBoxCache = new Map<string, { width: number; height: number } | null>();
+
+/**
+ * The box of the visible pixels of a cut-out, read in the process, so that the aspect check stays
+ * a plain function. A cut-out without an alpha channel has the box of the whole picture.
+ * @param file The picture file of the recipe.
+ * @returns The trimmed box, or null when the file is missing or is not an 8-bit PNG.
+ */
+function cutOutBox(file: string): { width: number; height: number } | null {
+    const abs = storytimeCoverPicturePath(file);
+    const cached = cutOutBoxCache.get(abs);
+    if (cached !== undefined) return cached;
+    let box: { width: number; height: number } | null = null;
+    if (fs.existsSync(abs)) {
+        const image = decodePng(fs.readFileSync(abs));
+        if (image) {
+            if (image.channels < 4) {
+                box = { width: image.width, height: image.height };
+            } else {
+                let minX = image.width;
+                let minY = image.height;
+                let maxX = -1;
+                let maxY = -1;
+                for (let y = 0; y < image.height; y++) {
+                    for (let x = 0; x < image.width; x++) {
+                        if (image.data[(y * image.width + x) * image.channels + 3] <= 0) continue;
+                        if (x < minX) minX = x;
+                        if (x > maxX) maxX = x;
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+                if (maxX >= 0) box = { width: maxX - minX + 1, height: maxY - minY + 1 };
+            }
+        }
+    }
+    cutOutBoxCache.set(abs, box);
+    return box;
+}
+
+/**
+ * Checks that each figure box keeps the width-to-height ratio of its cut-out, so no figure is
+ * stretched (spec FR-2.7, Check v2 finding C3, R19 v2).
+ * @param boxes The boxes of the figures, in the order of the recipe.
+ * @param files The cut-out files of the recipe, in the order of the recipe.
+ * @param tolerance The largest allowed difference of the two ratios. The default is 0.02.
+ * @returns The errors (empty when every box keeps the ratio of its cut-out).
+ */
+export function checkStorytimeCoverFigureAspect(
+    boxes: StorytimeCoverFigureBox[],
+    files: string[],
+    tolerance: number = FIGURE_ASPECT_TOLERANCE,
+): string[] {
+    const errors: string[] = [];
+    for (let index = 0; index < boxes.length; index++) {
+        const box = boxes[index];
+        const file = files[index];
+        if (!(box.width > 0) || !(box.height > 0)) {
+            errors.push(`The figure ${box.name} has no box.`);
+            continue;
+        }
+        const source = file ? cutOutBox(file) : null;
+        if (!source) {
+            errors.push(`The figure ${box.name} has no readable cut-out; the aspect check cannot read ${file ?? 'the file'}.`);
+            continue;
+        }
+        const boxRatio = box.width / box.height;
+        const cutOutRatio = source.width / source.height;
+        if (Math.abs(boxRatio - cutOutRatio) > tolerance) {
+            errors.push(`The figure ${box.name} is stretched: its box ratio is ${boxRatio.toFixed(3)}, the cut-out ratio is ${cutOutRatio.toFixed(3)}, and the tolerance is ${tolerance}.`);
         }
     }
     return errors;

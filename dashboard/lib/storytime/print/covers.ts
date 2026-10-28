@@ -40,8 +40,8 @@ export const STORYTIME_COVER_GROUND_TINTS: Record<number, string> = {
     4: '#E6DCF1',
 };
 
-/** The share of figure pixels that the picture area needs (spec FR-2.7, AC-9). */
-export const STORYTIME_COVER_FILL_SHARE = 0.58;
+/** The share of figure pixels that the picture area needs (spec FR-2.7, AC-9; C3 decision, 0.55). */
+export const STORYTIME_COVER_FILL_SHARE = 0.55;
 
 /** The figures of a recipe: at most 2 children and at most 1 animal (spec FR-1.6, D5, D7). */
 export const STORYTIME_COVER_FIGURE_LIMITS = { children: 2, animals: 1 };
