@@ -1,0 +1,32 @@
+Measure Phase 2 Red 2h started: 2026-10-29
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: 97ea695c8f0b38f57d0e48d4eb0136e45af737be
+Initial status: `video/storytime-song/scripts/render.mjs`, `dashboard/raw.json`, and existing untracked run outputs are unrelated or other-session work. They remain untouched.
+
+Finding: Review B B-P2-04 on 97ea695c found that `existsSync` follows symbolic links. A dangling output link or parent link returns false and bypasses the relevant check, allowing the converter to create an outside target.
+
+R47 extends the temporary-home filesystem test. It creates `storytime/out.pdf` as a symlink to an outside file that does not exist and `storytime/dangling` as a symlink to an outside folder that does not exist. The test asserts that both outputs throw. Existing R47 checks remain. The test removes the temporary root.
+
+RED_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"`; one whole foreground `heavy-run.sh` wrapper; exit 1; `Tests 1 failed | 191 passed (192)` on 5 files. Both failed assertions in the R47 test concern dangling links: dangling output-file link accepted; dangling parent-folder link accepted. Earlier tests pass. Full command and output: `mid-red-97ea695c-red.txt`.
+PROJECT_LINT: `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts`; one whole foreground `heavy-run.sh` wrapper; exit 0, no output. Command and output: `mid-red-97ea695c-lint.txt`.
+PROJECT_CHECKS: one whole foreground `heavy-run.sh` wrapper; exit 0. One accepted `published` FAIL passed the gate filter; `npx tsc --noEmit` emitted no errors. Command and no-output result: `mid-red-97ea695c-checks.txt`.
+
+Test commit: `92d94624caaa561cd94cfc1fa1b6477872ac075a` (`test(storytime): test that a dangling output link is rejected`), test file only.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: Phase 2 Red 2h
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: 97ea695c8f0b38f57d0e48d4eb0136e45af737be
+resulting_head: 92d94624caaa561cd94cfc1fa1b6477872ac075a (test commit; plan and run evidence are in the following commit)
+commits: 92d94624caaa561cd94cfc1fa1b6477872ac075a (test); plan and run evidence commit follows
+RED_TEST_COMMAND: exit 1; Tests 1 failed | 191 passed (192); 5 files; 2 failed assertions
+PROJECT_LINT: exit 0; no output
+PROJECT_CHECKS: exit 0; accepted published FAIL; tsc emitted no errors
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-97ea695c.log; mid-red-97ea695c-red.txt; mid-red-97ea695c-lint.txt; mid-red-97ea695c-checks.txt
+remaining_failures: one R47 test fails on two dangling-link assertions; no unrelated test failures
+handoff: Green 2h must reject dangling output-file links and dangling parent-folder links. Preserve the Red tests. Change no test file. No production source was edited by Red.
+END_MEASURE_AGENT_RESULT

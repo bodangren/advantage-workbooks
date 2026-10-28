@@ -1,0 +1,4 @@
+COMMAND: cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit
+
+EXIT CODE: 0
+FULL OUTPUT: no output; accepted published FAIL was captured internally, and tsc emitted no errors.
