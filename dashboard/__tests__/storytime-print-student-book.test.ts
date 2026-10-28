@@ -37,6 +37,48 @@ const builtPdfx = new Map<string, string>();
 const pictureIds = ['nest', 'cat', 'fish', 'dog', 'nose', 'bus', 'hat', 'cup', 'net']
     .map((word) => `l2-w01-check-row-${word}`);
 
+// R48: the canonical Storytime QR page path. The route is /[locale]/st/[level]/[week].
+// The level is an integer from 1 to 4 and the week is an integer from 1 to 32, with no leading zero.
+// The path ends there, or it holds one query: ?part=book, ?part=decodable, or ?part=song.
+const QR_ACCEPT_PATHS = [
+    '/th/st/2/1',
+    '/th/st/2/1?part=song',
+    '/th/st/2/1?part=book',
+    '/th/st/2/1?part=decodable',
+    '/th/st/4/32',
+    '/th/st/1/1',
+] as const;
+
+const QR_REJECT_PATHS = [
+    '/th/st/../evil',
+    '/th/st/../../evil',
+    '/th/st/2/./1',
+    '/th/st/2/1/..',
+    '/th/st//2/1',
+    '/th/st/',
+    '/th/st/2/1/3',
+    '/th/st/0/1',
+    '/th/st/5/1',
+    '/th/st/2/0',
+    '/th/st/2/33',
+    '/th/st/02/1',
+    '/th/st/2/01',
+    '/th/st/2/1 ',
+    '/th/st/2/1\t',
+    '/th/st/2/1\n',
+    '/th/st/2/1#x',
+    '/th/st/2/1?week=2',
+    '/th/st/2/1?part=video',
+    '/th/st/2/1?part=song?part=book',
+    '/th/st/2/1?part=song&part=book',
+    '/th/st/2/1?part=SONG',
+] as const;
+
+/** Tells whether an error message names the page path, raw or JSON escaped. */
+function namesPath(message: string, input: string): boolean {
+    return message.includes(input) || message.includes(JSON.stringify(input));
+}
+
 function shipped(): StorytimeWeek {
     return StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), 'utf8')));
 }
@@ -1249,6 +1291,44 @@ describe('Storytime student workbook: the shipped week 1', () => {
                 'Accept an inside output when the Storytime folder does not exist yet.').not.toThrow();
         } finally {
             fs.rmSync(root, { recursive: true, force: true });
+        }
+    });
+
+    it.each(QR_REJECT_PATHS)('R48: rejects the QR page path %j', (input) => {
+        let thrown: unknown;
+        try {
+            storytimeQrUrl(input);
+        } catch (error) {
+            thrown = error;
+        }
+        expect(thrown, `Reject the QR page path ${JSON.stringify(input)}.`).toBeInstanceOf(Error);
+        if (!(thrown instanceof Error)) return;
+        expect(namesPath(thrown.message, input),
+            `The error must name the path ${JSON.stringify(input)}. Message: ${thrown.message}`).toBe(true);
+    });
+
+    it('R48: accepts the canonical Storytime QR page paths and keeps the host', () => {
+        for (const input of QR_ACCEPT_PATHS) {
+            expect(storytimeQrUrl(input), `Accept the QR page path ${JSON.stringify(input)}.`)
+                .toBe(STORYTIME_QR_HOST + input);
+        }
+        // The route prefix is lower case. This case already holds at HEAD.
+        expect(() => storytimeQrUrl('/TH/st/2/1'), 'Reject an upper-case route prefix.').toThrow();
+    });
+
+    it('R48: accepts the shipped song and read-along page paths of every level 2 week', () => {
+        const folder = path.join(STORYTIME_ROOT, 'l2');
+        const files = fs.readdirSync(folder).filter((name) => /^w\d{2}\.json$/.test(name)).sort();
+        expect(files.length, 'The level 2 week files must load.').toBeGreaterThan(0);
+        for (const name of files) {
+            const week = StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(path.join(folder, name), 'utf8')));
+            for (const field of ['songUrl', 'readAlongUrl'] as const) {
+                const value: string | undefined = week.home?.[field];
+                expect(value, `Week ${name} must carry home.${field}.`).toBeTypeOf('string');
+                const pagePath = value ?? '';
+                expect(storytimeQrUrl(pagePath), `Week ${name} home.${field} must be a canonical QR page path.`)
+                    .toBe(STORYTIME_QR_HOST + pagePath);
+            }
         }
     });
 
