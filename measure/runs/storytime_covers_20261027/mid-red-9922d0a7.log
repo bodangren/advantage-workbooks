@@ -9,8 +9,8 @@ phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-
 phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 role_base_sha: 1936cc012e529fa0c39f52dfeb22e6d63a4f62da
-resulting_head: this run's final measure(plan) commit
-commits: a269f46d and 6ca75b8e (test-only); follow-on measure(plan) commit records this run
+resulting_head: 35a32ee0473ff7646ee6cdc050e0c9bd84894f5d
+commits: a269f46d and 6ca75b8e (test-only); follow-on measure(plan) commit records this run; 35a32ee0 hands off Green v2
  tests_run: RED_TEST_COMMAND exit 1, 7 failed and 22 passed (29), all in storytime-print-covers-16books.test.ts and all assertion failures. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
 files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-9922d0a7-{red,lint,checks}.txt; measure/runs/storytime_covers_20261027/mid-red-9922d0a7.log
 plan_updates: Task (Red v2) is [x] with commits a269f46d and 6ca75b8e and automated evidence. The plan records the test results, lint and type-check exits, the fill contract, the 8 mm band, and the figure-layout interface.
