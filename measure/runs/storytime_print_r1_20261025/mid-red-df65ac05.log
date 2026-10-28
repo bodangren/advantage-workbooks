@@ -1,0 +1,47 @@
+Measure Phase 2 Red 2i started: 2026-10-29
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: df65ac0595cb00f4e5b58f842e27e3b395c908d2
+Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+Initial status: `video/storytime-song/scripts/render.mjs` and `dashboard/raw.json` are unrelated work of other sessions. They remain untouched. The untracked run outputs of other roles remain untouched.
+
+Finding: the adversarial role on c8aba128, confirmed by the orchestrator. `storytimeQrUrl` (`dashboard/lib/storytime/files.ts:21`) checks only `startsWith('/th/st/')`. So `/th/st/../evil` is accepted, and a browser reads it as `https://storytime.reading-advantage.com/evil`. The week fields `home.songUrl` and `home.readAlongUrl` are free strings (`dashboard/lib/storytime/schema.ts:413-414`), so a wrong value reaches the printed QR code (spec P4, test-strategy line 363).
+
+The rule of the orchestrator: the path is `/th/st/<level>/<week>` and then nothing, or one query `?part=book`, `?part=decodable`, or `?part=song`. The level is an integer from 1 to 4. The week is an integer from 1 to 32, with no leading zero. Every other path throws an error that names the path. The return value of an accepted path stays `STORYTIME_QR_HOST + pagePath`.
+
+The tests: R48 adds 24 cases to `dashboard/__tests__/storytime-print-student-book.test.ts`.
+- 22 reject cases: `/th/st/../evil`, `/th/st/../../evil`, `/th/st/2/./1`, `/th/st/2/1/..`, `/th/st//2/1`, `/th/st/`, `/th/st/2/1/3`, `/th/st/0/1`, `/th/st/5/1`, `/th/st/2/0`, `/th/st/2/33`, `/th/st/02/1`, `/th/st/2/01`, `/th/st/2/1 ` (space), `/th/st/2/1<TAB>`, `/th/st/2/1<NEWLINE>`, `/th/st/2/1#x`, `/th/st/2/1?week=2`, `/th/st/2/1?part=video`, `/th/st/2/1?part=song?part=book`, `/th/st/2/1?part=song&part=book`, `/th/st/2/1?part=SONG`. Each case fails at HEAD on the assertion that the call throws. The error message must name the path.
+- 1 accept case: `/th/st/2/1`, `/th/st/2/1?part=song`, `/th/st/2/1?part=book`, `/th/st/2/1?part=decodable`, `/th/st/4/32`, `/th/st/1/1`. Each gives `STORYTIME_QR_HOST + path`. The case also holds that `/TH/st/2/1` throws; that case already holds at HEAD.
+- 1 shipped-data case: the `home.songUrl` and the `home.readAlongUrl` of the 8 files `content/storytime/l2/w01.json` to `w08.json` pass `storytimeQrUrl`. The values are `/th/st/2/<n>?part=song`, `/th/st/2/<n>?part=book`, and `/th/st/2/8` for week 8. The case passes at HEAD and must keep passing.
+
+RED_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"`; one whole foreground `heavy-run.sh` wrapper; exit 1; `Tests  22 failed | 249 passed (271)` on 6 files. The 22 failures are the R48 reject cases. No other test fails. The output has no "No test files found" line. Full command and output: `mid-red-df65ac05-red.txt`. The targeted run of the 2 accept cases exits 0 with `Tests  2 passed | 68 skipped (70)`: `mid-red-df65ac05-accepts.txt`.
+PROJECT_LINT: `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts`; one whole foreground `heavy-run.sh` wrapper; exit 0, no output. Command and output: `mid-red-df65ac05-lint.txt`.
+PROJECT_CHECKS: one whole foreground `heavy-run.sh` wrapper; exit 0. One accepted `published` FAIL passed the gate filter, with the detail `images not approved; audio not approved; song not approved`; `npx tsc --noEmit` emitted no errors. Command and output: `mid-red-df65ac05-checks.txt`. The same file holds a standalone `check-weeks.ts --level 2` run that shows the accepted FAIL and exits 1 by design.
+
+Type fix, commit 659c082c: the adversarial guard file `dashboard/__tests__/storytime-print-student-book-adversarial.test.ts` has a type error at HEAD df65ac05, at lines 235 and 257: `changedWeek(change, 30000)`, but the helper takes one argument. The fix removes the second argument from the two calls. It changes no expectation and no runtime value. The error was at HEAD before this Red work: a `npx tsc --noEmit` run with the Red change stashed gives the same two errors (`mid-red-df65ac05-tsc-head.txt`). The adversarial role ran `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, and `PROJECT_LINT`, but not `PROJECT_CHECKS`, so the error was not seen. The orchestrator can revert that commit if the orchestrator prefers another owner for the fix.
+
+Open point for the orchestrator: the guard A1 of the adversarial file (line 232) expects `storytimeQrUrl` to accept `/th/st/2/1?part=song&x=<script>alert(1)</script>`, and it asserts that the printed address holds that text. The rule of Red 2i rejects that path, because the query is not one of the three part values. After Green 2i, the guard A1 fails at its `render(week)` call. The adversarial role lists the same query as a non-blocking finding, and it writes that the Red guard of the blocking finding can name the allowed part values (`adversarial-c8aba128.json`). A later Red task must change the guard A1, or the rule must allow other query keys. This Red task does not change that guard.
+
+Commits:
+- 659c082c `test(storytime): type the adversarial QR and check guards so the file compiles`: the adversarial guard file only, 2 lines.
+- 57fd8fe0 `test(storytime): test that a QR path outside the Storytime route is rejected`: the student book test file only, 80 insertions.
+- The plan and the run evidence follow in a third commit.
+
+No production source was edited by Red. `pnpm-lock.yaml` stayed unchanged. No lock wait line and no exit 75 occurred.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: Phase 2 Red 2i
+status: complete
+baseline_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: df65ac0595cb00f4e5b58f842e27e3b395c908d2
+resulting_head: 57fd8fe0b47b96af1ec171193525fd3b7e7a828b (test commit; the plan and the run evidence follow in the next commit)
+commits: 659c082c (type fix of the adversarial guard file); 57fd8fe0 (the R48 test commit); the plan and run evidence commit follows
+RED_TEST_COMMAND: exit 1; Tests 22 failed | 249 passed (271); 6 files; 22 failing R48 reject cases; no other failure
+PROJECT_LINT: exit 0; no output
+PROJECT_CHECKS: exit 0; accepted published FAIL for st2/1; tsc emitted no errors
+files: dashboard/__tests__/storytime-print-student-book.test.ts; dashboard/__tests__/storytime-print-student-book-adversarial.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-df65ac05.log; mid-red-df65ac05-red.txt; mid-red-df65ac05-lint.txt; mid-red-df65ac05-checks.txt; mid-red-df65ac05-accepts.txt; mid-red-df65ac05-tsc-head.txt
+remaining_failures: 22 R48 reject cases fail at HEAD; the 2 R48 accept cases pass; no unrelated test failure; a pre-existing type error in the adversarial guard file blocked PROJECT_CHECKS and is fixed by 659c082c
+handoff: Green 2i must accept only `/th/st/<level>/<week>` with an optional `?part=book`, `?part=decodable`, or `?part=song` query in `storytimeQrUrl`, and must throw an error that names the path for every other form. The level is an integer from 1 to 4 and the week is an integer from 1 to 32, with no leading zero. Preserve the committed Red tests and change no test file. Open point for the orchestrator: the guard A1 of the adversarial file expects a query with an extra key to be accepted, so a Red task must change that guard before Green 2i can pass `GREEN_TEST_COMMAND`. Proof v6 needs no rebuild, because the check changes no output byte.
+END_MEASURE_AGENT_RESULT
