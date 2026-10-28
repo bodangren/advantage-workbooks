@@ -246,7 +246,10 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - Observation O1 (for Daniel, not a defect): on the Level 2 Unit 1 back, the one-line summary sits at the top of the 186 x 138 mm panel, and most of the panel is empty.
     - Observation O2 (expected, not a defect): the 100 dpi render of each PDF/X print file shows a small colour shift against the RGB PNG. The shift comes from the CMYK conversion of the print file.
     - Earlier Check v2 findings: C2 (heads cut at the side edges, orchestrator page check 2026-10-28 13:45 ICT) is fixed by Red C2 85f1e264 and Green C2 9ca660f0. C3 (figures stretched up to 6 percent, orchestrator code check of 9ca660f0, 2026-10-28 17:05 ICT) is fixed by Red C3 4b4854d6 with the correction 5570d6c8, and Green C3 60492c9e.
-- [ ] Task (Hand-off v2): the v2 files and the contact sheet go to the PM session with the SHA-256 of each file, by 2026-10-30. Done when: the PM session confirms receipt (peer-report).
+- [x] Task (Hand-off v2): the v2 files and the contact sheet go to the PM session with the SHA-256 of each file, by 2026-10-30. Done when: the PM session confirms receipt (peer-report). Evidence commit 60492c9e.
+    - Hand-off: the orchestrator sent the 12 v2 files and the contact sheet, each with its SHA-256, and four look points for Daniel to the PM session on 2026-10-28 at 20:50 ICT.
+    - Receipt (peer-report, PM session, 2026-10-28 20:5x ICT): the PM uploaded 13 files to the Drive folder "2026-10-27 Storytime cover mocks" (id 1ET70ddlYRdqUqLWLNLHDriD3FADsLVuz), each named with the prefix "v2 2026-10-28". The local SHA-256 values match the list, and the Drive MD5 values match the local files (13 of 13). The three corner-mode.txt files were not uploaded.
+    - Daniel gets a Tasks item with the link and the four look points. Daniel's pass of the Level 2 Unit 1 v2 cover starts Phase 2. No answer is not an approval.
 - [ ] Task: Measure - User Manual Verification 'Phase 1: The cover module and the three Drive covers' (Protocol in workflow.md)
 
 ## Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
