@@ -1,0 +1,52 @@
+Measure Green 2g started: 2026-10-29
+Status: partial
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: 7986ed5ce2cefd6043aa5684c6c27ba01ae2e735
+Red model family: OpenAI (Red 2g commits 7244d7a2 test, 7986ed5c plan). This run: opencode/glm-5.3-flash-free#high; no Red-model coder is used.
+Working tree: `video/storytime-song/scripts/render.mjs` and untracked run files are other sessions' work. They stay untouched and unstaged.
+
+Task: implement B-P2-04 filesystem containment of `--out` (Review B f6f50657, Red test R47 in 7244d7a2).
+Planned changes: strict `--out` lexical rules in `parseStorytimeStudentBookArgs` (strictly inside the print folder, `.pdf` file, no folder or trailing separator), new export `checkStorytimeOutputContainment(outputPath, home)` (real path of the deepest existing ancestor, no existing symbolic-link output, error names the path), and one call in `make-student-book-pdf.ts` after the parse and before `mkdirSync` and the browser.
+
+Result section: all five steps complete on 2026-10-29.
+
+Implementation commit: `b1dd7a67` (`fix(storytime): check the output containment and the strict --out form for the student book build`): `dashboard/lib/storytime/print/student-book-cli.ts` (strict `--out` rules and the new `checkStorytimeOutputContainment`) and `dashboard/scripts/storytime/make-student-book-pdf.ts` (containment call after `checkRequestedWeeks`, usage text).
+
+Gates on `b1dd7a67`:
+- GREEN_TEST_COMMAND exit 0, `Tests 192 passed (192)` on 5 files (`jr-green-7986ed5c-green.txt`).
+- PROJECT_LINT exit 0, no output (`jr-green-7986ed5c-lint.txt`).
+- PROJECT_CHECKS exit 0, one accepted FAIL (`published` for st2/1), clean `tsc`, plus a standalone `check-weeks.ts --level 2` run in the same file that reports the accepted FAIL and exits 1 (`jr-green-7986ed5c-checks.txt`).
+- PROJECT_TESTS ran three times: the first two runs (exit 1, both `jr-green-7986ed5c-project.txt` and `jr-green-7986ed5c-project-rerun.txt`) show the unrelated covers-track R12 hitting its 5 s timeout while a heavy recognition job kept the load above 6 on 4 cores; the third run (appended in `jr-green-7986ed5c-project-rerun.txt`) exits 0, `Tests 345 passed (345)` on 16 files. No covers file changed since the Green 2f pass.
+
+Targeted R47 rerun before the commit: exit 0, `Tests 2 passed | 44 skipped (46)` (`jr-green-7986ed5c-targeted.txt`).
+
+Proof v6 not rebuilt; `sha256sum` stays `f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7`.
+
+Mutants (one script, one wrapper; pristine copy first, restore after each; `jr-green-7986ed5c-mutants.txt`):
+- M66 first attempt (strict folder branch removed alone): not caught, vitest exit 0, because the `.pdf` form check still rejects the folder target; documented honestly.
+- M66 retry (strict folder branch and the `.pdf` form check removed together): caught, `jr-green-7986ed5c-mutant-M66-retry.txt`.
+- M67 (filesystem containment branch removed): caught, `jr-green-7986ed5c-mutant-M67.txt`.
+- M68 (existing-output symbolic-link check removed): caught, `jr-green-7986ed5c-mutant-M68.txt`.
+- Every restore gives `cmp` OK, and every `git diff --quiet -- dashboard/lib/storytime/print/` exits 0.
+
+Plan: `Task (Green 2g)` flipped to `[x]` with `commit b1dd7a67`, `Evidence: automated`, and its sub-lines.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_print_r1_20261025
+phase: Phase 2 Green 2g
+status: complete
+phase_base_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: 7986ed5ce2cefd6043aa5684c6c27ba01ae2e735
+red_model_family: OpenAI (Red 2g commits 7244d7a2 test, 7986ed5c plan); this run opencode/glm-5.3-flash-free#high, no Red-family coder used
+implementation_commit: b1dd7a67 fix(storytime): check the output containment and the strict --out form for the student book build (student-book-cli.ts and make-student-book-pdf.ts modified)
+plan_evidence_commit: follows this log entry with the message measure(plan): record Phase 2 Green 2g evidence (a commit cannot carry its own SHA)
+final_green_head: recorded in the plan-evidence commit that follows this log write
+targeted_r47_before_commit: exit 0, Tests 2 passed | 44 skipped (46) (jr-green-7986ed5c-targeted.txt)
+gates_on_b1dd7a67: GREEN_TEST_COMMAND exit 0, Tests 192 passed (192) on 5 files (jr-green-7986ed5c-green.txt); PROJECT_LINT exit 0, no output (jr-green-7986ed5c-lint.txt); PROJECT_CHECKS exit 0, one accepted FAIL (published for st2/1), clean tsc, standalone check-weeks run reports the accepted FAIL and exits 1 (jr-green-7986ed5c-checks.txt); PROJECT_TESTS run 1 and 2 exit 1 on an unrelated covers-track R12 5 s timeout under a competing heavy recognition job (jr-green-7986ed5c-project.txt and the first rerun part of jr-green-7986ed5c-project-rerun.txt), run 3 exit 0 Tests 345 passed (345) on 16 files (appended in jr-green-7986ed5c-project-rerun.txt)
+proof_v6: not rebuilt; sha256 unchanged f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7
+mutants: 3 fixes, 4 runs; M66 first attempt not caught (vitest exit 0, the .pdf form check still rejects the folder target) and the M66 retry caught; M67 caught (containment branch removed, parent-link case); M68 caught (existing-output link check removed); every restore gives cmp OK and git diff --quiet -- dashboard/lib/storytime/print/ exit 0 (jr-green-7986ed5c-mutants.txt and per-mutant files)
+tasks_flipped: Task (Green 2g) to [x] with commit b1dd7a67 and Evidence: automated
+new_files: none (two file modifications; no new module)
+handoff: to the review roles: audit scope is `student-book-cli.ts` and `make-student-book-pdf.ts` at b1dd7a67 and the plan-evidence commit; committed Red tests untouched; B-P2-04 is now enforced lexically and on the filesystem.
+END_MEASURE_AGENT_RESULT

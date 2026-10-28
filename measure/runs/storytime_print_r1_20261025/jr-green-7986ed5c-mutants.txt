@@ -1,0 +1,36 @@
+== pristine copies from committed HEAD b1dd7a67 ==
+(empty above means clean baseline)
+
+== M66: apply ==
+applied: student-book-cli.ts: 'if (!resolved.startsWith(folder + path.sep)) {' -> 'if (false) {'
+M66: vitest exit=0 (nonzero means the Red test catches the mutant)
+M66: restore cmp OK
+M66: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M67: apply ==
+applied: student-book-cli.ts: 'if (target !== boundary && !target.startsWith(bo' -> 'if (false) {'
+M67: vitest exit=1 (nonzero means the Red test catches the mutant)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+M67: restore cmp OK
+M67: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M68: apply ==
+applied: student-book-cli.ts: 'if (fs.existsSync(out) && fs.lstatSync(out).isSy' -> 'if (false) {'
+M68: vitest exit=1 (nonzero means the Red test catches the mutant)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+M68: restore cmp OK
+M68: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== final check ==
+student-book-cli.ts restored cmp OK
+final git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M66 retry (first M66 attempt was not caught: the .pdf form check alone still rejects the folder target, vitest exit 0) ==
+== M66 retry: apply ==
+applied: student-book-cli.ts: '        if (!resolved.startsWith(folder + path.s' -> ''
+== M66 retry: targeted Red test ==
+M66 retry: vitest exit=1 (nonzero means caught)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+M66 retry: restore cmp OK
+M66 retry: git diff --quiet exit=0
+m66_retry_wrapper_exit=0
