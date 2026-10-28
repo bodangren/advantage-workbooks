@@ -1027,6 +1027,79 @@ describe('Storytime student workbook: the shipped week 1', () => {
         for (const row of rows) expect(row.at(-5), `The font ${row[0]} must be embedded.`).toBe('yes');
     }, 230000);
 
+    it('R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract', async () => {
+        for (const [field, value] of [['songUrl', '@example.invalid/th/st/2/1'], ['readAlongUrl', '/etc/passwd']] as const) {
+            const broken = savedCopy(shipped(), (copy) => { copy.home![field] = value; });
+            await expect(render(broken)).rejects.toThrow(value);
+        }
+        const week = shipped();
+        const { doc } = await render(week);
+        expect(Array.from(page(doc, 'home-front').querySelectorAll('[data-qr-input]'),
+            (node) => node.getAttribute('data-qr-input'))).toEqual([
+            storytimeQrUrl(week.home!.songUrl!), storytimeQrUrl(week.home!.readAlongUrl!),
+        ]);
+    });
+
+    it('R44: final mode requires and selects line art, not the color file', async () => {
+        const week = shipped();
+        const { storytimePrintPictures } = await import('../lib/storytime/print/pictures');
+        const rows = storytimePrintPictures([week]);
+        const lineArtPaths = new Set(rows.map((row) => path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', row.lineArtFileName)));
+        const colorPath = path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', rows[0].fileName);
+        const existsSync = fs.existsSync;
+        const files = new Set(lineArtPaths);
+        const existsMock = vi.spyOn(fs, 'existsSync').mockImplementation((file) =>
+            typeof file === 'string' && [...lineArtPaths, colorPath].includes(file) ? files.has(file) : existsSync(file));
+        try {
+            const { doc } = await render(week, undefined, 'final');
+            for (const picture of Array.from(doc.querySelectorAll('[data-picture-id] img'))) {
+                const row = rows.find((item) => item.id === picture.parentElement?.getAttribute('data-picture-id'));
+                expect(row).toBeDefined();
+                expect(decodeURIComponent(picture.getAttribute('src') ?? '').split('/').pop()).toBe(row!.lineArtFileName);
+            }
+            files.clear();
+            files.add(colorPath);
+            await expect(render(week, undefined, 'final')).rejects.toThrow(rows[0].id);
+        } finally {
+            existsMock.mockRestore();
+        }
+    });
+
+    it('R45: validates student-book CLI ranges and every requested week without rendering', async () => {
+        const modulePath = path.join(dashboardRoot, 'lib/storytime/print/student-book-cli.ts');
+        expect(fs.existsSync(modulePath), 'Add pure CLI contract module lib/storytime/print/student-book-cli.ts.').toBe(true);
+        if (!fs.existsSync(modulePath)) return;
+        const mod = await import(modulePath) as Record<string, unknown>;
+        expect(typeof mod.parseStorytimeStudentBookArgs, 'Export parseStorytimeStudentBookArgs(argv, home, unit).').toBe('function');
+        expect(typeof mod.checkRequestedWeeks, 'Export checkRequestedWeeks(requested, loaded).').toBe('function');
+        if (typeof mod.parseStorytimeStudentBookArgs !== 'function' || typeof mod.checkRequestedWeeks !== 'function') return;
+        const parseArgs = mod.parseStorytimeStudentBookArgs as (argv: string[], home: string, unit: number) => { outputPath: string };
+        for (const args of [
+            ['--level', '9'], ['--level', '2', '--weeks', '1.5'], ['--level', '2', '--weeks', '0'],
+            ['--level', '2', '--weeks', '1', '--version', '1.5'], ['--level', '2', '--weeks', '1', '--version', 'Infinity'],
+            ['--level', '2', '--weeks', '1', '--version', '0'],
+        ]) expect(() => parseArgs(args, '/home/student', 1)).toThrow();
+        expect(parseArgs(['--level', '2', '--weeks', '1', '--proof', '--version', '5'], '/home/student', 1).outputPath)
+            .toBe('/home/student/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v5_PDFX-1a.pdf');
+        expect(() => (mod.checkRequestedWeeks as (requested: number[], loaded: number[]) => void)([1, 32], [1]))
+            .toThrow(/week 32/i);
+    });
+
+    it('R46: limits an explicit output path to the print-ready Storytime folder', async () => {
+        const modulePath = path.join(dashboardRoot, 'lib/storytime/print/student-book-cli.ts');
+        expect(fs.existsSync(modulePath), 'Add pure CLI contract module lib/storytime/print/student-book-cli.ts.').toBe(true);
+        if (!fs.existsSync(modulePath)) return;
+        const mod = await import(modulePath) as Record<string, unknown>;
+        expect(typeof mod.parseStorytimeStudentBookArgs, 'Export parseStorytimeStudentBookArgs(argv, home, unit).').toBe('function');
+        if (typeof mod.parseStorytimeStudentBookArgs !== 'function') return;
+        const parseArgs = mod.parseStorytimeStudentBookArgs as (argv: string[], home: string, unit: number) => unknown;
+        for (const output of ['/tmp/x.pdf', '~/Desktop/print-ready/storytime/../x.pdf']) {
+            expect(() => parseArgs(['--level', '2', '--weeks', '1', '--out', output], '/home/student', 1)).toThrow();
+        }
+        expect(() => parseArgs(['--level', '2', '--weeks', '1', '--out', '/home/student/Desktop/print-ready/storytime/x.pdf'], '/home/student', 1))
+            .not.toThrow();
+    });
+
     it('R36: matches both printed PDF/X QR matrices to their labeled song and book addresses', async () => {
         const week = shipped();
         const { html, doc } = await render(week);
