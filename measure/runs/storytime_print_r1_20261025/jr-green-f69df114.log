@@ -1,0 +1,129 @@
+# Measure Green role log — storytime_print_r1_20261025, Phase 2, Green 2d (D5)
+
+Role: jr-green
+Track: storytime_print_r1_20261025
+Phase: Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
+Task: Green 2d — fix D5 in the student workbook.
+phase_base_sha: 03a803c
+role_base_sha: f69df11483413164a8d491b64c661a30722724cb
+final HEAD: 4af2f7f2263fba28829b0885b940398ac99b5d6f
+Red model: coding-plan/deepseek-v4-pro#high (one earlier Red 2d run used xai/grok-4.7). Green model: minimax-cn-coding-plan/MiniMax-M3#high. The families differ. No coder subagent is used. OK.
+Date: 2026-10-28 (Asia/Bangkok).
+
+## Scope check
+
+- The Red commits 4dc2a93b and 1e4454b5 are both inside 03a803c..HEAD. `git merge-base --is-ancestor 03a803c HEAD` exits 0.
+- No test file changed. `git diff --stat -- dashboard/__tests__/` gives no output at the start and at the end.
+- The fix touches only the letter box of `practicePage` in `dashboard/lib/storytime/print/student-book.ts`.
+- The files of the cover track and the file `video/storytime-song/scripts/render.mjs` stay untouched. They were not staged and not restored.
+
+## Red contract (R41)
+
+R41 in `dashboard/__tests__/storytime-print-student-book.test.ts` reads a raster of the letter box. It wants:
+- the model letter ink median in the K 20-40 % gray band (153 to 204),
+- black ink on the down line and the arch along their paths (fraction at least 0.75),
+- one black arrowhead at the end of each stroke (arrow wings at least 2),
+- no guide ink outside the letter outline plus 0.5 mm,
+- the start dot center at most 2.5 mm below the stem top,
+- the down line from at most 2.5 mm below the stem top to at most 2.5 mm above the stem bottom,
+- the arch end at most 2.5 mm above the stem bottom.
+
+## First draft
+
+An earlier Green 2d run (coding-plan/glm-5.3-flash, log `jr-green-af9248e.log`) wrote the fix and stopped before a commit. The change sat in the working tree. The Red command therefore no longer failed at the start of this run. This run read the diff, compared it with the contract of R41, and found that the draft matches the copy that the Red test builds itself. The draft was then committed as 4af2f7f2.
+
+## The fix (commit 4af2f7f2)
+
+`dashboard/lib/storytime/print/student-book.ts` only, 10 insertions and 7 deletions:
+- the model letter prints in the trace gray #b0b0b0 (K 31 %),
+- the guide strokes print in black on top of it,
+- the start dot is smaller (r 1.3) and sits at the stem top (cx 40.5, cy 64),
+- the arrow marker is 4 units wide,
+- the arch follows the arch ink of the letter, so every guide stroke stays inside the letter outline.
+
+## Gates on HEAD 4af2f7f2
+
+Each gate ran in the foreground inside one `heavy-run.sh` wrapper. No nested wrapper. No `flock`.
+
+| Gate | Exit | Result | File |
+|---|---|---|---|
+| `GREEN_TEST_COMMAND` | 0 | `Tests  182 passed (182)` on 5 files | jr-green-f69df114-green.txt |
+| `PROJECT_TESTS` | 0 | `Tests  334 passed (334)` on 16 files | jr-green-f69df114-project.txt |
+| `PROJECT_LINT` | 0 | no output | jr-green-f69df114-lint.txt |
+| `PROJECT_CHECKS` | 0 | one accepted FAIL (`published` for st2/1); `tsc` clean | jr-green-f69df114-checks.txt |
+
+`pnpm-lock.yaml` stayed unchanged. The `R18 v2` tests of the cover track pass in this run, because the working tree holds the uncommitted changes of the cover track Green C2.
+
+## The proof v4 build
+
+`cd dashboard && npx tsx scripts/storytime/make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 4` ran after the commit, so the file is newer than its sources.
+File: `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v4_PDFX-1a.pdf`
+sha256: `062c0af1ef41bd34c3ebba7277034aa0b91c35dc810ed0ef181c45c09d00a6e7`
+14 pages, A4, PDF/X-1a:2001, 475214 bytes.
+`PRINT_GATE` exits 0. The tool prints "All checks pass".
+The K-channel check: `gs -sDEVICE=inkcov` gives C, M, and Y `0.00000` on all 14 pages; K is above 0 on 13 pages. `pdffonts` embeds only UZBXJA+Andika, KFVQOZ+Andika-Bold, and TLHDTB+Sarabun-Regular.
+Files: jr-green-f69df114-proof.txt and jr-green-f69df114-inkcov.txt.
+
+The eye check of page 4 of the proof v4: the gray n carries the black guide. The start dot, the down line, the arch, and the two arrowheads all show.
+
+## Mutants
+
+One script, one `heavy-run.sh` wrapper. A pristine copy of the file was kept first. Each mutant was applied to a copy of that file, then the file was restored. Every run of `GREEN_TEST_COMMAND` gave exit 1, and R41 was the only failing test.
+
+| Mutant | Change | Failed test | R41 HEAD values |
+|---|---|---|---|
+| M55 | the model letter back to black | R41 | letter median 0, down 0.00, arch 0.00, arrows 0 |
+| M56 | the arch start moved outside the letter outline | R41 | outside ink 141 px |
+| M57 | the arrowhead marker removed | R41 | arrow wings 0 |
+| M58 | the guide stroke color set to the trace gray | R41 | down 0.08, arch 0.03 |
+
+Every restore gives `cmp` OK and `git diff --quiet -- dashboard/lib/storytime/print/student-book.ts` exit 0. The final restore check gives exit 0.
+Raw: jr-green-f69df114-mutant-M55.txt to -M58.txt. Summary: jr-green-f69df114-mutants.txt.
+
+## Plan
+
+`measure/tracks/storytime_print_r1_20261025/plan.md`: the task `Task (Green 2d)` now holds `[x]`, `commit 4af2f7f2`, and `Evidence: automated`, with one sub-line for the gates, the proof, the K-channel check, and the mutants. The task `Task (Check)` stays open for the orchestrator.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
+baseline_sha: 03a803c
+role_base_sha: f69df11483413164a8d491b64c661a30722724cb
+head: 4af2f7f2263fba28829b0885b940398ac99b5d6f
+commits: 4af2f7f2 (the D5 fix), plus the plan-evidence commit of this log.
+tests_run:
+  - GREEN_TEST_COMMAND exit 0: Tests  182 passed (182) on 5 files (jr-green-f69df114-green.txt).
+  - PROJECT_TESTS exit 0: Tests  334 passed (334) on 16 files (jr-green-f69df114-project.txt).
+  - PROJECT_LINT exit 0, no output (jr-green-f69df114-lint.txt).
+  - PROJECT_CHECKS exit 0 in one heavy-run wrapper: one accepted FAIL (published for st2/1), tsc clean (jr-green-f69df114-checks.txt).
+  - The build of proof v4 exits 0 and PRINT_GATE exits 0; the tool prints "All checks pass" (jr-green-f69df114-proof.txt).
+  - The K-channel check gives C, M, and Y 0.00000 on all 14 pages (jr-green-f69df114-inkcov.txt).
+  - pnpm-lock.yaml stayed unchanged. No lock wait line and no exit 75 or 201.
+files_changed:
+  - dashboard/lib/storytime/print/student-book.ts (the D5 fix, 10 insertions and 7 deletions).
+  - measure/tracks/storytime_print_r1_20261025/plan.md (the task evidence).
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114.log
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-green.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-project.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-lint.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-checks.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-proof.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-inkcov.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-mutant-M55.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-mutant-M56.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-mutant-M57.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-mutant-M58.txt
+  - measure/runs/storytime_print_r1_20261025/jr-green-f69df114-mutants.txt
+plan_updates: The task Task (Green 2d) is [x] with commit 4af2f7f2 and the evidence class automated. The sub-lines hold the four gates, the proof v4 sha256, PRINT_GATE, the inkcov result, and the four mutants. The task Task (Check) stays open.
+known_failures: none. The R18 v2 tests of the cover track pass in this run, because the working tree holds the uncommitted changes of the cover track Green C2.
+mutants: 4 applied, 4 caught (M55, M56, M57, M58). Each restore gives cmp OK and git diff --quiet exit 0.
+built_files:
+  - ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v4_PDFX-1a.pdf, sha256 062c0af1ef41bd34c3ebba7277034aa0b91c35dc810ed0ef181c45c09d00a6e7, 14 pages, PDF/X-1a:2001.
+tasks_flipped_x:
+  - Task (Green 2d): [~] to [x] (commit 4af2f7f2, Evidence: automated).
+tasks_flipped_b: none.
+facts_changed: none.
+handoff: The D5 fix is commit 4af2f7f2 and changes only dashboard/lib/storytime/print/student-book.ts. The model letter prints in the trace gray #b0b0b0 and the guide prints in black on top of it. The guide strokes stay inside the letter outline within the 0.5 mm tolerance of R41. The four gates pass on that commit: GREEN_TEST_COMMAND 182/182, PROJECT_TESTS 334/334 on 16 files, PROJECT_LINT with no output, PROJECT_CHECKS exit 0 with the one accepted FAIL (published for st2/1) and a clean tsc. The proof for the Check task is ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v4_PDFX-1a.pdf, sha256 062c0af1ef41bd34c3ebba7277034aa0b91c35dc810ed0ef181c45c09d00a6e7, 14 pages, PDF/X-1a:2001. PRINT_GATE exits 0. The inkcov check gives C, M, and Y 0.00000 on all 14 pages. The four mutants M55 to M58 each make GREEN_TEST_COMMAND exit 1 on R41 alone. The Red tests were not changed. The cover track files and video/storytime-song/scripts/render.mjs were not staged, not edited, and not restored. The first draft of the fix comes from an earlier Green 2d run (glm-5.3-flash, log jr-green-af9248e.log); this run read it and committed it. The Check role still owns the contact sheet and the page list.
+END_MEASURE_AGENT_RESULT

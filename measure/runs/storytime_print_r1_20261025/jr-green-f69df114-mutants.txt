@@ -1,0 +1,45 @@
+pristine copy: f344637c8c0ac4a1e13881c5b0237e6c74aa1d06e28ec876b591f51a64ef94b2  /tmp/opencode/green-2d/student-book.pristine.ts
+=== M55 mutation applied ===
+ dashboard/lib/storytime/print/student-book.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+M55 GREEN_TEST_COMMAND exit=1
+[22m[39mR41 HEAD letterMedian=0 downFraction=0.00 archFraction=0.00 arrowWings=0 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-efKH11/r41-guide-inside.html
+[31m     [31m×[31m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)[39m[33m 8111[2mms[22m[39m
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+M55 restore: git diff --quiet exit=0
+M55 restore: cmp OK
+=== M56 mutation applied ===
+ dashboard/lib/storytime/print/student-book.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+M56 GREEN_TEST_COMMAND exit=1
+[22m[39mR41 HEAD letterMedian=175 downFraction=1.00 archFraction=0.92 arrowWings=2 outsidePx=141 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-bRkVZ0/r41-guide-inside.html
+[31m     [31m×[31m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)[39m[33m 8012[2mms[22m[39m
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+M56 restore: git diff --quiet exit=0
+M56 restore: cmp OK
+=== M57 mutation applied ===
+ dashboard/lib/storytime/print/student-book.ts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+M57 GREEN_TEST_COMMAND exit=1
+[22m[39mR41 HEAD letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=0 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=1.00 archFraction=1.00 arrowWings=0 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-QqVE7N/r41-guide-inside.html
+[31m     [31m×[31m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)[39m[33m 8768[2mms[22m[39m
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+M57 restore: git diff --quiet exit=0
+M57 restore: cmp OK
+=== M58 mutation applied ===
+ dashboard/lib/storytime/print/student-book.ts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+M58 GREEN_TEST_COMMAND exit=1
+[22m[39mR41 HEAD letterMedian=175 downFraction=0.08 archFraction=0.03 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 COPY letterMedian=175 downFraction=0.08 archFraction=0.03 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-v9EyJZ/r41-guide-inside.html
+[31m     [31m×[31m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)[39m[33m 8272[2mms[22m[39m
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+M58 restore: git diff --quiet exit=0
+M58 restore: cmp OK
+=== final restore check ===
+final git diff --quiet exit=0
+final cmp OK
+trap: pristine restored
