@@ -1,19 +1,19 @@
-status: partial
-Summary: Red v2 tests and plan evidence are committed. The targeted gate is red as expected. Three required figure-layout assertions remain unwritten: allowed bottom crop, complete heads, and one-row placement.
+status: complete
+Summary: Red v2 tests cover tinted composition, fill, the L4U4 scale mutant, and figure-layout rules. The test commit contains only the test file. All three gates ran under heavy-run.
 
 MEASURE_AGENT_RESULT
 role: measure-mid-red
-status: partial
+status: complete
 track: storytime_covers_20261027
 phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
 phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
 baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
-role_base_sha: 9922d0a71270ba94308ed4a2adf3c0539e3d7197
-resulting_head: the final measure(log) commit that contains this log
-commits: a269f46d (test-only); measure(plan) commit includes plan and run evidence
- tests_run: RED_TEST_COMMAND exit 1; 4 failed and 23 passed, all in storytime-print-covers-16books.test.ts. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. V1 image measurement ran inside heavy-run; before and after hashes match.
-files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-9922d0a7-{red,lint,checks,v1measure}.txt; measure/runs/storytime_covers_20261027/mid-red-9922d0a7.log
-plan_updates: Task (Red v2) is [x] with test commit a269f46d and automated evidence. Added Red output, lint/check exits, v1 fill measurements, corner samples, and unchanged hashes.
-known_failures: Red gate: R2 recipe entries still use strings; R2 v2 group and recipe constraints do not exist; R11 reports an object-path error before it can name the missing-file book; R12 still checks white corners and fails the tinted sample. The R2 mutation assertions cannot reach the checker until Green supports structured entries. No unrelated source errors appeared in PROJECT_CHECKS.
-handoff: Before Green starts, add Red tests for permitted bottom crop, uncropped heads, and figures in one row. Green must implement recipe entries with kind, name, and file; enforce per-recipe child and animal limits, required groups, and unique sets; draw each level tint and rounded picture corners; measure figure pixels against the ground tint with tolerance 24 and threshold 0.58; allow bottom crop, keep heads whole, and place figures in one row. R14 now requests `--version 2` and expects `v2` in the print filename. Dirty unrelated paths remain untouched: dashboard/lib/storytime/print/student-book.ts and video/storytime-song/scripts/render.mjs. Existing prior run artifacts remain untouched.
+role_base_sha: 1936cc012e529fa0c39f52dfeb22e6d63a4f62da
+resulting_head: this run's final measure(plan) commit
+commits: a269f46d and 6ca75b8e (test-only); follow-on measure(plan) commit records this run
+ tests_run: RED_TEST_COMMAND exit 1, 7 failed and 22 passed (29), all in storytime-print-covers-16books.test.ts and all assertion failures. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
+files_changed: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-9922d0a7-{red,lint,checks}.txt; measure/runs/storytime_covers_20261027/mid-red-9922d0a7.log
+plan_updates: Task (Red v2) is [x] with commits a269f46d and 6ca75b8e and automated evidence. The plan records the test results, lint and type-check exits, the fill contract, the 8 mm band, and the figure-layout interface.
+known_failures: R2 recipe entries still use strings. R2 v2 required groups and recipe limits are missing. R11 reports an object-path error before it names the book. R12 does not draw the required tint. The composed v2 fill test fails at the tint sample. The centered 75 percent mutant does not produce a fill-specific error. `storytimeCoverFigureLayout` and `checkStorytimeCoverFigureLayout` are missing. No syntax or import errors appear.
+handoff: Green should implement `storytimeCoverFigureLayout(files, sizePx) -> Promise<FigureBox[]>` and `checkStorytimeCoverFigureLayout(boxes, sizePx, headBandHeightPx) -> string[]`. `FigureBox` has `name`, `left`, `top`, `width`, and `height` in pixels. Keep the top 8 mm ground-only. Reject boxes that overlap in x. Allow a box to extend past the bottom edge. The picture checker must measure against the level tint, count a figure pixel when any RGB channel differs by more than 24, and require a fill share of at least 0.58. The 75 percent centered L4U4 mutant keeps tint at its four 8 mm corners and must fail with a fill error. Dirty user files `dashboard/lib/storytime/print/student-book.ts` and `video/storytime-song/scripts/render.mjs` remain untouched. Prior run artifacts remain untouched.
 END_MEASURE_AGENT_RESULT
