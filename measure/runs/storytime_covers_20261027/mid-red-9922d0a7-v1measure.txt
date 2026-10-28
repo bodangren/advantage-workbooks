@@ -1,0 +1,10 @@
+V1 picture measurements
+
+Command wrapper: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<python image measurement and sha256 command>'
+Measurement: Pillow RGB pixels in the 186 x 180 mm picture crop of each 2480 x 3508 front.png. The crop starts at x=round(12/25.4*300), y=round(31/25.4*300), and uses rounded 300 ppi dimensions. A figure pixel differs from white by more than 24 in at least one RGB channel. Fill share is figure pixels divided by picture-area pixels. The bounding box uses figure pixels; bbox fill share is figure pixels divided by bbox area.
+
+L1U1: fill share 0.612758; figure pixels 2,862,085; bbox (62,115)-(2131,2008), local pixel edges; bbox fill share 0.730754. Four 8 mm corner samples: (255,255,255) each. SHA-256 before and after: 00ac6efffbafee482c013abfc312e1faa1b5b8b319d1e4aedeab053fd23ff6e7.
+L2U1: fill share 0.582000; figure pixels 2,718,418; bbox (201,63)-(1992,2060), local pixel edges; bbox fill share 0.760051. Four 8 mm corner samples: (255,255,255) each. SHA-256 before and after: 6e93811711329000a3f81d3dd179c99ea9caaf2a7e8fb97b6abf4dc05ac5c097.
+L4U4: fill share 0.543016; figure pixels 2,536,332; bbox (201,63)-(1992,2060), local pixel edges; bbox fill share 0.709141. Four 8 mm corner samples: (255,255,255) each. SHA-256 before and after: b402b994557f187f1220c32f31eb2612ea744213ad513c723d18d058fe9a5a5c.
+
+Selected fill threshold: at least 0.58 of the picture area. The measured v1 L1U1 passes and L4U4 fails. L2U1 also passes at 0.582000. Threshold basis: white-ground v1 files, RGB distance tolerance 24. The RGB difference from ground must exceed the tolerance in one channel. This mask can use white for v1 and the level tint for v2.

@@ -1,0 +1,120 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+The "path" argument must be of type string. Received an instance of Object
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 77804[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 72[2mms[22m[39m
+[31m     [31m×[31m R2: three recipes name real files, and an empty recipe is not a picture[39m[32m 20[2mms[22m[39m
+[31m     [31m×[31m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations[39m[32m 5[2mms[22m[39m
+     [32m✓[39m R3: one approved summary uses student words, and zebra or a draft week fails[32m 52[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 92[2mms[22m[39m
+     [32m✓[39m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[32m 214[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 19552[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 3[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 48[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 16[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1480[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 4[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 52[2mms[22m[39m
+[31m     [31m×[31m R11: a missing picture stops the build, names the book, and writes no deliverable[39m[33m 6120[2mms[22m[39m
+[31m     [31m×[31m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails[39m[33m 1766[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: figure fill uses the ground-independent threshold and rejects the v1 loose crop [33m 1953[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 714[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 23359[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 183[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 9[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 13[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 11[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R16 M6: a Level 2 Unit 1 back without the panel fails [33m 320[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 21640[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR2: three recipes name real files, and an empty recipe is not a picture
+[31m[1mAssertionError[22m: Storytime Advantage, Level 1, Unit 1, Student Book recipe entries state kind, name, and file.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m369:270[22m[39m
+
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations
+[31m[1mAssertionError[22m: expected [ undefined, undefined, undefined ] to deeply equal [ 'nan', 'pat', 'pip' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "nan",[39m
+[32m-   "pat",[39m
+[32m-   "pip",[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m391:29[22m[39m
+    [90m389| [39m        [35mconst[39m data [33m=[39m mod[33m.[39m[34mloadStorytimeCoverBooks[39m()[33m;[39m
+    [90m390| [39m        const group = (level: number, unit: number) => bookOf(data, le…
+    [90m391| [39m        [34mexpect[39m([34mgroup[39m([34m1[39m[33m,[39m [34m1[39m))[33m.[39m[34mtoEqual[39m([[32m'nan'[39m[33m,[39m [32m'pat'[39m[33m,[39m [32m'pip'[39m])[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m392| [39m        [34mexpect[39m([34mgroup[39m([34m2[39m[33m,[39m [34m1[39m))[33m.[39m[34mtoEqual[39m([[32m'nan'[39m[33m,[39m [32m'sam'[39m])[33m;[39m
+    [90m393| [39m        [34mexpect[39m([34mgroup[39m([34m4[39m[33m,[39m [34m4[39m))[33m.[39m[34mtoEqual[39m([[32m'ben'[39m[33m,[39m [32m'mia'[39m])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR11: a missing picture stops the build, names the book, and writes no deliverable
+[31m[1mAssertionError[22m: expected '\nThe "path" argument must be of type…' to contain 'Storytime Advantage, Level 2, Unit 1,…'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Storytime Advantage, Level 2, Unit 1, Student Book[39m
+[31m+[39m
+[31m+ The "path" argument must be of type string. Received an instance of Object[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m678:31[22m[39m
+    [90m676| [39m        const result = runScript(['--level', '2', '--unit', '1', '--ou…
+    [90m677| [39m        [34mexpect[39m(result[33m.[39mstatus[33m,[39m [32m'Missing picture exit'[39m)[33m.[39mnot[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m678| [39m        expect(result.output).toContain('Storytime Advantage, Level 2,…
+    [90m   | [39m                              [31m^[39m
+    [90m679| [39m        [35mconst[39m names [33m=[39m fs[33m.[39m[34mreaddirSync[39m(out)[33m;[39m
+    [90m680| [39m        expect(names.some((name) => /\.(png|pdf)$/i.test(name)), 'No d…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR12: cut-out corners match the level ground tint, the center has figures, and a white corner fails
+[31m[1mAssertionError[22m: Ground tint sample 94,94: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m702:128[22m[39m
+    [90m700| [39m            [35mconst[39m sample [33m=[39m [34mpixel[39m(x[33m,[39m y)[33m;[39m
+    [90m701| [39m            const expected = [0, 2, 4].map((index) => Number.parseInt(…
+    [90m702| [39m            expect(sample.every((channel, index) => Math.abs(channel -…
+    [90m   | [39m                                                                                                                               [31m^[39m
+    [90m703| [39m        }
+    [90m704| [39m        [35mconst[39m whiteCornerCopy [33m=[39m [33mBuffer[39m[33m.[39m[35mfrom[39m(raw[33m.[39mdata)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (27)[39m
+[2m   Start at [22m 12:06:03
+[2m   Duration [22m 87.45s[2m (transform 590ms, setup 604ms, import 1.86s, tests 77.80s, environment 5.80s)[22m
+

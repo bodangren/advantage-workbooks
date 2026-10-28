@@ -138,11 +138,16 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
     - Evidence: the PM uploaded the 3 `cover.pdf` files and the contact sheet to the Drive folder "2026-10-27 Storytime cover mocks". Their names start "v1 2026-10-27".
     - Daniel's Tasks item id is `Zi00RXRtQUpFVFVna3dIYw`.
     - Note: Daniel's look of 2026-10-28 did not pass v1 (spec, D5 to D10). The v2 tasks follow.
-- [ ] Task (Red v2): tests for D5 to D9 in `dashboard/__tests__/storytime-print-covers-16books.test.ts`, or a new file that matches `storytime-print-covers*.test.ts`. Done when: `RED_TEST_COMMAND` fails only on the new or changed tests; the commit holds only test files; the v1 measurements are recorded.
+- [x] Task (Red v2): tests for D5 to D9 in `dashboard/__tests__/storytime-print-covers-16books.test.ts`, or a new file that matches `storytime-print-covers*.test.ts`. commit a269f46d. Evidence: automated.
     - Change the existing tests that encode the white ground of D4. This includes the white-corner check and AC-3. Use the ground tint.
     - New tests: the ground tint sample points (FR-2.4) and the fill thresholds set from the v1 files (FR-2.7).
     - New tests: at most 2 children and at most 1 animal per recipe. Level 2 Unit 1 holds nan. No two non-empty recipes hold the same set.
     - Each new check has a mutation test.
+    - Evidence: `RED_TEST_COMMAND` exit 1. `Tests 4 failed | 23 passed (27)`. The failures are R2 (structured recipe entries), R2 v2 (required groups and recipe rules), R11 (the missing-file copy uses the new recipe shape), and R12 (the required tint sample). No `No test files found` line appears. Output: `measure/runs/storytime_covers_20261027/mid-red-9922d0a7-red.txt`.
+    - Evidence: `PROJECT_LINT` exit 0. Output: `measure/runs/storytime_covers_20261027/mid-red-9922d0a7-lint.txt`. `PROJECT_CHECKS` exit 0. Output: `measure/runs/storytime_covers_20261027/mid-red-9922d0a7-checks.txt`.
+    - Evidence: v1 measurements and SHA-256 values are in `measure/runs/storytime_covers_20261027/mid-red-9922d0a7-v1measure.txt`. The fill metric uses a 24-channel tolerance against white. L1U1 is 0.612758, L2U1 is 0.582000, and L4U4 is 0.543016. The threshold is 0.58. Before and after SHA-256 values match for all three front PNGs.
+    - Mutation coverage: the test writes recipe mutations and image mutants to temporary copies. The Red run does not reach the recipe mutations because the shipped v1 data still uses string paths. Green must run the mutated copies after it adds the v2 recipe checker.
+    - Mutation checks use copied PNG and JSON files in temporary folders. The tests include white-corner, empty-ground, child-limit, animal-limit, and repeated-group mutants. Their expected errors are in the Red assertions; the recipe mutants await the Green checker because v1 data still uses string paths.
 - [ ] Task (Green v2): the data, the composer, the picture check, and the v2 build of the three covers with `--print`.
     - The data holds the recipes, the kinds, and the groups of FR-2.8.
     - The composer draws the ground tint, the rounded corners, and the fill. It allows the bottom crop.
