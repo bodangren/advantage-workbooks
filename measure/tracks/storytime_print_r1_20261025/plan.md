@@ -233,7 +233,8 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - Look point L1 (for Daniel's look decision at the week 1 proof, Phase 6; not a defect): where the hill of the second stroke joins the right stem, the guide has a visible bend. The hill ends at (72.2, 74) on a slope, and the stem line then runs straight down. R42 checks the smoothness on the hill only.
     - Expected placeholders (not defects): the `PICTURE MISSING` boxes on pages 4 and 6 wait for the Forge pictures, and the empty reader strips on pages 9 to 14 wait for Phase 4. Page 7 carries the proof mark "QR target answers after the deploy (monorepo task 7.4)".
     - Earlier Check findings of Phase 2: D5 (the guide beside the letter, proof v3) is fixed by Red 2d and Green 2d 4af2f7f2. D6 (the V start and the cornered hill, proof v4, orchestrator page check 2026-10-28 17:05 ICT) is fixed by Red 2e 87f2b11f and Green 2e b65b81aa.
-- [ ] Task: Measure - User Manual Verification 'Phase 2: Student workbook template, week 1' (Protocol in workflow.md)
+- [x] Task: Measure - User Manual Verification 'Phase 2: Student workbook template, week 1' (Protocol in workflow.md). Owner: the orchestrator. Phase 2 has no owner gate; Daniel's look decision is at the week 1 proof (Phase 6). commit b65b81aa.
+    - Evidence: automated. The orchestrator verified HEAD b2883057 on 2026-10-28: the gates of jr-green-df294e87 ran on b65b81aa (GREEN_TEST_COMMAND 184/184, PROJECT_TESTS 337/337, PROJECT_LINT no output, PROJECT_CHECKS exit 0, tsc clean); the orchestrator's Green 2e role gate ran the test command with exit 0 (20:44 ICT); PRINT_GATE passes on proof v5 (20:46 ICT); the Check found no defect; f210df84, ab778e2b, and b2883057 change only Measure files; the Phase 2 commit SHAs resolve.
 
 ## Phase 3: Teacher book print file, week 1 (2026-10-27 to 2026-10-30)
 
