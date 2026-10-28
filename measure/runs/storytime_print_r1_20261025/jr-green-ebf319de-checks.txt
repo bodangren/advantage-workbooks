@@ -1,0 +1,238 @@
+GATE: PROJECT_CHECKS
+COMMAND: cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit
+WRAPPER: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '...'
+HEAD at run start: 3170a27d5b636209535284067e08eab2d3faadb6
+exit=0
+
+== standalone check-weeks output (full, with the one accepted FAIL published for st2/1; the run reports the FAIL and exits 1) ==
+COMMAND: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+WRAPPER: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '...'
+st2/1 — Hello!   [../content/storytime/l2/w01.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 7: "Hello, I am, hello, I am" in the sheet, "Hello, who are you?" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  FAIL    published       Published only when approved and clean — images not approved; audio not approved; song not approved
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/2 — How Many?   [../content/storytime/l2/w02.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 10 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 34)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 13: "How many? How many? One, two, three!" in the sheet, "(none)" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/3 — Paint!   [../content/storytime/l2/w03.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 35)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 13: "Paint, paint, paint! What color is it?" in the sheet, "(none)" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/4 — My Family   [../content/storytime/l2/w04.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 36)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/5 — I Have Two   [../content/storytime/l2/w05.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 37)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 3: "Sam, Sam, Sam! Look at me!" in the sheet, "I have two eyes. Look, look, look!" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/6 — I Can See   [../content/storytime/l2/w06.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 38; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 13: "Tap, tap, tap! Look and see!" in the sheet, "(none)" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/7 — Is It a Ball?   [../content/storytime/l2/w07.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 39; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 14: "Top in the box! Yes, yes, yes!" in the sheet, "Top in the box!" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  WARN    print-missing   The print block of the week — no print block
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/8 — Unit 1 Review   [../content/storytime/l2/w08.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
+  PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
+  WARN    print-missing   The print block of the week — no print block
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+Summary: 8 package(s), 1 failed check(s), 13 warning(s).
+standalone_exit=1

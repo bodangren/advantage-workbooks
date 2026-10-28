@@ -1,0 +1,22 @@
+== pristine copies from committed HEAD 3170a27d ==
+(empty above means clean baseline)
+
+== M69: apply ==
+applied: student-book-cli.ts: '    const outputEntry = fs.lstatSync(out, { thro' -> '    if (fs.existsSync(out) && fs.lstatSync(out).'
+M69: vitest exit=1 (nonzero means the Red test catches the mutant)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R47: rejects output paths that filesystem links redirect outside the print folder
+M69: restore cmp OK
+M69: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== M70: apply ==
+applied: student-book-cli.ts: '        const entry = fs.lstatSync(probe, { thro' -> '        if (fs.existsSync(probe)) return fs.real'
+M70: vitest exit=1 (nonzero means the Red test catches the mutant)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R47: rejects output paths that filesystem links redirect outside the print folder
+M70: restore cmp OK
+M70: git diff --quiet -- dashboard/lib/storytime/print/ exit=0
+
+== final check ==
+student-book-cli.ts restored cmp OK
+final git diff --quiet -- dashboard/lib/storytime/print/ exit=0
