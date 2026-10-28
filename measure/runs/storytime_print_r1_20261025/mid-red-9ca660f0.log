@@ -1,0 +1,37 @@
+status: complete
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: P2
+task: Red 2e (D6)
+phase_base_sha: 03a803c
+role_base_sha: 9ca660f054a4a6250439fe3cc2db0bb0602451a3
+phase scope base resolves; role base resolves. HEAD moved during this task because another track committed concurrently.
+
+Test commit: 87f2b11f01e53357f192450b7daab1a11a930497 (`test(storytime): cover second stroke geometry`), test file only.
+Plan and evidence commit: recorded in this log after commit.
+
+Red run: `RED_TEST_COMMAND` exit 1, Test Files 1 failed / 4 passed (5), Tests 1 failed / 183 passed (184). Only R42's shipped D6 shoulder assertion failed. The mutation assertions passed: the copied V fails the profile rule; the corner path passes the profile rule and fails smoothness; the smooth shoulder path passes profile and smoothness.
+
+R42 sampling: flatten M/L/C/Q into chords of at most 0.125 units, then resample at 0.25 path units. Check profile changes over 1.0-unit intervals with a 0.25-unit tolerance. Compare direction vectors spanning 1.0 unit; the limit is 12 degrees. The shoulder range is y=74–76 in the 100 × 120 box.
+
+R41 values for the copied smooth shoulder path: letter median 175; down fraction 1.00; arch fraction 1.00; arrow wings 2; outside ink 0 px; dot/top gap 0.76 mm; down top/bottom gaps 1.02/2.29 mm; arch bottom gap 2.29 mm. All eight R41 assertions pass.
+
+`PROJECT_LINT` exit 0, no output. `PROJECT_CHECKS` exit 0; the accepted `published` failure remains and tsc is clean.
+Outputs: `mid-red-9ca660f0-red.txt`, `mid-red-9ca660f0-lint.txt`, `mid-red-9ca660f0-checks.txt`.
+
+Dirty paths preserved: cover track files and `video/storytime-song/scripts/render.mjs`.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: P2
+task: Red 2e (D6)
+baseline_sha: 03a803c
+role_base_sha: 9ca660f054a4a6250439fe3cc2db0bb0602451a3
+head: plan/evidence commit to be recorded after it lands
+commits: 87f2b11f01e53357f192450b7daab1a11a930497; plan/evidence commit pending
+tests: RED_TEST_COMMAND exit 1, 1 failed / 183 passed (184), only the shipped D6 R42 assertion; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0.
+files: dashboard/__tests__/storytime-print-student-book.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-9ca660f0*.
+remaining_failures: Expected D6 Red assertion only. The copied V and corner mutants fail their targeted assertions; the smooth copy passes R42 and all R41 assertions.
+handoff: Green 2e starts. Keep the committed Red tests. Change production source only. Preserve R41 and earlier expectations.
