@@ -78,7 +78,7 @@ interface PictureModule {
     ) => Promise<Buffer>;
     checkStorytimeCoverPicture: (png: Buffer, groundTint?: string, minimumFillShare?: number) => string[];
     storytimeCoverFigureLayout: (files: string[], sizePx: { width: number; height: number }) => Promise<FigureBox[]>;
-    checkStorytimeCoverFigureLayout: (boxes: FigureBox[], sizePx: { width: number; height: number }, headBandHeightPx: number) => string[];
+    checkStorytimeCoverFigureLayout: (boxes: FigureBox[], sizePx: { width: number; height: number }, headBandHeightPx: number, sideBandWidthPx?: number) => string[];
 }
 
 interface FigureBox {
@@ -326,6 +326,69 @@ function assertPanel(doc: ParentNode, summary: StorytimeCoverBook['summary']): v
         expectBox(panel!, { left: 12, top: 48, width: 186, height: 138 });
         expect(text(panel!)).toContain(summary.text);
     }
+}
+
+/** The ground tint of each level (spec FR-2.4, the terms of the spec). */
+const GROUND_TINTS: Record<number, string> = { 1: '#F9E1D2', 2: '#D4E4F1', 3: '#D8EBDD', 4: '#E6DCF1' };
+
+/** The tolerance of a figure pixel against the ground tint, per RGB channel (spec FR-2.7). */
+const FIGURE_TOLERANCE = 24;
+
+/** The clear band at each side of the picture area, in millimetres (Check finding C2). */
+const SIDE_BAND_MM = 3;
+
+/** The rows of a picture that the rounded corners do not reach, in millimetres. */
+const CORNER_ROWS_MM = 6;
+
+/** The raw pixels of a picture. */
+interface RawPixels {
+    data: Buffer;
+    info: { width: number; height: number; channels: 1 | 2 | 3 | 4 };
+}
+
+/**
+ * Composes the cover picture of one shipped book on the ground tint of its level.
+ * @param mod The picture module.
+ * @param data The shipped data of the 16 books.
+ * @param level The level of the book.
+ * @param unit The unit of the book.
+ * @param size The size of the picture area, in pixels.
+ * @returns The picture, its raw pixels, and the tint of the level.
+ */
+async function composeBookPicture(
+    mod: PictureModule,
+    data: StorytimeCoverData,
+    level: number,
+    unit: number,
+    size: { width: number; height: number },
+): Promise<{ png: Buffer; raw: RawPixels; tint: string }> {
+    const book = bookOf(data, level, unit);
+    const tint = GROUND_TINTS[level];
+    const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+    const png = await mod.composeStorytimeCoverPicture(files, size, tint, book.title);
+    const { default: sharp } = await import('sharp');
+    const raw: RawPixels = await sharp(png).raw().toBuffer({ resolveWithObject: true });
+    return { png, raw, tint };
+}
+
+/**
+ * Counts the figure pixels of one box of a picture. A pixel is a figure pixel when it differs
+ * from the ground tint by more than the tolerance in one RGB channel.
+ * @param raw The raw pixels of the picture.
+ * @param tint The ground tint of the level.
+ * @param box The box, in pixels.
+ * @returns The count of the figure pixels.
+ */
+function figurePixels(raw: RawPixels, tint: string, box: { left: number; top: number; width: number; height: number }): number {
+    const ground = [0, 1, 2].map((channel) => Number.parseInt(tint.slice(channel * 2 + 1, channel * 2 + 3), 16));
+    let count = 0;
+    for (let y = box.top; y < box.top + box.height; y++) {
+        for (let x = box.left; x < box.left + box.width; x++) {
+            const index = (y * raw.info.width + x) * raw.info.channels;
+            if ([0, 1, 2].some((channel) => Math.abs(raw.data[index + channel] - ground[channel]) > FIGURE_TOLERANCE)) count++;
+        }
+    }
+    return count;
 }
 
 afterEach(() => {
@@ -1001,4 +1064,90 @@ describe('Storytime 16-book covers', () => {
         }
         expect(await countInk(path.join(out, 'back.png'), { left: 28, top: 61, width: 160, height: 110 }, 'dark'), 'Back panel dark text ink').toBeGreaterThan(1000);
     }, 300000);
+
+    it('R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('composeStorytimeCoverPicture');
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const band = mmToPx(SIDE_BAND_MM);
+        const data = dataModule.loadStorytimeCoverBooks();
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const { raw, tint } = await composeBookPicture(mod, data, level, unit, size);
+            const rows = { top: mmToPx(CORNER_ROWS_MM), height: raw.info.height - 2 * mmToPx(CORNER_ROWS_MM) };
+            const left = figurePixels(raw, tint, { left: 0, top: rows.top, width: band, height: rows.height });
+            expect(left, `Level ${level} Unit ${unit} left side band holds no figure pixel`).toBe(0);
+            const right = figurePixels(raw, tint, { left: raw.info.width - band, top: rows.top, width: band, height: rows.height });
+            expect(right, `Level ${level} Unit ${unit} right side band holds no figure pixel`).toBe(0);
+        }
+    }, 120000);
+
+    it('R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('composeStorytimeCoverPicture', 'checkStorytimeCoverPicture');
+        const { default: sharp } = await import('sharp');
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const data = dataModule.loadStorytimeCoverBooks();
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const { png, raw, tint } = await composeBookPicture(mod, data, level, unit, size);
+            expect(mod.checkStorytimeCoverPicture(png, tint, 0.58), `Level ${level} Unit ${unit} picture check`).toEqual([]);
+            const copy = Buffer.from(raw.data);
+            const blockWidth = 20;
+            const blockHeight = 200;
+            const blockTop = Math.floor((raw.info.height - blockHeight) / 2);
+            for (let y = blockTop; y < blockTop + blockHeight; y++) {
+                for (let x = 0; x < blockWidth; x++) {
+                    const index = (y * raw.info.width + x) * raw.info.channels;
+                    copy[index] = 0;
+                    copy[index + 1] = 0;
+                    copy[index + 2] = 0;
+                }
+            }
+            const file = path.join(temporaryFolder(), `l${level}u${unit}-left-side-mutant.png`);
+            await sharp(copy, { raw: { width: raw.info.width, height: raw.info.height, channels: raw.info.channels } }).png().toFile(file);
+            const mutant = fs.readFileSync(file);
+            const mutantRaw = await sharp(mutant).raw().toBuffer({ resolveWithObject: true });
+            const ground = [0, 1, 2].map((channel) => Number.parseInt(tint.slice(channel * 2 + 1, channel * 2 + 3), 16));
+            const inset = mmToPx(8);
+            for (const [x, y] of [[inset, inset], [mutantRaw.info.width - 1 - inset, inset], [inset, mutantRaw.info.height - 1 - inset], [mutantRaw.info.width - 1 - inset, mutantRaw.info.height - 1 - inset]]) {
+                const index = (y * mutantRaw.info.width + x) * mutantRaw.info.channels;
+                expect([0, 1, 2].every((channel) => Math.abs(mutantRaw.data[index + channel] - ground[channel]) <= 6), `Level ${level} Unit ${unit} mutant corner ${x},${y} holds the tint`).toBe(true);
+            }
+            const errors = mod.checkStorytimeCoverPicture(mutant, tint, 0.58);
+            expect(errors.length, `The copied left side mutant of Level ${level} Unit ${unit} fails the picture check`).toBeGreaterThan(0);
+            expect(errors.join(' '), `The error of Level ${level} Unit ${unit} names the side or the edge`).toMatch(/left|right|edge/i);
+        }
+    }, 120000);
+
+    it('R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('storytimeCoverFigureLayout', 'checkStorytimeCoverFigureLayout');
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const headBand = mmToPx(8);
+        const sideBand = mmToPx(SIDE_BAND_MM);
+        const data = dataModule.loadStorytimeCoverBooks();
+        const book = bookOf(data, 2, 1);
+        const files = recipeFiles(book).map((file) => path.isAbsolute(file) ? file : path.join(repoRoot, file));
+        const boxes = await mod.storytimeCoverFigureLayout(files, size);
+        const copy = structuredClone(boxes);
+        copy[0].left = 0;
+        const file = path.join(temporaryFolder(), 'l2u1-left-edge-boxes.json');
+        fs.writeFileSync(file, JSON.stringify(copy));
+        const loaded = JSON.parse(fs.readFileSync(file, 'utf8')) as FigureBox[];
+        const errors = mod.checkStorytimeCoverFigureLayout(loaded, size, headBand, sideBand);
+        expect(errors.length, 'A copied box list with a figure at the left edge fails the layout check').toBeGreaterThan(0);
+        expect(errors.join(' '), 'The layout error names the side or the edge').toMatch(/left|right|edge|side/i);
+    }, 120000);
+
+    it('R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture', async () => {
+        const dataModule = await covers('loadStorytimeCoverBooks');
+        const mod = await pictures('composeStorytimeCoverPicture');
+        const size = { width: mmToPx(186), height: mmToPx(180) };
+        const data = dataModule.loadStorytimeCoverBooks();
+        for (const [level, unit] of [[1, 1], [2, 1], [4, 4]] as const) {
+            const { raw, tint } = await composeBookPicture(mod, data, level, unit, size);
+            const inset = mmToPx(CORNER_ROWS_MM);
+            const top = figurePixels(raw, tint, { left: inset, top: 0, width: raw.info.width - 2 * inset, height: mmToPx(8) });
+            expect(top, `Level ${level} Unit ${unit} top 8 mm band holds no figure pixel`).toBe(0);
+        }
+    }, 120000);
 });
