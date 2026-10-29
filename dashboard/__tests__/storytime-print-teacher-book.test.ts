@@ -77,4 +77,40 @@ describe('Storytime teacher-book print: Thai week 1', () => {
         const output = execFileSync(process.execPath, ['--import', 'tsx', script, '--help'], { encoding: 'utf8' });
         expect(output).toContain('make-teacher-book-print.ts');
     });
+
+    it('R-F-P3-1 exports the exact K-only PDF/X flag list', async () => {
+        const scriptFile = path.resolve(__dirname, '../scripts/storytime/make-teacher-book-print.ts');
+        expect(fs.existsSync(scriptFile), 'Missing teacher-book print script.').toBe(true);
+        const ts = await import('typescript');
+        const source = ts.createSourceFile(scriptFile, fs.readFileSync(scriptFile, 'utf8'), ts.ScriptTarget.Latest, true);
+        const flagName = 'STORYTIME_TEACHER_PDFX_FLAGS';
+        const statement = source.statements.find((node) => ts.isVariableStatement(node)
+            && node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword)
+            && node.declarationList.declarations.some((declaration) => declaration.name.getText(source) === flagName));
+        const declaration = statement && ts.isVariableStatement(statement)
+            ? statement.declarationList.declarations.find((node) => node.name.getText(source) === flagName) : undefined;
+        const value = declaration?.initializer;
+        const array = value && ts.isAsExpression(value) ? value.expression : value;
+        expect(array && ts.isArrayLiteralExpression(array), `Export ${flagName} as a literal flag list.`).toBe(true);
+        if (!array || !ts.isArrayLiteralExpression(array)) throw new Error(`Missing ${flagName} flag list.`);
+        expect(array.elements.map((node) => ts.isStringLiteral(node) ? node.text : node.getText(source)))
+            .toEqual(['--keep-fonts', '--k-only']);
+    });
+
+    it('R-F-P3-1 uses the exported K-only flags in the production PDF/X conversion call', async () => {
+        const scriptFile = path.resolve(__dirname, '../scripts/storytime/make-teacher-book-print.ts');
+        const ts = await import('typescript');
+        const source = ts.createSourceFile(scriptFile, fs.readFileSync(scriptFile, 'utf8'), ts.ScriptTarget.Latest, true);
+        const flagName = 'STORYTIME_TEACHER_PDFX_FLAGS';
+        let wired = false;
+        const visit = (node: import('typescript').Node): void => {
+            if (ts.isCallExpression(node) && node.arguments.some((arg) => ts.isArrayLiteralExpression(arg)
+                && arg.elements.some((item) => ts.isStringLiteral(item) && item.text === 'scripts/print/make-pdfx.ts')
+                && arg.elements.some((item) => ts.isSpreadElement(item) && ts.isIdentifier(item.expression)
+                    && item.expression.text === flagName))) wired = true;
+            ts.forEachChild(node, visit);
+        };
+        visit(source);
+        expect(wired, `The make-pdfx call must spread ${flagName}.`).toBe(true);
+    });
 });
