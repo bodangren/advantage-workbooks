@@ -338,8 +338,13 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - The agent opened the contact sheet and three review sheets of 8 pages at 70 dpi, and looked at all 23 pages. Defects: none found in the layout (no clipped text, no overflow, no empty page, a page number on pages 2 to 23).
     - Finding F-P3-1 for the orchestrator: `gs inkcov` shows C, M, and Y ink on the pages (page 1: C=M=Y=K=0.02106). Spec P2 says "Teacher book: A4, black only". This build follows the plan row (`--keep-fonts` only). A version 2 with `--k-only` waits for the orchestrator's decision.
     - Finding F-P3-2 for Daniel: the approved text still names items that the 2026-10-25 and 2026-10-26 decisions took out of release 1: "big book or screen" (4 times, P8), "books (one for each pair)" (7 times, P10), "center cards" and "group signs" (2 times each, P9), "name cards" (2 times, P9). The text gate cannot see this, because the draft has the same text. A change goes to the week data, not to this build.
-- [~] Task (Red F-P3-1): the teacher book print file is black only (spec P2). Tests in `__tests__/storytime-print-teacher-book.test.ts`.
-- [ ] Task (Green F-P3-1): `make-teacher-book-print.ts` converts with `--keep-fonts --k-only`, and the week 1 teacher book is built again as version 2 into `~/Desktop/print-ready/storytime/teacher-book-w01/`; the v1 files stay unchanged. Done when: the four Green gates pass, `PRINT_GATE` passes on the v2 file, `gs inkcov` gives C=M=Y=0 on each page, and the text gate gives 0 differences.
+- [x] Task (Red F-P3-1): the teacher book print file is black only (spec P2). Tests in `__tests__/storytime-print-teacher-book.test.ts`. commit 053cae7c. Evidence: automated.
+  - RED_EXIT=1. Two new tests fail by assertion: no export `STORYTIME_TEACHER_PDFX_FLAGS`, and no spread of it in the make-pdfx call.
+  - Teacher-book file alone: 9 tests, 7 passed, 2 failed (the two new R-F-P3-1 tests). The older CLI help test passed (870 ms).
+  - Full suite run 2: 335 of 338 passed. The CLI help test timed out at 5000 ms under load. It passed when run alone. Student-book file: 70 of 70 passed in run 2.
+  - LINT_EXIT=0. CHECKS_EXIT=0 (check-weeks exit 1 from the pre-existing published FAIL on st2/1; the FAIL-count rule allows it).
+  - Evidence files: `measure/runs/storytime_print_r1_20261025/mid-red-fba91c27-{red,lint,checks}.txt`.
+- [~] Task (Green F-P3-1): `make-teacher-book-print.ts` converts with `--keep-fonts --k-only`, and the week 1 teacher book is built again as version 2 into `~/Desktop/print-ready/storytime/teacher-book-w01/`; the v1 files stay unchanged. Done when: the four Green gates pass, `PRINT_GATE` passes on the v2 file, `gs inkcov` gives C=M=Y=0 on each page, and the text gate gives 0 differences.
 - [ ] Task: Measure - User Manual Verification 'Phase 3: Teacher book print file, week 1' (Protocol in workflow.md)
 
 ## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
