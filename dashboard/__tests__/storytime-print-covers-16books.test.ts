@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { afterAll, afterEach, describe, expect, it } from 'vitest';
 import { BACK_LINES } from '../lib/covers/back-text';
@@ -436,6 +437,16 @@ function candidateWords(week: StorytimeWeek): string[] {
     return out.map((word) => word.toLowerCase());
 }
 
+function candidateWordOccurrences(week: StorytimeWeek): string[] {
+    const words: string[] = [];
+    for (const entry of week.focus.family.words) words.push(entry.word);
+    for (const word of week.home?.words ?? []) words.push(word);
+    for (const book of week.books) for (const word of book.backWords) words.push(word);
+    for (const book of week.books) for (const page of book.pages) words.push(...(page.text.match(/[a-z]+/gi) ?? []));
+    for (const word of week.focus.trickyWords) words.push(word);
+    return words;
+}
+
 interface ExpectedPanel {
     sounds: string[];
     decodable: string[];
@@ -802,6 +813,80 @@ describe('Storytime 16-book covers', () => {
             expect(missingLineTexts(printBack), 'The print HTML omits the mock-only line.').toHaveLength(0);
         }
         expect(BACK_LINES.contact, 'The approved contact lines remain unchanged.').toHaveLength(5);
+    });
+
+    it('R27: panel word case follows every source occurrence, without changing order or repeats (M23)', async () => {
+        const mod = await covers('loadStorytimeCoverBooks', 'storytimeCoverPanelValues');
+        const book = bookOf(readBooksFile(), 2, 1);
+        const ctx = panelCtx(2);
+        const values = mod.storytimeCoverPanelValues!(book, ctx);
+        const unit = unitWeeks(book, ctx);
+        const occurrences = unit.flatMap(candidateWordOccurrences);
+        const expectedCase = (item: string): string => {
+            const matches = occurrences.filter((word) => word.toLowerCase() === item.toLowerCase());
+            expect(matches.length, `${item} has source occurrences in the shipped weeks.`).toBeGreaterThan(0);
+            const allCapital = matches.every((word) => /^[A-Z]/.test(word));
+            const lower = item.toLowerCase();
+            return allCapital ? `${lower[0].toUpperCase()}${lower.slice(1)}` : lower;
+        };
+        const decodable = panelValue(values, 'decodable').items;
+        const sight = panelValue(values, 'sight').items;
+        for (const item of [...decodable, ...sight]) {
+            expect(item, `D11.5 case for ${item} is derived from every source occurrence.`).toBe(expectedCase(item));
+        }
+        for (const item of ['Nan', 'Pam', 'Pat', 'Sam', 'Tom']) {
+            expect(decodable, `Decodable display includes ${item}.`).toContain(item);
+            expect(decodable, `Decodable display excludes lower-case ${item}.`).not.toContain(item.toLowerCase());
+        }
+        expect(sight, 'Sight display includes I.').toContain('I');
+        expect(sight, 'Sight display excludes lower-case i.').not.toContain('i');
+        for (const item of ['a', 'can', 'pan', 'tap', 'mom']) {
+            expect([...decodable, ...sight], `A lower-case source occurrence displays ${item} in lower case.`).toContain(item);
+            expect([...decodable, ...sight], `The display excludes the capitalized form of ${item}.`).not.toContain(`${item[0].toUpperCase()}${item.slice(1)}`);
+        }
+        for (const field of ['decodable', 'sight'] as const) {
+            const items = panelValue(values, field).items;
+            expect(items.map((item) => item.toLowerCase()), `${field} keeps the independently derived first positions.`)
+                .toEqual(expectedPanel(book, ctx)[field].map((item) => item.toLowerCase()));
+            expect(new Set(items.map((item) => item.toLowerCase())).size, `${field} repeats remain case-insensitive.`)
+                .toBe(items.length);
+        }
+    });
+
+    it('R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)', async () => {
+        const mod = await covers('loadStorytimeCoverBooks', 'storytimeCoverPanelValues');
+        const book = bookOf(readBooksFile(), 2, 1);
+        const ctx = panelCtx(2);
+        const shipped = mod.storytimeCoverPanelValues!(book, ctx);
+        const books = panelValue(shipped, 'books');
+        expect(books.items, 'The shipped books field has 14 titles.').toHaveLength(14);
+        expect(books.value, 'The books field joins titles with semicolon and space.')
+            .toBe(books.items.join('; '));
+        expect(books.value.split('; '), 'The joined books field splits into 14 titles.').toHaveLength(14);
+        expect(books.items[11], 'Item 12 keeps its internal comma.').toBe('Tap, Tap!');
+    });
+
+    it('R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title', async () => {
+        const mod = await covers('loadStorytimeCoverBooks', 'storytimeCoverPanelValues');
+        const book = bookOf(readBooksFile(), 2, 1);
+        const ctx = panelCtx(2);
+        const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-covers-r28-'));
+        temporaryFolders.push(tempRoot);
+        const levelDir = path.join(tempRoot, 'l2');
+        fs.mkdirSync(levelDir, { recursive: true });
+        for (let week = 1; week <= 8; week++) {
+            const source = storytimeWeekFile(STORYTIME_ROOT, 2, week);
+            fs.copyFileSync(source, path.join(levelDir, path.basename(source)));
+        }
+        const mutatedFile = path.join(levelDir, 'w01.json');
+        const mutated = JSON.parse(fs.readFileSync(mutatedFile, 'utf8')) as StorytimeWeek;
+        const reader = mutated.books.find((row) => row.kind === 'readalong' || row.kind === 'decodable');
+        expect(reader, 'Week 1 has a reader title to mutate.').toBeDefined();
+        reader!.title = 'Tap; Mutated title';
+        fs.writeFileSync(mutatedFile, JSON.stringify(mutated));
+        const copiedWeeks = readLevelWeeks(tempRoot, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+        expect(() => mod.storytimeCoverPanelValues!(book, { weeks: copiedWeeks, graph: ctx.graph }))
+            .toThrow(/Level 2 Unit 1.*Tap; Mutated title/);
     });
 
     it('R4: the front holds the series name, the picture area, and the level card, and no badge', async () => {
