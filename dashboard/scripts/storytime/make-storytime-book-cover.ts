@@ -8,6 +8,7 @@ import { REPO_ROOT } from '../../lib/lesson-package/files';
 import { readLevelWeeks, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import {
     checkStorytimeCoverData,
+    checkStorytimeCoverOutDir,
     loadStorytimeCoverBooks,
     renderStorytimeCover,
     storytimeCoverCornerMode,
@@ -204,9 +205,9 @@ async function main(argv: string[]): Promise<number> {
         console.error(`--unit must be a unit of the series (1 to 4).\n\n${USAGE}`);
         return 2;
     }
+    const printReadyRoot = path.join(os.homedir(), 'Desktop', 'print-ready');
     if (!out) {
         if (version === 3) {
-            const printReadyRoot = path.join(os.homedir(), 'Desktop', 'print-ready');
             out = path.join(storytimeCoverDefaultOutDir(version, printReadyRoot), `l${level}u${unit}`);
         } else {
             console.error(`--out is the output folder.\n\n${USAGE}`);
@@ -215,6 +216,11 @@ async function main(argv: string[]): Promise<number> {
     }
     if (!Number.isInteger(version) || version < 1) {
         console.error(`--version must be 1 or more.\n\n${USAGE}`);
+        return 2;
+    }
+    const outDirErrors = checkStorytimeCoverOutDir(out, version, printReadyRoot);
+    if (outDirErrors.length) {
+        for (const error of outDirErrors) console.error(error);
         return 2;
     }
 

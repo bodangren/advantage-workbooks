@@ -128,6 +128,7 @@ interface CoverModule {
     storytimeCoverPanelChosenPt?: (values: StorytimeCoverPanelValue[], inset: { widthMm: number; heightMm: number }) => number;
     storytimeCoverPanelOverflows?: (values: StorytimeCoverPanelValue[], pt: number, inset: { widthMm: number; heightMm: number }) => boolean;
     storytimeCoverDefaultOutDir?: (version: number, printReadyRoot: string) => string;
+    checkStorytimeCoverOutDir?: (out: string, version: number, printReadyRoot: string) => string[];
 }
 
 interface PictureModule {
@@ -250,12 +251,13 @@ function pdfxCheck(file: string): number {
     }
 }
 
-function runScript(args: string[]): { status: number; output: string } {
+function runScript(args: string[], env?: Record<string, string>): { status: number; output: string } {
     requireScript();
     requireHeavyWrapper();
+    const childEnv = env ? { ...process.env, ...env } : process.env;
     try {
         const output = execFileSync(process.execPath, ['--import', 'tsx', scriptFile, ...args], {
-            cwd: dashboardRoot, encoding: 'utf8', timeout: 180000, maxBuffer: 8 * 1024 * 1024,
+            cwd: dashboardRoot, encoding: 'utf8', timeout: 180000, maxBuffer: 8 * 1024 * 1024, env: childEnv,
         });
         return { status: 0, output };
     } catch (error) {
@@ -983,6 +985,48 @@ describe('Storytime 16-book covers', () => {
         expect(result.status, 'A print build cannot use draft-week values (M21).').not.toBe(0);
         expect(result.output, 'The print build names a rejected draft source.').toMatch(/draft|approved/i);
         expect(fs.readdirSync(out), 'A rejected print build writes no files.').toEqual([]);
+    }, 360000);
+
+    it('R29: a build stops when its output folder is inside the folder of another version', async () => {
+        const mod = await covers('checkStorytimeCoverOutDir');
+        const root = temporaryFolder();
+        const storytimeRoot = path.join(root, 'storytime');
+        for (const folder of ['proof', 'proof-v2', 'proof-v3']) fs.mkdirSync(path.join(storytimeRoot, folder), { recursive: true });
+        const check = (out: string, version: number) => mod.checkStorytimeCoverOutDir!(out, version, root);
+        const refuse = (out: string, version: number, folder: string, other: number) => {
+            const errors = check(out, version);
+            expect(errors.length, `A version ${version} build into ${out} must stop.`).toBeGreaterThan(0);
+            expect(errors.join(' '), 'The error names the folder of the other version.').toContain(`"${folder}"`);
+            expect(errors.join(' '), 'The error names the version of the other folder.').toContain(`version ${other}`);
+        };
+        refuse(path.join(storytimeRoot, 'proof', 'l2u1'), 3, 'proof', 1);
+        refuse(path.join(storytimeRoot, 'proof-v2', 'l2u1'), 3, 'proof-v2', 2);
+        const link = path.join(root, 'link');
+        fs.symlinkSync(path.join(storytimeRoot, 'proof'), link);
+        refuse(path.join(link, 'l2u1'), 3, 'proof', 1);
+        expect(check(path.join(storytimeRoot, 'proof-v3', 'l2u1'), 3), 'A version 3 build into proof-v3 is safe.').toEqual([]);
+        expect(check(path.join(storytimeRoot, 'proof', 'l2u1'), 1), 'A version 1 build into proof is safe.').toEqual([]);
+        expect(check(path.join(storytimeRoot, 'proof-v2', 'l2u1'), 2), 'A version 2 build into proof-v2 is safe.').toEqual([]);
+        const linked = path.join(storytimeRoot, 'proof-v3', 'l2u1');
+        fs.mkdirSync(linked, { recursive: true });
+        const seed = path.join(root, 'seed.png');
+        fs.writeFileSync(seed, 'seed bytes\n');
+        fs.symlinkSync(seed, path.join(linked, 'front.png'));
+        expect(check(linked, 3).join(' '), 'A symbolic link file in the output folder stops the build.').toContain('front.png');
+    });
+
+    it('R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file', async () => {
+        requireScript();
+        const home = temporaryFolder();
+        const out = path.join(home, 'Desktop', 'print-ready', 'storytime', 'proof', 'l2u1');
+        fs.mkdirSync(out, { recursive: true });
+        const seed = 'the version 1 front\n';
+        fs.writeFileSync(path.join(out, 'front.png'), seed);
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out], { HOME: home });
+        expect(result.status, 'A version 3 build into the version 1 folder exits 2.').toBe(2);
+        expect(result.output, 'The build names the other folder and its version.').toMatch(/"proof" \(version 1\)/);
+        expect(fs.readFileSync(path.join(out, 'front.png'), 'utf8'), 'The seed file stays unchanged.').toBe(seed);
+        expect(fs.readdirSync(out).sort(), 'The stopped build writes no file.').toEqual(['front.png']);
     }, 360000);
 
     it('R6: the copy check reads page text and fails a bypass, including a line with never', async () => {

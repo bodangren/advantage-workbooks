@@ -711,6 +711,95 @@ export function storytimeCoverDefaultOutDir(version: number, printReadyRoot: str
     return path.join(printReadyRoot, 'storytime', version <= 1 ? 'proof' : `proof-v${version}`);
 }
 
+/** The files that a cover build writes with a fixed name into the output folder. */
+const STORYTIME_COVER_OUT_FILES = ['front.png', 'back.png', 'cover.pdf', 'corner-mode.txt', 'build-report.json'] as const;
+
+/**
+ * Resolves a path through the symbolic links of its deepest existing ancestor, so that a path
+ * that does not exist yet still compares equal to the real path of its folder.
+ * @param target The path to resolve.
+ * @returns The resolved path.
+ */
+function storytimeCoverRealPath(target: string): string {
+    const missing: string[] = [];
+    let probe = path.resolve(target);
+    for (let hop = 0; hop < 64; hop++) {
+        try {
+            return path.join(fs.realpathSync(probe), ...missing);
+        } catch {
+            const parent = path.dirname(probe);
+            if (parent === probe) return path.resolve(target);
+            missing.unshift(path.basename(probe));
+            probe = parent;
+        }
+    }
+    return path.resolve(target);
+}
+
+/**
+ * The version of a version folder: `proof` is version 1, `proof-v<n>` is version n.
+ * @param name The name of the folder.
+ * @returns The version, or undefined when the name is not a version folder.
+ */
+function storytimeCoverFolderVersion(name: string): number | undefined {
+    if (name === 'proof') return 1;
+    const match = /^proof-v(\d+)$/.exec(name);
+    return match ? Number(match[1]) : undefined;
+}
+
+/**
+ * The version folders of the Storytime folder that exist now.
+ * @param storytimeRoot The `<print-ready>/storytime` folder.
+ * @returns The folder names.
+ */
+function storytimeCoverVersionFolders(storytimeRoot: string): string[] {
+    try {
+        return fs.readdirSync(storytimeRoot).filter((name) => storytimeCoverFolderVersion(name) !== undefined);
+    } catch {
+        return [];
+    }
+}
+
+/**
+ * The check of an output folder against the folders of the other versions (FR-5.7). A version 3
+ * build must not write into `proof` or into `proof-v2`, because every build writes the same fixed
+ * file names. The check resolves symbolic links first, so a link to an older folder is caught too.
+ * @param out The output folder of the build.
+ * @param version The version of the build.
+ * @param printReadyRoot The print-ready root, for example `~/Desktop/print-ready`.
+ * @returns The errors (empty when the build may write there).
+ */
+export function checkStorytimeCoverOutDir(out: string, version: number, printReadyRoot: string): string[] {
+    const errors: string[] = [];
+    const storytimeRoot = path.join(printReadyRoot, 'storytime');
+    const target = storytimeCoverRealPath(out);
+    for (const name of storytimeCoverVersionFolders(storytimeRoot)) {
+        const other = storytimeCoverFolderVersion(name)!;
+        if (other === version) continue;
+        let real: string;
+        try {
+            real = fs.realpathSync(path.join(storytimeRoot, name));
+        } catch {
+            continue;
+        }
+        if (target === real || target.startsWith(`${real}${path.sep}`)) {
+            errors.push(`The output folder "${out}" is inside "${name}" (version ${other}). A version ${version} build writes to "${storytimeCoverDefaultOutDir(version, printReadyRoot)}" or to another folder.`);
+        }
+    }
+    if (fs.existsSync(out)) {
+        for (const file of STORYTIME_COVER_OUT_FILES) {
+            try {
+                if (fs.lstatSync(path.join(out, file)).isSymbolicLink()) {
+                    errors.push(`The output folder "${out}" holds "${file}" as a symbolic link, and a cover build writes a new file with that name.`);
+                }
+            } catch {
+                // No such file, so the build writes a new one.
+            }
+        }
+    }
+    return errors;
+}
+
 /**
  * Normalises the text of a page before the copy check: one case, one space, one dash.
  * @param text The text of a page.
