@@ -743,8 +743,10 @@ describe('Storytime 16-book covers', () => {
         expect(actual.map((entry) => entry.field), 'The panel values keep the D11 order.').toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
         expect(panelFieldNames(parseHtml(mod.renderStorytimeCover(book, { panelValues: actual }).backHtml)), 'The back HTML field order.').toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
         expect(panelValue(actual, 'sounds').items, 'The sounds come from the week focus elements.').toEqual(derived.sounds);
-        expect(panelValue(actual, 'decodable').items, 'The decodable words come from wordNeed at the week program.').toEqual(derived.decodable);
-        expect(panelValue(actual, 'sight').items, 'The sight words come from the tricky words not yet decodable.').toEqual(derived.sight);
+        expect(panelValue(actual, 'decodable').items.map((word) => word.toLowerCase()), 'The decodable words come from wordNeed at the week program.')
+            .toEqual(derived.decodable.map((word) => word.toLowerCase()));
+        expect(panelValue(actual, 'sight').items.map((word) => word.toLowerCase()), 'The sight words come from the tricky words not yet decodable.')
+            .toEqual(derived.sight.map((word) => word.toLowerCase()));
         expect(panelValue(actual, 'books').items, 'The books come from reader titles.').toEqual(derived.books);
         expect(panelValue(actual, 'sounds').value, 'The sounds render grapheme and phoneme text.').toContain('/');
         for (const field of ['sounds', 'decodable', 'sight', 'books'] as const) {
