@@ -44,7 +44,7 @@ Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines com
 
 Risk: Phase 2 waits for Daniel's approval on Drive. If his approval comes after 2026-11-05, the print track Phase 5 loses the Level 2 Unit 1 cover print file. The PM session decides then.
 
-## Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+## Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01) [checkpoint: a6ee1b2]
 
 _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/covers/make-cover.ts`, `__tests__/covers-render.test.ts`) and `lib/covers/back-text.ts` (2 callers) are read, not changed. `lib/qr-generator.ts` (3 callers) is read, not changed. `lib/covers/catalogue.ts` (`COVER_BOOKS`) does not change. The print track Phase 5 must not create `lib/storytime/print/covers.ts` again: the orchestrator routes that change._
 
