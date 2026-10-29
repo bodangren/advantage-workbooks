@@ -1,87 +1,85 @@
 # A-30 Book Editions Plan
 
-Status: plan v1, 2026-10-29
+Status: plan v2, 2026-10-29
 
 ## Summary
 
-- Daniel's request requires graph-first work across the Primary book range and parallel editions for two legacy books.
-- The repository has objective and vocabulary tags in all sixteen book folders, but only two books also have complete approved graph-first evidence.
-- Repository evidence agrees with the PM default that Origins 3.2 and Quest 4 need no rewrite.
-- Schedule: finish the A-29 samples first, then rewrite fourteen Primary books from 2027-01-25 to 2027-06-18.
-- This plan adds no new print dates. It keeps Storytime and A-29 dates unchanged.
+- The package check covered 224 lessons. It passed every check; it reported 150 warnings.
+- The check measures package quality, not whether authors selected graph nodes before writing.
+- Keep separate editions for printed books and books with live learner records.
+- Begin the rewrite after the Storytime work reaches its 2026-11-18 milestone; finish by 2027-02-26.
+- Use current packages for A-29 samples. Rewriting 11 sample books first adds about 22 review hours.
 
-Daniel's words mean all books need graph-first rewrites, with legacy Origins 2 and Origins 3.1 still selectable until stock ends. They do not authorize a stock cut-over date.
+Daniel's instruction requires graph-first work for every Primary book. Keep the printed Origins 2 and Origins 3.1 editions available until stock ends. Do not set a cut-over date.
 
 ## (a) Graph-first rewrite
 
-**Repeatable test:** count a lesson as graph-first only when its package contains mapped target objective IDs and graph vocabulary tags, its lesson is approved, and its text check passed against the named graph release. A book passes only when every lesson passes.
+**Repeatable check:** run `check-lesson-package.ts` with the pinned vocabulary graph for each package. A lesson passes when the report has no failed checks. This check does not prove that the writer chose graph nodes before drafting.
 
-Evidence scan: packages are under `content/primary/<folder>/`; each listed book has fourteen lessons. Every book has mapped objective and vocabulary tags on all 14 lessons. Origins 1, Origins 2, Origins 3.1, Origins 3.2, and Quest 4 also have 14/14 lesson approvals. The documented vocabulary graph check appears in the Origins 3.2 and Quest 4 plans. The other 11 books lack evidence of a graph check or lesson approval. Treat their status as unproven, not as proof that their content lacks graph alignment. Book-level `project.json` files are in `primary/<book>-<level>/`, not in `content/primary/`.
+I ran the check on 224 packages using vocabulary graph `../mastery-advantage/english/cefr-vocabulary/cefr-vocabulary-knowledge-space.json`. Output: `/tmp/a30-graph-check.txt`. The tool reported 0 failed checks and 150 warnings. The main warning was `bank-level`; Origins 3.1 also had four `print-set` warnings and one `activities` warning. These warnings do not count as failed checks. Every book had 14/14 package passes and 0/14 failures.
 
-The cited release currently recorded in `tags.json` is GSE `7344a27` and vocabulary `1e10cf9`. Pin the accepted graph commit and hash in each release manifest before rewrite approval.
+The rewrite size below follows the graph-first mandate, not the package check failures. For books that need a new edition, author all 14 lessons as graph-first content; preserve the legacy package tree. For books without print or learner records, rewrite the existing package tree before first print. Origins 3.2 and Quest 4 need no rewrite under the PM default, which repository plans support. Their editions are already on order with the Origins 3.1 lesson-12 graph-first insert.
 
-| Order | Book | Edition key today | Printed? | Graph-first evidence | Rewrite size | Start–end | Daniel review | Risk |
-|---:|---|---|---|---|---:|---|---:|---|
-| 1 | Origins 1 | `o1` | Yes | 14/14 tagged and approved; graph-check evidence absent | 14 | Jan 25–Feb 5 | 4 h | Confirm graph-check record before rewrite start. |
-| 2 | Origins 2 | `o2` | Yes | 14/14 tagged and approved; legacy edition still needs graph-first rewrite | 14 | Feb 8–19 | 4 h | Keep the legacy edition untouched. |
-| 3 | Origins 3.1 | `o3-1` | Yes | 14/14 tagged and approved; E12 insert is not a complete graph-first edition | 14 | Feb 22–Mar 5 | 4 h | Verify live lesson-12 insert mapping before manifest freeze. |
-| 4 | Origins 3.2 | `o3-2` | Yes | 14/14 tagged and approved; plan records graph check | 0 | No rewrite | 0 h | Default agrees with repository evidence. |
-| 5 | Quest 4 | `q4` | Yes | 14/14 tagged and approved; plan records vocabulary graph check | 0 | No rewrite | 0 h | Default agrees with repository evidence. |
-| 6 | Quest 5 | `q5` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Mar 8–12 | 2 h | Printer file is ON HOLD; keep that hold. |
-| 7 | Quest 6.1 | `q6-1` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Mar 15–19 | 2 h | Confirm legacy key mapping. |
-| 8 | Quest 6.2 | `q6-2` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Mar 22–26 | 2 h | Confirm legacy key mapping. |
-| 9 | Adventure 7.1 | `a7-1` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Mar 29–Apr 2 | 2 h | Confirm print label and edition key. |
-| 10 | Adventure 7.2 | `a7-2` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Apr 5–9 | 2 h | Confirm print label and edition key. |
-| 11 | Adventure 8.1 | `a8-1` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Apr 12–16 | 2 h | Confirm print label and edition key. |
-| 12 | Adventure 8.2 | `a8-2` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Apr 19–23 | 2 h | Confirm print label and edition key. |
-| 13 | Adventure 8.3 | `a8-3` | Yes | 14/14 tagged; no approval or graph-check record | 14 | Apr 26–30 | 2 h | Confirm print label and edition key. |
-| 14 | Adventure 9.1 | `a9-1` | Yes | 14/14 tagged; no approval or graph-check record | 14 | May 3–7 | 2 h | Confirm print label and edition key. |
-| 15 | Adventure 9.2 | `a9-2` | Yes | 14/14 tagged; no approval or graph-check record | 14 | May 10–14 | 2 h | Confirm print label and edition key. |
-| 16 | Adventure 9.3 | `a9-3` | Yes | 14/14 tagged; no approval or graph-check record | 14 | May 17–21 | 2 h | Confirm print label and edition key. |
+| Order | Book | `primary_books` key today | Proposed key | Print state | Check pass / fail | Rewrite lessons | Dates | Daniel review | Main warnings / risk |
+|---:|---|---|---|---|---:|---:|---|---:|---|
+| 1 | Origins 1 | `o1` | `o1-e2` | Not printed | 14 / 0 | 14 | Nov 23–27 | 2 h | No warnings; live rows require a new article identity. |
+| 2 | Origins 2 | `o2` | `o2-e2` | Printed; on sale | 14 / 0 | 14 | Nov 30–Dec 4 | 2 h | `bank-level` warnings; preserve printed packages and rows. |
+| 3 | Origins 3.1 | `o3-1` | `o3-1-e2` | Printed; on sale; insert on order | 14 / 0 | 14 | Dec 7–11 | 2 h | `bank-level`, `print-set`, `activities`; verify lesson-12 mapping. |
+| 4 | Origins 3.2 | `o3-2` | `o3-2-e2` | On order; schools use from May 2027 | 14 / 0 | 0 | None | 0 h | `bank-level`; no rewrite under PM default. Live rows require new IDs for future changes. |
+| 5 | Quest 4 | `q4` | `q4-e2` | On order; schools use from May 2027 | 14 / 0 | 0 | None | 0 h | `bank-level`; no rewrite under PM default. Live rows require new IDs for future changes. |
+| 6 | Quest 5 | none | `q5` | Not printed | 14 / 0 | 14 | Dec 14–18 | 2 h | `bank-level`; old printer date 11-06 remains on hold. |
+| 7 | Quest 6.1 | none | `q6-1` | Not printed | 14 / 0 | 14 | Dec 21–25 | 2 h | `bank-level`. |
+| 8 | Quest 6.2 | none | `q6-2` | Not printed | 14 / 0 | 14 | Dec 28–Jan 1 | 2 h | `bank-level`. |
+| 9 | Adventure 7.1 | none | `a7-1` | Not printed | 14 / 0 | 14 | Jan 4–8 | 2 h | `bank-level`. |
+| 10 | Adventure 7.2 | none | `a7-2` | Not printed | 14 / 0 | 14 | Jan 11–15 | 2 h | `bank-level`. |
+| 11 | Adventure 8.1 | none | `a8-1` | Not printed | 14 / 0 | 14 | Jan 18–22 | 2 h | `bank-level`. |
+| 12 | Adventure 8.2 | none | `a8-2` | Not printed | 14 / 0 | 14 | Jan 25–29 | 2 h | `bank-level`. |
+| 13 | Adventure 8.3 | none | `a8-3` | Not printed | 14 / 0 | 14 | Feb 1–5 | 2 h | `bank-level`. |
+| 14 | Adventure 9.1 | none | `a9-1` | Not printed | 14 / 0 | 14 | Feb 8–12 | 2 h | `bank-level`. |
+| 15 | Adventure 9.2 | none | `a9-2` | Not printed | 14 / 0 | 14 | Feb 15–19 | 2 h | `bank-level`. |
+| 16 | Adventure 9.3 | none | `a9-3` | Not printed | 14 / 0 | 14 | Feb 22–26 | 2 h | `bank-level`. |
 
-The A-29 demo work remains first: eleven books, Quest 5 through Adventure 9.3, build 2026-12-01 to 2026-12-11; Daniel reviews 5–6 h during 2026-12-14 week; demo freeze 2027-01-22. The rewrite reviews peak at 4 h/week, plus A-29's separate 5–6 h in December. This fits Daniel's 10–20 h weekly budget. The sample work does not count as a rewrite.
+Origins 1 has live rows and needs a new edition for its rewritten lessons. Origins 3.2 and Quest 4 pass the package check and need no rewrite under the PM default, so keep their current rows and learner records. If either book later needs changed lesson content, create its proposed `-e2` edition with new article, question, and flashcard rows. Never share rows or overwrite the current lesson rows.
 
-Scope note: `bank-1` through `bank-9` are level practice banks, not printed books. They do not enter the book rewrite sequence. Their graph coverage requires a separate decision.
+The schedule assigns two review hours per active week, below Daniel's 10–20 hour weekly budget. It starts after Storytime's weeks 2–8 milestone on Nov 18. Starting sooner would overlap the Storytime proof work due Nov 5–9 and delivery due Nov 18. This plan reserves four weeks between the Quest 5 rewrite and its earliest printer file date, Dec 18. If schools need Quest 5 before that date, the printer hold puts the May 2027 delivery at risk.
+
+Schools need Origins 3.2 and Quest 4 from May 2027. Both are on order, and neither needs a rewrite under the PM default, so the existing print order can meet that date. Schools may also need Quest 5. This plan can provide its graph-first printer file on Dec 18, but the printer's production lead time is unverified. Confirm lead time before promising a May delivery.
+
+The A-29 samples cover Quest 5 through Adventure 9.3: build Dec 1–11, Daniel review 5–6 hours during the week of Dec 14, freeze Jan 22. The planned rewrite reaches those books after sample build. The `bank-1` through `bank-9` folders are level practice banks, not printed books; they are outside this plan.
 
 ## (b) Demo sample edition
 
-Use the current printed edition for each sample book. The January sample pages represent the book already sold and do not switch an edition before stock runs out. The A-29 set covers Quest 5 through Adventure 9.3, not Origins 2 or Origins 3.1. Default: do not use either new graph-first edition in the demo set.
+The eleven A-29 books are not printed. Default: use their current packages for sample pages. This avoids delaying the Dec 1–11 build and avoids an estimated 22 additional review hours before that build (11 books × 2 review hours). The samples will show text that the later graph-first rewrite may change. If Daniel wants the samples to show rewritten text, move those eleven books ahead of the sample build and budget about 22 additional review hours.
 
 ## (c) Edition scheme
 
-Use one stable slug per edition. Keep legacy package keys and IDs unchanged. Create a second package tree for new-edition packages; never overwrite a legacy key. The file is the source manifest. Set all approval states to `draft` until Daniel approves each package.
+**Second-edition rule:** create a separate edition when a printed book remains on sale or when live learner records must retain their article identity. A book with neither print nor live rows uses its existing package tree for the graph-first rewrite before its first print; it gets no `-e2` edition. A live-row book gets a separate graph-first edition, even if it is not printed. Never share article rows between editions.
 
-| Book identity | Edition slug | Lessons | Package key / folder | Audio / clip folders | Approval | Graph release and tags | Print label |
-|---|---|---|---|---|---|---|---|
-| Primary Advantage Origins 2, legacy | `o2` | 1–14 | `o2/<n>` / `content/primary/origins-2/` | `content/primary/origins-2/media/<lesson>/`; tracked checksum `media/clips.sha256`; local `.clips/` ignored | Existing legacy; preserve package approvals | Freeze legacy tags from current package snapshot; no new graph release claim | Origins 2 (legacy print) |
-| Primary Advantage Origins 2, graph-first | `o2-e2` | 1–14 | `o2-e2/<n>` / `content/primary/origins-2-e2/` | `content/primary/origins-2-e2/media/<lesson>/`; `media/clips.sha256`; local `.clips/` ignored | Draft until reviewed | New pinned graph release; lesson-specific objective and vocabulary tags required | Origins 2, Edition 2 |
-| Primary Advantage Origins 3.1, legacy | `o3-1` | 1–14 | `o3-1/<n>` / `content/primary/origins-3.1/` | `content/primary/origins-3.1/media/<lesson>/`; `media/clips.sha256`; local `.clips/` ignored | Existing legacy; E12 insert approval remains distinct | Freeze legacy tags from current package snapshot; no new graph release claim | Origins 3.1 (legacy print) |
-| Primary Advantage Origins 3.1, graph-first | `o3-1-e2` | 1–14 | `o3-1-e2/<n>` / `content/primary/origins-3.1-e2/` | `content/primary/origins-3.1-e2/media/<lesson>/`; `media/clips.sha256`; local `.clips/` ignored | Draft until reviewed | New pinned graph release; lesson-specific objective and vocabulary tags required | Origins 3.1, Edition 2 |
-| Reading Advantage Origins 2, legacy | `ra-o2` | Unverified | No package key or folder until manifest names articles | No verified media folder | Unverified | No graph release or tags verified | Reading Advantage Origins 2 (legacy print) |
-| Reading Advantage Origins 2, graph-first | `ra-o2-e2` | Unverified | No package key or folder until manifest names articles | No verified media folder | Unverified | No graph release or tags verified | Reading Advantage Origins 2, Edition 2 |
+| Book identity | Edition slug | Lessons | Package key / Workbooks folder | Tutor `primary/` folder | Audio / clips | Approval | Graph release and tags | Print label |
+|---|---|---|---|---|---|---|---|---|
+| Primary Advantage Origins 2, current print | `o2` | 1–14 | `o2/<n>` / `content/primary/origins-2/` | `origins-2-a0/` | `content/primary/origins-2/media/<lesson>/`; tracked `media/clips.sha256`; local `.clips/` ignored | Preserve current state | Existing tags; no new release claim | Origins 2 |
+| Primary Advantage Origins 2, graph-first | `o2-e2` | 1–14 | `o2-e2/<n>` / `content/primary/origins-2-e2/` | `origins-2-e2-a0/` after approval and import readiness | Matching edition media folder, checksum file, ignored `.clips/` | Draft until Daniel approves | Pin a reviewed graph commit; tag each lesson | Origins 2, Edition 2 |
+| Primary Advantage Origins 3.1, current print | `o3-1` | 1–14 | `o3-1/<n>` / `content/primary/origins-3.1/` | `origins-3.1-a0/` | `content/primary/origins-3.1/media/<lesson>/`; tracked `media/clips.sha256`; local `.clips/` ignored | Preserve current state; insert approval remains distinct | Existing tags; insert is a new graph-first article | Origins 3.1 |
+| Primary Advantage Origins 3.1, graph-first | `o3-1-e2` | 1–14 | `o3-1-e2/<n>` / `content/primary/origins-3.1-e2/` | `origins-3.1-e2-a0/` after approval and import readiness | Matching edition media folder, checksum file, ignored `.clips/` | Draft until Daniel approves | Pin a reviewed graph commit; tag each lesson | Origins 3.1, Edition 2 |
+| Reading Advantage Origins 2, current print | `ra-o2` | Unverified | No package key or folder before article manifest | None until article manifest exists | Unverified | Unverified | Unverified | Origins 2 |
+| Reading Advantage Origins 2, graph-first | `ra-o2-e2` | Unverified | No package key or folder before article manifest | None until article manifest exists | Unverified | Pin only after article manifest and graph check | Draft after source manifest | Origins 2, Edition 2 |
 
-The reserved Reading Advantage slugs denote a separate printed book, not the Primary book. Do not create database rows until the Workbooks manifest identifies its articles. A legacy-to-new crosswalk maps lesson numbers for reference only. It must not transfer IDs, attempts, answers, scores, or mastery evidence.
+The existing Tutor import projects include `origins-2-a0/`, `origins-3.1-a0/`, `origins-3.2-a0/`, and `quest-4-a1/`. The folder `adventures-1.0-a1/` contains older Tutor workbook files. Its `project.json` says Origins, level 2, A0, while a lesson says Adventures, A1; treat its name and metadata as inconsistent, not as a valid Adventure project. Keep draft editions outside `primary/`; Tutor imports every folder there and requires `project.json`. Add the edition folder to `primary/` only after approval, package validation, and the Tutor edition-manifest importer are ready. Keep lesson URLs distinct, such as `/lesson/o2/1` and `/lesson/o2-e2/1`.
 
-**Injector:** `dashboard/scripts/inject-lessons.ts` selects existing write paths in `dashboard/lib/inject/legacy.ts` and `dashboard/lib/inject/new-db.ts`. Add explicit edition key and package identity to selection, logs, verification, backup names, and output folders. Route the new edition through new-row creation; do not call the legacy-ID fallback or set `meta.replaces` to a legacy article. Add idempotent edition-aware checks before writing. Keep all old legacy rows and `primary_legacy_id_map` rows unchanged. Never share article, question, or flashcard rows across editions.
+The Workbooks injector is `dashboard/scripts/inject-lessons.ts`. Make it select by edition key and package key. Include edition identity in logs, verification, backups, media paths, and idempotency checks. The graph-first edition must create new rows. Do not invoke legacy-ID fallback or set `meta.replaces` to a legacy article. Keep `primary_legacy_id_map` unchanged.
 
-**Tutor path:** keep edition packages out of Tutor's import `primary/` tree while they are drafts, because that importer reads every folder and requires `project.json`. After approval, publish a versioned edition manifest through the planned Tutor catalogue path, not through a draft folder import. Use distinct URLs such as `/lesson/o2-e2/1`; keep `/lesson/o2/1` bound to legacy. Confirm the Tutor importer supports this manifest before any publication. The Tutor example `cmgqx8v6602p3t79btatvfjuw` maps to Workbooks `o2/1`, which means Primary Advantage Origins 2. The Monorepo cutover spec likely names it incorrectly as Reading Advantage Origins 2.
-
-**Reference-only crosswalk:** use the same lesson number as the initial pointer for Primary Origins 2 (`o2/1` → `o2-e2/1` through `o2/14` → `o2-e2/14`) and Origins 3.1 (`o3-1/1` → `o3-1-e2/1` through `o3-1/14` → `o3-1-e2/14`). Validate each row against the approved edition manifests. This pointer does not claim equal text, replace IDs, or move learner records. Reading Advantage Origins 2 has no crosswalk until its article manifest exists.
+Use a same-number crosswalk as a reference only: `o2/1` → `o2-e2/1` through lesson 14, and `o3-1/1` → `o3-1-e2/1` through lesson 14. Confirm each mapping against approved manifests. Do not copy learner records or imply equal text. No Reading Origins 2 crosswalk exists before its source manifest.
 
 ## Open questions for Daniel
 
-- Do Origins 3.2 and Quest 4 require rewrites? Default: no; each has 14/14 tagged and approved lessons, and its plan records the graph check.
-- Does “all books” include the separate Reading Advantage Origins 2? Default: yes, but do not create rows until its article manifest exists.
-- Which edition supplies the January iPad sample? Default: each book's current printed edition.
-- Are the proposed weekly rewrite blocks acceptable after the demo freeze? Default: yes; hold the schedule unless Daniel changes the review allocation.
-- What is the live legacy lesson-12 insert mapping for Origins 3.1? Default: verify read-only before freezing its manifest; preserve all existing printed IDs.
-- Which graph release should new editions pin? Default: use the current graph snapshots in `tags.json` only as a baseline, then pin a reviewed release commit and hash.
-- Which print label should each new edition use? Default: `<Book>, Edition 2`, with an explicit legacy label only where the current edition remains on sale.
-- How should the Reading Advantage Origins 2 package and audio live? Default: no folder or rows until its article manifest names the source.
-- Does Tutor accept the proposed edition manifest without a folder import? Default: required before publication; drafts stay outside Tutor's import tree.
+- Should A-29 samples show current packages or rewritten text? Default: current packages; this avoids 22 additional review hours before the build.
+- Does the Tutor importer accept the edition manifest? Default: add edition folders only after the manifest importer is ready.
+- What is the printer lead time for Quest 5? Default: require confirmation before promising May 2027 delivery.
+- Where are the Reading Advantage Origins 2 articles and media? Default: create no package or database rows before the article manifest names them.
+- Who confirms stock is gone and authorizes cut-over? Default: Daniel confirms stock; no automatic date.
 
 ## Dates that this plan moves
 
-None. The proposed rewrite sequence starts after the A-29 demo freeze. It does not change the Storytime release, proof, or delivery dates. It does not change the Quest 5 printer hold.
+None of the existing Storytime, demo, or book-order dates move. Earliest planned Quest 5 printer file: 2026-12-18. Risk: May delivery is unconfirmed until the printer lead time is known. The 2026-11-06 printer file remains on hold.
 
 Facts changed: none
