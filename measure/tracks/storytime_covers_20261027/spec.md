@@ -10,8 +10,8 @@ Workbooks makes these deliverables:
 
 1. The cover module in the repo: `dashboard/lib/storytime/print/covers.ts`, with its data in `content/storytime/covers/books.json` and its build script in `dashboard/scripts/storytime/make-storytime-cover.ts`.
 2. The data of all 16 books: the level, the unit, the weeks, the title, the level colour, the cover picture, and the unit summary.
-3. The three mock covers of Level 2 Unit 1, Level 1 Unit 1, and Level 4 Unit 4. Each cover gives a front PNG, a back PNG, and a 2-page PDF for Daniel's check.
-4. The Level 2 Unit 1 cover print file (PDF/X-1a), after Daniel approves the cover picture on Drive.
+3. The three mock covers of Level 2 Unit 1, Level 1 Unit 1, and Level 4 Unit 4. Each cover gives a front PNG, a back PNG, and a 2-page PDF for Daniel's check. The v3 build writes new files for the five-field back panel of D11, and it keeps the v1 and the v2 files.
+4. The Level 2 Unit 1 cover print file (PDF/X-1a), after Daniel approves the cover picture on Drive. In the printer file a missing panel field fails the build (D11).
 5. The other 13 covers, later, when their week text and pictures exist.
 
 The mock build lives outside the repo. It is the reference for this track:
@@ -61,7 +61,7 @@ So the cover files go to Google Drive through the PM session. The PM session mad
 
 The PM session relayed four decisions. Daniel may change them later.
 
-- D1: the back panel holds a short English unit summary from the approved week text. A unit with no week text shows no panel.
+- D1: the back panel holds a short English unit summary from the approved week text. A unit with no week text shows no panel. **Replaced by D11 on 2026-10-29.** The text of D1 stays here, and it does not bind the build.
 - D2: a label "LINE" next to the QR. No new Thai.
 - D3: the Level 2 Unit 1 group picture stays. Withdrawn 2026-10-28 (PM).
 - D4: one picture style for all 16 books: cut-out characters on white. The Level 4 Unit 4 front, now a room scene in a box, changes. Withdrawn 2026-10-28 (PM).
@@ -83,6 +83,25 @@ The PM session relayed six decisions for covers v2.
 - D9: the 16 covers do not repeat the same group of characters.
 - D10: Daniel wants settings other than the classroom across all media. A later cover version can show the place of the unit behind the characters. No new picture generation runs now.
 
+## The PM decisions (2026-10-29 05:22 ICT)
+
+Daniel's words, verbatim (Google Tasks, 2026-10-29 05:14 ICT):
+
+> "The summary panels need to include: a Sunday of the story, phonemes, decodable words, sight words, etc. fill up that space. Use larger text if necessary."
+
+The reading of the words: the PM session and the orchestrator read "a Sunday of the story" as "a summary of the story". The words came by voice into Tasks. They read "etc." as "the books of the unit (the reader titles)". Daniel confirms the reading with the v3 covers on Drive.
+
+The PM session accepted every default of D11 on 2026-10-29 at 05:22 ICT. The PM brief names this change D6. This spec numbers it D11, because D6 (2026-10-28) is the ground tint decision, and that decision stays live.
+
+- D11: the back panel holds five fields, in this order: the story, the sounds, the decodable words, the sight words, and the books of the unit. Every back of the 16 books shows the panel. D11 replaces D1 and the 25-word limit of the summary. The text of D1 stays in this spec.
+  1. Every back of the 16 books shows the panel. The panel holds the five fields in this order: the story (an English summary of the unit), the sounds (the phonemes of the unit), the decodable words, the sight words, and the books of the unit (the reader titles).
+  2. The sounds, the decodable words, and the sight words come from the phonics graph and the week files. The story comes from the week text of the unit. Each field records its source weeks.
+  3. The text takes the largest size from a fixed scale that fits the panel. No text is smaller than 10 pt. Nothing overflows the panel. The scale is 14, 13, 12, 11, and 10 pt. The text inset is 12 mm at each side of the 186 x 138 mm panel, so the text box is 162 x 114 mm. The Level 2 Unit 1 text block fills at least 0.60 of that height (Open point P13).
+  4. A field with no data shows its heading and one light line, "comes with the week text", on the Drive mock only. The build report lists the missing fields of each book. In the printer file, a missing field fails the build.
+  5. The panel is English only. It adds no new Thai, so D2 holds. The Thai contact lines of the back stay unchanged, and Daniel checks them as usual.
+  6. The v3 build writes new files. The v1 and the v2 files stay unchanged.
+- D12 (the source rule, the PM's choice): the v3 Drive mock may use the draft text of weeks 2 to 8, and the build report names each draft week that it uses. The printer file accepts only approved sources until Daniel approves the week 2 to 8 text: the `approval.text` of week 1 and the phonics graph data. The PM puts this choice to Daniel with the v3 hand-off.
+
 ## Sources
 
 - The mock build (above). The mock PDF is a Chrome PDF, 2 pages, A4 portrait 210 x 297 mm, no spine, no bleed.
@@ -93,7 +112,8 @@ The PM session relayed six decisions for covers v2.
 - The print path: `dashboard/scripts/print/make-pdfx.ts`, `--keep-fonts` for a PDF with fonts.
 - The fonts: `dashboard/assets/print-fonts/` (Andika for English, Sarabun for Thai). The mock build used the same faces.
 - The print track: `measure/tracks/storytime_print_r1_20261025/spec.md`, FR-6 (lines 154 to 159) and plan Phase 5 (lines 228 to 238); its spec P2 (the print defaults), P11 (the title), and FR-9 (the picture spec).
-- The week packages: `content/storytime/l2/w01.json` to `w08.json`. Week 1 of Level 2 Unit 1 has the approved English text (2026-10-23, "publish week 1"). The other weeks of that unit and every other book have no approved English text yet.
+- The week packages: `content/storytime/l2/w01.json` to `w08.json`. Week 1 of Level 2 Unit 1 has the approved English text (2026-10-23, "publish week 1"). The other weeks of that unit and every other book have no approved English text yet. The week files of Level 1 and of Level 4 do not exist: `content/storytime/l1/` and `content/storytime/l4/` are absent.
+- The phonics graph: `../mastery-advantage/english/phonics/phonics-knowledge-space.json`, read through `lib/storytime/files.ts` (`PHONICS_GRAPH_FILE`, `MASTERY_PHONICS_GRAPH`) and `lib/storytime/phonics.ts` (`phonicsGraphFrom`, `parseWord`, `wordNeed`, `programWeek`). The graph GPC nodes run from program week 33 to program week 115. It holds no phoneme for Level 1 (program weeks 1 to 32) and none for Level 4 Unit 4 (program weeks 121 to 128). `programWeek(level, week)` is `(level - 1) * 32 + week`.
 - The QR proof of the mock build: `build/qr_proof.py`. It proved that the official LINE QR image and the clean encoding hold the same address.
 
 ## Terms
@@ -103,7 +123,15 @@ The PM session relayed six decisions for covers v2.
 - **Cut-out style**: the cast characters stand on the ground tint of the level, with no box and no room around them.
 - **Ground tint**: 20 % of the level colour on white. L1 #F9E1D2, L2 #D4E4F1, L3 #D8EBDD, L4 #E6DCF1.
 - **Figure**: one cut-out of a character or an animal.
-- **Unit summary panel**: the box on the back cover that holds the short English summary of the unit.
+- **Unit summary panel** (replaced by the back panel, D11): the box on the back cover that held the short English summary of the unit.
+- **Back panel**: the box on the back cover that holds the five fields of the unit (D11). The box is 186 x 138 mm, at 12 mm from the left and 48 mm from the top.
+- **Panel field**: one of the five fields of the back panel, in this order: the story, the sounds, the decodable words, the sight words, and the books of the unit.
+- **Panel inset**: the text box inside the back panel. It is 162 x 114 mm: 12 mm at each side of the panel.
+- **Panel font scale**: the fixed scale of the panel text sizes: 14, 13, 12, 11, and 10 pt (D11.3). 10 pt is the smallest size and the floor of the scale.
+- **Panel fill share**: the share of the panel inset height that the panel text block covers. The Level 2 Unit 1 threshold is 0.60 (P13).
+- **Missing field**: a panel field with no data. On the Drive mock it shows its heading and the light line "comes with the week text". In the printer file it fails the build (D11.4).
+- **Source weeks**: the weeks that supply the data of one panel field. Each field records them in the data file, and the build report names them.
+- **Approved source**: a week whose `approval.text.status` is `approved`, or the phonics graph data (D12). A week whose status is `draft` is a draft week.
 - **LINE label**: the word "LINE" next to the QR code (D2).
 - **Cover picture**: the one picture of the front cover.
 - **Check**: a script that fails on a broken file.
@@ -113,12 +141,25 @@ The PM session relayed six decisions for covers v2.
 ### FR-1 The data of the 16 books
 
 1. `content/storytime/covers/books.json` holds the series name, the trim, the four level colours, the LINE address, and one row per book.
-2. A row holds the level, the unit, the first week, and the last week. It also holds the title, the level colour, the cover picture recipe, and the unit summary. The unit summary is null when the unit has no week text.
+2. A row holds the level, the unit, the first week, and the last week. It also holds the title, the level colour, the cover picture recipe, and the five panel fields with their source weeks (D11).
 3. The data holds 16 rows: level 1 to 4, unit 1 to 4. The weeks of a unit are 1 to 8, 9 to 16, 17 to 24, and 25 to 32, at every level.
 4. The title of a row is "Storytime Advantage, Level N, Unit M, Student Book".
 5. The level colours are L1 #E06A1F, L2 #2A77B8, L3 #3C9B57, L4 #8151B8.
 6. The picture recipe names the cut-outs. Each entry also states the kind: child or animal. A recipe holds at most 2 children and at most 1 animal, so at most 3 figures (D5, D7). No two non-empty recipes hold the same set of figures (D9). A row with no picture has an empty recipe. Today 3 rows have a picture and 13 rows have none.
-7. The unit summary holds the English summary text and the week that the text comes from.
+7. The panel field object holds one entry per field, in this order: `story`, `sounds`, `decodable`, `sight`, and `books`. The `story` entry holds the English summary text of the unit and its source weeks. The other four entries hold only their source weeks, because the module derives their values from the week files and the phonics graph. A field with no data holds an empty week list and no value.
+8. The source weeks of a field are weeks of that row's unit. The week list of a field must match the weeks that the module can read for that field: a week in the list with no week file and no graph data fails, and a readable week outside the list fails.
+9. The story text comes from the student text of its source weeks. A word that is not in that text fails. The story holds no year.
+
+### FR-1a The five panel fields (D11)
+
+1. The story: the English summary of the unit, written in the plain voice of the week text. It comes from the week text of the source weeks. The text lives in the data file, one string per book. Red does not hardcode the sentence; Green writes it.
+2. The sounds: the phonemes of the unit, in week order, from the week files (`focus.element` of each week) and from the phonics graph (the GPC nodes at the program week of that week). A week that teaches no new sound adds none. Each sound shows its grapheme and its phoneme, for example `n /n/`. No sound repeats.
+3. The decodable words: the words of the source weeks that the phonics graph decodes at or before the program week of that week (`wordNeed`). The word list of a week is `focus.family.words`, `home.words`, `books[].backWords`, and the page text of the student books. The order is week order, then the order in the week file. No word repeats.
+4. The sight words: `focus.trickyWords` of the source weeks, in week order, with no repeat. A week with no tricky word adds none.
+5. The books: the reader titles of the source weeks (`books[].title` of kind `readalong` and of kind `decodable`), in week order.
+6. A field is missing when its source weeks give no value. On the Drive mock a missing field shows its heading and the light line "comes with the week text". In the printer file a missing field fails the build.
+7. The sources of the printer file are the approved sources only (D12). A week with `approval.text.status` of `draft` supplies no field data in the printer file.
+8. The five fields are English. No field holds a Thai character. The build report lists, for each book and each field, the state (present or missing) and the source weeks, with the approval state of each week.
 
 ### FR-2 The front cover
 
@@ -136,11 +177,12 @@ The PM session relayed six decisions for covers v2.
 1. The back is A4 portrait, 210 x 297 mm, with no bleed and no spine.
 2. The logo `Teacher guide/reading-advantage logo.png` sits at 12 mm from the left and 12 mm from the top, at 30 x 30 mm.
 3. The series name "Storytime Advantage" sits at the top, in the level colour.
-4. The unit summary panel is 186 x 138 mm, at 12 mm from the left and 48 mm from the top. It has the fill #F7F5F0, a 0.4 mm border #E1DDD3, and rounded corners of 3 mm. It holds the English unit summary. A unit with no week text shows no panel (D1).
-5. The five approved Thai contact lines sit at 15 mm from the left and 200 mm from the top, in Sarabun. They are byte-identical to `BACK_LINES.contact`.
-6. The QR box is 44 x 44 mm, at 14 mm from the right and 200 mm from the top. It holds the LINE QR for https://line.me/ti/p/Pf7_EF98Pv.
-7. The LINE label sits under the QR box, centred on it, in the level colour. The label adds no Thai (D2).
-8. The back holds no other Thai and no other text than the five contact lines and the series name.
+4. The back panel is 186 x 138 mm, at 12 mm from the left and 48 mm from the top. It has the fill #F7F5F0, a 0.4 mm border #E1DDD3, and rounded corners of 3 mm. Every back shows the panel (D11.1). It holds the five fields of FR-1a in their order, each with its heading. The text sits in the panel inset of 162 x 114 mm. The text takes the largest size of the panel font scale that fits the inset, and no text is smaller than 10 pt. Nothing overflows the panel.
+5. A field with no data shows its heading and one light line, "comes with the week text" (D11.4). The line shows on the Drive mock only. The build report names the missing fields of each book. In the printer file a missing field fails the build, and no file is written.
+6. The five approved Thai contact lines sit at 15 mm from the left and 200 mm from the top, in Sarabun. They are byte-identical to `BACK_LINES.contact`.
+7. The QR box is 44 x 44 mm, at 14 mm from the right and 200 mm from the top. It holds the LINE QR for https://line.me/ti/p/Pf7_EF98Pv.
+8. The LINE label sits under the QR box, centred on it, in the level colour. The label adds no Thai (D2).
+9. The back holds no other Thai and no other text than the five contact lines, the series name, and the five panel fields. The panel fields add no Thai (D11.5).
 
 ### FR-4 The copy check
 
@@ -160,6 +202,7 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 4. The build writes a PDF/X-1a print file through `scripts/print/make-pdfx.ts --keep-fonts`. The file name holds the series, the level, the unit, the kind, the version, and the suffix `_PDFX-1a` (rule 12.2).
 5. The build stops with an error and names the book when a picture file is missing. No delivered file holds a placeholder.
 6. A v2 cover gets `v2` in the print file name (rule 12.2). The v1 files in `~/Desktop/print-ready/storytime/proof/` stay unchanged. The v2 build writes to a new folder or to new file names, so that Red can measure the v1 files.
+7. A v3 cover gets `v3` in the print file name (rule 12.2). The v3 build writes the front PNG, the back PNG, and the Chrome PDF of each book to a new folder, by default `~/Desktop/print-ready/storytime/proof-v3/`. The v1 files in `~/Desktop/print-ready/storytime/proof/` and the v2 files in `~/Desktop/print-ready/storytime/proof-v2/` stay unchanged: the SHA-256 values of the 12 v1 files and of the 12 v2 files are recorded before the v3 build and again after it, and the two lists are equal.
 
 ### FR-6 The checks on the built files
 
@@ -197,6 +240,9 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 - AC-9: The fill checks of FR-2.7 pass on all three v2 covers.
 - AC-10: Each recipe holds at most 2 children and at most 1 animal. Level 2 Unit 1 holds nan.
 - AC-11: No two non-empty recipes hold the same set of figures.
+- AC-12: The back of each of the three v3 covers shows the panel with five field headings in the order of FR-1a.1. Level 1 Unit 1 and Level 4 Unit 4 show five missing fields with the light line "comes with the week text". The panel text takes a size of the panel font scale, no size is below 10 pt, no ink leaves the panel, and the Level 2 Unit 1 panel fill share is 0.60 or more (P13).
+- AC-13: The v3 build writes new files. The 12 v1 files and the 12 v2 files keep their SHA-256 values, and the two lists are recorded in the plan.
+- AC-14: The panel fields are English. The Thai of the back page equals the Thai of the five approved contact lines, and the panel adds no Thai.
 
 ## Out of Scope
 
@@ -206,6 +252,8 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 - The app, the songs, the song videos, and the picture files of the weeks.
 - The print order of the covers. The printer gets the files, not this track.
 - The other 13 covers. They come later, when their week text and pictures exist.
+- The panel fields of a book with no week text. On the Drive mock they are missing fields, and the build report names them. The week text of Level 1 and of Level 4 is not release 1 work.
+- The approval of the Level 2 weeks 2 to 8 text. The PM session puts that approval to Daniel with the v3 hand-off (D12).
 - Any paid generation, and any message to the printer without Daniel's go.
 - Place pictures behind the characters (D10). A later cover version can hold them.
 - Any new picture generation.
@@ -214,7 +262,7 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 
 | # | Point | Facts | Track default until Daniel answers |
 |---|---|---|---|
-| P1 | The words of the unit summary | D1 (PM, 2026-10-27 06:41 ICT) says the panel holds a short English unit summary from the approved week text. The mock panel is empty. The only approved English week text is Level 2 Unit 1 week 1 (`approval.text`, approved 2026-10-23, "publish week 1"). The other 7 weeks of that unit and every other book have no approved English text. | The summary text lives in the data file, one string per book, with the source week named. It is at most 25 words, in English, in the plain voice of the week text. Only Level 2 Unit 1 has a panel today (D1). Daniel checks the wording with the cover on Drive. |
+| P1 | The words of the unit summary. Closed by D11 on 2026-10-29. | D1 (PM, 2026-10-27 06:41 ICT) says the panel holds a short English unit summary from the approved week text. The only approved English week text is Level 2 Unit 1 week 1 (`approval.text`, approved 2026-10-23, "publish week 1"). The other 7 weeks of that unit and every other book have no approved English text. | D11 replaces D1 and the 25-word limit. The story text still lives in the data file, one string per book, with its source weeks named. It is in English, in the plain voice of the week text, and every word comes from the student text of a source week. There is no word limit. The other four fields come from the week files and the phonics graph. Daniel checks the wording of the story and the reading of Daniel's words with the v3 covers on Drive. |
 | P2 | The proof of the QR | The mock build proved the QR with its own Python encoder and decoder (`qr_code.py`, `qr_read.py`). The repo has the `qrcode-generator` package in `lib/qr-generator.ts`. | The module draws the QR with `lib/qr-generator.ts` from the LINE address in the data. The check compares the printed module grid with the encoder output, module by module, with zero differences. No new package. The Python proof stays the record of the mock build. |
 | P3 | The Level 4 Unit 4 picture under D4. Replaced by D6 and D8, 2026-10-28. | D4 says one picture style for all 16 books: cut-out characters on white. The mock Level 4 Unit 4 front is the classroom scene `class-waves.png`, so its picture area corners are brown. The repo holds the cast cut-outs of Level 2 week 1 only. No Level 4 cast render exists yet. | The Level 4 Unit 4 cover is composed from the cast cut-outs in the repo, so the picture style is one style. Forge delivers the Level 4 cast later, and the picture changes then. The check of white corners fails the old room-scene picture, so the change cannot pass unnoticed. Daniel sees the picture on Drive. |
 | P4 | The LINE label | D2 says a label "LINE" next to the QR, with no new Thai. The mock has no label. The QR box is 44 x 44 mm, at 14 mm from the right and 200 mm from the top. The contact lines reach 133 mm from the left. | The label sits under the QR box, centred on it, in the level colour, in Andika bold, at the same size as the contact text. It adds no Thai. Daniel sees the position on Drive. |
@@ -226,3 +274,4 @@ The copy check is the check of FR-6.3 of the print track, with the extra words o
 | P10 | The bottom crop, no head cut | FR-2.7 permits a crop at the bottom edge. No head is cut. | Allow the bottom crop. Keep every head whole. |
 | P11 | The animal in front of the children | D5 names the Level 1 Unit 1 v1 picture as the model. In it, pip stands in front of the children's feet. A strict one-row layout of three cut-outs gives a fill share of 0.34, below the 0.58 limit (Green measure, 2026-10-28). The limit is 0.55 since Check v2 finding C3 (P12). | Two figure boxes overlap in x only when the top of one box is lower than the vertical middle of the other box. The two children never overlap. |
 | P12 | The fill limit and the shape of the figures | With the 3 mm side bands (Check v2 finding C2), Level 2 Unit 1 fills 0.5593 when each figure keeps its shape. Green C2 reached the old 0.58 limit with a row height up to 6 percent above the shape of the cut-outs, so each figure printed up to 6 percent taller (finding C3, orchestrator code check, 2026-10-28). Stretched character art is a defect. | No stretch: each figure keeps the ratio of its cut-out within 0.02. The fill limit is 0.55, which keeps the v1 calibration of FR-2.7. The v2 fills are 0.5895, 0.5573, and 0.6000. Daniel sees the v2 covers on Drive. |
+| P13 | The panel fill share of Level 2 Unit 1 | D11.3 says the Level 2 Unit 1 text block fills most of the 114 mm panel inset. The share is a measurable value, and no build exists yet at 8e2c9194. | 0.60. On the 300 ppi back PNG, the bounding box of the panel text ink (each RGB channel at most 128) covers at least 0.60 of the 114 mm inset height, so at least 68.4 mm. The measure applies to a book whose five fields all have data, and Level 2 Unit 1 is the only such book in this build. Green records the measured share. A smaller word set is the other fix, because the size never drops below 10 pt. |

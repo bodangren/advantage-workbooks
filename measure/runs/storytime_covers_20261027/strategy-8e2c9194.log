@@ -1,0 +1,102 @@
+role: strategy
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: 8e2c9194417bb2c8981b7ca23621653a49a5a093
+role_base_sha: 8e2c9194417bb2c8981b7ca23621653a49a5a093
+status: complete
+date: 2026-10-29
+
+## Task
+One amendment of Phase 1: the v3 back panel (the PM decision of 2026-10-29, Daniel's
+words of 2026-10-29 05:14 ICT). This role writes spec.md, test-strategy.md, plan.md, and
+this log. This role writes no production code and no test.
+
+## What I read
+spec.md, plan.md, test-strategy.md, measure/index.md, measure/anti-patterns.md (A1 to A10),
+the earlier strategy log strategy-dbe9173c.log, measure/tracks.md (read only).
+Read-only code: dashboard/lib/storytime/print/covers.ts (the box, the summary type, the
+data check, the summary check, the panel HTML, the CSS), content/storytime/covers/books.json,
+dashboard/lib/storytime/phonics.ts, dashboard/lib/storytime/files.ts (the phonics graph path),
+dashboard/scripts/storytime/make-storytime-book-cover.ts (the head), and the existing test
+file dashboard/__tests__/storytime-print-covers-16books.test.ts (the build and raster pattern).
+Read-only week data: content/storytime/l2/w01.json to w08.json.
+Read-only graph: ../mastery-advantage/english/phonics/phonics-knowledge-space.json.
+No vitest, tsc, Chrome, Ghostscript, or mmx call. No edit outside measure/.
+
+## Measured facts (read-only, 2026-10-29 at 8e2c9194)
+F1  Only content/storytime/l2/ exists. There is no content/storytime/l1/ folder and no
+    content/storytime/l4/ folder. So the week files of Level 1 and Level 4 do not exist.
+F2  The phonics graph (../mastery-advantage/english/phonics/phonics-knowledge-space.json) has
+    440 english.phonics nodes. Its GPC nodes run from program week 33 to program week 115.
+    The english.phonics.phoneme.* nodes have no program_week. The english.phonics.tricky.*
+    nodes run from program week 33 to 127.
+F3  So the graph holds no phoneme for Level 1 Unit 1 (program weeks 1 to 8) and none for
+    Level 4 Unit 4 (program weeks 121 to 128). programWeek(level, week) is (level - 1) * 32 + week.
+F4  Level 2 Unit 1 week files (w01 to w08) exist. approval.text.status is approved for week 1
+    (2026-10-23, "publish week 1") and draft for weeks 2 to 8.
+F5  Week 1 to week 7 of Level 2 each hold focus.element.graphemes and focus.element.sound:
+    n /n/, a /a/, p /p/, m /m/, s /s/, t /t/, o /o/. Week 8 is a review week: focus has no
+    element key, focus.trickyWords is empty, and books is an empty list.
+F6  focus.trickyWords of Level 2 Unit 1 weeks 1 to 7: a, and, can; I, on, in; the, get;
+    is, this; off, saw, with; he, put, see; from, run, up. 19 words.
+F7  The reader titles of Level 2 Unit 1 weeks 1 to 7: Hello!, Nan Can Nod; How Many?, Can I?;
+    Paint!, The Pan; My Family, Pam; I Have Two, Sam and Pam; I Can See, Tap, Tap!; Is It a Ball?,
+    The Top. 14 titles. Each week file holds books of kind readalong and kind decodable.
+F8  STORYTIME_COVER_BOX.panel is { left: 12, top: 48, width: 186, height: 138, radiusMm: 3 }.
+    The current CSS is .panel-text { left: 12mm; top: 12mm; width: 162mm; font-size: 14pt; line-height: 1.5 }.
+    So the current text inset is 12 mm at the left, 12 mm at the right, 12 mm at the top, and 23 mm at the bottom.
+F9  The build script uses Playwright Chromium (channel 'chrome') and then scripts/print/make-pdfx.ts.
+    The tests measure built files with pdftoppm -r 300 and sharp (the R17 pattern).
+F10 The existing data file holds summary: null on 15 rows and one summary object on the
+    Level 2 Unit 1 row.
+F11 PROJECT_TESTS holds a committed Red test of the print track: R42 of
+    __tests__/storytime-print-student-book.test.ts failed on 2026-10-28 (plan line 226).
+
+## The decision number conflict
+The spec already uses D6 for the ground tint decision of 2026-10-28 (spec line 80, point P7
+line 223, FR-2.4). That decision stays live. This spec numbers the new panel decision D11
+and records that the PM brief of 2026-10-29 names the change D6. The commit message keeps
+the brief's label.
+
+## Commit
+7712d321166542c42d49304176869b96c69aab69 measure(strategy): covers v3 back panel (D11)
+Four paths, staged one by one: measure/tracks/storytime_covers_20261027/spec.md,
+test-strategy.md, plan.md, and this log. No other file was staged. Four files changed,
+304 insertions, 25 deletions. The commit message names D11, because D6 in the spec is
+the ground tint decision of 2026-10-28, and that decision stays live.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: 8e2c9194417bb2c8981b7ca23621653a49a5a093
+role_base_sha: 8e2c9194417bb2c8981b7ca23621653a49a5a093
+head: 7712d321166542c42d49304176869b96c69aab69
+commits: 7712d321166542c42d49304176869b96c69aab69
+review_gates: Phase 1 stays high. For the v3 amendment: Review A yes; Review B yes, the source rule only; Review C yes (the data contract of content/storytime/covers/books.json and the week files of content/storytime/l2/); adversarial yes; UX/API not applicable; browser never (UX_REQUIRED=never).
+facts_changed: the phonics graph covers program weeks 33 to 115 only; the Level 1 and Level 4 week files do not exist; so the sounds of Level 1 Unit 1 and Level 4 Unit 4 have no source in the graph or the week files.
+tests_run: none (read-only measurements only)
+files_changed: none yet
+plan_updates: four new Phase 1 tasks (Red v3, Green v3, Check v3, Hand-off v3), each `[ ]`
+known_failures: R42 of __tests__/storytime-print-student-book.test.ts is a committed Red test of the print track (peer-report, 2026-10-28). This track does not edit that file.
+capture_point: the amendment does not move the capture rule. phase_base_sha of Phase 1 was captured at the strategy commit of 2026-10-27 (e5266ce1). This commit does not change it. A new capture is not needed for the v3 tasks, because the phase stays Phase 1. Any later role that wants a new baseline takes `git rev-parse HEAD` immediately after this commit, and never a SHA from before it.
+handoff: |
+  Notes for the orchestrator (not questions, not a block).
+  1. The new decision is numbered D11 in spec.md. The number D6 is taken by the ground tint
+     decision of 2026-10-28, which stays live (FR-2.4, P7). The PM brief of 2026-10-29 names
+     the change D6, and the commit message keeps that label.
+  2. The phonics graph can supply no sound for Level 1 Unit 1 or Level 4 Unit 4. The Level 1
+     and Level 4 week files do not exist. So on the v3 mock those two books show five missing
+     fields and five light lines. The build report names them, and the Hand-off v3 message
+     sends the list to Daniel.
+  3. The printer file (Phase 2) uses only the approved week 1 text and the graph. The story
+     sentence must therefore be written from the week 1 student text, so that one sentence
+     passes both builds. The PM puts the week 2 to 8 approval to Daniel with the v3 hand-off.
+  4. Green v3 must record the measured panel fill share of Level 2 Unit 1. The strategy sets
+     0.60 of the 114 mm inner text height as the threshold. If the measured share is below it,
+     the orchestrator re-decides the threshold, because a smaller word set is the other fix.
+  5. The phase_base_sha of Phase 1 does not change. This commit does not move the capture
+     point. If the orchestrator wants an immutable baseline for the amendment alone, run
+     git rev-parse HEAD immediately after this commit. This file does not write that SHA.
+END_MEASURE_AGENT_RESULT
