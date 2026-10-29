@@ -410,7 +410,7 @@ export function storytimeCoverStudentWords(week: StorytimeWeek): Set<string> {
  * The words of the student text of a week that a panel field may use: the family words, the home
  * words, the back words of the student books, and the page text of the student books (FR-1a.3).
  * @param week The week.
- * @returns The words, in lower case, with repeats.
+ * @returns The words, in their source case, with repeats.
  */
 function storytimeCoverPanelCandidateWords(week: StorytimeWeek): string[] {
     const out: string[] = [];
@@ -418,8 +418,31 @@ function storytimeCoverPanelCandidateWords(week: StorytimeWeek): string[] {
     for (const word of week.home?.words ?? []) out.push(word);
     for (const book of week.books) for (const word of book.backWords) out.push(word);
     for (const book of week.books) for (const page of book.pages) for (const word of page.text.match(/[a-z]+/gi) ?? []) out.push(word);
-    return out.map((word) => word.toLowerCase());
+    return out;
 }
+
+/**
+ * The display form of each panel word of a unit (D11.5a). A word keeps a capital letter only when
+ * every occurrence of it in the source candidates of the unit has that capital: the candidate
+ * words of each week and the tricky words. Else the word shows in lower case.
+ * @param weeks The weeks of the unit.
+ * @returns The display form, keyed by the lower-case word.
+ */
+function storytimeCoverPanelWordCase(weeks: readonly StorytimeWeek[]): Map<string, string> {
+    const capital = new Map<string, boolean>();
+    for (const week of weeks) {
+        for (const word of [...storytimeCoverPanelCandidateWords(week), ...week.focus.trickyWords]) {
+            const key = word.toLowerCase();
+            capital.set(key, (capital.get(key) ?? true) && /^[A-Z]/.test(word));
+        }
+    }
+    const display = new Map<string, string>();
+    for (const [key, upper] of capital) display.set(key, upper && key ? `${key[0].toUpperCase()}${key.slice(1)}` : key);
+    return display;
+}
+
+/** The separator of the titles in the books field; a title must not hold it (D11.5b). */
+const STORYTIME_COVER_PANEL_TITLE_SEPARATOR = '; ';
 
 /**
  * The weeks of the unit of a book that the context can read, in week order (FR-1.8).
@@ -438,7 +461,9 @@ function storytimeCoverPanelUnitWeeks(book: StorytimeCoverBook, ctx: StorytimeCo
  * from the data file when every named source week is in the context. The four derived fields come
  * from the weeks of the context: the sounds from `focus.element` and the graph, the decodable
  * words from `wordNeed` at the program week, the sight words from `focus.trickyWords` that the
- * graph cannot decode yet, and the books from the reader titles. No value repeats.
+ * graph cannot decode yet, and the books from the reader titles. No value repeats; the repeat
+ * check ignores the case. A word shows the case of its source occurrences (D11.5a), and the
+ * titles are joined with `; ` (D11.5b). A title that holds `;` stops with an error.
  * @param book The book row.
  * @param ctx The panel context. A print build passes only the approved weeks (D12).
  * @returns The values, in the order of `STORYTIME_COVER_PANEL_FIELDS`.
@@ -459,7 +484,7 @@ export function storytimeCoverPanelValues(book: StorytimeCoverBook, ctx: Storyti
             const sound = `${element.graphemes.join('')} ${element.sound}`;
             if (!sounds.includes(sound)) sounds.push(sound);
         }
-        for (const word of storytimeCoverPanelCandidateWords(week)) {
+        for (const word of storytimeCoverPanelCandidateWords(week).map((candidate) => candidate.toLowerCase())) {
             const need = wordNeed(word, ctx.graph, program);
             if (need.week !== null && need.week <= program && !decodable.includes(word)) decodable.push(word);
         }
@@ -469,15 +494,24 @@ export function storytimeCoverPanelValues(book: StorytimeCoverBook, ctx: Storyti
             if ((need.week === null || need.week > program) && !sight.includes(word)) sight.push(word);
         }
         for (const reader of week.books.filter((row) => row.kind === 'readalong' || row.kind === 'decodable')) {
+            if (reader.title.includes(';')) {
+                throw new Error(
+                    `Level ${book.level} Unit ${book.unit} (${book.title}): the book title "${reader.title}" of week ${week.meta.week} holds ";", the separator of the books field (D11.5b); the build stops.`,
+                );
+            }
             if (!books.includes(reader.title)) books.push(reader.title);
         }
     }
+    const wordCase = storytimeCoverPanelWordCase(unitWeeks);
+    const shown = (words: string[]) => words.map((word) => wordCase.get(word) ?? word);
+    const decodableShown = shown(decodable);
+    const sightShown = shown(sight);
     return [
         { field: 'story', value: story, items: story ? [story] : [] },
         { field: 'sounds', value: sounds.join(', '), items: sounds },
-        { field: 'decodable', value: decodable.join(', '), items: decodable },
-        { field: 'sight', value: sight.join(', '), items: sight },
-        { field: 'books', value: books.join(', '), items: books },
+        { field: 'decodable', value: decodableShown.join(', '), items: decodableShown },
+        { field: 'sight', value: sightShown.join(', '), items: sightShown },
+        { field: 'books', value: books.join(STORYTIME_COVER_PANEL_TITLE_SEPARATOR), items: books },
     ];
 }
 
