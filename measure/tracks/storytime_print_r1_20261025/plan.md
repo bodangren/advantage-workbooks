@@ -318,7 +318,7 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - The text gate (`lib/storytime/print/text-diff.ts`) takes two `pdftotext -layout` outputs and reports each line that differs, except page numbers. A changed Thai word in a copy gives one difference. The same text gives none.
     - The print file name has a version and the language: `Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf`.
     - The Thai HTML of the shipped `w01.json` has every step id of the week and the four headings (`getTranslations('th').teachingNotes`).
-- [ ] Task (Green): `scripts/storytime/make-teacher-book-print.ts --level 2 --weeks <list> --lang th`. It calls `compileStorytimeManual` (A4), renders the Chrome PDF, runs the text gate against the draft of each week, and runs `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+- [~] Task (Green): `scripts/storytime/make-teacher-book-print.ts --level 2 --weeks <list> --lang th`. It calls `compileStorytimeManual` (A4), renders the Chrome PDF, runs the text gate against the draft of each week, and runs `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Check): the week 1 teacher book in Thai. `PRINT_GATE` passes. The text gate against `~/Desktop/primary-parity-progress/storytime/Storytime-L2-W01-Teachers-Book-TH-draft.pdf` gives 0 differences, or each difference is listed with its cause for Daniel. A contact sheet of every page.
 - [ ] Task: Measure - User Manual Verification 'Phase 3: Teacher book print file, week 1' (Protocol in workflow.md)
 
