@@ -1,0 +1,79 @@
+# Adversarial testing log: storytime_print_r1_20261025 Phase 2 r2
+
+Reviewed HEAD: 63cedaf0eef18e325d2e40b7d5f4e75c12984396 (63cedaf0). Role base: 17667344fc0ce86449503eeb76026dd4847f66ee.
+Phase baseline: 03a803c8d3a45361e403d9ab2cee1225077adc43.
+Guard commit: 1bd762f7b955042f6a8988d52c95185d1db59859 (1bd762f7).
+Session name: Adversarial · P2 · storytime_print_r1.
+Model: opencode/muse-spark-1.3#high (recorded deviation; `ra-quota pick adversarial --not-family deepseek --not-family glm` printed this paid route because the table model Kimi k3 is at 93.4 percent of its weekly quota and MiniMax shows WAIT; DeepSeek and GLM are excluded because they wrote the Green work of this phase; Daniel approved the paid route on 2026-10-29). No mmx call ran. No paid generation. No proof rebuilt.
+
+## Scope confirmation
+
+`git diff --name-only 63cedaf0..17667344` lists only covers-track files (`covers.ts`, `make-storytime-book-cover.ts`, `storytime-print-covers-16books.test.ts`, `content/storytime/covers/books.json`), lesson media under `content/primary/`, a docs plan, and Measure files. No Phase 2 scope file changed.
+
+## Work
+
+Wrote `dashboard/__tests__/storytime-print-student-book-adversarial-r2.test.ts` (220 insertions, 1 file). The file holds 10 test blocks and 49 test cases. All 49 pass on the current HEAD.
+
+The split by area:
+
+- Strict QR rule unit probes: 43 cases in 3 blocks (36 reject, 6 accept, 1 error-names-path).
+- Caller integration: 6 cases in 6 blocks (3 build-stop rejects, 1 good-path print, 2 absent-URL renders).
+
+No guard repeats R48 (dot segments, range edges 0 and 5 and 0 and 33, leading zeros, trailing space tab newline, fragment, wrong query key, unknown part value, doubled query, upper-case part value) or round 1 (full URL, protocol-relative URL, wrong prefix and case, leading space, wrong locale, empty path).
+
+### Strict QR rule (43 cases)
+
+- 8 percent-encoded forms throw: `%2e`, `%2F`, `%32`, `%31`, `%3F`, `%23`, `%73`, `%3Cscript%3E`.
+- 3 non-ASCII digits throw: Devanagari, Arabic-Indic, full-width. The digit class matches ASCII only.
+- 3 separators throw: CR, U+2028, NBSP.
+- 2 backslash forms throw. 2 many-digit values throw (outside level 1 to 4 and week 1 to 32).
+- 2 further range edges throw: 4/33 and 1/0.
+- The trailing slash, the bare question mark, and the empty part throw.
+- 5 near-miss part values and keys throw: `Book`, `songs`, `decodables`, `song `, `Part`.
+- 4 valid-part-with-extra surroundings throw: `&x=1`, `x=1&`, `#frag`, `?x=1`.
+- 2 interior spaces and 2 mixed-case routes throw.
+- 6 good paths return host plus path byte-identical: 2/8, 4/1, 3/32, 3/17 with book, 4/32 with decodable, 1/32 with song.
+- The error message names the rejected path.
+- The accept blocks keep the reject blocks honest in both directions, so no guard passes vacuously.
+
+### Caller integration (6 cases)
+
+- An encoded song path stops the build with the hostile path in the message.
+- A non-ASCII read-along path stops the build with the hostile path in the message.
+- An empty part in the song path stops the build.
+- A good non-shipped path prints the exact canonical address with a QR module grid.
+- An absent read-along path prints exactly one code with the shipped song address (B-P2-09 behavior, now pinned).
+- Absent both paths print no code and the leaf still renders.
+
+## Findings
+
+No NEW defect. No blocking finding. The B-P2-08 test gap is now pinned by passing guards; the code already rejects each probe. The B-P2-09 absent-URL behavior is documented as the current contract.
+
+Accepted nonblocking items, recorded for later: A-P2-08 to A-P2-16, B-P2-05 to B-P2-09, C-P2-01 to C-P2-05.
+
+## Gates
+
+All four gates ran in the foreground through heavy-run.sh, in ONE wrapper, with the plan.md line 20 to 23 commands.
+
+- GREEN_TEST_COMMAND: exit 0. Test Files 7 passed (7), Tests 320 passed (320).
+- PROJECT_TESTS: exit 0. Test Files 18 passed (18), Tests 479 passed (479).
+- PROJECT_LINT: exit 0, no output.
+- PROJECT_CHECKS: exit 0 (the one accepted `FAIL    published` line for week st2/1; the command itself handles it).
+
+No 5 s load timeout occurred in this round. The full output of each gate is in `adversarial-63cedaf0-green.txt`, `-project.txt`, `-lint.txt`, and `-checks.txt`.
+
+Proof v6 is unchanged: sha256 `f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7`.
+`pnpm-lock.yaml` is unchanged. The working tree changes of other sessions (`video/storytime-song/scripts/render.mjs`, `dashboard/raw.json`, covers-track run files) stayed unstaged. No push.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: pass
+track: storytime_print_r1_20261025
+phase: Phase 2: Student workbook template, week 1 (2026-10-27 to 2026-11-05)
+commits: 1bd762f7b955042f6a8988d52c95185d1db59859
+tests_run: 49 new r2 guards pass (10 blocks; 43 strict-QR unit probes, 6 caller probes); GREEN_TEST_COMMAND exit 0 with 320/320 on 7 files; PROJECT_TESTS exit 0 with 479/479 on 18 files; PROJECT_LINT exit 0 with no output; PROJECT_CHECKS exit 0 with the accepted published FAIL
+files_changed: dashboard/__tests__/storytime-print-student-book-adversarial-r2.test.ts; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0.json; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0.log; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0-green.txt; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0-project.txt; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0-lint.txt; measure/runs/storytime_print_r1_20261025/adversarial-63cedaf0-checks.txt
+plan_updates: none
+known_failures: none
+handoff: no defect and no product question; the B-P2-08 gap is pinned by passing guards and the B-P2-09 absent-URL behavior is documented; the retry recommendation is none
+END_MEASURE_AGENT_RESULT
