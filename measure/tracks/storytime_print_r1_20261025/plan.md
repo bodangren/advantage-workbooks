@@ -310,7 +310,11 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
 
 _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`; `__tests__/storytime-manual.test.ts`). The template output must not change._
 
-- [~] Task (Red): `__tests__/storytime-print-teacher-book.test.ts`.
+- [x] Task (Red): `__tests__/storytime-print-teacher-book.test.ts`. commit 52be532d. Evidence: automated.
+    - RED_TEST_COMMAND before Red: exit 0; 8 files passed; Tests 329 passed (329). After Red: exit 1; 1 file failed; Tests 6 failed | 330 passed (336). All six failures are assertions in the new test file. No “No test files found” message occurred.
+    - The HTML characterization test passes before Green. The 9 passing covers adversarial tests are not part of the Red count. The first attempt had a test syntax error; the corrected run has no collection failure.
+    - PROJECT_LINT exit 0. PROJECT_CHECKS exit 0, including `tsc --noEmit`. No lock-wait line occurred. `pnpm-lock.yaml` stayed unchanged.
+    - Logs: `measure/runs/storytime_print_r1_20261025/mid-red-12e6271c-{red,lint,checks}.txt` and `mid-red-12e6271c.log`.
     - The text gate (`lib/storytime/print/text-diff.ts`) takes two `pdftotext -layout` outputs and reports each line that differs, except page numbers. A changed Thai word in a copy gives one difference. The same text gives none.
     - The print file name has a version and the language: `Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf`.
     - The Thai HTML of the shipped `w01.json` has every step id of the week and the four headings (`getTranslations('th').teachingNotes`).
