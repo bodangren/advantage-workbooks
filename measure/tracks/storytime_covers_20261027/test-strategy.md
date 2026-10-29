@@ -52,7 +52,7 @@ Phase heading, exact: `Phase 1: The cover module and the three Drive covers (202
 
 ### 4.1 Task order and owners
 
-The checker needs every counted task of the phase closed before the jr-green gate. The phase has 18 counted tasks: the 14 tasks of 2026-10-27 and 2026-10-28, and the four v3 tasks of 2026-10-29 (Red v3, Green v3, Check v3, and Hand-off v3). The `[b]` line in Phase 3 is not one of them.
+The checker needs every counted task of the phase closed before the jr-green gate. The phase has 21 counted tasks: the 14 tasks of 2026-10-27 and 2026-10-28, the four v3 tasks of 2026-10-29 (Red v3, Green v3, Check v3, and Hand-off v3), and the three v3b tasks of 2026-10-30 (Red v3b, Green v3b, and Check v3b, D11.5). The `[b]` line in Phase 3 is not one of them.
 
 | Order | Task | Owner | Evidence | Closes when |
 |---|---|---|---|---|
@@ -67,6 +67,11 @@ The checker needs every counted task of the phase closed before the jr-green gat
 | 16 | Green v3 (D11) | jr-green | automated | four gates, the four file checks on each v3 file, and the recorded SHA-256 values |
 | 17 | Check v3 (D11) | jr-green, then the orchestrator reads the defect list | automated | the contact-sheet look and the defect list |
 | 18 | Hand-off v3 (D11) | orchestrator | peer-report | the PM session confirms receipt |
+| 19 | Red v3b (D11.5) | mid-red | automated | the Red v3b commit; Green v3b task set to `[~]` |
+| 20 | Green v3b (D11.5) | jr-green | automated | four gates, M23 and M24 caught, the three v3 covers built again, and the v1, v2, and v3 SHA-256 lists |
+| 21 | Check v3b (D11.5) | jr-green, then the orchestrator page check | peer-report | a new contact sheet and the page check of the word fields and the books field |
+
+Hand-off v3 (row 18) runs after Check v3b, so that the PM session gets the v3b files.
 
 Daniel's approval is not a Phase 1 task. It is the Phase 2 owner gate. Phase 1 ends when the PM session has the files.
 
@@ -166,6 +171,14 @@ Each test below names the behavior it fixes and the falsification condition.
   5. Name week 8 in the week list of the books field. R21 fails.
   6. Force the panel size to 9 pt. R25 fails.
   Fixes a check that ignores a broken panel field. Falsified when any of the six copies passes.
+- R27. The display case of the panel words (D11.5a, FR-1a.3, FR-1a.4, 2026-10-30). The test loads the shipped data file, the shipped week files of `content/storytime/l2/`, and the phonics graph through `readPhonicsGraph` (rule 11.3). It reads the values from `storytimeCoverPanelValues` and from the built back HTML of the mock build.
+  1. Level 2 Unit 1: the sight words hold `I`, and not `i`. The decodable words hold `Nan`, `Pam`, `Pat`, `Sam`, and `Tom`, and no lower-case copy of these five words. Every source occurrence of these six words has the capital (measured 2026-10-30).
+  2. A word with one lower-case occurrence in the source candidates shows in lower case: `a`, `can`, `pan`, `tap`, and `mom` are lower case, although `A`, `Can`, `Tap`, and `Mom` begin some sentences.
+  3. The repeat check is case-insensitive: no two items of one field are equal after `toLowerCase()`. The lower-case key list of each field equals the key list before D11.5, in the same order (the Check v3 lists in `plan.md`), so the first positions do not move.
+  4. The rule is derived, not a fixed list. The test computes the expected case of each item from the source candidates of the shipped weeks (the family words, the home words, the back words, the page text, and the tricky words). It does not hardcode a name list in the module check.
+  Fixes the lower-case `i` and the lower-case names on the v3 back. Falsified when `i` or `nan` passes, when `Can` or `A` shows with a capital, or when a word shows two times in two cases.
+- R28. The books separator (D11.5b, FR-1a.5, 2026-10-30). The books value of Level 2 Unit 1 is the 14 titles joined with `; `, and the built back HTML shows the same string. Split on `; `, the value gives exactly 14 items, and item 12 is `Tap, Tap!`. A copy in a temp folder (`fs.mkdtemp`, rule 11.1) of one shipped week file with a title that holds `;` stops the mock build and the `--print` build with an error. The error names the book (level and unit) and the title. No PNG and no PDF is written before the stop.
+  Fixes a title list that reads as more books than it holds. Falsified when a split on `; ` does not give 14 items, when the value holds `, The` between two titles, or when a `;` title builds.
 
 Geometry in millimetres is the contract. Convert millimetres to pixels in one shared function: `Math.round(mm / 25.4 * 300)`. Do not hardcode a second pixel table.
 
@@ -231,8 +244,10 @@ Mutation proof. The Green log records `mutants: <n>, caught: <n>` as labeled int
 | M20 | The sight words come before the decodable words in the panel order | R20.1, R26 |
 | M21 | A `--print` build reads the draft text of week 2, and the build report calls that week `approved` | R22, R23 |
 | M22 | The v3 build writes into the v1 or the v2 output folder, so an old file is overwritten | FR-5.7, AC-13, and the recorded SHA-256 lists |
+| M23 | Every panel word is lower case again (`toLowerCase()` on the display value of the decodable and the sight words) | R27 |
+| M24 | The books field joins the titles with `, ` again | R28 |
 
-M1 to M6 are the six copies in the plan. M7 to M15 are required as well. A mutant that is not caught blocks Green. M16 to M22 are the D11 mutants of 2026-10-29, and they are required as well. A mutant that is not caught blocks Green v3.
+M1 to M6 are the six copies in the plan. M7 to M15 are required as well. A mutant that is not caught blocks Green. M16 to M22 are the D11 mutants of 2026-10-29, and they are required as well. A mutant that is not caught blocks Green v3. M23 and M24 are the D11.5 mutants of 2026-10-30, and they are required as well. A mutant that is not caught blocks Green v3b.
 
 ### 4.5 Check
 
@@ -275,7 +290,7 @@ The orchestrator runs this protocol. It does not wait for Daniel.
 - Review A, Review B, and Review C JSON are `pass` on one HEAD.
 - Adversarial JSON is `pass` with `PROJECT_TESTS`.
 - Phase acceptance is `pass` on an immutable HEAD.
-- M1 to M22 are caught. The Green log has labeled integers.
+- M1 to M24 are caught. The Green log has labeled integers.
 - Every `[x]` task has a real SHA on its first line and an evidence class.
 - The Hand-off task has the PM receipt.
 
@@ -383,6 +398,30 @@ A1 and A8 stay retired. The new rows add no A1 or A8 defense.
 - There is no `measure/test-all.sh`. No test needs a `## skip-aggregate:` header.
 - If `PROJECT_TESTS` fails only in files this phase did not change, record the failing file and retry when that other work is committed.
 - The R3, R5, M7, and M15 rows of 4.3 and 4.4 keep their text and stay marked as replaced. They are not deleted, and they do not run as the v3 contract.
+
+### 4.15 The v3b fix: word case and title separator (D11.5, 2026-10-30)
+
+One small amendment inside Phase 1, after the orchestrator page check of `contact-sheet-v3.png`. It adds R27, R28, M23, and M24, and the tasks Red v3b, Green v3b, and Check v3b. It adds no phase. Risk stays high (section 2): the change is small, but the panel text goes to Daniel on Drive and later into the print file. Review A applies (the shared module). Review B applies to the new build stop only: a `;` title must stop the build before any write. Review C applies: the display form is a changed contract of the panel values that the print track can read. Adversarial review applies. UX/API review and browser review do not apply (`UX_REQUIRED=never`, print files).
+
+| Task | Gate | Pass rule |
+|---|---|---|
+| Red v3b | `RED_TEST_COMMAND` (one heavy-run wrapper) | Exit non-zero. The line `Tests  <n> failed` has n of 1 or more, and each failure is R27 or R28. No `No test files found`. The commit holds only the test file and the plan markers. |
+| Green v3b | `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, `PROJECT_CHECKS` (each inside one heavy-run wrapper) | Each exits 0. The code change is `covers.ts` only (the build script only if the stop needs it). `mutants: 2, caught: 2` for M23 and M24, and M16 to M22 stay caught. |
+| Green v3b, live | the three v3 covers built again with `--version 3` and no `--print` into `proof-v3/`, then `PRINT_GATE` on a temporary PDF/X copy of each, the Thai byte check, the QR module check, and the copy check | Exit 0 each. The 15 v3 SHA-256 values are recorded before and after; the back files of Level 2 Unit 1 change. The 12 v1 and 12 v2 values are equal before and after. The `--print` stop of D12 stays. |
+| Check v3b | a new contact sheet `contact-sheet-v3b.png`, and the page check of the decodable, sight, and books fields | The page shows `I`, `Nan`, `Pam`, `Pat`, `Sam`, `Tom`, lower-case `a`, `can`, `tap`, and the titles split by `; `. A sheet that nobody opened does not close the task. |
+
+Anti-pattern coverage of D11.5:
+
+| A | Defense | Falsified when |
+|---|---|---|
+| A3 | Labeled counts: `items: 14` for the books, the capital word list by name, `mutants: 2, caught: 2`. | A bare digit stands for a word count |
+| A4 | R27 asserts exact strings (`I`, `Nan`), not a truthy match. A case-insensitive compare in R27.1 is a failure of the test design. | M23 survives |
+| A5 | Check v3b quotes the page text as `pdftotext` and the page show it, after the build. | The plan states the new page text before the build |
+| A7 | No word is dropped by a bare-word filter. R27.3 compares the lower-case key lists before and after D11.5. | A field loses an item and the test passes |
+| A9 | R27 and R28 load `content/` and `lib/` only. | A test path contains `measure/tracks/` |
+| A10 | R27.4 derives the expected case from the shipped week files, not from a fixed list in the module. | The module holds a hardcoded name list and the test passes |
+
+Artifact tests and live tests: R27 and R28 on `storytimeCoverPanelValues` and the HTML are artifact tests. The live proof is the rebuilt `back.png`, the `pdftotext` of page 2, and the contact sheet. Both classes are needed. Intentionally red: `RED_TEST_COMMAND` is red only between the Red v3b commit and the Green v3b commit; do not push in that window. Section 4.14.4 holds for the rest.
 
 ## 5. Phase 2 outline
 
