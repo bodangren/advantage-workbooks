@@ -5,17 +5,23 @@ import { execFileSync } from 'child_process';
 import { chromium, type Browser } from '@playwright/test';
 import sharp from 'sharp';
 import { REPO_ROOT } from '../../lib/lesson-package/files';
+import { readLevelWeeks, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import {
     checkStorytimeCoverData,
     loadStorytimeCoverBooks,
     renderStorytimeCover,
     storytimeCoverCornerMode,
+    storytimeCoverDefaultOutDir,
     storytimeCoverFileUrl,
     storytimeCoverMmToPx,
+    storytimeCoverPanelChosenPt,
+    storytimeCoverPanelValues,
     STORYTIME_COVER_BOX,
     STORYTIME_COVER_FILL_SHARE,
     STORYTIME_COVER_GROUND_TINTS,
     STORYTIME_COVER_LOGO_FILE,
+    STORYTIME_COVER_PANEL_FIELDS,
+    STORYTIME_COVER_PANEL_INSET_MM,
     type StorytimeCoverBook,
 } from '../../lib/storytime/print/covers';
 import {
@@ -38,17 +44,23 @@ const USAGE = `Builds the cover of one Storytime Advantage student book (spec FR
 the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
 PDF/X-1a print file too. Run it under the heavy-job lock.
 
-Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> --out <dir> [--print] [--data <books.json>] [--version <n>]
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
 
   --level     The level of the book, 1 to 4
   --unit      The unit of the book, 1 to 4
-  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
   --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
   --data      The data file of the 16 books (default: content/storytime/covers/books.json)
   --version   The version in the file name of the print file (default 1)
 
-Exit code 1 when the data holds an error, when a picture file is missing, or when the PDF/X
-checks fail. The build writes no deliverable in those cases.`;
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.`;
 
 /** The size of the PNG files: 300 ppi of A4 (spec FR-5.1). */
 const PNG_SIZE = { width: 2480, height: 3508 };
@@ -129,6 +141,38 @@ function pdfxFileName(level: number, unit: number, version: number): string {
     return `Storytime-Advantage-L${level}-U${unit}-Student-Book-Cover-v${version}_PDFX-1a.pdf`;
 }
 
+/**
+ * The panel report of one book: the state, the source weeks, and the approval state of each
+ * source week of each field (D11.4, D12, FR-1a.8).
+ * @param book The book row.
+ * @param weeks The shipped week files of the level, parsed.
+ * @returns The report entries, in the panel order.
+ */
+function panelReport(book: StorytimeCoverBook, weeks: ReturnType<typeof readLevelWeeks>[number]['week'][]): Array<{
+    field: string;
+    state: 'present' | 'missing';
+    sourceWeeks: number[];
+    approval: Record<number, string>;
+}> {
+    const unitWeeks = weeks
+        .filter((week): week is NonNullable<typeof week> => Boolean(week) && week!.meta.week >= book.firstWeek && week!.meta.week <= book.lastWeek)
+        .sort((a, b) => a.meta.week - b.meta.week);
+    const readable = new Map<string, number[]>();
+    for (const field of STORYTIME_COVER_PANEL_FIELDS) readable.set(field, []);
+    if (book.panel?.story?.weeks?.length) readable.set('story', [...book.panel.story.weeks]);
+    const known = new Set(unitWeeks.map((week) => week.meta.week));
+    for (const field of ['sounds', 'decodable', 'sight', 'books'] as const) {
+        readable.set(field, book.panel?.[field]?.weeks?.filter((week) => known.has(week)) ?? []);
+    }
+    const approval: Record<number, string> = {};
+    for (const week of unitWeeks) approval[week.meta.week] = week.approval.text.status === 'approved' ? 'approved' : 'draft';
+    return STORYTIME_COVER_PANEL_FIELDS.map((field) => {
+        const sourceWeeks = readable.get(field) ?? [];
+        const present = field === 'story' ? Boolean(book.panel?.story?.text?.trim()) : Boolean(sourceWeeks.length);
+        return { field, state: present ? 'present' as const : 'missing' as const, sourceWeeks, approval };
+    });
+}
+
 async function main(argv: string[]): Promise<number> {
     let level: number | undefined;
     let unit: number | undefined;
@@ -161,8 +205,13 @@ async function main(argv: string[]): Promise<number> {
         return 2;
     }
     if (!out) {
-        console.error(`--out is the output folder.\n\n${USAGE}`);
-        return 2;
+        if (version === 3) {
+            const printReadyRoot = path.join(os.homedir(), 'Desktop', 'print-ready');
+            out = path.join(storytimeCoverDefaultOutDir(version, printReadyRoot), `l${level}u${unit}`);
+        } else {
+            console.error(`--out is the output folder.\n\n${USAGE}`);
+            return 2;
+        }
     }
     if (!Number.isInteger(version) || version < 1) {
         console.error(`--version must be 1 or more.\n\n${USAGE}`);
@@ -170,6 +219,8 @@ async function main(argv: string[]): Promise<number> {
     }
 
     let book: StorytimeCoverBook | undefined;
+    let panelValues: ReturnType<typeof storytimeCoverPanelValues> = [];
+    let reportBooks: Array<Record<string, unknown>> = [];
     try {
         const data = loadStorytimeCoverBooks(dataFile);
         const errors = checkStorytimeCoverData(data);
@@ -182,6 +233,30 @@ async function main(argv: string[]): Promise<number> {
             console.error(`No row for Level ${level} Unit ${unit} in the data file.`);
             return 1;
         }
+        const levelWeeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((entry) => (entry.week ? [entry.week] : []));
+        const graph = readPhonicsGraph();
+        if (!graph) {
+            console.error('The phonics graph is not readable, so the panel fields cannot be derived.');
+            return 1;
+        }
+        panelValues = storytimeCoverPanelValues(book, { weeks: levelWeeks, graph });
+        if (print && version >= 3) {
+            const approvedWeeks = levelWeeks.filter((week) => week.approval.text.status === 'approved');
+            const approvedValues = storytimeCoverPanelValues(book, { weeks: approvedWeeks, graph });
+            const missing = approvedValues.filter((value) => !value.value.trim());
+            if (missing.length) {
+                for (const value of missing) {
+                    console.error(`Level ${level} Unit ${unit} (${book.title}): the panel field "${value.field}" has no data from the approved sources (D12); the print build stops.`);
+                }
+                return 1;
+            }
+        }
+        reportBooks = data.books.map((row) => ({
+            level: row.level,
+            unit: row.unit,
+            title: row.title,
+            panel: panelReport(row, readLevelWeeks(STORYTIME_ROOT, row.level).flatMap((entry) => (entry.week ? [entry.week] : []))),
+        }));
     } catch (error) {
         console.error(error instanceof Error ? error.message : String(error));
         return 1;
@@ -221,28 +296,27 @@ async function main(argv: string[]): Promise<number> {
             ),
         );
 
-        let panelFile = '';
-        if (book.summary) {
-            panelFile = path.join(tmp, 'panel.png');
-            fs.writeFileSync(
-                panelFile,
-                await storytimeCoverBlock(
-                    {
-                        width: storytimeCoverMmToPx(STORYTIME_COVER_BOX.panel.width),
-                        height: storytimeCoverMmToPx(STORYTIME_COVER_BOX.panel.height),
-                    },
-                    '#F7F5F0',
-                    STORYTIME_COVER_BOX.panel.radiusMm,
-                    { colour: '#E1DDD3', widthMm: 0.4 },
-                ),
-            );
-        }
+        const panelFile = path.join(tmp, 'panel.png');
+        fs.writeFileSync(
+            panelFile,
+            await storytimeCoverBlock(
+                {
+                    width: storytimeCoverMmToPx(STORYTIME_COVER_BOX.panel.width),
+                    height: storytimeCoverMmToPx(STORYTIME_COVER_BOX.panel.height),
+                },
+                '#F7F5F0',
+                STORYTIME_COVER_BOX.panel.radiusMm,
+                { colour: '#E1DDD3', widthMm: 0.4 },
+            ),
+        );
 
         const assets = {
             picture: storytimeCoverFileUrl(pictureFile),
             card: storytimeCoverFileUrl(cardFile),
-            panel: panelFile ? storytimeCoverFileUrl(panelFile) : '',
+            panel: storytimeCoverFileUrl(panelFile),
             logo: storytimeCoverFileUrl(STORYTIME_COVER_LOGO_FILE),
+            panelValues,
+            panelMock: !print,
         };
         const { frontHtml, backHtml } = renderStorytimeCover(book, assets);
         const frontFile = path.join(tmp, 'front.html');
@@ -268,7 +342,21 @@ async function main(argv: string[]): Promise<number> {
         }
 
         fs.writeFileSync(path.join(out, 'corner-mode.txt'), storytimeCoverCornerMode());
-        console.log(`Cover of ${book.title}: ${frontPng}, ${backPng}, ${chromePdf} (${pages} pages), corner mode ${storytimeCoverCornerMode()}`);
+        const chosenPt = storytimeCoverPanelChosenPt(panelValues, STORYTIME_COVER_PANEL_INSET_MM);
+        const report = {
+            book: book.title,
+            level,
+            unit,
+            version,
+            print,
+            panel: {
+                chosenPt,
+                fields: panelReport(book, readLevelWeeks(STORYTIME_ROOT, level).map((entry) => entry.week)),
+                books: reportBooks,
+            },
+        };
+        fs.writeFileSync(path.join(out, 'build-report.json'), `${JSON.stringify(report, null, 2)}\n`);
+        console.log(`Cover of ${book.title}: ${frontPng}, ${backPng}, ${chromePdf} (${pages} pages), corner mode ${storytimeCoverCornerMode()}, panel size ${chosenPt}pt`);
 
         if (print) {
             const pdfx = path.join(out, pdfxFileName(level, unit, version));

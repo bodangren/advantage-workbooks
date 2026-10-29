@@ -5,6 +5,7 @@ import { BACK_LINES, richHtml } from '../../covers/back-text';
 import { THAI } from '../../document-wrapper/print-fonts';
 import { REPO_ROOT } from '../../lesson-package/files';
 import { generateQRCode } from '../../qr-generator';
+import { programWeek, wordNeed, type PhonicsGraph } from '../phonics';
 import type { StorytimeWeek } from '../schema';
 
 /**
@@ -98,6 +99,57 @@ export interface StorytimeCoverFigure {
     file: string;
 }
 
+/**
+ * The five panel fields of the back cover, in their order (D11.1): the story, the sounds, the
+ * decodable words, the sight words, and the books of the unit.
+ */
+export const STORYTIME_COVER_PANEL_FIELDS = ['story', 'sounds', 'decodable', 'sight', 'books'] as const;
+
+/** One field of the back panel (D11.1). */
+export type StorytimeCoverPanelField = (typeof STORYTIME_COVER_PANEL_FIELDS)[number];
+
+/** The fixed font scale of the panel text, in points, largest first (D11.3). 10 pt is the floor. */
+export const STORYTIME_COVER_PANEL_SCALE_PT = [14, 13, 12, 11, 10] as const;
+
+/** The text box inside the back panel: 12 mm at each side of the 186 x 138 mm panel (D11.3). */
+export const STORYTIME_COVER_PANEL_INSET_MM = { widthMm: 162, heightMm: 114 } as const;
+
+/** The light line that a missing field shows on the Drive mock, never in a print build (D11.4). */
+export const STORYTIME_COVER_PANEL_MISSING_LINE = 'comes with the week text';
+
+/** The heading text of each panel field, in the panel order. */
+const STORYTIME_COVER_PANEL_HEADINGS: Record<StorytimeCoverPanelField, string> = {
+    story: 'Story',
+    sounds: 'Sounds',
+    decodable: 'Decodable words',
+    sight: 'Sight words',
+    books: 'Books',
+};
+
+/**
+ * The estimated average advance width of the Andika text of the panel, in em. The estimate is
+ * wider than the measured average of the face (about 0.56 em), so the fit check overestimates
+ * the line count and the chosen size never overflows the real layout.
+ */
+const STORYTIME_COVER_PANEL_CHAR_EM = 0.62;
+
+/** The line height of the panel text, in em (the CSS line-height of the panel inset). */
+const STORYTIME_COVER_PANEL_LINE_HEIGHT = 1.5;
+
+/** One entry of the panel of a book row: the source weeks of one field (FR-1.7). */
+export interface StorytimeCoverPanelEntry {
+    weeks: number[];
+}
+
+/** The panel of a book row (D11, FR-1.7): the story text with its source weeks, and the four derived week lists. */
+export interface StorytimeCoverBookPanel {
+    story: { text: string; weeks: number[] };
+    sounds: StorytimeCoverPanelEntry;
+    decodable: StorytimeCoverPanelEntry;
+    sight: StorytimeCoverPanelEntry;
+    books: StorytimeCoverPanelEntry;
+}
+
 /** One row of the data file: one student book. */
 export interface StorytimeCoverBook {
     level: number;
@@ -107,7 +159,7 @@ export interface StorytimeCoverBook {
     title: string;
     levelColour: string;
     pictureRecipe: StorytimeCoverFigure[];
-    summary: null | { text: string; week: number };
+    panel: StorytimeCoverBookPanel;
 }
 
 /** The data file of the 16 books. */
@@ -126,16 +178,35 @@ export interface StorytimeCoverQrGrid {
     cells: boolean[][];
 }
 
-/** The files of one build: the composed cover picture and the blocks of the cover. */
+/** The files of one build: the composed cover picture, the blocks of the cover, and the panel data. */
 export interface StorytimeCoverAssets {
     /** The URL of the composed cover picture. */
     picture: string;
     /** The URL of the level card block, with its corner radius. */
     card: string;
-    /** The URL of the unit summary panel block, with its corner radius. */
+    /** The URL of the back panel block, with its corner radius. */
     panel: string;
     /** The URL of the company logo. */
     logo: string;
+    /** The five panel field values, in the panel order. Empty means the panel shows missing fields. */
+    panelValues?: StorytimeCoverPanelValue[];
+    /** True for a Drive mock: a missing field shows the light line (D11.4). A print build omits it. */
+    panelMock?: boolean;
+}
+
+/** The week files and the phonics graph that supply the panel data of one level (FR-1a.2). */
+export interface StorytimeCoverPanelCtx {
+    /** The shipped week files of the level, parsed. The build restricts them for the print source rule (D12). */
+    weeks: StorytimeWeek[];
+    /** The decodability facts of the phonics graph. An approved source for every build (D12). */
+    graph: PhonicsGraph;
+}
+
+/** One value of the back panel: the field, the rendered text, and the items behind it (FR-1a). */
+export interface StorytimeCoverPanelValue {
+    field: StorytimeCoverPanelField;
+    value: string;
+    items: string[];
 }
 
 /** The forbidden words of a cover (spec FR-4.2 and FR-4.3). */
@@ -202,7 +273,7 @@ export function storytimeCoverTitle(level: number, unit: number): string {
 
 /**
  * Checks the data of the 16 books: the series, the trim, the colours, the LINE address, the
- * rows, the titles, the weeks, the picture files, and the unit summaries.
+ * rows, the titles, the weeks, the picture files, and the panel structure (D11, FR-1).
  * @param data The data.
  * @returns The errors (empty when the data is good).
  */
@@ -275,11 +346,32 @@ export function checkStorytimeCoverData(data: StorytimeCoverData): string[] {
             if (first) errors.push(`${title}: the figure group (${group}) repeats the group of ${first}.`);
             else figureGroups.set(group, title);
         }
-        if (book.summary !== null) {
-            if (!book.summary || typeof book.summary.text !== 'string' || !book.summary.text.trim()) {
-                errors.push(`${title}: the unit summary is empty.`);
-            } else if (book.summary.week < book.firstWeek || book.summary.week > book.lastWeek) {
-                errors.push(`${title}: the unit summary comes from week ${book.summary.week}, outside the unit.`);
+        const panel = book.panel as StorytimeCoverBookPanel | undefined;
+        if (!panel || typeof panel !== 'object') {
+            errors.push(`${title}: the row holds no panel with the five fields (D11).`);
+        } else {
+            errors.push(...checkStorytimeCoverPanelFields(Object.keys(panel)));
+            const story = panel.story;
+            if (!story || typeof story.text !== 'string' || !Array.isArray(story.weeks)) {
+                errors.push(`${title}: the story entry holds no text and no week list.`);
+            } else {
+                for (const week of story.weeks) {
+                    if (!Number.isInteger(week) || week < book.firstWeek || week > book.lastWeek) {
+                        errors.push(`${title}: the story week ${week} is outside the unit.`);
+                    }
+                }
+            }
+            for (const field of ['sounds', 'decodable', 'sight', 'books'] as const) {
+                const entry = panel[field] as StorytimeCoverPanelEntry | undefined;
+                if (!entry || !Array.isArray(entry.weeks)) {
+                    errors.push(`${title}: the ${field} entry holds no week list.`);
+                    continue;
+                }
+                for (const week of entry.weeks) {
+                    if (!Number.isInteger(week) || week < book.firstWeek || week > book.lastWeek) {
+                        errors.push(`${title}: the ${field} week ${week} is outside the unit.`);
+                    }
+                }
             }
         }
     }
@@ -315,28 +407,274 @@ export function storytimeCoverStudentWords(week: StorytimeWeek): Set<string> {
 }
 
 /**
- * Checks the unit summary of a book: the week must be approved, the summary must be short, and
- * every word of it must be a word of the student text of that week (D1, open point P1).
- * @param summary The summary text.
- * @param week The week of the summary.
- * @returns The errors (empty when the summary is good).
+ * The words of the student text of a week that a panel field may use: the family words, the home
+ * words, the back words of the student books, and the page text of the student books (FR-1a.3).
+ * @param week The week.
+ * @returns The words, in lower case, with repeats.
  */
-export function checkStorytimeCoverSummary(summary: string, week: StorytimeWeek): string[] {
+function storytimeCoverPanelCandidateWords(week: StorytimeWeek): string[] {
+    const out: string[] = [];
+    for (const entry of week.focus.family.words) out.push(entry.word);
+    for (const word of week.home?.words ?? []) out.push(word);
+    for (const book of week.books) for (const word of book.backWords) out.push(word);
+    for (const book of week.books) for (const page of book.pages) for (const word of page.text.match(/[a-z]+/gi) ?? []) out.push(word);
+    return out.map((word) => word.toLowerCase());
+}
+
+/**
+ * The weeks of the unit of a book that the context can read, in week order (FR-1.8).
+ * @param book The book row.
+ * @param ctx The panel context.
+ * @returns The readable weeks of the unit.
+ */
+function storytimeCoverPanelUnitWeeks(book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx): StorytimeWeek[] {
+    return ctx.weeks
+        .filter((week) => week.meta.week >= book.firstWeek && week.meta.week <= book.lastWeek)
+        .sort((a, b) => a.meta.week - b.meta.week);
+}
+
+/**
+ * The five values of the back panel of a book, in the panel order (D11, FR-1a). The story comes
+ * from the data file when every named source week is in the context. The four derived fields come
+ * from the weeks of the context: the sounds from `focus.element` and the graph, the decodable
+ * words from `wordNeed` at the program week, the sight words from `focus.trickyWords` that the
+ * graph cannot decode yet, and the books from the reader titles. No value repeats.
+ * @param book The book row.
+ * @param ctx The panel context. A print build passes only the approved weeks (D12).
+ * @returns The values, in the order of `STORYTIME_COVER_PANEL_FIELDS`.
+ */
+export function storytimeCoverPanelValues(book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx): StorytimeCoverPanelValue[] {
+    const unitWeeks = storytimeCoverPanelUnitWeeks(book, ctx);
+    const inCtx = new Set(unitWeeks.map((week) => week.meta.week));
+    const storyWeeks = book.panel?.story?.weeks ?? [];
+    const story = storyWeeks.every((week) => inCtx.has(week)) ? (book.panel?.story?.text ?? '').trim() : '';
+    const sounds: string[] = [];
+    const decodable: string[] = [];
+    const sight: string[] = [];
+    const books: string[] = [];
+    for (const week of unitWeeks) {
+        const program = programWeek(book.level, week.meta.week);
+        const element = week.focus.element;
+        if (element && element.id.startsWith('english.phonics.')) {
+            const sound = `${element.graphemes.join('')} ${element.sound}`;
+            if (!sounds.includes(sound)) sounds.push(sound);
+        }
+        for (const word of storytimeCoverPanelCandidateWords(week)) {
+            const need = wordNeed(word, ctx.graph, program);
+            if (need.week !== null && need.week <= program && !decodable.includes(word)) decodable.push(word);
+        }
+        for (const tricky of week.focus.trickyWords) {
+            const word = tricky.toLowerCase();
+            const need = wordNeed(word, ctx.graph, program);
+            if ((need.week === null || need.week > program) && !sight.includes(word)) sight.push(word);
+        }
+        for (const reader of week.books.filter((row) => row.kind === 'readalong' || row.kind === 'decodable')) {
+            if (!books.includes(reader.title)) books.push(reader.title);
+        }
+    }
+    return [
+        { field: 'story', value: story, items: story ? [story] : [] },
+        { field: 'sounds', value: sounds.join(', '), items: sounds },
+        { field: 'decodable', value: decodable.join(', '), items: decodable },
+        { field: 'sight', value: sight.join(', '), items: sight },
+        { field: 'books', value: books.join(', '), items: books },
+    ];
+}
+
+/**
+ * The weeks of each panel field that the context can read (FR-1.8, D11.2). A week is readable
+ * when the module can read its sources: the week file parses (the week is in the context) and
+ * the phonics graph holds at least one GPC node at the program week of that week. A review week
+ * with no graph node at its program week, and a level with no graph data, reads no field.
+ * @param book The book row.
+ * @param ctx The panel context.
+ * @returns The readable weeks of each field, in the panel order.
+ */
+export function storytimeCoverPanelReadableWeeks(
+    book: StorytimeCoverBook,
+    ctx: StorytimeCoverPanelCtx,
+): Record<StorytimeCoverPanelField, number[]> {
+    const unitWeeks = storytimeCoverPanelUnitWeeks(book, ctx);
+    const inCtx = new Set(unitWeeks.map((week) => week.meta.week));
+    const readable: Record<StorytimeCoverPanelField, number[]> = { story: [], sounds: [], decodable: [], sight: [], books: [] };
+    readable.story = (book.panel?.story?.weeks ?? []).filter((week) => inCtx.has(week));
+    const graphWeeks = new Set<number>();
+    for (const week of ctx.graph.pairWeek.values()) graphWeeks.add(week);
+    for (const week of unitWeeks) {
+        if (!graphWeeks.has(programWeek(book.level, week.meta.week))) continue;
+        readable.sounds.push(week.meta.week);
+        readable.decodable.push(week.meta.week);
+        readable.sight.push(week.meta.week);
+        readable.books.push(week.meta.week);
+    }
+    return readable;
+}
+
+/**
+ * Checks the order of the panel field names against the D11 order (D11.1).
+ * @param fields The field names, in their given order.
+ * @returns The errors (empty when the order is the panel order).
+ */
+export function checkStorytimeCoverPanelFields(fields: readonly string[]): string[] {
     const errors: string[] = [];
-    if (week.approval.text.status !== 'approved') {
-        errors.push(`Week ${week.meta.week} is not approved for print, so it holds no unit summary.`);
+    const expected = STORYTIME_COVER_PANEL_FIELDS as readonly string[];
+    const present = fields.filter((field) => expected.includes(field));
+    if (present.length !== expected.length) {
+        errors.push(`The panel holds the fields ${present.join(', ')}, not the five fields of D11.`);
+        return errors;
     }
-    const words = summary.trim().split(/\s+/).filter(Boolean);
-    if (!words.length) errors.push('The unit summary is empty.');
-    if (words.length > 25) errors.push(`The unit summary has ${words.length} words, 25 at most.`);
-    const allowed = storytimeCoverStudentWords(week);
-    for (const word of words) {
-        const token = word.toLowerCase().replace(/[^a-z]/g, '');
-        if (!token) continue;
-        if (!allowed.has(token)) errors.push(`The word "${token}" is not in the student text of week ${week.meta.week}.`);
+    for (const [index, field] of present.entries()) {
+        if (field !== expected[index]) {
+            errors.push(`The panel field order is ${present.join(', ')}, not ${expected.join(', ')}.`);
+            break;
+        }
     }
-    if (/\b(19|20)\d{2}\b/.test(summary)) errors.push('The unit summary holds a year.');
     return errors;
+}
+
+/**
+ * Checks the panel row of a book against the context: the field order, the story source weeks,
+ * the story words against the student text of the source weeks, and the week lists of the four
+ * derived fields against the readable weeks (D11.2, FR-1.8, FR-1.9).
+ * @param book The book row.
+ * @param ctx The panel context.
+ * @returns The errors (empty when the row is good).
+ */
+export function checkStorytimeCoverPanelRow(book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx): string[] {
+    const errors: string[] = [];
+    const title = book.title;
+    const panel = book.panel;
+    if (!panel || typeof panel !== 'object') {
+        errors.push(`${title}: the row holds no panel with the five fields (D11).`);
+        return errors;
+    }
+    errors.push(...checkStorytimeCoverPanelFields(Object.keys(panel)));
+    const unitWeeks = storytimeCoverPanelUnitWeeks(book, ctx);
+    const inUnit = new Set(unitWeeks.map((week) => week.meta.week));
+    const story = panel.story;
+    if (!story || typeof story.text !== 'string' || !Array.isArray(story.weeks)) {
+        errors.push(`${title}: the story entry holds no text and no week list.`);
+    } else {
+        const sources = unitWeeks.filter((week) => story.weeks.includes(week.meta.week));
+        for (const week of story.weeks) {
+            if (!inUnit.has(week)) errors.push(`${title}: the story week ${week} is outside the unit.`);
+            else if (!sources.some((entry) => entry.meta.week === week)) errors.push(`${title}: the story week ${week} is not readable.`);
+        }
+        if (story.text.trim()) {
+            if (!sources.length) errors.push(`${title}: the story names no readable source week.`);
+            const allowed = new Set<string>();
+            for (const week of sources) for (const word of storytimeCoverStudentWords(week)) allowed.add(word);
+            for (const word of story.text.toLowerCase().match(/[a-z]+/g) ?? []) {
+                if (!allowed.has(word)) errors.push(`The story word "${word}" is not in the student text of the source weeks of ${title}.`);
+            }
+            if (/\b(19|20)\d{2}\b/.test(story.text)) errors.push(`${title}: the story holds a year.`);
+        } else if (story.weeks.length) {
+            errors.push(`${title}: the story names source weeks but holds no text.`);
+        }
+    }
+    const readable = storytimeCoverPanelReadableWeeks(book, ctx);
+    for (const field of ['sounds', 'decodable', 'sight', 'books'] as const) {
+        const entry = panel[field] as StorytimeCoverPanelEntry | undefined;
+        if (!entry || !Array.isArray(entry.weeks)) {
+            errors.push(`${title}: the ${field} entry holds no week list.`);
+            continue;
+        }
+        for (const week of entry.weeks) {
+            if (!inUnit.has(week)) errors.push(`${title}: the ${field} week ${week} is outside the unit.`);
+            else if (!readable[field].includes(week)) errors.push(`${title}: the ${field} week ${week} is not readable for the field.`);
+        }
+        for (const week of readable[field]) {
+            if (!entry.weeks.includes(week)) errors.push(`${title}: the readable ${field} week ${week} is not in the week list.`);
+        }
+    }
+    return errors;
+}
+
+/**
+ * The height of the panel text block at one size, in millimetres: one heading line per field plus
+ * the wrapped value lines or the missing-field line (D11.3). The estimate uses the average
+ * character width of `STORYTIME_COVER_PANEL_CHAR_EM`, which is wider than the real face, so the
+ * estimate overestimates the line count.
+ * @param values The panel values, in the panel order.
+ * @param pt The font size in points.
+ * @param inset The panel inset box, in millimetres.
+ * @returns The estimated height of the text block.
+ */
+export function storytimeCoverPanelLayoutMm(
+    values: readonly StorytimeCoverPanelValue[],
+    pt: number,
+    inset: { widthMm: number; heightMm: number },
+): number {
+    const charMm = (pt * STORYTIME_COVER_PANEL_CHAR_EM * 25.4) / 72;
+    const charsPerLine = Math.max(8, Math.floor(inset.widthMm / charMm));
+    const lineMm = (pt * STORYTIME_COVER_PANEL_LINE_HEIGHT * 25.4) / 72;
+    let lines = 0;
+    for (const entry of values) {
+        lines += 1;
+        const words = entry.value.trim().split(/\s+/).filter(Boolean);
+        if (!words.length) {
+            lines += 1;
+            continue;
+        }
+        let wrapped = 1;
+        let current = 0;
+        for (const word of words) {
+            const add = word.length + (current ? 1 : 0);
+            if (current + add > charsPerLine && current) {
+                wrapped++;
+                current = word.length;
+            } else {
+                current += add;
+            }
+        }
+        lines += wrapped;
+    }
+    return lines * lineMm;
+}
+
+/**
+ * Tells when a panel layout does not fit: a size outside the scale never fits, and a size of the
+ * scale does not fit when the estimated text block is higher than the inset (D11.3, M19).
+ * @param values The panel values, in the panel order.
+ * @param pt The font size in points.
+ * @param inset The panel inset box, in millimetres.
+ * @returns True when the layout overflows the inset.
+ */
+export function storytimeCoverPanelOverflows(
+    values: readonly StorytimeCoverPanelValue[],
+    pt: number,
+    inset: { widthMm: number; heightMm: number },
+): boolean {
+    if (!(STORYTIME_COVER_PANEL_SCALE_PT as readonly number[]).includes(pt)) return true;
+    return storytimeCoverPanelLayoutMm(values, pt, inset) > inset.heightMm;
+}
+
+/**
+ * The chosen panel size: the largest size of the fixed scale that fits the inset (D11.3). The
+ * floor is the smallest size of the scale, 10 pt.
+ * @param values The panel values, in the panel order.
+ * @param inset The panel inset box, in millimetres.
+ * @returns The chosen size in points.
+ */
+export function storytimeCoverPanelChosenPt(
+    values: readonly StorytimeCoverPanelValue[],
+    inset: { widthMm: number; heightMm: number },
+): number {
+    for (const pt of STORYTIME_COVER_PANEL_SCALE_PT) {
+        if (!storytimeCoverPanelOverflows(values, pt, inset)) return pt;
+    }
+    return STORYTIME_COVER_PANEL_SCALE_PT[STORYTIME_COVER_PANEL_SCALE_PT.length - 1];
+}
+
+/**
+ * The default output folder of one version, under the print-ready root (FR-5.6, FR-5.7). Version 1
+ * keeps the original `proof` folder; a later version gets its own `proof-v<n>` folder.
+ * @param version The version of the build.
+ * @param printReadyRoot The print-ready root, for example `~/Desktop/print-ready`.
+ * @returns The output folder.
+ */
+export function storytimeCoverDefaultOutDir(version: number, printReadyRoot: string): string {
+    return path.join(printReadyRoot, 'storytime', version <= 1 ? 'proof' : `proof-v${version}`);
 }
 
 /**
@@ -507,7 +845,11 @@ body { font-family: 'Andika', 'Sarabun', sans-serif; font-synthesis: none; color
 .logo img { display: block; width: 100%; height: 100%; }
 .panel { position: absolute; }
 .panel img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
-.panel-text { position: absolute; left: 12mm; top: 12mm; width: 162mm; font-size: 14pt; line-height: 1.5; }
+.panel-inset { position: absolute; overflow: hidden; }
+.panel-field { position: relative; line-height: 1.5; }
+.panel-heading { font-weight: 700; }
+.panel-value { color: #1a1a1a; }
+.panel-missing { color: #8a857a; }
 .contact { position: absolute; font-size: 11.5pt; line-height: 1.62; color: #1a1a1a; }
 .contact p { margin: 0; }
 .contact .head { font-weight: 700; }
@@ -555,17 +897,33 @@ export function renderStorytimeCover(
     const card = assets.card ?? '';
     const panelImage = assets.panel ?? '';
     const logo = assets.logo ?? storytimeCoverFileUrl(STORYTIME_COVER_LOGO_FILE);
+    const panelValues = assets.panelValues ?? [];
+    const panelMock = assets.panelMock ?? true;
+    const panelPt = storytimeCoverPanelChosenPt(panelValues, STORYTIME_COVER_PANEL_INSET_MM);
+    const fields = (STORYTIME_COVER_PANEL_FIELDS as readonly StorytimeCoverPanelField[])
+        .map((field) => {
+            const entry = panelValues.find((value) => value.field === field);
+            const value = entry?.value.trim() ?? '';
+            const body = value
+                ? `<div class="panel-value" data-part="panel-value">${escapeCoverText(value)}</div>`
+                : panelMock
+                    ? `<div class="panel-missing" data-part="panel-missing">${STORYTIME_COVER_PANEL_MISSING_LINE}</div>`
+                    : '';
+            return `<div class="panel-field" data-part="panel-field" data-field="${field}" style="font-size: ${panelPt}pt;">` +
+                `<div class="panel-heading" data-part="panel-heading">${STORYTIME_COVER_PANEL_HEADINGS[field]}</div>${body}</div>`;
+        })
+        .join('\n');
     const front = `<div class="wordmark" data-part="series-name" style="color:${book.levelColour}">${STORYTIME_SERIES}</div>
 <div class="picture-area" data-part="picture-area" style="left: ${box.pictureArea.left}mm; top: ${box.pictureArea.top}mm; width: ${box.pictureArea.width}mm; height: ${box.pictureArea.height}mm;"><img src="${picture}" alt=""></div>
 <div class="level-card" data-part="level-card" style="left: ${box.levelCard.left}mm; top: ${box.levelCard.top}mm; width: ${box.levelCard.width}mm; height: ${box.levelCard.height}mm;"><img src="${card}" alt="">
 <div class="level-line">Level ${book.level} &middot; Unit ${book.unit}</div>
 <div class="book-line">Student Book</div>
 </div>`;
-    const panel = book.summary
-        ? `<div class="panel" data-part="panel" style="left: ${box.panel.left}mm; top: ${box.panel.top}mm; width: ${box.panel.width}mm; height: ${box.panel.height}mm;"><img src="${panelImage}" alt="">
-<div class="panel-text">${escapeCoverText(book.summary.text)}</div>
-</div>`
-        : '';
+    const panel = `<div class="panel" data-part="panel" style="left: ${box.panel.left}mm; top: ${box.panel.top}mm; width: ${box.panel.width}mm; height: ${box.panel.height}mm; background: #F7F5F0; border: 0.4mm solid #E1DDD3; border-radius: 3mm;"><img src="${panelImage}" alt="">
+<div class="panel-inset" data-part="panel-inset" style="left: 12mm; top: 12mm; width: ${STORYTIME_COVER_PANEL_INSET_MM.widthMm}mm; height: ${STORYTIME_COVER_PANEL_INSET_MM.heightMm}mm;">
+${fields}
+</div>
+</div>`;
     const contact = BACK_LINES.contact
         .map((line, index) => `<p${index === 0 ? ' class="head"' : ''}>${richHtml(line, true)}</p>`)
         .join('\n');
