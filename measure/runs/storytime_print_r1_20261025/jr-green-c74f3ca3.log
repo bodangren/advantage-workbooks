@@ -1,0 +1,68 @@
+Measure Green 2i started: 2026-10-29
+Status: complete (closed at the plan-evidence commit)
+Phase base: 03a803c8d3a45361e403d9ab2cee1225077adc43
+Role base: c74f3ca35291a947ecdb4bd0e949d2610a68e8f7
+Red model of this task: minimax-cn-coding-plan/MiniMax-M3.1-Flash. This run: nvidia/deepseek-ai/deepseek-v4.1-flash#high. No coder of the Red model family is used.
+Model deviation: two earlier tries on opencode/deepseek-v4.1-flash-free and opencode/glm-5.3-flash-free stopped at once on the opencode free limit, and changed no file.
+Delegation: none. The bounded change is one small function, so this role kept the work. No `coder` session ran.
+Working tree: `video/storytime-song/scripts/render.mjs`, `content/primary/README.md`, `content/storytime/README.md`, `dashboard/raw.json`, and untracked run files are other sessions' work. They stay untouched and unstaged. The implementation commit stages the path `dashboard/lib/storytime/files.ts` alone. No `mmx` call was made.
+
+Task: make the committed Red tests of Task (Red 2i) pass in `dashboard/lib/storytime/files.ts` only.
+
+The Red change is inside `phase_base_sha..HEAD`. `git merge-base --is-ancestor 03a803c8 HEAD` exits 0. The Red commits are `57fd8fe0` (R48, the student book test, 80 insertions) and `39e721a0` (guard A1, the adversarial test, 4 insertions and 10 deletions). Both touch test files only. No test file changed in this task.
+
+Targeted Red command before the change: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-student-book.test.ts -t "R48"`, in one foreground `heavy-run.sh` wrapper. Exit 1: `Test Files 1 failed (1)`, `Tests 22 failed | 2 passed | 46 skipped (70)`. The 22 failures are the R48 reject cases; each failure reads `expected undefined to be an instance of Error`. The 2 accept cases pass. So the defect is real at HEAD.
+
+Implementation commit `8e929982401577bc9b3e75c163269dc369f31ef2` (`fix(storytime): accept only the canonical Storytime QR page path`): `dashboard/lib/storytime/files.ts` only, 16 insertions and 2 deletions. `storytimeQrUrl` matches one anchored regular expression `^/th/st/([1-9]\d*)/([1-9]\d*)(\?part=(book|decodable|song))?$`, then checks the level 1 to 4 and the week 1 to 32. The two range checks reject `/th/st/5/1` and `/th/st/2/33`, which the path form alone accepts. The `[1-9]` first digit rejects a leading zero. Every other path throws `not a Storytime page path: <path>`, which names the path. An accepted path returns `STORYTIME_QR_HOST + pagePath`, unchanged. The JSDoc holds the rule and the `@throws` line. No other file changed.
+
+Targeted rerun before the commit, in one foreground `heavy-run.sh` wrapper (`-t "R48|A1"` on the student book test and the adversarial test): exit 0, `Test Files 2 passed (2)`, `Tests 40 passed | 85 skipped (125)` (`jr-green-c74f3ca3-targeted.txt`). The guard `A1: stops the build when the QR query is hostile` passes.
+
+Gates on `8e929982`; each gate ran as one whole command in one foreground `heavy-run.sh` wrapper, with a tool timeout of 5400000 ms.
+- `GREEN_TEST_COMMAND` exit 0, `Tests 271 passed (271)` on 6 files (`jr-green-c74f3ca3-green.txt`). This equals the expected 271 of 271.
+- `PROJECT_TESTS` exit 0, `Tests 424 passed (424)` on 17 files (`jr-green-c74f3ca3-project.txt`).
+- `PROJECT_LINT` exit 0, no eslint output; the file holds one wrapper lock-wait line from another job (`jr-green-c74f3ca3-lint.txt`).
+- `PROJECT_CHECKS` exit 0 with a clean `npx tsc --noEmit` and no gate output; the same file holds a standalone `check-weeks.ts --level 2` run whose full output shows the one accepted FAIL `published` for st2/1 and exits 1 by design (`jr-green-c74f3ca3-checks.txt`). `pnpm-lock.yaml` stayed unchanged.
+- No gate rerun was needed for a timeout. No exit 75 and no lock failure occurred. One wrapper lock-wait line names a long-running job of another project; the wrapper then ran the gate.
+
+Proof v6 needs no rebuild: the change alters no output byte, and `sha256sum ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v6_PDFX-1a.pdf` stays `f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7`. No proof was rebuilt.
+
+Mutants from M71, 3 applied, 3 caught, in one script and one wrapper (`/tmp/opencode/m71-mutants.sh`, `jr-green-c74f3ca3-mutants.txt`). A pristine copy was made first and restored after each mutant.
+- M71a, the old `startsWith` check (any `/th/st/` prefix is accepted): caught. `Test Files 2 failed (2)`, `Tests 23 failed | 17 passed | 85 skipped (125)`.
+- M71b, the regular expression without the `$` anchor (a prefix is accepted): caught. `Tests 12 failed | 28 passed | 85 skipped (125)`.
+- M71c, the range check removed (the level and week bounds drop): caught. `Tests 2 failed | 38 passed | 85 skipped (125)`; the 2 failures are the out-of-range cases `/th/st/5/1` and `/th/st/2/33`.
+- Each restore gives `cmp` OK. Each `git diff --quiet -- dashboard/lib/storytime/files.ts` exits 0. The final `cmp` is OK and the final working tree of the file is clean.
+
+Plan: `Task (Green 2i)` flipped to `[x]` with `commit 8e929982`, `Evidence: automated`, and its sub-lines. No task in this phase flipped to `[b]`; no human-gated action exists in this task. This role moved no track to archive and changed no final closeout metadata.
+
+New files added by this role: `measure/runs/storytime_print_r1_20261025/jr-green-c74f3ca3.log`, `jr-green-c74f3ca3-green.txt`, `jr-green-c74f3ca3-project.txt`, `jr-green-c74f3ca3-lint.txt`, `jr-green-c74f3ca3-checks.txt`, `jr-green-c74f3ca3-mutants.txt`, `jr-green-c74f3ca3-targeted.txt`, and the plan edit in `measure/tracks/storytime_print_r1_20261025/plan.md`.
+
+HEAD note: while this task ran, another session committed `8e2c9194` (`chore(media): add per-book clip checksum lists (clips.sha256)`). It touches no `dashboard/lib/storytime` file, and `8e929982` is its ancestor. The gate results on `8e929982` hold. The plan-evidence commit of this log follows.
+
+Anti-pattern check of the diff (measure/anti-patterns.md): A1 no substring heuristic in `measure/automation-supervisor.py` (no such file changed); A5 no "all checks pass" claim (each gate line holds its real exit code and count, and `PROJECT_CHECKS` states the accepted FAIL); A6 no "resolved" claim in `measure/tracks.md` (no track file changed); A7 no weakened `rg -v` filter (no such filter changed).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_print_r1_20261025
+phase: Phase 2 Green 2i
+status: complete
+phase_base_sha: 03a803c8d3a45361e403d9ab2cee1225077adc43
+role_base_sha: c74f3ca35291a947ecdb4bd0e949d2610a68e8f7
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+green_model: nvidia/deepseek-ai/deepseek-v4.1-flash#high
+model_deviation: two earlier tries on opencode free models stopped at once on the free limit and changed no file
+coder_delegation: none
+implementation_commit: 8e929982401577bc9b3e75c163269dc369f31ef2 fix(storytime): accept only the canonical Storytime QR page path (dashboard/lib/storytime/files.ts only, 16 insertions, 2 deletions)
+final_green_head: 8e929982401577bc9b3e75c163269dc369f31ef2 (the plan-evidence commit of this log follows; the checkout HEAD is 8e2c9194, the unrelated media commit of another session)
+tasks_flipped_x: Task (Green 2i) with commit 8e929982
+tasks_flipped_b: none
+targeted_red_command: exit 1 before the change; Tests 22 failed | 2 passed | 46 skipped (70) on the R48 subset; exit 0 after the change, Tests 40 passed | 85 skipped (125) on R48 and A1
+GREEN_TEST_COMMAND: exit 0; Tests 271 passed (271); 6 files
+PROJECT_TESTS: exit 0; Tests 424 passed (424); 17 files
+PROJECT_LINT: exit 0; no eslint output
+PROJECT_CHECKS: exit 0; clean tsc; one accepted published FAIL for st2/1
+proof_v6_sha256: f041a405161c01b40cfcfa27f0bcb4c7e52fd9d038927b2a84644fc5481ef4d7 (no rebuild)
+mutants: 3 applied, 3 caught (M71a startsWith 23 failures; M71b no $ anchor 12 failures; M71c no range check 2 failures); each restore cmp OK and git diff --quiet exit 0
+files: dashboard/lib/storytime/files.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/jr-green-c74f3ca3.log and its green, project, lint, checks, mutants, targeted output files
+remaining_failures: none
+handoff: Phase 2 Green 2i is complete. The review roles must scope their audit to `dashboard/lib/storytime/files.ts` (the anchored page-path form and the two range checks), the plan sub-lines, and the seven `jr-green-c74f3ca3*` evidence files. The committed Red tests of `57fd8fe0` and `39e721a0` are immutable and unchanged. No proof rebuild and no track closeout happened. A phase-acceptance role must confirm the four gates on the implementation tree and the three mutants. Nothing is deferred to a human owner in this task.
+END_MEASURE_AGENT_RESULT

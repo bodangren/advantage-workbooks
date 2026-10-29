@@ -1,0 +1,119 @@
+Mutants from M71 on HEAD 8e2c9194417bb2c8981b7ca23621653a49a5a093
+Pristine copy: /tmp/opencode/files.ts.pristine
+Test command for each mutant: cd dashboard && CI=true npx vitest run __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts -t "R48|A1"
+
+=== M71a: the old startsWith check (any /th/st/ prefix is accepted)
+Diff against HEAD:
+diff --git a/dashboard/lib/storytime/files.ts b/dashboard/lib/storytime/files.ts
+index a96ba154..9a4f95b9 100644
+--- a/dashboard/lib/storytime/files.ts
++++ b/dashboard/lib/storytime/files.ts
+@@ -27,12 +27,7 @@ const STORYTIME_PAGE_PATH = /^\/th\/st\/([1-9]\d*)\/([1-9]\d*)(\?part=(?:book|de
+  * @throws Error When `pagePath` is not a canonical Storytime page path. The message names the path.
+  */
+ export function storytimeQrUrl(pagePath: string): string {
+-    const page = STORYTIME_PAGE_PATH.exec(pagePath);
+-    const level = Number(page?.[1] ?? 0);
+-    const week = Number(page?.[2] ?? 0);
+-    if (!page || level < 1 || level > 4 || week < 1 || week > 32) {
+-        throw new Error(`not a Storytime page path: ${pagePath}`);
+-    }
++    if (!pagePath.startsWith('/th/st/')) throw new Error(`not a Storytime page path: ${pagePath}`);
+     return STORYTIME_QR_HOST + pagePath;
+ }
+ 
+Mutant M71a test exit: 1
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-print-student-book-adversarial.test.ts > Adversarial guards: the Phase 2 student workbook of week 1 > A1: stops the build when the QR query is hostile
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/../evil"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/../../evil"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/./1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1/.."
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st//2/1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1/3"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/0/1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/5/1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/0"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/33"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/02/1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/01"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1 "
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1\t"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1\n"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1#x"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?week=2"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=video"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=song?part=book"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=song&part=book"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=SONG"
+ Test Files  2 failed (2)
+      Tests  23 failed | 17 passed | 85 skipped (125)
+
+M71a restore cmp: OK
+M71a git diff --quiet exit: 0
+
+=== M71b: the regular expression without the $ anchor (a prefix is accepted)
+Diff against HEAD:
+diff --git a/dashboard/lib/storytime/files.ts b/dashboard/lib/storytime/files.ts
+index a96ba154..2773b72a 100644
+--- a/dashboard/lib/storytime/files.ts
++++ b/dashboard/lib/storytime/files.ts
+@@ -12,7 +12,7 @@ export const STORYTIME_ROOT = path.join(REPO_ROOT, 'content', 'storytime');
+ export const STORYTIME_QR_HOST = 'https://storytime.reading-advantage.com';
+ 
+ /** The canonical Storytime page path: the route, the level, the week, and an optional part query. */
+-const STORYTIME_PAGE_PATH = /^\/th\/st\/([1-9]\d*)\/([1-9]\d*)(\?part=(?:book|decodable|song))?$/;
++const STORYTIME_PAGE_PATH = /^\/th\/st\/([1-9]\d*)\/([1-9]\d*)(\?part=(?:book|decodable|song))?/;
+ 
+ /**
+  * The address that a printed QR code holds: the Storytime host and a canonical page path of the package
+Mutant M71b test exit: 1
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-print-student-book-adversarial.test.ts > Adversarial guards: the Phase 2 student workbook of week 1 > A1: stops the build when the QR query is hostile
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1/.."
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1/3"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1 "
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1\t"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1\n"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1#x"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?week=2"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=video"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=song?part=book"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=song&part=book"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/1?part=SONG"
+ Test Files  2 failed (2)
+      Tests  12 failed | 28 passed | 85 skipped (125)
+
+M71b restore cmp: OK
+M71b git diff --quiet exit: 0
+
+=== M71c: the range check removed (the level and week bounds drop)
+Diff against HEAD:
+diff --git a/dashboard/lib/storytime/files.ts b/dashboard/lib/storytime/files.ts
+index a96ba154..b2b5d3c4 100644
+--- a/dashboard/lib/storytime/files.ts
++++ b/dashboard/lib/storytime/files.ts
+@@ -28,9 +28,7 @@ const STORYTIME_PAGE_PATH = /^\/th\/st\/([1-9]\d*)\/([1-9]\d*)(\?part=(?:book|de
+  */
+ export function storytimeQrUrl(pagePath: string): string {
+     const page = STORYTIME_PAGE_PATH.exec(pagePath);
+-    const level = Number(page?.[1] ?? 0);
+-    const week = Number(page?.[2] ?? 0);
+-    if (!page || level < 1 || level > 4 || week < 1 || week > 32) {
++    if (!page) {
+         throw new Error(`not a Storytime page path: ${pagePath}`);
+     }
+     return STORYTIME_QR_HOST + pagePath;
+Mutant M71c test exit: 1
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/5/1"
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R48: rejects the QR page path "/th/st/2/33"
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 38 passed | 85 skipped (125)
+
+M71c restore cmp: OK
+M71c git diff --quiet exit: 0
+
+Final cmp against pristine: OK
+Final git diff --quiet exit: 0
