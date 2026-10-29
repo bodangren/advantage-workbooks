@@ -8,7 +8,8 @@ import { PAGE_RATIO, composeSide } from '../lib/covers/compose';
 import { coverBook } from '../lib/covers/catalogue';
 import { pageImages, parsePdffonts, parsePdfimages, parsePdfinfo } from '../lib/print/pdfx';
 import { generateQRCode } from '../lib/qr-generator';
-import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
+import { STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph, storytimeWeekFile } from '../lib/storytime/files';
+import { programWeek, wordNeed, type PhonicsGraph } from '../lib/storytime/phonics';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 
 /**
@@ -16,19 +17,47 @@ import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema
  * covers.ts exports the names below. cover-picture.ts exports composeStorytimeCoverPicture
  * and checkStorytimeCoverPicture. The script is make-storytime-book-cover.ts.
  *
- * Data file content/storytime/covers/books.json:
+ * Data file content/storytime/covers/books.json (D11):
  * series, trim { widthMm, heightMm }, levelColours, lineAddress, books[].
- * A book row has level, unit, firstWeek, lastWeek, title, levelColour, pictureRecipe, summary.
- * pictureRecipe is an array. An empty recipe is []. summary is null or { text, week }.
+ * A book row has level, unit, firstWeek, lastWeek, title, levelColour, pictureRecipe, panel.
+ * pictureRecipe is an array. An empty recipe is [].
+ * panel holds five entries in this key order: story, sounds, decodable, sight, books.
+ * panel.story is { text, weeks }. The other four entries are { weeks }. The old summary object is dropped.
+ *
+ * The panel names of covers.ts (D11):
+ * STORYTIME_COVER_PANEL_FIELDS = ['story','sounds','decodable','sight','books'].
+ * STORYTIME_COVER_PANEL_SCALE_PT = [14,13,12,11,10]. STORYTIME_COVER_PANEL_INSET_MM = { widthMm: 162, heightMm: 114 }.
+ * STORYTIME_COVER_PANEL_MISSING_LINE = 'comes with the week text'.
+ * storytimeCoverPanelValues(book, ctx) -> the five field values, in order, each { field, value, items }.
+ * storytimeCoverPanelReadableWeeks(book, ctx) -> the four derived fields and the weeks the module can read.
+ * checkStorytimeCoverPanelFields(fields) -> order errors. checkStorytimeCoverPanelRow(book, ctx) -> row errors.
+ * storytimeCoverPanelChosenPt(values, inset) -> the chosen size in pt. storytimeCoverPanelOverflows(values, pt, inset) -> true when the text does not fit.
+ * storytimeCoverDefaultOutDir(version, printReadyRoot) -> the output folder of one version.
+ * The context ctx is { weeks: StorytimeWeek[], graph: PhonicsGraph }.
  *
  * HTML hooks: [data-side="front"|"back"][data-title], [data-part] for series-name, picture-area,
- * level-card, logo, panel, contact, qr, line-label. Geometry is CSS millimetres on those parts.
+ * level-card, logo, panel, panel-field, panel-heading, panel-value, panel-inset, panel-missing,
+ * contact, qr, line-label. Each panel field carries data-field. Geometry is CSS millimetres on those parts.
  * The QR SVG from generateQRCode fills the 44 mm box, quiet zone included.
  *
- * Script: --level <n> --unit <m> --out <dir> [--print] [--data <books.json>]
- * --out receives front.png, back.png, cover.pdf, and, with --print, the PDF/X file
- * Storytime-Advantage-L<n>-U<m>-Student-Book-Cover-v1_PDFX-1a.pdf plus corner-mode.txt.
+ * Script: --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+ * --out receives front.png, back.png, cover.pdf, corner-mode.txt, and build-report.json.
+ * With --print it also receives Storytime-Advantage-L<n>-U<m>-Student-Book-Cover-v<n>_PDFX-1a.pdf.
+ * With --version 3 and no --out the default folder is <print-ready>/storytime/proof-v3.
  */
+interface StorytimeCoverPanelEntry {
+    text?: string;
+    weeks: number[];
+}
+
+interface StorytimeCoverBookPanel {
+    story: { text: string; weeks: number[] };
+    sounds: StorytimeCoverPanelEntry;
+    decodable: StorytimeCoverPanelEntry;
+    sight: StorytimeCoverPanelEntry;
+    books: StorytimeCoverPanelEntry;
+}
+
 interface StorytimeCoverBook {
     level: number;
     unit: number;
@@ -37,7 +66,7 @@ interface StorytimeCoverBook {
     title: string;
     levelColour: string;
     pictureRecipe: Array<{ kind: 'child' | 'animal'; name: string; file: string }>;
-    summary: null | { text: string; week: number };
+    panel: StorytimeCoverBookPanel;
 }
 
 interface StorytimeCoverData {
@@ -46,6 +75,26 @@ interface StorytimeCoverData {
     levelColours: Record<string, string>;
     lineAddress: string;
     books: StorytimeCoverBook[];
+}
+
+interface StorytimeCoverPanelValue {
+    field: 'story' | 'sounds' | 'decodable' | 'sight' | 'books';
+    value: string;
+    items: string[];
+}
+
+interface StorytimeCoverPanelCtx {
+    weeks: StorytimeWeek[];
+    graph: PhonicsGraph;
+}
+
+interface StorytimeCoverAssets {
+    picture?: string;
+    card?: string;
+    panel?: string;
+    logo?: string;
+    panelValues?: StorytimeCoverPanelValue[];
+    panelMock?: boolean;
 }
 
 interface QrGrid {
@@ -60,13 +109,24 @@ interface CoverModule {
     storytimeCoverHasPicture: (recipe: readonly { kind: 'child' | 'animal'; name: string; file: string }[]) => boolean;
     storytimeCoverMmToPx: (mm: number) => number;
     storytimeCoverStudentWords: (week: StorytimeWeek) => Set<string>;
-    checkStorytimeCoverSummary: (summary: string, week: StorytimeWeek) => string[];
-    renderStorytimeCover: (book: StorytimeCoverBook) => { frontHtml: string; backHtml: string };
+    renderStorytimeCover: (book: StorytimeCoverBook, assets?: StorytimeCoverAssets) => { frontHtml: string; backHtml: string };
     checkStorytimeCoverCopy: (pageText: string) => string[];
     checkStorytimeCoverThai: (pageText: string, side: 'front' | 'back') => string[];
     storytimeCoverQrGrid: (svg: string) => QrGrid;
     checkStorytimeCoverQr: (printed: boolean[][], expected: boolean[][]) => number;
     storytimeCoverCornerMode: () => string;
+    STORYTIME_COVER_BOX?: { panel: { left: number; top: number; width: number; height: number } };
+    STORYTIME_COVER_PANEL_FIELDS?: readonly string[];
+    STORYTIME_COVER_PANEL_SCALE_PT?: readonly number[];
+    STORYTIME_COVER_PANEL_INSET_MM?: { widthMm: number; heightMm: number };
+    STORYTIME_COVER_PANEL_MISSING_LINE?: string;
+    storytimeCoverPanelValues?: (book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx) => StorytimeCoverPanelValue[];
+    storytimeCoverPanelReadableWeeks?: (book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx) => Record<string, number[]>;
+    checkStorytimeCoverPanelFields?: (fields: readonly string[]) => string[];
+    checkStorytimeCoverPanelRow?: (book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx) => string[];
+    storytimeCoverPanelChosenPt?: (values: StorytimeCoverPanelValue[], inset: { widthMm: number; heightMm: number }) => number;
+    storytimeCoverPanelOverflows?: (values: StorytimeCoverPanelValue[], pt: number, inset: { widthMm: number; heightMm: number }) => boolean;
+    storytimeCoverDefaultOutDir?: (version: number, printReadyRoot: string) => string;
 }
 
 interface PictureModule {
@@ -139,10 +199,19 @@ function bookOf(data: StorytimeCoverData, level: number, unit: number): Storytim
 }
 
 async function covers(...names: (keyof CoverModule)[]): Promise<CoverModule> {
-    expect(fs.existsSync(coversModule), `Missing module: lib/storytime/print/covers.ts. Required export: ${names.join(', ')}.`).toBe(true);
-    const loaded = await import(coversModule) as CoverModule;
+    const loaded = await coverModule();
     for (const name of names) expect(loaded[name], `Export ${name}.`).toBeTypeOf('function');
     return loaded;
+}
+
+/**
+ * Loads the cover module. A missing file stays an assertion, and a missing named export
+ * (a constant or a function) is asserted at the call site.
+ * @returns The module.
+ */
+async function coverModule(): Promise<CoverModule> {
+    expect(fs.existsSync(coversModule), 'Missing module: lib/storytime/print/covers.ts.').toBe(true);
+    return await import(coversModule) as CoverModule;
 }
 
 async function pictures(...names: (keyof PictureModule)[]): Promise<PictureModule> {
@@ -319,14 +388,133 @@ function htmlCopy(html: string, change: (copy: Document) => void): Document {
     return new DOMParser().parseFromString(fs.readFileSync(file, 'utf8'), 'text/html');
 }
 
-function assertPanel(doc: ParentNode, summary: StorytimeCoverBook['summary']): void {
-    const panel = doc.querySelector('[data-part="panel"]');
-    if (summary === null) expect(panel, 'A null summary must not print a panel element.').toBeNull();
-    else {
-        expect(panel, 'A summary must print the panel element.').not.toBeNull();
-        expectBox(panel!, { left: 12, top: 48, width: 186, height: 138 });
-        expect(text(panel!)).toContain(summary.text);
+function panelElement(root: ParentNode): Element {
+    const found = root.querySelector('[data-part="panel"]');
+    expect(found, 'Every back must hold the panel element (D11.1).').not.toBeNull();
+    return found!;
+}
+
+function panelFieldNames(root: ParentNode): string[] {
+    return [...root.querySelectorAll('[data-part="panel-field"]')].map((element) => element.getAttribute('data-field') ?? '');
+}
+
+function missingLineTexts(root: ParentNode): string[] {
+    return [...root.querySelectorAll('[data-part="panel-missing"]')].map((element) => text(element));
+}
+
+/**
+ * Builds the panel context of a level: the shipped week files of that level and the shipped
+ * phonics graph (rule 11.3, test-strategy 4.14.2). Level 1 and Level 4 have no week files.
+ * @param level The Storytime level.
+ * @returns The context.
+ */
+function panelCtx(level: number): StorytimeCoverPanelCtx {
+    const weeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((entry) => (entry.week ? [entry.week] : []));
+    const graph = readPhonicsGraph();
+    expect(graph, 'The shipped phonics graph must be readable (rule 11.3).').toBeDefined();
+    return { weeks, graph: graph! };
+}
+
+function unitWeeks(book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx): StorytimeWeek[] {
+    return ctx.weeks
+        .filter((week) => week.meta.week >= book.firstWeek && week.meta.week <= book.lastWeek)
+        .sort((a, b) => a.meta.week - b.meta.week);
+}
+
+/**
+ * The candidate words of a week for the decodable field (FR-1a.3): the family words, the home
+ * words, the back words of the student books, and the page text of the student books.
+ * @param week The week.
+ * @returns The words, in lower case.
+ */
+function candidateWords(week: StorytimeWeek): string[] {
+    const out: string[] = [];
+    for (const entry of week.focus.family.words) out.push(entry.word);
+    for (const word of week.home?.words ?? []) out.push(word);
+    for (const book of week.books) for (const word of book.backWords) out.push(word);
+    for (const book of week.books) for (const page of book.pages) for (const word of page.text.match(/[a-z]+/gi) ?? []) out.push(word);
+    return out.map((word) => word.toLowerCase());
+}
+
+interface ExpectedPanel {
+    sounds: string[];
+    decodable: string[];
+    sight: string[];
+    books: string[];
+    readable: Record<string, number[]>;
+}
+
+/**
+ * Derives the four fields and their readable weeks from the shipped week files and the graph,
+ * by the rules of FR-1a and D11. Independent of the module, so the two can disagree.
+ * @param book The book row.
+ * @param ctx The context.
+ * @returns The expected values and weeks.
+ */
+function expectedPanel(book: StorytimeCoverBook, ctx: StorytimeCoverPanelCtx): ExpectedPanel {
+    const sounds: string[] = [];
+    const decodable: string[] = [];
+    const sight: string[] = [];
+    const books: string[] = [];
+    const readable: Record<string, number[]> = { sounds: [], decodable: [], sight: [], books: [] };
+    for (const week of unitWeeks(book, ctx)) {
+        const number = week.meta.week;
+        const pw = programWeek(book.level, number);
+        const element = week.focus.element;
+        if (element && element.id.startsWith('english.phonics.')) {
+            readable.sounds.push(number);
+            const sound = `${element.graphemes.join('')} ${element.sound}`;
+            if (!sounds.includes(sound)) sounds.push(sound);
+        }
+        const words = candidateWords(week);
+        if (words.length) readable.decodable.push(number);
+        for (const word of words) {
+            const need = wordNeed(word, ctx.graph, pw);
+            if (need.week !== null && need.week <= pw && !decodable.includes(word)) decodable.push(word);
+        }
+        if (week.focus.trickyWords.length) readable.sight.push(number);
+        for (const tricky of week.focus.trickyWords) {
+            const word = tricky.toLowerCase();
+            const need = wordNeed(word, ctx.graph, pw);
+            if ((need.week === null || need.week > pw) && !sight.includes(word)) sight.push(word);
+        }
+        const readers = week.books.filter((row) => row.kind === 'readalong' || row.kind === 'decodable');
+        if (readers.length) readable.books.push(number);
+        for (const reader of readers) if (!books.includes(reader.title)) books.push(reader.title);
     }
+    return { sounds, decodable, sight, books, readable };
+}
+
+function panelValue(values: StorytimeCoverPanelValue[], field: StorytimeCoverPanelValue['field']): StorytimeCoverPanelValue {
+    const found = values.find((entry) => entry.field === field);
+    expect(found, `The panel values must hold the field ${field}.`).toBeDefined();
+    return found!;
+}
+
+/**
+ * The panel API of the cover module (D11). Every name is asserted, so a missing export is a
+ * plain assertion failure, not a crash.
+ * @param mod The cover module.
+ * @returns The panel names.
+ */
+function panelApi(mod: CoverModule) {
+    const pick = <K extends keyof CoverModule>(name: K): NonNullable<CoverModule[K]> => {
+        expect(mod[name], `Export ${String(name)}.`).toBeDefined();
+        return mod[name]!;
+    };
+    return {
+        fields: pick('STORYTIME_COVER_PANEL_FIELDS'),
+        scale: pick('STORYTIME_COVER_PANEL_SCALE_PT'),
+        inset: pick('STORYTIME_COVER_PANEL_INSET_MM'),
+        missingLine: pick('STORYTIME_COVER_PANEL_MISSING_LINE'),
+        values: pick('storytimeCoverPanelValues'),
+        readableWeeks: pick('storytimeCoverPanelReadableWeeks'),
+        checkFields: pick('checkStorytimeCoverPanelFields'),
+        checkRow: pick('checkStorytimeCoverPanelRow'),
+        chosenPt: pick('storytimeCoverPanelChosenPt'),
+        overflows: pick('storytimeCoverPanelOverflows'),
+        outDir: pick('storytimeCoverDefaultOutDir'),
+    };
 }
 
 /** The ground tint of each level (spec FR-2.4, the terms of the spec). */
@@ -492,41 +680,128 @@ describe('Storytime 16-book covers', () => {
         expect(mod.checkStorytimeCoverData(mod.loadStorytimeCoverBooks(duplicateFile)).length, 'A copied repeated figure set fails.').toBeGreaterThan(0);
     });
 
-    it('R3: one approved summary uses student words, and zebra or a draft week fails', async () => {
-        expect(fs.existsSync(booksFile), 'Missing unit summaries in content/storytime/covers/books.json').toBe(true);
-        const mod = await covers('loadStorytimeCoverBooks', 'checkStorytimeCoverSummary', 'storytimeCoverStudentWords');
+    it('R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3)', async () => {
+        expect(fs.existsSync(booksFile), 'Missing the panel fields in content/storytime/covers/books.json').toBe(true);
+        const mod = await coverModule();
+        const api = panelApi(mod);
         const data = mod.loadStorytimeCoverBooks();
-        const rows = data.books.filter((book) => book.summary !== null);
-        expect(rows, 'Summary row count').toHaveLength(1);
-        expect(rows[0].level).toBe(2);
-        expect(rows[0].unit).toBe(1);
-        expect(rows[0].summary!.week).toBe(1);
-        expect(data.books.filter((book) => book.summary === null), 'Null summary count').toHaveLength(15);
-        for (const book of data.books) {
-            expect(book.summary === null || typeof book.summary === 'object', 'A summary is null or an object.').toBe(true);
+        const book = bookOf(data, 2, 1);
+        expect(book.panel, 'Level 2 Unit 1 must hold the five panel fields (D11, FR-1.7).').toBeDefined();
+        expect(book.panel.story.weeks, 'The Level 2 Unit 1 story source weeks').toEqual([1]);
+        const text = book.panel.story.text;
+        expect(typeof text, 'The story text is a string.').toBe('string');
+        expect(text.trim().length, 'The story is not empty.').toBeGreaterThan(0);
+        expect(/\b(19|20)\d{2}\b/.test(text), 'The story holds no year (FR-1.9).').toBe(false);
+        const ctx = panelCtx(2);
+        const sources = unitWeeks(book, ctx).filter((week) => book.panel.story.weeks.includes(week.meta.week));
+        expect(sources.map((week) => week.meta.week), 'The story source weeks are readable weeks of the unit.').toEqual(book.panel.story.weeks);
+        const allowed = new Set<string>(studentWords(sources[0] ?? weekFile(2, 1)));
+        for (const week of sources) {
+            for (const word of studentWords(week)) allowed.add(word);
+            for (const word of mod.storytimeCoverStudentWords(week)) allowed.add(word);
         }
-        const week = weekFile(2, 1);
-        expect(week.approval.text.status).toBe('approved');
-        const summary = rows[0].summary!.text;
-        const words = summary.trim().split(/\s+/);
-        expect(words.length, 'Summary word count').toBeGreaterThan(0);
-        expect(words.length, 'Summary word count').toBeLessThanOrEqual(25);
-        const allowed = studentWords(week);
-        const fromModule = mod.storytimeCoverStudentWords(week);
-        expect(fromModule.has('publish'), 'An approval-only word is not student text.').toBe(false);
-        for (const word of words) {
-            const token = word.toLowerCase().replace(/[^a-z]/g, '');
-            if (!token) continue;
-            expect(allowed.has(token), `Summary word "${token}" is in the week text.`).toBe(true);
-            expect(fromModule.has(token), `Module word set holds "${token}".`).toBe(true);
+        for (const word of text.toLowerCase().match(/[a-z]+/g) ?? []) {
+            expect(allowed.has(word), `The story word "${word}" is in the student text of a source week (FR-1.9).`).toBe(true);
         }
-        expect(mod.checkStorytimeCoverSummary(summary, week), 'Shipped summary errors').toEqual([]);
-        expect(mod.checkStorytimeCoverSummary('zebra', week).length, 'The word zebra must fail.').toBeGreaterThan(0);
-        expect(mod.checkStorytimeCoverSummary('publish', week).length, 'An approval-only word must fail.').toBeGreaterThan(0);
-        expect(mod.checkStorytimeCoverSummary(Array.from({ length: 26 }, () => 'hello').join(' '), week).length, 'A 26-word summary must fail.').toBeGreaterThan(0);
-        const draft = weekFile(2, 2);
-        expect(draft.approval.text.status).toBe('draft');
-        expect(mod.checkStorytimeCoverSummary('hello', draft).length, 'A draft week must not supply a summary.').toBeGreaterThan(0);
+        expect(api.checkRow(book, ctx), 'The shipped story passes the row check.').toEqual([]);
+        const zebra = structuredClone(data);
+        bookOf(zebra, 2, 1).panel.story.text = 'zebra';
+        const zebraFile = writeCopy('r20-zebra.json', zebra);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(zebraFile, 'utf8')) as StorytimeCoverData, 2, 1), panelCtx(2)).length, 'The word zebra must fail (M17, R26.4).').toBeGreaterThan(0);
+        const approvalOnly = structuredClone(data);
+        bookOf(approvalOnly, 2, 1).panel.story.text = 'publish';
+        const approvalFile = writeCopy('r20-approval-only.json', approvalOnly);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(approvalFile, 'utf8')) as StorytimeCoverData, 2, 1), panelCtx(2)).length, 'An approval-only word must fail (M17).').toBeGreaterThan(0);
+        const long = structuredClone(data);
+        const longBook = bookOf(long, 2, 1);
+        const firstWord = (longBook.panel.story.text.toLowerCase().match(/[a-z]+/g) ?? ['nan'])[0];
+        longBook.panel.story.text = Array.from({ length: 40 }, () => firstWord).join(' ');
+        const longFile = writeCopy('r20-long.json', long);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(longFile, 'utf8')) as StorytimeCoverData, 2, 1), panelCtx(2)), 'D11 drops the 25-word limit of D1.').toEqual([]);
+    });
+
+    it('R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const data = readBooksFile();
+        const book = bookOf(data, 2, 1);
+        const ctx = panelCtx(2);
+        expect(Object.keys(book.panel), 'The data field keys keep the D11 order.').toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
+        const derived = expectedPanel(book, ctx);
+        const actual = api.values(book, ctx);
+        expect(actual.map((entry) => entry.field), 'The panel values keep the D11 order.').toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
+        expect(panelFieldNames(parseHtml(mod.renderStorytimeCover(book, { panelValues: actual }).backHtml)), 'The back HTML field order.').toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
+        expect(panelValue(actual, 'sounds').items, 'The sounds come from the week focus elements.').toEqual(derived.sounds);
+        expect(panelValue(actual, 'decodable').items, 'The decodable words come from wordNeed at the week program.').toEqual(derived.decodable);
+        expect(panelValue(actual, 'sight').items, 'The sight words come from the tricky words not yet decodable.').toEqual(derived.sight);
+        expect(panelValue(actual, 'books').items, 'The books come from reader titles.').toEqual(derived.books);
+        expect(panelValue(actual, 'sounds').value, 'The sounds render grapheme and phoneme text.').toContain('/');
+        for (const field of ['sounds', 'decodable', 'sight', 'books'] as const) {
+            expect(new Set(panelValue(actual, field).items).size, `${field} has no repeated value.`).toBe(panelValue(actual, field).items.length);
+        }
+        const badOrder = structuredClone(data);
+        const badBook = bookOf(badOrder, 2, 1);
+        badBook.panel = Object.fromEntries(Object.entries(badBook.panel).sort(([a], [b]) => a === 'sight' && b === 'decodable' ? -1 : a === 'decodable' && b === 'sight' ? 1 : 0)) as StorytimeCoverBookPanel;
+        expect(api.checkRow(badBook, ctx).length, 'Sight before decodable fails the row check (M20).').toBeGreaterThan(0);
+    });
+
+    it('R21: data week lists match the readable source weeks and stay inside each unit', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const data = readBooksFile();
+        for (const [level, unit, expected] of [[2, 1, { story: [1], sounds: [1, 2, 3, 4, 5, 6, 7], decodable: [1, 2, 3, 4, 5, 6, 7], sight: [1, 2, 3, 4, 5, 6, 7], books: [1, 2, 3, 4, 5, 6, 7] }], [1, 1, { story: [], sounds: [], decodable: [], sight: [], books: [] }], [4, 4, { story: [], sounds: [], decodable: [], sight: [], books: [] }]] as const) {
+            const book = bookOf(data, level, unit);
+            const ctx = panelCtx(level);
+            const readable = api.readableWeeks(book, ctx);
+            for (const field of ['story', 'sounds', 'decodable', 'sight', 'books'] as const) {
+                expect(book.panel[field].weeks, `${book.title} ${field} source weeks`).toEqual(expected[field]);
+                expect(book.panel[field].weeks.every((week) => week >= book.firstWeek && week <= book.lastWeek), `${field} weeks are in the unit.`).toBe(true);
+                if (field !== 'story') expect(book.panel[field].weeks, `${field} matches readable weeks`).toEqual(readable[field]);
+            }
+            expect(api.checkRow(book, ctx), `${book.title} panel row errors`).toEqual([]);
+        }
+        const copied = structuredClone(data);
+        bookOf(copied, 2, 1).panel.books.weeks = [1, 2, 3, 4, 5, 6, 7, 8];
+        const file = writeCopy('r21-week8.json', copied);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimeCoverData, 2, 1), panelCtx(2)).length, 'Week 8 is not readable for the books field (M18).').toBeGreaterThan(0);
+    });
+
+    it('R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs', async () => {
+        requireScript();
+        const data = readBooksFile();
+        const out = temporaryFolder();
+        const mock = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--data', booksFile]);
+        expect(mock.status, 'The v3 mock build exits successfully.').toBe(0);
+        const reportFile = path.join(out, 'build-report.json');
+        expect(fs.existsSync(reportFile), 'The v3 build report exists.').toBe(true);
+        const report = fs.readFileSync(reportFile, 'utf8');
+        expect(report, 'The build report identifies draft source weeks.').toMatch(/draft/i);
+        const printOut = temporaryFolder();
+        const print = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', printOut, '--print', '--data', booksFile]);
+        expect(print.status, 'The print build rejects draft-only field data.').not.toBe(0);
+        expect(print.output, 'The print error names the book and field.').toMatch(/Level 2 Unit 1.*(sounds|decodable|sight|books)|(sounds|decodable|sight|books).*Level 2 Unit 1/i);
+        expect(fs.readdirSync(printOut), 'The rejected print build writes no deliverable.').toEqual([]);
+        expect(data.books.length, 'The shipped data remains readable.').toBe(16);
+    }, 360000);
+
+    it('R23: all backs show five fields; empty fields show mock-only missing copy and no Thai', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const data = readBooksFile();
+        for (const [level, unit] of [[2, 1], [1, 1], [4, 4]]) {
+            const book = bookOf(data, level, unit);
+            const ctx = panelCtx(level);
+            const values = api.values(book, ctx);
+            const back = side(parseHtml(mod.renderStorytimeCover(book, { panelValues: values, panelMock: true }).backHtml), 'back');
+            expect(panelElement(back), `${book.title} has a panel.`).toBeDefined();
+            expect(panelFieldNames(back), `${book.title} field headings keep order.`).toEqual(['story', 'sounds', 'decodable', 'sight', 'books']);
+            const empties = values.filter((entry) => !entry.value.trim());
+            expect(missingLineTexts(back), `${book.title} mock missing field lines`).toEqual(empties.map(() => api.missingLine));
+            for (const entry of values) expect(entry.value, `${entry.field} has no Thai.`).not.toMatch(/[\u0E00-\u0E7F]/);
+            const printBack = side(parseHtml(mod.renderStorytimeCover(book, { panelValues: values, panelMock: false }).backHtml), 'back');
+            expect(missingLineTexts(printBack), 'The print HTML omits the mock-only line.').toHaveLength(0);
+        }
+        expect(BACK_LINES.contact, 'The approved contact lines remain unchanged.').toHaveLength(5);
     });
 
     it('R4: the front holds the series name, the picture area, and the level card, and no badge', async () => {
@@ -553,26 +828,75 @@ describe('Storytime 16-book covers', () => {
         expect(text(front)).not.toMatch(/(^|[^A-Za-z0-9])A[12]([^A-Za-z0-9]|$)/);
     });
 
-    it('R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE', async () => {
-        const mod = await covers('loadStorytimeCoverBooks', 'renderStorytimeCover');
+    it('R24: the panel box is 186 x 138 mm at 12 mm and 48 mm, the inset is 162 x 114 mm, and the label is LINE (D11.3, replaces R5)', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        expect(mod.loadStorytimeCoverBooks, 'Export loadStorytimeCoverBooks.').toBeTypeOf('function');
+        expect(mod.renderStorytimeCover, 'Export renderStorytimeCover.').toBeTypeOf('function');
+        expect(api.inset, 'The panel inset').toEqual({ widthMm: 162, heightMm: 114 });
         const data = mod.loadStorytimeCoverBooks();
         const level2 = bookOf(data, 2, 1);
-        const empty = data.books.find((book) => book.summary === null);
-        expect(empty, 'A row with a null summary').toBeDefined();
-        const back = side(parseHtml(mod.renderStorytimeCover(level2).backHtml), 'back');
+        const values = api.values(level2, panelCtx(2));
+        const back = side(parseHtml(mod.renderStorytimeCover(level2, { panelValues: values }).backHtml), 'back');
         expect(back.getAttribute('data-title')).toBe(level2.title);
         expect(text(part(back, 'series-name'))).toBe('Storytime Advantage');
         expectColour(part(back, 'series-name'), level2.levelColour);
         expectBox(part(back, 'logo'), { left: 12, top: 12, width: 30, height: 30 });
-        assertPanel(back, level2.summary);
+        const panel = panelElement(back);
+        expectBox(panel, { left: 12, top: 48, width: 186, height: 138 });
+        const style = (panel.getAttribute('style') ?? '').toLowerCase();
+        expect(style, 'The panel fill.').toContain('#f7f5f0');
+        expect(style, 'The panel border colour.').toContain('#e1ddd3');
+        expect(style, 'The panel border width.').toMatch(/border:\s*0\.4mm/);
+        expect(style, 'The panel radius.').toMatch(/border-radius:\s*3mm/);
+        const inset = back.querySelector('[data-part="panel-inset"]');
+        expect(inset, 'The panel inset element.').not.toBeNull();
+        expectBox(inset!, { width: 162, height: 114 });
         expectBox(part(back, 'contact'), { left: 15, top: 200 });
         expectBox(part(back, 'qr'), { width: 44, height: 44, right: 14, top: 200 });
         const label = part(back, 'line-label');
         expect(text(label)).toBe('LINE');
         expect(label.textContent ?? '').not.toMatch(/[\u0E00-\u0E7F]/);
-        const bare = side(parseHtml(mod.renderStorytimeCover(empty!).backHtml), 'back');
-        assertPanel(bare, null);
+        expect(mod.STORYTIME_COVER_BOX, 'Export STORYTIME_COVER_BOX.').toBeDefined();
+        expect(mod.STORYTIME_COVER_BOX!.panel.top, 'The module panel top in millimetres.').toBe(48);
     });
+
+    it('R25: the chosen panel size fits, is at least 10 pt, and is the largest fitting scale value', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const book = bookOf(readBooksFile(), 2, 1);
+        const values = api.values(book, panelCtx(2));
+        expect(api.scale, 'The panel font scale.').toEqual([14, 13, 12, 11, 10]);
+        const chosen = api.chosenPt(values, api.inset);
+        expect(api.scale, 'The chosen size belongs to the scale.').toContain(chosen);
+        expect(chosen, 'The chosen size is not below 10 pt.').toBeGreaterThanOrEqual(10);
+        expect(api.overflows(values, chosen, api.inset), 'The chosen size fits the panel inset.').toBe(false);
+        for (const larger of api.scale.filter((size) => size > chosen)) {
+            expect(api.overflows(values, larger, api.inset), `${larger} pt above the chosen size overflows.`).toBe(true);
+        }
+        const rendered = side(parseHtml(mod.renderStorytimeCover(book, { panelValues: values }).backHtml), 'back');
+        const fields = [...rendered.querySelectorAll('[data-part="panel-field"]')];
+        expect(fields.length, 'The rendered panel field count.').toBe(5);
+        for (const field of fields) expect(field.getAttribute('style') ?? '', 'Each field reports the chosen font size.').toContain(`${chosen}pt`);
+    });
+
+    it('R22 M21 and M22: print source and version output path remain bounded', async () => {
+        requireScript();
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const root = path.join('/tmp/opencode', 'print-ready');
+        const v1 = api.outDir(1, root);
+        const v2 = api.outDir(2, root);
+        const v3 = api.outDir(3, root);
+        expect(v3, 'The v3 build uses its new proof folder (M22).').toBe(path.join(root, 'storytime', 'proof-v3'));
+        expect(v3, 'The v3 folder differs from the v1 folder.').not.toBe(v1);
+        expect(v3, 'The v3 folder differs from the v2 folder.').not.toBe(v2);
+        const out = temporaryFolder();
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--print', '--data', booksFile]);
+        expect(result.status, 'A print build cannot use draft-week values (M21).').not.toBe(0);
+        expect(result.output, 'The print build names a rejected draft source.').toMatch(/draft|approved/i);
+        expect(fs.readdirSync(out), 'A rejected print build writes no files.').toEqual([]);
+    }, 360000);
 
     it('R6: the copy check reads page text and fails a bypass, including a line with never', async () => {
         const mod = await covers('checkStorytimeCoverCopy');
@@ -1072,15 +1396,59 @@ describe('Storytime 16-book covers', () => {
         expect(mod.checkStorytimeCoverCopy(fs.readFileSync(file, 'utf8')).length, 'M5 must fail.').toBeGreaterThan(0);
     });
 
-    it('R16 M6: a Level 2 Unit 1 back without the panel fails', async () => {
-        const mod = await covers('loadStorytimeCoverBooks', 'renderStorytimeCover');
-        const book = bookOf(mod.loadStorytimeCoverBooks(), 2, 1);
-        expect(book.summary, 'Level 2 Unit 1 has a summary.').not.toBeNull();
-        const html = mod.renderStorytimeCover(book).backHtml;
+    it('R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6)', async () => {
+        const mod = await coverModule();
+        const api = panelApi(mod);
+        const data = mod.loadStorytimeCoverBooks();
+        const ctx = panelCtx(2);
+        const book = bookOf(data, 2, 1);
+        const values = api.values(book, ctx);
+
+        // Copy 1 (M16): the panel element is dropped from the back HTML.
+        const html = mod.renderStorytimeCover(book, { panelValues: values }).backHtml;
         const good = side(parseHtml(html), 'back');
-        expect(good.querySelector('[data-part="panel"]'), 'The good render has a panel.').not.toBeNull();
-        const broken = htmlCopy(html, (copy) => copy.querySelector('[data-part="panel"]')?.remove());
-        expect(() => assertPanel(side(broken, 'back'), book.summary)).toThrow();
+        expect(panelElement(good), 'The good render holds a panel.').not.toBeNull();
+        const dropped = htmlCopy(html, (copy) => copy.querySelector('[data-part="panel"]')?.remove());
+        expect(dropped.querySelector('[data-part="panel"]'), 'Copy 1: the panel is gone.').toBeNull();
+        expect(() => panelElement(side(dropped, 'back')), 'Copy 1 must fail the panel element check (R23).').toThrow();
+
+        // Copy 2 (M16): an all-empty panel on the mock, with no light line.
+        const bare = bookOf(data, 1, 1);
+        const bareValues = api.values(bare, panelCtx(1));
+        const mockBack = side(parseHtml(mod.renderStorytimeCover(bare, { panelValues: bareValues }).backHtml), 'back');
+        expect(missingLineTexts(mockBack), 'The mock shows the light line for each of the five empty fields (R23).').toEqual(Array.from({ length: 5 }, () => api.missingLine));
+        const noLineHtml = mod.renderStorytimeCover(bare, { panelValues: bareValues, panelMock: false }).backHtml;
+        const noLineFile = path.join(temporaryFolder(), 'm16-no-light-line.html');
+        fs.writeFileSync(noLineFile, noLineHtml);
+        const noLine = side(parseHtml(fs.readFileSync(noLineFile, 'utf8')), 'back');
+        expect(panelElement(noLine), 'Copy 2 keeps the panel element.').not.toBeNull();
+        expect(missingLineTexts(noLine), 'Copy 2 drops the light line, so the R23 mock contract fails.').toEqual(Array.from({ length: 5 }, () => api.missingLine));
+
+        // Copy 3 (M20): the sight words before the decodable words.
+        const wrongOrder = structuredClone(data);
+        const wrongOrderBook = bookOf(wrongOrder, 2, 1);
+        wrongOrderBook.panel = Object.fromEntries(Object.entries(wrongOrderBook.panel).sort(([a], [b]) => a === 'sight' && b === 'decodable' ? -1 : a === 'decodable' && b === 'sight' ? 1 : 0)) as StorytimeCoverBookPanel;
+        const orderFile = writeCopy('r26-wrong-order.json', wrongOrder);
+        const orderCopy = JSON.parse(fs.readFileSync(orderFile, 'utf8')) as StorytimeCoverData;
+        expect(api.checkFields(Object.keys(bookOf(orderCopy, 2, 1).panel)).length, 'Copy 3 must fail the order check (R20.1).').toBeGreaterThan(0);
+
+        // Copy 4 (M17): the word zebra in the story text.
+        const zebra = structuredClone(data);
+        bookOf(zebra, 2, 1).panel.story.text = `${bookOf(zebra, 2, 1).panel.story.text} zebra`;
+        const zebraFile = writeCopy('r26-zebra.json', zebra);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(zebraFile, 'utf8')) as StorytimeCoverData, 2, 1), ctx).length, 'Copy 4 must fail the story check (R20.2).').toBeGreaterThan(0);
+
+        // Copy 5 (M18): week 8 in the books field week list.
+        const week8 = structuredClone(data);
+        bookOf(week8, 2, 1).panel.books.weeks = [1, 2, 3, 4, 5, 6, 7, 8];
+        const week8File = writeCopy('r26-week8.json', week8);
+        expect(api.checkRow(bookOf(JSON.parse(fs.readFileSync(week8File, 'utf8')) as StorytimeCoverData, 2, 1), ctx).length, 'Copy 5 must fail the week-list check (R21).').toBeGreaterThan(0);
+
+        // Copy 6 (M19): the panel size forced to 9 pt.
+        expect(api.scale, '9 pt is below the floor of the scale.').not.toContain(9);
+        const sizeFile = writeCopy('r26-size-9.json', { values, sizePt: 9, inset: api.inset });
+        expect(fs.existsSync(sizeFile), 'Copy 6 is stored in a temporary folder.').toBe(true);
+        expect(api.overflows(values, 9, api.inset), 'Copy 6: a 9 pt layout must overflow the inset (R25).').toBe(true);
     });
 
     it('R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible', async () => {
