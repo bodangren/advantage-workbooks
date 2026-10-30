@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { getTranslations } from '../lib/teacher-manual/i18n';
@@ -113,4 +114,48 @@ describe('Storytime teacher-book print: Thai week 1', () => {
         visit(source);
         expect(wired, `The make-pdfx call must spread ${flagName}.`).toBe(true);
     });
+
+    it.each([
+        ['Chrome PDF', 'Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf', 'chrome.pdf'],
+        ['text-gate report', 'text-gate-v1.txt', 'report.txt'],
+    ])('B-P3-01: rejects a dangling link at the derived %s path before writing outside', (label, outputName, outsideName) => {
+        const root = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-b-p3-01-'));
+        try {
+            const home = root;
+            const folder = path.join(home, 'Desktop', 'print-ready', 'storytime', 'tb');
+            const drafts = path.join(root, 'drafts');
+            const outside = path.join(root, 'outside', outsideName);
+            fs.mkdirSync(folder, { recursive: true });
+            fs.mkdirSync(drafts, { recursive: true });
+            fs.mkdirSync(path.dirname(outside), { recursive: true });
+            fs.writeFileSync(path.join(drafts, 'Storytime-L2-W01-Teachers-Book-TH-draft.pdf'), '');
+            const outputPath = path.join(folder, outputName);
+            fs.symlinkSync(outside, outputPath, 'file');
+
+            let status: number | null = null;
+            let message = '';
+            try {
+                execFileSync(process.execPath, [
+                    '--import', 'tsx', path.resolve(__dirname, '../scripts/storytime/make-teacher-book-print.ts'),
+                    '--level', '2', '--weeks', '1', '--lang', 'th', '--out', folder,
+                    '--version', '1', '--drafts', drafts,
+                ], {
+                    cwd: path.resolve(__dirname, '..'),
+                    env: { ...process.env, HOME: home },
+                    encoding: 'utf8',
+                    timeout: 25_000,
+                });
+            } catch (error) {
+                const childError = error as NodeJS.ErrnoException & { status?: number | null; stdout?: string; stderr?: string };
+                status = childError.status ?? null;
+                message = `${childError.stdout ?? ''}${childError.stderr ?? ''}${childError.message}`;
+            }
+
+            expect(status, `${label}: exit 2 expected; timed out or exited ${status}. CLI output: ${message}`).toBe(2);
+            expect(message, `${label}: error names the linked output`).toContain(outputPath);
+            expect(fs.existsSync(outside), `${label}: outside target was not created`).toBe(false);
+        } finally {
+            fs.rmSync(root, { recursive: true, force: true });
+        }
+    }, 30_000);
 });
