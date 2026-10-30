@@ -58,7 +58,8 @@ Exit code 0 when every file is written, the text gate gives 0 differences, and t
 checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
 font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
 the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
-on --lang en, or when the print file exists already (use a new --version).`;
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.`;
 
 /** A4 in PDF points, with the slack of make-manual-pdf.ts. */
 const A4 = { width: 595.28, height: 841.89, slack: 2 };
@@ -181,12 +182,21 @@ async function main(argv: string[]): Promise<number> {
     const printFile = path.join(folder, teacherBookPrintFileName(level, units[0], 'th', version));
     const chromeFile = printFile.replace(/_PDFX-1a\.pdf$/, '-chrome.pdf');
     const reportFile = path.join(folder, `text-gate-v${version}.txt`);
-    const existing = [printFile, chromeFile, reportFile].filter((file) => fs.existsSync(file));
+    const outputs = [printFile, chromeFile, reportFile];
+    // B-P3-01: every output path is checked before the build writes or renders anything. The
+    // containment check reads the entry with lstat, so a link and a dangling link both stop the
+    // build. The check throws; the error names the path.
+    try {
+        for (const file of outputs) checkStorytimeOutputContainment(file, os.homedir());
+    } catch (e) {
+        console.error(`${e instanceof Error ? e.message : String(e)}`);
+        return 2;
+    }
+    const existing = outputs.filter((file) => fs.lstatSync(file, { throwIfNoEntry: false }) !== undefined);
     if (existing.length) {
         console.error(`The output exists already; use a new --version (rule 12.2): ${existing.join('; ')}`);
         return 2;
     }
-    checkStorytimeOutputContainment(printFile, os.homedir());
     fs.mkdirSync(folder, { recursive: true });
 
     const pagedSrc = fs.readFileSync(path.join(process.cwd(), 'node_modules', 'pagedjs', 'dist', 'paged.polyfill.js'), 'utf8');
