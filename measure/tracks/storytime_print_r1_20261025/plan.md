@@ -360,6 +360,9 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - The gray text stays readable. The gray headings of page 4 have their darkest pixel at 94 (63 % K). The text in the gray boxes is black on a light gray fill.
     - Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash. The Red model of this phase was openai/gpt-6-luna#high, so Red and Green are independent. The first Green of this phase ran on Anthropic.
     - `graph.db` stayed unchanged. The file is stale (2026-08-08), and this track uses `grep` for the blast radius (plan line 32).
+- [x] Task (Red F-P3-1b): two test timeouts for a loaded machine (the help test 30 s; the R29 fc-scan call 15 s). The checks do not change. commit 15a21730. Evidence: automated.
+    - Orchestrator failures on HEAD b88704c3: GREEN_TEST_COMMAND failed 2 of 3 runs under load (2026-10-30 05:59 and 08:13 ICT) while PROJECT_TESTS passed 502 of 502 right after each failure. Failure 1: teacher-book help test timed out at 5000 ms. Failure 2: R29 `execFileSync('fc-scan', ..., { timeout: 3000 })` gave `spawnSync fc-scan ETIMEDOUT`.
+    - Gate runs in one heavy-run wrapper (wrapper printed `heavy-run: lock wait over 600 s` at start): GREEN run 1 exit 0 `Tests 338 passed (338)` (help test 3713 ms; R29 9602 ms); GREEN run 2 exit 0 `Tests 338 passed (338)` (help test 719 ms; R29 2092 ms); PROJECT_LINT exit 0. Logs: `mid-red-b88704c3-{green,lint}.txt`.
 - [ ] Task: Measure - User Manual Verification 'Phase 3: Teacher book print file, week 1' (Protocol in workflow.md)
 
 ## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
