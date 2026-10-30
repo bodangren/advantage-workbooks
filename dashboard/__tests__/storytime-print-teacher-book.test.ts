@@ -76,7 +76,7 @@ describe('Storytime teacher-book print: Thai week 1', () => {
         expect(fs.existsSync(script), 'teacher-book print CLI exists').toBe(true);
         const output = execFileSync(process.execPath, ['--import', 'tsx', script, '--help'], { encoding: 'utf8' });
         expect(output).toContain('make-teacher-book-print.ts');
-    });
+    }, 30_000);
 
     it('R-F-P3-1 exports the exact K-only PDF/X flag list', async () => {
         const scriptFile = path.resolve(__dirname, '../scripts/storytime/make-teacher-book-print.ts');

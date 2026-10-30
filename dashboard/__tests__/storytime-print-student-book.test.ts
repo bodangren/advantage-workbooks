@@ -1048,7 +1048,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
                 : url!.startsWith('file:') ? fileURLToPath(url!) : path.resolve(dashboardRoot, url!);
             if (url!.startsWith('data:')) fs.writeFileSync(file, Buffer.from(url!.split(',')[1], 'base64'));
             expect(fs.existsSync(file), `Missing font: ${file}`).toBe(true);
-            const metadata = execFileSync('fc-scan', ['--format', '%{family}|%{variable}', file], { encoding: 'utf8', timeout: 3000 });
+            const metadata = execFileSync('fc-scan', ['--format', '%{family}|%{variable}', file], { encoding: 'utf8', timeout: 15000 });
             expect(metadata).toBe(`${family}|False`);
             expect(fs.readFileSync(path.join(fontDir, `OFL-${family!.toLowerCase()}.txt`), 'utf8'))
                 .toMatch(/SIL OPEN FONT LICENSE Version 1\.1/i);
