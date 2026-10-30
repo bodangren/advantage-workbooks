@@ -12,8 +12,8 @@ import type { StorytimeWeek } from '../../lib/storytime/schema';
 /**
  * The build of the Thai teacher-book print file (track storytime_print_r1_20261025, spec FR-4):
  * the existing template (`compileStorytimeManual`, A4) in system Chrome with Paged.js, the text
- * gate of each week against its approved draft, and `make-pdfx.ts --keep-fonts` to PDF/X-1a.
- * Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
+ * gate of each week against its approved draft, and `make-pdfx.ts --keep-fonts --k-only` to
+ * PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
  *
  * The text gate reads the Chrome PDF, never the PDF/X file, because `pdftotext` drops Thai tone
  * marks in a PDF/X file (lessons-learned, 2026-10-02). A text difference does not stop the
@@ -21,9 +21,17 @@ import type { StorytimeWeek } from '../../lib/storytime/schema';
  * line for Daniel (spec FR-4.2, AC-3), and exits 1, so that no unapproved file passes as clean.
  */
 
+/**
+ * The make-pdfx.ts flags of the teacher-book build: the fonts stay, and the K-only opt-in
+ * turns the document gray before the PDF/X-1a conversion, so that the black ink of the
+ * teacher book prints on the K plate only (spec P2 "Teacher book: A4, black only";
+ * inkcov gives C=M=Y=0.00000). The Primary print files do not pass this flag.
+ */
+export const STORYTIME_TEACHER_PDFX_FLAGS = ['--keep-fonts', '--k-only'] as const;
+
 const USAGE = `Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
 compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
-of each week against its approved draft, then make-pdfx.ts --keep-fonts. Run it under the
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
 heavy-job lock.
 
 Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>]
@@ -207,7 +215,7 @@ async function main(argv: string[]): Promise<number> {
     console.log(report.join('\n'));
 
     try {
-        execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts', chromeFile, '--out', printFile, '--keep-fonts'], { stdio: 'inherit' });
+        execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts', chromeFile, '--out', printFile, ...STORYTIME_TEACHER_PDFX_FLAGS], { stdio: 'inherit' });
     } catch {
         problems.push('the PDF/X conversion or its checks failed');
     }
