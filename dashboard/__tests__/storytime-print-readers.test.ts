@@ -21,6 +21,7 @@ const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const readerPath = path.join(dashboardRoot, 'lib/storytime/print/readers.ts');
 const picturePath = path.join(dashboardRoot, 'lib/storytime/print/picture-check.ts');
 const cliPath = path.join(dashboardRoot, 'scripts/storytime/make-readers-pdf.ts');
+const pictureBatchCliPath = path.join(dashboardRoot, 'scripts/storytime/check-storytime-pictures.ts');
 const scratch: string[] = [];
 function shipped(): StorytimeWeek {
     return StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), 'utf8')));
@@ -321,9 +322,32 @@ describe('Storytime two-output picture check', () => {
         const fixture = await pngFixtures(dir);
         const row = { id: 'story-row-17', fileName: path.basename(fixture.color), lineArtFileName: path.basename(fixture.line), width: 4000, height: 3000, week: 1 };
         const missing = { ...row, id: 'missing-row', fileName: 'missing-v1.png', lineArtFileName: 'missing-line-v1.png' };
+        const colorHash = createHash('sha256').update(fs.readFileSync(fixture.color)).digest('hex');
+        const lineHash = createHash('sha256').update(fs.readFileSync(fixture.line)).digest('hex');
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({
+            version: 1,
+            batchHashAlgorithm: 'sha256',
+            jobs: [{
+                id: row.id, week: 1, bookKind: 'readalong', page: 3, selectedVersion: 1,
+                selectedFile: row.fileName, selectedSha256: colorHash, status: 'selected',
+                candidates: [{
+                    version: 1, file: row.fileName, fileSha256: colorHash,
+                    structural: { valid: true, width: 4000, height: 3000, sha256: colorHash, errors: [] },
+                    lineArt: { file: row.lineArtFileName, fileSha256: lineHash, colorFile: row.fileName, status: 'selected', structural: { width: 4000, height: 3000 } },
+                }],
+            }],
+            batches: [],
+        }));
         const result = await api.checkStorytimePictureBatch([row, missing], dir);
         expect(result.exitCode).toBe(1);
         expect(result.results.map(({ rowId }) => rowId)).toEqual(['story-row-17', 'missing-row']);
         expect(result.results.map(({ status }) => status)).toEqual(['pass', 'fail']);
+    }, 30_000);
+
+    it('R-P4-14 exposes the stage-one batch command', async () => {
+        expect(fs.existsSync(pictureBatchCliPath), 'Missing script: scripts/storytime/check-storytime-pictures.ts').toBe(true);
+        const { execFileSync } = await import('node:child_process');
+        expect(execFileSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--help'], { encoding: 'utf8' }))
+            .toContain('check-storytime-pictures.ts');
     }, 30_000);
 });
