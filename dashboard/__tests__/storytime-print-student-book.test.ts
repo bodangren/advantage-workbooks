@@ -1478,8 +1478,16 @@ describe('Storytime student workbook: the shipped week 1', () => {
                 expect(strips.map((strip) => [strip.getAttribute('data-reader'), Number(strip.getAttribute('data-strip'))]))
                     .toEqual(leafOrder[leaf]);
                 for (const strip of strips) {
-                    expect(strip.textContent).toContain('PICTURE MISSING');
-                    expect(strip.querySelectorAll('[data-reader-page]')).toHaveLength(2);
+                    const readerPages = Array.from(strip.querySelectorAll('[data-reader-page]'));
+                    expect(readerPages).toHaveLength(2);
+                    for (const page of readerPages) {
+                        const pageNumber = Number(page.getAttribute('data-page-number'));
+                        const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
+                        const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
+                        expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
+                        expect(pictureBoxes.filter((box) => (box.textContent ?? '').trim() === 'PICTURE MISSING'),
+                            `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
+                    }
                 }
             }
         }

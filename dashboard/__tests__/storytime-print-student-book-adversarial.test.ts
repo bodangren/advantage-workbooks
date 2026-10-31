@@ -316,9 +316,17 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
             expect(strips).toHaveLength(2);
             for (const strip of strips) {
                 expect((strip.querySelector('.strip-mark')?.textContent ?? '').trim()).toMatch(/^.+ · strip [123] of 3( \(back\))?$/);
-                expect(strip.querySelectorAll('[data-reader-page]')).toHaveLength(2);
-                expect(text(strip)).toContain('PICTURE MISSING');
-                for (const page of strip.querySelectorAll('[data-reader-page]')) expect(text(page)).not.toBe('');
+                const readerPages = Array.from(strip.querySelectorAll('[data-reader-page]'));
+                expect(readerPages).toHaveLength(2);
+                for (const page of readerPages) {
+                    const pageNumber = Number(page.getAttribute('data-page-number'));
+                    const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
+                    const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
+                    expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
+                    expect(pictureBoxes.filter((box) => text(box) === 'PICTURE MISSING'),
+                        `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
+                    expect(text(page), `Reader page ${pageNumber} text.`).not.toBe('');
+                }
             }
         }
     }, 30000);
