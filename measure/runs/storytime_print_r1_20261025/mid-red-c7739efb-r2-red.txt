@@ -1,0 +1,833 @@
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-print-contract-v2.test.ts (24 tests | 1 failed) 849ms
+     ✓ gives every row the line-art name of FR-2.3 and FR-9 264ms
+     ✓ keeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8 96ms
+     ✓ keeps colliding page slugs distinct, or throws with both ids (F13) 15ms
+     ✓ exports STORYTIME_PICTURE_SPEC with the exact v1 constants 2ms
+     ✓ gives every row the pixel size of its class, with the shipped counts by use 81ms
+     ✓ fails print-picture-word with "net" as the picture word of the "and" line 23ms
+     ✓ fails print-picture-word with "Net" as the picture word of the "and" line 17ms
+     ✓ fails print-picture-word with "zebra" as the picture word of the "and" line 15ms
+     ✓ allows a picture word on its own line (the rule is not over-broad) 17ms
+     ✓ passes the shipped week 1 after the F1 fix (pictureWord "nut") 7ms
+     ✓ wires the error into checkStorytimeWeek and the published gate 19ms
+     ✓ preserves source and words on each app part as parsed values (F9) 83ms
+     ✓ week 1 records the thai approval with its pinned source line 6ms
+     ✓ week 2 records the thai approval with its pinned source line 4ms
+     ✓ week 3 records the thai approval with its pinned source line 4ms
+     ✓ week 4 records the thai approval with its pinned source line 5ms
+     ✓ week 5 records the thai approval with its pinned source line 5ms
+     ✓ week 6 records the thai approval with its pinned source line 7ms
+     ✓ week 7 records the thai approval with its pinned source line 6ms
+     ✓ week 8 records the thai approval with its pinned source line 3ms
+     ✓ week 1 records the text and scripts approvals (decision S29) 7ms
+     ✓ keeps the other parts draft in all eight weeks 61ms
+     ✓ the published gate of st2/1 names only images, audio, and song 6ms
+     × keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4" 91ms
+ ❯ __tests__/storytime-print-contract-r3.test.ts (42 tests | 7 failed) 1304ms
+     ✓ R15: counts the shipped week 2 answer in "How many suns? One!" 85ms
+     ✓ R15: counts the shipped week 2 answer in "How many kites? Two!" 10ms
+     ✓ R15: counts the shipped week 2 answer in "How many ducks? Three!" 10ms
+     ✓ R15: counts the shipped week 2 answer in "How many birds? Four!" 9ms
+     ✓ R15: counts the shipped week 2 answer in "How many balls? Five!" 18ms
+     ✓ R15: counts the shipped week 2 answer in "How many friends? Six!" 10ms
+     ✓ R15: counts the shipped week 2 answer in "How many cakes? Seven!" 23ms
+     ✓ R15: gives no cake count for "Oh no, Pip!" because the text gives no number (FR-2.2) 19ms
+     ✓ R16: gives no ball count for the shipped negated question 22ms
+     ✓ R16: gives no doll count for the shipped negated question 12ms
+     ✓ R16: gives no car count for the shipped negated question 11ms
+     ✓ R16: gives no kite count for the shipped negated question 12ms
+     ✓ R16: gives no drum count for the shipped negated question 10ms
+     ✓ R16: gives no train count for the shipped negated question 11ms
+     ✓ R16: gives no teddy count for the shipped negated question 12ms
+     ✓ R16: counts the pan but excludes the non-object noun in "A nap in the pan!" 11ms
+     ✓ R16: gives the singular key foot for "I have two feet." 8ms
+     ✓ R16: uses only the exact singular key inventory across the shipped list 75ms
+     ✓ R18: rejects the unknown key wrods on the text app approval part 23ms
+     ✓ R18: rejects the unknown key wrods on the thai app approval part 23ms
+     ✓ R18: rejects the unknown key wrods on the images app approval part 22ms
+     ✓ R18: rejects the unknown key wrods on the audio app approval part 25ms
+     ✓ R18: rejects the unknown key wrods on the song app approval part 28ms
+     ✓ R18: rejects the unknown key wrods on the scripts app approval part 24ms
+     ✓ R19: rejects the unknown key wrods on a draft print approval part 16ms
+     ✓ R20: uses -b for the second week 2 page "Nan can." 8ms
+     ✓ R20: uses -b for the second week 2 page "Can I?" 6ms
+     ✓ R20: uses -b for the second week 2 page "I can!" 6ms
+     ✓ R20: uses -b for the second week 6 page "Tap, tap, tap!" 6ms
+     ✓ R20: keeps all 30 week 1 ids equal to the committed v2 ids 7ms
+     ✓ R20: assigns base then -b through -z to the first 26 occurrences 18ms
+     ✓ R20: throws on the 27th occurrence instead of cycling suffixes  328ms
+     × R21: exports one list version constant with the value 4 17ms
+     × R21: uses level 2 as the level and the exported constant as Version 4 49ms
+     × R21: uses level 3 as the level and the exported constant as Version 4 45ms
+     × R21: commits the Version 4 header in pictures.md 4ms
+     ✓ R21: keeps pictures.json as a top-level array without a version field 1ms
+     × R4b-1 exports picture-list version 4 and uses it in generated markdown 39ms
+     × R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum 59ms
+     × R4b-3 reuses the earlier pen row instead of adding a week 8 row 49ms
+     ✓ R4b-4 keeps the week 1 to 7 rows byte-equal to the version 3 list at c7739efb 67ms
+     ✓ R4b-5 keeps the committed picture list in sync with the list function 58ms
+ ❯ __tests__/storytime-print-readers.test.ts (10 tests | 10 failed) 5729ms
+     × exports the reader compiler without a collection-time import 21ms
+     × R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim 2ms
+     × R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration 3ms
+     × R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy 2ms
+     × R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders 2ms
+     × R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder 2ms
+     × R-P4-6 exposes the readers PDF CLI help 2ms
+     × R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture 5686ms
+     × R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names 3ms
+     × R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size 2ms
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+the requested weeks contain a duplicate
+No approved draft: /tmp/storytime-adv-p3-8oMV4u/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-8oMV4u/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+requested week 30 is not loaded exactly once (loaded 0 of the level)
+--weeks must be a whole number from 1 to 32, got "../x"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--version must be a whole number from 1 to 9007199254740991, got "0"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+the teacher book is Thai only (spec P6): --lang must be th, got "en"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--out must be a folder inside /tmp/storytime-adv-p3-Zq5lhA/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-Zq5lhA/elsewhere"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+No approved draft: /tmp/storytime-adv-p3-KbSQnt/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+ ✓ __tests__/storytime-print-teacher-book-adversarial.test.ts (28 tests) 9804ms
+     ✓ rejects a duplicate week with exit 1 and writes nothing  1145ms
+     ✓ passes a week gap through week validation and stops at the missing drafts  999ms
+     ✓ rejects a week the level does not load with exit 1 and writes nothing  1582ms
+     ✓ rejects a path-like week value with exit 2 and writes nothing  1049ms
+     ✓ rejects --version 0 with exit 2 and writes nothing  1601ms
+     ✓ rejects --lang en with exit 2 and writes nothing  1123ms
+     ✓ rejects an --out folder outside the print folder with exit 2  1223ms
+     ✓ stops at a missing draft with exit 1 before the folder is made  992ms
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+R34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+UZBXJA+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+KFVQOZ+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+TLHDTB+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     46  0
+
+
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+ ✓ __tests__/storytime-print-covers-16books-adversarial.test.ts (9 tests) 24378ms
+     ✓ ADV-ESC: a hostile title and panel value escape in the cover HTML and round-trip through the parser  364ms
+     ✓ ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write  23315ms
+ ✓ __tests__/storytime-print-adversarial.test.ts (38 tests) 9426ms
+     ✓ exits 2 with the usage text for a missing --level  1133ms
+     ✓ exits 2 with the usage text for --level without a value  1064ms
+     ✓ exits 2 with the usage text for --level 9 (outside 1 to 4)  994ms
+     ✓ exits 2 with the usage text for --level 0  932ms
+     ✓ exits 2 with the usage text for --level -1  945ms
+     ✓ exits 2 with the usage text for --level ../x (path traversal)  887ms
+     ✓ exits 2 with the usage text for --level=2 (the equals form is not accepted)  635ms
+     ✓ exits 2 with the usage text for a level with more digits than a safe integer  1079ms
+     ✓ exits 1 for a valid level with no week files and writes nothing  730ms
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-Nr3t2A/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-x4XcWi/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ ✓ __tests__/storytime-print-teacher-book.test.ts (11 tests) 4618ms
+     ✓ provides the teacher-book print CLI and a successful help response  1176ms
+     ✓ R-F-P3-1 exports the exact K-only PDF/X flag list  867ms
+     ✓ B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside  1301ms
+     ✓ B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside  963ms
+ ✓ __tests__/storytime-print-student-book-adversarial.test.ts (55 tests) 5997ms
+     ✓ A1: keeps hostile week text out of the markup  1338ms
+     ✓ A1: prints hostile week text as literal text  341ms
+     ✓ A1: keeps a hostile start point inside its attribute  394ms
+     ✓ A1: catches a broken copy that injects the raw payload  580ms
+     ✓ A2: never prints the answer of a check row  478ms
+     ✓ A3: runs the output check before the write and the browser  659ms
+ ✓ __tests__/storytime-print-contract.test.ts (47 tests) 1283ms
+ ✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests) 834ms
+     ✓ R2: prints the exact address of a good non-shipped path  403ms
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: measures the five compiled trace items in page context and catches a removed gray opt-in
+R38 compiled trace medians: 175, 175, 175, 175, 175
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: measures the five compiled trace items in page context and catches a removed gray opt-in
+R38 removed-gray-rule medians: 0, 0, 0, 0, 0
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 start-dot gap n 1: 1.21 mm (dot 113,142; gray start 116,156; box 309x309; black <=60; gray 153-204)
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 start-dot gap n 2: 1.28 mm (dot 112,142; gray start 114,157; box 309x309; black <=60; gray 153-204)
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 start-dot gap n 3: 1.20 mm (dot 113.5,142; gray start 116,156; box 309x309; black <=60; gray 153-204)
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 start-dot gap a 4: 1.23 mm (dot 972.5,53.5; gray start 973,68; box 2153x125; black <=60; gray 153-204)
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 start-dot gap H 5: 1.27 mm (dot 25.5,83; gray start 26.5,98; box 2153x228; black <=60; gray 153-204)
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R38: places each trace dot within 1.5 mm of its first letter stroke
+R38 copied dot gaps: 1.27, 1.27, 1.19, 1.31, 1.27 mm
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+R41 origin ox=-0.5 oy=-3.6
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+R41 origin ox=-0.5 oy=-3.6
+
+stdout | __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)
+R41 HEAD letterMedian=175 downFraction=1.00 archFraction=0.99 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true
+R41 D6 smooth shoulder copy letterMedian=175 downFraction=1.00 archFraction=0.99 arrowWings=2 outsidePx=0 dotTopGap=0.76mm downTopGap=1.02mm downBottomGap=2.29mm archBottomGap=2.29mm dotBlack=true file=/tmp/opencode/storytime-student-book-FEpPzl/r41-guide-inside.html
+
+ ✓ __tests__/storytime-print-student-book.test.ts (70 tests) 135637ms
+     ✓ R22: prints the page order and a left-page spread  708ms
+     ✓ R23: draws n with the top start dot, arrows, three trace copies, and one write space  339ms
+     ✓ R24: prints the three practice lines and their picture ids in data order  310ms
+     ✓ R27: prints the Thai home front, the sound, net nut nose, the frame, and the activity  376ms
+     ✓ R27: gives the two real QR generators the S23 song and read-along inputs (P4)  443ms
+     ✓ R35: keeps the QR deploy mark in proof mode and excludes it from final mode  324ms
+     ✓ R29: loads only static Andika and Sarabun font faces with their OFL files  333ms
+     ✓ R31: uses the exported K-only flags in the production student-book conversion call  917ms
+     ✓ R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count  9937ms
+     ✓ R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X  500ms
+     ✓ R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract  464ms
+     ✓ R44: final mode requires and selects line art, not the color file  349ms
+     ✓ R36: matches both printed PDF/X QR matrices to their labeled song and book addresses  5805ms
+     ✓ R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch  1530ms
+     ✓ R33: rejects a removed home leaf on a temporary HTML copy  396ms
+     ✓ R33: rejects an answer mark on a temporary HTML copy  636ms
+     ✓ R33: rejects a right-page spread on a temporary HTML copy  701ms
+     ✓ R37: sits the n stroke guide on the rendered stems within 1 mm (D1)  7886ms
+     ✓ R38: prints each trace item in a K 20-40% gray, never solid black (D2)  6003ms
+     ✓ R38: measures the five compiled trace items in page context and catches a removed gray opt-in  43675ms
+     ✓ R38: prints a black start dot on each letter copy (D2)  4570ms
+     ✓ R38: places each trace dot within 1.5 mm of its first letter stroke  33975ms
+     ✓ R39: leaves the dictation letter lines empty write-in lines (D3)  445ms
+     ✓ R40: mirrors the horizontal cut line with the strip parity (D4)  2378ms
+     ✓ R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)  9686ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 18 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: list version 4 (R21) > R21: exports one list version constant with the value 4
+AssertionError: expected 3 to deeply equal 4
+
+- Expected
++ Received
+
+- 4
++ 3
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:199:56
+    197|     it('R21: exports one list version constant with the value 4', asyn…
+    198|         const exports = await import(picturesModule);
+    199|         expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(4);
+       |                                                        ^
+    200|     });
+    201|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: list version 4 (R21) > R21: uses level 2 as the level and the exported constant as Version 4
+AssertionError: expected [ …(3) ] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+  [
+    "# Storytime Advantage — print picture list (Level 2)",
+    "",
+-   "Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
++   "Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
+  ]
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:206:24
+    204|         const rows = await pictures(shippedWeeks());
+    205|         const header = exports.pictureListMarkdown(rows, level).split(…
+    206|         expect(header).toEqual([
+       |                        ^
+    207|             `# Storytime Advantage — print picture list (Level ${level…
+    208|             '',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: list version 4 (R21) > R21: uses level 3 as the level and the exported constant as Version 4
+AssertionError: expected [ …(3) ] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+  [
+    "# Storytime Advantage — print picture list (Level 3)",
+    "",
+-   "Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
++   "Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
+  ]
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:206:24
+    204|         const rows = await pictures(shippedWeeks());
+    205|         const header = exports.pictureListMarkdown(rows, level).split(…
+    206|         expect(header).toEqual([
+       |                        ^
+    207|             `# Storytime Advantage — print picture list (Level ${level…
+    208|             '',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: list version 4 (R21) > R21: commits the Version 4 header in pictures.md
+AssertionError: expected [ …(3) ] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+  [
+    "# Storytime Advantage — print picture list (Level 2)",
+    "",
+-   "Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
++   "Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.",
+  ]
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:217:101
+    215|
+    216|     it('R21: commits the Version 4 header in pictures.md', () => {
+    217|         expect(fs.readFileSync(path.join(printDir, 'pictures.md'), 'ut…
+       |                                                                                                     ^
+    218|             '# Storytime Advantage — print picture list (Level 2)',
+    219|             '',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-1 exports picture-list version 4 and uses it in generated markdown
+AssertionError: expected 3 to deeply equal 4
+
+- Expected
++ Received
+
+- 4
++ 3
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:236:56
+    234|         const exports = await import(picturesModule);
+    235|         const rows = await pictures(shippedWeeks());
+    236|         expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(4);
+       |                                                        ^
+    237|         expect(exports.pictureListMarkdown(rows, 2).split('\n')[2]).to…
+    238|             'Version 4 (FR-2, FR-9). `pictures.json` is the machine li…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum
+AssertionError: expected [] to have a length of 4 but got +0
+
+- Expected
++ Received
+
+- 4
++ 0
+
+ ❯ __tests__/storytime-print-contract-r3.test.ts:245:28
+    243|         const rows = await pictures(shippedWeeks());
+    244|         const week8Words = rows.filter((row) => row.week === 8 && row.…
+    245|         expect(week8Words).toHaveLength(4);
+       |                            ^
+    246|         for (const word of ['moon', 'mango', 'ostrich', 'drum']) {
+    247|             expect(week8Words, `week 8 picture list row for ${word}`).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-3 reuses the earlier pen row instead of adding a week 8 row
+AssertionError: week 8 rows must exist before checking reused words: expected [] to include 'moon'
+ ❯ __tests__/storytime-print-contract-r3.test.ts:254:83
+    252|         const rows = await pictures(shippedWeeks());
+    253|         const week8Words = rows.filter((row) => row.week === 8 && row.…
+    254|         expect(week8Words, 'week 8 rows must exist before checking reu…
+       |                                                                                   ^
+    255|         expect(rows.some((row) => row.week < 8 && row.use === 'check-r…
+    256|         expect(rows.some((row) => row.week === 8 && row.use === 'check…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/18]⎯
+
+ FAIL  __tests__/storytime-print-contract-v2.test.ts > Storytime print v2: the readable list drift guard (R10b) > keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4"
+AssertionError: The committed list header says Version 4.: expected '# Storytime Advantage — print picture…' to contain 'Version 4'
+
+- Expected
++ Received
+
+- Version 4
++ # Storytime Advantage — print picture list (Level 2)
++
++ Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+
+ ❯ __tests__/storytime-print-contract-v2.test.ts:295:107
+    293|         expect(fs.existsSync(file), 'Commit content/storytime/l2/print…
+    294|         const committed = fs.readFileSync(file, 'utf8');
+    295|         expect(committed.split('\n').slice(0, 3).join('\n'), 'The comm…
+       |                                                                                                           ^
+    296|         expect(committed, 'Regenerate pictures.md after its inputs cha…
+    297|         const lines = committed.split('\n');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > exports the reader compiler without a collection-time import
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:43:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:48:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:63:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:98:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:117:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+AssertionError: Missing module: lib/storytime/print/readers.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ readers __tests__/storytime-print-readers.test.ts:32:89
+     30| }
+     31| async function readers(): Promise<ReaderApi> {
+     32|     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/p…
+       |                                                                                         ^
+     33|     return await import(readerPath) as ReaderApi;
+     34| }
+ ❯ __tests__/storytime-print-readers.test.ts:145:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-6 exposes the readers PDF CLI help
+AssertionError: Missing script: scripts/storytime/make-readers-pdf.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ __tests__/storytime-print-readers.test.ts:154:97
+    152|
+    153|     it('R-P4-6 exposes the readers PDF CLI help', async () => {
+    154|         expect(fs.existsSync(cliPath), 'Missing script: scripts/storyt…
+       |                                                                                                 ^
+    155|         const { execFileSync } = await import('node:child_process');
+    156|         expect(execFileSync(process.execPath, ['--import', 'tsx', cliP…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture
+AssertionError: Missing module: lib/storytime/print/picture-check.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ pictureCheck __tests__/storytime-print-readers.test.ts:36:96
+     34| }
+     35| async function pictureCheck(): Promise<PictureApi> {
+     36|     expect(fs.existsSync(picturePath), 'Missing module: lib/storytime/…
+       |                                                                                                ^
+     37|     return await import(picturePath) as PictureApi;
+     38| }
+ ❯ __tests__/storytime-print-readers.test.ts:184:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names
+AssertionError: Missing module: lib/storytime/print/picture-check.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ pictureCheck __tests__/storytime-print-readers.test.ts:36:96
+     34| }
+     35| async function pictureCheck(): Promise<PictureApi> {
+     36|     expect(fs.existsSync(picturePath), 'Missing module: lib/storytime/…
+       |                                                                                                ^
+     37|     return await import(picturePath) as PictureApi;
+     38| }
+ ❯ __tests__/storytime-print-readers.test.ts:192:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/18]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+AssertionError: Missing module: lib/storytime/print/picture-check.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ pictureCheck __tests__/storytime-print-readers.test.ts:36:96
+     34| }
+     35| async function pictureCheck(): Promise<PictureApi> {
+     36|     expect(fs.existsSync(picturePath), 'Missing module: lib/storytime/…
+       |                                                                                                ^
+     37|     return await import(picturePath) as PictureApi;
+     38| }
+ ❯ __tests__/storytime-print-readers.test.ts:224:27
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/18]⎯
+
+
+ Test Files  3 failed | 8 passed (11)
+      Tests  18 failed | 365 passed (383)
+   Start at  01:45:19
+   Duration  140.54s (transform 3.17s, setup 1.56s, import 6.22s, tests 199.86s, environment 9.37s)
+
+Command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"'
+RED_TEST_COMMAND exit: 1
