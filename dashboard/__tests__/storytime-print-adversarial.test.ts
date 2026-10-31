@@ -160,9 +160,21 @@ describe('Adversarial: repeated picture names never collide silently', () => {
 });
 
 describe('Adversarial: week 8 and an empty book list', () => {
-    it('gives zero picture rows for the shipped review week', () => {
-        expect(shipped(8).books, 'Week 8 ships with no books.').toEqual([]);
-        expect(storytimePrintPictures([parsed(shipped(8))]), 'No books, no check items, and no print block give no rows.').toEqual([]);
+    it('keeps shipped week 8 picture rows without books and gives an empty review copy no rows', () => {
+        const reviewWeek = shipped(8);
+        expect(reviewWeek.books, 'Week 8 ships with no books.').toEqual([]);
+        const emptyReview = copyWeek(8, (copy) => {
+            delete copy.block;
+            delete copy.benchmark;
+        });
+        expect(storytimePrintPictures([parsed(emptyReview)]), 'No books, check items, or benchmark paper give no rows.').toEqual([]);
+
+        const shippedRows = storytimePrintPictures([parsed(reviewWeek)]);
+        const week8Words = ['drum', 'mango', 'moon', 'ostrich'];
+        const week8CheckRows = shippedRows.filter((row) => row.week === 8 && row.use === 'check-row' && week8Words.includes(row.text.toLowerCase()));
+        expect(week8CheckRows).toHaveLength(4);
+        expect(week8CheckRows.map((row) => row.text.toLowerCase()).sort()).toEqual(week8Words);
+        expect(shippedRows.some((row) => row.use === 'story-page')).toBe(false);
     });
 
     it('keeps the check and practice rows and the print checks when a teaching week loses its books', () => {
