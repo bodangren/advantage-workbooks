@@ -142,8 +142,14 @@ comes only from draft weeks stops the build with an error, and no file is writte
 Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
 print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
 deliverable in those cases.
+ ❯ __tests__/storytime-print-readers.test.ts (14 tests | 5 failed) 36746ms
+     × R-P4-13 preflights every requested final reader picture before creating outputs or rendering 19ms
+     × R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size 3096ms
+     × R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts 2102ms
+     × R-P4-12 checks every week-one row in a batch and returns a failure for each missing file 1719ms
+     × R-P4-14 exposes the stage-one batch command 10ms
 the requested weeks contain a duplicate
-No approved draft: /tmp/storytime-adv-p3-cH37h8/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-cH37h8/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+No approved draft: /tmp/storytime-adv-p3-OJRC5u/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-OJRC5u/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
 requested week 30 is not loaded exactly once (loaded 0 of the level)
 --weeks must be a whole number from 1 to 32, got "../x"
 
@@ -244,12 +250,7 @@ font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, 
 the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
 on --lang en, when an output file exists already (use a new --version), or when an output path
 is a symbolic link or resolves outside the print folder.
- ❯ __tests__/storytime-print-readers.test.ts (13 tests | 4 failed) 32670ms
-     × R-P4-13 preflights every requested final reader picture before creating outputs or rendering 11ms
-     × R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size 2773ms
-     × R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts 1835ms
-     × R-P4-12 checks every week-one row in a batch and returns a failure for each missing file 2032ms
---out must be a folder inside /tmp/storytime-adv-p3-HExL4k/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-HExL4k/elsewhere"
+--out must be a folder inside /tmp/storytime-adv-p3-Jvpzh4/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-Jvpzh4/elsewhere"
 
 Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
 compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
@@ -282,67 +283,86 @@ font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, 
 the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
 on --lang en, when an output file exists already (use a new --version), or when an output path
 is a symbolic link or resolves outside the print folder.
-No approved draft: /tmp/storytime-adv-p3-tHGYi7/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
---out must not be a symbolic link: /tmp/storytime-b-p3-01-V4UQxg/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
---out must not be a symbolic link: /tmp/storytime-b-p3-01-WsnEju/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+No approved draft: /tmp/storytime-adv-p3-P98vCh/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-mLKXZd/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-yn68h5/Desktop/print-ready/storytime/tb/text-gate-v1.txt
 
-⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-13 preflights every requested final reader picture before creating outputs or rendering
 AssertionError: The final build calls the picture preflight.: expected -1 to be greater than -1
- ❯ __tests__/storytime-print-readers.test.ts:206:75
-    204|         const folderWrite = source.indexOf('fs.mkdirSync(folder');
-    205|         const firstRender = source.indexOf('renderHtml(');
-    206|         expect(preflight, 'The final build calls the picture preflight…
+ ❯ __tests__/storytime-print-readers.test.ts:207:75
+    205|         const folderWrite = source.indexOf('fs.mkdirSync(folder');
+    206|         const firstRender = source.indexOf('renderHtml(');
+    207|         expect(preflight, 'The final build calls the picture preflight…
        |                                                                           ^
-    207|         expect(preflight, 'The preflight runs before output folder cre…
-    208|         expect(preflight, 'The preflight runs before the first render.…
+    208|         expect(preflight, 'The preflight runs before output folder cre…
+    209|         expect(preflight, 'The preflight runs before the first render.…
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
 
  FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
 AssertionError: promise rejected "Error: picture check: the manifest names …" instead of resolving
- ❯ __tests__/storytime-print-readers.test.ts:285:111
-    283|         const otherRow = { ...goodEntries[0], fileName: 'known-other-r…
-    284|         await expect(api.checkStorytimePicture(fixture.color, fixture.…
-    285|             { pictureListFileNames: [fixture.row.fileName, fixture.row…
+ ❯ __tests__/storytime-print-readers.test.ts:286:111
+    284|         const otherRow = { ...goodEntries[0], fileName: 'known-other-r…
+    285|         await expect(api.checkStorytimePicture(fixture.color, fixture.…
+    286|             { pictureListFileNames: [fixture.row.fileName, fixture.row…
        |                                                                                                               ^
-    286|         await expect(api.checkStorytimePicture(fixture.color, fixture.…
-    287|             { pictureListFileNames: [fixture.row.fileName, fixture.row…
+    287|         await expect(api.checkStorytimePicture(fixture.color, fixture.…
+    288|             { pictureListFileNames: [fixture.row.fileName, fixture.row…
 
 Caused by: Error: picture check: the manifest names known-other-row.png, which is not a file name of the picture list row l2-w01-story-page-good-v1.png or l2-w01-story-page-good-line-v1.png
  ❯ Module.checkStorytimePicture lib/storytime/print/picture-check.ts:256:19
- ❯ __tests__/storytime-print-readers.test.ts:284:26
+ ❯ __tests__/storytime-print-readers.test.ts:285:26
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
 
  FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts
 TypeError: api.forgeManifestEntriesForRow is not a function
- ❯ __tests__/storytime-print-readers.test.ts:311:27
-    309|             batches: [],
-    310|         };
-    311|         const facts = api.forgeManifestEntriesForRow(manifest, row);
+ ❯ __tests__/storytime-print-readers.test.ts:312:27
+    310|             batches: [],
+    311|         };
+    312|         const facts = api.forgeManifestEntriesForRow(manifest, row);
        |                           ^
-    312|         expect(facts).toEqual([
-    313|             { fileName: path.basename(fixture.color), rowId: row.id, s…
+    313|         expect(facts).toEqual([
+    314|             { fileName: path.basename(fixture.color), rowId: row.id, s…
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
 
  FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-12 checks every week-one row in a batch and returns a failure for each missing file
 TypeError: api.checkStorytimePictureBatch is not a function
- ❯ __tests__/storytime-print-readers.test.ts:324:34
-    322|         const row = { id: 'story-row-17', fileName: path.basename(fixt…
-    323|         const missing = { ...row, id: 'missing-row', fileName: 'missin…
-    324|         const result = await api.checkStorytimePictureBatch([row, miss…
+ ❯ __tests__/storytime-print-readers.test.ts:341:34
+    339|             batches: [],
+    340|         }));
+    341|         const result = await api.checkStorytimePictureBatch([row, miss…
        |                                  ^
-    325|         expect(result.exitCode).toBe(1);
-    326|         expect(result.results.map(({ rowId }) => rowId)).toEqual(['sto…
+    342|         expect(result.exitCode).toBe(1);
+    343|         expect(result.results.map(({ rowId }) => rowId)).toEqual(['sto…
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  __tests__/storytime-print-readers.test.ts > Storytime two-output picture check > R-P4-14 exposes the stage-one batch command
+AssertionError: Missing script: scripts/storytime/check-storytime-pictures.ts: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ __tests__/storytime-print-readers.test.ts:348:117
+    346|
+    347|     it('R-P4-14 exposes the stage-one batch command', async () => {
+    348|         expect(fs.existsSync(pictureBatchCliPath), 'Missing script: sc…
+       |                                                                                                                     ^
+    349|         const { execFileSync } = await import('node:child_process');
+    350|         expect(execFileSync(process.execPath, ['--import', 'tsx', pict…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
 
 
  Test Files  1 failed | 10 passed (11)
-      Tests  4 failed | 383 passed (387)
-   Start at  04:58:10
-   Duration  140.97s (transform 2.94s, setup 2.18s, import 5.81s, tests 218.41s, environment 15.68s)
+      Tests  5 failed | 383 passed (388)
+   Start at  05:02:01
+   Duration  176.16s (transform 3.82s, setup 2.77s, import 6.72s, tests 269.51s, environment 13.41s)
 

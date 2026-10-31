@@ -1,0 +1,271 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-print-student-book-adversarial.test.ts (55 tests | 1 failed | 54 skipped) 828ms
+     × A2: fills each reader side with the R32 reader pages and keeps both strip marks 818ms
+ ❯ __tests__/storytime-print-student-book.test.ts (71 tests | 1 failed | 70 skipped) 1127ms
+     × R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages 1122ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-print-student-book-adversarial.test.ts > Adversarial guards: the Phase 2 student workbook of week 1 > A2: fills each reader side with the R32 reader pages and keeps both strip marks
+AssertionError: A2 front side has its own duplex page set.: expected [ 2, 11, 4, 9 ] to deeply equal [ 12, 1, 10, 3 ]
+
+- Expected
++ Received
+
+  [
+-   12,
+-   1,
+-   10,
+-   3,
++   2,
++   11,
++   4,
++   9,
+  ]
+
+ ❯ __tests__/storytime-print-student-book-adversarial.test.ts:340:85
+    338|                 }
+    339|             }
+    340|             expect(pageNumbers, `A2 ${sideName} side has its own duple…
+       |                                                                                     ^
+    341|         }
+    342|     }, 30000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages
+AssertionError: expected Map{ …(24) } to deeply equal Map{ …(24) }
+
+- Expected
++ Received
+
+  Map {
+-   "back|decodable|1|11" => {
+-     "pictureIds": [],
+-     "text": "Listen and read the book",
++   "back|decodable|1|1" => {
++     "pictureIds": [
++       "l2-w01-cover-nan-can-nod",
++     ],
++     "text": "PICTURE MISSING Sprout Nan Can Nod Storytime Advantage Week 1",
+    },
+-   "back|decodable|1|2" => {
++   "back|decodable|1|12" => {
+      "pictureIds": [],
+-     "text": "Sounds in this book n nestnetnutnosenecknursenod Tricky words aandcan",
++     "text": "Sprout Storytime Advantage Words in this book nestnetnutnosenecknursenod",
+    },
+-   "back|decodable|2|4" => {
++   "back|decodable|2|10" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-net",
++       "l2-w01-story-page-nan-can-nod",
+      ],
+-     "text": "PICTURE MISSINGA net.",
++     "text": "PICTURE MISSINGNan can nod!",
+    },
+-   "back|decodable|2|9" => {
++   "back|decodable|2|3" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-nest-and-a-nut",
++       "l2-w01-story-page-a-nest",
+      ],
+-     "text": "PICTURE MISSINGA nest and a nut.",
++     "text": "PICTURE MISSINGA nest.",
+    },
+-   "back|decodable|3|6" => {
++   "back|decodable|3|5" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-nose",
++       "l2-w01-story-page-a-nut",
+      ],
+-     "text": "PICTURE MISSINGA nose.",
++     "text": "PICTURE MISSINGA nut.",
+    },
+-   "back|decodable|3|7" => {
++   "back|decodable|3|8" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-neck",
++       "l2-w01-story-page-a-nurse",
+      ],
+-     "text": "PICTURE MISSINGA neck.",
++     "text": "PICTURE MISSINGA nurse.",
+    },
+-   "back|readalong|1|11" => {
+-     "pictureIds": [],
+-     "text": "Hello, I am ___. Names and greetings hellogoodbyeboygirlfriendteacher",
++   "back|readalong|1|1" => {
++     "pictureIds": [
++       "l2-w01-cover-hello",
++     ],
++     "text": "PICTURE MISSING Sprout Hello! Storytime Advantage Week 1",
+    },
+-   "back|readalong|1|2" => {
++   "back|readalong|1|12" => {
+      "pictureIds": [],
+-     "text": "Hello! Storytime Advantage Listen to the book",
++     "text": "Sprout Storytime Advantage Words in this book helloIamyourteacher",
+    },
+-   "back|readalong|2|4" => {
++   "back|readalong|2|10" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-may",
++       "l2-w01-story-page-hello-i-am-pip",
+      ],
+-     "text": "PICTURE MISSINGHello, I am May.",
++     "text": "PICTURE MISSINGHello, I am Pip!",
+    },
+-   "back|readalong|2|9" => {
++   "back|readalong|2|3" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-your-teacher",
++       "l2-w01-story-page-hello-i-am-pat",
+      ],
+-     "text": "PICTURE MISSINGHello, I am your teacher.",
++     "text": "PICTURE MISSINGHello, I am Pat.",
+    },
+-   "back|readalong|3|6" => {
++   "back|readalong|3|5" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-mia",
++       "l2-w01-story-page-hello-i-am-sam",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Mia.",
++     "text": "PICTURE MISSINGHello, I am Sam.",
+    },
+-   "back|readalong|3|7" => {
++   "back|readalong|3|8" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-nan",
++       "l2-w01-story-page-hello-i-am-ben",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Nan.",
++     "text": "PICTURE MISSINGHello, I am Ben.",
+    },
+-   "front|decodable|1|1" => {
+-     "pictureIds": [
+-       "l2-w01-cover-nan-can-nod",
+-     ],
+-     "text": "PICTURE MISSING Sprout Nan Can Nod Storytime Advantage Week 1",
++   "front|decodable|1|11" => {
++     "pictureIds": [],
++     "text": "Listen and read the book",
+    },
+-   "front|decodable|1|12" => {
++   "front|decodable|1|2" => {
+      "pictureIds": [],
+-     "text": "Sprout Storytime Advantage Words in this book nestnetnutnosenecknursenod",
++     "text": "Sounds in this book n nestnetnutnosenecknursenod Tricky words aandcan",
+    },
+-   "front|decodable|2|10" => {
++   "front|decodable|2|4" => {
+      "pictureIds": [
+-       "l2-w01-story-page-nan-can-nod",
++       "l2-w01-story-page-a-net",
+      ],
+-     "text": "PICTURE MISSINGNan can nod!",
++     "text": "PICTURE MISSINGA net.",
+    },
+-   "front|decodable|2|3" => {
++   "front|decodable|2|9" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-nest",
++       "l2-w01-story-page-a-nest-and-a-nut",
+      ],
+-     "text": "PICTURE MISSINGA nest.",
++     "text": "PICTURE MISSINGA nest and a nut.",
+    },
+-   "front|decodable|3|5" => {
++   "front|decodable|3|6" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-nut",
++       "l2-w01-story-page-a-nose",
+      ],
+-     "text": "PICTURE MISSINGA nut.",
++     "text": "PICTURE MISSINGA nose.",
+    },
+-   "front|decodable|3|8" => {
++   "front|decodable|3|7" => {
+      "pictureIds": [
+-       "l2-w01-story-page-a-nurse",
++       "l2-w01-story-page-a-neck",
+      ],
+-     "text": "PICTURE MISSINGA nurse.",
++     "text": "PICTURE MISSINGA neck.",
+    },
+-   "front|readalong|1|1" => {
+-     "pictureIds": [
+-       "l2-w01-cover-hello",
+-     ],
+-     "text": "PICTURE MISSING Sprout Hello! Storytime Advantage Week 1",
++   "front|readalong|1|11" => {
++     "pictureIds": [],
++     "text": "Hello, I am ___. Names and greetings hellogoodbyeboygirlfriendteacher",
+    },
+-   "front|readalong|1|12" => {
++   "front|readalong|1|2" => {
+      "pictureIds": [],
+-     "text": "Sprout Storytime Advantage Words in this book helloIamyourteacher",
++     "text": "Hello! Storytime Advantage Listen to the book",
+    },
+-   "front|readalong|2|10" => {
++   "front|readalong|2|4" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-pip",
++       "l2-w01-story-page-hello-i-am-may",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Pip!",
++     "text": "PICTURE MISSINGHello, I am May.",
+    },
+-   "front|readalong|2|3" => {
++   "front|readalong|2|9" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-pat",
++       "l2-w01-story-page-hello-i-am-your-teacher",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Pat.",
++     "text": "PICTURE MISSINGHello, I am your teacher.",
+    },
+-   "front|readalong|3|5" => {
++   "front|readalong|3|6" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-sam",
++       "l2-w01-story-page-hello-i-am-mia",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Sam.",
++     "text": "PICTURE MISSINGHello, I am Mia.",
+    },
+-   "front|readalong|3|8" => {
++   "front|readalong|3|7" => {
+      "pictureIds": [
+-       "l2-w01-story-page-hello-i-am-ben",
++       "l2-w01-story-page-hello-i-am-nan",
+      ],
+-     "text": "PICTURE MISSINGHello, I am Ben.",
++     "text": "PICTURE MISSINGHello, I am Nan.",
+    },
+  }
+
+ ❯ __tests__/storytime-print-student-book.test.ts:1521:30
+    1519|         const studentPages = pageContents(doc, 'student');
+    1520|         const readerPages = pageContents(readerDoc, 'readers');
+    1521|         expect(studentPages).toEqual(readerPages);
+       |                              ^
+    1522|         const expectedBySide = [
+    1523|             [12, 1, 10, 3], [2, 11, 4, 9],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 124 skipped (126)
+   Start at  05:01:27
+   Duration  3.79s (transform 1.22s, setup 415ms, import 1.72s, tests 1.95s, environment 2.23s)
+
+mutant_exit=1
+source_restored_exit=0

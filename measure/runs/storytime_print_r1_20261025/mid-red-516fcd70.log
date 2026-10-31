@@ -1,27 +1,53 @@
-Measure Mid Red 4d provisional record
+Measure Mid Red 4d final report
+
+Role: measure-mid-red
+Track: storytime_print_r1_20261025
+Phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+Model: openai/gpt-6-luna#high
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 516fcd70b953df6309d2255de9889cf67231972e
+
+Both supplied SHAs resolve. HEAD was the role base at start. The phase scope is relative to phase_base_sha. The role commit proof uses role_base_sha only.
 
 Dirty-path classification at start:
 - Unrelated user work: video/storytime-song/scripts/render.mjs.
-- Generated/ignorable: dashboard/pnpm-lock.yaml and dashboard/raw.json; both are explicitly out of scope.
-- Unrelated run artifacts: existing files under measure/runs/storytime_covers_20261027/ and earlier storytime_print_r1_20261025/ runs. Preserve them.
-- Relevant existing review reports are read-only inputs. No other relevant dirty source paths were present.
+- Generated or ignorable: dashboard/pnpm-lock.yaml and dashboard/raw.json. Both remain untouched.
+- Unrelated run artifacts: existing files under measure/runs/storytime_covers_20261027/ and earlier measure/runs/storytime_print_r1_20261025/ records. They remain untouched.
+- Relevant existing review reports are read-only inputs.
+- No relevant pre-existing dirty source paths were present.
 
-The supplied phase_base_sha and role_base_sha both resolve. HEAD starts at role_base_sha 516fcd70b953df6309d2255de9889cf67231972e. The plan marks Red 4d [~] and Green 4d [ ]. Pictures stays open.
+Work:
+- Added Forge-manifest adapter and stage-one batch-driver API expectations to storytime-print-readers.test.ts. The chosen names are forgeManifestEntriesForRow, checkStorytimePictureBatch, and dashboard/scripts/storytime/check-storytime-pictures.ts.
+- Changed R-P4-9 to retain the two row entries and add one unknown entry. It also asserts acceptance of an entry known to the full picture list.
+- Changed R-P4-10 and A2 to include the physical side in page identity and assert per-leaf front/back page sets.
+- Added R-P4-13 to require final-picture preflight before output-folder creation or rendering.
+- Added R-P4-14 for stage-one CLI help.
+- No production file changed.
 
-The requested contract names are forgeManifestEntriesForRow, checkStorytimePictureBatch, and dashboard/scripts/storytime/check-storytime-pictures.ts. This is provisional pending the Red gate.
+Tests:
+- RED_TEST_COMMAND through heavy-run.sh: exit 1, Test Files 1 failed | 10 passed (11), Tests 5 failed | 383 passed (388). Failure names: R-P4-9, R-P4-11, R-P4-12, R-P4-13, and R-P4-14. Each failure is inside a test body. No collection error occurred. All unchanged test cases passed.
+- PROJECT_LINT through heavy-run.sh: exit 0, no output.
+- Side-swap mutant: reverse the front/back argument to sideOf in student-book.ts, then run R-P4-10 and A2. Both fail on side-specific page identity. Restore the source copy. `git diff --quiet -- dashboard/lib/storytime/print/student-book.ts` exits 0.
+- An initial mutant invocation used duplicate `-t` flags and failed in Vitest argument parsing. It did not run tests. The corrected mutant run above is the valid evidence.
+- Commands and full outputs are in mid-red-516fcd70-red.txt, mid-red-516fcd70-lint.txt, and mid-red-516fcd70-mutant-sides.txt.
+
+Test commits: 9da270da and 275d7fcd. The separate measure(plan) commit records Red 4d as complete. Pictures and UMV remain open. The Green task remains open.
+
+Known failures are the five expected Red cases listed above. C-P4-2 has an ordering guard, but it does not yet assert an end-to-end retry with the same version. Green must add proof that a missing picture writes no output and that a repaired retry succeeds. A-P4-3 to A-P4-11 and C-P4-3 to C-P4-7 remain out of scope and are deferred by the orchestrator.
 
 MEASURE_AGENT_RESULT
 role: measure-mid-red
-status: in_progress
+status: complete
 track: storytime_print_r1_20261025
 phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
 phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
 role_base_sha: 516fcd70b953df6309d2255de9889cf67231972e
 baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
-resulting_head: 516fcd70b953df6309d2255de9889cf67231972e
-commits: pending
- tests: pending
-files: pending
-known_failures: pending Red run
-handoff: no question; test only C-P4-1, A-P4-1, A-P4-2, and C-P4-2. Defer C-P4-3 through C-P4-7 and A-P4-3 through A-P4-11 as instructed.
+resulting_head: HEAD
+commits: 9da270da, 275d7fcd, HEAD
+ tests: RED_TEST_COMMAND exit 1; 5 failed and 383 passed. PROJECT_LINT exit 0. Side-swap mutant: R-P4-10 and A2 both fail.
+files: dashboard/__tests__/storytime-print-readers.test.ts; dashboard/__tests__/storytime-print-student-book.test.ts; dashboard/__tests__/storytime-print-student-book-adversarial.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-516fcd70.log; measure/runs/storytime_print_r1_20261025/mid-red-516fcd70-red.txt; measure/runs/storytime_print_r1_20261025/mid-red-516fcd70-lint.txt; measure/runs/storytime_print_r1_20261025/mid-red-516fcd70-mutant-sides.txt
+plan_updates: Red 4d [x] with test commit SHA; Green 4d [ ]; Pictures and UMV [ ]; exact APIs and test cases recorded.
+known_failures: R-P4-9 known-other-row entry rejected; R-P4-11 Forge adapter export absent; R-P4-12 batch driver export absent; R-P4-13 preflight call absent; R-P4-14 stage-one CLI absent. C-P4-2 same-version retry is not yet asserted end to end.
+handoff: Green implements forgeManifestEntriesForRow, checkStorytimePictureBatch, and check-storytime-pictures.ts. Green must make checkStorytimePicture accept known entries from other picture-list rows and reject unknown names. Green must run R-P4-10 and A2, then rerun the side-swap mutant. Green must preflight all final-mode reader pictures before rendering, and add same-version no-output/retry evidence. A-P4-3 to A-P4-11 and C-P4-3 to C-P4-7 are out of scope. No question.
 END_MEASURE_AGENT_RESULT
