@@ -193,38 +193,38 @@ describe('Storytime print Red 3: bounded suffixes (R20)', () => {
     }, 10000);
 });
 
-describe('Storytime print Red 3: list version 3 (R21)', () => {
-    it('R21: exports one list version constant with the value 3', async () => {
+describe('Storytime print Red 3: list version 4 (R21)', () => {
+    it('R21: exports one list version constant with the value 4', async () => {
         const exports = await import(picturesModule);
-        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(3);
+        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(4);
     });
 
-    it.each([2, 3])('R21: uses level %i as the level and the exported constant as Version 3', async (level) => {
+    it.each([2, 3])('R21: uses level %i as the level and the exported constant as Version 4', async (level) => {
         const exports = await import(picturesModule);
         const rows = await pictures(shippedWeeks());
         const header = exports.pictureListMarkdown(rows, level).split('\n').slice(0, 3);
         expect(header).toEqual([
             `# Storytime Advantage — print picture list (Level ${level})`,
             '',
-            'Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+            'Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
         ]);
         expect(header[2]).toEqual(
             `Version ${exports.STORYTIME_PICTURE_LIST_VERSION} (FR-2, FR-9). \`pictures.json\` is the machine list; this page is the readable copy.`,
         );
     });
 
-    it('R21: commits the Version 3 header in pictures.md', () => {
+    it('R21: commits the Version 4 header in pictures.md', () => {
         expect(fs.readFileSync(path.join(printDir, 'pictures.md'), 'utf8').split('\n').slice(0, 3)).toEqual([
             '# Storytime Advantage — print picture list (Level 2)',
             '',
-            'Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+            'Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
         ]);
     });
 
     it('R21: keeps pictures.json as a top-level array without a version field', () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8'));
         expect(Array.isArray(committed)).toEqual(true);
-        expect(committed.length).toEqual(192);
+        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(192);
         expect(Object.hasOwn(committed, 'version')).toEqual(false);
     });
 });
@@ -242,6 +242,7 @@ describe('Storytime print Red 4b: week 8 picture list version 4', () => {
     it('R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum', async () => {
         const rows = await pictures(shippedWeeks());
         const week8Words = rows.filter((row) => row.week === 8 && row.use === 'check-row').map((row) => row.text.toLowerCase());
+        expect(week8Words).toHaveLength(4);
         for (const word of ['moon', 'mango', 'ostrich', 'drum']) {
             expect(week8Words, `week 8 picture list row for ${word}`).toContain(word);
         }

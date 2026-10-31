@@ -11,7 +11,7 @@ import type { PackageCheck } from '../lib/lesson-package/checks';
 /**
  * Green 2 API contract (test strategy 4.13.2):
  * - print/pictures.ts exports STORYTIME_PICTURE_SPEC and adds `lineArtFileName`, `width`, and
- *   `height` to every row; pictureListMarkdown(rows, 2) writes the "Version 3" readable list after Red 3.
+ *   `height` to every row; pictureListMarkdown(rows, 2) writes the "Version 4" readable list after Red 4b.
  * - print/text-check.ts adds the picture-word check; its id is `print-picture-word`.
  * - schema.ts keeps `source` and `words` on each of the six app approval parts (parsed values).
  * New modules load inside test bodies with await import, so a missing export fails one test.
@@ -94,7 +94,7 @@ afterEach(() => {
 describe('Storytime print v2: line-art names of the picture list (R11)', () => {
     it('gives every row the line-art name of FR-2.3 and FR-9', async () => {
         const rows = await pictures(shippedWeeks());
-        expect(rows.length, 'The shipped list has 192 rows.').toBe(192);
+        expect(rows.filter((row) => row.week <= 7).length, 'Weeks 1 to 7 keep their 192 rows.').toBe(192);
         for (const row of rows) {
             expect(row.lineArtFileName, `The row ${row.id} needs a line-art file name.`).toBe(
                 row.fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png'),
@@ -105,13 +105,13 @@ describe('Storytime print v2: line-art names of the picture list (R11)', () => {
         }
     });
 
-    it('keeps the 192 color names and the 192 line-art names distinct across weeks 1 to 8', async () => {
+    it('keeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8', async () => {
         const rows = await pictures(shippedWeeks());
         const colorNames = rows.map((row) => row.fileName);
         const lineNames = rows.map((row) => row.lineArtFileName);
-        expect(new Set(colorNames).size, 'Color file names are unique across weeks 1 to 8.').toBe(192);
+        expect(new Set(colorNames).size, 'Color file names are unique across weeks 1 to 8.').toBe(colorNames.length);
         const union = new Set([...colorNames, ...lineNames]);
-        expect(union.size, 'The union of the color names and the line-art names has 384 distinct values.').toBe(384);
+        expect(union.size, 'The union of the color names and the line-art names has two distinct names per row.').toBe(colorNames.length * 2);
     });
 
     it('keeps colliding page slugs distinct, or throws with both ids (F13)', async () => {
@@ -167,7 +167,7 @@ describe('Storytime print v2: the FR-9 v1 pixel spec (R12)', () => {
         for (const row of rows) byUse[row.use] += 1;
         expect(byUse['story-page'], 'story-page rows: 112').toBe(112);
         expect(byUse.cover, 'cover rows: 14').toBe(14);
-        expect(byUse['check-row'], 'check-row rows: 63').toBe(63);
+        expect(rows.filter((row) => row.week <= 7 && row.use === 'check-row').length, 'Weeks 1 to 7 keep 63 check rows.').toBe(63);
         expect(byUse['practice-line'], 'practice-line rows: 3').toBe(3);
         expect(byUse.card, 'card rows: 0').toBe(0);
         expect(byUse.sticker, 'sticker rows: 0').toBe(0);
@@ -285,14 +285,14 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
 });
 
 describe('Storytime print v2: the readable list drift guard (R10b)', () => {
-    it('keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 3"', async () => {
+    it('keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4"', async () => {
         const exports = await import(path.join(storytimeModuleRoot, 'print', 'pictures.ts'));
         expect(exports.pictureListMarkdown, 'Export pictureListMarkdown from print/pictures.ts.').toBeTypeOf('function');
         const rows = await pictures(shippedWeeks());
         const file = path.join(printDir, 'pictures.md');
         expect(fs.existsSync(file), 'Commit content/storytime/l2/print/pictures.md.').toBe(true);
         const committed = fs.readFileSync(file, 'utf8');
-        expect(committed.split('\n').slice(0, 3).join('\n'), 'The committed list header says Version 3.').toContain('Version 3');
+        expect(committed.split('\n').slice(0, 3).join('\n'), 'The committed list header says Version 4.').toContain('Version 4');
         expect(committed, 'Regenerate pictures.md after its inputs change.').toBe(exports.pictureListMarkdown(rows, 2));
         const lines = committed.split('\n');
         for (const row of rows) {
