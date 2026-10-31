@@ -1,0 +1,14 @@
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: c7739efbb3cf118f23c1607d3fa645471c6b6077
+commits: eceea15a; 0110b127
+tests_run: RED_TEST_COMMAND exit 1; 13 failed and 370 passed, including 3 new Red failures and 10 earlier reader failures. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0; tsc --noEmit exit 0.
+files_changed: dashboard/__tests__/storytime-print-contract-r3.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-c7739efb-{red,lint,checks}.txt; this log.
+plan_updates: Task (Red 4b) is complete. Task (Green 4b) is active. The plan records the 3 Red failures and the 2 passing characterization checks.
+known_failures: Three intended version-4 behavior tests fail because the version remains 3 and week 8 rows are absent. Ten earlier reader tests remain red because their production modules and CLI do not exist. PROJECT_CHECKS accepts the existing st2/1 published failure only.
+handoff: Green 4b must read week 8 review pages and Benchmark 1 paper, preserve earlier rows, omit new week 8 rows for reused words, and regenerate both list files. R4b-4 and R4b-5 already pass as characterization checks.
+END_MEASURE_AGENT_RESULT
