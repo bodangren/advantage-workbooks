@@ -1,6 +1,6 @@
 # Storytime Advantage — print picture list (Level 2)
 
-Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
 
 ## Week 1
 
@@ -228,3 +228,12 @@ Version 3 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w07-check-row-pen-v1.png | l2-w07-check-row-pen-line-v1.png | 1500 × 1500 | check-row | pen | C | pen 1 |
 | l2-w07-check-row-bus-v1.png | l2-w07-check-row-bus-line-v1.png | 1500 × 1500 | check-row | bus | C | bus 1 |
 | l2-w07-check-row-olive-v1.png | l2-w07-check-row-olive-line-v1.png | 1500 × 1500 | check-row | olive | C | olive 1 |
+
+## Week 8
+
+| File | Line art | Pixels | Use | Text | Class | Objects |
+|---|---|---|---|---|---|---|
+| l2-w08-check-row-moon-v1.png | l2-w08-check-row-moon-line-v1.png | 1500 × 1500 | check-row | moon | C | moon 1 |
+| l2-w08-check-row-mango-v1.png | l2-w08-check-row-mango-line-v1.png | 1500 × 1500 | check-row | mango | C | mango 1 |
+| l2-w08-check-row-ostrich-v1.png | l2-w08-check-row-ostrich-line-v1.png | 1500 × 1500 | check-row | ostrich | C | ostrich 1 |
+| l2-w08-check-row-drum-v1.png | l2-w08-check-row-drum-line-v1.png | 1500 × 1500 | check-row | drum | C | drum 1 |

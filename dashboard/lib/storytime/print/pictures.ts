@@ -54,9 +54,11 @@ export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> 
 /**
  * The list version of the picture list (FR-2, strategy 4.14 rule 12.2). Version 3 adds the
  * object counts of the counting book, the negation and non-object rules, the singular keys,
- * and the `-b` duplicate suffixes. A change of the names or of the counts needs a new version.
+ * and the `-b` duplicate suffixes. Version 4 adds the picture words of the week 8 review pages
+ * and of the Benchmark 1 paper, and reuses the row of a word that weeks 1 to 7 already hold.
+ * A change of the names or of the counts needs a new version.
  */
-export const STORYTIME_PICTURE_LIST_VERSION = 3;
+export const STORYTIME_PICTURE_LIST_VERSION = 4;
 
 /** Lower case, letters and digits only; the base of a file name slug. */
 const stem = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -125,8 +127,11 @@ const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-
 
 /**
  * The picture list of the given weeks (FR-2): the story pages and covers of the books, the
- * picture words of the Friday check rows, and the practice-line picture words of the weeks with
- * a `print` block. The card and sticker rows come with the card kit (Phase 8). Ids and file
+ * picture words of the Friday check rows, the practice-line picture words of the weeks with
+ * a `print` block, and the picture words of the review pages and of the benchmark paper of a
+ * review week (version 4). A word that an earlier week already has as a check-row row keeps
+ * that row: the review page of week 8 reuses the row of weeks 1 to 7 instead of a second file.
+ * The card and sticker rows come with the card kit (Phase 8). Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix from `-b` through
  * `-z`, and a 27th occurrence throws, because the file name carries no digits between the week
  * and the version (FR-2.3). A color or line-art
@@ -139,6 +144,8 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
     const rows: StorytimePictureRow[] = [];
     const used = new Set<string>();
     const names = new Map<string, string>();
+    /** The check-row words that the list already holds, so that a review week reuses the row. */
+    const checkWords = new Set<string>();
     const add = (week: StorytimeWeek, use: StorytimePictureUse, text: string, prompt: string, caption: string, objectCounts: Record<string, number>) => {
         const base = `l${week.meta.level}-w${String(week.meta.week).padStart(2, '0')}-${use}-${slugOf(text)}`;
         let id = base;
@@ -153,6 +160,7 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
             if (id === base) throw new Error(`picture id repeat limit: "${base}" occurs more than 26 times and no suffix from -b to -z is free`);
         }
         used.add(id);
+        if (use === 'check-row') checkWords.add(text.toLowerCase());
         const size = STORYTIME_PICTURE_SPEC[STORYTIME_SIZE_CLASS[use]];
         const fileName = `${id}-v1.png`;
         const lineArtFileName = lineArtNameOf(fileName);
@@ -163,6 +171,11 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
         }
         rows.push({ id, week: week.meta.week, use, text, prompt, caption, objectCounts, sizeClass: STORYTIME_SIZE_CLASS[use], fileName, lineArtFileName, width: size.width, height: size.height });
     };
+    /** The picture words of a review page or of the benchmark paper; a held word keeps its row. */
+    const addReused = (week: StorytimeWeek, text: string) => {
+        if (checkWords.has(text.toLowerCase())) return;
+        add(week, 'check-row', text, '', '', { [text]: 1 });
+    };
     for (const week of weeks) {
         for (const book of week.books) {
             for (const page of book.pages) add(week, 'story-page', page.text, page.image?.prompt ?? '', page.image?.caption ?? '', pictureObjectCounts(page.text));
@@ -170,6 +183,10 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
         }
         for (const item of week.check.items) for (const pic of itemPictures(item)) add(week, 'check-row', pic, '', '', { [pic]: 1 });
         for (const line of week.print?.practice ?? []) add(week, 'practice-line', line.pictureWord, '', '', { [line.pictureWord]: 1 });
+        // Version 4: the review pages of week 8 and the Benchmark 1 paper need the same picture
+        // words; a word that weeks 1 to 7 already hold reuses that row (R4b-3).
+        for (const day of week.block?.days ?? []) for (const item of day.paper) for (const pic of itemPictures(item)) addReused(week, pic);
+        for (const item of week.benchmark?.paper.items ?? []) for (const pic of itemPictures(item)) addReused(week, pic);
     }
     return rows;
 }
