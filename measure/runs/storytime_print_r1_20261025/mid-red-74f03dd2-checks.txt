@@ -1,0 +1,6 @@
+Tree state: HEAD was 74f03dd2; production source is unchanged. PROJECT_CHECKS allows only the existing st2/1 published failure.
+Command: `cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit`
+Output: empty. The command accepted the existing st2/1 `published` failure and completed `tsc --noEmit`.
+
+
+PROJECT_CHECKS exit: 0

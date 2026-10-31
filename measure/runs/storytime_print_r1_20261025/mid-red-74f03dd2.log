@@ -1,0 +1,14 @@
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 74f03dd2a7bd67471734e9224c77a6228041953f
+commits: f861e35f193d2a51a7bb1acd0646fb07fd560b17 (test); plan, evidence, and this log are in the plan/evidence commit.
+tests_run: `RED_TEST_COMMAND` exited 1 with only R-P4-2, R-P4-10, and adversarial A2 failing; 381 passed. `PROJECT_LINT` exited 0. `PROJECT_CHECKS` exited 0 with accepted st2/1 `published` and clean `tsc --noEmit`.
+files_changed: `dashboard/__tests__/storytime-print-readers.test.ts`; `dashboard/__tests__/storytime-print-student-book.test.ts`; `dashboard/__tests__/storytime-print-student-book-adversarial.test.ts`; `measure/tracks/storytime_print_r1_20261025/plan.md`; `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2-red.txt`; `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2-lint.txt`; `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2-checks.txt`; this log.
+plan_updates: Marked Red 4c complete and Green 4c in progress. Recorded F13, the R32 default, gate counts, evidence, and model.
+known_failures: The expected Red failures are R-P4-2, R-P4-10, and adversarial A2. No other test failed. Both quality gates passed.
+handoff: The orchestrator selected the accepted Phase 2 R32 order for Daniel's Phase 6 look. The new assertions expose the different leaf order and empty student-book reader strips. No question remains. Existing `video/**`, `dashboard/raw.json`, and other run artifacts were preserved and not staged.
+END_MEASURE_AGENT_RESULT
