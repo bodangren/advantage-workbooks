@@ -1,0 +1,153 @@
+Check (proof mode) — Phase 4, student workbook v7 and the two color A3 readers
+================================================================================
+Builds from the committed code at d1118248 (tree clean for dashboard/ and content/; only the
+untracked dashboard/raw.json of another role is present). Each command ran in one foreground
+heavy-run.sh wrapper on 2026-11-01. No file in ~/Desktop/print-ready/storytime/ was overwritten or
+deleted: every file below is new.
+
+1. Student workbook proof
+-------------------------
+  $ cd dashboard && npx tsx scripts/storytime/make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 7
+  Pre-converting to DeviceGray (K-only) ...
+  Converting 14 pages with Ghostscript (fonts kept, K-only) ...
+  Done in 0 s.
+  ../../print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf: 14 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)
+  All checks pass.
+  done  Level 2 unit 1 (proof, weeks 1): /home/daniebo/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf (14 pages)
+  BUILD1_EXIT=0
+
+2. The two color A3 reader PDFs, proof mode, in a new folder
+------------------------------------------------------------
+  $ npx tsx scripts/storytime/make-readers-pdf.ts --level 2 --weeks 1 --proof --a3-color --out ~/Desktop/print-ready/storytime/readers-w01-proof --version 1
+  done  Level 2 (proof, a3-color, weeks 1): /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1.pdf (12 pages); /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf (12 pages)
+  BUILD2_EXIT=0
+
+3. Contact sheets and the 300 dpi page images
+---------------------------------------------
+Contact sheets: `pdftoppm -r 100 -png` on each PDF, then sharp places the pages in a 4-column grid
+with an 8 px gap and a 400 px tile; a single page is rendered at 300 dpi with
+`pdftoppm -r 300 -png -f <n> -l <n> -singlefile`. Tool: /tmp/opencode/p4-tools/contact-sheet.mjs
+(no repository change).
+
+  contact sheet /home/daniebo/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png: 14 pages, 4 columns, 1640 x 2304 px
+  300 dpi page 9: /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-9-300dpi.png (2479 x 3508)
+  300 dpi page 10: /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-10-300dpi.png (2479 x 3508)
+  contact sheet /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1-contact-sheet.png: 12 pages, 4 columns, 1640 x 1730 px
+  contact sheet /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1-contact-sheet.png: 12 pages, 4 columns, 1640 x 1730 px
+  SHEETS_EXIT=0
+
+Checks
+======
+
+PRINT_GATE on the student workbook v7
+-------------------------------------
+  $ cd dashboard && npx tsx scripts/print/make-pdfx.ts <v7 file> --check
+  ../../print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf: 14 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)
+  All checks pass.
+  PRINT_GATE_EXIT=0
+
+K-only check on the student workbook v7
+---------------------------------------
+  $ gs -q -o - -sDEVICE=inkcov <v7 file>
+   0.00000  0.00000  0.00000  0.01134 CMYK OK
+   0.00000  0.00000  0.00000  0.01429 CMYK OK
+   0.00000  0.00000  0.00000  0.00000 CMYK OK
+   0.00000  0.00000  0.00000  0.03156 CMYK OK
+   0.00000  0.00000  0.00000  0.01191 CMYK OK
+   0.00000  0.00000  0.00000  0.02063 CMYK OK
+   0.00000  0.00000  0.00000  0.04041 CMYK OK
+   0.00000  0.00000  0.00000  0.02466 CMYK OK
+   0.00000  0.00000  0.00000  0.01613 CMYK OK
+   0.00000  0.00000  0.00000  0.02361 CMYK OK
+   0.00000  0.00000  0.00000  0.01766 CMYK OK
+   0.00000  0.00000  0.00000  0.02447 CMYK OK
+   0.00000  0.00000  0.00000  0.01630 CMYK OK
+   0.00000  0.00000  0.00000  0.01855 CMYK OK
+
+C, M, and Y are 0.00000 on all 14 pages. K is above 0 on 13 pages; page 3 is a blank side.
+
+pdfinfo of the student workbook v7
+----------------------------------
+  Pages:           14
+  Page size:       594.96 x 841.92 pts (A4)
+  File size:       543315 bytes
+  PDF version:     1.3
+
+Every page has the size 594.96 x 841.92 pts (pdfinfo -f 1 -l 14: one size, 14 times).
+
+PICTURE MISSING of the student workbook v7
+------------------------------------------
+  whole file:        30
+  pages 9 to 14:     18
+The 30 boxes are the 18 reader-side boxes (9 for each reader: the cover and the 8 story pages) and
+the 12 boxes of the earlier workbook pages (9 check pictures and 3 practice-line pictures).
+
+Reader text of the student workbook v7, pages 9 to 14
+-----------------------------------------------------
+  $ node /tmp/opencode/p4-tools/reader-text.mjs <v7 file>
+  Hello! (readalong): 8 of 8 story page texts found
+    backWords found: 5 of 5
+  Nan Can Nod (decodable): 8 of 8 story page texts found
+    backWords found: 7 of 7
+  missing story page texts: 0
+  READER_TEXT_EXIT=0
+
+The A3 checks (test-strategy 5.1) on each color A3 file
+-------------------------------------------------------
+  === Storytime-Advantage-L2-W01-hello-A3-v1.pdf
+  Pages:           12
+  Page size:       841.92 x 1191.12 pts (A3)
+  page sizes (all 12 pages): one size, 841.92 x 1191.12 pts (A3), on every page
+  cmyk images: 0
+  GTS_PDFX: 0
+  PICTURE MISSING: 9
+  reader text: Hello, I am Pat.=1  Nan can nod=0  Sounds in this book=0  SPROUT=2
+
+  === Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+  Pages:           12
+  Page size:       841.92 x 1191.12 pts (A3)
+  page sizes (all 12 pages): one size, 841.92 x 1191.12 pts (A3), on every page
+  cmyk images: 0
+  GTS_PDFX: 0
+  PICTURE MISSING: 9
+  reader text: Hello, I am Pat.=0  Nan can nod=2  Sounds in this book=1  SPROUT=2
+
+The page size is 0.03 pt wider and 0.57 pt taller than the 841.89 x 1190.55 target, so each page
+lies within 2 pt of the target. Chrome writes the same rounding for the A4 student book (594.96 x
+841.92 against 595.28 x 841.89). The A3 files have no cmyk image and no GTS_PDFX output intent, so
+they are sRGB office-print files and not PDF/X (FR-5.8).
+
+File facts of every new file
+----------------------------
+  $ sha256sum <the new files>
+  3f56f7f5c5603aa3e84950274826cfccd2a6306f2e7aa4c10380f338d4585e68  ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf
+  a0f5c1f288fd30ecab621d00e77ba5ed02a8f90406ef4493ee796d80c0e3deb3  ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png
+  5f553dd3e2a9462548e32642c452f41583673a53bef57aa7855e7f49da991e60  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1.pdf
+  e596adbf39f3ac6538ee436ba7ef78ab1c479595b9bec1041ef867f8b9981913  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+  13aa0a920e7faf9b2e254adeee27999b3125401e0cb97811367395e3727baf18  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1-contact-sheet.png
+  cfe04fe4ca19262d897f873c216ae0bde76418e8dab007986d370ceffa8c3c29  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1-contact-sheet.png
+  5ea4e636e64cc12b283c2feb9d03360531bd9570c71b4606c718f3254390b086  /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-10-300dpi.png
+  0672b50b45cc93dfc7ea2b9c6458868ddb8031b3de4f88bbab8c394b2b282274  /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-9-300dpi.png
+
+  $ stat -c "%y  %s  %n" <the new files>
+  2026-11-01 04:23:12 +0700   543315  ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf
+  2026-11-01 04:23:52 +0700   355529  ~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png
+  2026-11-01 04:23:56 +0700   128010  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1-contact-sheet.png
+  2026-11-01 04:23:20 +0700    58955  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1.pdf
+  2026-11-01 04:23:59 +0700   124042  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1-contact-sheet.png
+  2026-11-01 04:23:21 +0700    58129  ~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+  2026-11-01 04:23:54 +0700   119303  /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-10-300dpi.png
+  2026-11-01 04:23:53 +0700   122131  /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-9-300dpi.png
+
+  $ git log -1 --format="%H  %cI" d1118248
+  d11182488d7634986cc00bd10a22ee4dafc9e9af  2026-11-01T04:14:46+07:00
+
+Every file time (04:23) is later than the last source commit (04:14:46), as FR-8.3 asks.
+
+Open for the orchestrator's page look
+-------------------------------------
+- The reader pages of the student workbook sit on pages 9 to 14 (the three reader leaves, front and
+  back). Pages 9 and 10 are rendered at 300 dpi for the text.
+- The reader cover band prints in upper case ("SPROUT") through the `text-transform` rule.
+- The reader pages are 99 x 140 mm inside a 198 x 140 mm strip; the proof placeholders are in the
+  picture boxes of pages 1 and 3 to 10 of each reader.

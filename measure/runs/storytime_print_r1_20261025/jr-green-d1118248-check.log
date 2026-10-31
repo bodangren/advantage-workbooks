@@ -1,0 +1,97 @@
+# Phase 4 Check (proof mode) log (jr-green-d1118248-check)
+
+Status: complete (files built; the page look and the Check row stay with the orchestrator)
+Time: 2026-11-01, 04:20 to 04:30 ICT
+Track: storytime_print_r1_20261025
+Phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+Task: `Task (Check, proof mode)`
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 6883bd7da1ff16cfd67b290296a166481fce5691
+HEAD: d1118248 (2026-11-01 04:14:46 +07:00); no code change and no commit in this task
+Model: deepseek/deepseek-flash#high. Red model of this phase: openai/gpt-6-luna#high.
+
+## Scope
+
+This task builds the files of the Phase 4 Check in proof mode and records the machine checks. The
+orchestrator looks at the pages and records the defects, so the Check row stays open. No source file
+changed. The tree was clean for `dashboard/` and `content/` at the start (only the untracked
+`dashboard/raw.json` of another role was present, and it does not touch this build).
+
+Write rule of this task: new files may go into `~/Desktop/print-ready/storytime/`, and no existing
+file is overwritten or deleted. Every file below is new; the v7 slot and the folder
+`readers-w01-proof/` were free before the run.
+
+## Files built
+
+One foreground `heavy-run.sh` wrapper for each build.
+
+1. `make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 7` exits 0 and writes
+   `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf`:
+   14 pages, 543315 bytes, sha256
+   `3f56f7f5c5603aa3e84950274826cfccd2a6306f2e7aa4c10380f338d4585e68`. The build prints
+   "All checks pass" (PDF/X-1a:2001, 3 fonts).
+2. `make-readers-pdf.ts --level 2 --weeks 1 --proof --a3-color --out
+   ~/Desktop/print-ready/storytime/readers-w01-proof --version 1` exits 0 and writes two files of
+   12 A3 pages each:
+   - `Storytime-Advantage-L2-W01-hello-A3-v1.pdf`, 58955 bytes, sha256
+     `5f553dd3e2a9462548e32642c452f41583673a53bef57aa7855e7f49da991e60`;
+   - `Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf`, 58129 bytes, sha256
+     `e596adbf39f3ac6538ee436ba7ef78ab1c479595b9bec1041ef867f8b9981913`.
+3. Contact sheets at 100 dpi (rendered with `pdftoppm -r 100`, placed in a 4-column grid of 400 px
+   tiles with sharp; tool `/tmp/opencode/p4-tools/contact-sheet.mjs`, no repository change):
+   - `~/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png`,
+     14 pages, 1640 x 2304 px, sha256
+     `a0f5c1f288fd30ecab621d00e77ba5ed02a8f90406ef4493ee796d80c0e3deb3`;
+   - `~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1-contact-sheet.png`,
+     12 pages, 1640 x 1730 px, sha256
+     `13aa0a920e7faf9b2e254adeee27999b3125401e0cb97811367395e3727baf18`;
+   - `~/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1-contact-sheet.png`,
+     12 pages, 1640 x 1730 px, sha256
+     `cfe04fe4ca19262d897f873c216ae0bde76418e8dab007986d370ceffa8c3c29`.
+4. Two pages of the v7 file at 300 dpi (the first reader leaf, front and back):
+   - `/tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-9-300dpi.png`
+     (2479 x 3508), sha256 `0672b50b45cc93dfc7ea2b9c6458868ddb8031b3de4f88bbab8c394b2b282274`;
+   - `/tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-10-300dpi.png`
+     (2479 x 3508), sha256 `5ea4e636e64cc12b283c2feb9d03360531bd9570c71b4606c718f3254390b086`.
+
+## Check results
+
+All real output is in `jr-green-d1118248-check.txt` (the evidence file of this task).
+
+- PRINT_GATE on the v7 file: exit 0. "14 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)" and
+  "All checks pass."
+- K-only: `gs -q -o - -sDEVICE=inkcov` gives C, M, and Y of `0.00000` on all 14 pages. K is above 0
+  on 13 pages; page 3 is a blank side.
+- The A3 checks on each file: `pdfinfo` gives 12 pages at 841.92 x 1191.12 pts on every page, which
+  is 0.03 pt wider and 0.57 pt taller than 841.89 x 1190.55, so within the 2 pt limit;
+  `pdfimages -list` gives no cmyk image; the file has no `GTS_PDFX` output intent; `pdftotext` gives
+  9 "PICTURE MISSING" boxes and the reader text of its own reader (the hello file holds
+  "Hello, I am Pat." and no "Nan can nod"; the decodable file holds "Nan can nod" and "Sounds in
+  this book").
+- The v7 file holds 30 "PICTURE MISSING" boxes: 18 on the reader sides of pages 9 to 14 and 12 on
+  the earlier workbook pages.
+- `pdftotext` of v7 pages 9 to 14 holds every story page text of both readers (8 of 8 for each) and
+  every back word (5 of 5 for the read-along and 7 of 7 for the decodable).
+- Every file time is 04:23 ICT, later than the last source commit `d1118248` at 04:14:46 ICT.
+
+## Notes for the page look
+
+- The six reader sides are pages 9 to 14 of the v7 file; pages 9 and 10 are the 300 dpi images.
+- The reader cover band prints in upper case ("SPROUT") through a `text-transform` rule; that is the
+  intended look of the band, not a copy change.
+- The proof placeholders sit in the picture boxes of pages 1 and 3 to 10 of each reader.
+- The A3 page height is 0.57 pt over the target, as the A4 pages are 0.03 pt over theirs; a later
+  A3 page-size check needs a slack of 1 pt or more.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+commits: none (this task changes no source file and makes no commit)
+tests_run: none in this task (the orchestrator re-ran PROJECT_TESTS on d1118248: 548 passed, exit 0); build and check commands: make-student-book-pdf.ts --proof --version 7 (exit 0), make-readers-pdf.ts --proof --a3-color (exit 0), PRINT_GATE (exit 0), gs inkcov (C=M=Y 0.00000 on 14 pages), pdfinfo, pdfimages, pdftotext, sha256sum
+files_changed: none in the repository; new files only in ~/Desktop/print-ready/storytime/, ~/Desktop/print-ready/storytime/readers-w01-proof/, and /tmp/opencode/p4-check/
+plan_updates: none (the Check row waits for the orchestrator's page look)
+known_failures: none
+handoff: The Phase 4 Check files are built from d1118248 in proof mode: the student workbook v7 (14 pages, PDF/X-1a:2001, PRINT_GATE exit 0, C=M=Y 0.00000 on all pages, 30 proof placeholders with 18 on the reader sides of pages 9 to 14, and every story page text of both readers on those pages) and the two color A3 files (12 pages each at 841.92 x 1191.12 pts, no cmyk image, no GTS_PDFX, 9 placeholders each). Contact sheets and the 300 dpi page images: /home/daniebo/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png (1640 x 2304); /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-hello-A3-v1-contact-sheet.png (1640 x 1730); /home/daniebo/Desktop/print-ready/storytime/readers-w01-proof/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1-contact-sheet.png (1640 x 1730); /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-9-300dpi.png (2479 x 3508); /tmp/opencode/p4-check/Storytime-Advantage-L2-U1-Student-Book-v7-page-10-300dpi.png (2479 x 3508). Nothing was overwritten in print-ready, no code changed, and no commit was made.
+END_MEASURE_AGENT_RESULT
