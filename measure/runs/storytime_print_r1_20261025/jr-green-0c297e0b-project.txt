@@ -1,0 +1,17 @@
+PROJECT_TESTS — final run of the Phase 4 Green rows
+===================================================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+
+Real tail of the output (2026-11-01 02:54 ICT):
+
+     ✓ R40: mirrors the horizontal cut line with the strip parity (D4)  2500ms
+     ✓ R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)  10566ms
+
+  Test Files  22 passed (22)
+      Tests  547 passed (547)
+   Start at  02:54:53
+   Duration  249.23s (transform 5.92s, setup 6.09s, import 17.83s, tests 571.74s, environment 35.04s)
+
+Exit 0. The run includes the covers track, the print-pdfx tests, the teacher book, the student book,
+and the adversarial file. No lock-wait line and no exit 75 or 137.

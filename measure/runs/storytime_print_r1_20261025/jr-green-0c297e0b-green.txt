@@ -1,0 +1,22 @@
+GREEN_TEST_COMMAND — final run of the Phase 4 Green rows
+========================================================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"
+
+Real tail of the output (2026-11-01 02:51 ICT):
+
+     ✓ R38: measures the five compiled trace items in page context and catches a removed gray opt-in  49259ms
+     ✓ R38: prints a black start dot on each letter copy (D2)  5273ms
+     ✓ R38: places each trace dot within 1.5 mm of its first letter stroke  37489ms
+     ✓ R39: leaves the dictation letter lines empty write-in lines (D3)  572ms
+     ✓ R40: mirrors the horizontal cut line with the strip parity (D4)  1814ms
+     ✓ R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)  9964ms
+
+  Test Files  11 passed (11)
+      Tests  383 passed (383)
+   Start at  02:51:51
+   Duration  158.43s (transform 3.68s, setup 1.81s, import 6.72s, tests 247.53s, environment 20.89s)
+
+Exit 0. The reader contract R-P4-1 to R-P4-9, the picture-list version 4 tests (R4b-1 to R4b-5), the
+R16 57-key inventory, and the week 8 adversarial guard all pass. No lock-wait line, no exit 75 or
+137, and `pnpm-lock.yaml` stayed unchanged.

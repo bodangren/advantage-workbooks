@@ -1,0 +1,27 @@
+Mutant M10 on the version 4 picture list (rule 11.1)
+===================================================
+Method: a copy of `dashboard/lib/storytime/print/pictures.ts` came first, then one exact string
+changed (the two loops that read `block.days[].paper` and `benchmark.paper.items`). The covering
+test files ran in one foreground heavy-run.sh wrapper (2026-11-01 03:04 ICT), then the copy was
+restored and compared with `cmp`. No test file changed.
+
+The mutation:
+  before: for (const day of week.block?.days ?? []) for (const item of day.paper) for (const pic of itemPictures(item)) addReused(week, pic);
+  after:  void addReused;
+
+Real output:
+
+  ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+   FAIL  __tests__/storytime-print-adversarial.test.ts > Adversarial: week 8 and an empty book list > keeps shipped week 8 picture rows without books and gives an empty review copy no rows
+   FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: exact counts (R15, R16) > R16: uses only the exact singular key inventory across the shipped list
+   FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum
+   FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-3 reuses the earlier pen row instead of adding a week 8 row
+   FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 4b: week 8 picture list version 4 > R4b-5 keeps the committed picture list in sync with the list function
+      Tests  5 failed | 75 passed (80)
+  RESTORE CMP OK
+
+M10: 1 applied, 1 caught (5 failing tests). The restore gives `cmp` OK.
+
+The mutants M1 to M9 of the first run of this role keep their result in
+`jr-green-75cc5e54-mutants.txt`: 8 caught, and M6, M6b, and M7 survive as redundant checks that
+still reject the wrong file.

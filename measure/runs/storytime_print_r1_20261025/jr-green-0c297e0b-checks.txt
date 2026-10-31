@@ -1,0 +1,11 @@
+PROJECT_CHECKS — final run of the Phase 4 Green rows
+====================================================
+Command (the whole line 23 of plan.md in one foreground heavy-run.sh wrapper):
+  cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit; echo "CHECKS_EXIT=$?"
+
+Real output (2026-11-01 03:02 ICT):
+
+  CHECKS_EXIT=0
+
+Exit 0: `check-weeks.ts --level 2` holds at most the one accepted FAIL (the `published` row of
+st2/1 that spec P14 records), and `tsc --noEmit` is clean. No lock-wait line and no exit 75 or 137.
