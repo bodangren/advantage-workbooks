@@ -249,6 +249,8 @@ describe('Storytime print Red 4b: week 8 picture list version 4', () => {
 
     it('R4b-3 reuses the earlier pen row instead of adding a week 8 row', async () => {
         const rows = await pictures(shippedWeeks());
+        const week8Words = rows.filter((row) => row.week === 8 && row.use === 'check-row').map((row) => row.text.toLowerCase());
+        expect(week8Words, 'week 8 rows must exist before checking reused words').toContain('moon');
         expect(rows.some((row) => row.week < 8 && row.use === 'check-row' && row.text.toLowerCase() === 'pen')).toBe(true);
         expect(rows.some((row) => row.week === 8 && row.use === 'check-row' && row.text.toLowerCase() === 'pen')).toBe(false);
     });
