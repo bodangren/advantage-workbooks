@@ -1,0 +1,118 @@
+# Phase 4 Green log (jr-green-75cc5e54)
+
+Status: blocked (one code commit landed; the picture-list row needs a Red fix)
+Time: 2026-11-01
+Track: storytime_print_r1_20261025
+Phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+Tasks: `Task (Green)` (readers, picture check, readers PDF CLI) and `Task (Green 4b)` (picture list version 4)
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 75cc5e5401736f7c405da21c17f5cdb2b5d24198
+HEAD built on: e18f9d6c (Red r3, the fix of the two conflicts of the first run)
+Model: deepseek/deepseek-flash#high. Red model of this phase: openai/gpt-6-luna#high. Red and Green are independent.
+
+## What happened
+
+1. The first run of this role found two Red conflicts in the reader contract (a per-book root was
+   assumed for a shared A4 leaf, and the A3 pictures were compared by index against the imposed
+   order). Red r3 (commit c294f4b6) fixed both. This run built the reader code on the fixed
+   contract.
+2. The reader code passes its whole contract: R-P4-1 to R-P4-9, `Tests 10 passed (10)`.
+3. The picture list version 4 (row Green 4b) cannot pass two committed expectations:
+   - `__tests__/storytime-print-adversarial.test.ts` "gives zero picture rows for the shipped
+     review week" (Phase 1 guard, commit 0ae1adf2) expects 0 rows for week 8.
+   - R16 of `__tests__/storytime-print-contract-r3.test.ts` pins the exact 53-key object-count
+     inventory; the 4 new week 8 rows add drum, mango, moon, and ostrich (57 keys).
+   R4b-2 requires the 4 rows, so no implementation of version 4 passes both. This role does not
+   edit a committed Red test.
+
+## Code
+
+Code commit `a2792002` (`feat(storytime-print): readers, picture check, and the readers PDF CLI
+(Phase 4 Green)`), 4 files, 837 insertions, 2 deletions:
+- `dashboard/lib/storytime/print/readers.ts` (new): `compileStorytimeReaders`. The workbook leaves
+  impose the 3 strips of a reader with the page pairs 12/1, 2/11, 10/3, 4/9, 8/5, 6/7, two strips
+  on each A4 leaf (one for each reader of the week), the dashed cut line at 148.5 mm, and the
+  perforation 12 mm from the spine with the page parity. The color A3 output puts one reader page
+  on each A3 page (297 x 420 mm, scale 3.0). `proof` prints "PICTURE MISSING"; `final` stops with
+  the picture id (FR-5.6). The reader cover prints the title, "Sprout", "Storytime Advantage", and
+  the week number, and a cover text that holds a CEFR word stops the build (FR-6.3).
+- `dashboard/lib/storytime/print/picture-check.ts` (new): stage 1 of the picture stages (FR-9):
+  `checkStorytimePicture` and `DEFAULT_GRAY_PIXEL_THRESHOLD = 0.02`. The color file must be PNG,
+  8-bit, sRGB, 3 channels, no alpha; the line art must be PNG, 8-bit, grayscale, opaque, with ink
+  and with at most 2 percent of its pixels in the gray band 32 to 223; the manifest must name the
+  two files, with the file SHA-256 and the pixel size.
+- `dashboard/scripts/storytime/make-readers-pdf.ts` (new): `--level --weeks [--proof|--final]
+  [--workbook|--a3-color] [--version] [--out]`. `--out` must resolve inside
+  `<home>/Desktop/print-ready/storytime/`; the shared `checkStorytimeOutputContainment` rejects a
+  link or a dangling link, and an existing output file stops the build with exit 2.
+- `dashboard/lib/storytime/print/student-book.ts`: `fontFaceCss` is exported, so the reader
+  document loads the same Andika faces.
+
+Uncommitted work of row Green 4b (in the working tree):
+- `dashboard/lib/storytime/print/pictures.ts`: `STORYTIME_PICTURE_LIST_VERSION = 4` and the rows of
+  `block.days[].paper` and `benchmark.paper.items`, with the reuse rule (a word that weeks 1 to 7
+  hold keeps its row).
+- `content/storytime/l2/print/pictures.json` and `pictures.md`: 196 rows (192 rows of weeks 1 to 7
+  byte-equal to version 3, and the 4 week 8 rows moon, mango, ostrich, drum), header "Version 4".
+  The rerun `npx tsx scripts/storytime/print-pictures.ts --level 2` exits 0.
+
+## Gate results
+
+Each gate ran as one whole command in one foreground `heavy-run.sh` wrapper.
+
+- GREEN_TEST_COMMAND: exit 1. `Tests 2 failed | 381 passed (383)` on 11 files. The 2 failures are
+  R16 and the Phase 1 week-8 guard; all 10 reader tests pass in the same run. Log:
+  `jr-green-75cc5e54-green.txt`.
+- PROJECT_TESTS: exit 1. `Tests 2 failed | 545 passed (547)` on 22 files. The same 2 failures. Log:
+  `jr-green-75cc5e54-project.txt`.
+- PROJECT_LINT: exit 0, no eslint output. Log: `jr-green-75cc5e54-lint.txt`. The first draft had
+  one warning (`'pixels'` unused in `picture-check.ts`); this run removed it.
+- PROJECT_CHECKS: exit 0, one accepted FAIL (`published` for st2/1) and a clean `tsc --noEmit`.
+  Log: `jr-green-75cc5e54-checks.txt`.
+- No lock-wait line. No exit 75 or 137. `pnpm-lock.yaml` stayed unchanged. No `pnpm` command ran.
+
+## Mutants
+
+11 applied, 8 caught, every restore `cmp` OK (`jr-green-75cc5e54-mutants.txt`, one run in one
+wrapper). M1 the 12/1 pair swapped to 1/12: R-P4-2 fails. M2 the back slots reversed: R-P4-2
+fails. M3 every perforation on the left edge: R-P4-2 fails. M4 final mode prints the placeholder:
+R-P4-5 fails. M5 the A3 output uses the `-line` file: R-P4-4 fails. M8 the gray-fill check
+removed: R-P4-9 fails. M9 the manifest SHA-256 check removed: R-P4-9 fails. M10 the week 8 rows
+dropped: R4b-2, R4b-3, R4b-5, and R16 fail. M6 (the alpha check removed), M6b (the 3-channel
+fallback removed), and M7 (the CMYK check removed) survive, because another rule rejects the same
+file with a message that the test regex accepts; the measured evidence that the CMYK and the RGBA
+files stay rejected is in the mutants file. No wrong file passes.
+
+## Smoke run
+
+One heavy-run wrapper, `HOME=/tmp/opencode/readers-smoke-1`, so that the print folder resolves
+inside the temporary home and no file goes into `~/Desktop/print-ready/`
+(`jr-green-75cc5e54-smoke.txt`). `--proof --workbook` gives
+`Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf`: 6 pages, 594.96 x 841.92 pts, PDF 1.3,
+PDF/X-1a:2001, "All checks pass", 18 hits of "PICTURE MISSING" (9 for each reader). `--proof
+--a3-color` gives two files of 12 pages each at 841.92 x 1191.12 pts, 9 hits each, and no
+`GTS_PDFX` output intent. Observation for the Check task: Chrome writes 0.57 pt more height than
+the 1190.55 pt A3 target, as it writes 0.03 pt more for the A4 student book; a later A3 page-size
+check needs a small slack.
+
+## What the next role needs
+
+- Red r4 (or a Mid Red retry) must change the two stale expectations: R16 takes the 57 keys (or
+  is scoped to weeks 1 to 7), and the week-8 adversarial guard runs on a copy with `block` and
+  `benchmark` removed.
+- Then a Green rerun replays the uncommitted picture-list work (it is in the tree), runs the four
+  gates, and commits row Green 4b and the two `[x]` rows with this code commit `a2792002` and the
+  new list commit.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+commits: a2792002 feat(storytime-print): readers, picture check, and the readers PDF CLI (Phase 4 Green)
+tests_run: GREEN_TEST_COMMAND exit 1 (Tests 2 failed | 381 passed); PROJECT_TESTS exit 1 (2 failed | 545 passed); PROJECT_LINT exit 0; PROJECT_CHECKS exit 0; reader file 10 passed
+files_changed: dashboard/lib/storytime/print/readers.ts, dashboard/lib/storytime/print/picture-check.ts, dashboard/scripts/storytime/make-readers-pdf.ts, dashboard/lib/storytime/print/student-book.ts; uncommitted: dashboard/lib/storytime/print/pictures.ts, content/storytime/l2/print/pictures.json, content/storytime/l2/print/pictures.md
+plan_updates: the two Phase 4 Green rows stay [~] with the block note and the evidence
+known_failures: R16 of storytime-print-contract-r3.test.ts (53-key inventory); the week-8 guard of storytime-print-adversarial.test.ts (zero rows)
+handoff: Both open failures are stale Red expectations that picture-list version 4 contradicts; no implementation of R4b-2 can pass them. Ask Mid Red for two test changes: (1) R16 takes the 57-key list or is scoped to weeks 1 to 7; (2) the "gives zero picture rows for the shipped review week" guard runs on a copy of week 8 with block and benchmark removed, which keeps its intent. Then a Green rerun replays the uncommitted pictures.ts, pictures.json, and pictures.md, runs the four gates, commits row Green 4b, and marks both rows [x] with commit a2792002 and the new list commit.
+END_MEASURE_AGENT_RESULT

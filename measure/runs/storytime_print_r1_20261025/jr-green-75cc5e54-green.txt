@@ -1,0 +1,30 @@
+GREEN_TEST_COMMAND
+==================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"
+
+Run 1 (2026-11-01 02:18 ICT), tail of the real output:
+
+  Test Files  2 failed | 9 passed (11)
+      Tests  2 failed | 381 passed (383)
+   Start at  02:18:08
+   Duration  141.62s (transform 2.81s, setup 1.58s, import 5.51s, tests 219.41s, environment 8.98s)
+
+The two failing tests are R16 of the contract r3 file and one adversarial guard; neither one is a
+reader test. R-P4-1 to R-P4-9 pass in the same run.
+
+Run 2 (the failure names only), real output of
+  cd dashboard && CI=true npx vitest run __tests__/storytime-print-readers.test.ts
+    Tests 10 passed (10)
+
+Run 3 (the failure names of the gate), real output of
+  cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"
+  with the " FAIL " lines:
+  FAIL  __tests__/storytime-print-adversarial.test.ts > Adversarial: week 8 and an empty book list > gives zero picture rows for the shipped review week
+  FAIL  __tests__/storytime-print-contract-r3.test.ts > Storytime print Red 3: exact counts (R15, R16) > R16: uses only the exact singular key inventory across the shipped list
+
+The two failures come from the picture-list version 4 rows, not from this Green code:
+- the adversarial guard of Phase 1 (commit 0ae1adf2) asserts that week 8 gives zero picture rows;
+  version 4 adds the 4 review-page and benchmark rows that R4b-2 requires.
+- R16 pins the exact 53-key object-count inventory; version 4 adds the keys drum, mango, moon,
+  and ostrich for the same rows (57 keys). The committed r3 test file is immutable in this role.

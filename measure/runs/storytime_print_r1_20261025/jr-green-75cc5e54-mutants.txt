@@ -1,0 +1,54 @@
+Mutation tests (rule 11.1) — Phase 4 Green
+==========================================
+Method: /tmp/opencode/jr-green-75cc5e54/mutants.py copies the source file, replaces one exact
+string, runs the covering test file, restores the copy, and compares the bytes. The script ran in
+one foreground heavy-run.sh wrapper on 2026-11-01 02:39 ICT. No test file changed. The working
+copy of the script was removed at the end.
+
+Real output:
+
+M1 (the 12/1 pair swapped to 1/12): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+
+M2 (the two back slots reversed (duplex registration)): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+
+M3 (every perforation on the left edge): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+
+M4 (final mode prints the placeholder instead of throwing): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+
+M5 (the a3-color output uses the -line file): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+
+M6 (the alpha check removed): exit 0; Tests 0 failed (10 passed); restore cmp OK
+M6b (the alpha and channel rule removed): exit 0; Tests 0 failed (10 passed); restore cmp OK
+M7 (the CMYK check removed): exit 0; Tests 0 failed (10 passed); restore cmp OK
+
+M8 (the gray-fill check removed): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+
+M9 (the manifest SHA-256 check removed): exit 1; Tests  1 failed | 9 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+
+M10 (the week 8 rows dropped from pictures.ts): exit 1; Tests  4 failed | 38 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-contract-r3.test.ts > R16: uses only the exact singular key inventory across the shipped list
+    FAIL  __tests__/storytime-print-contract-r3.test.ts > R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum
+    FAIL  __tests__/storytime-print-contract-r3.test.ts > R4b-3 reuses the earlier pen row instead of adding a week 8 row
+    FAIL  __tests__/storytime-print-contract-r3.test.ts > R4b-5 keeps the committed picture list in sync with the list function
+
+Summary: 11 mutants applied, 8 caught, 3 survived (M6, M6b, M7). Every restore gives `cmp` OK.
+
+The three survivors are redundant checks, not a wrong file that passes:
+- M6 (the alpha branch disabled): the RGBA fixture is still rejected by the 3-channel rule, and its
+  message holds the word "channels", which the R-P4-8 regex /alpha|channel/i accepts. The
+  behaviour is safe; the test does not pin the alpha message.
+- M6b (the 3-channel fallback rule disabled): the RGBA fixture is rejected by the alpha branch, so
+  the fallback is redundant for that input.
+- M7 (the CMYK branch disabled): the CMYK TIFF is rejected by the rule "not 8-bit sRGB with 3
+  channels (cmyk, 3 channels)", and the message holds "cmyk", which the R-P4-8 regex
+  /CMYK|colourspace|color space/i accepts. Measured by hand with the mutant in place:
+  `picture check: the color file ... is not 8-bit sRGB with 3 channels (cmyk, 3 channels)`.
+
+M8 (the gray-fill check) did not survive, so no gray-fill gap is reported.

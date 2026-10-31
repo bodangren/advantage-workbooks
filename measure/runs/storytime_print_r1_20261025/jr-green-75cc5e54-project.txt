@@ -1,0 +1,20 @@
+PROJECT_TESTS
+=============
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+
+Real tail of the output (2026-11-01 02:23 ICT):
+
+    "pencil",
+  ...  (the R16 key-inventory diff: the received list holds the 4 new keys drum, mango, moon, ostrich)
+
+  FAIL  __tests__/storytime-print-contract-r3.test.ts:98:22  (R16)
+
+  Test Files  2 failed | 20 passed (22)
+      Tests  2 failed | 545 passed (547)
+   Start at  02:23:44
+   Duration  227.05s (transform 4.95s, setup 5.37s, import 12.44s, tests 516.91s, environment 27.84s)
+
+The 2 failures are the same two stale picture-list expectations as in GREEN_TEST_COMMAND (R16 and
+the Phase 1 adversarial guard "gives zero picture rows for the shipped review week"). Every other
+test of the 22 files passes, including all 10 reader tests and the 368 earlier print tests.

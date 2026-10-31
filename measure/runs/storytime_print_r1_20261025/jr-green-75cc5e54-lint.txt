@@ -1,0 +1,12 @@
+PROJECT_LINT
+============
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts; echo "ESLINT_EXIT=$?"
+
+Real output (2026-11-01 02:31 ICT):
+
+  ESLINT_EXIT=0
+
+No eslint output. The first draft of picture-check.ts had one warning
+(`'pixels' is assigned a value but never used`, line 132); the constant was removed, and the run
+above is the clean run.

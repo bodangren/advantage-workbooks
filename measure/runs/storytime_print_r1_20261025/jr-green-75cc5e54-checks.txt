@@ -1,0 +1,11 @@
+PROJECT_CHECKS
+==============
+Command (the whole line 23 of plan.md in one foreground heavy-run.sh wrapper):
+  cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit; echo "CHECKS_EXIT=$?"
+
+Real output (2026-11-01 02:33 ICT):
+
+  CHECKS_EXIT=0
+
+The command gives exit 0: check-weeks has one accepted FAIL at most (the `published` row of st2/1
+that spec P14 records), and `tsc --noEmit` is clean. No lock-wait line, no exit 75 or 137.
