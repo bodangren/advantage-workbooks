@@ -306,7 +306,7 @@ _Blast radius: `storytimeQrUrl` and `STORYTIME_QR_HOST` (`lib/storytime/files.ts
     - Mutants: 3 applied, 3 caught, each on the extended R48 and A1 (`jr-green-c74f3ca3-mutants.txt`). M71a the old `startsWith` check: 23 tests fail. M71b the regular expression without the `$` anchor: 12 tests fail. M71c the range check removed: 2 tests fail, the two out-of-range cases. Each restore gives `cmp` OK, and each `git diff --quiet -- dashboard/lib/storytime/files.ts` exits 0.
     - HEAD moved to `8e2c9194` while this task ran: the unrelated media checksum commit `chore(media): add per-book clip checksum lists (clips.sha256)` of another session. It touches no `dashboard/lib/storytime` file. The gate results on `8e929982` hold.
 
-## Phase 3: Teacher book print file, week 1 (2026-10-27 to 2026-10-30)
+## Phase 3: Teacher book print file, week 1 (2026-10-27 to 2026-10-30) [checkpoint: 30dbaf0]
 
 _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`; `__tests__/storytime-manual.test.ts`). The template output must not change._
 
