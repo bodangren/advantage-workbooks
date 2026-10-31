@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { generateQRCode } from '../../qr-generator';
-import { THAI } from '../../document-wrapper/print-fonts';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+import { fontFaceCss } from './print-fonts';
+import { readerPageCss, storytimeReaderStripSides } from './readers';
 import type { StorytimePrintProfile } from './profile';
 
 /**
@@ -55,49 +55,10 @@ const esc = (s: string): string =>
 const thaiText = (text: string): string =>
     text.split(/\s+/).filter(Boolean).map((run) => `<span class="th-run">${esc(run)}</span>`).join(' ');
 
-interface PrintFace {
-    family: 'Andika' | 'Sarabun';
-    weight: number;
-    file: string;
-    format: 'truetype' | 'opentype' | 'woff' | 'woff2';
-    unicodeRange?: string;
-}
-
-/**
- * The static OFL faces of the workbook (spec FR-3: Andika for English, Sarabun for Thai; no
- * package change). One face per weight in use, so Chrome embeds no synthesized face (which
- * would become a Type 3 font in the PDF/X file, lessons-learned 2026-10-02).
- */
-const PRINT_FACES: PrintFace[] = [
-    { family: 'Andika', weight: 400, file: 'andika-regular.ttf', format: 'truetype' },
-    { family: 'Andika', weight: 700, file: 'andika-bold.ttf', format: 'truetype' },
-    { family: 'Sarabun', weight: 400, file: 'sarabun-thai-400-normal.woff2', format: 'woff2', unicodeRange: THAI },
-];
-
-/** The folder with the print font files (the Fontsource builds and the Andika TTFs). */
-const PRINT_FONT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', 'assets', 'print-fonts');
-
-let cachedFontCss: string | undefined;
-
-/**
- * The `@font-face` rules of the workbook, with each static face as a `file:` URL, so that a
- * `file://` render in Chrome and the tests load the same faces. The faces are not data URLs:
- * a base64 blob can contain a forbidden label by chance (the R28 label check reads the whole
- * HTML), and a static file needs no embedding. The reader document of FR-5 uses the same faces.
- * @returns The CSS.
- */
-export function fontFaceCss(): string {
-    if (cachedFontCss) return cachedFontCss;
-    cachedFontCss = PRINT_FACES.map((f) => {
-        const range = f.unicodeRange ? ` unicode-range: ${f.unicodeRange};` : '';
-        return `@font-face { font-family: '${f.family}'; font-weight: ${f.weight}; font-style: normal; src: url('file://${PRINT_FONT_DIR}/${f.file}') format('${f.format}');${range} }`;
-    }).join('\n');
-    return cachedFontCss;
-}
-
 /**
  * The document CSS: the page size from the profile trim (one `@page` rule), the black-on-white
- * palette, and the Thai nowrap rule. The page sides sit 0.5 mm short of the trim, so that
+ * palette, the Thai nowrap rule, and the reader page rules of `readers.ts` (one face set and one
+ * reader page look for the workbook and the readers build). The page sides sit 0.5 mm short of the trim, so that
  * Paged.js never spills a side onto an extra page (the shortfall is invisible on white paper).
  * @param profile The print profile.
  * @returns The CSS text.
@@ -171,7 +132,11 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .strip-mark { position: absolute; top: 1mm; left: 2mm; font-size: 7pt; }
 .cut-line { position: absolute; border-top: 0.4mm dashed #000; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0.5mm; border-left: 0.5mm dashed #000; }
-.blank-page { }`;
+/* The reader strip holds its two reader pages side by side (2 x 99 mm = the 198 mm leaf). */
+.reader-strip { display: flex; flex-direction: row; }
+.blank-page { }
+${readerPageCss(profile)}
+`;
 }
 
 /** One blank side that aligns a spread or a tear-out leaf (allowed by the page-order contract). */
@@ -352,22 +317,30 @@ ${mode === 'proof' ? '<p class="qr-note">QR target answers after the deploy (mon
 }
 
 /**
- * The three reader leaves of a week (FR-5.1): 3 strips for each book, 2 strips on each A4 leaf,
- * with the dashed cut line across the middle. The strip boxes stay empty until Phase 4 adds the
- * reader content; each strip carries the small mark with the reader and the strip number.
+ * The three reader leaves of a week (FR-5.1; R32): 3 strips for each book, 2 strips on each A4
+ * leaf, with the dashed cut line across the middle. Each strip holds the reader pages of its side
+ * from `readers.ts`, so the workbook prints the same reader pages as the readers build (Red 4c,
+ * R-P4-10); the strip mark names the reader, the strip number, and the back side.
  */
-function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile): PageSpec[] {
+function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 'proof' | 'final'): PageSpec[] {
+    const sides = storytimeReaderStripSides(week, { profile, mode, output: 'workbook' });
     const strips = week.books.flatMap((book) => [1, 2, 3].map((n) => ({ kind: book.kind, title: book.title, n })));
     if (strips.length !== 6) throw new Error(`week ${week.meta.week} needs 2 books of 3 strips, got ${strips.length}`);
+    const sideOf = (kind: string, n: number, side: 'front' | 'back') => {
+        const found = sides.find((entry) => entry.kind === kind && entry.strip === n && entry.side === side);
+        if (!found) throw new Error(`reader strip missing: ${kind} strip ${n} of week ${week.meta.week}`);
+        return found;
+    };
     const leafWidth = 2 * profile.readerPage.widthMm;
-    const sides: PageSpec[] = [];
+    const specs: PageSpec[] = [];
     for (let leaf = 0; leaf < 3; leaf++) {
         for (const isBack of [false, true]) {
             const slotStrips = [strips[leaf * 2], strips[leaf * 2 + 1]];
             const stripHtml = (strip: (typeof strips)[number], slot: number): string => {
                 const top = slot * profile.trim.heightMm / 2;
                 const left = isBack ? 0 : profile.perforationMm;
-                return `<div class="reader-strip" data-part="reader-strip" data-reader="${strip.kind}" data-strip="${strip.n}" data-slot="${slot === 0 ? 'top' : 'bottom'}" style="position:absolute;left:${left}mm;top:${top}mm;width:${leafWidth}mm;height:${profile.readerPage.heightMm}mm;"><span class="strip-mark">${esc(strip.title)} &middot; strip ${strip.n} of 3${isBack ? ' (back)' : ''}</span></div>`;
+                const content = sideOf(strip.kind, strip.n, isBack ? 'back' : 'front').html;
+                return `<div class="reader-strip" data-part="reader-strip" data-reader="${strip.kind}" data-strip="${strip.n}" data-slot="${slot === 0 ? 'top' : 'bottom'}" style="position:absolute;left:${left}mm;top:${top}mm;width:${leafWidth}mm;height:${profile.readerPage.heightMm}mm;">${content}<span class="strip-mark">${esc(strip.title)} &middot; strip ${strip.n} of 3${isBack ? ' (back)' : ''}</span></div>`;
             };
             // The cut line mirrors with the spine parity (D4): a back side cuts from the outer
             // edge (x = 0) to the perforation, a front side from the perforation to the outer edge.
@@ -375,10 +348,10 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile): PageS
             const cutWidth = profile.trim.widthMm - profile.perforationMm;
             const body = `${stripHtml(slotStrips[0], 0)}${stripHtml(slotStrips[1], 1)}
 <div class="cut-line" style="position:absolute;left:${cutLeft}mm;top:${profile.readerPage.heightMm + (profile.trim.heightMm - profile.readerPage.heightMm * 2) / 4}mm;width:${cutWidth}mm;"></div>`;
-            sides.push({ kind: 'reader', body });
+            specs.push({ kind: 'reader', body });
         }
     }
-    return sides;
+    return specs;
 }
 
 /**
@@ -411,7 +384,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             writingPage(week),
             checkPage(week, rows, o),
             ...homePages(week, o.mode),
-            ...readerPages(week, o.profile),
+            ...readerPages(week, o.profile, o.mode),
         ];
         // The weekly spread starts on a left page (a 0-based odd index), so that its two pages
         // face each other; the home leaf and the reader leaves then start on a leaf front.

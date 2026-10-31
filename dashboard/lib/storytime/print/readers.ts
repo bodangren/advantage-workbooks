@@ -5,7 +5,7 @@ import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
 import type { StorytimePrintProfile } from './profile';
-import { fontFaceCss } from './student-book';
+import { fontFaceCss } from './print-fonts';
 
 /**
  * The reader pages of a Storytime week (spec FR-5): the 7 read-along readers and the 7 decodable
@@ -31,9 +31,6 @@ const STRIP_PAGES: [number[], number[]][] = [
     [[10, 3], [4, 9]],
     [[8, 5], [6, 7]],
 ];
-
-/** The label of a strip side, as the page numbers of its two halves. */
-const pairLabel = (pages: number[]): string => pages.join('/');
 
 /** The copy rule of the reader covers (spec FR-6.3, AC-6): no CEFR words on a reader cover. */
 const COVER_COPY_RULE = /\bCEFR\b|\bPre[\s\-‐‑]?A1\b|\bStarters\b|\bReading\s+A[\s\-‐‑]?Z\b/i;
@@ -213,6 +210,32 @@ function readerPageHtml(page: ReaderPageSpec, profile: StorytimePrintProfile): s
 }
 
 /**
+ * The style of one reader page (FR-5.1): the page box, the picture box of about 90 × 67 mm, and
+ * the text. The student workbook appends this rule set to its own style, so the reader pages look
+ * the same in the workbook and in the readers build (Red 4c).
+ * @param profile The print profile that holds the reader page size (P15).
+ * @returns The CSS text of the reader page rules.
+ */
+export function readerPageCss(profile: StorytimePrintProfile): string {
+    return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: 5mm; position: relative; overflow: hidden; }
+.reader-picture { width: 89mm; height: 66mm; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 7pt; }
+.reader-picture img { width: 100%; height: 100%; object-fit: contain; }
+.reader-text { font-size: 17pt; margin-top: 5mm; }
+.reader-cover { text-align: center; }
+.reader-band { font-size: 9pt; letter-spacing: 0.4mm; text-transform: uppercase; margin-top: 2mm; }
+.reader-title { font-size: 21pt; font-weight: 700; margin-top: 2mm; }
+.reader-series { font-size: 9pt; }
+.reader-week { font-size: 10pt; margin-top: 1mm; }
+.reader-heading { font-size: 11pt; font-weight: 700; margin-top: 3mm; }
+.reader-sound { font-size: 30pt; font-weight: 700; text-align: center; margin-top: 3mm; }
+.reader-word-row { display: flex; flex-wrap: wrap; gap: 2mm 4mm; margin-top: 2mm; font-size: 12pt; }
+.reader-frame { font-size: 13pt; margin-top: 3mm; }
+.reader-qr { text-align: center; margin-top: 4mm; }
+.reader-qr svg { width: 34mm; height: 34mm; }
+.reader-qr-label { font-size: 8pt; }`;
+}
+
+/**
  * The style of the two outputs. The workbook page is A4 with the reader strips; the color A3 page
  * is 297 × 420 mm with one reader page scaled 3.0. The English print font is Andika (FR-3).
  * @param o The build options.
@@ -228,22 +251,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .reader-side { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; break-after: page; page-break-after: always; }
 .reader-leaf:last-of-type .reader-side:last-of-type { break-after: auto; page-break-after: auto; }
 .reader-strip { position: absolute; display: flex; flex-direction: row; height: ${o.profile.readerPage.heightMm}mm; }
-.reader-page { width: ${o.profile.readerPage.widthMm}mm; height: ${o.profile.readerPage.heightMm}mm; padding: 5mm; position: relative; overflow: hidden; }
-.reader-picture { width: 89mm; height: 66mm; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 7pt; }
-.reader-picture img { width: 100%; height: 100%; object-fit: contain; }
-.reader-text { font-size: 17pt; margin-top: 5mm; }
-.reader-cover { text-align: center; }
-.reader-band { font-size: 9pt; letter-spacing: 0.4mm; text-transform: uppercase; margin-top: 2mm; }
-.reader-title { font-size: 21pt; font-weight: 700; margin-top: 2mm; }
-.reader-series { font-size: 9pt; }
-.reader-week { font-size: 10pt; margin-top: 1mm; }
-.reader-heading { font-size: 11pt; font-weight: 700; margin-top: 3mm; }
-.reader-sound { font-size: 30pt; font-weight: 700; text-align: center; margin-top: 3mm; }
-.reader-word-row { display: flex; flex-wrap: wrap; gap: 2mm 4mm; margin-top: 2mm; font-size: 12pt; }
-.reader-frame { font-size: 13pt; margin-top: 3mm; }
-.reader-qr { text-align: center; margin-top: 4mm; }
-.reader-qr svg { width: 34mm; height: 34mm; }
-.reader-qr-label { font-size: 8pt; }
+${readerPageCss(o.profile)}
 .strip-mark { position: absolute; top: 0.5mm; left: 1mm; font-size: 5pt; }
 .cut-line { position: absolute; left: 0; width: 100%; border-top: 0.3mm dashed #000; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0; border-left: 0.4mm dashed #000; }
@@ -252,30 +260,87 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .a3-scale { width: ${o.profile.readerPage.widthMm}mm; height: ${o.profile.readerPage.heightMm}mm; transform: scale(${A3_SCALE}); transform-origin: 0 0; }
 .a3-scale .reader-picture { border: 0.15mm dashed #000; }
 `;
-
 }
 
-/** One leaf of the workbook: two strips (one per reader) on each side, with the marks (FR-5.1). */
-function leafHtml(week: StorytimeWeek, strips: { book: StorytimeWeek['books'][number]; index: number; pages: ReaderPageSpec[] }[], profile: StorytimePrintProfile): string {
+/**
+ * One printed side of one strip of a reader (FR-5.1): the two reader pages of that side and their
+ * HTML, from the one page renderer. `student-book.ts` fills its reader strips with this HTML, so
+ * the workbook prints the same reader pages as the readers build (Red 4c, R-P4-10).
+ */
+export interface StorytimeReaderStripSide {
+    /** The reader kind: `readalong` or `decodable`. */
+    kind: StorytimeWeek['books'][number]['kind'];
+    /** The reader title. */
+    title: string;
+    /** The strip number, from 1 to 3. */
+    strip: number;
+    /** The side: `front` holds the outer pages 12 and 1, `back` holds the two inner pairs. */
+    side: 'front' | 'back';
+    /** The page numbers of the two pages, in printed order. */
+    pages: number[];
+    /** The HTML of the two reader pages. */
+    html: string;
+}
+
+/**
+ * The strip sides of the readers of a week, in the R32 leaf order (FR-5.1; the default for
+ * Daniel's look at the Phase 6 proof): strip 1 to 3 of the first reader, then strip 1 to 3 of the
+ * second reader, each with its front and its duplex back. Two sides of one strip belong to the
+ * same physical strip, so a leaf holds strip 1 and 2, then strip 3 and the next reader's strip 1,
+ * and so on.
+ * @param week The week of the readers.
+ * @param o The print profile and the mode (and, for one A3 file, the reader title).
+ * @returns The sides in the leaf order; each side holds the HTML of its two reader pages.
+ * @throws Error When a reader has no 8 story pages or a cover text breaks the copy rule (FR-6.3).
+ */
+export function storytimeReaderStripSides(week: StorytimeWeek, o: StorytimeReaderOptions): StorytimeReaderStripSide[] {
+    const rows = rowsByBook(week);
+    const sides: StorytimeReaderStripSide[] = [];
+    week.books.forEach((book, i) => {
+        if (o.bookTitle && book.title !== o.bookTitle) return;
+        const pages = readerPages(week, book, rows[i], o);
+        for (let strip = 1; strip <= STRIP_PAGES.length; strip++) {
+            const [front, back] = STRIP_PAGES[strip - 1];
+            for (const [side, numbers] of [['front', front], ['back', back]] as const) {
+                sides.push({
+                    kind: book.kind,
+                    title: book.title,
+                    strip,
+                    side,
+                    pages: [...numbers],
+                    html: numbers.map((number) => readerPageHtml(pages[number - 1], o.profile)).join(''),
+                });
+            }
+        }
+    });
+    return sides;
+}
+
+/**
+ * One leaf of the workbook: two strips on each side, with the marks and the cut line (FR-5.1).
+ * @param leaf The 1-based leaf number.
+ * @param sides The four sides of the two strips: front, back, front, back.
+ * @param profile The print profile.
+ * @returns The HTML of the leaf (its two A4 sides).
+ */
+function leafHtml(leaf: number, sides: StorytimeReaderStripSide[], profile: StorytimePrintProfile): string {
     const leafWidth = 2 * profile.readerPage.widthMm;
     const stripTop = (profile.trim.heightMm / 2 - profile.readerPage.heightMm) / 2;
-    const sides = [0, 1].map((side) => {
+    const html = [0, 1].map((side) => {
         const front = side === 0;
         const edge = front ? 'left' : 'right';
-        const pages = STRIP_PAGES[strips[0].index][side];
-        const stripHtml = strips.map((strip, slot) => {
-            const slotPages = STRIP_PAGES[strip.index][side];
+        const stripHtml = [sides[side], sides[2 + side]].map((strip, slot) => {
             const top = slot === 0 ? stripTop : profile.trim.heightMm / 2 + stripTop;
             const left = front ? profile.perforationMm : 0;
-            return `<div class="reader-strip" data-reader-strip data-reader-title="${esc(strip.book.title)}" data-slot="${slot === 0 ? 'top' : 'bottom'}" data-width-mm="${leafWidth}" style="left:${left}mm;top:${top}mm;width:${leafWidth}mm;">${slotPages.map((number) => readerPageHtml(strip.pages[number - 1], profile)).join('')}<span class="strip-mark" data-part="strip-mark">${esc(strip.book.title)} &middot; strip ${strip.index + 1} of 3</span></div>`;
+            return `<div class="reader-strip" data-reader-strip data-reader-title="${esc(strip.title)}" data-slot="${slot === 0 ? 'top' : 'bottom'}" data-width-mm="${leafWidth}" style="left:${left}mm;top:${top}mm;width:${leafWidth}mm;">${strip.html}<span class="strip-mark" data-part="strip-mark">${esc(strip.title)} &middot; strip ${strip.strip} of 3</span></div>`;
         }).join('');
-        return `<div class="reader-side" data-leaf-side="${front ? 'front' : 'back'}" data-page-pairs="${pairLabel(pages)}">
+        return `<div class="reader-side" data-leaf-side="${front ? 'front' : 'back'}">
 <div class="perforation" data-part="perforation" data-distance-mm="${profile.perforationMm}" data-spine-edge="${edge}" style="${edge}:${profile.perforationMm}mm;"></div>
 <div class="cut-line" data-part="cut-line" data-position-mm="${profile.trim.heightMm / 2}" style="top:${profile.trim.heightMm / 2}mm;"></div>
 ${stripHtml}
 </div>`;
     });
-    return `<div class="reader-leaf" data-reader-leaf data-leaf="${strips[0].index + 1}">${sides.join('')}</div>`;
+    return `<div class="reader-leaf" data-reader-leaf data-leaf="${leaf}">${html.join('')}</div>`;
 }
 
 /**
@@ -305,10 +370,12 @@ export function compileStorytimeReaders(weeks: StorytimeWeek[], o: StorytimeRead
             }
             continue;
         }
-        // FR-5.1: 3 strips for each reader, 2 strips on each A4 leaf. Leaf i holds strip i + 1 of
-        // each reader of the week, so the two readers of a week fill 3 leaves.
-        for (let index = 0; index < STRIP_PAGES.length; index++) {
-            body.push(leafHtml(week, books.map((entry) => ({ book: entry.book, index, pages: entry.pages })), o.profile));
+        // FR-5.1 and R32: 3 strips for each reader, 2 strips on each A4 leaf. The leaf holds strip
+        // 1 and 2, then strip 3 and the next reader's strip 1, and then the last two strips, so the
+        // two readers of a week fill 3 leaves.
+        const sides = storytimeReaderStripSides(week, o);
+        for (let leaf = 0; leaf < sides.length / 4; leaf++) {
+            body.push(leafHtml(leaf + 1, sides.slice(leaf * 4, leaf * 4 + 4), o.profile));
         }
     }
     return {
