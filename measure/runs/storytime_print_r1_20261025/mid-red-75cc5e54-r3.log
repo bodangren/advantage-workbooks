@@ -1,0 +1,14 @@
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 75cc5e5401736f7c405da21c17f5cdb2b5d24198
+commits: c294f4b6 (Red r3 test commit); plan, evidence, and this log are in the plan/evidence commit.
+tests_run: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-readers.test.ts` exited 0; 10 passed. PROJECT_LINT exited 0 with one warning in an uncommitted Green file.
+files_changed: `dashboard/__tests__/storytime-print-readers.test.ts`; `measure/tracks/storytime_print_r1_20261025/plan.md`; `measure/runs/storytime_print_r1_20261025/mid-red-75cc5e54-r3-readers.txt`; `measure/runs/storytime_print_r1_20261025/mid-red-75cc5e54-r3-lint.txt`; this log.
+plan_updates: The Task (Red) first-line SHA stays d8cb9ef9. Its new r3 sub-bullet records F9 and F10, with test commit c294f4b6.
+known_failures: No targeted reader test fails on the current tree. PROJECT_LINT reports one warning at `dashboard/lib/storytime/print/picture-check.ts:132`; the Green file remains uncommitted and untouched.
+handoff: Both gates ran while Green reader files and related changes remained uncommitted. The targeted suite passed 10 tests on that tree. Do not treat this as a Red-baseline failure check. The test now joins all reader strips for text assertions and compares picture ids across output modes.
+END_MEASURE_AGENT_RESULT

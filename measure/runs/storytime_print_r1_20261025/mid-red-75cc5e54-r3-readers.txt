@@ -1,0 +1,17 @@
+Tree state: Green reader modules and related work were uncommitted during this run. I did not read or edit those files.
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ✓ __tests__/storytime-print-readers.test.ts (10 tests) 18865ms
+     ✓ R-P4-6 exposes the readers PDF CLI help  460ms
+     ✓ R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture  3937ms
+     ✓ R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names  10808ms
+     ✓ R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size  2563ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  02:13:38
+   Duration  20.71s (transform 410ms, setup 92ms, import 517ms, tests 18.87s, environment 825ms)
+
+
+Targeted reader test exit: 0

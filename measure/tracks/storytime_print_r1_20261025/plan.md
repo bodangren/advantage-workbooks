@@ -391,6 +391,7 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
 
 - [x] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod"). commit d8cb9ef9. Evidence: automated.
     - Round 1 test commit: 5fb73b6e. Round 2 corrects invalid picture fixtures, manifest-negative cases, and page-parity assertions.
+    - Red r3, commit c294f4b6: F9 and F10 found by Green; R-P4-3 and R-P4-4 no longer assume reading order in the imposed workbook.
     - Each reader has 12 pages of 99 × 140 mm (P15 default) in the page plans of spec FR-5.2 and FR-5.3.
     - The strip imposition: 3 strips for each reader, 2 strips on each A4 leaf, with the page pairs 12/1, 2/11, 10/3, 4/9, 8/5, and 6/7. The two week 1 readers fill 3 leaves. The perforation side follows the page parity. The test checks the duplex registration of the strips. The strip width check: two reader pages of 99 mm fill the 198 mm leaf width after the tear (P15 default).
     - Reader-leaf default for this contract: each front is a right page with the spine on its left edge; each duplex back is a left page with the spine on its right edge. The mark is 12 mm from that edge.
