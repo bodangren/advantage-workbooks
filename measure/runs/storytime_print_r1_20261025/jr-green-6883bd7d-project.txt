@@ -1,0 +1,11 @@
+PROJECT_TESTS — Phase 4 Green 4c
+================================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+
+Real output (2026-11-01 04:09 ICT):
+
+  Test Files  22 passed (22)
+      Tests  548 passed (548)
+
+Exit 0. No lock-wait line and no exit 75 or 137.

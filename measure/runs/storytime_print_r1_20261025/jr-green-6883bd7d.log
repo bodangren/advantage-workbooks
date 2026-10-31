@@ -1,0 +1,111 @@
+# Phase 4 Green 4c log (jr-green-6883bd7d)
+
+Status: complete
+Time: 2026-11-01
+Track: storytime_print_r1_20261025
+Phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+Tasks: `Task (Green 4c)` (one leaf order, and the reader pages in the student workbook) and `Task (Hand-off 4)` (picture list version 4 to the PM session)
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 6883bd7da1ff16cfd67b290296a166481fce5691
+Red commits of this task: f861e35f (contract), 8c9fcc72 (picture boxes per reader page), plan 6883bd7d
+Model: deepseek/deepseek-flash#high. Red model of this phase: openai/gpt-6-luna#high. Red and Green are independent.
+
+## Why
+
+The readers build and the accepted Phase 2 student workbook used two different leaf orders, and the
+student workbook (the printer file) still printed empty reader strips. The orchestrator default, for
+Daniel's look at the Phase 6 proof, is ONE leaf order: the Phase 2 order that R32 pins. Leaf 1 holds
+strip 1 and 2 of the read-along, leaf 2 holds strip 3 of the read-along and strip 1 of the
+decodable, and leaf 3 holds strip 2 and 3 of the decodable; the back of each strip sits in the same
+slot.
+
+## Commits
+
+1. `9de1220f` `feat(storytime-print): one leaf order and the reader pages in the student workbook
+   (Phase 4 Green 4c)` (3 files, 174 insertions, 86 deletions):
+   - `dashboard/lib/storytime/print/readers.ts`: the workbook leaves use the R32 order. The new
+     export `storytimeReaderStripSides(week, o)` returns the two reader pages of each strip side,
+     rendered by the one page renderer, in the leaf order. The new export
+     `readerPageCss(profile)` holds the reader page style. The side label `data-page-pairs` is gone,
+     because one leaf can now hold two different strip numbers and a single label would be false.
+   - `dashboard/lib/storytime/print/student-book.ts`: each reader strip holds the pages of its
+     strip side from `readers.ts` (no copy of the page HTML). Every attribute and style that R32,
+     R40, and A2 read is unchanged: `data-part="reader-strip"`, `data-reader`, `data-strip`,
+     `data-slot`, the 198 x 140 mm box, the slot top, the strip mark with the reader and the strip
+     number and `(back)`, the cut line, and the perforation by page parity. The strip is a flex row
+     of two 99 mm pages, so a reader side stays one A4 page.
+   - `dashboard/lib/storytime/print/print-fonts.ts` (new): the Andika and Sarabun faces move from
+     `student-book.ts` to one module that both documents import, so no import cycle forms between
+     `student-book.ts` and `readers.ts`.
+   No test file changed.
+2. The plan and evidence commit of this run: `measure(plan): record Phase 4 Green 4c and Hand-off 4`
+   (the plan rows, this log, and the six evidence files).
+
+## Gate results
+
+Each gate ran as one whole command in one foreground `heavy-run.sh` wrapper, on the code commit
+`9de1220f`.
+
+- GREEN_TEST_COMMAND: exit 0. `Tests 384 passed (384)` on 11 files. Log:
+  `jr-green-6883bd7d-green.txt`.
+- PROJECT_TESTS: exit 0. `Tests 548 passed (548)` on 22 files. Log:
+  `jr-green-6883bd7d-project.txt`.
+- PROJECT_LINT: exit 0, no eslint output. Log: `jr-green-6883bd7d-lint.txt`.
+- PROJECT_CHECKS: exit 0, one accepted FAIL (`published` for st2/1) and a clean `tsc --noEmit`.
+  Log: `jr-green-6883bd7d-checks.txt`.
+- No lock-wait line. No exit 75 or 137. `pnpm-lock.yaml` stayed unchanged. No `pnpm` command ran.
+
+Two problems came up on the way and were fixed before the gates:
+- `student-book.ts` first imported `fontFaceCss` from `readers.ts`, which does not export it; the
+  unit test caught it at once (`fontFaceCss is not a function`), and the faces moved to
+  `print-fonts.ts`.
+- The reader pages first stacked inside the strip (block flow), so the workbook grew from 14 to 20
+  PDF pages and R31 failed. The `.reader-strip` flex rule fixes it; R31 and R40 then pass.
+
+## Mutants
+
+3 applied, 3 caught, every restore `cmp` OK (`jr-green-6883bd7d-mutants.txt`).
+- M11 (read-along strip 2 and decodable strip 1 swapped): R-P4-2 fails.
+- M12 (the student workbook reader sides left empty): R-P4-10 and the A2 guard fail.
+- M13 (the student workbook strip uses the pages of another strip): R-P4-10 fails.
+
+## Smoke run
+
+One heavy-run wrapper, `HOME=/tmp/opencode/readers-smoke-2`, so that the print folder resolves inside
+the temporary home and no file goes into `~/Desktop/print-ready/` (`jr-green-6883bd7d-smoke.txt`).
+- `make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 7` gives
+  `Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf`: 14 pages, 594.96 x 841.92 pts,
+  PDF/X-1a:2001. `PRINT_GATE` (`make-pdfx.ts --check`) exits 0 with "All checks pass". 30 hits of
+  "PICTURE MISSING": 18 on the reader sides of pages 9 to 14 and the 12 boxes of the earlier
+  workbook pages.
+- `make-readers-pdf.ts --level 2 --weeks 1 --proof --workbook` gives
+  `Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf`: 6 pages, 18 hits.
+- The reader text prints in both files: "Hello, I am Pat.", "Nan can nod", "Sounds in this book",
+  "Hello!", and the band "Sprout".
+- The page count of the student workbook stays 14, as Phase 2 accepted it.
+
+## Hand-off 4
+
+`Task (Hand-off 4)` is closed with commit `87ecc6aa` and peer-report evidence: the PM session
+confirmed receipt on 2026-11-01 at 03:0x ICT (pictures.json sha256
+`6d05dfc596c7f1891577a800a9375228136acc332c7c8b975c9df0bf6c062a58`, pictures.md sha256
+`7cc4c20178abbddae3ae0904b9e0e08ced09c6e95d6f9e365fcce932cf81ad56`, 196 rows), and the PM forwards
+the list to Forge, due 2026-11-05.
+
+## Still open in Phase 4 (not this role)
+
+The Check task (proof mode, contact sheet, every page) and the Pictures task (the Forge week 1
+batch, the three stages, then final mode and PRINT_GATE) stay open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+commits: 9de1220f feat(storytime-print): one leaf order and the reader pages in the student workbook (Phase 4 Green 4c); plus the plan and evidence commit of this run
+tests_run: GREEN_TEST_COMMAND exit 0 (384 passed, 11 files); PROJECT_TESTS exit 0 (548 passed, 22 files); PROJECT_LINT exit 0 (no output); PROJECT_CHECKS exit 0 (one accepted published FAIL, tsc clean); mutants M11 to M13, 3 caught; smoke run of the student book proof and the readers proof with a temporary HOME
+files_changed: dashboard/lib/storytime/print/readers.ts, dashboard/lib/storytime/print/student-book.ts, dashboard/lib/storytime/print/print-fonts.ts
+plan_updates: Task (Green 4c) [x] with commit 9de1220f and Evidence: automated, with the files, the default for Daniel, the gates, the mutants, the smoke run, the evidence paths, and the model line; Task (Hand-off 4) [x] with commit 87ecc6aa and Evidence: peer-report
+known_failures: none in the four gates
+handoff: Phase 4 has one leaf order (the R32 order) in both the readers build and the student workbook, and the student workbook prints the reader pages: 14 A4 pages, PRINT_GATE exit 0, 30 proof placeholders (18 on the reader sides). The Check task and the Pictures task stay open; the Pictures task waits for the Forge week 1 batch, then runs stage 1 picture-check.ts, stage 2 the Doubao and MiniMax pre-check, stage 3 the person count, and then final mode with PRINT_GATE. Observation for the Check task: the reader cover band prints in upper case ("SPROUT"), and pages 9 to 14 hold two reader pages side by side per strip with the proof placeholders.
+END_MEASURE_AGENT_RESULT

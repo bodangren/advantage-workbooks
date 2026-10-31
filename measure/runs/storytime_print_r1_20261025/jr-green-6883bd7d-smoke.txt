@@ -1,0 +1,61 @@
+Smoke run — Phase 4 Green 4c (runtime proof)
+============================================
+Both builds ran in one foreground heavy-run.sh wrapper on 2026-11-01 04:13 ICT.
+HOME=/tmp/opencode/readers-smoke-2, so the print folder resolves inside that temporary home and no
+file goes into ~/Desktop/print-ready/.
+
+Real output:
+
+  $ export HOME=/tmp/opencode/readers-smoke-2
+  $ npx tsx scripts/storytime/make-student-book-pdf.ts --level 2 --weeks 1 --proof --version 7
+  ... Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf: 14 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)
+  All checks pass.
+  STUDENT_EXIT=0
+
+  $ npx tsx scripts/storytime/make-readers-pdf.ts --level 2 --weeks 1 --proof --workbook
+  ... Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf: 6 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 2 font(s)
+  All checks pass.
+  done  Level 2 (proof, workbook, weeks 1): ... (6 pages)
+  READERS_EXIT=0
+
+  -rw-rw-r-- 543315 Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf
+  -rw-rw-r-- 497134 readers-l2-w1-v1/Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf
+
+Measurements (real output):
+
+  === Storytime-Advantage-L2-U1-Student-Book-v7_PDFX-1a.pdf
+  Pages:           14
+  Page size:       594.96 x 841.92 pts (A4)
+  PDF version:     1.3
+  PICTURE MISSING hits: 30
+  text: SPROUT 4, "Hello!" 2, "Sounds in this book" 1, "Week 1" 5
+
+  === Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf
+  Pages:           6
+  Page size:       594.96 x 841.92 pts (A4)
+  PDF version:     1.3
+  PICTURE MISSING hits: 18
+  text: SPROUT 4, "Hello!" 2, "Sounds in this book" 1, "Week 1" 2
+
+  $ npx tsx scripts/print/make-pdfx.ts <student book v7> --check
+  ...: 14 pages, 0.5 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)
+  All checks pass.
+  PRINT_GATE_EXIT=0
+
+  $ pdftotext -f 9 -l 14 <student book v7> - | grep -c "PICTURE MISSING"
+  18
+
+Reading of the numbers:
+- The student workbook keeps 14 A4 pages: the reader pages sit inside the 6 reader sides (pages 9
+  to 14), so the page count of Phase 2 does not change.
+- The 30 "PICTURE MISSING" boxes of the student book are the 18 reader-side boxes (9 for each
+  reader: 1 cover and 8 story pages) plus the 12 boxes that the workbook had before (the 9 check
+  pictures and the 3 practice-line pictures).
+- The readers build holds 18 boxes: 9 for each reader. The two outputs agree page for page.
+- The reader text prints in both files: "Hello, I am Pat." (the read-along story page), the
+  decodable text "Nan can nod", the sounds page heading "Sounds in this book", the cover "Hello!",
+  and the band "Sprout" (the cover prints it in upper case). So the reader pages reached the
+  student workbook.
+- PRINT_GATE exit 0 on the student book PDF/X file: 14 pages, PDF/X-1a:2001, "All checks pass".
+- The proof placeholders are in place; the final mode waits for the Forge week 1 batch (Pictures
+  task).

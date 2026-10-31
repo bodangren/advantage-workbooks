@@ -1,0 +1,10 @@
+PROJECT_LINT — Phase 4 Green 4c
+==============================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts; echo "ESLINT_EXIT=$?"
+
+Real output (2026-11-01 04:07 ICT):
+
+  ESLINT_EXIT=0
+
+No eslint output, so no warning comes from the files of this Green work.

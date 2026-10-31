@@ -1,0 +1,12 @@
+GREEN_TEST_COMMAND — Phase 4 Green 4c
+====================================
+Command (one foreground heavy-run.sh wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"
+
+Real output (2026-11-01 04:06 ICT):
+
+  Test Files  11 passed (11)
+      Tests  384 passed (384)
+
+Exit 0. The run holds the reader contract R-P4-1 to R-P4-10, the one leaf order of R-P4-2, and
+R32, R37 to R42, R44, and the adversarial A2 guards. No lock-wait line and no exit 75 or 137.

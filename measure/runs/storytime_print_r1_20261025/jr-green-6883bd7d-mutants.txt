@@ -1,0 +1,28 @@
+Mutants M11 to M13 — Phase 4 Green 4c (rule 11.1)
+=================================================
+Method: /tmp/opencode/jr-green-6883bd7d/mutants.py copies the source file, replaces one exact
+string, runs the covering test files, restores the copy, and compares the bytes. It ran in one
+foreground heavy-run.sh wrapper on 2026-11-01 04:10 ICT. No test file changed. The script was
+removed at the end.
+
+Real output:
+
+M11 (read-along strip 2 and decodable strip 1 swapped): exit 1; Tests  1 failed | 135 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+
+M12 (the student workbook reader sides left empty): exit 1; Tests  2 failed | 124 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-student-book-adversarial.test.ts > Adversarial guards: the Phase 2 student workbook of week 1 > A2: fills each reader side with the R32 reader pages and keeps both strip marks
+    FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages
+
+M13 (the student workbook strip uses the pages of another strip): exit 1; Tests  1 failed | 125 passed; restore cmp OK
+    FAIL  __tests__/storytime-print-student-book.test.ts > Storytime student workbook: the shipped week 1 > R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages
+
+Summary: 3 applied, 3 caught, every restore `cmp` OK.
+- M11 swaps the strip side list in `readers.ts` (the group order 0, 3, 2, 1, 4, 5) and R-P4-2
+  catches the wrong leaf order. The student workbook keeps its own R32 order through
+  `data-reader` and `data-strip`, so its tests still pass; R32 pins that order.
+- M12 blanks the strip content in `student-book.ts` and both the R-P4-10 contract and the A2 guard
+  catch it.
+- M13 reads the pages of another strip of the same reader in `student-book.ts`; R-P4-10 catches
+  the page text and picture mismatch, because it compares the student pages with the readers
+  output by reader, strip, and page number.
