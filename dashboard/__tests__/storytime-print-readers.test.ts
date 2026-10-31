@@ -101,15 +101,16 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook',
         }).html, 'text/html');
         for (const book of week.books) {
-            const root = doc.querySelector(`[data-reader-title="${book.title}"]`)!;
-            expect(root).not.toBeNull();
-            for (const page of book.pages) expect(root.textContent).toContain(page.text);
-            for (const word of book.backWords) expect(root.textContent).toContain(word);
-            expect(root.textContent).toContain(book.title);
-            expect(root.textContent).toContain('Sprout');
-            expect(root.textContent).toContain('Storytime Advantage');
-            expect(root.textContent).toContain('Week 1');
-            if (book.kind === 'decodable') for (const text of ['Sounds in this book', 'n', 'nest', 'net', 'nut', 'a', 'and', 'can']) expect(root.textContent).toContain(text);
+            const parts = Array.from(doc.querySelectorAll(`[data-reader-title="${book.title}"]`));
+            expect(parts.length, `${book.title}: all imposition strips exist`).toBeGreaterThan(0);
+            const readerText = parts.map((part) => part.textContent ?? '').join('\n');
+            for (const page of book.pages) expect(readerText).toContain(page.text);
+            for (const word of book.backWords) expect(readerText).toContain(word);
+            expect(readerText).toContain(book.title);
+            expect(readerText).toContain('Sprout');
+            expect(readerText).toContain('Storytime Advantage');
+            expect(readerText).toContain('Week 1');
+            if (book.kind === 'decodable') for (const text of ['Sounds in this book', 'n', 'nest', 'net', 'nut', 'a', 'and', 'can']) expect(readerText).toContain(text);
         }
     });
 
@@ -123,20 +124,33 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook',
         }).html, 'text/html');
         for (const book of week.books) {
-            const doc = colorDoc;
-            const pages = doc.querySelectorAll(`[data-reader-title="${book.title}"] [data-a3-page]`);
+            const pages = colorDoc.querySelectorAll(`[data-reader-title="${book.title}"] [data-a3-page]`);
             expect(pages).toHaveLength(12);
             for (const page of pages) expect(page.getAttribute('data-page-size')).toBe('841.89 x 1190.55 pts (A3)');
-            expect(doc.body.textContent).toContain('PICTURE MISSING');
-            expect(doc.documentElement.outerHTML).not.toContain('PDFX');
-            const colorPictures = Array.from(doc.querySelectorAll(`[data-reader-title="${book.title}"] [data-picture-id]`));
+            expect(colorDoc.body.textContent).toContain('PICTURE MISSING');
+            expect(colorDoc.documentElement.outerHTML).not.toContain('PDFX');
+            const colorPictures = Array.from(colorDoc.querySelectorAll(`[data-reader-title="${book.title}"] [data-picture-id]`));
             const workbookPictures = Array.from(workbookDoc.querySelectorAll(`[data-reader-title="${book.title}"] [data-picture-id]`));
             expect(colorPictures.length).toBeGreaterThan(0);
             expect(workbookPictures.length).toBe(colorPictures.length);
-            for (let i = 0; i < colorPictures.length; i++) {
-                expect(colorPictures[i].getAttribute('data-picture-file')).not.toMatch(/-line-v\d+\.png$/);
-                expect(workbookPictures[i].getAttribute('data-picture-file')).toMatch(/-line-v\d+\.png$/);
-                expect(colorPictures[i].getAttribute('data-picture-id')).toBe(workbookPictures[i].getAttribute('data-picture-id'));
+            const colorById = new Map<string, Element[]>();
+            const workbookById = new Map<string, Element[]>();
+            for (const [pictures, byId] of [[colorPictures, colorById], [workbookPictures, workbookById]] as const) {
+                for (const picture of pictures) {
+                    const pictureId = picture.getAttribute('data-picture-id');
+                    expect(pictureId, 'Each reader picture has an id.').not.toBeNull();
+                    const matches = byId.get(pictureId!) ?? [];
+                    matches.push(picture);
+                    byId.set(pictureId!, matches);
+                }
+            }
+            expect([...colorById.keys()].sort()).toEqual([...workbookById.keys()].sort());
+            for (const pictureId of colorById.keys()) {
+                for (const picture of colorById.get(pictureId) ?? []) {
+                    expect(picture.getAttribute('data-picture-file')).not.toMatch(/-line-v\d+\.png$/);
+                    expect(picture.getAttribute('data-picture-file')).toMatch(/-v\d+\.png$/);
+                }
+                for (const picture of workbookById.get(pictureId) ?? []) expect(picture.getAttribute('data-picture-file')).toMatch(/-line-v\d+\.png$/);
             }
         }
     });
