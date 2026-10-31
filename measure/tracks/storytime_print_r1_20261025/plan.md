@@ -389,7 +389,7 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
 
 ## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
 
-- [ ] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod").
+- [x] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod"). commit 5fb73b6e. Evidence: automated.
     - Each reader has 12 pages of 99 × 140 mm (P15 default) in the page plans of spec FR-5.2 and FR-5.3.
     - The strip imposition: 3 strips for each reader, 2 strips on each A4 leaf, with the page pairs 12/1, 2/11, 10/3, 4/9, 8/5, and 6/7. The two week 1 readers fill 3 leaves. The perforation side follows the page parity. The test checks the duplex registration of the strips. The strip width check: two reader pages of 99 mm fill the 198 mm leaf width after the tear (P15 default).
     - The text of each story page is `pages[i].text`. The decodable reader has its sounds page (n; nest, net, nut, ...; a, and, can) and its back-cover word list (`backWords`).
@@ -397,7 +397,13 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - The color A3 PDF has 12 A3 pages for each reader. Both outputs have `final` and `proof` modes.
     - `final` mode throws when a picture file is missing and names the picture id. `proof` mode prints "PICTURE MISSING".
     - The picture measurement check (`lib/storytime/print/picture-check.ts`, sharp metadata) passes a 4000 × 3000 sRGB color PNG and a 4000 × 3000 grayscale line-art PNG, each with no alpha. It fails a 3000 × 2250 copy, an RGBA copy, a CMYK copy, a color file in the line-art place, and a wrong file name.
-- [ ] Task (Green): `lib/storytime/print/readers.ts`, `lib/storytime/print/picture-check.ts`, and `scripts/storytime/make-readers-pdf.ts --level 2 --weeks <list> [--proof|--final] [--workbook|--a3-color]`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+    - RED_TEST_COMMAND before Red at 082fc0e3 on 2026-10-31: exit 0; Test Files 10 passed (10); Tests 368 passed (368). No baseline rerun.
+    - RED_TEST_COMMAND after Red: exit 1; Test Files 1 failed | 10 passed (11); Tests 10 failed | 368 passed (378). All failures are assertions in this new test file. The missing reader module, picture-check module, and reader CLI each fail inside their own test. No collection error or “No test files found” line occurred.
+    - PROJECT_LINT exit 0. PROJECT_CHECKS exit 0, including `tsc --noEmit`; the accepted `st2/1 published` failure remains within its existing allowance.
+    - The gray-fill default is 0.02: the maximum fraction of pixels with gray values 32–223 in the known-good 4000 × 3000 grayscale line-art fixture.
+    - Gates: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5-{red,lint,checks}.txt`. Role log: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5.log`.
+    - Model: `openai/gpt-6-luna#high`.
+- [~] Task (Green): `lib/storytime/print/readers.ts`, `lib/storytime/print/picture-check.ts`, and `scripts/storytime/make-readers-pdf.ts --level 2 --weeks <list> [--proof|--final] [--workbook|--a3-color]`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Check, proof mode): the two week 1 readers with empty picture boxes, in the workbook and as color A3 PDFs, for a layout check before the pictures come. A contact sheet of every page.
 - [ ] Task (Pictures, week 1): receive the Forge week 1 batch with its manifest. Stage 1: `picture-check.ts` on every file. Stage 2: the model pre-check (rule 6.7) with Doubao and MiniMax; both must pass, and Kimi is the reserve (P7, Daniel's go 2026-10-27; the calibration passed 2026-10-27). Stage 3: a person counts the objects against the text (rule 9.2). A failed picture goes back to Forge with the reason. Then the two week 1 readers in `final` mode, in the workbook and as color A3 PDFs; `PRINT_GATE` passes on the workbook pages. Evidence: automated, model pre-check, person-checked.
 - [ ] Task (Red 4b): picture list version 4 in `__tests__/storytime-print-pictures.test.ts` (or the existing pictures test file; read the test files first and use the one that tests `pictures.ts`). Tests: the list holds rows for the week 8 review pages and the week 8 benchmark paper; each of moon, mango, ostrich, and drum has a row; a week 8 word that reuses a row of weeks 1 to 7 gets no new row; the week 1 to 7 rows stay byte-equal to version 3; the drift guard compares `pictures.json` with the list function. Done when: `RED_TEST_COMMAND` fails only on the new tests.

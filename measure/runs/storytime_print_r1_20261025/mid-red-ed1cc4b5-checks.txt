@@ -1,0 +1,2 @@
+Command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'
+Exit: 0. Includes clean tsc --noEmit. Existing st2/1 published failure is the only accepted check output.
