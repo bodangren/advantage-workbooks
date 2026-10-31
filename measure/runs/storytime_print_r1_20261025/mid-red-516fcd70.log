@@ -1,0 +1,27 @@
+Measure Mid Red 4d provisional record
+
+Dirty-path classification at start:
+- Unrelated user work: video/storytime-song/scripts/render.mjs.
+- Generated/ignorable: dashboard/pnpm-lock.yaml and dashboard/raw.json; both are explicitly out of scope.
+- Unrelated run artifacts: existing files under measure/runs/storytime_covers_20261027/ and earlier storytime_print_r1_20261025/ runs. Preserve them.
+- Relevant existing review reports are read-only inputs. No other relevant dirty source paths were present.
+
+The supplied phase_base_sha and role_base_sha both resolve. HEAD starts at role_base_sha 516fcd70b953df6309d2255de9889cf67231972e. The plan marks Red 4d [~] and Green 4d [ ]. Pictures stays open.
+
+The requested contract names are forgeManifestEntriesForRow, checkStorytimePictureBatch, and dashboard/scripts/storytime/check-storytime-pictures.ts. This is provisional pending the Red gate.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: in_progress
+track: storytime_print_r1_20261025
+phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 516fcd70b953df6309d2255de9889cf67231972e
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+resulting_head: 516fcd70b953df6309d2255de9889cf67231972e
+commits: pending
+ tests: pending
+files: pending
+known_failures: pending Red run
+handoff: no question; test only C-P4-1, A-P4-1, A-P4-2, and C-P4-2. Defer C-P4-3 through C-P4-7 and A-P4-3 through A-P4-11 as instructed.
+END_MEASURE_AGENT_RESULT

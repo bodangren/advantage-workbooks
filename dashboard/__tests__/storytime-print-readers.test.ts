@@ -12,8 +12,10 @@ type ReaderApi = {
     compileStorytimeReaders: (weeks: StorytimeWeek[], options: { profile: typeof STORYTIME_PRINT_PROFILE; mode: 'proof' | 'final'; output: 'workbook' | 'a3-color' }) => { html: string };
 };
 type PictureApi = {
-    checkStorytimePicture: (colorFile: string, lineFile: string, manifest: unknown, row: unknown, options?: { grayPixelThreshold?: number }) => Promise<unknown>;
+    checkStorytimePicture: (colorFile: string, lineFile: string, manifest: unknown, row: unknown, options?: { grayPixelThreshold?: number; pictureListFileNames?: string[] }) => Promise<unknown>;
     DEFAULT_GRAY_PIXEL_THRESHOLD: number;
+    forgeManifestEntriesForRow: (manifest: unknown, row: unknown) => Array<{ fileName: string; rowId: string; sha256: string; pixelSize: { width: number; height: number } }>;
+    checkStorytimePictureBatch: (rows: unknown[], batchFolder: string) => Promise<{ results: Array<{ rowId: string; status: string }>; exitCode: number }>;
 };
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const readerPath = path.join(dashboardRoot, 'lib/storytime/print/readers.ts');
@@ -195,6 +197,17 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const { execFileSync } = await import('node:child_process');
         expect(execFileSync(process.execPath, ['--import', 'tsx', cliPath, '--help'], { encoding: 'utf8' })).toContain('make-readers-pdf.ts');
     }, 30_000);
+
+    it('R-P4-13 preflights every requested final reader picture before creating outputs or rendering', () => {
+        const source = fs.readFileSync(cliPath, 'utf8');
+        const preflight = source.indexOf('preflightStorytimeReaderPictures(parsed');
+        const folderWrite = source.indexOf('fs.mkdirSync(folder');
+        const firstRender = source.indexOf('renderHtml(');
+        expect(preflight, 'The final build calls the picture preflight.').toBeGreaterThan(-1);
+        expect(preflight, 'The preflight runs before output folder creation.').toBeLessThan(folderWrite);
+        expect(preflight, 'The preflight runs before the first render.').toBeLessThan(firstRender);
+        expect(source.slice(preflight, folderWrite)).toContain('mode');
+    });
 });
 
 describe('Storytime two-output picture check', () => {
@@ -267,8 +280,50 @@ describe('Storytime two-output picture check', () => {
         const goodEntries = fixture.manifest;
         const lineEntry = goodEntries.find((entry) => entry.fileName === path.basename(fixture.line))!;
         await expect(api.checkStorytimePicture(fixture.color, fixture.gray, goodEntries, fixture.row)).rejects.toThrow(/gray|fill|shading|pixels/i);
-        await expect(api.checkStorytimePicture(fixture.color, fixture.line, [{ ...goodEntries[0], fileName: 'not-in-list.png' }, lineEntry], fixture.row)).rejects.toThrow(/manifest|list|file name|filename/i);
+        const otherRow = { ...goodEntries[0], fileName: 'known-other-row.png' };
+        await expect(api.checkStorytimePicture(fixture.color, fixture.line, [...goodEntries, otherRow], fixture.row,
+            { pictureListFileNames: [fixture.row.fileName, fixture.row.lineArtFileName, otherRow.fileName] })).resolves.toBeTruthy();
+        await expect(api.checkStorytimePicture(fixture.color, fixture.line, [...goodEntries, { ...goodEntries[0], fileName: 'not-in-list.png' }], fixture.row,
+            { pictureListFileNames: [fixture.row.fileName, fixture.row.lineArtFileName, otherRow.fileName] })).rejects.toThrow(/manifest|list|file name|filename/i);
         await expect(api.checkStorytimePicture(fixture.color, fixture.line, [{ ...goodEntries[0], sha256: '0'.repeat(64) }, lineEntry], fixture.row)).rejects.toThrow(/SHA.?256|hash|digest/i);
         await expect(api.checkStorytimePicture(fixture.color, fixture.line, [{ ...goodEntries[0], pixelSize: { width: 3000, height: 2250 } }, lineEntry], fixture.row)).rejects.toThrow(/pixel|size|dimension/i);
+    }, 30_000);
+
+    it('R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts', async () => {
+        const api = await pictureCheck();
+        const dir = temp();
+        const fixture = await pngFixtures(dir);
+        const row = { ...fixture.row, id: 'story-row-17', week: 1, bookKind: 'readalong', page: 3 };
+        const manifest = {
+            version: 1,
+            batchHashAlgorithm: 'sha256',
+            jobs: [{
+                id: row.id, week: 1, bookKind: 'readalong', page: 3, selectedVersion: 2,
+                selectedFile: path.basename(fixture.color), selectedSha256: fixture.manifest[0].sha256, status: 'selected',
+                candidates: [{
+                    version: 2, file: path.basename(fixture.color), fileSha256: fixture.manifest[0].sha256,
+                    structural: { valid: true, width: 4000, height: 3000, sha256: fixture.manifest[0].sha256, errors: [] },
+                    lineArt: { file: path.basename(fixture.line), fileSha256: fixture.manifest[1].sha256, colorFile: path.basename(fixture.color), status: 'selected', structural: { width: 4000, height: 3000 } },
+                }],
+            }],
+            batches: [],
+        };
+        const facts = api.forgeManifestEntriesForRow(manifest, row);
+        expect(facts).toEqual([
+            { fileName: path.basename(fixture.color), rowId: row.id, sha256: fixture.manifest[0].sha256, pixelSize: { width: 4000, height: 3000 } },
+            { fileName: path.basename(fixture.line), rowId: row.id, sha256: fixture.manifest[1].sha256, pixelSize: { width: 4000, height: 3000 } },
+        ]);
+    }, 30_000);
+
+    it('R-P4-12 checks every week-one row in a batch and returns a failure for each missing file', async () => {
+        const api = await pictureCheck();
+        const dir = temp();
+        const fixture = await pngFixtures(dir);
+        const row = { id: 'story-row-17', fileName: path.basename(fixture.color), lineArtFileName: path.basename(fixture.line), width: 4000, height: 3000, week: 1 };
+        const missing = { ...row, id: 'missing-row', fileName: 'missing-v1.png', lineArtFileName: 'missing-line-v1.png' };
+        const result = await api.checkStorytimePictureBatch([row, missing], dir);
+        expect(result.exitCode).toBe(1);
+        expect(result.results.map(({ rowId }) => rowId)).toEqual(['story-row-17', 'missing-row']);
+        expect(result.results.map(({ status }) => status)).toEqual(['pass', 'fail']);
     }, 30_000);
 });

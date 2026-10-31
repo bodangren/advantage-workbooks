@@ -311,8 +311,16 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
 
     it('A2: fills each reader side with the R32 reader pages and keeps both strip marks', async () => {
         const { doc } = await render();
-        for (const side of pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader')) {
+        const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        const expectedBySide = [
+            [12, 1, 10, 3], [2, 11, 4, 9],
+            [8, 5, 12, 1], [6, 7, 2, 11],
+            [10, 3, 8, 5], [4, 9, 6, 7],
+        ];
+        for (const [sideIndex, side] of readerSides.entries()) {
             const strips = Array.from(side.querySelectorAll('[data-part="reader-strip"]'));
+            const sideName = sideIndex % 2 === 0 ? 'front' : 'back';
+            const pageNumbers: number[] = [];
             expect(strips).toHaveLength(2);
             for (const strip of strips) {
                 expect((strip.querySelector('.strip-mark')?.textContent ?? '').trim()).toMatch(/^.+ · strip [123] of 3( \(back\))?$/);
@@ -320,6 +328,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
                 expect(readerPages).toHaveLength(2);
                 for (const page of readerPages) {
                     const pageNumber = Number(page.getAttribute('data-page-number'));
+                    pageNumbers.push(pageNumber);
                     const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
                     const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
                     expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
@@ -328,6 +337,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
                     expect(text(page), `Reader page ${pageNumber} text.`).not.toBe('');
                 }
             }
+            expect(pageNumbers, `A2 ${sideName} side has its own duplex page set.`).toEqual(expectedBySide[sideIndex]);
         }
     }, 30000);
 

@@ -1498,6 +1498,9 @@ describe('Storytime student workbook: the shipped week 1', () => {
             const content = new Map<string, PageContent>();
             for (const page of pages) {
                 const strip = page.closest(output === 'student' ? '[data-part="reader-strip"]' : '[data-reader-strip]');
+                const physicalSide = output === 'student'
+                    ? (readerSides.indexOf(page.closest('.student-page')!) % 2 === 0 ? 'front' : 'back')
+                    : page.closest('[data-leaf-side]')?.getAttribute('data-leaf-side') ?? '';
                 const number = Number(page.getAttribute('data-page-number'));
                 const reader = output === 'student'
                     ? strip?.getAttribute('data-reader') ?? ''
@@ -1505,7 +1508,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
                 const stripNumber = output === 'student'
                     ? Number(strip?.getAttribute('data-strip'))
                     : Number(strip?.querySelector('.strip-mark')?.textContent?.match(/strip (\d+) of 3/)?.[1]);
-                const key = `${reader}|${stripNumber}|${number}`;
+                const key = `${physicalSide}|${reader}|${stripNumber}|${number}`;
                 content.set(key, {
                     text: (page.textContent ?? '').replace(/\s+/g, ' ').trim(),
                     pictureIds: Array.from(page.querySelectorAll('[data-picture-id]'), (picture) => picture.getAttribute('data-picture-id') ?? '').sort(),
@@ -1516,6 +1519,16 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const studentPages = pageContents(doc, 'student');
         const readerPages = pageContents(readerDoc, 'readers');
         expect(studentPages).toEqual(readerPages);
+        const expectedBySide = [
+            [12, 1, 10, 3], [2, 11, 4, 9],
+            [8, 5, 12, 1], [6, 7, 2, 11],
+            [10, 3, 8, 5], [4, 9, 6, 7],
+        ];
+        for (let sideIndex = 0; sideIndex < readerSides.length; sideIndex++) {
+            const side = sideIndex % 2 === 0 ? 'front' : 'back';
+            const numbers = Array.from(readerSides[sideIndex].querySelectorAll('[data-reader-page]'), (page) => Number(page.getAttribute('data-page-number')));
+            expect(numbers, `R-P4-10 ${side} side has its own page set.`).toEqual(expectedBySide[sideIndex]);
+        }
         for (const book of week.books) {
             for (const page of book.pages) {
                 expect([...studentPages.values()].some((content) => content.text.includes(page.text)), `${book.title}: ${page.text}`)
