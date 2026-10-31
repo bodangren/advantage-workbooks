@@ -435,12 +435,13 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - Mutant M10 on the version 4 code (the two review-page and benchmark loops removed, a copy held, `cmp` restore): 5 tests fail — R4b-2, R4b-3, R4b-5, R16, and the week 8 adversarial guard — and the restore gives `cmp` OK. Evidence: `jr-green-0c297e0b-mutants.txt`.
     - Red 4b r3 cleared the two test conflicts in commit `ccdf934c` (the week 8 guard on a copy without the review pages and the benchmark paper, and the 57-key inventory); the targeted suite passes 104 tests.
     - Model: `deepseek/deepseek-flash#high`; the Red model is `openai/gpt-6-luna#high`.
-- [x] Task (Red 4c): one leaf order (the Phase 2 order of R32) for the readers and the student workbook, and the reader pages on the student workbook reader sides. commit f861e35f. Evidence: automated.
-    - F13: R-P4-2 now pins the R32 order per strip. R-P4-10 compares page content by reader, strip, and page number in both outputs. The adversarial A2 check requires reader content on all six student-book sides.
+- [x] Task (Red 4c): one leaf order (the Phase 2 order of R32) for the readers and the student workbook, and the reader pages on the student workbook reader sides. commit 8c9fcc72. Evidence: automated.
+    - Previous Red 4c commit: f861e35f. F13 pins the accepted Phase 2 leaf order and checks student-book page content against the readers output.
+    - F14: the first round required a picture placeholder on every strip. Red 4c r2 checks page 1 and pages 3 to 10 for one box; pages 2, 11, and 12 have none.
     - The orchestrator selected the accepted Phase 2 R32 order for Daniel's Phase 6 look: leaf 1 has read-along strips 1 and 2; leaf 2 has read-along strip 3 and decodable strip 1; leaf 3 has decodable strips 2 and 3.
-    - RED_TEST_COMMAND exits 1 with only the three changed or new assertions failing: R-P4-2, R-P4-10, and adversarial A2. Test Files 3 failed | 8 passed (11); Tests 3 failed | 381 passed (384). No collection error occurred.
+    - RED_TEST_COMMAND exits 1 with only R-P4-2 (wrong leaf order), R-P4-10 (empty student-book strips), and adversarial A2 (empty student-book strips) failing. Test Files 3 failed | 8 passed (11); Tests 3 failed | 381 passed (384). No collection error occurred.
     - PROJECT_LINT exits 0. PROJECT_CHECKS exits 0; `tsc --noEmit` passes, and the only accepted check failure is st2/1 `published`.
-    - Evidence: `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2-{red,lint,checks}.txt`. Role log: `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2.log`.
+    - Evidence: `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2-r2-{red,lint,checks}.txt`. Role log: `measure/runs/storytime_print_r1_20261025/mid-red-74f03dd2.log`.
     - Model: `openai/gpt-6-luna#high`. `phase_base_sha`: `ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218`. Role base: `74f03dd2a7bd67471734e9224c77a6228041953f`.
 - [~] Task (Green 4c): readers.ts uses the R32 leaf order and exports the strip content; student-book.ts fills its reader sides from it. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Hand-off 4): picture list version 4 goes to the PM session for Forge by 2026-11-05. The message gives the SHA-256 of `pictures.json` and `pictures.md` and the new row count. Done when: the PM session confirms receipt (peer-report).
