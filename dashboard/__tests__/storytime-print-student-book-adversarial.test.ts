@@ -309,13 +309,17 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         expect(pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader')).toHaveLength(6);
     }, 30000);
 
-    it('A2: keeps the reader sides free of reader content', async () => {
+    it('A2: fills each reader side with the R32 reader pages and keeps both strip marks', async () => {
         const { doc } = await render();
         for (const side of pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader')) {
-            const marks = Array.from(side.querySelectorAll('[data-part="reader-strip"]'))
-                .map((strip) => (strip.querySelector('.strip-mark')?.textContent ?? '').trim());
-            expect(marks).toHaveLength(2);
-            expect(text(side), 'A reader side holds only the strip marks before Phase 4.').toBe(marks.join(''));
+            const strips = Array.from(side.querySelectorAll('[data-part="reader-strip"]'));
+            expect(strips).toHaveLength(2);
+            for (const strip of strips) {
+                expect((strip.querySelector('.strip-mark')?.textContent ?? '').trim()).toMatch(/^.+ · strip [123] of 3( \(back\))?$/);
+                expect(strip.querySelectorAll('[data-reader-page]')).toHaveLength(2);
+                expect(text(strip)).toContain('PICTURE MISSING');
+                for (const page of strip.querySelectorAll('[data-reader-page]')) expect(text(page)).not.toBe('');
+            }
         }
     }, 30000);
 

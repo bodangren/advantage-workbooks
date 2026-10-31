@@ -22,6 +22,12 @@ interface PrintProfile {
     readerPage: { widthMm: number; heightMm: number };
 }
 
+interface ReaderModule {
+    compileStorytimeReaders: (
+        weeks: StorytimeWeek[], options: { profile: PrintProfile; mode: 'proof' | 'final'; output: 'workbook' | 'a3-color' },
+    ) => { html: string };
+}
+
 interface StudentModule {
     compileStorytimeStudentBook: (
         weeks: StorytimeWeek[], options: { profile: PrintProfile; mode: 'proof' | 'final' },
@@ -31,6 +37,7 @@ interface StudentModule {
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const studentModule = path.join(dashboardRoot, 'lib/storytime/print/student-book.ts');
 const profileModule = path.join(dashboardRoot, 'lib/storytime/print/profile.ts');
+const readerModule = path.join(dashboardRoot, 'lib/storytime/print/readers.ts');
 const fontDir = path.join(dashboardRoot, 'assets/print-fonts');
 const temporaryFolders: string[] = [];
 const builtPdfx = new Map<string, string>();
@@ -1445,6 +1452,68 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(fronts).toEqual(expected);
         expect(2 * selected.readerPage.widthMm).toBe(198);
         expect(selected.trim.widthMm - selected.perforationMm).toBe(198);
+    });
+
+    it('R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages', async () => {
+        const week = shipped();
+        const selected = await profile();
+        const { html, doc } = await render(week, selected, 'proof');
+        const readerApi = await import(readerModule) as ReaderModule;
+        const readerDoc = new DOMParser().parseFromString(readerApi.compileStorytimeReaders([week], {
+            profile: selected, mode: 'proof', output: 'workbook',
+        }).html, 'text/html');
+        const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        expect(readerSides).toHaveLength(6);
+        expect(html).toContain('PICTURE MISSING');
+
+        const leafOrder = [
+            [['readalong', 1], ['readalong', 2]],
+            [['readalong', 3], ['decodable', 1]],
+            [['decodable', 2], ['decodable', 3]],
+        ];
+        for (let leaf = 0; leaf < leafOrder.length; leaf++) {
+            for (const sideIndex of [leaf * 2, leaf * 2 + 1]) {
+                const strips = Array.from(readerSides[sideIndex].querySelectorAll('[data-part="reader-strip"]'));
+                expect(strips).toHaveLength(2);
+                expect(strips.map((strip) => [strip.getAttribute('data-reader'), Number(strip.getAttribute('data-strip'))]))
+                    .toEqual(leafOrder[leaf]);
+                for (const strip of strips) {
+                    expect(strip.textContent).toContain('PICTURE MISSING');
+                    expect(strip.querySelectorAll('[data-reader-page]')).toHaveLength(2);
+                }
+            }
+        }
+
+        type PageContent = { text: string; pictureIds: string[] };
+        const pageContents = (root: Document, output: 'student' | 'readers'): Map<string, PageContent> => {
+            const pages = Array.from(root.querySelectorAll('[data-reader-page][data-page-number]'));
+            const content = new Map<string, PageContent>();
+            for (const page of pages) {
+                const strip = page.closest(output === 'student' ? '[data-part="reader-strip"]' : '[data-reader-strip]');
+                const number = Number(page.getAttribute('data-page-number'));
+                const reader = output === 'student'
+                    ? strip?.getAttribute('data-reader') ?? ''
+                    : week.books.find((book) => book.title === page.closest('[data-reader-title]')?.getAttribute('data-reader-title'))?.kind ?? '';
+                const stripNumber = output === 'student'
+                    ? Number(strip?.getAttribute('data-strip'))
+                    : Number(strip?.querySelector('.strip-mark')?.textContent?.match(/strip (\d+) of 3/)?.[1]);
+                const key = `${reader}|${stripNumber}|${number}`;
+                content.set(key, {
+                    text: (page.textContent ?? '').replace(/\s+/g, ' ').trim(),
+                    pictureIds: Array.from(page.querySelectorAll('[data-picture-id]'), (picture) => picture.getAttribute('data-picture-id') ?? '').sort(),
+                });
+            }
+            return content;
+        };
+        const studentPages = pageContents(doc, 'student');
+        const readerPages = pageContents(readerDoc, 'readers');
+        expect(studentPages).toEqual(readerPages);
+        for (const book of week.books) {
+            for (const page of book.pages) {
+                expect([...studentPages.values()].some((content) => content.text.includes(page.text)), `${book.title}: ${page.text}`)
+                    .toBe(true);
+            }
+        }
     });
 
     it('R33: rejects a removed home leaf on a temporary HTML copy', async () => {

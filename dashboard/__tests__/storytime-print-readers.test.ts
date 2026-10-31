@@ -66,7 +66,20 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         }).html, 'text/html');
         const strips = Array.from(doc.querySelectorAll('[data-reader-strip]'));
         expect(strips).toHaveLength(12);
-        const expected = [['12/1', '2/11'], ['10/3', '4/9'], ['8/5', '6/7']];
+        const expected = [
+            [
+                { title: 'Hello!', strip: 1, front: [12, 1], back: [2, 11] },
+                { title: 'Hello!', strip: 2, front: [10, 3], back: [4, 9] },
+            ],
+            [
+                { title: 'Hello!', strip: 3, front: [8, 5], back: [6, 7] },
+                { title: 'Nan Can Nod', strip: 1, front: [12, 1], back: [2, 11] },
+            ],
+            [
+                { title: 'Nan Can Nod', strip: 2, front: [10, 3], back: [4, 9] },
+                { title: 'Nan Can Nod', strip: 3, front: [8, 5], back: [6, 7] },
+            ],
+        ];
         // Default: the front of each reader leaf is a right page, so its spine is left.
         // The duplex back is a left page, so its spine is right.
         const leaves = Array.from(doc.querySelectorAll('[data-reader-leaf]'));
@@ -76,11 +89,24 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             const back = leaves[i].querySelector('[data-leaf-side="back"]');
             expect(front?.querySelectorAll('[data-reader-strip]')).toHaveLength(2);
             expect(back?.querySelectorAll('[data-reader-strip]')).toHaveLength(2);
-            expect(front?.getAttribute('data-page-pairs')).toBe(expected[i][0]);
-            expect(back?.getAttribute('data-page-pairs')).toBe(expected[i][1]);
-            const frontSlots = Array.from(front!.querySelectorAll('[data-reader-strip]'), (s) => s.getAttribute('data-slot'));
-            const backSlots = Array.from(back!.querySelectorAll('[data-reader-strip]'), (s) => s.getAttribute('data-slot'));
-            expect(backSlots).toEqual(frontSlots); // long-edge duplex flip
+            const frontStrips = Array.from(front!.querySelectorAll('[data-reader-strip]'));
+            const backStrips = Array.from(back!.querySelectorAll('[data-reader-strip]'));
+            expect(Array.from(frontStrips, (strip) => strip.getAttribute('data-slot'))).toEqual(['top', 'bottom']);
+            expect(Array.from(backStrips, (strip) => strip.getAttribute('data-slot'))).toEqual(['top', 'bottom']);
+            for (let slot = 0; slot < 2; slot++) {
+                const contract = expected[i][slot];
+                const frontStrip = frontStrips[slot];
+                const backStrip = backStrips[slot];
+                const identity = (strip: Element) => {
+                    const mark = strip.querySelector('[data-part="strip-mark"]')?.textContent ?? '';
+                    return [strip.getAttribute('data-reader-title'), Number(mark.match(/strip (\d+) of 3/)?.[1])];
+                };
+                expect(identity(frontStrip)).toEqual([contract.title, contract.strip]);
+                expect(identity(backStrip)).toEqual(identity(frontStrip));
+                const pageNumbers = (strip: Element) => Array.from(strip.querySelectorAll('[data-reader-page]'), (page) => Number(page.getAttribute('data-page-number')));
+                expect(pageNumbers(frontStrip)).toEqual(contract.front);
+                expect(pageNumbers(backStrip)).toEqual(contract.back);
+            }
             for (const side of [front!, back!]) {
                 const mark = side.querySelector('[data-part="perforation"]');
                 expect(mark?.getAttribute('data-distance-mm')).toBe('12');
