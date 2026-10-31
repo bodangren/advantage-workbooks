@@ -1,15 +1,12 @@
 MEASURE_AGENT_RESULT
 role: mid-red
+status: complete
 track: storytime_print_r1_20261025
-phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
-baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
-role_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
-head: b99500f7a546f9ddfee680e36418c4570a43c92e
-commits: 5fb73b6e2ec1363024c996b45aad542463263705 (failing tests); b99500f7a546f9ddfee680e36418c4570a43c92e (plan and evidence)
-tests: RED exit 1; new tests 10 failed; previous tests 368 passed; lint exit 0; project checks and tsc exit 0
-files: dashboard/__tests__/storytime-print-readers.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5-{red,lint,checks}.txt
-failures: 10 intended reader/picture/CLI contract assertions fail because the required production modules do not exist; no unrelated failures; pre-existing allowed published failure remains in PROJECT_CHECKS
-status: partial
-handoff: Green task is [~]. Implement against the tests; respect P15 default geometry. Initial Red run contained one fixture-construction failure, which was fixed before the final Red run.
-model: openai/gpt-6-luna#high
-MEASURE_AGENT_RESULT_END
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+commits: d8cb9ef9; 098fe4c8; 5fb73b6e
+tests_run: RED_TEST_COMMAND exit 1; 10 new tests failed and 368 earlier tests passed. PROJECT_LINT exit 0. PROJECT_CHECKS exit 0; tsc --noEmit exit 0.
+files_changed: dashboard/__tests__/storytime-print-readers.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5-r2-{red,lint,checks}.txt; this log.
+plan_updates: Red task cites d8cb9ef9. Round 1 commit 5fb73b6e remains recorded. The plan records corrected fixtures and manifests, 0.00070225 measured gray fraction, 0.02 rejection threshold, right-page front parity default, and r2 gate evidence.
+known_failures: 10 intended assertions fail because readers.ts, picture-check.ts, and make-readers-pdf.ts do not exist. No collection error or missing-test-files output. PROJECT_CHECKS accepts the existing st2/1 published failure only.
+handoff: Green task is [~]. Implement the reader and picture contracts. The front of each reader leaf uses the right-page default. The A3 output uses the color image; workbook output uses line art.
+END_MEASURE_AGENT_RESULT

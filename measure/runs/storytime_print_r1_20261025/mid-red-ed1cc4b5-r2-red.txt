@@ -1,0 +1,16 @@
+Command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"'
+Exit: 1.
+Test Files  1 failed | 10 passed (11)
+Tests       10 failed | 368 passed (378)
+The 10 failing tests are all in __tests__/storytime-print-readers.test.ts:
+1. exports the reader compiler without a collection-time import — AssertionError: Missing module: lib/storytime/print/readers.ts.
+2. R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim — AssertionError: Missing module: lib/storytime/print/readers.ts.
+3. R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration — AssertionError: Missing module: lib/storytime/print/readers.ts.
+4. R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy — AssertionError: Missing module: lib/storytime/print/readers.ts.
+5. R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders — AssertionError: Missing module: lib/storytime/print/readers.ts.
+6. R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder — AssertionError: Missing module: lib/storytime/print/readers.ts.
+7. R-P4-6 exposes the readers PDF CLI help — AssertionError: Missing script: scripts/storytime/make-readers-pdf.ts.
+8. R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture — AssertionError: Missing module: lib/storytime/print/picture-check.ts.
+9. R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names — AssertionError: Missing module: lib/storytime/print/picture-check.ts.
+10. R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size — AssertionError: Missing module: lib/storytime/print/picture-check.ts.
+No collection error or "No test files found" line occurred.

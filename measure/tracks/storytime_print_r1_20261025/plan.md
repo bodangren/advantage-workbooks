@@ -389,9 +389,11 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
 
 ## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
 
-- [x] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod"). commit 5fb73b6e. Evidence: automated.
+- [x] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod"). commit d8cb9ef9. Evidence: automated.
+    - Round 1 test commit: 5fb73b6e. Round 2 corrects invalid picture fixtures, manifest-negative cases, and page-parity assertions.
     - Each reader has 12 pages of 99 × 140 mm (P15 default) in the page plans of spec FR-5.2 and FR-5.3.
     - The strip imposition: 3 strips for each reader, 2 strips on each A4 leaf, with the page pairs 12/1, 2/11, 10/3, 4/9, 8/5, and 6/7. The two week 1 readers fill 3 leaves. The perforation side follows the page parity. The test checks the duplex registration of the strips. The strip width check: two reader pages of 99 mm fill the 198 mm leaf width after the tear (P15 default).
+    - Reader-leaf default for this contract: each front is a right page with the spine on its left edge; each duplex back is a left page with the spine on its right edge. The mark is 12 mm from that edge.
     - The text of each story page is `pages[i].text`. The decodable reader has its sounds page (n; nest, net, nut, ...; a, and, can) and its back-cover word list (`backWords`).
     - The reader cover has the title, "Sprout", "Storytime Advantage", and the week number.
     - The color A3 PDF has 12 A3 pages for each reader. Both outputs have `final` and `proof` modes.
@@ -400,8 +402,10 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - RED_TEST_COMMAND before Red at 082fc0e3 on 2026-10-31: exit 0; Test Files 10 passed (10); Tests 368 passed (368). No baseline rerun.
     - RED_TEST_COMMAND after Red: exit 1; Test Files 1 failed | 10 passed (11); Tests 10 failed | 368 passed (378). All failures are assertions in this new test file. The missing reader module, picture-check module, and reader CLI each fail inside their own test. No collection error or “No test files found” line occurred.
     - PROJECT_LINT exit 0. PROJECT_CHECKS exit 0, including `tsc --noEmit`; the accepted `st2/1 published` failure remains within its existing allowance.
-    - The gray-fill default is 0.02: the maximum fraction of pixels with gray values 32–223 in the known-good 4000 × 3000 grayscale line-art fixture.
-    - Gates: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5-{red,lint,checks}.txt`. Role log: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5.log`.
+    - The known-good 4000 × 3000 line-art fixture has a measured gray-pixel fraction of 0.00070225 for values 32–223. The gray-filled fixture exceeds 0.02. The default is 0.02 because test-strategy 5.1 sets the rejection boundary at 2 percent.
+    - RED_TEST_COMMAND after Red r2: exit 1; Test Files 1 failed | 10 passed (11); Tests 10 failed | 368 passed (378). All failures are assertions in this test file. No collection error or “No test files found” line occurred.
+    - PROJECT_LINT exit 0 with no output. PROJECT_CHECKS exit 0; `tsc --noEmit` exit 0. The one accepted check failure is st2/1 `published`.
+    - Gates: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5-r2-{red,lint,checks}.txt`. Role log: `measure/runs/storytime_print_r1_20261025/mid-red-ed1cc4b5.log`.
     - Model: `openai/gpt-6-luna#high`.
 - [~] Task (Green): `lib/storytime/print/readers.ts`, `lib/storytime/print/picture-check.ts`, and `scripts/storytime/make-readers-pdf.ts --level 2 --weeks <list> [--proof|--final] [--workbook|--a3-color]`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [ ] Task (Check, proof mode): the two week 1 readers with empty picture boxes, in the workbook and as color A3 PDFs, for a layout check before the pictures come. A contact sheet of every page.

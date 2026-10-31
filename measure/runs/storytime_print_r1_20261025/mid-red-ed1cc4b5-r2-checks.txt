@@ -1,0 +1,6 @@
+PROJECT_CHECKS command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'
+The check-weeks output was captured from the same command inside one heavy-run wrapper.
+st2/1 published check: FAIL    published       Published only when approved and clean — images not approved; audio not approved; song not approved
+Summary: 8 package(s), 1 failed check(s), 13 warning(s).
+tsc --noEmit exit code: 0.
+PROJECT_CHECKS exit code: 0.
