@@ -83,10 +83,10 @@ let cachedFontCss: string | undefined;
  * The `@font-face` rules of the workbook, with each static face as a `file:` URL, so that a
  * `file://` render in Chrome and the tests load the same faces. The faces are not data URLs:
  * a base64 blob can contain a forbidden label by chance (the R28 label check reads the whole
- * HTML), and a static file needs no embedding.
+ * HTML), and a static file needs no embedding. The reader document of FR-5 uses the same faces.
  * @returns The CSS.
  */
-function fontFaceCss(): string {
+export function fontFaceCss(): string {
     if (cachedFontCss) return cachedFontCss;
     cachedFontCss = PRINT_FACES.map((f) => {
         const range = f.unicodeRange ? ` unicode-range: ${f.unicodeRange};` : '';
