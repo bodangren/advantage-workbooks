@@ -228,3 +228,42 @@ describe('Storytime print Red 3: list version 3 (R21)', () => {
         expect(Object.hasOwn(committed, 'version')).toEqual(false);
     });
 });
+
+describe('Storytime print Red 4b: week 8 picture list version 4', () => {
+    it('R4b-1 exports picture-list version 4 and uses it in generated markdown', async () => {
+        const exports = await import(picturesModule);
+        const rows = await pictures(shippedWeeks());
+        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(4);
+        expect(exports.pictureListMarkdown(rows, 2).split('\n')[2]).toBe(
+            'Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+        );
+    });
+
+    it('R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum', async () => {
+        const rows = await pictures(shippedWeeks());
+        const week8Words = rows.filter((row) => row.week === 8 && row.use === 'check-row').map((row) => row.text.toLowerCase());
+        for (const word of ['moon', 'mango', 'ostrich', 'drum']) {
+            expect(week8Words, `week 8 picture list row for ${word}`).toContain(word);
+        }
+    });
+
+    it('R4b-3 reuses the earlier pen row instead of adding a week 8 row', async () => {
+        const rows = await pictures(shippedWeeks());
+        expect(rows.some((row) => row.week < 8 && row.use === 'check-row' && row.text.toLowerCase() === 'pen')).toBe(true);
+        expect(rows.some((row) => row.week === 8 && row.use === 'check-row' && row.text.toLowerCase() === 'pen')).toBe(false);
+    });
+
+    it('R4b-4 keeps the week 1 to 7 rows byte-equal to the version 3 list at c7739efb', async () => {
+        const baseline = JSON.parse(execFileSync('git', ['show', 'c7739efbb3cf118f23c1607d3fa645471c6b6077:content/storytime/l2/print/pictures.json'], {
+            cwd: path.resolve(dashboardRoot, '..'),
+            encoding: 'utf8',
+        })) as StorytimePictureRow[];
+        const current = (await pictures(shippedWeeks())).filter((row) => row.week <= 7);
+        expect(JSON.stringify(current)).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7)));
+    });
+
+    it('R4b-5 keeps the committed picture list in sync with the list function', async () => {
+        const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8')) as StorytimePictureRow[];
+        expect(committed).toEqual(await pictures(shippedWeeks()));
+    });
+});
