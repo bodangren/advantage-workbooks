@@ -1,0 +1,14 @@
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 6b5a6da4c0c2875c6dd7f1e6dd7b880fe3365bf3
+commits: ccdf934c593c4ee2b33b861ed1763d4fbccfab8e (test); plan, evidence, and this log are in the plan/evidence commit.
+tests_run: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-adversarial.test.ts __tests__/storytime-print-contract-r3.test.ts __tests__/storytime-print-contract-v2.test.ts` exited 0; 104 passed. PROJECT_LINT exited 0.
+files_changed: `dashboard/__tests__/storytime-print-adversarial.test.ts`; `dashboard/__tests__/storytime-print-contract-r3.test.ts`; `measure/tracks/storytime_print_r1_20261025/plan.md`; `measure/runs/storytime_print_r1_20261025/mid-red-6b5a6da4-tests.txt`; `measure/runs/storytime_print_r1_20261025/mid-red-6b5a6da4-lint.txt`; this log.
+plan_updates: Added the Red 4b r3 note under Task (Red 4b). Updated Task (Green 4b) to show that the two blockers are cleared by ccdf934c.
+known_failures: No failures remain in the final targeted test run. Earlier runs exposed an over-broad total-row expectation in the new adversarial assertion; the final assertion scopes the four named week 8 check rows and the targeted suite passes.
+handoff: Green's version 4 implementation and content files remained uncommitted and untouched. The targeted suite passed on that tree. Red 4b r3 fixes F11 and F12. The tests preserve the no-books assertion, test zero rows on a review-input-free copy, assert the four named check rows, keep the no-story-page assertion, and pin the exact 57-key inventory.
+END_MEASURE_AGENT_RESULT

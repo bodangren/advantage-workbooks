@@ -1,0 +1,26 @@
+Tree state: Green picture-list version 4 work was uncommitted during this run. It adds four week 8 check rows; the assertion selects the four named rows.
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ✓ __tests__/storytime-print-contract-v2.test.ts (24 tests) 1021ms
+     ✓ gives every row the line-art name of FR-2.3 and FR-9  311ms
+ ✓ __tests__/storytime-print-contract-r3.test.ts (42 tests) 1407ms
+     ✓ R20: throws on the 27th occurrence instead of cycling suffixes  357ms
+ ✓ __tests__/storytime-print-adversarial.test.ts (38 tests) 5710ms
+     ✓ exits 2 with the usage text for a missing --level  822ms
+     ✓ exits 2 with the usage text for --level without a value  417ms
+     ✓ exits 2 with the usage text for --level 9 (outside 1 to 4)  614ms
+     ✓ exits 2 with the usage text for --level 0  561ms
+     ✓ exits 2 with the usage text for --level -1  546ms
+     ✓ exits 2 with the usage text for --level ../x (path traversal)  481ms
+     ✓ exits 2 with the usage text for --level=2 (the equals form is not accepted)  531ms
+     ✓ exits 2 with the usage text for a level with more digits than a safe integer  555ms
+     ✓ exits 1 for a valid level with no week files and writes nothing  528ms
+
+ Test Files  3 passed (3)
+      Tests  104 passed (104)
+   Start at  02:46:50
+   Duration  6.93s (transform 1.04s, setup 323ms, import 1.80s, tests 8.14s, environment 1ms)
+
+
+Final targeted tests exit: 0
