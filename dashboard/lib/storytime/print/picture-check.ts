@@ -15,8 +15,9 @@ import path from 'node:path';
  *   rejection boundary at 2 percent, measured on the known-good line art of the Phase 4 Red
  *   tests, which gives about 0.07 percent);
  * - the manifest holds one entry for each of the two file names, and each entry agrees with the
- *   row and the file: the file name is a list name, the SHA-256 is the file hash, and the pixel
- *   size is the measured size.
+ *   row and the file: the SHA-256 is the file hash, and the pixel size is the measured size. The
+ *   direct check matches an entry by the file name of the row; the batch check matches the row by
+ *   its id and reads the two files of that job (PM option A, 2026-11-02).
  *
  * The 12 px line width and the closed outlines are stage 2 and stage 3 checks, not stage 1
  * (strategy 5.1). This check is never an approval (spec P7).
@@ -129,6 +130,63 @@ const sha256Of = (file: string): string => createHash('sha256').update(fs.readFi
  * @returns The last part of the path.
  */
 const filePart = (file: string): string => path.basename(file);
+
+/** A text with its regular-expression special characters escaped, for an exact-name pattern. */
+const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * The version-free stem of a picture-list file name: the file name part with the `-v<N>.png`
+ * suffix removed. Every row of the shipped picture list gives the row id (`<row id>-v1.png`) and
+ * the row id plus `-line` (`<row id>-line-v1.png`), so the stem names the row of the file.
+ * @param fileName The file name or path of a picture-list row.
+ * @returns The stem that the version number follows.
+ */
+const nameStem = (fileName: string): string => filePart(fileName).replace(/-v[0-9]+\.png$/, '');
+
+/**
+ * The version number N of one batch file name, from the exact pattern `<stem>-v<N>.png` (PM
+ * option A, 2026-11-02). N is a positive integer without a leading zero, and the whole name must
+ * match, so a longer row id that starts with the stem fails.
+ * @param namePart The file name part of the batch file, after the last `/`.
+ * @param stem The version-free stem of the picture-list row.
+ * @param rowId The picture-list row id, for the message.
+ * @param what `color file` or `line-art file`, for the message.
+ * @returns The version number N.
+ * @throws Error When the file name part is not the exact version name of the stem.
+ */
+function versionOfName(namePart: string, stem: string, rowId: string, what: string): number {
+    const match = new RegExp(`^${escapeRegExp(stem)}-v([1-9][0-9]*)\\.png$`).exec(namePart);
+    if (!match) {
+        throw new Error(`picture batch: the ${what} "${namePart}" of the row ${rowId} is not the file name ${stem}-v<N>.png with N a positive integer without a leading zero`);
+    }
+    return Number(match[1]);
+}
+
+/**
+ * The name form of the two files of one batch row (PM option A, 2026-11-02): the color file must
+ * be `<row id>-v<N>.png` and the line art `<row id>-line-v<N>.png`, both files must use the same
+ * N, and N must equal the selected version of the job. The stem comes from the row file names,
+ * which equal the row id for every row of the shipped picture list.
+ * @param entries The two entries of the job: the color file, then the line art.
+ * @param fields The picture-list row, for its two file names.
+ * @param rowId The picture-list row id, for the messages.
+ * @param selectedVersion The selected version of the Forge job.
+ * @throws Error When a file name part is not of the form, the two N differ, or N is not selectedVersion.
+ */
+function checkNameForm(entries: StorytimeForgePictureEntry[], fields: Record<string, unknown>, rowId: string, selectedVersion: unknown): void {
+    const colorStem = nameStem(requireString(fields.fileName, 'color file name'));
+    const lineStem = nameStem(requireString(fields.lineArtFileName, 'line-art file name'));
+    const colorPart = filePart(entries[0].fileName);
+    const linePart = filePart(entries[1].fileName);
+    const colorVersion = versionOfName(colorPart, colorStem, rowId, 'color file');
+    const lineVersion = versionOfName(linePart, lineStem, rowId, 'line-art file');
+    if (colorVersion !== lineVersion) {
+        throw new Error(`picture batch: the color file "${colorPart}" is version ${colorVersion} and the line art "${linePart}" is version ${lineVersion} of the row ${rowId}; the two files need the same N`);
+    }
+    if (colorVersion !== Number(selectedVersion)) {
+        throw new Error(`picture batch: the files "${colorPart}" and "${linePart}" of the row ${rowId} are version ${colorVersion}; the job selected version ${String(selectedVersion)}, so N must equal the selected version`);
+    }
+}
 
 /** A required field of the row; the check names the missing field. */
 function requireString(value: unknown, name: string): string {
@@ -281,6 +339,23 @@ function checkLine(facts: PictureFacts, size: { width: number; height: number },
 }
 
 /**
+ * The manifest facts of one file (FR-9): the declared pixel size and SHA-256 agree with the file.
+ * @param entry The manifest entry or the Forge entry of the file.
+ * @param facts The measured facts of the file.
+ * @param file The file on disk.
+ * @throws Error When the declared pixel size or SHA-256 is not the file fact.
+ */
+function checkEntryFacts(entry: { fileName: string; sha256: string; pixelSize: { width: number; height: number } }, facts: PictureFacts, file: string): void {
+    const declared = entry.pixelSize;
+    if (!declared || declared.width !== facts.width || declared.height !== facts.height) {
+        throw new Error(`picture check: the manifest pixel size of ${entry.fileName} is not the file size ${facts.width} × ${facts.height}`);
+    }
+    if (String(entry.sha256).toLowerCase() !== sha256Of(file)) {
+        throw new Error(`picture check: the manifest SHA-256 of ${entry.fileName} is not the file hash`);
+    }
+}
+
+/**
  * Stage 1 of the picture stages (spec FR-9, strategy 5.1): measures the two outputs of one
  * picture-list row and compares them with the row and with the Forge manifest.
  * @param colorFile The color PNG file on disk.
@@ -328,18 +403,8 @@ export async function checkStorytimePicture(
     checkColor(colorFacts, size, fileName);
     const grayPixelFraction = checkLine(lineFacts, size, lineArtFileName, threshold);
     // The manifest must agree with the files it describes: the pixel size and the SHA-256.
-    for (const [entry, facts, file] of [
-        [colorEntry, colorFacts, colorFile],
-        [lineEntry, lineFacts, lineFile],
-    ] as const) {
-        const declared = entry.pixelSize;
-        if (!declared || declared.width !== facts.width || declared.height !== facts.height) {
-            throw new Error(`picture check: the manifest pixel size of ${entry.fileName} is not the file size ${facts.width} × ${facts.height}`);
-        }
-        if (String(entry.sha256).toLowerCase() !== sha256Of(file)) {
-            throw new Error(`picture check: the manifest SHA-256 of ${entry.fileName} is not the file hash`);
-        }
-    }
+    checkEntryFacts(colorEntry, colorFacts, colorFile);
+    checkEntryFacts(lineEntry, lineFacts, lineFile);
     return {
         color: { fileName, width: colorFacts.width, height: colorFacts.height },
         line: { fileName: lineArtFileName, width: lineFacts.width, height: lineFacts.height },
@@ -368,6 +433,29 @@ function forgePixelSize(node: Record<string, unknown>, message: string): { width
 }
 
 /**
+ * The single Forge job of one picture-list row (spec FR-9, PM option A of 2026-11-02). A job
+ * matches the row when its `id` equals the row id. Two or more jobs with the same id make the row
+ * fail, because the first match would otherwise let the manifest order decide.
+ * @param manifest The Forge manifest object.
+ * @param rowId The picture-list row id.
+ * @returns The one job of the row.
+ * @throws Error When the manifest holds no jobs list, no job for the row, or more than one job
+ *   with the row id.
+ */
+function forgeJobForRow(manifest: unknown, rowId: string): Record<string, unknown> {
+    const jobs = requireObject(manifest, `forge manifest: the manifest is not an object (row ${rowId})`).jobs;
+    if (!Array.isArray(jobs)) throw new Error(`forge manifest: the manifest holds no jobs list (row ${rowId})`);
+    const matches = (jobs as unknown[])
+        .map((entry) => requireObject(entry, `forge manifest: a job is not an object (row ${rowId})`))
+        .filter((entry) => entry.id === rowId);
+    if (!matches.length) throw new Error(`forge manifest: the manifest holds no job for the row ${rowId}`);
+    if (matches.length > 1) {
+        throw new Error(`forge manifest: the manifest holds ${matches.length} jobs for the row ${rowId}; a duplicate row id fails the row`);
+    }
+    return matches[0];
+}
+
+/**
  * Adapts one job of the Forge `manifest.json` to the two entries that stage 1 reads (spec FR-9,
  * C-P4-1): the color file and the line-art file of the selected candidate, each with the row id
  * that Forge keys the job on. Forge writes `manifest.json` as one object with `jobs` and
@@ -375,21 +463,18 @@ function forgePixelSize(node: Record<string, unknown>, message: string): { width
  * read the file directly.
  *
  * Only a ready job with a selected version and a ready candidate and line art give the two
- * files. A `pending` or `failed` job throws, because its files are not the final output.
+ * files. A `pending` or `failed` job throws, because its files are not the final output. Two or
+ * more jobs with the row id throw, because the row needs one job (PM option A, 2026-11-02).
  * @param manifest The Forge manifest object.
  * @param row The picture-list row; its `id` selects the job.
  * @returns The color entry, then the line-art entry.
- * @throws Error When the manifest holds no job for the row, the job or its candidate is not
- *   ready, the job holds no selected version, or a file fact is missing.
+ * @throws Error When the manifest holds no job for the row, more than one job with the row id,
+ *   the job or its candidate is not ready, the job holds no selected version, or a file fact is
+ *   missing.
  */
 export function forgeManifestEntriesForRow(manifest: unknown, row: unknown): StorytimeForgePictureEntry[] {
     const rowId = requireString(requireObject(row, 'picture check: the row is not an object').id, 'row id');
-    const jobs = requireObject(manifest, `forge manifest: the manifest is not an object (row ${rowId})`).jobs;
-    if (!Array.isArray(jobs)) throw new Error(`forge manifest: the manifest holds no jobs list (row ${rowId})`);
-    const job = (jobs as unknown[])
-        .map((entry) => requireObject(entry, `forge manifest: a job is not an object (row ${rowId})`))
-        .find((entry) => entry.id === rowId);
-    if (!job) throw new Error(`forge manifest: the manifest holds no job for the row ${rowId}`);
+    const job = forgeJobForRow(manifest, rowId);
     const status = String(job.status ?? '');
     if (status !== 'ready') {
         throw new Error(`forge manifest: the job ${rowId} has status "${status || 'unknown'}"; only a ready job gives a picture`);
@@ -464,10 +549,12 @@ function realPathOfDeepest(start: string): string {
 
 /**
  * The absolute path of one batch file, or a throw when the path leaves the batch root. The
- * delivery contract (PM, 2026-11-01) allows a free folder prefix inside the batch root only: a
- * `../` path, an absolute path, and a symbolic link out of the root each fail their row. The
- * first test is a `path.resolve` comparison with the batch root; the second test follows the
- * real path of the deepest existing entry, so a link out of the root shows.
+ * delivery contract (PM, 2026-11-01) allows a free folder prefix inside the batch root only, so
+ * the path may be relative or absolute as long as it stays inside the root: an absolute path
+ * inside the batch root passes, and a `../` path, an absolute path outside the root, and a
+ * symbolic link out of the root each fail their row. The first test is a `path.resolve`
+ * comparison with the batch root; the second test follows the real path of the deepest existing
+ * entry, so a link out of the root shows.
  * @param batchFolder The batch root.
  * @param relative The manifest path of one file.
  * @param rowId The picture-list row id, for the message.
@@ -494,27 +581,45 @@ function batchFileOf(batchFolder: string, relative: string, rowId: string): stri
 }
 
 /**
- * Stage 1 of the picture stages for a whole Forge batch (spec FR-9, strategy 5.1, C-P4-1): reads
- * `<batchFolder>/manifest.json`, adapts each row of the request, and measures the two files of
- * each row. One result comes back for every requested row, in the request order, so that a failed
+ * Stage 1 of the picture stages for a whole Forge batch (spec FR-9, strategy 5.1, C-P4-1, PM
+ * option A of 2026-11-02): reads `<batchFolder>/manifest.json`, selects the job of each row by the
+ * row id, and measures the two files of that job. The check never reads the version of the
+ * picture-list file name, so a row that Forge redid under a new version N passes with its own
+ * files. One result comes back for every requested row, in the request order, so that a failed
  * row never stops the rows after it. A manifest path may carry a free folder prefix inside the
  * batch root (delivery contract, PM, 2026-11-01); a path that resolves outside the root fails its
  * row with a reason that names the path.
- * @param rows The picture-list rows to check; each row id selects its Forge job.
+ * @param rows The picture-list rows to check; each row id selects its Forge job. The request needs
+ *   at least one row.
  * @param batchFolder The folder that holds `manifest.json` and the picture files.
  * @returns One result for each row, and 0 or 1 as the exit code of a command.
- * @throws Error When the batch folder holds no `manifest.json`, or the file does not parse.
+ * @throws Error When the batch folder holds no `manifest.json`, the file does not parse, or the
+ *   row request is empty.
  */
 export async function checkStorytimePictureBatch(rows: unknown[], batchFolder: string): Promise<StorytimePictureBatchReport> {
+    if (!Array.isArray(rows) || rows.length === 0) {
+        throw new Error('picture batch: the row request is empty; an empty request would report a pass for no row (rule 11.1, ADV-P4-3)');
+    }
     const manifest = readStorytimePictureManifest(batchFolder);
     const results: StorytimePictureBatchResult[] = [];
     for (const row of rows) {
         const rowId = typeof (row as { id?: unknown } | null)?.id === 'string' ? String((row as { id: string }).id) : '';
         try {
+            const fields = requireObject(row, 'picture check: the row is not an object');
             const entries = forgeManifestEntriesForRow(manifest, row);
+            const job = forgeJobForRow(manifest, rowId);
+            checkNameForm(entries, fields, rowId, job.selectedVersion);
+            const size = requireSize(fields);
             const colorFile = batchFileOf(batchFolder, entries[0].fileName, rowId);
             const lineFile = batchFileOf(batchFolder, entries[1].fileName, rowId);
-            await checkStorytimePicture(colorFile, lineFile, entries, row);
+            const colorName = filePart(entries[0].fileName);
+            const lineName = filePart(entries[1].fileName);
+            const colorFacts = await measure(colorFile);
+            const lineFacts = await measure(lineFile);
+            checkColor(colorFacts, size, colorName);
+            checkLine(lineFacts, size, lineName, DEFAULT_GRAY_PIXEL_THRESHOLD);
+            checkEntryFacts(entries[0], colorFacts, colorFile);
+            checkEntryFacts(entries[1], lineFacts, lineFile);
             results.push({ rowId, status: 'pass' });
         } catch (e) {
             results.push({ rowId, status: 'fail', reason: e instanceof Error ? e.message : String(e) });
