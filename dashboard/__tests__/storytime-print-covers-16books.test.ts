@@ -9,7 +9,7 @@ import { PAGE_RATIO, composeSide } from '../lib/covers/compose';
 import { coverBook } from '../lib/covers/catalogue';
 import { pageImages, parsePdffonts, parsePdfimages, parsePdfinfo } from '../lib/print/pdfx';
 import { generateQRCode } from '../lib/qr-generator';
-import { STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph, storytimeWeekFile } from '../lib/storytime/files';
+import { PHONICS_GRAPH_FILE, STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph, storytimeWeekFile } from '../lib/storytime/files';
 import { programWeek, wordNeed, type PhonicsGraph } from '../lib/storytime/phonics';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 
@@ -192,6 +192,34 @@ function readBooksFile(): StorytimeCoverData {
 function weekFile(level: number, week: number): StorytimeWeek {
     const file = storytimeWeekFile(STORYTIME_ROOT, level, week);
     return StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
+}
+
+/**
+ * A temporary repository root that holds the D12 draft case (rule 11.1). The copy holds the
+ * shipped Level 2 weeks with `approval.text` of weeks 2 to 8 forced to the draft record, a
+ * symbolic link to the shipped Level 2 media, and a symbolic link to the logo file. The build
+ * script reads the copy through the `WORKBOOKS_ROOT` environment variable, and the
+ * `MASTERY_PHONICS_GRAPH` variable keeps the shipped phonics graph. Daniel approved the weeks
+ * 2 to 8 text on 2026-11-01, so a D12 proof must not read the shipped approval state.
+ * @returns The environment of a script run that reads the copy.
+ */
+function draftWeeksEnv(): Record<string, string> {
+    fs.mkdirSync('/tmp/opencode', { recursive: true });
+    const root = fs.mkdtempSync('/tmp/opencode/storytime-covers-d12-');
+    temporaryFolders.push(root);
+    const levelDir = path.join(root, 'content', 'storytime', 'l2');
+    fs.mkdirSync(levelDir, { recursive: true });
+    for (let week = 1; week <= 8; week++) {
+        const source = storytimeWeekFile(STORYTIME_ROOT, 2, week);
+        const copy = JSON.parse(fs.readFileSync(source, 'utf8')) as StorytimeWeek;
+        if (week >= 2) copy.approval.text = { status: 'draft' };
+        fs.writeFileSync(path.join(levelDir, path.basename(source)), JSON.stringify(copy));
+    }
+    fs.symlinkSync(path.join(STORYTIME_ROOT, 'l2', 'media'), path.join(levelDir, 'media'));
+    const logoDir = path.join(root, 'Teacher guide');
+    fs.mkdirSync(logoDir, { recursive: true });
+    fs.symlinkSync(path.join(repoRoot, 'Teacher guide', 'reading-advantage logo.png'), path.join(logoDir, 'reading-advantage logo.png'));
+    return { WORKBOOKS_ROOT: root, MASTERY_PHONICS_GRAPH: PHONICS_GRAPH_FILE };
 }
 
 function bookOf(data: StorytimeCoverData, level: number, unit: number): StorytimeCoverBook {
@@ -784,15 +812,18 @@ describe('Storytime 16-book covers', () => {
     it('R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs', async () => {
         requireScript();
         const data = readBooksFile();
+        // The draft case lives in a temporary copy (rule 11.1). Daniel approved the weeks 2 to 8
+        // text on 2026-11-01, so the D12 proof must not read the shipped approval state.
+        const draftEnv = draftWeeksEnv();
         const out = temporaryFolder();
-        const mock = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--data', booksFile]);
+        const mock = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--data', booksFile], draftEnv);
         expect(mock.status, 'The v3 mock build exits successfully.').toBe(0);
         const reportFile = path.join(out, 'build-report.json');
         expect(fs.existsSync(reportFile), 'The v3 build report exists.').toBe(true);
         const report = fs.readFileSync(reportFile, 'utf8');
-        expect(report, 'The build report identifies draft source weeks.').toMatch(/draft/i);
+        expect(report, 'The build report identifies the draft weeks of the copy.').toMatch(/draft/i);
         const printOut = temporaryFolder();
-        const print = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', printOut, '--print', '--data', booksFile]);
+        const print = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', printOut, '--print', '--data', booksFile], draftEnv);
         expect(print.status, 'The print build rejects draft-only field data.').not.toBe(0);
         expect(print.output, 'The print error names the book and field.').toMatch(/Level 2 Unit 1.*(sounds|decodable|sight|books)|(sounds|decodable|sight|books).*Level 2 Unit 1/i);
         expect(fs.readdirSync(printOut), 'The rejected print build writes no deliverable.').toEqual([]);
@@ -981,7 +1012,9 @@ describe('Storytime 16-book covers', () => {
         expect(v3, 'The v3 folder differs from the v1 folder.').not.toBe(v1);
         expect(v3, 'The v3 folder differs from the v2 folder.').not.toBe(v2);
         const out = temporaryFolder();
-        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--print', '--data', booksFile]);
+        // The draft case lives in a temporary copy (rule 11.1), because Daniel approved the
+        // weeks 2 to 8 text on 2026-11-01 and the shipped weeks no longer prove the D12 stop.
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--print', '--data', booksFile], draftWeeksEnv());
         expect(result.status, 'A print build cannot use draft-week values (M21).').not.toBe(0);
         expect(result.output, 'The print build names a rejected draft source.').toMatch(/draft|approved/i);
         expect(fs.readdirSync(out), 'A rejected print build writes no files.').toEqual([]);
@@ -1028,6 +1061,20 @@ describe('Storytime 16-book covers', () => {
         expect(fs.readFileSync(path.join(out, 'front.png'), 'utf8'), 'The seed file stays unchanged.').toBe(seed);
         expect(fs.readdirSync(out).sort(), 'The stopped build writes no file.').toEqual(['front.png']);
     }, 360000);
+
+    it('R30: the shipped weeks 2 to 8 record the owner approval of the text (Daniel, 2026-11-01)', () => {
+        // Daniel approved the weeks 2 to 8 English text on 2026-11-01. His exact words:
+        // "3. Covers: Approved" (owner answer relayed by the PM session). The print file of the
+        // covers Phase 2 accepts approved sources only (D12, spec FR-1a.7), so the shipped week
+        // files must carry the approval record in the shape of the week 1 record.
+        for (let week = 2; week <= 8; week++) {
+            const text = weekFile(2, week).approval.text;
+            expect(text.status, `Week ${week}: the text part records the owner approval.`).toBe('approved');
+            expect(text.date, `Week ${week}: the text approval date is the owner answer date.`).toBe('2026-11-01');
+            expect(text.words, `Week ${week}: the text record holds the exact owner words.`).toBe('3. Covers: Approved');
+            expect(text.source ?? '', `Week ${week}: the text source names the PM relay.`).toMatch(/relayed by the PM session/);
+        }
+    });
 
     it('R6: the copy check reads page text and fails a bypass, including a line with never', async () => {
         const mod = await covers('checkStorytimeCoverCopy');

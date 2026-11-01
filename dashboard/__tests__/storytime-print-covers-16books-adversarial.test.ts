@@ -91,6 +91,24 @@ function copyLevel2Weeks(): string {
     return tempRoot;
 }
 
+/**
+ * Copies the shipped Level 2 weeks and forces `approval.text` of weeks 2 to 8 to the draft
+ * record (rule 11.1). Daniel approved the weeks 2 to 8 text on 2026-11-01, so a D12 proof must
+ * build its draft case in a copy instead of reading the shipped approval state. The copy keeps
+ * the approved week 1 record as it ships.
+ * @returns The temporary root holding l2/w01.json to w08.json; only week 1 is approved.
+ */
+function copyLevel2WeeksDraftAfterFirst(): string {
+    const tempRoot = copyLevel2Weeks();
+    for (let week = 2; week <= 8; week++) {
+        const file = path.join(tempRoot, 'l2', path.basename(storytimeWeekFile(STORYTIME_ROOT, 2, week)));
+        const copy = JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimeWeek;
+        copy.approval.text = { status: 'draft' };
+        fs.writeFileSync(file, JSON.stringify(copy));
+    }
+    return tempRoot;
+}
+
 function panelValue(values: StorytimeCoverPanelValue[], field: StorytimeCoverPanelValue['field']): StorytimeCoverPanelValue {
     const found = values.find((entry) => entry.field === field);
     expect(found, `The panel values must hold the field ${field}.`).toBeDefined();
@@ -136,10 +154,13 @@ describe('Storytime covers adversarial Phase 1', () => {
         const data = loadStorytimeCoverBooks();
         const book = data.books.find((row) => row.level === 2 && row.unit === 1);
         expect(book, 'Row Level 2 Unit 1.').toBeDefined();
-        const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+        // The draft case lives in a temporary copy (rule 11.1). Daniel approved the weeks 2 to 8
+        // text on 2026-11-01, so the D12 proof must not read the shipped approval state.
+        const tempRoot = copyLevel2WeeksDraftAfterFirst();
+        const weeks = readLevelWeeks(tempRoot, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
         const approved = weeks.filter((week) => week.approval.text.status === 'approved');
-        expect(approved.length, 'At least one approved week ships.').toBeGreaterThan(0);
-        expect(approved.length, 'Draft weeks ship beside the approved week.').toBeLessThan(weeks.length);
+        expect(approved.length, 'The copy keeps the approved week 1.').toBeGreaterThan(0);
+        expect(approved.length, 'The copy holds draft weeks beside the approved week.').toBeLessThan(weeks.length);
         const graph = readPhonicsGraph();
         expect(graph, 'The shipped phonics graph must be readable (rule 11.3).').toBeDefined();
         const full = storytimeCoverPanelValues(book!, { weeks, graph: graph! });
@@ -149,7 +170,7 @@ describe('Storytime covers adversarial Phase 1', () => {
         const fullBooks = panelValue(full, 'books').items;
         const printBooks = panelValue(print, 'books').items;
         for (const title of printBooks) expect(fullBooks, `The approved title "${title}" is in the mock list.`).toContain(title);
-        expect(fullBooks.length, 'Draft weeks add reader titles that the print context never sees.').toBeGreaterThan(printBooks.length);
+        expect(fullBooks.length, 'The draft weeks of the copy add reader titles that the print context never sees.').toBeGreaterThan(printBooks.length);
         const fullSounds = panelValue(full, 'sounds').items;
         for (const sound of panelValue(print, 'sounds').items) expect(fullSounds, `The approved sound "${sound}" is in the mock list.`).toContain(sound);
         const occurrences: string[] = [];
@@ -167,7 +188,7 @@ describe('Storytime covers adversarial Phase 1', () => {
             byKey.get(key)!.add(/^[A-Z]/.test(word) ? 'upper' : 'lower');
         }
         const mixed = [...byKey.entries()].filter(([, cases]) => cases.has('upper') && cases.has('lower')).map(([key]) => key);
-        expect(mixed.length, 'The shipped sources hold at least one word in both cases, so D11.5a is exercised.').toBeGreaterThan(0);
+        expect(mixed.length, 'The copied sources hold at least one word in both cases, so D11.5a is exercised.').toBeGreaterThan(0);
         const shown = [...panelValue(full, 'decodable').items, ...panelValue(full, 'sight').items];
         for (const key of mixed) {
             const display = shown.find((item) => item.toLowerCase() === key);
@@ -277,15 +298,18 @@ describe('Storytime covers adversarial Phase 1', () => {
         const data = loadStorytimeCoverBooks();
         const book = data.books.find((row) => row.level === 2 && row.unit === 1);
         expect(book, 'Row Level 2 Unit 1.').toBeDefined();
-        const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+        // The draft case lives in a temporary copy (rule 11.1): week 1 keeps its approved record,
+        // weeks 2 to 8 are draft, whatever the shipped approval state is (Daniel, 2026-11-01).
+        const tempRoot = copyLevel2WeeksDraftAfterFirst();
+        const weeks = readLevelWeeks(tempRoot, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
         const approved = weeks.filter((week) => week.approval.text.status === 'approved');
         const graph = readPhonicsGraph();
         expect(graph, 'The shipped phonics graph must be readable (rule 11.3).').toBeDefined();
         const full = storytimeCoverPanelValues(book!, { weeks, graph: graph! });
         const print = storytimeCoverPanelValues(book!, { weeks: approved, graph: graph! });
         const missing = print.filter((entry) => !entry.value.trim()).map((entry) => entry.field);
-        expect(missing.length, 'The print context still lacks a draft-only field today, so the D12 stop fires first.').toBeGreaterThan(0);
+        expect(missing.length, 'The print context of the copy lacks a draft-only field, so the D12 stop fires first.').toBeGreaterThan(0);
         const extra = panelValue(full, 'sounds').items.filter((sound) => !panelValue(print, 'sounds').items.includes(sound));
-        expect(extra.length, 'Draft weeks add sounds beyond the approved week.').toBeGreaterThan(0);
+        expect(extra.length, 'The draft weeks of the copy add sounds beyond the approved week.').toBeGreaterThan(0);
     });
 });

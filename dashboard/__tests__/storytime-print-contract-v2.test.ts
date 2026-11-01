@@ -259,7 +259,7 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         expect(approval.scripts, 'Record (b) of P14 for the scripts part.').toEqual(expected);
     });
 
-    it('keeps the other parts draft in all eight weeks', () => {
+    it('keeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text', () => {
         const first = parsed(shipped(1)).approval;
         expect(first.images, 'Week 1: images stay draft (record (c) of P14).').toEqual({ status: 'draft' });
         expect(first.audio, 'Week 1: audio stays draft.').toEqual({ status: 'draft' });
@@ -268,8 +268,15 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
             const approval = parsed(shipped(week)).approval;
             expect(approval.print, `Week ${week}: the print part stays draft.`).toEqual({ status: 'draft' });
             if (week === 1) continue;
+            // Daniel approved the weeks 2 to 8 English text on 2026-11-01. His exact words:
+            // "3. Covers: Approved" (owner answer relayed by the PM session, covers Phase 2).
+            const text = approval.text;
+            expect(text.status, `Week ${week}: the text part records the owner approval.`).toBe('approved');
+            expect(text.date, `Week ${week}: the text approval date is the owner answer date.`).toBe('2026-11-01');
+            expect(text.words, `Week ${week}: the text record holds the exact owner words.`).toBe('3. Covers: Approved');
+            expect(text.source ?? '', `Week ${week}: the text source names the PM relay.`).toMatch(/relayed by the PM session/);
             for (const part of APP_PARTS) {
-                if (part === 'thai') continue;
+                if (part === 'thai' || part === 'text') continue;
                 expect(approval[part], `Week ${week}: ${part} stays draft.`).toEqual({ status: 'draft' });
             }
         }
