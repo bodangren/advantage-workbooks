@@ -587,4 +587,185 @@ describe('Storytime two-output picture check', () => {
         expect(execFileSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--help'], { encoding: 'utf8' }))
             .toContain('check-storytime-pictures.ts');
     }, 30_000);
+
+    /** One shipped week 1 picture row: the row id, the flat list names, and the pixel size. */
+    type Week1Row = { id: string; fileName: string; lineArtFileName: string; width: number; height: number; week: number };
+
+    /**
+     * The 30 shipped week 1 rows of `content/storytime/l2/print/pictures.json`. The delivery
+     * contract (PM, 2026-11-01) pins the naming: each row id gives the color name
+     * `<id>-v1.png` and the line-art name `<id>-line-v1.png`.
+     * @returns The week 1 rows in list order.
+     */
+    function week1Rows(): Week1Row[] {
+        const source = path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures.json');
+        const rows = JSON.parse(fs.readFileSync(source, 'utf8')) as Week1Row[];
+        return rows.filter((row) => row.week === 1);
+    }
+
+    /**
+     * Writes `manifest.json` for rows whose two files sit at `w01/rows/<name>` under the batch
+     * root. The jobs follow the delivery contract (PM, 2026-11-01): `job.id` is the picture-list
+     * row id, `candidate.file` is `w01/rows/<row id>-v1.png`, and `lineArt.file` is
+     * `w01/rows/<row id>-line-v1.png`. The files must exist under the batch root.
+     * @param batchRoot The batch folder; it holds `manifest.json` and `w01/rows/`.
+     * @param rows The picture-list rows the manifest holds.
+     */
+    function writeRowManifest(batchRoot: string, rows: Week1Row[]): void {
+        const rowsFolder = path.join(batchRoot, 'w01', 'rows');
+        const jobs = rows.map((row) => forgeJobFixture({
+            id: row.id, week: 1, bookKind: 'readalong', page: 1,
+            colorFile: `w01/rows/${row.fileName}`, colorSha256: hashOf(path.join(rowsFolder, row.fileName)),
+            lineFile: `w01/rows/${row.lineArtFileName}`, lineSha256: hashOf(path.join(rowsFolder, row.lineArtFileName)),
+            width: row.width, height: row.height,
+        }));
+        fs.writeFileSync(path.join(batchRoot, 'manifest.json'), JSON.stringify(forgeManifestOf(jobs)));
+    }
+
+    /** The one realistic week 1 batch of this test run, built once and shared by the cases. */
+    let week1BatchDir: Promise<string> | undefined;
+
+    /**
+     * Builds the realistic week 1 batch (finding 3): every shipped row gets a synthetic color PNG
+     * (8-bit sRGB) and a synthetic 1-bit line-art PNG at the row size, all under `w01/rows/`, and
+     * one `manifest.json` at the batch root holds all 30 rows.
+     * @returns The batch folder.
+     */
+    function week1Batch(): Promise<string> {
+        week1BatchDir ??= (async () => {
+            const sharp = (await import('sharp')).default;
+            const dir = temp();
+            const rowsFolder = path.join(dir, 'w01', 'rows');
+            fs.mkdirSync(rowsFolder, { recursive: true });
+            const rows = week1Rows();
+            for (const row of rows) {
+                await sharp({ create: { width: row.width, height: row.height, channels: 3, background: '#3b6ea5' } }).png().toFile(path.join(rowsFolder, row.fileName));
+                writeGray1LinePng(path.join(rowsFolder, row.lineArtFileName), row.width, row.height);
+            }
+            writeRowManifest(dir, rows);
+            return dir;
+        })();
+        return week1BatchDir;
+    }
+
+    it('R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix', async () => {
+        // Delivery contract (PM, 2026-11-01): Forge writes one `manifest.json` at the batch root,
+        // `job.id` is the picture-list row id, and `candidate.file` and `lineArt.file` carry a
+        // free folder prefix (C-P4-8). The check must match the row by the file name part and
+        // read the file at its relative path under the batch root.
+        const api = await pictureCheck();
+        const rows = week1Rows();
+        expect(rows, 'the shipped list holds 30 week 1 rows').toHaveLength(30);
+        for (const row of rows) {
+            expect(row.fileName, `${row.id} color name follows <id>-v1.png`).toBe(`${row.id}-v1.png`);
+            expect(row.lineArtFileName, `${row.id} line name follows <id>-line-v1.png`).toBe(`${row.id}-line-v1.png`);
+        }
+        const dir = await week1Batch();
+        const report = await api.checkStorytimePictureBatch(rows, dir);
+        const failed = report.results.filter((entry) => entry.status === 'fail');
+        expect(failed.map((entry) => `${entry.rowId}: ${entry.reason ?? ''}`).join('; '), 'every week 1 row passes with the folder prefix').toBe('');
+        expect(report.exitCode, 'a fully delivered batch gives exit code 0').toBe(0);
+    }, 300_000);
+
+    it('R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest', async () => {
+        // The Forge manifest holds only the clean rows (delivery contract, PM, 2026-11-01). The
+        // rows it does not hold must each fail with a reason that says the row is not in the
+        // manifest, and the rows it holds must pass (findings 1 and 3).
+        const api = await pictureCheck();
+        const full = await week1Batch();
+        const rows = week1Rows();
+        const present = rows.slice(0, 3);
+        const dir = temp();
+        const rowsFolder = path.join(dir, 'w01', 'rows');
+        fs.mkdirSync(rowsFolder, { recursive: true });
+        for (const row of present) {
+            fs.copyFileSync(path.join(full, 'w01', 'rows', row.fileName), path.join(rowsFolder, row.fileName));
+            fs.copyFileSync(path.join(full, 'w01', 'rows', row.lineArtFileName), path.join(rowsFolder, row.lineArtFileName));
+        }
+        writeRowManifest(dir, present);
+        const report = await api.checkStorytimePictureBatch(rows, dir);
+        expect(report.results, 'one result for each requested row').toHaveLength(30);
+        expect(report.exitCode, 'an incomplete batch gives exit code 1').toBe(1);
+        expect(report.results.slice(0, 3).map((entry) => entry.status), 'the present rows pass').toEqual(['pass', 'pass', 'pass']);
+        for (const entry of report.results.slice(3)) {
+            expect(entry.status, entry.rowId).toBe('fail');
+            expect(entry.reason ?? '', `the reason of ${entry.rowId} says the row is not in the manifest`).toMatch(/manifest/i);
+            expect(entry.reason ?? '', `the reason of ${entry.rowId} names the row`).toContain(entry.rowId);
+        }
+    }, 300_000);
+
+    it('R-P4-20 fails a row whose manifest path resolves outside the batch root', async () => {
+        // The folder prefix is free only inside the batch root (delivery contract, PM, 2026-11-01):
+        // a `../` path and an absolute path each fail their row (finding 2). The reason of the
+        // `../` row must name the path problem, so the operator sees the escape.
+        const api = await pictureCheck();
+        const full = await week1Batch();
+        const [escapeRow, absoluteRow] = week1Rows();
+        const parent = temp();
+        const dir = path.join(parent, 'batch');
+        const outside = path.join(parent, 'x');
+        const absoluteFolder = temp();
+        fs.mkdirSync(dir, { recursive: true });
+        fs.mkdirSync(outside, { recursive: true });
+        const copies: Array<[Week1Row, string]> = [[escapeRow, outside], [absoluteRow, absoluteFolder]];
+        for (const [row, target] of copies) {
+            fs.copyFileSync(path.join(full, 'w01', 'rows', row.fileName), path.join(target, row.fileName));
+            fs.copyFileSync(path.join(full, 'w01', 'rows', row.lineArtFileName), path.join(target, row.lineArtFileName));
+        }
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify(forgeManifestOf([
+            forgeJobFixture({
+                id: escapeRow.id, week: 1, bookKind: 'readalong', page: 1,
+                colorFile: `../x/${escapeRow.fileName}`, colorSha256: hashOf(path.join(outside, escapeRow.fileName)),
+                lineFile: `../x/${escapeRow.lineArtFileName}`, lineSha256: hashOf(path.join(outside, escapeRow.lineArtFileName)),
+                width: escapeRow.width, height: escapeRow.height,
+            }),
+            forgeJobFixture({
+                id: absoluteRow.id, week: 1, bookKind: 'readalong', page: 1,
+                colorFile: path.join(absoluteFolder, absoluteRow.fileName), colorSha256: hashOf(path.join(absoluteFolder, absoluteRow.fileName)),
+                lineFile: path.join(absoluteFolder, absoluteRow.lineArtFileName), lineSha256: hashOf(path.join(absoluteFolder, absoluteRow.lineArtFileName)),
+                width: absoluteRow.width, height: absoluteRow.height,
+            }),
+        ])));
+        const report = await api.checkStorytimePictureBatch([escapeRow, absoluteRow], dir);
+        expect(report.exitCode, 'an outside path fails the batch').toBe(1);
+        expect(report.results.map((entry) => entry.rowId)).toEqual([escapeRow.id, absoluteRow.id]);
+        const escaped = report.results[0];
+        expect(escaped.status, escaped.reason ?? '').toBe('fail');
+        expect(escaped.reason ?? '', 'the reason names the path that resolves outside the batch root').toMatch(/outside|escape|batch|invalid|not allowed/i);
+        expect(report.results[1].status, `the absolute path fails its row: ${report.results[1].reason ?? ''}`).toBe('fail');
+    }, 300_000);
+
+    it('R-P4-21 reports an unloaded week and a duplicate week like the readers CLI', async () => {
+        // C-P4-9: `--weeks 1,30` must not pass silently. The batch CLI mirrors the `--weeks`
+        // contract of `make-readers-pdf.ts`: `checkRequestedWeeks` fails a week that the level
+        // does not load and a duplicate week, with exit code 1 and one message on stderr.
+        const dir = await week1Batch();
+        const { spawnSync } = await import('node:child_process');
+        const runCli = (weeks: string) => spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', weeks], { encoding: 'utf8', timeout: 240_000 });
+        const unloaded = runCli('1,30');
+        const unloadedOut = `${unloaded.stdout}\n${unloaded.stderr}`;
+        expect(unloaded.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(unloaded.status, `the run exits 1 for week 30: ${unloadedOut}`).toBe(1);
+        expect(unloadedOut, 'the run names the week that the level does not load, like make-readers-pdf.ts').toContain('requested week 30 is not loaded exactly once');
+        expect(unloadedOut, 'the run reports no pass for a week it never checked').not.toMatch(/\d+ of \d+ rows pass/);
+        const duplicate = runCli('1,1');
+        const duplicateOut = `${duplicate.stdout}\n${duplicate.stderr}`;
+        expect(duplicate.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(duplicate.status, `the run exits 1 for a duplicate week: ${duplicateOut}`).toBe(1);
+        expect(duplicateOut, 'the run rejects the duplicate week').toMatch(/duplicate/i);
+    }, 300_000);
+
+    it('R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text', async () => {
+        // C-P4-10: a broken `manifest.json` is a batch problem of the same class as a missing one,
+        // so the CLI gives exit code 2, and the usage text names that case.
+        const dir = temp();
+        fs.writeFileSync(path.join(dir, 'manifest.json'), '{ "jobs": [');
+        const { spawnSync } = await import('node:child_process');
+        const run = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', '1'], { encoding: 'utf8', timeout: 120_000 });
+        const out = `${run.stdout}\n${run.stderr}`;
+        expect(run.status, `the run exits 2 on a manifest that does not parse: ${out}`).toBe(2);
+        expect(out, 'the error names the broken manifest').toMatch(/does not parse/i);
+        const help = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--help'], { encoding: 'utf8', timeout: 120_000 });
+        expect(`${help.stdout}\n${help.stderr}`, 'the usage text names a manifest.json that does not parse').toContain('does not parse');
+    }, 120_000);
 });
