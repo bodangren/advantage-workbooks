@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_QR_HOST, STORYTIME_ROOT, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
+import { jobsFor, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /**
  * Phase 2 contract. Imports stay inside test bodies so missing modules preserve collection.
@@ -124,6 +125,54 @@ async function render(week = shipped(), selectedProfile?: PrintProfile, mode: 'p
     const doc = new DOMParser().parseFromString(html, 'text/html');
     expect(doc.querySelectorAll('.student-page').length, 'Render physical page sides.').toBeGreaterThan(0);
     return { html, doc };
+}
+
+/**
+ * Builds a final-mode student book in a temporary repository. `WORKBOOKS_ROOT` points at the
+ * repository and the module registry is fresh, so that `STORYTIME_ROOT` and the picture folder of
+ * the level lie in the temporary repository. The environment and the registry return afterwards.
+ * @param repo The temporary repository root.
+ * @param week The week to build.
+ * @returns The HTML and its document.
+ */
+async function renderFinalIn(repo: string, week = shipped()): Promise<{ html: string; doc: Document }> {
+    const saved = process.env.WORKBOOKS_ROOT;
+    process.env.WORKBOOKS_ROOT = repo;
+    vi.resetModules();
+    try {
+        const exports = await import(studentModule) as StudentModule;
+        const { STORYTIME_PRINT_PROFILE } = await import(profileModule) as { STORYTIME_PRINT_PROFILE: PrintProfile };
+        const { html } = await exports.compileStorytimeStudentBook([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final' });
+        return { html, doc: new DOMParser().parseFromString(html, 'text/html') };
+    } finally {
+        if (saved === undefined) delete process.env.WORKBOOKS_ROOT;
+        else process.env.WORKBOOKS_ROOT = saved;
+        vi.resetModules();
+    }
+}
+
+/** The message of a final student-book build that stops; an empty text means that the build did not stop. */
+async function finalBuildError(repo: string, week = shipped()): Promise<string> {
+    try {
+        await renderFinalIn(repo, week);
+        return '';
+    } catch (e) {
+        return e instanceof Error ? e.message : String(e);
+    }
+}
+
+/** A temporary repository with an empty level 2 picture folder (Red 4g: final mode reads the folder through its manifest.json). */
+function finalRepo(): { repo: string; pictures: string } {
+    const repo = temporaryFolder();
+    const pictures = path.join(repo, 'content', 'storytime', 'l2', 'print', 'pictures');
+    fs.mkdirSync(pictures, { recursive: true });
+    return { repo, pictures };
+}
+
+/** The picture-list row ids that a final student book of the week requests. */
+async function weekRowIds(week = shipped()): Promise<string[]> {
+    const { storytimePrintPictures } = await import('../lib/storytime/print/pictures');
+    return storytimePrintPictures([week]).map((row) => row.id);
 }
 
 function pages(doc: Document): Element[] {
@@ -984,22 +1033,16 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const mark = 'QR target answers after the deploy (monorepo task 7.4)';
         const proof = await render(week);
         expect(text(page(proof.doc, 'home-front'))).toContain(mark);
-        const { storytimePrintPictures } = await import('../lib/storytime/print/pictures');
-        const pictureFiles = new Set(storytimePrintPictures([week]).flatMap((row) =>
-            [row.fileName, row.lineArtFileName].map((name) => path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', name))));
-        // Isolate mode behavior from Forge file availability. This test builds no final PDF.
-        const existsSync = fs.existsSync;
-        const pictureExists = vi.spyOn(fs, 'existsSync').mockImplementation((file) =>
-            typeof file === 'string' && pictureFiles.has(file) ? true : existsSync(file));
-        try {
-            const final = await render(week, undefined, 'final');
-            assertHomeLeaf(final.doc);
-            expect(final.doc.querySelectorAll('[data-picture-id] img').length).toBeGreaterThanOrEqual(12);
-            expect(final.html).not.toContain(mark);
-            expect(text(final.doc.body)).not.toContain(mark);
-        } finally {
-            pictureExists.mockRestore();
-        }
+        // Red 4g fixture change: final mode reads the picture folder through its manifest.json.
+        // Isolate mode behavior from Forge file availability with a temporary repository whose
+        // folder holds the manifest and the files of every row. This test builds no final PDF.
+        const { repo, pictures } = finalRepo();
+        writePictureFolder(pictures, jobsFor(await weekRowIds(week)));
+        const final = await renderFinalIn(repo, week);
+        assertHomeLeaf(final.doc);
+        expect(final.doc.querySelectorAll('[data-picture-id] img').length).toBeGreaterThanOrEqual(12);
+        expect(final.html).not.toContain(mark);
+        expect(text(final.doc.body)).not.toContain(mark);
     });
 
     it('R28: excludes the four forbidden labels and every CJK character from the HTML', async () => {
@@ -1185,25 +1228,20 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const week = shipped();
         const { storytimePrintPictures } = await import('../lib/storytime/print/pictures');
         const rows = storytimePrintPictures([week]);
-        const lineArtPaths = new Set(rows.map((row) => path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', row.lineArtFileName)));
-        const colorPath = path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', rows[0].fileName);
-        const existsSync = fs.existsSync;
-        const files = new Set(lineArtPaths);
-        const existsMock = vi.spyOn(fs, 'existsSync').mockImplementation((file) =>
-            typeof file === 'string' && [...lineArtPaths, colorPath].includes(file) ? files.has(file) : existsSync(file));
-        try {
-            const { doc } = await render(week, undefined, 'final');
-            for (const picture of Array.from(doc.querySelectorAll('[data-picture-id] img'))) {
-                const row = rows.find((item) => item.id === picture.parentElement?.getAttribute('data-picture-id'));
-                expect(row).toBeDefined();
-                expect(decodeURIComponent(picture.getAttribute('src') ?? '').split('/').pop()).toBe(row!.lineArtFileName);
-            }
-            files.clear();
-            files.add(colorPath);
-            await expect(render(week, undefined, 'final')).rejects.toThrow(rows[0].id);
-        } finally {
-            existsMock.mockRestore();
+        // Red 4g fixture change: final mode reads the picture folder through its manifest.json.
+        // The temporary folder holds the manifest and the color and line-art files of every row.
+        // The second build removes every line-art file and keeps the color files.
+        const { repo, pictures } = finalRepo();
+        writePictureFolder(pictures, jobsFor(rows.map((row) => row.id)));
+        const { doc } = await renderFinalIn(repo, week);
+        for (const picture of Array.from(doc.querySelectorAll('[data-picture-id] img'))) {
+            const row = rows.find((item) => item.id === picture.parentElement?.getAttribute('data-picture-id'));
+            expect(row).toBeDefined();
+            expect(decodeURIComponent(picture.getAttribute('src') ?? '').split('/').pop()).toBe(row!.lineArtFileName);
         }
+        for (const row of rows) fs.rmSync(path.join(pictures, row.lineArtFileName));
+        expect(fs.existsSync(path.join(pictures, rows[0].fileName)), 'the color file of the first row stays').toBe(true);
+        await expect(renderFinalIn(repo, week)).rejects.toThrow(rows[0].id);
     });
 
     it('R45: validates student-book CLI ranges and every requested week without rendering', async () => {
@@ -1850,4 +1888,99 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(smoothJoin, 'Mutant: the smooth path with a vertical join passes all R42 rules.')
             .toEqual({ shoulderStart: true, startsAtLeftStem: true, minimumRise: true, risesThenFalls: true, smoothHill: true });
     });
+});
+
+describe('Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02)', () => {
+    /** Two week 1 rows that Forge redid at version 2 in the real delivery: a check row and a reader story page. */
+    const REDONE_CHECK = 'l2-w01-check-row-net';
+    const REDONE_STORY = 'l2-w01-story-page-a-net';
+    const CUP = 'l2-w01-check-row-cup';
+    const HAT = 'l2-w01-check-row-hat';
+
+    it('R-P4-30 prints the line art of a redone row from the folder manifest and never the color file', async () => {
+        // Behavior 2 and 3. The list keeps the -v1 names, the manifest holds -v2 files for two
+        // rows. The check row is printed by student-book.ts and the story page by the reader strip.
+        const week = shipped();
+        const ids = await weekRowIds(week);
+        expect(ids, 'the week requests both redone rows').toEqual(expect.arrayContaining([REDONE_CHECK, REDONE_STORY]));
+        const { repo, pictures } = finalRepo();
+        writePictureFolder(pictures, jobsFor(ids, { [REDONE_CHECK]: 2, [REDONE_STORY]: 2 }));
+        const failure = await finalBuildError(repo, week);
+        expect(failure, 'the final build resolves the redone rows through the manifest').toBe('');
+        const { doc, html } = await renderFinalIn(repo, week);
+        for (const id of [REDONE_CHECK, REDONE_STORY]) {
+            const elements = Array.from(doc.querySelectorAll(`[data-picture-id="${id}"]`));
+            expect(elements.length, `${id} prints at least once`).toBeGreaterThanOrEqual(1);
+            for (const el of elements) {
+                expect(el.getAttribute('data-picture-file'), `data-picture-file of ${id}`).toBe(`${id}-line-v2.png`);
+                const src = decodeURIComponent(el.querySelector('img')?.getAttribute('src') ?? '');
+                expect(src, `img source of ${id}`).toBe(`file://${path.join(pictures, `${id}-line-v2.png`)}`);
+            }
+            expect(html, `${id}: the color file never prints`).not.toContain(`${id}-v2.png`);
+            expect(html, `${id}: the list name never prints`).not.toContain(`${id}-line-v1.png`);
+        }
+        const files = Array.from(doc.querySelectorAll('[data-picture-file]'), (el) => el.getAttribute('data-picture-file')!);
+        expect(files.filter((name) => !/-line-v\d+\.png$/.test(name)), 'every printed file is a line-art file').toEqual([]);
+        expect(html, 'a row at version 1 keeps its v1 line art').toContain(`${CUP}-line-v1.png`);
+    }, 120_000);
+
+    it('R-P4-31b final mode without manifest.json stops and names manifest.json and the folder', async () => {
+        // Behavior 5. The folder holds the PNG files of every row but no manifest.json.
+        const week = shipped();
+        const { repo, pictures } = finalRepo();
+        writePictureFolder(pictures, jobsFor(await weekRowIds(week)));
+        fs.rmSync(path.join(pictures, 'manifest.json'));
+        const message = await finalBuildError(repo, week);
+        expect(message, 'the final build stops').not.toBe('');
+        expect(message, 'the message names the missing manifest.json').toContain('manifest.json');
+        expect(message, 'the message names the picture folder').toContain(pictures);
+    }, 60_000);
+
+    it('R-P4-32b final mode with a line-art file that differs from the manifest SHA-256 stops and names the row id', async () => {
+        // Behavior 4. The file exists, but its bytes are not the accepted bytes.
+        const week = shipped();
+        const { repo, pictures } = finalRepo();
+        writePictureFolder(pictures, jobsFor(await weekRowIds(week)));
+        fs.appendFileSync(path.join(pictures, `${CUP}-line-v1.png`), 'changed after the manifest');
+        const message = await finalBuildError(repo, week);
+        expect(message, 'the final build stops').not.toBe('');
+        expect(message, 'the message names the row id').toContain(CUP);
+        expect(message, 'the message names the SHA-256 problem').toMatch(/sha-?256/i);
+    }, 60_000);
+
+    it('R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion', async () => {
+        // Behavior 2 with the stage 1 rules. Each case writes the list-name files of the failing
+        // row as well (a decoy that the manifest does not name), so a build that ignores the
+        // manifest finds its files and does not stop.
+        const week = shipped();
+        const ids = await weekRowIds(week);
+        const decoys = (pictures: string, id: string): void => {
+            for (const name of [`${id}-v1.png`, `${id}-line-v1.png`]) fs.writeFileSync(path.join(pictures, name), `decoy ${name}`);
+        };
+        const cases: Array<[string, (jobs: PictureFolderJob[], pictures: string) => PictureFolderJob[], RegExp | null]> = [
+            ['a duplicate row id', (jobs) => [{ rowId: CUP }, ...jobs], /duplicate/i],
+            ['the files of another row id', (jobs, pictures) => {
+                decoys(pictures, CUP);
+                return jobs.map((job) => (job.rowId === CUP ? { ...job, colorPath: `${HAT}-v1.png`, linePath: `${HAT}-line-v1.png` } : job));
+            }, null],
+            ['a path outside the folder', (jobs, pictures) => {
+                decoys(pictures, CUP);
+                return jobs.map((job) => (job.rowId === CUP ? { ...job, colorPath: `../outside/${CUP}-v1.png`, linePath: `../outside/${CUP}-line-v1.png` } : job));
+            }, null],
+            ['v2 file names with the version 1 job', (jobs, pictures) => {
+                decoys(pictures, CUP);
+                return jobs.map((job) => (job.rowId === CUP ? { ...job, version: 1, colorPath: `${CUP}-v2.png`, linePath: `${CUP}-line-v2.png` } : job));
+            }, null],
+        ];
+        const problems: string[] = [];
+        for (const [label, change, reasonPattern] of cases) {
+            const { repo, pictures } = finalRepo();
+            writePictureFolder(pictures, change(jobsFor(ids), pictures));
+            const message = await finalBuildError(repo, week);
+            if (!message) { problems.push(`${label}: the build did not stop`); continue; }
+            if (!message.includes(CUP)) problems.push(`${label}: the message does not name the row id ${CUP}: ${message}`);
+            if (reasonPattern && !reasonPattern.test(message)) problems.push(`${label}: the message does not match ${reasonPattern}: ${message}`);
+        }
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 120_000);
 });

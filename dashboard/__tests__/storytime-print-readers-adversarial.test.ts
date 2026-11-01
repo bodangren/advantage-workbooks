@@ -3,10 +3,11 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { afterAll, describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
+import { jobsFor, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /**
  * Phase 4 adversarial cases (track storytime_print_r1_20261025, Forge delivery contract of the PM,
@@ -38,6 +39,28 @@ afterAll(() => scratch.forEach((dir) => fs.rmSync(dir, { recursive: true, force:
 
 const api = (): Promise<PictureApi> => import(pictureCheckPath) as Promise<PictureApi>;
 const readers = (): Promise<ReadersApi> => import(readersPath) as Promise<ReadersApi>;
+
+/**
+ * Runs `run` with `WORKBOOKS_ROOT` set to a temporary repository and a fresh module registry, so
+ * that the picture folder of the level points into the temporary repository (Red 4g: final mode
+ * reads the folder through its manifest.json).
+ * @param repo The temporary repository root.
+ * @param run The work; it imports the modules itself.
+ * @returns What `run` returns.
+ */
+async function inRoot<T>(repo: string, run: () => Promise<T>): Promise<T> {
+    const saved = process.env.WORKBOOKS_ROOT;
+    process.env.WORKBOOKS_ROOT = repo;
+    vi.resetModules();
+    try {
+        return await run();
+    } finally {
+        if (saved === undefined) delete process.env.WORKBOOKS_ROOT;
+        else process.env.WORKBOOKS_ROOT = saved;
+        vi.resetModules();
+    }
+}
+
 const hashOf = (file: string): string => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const shipped = (): StorytimeWeek => StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), 'utf8')));
 
@@ -310,8 +333,11 @@ describe('Storytime picture CLI and reader preflight: adversarial cases', () => 
             const pictures = path.join(repo, 'content', 'storytime', 'l2', 'print', 'pictures');
             fs.mkdirSync(pictures, { recursive: true });
             fs.copyFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), path.join(repo, 'content', 'storytime', 'l2', 'w01.json'));
-            const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
-            for (const name of [...lineNames, ...colorNames]) if (name !== missing) fs.writeFileSync(path.join(pictures, name), png);
+            // Red 4g fixture change: final mode reads the picture folder through its manifest.json.
+            // The folder holds the manifest of the 18 requested rows and every file except the
+            // missing color file, which the manifest still names. The assertions are unchanged.
+            const missingId = missing.replace(/-v1\.png$/, '');
+            writePictureFolder(pictures, jobsFor(colorNames.map((name) => name.replace(/-v1\.png$/, ''))).map((job): PictureFolderJob => (job.rowId === missingId ? { ...job, omit: ['color'] } : job)));
             const run = spawnSync(process.execPath, ['--import', 'tsx', readersCliPath, '--level', '2', '--weeks', '1', '--final', '--a3-color'], { encoding: 'utf8', env: { ...process.env, HOME: home, WORKBOOKS_ROOT: repo }, timeout: 120_000 });
             const out = `${run.stdout}\n${run.stderr}`;
             expect(run.status, 'the run was not killed by the spawn timeout').not.toBeNull();
@@ -323,18 +349,31 @@ describe('Storytime picture CLI and reader preflight: adversarial cases', () => 
     }, 240_000);
 
     it('ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both', async () => {
-        const { storytimeReaderPictureFiles } = await readers();
+        // Red 4g fixture change: final mode reads the picture folder through its manifest.json, so
+        // the file list comes from a temporary repository whose folder holds the manifest of the 18
+        // requested rows at version 1 and their files. The expected path is the folder of that
+        // repository. The other assertions are unchanged.
         const week = shipped();
-        const workbook = storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'workbook' });
-        const a3 = storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'a3-color' });
-        const one = storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'a3-color', bookTitle: 'Hello!' });
+        const proof = await readers();
+        const rowIds = Array.from(new DOMParser().parseFromString(proof.compileStorytimeReaders([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html, 'text/html').querySelectorAll('[data-picture-id]'), (el) => el.getAttribute('data-picture-id')!);
+        const repo = temp();
+        const pictureFolder = path.join(repo, 'content', 'storytime', 'l2', 'print', 'pictures');
+        writePictureFolder(pictureFolder, jobsFor(rowIds));
+        const { workbook, a3, one } = await inRoot(repo, async () => {
+            const { storytimeReaderPictureFiles } = await import(readersPath) as ReadersApi;
+            return {
+                workbook: storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'workbook' }),
+                a3: storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'a3-color' }),
+                one: storytimeReaderPictureFiles([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'a3-color', bookTitle: 'Hello!' }),
+            };
+        });
         expect(workbook).toHaveLength(18);
         expect(a3).toHaveLength(18);
         expect(one, 'one reader: its cover and 8 pages').toHaveLength(9);
         expect(a3.map((entry) => entry.rowId), 'both outputs list the same rows').toEqual(workbook.map((entry) => entry.rowId));
         for (const entry of workbook) expect(entry.fileName, `${entry.rowId} workbook`).toBe(`${entry.rowId}-line-v1.png`);
         for (const entry of a3) expect(entry.fileName, `${entry.rowId} A3`).toBe(`${entry.rowId}-v1.png`);
-        for (const entry of [...workbook, ...a3]) expect(entry.file, 'the file sits in the picture folder of the level').toBe(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures', entry.fileName));
+        for (const entry of [...workbook, ...a3]) expect(entry.file, 'the file sits in the picture folder of the level').toBe(path.join(pictureFolder, entry.fileName));
         expect(one.every((entry) => a3.some((other) => other.rowId === entry.rowId)), 'the one-reader list is a part of the full list').toBe(true);
         expect(new Set(workbook.map((entry) => entry.rowId)).size, 'no row is listed twice').toBe(18);
     }, 60_000);
