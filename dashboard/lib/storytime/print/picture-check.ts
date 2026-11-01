@@ -77,6 +77,19 @@ export interface StorytimePictureBatchReport {
     exitCode: number;
 }
 
+/**
+ * The picture file of one row in a final-mode picture folder (plan Phase 4 Red 4g): the resolved
+ * file of the accepted Forge delivery.
+ */
+export interface StorytimePictureFile {
+    /** The picture-list row id. */
+    rowId: string;
+    /** The file name part of the manifest path; the printed `data-picture-file` holds it. */
+    fileName: string;
+    /** The absolute path of the file inside the picture folder; the printed `img` source holds it. */
+    file: string;
+}
+
 /** The fields of a picture-list row that stage 1 reads (a subset of `StorytimePictureRow`). */
 export interface StorytimePictureCheckRow {
     /** The color file name of the row. */
@@ -163,19 +176,17 @@ function versionOfName(namePart: string, stem: string, rowId: string, what: stri
 }
 
 /**
- * The name form of the two files of one batch row (PM option A, 2026-11-02): the color file must
- * be `<row id>-v<N>.png` and the line art `<row id>-line-v<N>.png`, both files must use the same
- * N, and N must equal the selected version of the job. The stem comes from the row file names,
- * which equal the row id for every row of the shipped picture list.
+ * The name form of the two files of one row (PM option A, 2026-11-02): the color file must be
+ * `<stem>-v<N>.png` and the line art `<stem>-line-v<N>.png`, both files must use the same N, and
+ * N must equal the selected version of the job.
  * @param entries The two entries of the job: the color file, then the line art.
- * @param fields The picture-list row, for its two file names.
+ * @param colorStem The version-free stem of the color file name.
+ * @param lineStem The version-free stem of the line-art file name.
  * @param rowId The picture-list row id, for the messages.
  * @param selectedVersion The selected version of the Forge job.
  * @throws Error When a file name part is not of the form, the two N differ, or N is not selectedVersion.
  */
-function checkNameForm(entries: StorytimeForgePictureEntry[], fields: Record<string, unknown>, rowId: string, selectedVersion: unknown): void {
-    const colorStem = nameStem(requireString(fields.fileName, 'color file name'));
-    const lineStem = nameStem(requireString(fields.lineArtFileName, 'line-art file name'));
+function checkNameFormOf(entries: StorytimeForgePictureEntry[], colorStem: string, lineStem: string, rowId: string, selectedVersion: unknown): void {
     const colorPart = filePart(entries[0].fileName);
     const linePart = filePart(entries[1].fileName);
     const colorVersion = versionOfName(colorPart, colorStem, rowId, 'color file');
@@ -186,6 +197,25 @@ function checkNameForm(entries: StorytimeForgePictureEntry[], fields: Record<str
     if (colorVersion !== Number(selectedVersion)) {
         throw new Error(`picture batch: the files "${colorPart}" and "${linePart}" of the row ${rowId} are version ${colorVersion}; the job selected version ${String(selectedVersion)}, so N must equal the selected version`);
     }
+}
+
+/**
+ * The name form of the two files of one batch row (PM option A, 2026-11-02). The stem comes from
+ * the row file names, which equal the row id for every row of the shipped picture list.
+ * @param entries The two entries of the job: the color file, then the line art.
+ * @param fields The picture-list row, for its two file names.
+ * @param rowId The picture-list row id, for the messages.
+ * @param selectedVersion The selected version of the Forge job.
+ * @throws Error When a file name part is not of the form, the two N differ, or N is not selectedVersion.
+ */
+function checkNameForm(entries: StorytimeForgePictureEntry[], fields: Record<string, unknown>, rowId: string, selectedVersion: unknown): void {
+    checkNameFormOf(
+        entries,
+        nameStem(requireString(fields.fileName, 'color file name')),
+        nameStem(requireString(fields.lineArtFileName, 'line-art file name')),
+        rowId,
+        selectedVersion,
+    );
 }
 
 /** A required field of the row; the check names the missing field. */
@@ -578,6 +608,41 @@ function batchFileOf(batchFolder: string, relative: string, rowId: string): stri
         throw new Error(`picture batch: the manifest path "${relative}" of the row ${rowId} follows a symbolic link outside the batch root ${root}`);
     }
     return target;
+}
+
+/**
+ * Resolves the picture files of some rows through the `manifest.json` of the final-mode picture
+ * folder (plan Phase 4 Red 4g): the folder `<STORYTIME_ROOT>/l<level>/print/pictures/`. The check
+ * reads the one job with the row id, the name form `<row id>-v<N>.png` and `<row id>-line-v<N>.png`
+ * with N equal to the selected version, and a path inside the folder. The check also reads the
+ * file that the output prints: it must exist and hold the manifest SHA-256. The check does not
+ * measure the pixel size or the color, because the folder holds the accepted files of the
+ * manifest.
+ * @param folder The picture folder of the level; it holds `manifest.json`.
+ * @param rows The picture-list rows; the `id` of each row selects its job.
+ * @param kind `color` for the color file of the row or `line` for its line art.
+ * @returns One file for each row, in the request order.
+ * @throws Error When the folder holds no `manifest.json`, no row has one job, a file name or a
+ *   path breaks the stage 1 rules, the file is absent, or the file bytes are not the manifest
+ *   SHA-256.
+ */
+export function resolveStorytimePictureFiles(folder: string, rows: unknown[], kind: 'color' | 'line'): StorytimePictureFile[] {
+    const manifest = readStorytimePictureManifest(folder);
+    return rows.map((row) => {
+        const rowId = requireString(requireObject(row, 'picture check: the row is not an object').id, 'row id');
+        const entries = forgeManifestEntriesForRow(manifest, row);
+        checkNameFormOf(entries, rowId, `${rowId}-line`, rowId, forgeJobForRow(manifest, rowId).selectedVersion);
+        const colorFile = batchFileOf(folder, entries[0].fileName, rowId);
+        const lineFile = batchFileOf(folder, entries[1].fileName, rowId);
+        const entry = kind === 'color' ? entries[0] : entries[1];
+        const file = kind === 'color' ? colorFile : lineFile;
+        const fileName = filePart(entry.fileName);
+        if (!fs.existsSync(file)) throw new Error(`picture missing: ${rowId} (${fileName})`);
+        if (sha256Of(file) !== String(entry.sha256).toLowerCase()) {
+            throw new Error(`picture folder: the SHA-256 of the file ${fileName} of the row ${rowId} is not the manifest SHA-256`);
+        }
+        return { rowId, fileName, file };
+    });
 }
 
 /**

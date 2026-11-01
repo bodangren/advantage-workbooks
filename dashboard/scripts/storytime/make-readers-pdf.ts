@@ -54,8 +54,9 @@ Exit code 2 on an argument error, on --a3-color with --workbook, on an output fo
 outside the print folder, on an output path that is a symbolic link or resolves outside the print
 folder on the filesystem, and on an output file that exists already (use a new --version).
 Exit code 1 when a week does not parse, does not load exactly once, has no readers, a render
-fails, or (final mode) a picture file of the requested readers is missing. The final build
-checks every picture file before it makes the output folder and before Chrome.`;
+fails, or (final mode) the picture folder breaks a stage 1 rule or a picture file is missing.
+The final build resolves every requested picture through manifest.json in the picture folder of
+the level, and it checks every file before it makes the output folder and before Chrome.`;
 
 interface Args {
     level: number;
@@ -182,15 +183,25 @@ async function main(argv: string[]): Promise<number> {
         console.error(`The output exists already; use a new --version (rule 12.2): ${existing.join('; ')}`);
         return 2;
     }
-    // The final build checks every picture file of the requested readers before it writes anything
-    // (FR-5.6, C-P4-2): a missing picture stops the build before Chrome, with no output folder and
-    // no half-written file, so that a retry with the same --version stops on the same picture and
-    // not on an "output exists" error (rule 12.2).
+    // The final build resolves every picture file of the requested readers through the
+    // `manifest.json` of the picture folder, and it checks every file before it writes anything
+    // (FR-5.6, C-P4-2; plan Phase 4 Red 4g): a problem stops the build before Chrome, with no
+    // output folder and no half-written file, so that a retry with the same --version stops on the
+    // same picture and not on an "output exists" error (rule 12.2).
     if (mode === 'final') {
-        const missing = storytimeReaderPictureFiles(parsed, { profile: STORYTIME_PRINT_PROFILE, mode, output })
-            .filter((entry) => !fs.existsSync(entry.file));
-        if (missing.length) {
-            for (const entry of missing) console.error(`picture missing: ${entry.rowId} (${entry.fileName})`);
+        const options: StorytimeReaderOptions = { profile: STORYTIME_PRINT_PROFILE, mode, output };
+        try {
+            storytimeReaderPictureFiles(parsed, options);
+        } catch (e) {
+            console.error(`${e instanceof Error ? e.message : String(e)}`);
+            // The folder needs its manifest.json before it can name any file. When the folder
+            // holds none, the build also names the requested files that the folder does not hold
+            // under the picture-list names, so that a run against an empty folder names them.
+            if (!fs.existsSync(path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures', 'manifest.json'))) {
+                for (const entry of storytimeReaderPictureFiles(parsed, { ...options, mode: 'proof' })) {
+                    if (!fs.existsSync(entry.file)) console.error(`picture missing: ${entry.rowId} (${entry.fileName})`);
+                }
+            }
             return 1;
         }
     }

@@ -1,9 +1,9 @@
-import fs from 'fs';
 import path from 'path';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import type { StorytimePrintProfile } from './profile';
 import { fontFaceCss } from './print-fonts';
 
@@ -21,8 +21,9 @@ import { fontFaceCss } from './print-fonts';
  * - `a3-color`: one reader page on each A3 portrait page (297 × 420 mm, the reader page scaled
  *   3.0), an sRGB PDF for office printers, not PDF/X (FR-5.8).
  *
- * The mode follows FR-5.6: a `final` build stops with the picture id when a picture file is
- * missing, and a `proof` build prints "PICTURE MISSING" in the picture box.
+ * The mode follows FR-5.6: a `final` build resolves each row through the `manifest.json` of the
+ * picture folder and stops with the row id when a file breaks a stage 1 rule or is missing; a
+ * `proof` build prints "PICTURE MISSING" in the picture box.
  */
 
 /** The page pairs of the 3 strips of a reader (FR-5.1): front side, then duplex back side. */
@@ -84,23 +85,23 @@ const qrPathOf = (week: StorytimeWeek, book: StorytimeWeek['books'][number]): st
     `/th/st/${week.meta.level}/${week.meta.week}?part=${isDecodable(book) ? 'decodable' : 'book'}`;
 
 /**
- * The picture element of a picture-list row in a reader page. Proof mode prints the placeholder;
- * final mode stops with the picture id when the file is missing (FR-5.6). The workbook prints the
- * line art and the color A3 pages print the color file (FR-9).
+ * The picture element of a picture-list row in a reader page. Proof mode prints the placeholder
+ * with the list name. Final mode prints the file that the picture folder manifest resolves into:
+ * the workbook prints the line art and the color A3 pages print the color file (FR-9).
  * @param row The picture-list row of the page.
- * @param week The week that needs the picture.
  * @param o The build options.
+ * @param files The resolved picture files of the week, by row id; the map is empty in proof mode.
  * @returns The HTML.
+ * @throws Error When final mode holds no file for the row (FR-5.6).
  */
-function pictureElement(row: StorytimePictureRow, week: StorytimeWeek, o: StorytimeReaderOptions): string {
-    const lineArt = o.output === 'workbook';
-    const name = lineArt ? row.lineArtFileName : row.fileName;
-    const file = path.join(pictureDirOf(week), name);
+function pictureElement(row: StorytimePictureRow, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): string {
+    const listName = o.output === 'workbook' ? row.lineArtFileName : row.fileName;
     if (o.mode === 'final') {
-        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${name})`);
-        return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${name}"><img src="file://${file}" alt=""></div>`;
+        const entry = files.get(row.id);
+        if (!entry) throw new Error(`picture missing: ${row.id} (${listName})`);
+        return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${entry.fileName}"><img src="file://${entry.file}" alt=""></div>`;
     }
-    return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${name}">PICTURE MISSING</div>`;
+    return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${listName}">PICTURE MISSING</div>`;
 }
 
 /** The picture rows of each book of a week, in the list order of `storytimePrintPictures`. */
@@ -117,37 +118,72 @@ function rowsByBook(week: StorytimeWeek): { pages: StorytimePictureRow[]; cover:
 }
 
 /**
+ * The picture rows that a build requests, in build order: the cover and the 8 story pages of each
+ * reader, and only the readers of `bookTitle` when the caller gives one.
+ * @param week The week of the readers.
+ * @param o The build options.
+ * @returns The rows in build order.
+ */
+function requestedRows(week: StorytimeWeek, o: StorytimeReaderOptions): StorytimePictureRow[] {
+    const all = rowsByBook(week);
+    const rows: StorytimePictureRow[] = [];
+    week.books.forEach((book, index) => {
+        if (o.bookTitle && book.title !== o.bookTitle) return;
+        rows.push(all[index].cover, ...all[index].pages);
+    });
+    return rows;
+}
+
+/**
+ * The resolved picture files of a week, by row id (plan Phase 4 Red 4g). Final mode reads the
+ * `manifest.json` of the picture folder of the level and resolves each requested row through it;
+ * proof mode returns an empty map.
+ * @param week The week of the readers.
+ * @param o The build options.
+ * @returns The file of each requested row, by row id.
+ * @throws Error When final mode finds a picture problem in the folder.
+ */
+function pictureFilesOf(week: StorytimeWeek, o: StorytimeReaderOptions): Map<string, StorytimePictureFile> {
+    if (o.mode !== 'final') return new Map();
+    const kind = o.output === 'workbook' ? 'line' : 'color';
+    return new Map(resolveStorytimePictureFiles(pictureDirOf(week), requestedRows(week, o), kind).map((entry) => [entry.rowId, entry]));
+}
+
+/**
  * The picture files that a build requests, in build order (FR-5.6, FR-9): the cover and the 8
  * story pages of each reader, as the line art for the workbook and as the color file for the A3
- * pages. The final mode checks every file of this list before it writes anything, so that a
- * missing picture leaves no output folder and no half-written file (C-P4-2).
+ * pages. Final mode resolves each row through the `manifest.json` of the picture folder (plan
+ * Phase 4 Red 4g), so the file name is the name of the accepted delivery; proof mode gives the
+ * picture-list names. The caller checks every file of this list before it writes anything, so that
+ * a missing picture leaves no output folder and no half-written file (C-P4-2).
  * @param weeks The parsed weeks in week order.
  * @param o The build options; `bookTitle` limits the list to one reader.
- * @returns Each row id with its file name and its path in the picture folder.
+ * @returns Each row id with its file name part and the path of the file.
+ * @throws Error When final mode finds a picture problem in the folder.
  */
-export function storytimeReaderPictureFiles(weeks: StorytimeWeek[], o: StorytimeReaderOptions): { rowId: string; fileName: string; file: string }[] {
-    const files: { rowId: string; fileName: string; file: string }[] = [];
+export function storytimeReaderPictureFiles(weeks: StorytimeWeek[], o: StorytimeReaderOptions): StorytimePictureFile[] {
+    const files: StorytimePictureFile[] = [];
     for (const week of weeks) {
-        const all = rowsByBook(week);
-        week.books.forEach((book, index) => {
-            if (o.bookTitle && book.title !== o.bookTitle) return;
-            const lineArt = o.output === 'workbook';
-            for (const row of [all[index].cover, ...all[index].pages]) {
-                const name = lineArt ? row.lineArtFileName : row.fileName;
-                files.push({ rowId: row.id, fileName: name, file: path.join(pictureDirOf(week), name) });
-            }
-        });
+        const rows = requestedRows(week, o);
+        if (o.mode === 'final') {
+            files.push(...resolveStorytimePictureFiles(pictureDirOf(week), rows, o.output === 'workbook' ? 'line' : 'color'));
+            continue;
+        }
+        for (const row of rows) {
+            const name = o.output === 'workbook' ? row.lineArtFileName : row.fileName;
+            files.push({ rowId: row.id, fileName: name, file: path.join(pictureDirOf(week), name) });
+        }
     }
     return files;
 }
 
 /** The reader cover page (FR-5.5): the title, the band "Sprout", the series, and the week number. */
-function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], cover: StorytimePictureRow, o: StorytimeReaderOptions): ReaderPageSpec {
+function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], cover: StorytimePictureRow, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): ReaderPageSpec {
     const copy = [book.title, 'Sprout', 'Storytime Advantage', `Week ${week.meta.week}`];
     const banned = copy.filter((line) => COVER_COPY_RULE.test(line));
     if (banned.length) throw new Error(`reader cover copy (FR-6.3): ${banned.join('; ')}`);
     const body = `<div class="reader-cover">
-  ${pictureElement(cover, week, o)}
+  ${pictureElement(cover, o, files)}
   <p class="reader-band">Sprout</p>
   <h1 class="reader-title" data-part="reader-cover-title">${esc(book.title)}</h1>
   <p class="reader-series">Storytime Advantage</p>
@@ -211,16 +247,17 @@ function backPage(book: StorytimeWeek['books'][number]): string {
  * @param book The reader.
  * @param rows The picture rows of this reader.
  * @param o The build options.
+ * @param files The resolved picture files of the week, by row id; empty in proof mode.
  * @returns The 12 pages in reading order.
  */
-function readerPages(week: StorytimeWeek, book: StorytimeWeek['books'][number], rows: { pages: StorytimePictureRow[]; cover: StorytimePictureRow }, o: StorytimeReaderOptions): ReaderPageSpec[] {
+function readerPages(week: StorytimeWeek, book: StorytimeWeek['books'][number], rows: { pages: StorytimePictureRow[]; cover: StorytimePictureRow }, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): ReaderPageSpec[] {
     if (book.pages.length !== 8) throw new Error(`the reader "${book.title}" has ${book.pages.length} story pages; FR-5.2 and FR-5.3 give 8`);
     const story = book.pages.map((page, i) => ({
         number: i + 3,
-        body: `<div class="reader-story">${pictureElement(rows.pages[i], week, o)}<p class="reader-text" data-part="reader-text">${esc(page.text)}</p></div>`,
+        body: `<div class="reader-story">${pictureElement(rows.pages[i], o, files)}<p class="reader-text" data-part="reader-text">${esc(page.text)}</p></div>`,
     }));
     const pages = [
-        coverPage(week, book, rows.cover, o),
+        coverPage(week, book, rows.cover, o, files),
         { number: 2, body: isDecodable(book) ? soundsPage(book) : titlePage(week, book) },
         ...story,
         { number: 11, body: closingPage(week, book) },
@@ -321,10 +358,11 @@ export interface StorytimeReaderStripSide {
  */
 export function storytimeReaderStripSides(week: StorytimeWeek, o: StorytimeReaderOptions): StorytimeReaderStripSide[] {
     const rows = rowsByBook(week);
+    const files = pictureFilesOf(week, o);
     const sides: StorytimeReaderStripSide[] = [];
     week.books.forEach((book, i) => {
         if (o.bookTitle && book.title !== o.bookTitle) return;
-        const pages = readerPages(week, book, rows[i], o);
+        const pages = readerPages(week, book, rows[i], o, files);
         for (let strip = 1; strip <= STRIP_PAGES.length; strip++) {
             const [front, back] = STRIP_PAGES[strip - 1];
             for (const [side, numbers] of [['front', front], ['back', back]] as const) {
@@ -375,7 +413,8 @@ ${stripHtml}
  * @param o The print profile, the mode, and the output (`workbook` leaves or `a3-color` pages).
  * @returns The HTML of the reader document.
  * @throws Error When a week has no readers, a reader has no 8 story pages, a cover text breaks
- *   the copy rule (FR-6.3), or (final mode) a picture file is missing (FR-5.6).
+ *   the copy rule (FR-6.3), or (final mode) the picture folder breaks a stage 1 rule or a file is
+ *   missing (FR-5.6).
  */
 export function compileStorytimeReaders(weeks: StorytimeWeek[], o: StorytimeReaderOptions): { html: string } {
     if (!weeks.length) throw new Error('no weeks');
@@ -383,10 +422,11 @@ export function compileStorytimeReaders(weeks: StorytimeWeek[], o: StorytimeRead
     for (const week of weeks) {
         if (!week.books.length) throw new Error(`week ${week.meta.week} has no readers`);
         const all = rowsByBook(week);
+        const files = pictureFilesOf(week, o);
         const books = week.books
             .map((book, i) => ({ book, rows: all[i] }))
             .filter(({ book }) => !o.bookTitle || book.title === o.bookTitle)
-            .map(({ book, rows }) => ({ book, rows, pages: readerPages(week, book, rows, o) }));
+            .map(({ book, rows }) => ({ book, rows, pages: readerPages(week, book, rows, o, files) }));
         if (!books.length) throw new Error(`week ${week.meta.week} has no reader "${o.bookTitle ?? ''}"`);
         if (o.output === 'a3-color') {
             for (const entry of books) {

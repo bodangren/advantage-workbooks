@@ -1,9 +1,9 @@
-import fs from 'fs';
 import path from 'path';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import { fontFaceCss } from './print-fonts';
 import { readerPageCss, storytimeReaderStripSides } from './readers';
 import type { StorytimePrintProfile } from './profile';
@@ -37,9 +37,6 @@ const studentBookTitle = (week: StorytimeWeek): string =>
 
 /** The teaching weeks of a unit: 7 decodable readers plus the unit sticker (spec P1, D2 item 1). */
 const DECODABLE_WEEKS_PER_UNIT = 7;
-
-/** The folder that holds the Forge picture files for a level (spec FR-2, FR-9). */
-const pictureDirOf = (week: StorytimeWeek): string => path.join(STORYTIME_ROOT, `l${week.meta.level}`, 'print', 'pictures');
 
 /** HTML-escapes a text of the week packages. */
 const esc = (s: string): string =>
@@ -149,22 +146,21 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
 };
 
 /**
- * The picture element of a picture-list row: a proof placeholder box, or (final mode) the
- * line-art picture file (FR-9: the workbook prints line art only). A final build stops and names
- * the picture id when the line-art file is missing (FR-5.6). Final mode loads `row.lineArtFileName`,
- * never the color file `row.fileName` (B-P2-02).
+ * The picture element of a picture-list row: a proof placeholder box, or (final mode) the picture
+ * file that the folder manifest resolves into (FR-9: the workbook prints line art only). Final
+ * mode loads the line art of the row, never the color file (B-P2-02).
  * @param row The picture-list row.
- * @param week The week that needs the picture.
  * @param o The compile options.
+ * @param files The resolved picture files of the weeks, by row id; the map is empty in proof mode.
  * @param className The extra class of the box.
  * @returns The HTML.
+ * @throws Error When final mode holds no file for the row (FR-5.6).
  */
-function pictureElement(row: StorytimePictureRow, week: StorytimeWeek, o: StorytimeStudentBookOptions, className: string): string {
-    const dir = pictureDirOf(week);
-    const file = path.join(dir, o.mode === 'final' ? row.lineArtFileName : row.fileName);
+function pictureElement(row: StorytimePictureRow, o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>, className: string): string {
     if (o.mode === 'final') {
-        if (!fs.existsSync(file)) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
-        return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}"><img src="file://${file}" alt=""></div>`;
+        const entry = files.get(row.id);
+        if (!entry) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
+        return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${entry.fileName}"><img src="file://${entry.file}" alt=""></div>`;
     }
     return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
 }
@@ -193,7 +189,7 @@ function bookMapPage(): PageSpec {
  * The formation box shows the letter with the start dot, the formation arrows, three trace
  * copies, and one write space.
  */
-function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions): PageSpec {
+function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const box = week.print!.letterBox;
     const practiceRows = week.print!.practice.map((line) => rows.find((r) => r.use === 'practice-line' && r.text === line.pictureWord));
     const arrowId = `st-arrow-w${week.meta.week}`;
@@ -228,7 +224,7 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
 ${week.print!.practice.map((line, i) => {
     const row = practiceRows[i];
     if (!row) throw new Error(`picture row missing for the practice word "${line.pictureWord}" of week ${week.meta.week}`);
-    return `<div class="practice-line">${pictureElement(row, week, o, 'practice-picture')}<span class="practice-text" data-part="practice-text">${esc(line.text)}</span></div>`;
+    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text">${esc(line.text)}</span></div>`;
 }).join('\n')}
 </div>`;
     return { kind: 'practice', body };
@@ -251,14 +247,14 @@ ${print.writing.pictureBox ? '<div class="picture-draw-box" data-part="writing-p
 }
 
 /** The picture-sound page of the Friday check: the rows of `check.items`, with no answer mark. */
-function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions): PageSpec {
+function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const rowByName = new Map(rows.filter((r) => r.use === 'check-row').map((r) => [r.text, r]));
     const itemHtml = (item: StorytimeCheckItem): string => {
         if (item.kind === 'circle-picture') {
             const pictures = item.pictures.map((word) => {
                 const row = rowByName.get(word);
                 if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
-                return pictureElement(row, week, o, '');
+                return pictureElement(row, o, files, '');
             });
             return `<div class="check-row" data-part="check-row">${pictures.join('')}</div>`;
         }
@@ -268,7 +264,7 @@ function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storytim
             return item.groups.map((g) => `<div class="check-row" data-part="check-row">${g.pictures.map((word) => {
                 const row = rowByName.get(word);
                 if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
-                return pictureElement(row, week, o, '');
+                return pictureElement(row, o, files, '');
             }).join('')}</div>`).join('');
         }
         return `<p class="check-cue" data-student-work>${item.words.map(esc).join('   ')}</p>`;
@@ -359,20 +355,21 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
  * @param weeks The parsed weeks of the unit, in week order. Review weeks are not part of this
  *   phase yet; they throw with a clear message.
  * @param o The print profile (one constant holds the trim) and the build mode. In `final` mode
- *   a missing picture file stops the build and names the picture id (FR-5.6); in `proof` mode
- *   the picture boxes print the placeholder.
+ *   the build resolves every picture row through the `manifest.json` of the picture folder, and a
+ *   problem stops the build with the row id (FR-5.6); in `proof` mode the picture boxes print the
+ *   placeholder.
  * @returns The print HTML of the whole book.
+ * @throws Error When a picture of a final build does not resolve (FR-5.6).
  */
 export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: StorytimeStudentBookOptions): { html: string } {
     if (!weeks.length) throw new Error('no weeks');
-    // FR-9 + B-P2-02: a final build needs the line-art file of every picture row of the
-    // compiled weeks, in list order, so the first missing row names itself before any page
-    // renders (R44). Proof mode prints placeholders instead.
+    // FR-9 + B-P2-02 + plan Phase 4 Red 4g: a final build resolves the line art of every picture
+    // row of the compiled weeks through the folder manifest, in list order, so the first problem
+    // names its row before any page renders (R44). Proof mode prints placeholders instead.
+    const pictureFiles = new Map<string, StorytimePictureFile>();
     if (o.mode === 'final') {
         const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
-        for (const row of storytimePrintPictures(weeks)) {
-            if (!fs.existsSync(path.join(dir, row.lineArtFileName))) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
-        }
+        for (const entry of resolveStorytimePictureFiles(dir, storytimePrintPictures(weeks), 'line')) pictureFiles.set(entry.rowId, entry);
     }
     const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
     for (const week of weeks) {
@@ -380,9 +377,9 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         if (!week.print) throw new Error(`student book: week ${week.meta.week} has no print block`);
         const rows = storytimePrintPictures([week]);
         const weekPages: PageSpec[] = [
-            practicePage(week, rows, o),
+            practicePage(week, rows, o, pictureFiles),
             writingPage(week),
-            checkPage(week, rows, o),
+            checkPage(week, rows, o, pictureFiles),
             ...homePages(week, o.mode),
             ...readerPages(week, o.profile, o.mode),
         ];

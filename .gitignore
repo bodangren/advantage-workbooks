@@ -32,5 +32,8 @@ content/storytime/*/media/*/song-phone-poster.jpg
 content/storytime/*/media/*/forge/scene.mp4
 # The gesture library frames (Forge keeps the source; forge-gestures/manifest.json records it)
 content/storytime/forge-gestures/gestures/
+# The accepted Forge picture delivery of a level, copied as it is by the final build of the
+# readers and the student book (plan Phase 4, Red 4g). The picture list stays tracked.
+content/storytime/*/print/pictures/
 # Storytime book audio clip cache (made again from the package by dashboard/scripts/storytime/book-audio.ts)
 content/storytime/*/media/*/.clips/
