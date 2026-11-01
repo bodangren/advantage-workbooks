@@ -1,0 +1,56 @@
+# Measure Green 4d · storytime_print_r1_20261025 · Phase 4
+
+- Role: measure-jr-green
+- Status: complete
+- Model: deepseek/deepseek-flash#high
+- phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+- role_base_sha: fb44cdfc06946380ef421a2bdcee7d33b575453a
+- Track: storytime_print_r1_20261025
+- Phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+- Task: Green 4d
+
+## Range check
+
+The Red change sits inside `phase_base_sha..HEAD`. Commits 9da270da and 275d7fcd (Red model
+openai/gpt-6-luna#high) and d7f3923d (Red model bailian-token-plan/qwen3.8-max#high) are in the
+range. No committed Red test changed in this role.
+
+## What changed
+
+- `dashboard/lib/storytime/print/picture-check.ts`: `forgeManifestEntriesForRow`,
+  `checkStorytimePictureBatch`, and the `pictureListFileNames` option of
+  `checkStorytimePicture`.
+- `dashboard/scripts/storytime/check-storytime-pictures.ts`: the new stage-one batch CLI.
+- `dashboard/lib/storytime/print/readers.ts`: `storytimeReaderPictureFiles`.
+- `dashboard/scripts/storytime/make-readers-pdf.ts`: the final-mode picture preflight.
+
+## Gates (each one heavy-run wrapper)
+
+- `GREEN_TEST_COMMAND` exit 0, 391 of 391 on 11 files.
+- `PROJECT_TESTS` exit 0, 556 of 556 on 22 files.
+- `PROJECT_LINT` exit 0, no output.
+- `PROJECT_CHECKS` exit 0, one accepted FAIL (`published`), `tsc --noEmit` clean.
+
+## Mutants
+
+3 applied, 3 caught, 3 clean restores. M1 hits R-P4-15, M2 hits R-P4-13, M3 hits R-P4-9. The
+first M3 attempt changed no behaviour, so the acceptance mutation replaced it.
+
+## Smoke
+
+One proof A3 color build in `HOME=/tmp/opencode/g4d-smoke-home`: two files, 12 pages each,
+841.92 x 1191.12 pts. The real `~/Desktop/print-ready/` took no write.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+commits: d546bc91 (feat(storytime-print): the Forge manifest adapter, the stage-one batch check, and the final picture preflight (Phase 4 Green 4d)); 7c65247c (measure(plan): record Phase 4 Green 4d evidence); this log commit (measure(plan): record the Green 4d role log)
+tests_run: RED_TEST_COMMAND exit 1, 7 failed | 384 passed (391) before the code; GREEN_TEST_COMMAND exit 0, 391 of 391; PROJECT_TESTS exit 0, 556 of 556; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0 with the accepted published FAIL and a clean tsc; 3 mutants caught; 1 proof A3 smoke build
+files_changed: dashboard/lib/storytime/print/picture-check.ts; dashboard/lib/storytime/print/readers.ts; dashboard/scripts/storytime/make-readers-pdf.ts; dashboard/scripts/storytime/check-storytime-pictures.ts (new); measure/tracks/storytime_print_r1_20261025/plan.md; measure/lessons-learned.md; measure/tech-debt.md; measure/runs/storytime_print_r1_20261025/jr-green-fb44cdfc-*.txt
+plan_updates: Task (Green 4d) is [x] with commit d546bc91 and evidence class automated; the Pictures row and the Phase 4 User Manual Verification row stay [ ]
+known_failures: the accepted check FAIL `published` for st2/1 (spec P14, unchanged); the tech-debt item C-P4-6 (no named copy step for the Forge files) stays open for the Pictures task
+dispositions: A-P4-1=FIX; C-P4-1=FIX; C-P4-2=FIX
+handoff: Phase acceptance and review. The 7 Red cases pass and R-P4-17 stays green. New files for the audit scope: dashboard/scripts/storytime/check-storytime-pictures.ts. The stage-one path now reads a Forge `manifest.json` object, so a re-review can run `npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder>` against a Forge-shaped fixture. C-P4-6 is open and belongs to the Pictures task: name the copy step and the folder for the Forge files. No test file changed. `dashboard/raw.json` and `video/storytime-song/scripts/render.mjs` were dirty at the role base and are not staged.
+END_MEASURE_AGENT_RESULT
