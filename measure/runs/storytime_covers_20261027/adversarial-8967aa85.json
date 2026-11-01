@@ -6,7 +6,10 @@
  "phase_base_sha": "c85ef735f56c79779551fbff4996d5924b56c0d8",
  "role_base_sha": "8967aa8515e06ca6f6e32e17308cfcce34dc65e6",
  "reviewed_head_sha": "8967aa8515e06ca6f6e32e17308cfcce34dc65e6",
- "guard_commits": [],
+ "guard_commits": [
+  "38bb03f5a4333fd0b3d98a289d010d68b4c54fe9",
+  "6aace950aa30fbd4c7bbef91c6dafb32c60dd2bf"
+ ],
  "status": "pass",
  "confidence": "high",
  "summary": "Adversarial pass for Phase 2 round 2: ADV-P2-OUT and ADV-P2-D12 only week 3 pass at 8967aa85. 3 new cases pin the positive v3 print default, the v4 default and the isolation of the delivered v3 folders, and the print guard on proof folders. All 3 pass on shipped code, and 6 mutants are caught. No production defect found.",
