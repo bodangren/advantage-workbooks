@@ -1,0 +1,50 @@
+Measure Mid Red 4d round 2 (remediation) report
+
+Role: measure-mid-red
+Track: storytime_print_r1_20261025
+Phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+Model: bailian-token-plan/qwen3.8-max#high
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 2ac6b489f0640a5c856a03dfa6549506f806ff1a
+
+Both supplied SHAs resolve. HEAD at start was the role base. The round 1 model (openai/gpt-6-luna#high) is out of quota; the orchestrator records the deviation.
+
+Dirty-path classification at start:
+- Unrelated user work: video/storytime-song/scripts/render.mjs (another track). Untouched.
+- Generated or ignorable: dashboard/raw.json (untracked). Untouched.
+- Unrelated run artifacts: untracked files under measure/runs/storytime_covers_20261027/. Untouched.
+- No relevant dirty source path of this phase existed.
+
+Round 1 defects and this round's fixes:
+1. Role-gate defect (no [~] task in the phase): the `Task (Green 4d)` row is now `[~]`, and its pass cases name the round 2 cases.
+2. Forge contract defect: R-P4-11 and R-P4-12 now build the job through one fixture helper. The job, the candidate, and `lineArt` hold 'ready'. The helper holds the contract fields of advantage-forge book-pictures.ts at 11a06b9c (jobId, reviews, failures, renderEvidenceFile, errors, formatVersion, technique, and the StorytimeJob fields). No 'selected' status remains; the contract allows only 'ready', 'pending', and 'failed'. New R-P4-15: the adapter must throw for a job with status 'pending', for a job with status 'failed', and for a ready job with selectedVersion null; a ready-job anchor blocks an always-throwing adapter. New R-P4-16: the batch driver must report such a row as fail with a reason string.
+3. Source-text-search defect: R-P4-13 is now a behaviour test. Run 1 spawns make-readers-pdf.ts with --level 2 --weeks 1 --final --workbook, HOME set to a new temp folder, and WORKBOOKS_ROOT set to a temp repo copy. The copy holds the shipped w01.json and 17 of the 18 requested picture files. The placeholder files are 1 x 1 PNGs, because the CLI preflight is an existence check; the stage-one measurement is the batch driver's job, not the CLI's. The run must exit nonzero, name the missing picture, and leave no output file and no readers-* output folder under <home>/Desktop/print-ready. Run 2 (the same version) must stop on the same missing picture, not on an "output exists" error. At the role base the case fails, because run 1 creates the readers-l2-w1-v1 folder before the missing-picture stop. The preflight stops before Chrome, so the test needs no browser; one attempt takes about 1 s.
+4. New fact (PM, 2026-11-01: the Forge line art is 1-bit after the enlargement): new R-P4-17. Fixtures: 4000 x 3000 line art as a two-colour palette PNG (sharp .toColourspace('b-w').png({ palette: true, colors: 2 }); IHDR colour type 3, bit depth 1), and as a hand-made grayscale PNG (colour type 0, bit depth 1, written in the test with node:zlib). The test proves the IHDR bit depth of both written files. Both files must pass checkStorytimePicture. Result at the role base: PASS. Classification: guard case, not a Red case. Reason: sharp expands a 1-bit file to 8-bit uchar raw data with 3 channels, so the current measure loop reads it correctly. The guard keeps that acceptance under future changes to picture-check.ts. A probe of the sharp .png({ bitdepth: 1 }) option showed that sharp 0.34.5 ignores it and writes an 8-bit file, so the test uses the palette route and the hand-made route.
+
+Tests:
+- RED_TEST_COMMAND through heavy-run.sh: exit 1. Test Files 1 failed | 10 passed (11). Tests 7 failed | 384 passed (391). The failures are R-P4-9, R-P4-11, R-P4-12, R-P4-13, R-P4-14, R-P4-15, and R-P4-16. Each failure is inside a test body (an assertion, or a missing-export TypeError). No collection error occurred. Every unchanged case that passed at 2ac6b489 still passes.
+- Forge priority: pgrep -fc '[s]torytime-book-pictures' returned 0 before each heavy command. No wait occurred.
+- PROJECT_LINT through heavy-run.sh: exit 0, no output.
+- tsc --noEmit through heavy-run.sh: exit 0 (a precaution for the Green PROJECT_CHECKS).
+- Evidence: mid-red-2ac6b489-red.txt, mid-red-2ac6b489-lint.txt, mid-red-2ac6b489-tsc.txt.
+
+Commits: d7f3923d (test commit), and the measure(plan) record commit (HEAD).
+
+No production file changed. No file under content/ changed. Only the test file, plan.md, and measure/runs/storytime_print_r1_20261025/ were edited. Staging was path by path. No push occurred.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: P4 — Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 2ac6b489f0640a5c856a03dfa6549506f806ff1a
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+resulting_head: HEAD
+commits: d7f3923d, HEAD
+tests_run: RED_TEST_COMMAND exit 1; 7 failed | 384 passed (391); failures R-P4-9, R-P4-11, R-P4-12, R-P4-13, R-P4-14, R-P4-15, R-P4-16. PROJECT_LINT exit 0. tsc --noEmit exit 0. R-P4-17 passes at the role base (guard case, reported per instruction D).
+files_changed: dashboard/__tests__/storytime-print-readers.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/mid-red-2ac6b489.log; measure/runs/storytime_print_r1_20261025/mid-red-2ac6b489-red.txt; measure/runs/storytime_print_r1_20261025/mid-red-2ac6b489-lint.txt; measure/runs/storytime_print_r1_20261025/mid-red-2ac6b489-tsc.txt
+plan_updates: Green 4d is [~] with the round 2 pass cases (R-P4-13 behaviour, R-P4-15, R-P4-16, R-P4-17 guard). Red 4d holds round 2 sub-bullets with the test commit d7f3923d, the evidence numbers, and the R-P4-17 guard classification.
+known_failures: R-P4-9 checkStorytimePicture must accept a known entry of another picture-list row (pictureListFileNames); R-P4-11 and R-P4-15 forgeManifestEntriesForRow is absent (including the rejection of pending, failed, and selectedVersion null jobs); R-P4-12 and R-P4-16 checkStorytimePictureBatch is absent (including fail rows with a reason); R-P4-13 the CLI creates the readers-l2-w1-v1 output folder before the missing-picture stop; R-P4-14 check-storytime-pictures.ts is absent.
+handoff: Green 4d implements forgeManifestEntriesForRow and checkStorytimePictureBatch in lib/storytime/print/picture-check.ts per the Forge contract at 11a06b9c, and adds scripts/storytime/check-storytime-pictures.ts. The CLI preflight is an existence check of the requested picture files before any mkdir and before Chrome. The adapter throws for a job whose status is not 'ready' and for selectedVersion null. The batch driver reports such a row as fail with a reason string. R-P4-17 is a guard: keep a 1-bit line-art PNG accepted in both encodings. Green must turn the 7 Red cases green and keep R-P4-17 green. No question. No blocker.
+END_MEASURE_AGENT_RESULT
