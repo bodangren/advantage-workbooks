@@ -768,4 +768,286 @@ describe('Storytime two-output picture check', () => {
         const help = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--help'], { encoding: 'utf8', timeout: 120_000 });
         expect(`${help.stdout}\n${help.stderr}`, 'the usage text names a manifest.json that does not parse').toContain('does not parse');
     }, 120_000);
+
+    /**
+     * One job of a staged batch. The job takes its id and pixel size from `row`. The two source
+     * files come from the shared week 1 batch and are copied under the given names, so a case can
+     * give a real, passing file any name and only the name rule can fail the row.
+     */
+    type StagedJob = {
+        row: Week1Row;
+        colorName: string;
+        lineName: string;
+        colorFrom: string;
+        lineFrom: string;
+        /** The candidate version, and the `selectedVersion` of the job unless `selectedVersion` is set. */
+        version?: number;
+        jobStatus?: 'ready' | 'pending' | 'failed';
+        selectedVersion?: number | null;
+    };
+
+    /**
+     * The job of a row with its own files at the Forge redo version `version` (default 1): the
+     * names are `<row id>-v<N>.png` and `<row id>-line-v<N>.png` (PM option A, 2026-11-02).
+     * @param row The picture-list row; its files come from the shared week 1 batch.
+     * @param overrides Fields of the staged job to replace.
+     * @returns The staged job.
+     */
+    async function ownJob(row: Week1Row, overrides: Partial<StagedJob> = {}): Promise<StagedJob> {
+        const shared = await week1Batch();
+        const version = overrides.version ?? 1;
+        return {
+            row,
+            colorName: `${row.id}-v${version}.png`,
+            lineName: `${row.id}-line-v${version}.png`,
+            colorFrom: path.join(shared, 'w01', 'rows', row.fileName),
+            lineFrom: path.join(shared, 'w01', 'rows', row.lineArtFileName),
+            ...overrides,
+        };
+    }
+
+    /**
+     * Writes a batch folder from staged jobs: the files at `w01/rows/<name>` and one
+     * `manifest.json` with one job for each staged job, in the given order. The SHA-256 and the
+     * pixel size of each manifest fact agree with the copied file, so a case fails a row only on
+     * the rule under test.
+     * @param jobs The staged jobs; two jobs may share a row id.
+     * @returns The batch folder.
+     */
+    function stagedBatch(jobs: StagedJob[]): string {
+        const dir = temp();
+        const rowsFolder = path.join(dir, 'w01', 'rows');
+        fs.mkdirSync(rowsFolder, { recursive: true });
+        const manifestJobs = jobs.map((job) => {
+            fs.copyFileSync(job.colorFrom, path.join(rowsFolder, job.colorName));
+            fs.copyFileSync(job.lineFrom, path.join(rowsFolder, job.lineName));
+            return forgeJobFixture({
+                id: job.row.id, week: 1, bookKind: 'readalong', page: 1,
+                colorFile: `w01/rows/${job.colorName}`, colorSha256: hashOf(path.join(rowsFolder, job.colorName)),
+                lineFile: `w01/rows/${job.lineName}`, lineSha256: hashOf(path.join(rowsFolder, job.lineName)),
+                width: job.row.width, height: job.row.height,
+                version: job.version, jobStatus: job.jobStatus, selectedVersion: job.selectedVersion,
+            });
+        });
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify(forgeManifestOf(manifestJobs)));
+        return dir;
+    }
+
+    /** The row of the shipped week 1 list for one row id. */
+    function week1Row(id: string): Week1Row {
+        const row = week1Rows().find((entry) => entry.id === id);
+        expect(row, `the shipped list holds the week 1 row ${id}`).toBeTruthy();
+        return row as Week1Row;
+    }
+
+    /** The four rows of the real delivery `delivery-muse-v2` that Forge redid at version 2. */
+    const REDONE_ROW_IDS = [
+        'l2-w01-check-row-net',
+        'l2-w01-story-page-a-net',
+        'l2-w01-story-page-a-nose',
+        'l2-w01-story-page-nan-can-nod',
+    ];
+
+    /** The 30 week 1 jobs: the four redone rows at version 2 and the other 26 rows at version 1. */
+    async function week1RedoJobs(): Promise<StagedJob[]> {
+        return Promise.all(week1Rows().map((row) => ownJob(row, REDONE_ROW_IDS.includes(row.id) ? { version: 2 } : {})));
+    }
+
+    /** The realistic week 1 batch with the four redone rows, built once and shared by R-P4-23 and R-P4-28. */
+    let week1RedoBatchDir: Promise<string> | undefined;
+    function week1RedoBatch(): Promise<string> {
+        week1RedoBatchDir ??= week1RedoJobs().then(stagedBatch);
+        return week1RedoBatchDir;
+    }
+
+    it('R-P4-23 passes the 30 week-one rows when four rows were redone and carry the version 2 file names', async () => {
+        // PM option A (2026-11-02): Forge redoes a failed picture under a new version number N.
+        // The list keeps the names `-v1`. The batch check matches a manifest job by row id, so a
+        // row at v2 passes on its own measurements and manifest facts. The shape follows the real
+        // delivery `delivery-muse-v2`: 26 rows at v1 and four rows at v2.
+        const api = await pictureCheck();
+        const rows = week1Rows();
+        expect(rows, 'the shipped list holds 30 week 1 rows').toHaveLength(30);
+        for (const id of REDONE_ROW_IDS) {
+            const row = week1Row(id);
+            expect(row.fileName, `${id}: the list keeps the -v1 name; a redo needs no new list version`).toBe(`${id}-v1.png`);
+            expect(row.lineArtFileName, `${id}: the list keeps the -line-v1 name`).toBe(`${id}-line-v1.png`);
+        }
+        const dir = await week1RedoBatch();
+        const names = fs.readdirSync(path.join(dir, 'w01', 'rows'));
+        for (const id of REDONE_ROW_IDS) {
+            expect(names, `${id}: the batch holds the version 2 files`).toEqual(expect.arrayContaining([`${id}-v2.png`, `${id}-line-v2.png`]));
+            expect(names, `${id}: the batch holds no version 1 color file`).not.toContain(`${id}-v1.png`);
+        }
+        expect(names.filter((name) => /-v2\.png$/.test(name)), 'exactly four rows are at version 2').toHaveLength(8);
+        const report = await api.checkStorytimePictureBatch(rows, dir);
+        expect(report.results, 'one result for each requested row').toHaveLength(30);
+        const failed = report.results.filter((entry) => entry.status === 'fail');
+        expect(failed.map((entry) => `${entry.rowId}: ${entry.reason ?? ''}`).join('; '), 'every row passes, redone rows included').toBe('');
+        expect(report.exitCode, 'a fully delivered batch gives exit code 0').toBe(0);
+    }, 600_000);
+
+    it('R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows', async () => {
+        // PM option A: one job for each row id in a manifest (ADV-P4-1). The first-match rule
+        // lets list order decide; the check must name the duplicate in every order.
+        const api = await pictureCheck();
+        const dupRow = week1Row('l2-w01-check-row-net');
+        const requested = [dupRow, week1Row('l2-w01-check-row-cat'), week1Row('l2-w01-check-row-dog')];
+        const orders: Array<[string, StagedJob[]]> = [
+            ['a ready job, then a pending job', [await ownJob(dupRow), await ownJob(dupRow, { jobStatus: 'pending', selectedVersion: null })]],
+            ['a pending job, then a ready job', [await ownJob(dupRow, { jobStatus: 'pending', selectedVersion: null }), await ownJob(dupRow)]],
+            ['two ready jobs', [await ownJob(dupRow), await ownJob(dupRow, { version: 2 })]],
+        ];
+        const problems: string[] = [];
+        for (const [label, dupJobs] of orders) {
+            const dir = stagedBatch([...dupJobs, await ownJob(requested[1]), await ownJob(requested[2])]);
+            const report = await api.checkStorytimePictureBatch(requested, dir);
+            if (report.results.map((entry) => entry.rowId).join() !== requested.map((row) => row.id).join()) problems.push(`${label}: the results do not follow the request order`);
+            const [dup, ...others] = report.results;
+            if (dup?.status !== 'fail') problems.push(`${label}: the duplicated row ${dupRow.id} did not fail (status ${dup?.status})`);
+            else {
+                if (!(dup.reason ?? '').includes(dupRow.id)) problems.push(`${label}: the reason does not name the row id: ${dup.reason}`);
+                if (!/duplicate/i.test(dup.reason ?? '')) problems.push(`${label}: the reason does not say duplicate: ${dup.reason}`);
+            }
+            for (const other of others) if (other.status !== 'pass') problems.push(`${label}: ${other.rowId} did not keep its own result: ${other.reason}`);
+            if (report.exitCode !== 1) problems.push(`${label}: the exit code is ${report.exitCode}, not 1`);
+        }
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 300_000);
+
+    it('R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions', async () => {
+        // PM option A: the name part of each file must be `<row id>-v<N>.png` and
+        // `<row id>-line-v<N>.png`. The files are real and pass the measurements, so only the
+        // name rule can fail them. `a-nest` is a prefix of `a-nest-and-a-nut`, so a starts-with
+        // test would pass the two prefix rows.
+        const api = await pictureCheck();
+        const [pat, may, sam, mia, nest, nestAndNut, nan] = [
+            'l2-w01-story-page-hello-i-am-pat', 'l2-w01-story-page-hello-i-am-may', 'l2-w01-story-page-hello-i-am-sam',
+            'l2-w01-story-page-hello-i-am-mia', 'l2-w01-story-page-a-nest', 'l2-w01-story-page-a-nest-and-a-nut',
+            'l2-w01-story-page-hello-i-am-nan',
+        ].map(week1Row);
+        const own = (row: Week1Row) => ownJob(row);
+        const jobs: StagedJob[] = [
+            // the color file of pat carries the row id of may
+            await ownJob(pat, { colorName: `${may.id}-v1.png`, colorFrom: (await own(may)).colorFrom }),
+            await own(may),
+            // the line art of sam carries the row id of mia
+            await ownJob(sam, { lineName: `${mia.id}-line-v1.png`, lineFrom: (await own(mia)).lineFrom }),
+            await own(mia),
+            // the prefix trap: a-nest carries the files of a-nest-and-a-nut, and the reverse
+            await ownJob(nest, {
+                colorName: `${nestAndNut.id}-v1.png`, colorFrom: (await own(nestAndNut)).colorFrom,
+                lineName: `${nestAndNut.id}-line-v1.png`, lineFrom: (await own(nestAndNut)).lineFrom,
+            }),
+            await ownJob(nestAndNut, {
+                colorName: `${nest.id}-v1.png`, colorFrom: (await own(nest)).colorFrom,
+                lineName: `${nest.id}-line-v1.png`, lineFrom: (await own(nest)).lineFrom,
+            }),
+            await own(nan),
+        ];
+        const requested = [pat, may, sam, mia, nest, nestAndNut, nan];
+        const report = await api.checkStorytimePictureBatch(requested, stagedBatch(jobs));
+        // each failing row: the offending file name parts, any of which the reason may name
+        const failing = new Map<string, string[]>([
+            [pat.id, [`${may.id}-v1.png`]],
+            [sam.id, [`${mia.id}-line-v1.png`]],
+            [nest.id, [`${nestAndNut.id}-v1.png`, `${nestAndNut.id}-line-v1.png`]],
+            [nestAndNut.id, [`${nest.id}-v1.png`, `${nest.id}-line-v1.png`]],
+        ]);
+        const problems: string[] = [];
+        expect(report.results.map((entry) => entry.rowId), 'one result for each requested row, in order').toEqual(requested.map((row) => row.id));
+        for (const entry of report.results) {
+            const offending = failing.get(entry.rowId);
+            if (!offending) {
+                if (entry.status !== 'pass') problems.push(`${entry.rowId}: a clean row did not pass: ${entry.reason}`);
+                continue;
+            }
+            if (entry.status !== 'fail') { problems.push(`${entry.rowId}: a job with the file of another row id did not fail`); continue; }
+            if (!(entry.reason ?? '').includes(entry.rowId)) problems.push(`${entry.rowId}: the reason does not name the row id: ${entry.reason}`);
+            if (!offending.some((name) => (entry.reason ?? '').includes(name))) problems.push(`${entry.rowId}: the reason does not name the file ${offending.join(' or ')}: ${entry.reason}`);
+        }
+        expect(report.exitCode, 'a batch with a wrong file name gives exit code 1').toBe(1);
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 600_000);
+
+    it('R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion', async () => {
+        // PM option A, rule 3. The control rows prove the check is not a blanket reject: a row at
+        // v1 and a row at v2 pass. Every other row holds real files with one fault in the names.
+        const api = await pictureCheck();
+        const row = (suffix: string) => week1Row(`l2-w01-check-row-${suffix}`);
+        const [cup, cat, fish, dog, nose, bus, hat] = ['cup', 'cat', 'fish', 'dog', 'nose', 'bus', 'hat'].map(row);
+        const own = (r: Week1Row) => ownJob(r);
+        const jobs: StagedJob[] = [
+            await ownJob(cup), // control: version 1
+            await ownJob(cat, { version: 2 }), // control: a redone row at version 2
+            // a swapped pair: the color file carries the line-art name and the reverse
+            await ownJob(fish, { colorName: `${fish.id}-line-v1.png`, lineName: `${fish.id}-v1.png`, colorFrom: (await own(fish)).colorFrom, lineFrom: (await own(fish)).lineFrom }),
+            // version 0 is not a positive integer
+            await ownJob(dog, { version: 0 }),
+            // a leading zero
+            await ownJob(nose, { colorName: `${nose.id}-v01.png`, lineName: `${nose.id}-line-v01.png` }),
+            // the color file at v2 and the line art at v1
+            await ownJob(bus, { version: 2, lineName: `${bus.id}-line-v1.png` }),
+            // the files at v2 while the job selectedVersion and the candidate version are 1
+            await ownJob(hat, { version: 1, colorName: `${hat.id}-v2.png`, lineName: `${hat.id}-line-v2.png` }),
+        ];
+        const requested = [cup, cat, fish, dog, nose, bus, hat];
+        const report = await api.checkStorytimePictureBatch(requested, stagedBatch(jobs));
+        const failing = new Map<string, string[]>([
+            [fish.id, [`${fish.id}-line-v1.png`, `${fish.id}-v1.png`]],
+            [dog.id, [`${dog.id}-v0.png`, `${dog.id}-line-v0.png`]],
+            [nose.id, [`${nose.id}-v01.png`, `${nose.id}-line-v01.png`]],
+            [bus.id, [`${bus.id}-v2.png`, `${bus.id}-line-v1.png`]],
+            [hat.id, [`${hat.id}-v2.png`, `${hat.id}-line-v2.png`]],
+        ]);
+        const problems: string[] = [];
+        expect(report.results.map((entry) => entry.rowId), 'one result for each requested row, in order').toEqual(requested.map((r) => r.id));
+        for (const entry of report.results) {
+            const offending = failing.get(entry.rowId);
+            if (!offending) {
+                if (entry.status !== 'pass') problems.push(`${entry.rowId}: a control row with correct names did not pass: ${entry.reason}`);
+                continue;
+            }
+            if (entry.status !== 'fail') { problems.push(`${entry.rowId}: a wrong name form did not fail`); continue; }
+            if (!(entry.reason ?? '').includes(entry.rowId)) problems.push(`${entry.rowId}: the reason does not name the row id: ${entry.reason}`);
+            if (!offending.some((name) => (entry.reason ?? '').includes(name))) problems.push(`${entry.rowId}: the reason does not name the file ${offending.join(' or ')}: ${entry.reason}`);
+        }
+        expect(report.exitCode, 'a batch with a wrong name form gives exit code 1').toBe(1);
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 300_000);
+
+    it('R-P4-27 rejects an empty request for the batch check', async () => {
+        // ADV-P4-3: an empty row list must not give exit code 0 (A4, vacuous pass). The folder
+        // holds a valid manifest, so only the empty request can cause the throw. The one-row
+        // anchor proves that the function is not a blanket throw.
+        const api = await pictureCheck();
+        const row = week1Row('l2-w01-check-row-cup');
+        const dir = stagedBatch([await ownJob(row)]);
+        const anchor = await api.checkStorytimePictureBatch([row], dir);
+        expect(anchor.exitCode, 'the one-row anchor passes').toBe(0);
+        await expect(api.checkStorytimePictureBatch([], dir)).rejects.toThrow();
+    }, 120_000);
+
+    it('R-P4-28 the batch CLI passes the 30 rows with four redone rows and names a duplicate row id', async () => {
+        const { spawnSync } = await import('node:child_process');
+        const runCli = (dir: string) => spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', '1'], { encoding: 'utf8', timeout: 300_000 });
+        const rows = week1Rows();
+        const ok = runCli(await week1RedoBatch());
+        const okOut = `${ok.stdout}\n${ok.stderr}`;
+        expect(ok.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(ok.status, `the run exits 0 for the batch with four redone rows: ${okOut}`).toBe(0);
+        const okLines = ok.stdout.split('\n');
+        const missing = rows.filter((row) => !okLines.includes(`pass  ${row.id}`)).map((row) => row.id);
+        expect(missing, 'a pass line for each of the 30 rows').toEqual([]);
+        // a duplicate: a pending job with the id of the first row sits before its ready job
+        const dupRow = rows[0];
+        const dupDir = stagedBatch([await ownJob(dupRow, { jobStatus: 'pending', selectedVersion: null }), ...(await week1RedoJobs())]);
+        const dup = runCli(dupDir);
+        const dupOut = `${dup.stdout}\n${dup.stderr}`;
+        expect(dup.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(dup.status, `the run exits 1 for a duplicate row id: ${dupOut}`).toBe(1);
+        const dupLine = dup.stdout.split('\n').find((line) => line.startsWith(`fail  ${dupRow.id}:`));
+        expect(dupLine, `a fail line for the row ${dupRow.id}: ${dupOut}`).toBeTruthy();
+        expect(dupLine ?? '', 'the fail line says duplicate').toMatch(/duplicate/i);
+    }, 900_000);
 });
