@@ -358,7 +358,7 @@ _Blast radius: new files only. `lib/covers/compose.ts` (2 callers: `scripts/cove
      - Step 4: each [x] task of Phase 1 has a SHA on its first line, and all 21 SHAs are commits (`git cat-file -t`): b08310c6, 057c8fe5, 331a8616, c6e10981, ffbe3569, 6d6c73eb, 84c25fab, 3f8c5010, 6c41128e, a794e6f0, a269f46d, 6ca75b8e, b53ad48b, 85f1e264, 9ca660f0, 4b4854d6, 60492c9e, 5b126787, a8f94ebd, bcdfc4fc, 2f9ae5ae.
      - Step 5: the orchestrator opened `contact-sheet-v3b.png` (SHA-256 a643475e1a3833a804b1a6d8ddb20b49cfea8624be502f881f0d940bdbdb4ccb): it holds the 6 pages of the three `cover.pdf` files and the 6 PNG sides. The defect list equals the Check v3b note: none found.
 
-## Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+## Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05) [checkpoint: 1cfc84f]
 
 _Blast radius: the module and the script of Phase 1. The print track Phase 5 reads the module._
 
