@@ -104,7 +104,8 @@ function pictureElement(row: StorytimePictureRow, week: StorytimeWeek, o: Storyt
 }
 
 /** The picture rows of each book of a week, in the list order of `storytimePrintPictures`. */
-function rowsByBook(week: StorytimeWeek): { pages: StorytimePictureRow[]; cover: StorytimePictureRow }[] {    const rows = storytimePrintPictures([week]);
+function rowsByBook(week: StorytimeWeek): { pages: StorytimePictureRow[]; cover: StorytimePictureRow }[] {
+    const rows = storytimePrintPictures([week]);
     const story = rows.filter((row) => row.use === 'story-page');
     const covers = rows.filter((row) => row.use === 'cover');
     let storyIndex = 0;
@@ -113,6 +114,31 @@ function rowsByBook(week: StorytimeWeek): { pages: StorytimePictureRow[]; cover:
         const pages = book.pages.map(() => story[storyIndex++]);
         return { pages, cover: covers[coverIndex++] };
     });
+}
+
+/**
+ * The picture files that a build requests, in build order (FR-5.6, FR-9): the cover and the 8
+ * story pages of each reader, as the line art for the workbook and as the color file for the A3
+ * pages. The final mode checks every file of this list before it writes anything, so that a
+ * missing picture leaves no output folder and no half-written file (C-P4-2).
+ * @param weeks The parsed weeks in week order.
+ * @param o The build options; `bookTitle` limits the list to one reader.
+ * @returns Each row id with its file name and its path in the picture folder.
+ */
+export function storytimeReaderPictureFiles(weeks: StorytimeWeek[], o: StorytimeReaderOptions): { rowId: string; fileName: string; file: string }[] {
+    const files: { rowId: string; fileName: string; file: string }[] = [];
+    for (const week of weeks) {
+        const all = rowsByBook(week);
+        week.books.forEach((book, index) => {
+            if (o.bookTitle && book.title !== o.bookTitle) return;
+            const lineArt = o.output === 'workbook';
+            for (const row of [all[index].cover, ...all[index].pages]) {
+                const name = lineArt ? row.lineArtFileName : row.fileName;
+                files.push({ rowId: row.id, fileName: name, file: path.join(pictureDirOf(week), name) });
+            }
+        });
+    }
+    return files;
 }
 
 /** The reader cover page (FR-5.5): the title, the band "Sprout", the series, and the week number. */

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * Stage 1 of the picture stages (spec FR-9, rule 6.6; plan Phase 4): the measurement check of one
@@ -40,6 +41,39 @@ export interface StorytimePictureManifestEntry {
     sha256: string;
     /** The pixel size of the file. */
     pixelSize: { width: number; height: number };
+}
+
+/**
+ * The two facts of one picture-list row that the Forge manifest gives (spec FR-9): the color file
+ * and the line-art file of the selected candidate, each with the row id that Forge keys on.
+ */
+export interface StorytimeForgePictureEntry {
+    /** The file name of the candidate color file or of its line art. */
+    fileName: string;
+    /** The picture-list row id of the job. */
+    rowId: string;
+    /** The SHA-256 of the file bytes, in lower-case hex. */
+    sha256: string;
+    /** The pixel size of the file. */
+    pixelSize: { width: number; height: number };
+}
+
+/** One row of a batch check: the row id, the state, and the reason of a fail (spec FR-9, rule 6.6). */
+export interface StorytimePictureBatchResult {
+    /** The picture-list row id of the check. */
+    rowId: string;
+    /** `pass` when the two files meet stage 1, else `fail`. */
+    status: 'pass' | 'fail';
+    /** Why the row failed; absent on a pass. */
+    reason?: string;
+}
+
+/** The stage-1 report of a whole batch: one result for each row, and the exit code of the command. */
+export interface StorytimePictureBatchReport {
+    /** One result for each requested row, in the order of the request. */
+    results: StorytimePictureBatchResult[];
+    /** 0 when every row passes, 1 when a row fails. */
+    exitCode: number;
 }
 
 /** The fields of a picture-list row that stage 1 reads (a subset of `StorytimePictureRow`). */
@@ -92,6 +126,18 @@ const sha256Of = (file: string): string => createHash('sha256').update(fs.readFi
 function requireString(value: unknown, name: string): string {
     if (typeof value !== 'string' || !value) throw new Error(`picture check: the row has no ${name}`);
     return value;
+}
+
+/** A required text; the caller gives the full message, so that the Forge facts read well. */
+function requireText(value: unknown, message: string): string {
+    if (typeof value !== 'string' || !value) throw new Error(message);
+    return value;
+}
+
+/** A required object; the caller gives the full message. */
+function requireObject(value: unknown, message: string): Record<string, unknown> {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(message);
+    return value as Record<string, unknown>;
 }
 
 /** The pixel size of the row; the check names a missing or wrong field. */
@@ -230,7 +276,9 @@ function checkLine(facts: PictureFacts, size: { width: number; height: number },
  * @param lineFile The line-art PNG file on disk.
  * @param manifest The batch `manifest.json` entries.
  * @param row The picture-list row (`fileName`, `lineArtFileName`, `width`, `height`).
- * @param options The gray-fill limit; the default is `DEFAULT_GRAY_PIXEL_THRESHOLD`.
+ * @param options The gray-fill limit; the default is `DEFAULT_GRAY_PIXEL_THRESHOLD`. When the
+ *   caller gives `pictureListFileNames`, the manifest may also hold the entries of other known
+ *   picture-list rows; without it, only the two entries of this row may appear (FR-9).
  * @returns The measured facts of the two files, for the batch log.
  * @throws Error On a color space, alpha, pixel size, gray fill, manifest name, SHA-256, or pixel size problem.
  */
@@ -239,7 +287,7 @@ export async function checkStorytimePicture(
     lineFile: string,
     manifest: unknown,
     row: unknown,
-    options: { grayPixelThreshold?: number } = {},
+    options: { grayPixelThreshold?: number; pictureListFileNames?: string[] } = {},
 ): Promise<StorytimePictureCheckResult> {
     if (!row || typeof row !== 'object') throw new Error('picture check: the row is not an object');
     const fields = row as Record<string, unknown>;
@@ -248,13 +296,15 @@ export async function checkStorytimePicture(
     const size = requireSize(fields);
     const threshold = options.grayPixelThreshold ?? DEFAULT_GRAY_PIXEL_THRESHOLD;
     if (!(threshold >= 0 && threshold <= 1)) throw new Error(`picture check: the gray-fill limit ${threshold} is not a share from 0 to 1`);
-    // The manifest must name the two files of the row; a name outside the list is a batch error.
+    // The manifest must name the two files of the row; the entries of other known picture-list
+    // rows are allowed when the caller gives the list, and a name outside the list is a batch error.
     const colorEntry = entryOf(manifest, fileName);
     const lineEntry = entryOf(manifest, lineArtFileName);
+    const listNames = options.pictureListFileNames;
     for (const entry of manifest as StorytimePictureManifestEntry[]) {
-        if (entry.fileName !== fileName && entry.fileName !== lineArtFileName) {
-            throw new Error(`picture check: the manifest names ${entry.fileName}, which is not a file name of the picture list row ${fileName} or ${lineArtFileName}`);
-        }
+        if (entry.fileName === fileName || entry.fileName === lineArtFileName) continue;
+        if (listNames?.includes(entry.fileName)) continue;
+        throw new Error(`picture check: the manifest names ${entry.fileName}, which is not a file name of the picture list row ${fileName} or ${lineArtFileName}`);
     }
     for (const file of [colorFile, lineFile]) {
         if (!fs.existsSync(file)) throw new Error(`picture check: the file does not exist: ${file}`);
@@ -282,4 +332,119 @@ export async function checkStorytimePicture(
         grayPixelFraction,
         grayPixelThreshold: threshold,
     };
+}
+
+/** The SHA-256 of a Forge job file: the structural check first, then the job file hash. */
+function forgeSha256(node: Record<string, unknown>, message: string): string {
+    const structural = node.structural;
+    const checked = structural && typeof structural === 'object' ? (structural as Record<string, unknown>).sha256 : undefined;
+    const value = typeof checked === 'string' && checked ? checked : node.fileSha256;
+    if (typeof value !== 'string' || !/^[0-9a-f]{64}$/i.test(value)) throw new Error(message);
+    return value.toLowerCase();
+}
+
+/** The pixel size of a Forge job file, from its structural check (FR-9). */
+function forgePixelSize(node: Record<string, unknown>, message: string): { width: number; height: number } {
+    const structural = node.structural;
+    const check = structural && typeof structural === 'object' ? (structural as Record<string, unknown>) : {};
+    const width = Number(check.width);
+    const height = Number(check.height);
+    if (!Number.isSafeInteger(width) || width < 1 || !Number.isSafeInteger(height) || height < 1) throw new Error(message);
+    return { width, height };
+}
+
+/**
+ * Adapts one job of the Forge `manifest.json` to the two entries that stage 1 reads (spec FR-9,
+ * C-P4-1): the color file and the line-art file of the selected candidate, each with the row id
+ * that Forge keys the job on. Forge writes `manifest.json` as one object with `jobs` and
+ * `batches` (advantage-forge `src/storytime/book-pictures.ts` at 11a06b9c), so the check cannot
+ * read the file directly.
+ *
+ * Only a ready job with a selected version and a ready candidate and line art give the two
+ * files. A `pending` or `failed` job throws, because its files are not the final output.
+ * @param manifest The Forge manifest object.
+ * @param row The picture-list row; its `id` selects the job.
+ * @returns The color entry, then the line-art entry.
+ * @throws Error When the manifest holds no job for the row, the job or its candidate is not
+ *   ready, the job holds no selected version, or a file fact is missing.
+ */
+export function forgeManifestEntriesForRow(manifest: unknown, row: unknown): StorytimeForgePictureEntry[] {
+    const rowId = requireString(requireObject(row, 'picture check: the row is not an object').id, 'row id');
+    const jobs = requireObject(manifest, `forge manifest: the manifest is not an object (row ${rowId})`).jobs;
+    if (!Array.isArray(jobs)) throw new Error(`forge manifest: the manifest holds no jobs list (row ${rowId})`);
+    const job = (jobs as unknown[])
+        .map((entry) => requireObject(entry, `forge manifest: a job is not an object (row ${rowId})`))
+        .find((entry) => entry.id === rowId);
+    if (!job) throw new Error(`forge manifest: the manifest holds no job for the row ${rowId}`);
+    const status = String(job.status ?? '');
+    if (status !== 'ready') {
+        throw new Error(`forge manifest: the job ${rowId} has status "${status || 'unknown'}"; only a ready job gives a picture`);
+    }
+    const selectedVersion = job.selectedVersion;
+    if (selectedVersion === null || selectedVersion === undefined) {
+        throw new Error(`forge manifest: the job ${rowId} has no selected version`);
+    }
+    const candidates = Array.isArray(job.candidates) ? (job.candidates as unknown[]) : [];
+    const candidate = candidates
+        .map((entry) => requireObject(entry, `forge manifest: a candidate is not an object (row ${rowId})`))
+        .find((entry) => entry.version === selectedVersion);
+    if (!candidate) throw new Error(`forge manifest: the job ${rowId} holds no candidate for the selected version ${String(selectedVersion)}`);
+    const candidateStatus = String(candidate.status ?? '');
+    if (candidateStatus !== 'ready') {
+        throw new Error(`forge manifest: the candidate version ${String(selectedVersion)} of the job ${rowId} has status "${candidateStatus || 'unknown'}"; only a ready candidate gives a picture`);
+    }
+    const lineArt = requireObject(candidate.lineArt, `forge manifest: the candidate version ${String(selectedVersion)} of the job ${rowId} has no line art`);
+    const lineStatus = String(lineArt.status ?? '');
+    if (lineStatus !== 'ready') {
+        throw new Error(`forge manifest: the line art of the job ${rowId} has status "${lineStatus || 'unknown'}"; only ready line art gives a picture`);
+    }
+    return [
+        {
+            fileName: requireText(candidate.file, `forge manifest: the candidate version ${String(selectedVersion)} of the job ${rowId} has no color file name`),
+            rowId,
+            sha256: forgeSha256(candidate, `forge manifest: the candidate version ${String(selectedVersion)} of the job ${rowId} has no SHA-256`),
+            pixelSize: forgePixelSize(candidate, `forge manifest: the candidate version ${String(selectedVersion)} of the job ${rowId} has no pixel size`),
+        },
+        {
+            fileName: requireText(lineArt.file, `forge manifest: the line art of the job ${rowId} has no file name`),
+            rowId,
+            sha256: forgeSha256(lineArt, `forge manifest: the line art of the job ${rowId} has no SHA-256`),
+            pixelSize: forgePixelSize(lineArt, `forge manifest: the line art of the job ${rowId} has no pixel size`),
+        },
+    ];
+}
+
+/**
+ * Stage 1 of the picture stages for a whole Forge batch (spec FR-9, strategy 5.1, C-P4-1): reads
+ * `<batchFolder>/manifest.json`, adapts each row of the request, and measures the two files of
+ * each row. One result comes back for every requested row, in the request order, so that a failed
+ * row never stops the rows after it.
+ * @param rows The picture-list rows to check; each row id selects its Forge job.
+ * @param batchFolder The folder that holds `manifest.json` and the picture files.
+ * @returns One result for each row, and 0 or 1 as the exit code of a command.
+ * @throws Error When the batch folder holds no `manifest.json`, or the file does not parse.
+ */
+export async function checkStorytimePictureBatch(rows: unknown[], batchFolder: string): Promise<StorytimePictureBatchReport> {
+    const manifestFile = path.join(batchFolder, 'manifest.json');
+    if (!fs.existsSync(manifestFile)) throw new Error(`picture batch: the batch folder holds no manifest.json: ${batchFolder}`);
+    let manifest: unknown;
+    try {
+        manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+    } catch (e) {
+        throw new Error(`picture batch: the manifest.json does not parse: ${e instanceof Error ? e.message : String(e)}`);
+    }
+    const results: StorytimePictureBatchResult[] = [];
+    for (const row of rows) {
+        const rowId = typeof (row as { id?: unknown } | null)?.id === 'string' ? String((row as { id: string }).id) : '';
+        try {
+            const entries = forgeManifestEntriesForRow(manifest, row);
+            const colorFile = path.join(batchFolder, entries[0].fileName);
+            const lineFile = path.join(batchFolder, entries[1].fileName);
+            await checkStorytimePicture(colorFile, lineFile, entries, row);
+            results.push({ rowId, status: 'pass' });
+        } catch (e) {
+            results.push({ rowId, status: 'fail', reason: e instanceof Error ? e.message : String(e) });
+        }
+    }
+    return { results, exitCode: results.some((result) => result.status === 'fail') ? 1 : 0 };
 }

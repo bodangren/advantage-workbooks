@@ -4,7 +4,7 @@ import path from 'path';
 import { execFileSync } from 'child_process';
 import { renderPagedPdf } from '../../lib/print/render';
 import { STORYTIME_PRINT_PROFILE } from '../../lib/storytime/print/profile';
-import { compileStorytimeReaders, type StorytimeReaderOptions } from '../../lib/storytime/print/readers';
+import { compileStorytimeReaders, storytimeReaderPictureFiles, type StorytimeReaderOptions } from '../../lib/storytime/print/readers';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
@@ -53,8 +53,9 @@ Output files in the folder:
 Exit code 2 on an argument error, on --a3-color with --workbook, on an output folder that lies
 outside the print folder, on an output path that is a symbolic link or resolves outside the print
 folder on the filesystem, and on an output file that exists already (use a new --version).
-Exit code 1 when a week does not parse, does not load exactly once, has no readers, or a render
-fails.`;
+Exit code 1 when a week does not parse, does not load exactly once, has no readers, a render
+fails, or (final mode) a picture file of the requested readers is missing. The final build
+checks every picture file before it makes the output folder and before Chrome.`;
 
 interface Args {
     level: number;
@@ -180,6 +181,18 @@ async function main(argv: string[]): Promise<number> {
     if (existing.length) {
         console.error(`The output exists already; use a new --version (rule 12.2): ${existing.join('; ')}`);
         return 2;
+    }
+    // The final build checks every picture file of the requested readers before it writes anything
+    // (FR-5.6, C-P4-2): a missing picture stops the build before Chrome, with no output folder and
+    // no half-written file, so that a retry with the same --version stops on the same picture and
+    // not on an "output exists" error (rule 12.2).
+    if (mode === 'final') {
+        const missing = storytimeReaderPictureFiles(parsed, { profile: STORYTIME_PRINT_PROFILE, mode, output })
+            .filter((entry) => !fs.existsSync(entry.file));
+        if (missing.length) {
+            for (const entry of missing) console.error(`picture missing: ${entry.rowId} (${entry.fileName})`);
+            return 1;
+        }
     }
     fs.mkdirSync(folder, { recursive: true });
     const pagedSrc = fs.readFileSync(path.join(process.cwd(), 'node_modules', 'pagedjs', 'dist', 'paged.polyfill.js'), 'utf8');
