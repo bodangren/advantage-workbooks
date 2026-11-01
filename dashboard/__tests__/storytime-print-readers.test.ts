@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { afterAll, describe, expect, it } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
@@ -15,7 +16,7 @@ type PictureApi = {
     checkStorytimePicture: (colorFile: string, lineFile: string, manifest: unknown, row: unknown, options?: { grayPixelThreshold?: number; pictureListFileNames?: string[] }) => Promise<unknown>;
     DEFAULT_GRAY_PIXEL_THRESHOLD: number;
     forgeManifestEntriesForRow: (manifest: unknown, row: unknown) => Array<{ fileName: string; rowId: string; sha256: string; pixelSize: { width: number; height: number } }>;
-    checkStorytimePictureBatch: (rows: unknown[], batchFolder: string) => Promise<{ results: Array<{ rowId: string; status: string }>; exitCode: number }>;
+    checkStorytimePictureBatch: (rows: unknown[], batchFolder: string) => Promise<{ results: Array<{ rowId: string; status: string; reason?: string }>; exitCode: number }>;
 };
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const readerPath = path.join(dashboardRoot, 'lib/storytime/print/readers.ts');
@@ -199,16 +200,60 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         expect(execFileSync(process.execPath, ['--import', 'tsx', cliPath, '--help'], { encoding: 'utf8' })).toContain('make-readers-pdf.ts');
     }, 30_000);
 
-    it('R-P4-13 preflights every requested final reader picture before creating outputs or rendering', () => {
-        const source = fs.readFileSync(cliPath, 'utf8');
-        const preflight = source.indexOf('preflightStorytimeReaderPictures(parsed');
-        const folderWrite = source.indexOf('fs.mkdirSync(folder');
-        const firstRender = source.indexOf('renderHtml(');
-        expect(preflight, 'The final build calls the picture preflight.').toBeGreaterThan(-1);
-        expect(preflight, 'The preflight runs before output folder creation.').toBeLessThan(folderWrite);
-        expect(preflight, 'The preflight runs before the first render.').toBeLessThan(firstRender);
-        expect(source.slice(preflight, folderWrite)).toContain('mode');
-    });
+    it('R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry', async () => {
+        // Behaviour contract (FR-5.6, rule 12.2): the final build stops before it creates the
+        // output folder or renders, so a stopped build writes no output file and no new output
+        // folder, and a retry with the same --version stops on the same missing picture instead
+        // of an "output exists" error. The CLI preflight is the existence check of the requested
+        // picture files; the stage-one measurement is the batch driver's job (R-P4-12), not this
+        // CLI's. The run stops before Chrome, so this test needs no browser. The temp
+        // WORKBOOKS_ROOT gives the script a week copy and 17 of the 18 requested pictures.
+        const api = await readers();
+        const doc = new DOMParser().parseFromString(api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html, 'text/html');
+        const names = [...new Set(Array.from(doc.querySelectorAll('[data-picture-file]'), (el) => el.getAttribute('data-picture-file')!))].sort();
+        expect(names.length, 'the week 1 readers request their picture files').toBeGreaterThanOrEqual(2);
+        const missingName = names[Math.floor(names.length / 2)];
+        const home = temp();
+        const repo = temp();
+        const weekDir = path.join(repo, 'content', 'storytime', 'l2');
+        fs.mkdirSync(path.join(weekDir, 'print', 'pictures'), { recursive: true });
+        fs.copyFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), path.join(weekDir, 'w01.json'));
+        const onePixelPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+        for (const name of names) if (name !== missingName) fs.writeFileSync(path.join(weekDir, 'print', 'pictures', name), onePixelPng);
+        // The stopped run leaves nothing in the print folder: no `readers-*` output folder and no
+        // PDF file. The scan does not hard-code the folder name of one version.
+        const printRoot = path.join(home, 'Desktop', 'print-ready');
+        const leftovers = (): string[] => {
+            const found: string[] = [];
+            const walk = (dir: string): void => {
+                for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                    const full = path.join(dir, entry.name);
+                    if (entry.isDirectory()) {
+                        if (/^readers-/.test(entry.name)) found.push(full);
+                        walk(full);
+                    } else if (entry.name.endsWith('.pdf')) found.push(full);
+                }
+            };
+            if (fs.existsSync(printRoot)) walk(printRoot);
+            return found;
+        };
+        const { spawnSync } = await import('node:child_process');
+        const args = ['--import', 'tsx', cliPath, '--level', '2', '--weeks', '1', '--final', '--workbook'];
+        const env = { ...process.env, HOME: home, WORKBOOKS_ROOT: repo };
+        const run1 = spawnSync(process.execPath, args, { encoding: 'utf8', env, timeout: 90_000 });
+        const out1 = `${run1.stdout}\n${run1.stderr}`;
+        expect(run1.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(run1.status, `the final build exits nonzero: ${out1}`).not.toBe(0);
+        expect(out1, 'the run names the missing picture').toContain(missingName);
+        expect(leftovers(), 'the stopped run writes no output file and creates no output folder').toEqual([]);
+        const run2 = spawnSync(process.execPath, args, { encoding: 'utf8', env, timeout: 90_000 });
+        const out2 = `${run2.stdout}\n${run2.stderr}`;
+        expect(run2.status, 'the run was not killed by the spawn timeout').not.toBeNull();
+        expect(run2.status, `the same-version retry exits nonzero: ${out2}`).not.toBe(0);
+        expect(out2, 'the retry stops on the same missing picture').toContain(missingName);
+        expect(out2, 'the retry is not blocked by an existing output').not.toMatch(/output exists/i);
+        expect(leftovers(), 'the retry also writes no output file and creates no output folder').toEqual([]);
+    }, 240_000);
 });
 
 describe('Storytime two-output picture check', () => {
@@ -224,6 +269,118 @@ describe('Storytime two-output picture check', () => {
         const row = { fileName: path.basename(color), lineArtFileName: path.basename(line), width: 4000, height: 3000 };
         const manifest = [color, line].map((file) => ({ fileName: path.basename(file), sha256: createHash('sha256').update(fs.readFileSync(file)).digest('hex'), pixelSize: { width: 4000, height: 3000 } }));
         return { color, line, gray, row, manifest };
+    }
+
+    /** The SHA-256 of one file, in lower-case hex (the Forge manifest fact). */
+    const hashOf = (file: string): string => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+
+    /**
+     * One Forge manifest job that follows the Forge contract (advantage-forge
+     * `src/storytime/book-pictures.ts` at 11a06b9c). The job, the candidate, and `lineArt` each
+     * hold a status of only 'ready', 'pending', or 'failed', and a job holds
+     * `selectedVersion: number | null`. The defaults give one ready job with one ready candidate
+     * and ready line art. The line-art fields name the Forge 1-bit technique (PM fact,
+     * 2026-11-01).
+     */
+    function forgeJobFixture(facts: {
+        id: string; week: number; bookKind: 'readalong' | 'decodable'; page: number;
+        colorFile: string; colorSha256: string; lineFile: string; lineSha256: string;
+        width: number; height: number; version?: number;
+        jobStatus?: 'ready' | 'pending' | 'failed';
+        candidateStatus?: 'ready' | 'pending' | 'failed';
+        lineArtStatus?: 'ready' | 'pending' | 'failed';
+        selectedVersion?: number | null;
+    }): Record<string, unknown> {
+        const version = facts.version ?? 1;
+        const selectedVersion = facts.selectedVersion === undefined ? version : facts.selectedVersion;
+        const selected = selectedVersion === version;
+        return {
+            id: facts.id, week: facts.week, bookKind: facts.bookKind, bookTitle: 'Hello!', page: facts.page,
+            text: 'Hello!', sourcePrompt: 'fixture prompt', characters: ['Pat'],
+            sourcePackage: 'w01.json', sourceSha256: '0'.repeat(64),
+            slug: facts.id, directory: `jobs/${facts.id}`, use: facts.bookKind, size: 'story',
+            selectedVersion,
+            selectedFile: selected ? facts.colorFile : null,
+            selectedSha256: selected ? facts.colorSha256 : null,
+            status: facts.jobStatus ?? 'ready',
+            candidates: [{
+                jobId: facts.id, version, file: facts.colorFile, fileSha256: facts.colorSha256,
+                status: facts.candidateStatus ?? 'ready',
+                structural: { valid: true, width: facts.width, height: facts.height, sha256: facts.colorSha256, errors: [] },
+                reviews: {}, failures: [],
+                lineArt: {
+                    file: facts.lineFile, fileSha256: facts.lineSha256, colorFile: facts.colorFile,
+                    renderEvidenceFile: `jobs/${facts.id}/render-evidence-v${version}.json`,
+                    status: facts.lineArtStatus ?? 'ready',
+                    structural: { valid: true, width: facts.width, height: facts.height, sha256: facts.lineSha256, errors: [] },
+                    formatVersion: 'storytime-lineart-provisional-v1',
+                    technique: 'song-page-form-edges-viewdepth-1bit-v2',
+                    errors: [],
+                },
+            }],
+        };
+    }
+
+    /** One Forge `StorytimeManifest` wrapper (version 1) around the fixture jobs. */
+    const forgeManifestOf = (jobs: unknown[]): Record<string, unknown> => ({ version: 1, batchHashAlgorithm: 'sha256', jobs, batches: [] });
+
+    /** The PNG IHDR bit depth of one file (byte 24 of the file). */
+    const pngBitDepth = (file: string): number => fs.readFileSync(file)[24];
+
+    /**
+     * Writes a 1-bit grayscale PNG (colour type 0, bit depth 1): black bars on white, 24 px thick
+     * lines. Forge makes the line art 1-bit after the enlargement (PM fact, 2026-11-01), so the
+     * picture check must accept a 1-bit file. The writer packs 8 pixels in each byte, MSB first;
+     * sample 0 is black and sample 1 is white in a 1-bit grayscale PNG.
+     * @param file The file to write.
+     * @param width The pixel width.
+     * @param height The pixel height.
+     */
+    function writeGray1LinePng(file: string, width: number, height: number): void {
+        const crcTable = new Int32Array(256);
+        for (let n = 0; n < 256; n++) {
+            let c = n;
+            for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+            crcTable[n] = c;
+        }
+        const crc32 = (buf: Buffer): number => {
+            let c = 0xffffffff;
+            for (const byte of buf) c = crcTable[(c ^ byte) & 0xff] ^ (c >>> 8);
+            return (c ^ 0xffffffff) >>> 0;
+        };
+        const chunk = (type: string, data: Buffer): Buffer => {
+            const len = Buffer.alloc(4);
+            len.writeUInt32BE(data.length);
+            const body = Buffer.concat([Buffer.from(type, 'ascii'), data]);
+            const crc = Buffer.alloc(4);
+            crc.writeUInt32BE(crc32(body));
+            return Buffer.concat([len, body, crc]);
+        };
+        const ihdr = Buffer.alloc(13);
+        ihdr.writeUInt32BE(width, 0);
+        ihdr.writeUInt32BE(height, 4);
+        ihdr[8] = 1; // bit depth
+        ihdr[9] = 0; // colour type 0: grayscale
+        const rowBytes = Math.ceil(width / 8);
+        const raw = Buffer.alloc((rowBytes + 1) * height, 0);
+        for (let y = 0; y < height; y++) {
+            const rowStart = y * (rowBytes + 1);
+            raw[rowStart] = 0; // filter: none
+            for (let x = 0; x < width; x++) {
+                const inBar = (y >= 500 && y < 524 && x >= 500 && x < 3500)
+                    || (y >= 2476 && y < 2500 && x >= 500 && x < 3500)
+                    || (x >= 500 && x < 524 && y >= 500 && y < 2500)
+                    || (x >= 3476 && x < 3500 && y >= 500 && y < 2500)
+                    || (y >= 1488 && y < 1512 && x >= 800 && x < 3200);
+                if (!inBar) raw[rowStart + 1 + (x >> 3)] |= 0x80 >> (x & 7); // white
+            }
+        }
+        fs.writeFileSync(file, Buffer.concat([
+            Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+            chunk('IHDR', ihdr),
+            chunk('IDAT', zlib.deflateSync(raw)),
+            chunk('IEND', Buffer.alloc(0)),
+        ]));
     }
 
     it('R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture', async () => {
@@ -295,20 +452,14 @@ describe('Storytime two-output picture check', () => {
         const dir = temp();
         const fixture = await pngFixtures(dir);
         const row = { ...fixture.row, id: 'story-row-17', week: 1, bookKind: 'readalong', page: 3 };
-        const manifest = {
-            version: 1,
-            batchHashAlgorithm: 'sha256',
-            jobs: [{
-                id: row.id, week: 1, bookKind: 'readalong', page: 3, selectedVersion: 2,
-                selectedFile: path.basename(fixture.color), selectedSha256: fixture.manifest[0].sha256, status: 'selected',
-                candidates: [{
-                    version: 2, file: path.basename(fixture.color), fileSha256: fixture.manifest[0].sha256,
-                    structural: { valid: true, width: 4000, height: 3000, sha256: fixture.manifest[0].sha256, errors: [] },
-                    lineArt: { file: path.basename(fixture.line), fileSha256: fixture.manifest[1].sha256, colorFile: path.basename(fixture.color), status: 'selected', structural: { width: 4000, height: 3000 } },
-                }],
-            }],
-            batches: [],
-        };
+        // The fixture statuses follow the Forge contract at 11a06b9c: only 'ready', 'pending',
+        // or 'failed' exist. A usable job, candidate, and line art are each 'ready'.
+        const manifest = forgeManifestOf([forgeJobFixture({
+            id: row.id, week: 1, bookKind: 'readalong', page: 3,
+            colorFile: path.basename(fixture.color), colorSha256: fixture.manifest[0].sha256,
+            lineFile: path.basename(fixture.line), lineSha256: fixture.manifest[1].sha256,
+            width: 4000, height: 3000, version: 2,
+        })]);
         const facts = api.forgeManifestEntriesForRow(manifest, row);
         expect(facts).toEqual([
             { fileName: path.basename(fixture.color), rowId: row.id, sha256: fixture.manifest[0].sha256, pixelSize: { width: 4000, height: 3000 } },
@@ -329,11 +480,11 @@ describe('Storytime two-output picture check', () => {
             batchHashAlgorithm: 'sha256',
             jobs: [{
                 id: row.id, week: 1, bookKind: 'readalong', page: 3, selectedVersion: 1,
-                selectedFile: row.fileName, selectedSha256: colorHash, status: 'selected',
+                selectedFile: row.fileName, selectedSha256: colorHash, status: 'ready',
                 candidates: [{
-                    version: 1, file: row.fileName, fileSha256: colorHash,
+                    version: 1, file: row.fileName, fileSha256: colorHash, status: 'ready',
                     structural: { valid: true, width: 4000, height: 3000, sha256: colorHash, errors: [] },
-                    lineArt: { file: row.lineArtFileName, fileSha256: lineHash, colorFile: row.fileName, status: 'selected', structural: { width: 4000, height: 3000 } },
+                    lineArt: { file: row.lineArtFileName, fileSha256: lineHash, colorFile: row.fileName, status: 'ready', structural: { width: 4000, height: 3000 } },
                 }],
             }],
             batches: [],
@@ -343,6 +494,92 @@ describe('Storytime two-output picture check', () => {
         expect(result.results.map(({ rowId }) => rowId)).toEqual(['story-row-17', 'missing-row']);
         expect(result.results.map(({ status }) => status)).toEqual(['pass', 'fail']);
     }, 30_000);
+
+    it('R-P4-15 rejects a Forge job that is not ready or holds no selected version', async () => {
+        const api = await pictureCheck();
+        const dir = temp();
+        const fixture = await pngFixtures(dir);
+        const row = { ...fixture.row, id: 'story-row-17', week: 1, bookKind: 'readalong', page: 3 };
+        const facts = {
+            id: row.id, week: 1, bookKind: 'readalong' as const, page: 3,
+            colorFile: path.basename(fixture.color), colorSha256: fixture.manifest[0].sha256,
+            lineFile: path.basename(fixture.line), lineSha256: fixture.manifest[1].sha256,
+            width: 4000, height: 3000,
+        };
+        // The Forge contract (11a06b9c) allows only 'ready', 'pending', and 'failed' for the job
+        // status. Only a ready job with a selected version gives the adapter its two files. A
+        // 'selected' status does not exist in the contract and must not appear in a fixture.
+        expect(() => api.forgeManifestEntriesForRow(forgeManifestOf([forgeJobFixture({ ...facts, jobStatus: 'pending', selectedVersion: null })]), row))
+            .toThrow(/ready|pending|status/i);
+        expect(() => api.forgeManifestEntriesForRow(forgeManifestOf([forgeJobFixture({ ...facts, jobStatus: 'failed', selectedVersion: null })]), row))
+            .toThrow(/ready|failed|status/i);
+        expect(() => api.forgeManifestEntriesForRow(forgeManifestOf([forgeJobFixture({ ...facts, jobStatus: 'ready', selectedVersion: null })]), row))
+            .toThrow(/selected|version/i);
+        // The happy-path anchor: an always-throwing adapter must not pass the three cases above.
+        expect(api.forgeManifestEntriesForRow(forgeManifestOf([forgeJobFixture(facts)]), row)).toHaveLength(2);
+    }, 30_000);
+
+    it('R-P4-16 reports a row whose Forge job is not ready as fail with a reason', async () => {
+        const api = await pictureCheck();
+        const dir = temp();
+        const fixture = await pngFixtures(dir);
+        // Both rows hold their two files in the batch folder, so only the job state can fail them.
+        const rows = [
+            { id: 'pending-row', fileName: 'pending-row-v1.png', lineArtFileName: 'pending-row-line-v1.png', width: 4000, height: 3000, week: 1 },
+            { id: 'no-selection-row', fileName: 'no-selection-row-v1.png', lineArtFileName: 'no-selection-row-line-v1.png', width: 4000, height: 3000, week: 1 },
+        ];
+        for (const row of rows) {
+            fs.copyFileSync(fixture.color, path.join(dir, row.fileName));
+            fs.copyFileSync(fixture.line, path.join(dir, row.lineArtFileName));
+        }
+        const colorSha = hashOf(path.join(dir, rows[0].fileName));
+        const lineSha = hashOf(path.join(dir, rows[0].lineArtFileName));
+        const jobOf = (row: { id: string; fileName: string; lineArtFileName: string }, jobStatus: 'ready' | 'pending' | 'failed', selectedVersion: number | null) => forgeJobFixture({
+            id: row.id, week: 1, bookKind: 'readalong', page: 3,
+            colorFile: row.fileName, colorSha256: colorSha, lineFile: row.lineArtFileName, lineSha256: lineSha,
+            width: 4000, height: 3000, jobStatus, selectedVersion,
+        });
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify(forgeManifestOf([
+            jobOf(rows[0], 'pending', null),
+            jobOf(rows[1], 'ready', null),
+        ])));
+        const result = await api.checkStorytimePictureBatch(rows, dir);
+        expect(result.exitCode).toBe(1);
+        expect(result.results.map(({ rowId }) => rowId)).toEqual(['pending-row', 'no-selection-row']);
+        expect(result.results.map(({ status }) => status)).toEqual(['fail', 'fail']);
+        for (const entry of result.results) {
+            expect(typeof entry.reason, 'each failed row names a reason').toBe('string');
+            expect(entry.reason, 'each failed row names a reason').toBeTruthy();
+            expect(entry.reason, 'the reason names the job state').toMatch(/ready|pending|selected|status|version|job/i);
+        }
+    }, 30_000);
+
+    it('R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings', async () => {
+        // New fact (PM, 2026-11-01): Forge makes the line art from the Muse color picture: thick,
+        // simple, and 1-bit after the enlargement to 4000 x 3000. The check must accept a line-art
+        // file whose PNG bit depth is 1, in both encodings: a two-colour palette (colour type 3,
+        // what sharp writes) and a grayscale file (colour type 0, hand-made here). The test proves
+        // the bit depth of each written file from its IHDR before the check runs.
+        const api = await pictureCheck();
+        const sharp = (await import('sharp')).default;
+        const dir = temp();
+        const fixture = await pngFixtures(dir);
+        const art = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="4000" height="3000" viewBox="0 0 4000 3000"><rect width="4000" height="3000" fill="white"/><path d="M500 1500 C1000 800 1800 800 2200 1500 C2600 2200 3300 2200 3500 1500" fill="none" stroke="black" stroke-width="24"/><circle cx="2000" cy="1500" r="340" fill="none" stroke="black" stroke-width="24"/></svg>');
+        const paletteLine = path.join(dir, 'line-1bit-palette.png');
+        await sharp(art).toColourspace('b-w').png({ palette: true, colors: 2 }).toFile(paletteLine);
+        const grayLine = path.join(dir, 'line-1bit-gray.png');
+        writeGray1LinePng(grayLine, 4000, 3000); // the bars are drawn for a 4000 x 3000 canvas
+        expect(pngBitDepth(paletteLine), 'the palette line art is 1-bit').toBe(1);
+        expect(pngBitDepth(grayLine), 'the grayscale line art is 1-bit').toBe(1);
+        for (const lineFile of [paletteLine, grayLine]) {
+            const row = { fileName: fixture.row.fileName, lineArtFileName: path.basename(lineFile), width: 4000, height: 3000 };
+            const manifest = [
+                { fileName: fixture.row.fileName, sha256: hashOf(fixture.color), pixelSize: { width: 4000, height: 3000 } },
+                { fileName: row.lineArtFileName, sha256: hashOf(lineFile), pixelSize: { width: 4000, height: 3000 } },
+            ];
+            await expect(api.checkStorytimePicture(fixture.color, lineFile, manifest, row)).resolves.toBeTruthy();
+        }
+    }, 60_000);
 
     it('R-P4-14 exposes the stage-one batch command', async () => {
         expect(fs.existsSync(pictureBatchCliPath), 'Missing script: scripts/storytime/check-storytime-pictures.ts').toBe(true);
