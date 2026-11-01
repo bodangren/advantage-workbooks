@@ -1,0 +1,84 @@
+# Green ADV-P2 - the print default folder and the approved-week render
+
+status: pass
+
+- Role: Measure Jr Green. Green-phase remediation of the two adversarial defects ADV-P2-1 and ADV-P2-2.
+- Model: deepseek/deepseek-flash#high. The Red model of this phase is the Qwen family (Red P2, commit be3b0a2f). The guard tests come from the adversarial role on claude-code/claude-sonnet-5-5#high (commits 13f0053a and 92476880). No coder subagent was used.
+- Repository: /home/daniebo/Desktop/Workbooks, branch master.
+- Track: storytime_covers_20261027. Phase 2. Task ADV-P2.
+- phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+- role_base_sha: 85c327d93e751a865a3c22514bb9342f5e7aa3e8. `git rev-parse HEAD` returned this SHA at start.
+- Code commit: 174586b63f551c24caaffd79e5ae03c1638403bc
+- Source of the defects: `measure/runs/storytime_covers_20261027/adversarial-c9e92fa2.json`.
+
+## Precondition
+
+- `git status --short` at start: one uncommitted change in `video/storytime-song/scripts/render.mjs`, the untracked `dashboard/raw.json`, and untracked run files. This role kept them and changed no other work.
+- The range `phase_base_sha..HEAD` holds the Red P2 commit be3b0a2f and the two adversarial commits 13f0053a and 92476880. Confirmed.
+- The targeted command failed on role_base_sha 85c327d9 with exactly 2 failed and 57 passed:
+  - ADV-P2-OUT: the `--print` build wrote 6 files into `proof-v3/l2u1`.
+  - ADV-P2-D12 only week 3: the back page leaked `get`, `Paint!`, and `The Pan`.
+- File: `jr-green-85c327d9-green-red.txt`.
+
+## The change (commit 174586b6)
+
+One file: `dashboard/scripts/storytime/make-storytime-book-cover.ts`.
+
+- ADV-P2-1, choice: the print default. With `--print` and no `--out`, a version 3 or later build writes to `<print-ready>/storytime/print-v<version>/l<level>u<unit>`. The non-print default stays `storytimeCoverDefaultOutDir`, which gives `proof-v3`. The B-P1-01 guard `checkStorytimeCoverOutDir` runs unchanged on the new path.
+- ADV-P2-2: in the D12 block, the build sets `panelValues = approvedValues` when `print && version >= 3`. The render uses the approved weeks only. The D12 stop and its message do not change.
+
+No test file changed. No content file changed. `books.json` did not change.
+
+## Gates at 174586b6 (one heavy-run wrapper each, no lock wait)
+
+- `GREEN_TEST_COMMAND` (`cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts`): exit 0, 2 files, 59 passed.
+- `PROJECT_TESTS`: exit 0, 22 files, 565 passed, 0 failed.
+- `PROJECT_LINT`: exit 0.
+- `PROJECT_CHECKS` (`npx tsc --noEmit`): exit 0.
+- Files: `jr-green-85c327d9-{green,tests,lint,checks}.txt`.
+
+## Mutants
+
+- M28: the print default branch is disabled. ADV-P2-OUT fails: exit 1, 1 failed, 12 skipped. File: `jr-green-85c327d9-mutant-M28.txt`.
+- M29: the line `panelValues = approvedValues;` is removed. ADV-P2-D12 only week 3 fails: exit 1, 1 failed, 12 skipped. File: `jr-green-85c327d9-mutant-M29.txt`.
+- Each restore used a copy and `cmp`. After each one, `git status --porcelain dashboard/lib dashboard/scripts` was empty.
+- Result: `mutants: 2, caught: 2`. File: `jr-green-85c327d9-mutants.txt`.
+
+## The print file (step 4)
+
+- First copy: the 6 build files and `contact-sheet.png` of `/home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/` went to `/tmp/opencode/covers-p2-before-85c327d9/`. The old PDF/X SHA-256 was dbb0512c3ec4637e6ae1339bcc3abfb095000e77e2eef0da51deae11a64ae571, as the handoff said. File: `jr-green-85c327d9-sha256-before.txt`.
+- Build: exit 0, one heavy-run wrapper, 13:50 ICT. Command: `npx tsx scripts/storytime/make-storytime-book-cover.ts --level 2 --unit 1 --version 3 --print --out /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1`. File: `jr-green-85c327d9-build.txt`.
+- `PRINT_GATE`: exit 0. The check reads 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 fonts. File: `jr-green-85c327d9-printgate.txt`.
+- Content compare, file `jr-green-85c327d9-compare.txt`:
+  - `pdftotext -layout` of `cover.pdf` and of the PDF/X file gives no difference line (`diff` exit 0).
+  - `pdffonts` reads only embedded Andika, Andika-Bold, Sarabun-Regular, and Sarabun-Bold. No Type 3 face.
+  - `front.png` and `back.png` are byte-equal to the copies (SHA-256 equal). Pillow `ImageChops` reads AE 0 for both.
+- SHA-256 after the build, file `jr-green-85c327d9-sha256.txt`:
+  - front.png e52f94106e974a2ffc62368057fa5bb59164f2ad46f9e2b1c0671fa667cb96c7 (equal)
+  - back.png 462a7af92350bf278c2c535b7da9b5fc9cd7cd5732b0bd5fbe67974dfb5b396e (equal)
+  - contact-sheet.png a6af5c4c6b08d42aeec2fa0e60629bd38792b9eac3ff07758b564a28b17ab39e (old sheet kept)
+  - corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf (equal)
+  - build-report.json 6951a507738b16238c6bdd93b2f77def70dc4d9cecaceeaf0302e76721349785 (equal)
+  - cover.pdf 2964d9b678afc7a01ad8148c56457219e25aa750b272853ebbd3bddb2d8a6822 (new creation date)
+  - Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90 (new creation date)
+- All 8 Level 2 weeks are approved. The approved values equal the full values, so the page content did not change.
+- The build wrote only `print-v3/l2u1`. It wrote no `proof`, `proof-v2`, or `proof-v3` folder.
+- The Hand-off row in the plan keeps the pre-rebuild PDF/X SHA dbb0512c. The new file differs only in the creation date. The plan row records the new SHA.
+
+## Tasks
+
+- Flipped to `[x]`: Green ADV-P2, with code commit 174586b6 and plan commit bcd8b67f.
+- Flipped to `[b]`: none.
+- The UMV row stays `[ ]`.
+- New files: no product file. The run files and the log under `measure/runs/storytime_covers_20261027/` are new.
+
+MEASURE_AGENT_RESULT
+status: pass
+role_base_sha: 85c327d93e751a865a3c22514bb9342f5e7aa3e8
+commits: 174586b63f551c24caaffd79e5ae03c1638403bc, bcd8b67f
+out_choice: print-v<n> default
+gates: GREEN exit 0, 2 files, 59 passed; PROJECT_TESTS exit 0, 22 files, 565 passed; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0; PRINT_GATE exit 0
+mutants: 2, caught: 2
+print_file: /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf sha256 e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90; content compare equal
+handoff: Green passes. ADV-P2-1 and ADV-P2-2 are fixed by 174586b6. The print file was built again and its page content is equal; only the creation date changed. The Hand-off row keeps the pre-rebuild PDF/X SHA dbb0512c.
+END_MEASURE_AGENT_RESULT
