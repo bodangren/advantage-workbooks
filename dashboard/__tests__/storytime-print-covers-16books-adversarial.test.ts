@@ -450,3 +450,120 @@ describe('Storytime covers adversarial Phase 2', () => {
         expect(missing.status, 'A missing print file exits 2, never 0.').toBe(2);
     }, 300000);
 });
+
+/**
+ * The PRINT_GATE call (make-pdfx --check) on one file.
+ * @param file The PDF to check.
+ * @returns The exit status and the output.
+ */
+function runPrintGate(file: string): { status: number; output: string } {
+    try {
+        const output = execFileSync(process.execPath, ['--import', 'tsx', pdfxScriptFile, file, '--check'], {
+            cwd: dashboardRoot, encoding: 'utf8', timeout: 120000, env: process.env, stdio: 'pipe',
+        });
+        return { status: 0, output };
+    } catch (error) {
+        const failed = error as { status?: number; stdout?: string | Buffer; stderr?: string | Buffer };
+        return { status: failed.status ?? 1, output: `${failed.stdout ?? ''}\n${failed.stderr ?? ''}` };
+    }
+}
+
+/**
+ * The SHA-256 of every file of a folder, by name.
+ * @param folder The folder to read.
+ * @returns A record from file name to hash.
+ */
+function folderHashes(folder: string): Record<string, string> {
+    return Object.fromEntries(
+        fs.readdirSync(folder).sort().map((name) => [name, createHash('sha256').update(fs.readFileSync(path.join(folder, name))).digest('hex')]),
+    );
+}
+
+/**
+ * Copies the cached ICC profile of the real home into a temporary HOME. make-pdfx looks for the
+ * profile in `$HOME/.cache/workbooks-print` and downloads it from Adobe when it is missing, so
+ * a build under a temporary HOME would depend on the network without this copy.
+ * @param home The temporary HOME.
+ */
+function seedPrintProfile(home: string): void {
+    const name = 'JapanColor2001Coated.icc';
+    const source = path.join(os.homedir(), '.cache', 'workbooks-print', name);
+    expect(fs.existsSync(source), `Precondition: the cached profile ${source} exists.`).toBe(true);
+    const target = path.join(home, '.cache', 'workbooks-print');
+    fs.mkdirSync(target, { recursive: true });
+    fs.copyFileSync(source, path.join(target, name));
+}
+
+describe('Storytime covers adversarial Phase 2 round 2', () => {
+    it('ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only', () => {
+        // Positive half of C-P2-01 (A3-P2-2): ADV-P2-OUT passes also when the print default refuses to build.
+        const home = temporaryFolder();
+        const root = path.join(home, 'Desktop', 'print-ready', 'storytime');
+        seedPrintProfile(home);
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--print'], { HOME: home });
+        const tail = result.output.slice(-400).replace(/[^\x20-\x7e\n]/g, '?');
+        expect(result.status, `The default print build exits 0. Output tail: ${tail}`).toBe(0);
+        const folder = path.join(root, 'print-v3', 'l2u1');
+        const pdfx = path.join(folder, 'Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf');
+        expect(fs.readdirSync(folder).sort(), 'The print folder holds the five build files and the PDF/X file.').toEqual(
+            ['Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf', 'back.png', 'build-report.json', 'corner-mode.txt', 'cover.pdf', 'front.png'],
+        );
+        expect(fs.readdirSync(root), 'The build creates no proof folder.').toEqual(['print-v3']);
+        const gate = runPrintGate(pdfx);
+        expect(gate.status, `PRINT_GATE passes the default print file. Output: ${gate.output.slice(-300)}`).toBe(0);
+        expect(runPrintGate(path.join(folder, 'cover.pdf')).status, 'The Chrome cover.pdf beside it is not a print file.').toBe(1);
+        const report = JSON.parse(fs.readFileSync(path.join(folder, 'build-report.json'), 'utf8')) as { print: boolean; version: number; level: number; unit: number };
+        expect({ print: report.print, version: report.version, level: report.level, unit: report.unit }).toEqual({ print: true, version: 3, level: 2, unit: 1 });
+        // Positive control for ADV-P2-D12 only week 3: with all 8 weeks approved, the printed back page
+        // must hold every list item. Without this, a blank panel would pass the "no leaked word" case.
+        const data = loadStorytimeCoverBooks();
+        const book = data.books.find((row) => row.level === 2 && row.unit === 1)!;
+        const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+        expect(weeks.every((week) => week.approval.text.status === 'approved'), 'Precondition: the shipped weeks are all approved.').toBe(true);
+        const full = storytimeCoverPanelValues(book, { weeks, graph: readPhonicsGraph()! });
+        // Compare with letters and digits only, so line breaks, slashes, and marks cannot hide a hit.
+        const squash = (text: string): string => text.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const backText = squash(execFileSync('pdftotext', ['-f', '2', '-l', '2', path.join(folder, 'cover.pdf'), '-'], { encoding: 'utf8', timeout: 30000 }));
+        const items = [...new Set(full.flatMap((entry) => entry.items))].filter((item) => squash(item).length >= 3);
+        expect(items.length, 'Precondition: the panel holds list items.').toBeGreaterThan(10);
+        const absent = items.filter((item) => !backText.includes(squash(item)));
+        expect(absent, 'The print back page shows every list item of the approved weeks.').toEqual([]);
+    }, 360000);
+
+    it('ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged', () => {
+        const home = temporaryFolder();
+        const root = path.join(home, 'Desktop', 'print-ready', 'storytime');
+        const seeded = ['print-v3', 'proof-v3'].map((name) => path.join(root, name, 'l2u1'));
+        for (const folder of seeded) {
+            fs.mkdirSync(folder, { recursive: true });
+            for (const name of ['front.png', 'cover.pdf', 'Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf']) {
+                fs.writeFileSync(path.join(folder, name), `delivered ${path.basename(path.dirname(folder))} ${name}\n`);
+            }
+        }
+        seedPrintProfile(home);
+        const before = seeded.map(folderHashes);
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '4', '--print'], { HOME: home });
+        const tail = result.output.slice(-400).replace(/[^\x20-\x7e\n]/g, '?');
+        expect(seeded.map(folderHashes), 'The v4 build changes no file of the delivered v3 folders.').toEqual(before);
+        expect(result.status, `The v4 default print build exits 0. Output tail: ${tail}`).toBe(0);
+        const folder = path.join(root, 'print-v4', 'l2u1');
+        expect(fs.existsSync(path.join(folder, 'Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf')), 'The v4 print file carries v4 in its name.').toBe(true);
+        expect(fs.readdirSync(root).sort()).toEqual(['print-v3', 'print-v4', 'proof-v3']);
+    }, 360000);
+
+    it('ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write', () => {
+        const home = temporaryFolder();
+        const root = path.join(home, 'Desktop', 'print-ready', 'storytime');
+        const cases: Array<[string, string]> = [['4', 'proof-v3'], ['3', 'proof-v2'], ['3', 'proof']];
+        for (const [version, proofName] of cases) {
+            const folder = path.join(root, proofName, 'l2u1');
+            fs.mkdirSync(folder, { recursive: true });
+            fs.writeFileSync(path.join(folder, 'cover.pdf'), `approved ${proofName}\n`);
+            const before = folderHashes(folder);
+            const result = runScript(['--level', '2', '--unit', '1', '--version', version, '--print', '--out', folder], { HOME: home });
+            expect(result.status, `A v${version} print build into ${proofName} exits 2. Output: ${result.output.slice(-300)}`).toBe(2);
+            expect(result.output, 'The refusal names the proof folder.').toContain(proofName);
+            expect(folderHashes(folder), `The ${proofName} folder is unchanged.`).toEqual(before);
+        }
+    }, 300000);
+});
