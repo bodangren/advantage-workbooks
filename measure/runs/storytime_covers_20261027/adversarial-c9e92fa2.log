@@ -1,0 +1,17 @@
+Adversarial P2 log for storytime_covers_20261027. HEAD at start c9e92fa2a1f4349d21e70ae1ad1268b659528906 (equals role_base_sha). phase_base_sha c85ef735f56c79779551fbff4996d5924b56c0d8.
+I added 4 cases to dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts (commits 13f0053a and 92476880, test file only). 2 cases pass and 2 fail on the shipped code.
+FAIL ADV-P2-OUT: --version 3 --print without --out writes into proof-v3/l2u1 (the approved mock folder). Production line: dashboard/scripts/storytime/make-storytime-book-cover.ts:209-216.
+FAIL ADV-P2-D12 only week 3: with week 3 back to draft, no field empties, the D12 stop is silent, and the back page shows 'get', 'Paint!' and 'The Pan'. Production lines: make-storytime-book-cover.ts:248 and 324 (the render uses all-week values; the stop uses approved values at 251).
+PASS ADV-P2-D12 week 1 draft: the print build stops on the story field and writes no file.
+PASS ADV-P2-GATE: PRINT_GATE exits 1 on a Chrome-like PDF (also under the print file name) and 2 on a missing file.
+Each case has a mutation check on a patched copy in a temp folder (adversarial-c9e92fa2-mutants.txt). Gates: PROJECT_TESTS 563 passed and 2 failed (the 2 new failing cases); PROJECT_LINT exit 0. No production, content or plan file changed. C-P2-05 is out of scope as ordered. The age rule of the print file has no code check (nonblocking ADV-P2-3).
+MEASURE_AGENT_RESULT
+status: fail
+reviewed_head: c9e92fa2a1f4349d21e70ae1ad1268b659528906
+guard_commits: 13f0053ae9732490d883b76f30c94a8c50a30adb, 92476880bb288c2fe013935b36afb43b2c339528
+gates: PROJECT_TESTS exit 1 (563 passed, 2 failed: ADV-P2-OUT, ADV-P2-D12 only week 3); PROJECT_LINT exit 0
+blocking: ADV-P2-1 (medium, v3 --print default folder is the approved mock folder, make-storytime-book-cover.ts:209-216); ADV-P2-2 (medium, print render uses draft-week values, make-storytime-book-cover.ts:248 and 324)
+nonblocking: ADV-P2-3 (low, print file age rule has no code check)
+retry_recommendation: route_to_green
+handoff: Route both blocking items to Green. Fix 1: make --print require --out or give it a print-v<n> default folder. Fix 2: set panelValues to approvedValues when print and version >= 3. Then rerun the adversarial gate (any implementation commit invalidates this result).
+END_MEASURE_AGENT_RESULT

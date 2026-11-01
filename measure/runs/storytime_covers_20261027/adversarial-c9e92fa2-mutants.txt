@@ -1,0 +1,19 @@
+Invalid environment variable name evaluates to an empty string: PIPESTATUS[0]
+== MUT fixed-out vs ADV-P2-OUT (expect PASS)
+ Test Files  1 passed (1)
+      Tests  1 passed | 11 skipped (12)
+rc=
+== MUT nofilter vs ADV-P2-D12 (expect FAIL)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: The stop names the book and the story field.: expected 'Cover of Storytime Advantage, Level 2…' to match /Level 2 Unit 1.*"story".*D12/
+      Tests  1 failed | 11 skipped (12)
+rc=
+== MUT gate0 vs ADV-P2-GATE (expect FAIL)
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: PRINT_GATE fails cover.pdf. Output: ../../../../../tmp/opencode/storytime-covers-adv-aEtJ3a/cover.pdf: 1 pages, 0.0 MB, PDF 1.4, no PDF/X marker, 1 font(s)
+: expected +0 to be 1 // Object.is equality
+      Tests  1 failed | 11 skipped (12)
+rc=
+== MUT fixed-values vs ADV-P2-D12 only-week-3 (expect PASS): PASS (1 passed)
+== SHIPPED vs ADV-P2-D12 only-week-3 (expect FAIL): FAIL, leaked words: get, Paint!, The Pan; exit 0
+== SHIPPED vs ADV-P2-D12 week-1 draft: PASS (stop on story field)

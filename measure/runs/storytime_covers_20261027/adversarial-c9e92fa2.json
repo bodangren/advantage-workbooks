@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "role": "measure-adversarial-testing",
+ "track": "storytime_covers_20261027",
+ "phase": "Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)",
+ "phase_base_sha": "c85ef735f56c79779551fbff4996d5924b56c0d8",
+ "role_base_sha": "c9e92fa2a1f4349d21e70ae1ad1268b659528906",
+ "reviewed_head_sha": "c9e92fa2a1f4349d21e70ae1ad1268b659528906",
+ "guard_commits": [
+  "13f0053ae9732490d883b76f30c94a8c50a30adb",
+  "92476880bb288c2fe013935b36afb43b2c339528"
+ ],
+ "status": "fail",
+ "confidence": "high",
+ "summary": "Adversarial fail for Phase 2: 4 new guards in the adversarial file; 2 pass (D12 week 1 stop, PRINT_GATE kind) and 2 fail on shipped code and expose 2 production defects for Green (v3 --print default folder overwrites the approved mock; print render leaks draft-week words when one week is draft).",
+ "blocking_findings": [
+  "ADV-P2-1 | severity: medium | blocking | dashboard/scripts/storytime/make-storytime-book-cover.ts:209-216 (and dashboard/lib/storytime/print/covers.ts:772-788) | A '--version 3 --print' build without --out writes into proof-v3/l2u1, the folder of the approved Drive mock. Test ADV-P2-OUT (commit 13f0053a) seeds that folder in a temp HOME. The build exits 0 and adds the PDF/X file and replaces back.png, build-report.json and others. This is the C-P2-01 defect, now shown by a failing test. Fix route: Green makes --print require --out, or gives --print its own default folder print-v<n>; the test then passes (a patched copy that exits 2 passes it).",
+  "ADV-P2-2 | severity: medium | blocking | dashboard/scripts/storytime/make-storytime-book-cover.ts:248 with :249-259 and :324 | Rule 7 and D12 say a draft week supplies no field data in the printer file. The D12 stop uses approved-only values (line 251), but the render uses panelValues from ALL weeks (line 248, used at line 324). If one week of 2 to 8 goes back to draft, no field empties, the stop is silent, and the print build exits 0 with that week's words on the back page. Test ADV-P2-D12 'only week 3' (commit 92476880) shows 'get', 'Paint!' and 'The Pan' in the Chrome PDF text. This is ADV-P1-1, which was latent and is now reachable because weeks 2 to 8 ship approved. Fix route: Green sets panelValues = approvedValues when print && version >= 3 (a patched copy with that line passes the test)."
+ ],
+ "nonblocking_findings": [
+  "ADV-P2-3 | severity: low | nonblocking | PRINT_GATE age rule | The Green gate 'file newer than git log -1 of its sources' (test-strategy section 5) is a manual check. No code compares the age of the print file with its sources, so a test cannot pin it. The kind rule is pinned: ADV-P2-GATE shows that the gate exits 1 on a Chrome-like PDF, also under the _PDFX-1a.pdf name, and exits 2 on a missing file."
+ ],
+ "live_contract_violations": [],
+ "prod_wiring_violations": [],
+ "route_parity_violations": [],
+ "test_strategy_violations": [],
+ "retry_recommendation": "route_to_green",
+ "tests_by_area": [
+  "C-P2-01 default folder: ADV-P2-OUT, temp HOME seeded with 7 mock files, hash compare (FAILS on shipped code)",
+  "D12 story stop: ADV-P2-D12 week 1 draft, weeks 2-8 approved, exit 1 names Level 2 Unit 1 and the story field, no file written",
+  "D12 single draft week: ADV-P2-D12 only week 3, pdftotext of the printed back page (FAILS on shipped code)",
+  "PRINT_GATE kind: ADV-P2-GATE, minimal Chrome-like PDF and a copy under the _PDFX-1a.pdf name exit 1; missing file exits 2"
+ ],
+ "changed_files": [
+  "dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts",
+  "measure/runs/storytime_covers_20261027/adversarial-c9e92fa2.json",
+  "measure/runs/storytime_covers_20261027/adversarial-c9e92fa2.log",
+  "measure/runs/storytime_covers_20261027/adversarial-c9e92fa2-mutants.txt",
+  "measure/runs/storytime_covers_20261027/adversarial-c9e92fa2-project.txt"
+ ],
+ "commands": [
+  "read test-strategy section 5, spec D12 and rule 7, plan rules, review-a and review-c results of c9e92fa2, the Phase 1 adversarial file and result 5f8b26f9",
+  "pgrep -fc '[s]torytime-book-pictures' returned 0 before each heavy command",
+  "heavy-run: probe of approved-only panel values per draft week (tsx): only week 1 empties a field (story); a draft week 3 changes sight 19 to 17",
+  "heavy-run: vitest on the adversarial file: 11 old cases pass, ADV-P2-OUT fails on shipped code, others pass",
+  "mutation runs in /tmp/opencode/adv-mut (symlinked lib and node_modules, patched script copies): fixed-out PASS, nofilter FAIL, gate0 FAIL, fixed-values PASS",
+  "heavy-run: PROJECT_TESTS 22 files, 563 passed, 2 failed (ADV-P2-OUT, ADV-P2-D12 only-week-3); PROJECT_LINT exit 0",
+  "git commit 13f0053a (3 tests) and 92476880 (D12 single draft week test), test file only"
+ ],
+ "evidence": [
+  "PROVENANCE: phase_base_sha=c85ef735f56c79779551fbff4996d5924b56c0d8; role_base_sha=c9e92fa2a1f4349d21e70ae1ad1268b659528906; HEAD at start equals role_base_sha; test commits 13f0053a and 92476880 hold only dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts.",
+  "NO PRODUCTION CHANGE: git status of dashboard/lib, dashboard/scripts, content, pnpm-lock.yaml was clean after the runs. The real print-ready folders were not written (temp HOME and temp --out only; proof-v3/l2u1 mtimes stay 2026-10-30 01:41).",
+  "MUTATION CHECKS (rule 11.1, patched copies in /tmp/opencode/adv-mut, run via env STORYTIME_ADV_SCRIPT and STORYTIME_ADV_PDFX_SCRIPT): ADV-P2-OUT passes on a copy that makes --print require --out (kill proof that the test can pass) and fails on shipped code; ADV-P2-D12 week-1 passes on shipped code and fails on a copy with the approved filter removed (build runs on, no D12 message); ADV-P2-D12 only-week-3 passes on a copy that renders approved values and fails on shipped code; ADV-P2-GATE fails on a copy of make-pdfx where the report always passes. Detail in adversarial-c9e92fa2-mutants.txt.",
+  "ADV-P2-GATE positive control: make-pdfx --check on the delivered PDF/X file exits 0, on the delivered Chrome cover.pdf exits 1 with 3 FAIL lines (read only, outside the repo).",
+  "A4/A5/A7: no markers check or pass-count claim in this phase's tests (A4, A5 not applicable); A7 stays covered by R6 of the main file.",
+  "C-P2-05 (approval not tied to the text SHA-256) left out as the orchestrator asked.",
+  "GATES: PROJECT_TESTS exit 1 with exactly the 2 new failing tests, 563 others pass; PROJECT_LINT exit 0. Evidence in adversarial-c9e92fa2-project.txt."
+ ]
+}
