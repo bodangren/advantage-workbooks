@@ -1,0 +1,43 @@
+Measure Jr Green - Phase 2 UMV plan evidence - track storytime_covers_20261027
+
+Role: Measure Jr Green (plan evidence and project memory only).
+Model: deepseek/deepseek-flash#high.
+role_base_sha: 1638fe8fffa45023af7351b914aac0bc0274cfcd. `git rev-parse HEAD` at the start matched it.
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8. `git merge-base --is-ancestor` reads it as an ancestor of HEAD.
+Red model of this phase: Qwen family. Adversarial guard tests: claude family. This step wrote no test.
+
+Scope of this step:
+- `measure/tracks/storytime_covers_20261027/plan.md`: the Phase 2 UMV row moves from `[ ]` to `[x]` and gets 7 evidence sub-bullets.
+- The Hand-off row gets 2 sub-bullets for the rebuilt file. Line 406 now also names the PM receipt of the new SHA.
+- The Green row gets 1 note sub-bullet (Review C C-P2-01 and Review A A3-P2-1). Its row text does not change.
+- `measure/tech-debt.md`: 1 entry for the 6 open lows of covers Phase 2, each with its id.
+- `measure/lessons-learned.md`: 2 lessons dated 2026-11-01.
+- No test, build, pnpm, npm, or mmx command ran. No code, test, or content file changed. Nothing was pushed.
+
+Checks made in this step (git only, read only):
+- `git rev-parse HEAD` gave 1638fe8f, equal to role_base_sha.
+- `git merge-base --is-ancestor c85ef735 HEAD` exited 0, so the phase base is inside the range.
+- `git status --porcelain` for the 3 target files gave no line before the edit, so no other session held uncommitted work in them.
+- The plan rows to edit were at plan lines 367, 393, 406, and 408, as the orchestrator handoff named.
+
+Memory files and their line caps:
+- Both files state a cap of 50 lines, and `measure/autonomous_prompt.md` repeats it. `tech-debt.md` held 50 lines and `lessons-learned.md` held 51 lines before this step.
+- `tech-debt.md` is at 48 lines: 3 old `Resolved` rows were removed (2026-03-14, 2026-04-13, 2026-04-14), and 1 entry was added.
+- `lessons-learned.md` is at 50 lines: 1 stray blank line and 2 stale entries were removed (2026-04-08 Gemini pattern, 2026-03-22 Next.js `bmi2` panic note), and 2 lessons were added.
+
+Other work preserved, not staged:
+- `video/storytime-song/scripts/render.mjs` (modified, belongs to the song video track).
+- `dashboard/raw.json` (untracked, not mine).
+- The untracked run files of both tracks.
+
+Commits:
+- 097d3a79067c14c1a2de08c103ac28fee8ca8ad6, message: `measure(plan): record Phase 2 UMV and the rebuilt file hand-off (Phase 2 UMV)`. It holds the plan evidence and the 2 memory files.
+- The second commit holds the `Evidence commit 097d3a79.` text on the UMV row and this log. A commit cannot hold its own SHA, so this file names the first SHA only, and the second SHA is in the Green reply.
+
+MEASURE_AGENT_RESULT
+status: pass
+role_base_sha: 1638fe8fffa45023af7351b914aac0bc0274cfcd
+commits: 097d3a79067c14c1a2de08c103ac28fee8ca8ad6, this log commit (SHA in the Green reply; a commit cannot hold its own SHA)
+changed_files: measure/tracks/storytime_covers_20261027/plan.md, measure/tech-debt.md, measure/lessons-learned.md, measure/runs/storytime_covers_20261027/jr-green-1638fe8f-umv.log
+handoff: Phase 2 UMV is recorded with its evidence and evidence SHA 097d3a79, the rebuilt-file hand-off and the Green-command note are in the plan, and the two memory files hold the Phase 2 lows and lessons at or below 50 lines; Review B still waits for a model route.
+END_MEASURE_AGENT_RESULT
