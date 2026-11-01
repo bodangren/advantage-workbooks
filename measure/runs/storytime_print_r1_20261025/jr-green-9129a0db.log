@@ -1,0 +1,77 @@
+Measure Jr Green · P4 4e · storytime_print_r1
+Date: 2026-11-01 ICT
+phase_base_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 9129a0db52c11c5fec314cfbbcfe17578383265c
+
+STATUS: complete.
+
+Start state: HEAD 9129a0db equals role_base_sha. `git status --short` showed one modified file
+(`video/storytime-song/scripts/render.mjs`), the untracked generated `dashboard/raw.json`, and
+untracked Measure run logs. All are other work; none was changed or staged.
+
+Red change inside phase_base_sha..HEAD: 57c07ad0 adds the five Red 4e cases to
+`dashboard/__tests__/storytime-print-readers.test.ts` (181 lines) and two plan lines. The plan
+record commit 9129a0db changes `plan.md` only. The Red test file is immutable; Green edited no
+test.
+
+Targeted Red rerun before the fix: exit 1, `Tests 5 failed | 17 skipped (22)`, only R-P4-18 to
+R-P4-22 fail, each at an assertion inside a test body (jr-green-9129a0db-red-rerun.txt). After the
+fix the same command exits 0: `Tests 5 passed | 17 skipped (22)` (jr-green-9129a0db-red-target.txt).
+
+The implementation (commit 5ef3df28):
+- `lib/storytime/print/picture-check.ts`: `entryOf` and the unknown-name guard of
+  `checkStorytimePicture` match a manifest entry to a row by the file name part, so the free
+  folder prefix of the delivery contract works (C-P4-8). `checkStorytimePictureBatch` resolves
+  each file under the batch root and fails a row whose path leaves the root, in the text
+  (`path.resolve` plus the root and separator) or through a symbolic link (the real path of the
+  deepest existing entry). `readStorytimePictureManifest` is the one manifest reader; it keeps
+  the "does not parse" message.
+- `scripts/storytime/check-storytime-pictures.ts`: `checkRequestedWeeks` runs before the batch
+  (C-P4-9), and a `manifest.json` that does not parse gives exit 2 with the case in the usage
+  text (C-P4-10). The manifest read replaces the earlier `fs.existsSync` test; a folder without
+  `manifest.json` still gives exit 2 with the same message.
+Every exported function holds a JSDoc block.
+
+Gates on 5ef3df28, each in one foreground heavy-run.sh wrapper after a Forge count of 0:
+- GREEN_TEST_COMMAND exit 0, `Test Files 11 passed (11)`, `Tests 396 passed (396)`
+  (jr-green-9129a0db-green.txt).
+- PROJECT_TESTS exit 0, `Test Files 22 passed (22)`, `Tests 561 passed (561)`
+  (jr-green-9129a0db-tests.txt).
+- PROJECT_LINT exit 0, no output (jr-green-9129a0db-lint.txt).
+- PROJECT_CHECKS exit 0 in one wrapper; `check-weeks.ts --level 2` gives one accepted FAIL
+  (`published` for st2/1, "images not approved; audio not approved; song not approved"), and
+  `tsc --noEmit` is clean (jr-green-9129a0db-checks.txt).
+No lock-wait line. `pnpm-lock.yaml` unchanged. No pnpm, no npm install, no package change.
+
+Mutants: 3 applied, 3 caught, every restore `cmp OK` with `git diff --quiet` exit 0.
+- M1 the outside-root guard removed: R-P4-20 fails, `expected +0 to be 1`.
+- M2 the match back to the full path: R-P4-18 fails for all 30 rows.
+- M3 the week check removed from the CLI: R-P4-21 fails, the run passes week 1 for `--weeks 1,30`.
+Raw: jr-green-9129a0db-mutant-M1.txt, -M2.txt, -M3.txt; summary jr-green-9129a0db-mutants.txt.
+
+Plan: Task (Green 4e) is `[x]` with `commit 5ef3df28` and evidence class automated. The Pictures
+row and the UMV row stay open. No archive move, no `tracks.md` change, no `metadata.json` change.
+No task was marked `[b]`; no finding needs a human action.
+
+Commits: 5ef3df28 (implementation), cea81b4f (plan record of the code and the test and lint
+gates), and the plan record commit of this log and the gate and mutant results. Only source files
+and `plan.md` were staged, path by path. Nothing was pushed.
+
+MEASURE_AGENT_RESULT
+role: Measure Jr Green (measure-jr-green)
+status: complete
+track: storytime_print_r1_20261025
+phase: P4 4e (Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05))
+baseline_sha: ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218
+role_base_sha: 9129a0db52c11c5fec314cfbbcfe17578383265c
+head: see the plan record commit of this run
+commits: 5ef3df28 (implementation); cea81b4f (plan record); the plan record commit of the gate and mutant results
+tests_run: targeted Red rerun exit 1 (5 failed | 17 skipped), then exit 0 (5 passed); GREEN_TEST_COMMAND exit 0 (396 passed on 11 files); PROJECT_TESTS exit 0 (561 passed on 22 files); PROJECT_LINT exit 0 (no output); PROJECT_CHECKS exit 0 (one accepted FAIL, published st2/1, tsc clean)
+files_changed: dashboard/lib/storytime/print/picture-check.ts; dashboard/scripts/storytime/check-storytime-pictures.ts; measure/tracks/storytime_print_r1_20261025/plan.md
+evidence_files: measure/runs/storytime_print_r1_20261025/jr-green-9129a0db-{green,tests,lint,checks,mutants}.txt; jr-green-9129a0db-red-rerun.txt; jr-green-9129a0db-red-target.txt; jr-green-9129a0db-mutant-M1.txt to -M3.txt
+plan_updates: Green 4e [x] with commit 5ef3df28, evidence automated, the gate totals, and the three mutant results. The Pictures row and the UMV row stay open. No [b] line.
+mutants: 3 applied, 3 caught. M1 outside-root guard removed -> R-P4-20 fails. M2 match by full path -> R-P4-18 fails. M3 week check removed -> R-P4-21 fails. Every restore `cmp OK` and `git diff --quiet` exit 0.
+model_note: Green model deepseek/deepseek-flash#high; Red 4e model opencode-go/mimo-v2.6-flash. No coder subagent ran, so the Red and Green models stay independent.
+known_failures: none in the track tests. PROJECT_CHECKS keeps the one accepted FAIL (`published` for st2/1, spec P14).
+handoff: Review C can close C-P4-8, C-P4-9, and C-P4-10 against 5ef3df28. The manifest match uses the file name part; a batch path that leaves the batch root fails its row with a reason that names the path; a manifest that does not parse gives exit 2 and the usage names that case. R-P4-11 to R-P4-17 are unchanged and pass. C-P4-6 (the copy and rename step into content/storytime/l2/print/pictures/) stays open in the Pictures task and is not a Phase 4 code gap.
+END_MEASURE_AGENT_RESULT

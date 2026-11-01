@@ -1,0 +1,30 @@
+Mutation evidence, Phase 4 Green 4e (rule 11.1). Every mutant ran through heavy-run.sh after a
+Forge `pgrep -fc '[s]torytime-book-pictures'` count of 0. Every restore used
+`git checkout -- <file>`, a `cmp` against the saved copy, and `git diff --quiet` (exit 0).
+
+M1  The outside-root guard is removed from `batchFileOf`: the function returns
+    `path.resolve(batchFolder, relative)` and the two batch-root tests are gone.
+    Command: `vitest run __tests__/storytime-print-readers.test.ts -t "R-P4-20"`.
+    Result: exit 1, `Tests 1 failed | 21 skipped (22)`.
+    Reason: `an outside path fails the batch: expected +0 to be 1`.
+    Raw: jr-green-9129a0db-mutant-M1.txt. Verdict: caught.
+
+M2  The manifest match goes back to the full path in `entryOf`:
+    `candidate.fileName === fileName` in place of the file name part.
+    Command: `vitest run __tests__/storytime-print-readers.test.ts -t "R-P4-18"`.
+    Result: exit 1, `Tests 1 failed | 21 skipped (22)`.
+    Reason: `every week 1 row passes with the folder prefix` fails, with
+    `the manifest holds no entry for the file name <flat name>` for every row.
+    Raw: jr-green-9129a0db-mutant-M2.txt. Verdict: caught.
+
+M3  The week check is removed from `check-storytime-pictures.ts`:
+    `void checkRequestedWeeks;` in place of the call.
+    Command: `vitest run __tests__/storytime-print-readers.test.ts -t "R-P4-21"`.
+    Result: exit 1, `Tests 1 failed | 21 skipped (22)`.
+    Reason: `the run exits 1 for week 30: pass  l2-w01-story-page-hello-i-am-pat` — the CLI
+    checks week 1 only and prints a pass summary for a request that names week 30.
+    Raw: jr-green-9129a0db-mutant-M3.txt. Verdict: caught.
+
+Totals: 3 applied, 3 caught. Files restored: `dashboard/lib/storytime/print/picture-check.ts`
+(M1, M2) and `dashboard/scripts/storytime/check-storytime-pictures.ts` (M3). Each restore gives
+`cmp OK` and `git diff --quiet` exit 0.

@@ -1,0 +1,53 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m22 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m21 skipped[39m[2m)[22m[33m 3942[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the reader compiler without a collection-time import
+     [2m[90m↓[39m[22m R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim
+     [2m[90m↓[39m[22m R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+     [2m[90m↓[39m[22m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+     [2m[90m↓[39m[22m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+     [2m[90m↓[39m[22m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+     [2m[90m↓[39m[22m R-P4-6 exposes the readers PDF CLI help
+     [2m[90m↓[39m[22m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry
+     [2m[90m↓[39m[22m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture
+     [2m[90m↓[39m[22m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names
+     [2m[90m↓[39m[22m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+     [2m[90m↓[39m[22m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts
+     [2m[90m↓[39m[22m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file
+     [2m[90m↓[39m[22m R-P4-15 rejects a Forge job that is not ready or holds no selected version
+     [2m[90m↓[39m[22m R-P4-16 reports a row whose Forge job is not ready as fail with a reason
+     [2m[90m↓[39m[22m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings
+     [2m[90m↓[39m[22m R-P4-14 exposes the stage-one batch command
+[31m     [31m×[31m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix[39m[33m 3937[2mms[22m[39m
+     [2m[90m↓[39m[22m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest
+     [2m[90m↓[39m[22m R-P4-20 fails a row whose manifest path resolves outside the batch root
+     [2m[90m↓[39m[22m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI
+     [2m[90m↓[39m[22m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix
+[31m[1mAssertionError[22m: every week 1 row passes with the folder prefix: expected 'l2-w01-story-page-hello-i-am-pat: pic…' to be '' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[31m+ l2-w01-story-page-hello-i-am-pat: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-pat-v1.png; l2-w01-story-page-hello-i-am-may: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-may-v1.png; l2-w01-story-page-hello-i-am-sam: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-sam-v1.png; l2-w01-story-page-hello-i-am-mia: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-mia-v1.png; l2-w01-story-page-hello-i-am-nan: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-nan-v1.png; l2-w01-story-page-hello-i-am-ben: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-ben-v1.png; l2-w01-story-page-hello-i-am-your-teacher: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-your-teacher-v1.png; l2-w01-story-page-hello-i-am-pip: picture check: the manifest holds no entry for the file name l2-w01-story-page-hello-i-am-pip-v1.png; l2-w01-cover-hello: picture check: the manifest holds no entry for the file name l2-w01-cover-hello-v1.png; l2-w01-story-page-a-nest: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-nest-v1.png; l2-w01-story-page-a-net: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-net-v1.png; l2-w01-story-page-a-nut: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-nut-v1.png; l2-w01-story-page-a-nose: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-nose-v1.png; l2-w01-story-page-a-neck: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-neck-v1.png; l2-w01-story-page-a-nurse: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-nurse-v1.png; l2-w01-story-page-a-nest-and-a-nut: picture check: the manifest holds no entry for the file name l2-w01-story-page-a-nest-and-a-nut-v1.png; l2-w01-story-page-nan-can-nod: picture check: the manifest holds no entry for the file name l2-w01-story-page-nan-can-nod-v1.png; l2-w01-cover-nan-can-nod: picture check: the manifest holds no entry for the file name l2-w01-cover-nan-can-nod-v1.png; l2-w01-check-row-nest: picture check: the manifest holds no entry for the file name l2-w01-check-row-nest-v1.png; l2-w01-check-row-cat: picture check: the manifest holds no entry for the file name l2-w01-check-row-cat-v1.png; l2-w01-check-row-fish: picture check: the manifest holds no entry for the file name l2-w01-check-row-fish-v1.png; l2-w01-check-row-dog: picture check: the manifest holds no entry for the file name l2-w01-check-row-dog-v1.png; l2-w01-check-row-nose: picture check: the manifest holds no entry for the file name l2-w01-check-row-nose-v1.png; l2-w01-check-row-bus: picture check: the manifest holds no entry for the file name l2-w01-check-row-bus-v1.png; l2-w01-check-row-hat: picture check: the manifest holds no entry for the file name l2-w01-check-row-hat-v1.png; l2-w01-check-row-cup: picture check: the manifest holds no entry for the file name l2-w01-check-row-cup-v1.png; l2-w01-check-row-net: picture check: the manifest holds no entry for the file name l2-w01-check-row-net-v1.png; l2-w01-practice-line-nose: picture check: the manifest holds no entry for the file name l2-w01-practice-line-nose-v1.png; l2-w01-practice-line-nest: picture check: the manifest holds no entry for the file name l2-w01-practice-line-nest-v1.png; l2-w01-practice-line-nut: picture check: the manifest holds no entry for the file name l2-w01-practice-line-nut-v1.png[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m666:141[22m[39m
+    [90m664| [39m        [35mconst[39m report [33m=[39m [35mawait[39m api[33m.[39m[34mcheckStorytimePictureBatch[39m(rows[33m,[39m dir)[33m;[39m
+    [90m665| [39m        const failed = report.results.filter((entry) => entry.status =…
+    [90m666| [39m        expect(failed.map((entry) => `${entry.rowId}: ${entry.reason ?…
+    [90m   | [39m                                                                                                                                            [31m^[39m
+    [90m667| [39m        expect(report.exitCode, 'a fully delivered batch gives exit co…
+    [90m668| [39m    }[33m,[39m [34m300_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m21 skipped[39m[90m (22)[39m
+[2m   Start at [22m 12:26:21
+[2m   Duration [22m 5.75s[2m (transform 392ms, setup 96ms, import 549ms, tests 3.94s, environment 732ms)[22m
+

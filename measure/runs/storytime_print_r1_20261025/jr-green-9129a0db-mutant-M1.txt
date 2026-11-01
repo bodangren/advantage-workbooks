@@ -1,0 +1,54 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m22 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m21 skipped[39m[2m)[22m[33m 5212[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the reader compiler without a collection-time import
+     [2m[90m↓[39m[22m R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim
+     [2m[90m↓[39m[22m R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration
+     [2m[90m↓[39m[22m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+     [2m[90m↓[39m[22m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+     [2m[90m↓[39m[22m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+     [2m[90m↓[39m[22m R-P4-6 exposes the readers PDF CLI help
+     [2m[90m↓[39m[22m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry
+     [2m[90m↓[39m[22m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture
+     [2m[90m↓[39m[22m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names
+     [2m[90m↓[39m[22m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+     [2m[90m↓[39m[22m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts
+     [2m[90m↓[39m[22m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file
+     [2m[90m↓[39m[22m R-P4-15 rejects a Forge job that is not ready or holds no selected version
+     [2m[90m↓[39m[22m R-P4-16 reports a row whose Forge job is not ready as fail with a reason
+     [2m[90m↓[39m[22m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings
+     [2m[90m↓[39m[22m R-P4-14 exposes the stage-one batch command
+     [2m[90m↓[39m[22m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix
+     [2m[90m↓[39m[22m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest
+[31m     [31m×[31m R-P4-20 fails a row whose manifest path resolves outside the batch root[39m[33m 5206[2mms[22m[39m
+     [2m[90m↓[39m[22m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI
+     [2m[90m↓[39m[22m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P4-20 fails a row whose manifest path resolves outside the batch root
+[31m[1mAssertionError[22m: an outside path fails the batch: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m730:68[22m[39m
+    [90m728| [39m        ])))[33m;[39m
+    [90m729| [39m        const report = await api.checkStorytimePictureBatch([escapeRow…
+    [90m730| [39m        expect(report.exitCode, 'an outside path fails the batch').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m731| [39m        expect(report.results.map((entry) => entry.rowId)).toEqual([es…
+    [90m732| [39m        [35mconst[39m escaped [33m=[39m report[33m.[39mresults[[34m0[39m][33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m21 skipped[39m[90m (22)[39m
+[2m   Start at [22m 12:25:56
+[2m   Duration [22m 7.18s[2m (transform 404ms, setup 102ms, import 604ms, tests 5.21s, environment 744ms)[22m
+
