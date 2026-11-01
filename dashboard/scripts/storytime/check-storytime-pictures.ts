@@ -1,8 +1,8 @@
-import fs from 'fs';
 import path from 'path';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
-import { checkStorytimePictureBatch } from '../../lib/storytime/print/picture-check';
+import { checkStorytimePictureBatch, readStorytimePictureManifest } from '../../lib/storytime/print/picture-check';
 import { storytimePrintPictures } from '../../lib/storytime/print/pictures';
+import { checkRequestedWeeks } from '../../lib/storytime/print/student-book-cli';
 
 const USAGE = `Runs stage 1 of the picture stages on a Forge batch (spec FR-9, strategy 5.1): the size,
 the color mode, the alpha, the gray fill, the file name, the SHA-256, and the pixel size of the
@@ -11,15 +11,18 @@ manifest.json.
 
 Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [--level <n>] [--weeks <list>]
 
-  --batch   The Forge batch folder; it must hold manifest.json and the picture files
+  --batch   The Forge batch folder; it must hold manifest.json and the picture files, and each
+            manifest path must stay inside that folder
   --level   The Storytime level, a whole number from 1 to 4 (default 2)
-  --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1)
+  --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1);
+            every requested week must load exactly once (checkRequestedWeeks)
 
 The command prints one line for each picture-list row of the weeks and a summary line. Stage 1 is
 a measurement, never an approval (spec P7); it writes no file.
 
-Exit code 0 when every row passes, 1 when a row fails, 2 on an argument error or a batch folder
-without a manifest.json.`;
+Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
+once. Exit code 2 on an argument error, on a batch folder without a manifest.json, and on a
+manifest.json that does not parse.`;
 
 /** One command run: the batch folder, the level, and the weeks. */
 interface Args {
@@ -63,11 +66,20 @@ async function main(argv: string[]): Promise<number> {
         console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
         return 2;
     }
-    if (!fs.existsSync(path.join(args.batch, 'manifest.json'))) {
-        console.error(`picture batch: the batch folder holds no manifest.json: ${args.batch}`);
+    // A batch folder without a manifest.json and a manifest.json that does not parse are batch
+    // problems of the same class (C-P4-10): the command names either one before any row and
+    // gives exit 2.
+    try {
+        readStorytimePictureManifest(args.batch);
+    } catch (e) {
+        console.error(e instanceof Error ? e.message : String(e));
         return 2;
     }
     const read = readLevelWeeks(STORYTIME_ROOT, args.level).filter((r) => args.weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+    // The same --weeks contract as make-readers-pdf.ts (C-P4-9): a week that the level does not
+    // load, and a duplicate week, stop the command before the batch, so it never reports a pass
+    // for a week it did not check.
+    checkRequestedWeeks(args.weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     const broken = read.filter((r) => !r.week);
     if (broken.length) {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);

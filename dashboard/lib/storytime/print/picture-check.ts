@@ -122,6 +122,14 @@ interface PictureFacts {
 /** The SHA-256 of one file, in lower-case hex. */
 const sha256Of = (file: string): string => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 
+/**
+ * The file name part of a manifest path. The delivery contract (PM, 2026-11-01) gives each
+ * manifest path a free folder prefix, so the check matches a row by this part.
+ * @param file A file name or a relative path.
+ * @returns The last part of the path.
+ */
+const filePart = (file: string): string => path.basename(file);
+
 /** A required field of the row; the check names the missing field. */
 function requireString(value: unknown, name: string): string {
     if (typeof value !== 'string' || !value) throw new Error(`picture check: the row has no ${name}`);
@@ -151,7 +159,9 @@ function requireSize(row: Record<string, unknown>): { width: number; height: num
 }
 
 /**
- * Reads the manifest entry for one file name, or throws when the manifest does not hold it.
+ * Reads the manifest entry for one file name, or throws when the manifest does not hold it. The
+ * delivery contract (PM, 2026-11-01) gives each manifest path a free folder prefix, so the entry
+ * matches the row by the file name part of its path.
  * @param manifest The manifest entries as the batch wrote them.
  * @param fileName The file name of the picture-list row.
  * @returns The entry.
@@ -159,7 +169,8 @@ function requireSize(row: Record<string, unknown>): { width: number; height: num
  */
 function entryOf(manifest: unknown, fileName: string): StorytimePictureManifestEntry {
     if (!Array.isArray(manifest)) throw new Error(`picture check: the manifest is not a list of entries (${fileName})`);
-    const entry = (manifest as StorytimePictureManifestEntry[]).find((candidate) => candidate && typeof candidate === 'object' && candidate.fileName === fileName);
+    const wanted = filePart(fileName);
+    const entry = (manifest as StorytimePictureManifestEntry[]).find((candidate) => candidate && typeof candidate === 'object' && typeof candidate.fileName === 'string' && filePart(candidate.fileName) === wanted);
     if (!entry) throw new Error(`picture check: the manifest holds no entry for the file name ${fileName}`);
     return entry;
 }
@@ -274,7 +285,8 @@ function checkLine(facts: PictureFacts, size: { width: number; height: number },
  * picture-list row and compares them with the row and with the Forge manifest.
  * @param colorFile The color PNG file on disk.
  * @param lineFile The line-art PNG file on disk.
- * @param manifest The batch `manifest.json` entries.
+ * @param manifest The `manifest.json` entries of the batch; an entry matches a row by the file
+ *   name part of its path.
  * @param row The picture-list row (`fileName`, `lineArtFileName`, `width`, `height`).
  * @param options The gray-fill limit; the default is `DEFAULT_GRAY_PIXEL_THRESHOLD`. When the
  *   caller gives `pictureListFileNames`, the manifest may also hold the entries of other known
@@ -297,13 +309,15 @@ export async function checkStorytimePicture(
     const threshold = options.grayPixelThreshold ?? DEFAULT_GRAY_PIXEL_THRESHOLD;
     if (!(threshold >= 0 && threshold <= 1)) throw new Error(`picture check: the gray-fill limit ${threshold} is not a share from 0 to 1`);
     // The manifest must name the two files of the row; the entries of other known picture-list
-    // rows are allowed when the caller gives the list, and a name outside the list is a batch error.
+    // rows are allowed when the caller gives the list, and a name outside the list is a batch
+    // error. The delivery contract (PM, 2026-11-01) matches a name by its file name part, because
+    // the manifest path carries a free folder prefix.
     const colorEntry = entryOf(manifest, fileName);
     const lineEntry = entryOf(manifest, lineArtFileName);
     const listNames = options.pictureListFileNames;
     for (const entry of manifest as StorytimePictureManifestEntry[]) {
-        if (entry.fileName === fileName || entry.fileName === lineArtFileName) continue;
-        if (listNames?.includes(entry.fileName)) continue;
+        if (filePart(entry.fileName) === filePart(fileName) || filePart(entry.fileName) === filePart(lineArtFileName)) continue;
+        if (listNames?.some((name) => filePart(name) === filePart(entry.fileName))) continue;
         throw new Error(`picture check: the manifest names ${entry.fileName}, which is not a file name of the picture list row ${fileName} or ${lineArtFileName}`);
     }
     for (const file of [colorFile, lineFile]) {
@@ -415,31 +429,91 @@ export function forgeManifestEntriesForRow(manifest: unknown, row: unknown): Sto
 }
 
 /**
+ * Reads `<batchFolder>/manifest.json`, the Forge batch manifest (spec FR-9).
+ * @param batchFolder The folder that holds `manifest.json`.
+ * @returns The parsed manifest.
+ * @throws Error When the folder holds no `manifest.json`, or the file does not parse.
+ */
+export function readStorytimePictureManifest(batchFolder: string): unknown {
+    const manifestFile = path.join(batchFolder, 'manifest.json');
+    if (!fs.existsSync(manifestFile)) throw new Error(`picture batch: the batch folder holds no manifest.json: ${batchFolder}`);
+    try {
+        return JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+    } catch (e) {
+        throw new Error(`picture batch: the manifest.json does not parse: ${e instanceof Error ? e.message : String(e)}`);
+    }
+}
+
+/**
+ * The real path of the deepest entry that exists at or above `start`. A symbolic link is
+ * followed here on purpose: the caller compares the result with the batch root, so a link that
+ * leaves the root shows.
+ * @param start The path to resolve.
+ * @returns The real path of the deepest existing entry at or above `start`.
+ * @throws Error When that entry is a symbolic link that does not resolve.
+ */
+function realPathOfDeepest(start: string): string {
+    let probe = path.resolve(start);
+    for (;;) {
+        if (fs.lstatSync(probe, { throwIfNoEntry: false })) return fs.realpathSync(probe);
+        const parent = path.dirname(probe);
+        if (parent === probe) return probe;
+        probe = parent;
+    }
+}
+
+/**
+ * The absolute path of one batch file, or a throw when the path leaves the batch root. The
+ * delivery contract (PM, 2026-11-01) allows a free folder prefix inside the batch root only: a
+ * `../` path, an absolute path, and a symbolic link out of the root each fail their row. The
+ * first test is a `path.resolve` comparison with the batch root; the second test follows the
+ * real path of the deepest existing entry, so a link out of the root shows.
+ * @param batchFolder The batch root.
+ * @param relative The manifest path of one file.
+ * @param rowId The picture-list row id, for the message.
+ * @returns The absolute path of the file under the batch root.
+ * @throws Error When the path resolves outside the batch root, in the text or on the filesystem.
+ */
+function batchFileOf(batchFolder: string, relative: string, rowId: string): string {
+    const root = path.resolve(batchFolder);
+    const target = path.resolve(root, relative);
+    if (target !== root && !target.startsWith(root + path.sep)) {
+        throw new Error(`picture batch: the manifest path "${relative}" of the row ${rowId} resolves outside the batch root ${root}`);
+    }
+    const rootReal = realPathOfDeepest(root);
+    let targetReal: string;
+    try {
+        targetReal = realPathOfDeepest(target);
+    } catch (e) {
+        throw new Error(`picture batch: the manifest path "${relative}" of the row ${rowId} is a symbolic link that does not resolve (${e instanceof Error ? e.message : String(e)})`);
+    }
+    if (targetReal !== rootReal && !targetReal.startsWith(rootReal + path.sep)) {
+        throw new Error(`picture batch: the manifest path "${relative}" of the row ${rowId} follows a symbolic link outside the batch root ${root}`);
+    }
+    return target;
+}
+
+/**
  * Stage 1 of the picture stages for a whole Forge batch (spec FR-9, strategy 5.1, C-P4-1): reads
  * `<batchFolder>/manifest.json`, adapts each row of the request, and measures the two files of
  * each row. One result comes back for every requested row, in the request order, so that a failed
- * row never stops the rows after it.
+ * row never stops the rows after it. A manifest path may carry a free folder prefix inside the
+ * batch root (delivery contract, PM, 2026-11-01); a path that resolves outside the root fails its
+ * row with a reason that names the path.
  * @param rows The picture-list rows to check; each row id selects its Forge job.
  * @param batchFolder The folder that holds `manifest.json` and the picture files.
  * @returns One result for each row, and 0 or 1 as the exit code of a command.
  * @throws Error When the batch folder holds no `manifest.json`, or the file does not parse.
  */
 export async function checkStorytimePictureBatch(rows: unknown[], batchFolder: string): Promise<StorytimePictureBatchReport> {
-    const manifestFile = path.join(batchFolder, 'manifest.json');
-    if (!fs.existsSync(manifestFile)) throw new Error(`picture batch: the batch folder holds no manifest.json: ${batchFolder}`);
-    let manifest: unknown;
-    try {
-        manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
-    } catch (e) {
-        throw new Error(`picture batch: the manifest.json does not parse: ${e instanceof Error ? e.message : String(e)}`);
-    }
+    const manifest = readStorytimePictureManifest(batchFolder);
     const results: StorytimePictureBatchResult[] = [];
     for (const row of rows) {
         const rowId = typeof (row as { id?: unknown } | null)?.id === 'string' ? String((row as { id: string }).id) : '';
         try {
             const entries = forgeManifestEntriesForRow(manifest, row);
-            const colorFile = path.join(batchFolder, entries[0].fileName);
-            const lineFile = path.join(batchFolder, entries[1].fileName);
+            const colorFile = batchFileOf(batchFolder, entries[0].fileName, rowId);
+            const lineFile = batchFileOf(batchFolder, entries[1].fileName, rowId);
             await checkStorytimePicture(colorFile, lineFile, entries, row);
             results.push({ rowId, status: 'pass' });
         } catch (e) {
