@@ -207,7 +207,9 @@ async function main(argv: string[]): Promise<number> {
     }
     const printReadyRoot = path.join(os.homedir(), 'Desktop', 'print-ready');
     if (!out) {
-        if (version === 3) {
+        if (print && Number.isInteger(version) && version >= 3) {
+            out = path.join(printReadyRoot, 'storytime', `print-v${version}`, `l${level}u${unit}`);
+        } else if (version === 3) {
             out = path.join(storytimeCoverDefaultOutDir(version, printReadyRoot), `l${level}u${unit}`);
         } else {
             console.error(`--out is the output folder.\n\n${USAGE}`);
@@ -256,6 +258,7 @@ async function main(argv: string[]): Promise<number> {
                 }
                 return 1;
             }
+            panelValues = approvedValues;
         }
         reportBooks = data.books.map((row) => ({
             level: row.level,
