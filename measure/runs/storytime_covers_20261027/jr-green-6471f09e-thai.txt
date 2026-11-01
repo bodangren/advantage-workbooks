@@ -1,0 +1,17 @@
+== Thai byte check, Chrome PDF of the same build ==
+file: cover.pdf (SHA-256 f618e17d6cabc1abbaa4045ffe307e47cc10b5eac3a05053deafb56fa591574f)
+date: 2026-11-01 11:19:24 +0700
+command: cd dashboard && npx tsx /tmp/opencode/green-p2/file-checks-l2u1.ts (inside one heavy-run wrapper)
+same check as the earlier record: jr-green-e0b587ac-filechecks.txt, checkStorytimeCoverThai
+
+-- page 1 Thai runs (pdftotext -layout -f 1 -l 1), the front holds no Thai --
+0
+
+-- page 2 Thai runs (pdftotext -layout -f 2 -l 2), the back contact block --
+ติดต่อเราอีเมลโทรศัพท์ขอนแก่นประเทศไทย
+expected byte order from BACK_LINES.contact: the same 5 lines
+
+-- result --
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+FAIL lines in the run: 0

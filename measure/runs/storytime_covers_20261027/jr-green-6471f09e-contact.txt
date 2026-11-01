@@ -1,0 +1,12 @@
+
+== final sheet ==
+file: /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/contact-sheet.png
+size: 2472 x 1802
+SHA-256: a6af5c4c6b08d42aeec2fa0e60629bd38792b9eac3ff07758b564a28b17ab39e
+tiles: 2 (page 1 of 2, page 2 of 2), each a 300 dpi render of the print file
+method: pdftoppm -r 300 -png, then PIL tiles 1200 px wide with a bold heading and a thin border (the method of the earlier contact sheets of this track)
+script: /tmp/opencode/green-p2/sheet.py
+date: sheet written 2026-11-01 11:17:17 +0700
+runs: 2. Run 1 (11:16:31 to 11:16:41) had a full file name in each heading, so the two headings overlapped. Run 2 (11:17:17, sheet SHA-256 a6af5c4c) uses a short heading. The sheet holds no overlap.
+looks: page 1 and page 2 of the sheet at full size; page 1 and page 2 at 300 dpi; the Thai contact block at 300 dpi; the QR and its quiet zone at 300 dpi.
+defects: none found.

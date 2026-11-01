@@ -1,0 +1,18 @@
+page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+--------------------------------------------------------------------------------------------
+   1     0 image    2197  2126  cmyk    4   8  jpeg   no        13  0   300   300  655K 3.6%
+   1     1 image    2197   768  cmyk    4   8  image  no        14  0   300   300 11.4K 0.2%
+   2     2 image     356   356  cmyk    4   8  jpeg   no        24  0   300   300 44.2K 8.9%
+   2     3 image    2197  1630  cmyk    4   8  image  no        25  0   301   301 20.0K 0.1%
+
+verdict, 2026-11-01 11:1x +07:
+- 4 images on 2 pages. Page 1: 2197 x 2126 and 2197 x 768, both cmyk jpeg/image at 300 ppi. Page 2: 356 x 356 (the QR) and 2197 x 1630, both cmyk at 300 ppi.
+- No soft mask. pdfimages 26.01.0 prints no smask column; a byte scan of the file gives 0 occurrences of /SMask and 0 of /Mask.
+  The file has no object stream (0 occurrences of ObjStm), so the byte scan reads every object.
+- No page is one image. An A4 page at 300 ppi is 2479 x 3508 px. The widest image is 2197 px; page 1 holds 2 images and page 2 holds 2 images.
+- PASS the image rule of the Check task.
+== soft mask byte scan ==
+/SMask 0
+/Mask 0
+ObjStm 0
+bytes 1155703

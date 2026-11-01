@@ -1,0 +1,9 @@
+== QR module check, Chrome PDF of the same build ==
+file: cover.pdf (SHA-256 f618e17d6cabc1abbaa4045ffe307e47cc10b5eac3a05053deafb56fa591574f)
+date: 2026-11-01 11:19:24 +0700
+method: pdftoppm page 2 at 300 dpi, the module grid at 44 mm from the right edge and 200 mm from the top,
+        29 modules with a 4 module quiet zone (storytimeCoverQrGrid, checkStorytimeCoverQr).
+
+the encoder grid: 29 modules, 434 dark cells
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+a module grid of 29 x 29 cells; 0 modules differ means an equal grid.
