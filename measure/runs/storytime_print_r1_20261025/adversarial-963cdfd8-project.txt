@@ -1,0 +1,29 @@
+Invalid environment variable name evaluates to an empty string: PIPESTATUS[0]
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 3181[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 2239[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1702[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 7580[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 845[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 24949[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 2585[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1432[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 884[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m23 passed[39m[22m[90m (23)[39m
+[2m      Tests [22m [1m[32m580 passed[39m[22m[90m (580)[39m
+[2m   Start at [22m 15:55:05
+[2m   Duration [22m 231.14s[2m (transform 5.08s, setup 3.83s, import 10.68s, tests 647.31s, environment 20.54s)[22m
+
+PROJECT_TESTS vitest exit 
+--- GREEN
+     [33m[2m✓[22m[39m R40: mirrors the horizontal cut line with the strip parity (D4) [33m 2172[2mms[22m[39m
+     [33m[2m✓[22m[39m R41: shows the stroke guide in black on a gray model letter, inside the outline (D5) [33m 9268[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[32m415 passed[39m[22m[90m (415)[39m
+[2m   Start at [22m 15:58:58
+[2m   Duration [22m 196.26s[2m (transform 3.76s, setup 2.26s, import 9.08s, tests 488.01s, environment 11.52s)[22m
+
+GREEN exit 
+--- LINT
+LINT exit 0

@@ -1,0 +1,19 @@
+measure-adversarial-testing, track storytime_print_r1_20261025, Phase 4, role base 963cdfd8.
+Test commit: 1e2c4244acc48f40be2bb40f933d1d709f674739 (dashboard/__tests__/storytime-print-readers-adversarial.test.ts, 12 cases).
+Cases: CONTROL, SYMLINK, ROOT-LINK, SIBLING-PREFIX, OTHER-ROW-NAME, DECOY, MANIFEST-SHAPES, TAMPER, IMAGE-FACTS, CLI-NO-MANIFEST, A3-PREFLIGHT, PICTURE-FILES.
+Shipped code: 12 of 12 pass. Mutants: 15 of 15 caught, every restore cmp OK (adversarial-963cdfd8-mutants.txt).
+Gates: PROJECT_TESTS 23 files, 580 passed. GREEN_TEST_COMMAND 12 files, 415 passed. PROJECT_LINT exit 0 (adversarial-963cdfd8-project.txt).
+No production defect found. Findings: ADV-P4-1 (duplicate job id, low), ADV-P4-2 (absolute path inside root, info), ADV-P4-3 (empty row list, low), ADV-P4-4 (A2-P4-7 and C-P4-6 notes, info). All nonblocking.
+Note: vitest cannot import a patched copy from /tmp, so the mutants ran in-tree with a backup and a cmp restore. git status of dashboard/lib and dashboard/scripts is empty.
+
+MEASURE_AGENT_RESULT
+status: pass
+confidence: high
+retry_recommendation: none
+reviewed_head_sha: 963cdfd883caf17cff910ea0ca02ec5605444648
+guard_commits: 1e2c4244acc48f40be2bb40f933d1d709f674739
+blocking_findings: none
+nonblocking_findings: ADV-P4-1, ADV-P4-2, ADV-P4-3, ADV-P4-4
+result_json: measure/runs/storytime_print_r1_20261025/adversarial-963cdfd8.json
+handoff: Phase 4 adversarial passes. Add the 4 nonblocking findings to the Pictures task if the orchestrator wants them. C-P4-6 stays open.
+END_MEASURE_AGENT_RESULT

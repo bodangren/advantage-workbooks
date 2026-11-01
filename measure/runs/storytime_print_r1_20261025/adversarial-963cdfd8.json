@@ -1,0 +1,60 @@
+{
+ "schema_version": 1,
+ "role": "measure-adversarial-testing",
+ "track": "storytime_print_r1_20261025",
+ "phase": "Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)",
+ "phase_base_sha": "ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218",
+ "role_base_sha": "963cdfd883caf17cff910ea0ca02ec5605444648",
+ "reviewed_head_sha": "963cdfd883caf17cff910ea0ca02ec5605444648",
+ "guard_commits": [
+  "1e2c4244acc48f40be2bb40f933d1d709f674739"
+ ],
+ "status": "pass",
+ "confidence": "high",
+ "summary": "Adversarial pass for Phase 4. 12 new cases attack the Forge batch check, the picture CLI, and the final preflight. All 12 pass on the shipped code at 963cdfd8, and all 15 mutants are caught. No production defect found. Four low or info findings stay open as nonblocking.",
+ "blocking_findings": [],
+ "nonblocking_findings": [
+  "ADV-P4-1 | severity: low | nonblocking | dashboard/lib/storytime/print/picture-check.ts:389-391 | forgeManifestEntriesForRow selects a job with Array.find, so the first job with the row id wins. A manifest with two jobs of the same row id (for example a pending job, then a ready job) fails or passes the row by list order only, and no check reports the duplicate. The delivery contract gives job.id = row id, so one job for each row is the intent. Static finding; no test added, because no spec or plan rule names the duplicate case. Fix route: Green may throw on a duplicate row id, in a later chore.",
+  "ADV-P4-2 | severity: info | nonblocking | dashboard/lib/storytime/print/picture-check.ts:477-494 | Confirms C-P4-12 by code reading: an absolute manifest path that points inside the batch root passes, because path.resolve keeps the absolute path and the root test accepts it. The contract allows files inside the root, so no safety defect. No test added. The doc comment at lines 466-468 says an absolute path fails its row; the code fails an absolute path outside the root only.",
+  "ADV-P4-3 | severity: low | nonblocking | dashboard/lib/storytime/print/picture-check.ts:508-524 | Confirms A2-P4-1 by code reading: checkStorytimePictureBatch with an empty row list returns zero results and exitCode 0 (A4 vacuous pass). The CLI guards the case (check-storytime-pictures.ts:94-97, exit 1), so no present caller is affected. No test added: no spec or plan rule requires the library guard. Fix route: Green may throw on an empty list, in the Pictures task.",
+  "ADV-P4-4 | severity: info | nonblocking | dashboard/lib/storytime/print/picture-check.ts:checkLine | A2-P4-7 is not a defect: FR-9 allows 8-bit grayscale line art, and the new cases use 8-bit gray files that pass. The check is not a 1-bit gate. C-P4-6 (the copy step from the Forge batch to the flat picture folder) is a plan item, not a code defect, and stays open for the Pictures task."
+ ],
+ "live_contract_violations": [],
+ "prod_wiring_violations": [],
+ "route_parity_violations": [],
+ "test_strategy_violations": [],
+ "retry_recommendation": "none",
+ "tests_by_area": [
+  "A2-P4-3 symbolic links: ADV-P4-SYMLINK. A link to a valid file outside the root, a link to a folder outside the root, and a link to a sibling folder named batch-evil each fail their row with a link reason, and the clean row passes. ADV-P4-ROOT-LINK: a batch opened through a link to the batch folder passes. ADV-P4-SIBLING-PREFIX: a ../batch-evil path fails.",
+  "Delivery contract names: ADV-P4-OTHER-ROW-NAME (a job with the files of another row fails although the files are valid), ADV-P4-DECOY (the file at the manifest path is read, not a same-name file at the batch root or in another folder), ADV-P4-CONTROL (folder prefix passes).",
+  "Manifest shape: ADV-P4-MANIFEST-SHAPES. No jobs key, jobs as an object, an empty list, null, a number, and empty jobs each fail the row with a reason and exit 1; extra keys at manifest and job level pass.",
+  "Manifest facts: ADV-P4-TAMPER (a file changed after the SHA-256 fails; a wrong manifest pixel size fails). ADV-P4-IMAGE-FACTS (RGBA color file, color file in the line-art place, line art at 150 x 112 for a 200 x 150 row each fail with the matching reason).",
+  "A2-P4-6 final preflight: ADV-P4-A3-PREFLIGHT. The final --a3-color build with every line-art file present and one color file missing exits nonzero, names the color file, and creates no print-ready folder. ADV-P4-PICTURE-FILES: workbook lists 18 line-art names, A3 lists 18 color names, one reader lists 9.",
+  "CLI: ADV-P4-CLI-NO-MANIFEST. A batch folder without manifest.json exits 2 and names manifest.json, an unknown flag exits 2, and the batch folder gets no new file."
+ ],
+ "changed_files": [
+  "dashboard/__tests__/storytime-print-readers-adversarial.test.ts",
+  "measure/runs/storytime_print_r1_20261025/adversarial-963cdfd8.json",
+  "measure/runs/storytime_print_r1_20261025/adversarial-963cdfd8.log",
+  "measure/runs/storytime_print_r1_20261025/adversarial-963cdfd8-mutants.txt",
+  "measure/runs/storytime_print_r1_20261025/adversarial-963cdfd8-project.txt"
+ ],
+ "commands": [
+  "read spec FR-9, plan Phase 4, review-a-c9e92fa2, review-c-c9e92fa2, review-c-b7337974, picture-check.ts, check-storytime-pictures.ts, make-readers-pdf.ts, readers.ts",
+  "pgrep -fc '[s]torytime-book-pictures' returned 0 before every heavy command",
+  "heavy-run: new test file at 963cdfd8: 12 passed",
+  "heavy-run: python3 -I /tmp/opencode/adv-p4-mutate.py (15 in-tree mutants, each restored and checked with cmp); the first script run had a read-after-truncate bug in the in-tree path, which stopped on a no-op check, and the finally block restored the file (git status clean); vitest cannot import a patched copy from /tmp, so all mutants run in-tree",
+  "heavy-run: PROJECT_TESTS 23 files, 580 passed (568 + 12 new); GREEN_TEST_COMMAND 12 files, 415 passed; PROJECT_LINT exit 0",
+  "git commit 1e2c4244acc48f40be2bb40f933d1d709f674739 (the test file only)"
+ ],
+ "evidence": [
+  "PROVENANCE: phase_base_sha=ed1cc4b5ee00d40c1c7df71b3cfa7f8a789da218; role_base_sha=963cdfd883caf17cff910ea0ca02ec5605444648; HEAD at start equals role_base_sha. The test commit 1e2c4244acc48f40be2bb40f933d1d709f674739 touches only dashboard/__tests__/storytime-print-readers-adversarial.test.ts.",
+  "MUTATION CHECKS (detail in adversarial-963cdfd8-mutants.txt, every restore cmp OK): M1 symlink guard removed fails SYMLINK; M2 root compared without realpath fails ROOT-LINK; M3 prefix test without a path separator in both guards fails SIBLING-PREFIX and SYMLINK; M4 manifest names ignored fails OTHER-ROW-NAME; M5 file read flat at the batch root fails CONTROL, DECOY and 5 more; M6 vacuous pass on a manifest without jobs fails MANIFEST-SHAPES; M7 extra keys rejected fails MANIFEST-SHAPES; M8 SHA-256 compare skipped and M9 manifest size compare skipped fail TAMPER; M10 alpha check skipped, M11 line-art size check skipped, and M12 gray and ink checks skipped fail IMAGE-FACTS; M13 CLI exit 2 changed to 1 fails CLI-NO-MANIFEST; M14 A3 preflight with line-art names fails A3-PREFLIGHT; M15 file list always line art fails A3-PREFLIGHT and PICTURE-FILES.",
+  "F-IMAGE-FACTS strengthened: the first M10 run survived because the row id adv-alpha put the word alpha into every reason, so the regex matched a file name. The row id is now adv-rgba. The rerun catches M10.",
+  "A4 vacuous pass: the batch check does not pass a manifest without jobs (MANIFEST-SHAPES, mutant M6 caught). The empty row list stays a nonblocking finding (ADV-P4-3).",
+  "A7 and A5: no banned-term filter and no pass-count claim in the code under test. Not applicable.",
+  "Review lows A2-P4-3 and A2-P4-6 now have tests. A2-P4-1 is ADV-P4-3. A2-P4-7 is not a defect. C-P4-12 is ADV-P4-2. C-P4-6 stays open in the plan.",
+  "NO PRODUCTION CHANGE: git status --porcelain dashboard/lib dashboard/scripts pnpm-lock.yaml is empty. All fixtures live in /tmp/opencode/. No file went into content/storytime/l2/print/pictures/ or into a print-ready folder.",
+  "GATES: PROJECT_TESTS 580 passed; GREEN_TEST_COMMAND 415 passed; PROJECT_LINT exit 0. Evidence in adversarial-963cdfd8-project.txt (the vitest exit lines are empty there because of a PIPESTATUS quoting error in the wrapper; the summary lines show all files passed and lint prints exit 0)."
+ ]
+}

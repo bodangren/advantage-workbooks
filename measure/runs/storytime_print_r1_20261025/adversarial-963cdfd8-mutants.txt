@@ -1,0 +1,15 @@
+M13-cli-no-manifest-exit-1: exit 1; failed: ADV-P4-CLI-NO-MANIFEST; Tests  1 failed | 11 passed (12); restore cmp OK
+M14-a3-preflight-line-names: exit 1; failed: ADV-P4-A3-PREFLIGHT; Tests  1 failed | 11 passed (12); restore cmp OK
+M15-picture-files-always-line: exit 1; failed: ADV-P4-A3-PREFLIGHT,ADV-P4-PICTURE-FILES; Tests  2 failed | 10 passed (12); restore cmp OK
+M1-symlink-guard-removed: exit 1; failed: ADV-P4-SYMLINK; Tests  1 failed | 11 passed (12); restore cmp OK
+M2-root-not-real: exit 1; failed: ADV-P4-ROOT-LINK; Tests  1 failed | 11 passed (12); restore cmp OK
+M3-prefix-no-separator: exit 1; failed: ADV-P4-SIBLING-PREFIX,ADV-P4-SYMLINK; Tests  2 failed | 10 passed (12); restore cmp OK
+M4-names-ignored: exit 1; failed: ADV-P4-OTHER-ROW-NAME; Tests  1 failed | 11 passed (12); restore cmp OK
+M5-flat-read: exit 1; failed: ADV-P4-CONTROL,ADV-P4-DECOY,ADV-P4-IMAGE-FACTS,ADV-P4-MANIFEST-SHAPES,ADV-P4-ROOT-LINK,ADV-P4-SYMLINK,ADV-P4-TAMPER; Tests  7 failed | 5 passed (12); restore cmp OK
+M6-vacuous-no-jobs: exit 1; failed: ADV-P4-MANIFEST-SHAPES; Tests  1 failed | 11 passed (12); restore cmp OK
+M7-extra-keys-rejected: exit 1; failed: ADV-P4-MANIFEST-SHAPES; Tests  1 failed | 11 passed (12); restore cmp OK
+M8-sha-skipped: exit 1; failed: ADV-P4-TAMPER; Tests  1 failed | 11 passed (12); restore cmp OK
+M9-declared-size-skipped: exit 1; failed: ADV-P4-TAMPER; Tests  1 failed | 11 passed (12); restore cmp OK
+M10-alpha-skipped: exit 1; failed: ADV-P4-IMAGE-FACTS; Tests  1 failed | 11 passed (12); restore cmp OK
+M11-line-size-skipped: exit 1; failed: ADV-P4-IMAGE-FACTS; Tests  1 failed | 11 passed (12); restore cmp OK
+M12-gray-and-ink-skipped: exit 1; failed: ADV-P4-IMAGE-FACTS; Tests  1 failed | 11 passed (12); restore cmp OK
