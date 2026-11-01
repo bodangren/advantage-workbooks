@@ -1,0 +1,63 @@
+status: complete
+role: jr-green (Phase 2 Task Check and Task Hand-off)
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: 6471f09e4d3dd9c75fdd8fd70b8cc1fa0199330b
+model: opencode-go/deepseek-v4.1-flash
+start: 2026-11-01 11:14 +07
+end: 2026-11-01 11:26 +07
+note: This role writes no production code. It records Task (Check) and Task (Hand-off) of Phase 2. It rebuilt no cover and wrote no file in proof/, proof-v2/, or proof-v3/.
+
+step 0: git status --short before the edits: one change, `video/storytime-song/scripts/render.mjs`, of the song video session, and the untracked `dashboard/raw.json` and `measure/runs/` files. This role staged path by path and touched neither path.
+step 1: the print folder `/home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/` holds 6 files at 11:15; the contact sheet of step 6 makes 7 at the end of this role. The SHA-256 values equal the register of `jr-green-c6c5cde4-sha256.txt`, 6 of 6. File: `jr-green-6471f09e-sha256.txt`.
+  - Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf dbb0512c3ec4637e6ae1339bcc3abfb095000e77e2eef0da51deae11a64ae571
+  - cover.pdf f618e17d6cabc1abbaa4045ffe307e47cc10b5eac3a05053deafb56fa591574f
+  - front.png e52f94106e974a2ffc62368057fa5bb59164f2ad46f9e2b1c0671fa667cb96c7
+  - back.png 462a7af92350bf278c2c535b7da9b5fc9cd7cd5732b0bd5fbe67974dfb5b396e
+  - build-report.json 6951a507738b16238c6bdd93b2f77def70dc4d9cecaceeaf0302e76721349785
+  - corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+step 2: `pdfinfo` of the print file: 2 pages, 594.96 x 841.92 pts (A4), PDF version 1.3, subtype PDF/X-1a:2001, 1,155,703 bytes, CreationDate 2026-11-01 09:44:28 +07.
+step 3: `pdffonts` of the print file: 4 faces, Andika, Andika-Bold, Sarabun-Regular, and Sarabun-Bold. Each face is CID TrueType, embedded, subset. No other face, and no Type 3 face. PASS. File: `jr-green-6471f09e-fonts.txt`.
+step 4: `pdfimages -list` of the print file: 4 images. Page 1 holds 2197 x 2126 and 2197 x 768 at 300 ppi. Page 2 holds 356 x 356 (the QR) and 2197 x 1630 at 300 ppi. Each image is cmyk, 8 bpc. No soft mask: pdfimages 26.01.0 prints no smask column, and a byte scan of the file gives 0 `/SMask` and 0 `/Mask`, with 0 `ObjStm`, so the scan reads every object. No page is one image: an A4 page at 300 ppi is 2479 x 3508 px, and each page holds 2 images. PASS. File: `jr-green-6471f09e-images.txt`.
+step 5: the Thai byte check and the QR module check on `cover.pdf` of the same build, with the commands of the earlier record `/tmp/opencode/green-v3/file-checks.ts` (`jr-green-e0b587ac-filechecks.txt`), reduced to this one book. One heavy-run wrapper, exit 0. PASS on each of 5 checks: page 1 copy, page 2 copy, page 1 Thai byte, page 2 Thai byte, page 2 QR module (0 modules differ), on 29 x 29 cells with 434 dark cells. Files: `jr-green-6471f09e-thai-qr.txt`, `jr-green-6471f09e-thai.txt`, `jr-green-6471f09e-qr.txt`.
+  - Thai runs of page 2: ติดต่อเราอีเมลโทรศัพท์ขอนแก่นประเทศไทย. Page 1 holds no Thai character, as the front has no Thai.
+step 6: contact sheet `/home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/contact-sheet.png`, 2472 x 1802 px, 2 tiles, each tile a 300 dpi render of one page, with a bold heading and a thin border (the method of the earlier contact sheets of this track). SHA-256 a6af5c4c6b08d42aeec2fa0e60629bd38792b9eac3ff07758b564a28b17ab39e. One heavy-run wrapper, 11:17:0x, exit 0. File: `jr-green-6471f09e-contact.txt`.
+  - Run 1 at 11:16:31 had the full file name in each heading, so the 2 headings overlapped. Run 1 sheet SHA-256 5acbaa54e79017d92da9c61b30dfd3ba33198985b99bc61c3df6cd34d8f572af. Run 2 at 11:17:17 uses a short heading and holds no overlap. Only run 2 stays on disk.
+step 7: the looks. Page 1 and page 2 of the sheet at full size; both pages at 300 dpi; the Thai contact block at 300 dpi; the QR with its quiet zone at 300 dpi.
+  - Page 1: the title `Storytime Advantage` is centred, the 2 figures sit in the light blue inset with no cut at an edge, and the blue panel holds `Level 2 · Unit 1` and `Student Book` on 2 centred lines. No defect.
+  - Page 2: the RA logo is at the top left, the title is at the top right, and the panel holds the 5 headings in the order Story, Sounds, Decodable words, Sight words, Books. The values are the approved week text. The Thai block holds the 4 labels and the place line, with the tone marks of ติดต่อเรา, อีเมล, โทรศัพท์, and ประเทศไทย. The QR is square on 29 x 29 modules with a white quiet zone, and `LINE` sits below it. No defect.
+  - Defects: none found. The reader notes O4 to O8 of the Check v3b record hold and are not defects.
+step 8: peer looks, recorded as given. The orchestrator looked at `front.png` and `back.png` at 2026-11-01 09:4x ICT and found no defect. The PM session looked at both pages at 09:5x ICT and found no defect, and wrote that the back panel matches the approved week list.
+step 9: Task (Hand-off). The orchestrator sent the PM session the print file name, its SHA-256, the page count 2, the date 2026-11-01, and the SHA-256 of cover.pdf, front.png, back.png, and build-report.json at 2026-11-01 09:47 ICT. The PM receipt at 09:5x ICT: the PM session checked the SHA-256 of the print file, of front.png, and of back.png, and all 3 are equal; `pdfinfo` reads 2 pages, A4, PDF 1.3; both pages show no defect; and the print file goes to Drive after the Phase 2 acceptance, not before.
+step 10: committed evidence files: 96ff79f74a35ac97e7eb6fe9d1d1eb450bba0f38 `measure(runs): record covers Phase 2 Check and Hand-off evidence`.
+step 11: the plan commit holds this log and the 2 flipped rows. Message `measure(plan): record covers Phase 2 Check and Hand-off`. This log cannot hold that SHA.
+step 12: the UMV row `Task: Measure - User Manual Verification 'Phase 2: The Level 2 Unit 1 cover print file'` stays `[ ]`.
+forge priority: `pgrep -fc '[s]torytime-book-pictures'` returned 0 before each heavy command. No wait.
+heavy runs: 2 (the file checks and the contact sheet), each inside one heavy-run wrapper, each exit 0. No exit 75.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: jr-green
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+tasks: Task (Check), Task (Hand-off)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: 6471f09e4d3dd9c75fdd8fd70b8cc1fa0199330b
+evidence_commit: 96ff79f74a35ac97e7eb6fe9d1d1eb450bba0f38
+commits:
+  - 96ff79f74a35ac97e7eb6fe9d1d1eb450bba0f38 measure(runs): record covers Phase 2 Check and Hand-off evidence
+  - plan commit measure(plan): record covers Phase 2 Check and Hand-off (this log rides in it; its SHA is in the session reply)
+tasks_flipped_x:
+  - Task (Check), evidence class peer-report, evidence commit 96ff79f7 (contact sheet SHA-256 a6af5c4c6b08d42aeec2fa0e60629bd38792b9eac3ff07758b564a28b17ab39e)
+  - Task (Hand-off), evidence class peer-report, evidence commit 96ff79f7 (PM receipt 2026-11-01 09:5x ICT)
+tasks_flipped_b: none
+tasks_left_open:
+  - Task: Measure - User Manual Verification 'Phase 2: The Level 2 Unit 1 cover print file'
+defects: none found
+new_files:
+  - /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/contact-sheet.png (outside the repository, SHA-256 a6af5c4c6b08d42aeec2fa0e60629bd38792b9eac3ff07758b564a28b17ab39e)
+  - measure/runs/storytime_covers_20261027/jr-green-6471f09e-{fonts,images,thai,qr,thai-qr,contact,contact-sha,sha256}.txt
+  - measure/runs/storytime_covers_20261027/jr-green-6471f09e-check.log
+coder_delegation: none
+handoff: The reviews read the 2 flipped rows and the 3 check results. Facts for the review roles: the print file SHA-256 equals the Green register; pdffonts reads 4 embedded faces with no Type 3; pdfimages -list reads 2 images per page with no soft mask and no full-page image; the Thai byte check and the QR module check pass on cover.pdf with 0 modules differ; the contact sheet holds 2 tiles with no defect. The PM session holds the print file for Drive after the Phase 2 acceptance. If a review asks for a look that this role did not take, route it to a new Check role; this role does not amend a committed Red test.
+END_MEASURE_AGENT_RESULT
