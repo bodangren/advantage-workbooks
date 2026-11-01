@@ -335,6 +335,7 @@ function draftRootEnv(draftWeeks: number[]): Record<string, string> {
         fs.writeFileSync(path.join(levelDir, path.basename(source)), JSON.stringify(copy));
     }
     fs.symlinkSync(path.join(STORYTIME_ROOT, 'l2', 'media'), path.join(levelDir, 'media'));
+    fs.symlinkSync(dashboardRoot, path.join(root, 'dashboard'));
     const logoDir = path.join(root, 'Teacher guide');
     fs.mkdirSync(logoDir, { recursive: true });
     fs.symlinkSync(path.join(repoRoot, 'Teacher guide', 'reading-advantage logo.png'), path.join(logoDir, 'reading-advantage logo.png'));
@@ -391,6 +392,33 @@ describe('Storytime covers adversarial Phase 2', () => {
         expect(result.status, `A print build with a draft story source stops. Output: ${result.output.slice(-600)}`).toBe(1);
         expect(result.output, 'The stop names the book and the story field.').toMatch(/Level 2 Unit 1.*"story".*D12/);
         expect(fs.existsSync(out) ? fs.readdirSync(out) : [], 'A stopped print build writes no file.').toEqual([]);
+    }, 360000);
+
+    it('ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies', () => {
+        // One draft week among weeks 2 to 8 empties no field, so the D12 stop stays silent. Rule 7
+        // still says that a draft week supplies no field data in the printer file (ADV-P1-1 shape).
+        const draftWeek = 3;
+        const data = loadStorytimeCoverBooks();
+        const book = data.books.find((row) => row.level === 2 && row.unit === 1)!;
+        const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+        const graph = readPhonicsGraph()!;
+        const full = storytimeCoverPanelValues(book, { weeks, graph });
+        const approved = storytimeCoverPanelValues(book, { weeks: weeks.filter((week) => week.meta.week !== draftWeek), graph });
+        const approvedText = [book.title, ...approved.flatMap((entry) => [entry.value, ...entry.items])].join(' ').toLowerCase();
+        const draftOnly = [...new Set(full.flatMap((entry) => entry.items))]
+            .filter((item) => !new RegExp(`(^|[^a-z])${item.toLowerCase().replace(/[^a-z0-9 ]/g, '')}([^a-z]|$)`).test(approvedText.replace(/[^a-z0-9 ]/g, ' ')));
+        expect(draftOnly.length, `Precondition: draft week ${draftWeek} adds list items that no approved week supplies.`).toBeGreaterThan(0);
+        const env = draftRootEnv([draftWeek]);
+        const out = path.join(temporaryFolder(), 'print-out');
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--print', '--data', path.join(STORYTIME_ROOT, 'covers', 'books.json')], env);
+        const chrome = path.join(out, 'cover.pdf');
+        if (!fs.existsSync(chrome)) {
+            expect(result.status, 'A print build that writes no cover must stop with an error.').not.toBe(0);
+            return;
+        }
+        const backText = execFileSync('pdftotext', ['-layout', '-f', '2', '-l', '2', chrome, '-'], { encoding: 'utf8', timeout: 30000 });
+        const leaked = draftOnly.filter((item) => new RegExp(`(^|[^A-Za-z])${item.replace(/[^A-Za-z0-9 ]/g, '')}([^A-Za-z]|$)`, 'i').test(backText));
+        expect(leaked, `The print back page shows words of the draft week ${draftWeek} (D12, rule 7). Exit ${result.status}.`).toEqual([]);
     }, 360000);
 
     it('ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2', () => {
