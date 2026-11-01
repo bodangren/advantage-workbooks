@@ -1,0 +1,53 @@
+== SHIPPED (all file cases)
+ [32m✓[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 142582[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write [33m 11172[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01) [33m 41038[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing [33m 1966[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies [33m 16436[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2 [33m 872[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 38358[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged [33m 27095[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write [33m 5061[2mms[22m[39m
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m16 passed[39m[22m[90m (16)[39m
+== MUT refuse vs ADV-P2-DEFAULT (expect FAIL)
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only[39m[33m 3053[2mms[22m[39m
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged[39m[33m 1691[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: The default print build exits 0. Output tail: 
+: expected 2 to be +0 // Object.is equality[39m
+[31m[1mAssertionError[22m: The v4 default print build exits 0. Output tail: 
+: expected 2 to be +0 // Object.is equality[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+== MUT fixedv3 vs ADV-P2-DEFAULT (expect FAIL)
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 24581[2mms[22m[39m
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged[39m[33m 25255[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: The v4 build changes no file of the delivered v3 folders.: expected [ { …(7) }, { …(3) } ] to deeply equal [ { …(3) }, { …(3) } ][39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+== MUT noguard vs ADV-P2-GUARD (expect FAIL)
+[31m     [31m×[31m ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write[39m[33m 30758[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: A v4 print build into proof-v3 exits 2. Output: roof-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+: expected +0 to be 2 // Object.is equality[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m15 skipped[39m[90m (16)[39m
+== MUT blank vs ADV-P2-DEFAULT (expect FAIL)
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only[39m[33m 25705[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged [33m 29565[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: The print back page shows every list item of the approved weeks.: expected [ …(41) ] to deeply equal [][39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+== MUT nopdfx vs ADV-P2-DEFAULT (expect FAIL)
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only[39m[33m 8628[2mms[22m[39m
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged[39m[33m 8501[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: The print folder holds the five build files and the PDF/X file.: expected [ 'back.png', …(4) ] to deeply equal [ …(6) ][39m
+[31m[1mAssertionError[22m: The v4 print file carries v4 in its name.: expected false to be true // Object.is equality[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+== MUT namev3 vs ADV-P2-DEFAULT (expect FAIL)
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 24876[2mms[22m[39m
+[31m     [31m×[31m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged[39m[33m 23272[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mAssertionError[22m: The v4 print file carries v4 in its name.: expected false to be true // Object.is equality[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+== done

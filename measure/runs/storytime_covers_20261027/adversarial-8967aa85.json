@@ -1,0 +1,54 @@
+{
+ "schema_version": 1,
+ "role": "measure-adversarial-testing",
+ "track": "storytime_covers_20261027",
+ "phase": "Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)",
+ "phase_base_sha": "c85ef735f56c79779551fbff4996d5924b56c0d8",
+ "role_base_sha": "8967aa8515e06ca6f6e32e17308cfcce34dc65e6",
+ "reviewed_head_sha": "8967aa8515e06ca6f6e32e17308cfcce34dc65e6",
+ "guard_commits": [],
+ "status": "pass",
+ "confidence": "high",
+ "summary": "Adversarial pass for Phase 2 round 2: ADV-P2-OUT and ADV-P2-D12 only week 3 pass at 8967aa85. 3 new cases pin the positive v3 print default, the v4 default and the isolation of the delivered v3 folders, and the print guard on proof folders. All 3 pass on shipped code, and 6 mutants are caught. No production defect found.",
+ "blocking_findings": [],
+ "nonblocking_findings": [
+  "ADV-P2-R2-1 | severity: low | nonblocking | dashboard/scripts/print/make-pdfx.ts:42-43 | make-pdfx reads the ICC profile from $HOME/.cache/workbooks-print and downloads it from Adobe when it is missing. A print build under a changed HOME therefore needs the network. A first full run failed once for this reason (the new default case, make-pdfx exit 1). The test file now copies the cached profile into the temporary HOME (seedPrintProfile), so no test depends on the network. No production change is needed for the shipped flow.",
+  "ADV-P2-R2-2 | severity: low | nonblocking | dashboard/scripts/storytime/make-storytime-book-cover.ts:191-193 | Confirms C3-P2-01 by code reading: '--out' with no value gives path.resolve('') = the working directory, and the guard passes it. No test added: no spec or plan rule requires option-value validation, and a test would write into the working directory. Fix route: Green, in a later chore.",
+  "ADV-P2-R2-3 | severity: low | nonblocking | dashboard/lib/storytime/print/covers.ts:772-788 | Confirms A3-P2-5: print-v<n> folders are not version folders for the guard, so a print build with an explicit --out into another print-v<n> folder is not refused. No spec rule requires it (FR-5.7 names proof, proof-v2, proof-v3 only). No test added. The default path is safe: the v4 default test shows that print-v3 stays unchanged."
+ ],
+ "live_contract_violations": [],
+ "prod_wiring_violations": [],
+ "route_parity_violations": [],
+ "test_strategy_violations": [],
+ "retry_recommendation": "none",
+ "tests_by_area": [
+  "A3-P2-2 positive half: ADV-P2-DEFAULT v3. Temp HOME, --print --version 3, no --out: exit 0, folder holds exactly the 6 files, no proof folder created, PRINT_GATE exit 0 on the PDF/X file and exit 1 on cover.pdf, build-report print/version/level/unit, and a positive control that the back page holds every list item of the 8 approved weeks.",
+  "v4 default: ADV-P2-DEFAULT v4. Seeded print-v3 and proof-v3 folders stay byte-equal, the build writes print-v4/l2u1 with v4 in the PDF/X name, and the storytime folder holds exactly print-v3, print-v4, proof-v3.",
+  "B-P1-01 guard on print builds: ADV-P2-GUARD. --print v4 into proof-v3, v3 into proof-v2, v3 into proof: each exits 2, names the proof folder, and leaves the seeded folder unchanged.",
+  "Round 1 cases kept: ADV-P2-OUT, ADV-P2-D12 week 1, ADV-P2-D12 only week 3, ADV-P2-GATE (all pass at 8967aa85)."
+ ],
+ "changed_files": [
+  "dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts",
+  "measure/runs/storytime_covers_20261027/adversarial-8967aa85.json",
+  "measure/runs/storytime_covers_20261027/adversarial-8967aa85.log",
+  "measure/runs/storytime_covers_20261027/adversarial-8967aa85-mutants.txt",
+  "measure/runs/storytime_covers_20261027/adversarial-8967aa85-project.txt"
+ ],
+ "commands": [
+  "read round 1 result, review-a and review-c of 8967aa85, spec FR-5.7, the CLI script and checkStorytimeCoverOutDir",
+  "pgrep -fc '[s]torytime-book-pictures' returned 0 before each heavy command",
+  "heavy-run: adversarial file at 8967aa85 plus new cases: 16 passed",
+  "heavy-run: 6 mutants in /tmp/opencode/adv-mut2 (patched script copies, env STORYTIME_ADV_SCRIPT)",
+  "heavy-run: PROJECT_TESTS 22 files, 568 passed (565 + 3 new); PROJECT_LINT exit 0; first full run had 1 network-related failure, fixed in the test (seedPrintProfile)",
+  "git commit of the test file only (two commits)"
+ ],
+ "evidence": [
+  "PROVENANCE: phase_base_sha=c85ef735f56c79779551fbff4996d5924b56c0d8; role_base_sha=8967aa8515e06ca6f6e32e17308cfcce34dc65e6; HEAD at start equals role_base_sha. Test commits touch only dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts.",
+  "F ADV-P2-1 withdrawn: ADV-P2-OUT passes at 8967aa85, and the positive case ADV-P2-DEFAULT v3 shows exit 0 with the whole print set in print-v3/l2u1 and no proof folder created.",
+  "F ADV-P2-2 withdrawn: ADV-P2-D12 only week 3 passes at 8967aa85; the positive control in ADV-P2-DEFAULT v3 shows the back page holds all list items, so the pass is not a blank-panel pass.",
+  "MUTATION CHECKS (patched copies, /tmp/opencode/adv-mut2, detail in adversarial-8967aa85-mutants.txt): refuse (print default exits 2) fails DEFAULT v3 and v4; fixedv3 (folder always print-v3) fails DEFAULT v4 on the changed seeded v3 folder; noguard (guard removed) fails GUARD with v4 print written into proof-v3; blank (print panel emptied) fails DEFAULT v3 on the positive control (41 items absent); nopdfx (no PDF/X step) fails DEFAULT v3 and v4; namev3 (PDF/X name fixed to v3) fails DEFAULT v4. Shipped code passes all 16 cases. Round 1 mutants stay valid (not rerun; script lines unchanged).",
+  "NO PRODUCTION CHANGE: git status of dashboard/lib, dashboard/scripts, content, pnpm-lock.yaml clean. All builds ran under temp HOME in /tmp/opencode/. The real print-ready folders were not written.",
+  "A4/A5/A7: no markers check, pass-count claim, or banned-term filter in these tests. Not applicable.",
+  "GATES: PROJECT_TESTS exit 0 (22 files, 568 passed); PROJECT_LINT exit 0. Evidence in adversarial-8967aa85-project.txt."
+ ]
+}

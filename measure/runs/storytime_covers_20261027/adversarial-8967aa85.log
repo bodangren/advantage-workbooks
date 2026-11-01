@@ -1,0 +1,15 @@
+Adversarial round 2, Phase 2, track storytime_covers_20261027
+role_base_sha 8967aa85; test commits listed below.
+1. ADV-P2-OUT and ADV-P2-D12 only week 3 pass at 8967aa85.
+2. New cases (same file): ADV-P2-DEFAULT v3 (positive print default + gate + positive control), ADV-P2-DEFAULT v4 (print-v4, v3 folders unchanged), ADV-P2-GUARD (print into other proof folders exits 2).
+3. 6 mutants caught (see adversarial-8967aa85-mutants.txt). Shipped code passes 16 of 16 in the file.
+4. PROJECT_TESTS 568 passed; PROJECT_LINT exit 0.
+5. No production defect. 3 low nonblocking notes in the JSON.
+
+MEASURE_AGENT_RESULT
+status: pass
+summary: Phase 2 adversarial round 2 passes. 3 new cases pin the positive v3 and v4 print default, the isolation of delivered v3 folders, and the print guard. 6 mutants caught. No production defect.
+retry_recommendation: none
+result_file: measure/runs/storytime_covers_20261027/adversarial-8967aa85.json
+handoff: none
+END_MEASURE_AGENT_RESULT
