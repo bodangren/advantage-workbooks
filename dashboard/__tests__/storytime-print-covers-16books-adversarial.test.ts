@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { BACK_LINES } from '../lib/covers/back-text';
 import { generateQRCode } from '../lib/qr-generator';
-import { STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph, storytimeWeekFile } from '../lib/storytime/files';
+import { PHONICS_GRAPH_FILE, STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph, storytimeWeekFile } from '../lib/storytime/files';
 import type { StorytimeWeek } from '../lib/storytime/schema';
 import {
     checkStorytimeCoverOutDir,
@@ -34,7 +35,10 @@ import {
 const temporaryFolders: string[] = [];
 const repoRoot = path.resolve(STORYTIME_ROOT, '..', '..');
 const dashboardRoot = path.join(repoRoot, 'dashboard');
-const scriptFile = path.join(dashboardRoot, 'scripts/storytime/make-storytime-book-cover.ts');
+// The two overrides let a mutation run point the same cases at a patched copy of a script
+// that lives in a temporary folder (rule 11.1). Without them the cases run the shipped scripts.
+const scriptFile = process.env.STORYTIME_ADV_SCRIPT ?? path.join(dashboardRoot, 'scripts/storytime/make-storytime-book-cover.ts');
+const pdfxScriptFile = process.env.STORYTIME_ADV_PDFX_SCRIPT ?? path.join(dashboardRoot, 'scripts/print/make-pdfx.ts');
 
 function temporaryFolder(): string {
     fs.mkdirSync('/tmp/opencode', { recursive: true });
@@ -312,4 +316,109 @@ describe('Storytime covers adversarial Phase 1', () => {
         const extra = panelValue(full, 'sounds').items.filter((sound) => !panelValue(print, 'sounds').items.includes(sound));
         expect(extra.length, 'The draft weeks of the copy add sounds beyond the approved week.').toBeGreaterThan(0);
     });
+});
+
+/**
+ * Copies the shipped Level 2 weeks 1 to 8 into a temporary repo root that a script run reads
+ * through WORKBOOKS_ROOT, and puts the listed weeks back to the draft record (rule 11.1).
+ * @param draftWeeks The week numbers whose `approval.text` becomes draft; the rest ship as they are.
+ * @returns The environment of a script run that reads the copy.
+ */
+function draftRootEnv(draftWeeks: number[]): Record<string, string> {
+    const root = temporaryFolder();
+    const levelDir = path.join(root, 'content', 'storytime', 'l2');
+    fs.mkdirSync(levelDir, { recursive: true });
+    for (let week = 1; week <= 8; week++) {
+        const source = storytimeWeekFile(STORYTIME_ROOT, 2, week);
+        const copy = JSON.parse(fs.readFileSync(source, 'utf8')) as StorytimeWeek;
+        if (draftWeeks.includes(week)) copy.approval.text = { status: 'draft' };
+        fs.writeFileSync(path.join(levelDir, path.basename(source)), JSON.stringify(copy));
+    }
+    fs.symlinkSync(path.join(STORYTIME_ROOT, 'l2', 'media'), path.join(levelDir, 'media'));
+    const logoDir = path.join(root, 'Teacher guide');
+    fs.mkdirSync(logoDir, { recursive: true });
+    fs.symlinkSync(path.join(repoRoot, 'Teacher guide', 'reading-advantage logo.png'), path.join(logoDir, 'reading-advantage logo.png'));
+    return { WORKBOOKS_ROOT: root, MASTERY_PHONICS_GRAPH: PHONICS_GRAPH_FILE };
+}
+
+/**
+ * A small PDF 1.4 file with a plain text page, like a Chrome PDF: no PDF/X marker, no output intent.
+ * @param file The path to write.
+ */
+function writeChromeLikePdf(file: string): void {
+    const body = [
+        '%PDF-1.4',
+        '1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj',
+        '2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj',
+        '3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj',
+        '4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj',
+        '5 0 obj<</Length 36>>stream',
+        'BT /F1 12 Tf 72 720 Td (Hello) Tj ET',
+        'endstream endobj',
+        'trailer<</Root 1 0 R/Size 6>>',
+        '%%EOF',
+        '',
+    ].join('\n');
+    fs.writeFileSync(file, body);
+}
+
+describe('Storytime covers adversarial Phase 2', () => {
+    it('ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01)', () => {
+        const home = temporaryFolder();
+        const mock = path.join(home, 'Desktop', 'print-ready', 'storytime', 'proof-v3', 'l2u1');
+        fs.mkdirSync(mock, { recursive: true });
+        // The five names that a cover build writes with a fixed name, plus two files that the
+        // approved Drive mock folder holds beside them.
+        for (const name of ['front.png', 'back.png', 'cover.pdf', 'build-report.json', 'corner-mode.txt', 'contact-sheet.png', 'approved-note.txt']) {
+            fs.writeFileSync(path.join(mock, name), `approved mock ${name}\n`);
+        }
+        const snapshot = (): Record<string, string> => Object.fromEntries(
+            fs.readdirSync(mock).sort().map((name) => [name, createHash('sha256').update(fs.readFileSync(path.join(mock, name))).digest('hex')]),
+        );
+        const before = snapshot();
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--print'], { HOME: home });
+        const after = snapshot();
+        const touched = Object.keys({ ...before, ...after }).filter((name) => before[name] !== after[name]).sort();
+        expect(touched, `The build replaced or added files in the approved mock folder. Exit ${result.status}. Output tail: ${result.output.slice(-300).replace(/[^\x20-\x7e\n]/g, '?')}`).toEqual([]);
+    }, 360000);
+
+    it('ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing', () => {
+        // The story field has one source week, week 1 (books.json panel.story.weeks). The shipped
+        // data approves weeks 2 to 8, so the old all-draft case no longer proves the filter.
+        const env = draftRootEnv([1]);
+        const out = path.join(temporaryFolder(), 'print-out');
+        const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--out', out, '--print', '--data', path.join(STORYTIME_ROOT, 'covers', 'books.json')], env);
+        expect(result.status, `A print build with a draft story source stops. Output: ${result.output.slice(-600)}`).toBe(1);
+        expect(result.output, 'The stop names the book and the story field.').toMatch(/Level 2 Unit 1.*"story".*D12/);
+        expect(fs.existsSync(out) ? fs.readdirSync(out) : [], 'A stopped print build writes no file.').toEqual([]);
+    }, 360000);
+
+    it('ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2', () => {
+        requireHeavyWrapper();
+        expect(fs.existsSync(pdfxScriptFile), 'Missing script: scripts/print/make-pdfx.ts').toBe(true);
+        const folder = temporaryFolder();
+        const chrome = path.join(folder, 'cover.pdf');
+        const renamed = path.join(folder, 'Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf');
+        writeChromeLikePdf(chrome);
+        fs.copyFileSync(chrome, renamed);
+        const gate = (file: string): { status: number; output: string } => {
+            try {
+                const output = execFileSync(process.execPath, ['--import', 'tsx', pdfxScriptFile, file, '--check'], {
+                    cwd: dashboardRoot, encoding: 'utf8', timeout: 120000, env: process.env, stdio: 'pipe',
+                });
+                return { status: 0, output };
+            } catch (error) {
+                const failed = error as { status?: number; stdout?: string | Buffer; stderr?: string | Buffer };
+                return { status: failed.status ?? 1, output: `${failed.stdout ?? ''}\n${failed.stderr ?? ''}` };
+            }
+        };
+        for (const file of [chrome, renamed]) {
+            const result = gate(file);
+            expect(result.status, `PRINT_GATE fails ${path.basename(file)}. Output: ${result.output.slice(-400)}`).toBe(1);
+            expect(result.output, 'The gate names the missing PDF/X marker.').toMatch(/no PDF\/X-1a marker/);
+            expect(result.output, 'The gate names the missing output intent.').toMatch(/no output intent/);
+        }
+        const missing = gate(path.join(folder, 'absent.pdf'));
+        expect(missing.status, 'A missing print file exits 2, never 0.').toBe(2);
+    }, 300000);
 });
