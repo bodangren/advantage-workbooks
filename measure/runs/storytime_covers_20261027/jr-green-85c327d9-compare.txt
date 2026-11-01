@@ -1,0 +1,26 @@
+== pdftotext -layout cover.pdf (old vs new) ==
+cover.pdf text diff exit: 0
+== pdftotext PDFX page 1+2 ==
+pdfx text diff exit: 0
+== pdffonts new PDFX ==
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+OZFSRR+Andika                        CID TrueType      Identity-H       yes yes yes     16  0
+VQGVQJ+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+SYAIGX+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     34  0
+LQPITE+Sarabun-Bold                  CID TrueType      Identity-H       yes yes yes     28  0
+== compare front.png ==
+/bin/bash: line 1: compare: command not found
+
+== compare back.png ==
+/bin/bash: line 1: compare: command not found
+
+== sha256 old vs new front.png back.png ==
+e52f94106e974a2ffc62368057fa5bb59164f2ad46f9e2b1c0671fa667cb96c7  /tmp/opencode/covers-p2-before-85c327d9/front.png
+e52f94106e974a2ffc62368057fa5bb59164f2ad46f9e2b1c0671fa667cb96c7  /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/front.png
+462a7af92350bf278c2c535b7da9b5fc9cd7cd5732b0bd5fbe67974dfb5b396e  /tmp/opencode/covers-p2-before-85c327d9/back.png
+462a7af92350bf278c2c535b7da9b5fc9cd7cd5732b0bd5fbe67974dfb5b396e  /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/back.png
+== pixel compare via python3 PIL ==
+<stdin>:11: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+front.png size (2480, 3508) AE 0
+back.png size (2480, 3508) AE 0

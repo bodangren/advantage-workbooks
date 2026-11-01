@@ -1,0 +1,49 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[33m 23125[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-OUT: the output-folder guard stops .., trailing slash, same-folder, mid-path and chained symlinks, and v2 into proof-v3
+     [2m[90m↓[39m[22m ADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the rule sees mixed source case
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with an ASCII semicolon, even after a space, stops panel values and names the book and title
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with a full-width semicolon builds, and the books field still splits into its items
+     [2m[90m↓[39m[22m ADV-ESC: a hostile title and panel value escape in the cover HTML and round-trip through the parser
+     [2m[90m↓[39m[22m ADV-THAI: the contact lines in a new order fail the Thai check
+     [2m[90m↓[39m[22m ADV-QR: the rendered code is the encoder output for the LINE address, and a one-character URL gives a different grid
+     [2m[90m↓[39m[22m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write
+     [2m[90m↓[39m[22m ADV-D12: the mock values strictly extend the approved values, so a passing print would render draft-week words
+     [2m[90m↓[39m[22m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01)
+     [2m[90m↓[39m[22m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing
+[31m     [31m×[31m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies[39m[33m 23122[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books-adversarial.test.ts[2m > [22mStorytime covers adversarial Phase 2[2m > [22mADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies
+[31m[1mAssertionError[22m: The print back page shows words of the draft week 3 (D12, rule 7). Exit 0.: expected [ 'get', 'Paint!', 'The Pan' ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "get",[39m
+[31m+   "Paint!",[39m
+[31m+   "The Pan",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books-adversarial.test.ts:[2m421:128[22m[39m
+    [90m419| [39m        const backText = execFileSync('pdftotext', ['-layout', '-f', '…
+    [90m420| [39m        const leaked = draftOnly.filter((item) => new RegExp(`(^|[^A-Z…
+    [90m421| [39m        expect(leaked, `The print back page shows words of the draft w…
+    [90m   | [39m                                                                                                                               [31m^[39m
+    [90m422| [39m    }[33m,[39m [34m360000[39m)[33m;[39m
+    [90m423| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 13:49:19
+[2m   Duration [22m 32.38s[2m (transform 589ms, setup 529ms, import 1.10s, tests 23.12s, environment 5.94s)[22m
+

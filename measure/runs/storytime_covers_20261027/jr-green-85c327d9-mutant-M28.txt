@@ -1,0 +1,55 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[33m 39258[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-OUT: the output-folder guard stops .., trailing slash, same-folder, mid-path and chained symlinks, and v2 into proof-v3
+     [2m[90m↓[39m[22m ADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the rule sees mixed source case
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with an ASCII semicolon, even after a space, stops panel values and names the book and title
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with a full-width semicolon builds, and the books field still splits into its items
+     [2m[90m↓[39m[22m ADV-ESC: a hostile title and panel value escape in the cover HTML and round-trip through the parser
+     [2m[90m↓[39m[22m ADV-THAI: the contact lines in a new order fail the Thai check
+     [2m[90m↓[39m[22m ADV-QR: the rendered code is the encoder output for the LINE address, and a one-character URL gives a different grid
+     [2m[90m↓[39m[22m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write
+     [2m[90m↓[39m[22m ADV-D12: the mock values strictly extend the approved values, so a passing print would render draft-week words
+[31m     [31m×[31m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01)[39m[33m 39254[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing
+     [2m[90m↓[39m[22m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies
+     [2m[90m↓[39m[22m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books-adversarial.test.ts[2m > [22mStorytime covers adversarial Phase 2[2m > [22mADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01)
+[31m[1mAssertionError[22m: The build replaced or added files in the approved mock folder. Exit 0. Output tail: roof-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+Print file: /tmp/opencode/storytime-covers-adv-JK9JX3/Desktop/print-ready/storytime/proof-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf
+: expected [ …(6) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf",[39m
+[31m+   "back.png",[39m
+[31m+   "build-report.json",[39m
+[31m+   "corner-mode.txt",[39m
+[31m+   "cover.pdf",[39m
+[31m+   "front.png",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books-adversarial.test.ts:[2m383:188[22m[39m
+    [90m381| [39m        [35mconst[39m after [33m=[39m [34msnapshot[39m()[33m;[39m
+    [90m382| [39m        const touched = Object.keys({ ...before, ...after }).filter((n…
+    [90m383| [39m        expect(touched, `The build replaced or added files in the appr…
+    [90m   | [39m                                                                                                                                                                                           [31m^[39m
+    [90m384| [39m    }[33m,[39m [34m360000[39m)[33m;[39m
+    [90m385| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 13:48:21
+[2m   Duration [22m 41.37s[2m (transform 435ms, setup 93ms, import 645ms, tests 39.26s, environment 819ms)[22m
+

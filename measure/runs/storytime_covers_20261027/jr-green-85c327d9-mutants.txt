@@ -1,0 +1,20 @@
+Green ADV-P2 mutants (phase 2, track storytime_covers_20261027)
+role_base_sha 85c327d93e751a865a3c22514bb9342f5e7aa3e8
+code commit 174586b63f551c24caaffd79e5ae03c1638403bc
+target file dashboard/scripts/storytime/make-storytime-book-cover.ts
+
+M28: the new print default branch is disabled (`if (false && print ...)`).
+  A v3 --print build without --out falls back to proof-v3.
+  Case: ADV-P2-OUT.
+  Result: exit 1, 1 failed, 12 skipped. The approved mock folder gained 6 files.
+  File: jr-green-85c327d9-mutant-M28.txt
+  Restored with a copy; `cmp` equal; `git status --porcelain dashboard/lib dashboard/scripts` empty.
+
+M29: the line `panelValues = approvedValues;` is removed.
+  A print build renders the values of all weeks again.
+  Case: ADV-P2-D12 with only week 3 back to draft.
+  Result: exit 1, 1 failed, 12 skipped. Leaked list items: get, Paint!, The Pan.
+  File: jr-green-85c327d9-mutant-M29.txt
+  Restored with a copy; `cmp` equal; `git status --porcelain dashboard/lib dashboard/scripts` empty.
+
+mutants: 2, caught: 2
