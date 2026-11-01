@@ -377,6 +377,8 @@ describe('Storytime covers adversarial Phase 2', () => {
             fs.readdirSync(mock).sort().map((name) => [name, createHash('sha256').update(fs.readFileSync(path.join(mock, name))).digest('hex')]),
         );
         const before = snapshot();
+        // The fixed build runs make-pdfx under this HOME; the copy keeps the case off the network.
+        seedPrintProfile(home);
         const result = runScript(['--level', '2', '--unit', '1', '--version', '3', '--print'], { HOME: home });
         const after = snapshot();
         const touched = Object.keys({ ...before, ...after }).filter((name) => before[name] !== after[name]).sort();
