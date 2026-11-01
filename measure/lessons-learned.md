@@ -37,6 +37,8 @@
 - (2026-11-01, storytime_covers_20261027) `scripts/print/make-pdfx.ts` downloads the ICC profile when `$HOME/.cache/workbooks-print` is missing. A build under a temporary HOME needs the network. A test must copy the cached profile into its temporary HOME (adversarial round 2, commit 6aace950).
 - (2026-11-01, storytime_covers_20261027) A print build without `--out` must never write into a folder of an approved mock. The adversarial role found this only because a test seeded the mock folder in a temporary HOME and compared hashes (ADV-P2-1).
 
+- (2026-11-02, storytime_print_r1_20261025, Green 4f) An exact file name pattern and a starts-with test give the same result on a prefix pair, because both files of the pair also differ at the line-art stem. Add a case with `<row id>-v1-extra.png` to pin the exact pattern. The row-id name rule must take the stem from the row file names, because R-P4-12 pins a pass for a row whose id does not appear in its names.
+
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->
 
