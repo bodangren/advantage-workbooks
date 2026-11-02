@@ -20,6 +20,7 @@ type PictureApi = {
     DEFAULT_GRAY_PIXEL_THRESHOLD: number;
     forgeManifestEntriesForRow: (manifest: unknown, row: unknown) => Array<{ fileName: string; rowId: string; sha256: string; pixelSize: { width: number; height: number } }>;
     checkStorytimePictureBatch: (rows: unknown[], batchFolder: string) => Promise<{ results: Array<{ rowId: string; status: string; reason?: string }>; exitCode: number }>;
+    resolveStorytimePictureFiles: (folder: string, rows: unknown[], kind: 'color' | 'line') => Array<{ rowId: string; fileName: string; file: string }>;
 };
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const readerPath = path.join(dashboardRoot, 'lib/storytime/print/readers.ts');
@@ -564,7 +565,12 @@ describe('Storytime two-output picture check', () => {
         const api = await pictureCheck();
         const dir = temp();
         const fixture = await pngFixtures(dir);
-        const row = { id: 'story-row-17', fileName: path.basename(fixture.color), lineArtFileName: path.basename(fixture.line), width: 4000, height: 3000, week: 1 };
+        // Red 4h fixture change (A-P4-12): the expected name stem is the row id, so the two files
+        // carry the row id `story-row-17` (the old fixture named them `l2-w01-story-page-good-*`).
+        // The bytes are the same files, so the manifest facts and every assertion stay as they were.
+        const row = { id: 'story-row-17', fileName: 'story-row-17-v1.png', lineArtFileName: 'story-row-17-line-v1.png', width: 4000, height: 3000, week: 1 };
+        fs.copyFileSync(fixture.color, path.join(dir, row.fileName));
+        fs.copyFileSync(fixture.line, path.join(dir, row.lineArtFileName));
         const missing = { ...row, id: 'missing-row', fileName: 'missing-v1.png', lineArtFileName: 'missing-line-v1.png' };
         const colorHash = createHash('sha256').update(fs.readFileSync(fixture.color)).digest('hex');
         const lineHash = createHash('sha256').update(fs.readFileSync(fixture.line)).digest('hex');
@@ -1143,6 +1149,68 @@ describe('Storytime two-output picture check', () => {
         expect(dupLine, `a fail line for the row ${dupRow.id}: ${dupOut}`).toBeTruthy();
         expect(dupLine ?? '', 'the fail line says duplicate').toMatch(/duplicate/i);
     }, 900_000);
+
+    it('R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)', async () => {
+        // PM option A (2026-11-02): the row id is the only source of the expected stem, so a color
+        // file is `<row id>-v<N>.png` and a line art is `<row id>-line-v<N>.png`. Both requested
+        // rows carry list names with the stem `legacy-<word>`, which is not the row id. Row (a)
+        // delivers the files of its row id and must pass. Row (b) delivers the files of its list
+        // stem and must fail. The files are real and pass the measurements, so only the name rule decides.
+        const api = await pictureCheck();
+        const cup = week1Row('l2-w01-check-row-cup');
+        const cat = week1Row('l2-w01-check-row-cat');
+        const legacy = (row: Week1Row, word: string): Week1Row => ({ ...row, fileName: `legacy-${word}-v1.png`, lineArtFileName: `legacy-${word}-line-v1.png` });
+        const requested = [legacy(cup, 'cup'), legacy(cat, 'cat')];
+        const jobs: StagedJob[] = [
+            await ownJob(cup), // (a) the files <row id>-v1.png and <row id>-line-v1.png
+            await ownJob(cat, { colorName: 'legacy-cat-v1.png', lineName: 'legacy-cat-line-v1.png' }), // (b) the files of the list stem
+        ];
+        const report = await api.checkStorytimePictureBatch(requested, stagedBatch(jobs));
+        const problems: string[] = [];
+        expect(report.results.map((entry) => entry.rowId), 'one result for each requested row, in order').toEqual([cup.id, cat.id]);
+        const [a, b] = report.results;
+        if (a?.status !== 'pass') problems.push(`(a) ${cup.id}: the files of the row id did not pass although the list names differ: ${a?.reason}`);
+        if (b?.status !== 'fail') problems.push(`(b) ${cat.id}: the files of the list stem legacy-cat did not fail`);
+        else {
+            if (!(b.reason ?? '').includes(cat.id)) problems.push(`(b) ${cat.id}: the reason does not name the row id: ${b.reason}`);
+            if (!['legacy-cat-v1.png', 'legacy-cat-line-v1.png'].some((name) => (b.reason ?? '').includes(name))) problems.push(`(b) ${cat.id}: the reason does not name a file: ${b.reason}`);
+        }
+        expect(report.exitCode, 'the batch with a file of the wrong stem gives exit code 1').toBe(1);
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 300_000);
+
+    it('R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)', async () => {
+        // A starts-with name test passes `<row id>-v1-extra.png`. Each faulty row holds a real,
+        // passing file, and its other file has the correct name, so only the name rule can fail it.
+        // The control row proves the check is not a blanket reject.
+        const api = await pictureCheck();
+        const [fish, cat, dog] = ['fish', 'cat', 'dog'].map((word) => week1Row(`l2-w01-check-row-${word}`));
+        const jobs: StagedJob[] = [
+            await ownJob(fish), // control: correct names
+            await ownJob(cat, { colorName: `${cat.id}-v1-extra.png` }), // the color file has a suffix; the line art is correct
+            await ownJob(dog, { lineName: `${dog.id}-line-v1-extra.png` }), // the line art has a suffix; the color file is correct
+        ];
+        const requested = [fish, cat, dog];
+        const report = await api.checkStorytimePictureBatch(requested, stagedBatch(jobs));
+        const failing = new Map<string, string>([
+            [cat.id, `${cat.id}-v1-extra.png`],
+            [dog.id, `${dog.id}-line-v1-extra.png`],
+        ]);
+        const problems: string[] = [];
+        expect(report.results.map((entry) => entry.rowId), 'one result for each requested row, in order').toEqual(requested.map((row) => row.id));
+        for (const entry of report.results) {
+            const offending = failing.get(entry.rowId);
+            if (!offending) {
+                if (entry.status !== 'pass') problems.push(`${entry.rowId}: the control row with correct names did not pass: ${entry.reason}`);
+                continue;
+            }
+            if (entry.status !== 'fail') { problems.push(`${entry.rowId}: the file ${offending} with an extra suffix did not fail`); continue; }
+            if (!(entry.reason ?? '').includes(entry.rowId)) problems.push(`${entry.rowId}: the reason does not name the row id: ${entry.reason}`);
+            if (!(entry.reason ?? '').includes(offending)) problems.push(`${entry.rowId}: the reason does not name the file ${offending}: ${entry.reason}`);
+        }
+        expect(report.exitCode, 'a batch with an extra suffix gives exit code 1').toBe(1);
+        expect(problems, problems.join('\n')).toEqual([]);
+    }, 300_000);
 });
 
 describe('Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02)', () => {
@@ -1304,4 +1372,37 @@ describe('Storytime readers: final-mode picture folder (Red 4g, orchestrator dec
             'content/storytime/l2/w01.json',
         ]) expect(ignoredCode(rel), `${rel} stays tracked, not ignored`).toBe(1);
     }, 30_000);
+
+    it('R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)', async () => {
+        // The same rule as R-P4-35 at the level of the shared resolver of Green 4g. Both rows carry
+        // list names with the stem `legacy-<word>`. Row (a) has the folder files of its row id and
+        // must resolve for both kinds. Row (b) has folder files of its list stem, which are real
+        // files with the manifest SHA-256, and must fail and name the row id and a file.
+        const api = await pictureCheck();
+        const cupId = 'l2-w01-check-row-cup';
+        const catId = 'l2-w01-check-row-cat';
+        const legacyRow = (id: string, word: string) => ({ id, fileName: `legacy-${word}-v1.png`, lineArtFileName: `legacy-${word}-line-v1.png`, width: 4000, height: 3000, week: 1 });
+        const folder = path.join(temp(), 'pictures');
+        writePictureFolder(folder, [
+            { rowId: cupId },
+            { rowId: catId, colorPath: 'legacy-cat-v1.png', linePath: 'legacy-cat-line-v1.png' },
+        ]);
+        const cup = legacyRow(cupId, 'cup');
+        const cat = legacyRow(catId, 'cat');
+        for (const kind of ['color', 'line'] as const) {
+            const wanted = `${cupId}${kind === 'line' ? '-line' : ''}-v1.png`;
+            const [resolved] = api.resolveStorytimePictureFiles(folder, [cup], kind);
+            expect.soft(resolved, `${kind}: the row (a) resolves although its list names differ`).toEqual({ rowId: cupId, fileName: wanted, file: path.join(folder, wanted) });
+            let message = '';
+            try {
+                api.resolveStorytimePictureFiles(folder, [cat], kind);
+            } catch (e) {
+                message = e instanceof Error ? e.message : String(e);
+            }
+            expect.soft(message, `${kind}: the row (b) with the files of its list stem fails`).not.toBe('');
+            expect.soft(message, `${kind}: the reason names the row id`).toContain(catId);
+            // The name rule reads the color file first, so the reason may name either file of the job.
+            expect.soft(message, `${kind}: the reason names a file of the row (b)`).toMatch(/legacy-cat(-line)?-v1\.png/);
+        }
+    }, 60_000);
 });
