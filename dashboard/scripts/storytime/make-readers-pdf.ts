@@ -6,6 +6,7 @@ import { renderPagedPdf } from '../../lib/print/render';
 import { STORYTIME_PRINT_PROFILE } from '../../lib/storytime/print/profile';
 import { compileStorytimeReaders, storytimeReaderPictureFiles, type StorytimeReaderOptions } from '../../lib/storytime/print/readers';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
+import { checkStorytimeReaderCoverCopy } from '../../lib/storytime/print/teacher-book-cover';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
 
@@ -144,6 +145,49 @@ async function renderHtml(html: string, pdf: string, tmp: string, pagedSrc: stri
     }
 }
 
+/**
+ * Runs the copy check of the reader covers (spec FR-6.3) on the printed text of the cover pages.
+ * The build lays out each document with Paged.js, reads the text of every `.reader-cover` page as
+ * the print CSS shows it (`innerText`, so the capitals of the band show as capitals), and checks
+ * it. A document with the wrong number of cover pages is an error too.
+ * @param documents The documents of the build, each with the number of covers that it must hold.
+ * @param tmp The temporary folder.
+ * @param pagedSrc The Paged.js polyfill source.
+ * @returns The errors (empty when every cover page passes).
+ */
+async function checkBuiltReaderCovers(documents: Array<{ pdf: string; html: string; covers: number }>, tmp: string, pagedSrc: string): Promise<string[]> {
+    const { chromium } = await import('@playwright/test');
+    const errors: string[] = [];
+    const browser = await chromium.launch({ channel: 'chrome' });
+    try {
+        for (const [index, built] of documents.entries()) {
+            const file = path.join(tmp, `cover-check-${index}.html`);
+            fs.writeFileSync(file, built.html);
+            const page = await browser.newPage();
+            let texts: string[];
+            try {
+                page.setDefaultTimeout(900_000);
+                await page.goto(`file://${file}`, { waitUntil: 'load', timeout: 300_000 });
+                await page.addScriptTag({ content: 'window.PagedConfig = { auto: false };' });
+                await page.addScriptTag({ content: pagedSrc });
+                await page.evaluate('(async () => { await document.fonts.ready; await window.PagedPolyfill.preview(); await document.fonts.ready; })()');
+                await page.emulateMedia({ media: 'print' });
+                texts = (await page.evaluate(`Array.from(document.querySelectorAll('.pagedjs_page .reader-cover'), (element) => element.innerText)`)) as string[];
+            } finally {
+                await page.close();
+            }
+            const name = path.basename(built.pdf);
+            if (texts.length !== built.covers) errors.push(`${name}: the laid-out document holds ${texts.length} reader cover pages; it must hold ${built.covers}.`);
+            for (const [position, text] of texts.entries()) {
+                errors.push(...checkStorytimeReaderCoverCopy(text).map((error) => `${name}: reader cover ${position + 1}: ${error}`));
+            }
+        }
+    } finally {
+        await browser.close();
+    }
+    return errors;
+}
+
 async function main(argv: string[]): Promise<number> {
     if (argv.length === 0 || argv.some((a) => a === '--help' || a === '-h')) {
         console.log(USAGE);
@@ -209,28 +253,51 @@ async function main(argv: string[]): Promise<number> {
             return 1;
         }
     }
-    fs.mkdirSync(folder, { recursive: true });
     const pagedSrc = fs.readFileSync(path.join(process.cwd(), 'node_modules', 'pagedjs', 'dist', 'paged.polyfill.js'), 'utf8');
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-readers-'));
     const written: string[] = [];
     try {
+        // Each output file has one document: the workbook has one document for all readers; the
+        // color A3 build has one document for each reader.
+        const documents: Array<{ pdf: string; html: string; covers: number }> = [];
         if (output === 'workbook') {
-            let index = 0;
             for (const pdf of outputs) {
-                const html = compileStorytimeReaders(parsed, { profile: STORYTIME_PRINT_PROFILE, mode, output }).html;
-                const pages = await renderHtml(html, path.join(tmp, `readers-workbook-${index++}-chrome.pdf`), tmp, pagedSrc);
-                execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts', path.join(tmp, `readers-workbook-${index - 1}-chrome.pdf`), '--out', pdf, ...STORYTIME_READERS_PDFX_FLAGS], { stdio: 'inherit' });
-                written.push(`${pdf} (${pages} pages)`);
+                documents.push({
+                    pdf,
+                    html: compileStorytimeReaders(parsed, { profile: STORYTIME_PRINT_PROFILE, mode, output }).html,
+                    covers: parsed.reduce((total, week) => total + week.books.length, 0),
+                });
             }
         } else {
             let index = 0;
             for (const week of parsed) {
                 for (const book of week.books) {
-                    const pdf = outputs[index++];
                     const html = compileStorytimeReaders([week], { profile: STORYTIME_PRINT_PROFILE, mode, output, bookTitle: book.title }).html;
-                    const pages = await renderHtml(html, pdf, tmp, pagedSrc);
-                    written.push(`${pdf} (${pages} pages)`);
+                    documents.push({ pdf: outputs[index++], html, covers: 1 });
                 }
+            }
+        }
+        // The copy check of the reader covers (spec FR-6.3, A-P5-1) reads the printed text of each
+        // cover page on the laid-out document, before the build makes the output folder or writes
+        // any file: an error stops the build with exit 1 and no deliverable.
+        const coverErrors = await checkBuiltReaderCovers(documents, tmp, pagedSrc);
+        if (coverErrors.length) {
+            for (const error of coverErrors) console.error(error);
+            return 1;
+        }
+        console.log(`reader cover check: ${documents.reduce((total, built) => total + built.covers, 0)} cover pages passed (FR-6.3)`);
+        fs.mkdirSync(folder, { recursive: true });
+        if (output === 'workbook') {
+            let index = 0;
+            for (const { pdf, html } of documents) {
+                const pages = await renderHtml(html, path.join(tmp, `readers-workbook-${index++}-chrome.pdf`), tmp, pagedSrc);
+                execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts', path.join(tmp, `readers-workbook-${index - 1}-chrome.pdf`), '--out', pdf, ...STORYTIME_READERS_PDFX_FLAGS], { stdio: 'inherit' });
+                written.push(`${pdf} (${pages} pages)`);
+            }
+        } else {
+            for (const { pdf, html } of documents) {
+                const pages = await renderHtml(html, pdf, tmp, pagedSrc);
+                written.push(`${pdf} (${pages} pages)`);
             }
         }
     } finally {

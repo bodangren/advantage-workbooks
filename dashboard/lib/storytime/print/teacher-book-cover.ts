@@ -1,7 +1,8 @@
 import sharp from 'sharp';
 import { placeArt } from '../../covers/compose';
-import { STORYTIME_COVER_TRIM, checkStorytimeCoverCopy } from './covers';
-import { STORYTIME_COVER_PPI } from './cover-picture';
+import { StorytimeMetaSchema } from '../schema';
+import { STORYTIME_COVER_TRIM, checkStorytimeCoverCopy, storytimeCoverMmToPx } from './covers';
+import { STORYTIME_COVER_PPI, checkStorytimeCoverPicture } from './cover-picture';
 
 /**
  * The cover of the Storytime Advantage teacher book (track storytime_print_r1_20261025, spec
@@ -11,8 +12,11 @@ import { STORYTIME_COVER_PPI } from './cover-picture';
  * soft mask. The page text stays text on top of that picture.
  */
 
-/** The bands of the read-along class sets (decision S15). A teacher-book cover names one band. */
-export const TEACHER_BOOK_COVER_BANDS = ['Seed', 'Sprout', 'Leaf', 'Bud', 'Flower'] as const;
+/**
+ * The bands of the read-along class sets (decision S15). A teacher-book cover names one band. The
+ * list is the band enum of the week schema, so a new band changes one file.
+ */
+export const TEACHER_BOOK_COVER_BANDS = StorytimeMetaSchema.shape.band.unwrap().options;
 
 /** The trim of the teacher-book cover: A4 portrait, the trim of the student-book cover. */
 export const TEACHER_BOOK_COVER_TRIM = STORYTIME_COVER_TRIM;
@@ -63,27 +67,38 @@ export function checkTeacherBookCoverCopy(pageText: string): string[] {
 
 /**
  * The copy check of a reader cover page (spec FR-6.3): the cover copy check, and the band name
- * "Sprout" must show. A longer word such as "Sprouts" does not count as the band name.
+ * "Sprout" must show. The case does not matter, because the print CSS shows the band in capitals
+ * and the check reads the printed text. A longer word such as "Sprouts" does not count as the
+ * band name.
  * @param pageText The text of one reader cover page.
  * @returns The errors (empty when the copy is good).
  */
 export function checkStorytimeReaderCoverCopy(pageText: string): string[] {
     const errors = checkStorytimeCoverCopy(pageText);
     const text = pageText.replace(/ /g, ' ').replace(/[­​]/g, '');
-    if (!/\bSprout\b/.test(text)) errors.push('The reader cover does not show the band name "Sprout".');
+    if (!/\bSprout\b/i.test(text)) errors.push('The reader cover does not show the band name "Sprout".');
     return errors;
 }
 
 /**
- * The size of a trim in pixels at 300 ppi.
+ * Checks the picture of a cover side before the layers go on: the Forge figure on the ground tint.
+ * The check is the picture check of the cover track without a fill minimum, so an art file with
+ * no visible figure (empty or fully transparent) fails, as the student cover fails it.
+ * @param picture The Forge figure on the ground tint, as a PNG.
+ * @param groundTint The ground tint of the level.
+ * @returns The errors (empty when the picture holds a figure).
+ */
+export function checkTeacherBookCoverArt(picture: Buffer, groundTint: string): string[] {
+    return checkStorytimeCoverPicture(picture, groundTint);
+}
+
+/**
+ * The size of a trim in pixels at 300 ppi, with the one shared conversion of the cover track.
  * @param trim The trim in millimetres.
  * @returns The width and the height in pixels.
  */
 export function teacherBookCoverSizePx(trim: { widthMm: number; heightMm: number }): { width: number; height: number } {
-    return {
-        width: Math.round((trim.widthMm / 25.4) * STORYTIME_COVER_PPI),
-        height: Math.round((trim.heightMm / 25.4) * STORYTIME_COVER_PPI),
-    };
+    return { width: storytimeCoverMmToPx(trim.widthMm), height: storytimeCoverMmToPx(trim.heightMm) };
 }
 
 /**

@@ -18,6 +18,7 @@ import {
     STORYTIME_SERIES,
 } from '../../lib/storytime/print/covers';
 import {
+    checkTeacherBookCoverArt,
     checkTeacherBookCoverCopy,
     checkTeacherBookCoverData,
     composeTeacherBookCoverSide,
@@ -43,19 +44,24 @@ file. Run it under the heavy-job lock.
 Usage: npx tsx scripts/storytime/make-storytime-teacher-cover.ts --out <dir> [--level <n>] [--unit <m>] [--band <name>] [--front <png>] [--back <png>] [--print] [--version <n>]
 
   --out       The output folder: teacher-front.png, teacher-back.png, teacher-build-report.json,
-              and with --print teacher-cover.pdf and the PDF/X-1a file. Required. A file that exists in <print-ready> is
-              never overwritten.
+              and with --print teacher-cover.pdf and the PDF/X-1a file. Required. The build
+              resolves symbolic links first. A folder inside <home>/Desktop/print-ready/ must be
+              new or empty: the build refuses a folder that holds any file, and it never
+              overwrites a file there.
   --level     The level of the book, 1 to 4 (default 2)
   --unit      The unit of the book, 1 to 4 (default 1)
   --band      The band name: Seed, Sprout, Leaf, Bud, or Flower (default Sprout)
   --front     The Forge art of the front (default: the week 1 cast file of sprout-nan)
   --back      The Forge art of the back (default: the week 1 cast file of sprout-sam)
-  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts:
+              Storytime-Advantage-L<level>-U<unit>-Teachers-Book-TH-Cover-v<version>_PDFX-1a.pdf
   --version   The version in the file name of the print file (default 1)
 
-Exit code 2 for a wrong argument or an output folder that the rules refuse. Exit code 1 when the
-cover data or the cover text holds an error, when an art file is missing, or when a build step
-fails. The build writes no deliverable in the cases of exit code 1.`;
+Exit code 2 for a wrong argument (also a flag that needs a value and has none) or an output
+folder that the rules refuse. Exit code 1 when the cover data or the cover text holds an error,
+when an art file is missing or shows no figure, or when a build step fails. The build writes no
+deliverable in the cases of exit code 1: it builds every file, the print file included, in a
+staging folder, and it copies them to <dir> only after every step passes.`;
 
 /** The size of the PNG files: 300 ppi of A4. */
 const PNG_SIZE = teacherBookCoverSizePx(TEACHER_BOOK_COVER_TRIM);
@@ -308,37 +314,73 @@ function pdfPageText(file: string, page: number): string {
 }
 
 /**
- * The file name of the print file (rule 12.2).
+ * The file name of the print file (rule 12.2): the stem of the teacher book print file, then
+ * `-Cover`, so that a person pairs the two files by name.
  * @param level The level of the book.
  * @param unit The unit of the book.
  * @param version The version of the print file.
  * @returns The file name.
  */
 function pdfxFileName(level: number, unit: number, version: number): string {
-    return `Storytime-Advantage-L${level}-U${unit}-Teacher-Book-Cover-v${version}_PDFX-1a.pdf`;
+    return `Storytime-Advantage-L${level}-U${unit}-Teachers-Book-TH-Cover-v${version}_PDFX-1a.pdf`;
 }
 
 /**
- * Finds the files of the build that already exist inside the print-ready folder. The build never
- * overwrites such a file (FR-5.7 of the cover track, applied to this script).
+ * Resolves a path through the symbolic links of its deepest existing ancestor, so that a path
+ * that does not exist yet still compares equal to the real path of its folder. The cover module
+ * of the cover track holds the same helper, but it does not export it.
+ * @param target The path to resolve.
+ * @returns The resolved path.
+ */
+function realPathOf(target: string): string {
+    const missing: string[] = [];
+    let probe = path.resolve(target);
+    for (let hop = 0; hop < 64; hop++) {
+        try {
+            return path.join(fs.realpathSync(probe), ...missing);
+        } catch {
+            const parent = path.dirname(probe);
+            if (parent === probe) return path.resolve(target);
+            missing.unshift(path.basename(probe));
+            probe = parent;
+        }
+    }
+    return path.resolve(target);
+}
+
+/**
+ * Checks an output folder inside the print-ready folder. The build never overwrites a file
+ * there (FR-5.7 of the cover track, applied to this script), and it refuses a folder that holds
+ * any file, so that an approved folder gains no file that nobody checked. A new or empty folder
+ * passes. A folder outside the print-ready folder keeps its own rules. The check resolves
+ * symbolic links first, so a link into the print-ready folder does not pass.
  * @param out The output folder.
  * @param files The names of the files that the build writes.
  * @param printReadyRoot The print-ready root.
  * @returns The errors (empty when the build may write).
  */
 function checkNoOverwrite(out: string, files: string[], printReadyRoot: string): string[] {
-    const root = path.resolve(printReadyRoot);
-    const target = path.resolve(out);
+    const root = realPathOf(printReadyRoot);
+    const target = realPathOf(out);
     if (target !== root && !target.startsWith(`${root}${path.sep}`)) return [];
     const errors: string[] = [];
     for (const name of files) {
-        const file = path.join(out, name);
+        const file = path.join(target, name);
         try {
             fs.lstatSync(file);
             errors.push(`The file "${file}" exists in the print-ready folder, and the build never overwrites it. Use a new folder or a new version.`);
         } catch {
             // No such file, so the build writes a new one.
         }
+    }
+    let entries: string[] = [];
+    try {
+        entries = fs.readdirSync(target);
+    } catch (error) {
+        if ((error as NodeJS.ErrnoException).code === 'ENOTDIR') errors.push(`The output path "${target}" is a file, not a folder.`);
+    }
+    if (entries.length) {
+        errors.push(`The folder "${target}" in the print-ready folder holds ${entries.length} entries already. Use a new or an empty folder.`);
     }
     return errors;
 }
@@ -352,21 +394,36 @@ async function main(argv: string[]): Promise<number> {
     let back = castFile('sprout-sam');
     let version = 1;
     let print = false;
+    // A flag that needs a value takes the next argument. A missing value, an empty value, or
+    // another flag in its place is an argument error (exit code 2).
+    let missing: string | undefined;
+    const valueOf = (flag: string, index: number): string => {
+        const next = argv[index + 1];
+        if (next === undefined || next === '' || next.startsWith('--')) {
+            missing ??= flag;
+            return '';
+        }
+        return next;
+    };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
             console.log(USAGE);
             return 0;
-        } else if (a === '--level') level = Number(argv[++i]);
-        else if (a === '--unit') unit = Number(argv[++i]);
-        else if (a === '--band') band = argv[++i] ?? '';
-        else if (a === '--out') out = path.resolve(argv[++i] ?? '');
-        else if (a === '--front') front = path.resolve(argv[++i] ?? '');
-        else if (a === '--back') back = path.resolve(argv[++i] ?? '');
-        else if (a === '--version') version = Number(argv[++i]);
+        } else if (a === '--level') level = Number(valueOf(a, i++));
+        else if (a === '--unit') unit = Number(valueOf(a, i++));
+        else if (a === '--band') band = valueOf(a, i++);
+        else if (a === '--out') out = path.resolve(valueOf(a, i++));
+        else if (a === '--front') front = path.resolve(valueOf(a, i++));
+        else if (a === '--back') back = path.resolve(valueOf(a, i++));
+        else if (a === '--version') version = Number(valueOf(a, i++));
         else if (a === '--print') print = true;
         else {
             console.error(`Unknown argument: ${a}\n\n${USAGE}`);
+            return 2;
+        }
+        if (missing) {
+            console.error(`${missing} needs a value.\n\n${USAGE}`);
             return 2;
         }
     }
@@ -422,8 +479,20 @@ async function main(argv: string[]): Promise<number> {
         const card = STORYTIME_COVER_BOX.levelCard;
         const frontLayer = await blockLayer([{ ...card, fill: colour }]);
         const backLayer = await blockLayer([{ ...BACK_PANEL, fill: '#F7F5F0', stroke: '#E1DDD3' }]);
-        const frontSide = await composeTeacherBookCoverSide(await groundWithFigure(front, tint, ART_REGION.front), [frontLayer], TEACHER_BOOK_COVER_TRIM);
-        const backSide = await composeTeacherBookCoverSide(await groundWithFigure(back, tint, ART_REGION.back), [backLayer], TEACHER_BOOK_COVER_TRIM);
+        const frontGround = await groundWithFigure(front, tint, ART_REGION.front);
+        const backGround = await groundWithFigure(back, tint, ART_REGION.back);
+        // An art file with no visible figure (empty or fully transparent) gives a side with only
+        // the ground tint, so the build stops here, as the student cover build does.
+        const artErrors = [
+            ...checkTeacherBookCoverArt(frontGround, tint).map((error) => `front art: ${error}`),
+            ...checkTeacherBookCoverArt(backGround, tint).map((error) => `back art: ${error}`),
+        ];
+        if (artErrors.length) {
+            for (const error of artErrors) console.error(error);
+            return 1;
+        }
+        const frontSide = await composeTeacherBookCoverSide(frontGround, [frontLayer], TEACHER_BOOK_COVER_TRIM);
+        const backSide = await composeTeacherBookCoverSide(backGround, [backLayer], TEACHER_BOOK_COVER_TRIM);
         for (const side of [frontSide, backSide]) {
             const meta = await sharp(side).metadata();
             if (meta.channels !== 3 || meta.width !== PNG_SIZE.width || meta.height !== PNG_SIZE.height) {
@@ -473,20 +542,21 @@ async function main(argv: string[]): Promise<number> {
 
         const report = { title: data.title, level, unit, band, version, print, pages, frontArt: front, backArt: back };
         fs.writeFileSync(path.join(stage, 'teacher-build-report.json'), `${JSON.stringify(report, null, 2)}\n`);
-        fs.mkdirSync(out, { recursive: true });
-        const written = ['teacher-front.png', 'teacher-back.png', ...(print ? ['teacher-cover.pdf'] : []), 'teacher-build-report.json'];
-        for (const name of written) fs.copyFileSync(path.join(stage, name), path.join(out, name));
-        console.log(`Teacher-book cover of ${data.title}: ${written.map((name) => path.join(out, name)).join(', ')}${print ? ` (${pages} pages)` : ''}`);
-
+        // The print file is built in the staging folder too. A failed step throws here, and the
+        // output folder is still untouched.
         if (print) {
-            const pdfx = path.join(out, pdfxFileName(level, unit, version));
             execFileSync(
                 process.execPath,
-                ['--import', 'tsx', path.join(DASHBOARD_ROOT, 'scripts', 'print', 'make-pdfx.ts'), path.join(out, 'teacher-cover.pdf'), '--out', pdfx, '--keep-fonts'],
+                ['--import', 'tsx', path.join(DASHBOARD_ROOT, 'scripts', 'print', 'make-pdfx.ts'), chromePdf, '--out', path.join(stage, pdfxFileName(level, unit, version)), '--keep-fonts'],
                 { cwd: DASHBOARD_ROOT, stdio: 'inherit' },
             );
-            console.log(`Print file: ${pdfx}`);
         }
+        fs.mkdirSync(out, { recursive: true });
+        const written = ['teacher-front.png', 'teacher-back.png', ...(print ? ['teacher-cover.pdf'] : []), 'teacher-build-report.json'];
+        if (print) written.push(pdfxFileName(level, unit, version));
+        for (const name of written) fs.copyFileSync(path.join(stage, name), path.join(out, name));
+        console.log(`Teacher-book cover of ${data.title}: ${written.map((name) => path.join(out, name)).join(', ')}${print ? ` (${pages} pages)` : ''}`);
+        if (print) console.log(`Print file: ${path.join(out, pdfxFileName(level, unit, version))}`);
         return 0;
     } catch (error) {
         console.error(error instanceof Error ? error.message : String(error));
