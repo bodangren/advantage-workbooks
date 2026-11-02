@@ -1,0 +1,47 @@
+# Measure Mid Red — storytime_teaching_loops_20261103 — Phase 1 schema Red
+
+Role: Measure Mid Red. Track: storytime_teaching_loops_20261103. Phase: P1.
+
+Evidence files:
+- Red gate: `mid-red-447d7243-red.txt` (exit 1).
+- Lint: `mid-red-447d7243-lint.txt` (exit 0).
+- Typecheck: `mid-red-447d7243-checks.txt` (`tsc --noEmit`, exit 0).
+
+Red gate result: 27 tests, 19 failed, 8 passed. No collection error. The new export is reached through a namespace cast, so a missing export fails as an assertion.
+
+Guard tests that pass at HEAD: 8. Each guard protects shipped behavior.
+
+Failing tests (19), with the observed reason:
+- defaults approval.loops to draft when the key is absent: received undefined, expected draft.
+- parses a w02 copy with every new field: blendDrill stripped by parse.
+- bounds blendDrill.words to 3..5: no bound yet.
+- bounds blendDrill.sounds to 2..4 labels: no bound yet.
+- bounds blendDrill.repeats to 2..5: no bound yet.
+- bounds sightWords.words to 1..3: no bound yet.
+- bounds sightWords.seconds to 2..5: no bound yet.
+- bounds loopMinutes to 0..20 and fails 21: no bound yet.
+- fails a read-along with 2 or 4 questions, and a kind twice: no bound yet.
+- fails a question kind outside who, what, where: no bound yet.
+- parses answer.page 0: TypeError, field stripped by parse.
+- does not length-check recall.items, and fails a card kind outside the four: TypeError, field stripped by parse.
+- fails an unknown key in a new object (strict): no `.strict()` yet.
+- fails an approved loops part without words: export missing.
+- fails an approved loops part without date: export missing.
+- fails an approved loops part with an empty date or blank words: export missing.
+- fails an unknown key in the loops part (strict): export missing.
+- parses an approved loops part with both, and a draft part without both: export missing.
+- pins the exact key set of each new object: field stripped by parse.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Mid Red
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: 447d7243814d3587fc4e8c78ae92d0f0c0ff34a8
+head: 8e72293b41d355a0abbd1ae8aabbe3b1af42c706 (commit 1; commit 2 adds this log and plan.md)
+commits: 8e72293b test(storytime-loops): add the phase 1 schema red tests
+tests: red gate exit 1; 27 total, 19 failed, 8 passed; lint exit 0; tsc exit 0
+files: dashboard/__tests__/storytime-loops-schema.test.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md; measure/runs/storytime_teaching_loops_20261103/mid-red-447d7243.log
+remaining_failures: 19 failures listed above; all in the new Red tests
+handoff: Green must add to lib/storytime/schema.ts: blendDrill (words 3..5, sounds 2..4, repeats 2..5); sightWords (words 1..3, seconds 2..5); loopMinutes (0..20); BookSchema.questions (exactly 4 entries, kinds who/what/where each once); ScriptSchema.recall (items 4..6 not length-checked, card kinds sound/tricky/frame/word); answer.page; approval.loops with a default of draft; StorytimeLoopsApprovalSchema refine (approved requires words and date). Add .strict() to every new object. Change the published check to skip loops. Three TypeError failures clear only when the fields exist in the schema. Open question: none.
+END_MEASURE_AGENT_RESULT
