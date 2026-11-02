@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: Storytime teaching loops: five teaching routines in the Level 2 week scripts (oral blend drill, correct-practise-retest loop, fast-way sight words, read-along question set, daily recall of 5), with checks, the Thai teacher book print, and the content of w01 to w08; Daniel's check by 2026-11-16, print order 2026-11-25.** *(Created: 2026-11-02)*
+  *Link: [./tracks/storytime_teaching_loops_20261103/](./tracks/storytime_teaching_loops_20261103/)*
+
 - [ ] **Track: Storytime Advantage release-1 print: the Level 2 unit 1 student book, the teacher book, the 7 read-along and 7 decodable books, the covers, and the card kit as PDF/X-1a; week 1 first; Daniel's approval by 2026-11-24, print order 2026-11-25.** *(Created: 2026-10-25)*
   *Link: [./tracks/storytime_print_r1_20261025/](./tracks/storytime_print_r1_20261025/)*
 

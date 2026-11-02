@@ -1,0 +1,119 @@
+# Plan: storytime_teaching_loops_20261103
+
+Spec: [spec.md](./spec.md). Track start: 2026-11-03. Drafts of w01 to w08: 2026-11-09. Daniel's check: 2026-11-16. Release proof: 2026-11-20. Print order: 2026-11-25.
+
+## Rules for every task
+
+- Tests first. The Red task writes failing tests and commits them. The Green task makes them pass. A review role does not fix code; it reports.
+- New tests load the shipped week files `content/storytime/l2/w01.json` to `w08.json` (rule 11.3). Each new check has a mutation test on a copy in a temporary folder (rule 11.1). Keep a copy of a source file before an in-place mutation, and compare it after a stopped run (lessons-learned, 2026-10-22).
+- A task becomes `[x]` only with its commit SHA and its evidence class: owner-approved, person-checked, automated, or peer-report (rules 7.1 and 7.2). Write each SHA as `commit <sha>`.
+- A task that waits for Daniel stays `[ ]`, so that its phase stays open. Use `[b] … — deferred:daniel` only for a task that Daniel takes out of release 1. The checker does not count a `[b]` line in any gate or at closeout.
+- Use the word "deferred" only in that trailer. In other text, write "later" or "waits for" (the checker drops any task line that contains the word).
+- Heavy jobs (vitest runs, tsc, Chrome, Ghostscript, PDF/X builds, contact sheets) run with ONE command: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). It takes the lock and runs the pre-flight inside the lock. Exit 75 means that the pre-flight hold lasted longer than its wait. Never use a plain `flock` on the lock inside a heavy job, because a nested plain flock deadlocks. Report a "heavy-run: lock wait over 600 s" line to the PM session.
+- No pnpm in any form. No `npm install`. No `npm ci`. Run `git checkout -- pnpm-lock.yaml` after a gate if the lock file changed.
+- Stage files path by path. Do not touch `video/**`. Never stage `video/storytime-song/scripts/render.mjs`, `dashboard/raw.json`, or the files under `measure/runs/` of other tracks.
+- The repository is public. No test item, test paper, answer key, or test audio goes into this track.
+- Every new English line has a Thai gloss. Daniel checks the Thai.
+- This repo has no `measure/generate.sh` or `measure/doctor.sh`. The doctor step of each phase is the `PROJECT_CHECKS` gate.
+
+## Gate commands (orchestrator environment)
+
+```bash
+RED_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts'    # must fail after Red, before Green
+GREEN_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts'  # must pass after Green
+PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'
+PROJECT_LINT='cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts'
+PROJECT_CHECKS='cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'  # the whole command runs inside one heavy-run wrapper (line 12); no nested heavy-run
+UX_REQUIRED=never   # print files: the visual checks are the contact-sheet tasks and Daniel's checks
+PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --check'   # exit 0 for the teacher book print file
+```
+
+The whole command of each gate runs inside one heavy-run wrapper. `PROJECT_TESTS` is the list of the print track, so a change in a shared module shows up there. The loop checks have the status `warn` until the Phase 3 switch task (spec D12), so `PROJECT_CHECKS` accepts the one known FAIL (st2/1 `published`) and nothing else during Phases 1 and 2.
+
+Baseline at cc7808c5 (2026-11-02): the print track measured `PROJECT_TESTS` at 17 files and 424 tests on 8e929982 (2026-10-28). This planning session ran no gate, so it gives no new number. The Phase 1 Red task records the baseline of this track.
+
+Risk: a loop check with the status `warn` can change the output of an existing test that counts the warnings of a shipped week. The Phase 1 Green task reads `storytime-week.test.ts` and `storytime-phonics.test.ts` first, and it reports such a test to the orchestrator.
+
+Graph note: `graph.db` is stale (older than 24 hours), so the blast-radius lines come from `grep`, not from `build-graph`.
+
+## Phases and dates
+
+| Phase | Dates | End gate |
+|---|---|---|
+| 1 Schema and checks | 2026-11-03 to 2026-11-05 | The field names go to the PM session by 2026-11-05 |
+| 2 Teacher book template and print | 2026-11-05 to 2026-11-07 | The `--loops` build of a week 1 copy passes `PRINT_GATE`; the page count is estimated |
+| 3 Content of w01 to w08 | 2026-11-07 to 2026-11-16 | Drafts with clean checks by 2026-11-09; Daniel's English and Thai check by 2026-11-16 |
+| 4 Report and release | 2026-11-16 to 2026-11-20 | The report and the facts-changed list; the new pin after Daniel's approval; the print track builds the release proof on 2026-11-20 |
+
+Risk: the print track week 1 proof of 2026-11-05 and this track edit different files. The `--loops` default of off keeps the proof unchanged (spec D9). If Daniel's check of 2026-11-16 finds many Thai changes, the print order of 2026-11-25 can lose the loops. The PM session then decides.
+
+## Phase 1: Schema and checks (2026-11-03 to 2026-11-05)
+
+_Blast radius: `StepSchema` (1 file: `lib/storytime/schema.ts`); `StorytimeStep` (2 files: `lib/storytime/manual.ts`, `schema.ts`); `BookSchema` (1 file: `schema.ts`); `StorytimeApprovalsSchema` (1 file: `schema.ts`); `StorytimeWeekSchema` (21 files, among them `lib/storytime/files.ts`, `checks.ts`, `phonemes.ts`, `lib/media/clips-sha256.ts`, `scripts/storytime/make-manual-pdf.ts`, `set-phoneme-audio.ts`, `book-audio.ts`, and 12 test files); `checkStorytimeWeek` (8 files: `checks.ts`, `scripts/storytime/make-manual-pdf.ts`, `check-weeks.ts`, `__tests__/storytime-week.test.ts`, `storytime-phonics.test.ts`, `storytime-print-contract.test.ts`, `storytime-print-contract-v2.test.ts`, `storytime-print-adversarial.test.ts`); `phonemeAudioFields` (3 files: `phonemes.ts`, `check-weeks.ts`, `__tests__/storytime-phonemes.test.ts`). The change is additive: every new field is optional._
+
+- [ ] Task (Red): `__tests__/storytime-loops-schema.test.ts` on the shipped weeks. Done when: `RED_TEST_COMMAND` fails only on the new tests, and the commit holds only the test file. The task also records the baseline (`PROJECT_TESTS` file and test counts) in its plan note.
+    - Normal cases: `w01.json` to `w08.json` parse. A copy of w02 with each new field set to a valid value parses: `StepSchema.blendDrill`, `soundLoop`, `sightWords`, `loopMinutes`; `BookSchema.questions`; `ScriptSchema.recall`; `StorytimeApprovalsSchema.loops`. The shapes are in spec FR-1.
+    - Edge cases: `blendDrill.words` with 2 and with 6 entries, `repeats` 1 and 6, `sounds` with 1 and 5 labels: each fails. `sightWords.words` with 0 and 4 words, `seconds` 1 and 6: each fails. `questions` with 2 entries, 4 entries, and a `kind` twice: each fails. `recall.items` is not length-checked in the schema (the check of FR-6 does that). `loopMinutes` 21 fails.
+    - Guards: the six `STORYTIME_APPROVAL_PARTS` stay as they are. The `published` check message of st2/1 stays as it is. `approval.loops` is not in `STORYTIME_APPROVAL_PARTS`, and a week without `loops` parses to the default draft.
+- [ ] Task (Green): add the fields of FR-1 to `lib/storytime/schema.ts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass. Change no test file. Export the types through the existing `StorytimeStep` and `StorytimeBook`. Write JSDoc on each new field. Mutants: remove each new bound in turn; each removal makes a Red test fail.
+- [ ] Task (Red 2): `__tests__/storytime-loops-checks.test.ts` for the six checks and the mutation tests. Done when: `RED_TEST_COMMAND` fails only on the new tests, and the commit holds only the test file.
+    - The test builds a loop-complete copy of each teach week in a temporary folder from a test constant (the sample routines) and loads the shipped week as the base (rule 11.3). The complete copy passes all six checks: `loops-blend`, `loops-sound`, `loops-sight`, `loops-questions`, `loops-recall`, `loops-minutes`.
+    - Normal cases: each check reports a problem when its routine is missing. The shipped weeks show each check with the status `LOOP_CHECK_STATUS` (value `warn`) and not `fail`. The checks do not run on a Level 1 week. The review week w08 runs only `loops-recall` and `loops-minutes` (spec D11).
+    - Edge cases: a drill word with an untaught sound (`loops-blend`); `repeats` 1 (schema); `sightWords.words` in another order than `focus.trickyWords` (`loops-sight`); a week without tricky words that has `sightWords` (`loops-sight`); `questions` in the order `what`, `who`, `where` (`loops-questions`); `answer.page` 0 and `answer.page` past the last page (`loops-questions`); `answer.word` not in the page text (`loops-questions`); a recall with 4 and with 6 items, a repeated item, an item from a later week, an item outside `taughtTo` (`loops-recall`); day 1 of week 1 with no recall passes (spec D6); a `loopMinutes` sum of 29 and of 31, `periodMinutes` 49, a `loopMinutes` on step B2 that differs from `minutes`, a loop step with 1 minute (`loops-minutes`).
+    - Mutation tests (rule 11.1): the test copies `checks.ts` to a temporary folder, applies each mutant, and runs the checks. The mutants: drop the `A4` rule, drop the order rule of the questions, drop the 5-item rule, drop the sum rule. Each mutant makes at least one test fail.
+- [ ] Task (Green 2): add the six checks to `lib/storytime/checks.ts` with the exported constant `LOOP_CHECK_STATUS` (value `'warn'`), and wire them into `scripts/storytime/check-weeks.ts` (they run through `checkStorytimeWeek`, so the CLI needs only the format of the output). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass; the first part of `PROJECT_CHECKS` shows the six checks as `warn` for each teach week and the one accepted FAIL. Change no test file. JSDoc on each export.
+- [ ] Task (Red 3): `__tests__/storytime-loops-audio.test.ts` for the drill sounds in the phoneme bank. Done when: `RED_TEST_COMMAND` fails only on the new tests, and the commit holds only the test file.
+    - Normal cases: `phonemeAudioFields` on a loop-complete copy of w02 returns a field for each drill word (`steps[A4].blendDrill.words[i].audio`) with the bank paths of its sounds, in order. `phonemeAudioProblems` reports a drill sound that the bank lacks.
+    - Edge case: a week without `blendDrill` gives the same fields as at the baseline (the existing `storytime-phonemes.test.ts` stays green).
+- [ ] Task (Green 3): extend `phonemeAudioFields` and `phonemeAudioProblems` in `lib/storytime/phonemes.ts` to cover `blendDrill.words[].audio`, and extend `scripts/storytime/set-phoneme-audio.ts` to write the field. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass. Change no test file.
+- [ ] Task (Hand-off 1): send the Phase 1 field names (spec "Interface for the Storytime app") to the PM session for the Monorepo Storytime app, by 2026-11-05. Done when: the PM session confirms receipt (peer-report). The message holds the names `blendDrill`, `soundLoop`, `sightWords`, `loopMinutes`, `questions`, `recall`, `approval.loops`, the shapes, and the rule that the app shows the routines only when `approval.loops` is approved.
+- [ ] Task: Measure - User Manual Verification 'Phase 1: Schema and checks' (Protocol in workflow.md). Owner: the orchestrator. Phase 1 has no owner gate.
+
+## Phase 2: Teacher book template and print (2026-11-05 to 2026-11-07)
+
+_Blast radius: `renderStorytimeWeek` (2 files: `lib/storytime/manual.ts`, `__tests__/storytime-manual.test.ts`); `compileStorytimeManual` (5 files: `manual.ts`, `scripts/storytime/make-manual-pdf.ts`, `make-teacher-book-print.ts`, `__tests__/storytime-manual.test.ts`, `storytime-print-teacher-book.test.ts`); `StorytimeManualOptions` (1 file: `manual.ts`); `StorytimeLabels` (`lib/storytime/i18n.ts`, read by `manual.ts`). The default of the new option is off, so the existing output stays byte-equal._
+
+- [ ] Task (Red): `__tests__/storytime-loops-manual.test.ts` on a loop-complete copy of w01 and w02 (the copy is built as in Phase 1 Red 2). Done when: `RED_TEST_COMMAND` fails only on the new tests, and the commit holds only the test file.
+    - Normal cases: with `loops: true`, the English manual and the Thai manual print the blend drill in A4 (model, lead, test, the words, the repeat count, the correction), the sound loop in A1 to A3 (correct, practise, retest), the sight-word step in A6 and D2 (the words, the slide line, the timed check with its seconds), the three questions in C5 with the answer page and word, and the recall of 5 items in the opening of each day. The Thai manual prints the Thai line and the gloss under each English line. The step title shows `loopMinutes ?? minutes`.
+    - Guards: with `loops` off or absent, the HTML of the shipped w01 and w02 is byte-equal to the baseline HTML (the test stores the SHA-256 of the baseline output, computed at cc7808c5). The English and Thai labels of the new headings exist in `StorytimeLabels` for both languages.
+    - Edge cases: a step with a routine and no Thai line prints the English line only and does not throw. HTML escapes hold for a hostile routine line.
+- [ ] Task (Green): add the option `loops` (default false) to `StorytimeManualOptions`, the new headings to `lib/storytime/i18n.ts` (English and Thai), and the printing of the routines to `lib/storytime/manual.ts` (`renderStep`, the day opening). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass. Change no test file. The existing `storytime-manual.test.ts` stays green.
+- [ ] Task (Red 2): `__tests__/storytime-loops-teacher-book.test.ts` for the print build with `--loops`. Done when: `RED_TEST_COMMAND` fails only on the new tests, and the commit holds only the test file.
+    - Normal cases: `make-manual-pdf.ts` and `make-teacher-book-print.ts` accept `--loops` and pass it to `compileStorytimeManual`. Without the flag, the build output is as at the baseline. The Thai teacher book of a loop-complete copy of w01 is A4, and the build reports its page count.
+    - Edge cases: an unknown flag still exits 2. The `--loops` build of a shipped week (no routines yet) prints no routine heading and does not fail.
+    - The test builds into a temporary folder and writes no file under `content/`.
+- [ ] Task (Green 2): add the `--loops` flag to `scripts/storytime/make-manual-pdf.ts` and `scripts/storytime/make-teacher-book-print.ts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass. Change no test file. `PRINT_GATE` passes on a `--loops` build of the copy of w01.
+- [ ] Task: contact sheets and the estimated page count. Build the Thai teacher book of the loop-complete copy of w01 with `--loops` in a temporary folder, make the contact sheets, and read them. Record the page count (the week 1 file has 23 A4 pages now) and send it to the PM session as an estimate for the printer quote. Done when: the PM session confirms receipt (peer-report) and the orchestrator confirms the contact sheets (person-checked). Evidence: the contact sheets and the page count in `measure/runs/storytime_teaching_loops_20261103/`.
+- [ ] Task: Measure - User Manual Verification 'Phase 2: Teacher book template and print' (Protocol in workflow.md). Owner: the orchestrator. Phase 2 has no owner gate.
+
+## Phase 3: Content of w01 to w08 (2026-11-07 to 2026-11-16)
+
+_Blast radius: `content/storytime/l2/w01.json` to `w08.json` (the app reads them through the Monorepo pin; the pin of 2026-11-02 stays); `lib/storytime/checks.ts` (the `LOOP_CHECK_STATUS` switch); `lib/storytime/files.ts` (`readLevelWeeks`). The change to the week files is additive (spec D10)._
+
+- [ ] Task (Red): `__tests__/storytime-loops-content.test.ts` on the shipped `w01.json` to `w08.json`. Done when: `RED_TEST_COMMAND` fails only on the new tests (the content is missing), and the commit holds only the test file.
+    - The test records the SHA-256 of each baseline week file with the new fields removed (computed with `git show cc7808c541ca1cac810a7cd74f34520f748aef5b:content/storytime/l2/wNN.json`). It checks that each shipped week, with the new fields removed, has the same hash (spec D10).
+    - Normal cases: each teach week passes the six loop checks with the status `pass`. w08 passes `loops-recall` and `loops-minutes`. Each new `BiText` has a non-empty `th`. Each drill sound has a bank recording.
+    - Edge cases: `meta.periodMinutes` is 30 and each day sums to 30 with `loopMinutes ?? minutes`. Only A1, A2, A3, A4, A6, C5, and D2 have a `loopMinutes` that differs from `minutes`. The sentences that the class repeats (`lead`, `test`, `slide`, `check`) have 12 words or less. `approval.loops` is draft in all eight weeks until the Daniel task. `LOOP_CHECK_STATUS` is `fail`.
+- [ ] Task: w01 content (A-42 routines, English and Thai) and its independent review. Add the routines to `content/storytime/l2/w01.json`. w01 is published, and its text, Thai, and scripts are approved (2026-10-22 and 2026-10-23): add fields only, and change no existing line. Done when: the w01 part of the content test passes and `PROJECT_CHECKS` shows the six loop checks as `pass` for st2/1. Review: one independent report-only role, with a model other than the author model, reads the new lines against the spec; the report has no open error.
+- [ ] Task: w02 content and its independent review. Add the routines to `w02.json` (text approved 2026-11-01, Thai approved 2026-10-22, scripts draft). Done when: as for w01, for st2/2.
+- [ ] Task: w03 content and its independent review. Done when: as for w01, for st2/3.
+- [ ] Task: w04 content and its independent review. Done when: as for w01, for st2/4.
+- [ ] Task: w05 content and its independent review. Done when: as for w01, for st2/5.
+- [ ] Task: w06 content and its independent review. Done when: as for w01, for st2/6.
+- [ ] Task: w07 content and its independent review. Done when: as for w01, for st2/7.
+- [ ] Task: w08 content (the daily recall of the review week) and its independent review. Done when: the w08 part of the content test passes and `PROJECT_CHECKS` shows `loops-recall` and `loops-minutes` as `pass` for st2/8.
+- [ ] Task: switch the loop checks to `fail`. Set `LOOP_CHECK_STATUS` to `'fail'` in `lib/storytime/checks.ts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass, and `check-weeks.ts --level 2` shows only the accepted `published` FAIL of st2/1. The drafts of the eight weeks are due 2026-11-09. Change no test file.
+- [ ] Task: measure the real page count. Build the Thai teacher book of week 1 with `--loops` from the real `w01.json`, make the contact sheets, and record the page count. Send the count and the printer-quote note to the PM session. Done when: `PRINT_GATE` passes, the PM session confirms receipt (peer-report), and the orchestrator confirms the contact sheets (person-checked).
+- [ ] Task: Daniel's English and Thai check of w01 to w08, by 2026-11-16. Daniel reads the new lines and the Thai gloss. This task waits for Daniel and stays `[ ]` until he says that the check passed. Done when: his words and the date are in this line (owner-approved). If he asks for changes, the orchestrator adds a fix task for each week, and the content test stays the gate.
+- [ ] Task: Measure - User Manual Verification 'Phase 3: Content of w01 to w08' (Protocol in workflow.md). Owner: the orchestrator. The phase has an owner gate: Daniel's check.
+
+## Phase 4: Report and release (2026-11-16 to 2026-11-20)
+
+_Blast radius: the eight week files change only in `approval.loops` (Daniel's approval). No code changes. The print track Phase 9 and the Monorepo pin use the result._
+
+- [ ] Task: record Daniel's approval. Set `approval.loops` to approved, with the date and his words, in `w01.json` to `w08.json`. This task waits for Daniel's words from the Phase 3 check. Done when: `PROJECT_CHECKS` passes and the eight files hold the record (owner-approved).
+- [ ] Task: project memory. Update `measure/tech-debt.md` and `measure/lessons-learned.md` (50 lines or less each). Done when: both files are at or below 50 lines and name this track's findings.
+- [ ] Task (Hand-off 2): send the new pin request to the PM session: the new Workbooks commit, the eight approved weeks, and the interface section of the spec. Done when: the PM session confirms receipt (peer-report). The Monorepo pin stays at `ccf3d95c92bb5b3970722946dffbed1de57f9df6` until the PM session moves it.
+- [ ] Task (Hand-off 3): tell the PM session that the print track Phase 9 must build the teacher book with `--loops` for the release proof of 2026-11-20. Done when: the PM session confirms receipt (peer-report).
+- [ ] Task: the report and the facts-changed list, in `measure/runs/storytime_teaching_loops_20261103/report.md`. The list names the company-facing facts that moved: the teacher book page count, the printer quote, and the dates. An empty list is a valid answer. Done when: the PM session confirms receipt (peer-report).
+- [ ] Task: Measure - User Manual Verification 'Phase 4: Report and release' (Protocol in workflow.md). Owner: the orchestrator. The phase has no owner gate of its own.
