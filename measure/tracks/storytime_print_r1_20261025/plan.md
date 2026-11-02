@@ -387,7 +387,7 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - Repair (PM go, 2026-10-30 12:5x and 13:4x ICT): the pnpm lockfile moved to `/tmp/opencode/workbooks-dashboard-pnpm-lock-2026-10-30.yaml`; `npm ci` restored the tracked tree (vitest 4.0.18). tsx was an undeclared package of the old tree, so `npm ci` removed it and `node --import tsx` failed; commit 4174a288 declares tsx 4.23.15 as a dashboard devDependency. After it: `node --import tsx` exit 0. Role briefs now forbid every pnpm command.
     - Model deviation: Red F-P3-1 (053cae7c) ran on claude-code/claude-haiku-5-5, not on the requested openai/gpt-6-luna route. Green F-P3-1 ran on MiniMax, so Red and Green stay in different families (PM, 2026-10-30: recorded is enough).
 
-## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05)
+## Phase 4: Readers, week 1 (workbook pages and color A3 PDFs; 2026-10-28 to 2026-11-05) [checkpoint: 2e3272e]
 
 - [x] Task (Red): `__tests__/storytime-print-readers.test.ts` on the two readers of the shipped `w01.json` ("Hello!" and "Nan Can Nod"). commit d8cb9ef9. Evidence: automated.
     - Round 1 test commit: 5fb73b6e. Round 2 corrects invalid picture fixtures, manifest-negative cases, and page-parity assertions.
