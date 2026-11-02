@@ -2,11 +2,11 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_QR_HOST, STORYTIME_ROOT, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
-import { jobsFor, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
+import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /**
  * Phase 2 contract. Imports stay inside test bodies so missing modules preserve collection.
@@ -1913,8 +1913,8 @@ describe('Storytime student workbook: final-mode picture folder (Red 4g, orchest
             expect(elements.length, `${id} prints at least once`).toBeGreaterThanOrEqual(1);
             for (const el of elements) {
                 expect(el.getAttribute('data-picture-file'), `data-picture-file of ${id}`).toBe(`${id}-line-v2.png`);
-                const src = decodeURIComponent(el.querySelector('img')?.getAttribute('src') ?? '');
-                expect(src, `img source of ${id}`).toBe(`file://${path.join(pictures, `${id}-line-v2.png`)}`);
+                const src = el.querySelector('img')?.getAttribute('src') ?? '';
+                expect(src, `img source of ${id}`).toBe(pathToFileURL(path.join(pictures, `${id}-line-v2.png`)).href);
             }
             expect(html, `${id}: the color file never prints`).not.toContain(`${id}-v2.png`);
             expect(html, `${id}: the list name never prints`).not.toContain(`${id}-line-v1.png`);
@@ -1983,4 +1983,46 @@ describe('Storytime student workbook: final-mode picture folder (Red 4g, orchest
         }
         expect(problems, problems.join('\n')).toEqual([]);
     }, 120_000);
+});
+
+describe('Storytime student workbook: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)', () => {
+    /**
+     * Builds the final student book of the shipped week 1 in a temporary repository whose picture
+     * folder holds the given prefixes, and lists the problems of the printed pictures. The images
+     * that are not pictures (logo, QR) are counted in the proof build of the same week.
+     * @param prefixes The folder prefixes of the manifest paths; the empty text means no prefix.
+     * @returns The build failure (empty when none) and the problems of the printed pictures.
+     */
+    async function sourceProblems(prefixes: string[]): Promise<{ failure: string; problems: string[] }> {
+        const week = shipped();
+        const ids = await weekRowIds(week);
+        const { repo, pictures } = finalRepo();
+        const jobs = prefixedJobs(ids, prefixes);
+        writePictureFolder(pictures, jobs);
+        const failure = await finalBuildError(repo, week);
+        if (failure) return { failure, problems: [] };
+        const proof = await render(week);
+        const strays = proof.doc.querySelectorAll('img').length;
+        const { html } = await renderFinalIn(repo, week);
+        return { failure: '', problems: pictureSourceProblems(html, pictures, jobs, 'line', strays) };
+    }
+
+    it('R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file', async () => {
+        // Behaviors 1 to 3 for the student book. The count of the text "onerror" cannot be 0, because
+        // the encoded path holds the folder name as text; the parsed attributes and elements are the contract.
+        for (const [label, prefixes] of [['hostile', HOSTILE_PREFIXES], ['awkward', AWKWARD_PREFIXES]] as const) {
+            const { failure, problems } = await sourceProblems([...prefixes]);
+            expect.soft(failure, `${label}: the build accepts the folder names`).toBe('');
+            expect.soft(problems, `${label}:\n${problems.join('\n')}`).toEqual([]);
+        }
+    }, 240_000);
+
+    it('R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path', async () => {
+        // Behavior 4. This case passes at the role base and stays passing.
+        for (const prefixes of [['w01/rows/'], ['']]) {
+            const { failure, problems } = await sourceProblems(prefixes);
+            expect(failure, `prefix "${prefixes[0]}": the build succeeds`).toBe('');
+            expect(problems, `prefix "${prefixes[0]}":\n${problems.join('\n')}`).toEqual([]);
+        }
+    }, 240_000);
 });

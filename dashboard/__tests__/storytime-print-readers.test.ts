@@ -2,12 +2,13 @@
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import zlib from 'node:zlib';
 import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
-import { jobsFor, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
+import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /** Phase 4 contract. New modules load inside each test so missing modules fail independently. */
 type ReaderOptions = { profile: typeof STORYTIME_PRINT_PROFILE; mode: 'proof' | 'final'; output: 'workbook' | 'a3-color'; bookTitle?: string };
@@ -1254,8 +1255,8 @@ describe('Storytime readers: final-mode picture folder (Red 4g, orchestrator dec
             for (const el of elements) {
                 const id = el.getAttribute('data-picture-id')!;
                 expect(el.getAttribute('data-picture-file'), `${output}: data-picture-file of ${id}`).toBe(wanted(id));
-                const src = decodeURIComponent(el.querySelector('img')?.getAttribute('src') ?? '');
-                expect(src, `${output}: img source of ${id}`).toBe(`file://${path.join(pictures, wanted(id))}`);
+                const src = el.querySelector('img')?.getAttribute('src') ?? '';
+                expect(src, `${output}: img source of ${id}`).toBe(pathToFileURL(path.join(pictures, wanted(id))).href);
             }
             const otherKind = output === 'workbook' ? `${REDONE}-v2.png` : `${REDONE}-line-v2.png`;
             expect(built.html, `${output}: the redone row never prints the other output's file`).not.toContain(otherKind);
@@ -1405,4 +1406,62 @@ describe('Storytime readers: final-mode picture folder (Red 4g, orchestrator dec
             expect.soft(message, `${kind}: the reason names a file of the row (b)`).toMatch(/legacy-cat(-line)?-v1\.png/);
         }
     }, 60_000);
+});
+
+describe('Storytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)', () => {
+    /**
+     * Builds the final readers HTML of the shipped week 1 in a temporary repository whose picture
+     * folder holds the given prefixes, and lists the problems of the printed pictures.
+     * @param prefixes The folder prefixes of the manifest paths; the empty text means no prefix.
+     * @param output The reader output.
+     * @returns The compile failure (empty when none) and the problems of the printed pictures.
+     */
+    async function sourceProblems(prefixes: string[], output: 'workbook' | 'a3-color'): Promise<{ failure: string; problems: string[] }> {
+        const rows = await readerRows();
+        const ids = rows.map((row) => row.id);
+        const { repo, pictures } = finalRepo();
+        const jobs = prefixedJobs(ids, prefixes);
+        writePictureFolder(pictures, jobs);
+        const built = await inRoot(repo, async () => {
+            const api = await import(readerPath) as ReaderApi;
+            try {
+                return { html: api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output }).html, failure: '' };
+            } catch (e) {
+                return { html: '', failure: e instanceof Error ? e.message : String(e) };
+            }
+        });
+        if (built.failure) return { failure: built.failure, problems: [] };
+        return { failure: '', problems: pictureSourceProblems(built.html, pictures, jobs, output === 'workbook' ? 'line' : 'color', 0) };
+    }
+
+    it('R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output', async () => {
+        // Behaviors 1 to 3. A prefix with `"`, `<`, and `>` is a valid folder name. The count of the
+        // text "onerror" cannot be 0, because the encoded path holds the folder name as text; the
+        // parsed attribute names and the element counts are the contract.
+        for (const output of ['workbook', 'a3-color'] as const) {
+            const { failure, problems } = await sourceProblems(HOSTILE_PREFIXES, output);
+            expect.soft(failure, `${output}: the build accepts the hostile folder names`).toBe('');
+            expect.soft(problems, `${output}:\n${problems.join('\n')}`).toEqual([]);
+        }
+    }, 180_000);
+
+    it('R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file', async () => {
+        // Behavior 2. An unencoded `#` or `?` cuts the path and `%41` reads as `A`, so Chrome would load another URL.
+        for (const output of ['workbook', 'a3-color'] as const) {
+            const { failure, problems } = await sourceProblems(AWKWARD_PREFIXES, output);
+            expect.soft(failure, `${output}: the build accepts the folder names`).toBe('');
+            expect.soft(problems, `${output}:\n${problems.join('\n')}`).toEqual([]);
+        }
+    }, 180_000);
+
+    it('R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path', async () => {
+        // Behavior 4. This case passes at the role base and stays passing.
+        for (const prefixes of [['w01/rows/'], ['']]) {
+            for (const output of ['workbook', 'a3-color'] as const) {
+                const { failure, problems } = await sourceProblems(prefixes, output);
+                expect(failure, `${output} with prefix "${prefixes[0]}": the build succeeds`).toBe('');
+                expect(problems, `${output} with prefix "${prefixes[0]}":\n${problems.join('\n')}`).toEqual([]);
+            }
+        }
+    }, 180_000);
 });
