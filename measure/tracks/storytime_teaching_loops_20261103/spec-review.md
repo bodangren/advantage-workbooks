@@ -38,4 +38,20 @@ A week file holds meta, focus, books, song, five daily scripts with steps, revie
 - F8=FIX (spec FR-12: five messages to the PM session, named as in the plan)
 - F9=FIX (plan Phase 3, Daniel's check task: it names the new Thai headings of `StorytimeLabels` in `i18n.ts`. Plan Phase 2 Green: the commit names the heading keys)
 
-Round 2: waits for the orchestrator's measure-spec-review role (round 2), because `spec.md` and `plan.md` changed after round 1.
+## Round 2
+
+Date: 2026-11-02
+Reviewer: measure-spec-review, model coding-plan/glm-5.3-flash#high
+Audited commit: 7c7a468278cf551f580bc7d138c6411d7e953008
+Verdict: pass (1 Major, no Blocker)
+Evidence: `measure/runs/storytime_teaching_loops_20261103/spec-review-7c7a4682.json` and `.log`
+
+F1 to F9 are fixed in the committed text.
+
+### Findings
+- F10 [Major] spec FR-6 (word cards): FR-6 uses the term "the text of a day" for `word` cards, but no section defines it. The pass set of `loops-recall` for word cards stays an open implementer decision. The reviewer reads it as the English lines of the steps and asks for one sentence in FR-6.
+
+### Author Response
+- F10=FIX (FR-6 defines the text of a day: the English step text; prep, Thai, and reader page text do not count)
+
+The orchestrator checks the F10 fix. No third review round occurs (the round 2 handoff says so).

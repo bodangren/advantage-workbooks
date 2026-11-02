@@ -57,6 +57,7 @@ Other repositories are read-only for this track.
 - **Sound step**: the steps A1 (Hear it), A2 (See it), and A3 (Form it) of script A.
 - **Loop step**: a step that holds a routine: A1, A2, A3, A4, A6, C5, D2.
 - **Donor step**: a step that gives minutes to the loops: A4, A6, D2, and C5. The opening is a host for the recall and gives no minutes (D7).
+- **The text of a day**: the English text of the steps of that day's script (the `en` fields of each step, as FR-6 lists). The prep lines, the Thai lines, and the reader page text do not count.
 - **Baseline**: the week files at commit `cc7808c541ca1cac810a7cd74f34520f748aef5b`.
 
 ## Functional Requirements
@@ -131,6 +132,8 @@ The taught set depends on the kind of the card:
 - A `sound` card (a grapheme) is in `taughtTo` of the week file. A `tricky` card (a tricky word) is in `taughtTo` of the week file. `taughtTo` counts the weeks to date, so it holds the earlier weeks.
 - A `frame` card is the `focus.frame` of the current week or of an earlier week.
 - A `word` card appears in the text of an earlier day of the same week, or in the text of an earlier week.
+
+"The text of a day" is the English text of the steps of that day's script. These are the English fields of each step: `title.en`, `en.teacherActions`, `en.teacherLanguage`, `en.studentActions`, `en.watchFor`, `easier.en`, `harder.en`, and `group.en`. The prep lines (`prep`), the Thai lines (`th`), the `materials` list, and the reader page text (`BookPageSchema.text`) do not count. A word that appears only on a reader page does not pass.
 
 Acceptance criteria:
 
