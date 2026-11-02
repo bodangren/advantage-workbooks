@@ -1,4 +1,5 @@
 import path from 'path';
+import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
@@ -148,7 +149,10 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
 /**
  * The picture element of a picture-list row: a proof placeholder box, or (final mode) the picture
  * file that the folder manifest resolves into (FR-9: the workbook prints line art only). Final
- * mode loads the line art of the row, never the color file (B-P2-02).
+ * mode loads the line art of the row, never the color file (B-P2-02). The source is a
+ * percent-encoded `file:` URL of the resolved path, and the attribute values are HTML-escaped,
+ * so a folder name with `"`, `<`, `>`, `#`, `?`, `%`, or a space cannot add markup or give a
+ * wrong URL (B-P4-1).
  * @param row The picture-list row.
  * @param o The compile options.
  * @param files The resolved picture files of the weeks, by row id; the map is empty in proof mode.
@@ -160,7 +164,7 @@ function pictureElement(row: StorytimePictureRow, o: StorytimeStudentBookOptions
     if (o.mode === 'final') {
         const entry = files.get(row.id);
         if (!entry) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
-        return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${entry.fileName}"><img src="file://${entry.file}" alt=""></div>`;
+        return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}" data-picture-file="${esc(entry.fileName)}"><img src="${esc(pathToFileURL(entry.file).href)}" alt=""></div>`;
     }
     return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
 }

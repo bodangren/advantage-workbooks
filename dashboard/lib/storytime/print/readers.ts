@@ -1,4 +1,5 @@
 import path from 'path';
+import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeWeek } from '../schema';
@@ -87,7 +88,10 @@ const qrPathOf = (week: StorytimeWeek, book: StorytimeWeek['books'][number]): st
 /**
  * The picture element of a picture-list row in a reader page. Proof mode prints the placeholder
  * with the list name. Final mode prints the file that the picture folder manifest resolves into:
- * the workbook prints the line art and the color A3 pages print the color file (FR-9).
+ * the workbook prints the line art and the color A3 pages print the color file (FR-9). The source
+ * is a percent-encoded `file:` URL of the resolved path, and the attribute values are
+ * HTML-escaped, so a folder name with `"`, `<`, `>`, `#`, `?`, `%`, or a space cannot add
+ * markup or give a wrong URL (B-P4-1).
  * @param row The picture-list row of the page.
  * @param o The build options.
  * @param files The resolved picture files of the week, by row id; the map is empty in proof mode.
@@ -99,7 +103,7 @@ function pictureElement(row: StorytimePictureRow, o: StorytimeReaderOptions, fil
     if (o.mode === 'final') {
         const entry = files.get(row.id);
         if (!entry) throw new Error(`picture missing: ${row.id} (${listName})`);
-        return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${entry.fileName}"><img src="file://${entry.file}" alt=""></div>`;
+        return `<div class="reader-picture" data-picture-id="${esc(row.id)}" data-picture-file="${esc(entry.fileName)}"><img src="${esc(pathToFileURL(entry.file).href)}" alt=""></div>`;
     }
     return `<div class="reader-picture" data-picture-id="${row.id}" data-picture-file="${listName}">PICTURE MISSING</div>`;
 }
