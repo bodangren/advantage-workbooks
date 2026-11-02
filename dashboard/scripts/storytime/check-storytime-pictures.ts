@@ -9,6 +9,11 @@ the color mode, the alpha, the gray fill, the file name, the SHA-256, and the pi
 color file and of the line art of each row, against the row of the picture list and the Forge
 manifest.json.
 
+A Forge job matches a picture-list row by its job.id = the row id. The color file name is
+<row id>-v<N>.png and the line-art name is <row id>-line-v<N>.png. N is a positive number with
+no leading zero, and N equals the selectedVersion of the job. The manifest holds one job for
+each row id; a duplicate row id fails the row.
+
 Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [--level <n>] [--weeks <list>]
 
   --batch   The Forge batch folder; it must hold manifest.json and the picture files, and each

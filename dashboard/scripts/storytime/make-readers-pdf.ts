@@ -39,7 +39,8 @@ Usage: npx tsx scripts/storytime/make-readers-pdf.ts --level <n> --weeks <list> 
   --weeks      The weeks to include, each a whole number from 1 to 32, comma separated, e.g. 1;
                every requested week must load exactly once (checkRequestedWeeks)
   --proof      Proof mode: picture boxes print the placeholder (default)
-  --final      Final mode: the build stops when a picture file is missing and names the picture id (FR-5.6)
+  --final      Final mode: the build resolves every picture through manifest.json in
+               content/storytime/l<n>/print/pictures/ and stops on a picture problem (FR-5.6)
   --workbook   The workbook leaves as one PDF/X-1a print file (default)
   --a3-color   The color A3 pages, one sRGB PDF for each reader (FR-5.8); no PDF/X conversion
   --version    The version in the file names, a whole number of 1 or more (rule 12.2; default 1)
@@ -54,9 +55,12 @@ Exit code 2 on an argument error, on --a3-color with --workbook, on an output fo
 outside the print folder, on an output path that is a symbolic link or resolves outside the print
 folder on the filesystem, and on an output file that exists already (use a new --version).
 Exit code 1 when a week does not parse, does not load exactly once, has no readers, a render
-fails, or (final mode) the picture folder breaks a stage 1 rule or a picture file is missing.
-The final build resolves every requested picture through manifest.json in the picture folder of
-the level, and it checks every file before it makes the output folder and before Chrome.`;
+fails, or (final mode) the picture folder holds no manifest.json, breaks a stage 1 rule, or a
+picture file is missing.
+The picture folder is content/storytime/l<n>/print/pictures/. The copy step fills it: the
+accepted Forge delivery folder (its manifest.json and its PNG files) is copied as it is. The
+final build resolves every requested picture through manifest.json of that folder, and it checks
+every file before it makes the output folder and before Chrome.`;
 
 interface Args {
     level: number;

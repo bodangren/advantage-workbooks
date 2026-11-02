@@ -28,14 +28,17 @@ Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <l
   --weeks     The weeks to include, each a whole number from 1 to 32, comma separated, e.g. 1;
               every requested week must load exactly once (checkRequestedWeeks)
   --proof     Proof mode: picture boxes print the placeholder (default)
-  --final     Final mode: the build stops when a picture file is missing and names the picture id (FR-5.6)
+  --final     Final mode: the build resolves every picture through manifest.json in
+              content/storytime/l<n>/print/pictures/ and stops on a picture problem (FR-5.6)
   --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
   --out       Output PDF file, an absolute .pdf path strictly inside <home>/Desktop/print-ready/storytime/
               (filesystem links are checked too: checkStorytimeOutputContainment)
               (default ~/Desktop/print-ready/storytime/Storytime-Advantage-L<n>-U<u>-Student-Book-v<n>_PDFX-1a.pdf)
 
 Exit code 2 on an argument or --out error; exit code 1 when a week does not parse or does not
-load exactly once, a review week is included, or the PDF/X checks fail.`;
+load exactly once, a review week is included, the PDF/X checks fail, or (final mode) the picture
+folder content/storytime/l<n>/print/pictures/ holds no manifest.json, breaks a stage 1 rule, or
+a picture file is missing.`;
 
 async function main(argv: string[]): Promise<number> {
     if (argv.length === 0 || argv.some((a) => a === '--help' || a === '-h')) {
