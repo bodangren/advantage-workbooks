@@ -56,7 +56,7 @@ Other repositories are read-only for this track.
 - **Review week**: a week file with `meta.kind` equal to `review` (w08).
 - **Sound step**: the steps A1 (Hear it), A2 (See it), and A3 (Form it) of script A.
 - **Loop step**: a step that holds a routine: A1, A2, A3, A4, A6, C5, D2.
-- **Donor step**: a step that gives minutes to the loops: A4, A6, D2, C5, and the opening.
+- **Donor step**: a step that gives minutes to the loops: A4, A6, D2, and C5. The opening is a host for the recall and gives no minutes (D7).
 - **Baseline**: the week files at commit `cc7808c541ca1cac810a7cd74f34520f748aef5b`.
 
 ## Functional Requirements
@@ -71,13 +71,16 @@ Other repositories are read-only for this track.
 - `StepSchema.loopMinutes`: an integer from 0 to 20. It is the step minutes when the loops print (FR-7).
 - `BookSchema.questions`: an array of 3 entries `{ kind, ask, answer }`. `kind` is `who`, `what`, or `where`. `ask` is a `BiText` (the Thai prompt is `ask.th`). `answer` is `{ page, word }`: the 1-based reader page and the picture word on it.
 - `ScriptSchema.recall`: `{ items, ask }`. `items` holds the cards of the existing `StripCardSchema` (`kind`, `text`, `week`, `audio?`). `ask` is a `BiText`.
-- `StorytimeApprovalsSchema.loops`: the same shape as an app part (`StorytimeAppApprovalSchema`), default draft. It is not one of the six `STORYTIME_APPROVAL_PARTS`. The `published` check and its message do not change.
+- `StorytimeApprovalsSchema.loops`: the shape of an app part (`StorytimeAppApprovalSchema`) with a refine, default draft. The refine is named `StorytimeLoopsApprovalSchema`. It works like the refine of the `print` part: an approved `loops` part needs `words` and `date`. A draft `loops` part needs neither. The part is not one of the six `STORYTIME_APPROVAL_PARTS`.
+- The `published` check in `checks.ts` skips the `loops` part, as it skips the `print` part. This one exclusion is the only code change to the `published` check. The message of st2/1 does not change.
 
 Acceptance criteria:
 
 - All shipped weeks `w01.json` to `w08.json` parse unchanged.
 - A week with each new field set to a valid value parses. A week with an invalid value (4 or 6 words, `repeats` 1 or 6, a fourth question, a question kind twice) does not parse.
-- The six app approval parts and the `published` check message of st2/1 stay as they are at the baseline.
+- The six app approval parts stay as they are at the baseline.
+- The `published` detail of st2/1 stays `images not approved; audio not approved; song not approved`. A week with a draft `loops` part gives the same `published` detail as the baseline.
+- An approved `loops` part without `words` does not parse. An approved `loops` part without `date` does not parse. An approved `loops` part with both parses. A draft `loops` part without both parses.
 
 ### FR-2: The oral blend drill (dimension 2)
 
@@ -123,10 +126,17 @@ Acceptance criteria:
 
 Each script of each teach week and of the review week has a `recall` of exactly 5 items. The items are existing cards (`sound`, `tricky`, `frame`, `word`) of this week or of an earlier week. The recall sits in the opening of the day. The opening minutes do not change. The FSRS spacing is out of scope.
 
+The taught set depends on the kind of the card:
+
+- A `sound` card (a grapheme) is in `taughtTo` of the week file. A `tricky` card (a tricky word) is in `taughtTo` of the week file. `taughtTo` counts the weeks to date, so it holds the earlier weeks.
+- A `frame` card is the `focus.frame` of the current week or of an earlier week.
+- A `word` card appears in the text of an earlier day of the same week, or in the text of an earlier week.
+
 Acceptance criteria:
 
 - A script without 5 recall items fails the check `loops-recall`. Exception: day 1 of week 1 (see Defaults, D6).
-- Each item has `week` less than or equal to the week of the file, and the item text is in the taught set of that week (`taughtTo`).
+- Each item has `week` less than or equal to the week of the file, and the item text is in the taught set of its kind (the list above).
+- A `sound` or `tricky` item outside `taughtTo`, a `frame` item that is not a `focus.frame` to date, and a `word` item that no earlier day or week shows: each fails the check.
 - No recall item repeats inside one day.
 
 ### FR-7: The day stays 30 minutes
@@ -135,7 +145,7 @@ The loops add no minutes. The loops take time from the donor steps. `loopMinutes
 
 Acceptance criteria:
 
-- The check `loops-minutes` passes when, for each day, `openingMinutes` plus the sum of `loopMinutes ?? minutes` of the steps that are not `moved` equals `meta.periodMinutes`, and `periodMinutes` is 30.
+- The check `loops-minutes` passes when, for each day, `openingMinutes` plus the sum of `loopMinutes ?? minutes` of the steps that are not `moved` equals `meta.periodMinutes` of the week. The check does not use a fixed 30. A Level 2 week has `periodMinutes` 30, and a Level 3 or Level 4 week has 49.
 - Only the loop steps A1, A2, A3, A4, A6, C5, and D2 have a `loopMinutes` that differs from `minutes`. Every loop step has at least 2 minutes.
 - The existing check `minutes` stays and still passes on `minutes`.
 
@@ -167,23 +177,23 @@ Acceptance criteria:
 Acceptance criteria:
 
 - All six loop checks pass on each teach week. The review week w08 passes `loops-recall` and `loops-minutes`.
-- With the new fields removed, each week file is byte-equal to its baseline file. The test compares a hash of the baseline.
+- With the new fields removed, each week file equals its baseline file. The test parses both files, deletes the FR-1 fields, and compares the normalized `JSON.stringify` output of both sides. It does not compare the raw file hash.
 - The English of the new lines has a text profile that fits a Level 2 teacher script: sentences of 12 words or less in the lines that the class repeats.
 - Each week has one independent review report with no open error.
 
 ### FR-11: The approval, the release, and the pin
 
-The routines are draft until Daniel approves them. Daniel's check of the English and the Thai gives `approval.loops` the value approved. The app shows the routines only when `approval.loops` is approved. The new Monorepo pin needs a new Workbooks commit, and the PM session sends it.
+The routines are draft until Daniel approves them. Daniel's check of the English and the Thai gives `approval.loops` the value approved. The refine `StorytimeLoopsApprovalSchema` (FR-1) refuses an approved part without `words` and `date`. The app shows the routines only when `approval.loops` is approved. The new Monorepo pin needs a new Workbooks commit, and the PM session sends it.
 
 Acceptance criteria:
 
-- All eight weeks have `approval.loops` draft until Daniel says that the check passed. The record has his words and the date.
+- All eight weeks have `approval.loops` draft until Daniel says that the check passed. The record has his words and the date. The refine `StorytimeLoopsApprovalSchema` enforces both fields on an approved part.
 - After his approval, the PM session gets the new pin commit and the facts-changed list.
 - The Monorepo pin of 2026-11-02 is Workbooks `ccf3d95c92bb5b3970722946dffbed1de57f9df6`. This track does not move it.
 
 ### FR-12: The hand-offs
 
-The orchestrator sends three messages to the PM session: the field names after Phase 1 (for the Storytime app in Monorepo), the new page count and the printer-quote note after Phase 3, and the report with the facts-changed list at the end.
+The orchestrator sends five messages to the PM session: the field names after Phase 1 (Hand-off 1, for the Storytime app in Monorepo), the page-count note (the estimate after Phase 2, then the real count with the printer-quote note after Phase 3), the new pin request (Hand-off 2), the `--loops` notice for the print track Phase 9 (Hand-off 3), and the report with the facts-changed list at the end.
 
 Acceptance criteria:
 
@@ -220,7 +230,7 @@ The owner decisions are above. Where a detail was open, the author chose the def
 ## Ownership and overlap
 
 - The track `storytime_week_package_20261022` (open) created `schema.ts`, `checks.ts`, and `manual.ts`. Its open tasks do not touch the schema. This track changes these files through its own Red and Green tasks. The orchestrator runs no task of the two tracks at the same time on one file.
-- The track `storytime_print_r1_20261025` owns the teacher book print file and the release proof. Its Phase 3 made `make-teacher-book-print.ts`. Its Phase 9 builds the release proof. This track changes the teacher book template and adds the `--loops` flag. The print track rebuilds the teacher book with `--loops` in its Phase 9. This track must not change `lib/storytime/print/student-book.ts`, `readers.ts`, `picture-check.ts`, `pictures.ts`, or `covers.ts`.
+- The track `storytime_print_r1_20261025` owns the teacher book print file and the release proof. Its Phase 3 made `make-teacher-book-print.ts`. Its Phase 9 builds the release proof. This track changes the teacher book template and adds the `--loops` flag. The print track rebuilds the teacher book with `--loops` in its Phase 9. The orchestrator runs no task of the two tracks at the same time on one file. This track edits `manual.ts`, `i18n.ts`, and `make-teacher-book-print.ts` in its Phase 2. Phase 2 Green waits until the print track commits its week 1 proof build of 2026-11-05. The Phase 9 release proof of the print track builds with `--loops`. This track must not change `lib/storytime/print/student-book.ts`, `readers.ts`, `picture-check.ts`, `pictures.ts`, or `covers.ts`.
 - The track `storytime_song_video_20261022` and all `video/**` files stay untouched.
 - The Monorepo pin of 2026-11-02 is Workbooks `ccf3d95c92bb5b3970722946dffbed1de57f9df6`. The new week versions need a new pin through the PM session.
 - Uncommitted files of other sessions stay unstaged: `video/storytime-song/scripts/render.mjs`, `dashboard/raw.json`, and the files under `measure/runs/`.
