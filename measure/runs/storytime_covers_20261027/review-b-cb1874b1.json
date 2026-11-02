@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "fail",
+  "phase_base_sha": "e5266ce1c7820be7371d73ad3dfe09447c673127",
+  "role_base_sha": "cb1874b1691a824dd28b394469e9c73ba327ea01",
+  "audited_head_sha": "cb1874b1691a824dd28b394469e9c73ba327ea01",
+  "security_applicability": "applicable",
+  "head_current_at_start": true,
+  "head_current_at_completion_check": false,
+  "role_base_source": "The orchestrator supplied cb1874b1691a824dd28b394469e9c73ba327ea01 as the immutable audited HEAD. git rev-parse HEAD returned this SHA at audit start. A completion check was blocked by shell permission denial.",
+  "summary": "Fail. The CLI accepts an output folder inside proof or proof-v2 for a version 3 build. This can overwrite existing mock files. The audit could not verify HEAD again at completion.",
+  "blocking_findings": [
+    "B-P1-01 | high | dashboard/scripts/storytime/make-storytime-book-cover.ts:190-191,329-358. The CLI resolves --out but does not reject output paths within proof/ or proof-v2/. A version 3 build can therefore overwrite front.png, back.png, cover.pdf, and report files from earlier releases. The versioned default path at covers.ts:710-711 does not protect an explicit --out. The tests verify distinct default directories at dashboard/__tests__/storytime-print-covers-16books.test.ts:978-980, but do not test --out pointed at proof or proof-v2. This violates FR-5.7 and mutant M22. Blocking; route to Green."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "PROVENANCE: The supplied phase_base_sha is e5266ce1c7820be7371d73ad3dfe09447c673127. The supplied role_base_sha and audited_head_sha are cb1874b1691a824dd28b394469e9c73ba327ea01. git rev-parse HEAD returned cb1874b1691a824dd28b394469e9c73ba327ea01 at audit start. A later completion check was denied by the shell permission policy. The phase base ancestry check was also denied.",
+    "SCOPE: The supplied test strategy section 2 and rows 4.14.4 and 4.15 state that Review B applies to the Phase 1 output-path rule and the D11.5 early-stop rule. The diff names covers.ts, cover-picture.ts, make-storytime-book-cover.ts, books.json, the cover tests, and storytime/files.ts. Security review applies.",
+    "OUTPUT PATH: make-storytime-book-cover.ts:190 resolves the user-supplied --out value. Lines 329-358 write named artifacts below that path. No containment check rejects proof/ or proof-v2/. covers.ts:710-711 isolates only the default path. The v3 protection therefore depends on the caller using the default.",
+    "TEST GAP: storytime-print-covers-16books.test.ts:978-980 checks only that default version folders differ. It does not run --version 3 with --out set to proof or proof-v2, and does not test symlinked output paths or output file symlinks.",
+    "A2: Not applicable. The phase diff contains no draft-to-published status transition and no named-subject publishing path. D12 concerns using approved source week content for a print build, not consent to publish a named subject.",
+    "A6: The phase does not change measure/tracks.md. No security state in the registry was changed by this phase, so there is no resolved-state claim to validate.",
+    "HTML AND COPY: covers.ts:915-917 escapes ampersand, angle brackets, and quotes for the title and panel value text. The title is generated and validated against a fixed pattern at lines 270-271 and 301-302. The panel story values are HTML escaped at lines 942-943. R6 tests CEFR case, U+2011, U+00AD, NBSP, and U+200B at storytime-print-covers-16books.test.ts:988-1014. No full Unicode homoglyph normalization test exists; the shipped title and panel inputs are constrained by current data checks.",
+    "PERSISTENCE AND ERRORS: the script validates level, unit, and version before output. It validates data before creating temporary or output files. The D12 print stop runs before output directory creation at make-storytime-book-cover.ts:243-252; R22 asserts an empty output directory after the stop at test lines 782-797. Temporary files are removed in finally at script lines 265 and 371-376. A failure after rendering begins may leave partial deliverables; no atomic staging/rename protects the output set.",
+    "DATA AND SECRETS: no authentication, network call, token, or secret-handling path appears in the audited cover flow. Recipe paths may be absolute or relative and are checked for existence, but the phase does not write through those paths. The current output may contain only the expected cover text, report, images, and QR.",
+    "COMMAND LIMIT: one read-only shell command was denied with Permission denied. It attempted to confirm phase-base ancestry, list the phase-scoped diff, and record the Bangkok timestamp. No tests or probes were run. The supplied Green gates are peer evidence only."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git status --short; git diff --name-only and --stat for the full range — HEAD was cb1874b1691a824dd28b394469e9c73ba327ea01; the working tree had unrelated video/storytime-song/scripts/render.mjs and dashboard/raw.json changes, plus untracked run outputs.",
+    "git diff --name-only e5266ce1c7820be7371d73ad3dfe09447c673127 cb1874b1691a824dd28b394469e9c73ba327ea01 -- the six supplied security-scope paths — returned books.json, the covers test, cover-picture.ts, covers.ts, make-storytime-book-cover.ts, and storytime/files.ts.",
+    "Read measure/anti-patterns.md; the supplied track spec.md, plan.md, and test-strategy.md; the six changed source and test files; and measure/tracks.md.",
+    "Attempted git merge-base ancestry, scoped diff numstat, and TZ=Asia/Bangkok date — denied: Permission denied: shell."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_covers_20261027/review-b-cb1874b1.json",
+    "measure/runs/storytime_covers_20261027/review-b-cb1874b1.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "medium",
+  "handoff": "Green: reject --out paths that resolve inside the v1 proof or v2 proof folders, including symlinked paths, and add regression tests for both folders. The audit could not confirm HEAD at completion because shell execution was denied. No product decision is requested.",
+  "facts_changed": []
+}

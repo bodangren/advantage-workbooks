@@ -1,0 +1,93 @@
+date: 2026-10-29 21:32:17 +0700
+result: seven mutants M16 to M22, each applied in place to the uncommitted Green source, one GREEN_TEST_COMMAND run each inside one heavy-run wrapper, then restored from pristine copies in /tmp/green-v3-mut/pristine.
+pristine sha256:
+399a8c167950f6ad5c4c059f7092f71d11815c7ed8a2c79bf7541aef8aff3244  /tmp/green-v3-mut/pristine/lib/covers.ts
+247efdf7c5b22ae46f3d45f02c5750f67f89daf8bdfbe668ed42c6f4d2fa241d  /tmp/green-v3-mut/pristine/scripts/make.ts
+
+== M16 ==
+M16 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 502 insertions(+), 56 deletions(-)
+M16 gate exit 1
+     × R23: all backs show five fields; empty fields show mock-only missing copy and no Thai 253ms
+     × R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) 413ms
+      Tests  2 failed | 38 passed (40)
+M16 caught
+M16 restore: cmp equal for both source files
+
+== M17 ==
+M17 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 503 insertions(+), 56 deletions(-)
+M17 gate exit 1
+     × R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3) 195ms
+      Tests  1 failed | 39 passed (40)
+M17 caught
+M17 restore: cmp equal for both source files
+
+== M18 ==
+M18 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 501 insertions(+), 56 deletions(-)
+M18 gate exit 1
+     × R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3) 111ms
+     × R21: data week lists match the readable source weeks and stay inside each unit 40ms
+      Tests  2 failed | 38 passed (40)
+M18 caught
+M18 restore: cmp equal for both source files
+
+== M19 ==
+M19 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 502 insertions(+), 56 deletions(-)
+M19 gate exit 1
+     × R25: the chosen panel size fits, is at least 10 pt, and is the largest fitting scale value 57ms
+     × R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) 412ms
+      Tests  2 failed | 38 passed (40)
+M19 caught
+M19 restore: cmp equal for both source files
+
+== M20 ==
+M20 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 502 insertions(+), 56 deletions(-)
+M20 gate exit 1
+     × R1: the shipped file holds 16 books, and a short or wrong-colour copy fails 97ms
+     × R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3) 136ms
+     × R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources 305ms
+     × R21: data week lists match the readable source weeks and stay inside each unit 46ms
+     × R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs 2005ms
+     × R23: all backs show five fields; empty fields show mock-only missing copy and no Thai 149ms
+     × R22 M21 and M22: print source and version output path remain bounded 1722ms
+     × R6: the copy check passes the Chrome PDF text of a built cover 1808ms
+     × R7: the Thai check reads the Chrome PDF, not a PDF/X extract 1803ms
+     × R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data 1752ms
+     × R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha 1725ms
+     × R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face 1724ms
+     × R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image 1982ms
+     × R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 1724ms
+     × R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) 433ms
+     × R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 1832ms
+      Tests  16 failed | 24 passed (40)
+M20 caught
+M20 restore: cmp equal for both source files
+
+== M21 ==
+M21 change: dashboard/scripts/storytime/make-storytime-book-cover.ts
+M21b change: dashboard/scripts/storytime/make-storytime-book-cover.ts
+ 2 files changed, 502 insertions(+), 56 deletions(-)
+M21 gate exit 1
+     × R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs 8556ms
+     × R22 M21 and M22: print source and version output path remain bounded 15202ms
+      Tests  2 failed | 38 passed (40)
+M21 caught
+M21 restore: cmp equal for both source files
+
+== M22 ==
+M22 change: dashboard/lib/storytime/print/covers.ts
+ 2 files changed, 502 insertions(+), 56 deletions(-)
+M22 gate exit 1
+     × R22 M21 and M22: print source and version output path remain bounded 19ms
+      Tests  1 failed | 39 passed (40)
+M22 caught
+M22 restore: cmp equal for both source files
+
+---- final tree ----
+final restore: cmp equal for both source files
+mutants: 7, caught: 7
+date_end: 2026-10-29 21:43:18 +0700

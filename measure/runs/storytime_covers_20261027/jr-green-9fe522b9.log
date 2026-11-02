@@ -1,0 +1,48 @@
+status: complete
+role: jr-green (Task Green v3b, second try)
+track: storytime_covers_20261027
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 9fe522b99a1d3100e6510fc29ac7c3873e10909a
+model: claude-code/claude-opus-5-5[1m]#high
+red_model: openai/gpt-6-luna#high (Red v3b bcdfc4fc, R20 fix 2d6b503e)
+model_deviation: ra-quota pick green --not-family openai --not-family minimax printed deepseek/deepseek-flash#high at 00:35; the orchestrator kept Green on Claude because this session holds the v3 context.
+coder_delegation: none
+start: 2026-10-30 01:26 +07
+step 0: /tmp/green-v3b/covers-d115.patch SHA-256 e4d44f12bfe731f8952c17608534013cc47052a6f7271bb9f51685ebc73ec9a6 (equal to the brief), applied with git apply.
+step 2 (gates, one heavy-run wrapper, 01:27:27 to 01:32:45 +07): GREEN_TEST_COMMAND exit 0 (1 file, 43 passed); PROJECT_TESTS exit 0 (18 files, 482 passed); PROJECT_LINT exit 0; PROJECT_CHECKS exit 0. pnpm-lock.yaml unchanged.
+step 3 (mutants, 01:32:56 to 01:35:54 +07): M23 caught by R27; M24 caught by R28; mutants: 2, caught: 2. covers.ts equals the Green code after each (cmp).
+step 4 (builds, one heavy-run wrapper, 01:36:10 to 01:42:34 +07): MemAvailable before each build 3767, 3872, 3799 MB (one reading each, no wait).
+  --version 3 without --print: l2u1 exit 0 (13 s), l1u1 exit 0 (11 s), l4u4 exit 0 (9 s). Chosen size 14 pt; l2u1 fill share 0.8860; ink boxes inside the inset within 1 mm.
+  SHA-256: v3 before = jr-green-e0b587ac-sha256.txt (15 of 15). After: l2u1/back.png 462a7af9, l2u1/cover.pdf 0359cade, l1u1/cover.pdf a677b0b9, l4u4/cover.pdf 6739b6b2 changed; the other 11 unchanged. v1 and v2: 30 of 30 equal before and after. contact-sheet-v3.png unchanged (4f298caf).
+step 5: --print --version 3 exit 1 for each book before any write (l2u1 names decodable; l1u1 and l4u4 name all five fields); proof-v3 unchanged by the runs, 0 PDF/X files.
+  PRINT_GATE on temp PDF/X copies in /tmp/storytime-covers-v3-pdfx: exit 0, "All checks pass." x3; folder removed.
+  copy check, Thai byte check (Chrome PDF), QR module check (0 modules differ): pass on each file.
+  l2u1 page 2: Decodable words "Nan, pan, nap, Pam, map, man, Sam, Pat, sat, mat, tap, Tom, mom, top, pot, on, an, am";
+  Sight words "a, and, can, I, on, in, the, get, is, this, off, saw, with, he, put, see, from, run, up";
+  Books "Hello!; Nan Can Nod; How Many?; Can I?; Paint!; The Pan; My Family; Pam; I Have Two; Sam and Pam; I Can See; Tap, Tap!; Is It a Ball?; The Top".
+step 6: fix commit 2f9ae5ae835c4fa2546dc8761476e255d9cd75fd (covers.ts only); plan commit 28bd3885faeddedd693e9fcc1f9823c43ba268fb (plan.md only). Not pushed.
+end: 2026-10-30 01:43:46 +0700; quota at end: claude: 5h 24% (Fri 02:30) 7d 27% (Tue 15:00, pace 31.8%) -> GO
+
+MEASURE_AGENT_RESULT
+status: complete
+role: jr-green
+task: Task (Green v3b)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 9fe522b99a1d3100e6510fc29ac7c3873e10909a
+final_head: 28bd3885faeddedd693e9fcc1f9823c43ba268fb
+commits:
+  - 2f9ae5ae835c4fa2546dc8761476e255d9cd75fd fix(storytime): keep the source word case and split titles with semicolons (D11.5)
+  - 28bd3885faeddedd693e9fcc1f9823c43ba268fb measure(plan): record Phase 1 Green v3b evidence
+tasks_flipped_x:
+  - Task (Green v3b), fix commit 2f9ae5ae
+tasks_flipped_b: none
+tasks_left_open:
+  - Task (Check v3b)
+  - Task (Hand-off v3)
+  - Task: Measure - User Manual Verification 'Phase 1'
+targeted_red_command: GREEN_TEST_COMMAND exit 0, Tests 43 passed (43)
+new_files:
+  - measure/runs/storytime_covers_20261027/jr-green-9fe522b9-{green,tests,lint,checks,mutants,build,print,printgate,filechecks,sha256}.txt and this log (untracked)
+coder_delegation: none
+handoff: Review A to C and the adversarial review audit 2f9ae5ae. Check v3b builds contact-sheet-v3b.png from the rebuilt proof-v3 files and checks I, Nan, Pam, Pat, Sam, Tom, the lower-case a, can, tap, and the 14 titles split by "; ". The old contact-sheet-v3.png records the pre-D11.5 state.
+END_MEASURE_AGENT_RESULT

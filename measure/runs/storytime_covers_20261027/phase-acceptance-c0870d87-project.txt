@@ -1,0 +1,31 @@
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --exclude "**/storytime-print-teacher-book.test.ts"
+Wrapper: the same heavy-run wrapper as GREEN_TEST_COMMAND.
+HEAD: c0870d87b69bb2373bb2aa023d1e7363e848bfb1
+Exclusion reason: six intentional Red tests of print Phase 3, covered by test-strategy lines 397 and 399.
+
+✓ __tests__/storytime-print-covers-16books-adversarial.test.ts (9 tests)
+✓ __tests__/storytime-print-adversarial.test.ts (38 tests)
+✓ __tests__/storytime-print-student-book-adversarial.test.ts (55 tests)
+✓ __tests__/storytime-print-contract.test.ts (47 tests)
+✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests)
+✓ __tests__/storytime-print-contract-r3.test.ts (37 tests)
+✓ __tests__/covers-render.test.ts (5 tests)
+✓ __tests__/storytime-print-contract-v2.test.ts (24 tests)
+✓ __tests__/covers-kit.test.ts (6 tests)
+✓ __tests__/storytime-week.test.ts (40 tests)
+✓ __tests__/storytime-manual.test.ts (23 tests)
+✓ __tests__/storytime-phonics.test.ts (7 tests)
+✓ __tests__/storytime-phonemes.test.ts (7 tests)
+✓ __tests__/covers-back.test.ts (7 tests)
+✓ __tests__/covers-contract.test.ts (9 tests)
+✓ __tests__/print-pdfx.test.ts (7 tests)
+✓ __tests__/storytime-book-audio.test.ts (8 tests)
+✓ __tests__/storytime-print-covers-16books.test.ts (45 tests)
+✓ __tests__/storytime-print-student-book.test.ts (70 tests)
+
+Test Files  19 passed (19)
+     Tests  493 passed (493)
+  Start at  06:10:05
+  Duration  161.86s
+
+PROJECT_EXIT=0

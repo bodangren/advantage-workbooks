@@ -1,0 +1,498 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m24 tests[22m[2m | [22m[31m23 failed[39m[2m)[22m[32m 239[2mms[22m[39m
+[31m     [31m×[31m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m R2: three recipes name real files, and an empty recipe is not a picture[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R3: one approved summary uses student words, and zebra or a draft week fails[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R4: the front holds the series name, the picture area, and the level card, and no badge[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R6: the copy check reads page text and fails a bypass, including a line with never[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R6: the copy check passes the Chrome PDF text of a built cover[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R7: the Thai check matches the five contact lines and fails a changed tone mark[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[39m[32m 20[2mms[22m[39m
+[31m     [31m×[31m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data[39m[32m 28[2mms[22m[39m
+[31m     [31m×[31m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R11: a missing picture stops the build, names the book, and writes no deliverable[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m R12: cut-out corners are white, the center is not, and class-waves.png does not pass[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain[39m[32m 8[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 95[2mms[22m[39m
+[31m     [31m×[31m R16 M1: a dropped contact line fails the Thai check[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m R16 M2: a changed Thai tone mark fails the Thai check[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m R16 M3: one swapped QR module fails the module check[39m[32m 19[2mms[22m[39m
+[31m     [31m×[31m R16 M4: a wrong level colour fails the data check[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R16 M5: a year in the summary fails the copy check[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m R16 M6: a Level 2 Unit 1 back without the panel fails[39m[32m 2[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 23 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR1: the shipped file holds 16 books, and a short or wrong-colour copy fails
+[31m[1mAssertionError[22m: Missing data file: content/storytime/covers/books.json: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m readBooksFile __tests__/storytime-print-covers-16books.test.ts:[2m110:96[22m[39m
+    [90m108| [39m
+    [90m109| [39m[35mfunction[39m [34mreadBooksFile[39m()[33m:[39m [33mStorytimeCoverData[39m {
+    [90m110| [39m    expect(fs.existsSync(booksFile), 'Missing data file: content/story…
+    [90m   | [39m                                                                                               [31m^[39m
+    [90m111| [39m    return JSON.parse(fs.readFileSync(booksFile, 'utf8')) as Storytime…
+    [90m112| [39m}
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m329:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR2: three recipes name real files, and an empty recipe is not a picture
+[31m[1mAssertionError[22m: Missing picture recipes in content/storytime/covers/books.json: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m358:108[22m[39m
+    [90m356| [39m
+    [90m357| [39m    it('R2: three recipes name real files, and an empty recipe is not …
+    [90m358| [39m        expect(fs.existsSync(booksFile), 'Missing picture recipes in c…
+    [90m   | [39m                                                                                                           [31m^[39m
+    [90m359| [39m        const mod = await covers('loadStorytimeCoverBooks', 'storytime…
+    [90m360| [39m        [35mconst[39m data [33m=[39m mod[33m.[39m[34mloadStorytimeCoverBooks[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR3: one approved summary uses student words, and zebra or a draft week fails
+[31m[1mAssertionError[22m: Missing unit summaries in content/storytime/covers/books.json: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m379:107[22m[39m
+    [90m377| [39m
+    [90m378| [39m    it('R3: one approved summary uses student words, and zebra or a dr…
+    [90m379| [39m        expect(fs.existsSync(booksFile), 'Missing unit summaries in co…
+    [90m   | [39m                                                                                                          [31m^[39m
+    [90m380| [39m        const mod = await covers('loadStorytimeCoverBooks', 'checkStor…
+    [90m381| [39m        [35mconst[39m data [33m=[39m mod[33m.[39m[34mloadStorytimeCoverBooks[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR4: the front holds the series name, the picture area, and the level card, and no badge
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: loadStorytimeCoverBooks, renderStorytimeCover, storytimeCoverMmToPx.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m416:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR5: the back holds the logo, the panel only with a summary, the contact block, the QR, and LINE
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: loadStorytimeCoverBooks, renderStorytimeCover.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m440:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR6: the copy check reads page text and fails a bypass, including a line with never
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverCopy.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m461:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR6: the copy check passes the Chrome PDF text of a built cover
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverCopy.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m490:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR7: the Thai check matches the five contact lines and fails a changed tone mark
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverThai.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m504:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR7: the Thai check reads the Chrome PDF, not a PDF/X extract
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverThai.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m524:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR8: the expected QR grid comes from generateQRCode, and one swapped module fails
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: storytimeCoverQrGrid, checkStorytimeCoverQr.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m541:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR8: the printed back-page QR matches the encoder grid, and the quiet zone is not data
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: storytimeCoverMmToPx, checkStorytimeCoverQr.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m555:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: storytimeCoverMmToPx.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m580:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face
+[31m[1mAssertionError[22m: Missing script: scripts/storytime/make-storytime-book-cover.ts: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m requireScript __tests__/storytime-print-covers-16books.test.ts:[2m140:105[22m[39m
+    [90m138| [39m
+    [90m139| [39m[35mfunction[39m [34mrequireScript[39m()[33m:[39m [35mvoid[39m {
+    [90m140| [39m    expect(fs.existsSync(scriptFile), 'Missing script: scripts/storyti…
+    [90m   | [39m                                                                                                        [31m^[39m
+    [90m141| [39m}
+    [90m142| [39m
+[90m [2m❯[22m runScript __tests__/storytime-print-covers-16books.test.ts:[2m168:5[22m[39m
+[90m [2m❯[22m buildCover __tests__/storytime-print-covers-16books.test.ts:[2m188:20[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m598:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR11: a missing picture stops the build, names the book, and writes no deliverable
+[31m[1mAssertionError[22m: Missing script: scripts/storytime/make-storytime-book-cover.ts: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m requireScript __tests__/storytime-print-covers-16books.test.ts:[2m140:105[22m[39m
+    [90m138| [39m
+    [90m139| [39m[35mfunction[39m [34mrequireScript[39m()[33m:[39m [35mvoid[39m {
+    [90m140| [39m    expect(fs.existsSync(scriptFile), 'Missing script: scripts/storyti…
+    [90m   | [39m                                                                                                        [31m^[39m
+    [90m141| [39m}
+    [90m142| [39m
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m622:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR12: cut-out corners are white, the center is not, and class-waves.png does not pass
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: storytimeCoverMmToPx.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m645:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/cover-picture.ts. Required export: composeStorytimeCoverPicture.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m pictures __tests__/storytime-print-covers-16books.test.ts:[2m133:137[22m[39m
+    [90m131| [39m
+    [90m132| [39masync function pictures(...names: (keyof PictureModule)[]): Promise<Pi…
+    [90m133| [39m    expect(fs.existsSync(pictureModule), `Missing module: lib/storytim…
+    [90m   | [39m                                                                                                                                        [31m^[39m
+    [90m134| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(pictureModule) [35mas[39m [33mPictureModule[39m[33m;[39m
+    [90m135| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m687:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain
+[31m[1mAssertionError[22m: Missing script: scripts/storytime/make-storytime-book-cover.ts: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m requireScript __tests__/storytime-print-covers-16books.test.ts:[2m140:105[22m[39m
+    [90m138| [39m
+    [90m139| [39m[35mfunction[39m [34mrequireScript[39m()[33m:[39m [35mvoid[39m {
+    [90m140| [39m    expect(fs.existsSync(scriptFile), 'Missing script: scripts/storyti…
+    [90m   | [39m                                                                                                        [31m^[39m
+    [90m141| [39m}
+    [90m142| [39m
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m707:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M1: a dropped contact line fails the Thai check
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverThai.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m751:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M2: a changed Thai tone mark fails the Thai check
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverThai.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m760:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M3: one swapped QR module fails the module check
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: storytimeCoverQrGrid, checkStorytimeCoverQr.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m774:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M4: a wrong level colour fails the data check
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: loadStorytimeCoverBooks, checkStorytimeCoverData.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m782:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M5: a year in the summary fails the copy check
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: checkStorytimeCoverCopy.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m793:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/23]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR16 M6: a Level 2 Unit 1 back without the panel fails
+[31m[1mAssertionError[22m: Missing module: lib/storytime/print/covers.ts. Required export: loadStorytimeCoverBooks, renderStorytimeCover.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m covers __tests__/storytime-print-covers-16books.test.ts:[2m126:129[22m[39m
+    [90m124| [39m
+    [90m125| [39masync function covers(...names: (keyof CoverModule)[]): Promise<CoverM…
+    [90m126| [39m    expect(fs.existsSync(coversModule), `Missing module: lib/storytime…
+    [90m   | [39m                                                                                                                                [31m^[39m
+    [90m127| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coversModule) [35mas[39m [33mCoverModule[39m[33m;[39m
+    [90m128| [39m    for (const name of names) expect(loaded[name], `Export ${name}.`).…
+[90m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m800:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/23]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m23 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m 09:35:50
+[2m   Duration [22m 19.44s[2m (transform 1.86s, setup 1.28s, import 2.81s, tests 239ms, environment 10.02s)[22m
+
+EXIT:1

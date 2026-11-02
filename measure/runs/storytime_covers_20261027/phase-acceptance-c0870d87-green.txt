@@ -1,0 +1,13 @@
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts
+Wrapper: one heavy-run wrapper for all four acceptance gates.
+HEAD: c0870d87b69bb2373bb2aa023d1e7363e848bfb1
+
+✓ __tests__/storytime-print-covers-16books-adversarial.test.ts (9 tests)
+✓ __tests__/storytime-print-covers-16books.test.ts (45 tests)
+
+Test Files  2 passed (2)
+     Tests  54 passed (54)
+  Start at  06:08:35
+  Duration  86.51s
+
+GREEN_EXIT=0

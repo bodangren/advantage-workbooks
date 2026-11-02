@@ -1,0 +1,62 @@
+status: complete
+role: jr-green (Task Check v3)
+track: storytime_covers_20261027
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b6b91f30232fc06aa85281de94169ad2f3d4bfd4
+model: claude-code/claude-opus-5-5[1m]#high
+start: 2026-10-30 00:06 +07
+end: 2026-10-30 00:12:57 +0700
+quota: start claude 5h 17 %, 7d 26 %; end claude 5h 18 %, 7d 26 % (GO)
+
+step 1: the v3 SHA-256 before the task (00:07 +07) equal jr-green-e0b587ac-sha256.txt, 15 of 15.
+step 2: contact sheet ~/Desktop/print-ready/storytime/proof-v3/contact-sheet-v3.png, 3388 x 3715 px,
+  SHA-256 4f298cafaa3c324d1ede56914be3f4a04b28790bcabbfab87b4e96e665ef391f.
+  One heavy-run wrapper, foreground, 00:07:39 to 00:10:39 +07. Script: /tmp/check-v3/sheet.py.
+  Rows: Level 2 Unit 1, Level 1 Unit 1, Level 4 Unit 4. Tiles: front.png, back.png, cover.pdf p1 and p2 at 100 dpi.
+step 3: pages opened: the contact sheet (12 tiles); l2u1, l1u1, l4u4 back.png at full size;
+  page 2 of each cover.pdf at 300 dpi (/tmp/check-v3/*-p2-300-2.png); a 300 ppi panel crop of each back.
+  checks, each pass:
+  - heading order Story, Sounds, Decodable words, Sight words, Books on 6 of 6 back pages
+  - text size 14 pt: chosenPt 14 in each build report; panel line pitch 21 pt, text box 22.55 pt (pdftotext -bbox)
+  - light line "comes with the week text" under 5 of 5 headings on l1u1 and on l4u4
+  - l2u1 panel: 5 of 5 fields filled, no light line
+  - ink off the inset inside the panel box: 0 dark pixels (<128) on each back.png and each page 2
+  - LINE label under the QR code on each back
+  - 5 contact lines on each back; the contact block yMin 568.22 pt equals v2
+  - fronts v2 = v3: l2u1 e52f9410, l1u1 cf0551cf, l4u4 273f4cb1
+step 4: build report next to the page:
+  - l2u1: no missing field; story week 1; sounds, decodable, sight, books weeks 1 to 7; week 1 approved, weeks 2 to 8 draft; the mock used draft weeks 2 to 7
+  - l1u1: 5 fields missing, no source week, no approval entry; 5 light lines on the page
+  - l4u4: 5 fields missing, no source week, no approval entry; 5 light lines on the page
+step 5: l2u1 panel text (page and pdftotext page 2; the build report holds no values):
+  Story: Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.
+  Sounds: n /n/, a /a/, p /p/, m /m/, s /s/, t /t/, o /o/
+  Decodable words: nan, pan, nap, pam, map, man, sam, pat, sat, mat, tap, tom, mom, top, pot, on, an, am
+  Sight words: a, and, can, i, on, in, the, get, is, this, off, saw, with, he, put, see, from, run, up
+  Books: Hello!, Nan Can Nod, How Many?, Can I?, Paint!, The Pan, My Family, Pam, I Have Two, Sam and Pam, I Can See, Tap, Tap!, Is It a Ball?, The Top
+step 6: defects: none found. Observation O3 (not a defect): on l1u1 and l4u4 the panel text fills the top half; the bottom half stays empty until the week text comes.
+step 7: plan commit b33c8fe411898980c15c2105ce693c6780ebb39e (plan.md only). Not pushed.
+end check: the v3 SHA-256 after the task (00:11 +07) equal jr-green-e0b587ac-sha256.txt, 15 of 15. No rebuild. proof/ and proof-v2/ not written.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: jr-green
+task: Task (Check v3)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b6b91f30232fc06aa85281de94169ad2f3d4bfd4
+final_head: b33c8fe411898980c15c2105ce693c6780ebb39e
+commits:
+  - b33c8fe411898980c15c2105ce693c6780ebb39e measure(plan): record Phase 1 Check v3
+tasks_flipped_x:
+  - Task (Check v3), evidence commit a8f94ebd
+tasks_flipped_b: none
+tasks_left_open:
+  - Task (Hand-off v3)
+  - Task: Measure - User Manual Verification 'Phase 1'
+new_files:
+  - ~/Desktop/print-ready/storytime/proof-v3/contact-sheet-v3.png (outside the repository)
+  - measure/runs/storytime_covers_20261027/jr-green-b6b91f30-check.log (untracked)
+defects: none found
+coder_delegation: none
+handoff: The orchestrator reads the defect list (none found) and routes Task (Hand-off v3). The PM message needs the 15 v3 SHA-256 values, the contact sheet and its SHA-256, the missing fields and draft weeks above, the l2u1 panel text, the Thai of the back, and the D12 source-rule choice. No v3 print file exists because D12 stops each --print build.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,10 @@
+real composed picture: metadata.hasAlpha=false expect false => PASS
+real composed picture: raw.info.channels=3 expect 3 => PASS
+real composed picture: raw.info.hasAlpha=undefined (OutputInfo has no hasAlpha)
+RGBA copy ensureAlpha: metadata.hasAlpha=true expect false => FAIL
+RGBA copy ensureAlpha: raw.info.channels=4 expect 3 => FAIL
+RGBA copy ensureAlpha: raw.info.hasAlpha=undefined (OutputInfo has no hasAlpha)
+real composed picture new assertions: PASS
+RGBA mutant new assertions: FAIL
+MUTATION RESULT: the new checks fail on the RGBA copy and pass on the real picture.
+EXIT:0

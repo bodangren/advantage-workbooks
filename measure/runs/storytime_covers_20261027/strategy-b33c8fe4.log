@@ -1,0 +1,65 @@
+role: strategy
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b33c8fe411898980c15c2105ce693c6780ebb39e
+status: complete
+date: 2026-10-30 00:17 to 00:20 +07
+model: claude-code/claude-opus-5-5[1m]#high
+model_deviation: ra-quota pick strategy printed opencode/muse-spark-1.3#high; the orchestrator chose Claude on the subscription.
+quota: claude 5h 19 %, 7d 26 % at 00:17 ICT (GO). Below the stop rule (5h 60 %, week 70 %).
+
+## Task
+One small amendment of Phase 1: D11.5 (the panel word case and the books separator), after the
+orchestrator page check of contact-sheet-v3.png. This role wrote spec.md, test-strategy.md,
+plan.md, and this log. No test and no product code. No mmx call. No pnpm command.
+
+## What I read
+spec.md (D11, D12, FR-1a), test-strategy.md (4.1, R20 to R26, 4.4 mutants, 4.14), plan.md
+(Red v3 to Hand-off v3), the earlier log strategy-8e2c9194.log (the form), and the read-only
+code dashboard/lib/storytime/print/covers.ts lines 395 to 480.
+Read-only data: content/storytime/l2/w01.json to w08.json.
+
+## Measured facts (read-only, 2026-10-30 00:18 ICT, at b33c8fe4)
+F1  covers.ts:421 lower-cases every panel candidate word; covers.ts:467 lower-cases each tricky word.
+    covers.ts:480 joins the books with ', '.
+F2  The source candidates of Level 2 weeks 1 to 8 (family words, home words, back words, page
+    text, tricky words). Forms of each key: i [I]; nan [Nan]; pam [Pam]; sam [Sam]; tom [Tom];
+    a [A, a]; can [can, Can]; pan [pan]; tap [tap, Tap]; mom [mom, Mom]; the [the, The].
+F3  Keys with a capital in every occurrence: I Pat May Sam Mia Nan Ben Pip Oh Pam Tom.
+F4  The decodable list of Check v3 holds `pat`. Its only source occurrence is `Hello, I am Pat.`
+    (w01 page text). So D11.5a keeps `Pat` with a capital. The orchestrator result list named
+    five words (I, Nan, Pam, Sam, Tom); the rule gives six. The spec and R27 follow the rule.
+F5  No reader title of Level 2 weeks 1 to 8 holds `;`. The 14 titles hold one comma title:
+    `Tap, Tap!` (w06.json:838), item 12 of the books list.
+
+## Commit
+5ae046e6747d65d5a1de69509751e5a1acdf1451 measure(strategy): covers v3 panel word case and title separator (D11.5)
+Three paths, staged one by one: spec.md, test-strategy.md, plan.md. 3 files changed,
+60 insertions, 6 deletions. This log is not in the commit.
+
+## Lines (after the commit)
+spec.md 103 to 107: D11.5 (intro, a, b, c). spec.md 161, 162, 163: FR-1a.3, .4, .5 display form.
+test-strategy.md 55: 21 counted tasks. 70 to 72: rows 19 to 21 (Red v3b, Green v3b, Check v3b).
+test-strategy.md 174: R27. 180: R28. 247: M23. 248: M24. 250: the mutant note. 293: M1 to M24.
+test-strategy.md 402: section 4.15 (gates, anti-patterns, risk, reviews, red handling).
+plan.md 305: the orchestrator page finding under Check v3. 306: Red v3b. 310: Green v3b. 314: Check v3b.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b33c8fe411898980c15c2105ce693c6780ebb39e
+head: 5ae046e6747d65d5a1de69509751e5a1acdf1451
+commits: 5ae046e6747d65d5a1de69509751e5a1acdf1451
+review_gates: Phase 1 stays high. D11.5: Review A yes (shared module); Review B yes, the new `;` build stop only; Review C yes (the display form of the panel values); adversarial yes; UX/API not applicable; browser never (UX_REQUIRED=never).
+facts_changed: D11.5a keeps six capital words on the Level 2 Unit 1 back (I, Nan, Pam, Pat, Sam, Tom), not five; the books field separator becomes `; `.
+tests_run: none (read-only node measurement of the week files only)
+files_changed: measure/tracks/storytime_covers_20261027/spec.md, measure/tracks/storytime_covers_20261027/test-strategy.md, measure/tracks/storytime_covers_20261027/plan.md, measure/runs/storytime_covers_20261027/strategy-b33c8fe4.log (not committed)
+plan_updates: one sub-line under Task (Check v3) with the orchestrator page finding of 2026-10-30; three new tasks Red v3b, Green v3b, Check v3b, each `[ ]` (the plan holds no `[~]` task, and the earlier v3 strategy left the new tasks at `[ ]`); Hand-off v3 and the manual verification task stay `[ ]`.
+known_failures: R42 of __tests__/storytime-print-student-book.test.ts stays a committed Red test of the print track (test-strategy 4.14.4).
+capture_point: phase_base_sha e5266ce1 of Phase 1 does not move. A role that wants a baseline for the v3b amendment takes `git rev-parse HEAD` immediately after commit 5ae046e6, and never a SHA from before it.
+handoff: Not a block. (1) The rule D11.5a also keeps `Pat` with a capital (only source: `Hello, I am Pat.`, w01 page text), so R27 and Check v3b expect six capital words; tell the PM if the five-word list was sent. (2) Hand-off v3 runs after Check v3b, so that the PM gets the v3b files. (3) Red v3b is the next task.
+END_MEASURE_AGENT_RESULT

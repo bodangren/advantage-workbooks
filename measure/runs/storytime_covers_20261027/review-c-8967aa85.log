@@ -1,0 +1,40 @@
+Review C round 2 log (UX and API end-to-end contract), track storytime_covers_20261027, phase P2.
+Audited HEAD: 8967aa8515e06ca6f6e32e17308cfcce34dc65e6. phase_base_sha c85ef735f56c79779551fbff4996d5924b56c0d8.
+HEAD check: git rev-parse HEAD returned 8967aa85 at audit start. The end check runs before the result commit.
+
+Contract applicability: applicable. The phase diff c85ef735..8967aa85 touches the cover CLI script, its tests, and the week approvals, so the operator contract applies. UX_REQUIRED=never, so no browser ran.
+
+Scope read: spec.md D12 and FR-1a; plan.md rules, gates, and Phase 2 (lines 361-408); test-strategy.md section 5; make-storytime-book-cover.ts (full); covers.ts:710-801; the ADV-P2 adversarial tests; review-c-c9e92fa2.json; review-a-8967aa85.json; the delivered folder.
+
+Question 1, flag matrix (level 2 unit 1 unless named):
+- --print, no --out, version 1 default: exit 2, message --out is the output folder. (probe)
+- --print --version 2, no --out: exit 2, same message. (probe)
+- --print --version 3, no --out: exit 0, writes print-ready/storytime/print-v3/l2u1, 6 files, PRINT_GATE pass inside the run. (heavy probe, temp HOME)
+- --print --version 4, no --out: print-v4/l2u1 by code reading (line 210-211), no run.
+- --print with --out <dir>: writes <dir> (Green evidence rows 371 and 402). The guard refuses a proof folder of another version: exit 2 (probe, message shown, no write). A proof folder of the same version is allowed (covers.ts line 778), so an explicit --out can still target proof-v3; Review A A3-P2-5 holds the guard notes.
+- non-print --version 3, no --out: exit 0, writes proof-v3/l2u1. (heavy probe 2, temp HOME)
+- non-print --version 1, 2, or 4, no --out: exit 2, --out message. (probe at version 4; versions 1 and 2 share the branch)
+- --print --version 0 --out X: exit 2, version message. (probe)
+- --print --version 0, no --out: exit 2, but the first message is the --out message. (probe)
+- --help: exit 0. Unknown argument: exit 2. --level 5: exit 2. --unit 5: exit 2. (probes)
+
+Question 2, text agreement:
+- Agree: the Green ADV-P2 row (plan lines 397, 402, 405) matches the code, the delivered folder, and the live SHA-256 values.
+- Disagree: USAGE text (kept C-P2-02, overlaps A3-P2-1). Plan Green row line 367 (kept C-P2-01 half). Hand-off row and test-strategy output path (kept C-P2-03, SHA point is A3-P2-3). Folder file roles (kept C-P2-04). Guard message names the proof default for print builds (A3-P2-5, reference only).
+
+Question 3, hand-off: upload only Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf from print-ready/storytime/print-v3/l2u1/, SHA-256 e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90, 2 pages, A4, PDF 1.3, PDF/X-1a:2001, 1,155,703 bytes. contact-sheet.png is an optional preview. cover.pdf, front.png, back.png, build-report.json, and corner-mode.txt are not printer files. The plan Hand-off row still records dbb0512c, so the orchestrator must record e0e0365a before upload (A3-P2-3).
+
+Question 4, operator flows: the non-print v3 mock rebuild works (heavy probe 2). The D12 stop works: --level 1 --unit 1 --print --version 3 exits 1 with five messages and writes nothing (probe; folder check empty). No success flow broke: Phase 1 success rows used explicit --out, and Phase 1 D12 stop rows still exit 1 before any write. New warts: C3-P2-01 (option values) and C3-P2-02 (printer-file version scope).
+
+Question 5, round 1 findings: C-P2-01 kept with CONTEST kept (code half closed, plan-row half open). C-P2-02 open. C-P2-03 open. C-P2-04 open. C-P2-05 unchanged advisory. No finding withdrawn.
+
+Verdict: pass. No blocking finding. All violation arrays empty. Confidence medium: v4 print default rests on code reading, and I reran no test suite; Green gate evidence carries because dashboard/ is unchanged from 174586b6 to HEAD.
+
+Probes and limits: ten light CLI probes, one guard probe, one D12 stop probe, two heavy builds under heavy-run.sh with temp HOME under /tmp/opencode/. pgrep -fc storytime-book-pictures was 0 before each heavy command. No pnpm, no npm install, no package change, no Next.js build, no write into any print-ready folder, no video/** or dashboard/raw.json touch, no .env.local value printed. I wrote only my two result files.
+
+Question for the orchestrator (default: option A): qualify spec FR-1a.6 and FR-1a.7 as version 3 or later (option A), or extend both rules to every --print build (option B). C3-P2-02 holds the evidence.
+
+retry_recommendation: escalate_human, because C-P2-01 is kept as a CONTEST item.
+MEASURE_AGENT_RESULT
+{"status": "pass", "retry_recommendation": "escalate_human"}
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "fail",
+  "phase_base_sha": "e5266ce1c7820be7371d73ad3dfe09447c673127",
+  "role_base_sha": "61b0b2249e61e6385e1fef626a304a9509e7c491",
+  "audited_head_sha": "61b0b2249e61e6385e1fef626a304a9509e7c491",
+  "summary": "Phase 1 fails acceptance on one mandatory task-evidence defect. The completed Green task at plan.md:87 has no evidence class. All 23 Phase 1 tasks are [x], and all 29 first-line SHA references are real commits. GREEN_TEST_COMMAND passed 54 tests. PROJECT_TESTS failed only on six intentional Red tests of another track. The excluded run passed 493 tests. Lint and TypeScript checks passed. All 48 proof hashes match.",
+  "blocking_findings": [
+    "PA-P1-1 | high | measure/tracks/storytime_covers_20261027/plan.md:87 | The [x] Green task has six valid commit SHAs but no evidence class in its task block. Plan rule line 9 and test-strategy 4.8 require an evidence class. | blocking"
+  ],
+  "nonblocking_findings": [
+    "PA-P1-2 | low | dashboard/__tests__/storytime-print-teacher-book.test.ts:20 | PROJECT_TESTS has six intentional Phase 3 Red failures of storytime_print_r1_20261025. No other file fails. The excluded run passes 493 tests. | nonblocking",
+    "PA-P1-3 | low | dashboard/lib/storytime/print/cover-picture.ts:274 | Review A keeps A-P1-1: two geometry helpers have direct tests but no production caller. | nonblocking",
+    "PA-P1-4 | low | dashboard/scripts/storytime/make-storytime-book-cover.ts:44 | Review C keeps C-P1-01 and C-P1-02: USAGE text omits exit 2 and the --out rule. | nonblocking",
+    "PA-P1-5 | low | dashboard/scripts/storytime/make-storytime-book-cover.ts:248 | ADV-P1-1 covers a future partial-approval source choice. The PM accepted it as the first Red row of covers Phase 2 at 04:18 ICT. | nonblocking",
+    "PA-P1-6 | low | dashboard/lib/storytime/print/covers.ts:755 | ADV-P1-2 covers an output path on a fresh root. No current file clobber occurs. | nonblocking"
+  ],
+  "evidence": [
+    "HEAD was 61b0b2249e61e6385e1fef626a304a9509e7c491 before the gates and at completion. git log 61b0b224..HEAD was empty.",
+    "The reviewed HEAD is 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b. Reviews A, B, and C pass on that HEAD with no blocking findings.",
+    "The range 5f8b26f9..61b0b224 adds the adversarial cover test and three print-track commits. It changes no reviewed implementation file.",
+    "Commits 52be532d, 0f686adc, and 61b0b224 touch only storytime-print-teacher-book.test.ts and the print-track plan.",
+    "The adversarial result passes with 9 new tests and PROJECT_TESTS evidence of 19 files and 493 tests. Its guard commit is 12e6271c.",
+    "GREEN_TEST_COMMAND ran in the required single heavy-run wrapper. Exit 0; 2 files and 54 tests passed.",
+    "PROJECT_TESTS ran in the same wrapper. Exit 1; 19 files passed and one failed. Counts were 494 passed and 6 failed.",
+    "Only storytime-print-teacher-book.test.ts failed. The excluded PROJECT_TESTS run exited 0 with 19 files and 493 tests passed.",
+    "PROJECT_LINT exited 0 with no output. PROJECT_CHECKS exited 0 with no output. No lock-wait warning appeared.",
+    "The Green logs record M1 to M15 as 15 caught of 15. Later logs record M16 to M22 as 7 caught of 7.",
+    "Green v3b records M23 and M24 as 2 caught of 2. Green B-P1-01 records M25 to M27 as 3 caught of 3.",
+    "Phase 1 has 23 [x] tasks and no [ ], [~], or [b] task. Every first-line SHA resolves to a commit and is an ancestor of the audited HEAD.",
+    "The initial Hand-off has the PM receipt at plan.md:137. Hand-off v2 has a receipt at line 251. Hand-off v3 has a receipt at line 345.",
+    "The UMV row is plan.md:354. It cites evidence commit 582a7f60 and automated evidence at line 355.",
+    "All 48 current files under proof, proof-v2, and proof-v3 match jr-green-cb1874b1-sha256.txt. No proof file was written.",
+    "The phase diff changes no supervisor, framework contract test, banned-term filter, or tracks registry. Only A5 applies among the conditional checks.",
+    "A5 holds. The cited PRINT_GATE logs contain All checks pass. The current cover suite also passes its live PDF and PDF/X tests.",
+    "pnpm-lock.yaml, package.json, and dashboard/package.json stayed unchanged. No commit or push occurred."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline e5266ce1..61b0b224; git diff --name-only 5f8b26f9 61b0b224",
+    "bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks && cd dashboard && GREEN_TEST_COMMAND; PROJECT_TESTS; PROJECT_TESTS with teacher-book exclusion; PROJECT_LINT; PROJECT_CHECKS'",
+    "python3 -I: parsed 23 Phase 1 task rows; checked first-line SHAs with git cat-file -t and ancestry",
+    "python3 -I: computed SHA-256 for 48 files listed in jr-green-cb1874b1-sha256.txt; zero mismatches",
+    "git show --name-only 52be532d 0f686adc 61b0b224",
+    "git diff --name-only e5266ce1 61b0b224 -- measure/automation-supervisor.py measure/tracks.md tests",
+    "grep Green logs for labeled mutant counts; grep plan and PRINT_GATE logs for pass claims",
+    "git status --porcelain pnpm-lock.yaml package.json dashboard/package.json; TZ=Asia/Bangkok date"
+  ],
+  "changed_files": [
+    "content/storytime/covers/books.json",
+    "dashboard/lib/storytime/files.ts",
+    "dashboard/lib/storytime/print/cover-picture.ts",
+    "dashboard/lib/storytime/print/covers.ts",
+    "dashboard/scripts/storytime/make-storytime-book-cover.ts",
+    "dashboard/__tests__/storytime-print-covers-16books.test.ts",
+    "dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts"
+  ],
+  "test_strategy_violations": [
+    "PA-P1-1: test-strategy 4.8 requires an evidence class for every [x] task; plan.md:87 has none."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "remediate_plan_and_rerun_acceptance",
+  "confidence": "high",
+  "model_deviation": "The table route claude-code/claude-opus-5-5 is the family of Green v3b, so it is not independent. ra-quota pick acceptance with the phase families excluded gave exit 3. Kimi showed WAIT at weekly 93.4%; the PM approved this one run at 04:18 ICT. Kimi is a subscription plan. Kimi wrote no work in this phase."
+}

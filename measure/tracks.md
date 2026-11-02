@@ -2,9 +2,6 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [ ] **Track: The Storytime write-in workbook cover system: the shared cover module, the data of the 16 student books, the three mock covers on Google Drive for Daniel's check, and the Level 2 Unit 1 cover print file; Phase 1 by 2026-11-01.** *(Created: 2026-10-27)*
-  *Link: [./tracks/storytime_covers_20261027/](./tracks/storytime_covers_20261027/)*
-
 - [ ] **Track: Storytime Advantage release-1 print: the Level 2 unit 1 student book, the teacher book, the 7 read-along and 7 decodable books, the covers, and the card kit as PDF/X-1a; week 1 first; Daniel's approval by 2026-11-24, print order 2026-11-25.** *(Created: 2026-10-25)*
   *Link: [./tracks/storytime_print_r1_20261025/](./tracks/storytime_print_r1_20261025/)*
 
@@ -192,3 +189,10 @@ This file tracks all major tracks for the project. Each track has its own detail
   Add bilingual English/Thai activity instructions to every workbook section (static Thai strings in `lib/i18n/th.ts`, rendered with Sarabun font). Generate AI-authored Thai-language Instructional Scripts (opening statement, per-activity facilitation notes, debrief) via Gemini and include them as a "Classroom Script" subsection in the Teacher Guide. Both features are opt-in per project via a new `localization` metadata field.
 
 - [ ] [Visual Refresh: Define Unique Identity](tracks/visual_refresh_20260425/)
+
+
+## Archived Tracks
+
+- [x] **Track: The Storytime write-in workbook cover system: the shared cover module, the data of the 16 student books, the three mock covers on Google Drive for Daniel's check, and the Level 2 Unit 1 cover print file.** *(Completed: 2026-11-02)*
+  *Link: [./archive/storytime_covers_20261027/](./archive/storytime_covers_20261027/)*
+  *Note: Phase 3 (the covers of the other 13 books) is one deferred task, `deferred:daniel`, after release 1.*

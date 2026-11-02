@@ -1,0 +1,7 @@
+mutants: 3, caught: 3
+
+M25 the CLI does not call checkStorytimeCoverOutDir: R29 CLI fails, exit 2 expected, exit 0 seen, 1 failed | 1 passed (exit 1)
+M26 checkStorytimeCoverOutDir skips the realpath step: the R29 symlink case fails, 0 errors expected to be more than 0 (exit 1)
+M27 checkStorytimeCoverOutDir skips the symbolic link file rule: the R29 link file case fails, no front.png in the error text (exit 1)
+
+each mutant was applied to one copy, and the file was restored with cp and cmp after the run (M25_RESTORED_OK, M26_RESTORED_OK, M27_RESTORED_OK)

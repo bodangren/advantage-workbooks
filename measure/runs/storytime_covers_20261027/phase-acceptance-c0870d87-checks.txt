@@ -1,0 +1,8 @@
+Command: cd dashboard && npx tsc --noEmit
+Wrapper: the same heavy-run wrapper as GREEN_TEST_COMMAND.
+HEAD: c0870d87b69bb2373bb2aa023d1e7363e848bfb1
+
+No TypeScript output.
+CHECKS_EXIT=0
+GATE_SUMMARY green=0 project=0 lint=0 checks=0
+No heavy-run lock-wait warning appeared.

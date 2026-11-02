@@ -1,0 +1,11 @@
+Review C log for storytime_covers P2 on c9e92fa2.
+HEAD verified current with git rev-parse HEAD (equal to role_base_sha and audited_head_sha).
+Scope read: Phase 2 commits, make-storytime-book-cover.ts, covers.ts out-dir guard, test-strategy section 5, print plan Phase 5, the w02 to w08 approval diff, and the delivered print-v3/l2u1 files.
+Probes: 3 (sha256sum and pdfinfo, proof-v3 mtimes, reader greps). No test, no build, no pnpm, no browser. No code, plan, or content change. No session started.
+Verdict pass. File name, SHA-256 values, page count, and proof folders match. The approval record keeps the w01 key set. No reader in dashboard/ or content/ changes behavior except the intended D12 print build.
+Nonblocking: C-P2-01 (--version 3 --print default folder is the approved mock folder, medium), C-P2-02 (USAGE text stale), C-P2-03 (hand-off omits folder path, stale line reference in the print plan), C-P2-04 (cover.pdf and metadata title in the delivered folder), C-P2-05 (approval not tied to the text SHA).
+Question for the orchestrator, default yes: the approval.text of weeks 2 to 8 also satisfies the published gate later.
+retry_recommendation none.
+MEASURE_AGENT_RESULT
+{"status": "pass", "retry_recommendation": "none"}
+END_MEASURE_AGENT_RESULT

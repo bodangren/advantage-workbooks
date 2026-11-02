@@ -1,0 +1,16 @@
+date: 2026-10-29 21:45:27 +0700
+result: the three v3 Drive covers, --version 3 without --print, default output folder proof-v3, one after the other in one heavy-run wrapper.
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 2 --unit 1 --version 3 ----
+Cover of Storytime Advantage, Level 2, Unit 1, Student Book: /home/daniebo/Desktop/print-ready/storytime/proof-v3/l2u1/front.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l2u1/back.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l2u1/cover.pdf (2 pages), corner mode radius in the picture layer, panel size 14pt
+exit_code: 0 (28 s)
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 1 --unit 1 --version 3 ----
+Cover of Storytime Advantage, Level 1, Unit 1, Student Book: /home/daniebo/Desktop/print-ready/storytime/proof-v3/l1u1/front.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l1u1/back.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l1u1/cover.pdf (2 pages), corner mode radius in the picture layer, panel size 14pt
+exit_code: 0 (16 s)
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 4 --unit 4 --version 3 ----
+Cover of Storytime Advantage, Level 4, Unit 4, Student Book: /home/daniebo/Desktop/print-ready/storytime/proof-v3/l4u4/front.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l4u4/back.png, /home/daniebo/Desktop/print-ready/storytime/proof-v3/l4u4/cover.pdf (2 pages), corner mode radius in the picture layer, panel size 14pt
+exit_code: 0 (10 s)
+
+date_end: 2026-10-29 21:46:21 +0700

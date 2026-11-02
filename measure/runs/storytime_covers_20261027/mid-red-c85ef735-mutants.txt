@@ -1,0 +1,1028 @@
+=== Mutant MA: lib/storytime/print/covers.ts storytimeCoverPanelValues ignores ctx.weeks and reads every shipped week (the D12 filtering removed). Run: adversarial -t 'ADV-D12'. Expected: both ADV-D12 tests FAIL. ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m2 failed[39m[2m | [22m[33m7 skipped[39m[2m)[22m[33m 369[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-OUT: the output-folder guard stops .., trailing slash, same-folder, mid-path and chained symlinks, and v2 into proof-v3
+[31m     [31m×[31m ADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the rule sees mixed source case[39m[32m 237[2mms[22m[39m
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with an ASCII semicolon, even after a space, stops panel values and names the book and title
+     [2m[90m↓[39m[22m ADV-TITLE: a reader title with a full-width semicolon builds, and the books field still splits into its items
+     [2m[90m↓[39m[22m ADV-ESC: a hostile title and panel value escape in the cover HTML and round-trip through the parser
+     [2m[90m↓[39m[22m ADV-THAI: the contact lines in a new order fail the Thai check
+     [2m[90m↓[39m[22m ADV-QR: the rendered code is the encoder output for the LINE address, and a one-character URL gives a different grid
+     [2m[90m↓[39m[22m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write
+[31m     [31m×[31m ADV-D12: the mock values strictly extend the approved values, so a passing print would render draft-week words[39m[32m 129[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books-adversarial.test.ts[2m > [22mStorytime covers adversarial Phase 1[2m > [22mADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the rule sees mixed source case
+[31m[1mAssertionError[22m: The draft weeks of the copy add reader titles that the print context never sees.: expected 14 to be greater than 14[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books-adversarial.test.ts:[2m173:118[22m[39m
+    [90m171| [39m        [35mconst[39m printBooks [33m=[39m [34mpanelValue[39m(print[33m,[39m [32m'books'[39m)[33m.[39mitems[33m;[39m
+    [90m172| [39m        for (const title of printBooks) expect(fullBooks, `The approve…
+    [90m173| [39m        expect(fullBooks.length, 'The draft weeks of the copy add read…
+    [90m   | [39m                                                                                                                     [31m^[39m
+    [90m174| [39m        [35mconst[39m fullSounds [33m=[39m [34mpanelValue[39m(full[33m,[39m [32m'sounds'[39m)[33m.[39mitems[33m;[39m
+    [90m175| [39m        for (const sound of panelValue(print, 'sounds').items) expect(…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books-adversarial.test.ts[2m > [22mStorytime covers adversarial Phase 1[2m > [22mADV-D12: the mock values strictly extend the approved values, so a passing print would render draft-week words
+[31m[1mAssertionError[22m: The print context of the copy lacks a draft-only field, so the D12 stop fires first.: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-covers-16books-adversarial.test.ts:[2m311:120[22m[39m
+    [90m309| [39m        const print = storytimeCoverPanelValues(book!, { weeks: approv…
+    [90m310| [39m        const missing = print.filter((entry) => !entry.value.trim()).m…
+    [90m311| [39m        expect(missing.length, 'The print context of the copy lacks a …
+    [90m   | [39m                                                                                                                       [31m^[39m
+    [90m312| [39m        const extra = panelValue(full, 'sounds').items.filter((sound) …
+    [90m313| [39m        expect(extra.length, 'The draft weeks of the copy add sounds b…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[33m7 skipped[39m[90m (9)[39m
+[2m   Start at [22m 08:58:10
+[2m   Duration [22m 5.39s[2m (transform 449ms, setup 92ms, import 661ms, tests 369ms, environment 3.84s)[22m
+
+
+=== Mutant MC: scripts/storytime/make-storytime-book-cover.ts panelReport records every week as 'approved', so the build report never names a draft week (the D12 report rule removed). Run: 16books -t 'R22: mock reports'. Expected: FAIL on the /draft/i report assertion. ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m46 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m45 skipped[39m[2m)[22m[33m 16218[2mms[22m[39m
+     [2m[90m↓[39m[22m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails
+     [2m[90m↓[39m[22m R2: three recipes name real files, and an empty recipe is not a picture
+     [2m[90m↓[39m[22m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations
+     [2m[90m↓[39m[22m R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3)
+     [2m[90m↓[39m[22m R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources
+     [2m[90m↓[39m[22m R21: data week lists match the readable source weeks and stay inside each unit
+[31m     [31m×[31m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs[39m[33m 16214[2mms[22m[39m
+     [2m[90m↓[39m[22m R23: all backs show five fields; empty fields show mock-only missing copy and no Thai
+     [2m[90m↓[39m[22m R27: panel word case follows every source occurrence, without changing order or repeats (M23)
+     [2m[90m↓[39m[22m R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)
+     [2m[90m↓[39m[22m R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title
+     [2m[90m↓[39m[22m R4: the front holds the series name, the picture area, and the level card, and no badge
+     [2m[90m↓[39m[22m R24: the panel box is 186 x 138 mm at 12 mm and 48 mm, the inset is 162 x 114 mm, and the label is LINE (D11.3, replaces R5)
+     [2m[90m↓[39m[22m R25: the chosen panel size fits, is at least 10 pt, and is the largest fitting scale value
+     [2m[90m↓[39m[22m R22 M21 and M22: print source and version output path remain bounded
+     [2m[90m↓[39m[22m R29: a build stops when its output folder is inside the folder of another version
+     [2m[90m↓[39m[22m R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file
+     [2m[90m↓[39m[22m R30: the shipped weeks 2 to 8 record the owner approval of the text (Daniel, 2026-11-01)
+     [2m[90m↓[39m[22m R6: the copy check reads page text and fails a bypass, including a line with never
+     [2m[90m↓[39m[22m R6: the copy check passes the Chrome PDF text of a built cover
+     [2m[90m↓[39m[22m R7: the Thai check matches the five contact lines and fails a changed tone mark
+     [2m[90m↓[39m[22m R7: the Thai check reads the Chrome PDF, not a PDF/X extract
+     [2m[90m↓[39m[22m R8: the expected QR grid comes from generateQRCode, and one swapped module fails
+     [2m[90m↓[39m[22m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data
+     [2m[90m↓[39m[22m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha
+     [2m[90m↓[39m[22m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face
+     [2m[90m↓[39m[22m R11: a missing picture stops the build, names the book, and writes no deliverable
+     [2m[90m↓[39m[22m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails
+     [2m[90m↓[39m[22m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground
+     [2m[90m↓[39m[22m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill
+     [2m[90m↓[39m[22m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant
+     [2m[90m↓[39m[22m R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x
+     [2m[90m↓[39m[22m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image
+     [2m[90m↓[39m[22m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain
+     [2m[90m↓[39m[22m R15: this phase does not change the Primary cover contract
+     [2m[90m↓[39m[22m R16 M1: a dropped contact line fails the Thai check
+     [2m[90m↓[39m[22m R16 M2: a changed Thai tone mark fails the Thai check
+     [2m[90m↓[39m[22m R16 M3: one swapped QR module fails the module check
+     [2m[90m↓[39m[22m R16 M4: a wrong level colour fails the data check
+     [2m[90m↓[39m[22m R16 M5: a year in the summary fails the copy check
+     [2m[90m↓[39m[22m R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6)
+     [2m[90m↓[39m[22m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+     [2m[90m↓[39m[22m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture
+     [2m[90m↓[39m[22m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge
+     [2m[90m↓[39m[22m R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge
+     [2m[90m↓[39m[22m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs
+[31m[1mAssertionError[22m: The build report identifies the draft weeks of the copy.: expected '{\n  "book": "Storytime Advantage, Le…' to match /draft/i[39m
+
+[32m- Expected:[39m 
+/draft/i
+
+[31m+ Received:[39m 
+"{
+  \"book\": \"Storytime Advantage, Level 2, Unit 1, Student Book\",
+  \"level\": 2,
+  \"unit\": 1,
+  \"version\": 3,
+  \"print\": false,
+  \"panel\": {
+    \"chosenPt\": 14,
+    \"fields\": [
+      {
+        \"field\": \"story\",
+        \"state\": \"present\",
+        \"sourceWeeks\": [
+          1
+        ],
+        \"approval\": {
+          \"1\": \"approved\",
+          \"2\": \"approved\",
+          \"3\": \"approved\",
+          \"4\": \"approved\",
+          \"5\": \"approved\",
+          \"6\": \"approved\",
+          \"7\": \"approved\",
+          \"8\": \"approved\"
+        }
+      },
+      {
+        \"field\": \"sounds\",
+        \"state\": \"present\",
+        \"sourceWeeks\": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        \"approval\": {
+          \"1\": \"approved\",
+          \"2\": \"approved\",
+          \"3\": \"approved\",
+          \"4\": \"approved\",
+          \"5\": \"approved\",
+          \"6\": \"approved\",
+          \"7\": \"approved\",
+          \"8\": \"approved\"
+        }
+      },
+      {
+        \"field\": \"decodable\",
+        \"state\": \"present\",
+        \"sourceWeeks\": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        \"approval\": {
+          \"1\": \"approved\",
+          \"2\": \"approved\",
+          \"3\": \"approved\",
+          \"4\": \"approved\",
+          \"5\": \"approved\",
+          \"6\": \"approved\",
+          \"7\": \"approved\",
+          \"8\": \"approved\"
+        }
+      },
+      {
+        \"field\": \"sight\",
+        \"state\": \"present\",
+        \"sourceWeeks\": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        \"approval\": {
+          \"1\": \"approved\",
+          \"2\": \"approved\",
+          \"3\": \"approved\",
+          \"4\": \"approved\",
+          \"5\": \"approved\",
+          \"6\": \"approved\",
+          \"7\": \"approved\",
+          \"8\": \"approved\"
+        }
+      },
+      {
+        \"field\": \"books\",
+        \"state\": \"present\",
+        \"sourceWeeks\": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        \"approval\": {
+          \"1\": \"approved\",
+          \"2\": \"approved\",
+          \"3\": \"approved\",
+          \"4\": \"approved\",
+          \"5\": \"approved\",
+          \"6\": \"approved\",
+          \"7\": \"approved\",
+          \"8\": \"approved\"
+        }
+      }
+    ],
+    \"books\": [
+      {
+        \"level\": 1,
+        \"unit\": 1,
+        \"title\": \"Storytime Advantage, Level 1, Unit 1, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 1,
+        \"unit\": 2,
+        \"title\": \"Storytime Advantage, Level 1, Unit 2, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 1,
+        \"unit\": 3,
+        \"title\": \"Storytime Advantage, Level 1, Unit 3, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 1,
+        \"unit\": 4,
+        \"title\": \"Storytime Advantage, Level 1, Unit 4, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 2,
+        \"unit\": 1,
+        \"title\": \"Storytime Advantage, Level 2, Unit 1, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"present\",
+            \"sourceWeeks\": [
+              1
+            ],
+            \"approval\": {
+              \"1\": \"approved\",
+              \"2\": \"approved\",
+              \"3\": \"approved\",
+              \"4\": \"approved\",
+              \"5\": \"approved\",
+              \"6\": \"approved\",
+              \"7\": \"approved\",
+              \"8\": \"approved\"
+            }
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"present\",
+            \"sourceWeeks\": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            \"approval\": {
+              \"1\": \"approved\",
+              \"2\": \"approved\",
+              \"3\": \"approved\",
+              \"4\": \"approved\",
+              \"5\": \"approved\",
+              \"6\": \"approved\",
+              \"7\": \"approved\",
+              \"8\": \"approved\"
+            }
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"present\",
+            \"sourceWeeks\": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            \"approval\": {
+              \"1\": \"approved\",
+              \"2\": \"approved\",
+              \"3\": \"approved\",
+              \"4\": \"approved\",
+              \"5\": \"approved\",
+              \"6\": \"approved\",
+              \"7\": \"approved\",
+              \"8\": \"approved\"
+            }
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"present\",
+            \"sourceWeeks\": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            \"approval\": {
+              \"1\": \"approved\",
+              \"2\": \"approved\",
+              \"3\": \"approved\",
+              \"4\": \"approved\",
+              \"5\": \"approved\",
+              \"6\": \"approved\",
+              \"7\": \"approved\",
+              \"8\": \"approved\"
+            }
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"present\",
+            \"sourceWeeks\": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            \"approval\": {
+              \"1\": \"approved\",
+              \"2\": \"approved\",
+              \"3\": \"approved\",
+              \"4\": \"approved\",
+              \"5\": \"approved\",
+              \"6\": \"approved\",
+              \"7\": \"approved\",
+              \"8\": \"approved\"
+            }
+          }
+        ]
+      },
+      {
+        \"level\": 2,
+        \"unit\": 2,
+        \"title\": \"Storytime Advantage, Level 2, Unit 2, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 2,
+        \"unit\": 3,
+        \"title\": \"Storytime Advantage, Level 2, Unit 3, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 2,
+        \"unit\": 4,
+        \"title\": \"Storytime Advantage, Level 2, Unit 4, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 3,
+        \"unit\": 1,
+        \"title\": \"Storytime Advantage, Level 3, Unit 1, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 3,
+        \"unit\": 2,
+        \"title\": \"Storytime Advantage, Level 3, Unit 2, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 3,
+        \"unit\": 3,
+        \"title\": \"Storytime Advantage, Level 3, Unit 3, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 3,
+        \"unit\": 4,
+        \"title\": \"Storytime Advantage, Level 3, Unit 4, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 4,
+        \"unit\": 1,
+        \"title\": \"Storytime Advantage, Level 4, Unit 1, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 4,
+        \"unit\": 2,
+        \"title\": \"Storytime Advantage, Level 4, Unit 2, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 4,
+        \"unit\": 3,
+        \"title\": \"Storytime Advantage, Level 4, Unit 3, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      },
+      {
+        \"level\": 4,
+        \"unit\": 4,
+        \"title\": \"Storytime Advantage, Level 4, Unit 4, Student Book\",
+        \"panel\": [
+          {
+            \"field\": \"story\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sounds\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"decodable\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"sight\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          },
+          {
+            \"field\": \"books\",
+            \"state\": \"missing\",
+            \"sourceWeeks\": [],
+            \"approval\": {}
+          }
+        ]
+      }
+    ]
+  }
+}
+"
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m824:84[22m[39m
+    [90m822| [39m        expect(fs.existsSync(reportFile), 'The v3 build report exists.…
+    [90m823| [39m        const report = fs.readFileSync(reportFile, 'utf8');
+    [90m824| [39m        expect(report, 'The build report identifies the draft weeks of…
+    [90m   | [39m                                                                                   [31m^[39m
+    [90m825| [39m        const printOut = temporaryFolder();
+    [90m826| [39m        const print = runScript(['--level', '2', '--unit', '1', '--ver…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m45 skipped[39m[90m (46)[39m
+[2m   Start at [22m 09:11:38
+[2m   Duration [22m 23.53s[2m (transform 854ms, setup 648ms, import 1.88s, tests 16.22s, environment 3.65s)[22m
+
+
+=== Mutant MB: scripts/storytime/make-storytime-book-cover.ts, the D12 print stop never fires (missing.length > 99). The print build runs and exits 0. Run: 16books -t 'R22' (both R22 tests). Expected: both FAIL on the print exit-status assertions. ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+spawnSync /home/daniebo/.nvm/versions/node/v24.19.0/bin/node ENOENT
+spawnSync /home/daniebo/.nvm/versions/node/v24.19.0/bin/node ENOENT
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m46 tests[22m[2m | [22m[31m2 failed[39m[2m | [22m[33m44 skipped[39m[2m)[22m[33m 34594[2mms[22m[39m
+     [2m[90m↓[39m[22m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails
+     [2m[90m↓[39m[22m R2: three recipes name real files, and an empty recipe is not a picture
+     [2m[90m↓[39m[22m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations
+     [2m[90m↓[39m[22m R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3)
+     [2m[90m↓[39m[22m R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources
+     [2m[90m↓[39m[22m R21: data week lists match the readable source weeks and stay inside each unit
+[31m     [31m×[31m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs[39m[33m 25813[2mms[22m[39m
+     [2m[90m↓[39m[22m R23: all backs show five fields; empty fields show mock-only missing copy and no Thai
+     [2m[90m↓[39m[22m R27: panel word case follows every source occurrence, without changing order or repeats (M23)
+     [2m[90m↓[39m[22m R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)
+     [2m[90m↓[39m[22m R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title
+     [2m[90m↓[39m[22m R4: the front holds the series name, the picture area, and the level card, and no badge
+     [2m[90m↓[39m[22m R24: the panel box is 186 x 138 mm at 12 mm and 48 mm, the inset is 162 x 114 mm, and the label is LINE (D11.3, replaces R5)
+     [2m[90m↓[39m[22m R25: the chosen panel size fits, is at least 10 pt, and is the largest fitting scale value
+[31m     [31m×[31m R22 M21 and M22: print source and version output path remain bounded[39m[33m 8778[2mms[22m[39m
+     [2m[90m↓[39m[22m R29: a build stops when its output folder is inside the folder of another version
+     [2m[90m↓[39m[22m R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file
+     [2m[90m↓[39m[22m R30: the shipped weeks 2 to 8 record the owner approval of the text (Daniel, 2026-11-01)
+     [2m[90m↓[39m[22m R6: the copy check reads page text and fails a bypass, including a line with never
+     [2m[90m↓[39m[22m R6: the copy check passes the Chrome PDF text of a built cover
+     [2m[90m↓[39m[22m R7: the Thai check matches the five contact lines and fails a changed tone mark
+     [2m[90m↓[39m[22m R7: the Thai check reads the Chrome PDF, not a PDF/X extract
+     [2m[90m↓[39m[22m R8: the expected QR grid comes from generateQRCode, and one swapped module fails
+     [2m[90m↓[39m[22m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data
+     [2m[90m↓[39m[22m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha
+     [2m[90m↓[39m[22m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face
+     [2m[90m↓[39m[22m R11: a missing picture stops the build, names the book, and writes no deliverable
+     [2m[90m↓[39m[22m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails
+     [2m[90m↓[39m[22m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground
+     [2m[90m↓[39m[22m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill
+     [2m[90m↓[39m[22m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant
+     [2m[90m↓[39m[22m R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x
+     [2m[90m↓[39m[22m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image
+     [2m[90m↓[39m[22m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain
+     [2m[90m↓[39m[22m R15: this phase does not change the Primary cover contract
+     [2m[90m↓[39m[22m R16 M1: a dropped contact line fails the Thai check
+     [2m[90m↓[39m[22m R16 M2: a changed Thai tone mark fails the Thai check
+     [2m[90m↓[39m[22m R16 M3: one swapped QR module fails the module check
+     [2m[90m↓[39m[22m R16 M4: a wrong level colour fails the data check
+     [2m[90m↓[39m[22m R16 M5: a year in the summary fails the copy check
+     [2m[90m↓[39m[22m R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6)
+     [2m[90m↓[39m[22m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible
+     [2m[90m↓[39m[22m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture
+     [2m[90m↓[39m[22m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge
+     [2m[90m↓[39m[22m R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge
+     [2m[90m↓[39m[22m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs
+[31m[1mAssertionError[22m: The print error names the book and field.: expected 'Cover of Storytime Advantage, Level 2…' to match /Level 2 Unit 1.*(sounds|decodable|si…/i[39m
+
+[32m- Expected:[39m 
+/Level 2 Unit 1.*(sounds|decodable|sight|books)|(sounds|decodable|sight|books).*Level 2 Unit 1/i
+
+[31m+ Received:[39m 
+"Cover of Storytime Advantage, Level 2, Unit 1, Student Book: /tmp/opencode/storytime-covers-2nTvwB/front.png, /tmp/opencode/storytime-covers-2nTvwB/back.png, /tmp/opencode/storytime-covers-2nTvwB/cover.pdf (2 pages), corner mode radius in the picture layer, panel size 14pt
+
+spawnSync /home/daniebo/.nvm/versions/node/v24.19.0/bin/node ENOENT
+"
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m828:75[22m[39m
+    [90m826| [39m        const print = runScript(['--level', '2', '--unit', '1', '--ver…
+    [90m827| [39m        expect(print.status, 'The print build rejects draft-only field…
+    [90m828| [39m        expect(print.output, 'The print error names the book and field…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m829| [39m        expect(fs.readdirSync(printOut), 'The rejected print build wri…
+    [90m830| [39m        expect(data.books.length, 'The shipped data remains readable.'…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR22 M21 and M22: print source and version output path remain bounded
+[31m[1mAssertionError[22m: The print build names a rejected draft source.: expected 'Cover of Storytime Advantage, Level 2…' to match /draft|approved/i[39m
+
+[32m- Expected:[39m 
+/draft|approved/i
+
+[31m+ Received:[39m 
+"Cover of Storytime Advantage, Level 2, Unit 1, Student Book: /tmp/opencode/storytime-covers-PiI4Nc/front.png, /tmp/opencode/storytime-covers-PiI4Nc/back.png, /tmp/opencode/storytime-covers-PiI4Nc/cover.pdf (2 pages), corner mode radius in the picture layer, panel size 14pt
+
+spawnSync /home/daniebo/.nvm/versions/node/v24.19.0/bin/node ENOENT
+"
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m1019:81[22m[39m
+    [90m1017| [39m        const result = runScript(['--level', '2', '--unit', '1', '--ve…
+    [90m1018| [39m        expect(result.status, 'A print build cannot use draft-week val…
+    [90m1019| [39m        expect(result.output, 'The print build names a rejected draft …
+    [90m   | [39m                                                                                [31m^[39m
+    [90m1020| [39m        expect(fs.readdirSync(out), 'A rejected print build writes no …
+    [90m1021| [39m    }, 360000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[33m44 skipped[39m[90m (46)[39m
+[2m   Start at [22m 09:19:39
+[2m   Duration [22m 40.32s[2m (transform 761ms, setup 482ms, import 1.46s, tests 34.59s, environment 3.32s)[22m
+

@@ -1,0 +1,56 @@
+# Measure Jr Green · plan-evidence remediation · storytime_covers · P1 · PA-P1-1
+
+Model: deepseek/deepseek-flash (high variant). Session role: Jr Green.
+Date: 2026-10-30 05:00 ICT.
+
+## Phase inputs
+
+- Repository: /home/daniebo/Desktop/Workbooks, branch master.
+- Track: storytime_covers_20261027.
+- Phase: Phase 1, the cover module and the three Drive covers.
+- Task: PA-P1-1.
+- phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127.
+- role_base_sha: 61b0b2249e61e6385e1fef626a304a9509e7c491.
+- HEAD at start: 61b0b2249e61e6385e1fef626a304a9509e7c491.
+- Finding: phase-acceptance-61b0b224.json, PA-P1-1, blocking. Plan line 87 has six commit SHAs and no evidence class.
+
+## Work
+
+1. The scope is one plan file: measure/tracks/storytime_covers_20261027/plan.md.
+2. Line 87 gets the text " Evidence: automated." at the end. The six SHAs and the Done-when text do not change.
+3. Every first line of a Phase 1 [x] task (lines 51 to 354) was read. Three lines carry no evidence class word:
+   - line 87 (Task Green): automated evidence. Fixed.
+   - line 238 (Task Check v2): the indented lines show peer-report. Fixed.
+   - line 249 (Task Hand-off v2): the indented lines show peer-report. Fixed.
+   - line 354 (Task: Measure - User Manual Verification): no class word. It is the Measure-generated manual verification line. Its class is person-checked. The scope of this task does not name it, so the line does not change. Reported to the orchestrator.
+4. All other first lines of Phase 1 [x] tasks hold a class word:
+   - 51, 107, 110, 141, 155, 176, 190: automated.
+   - 213, 222, 253, 267, 306, 312, 347: automated.
+   - 132, 136, 288, 327, 341: peer-report.
+5. No SHA, test count, or evidence text changes. The diff is 3 lines: 3 additions and 3 deletions.
+
+## Gates
+
+- No test, no build, no pnpm command runs in this task. The plan-file scope needs no code gate. The parent gives this rule because the memory of this machine is low.
+- No mmx call. No push. No change to video/** or dashboard/raw.json.
+- The commit stages one path only: measure/tracks/storytime_covers_20261027/plan.md.
+
+## Log
+
+- Start HEAD: 61b0b2249e61e6385e1fef626a304a9509e7c491.
+- Untracked and modified files before the work: measured with git status --short. The work does not touch them.
+- The diff was checked before the commit: 3 added lines and 3 removed lines, at plan lines 87, 238, and 249 only.
+- Commit c0870d87b69bb2373bb2aa023d1e7363e848bfb1. Message: measure(plan): add the evidence class to three Phase 1 tasks (PA-P1-1).
+- Final Green HEAD: c0870d87b69bb2373bb2aa023d1e7363e848bfb1.
+- The log file is not committed.
+
+## Result
+
+Status: done.
+
+MEASURE_AGENT_RESULT
+status: done
+commit: c0870d87b69bb2373bb2aa023d1e7363e848bfb1
+lines_changed: measure/tracks/storytime_covers_20261027/plan.md lines 87, 238, 249
+handoff: The class word is on the three lines. Line 354 keeps no class word by scope. Run the phase-acceptance check again on the new HEAD.
+END_MEASURE_AGENT_RESULT

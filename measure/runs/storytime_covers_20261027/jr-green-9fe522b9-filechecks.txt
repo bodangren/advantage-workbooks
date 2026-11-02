@@ -1,0 +1,102 @@
+command: cd dashboard && npx tsx /tmp/opencode/green-v3/file-checks.ts /tmp/storytime-covers-v3-pdfx
+date: 2026-10-30 01:42:21 +0700
+the encoder grid: 29 modules, 434 dark cells
+
+== l2u1 (Storytime Advantage, Level 2, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l1u1 (Storytime Advantage, Level 1, Unit 1, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+== l4u4 (Storytime Advantage, Level 4, Unit 4, Student Book) ==
+PASS Chrome PDF page 1 copy check
+PASS Chrome PDF page 2 copy check
+PASS Chrome PDF page 1 Thai byte check
+PASS Chrome PDF page 2 Thai byte check
+PASS Chrome PDF page 2 QR module check: 0 modules differ
+PASS PDF/X file page 1 copy check
+PASS PDF/X file page 2 copy check
+PASS PDF/X file page 1 Thai byte check
+PASS PDF/X file page 2 Thai character set: the PDF/X extract re-orders the Thai runs, so the byte check does not apply to it
+PASS PDF/X file page 2 QR module check: 0 modules differ
+
+file checks: all pass
+exit_code: 0
+
+command: cd dashboard && npx tsx /tmp/opencode/green-v3/panel-ink.mts
+
+== l2u1 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+chosen size: 14 pt (version 3, print false)
+field story: present, source weeks [1], approval {"1":"approved","2":"draft","3":"draft","4":"draft","5":"draft","6":"draft","7":"draft","8":"draft"}
+field sounds: present, source weeks [1, 2, 3, 4, 5, 6, 7], approval {"1":"approved","2":"draft","3":"draft","4":"draft","5":"draft","6":"draft","7":"draft","8":"draft"}
+field decodable: present, source weeks [1, 2, 3, 4, 5, 6, 7], approval {"1":"approved","2":"draft","3":"draft","4":"draft","5":"draft","6":"draft","7":"draft","8":"draft"}
+field sight: present, source weeks [1, 2, 3, 4, 5, 6, 7], approval {"1":"approved","2":"draft","3":"draft","4":"draft","5":"draft","6":"draft","7":"draft","8":"draft"}
+field books: present, source weeks [1, 2, 3, 4, 5, 6, 7], approval {"1":"approved","2":"draft","3":"draft","4":"draft","5":"draft","6":"draft","7":"draft","8":"draft"}
+missing fields: none
+ink pixels: 129275
+ink box: x 24.30 to 182.88 mm, y 62.57 to 163.58 mm (px 287,739 to 2159,1931)
+PASS ink box inside the inset within 1 mm: inset x 24 to 186 mm, y 60 to 174 mm
+panel fill share: 0.8860 (101.01 mm of 114 mm)
+PASS Level 2 Unit 1 panel fill share (P13): 0.8860 (threshold 0.60, 68.4 mm)
+PASS chosen size in the scale, 10 pt or more: 14 pt
+
+== l1u1 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+chosen size: 14 pt (version 3, print false)
+field story: missing, source weeks [], approval {}
+field sounds: missing, source weeks [], approval {}
+field decodable: missing, source weeks [], approval {}
+field sight: missing, source weeks [], approval {}
+field books: missing, source weeks [], approval {}
+missing fields: story, sounds, decodable, sight, books
+ink pixels: 22490
+ink box: x 24.47 to 81.70 mm, y 62.57 to 132.76 mm (px 289,739 to 964,1567)
+PASS ink box inside the inset within 1 mm: inset x 24 to 186 mm, y 60 to 174 mm
+panel fill share: 0.6157 (70.19 mm of 114 mm)
+PASS chosen size in the scale, 10 pt or more: 14 pt
+
+== l4u4 ==
+PASS front.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+PASS back.png: 2480 x 3508 px, 3 channels, depth uchar, alpha false
+chosen size: 14 pt (version 3, print false)
+field story: missing, source weeks [], approval {}
+field sounds: missing, source weeks [], approval {}
+field decodable: missing, source weeks [], approval {}
+field sight: missing, source weeks [], approval {}
+field books: missing, source weeks [], approval {}
+missing fields: story, sounds, decodable, sight, books
+ink pixels: 22490
+ink box: x 24.47 to 81.70 mm, y 62.57 to 132.76 mm (px 289,739 to 964,1567)
+PASS ink box inside the inset within 1 mm: inset x 24 to 186 mm, y 60 to 174 mm
+panel fill share: 0.6157 (70.19 mm of 114 mm)
+PASS chosen size in the scale, 10 pt or more: 14 pt
+
+v3 panel ink and format: all pass
+exit_code: 0
+
+---- light line count on page 2 of each Chrome PDF (pdftotext) ----
+l2u1: 0 lines
+l1u1: 5 lines
+l4u4: 5 lines
+date_end: 2026-10-30 01:42:33 +0700

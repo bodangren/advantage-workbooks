@@ -1,0 +1,65 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 641[2mms[22m[39m
+     [32m✓[39m gives every row the line-art name of FR-2.3 and FR-9[32m 238[2mms[22m[39m
+     [32m✓[39m keeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8[32m 48[2mms[22m[39m
+     [32m✓[39m keeps colliding page slugs distinct, or throws with both ids (F13)[32m 11[2mms[22m[39m
+     [32m✓[39m exports STORYTIME_PICTURE_SPEC with the exact v1 constants[32m 1[2mms[22m[39m
+     [32m✓[39m gives every row the pixel size of its class, with the shipped counts by use[32m 56[2mms[22m[39m
+     [32m✓[39m fails print-picture-word with "net" as the picture word of the "and" line[32m 15[2mms[22m[39m
+     [32m✓[39m fails print-picture-word with "Net" as the picture word of the "and" line[32m 12[2mms[22m[39m
+     [32m✓[39m fails print-picture-word with "zebra" as the picture word of the "and" line[32m 17[2mms[22m[39m
+     [32m✓[39m allows a picture word on its own line (the rule is not over-broad)[32m 15[2mms[22m[39m
+     [32m✓[39m passes the shipped week 1 after the F1 fix (pictureWord "nut")[32m 6[2mms[22m[39m
+     [32m✓[39m wires the error into checkStorytimeWeek and the published gate[32m 19[2mms[22m[39m
+     [32m✓[39m preserves source and words on each app part as parsed values (F9)[32m 77[2mms[22m[39m
+     [32m✓[39m week 1 records the thai approval with its pinned source line[32m 8[2mms[22m[39m
+     [32m✓[39m week 2 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 3 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 4 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 5 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 6 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 7 records the thai approval with its pinned source line[32m 4[2mms[22m[39m
+     [32m✓[39m week 8 records the thai approval with its pinned source line[32m 2[2mms[22m[39m
+     [32m✓[39m week 1 records the text and scripts approvals (decision S29)[32m 4[2mms[22m[39m
+[31m     [31m×[31m keeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text[39m[32m 20[2mms[22m[39m
+     [32m✓[39m the published gate of st2/1 names only images, audio, and song[32m 4[2mms[22m[39m
+     [32m✓[39m keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4"[32m 60[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mkeeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text
+[31m[1mAssertionError[22m: Week 2: the text part records the owner approval.: expected 'draft' to be 'approved' // Object.is equality[39m
+
+Expected: [32m"approved"[39m
+Received: [31m"draft"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m274:92[22m[39m
+    [90m272| [39m            // "3. Covers: Approved" (owner answer relayed by the PM s…
+    [90m273| [39m            [35mconst[39m text [33m=[39m approval[33m.[39mtext[33m;[39m
+    [90m274| [39m            expect(text.status, `Week ${week}: the text part records t…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m275| [39m            expect(text.date, `Week ${week}: the text approval date is…
+    [90m276| [39m            expect(text.words, `Week ${week}: the text record holds th…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m 08:50:58
+[2m   Duration [22m 3.50s[2m (transform 484ms, setup 737ms, import 924ms, tests 641ms, environment 0ms)[22m
+
+
+=== second run: the approved data (patch applied; reverted after) ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 569[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m24 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m 08:56:44
+[2m   Duration [22m 2.92s[2m (transform 586ms, setup 593ms, import 1.04s, tests 569ms, environment 0ms)[22m
+

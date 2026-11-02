@@ -1,0 +1,24 @@
+Red C1 result.
+
+```MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: 5f50f52a
+head: 1a967c25c62fc0f89850299f25f93b4eadb30284
+commits: 3f8c5010bd3bea809450d27edfd8f6407c96066b (test only); 1a967c25c62fc0f89850299f25f93b4eadb30284 (plan only)
+tests_run: RED_TEST_COMMAND exit 1; scratch R17 proof exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0
+failing_tests: HEAD: R17 only. The near-white ink count in front PNG band 1 is 0; the required count is greater than 1,000.
+tasks_flipped_x: Red C1 only; Green C1 is [~]
+files: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-5f50f52-{red,lint,checks,proof,measure}.txt
+proof: Scratch fix adds position: relative to .level-line and .book-line. R17 passes. covers.ts is restored and git diff --quiet exits 0. Front PNG ink counts: 17,429 and 5,370. PDF/X at 72 dpi: 849 and 173. Back panel dark ink count: 13,043. At 36 dpi, PDF/X counts are 157 and 3.
+outputs: RED_TEST_COMMAND=mid-red-5f50f52-red.txt; PROJECT_LINT=mid-red-5f50f52-lint.txt; PROJECT_CHECKS=mid-red-5f50f52-checks.txt; scratch proof=mid-red-5f50f52-proof.txt; measurements=mid-red-5f50f52-measure.txt
+heavy_run_lock_wait_over_600s: none reported
+facts_changed: Added visual regression coverage for front level-card ink and back-panel text. Recorded C1 and evidence in the plan. No production source changed.
+remaining_failures: R17 fails at HEAD for C1. Green C1 must make it pass.
+handoff: Green C1 must add position: relative to .level-line and .book-line in dashboard/lib/storytime/print/covers.ts. Preserve the committed test. Run GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_LINT, and PROJECT_CHECKS. Build all three covers with --print. Run PRINT_GATE, Thai byte, QR module, and copy checks on each. Save the outputs and record each new file SHA-256.
+unrelated_dirty_work_preserved: dashboard/lib/storytime/print/student-book.ts; video/storytime-song/scripts/render.mjs; docs/content-plans/a25-book-tests-design.md; measure/runs/storytime_print_r1_20261025/ and other pre-existing Measure run files
+```
+END_MEASURE_AGENT_RESULT

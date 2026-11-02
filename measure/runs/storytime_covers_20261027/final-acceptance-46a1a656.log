@@ -1,0 +1,57 @@
+Final acceptance audit, track storytime_covers_20261027.
+HEAD at start: 46a1a6567ded96c16587f4be27d4cda562c15a23 (matches role_base_sha and audited_head_sha).
+Provisional verdict: pending. Gates are running.
+
+Final verdict: PASS (2026-11-02, gates run 18:57 to 19:25 ICT).
+
+Inputs read
+- measure/tracks/storytime_covers_20261027/plan.md (full), spec.md (AC-1 to AC-14), test-strategy.md, metadata.json.
+- measure/tracks.md, measure/anti-patterns.md, measure/tech-debt.md (line 48 covers lows), measure/lessons-learned.md.
+- Phase results: phase-acceptance-c0870d87.json (Phase 1, pass), phase-acceptance-c0fd0e92.json (Phase 2, pass); Phase 2 git note read.
+- Prior Green/Red/Review evidence under measure/runs/storytime_covers_20261027/ (spot-checked for A5).
+
+Lineage
+- Track base 253edfaa..HEAD = 248 commits; e5266ce1..c0870d87 = 140; c85ef735..c0fd0e92 = 30; c0870d87..HEAD = 105; c0fd0e92..HEAD = 27.
+- Phase 1 baseline e5266ce1 is an ancestor of c0870d87; Phase 2 baseline c85ef735 is an ancestor of c0fd0e92. Both audited HEADs are ancestors of current HEAD 46a1a656.
+- Restricted git diff c0fd0e92..HEAD over covers implementation, data, and test paths is empty. The only covers-scoped commits are 3e3e4f35 (checkpoint mark) and 5ac8f416 (owner approval plus Drive receipt); both change only plan.md.
+- Phase 3 holds one [b] deferred:daniel task; it is not counted.
+
+Tasks and SHAs
+- verify-shas.py: top-level tasks 31; markers x=30, ~=0, b=1; 39 distinct commit references resolve and are ancestors; "TASK/SHA AUDIT: OK".
+- Every [x] task carries a first-line commit SHA and an evidence class.
+- Owner approvals quoted: "3. Covers: Approved" (2026-11-01 about 07:15 ICT, commit ccf3d95c) and "Approved" for the print file (2026-11-02 06:19 ICT, Tasks item b3JUNktWWFQyUVl0b2tvUg, commit 5ac8f416).
+- Delivered PDF/X SHA-256 e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90 matches plan and Phase 2 acceptance. File read only.
+
+Gates at 46a1a656 (each one heavy-run wrapper; COMMAND_EXIT_CODE recorded)
+1. GREEN      exit 0 | 2 files, 62 tests passed | final-acceptance-46a1a656-green.txt
+2. PROJECT_TESTS exit 0 | 24 files, 613 tests passed | final-acceptance-46a1a656-project.txt
+3. PROJECT_LINT exit 0 | no problems | final-acceptance-46a1a656-lint.txt
+4. PROJECT_CHECKS exit 0 | tsc --noEmit, 0 errors | final-acceptance-46a1a656-checks.txt
+5. PRINT_GATE exit 0 | 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 fonts, "All checks pass." | final-acceptance-46a1a656-printgate.txt
+- PROJECT_TESTS covers files: covers-back 7, covers-contract 9, covers-kit 6, covers-render 5, covers-16books 46, covers-16books-adversarial 16; zero failures. The increase from 580 (c0fd0e92) is print-track Phase 4 work with its own acceptance (storytime_print_r1_20261025 phase-acceptance-7e11d3de).
+- First PRINT_GATE call waited behind a foreign heavy lock (rama-worktrees boundaries check) and was killed by the 300 s tool timeout without running the check; rerun with a 900 s timeout passed. No gate output came from the killed wait.
+
+Pre-closeout anti-pattern audit
+- A5 pass: all eight PRINT_GATE evidence files contain "All checks pass."; PROJECT_TESTS count claims spot-checked (15dab660 325/16 files, 1a967c2 326 after the disclosed R12 timeout run, 9fe522b9 482/18, 85c327d9 565/22); the c6c5cde4 exit-1 five-failure state is the disclosed print-track Red.
+- A6 pass: tracks.md keeps the covers entry open [ ] with no resolved or print-ready claim.
+- A9 pass: no tests/*.sh exists; covers tests reference no measure/tracks path.
+- measure/doctor.sh does not exist; the configured doctor-equivalent is PROJECT_CHECKS (tsc), which exits 0.
+
+Hygiene
+- HEAD unchanged after PRINT_GATE: 46a1a656.
+- pnpm-lock.yaml, package.json, dashboard/package.json unchanged. No install, build, sudo, commit, or push.
+- Pre-existing dirt (video/storytime-song/scripts/render.mjs, dashboard/raw.json) belongs to another track and was untouched.
+- Writes limited to measure/runs/storytime_covers_20261027/ (this JSON, log, gate scripts, gate evidence).
+
+Nonblocking findings carried forward: PA-P2-1 to PA-P2-6, PA-P1-3, plus the PRINT_GATE lock-wait process note. All recorded in the result JSON and routed via tech-debt or the next plan/spec edit.
+
+MEASURE_AGENT_RESULT
+role: measure-final-acceptance
+status: pass
+track: storytime_covers_20261027
+audited_head_sha: 46a1a6567ded96c16587f4be27d4cda562c15a23
+result_file: measure/runs/storytime_covers_20261027/final-acceptance-46a1a656.json
+gates: GREEN exit0 62 tests/2 files; PROJECT_TESTS exit0 613 tests/24 files; PROJECT_LINT exit0 0 problems; PROJECT_CHECKS exit0 0 errors; PRINT_GATE exit0 All checks pass.
+findings: 0 blocking; 8 nonblocking (carried PA-P2-1..PA-P2-6 lows, PA-P1-3, one lock-wait process note).
+handoff: Ready for measure-closeout to move the track to archive. Do not update metadata.json or tracks.md in this role; closeout owns those.
+END_MEASURE_AGENT_RESULT

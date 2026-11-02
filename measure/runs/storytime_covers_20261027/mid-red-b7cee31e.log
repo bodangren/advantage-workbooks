@@ -1,0 +1,56 @@
+# Measure Mid Red: storytime_covers_20261027, Phase 1, Red v3 test fix
+
+status: complete
+
+- role: mid-red
+- track: storytime_covers_20261027
+- phase: P1
+- phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+- role_base_sha: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+- model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+- model_deviation: The Red model is OpenAI. `ra-quota pick red --not-family anthropic` printed MiniMax at 21:08 ICT. Two earlier runs of this fix stopped. One stopped at the 18:00 forced restart. One stopped with no output and no evidence. The Green model is Anthropic.
+
+## The fix
+
+- R26 copy 2 contradicted R23 on the same call. The copy must fail the R23 mock contract (D11.4).
+- R12 got an explicit timeout of 60000 ms. No assertion of R12 changed.
+
+## Evidence
+
+The test run ran in the clone /tmp/wb-red-v3fix. The clone HEAD was 648167a2 at the test run. The clone HEAD is e0b587acda5c6c6ae6f0073c39fc24571fdf1f2e after the plan commit. The test file did not change between the two commits.
+
+- RED_TEST_COMMAND exit 1. The clone ran 40 tests. 9 tests failed and 31 tests passed.
+- PROJECT_LINT exit 0.
+- PROJECT_CHECKS exit 0.
+- The main tree run exit 0. It ran 6 tests and skipped 34 tests.
+
+The 9 clone failures show two kinds. 8 failures report "Export STORYTIME_COVER_PANEL_FIELDS.: expected undefined to be defined". 1 failure reports "The v3 build report exists.: expected false to be true". The run shows no setup error. The run shows no "No test files found" line.
+
+The main tree run passed R23, R26, and R12. The main tree holds the uncommitted Green edits.
+
+Evidence files:
+
+- measure/runs/storytime_covers_20261027/mid-red-b7cee31e-red.txt
+- measure/runs/storytime_covers_20261027/mid-red-b7cee31e-lint.txt
+- measure/runs/storytime_covers_20261027/mid-red-b7cee31e-checks.txt
+- measure/runs/storytime_covers_20261027/mid-red-b7cee31e-main.txt
+
+MEASURE_AGENT_RESULT
+role: mid-red
+track: storytime_covers_20261027
+phase: P1 — The cover module and the three Drive covers
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+model_deviation: the table Red model is OpenAI; `ra-quota pick red --not-family anthropic` printed MiniMax at 21:08 ICT; two earlier runs of this fix stopped with no evidence.
+status: complete
+head: e0b587acda5c6c6ae6f0073c39fc24571fdf1f2e
+commits: 648167a23b3874e99b593acceaf7b80eafbd55bb e0b587acda5c6c6ae6f0073c39fc24571fdf1f2e
+red_test_command: exit 1; 9 failed, 31 passed; 8 missing-export failures for STORYTIME_COVER_PANEL_FIELDS and 1 missing-build-report failure.
+project_lint: exit 0
+project_checks: exit 0
+main_r23_r26_r12: exit 0; R23, R26 and R12 pass in the main tree. 6 tests passed and 34 tests were skipped.
+tests_changed: R26 copy 2 assertion (line 1425); R12 timeout 60000 ms
+files: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; four evidence files; this run log
+handoff: Green owns Task (Green v3). The clone /tmp/wb-red-v3fix holds the fix at e0b587ac. Green runs the gate in the clone.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,129 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts
+/home/daniebo/.profile: line 35: /home/daniebo/.cargo/env: No such file or directory
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+ [31m❯[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m43 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 91421[2mms[22m[39m
+     [32m✓[39m R1: the shipped file holds 16 books, and a short or wrong-colour copy fails[32m 90[2mms[22m[39m
+     [32m✓[39m R2: three recipes name real files, and an empty recipe is not a picture[32m 10[2mms[22m[39m
+     [32m✓[39m R2 v2: recipes enforce figure limits, distinct groups, required casts, and reject copied mutations[32m 8[2mms[22m[39m
+     [33m[2m✓[22m[39m R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3) [33m 366[2mms[22m[39m
+     [32m✓[39m R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources[32m 222[2mms[22m[39m
+     [32m✓[39m R21: data week lists match the readable source weeks and stay inside each unit[32m 121[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs [33m 18381[2mms[22m[39m
+     [33m[2m✓[22m[39m R23: all backs show five fields; empty fields show mock-only missing copy and no Thai [33m 447[2mms[22m[39m
+[31m     [31m×[31m R27: panel word case follows every source occurrence, without changing order or repeats (M23)[39m[32m 58[2mms[22m[39m
+[31m     [31m×[31m R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)[39m[32m 49[2mms[22m[39m
+[31m     [31m×[31m R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title[39m[32m 84[2mms[22m[39m
+     [32m✓[39m R4: the front holds the series name, the picture area, and the level card, and no badge[32m 33[2mms[22m[39m
+     [32m✓[39m R24: the panel box is 186 x 138 mm at 12 mm and 48 mm, the inset is 162 x 114 mm, and the label is LINE (D11.3, replaces R5)[32m 91[2mms[22m[39m
+     [32m✓[39m R25: the chosen panel size fits, is at least 10 pt, and is the largest fitting scale value[32m 85[2mms[22m[39m
+     [33m[2m✓[22m[39m R22 M21 and M22: print source and version output path remain bounded [33m 2330[2mms[22m[39m
+     [32m✓[39m R6: the copy check reads page text and fails a bypass, including a line with never[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 9128[2mms[22m[39m
+     [32m✓[39m R7: the Thai check matches the five contact lines and fails a changed tone mark[32m 4[2mms[22m[39m
+     [32m✓[39m R7: the Thai check reads the Chrome PDF, not a PDF/X extract[32m 50[2mms[22m[39m
+     [32m✓[39m R8: the expected QR grid comes from generateQRCode, and one swapped module fails[32m 17[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1673[2mms[22m[39m
+     [32m✓[39m R9: each built PNG is 2480 x 3508 px, 8-bit RGB, with no alpha[32m 3[2mms[22m[39m
+     [32m✓[39m R10: pdffonts on the Chrome PDF shows embedded Andika and Sarabun, and no Type 3 face[32m 72[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 1695[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 2314[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 3699[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 1445[2mms[22m[39m
+     [33m[2m✓[22m[39m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant [33m 774[2mms[22m[39m
+     [32m✓[39m R12 v2 layout: the three shipped groups allow bottom crop, keep an 8 mm head band clear, and do not overlap in x[32m 158[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 360[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 18503[2mms[22m[39m
+     [32m✓[39m R15: this phase does not change the Primary cover contract[32m 103[2mms[22m[39m
+     [32m✓[39m R16 M1: a dropped contact line fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M2: a changed Thai tone mark fails the Thai check[32m 1[2mms[22m[39m
+     [32m✓[39m R16 M3: one swapped QR module fails the module check[32m 15[2mms[22m[39m
+     [32m✓[39m R16 M4: a wrong level colour fails the data check[32m 2[2mms[22m[39m
+     [32m✓[39m R16 M5: a year in the summary fails the copy check[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) [33m 840[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 17413[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture [33m 2427[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge [33m 5588[2mms[22m[39m
+     [32m✓[39m R18 v2 layout: the layout check rejects a copied box list with a figure at the left edge[32m 26[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 2720[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR27: panel word case follows every source occurrence, without changing order or repeats (M23)
+[31m[1mAssertionError[22m: D11.5 case for nan is derived from every source occurrence.: expected 'nan' to be 'Nan' // Object.is equality[39m
+
+Expected: [32m"[7mN[27man"[39m
+Received: [31m"[7mn[27man"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m837:93[22m[39m
+    [90m835| [39m        const sight = panelValue(values, 'sight').items;
+    [90m836| [39m        for (const item of [...decodable, ...sight]) {
+    [90m837| [39m            expect(item, `D11.5 case for ${item} is derived from every…
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m838| [39m        }
+    [90m839| [39m        for (const item of ['Nan', 'Pam', 'Pat', 'Sam', 'Tom']) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR28: the shipped books field uses the semicolon separator and preserves item 12 (M24)
+[31m[1mAssertionError[22m: The books field joins titles with semicolon and space.: expected 'Hello!, Nan Can Nod, How Many?, Can I…' to be 'Hello!; Nan Can Nod; How Many?; Can I…' // Object.is equality[39m
+
+Expected: [32m"Hello![7m;[27m Nan Can Nod[7m;[27m How Many?[7m;[27m Can I?[7m;[27m Paint![7m;[27m The Pan[7m;[27m My Family[7m;[27m Pam[7m;[27m I Have Two[7m;[27m Sam and Pam[7m;[27m I Can See[7m;[27m Tap, Tap![7m;[27m Is It a Ball?[7m;[27m The Top"[39m
+Received: [31m"Hello![7m,[27m Nan Can Nod[7m,[27m How Many?[7m,[27m Can I?[7m,[27m Paint![7m,[27m The Pan[7m,[27m My Family[7m,[27m Pam[7m,[27m I Have Two[7m,[27m Sam and Pam[7m,[27m I Can See[7m,[27m Tap, Tap![7m,[27m Is It a Ball?[7m,[27m The Top"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m866:14[22m[39m
+    [90m864| [39m        expect(books.items, 'The shipped books field has 14 titles.').…
+    [90m865| [39m        expect(books.value, 'The books field joins titles with semicol…
+    [90m866| [39m            .toBe(books.items.join('; '));
+    [90m   | [39m             [31m^[39m
+    [90m867| [39m        expect(books.value.split('; '), 'The joined books field splits…
+    [90m868| [39m        expect(books.items[11], 'Item 12 keeps its internal comma.').t…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-covers-16books.test.ts[2m > [22mStorytime 16-book covers[2m > [22mR28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title
+[31m[1mAssertionError[22m: expected [Function] to throw an error[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-print-covers-16books.test.ts:[2m891:14[22m[39m
+    [90m889| [39m        const copiedWeeks = readLevelWeeks(tempRoot, 2).flatMap((entry…
+    [90m890| [39m        expect(() => mod.storytimeCoverPanelValues!(book, { weeks: cop…
+    [90m891| [39m            .toThrow(/Level 2 Unit 1.*Tap; Mutated title/);
+    [90m   | [39m             [31m^[39m
+    [90m892| [39m    });
+    [90m893| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m40 passed[39m[22m[90m (43)[39m
+[2m   Start at [22m 02:17:19
+[2m   Duration [22m 99.55s[2m (transform 776ms, setup 757ms, import 1.78s, tests 91.42s, environment 4.25s)[22m
+
+EXIT CODE: 1

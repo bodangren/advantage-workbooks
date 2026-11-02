@@ -1,0 +1,40 @@
+date: 2026-10-29 21:46:29 +0700
+result: the panel radius risk (R14, M11). Each v3 Chrome PDF goes to PDF/X-1a in the temporary folder /tmp/storytime-covers-v3-pdfx (never in proof-v3), then PRINT_GATE runs on each temporary file. The folder is deleted after the file checks.
+
+---- npx tsx scripts/print/make-pdfx.ts /home/daniebo/Desktop/print-ready/storytime/proof-v3/l2u1/cover.pdf --out /tmp/storytime-covers-v3-pdfx/l2u1.pdf --keep-fonts ----
+Converting 2 pages with Ghostscript (fonts kept) ...
+Done in 13 s.
+../../../../../tmp/storytime-covers-v3-pdfx/l2u1.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+---- PRINT_GATE: npx tsx scripts/print/make-pdfx.ts /tmp/storytime-covers-v3-pdfx/l2u1.pdf --check ----
+../../../../../tmp/storytime-covers-v3-pdfx/l2u1.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+f00d1cc9e60d6dde3520312ba1b1db93dad4777e6dcff545719267df7e0472ed  /tmp/storytime-covers-v3-pdfx/l2u1.pdf
+
+---- npx tsx scripts/print/make-pdfx.ts /home/daniebo/Desktop/print-ready/storytime/proof-v3/l1u1/cover.pdf --out /tmp/storytime-covers-v3-pdfx/l1u1.pdf --keep-fonts ----
+Converting 2 pages with Ghostscript (fonts kept) ...
+Done in 10 s.
+../../../../../tmp/storytime-covers-v3-pdfx/l1u1.pdf: 2 pages, 1.2 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+---- PRINT_GATE: npx tsx scripts/print/make-pdfx.ts /tmp/storytime-covers-v3-pdfx/l1u1.pdf --check ----
+../../../../../tmp/storytime-covers-v3-pdfx/l1u1.pdf: 2 pages, 1.2 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+75492c76e16af898e035b8ae4f71d577fbfe86daeabe645c228e5206eccc416d  /tmp/storytime-covers-v3-pdfx/l1u1.pdf
+
+---- npx tsx scripts/print/make-pdfx.ts /home/daniebo/Desktop/print-ready/storytime/proof-v3/l4u4/cover.pdf --out /tmp/storytime-covers-v3-pdfx/l4u4.pdf --keep-fonts ----
+Converting 2 pages with Ghostscript (fonts kept) ...
+Done in 10 s.
+../../../../../tmp/storytime-covers-v3-pdfx/l4u4.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+---- PRINT_GATE: npx tsx scripts/print/make-pdfx.ts /tmp/storytime-covers-v3-pdfx/l4u4.pdf --check ----
+../../../../../tmp/storytime-covers-v3-pdfx/l4u4.pdf: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 4 font(s)
+All checks pass.
+exit_code: 0
+d0583622ffe9dccff15a3baa899327ea8658e4f0e3103d37077b2511b9072033  /tmp/storytime-covers-v3-pdfx/l4u4.pdf
+date_end: 2026-10-29 21:47:09 +0700
+temp folder removed: yes

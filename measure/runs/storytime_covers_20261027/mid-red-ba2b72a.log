@@ -1,0 +1,26 @@
+role: mid-red
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: ba2b72a3
+head: 81dcfb6ff45363fbaf898b40131b843260d2f899
+status: complete
+date: 2026-10-27
+model: xai/grok-4.7#high
+
+Dirty paths at start: video/storytime-song/scripts/render.mjs is unrelated user work. measure/runs/ is generated. Both were preserved. No print-track file was staged.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: ba2b72a3
+head: 81dcfb6ff45363fbaf898b40131b843260d2f899
+commits: 83d98286fc6dd4e83ffc6d2b4532980838bf88b7 81dcfb6ff45363fbaf898b40131b843260d2f899
+tests_run: RED_TEST_COMMAND `cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts` exit 0, Tests 24 passed (24), file measure/runs/storytime_covers_20261027/mid-red-ba2b72a-red.txt; PROJECT_LINT `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-covers*.test.ts` exit 0, file measure/runs/storytime_covers_20261027/mid-red-ba2b72a-lint.txt; PROJECT_CHECKS `cd dashboard && npx tsc --noEmit` exit 2, test file zero errors, file measure/runs/storytime_covers_20261027/mid-red-ba2b72a-checks.txt; R16 M6 `cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers-16books.test.ts -t "R16 M6"` exit 0, Tests 1 passed | 23 skipped (24), file measure/runs/storytime_covers_20261027/mid-red-ba2b72a-m6.txt
+mutants: RGBA copy from sharp(buffer).ensureAlpha() fails both new checks (metadata.hasAlpha=true, raw.info.channels=4). The real composed picture passes both (metadata.hasAlpha=false, raw.info.channels=3). raw.info.hasAlpha is undefined on both. Output: measure/runs/storytime_covers_20261027/mid-red-ba2b72a-alpha.txt. R16 M6 still throws on a back without the panel.
+facts_changed: none
+handoff: The two Red defects are fixed. Do not fix the known Green error. PROJECT_CHECKS still fails only at scripts/storytime/make-storytime-book-cover.ts line 109: TS2353, media does not exist on page.pdf(). No heavy-run lock-wait line. Do not push. Do not stage video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT

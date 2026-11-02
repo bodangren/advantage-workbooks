@@ -1,0 +1,50 @@
+status: complete
+role: jr-green (Task Check v3b)
+track: storytime_covers_20261027
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 28bd3885faeddedd693e9fcc1f9823c43ba268fb
+model: claude-code/claude-opus-5-5[1m]#high
+start: 2026-10-30 01:57 +07
+step 1: the 15 v3 files before the task equal the after-rebuild list of jr-green-9fe522b9-sha256.txt, 15 of 15.
+step 2: contact sheet ~/Desktop/print-ready/storytime/proof-v3/contact-sheet-v3b.png, 3388 x 3715 px,
+  SHA-256 a643475e1a3833a804b1a6d8ddb20b49cfea8624be502f881f0d940bdbdb4ccb. One heavy-run wrapper, 01:57:08 to 01:57:36 +07.
+  Script /tmp/check-v3b/sheet.py (the Check v3 script with the new output name). contact-sheet-v3.png unchanged (4f298caf).
+step 3: pages opened: contact sheet (12 tiles); l2u1, l1u1, l4u4 back.png at full size; page 2 of each cover.pdf at 300 dpi; l2u1 back panel crop at 300 ppi.
+  checks, each pass: heading order on 6 of 6 backs; 14 pt (heading text box 22.55 pt on each page 2); 5 light lines on l1u1 and on l4u4;
+  0 dark pixels between the inset and the panel edge on each back.png and page 2; l2u1 shows I, Nan, Pam, Pat, Sam, Tom and a, can, tap;
+  books field: 14 titles split by "; ", item 12 "Tap, Tap!".
+step 4: l2u1 page 2 (pdftotext -layout):
+  Story: Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.
+  Sounds: n /n/, a /a/, p /p/, m /m/, s /s/, t /t/, o /o/
+  Decodable words: Nan, pan, nap, Pam, map, man, Sam, Pat, sat, mat, tap, Tom, mom, top, pot, on, an, am
+  Sight words: a, and, can, I, on, in, the, get, is, this, off, saw, with, he, put, see, from, run, up
+  Books: Hello!; Nan Can Nod; How Many?; Can I?; Paint!; The Pan; My Family; Pam; I Have Two; Sam and Pam; I Can See; Tap, Tap!; Is It a Ball?; The Top
+step 5 (reader observations, not defects): O4 "on" in decodable and sight words (the repeat rule is per field); O5 "!;" and "?;" after titles (D11.5b form);
+  O6 "mom" is the US spelling (source text); O7 "A nest, a net, a nut, a nose." has no verb (approved week 1 page text); O8 sounds use /a/ and /o/, not IPA (focus.element.sound).
+step 6: defects: none found.
+step 7: plan commit d48b867bc77c0bc7e4f0190f2cf1c0d1ffca14ef (plan.md only). Not pushed.
+end check: the 15 v3 files equal the after-rebuild list of jr-green-9fe522b9-sha256.txt at 01:58:29 +07, 15 of 15. No rebuild. proof/ and proof-v2/ not written.
+end: 2026-10-30 01:59:08 +0700; quota: claude: 5h 25% (Fri 02:30) 7d 27% (Tue 15:00, pace 31.9%) -> GO
+
+MEASURE_AGENT_RESULT
+status: complete
+role: jr-green
+task: Task (Check v3b)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 28bd3885faeddedd693e9fcc1f9823c43ba268fb
+final_head: d48b867bc77c0bc7e4f0190f2cf1c0d1ffca14ef
+commits:
+  - d48b867bc77c0bc7e4f0190f2cf1c0d1ffca14ef measure(plan): record Phase 1 Check v3b
+tasks_flipped_x:
+  - Task (Check v3b), evidence commit 2f9ae5ae
+tasks_flipped_b: none
+tasks_left_open:
+  - Task (Hand-off v3)
+  - Task: Measure - User Manual Verification 'Phase 1'
+new_files:
+  - ~/Desktop/print-ready/storytime/proof-v3/contact-sheet-v3b.png (outside the repository)
+  - measure/runs/storytime_covers_20261027/jr-green-28bd3885-check.log (untracked)
+defects: none found
+coder_delegation: none
+handoff: The orchestrator reads the defect list (none found) and the observations O4 to O8, then routes Task (Hand-off v3) with the 15 v3 SHA-256 values of jr-green-9fe522b9-sha256.txt, contact-sheet-v3b.png and its SHA-256, the missing fields and draft weeks, the l2u1 panel text, the Thai of the back, and the D12 source-rule choice.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,11 @@
+Review A r2 log for storytime_covers P1 on 5f8b26f9. Session name: Review A · P1 · storytime_covers · r2. Times in ICT via TZ=Asia/Bangkok date.
+HEAD 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b confirmed at start and end. Phase base e5266ce1c7820be7371d73ad3dfe09447c673127.
+Scope diff cb1874b1..5f8b26f9 holds only covers.ts, make-storytime-book-cover.ts, storytime-print-covers-16books.test.ts, plan.md, and lessons-learned.md.
+Guard review: one printReadyRoot const feeds the default folder and the check. The check runs after the --version check and before the data load and any write. Errors go to stderr with exit 2. The equal-or-inside rule skips the same version. Realpath uses the deepest existing ancestor with a 64-hop cap. Fixed-name symlink files stop the build. Default behavior is unchanged.
+R29 review: helper refuse and allow cases plus symlink cases all assert labeled messages. CLI case asserts exit 2, seed bytes, and no new file. M25, M26, and M27 each fail one R29 assertion and map to a real defect. The merged test-plus-fix commit is not a test-meaning defect.
+Plan truth: evidence commit 3f5c42a1 exists. Green 45 passed, project 18 files with 484 passed, lint clean, checks clean, mutants 3 caught 3, and 48 equal SHA-256 values all match their files. Orchestrator gate on 5f8b26f9 passes. Review B run 2 on 5f8b26f9 passes.
+Rerun note: direct vitest gave 33 passed including R29 helper. Twelve tests refused outside heavy-run.sh per the requireHeavyWrapper guard. The tool denied the wrapper path, so wrapper-gated cases rest on Green evidence and the orchestrator gate. No code defect found.
+Run 1 scope holds. A-P1-1 kept as low nonblocking. No blocking finding. No product question pending.
+MEASURE_AGENT_RESULT
+{"status": "pass", "retry_recommendation": "none"}
+END_MEASURE_AGENT_RESULT

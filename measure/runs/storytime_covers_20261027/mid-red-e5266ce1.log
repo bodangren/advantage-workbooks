@@ -1,0 +1,23 @@
+role: mid-red
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: e5266ce1
+status: complete
+date: 2026-10-27
+
+MEASURE_AGENT_RESULT
+role: mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: e5266ce1
+role_base_sha: e5266ce1
+head: 15dab6603e8e626f2b830d7a9687776ef1735477
+commits: b08310c6 15dab660
+tests_run: RED_TEST_COMMAND exit 1, Tests  23 failed | 1 passed (24); PROJECT_LINT exit 0; covers-*.test.ts exit 0, 27 passed
+failing_tests: R1 missing books.json; R2 missing picture recipes in books.json; R3 missing unit summaries in books.json; R4 R5 both R6 both R7 both R8 R9 R12 missing lib/storytime/print/covers.ts; R13 missing lib/storytime/print/cover-picture.ts; R10 R11 R14 missing scripts/storytime/make-storytime-book-cover.ts; R16 M1 to M6 missing exports of covers.ts; R15 passed
+tasks_flipped_x: Red task, commit b08310c6f4c1b8d4aa3b3dbd4a82447b349841fe
+facts_changed: none
+handoff: Report three lock-wait lines to the PM session. heavy-run: lock wait over 600 s — holder PID 1352239, Storytime docker smoke test. heavy-run: lock wait over 600 s — holder PID 1406275, render-decks-podman.sh. heavy-run: lock wait over 600 s — holder PID 1485265, recognize.py. Green starts from 15dab660. Do not push. Do not edit the dirty print, video, or temp files.
+END_MEASURE_AGENT_RESULT

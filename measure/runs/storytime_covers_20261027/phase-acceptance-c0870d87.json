@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "phase_base_sha": "e5266ce1c7820be7371d73ad3dfe09447c673127",
+  "role_base_sha": "c0870d87b69bb2373bb2aa023d1e7363e848bfb1",
+  "audited_head_sha": "c0870d87b69bb2373bb2aa023d1e7363e848bfb1",
+  "summary": "Phase 1 passes acceptance on c0870d87. PA-P1-1 is closed. All 23 tasks are [x], with valid SHAs and evidence classes. GREEN_TEST_COMMAND passed 54 tests. The excluded PROJECT_TESTS run passed 493 tests. Lint and TypeScript checks passed. All 48 proof hashes match.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "PA-P1-2 | low | dashboard/__tests__/storytime-print-teacher-book.test.ts:20 | Run 1 found six intentional Phase 3 Red failures of storytime_print_r1_20261025. Run 2 used the required exclusion and passed 493 tests. | nonblocking",
+    "PA-P1-3 | low | dashboard/lib/storytime/print/cover-picture.ts:274 | Review A keeps A-P1-1: two geometry helpers have direct tests but no production caller. | nonblocking",
+    "PA-P1-4 | low | dashboard/scripts/storytime/make-storytime-book-cover.ts:44 | Review C keeps C-P1-01 and C-P1-02: USAGE text omits exit 2 and the --out rule. | nonblocking",
+    "PA-P1-5 | low | dashboard/scripts/storytime/make-storytime-book-cover.ts:248 | ADV-P1-1 covers a future partial-approval source choice. The PM accepted it as the first Red row of covers Phase 2 at 04:18 ICT. | nonblocking",
+    "PA-P1-6 | low | dashboard/lib/storytime/print/covers.ts:755 | ADV-P1-2 covers an output path on a fresh root. No current file clobber occurs. | nonblocking"
+  ],
+  "evidence": [
+    "HEAD was c0870d87b69bb2373bb2aa023d1e7363e848bfb1 before the gates and after the audit.",
+    "The diff from 61b0b224 to c0870d87 changes only plan.md. It adds evidence classes at lines 87, 238, and 249.",
+    "PA-P1-1 is closed. All 23 Phase 1 tasks are [x], and no [ ], [~], or [b] task remains.",
+    "All 29 first-line SHA references resolve to commits. Every completed task block has an evidence class.",
+    "Reviews A, B, and C pass on 5f8b26f9 with no blocking findings. The adversarial result also passes on that reviewed HEAD.",
+    "The later commits add the adversarial test, print-track work, and plan text. They change no reviewed implementation file.",
+    "The supplied orchestrator result reports role-gate --role jr-green as PASS at 05:05 ICT on c0870d87.",
+    "GREEN_TEST_COMMAND exited 0 in one heavy-run wrapper. Two files and 54 tests passed.",
+    "PROJECT_TESTS used the required teacher-book exclusion in the same wrapper. It exited 0 with 19 files and 493 tests passed.",
+    "PROJECT_LINT and PROJECT_CHECKS exited 0 in that wrapper. No lock-wait warning appeared.",
+    "The Green logs record M1 to M15 as 15 caught of 15. Later logs record M16 to M22 as 7 caught of 7.",
+    "Green v3b records M23 and M24 as 2 caught of 2. Green B-P1-01 records M25 to M27 as 3 caught of 3.",
+    "The PM receipts remain at plan.md:137, plan.md:251, and plan.md:345. The UMV row and automated evidence remain at lines 354 and 355.",
+    "All 48 current files under proof, proof-v2, and proof-v3 match jr-green-cb1874b1-sha256.txt. No proof file was written.",
+    "A5 still holds. Run 1 verified the cited pass claims, and c0870d87 changes no claim or code.",
+    "The phase diff changes no supervisor, framework contract test, banned-term filter, or tracks registry. Only A5 applies among the conditional checks.",
+    "pnpm-lock.yaml, package.json, and dashboard/package.json stayed unchanged. No commit or push occurred."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git status --short; git diff --name-only 61b0b224 c0870d87; git show --stat c0870d87",
+    "bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'GREEN_TEST_COMMAND; PROJECT_TESTS with teacher-book exclusion; PROJECT_LINT; PROJECT_CHECKS'",
+    "python3 -I: parsed 23 Phase 1 task rows and checked 29 first-line SHAs with git cat-file -t",
+    "python3 -I: computed SHA-256 for 48 manifest files; zero mismatches, extra files, or missing files",
+    "python3 -I: parsed Reviews A, B, C and adversarial JSON; all pass with zero blocking findings",
+    "grep Green logs for labeled mutant counts; M1 to M27 remain caught",
+    "git diff --name-only e5266ce1 c0870d87 -- measure/automation-supervisor.py measure/tracks.md tests",
+    "git status --porcelain pnpm-lock.yaml package.json dashboard/package.json; git rev-parse HEAD; TZ=Asia/Bangkok date"
+  ],
+  "changed_files": [
+    "content/storytime/covers/books.json",
+    "dashboard/lib/storytime/files.ts",
+    "dashboard/lib/storytime/print/cover-picture.ts",
+    "dashboard/lib/storytime/print/covers.ts",
+    "dashboard/scripts/storytime/make-storytime-book-cover.ts",
+    "dashboard/__tests__/storytime-print-covers-16books.test.ts",
+    "dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "model_deviation": "The table route claude-code/claude-opus-5-5 is the family of Green v3b, so it is not independent. ra-quota pick acceptance with the phase families excluded gave exit 3. Kimi shows WAIT at weekly 94.9%; the PM approved this run 2 at 05:0x ICT. Red used OpenAI, MiniMax, and Grok. Green used Anthropic, DeepSeek, MiniMax, and one GLM turn. Review A, Review C, and adversarial used opencode/muse-spark-1.3. Review B used OpenAI. Kimi wrote no work in this phase."
+}

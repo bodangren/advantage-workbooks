@@ -1,0 +1,176 @@
+# Measure Green log — storytime_covers_20261027, Phase 2
+
+status: blocked
+role: jr-green (Phase 2 Green)
+track: storytime_covers_20261027 (short id storytime_covers)
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+green_model: deepseek/deepseek-flash#high
+red_model_family: another family (Phase 1 Red; this phase has no Red task)
+coder_delegation: none
+start: 2026-11-01 07:2x +07
+end: 2026-11-01 08:0x +07
+
+## Step 1 and 2: plan rows
+
+- The `Task (Green)` row was set to `[~]`.
+- The owner gate row was set to `[x]`. It held Daniel's exact words `3. Covers: Approved`, the date
+  2026-11-01, the source line "owner answer relayed by the PM session, 2026-11-01 07:3x ICT", the
+  two questions that his item 3 answered, the approved text file, its SHA-256, and the note that he
+  approved the v3 look (the row said v2).
+- Both plan rows are now restored to HEAD. The rule of the track: a blocked Green leaves the Red
+  state clean (precedent `jr-green-0475a6e6.log`). A Red retry must see a clean tree.
+- The exact plan text and the week change are in
+  `measure/runs/storytime_covers_20261027/jr-green-c85ef735-week-approval.patch`.
+  `git apply --check` of that patch on HEAD c85ef735 exits 0.
+
+## Step 3: proof that the week text did not change after the text file was built
+
+Command: `git log --format='%h %cI' -- content/storytime/l2/w0[2-8].json`.
+Output file: `jr-green-c85ef735-weeklog.txt`.
+
+- The last commit of any of weeks 2 to 8 is `ae6812c2 2026-10-26T02:10:05+08:00`
+  ("content(storytime): record the P14 approval sources and fix the week 1 practice picture word (nut)").
+- 2026-10-26 02:10 +08 is 2026-10-26 01:10 +07. That time is before the build of the approved text
+  file (2026-10-30 02:00 +07).
+- No commit after 2026-10-30 02:00 +07 touches weeks 2 to 8. The proof passes. Green did not stop here.
+
+## Step 4: the week change (applied, then reverted)
+
+- In `content/storytime/l2/w02.json` to `w08.json`, only `approval.text` changed, to the shape of
+  `w01.json`:
+  - `status` "approved"
+  - `date` "2026-11-01"
+  - `words` "3. Covers: Approved"
+  - `source` = the PM relay, the two questions, the text file path, its SHA-256, and the build date.
+- A JSON compare proved that every other key of every file stayed equal to HEAD. The diff was 7 files,
+  28 insertions and 7 deletions.
+- The change is reverted now. The working tree of these 7 paths equals HEAD.
+
+## Step 4: the gates
+
+One heavy-run wrapper for each gate. The Forge rule was checked before each heavy command.
+
+### Forge rule note
+
+`pgrep -fc storytime-book-pictures` also matches the shell wrapper of the check itself, so its count
+never reads 0. The real count comes from `ps -eo pid,args | grep 'storytime-book-pictures' | grep -v grep`.
+- 07:27 to 07:36: real Forge picture work was present (up to 9 processes). Green waited 10 minutes.
+- 07:39 to 08:0x: real count 0 before every heavy command. The first heavy command (the Green gate)
+  started at 07:41:06.
+
+### Results (with the week change in place)
+
+- `GREEN_TEST_COMMAND` exit 1. Files: `jr-green-c85ef735-green.txt`.
+  Test Files 2 failed (2). Tests 4 failed | 50 passed (54).
+- `PROJECT_TESTS` exit 1. Files: `jr-green-c85ef735-tests.txt`.
+  Test Files 4 failed | 18 passed (22). Tests 10 failed | 542 passed (552).
+- `PROJECT_LINT` exit 0. File: `jr-green-c85ef735-lint.txt`.
+- `PROJECT_CHECKS` (`npx tsc --noEmit`) exit 0. File: `jr-green-c85ef735-checks.txt`.
+- `check-weeks.ts --level 2` exit 1. File: `jr-green-c85ef735-weeks.txt`.
+  Summary: 8 packages, 1 failed check, 13 warnings. The one FAIL is `published`
+  ("images not approved; audio not approved; song not approved"), which is the accepted FAIL.
+  No schema failure: the new approval data is valid.
+
+### Baseline at clean HEAD (week change reverted)
+
+`npx vitest run` on the four files. File: `jr-green-c85ef735-baseline.txt`.
+Test Files 1 failed | 3 passed (4). Tests 5 failed | 87 passed (92).
+- The 3 cover and contract files pass: 87 tests. So the 5 approval-data failures come only from the
+  new approval data.
+- The 5 failures are all in `__tests__/storytime-print-readers.test.ts`. That file is Red work of
+  another track phase (commit 275d7fcd, 2026-11-01 05:01:55 +07). It names exports and a script that
+  do not exist yet: `forgeManifestEntriesForRow`, `checkStorytimePictureBatch`,
+  `scripts/storytime/check-storytime-pictures.ts`. This phase does not touch those files.
+
+## The blocker: 5 committed tests contradict the owner decision
+
+The tests read the shipped week files and assert that weeks 2 to 8 stay draft. Daniel approved them
+on 2026-11-01, so the shipped data now holds 8 approved weeks. No implementation makes both true.
+
+1. `dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts:141`
+   test "ADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the
+   rule sees mixed source case"
+   `expect(approved.length, 'Draft weeks ship beside the approved week.').toBeLessThan(weeks.length)`
+   Received: expected 8 to be less than 8.
+2. `dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts:283`
+   test "ADV-D12: the mock values strictly extend the approved values, so a passing print would render
+   draft-week words"
+   `expect(missing.length, 'The print context still lacks a draft-only field today, so the D12 stop
+   fires first.').toBeGreaterThan(0)`
+   Received: expected 0 to be greater than 0.
+3. `dashboard/__tests__/storytime-print-covers-16books.test.ts:793`
+   test "R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and
+   v2 outputs"
+   `expect(report, 'The build report identifies draft source weeks.').toMatch(/draft/i)`
+   Received: the report holds no "draft" text, because every L2 U1 week is approved.
+4. `dashboard/__tests__/storytime-print-covers-16books.test.ts:985`
+   test "R22 M21 and M22: print source and version output path remain bounded"
+   `expect(result.status, 'A print build cannot use draft-week values (M21).').not.toBe(0)`
+   Received: the print build exits 0, because the D12 stop has no draft-only field to stop.
+5. `dashboard/__tests__/storytime-print-contract-v2.test.ts:273`
+   test "keeps the other parts draft in all eight weeks"
+   `expect(approval[part], 'Week ${week}: ${part} stays draft.').toEqual({ status: 'draft' })`
+   Received: `{ status: 'approved', date: '2026-11-01', words: '3. Covers: Approved', source: … }`
+   for `text` of weeks 2 to 8.
+
+Green did not edit a test. The word "draft" in the test names and the test text is not a defect in
+the code. The tests hardcode the approval state of the shipped data. Rule 11.3 makes new tests load
+the shipped data. These tests must build their own draft week in a temporary copy instead, as R22
+already does with `--data`.
+
+## Steps 5 to 9: not run
+
+- No implementation commit: the Green gate fails, so Green makes no commit.
+- No print build. `~/Desktop/print-ready/storytime/print-v3/l2u1` does not exist. Green did not write
+  it, because the phase stops before its build step.
+- No `PRINT_GATE`, no text compare against the v3 mock, no SHA-256 list of new files. The files
+  `jr-green-c85ef735-{build,printgate,textdiff,sha256}.txt` do not exist. Green does not fake them.
+- No plan commit. The plan file equals HEAD.
+
+## Tree state at the end
+
+- `git diff --quiet` for `content/storytime/l2/` and `measure/tracks/storytime_covers_20261027/plan.md`
+  exits 0.
+- The unrelated dirty work of the checkout is untouched: `video/storytime-song/scripts/render.mjs`
+  (modified) and `dashboard/raw.json` (untracked). No `pnpm` command ran. No lock file changed.
+- New untracked files: this log, the gate outputs, the baseline file, the week log, and the patch.
+  All are under `measure/runs/storytime_covers_20261027/`.
+
+## Ready work for the retry
+
+`measure/runs/storytime_covers_20261027/jr-green-c85ef735-week-approval.patch` holds the 7-file week
+change and the plan rows. It applies on c85ef735 with `git apply`. After Mid Red amends the 5 tests,
+Green applies the patch, runs the four gates and `check-weeks.ts --level 2`, then commits, then builds
+with `--version 3 --out /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1`, and then runs
+`PRINT_GATE` and the text compare.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+final_head: c85ef735f56c79779551fbff4996d5924b56c0d8
+commits: none
+tests_run:
+  - GREEN_TEST_COMMAND exit 1: 4 failed | 50 passed (54), 2 files (with the new approval data)
+  - PROJECT_TESTS exit 1: 10 failed | 542 passed (552), 22 files (with the new approval data; 5 of the 10 are the readers Red of another track phase)
+  - PROJECT_LINT exit 0
+  - PROJECT_CHECKS (tsc --noEmit) exit 0
+  - check-weeks.ts --level 2 exit 1: the only FAIL is `published` (accepted)
+  - baseline at clean HEAD on the 4 files: 5 failed | 87 passed (92); the 5 are readers only
+files_changed:
+  - content/storytime/l2/w02.json .. w08.json: approval.text set to approved. Applied, then reverted; the tree equals HEAD.
+  - measure/tracks/storytime_covers_20261027/plan.md: owner gate [x] and Green [~]. Applied, then reverted.
+  - measure/runs/storytime_covers_20261027/: this log, green, tests, lint, checks, weeks, weeklog, baseline, and the patch (untracked).
+plan_updates: none committed. The prepared rows are in jr-green-c85ef735-week-approval.patch.
+known_failures:
+  - storytime-print-covers-16books-adversarial.test.ts:141 and :283 (ADV-D12, shipped draft state)
+  - storytime-print-covers-16books.test.ts:793 and :985 (R22, build report "draft" and the D12 print stop)
+  - storytime-print-contract-v2.test.ts:273 (text stays draft in weeks 2 to 8)
+  - storytime-print-readers.test.ts: 5 tests fail at clean HEAD too (another track phase, not this one)
+handoff: Mid Red retry needed. The week text proof passes (last week commit 2026-10-26 01:10 +07, before the 2026-10-30 text file). The approval data is valid (check-weeks, tsc, lint pass, and 50 of 54 cover tests pass). Five committed tests hardcode "weeks 2 to 8 stay draft" and now contradict Daniel's 2026-11-01 approval. Question 1 for the orchestrator: may Mid Red amend those 5 tests to build a draft week in a temporary copy (a `--data` copy or a patched week file), so that the D12 stop and the report word "draft" stay proven without the shipped draft state? Default: yes, and the amended tests must pass on both data states. Question 2: are the 5 readers failures of `__tests__/storytime-print-readers.test.ts` (Red of the print track Phase 4 remediation, commit 275d7fcd) counted against this phase? Default: no, they fail at clean HEAD. After the Red commit, Green applies `measure/runs/storytime_covers_20261027/jr-green-c85ef735-week-approval.patch` (git apply check passes on c85ef735), runs the four gates and `check-weeks.ts --level 2`, commits `content(storytime): record Daniel's approval of the weeks 2 to 8 text (covers Phase 2)` with the plan rows, then builds `npx tsx scripts/storytime/make-storytime-book-cover.ts --level 2 --unit 1 --print --version 3 --out /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1`, then runs PRINT_GATE, the mtime check, the pdftotext compare against proof-v3/l2u1/cover.pdf, and the SHA-256 list. No test was edited. No print file was built. No commit was made.
+END_MEASURE_AGENT_RESULT

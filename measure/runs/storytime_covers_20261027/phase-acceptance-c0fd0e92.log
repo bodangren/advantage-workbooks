@@ -1,0 +1,119 @@
+# Measure Phase Acceptance log — storytime_covers_20261027, Phase 2
+
+Role: measure-phase-acceptance (gate-only; report only).
+Model: opencode-go/mimo-v2.6-flash (MiMo family).
+model_deviation: phase acceptance shares the MiMo family with Review A; the
+independence rules allow it (rule 4 needs a family other than Red); ra-quota route.
+Families of this phase: Red = Qwen (be3b0a2f), Green = DeepSeek (ccf3d95c, 174586b6,
+UMV 097d3a79/963cdfd8), adversarial tests = Claude (13f0053a, 92476880, 38bb03f5,
+6aace950), Review A = MiMo, Review B = GLM, Review C = Kimi.
+
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha = audited_head_sha: c0fd0e92ca80af1ecf509b47dd9c7e3c0c2fb56c
+date: 2026-11-01 +07 (23:3x to 23:5x ICT).
+
+## Provenance (start)
+
+git rev-parse HEAD returned c0fd0e92ca80af1ecf509b47dd9c7e3c0c2fb56c, equal to
+role_base_sha and audited_head_sha. git status shows only the preserved dirty work
+(video/storytime-song/scripts/render.mjs modified, dashboard/raw.json untracked) and
+untracked run files. pnpm-lock.yaml unchanged.
+
+## Prerequisite audits (all pass, same HEAD lineage)
+
+- review-a-8967aa85.json: pass, no blocking findings.
+- review-c-8967aa85.json: pass; C3-P2-02 escalated to the user (known low).
+- adversarial-8967aa85.json: pass; guard commits 38bb03f5 and 6aace950; 3 new
+  cases (positive v3/v4 print default, delivery isolation, print guard); 6 mutants
+  caught.
+- review-b-c0fd0e92.json: pass; own gate run, 2 files, 62 tests.
+
+git diff --stat 8967aa85 c0fd0e92: only the two adversarial test files, the memory
+files, both plans, and run files. No production file under dashboard/lib or
+dashboard/scripts changed after the reviews. The brief's fail condition did not fire.
+
+## Phase 2 task and claim checks
+
+- All task SHAs resolve to commits: be3b0a2f, ccf3d95c, 96ff79f7, 174586b6,
+  097d3a79, 963cdfd8.
+- Owner gate (plan 365): exact words "3. Covers: Approved", date 2026-11-01, PM
+  relay, evidence owner-approved. Live: w02.json to w08.json each carry the
+  approval record with those words and date.
+- Red P2 (mid-red-c85ef735*): RED exit 1, only R30 (1 failed, 54 passed of 55);
+  contract-v2 exit 1, only the text-record test (1 failed, 23 passed); both pass
+  with the approval patch (55; 24); lint exit 0; mutants MA, MC, MB caught, each
+  restore clean. Matches the row's Done-when in full.
+- Green (jr-green-c6c5cde4*): GREEN 55 passed; contract 24 passed; PROJECT_TESTS
+  exit 1 with 5 failed and 548 passed, the 5 are the known print-track
+  storytime-print-readers.test.ts failures; lint and checks exit 0; build exit 0;
+  PRINT_GATE exit 0; SHA list matches plan 377-383.
+- Check (jr-green-6471f09e*): 4 embedded faces, no Type 3; 4 images, no soft mask,
+  no page that is one image; Thai PASS both pages; QR 0 of 29x29 differ; contact
+  sheet a6af5c4c, defects none.
+- Hand-off: PM receipts recorded in plan 394-398, including the rebuilt SHA
+  e0e0365a.
+- Green ADV-P2 (jr-green-85c327d9*): precondition 2 failed and 57 passed on
+  85c327d9; GREEN 59 passed; PROJECT_TESTS 22 files 565 passed; lint and checks
+  exit 0; mutants: 2, caught: 2; PRINT_GATE exit 0; pdftotext diff exit 0; PNGs
+  byte-equal; new SHA list equals plan 408, only cover.pdf and the PDF/X file
+  changed (creation dates).
+- UMV (jr-green-1638fe8f-umv.log): protocol steps match the plan row.
+- Delivered file live: SHA-256 e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90,
+  equal to the plan and the hand-off. proof-v3/l2u1 still holds its 5 files.
+- A5: every exit-code, count, SHA, and pass claim in the Phase 2 rows matches its
+  evidence file and my live probes. A3/A4/A7 not triggered by the diff (no
+  digit-only counts, no markers check, no bare-word filter in the changed tests).
+  A6 not triggered (tracks.md absent from the diff; the entry is an open item).
+
+## Gates (each inside ONE heavy-run wrapper; output saved under this folder)
+
+Preflight before each: pgrep -fc '[s]torytime-book-pictures' returned 0. The heavy
+lock was held once by a mastery-advantage role-gate job (not the Monorepo Storytime
+app run 3); the wrapper waited and completed. No 'lock wait over 600 s' line.
+
+- GREEN_TEST_COMMAND: exit 0, 2 files, 62 tests passed.
+  phase-acceptance-c0fd0e92-green.txt (COMMAND_EXIT_CODE=0).
+- PROJECT_TESTS: exit 0, 23 files, 580 tests passed.
+  phase-acceptance-c0fd0e92-project.txt (COMMAND_EXIT_CODE=0).
+- PROJECT_LINT: exit 0, no error, no warning.
+  phase-acceptance-c0fd0e92-lint.txt (COMMAND_EXIT_CODE=0).
+- PROJECT_CHECKS: exit 0, 0 type errors.
+  phase-acceptance-c0fd0e92-checks.txt (COMMAND_EXIT_CODE=0).
+- PRINT_GATE: exit 0 on the delivered PDF/X file. `npx tsx scripts/print/make-pdfx.ts
+  <print-v3/l2u1 PDF/X path> --check` reported 2 pages, 1.1 MB, PDF 1.3,
+  PDF/X-1a:2001, 4 fonts, and 'All checks pass.' (COMMAND_EXIT_CODE=0).
+  phase-acceptance-c0fd0e92-printgate.txt. --check writes nothing; read only.
+  Preflight: Forge render count 0; the lock was held by a mastery-advantage
+  role-gate job (not the Monorepo Storytime app run 3); the wrapper waited and
+  completed within its limit.
+
+Environment note: the shell policy denies any command containing '>'. Gate output
+was captured with `script -q -c '<command>' <file>`, which also records
+COMMAND_EXIT_CODE.
+
+## Update after PRINT_GATE and the completion HEAD check
+
+PRINT_GATE passed: exit 0, 'All checks pass.', saved to
+phase-acceptance-c0fd0e92-printgate.txt. git rev-parse HEAD at the completion
+check returned c0fd0e92ca80af1ecf509b47dd9c7e3c0c2fb56c, equal to
+role_base_sha and audited_head_sha: head_current_at_completion_check true.
+The result JSON is final: status pass, no blocking findings, six nonblocking
+lows (PA-P2-1 to PA-P2-6), retry_recommendation none.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+commits: none (gate-only role; the orchestrator handles the result files)
+tests_run:
+  - GREEN_TEST_COMMAND (own run, heavy-run wrapper): exit 0, 2 files, 62 tests passed
+  - PROJECT_TESTS (own run): exit 0, 23 files, 580 tests passed
+  - PROJECT_LINT (own run): exit 0, no error and no warning
+  - PROJECT_CHECKS (own run): exit 0, 0 type errors
+  - PRINT_GATE on the delivered PDF/X (own run, heavy-run wrapper): exit 0, 2 pages, PDF/X-1a:2001, 4 fonts, 'All checks pass.'
+files_changed: phase-acceptance-c0fd0e92.json, phase-acceptance-c0fd0e92.log, and the five gate .txt files (all under measure/runs/storytime_covers_20261027/)
+plan_updates: none (gate-only role)
+known_failures: none blocking; the PA-P2-1 to PA-P2-6 nonblocking lows are known, routed, and listed in the result JSON
+handoff: Phase 2 acceptance passes at c0fd0e92. HEAD did not move at the completion check. All prerequisite audits pass on the same HEAD lineage; no production file changed after the reviews; every task, claim, and the delivered file SHA check out; all five gates exit 0 in my own runs. The C3-P2-02/B-P2-1 version-scope low waits on the user with the tech-debt default (qualify the spec text at the next spec edit, no code change). Phase closeout may proceed.
+END_MEASURE_AGENT_RESULT

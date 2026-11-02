@@ -1,0 +1,65 @@
+role: strategy
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: dbe9173c
+role_base_sha: dbe9173c
+status: complete
+date: 2026-10-27
+
+## What I read
+spec.md, plan.md, metadata.json, index.md, measure/index.md, measure/workflow.md,
+measure/anti-patterns.md (A1 to A10), measure/lessons-learned.md, measure/tech-debt.md,
+and the house model measure/tracks/storytime_print_r1_20261025/test-strategy.md.
+Read-only code: compose.ts, qr-generator.ts, back-text.ts, catalogue.ts, make-pdfx.ts,
+pdfx.ts, covers-contract.test.ts, print-pdfx.test.ts, and git show HEAD of student-book.ts.
+Read-only mock build: books.json, check_covers.py, make_covers.py (CSS radius only).
+I did not edit plan.md. I did not touch the dirty print-track or video files.
+
+## Measured facts
+F1  No storytime-print-covers test file. No content/storytime/covers/. No covers.ts.
+F2  graph.db mtime 2026-08-08. Graph-aware inspect skipped. Callers from rg.
+F3  BACK_LINES.contact equals the mock contact list, 5 lines, byte for byte.
+F4  generateQRCode(LINE URL): 434 dark rects, width 10, viewBox 370. qrcode(0,'M'): 29 modules, 434 dark.
+F5  composeSide returns JPEG. placeArt returns RGBA. PAGE_RATIO is 210/285. Storytime trim is 210 x 297 mm.
+F6  checkPdfx fails a file with no PDF/X-1a marker. --check on a Chrome PDF is not a pass.
+F7  Seven cast front.png files, 1024 x 1200, 8-bit RGBA.
+F8  Logo 700 x 700 RGB. SHA-256 equals the mock copy.
+F9  w01 approval.text approved 2026-10-23. Weeks 2 to 8 draft. Token 2026 only in approval dates.
+F10 Mock CSS radius 5 mm and 3 mm. L4U4 mock picture is class-waves.png. 3 pictures, 13 empty.
+F11 compose.ts 2 callers, back-text.ts 2 callers, qr-generator.ts 3 callers. COVER_BOOKS unchanged.
+F12 Print-track Phase 5 names make-storytime-cover.ts. This plan names make-storytime-book-cover.ts.
+F13 HEAD student-book.ts uses format truetype. Working tree of that file is dirty. Not edited.
+F14 Full dashboard suite has 3 known failing tests. PROJECT_TESTS does not include them.
+No vitest, tsc, Chrome, or Ghostscript. Heavy jobs were not required for these facts.
+
+## Commit
+e5266ce1 measure(strategy): test strategy for storytime_covers_20261027
+(only measure/tracks/storytime_covers_20261027/test-strategy.md; 324 insertions)
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+baseline_sha: dbe9173c
+role_base_sha: dbe9173c
+head: e5266ce1
+commits: e5266ce1
+review_gates: Phase 1 high: Review A yes; security Review B yes, limited; Review C yes; adversarial yes; UX/API not applicable; browser not applicable; UX_REQUIRED=never. Phase 2 high: same gates. Phase 3: no reviews until it starts.
+facts_changed: none
+tests_run: none (read-only measurements only; no vitest, tsc, Chrome, or Ghostscript)
+files_changed: measure/tracks/storytime_covers_20261027/test-strategy.md
+plan_updates: none (defaults are in handoff; plan.md was not edited)
+known_failures: none in this role
+capture_point: Immediately after e5266ce1, and before Mid Red, run git rev-parse HEAD. Store that SHA as phase_base_sha. Do not use dbe9173c. If no other commit lands, the value is e5266ce1.
+handoff: |
+  Defaults (not questions). Override if you reject one. Do not treat this role as blocked.
+  1. Phase 1 Check runs PRINT_GATE on the PDF/X file from --print, not on the Chrome PDF. --check on a Chrome PDF fails the PDF/X marker (measured, checkPdfx).
+  2. Do not add a Phase 2 Red task for --print. Phase 1 R14 owns that contract. A Phase 2 Red test would already pass (A4). Fallback if you reject this: add one Red task before Phase 2 Green. It asserts only the file-name suffix _PDFX-1a and that the file is newer than its sources.
+  3. Script name is dashboard/scripts/storytime/make-storytime-book-cover.ts. Do not also create make-storytime-cover.ts. Route the print-track Phase 5 plan so it does not create lib/storytime/print/covers.ts again.
+  4. Shipped data has 3 non-empty recipes and 13 empty recipes. Do not invent missing Level 4 render paths.
+  5. Phase 1 proof files go to ~/Desktop/print-ready/storytime/proof/, outside git.
+  6. Flatten the corner radius into the picture layer. Square corners are the fallback. The Check note records the mode.
+  7. PROJECT_TESTS may fail in files this phase does not own while the print-track Green role is mid-edit. Do not edit those files. Retry when that tree is clean.
+  8. Capture phase_base_sha now, before Mid Red.
+END_MEASURE_AGENT_RESULT

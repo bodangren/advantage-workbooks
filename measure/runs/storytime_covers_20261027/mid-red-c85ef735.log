@@ -1,0 +1,114 @@
+# Measure Mid-Red log — storytime_covers_20261027, Phase 2 (Red P2)
+
+status: complete
+role: measure-mid-red
+track: storytime_covers_20261027 (short id storytime_covers)
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+red_model: bailian-token-plan/qwen3.8-max#high (deviation recorded by the orchestrator)
+date: 2026-11-01 +07
+
+## Context
+
+Daniel approved the weeks 2 to 8 English text on 2026-11-01 ("3. Covers: Approved", owner
+answer relayed by the PM session). Five committed tests pinned the shipped draft state, so the
+approved data of `jr-green-c85ef735-week-approval.patch` would fail them. This Red aligned the
+tests with the owner decision and pinned the approved record.
+
+## Edits (tests only; no production source, no content change)
+
+1. `dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts`
+   - New helper `copyLevel2WeeksDraftAfterFirst()`: copies the shipped Level 2 weeks to a
+     temporary folder (rule 11.1) and forces `approval.text` of weeks 2 to 8 to `{status:'draft'}`.
+   - Both ADV-D12 tests (tests 1 and 2) read the copy, not the shipped approval state.
+2. `dashboard/__tests__/storytime-print-covers-16books.test.ts`
+   - New helper `draftWeeksEnv()`: a temporary repository root with the drafted week copies, a
+     media symbolic link, and a logo symbolic link. The script reads it through `WORKBOOKS_ROOT`;
+     `MASTERY_PHONICS_GRAPH` keeps the shipped phonics graph.
+   - R22 (test 3) and R22 M21/M22 (test 4) run the script with that environment.
+   - New R30: the shipped weeks 2 to 8 must record status approved, date 2026-11-01, words
+     "3. Covers: Approved", and a source that names the PM relay.
+3. `dashboard/__tests__/storytime-print-contract-v2.test.ts`
+   - Test 5, renamed "keeps the other parts draft in all eight weeks and records the owner
+     approval of the weeks 2 to 8 text", requires the approved text record for weeks 2 to 8.
+     The other parts stay draft.
+
+## Gate runs (all through heavy-run.sh; the Forge rule was checked before each; waits of 60 s and 420 s)
+
+| Run | Data | Exit | Result | File |
+|---|---|---|---|---|
+| RED_TEST_COMMAND | draft (HEAD) | 1 | only R30 fails; 1 failed, 54 passed (55) | mid-red-c85ef735-red.txt |
+| contract-v2 run | draft (HEAD) | 1 | only test 5 fails; 1 failed, 23 passed (24) | mid-red-c85ef735-contract.txt |
+| PROJECT_LINT + tsc --noEmit | draft (HEAD) | 0 | clean | mid-red-c85ef735-lint.txt |
+| RED_TEST_COMMAND | approved (patch content hunks applied, then reverted) | 0 | 55 passed | mid-red-c85ef735-red.txt (second section) |
+| contract-v2 run | approved (same) | 0 | 24 passed | mid-red-c85ef735-contract.txt (second section) |
+
+The content tree was restored after the approved-data runs (`git diff --quiet content/` exit 0).
+
+## Mutants (never committed; each restore verified with git diff --quiet)
+
+- MA (caught): `lib/storytime/print/covers.ts`, `storytimeCoverPanelValues` ignored `ctx.weeks`
+  and read every shipped week, so the approved-only filtering of D12 was gone. Run: adversarial
+  `-t "ADV-D12"`. Both ADV-D12 tests failed (14 > 14 books assertion; 0 > 0 missing-field
+  assertion). Restored clean. Evidence: mid-red-c85ef735-mutants.txt.
+- MC (caught): `scripts/storytime/make-storytime-book-cover.ts`, `panelReport` recorded every
+  week as 'approved', so the build report never named a draft week (the D12 report rule removed).
+  Run: 16books `-t "R22: mock reports"`. The test failed on the `/draft/i` report assertion.
+  Restored clean (`git diff --quiet`). Evidence: mid-red-c85ef735-mutants.txt.
+- MB (caught): the same script, the D12 print stop never fired (`missing.length > 99`). Run:
+  16books `-t "R22"` (both R22 tests). Both failed. Detail: the mutant print run passed the D12
+  stop, wrote the mock deliverables into the print output folder, and its PDF/X child step then
+  failed with `spawnSync … ENOENT` (the child finds no node in this environment), so the exit
+  status was 1 for that reason. The tests caught the mutant on the D12 error-message
+  assertions: the output held no D12 rejection, and the "no deliverable" state was broken.
+  Restored clean (`git diff --quiet`). Evidence: mid-red-c85ef735-mutants.txt.
+
+## Commits
+
+- be3b0a2f69e1e0d2ce59443018d9007f08c09dd4 — the three test files (Red tests).
+- c6c5cde4bedb6cef4b3a5b98a9ab542feaf047e3 — plan.md: Red P2 row `[x]` with the SHA and
+  evidence automated; `Task (Green)` `[~]`; the owner gate row stays `[ ]` for Green.
+
+## Tree state
+
+- `video/storytime-song/scripts/render.mjs` (modified) and `dashboard/raw.json` (untracked) are
+  unrelated user work; untouched. No content or production file carries a change. No pnpm or
+  npm install ran. No lock file changed. Nothing was pushed.
+- Note for Green: after commit c6c5cde4, the plan hunk of
+  `jr-green-c85ef735-week-approval.patch` does not apply. Green applies only the content hunks
+  (`git apply --include='content/storytime/l2/*' …`) and sets the owner gate row by hand from
+  the patch text.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05), Task Red P2
+baseline_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+final_head: c6c5cde4bedb6cef4b3a5b98a9ab542feaf047e3
+commits:
+  - be3b0a2f69e1e0d2ce59443018d9007f08c09dd4 (the three test files)
+  - c6c5cde4bedb6cef4b3a5b98a9ab542feaf047e3 (plan.md: Red P2 [x], Green [~])
+tests_run:
+  - RED_TEST_COMMAND on draft data: exit 1, only R30 fails (1 failed | 54 passed, 55)
+  - RED_TEST_COMMAND on approved data (patch content hunks applied, then reverted): exit 0 (55 passed)
+  - contract-v2 on draft data: exit 1, only the renamed text-record test fails (1 failed | 23 passed)
+  - contract-v2 on approved data: exit 0 (24 passed)
+  - PROJECT_LINT and tsc --noEmit: exit 0
+  - Mutant MA (panel values ignore ctx.weeks): both ADV-D12 tests fail; caught; restored clean
+  - Mutant MC (panelReport always 'approved'): R22 fails on the /draft/i report assertion; caught; restored clean
+  - Mutant MB (the D12 print stop removed): both R22 tests fail on the D12 error-message assertions; caught; restored clean
+files_changed:
+  - dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts (committed)
+  - dashboard/__tests__/storytime-print-covers-16books.test.ts (committed; new R30)
+  - dashboard/__tests__/storytime-print-contract-v2.test.ts (committed)
+  - measure/tracks/storytime_covers_20261027/plan.md (committed)
+  - measure/runs/storytime_covers_20261027/mid-red-c85ef735{.log,-red.txt,-contract.txt,-lint.txt,-mutants.txt} (untracked evidence)
+plan_updates: Red P2 row [x] with commit be3b0a2f and evidence automated; Task (Green) [~]; the owner gate row stays [ ] for Green
+known_failures:
+  - R30 in storytime-print-covers-16books.test.ts (the intended Red failure until Green applies the week-approval data)
+  - the text-record test in storytime-print-contract-v2.test.ts (the intended Red failure until the same data lands)
+  - storytime-print-readers.test.ts 5 failures (another track phase; untouched)
+handoff: Green runs next. Apply only the content hunks of measure/runs/storytime_covers_20261027/jr-green-c85ef735-week-approval.patch (git apply --include='content/storytime/l2/*'); the plan hunk conflicts with commit c6c5cde4, so set the owner gate row by hand from the patch text. Then run the four gates, check-weeks.ts --level 2, the build, PRINT_GATE, and the text compare as the Green log describes. After the Green data lands, R30 and the contract text-record test pass (proved in this log). All three mutants (MA, MC, MB) were caught; each restore was verified; no mutant was committed. The Forge rule held: two waits (60 s and 420 s), no timeout. No question tool was used.
+END_MEASURE_AGENT_RESULT

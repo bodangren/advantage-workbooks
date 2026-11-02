@@ -1,0 +1,89 @@
+# Green B-P1-01 - the output folder of another version
+
+status: pass
+
+- Role: Measure Jr Green, Green-phase remediation for Review B finding B-P1-01 (high, blocking).
+- Model: deepseek/deepseek-flash#high. The Red families of this phase are OpenAI, MiniMax, and Grok, so Red and Green stay independent. No coder subagent was used.
+- Repository: /home/daniebo/Desktop/Workbooks, branch master.
+- Track: storytime_covers_20261027. Phase 1. Task B-P1-01.
+- phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+- role_base_sha: cb1874b1691a824dd28b394469e9c73ba327ea01. `git rev-parse HEAD` returned this SHA at start.
+- Final Green HEAD: 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b
+
+## The finding
+
+`dashboard/scripts/storytime/make-storytime-book-cover.ts` resolved `--out` but did not reject a path inside `proof/` or `proof-v2/`. The writes use fixed names, so a `--version 3` build with `--out` in `proof/` overwrote the version 1 mocks. The versioned default folder protected only a build that took the default. This broke FR-5.7 and mutant M22.
+
+## Precondition note
+
+The range `phase_base_sha..HEAD` holds no committed Red test for B-P1-01. A grep for `R29` and `checkStorytimeCoverOutDir` found no hit in the track files, and the last commit of the cover test file is 2d6b503e (D11.5). The orchestrator handoff gave the R29 test cases in step 4 and scoped them into this Green task. Green therefore added the R29 tests together with the fix, in commit 3f5c42a1. The targeted Red command was rerun first: it passed with 43 tests, because no test measured this behavior. The three mutants are the proof that the new tests fail without the fix.
+
+## The change (commit 3f5c42a1)
+
+- `dashboard/lib/storytime/print/covers.ts`: new export `checkStorytimeCoverOutDir(out, version, printReadyRoot): string[]`. It resolves `out` through the deepest existing ancestor with `fs.realpathSync` and joins the rest of the path. It lists the existing version folders under `<printReadyRoot>/storytime/` (`proof` is version 1, `proof-v<k>` is version k), takes the real path of each folder of another version, and returns an error when the resolved `out` equals it or is inside it. The error names the folder and its version. When `out` exists, it returns an error for each of `front.png`, `back.png`, `cover.pdf`, `corner-mode.txt`, and `build-report.json` that is a symbolic link.
+- `dashboard/scripts/storytime/make-storytime-book-cover.ts`: one `printReadyRoot` constant, used by the default folder and by the check. The check runs right after the `--version` check, before the data load and any write. Each error prints to stderr and the script returns 2.
+- `dashboard/__tests__/storytime-print-covers-16books.test.ts`: R29 helper cases (version 3 into `proof/l2u1`, into `proof-v2/l2u1`, and through a symbolic link to `proof`; version 3 into `proof-v3/l2u1` gives `[]`; version 1 into `proof` and version 2 into `proof-v2` give `[]`; a `front.png` symbolic link in the output folder gives an error). One R29 CLI case runs with `HOME` in a temp root, a seed `front.png`, and expects exit 2 with the seed bytes unchanged. `runScript` gained an optional env argument. No test points at the real `~/Desktop/print-ready`; every root comes from `mkdtempSync`.
+- Plan row: new `[~]` task, then `[x]` in commit 5f8b26f9.
+- `measure/lessons-learned.md`: one durable line under Recurring Gotchas.
+
+## Gates (one heavy-run wrapper, no `heavy-run: lock wait over 600 s` line)
+
+| Gate | Exit | Result |
+| --- | --- | --- |
+| GREEN_TEST_COMMAND | 0 | 45 passed (43 before this task) |
+| PROJECT_TESTS | 0 | 18 files, 484 passed |
+| PROJECT_LINT | 0 | no output |
+| PROJECT_CHECKS | 0 | no output |
+
+Files: `jr-green-cb1874b1-green.txt`, `jr-green-cb1874b1-tests.txt`, `jr-green-cb1874b1-lint.txt`, `jr-green-cb1874b1-checks.txt`. 2026-10-30 03:26 to 03:29 ICT.
+
+## Mutants (`jr-green-cb1874b1-mutants.txt`)
+
+mutants: 3, caught: 3
+
+- M25, the CLI does not call the check: R29 CLI fails, exit 0 seen where 2 is required.
+- M26, the check skips the realpath step: the R29 symbolic link folder case fails, 0 errors where 1 or more is required.
+- M27, the check skips the symbolic link file rule: the R29 link file case fails.
+
+Each mutant ran on one copy. Each file was restored with `cp` and checked with `cmp` (M25 to M27 RESTORED_OK).
+
+## The print-ready folders (`jr-green-cb1874b1-sha256.txt`)
+
+48 files under `~/Desktop/print-ready/storytime/proof/`, `proof-v2/`, and `proof-v3/` were hashed before the first gate (03:11 ICT) and after the last gate and the mutants (03:29 ICT). The two lists are equal, so this task wrote no file there.
+
+## Files and scope
+
+- New files: none in the product code. Three files changed, all tracked before.
+- Unrelated work left untouched: `video/storytime-song/scripts/render.mjs` (modified before this task), `dashboard/raw.json` (untracked), and the run files under `measure/runs/`.
+- `pnpm-lock.yaml` and every `package.json` are unchanged. Nothing was pushed. Files were staged path by path.
+- No build-graph artifact update: no new structural TypeScript module, only one new export in an existing module.
+
+## Anti-patterns check
+
+- A1: no substring heuristic added to `measure/automation-supervisor.py`.
+- A5 and A6: the plan evidence gives the exit code of each gate and the count from its own file. The text does not claim a pass that did not run.
+- A7: no `rg -v` filter changed.
+
+MEASURE_AGENT_RESULT
+status: pass
+track: storytime_covers_20261027
+phase: P1
+task: B-P1-01
+model: deepseek/deepseek-flash#high
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: cb1874b1691a824dd28b394469e9c73ba327ea01
+fix_commit: 3f5c42a1
+plan_commit: 5f8b26f9
+head_sha: 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b
+gates:
+  green: { command: 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts', exit: 0, passed: 45 }
+  project_tests: { exit: 0, files: 18, passed: 484 }
+  project_lint: { exit: 0 }
+  project_checks: { exit: 0 }
+mutants: 3, caught: 3
+sha256_print_ready: the 48 values of proof, proof-v2, and proof-v3 are equal before and after (03:11 and 03:29 ICT)
+tasks_flipped_x: B-P1-01, evidence commit 3f5c42a1, plan commit 5f8b26f9
+tasks_flipped_b: none
+new_files: none in the product code; the run files under measure/runs/ are not committed
+handoff: Green passes. Review B B-P1-01 is fixed by 3f5c42a1 and recorded by 5f8b26f9. The range e5266ce1..cb1874b1 held no Red test for this finding, so the fix commit holds the R29 tests too; widen the next audit to that fact. Nothing was pushed and no print-ready file changed.
+END_MEASURE_AGENT_RESULT

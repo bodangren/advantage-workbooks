@@ -1,0 +1,17 @@
+Audited HEAD: 61b0b2249e61e6385e1fef626a304a9509e7c491
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+Test Files 1 failed | 19 passed (20)
+Tests 6 failed | 494 passed (500)
+PROJECT_EXIT=1
+Only dashboard/__tests__/storytime-print-teacher-book.test.ts failed.
+Six intentional Phase 3 Red failures of storytime_print_r1_20261025 occurred.
+Five failures report the missing module /lib/storytime/print/text-diff.
+One failure reports that the teacher-book print CLI does not exist.
+No cover test failed.
+
+Clean evidence command: the same command with --exclude "**/storytime-print-teacher-book.test.ts".
+Test Files 19 passed (19)
+Tests 493 passed (493)
+PROJECT_EXCLUDE_EXIT=0
+GATE_SUMMARY GREEN=0 PROJECT=1 PROJECT_EXCLUDE=0 LINT=0 CHECKS=0
+Raw captured output: /home/daniebo/.local/share/opencode/shell/e11d223cd8456b64cfabe47d0d5137ee5ff49d4c/sh_1899e90b60017xQyBvirgqi4n6.out lines 192 to 855.

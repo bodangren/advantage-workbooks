@@ -1,0 +1,51 @@
+status: blocked
+role: jr-green (Task Green v3b)
+track: storytime_covers_20261027
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 0475a6e658def7e94d4d54c8d5b3adafdd7cb070
+model: claude-code/claude-opus-5-5[1m]#high
+red_model: openai/gpt-6-luna#high
+model_deviation: ra-quota pick green --not-family openai --not-family minimax printed deepseek/deepseek-flash#high at 00:35; the orchestrator kept Green on Claude (GO, 5 h 21 %, week 26 %) because this session holds the v3 context.
+coder_delegation: none
+start: 2026-10-30 00:55 +07
+end: 2026-10-30 01:02:51 +0700
+quota: start claude 5h 22 %, 7d 27 % (GO)
+
+step 1 (code): a D11.5 change of dashboard/lib/storytime/print/covers.ts only (the script needs no change:
+  its try block at make-storytime-book-cover.ts:224 to 263 catches the title error and returns 1 before any write).
+  - D11.5a: the display case of each decodable and sight word comes from every source occurrence in the unit
+    (family, home, back, page text, tricky words); the repeat key and wordNeed stay lower case; the first positions do not move.
+  - D11.5b: the books value joins the titles with "; "; a reader title with ";" throws
+    "Level <l> Unit <u> (<title>): the book title "<t>" of week <w> holds ";" ... the build stops."
+  - patch: /tmp/green-v3b/covers-d115.patch (sha256 in the shell output of this role).
+step 2 (gates, one heavy-run wrapper, 00:55:35 to 01:01:43 +07, with the patch in place):
+  - GREEN_TEST_COMMAND exit 1: Tests 1 failed | 42 passed (43). R27, R28, and the R28 temp-week stop pass.
+    The one failure is R20 ("R20.1 and R20.3 to R20.6"), line 746 of the test file:
+    "The decodable words come from wordNeed at the week program.: expected [ 'Nan', 'pan', 'nap', 'Pam', ...] to deeply equal [ 'nan', 'pan', 'nap', 'pam', ...]".
+  - PROJECT_TESTS exit 1: Tests 1 failed | 481 passed (482), 18 files; the same R20 failure only.
+  - PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. pnpm-lock.yaml unchanged.
+  - files: jr-green-0475a6e6-{green,tests,lint,checks}.txt
+finding (Red contradiction): R20 lines 746 and 747 (Red v3, commit 5b126787) assert that the decodable and
+  sight items of storytimeCoverPanelValues equal expectedPanel(), which lower-cases every word (test lines 437 and 488).
+  R27 (Red v3b, commit bcdfc4fc, test lines 832 to 842) asserts that the same items hold "Nan", "Pam", "Pat", "Sam", "Tom", and "I",
+  and no lower-case copy. Both tests read the same .items of the same call, so no implementation passes both.
+  The D11.5a rule (spec) agrees with R27; R20 lines 746 and 747 still state the pre-D11.5 lower-case contract.
+action: covers.ts is restored to HEAD 0475a6e6 (git diff --quiet exit 0), so a Red retry sees a clean Red state.
+  No commit. No mutant run. No cover build. proof/, proof-v2/, and proof-v3/ were not written.
+
+MEASURE_AGENT_RESULT
+status: blocked
+role: jr-green
+task: Task (Green v3b)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 0475a6e658def7e94d4d54c8d5b3adafdd7cb070
+final_head: 0475a6e658def7e94d4d54c8d5b3adafdd7cb070
+commits: none
+tasks_flipped_x: none
+tasks_flipped_b: none
+new_files:
+  - measure/runs/storytime_covers_20261027/jr-green-0475a6e6-{green,tests,lint,checks}.txt (untracked)
+  - /tmp/green-v3b/covers-d115.patch (the ready D11.5 code change)
+coder_delegation: none
+handoff: Mid Red retry needed. R20 lines 746 and 747 of dashboard/__tests__/storytime-print-covers-16books.test.ts contradict R27 and D11.5a: R20 wants lower-case decodable and sight items, R27 wants "Nan" and "I". Question for the orchestrator: may Red change R20 lines 746 and 747 to compare the lower-case keys (items.map(toLowerCase) equal to expectedPanel), as R27.3 already does? Options: (a) yes, R20 compares lower-case keys and R27 owns the case (default); (b) R20 keeps the exact compare and expectedPanel gains the D11.5a case rule; (c) D11.5a changes. After the Red fix, Green applies /tmp/green-v3b/covers-d115.patch, reruns the four gates, M23 and M24, the builds, and the print and file checks.
+END_MEASURE_AGENT_RESULT

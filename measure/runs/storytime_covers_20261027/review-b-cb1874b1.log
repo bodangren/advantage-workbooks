@@ -1,0 +1,8 @@
+Security audit for Phase 1. The audit found one blocking output-path issue. The CLI can write a version 3 build into the v1 or v2 proof folder when --out names that folder. Route B-P1-01 to Green.
+
+Provenance: HEAD matched cb1874b1691a824dd28b394469e9c73ba327ea01 at audit start. The shell denied the completion SHA check and the phase-base ancestry check. The audit did not run tests.
+
+MEASURE_AGENT_RESULT
+status: blocked
+handoff: Green must block --out paths in proof and proof-v2, including symlinked paths, and test both cases. The completion HEAD check remains unverified. No user question is pending.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,10 @@
+Adversarial P1 log for storytime_covers_20261027. Reviewed HEAD 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b. Reviews A, B, and C passed on it. New guard file dashboard/__tests__/storytime-print-covers-16books-adversarial.test.ts holds 9 Chrome-free cases. Round one exposed two bugs in my own probes: a .. path that normalizes inside proof-v3 (allow is correct) and four guard calls missing the root argument (tsc caught them). I fixed the test file only and reran. Final gates in one heavy-run wrapper: new file 9 passed (9); PROJECT_TESTS 19 files, 493 passed (493); lint exit 0; tsc exit 0. Guard commit 12e6271c465a68ddb6fb40fef4663847f332f87b holds only the new test file. No blocking defect. Two low nonblocking notes go to Green: ADV-P1-1 (print render uses full values once the D12 stop passes) and ADV-P1-2 (guard sees only existing version folders). A4 does not apply (no markers check exists). Plan holds no pass-count claim (A5 vacuously holds). A7 stays covered by R6.
+MEASURE_AGENT_RESULT
+status: pass
+reviewed_head: 5f8b26f9690de9bf2f0bfc31efc51c32c49bbf1b
+guard_commit: 12e6271c465a68ddb6fb40fef4663847f332f87b
+gates: green 9/9 exit 0; project 493/493 on 19 files exit 0; lint exit 0; checks exit 0
+blocking: none
+nonblocking: ADV-P1-1 (low, latent print-render draft leak, unreachable today); ADV-P1-2 (low, fresh-root guard note)
+retry_recommendation: none
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,28 @@
+date: 2026-10-30 01:32:56 +0700
+result: two mutants M23 and M24, each applied in place to the uncommitted Green v3b source, one GREEN_TEST_COMMAND run each inside one heavy-run wrapper, then restored from pristine copies in /tmp/green-v3b/pristine.
+pristine sha256:
+b207fb2bdd64990f43ae6feab00c6d29d81b1873c89ca2e4c237074348b86112  /tmp/green-v3b/pristine/lib/covers.ts
+247efdf7c5b22ae46f3d45f02c5750f67f89daf8bdfbe668ed42c6f4d2fa241d  /tmp/green-v3b/pristine/scripts/make.ts
+
+== M23 ==
+M23 change: dashboard/lib/storytime/print/covers.ts
+ 1 file changed, 41 insertions(+), 7 deletions(-)
+M23 gate exit 1
+     × R27: panel word case follows every source occurrence, without changing order or repeats (M23) 53ms
+      Tests  1 failed | 42 passed (43)
+M23 caught
+M23 restore: cmp equal for both source files
+
+== M24 ==
+M24 change: dashboard/lib/storytime/print/covers.ts
+ 1 file changed, 40 insertions(+), 6 deletions(-)
+M24 gate exit 1
+     × R28: the shipped books field uses the semicolon separator and preserves item 12 (M24) 70ms
+      Tests  1 failed | 42 passed (43)
+M24 caught
+M24 restore: cmp equal for both source files
+
+---- final tree ----
+final restore: cmp equal for both source files
+mutants: 2, caught: 2
+date_end: 2026-10-30 01:35:54 +0700

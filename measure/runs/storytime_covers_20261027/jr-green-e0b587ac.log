@@ -1,0 +1,62 @@
+# Measure Green log - track storytime_covers_20261027, Phase 1, Task (Green v3)
+status: complete
+date started (try 4): 2026-10-29 21:24 +07
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: e0b587acda5c6c6ae6f0073c39fc24571fdf1f2e
+red_model: openai/gpt-6-luna#high (Red v3); minimax-cn-coding-plan/MiniMax-M3.1-Flash (Red fix 648167a2)
+green_model: claude-code/claude-opus-5-5[1m]#high
+model_deviation: try 1 opencode/glm-5.3-flash-free (free limit, no change); try 2 volcengine-agent-plan/glm-5.3-flash#high (provider prefill error, partial work); try 3 Anthropic (ra-quota pick green exit 3, Ark Agent Plan 95.6 %, MiniMax kept for the 22:05 clip batch); try 4 continues the Anthropic session (`ra-quota pick green --not-family openai --not-family minimax` printed the paid route deepseek/deepseek-flash#high at 21:17; the PM note of 21:07 sent Green to Anthropic; Claude 5 h 11 %, week 24 % at 21:18)
+coder_delegation: none
+
+## try 4 progress
+- 21:24 ICT: HEAD e0b587ac. The Red fix 648167a2 changes line 1425 to the option A assertion and gives R12 a 60000 ms timeout. The working tree holds the try 3 code and data (uncommitted).
+- 21:25 ICT: ra-quota claude 5 h 12 %, 7 d 24 % (GO).
+- 21:25 ICT: recorded the v1 and v2 SHA-256 lists before the first v3 build (jr-green-e0b587ac-sha256.txt).
+- 21:25 to 21:30 ICT: the four gates in one heavy-run wrapper (load average 2.4 to 6.2). GREEN_TEST_COMMAND exit 0 (1 file, 40 passed). PROJECT_TESTS exit 0 (17 files, 430 passed). PROJECT_LINT exit 0. PROJECT_CHECKS exit 0. pnpm-lock.yaml unchanged.
+- 21:32 to 21:43 ICT: mutants M16 to M22 in one heavy-run wrapper, in place with pristine copies, `cmp` equal after each: mutants: 7, caught: 7.
+- 21:45 to 21:47 ICT: one heavy-run wrapper for the builds and the file checks.
+  - Builds: the three v3 covers with --version 3 and no --print, exit 0 each (28 s, 16 s, 10 s), into proof-v3. Chosen size 14 pt for each book (jr-green-e0b587ac-build.txt).
+  - Print stops: --print --version 3 exits 1 for each book before any write. Level 2 Unit 1 names "decodable". Level 1 Unit 1 and Level 4 Unit 4 name all five fields. The proof-v3 list and SHA-256 values are equal before and after the three runs, and proof-v3 holds no PDF/X file (jr-green-e0b587ac-print.txt).
+  - Temp PDF/X: each v3 Chrome PDF went to PDF/X-1a in /tmp/storytime-covers-v3-pdfx/. PRINT_GATE exit 0 and "All checks pass." for each. The folder is deleted (jr-green-e0b587ac-printgate.txt).
+  - File checks: the copy check, the Thai byte check on the Chrome PDF, and the QR module check (0 modules differ) pass on each v3 file. The checks also pass on the temp PDF/X files (jr-green-e0b587ac-filechecks.txt).
+  - Panel ink (each RGB channel 128 or less, 300 ppi back PNG): Level 2 Unit 1 fill share 0.8860 (101.01 mm of 114 mm, threshold 0.60). Ink box L2U1 x 24.38 to 185.42 mm, y 62.57 to 163.58 mm. Ink box L1U1 and L4U4 x 24.47 to 81.70 mm, y 62.57 to 132.76 mm. Each ink box is inside the inset within 1 mm. The light line colour #8a857a is above the ink threshold, so the L1U1 and L4U4 ink box holds only the five headings.
+  - Missing fields: L2U1 none; L1U1 and L4U4 all five, with 5 light lines each on page 2. Draft weeks that the L2U1 mock used: weeks 2 to 7 (week 1 approved).
+  - SHA-256: 15 v3 files, and the v1 and v2 lists before (21:25 and 21:45) and after (21:47). The lists are equal (jr-green-e0b587ac-sha256.txt).
+- 21:50 ICT: commit a8f94ebd (feat, the three files only), then commit 989c4f50 (plan evidence, the plan only). No push.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+track: storytime_covers_20261027
+phase: P1 (Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01))
+status: complete
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: e0b587acda5c6c6ae6f0073c39fc24571fdf1f2e
+red_model: openai/gpt-6-luna#high (Red v3); minimax-cn-coding-plan/MiniMax-M3.1-Flash (Red fix 648167a2)
+green_model: claude-code/claude-opus-5-5[1m]#high
+model_deviation: try 1 opencode/glm-5.3-flash-free (free limit, no change); try 2 volcengine-agent-plan/glm-5.3-flash#high (provider prefill error, partial work); try 3 Anthropic (ra-quota pick green exit 3, Ark Agent Plan 95.6 %, MiniMax kept for the 22:05 clip batch); try 4 continues the Anthropic session (ra-quota pick green --not-family openai --not-family minimax printed the paid route deepseek/deepseek-flash#high at 21:17; the PM note of 21:07 sent Green to Anthropic)
+coder_delegation: none
+implementation_commit: a8f94ebd057fa5ca87772f965803f643244a6a9f
+plan_evidence_commit: 989c4f50758c66647392b01aa837da05269d2a3e
+final_green_head: 989c4f50758c66647392b01aa837da05269d2a3e
+tasks_flipped_x: Task (Green v3) at a8f94ebd057fa5ca87772f965803f643244a6a9f
+tasks_flipped_b: none
+tasks_left_open: Task (Check v3), Task (Hand-off v3), Task: Measure - User Manual Verification Phase 1
+GREEN_TEST_COMMAND: exit 0 (1 file, 40 passed; Red v3 was 9 failed, 31 passed)
+PROJECT_TESTS: exit 0 (17 files, 430 passed)
+PROJECT_LINT: exit 0
+PROJECT_CHECKS: exit 0
+mutants: 7, caught: 7
+fill_share: L2U1 0.8860 (101.01 mm of 114 mm, threshold 0.60)
+chosen_pt: L2U1 14, L1U1 14, L4U4 14
+ink_box: L2U1 x 24.38-185.42 mm y 62.57-163.58 mm; L1U1 and L4U4 x 24.47-81.70 mm y 62.57-132.76 mm; each inside the inset within 1 mm
+missing_fields: L2U1 none; L1U1 all five; L4U4 all five
+draft_weeks_used: L2U1 mock weeks 2 to 7 (week 1 approved)
+print_stop: exit 1 for each book, no file written; L2U1 names decodable; L1U1 and L4U4 name all five fields
+temp_pdfx_gate: PRINT_GATE exit 0 and "All checks pass." for l2u1, l1u1, l4u4 in /tmp/storytime-covers-v3-pdfx/ (folder deleted)
+file_checks: copy, Thai byte (Chrome PDF), and QR (0 modules differ) pass on each v3 file
+v3_sha256: l2u1 front e52f9410 back f33697cf cover.pdf 7f6f4bc1; l1u1 front cf0551cf back 4d13a612 cover.pdf 10af9321; l4u4 front 273f4cb1 back 521ef3f1 cover.pdf 099882d3 (full list in jr-green-e0b587ac-sha256.txt)
+v1_v2_lists_unchanged: yes (equal at 21:25, 21:45, and 21:47)
+files: content/storytime/covers/books.json, dashboard/lib/storytime/print/covers.ts, dashboard/scripts/storytime/make-storytime-book-cover.ts (no new source file)
+evidence_files: jr-green-e0b587ac-{green,tests,lint,checks,mutants,build,print,printgate,filechecks,sha256}.txt
+handoff: Green v3 is complete at 989c4f50. Reviews can scope the audit to a8f94ebd. Task (Check v3) needs the contact sheet of the six pages in proof-v3. Task (Hand-off v3) sends the v3 SHA-256 list to the PM session; no v3 print file exists, because D12 stops each --print build.
+END_MEASURE_AGENT_RESULT

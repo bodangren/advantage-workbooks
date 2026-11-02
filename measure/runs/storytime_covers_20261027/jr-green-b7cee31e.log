@@ -1,0 +1,68 @@
+# Measure Green log - track storytime_covers_20261027, Phase 1, Task (Green v3)
+status: blocked
+date started (try 3): 2026-10-29 16:19:36 +07
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+red_model: openai/gpt-6-luna#high
+green_model: claude-code/claude-opus-5-5[1m]#high
+model_deviation: try 1 opencode/glm-5.3-flash-free stopped at once on "Free usage limit reached" with no change; try 2 volcengine-agent-plan/glm-5.3-flash#high did part of the work, then stopped on the provider error "The last message cannot be from the assistant for a model that does not support prefill"; try 3 is Anthropic, because `ra-quota pick green` without OpenAI, DeepSeek, and MiniMax gave exit 3, the Ark Agent Plan is at 95.6 % of its weekly quota, and MiniMax stays free for the 22:05 clip batch.
+coder_delegation: none
+
+## try 2 notes (not verified)
+progress 1 (implementation, pre-gate):
+- books.json: 16 rows drop `summary`, gain `panel` with the five field entries. L2U1 story (week 1): "Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose." (all words are week 1 student text). Derived fields name weeks 1-7. L1U1 and L4U4 hold five empty week lists.
+- covers.ts: STORYTIME_COVER_PANEL_FIELDS/SCALE_PT/INSET_MM/MISSING_LINE, StorytimeCoverPanelValue/PanelCtx/PanelEntry/BookPanel, storytimeCoverPanelValues, storytimeCoverPanelReadableWeeks (readable = week file parsed + graph GPC node at the program week; the graph has no node at program week 40 = L2 week 8, none below 33, none above 115), checkStorytimeCoverPanelFields, checkStorytimeCoverPanelRow, storytimeCoverPanelLayoutMm, storytimeCoverPanelOverflows (a size outside the scale always overflows, so 9 pt fails), storytimeCoverPanelChosenPt, storytimeCoverDefaultOutDir. renderStorytimeCover renders the panel on every back with data-part hooks panel/panel-inset/panel-field/panel-heading/panel-value/panel-missing and data-field, the panel fill #F7F5F0, border 0.4mm #E1DDD3, radius 3mm in the element style, and the chosen pt on each field. checkStorytimeCoverData validates the panel structure. checkStorytimeCoverSummary and the summary type are gone (D11 replaces D1).
+- script: --version 3 with no --out writes to <print-ready>/storytime/proof-v3/l<level><unit>; panel values from the level weeks and the graph; a --version 3 --print build stops with an error that names the book and the field when a field has no approved source (L2U1: decodable), before any write; build-report.json holds the chosen pt and, for each book and field, the state, the source weeks, and the approval state.
+- Pre-implementation Red rerun: not rerun as a heavy gate; the committed Red evidence (mid-red-1e8881b8-red.txt, 9 failed | 31 passed, exit 1) is the Red proof. Pre-implementation scratch runs confirmed the panel exports were missing and reproduced the test derivations before the edit.
+- Estimator calibration: measured Andika advances (TTF hmtx) at 14 pt give 14 real lines = 103.7 mm in the 162 mm inset; the module estimate (0.62 em average) gives 15 lines = 111.1 mm, so the estimate overestimates and 14 pt fits both. Estimated 14 pt = 111.1 mm <= 114 mm; 13 pt = 103.2 mm.
+- L2U1 chosen size: 14 pt. L1U1 and L4U4: 14 pt (10 lines, 74.1 mm).
+- Print stop (module-level scratch): the approved-only values of L2U1 miss only `decodable`, so a --version 3 --print build stops naming it (R22, D12). No v3 PDF/X file can exist for L2U1 under D12; the plan PRINT_GATE line has no v3 target, and this log records that fact for the orchestrator.
+next: gates
+
+## try 3 progress
+- 2026-10-29 16:35:56: read the try 2 diff, the test file, and the spec rows. Kept the try 2 design after checks.
+- Verified: the shipped data passes checkStorytimeCoverData and checkStorytimeCoverPanelRow for L2U1, L1U1, and L4U4 (no errors).
+- Verified: the L2U1 story "Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose." uses only words of the week 1 student text (pages of "Hello!" and "Nan Can Nod"). Week 1 is approved. No year. No Thai.
+- Verified: the readable rule (week file plus a graph GPC node at the program week) gives weeks 1 to 7 for L2U1. Week 8 is a review week with no element, no tricky words, and no readers, and the graph holds no node at program week 40.
+- Fixed: TS2339 at make-storytime-book-cover.ts:171. The story presence now reads book.panel.story.text. The report size now uses STORYTIME_COVER_PANEL_INSET_MM, not a literal.
+- Probe values (module estimate): L2U1 14 pt = 111.1 mm of 114 mm (estimated share 0.975), 13 pt = 103.2 mm. L1U1 and L4U4: 14 pt, 74.1 mm. These are estimates, not the 300 ppi ink measure.
+- Root cause, try 2 R22 and R6: the same code (covers.ts mtime 15:48, before the 15:58 gate) built L2U1 v1 with exit 0 in 73 s in try 3. In try 2 the two builds stopped at 150 s and 167 s in a gate that took 657 s (10 times the normal 65 s). So machine load is the cause, most likely a Playwright step timeout. No code defect found.
+- Root cause, try 2 R12: R12 took 5095 ms against the 5000 ms default test timeout. The diff changes no picture code (cover-picture.ts is not in the diff). In try 3, R12 took 3352 ms at load average 7.7. Earlier Green runs: 2127 ms and 3505 ms. So machine load is the cause. Risk: R12 has no own timeout, so a heavy load can stop it again.
+- Gates in one heavy-run wrapper, 16:27 to 16:35 ICT, load average 7.8 to 6.0:
+  - GREEN_TEST_COMMAND exit 1: 1 failed, 39 passed (40), 201 s. R12 3352 ms, R22 46499 ms, R6 build 25863 ms, R14 30135 ms all pass. The one failure is R26 copy 2.
+  - PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
+- BLOCKER (Red contradiction): R23 and R26 copy 2 assert opposite results for the same call.
+  - R23 (test line ~800): renderStorytimeCover(L1U1, { panelValues: values, panelMock: false }) must hold 0 panel-missing lines ("The print HTML omits the mock-only line.").
+  - R26 copy 2 (test line 1425): renderStorytimeCover(L1U1, { panelValues: bareValues, panelMock: false }) must hold 5 panel-missing lines ("Copy 2 drops the light line, so the R23 mock contract fails.").
+  - The book, the values, and the flag are equal in the two calls, so no pure render can pass both. The comment says copy 2 is the mutant that must FAIL the R23 mock contract, but line 1425 asserts that the mutant PASSES it.
+  - Spec FR-3.5 and D11.4 agree with R23: the light line shows on the Drive mock only.
+- Not done because of the blocker: PROJECT_TESTS, the mutants M16 to M22, the v3 builds, the --print stops, the temp PDF/X gate, the ink measure, the SHA-256 lists, and the commits. The code and data stay uncommitted in the working tree.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+track: storytime_covers_20261027
+phase: P1 (Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01))
+status: blocked
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+red_model: openai/gpt-6-luna#high
+green_model: claude-code/claude-opus-5-5[1m]#high
+model_deviation: try 1 opencode/glm-5.3-flash-free (free limit, no change); try 2 volcengine-agent-plan/glm-5.3-flash#high (provider prefill error, partial work); try 3 Anthropic (ra-quota pick green exit 3, Ark Agent Plan 95.6 %, MiniMax kept for the 22:05 clip batch)
+coder_delegation: none
+implementation_commit: none
+final_green_head: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+tasks_flipped_x: none
+GREEN_TEST_COMMAND: exit 1 (1 failed, 39 passed; only R26 copy 2, a Red contradiction)
+PROJECT_TESTS: not run (blocked)
+PROJECT_LINT: exit 0
+PROJECT_CHECKS: exit 0
+mutants: not run (blocked)
+v3_sha256: none (no v3 build yet)
+v1_v2_lists_unchanged: not measured (no v3 build ran; the test builds write only to /tmp/opencode)
+print_stop: not run as evidence; R22 and R22 M21 pass in the gate (exit not 0, no file written, the error names Level 2 Unit 1 and decodable)
+temp_pdfx_gate: not run; R14 passes (PRINT_GATE exit 0 on a v2 --print build that carries the new panel radius)
+fill_share: not measured (module estimate 0.975 at 14 pt)
+files: content/storytime/covers/books.json, dashboard/lib/storytime/print/covers.ts, dashboard/scripts/storytime/make-storytime-book-cover.ts (all uncommitted)
+remaining_failures: R26 copy 2 (dashboard/__tests__/storytime-print-covers-16books.test.ts:1425)
+handoff: Mid Red retry needed for one assertion. R23 and R26 copy 2 make opposite claims on the same call. Question: which contract is correct? Options: (A, default, matches FR-3.5 and D11.4) change line 1425 so the copy 2 render (panelMock false) does NOT equal the five mock lines, for example .not.toEqual(Array.from({ length: 5 }, () => api.missingLine)); (B) keep line 1425 and change R23 and the spec, so the print render also shows the light line (this breaks D11.4). After the Red fix, a Green retry starts from the uncommitted working tree: run the four gates, the mutants, the v3 builds, and the evidence, then commit.
+END_MEASURE_AGENT_RESULT

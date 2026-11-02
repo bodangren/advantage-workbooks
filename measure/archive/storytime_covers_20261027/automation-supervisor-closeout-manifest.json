@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "storytime_covers_20261027",
+  "short_id": "storytime_covers",
+  "closed_at": "2026-11-02T20:05:00+0700",
+  "timezone": "Asia/Bangkok",
+  "role_base_sha": "46a1a6567ded96c16587f4be27d4cda562c15a23",
+  "track_base_sha": "253edfaabe146839fc68828721d1ee492a3de7b2",
+  "model": "claude-code/claude-sonnet-5-5#high",
+  "model_deviation": "The table model minimax-cn-coding-plan/MiniMax-M3.1-Flash had its 5-hour window at 86 percent. Daniel's routing order of 2026-11-02 19:4x ICT put every subagent role on Sonnet until 2026-11-03 15:00 ICT.",
+  "final_acceptance": {
+    "result_file": "measure/runs/storytime_covers_20261027/final-acceptance-46a1a656.json",
+    "status": "pass",
+    "audited_head_sha": "46a1a6567ded96c16587f4be27d4cda562c15a23",
+    "blocking": 0,
+    "nonblocking": 8,
+    "audited_head_equals_pre_closeout_head": true
+  },
+  "phase_acceptances": [
+    {
+      "phase": "Phase 1: the shared cover module, the 16 books data, and three mock covers",
+      "result_file": "measure/runs/storytime_covers_20261027/phase-acceptance-c0870d87.json",
+      "status": "pass",
+      "audited_head_sha": "c0870d87b69bb2373bb2aa023d1e7363e848bfb1",
+      "checkpoint": "a6ee1b25"
+    },
+    {
+      "phase": "Phase 2: the Level 2 Unit 1 cover print file",
+      "result_file": "measure/runs/storytime_covers_20261027/phase-acceptance-c0fd0e92.json",
+      "status": "pass",
+      "audited_head_sha": "c0fd0e92ca80af1ecf509b47dd9c7e3c0c2fb56c",
+      "checkpoint": "1cfc84f6"
+    }
+  ],
+  "superseded_results": [
+    {
+      "result_file": "measure/runs/storytime_covers_20261027/phase-acceptance-61b0b224.json",
+      "status": "fail",
+      "note": "An earlier Phase 1 attempt. The passing result c0870d87 replaced it. Kept as evidence."
+    }
+  ],
+  "checkpoints": {
+    "phase_1": "a6ee1b2592088dbbfe4d06f183b3669523b894f3",
+    "phase_2": "1cfc84f6a0856a45c52ca919b89b696be8ae8a12"
+  },
+  "deferred": [
+    "Phase 3: the covers of the other 13 books, after release 1 ([b] deferred:daniel; Daniel is the owner and knows)"
+  ],
+  "owner_approvals": "Daniel's cover approvals and his approval of the Level 2 Unit 1 cover print file (2026-11-02 06:19 ICT, with the Drive upload receipt), recorded in commit 5ac8f416.",
+  "commands": [
+    "git mv measure/tracks/storytime_covers_20261027 measure/archive/storytime_covers_20261027",
+    "python3 -I measure_interphase_checks.py role-gate --role measure-closeout (run after the commit)"
+  ],
+  "anti_patterns": {
+    "A5": "pass: the plan holds no false claim (final acceptance audit)",
+    "A6": "pass: the tracks.md entry now says done and keeps the Phase 3 deferral in this manifest",
+    "A9": "pass: no tests/*.sh exists and the covers tests read no measure/tracks path"
+  },
+  "test_references_fixed": [],
+  "artifact_cleanup": "None. The orchestrator named no bulky run artifacts. All files in measure/runs/storytime_covers_20261027/ stay, with the final acceptance and closeout evidence.",
+  "retained_evidence": "measure/runs/storytime_covers_20261027/ (all files, tracked and untracked, including closeout-46a1a656.log)"
+}

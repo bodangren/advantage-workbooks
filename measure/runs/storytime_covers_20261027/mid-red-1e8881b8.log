@@ -1,0 +1,85 @@
+# Mid Red v3 log — storytime_covers_20261027
+
+role: mid-red
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 1e8881b8bf326864d02750db3a6c46565bf7cf6c
+model: openai/gpt-6-luna#high
+model_deviation: try 1 opencode/glm-5.3-flash-free stopped on Free usage limit reached with no change; try 2 nvidia/deepseek-ai/deepseek-v4.1-flash#high stopped twice on Timed out waiting for response headers during its work
+status: complete
+
+The phase base and role base resolve as commits. The role base is HEAD before the new Red commit. The Red task changed to [~] before test work.
+
+Status classification before edits:
+- Relevant: `dashboard/__tests__/storytime-print-covers-16books.test.ts` and `measure/runs/storytime_covers_20261027/mid-red-1e8881b8.log`.
+- Unrelated user work: `video/storytime-song/scripts/render.mjs` and `dashboard/raw.json`. These files were not changed or staged.
+- Other run artifacts under `measure/runs/` were preserved and not staged.
+- No generated files were changed by this role.
+
+The partial test diff was reviewed and retained. The test now covers R20 to R26 and M16 to M22. New test behavior expects the shipped data, week files, and phonics graph. It does not hardcode the story sentence. Student words come from each story source week's student text. The test rejects a year and allows text longer than 25 words.
+
+Old test changes required by D11:
+- R3 changed to R20.2. It no longer requires one short summary, approved-only input, or a 25-word maximum.
+- R5 changed to R24. It now requires a panel on the back and checks the D11 geometry.
+- R16 M6 changed to R26. The panel mutation checks replace the old D1 panel assertion.
+- R16 M1 to M5 remain unchanged. R17 remains unchanged.
+
+Expected data shape for Green:
+- Each book has `panel` with ordered keys `story`, `sounds`, `decodable`, `sight`, and `books`.
+- `panel.story` has `text` and `weeks`. Each other field has `weeks`.
+- A panel value has `field`, `value`, and `items`. Its context has `weeks` and `graph`.
+- `renderStorytimeCover(book, { panelValues, panelMock })` renders the panel field hooks and the mock-only missing line.
+
+Expected new `covers.ts` exports:
+- `STORYTIME_COVER_PANEL_FIELDS`
+- `STORYTIME_COVER_PANEL_SCALE_PT`
+- `STORYTIME_COVER_PANEL_INSET_MM`
+- `STORYTIME_COVER_PANEL_MISSING_LINE`
+- `storytimeCoverPanelValues`
+- `storytimeCoverPanelReadableWeeks`
+- `checkStorytimeCoverPanelFields`
+- `checkStorytimeCoverPanelRow`
+- `storytimeCoverPanelChosenPt`
+- `storytimeCoverPanelOverflows`
+- `storytimeCoverDefaultOutDir`
+
+`STORYTIME_COVER_BOX.panel` must retain the D11 geometry. The v3 script must write `build-report.json`, report draft source weeks, reject draft-only print data without writing files, and use the separate v3 output folder.
+
+Gate evidence:
+- RED_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-covers*.test.ts`; exit 1. Vitest reports 9 failed and 31 passed, with no `No test files found`. Every failure is in a changed or new D11 test and is an assertion failure.
+- Exact failing tests: R20.2; R20.1 and R20.3 to R20.6; R21; R22 mock/report; R23; R24; R25; R22 M21 and M22; R26.
+- The R22 mock/report assertion fails because `build-report.json` does not exist. The other eight assertions first identify the missing `STORYTIME_COVER_PANEL_FIELDS` export. No existing test fails.
+- PROJECT_LINT: `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-covers*.test.ts`; exit 0.
+- PROJECT_CHECKS: `cd dashboard && npx tsc --noEmit`; exit 0.
+- The Red command printed one `heavy-run: lock wait over 600 s` warning, then completed the test run. The final lint and type-check runs exited 0.
+
+Commits:
+- Test: `5b1267872f381dc98c3f6c57ff1fecdb9fc49681` (`test(storytime): expect the five-field v3 back panel (D11)`). This commit contains only the test file.
+- Plan: `e48305ee696749a493994ccee53f273cc1299a2b` (`measure(plan): record Phase 1 Red v3 evidence`). This commit contains only the plan update.
+- Resulting HEAD: `e48305ee696749a493994ccee53f273cc1299a2b`.
+
+Run output files:
+- `measure/runs/storytime_covers_20261027/mid-red-1e8881b8-red.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-1e8881b8-lint.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-1e8881b8-checks.txt`
+
+MEASURE_AGENT_RESULT
+role: mid-red
+track: storytime_covers_20261027
+phase: P1 — The cover module and the three Drive covers
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 1e8881b8bf326864d02750db3a6c46565bf7cf6c
+model: openai/gpt-6-luna#high
+model_deviation: try 1 opencode/glm-5.3-flash-free stopped on Free usage limit reached with no change; try 2 nvidia/deepseek-ai/deepseek-v4.1-flash#high stopped twice on Timed out waiting for response headers during its work
+status: complete
+head: b7cee31ef2279289e95576bc0aad22b6e9d0e365
+commits: 5b1267872f381dc98c3f6c57ff1fecdb9fc49681 e48305ee696749a493994ccee53f273cc1299a2b b7cee31ef2279289e95576bc0aad22b6e9d0e365
+red_test_command: exit 1; 9 failed, 31 passed; failures only in D11 tests; no No test files found
+project_lint: exit 0
+project_checks: exit 0
+tests_added: R20.1, R20.2, R21, R22, R23, R24, R25, R26; M16 to M22 coverage
+ tests_changed: R3 to R20.2; R5 to R24; R16 M6 to R26; R16 M1 to M5 and R17 retained
+files: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; three gate output files; this run log
+handoff: Green must implement the panel data shape and the 11 listed exports. Green must supply the D11 HTML hooks and v3 build report and folder behavior. Exact current Red failures are listed above. No production code or data changed.
+END_MEASURE_AGENT_RESULT

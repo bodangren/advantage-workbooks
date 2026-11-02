@@ -1,0 +1,24 @@
+Review A log: storytime_covers_20261027 Phase 1 on cb1874b1
+Date: Fri Oct 30 2026, Asia/Bangkok
+HEAD at start: cb1874b1691a824dd28b394469e9c73ba327ea01 (equals audited_head_sha)
+HEAD at end: cb1874b1691a824dd28b394469e9c73ba327ea01 (stable; other sessions touched no scope file)
+Range audited: e5266ce1..cb1874b1; 582a7f60..cb1874b1 touches plan.md only (same code as gate run)
+
+Scope diff: covers.ts +976, cover-picture.ts +646, make-storytime-book-cover.ts +387,
+books.json +520, covers-16books test +1662, files.ts +16/-2 (print-track QR fix).
+No change to video/, lib/covers, qr-generator.ts, registry, or anti-patterns.
+
+Checks:
+- D11/D11.5/D12 logic read and correct (panel order, word case, '; ' titles, approved-only print stop before any write).
+- books.json holds 16 rows, four level colours, L2U1 story week 1 plus derived weeks 1-7, L1U1/L4U4 empty.
+- Gates rerun on this HEAD: GREEN 43 passed (43); PROJECT_TESTS 482 passed (482), 18 files; eslint clean; tsc clean.
+- R1/R2/R11/R22/R23/R26/R27/R28 each assert behaviour with a failing negative control; no bare-digit count; no vacuous pass.
+- All 21 plan SHAs resolve. Plan counts match evidence files and reruns.
+- Callers mapped; one low nonblocking note (A-P1-1, box checks test-only).
+- model_deviation: none (route printed by ra-quota).
+
+Verdict: pass. No blocking finding. retry_recommendation: none.
+
+MEASURE_AGENT_RESULT
+{"audited_head_sha": "cb1874b1691a824dd28b394469e9c73ba327ea01", "phase": "Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)", "role": "measure-review-a", "status": "pass", "summary": "Pass. D11/D11.5/D12 logic matches spec; callers covered; tests assert their rows with negative controls; gates rerun clean (43/43, 482/482, lint 0, tsc 0); one low nonblocking note.", "track": "storytime_covers_20261027", "retry_recommendation": "none"}
+END_MEASURE_AGENT_RESULT

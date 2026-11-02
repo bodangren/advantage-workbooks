@@ -1,0 +1,103 @@
+# Mid Red v3b log — storytime_covers_20261027
+
+role: mid-red
+track: storytime_covers_20261027
+phase: Phase 1: The cover module and the three Drive covers (2026-10-27 to 2026-11-01)
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 5ae046e6747d65d5a1de69509751e5a1acdf1451
+model: openai/gpt-6-luna#high
+model_deviation: none
+status: complete
+
+The phase and role base SHAs resolve. The role base was HEAD before Red work.
+
+Status classification before edits:
+- Relevant: `dashboard/__tests__/storytime-print-covers-16books.test.ts` and the Phase 1 v3b tasks in `measure/tracks/storytime_covers_20261027/plan.md`.
+- Unrelated user work: `video/storytime-song/scripts/render.mjs`; it remains unchanged and unstaged.
+- Generated or ignorable: existing untracked run outputs under `measure/runs/` and `dashboard/raw.json`; they remain unchanged and unstaged.
+
+Red tests:
+- R27 derives expected capitalization from every occurrence in the shipped Level 2 Unit 1 week files. It checks the six capital forms, the five lower-case forms, case-insensitive repeats, and first-position order.
+- R28 checks the shipped 14-title `; ` join and `Tap, Tap!` at item 12.
+- R28 mutation copies all eight Level 2 week files under `fs.mkdtemp(os.tmpdir())`, changes a reader title to `Tap; Mutated title`, and loads the copied weeks with `readLevelWeeks(tempRoot, 2)`.
+- The script calls `storytimeCoverPanelValues` at `dashboard/scripts/storytime/make-storytime-book-cover.ts:242`. The mutation calls that same module function with copied weeks and the shipped graph. The CLI reads the fixed `STORYTIME_ROOT`, so the test proves the stop at the module function, not through the CLI.
+- The semicolon mutation fails because `storytimeCoverPanelValues` does not throw an error naming `Level 2 Unit 1` and `Tap; Mutated title`. The shipped join assertion fails because the module joins titles with `, `.
+
+Gate evidence from one `heavy-run.sh` wrapper:
+- `RED_TEST_COMMAND`: exit 1; 3 failed and 40 passed; no setup error and no `No test files found`.
+- Failing tests: `R27: panel word case follows every source occurrence, without changing order or repeats (M23)`; `R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)`; `R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title`.
+- `PROJECT_LINT`: exit 0.
+- `PROJECT_CHECKS`: exit 0.
+- Lint and type-check shells printed a missing `/home/daniebo/.cargo/env` warning from `.profile`; both commands still exited 0.
+
+Commits:
+- Test: `bcdfc4fc7fca4c8fd29b29f6cc5bf6f938e22a53` (`test(storytime): expect the D11.5 word case and title separator`). It contains only the test file.
+- Plan: `0475a6e658def7e94d4d54c8d5b3adafdd7cb070` (`measure(plan): record Phase 1 Red v3b and hand to Green`). It contains only the plan update.
+- Resulting HEAD: `0475a6e658def7e94d4d54c8d5b3adafdd7cb070`.
+
+Run output files:
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-red.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-lint.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-checks.txt`
+
+MEASURE_AGENT_RESULT
+role: mid-red
+track: storytime_covers_20261027
+phase: P1 — The cover module and the three Drive covers
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 5ae046e6747d65d5a1de69509751e5a1acdf1451
+model: openai/gpt-6-luna#high
+model_deviation: none
+status: complete
+head: 0475a6e658def7e94d4d54c8d5b3adafdd7cb070
+commits: bcdfc4fc7fca4c8fd29b29f6cc5bf6f938e22a53 0475a6e658def7e94d4d54c8d5b3adafdd7cb070
+red_test_command: exit 1; 3 failed and 40 passed; only the three named R27/R28 tests failed
+project_lint: exit 0
+project_checks: exit 0
+tests_added: R27 capitalization and source-order contract; R28 semicolon separator and item 12; R28 temp-week mutation stop
+files: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-5ae046e6-{red,lint,checks}.txt; this run log
+handoff: Green must implement D11.5 in covers.ts. The module must derive the case of each panel word from all source occurrences, preserve lower-case key order without duplicate case forms, join books with `; `, and stop panel value derivation with a book-and-title error when a title contains `;`. The CLI call site is make-storytime-book-cover.ts:242. Current expected Red failures are the three named R27/R28 tests above.
+END_MEASURE_AGENT_RESULT
+
+## Red v3b bounded fix — R20 and D11.5a
+
+The orchestrator identified a conflict between R20 and R27. R20 compared lower-case derived lists to the new display-case values. The fix lowercases both lists in only the two R20 assertions. Their existing messages stay unchanged. R27 remains the display-case check.
+
+Gate evidence from one `heavy-run.sh` wrapper:
+- `RED_TEST_COMMAND`: exit 1; 3 failed and 40 passed. R20 passed. Only R27 and the two R28 tests failed.
+- Failing tests: `R27: panel word case follows every source occurrence, without changing order or repeats (M23)`; `R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)`; `R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title`.
+- `PROJECT_LINT`: exit 0.
+- `PROJECT_CHECKS`: exit 0.
+- Lint and type-check shells printed a missing `/home/daniebo/.cargo/env` warning from `.profile`; both commands still exited 0.
+
+Commits:
+- Test fix: `2d6b503e2cc44248aa23751cf14f8a2355bd7d81` (`test(storytime): let R27 own the word case in R20 (D11.5)`). It contains only the test file.
+- Plan fix: `9fe522b99a1d3100e6510fc29ac7c3873e10909a` (`measure(plan): record Phase 1 Red v3b fix`). It contains only the plan update.
+- Resulting HEAD: `9fe522b99a1d3100e6510fc29ac7c3873e10909a`.
+- All Red v3b commits: `bcdfc4fc7fca4c8fd29b29f6cc5bf6f938e22a53` `0475a6e658def7e94d4d54c8d5b3adafdd7cb070` `2d6b503e2cc44248aa23751cf14f8a2355bd7d81` `9fe522b99a1d3100e6510fc29ac7c3873e10909a`.
+
+Run output files:
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-r3-red.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-r3-lint.txt`
+- `measure/runs/storytime_covers_20261027/mid-red-5ae046e6-r3-checks.txt`
+
+MEASURE_AGENT_RESULT
+role: mid-red
+track: storytime_covers_20261027
+phase: P1 — The cover module and the three Drive covers
+baseline_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+phase_base_sha: e5266ce1c7820be7371d73ad3dfe09447c673127
+role_base_sha: 5ae046e6747d65d5a1de69509751e5a1acdf1451
+model: openai/gpt-6-luna#high
+model_deviation: none
+status: complete
+head: 9fe522b99a1d3100e6510fc29ac7c3873e10909a
+commits: bcdfc4fc7fca4c8fd29b29f6cc5bf6f938e22a53 0475a6e658def7e94d4d54c8d5b3adafdd7cb070 2d6b503e2cc44248aa23751cf14f8a2355bd7d81 9fe522b99a1d3100e6510fc29ac7c3873e10909a
+red_test_command: exit 1; 3 failed and 40 passed; R20 passed; only R27 and the two R28 tests failed
+project_lint: exit 0
+project_checks: exit 0
+tests_added: bounded R20 fix; lowercase comparison preserves source-derived membership while R27 owns display case
+files: dashboard/__tests__/storytime-print-covers-16books.test.ts; measure/tracks/storytime_covers_20261027/plan.md; measure/runs/storytime_covers_20261027/mid-red-5ae046e6-r3-{red,lint,checks}.txt; this run log
+handoff: Green can now implement D11.5. R20 compares lowercase forms and passed. R27 remains the case contract. The remaining Red failures are R27 and the two R28 tests named above. Keep the Green task at [~].
+END_MEASURE_AGENT_RESULT

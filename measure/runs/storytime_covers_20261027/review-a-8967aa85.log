@@ -1,0 +1,92 @@
+Measure Review A round 2 (correctness and architecture), track storytime_covers_20261027, phase P2.
+Audited range: c9e92fa2..8967aa85. HEAD 8967aa8515e06ca6f6e32e17308cfcce34dc65e6 at start and end.
+Verdict: pass. No blocking finding. retry_recommendation: none.
+
+Scope read: spec.md D12 and rule 7; plan.md rules 5-16, gates 17-36, Phase 2 from line 361 (Green ADV-P2 row);
+test-strategy.md section 5; the audit contracts schema; the round-1 result review-a-c9e92fa2.json;
+the adversarial result adversarial-c9e92fa2.json.
+
+Diff c9e92fa2..8967aa85 holds 5 commits: 13f0053a and 92476880 (adversarial tests), 85c327d9 (adversarial
+result, fail), 174586b6 (Green fix, 4 changed lines in one script), bcd8b67f (plan row), 8967aa85 (role log).
+Only dashboard/scripts/storytime/make-storytime-book-cover.ts, the adversarial test file, run evidence and
+the new plan row changed. Phase 1 modules, the Primary cover contract and video/** are untouched.
+
+Check 1, the fix on every path: pass.
+- --out given: out is used; checkStorytimeCoverOutDir runs on it, unchanged.
+- --print, no --out, integer version >= 3: out = print-ready/storytime/print-v<version>/l<level>u<unit>.
+- --print, no --out, version 1 or 2: exit 2, same as before.
+- non-print v3, no --out: storytimeCoverDefaultOutDir gives proof-v3/l<level>u<unit>; the 16books test pins it.
+- non-print version 4+ : exit 2, no regression. NaN --version reaches the same exit-2 paths.
+- checkStorytimeCoverOutDir (covers.ts 772-788) runs on the new default before any write. It compares the
+  print-v3 default against the realpaths of proof, proof-v2 and proof-v3, finds no containment, and passes.
+  A print build into another version's proof folder is still refused. The symbolic-link file rule still runs.
+
+Check 2, panelValues scope: pass.
+panelValues = approvedValues sits inside if (print && version >= 3), after the missing-field stop (return 1)
+and its message. The stop is unchanged. The rendered panel and the report's chosenPt use the same
+panelValues, so the printed panel and the report size agree. The report's panel.fields use panelReport,
+which lists all source weeks with each week's approval state (approved or draft), per FR-1a.8 and D12.
+In a successful print v3 build the stop guarantees every printed field has approved data, so no report
+claim contradicts the printed panel. In the shipped build all 8 weeks are approved, so approved values
+equal full values. I read page 2 of the delivered PDF/X: five fields in the order Story, Sounds,
+Decodable words, Sight words, Books, all with data.
+
+Check 3, the adversarial tests: pass.
+- Pre-fix run jr-green-85c327d9-green-red.txt: exactly 2 failed and 57 passed on 85c327d9, failing
+  ADV-P2-OUT and ADV-P2-D12 only week 3, the two defects of adversarial-c9e92fa2.json.
+- Post-fix jr-green-85c327d9-green.txt: 59 passed.
+- M28 (print default branch disabled) fails only ADV-P2-OUT; the mock folder gains 6 files.
+- M29 (panelValues = approvedValues removed) fails only ADV-P2-D12 only week 3; the page leaks get,
+  Paint! and The Pan. Each mutant copy was restored and cmp-equal.
+- ADV-P2-D12 only week 3 builds its draft case from the shipped weeks in a temp root (rule 11.1), reads
+  the shipped books.json (rule 11.3), asserts a precondition that week 3 supplies draft-only items, and
+  reads real page 2 text. It is not vacuous.
+
+Check 4, the rebuilt print file: pass.
+- Live sha256sum of the PDF/X file: e0e0365a4ece8a5bce06b0bd7da94b6da09a21c8e966258df2962d517b98da90,
+  equal to the plan and the brief.
+- mtime 2026-11-01 13:50:44 +0700, newer than code commit 174586b6 (13:41:56) and newer than the restored
+  script mtime 13:49:58.
+- Live cmp: front.png, back.png, build-report.json, corner-mode.txt and contact-sheet.png are byte-equal to
+  the pre-rebuild copies in /tmp/opencode/covers-p2-before-85c327d9/.
+- jr-green-85c327d9-compare.txt records pdftotext diff exit 0 (old vs new cover.pdf, and new cover.pdf vs
+  the PDF/X file), PIL pixel AE 0 on both PNGs, and four embedded faces with no Type 3.
+- jr-green-85c327d9-printgate.txt records PRINT_GATE exit 0: 2 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001,
+  4 fonts, and 'All checks pass.' matches that exit.
+
+Check 5, plan evidence: pass.
+Live ls of proof-v3/l2u1 shows only the 5 mock files, all dated 2026-10-30 01:41, unchanged. The plan diff
+adds only the Task (Green ADV-P2) row with commit 174586b63f551c24caaffd79e5ae03c1638403bc and its bullets;
+no other row changed. Every claim in the row matches its evidence file (A5): '2 failed and 57 passed',
+'59 passed', 'mutants: 2, caught: 2', the SHA list and the mtime line. One count slip: the row says 'The 6
+files of the folder were copied' while sha256-before.txt and the /tmp copy hold 7 files.
+
+Check 6, callers and docs of the changed default: pass with lows.
+No other code caller reads the default. Two doc drifts: the USAGE text still names proof-v3 as the v3
+default (A3-P2-1), and the guard error message names storytimeCoverDefaultOutDir as where a version build
+writes (A3-P2-5).
+
+Anti-pattern checks: A3 pass (labeled assertions only). A4 pass with one low (ADV-P2-OUT asserts only that
+the mock folder is untouched; see A3-P2-2). A5 pass (plan claims match evidence and live probes).
+
+Round-1 verdict still holds at the new HEAD. A-P2-1, A-P2-3 and A-P2-4 still hold (files unchanged). A-P2-2
+recurs in the new run files (A3-P2-4). Five new low nonblocking findings: A3-P2-1 to A3-P2-5.
+
+No heavy command was rerun by this audit role. Vitest results rest on the committed evidence files. Live
+probes were read-only: sha256sum, stat, ls, cmp, pdftotext to stdout, git.
+
+Commit note: this session's sandbox denied git add and git commit with permission.rejected. The two result
+files are written at the required paths but stay uncommitted. The orchestrator must commit them.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a
+status: complete
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+commits: 8967aa85 (audited head); fix 174586b6; adversarial tests 13f0053a, 92476880; adversarial result 85c327d9; plan bcd8b67f
+tests_run: no rerun (audit-only); committed evidence verified: green-red 2 failed / 57 passed, green 59 passed, mutants 2/2 caught; live probes sha256sum, cmp, pdftotext page 2 all pass
+files_changed: measure/runs/storytime_covers_20261027/review-a-8967aa85.json, measure/runs/storytime_covers_20261027/review-a-8967aa85.log
+plan_updates: none (audit-only role)
+known_failures: none blocking; five new low nonblocking findings A3-P2-1 to A3-P2-5 and three carried lows A-P2-1, A-P2-3, A-P2-4
+handoff: Verdict pass at 8967aa85. The 4-line fix is correct on every out-dir path and the D12 stop stays ahead of the approved-values filter. The two adversarial tests fail on 85c327d9 and pass now; M28 and M29 catch them. The rebuilt PDF/X file has SHA e0e0365a, is newer than the code commit, and equals the pre-rebuild copies; the approved mock keeps its 2026-10-30 files. The new plan row carries commit 174586b6 and no other row changed. Low findings for the orchestrator: USAGE text drift (A3-P2-1); no test pins that a v3 print build without --out writes to print-v3 and exits 0 (A3-P2-2); the Hand-off SHA dbb0512c no longer matches the on-disk e0e0365a, so update the record before acceptance (A3-P2-3); 0-byte lint/checks evidence recurs (A3-P2-4); stale guard message and print-v<n> outside the B-P1-01 folder set (A3-P2-5). The two result files are uncommitted: this sandbox denied git add and git commit with permission.rejected; the orchestrator should commit them.
+END_MEASURE_AGENT_RESULT

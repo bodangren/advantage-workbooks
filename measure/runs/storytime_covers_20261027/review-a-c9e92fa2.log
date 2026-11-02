@@ -1,0 +1,17 @@
+Review A log for storytime_covers P2 on c9e92fa2. Session name: Review A · P2 · storytime_covers. Model claude-code/claude-sonnet-5-5#high.
+HEAD c9e92fa2a1f4349d21e70ae1ad1268b659528906 confirmed at start and end. Phase base c85ef735f56c79779551fbff4996d5924b56c0d8. I audited be3b0a2f, c6c5cde4, ccf3d95c, 2ac6b489, 96ff79f7 and b7337974. I did not audit the print-track commits.
+Owner gate: the plan quotes "3. Covers: Approved", the date 2026-11-01 and the PM relay. The text file SHA-256 57f30792...ba67c matches the file on disk. The PM log in advantage-pr holds the same quote. Rule 0.3 holds.
+Week data: w02 to w08 have an identical diff. Only approval.text changed. The week text last changed on 2026-10-26.
+Red P2: the four D12 tests build draft weeks in temp copies. Mutants MA, MB and MC are caught. For MB the empty-folder assertion and the R22 message regex close the ENOENT gap. R30 and the contract-v2 test pin the record.
+Print file: SHA-256 dbb0512c...a571. PRINT_GATE exit 0 (my own run). The Chrome PDF fails the gate with exit 1. The file is newer than all sources. The build report names no draft week. The Chrome PDF text equals the approved mock text. Evidence files match the plan.
+Mutants: omit --print, Thai check on PDF/X, and owner task without words are all excluded.
+Limits: the heavy-run wrapper was denied to this role, so I did not rerun vitest. I ran only the PRINT_GATE and pdftotext probes, directly, with no Forge job running.
+Findings: four low nonblocking items (A-P2-1 to A-P2-4). No blocker. No product question pending.
+MEASURE_AGENT_RESULT
+status: pass
+artifact: measure/runs/storytime_covers_20261027/review-a-c9e92fa2.json
+retry_recommendation: none
+blocking_findings: 0
+nonblocking_findings: 4
+handoff: Pass with four low nonblocking observations (Thai evidence label, two empty evidence files, text file build date, one weak M21 regex). The wrapper was denied to this role, so vitest rests on Green evidence.
+END_MEASURE_AGENT_RESULT

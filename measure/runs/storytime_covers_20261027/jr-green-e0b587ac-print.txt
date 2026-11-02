@@ -1,0 +1,27 @@
+date: 2026-10-29 21:46:21 +0700
+result: the --print --version 3 build of each book, default output folder. D12 and test-strategy line 39: the amendment writes no printer file, so each build must stop.
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 2 --unit 1 --version 3 --print ----
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+exit_code: 1
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 1 --unit 1 --version 3 --print ----
+Level 1 Unit 1 (Storytime Advantage, Level 1, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+Level 1 Unit 1 (Storytime Advantage, Level 1, Unit 1, Student Book): the panel field "sounds" has no data from the approved sources (D12); the print build stops.
+Level 1 Unit 1 (Storytime Advantage, Level 1, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 1 Unit 1 (Storytime Advantage, Level 1, Unit 1, Student Book): the panel field "sight" has no data from the approved sources (D12); the print build stops.
+Level 1 Unit 1 (Storytime Advantage, Level 1, Unit 1, Student Book): the panel field "books" has no data from the approved sources (D12); the print build stops.
+exit_code: 1
+
+---- npx tsx scripts/storytime/make-storytime-book-cover.ts --level 4 --unit 4 --version 3 --print ----
+Level 4 Unit 4 (Storytime Advantage, Level 4, Unit 4, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+Level 4 Unit 4 (Storytime Advantage, Level 4, Unit 4, Student Book): the panel field "sounds" has no data from the approved sources (D12); the print build stops.
+Level 4 Unit 4 (Storytime Advantage, Level 4, Unit 4, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 4 Unit 4 (Storytime Advantage, Level 4, Unit 4, Student Book): the panel field "sight" has no data from the approved sources (D12); the print build stops.
+Level 4 Unit 4 (Storytime Advantage, Level 4, Unit 4, Student Book): the panel field "books" has no data from the approved sources (D12); the print build stops.
+exit_code: 1
+
+---- no file written ----
+PASS the proof-v3 file list and SHA-256 values before and after the three --print runs are equal (15 files)
+PDF/X files in proof-v3: 0
+date_end: 2026-10-29 21:46:29 +0700

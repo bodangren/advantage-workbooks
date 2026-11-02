@@ -1,0 +1,173 @@
+# Measure Green log — storytime_covers_20261027, Phase 2 (second run)
+
+status: complete
+role: jr-green (Phase 2 Green)
+track: storytime_covers_20261027 (short id storytime_covers)
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: c6c5cde4bedb6cef4b3a5b98a9ab542feaf047e3
+green_model: deepseek/deepseek-flash#high
+red_p2_commits: be3b0a2f (tests), c6c5cde4 (plan)
+coder_delegation: none
+start: 2026-11-01 09:3x +07
+end: 2026-11-01 09:46 +07
+
+## Why this run exists
+
+The first run (`jr-green-c85ef735.log`) stopped with status blocked. Five committed tests pinned the
+shipped draft state of weeks 2 to 8, and Daniel approved that text on 2026-11-01. Red P2 changed
+those five tests. This run applies the approval data and closes Green.
+
+## Step 1: the content part of the old patch
+
+Command: `git apply --include='content/storytime/l2/*' measure/runs/storytime_covers_20261027/jr-green-c85ef735-week-approval.patch`.
+
+- Exit 0. The diff is 7 files, 28 insertions and 7 deletions.
+- A JSON compare proved that only `approval.text` changed in each of `w02.json` to `w08.json`.
+- Each file now holds `status` "approved", `date` "2026-11-01", `words` "3. Covers: Approved", and the
+  `source` of the PM relay, the two questions, the text file, and its SHA-256.
+
+## Step 2: the owner gate row
+
+Set by hand, because the plan part of the old patch conflicts with c6c5cde4.
+
+- Status `[x]`. Daniel's exact words "3. Covers: Approved", PM chat 2026-11-01 about 07:15 ICT.
+- Date 2026-11-01. Source: owner answer relayed by the PM session, 2026-11-01 07:3x ICT.
+- The PM's two questions are named: the weeks 2 to 8 English text (52 pages, 10,162 words) and the
+  Level 2 Unit 1 cover version 3 look.
+- The approved text file and its SHA-256 57f30792532cdae33ae5e66f069fa822aab58df35cc6b6e2c393ca7fbdbba67c.
+- The note that the approved look is v3, and that this row named v2.
+- Evidence: owner-approved. Evidence commit ccf3d95c, added by the plan-record commit 2ac6b489.
+
+## Step 3: the week text proof
+
+`git log --format='%h %cI' -- content/storytime/l2/w0[2-8].json`. File: `jr-green-c85ef735-weeklog.txt`.
+
+- The last commit of weeks 2 to 8 is `ae6812c2 2026-10-26T02:10:05+08:00`, which is 2026-10-26 01:10 +07.
+- That time is before the approved text file (2026-10-30 02:00 +07).
+- No commit after 2026-10-30 02:00 +07 touches weeks 2 to 8.
+
+## Step 4: the gates
+
+Each gate ran in one heavy-run wrapper. The Forge rule was checked before each heavy command with
+`pgrep -fc '[s]torytime-book-pictures'`; the count was 0 each time.
+
+- `GREEN_TEST_COMMAND` exit 0: 2 files, 55 passed. File: `jr-green-c6c5cde4-green.txt`.
+- `npx vitest run __tests__/storytime-print-contract-v2.test.ts` exit 0: 24 passed.
+  File: `jr-green-c6c5cde4-contract.txt`.
+- `PROJECT_TESTS` exit 1: 22 files, 5 failed and 548 passed. The 5 failures are all in
+  `__tests__/storytime-print-readers.test.ts` (print track Phase 4 Red 4d). They fail at the clean
+  base c85ef735 too, and the orchestrator confirmed they are not counted for this phase.
+  File: `jr-green-c6c5cde4-tests.txt`.
+- `PROJECT_LINT` exit 0. File: `jr-green-c6c5cde4-lint.txt`.
+- `PROJECT_CHECKS` exit 0. File: `jr-green-c6c5cde4-checks.txt`.
+- `check-weeks.ts --level 2` exit 1: 8 packages, 1 FAIL and 13 warnings. The FAIL is `published`
+  ("images not approved; audio not approved; song not approved"), which is the accepted FAIL.
+  File: `jr-green-c6c5cde4-weeks.txt`.
+
+## Step 5: the implementation commit
+
+- `ccf3d95c92bb5b3970722946dffbed1de57f9df6` — `content(storytime): record Daniel's approval of the
+  weeks 2 to 8 text (covers Phase 2)`. It holds the 7 week files and the owner gate row. No test file.
+- No `pnpm` command ran. No lock file changed. `video/**` and `dashboard/raw.json` are untouched.
+
+## Step 6: the build
+
+One heavy-run wrapper, exit 0. The folder `~/Desktop/print-ready/storytime/print-v3/` was new.
+
+`npx tsx scripts/storytime/make-storytime-book-cover.ts --level 2 --unit 1 --print --version 3 --out /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1`
+
+- Output: `front.png`, `back.png`, `cover.pdf` (2 pages), `corner-mode.txt`, `build-report.json`, and
+  `Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf` (2 pages, 1.1 MB, PDF 1.3,
+  PDF/X-1a:2001, 4 fonts).
+- Corner mode: radius in the picture layer. Panel size: 14 pt.
+- File: `jr-green-c6c5cde4-build.txt`.
+
+## Step 7: PRINT_GATE
+
+`npx tsx scripts/print/make-pdfx.ts <print file> --check` exit 0. The output is "All checks pass."
+File: `jr-green-c6c5cde4-printgate.txt`.
+
+## Step 8: the mtime check
+
+- The last commit of the sources (`content/storytime`, `covers.ts`, `make-storytime-book-cover.ts`)
+  is ccf3d95c at 2026-11-01T09:44:08+07.
+- `cover.pdf` mtime 09:44:27. PDF/X file mtime 09:44:34. Both are newer. MTIME_CHECK PASS.
+- File: `jr-green-c6c5cde4-mtime.txt`.
+
+## Step 8: the text compare against the approved v3 mock
+
+- `pdftotext -layout` of `print-v3/l2u1/cover.pdf` against `proof-v3/l2u1/cover.pdf`.
+- Both files are 2 pages. `diff -u` prints no line and exits 0. The new back panel text equals the
+  approved v3 mock text, character for character. No mock-only marker is present.
+- File: `jr-green-c6c5cde4-textdiff.txt`, which also holds the new text and the report values.
+
+## Step 8: the build report
+
+- `print` is true. `chosenPt` is 14. All five fields are present, with source weeks 1 to 7.
+- The approval map of every week of Level 2 Unit 1 is "approved" for weeks 1 to 8.
+- The report names no draft week, and the word "draft" is absent from the file.
+
+## Step 9: the SHA-256 list of the new files
+
+Folder: `~/Desktop/print-ready/storytime/print-v3/l2u1` (created 2026-11-01 09:44). File:
+`jr-green-c6c5cde4-sha256.txt`.
+
+- front.png e52f94106e974a2ffc62368057fa5bb59164f2ad46f9e2b1c0671fa667cb96c7
+- back.png 462a7af92350bf278c2c535b7da9b5fc9cd7cd5732b0bd5fbe67974dfb5b396e
+- cover.pdf f618e17d6cabc1abbaa4045ffe307e47cc10b5eac3a05053deafb56fa591574f
+- Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf dbb0512c3ec4637e6ae1339bcc3abfb095000e77e2eef0da51deae11a64ae571
+- build-report.json 6951a507738b16238c6bdd93b2f77def70dc4d9cecaceeaf0302e76721349785
+- corner-mode.txt 4f5fad6401330b67b77d043c35141fc3619a7b697dd6564baf46c07f07c165bf
+
+The proof folders were not written. The 48 files of `proof/`, `proof-v2/`, and `proof-v3/` hold the
+same SHA-256 values as List 2 of `jr-green-cb1874b1-sha256.txt` (2026-10-30 03:29 ICT), 48 of 48.
+File: `jr-green-c6c5cde4-prooffolders.txt`.
+
+## Step 9: the plan record
+
+- `2ac6b489f0640a5c856a03dfa6549506f806ff1a` — `measure(plan): record Phase 2 Green of the Level 2
+  Unit 1 cover print file`. One path only: `plan.md`.
+- The Green row is `[x]` with `commit ccf3d95c` and the evidence class automated. Its notes hold the
+  gate results, the build, `PRINT_GATE`, the mtime check, the text compare, the build report, the
+  SHA-256 list, the model, and the log path.
+- The owner gate row keeps Daniel's words, the date, the source, the text file, its SHA-256, and the
+  v3 note. It now names its evidence commit ccf3d95c.
+- The Check, Hand-off, and User Manual Verification rows stay `[ ]`.
+
+## End state
+
+- HEAD: `2ac6b489f0640a5c856a03dfa6549506f806ff1a`. Final Green HEAD for the handoff: ccf3d95c for
+  the implementation and 2ac6b489 for the plan record.
+- `git status --short` holds only the unrelated work: `video/storytime-song/scripts/render.mjs`
+  (modified) and `dashboard/raw.json` (untracked). No push. No upload.
+- Untracked run evidence under `measure/runs/storytime_covers_20261027/`: this log, green, contract,
+  tests, lint, checks, weeks, build, printgate, mtime, textdiff, sha256, and prooffolders.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_covers_20261027
+phase: Phase 2: The Level 2 Unit 1 cover print file (2026-11-02 to 2026-11-05)
+phase_base_sha: c85ef735f56c79779551fbff4996d5924b56c0d8
+role_base_sha: c6c5cde4bedb6cef4b3a5b98a9ab542feaf047e3
+final_head: 2ac6b489f0640a5c856a03dfa6549506f806ff1a
+commits:
+  - ccf3d95c92bb5b3970722946dffbed1de57f9df6 content(storytime): record Daniel's approval of the weeks 2 to 8 text (covers Phase 2)
+  - 2ac6b489f0640a5c856a03dfa6549506f806ff1a measure(plan): record Phase 2 Green of the Level 2 Unit 1 cover print file
+tests_run:
+  - GREEN_TEST_COMMAND exit 0: 2 files, 55 passed
+  - storytime-print-contract-v2.test.ts exit 0: 24 passed
+  - PROJECT_TESTS exit 1: 22 files, 5 failed and 548 passed. The 5 are the known readers failures of the print track Phase 4 Red 4d
+  - PROJECT_LINT exit 0
+  - PROJECT_CHECKS exit 0
+  - check-weeks.ts --level 2 exit 1: the FAIL is `published` only (accepted)
+  - PRINT_GATE exit 0 on the PDF/X-1a file
+files_changed:
+  - content/storytime/l2/w02.json .. w08.json: approval.text approved on 2026-11-01 (commit ccf3d95c)
+  - measure/tracks/storytime_covers_20261027/plan.md: owner gate row in ccf3d95c, Green row in 2ac6b489
+  - new files outside the repository in ~/Desktop/print-ready/storytime/print-v3/l2u1/ (6 files)
+plan_updates: owner gate [x] with Daniel's words, the date, the relay source, the text file SHA-256, and the v3-look note; Green [x] with commit ccf3d95c and evidence class automated; Check, Hand-off, and UMV stay open
+known_failures: the 5 failures of __tests__/storytime-print-readers.test.ts in PROJECT_TESTS (print track Phase 4 Red 4d; they fail at the clean base too)
+handoff: Green is closed. The print file is /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf, 2 pages, PDF/X-1a:2001, SHA-256 dbb0512c3ec4637e6ae1339bcc3abfb095000e77e2eef0da51deae11a64ae571, built 2026-11-01 09:44 ICT. The Chrome PDF and the new back panel text equal the approved v3 mock with no difference. The build report names no draft week. The folder also holds front.png, back.png, cover.pdf, build-report.json, and corner-mode.txt, each with its SHA-256 in jr-green-c6c5cde4-sha256.txt. Next: the Task (Check) role runs pdffonts, pdfimages -list, the Thai byte check and the QR module check on the Chrome PDF, makes the contact sheet, and looks at both pages. Do not build into proof/, proof-v2/, or proof-v3/; the 48 files there are unchanged. The 5 readers failures are not this phase's work.
+END_MEASURE_AGENT_RESULT
