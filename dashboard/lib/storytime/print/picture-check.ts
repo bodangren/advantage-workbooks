@@ -148,20 +148,11 @@ const filePart = (file: string): string => path.basename(file);
 const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /**
- * The version-free stem of a picture-list file name: the file name part with the `-v<N>.png`
- * suffix removed. Every row of the shipped picture list gives the row id (`<row id>-v1.png`) and
- * the row id plus `-line` (`<row id>-line-v1.png`), so the stem names the row of the file.
- * @param fileName The file name or path of a picture-list row.
- * @returns The stem that the version number follows.
- */
-const nameStem = (fileName: string): string => filePart(fileName).replace(/-v[0-9]+\.png$/, '');
-
-/**
  * The version number N of one batch file name, from the exact pattern `<stem>-v<N>.png` (PM
  * option A, 2026-11-02). N is a positive integer without a leading zero, and the whole name must
  * match, so a longer row id that starts with the stem fails.
  * @param namePart The file name part of the batch file, after the last `/`.
- * @param stem The version-free stem of the picture-list row.
+ * @param stem The expected version-free stem: the row id, or the row id plus `-line`.
  * @param rowId The picture-list row id, for the message.
  * @param what `color file` or `line-art file`, for the message.
  * @returns The version number N.
@@ -180,8 +171,8 @@ function versionOfName(namePart: string, stem: string, rowId: string, what: stri
  * `<stem>-v<N>.png` and the line art `<stem>-line-v<N>.png`, both files must use the same N, and
  * N must equal the selected version of the job.
  * @param entries The two entries of the job: the color file, then the line art.
- * @param colorStem The version-free stem of the color file name.
- * @param lineStem The version-free stem of the line-art file name.
+ * @param colorStem The expected stem of the color file name (the row id).
+ * @param lineStem The expected stem of the line-art file name (the row id plus `-line`).
  * @param rowId The picture-list row id, for the messages.
  * @param selectedVersion The selected version of the Forge job.
  * @throws Error When a file name part is not of the form, the two N differ, or N is not selectedVersion.
@@ -200,22 +191,16 @@ function checkNameFormOf(entries: StorytimeForgePictureEntry[], colorStem: strin
 }
 
 /**
- * The name form of the two files of one batch row (PM option A, 2026-11-02). The stem comes from
- * the row file names, which equal the row id for every row of the shipped picture list.
+ * The name form of the two files of one batch row (PM option A, 2026-11-02). The row id is the
+ * only source of the expected stem: the color file must be `<row id>-v<N>.png` and the line art
+ * `<row id>-line-v<N>.png`, whatever the list file names say.
  * @param entries The two entries of the job: the color file, then the line art.
- * @param fields The picture-list row, for its two file names.
- * @param rowId The picture-list row id, for the messages.
+ * @param rowId The picture-list row id, for the expected stems and the messages.
  * @param selectedVersion The selected version of the Forge job.
  * @throws Error When a file name part is not of the form, the two N differ, or N is not selectedVersion.
  */
-function checkNameForm(entries: StorytimeForgePictureEntry[], fields: Record<string, unknown>, rowId: string, selectedVersion: unknown): void {
-    checkNameFormOf(
-        entries,
-        nameStem(requireString(fields.fileName, 'color file name')),
-        nameStem(requireString(fields.lineArtFileName, 'line-art file name')),
-        rowId,
-        selectedVersion,
-    );
+function checkNameForm(entries: StorytimeForgePictureEntry[], rowId: string, selectedVersion: unknown): void {
+    checkNameFormOf(entries, rowId, `${rowId}-line`, rowId, selectedVersion);
 }
 
 /** A required field of the row; the check names the missing field. */
@@ -673,7 +658,7 @@ export async function checkStorytimePictureBatch(rows: unknown[], batchFolder: s
             const fields = requireObject(row, 'picture check: the row is not an object');
             const entries = forgeManifestEntriesForRow(manifest, row);
             const job = forgeJobForRow(manifest, rowId);
-            checkNameForm(entries, fields, rowId, job.selectedVersion);
+            checkNameForm(entries, rowId, job.selectedVersion);
             const size = requireSize(fields);
             const colorFile = batchFileOf(batchFolder, entries[0].fileName, rowId);
             const lineFile = batchFileOf(batchFolder, entries[1].fileName, rowId);
