@@ -2,7 +2,7 @@ import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-
 import type { CheckStatus } from '../text-profile/check';
 import { programWeek, wordNeed, type PhonicsGraph } from './phonics';
 import { checkStorytimePrintText } from './print/text-check';
-import { GESTURES, NoteSchema, STORYTIME_PRINT_PART, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
+import { GESTURES, NoteSchema, STORYTIME_LOOPS_PART, STORYTIME_PRINT_PART, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
 
 /** The headings of a step note, in print order. */
 const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
@@ -316,10 +316,11 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     checks.push(...checkStorytimePrintText(w));
 
     // A published week is on the public page: every app part approved, no failed check. The
-    // print part stays out (rule G5): the print approval is its own later gate.
+    // print part stays out (rule G5): the print approval is its own later gate. The loops part
+    // stays out too: it gates the routines in the app, not the publication of the week.
     if (w.meta.status === 'published') {
         const draft = Object.entries(w.approval)
-            .filter(([part, a]) => part !== STORYTIME_PRINT_PART && a.status !== 'approved')
+            .filter(([part, a]) => part !== STORYTIME_PRINT_PART && part !== STORYTIME_LOOPS_PART && a.status !== 'approved')
             .map(([part]) => `${part} not approved`);
         const failed = checks.filter((c) => c.status === 'fail').map((c) => `${c.id} fails`);
         checks.push(check('published', 'Published only when approved and clean', [...draft, ...failed]));

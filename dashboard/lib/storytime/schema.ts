@@ -154,6 +154,22 @@ export const BookAudioSchema = z.object({
     slowSentences: z.array(SentenceTimepointSchema).default([]),
 });
 
+/**
+ * One comprehension question of a read-along book. The object is strict, so a misspelled key fails the
+ * parse. `answer.page` is an integer with no bound here: the check `loops-questions` owns page 0 and a
+ * page past the end of the book.
+ */
+export const BookQuestionSchema = z
+    .object({
+        /** The question word: who, what, or where. */
+        kind: z.enum(['who', 'what', 'where']),
+        /** The question line; the Thai prompt is `ask.th`. */
+        ask: BiTextSchema,
+        /** Where the answer is: the 1-based reader page and the picture word on that page. */
+        answer: z.object({ page: z.number().int(), word: z.string().min(1) }).strict(),
+    })
+    .strict();
+
 export const BookSchema = z.object({
     kind: z.enum(['readalong', 'decodable']),
     /**
@@ -177,6 +193,16 @@ export const BookSchema = z.object({
     /** Names that the reader learns as whole words: the decodability rule lists them and does not count them as untaught (design §6.1). */
     names: z.array(z.string().min(1)).default([]),
     audio: BookAudioSchema.default({ sentences: [], slowSentences: [] }),
+    /**
+     * The three comprehension questions of a read-along book (loops FR-1): one `who`, one `what`, and one
+     * `where`, each with the reader page and the picture word of its answer. Optional in the schema; the
+     * check `loops-questions` requires it on the read-along of a teach week.
+     */
+    questions: z
+        .array(BookQuestionSchema)
+        .length(3)
+        .refine((items) => new Set(items.map((item) => item.kind)).size === items.length, { message: 'each question kind appears once' })
+        .optional(),
 });
 
 export const SongLineSchema = z.object({
@@ -248,6 +274,71 @@ export const NoteSchema = z.object({
     watchFor: z.array(z.string().min(1)).default([]),
 });
 
+/**
+ * The oral blend drill of step A4 (loops FR-2): 3 to 5 words, the model, lead, and test lines, the
+ * number of class repeats, and the correction line. Strict, so a misspelled key fails the parse.
+ */
+export const BlendDrillSchema = z
+    .object({
+        /** The drill words. Each holds 2 to 4 sound labels in the form of `bankSound` (`/n/`). */
+        words: z
+            .array(
+                z
+                    .object({
+                        word: z.string().min(1),
+                        sounds: z.array(z.string().min(1)).min(2).max(4),
+                        /** Daniel's recordings (S22) of the sounds, in the order of `sounds`. */
+                        audio: z.array(z.string().min(1)).optional(),
+                    })
+                    .strict(),
+            )
+            .min(3)
+            .max(5),
+        /** The teacher models the word. */
+        model: BiTextSchema,
+        /** The teacher leads the class. */
+        lead: BiTextSchema,
+        /** The teacher tests the class. */
+        test: BiTextSchema,
+        /** How many times the class says each word, 2 to 5. */
+        repeats: z.number().int().min(2).max(5),
+        /** What the teacher says when a child errs. */
+        correction: BiTextSchema,
+    })
+    .strict();
+
+/**
+ * The correct, practise, retest loop of a sound step A1, A2, or A3 (loops FR-3): three teacher lines.
+ * Strict, so a misspelled key fails the parse.
+ */
+export const SoundLoopSchema = z
+    .object({
+        /** The teacher models the sound again. */
+        correct: BiTextSchema,
+        /** The class practises the sound. */
+        practise: BiTextSchema,
+        /** The teacher retests the item. */
+        retest: BiTextSchema,
+    })
+    .strict();
+
+/**
+ * The fast-way sight-word step of A6 and D2 (loops FR-4). Strict, so a misspelled key fails the
+ * parse.
+ */
+export const SightWordsSchema = z
+    .object({
+        /** The 1 to 3 words of the step; the check `loops-sight` compares them with `focus.trickyWords`. */
+        words: z.array(z.string().min(1)).min(1).max(3),
+        /** The slide-a-finger line: "read it the fast way". */
+        slide: BiTextSchema,
+        /** The timed check line. */
+        check: BiTextSchema,
+        /** The time that the child has for one word, 2 to 5 seconds. */
+        seconds: z.number().int().min(2).max(5),
+    })
+    .strict();
+
 export const StepSchema = z.object({
     /** The script letter and the step number, e.g. `A1`. */
     id: z.string().regex(/^[A-Z]\d{1,2}$/),
@@ -267,15 +358,14 @@ export const StepSchema = z.object({
     materials: z.array(z.string().min(1)).default([]),
     /** In a 30-minute period, the step moves to the next day's opening as a one-minute recall (design §3.3). */
     moved: z.literal('next-opening').optional(),
-});
-
-export const ScriptSchema = z.object({
-    id: ScriptIdSchema,
-    day: z.number().int().min(1).max(5),
-    title: BiTextSchema,
-    /** What the teacher prepares before this lesson, printed at the top of the day. */
-    prep: z.array(BiTextSchema).default([]),
-    steps: z.array(StepSchema).min(1),
+    /** The oral blend drill (loops FR-2), on step A4 of a teach week. */
+    blendDrill: BlendDrillSchema.optional(),
+    /** The correct, practise, retest loop (loops FR-3), on the sound steps A1 to A3 of a teach week. */
+    soundLoop: SoundLoopSchema.optional(),
+    /** The fast-way sight-word step (loops FR-4), on A6 and D2 of a teach week with tricky words. */
+    sightWords: SightWordsSchema.optional(),
+    /** The step minutes when the loops print (loops FR-7), 0 to 20; the print uses `loopMinutes ?? minutes`. */
+    loopMinutes: z.number().int().min(0).max(20).optional(),
 });
 
 export const StripCardSchema = z.object({
@@ -285,6 +375,31 @@ export const StripCardSchema = z.object({
     week: z.number().int().min(1),
     /** A sound card: Daniel's recording of the sound (S22), a path under content/storytime. */
     audio: z.string().min(1).optional(),
+});
+
+/**
+ * The recall of a day (loops FR-6): the cards that the teacher shows in the opening, and the line that
+ * asks the class to read them. The schema holds no length bound for `items`: the check `loops-recall`
+ * owns the 5-item rule. Strict, so a misspelled key fails the parse.
+ */
+export const RecallSchema = z
+    .object({
+        /** The recall cards: the existing strip card with its kind, text, week, and sound audio. */
+        items: z.array(StripCardSchema),
+        /** The line that asks the class to read the cards. */
+        ask: BiTextSchema,
+    })
+    .strict();
+
+export const ScriptSchema = z.object({
+    id: ScriptIdSchema,
+    day: z.number().int().min(1).max(5),
+    title: BiTextSchema,
+    /** What the teacher prepares before this lesson, printed at the top of the day. */
+    prep: z.array(BiTextSchema).default([]),
+    steps: z.array(StepSchema).min(1),
+    /** The recall of the day (loops FR-6), shown in the opening; optional in the schema. */
+    recall: RecallSchema.optional(),
 });
 
 /** The printed review deck of one day (design §4). */
@@ -427,6 +542,9 @@ export const STORYTIME_APPROVAL_PARTS = ['text', 'thai', 'images', 'audio', 'son
 /** The name of the print approval part in `approval` (FR-1.3). */
 export const STORYTIME_PRINT_PART = 'print' as const;
 
+/** The name of the loops approval part in `approval` (loops FR-1). It is not one of the `STORYTIME_APPROVAL_PARTS`. */
+export const STORYTIME_LOOPS_PART = 'loops' as const;
+
 const DRAFT = { status: 'draft' as const };
 
 /**
@@ -498,6 +616,19 @@ export const StorytimePrintBlockSchema = z
 
 export type StorytimePrintBlock = z.infer<typeof StorytimePrintBlockSchema>;
 
+/**
+ * Daniel's approval of the loops of a week (loops FR-1): the shape of an app part, with a refine like the
+ * `print` part. An approved part needs the date and the exact words of the approval; the words must not
+ * be blank. A draft part needs neither. The part is not one of the `STORYTIME_APPROVAL_PARTS`: it gates
+ * the routines in the app, not the publication of the week.
+ */
+export const StorytimeLoopsApprovalSchema = StorytimeAppApprovalSchema.superRefine((part, ctx) => {
+    if (part.status !== 'approved') return;
+    if (!part.date) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['date'], message: 'an approved loops part needs the date of the approval' });
+    if (part.words === undefined || !part.words.trim())
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['words'], message: 'an approved loops part needs the exact words of the approval' });
+});
+
 export const StorytimeApprovalsSchema = z.object({
     text: StorytimeAppApprovalSchema.default(DRAFT),
     thai: StorytimeAppApprovalSchema.default(DRAFT),
@@ -506,6 +637,12 @@ export const StorytimeApprovalsSchema = z.object({
     song: StorytimeAppApprovalSchema.default(DRAFT),
     scripts: StorytimeAppApprovalSchema.default(DRAFT),
     print: StorytimePrintApprovalSchema.default(DRAFT),
+    /**
+     * The loops part (loops FR-1): a draft default; the app shows the routines only when it is approved.
+     * The `optional` wrapper keeps the parsed key optional in the type, so an `approval` object built
+     * without it (the print contract test) still compiles. The parse still fills the draft default.
+     */
+    loops: StorytimeLoopsApprovalSchema.default(DRAFT).optional(),
 });
 
 export const StorytimeWeekSchema = z.object({
@@ -549,6 +686,7 @@ export const StorytimeWeekSchema = z.object({
         song: DRAFT,
         scripts: DRAFT,
         print: DRAFT,
+        loops: DRAFT,
     }),
     /** The injector writes these (key: program, level, week). */
     db: z
