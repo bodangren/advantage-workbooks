@@ -640,13 +640,16 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
 
 _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`; `__tests__/covers-contract.test.ts`, `covers-back.test.ts`): no change. `lib/covers/compose.ts` is reused, not changed. The cover track `storytime_covers_20261027` owns `lib/storytime/print/covers.ts`, `lib/storytime/print/cover-picture.ts`, `content/storytime/covers/books.json`, and `scripts/storytime/make-storytime-book-cover.ts`; this phase reads them and changes nothing; a needed change goes to the orchestrator._
 
-- [ ] Task (Red): `__tests__/storytime-print-covers.test.ts`.
+- [x] Task (Red): `__tests__/storytime-print-covers.test.ts`; commit 1d15c402; Evidence: automated.
     - The teacher-book cover data (title, band, art files) refuses an unknown band.
     - The copy check of the cover track fails a teacher-book cover text with "CEFR", "Pre-A1", "Starters", or "Primary Advantage", or without "Storytime Advantage".
     - The copy check also runs on the reader cover pages and fails a reader cover without "Sprout".
     - A composed side is one opaque layer (no alpha channel) at 300 ppi for the trim.
     - The Primary cover tests stay green.
-- [ ] Task (Green): `lib/storytime/print/teacher-book-cover.ts` and `scripts/storytime/make-storytime-teacher-cover.ts` `[--print]`. They import the cover module of the cover track and do not change it. Output: the PNG of each side for Daniel, then a 2-page Chrome PDF and `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+- [~] Task (Green): `lib/storytime/print/teacher-book-cover.ts` and `scripts/storytime/make-storytime-teacher-cover.ts` `[--print]`. They import the cover module of the cover track and do not change it. Output: the PNG of each side for Daniel, then a 2-page Chrome PDF and `make-pdfx.ts --keep-fonts`. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+    - Red evidence: `RED_TEST_COMMAND` exits 1, with 4 failed assertions and 448 passed tests across 14 files. All 4 failures are new cover assertions because `teacher-book-cover.ts` is missing. The run has no collection error and no other failing test.
+    - `PROJECT_LINT` exits 0. `PROJECT_CHECKS` exits 0, including `check-weeks.ts` and `tsc --noEmit`. The Primary cover guard exits 0 before and after Red, with 27 tests passing each time.
+    - Logs: `measure/runs/storytime_print_r1_20261025/mid-red-7c7a4682-{red-before,red,lint,checks,covers-guard}.txt`. The baseline run had four transient failures in existing reader and student-book tests; the final Red run had none of those failures.
 - [ ] Task (Check): the teacher-book cover PNGs and the two week 1 reader cover pictures (line art and color) go to Daniel. The workbook cover print file comes from the cover track hand-off (its plan line 96); `PRINT_GATE` runs again on it here. After Daniel's approval, the teacher-book cover print file; `PRINT_GATE` passes. Daniel checks any Thai on the covers.
 - [ ] Task: Measure - User Manual Verification 'Phase 5: Covers, week 1' (Protocol in workflow.md)
 
