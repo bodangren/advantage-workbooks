@@ -55,3 +55,5 @@ F1 to F9 are fixed in the committed text.
 - F10=FIX (FR-6 defines the text of a day: the English step text; prep, Thai, and reader page text do not count)
 
 The orchestrator checks the F10 fix. No third review round occurs (the round 2 handoff says so).
+
+Post-review edits on 2026-11-02 after the test strategy (ec109f9e): FR-2 (Q1), FR-7 (P9), FR-13 (P7). The orchestrator checked them; no new review round.

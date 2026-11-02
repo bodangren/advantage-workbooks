@@ -56,7 +56,7 @@ Other repositories are read-only for this track.
 - **Review week**: a week file with `meta.kind` equal to `review` (w08).
 - **Sound step**: the steps A1 (Hear it), A2 (See it), and A3 (Form it) of script A.
 - **Loop step**: a step that holds a routine: A1, A2, A3, A4, A6, C5, D2.
-- **Donor step**: a step that gives minutes to the loops: A4, A6, D2, and C5. The opening is a host for the recall and gives no minutes (D7).
+- **Donor step**: a step that gives minutes to the loops. The donors that give minutes are A4 and A6 on day 1. The opening is a host for the recall and gives no minutes (D7).
 - **The text of a day**: the English text of the steps of that day's script (the `en` fields of each step, as FR-6 lists). The prep lines, the Thai lines, and the reader page text do not count.
 - **Baseline**: the week files at commit `cc7808c541ca1cac810a7cd74f34520f748aef5b`.
 
@@ -85,11 +85,11 @@ Acceptance criteria:
 
 ### FR-2: The oral blend drill (dimension 2)
 
-Each teach week has a `blendDrill` on step A4 (Blend it). The drill has 3 to 5 words that use only the sounds taught to the week (`taughtTo`). The teacher models the word, leads the class, and then tests the class. The class repeats the word `repeats` times. The `correction` line tells the teacher what to say when a child errs. The drill sounds come from Daniel's phoneme bank (S22): each sound has a model clip.
+Each teach week has a `blendDrill` on step A4 (Blend it). The drill has 3 to 5 words. A drill sound is allowed in two cases. Case one: `bankSound(sound)` equals `bankSound` of a grapheme in `taughtTo.graphemes`. Case two: it equals `bankSound` of a sound label that the same week names in its `opening.pa` lines. The check reads the `sounds` labels, not the `word`. The reason: the drill is oral, and strict taught graphemes leave w01 and w02 with fewer than 3 words. The teacher models the word, leads the class, and then tests the class. The class repeats the word `repeats` times. The `correction` line tells the teacher what to say when a child errs. The drill sounds come from Daniel's phoneme bank (S22): each sound has a model clip.
 
 Acceptance criteria:
 
-- A teach week without `blendDrill` on A4 fails the check `loops-blend`. A drill word with a sound that the week has not taught fails the check.
+- A teach week without `blendDrill` on A4 fails the check `loops-blend`. A drill word with a sound that the rule above does not allow fails the check.
 - Each drill sound has a recording in the bank. `phonemeAudioFields` includes the drill sounds, so the existing check `phoneme-audio` covers them.
 - The model, lead, test, and correction lines each have English and Thai.
 
@@ -144,7 +144,7 @@ Acceptance criteria:
 
 ### FR-7: The day stays 30 minutes
 
-The loops add no minutes. The loops take time from the donor steps. `loopMinutes` holds the new minutes of a step. A step without `loopMinutes` keeps `minutes`.
+The loops add no minutes. The loops take time from the donor steps. `loopMinutes` holds the new minutes of a step. A step without `loopMinutes` keeps `minutes`. C5 and D2 are the only loop steps of their days, so their `loopMinutes` equals `minutes`. The questions and the sight-word step fit inside the existing step time.
 
 Acceptance criteria:
 
@@ -208,7 +208,8 @@ The track does not change the student book, the readers, or the covers. The trac
 
 Acceptance criteria:
 
-- `git diff --name-only <phase base>..HEAD` shows no change in `lib/storytime/print/student-book.ts`, `readers.ts`, `picture-check.ts`, `pictures.ts`, `covers.ts`, and no change in `video/**`.
+- For each commit SHA that the plan records for this track, `git show --name-only --format= <sha>` lists none of `lib/storytime/print/student-book.ts`, `readers.ts`, `picture-check.ts`, `pictures.ts`, and `covers.ts`. It also lists nothing under `video/`.
+- The check reads one commit at a time. A range diff is not the proof, because the print track edits these files in the same checkout.
 
 ## Defaults
 
