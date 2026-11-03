@@ -765,11 +765,16 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - `PROJECT_CHECKS`: pass; one known `published` FAIL for st2/1; TypeScript passes. Contract tests: 3 files, 114 tests passed. Picture list: 196 generated rows equal 196 committed rows.
     - R-P7-C1: old rule failed by adding 3 practice rows; reuse rule passed. PM 2026-11-03: light lane; the checker follows.
     - Picture counts: made 0, attempts 0, spend 0.
-- [ ] Task (Red): extend the print tests to the shipped weeks 2 to 8.
+- [x] Task (Red): extend the print tests to the shipped weeks 2 to 8. Commit: `9def82f`.
     - The workbook has the pages of all 8 weeks. Week 8 has 5 review pages and the Benchmark 1 page (8 circle-picture rows and 7 write-letter boxes). The book map has 7 decodable-reader places and 1 unit place.
     - The 12 readers of weeks 2 to 7 have their page plans and texts.
     - The text gate of the Thai teacher book has 0 differences for each of the 8 weeks, or each difference is listed.
-- [ ] Task (Green): the template changes that weeks 2 to 8 need (for example, the circle-word rows and the picture sort of the review pages). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
+- [x] Task (Green): the template changes that weeks 2 to 8 need (for example, the circle-word rows and the picture sort of the review pages). Commit: `85fff41`.
+    - `GREEN_TEST_COMMAND` with `--maxWorkers=2`: 17 files, 493 tests passed. Log: `measure/runs/storytime_print_r1_20261025/p7-green-targeted-workers2.txt`.
+    - ESLint and `npx tsc --noEmit` passed. Log: `measure/runs/storytime_print_r1_20261025/p7-static-final2.txt`.
+    - Mutants caught: missing week 8 review pages, one omitted week 5 reader leaf, and a named pending row resolved as required. Each Vitest command used `--maxWorkers=2`; see `p7-mutant-*-workers2.txt` in the run folder.
+    - Final-mode smoke build passed the PDF/X gate at 135 A4 pages. The contact sheet is `measure/runs/storytime_print_r1_20261025/p7-smoke-contact-sheet.png`. Page look found no content defect; page 129 is the intentional blank spacer before the review section.
+    - PM 2026-11-03: light lane. Picture counts: made 0, attempts 0, spend 0.
 - [x] Task (Pictures, weeks 2 to 7): run stage 1 on the six Forge batches. Daniel's stage 3 review already passed for all 162 rows. PM 2026-11-03: light lane. Evidence: stage 1 and resolver proof.
     - Week 2: `w02/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w02-stage1.txt`.
     - Week 3: `w03/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w03-stage1.txt`.
