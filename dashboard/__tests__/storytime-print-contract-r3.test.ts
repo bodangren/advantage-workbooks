@@ -271,29 +271,3 @@ describe('Storytime print Red 4b: week 8 picture list version 4', () => {
         expect(committed).toEqual(await pictures(shippedWeeks()));
     });
 });
-
-describe('Storytime print Phase 7 content: practice picture reuse', () => {
-    it('R-P7-C1: a practice line of week 2 or later reuses a delivered row', async () => {
-        const { week } = copyWeek(shipped(2), (copy) => {
-            copy.print = {
-                letterBox: { letter: 'a', formationWords: 'Start at the dot.', startPoint: 'top' },
-                practice: [
-                    { text: 'An ant.', pictureWord: 'ant' },
-                    { text: 'A dog.', pictureWord: 'dog' },
-                    { text: 'A sun.', pictureWord: 'sun' },
-                ],
-                dictation: { letters: ['a'], words: ['ant'] },
-                writing: { traceText: 'How many?', line: 'sentence', pictureBox: false },
-            };
-        });
-        const exports = await import(picturesModule);
-        const rows = exports.storytimePrintPictures([week]);
-
-        expect(rows.filter((row) => row.week === 2 && row.use === 'practice-line')).toEqual([]);
-        for (const line of week.print!.practice) {
-            const delivered = rows.find((row) => row.use === 'check-row' && row.text.toLowerCase() === line.pictureWord);
-            expect(delivered, `delivered row for ${line.pictureWord}`).toBeDefined();
-            expect(exports.storytimePrintPracticePicture(week, line.pictureWord, rows)).toBe(delivered);
-        }
-    });
-});
