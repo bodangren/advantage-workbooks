@@ -283,11 +283,11 @@ describe('Storytime print Phase 7 content: practice picture reuse', () => {
                     { text: 'A sun.', pictureWord: 'sun' },
                 ],
                 dictation: { letters: ['a'], words: ['ant'] },
-                writing: { traceText: 'How many?', line: 'sentence', pictureBox: false },
+                writing: { traceText: 'How many?', line: 'word', pictureBox: false },
             };
         });
         const exports = await import(picturesModule);
-        const rows = exports.storytimePrintPictures([week]);
+        const rows = exports.storytimePrintPictures([week]) as StorytimePictureRow[];
 
         expect(rows.filter((row) => row.week === 2 && row.use === 'practice-line')).toEqual([]);
         for (const line of week.print!.practice) {
