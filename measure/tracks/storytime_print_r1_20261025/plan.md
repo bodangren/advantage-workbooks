@@ -743,6 +743,16 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Evidence logs: `fix2-ecddccba-build-student.txt`, `fix2-ecddccba-build-readers.txt`, `fix2-ecddccba-printgate.txt`, `fix2-ecddccba-pdfinfo-student.txt`, `fix2-ecddccba-pdfinfo-hello.txt`, and `fix2-ecddccba-pdfinfo-nan.txt`.
     - The proof v2 was not sent to Daniel: the reader content did not scale with the A5 page (fix 2).
 - [~] Task: the 8-week student book proof on 2026-11-10: the one student book with all pages of weeks 1 to 8 (after the Phase 7 content and template tasks), a contact sheet of every page, the SHA-256 and the source commit; the agent opens every page. To Daniel through the PM session.
+    - Build: `Storytime-Advantage-L2-U1-Student-Book-v11_PDFX-1a.pdf`; log `measure/runs/storytime_print_r1_20261025/p7-proof-build.txt`.
+    - `PRINT_GATE` passed: 135 A4 pages, PDF/X-1a:2001, 4 fonts. Log: `measure/runs/storytime_print_r1_20261025/p7-proof-printgate.txt`.
+    - Size: 18,212,622 bytes (17.4 MB). SHA-256: `21c351f2edf1e431785c9170aa1b3f725e5e32960200195866aee211e5f910a5`.
+    - Source commit: `23826e5ec3f761438b10d2a03315ac407326f310`.
+    - Contact sheets in `/home/daniebo/Desktop/print-ready/storytime/proof-unit1/`: `Storytime-Advantage-L2-U1-Student-Book-v11-contact-01.png` (pages 1–20), `-contact-02.png` (21–40), `-contact-03.png` (41–60), `-contact-04.png` (61–80), `-contact-05.png` (81–100), `-contact-06.png` (101–120), and `-contact-07.png` (121–135).
+    - Page look: all 135 pages were rendered at 100 dpi and checked. The map has 7 reader places and 1 unit place. Practice, writing, check, and both home pages are present for each teaching week. Reader sides show matching text and pictures, correct turns, dashed fold lines, 12 mm perforations, and leaf marks; no cut line appears. Review pages and Benchmark 1 are present.
+    - Blank spacer pages: 3, 21, 39, 57, 75, 93, 111, and 129; each precedes a week or the review. No page defects. Four pending picture rows appear in six placeholder boxes: pages 131 (moon, mango), 133 (ostrich, moon), 134 (moon), and 135 (drum). No other picture is missing.
+    - Daniel's open look points: the four week 8 check pictures (moon, mango, ostrich, drum) are new and show placeholders until Forge delivers them; weeks 2 to 7 practice lines are new combinations of taught words, not story lines; week 3 has no picture box in the writing part; the blank spacer pages precede each week and the review.
+    - PM 2026-11-03: light lane. Picture counts: made 0, attempts 0, spend 0.
+    - Proof note: `/home/daniebo/Desktop/print-ready/storytime/proof-unit1/proof-unit1-files.md`. Awaiting the four pictures and the PM hand-off to Daniel.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
 
 ## Phase 7: Weeks 2 to 8 (2026-11-04 to 2026-11-18; starts 2026-11-04, PM decision 2026-11-03)
