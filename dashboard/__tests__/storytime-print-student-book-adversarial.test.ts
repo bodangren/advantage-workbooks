@@ -309,9 +309,10 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
     it('A2: fills each reader side with the R32 reader pages in two turned halves and keeps both marks (spec FR-5.1)', async () => {
         const { doc } = await render();
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        // spec FR-5.1: the back side keeps the top and the bottom of its front (the fold line is horizontal and the leaf turns on its vertical spine edge).
         const expectedBySide = [
-            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
-            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
+            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
+            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
         ];
         expect(readerSides).toHaveLength(expectedBySide.length);
         for (const [sideIndex, side] of readerSides.entries()) {
@@ -322,10 +323,12 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
             expect(side.querySelectorAll('[data-part="leaf-mark"]')).toHaveLength(1);
             expect(side.querySelectorAll('[data-part="fold-line"]')).toHaveLength(1);
             const pageNumbers: number[] = [];
+            // spec FR-5.1, P6 fix 1: the front pages turn 90 degrees and the back pages turn -90 degrees, so every page reads upright after the fold.
+            const expectedTurn = sideName === 'front' ? 90 : -90;
             for (const found of readerPages) {
                 const pageNumber = Number(found.getAttribute('data-page-number'));
                 pageNumbers.push(pageNumber);
-                expect(Math.abs(Number(found.getAttribute('data-turn-deg'))), `Reader page ${pageNumber} is turned 90 degrees.`).toBe(90);
+                expect(Number(found.getAttribute('data-turn-deg')), `Reader page ${pageNumber} is turned ${expectedTurn} degrees on a ${sideName} side.`).toBe(expectedTurn);
                 const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
                 const pictureBoxes = Array.from(found.querySelectorAll('[data-picture-id]'));
                 expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);

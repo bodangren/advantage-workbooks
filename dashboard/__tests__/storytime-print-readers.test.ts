@@ -8,7 +8,7 @@ import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
-import { READER_PAGE_MM, leafSideProblems, leafStyleProblems, readerLeafSides } from './fixtures/storytime-reader-leaf';
+import { READER_PAGE_MM, foldSimulationProblems, leafSideProblems, leafStyleProblems, readerLeafSides, type ObservedReaderPage } from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /** Phase 4 contract. New modules load inside each test so missing modules fail independently. */
@@ -185,8 +185,44 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
 
     it('R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 turned pages on each side (spec FR-5.1)', async () => {
         const doc = await workbookDocument();
-        // spec FR-5.1: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7.
+        // spec FR-5.1: leaf 1 front 12|1, back 11|2; leaf 2 front 10|3, back 9|4; leaf 3 front 8|5, back 7|6.
+        // The back side keeps the top and the bottom of its front: the fold line is horizontal and the leaf turns on its vertical spine edge.
         expect(workbookLeafProblems(doc)).toEqual([]);
+    });
+
+    /**
+     * Reads the printed reader pages of one reader as the fold simulation needs them.
+     * @param doc The reader document of the workbook output.
+     * @param title The reader title.
+     * @returns The pages in document order.
+     */
+    function observedReaderPages(doc: Document, title: string): ObservedReaderPage[] {
+        const sides = Array.from(doc.querySelectorAll(`[data-reader-leaf][data-reader-title="${title}"] [data-leaf-side]`));
+        return sides.flatMap((side) => Array.from(side.querySelectorAll('[data-reader-page]')).map((page) => ({
+            leaf: Number(side.closest('[data-reader-leaf]')?.getAttribute('data-leaf-number')),
+            face: (side.getAttribute('data-leaf-side') ?? 'front') as 'front' | 'back',
+            half: (page.getAttribute('data-half') ?? 'top') as 'top' | 'bottom',
+            pageNumber: Number(page.getAttribute('data-page-number')),
+            turnDeg: Number(page.getAttribute('data-turn-deg')),
+        })));
+    }
+
+    it('R-P4-2e folds and nests the 3 leaves of a reader and reads 1 to 12, every page upright (spec FR-5.1, P6 fix 1)', async () => {
+        const doc = await workbookDocument();
+        const pages = observedReaderPages(doc, 'Hello!');
+        expect(pages, 'Hello! prints 12 reader pages (3 leaves x 2 faces x 2 halves)').toHaveLength(12);
+        expect(foldSimulationProblems(pages), 'The folded and nested leaves must read 1 to 12 with every page upright.').toEqual([]);
+        // Negative controls: the r1 back pairs (2|11) break the reading order, and a back page that turns 90 reads upside down.
+        const r1BackPages: Record<number, [number, number]> = { 1: [2, 11], 2: [4, 9], 3: [6, 7] };
+        const withR1Backs = pages.map((page) => (page.face === 'back'
+            ? { ...page, pageNumber: r1BackPages[page.leaf][page.half === 'top' ? 0 : 1] }
+            : page));
+        expect(foldSimulationProblems(withR1Backs).some((problem) => problem.includes('[fold-order]')),
+            'the r1 back pairs 2|11, 4|9, 6|7 must break the folded reading order').toBe(true);
+        const backAt90 = pages.map((page) => (page.face === 'back' ? { ...page, turnDeg: 90 } : page));
+        expect(foldSimulationProblems(backAt90).some((problem) => problem.includes('[fold-turn]')),
+            'a back page that turns 90 must read upside down after the fold').toBe(true);
+        expect(observedReaderPages(doc, 'Nan Can Nod'), 'the second reader has its 12 pages on its leaf sides').toHaveLength(12);
     });
 
     it('R-P4-2a puts 2 pages of 148.5 × 198 mm on the 198 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)', () => {
@@ -233,10 +269,10 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
                 pages[0].setAttribute('data-page-number', '1');
                 pages[1].setAttribute('data-page-number', '12');
             }],
-            ['imposition 2|11 swapped to 11|2 on a back', '[imposition]', (doc) => {
+            ['imposition 11|2 swapped to 2|11 on a back', '[imposition]', (doc) => {
                 const pages = doc.querySelector('[data-leaf-side="back"]')!.querySelectorAll('[data-reader-page]');
-                pages[0].setAttribute('data-page-number', '11');
-                pages[1].setAttribute('data-page-number', '2');
+                pages[0].setAttribute('data-page-number', '2');
+                pages[1].setAttribute('data-page-number', '11');
             }],
             ['page order swapped in the DOM', '[halves]', (doc) => {
                 const pages = doc.querySelector('[data-leaf-side="front"]')!.querySelectorAll('[data-reader-page]');
@@ -252,6 +288,10 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             ['leaf mark removed', '[leaf-mark]', (doc) => doc.querySelector('[data-part="leaf-mark"]')!.remove()],
             ['leaf mark with leaf 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 4 of 3'; }],
             ['page not turned', '[turn]', (doc) => doc.querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['a back page turns 90', '[turn]', (doc) => {
+                const back = doc.querySelector('[data-leaf-side="back"]')!;
+                back.querySelector('[data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '90');
+            }],
             ['page at 99 × 140 mm', '[page-size]', (doc) => {
                 const page = doc.querySelector('[data-reader-page]')!;
                 page.setAttribute('data-width-mm', '99');

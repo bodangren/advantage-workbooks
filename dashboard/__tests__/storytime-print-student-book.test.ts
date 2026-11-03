@@ -1469,7 +1469,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const week = shipped();
         const selected = await profile();
         const { doc } = await render(week, selected);
-        // spec FR-5.1: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7; the same for the second reader.
+        // spec FR-5.1: leaf 1 front 12|1, back 11|2; leaf 2 front 10|3, back 9|4; leaf 3 front 8|5, back 7|6; the same for the second reader.
+        // The back side keeps the top and the bottom of its front (the fold line is horizontal and the leaf turns on its vertical spine edge).
         expect(studentReaderProblems(pages(doc), week.books)).toEqual([]);
         // spec FR-5.1 and P15: two page widths fill the 297 mm leaf height, one page height fills the 198 mm torn leaf.
         expect(2 * selected.readerPage.widthMm).toBe(selected.trim.heightMm);
@@ -1614,10 +1615,10 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(studentPages.size, 'the student book holds all 24 reader pages (2 readers x 12 pages)').toBe(24);
         expect(readerPages.size, 'the readers build holds all 24 reader pages').toBe(24);
         expect(studentPages).toEqual(readerPages);
-        // spec FR-5.1: the page numbers of each side, top half then bottom half, for both readers.
+        // spec FR-5.1: the page numbers of each side, top half then bottom half, for both readers; the back side keeps the top and the bottom of its front.
         const expectedBySide = [
-            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
-            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
+            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
+            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
         ];
         for (let sideIndex = 0; sideIndex < readerSides.length; sideIndex++) {
             const side = sideIndex % 2 === 0 ? 'front' : 'back';
