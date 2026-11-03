@@ -8,7 +8,10 @@ import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
-import { READER_PAGE_MM, foldSimulationProblems, leafSideProblems, leafStyleProblems, readerLeafSides, type ObservedReaderPage } from './fixtures/storytime-reader-leaf';
+import {
+    LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, foldSimulationProblems, leafMarkProblems, leafSideProblems, leafStyleProblems, measureLeafSidesInBrowser, measureReaderPagesInBrowser,
+    readerLayoutProblems, readerLeafSides, simulateTopFold, type MeasuredReaderPage, type ObservedReaderPage,
+} from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /** Phase 4 contract. New modules load inside each test so missing modules fail independently. */
@@ -136,7 +139,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         expect(api.compileStorytimeReaders).toBeTypeOf('function');
     });
 
-    it('R-P4-1 lays out each shipped reader as 12 pages at the 148.5 × 198 mm trim (spec FR-5.1, P15 default)', async () => {
+    it('R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default)', async () => {
         const api = await readers();
         const result = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' });
         const doc = new DOMParser().parseFromString(result.html, 'text/html');
@@ -144,14 +147,18 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             const pages = Array.from(doc.querySelectorAll(`[data-reader-title="${title}"] [data-reader-page]`));
             expect(pages, `${title}: 12 pages`).toHaveLength(12);
             for (const page of pages) {
-                expect(Number(page.getAttribute('data-width-mm'))).toBe(148.5);
-                expect(Number(page.getAttribute('data-height-mm'))).toBe(198);
+                expect(Number(page.getAttribute('data-width-mm'))).toBe(198);
+                expect(Number(page.getAttribute('data-height-mm'))).toBe(148.5);
             }
         }
         expect(STORYTIME_PRINT_PROFILE.readerPage).toEqual(READER_PAGE_MM);
     });
 
-    it('R-P6-F2: the reader content scales with the A5 page', async () => {
+    /**
+     * Measures the 12 pages of each shipped reader in Chrome on the color A3 output (the pages are not turned there).
+     * @returns The measured pages of each reader, by title.
+     */
+    async function measuredReaders(): Promise<Map<string, MeasuredReaderPage[]>> {
         const api = await readers();
         const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
         const { chromium } = await import('@playwright/test');
@@ -159,50 +166,80 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         try {
             const page = await browser.newPage();
             await page.setContent(html);
-            const sizes = await page.evaluate(() => {
-                const picture = getComputedStyle(document.querySelector('.reader-picture')!);
-                const text = getComputedStyle(document.querySelector('.reader-text')!);
-                return { width: parseFloat(picture.width), height: parseFloat(picture.height), fontSize: parseFloat(text.fontSize) };
-            });
-            const factor = Math.min(STORYTIME_PRINT_PROFILE.readerPage.widthMm / 99, STORYTIME_PRINT_PROFILE.readerPage.heightMm / 140);
-            const pxPerMm = 96 / 25.4;
-            expect(sizes.width).toBeCloseTo(Math.round(89 * factor * 1000) / 1000 * pxPerMm, 1);
-            expect(sizes.height).toBeCloseTo(Math.round(66 * factor * 1000) / 1000 * pxPerMm, 1);
-            expect(sizes.fontSize).toBeCloseTo(Math.round(17 * factor * 1000) / 1000 * 96 / 72, 1);
+            await page.evaluate(() => document.fonts.ready);
+            const all = await page.evaluate(measureReaderPagesInBrowser, 2);
+            expect(all, 'two readers of 12 pages').toHaveLength(24);
+            const result = new Map<string, MeasuredReaderPage[]>([['Hello!', all.slice(0, 12)], ['Nan Can Nod', all.slice(12)]]);
+            return result;
         } finally {
             await browser.close();
         }
-    }, 30_000);
+    }
 
-    it('R-P6-F2b: every content box stays inside the reader page', async () => {
+    it('R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04)', async () => {
+        const measured = await measuredReaders();
+        for (const [title, pages] of measured) {
+            expect(readerLayoutProblems(pages, title, 2), `${title} layout`).toEqual([]);
+        }
+        // The layout check must see real boxes: the story pages have a picture and a text, and the footer names the level.
+        const hello = measured.get('Hello!')!;
+        expect(hello.filter((page) => page.text)).toHaveLength(8);
+        expect(hello.every((page) => page.number === 1 || page.footer?.text.includes('Hello!'))).toBe(true);
+    }, 60_000);
+
+    it('R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1)', async () => {
+        const measured = await measuredReaders();
+        const base = measured.get('Hello!')!;
+        expect(readerLayoutProblems(base, 'Hello!', 2), 'the unchanged copy is right').toEqual([]);
+        const copy = (): MeasuredReaderPage[] => JSON.parse(JSON.stringify(base)) as MeasuredReaderPage[];
+        const story = (pages: MeasuredReaderPage[]): MeasuredReaderPage => pages.find((page) => page.number === 4)!;
+        const mutants: Array<[string, string, (pages: MeasuredReaderPage[]) => void]> = [
+            ['a picture box taller than 4:3', '[picture-aspect]', (pages) => { story(pages).picture!.bottom += 20; }],
+            ['a picture box wider than 4:2.7', '[picture-aspect]', (pages) => { story(pages).picture!.bottom -= 10; }],
+            ['a narrow picture', '[picture-width]', (pages) => { story(pages).picture!.right -= 40; story(pages).picture!.bottom -= 27; }],
+            ['the text above the picture bottom', '[text-under]', (pages) => { story(pages).text!.top = 20; }],
+            ['the text not under the picture left edge', '[text-left]', (pages) => { story(pages).text!.left += 8; }],
+            ['a small text (17 pt)', '[text-size]', (pages) => { story(pages).text!.fontPt = 17; }],
+            ['a 3-line text', '[text-lines]', (pages) => { story(pages).text!.bottom += 2 * story(pages).text!.lineMm; }],
+            ['the page number at the left', '[page-number]', (pages) => { const n = story(pages).pageNumber!; n.right = 30; n.left = 20; }],
+            ['no page number', '[page-number]', (pages) => { delete story(pages).pageNumber; }],
+            ['no footer', '[footer]', (pages) => { delete story(pages).footer; }],
+            ['a footer without the level', '[footer]', (pages) => { story(pages).footer!.text = 'Hello!'; }],
+            ['a footer at the right', '[footer]', (pages) => { story(pages).footer!.left = 120; }],
+            ['a box at the page edge', '[layout-margin]', (pages) => { story(pages).others.push({ left: 0, top: 0, right: 10, bottom: 10 }); }],
+            ['a portrait page', '[layout-page]', (pages) => { story(pages).page.right = 148.5; story(pages).page.bottom = 198; }],
+            ['a page removed', '[layout-pages]', (pages) => { pages.pop(); }],
+        ];
+        for (const [name, tag, mutate] of mutants) {
+            const pages = copy();
+            mutate(pages);
+            const problems = readerLayoutProblems(pages, 'Hello!', 2);
+            expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
+        }
+    }, 60_000);
+
+    it('R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)', async () => {
         const api = await readers();
-        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html;
         const { chromium } = await import('@playwright/test');
         const browser = await chromium.launch({ channel: 'chrome' });
         try {
             const page = await browser.newPage();
             await page.setContent(html);
-            const result = await page.evaluate(() => {
-                const problems: string[] = [];
-                document.querySelectorAll<HTMLElement>('[data-reader-page]').forEach((reader, pageIndex) => {
-                    const pageBox = reader.getBoundingClientRect();
-                    const inset = parseFloat(getComputedStyle(reader).paddingTop);
-                    reader.querySelectorAll<HTMLElement>('*').forEach((element) => {
-                        const box = element.getBoundingClientRect();
-                        if (box.width === 0 && box.height === 0) return;
-                        if (box.left < pageBox.left + inset - 1 || box.top < pageBox.top + inset - 1 ||
-                            box.right > pageBox.right - inset + 1 || box.bottom > pageBox.bottom - inset + 1) {
-                            problems.push(`page ${pageIndex + 1} ${element.className || element.tagName} escapes padded page`);
-                        }
-                    });
-                });
-                return problems;
-            });
-            expect(result).toEqual([]);
+            await page.evaluate(() => document.fonts.ready);
+            const sides = await page.evaluate(measureLeafSidesInBrowser, '[data-leaf-side]');
+            expect(sides).toHaveLength(12);
+            expect(leafMarkProblems(sides)).toEqual([]);
+            const moved = JSON.parse(JSON.stringify(sides)) as typeof sides;
+            moved[0].mark = { left: 20, top: moved[0].foldY - 2, right: 60, bottom: moved[0].foldY + 1 };
+            expect(leafMarkProblems(moved).some((problem) => problem.includes('[mark-')), 'a mark on the fold line must fail').toBe(true);
+            const stub = JSON.parse(JSON.stringify(sides)) as typeof sides;
+            stub[0].mark = { left: 2, top: 2, right: 40, bottom: 4 };
+            expect(leafMarkProblems(stub).some((problem) => problem.includes('[mark-')), 'a mark in the stub must fail').toBe(true);
         } finally {
             await browser.close();
         }
-    }, 30_000);
+    }, 60_000);
 
     /** The A4 workbook output of the shipped week 1 as a document. */
     async function workbookDocument(): Promise<Document> {
@@ -236,9 +273,9 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         return problems;
     }
 
-    it('R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 turned pages on each side (spec FR-5.1)', async () => {
+    it('R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1)', async () => {
         const doc = await workbookDocument();
-        // spec FR-5.1: leaf 1 front 12|1, back 11|2; leaf 2 front 10|3, back 9|4; leaf 3 front 8|5, back 7|6.
+        // spec FR-5.1 (2026-11-04): leaf 1 front 1|12, back 2|11; leaf 2 front 3|10, back 4|9; leaf 3 front 5|8, back 6|7; fronts turn 180, backs are upright.
         // The back side keeps the top and the bottom of its front: the fold line is horizontal and the leaf turns on its vertical spine edge.
         expect(workbookLeafProblems(doc)).toEqual([]);
     });
@@ -260,29 +297,52 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         })));
     }
 
-    it('R-P4-2e folds and nests the 3 leaves of a reader and reads 1 to 12, every page upright (spec FR-5.1, P6 fix 1)', async () => {
+    it('R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)', async () => {
+        // The geometric model (half turns about the fold axis) must give the imposition table of the PM and the print turns.
+        const model = simulateTopFold();
+        expect(model.map((slot) => slot.position)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+        for (const { leaf, front, back } of LEAF_IMPOSITION) {
+            for (const [face, numbers] of [['front', front], ['back', back]] as const) {
+                const found = (['top', 'bottom'] as const).map((half) => model.find((slot) => slot.leaf === leaf && slot.face === face && slot.half === half)!.position);
+                expect(found, `model: leaf ${leaf} ${face} top|bottom`).toEqual(numbers);
+            }
+        }
+        expect(model.filter((slot) => slot.face === 'front').map((slot) => slot.uprightTurnDeg), 'every front page turns 180').toEqual(Array(6).fill(180));
+        expect(model.filter((slot) => slot.face === 'back').map((slot) => slot.uprightTurnDeg), 'every back page is upright').toEqual(Array(6).fill(0));
+        expect(LEAF_TURN_DEG).toEqual({ front: 180, back: 0 });
+        // The child sees the closed reader (page 1), then the spreads above|below the fold: 2/3, 4/5, 6/7, 8/9, 10/11, then 12.
+        const spreads: number[][] = [];
+        for (const slot of model.filter((entry) => entry.place !== 'cover')) {
+            if (slot.place === 'above') spreads.push([slot.position]);
+            else spreads[spreads.length - 1].push(slot.position);
+        }
+        expect(model[0]).toMatchObject({ position: 1, place: 'cover', leaf: 1, face: 'front', half: 'top' });
+        expect(spreads).toEqual([[2, 3], [4, 5], [6, 7], [8, 9], [10, 11], [12]]);
+        // The built HTML must print the model.
         const doc = await workbookDocument();
         const pages = observedReaderPages(doc, 'Hello!');
         expect(pages, 'Hello! prints 12 reader pages (3 leaves x 2 faces x 2 halves)').toHaveLength(12);
         expect(foldSimulationProblems(pages), 'The folded and nested leaves must read 1 to 12 with every page upright.').toEqual([]);
-        // Negative controls: the r1 back pairs (2|11) break the reading order, and a back page that turns 90 reads upside down.
-        const r1BackPages: Record<number, [number, number]> = { 1: [2, 11], 2: [4, 9], 3: [6, 7] };
-        const withR1Backs = pages.map((page) => (page.face === 'back'
-            ? { ...page, pageNumber: r1BackPages[page.leaf][page.half === 'top' ? 0 : 1] }
-            : page));
-        expect(foldSimulationProblems(withR1Backs).some((problem) => problem.includes('[fold-order]')),
-            'the r1 back pairs 2|11, 4|9, 6|7 must break the folded reading order').toBe(true);
-        const backAt90 = pages.map((page) => (page.face === 'back' ? { ...page, turnDeg: 90 } : page));
-        expect(foldSimulationProblems(backAt90).some((problem) => problem.includes('[fold-turn]')),
-            'a back page that turns 90 must read upside down after the fold').toBe(true);
+        // Negative controls: the v3 pairs (12|1 and 11|2) break the reading order, and a wrong turn reads upside down.
+        const v3Pairs: Record<string, [number, number]> = { '1|front': [12, 1], '1|back': [11, 2], '2|front': [10, 3], '2|back': [9, 4], '3|front': [8, 5], '3|back': [7, 6] };
+        const withV3 = pages.map((page) => ({ ...page, pageNumber: v3Pairs[`${page.leaf}|${page.face}`][page.half === 'top' ? 0 : 1] }));
+        expect(foldSimulationProblems(withV3).some((problem) => problem.includes('[fold-order]')), 'the v3 pairs must break the folded reading order').toBe(true);
+        const backTurned = pages.map((page) => (page.face === 'back' ? { ...page, turnDeg: 180 } : page));
+        expect(foldSimulationProblems(backTurned).some((problem) => problem.includes('[fold-turn]')), 'a back page turned 180 reads upside down').toBe(true);
+        const frontNotTurned = pages.map((page) => (page.face === 'front' ? { ...page, turnDeg: 0 } : page));
+        expect(foldSimulationProblems(frontNotTurned).some((problem) => problem.includes('[fold-turn]')), 'a front page that is not turned reads upside down').toBe(true);
+        const old90 = pages.map((page) => ({ ...page, turnDeg: page.face === 'front' ? 90 : -90 }));
+        expect(foldSimulationProblems(old90).some((problem) => problem.includes('[fold-turn]')), 'the 90 degree turn of v3 does not read upright').toBe(true);
         expect(observedReaderPages(doc, 'Nan Can Nod'), 'the second reader has its 12 pages on its leaf sides').toHaveLength(12);
+        expect(foldSimulationProblems(observedReaderPages(doc, 'Nan Can Nod'))).toEqual([]);
     });
 
-    it('R-P4-2a puts 2 pages of 148.5 × 198 mm on the 198 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)', () => {
+    it('R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)', () => {
         const { trim, readerPage, perforationMm } = STORYTIME_PRINT_PROFILE;
-        // The pages are turned 90 degrees: two page widths fill the leaf height, one page height fills the torn leaf width.
-        expect(2 * readerPage.widthMm, 'two page widths fill the 297 mm leaf height').toBe(trim.heightMm);
-        expect(readerPage.heightMm, 'one page height fills the torn leaf width').toBe(trim.widthMm - perforationMm);
+        // The pages are upright: two page heights fill the leaf height, one page width fills the torn leaf width.
+        expect(2 * readerPage.heightMm, 'two page heights fill the 297 mm leaf height').toBe(trim.heightMm);
+        expect(readerPage.widthMm, 'one page width fills the torn leaf width').toBe(trim.widthMm - perforationMm);
+        expect(readerPage.widthMm).toBeGreaterThan(readerPage.heightMm);
         expect(perforationMm).toBe(12);
     });
 
@@ -310,22 +370,22 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         });
     });
 
-    it('R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, an unturned page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
+    it('R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
         const api = await readers();
         const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html;
         const fresh = () => new DOMParser().parseFromString(html, 'text/html');
         // The unchanged copy is right; without this line a checker that always fails would pass the mutants.
         expect(workbookLeafProblems(fresh())).toEqual([]);
         const mutants: Array<[string, string, (doc: Document) => void]> = [
-            ['imposition 1|12 in place of 12|1', '[imposition]', (doc) => {
+            ['imposition 12|1 (v3) in place of 1|12', '[imposition]', (doc) => {
                 const pages = doc.querySelector('[data-leaf-side="front"]')!.querySelectorAll('[data-reader-page]');
-                pages[0].setAttribute('data-page-number', '1');
-                pages[1].setAttribute('data-page-number', '12');
+                pages[0].setAttribute('data-page-number', '12');
+                pages[1].setAttribute('data-page-number', '1');
             }],
-            ['imposition 11|2 swapped to 2|11 on a back', '[imposition]', (doc) => {
+            ['imposition 11|2 swapped from 2|11 on a back', '[imposition]', (doc) => {
                 const pages = doc.querySelector('[data-leaf-side="back"]')!.querySelectorAll('[data-reader-page]');
-                pages[0].setAttribute('data-page-number', '2');
-                pages[1].setAttribute('data-page-number', '11');
+                pages[0].setAttribute('data-page-number', '11');
+                pages[1].setAttribute('data-page-number', '2');
             }],
             ['page order swapped in the DOM', '[halves]', (doc) => {
                 const pages = doc.querySelector('[data-leaf-side="front"]')!.querySelectorAll('[data-reader-page]');
@@ -340,10 +400,14 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             }],
             ['leaf mark removed', '[leaf-mark]', (doc) => doc.querySelector('[data-part="leaf-mark"]')!.remove()],
             ['leaf mark with leaf 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 4 of 3'; }],
-            ['page not turned', '[turn]', (doc) => doc.querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
-            ['a back page turns 90', '[turn]', (doc) => {
-                const back = doc.querySelector('[data-leaf-side="back"]')!;
-                back.querySelector('[data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '90');
+            ['a front page not turned', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['a back page turned 180', '[turn]', (doc) => doc.querySelector('[data-leaf-side="back"] [data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '180')],
+            ['the old 90 degree turn on a front', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page]')!.setAttribute('data-turn-deg', '90')],
+            ['the old -90 degree turn on a back', '[turn]', (doc) => doc.querySelector('[data-leaf-side="back"] [data-reader-page]')!.setAttribute('data-turn-deg', '-90')],
+            ['a portrait page 148.5 × 198 mm', '[page-size]', (doc) => {
+                const page = doc.querySelector('[data-reader-page]')!;
+                page.setAttribute('data-width-mm', '148.5');
+                page.setAttribute('data-height-mm', '198');
             }],
             ['page at 99 × 140 mm', '[page-size]', (doc) => {
                 const page = doc.querySelector('[data-reader-page]')!;
@@ -395,7 +459,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         for (const book of week.books) {
             const pages = colorDoc.querySelectorAll(`[data-reader-title="${book.title}"] [data-a3-page]`);
             expect(pages).toHaveLength(12);
-            for (const page of pages) expect(page.getAttribute('data-page-size')).toBe('841.89 x 1190.55 pts (A3)');
+            for (const page of pages) expect(page.getAttribute('data-page-size')).toBe('1190.55 x 841.89 pts (A3)');
             expect(colorDoc.body.textContent).toContain('PICTURE MISSING');
             expect(colorDoc.documentElement.outerHTML).not.toContain('PDFX');
             const colorPictures = Array.from(colorDoc.querySelectorAll(`[data-reader-title="${book.title}"] [data-picture-id]`));
@@ -425,8 +489,8 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
     });
 
     /**
-     * Checks the A3 color output against the scale and white band rule (spec FR-5.8): scale 2.0
-     * (297 × 396 mm), centered, 12 mm of white at the top and at the bottom of each A3 page.
+     * Checks the A3 color output against the scale and white band rule (spec FR-5.8): A3 landscape
+     * 420 × 297 mm, scale 2.0 (396 × 297 mm), centered, 12 mm of white at the left and at the right of each A3 page.
      * @param doc The reader document of the `a3-color` output.
      * @returns The problems; an empty list means that the rule holds.
      */
@@ -440,25 +504,29 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             const box = scaled[0];
             const scale = Number(box.getAttribute('data-scale'));
             if (scale !== 2) problems.push(`[a3-scale] data-scale ${box.getAttribute('data-scale')}, want 2`);
-            if (Number(box.getAttribute('data-white-top-mm')) !== 12 || Number(box.getAttribute('data-white-bottom-mm')) !== 12) {
-                problems.push(`[a3-white] white bands ${box.getAttribute('data-white-top-mm')} / ${box.getAttribute('data-white-bottom-mm')} mm, want 12 / 12`);
+            if (Number(box.getAttribute('data-white-left-mm')) !== 12 || Number(box.getAttribute('data-white-right-mm')) !== 12) {
+                problems.push(`[a3-white] white bands ${box.getAttribute('data-white-left-mm')} / ${box.getAttribute('data-white-right-mm')} mm, want 12 / 12 (left / right)`);
             }
             const reader = box.querySelector('[data-reader-page]');
             const width = Number(reader?.getAttribute('data-width-mm')) * scale;
             const height = Number(reader?.getAttribute('data-height-mm')) * scale;
-            if (width !== 297) problems.push(`[a3-size] scaled width ${width} mm, want 297`);
-            if (height !== 396) problems.push(`[a3-size] scaled height ${height} mm, want 396`);
-            if (12 + height + 12 !== 420) problems.push(`[a3-white] 12 + ${height} + 12 is not the 420 mm A3 height`);
+            if (width !== 396) problems.push(`[a3-size] scaled width ${width} mm, want 396`);
+            if (height !== 297) problems.push(`[a3-size] scaled height ${height} mm, want 297`);
+            if (12 + width + 12 !== 420) problems.push(`[a3-white] 12 + ${width} + 12 is not the 420 mm A3 landscape width`);
         }
         const css = Array.from(doc.querySelectorAll('style'), (style) => style.textContent ?? '').join('\n');
         const rule = css.match(/\.a3-scale\s*\{([^}]*)\}/)?.[1] ?? '';
         if (!/scale\(\s*2(\.0+)?\s*\)/.test(rule)) problems.push('[a3-css] the `.a3-scale` rule has no scale(2)');
         if (/scale\(\s*3/.test(css)) problems.push('[a3-css] a scale(3) rule is still in the style');
-        if (!/12mm/.test(rule)) problems.push('[a3-css] the `.a3-scale` rule has no 12mm offset for the white band');
+        if (!/left:\s*12mm/.test(rule)) problems.push('[a3-css] the `.a3-scale` rule has no left: 12mm offset for the white band');
+        if (!/@page\s*\{[^}]*size:\s*420mm\s+297mm/.test(css)) problems.push('[a3-page-css] the @page size is not 420mm 297mm (A3 landscape)');
+        if (/@page\s*\{[^}]*size:\s*297mm\s+420mm/.test(css)) problems.push('[a3-page-css] the @page size is A3 portrait 297mm 420mm');
+        const pageRule = css.match(/\.a3-page\s*\{([^}]*)\}/)?.[1] ?? '';
+        if (!/width:\s*420mm/.test(pageRule) || !/height:\s*297mm/.test(pageRule)) problems.push('[a3-page-css] the `.a3-page` rule is not 420mm wide and 297mm high');
         return problems;
     }
 
-    it('R-P4-4a scales each color A3 reader page to 2.0 (297 × 396 mm), centered, with 12 mm of white at the top and the bottom (spec FR-5.8)', async () => {
+    it('R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)', async () => {
         const api = await readers();
         const colorDoc = new DOMParser().parseFromString(api.compileStorytimeReaders([shipped()], {
             profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color',
@@ -466,14 +534,23 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         expect(a3Problems(colorDoc)).toEqual([]);
     });
 
-    it('R-P4-4b fails on scale 3.0, on a missing white band, and on a missing A3 page (mutants on a copy; spec FR-5.8)', async () => {
+    it('R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8)', async () => {
         const api = await readers();
         const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
         const fresh = () => new DOMParser().parseFromString(html, 'text/html');
         expect(a3Problems(fresh()), 'the unchanged copy is right').toEqual([]);
         const mutants: Array<[string, string, (doc: Document) => void]> = [
             ['scale 3.0', '[a3-scale]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-scale', '3')],
-            ['no white band at the bottom', '[a3-white]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-white-bottom-mm', '0')],
+            ['no white band at the left', '[a3-white]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-white-left-mm', '0')],
+            ['no white band at the right', '[a3-white]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-white-right-mm', '0')],
+            ['A3 portrait in the @page rule', '[a3-page-css]', (doc) => {
+                const style = doc.querySelector('style')!;
+                style.textContent = (style.textContent ?? '').replace(/size:\s*420mm\s+297mm/, 'size: 297mm 420mm');
+            }],
+            ['the left offset removed from the CSS', '[a3-css]', (doc) => {
+                const style = doc.querySelector('style')!;
+                style.textContent = (style.textContent ?? '').replace(/(\.a3-scale\s*\{[^}]*?)left:\s*12mm/, '$1left: 0mm');
+            }],
             ['an A3 page removed', '[a3-pages]', (doc) => doc.querySelector('[data-a3-page]')!.remove()],
             ['the CSS back at scale(3)', '[a3-css]', (doc) => {
                 const style = doc.querySelector('style')!;
@@ -487,6 +564,38 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
         }
     });
+
+    it('R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8)', async () => {
+        const api = await readers();
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
+        const { chromium } = await import('@playwright/test');
+        const browser = await chromium.launch({ channel: 'chrome' });
+        try {
+            const page = await browser.newPage();
+            await page.setContent(html);
+            const boxes = await page.evaluate(() => {
+                const pxPerMm = 96 / 25.4;
+                const a3 = document.querySelector('[data-a3-page]')!.getBoundingClientRect();
+                const reader = document.querySelector('[data-a3-page] [data-reader-page]')!.getBoundingClientRect();
+                return {
+                    pageWidth: a3.width / pxPerMm, pageHeight: a3.height / pxPerMm,
+                    left: (reader.left - a3.left) / pxPerMm, right: (a3.right - reader.right) / pxPerMm,
+                    top: (reader.top - a3.top) / pxPerMm, bottom: (a3.bottom - reader.bottom) / pxPerMm,
+                    width: reader.width / pxPerMm, height: reader.height / pxPerMm,
+                };
+            });
+            expect(boxes.pageWidth).toBeCloseTo(420, 1);
+            expect(boxes.pageHeight).toBeCloseTo(297, 1);
+            expect(boxes.width).toBeCloseTo(396, 1);
+            expect(boxes.height).toBeCloseTo(297, 1);
+            expect(boxes.left, 'white band at the left').toBeCloseTo(12, 1);
+            expect(boxes.right, 'white band at the right').toBeCloseTo(12, 1);
+            expect(boxes.top).toBeCloseTo(0, 1);
+            expect(boxes.bottom).toBeCloseTo(0, 1);
+        } finally {
+            await browser.close();
+        }
+    }, 60_000);
 
     it('R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder', async () => {
         // Red 4g fixture change: final mode reads the picture folder through its manifest.json, so

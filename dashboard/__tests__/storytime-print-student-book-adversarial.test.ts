@@ -306,13 +306,13 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         for (const numbers of byReader.values()) expect(numbers, 'Each leaf has a front and a back.').toEqual(['1', '1', '2', '2', '3', '3']);
     }, 30000);
 
-    it('A2: fills each reader side with the R32 reader pages in two turned halves and keeps both marks (spec FR-5.1)', async () => {
+    it('A2: fills each reader side with the R32 reader pages in two landscape halves and keeps both marks (spec FR-5.1)', async () => {
         const { doc } = await render();
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
-        // spec FR-5.1: the back side keeps the top and the bottom of its front (the fold line is horizontal and the leaf turns on its vertical spine edge).
+        // spec FR-5.1 (2026-11-04): the back side keeps the top and the bottom of its front (the fold line is horizontal and the leaf turns on its vertical spine edge).
         const expectedBySide = [
-            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
-            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
+            [1, 12], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7],
+            [1, 12], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7],
         ];
         expect(readerSides).toHaveLength(expectedBySide.length);
         for (const [sideIndex, side] of readerSides.entries()) {
@@ -323,8 +323,8 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
             expect(side.querySelectorAll('[data-part="leaf-mark"]')).toHaveLength(1);
             expect(side.querySelectorAll('[data-part="fold-line"]')).toHaveLength(1);
             const pageNumbers: number[] = [];
-            // spec FR-5.1, P6 fix 1: the front pages turn 90 degrees and the back pages turn -90 degrees, so every page reads upright after the fold.
-            const expectedTurn = sideName === 'front' ? 90 : -90;
+            // spec FR-5.1 (2026-11-04): the front pages turn 180 degrees and the back pages stay upright, so every page reads upright at the top fold.
+            const expectedTurn = sideName === 'front' ? 180 : 0;
             for (const found of readerPages) {
                 const pageNumber = Number(found.getAttribute('data-page-number'));
                 pageNumbers.push(pageNumber);

@@ -6,7 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_QR_HOST, STORYTIME_ROOT, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
-import { READER_PAGE_MM, leafStyleProblems, studentReaderProblems } from './fixtures/storytime-reader-leaf';
+import { READER_PAGE_MM, leafMarkProblems, leafStyleProblems, measureLeafSidesInBrowser, studentReaderProblems } from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /**
@@ -16,7 +16,7 @@ import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, pre
  * Each physical side is .student-page[data-page-kind][data-page-number].
  * Stable data-part hooks identify printed elements, not a second content manifest.
  * Reader sides (changed 2026-11-03, Daniel's proof answer): 12 for a teaching week, 2 readers x 3 leaves x 2 faces;
- * each holds 2 reader pages of 148.5 x 198 mm turned 90 degrees, a fold line, and a leaf mark (spec FR-5.1).
+ * each holds 2 landscape reader pages of 198 x 148.5 mm (fronts turned 180 degrees, backs upright), a fold line, and a leaf mark (spec FR-5.1).
  */
 interface PrintProfile {
     trim: { widthMm: number; heightMm: number };
@@ -1134,7 +1134,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }
     });
 
-    it('R30: exports the P2 and P15 default profile in millimeters (reader page 148.5 x 198, spec FR-5.1)', async () => {
+    it('R30: exports the P2 and P15 default profile in millimeters (reader page 198 x 148.5, spec FR-5.1)', async () => {
         expect(await profile()).toMatchObject({
             trim: { widthMm: 210, heightMm: 297 }, bleedMm: 0, perforationMm: 12,
             readerPage: READER_PAGE_MM,
@@ -1465,16 +1465,16 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }
     });
 
-    it('R32: registers the 12 reader sides as 6 duplex leaves of 2 turned 148.5 x 198 mm pages each, in the spec imposition (spec FR-3, FR-5.1)', async () => {
+    it('R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1)', async () => {
         const week = shipped();
         const selected = await profile();
         const { doc } = await render(week, selected);
-        // spec FR-5.1: leaf 1 front 12|1, back 11|2; leaf 2 front 10|3, back 9|4; leaf 3 front 8|5, back 7|6; the same for the second reader.
+        // spec FR-5.1 (2026-11-04): leaf 1 front 1|12, back 2|11; leaf 2 front 3|10, back 4|9; leaf 3 front 5|8, back 6|7; the same for the second reader.
         // The back side keeps the top and the bottom of its front (the fold line is horizontal and the leaf turns on its vertical spine edge).
         expect(studentReaderProblems(pages(doc), week.books)).toEqual([]);
-        // spec FR-5.1 and P15: two page widths fill the 297 mm leaf height, one page height fills the 198 mm torn leaf.
-        expect(2 * selected.readerPage.widthMm).toBe(selected.trim.heightMm);
-        expect(selected.readerPage.heightMm).toBe(198);
+        // spec FR-5.1 and P15: two page heights fill the 297 mm leaf height, one page width fills the 198 mm torn leaf.
+        expect(2 * selected.readerPage.heightMm).toBe(selected.trim.heightMm);
+        expect(selected.readerPage.widthMm).toBe(198);
         expect(selected.trim.widthMm - selected.perforationMm).toBe(198);
     });
 
@@ -1514,7 +1514,23 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(leafStyleProblems(css)).toEqual([]);
     });
 
-    it('R32: fails on a wrong imposition, a missing fold line, a wrong mark, an unturned page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
+    it('R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)', async () => {
+        const { html } = await render();
+        const { chromium } = await import('@playwright/test');
+        const browser = await chromium.launch({ channel: 'chrome' });
+        try {
+            const page = await browser.newPage();
+            await page.setContent(html);
+            await page.evaluate(() => document.fonts.ready);
+            const sides = await page.evaluate(measureLeafSidesInBrowser, '.student-page[data-page-kind="reader"]');
+            expect(sides).toHaveLength(12);
+            expect(leafMarkProblems(sides)).toEqual([]);
+        } finally {
+            await browser.close();
+        }
+    }, 60_000);
+
+    it('R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
         const week = shipped();
         const { html } = await render(week);
         const fresh = () => new DOMParser().parseFromString(html, 'text/html');
@@ -1522,20 +1538,27 @@ describe('Storytime student workbook: the shipped week 1', () => {
         // The unchanged copy is right; without this line a checker that always fails would pass the mutants.
         expect(studentReaderProblems(pages(fresh()), week.books)).toEqual([]);
         const mutants: Array<[string, string, (doc: Document) => void]> = [
-            ['imposition 1|12 in place of 12|1', '[imposition]', (doc) => {
+            ['imposition 12|1 (v3) in place of 1|12', '[imposition]', (doc) => {
                 const found = readerSidesOf(doc)[0].querySelectorAll('[data-reader-page]');
-                found[0].setAttribute('data-page-number', '1');
-                found[1].setAttribute('data-page-number', '12');
+                found[0].setAttribute('data-page-number', '12');
+                found[1].setAttribute('data-page-number', '1');
             }],
-            ['imposition 3|10 in place of 10|3', '[imposition]', (doc) => {
+            ['imposition 10|3 (v3) in place of 3|10', '[imposition]', (doc) => {
                 const found = readerSidesOf(doc)[2].querySelectorAll('[data-reader-page]');
-                found[0].setAttribute('data-page-number', '3');
-                found[1].setAttribute('data-page-number', '10');
+                found[0].setAttribute('data-page-number', '10');
+                found[1].setAttribute('data-page-number', '3');
             }],
             ['fold line removed', '[fold-line]', (doc) => readerSidesOf(doc)[3].querySelector('[data-part="fold-line"]')!.remove()],
             ['leaf mark removed', '[leaf-mark]', (doc) => readerSidesOf(doc)[0].querySelector('[data-part="leaf-mark"]')!.remove()],
             ['leaf mark with leaf 5', '[leaf-mark]', (doc) => { readerSidesOf(doc)[4].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 5'; }],
-            ['page not turned', '[turn]', (doc) => readerSidesOf(doc)[1].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['a front page not turned', '[turn]', (doc) => readerSidesOf(doc)[0].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['a back page turned 180', '[turn]', (doc) => readerSidesOf(doc)[1].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '180')],
+            ['the old 90 degree turn on a front', '[turn]', (doc) => readerSidesOf(doc)[2].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '90')],
+            ['a portrait page 148.5 x 198 mm', '[page-size]', (doc) => {
+                const found = readerSidesOf(doc)[0].querySelector('[data-reader-page]')!;
+                found.setAttribute('data-width-mm', '148.5');
+                found.setAttribute('data-height-mm', '198');
+            }],
             ['page at 99 x 140 mm', '[page-size]', (doc) => {
                 const found = readerSidesOf(doc)[0].querySelector('[data-reader-page]')!;
                 found.setAttribute('data-width-mm', '99');
