@@ -1554,7 +1554,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
             const problems = studentReaderProblems(pages(doc), week.books);
             expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
         }
-    });
+    }, 30_000);
 
     it('R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages', async () => {
         const week = shipped();

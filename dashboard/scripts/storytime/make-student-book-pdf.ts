@@ -22,7 +22,7 @@ const USAGE = `Builds the PDF/X-1a print file of the Storytime Advantage student
 the HTML template in system Chrome with Paged.js (from node_modules), then make-pdfx.ts
 (--keep-fonts and --k-only) to PDF/X-1a. Run it under the heavy-job lock (plan rule, advantage-pr 0e091de).
 
-Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <list> [--proof|--final] [--version <n>] [--out <file.pdf>]
+Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <list> [--proof|--final] [--pending-pictures <row ids>] [--version <n>] [--out <file.pdf>]
 
   --level     The Storytime level, a whole number from 1 to 4, e.g. 2
   --weeks     The weeks to include, each a whole number from 1 to 32, comma separated, e.g. 1;
@@ -30,6 +30,8 @@ Usage: npx tsx scripts/storytime/make-student-book-pdf.ts --level <n> --weeks <l
   --proof     Proof mode: picture boxes print the placeholder (default)
   --final     Final mode: the build resolves every picture through manifest.json in
               content/storytime/l<n>/print/pictures/ and stops on a picture problem (FR-5.6)
+  --pending-pictures  In final mode only, print placeholders for these comma-separated row ids
+                      and list them in the build report; every other picture remains required
   --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
   --out       Output PDF file, an absolute .pdf path strictly inside <home>/Desktop/print-ready/storytime/
               (filesystem links are checked too: checkStorytimeOutputContainment)
@@ -54,7 +56,7 @@ async function main(argv: string[]): Promise<number> {
         console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
         return 2;
     }
-    const { level, weeks, mode, outputPath } = args;
+    const { level, weeks, mode, outputPath, pendingPictures } = args;
     const read = readLevelWeeks(STORYTIME_ROOT, level).filter((r) => {
         const meta = (r.raw as { meta?: { week?: number } }).meta;
         return weeks.includes(meta?.week ?? -1);
@@ -69,12 +71,7 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     const parsed = read.map((r) => r.week!) as StorytimeWeek[];
-    const review = parsed.filter((w) => w.meta.kind === 'review');
-    if (review.length) {
-        console.error(`Review weeks are not student-book pages yet: ${review.map((w) => w.meta.week).join(', ')}`);
-        return 1;
-    }
-    const result = compileStorytimeStudentBook(parsed, { profile: STORYTIME_PRINT_PROFILE, mode });
+    const result = compileStorytimeStudentBook(parsed, { profile: STORYTIME_PRINT_PROFILE, mode, pendingPictures });
     const unit = parsed[0].meta.unit;
     const out = outputPath;
 
@@ -94,6 +91,7 @@ async function main(argv: string[]): Promise<number> {
     execFileSync(process.execPath, ['--import', 'tsx', 'scripts/print/make-pdfx.ts', chromeFile, '--out', out, ...STORYTIME_STUDENT_PDFX_FLAGS], { stdio: 'inherit' });
     fs.rmSync(tmp, { recursive: true, force: true });
     console.log(`done  Level ${level} unit ${unit} (${mode}, weeks ${weeks.join(', ')}): ${out} (${pages} pages)`);
+    if (pendingPictures.length) console.log(`pending pictures: ${pendingPictures.join(', ')}`);
     return 0;
 }
 

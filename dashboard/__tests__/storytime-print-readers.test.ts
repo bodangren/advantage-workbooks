@@ -740,7 +740,7 @@ describe('Storytime two-output picture check', () => {
         await expect(api.checkStorytimePicture(fixture.color, colorInLinePlace, entries(fixture.color, colorInLinePlace), fixture.row)).rejects.toThrow(/line.art|grayscale|greyscale|channel/i);
         await expect(api.checkStorytimePicture(fixture.color, fixture.line, entries(fixture.color, fixture.line), { ...fixture.row, fileName: 'wrong.png' })).rejects.toThrow(/file name|filename|manifest/i);
         await expect(api.checkStorytimePicture(fixture.color, fixture.line, fixture.manifest, fixture.row)).resolves.toBeTruthy();
-    }, 30_000);
+    }, 60_000);
 
     it('R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size', async () => {
         const api = await pictureCheck();

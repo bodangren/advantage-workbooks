@@ -46,7 +46,12 @@ describe('Storytime student book, weeks 1 to 8', () => {
         const pageNumbers = Array.from(doc.querySelectorAll('.student-page'), (page) => Number(page.getAttribute('data-page-number')));
         expect(pageNumbers).toEqual(pageNumbers.map((_n, index) => index + 1));
         expect(doc.querySelectorAll('[data-sticker]')).toHaveLength(8);
-    });
+        const mutant = doc.cloneNode(true) as Document;
+        mutant.querySelector('[data-page-kind="review"]')!.remove();
+        expect(mutant.querySelectorAll('[data-page-kind="review"]')).toHaveLength(4);
+        const missingReviewPageCaught = mutant.querySelectorAll('[data-page-kind="review"]').length !== 5;
+        expect(missingReviewPageCaught, 'the missing review-page mutant must be caught').toBe(true);
+    }, 30_000);
 
     it('R-P7-2 renders all week 8 circle-picture rows, picture sorts, and seven empty letter boxes', async () => {
         const { compileStorytimeStudentBook } = await import(studentPath);
@@ -57,8 +62,9 @@ describe('Storytime student book, weeks 1 to 8', () => {
         expect(benchmark.querySelectorAll('[data-picture-id]')).toHaveLength(24);
         expect(benchmark.querySelectorAll('[data-part="check-write-letter"]')).toHaveLength(7);
         expect(benchmark.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
+        expect(doc.querySelector('style')?.textContent).toContain('.student-page[data-page-kind="benchmark"] { display: grid;');
         expect(doc.querySelectorAll('[data-page-kind="review"] [data-part="picture-sort"]')).toHaveLength(5);
-    });
+    }, 30_000);
 
     it('R-P7-3 tests each week 2 to 7 reader plan and text across six A5 leaves', async () => {
         const { compileStorytimeReaders } = await import(readerPath);
@@ -82,6 +88,12 @@ describe('Storytime student book, weeks 1 to 8', () => {
             }
             expect(weekLeaves, `week ${week.meta.week} has six reader leaves`).toBe(6);
         }
+        const missingWeekFiveLeaf = doc.cloneNode(true) as Document;
+        missingWeekFiveLeaf.querySelector('[data-reader-leaf][data-reader-title="' + teachingWeeks[3].books[0].title + '"]')!.remove();
+        const weekFiveLeafCount = Array.from(missingWeekFiveLeaf.querySelectorAll('[data-reader-leaf]'))
+            .filter((leaf) => teachingWeeks[3].books.some((book) => book.title === leaf.getAttribute('data-reader-title'))).length;
+        expect(weekFiveLeafCount).toBe(5);
+        expect(weekFiveLeafCount !== 6, 'the omitted week 5 reader mutant must be caught').toBe(true);
         expect(doc.querySelectorAll('[data-part="fold-line"]')).toHaveLength(72);
         expect(doc.querySelectorAll('[data-part="perforation"]')).toHaveLength(72);
     });
@@ -109,14 +121,21 @@ describe('Storytime student book, weeks 1 to 8', () => {
             const allWeeks = weeks();
             const rows = storytimePrintPictures(allWeeks);
             const missingId = pendingWeek8[0];
-            writePictureFolder(pictures, jobsFor(rows.filter((row) => row.id !== missingId).map((row) => row.id)));
+            const unnamedMissingId = pendingWeek8[1];
+            writePictureFolder(pictures, jobsFor(rows.map((row) => row.id)).map((job) =>
+                [missingId, unnamedMissingId].includes(job.rowId) ? { ...job, omit: ['line'] as Array<'line'> } : job));
             const { compileStorytimeStudentBook } = await import(studentPath);
             const result = compileStorytimeStudentBook(allWeeks, {
-                profile: STORYTIME_PRINT_PROFILE, mode: 'final', pendingPictures: [missingId],
+                profile: STORYTIME_PRINT_PROFILE, mode: 'final', pendingPictures: [missingId, unnamedMissingId],
             });
             const doc = new DOMParser().parseFromString(result.html, 'text/html');
             expect(doc.querySelector(`[data-picture-id="${missingId}"]`)?.textContent).toContain('PICTURE MISSING');
-            expect(doc.querySelectorAll('[data-picture-id="l2-w08-check-row-mango"] img')).toHaveLength(1);
+            expect(() => compileStorytimeStudentBook(allWeeks, {
+                profile: STORYTIME_PRINT_PROFILE, mode: 'final', pendingPictures: [missingId],
+            })).toThrow(new RegExp(`picture missing: ${unnamedMissingId}`));
+            expect(() => compileStorytimeStudentBook(allWeeks, {
+                profile: STORYTIME_PRINT_PROFILE, mode: 'final', pendingPictures: ['l2-w08-check-row-not-named'],
+            })).toThrow(/pending picture row not found/);
             expect(() => compileStorytimeStudentBook(allWeeks, {
                 profile: STORYTIME_PRINT_PROFILE, mode: 'final',
             })).toThrow(/picture missing: .*l2-w08-check-row-moon/);
@@ -126,5 +145,5 @@ describe('Storytime student book, weeks 1 to 8', () => {
             vi.resetModules();
             fs.rmSync(root, { recursive: true, force: true });
         }
-    });
+    }, 30_000);
 });

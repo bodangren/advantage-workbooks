@@ -27,9 +27,12 @@ interface PageSpec {
     body: string;
 }
 
+/** The options for compiling one complete Storytime student book. */
 export interface StorytimeStudentBookOptions {
     profile: StorytimePrintProfile;
     mode: 'proof' | 'final';
+    /** Final-build picture row ids that Forge has not delivered yet. */
+    pendingPictures?: string[];
 }
 
 /** The P11 default title of the unit book (spec P11: release 1 is unit 1 only). */
@@ -112,7 +115,20 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .picture-draw-box { width: 70mm; height: 55mm; border: 0.6mm solid #000; margin-top: 10mm; }
 .check-row { display: flex; gap: 8mm; margin-top: 10mm; }
 .check-row .picture-box { width: 40mm; height: 40mm; }
+.picture-sort { display: flex; gap: 5mm; margin-top: 7mm; }
+.picture-sort-group { flex: 1; min-width: 0; text-align: center; }
+.picture-sort-group .check-row { justify-content: center; flex-wrap: wrap; }
+.picture-sort-group .picture-box { width: 28mm; height: 28mm; }
+.sort-label { font-size: 16pt; }
+.circle-word-row { display: flex; gap: 8mm; margin-top: 8mm; }
+.circle-word { border: 0.5mm solid #000; border-radius: 50%; padding: 3mm 5mm; font-size: 18pt; }
 .check-write-letter { display: block; width: 26mm; height: 26mm; border: 0.6mm solid #000; margin-top: 10mm; }
+.student-page[data-page-kind="benchmark"] { display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: 2mm; }
+.student-page[data-page-kind="benchmark"] .page-title,
+.student-page[data-page-kind="benchmark"] > .check-cue { grid-column: 1 / -1; }
+.student-page[data-page-kind="benchmark"] > .check-row { display: contents; }
+.student-page[data-page-kind="benchmark"] .picture-box { width: 25mm; height: 25mm; margin: 0; }
+.student-page[data-page-kind="benchmark"] .check-write-letter { display: inline-block; width: 16mm; height: 16mm; margin: 2mm; }
 .check-cue { font-size: 11pt; margin-top: 10mm; }
 .home-card-title { font-size: 14pt; font-weight: 700; }
 .home-line { font-size: 13pt; margin-top: 8mm; }
@@ -166,6 +182,9 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): st
  */
 function pictureElement(row: StorytimePictureRow, o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>, className: string): string {
     if (o.mode === 'final') {
+        if (o.pendingPictures?.includes(row.id)) {
+            return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}" data-picture-file="${esc(row.lineArtFileName)}">PICTURE MISSING</div>`;
+        }
         const entry = files.get(row.id);
         if (!entry) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
         return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}" data-picture-file="${esc(entry.fileName)}"><img src="${esc(pathToFileURL(entry.file).href)}" alt=""></div>`;
@@ -256,6 +275,19 @@ ${print.writing.pictureBox ? '<div class="picture-draw-box" data-part="writing-p
 
 /** The picture-sound page of the Friday check: the rows of `check.items`, with no answer mark. */
 function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
+    return checkItemsPage(week, week.check.items, rows, o, files, `Week ${week.meta.week} check`, 'check');
+}
+
+/** Renders paper check items as a page, including the review picture-sort and circle-word layouts. */
+function checkItemsPage(
+    week: StorytimeWeek,
+    items: StorytimeCheckItem[],
+    rows: StorytimePictureRow[],
+    o: StorytimeStudentBookOptions,
+    files: Map<string, StorytimePictureFile>,
+    heading: string,
+    kind: string,
+): PageSpec {
     const rowByName = new Map(rows.filter((r) => r.use === 'check-row').map((r) => [r.text, r]));
     const itemHtml = (item: StorytimeCheckItem): string => {
         if (item.kind === 'circle-picture') {
@@ -269,18 +301,35 @@ function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storytim
         if (item.kind === 'write-letter') return `<span class="check-write-letter" data-part="check-write-letter" data-student-work></span>`;
         if (item.kind === 'write-word') return `<p class="check-cue" data-student-work>${esc(item.word)}: </p>`;
         if (item.kind === 'picture-sort') {
-            return item.groups.map((g) => `<div class="check-row" data-part="check-row">${g.pictures.map((word) => {
+            return `<div class="picture-sort" data-part="picture-sort">${item.groups.map((g) => `<div class="picture-sort-group" data-sort-sound="${esc(g.sound)}"><span class="sort-label">${esc(g.sound)}</span><div class="check-row" data-part="check-row">${g.pictures.map((word) => {
                 const row = rowByName.get(word);
                 if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
                 return pictureElement(row, o, files, '');
-            }).join('')}</div>`).join('');
+            }).join('')}</div></div>`).join('')}</div>`;
         }
-        return `<p class="check-cue" data-student-work>${item.words.map(esc).join('   ')}</p>`;
+        if (item.kind === 'circle-word') {
+            return `<div class="circle-word-row" data-part="circle-word-row">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</div>`;
+        }
+        return `<span class="check-write-letter" data-part="check-write-letter" data-student-work></span>`;
     };
-    const body = `<h2 class="page-title">Week ${week.meta.week} check</h2>
+    const body = `<h2 class="page-title">${esc(heading)}</h2>
 <p class="check-cue">Circle the picture. Write the letter.</p>
-${week.check.items.map(itemHtml).join('\n')}`;
-    return { kind: 'check', body };
+${items.map(itemHtml).join('\n')}`;
+    return { kind, body };
+}
+
+/** The five review paper pages, followed by the Benchmark 1 paper page (spec FR-3). */
+function reviewPages(
+    week: StorytimeWeek,
+    rows: StorytimePictureRow[],
+    o: StorytimeStudentBookOptions,
+    files: Map<string, StorytimePictureFile>,
+): PageSpec[] {
+    const days = week.block?.days ?? [];
+    if (days.length !== 5 || !week.benchmark) throw new Error(`student book: review week ${week.meta.week} needs five review pages and a benchmark`);
+    const pages = days.map((day, index) => checkItemsPage(week, day.paper, rows, o, files, `Review ${index + 1}`, 'review'));
+    const benchmark = checkItemsPage(week, week.benchmark.paper.items, rows, o, files, 'Benchmark 1', 'benchmark');
+    return pages.concat(benchmark);
 }
 
 /** The two sides of the home-card leaf (FR-3): the Thai card with the QR codes, then the English card. */
@@ -336,15 +385,11 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
 }
 
 /**
- * Compiles the student workbook of one unit from its week packages (spec FR-3).
- * @param weeks The parsed weeks of the unit, in week order. Review weeks are not part of this
- *   phase yet; they throw with a clear message.
- * @param o The print profile (one constant holds the trim) and the build mode. In `final` mode
- *   the build resolves every picture row through the `manifest.json` of the picture folder, and a
- *   problem stops the build with the row id (FR-5.6); in `proof` mode the picture boxes print the
- *   placeholder.
+ * Compiles the student workbook of one unit from its week packages (spec FR-3), including week 8 review pages.
+ * @param weeks The parsed weeks of the unit, in week order.
+ * @param o The print profile and build mode. Final mode requires every picture except named pending rows.
  * @returns The print HTML of the whole book.
- * @throws Error When a picture of a final build does not resolve (FR-5.6).
+ * @throws Error When a picture of a final build does not resolve, or a pending row id is unknown.
  */
 export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: StorytimeStudentBookOptions): { html: string } {
     if (!weeks.length) throw new Error('no weeks');
@@ -353,13 +398,23 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
     // names its row before any page renders (R44). Proof mode prints placeholders instead.
     const pictureFiles = new Map<string, StorytimePictureFile>();
     const allPictureRows = storytimePrintPictures(weeks);
+    const pending = new Set(o.pendingPictures ?? []);
+    const unknownPending = [...pending].filter((id) => !allPictureRows.some((row) => row.id === id));
+    if (unknownPending.length) throw new Error(`pending picture row not found: ${unknownPending.join(', ')}`);
+    if (pending.size && o.mode !== 'final') throw new Error('pending pictures are supported only in final mode');
     if (o.mode === 'final') {
         const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
-        for (const entry of resolveStorytimePictureFiles(dir, allPictureRows, 'line')) pictureFiles.set(entry.rowId, entry);
+        for (const entry of resolveStorytimePictureFiles(dir, allPictureRows.filter((row) => !pending.has(row.id)), 'line')) pictureFiles.set(entry.rowId, entry);
     }
     const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
     for (const week of weeks) {
-        if (week.meta.kind === 'review') throw new Error(`student book: the review pages of week ${week.meta.week} come with the weeks 2 to 8 phase`);
+        if (week.meta.kind === 'review') {
+            const rows = allPictureRows.filter((row) => row.week === week.meta.week || row.use === 'check-row');
+            const review = reviewPages(week, rows, o, pictureFiles);
+            if (specs.length % 2 === 0) specs.push(blankPage());
+            specs.push(...review);
+            continue;
+        }
         if (!week.print) throw new Error(`student book: week ${week.meta.week} has no print block`);
         const rows = storytimePrintPictures([week]);
         const weekPages: PageSpec[] = [

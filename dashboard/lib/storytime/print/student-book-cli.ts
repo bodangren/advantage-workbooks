@@ -23,6 +23,8 @@ export interface StorytimeStudentBookArgs {
     out?: string;
     /** The resolved output file: the explicit `--out`, else the default path for the unit. */
     outputPath: string;
+    /** Picture row ids that may print placeholders in a final build. */
+    pendingPictures: string[];
 }
 
 /** The safe `--level` range, as `check-weeks.ts` accepts levels 1 to 4. */
@@ -84,6 +86,7 @@ export function parseStorytimeStudentBookArgs(argv: string[], home: string, unit
     let final = false;
     let version = 1;
     let out: string | undefined;
+    let pendingPictures: string[] = [];
     for (let i = 0; i < argv.length; i++) {
         const arg = argv[i];
         if (arg === '--level') level = safeInt(argv[++i], '--level', MIN_LEVEL, MAX_LEVEL);
@@ -95,11 +98,19 @@ export function parseStorytimeStudentBookArgs(argv: string[], home: string, unit
         else if (arg === '--out') {
             out = argv[++i];
             if (!path.isAbsolute(out)) throw new Error(`--out must be an absolute path inside ${printReadyDir(home)}, got "${out}"`);
+        } else if (arg === '--pending-pictures') {
+            const value = argv[++i];
+            if (value === undefined || !value.trim()) throw new Error('--pending-pictures needs one or more comma-separated row ids');
+            pendingPictures = value.split(',').map((id) => id.trim());
+            if (pendingPictures.some((id) => !id) || new Set(pendingPictures).size !== pendingPictures.length) {
+                throw new Error('--pending-pictures must contain non-empty, unique row ids');
+            }
         } else throw new Error(`unknown argument: ${arg}`);
     }
     if (level === undefined) throw new Error('a --level value is required');
     if (!weeks?.length) throw new Error('a --weeks list is required');
     if (proof && final) throw new Error('use --proof or --final, not both');
+    if (pendingPictures.length && !final) throw new Error('--pending-pictures is supported only with --final');
     const folder = printReadyDir(home);
     let outputPath: string;
     if (out) {
@@ -118,7 +129,7 @@ export function parseStorytimeStudentBookArgs(argv: string[], home: string, unit
         outputPath = defaultOutputPath(home, level, unit, version);
     }
     const mode: 'proof' | 'final' = final ? 'final' : 'proof';
-    return { level, weeks, mode, version, out, outputPath };
+    return { level, weeks, mode, version, out, outputPath, pendingPictures };
 }
 
 /**
