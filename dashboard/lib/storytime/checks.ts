@@ -31,7 +31,9 @@ const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function frameCount(frame: string, lines: string[]): number {
     const hook = frame.match(/^[^.?!]*/)?.[0] ?? frame;
     const parts = hook.split('___').map(stem);
-    const pattern = parts.map((p) => escapeRe(p)).join(' ?[a-z0-9]+(?: [a-z0-9]+){0,2} ?');
+    const tokenPattern = (part: string) =>
+        part.split(' ').filter(Boolean).map((word) => (word === 'a' ? '(?:a|an)' : escapeRe(word))).join(' ');
+    const pattern = parts.map(tokenPattern).join(' [a-z0-9]+(?: [a-z0-9]+){0,2} ').trim();
     const re = new RegExp(`(^| )${pattern}( |$)`);
     return lines.filter((l) => re.test(stem(l))).length;
 }
@@ -197,6 +199,11 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     }
     const readAlong = w.books.find((b) => b.kind === 'readalong');
     const decodable = w.books.find((b) => b.kind === 'decodable');
+    for (const book of w.books) {
+        if (book.soundBook && !(book.kind === 'decodable' && level === 2 && week === 1)) {
+            bookProblems.push(`${book.kind} sound book is allowed only on the Level 2 week 1 decodable`);
+        }
+    }
     if (level === 1 && decodable) bookProblems.push('Level 1 has no decodable');
     if (teach) {
         if (!readAlong) bookProblems.push('no read-along book');
@@ -208,7 +215,7 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         else if (decodable && decodable.pages.length !== 8) bookProblems.push(`decodable: ${decodable.pages.length} pages, not 8`);
     }
     checks.push(check('books', 'Books', bookProblems));
-    if (decodable && !decodable.soundBook && level >= 2) {
+    if (decodable && level >= 2 && !(decodable.soundBook && level === 2 && week === 1)) {
         // Design §6.1: 90 percent or more of the running words decodable, no untaught word except names.
         if (!taught) checks.push(check('decodable', 'Decodable: 90 percent or more of the words, no untaught word', ['the earlier weeks are not given (check the level)'], 'warn'));
         else {
