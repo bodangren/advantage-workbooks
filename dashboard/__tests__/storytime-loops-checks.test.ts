@@ -227,6 +227,24 @@ function levelOneCopy(): RawWeek {
     return raw;
 }
 
+/**
+ * Adds minutes to the steps of a day that are not moved and not loop steps, until the day sums to the period
+ * (FR-7). A step takes 20 minutes at most.
+ * @param script The day to pad, changed in place.
+ * @param period The `periodMinutes` of the level.
+ * @param opening The `openingMinutes` of the level.
+ */
+function padLevelThreeDay(script: RawWeek, period: number, opening: number): void {
+    const total = (): number =>
+        opening + script.steps.filter((st: RawWeek) => !st.moved).reduce((n: number, st: RawWeek) => n + (st.loopMinutes ?? st.minutes), 0);
+    for (const step of script.steps) {
+        if (step.moved || (LOOP_STEP_IDS as readonly string[]).includes(step.id)) continue;
+        const missing = period - total();
+        if (missing <= 0) break;
+        step.minutes = Math.min(20, step.minutes + missing);
+    }
+}
+
 /** A Level 3 copy of a teach week with the period of 49 minutes and the given loop minutes. */
 function levelThreeCopy(week: number, loopMinutes: Record<string, number>): RawWeek {
     const raw = loopComplete(week);
@@ -234,6 +252,8 @@ function levelThreeCopy(week: number, loopMinutes: Record<string, number>): RawW
     raw.meta.key = `st3/${week}`;
     raw.meta.periodMinutes = 49;
     raw.meta.openingMinutes = 8;
+    // Days B to E take the extra minutes, so each day sums to 49 (FR-7). Day A keeps the cases apart.
+    for (const script of raw.scripts) if (script.id !== 'A') padLevelThreeDay(script, 49, 8);
     const scriptOf = (id: string) => (id.startsWith('C') ? 'C' : id.startsWith('D') ? 'D' : 'A');
     for (const [id, value] of Object.entries(loopMinutes)) stepById(raw, scriptOf(id), id).loopMinutes = value;
     return raw;
@@ -483,6 +503,7 @@ describe('loops-recall', () => {
         const trickyIn = loopComplete(1);
         const trickyOk = recallItems(trickyIn, 2);
         trickyOk[1] = { kind: 'tricky', text: 'can', week: 1 };
+        trickyOk[3] = { kind: 'tricky', text: 'a', week: 1 };
         setRecall(trickyIn, 2, trickyOk);
         expectPass(reportFor(trickyIn), 'loops-recall', 'the taught tricky word can');
     });
