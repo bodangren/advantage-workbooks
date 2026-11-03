@@ -27,7 +27,7 @@ Daniel spoke through the PM session. The evidence class of each decision below i
 
 Results:
 
-1. One black-and-white A4 student workbook holds the writing parts and the 14 readers (7 read-alongs, 7 decodables). A reader is "build your own": workbook pages that the child cuts out, folds, and staples.
+1. One black-and-white A4 student workbook holds the writing parts and the 14 readers (7 read-alongs, 7 decodables). A reader is "build your own": workbook leaves that the child tears out, folds, and staples (changed 2026-11-03: no scissors step).
 2. The separate color A5 books are out.
 3. New deliverable: the teacher's color reader PDFs. Each page of the 14 readers is in color on A3. The teacher prints them and leads the class with them. Not a printer job.
 4. Counts: 7 read-alongs, 7 decodables, 1 review week (week 8). The songs stay as the week files have them.
@@ -38,11 +38,11 @@ Results:
 
 ### The new P2 print defaults (Daniel checks them)
 
-- Student workbook: A4 portrait, 210 × 297 mm. Inside: black only, printed on both sides, 80 gsm uncoated. Cover: 4/0 color on 250 gsm card, matte lamination. Binding: perfect binding. Perforation: every reader leaf and every home-card leaf 12 mm from the spine. Bleed: none. Extent: about 88 pages (estimate).
-- Reader in the workbook: 99 × 140 mm portrait (P15 default: the A6 page scaled 0.943); 12 pages (the page plans of FR-5.2 and FR-5.3 stay); line-art pictures. Each reader has 3 half-sheet strips, 2 strips on each A4 leaf, with a dashed cut line across the middle. The two readers of a week fill 3 leaves. The child tears out the leaves, cuts on the line, nests the 3 strips in page order, folds them, and staples them on the fold (2 staples). Each strip has a small mark with the reader and the strip number.
-- Color A3 teacher PDF: the same page layout in color, at A3 portrait, 297 × 420 mm (the reader page and A3 have the same aspect; the scale is 3.0). One reader page on each A3 page. An sRGB PDF for office printers. Not PDF/X. Not on the print order.
+- Student workbook: A4 portrait, 210 × 297 mm. Inside: black only, printed on both sides, 80 gsm uncoated. Cover: 4/0 color on 250 gsm card, matte lamination. Binding: perfect binding. Perforation: every reader leaf and every home-card leaf 12 mm from the spine. Bleed: none. Extent: about 130 A4 pages (estimate; changed 2026-11-03, Daniel's proof answer: the readers take 6 leaves a week, and the extent was about 88).
+- Reader in the workbook (changed 2026-11-03, Daniel's proof answer): each reader page is 148.5 × 198 mm portrait (P15 default). The width is the A5 width. The height is 11.5 mm less than A5, because the child tears the leaf out at the 12 mm perforation, and a torn leaf is 198 × 297 mm. A reader has 12 pages (the page plans of FR-5.2 and FR-5.3 stay) and line-art pictures. Each side of an A4 reader leaf holds 2 reader pages, turned 90 degrees, one on each half of the leaf, with a dashed fold line across the middle of the leaf (no cut line). A reader has 12 pages on 3 leaves. The two readers of a week fill 6 leaves. The 3 nested folded leaves, from outer to inner: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7. The fold is the spine of the reader. The child tears out the 3 leaves, folds each in half on the fold line, nests them in leaf order, and staples them on the fold (2 staples). There is no scissors step. Each leaf side has a small mark with the reader title and the leaf number (1 to 3) inside the page margin.
+- Color A3 teacher PDF (changed 2026-11-03, Daniel's proof answer): the same page layout in color. Each reader page is on one A3 portrait page at scale 2.0 (297 × 396 mm), centered, with 12 mm of white at the top and at the bottom. One reader page on each A3 page. An sRGB PDF for office printers. Not PDF/X. Not on the print order.
 - Teacher book, home cards, cards, and stickers: unchanged (teacher book: A4, black only, 80 gsm, wire-o).
-- The picture box is about 90 × 67 mm (the A6 box scaled 0.943), so about 269 × 202 mm on A3.
+- The picture box is about 135 × 101 mm on the reader page (changed 2026-11-03, Daniel's proof answer). The pictures are 4000 × 3000 px, so no new render is needed. On A3 the box is about 270 × 202 mm.
 
 ## Decisions of 2026-10-26
 
@@ -72,6 +72,21 @@ Results:
 1. Release 1 delivers on 2026-12-01 (internal date; not a public date). This confirms the goal in the introduction; no task changes.
 2. The teacher prints the Storytime reader pages on A3. This confirms D2 item 2 and FR-5.8 (the color A3 reader PDFs); no task changes.
 
+## Decisions of 2026-11-03
+
+Daniel answered the week 1 print proof. The PM session relayed the answer (Tasks `MU5DTEJZZU9meWk5YU9DQg`, his reply of 2026-11-03 13:44 ICT). Evidence class: owner words relayed by the PM session (peer-report of owner words). The week 1 proof is not approved.
+
+Daniel's words, verbatim: "Readers are 4 reader pages per student book page, when it should be 2. The constructed books are going to be 1/4 A4. Far too small. Also, are you creating a completely different student book for each week? It should be one book for 8 weeks."
+
+PM decisions (2026-11-03, 13:5x ICT, under Daniel's standing rule of 12:3x):
+
+1. The approved pictures and text stay. Only the reader imposition and the reader size change. Andika and Sarabun stay.
+2. Two proof steps: the week 1 A5 readers on 2026-11-05, and the one 8-week student book (all pages, contact sheet) on 2026-11-10.
+3. Phase 7 starts 2026-11-04, before the Phase 6 approval.
+4. The reader size question (P15) went to Daniel (Tasks `RkpsQWhMRkFRNzF3cWxSbw`, 13:54 ICT). The work starts with the default of P15.
+
+Results: the new reader rules are in the P2 defaults, FR-3, FR-5.1, FR-5.8, FR-9, and P15. The student book is one book for 8 weeks (FR-3).
+
 ## Sources
 
 Other repositories are read-only for this track.
@@ -85,10 +100,10 @@ Other repositories are read-only for this track.
 ## Terms
 
 - **Week package**: one file `content/storytime/l2/wNN.json`. It holds all text of the week.
-- **Readers**: the 7 read-along readers and the 7 decodable readers of weeks 1 to 7. Each reader is "build your own": workbook pages that the child cuts out, folds, and staples.
+- **Readers**: the 7 read-along readers and the 7 decodable readers of weeks 1 to 7. Each reader is "build your own": workbook leaves that the child tears out, folds, and staples.
 - **Line art**: the black-and-white output of a picture: a grayscale PNG with black outlines on an opaque white background (FR-9). The workbook prints line art only.
 - **Color A3 PDF**: an sRGB PDF with one reader page in color on each A3 page. The teacher prints it and leads the class with it. It is not a print file.
-- **Picture**: a raster file that Forge makes. A vector shape that Workbooks makes is a **drawing** (the letter formation box, the book map, the cut lines).
+- **Picture**: a raster file that Forge makes. A vector shape that Workbooks makes is a **drawing** (the letter formation box, the book map, the cut lines, the fold lines).
 - **Print file**: a PDF/X-1a file that `npx tsx scripts/print/make-pdfx.ts <file> --check` passes (exit code 0).
 - **Proof**: a set of print files and color A3 reader PDFs with a contact sheet of every page and a list of the files with their SHA-256 and source commit.
 - **Approve**: only Daniel approves. A script, a model, or a peer session passes or fails a check.
@@ -118,9 +133,11 @@ Other repositories are read-only for this track.
 
 One workbook for Level 2 unit 1, built from the week packages. The default trim is A4 portrait (P2 defaults, 2026-10-25). The workbook is black only. It holds the writing parts and the reader leaves of each week 1 to 7 (FR-5). The pictures in the workbook are line art (FR-9).
 
+The workbook is ONE book for the 8 weeks of unit 1 (Daniel, 2026-11-03: "It should be one book for 8 weeks."). A proof file with fewer weeks is a part of this one book, not a separate book.
+
 Pages:
 - The front pages: a name page ("This book belongs to") and the book map.
-- Each teaching week (1 to 7): the weekly spread, the picture-sound page of the Friday check, the home card, and the 3 reader leaves (FR-5.1). The left page of the spread has the letter formation box and the practice sheet. The right page has the dictation lines and the frame sentence lines of the writing page.
+- Each teaching week (1 to 7): the weekly spread, the picture-sound page of the Friday check, the home card, and the 6 reader leaves (2 readers × 3 leaves; FR-5.1; changed 2026-11-03, Daniel's proof answer). The left page of the spread has the letter formation box and the practice sheet. The right page has the dictation lines and the frame sentence lines of the writing page.
 - Week 8 (review week): the five review pages (`block.days[].paper`) and the Benchmark 1 page (`benchmark.paper`).
 - The book map: one sticker place for each decodable reader (weeks 1 to 7) and one place for the unit 1 sticker.
 
@@ -142,14 +159,14 @@ Rules:
 
 ### FR-5 The readers (design §6.1 and §6.2)
 
-1. One page layout serves the read-along readers and the decodable readers: 12 pages of 99 × 140 mm portrait (P15 default: the A6 page scaled 0.943; the page plans of 5.2 and 5.3). Each reader lives in the workbook as 3 half-sheet strips: 2 strips on each A4 leaf, with a dashed cut line across the middle of the leaf. The two readers of a week fill 3 leaves. Every reader leaf is perforated 12 mm from the spine (P2 defaults). The child tears out the leaves, cuts on the line, nests the 3 strips in page order, folds them, and staples them on the fold (2 staples). Each strip has a small mark with the reader and the strip number. The reader pictures in the workbook are line art (FR-9).
+1. One page layout serves the read-along readers and the decodable readers (changed 2026-11-03, Daniel's proof answer): 12 pages of 148.5 × 198 mm portrait (P15 default; the page plans of 5.2 and 5.3 stay). Each reader lives in the workbook as 3 A4 leaves. Each side of a leaf holds 2 reader pages, turned 90 degrees, one on each half of the leaf, with a dashed fold line across the middle of the leaf (no cut line). The two readers of a week fill 6 leaves. The imposition of the 3 nested folded leaves, from outer to inner: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7. The fold is the spine of the reader. Every reader leaf is perforated 12 mm from the spine of the workbook (P2 defaults). The child tears out the 3 leaves, folds each in half on the fold line, nests them in leaf order, and staples them on the fold (2 staples). There is no scissors step. Each leaf side has a small mark with the reader title and the leaf number (1 to 3) inside the page margin. The reader pictures in the workbook are line art (FR-9).
 2. Decodable reader page plan: cover; "Sounds in this book" (`soundsPage`); 8 story pages; a page with the QR code; back cover with the word list (`backWords`).
 3. Read-along reader page plan: cover; title page with the QR code; 8 story pages; a page with the frame and the family words; back cover with the word list (`backWords`; week 1: hello, I, am, your, teacher).
 4. Each story page has the picture of the page (FR-2) and the page text in the FR-3 font, large for young readers.
 5. The reader cover shows the title, the band name "Sprout" (S15), "Storytime Advantage", and the week number.
 6. A build in `final` mode stops with an error when a picture is missing, and names the picture id. A build in `proof` mode prints an empty box with the words "PICTURE MISSING". A `proof` file never goes to the printer.
 7. The page text is the master. When a picture does not agree with the text, the picture goes back to Forge. The text does not change (rules 8.1 and 9.1).
-8. The color A3 reader PDF: the same 12 pages in color, with one reader page on each A3 portrait page, 297 × 420 mm (the reader page and A3 have the same aspect; the scale is 3.0). It is an sRGB PDF for office printers. It is not PDF/X and not on the print order. The teacher prints it on A3 and leads the class with it (D2, 2026-10-25).
+8. The color A3 reader PDF (changed 2026-11-03, Daniel's proof answer): the same 12 pages in color, with one reader page on each A3 portrait page, 297 × 420 mm. The page is at scale 2.0 (297 × 396 mm), centered, with 12 mm of white at the top and at the bottom. It is an sRGB PDF for office printers. It is not PDF/X and not on the print order. The teacher prints it on A3 and leads the class with it (D2, 2026-10-25).
 
 ### FR-6 The covers (S19)
 
@@ -187,7 +204,7 @@ Color rules: PNG, 8-bit, sRGB, opaque (no alpha channel), no CMYK, and no letter
 | B | Reader covers (14) | 4000 × 3000 | 4:3 landscape | The scene, opaque | One in-scene render with the cast in place. The top 30 percent is calm (sky or wall) for the title. |
 | C | Picture words: check rows, practice lines, cards | 1500 × 1500 | 1:1 | White `#FFFFFF` | One object, or one person who does the action, centred, about 80 percent of the frame. |
 
-Size reason: version 0 (3000 × 2250) gives about 283 ppi in the A3 picture box (269 mm wide), under the 300 ppi target. 4000 px gives about 378 ppi. Class C keeps 1500 × 1500.
+Size reason: version 0 (3000 × 2250) gives about 282 ppi in the A3 picture box (about 270 mm wide), under the 300 ppi target. 4000 px gives about 376 ppi. Class C keeps 1500 × 1500.
 
 Line art, for every row: the same pixel size as the color class of the row; PNG, 8-bit, grayscale; an opaque white `#FFFFFF` background; black outlines only, with no gray fill or shading (anti-aliased edges are allowed); closed outlines, so that a child can color the picture; no line thinner than 12 px; no letters, words, or numbers in the picture; the same scene, cast, and object counts as the color render of the row (rule 9.2). File name: the color file name with `-line` before the version, for example `l2-w01-story-page-a-nest-line-v1.png`.
 
@@ -241,7 +258,7 @@ The pictures sit in frames on white pages, so they need no bleed. S19 also lets 
 | # | Point | Facts | Track default until Daniel answers |
 |---|---|---|---|
 | P1 | Book and song counts | S17 says 8 decodables, 8 read-alongs, and 8 songs. The packages have 7 + 7 + 7, because week 8 is the review week (design §3.5: "re-reads seven books and sings seven songs"; §6.7: 28 a level). | Answered 2026-10-25 (D2 item 1; peer-report of owner words, PM relay): 7 read-alongs, 7 decodables, 1 review week (week 8). The songs stay as the week files have them. |
-| P2 | Print spec: trim, paper, binding, perforation, colors, bleed, printer | Design §8: "one A4 book". The Primary printer page is 210 × 285 mm (`paper: 'book'`, the Primary covers). The PDF/X path has no bleed. The printer is not named. | Answered in part 2026-10-25 (D1 and D2 item 2; peer-report of owner words). New defaults; Daniel checks them (the section "Decisions of 2026-10-25"). Student workbook: A4 portrait 210 × 297 mm; inside black only, printed on both sides; 80 gsm uncoated; cover 4/0 color on 250 gsm card, matte lamination; perfect binding; every reader leaf and every home-card leaf perforated 12 mm from the spine; no bleed; about 88 pages (estimate). Reader in the workbook: 99 × 140 mm portrait (P15 default: the A6 page scaled 0.943), 12 pages, line art; 3 strips with 2 strips on each A4 leaf; the two readers of a week fill 3 leaves. Color A3 teacher PDF: A3 portrait 297 × 420 mm, sRGB, not PDF/X, not on the print order. Teacher book: A4, black only, 80 gsm, wire-o (unchanged). Home cards: unchanged. Cards: 300 gsm, A5 and A6 n-up on A4 with cut lines (unchanged). Stickers: round 40 mm on A4 sticker sheets (unchanged). Profile: Japan Color 2001 Coated. Printer: the Primary printer. One profile constant in the code holds the trim. |
+| P2 | Print spec: trim, paper, binding, perforation, colors, bleed, printer | Design §8: "one A4 book". The Primary printer page is 210 × 285 mm (`paper: 'book'`, the Primary covers). The PDF/X path has no bleed. The printer is not named. | Answered in part 2026-10-25 (D1 and D2 item 2; peer-report of owner words). New defaults; Daniel checks them (the section "Decisions of 2026-10-25"). Student workbook: A4 portrait 210 × 297 mm; inside black only, printed on both sides; 80 gsm uncoated; cover 4/0 color on 250 gsm card, matte lamination; perfect binding; every reader leaf and every home-card leaf perforated 12 mm from the spine; no bleed; about 130 pages (estimate; changed 2026-11-03, Daniel's proof answer). Reader in the workbook (changed 2026-11-03, Daniel's proof answer): 148.5 × 198 mm portrait (P15 default), 12 pages, line art; 3 leaves with 2 reader pages, turned 90 degrees, on each side of an A4 leaf and a dashed fold line (no cut line); the two readers of a week fill 6 leaves; no scissors step (FR-5.1). Color A3 teacher PDF (changed 2026-11-03): A3 portrait 297 × 420 mm, one reader page on each page at scale 2.0 (297 × 396 mm), centered, 12 mm of white at the top and at the bottom; sRGB, not PDF/X, not on the print order. Teacher book: A4, black only, 80 gsm, wire-o (unchanged). Home cards: unchanged. Cards: 300 gsm, A5 and A6 n-up on A4 with cut lines (unchanged). Stickers: round 40 mm on A4 sticker sheets (unchanged). Profile: Japan Color 2001 Coated. Printer: the Primary printer. One profile constant in the code holds the trim. |
 | P3 | Picture spec and picture style | FR-9 is a default. Design §6.5 and S7 say the books use the Primary picture-book style with the Pip-world children "drawn young", and the packages hold 2D prompts. The 2026-10-25 split gives the pictures to Forge (3D chibi renders). | Answered 2026-10-25 (owner-answer relayed by the PM session): the books use Forge 3D renders, with one character look for the books and the videos. Forge makes more poses on request; new assets are made when needed. Daniel's words: "We can use the same style for the entire system, I think. We have the 3D assets from Forge. If they need more poses, we can request them. If we need additional assets, we can create them. One character look for both books and videos seems like a good idea!" Forge starts the paid week 1 renders on 2026-10-25 (PM session). |
 | P4 | The QR link after the S23 move | The packages and `storytimeQrUrl()` print `https://storytime.reading-advantage.com/th/st/<level>/<week>`. S23 dies (survival report). On 2026-10-25 at 18:50 (+08) that URL returned HTTP 404 (curl, also with `?part=song`). The brief says that the `/th/st/` URLs must keep working; the survival report does not say this. | Answered 2026-10-25 (D2 item 3 and the PM mapping; peer-report of owner words): print the S23 address `https://storytime.reading-advantage.com/th/st/<level>/<week>`. Source: decisions.md S23 (Daniel 2026-10-22: "Workbooks prints https://storytime.reading-advantage.com/th/st/2/1"). The address gives HTTP 404 today. The new app serves it (apps/storytime, build plan task 3.1). Monorepo plan task 7.4 checks every printed path on 2026-11-15. |
 | P5 | Stop rule of week 1 | Monorepo plan: "if Daniel has not approved week 1 by 2026-11-05, release 1 ships weeks 1 to 4 in print on 2026-12-01 and weeks 5 to 8 in January 2027." This track sends the week 1 print proof on 2026-11-05 and asks for approval by 2026-11-09. | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): the old 11-05 stop rule does not apply to the week 1 print approval. |
@@ -254,7 +271,7 @@ The pictures sit in frames on white pages, so they need no bleed. S19 also lets 
 | P12 | Start of the Forge picture work | The Storytime repository says that its rebuild track starts after Daniel reads the survival report. The monorepo plan put the week 1 pictures on hold (`[b]`, 2026-10-25). | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): yes, Forge starts the week 1 pictures now. |
 | P13 | Does the week text carry? | Draft 2 rules list "book" and "check" among the things to make again. The monorepo plan and the survival report say that the authored weeks and the Thai checks carry. | Answered 2026-10-25 (peer-report, PM relay of Daniel's standing words): yes, the authored text of weeks 1 to 8 and their Thai checks carry over, and the print does not make "book" or "check" content again. |
 | P14 | Approvals not recorded | Week 1 is published, but its file records no approval. `check-weeks.ts --level 2` exits 1 at 8e6df79 (st2/1 `published`: "text not approved; thai not approved; images not approved; audio not approved; song not approved; scripts not approved"). | Answered 2026-10-25 (D2 item 4 and the PM mapping; peer-report of owner words). The week files record the approval sources. Mapping (a default; Daniel checks it): (a) weeks 1 to 8, part `thai`: approved, date 2026-10-22, source = monorepo `storytime_advantage_program_20261021/plan.md` line 67 (week 1), line 80 (weeks 2 to 4), line 82 (weeks 5 to 7), line 155 (week 8); (b) week 1, parts `text` and `scripts`: approved, date 2026-10-23, words "publish week 1", source = Workbooks commit 4d78b21 (decision S29); (c) week 1, parts `images`, `audio`, `song`: stay draft, because Daniel's stop of 2026-10-24 (relayed by Storytime) discards the produced media, and the publish words came before the stop. The `published` check of st2/1 then names only images, audio, and song. The six app parts get optional `source` and `words` fields (FR-1.3). |
-| P15 | Perforation geometry | Two A6 pages side by side are 210 mm wide, the full A4 width. A leaf torn 12 mm from the spine is 198 mm wide. A strip of two full A6 pages does not fit the torn leaf (F16). | Track default, for Daniel's check: (a) reader pages of 99 × 140 mm (the A3 PDF scale becomes 3.0, which gives exactly 297 × 420 mm). Other options: (b) the perforation at the binding edge; (c) A6 pages with 12 mm cut off the inner page. |
+| P15 | Perforation geometry and reader page size | A leaf torn 12 mm from the spine is 198 × 297 mm (F16). Two reader pages, turned 90 degrees, fill the leaf when each page is 148.5 × 198 mm. A full A5 page (148 × 210 mm) is 12 mm too tall for the torn leaf. Daniel's week 1 proof answer of 2026-11-03: the readers at 99 × 140 mm were "far too small". | Changed 2026-11-03 (Daniel's proof answer; PM decision). Track default: reader pages of 148.5 × 198 mm portrait (A5 width, 11.5 mm shorter than A5). The A3 PDF scale is 2.0. Alternative: full A5 (148 × 210 mm), which needs loose reader sheets outside the bound book. Daniel's answer is open (Tasks RkpsQWhMRkFRNzF3cWxSbw, 2026-11-03 13:54 ICT). |
 
 ## Conflicts between the sources
 
