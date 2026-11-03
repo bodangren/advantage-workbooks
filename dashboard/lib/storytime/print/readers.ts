@@ -273,29 +273,40 @@ function readerPageHtml(page: ReaderPageSpec, profile: StorytimePrintProfile): s
 }
 
 /**
- * The style of one reader page (FR-5.1): the page box, the picture box of about 90 × 67 mm, and
- * the text. The student workbook appends this rule set to its own style, so the reader pages look
+ * The content scale of an A5 reader page against the former 99 × 140 mm layout.
+ * @param profile The print profile that holds the reader page size.
+ * @returns The smaller page ratio, so the content stays inside the page.
+ */
+function readerContentScale(profile: StorytimePrintProfile): number {
+    return Math.min(profile.readerPage.widthMm / 99, profile.readerPage.heightMm / 140);
+}
+
+/**
+ * The style of one reader page (FR-5.1): the page box, the picture box, and the text. The student workbook appends this rule set to its own style, so the reader pages look
  * the same in the workbook and in the readers build (Red 4c).
  * @param profile The print profile that holds the reader page size (P15).
  * @returns The CSS text of the reader page rules.
  */
 export function readerPageCss(profile: StorytimePrintProfile): string {
-    return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: 5mm; position: relative; overflow: hidden; }
-.reader-picture { width: 89mm; height: 66mm; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 7pt; }
+    const scale = readerContentScale(profile);
+    const mm = (value: number): string => `${Math.round(value * scale * 1000) / 1000}mm`;
+    const pt = (value: number): string => `${Math.round(value * scale * 1000) / 1000}pt`;
+    return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: ${mm(5)}; position: relative; overflow: hidden; }
+.reader-picture { width: ${mm(89)}; height: ${mm(66)}; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; }
 .reader-picture img { width: 100%; height: 100%; object-fit: contain; }
-.reader-text { font-size: 17pt; margin-top: 5mm; }
+.reader-text { font-size: ${pt(17)}; margin-top: ${mm(5)}; }
 .reader-cover { text-align: center; }
-.reader-band { font-size: 9pt; letter-spacing: 0.4mm; text-transform: uppercase; margin-top: 2mm; }
-.reader-title { font-size: 21pt; font-weight: 700; margin-top: 2mm; }
-.reader-series { font-size: 9pt; }
-.reader-week { font-size: 10pt; margin-top: 1mm; }
-.reader-heading { font-size: 11pt; font-weight: 700; margin-top: 3mm; }
-.reader-sound { font-size: 30pt; font-weight: 700; text-align: center; margin-top: 3mm; }
-.reader-word-row { display: flex; flex-wrap: wrap; gap: 2mm 4mm; margin-top: 2mm; font-size: 12pt; }
-.reader-frame { font-size: 13pt; margin-top: 3mm; }
-.reader-qr { text-align: center; margin-top: 4mm; }
-.reader-qr svg { width: 34mm; height: 34mm; }
-.reader-qr-label { font-size: 8pt; }`;
+.reader-band { font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; margin-top: ${mm(2)}; }
+.reader-title { font-size: ${pt(21)}; font-weight: 700; margin-top: ${mm(2)}; }
+.reader-series { font-size: ${pt(9)}; }
+.reader-week { font-size: ${pt(10)}; margin-top: ${mm(1)}; }
+.reader-heading { font-size: ${pt(11)}; font-weight: 700; margin-top: ${mm(3)}; }
+.reader-sound { font-size: ${pt(30)}; font-weight: 700; text-align: center; margin-top: ${mm(3)}; }
+.reader-word-row { display: flex; flex-wrap: wrap; gap: ${mm(2)} ${mm(4)}; margin-top: ${mm(2)}; font-size: ${pt(12)}; }
+.reader-frame { font-size: ${pt(13)}; margin-top: ${mm(3)}; }
+.reader-qr { text-align: center; margin-top: ${mm(4)}; }
+.reader-qr svg { width: ${mm(34)}; height: ${mm(34)}; }
+.reader-qr-label { font-size: ${pt(8)}; }`;
 }
 
 /**
