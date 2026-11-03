@@ -94,12 +94,15 @@ function renderNote(en: StorytimeNote, th: StorytimeNote | undefined, lang: Supp
       </div>`;
 }
 
-function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels): string {
-    const title = lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
+function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean } = {}): string {
+    const title = options.title !== undefined
+        ? escapeHtml(options.title)
+        : lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
+    const minutes = options.showMinutes === false || step.minutes === 0 ? '' : ` <span class="st-min">${escapeHtml(l.minutes(step.minutes))}</span>`;
     const variant = (label: string, t: BiText) => `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(pick(t, lang))}</p>`;
     return `
     <div class="st-step${step.moved ? ' st-moved' : ''}">
-      <h4 class="st-step-title">${escapeHtml(step.id)} · ${title} <span class="st-min">${escapeHtml(l.minutes(step.minutes))}</span></h4>
+      <h4 class="st-step-title">${escapeHtml(step.id)} · ${title}${minutes}</h4>
       ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.join(', '))}</p>` : ''}
       ${renderNote(step.en, step.th, lang)}
       <div class="st-variants">
@@ -203,24 +206,31 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
         const stripHtml = strip.length
             ? kinds.map((k) => `<p><strong>${escapeHtml(l.cardKinds[k])}:</strong> ${strip.filter((c) => c.kind === k).map((c) => `<span class="st-card">${escapeHtml(c.text)}</span>`).join('')}</p>`).join('')
             : `<p>${escapeHtml(l.noCards)}</p>`;
-        const recall = i > 0 ? scripts[i - 1].steps.filter((st) => st.moved) : [];
+        const isOpeningSongStep = (st: StorytimeStep) => st.minutes === 0 && st.materials.some((material) => /^karaoke videos:/i.test(material));
+        const recall = i > 0 ? scripts[i - 1].steps.filter((st) => st.moved && !isOpeningSongStep(st)) : [];
         const recallMinutes = recall.reduce((n, st) => n + st.minutes, 0);
-        const moved = s.steps.filter((st) => st.moved);
+        const moved = s.steps.filter((st) => st.moved && !(i === scripts.length - 1 && isOpeningSongStep(st)));
+        const openingSongs = [
+            ...(i > 0 ? scripts[i - 1].steps.filter((st) => st.moved && isOpeningSongStep(st)) : []),
+            ...s.steps.filter((st) => !st.moved && isOpeningSongStep(st)),
+            ...(i === scripts.length - 1 ? s.steps.filter((st) => st.moved && isOpeningSongStep(st)) : []),
+        ];
         const soundGame = w.opening?.pa[s.day - 1];
         const medley = w.block?.days.find((d) => d.day === s.day)?.medley;
         const item = (x: string, j: number) => (j === 1 && soundGame ? l.soundGame(pick(soundGame, lang)) : j === 2 && medley ? l.medley(medley.map((t) => `"${t}"`).join(', ')) : x);
+        const openingSongItem = item(l.openingSteps[2], 2);
         return `
   <section class="st-day" id="week-${w.meta.week}-day-${s.day}">
     <h3 class="st-day-title">${escapeHtml(l.day(s.day))} · ${escapeHtml(l.script(s.id, pick(s.title, lang)))} <span class="st-min">${escapeHtml(l.minutes(w.meta.periodMinutes))}</span></h3>
     ${prep}
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
-      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}</li>`).join('')}</ol>
+      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false })).join('') : ''}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}
     </div>
     ${movedGroup(l.recall, recall, lang, l)}
-    ${s.steps.filter((st) => !st.moved).map((st) => renderStep(st, lang, l)).join('')}
+    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l)).join('')}
     ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l) : ''}
   </section>`;
     });
