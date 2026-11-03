@@ -742,7 +742,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Page look: both A3 readers have larger pictures and readable text. The A5 reader pages stay within their padded page boxes. The imposed pages keep their turns, fold lines, perforations, and leaf marks. I saw no page defect.
     - Evidence logs: `fix2-ecddccba-build-student.txt`, `fix2-ecddccba-build-readers.txt`, `fix2-ecddccba-printgate.txt`, `fix2-ecddccba-pdfinfo-student.txt`, `fix2-ecddccba-pdfinfo-hello.txt`, and `fix2-ecddccba-pdfinfo-nan.txt`.
     - The proof v2 was not sent to Daniel: the reader content did not scale with the A5 page (fix 2).
-- [ ] Task: the 8-week student book proof on 2026-11-10: the one student book with all pages of weeks 1 to 8 (after the Phase 7 content and template tasks), a contact sheet of every page, the SHA-256 and the source commit; the agent opens every page. To Daniel through the PM session.
+- [~] Task: the 8-week student book proof on 2026-11-10: the one student book with all pages of weeks 1 to 8 (after the Phase 7 content and template tasks), a contact sheet of every page, the SHA-256 and the source commit; the agent opens every page. To Daniel through the PM session.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
 
 ## Phase 7: Weeks 2 to 8 (2026-11-04 to 2026-11-18; starts 2026-11-04, PM decision 2026-11-03)
