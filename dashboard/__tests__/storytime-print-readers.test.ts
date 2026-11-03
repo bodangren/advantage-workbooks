@@ -151,6 +151,59 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         expect(STORYTIME_PRINT_PROFILE.readerPage).toEqual(READER_PAGE_MM);
     });
 
+    it('R-P6-F2: the reader content scales with the A5 page', async () => {
+        const api = await readers();
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
+        const { chromium } = await import('@playwright/test');
+        const browser = await chromium.launch({ channel: 'chrome' });
+        try {
+            const page = await browser.newPage();
+            await page.setContent(html);
+            const sizes = await page.evaluate(() => {
+                const picture = getComputedStyle(document.querySelector('.reader-picture')!);
+                const text = getComputedStyle(document.querySelector('.reader-text')!);
+                return { width: parseFloat(picture.width), height: parseFloat(picture.height), fontSize: parseFloat(text.fontSize) };
+            });
+            const factor = Math.min(STORYTIME_PRINT_PROFILE.readerPage.widthMm / 99, STORYTIME_PRINT_PROFILE.readerPage.heightMm / 140);
+            const pxPerMm = 96 / 25.4;
+            expect(sizes.width).toBeCloseTo(Math.round(89 * factor * 1000) / 1000 * pxPerMm, 1);
+            expect(sizes.height).toBeCloseTo(Math.round(66 * factor * 1000) / 1000 * pxPerMm, 1);
+            expect(sizes.fontSize).toBeCloseTo(Math.round(17 * factor * 1000) / 1000 * 96 / 72, 1);
+        } finally {
+            await browser.close();
+        }
+    }, 30_000);
+
+    it('R-P6-F2b: every content box stays inside the reader page', async () => {
+        const api = await readers();
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
+        const { chromium } = await import('@playwright/test');
+        const browser = await chromium.launch({ channel: 'chrome' });
+        try {
+            const page = await browser.newPage();
+            await page.setContent(html);
+            const result = await page.evaluate(() => {
+                const problems: string[] = [];
+                document.querySelectorAll<HTMLElement>('[data-reader-page]').forEach((reader, pageIndex) => {
+                    const pageBox = reader.getBoundingClientRect();
+                    const inset = parseFloat(getComputedStyle(reader).paddingTop);
+                    reader.querySelectorAll<HTMLElement>('*').forEach((element) => {
+                        const box = element.getBoundingClientRect();
+                        if (box.width === 0 && box.height === 0) return;
+                        if (box.left < pageBox.left + inset - 1 || box.top < pageBox.top + inset - 1 ||
+                            box.right > pageBox.right - inset + 1 || box.bottom > pageBox.bottom - inset + 1) {
+                            problems.push(`page ${pageIndex + 1} ${element.className || element.tagName} escapes padded page`);
+                        }
+                    });
+                });
+                return problems;
+            });
+            expect(result).toEqual([]);
+        } finally {
+            await browser.close();
+        }
+    }, 30_000);
+
     /** The A4 workbook output of the shipped week 1 as a document. */
     async function workbookDocument(): Promise<Document> {
         const api = await readers();
