@@ -656,6 +656,70 @@ describe('the status of the loop checks (Q10)', () => {
     });
 });
 
+// Phase 3 Red 4 (orchestrator decision, 2026-11-04): a loop part that could not be tested (no taught set, no other
+// weeks) reports `warn` at any `LOOP_CHECK_STATUS`, as the `decodable` check does without a level. It never passes.
+// A real problem keeps the status `LOOP_CHECK_STATUS`. The helper `loopCheck` is exported with an optional status
+// argument, so that the test can set the status `fail` without an edit of the source file.
+type LoopCheckFn = (id: string, label: string, problems: string[], skipped?: string[], status?: string) => { id: string; label: string; status: string; detail?: string };
+
+/** `loopCheck`, reached through a namespace import so that a missing export is a failed assertion. */
+function loopCheckFn(): LoopCheckFn {
+    const fn = (checksModule as unknown as Record<string, unknown>).loopCheck;
+    expect(typeof fn, 'Missing export: loopCheck').toBe('function');
+    return fn as LoopCheckFn;
+}
+
+describe('an unchecked loop part warns', () => {
+    it('gives a part that could not be tested the status warn at the status fail, with the "not checked" label', () => {
+        const result = loopCheckFn()('loops-blend', 'A4 has a blend drill', [], ['the drill sounds, because the taught set is not given'], 'fail');
+        expect(result.status).toBe('warn');
+        expect(result.label).toContain('not checked');
+        expect(result.detail ?? '').toContain('not checked');
+    });
+
+    it('gives a real problem the given status, even when a part was also not checked', () => {
+        const result = loopCheckFn()('loops-blend', 'A4 has a blend drill', ['A4 has no blendDrill'], ['the drill sounds'], 'fail');
+        expect(result.status).toBe('fail');
+        expect(result.detail).toContain('A4 has no blendDrill');
+        expect(loopCheckFn()('loops-sound', 'x', ['A1 has no soundLoop'], [], 'fail').status).toBe('fail');
+        expect(loopCheckFn()('loops-sound', 'x', ['A1 has no soundLoop'], [], 'warn').status).toBe('warn');
+    });
+
+    it('passes a part with no problem and nothing skipped, at any status', () => {
+        expect(loopCheckFn()('loops-sound', 'x', [], [], 'fail').status).toBe('pass');
+        expect(loopCheckFn()('loops-sound', 'x', [], [], 'warn').status).toBe('pass');
+    });
+
+    it('gives a shipped week checked without the taught set the status warn for loops-blend and loops-recall, never pass', () => {
+        for (const week of TEACH_WEEKS) {
+            const report = checkStorytimeWeek(shippedWeek(week));
+            for (const id of ['loops-blend', 'loops-recall']) {
+                const found = check(report, id, `the shipped w0${week} without the taught set`);
+                expect(found.status, `${id} on w0${week}`).toBe('warn');
+                expect(found.label, `${id} on w0${week}`).toContain('not checked');
+            }
+        }
+    });
+
+    it('keeps the published detail of st2/1 free of loops-blend and loops-recall when the taught set is not given', () => {
+        const parts = ['text', 'thai', 'images', 'audio', 'song', 'scripts'] as const;
+        const approval = StorytimeWeekSchema.parse(shippedWeek(1)).approval;
+        const expected = parts.filter((p) => approval[p].status !== 'approved').map((p) => `${p} not approved`).join('; ');
+        const published = check(checkStorytimeWeek(shippedWeek(1)), 'published');
+        expect(published.status).toBe('fail');
+        expect(published.detail).toBe(expected);
+    });
+
+    it('still gives a drill sound outside the allowed set the status LOOP_CHECK_STATUS, with the sound named', () => {
+        const raw = loopComplete(2);
+        setDrill(raw, 'A', 'A4', { ...SAMPLE_DRILLS[2], words: [{ word: 'zip', sounds: ['/z/', '/i/', '/p/'] }, ...SAMPLE_DRILLS[2].words.slice(1)] });
+        const found = check(reportFor(raw), 'loops-blend');
+        expect(found.status).toBe(loopStatus());
+        expect(found.detail).toContain('/z/');
+        expect(found.detail).not.toContain('not checked');
+    });
+});
+
 describe('the copies stay out of the content folder', () => {
     it('writes the copies only into the temporary folder and leaves the shipped weeks unchanged', () => {
         expect(path.resolve(tempDir).startsWith(path.resolve(os.tmpdir())), 'the copies live in a temporary folder').toBe(true);
