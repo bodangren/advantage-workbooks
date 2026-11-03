@@ -49,7 +49,7 @@ Graph note: `graph.db` is stale (older than 24 hours), so the blast-radius lines
 
 Risk: the print track week 1 proof of 2026-11-05 and this track edit different files. The `--loops` default of off keeps the proof unchanged (spec D9). If Daniel's check of 2026-11-16 finds many Thai changes, the print order of 2026-11-25 can lose the loops. The PM session then decides.
 
-## Phase 1: Schema and checks (2026-11-03 to 2026-11-05)
+## Phase 1: Schema and checks (2026-11-03 to 2026-11-05) [checkpoint: 9a549323]
 
 _Blast radius: `StepSchema` (1 file: `lib/storytime/schema.ts`); `StorytimeStep` (2 files: `lib/storytime/manual.ts`, `schema.ts`); `BookSchema` (1 file: `schema.ts`); `StorytimeApprovalsSchema` (1 file: `schema.ts`); `StorytimeWeekSchema` (21 files, among them `lib/storytime/files.ts`, `checks.ts`, `phonemes.ts`, `lib/media/clips-sha256.ts`, `scripts/storytime/make-manual-pdf.ts`, `set-phoneme-audio.ts`, `book-audio.ts`, and 12 test files); `checkStorytimeWeek` (8 files: `checks.ts`, `scripts/storytime/make-manual-pdf.ts`, `check-weeks.ts`, `__tests__/storytime-week.test.ts`, `storytime-phonics.test.ts`, `storytime-print-contract.test.ts`, `storytime-print-contract-v2.test.ts`, `storytime-print-adversarial.test.ts`); `phonemeAudioFields` (3 files: `phonemes.ts`, `check-weeks.ts`, `__tests__/storytime-phonemes.test.ts`). The change is additive: every new field is optional._
 
@@ -115,7 +115,12 @@ Decisions pinned before Red (`test-strategy.md` section 5.2 holds the full text;
     - Mutants A1 to A7 of strategy 5.9 are named in the header comment of the test, each with its case. The Green 3 role runs them in the tree with a backup and `cmp` (protocol 5.6).
 - [x] Task (Green 3): extend `phonemeAudioFields` and `phonemeAudioProblems` in `lib/storytime/phonemes.ts` to cover `blendDrill.words[].audio`, and extend `scripts/storytime/set-phoneme-audio.ts` to write the field. Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass. Change no test file. commit 9f7a99f2. Evidence: automated.
 - [x] Task (Hand-off 1): send the Phase 1 field names (spec "Interface for the Storytime app") to the PM session for the Monorepo Storytime app, by 2026-11-05. Done when: the PM session confirms receipt (peer-report). commit 720fd34c. Evidence: peer-report. The PM session confirmed receipt on 2026-11-03 at about 03:30 ICT and saved the text as advantage-pr measure/runs/pm-briefs/2026-11-03-a42-handoff-1.md. Monorepo checked the seven fields; the answers to its questions G3 and G4 went to the PM at 03:34 ICT. The message holds the names `blendDrill`, `soundLoop`, `sightWords`, `loopMinutes`, `questions`, `recall`, `approval.loops`, the shapes, and the rule that the app shows the routines only when `approval.loops` is approved.
-- [ ] Task: Measure - User Manual Verification 'Phase 1: Schema and checks' (Protocol in workflow.md). Owner: the orchestrator. Phase 1 has no owner gate.
+- [x] Task: Measure - User Manual Verification 'Phase 1: Schema and checks' (Protocol in workflow.md). Owner: the orchestrator. Phase 1 has no owner gate.
+    - PM 2026-11-03: light lane. The PM accepted (19:1x ICT) that Phase 1 closes on Reviews A and B. Review C, the adversarial role, and the phase acceptance do not run for this phase.
+    - Review A (opencode-go/mimo-v2.6-flash, 2026-11-03): pass at 9a549323, 0 blocking, 4 nonblocking: A-P1-1 mutant C26 survives; A-P1-2 mutant C31b survives and the B15 label half has no assertion; A-P1-3 the Green 3 line has no evidence sub-lines and jr-green-335b7c1c-lint.txt is 0 bytes; A-P1-4 the strictness mutants S20b to S20g (same as B-P1-1). GREEN_TEST_COMMAND 73 of 73, PROJECT_LINT exit 0. Result: measure/runs/storytime_teaching_loops_20261103/review-a-9a549323.json.
+    - Review B (kimi-code-plan-cn/kimi-for-coding#high, 2026-11-03): pass at 9a549323, 0 blocking, 1 nonblocking: B-P1-1 (medium) the strictness test covers blendDrill only. Result: review-b-9a549323.json.
+    - Follow-ups (nonblocking, for the Phase 3 Red task): one unknown-key case for each new strict object (S20b to S20g); a case for the C26 transfer between two non-loop steps; a case for the skipped-part label (C31b, B15).
+    - Checkpoint: 9a549323a5cea5373a598792260c60f11ce11b3f (the last Phase 1 code commit).
 
 ## Phase 2: Teacher book template and print (2026-11-05 to 2026-11-07)
 
