@@ -1,8 +1,11 @@
 // @vitest-environment node
+import fs from 'node:fs';
+import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, type StorytimeWeek, type StorytimeWeekInput } from '../lib/storytime/schema';
 import { compileStorytimeManual, mergeMaterials, renderStorytimeWeek } from '../lib/storytime/manual';
 import { getTranslations } from '../lib/teacher-manual/i18n';
+import { STORYTIME_ROOT } from '../lib/storytime/files';
 import { fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
 
 const CJK = /[぀-ヿ㐀-鿿豈-﫿]/;
@@ -19,7 +22,59 @@ function daySection(html: string, day: number): string {
     return parts[day] ?? '';
 }
 
+function shippedWeek2(): StorytimeWeek {
+    const input = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'w02.json'), 'utf8')) as StorytimeWeekInput;
+    return StorytimeWeekSchema.parse(input);
+}
+
+function recallGroup(day: string): string {
+    const start = day.indexOf('Recall from the last lesson');
+    const end = day.indexOf('<div class="st-step">', start);
+    return day.slice(start, end < 0 ? undefined : end);
+}
+
 describe('Storytime manual template', () => {
+    it('keeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes', () => {
+        const html = renderStorytimeWeek(shippedWeek2(), 'en');
+        const day2 = daySection(html, 2);
+        const recall = recallGroup(day2);
+        expect(recall).toContain('A7 · Read it');
+        expect(recall).toContain('A8 · Home card');
+        expect(recall).not.toContain('0 min');
+        expect(day2).toContain('Opening routine (6 min, incl. 1 min recall)');
+    });
+
+    it('prints day 3 song step B7 with the opening song item, outside the one-minute recall', () => {
+        const html = renderStorytimeWeek(shippedWeek2(), 'en');
+        const day3 = daySection(html, 3);
+        const recall = recallGroup(day3);
+        expect(recall).toContain('B6 · Act it');
+        expect(recall).not.toContain('B7');
+        expect(day3).toContain('Opening routine (6 min, incl. 1 min recall)');
+        expect(day3).toContain('B7 · Song of the week with the actions.');
+        expect(day3).toContain('In the opening, play the karaoke video as the song of the week (item 3).');
+        expect(day3).not.toMatch(/B7 · Song of the week with the actions\.[^<]*<span class="st-min">/);
+    });
+
+    it('prints day 5 song step D6 with the opening song item and keeps D5 in recall', () => {
+        const html = renderStorytimeWeek(shippedWeek2(), 'en');
+        const day5 = daySection(html, 5);
+        const recall = recallGroup(day5);
+        expect(recall).toContain('D5 · Share');
+        expect(recall).not.toContain('D6');
+        expect(day5).toContain('Opening routine (6 min, incl. 1 min recall)');
+        expect(day5).toContain('D6 · Song of the week with the actions.');
+        expect(day5).toContain('The class sings with all the gestures; one table leads.');
+    });
+
+    it('uses the Thai opening song item for B7 without adding a Thai label or minutes', () => {
+        const html = daySection(renderStorytimeWeek(shippedWeek2(), 'th'), 3);
+        expect(html).toContain('B7 · ร้องเพลงประจำสัปดาห์พร้อมท่าทาง');
+        expect(html).toContain('ในช่วงเปิดคาบ เปิดวิดีโอคาราโอเกะเป็นเพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ)');
+        expect(html).not.toContain('B7 · ร้องเพลงประจำสัปดาห์พร้อมท่าทาง</h4><span class="st-min">');
+        expect(html).toContain('กิจวัตรเปิดคาบ (6 นาที รวมทบทวน 1 นาที)');
+    });
+
     it('gives a week header and five day sections, each with its script, period, and steps', () => {
         const html = renderStorytimeWeek(week(), 'en');
         expect(html.split('<section class="st-day"').length - 1).toBe(5);
