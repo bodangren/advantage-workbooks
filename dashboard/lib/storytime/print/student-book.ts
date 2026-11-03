@@ -105,7 +105,8 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .practice-sheet { margin-top: 8mm; }
 .practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
 .practice-picture { width: 30mm; height: 30mm; }
-.practice-text { font-size: 20pt; border-bottom: 0.4mm solid #000; flex: 1; padding: 2mm 0; }
+.practice-text { font-size: 20pt; line-height: 12mm; flex: 1; }
+.practice-text-rule { -webkit-box-decoration-break: clone; box-decoration-break: clone; border-bottom: 0.4mm solid #000; padding-bottom: 2mm; }
 .picture-box { border: 0.6mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
 .picture-box img { width: 100%; height: 100%; object-fit: contain; }
 .dictation-line { font-size: 18pt; margin-top: 4mm; }
@@ -251,7 +252,7 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
 ${week.print!.practice.map((line, i) => {
     const row = practiceRows[i];
     if (!row) throw new Error(`picture row missing for the practice word "${line.pictureWord}" of week ${week.meta.week}`);
-    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text">${esc(line.text)}</span></div>`;
+    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text"><span class="practice-text-rule">${esc(line.text)}</span></span></div>`;
 }).join('\n')}
 </div>`;
     return { kind: 'practice', body };
@@ -385,10 +386,10 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
 }
 
 /**
- * Compiles the student workbook of one unit from its week packages (spec FR-3), including week 8 review pages.
+ * Compiles the student workbook of one unit from its week packages (spec FR-3), including week 8 review pages and binding padding.
  * @param weeks The parsed weeks of the unit, in week order.
  * @param o The print profile and build mode. Final mode requires every picture except named pending rows.
- * @returns The print HTML of the whole book.
+ * @returns The print HTML of the whole book, padded at the end to the binding page multiple.
  * @throws Error When a picture of a final build does not resolve, or a pending row id is unknown.
  */
 export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: StorytimeStudentBookOptions): { html: string } {
@@ -429,6 +430,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         if (specs.length % 2 === 0) specs.push(blankPage());
         specs.push(...weekPages);
     }
+    while (specs.length % o.profile.bindingPageMultiple !== 0) specs.push(blankPage());
     const readerMeta = weeks.flatMap((week) => storytimeReaderLeafSides(week, { profile: o.profile, mode: 'proof', output: 'workbook' }))
         .map(({ kind, title, leaf, side }) => ({ kind, title, leaf, side }));
     let readerIndex = 0;
