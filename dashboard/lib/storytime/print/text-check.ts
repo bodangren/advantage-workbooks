@@ -138,7 +138,7 @@ function dictationCheck(print: StorytimePrintBlock, c3: string[], week: Storytim
         }
     }
     expected.delete('');
-    const given = [...print.dictation.words, ...wordsOf(print.dictation.traceSentence ?? '')];
+    const given = [...print.dictation.words.flatMap(wordsOf), ...wordsOf(print.dictation.traceSentence ?? '')];
     const missing = [...expected].filter((wd) => !given.includes(wd));
     const extra = given.filter((wd) => !expected.has(wd));
     if (missing.length) problems.push(`the dictation misses the C3 words: ${missing.join(', ')}`);
