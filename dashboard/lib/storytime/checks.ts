@@ -356,11 +356,19 @@ const RECALL_COUNT = 5;
 
 /**
  * A loop check. A part that the check could not test (a missing argument) is named in the label. Such a
- * part never passes: when nothing else is wrong, the check reports "not checked".
+ * part never passes: when nothing else is wrong, the check reports "not checked" with the status `warn`, at
+ * any `LOOP_CHECK_STATUS`, as the `decodable` check does when the earlier weeks are not given. A real
+ * problem keeps the status of the loop checks.
+ * @param id The check id.
+ * @param label The check label.
+ * @param problems The problems that the check found.
+ * @param skipped The parts that the check could not test.
+ * @param status The status of a real problem; the default is `LOOP_CHECK_STATUS`.
+ * @returns The check: `pass` with no problem and nothing skipped, `warn` with only skipped parts, else `status`.
  */
-function loopCheck(id: string, label: string, problems: string[], skipped: string[] = []): PackageCheck {
+export function loopCheck(id: string, label: string, problems: string[], skipped: string[] = [], status: CheckStatus = LOOP_CHECK_STATUS): PackageCheck {
     const note = skipped.length ? `not checked: ${skipped.join('; ')}` : '';
-    return check(id, note ? `${label} (${note})` : label, problems.length || !note ? problems : [note], LOOP_CHECK_STATUS);
+    return check(id, note ? `${label} (${note})` : label, problems.length || !note ? problems : [note], problems.length ? status : 'warn');
 }
 
 /** The English text of a step, as the loops spec defines "the text of a day". */
