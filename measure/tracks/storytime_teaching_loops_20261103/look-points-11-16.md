@@ -1,0 +1,37 @@
+# Look points for Daniel's check of 2026-11-16: the A-42 teaching loops
+
+This file lists the 25 look points of the independent check of the A-42 weeks w01 to w08 (`p3-content-check-39e2172c.md`). Each point has a default. The PM relays this file to Daniel.
+Answer "OK" for all defaults, or name a point by its LP number and the change. The checker's 8 errors are fixed in 0a33add391357d4a693bb90c9a66655e6d0f5ec2, and Daniel sees those lines in the normal line check.
+The English and the Thai below come from the week files at the pin. The Thai is a draft. No week file changes for these points before Daniel answers.
+
+| LP | Week | Place | Point | Default | Reason |
+|---|---|---|---|---|---|
+| LP-01 | w01 | `what` question of "Hello!" | The answer is a spoken word, not a thing. `What do they all say? Point and say it.` / `ทุกคนพูดว่าอะไร? ให้ชี้ที่ภาพแล้วพูดตามครู` (page 1, word "Hello") | Keep. | The week 1 text has no thing word. The question makes the child say the greeting of the week. |
+| LP-02 | w01 | `where` question of "Hello!" | The answer names a character, not a place. `Where is Pip? Point to the picture.` / `Pip อยู่ที่ไหน? ให้ชี้ที่ภาพ` (page 8, word "Pip") | Keep. | The page text has no place word. The child points at Pip in the picture. |
+| LP-03 | w01 | `loopMinutes` of day 1 | A4 goes from 5 to 4 minutes with the drill. A6 goes from 4 to 3 minutes with the slide and the timed check. A1 and A2 get one minute more each (4 to 5). | Keep. | The checker found the minutes tight but possible. Teachers report after the first week of use. |
+| LP-04 | w02 | `where` question of "How Many?" | The answer names a group, not a place. `Where are the six friends? Point to the picture.` / `เพื่อน 6 คนอยู่ที่ไหน? ให้ชี้ที่ภาพ` (page 6, word "friends"). The `who` and `what` questions fit the story. | Keep. | The page text has only the word "friends". The child points at the place in the picture. |
+| LP-05 | w02 | recall of day 1 | The 5 cards are all of week 1. `ask`: `Show the five cards. The class says each sound or word.` / `ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ`. | Keep. | The recall comes before the new sound of the week. |
+| LP-06 | w02 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-07 | w03 | `what` question of "Paint!" | The question names the page. `What color is the paint on page 4? Point and say it.` / `สีในหน้า 4 คือสีอะไร? ให้ชี้ที่ภาพแล้วพูดตามครู` (page 4, word "green") | Keep. | Every page has the same sentence pattern, so the page number tells the child which picture. The same applies to w06. |
+| LP-08 | w03 | recall of days 4 and 5 | Days 4 and 5 show no card of week 3 (no /p/, no "the", no "get", no "It is ___."). The new items appear on days 1 to 3 only. `ask`: `Show the five cards. The class says each sound or word.` / `ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ`. | CHANGE after Daniel's OK, for weeks 2 to 7: on days 4 and 5, 2 cards of the week (its sound card and one of its tricky-word cards) replace 2 older cards. 3 older cards stay. The `ask` line and its Thai do not change. | The new sound then comes back on 4 days, not 2. |
+| LP-09 | w03 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-10 | w04 | `who` and `where` questions of "My Family" | The `where` answer names a person, not a place. `who`: `Who is the dog? Point to the picture.` / `ใครคือสุนัข? ให้ชี้ที่ภาพ` (page 8, word "Pip"). `where`: `Where is Grandma? Point to the picture.` / `คุณยายอยู่ที่ไหน? ให้ชี้ที่ภาพ` (page 4, word "grandma"). | Keep. | The page text has the word "grandma". The child points at the place in the picture. |
+| LP-11 | w04 | recall of days 4 and 5 | Days 4 and 5 show no card of week 4. The checker wrote that day 5 has the week 4 frame; the file has the week 3 frame "It is ___.". The new items appear on days 1 to 3 only. | As LP-08. | As LP-08. |
+| LP-12 | w04 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-13 | w05 | `who` question of "I Have Two" | The answer is a body part, not a being. `Who has four legs? Point to the picture.` / `ใครมีขา 4 ข้าง? ให้ชี้ที่ภาพ` (page 8, word "legs") | Keep. | The page text has no name. The child points at the animal on page 8. |
+| LP-14 | w05 | `what` question of "I Have Two" | The checker finds it a good question. `What do we have only one of? Point to the picture.` / `เรามีอะไรเพียงอย่างเดียว? ให้ชี้ที่ภาพ` (page 7, word "nose") | Keep. | No change is needed. |
+| LP-15 | w05 | recall of days 4 and 5 | Days 4 and 5 show no card of week 5 (no sss, no "off", "saw", "with", no "I have two ___."). The new items appear on days 1 to 3 only. | As LP-08. | As LP-08. |
+| LP-16 | w05 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-17 | w06 | questions of "I Can See" | The `what` question names the page. `What can you see on page 4? Point and say it.` / `เห็นอะไรในหน้า 4? ให้ชี้ที่ภาพแล้วพูดตามครู` (page 4, word "fish") | Keep (as LP-07). | As LP-07. |
+| LP-18 | w06 | recall of days 4 and 5 | Days 4 and 5 show no card of week 6 (no /t/, no "he", "put", "see"). The new items appear on days 1 to 3 only. | As LP-08. | As LP-08. |
+| LP-19 | w06 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-20 | w07 | `what` question of "Is It a Ball?" | The question is vague. `What is the first thing? Point to the picture.` / `สิ่งแรกคืออะไร? ให้ชี้ที่ภาพ` (page 1, word "ball") | CHANGE after Daniel's OK: ask.en "What is on page 1? Point and say it." and ask.th (draft) "หน้า 1 มีอะไร? ให้ชี้ที่ภาพแล้วพูดตามครู". The answer stays page 1, word "ball". | This is the pattern of w03 and w06. The question then needs no explanation. |
+| LP-21 | w07 | recall of days 4 and 5 | Days 4 and 5 show no card of week 7 (no /o/, no "from", "run", "up"). The new items appear on days 1 to 3 only. | As LP-08. | As LP-08. |
+| LP-22 | w07 | `loopMinutes` of day 1 | A4 goes from 6 to 5 minutes. A6 goes from 4 to 3 minutes. A1 and A2 get one minute more each (4 to 5). | Keep. | As LP-03. |
+| LP-23 | w08 | `loopMinutes` | w08 has no `loopMinutes`, because no day sum changed (spec D11). | Keep (no action). | The day sums stay 30 (10 + 10 + 4 + 6). |
+| LP-24 | w08 | recall of each day | Each day has 5 cards from weeks 1 to 7, with no repeat in one day. `ask`: `Show the five cards. The class says each sound or word.` / `ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ`. | Keep (no action). | The checker found it clean. |
+| LP-25 | w08 | note of the checker on days 4 and 5 of the teach weeks | Days 4 and 5 of weeks 2 to 7 show only older cards. A mix of 3 old and 2 new cards would keep the new sound in play. The checker calls it a spacing choice, not a rule break. | As LP-08 for weeks 2 to 7. Week 8 keeps its recall. | A review week reviews weeks 1 to 7. |
+
+Defaults: 23 keep; 2 changes after Daniel's OK (LP-08 group: the recall of days 4 and 5 in weeks 2 to 7; LP-20: the w07 question).
+
+Daniel's answer: ____ (date ____)
