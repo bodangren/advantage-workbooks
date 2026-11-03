@@ -754,9 +754,19 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The 12 readers of weeks 2 to 7 have their page plans and texts.
     - The text gate of the Thai teacher book has 0 differences for each of the 8 weeks, or each difference is listed.
 - [ ] Task (Green): the template changes that weeks 2 to 8 need (for example, the circle-word rows and the picture sort of the review pages). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
-- [ ] Task (Pictures, weeks 2 to 7): the Forge batches, needed by 2026-11-16. The three picture stages of Phase 4 for each batch. Daniel looks at each batch.
-    - Daniel's stage 3 person review, relayed by the PM session (Tasks `WVphdWJubHZXUkljd3VPOQ`, 2026-11-03 08:43 ICT): "Approved". He saw the 15 Forge contact sheets of weeks 2 to 6: 135 pictures, color and line art. It counts as the stage 3 person count PASS for every row of weeks 2 to 6, after each row passes stage 1 and stage 2.
-    - Daniel's stage 3 person review, relayed by the PM session (Tasks `RERnblJqVDdnQTNYOGtOcg`, 2026-11-03 10:29 ICT): "Ok". It counts as the stage 3 person count PASS for all 27 week 7 rows and for the Level 2 cover, after stage 1 and stage 2.
+- [x] Task (Pictures, weeks 2 to 7): run stage 1 on the six Forge batches. Daniel's stage 3 review already passed for all 162 rows. PM 2026-11-03: light lane. Evidence: stage 1 and resolver proof.
+    - Week 2: `w02/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w02-stage1.txt`.
+    - Week 3: `w03/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w03-stage1.txt`.
+    - Week 4: `w04/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w04-stage1.txt`.
+    - Week 5: `w05/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w05-stage1.txt`.
+    - Week 6: `w06/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w06-stage1.txt`.
+    - Week 7: `w07/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w07-stage1.txt`.
+    - Copy: 324 passing PNG files went to `content/storytime/l2/print/pictures/`. The folder manifest now holds weeks 1 to 7; the week 1 jobs stayed unchanged. Before merge, the folder held 61 files; after merge, it holds 385. Backup: `/tmp/opencode/p7-manifest-backup.json`.
+    - Resolver proof: all 192 rows of weeks 1 to 7 resolve for color and line art. The 30 week 1 color paths and 30 week 1 line paths match the pre-merge baseline. All 384 PNG files resolve by their manifest SHA-256.
+    - Stage 2 not run: Daniel's stage 3 passed first (PM 2026-11-03).
+    - Picture counts: made 0, attempts 0, spend 0.
+    - Daniel's stage 3 person review, relayed by the PM session (Tasks `WVphdWJubHZXUkljd3VPOQ`, 2026-11-03 08:43 ICT): "Approved". He saw the 15 Forge contact sheets of weeks 2 to 6: 135 pictures, color and line art. The PM counts it as stage 3 PASS for every row of weeks 2 to 6.
+    - Daniel's stage 3 person review, relayed by the PM session (Tasks `RERnblJqVDdnQTNYOGtOcg`, 2026-11-03 10:29 ICT): "Ok". The PM counts it as stage 3 PASS for all 27 week 7 rows and for the Level 2 cover.
 - [ ] Task (Check): the unit 1 workbook with the 14 readers, the 14 color A3 reader PDFs, the unit 1 teacher book in Thai, and the workbook and teacher book covers. `PRINT_GATE` passes for each print file. A contact sheet of every page. The agent opens every page.
 - [ ] Task: Measure - User Manual Verification 'Phase 7: Weeks 2 to 8' (Protocol in workflow.md)
 
