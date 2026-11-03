@@ -4243,8 +4243,8 @@
               "\"Row 1: tiger, sun, bag. Which one starts with /t/? Circle it.\"",
               "\"Row 2: cup, ten, fish. Which one starts with /t/? Circle it.\"",
               "\"Row 3: dog, pen, table. Which one starts with /t/? Circle it.\"",
-              "\"Row 4. Find the word tap. Circle it.\"",
-              "\"Row 5. Find the word see. Circle it.\"",
+              "\"Row 4: Pat, tap, map. Find the word tap. Circle it.\"",
+              "\"Row 5: saw, see, he. Find the word see. Circle it.\"",
               "\"Now write the letter t. Then write the word sat.\""
             ],
             "studentActions": [
@@ -4280,8 +4280,8 @@
               "\"แถว 1: tiger, sun, bag คำไหนขึ้นต้นด้วย /t/? วงกลมไว้\"",
               "\"แถว 2: cup, ten, fish คำไหนขึ้นต้นด้วย /t/? วงกลมไว้\"",
               "\"แถว 3: dog, pen, table คำไหนขึ้นต้นด้วย /t/? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า tap วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า see วงกลมไว้\"",
+              "\"แถว 4: Pat, tap, map หาคำว่า tap วงกลมไว้\"",
+              "\"แถว 5: saw, see, he หาคำว่า see วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร t แล้วเขียนคำ sat\""
             ],
             "studentActions": [
@@ -4798,5 +4798,26 @@
       "english.phonics.pa.final-sound.identify",
       "english.phonics.pa.phoneme.blend-2-3"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "t",
+      "formationWords": "Start at the dot. Down, with a little curve at the bottom. Then a short line across.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "t t t", "pictureWord": "tiger" },
+      { "text": "sat. Mat. Tap. Pat. Pat sat on a mat. He can see Sam.", "pictureWord": "Pat" }
+    ],
+    "dictation": {
+      "letters": ["t"],
+      "words": ["mat"],
+      "traceSentence": "Pat sat on a mat."
+    },
+    "writing": {
+      "traceText": "I can see a cat",
+      "line": "word",
+      "pictureBox": true
+    }
   }
 }

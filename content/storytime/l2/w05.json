@@ -4250,8 +4250,8 @@
               "\"Row 1: sun, cat, dog. Which one starts with sss? Circle it.\"",
               "\"Row 2: pen, sock, bed. Which one starts with sss? Circle it.\"",
               "\"Row 3: cup, hat, sofa. Which one starts with sss? Circle it.\"",
-              "\"Row 4. Find the word Sam. Circle it.\"",
-              "\"Row 5. Find the word saw. Circle it.\"",
+              "\"Row 4: Pam, Sam, map. Find the word Sam. Circle it.\"",
+              "\"Row 5: with, saw, is. Find the word saw. Circle it.\"",
               "\"Now write the letter s. Then write the word Sam, with a big letter S.\""
             ],
             "studentActions": [
@@ -4287,8 +4287,8 @@
               "\"แถว 1: sun, cat, dog คำไหนขึ้นต้นด้วย sss? วงกลมไว้\"",
               "\"แถว 2: pen, sock, bed คำไหนขึ้นต้นด้วย sss? วงกลมไว้\"",
               "\"แถว 3: cup, hat, sofa คำไหนขึ้นต้นด้วย sss? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า Sam วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า saw วงกลมไว้\"",
+              "\"แถว 4: Pam, Sam, map หาคำว่า Sam วงกลมไว้\"",
+              "\"แถว 5: with, saw, is หาคำว่า saw วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร s แล้วเขียนคำ Sam โดยใช้ S ตัวพิมพ์ใหญ่\""
             ],
             "studentActions": [
@@ -4776,5 +4776,26 @@
       "english.phonics.pa.initial-sound.identify",
       "english.phonics.pa.final-sound.identify"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "s",
+      "formationWords": "Start at the dot. Round to the left. Then round to the right.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "s s s", "pictureWord": "sun" },
+      { "text": "Sam. Pam. Map. Nap. Sam saw Pam. I saw a man.", "pictureWord": "Sam" }
+    ],
+    "dictation": {
+      "letters": ["s"],
+      "words": ["saw"],
+      "traceSentence": "Sam saw Pam."
+    },
+    "writing": {
+      "traceText": "I have two eyes",
+      "line": "word",
+      "pictureBox": true
+    }
   }
 }

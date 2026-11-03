@@ -4443,8 +4443,8 @@
               "\"Row 1: octopus, sun, bed. Which one starts with /o/? Circle it.\"",
               "\"Row 2: cat, ox, fish. Which one starts with /o/? Circle it.\"",
               "\"Row 3: pen, bus, olive. Which one starts with /o/? Circle it.\"",
-              "\"Row 4. Find the word pot. Circle it.\"",
-              "\"Row 5. Find the word up. Circle it.\"",
+              "\"Row 4: top, pot, tap. Find the word pot. Circle it.\"",
+              "\"Row 5: run, up, on. Find the word up. Circle it.\"",
               "\"Now write the letter o. Then write the word top.\""
             ],
             "studentActions": [
@@ -4480,8 +4480,8 @@
               "\"แถว 1: octopus, sun, bed คำไหนขึ้นต้นด้วย /o/? วงกลมไว้\"",
               "\"แถว 2: cat, ox, fish คำไหนขึ้นต้นด้วย /o/? วงกลมไว้\"",
               "\"แถว 3: pen, bus, olive คำไหนขึ้นต้นด้วย /o/? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า pot วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า up วงกลมไว้\"",
+              "\"แถว 4: top, pot, tap หาคำว่า pot วงกลมไว้\"",
+              "\"แถว 5: run, up, on หาคำว่า up วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร o แล้วเขียนคำ top\""
             ],
             "studentActions": [
@@ -5003,5 +5003,26 @@
       "english.phonics.pa.medial-vowel.identify",
       "english.phonics.pa.phoneme.blend-2-3"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "o",
+      "formationWords": "Start at the dot. Round to the left, all the way round, and back to the dot.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "o o o", "pictureWord": "octopus" },
+      { "text": "on. Top. Pot. Tom. Mom. Tom can see a top. Run, Tom, run!", "pictureWord": "top" }
+    ],
+    "dictation": {
+      "letters": ["o"],
+      "words": ["top"],
+      "traceSentence": "Tom can see a top."
+    },
+    "writing": {
+      "traceText": "Is it a ball?",
+      "line": "word",
+      "pictureBox": true
+    }
   }
 }

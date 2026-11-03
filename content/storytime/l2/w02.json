@@ -4006,8 +4006,8 @@
               "\"Row 1: apple, dog, sun. Which one starts with /a/? Circle it.\"",
               "\"Row 2: bus, ant, fish. Which one starts with /a/? Circle it.\"",
               "\"Row 3: pig, bed, alligator. Which one starts with /a/? Circle it.\"",
-              "\"Row 4. Find the word Nan. Circle it.\"",
-              "\"Row 5. Find the word in. Circle it.\"",
+              "\"Row 4: an, Nan, can. Find the word Nan. Circle it.\"",
+              "\"Row 5: on, I, in. Find the word in. Circle it.\"",
               "\"Now write the letter a. Then write the word an.\""
             ],
             "studentActions": [
@@ -4043,8 +4043,8 @@
               "\"แถว 1: apple, dog, sun คำไหนขึ้นต้นด้วย /a/? วงกลมไว้\"",
               "\"แถว 2: bus, ant, fish คำไหนขึ้นต้นด้วย /a/? วงกลมไว้\"",
               "\"แถว 3: pig, bed, alligator คำไหนขึ้นต้นด้วย /a/? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า Nan วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า in วงกลมไว้\"",
+              "\"แถว 4: an, Nan, can หาคำว่า Nan วงกลมไว้\"",
+              "\"แถว 5: on, I, in หาคำว่า in วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร a แล้วเขียนคำ an\""
             ],
             "studentActions": [
@@ -4362,5 +4362,26 @@
       "english.phonics.pa.initial-sound.identify",
       "english.phonics.pa.phoneme.blend-2-3"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "a",
+      "formationWords": "Start at the dot. Round to the left. Up to the top. Down.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "a a a", "pictureWord": "apple" },
+      { "text": "an. Nan. Nan can. I can.", "pictureWord": "Nan" }
+    ],
+    "dictation": {
+      "letters": ["a"],
+      "words": ["an"],
+      "traceSentence": "I can."
+    },
+    "writing": {
+      "traceText": "How many?",
+      "line": "word",
+      "pictureBox": true
+    }
   }
 }

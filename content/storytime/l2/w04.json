@@ -4072,8 +4072,8 @@
               "\"Row 1: monkey, cat, sun. Which one starts with mmm? Circle it.\"",
               "\"Row 2: dog, mouse, bus. Which one starts with mmm? Circle it.\"",
               "\"Row 3: fish, hat, milk. Which one starts with mmm? Circle it.\"",
-              "\"Row 4. Find the word man. Circle it.\"",
-              "\"Row 5. Find the word this. Circle it.\"",
+              "\"Row 4: map, man, nap. Find the word man. Circle it.\"",
+              "\"Row 5: is, the, this. Find the word this. Circle it.\"",
               "\"Now write the letter m. Then write the word map.\""
             ],
             "studentActions": [
@@ -4109,8 +4109,8 @@
               "\"แถว 1: monkey, cat, sun คำไหนขึ้นต้นด้วย mmm? วงกลมไว้\"",
               "\"แถว 2: dog, mouse, bus คำไหนขึ้นต้นด้วย mmm? วงกลมไว้\"",
               "\"แถว 3: fish, hat, milk คำไหนขึ้นต้นด้วย mmm? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า man วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า this วงกลมไว้\"",
+              "\"แถว 4: map, man, nap หาคำว่า man วงกลมไว้\"",
+              "\"แถว 5: is, the, this หาคำว่า this วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร m แล้วเขียนคำ map\""
             ],
             "studentActions": [
@@ -4500,5 +4500,26 @@
       "english.phonics.pa.phoneme.blend-2-3",
       "english.phonics.pattern.cvc-short-a"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "m",
+      "formationWords": "Start at the dot. Down. Up, over the hill, down. Up, over the hill, down.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "m m m", "pictureWord": "monkey" },
+      { "text": "am. Man. Map. Pam. This is Pam. I am Nan.", "pictureWord": "Pam" }
+    ],
+    "dictation": {
+      "letters": ["m"],
+      "words": ["map"],
+      "traceSentence": "This is a map."
+    },
+    "writing": {
+      "traceText": "This is my ...",
+      "line": "word",
+      "pictureBox": true
+    }
   }
 }

@@ -4043,8 +4043,8 @@
               "\"Row 1: pen, cat, sun. Which one starts with /p/? Circle it.\"",
               "\"Row 2: dog, pear, bus. Which one starts with /p/? Circle it.\"",
               "\"Row 3: fish, hat, pencil. Which one starts with /p/? Circle it.\"",
-              "\"Row 4. Find the word nap. Circle it.\"",
-              "\"Row 5. Find the word the. Circle it.\"",
+              "\"Row 4: pan, nap, an. Find the word nap. Circle it.\"",
+              "\"Row 5: get, the, can. Find the word the. Circle it.\"",
               "\"Now write the letter p. Then write the word pan.\""
             ],
             "studentActions": [
@@ -4080,8 +4080,8 @@
               "\"แถว 1: pen, cat, sun คำไหนขึ้นต้นด้วย /p/? วงกลมไว้\"",
               "\"แถว 2: dog, pear, bus คำไหนขึ้นต้นด้วย /p/? วงกลมไว้\"",
               "\"แถว 3: fish, hat, pencil คำไหนขึ้นต้นด้วย /p/? วงกลมไว้\"",
-              "\"แถว 4 หาคำว่า nap วงกลมไว้\"",
-              "\"แถว 5 หาคำว่า the วงกลมไว้\"",
+              "\"แถว 4: pan, nap, an หาคำว่า nap วงกลมไว้\"",
+              "\"แถว 5: get, the, can หาคำว่า the วงกลมไว้\"",
               "\"ทีนี้เขียนตัวอักษร p แล้วเขียนคำ pan\""
             ],
             "studentActions": [
@@ -4497,5 +4497,26 @@
       "english.phonics.pa.initial-sound.identify",
       "english.phonics.pa.final-sound.identify"
     ]
+  },
+  "print": {
+    "letterBox": {
+      "letter": "p",
+      "formationWords": "Start at the dot. Down, down, below the line. Back up to the top. Round to the right, and back to the stick.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      { "text": "p p p", "pictureWord": "pen" },
+      { "text": "pan. Nap. An. Nan. Get the pan. I can nap.", "pictureWord": "pan" }
+    ],
+    "dictation": {
+      "letters": ["p"],
+      "words": ["pan"],
+      "traceSentence": "Get the pan."
+    },
+    "writing": {
+      "traceText": "It is red",
+      "line": "word",
+      "pictureBox": false
+    }
   }
 }
