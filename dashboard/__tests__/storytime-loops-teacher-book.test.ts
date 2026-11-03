@@ -21,9 +21,9 @@ function compiledLoopsArgument(file: string): boolean {
     const visit = (node: ts.Node) => {
         if (ts.isCallExpression(node) && node.expression.getText(parsed) === 'compileStorytimeManual') {
             passed = node.arguments.some((arg) => ts.isObjectLiteralExpression(arg)
-                && arg.properties.some((property) => ts.isPropertyAssignment(property)
+                && arg.properties.some((property) => (ts.isPropertyAssignment(property)
                     && property.name.getText(parsed) === 'loops' && property.initializer.getText(parsed) === 'loops')
-                || ts.isShorthandPropertyAssignment(property) && property.name.text === 'loops');
+                    || (ts.isShorthandPropertyAssignment(property) && property.name.text === 'loops')));
         }
         ts.forEachChild(node, visit);
     };
