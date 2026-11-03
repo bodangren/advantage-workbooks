@@ -15,12 +15,13 @@ const USAGE = `Makes the office-print PDF of a Storytime Advantage teacher's boo
 (from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
 report of every week first.
 
-Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>]
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
 
   --level   Every week file of content/storytime/l<n>/
   --file    One week file (repeat for more), e.g. a test week
   --lang    The book language (default th)
   --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
 
 Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
 Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
@@ -33,12 +34,14 @@ async function main(argv: string[]): Promise<number> {
     const files: string[] = [];
     let lang: SupportedLanguage = 'th';
     let out: string | undefined;
+    let loops = false;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
             console.log(USAGE);
             return 0;
         } else if (a === '--level') level = Number(argv[++i]);
+        else if (a === '--loops') loops = true;
         else if (a === '--file') files.push(path.resolve(argv[++i] ?? ''));
         else if (a === '--out') out = path.resolve(argv[++i] ?? '');
         else if (a === '--lang') {
@@ -80,7 +83,7 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     const weeks = read.map((r) => r.week) as StorytimeWeek[];
-    const result = compileStorytimeManual(weeks, { lang, paper: 'a4' });
+    const result = compileStorytimeManual(weeks, { lang, paper: 'a4', loops });
     const n = weeks[0].meta.level;
     out ??= path.join(os.homedir(), 'Desktop', 'print-ready', 'storytime', `Storytime-Advantage-Level-${n}-Teachers-Book-${lang.toUpperCase()}.pdf`);
 

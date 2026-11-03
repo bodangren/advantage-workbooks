@@ -48,6 +48,14 @@ export interface StorytimeLabels {
     easier: string;
     harder: string;
     group: string;
+    /** Draft headings for the Storytime teaching-loop routines. */
+    blendDrill: string;
+    soundLoop: string;
+    sightWords: string;
+    questions: string;
+    recallLoop: string;
+    secondsPerWord: string;
+    page: string;
     /** Review weeks (design §3.5). */
     block: string;
     weeksList: (weeks: number[]) => string;
@@ -126,6 +134,13 @@ const en: StorytimeLabels = {
     easier: 'Easier',
     harder: 'Harder',
     group: 'Group',
+    blendDrill: 'Blend drill',
+    soundLoop: 'Sound loop',
+    sightWords: 'Read it the fast way',
+    questions: 'Questions: point to the picture',
+    recallLoop: 'Daily recall',
+    secondsPerWord: 'seconds per word',
+    page: 'page',
     block: 'Block',
     weeksList: (weeks) => `${weeks.length === 1 ? 'week' : 'weeks'} ${weeks.join(', ')}`,
     dayPlan: 'Day plan',
@@ -232,6 +247,13 @@ const th: StorytimeLabels = {
     easier: 'ง่ายขึ้น',
     harder: 'ท้าทายขึ้น',
     group: 'คู่หรือกลุ่ม',
+    blendDrill: 'ฝึกผสมเสียง',
+    soundLoop: 'ฝึกเสียงซ้ำ',
+    sightWords: 'อ่านคำแบบเร็ว',
+    questions: 'คำถาม: ชี้ภาพคำตอบ',
+    recallLoop: 'ทบทวนประจำวัน',
+    secondsPerWord: 'วินาทีต่อคำ',
+    page: 'หน้า',
     block: 'ช่วงที่ทบทวน',
     weeksList: (weeks) => `สัปดาห์ที่ ${weeks.join(', ')}`,
     dayPlan: 'แผนรายวัน',

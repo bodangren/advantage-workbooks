@@ -94,17 +94,25 @@ function renderNote(en: StorytimeNote, th: StorytimeNote | undefined, lang: Supp
       </div>`;
 }
 
-function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean } = {}): string {
+function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean; loops?: boolean; questions?: StorytimeWeek['books'][number]['questions'] } = {}): string {
     const title = options.title !== undefined
         ? escapeHtml(options.title)
         : lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
-    const minutes = options.showMinutes === false || step.minutes === 0 ? '' : ` <span class="st-min">${escapeHtml(l.minutes(step.minutes))}</span>`;
+    const stepMinutes = options.loops ? step.loopMinutes ?? step.minutes : step.minutes;
+    const minutes = options.showMinutes === false || (!options.loops && stepMinutes === 0) ? '' : ` <span class="st-min">${escapeHtml(l.minutes(stepMinutes))}</span>`;
     const variant = (label: string, t: BiText) => `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(pick(t, lang))}</p>`;
+    const biLine = (t: BiText) => `<p>${escapeHtml(t.en)}</p>${lang === 'th' && t.th ? `<p class="st-gloss">${escapeHtml(t.th)}</p>` : ''}`;
+    const routines = options.loops ? [
+        step.blendDrill ? `<div class="st-loop"><h5>${escapeHtml(l.blendDrill)}</h5>${biLine(step.blendDrill.model)}${biLine(step.blendDrill.lead)}${biLine(step.blendDrill.test)}<p>${step.blendDrill.words.map((word) => escapeHtml(word.word)).join(', ')} — ${escapeHtml(String(step.blendDrill.repeats))}×</p>${biLine(step.blendDrill.correction)}</div>` : '',
+        step.soundLoop ? `<div class="st-loop"><h5>${escapeHtml(l.soundLoop)}</h5>${biLine(step.soundLoop.correct)}${biLine(step.soundLoop.practise)}${biLine(step.soundLoop.retest)}</div>` : '',
+        step.sightWords ? `<div class="st-loop"><h5>${escapeHtml(l.sightWords)}</h5><p>${step.sightWords.words.map(escapeHtml).join(', ')}</p>${biLine(step.sightWords.slide)}${biLine(step.sightWords.check)}<p>${escapeHtml(String(step.sightWords.seconds))} ${escapeHtml(l.secondsPerWord)}</p></div>` : '',
+        step.id === 'C5' && options.questions ? `<div class="st-loop"><h5>${escapeHtml(l.questions)}</h5>${options.questions.map((question) => `<p>${escapeHtml(question.ask.en)} — ${escapeHtml(l.answer)}: ${escapeHtml(question.answer.word)} (${escapeHtml(l.page)} ${escapeHtml(String(question.answer.page))})</p>${lang === 'th' && question.ask.th ? `<p class="st-gloss">${escapeHtml(question.ask.th)}</p>` : ''}`).join('')}</div>` : '',
+    ].join('') : '';
     return `
     <div class="st-step${step.moved ? ' st-moved' : ''}">
       <h4 class="st-step-title">${escapeHtml(step.id)} · ${title}${minutes}</h4>
       ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.join(', '))}</p>` : ''}
-      ${renderNote(step.en, step.th, lang)}
+      ${renderNote(step.en, step.th, lang)}${routines ? `\n      ${routines}` : ''}
       <div class="st-variants">
         ${variant(l.easier, step.easier)}
         ${variant(l.harder, step.harder)}
@@ -196,7 +204,7 @@ function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLab
  * @param lang The book language. The Thai book prints the English of a part that has no Thai yet.
  * @returns The HTML.
  */
-export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): string {
+export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, options: { loops?: boolean } = {}): string {
     const l = storytimeLabels(lang);
     const scripts = [...w.scripts].sort((a, b) => a.day - b.day);
     const days = scripts.map((s, i) => {
@@ -227,10 +235,11 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage): 
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
       <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false })).join('') : ''}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
+      ${options.loops && s.recall ? `<h5>${escapeHtml(l.recallLoop)}</h5><p>${escapeHtml(s.recall.ask.en)}</p>${lang === 'th' && s.recall.ask.th ? `<p class="st-gloss">${escapeHtml(s.recall.ask.th)}</p>` : ''}<p>${s.recall.items.map((card) => `<span class="st-card">${escapeHtml(card.text)}</span>`).join('')}</p>` : ''}
       ${stripHtml}
     </div>
     ${movedGroup(l.recall, recall, lang, l)}
-    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l)).join('')}
+    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, questions: st.id === 'C5' ? w.books.find((book) => book.kind === 'readalong')?.questions : undefined })).join('')}
     ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l) : ''}
   </section>`;
     });
@@ -345,6 +354,8 @@ function renderSong(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLabel
 
 export interface StorytimeManualOptions {
     lang?: SupportedLanguage;
+    /** Print the draft teaching loops. Defaults to off for the approved proof. */
+    loops?: boolean;
     /** `a4` (the office print, default) or `book` (the printer's page). */
     paper?: TeacherManualPaper;
 }
@@ -372,7 +383,7 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
       <p class="tm-title-subtitle" style="color: ${THEME.secondary};">${escapeHtml(l.subtitle)}</p>
     </div>
   </div>`;
-    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang)).join('\n');
+    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang, { loops: options.loops })).join('\n');
     const html = wrapTeacherManualDocument(title, body, '', {
         seriesName: l.product,
         seriesLevel: levelLabel,
