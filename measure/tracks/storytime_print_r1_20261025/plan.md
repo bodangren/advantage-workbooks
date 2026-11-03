@@ -636,7 +636,7 @@ _Blast radius: `compileStorytimeManual` (`scripts/storytime/make-manual-pdf.ts`;
     - Step 4, person-check by the orchestrator (2026-11-02, 16:1x ICT): the 4 contact sheets in `/tmp/opencode/p4-final/`. Every picture box holds its picture. The text under each picture matches `content/storytime/l2/w01.json`. Both readers have the strip page pairs 12/1, 2/11, 10/3, 4/9, 8/5, 6/7, and the A3 files have pages 1 to 12 in order. Student book v8 has the page layout of the v7 proof (`Storytime-Advantage-L2-U1-Student-Book-v7-contact-sheet.png`) with the pictures in, and without the proof-only QR note line. No defect.
     - Observation for Daniel's proof look in Phase 6, not a defect of this phase: on the student book page "Week 1: the sound /n/", the third practice line is the tricky word "and", beside the nut picture (row `l2-w01-practice-line-nut`). The same pairing was in the v5 to v7 proofs with a placeholder.
 
-## Phase 5: Covers, week 1 (2026-11-02 to 2026-11-05)
+## Phase 5: Covers, week 1 (2026-11-02 to 2026-11-05) [checkpoint: 59ba353]
 
 _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`; `__tests__/covers-contract.test.ts`, `covers-back.test.ts`): no change. `lib/covers/compose.ts` is reused, not changed. The cover track `storytime_covers_20261027` owns `lib/storytime/print/covers.ts`, `lib/storytime/print/cover-picture.ts`, `content/storytime/covers/books.json`, and `scripts/storytime/make-storytime-book-cover.ts`; this phase reads them and changes nothing; a needed change goes to the orchestrator._
 
