@@ -234,8 +234,7 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, o
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
       <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false })).join('') : ''}</li>`).join('')}</ol>
-      <h5>${escapeHtml(l.strip)}</h5>
-      ${options.loops && s.recall ? `<h5>${escapeHtml(l.recallLoop)}</h5><p>${escapeHtml(s.recall.ask.en)}</p>${lang === 'th' && s.recall.ask.th ? `<p class="st-gloss">${escapeHtml(s.recall.ask.th)}</p>` : ''}<p>${s.recall.items.map((card) => `<span class="st-card">${escapeHtml(card.text)}</span>`).join('')}</p>` : ''}
+      <h5>${escapeHtml(l.strip)}</h5>${options.loops && s.recall ? `\n      <h5>${escapeHtml(l.recallLoop)}</h5><p>${escapeHtml(s.recall.ask.en)}</p>${lang === 'th' && s.recall.ask.th ? `<p class="st-gloss">${escapeHtml(s.recall.ask.th)}</p>` : ''}<p>${s.recall.items.map((card) => `<span class="st-card">${escapeHtml(card.text)}</span>`).join('')}</p>` : ''}
       ${stripHtml}
     </div>
     ${movedGroup(l.recall, recall, lang, l)}
