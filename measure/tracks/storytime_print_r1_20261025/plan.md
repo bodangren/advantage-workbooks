@@ -753,6 +753,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Daniel's open look points: the four week 8 check pictures (moon, mango, ostrich, drum) are new and show placeholders until Forge delivers them; weeks 2 to 7 practice lines are new combinations of taught words, not story lines; week 3 has no picture box in the writing part; the blank spacer pages precede each week and the review.
     - PM 2026-11-03: light lane. Picture counts: made 0, attempts 0, spend 0.
     - Proof note: `/home/daniebo/Desktop/print-ready/storytime/proof-unit1/proof-unit1-files.md`. Awaiting the four pictures and the PM hand-off to Daniel.
+    - The v11 build is a 135-page check build, not Daniel's proof. The proof waits for Daniel's week 1 answer by 2026-11-07 and includes F1's practice-rule fix; it will have 136 pages.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
 
 ## Phase 7: Weeks 2 to 8 (2026-11-04 to 2026-11-18; starts 2026-11-04, PM decision 2026-11-03)
@@ -790,7 +791,14 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Mutants caught: missing week 8 review pages, one omitted week 5 reader leaf, and a named pending row resolved as required. Each Vitest command used `--maxWorkers=2`; see `p7-mutant-*-workers2.txt` in the run folder.
     - Final-mode smoke build passed the PDF/X gate at 135 A4 pages. The contact sheet is `measure/runs/storytime_print_r1_20261025/p7-smoke-contact-sheet.png`. Page look found no content defect; page 129 is the intentional blank spacer before the review section.
     - PM 2026-11-03: light lane. Picture counts: made 0, attempts 0, spend 0.
-- [~] Task (fix, light lane): pad the student book to the binding page multiple, and rule each line of a wrapped practice text. PM 2026-11-03: light lane.
+- [x] Task (fix, light lane): pad the student book to the binding page multiple, and rule each line of a wrapped practice text. PM 2026-11-03: light lane.
+    - Commits: tests `5eac5399ce764b0a29644fda35ec4e2e7603a8c0`; code `74bee40e2a2e5d64d4615107e24e0322122b0aab`.
+    - Red run: 3 failed and 1 passed of 4 tests. Log: `measure/runs/storytime_print_r1_20261025/p7-fix-red.txt`.
+    - Final tests: 2 files and 85 tests passed with `--maxWorkers=2`. Log: `measure/runs/storytime_print_r1_20261025/p7-fix-tests-final.txt`.
+    - Mutants: removing the page pad failed 1 test; restoring the old single border failed 1 test. Logs: `p7-fix-mutant-no-pad.txt` and `p7-fix-mutant-old-border.txt`.
+    - ESLint and `npx tsc --noEmit` passed. Log: `measure/runs/storytime_print_r1_20261025/p7-fix-static-final.txt`.
+    - Week 7 proof-mode render: 20 pages; PDF/X-1a gate passed. The opened 100 dpi practice-page image shows a rule under each wrapped line: `measure/runs/storytime_print_r1_20261025/p7-fix-practice-w07.png`. Log: `p7-fix-render.txt`.
+    - Picture counts: made 0, attempts 0, spend 0.
 - [x] Task (Pictures, weeks 2 to 7): run stage 1 on the six Forge batches. Daniel's stage 3 review already passed for all 162 rows. PM 2026-11-03: light lane. Evidence: stage 1 and resolver proof.
     - Week 2: `w02/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w02-stage1.txt`.
     - Week 3: `w03/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w03-stage1.txt`.
