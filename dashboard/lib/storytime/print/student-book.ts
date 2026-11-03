@@ -6,7 +6,7 @@ import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import { fontFaceCss } from './print-fonts';
-import { readerPageCss, storytimeReaderStripSides } from './readers';
+import { readerPageCss, storytimeReaderLeafSides } from './readers';
 import type { StorytimePrintProfile } from './profile';
 
 /**
@@ -127,11 +127,15 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .qr-note { font-size: 9pt; margin-top: 6mm; }
 .song-lines { margin-top: 8mm; font-size: 11pt; }
 .song-lines p { padding: 1mm 0; }
-.strip-mark { position: absolute; top: 1mm; left: 2mm; font-size: 7pt; }
-.cut-line { position: absolute; border-top: 0.4mm dashed #000; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0.5mm; border-left: 0.5mm dashed #000; }
-/* The reader strip holds its two reader pages side by side (2 x 99 mm = the 198 mm leaf). */
-.reader-strip { display: flex; flex-direction: row; }
+.student-page[data-page-kind="reader"] { overflow: hidden; padding: 0; }
+.student-page[data-page-kind="reader"] > .reader-page { position: absolute; transform-origin: center; }
+.student-page[data-page-kind="reader"][data-leaf-side="front"] > .reader-page { left: 36.75mm; transform: rotate(90deg); }
+.student-page[data-page-kind="reader"][data-leaf-side="back"] > .reader-page { left: 24.75mm; transform: rotate(-90deg); }
+.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(1) { top: -24.75mm; }
+.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(2) { top: 123.75mm; }
+.fold-line { position: absolute; z-index: 4; left: 0; width: 100%; top: 148.5mm; border-top: 0.3mm dashed #000; }
+.leaf-mark { position: absolute; z-index: 5; top: 1mm; left: 2mm; font-size: 5pt; }
 .blank-page { }
 ${readerPageCss(profile)}
 `;
@@ -317,41 +321,18 @@ ${mode === 'proof' ? '<p class="qr-note">QR target answers after the deploy (mon
 }
 
 /**
- * The three reader leaves of a week (FR-5.1; R32): 3 strips for each book, 2 strips on each A4
- * leaf, with the dashed cut line across the middle. Each strip holds the reader pages of its side
- * from `readers.ts`, so the workbook prints the same reader pages as the readers build (Red 4c,
- * R-P4-10); the strip mark names the reader, the strip number, and the back side.
+ * The six reader leaves of a week, with each leaf side rendered by the shared reader-page renderer.
  */
 function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 'proof' | 'final'): PageSpec[] {
-    const sides = storytimeReaderStripSides(week, { profile, mode, output: 'workbook' });
-    const strips = week.books.flatMap((book) => [1, 2, 3].map((n) => ({ kind: book.kind, title: book.title, n })));
-    if (strips.length !== 6) throw new Error(`week ${week.meta.week} needs 2 books of 3 strips, got ${strips.length}`);
-    const sideOf = (kind: string, n: number, side: 'front' | 'back') => {
-        const found = sides.find((entry) => entry.kind === kind && entry.strip === n && entry.side === side);
-        if (!found) throw new Error(`reader strip missing: ${kind} strip ${n} of week ${week.meta.week}`);
-        return found;
-    };
-    const leafWidth = 2 * profile.readerPage.widthMm;
-    const specs: PageSpec[] = [];
-    for (let leaf = 0; leaf < 3; leaf++) {
-        for (const isBack of [false, true]) {
-            const slotStrips = [strips[leaf * 2], strips[leaf * 2 + 1]];
-            const stripHtml = (strip: (typeof strips)[number], slot: number): string => {
-                const top = slot * profile.trim.heightMm / 2;
-                const left = isBack ? 0 : profile.perforationMm;
-                const content = sideOf(strip.kind, strip.n, isBack ? 'back' : 'front').html;
-                return `<div class="reader-strip" data-part="reader-strip" data-reader="${strip.kind}" data-strip="${strip.n}" data-slot="${slot === 0 ? 'top' : 'bottom'}" style="position:absolute;left:${left}mm;top:${top}mm;width:${leafWidth}mm;height:${profile.readerPage.heightMm}mm;">${content}<span class="strip-mark">${esc(strip.title)} &middot; strip ${strip.n} of 3${isBack ? ' (back)' : ''}</span></div>`;
-            };
-            // The cut line mirrors with the spine parity (D4): a back side cuts from the outer
-            // edge (x = 0) to the perforation, a front side from the perforation to the outer edge.
-            const cutLeft = isBack ? 0 : profile.perforationMm;
-            const cutWidth = profile.trim.widthMm - profile.perforationMm;
-            const body = `${stripHtml(slotStrips[0], 0)}${stripHtml(slotStrips[1], 1)}
-<div class="cut-line" style="position:absolute;left:${cutLeft}mm;top:${profile.readerPage.heightMm + (profile.trim.heightMm - profile.readerPage.heightMm * 2) / 4}mm;width:${cutWidth}mm;"></div>`;
-            specs.push({ kind: 'reader', body });
-        }
-    }
-    return specs;
+    const sides = storytimeReaderLeafSides(week, { profile, mode, output: 'workbook' });
+    if (sides.length !== 12) throw new Error(`week ${week.meta.week} needs 6 reader leaves, got ${sides.length / 2}`);
+    return sides.map((side) => {
+        const foldLeft = side.side === 'back' ? 0 : profile.perforationMm;
+        const foldWidth = profile.trim.widthMm - profile.perforationMm;
+        return { kind: 'reader', body: `${side.html}
+<div class="fold-line" data-part="fold-line" data-position-mm="148.5" style="left:${foldLeft}mm;width:${foldWidth}mm;"></div>
+<span class="leaf-mark" data-part="leaf-mark">${esc(side.title)} &middot; leaf ${side.leaf} of 3</span>` };
+    });
 }
 
 /**
@@ -392,8 +373,15 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         if (specs.length % 2 === 0) specs.push(blankPage());
         specs.push(...weekPages);
     }
+    const readerMeta = weeks.flatMap((week) => storytimeReaderLeafSides(week, { profile: o.profile, mode: 'proof', output: 'workbook' }))
+        .map(({ kind, title, leaf, side }) => ({ kind, title, leaf, side }));
+    let readerIndex = 0;
     const sides = specs
-        .map((spec, i) => `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}">${spec.body}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile) : ''}</section>`)
+        .map((spec, i) => {
+            const reader = spec.kind === 'reader' ? readerMeta[readerIndex++] : undefined;
+            const attrs = reader ? ` data-reader="${reader.kind}" data-reader-title="${esc(reader.title)}" data-leaf-number="${reader.leaf}" data-leaf-side="${reader.side}"` : '';
+            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile) : ''}</section>`;
+        })
         .join('\n');
     return { html: `<!doctype html>
 <html lang="en">

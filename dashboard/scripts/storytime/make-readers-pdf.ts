@@ -13,10 +13,10 @@ import type { StorytimeWeek } from '../../lib/storytime/schema';
 /**
  * The build of the Storytime readers (track storytime_print_r1_20261025, spec FR-5):
  *
- * - `--workbook`: the reader pages of the week imposed on A4 leaves for the student workbook, cut
+ * - `--workbook`: the reader pages of the week imposed on A4 leaves for the student workbook,
  *   from the line art (FR-5.1, FR-9), as one PDF/X-1a print file;
- * - `--a3-color`: one reader page on each A3 portrait page (297 × 420 mm, the reader page scaled
- *   3.0), as an sRGB PDF for the office printer of the teacher. This file is not PDF/X and is not
+ * - `--a3-color`: one reader page on each A3 portrait page, scaled 2.0 with 12 mm white bands,
+ *   as an sRGB PDF for the office printer of the teacher. This file is not PDF/X and is not
  *   on the print order (FR-5.8).
  *
  * The reader page render is the same in both outputs. Run it under the heavy-job lock
