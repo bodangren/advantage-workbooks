@@ -259,9 +259,14 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         expect(approval.scripts, 'Record (b) of P14 for the scripts part.').toEqual(expected);
     });
 
-    it('keeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text', () => {
+    it('keeps audio and song draft after the week 1 picture approval', () => {
         const first = parsed(shipped(1)).approval;
-        expect(first.images, 'Week 1: images stay draft (record (c) of P14).').toEqual({ status: 'draft' });
+        expect(first.images, 'Week 1: images record the approved app pictures.').toEqual({
+            status: 'approved',
+            date: '2026-11-03',
+            words: '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT)',
+            source: 'PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; print Phase 4 git note on 2e3272e9',
+        });
         expect(first.audio, 'Week 1: audio stays draft.').toEqual({ status: 'draft' });
         expect(first.song, 'Week 1: song stays draft.').toEqual({ status: 'draft' });
         for (const week of weekNumbers) {
@@ -286,7 +291,7 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         const published = checkById(checkStorytimeWeek(shipped(1)).checks, 'published');
         expect(published, 'st2/1 stays unpublished until its media are approved.').toMatchObject({ status: 'fail' });
         expect(published?.detail, 'The published detail of st2/1 is exactly the three media parts.').toBe(
-            'images not approved; audio not approved; song not approved',
+            'audio not approved; song not approved',
         );
     });
 });

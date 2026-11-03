@@ -300,7 +300,7 @@ describe('StorytimeLoopsApprovalSchema refine', () => {
 });
 
 describe('published guard (characterization, pass at Red)', () => {
-    const PUBLISHED_DETAIL = 'images not approved; audio not approved; song not approved';
+    const PUBLISHED_DETAIL = 'audio not approved; song not approved';
 
     it('reports the shipped st2/1 published detail', () => {
         const report = checkStorytimeWeek(loadWeek(1));

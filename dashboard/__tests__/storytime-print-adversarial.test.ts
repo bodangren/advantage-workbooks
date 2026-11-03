@@ -254,7 +254,7 @@ describe('Adversarial: the strict approval parts fail closed', () => {
 
     it('keeps the shipped week 1 published detail limited to the three media parts', () => {
         const published = checkById(checkStorytimeWeek(shipped(1)).checks, 'published');
-        expect(published?.detail, 'No adversarial copy changed the shipped gate.').toBe('images not approved; audio not approved; song not approved');
+        expect(published?.detail, 'No adversarial copy changed the shipped gate.').toBe('audio not approved; song not approved');
     });
 });
 
