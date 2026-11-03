@@ -790,6 +790,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Mutants caught: missing week 8 review pages, one omitted week 5 reader leaf, and a named pending row resolved as required. Each Vitest command used `--maxWorkers=2`; see `p7-mutant-*-workers2.txt` in the run folder.
     - Final-mode smoke build passed the PDF/X gate at 135 A4 pages. The contact sheet is `measure/runs/storytime_print_r1_20261025/p7-smoke-contact-sheet.png`. Page look found no content defect; page 129 is the intentional blank spacer before the review section.
     - PM 2026-11-03: light lane. Picture counts: made 0, attempts 0, spend 0.
+- [~] Task (fix, light lane): pad the student book to the binding page multiple, and rule each line of a wrapped practice text. PM 2026-11-03: light lane.
 - [x] Task (Pictures, weeks 2 to 7): run stage 1 on the six Forge batches. Daniel's stage 3 review already passed for all 162 rows. PM 2026-11-03: light lane. Evidence: stage 1 and resolver proof.
     - Week 2: `w02/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w02-stage1.txt`.
     - Week 3: `w03/delivery-muse-v1`; 27 rows, 54 PNG files; stage 1 passed 27/27, exit 0. Log: `measure/runs/storytime_print_r1_20261025/p7-pictures-w03-stage1.txt`.
