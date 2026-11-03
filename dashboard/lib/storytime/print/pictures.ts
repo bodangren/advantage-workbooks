@@ -126,7 +126,8 @@ const itemPictures = (item: StorytimeCheckItem): string[] =>
 const rowMatchesPictureWord = (row: StorytimePictureRow, pictureWord: string): boolean => {
     const target = pictureWord.toLowerCase();
     if (row.use !== 'story-page') return row.text.toLowerCase() === target;
-    return (row.text.toLowerCase().match(/[a-z0-9]+/g) ?? []).includes(target);
+    const words: string[] = row.text.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+    return words.includes(target);
 };
 
 /** The line-art name of FR-9: the color name with `-line` before the version. */
@@ -138,7 +139,7 @@ const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-
  * a `print` block, and the picture words of the review pages and of the benchmark paper of a
  * review week (version 4). A word that an earlier week already has as a check-row row keeps
  * that row: the review page of week 8 reuses the row of weeks 1 to 7 instead of a second file.
- * From week 2, a practice word also reuses an exact matching story-page, check-row, or practice
+ * From week 2, a practice word also reuses a matching story-page, check-row, or practice
  * row from the same or an earlier week. Week 1 keeps its three practice-line rows.
  * The card and sticker rows come with the card kit (Phase 8). Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix from `-b` through
