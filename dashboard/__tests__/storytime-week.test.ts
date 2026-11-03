@@ -3,12 +3,13 @@ import { describe, it, expect } from 'vitest';
 import { StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeWeekInput } from '../lib/storytime/schema';
 import { checkStorytimeWeek, decodability, frameCount, taughtTo } from '../lib/storytime/checks';
 import { storytimeMediaDir, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
-import { fixtureBlockWeeks, fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
+import { FIXTURE_TAUGHT, fixtureBlockWeeks, fixtureReviewWeek, fixtureWeek } from './fixtures/storytime-week-fixture';
 
+// The taught set is given, because the loop check `loops-blend` needs it (track storytime_teaching_loops_20261103).
 function run(change?: (w: StorytimeWeekInput) => void) {
     const week = fixtureWeek();
     change?.(week);
-    return checkStorytimeWeek(week);
+    return checkStorytimeWeek(week, FIXTURE_TAUGHT);
 }
 
 const status = (report: ReturnType<typeof run>, id: string) => report.checks.find((c) => c.id === id)?.status;

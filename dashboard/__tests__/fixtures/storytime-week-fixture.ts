@@ -1,4 +1,58 @@
 import type { StorytimeWeekInput } from '../../lib/storytime/schema';
+import { LOOP_STEP_IDS, SAMPLE_DRILLS, SAMPLE_SOUND_LOOP, questionsFor, sampleLoopMinutes, sampleSightWords } from './storytime-loops-sample';
+
+/**
+ * The taught set of `fixtureWeek()`: the letters that its blend drill uses and its tricky words. A test passes it
+ * to `checkStorytimeWeek`, because the loop check `loops-blend` needs the taught set (Phase 3 Red, track
+ * storytime_teaching_loops_20261103).
+ */
+export const FIXTURE_TAUGHT = { graphemes: ['n', 'a', 't'], tricky: ['a', 'and', 'can'] };
+
+/** The drill of the fixture week: its sounds are in `FIXTURE_TAUGHT.graphemes` and in the phoneme bank of the tests. */
+const FIXTURE_DRILL = {
+    ...SAMPLE_DRILLS[1],
+    words: [
+        { word: 'Nan', sounds: ['/n/', '/a/', '/n/'] },
+        { word: 'an', sounds: ['/a/', '/n/'] },
+        { word: 'ant', sounds: ['/a/', '/n/', '/t/'] },
+    ],
+};
+
+/** The five recall cards of a day of the fixture week: a taught sound, two tricky words, the frame, and a word of an earlier day. */
+const FIXTURE_RECALL = {
+    items: [
+        { kind: 'sound' as const, text: 'n', week: 1 },
+        { kind: 'tricky' as const, text: 'and', week: 1 },
+        { kind: 'tricky' as const, text: 'can', week: 1 },
+        { kind: 'frame' as const, text: 'Hello, I am ___.', week: 1 },
+        { kind: 'word' as const, text: 'class', week: 1 },
+    ],
+    ask: { en: 'Show the five cards. The class reads each one.', th: 'ชูบัตร 5 ใบ ให้ทั้งชั้นอ่านทีละใบ' },
+};
+
+/**
+ * Adds the sample teaching routines of the A-42 loops to a teach week: the sound loops, the blend drill, the
+ * sight words, the questions, the loop minutes, and the recall of days 2 to 5. The minutes of each day stay the same.
+ * @param week The fixture week.
+ * @returns The same week.
+ */
+function withLoops(week: StorytimeWeekInput): StorytimeWeekInput {
+    const steps = week.scripts.flatMap((s) => s.steps);
+    const at = (id: string) => {
+        const found = steps.find((st) => st.id === id);
+        if (!found) throw new Error(`The fixture week has no step ${id}`);
+        return found;
+    };
+    for (const id of ['A1', 'A2', 'A3']) at(id).soundLoop = structuredClone(SAMPLE_SOUND_LOOP);
+    at('A4').blendDrill = structuredClone(FIXTURE_DRILL);
+    for (const id of ['A6', 'D2']) at(id).sightWords = sampleSightWords(week.focus.trickyWords ?? []);
+    for (const st of steps) if ((LOOP_STEP_IDS as readonly string[]).includes(st.id)) st.loopMinutes = sampleLoopMinutes(st.id, st.minutes);
+    const readAlong = week.books?.find((b) => b.kind === 'readalong');
+    if (!readAlong) throw new Error('The fixture week has no read-along');
+    readAlong.questions = questionsFor(99, readAlong.pages.map((p) => p.text));
+    for (const script of week.scripts) if (script.day > 1) script.recall = structuredClone(FIXTURE_RECALL);
+    return week;
+}
 
 /** A step with one line under each heading. `moved` steps go to the next day's opening (30-minute rule). */
 function step(id: string, title: string, minutes: number, moved = false) {
@@ -28,7 +82,7 @@ const page = (text: string) => ({ text, image: { prompt: `A picture for "${text}
 export function fixtureWeek(): StorytimeWeekInput {
     const names = ['Nat', 'Nan', 'Nick', 'Nina', 'Ned', 'Noor', 'Neil', 'Nell'];
     const chorus = { text: 'Hello, I am Nat!', part: 'chorus' as const, gesture: 'wave' };
-    return {
+    return withLoops({
         version: 1,
         meta: {
             program: 'storytime',
@@ -63,7 +117,7 @@ export function fixtureWeek(): StorytimeWeekInput {
             ],
         },
         scripts: [
-            { id: 'A', day: 1, title: { en: 'Sound Lesson', th: '' }, steps: [step('A1', 'Hear it', 5), step('A2', 'See it', 5), step('A3', 'Form it', 5), step('A4', 'Blend it', 5), step('A5', 'Word wall', 4), step('A7', 'Read it', 1, true), step('A8', 'Home card', 1, true)] },
+            { id: 'A', day: 1, title: { en: 'Sound Lesson', th: '' }, steps: [step('A1', 'Hear it', 5), step('A2', 'See it', 5), step('A3', 'Form it', 5), step('A4', 'Blend it', 5), step('A5', 'Word wall', 2), step('A7', 'Read it', 1, true), step('A8', 'Home card', 1, true), step('A6', 'New tricky words', 2)] },
             { id: 'B', day: 2, title: { en: 'Story Lesson', th: '' }, steps: [step('B1', 'Family words', 5), step('B2', 'Picture walk', 5), step('B3', 'Listen', 4), step('B4', 'Read with me', 5), step('B5', 'Frame practice', 5), step('B6', 'Act it', 1, true), step('B7', 'Sing it', 1, true)] },
             { id: 'C', day: 3, title: { en: 'Spell and Read', th: '' }, steps: [step('C1', 'Sound review', 3), step('C2', 'Letter cards', 6), step('C3', 'Dictation', 4), step('C4', 'Decodable: read together', 5), step('C5', 'Comprehension', 3), step('C7', 'Sticker', 3), step('C6', 'Favourite sentence', 1, true)] },
             { id: 'D', day: 4, title: { en: 'Read and Write', th: '' }, steps: [step('D1', 'Re-read', 6), step('D2', 'Tricky words', 4), step('D3', 'Leveled reader', 6), step('D4', 'Write it', 8), step('D5', 'Share', 1, true), step('D6', 'Sing it', 1, true)] },
@@ -82,7 +136,7 @@ export function fixtureWeek(): StorytimeWeekInput {
             activity: { en: 'Say hello and your name in English.', th: '' },
         },
         tags: { graphVersion: '', taught: ['n'], reviewed: [] },
-    };
+    });
 }
 
 /** A step of a review week: one line under each heading. */
@@ -108,6 +162,18 @@ const PAGE = [
     { kind: 'picture-sort' as const, groups: [{ sound: '/n/', pictures: ['nest', 'nose'] }, { sound: '/a/', pictures: ['apple', 'ant'] }] },
 ];
 
+/** The five recall cards of a day of the review fixture: two sounds, a tricky word, a frame, and a word of the block. */
+const REVIEW_RECALL = {
+    items: [
+        { kind: 'sound' as const, text: 'n', week: 1 },
+        { kind: 'sound' as const, text: 'a', week: 2 },
+        { kind: 'tricky' as const, text: 'and', week: 1 },
+        { kind: 'frame' as const, text: 'Hello, I am ___.', week: 1 },
+        { kind: 'word' as const, text: 'class', week: 1 },
+    ],
+    ask: { en: 'Show the five cards. The class reads each one.', th: 'ชูบัตร 5 ใบ ให้ทั้งชั้นอ่านทีละใบ' },
+};
+
 /**
  * Level 2 week 3 as the review week of weeks 1 and 2 (design §3.5 in small): five days of 6 + 24
  * minutes, the block day plan with the medley, and Benchmark 1 with both block decodables.
@@ -117,6 +183,7 @@ export function fixtureReviewWeek(): StorytimeWeekInput {
         id: id as 'A' | 'B' | 'C' | 'D' | 'E',
         day: i + 1,
         title: { en: i === 0 ? 'Benchmark and Centers' : 'Review Centers', th: '' },
+        recall: REVIEW_RECALL,
         steps: i === 0
             ? [reviewStep('A1', 'Benchmark: paper part', 10), reviewStep('A2', 'Centers', 10), reviewStep('A3', 'Close', 4)]
             : [reviewStep(`${id}1`, 'Centers, rotation 1', 10), reviewStep(`${id}2`, 'Centers, rotation 2', 10), reviewStep(`${id}3`, i === 4 ? 'Song show' : 'Close', 4)],

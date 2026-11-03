@@ -83,7 +83,8 @@ describe('storytime phoneme bank (S22)', () => {
         const raw = JSON.parse(JSON.stringify(week()));
         expect(phonemeAudioProblems(StorytimeWeekSchema.parse(raw), bank)).toContain('focus.element.audio: missing');
         const set = setPhonemeAudio(raw, bank);
-        expect(set).toBe(7);
+        // 7 fields of the week and 3 fields of the sample blend drill of `fixtureWeek()` (A-42 loops).
+        expect(set).toBe(10);
         const parsed = StorytimeWeekSchema.parse(raw);
         expect(phonemeAudioProblems(parsed, bank)).toEqual([]);
         parsed.opening!.audio![2] = [n];
