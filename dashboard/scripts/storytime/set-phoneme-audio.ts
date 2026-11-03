@@ -5,7 +5,7 @@ import { setPhonemeAudio } from '../../lib/storytime/phonemes';
 import { StorytimeWeekSchema } from '../../lib/storytime/schema';
 
 const USAGE = `Sets Daniel's phoneme recordings (S22) in the Storytime week files: the week sound, the sound cards,
-the sound game days, and the benchmark sound cards and blend words. Other bytes of a file do not change.
+the sound game days, the benchmark sound cards and blend words, and the blend drill words. Other bytes of a file do not change.
 
 Usage: npx tsx scripts/storytime/set-phoneme-audio.ts --level <n> | --file <week.json>`;
 

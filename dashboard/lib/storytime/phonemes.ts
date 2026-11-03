@@ -74,7 +74,7 @@ export interface PhonemeAudioField {
 }
 
 /**
- * The recordings that the fields of a week must hold.
+ * The recordings that the fields of a week must hold, the drill words of the scripts included.
  * @param week The week.
  * @param bank The bank.
  * @returns The fields (a field with a sound that the bank does not have is left out) and those sounds.
@@ -105,6 +105,13 @@ export function phonemeAudioFields(week: StorytimeWeek, bank: PhonemeBank): { fi
         add(['benchmark', 'oneToOne', 'soundAudio'], one.sounds, true);
         one.blend.forEach((b, i) => add(['benchmark', 'oneToOne', 'blend', i, 'audio'], soundLabels(b.sounds), true));
     }
+    week.scripts.forEach((script, s) =>
+        script.steps.forEach((step, t) =>
+            step.blendDrill?.words.forEach((word, i) =>
+                add(['scripts', s, 'steps', t, 'blendDrill', 'words', i, 'audio'], word.sounds, true),
+            ),
+        ),
+    );
     return { fields, unresolved };
 }
 
