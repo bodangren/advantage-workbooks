@@ -139,7 +139,7 @@ async function main(argv: string[]): Promise<number> {
     if (kOnly) {
         const gray = path.join(tmp, 'k-only-gray.pdf');
         console.log('Pre-converting to DeviceGray (K-only) ...');
-        const grayGs = spawnSync('gs', ['-q', '-dBATCH', '-dNOPAUSE', '-sDEVICE=pdfwrite',
+        const grayGs = spawnSync('gs', ['-q', '-dBATCH', '-dNOPAUSE', '-sDEVICE=pdfwrite', '-dAutoRotatePages=/None',
             '-sColorConversionStrategy=Gray', '-dProcessColorModel=/DeviceGray',
             `-sOutputFile=${gray}`, input], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
         if (grayGs.status !== 0 || !fs.existsSync(gray)) {
@@ -153,7 +153,8 @@ async function main(argv: string[]): Promise<number> {
     fs.writeFileSync(definition, pdfxDefinition(profile, source.title));
     console.log(`Converting ${source.info.pages} pages with Ghostscript (${outline ? 'text as outlines' : 'fonts kept'}${kOnly ? ', K-only' : ''}) ...`);
     const started = Date.now();
-    const gs = spawnSync('gs', ghostscriptArgs({ input, output, definition, profile, outline }), { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    // The conversion keeps source page orientation; Ghostscript must not rotate pages based on their text direction.
+    const gs = spawnSync('gs', ['-dAutoRotatePages=/None', ...ghostscriptArgs({ input, output, definition, profile, outline })], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
     fs.rmSync(tmp, { recursive: true, force: true });
     const warnings = [...new Set(`${gs.stdout}\n${gs.stderr}`.split('\n').map((l) => l.trim()).filter((l) => /warning|error/i.test(l)))];
     if (gs.status !== 0) {
