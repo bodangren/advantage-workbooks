@@ -343,9 +343,10 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
 
 /**
  * The status of a loop check that finds a problem (loops FR-8, D12): `warn` from Phase 1 to Phase 3, so
- * that the shipped weeks do not fail the gate. The Phase 3 switch task sets it to `fail`.
+ * that the shipped weeks did not fail the gate before their content existed. The Phase 3 switch task set it to
+ * `fail`. A part that a check could not test still has the status `warn` (see `loopCheck`).
  */
-export const LOOP_CHECK_STATUS: CheckStatus = 'warn';
+export const LOOP_CHECK_STATUS: CheckStatus = 'fail';
 
 /** The steps that hold a routine (loops spec Terms: "loop step"). Only these may change their minutes. */
 const LOOP_STEP_IDS = ['A1', 'A2', 'A3', 'A4', 'A6', 'C5', 'D2'];
