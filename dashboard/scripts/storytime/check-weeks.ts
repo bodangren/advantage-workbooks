@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import { formatPackageReports } from '../../lib/lesson-package/report';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { PHONICS_GRAPH_FILE, readLevelWeeks, readPhonemeBank, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
@@ -10,6 +11,24 @@ const USAGE = `Checks the Storytime week files of a level (track storytime_week_
 Usage: npx tsx scripts/storytime/check-weeks.ts --level <n>
 
 Exit code 1 when a week fails a check.`;
+
+/**
+ * Checks named cover and page pictures for a Storytime week.
+ * @param week The parsed week data.
+ * @param contentRoot The root for paths named by the week.
+ * @returns The check row, or undefined when no book picture names a file.
+ */
+export function checkBookPictures(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'fail'; detail?: string } | undefined {
+    const files = (week.books ?? []).flatMap((book: any) => [book.cover?.file, ...(book.pages ?? []).map((page: any) => page.image?.file)]).filter((file: unknown): file is string => typeof file === 'string' && file.length > 0);
+    if (!files.length) return undefined;
+    const missing = files.filter((file: string) => !fs.existsSync(path.join(contentRoot, file)));
+    return {
+        id: 'book-pictures',
+        label: 'The book pictures named in the package exist',
+        status: missing.length ? 'fail' : 'pass',
+        detail: missing.length ? `missing: ${missing.join(', ')}` : undefined,
+    };
+}
 
 function main(argv: string[]): number {
     const at = argv.indexOf('--level');
@@ -50,6 +69,8 @@ function main(argv: string[]): number {
                 detail: missing.length ? `missing: ${missing.join(', ')}` : undefined,
             });
         }
+        const bookPictures = w.week ? checkBookPictures(w.week) : undefined;
+        if (bookPictures) report.checks.push(bookPictures);
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.
         if (w.week && bank) {
             const problems = phonemeAudioProblems(w.week, bank);
@@ -68,4 +89,6 @@ function main(argv: string[]): number {
     return reports.some((r) => r.checks.some((c) => c.status === 'fail')) ? 1 : 0;
 }
 
-process.exitCode = main(process.argv.slice(2));
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+    process.exitCode = main(process.argv.slice(2));
+}
