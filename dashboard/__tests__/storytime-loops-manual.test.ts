@@ -63,6 +63,21 @@ function loopCopy(week: number): StorytimeWeekInput {
     return w;
 }
 
+function stripLoops(input: StorytimeWeekInput): StorytimeWeekInput {
+    const copy = structuredClone(input) as any;
+    for (const script of copy.scripts) {
+        delete script.recall;
+        for (const step of script.steps) {
+            delete step.blendDrill;
+            delete step.soundLoop;
+            delete step.sightWords;
+            delete step.loopMinutes;
+        }
+    }
+    for (const book of copy.books) delete book.questions;
+    return copy;
+}
+
 function digest(text: string): string {
     return crypto.createHash('sha256').update(text).digest('hex');
 }
@@ -89,6 +104,14 @@ describe('Storytime teaching loops in the manual', () => {
         for (const text of ['ครูออกเสียงทีละเสียง', 'พูดเสียงพร้อมครู', 'พูดคำนี้', 'ครูจะพูดอีกครั้ง', 'อ่านแบบเร็ว', 'ภายในสามวินาที', 'ถามwho', 'ทบทวนบัตรคำ']) expect(th).toContain(text);
         expect(en).toContain('A4 · Blend it <span class="st-min">0 min</span>');
         expect(en.indexOf('Recall the cards.')).toBeGreaterThan(en.indexOf('Opening routine'));
+    });
+
+    it('keeps loop-complete HTML unchanged when the option is absent or false', () => {
+        const complete = StorytimeWeekSchema.parse(loopCopy(1));
+        const stripped = StorytimeWeekSchema.parse(stripLoops(loopCopy(1)));
+        expect(renderStorytimeWeek(complete, 'en')).toBe(renderStorytimeWeek(stripped, 'en'));
+        expect(compileStorytimeManual([complete], { lang: 'en' }).html).toBe(compileStorytimeManual([stripped], { lang: 'en' }).html);
+        expect(compileStorytimeManual([complete], { lang: 'en', loops: false }).html).toBe(compileStorytimeManual([stripped], { lang: 'en' }).html);
     });
 
     it('puts the routines in step order, and keeps recall in the day opening', () => {
