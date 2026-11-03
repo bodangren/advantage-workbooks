@@ -690,7 +690,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 
 ## Phase 6: Week 1 proof and Daniel's approval (2026-11-05 to 2026-11-09)
 
-- [ ] Task: the week 1 proof. The week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai. A contact sheet of every page, and a list with the SHA-256 and the source commit of each file. The agent opens every page first (rule 6.5). The proof goes to Daniel through the PM session on 2026-11-05.
+- [~] Task: the week 1 proof. The week 1 workbook pages with the two readers, the two color A3 reader PDFs, and the week 1 teacher book in Thai. A contact sheet of every page, and a list with the SHA-256 and the source commit of each file. The agent opens every page first (rule 6.5). The proof goes to Daniel through the PM session on 2026-11-05.
 - [ ] Task (Owner gate): Daniel approves the week 1 print. Record his exact words and the date in `approval.print` of `w01.json` (rules 12.1 and 12.3). No answer is not an approval (rule 0.3). If he has not approved by 2026-11-09, tell him the Phase 7 date risk (line 47). The old 11-05 stop rule does not apply (PM relay of Daniel's standing words, 2026-10-25, peer-report). Evidence: owner-approved.
 - [ ] Task: the fix list from Daniel's notes. Each changed file gets a new version (rule 12.2), passes its gates again, and goes back to Daniel until he approves.
 - [ ] Task: Measure - User Manual Verification 'Phase 6: Week 1 proof and Daniel's approval' (Protocol in workflow.md)
