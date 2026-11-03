@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,6 +28,12 @@ const BASELINE: Record<number, string[]> = {
 function shipped(week: number): StorytimeWeekInput {
     const file = path.join(STORYTIME_ROOT, 'l2', `w${String(week).padStart(2, '0')}.json`);
     return JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimeWeekInput;
+}
+
+/** A week file as it was at the baseline commit, so that the renderer guard does not read a moving file. */
+function atBaseline(week: number): StorytimeWeekInput {
+    const file = `content/storytime/l2/w${String(week).padStart(2, '0')}.json`;
+    return JSON.parse(execFileSync('git', ['show', `${BASELINE_COMMIT}:${file}`], { cwd: path.resolve(__dirname, '../..'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })) as StorytimeWeekInput;
 }
 
 function loopCopy(week: number): StorytimeWeekInput {
@@ -83,9 +90,9 @@ function digest(text: string): string {
 }
 
 describe('Storytime teaching loops in the manual', () => {
-    it('keeps the shipped w01 and w02 HTML byte-equal with loops absent or off', () => {
+    it('renders the baseline-commit w01 and w02 to the recorded HTML hashes, with loops absent or off (renderer guard)', () => {
         for (const n of [1, 2]) {
-            const week = StorytimeWeekSchema.parse(shipped(n));
+            const week = StorytimeWeekSchema.parse(atBaseline(n));
             const html = [
                 compileStorytimeManual([week], { lang: 'th', paper: 'a4' }).html,
                 compileStorytimeManual([week], { lang: 'en' }).html,
@@ -93,6 +100,16 @@ describe('Storytime teaching loops in the manual', () => {
             ];
             expect(html.map(digest), `baseline commit ${BASELINE_COMMIT}, week ${n}`).toEqual(BASELINE[n]);
             expect(compileStorytimeManual([week], { lang: 'en', loops: false } as any).html).toBe(html[1]);
+        }
+    });
+
+    it('renders the shipped w01 and w02 to the same HTML with loops absent and with loops false', () => {
+        for (const n of [1, 2]) {
+            const week = StorytimeWeekSchema.parse(shipped(n));
+            expect(compileStorytimeManual([week], { lang: 'en', loops: false } as any).html, `week ${n} compile`).toBe(compileStorytimeManual([week], { lang: 'en' }).html);
+            expect(compileStorytimeManual([week], { lang: 'th', paper: 'a4', loops: false } as any).html, `week ${n} th compile`).toBe(compileStorytimeManual([week], { lang: 'th', paper: 'a4' }).html);
+            expect(renderStorytimeWeek(week, 'en', { loops: false } as any), `week ${n} en week`).toBe(renderStorytimeWeek(week, 'en'));
+            expect(renderStorytimeWeek(week, 'th', { loops: false } as any), `week ${n} th week`).toBe(renderStorytimeWeek(week, 'th'));
         }
     });
 
@@ -135,8 +152,8 @@ describe('Storytime teaching loops in the manual', () => {
     });
 
     it('defines the five routine headings in both label sets', async () => {
-        const module = await import('../lib/storytime/i18n');
-        const labels = module.storytimeLabels as (lang: 'en' | 'th') => StorytimeLabels;
+        const i18n = await import('../lib/storytime/i18n');
+        const labels = i18n.storytimeLabels as (lang: 'en' | 'th') => StorytimeLabels;
         for (const key of ['blendDrill', 'soundLoop', 'sightWords', 'questions', 'recallLoop'] as const) {
             expect(labels('en')[key]).toBeTruthy();
             expect(labels('th')[key]).toMatch(/[ก-๙]/);
