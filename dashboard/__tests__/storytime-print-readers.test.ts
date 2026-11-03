@@ -8,6 +8,7 @@ import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
+import { READER_PAGE_MM, leafSideProblems, leafStyleProblems, readerLeafSides } from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /** Phase 4 contract. New modules load inside each test so missing modules fail independently. */
@@ -135,7 +136,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         expect(api.compileStorytimeReaders).toBeTypeOf('function');
     });
 
-    it('R-P4-1 lays out each shipped reader as 12 pages at the P15 99 × 140 mm trim', async () => {
+    it('R-P4-1 lays out each shipped reader as 12 pages at the 148.5 × 198 mm trim (spec FR-5.1, P15 default)', async () => {
         const api = await readers();
         const result = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' });
         const doc = new DOMParser().parseFromString(result.html, 'text/html');
@@ -143,72 +144,130 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             const pages = Array.from(doc.querySelectorAll(`[data-reader-title="${title}"] [data-reader-page]`));
             expect(pages, `${title}: 12 pages`).toHaveLength(12);
             for (const page of pages) {
-                expect(Number(page.getAttribute('data-width-mm'))).toBe(99);
-                expect(Number(page.getAttribute('data-height-mm'))).toBe(140);
+                expect(Number(page.getAttribute('data-width-mm'))).toBe(148.5);
+                expect(Number(page.getAttribute('data-height-mm'))).toBe(198);
             }
         }
-        expect(STORYTIME_PRINT_PROFILE.readerPage).toEqual({ widthMm: 99, heightMm: 140 });
+        expect(STORYTIME_PRINT_PROFILE.readerPage).toEqual(READER_PAGE_MM);
     });
 
-    it('R-P4-2 imposes page pairs, strip marks, parity perforations, cut line, and duplex registration', async () => {
+    /** The A4 workbook output of the shipped week 1 as a document. */
+    async function workbookDocument(): Promise<Document> {
         const api = await readers();
-        const doc = new DOMParser().parseFromString(api.compileStorytimeReaders([shipped()], {
+        return new DOMParser().parseFromString(api.compileStorytimeReaders([shipped()], {
             profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook',
         }).html, 'text/html');
-        const strips = Array.from(doc.querySelectorAll('[data-reader-strip]'));
-        expect(strips).toHaveLength(12);
-        const expected = [
-            [
-                { title: 'Hello!', strip: 1, front: [12, 1], back: [2, 11] },
-                { title: 'Hello!', strip: 2, front: [10, 3], back: [4, 9] },
-            ],
-            [
-                { title: 'Hello!', strip: 3, front: [8, 5], back: [6, 7] },
-                { title: 'Nan Can Nod', strip: 1, front: [12, 1], back: [2, 11] },
-            ],
-            [
-                { title: 'Nan Can Nod', strip: 2, front: [10, 3], back: [4, 9] },
-                { title: 'Nan Can Nod', strip: 3, front: [8, 5], back: [6, 7] },
-            ],
-        ];
-        // Default: the front of each reader leaf is a right page, so its spine is left.
-        // The duplex back is a left page, so its spine is right.
+    }
+
+    /**
+     * Checks every reader leaf side of a workbook document against the A5 leaf contract.
+     * @param doc The reader document of the workbook output.
+     * @returns The problems; an empty list means that the document keeps the contract.
+     */
+    function workbookLeafProblems(doc: Document): string[] {
         const leaves = Array.from(doc.querySelectorAll('[data-reader-leaf]'));
-        expect(leaves).toHaveLength(3);
-        for (let i = 0; i < leaves.length; i++) {
-            const front = leaves[i].querySelector('[data-leaf-side="front"]');
-            const back = leaves[i].querySelector('[data-leaf-side="back"]');
-            expect(front?.querySelectorAll('[data-reader-strip]')).toHaveLength(2);
-            expect(back?.querySelectorAll('[data-reader-strip]')).toHaveLength(2);
-            const frontStrips = Array.from(front!.querySelectorAll('[data-reader-strip]'));
-            const backStrips = Array.from(back!.querySelectorAll('[data-reader-strip]'));
-            expect(Array.from(frontStrips, (strip) => strip.getAttribute('data-slot'))).toEqual(['top', 'bottom']);
-            expect(Array.from(backStrips, (strip) => strip.getAttribute('data-slot'))).toEqual(['top', 'bottom']);
-            for (let slot = 0; slot < 2; slot++) {
-                const contract = expected[i][slot];
-                const frontStrip = frontStrips[slot];
-                const backStrip = backStrips[slot];
-                const identity = (strip: Element) => {
-                    const mark = strip.querySelector('[data-part="strip-mark"]')?.textContent ?? '';
-                    return [strip.getAttribute('data-reader-title'), Number(mark.match(/strip (\d+) of 3/)?.[1])];
-                };
-                expect(identity(frontStrip)).toEqual([contract.title, contract.strip]);
-                expect(identity(backStrip)).toEqual(identity(frontStrip));
-                const pageNumbers = (strip: Element) => Array.from(strip.querySelectorAll('[data-reader-page]'), (page) => Number(page.getAttribute('data-page-number')));
-                expect(pageNumbers(frontStrip)).toEqual(contract.front);
-                expect(pageNumbers(backStrip)).toEqual(contract.back);
-            }
-            for (const side of [front!, back!]) {
-                const mark = side.querySelector('[data-part="perforation"]');
-                expect(mark?.getAttribute('data-distance-mm')).toBe('12');
-                expect(mark?.getAttribute('data-spine-edge')).toBe(side === front ? 'left' : 'right');
-                expect(side.querySelector('[data-part="cut-line"]')?.getAttribute('data-position-mm')).toBe('148.5');
-                expect(Array.from(side.querySelectorAll('[data-reader-strip]')).every((s) => s.querySelector('[data-part="strip-mark"]'))).toBe(true);
-            }
+        const want = [...readerLeafSides('Hello!'), ...readerLeafSides('Nan Can Nod')];
+        const problems: string[] = [];
+        if (leaves.length !== 6) problems.push(`[leaves] ${leaves.length} reader leaves, want 6 (2 readers x 3 leaves)`);
+        const sides = Array.from(doc.querySelectorAll('[data-leaf-side]'));
+        if (sides.length !== 12) problems.push(`[sides] ${sides.length} leaf sides, want 12 (6 leaves x 2 sides)`);
+        sides.forEach((side, index) => {
+            if (index >= want.length) return;
+            const leaf = side.closest('[data-reader-leaf]');
+            const expected = want[index];
+            if (leaf?.getAttribute('data-reader-title') !== expected.title) problems.push(`[leaf-title] side ${index + 1}: leaf title ${leaf?.getAttribute('data-reader-title')}, want ${expected.title}`);
+            if (Number(leaf?.getAttribute('data-leaf-number')) !== expected.leaf) problems.push(`[leaf-number] side ${index + 1}: data-leaf-number ${leaf?.getAttribute('data-leaf-number')}, want ${expected.leaf}`);
+            if (side.getAttribute('data-leaf-side') !== expected.face) problems.push(`[face] side ${index + 1}: ${side.getAttribute('data-leaf-side')}, want ${expected.face}`);
+            problems.push(...leafSideProblems(side, expected));
+        });
+        return problems;
+    }
+
+    it('R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 turned pages on each side (spec FR-5.1)', async () => {
+        const doc = await workbookDocument();
+        // spec FR-5.1: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7.
+        expect(workbookLeafProblems(doc)).toEqual([]);
+    });
+
+    it('R-P4-2a puts 2 pages of 148.5 × 198 mm on the 198 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)', () => {
+        const { trim, readerPage, perforationMm } = STORYTIME_PRINT_PROFILE;
+        // The pages are turned 90 degrees: two page widths fill the leaf height, one page height fills the torn leaf width.
+        expect(2 * readerPage.widthMm, 'two page widths fill the 297 mm leaf height').toBe(trim.heightMm);
+        expect(readerPage.heightMm, 'one page height fills the torn leaf width').toBe(trim.widthMm - perforationMm);
+        expect(perforationMm).toBe(12);
+    });
+
+    it('R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)', async () => {
+        const doc = await workbookDocument();
+        expect(doc.querySelectorAll('[data-part="fold-line"]'), 'one fold line on each of the 12 sides').toHaveLength(12);
+        expect(doc.querySelectorAll('[data-part="cut-line"], .cut-line, [data-reader-strip], [data-part="strip-mark"], .strip-mark'), 'no cut line and no strip').toHaveLength(0);
+        const css = Array.from(doc.querySelectorAll('style'), (style) => style.textContent ?? '').join('\n');
+        expect(leafStyleProblems(css)).toEqual([]);
+    });
+
+    it('R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)', async () => {
+        const doc = await workbookDocument();
+        const sides = Array.from(doc.querySelectorAll('[data-leaf-side]'));
+        expect(sides).toHaveLength(12);
+        const marks = sides.map((side) => (side.querySelector('[data-part="leaf-mark"]')?.textContent ?? '').replace(/\s+/g, ' ').trim());
+        expect(marks.map((mark) => mark.match(/\bleaf\s+(\d+)/i)?.[1])).toEqual(['1', '1', '2', '2', '3', '3', '1', '1', '2', '2', '3', '3']);
+        expect(marks.map((mark) => mark.includes('Hello!'))).toEqual([...Array(6).fill(true), ...Array(6).fill(false)]);
+        expect(marks.map((mark) => mark.includes('Nan Can Nod'))).toEqual([...Array(6).fill(false), ...Array(6).fill(true)]);
+        // Default: the front of each reader leaf is a right page, so its spine is left; the duplex back has its spine right.
+        sides.forEach((side, index) => {
+            const perforation = side.querySelector('[data-part="perforation"]');
+            expect(perforation?.getAttribute('data-distance-mm')).toBe('12');
+            expect(perforation?.getAttribute('data-spine-edge')).toBe(index % 2 === 0 ? 'left' : 'right');
+        });
+    });
+
+    it('R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, an unturned page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
+        const api = await readers();
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html;
+        const fresh = () => new DOMParser().parseFromString(html, 'text/html');
+        // The unchanged copy is right; without this line a checker that always fails would pass the mutants.
+        expect(workbookLeafProblems(fresh())).toEqual([]);
+        const mutants: Array<[string, string, (doc: Document) => void]> = [
+            ['imposition 1|12 in place of 12|1', '[imposition]', (doc) => {
+                const pages = doc.querySelector('[data-leaf-side="front"]')!.querySelectorAll('[data-reader-page]');
+                pages[0].setAttribute('data-page-number', '1');
+                pages[1].setAttribute('data-page-number', '12');
+            }],
+            ['imposition 2|11 swapped to 11|2 on a back', '[imposition]', (doc) => {
+                const pages = doc.querySelector('[data-leaf-side="back"]')!.querySelectorAll('[data-reader-page]');
+                pages[0].setAttribute('data-page-number', '11');
+                pages[1].setAttribute('data-page-number', '2');
+            }],
+            ['page order swapped in the DOM', '[halves]', (doc) => {
+                const pages = doc.querySelector('[data-leaf-side="front"]')!.querySelectorAll('[data-reader-page]');
+                pages[0].before(pages[1]);
+            }],
+            ['fold line removed', '[fold-line]', (doc) => doc.querySelector('[data-part="fold-line"]')!.remove()],
+            ['fold line at the wrong place', '[fold-line]', (doc) => doc.querySelector('[data-part="fold-line"]')!.setAttribute('data-position-mm', '140')],
+            ['a cut line added', '[cut-line]', (doc) => {
+                const cut = doc.createElement('div');
+                cut.setAttribute('data-part', 'cut-line');
+                doc.querySelector('[data-leaf-side]')!.append(cut);
+            }],
+            ['leaf mark removed', '[leaf-mark]', (doc) => doc.querySelector('[data-part="leaf-mark"]')!.remove()],
+            ['leaf mark with leaf 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 4 of 3'; }],
+            ['page not turned', '[turn]', (doc) => doc.querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['page at 99 × 140 mm', '[page-size]', (doc) => {
+                const page = doc.querySelector('[data-reader-page]')!;
+                page.setAttribute('data-width-mm', '99');
+                page.setAttribute('data-height-mm', '140');
+            }],
+            ['a leaf removed', '[leaves]', (doc) => doc.querySelector('[data-reader-leaf]')!.remove()],
+        ];
+        for (const [name, tag, mutate] of mutants) {
+            const doc = fresh();
+            mutate(doc);
+            const problems = workbookLeafProblems(doc);
+            expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
         }
-        // P15 geometry: two 99 mm pages use the 198 mm leaf after the 12 mm spine tear.
-        for (const strip of strips) expect(Number(strip.getAttribute('data-width-mm'))).toBe(2 * STORYTIME_PRINT_PROFILE.readerPage.widthMm);
-        expect(2 * STORYTIME_PRINT_PROFILE.readerPage.widthMm).toBe(210 - STORYTIME_PRINT_PROFILE.perforationMm);
+        const dull = leafStyleProblems('.fold-line { border-top: 0.3mm solid #000; } .leaf-mark { font-size: 5pt; }');
+        expect(dull.some((problem) => problem.includes('[fold-style]')), 'a solid fold line is a style problem').toBe(true);
+        expect(leafStyleProblems('.fold-line { border-top: 0.3mm dashed #000; } .leaf-mark { font-size: 5pt; }')).toEqual([]);
     });
 
     it('R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy', async () => {
@@ -219,7 +278,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         }).html, 'text/html');
         for (const book of week.books) {
             const parts = Array.from(doc.querySelectorAll(`[data-reader-title="${book.title}"]`));
-            expect(parts.length, `${book.title}: all imposition strips exist`).toBeGreaterThan(0);
+            expect(parts.length, `${book.title}: all imposition leaves exist`).toBeGreaterThan(0);
             const readerText = parts.map((part) => part.textContent ?? '').join('\n');
             for (const page of book.pages) expect(readerText).toContain(page.text);
             for (const word of book.backWords) expect(readerText).toContain(word);
@@ -269,6 +328,70 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
                 }
                 for (const picture of workbookById.get(pictureId) ?? []) expect(picture.getAttribute('data-picture-file')).toMatch(/-line-v\d+\.png$/);
             }
+        }
+    });
+
+    /**
+     * Checks the A3 color output against the scale and white band rule (spec FR-5.8): scale 2.0
+     * (297 × 396 mm), centered, 12 mm of white at the top and at the bottom of each A3 page.
+     * @param doc The reader document of the `a3-color` output.
+     * @returns The problems; an empty list means that the rule holds.
+     */
+    function a3Problems(doc: Document): string[] {
+        const problems: string[] = [];
+        const a3Pages = Array.from(doc.querySelectorAll('[data-a3-page]'));
+        if (a3Pages.length !== 24) problems.push(`[a3-pages] ${a3Pages.length} A3 pages, want 24 (one reader page on each A3 page)`);
+        for (const a3 of a3Pages) {
+            const scaled = a3.querySelectorAll('.a3-scale');
+            if (scaled.length !== 1) { problems.push(`[a3-scale] page ${a3.getAttribute('data-page-number')}: ${scaled.length} scale boxes, want 1`); continue; }
+            const box = scaled[0];
+            const scale = Number(box.getAttribute('data-scale'));
+            if (scale !== 2) problems.push(`[a3-scale] data-scale ${box.getAttribute('data-scale')}, want 2`);
+            if (Number(box.getAttribute('data-white-top-mm')) !== 12 || Number(box.getAttribute('data-white-bottom-mm')) !== 12) {
+                problems.push(`[a3-white] white bands ${box.getAttribute('data-white-top-mm')} / ${box.getAttribute('data-white-bottom-mm')} mm, want 12 / 12`);
+            }
+            const reader = box.querySelector('[data-reader-page]');
+            const width = Number(reader?.getAttribute('data-width-mm')) * scale;
+            const height = Number(reader?.getAttribute('data-height-mm')) * scale;
+            if (width !== 297) problems.push(`[a3-size] scaled width ${width} mm, want 297`);
+            if (height !== 396) problems.push(`[a3-size] scaled height ${height} mm, want 396`);
+            if (12 + height + 12 !== 420) problems.push(`[a3-white] 12 + ${height} + 12 is not the 420 mm A3 height`);
+        }
+        const css = Array.from(doc.querySelectorAll('style'), (style) => style.textContent ?? '').join('\n');
+        const rule = css.match(/\.a3-scale\s*\{([^}]*)\}/)?.[1] ?? '';
+        if (!/scale\(\s*2(\.0+)?\s*\)/.test(rule)) problems.push('[a3-css] the `.a3-scale` rule has no scale(2)');
+        if (/scale\(\s*3/.test(css)) problems.push('[a3-css] a scale(3) rule is still in the style');
+        if (!/12mm/.test(rule)) problems.push('[a3-css] the `.a3-scale` rule has no 12mm offset for the white band');
+        return problems;
+    }
+
+    it('R-P4-4a scales each color A3 reader page to 2.0 (297 × 396 mm), centered, with 12 mm of white at the top and the bottom (spec FR-5.8)', async () => {
+        const api = await readers();
+        const colorDoc = new DOMParser().parseFromString(api.compileStorytimeReaders([shipped()], {
+            profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color',
+        }).html, 'text/html');
+        expect(a3Problems(colorDoc)).toEqual([]);
+    });
+
+    it('R-P4-4b fails on scale 3.0, on a missing white band, and on a missing A3 page (mutants on a copy; spec FR-5.8)', async () => {
+        const api = await readers();
+        const html = api.compileStorytimeReaders([shipped()], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'a3-color' }).html;
+        const fresh = () => new DOMParser().parseFromString(html, 'text/html');
+        expect(a3Problems(fresh()), 'the unchanged copy is right').toEqual([]);
+        const mutants: Array<[string, string, (doc: Document) => void]> = [
+            ['scale 3.0', '[a3-scale]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-scale', '3')],
+            ['no white band at the bottom', '[a3-white]', (doc) => doc.querySelector('.a3-scale')!.setAttribute('data-white-bottom-mm', '0')],
+            ['an A3 page removed', '[a3-pages]', (doc) => doc.querySelector('[data-a3-page]')!.remove()],
+            ['the CSS back at scale(3)', '[a3-css]', (doc) => {
+                const style = doc.querySelector('style')!;
+                style.textContent = (style.textContent ?? '').replace(/scale\(\s*2(\.0+)?\s*\)/g, 'scale(3)');
+            }],
+        ];
+        for (const [name, tag, mutate] of mutants) {
+            const doc = fresh();
+            mutate(doc);
+            const problems = a3Problems(doc);
+            expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
         }
     });
 

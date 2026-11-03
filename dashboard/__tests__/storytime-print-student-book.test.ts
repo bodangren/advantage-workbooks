@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_QR_HOST, STORYTIME_ROOT, storytimeQrUrl, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
+import { READER_PAGE_MM, leafStyleProblems, studentReaderProblems } from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
 
 /**
@@ -14,7 +15,8 @@ import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, pre
  * profile.ts exports STORYTIME_PRINT_PROFILE with the fields in R30 below.
  * Each physical side is .student-page[data-page-kind][data-page-number].
  * Stable data-part hooks identify printed elements, not a second content manifest.
- * Reader sides can contain empty strip boxes until Phase 4 adds the reader content.
+ * Reader sides (changed 2026-11-03, Daniel's proof answer): 12 for a teaching week, 2 readers x 3 leaves x 2 faces;
+ * each holds 2 reader pages of 148.5 x 198 mm turned 90 degrees, a fold line, and a leaf mark (spec FR-5.1).
  */
 interface PrintProfile {
     trim: { widthMm: number; heightMm: number };
@@ -861,9 +863,9 @@ function readGuide(
     };
 }
 
-/** The horizontal extent of the reader-leaf cut line, in millimeters from the page left edge. */
-function cutLineExtent(data: Buffer, width: number): { minMm: number; maxMm: number } {
-    const top = Math.round(138 * MM_PX_300), bottom = Math.round(148 * MM_PX_300);
+/** The horizontal extent of the reader-leaf fold line (at 148.5 mm, the middle of the leaf), in millimeters from the page left edge. */
+function foldLineExtent(data: Buffer, width: number): { minMm: number; maxMm: number } {
+    const top = Math.round(146 * MM_PX_300), bottom = Math.round(151 * MM_PX_300);
     let bestRow = -1, bestCount = -1;
     for (let y = top; y <= bottom; y++) {
         let count = 0;
@@ -897,13 +899,22 @@ describe('Storytime student workbook: the shipped week 1', () => {
         // Blank padding is allowed only to align the spread or a tear-out leaf.
         expect(kinds.filter((kind) => kind !== 'blank')).toEqual([
             'name', 'book-map', 'practice', 'writing', 'check', 'home-front', 'home-back',
-            'reader', 'reader', 'reader', 'reader', 'reader', 'reader',
+            ...Array(12).fill('reader'),
         ]);
         expect(sides.map((side) => Number(side.getAttribute('data-page-number'))))
             .toEqual(sides.map((_side, index) => index + 1));
         assertLeftSpread(doc);
         assertHomeLeaf(doc);
         expect(text(page(doc, 'name'))).toContain('This book belongs to');
+    });
+
+    it('R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3)', async () => {
+        const { doc } = await render();
+        const kinds = pages(doc).map((side) => side.getAttribute('data-page-kind'));
+        expect(kinds.filter((kind) => kind === 'reader'), '6 reader leaves of 2 sides each').toHaveLength(12);
+        expect(kinds.filter((kind) => kind === 'blank'), 'one aligner side, as before').toHaveLength(1);
+        expect(kinds, 'spec FR-3: 7 + 1 + 12 sides').toHaveLength(20);
+        expect(kinds.length % 2, 'whole duplex sheets').toBe(0);
     });
 
     it('R22: uses the P11 default title and the eight book-map places', async () => {
@@ -1123,10 +1134,10 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }
     });
 
-    it('R30: exports the P2 and P15 default profile in millimeters', async () => {
+    it('R30: exports the P2 and P15 default profile in millimeters (reader page 148.5 x 198, spec FR-5.1)', async () => {
         expect(await profile()).toMatchObject({
             trim: { widthMm: 210, heightMm: 297 }, bleedMm: 0, perforationMm: 12,
-            readerPage: { widthMm: 99, heightMm: 140 },
+            readerPage: READER_PAGE_MM,
         });
     });
 
@@ -1443,7 +1454,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const { doc } = await render();
         const sides = pages(doc);
         const tearOut = sides.filter((side) => ['reader', 'home-front', 'home-back'].includes(side.getAttribute('data-page-kind')!));
-        expect(tearOut).toHaveLength(8);
+        expect(tearOut, 'spec FR-3: 12 reader sides (6 leaves) and the 2 home card sides').toHaveLength(14);
         for (const side of tearOut) {
             const mark = part(side, 'perforation');
             const number = sides.indexOf(side) + 1;
@@ -1454,45 +1465,97 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }
     });
 
-    it('R32: registers the duplex strips and fits two 99 x 140 mm pages in the 198 mm torn leaf (P15 default)', async () => {
+    it('R32: registers the 12 reader sides as 6 duplex leaves of 2 turned 148.5 x 198 mm pages each, in the spec imposition (spec FR-3, FR-5.1)', async () => {
+        const week = shipped();
         const selected = await profile();
-        const { doc } = await render(shipped(), selected);
-        const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
-        expect(readerSides).toHaveLength(6);
-        const expected = [['readalong', 1], ['readalong', 2], ['readalong', 3], ['decodable', 1], ['decodable', 2], ['decodable', 3]];
-        const fronts: (string | number)[][] = [];
-        for (let leaf = 0; leaf < 3; leaf++) {
-            const front = Array.from(readerSides[leaf * 2].querySelectorAll('[data-part="reader-strip"]'));
-            const back = Array.from(readerSides[leaf * 2 + 1].querySelectorAll('[data-part="reader-strip"]'));
-            expect(front).toHaveLength(2);
-            expect(back).toHaveLength(2);
-            for (let slot = 0; slot < 2; slot++) {
-                const identity = (strip: Element) => [strip.getAttribute('data-reader'), Number(strip.getAttribute('data-strip'))];
-                expect(identity(back[slot]), 'The long-edge flip preserves the strip slot.').toEqual(identity(front[slot]));
-                expect(front[slot].getAttribute('data-slot')).toBe(slot === 0 ? 'top' : 'bottom');
-                expect(back[slot].getAttribute('data-slot')).toBe(front[slot].getAttribute('data-slot'));
-                for (const strip of [front[slot], back[slot]]) {
-                    const style = strip.getAttribute('style')?.replace(/\s+/g, '');
-                    expect(style).toContain('width:198mm');
-                    expect(style).toContain('height:140mm');
-                    expect(style).toContain(`top:${slot * selected.trim.heightMm / 2}mm`);
-                }
-                // The long-edge flip mirrors x. Both sides retain the same physical strip.
-                const frontNumber = pages(doc).indexOf(readerSides[leaf * 2]) + 1;
-                const backNumber = pages(doc).indexOf(readerSides[leaf * 2 + 1]) + 1;
-                expect(frontNumber % 2).toBe(1);
-                expect(backNumber).toBe(frontNumber + 1);
-                expect(front[slot].getAttribute('style')?.replace(/\s+/g, '')).toContain('left:12mm');
-                expect(back[slot].getAttribute('style')?.replace(/\s+/g, '')).toContain('left:0mm');
-                fronts.push(identity(front[slot]) as (string | number)[]);
-            }
-        }
-        expect(fronts).toEqual(expected);
-        expect(2 * selected.readerPage.widthMm).toBe(198);
+        const { doc } = await render(week, selected);
+        // spec FR-5.1: leaf 1 front 12|1, back 2|11; leaf 2 front 10|3, back 4|9; leaf 3 front 8|5, back 6|7; the same for the second reader.
+        expect(studentReaderProblems(pages(doc), week.books)).toEqual([]);
+        // spec FR-5.1 and P15: two page widths fill the 297 mm leaf height, one page height fills the 198 mm torn leaf.
+        expect(2 * selected.readerPage.widthMm).toBe(selected.trim.heightMm);
+        expect(selected.readerPage.heightMm).toBe(198);
         expect(selected.trim.widthMm - selected.perforationMm).toBe(198);
     });
 
-    it('R-P4-10: fills the six student-book reader sides with the R32 strips and reader pages', async () => {
+    it('R32: prints 6 reader leaves for each teaching week, 3 for each reader, each with a front and a back, each side perforated 12 mm from the spine (spec FR-3, P2 defaults)', async () => {
+        const { doc } = await render();
+        const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        const leaves = new Map<string, Element[]>();
+        for (const side of readerSides) {
+            const key = `${side.getAttribute('data-reader-title')}|${side.getAttribute('data-leaf-number')}`;
+            leaves.set(key, [...(leaves.get(key) ?? []), side]);
+        }
+        expect([...leaves.keys()]).toEqual(['Hello!|1', 'Hello!|2', 'Hello!|3', 'Nan Can Nod|1', 'Nan Can Nod|2', 'Nan Can Nod|3']);
+        for (const [key, sides] of leaves) {
+            expect(sides, `${key}: a front and a back`).toHaveLength(2);
+            const numbers = sides.map((side) => pages(doc).indexOf(side) + 1);
+            expect(numbers[0] % 2, `${key}: the front is a right page`).toBe(1);
+            expect(numbers[1], `${key}: the back follows the front`).toBe(numbers[0] + 1);
+            for (const side of sides) {
+                const mark = part(side, 'perforation');
+                const edge = (pages(doc).indexOf(side) + 1) % 2 ? 'left' : 'right';
+                expect(mark.getAttribute('data-spine-edge')).toBe(edge);
+                expect(mark.getAttribute('style')?.replace(/\s+/g, '')).toContain(`${edge}:12mm`);
+            }
+        }
+    });
+
+    it('R32: prints a dashed fold line and a small leaf mark on each reader side, and no cut line or strip (spec FR-5.1)', async () => {
+        const { doc } = await render();
+        const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        expect(readerSides).toHaveLength(12);
+        for (const side of readerSides) {
+            expect(side.querySelectorAll('[data-part="fold-line"]'), 'one fold line').toHaveLength(1);
+            expect(side.querySelectorAll('[data-part="leaf-mark"]'), 'one leaf mark').toHaveLength(1);
+            expect(side.querySelectorAll('[data-part="cut-line"], .cut-line, [data-part="reader-strip"], .strip-mark'), 'no cut line and no strip').toHaveLength(0);
+        }
+        const css = Array.from(doc.querySelectorAll('style'), (style) => style.textContent ?? '').join('\n');
+        expect(leafStyleProblems(css)).toEqual([]);
+    });
+
+    it('R32: fails on a wrong imposition, a missing fold line, a wrong mark, an unturned page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
+        const week = shipped();
+        const { html } = await render(week);
+        const fresh = () => new DOMParser().parseFromString(html, 'text/html');
+        const readerSidesOf = (doc: Document) => pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        // The unchanged copy is right; without this line a checker that always fails would pass the mutants.
+        expect(studentReaderProblems(pages(fresh()), week.books)).toEqual([]);
+        const mutants: Array<[string, string, (doc: Document) => void]> = [
+            ['imposition 1|12 in place of 12|1', '[imposition]', (doc) => {
+                const found = readerSidesOf(doc)[0].querySelectorAll('[data-reader-page]');
+                found[0].setAttribute('data-page-number', '1');
+                found[1].setAttribute('data-page-number', '12');
+            }],
+            ['imposition 3|10 in place of 10|3', '[imposition]', (doc) => {
+                const found = readerSidesOf(doc)[2].querySelectorAll('[data-reader-page]');
+                found[0].setAttribute('data-page-number', '3');
+                found[1].setAttribute('data-page-number', '10');
+            }],
+            ['fold line removed', '[fold-line]', (doc) => readerSidesOf(doc)[3].querySelector('[data-part="fold-line"]')!.remove()],
+            ['leaf mark removed', '[leaf-mark]', (doc) => readerSidesOf(doc)[0].querySelector('[data-part="leaf-mark"]')!.remove()],
+            ['leaf mark with leaf 5', '[leaf-mark]', (doc) => { readerSidesOf(doc)[4].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 5'; }],
+            ['page not turned', '[turn]', (doc) => readerSidesOf(doc)[1].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
+            ['page at 99 x 140 mm', '[page-size]', (doc) => {
+                const found = readerSidesOf(doc)[0].querySelector('[data-reader-page]')!;
+                found.setAttribute('data-width-mm', '99');
+                found.setAttribute('data-height-mm', '140');
+            }],
+            ['a cut line added', '[cut-line]', (doc) => {
+                const cut = doc.createElement('div');
+                cut.className = 'cut-line';
+                readerSidesOf(doc)[0].append(cut);
+            }],
+            ['a reader side removed', '[reader-sides]', (doc) => readerSidesOf(doc)[11].remove()],
+        ];
+        for (const [name, tag, mutate] of mutants) {
+            const doc = fresh();
+            mutate(doc);
+            const problems = studentReaderProblems(pages(doc), week.books);
+            expect(problems.some((problem) => problem.includes(tag)), `mutant "${name}" must report ${tag}; got ${JSON.stringify(problems)}`).toBe(true);
+        }
+    });
+
+    it('R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages', async () => {
         const week = shipped();
         const selected = await profile();
         const { html, doc } = await render(week, selected, 'proof');
@@ -1501,52 +1564,44 @@ describe('Storytime student workbook: the shipped week 1', () => {
             profile: selected, mode: 'proof', output: 'workbook',
         }).html, 'text/html');
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
-        expect(readerSides).toHaveLength(6);
+        expect(readerSides).toHaveLength(12);
         expect(html).toContain('PICTURE MISSING');
 
         const leafOrder = [
-            [['readalong', 1], ['readalong', 2]],
-            [['readalong', 3], ['decodable', 1]],
-            [['decodable', 2], ['decodable', 3]],
+            ['readalong', 1], ['readalong', 1], ['readalong', 2], ['readalong', 2], ['readalong', 3], ['readalong', 3],
+            ['decodable', 1], ['decodable', 1], ['decodable', 2], ['decodable', 2], ['decodable', 3], ['decodable', 3],
         ];
-        for (let leaf = 0; leaf < leafOrder.length; leaf++) {
-            for (const sideIndex of [leaf * 2, leaf * 2 + 1]) {
-                const strips = Array.from(readerSides[sideIndex].querySelectorAll('[data-part="reader-strip"]'));
-                expect(strips).toHaveLength(2);
-                expect(strips.map((strip) => [strip.getAttribute('data-reader'), Number(strip.getAttribute('data-strip'))]))
-                    .toEqual(leafOrder[leaf]);
-                for (const strip of strips) {
-                    const readerPages = Array.from(strip.querySelectorAll('[data-reader-page]'));
-                    expect(readerPages).toHaveLength(2);
-                    for (const page of readerPages) {
-                        const pageNumber = Number(page.getAttribute('data-page-number'));
-                        const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
-                        const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
-                        expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
-                        expect(pictureBoxes.filter((box) => (box.textContent ?? '').trim() === 'PICTURE MISSING'),
-                            `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
-                    }
-                }
+        for (let sideIndex = 0; sideIndex < leafOrder.length; sideIndex++) {
+            const side = readerSides[sideIndex];
+            expect([side.getAttribute('data-reader'), Number(side.getAttribute('data-leaf-number'))]).toEqual(leafOrder[sideIndex]);
+            const readerPages = Array.from(side.querySelectorAll('[data-reader-page]'));
+            expect(readerPages).toHaveLength(2);
+            for (const page of readerPages) {
+                const pageNumber = Number(page.getAttribute('data-page-number'));
+                const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
+                const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
+                expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
+                expect(pictureBoxes.filter((box) => (box.textContent ?? '').trim() === 'PICTURE MISSING'),
+                    `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
             }
         }
 
         type PageContent = { text: string; pictureIds: string[] };
         const pageContents = (root: Document, output: 'student' | 'readers'): Map<string, PageContent> => {
-            const pages = Array.from(root.querySelectorAll('[data-reader-page][data-page-number]'));
+            const found = Array.from(root.querySelectorAll('[data-reader-page][data-page-number]'));
             const content = new Map<string, PageContent>();
-            for (const page of pages) {
-                const strip = page.closest(output === 'student' ? '[data-part="reader-strip"]' : '[data-reader-strip]');
+            for (const page of found) {
                 const physicalSide = output === 'student'
                     ? (readerSides.indexOf(page.closest('.student-page')!) % 2 === 0 ? 'front' : 'back')
                     : page.closest('[data-leaf-side]')?.getAttribute('data-leaf-side') ?? '';
                 const number = Number(page.getAttribute('data-page-number'));
                 const reader = output === 'student'
-                    ? strip?.getAttribute('data-reader') ?? ''
+                    ? page.closest('.student-page')?.getAttribute('data-reader') ?? ''
                     : week.books.find((book) => book.title === page.closest('[data-reader-title]')?.getAttribute('data-reader-title'))?.kind ?? '';
-                const stripNumber = output === 'student'
-                    ? Number(strip?.getAttribute('data-strip'))
-                    : Number(strip?.querySelector('.strip-mark')?.textContent?.match(/strip (\d+) of 3/)?.[1]);
-                const key = `${physicalSide}|${reader}|${stripNumber}|${number}`;
+                const leafNumber = output === 'student'
+                    ? Number(page.closest('.student-page')?.getAttribute('data-leaf-number'))
+                    : Number(page.closest('[data-reader-leaf]')?.getAttribute('data-leaf-number'));
+                const key = `${physicalSide}|${reader}|${leafNumber}|${number}`;
                 content.set(key, {
                     text: (page.textContent ?? '').replace(/\s+/g, ' ').trim(),
                     pictureIds: Array.from(page.querySelectorAll('[data-picture-id]'), (picture) => picture.getAttribute('data-picture-id') ?? '').sort(),
@@ -1556,15 +1611,17 @@ describe('Storytime student workbook: the shipped week 1', () => {
         };
         const studentPages = pageContents(doc, 'student');
         const readerPages = pageContents(readerDoc, 'readers');
+        expect(studentPages.size, 'the student book holds all 24 reader pages (2 readers x 12 pages)').toBe(24);
+        expect(readerPages.size, 'the readers build holds all 24 reader pages').toBe(24);
         expect(studentPages).toEqual(readerPages);
+        // spec FR-5.1: the page numbers of each side, top half then bottom half, for both readers.
         const expectedBySide = [
-            [12, 1, 10, 3], [2, 11, 4, 9],
-            [8, 5, 12, 1], [6, 7, 2, 11],
-            [10, 3, 8, 5], [4, 9, 6, 7],
+            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
+            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
         ];
         for (let sideIndex = 0; sideIndex < readerSides.length; sideIndex++) {
             const side = sideIndex % 2 === 0 ? 'front' : 'back';
-            const numbers = Array.from(readerSides[sideIndex].querySelectorAll('[data-reader-page]'), (page) => Number(page.getAttribute('data-page-number')));
+            const numbers = Array.from(readerSides[sideIndex].querySelectorAll('[data-reader-page]'), (found) => Number(found.getAttribute('data-page-number')));
             expect(numbers, `R-P4-10 ${side} side has its own page set.`).toEqual(expectedBySide[sideIndex]);
         }
         for (const book of week.books) {
@@ -1784,25 +1841,25 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(() => expect(texts(part(page(broken, 'writing'), 'dictation'), '[data-part="dictation-letter"]')).toEqual(['', '', ''])).toThrow();
     });
 
-    it('R40: mirrors the horizontal cut line with the strip parity (D4)', async () => {
+    it('R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1)', async () => {
         const { html, doc } = await render();
         const file = buildPdfx(html);
         const readerSides = pages(doc).map((side, index) => ({ side, pageNumber: index + 1 }))
             .filter(({ side }) => side.getAttribute('data-page-kind') === 'reader');
-        expect(readerSides, 'Three reader leaves.').toHaveLength(6);
+        expect(readerSides, 'Six reader leaves, twelve sides.').toHaveLength(12);
         const front = readerSides[0], back = readerSides[1];
         expect(front.pageNumber % 2, 'The first reader side is a front.').toBe(1);
         expect(back.pageNumber, 'The back follows the front.').toBe(front.pageNumber + 1);
         const frontRaster = await rasterPage(file, front.pageNumber, 300);
         const backRaster = await rasterPage(file, back.pageNumber, 300);
-        const frontExtent = cutLineExtent(frontRaster.data, frontRaster.width);
-        const backExtent = cutLineExtent(backRaster.data, backRaster.width);
-        expect(backExtent.minMm, 'The back cut line starts at the outer edge (x=0).').toBeLessThanOrEqual(3);
-        expect(backExtent.maxMm, 'The back cut line reaches the perforation.').toBeGreaterThanOrEqual(195);
-        expect(backExtent.maxMm, 'The back cut line never crosses into the bound stub.').toBeLessThanOrEqual(201);
-        expect(frontExtent.minMm, 'The front cut line starts at the perforation.').toBeGreaterThanOrEqual(9);
+        const frontExtent = foldLineExtent(frontRaster.data, frontRaster.width);
+        const backExtent = foldLineExtent(backRaster.data, backRaster.width);
+        expect(backExtent.minMm, 'The back fold line starts at the outer edge (x=0).').toBeLessThanOrEqual(3);
+        expect(backExtent.maxMm, 'The back fold line reaches the perforation.').toBeGreaterThanOrEqual(195);
+        expect(backExtent.maxMm, 'The back fold line never crosses into the bound stub.').toBeLessThanOrEqual(201);
+        expect(frontExtent.minMm, 'The front fold line starts at the perforation.').toBeGreaterThanOrEqual(9);
         expect(frontExtent.minMm).toBeLessThanOrEqual(15);
-        expect(frontExtent.maxMm, 'The front cut line ends at the outer edge.').toBeGreaterThanOrEqual(207);
+        expect(frontExtent.maxMm, 'The front fold line ends at the outer edge.').toBeGreaterThanOrEqual(207);
     }, 250000);
 
     it('R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)', async () => {

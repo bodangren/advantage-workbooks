@@ -12,7 +12,7 @@ import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema
  * The guards attack three areas that the shipped Red tests do not cover:
  *
  * 1. The HTML escape of hostile week text and the QR input contract (Review B scope).
- * 2. The layout rules of the inside pages: the answer mark, the perforation, the strip
+ * 2. The layout rules of the inside pages: the answer mark, the perforation, the leaf
  *    marks, and the picture file names.
  * 3. The CLI and the output path: the hostile flag values and the filesystem containment.
  *
@@ -278,64 +278,60 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         }
     }, 30000);
 
-    it('A2: names the reader, the strip number, and the back side on every strip mark', async () => {
+    it('A2: names the reader and the leaf number on every leaf mark, on all 12 reader sides (spec FR-5.1)', async () => {
         const { doc } = await render();
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
-        expect(readerSides).toHaveLength(6);
+        expect(readerSides).toHaveLength(12);
         readerSides.forEach((side, index) => {
-            const strips = Array.from(side.querySelectorAll('[data-part="reader-strip"]'));
-            expect(strips).toHaveLength(2);
-            for (const strip of strips) {
-                const mark = (strip.querySelector('.strip-mark')?.textContent ?? '').trim();
-                expect(mark, 'Each strip mark names the book and the strip number.').toMatch(/^.+ · strip [123] of 3( \(back\))?$/);
-                expect(mark.includes('(back)'), 'Only a back side names the back.').toBe(index % 2 === 1);
-            }
-        }, 30000);
-    });
-
-    it('A2: gives each reader the strips 1, 2, and 3 over three leaves', async () => {
-        const { doc } = await render();
-        const strips = Array.from(doc.querySelectorAll('[data-part="reader-strip"]'));
-        expect(strips).toHaveLength(12);
-        const byReader = new Map<string, Set<string>>();
-        for (const strip of strips) {
-            const reader = strip.getAttribute('data-reader') ?? '';
-            const number = strip.getAttribute('data-strip') ?? '';
-            if (!byReader.has(reader)) byReader.set(reader, new Set());
-            byReader.get(reader)!.add(number);
-        }
-        expect([...byReader.keys()].sort()).toEqual(['decodable', 'readalong']);
-        for (const numbers of byReader.values()) expect([...numbers].sort()).toEqual(['1', '2', '3']);
-        expect(pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader')).toHaveLength(6);
+            const marks = side.querySelectorAll('[data-part="leaf-mark"]');
+            expect(marks, 'Each reader side has one leaf mark.').toHaveLength(1);
+            const mark = text(marks[0]);
+            expect(mark, 'Each leaf mark names the book and a leaf number from 1 to 3.').toMatch(/\bleaf [123]\b/);
+            expect(mark.startsWith(index < 6 ? 'Hello!' : 'Nan Can Nod'), 'The mark names the reader of its side.').toBe(true);
+            expect(mark.match(/leaf (\d)/)?.[1], 'The mark leaf number is the leaf of its side.').toBe(String(Math.floor((index % 6) / 2) + 1));
+        });
     }, 30000);
 
-    it('A2: fills each reader side with the R32 reader pages and keeps both strip marks', async () => {
+    it('A2: gives each reader the leaves 1, 2, and 3 over six sides, and no strip (spec FR-5.1)', async () => {
+        const { doc } = await render();
+        expect(doc.querySelectorAll('[data-part="reader-strip"], [data-strip], .cut-line'), 'No strip and no cut line remain.').toHaveLength(0);
+        const sides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
+        expect(sides).toHaveLength(12);
+        const byReader = new Map<string, string[]>();
+        for (const side of sides) {
+            const reader = side.getAttribute('data-reader') ?? '';
+            byReader.set(reader, [...(byReader.get(reader) ?? []), side.getAttribute('data-leaf-number') ?? '']);
+        }
+        expect([...byReader.keys()].sort()).toEqual(['decodable', 'readalong']);
+        for (const numbers of byReader.values()) expect(numbers, 'Each leaf has a front and a back.').toEqual(['1', '1', '2', '2', '3', '3']);
+    }, 30000);
+
+    it('A2: fills each reader side with the R32 reader pages in two turned halves and keeps both marks (spec FR-5.1)', async () => {
         const { doc } = await render();
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
         const expectedBySide = [
-            [12, 1, 10, 3], [2, 11, 4, 9],
-            [8, 5, 12, 1], [6, 7, 2, 11],
-            [10, 3, 8, 5], [4, 9, 6, 7],
+            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
+            [12, 1], [2, 11], [10, 3], [4, 9], [8, 5], [6, 7],
         ];
+        expect(readerSides).toHaveLength(expectedBySide.length);
         for (const [sideIndex, side] of readerSides.entries()) {
-            const strips = Array.from(side.querySelectorAll('[data-part="reader-strip"]'));
             const sideName = sideIndex % 2 === 0 ? 'front' : 'back';
+            const readerPages = Array.from(side.querySelectorAll('[data-reader-page]'));
+            expect(readerPages).toHaveLength(2);
+            expect(readerPages.map((found) => found.getAttribute('data-half'))).toEqual(['top', 'bottom']);
+            expect(side.querySelectorAll('[data-part="leaf-mark"]')).toHaveLength(1);
+            expect(side.querySelectorAll('[data-part="fold-line"]')).toHaveLength(1);
             const pageNumbers: number[] = [];
-            expect(strips).toHaveLength(2);
-            for (const strip of strips) {
-                expect((strip.querySelector('.strip-mark')?.textContent ?? '').trim()).toMatch(/^.+ · strip [123] of 3( \(back\))?$/);
-                const readerPages = Array.from(strip.querySelectorAll('[data-reader-page]'));
-                expect(readerPages).toHaveLength(2);
-                for (const page of readerPages) {
-                    const pageNumber = Number(page.getAttribute('data-page-number'));
-                    pageNumbers.push(pageNumber);
-                    const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
-                    const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
-                    expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
-                    expect(pictureBoxes.filter((box) => text(box) === 'PICTURE MISSING'),
-                        `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
-                    expect(text(page), `Reader page ${pageNumber} text.`).not.toBe('');
-                }
+            for (const found of readerPages) {
+                const pageNumber = Number(found.getAttribute('data-page-number'));
+                pageNumbers.push(pageNumber);
+                expect(Math.abs(Number(found.getAttribute('data-turn-deg'))), `Reader page ${pageNumber} is turned 90 degrees.`).toBe(90);
+                const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
+                const pictureBoxes = Array.from(found.querySelectorAll('[data-picture-id]'));
+                expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
+                expect(pictureBoxes.filter((box) => text(box) === 'PICTURE MISSING'),
+                    `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
+                expect(text(found), `Reader page ${pageNumber} text.`).not.toBe('');
             }
             expect(pageNumbers, `A2 ${sideName} side has its own duplex page set.`).toEqual(expectedBySide[sideIndex]);
         }
