@@ -68,8 +68,11 @@ describe('Storytime teacher-book loop print flag', () => {
     });
 
     it('keeps the print build arguments limited to the requested week and output folder', () => {
-        const parsed = source(printCli);
-        expect(parsed.parseDiagnostics).toHaveLength(0);
+        const diagnostics = ts.transpileModule(fs.readFileSync(printCli, 'utf8'), {
+            fileName: printCli,
+            reportDiagnostics: true,
+        }).diagnostics ?? [];
+        expect(diagnostics).toHaveLength(0);
         expect(fs.existsSync(manualCli)).toBe(true);
     });
 });
