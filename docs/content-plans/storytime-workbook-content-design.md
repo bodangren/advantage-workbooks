@@ -1,6 +1,6 @@
 # Storytime Advantage — Write-in Student Workbook Content Design
 
-Version 0.5 | Date 2026-10-27 | Status: Daniel answered the questions on 2026-10-27 (section 8) (A-18 b) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
+Version 0.6 | Date 2026-11-04 | Status: Daniel answered all questions on 2026-10-27 (section 8) (A-18 b; closed by the PM on 2026-11-04) | Owner: Daniel Bo | Internal (names GSE, CEFR, and Cambridge lists; keep them out of parent and teacher text)
 
 ## 1. Summary
 
@@ -26,10 +26,10 @@ This plan decides four things.
 | Daniel's requirement | Workbooks project note, 2026-10-26 20:10 ICT | The four requirements in section 1 |
 | Program design | `reading-advantage-monorepo/measure/archive/storytime_advantage_program_20261021/design.md` | §1.2 line 89 (Level 1 exit profile); §2 lines 113 to 144 (Level 1 weeks), lines 145 to 176 (Level 2 weeks), line 185 (T1), lines 193 to 207 (T2 to T5), line 231 (E4); §3.4 lines 354 to 364 (Level 1 at 30 minutes); §3.5 lines 340 to 352 (review week); §5.2 lines 399 to 416 (PA modules); §6.3 line 505 (6 to 8 picture words); §6.4 line 522 (audio); §6.5 lines 524 to 526 (pictures and the Thai layer); §6.7 line 544 (page budget); §7 line 559 (Friday check); §8 lines 570 to 576 (teacher kit, student book, sound picture cards); §10.2 line 606 (interface rules) |
 | Level 2 Unit 1 week packages | `content/storytime/l2/w01.json` to `w08.json` | The print block of week 1; the check items of weeks 1 to 7; the review pages and the Benchmark 1 paper of week 8; the family words; the home card words |
-| Picture list | `content/storytime/l2/print/pictures.json` (192 rows) and `pictures.md` (version 3) | The picture id of every check row, practice line, story page, and cover |
+| Picture list | `content/storytime/l2/print/pictures.json` (196 rows) and `pictures.md` (version 4) | The picture id of every check row, practice line, story page, and cover |
 | Print track | `measure/tracks/storytime_print_r1_20261025/spec.md` and `plan.md` | FR-3 lines 117 to 134 (the workbook pages); FR-9 lines 177 to 195 (the picture spec); P3 line 244 (the Forge decision); plan Phase 2 line 111 and Phase 7 lines 248 to 256 |
 | Phoneme bank | `content/storytime/phonemes/daniel/manifest.json` (45 sounds, approved 2026-10-22) and `dashboard/lib/storytime/phonemes.ts` | The sound recordings and the label mapping `/a/` to `/a-short/` |
-| Audio state | `content/storytime/README.md`; `approval.audio` of `w01.json` | No approved word recording exists; the book audio stays draft after Daniel's stop of 2026-10-24 |
+| Audio state | `content/storytime/README.md`; `approval.audio` of `w01.json`; `content/storytime/words/manifest.json` | 98 approved word recordings (Daniel's pass, 2026-10-27; commit `ba2b72a3`); the book audio stays draft after Daniel's stop of 2026-10-24 |
 | Monorepo app track | `reading-advantage-monorepo/measure/tracks/storytime_app_rebuild_20261025/spec.md` | FR-3 line 104 (the week contract); FR-5 lines 130 to 143 (the home card with recorded audio); FR-9 line 188 (the teacher app) |
 | Generation rules draft 2 | `storytime-approval/re/generation-rules-draft2.md` | Rule 6.6 (the three stages), rule 6.7 (the model pre-check), rule 7.3 (the cost ledger), rule 10.5 (no phone voice) |
 
@@ -230,11 +230,11 @@ The file holds one record for each group on a page. A group is one question, or 
 | `st-l2-u1-w01-check` to `st-l2-u1-w07-check` | Exist | `w01.json` to `w07.json`, `check.items` |
 | `st-l2-u1-w08-review-d1` to `st-l2-u1-w08-review-d5` | Exist | `w08.json`, `block.days[].paper` |
 | `st-l2-u1-w08-benchmark` | Exists | `w08.json`, `benchmark.paper` |
-| `st-l2-u1-w02-practice` to `st-l2-u1-w07-practice` | Come with Phase 7 | Print track plan, Phase 7, lines 248 to 256 |
+| `st-l2-u1-w02-practice` to `st-l2-u1-w07-practice` | The practice lines are in `w02.json` to `w07.json` (commits `812a27c8` and `23ad4cf8`, 2026-11-03); their word lists come in a later version of this plan | Print track plan, Phase 7, `Task (Content)` |
 
 **The counts.** The pages of unit 1 hold 121 picture items. These items hold 35 distinct words. The home cards of weeks 1 to 7 hold 21 words. The family pages hold 69 rows, 68 distinct words; mom is in weeks 4 and 8. The three lists together hold 98 distinct words.
 
-**The picture list has no row for week 8.** `pictures.json` holds rows for weeks 1 to 7 only. The list script reads the books, the check items, and the practice lines. It does not read the review pages or the benchmark paper. The words "moon", "mango", "ostrich", and "drum" have no row in the file at all. The other week 8 words reuse a row of weeks 1 to 7. The week 8 rows come with the next version of the picture list.
+**The picture list has 4 rows for week 8.** Version 4 of the picture list adds the rows `l2-w08-check-row-moon`, `l2-w08-check-row-mango`, `l2-w08-check-row-ostrich`, and `l2-w08-check-row-drum` for the words "moon", "mango", "ostrich", and "drum" of the review pages and the benchmark paper. The other week 8 words reuse a row of weeks 1 to 7. Forge has not delivered the 4 pictures. Forge picture work waits for Daniel's restart word (PM, 2026-11-04). Until then, the student book prints a placeholder box for each of the 4 rows.
 
 #### Week 1 — the sound of the week is /n/
 
@@ -537,7 +537,7 @@ The fifth idea is accepted in part. The strict form of "picture words only from 
 
 **The target sounds.** The app plays the target sound from Daniel's 45 approved recordings (P01 to P45, `content/storytime/phonemes/daniel/manifest.json`, approved 2026-10-22). These recordings hold sounds, not words. They cost nothing.
 
-**The picture words.** No approved word recording exists today. The book audio stays draft after Daniel's stop of 2026-10-24.
+**The picture words.** Daniel approved 98 word recordings on 2026-10-27 (see the status below). The book audio stays draft after Daniel's stop of 2026-10-24.
 
 **Option A, the default.** A text-to-speech run with one voice makes the word recordings. The run needs four things.
 
@@ -565,13 +565,13 @@ The read-aloud pages hold 121 picture items, but they hold 35 distinct words. Th
 
 ## 7. The date 2026-11-06
 
-The date holds with the default scope: the rules, the app interface, and the word lists that exist today come from the shipped week packages, and the practice sheets of weeks 2 to 7 come with Phase 7 (2026-11-10 to 2026-11-18).
+The date holds with the default scope: the rules, the app interface, and the word lists that exist today come from the shipped week packages. The practice sheets of weeks 2 to 7 went into the week packages on 2026-11-03 (commits `812a27c8` and `23ad4cf8`).
 
 ## 8. Open questions for Daniel
 
 Each question has a default. The default holds until Daniel answers.
 
-Daniel answered on 2026-10-27 (Google Tasks, 12:02 ICT, PM relay; evidence class peer-report). His words, verbatim: "1. Tracing is different to working. Tracing is fine in k2. 2. The goal is to teach them to hear the difference. A lot of phonics lessons double as pronunciation and listening discernment". Point 1 answers Q1, and point 2 answers Q7. He made no change to Q2 to Q6 and Q8 to Q12, so those defaults hold.
+Daniel answered on 2026-10-27 (Google Tasks, 12:02 ICT, PM relay; evidence class peer-report). His words, verbatim: "1. Tracing is different to working. Tracing is fine in k2. 2. The goal is to teach them to hear the difference. A lot of phonics lessons double as pronunciation and listening discernment". Point 1 answers Q1, and point 2 answers Q7. On the same day (Google Tasks, 12:27 ICT, PM relay; evidence class peer-report), he wrote, verbatim: "Approve all other questions, too". So Daniel approved the defaults of Q2 to Q6 and Q8 to Q12.
 
 **Q1. The pre-writing strokes and the traced letters of Level 1.** The exit profile holds "Pre-writing strokes; traces 10 letters" (§1.2, line 89). Requirement 1 holds no writing before week 20.
 *Default:* the pre-writing strokes become crayon paths with no letter form, and the letter traces and the name copy start in week 20. The level then traces 11 letters.
@@ -619,6 +619,7 @@ The three other final-sound rows hold no pair.
 
 ## 9. Revision history
 
+- 0.6 — 2026-11-04 — Recorded Daniel's words of 2026-10-27, 12:27 ICT ("Approve all other questions, too"): the defaults of Q2 to Q6 and Q8 to Q12 are approved (section 8). Corrected 4 old facts: the picture list has 196 rows in version 4 (section 2); the 4 week 8 rows are in the list, and Forge has not delivered them (section 4.3); 98 word recordings are approved (sections 2 and 6); the practice sheets of weeks 2 to 7 are in the week packages (sections 4.3 and 7). No design change.
 - 0.5 — 2026-10-27 — Recorded Daniel's answers to Q1 and Q7 verbatim. Q1: letter tracing stays in Level 1 (sections 1, 3.1 to 3.3, row 16 of section 5, Q1). Q7: "bed" stays in the /t/ (last) row; row 10 of section 5 becomes a listening rule. The other defaults hold.
 - 0.4 — 2026-10-27 — Recorded Daniel's pass of the 98 word recordings and their place in the repo (section 6).
 - 0.3 — 2026-10-27 — Corrected the family word count (68 distinct words; "mom" is in weeks 4 and 8) and the audio count (98 words), as measured by the audio run.
