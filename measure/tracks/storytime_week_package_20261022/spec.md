@@ -50,20 +50,20 @@ The schema does not change. `image.file` on `books[].cover` and on `books[].page
 
 - D1 (scope): week 1 only. 2 books x (1 cover + 8 pages) = 18 pictures.
 - D2 (path rule): `l2/media/w<nn>/books/<book stem>/cover.jpg` and `p01.jpg` to `p08.jpg`. `<book stem>` is the file name of the book's `audio.file` without the folder and without `.mp3` (`1-hello`, `2-nan-can-nod`). `pNN` is the 1-based page number. It is the same numbering as `audio.sentences[].page` and `questions[].answer.page` (G4). Every path uses only letters, digits, `.`, `_`, `-`, and `/` (G3).
-- D3 (source): the COLOR print picture, that is `fileName` of the entry in `content/storytime/l2/print/pictures.json`. Never use `lineArtFileName`. The files are in `content/storytime/l2/print/pictures/` (git-ignored, local only).
-  - Cover match: the entry of that week with `use` equal to `cover` and `text` equal to the book `title`.
-  - Page match: the entry of that week with `use` equal to `story-page` and `text` equal to the page text.
-  - Zero matches or two matches stop the script with exit 1 before any write.
-- D4 (output): JPEG, sRGB, long side 1600 px with the aspect kept (the 4000 x 3000 sources give 1600 x 1200), quality 82, progressive, no metadata. Each file is 400 KB or less. The script uses `sharp` (already in `dashboard/package.json`).
-- D5 (provenance): the file `l2/media/w<nn>/books/pictures.sha256` has one line for each picture: the output path, the output SHA-256, the source file name, and the source SHA-256. The fields are separated by one tab. The lines are sorted by output path.
+- D3 (source): the COLOR print picture selected by `resolveStorytimePictureFiles(<the picture folder>, <rows>, 'color')` in `dashboard/lib/storytime/print/picture-check.ts`. The script uses the resolver result for each matched row, not the `fileName` in `pictures.json` directly. The resolver reads the Forge `manifest.json` in the picture folder and selects the version of each row. Never use line art. The folder `content/storytime/l2/print/pictures/` is git-ignored and local only. The week-1 rows a-net, a-nose, and nan-can-nod resolve to their approved v2 files.
+  - Cover match: the row of that week with `use` equal to `cover` and `text` equal to the book `title`.
+  - Page match: the row of that week with `use` equal to `story-page` and `text` equal to the page text.
+  - Zero matches, two matches, or a resolver error stop the script with exit 1 before any write.
+- D4 (output): JPEG, sRGB, long side 1600 px with the aspect kept (the 4000 x 3000 sources give 1600 x 1200), quality 82, progressive, no metadata. Each file is 400 KB or less. If quality 82 exceeds 400 KB, encode that file again at a lower quality of 75 or more. Record the quality used for each file. Use sharp defaults: no mozjpeg and 4:2:0 chroma subsampling. The script uses `sharp` (already in `dashboard/package.json`).
+- D5 (provenance): the file `l2/media/w<nn>/books/pictures.sha256` has one line for each picture: the output path, the output SHA-256, the resolved source file name, the source SHA-256, the quality, and the sharp version. The fields are separated by one tab. The lines are sorted by output path.
 - D6 (caption): `image.caption` does not change. It is the alt text. It stays "" on the reader pages (A-11 Q13).
-- D7 (approval): `approval.images` of w01 becomes `status` "approved", `date` "2026-11-03", `words` with Daniel's three quotes exactly ("Both ok", "Looks good", "Yes") and their times, and `source`. The `source` names the PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw and the print Phase 4 git note on 2e3272e9. `approval.audio` and `approval.song` stay "draft".
-- D8 (effect on `published`): the detail of the check `published` of st2/1 changes from `images not approved; audio not approved; song not approved` to `audio not approved; song not approved`. The check stays FAIL, because audio and song are not approved. The `PROJECT_CHECKS` commands of the print track and of the A-42 track count only the FAIL name `published`, so they keep working.
+- D7 (approval): `approval.images` of w01 becomes `status` "approved", `date` "2026-11-03", `words` exactly `"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT)`, and `source`. The `source` names the PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw and the print Phase 4 git note on 2e3272e9. `approval.audio` and `approval.song` stay "draft". `meta.status` stays "published".
+- D8 (effect on `published`): the detail of the check `published` of st2/1 changes from `images not approved; audio not approved; song not approved` to exactly `audio not approved; song not approved`. The check stays FAIL, because audio and song are not approved. The `PROJECT_CHECKS` commands of the print track and of the A-42 track count only the FAIL name `published`, so they keep working.
 
 ### Functional Requirements
 
 1. **Script** `dashboard/scripts/storytime/set-book-pictures.ts --level 2 --week 1`. It has a `USAGE` text and the exit codes of the other storytime scripts: 0 for success, 1 for a data error, 2 for a usage error. It does these steps in this order:
-   - It reads the week file and `pictures.json`, and it finds the 18 source pictures by D3. It checks all matches and all source files before the first write.
+   - It reads the week file and `pictures.json`, and it finds the 18 source rows by D3. It resolves every row with `resolveStorytimePictureFiles(<the picture folder>, <rows>, 'color')` and checks all matches, resolver results, and source files before the first write.
    - It writes the 18 JPEGs by D2 and D4.
    - It writes the provenance file by D5.
    - It writes `image.file` into the week file for each cover and page picture.
@@ -71,17 +71,17 @@ The schema does not change. `image.file` on `books[].cover` and on `books[].page
 3. **Repeat run.** A second run with the same inputs changes no byte of the 18 JPEGs, of the provenance file, or of the week file.
 4. **Check** `book-pictures` in `dashboard/scripts/storytime/check-weeks.ts`, like `book-audio`. It reads `image.file` of each book cover and each book page. It has the status `fail` when a named file is missing, with `missing: <paths>` as the detail. It has the status `pass` when all named files exist. It adds no row for a week with no `image.file` on a book picture, in the same way as `book-audio` adds no row for a week with no book audio.
 5. **Content** (hand edit in the Green task, not done by the script): `approval.images` of `content/storytime/l2/w01.json` by D7.
-6. **Pinned tests.** The tests that pin the old `published` detail on the shipped w01 change in the Red task. They are at least `dashboard/__tests__/storytime-print-contract-v2.test.ts:289`, `storytime-print-adversarial.test.ts:257`, and `storytime-loops-schema.test.ts:303`. Any other test that reads the `published` detail of the shipped w01 changes too. The A-42 switch dry run lists 7 published tests in `measure/runs/storytime_teaching_loops_20261103/switch-dryrun.txt`. The test `storytime-loops-schema.test.ts` "still reports images not approved when only images is draft" builds a copy with `images` set to draft, so its logic stays valid.
+6. **Pinned tests.** The tests that pin the old `published` detail on the shipped w01 change in the Red task. The seven published tests are in `dashboard/__tests__/storytime-loops-schema.test.ts`, `storytime-print-adversarial.test.ts`, `storytime-print-contract-v2.test.ts`, and `storytime-print-contract.test.ts`, as listed in `measure/runs/storytime_teaching_loops_20261103/switch-dryrun.txt`. The test `storytime-loops-schema.test.ts` "still reports images not approved when only images is draft" builds a copy with `images` set to draft, so its logic stays valid.
 7. **Hand-off.** The commit SHA of the Green task and the 18 paths go to the PM session for Monorepo by 2026-11-06 (peer-report).
 
 ### Acceptance Criteria
 
 - AC1: each of the 18 covers and pages in the shipped w01 has `image.file` by the D2 path rule, and the file exists.
 - AC2: each file is a JPEG with a long side of 1600 px and a size of 400 KB or less.
-- AC3: `pictures.sha256` names each of the 18 pictures once, and the output SHA-256 of each line matches the file on disk. The source file name is the `fileName` of the matched entry, never a `lineArtFileName`.
+- AC3: `pictures.sha256` names each of the 18 pictures once, and the output SHA-256 of each line matches the file on disk. Its source file name is the COLOR file resolved for the matched row by D3, never the `fileName` read directly from `pictures.json` and never a line-art file. Each line records the quality and sharp version.
 - AC4: all `image.caption` values of the books are the same as before the run.
-- AC5: `approval.images` of w01 has the status "approved" and the date 2026-11-03. Its `words` hold the three quotes exactly, with their times. `approval.audio` and `approval.song` have the status "draft".
-- AC6: `check-weeks.ts --level 2` shows the check `book-pictures` with the status `pass` for st2/1. The detail of `published` is `audio not approved; song not approved`.
+- AC5: `approval.images` of w01 has the status "approved" and the date 2026-11-03. Its `words` equal D7 exactly. `approval.audio` and `approval.song` have the status "draft", and `meta.status` stays "published".
+- AC6: `check-weeks.ts --level 2` shows the check `book-pictures` with the status `pass` for st2/1. The detail of `published` is exactly `audio not approved; song not approved`, and remains the one accepted FAIL.
 - AC7: a copy of w01 with one named picture file missing gives `book-pictures` the status `fail`, with the path in the detail. A copy with a source match of zero or two entries stops the script with exit 1 and writes no file.
 - AC8: a second run of the script changes no byte. The diff of the week file against the commit before the run adds only the 18 `"file"` lines (and the `approval.images` record from the hand edit).
 - AC9: `RED_TEST_COMMAND` fails only on the new and the changed assertions. After Green, `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
