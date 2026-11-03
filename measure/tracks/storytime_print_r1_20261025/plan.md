@@ -748,7 +748,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 ## Phase 7: Weeks 2 to 8 (2026-11-04 to 2026-11-18; starts 2026-11-04, PM decision 2026-11-03)
 
 - Note (2026-11-03): the readers of weeks 2 to 7 use the A5 reader layout of spec FR-5.1 (148.5 x 198 mm pages, 3 leaves for each reader, 6 reader leaves for each week).
-- [ ] Task (Content): the `print` blocks of weeks 2 to 7. The print-text check passes. One independent review subagent for each week (lessons-learned, 2026-10-22). Week 8 uses `block.days[].paper` and `benchmark.paper`, which exist.
+- [~] Task (Content): the `print` blocks of weeks 2 to 7. The print-text check passes. One independent review subagent for each week (lessons-learned, 2026-10-22). Week 8 uses `block.days[].paper` and `benchmark.paper`, which exist.
 - [ ] Task (Red): extend the print tests to the shipped weeks 2 to 8.
     - The workbook has the pages of all 8 weeks. Week 8 has 5 review pages and the Benchmark 1 page (8 circle-picture rows and 7 write-letter boxes). The book map has 7 decodable-reader places and 1 unit place.
     - The 12 readers of weeks 2 to 7 have their page plans and texts.
