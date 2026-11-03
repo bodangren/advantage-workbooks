@@ -122,6 +122,13 @@ export function pictureObjectCounts(text: string): Record<string, number> {
 const itemPictures = (item: StorytimeCheckItem): string[] =>
     item.kind === 'circle-picture' ? item.pictures : item.kind === 'picture-sort' ? item.groups.flatMap((g) => g.pictures) : [];
 
+/** Matches an exact picture word, or a word within a story-page caption. */
+const rowMatchesPictureWord = (row: StorytimePictureRow, pictureWord: string): boolean => {
+    const target = pictureWord.toLowerCase();
+    if (row.use !== 'story-page') return row.text.toLowerCase() === target;
+    return (row.text.toLowerCase().match(/[a-z0-9]+/g) ?? []).includes(target);
+};
+
 /** The line-art name of FR-9: the color name with `-line` before the version. */
 const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png');
 
@@ -131,6 +138,8 @@ const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-
  * a `print` block, and the picture words of the review pages and of the benchmark paper of a
  * review week (version 4). A word that an earlier week already has as a check-row row keeps
  * that row: the review page of week 8 reuses the row of weeks 1 to 7 instead of a second file.
+ * From week 2, a practice word also reuses an exact matching story-page, check-row, or practice
+ * row from the same or an earlier week. Week 1 keeps its three practice-line rows.
  * The card and sticker rows come with the card kit (Phase 8). Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix from `-b` through
  * `-z`, and a 27th occurrence throws, because the file name carries no digits between the week
@@ -182,13 +191,37 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
             add(week, 'cover', book.title, book.cover?.prompt ?? '', book.cover?.caption ?? '', {});
         }
         for (const item of week.check.items) for (const pic of itemPictures(item)) add(week, 'check-row', pic, '', '', { [pic]: 1 });
-        for (const line of week.print?.practice ?? []) add(week, 'practice-line', line.pictureWord, '', '', { [line.pictureWord]: 1 });
+        for (const line of week.print?.practice ?? []) {
+            const pictureWord = line.pictureWord.toLowerCase();
+            const deliveredRowExists = week.meta.week > 1 && rows.some((row) =>
+                row.week <= week.meta.week &&
+                ['story-page', 'check-row', 'practice-line'].includes(row.use) &&
+                rowMatchesPictureWord(row, pictureWord),
+            );
+            if (!deliveredRowExists) add(week, 'practice-line', line.pictureWord, '', '', { [line.pictureWord]: 1 });
+        }
         // Version 4: the review pages of week 8 and the Benchmark 1 paper need the same picture
         // words; a word that weeks 1 to 7 already hold reuses that row (R4b-3).
         for (const day of week.block?.days ?? []) for (const item of day.paper) for (const pic of itemPictures(item)) addReused(week, pic);
         for (const item of week.benchmark?.paper.items ?? []) for (const pic of itemPictures(item)) addReused(week, pic);
     }
     return rows;
+}
+
+/** Resolves a practice word to its delivered row without creating a new picture. */
+export function storytimePrintPracticePicture(
+    week: StorytimeWeek,
+    pictureWord: string,
+    rows: StorytimePictureRow[],
+): StorytimePictureRow | undefined {
+    const target = pictureWord.toLowerCase();
+    const candidates = rows.filter((row) =>
+        row.week <= week.meta.week &&
+        ['story-page', 'check-row', 'practice-line'].includes(row.use) &&
+        rowMatchesPictureWord(row, target),
+    );
+    if (week.meta.week === 1) return candidates.find((row) => row.use === 'practice-line');
+    return candidates.find((row) => row.week === week.meta.week) ?? candidates[0];
 }
 
 /**

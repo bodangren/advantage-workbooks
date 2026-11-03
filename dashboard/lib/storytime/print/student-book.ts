@@ -3,7 +3,7 @@ import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
-import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+import { storytimePrintPictures, storytimePrintPracticePicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import { fontFaceCss } from './print-fonts';
 import { readerPageCss, storytimeReaderLeafSides } from './readers';
@@ -199,7 +199,7 @@ function bookMapPage(): PageSpec {
  */
 function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const box = week.print!.letterBox;
-    const practiceRows = week.print!.practice.map((line) => rows.find((r) => r.use === 'practice-line' && r.text === line.pictureWord));
+    const practiceRows = week.print!.practice.map((line) => storytimePrintPracticePicture(week, line.pictureWord, rows));
     const arrowId = `st-arrow-w${week.meta.week}`;
     const body = `<h2 class="page-title">Week ${week.meta.week}: the sound ${esc(week.focus.element?.sound ?? '')}</h2>
 <div class="letter-box" data-part="letter-box">
@@ -352,9 +352,10 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
     // row of the compiled weeks through the folder manifest, in list order, so the first problem
     // names its row before any page renders (R44). Proof mode prints placeholders instead.
     const pictureFiles = new Map<string, StorytimePictureFile>();
+    const allPictureRows = storytimePrintPictures(weeks);
     if (o.mode === 'final') {
         const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
-        for (const entry of resolveStorytimePictureFiles(dir, storytimePrintPictures(weeks), 'line')) pictureFiles.set(entry.rowId, entry);
+        for (const entry of resolveStorytimePictureFiles(dir, allPictureRows, 'line')) pictureFiles.set(entry.rowId, entry);
     }
     const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
     for (const week of weeks) {
@@ -362,7 +363,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         if (!week.print) throw new Error(`student book: week ${week.meta.week} has no print block`);
         const rows = storytimePrintPictures([week]);
         const weekPages: PageSpec[] = [
-            practicePage(week, rows, o, pictureFiles),
+            practicePage(week, allPictureRows, o, pictureFiles),
             writingPage(week),
             checkPage(week, rows, o, pictureFiles),
             ...homePages(week, o.mode),
