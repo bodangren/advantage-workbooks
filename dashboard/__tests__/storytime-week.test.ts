@@ -138,6 +138,13 @@ describe('storytime-week checks', () => {
         expect(frameCount('Is it a ___? Yes/No.', ['Is it a ball? Yes, it is.', 'It is a ball.'])).toBe(1);
     });
 
+    it('matches the frame slot as whole words and treats a and an as the same frame word', () => {
+        expect(frameCount('I can see a ___.', ['I can see apples', 'I can see Anna', 'I can see all of it'])).toBe(0);
+        expect(frameCount('It is ___.', ["It isn't red"])).toBe(0);
+        expect(frameCount('I can see a ___.', ['I can see an animal!'])).toBe(1);
+        expect(frameCount('I can see a ___.', ['I can see!'])).toBe(0);
+    });
+
     it('fails a song with the frame fewer than 8 times or with a gesture outside the 24', () => {
         expect(status(run((w) => w.song!.lines.splice(8)), 'song-frame')).toBe('fail');
         expect(status(run((w) => (w.song!.lines[0].gesture = 'jump')), 'song-gestures')).toBe('fail');
@@ -163,6 +170,17 @@ describe('storytime-week checks', () => {
     it('fails a read-along marked as a sound book', () => {
         expect(status(run((w) => (w.books![0].soundBook = true)), 'books')).toBe('fail');
         expect(status(run((w) => (w.books![1].soundBook = true)), 'books')).toBe('pass');
+    });
+
+    it('allows a sound book only on Level 2 week 1 and still checks its decodability', () => {
+        const w = fixtureWeek();
+        w.meta.week = 2;
+        w.meta.key = 'st2/2';
+        w.books![1].soundBook = true;
+        w.books![1].pages[0].text = 'A zebra.';
+        const report = checkStorytimeWeek(w, { graphemes: ['n', 'a'], tricky: ['a'] });
+        expect(report.checks.find((c) => c.id === 'books')).toMatchObject({ status: 'fail', detail: expect.stringMatching(/sound book.*Level 2 week 1/i) });
+        expect(report.checks.find((c) => c.id === 'decodable')).toMatchObject({ status: 'fail', detail: expect.stringMatching(/untaught: zebra/) });
     });
 
     it('warns about a song line with no picture and no imageOf, and fails an imageOf that is not an earlier pictured line', () => {
@@ -293,7 +311,7 @@ describe('storytime-week checks', () => {
         expect(taughtTo(weeks, at(3, 2, ['ch'], []))).toEqual({ graphemes: ['n', 'p', 'sh', 'ch'], tricky: ['a', 'the', 'was'], programWeek: 66 });
     });
 
-    it('fails a decodable under 90 percent or with an untaught word, lists names, skips a sound book, and warns with no level', () => {
+    it('fails a decodable under 90 percent or with an untaught word, lists names, allows the week 1 sound book, and warns with no level', () => {
         const taught = { graphemes: ['n', 'a'], tricky: ['a', 'and', 'can', 'I'] };
         const week = (pages: string[], change?: (w: StorytimeWeekInput) => void) => {
             const w = fixtureWeek();
@@ -324,6 +342,12 @@ describe('storytime-week checks', () => {
         expect(wrong.checks.find((c) => c.id === 'check-answers')).toMatchObject({ status: 'fail', detail: expect.stringMatching(/item 1: "an".*item 2: "apple"/) });
         expect(status(run((w) => (w.home!.words = ['a'])), 'home')).toBe('warn');
         expect(status(run((w) => delete w.home), 'home')).toBe('fail');
+    });
+
+    it('passes exactly 3 home words and warns for 2 or 4', () => {
+        expect(status(run((w) => (w.home!.words = ['a', 'b'])), 'home')).toBe('warn');
+        expect(status(run((w) => (w.home!.words = ['a', 'b', 'c'])), 'home')).toBe('pass');
+        expect(status(run((w) => (w.home!.words = ['a', 'b', 'c', 'd'])), 'home')).toBe('warn');
     });
 });
 
@@ -374,6 +398,18 @@ describe('storytime review week checks (design §3.5)', () => {
         expect(detail(report, 'block')).toContain('week 3 is not before the review week');
         expect(detail(report, 'block')).toContain('days 1 to 4 do not cover week 2, 3');
         expect(detail(report, 'block')).toContain('day 1: "Old MacDonald" is not a song of the block');
+    });
+
+    it('fails when a block week appears only on day 5', () => {
+        const report = review((w) => {
+            w.block!.days[0].weeks = [2];
+            w.block!.days[1].weeks = [2];
+            w.block!.days[2].weeks = [2];
+            w.block!.days[3].weeks = [2];
+            w.block!.days[4].weeks = [1];
+        });
+        expect(status(report, 'block')).toBe('fail');
+        expect(detail(report, 'block')).toContain('days 1 to 4 do not cover week 1');
     });
 
     it('fails a strip that is not the 26 letters, cards and letters that are not the taught ones, a wrong answer, and a changed reading-record text', () => {
