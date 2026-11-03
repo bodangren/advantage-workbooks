@@ -27,6 +27,8 @@ PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --ch
 
 Gate exclude: the track `storytime_covers_20261027` owns the file `storytime-print-covers-16books.test.ts`, and its gates run it. The exclude keeps the Red and Green gates of this track on the files of this track (orchestrator decision, 2026-10-27). `PROJECT_TESTS` still runs that file. The print Phase 5 test file `storytime-print-covers.test.ts` stays inside the glob.
 
+R2 exclude, 2026-11-04 (from 2672f608 to the A-42 switch commit): PROJECT_TESTS runs with --exclude "**/storytime-loops-content.test.ts".
+
 Baseline at 8e6df79 (2026-10-25): `PROJECT_TESTS` passes 10 files and 119 tests. `check-weeks.ts --level 2` exits 1 with one known FAIL (st2/1 `published`, spec P14); the first part of `PROJECT_CHECKS` accepts one FAIL at most, and only that check (measured: exit 0 at 8e6df79). The `tsc` part was not run in this planning session.
 
 Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines come from `grep`, not from `build-graph`.
