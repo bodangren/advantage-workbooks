@@ -217,6 +217,7 @@ async function main(argv: string[]): Promise<number> {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-teacher-'));
     const report: string[] = [];
     const weekTexts = new Map<number, string>();
+    const draftTexts = new Map<number, string>();
     let differenceCount = 0;
     let problems: string[];
     let pages: number;
@@ -230,7 +231,9 @@ async function main(argv: string[]): Promise<number> {
             if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, studentBookPages);
             const weekText = layoutText(weekPdf);
             weekTexts.set(n, weekText);
-            const differences: PrintTextDifference[] = diffPrintText(layoutText(draftOf(n)), weekText);
+            const draftText = layoutText(draftOf(n));
+            draftTexts.set(n, draftText);
+            const differences: PrintTextDifference[] = diffPrintText(draftText, weekText);
             differenceCount += differences.length;
             report.push(formatReportHeader(n, differences.length, draftOf(n)));
             for (const d of differences) report.push(formatReportRow(n, d));
@@ -242,7 +245,7 @@ async function main(argv: string[]): Promise<number> {
     fs.writeFileSync(reportFile, reportText);
     // A-48 H1: the same run writes the classified difference list next to the report.
     const parsedReport = parseTextGateReport(reportText);
-    const classified = classifyReport(parsedReport, parsed, (week) => weekTexts.get(week) ?? '');
+    const classified = classifyReport(parsedReport, parsed, (week) => weekTexts.get(week) ?? '', (week) => draftTexts.get(week) ?? '');
     const sumProblems = classCountProblems(classified, parsedReport);
     fs.writeFileSync(h1File, classifiedMarkdown({
         sourcePath: reportFile,

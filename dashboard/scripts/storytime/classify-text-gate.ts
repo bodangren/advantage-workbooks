@@ -20,7 +20,7 @@ Usage: npx tsx scripts/storytime/classify-text-gate.ts --report <text-gate-v<n>.
 
 Each difference gets one of six classes: ${TEXT_DIFF_CLASSES.join(', ')}.
 Exit code 1 when a report line does not parse, a week file does not parse, or the class counts
-do not add up to the count of the report. Exit code 2 on an argument error, when the output
+do not add up to the count of the report. Exit code 2 on an argument error, when a draft named in the report is missing, when the output
 exists already, or when the output path is a symbolic link or lies outside the print folder.`;
 
 async function main(argv: string[]): Promise<number> {
@@ -90,7 +90,14 @@ async function main(argv: string[]): Promise<number> {
         return 2;
     }
     const bookText = execFileSync('pdftotext', ['-layout', bookFile, '-'], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
-    const classified = classifyReport(report, weeks.flatMap((entry) => (entry.week ? [entry.week] : [])), (week) => weekSection(bookText, week));
+    // The approved draft of each week is named in the header of the week; a removed line reads its place in the draft (the block context).
+    const missingDrafts = report.headers.filter((header) => !fs.existsSync(header.draft));
+    if (missingDrafts.length) {
+        console.error(`The approved draft named in the report does not exist: ${missingDrafts.map((header) => header.draft).join('; ')}`);
+        return 2;
+    }
+    const drafts = new Map(report.headers.map((header) => [header.week, execFileSync('pdftotext', ['-layout', header.draft, '-'], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 })]));
+    const classified = classifyReport(report, weeks.flatMap((entry) => (entry.week ? [entry.week] : [])), (week) => weekSection(bookText, week), (week) => drafts.get(week) ?? '');
     const problems = classCountProblems(classified, report);
     if (problems.length) {
         console.error(`The class counts do not add up to the report:\n  ${problems.join('\n  ')}`);

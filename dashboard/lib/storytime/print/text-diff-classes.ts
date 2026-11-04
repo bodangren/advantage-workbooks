@@ -105,6 +105,7 @@ const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/
 interface TextSets {
     d3: Set<string>;
     routine: Set<string>;
+    recall: Set<string>;
 }
 
 const setsOfWeek = new WeakMap<StorytimeWeek, TextSets>();
@@ -115,6 +116,7 @@ function textSets(week: StorytimeWeek): TextSets {
     if (known) return known;
     const d3 = new Set<string>();
     const routine = new Set<string>();
+    const recall = new Set<string>();
     const add = (set: Set<string>, text: string | undefined): void => {
         // The week files hold some lines with their outer quotes, and the printed line has the quotes in both forms.
         if (text) set.add(norm(unquote(norm(text))));
@@ -122,7 +124,8 @@ function textSets(week: StorytimeWeek): TextSets {
     for (const lang of ['th', 'en'] as const) {
         const l = storytimeLabels(lang);
         add(d3, l.questions);
-        for (const label of [l.blendDrill, l.soundLoop, l.sightWords, l.recallLoop]) add(routine, label);
+        for (const label of [l.blendDrill, l.soundLoop, l.sightWords]) add(routine, label);
+        add(recall, l.recallLoop);
         for (const book of week.books) {
             for (const question of book.questions ?? []) {
                 add(d3, `${question.ask.en} — ${l.answer}: ${question.answer.word} (${l.page} ${question.answer.page + STORYTIME_READER_PAGE_OFFSET})`);
@@ -160,18 +163,95 @@ function textSets(week: StorytimeWeek): TextSets {
                 bi(sight.check);
             }
         }
+        // The recall block of the day opening (loops FR-6): the label, the ask line in both languages, and the cards line.
         if (script.recall) {
-            bi(script.recall.ask);
-            add(routine, script.recall.items.map((card) => card.text).join(' '));
+            add(recall, script.recall.ask.en);
+            add(recall, script.recall.ask.th);
+            add(recall, script.recall.items.map((card) => card.text).join(' '));
         }
     }
-    const sets = { d3, routine };
+    const sets = { d3, routine, recall };
     setsOfWeek.set(week, sets);
     return sets;
 }
 
+/** The reason of an added or removed line in the song step of the day opening (LP-26 class B, commit 06e866e1). */
+const SONG_ADDED = 'LP-26 class B: the song step in the day opening (06e866e1)';
+const SONG_REMOVED = 'LP-26 class B: the old place of the song step';
+
+/** A step heading of a teacher-book text: the step code at the start of a title line ("B7 ...", "A6·D2 ...", or "B7 · ..." in the draft). */
+const STEP_HEADING = /^([A-E]\d+(?:·[A-E]\d+)?) /;
+
+/** A line that holds only a page number; the text gate drops it (the same rule as `text-diff.ts`). */
+const PAGE_NUMBER_LINE = /^(?:หน้า|page)\s*\d+(?:\s*(?:\/|of|จาก)\s*\d+)?$/i;
+
+/** The place of a row in the texts of its week; every field is optional. */
+export interface BlockContext {
+    /** The compared lines of the new week text (`newTextLines`). */
+    newLines?: string[];
+    /** The index in `newLines` of the actual line of the row, when the line was found. */
+    newIndex?: number;
+    /** The raw lines of the text of the approved draft of the week; the `line` of a row counts them from 1. */
+    draftLines?: string[];
+    /** The new week text with its space runs as one space. */
+    normText?: string;
+}
+
+/**
+ * The compared lines of a `pdftotext -layout` text: each line trimmed with its space runs as one
+ * space, without blank lines and page-number lines (as the text gate compares them).
+ * @param text The `pdftotext -layout` text.
+ * @returns The lines in text order.
+ */
+export function newTextLines(text: string): string[] {
+    return text.split(/\r?\n/).map((raw) => norm(raw.replace(/\f/g, ''))).filter((line) => line && !PAGE_NUMBER_LINE.test(line));
+}
+
+/** The code of the nearest step heading at or above a line; undefined when no heading stands above. */
+function stepAbove(lines: string[] | undefined, index: number | undefined): string | undefined {
+    if (!lines || index === undefined) return undefined;
+    for (let i = Math.min(index, lines.length - 1); i >= 0; i--) {
+        const found = STEP_HEADING.exec(norm(lines[i]));
+        if (found) return found[1];
+    }
+    return undefined;
+}
+
+const isSongStep = (code: string | undefined): boolean => code === 'B7' || code === 'D6';
+
+/** The rules for the text of an added line, or for the actual side of a position pair; undefined when no rule knows the text. */
+function classifyText(actual: string, week: StorytimeWeek, context: BlockContext): { cls: TextDiffClass; reason: string } | undefined {
+    const text = norm(unquote(actual));
+    const sets = textSets(week);
+    if (sets.d3.has(text)) return { cls: 'D3 question', reason: 'the text is a question of the read-along or the D3 label' };
+    if (sets.recall.has(text)) return { cls: 'A-42 routine', reason: 'recall (loops FR-6)' };
+    if (sets.routine.has(text)) return { cls: 'A-42 routine', reason: 'the text is a line of a loop (blend drill, sound loop, sight words) or a loop label' };
+    // A wrapped part: the printed line is long and the layout broke it, so the line is a contiguous part of a known line.
+    const part = text.replace(/^"|"$/g, '');
+    if (part.length >= 8 || part.split(' ').length >= 2) {
+        const wholes: [Set<string>, TextDiffClass, string][] = [
+            [sets.d3, 'D3 question', 'a D3 question line'],
+            [sets.recall, 'A-42 routine', 'a recall line (loops FR-6)'],
+            [sets.routine, 'A-42 routine', 'a loop line'],
+        ];
+        for (const [set, cls, label] of wholes) {
+            for (const whole of set) if (whole !== part && whole.includes(part)) return { cls, reason: `wrapped part of ${label}` };
+        }
+    }
+    if (isSongStep(stepAbove(context.newLines, context.newIndex))) return { cls: 'A-42 routine', reason: SONG_ADDED };
+    return undefined;
+}
+
+/** The place rule for the expected side of a row: the line stands in the draft under the heading B7 or D6. */
+function oldSongPlace(row: ReportRow, context: BlockContext): boolean {
+    return isSongStep(stepAbove(context.draftLines, row.line - 1));
+}
+
+/** The leading step code of a title line, or undefined. */
+const leadCode = (text: string): string | undefined => STEP_HEADING.exec(text)?.[1];
+
 /** The result of the known rewrites on the expected line of a two-sided difference. */
-function classifyBothSides(row: ReportRow, week: StorytimeWeek): { cls: TextDiffClass; reason: string } {
+function classifyBothSides(row: ReportRow, week: StorytimeWeek, weekText: string, context: BlockContext): { cls: TextDiffClass; reason: string } {
     let expected = row.expected;
     const applied: string[] = [];
     const kinds = new Set<TextDiffClass>();
@@ -205,53 +285,75 @@ function classifyBothSides(row: ReportRow, week: StorytimeWeek): { cls: TextDiff
         const cls = (['A-42 routine', 'page reference', 'A-48 badge'] as const).find((kind) => kinds.has(kind)) ?? 'word change';
         return { cls, reason: applied.join('; ') };
     }
+    // A position pair: the diff paired two lines by position. The expected text stands elsewhere in the new text, or the lines start with different step codes.
+    const hay = context.normText ?? norm(weekText);
+    const codes = [leadCode(expected), leadCode(row.actual)];
+    const pair = (hay !== '' && hay.includes(norm(expected))) || (codes[0] !== codes[1] && (codes[0] !== undefined || codes[1] !== undefined));
+    if (pair) {
+        const inner = classifyText(row.actual, week, context)
+            ?? (oldSongPlace(row, context) ? { cls: 'A-42 routine' as const, reason: SONG_REMOVED } : undefined);
+        return { cls: inner?.cls ?? 'other', reason: `position pair: ${inner?.reason ?? 'the line moved or wrapped'}` };
+    }
     return { cls: 'word change', reason: applied.length ? `${applied.join('; ')}; the lines still differ` : 'the lines differ' };
 }
 
 /**
  * Gives one difference of the text gate its reason class. The rules, in this order:
  * a two-sided line gets the known rewrites (badge, page reference, loop minutes) and is the class
- * of the first rewrite if the lines then agree, else `word change`; an added line is a
- * `D3 question` or an `A-42 routine` when it equals a text that the week prints for it, else `other`;
- * a removed line is `other`, with the reflow reason when its text stands in the new week text.
+ * of the first rewrite if the lines then agree; if they still differ, the pair is a position pair
+ * (the diff paired two lines by position) when the expected text stands in the new week text or the
+ * step codes differ, and it takes the class of its actual text; else it is a `word change`.
+ * An added line is a `D3 question` or an `A-42 routine` when it equals, or is a wrapped part of, a
+ * text that the week prints for it (the D3 questions, the loops, the recall), or when it stands in
+ * the song step of the day opening (the block of the heading B7 or D6); else it is `other`.
+ * A removed line is an `A-42 routine` when it stood in the draft under the heading B7 or D6; else
+ * it is `other`, with the reflow reason when its text stands in the new week text.
  * @param row The difference with its week.
  * @param week The parsed week of the difference.
- * @param weekText The `pdftotext -layout` text of the new week; only a removed line reads it.
+ * @param weekText The `pdftotext -layout` text of the new week.
+ * @param context The place of the row in the texts of the week; without it, the block rules do not apply.
  * @returns The class and the reason text.
  */
-export function classifyDifference(row: ReportRow, week: StorytimeWeek, weekText: string): { cls: TextDiffClass; reason: string } {
-    if (row.expected && row.actual) return classifyBothSides(row, week);
-    if (!row.expected) {
-        const text = norm(unquote(row.actual));
-        const sets = textSets(week);
-        if (sets.d3.has(text)) return { cls: 'D3 question', reason: 'the text is a question of the read-along or the D3 label' };
-        if (sets.routine.has(text)) return { cls: 'A-42 routine', reason: 'the text is a line of a loop (blend drill, sound loop, sight words, recall) or a loop label' };
-        return { cls: 'other', reason: 'added line' };
-    }
-    return norm(weekText).includes(norm(row.expected))
+export function classifyDifference(row: ReportRow, week: StorytimeWeek, weekText: string, context: BlockContext = {}): { cls: TextDiffClass; reason: string } {
+    if (row.expected && row.actual) return classifyBothSides(row, week, weekText, context);
+    if (!row.expected) return classifyText(row.actual, week, context) ?? { cls: 'other', reason: 'added line' };
+    if (oldSongPlace(row, context)) return { cls: 'A-42 routine', reason: SONG_REMOVED };
+    return (context.normText ?? norm(weekText)).includes(norm(row.expected))
         ? { cls: 'other', reason: 'reflow: the text stands in the new week text' }
         : { cls: 'other', reason: 'removed line' };
 }
 
 /**
- * Classifies every row of a report.
+ * Classifies every row of a report. The rows of a week come in text order, so a cursor through the
+ * new week text finds the place of each added or two-sided line (the first copy of the line after the
+ * place of the row before it).
  * @param report The parsed report.
  * @param weeks The parsed weeks of the level.
  * @param weekTextOf The new text of a week, by week number.
+ * @param draftTextOf The text of the approved draft of a week, by week number; without it, a removed line has no block context.
  * @returns One classified difference for each row, in report order.
  * @throws Error When a row names a week that is not in `weeks`.
  */
-export function classifyReport(report: ParsedReport, weeks: StorytimeWeek[], weekTextOf: (week: number) => string): ClassifiedDifference[] {
-    const texts = new Map<number, string>();
+export function classifyReport(report: ParsedReport, weeks: StorytimeWeek[], weekTextOf: (week: number) => string, draftTextOf: (week: number) => string = () => ''): ClassifiedDifference[] {
+    const states = new Map<number, { raw: string; context: BlockContext; cursor: number }>();
     return report.rows.map((row) => {
         const week = weeks.find((candidate) => candidate.meta.week === row.week);
         if (!week) throw new Error(`the report names week ${row.week}, and the week files have no such week`);
-        let text = texts.get(row.week);
-        if (text === undefined && row.expected && !row.actual) {
-            text = norm(weekTextOf(row.week));
-            texts.set(row.week, text);
+        let state = states.get(row.week);
+        if (!state) {
+            const raw = weekTextOf(row.week);
+            state = { raw, cursor: 0, context: { newLines: newTextLines(raw), normText: norm(raw), draftLines: draftTextOf(row.week).split('\n') } };
+            states.set(row.week, state);
         }
-        return { ...row, ...classifyDifference(row, week, text ?? '') };
+        const context: BlockContext = { ...state.context };
+        if (row.actual) {
+            const found = state.context.newLines!.indexOf(row.actual, state.cursor);
+            if (found >= 0) {
+                context.newIndex = found;
+                state.cursor = found + 1;
+            }
+        }
+        return { ...row, ...classifyDifference(row, week, state.raw, context) };
     });
 }
 
