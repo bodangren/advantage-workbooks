@@ -117,7 +117,8 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
  * start dots are circles with the default black fill. */
 .student-page [data-part="trace-letter"],
 .student-page [data-part="writing-trace"] text,
-.student-page [data-part="dictation-trace"] text { fill: #b0b0b0; color: #b0b0b0; }
+.student-page [data-part="dictation-trace"] text,
+.student-page [data-part="dictation-word-trace"] text { fill: #b0b0b0; color: #b0b0b0; }
 .practice-sheet { margin-top: 0; }
 .practice-line { display: flex; align-items: center; gap: 4mm; margin-top: 4mm; }
 .practice-pictures { display: flex; gap: 3mm; flex: none; }
