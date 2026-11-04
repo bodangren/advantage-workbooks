@@ -79,7 +79,7 @@ function sortKeys(value: unknown): unknown {
 }
 
 /**
- * The week without the FR-1 fields and without the two keys of the print track. Both sides of the additive
+ * The week without the FR-1 fields, without the two keys of the print track, and without the two media approvals. Both sides of the additive
  * compare go through this function. `dropTh` is a mutant: a deleter that also removes the Thai notes.
  */
 function withoutNewFields(week: Raw, dropTh = false): Raw {
@@ -98,6 +98,9 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
     if (copy.approval) {
         delete copy.approval.loops;
         delete copy.approval.print;
+        // Daniel approved the w01 audio and song on 2026-11-04, after the baseline commit; the media approvals are not loops content.
+        delete copy.approval.audio;
+        delete copy.approval.song;
     }
     delete copy.print;
     return copy;

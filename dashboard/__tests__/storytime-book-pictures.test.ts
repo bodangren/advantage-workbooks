@@ -56,8 +56,8 @@ describe('Storytime app book pictures', () => {
 
         expect(pictures.map((image: any) => image.caption)).toEqual(['Hello!', ...Array(8).fill(''), 'Nan Can Nod', ...Array(8).fill('')]);
         expect(week.approval.images).toMatchObject({ status: 'approved', date: '2026-11-03', words: WORDS });
-        expect(week.approval.audio.status).toBe('draft');
-        expect(week.approval.song.status).toBe('draft');
+        expect(week.approval.audio).toMatchObject({ status: 'approved', date: '2026-11-04' });
+        expect(week.approval.song).toMatchObject({ status: 'approved', date: '2026-11-04' });
         expect(week.meta.status).toBe('published');
         const check = checkBookPictures(week, STORYTIME_ROOT);
         expect(check).toMatchObject({ id: 'book-pictures', status: 'pass' });

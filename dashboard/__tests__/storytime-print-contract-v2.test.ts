@@ -259,7 +259,7 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         expect(approval.scripts, 'Record (b) of P14 for the scripts part.').toEqual(expected);
     });
 
-    it('keeps audio and song draft after the week 1 picture approval', () => {
+    it('records the week 1 audio and song approvals of 2026-11-04 and keeps the print part and the other media draft', () => {
         const first = parsed(shipped(1)).approval;
         expect(first.images, 'Week 1: images record the approved app pictures.').toEqual({
             status: 'approved',
@@ -267,8 +267,18 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
             words: '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT)',
             source: 'PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; print Phase 4 git note on 2e3272e9',
         });
-        expect(first.audio, 'Week 1: audio stays draft.').toEqual({ status: 'draft' });
-        expect(first.song, 'Week 1: song stays draft.').toEqual({ status: 'draft' });
+        expect(first.audio, 'Week 1: audio records the owner approval of 2026-11-04.').toEqual({
+            status: 'approved',
+            date: '2026-11-04',
+            words: '"Question 2: all audio approved"',
+            source: 'PM relay Tasks id dGpjemFrb2hIWS1rU0Fkdw; the 4 week 1 book audio files and song.mp3',
+        });
+        expect(first.song, 'Week 1: song records the owner approval of 2026-11-04.').toEqual({
+            status: 'approved',
+            date: '2026-11-04',
+            words: '"Song approved" (song.mp4, song-phone.mp4); "Question 2: all audio approved" (song.mp3)',
+            source: 'PM relay Tasks id T0ZLenUzaFJsUUZDTy1LSw (song.mp4 sha256 4c88951f3407c8e1, song-phone.mp4 sha256 74ccefed722d3a97); song.mp3 by Tasks id dGpjemFrb2hIWS1rU0Fkdw',
+        });
         for (const week of weekNumbers) {
             const approval = parsed(shipped(week)).approval;
             expect(approval.print, `Week ${week}: the print part stays draft.`).toEqual({ status: 'draft' });
