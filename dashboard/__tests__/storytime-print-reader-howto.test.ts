@@ -6,7 +6,7 @@ import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema } from '../lib/storytime/schema';
 import { checkStorytimeCoverCopy } from '../lib/storytime/print/covers';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
-import { storytimeReaderLeafSides, type StorytimeReaderLeafSide } from '../lib/storytime/print/readers';
+import { compileStorytimeReaders, storytimeReaderLeafSides, type StorytimeReaderLeafSide } from '../lib/storytime/print/readers';
 import { LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, pageTurnDeg, simulateTopFold } from './fixtures/storytime-reader-leaf';
 
 /**
@@ -60,13 +60,69 @@ function impositionProblems(doc: Document): string[] {
 }
 
 /** The sides with one change: a back page turned, the pages of a front swapped, or page 12 turned upside down again. */
-function mutated(sides: StorytimeReaderLeafSide[], kind: 'back-turned' | 'front-swapped' | 'page12-turned'): StorytimeReaderLeafSide[] {
+function mutated(sides: StorytimeReaderLeafSide[], kind: 'back-turned' | 'front-swapped' | 'page12-turned' | 'page1-frameless' | 'page12-framed'): StorytimeReaderLeafSide[] {
     return sides.map((side) => {
+        if (kind === 'page1-frameless' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/class="reader-picture"/g, 'class="reader-none"') };
+        if (kind === 'page12-framed' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/(data-half="bottom"[^>]*>)/, '$1<div class="reader-picture"></div>') };
         if (kind === 'page12-turned' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };
         if (kind === 'back-turned' && side.leaf === 1 && side.side === 'back') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };
         if (kind === 'front-swapped' && side.leaf === 1 && side.side === 'front') return { ...side, pages: [side.pages[1], side.pages[0]] };
         return side;
     });
+}
+
+/** The shipped week 1 (L2): the readers build and its style text, the source of the leaf mark rule. */
+function readersCss(): string {
+    const week = StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), 'utf8')));
+    return compileStorytimeReaders([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook' }).html;
+}
+
+/** The pages that print a picture frame (the leaf contract: the cover and the story pages 3 to 10). Pages 2, 11, and 12 print none. */
+const hasFrame = (pageNumber: number): boolean => pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10);
+
+/** The page areas and the absolute box of a rect, in millimeters of the leaf drawing (the origin of the page group plus the local box). */
+function absBox(rect: Element): { left: number; top: number; right: number; bottom: number } {
+    const group = rect.closest('[data-page]');
+    const ox = group ? num(group, 'data-origin-x') : 0;
+    const oy = group ? num(group, 'data-origin-y') : 0;
+    const x = num(rect, 'x') + ox;
+    const y = num(rect, 'y') + oy;
+    return { left: x, top: y, right: x + num(rect, 'width'), bottom: y + num(rect, 'height') };
+}
+
+/** Lists the ways in which the frames of the leaf drawings differ from the v13 leaf: a frame only on a page that prints one, and no rectangle around two pages. */
+function frameProblems(doc: Document): string[] {
+    const problems: string[] = [];
+    for (const svg of Array.from(doc.querySelectorAll('svg[data-diagram]'))) {
+        const diagram = svg.getAttribute('data-diagram');
+        const pages = Array.from(svg.querySelectorAll('[data-page]'));
+        for (const page of pages) {
+            const number = num(page, 'data-page-number');
+            const frames = page.querySelectorAll('[data-part="frame"]').length;
+            if (hasFrame(number) && frames !== 1) problems.push(`[frame] ${diagram} page ${number}: ${frames} frames, want 1`);
+            if (!hasFrame(number) && frames !== 0) problems.push(`[frame] ${diagram} page ${number}: ${frames} frames, want none`);
+        }
+        const areas = pages.map((page) => ({ left: num(page, 'data-origin-x'), top: num(page, 'data-origin-y'), right: num(page, 'data-origin-x') + READER_PAGE_MM.widthMm, bottom: num(page, 'data-origin-y') + READER_PAGE_MM.heightMm }));
+        for (const rect of Array.from(svg.querySelectorAll('rect'))) {
+            if (['leaf', 'student-page', 'left-page'].includes(rect.getAttribute('data-part') ?? '')) continue;
+            const box = absBox(rect);
+            const enclosed = areas.filter((area) => box.left <= area.left + 0.01 && box.top <= area.top + 0.01 && box.right >= area.right - 0.01 && box.bottom >= area.bottom - 0.01);
+            if (enclosed.length > 1) problems.push(`[frame-both] ${diagram}: one rectangle (${rect.getAttribute('data-part') ?? 'no part'}) encloses ${enclosed.length} pages`);
+        }
+    }
+    const cut = doc.querySelector('svg[data-diagram="cut"]');
+    const front = Array.from(doc.querySelectorAll('svg[data-diagram="cut"] [data-page], svg[data-diagram="fold-leaf"][data-face="front"] [data-page]'));
+    for (const page of front) {
+        if (num(page, 'data-page-number') !== 1) continue;
+        const frame = page.querySelector('[data-part="frame"]');
+        const area = page.querySelector('rect[data-part="page"]');
+        if (!frame || !area) { problems.push('[frame-own] page 1 has no frame of its own'); continue; }
+        const box = absBox(frame);
+        const origin = { left: num(page, 'data-origin-x'), top: num(page, 'data-origin-y') };
+        if (box.left < origin.left || box.top < origin.top || box.right > origin.left + READER_PAGE_MM.widthMm || box.bottom > origin.top + READER_PAGE_MM.heightMm) problems.push('[frame-own] the frame of page 1 leaves the page 1 half');
+    }
+    if (!cut) problems.push('[frame] no cut diagram');
+    return problems;
 }
 
 describe('A-47 the how-to "How to make a student book"', () => {
@@ -145,8 +201,9 @@ describe('A-47 the how-to "How to make a student book"', () => {
 
     it('R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check', async () => {
         const { compileReaderHowto } = await howto();
-        for (const kind of ['back-turned', 'front-swapped', 'page12-turned'] as const) {
-            const problems = impositionProblems(docOf(compileReaderHowto(mutated(readerSides(), kind)).html));
+        for (const kind of ['back-turned', 'front-swapped', 'page12-turned', 'page1-frameless', 'page12-framed'] as const) {
+            const changed = docOf(compileReaderHowto(mutated(readerSides(), kind)).html);
+            const problems = [...impositionProblems(changed), ...frameProblems(changed)];
             expect(problems.length, `mutant ${kind} must be caught`).toBeGreaterThan(0);
         }
     });
@@ -236,6 +293,86 @@ describe('A-47 the how-to "How to make a student book"', () => {
         expect(printed).toEqual([[1, 180], [12, 0]]);
         expect(doc.querySelector('svg[data-diagram="back"] [data-part="fold-edge"]')?.getAttribute('data-side')).toBe('top');
         expect(doc.querySelector('[data-turn-arrow="over"]')).not.toBeNull();
+    });
+
+    it('R-A47-14 each tick of step 1 is large and thick: at least 10 mm long and 1 mm thick on the sheet', async () => {
+        const { compileReaderHowto } = await howto();
+        const cut = docOf(compileReaderHowto(readerSides()).html).querySelector('svg[data-diagram="cut"]')!;
+        const scale = parseFloat(cut.getAttribute('width')!) / Number(cut.getAttribute('viewBox')!.split(' ')[2]);
+        const ticks = Array.from(cut.querySelectorAll('[data-part="tick"]'));
+        expect(ticks).toHaveLength(2);
+        for (const tick of ticks) {
+            const length = Math.abs(num(tick, 'y2') - num(tick, 'y1')) * scale;
+            const thick = num(tick, 'stroke-width') * scale;
+            expect(length, `${tick.getAttribute('data-edge')} tick length in mm on the sheet`).toBeGreaterThanOrEqual(10);
+            expect(thick, `${tick.getAttribute('data-edge')} tick thickness in mm on the sheet`).toBeGreaterThanOrEqual(1);
+        }
+    });
+
+    it('R-A47-15 two labels "ขีดสั้น ๆ / tick", each with a leader line that ends at a tick', async () => {
+        const { compileReaderHowto } = await howto();
+        const cut = docOf(compileReaderHowto(readerSides()).html).querySelector('svg[data-diagram="cut"]')!;
+        for (const edge of ['top', 'bottom']) {
+            const label = cut.querySelector(`[data-label][data-for="tick-${edge}"]`);
+            expect(label?.querySelector('.th')?.textContent, `Thai tick label (${edge})`).toBe('ขีดสั้น ๆ');
+            expect(label?.querySelector('.en')?.textContent, `English tick label (${edge})`).toBe('tick');
+            const leader = cut.querySelector(`[data-part="tick-leader"][data-for="tick-${edge}"]`);
+            const tick = cut.querySelector(`[data-part="tick"][data-edge="${edge}"]`)!;
+            expect(leader, `leader line (${edge})`).not.toBeNull();
+            const half = num(tick, 'stroke-width') / 2;
+            const end = { x: num(leader, 'x2'), y: num(leader, 'y2') };
+            expect(Math.abs(end.x - (num(tick, 'x1') - half)), `the leader ends at the edge of the ${edge} tick`).toBeLessThan(1);
+            expect(end.y).toBeGreaterThanOrEqual(Math.min(num(tick, 'y1'), num(tick, 'y2')));
+            expect(end.y).toBeLessThanOrEqual(Math.max(num(tick, 'y1'), num(tick, 'y2')));
+        }
+    });
+
+    it('R-A47-16 the frames follow the v13 leaf: page 1 has its own frame, pages 2, 11, and 12 have none, and no rectangle runs around two pages', async () => {
+        const { compileReaderHowto } = await howto();
+        const doc = docOf(compileReaderHowto(readerSides()).html);
+        expect(frameProblems(doc)).toEqual([]);
+        for (const svg of Array.from(doc.querySelectorAll('svg[data-diagram="cut"], svg[data-diagram="fold-leaf"]'))) {
+            for (const number of [2, 11, 12]) {
+                for (const page of Array.from(svg.querySelectorAll(`[data-page][data-page-number="${number}"]`))) expect(page.querySelector('[data-part="frame"]'), `${svg.getAttribute('data-diagram')} page ${number}`).toBeNull();
+            }
+        }
+        expect(doc.querySelectorAll('svg[data-diagram="fold-leaf"][data-face="front"] [data-part="frame"]')).toHaveLength(1);
+        expect(doc.querySelectorAll('svg[data-diagram="fold-leaf"][data-face="back"] [data-part="frame"]')).toHaveLength(0);
+        expect(doc.querySelectorAll('svg[data-diagram="back"] [data-part="frame"]'), 'the back cover has no frame').toHaveLength(0);
+        expect(doc.querySelectorAll('svg[data-diagram="closed"] [data-part="frame"]'), 'the cover has a frame').toHaveLength(1);
+        expect(doc.querySelectorAll('svg[data-diagram="middle"] [data-part="frame"]'), 'story pages 6 and 7 have frames').toHaveLength(2);
+    });
+
+    it('R-A47-17 the leaf mark has the place and the orientation of the v13 leaf: 2 mm from the top, centered over the leaf, upright, not turned with a page', async () => {
+        const { compileReaderHowto } = await howto();
+        const css = readersCss();
+        const rule = /\.leaf-mark \{([^}]*)\}/.exec(css)![1];
+        const frontRule = /\.reader-side\[data-leaf-side="front"\] \.leaf-mark \{([^}]*)\}/.exec(css)![1];
+        const topMm = Number(/top: ([\d.]+)mm/.exec(rule)![1]);
+        const backCenter = Number(/left: ([\d.]+)mm/.exec(rule)![1]);
+        const frontCenter = Number(/left: ([\d.]+)mm/.exec(frontRule)![1]) - STORYTIME_PRINT_PROFILE.perforationMm;
+        expect(rule).toContain('transform: translateX(-50%)');
+        expect(rule).not.toMatch(/rotate/);
+        const studentBook = fs.readFileSync(path.resolve(__dirname, '../lib/storytime/print/student-book.ts'), 'utf8');
+        const studentRule = /^\.leaf-mark \{.*$/m.exec(studentBook)![0];
+        expect(studentRule).toContain(`top: ${topMm}mm`);
+        expect(studentRule).toContain('transform: translateX(-50%)');
+        expect(studentRule).not.toMatch(/rotate/);
+        const doc = docOf(compileReaderHowto(readerSides()).html);
+        const marks = [
+            { svg: doc.querySelector('svg[data-diagram="cut"]')!, want: frontCenter, side: 'front' },
+            ...(['front', 'back'] as const).map((face) => ({ svg: doc.querySelector(`svg[data-diagram="fold-leaf"][data-face="${face}"]`)!, want: face === 'front' ? frontCenter : backCenter, side: face })),
+        ];
+        for (const { svg, want, side } of marks) {
+            const mark = svg.querySelector('[data-part="leaf-mark"]')!;
+            expect(mark, `${svg.getAttribute('data-diagram')} ${side}: a leaf mark`).not.toBeNull();
+            expect(num(mark, 'data-top-mm')).toBe(topMm);
+            expect(num(mark, 'data-center-mm')).toBe(want);
+            expect(num(mark, 'data-turn-deg'), 'the mark is upright').toBe(0);
+            expect(mark.getAttribute('text-anchor')).toBe('middle');
+            expect(mark.closest('[data-page]'), 'the mark is not inside a turned page').toBeNull();
+            expect(mark.getAttribute('transform')).toBeNull();
+        }
     });
 
     it('R-A47-11 the leaf mark in the cut diagram is the mark of the real leaf', async () => {
