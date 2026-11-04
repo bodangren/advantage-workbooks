@@ -1065,7 +1065,10 @@ describe('Storytime student workbook: the shipped week 1', () => {
     it('R28: keeps Thai only on the home card and keeps each Thai run unbroken', async () => {
         const { doc } = await render();
         for (const side of pages(doc).filter((side) => !side.getAttribute('data-page-kind')!.startsWith('home-'))) {
-            expect(text(side)).not.toMatch(/\p{Script=Thai}/u);
+            // Fix 6 (Daniel 2026-11-04): a reader leaf side carries 2 short Thai and English marks, "พับ / fold" and "ตัดออกจากเล่ม / cut out of the book".
+            const copy = side.cloneNode(true) as Element;
+            copy.querySelectorAll('[data-part="tear-label"], [data-part="fold-label"]').forEach((mark) => mark.remove());
+            expect(text(copy)).not.toMatch(/\p{Script=Thai}/u);
         }
         const thai = Array.from(page(doc, 'home-front').querySelectorAll('[lang="th"]'));
         expect(thai.length).toBeGreaterThan(0);
