@@ -167,20 +167,23 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .key-days { display: flex; gap: 8mm; margin-top: 8mm; font-size: 11pt; }
 .check-row { display: flex; gap: 8mm; margin-top: 10mm; }
 .check-row .picture-box { width: 40mm; height: 40mm; }
-.picture-sort { display: flex; gap: 5mm; margin-top: 7mm; }
+.picture-sort { display: block; margin-top: 3mm; }
 .picture-sort-group { flex: 1; min-width: 0; text-align: center; }
 .picture-sort-group .check-row { justify-content: center; flex-wrap: wrap; }
 .picture-sort-group .picture-box { width: 28mm; height: 28mm; }
 .sort-label { font-size: 16pt; }
 .circle-word-row { display: flex; gap: 8mm; margin-top: 8mm; }
-.circle-word { border: 0.5mm solid #000; border-radius: 50%; padding: 3mm 5mm; font-size: 18pt; }
+.circle-word { padding: 3mm 5mm; font-size: 18pt; }
 .check-write-letter { display: block; width: 26mm; height: 26mm; border: 0.6mm solid #000; margin-top: 10mm; }
 .benchmark-row, .sound-row, .match-row { display: flex; align-items: center; gap: 4mm; margin-top: 3mm; }
 .benchmark-pictures, .sound-pictures { display: flex; gap: 4mm; }
 .benchmark-row .picture-box { width: 25mm; height: 25mm; }
 .sound-row .picture-box { width: 26mm; height: 26mm; }
 .review-dense .sound-row { margin-top: 2mm; }
-.review-dense .sound-row .picture-box { width: 19mm; height: 19mm; }
+.review-dense .sound-row .picture-box { width: 17mm; height: 17mm; }
+.match-row.review-dense { margin-top: 1mm; }
+.match-row.review-dense .match-target { padding: 1mm 4mm; font-size: 16pt; }
+.match-row.review-dense .circle-word { padding: 1mm 4mm; font-size: 16pt; }
 .position-mark { display: block; flex: none; }
 .row-group-head .position-mark { margin-left: 2mm; }
 .sound-label { display: block; flex: none; width: 16mm; font-size: 16pt; font-weight: 700; text-align: center; }
@@ -584,9 +587,10 @@ function reviewPage(week: StorytimeWeek, dayIndex: number, rows: StorytimePictur
         return pictureElement(row, o, files, 'review-picture');
     };
     let number = 0;
-    const matchRows = itemsOfKind(day.paper, 'circle-word').map((item) =>
-        `<div class="match-row" data-part="match-row"><span class="row-number" data-part="row-number">${++number}</span><span class="match-target" data-part="match-target">${esc(item.answer)}</span><span class="match-choices">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</span></div>`).join('\n');
     const groups = itemsOfKind(day.paper, 'picture-sort').flatMap((item) => item.groups);
+    const matchDense = groups.length > 2 ? ' review-dense' : '';
+    const matchRows = itemsOfKind(day.paper, 'circle-word').map((item) =>
+        `<div class="match-row${matchDense}" data-part="match-row"><span class="row-number" data-part="row-number">${++number}</span><span class="match-target" data-part="match-target">${esc(item.answer)}</span><span class="match-choices">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</span></div>`).join('\n');
     const targetCount = Math.min(2, ...groups.map((group) => group.pictures.length));
     const soundRows = groups.map((group, index) => {
         const targets = group.pictures.slice(0, targetCount);
