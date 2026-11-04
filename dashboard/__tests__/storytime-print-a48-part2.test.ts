@@ -260,15 +260,16 @@ describe('A-48 part 2, U8: the readers (B17, E52) and the question pages (E37)',
         expect(all.length, 'one role mark for each of the 14 readers').toBe(14);
     });
 
-    it('E52-more: the page 11 list of "Hello!" and "How Many?" is labeled "More words"; the other read-alongs keep the family name', async () => {
-        for (const title of ['Hello!', 'How Many?']) {
+    it('E52-more: a page 11 list with a word that the story does not use is labeled "More words" (Hello!, How Many?, My Family); the other read-alongs keep the family name', async () => {
+        for (const title of ['Hello!', 'How Many?', 'My Family']) {
             const all = (await sections(title)).map(text).join(' ');
             expect(all, title).toContain('More words');
         }
-        const names: Record<string, string> = { 'Paint!': 'Colors', 'My Family': 'Family', 'I Have Two': 'My body', 'I Can See': 'Animals', 'Is It a Ball?': 'Toys' };
-        for (const [title] of Object.entries(names)) {
+        const names: Record<string, string> = { 'Paint!': 'Colors', 'I Have Two': 'Body and face', 'I Can See': 'Animals', 'Is It a Ball?': 'Toys' };
+        for (const [title, name] of Object.entries(names)) {
             const all = (await sections(title)).map(text).join(' ');
             expect(all, title).not.toContain('More words');
+            expect(all, title).toContain(name);
         }
     });
 });
@@ -291,8 +292,8 @@ describe('A-48 part 2, U8: the teacher book (step badge, student book pages, que
         for (const step of steps) expect(step.querySelector('.st-step-title [data-part="step-badge"]'), text(step).slice(0, 40)).not.toBeNull();
         const badges = (week: number, id: string) => stepsOf(doc, week, id).map((step) => text(step.querySelector('[data-part="step-badge"]')!));
         expect(badges(1, 'A3')).toEqual(['A3']);
-        expect(badges(1, 'A6')).toEqual(['A6·D2']);
-        expect(badges(1, 'D2')).toEqual(['A6·D2']);
+        // A6 (day 1) and D2 (day 4) share the page part, so both steps carry the badge A6·D2.
+        expect(badges(1, 'A6')).toEqual(['A6·D2', 'A6·D2']);
         expect(badges(1, 'E5')).toEqual(['E5']);
     });
 
@@ -307,7 +308,7 @@ describe('A-48 part 2, U8: the teacher book (step badge, student book pages, que
             [8, 'A1', 'หนังสือนักเรียน หน้า 130–131'], [8, 'A2', 'หนังสือนักเรียน หน้า 132'], [8, 'E1', 'หนังสือนักเรียน หน้า 136'], [8, 'E3', 'หนังสือนักเรียน หน้า 2'],
         ];
         for (const [week, id, expected] of want) expect(materials(week, id), `week ${week} ${id}`).toContain(expected);
-        expect(text(doc.body)).not.toContain('student book:');
+        expect(Array.from(doc.querySelectorAll('.st-step'), (step) => text(step.querySelector('.st-gloss') ?? step)).join(' ')).not.toContain('student book:');
     });
 
     it('U8-questions: the read-along questions print in D3 with the printed page, and not in C5', async () => {

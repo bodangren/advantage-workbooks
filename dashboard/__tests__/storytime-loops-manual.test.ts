@@ -138,9 +138,12 @@ describe('Storytime teaching loops in the manual', () => {
         expect(locations.map((s) => day.indexOf(s)).every((n) => n >= 0)).toBe(true);
         expect(locations.map((s) => day.indexOf(s))).toEqual([...locations].map((s) => day.indexOf(s)).sort((a, b) => a - b));
         expect(day.indexOf('Recall the cards.')).toBeGreaterThan(day.indexOf('<h5>Review strip</h5>'));
+        // A-48 decision 6: the read-along questions print in D3 (day 4, the leveled reader), not in C5 (day 3, the decodable).
         const day3 = html.split('<section class="st-day"')[3];
-        expect(day3.indexOf('Questions: point to the picture')).toBeGreaterThan(-1);
-        expect(day3.indexOf('Ask who.')).toBeGreaterThan(day3.indexOf('Questions: point to the picture'));
+        expect(day3.indexOf('Questions: point to the picture')).toBe(-1);
+        const day4 = html.split('<section class="st-day"')[4];
+        expect(day4.indexOf('Questions: point to the picture')).toBeGreaterThan(-1);
+        expect(day4.indexOf('Ask who.')).toBeGreaterThan(day4.indexOf('Questions: point to the picture'));
     });
 
     it.each([
