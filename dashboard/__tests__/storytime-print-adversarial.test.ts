@@ -252,9 +252,10 @@ describe('Adversarial: the strict approval parts fail closed', () => {
         if (result.success) expect(result.data.approval.print, 'The stripped key leaves the draft default.').toEqual({ status: 'draft' });
     });
 
-    it('keeps the shipped week 1 published detail limited to the three media parts', () => {
+    it('keeps the shipped week 1 published gate passing, with no detail (audio and song approved 2026-11-04)', () => {
         const published = checkById(checkStorytimeWeek(shipped(1)).checks, 'published');
-        expect(published?.detail, 'No adversarial copy changed the shipped gate.').toBe('audio not approved; song not approved');
+        expect(published?.status, 'No adversarial copy changed the shipped gate.').toBe('pass');
+        expect(published?.detail, 'The passing gate has no detail.').toBeUndefined();
     });
 });
 

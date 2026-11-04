@@ -299,14 +299,12 @@ describe('StorytimeLoopsApprovalSchema refine', () => {
     });
 });
 
-describe('published guard (characterization, pass at Red)', () => {
-    const PUBLISHED_DETAIL = 'audio not approved; song not approved';
-
-    it('reports the shipped st2/1 published detail', () => {
+describe('published guard (the shipped st2/1 passes since 2026-11-04)', () => {
+    it('passes the shipped st2/1 published check, with no detail (audio and song approved 2026-11-04)', () => {
         const report = checkStorytimeWeek(loadWeek(1));
         const pub = report.checks.find((c) => c.id === 'published');
-        expect(pub?.status).toBe('fail');
-        expect(pub?.detail).toBe(PUBLISHED_DETAIL);
+        expect(pub?.status).toBe('pass');
+        expect(pub?.detail).toBeUndefined();
     });
 
     it('passes published on a w01 copy with six approved parts and a draft loops part', () => {
@@ -318,11 +316,13 @@ describe('published guard (characterization, pass at Red)', () => {
         expect(report.checks.find((c) => c.id === 'published')?.status).toBe('pass');
     });
 
-    it('keeps the shipped published detail with an explicit draft loops part', () => {
+    it('keeps the shipped published check passing with an explicit draft loops part', () => {
         const w = loadWeek(1);
         w.approval.loops = { status: 'draft' };
         const report = checkStorytimeWeek(w);
-        expect(report.checks.find((c) => c.id === 'published')?.detail).toBe(PUBLISHED_DETAIL);
+        const pub = report.checks.find((c) => c.id === 'published');
+        expect(pub?.status).toBe('pass');
+        expect(pub?.detail).toBeUndefined();
     });
 
     it('still reports images not approved when only images is draft (the exclusion is not over-broad)', () => {

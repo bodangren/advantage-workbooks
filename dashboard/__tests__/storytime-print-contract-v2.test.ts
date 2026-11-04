@@ -287,12 +287,17 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         }
     });
 
-    it('the published gate of st2/1 names only images, audio, and song', () => {
+    it('the published gate of st2/1 passes when its audio and song are approved (Daniel, 2026-11-04)', () => {
         const published = checkById(checkStorytimeWeek(shipped(1)).checks, 'published');
-        expect(published, 'st2/1 stays unpublished until its media are approved.').toMatchObject({ status: 'fail' });
-        expect(published?.detail, 'The published detail of st2/1 is exactly the three media parts.').toBe(
-            'audio not approved; song not approved',
-        );
+        expect(published, 'All six app parts of st2/1 are approved.').toMatchObject({ status: 'pass' });
+        expect(published?.detail, 'No print, loops, or other check leaks into the published gate of st2/1.').toBeUndefined();
+    });
+
+    it('the published gate of a st2/1 copy names exactly the one app part that is draft, and the print and loops parts stay out', () => {
+        const copy = shipped(1) as WeekCopy;
+        copy.approval!.song = { status: 'draft' };
+        const published = checkById(checkStorytimeWeek(parsed(copy)).checks, 'published');
+        expect(published).toMatchObject({ status: 'fail', detail: 'song not approved' });
     });
 });
 

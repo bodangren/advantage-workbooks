@@ -706,8 +706,10 @@ describe('an unchecked loop part warns', () => {
         const approval = StorytimeWeekSchema.parse(shippedWeek(1)).approval;
         const expected = parts.filter((p) => approval[p].status !== 'approved').map((p) => `${p} not approved`).join('; ');
         const published = check(checkStorytimeWeek(shippedWeek(1)), 'published');
-        expect(published.status).toBe('fail');
-        expect(published.detail).toBe(expected);
+        // Since 2026-11-04 (Daniel's audio and song approvals) all six app parts of st2/1 are approved, so the gate passes.
+        expect(expected, 'no app part of st2/1 is draft').toBe('');
+        expect(published.status).toBe('pass');
+        expect(published.detail).toBeUndefined();
     });
 
     it('still gives a drill sound outside the allowed set the status LOOP_CHECK_STATUS, with the sound named', () => {
