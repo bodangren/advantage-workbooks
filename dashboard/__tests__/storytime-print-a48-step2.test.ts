@@ -62,8 +62,8 @@ describe('A-48 F1: every trace word sits on its rule line', () => {
     it('F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm)', async () => {
         const { doc } = await book();
         const spans = Array.from(doc.querySelectorAll('.student-page [data-part="writing-trace"], .student-page [data-part="dictation-trace"], .student-page [data-part="dictation-word-trace"], .student-page [data-part="choice-word-trace"]'));
-        // 7 frame traces, 6 trace sentences, the week 1 trace word "a", and the 25 choice words of weeks 2 to 7.
-        expect(spans.length).toBeGreaterThanOrEqual(39);
+        // 7 frame traces, 6 trace sentences, the week 1 trace word "a", and the 22 choice words of weeks 2 to 7.
+        expect(spans.length).toBeGreaterThanOrEqual(36);
         for (const span of spans) {
             const svg = span.querySelector('svg')!;
             const view = svg.getAttribute('viewBox')!.split(' ').map(Number);

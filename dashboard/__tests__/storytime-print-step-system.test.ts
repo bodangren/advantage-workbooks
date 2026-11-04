@@ -458,7 +458,9 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         const frameLayout = words.traceLineLayout(week.print!.writing.traceText, words.TRACE_LINE.fontSizeMm);
         expect(frame.querySelectorAll('circle[data-part="trace-word-dot"]')).toHaveLength(frameLayout.words.filter((word) => word.dot).length);
         expect(onlyPart(list[1], `${week.print!.writing.line}-line`).hasAttribute('data-student-work')).toBe(true);
-        expect(list[1].querySelectorAll('[data-part="writing-picture-box"]')).toHaveLength(week.print!.writing.pictureBox ? 1 : 0);
+        const draw = week.print!.writing;
+        // One draw box with no choice words; else two boxes in all, and the prompt picture counts as one of them (A-48 U2).
+        expect(list[1].querySelectorAll('[data-part="writing-picture-box"]')).toHaveLength(draw.pictureBox ? (draw.choiceWords ? 2 - (draw.promptPicture ? 1 : 0) : 1) : 0);
         // The row numbers run through the page: C3 first, then D4.
         const numbers = texts(page, '[data-part="row-number"]');
         expect(numbers).toEqual(numbers.map((_value, index) => String(index + 1)));
