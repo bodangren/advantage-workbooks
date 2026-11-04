@@ -32,6 +32,8 @@ interface PageSpec {
     body: string;
     /** True for a sound, write, or check page: it gets the page number at the bottom right (A-48). */
     numbered?: boolean;
+    /** The week of the page; the book map and the blank pages have none (A-48 U9). */
+    week?: number;
 }
 
 /** The options for compiling one complete Storytime student book. */
@@ -731,6 +733,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             const review = reviewPages(week, rows, o, pictureFiles);
             if (specs.length % 2 === 0) specs.push(blankPage());
             pageOf.set(week.meta.week, specs.length + 1);
+            review.forEach((spec) => { spec.week = week.meta.week; });
             specs.push(...review);
             continue;
         }
@@ -747,6 +750,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         // face each other; the home leaf and the reader leaves then start on a leaf front.
         if (specs.length % 2 === 0) specs.push(blankPage());
         pageOf.set(week.meta.week, specs.length + 1);
+        weekPages.forEach((spec) => { spec.week = week.meta.week; });
         specs.push(...weekPages);
     }
     const reviewWeek = weeks.find((week) => week.meta.kind === 'review');
@@ -763,7 +767,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             // A home card keeps 6 mm between its text and the cut line (E47): 4 mm more padding on the spine side.
             const cardEdge = ['home-front', 'home-back'].includes(spec.kind) ? ((i + 1) % 2 ? 'left' : 'right') : '';
             const cardStyle = cardEdge ? ` style="padding-${cardEdge}:${o.profile.perforationMm + 6}mm"` : '';
-            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}${cardStyle}>${spec.body}${number}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
+            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${spec.week === undefined ? '' : ` data-week="${spec.week}"`}${attrs}${cardStyle}>${spec.body}${number}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
         })
         .join('\n');
     return { html: `<!doctype html>

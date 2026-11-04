@@ -7,6 +7,8 @@ import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import type { StorytimePrintProfile } from './profile';
 import { fontFaceCss } from './print-fonts';
+import { iconSvg } from './icons';
+import { STORYTIME_READER_PAGE_OFFSET, type StorytimeIcon } from './step-map';
 
 /**
  * The reader pages of a Storytime week (spec FR-5): the 7 read-along readers and the 7 decodable
@@ -210,17 +212,26 @@ export function storytimeReaderPictureFiles(weeks: StorytimeWeek[], o: Storytime
     return files;
 }
 
-/** The reader cover page (FR-5.5): the title, the band "Sprout", the series, and the week number. */
+/** The role of a reader and its mark on the cover: listen and read, sound it out, or say the first sound (A-48 B17). */
+function roleOf(book: StorytimeWeek['books'][number]): { label: string; icons: StorytimeIcon[] } {
+    if (book.soundBook) return { label: 'Say the first sound.', icons: ['ear', 'mouth'] };
+    if (isDecodable(book)) return { label: 'Sound it out.', icons: ['read', 'mouth'] };
+    return { label: 'Listen and read.', icons: ['ear', 'read'] };
+}
+
+/** The reader cover page (FR-5.5): the title, the band "Sprout", the series, the week number, and the role mark. */
 function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], cover: StorytimePictureRow, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): ReaderPageSpec {
     const copy = [book.title, 'Sprout', 'Storytime Advantage', `Week ${week.meta.week}`];
     const banned = copy.filter((line) => COVER_COPY_RULE.test(line));
     if (banned.length) throw new Error(`reader cover copy (FR-6.3): ${banned.join('; ')}`);
+    const role = roleOf(book);
     const body = `<div class="reader-cover">
   ${pictureElement(cover, o, files)}
   <p class="reader-band">Sprout</p>
   <h1 class="reader-title" data-part="reader-cover-title">${esc(book.title)}</h1>
   <p class="reader-series">Storytime Advantage</p>
   <p class="reader-week">Week ${week.meta.week}</p>
+  <p class="reader-role" data-part="reader-role">${role.icons.map((icon) => iconSvg(icon, 'reader-role-icon', 'reader-role-icon')).join('')}<span>${esc(role.label)}</span></p>
 </div>`;
     return { number: 1, body, numbered: false };
 }
@@ -258,8 +269,11 @@ function closingPage(week: StorytimeWeek, book: StorytimeWeek['books'][number]):
     if (isDecodable(book)) return qrBlock(week, book);
     const family = week.focus.family;
     const words = family.words.map((entry) => `<span class="reader-word">${esc(entry.word)}</span>`).join('');
+    // A family word that the story does not use sits under "More words", not under the family name (A-48 E52).
+    const storyWords = new Set(book.pages.flatMap((page) => page.text.toLowerCase().match(/[a-z']+/g) ?? []));
+    const allUsed = family.words.every((entry) => storyWords.has(entry.word.toLowerCase()));
     return `<p class="reader-frame" data-part="reader-frame">${esc(week.focus.frame)}</p>
-<p class="reader-heading">${esc(family.name.en)}</p>
+<p class="reader-heading">${allUsed ? esc(family.name.en) : 'More words'}</p>
 <div class="reader-word-row">${words}</div>`;
 }
 
@@ -287,7 +301,7 @@ function readerPages(week: StorytimeWeek, book: StorytimeWeek['books'][number], 
     if (book.pages.length !== 8) throw new Error(`the reader "${book.title}" has ${book.pages.length} story pages; FR-5.2 and FR-5.3 give 8`);
     const footer = `${book.title} \u2022 Level ${week.meta.level}`;
     const story = book.pages.map((page, i) => ({
-        number: i + 3,
+        number: i + 1 + STORYTIME_READER_PAGE_OFFSET,
         body: `<div class="reader-story">${pictureElement(rows.pages[i], o, files)}<p class="reader-text" data-part="reader-text">${esc(page.text)}</p></div>`,
         footer,
         numbered: true,
@@ -368,6 +382,8 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
 .reader-band { font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; line-height: 1.2; margin-top: ${mm(1)}; }
 .reader-series { font-size: ${pt(9)}; line-height: 1.2; margin-top: ${mm(1)}; }
 .reader-week { font-size: ${pt(10)}; line-height: 1.2; margin-top: ${mm(1)}; }
+.reader-role { display: flex; align-items: center; gap: ${mm(1)}; font-size: ${pt(9)}; line-height: 1.2; margin-top: ${mm(1)}; }
+.reader-role-icon { width: ${mm(4)}; height: ${mm(4)}; display: block; flex: none; }
 .reader-heading { font-size: ${pt(11)}; font-weight: 700; margin-top: ${mm(3)}; }
 .reader-sound { font-size: ${pt(30)}; font-weight: 700; text-align: center; margin-top: ${mm(3)}; }
 .reader-word-row { display: flex; flex-wrap: wrap; gap: ${mm(2)} ${mm(4)}; margin-top: ${mm(2)}; font-size: ${pt(12)}; }

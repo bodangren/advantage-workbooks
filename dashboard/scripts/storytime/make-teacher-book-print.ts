@@ -8,6 +8,7 @@ import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
 import { diffPrintText, teacherBookPrintFileName, type PrintTextDifference } from '../../lib/storytime/print/text-diff';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
+import { storytimeStudentBookPages, type StorytimeBookPage } from '../../lib/storytime/print/step-pages';
 
 /**
  * The build of the Thai teacher-book print file (track storytime_print_r1_20261025, spec FR-4):
@@ -121,11 +122,11 @@ function layoutText(pdf: string): string {
  * Renders one teacher-book HTML document to a Chrome PDF and returns the page count. The
  * template and the browser load here, not at the top, so that `--help` answers fast.
  */
-async function renderChromePdf(weeks: StorytimeWeek[], pdf: string, tmp: string, pagedSrc: string, loops: boolean): Promise<number> {
+async function renderChromePdf(weeks: StorytimeWeek[], pdf: string, tmp: string, pagedSrc: string, loops: boolean, studentBookPages: StorytimeBookPage[]): Promise<number> {
     const { chromium } = await import('@playwright/test');
     const { compileStorytimeManual } = await import('../../lib/storytime/manual');
     const htmlFile = path.join(tmp, `${path.basename(pdf, '.pdf')}.html`);
-    const html = compileStorytimeManual(weeks, { lang: 'th', paper: 'a4', loops }).html;
+    const html = compileStorytimeManual(weeks, { lang: 'th', paper: 'a4', loops, studentBookPages }).html;
     fs.writeFileSync(htmlFile, html.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''));
     const browser = await chromium.launch({ channel: 'chrome' });
     try {
@@ -176,6 +177,9 @@ async function main(argv: string[]): Promise<number> {
         console.error(`A teacher-book print file holds one unit; these weeks are of units ${units.join(', ')}`);
         return 1;
     }
+    // The steps name the printed pages of the student book of the whole unit (A-48 U8), not of the requested weeks only.
+    const unitWeeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((r) => (r.week ? [r.week] : []));
+    const studentBookPages = storytimeStudentBookPages(unitWeeks);
     const draftOf = (week: number) => path.join(drafts, `Storytime-L${level}-W${String(week).padStart(2, '0')}-Teachers-Book-TH-draft.pdf`);
     const missing = weeks.map(draftOf).filter((file) => !fs.existsSync(file));
     if (missing.length) {
@@ -210,13 +214,13 @@ async function main(argv: string[]): Promise<number> {
     let problems: string[];
     let pages: number;
     try {
-        pages = await renderChromePdf(parsed, chromeFile, tmp, pagedSrc, loops);
+        pages = await renderChromePdf(parsed, chromeFile, tmp, pagedSrc, loops, studentBookPages);
         problems = chromeProblems(chromeFile, layoutText(chromeFile));
         // The text gate of each week reads a Chrome PDF of that week only, as the draft holds one week.
         for (const week of parsed) {
             const n = week.meta.week;
             const weekPdf = parsed.length === 1 ? chromeFile : path.join(tmp, `week-${n}.pdf`);
-            if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops);
+            if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, studentBookPages);
             const differences: PrintTextDifference[] = diffPrintText(layoutText(draftOf(n)), layoutText(weekPdf));
             differenceCount += differences.length;
             report.push(`week ${n}: ${differences.length} difference(s) against ${draftOf(n)}`);

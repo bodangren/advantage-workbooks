@@ -5,6 +5,8 @@ import { getTranslations, type SupportedLanguage } from '../teacher-manual/i18n'
 import type { TeacherManualPaper } from '../teacher-manual/types';
 import { storytimeLabels, type StorytimeLabels } from './i18n';
 import type { BiText, StorytimeCheckItem, StorytimeNote, StorytimeStep, StorytimeWeek } from './schema';
+import { STORYTIME_READER_PAGE_OFFSET, storytimeStepEntry } from './print/step-map';
+import { storytimeStepPage, type StorytimeBookPage, type StorytimeStepPage } from './print/step-pages';
 
 /**
  * The Storytime template of the teacher manual generator (track storytime_week_package_20261022,
@@ -15,6 +17,10 @@ import type { BiText, StorytimeCheckItem, StorytimeNote, StorytimeStep, Storytim
 
 /** A garden green; it prints as a dark gray on the school's black-and-white printer. */
 const THEME: ThemeColors = { primary: '#2e6b30', secondary: '#6b4f10', gradient: 'none' };
+
+/** The step badge of the print teacher book (A-48 U8): a grey chip with the code of the step. The approved template has no badge. */
+const BADGE_CSS = `
+    .st-step-badge { display: inline-block; background: #ddd; color: #000; font-size: 8.5pt; font-weight: 700; padding: 0 4px; margin-right: 4px; border-radius: 2px; }`;
 
 const CSS = `
     .st-week, .st-day { break-before: page; }
@@ -94,7 +100,7 @@ function renderNote(en: StorytimeNote, th: StorytimeNote | undefined, lang: Supp
       </div>`;
 }
 
-function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean; loops?: boolean; questions?: StorytimeWeek['books'][number]['questions'] } = {}): string {
+function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean; loops?: boolean; questions?: StorytimeWeek['books'][number]['questions']; pageOf?: (stepId: string) => StorytimeStepPage | undefined } = {}): string {
     const title = options.title !== undefined
         ? escapeHtml(options.title)
         : lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
@@ -106,12 +112,22 @@ function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLa
         step.blendDrill ? `<div class="st-loop"><h5>${escapeHtml(l.blendDrill)}</h5>${biLine(step.blendDrill.model)}${biLine(step.blendDrill.lead)}${biLine(step.blendDrill.test)}<p>${step.blendDrill.words.map((word) => escapeHtml(word.word)).join(', ')} — ${escapeHtml(String(step.blendDrill.repeats))}×</p>${biLine(step.blendDrill.correction)}</div>` : '',
         step.soundLoop ? `<div class="st-loop"><h5>${escapeHtml(l.soundLoop)}</h5>${biLine(step.soundLoop.correct)}${biLine(step.soundLoop.practise)}${biLine(step.soundLoop.retest)}</div>` : '',
         step.sightWords ? `<div class="st-loop"><h5>${escapeHtml(l.sightWords)}</h5><p>${step.sightWords.words.map(escapeHtml).join(', ')}</p>${biLine(step.sightWords.slide)}${biLine(step.sightWords.check)}<p>${escapeHtml(String(step.sightWords.seconds))} ${escapeHtml(l.secondsPerWord)}</p></div>` : '',
-        step.id === 'C5' && options.questions ? `<div class="st-loop"><h5>${escapeHtml(l.questions)}</h5>${options.questions.map((question) => `<p>${escapeHtml(question.ask.en)} — ${escapeHtml(l.answer)}: ${escapeHtml(question.answer.word)} (${escapeHtml(l.page)} ${escapeHtml(String(question.answer.page))})</p>${lang === 'th' && question.ask.th ? `<p class="st-gloss">${escapeHtml(question.ask.th)}</p>` : ''}`).join('')}</div>` : '',
+        step.id === 'D3' && options.questions ? `<div class="st-loop"><h5>${escapeHtml(l.questions)}</h5>${options.questions.map((question) => `<p>${escapeHtml(question.ask.en)} — ${escapeHtml(l.answer)}: ${escapeHtml(question.answer.word)} (${escapeHtml(l.page)} ${escapeHtml(String(question.answer.page + STORYTIME_READER_PAGE_OFFSET))})</p>${lang === 'th' && question.ask.th ? `<p class="st-gloss">${escapeHtml(question.ask.th)}</p>` : ''}`).join('')}</div>` : '',
     ].join('') : '';
+    // The print teacher book (the page list is given) shows the badge that the student book page prints for the part (A6·D2 for the tricky words), else the step id (A-48 U8). The approved template keeps "A7 · title".
+    const badge = storytimeStepEntry(step.id)?.code ?? step.id;
+    const where = options.pageOf?.(step.id);
+    const range = where ? (where.first === where.last ? `${where.first}` : `${where.first}–${where.last}`) : '';
+    // "student book: x" names the printed page of the student book: "หนังสือนักเรียน หน้า N (x)" in the Thai book.
+    const material = (item: string): string => {
+        const named = /^student book: (.+)$/.exec(item);
+        if (!named || !where) return item;
+        return lang === 'th' ? `หนังสือนักเรียน หน้า ${range} (${named[1]})` : `student book, page ${range}: ${named[1]}`;
+    };
     return `
     <div class="st-step${step.moved ? ' st-moved' : ''}">
-      <h4 class="st-step-title">${escapeHtml(step.id)} · ${title}${minutes}</h4>
-      ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.join(', '))}</p>` : ''}
+      <h4 class="st-step-title">${options.pageOf ? `<span class="st-step-badge" data-part="step-badge">${escapeHtml(badge)}</span> ` : `${escapeHtml(step.id)} · `}${title}${minutes}</h4>
+      ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.map(material).join(', '))}</p>` : ''}
       ${renderNote(step.en, step.th, lang)}${routines ? `\n      ${routines}` : ''}
       <div class="st-variants">
         ${variant(l.easier, step.easier)}
@@ -204,8 +220,9 @@ function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLab
  * @param lang The book language. The Thai book prints the English of a part that has no Thai yet.
  * @returns The HTML.
  */
-export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, options: { loops?: boolean } = {}): string {
+export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, options: { loops?: boolean; studentBookPages?: StorytimeBookPage[] } = {}): string {
     const l = storytimeLabels(lang);
+    const pageOf = options.studentBookPages ? (stepId: string) => storytimeStepPage(options.studentBookPages!, w.meta.week, stepId) : undefined;
     const scripts = [...w.scripts].sort((a, b) => a.day - b.day);
     const days = scripts.map((s, i) => {
         const prep = s.prep.length ? `<div class="st-prep"><h4>${escapeHtml(l.prep)}</h4><ul>${s.prep.map((x) => `<li>${escapeHtml(pick(x, lang))}</li>`).join('')}</ul></div>` : '';
@@ -233,13 +250,13 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, o
     ${prep}
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
-      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false })).join('') : ''}</li>`).join('')}</ol>
+      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false, pageOf })).join('') : ''}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}${options.loops && s.recall ? `\n      <h5>${escapeHtml(l.recallLoop)}</h5><p>${escapeHtml(s.recall.ask.en)}</p>${lang === 'th' && s.recall.ask.th ? `<p class="st-gloss">${escapeHtml(s.recall.ask.th)}</p>` : ''}<p>${s.recall.items.map((card) => `<span class="st-card">${escapeHtml(card.text)}</span>`).join('')}</p>` : ''}
     </div>
-    ${movedGroup(l.recall, recall, lang, l)}
-    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, questions: st.id === 'C5' ? w.books.find((book) => book.kind === 'readalong')?.questions : undefined })).join('')}
-    ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l) : ''}
+    ${movedGroup(l.recall, recall, lang, l, pageOf)}
+    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, pageOf, questions: st.id === 'D3' ? w.books.find((book) => book.kind === 'readalong')?.questions : undefined })).join('')}
+    ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l, pageOf) : ''}
   </section>`;
     });
     return renderHeader(w, lang, l) + days.join('') + renderBenchmark(w, lang, l) + renderSong(w, lang, l);
@@ -320,9 +337,9 @@ function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: Storytime
 }
 
 /** A heading and moved steps: the heading and the first step in one block, the other steps after it. */
-function movedGroup(heading: string, steps: StorytimeStep[], lang: SupportedLanguage, l: StorytimeLabels): string {
+function movedGroup(heading: string, steps: StorytimeStep[], lang: SupportedLanguage, l: StorytimeLabels, pageOf?: (stepId: string) => StorytimeStepPage | undefined): string {
     if (!steps.length) return '';
-    const [first, ...rest] = steps.map((st) => renderStep(st, lang, l));
+    const [first, ...rest] = steps.map((st) => renderStep(st, lang, l, { pageOf }));
     return `<div class="st-moved-group"><h4>${escapeHtml(heading)}</h4>${first}</div>${rest.join('')}`;
 }
 
@@ -357,6 +374,8 @@ export interface StorytimeManualOptions {
     loops?: boolean;
     /** `a4` (the office print, default) or `book` (the printer's page). */
     paper?: TeacherManualPaper;
+    /** The page list of the student book of the unit (`storytimeStudentBookPages`); the steps then name the printed pages. */
+    studentBookPages?: StorytimeBookPage[];
 }
 
 /**
@@ -382,7 +401,7 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
       <p class="tm-title-subtitle" style="color: ${THEME.secondary};">${escapeHtml(l.subtitle)}</p>
     </div>
   </div>`;
-    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang, { loops: options.loops })).join('\n');
+    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang, { loops: options.loops, studentBookPages: options.studentBookPages })).join('\n');
     const html = wrapTeacherManualDocument(title, body, '', {
         seriesName: l.product,
         seriesLevel: levelLabel,
@@ -397,5 +416,5 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
         ? `${fontFaceCss(PRINT_FONT_FACES.filter((f) => f.family === 'Sarabun'))}\n    body, body * { font-family: 'Open Sans', 'Sarabun', sans-serif; }`
         : '';
     // In the head, not the body: Paged.js reads its page breaks only from the head styles.
-    return { html: html.replace('</head>', `<style>${CSS}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
+    return { html: html.replace('</head>', `<style>${CSS}${options.studentBookPages ? BADGE_CSS : ''}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
 }

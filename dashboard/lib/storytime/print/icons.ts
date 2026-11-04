@@ -34,3 +34,14 @@ export function iconSvg(name: StorytimeIcon | string, className = 'step-icon', p
     if (!paths) throw new Error(`no icon named "${name}"`);
     return `<svg class="${className}" data-part="${part}" data-icon="${name}" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths}</g></svg>`;
 }
+
+/**
+ * One icon as a stand-alone SVG file (the step map folder for the app): the same strokes, black on a transparent ground.
+ * @param name The icon name.
+ * @returns The file text, ending with a line feed.
+ */
+export function iconSvgFile(name: StorytimeIcon): string {
+    const paths = ICON_PATHS[name];
+    if (!paths) throw new Error(`no icon named "${name}"`);
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths}</g></svg>\n`;
+}

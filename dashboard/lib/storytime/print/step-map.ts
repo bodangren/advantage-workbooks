@@ -46,6 +46,24 @@ export const STORYTIME_STEP_MAP: readonly StorytimeStepEntry[] = [
     { code: 'E1', steps: ['E1'], pageKind: 'review', block: 'review-5', icons: ['read', 'circle'], label: 'Review 5' },
 ];
 
+/**
+ * Steps that use a page of the student book but have no block with a badge on it: the home card (A8),
+ * the share of the writing page (D5), and the sticker of week 8 on the book map (E3).
+ */
+export const STORYTIME_EXTRA_STEPS: readonly StorytimeStepEntry[] = [
+    { code: 'A8', steps: ['A8'], pageKind: 'home-front', block: 'home-card', icons: [], label: 'Home card' },
+    { code: 'D5', steps: ['D5'], pageKind: 'writing', block: 'write-it', icons: ['pencil'], label: 'Share' },
+    { code: 'E3', steps: ['E3'], pageKind: 'book-map', block: 'book-map', icons: ['star'], label: 'Book map' },
+];
+
+/** A story page of a reader prints 2 pages later than its number in the week data: the title page and the sounds page come first (A-48 E37). */
+export const STORYTIME_READER_PAGE_OFFSET = 2;
+
+/** The step entry of a script step id, from the step map or from the extra steps; undefined when the step uses no page. */
+export function storytimeStepEntry(stepId: string): StorytimeStepEntry | undefined {
+    return STORYTIME_STEP_MAP.find((item) => item.steps.includes(stepId)) ?? STORYTIME_EXTRA_STEPS.find((item) => item.steps.includes(stepId));
+}
+
 /** The step entry of a code. */
 export function storytimeStep(code: string): StorytimeStepEntry {
     const entry = STORYTIME_STEP_MAP.find((item) => item.code === code);
