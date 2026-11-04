@@ -326,3 +326,47 @@ describe('A-48 part 2, U8: the teacher book (step badge, student book pages, que
         }
     });
 });
+
+describe('A-48 part 2, U9: the step map file for the app (tasks 4.3 and 4.6)', () => {
+    const unitDir = path.join(STORYTIME_ROOT, 'l2');
+    const readRows = () => JSON.parse(fs.readFileSync(path.join(unitDir, 'step-map-u1.json'), 'utf8')) as { week: number; code: string; steps: string[]; pageKind: string; block: string; icons: string[]; page: number; pageEnd?: number }[];
+
+    it('U9-file: the committed file equals the rows that the code builds, with the shape {week, code, steps, pageKind, block, icons, page}', async () => {
+        const mod = await import(stepPagesModule) as StepPages;
+        const rows = readRows();
+        expect(rows).toEqual(JSON.parse(JSON.stringify(mod.storytimeStepMapRows(weeks()))));
+        for (const row of rows) {
+            expect(Object.keys(row).filter((key) => key !== 'pageEnd').sort()).toEqual(['block', 'code', 'icons', 'page', 'pageKind', 'steps', 'week']);
+            expect(Number.isInteger(row.page) && row.page > 0).toBe(true);
+        }
+        const codes = (week: number) => rows.filter((row) => row.week === week).map((row) => row.code).sort();
+        expect(codes(1)).toEqual(['A3', 'A6·D2', 'A7', 'A8', 'C3', 'C7', 'D4', 'D5', 'E5']);
+        expect(codes(8)).toEqual(['A1', 'A2', 'B1', 'C1', 'D1', 'E1', 'E3']);
+        expect(new Set(rows.map((row) => row.week))).toEqual(new Set([1, 2, 3, 4, 5, 6, 7, 8]));
+    });
+
+    it('U9-book: each row points to the page of that kind in the built book, and the week check page is page 6, 24, 42, 60, 78, 96, 114', async () => {
+        const { doc } = await book();
+        const sections = new Map(Array.from(doc.querySelectorAll('.student-page')).map((s) => [Number(s.getAttribute('data-page-number')), s]));
+        for (const row of readRows()) {
+            const section = sections.get(row.page)!;
+            expect(section.getAttribute('data-page-kind'), `week ${row.week} ${row.code}`).toBe(row.pageKind);
+            if (row.pageKind !== 'book-map') expect(Number(section.getAttribute('data-week')), `week ${row.week} ${row.code}`).toBe(row.week);
+            if (row.pageEnd) expect(sections.get(row.pageEnd)!.getAttribute('data-page-kind')).toBe(row.pageKind);
+        }
+        expect(readRows().filter((row) => row.code === 'E5').map((row) => row.page)).toEqual([6, 24, 42, 60, 78, 96, 114]);
+        expect(readRows().find((row) => row.week === 8 && row.code === 'A1')).toMatchObject({ page: 130, pageEnd: 131 });
+    });
+
+    it('U9-icons: every icon of the file has a black line SVG file in the folder', () => {
+        const names = [...new Set(readRows().flatMap((row) => row.icons))].sort();
+        expect(names).toEqual(['circle', 'ear', 'mouth', 'pencil', 'read', 'star'].filter((name) => names.includes(name)));
+        expect(names.length).toBeGreaterThanOrEqual(5);
+        for (const name of ['ear', 'mouth', 'read', 'pencil', 'circle', 'book', 'star']) {
+            const svg = fs.readFileSync(path.join(unitDir, `step-icon-${name}.svg`), 'utf8');
+            expect(svg).toMatch(/^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="0 0 24 24"/);
+            expect(svg).toContain('stroke="#000"');
+            expect(svg).not.toMatch(/fill="#(?!000)|<image|<script/);
+        }
+    });
+});
