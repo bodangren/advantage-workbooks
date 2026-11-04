@@ -1,6 +1,6 @@
 # Look points for Daniel's check of 2026-11-16: the A-42 teaching loops
 
-This file lists the 25 look points of the independent check of the A-42 weeks w01 to w08 (`p3-content-check-39e2172c.md`). Each point has a default. The PM relays this file to Daniel.
+This file lists the 26 look points of the independent check of the A-42 weeks w01 to w08 (`p3-content-check-39e2172c.md`). Each point has a default. The PM relays this file to Daniel.
 Answer "OK" for all defaults, or name a point by its LP number and the change. The checker's 8 errors are fixed in 0a33add391357d4a693bb90c9a66655e6d0f5ec2, and Daniel sees those lines in the normal line check.
 The English and the Thai below come from the week files at the pin. The Thai is a draft. No week file changes for these points before Daniel answers.
 
@@ -31,7 +31,10 @@ The English and the Thai below come from the week files at the pin. The Thai is 
 | LP-23 | w08 | `loopMinutes` | w08 has no `loopMinutes`, because no day sum changed (spec D11). | Keep (no action). | The day sums stay 30 (10 + 10 + 4 + 6). |
 | LP-24 | w08 | recall of each day | Each day has 5 cards from weeks 1 to 7, with no repeat in one day. `ask`: `Show the five cards. The class says each sound or word.` / `ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ`. | Keep (no action). | The checker found it clean. |
 | LP-25 | w08 | note of the checker on days 4 and 5 of the teach weeks | Days 4 and 5 of weeks 2 to 7 show only older cards. A mix of 3 old and 2 new cards would keep the new sound in play. The checker calls it a spacing choice, not a rule break. | As LP-08 for weeks 2 to 7. Week 8 keeps its recall. | A review week reviews weeks 1 to 7. |
+| LP-26 | w01 to w07 | teacher book layout, classes A, B, and C (commit `06e866e1`) | The A8 heading no longer has "0 นาที". The B7 and D6 song steps now stand inside the opening boxes of day 3 and day 5, under the heading "ร้องเพลงประจำสัปดาห์พร้อมท่าทาง". The body text of the song steps is the same. Example pages 13 and 19 of `~/Desktop/print-ready/storytime/unit1-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v3_PDFX-1a.pdf`. | Keep. | PM answer of 2026-11-04: classes A to C go to the check as one look point. The text gate of the teacher book found these differences after the approval of the Thai drafts. |
 
-Defaults: 23 keep; 2 changes after Daniel's OK (LP-08 group: the recall of days 4 and 5 in weeks 2 to 7; LP-20: the w07 question).
+Defaults: 26 look points: 24 keep; 2 changes after Daniel's OK (LP-08 group: the recall of days 4 and 5 in weeks 2 to 7; LP-20: the w07 question).
+
+Material for the check: the week 1 part of teacher book v3 (pages 2 to 23) goes into the same check, next to the loops pages (PM answer 2 of 2026-11-04: "The week 1 part of teacher book v3 (pages 2-23) goes into the same 11-16 check, next to the loops pages.").
 
 Daniel's answer: ____ (date ____)
