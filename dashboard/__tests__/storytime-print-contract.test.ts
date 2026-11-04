@@ -72,7 +72,7 @@ function withPrint(): PrintWeek & { print: PrintBlock } {
     return {
         ...week,
         print: {
-            letterBox: { letter: 'n', formationWords, startPoint: 'top' },
+            letterBox: { letter: 'n', formationWords, startPoint: 'dot' },
             practice: [
                 { text: 'n n n', pictureWord: 'nose' },
                 { text: practiceText, pictureWord: 'nest' },

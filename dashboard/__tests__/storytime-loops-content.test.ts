@@ -35,11 +35,36 @@ const THAI = /[฀-๿]/;
 const weekFile = (n: number) => storytimeWeekFile(STORYTIME_ROOT, 2, n);
 const shippedRaw = (n: number): Raw => JSON.parse(fs.readFileSync(weekFile(n), 'utf8'));
 
-/** The week file at the baseline commit. A failed `git show` fails the test. */
+/**
+ * The script edits of track `storytime_print_r1_20261025` (A-48), exact text pairs of the baseline file: the
+ * capital letter of the first word of a practice line quote (F2), and the formation words of week 1 (E49).
+ * The baseline side takes each edit before the compare, so any other change of a week file still fails. Each pair
+ * must match exactly once: a stale pair fails the test.
+ */
+const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
+    1: [
+        ['"\\"Start at the top. Down. Up. Over the hill. Down.\\""', '"\\"Start at the dot. Down. Up. Over the hill. Down.\\""'],
+        ['"\\"เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง\\""', '"\\"เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง\\""'],
+        ["start at the top, down, up, over the hill, down.", "start at the dot, down, up, over the hill, down."],
+        ['(เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง)', '(เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง)'],
+    ],
+    2: [['with me: an. Nan.', 'with me: An. Nan.'], ['Read the words: an. Nan.', 'Read the words: An. Nan.']],
+    3: [['with me: pan. Nap.', 'with me: Pan. Nap.'], ['Read the words: pan. Nap.', 'Read the words: Pan. Nap.']],
+    4: [['with me: am. Man.', 'with me: Am. Man.'], ['Read the words: am. Man.', 'Read the words: Am. Man.']],
+    6: [['with me: sat. Mat.', 'with me: Sat. Mat.'], ['Read the words: sat. Mat.', 'Read the words: Sat. Mat.']],
+    7: [['with me: on. Top.', 'with me: On. Top.'], ['Read the words: on. Top.', 'Read the words: On. Top.']],
+};
+
+/** The week file at the baseline commit, with the A-48 script edits. A failed `git show` fails the test. */
 function baselineRaw(n: number): Raw {
     const file = `content/storytime/l2/w0${n}.json`;
     try {
-        return JSON.parse(execFileSync('git', ['show', `${BASELINE_COMMIT}:${file}`], { cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }));
+        let raw = execFileSync('git', ['show', `${BASELINE_COMMIT}:${file}`], { cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+        for (const [from, to] of A48_SCRIPT_EDITS[n] ?? []) {
+            if (raw.split(from).length !== 2) throw new Error(`the A-48 edit "${from}" does not match once in the baseline of w0${n}`);
+            raw = raw.replace(from, () => to);
+        }
+        return JSON.parse(raw);
     } catch (error) {
         throw new Error(`git show ${BASELINE_COMMIT}:${file} failed: ${(error as Error).message}`);
     }

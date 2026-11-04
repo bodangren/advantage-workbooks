@@ -500,7 +500,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const dot = part(box, 'start-dot');
         expect(dot.tagName.toLowerCase()).toBe('circle');
         expect(Number(dot.getAttribute('r'))).toBeGreaterThan(0);
-        expect(dot.getAttribute('data-start-point')).toBe('top');
+        expect(dot.getAttribute('data-start-point')).toBe('dot');
         const arrows = box.querySelectorAll('svg [marker-end], svg [data-part="formation-arrow"]');
         expect(arrows.length).toBeGreaterThan(0);
         expect(text(part(box, 'formation-words'))).toBe(week.print!.letterBox.formationWords);
