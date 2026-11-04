@@ -610,12 +610,19 @@ export const StorytimePrintBlockSchema = z
                 traceSentence: z.string().optional(),
             })
             .strict(),
-        /** The writing page: the trace text, the name or word line, and the picture box (step D4). */
+        /**
+         * The writing page: the trace text, the name or word line, and the picture box (step D4).
+         * `promptPicture` is a picture word of an existing picture of the list (a check row, a practice line,
+         * or a story page), printed as the picture to look at, count, or color. `choiceWords` are the words
+         * under the second box: each prints in trace gray on its own rule line, and the child traces one.
+         */
         writing: z
             .object({
                 traceText: z.string().min(1),
                 line: z.enum(['name', 'word']),
                 pictureBox: z.boolean(),
+                promptPicture: z.string().min(1).optional(),
+                choiceWords: z.array(z.string().min(1)).min(1).optional(),
             })
             .strict(),
     })

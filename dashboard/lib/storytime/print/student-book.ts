@@ -118,7 +118,8 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .student-page [data-part="trace-letter"],
 .student-page [data-part="writing-trace"] text,
 .student-page [data-part="dictation-trace"] text,
-.student-page [data-part="dictation-word-trace"] text { fill: #b0b0b0; color: #b0b0b0; }
+.student-page [data-part="dictation-word-trace"] text,
+.student-page [data-part="choice-word-trace"] text { fill: #b0b0b0; color: #b0b0b0; }
 .practice-sheet { margin-top: 0; }
 .practice-line { display: flex; align-items: center; gap: 4mm; margin-top: 4mm; }
 .practice-pictures { display: flex; gap: 3mm; flex: none; }
@@ -137,6 +138,12 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .writing-trace { display: block; flex: 1; border-bottom: 0.6mm solid #000; }
 .write-line { display: block; flex: 1; border-bottom: 0.6mm solid #000; height: 12mm; }
 .picture-draw-box { width: 70mm; height: 50mm; border: 0.6mm solid #000; }
+.draw-boxes { display: flex; gap: 4mm; }
+.picture-draw-box.draw-box-half { width: 64mm; height: 44mm; }
+.prompt-picture { width: 38mm; height: 38mm; }
+.choice-words { display: flex; flex-wrap: wrap; gap: 3mm 8mm; flex: 1; }
+.choice-word { display: block; }
+.choice-word .writing-trace { display: block; flex: none; }
 .tricky-row { display: flex; flex-wrap: wrap; gap: 6mm; }
 .tricky-card { border: 0.6mm solid #000; padding: 2mm 7mm; font-size: 24pt; }
 .row-group-head { display: flex; align-items: center; gap: 2mm; margin-top: 5mm; }
@@ -395,10 +402,13 @@ function traceLineHtml(text: string, part: string): string {
 /**
  * The right page of the weekly spread, the write page (page template 8.2, A-48): the framed block
  * C3 "Dictation" (a box for each dictated letter, sound boxes for a dictated word of taught letters or a
- * trace row for a word with an untaught letter, with no printed word, and the trace sentence) and the framed block D4 "Write it" (the frame trace, the name or word line,
- * and the draw box). The row numbers run through the page.
+ * trace row for a word with an untaught letter, with no printed word, and the trace sentence) and the
+ * framed block D4 "Write it" (the frame trace, the name line, the prompt picture, the draw boxes, the
+ * choice words, and the word line, in the order of the D4 script). The row numbers run through the page.
+ * The draw boxes are one box when the page has no choice words, else two boxes in all, and the prompt
+ * picture counts as one of the two.
  */
-function writingPage(week: StorytimeWeek): PageSpec {
+function writingPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const print = week.print!;
     let row = 0;
     const letterRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['ear', 'pencil'], 'Listen. Write.')}<span class="box-group">${print.dictation.letters.map(() => '<span class="letter-slot" data-part="dictation-letter"></span>').join('')}</span></div>`;
@@ -408,14 +418,27 @@ function writingPage(week: StorytimeWeek): PageSpec {
     const sentenceRow = print.dictation.traceSentence
         ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.dictation.traceSentence, 'dictation-trace')}</div>`
         : '';
-    const frameRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.writing.traceText, 'writing-trace')}</div>`;
-    const lineRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Write.')}<span class="write-line" data-part="${print.writing.line}-line" data-line="${print.writing.line}" data-student-work></span></div>`;
-    const drawRow = print.writing.pictureBox
-        ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Draw.')}<div class="picture-draw-box" data-part="writing-picture-box" data-student-work></div></div>`
+    const writing = print.writing;
+    const frameRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(writing.traceText, 'writing-trace')}</div>`;
+    const lineRow = () => `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Write.')}<span class="write-line" data-part="${writing.line}-line" data-line="${writing.line}" data-student-work></span></div>`;
+    const promptRowData = writing.promptPicture ? storytimePrintPracticePicture(week, writing.promptPicture, rows) : undefined;
+    if (writing.promptPicture && !promptRowData) throw new Error(`picture row missing for the prompt picture "${writing.promptPicture}" of week ${week.meta.week}`);
+    const promptRow = () => promptRowData
+        ? `<div class="work-row prompt-row" data-part="prompt-row">${rowStart(++row, ['read'], 'Look.')}${pictureElement(promptRowData, o, files, 'prompt-picture')}</div>`
         : '';
+    const boxCount = writing.pictureBox ? (writing.choiceWords ? 2 - (promptRowData ? 1 : 0) : 1) : 0;
+    const drawRow = () => boxCount
+        ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Draw.')}<span class="draw-boxes">${Array.from({ length: boxCount }, () => `<span class="picture-draw-box${boxCount > 1 ? ' draw-box-half' : ''}" data-part="writing-picture-box" data-student-work></span>`).join('')}</span></div>`
+        : '';
+    const chooseRow = () => writing.choiceWords
+        ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace one.')}<span class="choice-words" data-part="choice-words">${writing.choiceWords.map((word) => `<span class="choice-word" data-part="choice-word">${traceLineHtml(word, 'choice-word-trace')}</span>`).join('')}</span></div>`
+        : '';
+    const d4 = writing.line === 'name'
+        ? `${frameRow}${lineRow()}${promptRow()}${drawRow()}${chooseRow()}`
+        : `${frameRow}${promptRow()}${drawRow()}${chooseRow()}${lineRow()}`;
     const body = `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">Write</h2></div>
 ${stepBlock('C3', `<div data-part="dictation" class="dictation-rows">${letterRow}${soundRows}${sentenceRow}</div>`)}
-${stepBlock('D4', `${frameRow}${lineRow}${drawRow}`)}`;
+${stepBlock('D4', d4)}`;
     return { kind: 'writing', body, numbered: true };
 }
 
@@ -599,7 +622,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         const rows = storytimePrintPictures([week]);
         const weekPages: PageSpec[] = [
             practicePage(week, allPictureRows, o, pictureFiles),
-            writingPage(week),
+            writingPage(week, allPictureRows, o, pictureFiles),
             checkPage(week, rows, o, pictureFiles),
             ...homePages(week, o.mode),
             ...readerPages(week, o.profile, o.mode),

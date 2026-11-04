@@ -22,7 +22,7 @@ export function checkStorytimePrintText(week: StorytimeWeek): PackageCheck[] {
         pictureWordCheck(print, week),
         practiceCapitalCheck(print),
         dictationCheck(print, say('C3'), week),
-        writingCheck(print, say('D4')),
+        writingCheck(print, say('D4'), (steps.get('D4')?.en.teacherActions ?? []).map(unquote)),
         fridayCheckCheck(print, say('E5'), week.check.items),
     ];
 }
@@ -176,9 +176,10 @@ function dictationCheck(print: StorytimePrintBlock, c3: string[], week: Storytim
  * The writing page against step D4: the trace text, the name or word line, and the picture box.
  * @param print The print block.
  * @param d4 The unquoted teacher lines of step D4.
+ * @param d4Actions The teacher actions of step D4, which name the choice words and the prompt picture.
  * @returns The check.
  */
-function writingCheck(print: StorytimePrintBlock, d4: string[]): PackageCheck {
+function writingCheck(print: StorytimePrintBlock, d4: string[], d4Actions: string[]): PackageCheck {
     const problems: string[] = [];
     if (!d4.length) problems.push('the scripts have no step D4');
     const said = stem(d4.join(' '));
@@ -188,6 +189,12 @@ function writingCheck(print: StorytimePrintBlock, d4: string[]): PackageCheck {
     if (print.writing.line === 'word' && !said.includes(' word ')) problems.push('step D4 does not trace a word on the line');
     if (print.writing.pictureBox && !said.includes(' draw ')) problems.push('step D4 does not draw a picture');
     if (!print.writing.pictureBox && said.includes(' draw ')) problems.push('step D4 draws a picture, so the writing page needs the picture box');
+    const saidWords = stem([...d4, ...d4Actions].join(' ')).split(' ');
+    for (const word of print.writing.choiceWords ?? []) {
+        if (!saidWords.includes(stem(word))) problems.push(`the choice word "${word}" is not in step D4`);
+    }
+    const prompt = stem(print.writing.promptPicture ?? '');
+    if (prompt && !saidWords.includes(prompt) && !saidWords.includes(prompt.replace(/s$/, ''))) problems.push(`the prompt picture "${print.writing.promptPicture}" is not in step D4`);
     return check('print-writing', 'Writing page: the trace text, the line, and the picture box of step D4', problems);
 }
 
