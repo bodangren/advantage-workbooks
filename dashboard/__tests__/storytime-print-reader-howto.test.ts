@@ -7,7 +7,7 @@ import { StorytimeWeekSchema } from '../lib/storytime/schema';
 import { checkStorytimeCoverCopy } from '../lib/storytime/print/covers';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
 import { storytimeReaderLeafSides, type StorytimeReaderLeafSide } from '../lib/storytime/print/readers';
-import { LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, simulateTopFold } from './fixtures/storytime-reader-leaf';
+import { LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, pageTurnDeg, simulateTopFold } from './fixtures/storytime-reader-leaf';
 
 /**
  * A-47: the teacher how-to "How to make a student book" (Daniel 2026-11-04): cut, fold, staple, one
@@ -44,19 +44,25 @@ function impositionProblems(doc: Document): string[] {
         const want = leaf[face];
         if (pages.map((page) => num(page, 'data-page-number')).join('|') !== want.join('|')) problems.push(`[imposition] ${face}: pages ${pages.map((page) => page.getAttribute('data-page-number')).join('|')}, want ${want.join('|')}`);
         if (pages.map((page) => page.getAttribute('data-half')).join('|') !== 'top|bottom') problems.push(`[halves] ${face}: halves do not read top|bottom`);
-        for (const page of pages) if (num(page, 'data-turn-deg') !== LEAF_TURN_DEG[face]) problems.push(`[turn] ${face} page ${page.getAttribute('data-page-number')}: turn ${page.getAttribute('data-turn-deg')}, want ${LEAF_TURN_DEG[face]}`);
+        for (const page of pages) {
+            const want_turn = pageTurnDeg(face, num(page, 'data-page-number'));
+            if (num(page, 'data-turn-deg') !== want_turn) problems.push(`[turn] ${face} page ${page.getAttribute('data-page-number')}: turn ${page.getAttribute('data-turn-deg')}, want ${want_turn}`);
+        }
     }
     const closed = doc.querySelectorAll('[data-diagram="closed"] [data-page]');
     if (closed.length !== 1 || num(closed[0], 'data-page-number') !== LEAF_IMPOSITION[0].front[0] || num(closed[0], 'data-view-turn-deg') !== 0) problems.push('[closed] the closed reader must show page 1 upright');
+    const backCover = doc.querySelectorAll('[data-diagram="back"] [data-page]');
+    if (backCover.length !== 1 || num(backCover[0], 'data-page-number') !== LEAF_IMPOSITION[0].front[1] || num(backCover[0], 'data-view-turn-deg') !== 0) problems.push('[back-cover] the turned-over reader must show page 12 upright');
     const middle = Array.from(doc.querySelectorAll('[data-diagram="middle"] [data-page]'));
     if (middle.map((page) => num(page, 'data-page-number')).join('|') !== LEAF_IMPOSITION[2].back.join('|')) problems.push('[middle] the open middle must show pages 6|7');
     for (const page of middle) if (num(page, 'data-view-turn-deg') !== 0) problems.push('[middle] the middle pages must read upright');
     return problems;
 }
 
-/** The sides with one change: the turn of the back of leaf 1 (a back page turned) or the pages of the front of leaf 1 swapped. */
-function mutated(sides: StorytimeReaderLeafSide[], kind: 'back-turned' | 'front-swapped'): StorytimeReaderLeafSide[] {
+/** The sides with one change: a back page turned, the pages of a front swapped, or page 12 turned upside down again. */
+function mutated(sides: StorytimeReaderLeafSide[], kind: 'back-turned' | 'front-swapped' | 'page12-turned'): StorytimeReaderLeafSide[] {
     return sides.map((side) => {
+        if (kind === 'page12-turned' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };
         if (kind === 'back-turned' && side.leaf === 1 && side.side === 'back') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };
         if (kind === 'front-swapped' && side.leaf === 1 && side.side === 'front') return { ...side, pages: [side.pages[1], side.pages[0]] };
         return side;
@@ -97,7 +103,14 @@ describe('A-47 the how-to "How to make a student book"', () => {
         expect([num(rect(cut, 'student-page'), 'width'), num(rect(cut, 'student-page'), 'height')]).toEqual([STORYTIME_PRINT_PROFILE.trim.widthMm, STORYTIME_PRINT_PROFILE.trim.heightMm]);
         expect([num(rect(cut, 'leaf'), 'width'), num(rect(cut, 'leaf'), 'height')]).toEqual([198, 297]);
         expect(num(rect(cut, 'strip'), 'width')).toBe(12);
-        expect(num(cut.querySelector('[data-part="perforation"]'), 'data-distance-mm')).toBe(12);
+        const ticks = Array.from(cut.querySelectorAll('[data-part="tick"]'));
+        expect(ticks.map((tick) => tick.getAttribute('data-edge'))).toEqual(['top', 'bottom']);
+        for (const tick of ticks) {
+            expect(num(tick, 'data-distance-mm')).toBe(12);
+            expect(num(tick, 'x1')).toBe(num(rect(cut, 'student-page'), 'x') + 12);
+            expect(num(tick, 'x2')).toBe(num(tick, 'x1'));
+        }
+        expect(Math.abs(num(cut.querySelector('[data-part="cut-slit"]'), 'x') + num(cut.querySelector('[data-part="cut-slit"]'), 'width') / 2 - (num(rect(cut, 'student-page'), 'x') + 12))).toBeLessThan(0.01);
         expect(num(cut.querySelector('[data-part="fold-line"]'), 'data-position-mm')).toBe(148.5);
         const folds = Array.from(doc.querySelectorAll('svg[data-diagram="fold-leaf"]'));
         expect(folds.map((svg) => svg.getAttribute('data-face'))).toEqual(['front', 'back']);
@@ -130,9 +143,9 @@ describe('A-47 the how-to "How to make a student book"', () => {
         expect(doc.body.textContent).not.toContain('12 mm');
     });
 
-    it('R-A47-6 mutants: a back page turned, or the pages of a front swapped, fail the imposition check', async () => {
+    it('R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check', async () => {
         const { compileReaderHowto } = await howto();
-        for (const kind of ['back-turned', 'front-swapped'] as const) {
+        for (const kind of ['back-turned', 'front-swapped', 'page12-turned'] as const) {
             const problems = impositionProblems(docOf(compileReaderHowto(mutated(readerSides(), kind)).html));
             expect(problems.length, `mutant ${kind} must be caught`).toBeGreaterThan(0);
         }
@@ -194,6 +207,35 @@ describe('A-47 the how-to "How to make a student book"', () => {
         const colors = new Set((html.match(/#[0-9a-fA-F]{3,6}\b/g) ?? []).map((color) => color.toLowerCase()));
         expect([...colors].filter((color) => !['#000', '#fff', '#000000', '#ffffff'].includes(color))).toEqual([]);
         expect(doc.querySelectorAll('img, image')).toHaveLength(0);
+    });
+
+    it('R-A47-12 the fold line is the only dashed line, and each fold line says "fold" at both ends', async () => {
+        const { compileReaderHowto } = await howto();
+        const doc = docOf(compileReaderHowto(readerSides()).html);
+        const dashed = Array.from(doc.querySelectorAll('[stroke-dasharray]'));
+        expect(dashed.length).toBeGreaterThan(0);
+        for (const element of dashed) expect(element.getAttribute('data-part'), 'a dashed line that is not a fold line').toBe('fold-line');
+        expect(doc.querySelector('[data-part="perforation"]'), 'no dashed line at the side of a leaf').toBeNull();
+        for (const svg of Array.from(doc.querySelectorAll('svg[data-diagram="fold-leaf"], svg[data-diagram="cut"]'))) {
+            const thai = Array.from(svg.querySelectorAll('[data-label] .th')).filter((text) => text.textContent === 'พับ');
+            const english = Array.from(svg.querySelectorAll('[data-label] .en')).filter((text) => text.textContent === 'fold');
+            expect(thai.length, 'Thai fold label at each end').toBeGreaterThanOrEqual(2);
+            expect(english.length, 'English fold label at each end').toBeGreaterThanOrEqual(2);
+        }
+        expect(Array.from(doc.querySelectorAll('svg[data-diagram="staple"] [stroke-dasharray]'))).toHaveLength(0);
+    });
+
+    it('R-A47-13 page 12 is the back cover: it prints upright, and the fold model reads it when the reader is turned over', async () => {
+        const { compileReaderHowto } = await howto();
+        const doc = docOf(compileReaderHowto(readerSides()).html);
+        expect(pageTurnDeg('front', 12)).toBe(0);
+        const slot = simulateTopFold().find((entry) => entry.position === 12);
+        expect(slot?.place).toBe('back');
+        expect(slot?.uprightTurnDeg).toBe(pageTurnDeg('front', 12));
+        const printed = Array.from(doc.querySelectorAll('svg[data-diagram="fold-leaf"][data-face="front"] [data-page]')).map((page) => [num(page, 'data-page-number'), num(page, 'data-turn-deg')]);
+        expect(printed).toEqual([[1, 180], [12, 0]]);
+        expect(doc.querySelector('svg[data-diagram="back"] [data-part="fold-edge"]')?.getAttribute('data-side')).toBe('top');
+        expect(doc.querySelector('[data-turn-arrow="over"]')).not.toBeNull();
     });
 
     it('R-A47-11 the leaf mark in the cut diagram is the mark of the real leaf', async () => {
