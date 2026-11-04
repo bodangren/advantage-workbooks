@@ -378,3 +378,48 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
         expect(new Set(mod.STORYTIME_STEP_MAP.map((entry) => entry.code)).size).toBe(mod.STORYTIME_STEP_MAP.length);
     });
 });
+
+describe('A-48 U5: the home cards (E44, E45, E47)', () => {
+    it('U5-week: each card side names its week, "Week N · สัปดาห์ที่ N", and the cards carry no page number (a tear-out leaf)', async () => {
+        const { doc } = await book();
+        for (const kind of ['home-front', 'home-back']) {
+            const sides = Array.from(doc.querySelectorAll(`.student-page[data-page-kind="${kind}"]`));
+            expect(sides).toHaveLength(7);
+            sides.forEach((side, index) => {
+                expect(text(side.querySelector('[data-part="home-week"]')!), `${kind} of week ${index + 1}`).toBe(`Week ${index + 1} · สัปดาห์ที่ ${index + 1}`);
+                expect(side.querySelector('[data-part="page-number"]')).toBeNull();
+            });
+        }
+    });
+
+    it('U5-qr: the two QR labels of the Thai card print in Thai, with the English line below', async () => {
+        const { doc } = await book();
+        const sides = Array.from(doc.querySelectorAll('.student-page[data-page-kind="home-front"]'));
+        for (const side of sides) {
+            const labels = Array.from(side.querySelectorAll('.qr'));
+            expect(labels).toHaveLength(2);
+            expect(labels.map((label) => text(label.querySelector('[data-part="qr-label-th"]')!))).toEqual(['เพลงประจำสัปดาห์', 'หนังสือประจำสัปดาห์']);
+            expect(labels.map((label) => text(label.querySelector('.qr-label:not([data-part="qr-label-th"])')!))).toEqual(['The song of the week', 'The book of the week']);
+        }
+    });
+
+    it('U5-margin: the text of a card keeps 6 mm from the cut line, 4 mm more than before (E47)', async () => {
+        const { doc } = await book();
+        const cards = Array.from(doc.querySelectorAll('.student-page[data-page-kind="home-front"], .student-page[data-page-kind="home-back"]'));
+        expect(cards).toHaveLength(14);
+        for (const card of cards) {
+            const edge = card.querySelector('[data-part="perforation"]')!.getAttribute('data-spine-edge');
+            const cut = card.querySelector('[data-part="perforation"]')!.getAttribute('style') ?? '';
+            expect(cut, 'the cut line stays 12 mm from the spine edge').toContain(`${edge}:12mm`);
+            expect(card.getAttribute('style') ?? '', `page ${card.getAttribute('data-page-number')}`).toContain(`padding-${edge}:18mm`);
+        }
+    });
+
+    it('U5-words: each home word of weeks 1 to 7 starts with the letter of its week (E44: cup is not a /p/ word)', () => {
+        for (const week of weeks().slice(0, 7)) {
+            const letter = week.print!.letterBox.letter;
+            for (const word of week.home!.words) expect(word.startsWith(letter), `Week ${week.meta.week}: "${word}" starts with ${letter}`).toBe(true);
+        }
+        expect(weeks()[2].home!.words).toEqual(['pen', 'pear', 'pencil']);
+    });
+});
