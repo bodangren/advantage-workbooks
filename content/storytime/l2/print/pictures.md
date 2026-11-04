@@ -1,6 +1,6 @@
 # Storytime Advantage — print picture list (Level 2)
 
-Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
 
 ## Week 1
 
