@@ -42,6 +42,11 @@ const shippedRaw = (n: number): Raw => JSON.parse(fs.readFileSync(weekFile(n), '
  * must match exactly once: a stale pair fails the test.
  */
 const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
+    8: [
+        ['"sound": "nnn",\n                "pictures": [\n                  "nest"', '"sound": "/n/",\n                "pictures": [\n                  "nest"'],
+        ['"sound": "mmm",\n                "pictures": [\n                  "moon"', '"sound": "/m/",\n                "pictures": [\n                  "moon"'],
+        ['"sound": "sss",\n                "pictures": [\n                  "sun"', '"sound": "/s/",\n                "pictures": [\n                  "sun"'],
+    ],
     1: [
         ['"\\"Start at the top. Down. Up. Over the hill. Down.\\""', '"\\"Start at the dot. Down. Up. Over the hill. Down.\\""'],
         ['"\\"เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง\\""', '"\\"เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง\\""'],
