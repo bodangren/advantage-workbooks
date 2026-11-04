@@ -146,13 +146,14 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .song-lines p { padding: 1mm 0; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0.5mm; border-left: 0.5mm dashed #000; }
 .student-page[data-page-kind="reader"] { overflow: hidden; padding: 0; }
-.student-page[data-page-kind="reader"] > .reader-page { position: absolute; transform-origin: center; }
-.student-page[data-page-kind="reader"][data-leaf-side="front"] > .reader-page { left: 36.75mm; transform: rotate(90deg); }
-.student-page[data-page-kind="reader"][data-leaf-side="back"] > .reader-page { left: 24.75mm; transform: rotate(-90deg); }
-.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(1) { top: -24.75mm; }
-.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(2) { top: 123.75mm; }
+.student-page[data-page-kind="reader"] > .reader-page { position: absolute; }
+.student-page[data-page-kind="reader"][data-leaf-side="front"] > .reader-page { left: ${profile.perforationMm}mm; }
+.student-page[data-page-kind="reader"][data-leaf-side="back"] > .reader-page { left: 0; }
+.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(1) { top: 0; }
+.student-page[data-page-kind="reader"] > .reader-page:nth-of-type(2) { top: ${profile.readerPage.heightMm}mm; }
 .fold-line { position: absolute; z-index: 4; left: 0; width: 100%; top: 148.5mm; border-top: 0.3mm dashed #000; }
-.leaf-mark { position: absolute; z-index: 5; top: 1mm; left: 2mm; font-size: 5pt; }
+.leaf-mark { position: absolute; z-index: 5; top: 2mm; left: ${(profile.trim.widthMm - profile.perforationMm) / 2}mm; transform: translateX(-50%); white-space: nowrap; font-size: 5pt; }
+.student-page[data-page-kind="reader"][data-leaf-side="front"] .leaf-mark { left: ${profile.perforationMm + (profile.trim.widthMm - profile.perforationMm) / 2}mm; }
 .blank-page { }
 ${readerPageCss(profile)}
 `;

@@ -13,22 +13,38 @@ import { fontFaceCss } from './print-fonts';
  * readers of weeks 1 to 7. One page layout serves both kinds, and it makes two outputs from the
  * same 12 pages:
  *
- * - `workbook`: each reader uses three perforated A4 leaves. Each side holds two turned pages,
- *   a fold line, and a leaf mark. The workbook prints line art (FR-9);
- * - `a3-color`: one reader page on each A3 portrait page, scaled 2.0 with 12 mm white bands,
- *   as an sRGB PDF for office printers, not PDF/X (FR-5.8).
+ * - `workbook`: each reader uses three perforated A4 leaves. Each side holds two landscape pages
+ *   one above the other (the front pages turned 180 degrees, the back pages upright), a fold line,
+ *   and a leaf mark. The child folds each leaf and staples the fold at the top. The workbook prints
+ *   line art (FR-9);
+ * - `a3-color`: one reader page on each A3 landscape page, scaled 2.0 with 12 mm white bands at the
+ *   left and the right, as an sRGB PDF for office printers, not PDF/X (FR-5.8).
  *
  * The mode follows FR-5.6: a `final` build resolves each row through the `manifest.json` of the
  * picture folder and stops with the row id when a file breaks a stage 1 rule or is missing; a
  * `proof` build prints "PICTURE MISSING" in the picture box.
  */
 
-/** The page pairs of the 3 nested leaves (top then bottom, FR-5.1). */
+/**
+ * The page pairs of the 3 nested leaves (top then bottom, FR-5.1, changed 2026-11-04). The leaf turns
+ * over on its vertical spine edge, so a back side keeps the top and the bottom of its front. The
+ * fold is at the top of the closed reader: page 1 is the top half of the leaf 1 front.
+ */
 const LEAF_PAGES: Array<{ front: [number, number]; back: [number, number] }> = [
-    { front: [12, 1], back: [11, 2] },
-    { front: [10, 3], back: [9, 4] },
-    { front: [8, 5], back: [7, 6] },
+    { front: [1, 12], back: [2, 11] },
+    { front: [3, 10], back: [4, 9] },
+    { front: [5, 8], back: [6, 7] },
 ];
+
+/**
+ * The CSS angle of the half turn of a front page. An exact 180 degree turn makes Chrome write a transparency
+ * group on every page, and the PDF/X-1a conversion then flattens the pages into images (measured 2026-11-04:
+ * 179.99 gives no group). The 0.01 degree difference moves the far edge of a page by 0.03 mm.
+ */
+const TURN_180_DEG = 179.99;
+
+/** The turn of a printed page in degrees: a front page turns 180 and a back page is upright (the top fold, FR-5.1). */
+const PAGE_TURN_DEG = { front: 180, back: 0 } as const;
 
 /** The copy rule of the reader covers (spec FR-6.3, AC-6): no CEFR words on a reader cover. */
 const COVER_COPY_RULE = /\bCEFR\b|\bPre[\s\-‐‑]?A1\b|\bStarters\b|\bReading\s+A[\s\-‐‑]?Z\b/i;
@@ -36,8 +52,8 @@ const COVER_COPY_RULE = /\bCEFR\b|\bPre[\s\-‐‑]?A1\b|\bStarters\b|\bReading\
 /** The number of pages of a reader (FR-5.2 and FR-5.3): cover, 8 story pages, 3 more, back cover. */
 const READER_PAGES = 12;
 
-/** The A3 page in PDF points, as `pdfinfo` reports it (FR-5.8). */
-const A3_PAGE_SIZE = '841.89 x 1190.55 pts (A3)';
+/** The A3 landscape page in PDF points, as `pdfinfo` reports it (FR-5.8). */
+const A3_PAGE_SIZE = '1190.55 x 841.89 pts (A3)';
 
 /** The scale of a reader page on an A3 page (297 / 148.5 = 2.0, FR-5.8). */
 const A3_SCALE = 2;
@@ -65,6 +81,10 @@ interface ReaderPageSpec {
     number: number;
     /** The page body. */
     body: string;
+    /** The footer text (the book title and the level), or none on the cover. */
+    footer?: string;
+    /** Whether the page prints its number at the bottom right (pages 2 to 11). */
+    numbered: boolean;
 }
 
 /** HTML-escapes a text of the week packages. */
@@ -189,7 +209,7 @@ function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], co
   <p class="reader-series">Storytime Advantage</p>
   <p class="reader-week">Week ${week.meta.week}</p>
 </div>`;
-    return { number: 1, body };
+    return { number: 1, body, numbered: false };
 }
 
 /** The QR code of a reader page (FR-5.3: the title page; FR-5.2: the page before the back cover). */
@@ -252,38 +272,66 @@ function backPage(book: StorytimeWeek['books'][number]): string {
  */
 function readerPages(week: StorytimeWeek, book: StorytimeWeek['books'][number], rows: { pages: StorytimePictureRow[]; cover: StorytimePictureRow }, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): ReaderPageSpec[] {
     if (book.pages.length !== 8) throw new Error(`the reader "${book.title}" has ${book.pages.length} story pages; FR-5.2 and FR-5.3 give 8`);
+    const footer = `${book.title} \u2022 Level ${week.meta.level}`;
     const story = book.pages.map((page, i) => ({
         number: i + 3,
         body: `<div class="reader-story">${pictureElement(rows.pages[i], o, files)}<p class="reader-text" data-part="reader-text">${esc(page.text)}</p></div>`,
+        footer,
+        numbered: true,
     }));
-    const pages = [
+    const pages: ReaderPageSpec[] = [
         coverPage(week, book, rows.cover, o, files),
-        { number: 2, body: isDecodable(book) ? soundsPage(book) : titlePage(week, book) },
+        { number: 2, body: isDecodable(book) ? soundsPage(book) : titlePage(week, book), footer, numbered: true },
         ...story,
-        { number: 11, body: closingPage(week, book) },
-        { number: 12, body: backPage(book) },
+        { number: 11, body: closingPage(week, book), footer, numbered: true },
+        { number: 12, body: backPage(book), footer, numbered: false },
     ];
     if (pages.length !== READER_PAGES) throw new Error(`the reader "${book.title}" has ${pages.length} pages; a reader has 12`);
     return pages;
 }
 
-/** One reader page as HTML, with the page size of the profile (R-P4-1). */
+/**
+ * One reader page as HTML, with the page size of the profile (R-P4-1): the body, the footer at the
+ * bottom left (every page but the cover), and the page number at the bottom right (pages 2 to 11).
+ */
 function readerPageHtml(page: ReaderPageSpec, profile: StorytimePrintProfile): string {
-    return `<div class="reader-page" data-reader-page data-page-number="${page.number}" data-width-mm="${profile.readerPage.widthMm}" data-height-mm="${profile.readerPage.heightMm}">${page.body}</div>`;
+    const footer = page.footer ? `<p class="reader-footer" data-part="reader-footer">${esc(page.footer)}</p>` : '';
+    const number = page.numbered ? `<p class="reader-number" data-part="reader-number">${page.number}</p>` : '';
+    return `<div class="reader-page" data-reader-page data-page-number="${page.number}" data-width-mm="${profile.readerPage.widthMm}" data-height-mm="${profile.readerPage.heightMm}">${page.body}${footer}${number}</div>`;
 }
 
 /**
- * The content scale of an A5 reader page against the former 99 × 140 mm layout.
+ * The content scale of a reader page against the former 99 × 140 mm layout. The text sizes of the A5
+ * page of 2026-11-03 (a scale of 1.414) stay, because the same page now lies on its side: the scale
+ * compares the short side with 99 mm and the long side with 140 mm.
  * @param profile The print profile that holds the reader page size.
- * @returns The smaller page ratio, so the content stays inside the page.
+ * @returns The smaller page ratio.
  */
 function readerContentScale(profile: StorytimePrintProfile): number {
-    return Math.min(profile.readerPage.widthMm / 99, profile.readerPage.heightMm / 140);
+    const { widthMm, heightMm } = profile.readerPage;
+    return Math.min(Math.min(widthMm, heightMm) / 99, Math.max(widthMm, heightMm) / 140);
 }
 
+/** The space of a landscape reader page in millimeters (spec FR-5.1, Daniel's reference of 2026-11-04). */
+const READER_SPACE = {
+    /** The page margin at the left and at the right. */
+    marginX: 20,
+    /** The page margin at the top. */
+    marginTop: 6,
+    /** The gap between the picture and the text. */
+    gap: 3.5,
+    /** The aspect of the picture box: between 4:3 and 4:2.7, so that the 4:3 art loses at most 4.9 percent at each edge. */
+    aspect: 1.4766,
+    /** The distance of the footer and of the page number from the bottom edge. */
+    bottom: 5.2,
+} as const;
 /**
- * The style of one reader page (FR-5.1): the page box, the picture box, and the text. The student workbook appends this rule set to its own style, so the reader pages look
- * the same in the workbook and in the readers build (Red 4c).
+ * The style of one landscape reader page (FR-5.1, Daniel's reference of 2026-11-04): the page box, one framed
+ * picture across the top (aspect between 4:3 and 4:2.7, the art cropped at the edges), one or two large text
+ * lines under the picture and left-aligned with it, the page number at the bottom right, and a small footer at
+ * the bottom left. A page that is turned 180 degrees (`data-turn-deg="180"`, a front page) turns about its center.
+ * The student workbook appends this rule set to its own style, so the reader pages look the same in the
+ * workbook and in the readers build (Red 4c).
  * @param profile The print profile that holds the reader page size (P15).
  * @returns The CSS text of the reader page rules.
  */
@@ -291,15 +339,22 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
     const scale = readerContentScale(profile);
     const mm = (value: number): string => `${Math.round(value * scale * 1000) / 1000}mm`;
     const pt = (value: number): string => `${Math.round(value * scale * 1000) / 1000}pt`;
-    return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: ${mm(5)}; position: relative; overflow: hidden; }
-.reader-picture { width: ${mm(89)}; height: ${mm(66)}; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; }
-.reader-picture img { width: 100%; height: 100%; object-fit: contain; }
-.reader-text { font-size: ${pt(17)}; margin-top: ${mm(5)}; }
-.reader-cover { text-align: center; }
-.reader-band { font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; margin-top: ${mm(2)}; }
-.reader-title { font-size: ${pt(21)}; font-weight: 700; margin-top: ${mm(2)}; }
-.reader-series { font-size: ${pt(9)}; }
-.reader-week { font-size: ${pt(10)}; margin-top: ${mm(1)}; }
+    const { marginX, marginTop, gap, aspect, bottom } = READER_SPACE;
+    const pictureWidth = profile.readerPage.widthMm - 2 * marginX;
+    const pictureHeight = Math.round((pictureWidth / aspect) * 10) / 10;
+    const textTop = Math.round((marginTop + pictureHeight + gap) * 10) / 10;
+    return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: ${marginTop}mm ${marginX}mm 0 ${marginX}mm; position: relative; overflow: hidden; }
+.reader-page[data-turn-deg="180"] { transform: rotate(${TURN_180_DEG}deg); transform-origin: center; }
+.reader-picture { position: absolute; left: ${marginX}mm; top: ${marginTop}mm; width: ${pictureWidth}mm; height: ${pictureHeight}mm; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; overflow: hidden; }
+.reader-picture img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.reader-text { position: absolute; left: ${marginX}mm; top: ${textTop}mm; width: ${pictureWidth}mm; font-size: ${pt(17)}; line-height: 1.15; text-align: left; }
+.reader-footer { position: absolute; left: ${marginX}mm; bottom: ${bottom}mm; font-size: ${pt(5)}; line-height: 1.2; white-space: nowrap; }
+.reader-number { position: absolute; right: ${marginX}mm; bottom: ${bottom}mm; font-size: ${pt(9)}; line-height: 1; }
+.reader-cover { text-align: left; padding-top: ${Math.round((pictureHeight + gap) * 10) / 10}mm; }
+.reader-band { display: inline-block; font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; margin-top: ${mm(1.5)}; margin-right: ${mm(3)}; }
+.reader-title { font-size: ${pt(21)}; font-weight: 700; }
+.reader-series { display: inline-block; font-size: ${pt(9)}; margin-right: ${mm(3)}; }
+.reader-week { display: inline-block; font-size: ${pt(10)}; }
 .reader-heading { font-size: ${pt(11)}; font-weight: 700; margin-top: ${mm(3)}; }
 .reader-sound { font-size: ${pt(30)}; font-weight: 700; text-align: center; margin-top: ${mm(3)}; }
 .reader-word-row { display: flex; flex-wrap: wrap; gap: ${mm(2)} ${mm(4)}; margin-top: ${mm(2)}; font-size: ${pt(12)}; }
@@ -310,14 +365,16 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
 }
 
 /**
- * The style of the two outputs. The workbook has A4 leaf sides; the color A3 page is 297 × 420 mm
- * with one reader page scaled 2.0 and centered between 12 mm white bands. The print font is Andika.
+ * The style of the two outputs. The workbook has A4 leaf sides; the color A3 page is landscape, 420 × 297 mm,
+ * with one reader page scaled 2.0 and centered between 12 mm white bands at the left and the right. The print font is Andika.
  * @param o The build options.
  * @returns The CSS text.
  */
 function readerCss(o: StorytimeReaderOptions): string {
     const { widthMm, heightMm } = o.profile.trim;
-    const page = o.output === 'workbook' ? `${widthMm}mm ${heightMm}mm` : '297mm 420mm';
+    const page = o.output === 'workbook' ? `${widthMm}mm ${heightMm}mm` : '420mm 297mm';
+    const { perforationMm } = o.profile;
+    const leafWidth = widthMm - perforationMm;
     return `${fontFaceCss()}
 @page { size: ${page}; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -327,17 +384,18 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .reader-side { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; break-after: page; page-break-after: always; overflow: hidden; }
 .reader-side:last-child { break-after: auto; page-break-after: auto; }
 ${readerPageCss(o.profile)}
-.reader-side > .reader-page { position: absolute; transform-origin: center; }
-.reader-side[data-leaf-side="front"] > .reader-page { left: 36.75mm; transform: rotate(90deg); }
-.reader-side[data-leaf-side="back"] > .reader-page { left: 24.75mm; transform: rotate(-90deg); }
-.reader-side > .reader-page:nth-of-type(1) { top: -24.75mm; }
-.reader-side > .reader-page:nth-of-type(2) { top: 123.75mm; }
+.reader-side > .reader-page { position: absolute; }
+.reader-side[data-leaf-side="front"] > .reader-page { left: ${perforationMm}mm; }
+.reader-side[data-leaf-side="back"] > .reader-page { left: 0; }
+.reader-side > .reader-page:nth-of-type(1) { top: 0; }
+.reader-side > .reader-page:nth-of-type(2) { top: ${o.profile.readerPage.heightMm}mm; }
 .fold-line { position: absolute; z-index: 4; left: 0; width: 100%; top: ${o.profile.trim.heightMm / 2}mm; border-top: 0.3mm dashed #000; }
-.leaf-mark { position: absolute; z-index: 5; top: 1mm; left: 2mm; font-size: 5pt; }
+.leaf-mark { position: absolute; z-index: 5; top: 2mm; left: ${leafWidth / 2}mm; transform: translateX(-50%); white-space: nowrap; font-size: 5pt; }
+.reader-side[data-leaf-side="front"] .leaf-mark { left: ${perforationMm + leafWidth / 2}mm; }
 .perforation { position: absolute; top: 0; height: 100%; width: 0; border-left: 0.4mm dashed #000; }
-.a3-page { width: 297mm; height: 420mm; position: relative; break-after: page; page-break-after: always; }
+.a3-page { width: 420mm; height: 297mm; position: relative; break-after: page; page-break-after: always; }
 .a3-page:last-of-type { break-after: auto; page-break-after: auto; }
-.a3-scale { position: absolute; left: 0; top: 12mm; width: ${o.profile.readerPage.widthMm}mm; height: ${o.profile.readerPage.heightMm}mm; transform: scale(${A3_SCALE}); transform-origin: 0 0; }
+.a3-scale { position: absolute; left: 12mm; top: 0; width: ${o.profile.readerPage.widthMm}mm; height: ${o.profile.readerPage.heightMm}mm; transform: scale(${A3_SCALE}); transform-origin: 0 0; }
 .a3-scale .reader-picture { border: 0.15mm dashed #000; }
 `;
 }
@@ -354,7 +412,7 @@ export interface StorytimeReaderLeafSide {
     title: string;
     /** The leaf number, from 1 to 3. */
     leaf: number;
-    /** The side: `front` holds the outer pages 12 and 1, `back` holds the two inner pairs. */
+    /** The side: `front` holds the pages 1 and 12 (the top fold, turned 180 degrees), `back` holds the pairs 2|11 and the inner ones (upright). */
     side: 'front' | 'back';
     /** The page numbers of the top and bottom halves. */
     pages: number[];
@@ -386,7 +444,7 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
                     side,
                     pages: [...numbers],
                     html: numbers.map((number, index) => readerPageHtml(pages[number - 1], o.profile)
-                        .replace('data-reader-page', `data-reader-page data-half="${index === 0 ? 'top' : 'bottom'}" data-turn-deg="${side === 'front' ? 90 : -90}"`)).join(''),
+                        .replace('data-reader-page', `data-reader-page data-half="${index === 0 ? 'top' : 'bottom'}" data-turn-deg="${PAGE_TURN_DEG[side]}"`)).join(''),
                 });
             }
         }
@@ -395,7 +453,7 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
 }
 
 /**
- * One workbook leaf: two sides, each with two turned pages, the fold line, and a leaf mark.
+ * One workbook leaf: two sides, each with two landscape pages, the fold line, and a leaf mark.
  * @param leaf The 1-based leaf number.
  * @param sides The four sides of the two strips: front, back, front, back.
  * @param profile The print profile.
@@ -439,7 +497,7 @@ export function compileStorytimeReaders(weeks: StorytimeWeek[], o: StorytimeRead
         if (o.output === 'a3-color') {
             for (const entry of books) {
                 body.push(`<section class="reader-book" data-reader-title="${esc(entry.book.title)}" data-reader-output="a3-color">${entry.pages
-                    .map((page) => `<section class="a3-page" data-a3-page data-page-size="${A3_PAGE_SIZE}" data-page-number="${page.number}"><div class="a3-scale" data-scale="2" data-white-top-mm="12" data-white-bottom-mm="12">${readerPageHtml(page, o.profile)}</div></section>`)
+                    .map((page) => `<section class="a3-page" data-a3-page data-page-size="${A3_PAGE_SIZE}" data-page-number="${page.number}"><div class="a3-scale" data-scale="2" data-white-left-mm="12" data-white-right-mm="12">${readerPageHtml(page, o.profile)}</div></section>`)
                     .join('')}</section>`);
             }
             continue;

@@ -12,14 +12,14 @@ export interface StorytimePrintProfile {
     perforationMm: number;
     /** Pages per binding multiple for perfect binding (spec P2; PM default 2026-11-04). */
     bindingPageMultiple: number;
-    /** The trim of one reader page (P15 default: 148.5 × 198 mm). */
+    /** The trim of one reader page, landscape (P15 default, changed 2026-11-04: 198 × 148.5 mm). */
     readerPage: { widthMm: number; heightMm: number };
 }
 
 /**
  * The print profile of the unit 1 student workbook (spec P2 and P15 defaults, 2026-10-25):
- * A4 portrait, no bleed, every tear-out leaf perforated 12 mm from the spine, and reader
- * pages of 148.5 × 198 mm, so that two turned pages fill each A4 leaf side. The printer confirms
+ * A4 portrait, no bleed, every tear-out leaf perforated 12 mm from the spine, and landscape reader
+ * pages of 198 × 148.5 mm, so that two upright pages fill each 198 × 297 mm torn leaf. The printer confirms
  * the perfect-binding page multiple on the print order sheet; the default is four pages.
  */
 export const STORYTIME_PRINT_PROFILE: StorytimePrintProfile = {
@@ -27,5 +27,5 @@ export const STORYTIME_PRINT_PROFILE: StorytimePrintProfile = {
     bleedMm: 0,
     perforationMm: 12,
     bindingPageMultiple: 4,
-    readerPage: { widthMm: 148.5, heightMm: 198 },
+    readerPage: { widthMm: 198, heightMm: 148.5 },
 };
