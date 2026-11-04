@@ -20,6 +20,7 @@ export function checkStorytimePrintText(week: StorytimeWeek): PackageCheck[] {
         formationCheck(print, say('A3'), week),
         practiceCheck(print, say('A7'), week.focus.trickyWords),
         pictureWordCheck(print, week),
+        practiceCapitalCheck(print),
         dictationCheck(print, say('C3'), week),
         writingCheck(print, say('D4')),
         fridayCheckCheck(print, say('E5'), week.check.items),
@@ -116,6 +117,26 @@ function practiceCheck(print: StorytimePrintBlock, a7: string[], trickyWords: st
     if (missing.length) problems.push(`the sheet misses the A7 words: ${missing.join(', ')}`);
     if (extra.length) problems.push(`the sheet has words that A7 does not read: ${extra.join(', ')}`);
     return check('print-practice', 'Practice sheet: the exact words that step A7 reads', problems);
+}
+
+/**
+ * A practice line that holds a full stop starts every sentence with a capital letter (A-48 F2): the
+ * first word of the line, and each word after ".", "!", or "?". A line with no end mark, such as
+ * "n n n", is a list of sounds and needs no capital letter.
+ * @param print The print block.
+ * @returns The check `print-practice-capital`.
+ */
+function practiceCapitalCheck(print: StorytimePrintBlock): PackageCheck {
+    const problems: string[] = [];
+    for (const line of print.practice) {
+        if (!/[.!?]/.test(line.text)) continue;
+        const starts = line.text.trim().split(/(?<=[.!?])\s+/);
+        for (const start of starts) {
+            const first = start.match(/\p{L}/u)?.[0] ?? '';
+            if (first && first !== first.toUpperCase()) problems.push(`the practice line "${line.text}" has a sentence that starts with the lower-case letter "${first}"`);
+        }
+    }
+    return check('print-practice-capital', 'Practice sheet: each sentence of a line with a full stop starts with a capital letter', problems);
 }
 
 /**

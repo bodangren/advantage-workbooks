@@ -55,10 +55,11 @@ export const TRACE_START_EM: Readonly<Record<string, { x: number; y: number }>> 
 
 /**
  * The geometry of a trace line in millimeters: the SVG user unit is 1 mm, the font size is 22 pt,
- * and the baseline sits at `baselineMm` from the top. `padMm` keeps a start dot at the left end
- * inside the SVG.
+ * and the baseline sits at `baselineMm` from the top. `baselineMm` equals `heightMm`, so that the rule
+ * line (the bottom border of the wrapper) lies on the baseline of every trace word (A-48 F1); a tail
+ * of a letter hangs below the rule line. `padMm` keeps a start dot at the left end inside the SVG.
  */
-export const TRACE_LINE = { fontSizeMm: 7.76, baselineMm: 9.5, heightMm: 13.5, padMm: 1.5, dotRadiusMm: 0.9 } as const;
+export const TRACE_LINE = { fontSizeMm: 7.76, baselineMm: 8, heightMm: 8, padMm: 1.5, dotRadiusMm: 0.9 } as const;
 
 /** One word of a trace line. */
 export interface TraceWord {

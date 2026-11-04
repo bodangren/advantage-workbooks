@@ -56,9 +56,11 @@ export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> 
  * object counts of the counting book, the negation and non-object rules, the singular keys,
  * and the `-b` duplicate suffixes. Version 4 adds the picture words of the week 8 review pages
  * and of the Benchmark 1 paper, and reuses the row of a word that weeks 1 to 7 already hold.
+ * Version 5 (A-48): the row `l2-w01-practice-line-nut` left the list, because the practice line "and"
+ * moved to the tricky-word row; the other row changes of the A-48 batch are in its change list.
  * A change of the names or of the counts needs a new version.
  */
-export const STORYTIME_PICTURE_LIST_VERSION = 4;
+export const STORYTIME_PICTURE_LIST_VERSION = 5;
 
 /** Lower case, letters and digits only; the base of a file name slug. */
 const stem = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();

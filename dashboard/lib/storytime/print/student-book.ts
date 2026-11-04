@@ -133,7 +133,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .letter-slot, .sound-box { display: block; flex: none; border: 0.6mm solid #000; }
 .letter-slot { width: 18mm; height: 18mm; }
 .sound-box { width: 15mm; height: 15mm; }
-.trace-line { display: block; }
+.trace-line { display: block; overflow: visible; }
 .writing-trace { display: block; flex: 1; border-bottom: 0.6mm solid #000; }
 .write-line { display: block; flex: 1; border-bottom: 0.6mm solid #000; height: 12mm; }
 .picture-draw-box { width: 70mm; height: 50mm; border: 0.6mm solid #000; }
