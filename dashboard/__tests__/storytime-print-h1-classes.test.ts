@@ -27,7 +27,7 @@ interface Mod {
     formatReportRow: (week: number, d: { line: number; expected: string; actual: string }) => string;
     parseTextGateReport: (text: string) => Report;
     classifyDifference: (row: Row, week: StorytimeWeek, weekText: string) => { cls: string; reason: string };
-    classifyReport: (report: Report, weeks: StorytimeWeek[], weekTextOf: (week: number) => string) => Classified[];
+    classifyReport: (report: Report, weeks: StorytimeWeek[], weekTextOf: (week: number) => string, draftTextOf?: (week: number) => string) => Classified[];
     classCountProblems: (classified: Classified[], report: Report) => string[];
     weekSection: (bookText: string, week: number) => string;
     classifiedMarkdown: (input: { sourcePath: string; sourceSha256: string; report: Report; classified: Classified[] }) => string;
@@ -229,6 +229,113 @@ describe('A-48 H1: the report', () => {
         expect(items).toHaveLength(3);
         expect(items[1][4], 'the pipe inside a cell is escaped').toBe('"Start at the \\| top."');
         expect(items[0].slice(0, 4)).toEqual(['1', '58', 'A-42 routine', 'badge; minutes 4 to 5 (loopMinutes)']);
+    });
+});
+
+/** Classifies rows of one week through the report path (the block context needs the texts of the week). */
+async function runRows(rows: Row[], newText = '', draftText = ''): Promise<Classified[]> {
+    const mod = await load();
+    const report: Report = { headers: [{ week: rows[0].week, count: rows.length, draft: '/d/W01.pdf' }], rows };
+    return mod.classifyReport(report, weeks(), () => newText, () => draftText);
+}
+
+const SONG_REASON = 'LP-26 class B: the song step in the day opening (06e866e1)';
+const OLD_PLACE = 'LP-26 class B: the old place of the song step';
+
+describe('A-48 H1 r2: block context, recall, wrapped parts, position pairs', () => {
+    it('H1r2-block-added: an added line under the heading B7 is an A-42 routine of LP-26 class B; under another heading it stays other', async () => {
+        const newText = [
+            'A8 บัตรกิจกรรมที่บ้าน (Home card) 1 นาที',
+            'B7 ร้องเพลงประจำสัปดาห์พร้อมท่าทาง',
+            'สิ่งที่ครูทำ ภาษาที่ครูใช้',
+            'ง่ายขึ้น: ร้องเฉพาะท่อนฮุก (chorus)',
+            'C1 ทบทวนเสียง (Sound review) 2 นาที',
+            'สิ่งที่ครูทำ ภาษาที่ครูใช้',
+        ].join('\n');
+        const out = await runRows([
+            row(1, 456, '', 'B7 ร้องเพลงประจำสัปดาห์พร้อมท่าทาง'),
+            row(1, 456, '', 'สิ่งที่ครูทำ ภาษาที่ครูใช้'),
+            row(1, 456, '', 'ง่ายขึ้น: ร้องเฉพาะท่อนฮุก (chorus)'),
+            row(1, 700, '', 'สิ่งที่ครูทำ ภาษาที่ครูใช้'),
+        ], newText);
+        expect(out.slice(0, 3).map((r) => [r.cls, r.reason])).toEqual([['A-42 routine', SONG_REASON], ['A-42 routine', SONG_REASON], ['A-42 routine', SONG_REASON]]);
+        expect([out[3].cls, out[3].reason]).toEqual(['other', 'added line']);
+    });
+
+    it('H1r2-block-d6: the heading D6 gives the same class as B7', async () => {
+        const newText = ['D6 ร้องเพลง: การแสดงร้องเพลง', 'คู่หรือกลุ่ม: ทั้งชั้นร้องพร้อมกัน'].join('\n');
+        const out = await runRows([row(1, 900, '', 'คู่หรือกลุ่ม: ทั้งชั้นร้องพร้อมกัน')], newText);
+        expect([out[0].cls, out[0].reason]).toEqual(['A-42 routine', SONG_REASON]);
+    });
+
+    it('H1r2-block-removed: a removed line under B7 in the draft is an A-42 routine, the old place of the song step, also when its text stands in the new text', async () => {
+        const draft = [
+            'A8 · บัตรกิจกรรมที่บ้าน (Home card) 1 นาที',
+            'B7 · ร้องเพลง (Sing it) 0 นาที',
+            'สื่อการสอน: karaoke videos: "Hello, I Am Pip"',
+            'สิ่งที่ครูทำ ภาษาที่ครูใช้',
+            'C1 · ทบทวนเสียง (Sound review) 2 นาที',
+            'สิ่งที่ครูทำ ภาษาที่ครูใช้',
+        ].join('\n');
+        const out = await runRows([
+            row(1, 3, 'สื่อการสอน: karaoke videos: "Hello, I Am Pip"', ''),
+            row(1, 4, 'สิ่งที่ครูทำ ภาษาที่ครูใช้', ''),
+            row(1, 6, 'สิ่งที่ครูทำ ภาษาที่ครูใช้', ''),
+        ], 'สิ่งที่ครูทำ ภาษาที่ครูใช้', draft);
+        expect(out.slice(0, 2).map((r) => [r.cls, r.reason])).toEqual([['A-42 routine', OLD_PLACE], ['A-42 routine', OLD_PLACE]]);
+        expect([out[2].cls, out[2].reason]).toEqual(['other', 'reflow: the text stands in the new week text']);
+    });
+
+    it('H1r2-recall: the recall label, its ask lines, and its cards line are A-42 routines with the recall reason', async () => {
+        const out = await runRows([
+            row(1, 258, '', 'ทบทวนประจำวัน'),
+            row(1, 258, '', 'Show the five cards. The class says each sound or word.'),
+            row(1, 258, '', 'ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ'),
+            row(1, 258, '', 'n a and can Hello, I am ___.'),
+        ]);
+        for (const r of out) expect([r.cls, r.reason], r.actual).toEqual(['A-42 routine', 'recall (loops FR-6)']);
+    });
+
+    it('H1r2-recall-first: a recall line under the heading B7 is a recall line, not a song line', async () => {
+        const newText = ['B7 ร้องเพลงประจำสัปดาห์พร้อมท่าทาง', 'ทบทวนประจำวัน'].join('\n');
+        const out = await runRows([row(1, 258, '', 'ทบทวนประจำวัน')], newText);
+        expect(out[0].reason).toBe('recall (loops FR-6)');
+    });
+
+    it('H1r2-wrapped: a part of a printed loop line takes the class of the whole line; a short part does not', async () => {
+        const out = await runRows([
+            row(4, 167, '', 'Watch my hand again: down, up over the hill, down, up over the hill, down. It says'),
+            row(4, 168, '', 'words!"'),
+        ]);
+        expect(out[0].cls).toBe('A-42 routine');
+        expect(out[0].reason).toMatch(/^wrapped part of /);
+        expect([out[1].cls, out[1].reason]).toEqual(['other', 'added line']);
+    });
+
+    it('H1r2-pair-recall: the A1 title paired with the recall label is a position pair with the class of the recall', async () => {
+        const out = await runRows([row(4, 73, 'A1 · ฟังเสียง (Hear it) 4 นาที', 'ทบทวนประจำวัน')]);
+        expect(out[0].cls).toBe('A-42 routine');
+        expect(out[0].reason).toBe('position pair: recall (loops FR-6)');
+    });
+
+    it('H1r2-pair-song: the B7 title paired with the C1 title is a position pair; the expected side is the old place of the song step', async () => {
+        const out = await runRows([row(2, 540, 'B7 · ร้องเพลง (Sing it) 0 นาที', 'C1 ทบทวนเสียง (Sound review) 2 นาที')], 'C1 ทบทวนเสียง (Sound review) 2 นาที', `${'\n'.repeat(539)}B7 · ร้องเพลง (Sing it) 0 นาที`);
+        expect([out[0].cls, out[0].reason]).toEqual(['A-42 routine', `position pair: ${OLD_PLACE}`]);
+    });
+
+    it('H1r2-pair-wrapped: a materials line whose expected text stands in the new text is a position pair of the class other', async () => {
+        const actual = 'sheet, letter strip, sound cards: n, a, p, m, s, t, o, reading record forms';
+        const out = await runRows([row(8, 123, 'strip, sound cards: n, a, p, m, s, t, o, reading record forms', actual)], `สื่อการสอน: review page 3, record\n${actual}\n`);
+        expect(out[0].cls).toBe('other');
+        expect(out[0].reason).toMatch(/^position pair: /);
+    });
+
+    it('H1r2-edit: a real edit stays a word change, with the same step code or no code and an expected text that is not in the new text', async () => {
+        const out = await runRows([
+            row(2, 1116, '"Row 5. Find the word in. Circle it."', '"Row 5: on, I, in. Find the word in. Circle it."'),
+            row(2, 1110, '"Row 3: pig, bed, alligator. Which one starts with /a/?', '"Row 3: pig, bed, axe. Which one starts with /a/?'),
+        ], 'ข้อความอื่นทั้งหมด');
+        expect(out.map((r) => r.cls)).toEqual(['word change', 'word change']);
     });
 });
 
