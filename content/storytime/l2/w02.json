@@ -3855,19 +3855,19 @@
           "en": {
             "teacherActions": [
               "Part 1 (5 min): write \"How many?\" on the board. Show where the big letter and the question mark go.",
-              "Children trace \"How many?\" in the book. Then they count the apples in the picture and trace the number word under it: three.",
+              "Children trace \"How many?\" in the book. Then they count the ducks in the picture: three.",
               "Stand-and-count break (at minute 5): all children stand up. Show some fingers and ask \"How many jumps?\" The class counts and jumps. Do it two times, then sit down.",
               "Part 2 (5 min): children draw one, two, or three balls in the empty box. They find the number word under the box (one, two, three) and trace it."
             ],
             "teacherLanguage": [
               "\"A big letter at the start. A question mark at the end of a question.\"",
               "\"Trace the words: How many?\"",
-              "\"Count the apples. How many? Three! Trace the word three.\"",
+              "\"Count the ducks. How many? Three!\"",
               "\"Stand up! How many jumps? One, two, three. Jump three times!\"",
               "\"Now draw one, two, or three balls. How many balls? Find the word and trace it.\""
             ],
             "studentActions": [
-              "Children trace the frame and the number word.",
+              "Children trace the frame and count the ducks.",
               "Children stand, count, and jump in the break.",
               "Children draw balls, then find and trace the number word."
             ],
@@ -3895,19 +3895,19 @@
           "th": {
             "teacherActions": [
               "ส่วนที่ 1 (5 นาที): เขียน \"How many?\" บนกระดาน ชี้ให้ดูว่าตัวพิมพ์ใหญ่และเครื่องหมายคำถาม (question mark) อยู่ที่ไหน",
-              "เด็ก ๆ ลากเส้นตาม \"How many?\" ในหนังสือ จากนั้นนับแอปเปิลในภาพ และลากเส้นตามคำศัพท์ตัวเลขใต้ภาพ: three",
+              "เด็ก ๆ ลากเส้นตาม \"How many?\" ในหนังสือ จากนั้นนับเป็ดในภาพ: three",
               "พักยืนนับ (เมื่อครบ 5 นาที): เด็กทุกคนยืนขึ้น ครูชูนิ้วแล้วถามว่า \"How many jumps?\" (กระโดดกี่ครั้ง) ทั้งชั้นนับและกระโดด ทำ 2 รอบ แล้วนั่งลง",
               "ส่วนที่ 2 (5 นาที): เด็ก ๆ วาดลูกบอล 1, 2 หรือ 3 ลูกในช่องว่าง แล้วหาคำศัพท์ตัวเลขที่ตรงกับจำนวนลูกบอลจากคำใต้ช่อง (one, two, three) และลากเส้นตามคำนั้น"
             ],
             "teacherLanguage": [
               "\"ใช้ตัวพิมพ์ใหญ่ที่ต้นประโยค ใส่เครื่องหมายคำถามที่ท้ายคำถาม\"",
               "\"ลากเส้นตามคำ: How many?\"",
-              "\"นับแอปเปิล How many? Three! ลากเส้นตามคำ three\"",
+              "\"นับเป็ด How many? Three!\"",
               "\"Stand up! (ยืนขึ้น) How many jumps? (กระโดดกี่ครั้ง) One, two, three. Jump three times! (กระโดด 3 ครั้ง)\"",
               "\"ทีนี้วาดลูกบอล 1, 2 หรือ 3 ลูก How many balls? (มีลูกบอลกี่ลูก) หาคำนั้นแล้วลากเส้นตาม\""
             ],
             "studentActions": [
-              "เด็ก ๆ ลากเส้นตามกรอบประโยคและคำศัพท์ตัวเลข",
+              "เด็ก ๆ ลากเส้นตามกรอบประโยคและนับเป็ด",
               "เด็ก ๆ ยืน นับ และกระโดดในช่วงพัก",
               "เด็ก ๆ วาดลูกบอล แล้วหาคำศัพท์ตัวเลขและลากเส้นตาม"
             ],
@@ -4745,7 +4745,13 @@
     "writing": {
       "traceText": "How many?",
       "line": "word",
-      "pictureBox": true
+      "pictureBox": true,
+      "promptPicture": "ducks",
+      "choiceWords": [
+        "one",
+        "two",
+        "three"
+      ]
     }
   }
 }
