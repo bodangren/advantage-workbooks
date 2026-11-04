@@ -5,6 +5,7 @@ import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, storytimePrintPracticePicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
+import { dictationRowKind } from './taught-letters';
 import { iconSvg } from './icons';
 import { LETTER_BOX, LETTER_CELL_MM, LETTER_GUIDE, letterStrokeData } from './letter-strokes';
 import { fontFaceCss } from './print-fonts';
@@ -392,15 +393,17 @@ function traceLineHtml(text: string, part: string): string {
 
 /**
  * The right page of the weekly spread, the write page (page template 8.2, A-48): the framed block
- * C3 "Dictation" (a box for each dictated letter, sound boxes for the dictated word with no printed
- * word, and the trace sentence) and the framed block D4 "Write it" (the frame trace, the name or word line,
+ * C3 "Dictation" (a box for each dictated letter, sound boxes for a dictated word of taught letters or a
+ * trace row for a word with an untaught letter, with no printed word, and the trace sentence) and the framed block D4 "Write it" (the frame trace, the name or word line,
  * and the draw box). The row numbers run through the page.
  */
 function writingPage(week: StorytimeWeek): PageSpec {
     const print = week.print!;
     let row = 0;
     const letterRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['ear', 'pencil'], 'Listen. Write.')}<span class="box-group">${print.dictation.letters.map(() => '<span class="letter-slot" data-part="dictation-letter"></span>').join('')}</span></div>`;
-    const soundRows = print.dictation.words.map((word) => `<div class="work-row" data-part="sound-row">${rowStart(++row, ['mouth', 'pencil'], 'Say. Write.')}<span class="box-group">${[...word].map(() => '<span class="sound-box" data-part="sound-box"></span>').join('')}</span></div>`).join('');
+    const soundRows = print.dictation.words.map((word) => dictationRowKind(word, week.meta.week) === 'sound-boxes'
+        ? `<div class="work-row" data-part="sound-row" data-dictation-kind="sound">${rowStart(++row, ['mouth', 'pencil'], 'Say. Write.')}<span class="box-group">${[...word].map(() => '<span class="sound-box" data-part="sound-box"></span>').join('')}</span></div>`
+        : `<div class="work-row" data-part="work-row" data-dictation-kind="trace">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(word, 'dictation-word-trace')}</div>`).join('');
     const sentenceRow = print.dictation.traceSentence
         ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.dictation.traceSentence, 'dictation-trace')}</div>`
         : '';
