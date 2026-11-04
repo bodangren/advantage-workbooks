@@ -128,3 +128,53 @@ describe('A-48 part 2, F4: the picture row stands above the trace row of D4', ()
         }
     });
 });
+
+/** Every string of a parsed value, with its path (for the script and item searches of U7). */
+function strings(value: unknown, trail = ''): { trail: string; value: string }[] {
+    if (typeof value === 'string') return [{ trail, value }];
+    if (Array.isArray(value)) return value.flatMap((item, index) => strings(item, `${trail}[${index}]`));
+    if (value && typeof value === 'object') return Object.entries(value).flatMap(([key, item]) => strings(item, `${trail}.${key}`));
+    return [];
+}
+
+describe('A-48 part 2, U7: the check pictures axe and ostrich replace the alligator and the olive (E24, E26)', () => {
+    const rowOf = (week: StorytimeWeek) => week.check.items.filter((item) => item.kind === 'circle-picture')[2];
+
+    it('U7-data: week 2 row 3 is pig, bed, axe; week 7 row 3 is pen, bus, ostrich; week 8 names the axe', () => {
+        const all = weeks();
+        const w2 = rowOf(all[1]) as { pictures: string[]; answer: string };
+        const w7 = rowOf(all[6]) as { pictures: string[]; answer: string };
+        expect(w2).toMatchObject({ pictures: ['pig', 'bed', 'axe'], answer: 'axe' });
+        expect(w7).toMatchObject({ pictures: ['pen', 'bus', 'ostrich'], answer: 'ostrich' });
+        const w8 = JSON.stringify(all[7].block);
+        expect(w8).not.toMatch(/alligator/);
+        expect(w8).toMatch(/"axe"/);
+    });
+
+    it('U7-script: the row 3 lines of the week 2 and week 7 scripts say the new word in English and Thai, and the old word is gone from every check line', () => {
+        const all = weeks();
+        const row3 = (week: StorytimeWeek) => strings(week.scripts).filter((s) => /Row 3:|แถว 3:/.test(s.value)).map((s) => s.value);
+        expect(row3(all[1]).length).toBe(2);
+        for (const line of row3(all[1])) expect(line).toMatch(/pig, bed, axe/);
+        expect(row3(all[6]).length).toBe(2);
+        for (const line of row3(all[6])) expect(line).toMatch(/pen, bus, ostrich/);
+        for (const [index, word] of [[1, 'alligator'], [6, 'olive']] as const) {
+            expect(strings(all[index].check).filter((s) => s.value.includes(word)), `Week ${index + 1} check`).toEqual([]);
+            expect(row3(all[index]).filter((line) => line.includes(word))).toEqual([]);
+        }
+    });
+
+    it('U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 195 rows', async () => {
+        const mod = await import(path.join(dashboardRoot, 'lib/storytime/print/pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
+        const ids = mod.storytimePrintPictures(weeks()).map((row) => row.id);
+        expect(ids).toContain('l2-w02-check-row-axe');
+        expect(ids).toContain('l2-w07-check-row-ostrich');
+        expect(ids.filter((id) => /alligator|olive/.test(id))).toEqual([]);
+        expect(ids).toHaveLength(195);
+    });
+
+    it('U7-nut: the nut pages keep the word nut (Forge draws a peanut)', () => {
+        expect(JSON.stringify(weeks()[0].books)).toMatch(/nut/i);
+        expect(weeks()[0].home!.words).toContain('nut');
+    });
+});
