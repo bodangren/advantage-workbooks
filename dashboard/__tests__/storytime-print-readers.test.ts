@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import zlib from 'node:zlib';
+import type { Page } from '@playwright/test';
 import { afterAll, describe, expect, it, vi } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
@@ -40,6 +41,20 @@ function temp(): string {
     const dir = fs.mkdtempSync(path.join('/tmp/opencode', 'storytime-readers-'));
     scratch.push(dir);
     return dir;
+}
+/**
+ * Opens an HTML document in a browser page from a file, so that the `file:` URLs of the print fonts load
+ * (`setContent` has no file access, and the fallback font has other line heights than Andika).
+ * @param page The browser page.
+ * @param html The document.
+ * @returns Nothing; it returns when the fonts are ready, and it throws when Andika did not load.
+ */
+async function openWithFonts(page: Page, html: string): Promise<void> {
+    const file = path.join(temp(), 'page.html');
+    fs.writeFileSync(file, html);
+    await page.goto(pathToFileURL(file).href);
+    await page.evaluate(() => document.fonts.ready);
+    expect(await page.evaluate(() => document.fonts.check('16px Andika')), 'the Andika print font loads in the browser').toBe(true);
 }
 async function readers(): Promise<ReaderApi> {
     expect(fs.existsSync(readerPath), 'Missing module: lib/storytime/print/readers.ts').toBe(true);
@@ -165,8 +180,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const browser = await chromium.launch({ channel: 'chrome' });
         try {
             const page = await browser.newPage();
-            await page.setContent(html);
-            await page.evaluate(() => document.fonts.ready);
+            await openWithFonts(page, html);
             const all = await page.evaluate(measureReaderPagesInBrowser, 2);
             expect(all, 'two readers of 12 pages').toHaveLength(24);
             const result = new Map<string, MeasuredReaderPage[]>([['Hello!', all.slice(0, 12)], ['Nan Can Nod', all.slice(12)]]);
@@ -225,8 +239,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const browser = await chromium.launch({ channel: 'chrome' });
         try {
             const page = await browser.newPage();
-            await page.setContent(html);
-            await page.evaluate(() => document.fonts.ready);
+            await openWithFonts(page, html);
             const sides = await page.evaluate(measureLeafSidesInBrowser, '[data-leaf-side]');
             expect(sides).toHaveLength(12);
             expect(leafMarkProblems(sides)).toEqual([]);
@@ -572,7 +585,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const browser = await chromium.launch({ channel: 'chrome' });
         try {
             const page = await browser.newPage();
-            await page.setContent(html);
+            await openWithFonts(page, html);
             const boxes = await page.evaluate(() => {
                 const pxPerMm = 96 / 25.4;
                 const a3 = document.querySelector('[data-a3-page]')!.getBoundingClientRect();

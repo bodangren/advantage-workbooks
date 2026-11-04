@@ -1520,8 +1520,11 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const browser = await chromium.launch({ channel: 'chrome' });
         try {
             const page = await browser.newPage();
-            await page.setContent(html);
+            const file = path.join(temporaryFolder(), 'student.html');
+            fs.writeFileSync(file, html);
+            await page.goto(pathToFileURL(file).href);
             await page.evaluate(() => document.fonts.ready);
+            expect(await page.evaluate(() => document.fonts.check('16px Andika')), 'the Andika print font loads in the browser').toBe(true);
             const sides = await page.evaluate(measureLeafSidesInBrowser, '.student-page[data-page-kind="reader"]');
             expect(sides).toHaveLength(12);
             expect(leafMarkProblems(sides)).toEqual([]);
