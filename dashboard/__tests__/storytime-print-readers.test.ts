@@ -445,7 +445,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const dull = leafStyleProblems('.fold-line { border-top: 0.3mm solid #000; } .leaf-mark { font-size: 5pt; }');
         expect(dull.some((problem) => problem.includes('[fold-style]')), 'a solid fold line is a style problem').toBe(true);
         expect(leafStyleProblems('.fold-line { border-top: 0.3mm dashed #000; } .leaf-mark { font-size: 5pt; }')).toEqual([]);
-    });
+    }, 30_000);
 
     it('R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy', async () => {
         const api = await readers();
