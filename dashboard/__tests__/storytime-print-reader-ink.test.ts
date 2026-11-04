@@ -131,7 +131,8 @@ function inspectReaderInk(kind: Kind): InkReport {
             if (!thai || !getComputedStyle(thai).fontFamily.includes('Sarabun')) problems.push(`[tear-label] ${tag}: the Thai text does not use Sarabun`);
             for (const page of Array.from(side.querySelectorAll('[data-reader-page]'))) {
                 const pb = box(page);
-                if (lb.left < pb.right - 0.01 && pb.left < lb.right - 0.01 && lb.top < pb.bottom - 0.01 && pb.top < lb.bottom - 0.01) problems.push(`[tear-label] ${tag}: the label reaches a reader page`);
+                // A turned page (179.99 degrees) has a bounding box that is 0.03 mm larger; the tolerance is 0.15 mm.
+                if (lb.left < pb.right - 0.15 && pb.left < lb.right - 0.15 && lb.top < pb.bottom - 0.15 && pb.top < lb.bottom - 0.15) problems.push(`[tear-label] ${tag}: the label reaches a reader page`);
             }
         }
         // 5. The fold line says "fold" at both ends, inside the leaf, clear of the pictures and the text.
