@@ -15,6 +15,8 @@ export interface StorytimeBookPage {
     page: number;
     kind: string;
     week?: number;
+    /** The number of QR codes of the readers on the page (a title page or the page before the back cover). */
+    readerQrs?: number;
 }
 
 /** The pages of the first and the last page that a step uses (the same page when the step uses one page). */
@@ -48,9 +50,12 @@ export interface StorytimeStepMapRow {
 export function storytimeStudentBookPages(weeks: StorytimeWeek[], profile: StorytimePrintProfile = STORYTIME_PRINT_PROFILE): StorytimeBookPage[] {
     const { html } = compileStorytimeStudentBook(weeks, { profile, mode: 'proof' });
     const pages: StorytimeBookPage[] = [];
-    for (const match of html.matchAll(/<section class="student-page" data-page-kind="([^"]+)" data-page-number="(\d+)"(?: data-week="(\d+)")?/g)) {
-        pages.push({ kind: match[1], page: Number(match[2]), ...(match[3] ? { week: Number(match[3]) } : {}) });
-    }
+    const starts = Array.from(html.matchAll(/<section class="student-page" data-page-kind="([^"]+)" data-page-number="(\d+)"(?: data-week="(\d+)")?/g));
+    starts.forEach((match, index) => {
+        const section = html.slice(match.index, starts[index + 1]?.index ?? html.length);
+        const readerQrs = (section.match(/class="reader-qr"/g) ?? []).length;
+        pages.push({ kind: match[1], page: Number(match[2]), ...(match[3] ? { week: Number(match[3]) } : {}), ...(readerQrs ? { readerQrs } : {}) });
+    });
     return pages;
 }
 
