@@ -28,7 +28,7 @@ export interface StorytimeStepEntry {
     label: string;
 }
 
-/** The page parts that script steps use. The week check (E5) and the book map (C7) hold the whole page. */
+/** The page parts that script steps use. The week check (E5), the book map (C7), and the week 8 pages hold the whole page. */
 export const STORYTIME_STEP_MAP: readonly StorytimeStepEntry[] = [
     { code: 'A3', steps: ['A3'], pageKind: 'practice', block: 'form-it', icons: ['pencil'], label: 'Form it' },
     { code: 'A7', steps: ['A7'], pageKind: 'practice', block: 'read-it', icons: ['read'], label: 'Read it' },
@@ -37,6 +37,13 @@ export const STORYTIME_STEP_MAP: readonly StorytimeStepEntry[] = [
     { code: 'D4', steps: ['D4'], pageKind: 'writing', block: 'write-it', icons: ['pencil'], label: 'Write it · day 4' },
     { code: 'E5', steps: ['E5'], pageKind: 'check', block: 'week-check', icons: ['ear', 'circle', 'pencil'], label: 'Check' },
     { code: 'C7', steps: ['C7'], pageKind: 'book-map', block: 'book-map', icons: ['star'], label: 'Book map' },
+    // Week 8 (A-48 U4): the benchmark is step A1, and the five review pages are the paper centers of A2, B1, C1, D1, and E1.
+    { code: 'A1', steps: ['A1'], pageKind: 'benchmark', block: 'benchmark', icons: ['ear', 'circle', 'pencil'], label: 'Benchmark 1' },
+    { code: 'A2', steps: ['A2'], pageKind: 'review', block: 'review-1', icons: ['read', 'circle'], label: 'Review 1' },
+    { code: 'B1', steps: ['B1'], pageKind: 'review', block: 'review-2', icons: ['read', 'circle'], label: 'Review 2' },
+    { code: 'C1', steps: ['C1'], pageKind: 'review', block: 'review-3', icons: ['read', 'circle'], label: 'Review 3' },
+    { code: 'D1', steps: ['D1'], pageKind: 'review', block: 'review-4', icons: ['read', 'circle'], label: 'Review 4' },
+    { code: 'E1', steps: ['E1'], pageKind: 'review', block: 'review-5', icons: ['read', 'circle'], label: 'Review 5' },
 ];
 
 /** The step entry of a code. */

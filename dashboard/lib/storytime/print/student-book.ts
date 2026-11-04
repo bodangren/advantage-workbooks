@@ -171,12 +171,20 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .circle-word-row { display: flex; gap: 8mm; margin-top: 8mm; }
 .circle-word { border: 0.5mm solid #000; border-radius: 50%; padding: 3mm 5mm; font-size: 18pt; }
 .check-write-letter { display: block; width: 26mm; height: 26mm; border: 0.6mm solid #000; margin-top: 10mm; }
-.student-page[data-page-kind="benchmark"] { display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: 2mm; }
-.student-page[data-page-kind="benchmark"] .page-title,
-.student-page[data-page-kind="benchmark"] > .check-cue { grid-column: 1 / -1; }
-.student-page[data-page-kind="benchmark"] > .check-row { display: contents; }
-.student-page[data-page-kind="benchmark"] .picture-box { width: 25mm; height: 25mm; margin: 0; }
-.student-page[data-page-kind="benchmark"] .check-write-letter { display: inline-block; width: 16mm; height: 16mm; margin: 2mm; }
+.benchmark-row, .sound-row, .match-row { display: flex; align-items: center; gap: 4mm; margin-top: 3mm; }
+.benchmark-pictures, .sound-pictures { display: flex; gap: 4mm; }
+.benchmark-row .picture-box { width: 25mm; height: 25mm; }
+.sound-row .picture-box { width: 26mm; height: 26mm; }
+.review-dense .sound-row { margin-top: 2mm; }
+.review-dense .sound-row .picture-box { width: 19mm; height: 19mm; }
+.position-mark { display: block; flex: none; }
+.row-group-head .position-mark { margin-left: 2mm; }
+.sound-label { display: block; flex: none; width: 16mm; font-size: 16pt; font-weight: 700; text-align: center; }
+.match-target { display: block; flex: none; min-width: 28mm; border: 0.6mm solid #000; padding: 2mm 5mm; font-size: 18pt; text-align: center; }
+.match-choices { display: flex; gap: 8mm; margin-left: 4mm; padding-left: 8mm; border-left: 0.6mm dotted #000; }
+.benchmark-boxes { display: flex; flex-wrap: wrap; gap: 8mm 12mm; margin-top: 8mm; }
+.benchmark-box { display: flex; align-items: center; gap: 3mm; }
+.benchmark-box .check-write-letter { margin-top: 0; width: 24mm; height: 24mm; }
 .check-cue { font-size: 11pt; margin-top: 10mm; }
 .home-card-title { font-size: 14pt; font-weight: 700; }
 .home-line { font-size: 13pt; margin-top: 8mm; }
@@ -480,47 +488,120 @@ ${body}
     };
 }
 
-/** Renders paper check items as a page, including the review picture-sort and circle-word layouts. */
-function checkItemsPage(
-    week: StorytimeWeek,
-    items: StorytimeCheckItem[],
-    rows: StorytimePictureRow[],
-    o: StorytimeStudentBookOptions,
-    files: Map<string, StorytimePictureFile>,
-    heading: string,
-    kind: string,
-): PageSpec {
-    const rowByName = new Map(rows.filter((r) => r.use === 'check-row').map((r) => [r.text, r]));
-    const itemHtml = (item: StorytimeCheckItem): string => {
-        if (item.kind === 'circle-picture') {
-            const pictures = item.pictures.map((word) => {
-                const row = rowByName.get(word);
-                if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
-                return pictureElement(row, o, files, '');
-            });
-            return `<div class="check-row" data-part="check-row">${pictures.join('')}</div>`;
-        }
-        if (item.kind === 'write-letter') return `<span class="check-write-letter" data-part="check-write-letter" data-student-work></span>`;
-        if (item.kind === 'write-word') return `<p class="check-cue" data-student-work>${esc(item.word)}: </p>`;
-        if (item.kind === 'picture-sort') {
-            return `<div class="picture-sort" data-part="picture-sort">${item.groups.map((g) => `<div class="picture-sort-group" data-sort-sound="${esc(g.sound)}"><span class="sort-label">${esc(g.sound)}</span><div class="check-row" data-part="check-row">${g.pictures.map((word) => {
-                const row = rowByName.get(word);
-                if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
-                return pictureElement(row, o, files, '');
-            }).join('')}</div></div>`).join('')}</div>`;
-        }
-        if (item.kind === 'circle-word') {
-            return `<div class="circle-word-row" data-part="circle-word-row">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</div>`;
-        }
-        return `<span class="check-write-letter" data-part="check-write-letter" data-student-work></span>`;
-    };
-    const body = `<h2 class="page-title">${esc(heading)}</h2>
-<p class="check-cue">Circle the picture. Write the letter.</p>
-${items.map(itemHtml).join('\n')}`;
-    return { kind, body };
+/** The check items of one kind, with the type narrowed. */
+function itemsOfKind<K extends StorytimeCheckItem['kind']>(items: StorytimeCheckItem[], kind: K): Extract<StorytimeCheckItem, { kind: K }>[] {
+    return items.filter((item): item is Extract<StorytimeCheckItem, { kind: K }> => item.kind === kind);
 }
 
-/** The five review paper pages, followed by the Benchmark 1 paper page (spec FR-3). */
+/** The score strip for the teacher: a blank and the total, at the bottom right of a check, benchmark, or review page. */
+const scoreStrip = (total: number): string => `<div class="score-strip" data-part="score-strip"><span class="score-blank"></span> / ${total}</div>`;
+
+/** The head of a week 8 page: the week label, the title, and the badge of the step (A-48 U4). */
+function weekEightHead(week: StorytimeWeek, title: string, code: string): string {
+    return `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">${esc(title)}</h2><span class="step-badge" data-part="step-badge" data-step="${esc(code)}">${esc(code)}</span></div>`;
+}
+
+/** The head of a run of rows: the icons and one short line. */
+function groupHead(icons: StorytimeIcon[], label: string, extra = ''): string {
+    return `<div class="row-group-head" data-part="row-group-head">${icons.map((icon) => iconSvg(icon)).join('')}<p class="check-cue">${esc(label)}</p>${extra}</div>`;
+}
+
+/**
+ * The first-sound or last-sound mark of a benchmark row: three squares, the first or the last one filled,
+ * so that a child who cannot read sees which end of the word the row asks for (B22).
+ * @param position The part of the word.
+ * @returns The SVG.
+ */
+function positionMark(position: 'first' | 'last'): string {
+    const filled = position === 'first' ? 0 : 2;
+    const squares = [0, 1, 2].map((i) => `<rect x="${i * 5 + 0.3}" y="0.3" width="3.6" height="3.6" fill="${i === filled ? '#000' : 'none'}" stroke="#000" stroke-width="0.5"/>`).join('');
+    return `<svg class="position-mark" data-part="position-mark" data-position="${position}" viewBox="0 0 14.4 4.2" width="9mm" height="2.6mm" aria-hidden="true">${squares}</svg>`;
+}
+
+/** The first picture-list row of each check-row word: a review or benchmark word keeps the row of the earliest week (the picture list reuses it). */
+function firstRowByWord(rows: StorytimePictureRow[]): Map<string, StorytimePictureRow> {
+    const byWord = new Map<string, StorytimePictureRow>();
+    for (const row of rows) if (row.use === 'check-row' && !byWord.has(row.text)) byWord.set(row.text, row);
+    return byWord;
+}
+
+/**
+ * The two Benchmark 1 pages (step A1, B22, E43): page 1 holds rows 1 to 8 (3 pictures each, the first-sound mark
+ * on rows 1 to 4 and the last-sound mark on rows 5 to 8), and page 2 holds boxes 9 to 15 (the letters from the
+ * sound). The numbers run 1 to 15 through the two pages, and no answer is marked.
+ */
+function benchmarkPages(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec[] {
+    const items = week.benchmark!.paper.items;
+    const byWord = firstRowByWord(rows);
+    const pictureHtml = (word: string): string => {
+        const row = byWord.get(word);
+        if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
+        return pictureElement(row, o, files, 'benchmark-picture');
+    };
+    let number = 0;
+    let lastPosition = '';
+    const rowHtml = itemsOfKind(items, 'circle-picture').map((item) => {
+        const position = item.position === 'last' ? 'last' : 'first';
+        const head = position === lastPosition ? ''
+            : groupHead(['ear', 'circle'], `Listen. Circle the picture that ${position === 'first' ? 'starts' : 'ends'} with the sound.`, positionMark(position));
+        lastPosition = position;
+        return `${head}<div class="benchmark-row" data-part="benchmark-row" data-position="${position}"><span class="row-number" data-part="row-number">${++number}</span>${positionMark(position)}<span class="benchmark-pictures">${item.pictures.map(pictureHtml).join('')}</span></div>`;
+    }).join('\n');
+    const letters = itemsOfKind(items, 'write-letter');
+    const boxes = letters.map(() => `<span class="benchmark-box" data-part="benchmark-box"><span class="row-number" data-part="row-number">${++number}</span><span class="check-write-letter" data-part="check-write-letter" data-student-work></span></span>`).join('');
+    const pictureCount = itemsOfKind(items, 'circle-picture').length;
+    return [
+        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, 'Benchmark 1', 'A1')}\n${rowHtml}\n${scoreStrip(pictureCount)}` },
+        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, 'Benchmark 1', 'A1')}\n${groupHead(STORYTIME_CHECK_ROW_TYPES['write-letter'].icons, STORYTIME_CHECK_ROW_TYPES['write-letter'].label)}\n<div class="benchmark-boxes" data-part="benchmark-boxes">${boxes}</div>\n${scoreStrip(letters.length)}` },
+    ];
+}
+
+/**
+ * One review page (a paper center of week 8, B20, B21, E41): the match rows, where the word to find stands at the
+ * row start and the child circles the same word, then one picture row for each sound, where the sound label starts
+ * the row and the child circles the pictures that start with it. A row holds 4 pictures: the first 2 of the sound
+ * (or the one picture of a single-picture group) and pictures of the other sounds. A child can do each row alone,
+ * with no teacher voice.
+ */
+function reviewPage(week: StorytimeWeek, dayIndex: number, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
+    const day = week.block!.days[dayIndex];
+    const byWord = firstRowByWord(rows);
+    const pictureHtml = (word: string): string => {
+        const row = byWord.get(word);
+        if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
+        return pictureElement(row, o, files, 'review-picture');
+    };
+    let number = 0;
+    const matchRows = itemsOfKind(day.paper, 'circle-word').map((item) =>
+        `<div class="match-row" data-part="match-row"><span class="row-number" data-part="row-number">${++number}</span><span class="match-target" data-part="match-target">${esc(item.answer)}</span><span class="match-choices">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</span></div>`).join('\n');
+    const groups = itemsOfKind(day.paper, 'picture-sort').flatMap((item) => item.groups);
+    const targetCount = Math.min(2, ...groups.map((group) => group.pictures.length));
+    const soundRows = groups.map((group, index) => {
+        const targets = group.pictures.slice(0, targetCount);
+        const pool = Array.from({ length: groups.length - 1 }, (_value, step) => groups[(index + step + 1) % groups.length].pictures).flat();
+        const others = pool.slice(0, 4 - targets.length);
+        const places = targets.length === 2 ? (index % 2 === 0 ? [0, 3] : [1, 2]) : [index % 4];
+        const printed: string[] = [];
+        let next = 0;
+        for (let place = 0; place < 4; place++) printed.push(places.includes(place) ? targets[places.indexOf(place)] : others[next++]);
+        return `<div class="sound-row" data-part="sound-row"><span class="row-number" data-part="row-number">${++number}</span><span class="sound-label" data-part="sound-label">${esc(group.sound)}</span><span class="sound-pictures">${printed.map(pictureHtml).join('')}</span></div>`;
+    }).join('\n');
+    const code = storytimeStep(['A2', 'B1', 'C1', 'D1', 'E1'][dayIndex]).code;
+    const dense = groups.length > 2 ? ' review-dense' : '';
+    const sortHead = groupHead(['read', 'circle'], targetCount === 1 ? 'Circle the picture that starts with the sound.' : 'Circle the pictures that start with the sound.');
+    return {
+        kind: 'review',
+        numbered: true,
+        body: `${weekEightHead(week, `Review ${dayIndex + 1}`, code)}
+${groupHead(['read', 'circle'], 'Find the same word. Circle it.')}
+${matchRows}
+${sortHead}
+<div class="picture-sort${dense}" data-part="picture-sort">${soundRows}</div>
+${scoreStrip(number)}`,
+    };
+}
+
+/** The week 8 pages: the Benchmark 1 pages first (step A1 opens week 8), then the five review pages (spec FR-3, A-48 U4). */
 function reviewPages(
     week: StorytimeWeek,
     rows: StorytimePictureRow[],
@@ -529,9 +610,7 @@ function reviewPages(
 ): PageSpec[] {
     const days = week.block?.days ?? [];
     if (days.length !== 5 || !week.benchmark) throw new Error(`student book: review week ${week.meta.week} needs five review pages and a benchmark`);
-    const pages = days.map((day, index) => checkItemsPage(week, day.paper, rows, o, files, `Review ${index + 1}`, 'review'));
-    const benchmark = checkItemsPage(week, week.benchmark.paper.items, rows, o, files, 'Benchmark 1', 'benchmark');
-    return pages.concat(benchmark);
+    return [...benchmarkPages(week, rows, o, files), ...days.map((_day, index) => reviewPage(week, index, rows, o, files))];
 }
 
 /** The two sides of the home-card leaf (FR-3): the Thai card with the QR codes, then the English card. */
