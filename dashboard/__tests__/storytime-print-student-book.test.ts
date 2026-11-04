@@ -1638,10 +1638,10 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(studentPages.size, 'the student book holds all 24 reader pages (2 readers x 12 pages)').toBe(24);
         expect(readerPages.size, 'the readers build holds all 24 reader pages').toBe(24);
         expect(studentPages).toEqual(readerPages);
-        // spec FR-5.1: the page numbers of each side, top half then bottom half, for both readers; the back side keeps the top and the bottom of its front.
+        // spec FR-5.1 (2026-11-04): the page numbers of each side, top half then bottom half, for both readers; the back side keeps the top and the bottom of its front.
         const expectedBySide = [
-            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
-            [12, 1], [11, 2], [10, 3], [9, 4], [8, 5], [7, 6],
+            [1, 12], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7],
+            [1, 12], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7],
         ];
         for (let sideIndex = 0; sideIndex < readerSides.length; sideIndex++) {
             const side = sideIndex % 2 === 0 ? 'front' : 'back';
