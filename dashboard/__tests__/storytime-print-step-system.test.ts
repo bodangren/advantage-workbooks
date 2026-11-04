@@ -22,6 +22,7 @@ const strokesModule = path.join(printDir, 'letter-strokes.ts');
 const wordsModule = path.join(printDir, 'trace-words.ts');
 const stepMapModule = path.join(printDir, 'step-map.ts');
 const iconsModule = path.join(printDir, 'icons.ts');
+const taughtModule = path.join(printDir, 'taught-letters.ts');
 const studentModule = path.join(printDir, 'student-book.ts');
 const textCheckModule = path.join(printDir, 'text-check.ts');
 const font = parseFont(path.join(dashboardRoot, 'assets/print-fonts/andika-regular.ttf'));
@@ -52,6 +53,11 @@ interface WordsModule {
     TRACE_START_EM: Record<string, { x: number; y: number }>;
     TRACE_LINE: { fontSizeMm: number; baselineMm: number; heightMm: number; padMm: number; dotRadiusMm: number };
     traceLineLayout: (text: string, fontSize: number) => { words: { text: string; x: number; dot?: { x: number; y: number } }[]; width: number };
+}
+interface TaughtModule {
+    STORYTIME_LETTER_ORDER: readonly string[];
+    taughtLetters: (week: number) => string[];
+    dictationRowKind: (word: string, week: number) => 'sound-boxes' | 'trace';
 }
 interface StepEntry { code: string; steps: string[]; pageKind: string; block: string; icons: string[]; label: string }
 interface StepModule {
@@ -177,6 +183,20 @@ describe('A-48: the per-letter stroke data (E01 to E10)', () => {
         const mod = await import(strokesModule) as StrokeModule;
         expect(weeks().slice(0, 7).map((week) => week.print!.letterBox.letter)).toEqual(['n', 'a', 'p', 'm', 's', 't', 'o']);
         for (const week of weeks().slice(0, 7)) expect(() => mod.letterStrokeData(week.print!.letterBox.letter)).not.toThrow();
+    });
+
+    it('S-a-up: stroke 1 of the a goes up the stem to the top, and stroke 2 starts there beside it (week 2 words)', async () => {
+        const mod = await import(strokesModule) as StrokeModule;
+        const a = mod.letterStrokeData('a');
+        const mm = mod.LETTER_CELL_MM.width / mod.LETTER_BOX.width;
+        const first = samplePath(a.strokes[0].d, 0.25);
+        const second = samplePath(a.strokes[1].d, 0.25);
+        const end = first[first.length - 1];
+        const start = second[0];
+        expect(Math.hypot(end.x - start.x, end.y - start.y) * mm, 'The end of stroke 1 is within 1 mm of the top of the stem.').toBeLessThanOrEqual(1);
+        expect(Math.abs(end.x - start.x), 'The up path and the down path are offset, as on the n.').toBeGreaterThanOrEqual(mod.LETTER_GUIDE.strokeWidth);
+        expect(end.y, 'The arrow of stroke 1 stops near the top of the stem, not at its middle.').toBeLessThan(45);
+        expect(Math.min(...first.map((point) => point.y)), 'Stroke 1 does not rise above the start dot.').toBeGreaterThanOrEqual(a.modelDot.y - 2);
     });
 
     it('S-mutants: the n strokes for o, a dot off the stroke, and a missing stroke each fail the check', async () => {
@@ -378,13 +398,39 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         // C3, row 1: an empty box for each dictated letter.
         const dictation = onlyPart(list[0], 'dictation');
         expect(texts(dictation, '[data-part="dictation-letter"]')).toEqual(week.print!.dictation.letters.map(() => ''));
-        // C3, row 2: one sound box for each letter of each dictated word, and no printed word.
-        const soundRows = Array.from(list[0].querySelectorAll('[data-part="sound-row"]'));
-        expect(soundRows).toHaveLength(week.print!.dictation.words.length);
+        // C3, row 2: a word with only taught letters gets sound boxes ("Say. Write."); a word with a letter
+        // that is not taught yet is a trace row ("Trace."). The word is never printed as plain text (E15).
+        const taught = await import(taughtModule) as TaughtModule;
+        const wordRows = Array.from(list[0].querySelectorAll('[data-dictation-kind]'));
+        expect(wordRows).toHaveLength(week.print!.dictation.words.length);
         week.print!.dictation.words.forEach((word, index) => {
-            expect(soundRows[index].querySelectorAll('[data-part="sound-box"]')).toHaveLength([...word].length);
-            expect(texts(soundRows[index], '[data-part="sound-box"]').join('')).toBe('');
-            expect(soundRows[index].querySelector('[data-part="dictation-word"], [data-part="trace-letter"], text'), 'The sound row prints no letter of the word.').toBeNull();
+            const kind = taught.dictationRowKind(word, weekNumber);
+            const row = wordRows[index];
+            expect(row.getAttribute('data-dictation-kind')).toBe(kind === 'trace' ? 'trace' : 'sound');
+            const icons = Array.from(row.querySelectorAll('[data-part="row-icon"]'), (icon) => icon.getAttribute('data-icon'));
+            if (kind === 'sound-boxes') {
+                expect(row.getAttribute('data-part')).toBe('sound-row');
+                expect(text(row.querySelector('.row-label')!)).toBe('Say. Write.');
+                expect(icons).toEqual(['mouth', 'pencil']);
+                expect(row.querySelectorAll('[data-part="sound-box"]')).toHaveLength([...word].length);
+                expect(texts(row, '[data-part="sound-box"]').join('')).toBe('');
+                expect(row.querySelector('[data-part="dictation-word"], [data-part="trace-letter"], text'), 'The sound row prints no letter of the word.').toBeNull();
+            } else {
+                expect(row.getAttribute('data-part')).toBe('work-row');
+                expect(text(row.querySelector('.row-label')!)).toBe('Trace.');
+                expect(icons).toEqual(['pencil']);
+                expect(row.querySelectorAll('[data-part="sound-box"]'), 'A trace row has no sound box.').toHaveLength(0);
+                const trace = onlyPart(row, 'dictation-word-trace');
+                expect(text(trace)).toBe(word);
+                const layout = words.traceLineLayout(word, words.TRACE_LINE.fontSizeMm);
+                const placed = layout.words.filter((item) => item.dot);
+                const dots = Array.from(trace.querySelectorAll('circle[data-part="trace-word-dot"]'));
+                expect(dots).toHaveLength(placed.length);
+                dots.forEach((dot, dotIndex) => {
+                    expect(numAttr(dot, 'cx')).toBeCloseTo(words.TRACE_LINE.padMm + placed[dotIndex].x + placed[dotIndex].dot!.x, 1);
+                    expect(numAttr(dot, 'cy')).toBeCloseTo(words.TRACE_LINE.baselineMm - placed[dotIndex].dot!.y, 1);
+                });
+            }
         });
         expect(list[0].querySelector('[data-part="dictation-word"]'), 'The dictated word is not printed (E15).').toBeNull();
         // C3, row 3 (weeks 2 to 7): the trace sentence in grey with a start dot on each word (E14).
@@ -413,7 +459,7 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         // The row numbers run through the page: C3 first, then D4.
         const numbers = texts(page, '[data-part="row-number"]');
         expect(numbers).toEqual(numbers.map((_value, index) => String(index + 1)));
-        expect(numbers.length).toBeGreaterThanOrEqual(soundRows.length + 1 + 2 + (sentence ? 1 : 0));
+        expect(numbers.length).toBeGreaterThanOrEqual(wordRows.length + 1 + 2 + (sentence ? 1 : 0));
     });
 
     it('P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip', async () => {
@@ -510,6 +556,57 @@ describe('A-48: the page chrome and the shared look', () => {
         expect(text(onlyPart(dirty, 'writing-trace'))).toBe(hostile);
     });
 });
+
+describe('A-48: the dictated word rule (C3 row 2)', () => {
+    it('T-rule: a word of taught letters gets sound boxes, a word with an untaught letter is a trace row', async () => {
+        expect(fs.existsSync(taughtModule), 'Missing module: lib/storytime/print/taught-letters.ts').toBe(true);
+        const mod = await import(taughtModule) as TaughtModule;
+        expect(mod.STORYTIME_LETTER_ORDER).toEqual(['n', 'a', 'p', 'm', 's', 't', 'o']);
+        expect(mod.taughtLetters(1)).toEqual(['n']);
+        expect(mod.taughtLetters(2)).toEqual(['n', 'a']);
+        expect(mod.taughtLetters(7)).toEqual(['n', 'a', 'p', 'm', 's', 't', 'o']);
+        expect(mod.taughtLetters(8), 'A week after the last letter week has every letter.').toEqual(['n', 'a', 'p', 'm', 's', 't', 'o']);
+        const cases: [string, number, 'sound-boxes' | 'trace'][] = [
+            ['a', 1, 'trace'], ['an', 1, 'trace'], ['n', 1, 'sound-boxes'], ['an', 2, 'sound-boxes'], ['pan', 2, 'trace'], ['pan', 3, 'sound-boxes'],
+            ['map', 3, 'trace'], ['map', 4, 'sound-boxes'], ['Sam', 4, 'trace'], ['Sam', 5, 'sound-boxes'], ['mat', 5, 'trace'], ['mat', 6, 'sound-boxes'],
+            ['top', 6, 'trace'], ['top', 7, 'sound-boxes'], ['can', 7, 'trace'],
+        ];
+        for (const [word, week, kind] of cases) expect(mod.dictationRowKind(word, week), `${word} in week ${week}`).toBe(kind);
+    });
+
+    it('T-weeks: the order table equals the letter of each week, and the C3 script of each week matches the rule', async () => {
+        const mod = await import(taughtModule) as TaughtModule;
+        const all = weeks().slice(0, 7);
+        expect(all.map((week) => week.print!.letterBox.letter)).toEqual([...mod.STORYTIME_LETTER_ORDER]);
+        const kinds = all.map((week) => week.print!.dictation.words.map((word) => mod.dictationRowKind(word, week.meta.week)));
+        expect(kinds, 'Week 1 traces the tricky word a; weeks 2 to 7 dictate a word of taught letters.').toEqual([
+            ['trace'], ['sound-boxes'], ['sound-boxes'], ['sound-boxes'], ['sound-boxes'], ['sound-boxes'], ['sound-boxes'],
+        ]);
+        for (const week of all) {
+            const c3 = JSON.stringify(findStep(week, 'C3')).replace(/\\"/g, '"');
+            for (const word of week.print!.dictation.words) {
+                const kind = mod.dictationRowKind(word, week.meta.week);
+                if (kind === 'trace') expect(c3, `The C3 script of week ${week.meta.week} traces "${word}".`).toMatch(new RegExp(`trace the (tricky )?word[^"]{0,6}${word}`, 'i'));
+                else expect(c3, `The C3 script of week ${week.meta.week} writes "${word}" in boxes.`).toMatch(new RegExp(`Say "${word}"[^"]*boxes`));
+            }
+        }
+    });
+});
+
+/** The C3 step of a week, from the scripts. */
+function findStep(week: StorytimeWeek, id: string): unknown {
+    let found: unknown;
+    const walk = (value: unknown): void => {
+        if (Array.isArray(value)) value.forEach(walk);
+        else if (value && typeof value === 'object') {
+            if ((value as { id?: string }).id === id && !found) found = value;
+            Object.values(value).forEach(walk);
+        }
+    };
+    walk(week.scripts);
+    if (!found) throw new Error(`no step ${id} in week ${week.meta.week}`);
+    return found;
+}
 
 describe('A-48: week 1 data (E17, E18)', () => {
     it('D-w01: the practice line "and" moves to the tricky-word row, and line 2 shows the nest and the net', async () => {

@@ -522,9 +522,11 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const dictation = part(right, 'dictation');
         // D3 (Check 2026-10-27): the dictation letter lines are empty write-in lines; the children write "n".
         expect(texts(dictation, '[data-part="dictation-letter"]')).toEqual(['', '', '']);
-        // A-48 (E15): the dictated word "a" is not printed; the row holds one empty sound box for its one letter.
+        // A-48 (E15, C3 row 2): the word "a" has a letter that week 1 does not teach, so row 2 is a trace row
+        // (the word in grey with a start dot) and week 1 has no sound box.
         expect(dictation.querySelectorAll('[data-part="dictation-word"]')).toHaveLength(0);
-        expect(texts(dictation, '[data-part="sound-box"]')).toEqual(['']);
+        expect(dictation.querySelectorAll('[data-part="sound-box"]')).toHaveLength(0);
+        expect(text(part(dictation, 'dictation-word-trace'))).toBe('a');
         expect(text(part(right, 'writing-trace'))).toBe('Hello, I am');
         expect(text(part(right, 'name-line'))).toBe('');
         expect(part(right, 'name-line').getAttribute('data-line')).toBe('name');
