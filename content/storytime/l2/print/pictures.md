@@ -66,7 +66,7 @@ Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w02-check-row-fish-v1.png | l2-w02-check-row-fish-line-v1.png | 1500 × 1500 | check-row | fish | C | fish 1 |
 | l2-w02-check-row-pig-v1.png | l2-w02-check-row-pig-line-v1.png | 1500 × 1500 | check-row | pig | C | pig 1 |
 | l2-w02-check-row-bed-v1.png | l2-w02-check-row-bed-line-v1.png | 1500 × 1500 | check-row | bed | C | bed 1 |
-| l2-w02-check-row-alligator-v1.png | l2-w02-check-row-alligator-line-v1.png | 1500 × 1500 | check-row | alligator | C | alligator 1 |
+| l2-w02-check-row-axe-v1.png | l2-w02-check-row-axe-line-v1.png | 1500 × 1500 | check-row | axe | C | axe 1 |
 
 ## Week 3
 
@@ -226,7 +226,7 @@ Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w07-check-row-fish-v1.png | l2-w07-check-row-fish-line-v1.png | 1500 × 1500 | check-row | fish | C | fish 1 |
 | l2-w07-check-row-pen-v1.png | l2-w07-check-row-pen-line-v1.png | 1500 × 1500 | check-row | pen | C | pen 1 |
 | l2-w07-check-row-bus-v1.png | l2-w07-check-row-bus-line-v1.png | 1500 × 1500 | check-row | bus | C | bus 1 |
-| l2-w07-check-row-olive-v1.png | l2-w07-check-row-olive-line-v1.png | 1500 × 1500 | check-row | olive | C | olive 1 |
+| l2-w07-check-row-ostrich-v1.png | l2-w07-check-row-ostrich-line-v1.png | 1500 × 1500 | check-row | ostrich | C | ostrich 1 |
 
 ## Week 8
 
@@ -234,5 +234,4 @@ Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 |---|---|---|---|---|---|---|
 | l2-w08-check-row-moon-v1.png | l2-w08-check-row-moon-line-v1.png | 1500 × 1500 | check-row | moon | C | moon 1 |
 | l2-w08-check-row-mango-v1.png | l2-w08-check-row-mango-line-v1.png | 1500 × 1500 | check-row | mango | C | mango 1 |
-| l2-w08-check-row-ostrich-v1.png | l2-w08-check-row-ostrich-line-v1.png | 1500 × 1500 | check-row | ostrich | C | ostrich 1 |
 | l2-w08-check-row-drum-v1.png | l2-w08-check-row-drum-line-v1.png | 1500 × 1500 | check-row | drum | C | drum 1 |
