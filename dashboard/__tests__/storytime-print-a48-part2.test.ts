@@ -213,3 +213,116 @@ describe('A-48 part 2, E23: "Nan Can Nod" is a first-sound listening book', () =
         }
     });
 });
+
+const stepPagesModule = path.join(dashboardRoot, 'lib/storytime/print/step-pages.ts');
+const manualModule = path.join(dashboardRoot, 'lib/storytime/manual.ts');
+const stepMapModule = path.join(dashboardRoot, 'lib/storytime/print/step-map.ts');
+
+interface BookPage { page: number; kind: string; week?: number }
+interface StepPages {
+    storytimeStudentBookPages: (w: StorytimeWeek[]) => BookPage[];
+    storytimeStepPage: (pages: BookPage[], week: number, step: string) => { first: number; last: number } | undefined;
+    storytimeStepMapRows: (w: StorytimeWeek[]) => { week: number; code: string; steps: string[]; pageKind: string; block: string; icons: string[]; page: number; pageEnd?: number }[];
+}
+
+describe('A-48 part 2, U8: the readers (B17, E52) and the question pages (E37)', () => {
+    const sections = async (title: string) => {
+        const { doc } = await book();
+        return Array.from(doc.querySelectorAll('.student-page[data-page-kind="reader"]')).filter((section) => section.getAttribute('data-reader-title') === title);
+    };
+
+    it('E37-data: the questions that name a page use the printed page (story page 4 is printed page 6)', async () => {
+        const mod = await import(stepMapModule) as { STORYTIME_READER_PAGE_OFFSET: number };
+        expect(mod.STORYTIME_READER_PAGE_OFFSET).toBe(2);
+        const ask = (n: number) => weeks()[n - 1].books.find((b) => b.kind === 'readalong')!.questions!.find((q) => q.kind === 'what')!.ask;
+        expect(ask(3).en).toBe('What color is the paint on page 6? Point and say it.');
+        expect(ask(3).th).toBe('สีในหน้า 6 คือสีอะไร? ให้ชี้ที่ภาพแล้วพูดตามครู');
+        expect(ask(6).en).toBe('What can you see on page 6? Point and say it.');
+        expect(ask(6).th).toBe('เห็นอะไรในหน้า 6? ให้ชี้ที่ภาพแล้วพูดตามครู');
+    });
+
+    it('B17-role: each reader cover has a role mark: listen and read, sound it out, or say the first sound', async () => {
+        const { doc } = await book();
+        const want: Record<string, [string, string[]]> = {
+            'Hello!': ['Listen and read.', ['ear', 'read']],
+            'Nan Can Nod': ['Say the first sound.', ['ear', 'mouth']],
+            'Can I?': ['Sound it out.', ['read', 'mouth']],
+            'The Top': ['Sound it out.', ['read', 'mouth']],
+            'Paint!': ['Listen and read.', ['ear', 'read']],
+        };
+        for (const [title, [label, icons]] of Object.entries(want)) {
+            const marks = (await sections(title)).flatMap((section) => Array.from(section.querySelectorAll('[data-part="reader-role"]')));
+            expect(marks, title).toHaveLength(1);
+            expect(text(marks[0]), title).toBe(label);
+            expect(Array.from(marks[0].querySelectorAll('[data-icon]'), (icon) => icon.getAttribute('data-icon')), title).toEqual(icons);
+        }
+        const all = doc.querySelectorAll('.student-page[data-page-kind="reader"] [data-part="reader-role"]');
+        expect(all.length, 'one role mark for each of the 14 readers').toBe(14);
+    });
+
+    it('E52-more: the page 11 list of "Hello!" and "How Many?" is labeled "More words"; the other read-alongs keep the family name', async () => {
+        for (const title of ['Hello!', 'How Many?']) {
+            const all = (await sections(title)).map(text).join(' ');
+            expect(all, title).toContain('More words');
+        }
+        const names: Record<string, string> = { 'Paint!': 'Colors', 'My Family': 'Family', 'I Have Two': 'My body', 'I Can See': 'Animals', 'Is It a Ball?': 'Toys' };
+        for (const [title] of Object.entries(names)) {
+            const all = (await sections(title)).map(text).join(' ');
+            expect(all, title).not.toContain('More words');
+        }
+    });
+});
+
+describe('A-48 part 2, U8: the teacher book (step badge, student book pages, questions in D3)', () => {
+    const teacherBook = async () => {
+        const pages = await import(stepPagesModule) as StepPages;
+        const manual = await import(manualModule) as { compileStorytimeManual: (w: StorytimeWeek[], o: Record<string, unknown>) => { html: string } };
+        const all = weeks();
+        const { html } = manual.compileStorytimeManual(all, { lang: 'th', loops: true, studentBookPages: pages.storytimeStudentBookPages(all) });
+        return { doc: new DOMParser().parseFromString(html, 'text/html'), pages, all };
+    };
+    const stepsOf = (doc: Document, week: number, id: string) => Array.from(doc.querySelectorAll(`#week-${week}-day-1 .st-step, #week-${week}-day-2 .st-step, #week-${week}-day-3 .st-step, #week-${week}-day-4 .st-step, #week-${week}-day-5 .st-step`))
+        .filter((step) => text(step.querySelector('[data-part="step-badge"]') ?? step).startsWith(id));
+
+    it('U8-badge: each step carries the grey badge of its code, and a part that two steps share carries both codes', async () => {
+        const { doc } = await teacherBook();
+        const steps = Array.from(doc.querySelectorAll('.st-step'));
+        expect(steps.length).toBeGreaterThan(60);
+        for (const step of steps) expect(step.querySelector('.st-step-title [data-part="step-badge"]'), text(step).slice(0, 40)).not.toBeNull();
+        const badges = (week: number, id: string) => stepsOf(doc, week, id).map((step) => text(step.querySelector('[data-part="step-badge"]')!));
+        expect(badges(1, 'A3')).toEqual(['A3']);
+        expect(badges(1, 'A6')).toEqual(['A6·D2']);
+        expect(badges(1, 'D2')).toEqual(['A6·D2']);
+        expect(badges(1, 'E5')).toEqual(['E5']);
+    });
+
+    it('U8-pages: the materials name the printed page of the student book ("หนังสือนักเรียน หน้า N")', async () => {
+        const { doc } = await teacherBook();
+        const materials = (week: number, id: string) => stepsOf(doc, week, id).map((step) => text(step.querySelector('.st-gloss') ?? step)).join(' ');
+        const want: [number, string, string][] = [
+            [1, 'A3', 'หนังสือนักเรียน หน้า 4'], [1, 'A7', 'หนังสือนักเรียน หน้า 4'], [1, 'A8', 'หนังสือนักเรียน หน้า 7'],
+            [1, 'C3', 'หนังสือนักเรียน หน้า 5'], [1, 'C7', 'หนังสือนักเรียน หน้า 2'], [1, 'D4', 'หนังสือนักเรียน หน้า 5'],
+            [1, 'D5', 'หนังสือนักเรียน หน้า 5'], [1, 'E5', 'หนังสือนักเรียน หน้า 6'],
+            [2, 'A3', 'หนังสือนักเรียน หน้า 22'], [4, 'E5', 'หนังสือนักเรียน หน้า 60'], [7, 'D4', 'หนังสือนักเรียน หน้า 113'],
+            [8, 'A1', 'หนังสือนักเรียน หน้า 130–131'], [8, 'A2', 'หนังสือนักเรียน หน้า 132'], [8, 'E1', 'หนังสือนักเรียน หน้า 136'], [8, 'E3', 'หนังสือนักเรียน หน้า 2'],
+        ];
+        for (const [week, id, expected] of want) expect(materials(week, id), `week ${week} ${id}`).toContain(expected);
+        expect(text(doc.body)).not.toContain('student book:');
+    });
+
+    it('U8-questions: the read-along questions print in D3 with the printed page, and not in C5', async () => {
+        const { doc, all } = await teacherBook();
+        for (const week of all.slice(0, 7)) {
+            const questions = week.books.find((b) => b.kind === 'readalong')!.questions!;
+            const d3 = stepsOf(doc, week.meta.week, 'D3');
+            expect(d3, `week ${week.meta.week} D3`).toHaveLength(1);
+            const loop = text(d3[0].querySelector('.st-loop') ?? d3[0]);
+            for (const question of questions) {
+                expect(loop, question.ask.en).toContain(question.ask.en);
+                expect(loop).toContain(`${question.answer.word} (หน้า ${question.answer.page + 2})`);
+            }
+            const c5 = stepsOf(doc, week.meta.week, 'C5');
+            expect(c5.map((step) => step.querySelectorAll('.st-loop').length).reduce((a, b) => a + b, 0) && text(c5[0]).includes(questions[0].ask.en), `week ${week.meta.week} C5 has no questions`).toBeFalsy();
+        }
+    });
+});
