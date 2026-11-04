@@ -329,21 +329,22 @@ describe('A-48 part 3a, C4: the start dots of a letter sit at one place in the w
     });
 
     it('D-mutants: a dot moved in one week only, in one kind of cell, fails the check', async () => {
-        const html = (await book()).html;
-        const kinds: [string, string][] = [['trace-dot', '3'], ['start-dot', '5'], ['dot-only-dot', '2'], ['trace-word-dot', '4']];
-        for (const [part, weekNumber] of kinds) {
-            const doc = new DOMParser().parseFromString(html, 'text/html');
+        const doc = new DOMParser().parseFromString((await book()).html, 'text/html');
+        const kinds: [string, string, string, number][] = [
+            ['trace-dot', '3', 'cx', 2], ['start-dot', '5', 'cx', 2], ['dot-only-dot', '2', 'cx', 2], ['trace-word-dot', '4', 'cx', 0.4],
+            ['trace-dot', '4', 'cy', 1.5], ['trace-word-dot', '7', 'cy', -0.4],
+        ];
+        expect(dotProblems(collectDots(doc)), 'The unchanged book is clean.').toEqual([]);
+        for (const [part, weekNumber, attribute, shift] of kinds) {
             const dot = doc.querySelector(`.student-page[data-week="${weekNumber}"] [data-part="${part}"]`)!;
             expect(dot, `${part} in week ${weekNumber}`).not.toBeNull();
-            dot.setAttribute('cx', String(Number(dot.getAttribute('cx')) + (part === 'trace-word-dot' ? 0.4 : 2)));
-            expect(dotProblems(collectDots(doc)), `Mutant: ${part} of week ${weekNumber} moved.`).not.toEqual([]);
+            const before = dot.getAttribute(attribute)!;
+            dot.setAttribute(attribute, String(Number(before) + shift));
+            expect(dotProblems(collectDots(doc)), `Mutant: ${part} of week ${weekNumber} moved on ${attribute}.`).not.toEqual([]);
+            dot.setAttribute(attribute, before);
         }
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const dot = doc.querySelector('.student-page[data-week="4"] [data-part="trace-dot"]')!;
-        dot.setAttribute('cy', String(Number(dot.getAttribute('cy')) + 1.5));
-        expect(dotProblems(collectDots(doc)), 'Mutant: the m trace dot is 1.5 units too low (0.36 mm).').not.toEqual([]);
-        expect(dotProblems(collectDots(new DOMParser().parseFromString(html, 'text/html'))), 'The unchanged book is clean.').toEqual([]);
-    });
+        expect(dotProblems(collectDots(doc)), 'The book is clean again after the mutants.').toEqual([]);
+    }, 30_000);
 });
 
 // ---------------------------------------------------------------------------------------------
@@ -352,8 +353,8 @@ describe('A-48 part 3a, C4: the start dots of a letter sit at one place in the w
 
 interface QrModule {
     qrSvgToPng: (svg: string, pixels?: number) => Promise<Buffer>;
-    decodeQrCodes: (png: Buffer) => Promise<{ data: string }[]>;
-    expectedStudentBookQrs: (weeks: StorytimeWeek[], pages: { page: number; kind: string; week?: number }[]) => { page: number; week: number; address: string }[];
+    decodeQrCodes: (png: Buffer, minimum?: number) => Promise<{ data: string }[]>;
+    expectedStudentBookQrs: (weeks: StorytimeWeek[], pages: { page: number; kind: string; week?: number; readerQrs?: number }[]) => { page: number; week: number; address: string }[];
     compareQrs: (expected: { page: number; address: string }[], found: { page: number; data: string }[]) => { page: number; address: string; expected: string; status: 'pass' | 'fail'; note: string }[];
 }
 
@@ -387,7 +388,7 @@ describe('A-48 part 3a, I1: a QR code decodes from an image', () => {
         const two = await qr.qrSvgToPng(generateQRCode(BOOK)!, 400);
         const page = await sharp({ create: { width: 1400, height: 600, channels: 3, background: '#fff' } })
             .composite([{ input: one, left: 100, top: 100 }, { input: two, left: 800, top: 100 }]).png().toBuffer();
-        expect((await qr.decodeQrCodes(page)).map((code) => code.data).sort()).toEqual([BOOK, SONG].sort());
+        expect((await qr.decodeQrCodes(page, 2)).map((code) => code.data).sort()).toEqual([BOOK, SONG].sort());
         const blank = await sharp({ create: { width: 800, height: 600, channels: 3, background: '#fff' } }).png().toBuffer();
         expect(await qr.decodeQrCodes(blank)).toEqual([]);
     });
@@ -403,24 +404,29 @@ describe('A-48 part 3a, I1: a QR code decodes from an image', () => {
         expect(qr.compareQrs(expected, [{ page: 8, data: SONG }, { page: 8, data: BOOK }]).every((row) => row.status === 'fail'), 'the right codes on the wrong page').toBe(true);
     });
 
-    it('Q-expected: the expected codes are the song and book addresses of each home card, on the Thai card page', async () => {
+    it('Q-expected: the expected codes are the song and book codes of each home card and the code of each reader, on the pages that print them', async () => {
         const qr = await loadQr();
         const { html } = await book();
         const { storytimeStudentBookPages } = await import(path.join(dashboardRoot, 'lib/storytime/print/step-pages.ts')) as {
-            storytimeStudentBookPages: (w: StorytimeWeek[]) => { page: number; kind: string; week?: number }[];
+            storytimeStudentBookPages: (w: StorytimeWeek[]) => { page: number; kind: string; week?: number; readerQrs?: number }[];
         };
         const all = weeks();
         const pages = storytimeStudentBookPages(all);
         const expected = qr.expectedStudentBookQrs(all, pages);
         const fronts = pages.filter((p) => p.kind === 'home-front');
         expect(fronts.length).toBeGreaterThanOrEqual(7);
-        expect(expected.length).toBe(fronts.reduce((sum, p) => sum + (all[p.week! - 1].home?.songUrl ? 1 : 0) + (all[p.week! - 1].home?.readAlongUrl ? 1 : 0), 0));
-        expect(expected.every((row) => fronts.some((p) => p.page === row.page && p.week === row.week))).toBe(true);
+        const homeCodes = fronts.reduce((sum, p) => sum + (all[p.week! - 1].home?.songUrl ? 1 : 0) + (all[p.week! - 1].home?.readAlongUrl ? 1 : 0), 0);
+        expect(expected.length, 'the home codes plus one code for each reader').toBe(homeCodes + all.reduce((sum, week) => sum + week.books.length, 0));
         for (const week of all.slice(0, 7)) {
-            const rows = expected.filter((row) => row.week === week.meta.week).map((row) => row.address);
-            expect(rows).toEqual([storytimeQrUrl(week.home!.songUrl!), storytimeQrUrl(week.home!.readAlongUrl!)]);
+            const home = expected.filter((row) => row.week === week.meta.week && pages.find((p) => p.page === row.page)!.kind === 'home-front').map((row) => row.address);
+            expect(home).toEqual([storytimeQrUrl(week.home!.songUrl!), storytimeQrUrl(week.home!.readAlongUrl!)]);
+            const readers = expected.filter((row) => row.week === week.meta.week && pages.find((p) => p.page === row.page)!.kind === 'reader').map((row) => row.address);
+            expect(readers.sort(), `Week ${week.meta.week} readers`).toEqual(week.books.map((b) => storytimeQrUrl(`/th/st/2/${week.meta.week}?part=${b.kind === 'decodable' ? 'decodable' : 'book'}`)).sort());
         }
-        const printed = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('.student-page[data-page-kind="home-front"] [data-qr-input]'), (el) => el.getAttribute('data-qr-input'));
-        expect(printed).toEqual(expected.map((row) => row.address));
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const printed = Array.from(doc.querySelectorAll('[data-qr-input]'), (el) => ({ page: Number(el.closest('.student-page')!.getAttribute('data-page-number')), address: el.getAttribute('data-qr-input')! }));
+        expect(printed.map((row) => row.page), 'the pages of the printed codes').toEqual(expected.map((row) => row.page));
+        expect(printed.map((row) => row.address).sort(), 'the printed addresses equal the expected addresses').toEqual(expected.map((row) => row.address).sort());
+        expect(() => qr.expectedStudentBookQrs(all, pages.map((p) => ({ ...p, readerQrs: undefined })))).toThrow(/reader QR codes/);
     });
 });
