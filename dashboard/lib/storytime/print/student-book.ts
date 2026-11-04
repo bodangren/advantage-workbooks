@@ -44,7 +44,7 @@ export interface StorytimeStudentBookOptions {
 
 /** The P11 default title of the unit book (spec P11: release 1 is unit 1 only). */
 const studentBookTitle = (week: StorytimeWeek): string =>
-    `Storytime Advantage, Level ${week.meta.level}, Unit ${week.meta.unit}, Student Book`;
+    `Storytime Advantage, Level ${week.meta.level}, Unit ${week.meta.unit} Student Book`;
 
 /** The teaching weeks of a unit: 7 decodable readers plus the unit sticker (spec P1, D2 item 1). */
 const DECODABLE_WEEKS_PER_UNIT = 7;
@@ -87,8 +87,12 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .belongs { margin-top: 30mm; font-size: 20pt; }
 .name-write-line { display: block; width: 120mm; border-bottom: 0.6mm solid #000; margin: 8mm 0 0 20mm; height: 12mm; }
 .map-grid { display: flex; flex-wrap: wrap; gap: 6mm; margin-top: 10mm; }
-.map-place { width: 40mm; height: 34mm; border: 0.6mm dashed #000; display: flex; align-items: flex-end; justify-content: center; }
-.map-place-label { font-size: 10pt; padding: 2mm; }
+.map-place { width: 40mm; height: 34mm; border: 0.6mm dashed #000; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 2mm; }
+.map-number { font-size: 22pt; font-weight: 700; line-height: 1; }
+.map-place-unit .map-number { font-size: 14pt; }
+.map-star { display: block; width: 9mm; height: 9mm; }
+.map-page { font-size: 9pt; margin-top: 1mm; }
+.map-line { font-size: 12pt; margin-top: 6mm; }
 .letter-box { }
 .page-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1mm; }
 .week-label { font-size: 9pt; }
@@ -274,14 +278,20 @@ ${iconKeyHtml()}`;
     return { kind: 'name', body };
 }
 
-/** The book map: one sticker place for each decodable reader and one for the unit (FR-3). */
-function bookMapPage(): PageSpec {
-    const places = [
-        ...Array.from({ length: DECODABLE_WEEKS_PER_UNIT }, (_v, i) => `decodable-${i + 1}`),
-        'unit-1',
-    ];
+/**
+ * The book map: one sticker place for each decodable reader and one for the unit (FR-3). Each place
+ * shows its number (the unit place shows the star) and the printed page of its week (B19, B24).
+ * @param pageOf The printed page number of the first page of each week, by week number.
+ * @param unitPage The printed page where the unit sticker belongs, if the book holds that page.
+ */
+function bookMapPage(pageOf: ReadonlyMap<number, number>, unitPage?: number): PageSpec {
+    const pageLine = (page?: number): string => `<span class="map-page" data-part="map-page">${page === undefined ? '' : `page ${page}`}</span>`;
+    const places = Array.from({ length: DECODABLE_WEEKS_PER_UNIT }, (_v, i) =>
+        `<div class="map-place" data-sticker="decodable-${i + 1}"><span class="map-number" data-part="map-number">${i + 1}</span>${pageLine(pageOf.get(i + 1))}</div>`);
+    places.push(`<div class="map-place map-place-unit" data-sticker="unit-1"><span class="map-star">${iconSvg('star', 'row-icon', 'row-icon')}</span><span class="map-number" data-part="map-number">Unit 1</span>${pageLine(unitPage)}</div>`);
     const body = `<h2 class="page-title">My book map</h2>
-<div class="map-grid">${places.map((place) => `<div class="map-place" data-sticker="${place}"><span class="map-place-label">${esc(place.startsWith('unit') ? 'Unit 1' : `Week ${place.split('-')[1]}`)}</span></div>`).join('')}</div>`;
+<p class="map-line" data-part="map-line">Put the sticker on the number.</p>
+<div class="map-grid">${places.join('')}</div>`;
     return { kind: 'book-map', body };
 }
 
@@ -701,12 +711,14 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
         for (const entry of resolveStorytimePictureFiles(dir, allPictureRows.filter((row) => !pending.has(row.id)), 'line')) pictureFiles.set(entry.rowId, entry);
     }
-    const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage()];
+    const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage(new Map())];
+    const pageOf = new Map<number, number>();
     for (const week of weeks) {
         if (week.meta.kind === 'review') {
             const rows = allPictureRows.filter((row) => row.week === week.meta.week || row.use === 'check-row');
             const review = reviewPages(week, rows, o, pictureFiles);
             if (specs.length % 2 === 0) specs.push(blankPage());
+            pageOf.set(week.meta.week, specs.length + 1);
             specs.push(...review);
             continue;
         }
@@ -722,8 +734,11 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         // The weekly spread starts on a left page (a 0-based odd index), so that its two pages
         // face each other; the home leaf and the reader leaves then start on a leaf front.
         if (specs.length % 2 === 0) specs.push(blankPage());
+        pageOf.set(week.meta.week, specs.length + 1);
         specs.push(...weekPages);
     }
+    const reviewWeek = weeks.find((week) => week.meta.kind === 'review');
+    specs[1] = bookMapPage(pageOf, reviewWeek ? pageOf.get(reviewWeek.meta.week) : undefined);
     while (specs.length % o.profile.bindingPageMultiple !== 0) specs.push(blankPage());
     const readerMeta = weeks.flatMap((week) => storytimeReaderLeafSides(week, { profile: o.profile, mode: 'proof', output: 'workbook' }))
         .map(({ kind, title, leaf, side }) => ({ kind, title, leaf, side }));
