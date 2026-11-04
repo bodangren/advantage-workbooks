@@ -623,6 +623,8 @@ export const StorytimePrintBlockSchema = z
                 pictureBox: z.boolean(),
                 promptPicture: z.string().min(1).optional(),
                 choiceWords: z.array(z.string().min(1)).min(1).optional(),
+                /** What the child does with the prompt picture: look at it (default), color it, or draw on it (A-48 F5). */
+                promptAction: z.enum(['look', 'color', 'draw']).optional(),
             })
             .strict(),
     })

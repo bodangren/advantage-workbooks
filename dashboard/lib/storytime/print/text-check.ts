@@ -189,7 +189,15 @@ function writingCheck(print: StorytimePrintBlock, d4: string[], d4Actions: strin
     if (print.writing.line === 'word' && !said.includes(' word ')) problems.push('step D4 does not trace a word on the line');
     if (print.writing.pictureBox && !said.includes(' draw ')) problems.push('step D4 does not draw a picture');
     if (!print.writing.pictureBox && said.includes(' draw ')) problems.push('step D4 draws a picture, so the writing page needs the picture box');
+    // The trace text is the sentence of the teacher action "Children trace "..." in the book.", with its punctuation (A-48 F3).
+    // A trailing " ..." of the print text marks a frame that the child completes; the script quotes the frame without it.
+    const traced = d4Actions.map((action) => /\btrace "([^"]+)"/.exec(action)?.[1]).find((quoted) => quoted !== undefined);
+    const frame = print.writing.traceText.replace(/\s*\.\.\.$/, '');
+    if (traced === undefined) problems.push('step D4 has no teacher action that says: trace "..." in the book');
+    else if (traced !== frame) problems.push(`the trace text "${print.writing.traceText}" is not the sentence "${traced}" of step D4, with its punctuation`);
     const saidWords = stem([...d4, ...d4Actions].join(' ')).split(' ');
+    const action = print.writing.promptAction;
+    if ((action === 'color' || action === 'draw') && !saidWords.includes(action)) problems.push(`the prompt action is "${action}", but step D4 does not say "${action}"`);
     for (const word of print.writing.choiceWords ?? []) {
         if (!saidWords.includes(stem(word))) problems.push(`the choice word "${word}" is not in step D4`);
     }

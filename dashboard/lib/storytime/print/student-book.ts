@@ -404,6 +404,13 @@ ${stepBlock('A6·D2', `<div class="tricky-row" data-part="tricky-row">${week.foc
     return { kind: 'practice', body, numbered: true };
 }
 
+/** The label and the icons of the picture row of D4, by the action of the child (A-48 F5). */
+const PROMPT_ACTIONS = {
+    look: { label: 'Look.', icons: ['read'] as StorytimeIcon[] },
+    color: { label: 'Color.', icons: ['pencil'] as StorytimeIcon[] },
+    draw: { label: 'Draw.', icons: ['pencil'] as StorytimeIcon[] },
+} as const;
+
 /**
  * One trace line as SVG (A-48): the words in trace gray at explicit x positions, and one black
  * start dot on the first stroke of each word that starts with a letter. The unit of the SVG is 1 mm.
@@ -442,12 +449,12 @@ function writingPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storyt
         ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.dictation.traceSentence, 'dictation-trace')}</div>`
         : '';
     const writing = print.writing;
-    const frameRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(writing.traceText, 'writing-trace')}</div>`;
+    const frameRow = () => `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(writing.traceText, 'writing-trace')}</div>`;
     const lineRow = () => `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Write.')}<span class="write-line" data-part="${writing.line}-line" data-line="${writing.line}" data-student-work></span></div>`;
     const promptRowData = writing.promptPicture ? storytimePrintPracticePicture(week, writing.promptPicture, rows) : undefined;
     if (writing.promptPicture && !promptRowData) throw new Error(`picture row missing for the prompt picture "${writing.promptPicture}" of week ${week.meta.week}`);
     const promptRow = () => promptRowData
-        ? `<div class="work-row prompt-row" data-part="prompt-row">${rowStart(++row, ['read'], 'Look.')}${pictureElement(promptRowData, o, files, 'prompt-picture')}</div>`
+        ? `<div class="work-row prompt-row" data-part="prompt-row">${rowStart(++row, PROMPT_ACTIONS[writing.promptAction ?? 'look'].icons, PROMPT_ACTIONS[writing.promptAction ?? 'look'].label)}${pictureElement(promptRowData, o, files, 'prompt-picture')}</div>`
         : '';
     const boxCount = writing.pictureBox ? (writing.choiceWords ? 2 - (promptRowData ? 1 : 0) : 1) : 0;
     const drawRow = () => boxCount
@@ -456,9 +463,10 @@ function writingPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storyt
     const chooseRow = () => writing.choiceWords
         ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace one.')}<span class="choice-words" data-part="choice-words">${writing.choiceWords.map((word) => `<span class="choice-word" data-part="choice-word">${traceLineHtml(word, 'choice-word-trace')}</span>`).join('')}</span></div>`
         : '';
+    // The picture row stands above the trace row, as the scripts say "above it" (A-48 F4). The row numbers follow the page order.
     const d4 = writing.line === 'name'
-        ? `${frameRow}${lineRow()}${promptRow()}${drawRow()}${chooseRow()}`
-        : `${frameRow}${promptRow()}${drawRow()}${chooseRow()}${lineRow()}`;
+        ? `${promptRow()}${frameRow()}${lineRow()}${drawRow()}${chooseRow()}`
+        : `${promptRow()}${frameRow()}${drawRow()}${chooseRow()}${lineRow()}`;
     const body = `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">Write</h2></div>
 ${stepBlock('C3', `<div data-part="dictation" class="dictation-rows">${letterRow}${soundRows}${sentenceRow}</div>`)}
 ${stepBlock('D4', d4)}`;
