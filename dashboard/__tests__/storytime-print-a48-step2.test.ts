@@ -230,7 +230,7 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         const labels = Array.from(d4.querySelectorAll('.row-label'), text);
         expect(labels).toContain('Trace.');
         expect(labels).toContain('Write.');
-        if (want.promptPicture) expect(labels).toContain('Look.');
+        if (want.promptPicture) expect(labels).toContain({ look: 'Look.', color: 'Color.', draw: 'Draw.' }[week.print!.writing.promptAction ?? 'look']);
         if (want.choiceWords) expect(labels).toContain('Trace one.');
         expect(week.print!.writing.line === 'name' ? labels.indexOf('Write.') < labels.indexOf('Draw.') : labels.indexOf('Write.') > labels.lastIndexOf('Trace one.'), 'the name line follows the frame; the word line follows the choice words').toBe(true);
     });
