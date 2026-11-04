@@ -463,7 +463,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             expect(readerText).toContain('Sprout');
             expect(readerText).toContain('Storytime Advantage');
             expect(readerText).toContain('Week 1');
-            if (book.kind === 'decodable') for (const text of ['Sounds in this book', 'n', 'nest', 'net', 'nut', 'a', 'and', 'can']) expect(readerText).toContain(text);
+            if (book.kind === 'decodable') for (const text of ['The first sound in this book', 'n', 'nest', 'net', 'nut', 'a', 'and', 'can']) expect(readerText).toContain(text);
         }
     });
 

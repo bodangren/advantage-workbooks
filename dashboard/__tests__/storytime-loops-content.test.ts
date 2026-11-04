@@ -49,6 +49,8 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['"sound": "sss",\n                "pictures": [\n                  "sun"', '"sound": "/s/",\n                "pictures": [\n                  "sun"'],
     ],
     1: [
+        ['Decodable: read together', 'First-sound book: read together'],
+        ['หนังสือฝึกสะกดอ่าน: อ่านด้วยกัน', 'หนังสือเสียงแรก: อ่านด้วยกัน'],
         ['"\\"Start at the top. Down. Up. Over the hill. Down.\\""', '"\\"Start at the dot. Down. Up. Over the hill. Down.\\""'],
         ['"\\"เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง\\""', '"\\"เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง\\""'],
         ["start at the top, down, up, over the hill, down.", "start at the dot, down, up, over the hill, down."],
