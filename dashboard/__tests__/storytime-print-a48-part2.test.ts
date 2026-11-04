@@ -178,3 +178,38 @@ describe('A-48 part 2, U7: the check pictures axe and ostrich replace the alliga
         expect(weeks()[0].home!.words).toContain('nut');
     });
 });
+
+describe('A-48 part 2, E23: "Nan Can Nod" is a first-sound listening book', () => {
+    const readerSections = async (title: string) => {
+        const { doc } = await book();
+        return Array.from(doc.querySelectorAll('.student-page[data-page-kind="reader"]')).filter((section) => section.getAttribute('data-reader-title') === title);
+    };
+
+    it('E23-data: week 1 keeps kind decodable and soundBook true; the C4 title says first-sound book', () => {
+        const week = weeks()[0];
+        const nan = week.books.find((b) => b.title === 'Nan Can Nod')!;
+        expect(nan.kind).toBe('decodable');
+        expect(nan.soundBook).toBe(true);
+        const c4 = week.scripts.flatMap((script) => script.steps).find((step) => step.id === 'C4')!;
+        expect(c4.title.en).toBe('First-sound book: read together');
+        expect(c4.title.th).toBe('หนังสือเสียงแรก: อ่านด้วยกัน');
+    });
+
+    it('E23-labels: the week 1 book says "The first sound in this book" and "Listen to the book"', async () => {
+        const sections = await readerSections('Nan Can Nod');
+        expect(sections.length).toBeGreaterThan(0);
+        const all = sections.map(text).join(' ');
+        expect(all).toContain('The first sound in this book');
+        expect(all).not.toContain('Sounds in this book');
+        expect(all).toContain('Listen to the book');
+        expect(all).not.toContain('Listen and read the book');
+    });
+
+    it('E23-others: the decodables of weeks 2 to 7 keep their labels', async () => {
+        for (const title of ['Can I?', 'The Pan', 'Pam', 'Sam and Pam', 'Tap, Tap!', 'The Top']) {
+            const all = (await readerSections(title)).map(text).join(' ');
+            expect(all, title).toContain('Sounds in this book');
+            expect(all, title).toContain('Listen and read the book');
+        }
+    });
+});
