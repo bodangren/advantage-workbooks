@@ -14,7 +14,7 @@ import { fontFaceCss } from './print-fonts';
  * same 12 pages:
  *
  * - `workbook`: each reader uses three perforated A4 leaves. Each side holds two landscape pages
- *   one above the other (the front pages turned 180 degrees, the back pages upright), a fold line,
+ *   one above the other (the front pages turned 180 degrees except page 12, the back pages upright), a fold line,
  *   and a leaf mark. The child folds each leaf and staples the fold at the top. The workbook prints
  *   line art (FR-9);
  * - `a3-color`: one reader page on each A3 landscape page, scaled 2.0 with 12 mm white bands at the
@@ -45,6 +45,19 @@ const TURN_180_DEG = 179.99;
 
 /** The turn of a printed page in degrees: a front page turns 180 and a back page is upright (the top fold, FR-5.1). */
 const PAGE_TURN_DEG = { front: 180, back: 0 } as const;
+
+/** The back cover. The child reads it by turning the closed reader over like a book, the fold still at the top, so it prints upright (Daniel 2026-11-04, fix 5). */
+const BACK_COVER_PAGE = 12;
+
+/**
+ * The print turn of one reader page.
+ * @param side The printed face of the leaf side.
+ * @param pageNumber The reader page number from 1 to 12.
+ * @returns 0 for the back cover; otherwise 180 on a front and 0 on a back.
+ */
+function pageTurnDeg(side: 'front' | 'back', pageNumber: number): number {
+    return pageNumber === BACK_COVER_PAGE ? 0 : PAGE_TURN_DEG[side];
+}
 
 /** The copy rule of the reader covers (spec FR-6.3, AC-6): no CEFR words on a reader cover. */
 const COVER_COPY_RULE = /\bCEFR\b|\bPre[\s\-‐‑]?A1\b|\bStarters\b|\bReading\s+A[\s\-‐‑]?Z\b/i;
@@ -412,7 +425,7 @@ export interface StorytimeReaderLeafSide {
     title: string;
     /** The leaf number, from 1 to 3. */
     leaf: number;
-    /** The side: `front` holds the pages 1 and 12 (the top fold, turned 180 degrees), `back` holds the pairs 2|11 and the inner ones (upright). */
+    /** The side: `front` holds the pages 1 and 12 (the top fold; page 1 turned 180 degrees, page 12 upright), `back` holds the pairs 2|11 and the inner ones (upright). */
     side: 'front' | 'back';
     /** The page numbers of the top and bottom halves. */
     pages: number[];
@@ -444,7 +457,7 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
                     side,
                     pages: [...numbers],
                     html: numbers.map((number, index) => readerPageHtml(pages[number - 1], o.profile)
-                        .replace('data-reader-page', `data-reader-page data-half="${index === 0 ? 'top' : 'bottom'}" data-turn-deg="${PAGE_TURN_DEG[side]}"`)).join(''),
+                        .replace('data-reader-page', `data-reader-page data-half="${index === 0 ? 'top' : 'bottom'}" data-turn-deg="${pageTurnDeg(side, number)}"`)).join(''),
                 });
             }
         }
