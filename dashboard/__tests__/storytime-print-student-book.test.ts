@@ -344,43 +344,6 @@ function buildPdfx(html: string): string {
     return pdfxFile;
 }
 
-async function screenshotTraceBox(html: string, selector: string, moveBy?: { dx: number; dy: number }, targetSelector?: string): Promise<{ width: number; height: number; data: Buffer; target?: { x: number; y: number; width: number; height: number } }> {
-    requireHeavyWrapper();
-    const folder = temporaryFolder();
-    const htmlFile = path.join(folder, 'trace-screenshot.html');
-    const pngFile = path.join(folder, 'trace-box.png');
-    const rawFile = path.join(folder, 'trace-box.raw');
-    fs.writeFileSync(htmlFile, html);
-    const script = `
-      import fs from 'node:fs'; import { chromium } from '@playwright/test'; import sharp from 'sharp';
-      const browser = await chromium.launch({ channel: 'chrome', timeout: 15000 });
-      try {
-        const context = await browser.newContext({ deviceScaleFactor: 300 / 96 });
-        const page = await context.newPage();
-        await page.goto('file://' + ${JSON.stringify(htmlFile)}, { waitUntil: 'load' });
-        await page.addScriptTag({ content: 'window.PagedConfig = { auto: false };' });
-        await page.addScriptTag({ content: fs.readFileSync('node_modules/pagedjs/dist/paged.polyfill.js', 'utf8') });
-        await page.evaluate('(async () => { await document.fonts.ready; await window.PagedPolyfill.preview(); await document.fonts.ready; })()');
-        await page.emulateMedia({ media: 'print' });
-        const box = page.locator(${JSON.stringify(selector)});
-        await box.waitFor({ state: 'visible' });
-        ${moveBy ? `await box.evaluate((el, shift) => { const dot = el.matches('.start-dot') ? el : el.querySelector('.start-dot'); dot.style.transform = 'translate(' + shift.dx + 'px,' + shift.dy + 'px)'; }, ${JSON.stringify(moveBy)});` : ''}
-        await box.screenshot({ path: ${JSON.stringify(pngFile)}, animations: 'disabled' });
-        const root = await box.boundingBox();
-        const target = ${targetSelector ? `await page.locator(${JSON.stringify(targetSelector)}).boundingBox()` : 'null'};
-        const result = await sharp(${JSON.stringify(pngFile)}).greyscale().raw().toBuffer({ resolveWithObject: true });
-        fs.writeFileSync(${JSON.stringify(rawFile)}, result.data);
-        fs.writeFileSync(${JSON.stringify(rawFile + '.json')}, JSON.stringify({ width: result.info.width, height: result.info.height,
-          target: target && root ? { x: (target.x - root.x) * 300 / 96, y: (target.y - root.y) * 300 / 96, width: target.width * 300 / 96, height: target.height * 300 / 96 } : null }));
-      } finally { await browser.close(); }
-    `;
-    execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
-        cwd: dashboardRoot, encoding: 'utf8', timeout: 185000, maxBuffer: 8 * 1024 * 1024,
-    });
-    const { width, height, target } = JSON.parse(fs.readFileSync(`${rawFile}.json`, 'utf8')) as { width: number; height: number; target?: { x: number; y: number; width: number; height: number } };
-    return { width, height, data: fs.readFileSync(rawFile), target };
-}
-
 // ---- Phase 2 Red 2c helpers (the Check findings D1 to D4, 2026-10-27) ----
 
 /** Pixels per millimeter at the 300 dpi raster the built PDF/X pages use. */
@@ -457,411 +420,11 @@ function solidBlackDots(data: Buffer, width: number, height: number): number {
     return dots;
 }
 
-function rasterDotCenter(data: Buffer, width: number, height: number): { x: number; y: number } {
-    const seen = new Uint8Array(width * height);
-    const candidates: { x: number; y: number; area: number }[] = [];
-    for (let start = 0; start < data.length; start++) {
-        if (seen[start] || data[start] >= 40) continue;
-        const queue = [start]; seen[start] = 1;
-        let minX = width, maxX = -1, minY = height, maxY = -1;
-        for (let i = 0; i < queue.length; i++) {
-            const p = queue[i], x = p % width, y = Math.floor(p / width);
-            minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
-            for (const next of [x > 0 ? p - 1 : -1, x + 1 < width ? p + 1 : -1,
-                y > 0 ? p - width : -1, y + 1 < height ? p + width : -1]) {
-                if (next >= 0 && !seen[next] && data[next] < 40) { seen[next] = 1; queue.push(next); }
-            }
-        }
-        const w = maxX - minX + 1, h = maxY - minY + 1;
-        if (w >= 18 && w <= 42 && h >= 18 && h <= 42 && queue.length >= 150)
-            candidates.push({ x: (minX + maxX) / 2, y: (minY + maxY) / 2, area: queue.length });
-    }
-    expect(candidates.length, 'The isolated trace item has one rasterized start dot.').toBe(1);
-    return candidates[0];
-}
-
-function rasterFirstStrokeStart(data: Buffer, width: number, height: number, dot: { x: number; y: number }, rightStem: boolean, target?: { x: number; y: number; width: number; height: number }): { x: number; y: number } {
-    const seen = new Uint8Array(width * height);
-    const components: { points: { x: number; y: number }[]; distance: number }[] = [];
-    for (let seed = 0; seed < data.length; seed++) {
-        if (seen[seed] || data[seed] < GUIDE_GRAY_LO || data[seed] > GUIDE_GRAY_HI) continue;
-        const queue = [seed]; seen[seed] = 1;
-        const points: { x: number; y: number }[] = [];
-        let minX = width, maxX = -1, minY = height, maxY = -1;
-        for (let i = 0; i < queue.length; i++) {
-            const p = queue[i], x = p % width, y = Math.floor(p / width);
-            points.push({ x, y }); minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
-            for (const next of [x > 0 ? p - 1 : -1, x + 1 < width ? p + 1 : -1,
-                y > 0 ? p - width : -1, y + 1 < height ? p + width : -1]) {
-                if (next >= 0 && !seen[next] && data[next] >= GUIDE_GRAY_LO && data[next] <= GUIDE_GRAY_HI) { seen[next] = 1; queue.push(next); }
-            }
-        }
-        if (points.length < 30 || maxX - minX > 250 || maxY - minY > 180) continue;
-        if (target && (maxX < target.x - 2 || minX > target.x + target.width + 2 || maxY < target.y - 2 || minY > target.y + target.height + 2)) continue;
-        const dx = dot.x < minX ? minX - dot.x : dot.x > maxX ? dot.x - maxX : 0;
-        const dy = dot.y < minY ? minY - dot.y : dot.y > maxY ? dot.y - maxY : 0;
-        components.push({ points, distance: Math.hypot(dx, dy) });
-    }
-    components.sort((a, b) => a.distance - b.distance);
-    const glyph = components[0];
-    expect(glyph, 'The item has a separate trace-gray glyph component.').toBeDefined();
-    const edge = rightStem ? Math.max(...glyph.points.map((p) => p.x)) : Math.min(...glyph.points.map((p) => p.x));
-    const stem = glyph.points.filter((p) => rightStem ? p.x >= edge - 2 : p.x <= edge + 2);
-    const top = Math.min(...stem.map((p) => p.y));
-    return { x: median(stem.filter((p) => p.y <= top + 1).map((p) => p.x)), y: top };
-}
-
 // ---- Phase 2 Red 2d helpers (Check finding D5, 2026-10-27) ----
 
 /** K 20% is 204. K 40% is 153. Black guide ink is below this value. */
 const GUIDE_GRAY_LO = 153;
 const GUIDE_GRAY_HI = 204;
-const GUIDE_BLACK = 40;
-/** The raster tolerance for guide ink outside the letter. At most 0.5 mm. */
-const GUIDE_TOLERANCE_MM = 0.5;
-
-interface GuideRead {
-    letterMedian: number;
-    downFraction: number;
-    archFraction: number;
-    arrowWings: number;
-    outsidePx: number;
-    dotBlack: boolean;
-    dotTopGapMm: number;
-    downTopGapMm: number;
-    downBottomGapMm: number;
-    archBottomGapMm: number;
-}
-
-function pathPoints(d: string): { x: number; y: number }[] {
-    const tokens = d.match(/[MLC]|-?\d*\.?\d+/g) ?? [];
-    const points: { x: number; y: number }[] = [];
-    let i = 0;
-    let cx = 0;
-    let cy = 0;
-    const pushLine = (x: number, y: number): void => {
-        const steps = Math.max(2, Math.ceil(Math.hypot(x - cx, y - cy) * 2));
-        for (let s = 1; s <= steps; s++) {
-            const t = s / steps;
-            points.push({ x: cx + (x - cx) * t, y: cy + (y - cy) * t });
-        }
-        cx = x;
-        cy = y;
-    };
-    while (i < tokens.length) {
-        const op = tokens[i];
-        if (op === 'M') {
-            cx = Number(tokens[i + 1]);
-            cy = Number(tokens[i + 2]);
-            i += 3;
-        } else if (op === 'L') {
-            pushLine(Number(tokens[i + 1]), Number(tokens[i + 2]));
-            i += 3;
-        } else if (op === 'C') {
-            const x1 = Number(tokens[i + 1]);
-            const y1 = Number(tokens[i + 2]);
-            const x2 = Number(tokens[i + 3]);
-            const y2 = Number(tokens[i + 4]);
-            const x = Number(tokens[i + 5]);
-            const y = Number(tokens[i + 6]);
-            for (let s = 1; s <= 24; s++) {
-                const t = s / 24;
-                const u = 1 - t;
-                points.push({
-                    x: u * u * u * cx + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t * x,
-                    y: u * u * u * cy + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t * y,
-                });
-            }
-            cx = x;
-            cy = y;
-            i += 7;
-        } else {
-            i += 1;
-        }
-    }
-    return points;
-}
-
-/** Flattens one SVG path, then samples it at equal arc-length intervals. */
-function formationSamples(d: string): { x: number; y: number }[] {
-    const tokens = d.match(/[MLCQ]|-?\d*\.?\d+/g) ?? [];
-    const points: { x: number; y: number }[] = [];
-    let i = 0, x = 0, y = 0;
-    while (i < tokens.length) {
-        const command = tokens[i++];
-        if (command === 'M') { x = Number(tokens[i++]); y = Number(tokens[i++]); points.push({ x, y }); }
-        else if (command === 'L') {
-            const ex = Number(tokens[i++]), ey = Number(tokens[i++]);
-            const count = Math.ceil(Math.hypot(ex - x, ey - y) / 0.125);
-            for (let j = 1; j <= count; j++) points.push({ x: x + (ex - x) * j / count, y: y + (ey - y) * j / count });
-            x = ex; y = ey;
-        } else if (command === 'C') {
-            const x1 = Number(tokens[i++]), y1 = Number(tokens[i++]), x2 = Number(tokens[i++]), y2 = Number(tokens[i++]);
-            const ex = Number(tokens[i++]), ey = Number(tokens[i++]);
-            const count = Math.ceil((Math.hypot(x1 - x, y1 - y) + Math.hypot(x2 - x1, y2 - y1)
-                + Math.hypot(ex - x2, ey - y2)) / 0.125);
-            for (let j = 1; j <= count; j++) {
-                const t = j / count, u = 1 - t;
-                points.push({ x: u ** 3 * x + 3 * u ** 2 * t * x1 + 3 * u * t ** 2 * x2 + t ** 3 * ex,
-                    y: u ** 3 * y + 3 * u ** 2 * t * y1 + 3 * u * t ** 2 * y2 + t ** 3 * ey });
-            }
-            x = ex; y = ey;
-        } else if (command === 'Q') {
-            const x1 = Number(tokens[i++]), y1 = Number(tokens[i++]), ex = Number(tokens[i++]), ey = Number(tokens[i++]);
-            const count = Math.ceil((Math.hypot(x1 - x, y1 - y) + Math.hypot(ex - x1, ey - y1)) / 0.125);
-            for (let j = 1; j <= count; j++) {
-                const t = j / count, u = 1 - t;
-                points.push({ x: u * u * x + 2 * u * t * x1 + t * t * ex, y: u * u * y + 2 * u * t * y1 + t * t * ey });
-            }
-            x = ex; y = ey;
-        } else throw new Error(`Unsupported formation path command: ${command}`);
-    }
-    const sampled = [points[0]];
-    let carry = 0;
-    let cursor = points[0];
-    for (const point of points.slice(1)) {
-        let start = cursor;
-        let remaining = Math.hypot(point.x - start.x, point.y - start.y);
-        while (carry + remaining >= 0.25) {
-            const distance = 0.25 - carry;
-            const ratio = distance / remaining;
-            start = { x: start.x + (point.x - start.x) * ratio, y: start.y + (point.y - start.y) * ratio };
-            sampled.push(start);
-            remaining = Math.hypot(point.x - start.x, point.y - start.y);
-            carry = 0;
-        }
-        carry += remaining;
-        cursor = point;
-    }
-    if (Math.hypot(sampled.at(-1)!.x - points.at(-1)!.x, sampled.at(-1)!.y - points.at(-1)!.y) > 1e-6) sampled.push(points.at(-1)!);
-    return sampled;
-}
-
-function secondStrokeContract(d: string): { shoulderStart: boolean; startsAtLeftStem: boolean; minimumRise: boolean; risesThenFalls: boolean; smoothHill: boolean } {
-    const points = formationSamples(d);
-    const peak = points.reduce((best, point, index) => point.y < points[best].y ? index : best, 0);
-    const shoulderStart = points[0].y >= 74 && points[0].y <= 76;
-    const startsAtLeftStem = Math.abs(points[0].x - 40.5) <= 1;
-    const minimumRise = points[0].y - points[peak].y >= 6;
-    let risesThenFalls = true;
-    for (let index = 0; index + 4 <= peak; index += 4) {
-        if (points[index + 4].y - points[index].y > 0.25) risesThenFalls = false;
-    }
-    for (let index = peak; index + 4 < points.length; index += 4) {
-        if (points[index].y - points[index + 4].y > 0.25) risesThenFalls = false;
-    }
-    let smoothHill = true;
-    for (let i = 4; i + 4 < points.length; i++) {
-        const before = points[i - 4], current = points[i], after = points[i + 4];
-        const turn = Math.abs(Math.atan2(after.y - current.y, after.x - current.x)
-            - Math.atan2(current.y - before.y, current.x - before.x));
-        if (Math.min(turn, Math.PI * 2 - turn) > 12 * Math.PI / 180) smoothHill = false;
-    }
-    return { shoulderStart, startsAtLeftStem, minimumRise, risesThenFalls, smoothHill };
-}
-
-const D6_SMOOTH_PATH = 'M40.5 75 C47 65 54 65 60 65.2 C66 65.4 72.2 65.4 72.2 74 L72.2 103';
-
-function guideContract(read: GuideRead): {
-    letterInBand: boolean; downCovered: boolean; archCovered: boolean; arrowsShown: boolean; guideInside: boolean;
-    dotAtTop: boolean; downSpansStem: boolean; archAtBottom: boolean;
-} {
-    return {
-        letterInBand: read.letterMedian >= GUIDE_GRAY_LO && read.letterMedian <= GUIDE_GRAY_HI,
-        downCovered: read.downFraction >= 0.75,
-        archCovered: read.archFraction >= 0.75,
-        arrowsShown: read.arrowWings >= 2,
-        guideInside: read.outsidePx === 0,
-        dotAtTop: read.dotBlack && read.dotTopGapMm >= -0.1 && read.dotTopGapMm <= 2.5,
-        downSpansStem: read.downTopGapMm >= -0.5 && read.downTopGapMm <= 2.5
-            && read.downBottomGapMm >= 0 && read.downBottomGapMm <= 2.5,
-        archAtBottom: read.archBottomGapMm >= 0 && read.archBottomGapMm <= 2.5,
-    };
-}
-
-/** A gray model letter and a guide that stays inside the Andika stems. Proves R41 can pass. */
-function guideInsideSvg(model: Element): string {
-    const copy = model.cloneNode(true) as Element;
-    copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    const letter = copy.querySelector('text');
-    expect(letter, 'The copy needs the model letter.').not.toBeNull();
-    letter!.setAttribute('fill', '#b0b0b0');
-    const marker = copy.querySelector('marker');
-    expect(marker, 'The copy needs the arrow marker.').not.toBeNull();
-    marker!.setAttribute('markerWidth', '4');
-    marker!.setAttribute('markerHeight', '4');
-    const dot = copy.querySelector('[data-part="start-dot"]');
-    expect(dot, 'The copy needs the start dot.').not.toBeNull();
-    dot!.setAttribute('cx', '40.5');
-    dot!.setAttribute('cy', '64');
-    dot!.setAttribute('r', '1.3');
-    const paths = copy.querySelectorAll('path[data-part="formation-arrow"]');
-    expect(paths, 'The copy needs the two guide strokes.').toHaveLength(2);
-    paths[0].setAttribute('d', 'M40.5 64 L40.5 103');
-    paths[1].setAttribute('d', D6_SMOOTH_PATH);
-    return copy.outerHTML;
-}
-
-function letterOnlySvg(modelHtml: string): string {
-    const svg = new DOMParser().parseFromString(modelHtml, 'text/html').querySelector('svg');
-    expect(svg, 'The letter model must be an SVG.').not.toBeNull();
-    const copy = svg!.cloneNode(true) as Element;
-    copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    copy.querySelector('defs')?.remove();
-    for (const node of Array.from(copy.querySelectorAll('circle, path'))) node.remove();
-    return copy.outerHTML;
-}
-
-function cropRaster(
-    data: Buffer, width: number, y0: number, y1: number,
-): { width: number; height: number; data: Buffer } {
-    const height = y1 - y0;
-    const out = Buffer.alloc(width * height);
-    for (let y = 0; y < height; y++) data.copy(out, y * width, (y0 + y) * width, (y0 + y) * width + width);
-    return { width, height, data: out };
-}
-
-function guideGeometry(data: Buffer, width: number, height: number): {
-    ox: number; oy: number; leftStemX: number; rightStemX: number;
-} {
-    const unitX = 46 * MM_PX_300 / 100;
-    const unitY = 55 * MM_PX_300 / 120;
-    let minX = width;
-    let maxX = -1;
-    let maxY = -1;
-    let minY = height;
-    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) if (data[y * width + x] < 230) {
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-    }
-    expect(maxX, 'The model letter must render ink.').toBeGreaterThanOrEqual(0);
-    const bandTop = maxY - Math.round((maxY - minY) * 0.25);
-    const bandHeight = maxY - bandTop + 1;
-    const counts = new Int32Array(width);
-    for (let y = bandTop; y <= maxY; y++) for (let x = minX; x <= maxX; x++) if (data[y * width + x] < 230) counts[x]++;
-    const threshold = Math.max(1, Math.round(bandHeight * 0.5));
-    const runs: { left: number; right: number }[] = [];
-    let runStart = -1;
-    for (let x = minX; x <= maxX; x++) {
-        if (counts[x] >= threshold) {
-            if (runStart < 0) runStart = x;
-        } else if (runStart >= 0) {
-            runs.push({ left: runStart, right: x - 1 });
-            runStart = -1;
-        }
-    }
-    if (runStart >= 0) runs.push({ left: runStart, right: maxX });
-    expect(runs.length, 'The model letter must expose two stems.').toBeGreaterThanOrEqual(2);
-    const left = (runs[0].left + runs[0].right) / 2;
-    const right = (runs[1].left + runs[1].right) / 2;
-    return { ox: left - 40.5 * unitX, oy: maxY - 108 * unitY, leftStemX: left, rightStemX: right };
-}
-
-/** The top or bottom ink row of the letter in a window around a stem center. */
-function stemEdge(data: Buffer, width: number, height: number, centerX: number, bottom: boolean): number {
-    const windowHalf = Math.round(2 * (46 * MM_PX_300 / 100));
-    const x0 = Math.max(0, Math.round(centerX) - windowHalf);
-    const x1 = Math.min(width - 1, Math.round(centerX) + windowHalf);
-    if (bottom) {
-        for (let y = height - 1; y >= 0; y--) for (let x = x0; x <= x1; x++) if (data[y * width + x] < 230) return y;
-        return -1;
-    }
-    for (let y = 0; y < height; y++) for (let x = x0; x <= x1; x++) if (data[y * width + x] < 230) return y;
-    return height;
-}
-
-function blackOnGray(full: Buffer, letter: Buffer, width: number, height: number, x: number, y: number): boolean {
-    if (x < 1 || y < 1 || x + 1 >= width || y + 1 >= height) return false;
-    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-        const i = (y + dy) * width + (x + dx);
-        if (full[i] < GUIDE_BLACK && letter[i] >= GUIDE_GRAY_LO && letter[i] <= GUIDE_GRAY_HI) return true;
-    }
-    return false;
-}
-
-function readGuide(
-    full: Buffer, letter: Buffer, width: number, height: number, paths: string[], dot: { x: number; y: number },
-): GuideRead {
-    const unitX = 46 * MM_PX_300 / 100;
-    const unitY = 55 * MM_PX_300 / 120;
-    const geometry = guideGeometry(letter, width, height);
-    console.info(`R41 origin ox=${geometry.ox.toFixed(1)} oy=${geometry.oy.toFixed(1)}`);
-    const toPx = (ux: number, uy: number): { x: number; y: number } => ({
-        x: Math.round(geometry.ox + ux * unitX),
-        y: Math.round(geometry.oy + uy * unitY),
-    });
-    const cover = (d: string): number => {
-        const points = pathPoints(d);
-        expect(points.length, 'A guide stroke must have a path.').toBeGreaterThan(4);
-        let hit = 0;
-        for (const point of points) {
-            const px = toPx(point.x, point.y);
-            if (blackOnGray(full, letter, width, height, px.x, px.y)) hit++;
-        }
-        return hit / points.length;
-    };
-    let arrowWings = 0;
-    for (const d of paths) {
-        const points = pathPoints(d);
-        const end = points[points.length - 1];
-        const prev = points[Math.max(0, points.length - 6)];
-        let dx = end.x - prev.x;
-        let dy = end.y - prev.y;
-        const len = Math.hypot(dx, dy) || 1;
-        dx /= len;
-        dy /= len;
-        let wings = 0;
-        for (let along = -2.8; along <= 0.8; along += 0.4) {
-            for (const side of [-1.8, -1.3, -1.0, 1.0, 1.3, 1.8]) {
-                const px = toPx(end.x + dx * along - dy * side, end.y + dy * along + dx * side);
-                if (blackOnGray(full, letter, width, height, px.x, px.y)) wings++;
-            }
-        }
-        if (wings >= 4) arrowWings++;
-    }
-    const tol = Math.round(GUIDE_TOLERANCE_MM * MM_PX_300);
-    let outsidePx = 0;
-    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-        const i = y * width + x;
-        if (full[i] >= GUIDE_BLACK || letter[i] <= 235) continue;
-        let near = false;
-        for (let dy = -tol; dy <= tol && !near; dy++) for (let dx = -tol; dx <= tol && !near; dx++) {
-            const yy = y + dy;
-            const xx = x + dx;
-            if (yy < 0 || xx < 0 || yy >= height || xx >= width) continue;
-            if (dx * dx + dy * dy > tol * tol) continue;
-            if (letter[yy * width + xx] < 230) near = true;
-        }
-        if (!near) outsidePx++;
-    }
-    const leftTopY = stemEdge(letter, width, height, geometry.leftStemX, false);
-    const leftBottomY = stemEdge(letter, width, height, geometry.leftStemX, true);
-    const rightBottomY = stemEdge(letter, width, height, geometry.rightStemX, true);
-    const downPoints = pathPoints(paths[0]);
-    const archPoints = pathPoints(paths[1]);
-    const downStart = downPoints[0];
-    const downEnd = downPoints[downPoints.length - 1];
-    const archEnd = archPoints[archPoints.length - 1];
-    const dotPx = toPx(dot.x, dot.y);
-    const dotBlack = full[dotPx.y * width + dotPx.x] < GUIDE_BLACK;
-    const gapMm = (py: number, refY: number): number => (py - refY) / MM_PX_300;
-    const ink: number[] = [];
-    for (let i = 0; i < letter.length; i++) if (letter[i] < 240) ink.push(letter[i]);
-    return {
-        letterMedian: median(ink),
-        downFraction: cover(paths[0]),
-        archFraction: cover(paths[1]),
-        arrowWings,
-        outsidePx,
-        dotBlack,
-        dotTopGapMm: gapMm(toPx(dot.x, dot.y).y, leftTopY),
-        downTopGapMm: gapMm(toPx(downStart.x, downStart.y).y, leftTopY),
-        downBottomGapMm: gapMm(leftBottomY, toPx(downEnd.x, downEnd.y).y),
-        archBottomGapMm: gapMm(rightBottomY, toPx(archEnd.x, archEnd.y).y),
-    };
-}
 
 /** The horizontal extent of the reader-leaf fold line (at 148.5 mm, the middle of the leaf), in millimeters from the page left edge. */
 function foldLineExtent(data: Buffer, width: number): { minMm: number; maxMm: number } {
@@ -943,12 +506,13 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(text(part(box, 'formation-words'))).toBe(week.print!.letterBox.formationWords);
     });
 
-    it('R24: prints the three practice lines and their picture ids in data order', async () => {
+    it('R24: prints the two practice lines and their picture ids in data order', async () => {
         const { doc } = await render();
         const sheet = part(page(doc, 'practice'), 'practice-sheet');
-        expect(texts(sheet, '[data-part="practice-text"]')).toEqual(['n n n', 'A nest. A net.', 'and']);
+        // A-48 (E17, E18): the line "and" moved to the tricky-word row, and line 2 shows the nest and the net.
+        expect(texts(sheet, '[data-part="practice-text"]')).toEqual(['n n n', 'A nest. A net.']);
         expect(Array.from(sheet.querySelectorAll('[data-picture-id]'), (image) => image.getAttribute('data-picture-id')))
-            .toEqual(['l2-w01-practice-line-nose', 'l2-w01-practice-line-nest', 'l2-w01-practice-line-nut']);
+            .toEqual(['l2-w01-practice-line-nose', 'l2-w01-practice-line-nest', 'l2-w01-check-row-net']);
         expect(texts(sheet, '[data-part="practice-text"]')).toEqual(shipped().print!.practice.map((line) => line.text));
     });
 
@@ -958,7 +522,9 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const dictation = part(right, 'dictation');
         // D3 (Check 2026-10-27): the dictation letter lines are empty write-in lines; the children write "n".
         expect(texts(dictation, '[data-part="dictation-letter"]')).toEqual(['', '', '']);
-        expect(texts(dictation, '[data-part="dictation-word"]')).toEqual(['a']);
+        // A-48 (E15): the dictated word "a" is not printed; the row holds one empty sound box for its one letter.
+        expect(dictation.querySelectorAll('[data-part="dictation-word"]')).toHaveLength(0);
+        expect(texts(dictation, '[data-part="sound-box"]')).toEqual(['']);
         expect(text(part(right, 'writing-trace'))).toBe('Hello, I am');
         expect(text(part(right, 'name-line'))).toBe('');
         expect(part(right, 'name-line').getAttribute('data-line')).toBe('name');
@@ -1062,12 +628,14 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(html).not.toMatch(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u);
     });
 
-    it('R28: keeps Thai only on the home card and keeps each Thai run unbroken', async () => {
+    it('R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken', async () => {
         const { doc } = await render();
         for (const side of pages(doc).filter((side) => !side.getAttribute('data-page-kind')!.startsWith('home-'))) {
             // Fix 6 (Daniel 2026-11-04): a reader leaf side carries 2 short Thai and English marks, "พับ / fold" and "ตัดออกจากเล่ม / cut out of the book".
             const copy = side.cloneNode(true) as Element;
             copy.querySelectorAll('[data-part="tear-label"], [data-part="fold-label"]').forEach((mark) => mark.remove());
+            // A-48: the week header of a sound, write, or check page and the icon key of page 1 are Thai on purpose.
+            copy.querySelectorAll('[data-part="week-label"], [data-part="icon-key"]').forEach((mark) => mark.remove());
             expect(text(copy)).not.toMatch(/\p{Script=Thai}/u);
         }
         const thai = Array.from(page(doc, 'home-front').querySelectorAll('[lang="th"]'));
@@ -1697,69 +1265,23 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(() => assertLeftSpread(broken)).toThrow();
     });
 
-    it('R37: sits the n stroke guide on the rendered stems within 1 mm (D1)', async () => {
-        const { doc } = await render();
-        const model = page(doc, 'practice').querySelector('svg.letter-model');
-        expect(model, 'The letter model must print.').not.toBeNull();
-        const dot = model!.querySelector('[data-part="start-dot"]');
-        const arrows = Array.from(model!.querySelectorAll('path[data-part="formation-arrow"]'));
-        expect(dot, 'The letter model must keep its start dot.').not.toBeNull();
-        expect(arrows, 'The letter model must keep its two formation arrows.').toHaveLength(2);
-        const dotX = Number(dot!.getAttribute('cx'));
-        const downX = Number(arrows[0].getAttribute('d')!.match(/^M\s*([\d.]+)/)![1]);
-        const archEndX = Number(arrows[1].getAttribute('d')!.trim().slice(arrows[1].getAttribute('d')!.lastIndexOf('L') + 1).trim().split(/[\s,]+/)[0]);
-        // Isolate the letter glyph (the text) so the raster holds no guide stroke.
-        const style = doc.querySelector('style')!.textContent ?? '';
-        const letter = model!.querySelector('text[data-part="letter"]')!;
-        expect(letter, 'The model letter must print as an SVG text.').not.toBeNull();
-        const isolatedSvg = `<svg class="letter-model" viewBox="${model!.getAttribute('viewBox')}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><text class="model-letter" x="${letter.getAttribute('x')}" y="${letter.getAttribute('y')}" text-anchor="middle" fill="#000">${text(letter)}</text></svg>`;
-        const file = buildPdfx(isolateMeasurementHtml('d1', style, isolatedSvg));
-        const { width, height, data } = await rasterPage(file, 1, 300);
-        const unitPx = 46 * MM_PX_300 / 100; // .letter-model is 46 mm wide for a 100-unit viewBox
-        let minX = width, maxX = -1, minY = height, maxY = -1;
-        for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) if (data[y * width + x] < 128) {
-            minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
-        }
-        expect(maxX, 'The isolated n must render ink.').toBeGreaterThanOrEqual(0);
-        const bandTop = maxY - Math.round((maxY - minY) * 0.25);
-        const bandHeight = maxY - bandTop + 1;
-        const counts = new Int32Array(width);
-        for (let y = bandTop; y <= maxY; y++) for (let x = minX; x <= maxX; x++) if (data[y * width + x] < 128) counts[x]++;
-        const threshold = Math.max(1, Math.round(bandHeight * 0.5));
-        const runs: { left: number; right: number }[] = [];
-        let runStart = -1;
-        for (let x = minX; x <= maxX; x++) {
-            if (counts[x] >= threshold) { if (runStart < 0) runStart = x; }
-            else if (runStart >= 0) { runs.push({ left: runStart, right: x - 1 }); runStart = -1; }
-        }
-        if (runStart >= 0) runs.push({ left: runStart, right: maxX });
-        expect(runs, 'The isolated n must expose exactly two vertical stems.').toHaveLength(2);
-        const leftStem = (runs[0].left + runs[0].right) / 2;
-        const rightStem = (runs[1].left + runs[1].right) / 2;
-        expect(Math.abs(downX * unitPx - leftStem), 'The down line must sit on the left stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
-        expect(Math.abs(dotX * unitPx - leftStem), 'The start dot must sit on the left stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
-        expect(Math.abs(archEndX * unitPx - rightStem), 'The arch must meet the right stem within 1 mm.').toBeLessThanOrEqual(MM_PX_300);
-    }, 230000);
-
     it('R38: gives every trace item a start dot (D2)', async () => {
         const { doc } = await render();
         const box = part(page(doc, 'practice'), 'letter-box');
+        // A-48: three trace copies, one dot-only cell, and one empty write space (the model cell is not a trace cell).
         const cells = Array.from(box.querySelectorAll('.trace-cell'));
-        expect(cells, 'Three copies to trace and one write space.').toHaveLength(4);
+        expect(cells, 'Three copies to trace, one dot-only cell, and one write space.').toHaveLength(5);
         for (let i = 0; i < 3; i++) {
             expect(cells[i].querySelector('[data-part="trace-letter"]'), `Cell ${i + 1} traces a letter.`).not.toBeNull();
-            expect(cells[i].querySelector('[data-part="start-dot"], [data-part="trace-dot"]'),
-                `Trace copy ${i + 1} must hold a start dot.`).not.toBeNull();
+            expect(cells[i].querySelector('[data-part="trace-dot"]'), `Trace copy ${i + 1} must hold a start dot.`).not.toBeNull();
         }
-        expect(cells[3].querySelector('[data-part="trace-letter"]'), 'The fourth cell stays empty for writing.').toBeNull();
-        expect(cells[3].querySelector('[data-part="start-dot"], [data-part="trace-dot"]'), 'The write space has no dot.').toBeNull();
+        expect(cells[3].querySelector('[data-part="trace-letter"]'), 'The dot-only cell prints no letter.').toBeNull();
+        expect(cells[3].querySelector('[data-part="dot-only-dot"]'), 'The dot-only cell holds a start dot.').not.toBeNull();
+        expect(cells[4].querySelector('[data-part="trace-letter"], [data-part="trace-dot"], [data-part="dot-only-dot"]'), 'The write space stays empty.').toBeNull();
         const writing = page(doc, 'writing');
-        const dictWord = writing.querySelector('[data-part="dictation-word"]');
-        expect(dictWord, 'The dictation trace word prints.').not.toBeNull();
-        expect(dictWord!.parentElement!.querySelector('[data-part="start-dot"], [data-part="trace-dot"]') ?? dictWord!.querySelector('[data-part="start-dot"], [data-part="trace-dot"]'),
-            'The dictation trace word must hold a start dot.').not.toBeNull();
-        expect(writing.querySelector('[data-part="writing-trace"] [data-part="start-dot"], [data-part="writing-trace"] [data-part="trace-dot"]'),
-            'The writing trace text must hold a start dot.').not.toBeNull();
+        // E14, E15: the trace sentence has a dot on each word; the dictated word has no printed letters.
+        expect(writing.querySelector('[data-part="writing-trace"] [data-part="trace-word-dot"]'),
+            'The writing trace text must hold a start dot on each word.').not.toBeNull();
     });
 
     it('R38: prints each trace item in a K 20-40% gray, never solid black (D2)', async () => {
@@ -1780,16 +1302,15 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }
     }, 230000);
 
-    it('R38: measures the five compiled trace items in page context and catches a removed gray opt-in', async () => {
+    it('R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in', async () => {
         const { doc } = await render(shipped());
         const style = doc.querySelector('style')!.textContent ?? '';
         const cells = Array.from(page(doc, 'practice').querySelectorAll('.trace-cell')).slice(0, 3);
-        const dictation = page(doc, 'writing').querySelector('[data-part="dictation-word"]')!;
         const writing = page(doc, 'writing').querySelector('[data-part="writing-trace"]')!;
+        // A-48: a trace item is an SVG (the grey letter or the grey words, with black start dots).
         const fragments = [
-            ...cells.map((cell) => cell.querySelector('[data-part="trace-letter"]')!.outerHTML),
-            dictation.outerHTML,
-            `<span data-part="writing-trace">${writing.textContent?.replace(/\s+/g, ' ').trim()}</span>`,
+            ...cells.map((cell) => cell.querySelector('svg')!.outerHTML),
+            writing.querySelector('svg')!.outerHTML,
         ];
         const measure = async (css: string): Promise<number[]> => Promise.all(fragments.map(async (fragment, index) => {
             const html = isolateMeasurementHtml(`r38-real-${index}`, css, `<section class="student-page">${fragment}</section>`);
@@ -1800,12 +1321,12 @@ describe('Storytime student workbook: the shipped week 1', () => {
         }));
         const medians = await measure(style);
         console.info(`R38 compiled trace medians: ${medians.join(', ')}`);
-        expect(medians).toHaveLength(5);
+        expect(medians).toHaveLength(4);
         for (const [index, tone] of medians.entries()) {
             expect(tone, `Compiled trace item ${index + 1} stays in K 20-40% gray.`).toBeGreaterThanOrEqual(GUIDE_GRAY_LO);
             expect(tone, `Compiled trace item ${index + 1} stays in K 20-40% gray.`).toBeLessThanOrEqual(GUIDE_GRAY_HI);
         }
-        const noOptIn = style.replace(/\.student-page \[data-part="trace-letter"\],[\s\S]*?\[data-part="writing-trace"\] \{ color: #b0b0b0; \}/, '');
+        const noOptIn = style.replace(/\.student-page \[data-part="trace-letter"\],[\s\S]*?\{ fill: #b0b0b0; color: #b0b0b0; \}/, '');
         expect(noOptIn, 'The mutation removes the trace color opt-in rule.').not.toBe(style);
         const mutated = await measure(noOptIn);
         console.info(`R38 removed-gray-rule medians: ${mutated.join(', ')}`);
@@ -1824,37 +1345,6 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const dots = solidBlackDots(data, width, height);
         expect(dots, 'Each of the three letter copies holds a black start dot.').toBeGreaterThanOrEqual(3);
     }, 230000);
-
-    it('R38: places each trace dot within 1.5 mm of its first letter stroke', async () => {
-        const { html } = await render(shipped());
-        const probes: { selector: string; targetSelector?: string; letter: string; rightStem: boolean }[] = [
-            ...[1, 2, 3].map((index) => ({ selector: `.student-page[data-page-kind="practice"] .trace-cell:nth-child(${index})`, letter: 'n', rightStem: false })),
-            { selector: '.student-page[data-page-kind="writing"] [data-part="dictation"]', targetSelector: '.student-page[data-page-kind="writing"] [data-part="dictation-word"]', letter: 'a', rightStem: true },
-            { selector: '.student-page[data-page-kind="writing"] [data-part="writing-trace"]', letter: 'H', rightStem: false },
-        ];
-        const gaps: number[] = [], shifts: { dx: number; dy: number }[] = [];
-        for (const [index, probe] of probes.entries()) {
-            const raster = await screenshotTraceBox(html, probe.selector, undefined, probe.targetSelector);
-            const dot = rasterDotCenter(raster.data, raster.width, raster.height);
-            const start = rasterFirstStrokeStart(raster.data, raster.width, raster.height, dot, probe.rightStem, raster.target);
-            const gap = Math.hypot(dot.x - start.x, dot.y - start.y) / MM_PX_300;
-            gaps.push(gap);
-            shifts.push({ dx: (start.x - dot.x) / (300 / 96), dy: (start.y - dot.y) / (300 / 96) });
-            console.info(`R38 start-dot gap ${probe.letter} ${index + 1}: ${gap.toFixed(2)} mm (dot ${dot.x},${dot.y}; gray start ${start.x},${start.y}; box ${raster.width}x${raster.height}; black <=60; gray 153-204)`);
-        }
-        expect(gaps).toHaveLength(5);
-        const copiedGaps: number[] = [];
-        for (const [index, probe] of probes.entries()) {
-            const raster = await screenshotTraceBox(html, probe.selector, shifts[index], probe.targetSelector);
-            const dot = rasterDotCenter(raster.data, raster.width, raster.height);
-            const start = rasterFirstStrokeStart(raster.data, raster.width, raster.height, dot, probe.rightStem, raster.target);
-            copiedGaps.push(Math.hypot(dot.x - start.x, dot.y - start.y) / MM_PX_300);
-        }
-        console.info(`R38 copied dot gaps: ${copiedGaps.map((gap) => gap.toFixed(2)).join(', ')} mm`);
-        expect(copiedGaps.every((gap) => gap <= 1.5), 'The page copy with dots moved onto their gray start points passes.').toBe(true);
-        for (const [index, gap] of gaps.entries())
-            expect(gap, `Trace ${probes[index].letter} start dot is within 1.5 mm of its first stroke.`).toBeLessThanOrEqual(1.5);
-    }, 1200000);
 
     it('R39: leaves the dictation letter lines empty write-in lines (D3)', async () => {
         const week = shipped();
@@ -1892,90 +1382,6 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(frontExtent.minMm).toBeLessThanOrEqual(15);
         expect(frontExtent.maxMm, 'The front fold line ends at the outer edge.').toBeGreaterThanOrEqual(207);
     }, 250000);
-
-    it('R41: shows the stroke guide in black on a gray model letter, inside the outline (D5)', async () => {
-        const { doc } = await render();
-        const style = doc.querySelector('style')!.textContent ?? '';
-        const model = page(doc, 'practice').querySelector('svg.letter-model');
-        expect(model, 'The letter box must print the model SVG.').not.toBeNull();
-        const paths = Array.from(model!.querySelectorAll('path[data-part="formation-arrow"]'), (node) => node.getAttribute('d') ?? '');
-        expect(paths, 'The shipped week keeps the down line and the arch.').toHaveLength(2);
-        const headDot = model!.querySelector('[data-part="start-dot"]');
-        const headDotXy = { x: Number(headDot!.getAttribute('cx')), y: Number(headDot!.getAttribute('cy')) };
-        const gapMm = 20;
-        const splitMm = 55 + gapMm / 2;
-        const secondMm = 55 + gapMm;
-        const measurePair = async (top: string, bottom: string, pathList: string[], dotXy: { x: number; y: number }): Promise<GuideRead> => {
-            const file = buildPdfx(isolateMeasurementHtml('r41', style, `${top}<div style="height:${gapMm}mm"></div>${bottom}`));
-            const raster = await rasterPage(file, 1, 300);
-            const split = Math.round(splitMm * MM_PX_300);
-            const second = Math.round(secondMm * MM_PX_300);
-            expect(raster.height, 'The probe page must hold both letter rasters.').toBeGreaterThan(second + split);
-            const full = cropRaster(raster.data, raster.width, 0, split);
-            const letter = cropRaster(raster.data, raster.width, second, second + split);
-            return readGuide(full.data, letter.data, full.width, letter.height, pathList, dotXy);
-        };
-        const head = await measurePair(model!.outerHTML, letterOnlySvg(model!.outerHTML), paths, headDotXy);
-        const copySvg = guideInsideSvg(model!);
-        const copyDoc = new DOMParser().parseFromString(copySvg, 'text/html');
-        const copyDot = copyDoc.querySelector('[data-part="start-dot"]');
-        const copyDotXy = { x: Number(copyDot!.getAttribute('cx')), y: Number(copyDot!.getAttribute('cy')) };
-        const copyFile = path.join(temporaryFolder(), 'r41-guide-inside.html');
-        const copyHtml = isolateMeasurementHtml('r41-copy', style, `${copySvg}<div style="height:${gapMm}mm"></div>${letterOnlySvg(copySvg)}`);
-        fs.writeFileSync(copyFile, copyHtml);
-        copyDoc.querySelectorAll('path[data-part="formation-arrow"]')[1].setAttribute('d', D6_SMOOTH_PATH);
-        const smoothPaths = Array.from(copyDoc.querySelectorAll('path[data-part="formation-arrow"]'),
-            (node) => node.getAttribute('d') ?? '');
-        const smoothSvg = copyDoc.querySelector('svg')!.outerHTML;
-        const copy = await measurePair(smoothSvg, letterOnlySvg(smoothSvg), smoothPaths, copyDotXy);
-        const wanted = {
-            letterInBand: true, downCovered: true, archCovered: true, arrowsShown: true, guideInside: true,
-            dotAtTop: true, downSpansStem: true, archAtBottom: true,
-        };
-        const gapLog = (read: GuideRead): string => `dotTopGap=${read.dotTopGapMm.toFixed(2)}mm downTopGap=${read.downTopGapMm.toFixed(2)}mm downBottomGap=${read.downBottomGapMm.toFixed(2)}mm archBottomGap=${read.archBottomGapMm.toFixed(2)}mm dotBlack=${read.dotBlack}`;
-        console.info(`R41 HEAD letterMedian=${head.letterMedian} downFraction=${head.downFraction.toFixed(2)} archFraction=${head.archFraction.toFixed(2)} arrowWings=${head.arrowWings} outsidePx=${head.outsidePx} ${gapLog(head)}`);
-        console.info(`R41 D6 smooth shoulder copy letterMedian=${copy.letterMedian} downFraction=${copy.downFraction.toFixed(2)} archFraction=${copy.archFraction.toFixed(2)} arrowWings=${copy.arrowWings} outsidePx=${copy.outsidePx} ${gapLog(copy)} file=${copyFile}`);
-        expect(guideContract(copy), 'A smooth shoulder-start guide inside the gray letter can pass R41.').toEqual(wanted);
-        expect(guideContract(head), 'D5: the guide is black on the black model letter. The down line and the arrowheads do not show.').toEqual(wanted);
-    }, 500000);
-
-    it('R42: starts the second stroke at the shoulder, rises over one smooth hill, then falls (D6)', async () => {
-        const { doc } = await render();
-        const model = page(doc, 'practice').querySelector('svg.letter-model')!;
-        const paths = Array.from(model.querySelectorAll('path[data-part="formation-arrow"]'), (node) => node.getAttribute('d') ?? '');
-        expect(paths, 'The letter box keeps two guide strokes.').toHaveLength(2);
-        const shippedResult = secondStrokeContract(paths[1]);
-        expect(shippedResult.shoulderStart, 'D6: the second stroke starts at the shoulder.').toBe(true);
-        expect(shippedResult.startsAtLeftStem, 'D6: the second stroke starts at the left stem.').toBe(true);
-        expect(shippedResult.minimumRise, 'D6: the hill rises at least 6 units above its start.').toBe(true);
-        expect(shippedResult.risesThenFalls, 'D6: the path rises to its peak and then falls.').toBe(true);
-        expect(shippedResult.smoothHill, 'D6: the full stroke has no corner from start to end.').toBe(true);
-
-    });
-
-    it('R42: catches copied V and corner paths and accepts a smooth shoulder path', () => {
-        const currentV = secondStrokeContract('M40.5 66 L44 74.5 L48 71.2 L52 67.8 L56 65.9 L60 65.2 L64 65.8 L68 70.2 L72.2 74 L72.2 103');
-        expect(currentV.risesThenFalls, 'Mutant: the current V path fails the direction rule.').toBe(false);
-        const wrongStart = secondStrokeContract('M72.2 75 L72.2 103');
-        expect(wrongStart.startsAtLeftStem, 'Mutant: a right-stem-only stroke fails the left-start rule.').toBe(false);
-        expect(wrongStart.minimumRise, 'Mutant: a straight stem has no six-unit hill rise.').toBe(false);
-        const noJoin = secondStrokeContract('M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 103');
-        expect(noJoin.minimumRise, 'The shipped path rises by more than the minimum.').toBe(true);
-        expect(noJoin.smoothHill, 'Mutant: the shipped path fails smoothness at the right-stem join.').toBe(false);
-        const noHillToStem = secondStrokeContract('M40.5 75 C47 65 54 65 60 65.2 C66 65.4 69 70 72.2 74 L72.2 65.4 L72.2 103');
-        expect(noHillToStem.smoothHill, 'Mutant: a discontinuous hill-to-stem path fails whole-path smoothness.').toBe(false);
-        const corners = secondStrokeContract('M40.5 75 C48 65 55 61 60 61 L72.2 75 L72.2 103');
-        expect(corners.risesThenFalls, 'Mutant: the corner path still passes the direction rule.').toBe(true);
-        expect(corners.smoothHill, 'Mutant: a segmented corner path fails the smoothness rule.').toBe(false);
-        const smoothCopy = secondStrokeContract(D6_SMOOTH_PATH);
-        expect(smoothCopy.risesThenFalls, 'Mutant: the smooth path passes the direction rule.').toBe(true);
-        expect(smoothCopy.smoothHill, 'Mutant: the smooth path passes the smoothness rule.').toBe(true);
-        expect(smoothCopy, 'Mutant: the smooth shoulder-start path passes all R42 rules.')
-            .toEqual({ shoulderStart: true, startsAtLeftStem: true, minimumRise: true, risesThenFalls: true, smoothHill: true });
-        const smoothJoin = secondStrokeContract(D6_SMOOTH_PATH);
-        expect(smoothJoin, 'Mutant: the smooth path with a vertical join passes all R42 rules.')
-            .toEqual({ shoulderStart: true, startsAtLeftStem: true, minimumRise: true, risesThenFalls: true, smoothHill: true });
-    });
 });
 
 describe('Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02)', () => {

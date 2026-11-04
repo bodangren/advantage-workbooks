@@ -146,7 +146,7 @@ describe('Storytime print Red 3: bounded suffixes (R20)', () => {
         expect(rows.map((row) => row.id)).toEqual([secondId.slice(0, -2), secondId]);
     });
 
-    it('R20: keeps all 30 week 1 ids equal to the committed v2 ids', async () => {
+    it('R20: keeps all 29 week 1 ids equal to the committed v2 ids (A-48: the practice line "and" has moved to the tricky-word row)', async () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8')) as StorytimePictureRow[];
         const expected = [
             'l2-w01-story-page-hello-i-am-pat', 'l2-w01-story-page-hello-i-am-may',
@@ -160,7 +160,7 @@ describe('Storytime print Red 3: bounded suffixes (R20)', () => {
             'l2-w01-check-row-nest', 'l2-w01-check-row-cat', 'l2-w01-check-row-fish',
             'l2-w01-check-row-dog', 'l2-w01-check-row-nose', 'l2-w01-check-row-bus',
             'l2-w01-check-row-hat', 'l2-w01-check-row-cup', 'l2-w01-check-row-net',
-            'l2-w01-practice-line-nose', 'l2-w01-practice-line-nest', 'l2-w01-practice-line-nut',
+            'l2-w01-practice-line-nose', 'l2-w01-practice-line-nest',
         ];
         expect(committed.filter((row) => row.week === 1).map((row) => row.id)).toEqual(expected);
         expect((await pictures([shipped(1)])).map((row) => row.id)).toEqual(expected);
@@ -225,7 +225,7 @@ describe('Storytime print Red 3: list version 4 (R21)', () => {
     it('R21: keeps pictures.json as a top-level array without a version field', () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8'));
         expect(Array.isArray(committed)).toEqual(true);
-        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(192);
+        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(191);
         expect(Object.hasOwn(committed, 'version')).toEqual(false);
     });
 });
@@ -257,13 +257,14 @@ describe('Storytime print Red 4b: week 8 picture list version 4', () => {
         expect(rows.some((row) => row.week === 8 && row.use === 'check-row' && row.text.toLowerCase() === 'pen')).toBe(false);
     });
 
-    it('R4b-4 keeps the week 1 to 7 rows byte-equal to the version 3 list at c7739efb', async () => {
+    it('R4b-4 keeps the week 1 to 7 rows byte-equal to the version 3 list at c7739efb, less the dropped practice row of "and"', async () => {
         const baseline = JSON.parse(execFileSync('git', ['show', 'c7739efbb3cf118f23c1607d3fa645471c6b6077:content/storytime/l2/print/pictures.json'], {
             cwd: path.resolve(dashboardRoot, '..'),
             encoding: 'utf8',
         })) as StorytimePictureRow[];
         const current = (await pictures(shippedWeeks())).filter((row) => row.week <= 7);
-        expect(JSON.stringify(current)).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7)));
+        // A-48: the week 1 practice line "and" moved to the tricky-word row, so its picture row is the one change.
+        expect(JSON.stringify(current)).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7 && row.id !== 'l2-w01-practice-line-nut')));
     });
 
     it('R4b-5 keeps the committed picture list in sync with the list function', async () => {

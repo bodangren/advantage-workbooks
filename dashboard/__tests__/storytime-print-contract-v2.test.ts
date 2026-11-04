@@ -94,7 +94,7 @@ afterEach(() => {
 describe('Storytime print v2: line-art names of the picture list (R11)', () => {
     it('gives every row the line-art name of FR-2.3 and FR-9', async () => {
         const rows = await pictures(shippedWeeks());
-        expect(rows.filter((row) => row.week <= 7).length, 'Weeks 1 to 7 keep their 192 rows.').toBe(192);
+        expect(rows.filter((row) => row.week <= 7).length, 'Weeks 1 to 7 keep their 191 rows (A-48: the week 1 practice line "and" is gone).').toBe(191);
         for (const row of rows) {
             expect(row.lineArtFileName, `The row ${row.id} needs a line-art file name.`).toBe(
                 row.fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png'),
@@ -105,7 +105,7 @@ describe('Storytime print v2: line-art names of the picture list (R11)', () => {
         }
     });
 
-    it('keeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8', async () => {
+    it('keeps the 195 color names and the 195 line-art names distinct across weeks 1 to 8', async () => {
         const rows = await pictures(shippedWeeks());
         const colorNames = rows.map((row) => row.fileName);
         const lineNames = rows.map((row) => row.lineArtFileName);
@@ -168,7 +168,7 @@ describe('Storytime print v2: the FR-9 v1 pixel spec (R12)', () => {
         expect(byUse['story-page'], 'story-page rows: 112').toBe(112);
         expect(byUse.cover, 'cover rows: 14').toBe(14);
         expect(rows.filter((row) => row.week <= 7 && row.use === 'check-row').length, 'Weeks 1 to 7 keep 63 check rows.').toBe(63);
-        expect(byUse['practice-line'], 'practice-line rows: 3').toBe(3);
+        expect(byUse['practice-line'], 'practice-line rows: 2 (A-48)').toBe(2);
         expect(byUse.card, 'card rows: 0').toBe(0);
         expect(byUse.sticker, 'sticker rows: 0').toBe(0);
     });

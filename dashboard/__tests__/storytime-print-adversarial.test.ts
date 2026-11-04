@@ -186,7 +186,7 @@ describe('Adversarial: week 8 and an empty book list', () => {
         expect(byUse('story-page'), 'No books give no story pages.').toBe(0);
         expect(byUse('cover'), 'No books give no covers.').toBe(0);
         expect(byUse('check-row'), 'The check rows do not depend on the books.').toBe(9);
-        expect(byUse('practice-line'), 'The practice rows do not depend on the books.').toBe(3);
+        expect(byUse('practice-line'), 'The practice rows do not depend on the books.').toBe(2);
         const failures = checkStorytimePrintText(parsed(week)).filter((check) => check.status === 'fail');
         expect(failures, 'The week words come from the check items and the home card too.').toEqual([]);
     });

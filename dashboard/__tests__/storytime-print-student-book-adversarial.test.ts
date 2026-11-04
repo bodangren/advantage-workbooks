@@ -50,6 +50,8 @@ const temporaryFolders: string[] = [];
 
 /** A hostile text that breaks out of a double-quoted attribute and of a text node. */
 const HOSTILE = '"><img src=x onerror=alert(1)><script>alert(2)</script>&';
+/** A trace text of three words that start with a letter, like "Hello, I am", so that the dot count stays the same (A-48). */
+const HOSTILE_TRACE = 'H"><img/src=x/onerror=alert(1)> I<script>alert(2)</script> a&';
 
 function temporaryFolder(): string {
     const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-p2-adversarial-'));
@@ -124,8 +126,7 @@ function poisonEnglish(week: StorytimeWeek): void {
     week.print!.practice[0].text = HOSTILE;
     week.print!.letterBox.formationWords = HOSTILE;
     week.print!.letterBox.startPoint = HOSTILE;
-    week.print!.dictation.words[0] = HOSTILE;
-    week.print!.writing.traceText = HOSTILE;
+    week.print!.writing.traceText = HOSTILE_TRACE;
     week.home!.words[0] = HOSTILE;
     week.home!.line.en = HOSTILE;
     week.home!.activity.en = HOSTILE;
@@ -170,7 +171,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         const back = page(dirty.doc, 'home-back');
         expect(text(part(back, 'home-line'))).toBe(HOSTILE);
         expect(texts(back, '[data-part="song-line"]')[0]).toBe(HOSTILE);
-        expect(text(part(page(dirty.doc, 'writing'), 'writing-trace'))).toBe(HOSTILE);
+        expect(text(part(page(dirty.doc, 'writing'), 'writing-trace'))).toBe(HOSTILE_TRACE);
     }, 30000);
 
     it('A1: keeps a hostile start point inside its attribute', async () => {
