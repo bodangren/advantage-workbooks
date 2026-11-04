@@ -18,7 +18,7 @@ export function checkStorytimePrintText(week: StorytimeWeek): PackageCheck[] {
     const say = (id: string) => (steps.get(id)?.en.teacherLanguage ?? []).map(unquote);
     return [
         formationCheck(print, say('A3'), week),
-        practiceCheck(print, say('A7')),
+        practiceCheck(print, say('A7'), week.focus.trickyWords),
         pictureWordCheck(print, week),
         dictationCheck(print, say('C3'), week),
         writingCheck(print, say('D4')),
@@ -95,19 +95,24 @@ function formationCheck(print: StorytimePrintBlock, a3: string[], week: Storytim
 /**
  * The practice sheet against step A7: the sheet carries exactly the read words (plus the letter
  * line of the sounds), with no missing word and no teacher-only word.
+ * The tricky-word row of the sound page (A-48) is part of the sheet: step A7 says "Find the word
+ * and", and a tricky word prints as a card on the same page. The cards are not teacher-only
+ * words, and the sheet may hold them, but the practice lines may not.
  * @param print The print block.
  * @param a7 The unquoted teacher lines of step A7.
+ * @param trickyWords The tricky words of the week (`focus.trickyWords`); each prints as a card.
  * @returns The check `print-practice`.
  */
-function practiceCheck(print: StorytimePrintBlock, a7: string[]): PackageCheck {
+function practiceCheck(print: StorytimePrintBlock, a7: string[], trickyWords: string[]): PackageCheck {
     const problems: string[] = [];
     if (!a7.length) problems.push('the scripts have no step A7');
-    const sheet = print.practice.flatMap((line) => wordsOf(line.text));
+    const lineWords = print.practice.flatMap((line) => wordsOf(line.text));
+    const sheet = [...lineWords, ...trickyWords.flatMap((word) => wordsOf(word))];
     const expected = readWordsOf(a7);
     const letter = stem(print.letterBox.letter);
     const missing = [...new Set(expected)].filter((wd) => wd !== letter && !sheet.includes(wd));
     const allowed = new Set([...expected, letter]);
-    const extra = [...new Set(sheet)].filter((wd) => !allowed.has(wd));
+    const extra = [...new Set(lineWords)].filter((wd) => !allowed.has(wd));
     if (missing.length) problems.push(`the sheet misses the A7 words: ${missing.join(', ')}`);
     if (extra.length) problems.push(`the sheet has words that A7 does not read: ${extra.join(', ')}`);
     return check('print-practice', 'Practice sheet: the exact words that step A7 reads', problems);
@@ -199,6 +204,9 @@ function pictureWordCheck(print: StorytimePrintBlock, week: StorytimeWeek): Pack
     lines.forEach((line, i) => {
         const pictureWord = stem(line.pictureWord);
         if (!pictureWord) return;
+        for (const extraWord of line.extraPictureWords ?? []) {
+            if (!wordsOf(line.text).includes(stem(extraWord))) problems.push(`the extra picture word "${extraWord}" is not a word of the line "${line.text}"`);
+        }
         const repeated = lines.find((other, j) => j !== i && wordsOf(other.text).includes(pictureWord));
         const reasons: string[] = [];
         if (repeated) reasons.push(`it is a word of the other practice line "${repeated.text}"`);

@@ -5,9 +5,13 @@ import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, storytimePrintPracticePicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
+import { iconSvg } from './icons';
+import { LETTER_BOX, LETTER_CELL_MM, LETTER_GUIDE, letterStrokeData } from './letter-strokes';
 import { fontFaceCss } from './print-fonts';
 import { readerFoldLabelsHtml, readerLeafMarkCss, readerPageCss, readerTearOutHtml, storytimeReaderLeafSides } from './readers';
 import type { StorytimePrintProfile } from './profile';
+import { STORYTIME_CHECK_ROW_TYPES, STORYTIME_DAY_KEY, STORYTIME_ICON_KEY, storytimeStep, type StorytimeIcon } from './step-map';
+import { TRACE_LINE, traceLineLayout } from './trace-words';
 
 /**
  * The student workbook template (spec FR-3, design §8): one black-and-white A4 book per unit,
@@ -25,6 +29,8 @@ import type { StorytimePrintProfile } from './profile';
 interface PageSpec {
     kind: string;
     body: string;
+    /** True for a sound, write, or check page: it gets the page number at the bottom right (A-48). */
+    numbered?: boolean;
 }
 
 /** The options for compiling one complete Storytime student book. */
@@ -77,44 +83,75 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 [lang="th"], .th-run { font-family: 'Sarabun', 'Andika', sans-serif; font-weight: 400; }
 .th-run { white-space: nowrap; }
 .page-title { font-weight: 700; }
-.belongs { margin-top: 60mm; font-size: 20pt; }
+.belongs { margin-top: 30mm; font-size: 20pt; }
 .name-write-line { display: block; width: 120mm; border-bottom: 0.6mm solid #000; margin: 8mm 0 0 20mm; height: 12mm; }
 .map-grid { display: flex; flex-wrap: wrap; gap: 6mm; margin-top: 10mm; }
 .map-place { width: 40mm; height: 34mm; border: 0.6mm dashed #000; display: flex; align-items: flex-end; justify-content: center; }
 .map-place-label { font-size: 10pt; padding: 2mm; }
-.letter-box { border: 0.6mm solid #000; padding: 6mm; margin-top: 8mm; }
-.letter-model { width: 46mm; height: 55mm; display: block; }
-.model-letter { font-family: 'Andika', sans-serif; font-size: 92px; }
-.formation-words { font-size: 12pt; margin-top: 4mm; }
-/* The trace items the children follow print in the trace gray, never solid black (D2). */
+.letter-box { }
+.page-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1mm; }
+.week-label { font-size: 9pt; }
+.page-number { position: absolute; right: 14mm; bottom: 8mm; font-size: 9pt; color: #000; }
+.step-block { border: 0.6mm solid #000; padding: 3mm 4mm 4mm; margin-top: 5mm; break-inside: avoid; }
+.step-head { display: flex; align-items: center; gap: 3mm; margin-bottom: 3mm; }
+.step-badge { display: inline-block; font-size: 8pt; line-height: 1.2; background: #d9d9d9; color: #000; padding: 0.6mm 1.8mm; }
+.step-icons { display: flex; gap: 1mm; }
+.step-icon { width: 11mm; height: 11mm; display: block; flex: none; }
+.step-title { font-size: 13pt; font-weight: 700; }
+.row-icons { display: flex; gap: 1mm; }
+.row-icon { width: 8mm; height: 8mm; display: block; flex: none; }
+.row-number { display: flex; flex: none; align-items: center; justify-content: center; width: 7mm; height: 7mm; border: 0.4mm solid #000; border-radius: 50%; font-size: 10pt; font-weight: 700; }
+.row-label { font-size: 10pt; flex: none; }
+.work-row { display: flex; align-items: center; gap: 3mm; margin-top: 4mm; }
+.trace-row { display: flex; gap: 4mm; margin-top: 2mm; }
+.cell-col { display: flex; flex-direction: column; align-items: center; gap: 1mm; }
+.cell-label { font-size: 8pt; }
+.letter-cell { display: block; width: 25.2mm; height: 30mm; border: 0.6mm solid #000; }
+.letter-model { width: ${LETTER_CELL_MM.width}mm; height: ${LETTER_CELL_MM.height}mm; display: block; }
+.model-letter { font-family: 'Andika', sans-serif; font-size: ${LETTER_BOX.fontSize}px; }
+.write-letter { display: block; width: 100%; height: 100%; }
+.formation-words { font-size: 12pt; margin-top: 3mm; }
+/* The trace items the children follow print in the trace gray, never solid black (D2). The letter
+ * of a trace cell and the words of a trace line are SVG text, so the gray is a fill. The black
+ * start dots are circles with the default black fill. */
 .student-page [data-part="trace-letter"],
-.student-page [data-part="dictation-word"],
-.student-page [data-part="writing-trace"] { color: #b0b0b0; }
-.trace-row { display: flex; gap: 8mm; margin-top: 6mm; }
-.trace-cell { width: 26mm; height: 26mm; border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 44pt; position: relative; }
-/* The black start dot marks the first stroke of each trace item (D2). The dot is black and
- * 2.4 mm, and its offset puts the dot center on the measured first stroke of the letter:
- * n at the top of the left stem, a (Andika) at the top of its right stem, H at the top of its
- * left stem (R38 letter probes at 300 dpi, Green 2f; A-P2-04). */
-.start-dot { display: inline-block; width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #000; }
-.trace-cell .start-dot { position: absolute; left: 31.19%; top: 40.92%; }
-.dictation-line { position: relative; }
-.dictation-line .start-dot { position: absolute; left: 80.98mm; top: 3.46mm; }
-.writing-trace { position: relative; text-indent: 1.3mm; }
-.writing-trace .start-dot { position: absolute; left: 0.8mm; top: 5.66mm; }
-.practice-sheet { margin-top: 8mm; }
-.practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
+.student-page [data-part="writing-trace"] text,
+.student-page [data-part="dictation-trace"] text { fill: #b0b0b0; color: #b0b0b0; }
+.practice-sheet { margin-top: 0; }
+.practice-line { display: flex; align-items: center; gap: 4mm; margin-top: 4mm; }
+.practice-pictures { display: flex; gap: 3mm; flex: none; }
 .practice-picture { width: 30mm; height: 30mm; }
 .practice-text { font-size: 20pt; line-height: 12mm; flex: 1; }
 .practice-text-rule { display: block; position: relative; overflow: hidden; }
 .practice-rule-line { position: absolute; left: 0; right: 0; height: 0; border-top: 0.4mm solid #000; }
 .picture-box { border: 0.6mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
 .picture-box img { width: 100%; height: 100%; object-fit: contain; }
-.dictation-line { font-size: 18pt; margin-top: 4mm; }
-.dictation-line [data-part="dictation-letter"], .dictation-line [data-part="dictation-word"] { display: inline-block; min-width: 18mm; border-bottom: 0.4mm solid #000; margin-right: 6mm; text-align: center; }
-.writing-trace { font-size: 22pt; border-bottom: 0.6mm solid #000; display: block; padding: 3mm 0; margin-top: 10mm; }
-.write-line { display: block; border-bottom: 0.6mm solid #000; height: 14mm; margin-top: 8mm; }
-.picture-draw-box { width: 70mm; height: 55mm; border: 0.6mm solid #000; margin-top: 10mm; }
+.dictation-rows { }
+.box-group { display: flex; gap: 4mm; }
+.letter-slot, .sound-box { display: block; flex: none; border: 0.6mm solid #000; }
+.letter-slot { width: 18mm; height: 18mm; }
+.sound-box { width: 15mm; height: 15mm; }
+.trace-line { display: block; }
+.writing-trace { display: block; flex: 1; border-bottom: 0.6mm solid #000; }
+.write-line { display: block; flex: 1; border-bottom: 0.6mm solid #000; height: 12mm; }
+.picture-draw-box { width: 70mm; height: 50mm; border: 0.6mm solid #000; }
+.tricky-row { display: flex; flex-wrap: wrap; gap: 6mm; }
+.tricky-card { border: 0.6mm solid #000; padding: 2mm 7mm; font-size: 24pt; }
+.row-group-head { display: flex; align-items: center; gap: 2mm; margin-top: 5mm; }
+.row-group-head .check-cue { margin-top: 0; font-size: 13pt; }
+.check-item { display: flex; align-items: center; gap: 4mm; margin-top: 3mm; }
+.check-item .check-row { margin-top: 0; gap: 5mm; }
+.check-item .circle-word-row { margin-top: 0; }
+.check-item .check-row .picture-box { width: 32mm; height: 32mm; }
+.check-item .check-write-letter { margin-top: 0; width: 22mm; height: 22mm; }
+.check-write-word { display: flex; gap: 3mm; }
+.score-strip { position: absolute; right: 14mm; bottom: 17mm; font-size: 12pt; border: 0.4mm solid #000; padding: 1.5mm 4mm; }
+.score-blank { display: inline-block; width: 12mm; border-bottom: 0.4mm solid #000; margin-right: 1mm; }
+.icon-key { margin-top: 24mm; border-top: 0.4mm solid #000; padding-top: 5mm; }
+.key-title { font-size: 11pt; margin-bottom: 4mm; }
+.key-grid { display: flex; flex-wrap: wrap; gap: 5mm 8mm; }
+.key-item { display: flex; align-items: center; gap: 3mm; width: 54mm; font-size: 11pt; }
+.key-days { display: flex; gap: 8mm; margin-top: 8mm; font-size: 11pt; }
 .check-row { display: flex; gap: 8mm; margin-top: 10mm; }
 .check-row .picture-box { width: 40mm; height: 40mm; }
 .picture-sort { display: flex; gap: 5mm; margin-top: 7mm; }
@@ -198,11 +235,23 @@ function pictureElement(row: StorytimePictureRow, o: StorytimeStudentBookOptions
     return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
 }
 
-/** The name page ("This book belongs to") and the P11 title. */
+/** The icon key of page 1 (A-48): the 6 icons with their short line and Thai word, and the day letters A to E. */
+function iconKeyHtml(): string {
+    const items = STORYTIME_ICON_KEY.map((entry) => `<div class="key-item"><span data-part="key-icon" data-icon="${entry.icon}">${iconSvg(entry.icon, 'step-icon', 'icon-art')}</span><span class="key-english" data-part="key-english">${esc(entry.english)}</span><span class="key-thai" data-part="key-thai" lang="th">${thaiText(entry.thai)}</span></div>`);
+    const days = STORYTIME_DAY_KEY.map((day) => `<span class="key-day" data-part="key-day" data-day="${day.letter}"><b>${day.letter}</b> <span lang="th">${thaiText(day.thai)}</span></span>`);
+    return `<div class="icon-key" data-part="icon-key">
+<p class="key-title">Key</p>
+<div class="key-grid">${items.join('')}</div>
+<div class="key-days">${days.join('')}</div>
+</div>`;
+}
+
+/** The name page ("This book belongs to"), the P11 title, and the icon key. */
 function namePage(week: StorytimeWeek): PageSpec {
     const body = `<h1 class="page-title" data-part="title">${esc(studentBookTitle(week))}</h1>
 <p class="belongs">This book belongs to</p>
-<span class="name-write-line" data-student-work></span>`;
+<span class="name-write-line" data-student-work></span>
+${iconKeyHtml()}`;
     return { kind: 'name', body };
 }
 
@@ -215,6 +264,62 @@ function bookMapPage(): PageSpec {
     const body = `<h2 class="page-title">My book map</h2>
 <div class="map-grid">${places.map((place) => `<div class="map-place" data-sticker="${place}"><span class="map-place-label">${esc(place.startsWith('unit') ? 'Unit 1' : `Week ${place.split('-')[1]}`)}</span></div>`).join('')}</div>`;
     return { kind: 'book-map', body };
+}
+
+/** The week header of a sound, write, or check page: "Week N · สัปดาห์ที่ N" (A-48). */
+const weekLabel = (week: number): string =>
+    `<span class="week-label" data-part="week-label">Week ${week} · ${thaiText(`สัปดาห์ที่ ${week}`)}</span>`;
+
+/** The head of a step block: the grey badge with the step code, the icons, and the short title (A-48). */
+function stepHead(code: string): string {
+    const entry = storytimeStep(code);
+    return `<div class="step-head"><span class="step-badge" data-part="step-badge" data-step="${esc(entry.code)}">${esc(entry.code)}</span><span class="step-icons">${entry.icons.map((icon) => iconSvg(icon)).join('')}</span><span class="step-title" data-part="step-title">${esc(entry.label)}</span></div>`;
+}
+
+/** A framed step block of the step map: the head, then the content. */
+function stepBlock(code: string, content: string): string {
+    const entry = storytimeStep(code);
+    return `<div class="step-block" data-part="step-block" data-step="${esc(entry.code)}" data-block="${esc(entry.block)}">${stepHead(code)}${content}</div>`;
+}
+
+/** The numbered start of a row: the row number, the row icons, and the one short line (A-48). */
+function rowStart(number: number, icons: StorytimeIcon[], label: string): string {
+    return `<span class="row-number" data-part="row-number">${number}</span><span class="row-icons">${icons.map((icon) => iconSvg(icon, 'row-icon', 'row-icon')).join('')}</span><span class="row-label">${esc(label)}</span>`;
+}
+
+/** The arrowhead id of a week's letter model. */
+const arrowIdOf = (week: StorytimeWeek): string => `st-arrow-w${week.meta.week}`;
+
+/** The six cells of the formation row (page template 8.1): the model, three trace cells, the dot-only cell, and the empty cell. */
+function formationCells(week: StorytimeWeek): string {
+    const box = week.print!.letterBox;
+    const data = letterStrokeData(box.letter);
+    const { width, height, centerX, baseline } = LETTER_BOX;
+    const view = `0 0 ${width} ${height}`;
+    const arrowId = arrowIdOf(week);
+    const letterText = (part: string, extra: string): string =>
+        `<text class="model-letter" data-part="${part}" x="${centerX}" y="${baseline}" text-anchor="middle"${extra}>${esc(box.letter)}</text>`;
+    // The model letter prints in the trace gray and the guide prints in black on top of it (D5). The
+    // strokes were measured on the Andika glyph, so that every stroke stays inside the letter.
+    const model = `<svg class="letter-model" viewBox="${view}" aria-hidden="true">
+    <defs><marker id="${arrowId}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#000"/></marker></defs>
+    ${letterText('letter', ' fill="#b0b0b0"')}
+    ${data.strokes.map((stroke) => `<path data-part="formation-arrow" d="${stroke.d}" fill="none" stroke="#000" stroke-width="${LETTER_GUIDE.strokeWidth}" stroke-linecap="round" marker-end="url(#${arrowId})"/>`).join('\n    ')}
+    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="${data.modelDot.x}" cy="${data.modelDot.y}" r="${LETTER_GUIDE.modelDotRadius}"/>
+    ${data.strokes.map((stroke, index) => `<text data-part="stroke-number" x="${stroke.number.x}" y="${stroke.number.y}" font-size="${LETTER_GUIDE.numberSize}" font-weight="700" text-anchor="middle">${index + 1}</text>`).join('\n    ')}
+  </svg>`;
+    const trace = `<svg class="letter-model" viewBox="${view}" aria-hidden="true">${letterText('trace-letter', '')}<circle data-part="trace-dot" cx="${data.traceDot.x}" cy="${data.traceDot.y}" r="${LETTER_GUIDE.traceDotRadius}"/></svg>`;
+    const dotOnly = `<svg class="letter-model" viewBox="${view}" aria-hidden="true"><circle data-part="dot-only-dot" cx="${data.dotOnlyDot.x}" cy="${data.dotOnlyDot.y}" r="${LETTER_GUIDE.traceDotRadius}"/></svg>`;
+    const cell = (kind: string, className: string, inner: string, label: string): string =>
+        `<div class="cell-col"><span class="letter-cell ${className}" data-part="letter-cell" data-cell-kind="${kind}">${inner}</span><span class="cell-label" data-part="cell-label">${label}</span></div>`;
+    return [
+        cell('model', 'model-cell', model, 'Model'),
+        cell('trace', 'trace-cell', trace, 'Trace'),
+        cell('trace', 'trace-cell', trace, 'Trace'),
+        cell('trace', 'trace-cell', trace, 'Trace'),
+        cell('dot-only', 'trace-cell', dotOnly, 'Dot'),
+        cell('empty', 'trace-cell', '<span class="write-letter" data-part="write-letter" data-student-work></span>', 'My own'),
+    ].join('\n  ');
 }
 
 /** The line height of a practice text in mm; the rule of each line sits at the bottom of its line box (fix 4). */
@@ -234,70 +339,118 @@ function practiceRuleLines(): string {
 }
 
 /**
- * The left page of the weekly spread: the letter formation box and the practice sheet (FR-3).
- * The formation box shows the letter with the start dot, the formation arrows, three trace
- * copies, and one write space.
+ * The left page of the weekly spread, the sound page (page template 8.1, A-48): block A3 "Form it"
+ * with the six formation cells, block A7 "Read it" with the numbered practice lines, and block
+ * A6 and D2 "Tricky words" with one card for each tricky word of the week.
  */
 function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const box = week.print!.letterBox;
     const practiceRows = week.print!.practice.map((line) => storytimePrintPracticePicture(week, line.pictureWord, rows));
-    const arrowId = `st-arrow-w${week.meta.week}`;
-    const body = `<h2 class="page-title">Week ${week.meta.week}: the sound ${esc(week.focus.element?.sound ?? '')}</h2>
-<div class="letter-box" data-part="letter-box">
-  <svg class="letter-model" viewBox="0 0 100 120" aria-hidden="true">
-    <defs><marker id="${arrowId}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="#000"/></marker></defs>
-    <text class="model-letter" data-part="letter" x="56" y="108" text-anchor="middle" fill="#b0b0b0">${esc(box.letter)}</text>
-    <!-- D5 look (default until Daniel decides at the week 1 proof): the model letter prints in
-         the trace gray #b0b0b0 (K 31 %) and the guide prints in black on top of it. The guide
-         sits on the measured Andika stems (left stem center 40.5, right stem center 72.2 of
-         this 100-unit box, R37 limit 1 mm) and follows the arch ink, so every guide stroke
-         stays inside the letter outline (R41, tolerance 0.5 mm). -->
-    <circle data-part="start-dot" data-start-point="${esc(box.startPoint)}" cx="40.5" cy="64" r="1.3"/>
-    <path d="M40.5 64 L40.5 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
-    <!-- D6 look (default until Daniel decides at the week 1 proof): the second stroke starts on
-         the left shoulder (y 75 of this 100-unit box, R42 rule 1), rises over one smooth hill
-         with no corner (R42 rules 2 and 3, smooth cubic curves), then falls onto and down the
-         right stem on one smooth join. The path keeps the guide ink inside the letter outline
-         (R41, 0.5 mm). -->
-    <path d="M40.5 75 C47 65 54 65 60 65.2 C66 65.4 72.2 65.4 72.2 74 L72.2 103" fill="none" stroke="#000" marker-end="url(#${arrowId})" data-part="formation-arrow"/>
-  </svg>
-  <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
-  <div class="trace-row">
-    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
-    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
-    <span class="trace-cell"><span class="start-dot" data-part="trace-dot"></span><span data-part="trace-letter">${esc(box.letter)}</span></span>
-    <span class="trace-cell"><span class="write-letter" data-part="write-letter" data-student-work></span></span>
-  </div>
+    const lines = week.print!.practice.map((line, i) => {
+        const row = practiceRows[i];
+        if (!row) throw new Error(`picture row missing for the practice word "${line.pictureWord}" of week ${week.meta.week}`);
+        const extras = (line.extraPictureWords ?? []).map((word) => {
+            const extra = storytimePrintPracticePicture(week, word, rows);
+            if (!extra) throw new Error(`picture row missing for the extra practice word "${word}" of week ${week.meta.week}`);
+            return extra;
+        });
+        const pictures = [row, ...extras].map((picture) => pictureElement(picture, o, files, 'practice-picture')).join('');
+        return `<div class="practice-line"><span class="row-number" data-part="row-number">${i + 1}</span><span class="practice-pictures">${pictures}</span><span class="practice-text" data-part="practice-text"><span class="practice-text-rule">${esc(line.text)}${practiceRuleLines()}</span></span></div>`;
+    });
+    const formation = `<div class="letter-box" data-part="letter-box">
+<div class="trace-row">
+  ${formationCells(week)}
 </div>
-<div class="practice-sheet" data-part="practice-sheet">
-${week.print!.practice.map((line, i) => {
-    const row = practiceRows[i];
-    if (!row) throw new Error(`picture row missing for the practice word "${line.pictureWord}" of week ${week.meta.week}`);
-    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text"><span class="practice-text-rule">${esc(line.text)}${practiceRuleLines()}</span></span></div>`;
-}).join('\n')}
+<p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
 </div>`;
-    return { kind: 'practice', body };
+    const body = `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">The sound ${esc(week.focus.element?.sound ?? '')}</h2></div>
+${stepBlock('A3', formation)}
+${stepBlock('A7', `<div class="practice-sheet" data-part="practice-sheet">
+${lines.join('\n')}
+</div>`)}
+${stepBlock('A6·D2', `<div class="tricky-row" data-part="tricky-row">${week.focus.trickyWords.map((word) => `<span class="tricky-card" data-part="tricky-card">${esc(word)}</span>`).join('')}</div>`)}`;
+    return { kind: 'practice', body, numbered: true };
 }
 
-/** The right page of the weekly spread: the dictation lines and the writing page (FR-3, C3, D4). */
+/**
+ * One trace line as SVG (A-48): the words in trace gray at explicit x positions, and one black
+ * start dot on the first stroke of each word that starts with a letter. The unit of the SVG is 1 mm.
+ * @param text The trace text.
+ * @param part The `data-part` of the wrapper.
+ * @returns The wrapper with the SVG.
+ */
+function traceLineHtml(text: string, part: string): string {
+    const { fontSizeMm, baselineMm, heightMm, padMm, dotRadiusMm } = TRACE_LINE;
+    const layout = traceLineLayout(text, fontSizeMm);
+    const width = Number((layout.width + 2 * padMm).toFixed(3));
+    const round = (value: number): number => Number(value.toFixed(3));
+    const words = layout.words.map((word) => `<text x="${round(padMm + word.x)}" y="${baselineMm}" font-size="${fontSizeMm}">${esc(word.text)}</text>`).join(' ');
+    const dots = layout.words.filter((word) => word.dot)
+        .map((word) => `<circle data-part="trace-word-dot" cx="${round(padMm + word.x + word.dot!.x)}" cy="${round(baselineMm - word.dot!.y)}" r="${dotRadiusMm}"/>`).join('');
+    return `<span class="writing-trace" data-part="${part}"><svg class="trace-line" width="${width}mm" height="${heightMm}mm" viewBox="0 0 ${width} ${heightMm}" aria-hidden="true">${words}${dots}</svg></span>`;
+}
+
+/**
+ * The right page of the weekly spread, the write page (page template 8.2, A-48): the framed block
+ * C3 "Dictation" (a box for each dictated letter, sound boxes for the dictated word with no printed
+ * word, and the trace sentence) and the framed block D4 "Write it" (the frame trace, the name or word line,
+ * and the draw box). The row numbers run through the page.
+ */
 function writingPage(week: StorytimeWeek): PageSpec {
     const print = week.print!;
-    // The dictation letter lines stay empty: the children write the letters after the teacher
-    // dictates them (D3). The count stays `dictation.letters.length`. Each trace item keeps a
-    // black start dot at the start of its first stroke (D2).
-    const letterLines = print.dictation.letters.map(() => '<span data-part="dictation-letter"></span>').join('');
-    const wordLines = print.dictation.words.map((w) => `<span data-part="dictation-word">${esc(w)}</span>`).join('');
-    const body = `<h2 class="page-title">Write</h2>
-<div data-part="dictation" class="dictation-line">${letterLines}<span class="start-dot" data-part="start-dot"></span>${wordLines}</div>
-<span class="writing-trace" data-part="writing-trace"><span class="start-dot" data-part="start-dot"></span>${esc(print.writing.traceText)}</span>
-<span class="write-line" data-part="${print.writing.line}-line" data-line="${print.writing.line}" data-student-work></span>
-${print.writing.pictureBox ? '<div class="picture-draw-box" data-part="writing-picture-box" data-student-work></div>' : ''}`;
-    return { kind: 'writing', body };
+    let row = 0;
+    const letterRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['ear', 'pencil'], 'Listen. Write.')}<span class="box-group">${print.dictation.letters.map(() => '<span class="letter-slot" data-part="dictation-letter"></span>').join('')}</span></div>`;
+    const soundRows = print.dictation.words.map((word) => `<div class="work-row" data-part="sound-row">${rowStart(++row, ['mouth', 'pencil'], 'Say. Write.')}<span class="box-group">${[...word].map(() => '<span class="sound-box" data-part="sound-box"></span>').join('')}</span></div>`).join('');
+    const sentenceRow = print.dictation.traceSentence
+        ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.dictation.traceSentence, 'dictation-trace')}</div>`
+        : '';
+    const frameRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(print.writing.traceText, 'writing-trace')}</div>`;
+    const lineRow = `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Write.')}<span class="write-line" data-part="${print.writing.line}-line" data-line="${print.writing.line}" data-student-work></span></div>`;
+    const drawRow = print.writing.pictureBox
+        ? `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Draw.')}<div class="picture-draw-box" data-part="writing-picture-box" data-student-work></div></div>`
+        : '';
+    const body = `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">Write</h2></div>
+${stepBlock('C3', `<div data-part="dictation" class="dictation-rows">${letterRow}${soundRows}${sentenceRow}</div>`)}
+${stepBlock('D4', `${frameRow}${lineRow}${drawRow}`)}`;
+    return { kind: 'writing', body, numbered: true };
 }
 
-/** The picture-sound page of the Friday check: the rows of `check.items`, with no answer mark. */
+/**
+ * The week check page (page template 8.3, A-48): the step badge E5, one head (icons and one short
+ * line) before each run of rows of the same kind, the numbered rows, sound boxes for the write-word
+ * item with no printed answer, and a score strip "__ / N" for the teacher.
+ */
 function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
-    return checkItemsPage(week, week.check.items, rows, o, files, `Week ${week.meta.week} check`, 'check');
+    const items = week.check.items;
+    const rowByName = new Map(rows.filter((r) => r.use === 'check-row').map((r) => [r.text, r]));
+    const pictureHtml = (word: string): string => {
+        const row = rowByName.get(word);
+        if (!row) throw new Error(`picture row missing for the check word "${word}" of week ${week.meta.week}`);
+        return pictureElement(row, o, files, '');
+    };
+    const content = (item: StorytimeCheckItem): string => {
+        if (item.kind === 'circle-picture') return `<div class="check-row" data-part="check-row">${item.pictures.map(pictureHtml).join('')}</div>`;
+        if (item.kind === 'circle-word') return `<div class="circle-word-row" data-part="circle-word-row">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</div>`;
+        if (item.kind === 'write-letter') return '<span class="check-write-letter" data-part="check-write-letter" data-student-work></span>';
+        if (item.kind === 'write-word') return `<div class="check-write-word" data-part="check-write-word" data-student-work>${[...item.word].map(() => '<span class="sound-box" data-part="sound-box"></span>').join('')}</div>`;
+        throw new Error(`the week check page of week ${week.meta.week} cannot print a "${item.kind}" item`);
+    };
+    let lastLabel = '';
+    const body = items.map((item, index) => {
+        const type = STORYTIME_CHECK_ROW_TYPES[item.kind];
+        const head = type.label === lastLabel ? ''
+            : `<div class="row-group-head" data-part="row-group-head">${type.icons.map((icon) => iconSvg(icon)).join('')}<p class="check-cue">${esc(type.label)}</p></div>`;
+        lastLabel = type.label;
+        return `${head}<div class="check-item" data-part="check-item"><span class="row-number" data-part="row-number">${index + 1}</span>${content(item)}</div>`;
+    }).join('\n');
+    const entry = storytimeStep('E5');
+    return {
+        kind: 'check',
+        numbered: true,
+        body: `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">Week ${week.meta.week} check</h2><span class="step-badge" data-part="step-badge" data-step="${entry.code}">${entry.code}</span></div>
+${body}
+<div class="score-strip" data-part="score-strip"><span class="score-blank"></span> / ${items.length}</div>`,
+    };
 }
 
 /** Renders paper check items as a page, including the review picture-sort and circle-word layouts. */
@@ -460,7 +613,8 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         .map((spec, i) => {
             const reader = spec.kind === 'reader' ? readerMeta[readerIndex++] : undefined;
             const attrs = reader ? ` data-reader="${reader.kind}" data-reader-title="${esc(reader.title)}" data-leaf-number="${reader.leaf}" data-leaf-side="${reader.side}"` : '';
-            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
+            const number = spec.numbered ? `<span class="page-number" data-part="page-number">${i + 1}</span>` : '';
+            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${number}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
         })
         .join('\n');
     return { html: `<!doctype html>

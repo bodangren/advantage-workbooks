@@ -140,7 +140,8 @@ const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-
  * review week (version 4). A word that an earlier week already has as a check-row row keeps
  * that row: the review page of week 8 reuses the row of weeks 1 to 7 instead of a second file.
  * From week 2, a practice word also reuses a matching story-page, check-row, or practice
- * row from the same or an earlier week. Week 1 keeps its three practice-line rows.
+ * row from the same or an earlier week. Week 1 keeps its practice-line rows (two since A-48:
+ * the practice line "and" moved to the tricky-word row).
  * The card and sticker rows come with the card kit (Phase 8). Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix from `-b` through
  * `-z`, and a 27th occurrence throws, because the file name carries no digits between the week
@@ -221,7 +222,13 @@ export function storytimePrintPracticePicture(
         ['story-page', 'check-row', 'practice-line'].includes(row.use) &&
         rowMatchesPictureWord(row, target),
     );
-    if (week.meta.week === 1) return candidates.find((row) => row.use === 'practice-line');
+    // Week 1 prefers its own practice-line row; a picture word with no such row (an extra picture of
+    // a line, A-48) reuses the delivered check-row picture, then a story page.
+    if (week.meta.week === 1) {
+        return candidates.find((row) => row.use === 'practice-line')
+            ?? candidates.find((row) => row.use === 'check-row')
+            ?? candidates.find((row) => row.use === 'story-page');
+    }
     return candidates.find((row) => row.week === week.meta.week) ?? candidates[0];
 }
 

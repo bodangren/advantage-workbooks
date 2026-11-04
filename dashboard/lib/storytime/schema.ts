@@ -593,8 +593,15 @@ export const StorytimePrintBlockSchema = z
                 startPoint: z.string().min(1),
             })
             .strict(),
-        /** The practice sheet: one entry per line of print text, with the picture word at its start (step A7). */
-        practice: z.array(z.object({ text: z.string().min(1), pictureWord: z.string().min(1) }).strict()).min(1),
+        /**
+         * The practice sheet: one entry per line of print text, with the picture word at its start (step A7).
+         * `extraPictureWords` adds more pictures after the first, in order (a line that names two things shows both).
+         */
+        practice: z.array(z.object({
+            text: z.string().min(1),
+            pictureWord: z.string().min(1),
+            extraPictureWords: z.array(z.string().min(1)).optional(),
+        }).strict()).min(1),
         /** The dictation lines: the dictated letters, the dictated and traced words, and the sentence to trace (step C3). */
         dictation: z
             .object({

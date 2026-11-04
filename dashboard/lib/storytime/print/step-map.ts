@@ -1,0 +1,69 @@
+/**
+ * The step map of the student book (A-48, B section 5.3): one table from the step code of the
+ * daily scripts to the page kind, the block on the page, the icons, and the short English label.
+ * The code on the page is the code of the script (A3, C3, D4, E5; the letter is the day), so that
+ * the teacher book and the app point at the same part of the page. The print code and the later
+ * teacher book read this one constant.
+ */
+
+/** The icons of the student book: ear (Listen.), mouth (Say.), eye and finger (Read.), pencil (Write.), circle (Circle.), book (Book.), and the star of the book map. */
+export const STORYTIME_ICONS = ['ear', 'mouth', 'read', 'pencil', 'circle', 'book', 'star'] as const;
+
+/** One icon name. */
+export type StorytimeIcon = (typeof STORYTIME_ICONS)[number];
+
+/** One page part that a script step uses. */
+export interface StorytimeStepEntry {
+    /** The badge text; the code of the script step, or two codes for a part that two steps share. */
+    code: string;
+    /** The script steps that use the part. */
+    steps: string[];
+    /** The `data-page-kind` of the page. */
+    pageKind: string;
+    /** The block name (`data-block`). */
+    block: string;
+    /** The icons of the block head, in print order. */
+    icons: StorytimeIcon[];
+    /** The short English title of the block. */
+    label: string;
+}
+
+/** The page parts that script steps use. The week check (E5) and the book map (C7) hold the whole page. */
+export const STORYTIME_STEP_MAP: readonly StorytimeStepEntry[] = [
+    { code: 'A3', steps: ['A3'], pageKind: 'practice', block: 'form-it', icons: ['pencil'], label: 'Form it' },
+    { code: 'A7', steps: ['A7'], pageKind: 'practice', block: 'read-it', icons: ['read'], label: 'Read it' },
+    { code: 'A6·D2', steps: ['A6', 'D2'], pageKind: 'practice', block: 'tricky-words', icons: ['read'], label: 'Tricky words' },
+    { code: 'C3', steps: ['C3'], pageKind: 'writing', block: 'dictation', icons: ['ear', 'pencil'], label: 'Dictation · day 3' },
+    { code: 'D4', steps: ['D4'], pageKind: 'writing', block: 'write-it', icons: ['pencil'], label: 'Write it · day 4' },
+    { code: 'E5', steps: ['E5'], pageKind: 'check', block: 'week-check', icons: ['ear', 'circle', 'pencil'], label: 'Check' },
+    { code: 'C7', steps: ['C7'], pageKind: 'book-map', block: 'book-map', icons: ['star'], label: 'Book map' },
+];
+
+/** The step entry of a code. */
+export function storytimeStep(code: string): StorytimeStepEntry {
+    const entry = STORYTIME_STEP_MAP.find((item) => item.code === code);
+    if (!entry) throw new Error(`no step map entry for "${code}"`);
+    return entry;
+}
+
+/** The icons and the one short line of each kind of check row (page template 8.3). */
+export const STORYTIME_CHECK_ROW_TYPES: Readonly<Record<string, { icons: StorytimeIcon[]; label: string }>> = {
+    'circle-picture': { icons: ['ear', 'circle'], label: 'Listen. Circle the picture.' },
+    'circle-word': { icons: ['read', 'circle'], label: 'Circle the word.' },
+    'write-letter': { icons: ['ear', 'pencil'], label: 'Listen. Write.' },
+    'write-word': { icons: ['ear', 'pencil'], label: 'Listen. Write.' },
+};
+
+/** The icon key of page 1: each icon with its short English line and its Thai word (the teacher key; Daniel checks the Thai). */
+export const STORYTIME_ICON_KEY: readonly { icon: StorytimeIcon; english: string; thai: string }[] = [
+    { icon: 'ear', english: 'Listen.', thai: 'ฟัง' },
+    { icon: 'mouth', english: 'Say.', thai: 'พูด' },
+    { icon: 'read', english: 'Read.', thai: 'อ่าน' },
+    { icon: 'pencil', english: 'Write.', thai: 'เขียน' },
+    { icon: 'circle', english: 'Circle.', thai: 'วงกลม' },
+    { icon: 'book', english: 'Book.', thai: 'หนังสือเล่มเล็ก' },
+];
+
+/** The day letters of the step codes: A is day 1 and E is day 5. */
+export const STORYTIME_DAY_KEY: readonly { letter: string; thai: string }[] = ['A', 'B', 'C', 'D', 'E']
+    .map((letter, index) => ({ letter, thai: `วันที่ ${index + 1}` }));
