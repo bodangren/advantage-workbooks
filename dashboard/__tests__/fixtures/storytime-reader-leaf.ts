@@ -45,8 +45,8 @@ export interface FoldSlot {
     position: number;
     /** The turn in degrees (0 or 180) that the print gives the page so that it reads upright. */
     uprightTurnDeg: number;
-    /** The spread of the child: the page lies `above` the fold line, `below` it, or is the closed `cover`. */
-    place: 'cover' | 'above' | 'below';
+    /** The spread of the child: the page lies `above` the fold line, `below` it, is the closed `cover`, or is the `back` cover (the closed reader turned over about its vertical axis, the fold at the top). */
+    place: 'cover' | 'above' | 'below' | 'back';
 }
 
 /**
@@ -62,6 +62,8 @@ export interface FoldSlot {
  * that looks at the child below the fold. For each page the model multiplies the half turns that move its
  * face frame (the face as printed, upright) into the frame of the child. The page reads upright when the
  * result is a turn of 0 degrees in the plane (and the face looks at the child, which the model checks).
+ * The last page (12, the back cover) is not read by turning the last layer up over the fold: the child turns the
+ * closed reader over like a book, about its vertical axis, with the fold still at the top (Daniel 2026-11-04, fix 5).
  * @returns The 12 slots in reading order (page 1 first).
  */
 export function simulateTopFold(): FoldSlot[] {
@@ -69,22 +71,24 @@ export function simulateTopFold(): FoldSlot[] {
         { leaf: 1, half: 'top' }, { leaf: 2, half: 'top' }, { leaf: 3, half: 'top' },
         { leaf: 3, half: 'bottom' }, { leaf: 2, half: 'bottom' }, { leaf: 1, half: 'bottom' },
     ];
-    const view = (layer: number, turnedUp: boolean): Omit<FoldSlot, 'position' | 'place'> => {
+    const view = (layer: number, how: 'closed' | 'turnedUp' | 'turnedOver'): Omit<FoldSlot, 'position' | 'place'> => {
         const { leaf, half } = stack[layer];
         // The top half keeps its face; the folded bottom half hangs behind with its front face away from the child.
         const facing: LeafFace = half === 'top' ? 'front' : 'back';
-        const face: LeafFace = turnedUp ? (facing === 'front' ? 'back' : 'front') : facing;
+        const face: LeafFace = how === 'closed' ? facing : (facing === 'front' ? 'back' : 'front');
         const fold = half === 'bottom' ? TURN_X : IDENTITY;
-        const motion = [fold, TURN_Z, turnedUp ? TURN_X : IDENTITY].reduce((total, step) => matrixProduct(step, total), IDENTITY);
+        const extra = how === 'turnedUp' ? TURN_X : how === 'turnedOver' ? TURN_Y : IDENTITY;
+        const motion = [fold, TURN_Z, extra].reduce((total, step) => matrixProduct(step, total), IDENTITY);
         const total = matrixProduct(motion, face === 'back' ? TURN_Y : IDENTITY);
         if (total[2][2] !== 1) throw new Error(`fold model: leaf ${leaf} ${face} ${half} does not look at the child`);
         // The page is upright when the in-plane turn is 0 degrees; otherwise the print must give the opposite turn.
         return { leaf, face, half, uprightTurnDeg: total[0][0] === 1 ? 0 : 180 };
     };
-    const slots: FoldSlot[] = [{ ...view(0, false), position: 1, place: 'cover' }];
+    const slots: FoldSlot[] = [{ ...view(0, 'closed'), position: 1, place: 'cover' }];
     for (let layer = 0; layer < stack.length; layer++) {
-        slots.push({ ...view(layer, true), position: slots.length + 1, place: 'above' });
-        if (layer + 1 < stack.length) slots.push({ ...view(layer + 1, false), position: slots.length + 1, place: 'below' });
+        const last = layer + 1 === stack.length;
+        slots.push({ ...view(layer, last ? 'turnedOver' : 'turnedUp'), position: slots.length + 1, place: last ? 'back' : 'above' });
+        if (!last) slots.push({ ...view(layer + 1, 'closed'), position: slots.length + 1, place: 'below' });
     }
     return slots;
 }
@@ -101,8 +105,21 @@ export const LEAF_IMPOSITION: ReadonlyArray<{ leaf: number; front: [number, numb
     { leaf: 3, front: [5, 8], back: [6, 7] },
 ];
 
-/** The turn, in degrees, of a page on each face that reads upright after the fold: 180 on a front, 0 on a back. */
+/** The turn, in degrees, of a page on each face that reads upright after the fold: 180 on a front, 0 on a back (page 12 is the one exception, see `pageTurnDeg`). */
 export const LEAF_TURN_DEG: Readonly<Record<LeafFace, number>> = { front: 180, back: 0 };
+
+/** The back cover: it reads upright when the closed reader is turned over about its vertical axis, so it prints upright (Daniel 2026-11-04, fix 5). */
+export const BACK_COVER_PAGE = 12;
+
+/**
+ * The turn, in degrees, that a reader page must print with.
+ * @param face The printed face of the leaf side.
+ * @param pageNumber The reader page number from 1 to 12.
+ * @returns 0 for the back cover (page 12), otherwise 180 on a front and 0 on a back.
+ */
+export function pageTurnDeg(face: LeafFace, pageNumber: number): number {
+    return pageNumber === BACK_COVER_PAGE ? 0 : LEAF_TURN_DEG[face];
+}
 
 /** What one leaf side must hold. */
 export interface LeafSideExpectation {
@@ -114,7 +131,7 @@ export interface LeafSideExpectation {
     face: LeafFace;
     /** The page numbers of the top half and of the bottom half. */
     pages: [number, number];
-    /** The turn of each page of the face: 180 on a front, 0 on a back. */
+    /** The turn of each page of the face: 180 on a front, 0 on a back, and 0 for page 12 (see `pageTurnDeg`). */
     turnDeg: number;
     /** The spine edge of the perforation: `left` or `right`. */
     spineEdge: 'left' | 'right';
@@ -152,7 +169,8 @@ export function leafSideProblems(side: Element, want: LeafSideExpectation): stri
     if (halves.join('|') !== 'top|bottom') problems.push(`[halves] ${want.title} leaf ${want.leaf} ${want.face}: halves ${halves.join('|')}, want top|bottom`);
     for (const page of pages) {
         const turn = Number(page.getAttribute('data-turn-deg'));
-        if (turn !== want.turnDeg) problems.push(`[turn] ${want.title} leaf ${want.leaf} ${want.face} page ${page.getAttribute('data-page-number')}: data-turn-deg ${page.getAttribute('data-turn-deg')}, want ${want.turnDeg}`);
+        const wantTurn = pageTurnDeg(want.face, Number(page.getAttribute('data-page-number')));
+        if (turn !== wantTurn) problems.push(`[turn] ${want.title} leaf ${want.leaf} ${want.face} page ${page.getAttribute('data-page-number')}: data-turn-deg ${page.getAttribute('data-turn-deg')}, want ${wantTurn}`);
         if (Number(page.getAttribute('data-width-mm')) !== READER_PAGE_MM.widthMm || Number(page.getAttribute('data-height-mm')) !== READER_PAGE_MM.heightMm) {
             problems.push(`[page-size] page ${page.getAttribute('data-page-number')}: ${page.getAttribute('data-width-mm')} x ${page.getAttribute('data-height-mm')} mm, want ${READER_PAGE_MM.widthMm} x ${READER_PAGE_MM.heightMm}`);
         }

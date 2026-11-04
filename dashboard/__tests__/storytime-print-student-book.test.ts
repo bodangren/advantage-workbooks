@@ -1556,6 +1556,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
             ['leaf mark with leaf 5', '[leaf-mark]', (doc) => { readerSidesOf(doc)[4].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 5'; }],
             ['a front page not turned', '[turn]', (doc) => readerSidesOf(doc)[0].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
             ['a back page turned 180', '[turn]', (doc) => readerSidesOf(doc)[1].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '180')],
+            ['page 12 turned 180 again (fix 5)', '[turn]', (doc) => readerSidesOf(doc)[0].querySelectorAll('[data-reader-page]')[1].setAttribute('data-turn-deg', '180')],
             ['the old 90 degree turn on a front', '[turn]', (doc) => readerSidesOf(doc)[2].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '90')],
             ['a portrait page 148.5 x 198 mm', '[page-size]', (doc) => {
                 const found = readerSidesOf(doc)[0].querySelector('[data-reader-page]')!;

@@ -324,10 +324,11 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
             expect(side.querySelectorAll('[data-part="fold-line"]')).toHaveLength(1);
             const pageNumbers: number[] = [];
             // spec FR-5.1 (2026-11-04): the front pages turn 180 degrees and the back pages stay upright, so every page reads upright at the top fold.
-            const expectedTurn = sideName === 'front' ? 180 : 0;
+            // Fix 5 (Daniel 2026-11-04): page 12, the back cover, prints upright; it reads upright when the closed reader is turned over.
             for (const found of readerPages) {
                 const pageNumber = Number(found.getAttribute('data-page-number'));
                 pageNumbers.push(pageNumber);
+                const expectedTurn = pageNumber === 12 ? 0 : sideName === 'front' ? 180 : 0;
                 expect(Number(found.getAttribute('data-turn-deg')), `Reader page ${pageNumber} is turned ${expectedTurn} degrees on a ${sideName} side.`).toBe(expectedTurn);
                 const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
                 const pictureBoxes = Array.from(found.querySelectorAll('[data-picture-id]'));

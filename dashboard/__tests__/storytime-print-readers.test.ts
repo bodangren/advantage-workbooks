@@ -10,7 +10,7 @@ import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
 import {
-    LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, foldSimulationProblems, leafMarkProblems, leafSideProblems, leafStyleProblems, measureLeafSidesInBrowser, measureReaderPagesInBrowser,
+    LEAF_IMPOSITION, LEAF_TURN_DEG, READER_PAGE_MM, pageTurnDeg, foldSimulationProblems, leafMarkProblems, leafSideProblems, leafStyleProblems, measureLeafSidesInBrowser, measureReaderPagesInBrowser,
     readerLayoutProblems, readerLeafSides, simulateTopFold, type MeasuredReaderPage, type ObservedReaderPage,
 } from './fixtures/storytime-reader-leaf';
 import { AWKWARD_PREFIXES, HOSTILE_PREFIXES, jobsFor, pictureSourceProblems, prefixedJobs, writePictureFolder, type PictureFolderJob } from './fixtures/storytime-picture-folder';
@@ -320,13 +320,17 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
                 expect(found, `model: leaf ${leaf} ${face} top|bottom`).toEqual(numbers);
             }
         }
-        expect(model.filter((slot) => slot.face === 'front').map((slot) => slot.uprightTurnDeg), 'every front page turns 180').toEqual(Array(6).fill(180));
+        // Fix 5 (Daniel 2026-11-04): page 12, the back cover, reads upright when the closed reader is turned over about its vertical axis (fold at the top), so it is not turned.
+        expect(model.filter((slot) => slot.face === 'front').map((slot) => [slot.position, slot.uprightTurnDeg]), 'every front page turns 180, except page 12').toEqual([[1, 180], [3, 180], [5, 180], [8, 180], [10, 180], [12, 0]]);
         expect(model.filter((slot) => slot.face === 'back').map((slot) => slot.uprightTurnDeg), 'every back page is upright').toEqual(Array(6).fill(0));
+        expect(model[11], 'page 12 is the front of leaf 1 bottom, read after the turn-over').toMatchObject({ position: 12, place: 'back', leaf: 1, face: 'front', half: 'bottom', uprightTurnDeg: 0 });
+        expect([1, 3, 5, 8, 10, 12].map((number) => pageTurnDeg('front', number)), 'the turn of each front page').toEqual([180, 180, 180, 180, 180, 0]);
+        expect(pageTurnDeg('back', 11), 'page 11 (leaf 1 back, bottom) stays upright').toBe(0);
         expect(LEAF_TURN_DEG).toEqual({ front: 180, back: 0 });
         // The child sees the closed reader (page 1), then the spreads above|below the fold: 2/3, 4/5, 6/7, 8/9, 10/11, then 12.
         const spreads: number[][] = [];
         for (const slot of model.filter((entry) => entry.place !== 'cover')) {
-            if (slot.place === 'above') spreads.push([slot.position]);
+            if (slot.place === 'above' || slot.place === 'back') spreads.push([slot.position]);
             else spreads[spreads.length - 1].push(slot.position);
         }
         expect(model[0]).toMatchObject({ position: 1, place: 'cover', leaf: 1, face: 'front', half: 'top' });
@@ -340,6 +344,8 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const v3Pairs: Record<string, [number, number]> = { '1|front': [12, 1], '1|back': [11, 2], '2|front': [10, 3], '2|back': [9, 4], '3|front': [8, 5], '3|back': [7, 6] };
         const withV3 = pages.map((page) => ({ ...page, pageNumber: v3Pairs[`${page.leaf}|${page.face}`][page.half === 'top' ? 0 : 1] }));
         expect(foldSimulationProblems(withV3).some((problem) => problem.includes('[fold-order]')), 'the v3 pairs must break the folded reading order').toBe(true);
+        const coverTurnedAgain = pages.map((page) => (page.pageNumber === 12 ? { ...page, turnDeg: 180 } : page));
+        expect(foldSimulationProblems(coverTurnedAgain).filter((problem) => problem.includes('[fold-turn]')).join(' '), 'page 12 turned 180 again reads upside down after the turn-over').toContain('page 12');
         const backTurned = pages.map((page) => (page.face === 'back' ? { ...page, turnDeg: 180 } : page));
         expect(foldSimulationProblems(backTurned).some((problem) => problem.includes('[fold-turn]')), 'a back page turned 180 reads upside down').toBe(true);
         const frontNotTurned = pages.map((page) => (page.face === 'front' ? { ...page, turnDeg: 0 } : page));
@@ -415,6 +421,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             ['leaf mark with leaf 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 4 of 3'; }],
             ['a front page not turned', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page]')!.setAttribute('data-turn-deg', '0')],
             ['a back page turned 180', '[turn]', (doc) => doc.querySelector('[data-leaf-side="back"] [data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '180')],
+            ['page 12 turned 180 again (fix 5)', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '180')],
             ['the old 90 degree turn on a front', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page]')!.setAttribute('data-turn-deg', '90')],
             ['the old -90 degree turn on a back', '[turn]', (doc) => doc.querySelector('[data-leaf-side="back"] [data-reader-page]')!.setAttribute('data-turn-deg', '-90')],
             ['a portrait page 148.5 × 198 mm', '[page-size]', (doc) => {
