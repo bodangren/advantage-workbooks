@@ -421,6 +421,9 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
                 expect(icons).toEqual(['pencil']);
                 expect(row.querySelectorAll('[data-part="sound-box"]'), 'A trace row has no sound box.').toHaveLength(0);
                 const trace = onlyPart(row, 'dictation-word-trace');
+                for (const part of ['writing-trace', 'dictation-trace', 'dictation-word-trace']) {
+                    expect(cssRule(style, `.student-page [data-part="${part}"] text`), `The ${part} text prints in trace gray (an SVG text is black without the rule).`).toMatch(/fill:\s*#b0b0b0/);
+                }
                 expect(text(trace)).toBe(word);
                 const layout = words.traceLineLayout(word, words.TRACE_LINE.fontSizeMm);
                 const placed = layout.words.filter((item) => item.dot);
