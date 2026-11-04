@@ -306,7 +306,8 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
         expect(heads.map(text)).toEqual(['Listen. Circle the picture that starts with the sound.', 'Listen. Circle the picture that ends with the sound.']);
         expect(heads[0].querySelectorAll('[data-part="step-icon"]')).toHaveLength(2);
         expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
-        expect(text(page.querySelector('[data-part="score-strip"]')!)).toBe('__ / 8');
+        expect(text(page.querySelector('[data-part="score-strip"]')!), 'a blank, then the total').toBe('/ 8');
+        expect(page.querySelectorAll('[data-part="score-strip"] .score-blank')).toHaveLength(1);
         expect(page.querySelectorAll('[data-part="check-write-letter"]'), 'the letter boxes are on page 2').toHaveLength(0);
     });
 
@@ -318,7 +319,7 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
         expect(boxes.map((box) => text(box.querySelector('[data-part="row-number"]')!))).toEqual(['9', '10', '11', '12', '13', '14', '15']);
         for (const box of boxes) expect(text(box.querySelector('[data-part="check-write-letter"]')!)).toBe('');
         expect(Array.from(page.querySelectorAll('[data-part="row-group-head"]'), text)).toEqual(['Listen. Write.']);
-        expect(text(page.querySelector('[data-part="score-strip"]')!)).toBe('__ / 7');
+        expect(text(page.querySelector('[data-part="score-strip"]')!)).toBe('/ 7');
         expect(page.querySelectorAll('[data-picture-id]')).toHaveLength(0);
     });
 
@@ -359,7 +360,7 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
             for (const target of targets) expect(wordOf.get(target)!.startsWith(letterOf(group.sound))).toBe(true);
         });
         const strip = text(page.querySelector('[data-part="score-strip"]')!);
-        expect(strip).toBe(`__ / ${3 + sort.groups.length}`);
+        expect(strip).toBe(`/ ${3 + sort.groups.length}`);
         expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
     });
 
