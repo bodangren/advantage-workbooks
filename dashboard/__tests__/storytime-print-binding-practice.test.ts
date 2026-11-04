@@ -46,10 +46,14 @@ describe('Storytime print binding pad and practice rules', () => {
         expect(rule).not.toMatch(/border-bottom/);
         expect(rule).toMatch(/line-height:\s*12mm/);
         const lineRule = css.match(/\.practice-text-rule\s*\{([^}]+)\}/)?.[1] ?? '';
-        // The rule is a block that repeats at the 12 mm line height: it spans the box, not the text (fix 4).
+        // The text is a clipped block, so its rules span the box and not the text (fix 4); the rules are
+        // vector borders, because a gradient or tiled background prints as an image in the PDF.
         expect(lineRule).toMatch(/display:\s*block/);
-        expect(lineRule).toMatch(/repeating-linear-gradient\([^)]*12mm/);
-        expect(lineRule).not.toMatch(/border-bottom/);
-        expect(lineRule).not.toMatch(/box-decoration-break/);
+        expect(lineRule).toMatch(/overflow:\s*hidden/);
+        expect(lineRule).not.toMatch(/border-bottom|gradient|box-decoration-break/);
+        const mark = css.match(/\.practice-rule-line\s*\{([^}]+)\}/)?.[1] ?? '';
+        expect(mark).toMatch(/border-top:\s*0\.4mm solid #000/);
+        expect(mark).toMatch(/left:\s*0[^}]*right:\s*0|right:\s*0[^}]*left:\s*0/);
+        expect(css).not.toMatch(/gradient/);
     });
 });
