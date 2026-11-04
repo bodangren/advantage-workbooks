@@ -187,6 +187,8 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .benchmark-box .check-write-letter { margin-top: 0; width: 24mm; height: 24mm; }
 .check-cue { font-size: 11pt; margin-top: 10mm; }
 .home-card-title { font-size: 14pt; font-weight: 700; }
+.home-week { font-size: 10pt; margin-top: 1mm; }
+.qr-label-th { display: block; }
 .home-line { font-size: 13pt; margin-top: 8mm; }
 .home-sound { font-size: 26pt; font-weight: 700; margin-top: 8mm; }
 .home-words { display: flex; gap: 10mm; margin-top: 8mm; font-size: 20pt; border-bottom: 0.6mm solid #000; padding-bottom: 2mm; }
@@ -613,6 +615,12 @@ function reviewPages(
     return [...benchmarkPages(week, rows, o, files), ...days.map((_day, index) => reviewPage(week, index, rows, o, files))];
 }
 
+/** The Thai line of each QR label of the Thai card side (E45; Daniel checks the Thai). */
+const QR_LABELS_TH: Readonly<Record<string, string>> = {
+    'The song of the week': 'เพลงประจำสัปดาห์',
+    'The book of the week': 'หนังสือประจำสัปดาห์',
+};
+
 /** The two sides of the home-card leaf (FR-3): the Thai card with the QR codes, then the English card. */
 function homePages(week: StorytimeWeek, mode: 'proof' | 'final'): PageSpec[] {
     const home = week.home;
@@ -624,10 +632,14 @@ function homePages(week: StorytimeWeek, mode: 'proof' | 'final'): PageSpec[] {
         const address = storytimeQrUrl(url);
         const svg = generateQRCode(address);
         if (!svg) throw new Error(`QR code failed for ${address}`);
-        return `<span class="qr" data-qr-input="${esc(address)}">${svg}<span class="qr-label">${esc(label)}</span></span>`;
+        const thai = QR_LABELS_TH[label];
+        const thaiLine = thai ? `<span class="qr-label qr-label-th" data-part="qr-label-th" lang="th">${thaiText(thai)}</span>` : '';
+        return `<span class="qr" data-qr-input="${esc(address)}">${svg}${thaiLine}<span class="qr-label">${esc(label)}</span></span>`;
     };
     const words = home.words.map((w) => `<span data-part="home-word">${esc(w)}</span>`).join('');
+    const weekLine = `<p class="home-week" data-part="home-week">${weekLabel(week.meta.week).replace(/^<span[^>]*>|<\/span>$/g, '')}</p>`;
     const front = `<h2 class="home-card-title">Storytime Advantage</h2>
+${weekLine}
 <p class="home-line" data-part="home-line" lang="th">${thaiText(home.line.th)}</p>
 <p class="home-sound" data-part="home-sound">${esc(week.focus.element?.sound ?? '')}</p>
 <div class="home-words">${words}</div>
@@ -639,6 +651,7 @@ ${mode === 'proof' ? '<p class="qr-note">QR target answers after the deploy (mon
         ? week.song.lines.map((line) => `<p data-part="song-line">${esc(line.text)}</p>`).join('')
         : '<p data-part="song-line">The songs of unit 1</p>';
     const back = `<h2 class="home-card-title">Storytime Advantage</h2>
+${weekLine}
 <p class="home-line" data-part="home-line">${esc(home.line.en)}</p>
 <div class="home-words">${words}</div>
 <p class="home-frame" data-part="home-frame">${esc(week.focus.frame)}</p>
@@ -720,7 +733,10 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             const reader = spec.kind === 'reader' ? readerMeta[readerIndex++] : undefined;
             const attrs = reader ? ` data-reader="${reader.kind}" data-reader-title="${esc(reader.title)}" data-leaf-number="${reader.leaf}" data-leaf-side="${reader.side}"` : '';
             const number = spec.numbered ? `<span class="page-number" data-part="page-number">${i + 1}</span>` : '';
-            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${number}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
+            // A home card keeps 6 mm between its text and the cut line (E47): 4 mm more padding on the spine side.
+            const cardEdge = ['home-front', 'home-back'].includes(spec.kind) ? ((i + 1) % 2 ? 'left' : 'right') : '';
+            const cardStyle = cardEdge ? ` style="padding-${cardEdge}:${o.profile.perforationMm + 6}mm"` : '';
+            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}${cardStyle}>${spec.body}${number}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
         })
         .join('\n');
     return { html: `<!doctype html>
