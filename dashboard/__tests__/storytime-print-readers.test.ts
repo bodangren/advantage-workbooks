@@ -1037,7 +1037,7 @@ describe('Storytime two-output picture check', () => {
     type Week1Row = { id: string; fileName: string; lineArtFileName: string; width: number; height: number; week: number };
 
     /**
-     * The 30 shipped week 1 rows of `content/storytime/l2/print/pictures.json`. The delivery
+     * The 29 shipped week 1 rows of `content/storytime/l2/print/pictures.json`. The delivery
      * contract (PM, 2026-11-01) pins the naming: each row id gives the color name
      * `<id>-v1.png` and the line-art name `<id>-line-v1.png`.
      * @returns The week 1 rows in list order.
@@ -1073,7 +1073,7 @@ describe('Storytime two-output picture check', () => {
     /**
      * Builds the realistic week 1 batch (finding 3): every shipped row gets a synthetic color PNG
      * (8-bit sRGB) and a synthetic 1-bit line-art PNG at the row size, all under `w01/rows/`, and
-     * one `manifest.json` at the batch root holds all 30 rows.
+     * one `manifest.json` at the batch root holds all 29 rows.
      * @returns The batch folder.
      */
     function week1Batch(): Promise<string> {
@@ -1100,7 +1100,7 @@ describe('Storytime two-output picture check', () => {
         // read the file at its relative path under the batch root.
         const api = await pictureCheck();
         const rows = week1Rows();
-        expect(rows, 'the shipped list holds 30 week 1 rows').toHaveLength(30);
+        expect(rows, 'the shipped list holds 29 week 1 rows').toHaveLength(29);
         for (const row of rows) {
             expect(row.fileName, `${row.id} color name follows <id>-v1.png`).toBe(`${row.id}-v1.png`);
             expect(row.lineArtFileName, `${row.id} line name follows <id>-line-v1.png`).toBe(`${row.id}-line-v1.png`);
@@ -1129,7 +1129,7 @@ describe('Storytime two-output picture check', () => {
         }
         writeRowManifest(dir, present);
         const report = await api.checkStorytimePictureBatch(rows, dir);
-        expect(report.results, 'one result for each requested row').toHaveLength(30);
+        expect(report.results, 'one result for each requested row').toHaveLength(29);
         expect(report.exitCode, 'an incomplete batch gives exit code 1').toBe(1);
         expect(report.results.slice(0, 3).map((entry) => entry.status), 'the present rows pass').toEqual(['pass', 'pass', 'pass']);
         for (const entry of report.results.slice(3)) {
@@ -1293,7 +1293,7 @@ describe('Storytime two-output picture check', () => {
         'l2-w01-story-page-nan-can-nod',
     ];
 
-    /** The 30 week 1 jobs: the four redone rows at version 2 and the other 26 rows at version 1. */
+    /** The 29 week 1 jobs: the four redone rows at version 2 and the other 25 rows at version 1. */
     async function week1RedoJobs(): Promise<StagedJob[]> {
         return Promise.all(week1Rows().map((row) => ownJob(row, REDONE_ROW_IDS.includes(row.id) ? { version: 2 } : {})));
     }
@@ -1305,14 +1305,14 @@ describe('Storytime two-output picture check', () => {
         return week1RedoBatchDir;
     }
 
-    it('R-P4-23 passes the 30 week-one rows when four rows were redone and carry the version 2 file names', async () => {
+    it('R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names', async () => {
         // PM option A (2026-11-02): Forge redoes a failed picture under a new version number N.
         // The list keeps the names `-v1`. The batch check matches a manifest job by row id, so a
         // row at v2 passes on its own measurements and manifest facts. The shape follows the real
         // delivery `delivery-muse-v2`: 26 rows at v1 and four rows at v2.
         const api = await pictureCheck();
         const rows = week1Rows();
-        expect(rows, 'the shipped list holds 30 week 1 rows').toHaveLength(30);
+        expect(rows, 'the shipped list holds 29 week 1 rows').toHaveLength(29);
         for (const id of REDONE_ROW_IDS) {
             const row = week1Row(id);
             expect(row.fileName, `${id}: the list keeps the -v1 name; a redo needs no new list version`).toBe(`${id}-v1.png`);
@@ -1326,7 +1326,7 @@ describe('Storytime two-output picture check', () => {
         }
         expect(names.filter((name) => /-v2\.png$/.test(name)), 'exactly four rows are at version 2').toHaveLength(8);
         const report = await api.checkStorytimePictureBatch(rows, dir);
-        expect(report.results, 'one result for each requested row').toHaveLength(30);
+        expect(report.results, 'one result for each requested row').toHaveLength(29);
         const failed = report.results.filter((entry) => entry.status === 'fail');
         expect(failed.map((entry) => `${entry.rowId}: ${entry.reason ?? ''}`).join('; '), 'every row passes, redone rows included').toBe('');
         expect(report.exitCode, 'a fully delivered batch gives exit code 0').toBe(0);
@@ -1473,7 +1473,7 @@ describe('Storytime two-output picture check', () => {
         await expect(api.checkStorytimePictureBatch([], dir)).rejects.toThrow();
     }, 120_000);
 
-    it('R-P4-28 the batch CLI passes the 30 rows with four redone rows and names a duplicate row id', async () => {
+    it('R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id', async () => {
         const { spawnSync } = await import('node:child_process');
         const runCli = (dir: string) => spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', '1'], { encoding: 'utf8', timeout: 300_000 });
         const rows = week1Rows();
@@ -1483,7 +1483,7 @@ describe('Storytime two-output picture check', () => {
         expect(ok.status, `the run exits 0 for the batch with four redone rows: ${okOut}`).toBe(0);
         const okLines = ok.stdout.split('\n');
         const missing = rows.filter((row) => !okLines.includes(`pass  ${row.id}`)).map((row) => row.id);
-        expect(missing, 'a pass line for each of the 30 rows').toEqual([]);
+        expect(missing, 'a pass line for each of the 29 rows').toEqual([]);
         // a duplicate: a pending job with the id of the first row sits before its ready job
         const dupRow = rows[0];
         const dupDir = stagedBatch([await ownJob(dupRow, { jobStatus: 'pending', selectedVersion: null }), ...(await week1RedoJobs())]);

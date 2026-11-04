@@ -56,7 +56,7 @@ afterEach(() => {
 describe('Adversarial: the text check normalization never masks a word change', () => {
     it.each(['Nest', 'NEST', 'nEsT'])('fails print-picture-word when the case variant "%s" names another line', (pictureWord) => {
         const week = copyWeek(1, (copy) => {
-            copy.print!.practice[2].pictureWord = pictureWord;
+            copy.print!.practice[0].pictureWord = pictureWord; // A-48: week 1 has two practice lines
         });
         const found = printCheck(week, 'print-picture-word');
         expect(found, 'A case change must not hide a repeated picture word.').toMatchObject({ status: 'fail' });
@@ -129,12 +129,12 @@ describe('Adversarial: the text check normalization never masks a word change', 
 describe('Adversarial: repeated picture names never collide silently', () => {
     it('suffixes every row of a second identical week with -b and keeps all names unique', () => {
         const rows = storytimePrintPictures([parsed(shipped(1)), parsed(shipped(1))]);
-        expect(rows.length, 'Two copies of week 1 give 60 rows.').toBe(60);
-        expect(new Set(rows.map((row) => row.id)).size, 'Every id stays unique.').toBe(60);
-        expect(new Set(rows.map((row) => row.fileName)).size, 'Every color file name stays unique.').toBe(60);
-        expect(new Set(rows.map((row) => row.lineArtFileName)).size, 'Every line-art file name stays unique.').toBe(60);
-        expect(rows.slice(0, 30).every((row) => !row.id.endsWith('-b')), 'The first copy keeps the base ids.').toBe(true);
-        expect(rows.slice(30).every((row) => row.id.endsWith('-b')), 'The second copy takes the -b suffix.').toBe(true);
+        expect(rows.length, 'Two copies of week 1 give 58 rows (29 each, A-48).').toBe(58);
+        expect(new Set(rows.map((row) => row.id)).size, 'Every id stays unique.').toBe(58);
+        expect(new Set(rows.map((row) => row.fileName)).size, 'Every color file name stays unique.').toBe(58);
+        expect(new Set(rows.map((row) => row.lineArtFileName)).size, 'Every line-art file name stays unique.').toBe(58);
+        expect(rows.slice(0, 29).every((row) => !row.id.endsWith('-b')), 'The first copy keeps the base ids.').toBe(true);
+        expect(rows.slice(29).every((row) => row.id.endsWith('-b')), 'The second copy takes the -b suffix.').toBe(true);
     });
 
     it('suffixes two different repeated slugs of one week independently', () => {

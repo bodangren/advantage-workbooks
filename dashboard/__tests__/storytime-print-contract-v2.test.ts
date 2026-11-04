@@ -176,16 +176,16 @@ describe('Storytime print v2: the FR-9 v1 pixel spec (R12)', () => {
 
 describe('Storytime print v2: the picture-word rule (R13)', () => {
     it.each([['net'], ['Net'], ['zebra']])(
-        'fails print-picture-word with "%s" as the picture word of the "and" line',
+        'fails print-picture-word with "%s" as the picture word of the "n n n" line',
         async (pictureWord) => {
             const week = copyWeek(shipped(1), (copy) => {
                 if (!copy.print) throw new Error('The shipped week 1 needs its print block.');
-                copy.print.practice[2].pictureWord = pictureWord;
+                copy.print.practice[0].pictureWord = pictureWord; // A-48: week 1 has two practice lines
             });
             const checks = await textChecks(week);
             const found = checkById(checks, 'print-picture-word');
             expect(found, 'Report the rule as print-picture-word with status fail.').toMatchObject({ status: 'fail' });
-            expect(found?.detail, 'The detail names the "and" line.').toMatch(/\band\b/);
+            expect(found?.detail, 'The detail names the "n n n" line.').toContain('n n n');
             expect(found?.detail, 'The detail names the "A nest. A net." line.').toContain('A nest. A net.');
         },
     );
@@ -208,7 +208,7 @@ describe('Storytime print v2: the picture-word rule (R13)', () => {
     it('wires the error into checkStorytimeWeek and the published gate', async () => {
         const week = copyWeek(shipped(1), (copy) => {
             if (!copy.print) throw new Error('The shipped week 1 needs its print block.');
-            copy.print.practice[2].pictureWord = 'net';
+            copy.print.practice[0].pictureWord = 'net'; // A-48: week 1 has two practice lines
         });
         const report = checkStorytimeWeek(week);
         expect(checkById(report.checks, 'print-picture-word'), 'checkStorytimeWeek carries the same FAIL.').toMatchObject({ status: 'fail' });
