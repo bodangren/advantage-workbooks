@@ -37,12 +37,23 @@ export interface HowtoLeafFace {
     pages: [number, number];
     /** The print turn in degrees of the top page and of the bottom page (180 on most fronts, 0 on a back). */
     turns: [number, number];
+    /** Whether the top page and the bottom page print a picture frame (the cover and the story pages do; pages 2, 11, and 12 do not). */
+    frames: [boolean, boolean];
+}
+
+/** One page as a view of the finished book: its number, and whether it prints a picture frame. */
+interface ViewPage {
+    /** The page number. */
+    number: number;
+    /** Whether the page prints a picture frame. */
+    frame: boolean;
 }
 
 /**
  * Reads the faces of the leaves of one reader from the leaf sides that `readers.ts` makes. The page
  * numbers come from `side.pages`, and the print turn of each page comes from the `data-turn-deg` of
- * the page HTML, so a change of the imposition in `readers.ts` changes the diagrams.
+ * the page HTML. The picture frame of a page comes from the `reader-picture` element of the page HTML.
+ * A change of the imposition or of the pages in `readers.ts` changes the diagrams.
  * @param sides The 6 leaf sides of one reader (3 leaves, front then back).
  * @returns The faces in the order of the sides.
  * @throws Error When the sides are not the two faces of each leaf of one reader.
@@ -53,7 +64,10 @@ export function readerHowtoLeaves(sides: StorytimeReaderLeafSide[]): HowtoLeafFa
     const faces = sides.map((side): HowtoLeafFace => {
         const turns = Array.from(side.html.matchAll(/data-turn-deg="(\d+)"/g), (match) => Number(match[1]));
         if (side.pages.length !== 2 || turns.length !== 2) throw new Error(`leaf ${side.leaf} ${side.side}: the side must hold 2 pages, each with a turn`);
-        return { leaf: side.leaf, face: side.side, pages: [side.pages[0], side.pages[1]], turns: [turns[0], turns[1]] };
+        const chunks = side.html.split('data-reader-page').slice(1);
+        if (chunks.length !== 2) throw new Error(`leaf ${side.leaf} ${side.side}: the side HTML must hold 2 reader pages`);
+        const frames = chunks.map((chunk) => /class="reader-picture"/.test(chunk));
+        return { leaf: side.leaf, face: side.side, pages: [side.pages[0], side.pages[1]], turns: [turns[0], turns[1]], frames: [frames[0], frames[1]] };
     });
     const leaves = Array.from(new Set(faces.map((face) => face.leaf)));
     for (const leaf of leaves) {
@@ -119,6 +133,16 @@ function geometryOf(profile: StorytimePrintProfile): Geometry {
     };
 }
 
+/**
+ * The place of the leaf mark on the v13 leaf (`readers.ts` and `student-book.ts`, rule `.leaf-mark`): the top of the
+ * text is 2 mm from the top edge of the side, the text is centered over the width of the torn leaf, and it is upright.
+ * The mark is a child of the side, so the turn of page 1 does not turn it. The test compares this value with both style rules.
+ */
+const LEAF_MARK = { topMm: 2 } as const;
+
+/** The ticks of step 1 on the sheet, in millimeters of the printed how-to. The printed ticks are 5 mm long and 0.4 mm thick; the diagram draws them large so that a teacher sees them. */
+const TICK_MM = { length: 12, thick: 1.6 } as const;
+
 /** The mark of a leaf, as the book prints it (`<title> · leaf N of M`). */
 const leafMark = (title: string, leaf: number, leaves: number): string => `${title} · leaf ${leaf} of ${leaves}`;
 
@@ -142,9 +166,9 @@ function drawText(s: number, cls: 'th' | 'en' | 'num' | 'mark', x: number, y: nu
 }
 
 /** A label of a drawing: the Thai line and, under it and smaller, the English line. */
-function label(s: number, x: number, y: number, th: string, en: string, anchor: 'start' | 'middle' | 'end' = 'middle', thPt = 9, enPt = 7): string {
+function label(s: number, x: number, y: number, th: string, en: string, anchor: 'start' | 'middle' | 'end' = 'middle', thPt = 9, enPt = 7, attrs = ''): string {
     const enY = y + unitsOfPt(s, thPt * 0.25 + enPt * 1.1);
-    return `<g data-label>${drawText(s, 'th', x, y, thPt, th, anchor)}${drawText(s, 'en', x, enY, enPt, en, anchor)}</g>`;
+    return `<g data-label${attrs ? ` ${attrs}` : ''}>${drawText(s, 'th', x, y, thPt, th, anchor)}${drawText(s, 'en', x, enY, enPt, en, anchor)}</g>`;
 }
 
 /** The arrow head of a drawing. */
@@ -163,95 +187,120 @@ function svgOpen(diagram: string, box: [number, number, number, number], widthMm
 const scaleOf = (box: [number, number, number, number], widthMm: number): number => widthMm / box[2];
 
 /**
- * The sketch of one reader page in its own corner: the page frame, the picture frame, and two text
- * lines. The picture box is on the top of an upright page, so an upside-down page shows it at the bottom.
- * All lines are solid: the fold line is the only dashed line of a leaf (Daniel 2026-11-04).
+ * The sketch of one reader page in its own corner, as the v13 leaf prints it. A page with a picture (the cover and the
+ * story pages) has one solid picture frame and two text lines under it. A page with no picture (page 2, page 11, and
+ * the back cover, page 12) has no frame and shows only text lines at the top. The page area (`data-part="page"`) is
+ * not drawn: the v13 leaf has no line around a page. All lines are solid: the fold line is the only dashed line of a leaf.
  */
-function pageSketch(g: Geometry, s: number): string {
+function pageSketch(g: Geometry, s: number, frame: boolean): string {
     const { picture, half, textTop } = g;
-    const lineY = [textTop + 7, textTop + 16];
-    return `<rect data-part="page" x="0" y="0" width="${half.w}" height="${half.h}" fill="${WHITE}" ${stroke(s, 0.25)}/>`
-        + `<rect x="${picture.left}" y="${picture.top}" width="${picture.width}" height="${picture.height}" ${stroke(s, 0.3)}/>`
-        + `<line x1="${picture.left}" y1="${r2(lineY[0])}" x2="${r2(picture.left + picture.width * 0.7)}" y2="${r2(lineY[0])}" ${stroke(s, 0.8)}/>`
-        + `<line x1="${picture.left}" y1="${r2(lineY[1])}" x2="${r2(picture.left + picture.width * 0.4)}" y2="${r2(lineY[1])}" ${stroke(s, 0.8)}/>`;
+    const area = `<rect data-part="page" x="0" y="0" width="${half.w}" height="${half.h}" fill="none" stroke="none"/>`;
+    const bar = (y: number, share: number): string => `<line x1="${picture.left}" y1="${r2(y)}" x2="${r2(picture.left + picture.width * share)}" y2="${r2(y)}" ${stroke(s, 0.8)}/>`;
+    if (frame) {
+        return `${area}<rect data-part="frame" x="${picture.left}" y="${picture.top}" width="${picture.width}" height="${picture.height}" fill="${WHITE}" ${stroke(s, 0.3)}/>${bar(textTop + 7, 0.7)}${bar(textTop + 16, 0.4)}`;
+    }
+    return `${area}${bar(picture.top + 14, 0.3)}${bar(picture.top + 26, 0.5)}${bar(picture.top + 42, 0.55)}${bar(picture.top + 54, 0.85)}`;
 }
 
-/** The page number in the middle of the picture frame, in the page corner system. */
-function pageNumber(g: Geometry, number: number, size: number): string {
-    const { picture } = g;
-    const x = picture.left + picture.width / 2;
-    const y = picture.top + picture.height / 2 + size * 0.36;
+/** The page number: in the middle of the picture frame, or (on a page with no frame) in the lower middle of the page, in the page corner system. */
+function pageNumber(g: Geometry, number: number, size: number, frame: boolean): string {
+    const { picture, half } = g;
+    const x = frame ? picture.left + picture.width / 2 : half.w / 2;
+    const y = (frame ? picture.top + picture.height / 2 : picture.top + 94) + size * 0.36;
     return `<text class="num" x="${r2(x)}" y="${r2(y)}" font-size="${size}" text-anchor="middle">${number}</text>`;
 }
 
 /**
  * One printed page of a leaf face at (ox, oy): the group holds the sketch and the number, turned by the
  * print turn about the center of the page. The page is upside down in the diagram exactly when it is
- * printed upside down.
+ * printed upside down. The group names its origin, so that a test can place the frames.
  */
 function printedPage(g: Geometry, s: number, face: HowtoLeafFace, half: 'top' | 'bottom', ox: number, oy: number, numberSize: number): string {
     const index = half === 'top' ? 0 : 1;
     const number = face.pages[index];
     const turn = face.turns[index];
+    const frame = face.frames[index];
     const cx = ox + g.half.w / 2;
     const cy = oy + g.half.h / 2;
-    return `<g data-page data-leaf="${face.leaf}" data-face="${face.face}" data-half="${half}" data-page-number="${number}" data-turn-deg="${turn}" transform="rotate(${turn} ${r2(cx)} ${r2(cy)})">`
-        + `<g transform="translate(${r2(ox)} ${r2(oy)})">${pageSketch(g, s)}${pageNumber(g, number, numberSize)}</g></g>`;
+    return `<g data-page data-leaf="${face.leaf}" data-face="${face.face}" data-half="${half}" data-page-number="${number}" data-turn-deg="${turn}" data-origin-x="${r2(ox)}" data-origin-y="${r2(oy)}" transform="rotate(${turn} ${r2(cx)} ${r2(cy)})">`
+        + `<g transform="translate(${r2(ox)} ${r2(oy)})">${pageSketch(g, s, frame)}${pageNumber(g, number, numberSize, frame)}</g></g>`;
 }
 
 /** One page as the child sees it after the fold: upright (a view turn of 0 degrees). */
-function viewedPage(g: Geometry, s: number, number: number, ox: number, oy: number, numberSize: number): string {
-    return `<g data-page data-page-number="${number}" data-view-turn-deg="0"><g transform="translate(${r2(ox)} ${r2(oy)})">${pageSketch(g, s)}${pageNumber(g, number, numberSize)}</g></g>`;
+function viewedPage(g: Geometry, s: number, page: ViewPage, ox: number, oy: number, numberSize: number): string {
+    return `<g data-page data-page-number="${page.number}" data-view-turn-deg="0" data-origin-x="${r2(ox)}" data-origin-y="${r2(oy)}"><g transform="translate(${r2(ox)} ${r2(oy)})">${pageSketch(g, s, page.frame)}${pageNumber(g, page.number, numberSize, page.frame)}</g></g>`;
 }
 
 /**
- * The fold line of a leaf across the middle, the only dashed line of a leaf, with "พับ / fold" at each
- * end as the printed leaf shows it. A white box under each label keeps the dashes off the text.
+ * The leaf mark as the v13 leaf prints it: upright, centered over the torn leaf, the top of the text 2 mm from the
+ * top edge. It is drawn after the pages and outside their groups, so a turned page does not turn it. The diagram
+ * draws the text larger than the 5 pt of the print, so that a teacher can read it.
+ * @param left The x of the left edge of the torn leaf in the drawing.
+ */
+function leafMarkText(g: Geometry, s: number, left: number, title: string, leaves: number): string {
+    const size = 5.5;
+    const baseline = LEAF_MARK.topMm + unitsOfPt(s, size) * 0.85;
+    return drawText(s, 'mark', left + g.leafW / 2, baseline, size, leafMark(title, 1, leaves), 'middle', ` data-part="leaf-mark" data-top-mm="${LEAF_MARK.topMm}" data-center-mm="${g.leafW / 2}" data-turn-deg="0"`);
+}
+
+/**
+ * The fold line of a leaf across the middle, the only dashed line of a leaf, with "พับ / fold" at each end as the
+ * printed leaf shows it. The labels stand in the page margin, and the dashes run between them, so that no label
+ * needs a white box over a page frame.
  */
 function foldLine(s: number, x0: number, x1: number, y: number, position: number, thPt: number, enPt: number): string {
-    const boxW = r2(8.5 / s);
-    const boxH = r2(6.6 / s);
-    const base = y - r2(0.9 / s);
-    const gap = r2(1 / s);
-    return `<line data-part="fold-line" data-position-mm="${position}" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" ${stroke(s, 0.5, [2.2, 1.4])}/>`
-        + `<rect x="${x0}" y="${r2(y - boxH / 2)}" width="${boxW}" height="${boxH}" fill="${WHITE}"/>${label(s, x0 + gap, base, 'พับ', 'fold', 'start', thPt, enPt)}`
-        + `<rect x="${r2(x1 - boxW)}" y="${r2(y - boxH / 2)}" width="${boxW}" height="${boxH}" fill="${WHITE}"/>${label(s, x1 - gap, base, 'พับ', 'fold', 'end', thPt, enPt)}`;
+    const gap = r2(0.8 / s);
+    const labelW = r2(4.3 / s);
+    const base = y - r2(0.3 / s);
+    return `<line data-part="fold-line" data-position-mm="${position}" x1="${r2(x0 + labelW + gap)}" y1="${y}" x2="${r2(x1 - labelW - gap)}" y2="${y}" ${stroke(s, 0.5, [2.2, 1.4])}/>`
+        + label(s, x0 + gap, base, 'พับ', 'fold', 'start', thPt, enPt)
+        + label(s, x1 - gap, base, 'พับ', 'fold', 'end', thPt, enPt);
 }
 
 /**
- * The diagram of step 1: the open student book. The right page holds the leaf. The leaf is cut out of the
- * book along its bound edge, between two short solid ticks at the top and the bottom edge, and the scissors
- * have cut the lower part already (a slit). The cut is not along the side of the reader pages, and the
- * fold line is the only dashed line.
+ * The diagram of step 1: the open student book, drawn from the v13 leaf. The right page holds the leaf. The leaf is cut
+ * out of the book along its bound edge, between two large solid ticks at the top and at the bottom edge, with a label
+ * "ขีดสั้น ๆ / tick" and a leader line at each tick. The scissors have cut the part under them (a slit). The cut is not
+ * along the side of the reader pages, and the fold line is the only dashed line. Page 1 has its own picture frame; page 12
+ * has none; the leaf mark is upright at the top, centered over the leaf.
  */
 function cutSvg(g: Geometry, leaves: HowtoLeafFace[], title: string, leafCount: number, widthMm: number): string {
     const box: [number, number, number, number] = [-6, -6, 2 * g.pageW + 12, g.pageH + 12];
     const s = scaleOf(box, widthMm);
     const px = g.pageW + g.strip;
     const front = faceOf(leaves, 1, 'front');
-    const tick = r2(7);
+    const tickLen = r2(TICK_MM.length / s);
+    const tickW = r2(TICK_MM.thick / s);
     const slitHalf = r2(0.7 / s);
-    const slitTop = 118;
-    const handle = (cx: number): string => `<circle cx="${r2(cx)}" cy="56" r="9" fill="${WHITE}" ${stroke(s, 0.5)}/>`;
-    const scissors = `<rect x="${px - 22}" y="44" width="44" height="${slitTop - 44}" fill="${WHITE}"/>${handle(px - 10)}${handle(px + 10)}`
-        + `<line x1="${px - 8}" y1="64" x2="${px + 7}" y2="${slitTop}" ${stroke(s, 0.7)}/><line x1="${px + 8}" y1="64" x2="${px - 7}" y2="${slitTop}" ${stroke(s, 0.7)}/>`
-        + `<circle cx="${px}" cy="${(64 + slitTop) / 2 + 3}" r="2.2" fill="${INK}"/>`;
+    const slitTop = 128;
+    const slitBottom = g.pageH - tickLen;
+    const handle = (cx: number): string => `<circle cx="${r2(cx)}" cy="72" r="7" fill="${WHITE}" ${stroke(s, 0.5)}/>`;
+    const scissors = `<rect x="${px - 17}" y="${tickLen + 4}" width="34" height="${slitTop - tickLen - 4}" fill="${WHITE}"/>${handle(px - 8)}${handle(px + 8)}`
+        + `<line x1="${px - 6}" y1="78" x2="${px + 7}" y2="${slitTop}" ${stroke(s, 0.7)}/><line x1="${px + 6}" y1="78" x2="${px - 7}" y2="${slitTop}" ${stroke(s, 0.7)}/>`
+        + `<circle cx="${px}" cy="${(78 + slitTop) / 2 + 3}" r="2.2" fill="${INK}"/>`;
+    const tick = (edge: 'top' | 'bottom'): string => {
+        const y1 = edge === 'top' ? 0 : g.pageH - tickLen;
+        const mid = r2(y1 + tickLen / 2);
+        const labelEnd = g.pageW - 26;
+        return `<line data-part="tick" data-edge="${edge}" data-distance-mm="${g.strip}" x1="${px}" y1="${r2(y1)}" x2="${px}" y2="${r2(y1 + tickLen)}" stroke="${INK}" stroke-width="${tickW}"/>`
+            + `<line data-part="tick-leader" data-for="tick-${edge}" x1="${labelEnd + 4}" y1="${mid}" x2="${r2(px - tickW / 2)}" y2="${mid}" ${stroke(s, 0.5)} marker-end="url(#arrow-cut)"/>`
+            + label(s, labelEnd, r2(mid - unitsOfPt(s, 3)), 'ขีดสั้น ๆ', 'tick', 'end', 10, 8, `data-for="tick-${edge}"`);
+    };
     return `${svgOpen('cut', box, widthMm, `data-page-width-mm="${g.pageW}" data-page-height-mm="${g.pageH}"`)}${arrowDefs('arrow-cut', s)}`
         + `<defs><pattern id="hatch-cut" width="${r2(1.1 / s)}" height="${r2(1.1 / s)}" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="${r2(1.1 / s)}" stroke="${INK}" stroke-width="${r2(0.2 / s)}"/></pattern></defs>`
-        + `<rect data-part="left-page" x="0" y="0" width="${g.pageW}" height="${g.pageH}" fill="${WHITE}" ${stroke(s, 0.4)}/>`
-        + `<rect data-part="student-page" x="${g.pageW}" y="0" width="${g.pageW}" height="${g.pageH}" fill="${WHITE}" ${stroke(s, 0.4)}/>`
+        + `<rect data-part="left-page" x="0" y="0" width="${g.pageW}" height="${g.pageH}" fill="${WHITE}" ${stroke(s, 0.3)}/>`
+        + `<rect data-part="student-page" x="${g.pageW}" y="0" width="${g.pageW}" height="${g.pageH}" fill="${WHITE}" ${stroke(s, 0.3)}/>`
         + `<rect data-part="strip" x="${g.pageW}" y="0" width="${g.strip}" height="${g.pageH}" fill="url(#hatch-cut)"/>`
-        + `<rect data-part="leaf" x="${px}" y="0" width="${g.leafW}" height="${g.leafH}" fill="${WHITE}" ${stroke(s, 0.3)}/>`
+        + `<rect data-part="leaf" x="${px}" y="0" width="${g.leafW}" height="${g.leafH}" fill="${WHITE}" ${stroke(s, 0.25)}/>`
         + printedPage(g, s, front, 'top', px, 0, 44) + printedPage(g, s, front, 'bottom', px, g.foldY, 44)
-        + foldLine(s, px, g.pageW * 2, g.foldY, g.foldY, 7, 5.5)
-        + `<line data-part="spine" x1="${g.pageW}" y1="0" x2="${g.pageW}" y2="${g.pageH}" ${stroke(s, 1)}/>`
-        + `<rect data-part="cut-slit" data-distance-mm="${g.strip}" x="${r2(px - slitHalf)}" y="${slitTop}" width="${r2(2 * slitHalf)}" height="${g.pageH - slitTop}" fill="${WHITE}" ${stroke(s, 0.4)}/>`
-        + `<line data-part="tick" data-edge="top" data-distance-mm="${g.strip}" x1="${px}" y1="0" x2="${px}" y2="${tick}" ${stroke(s, 0.6)}/>`
-        + `<line data-part="tick" data-edge="bottom" data-distance-mm="${g.strip}" x1="${px}" y1="${g.pageH - tick}" x2="${px}" y2="${g.pageH}" ${stroke(s, 0.6)}/>`
-        + drawText(s, 'mark', px + g.leafW / 2, 12, 5.5, leafMark(title, 1, leafCount), 'middle', ' data-part="leaf-mark"')
+        + foldLine(s, px, g.pageW * 2, g.foldY, g.foldY, 6.5, 5)
+        + `<line data-part="spine" x1="${g.pageW}" y1="0" x2="${g.pageW}" y2="${g.pageH}" ${stroke(s, 0.5)}/>`
+        + `<rect data-part="cut-slit" data-distance-mm="${g.strip}" x="${r2(px - slitHalf)}" y="${slitTop}" width="${r2(2 * slitHalf)}" height="${r2(slitBottom - slitTop)}" fill="${WHITE}" ${stroke(s, 0.4)}/>`
+        + tick('top') + tick('bottom')
+        + leafMarkText(g, s, px, title, leafCount)
         + scissors
-        + label(s, g.pageW - 22, 196, 'ตัดออกจากเล่ม', 'cut out of the book', 'end', 9.5, 7.5)
-        + `<path d="M ${g.pageW - 17} 192 L ${px - 4} 192" ${stroke(s, 0.5)} marker-end="url(#arrow-cut)"/></svg>`;
+        + label(s, g.pageW - 26, 196, 'ตัดออกจากเล่ม', 'cut out of the book', 'end', 9.5, 7.5)
+        + `<path d="M ${g.pageW - 21} 192 L ${px - 4} 192" ${stroke(s, 0.5)} marker-end="url(#arrow-cut)"/></svg>`;
 }
 
 /**
@@ -259,7 +308,7 @@ function cutSvg(g: Geometry, leaves: HowtoLeafFace[], title: string, leafCount: 
  * turns, the dashed fold line (the only dashed line), and (on the front) the arrow that folds the bottom
  * half behind the top half.
  */
-function foldLeafSvg(g: Geometry, leaves: HowtoLeafFace[], face: 'front' | 'back', widthMm: number, s: number): string {
+function foldLeafSvg(g: Geometry, leaves: HowtoLeafFace[], title: string, leafCount: number, face: 'front' | 'back', widthMm: number, s: number): string {
     const entry = faceOf(leaves, 1, face);
     const arrow = face === 'front';
     const box: [number, number, number, number] = [-10, -12, arrow ? FOLD_BOX_W.front : FOLD_BOX_W.back, g.leafH + 24];
@@ -269,9 +318,10 @@ function foldLeafSvg(g: Geometry, leaves: HowtoLeafFace[], face: 'front' | 'back
             + label(s, g.leafW + 42, g.foldY + 2, 'พับ', 'fold', 'start', 9, 7)
         : '';
     return `${svgOpen('fold-leaf', box, widthMm, `data-face="${face}" data-leaf="1"`)}${arrowDefs(`arrow-fold-${face}`, s)}`
-        + `<rect data-part="leaf" x="0" y="0" width="${g.leafW}" height="${g.leafH}" fill="${WHITE}" ${ink(0.5)}/>`
+        + `<rect data-part="leaf" x="0" y="0" width="${g.leafW}" height="${g.leafH}" fill="${WHITE}" ${ink(0.25)}/>`
         + printedPage(g, s, entry, 'top', 0, 0, 64) + printedPage(g, s, entry, 'bottom', 0, g.foldY, 64)
-        + foldLine(s, 0, g.leafW, g.foldY, g.foldY, 8, 6.5)
+        + foldLine(s, 0, g.leafW, g.foldY, g.foldY, 6.5, 5)
+        + leafMarkText(g, s, 0, title, leafCount)
         + folded + '</svg>';
 }
 
@@ -297,7 +347,7 @@ function nestSvg(leafCount: number, widthMm: number): string {
  * The diagram of step 3: the closed reader with the fold at the top and the 2 staples on the fold. The
  * staples sit at the quarter points of the fold, each one across the fold edge.
  */
-function stapleSvg(g: Geometry, cover: number, widthMm: number): string {
+function stapleSvg(g: Geometry, cover: ViewPage, widthMm: number): string {
     const box: [number, number, number, number] = [-10, -60, 296, g.half.h + 92];
     const s = scaleOf(box, widthMm);
     const w = g.half.w;
@@ -310,7 +360,7 @@ function stapleSvg(g: Geometry, cover: number, widthMm: number): string {
     }).join('');
     return `${svgOpen('staple', box, widthMm)}${arrowDefs('arrow-staple', s)}`
         + `<rect data-part="closed-reader" x="0" y="0" width="${w}" height="${g.half.h}" fill="${WHITE}" ${stroke(s, 0.4)}/>`
-        + `<g transform="translate(0 0)">${pageSketch(g, s)}${pageNumber(g, cover, 64)}</g>`
+        + `<g transform="translate(0 0)">${pageSketch(g, s, cover.frame)}${pageNumber(g, cover.number, 64, cover.frame)}</g>`
         + `<line data-part="fold-edge" data-side="top" x1="0" y1="0" x2="${w}" y2="0" ${stroke(s, 1.4)}/>`
         + staples
         + label(s, w + 8, 6, 'รอยพับอยู่ด้านบน', 'the fold is at the top', 'start', 9, 7)
@@ -318,7 +368,7 @@ function stapleSvg(g: Geometry, cover: number, widthMm: number): string {
 }
 
 /** The picture of the closed reader: page 1 upright, the fold at the top, and the arrow that turns a page UP over the fold. */
-function closedSvg(g: Geometry, cover: number, widthMm: number): string {
+function closedSvg(g: Geometry, cover: ViewPage, widthMm: number): string {
     const box: [number, number, number, number] = [-10, -70, 300, g.half.h + 82];
     const s = scaleOf(box, widthMm);
     const w = g.half.w;
@@ -336,7 +386,7 @@ function closedSvg(g: Geometry, cover: number, widthMm: number): string {
  * The picture of the back cover: the closed reader turned over like a book, about its vertical axis. The
  * fold stays at the top, and the back cover (page 12) is upright (Daniel 2026-11-04, fix 5).
  */
-function backSvg(g: Geometry, backCover: number, widthMm: number): string {
+function backSvg(g: Geometry, backCover: ViewPage, widthMm: number): string {
     const box: [number, number, number, number] = [-10, -72, 218, g.half.h + 84];
     const s = scaleOf(box, widthMm);
     const w = g.half.w;
@@ -350,10 +400,11 @@ function backSvg(g: Geometry, backCover: number, widthMm: number): string {
 }
 
 /** The picture of the open middle: the two middle pages, upright, one on each side of the fold. */
-function middleSvg(g: Geometry, pages: [number, number], widthMm: number): string {
+function middleSvg(g: Geometry, pages: [ViewPage, ViewPage], widthMm: number): string {
     const box: [number, number, number, number] = [-10, -10, 218, g.leafH + 20];
     const s = scaleOf(box, widthMm);
     return `${svgOpen('middle', box, widthMm)}`
+        + `<rect data-part="leaf" x="0" y="0" width="${g.leafW}" height="${g.leafH}" fill="${WHITE}" ${stroke(s, 0.25)}/>`
         + viewedPage(g, s, pages[0], 0, 0, 64) + viewedPage(g, s, pages[1], 0, g.foldY, 64)
         + `<line data-part="fold-line" x1="0" y1="${g.foldY}" x2="${g.half.w}" y2="${g.foldY}" ${stroke(s, 1.2)}/>`
         + '</svg>';
@@ -544,9 +595,12 @@ export function compileReaderHowto(sides: StorytimeReaderLeafSide[], profile: St
     const g = geometryOf(profile);
     const copy = howtoCopy(leaves, profile);
     const leafCount = new Set(leaves.map((entry) => entry.leaf)).size;
-    const cover = faceOf(leaves, 1, 'front').pages[0];
-    const backCover = faceOf(leaves, 1, 'front').pages[1];
-    const middle = faceOf(leaves, leafCount, 'back').pages;
+    const leaf1Front = faceOf(leaves, 1, 'front');
+    const lastBack = faceOf(leaves, leafCount, 'back');
+    const cover: ViewPage = { number: leaf1Front.pages[0], frame: leaf1Front.frames[0] };
+    const backCover: ViewPage = { number: leaf1Front.pages[1], frame: leaf1Front.frames[1] };
+    const middle: [ViewPage, ViewPage] = [{ number: lastBack.pages[0], frame: lastBack.frames[0] }, { number: lastBack.pages[1], frame: lastBack.frames[1] }];
+    const title = sides[0].title;
     const [cut, fold, staple] = copy.steps;
     const frontWidth = 70;
     const foldScale = frontWidth / FOLD_BOX_W.front;
@@ -555,13 +609,13 @@ export function compileReaderHowto(sides: StorytimeReaderLeafSide[], profile: St
     const sheet1 = `<section class="sheet" data-sheet="1">
 <header class="head"><p class="series">Storytime Advantage</p><h1><span class="th" lang="th">${esc(copy.title.th)}</span><span class="en" lang="en">${esc(copy.title.en)}</span></h1></header>
 ${lineHtml(copy.intro)}
-${stepOpen(cut, 0)}<div class="step-grid" style="grid-template-columns: 88mm 1fr;"><div>${cut.lines.map((line) => lineHtml(line)).join('')}${cut.notes.map((line) => lineHtml(line, 'line note')).join('')}</div>${figureHtml(cutSvg(g, leaves, sides[0].title, leafCount, 84), 84, copy.captions.cut)}</div></section>
-${stepOpen(fold, 1)}${fold.lines.map((line) => lineHtml(line)).join('')}<div class="fig-row">${figureHtml(foldLeafSvg(g, leaves, 'front', frontWidth, foldScale), frontWidth, copy.captions.front)}${figureHtml(foldLeafSvg(g, leaves, 'back', backWidth, foldScale), backWidth, copy.captions.back)}${figureHtml(nestSvg(leafCount, 46), 46, copy.captions.nest)}</div></section>
+${stepOpen(cut, 0)}<div class="step-grid" style="grid-template-columns: 78mm 1fr;"><div>${cut.lines.map((line) => lineHtml(line)).join('')}${cut.notes.map((line) => lineHtml(line, 'line note')).join('')}</div>${figureHtml(cutSvg(g, leaves, title, leafCount, 94), 94, copy.captions.cut)}</div></section>
+${stepOpen(fold, 1)}${fold.lines.map((line) => lineHtml(line)).join('')}<div class="fig-row">${figureHtml(foldLeafSvg(g, leaves, title, leafCount, 'front', frontWidth, foldScale), frontWidth, copy.captions.front)}${figureHtml(foldLeafSvg(g, leaves, title, leafCount, 'back', backWidth, foldScale), backWidth, copy.captions.back)}${figureHtml(nestSvg(leafCount, 46), 46, copy.captions.nest)}</div></section>
 <footer class="foot"><span>Storytime Advantage</span><span>1 / 2</span></footer>
 </section>`;
     const sheet2 = `<section class="sheet" data-sheet="2">
 ${stepOpen(staple, 2)}<div class="step-grid" style="grid-template-columns: 76mm 1fr;"><div>${staple.lines.map((line) => lineHtml(line)).join('')}${staple.notes.map((line) => lineHtml(line, 'line note')).join('')}</div>${figureHtml(stapleSvg(g, cover, 100), 100)}</div></section>
-<section class="finished" data-finished>${headingHtml(CHECK_MARK, copy.finished.title)}${copy.finished.lines.map((line) => lineHtml(line)).join('')}<div class="fig-row">${figureHtml(closedSvg(g, cover, 86), 86, copy.captions.closed)}${figureHtml(backSvg(g, backCover, 48), 48, copy.captions.backCover)}${figureHtml(middleSvg(g, [middle[0], middle[1]], 38), 38, copy.captions.middle)}</div></section>
+<section class="finished" data-finished>${headingHtml(CHECK_MARK, copy.finished.title)}${copy.finished.lines.map((line) => lineHtml(line)).join('')}<div class="fig-row">${figureHtml(closedSvg(g, cover, 86), 86, copy.captions.closed)}${figureHtml(backSvg(g, backCover, 48), 48, copy.captions.backCover)}${figureHtml(middleSvg(g, middle, 38), 38, copy.captions.middle)}</div></section>
 <footer class="foot"><span>Storytime Advantage</span><span>2 / 2</span></footer>
 </section>`;
     return {
