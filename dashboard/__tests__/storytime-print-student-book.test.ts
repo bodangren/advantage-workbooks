@@ -482,7 +482,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
 
     it('R22: uses the P11 default title and the eight book-map places', async () => {
         const { doc } = await render();
-        expect(text(part(page(doc, 'name'), 'title'))).toBe('Storytime Advantage, Level 2, Unit 1, Student Book');
+        expect(text(part(page(doc, 'name'), 'title'))).toBe('Storytime Advantage, Level 2, Unit 1 Student Book');
         expect(Array.from(page(doc, 'book-map').querySelectorAll('[data-sticker]'),
             (place) => place.getAttribute('data-sticker'))).toEqual([
             'decodable-1', 'decodable-2', 'decodable-3', 'decodable-4',

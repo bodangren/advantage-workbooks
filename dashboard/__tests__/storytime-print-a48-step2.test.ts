@@ -423,3 +423,38 @@ describe('A-48 U5: the home cards (E44, E45, E47)', () => {
         expect(weeks()[2].home!.words).toEqual(['pen', 'pear', 'pencil']);
     });
 });
+
+describe('A-48 U6: the book map and the title page (B19, B24, E51)', () => {
+    it('U6-title: the title has no comma after the unit (E51)', async () => {
+        const { doc } = await book();
+        expect(text(doc.querySelector('.student-page[data-page-kind="name"] [data-part="title"]')!)).toBe('Storytime Advantage, Level 2, Unit 1 Student Book');
+    });
+
+    it('U6-numbers: boxes 1 to 7 carry a big number, the unit box carries a star, one line says what to do (B19)', async () => {
+        const { doc } = await book();
+        const map = doc.querySelector('.student-page[data-page-kind="book-map"]')!;
+        const places = Array.from(map.querySelectorAll('[data-sticker]'));
+        expect(places.map((place) => place.getAttribute('data-sticker'))).toEqual(['decodable-1', 'decodable-2', 'decodable-3', 'decodable-4', 'decodable-5', 'decodable-6', 'decodable-7', 'unit-1']);
+        expect(places.slice(0, 7).map((place) => text(place.querySelector('[data-part="map-number"]')!))).toEqual(['1', '2', '3', '4', '5', '6', '7']);
+        const unit = places[7];
+        expect(unit.querySelector('[data-icon="star"]'), 'the unit box shows the star').not.toBeNull();
+        expect(text(unit.querySelector('[data-part="map-number"]')!)).toBe('Unit 1');
+        expect(text(map.querySelector('[data-part="map-line"]')!)).toBe('Put the sticker on the number.');
+    });
+
+    it('U6-pages: each book-map page number equals the page printed in the book (B24)', async () => {
+        const { doc } = await book();
+        const map = doc.querySelector('.student-page[data-page-kind="book-map"]')!;
+        const places = Array.from(map.querySelectorAll('[data-sticker]'));
+        const practice = Array.from(doc.querySelectorAll('.student-page[data-page-kind="practice"]'));
+        expect(practice).toHaveLength(7);
+        places.slice(0, 7).forEach((place, index) => {
+            const printed = text(practice[index].querySelector('[data-part="page-number"]')!);
+            expect(printed).toBe(practice[index].getAttribute('data-page-number'));
+            expect(text(place.querySelector('[data-part="map-page"]')!), `book ${index + 1}`).toBe(`page ${printed}`);
+        });
+        const first8 = doc.querySelector('.student-page[data-page-kind="benchmark"]')!;
+        expect(text(places[7].querySelector('[data-part="map-page"]')!)).toBe(`page ${text(first8.querySelector('[data-part="page-number"]')!)}`);
+        expect(new Set(places.map((place) => text(place.querySelector('[data-part="map-page"]')!))).size).toBe(8);
+    });
+});
