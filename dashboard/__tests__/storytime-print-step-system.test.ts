@@ -816,4 +816,16 @@ describe('A-48: Chrome draws the letters and the trace words where the vector mo
         const gapMm = (ruleTop - (inkBottom + 1)) / px;
         expect(Math.abs(gapMm), `The grey word ends ${gapMm.toFixed(2)} mm above the rule line.`).toBeLessThanOrEqual(0.5);
     }, 250000);
+    it('X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4)', async () => {
+        const { doc } = await book();
+        const style = doc.querySelector('style')!.textContent ?? '';
+        expect(cssRule(style, '.picture-sort'), 'The sound rows stack, so no flex row.').not.toMatch(/display:\s*flex/);
+        expect(cssRule(style, '.circle-word'), 'A drawn oval looks like a circled answer.').not.toMatch(/border/);
+        const sections = Array.from(doc.querySelectorAll('.student-page[data-page-kind="benchmark"], .student-page[data-page-kind="review"]')).map((section) => section.outerHTML);
+        expect(sections).toHaveLength(7);
+        const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>a48 fit</title><style>${style}</style></head><body>${sections.join('\n')}</body></html>`;
+        const file = buildPdfx(html);
+        const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
+        expect(Number(/Pages:\s+(\d+)/.exec(info)![1]), 'Each week 8 page fits on one page.').toBe(7);
+    }, 250000);
 });
