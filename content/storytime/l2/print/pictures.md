@@ -35,7 +35,6 @@ Version 4 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w01-check-row-net-v1.png | l2-w01-check-row-net-line-v1.png | 1500 × 1500 | check-row | net | C | net 1 |
 | l2-w01-practice-line-nose-v1.png | l2-w01-practice-line-nose-line-v1.png | 1500 × 1500 | practice-line | nose | C | nose 1 |
 | l2-w01-practice-line-nest-v1.png | l2-w01-practice-line-nest-line-v1.png | 1500 × 1500 | practice-line | nest | C | nest 1 |
-| l2-w01-practice-line-nut-v1.png | l2-w01-practice-line-nut-line-v1.png | 1500 × 1500 | practice-line | nut | C | nut 1 |
 
 ## Week 2
 
