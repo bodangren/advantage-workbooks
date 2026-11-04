@@ -29,7 +29,9 @@ export const ANDIKA_ADVANCE_EM: Readonly<Record<string, number>> = {
  * The start of the first stroke of a letter that begins a trace word, in em: x from the left end of
  * the advance, y up from the baseline. A stem letter starts on the top of its stem; a round letter
  * starts at the upper right (a, c, s, G, S) or at the top (o); e starts at the left end of its bar.
- * The points were measured on the Andika regular skeleton and sit inside the glyph ink.
+ * The points were measured on the Andika regular skeleton and sit inside the glyph ink. A letter of
+ * unit 1 starts at the first point of stroke 1 of `letter-strokes.ts` (A-48 C4), so the dot of a
+ * trace word and the dot of the letter box sit at one place on the letter.
  */
 export const TRACE_START_EM: Readonly<Record<string, { x: number; y: number }>> = {
     G: { x: 0.574, y: 0.6318 },
@@ -51,7 +53,7 @@ export const TRACE_START_EM: Readonly<Record<string, { x: number; y: number }>> 
     m: { x: 0.1309, y: 0.4609 },
     n: { x: 0.1216, y: 0.4609 },
     o: { x: 0.2783, y: 0.4691 },
-    p: { x: 0.1493, y: 0.4282 },
+    p: { x: 0.122, y: 0.4609 },
     r: { x: 0.1214, y: 0.4609 },
     s: { x: 0.3801, y: 0.4536 },
     t: { x: 0.167, y: 0.6073 },
