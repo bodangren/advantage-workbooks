@@ -106,7 +106,8 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .practice-line { display: flex; align-items: center; gap: 6mm; margin-top: 6mm; }
 .practice-picture { width: 30mm; height: 30mm; }
 .practice-text { font-size: 20pt; line-height: 12mm; flex: 1; }
-.practice-text-rule { -webkit-box-decoration-break: clone; box-decoration-break: clone; border-bottom: 0.4mm solid #000; padding-bottom: 2mm; }
+.practice-text-rule { display: block; position: relative; overflow: hidden; }
+.practice-rule-line { position: absolute; left: 0; right: 0; height: 0; border-top: 0.4mm solid #000; }
 .picture-box { border: 0.6mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
 .picture-box img { width: 100%; height: 100%; object-fit: contain; }
 .dictation-line { font-size: 18pt; margin-top: 4mm; }
@@ -213,6 +214,22 @@ function bookMapPage(): PageSpec {
     return { kind: 'book-map', body };
 }
 
+/** The line height of a practice text in mm; the rule of each line sits at the bottom of its line box (fix 4). */
+const PRACTICE_LINE_MM = 12;
+/** The most lines of a practice text that get a rule; the clip of `.practice-text-rule` cuts the rules under the last line. */
+const PRACTICE_RULE_MAX_LINES = 6;
+
+/**
+ * The rules of a practice text: one vector line at the bottom of each possible line box, across the full width of the text box.
+ * The clipped text block hides the rules under its last line, so each wrapped line keeps one rule.
+ */
+function practiceRuleLines(): string {
+    return Array.from({ length: PRACTICE_RULE_MAX_LINES }, (_value, i) => {
+        const top = ((i + 1) * PRACTICE_LINE_MM - 0.4).toFixed(1);
+        return `<span class="practice-rule-line" style="top:${top}mm" aria-hidden="true"></span>`;
+    }).join('');
+}
+
 /**
  * The left page of the weekly spread: the letter formation box and the practice sheet (FR-3).
  * The formation box shows the letter with the start dot, the formation arrows, three trace
@@ -253,7 +270,7 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
 ${week.print!.practice.map((line, i) => {
     const row = practiceRows[i];
     if (!row) throw new Error(`picture row missing for the practice word "${line.pictureWord}" of week ${week.meta.week}`);
-    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text"><span class="practice-text-rule">${esc(line.text)}</span></span></div>`;
+    return `<div class="practice-line">${pictureElement(row, o, files, 'practice-picture')}<span class="practice-text" data-part="practice-text"><span class="practice-text-rule">${esc(line.text)}${practiceRuleLines()}</span></span></div>`;
 }).join('\n')}
 </div>`;
     return { kind: 'practice', body };
