@@ -243,10 +243,12 @@ describe('Storytime print Red 4b: week 8 picture list version 5', () => {
     it('R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum', async () => {
         const rows = await pictures(shippedWeeks());
         const week8Words = rows.filter((row) => row.week === 8 && row.use === 'check-row').map((row) => row.text.toLowerCase());
-        expect(week8Words).toHaveLength(4);
-        for (const word of ['moon', 'mango', 'ostrich', 'drum']) {
+        // A-48 U7: the week 7 check word ostrich replaced the olive, so the ostrich row belongs to week 7 and serves week 8 too.
+        expect(week8Words).toHaveLength(3);
+        for (const word of ['moon', 'mango', 'drum']) {
             expect(week8Words, `week 8 picture list row for ${word}`).toContain(word);
         }
+        expect(rows.some((row) => row.id === 'l2-w07-check-row-ostrich')).toBe(true);
     });
 
     it('R4b-3 reuses the earlier pen row instead of adding a week 8 row', async () => {
@@ -264,7 +266,11 @@ describe('Storytime print Red 4b: week 8 picture list version 5', () => {
         })) as StorytimePictureRow[];
         const current = (await pictures(shippedWeeks())).filter((row) => row.week <= 7);
         // A-48: the week 1 practice line "and" moved to the tricky-word row, so its picture row is the one change.
-        expect(JSON.stringify(current)).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7 && row.id !== 'l2-w01-practice-line-nut')));
+        // A-48 U7: the check words alligator and olive became axe and ostrich, so those 2 rows differ.
+        const changed = new Set(['l2-w01-practice-line-nut', 'l2-w02-check-row-alligator', 'l2-w07-check-row-olive']);
+        const added = new Set(['l2-w02-check-row-axe', 'l2-w07-check-row-ostrich']);
+        expect(JSON.stringify(current.filter((row) => !added.has(row.id)))).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7 && !changed.has(row.id))));
+        expect(current.filter((row) => added.has(row.id)).map((row) => row.id)).toEqual(['l2-w02-check-row-axe', 'l2-w07-check-row-ostrich']);
     });
 
     it('R4b-5 keeps the committed picture list in sync with the list function', async () => {

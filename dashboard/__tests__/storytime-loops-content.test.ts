@@ -43,6 +43,7 @@ const shippedRaw = (n: number): Raw => JSON.parse(fs.readFileSync(weekFile(n), '
  */
 const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
     8: [
+        ['"ant",\n                  "alligator"', '"ant",\n                  "axe"'],
         ['"sound": "nnn",\n                "pictures": [\n                  "nest"', '"sound": "/n/",\n                "pictures": [\n                  "nest"'],
         ['"sound": "mmm",\n                "pictures": [\n                  "moon"', '"sound": "/m/",\n                "pictures": [\n                  "moon"'],
         ['"sound": "sss",\n                "pictures": [\n                  "sun"', '"sound": "/s/",\n                "pictures": [\n                  "sun"'],
@@ -54,6 +55,9 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['(เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง)', '(เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง)'],
     ],
     2: [
+        ['"pig",\n          "bed",\n          "alligator"\n        ],\n        "answer": "alligator"', '"pig",\n          "bed",\n          "axe"\n        ],\n        "answer": "axe"'],
+        ['Row 3: pig, bed, alligator. Which', 'Row 3: pig, bed, axe. Which'],
+        ['แถว 3: pig, bed, alligator คำไหน', 'แถว 3: pig, bed, axe คำไหน'],
         ['with me: an. Nan.', 'with me: An. Nan.'], ['Read the words: an. Nan.', 'Read the words: An. Nan.'],
         ['Then they count the apples in the picture and trace the number word under it: three.', 'Then they count the ducks in the picture: three.'],
         ['"\\"Count the apples. How many? Three! Trace the word three.\\""', '"\\"Count the ducks. How many? Three!\\""'],
@@ -78,7 +82,12 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
     ],
     4: [['with me: am. Man.', 'with me: Am. Man.'], ['Read the words: am. Man.', 'Read the words: Am. Man.']],
     6: [['with me: sat. Mat.', 'with me: Sat. Mat.'], ['Read the words: sat. Mat.', 'Read the words: Sat. Mat.']],
-    7: [['with me: on. Top.', 'with me: On. Top.'], ['Read the words: on. Top.', 'Read the words: On. Top.']],
+    7: [
+        ['"pen",\n          "bus",\n          "olive"\n        ],\n        "answer": "olive"', '"pen",\n          "bus",\n          "ostrich"\n        ],\n        "answer": "ostrich"'],
+        ['Row 3: pen, bus, olive. Which', 'Row 3: pen, bus, ostrich. Which'],
+        ['แถว 3: pen, bus, olive คำไหน', 'แถว 3: pen, bus, ostrich คำไหน'],
+        ['with me: on. Top.', 'with me: On. Top.'], ['Read the words: on. Top.', 'Read the words: On. Top.']
+    ],
 };
 
 /** The week file at the baseline commit, with the A-48 script edits. A failed `git show` fails the test. */

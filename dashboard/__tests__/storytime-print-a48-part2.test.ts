@@ -164,13 +164,13 @@ describe('A-48 part 2, U7: the check pictures axe and ostrich replace the alliga
         }
     });
 
-    it('U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 195 rows', async () => {
+    it('U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 194 rows (the ostrich row serves week 7 and week 8)', async () => {
         const mod = await import(path.join(dashboardRoot, 'lib/storytime/print/pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
         const ids = mod.storytimePrintPictures(weeks()).map((row) => row.id);
         expect(ids).toContain('l2-w02-check-row-axe');
         expect(ids).toContain('l2-w07-check-row-ostrich');
         expect(ids.filter((id) => /alligator|olive/.test(id))).toEqual([]);
-        expect(ids).toHaveLength(195);
+        expect(ids).toHaveLength(194);
     });
 
     it('U7-nut: the nut pages keep the word nut (Forge draws a peanut)', () => {

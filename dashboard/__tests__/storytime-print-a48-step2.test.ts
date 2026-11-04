@@ -235,9 +235,9 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         expect(week.print!.writing.line === 'name' ? labels.indexOf('Write.') < labels.indexOf('Draw.') : labels.indexOf('Write.') > labels.lastIndexOf('Trace one.'), 'the name line follows the frame; the word line follows the choice words').toBe(true);
     });
 
-    it('U2-rows: the picture list keeps its 195 rows and the prompt pictures add none', async () => {
+    it('U2-rows: the picture list keeps its rows (194 after U7) and the prompt pictures add none', async () => {
         const mod = await import(path.join(printDir, 'pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
-        expect(mod.storytimePrintPictures(weeks()).length).toBe(195);
+        expect(mod.storytimePrintPictures(weeks()).length).toBe(194);
     });
 
     it('U2-count: the book keeps 136 pages', async () => {
