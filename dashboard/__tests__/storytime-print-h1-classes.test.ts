@@ -191,7 +191,7 @@ describe('A-48 H1: the report', () => {
 
     it('H1-section: the text of a week is the text between its heading and the heading of the next week', async () => {
         const mod = await load();
-        const book = 'ปก\nสัปดาห์ที่ 1: Hello!\nข้อความของสัปดาห์หนึ่ง\n  สัปดาห์ที่ 2: How Many?\nข้อความของสัปดาห์สอง\n';
+        const book = 'ปก\nสัปดาห์ที่ 1: Hello!\nข้อความของสัปดาห์หนึ่ง\n\f  สัปดาห์ที่ 2: How Many?\nข้อความของสัปดาห์สอง\n';
         expect(mod.weekSection(book, 1)).toContain('ข้อความของสัปดาห์หนึ่ง');
         expect(mod.weekSection(book, 1)).not.toContain('ข้อความของสัปดาห์สอง');
         expect(mod.weekSection(book, 2)).toContain('ข้อความของสัปดาห์สอง');

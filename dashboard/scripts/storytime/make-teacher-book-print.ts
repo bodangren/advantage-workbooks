@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
@@ -7,6 +8,9 @@ import { renderPagedPdf, run } from '../../lib/print/render';
 import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
 import { diffPrintText, teacherBookPrintFileName, type PrintTextDifference } from '../../lib/storytime/print/text-diff';
+import {
+    classCountProblems, classifiedMarkdown, classifyReport, formatReportHeader, formatReportRow, parseTextGateReport,
+} from '../../lib/storytime/print/text-diff-classes';
 import type { StorytimeWeek } from '../../lib/storytime/schema';
 import { storytimeStudentBookPages, type StorytimeBookPage } from '../../lib/storytime/print/step-pages';
 
@@ -50,6 +54,7 @@ Output files in the folder:
   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
   text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
 
 The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
 build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
@@ -190,7 +195,8 @@ async function main(argv: string[]): Promise<number> {
     const printFile = path.join(folder, teacherBookPrintFileName(level, units[0], 'th', version));
     const chromeFile = printFile.replace(/_PDFX-1a\.pdf$/, '-chrome.pdf');
     const reportFile = path.join(folder, `text-gate-v${version}.txt`);
-    const outputs = [printFile, chromeFile, reportFile];
+    const h1File = path.join(folder, `text-gate-v${version}-h1.md`);
+    const outputs = [printFile, chromeFile, reportFile, h1File];
     // B-P3-01: every output path is checked before the build writes or renders anything. The
     // containment check reads the entry with lstat, so a link and a dangling link both stop the
     // build. The check throws; the error names the path.
@@ -210,6 +216,7 @@ async function main(argv: string[]): Promise<number> {
     const pagedSrc = fs.readFileSync(path.join(process.cwd(), 'node_modules', 'pagedjs', 'dist', 'paged.polyfill.js'), 'utf8');
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-teacher-'));
     const report: string[] = [];
+    const weekTexts = new Map<number, string>();
     let differenceCount = 0;
     let problems: string[];
     let pages: number;
@@ -221,15 +228,29 @@ async function main(argv: string[]): Promise<number> {
             const n = week.meta.week;
             const weekPdf = parsed.length === 1 ? chromeFile : path.join(tmp, `week-${n}.pdf`);
             if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, studentBookPages);
-            const differences: PrintTextDifference[] = diffPrintText(layoutText(draftOf(n)), layoutText(weekPdf));
+            const weekText = layoutText(weekPdf);
+            weekTexts.set(n, weekText);
+            const differences: PrintTextDifference[] = diffPrintText(layoutText(draftOf(n)), weekText);
             differenceCount += differences.length;
-            report.push(`week ${n}: ${differences.length} difference(s) against ${draftOf(n)}`);
-            for (const d of differences) report.push(`  week ${n} line ${d.line}: expected "${d.expected}" actual "${d.actual}"`);
+            report.push(formatReportHeader(n, differences.length, draftOf(n)));
+            for (const d of differences) report.push(formatReportRow(n, d));
         }
     } finally {
         fs.rmSync(tmp, { recursive: true, force: true });
     }
-    fs.writeFileSync(reportFile, `${report.join('\n')}\n`);
+    const reportText = `${report.join('\n')}\n`;
+    fs.writeFileSync(reportFile, reportText);
+    // A-48 H1: the same run writes the classified difference list next to the report.
+    const parsedReport = parseTextGateReport(reportText);
+    const classified = classifyReport(parsedReport, parsed, (week) => weekTexts.get(week) ?? '');
+    const sumProblems = classCountProblems(classified, parsedReport);
+    fs.writeFileSync(h1File, classifiedMarkdown({
+        sourcePath: reportFile,
+        sourceSha256: crypto.createHash('sha256').update(reportText).digest('hex'),
+        report: parsedReport,
+        classified,
+    }));
+    if (sumProblems.length) problems.push(`the class counts of the H1 list do not add up: ${sumProblems.join('; ')}`);
     console.log(report.join('\n'));
 
     try {
