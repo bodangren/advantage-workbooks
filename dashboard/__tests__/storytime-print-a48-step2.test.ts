@@ -133,3 +133,18 @@ describe('A-48 part 1, check pages: a write-word item uses only the letters taug
         expect(taught.dictationRowKind('top', 6), 'The rule fails a word with an untaught letter.').toBe('trace');
     });
 });
+
+describe('A-48 U1: the sound pages (E49)', () => {
+    it('U1-E49: the formation words of all 7 weeks start with "Start at the dot.", on the data and on the page, and the print check of each week passes', async () => {
+        const { doc } = await book();
+        const printed = Array.from(doc.querySelectorAll('[data-part="formation-words"]'), text);
+        expect(printed).toHaveLength(7);
+        weeks().slice(0, 7).forEach((week, index) => {
+            expect(week.print!.letterBox.formationWords, `Week ${week.meta.week} data`).toMatch(/^Start at the dot\./);
+            expect(week.print!.letterBox.startPoint, `Week ${week.meta.week} start point`).toBe('dot');
+            expect(printed[index], `Week ${week.meta.week} page`).toMatch(/^Start at the dot\./);
+            const failed = checkStorytimePrintText(week).filter((item) => item.status === 'fail');
+            expect(failed.map((item) => `${item.id}: ${item.detail}`), `Week ${week.meta.week} print text check`).toEqual([]);
+        });
+    });
+});
