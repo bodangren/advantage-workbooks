@@ -190,7 +190,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         const front = page(dirty.doc, 'home-front');
         expect(text(part(front, 'home-line'))).toBe(HOSTILE);
         expect(text(part(front, 'home-activity'))).toBe(HOSTILE);
-        expect(front.querySelectorAll('.th-run').length, 'Each Thai run keeps one span.')
+        expect(front.querySelectorAll('[data-part="home-line"] .th-run, [data-part="home-activity"] .th-run').length, 'Each Thai run keeps one span.')
             .toBe(2 * HOSTILE.split(/\s+/).filter(Boolean).length);
         expect(dirty.doc.querySelectorAll('script').length).toBe(0);
         expect(dirty.doc.querySelectorAll('img').length).toBe(0);

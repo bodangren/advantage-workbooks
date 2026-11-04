@@ -63,6 +63,7 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['เด็ก ๆ ลากเส้นตามกรอบประโยคและคำศัพท์ตัวเลข', 'เด็ก ๆ ลากเส้นตามกรอบประโยคและนับเป็ด'],
     ],
     3: [
+        ['"pear",\n      "cup"\n', '"pear",\n      "pencil"\n'],
         ['with me: pan. Nap.', 'with me: Pan. Nap.'], ['Read the words: pan. Nap.', 'Read the words: Pan. Nap.'],
         ['children color the balloon in the second box red, blue, or yellow.', 'children draw one thing in the second box and color it red, blue, or yellow.'],
         ['"\\"Now color the balloon. What color is it? Find the word and trace it.\\""', '"\\"Now draw something and color it. What color is it? Find the word and trace it.\\""'],
