@@ -784,4 +784,32 @@ describe('A-48: Chrome draws the letters and the trace words where the vector mo
             }
         }
     }, 250000);
+    it('X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm)', async () => {
+        const { doc } = await book();
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const span = weekPage(doc, 'writing', 7).querySelector('[data-part="writing-trace"]')!.cloneNode(true) as Element;
+        span.querySelectorAll('[data-part="trace-word-dot"]').forEach((dot) => dot.remove());
+        const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>a48 rule</title><style>${style}</style></head><body><section class="student-page"><div class="work-row">${span.outerHTML}</div></section></body></html>`;
+        const file = buildPdfx(html);
+        const raster = await rasterPage(file, 1);
+        const px = 300 / 25.4;
+        const fromX = Math.round(110 * px), toX = Math.round(180 * px);
+        let ruleTop = -1;
+        for (let y = 0; y < raster.height && ruleTop < 0; y++) {
+            let dark = 0;
+            for (let x = fromX; x < toX; x++) if (raster.data[y * raster.width + x] < 60) dark++;
+            if (dark / (toX - fromX) > 0.9) ruleTop = y;
+        }
+        expect(ruleTop, 'The rule line prints.').toBeGreaterThan(0);
+        let inkBottom = -1;
+        for (let y = ruleTop - 1; y >= 0 && inkBottom < 0; y--) {
+            for (let x = Math.round(14 * px); x < Math.round(100 * px); x++) {
+                const value = raster.data[y * raster.width + x];
+                if (value > 120 && value < 215) { inkBottom = y; break; }
+            }
+        }
+        expect(inkBottom, 'The grey trace word prints above the rule line.').toBeGreaterThan(0);
+        const gapMm = (ruleTop - (inkBottom + 1)) / px;
+        expect(Math.abs(gapMm), `The grey word ends ${gapMm.toFixed(2)} mm above the rule line.`).toBeLessThanOrEqual(0.5);
+    }, 250000);
 });

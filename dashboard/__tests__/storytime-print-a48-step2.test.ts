@@ -61,9 +61,9 @@ describe('A-48 part 1, version: the picture list is Version 5', () => {
 describe('A-48 F1: every trace word sits on its rule line', () => {
     it('F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm)', async () => {
         const { doc } = await book();
-        const spans = Array.from(doc.querySelectorAll('.student-page [data-part="writing-trace"], .student-page [data-part="dictation-trace"], .student-page [data-part="dictation-word-trace"]'));
-        // 7 frame traces, 6 trace sentences, and the week 1 trace word "a".
-        expect(spans.length).toBeGreaterThanOrEqual(14);
+        const spans = Array.from(doc.querySelectorAll('.student-page [data-part="writing-trace"], .student-page [data-part="dictation-trace"], .student-page [data-part="dictation-word-trace"], .student-page [data-part="choice-word-trace"]'));
+        // 7 frame traces, 6 trace sentences, the week 1 trace word "a", and the 25 choice words of weeks 2 to 7.
+        expect(spans.length).toBeGreaterThanOrEqual(39);
         for (const span of spans) {
             const svg = span.querySelector('svg')!;
             const view = svg.getAttribute('viewBox')!.split(' ').map(Number);
@@ -146,5 +146,102 @@ describe('A-48 U1: the sound pages (E49)', () => {
             const failed = checkStorytimePrintText(week).filter((item) => item.status === 'fail');
             expect(failed.map((item) => `${item.id}: ${item.detail}`), `Week ${week.meta.week} print text check`).toEqual([]);
         });
+    });
+});
+
+/** The D4 data of each teaching week (E16): the prompt picture word and the choice words that print from existing pictures. */
+const D4_DATA: Record<number, { promptPicture?: string; choiceWords?: string[]; pictureBox: boolean }> = {
+    1: { pictureBox: true },
+    2: { promptPicture: 'ducks', choiceWords: ['one', 'two', 'three'], pictureBox: true },
+    3: { promptPicture: 'apple', choiceWords: ['red', 'blue', 'yellow'], pictureBox: true },
+    4: { choiceWords: ['mom', 'dad', 'brother', 'sister', 'grandma', 'grandpa', 'family'], pictureBox: true },
+    5: { choiceWords: ['hands', 'ears', 'feet'], pictureBox: true },
+    6: { promptPicture: 'cat', choiceWords: ['dog', 'fish', 'bird'], pictureBox: true },
+    7: { choiceWords: ['car', 'kite', 'drum'], pictureBox: true },
+};
+
+describe('A-48 U2: the write pages (E11 to E16)', () => {
+    it('U2-schema: print.writing takes the optional promptPicture and choiceWords, and rejects an empty value and an unknown key', () => {
+        const base = weeks()[1];
+        const make = (patch: Record<string, unknown>) => {
+            const copy = JSON.parse(JSON.stringify(base)) as StorytimeWeek;
+            Object.assign(copy.print!.writing, patch);
+            return StorytimeWeekSchema.safeParse(copy);
+        };
+        expect(make({ promptPicture: 'ducks', choiceWords: ['one'] }).success).toBe(true);
+        expect(make({ promptPicture: '' }).success, 'an empty prompt picture word').toBe(false);
+        expect(make({ choiceWords: [] }).success, 'an empty choice word list').toBe(false);
+        expect(make({ choiceWords: [''] }).success, 'an empty choice word').toBe(false);
+        expect(make({ extra: 1 }).success, 'the block stays strict').toBe(false);
+    });
+
+    it('U2-data: each week names its prompt picture and choice words from the D4 script, and week 3 keeps its draw box', () => {
+        weeks().slice(0, 7).forEach((week) => {
+            const want = D4_DATA[week.meta.week];
+            expect(week.print!.writing.promptPicture, `Week ${week.meta.week} prompt picture`).toBe(want.promptPicture);
+            expect(week.print!.writing.choiceWords, `Week ${week.meta.week} choice words`).toEqual(want.choiceWords);
+            expect(week.print!.writing.pictureBox, `Week ${week.meta.week} draw box`).toBe(want.pictureBox);
+        });
+    });
+
+    it('U2-script: the week 3 D4 script has no balloon (decision 7), the week 2 script counts the ducks, and the print check of each week passes', () => {
+        const d4 = (week: StorytimeWeek) => JSON.stringify(week.scripts.flatMap((script) => script.steps).find((step) => step.id === 'D4'));
+        expect(d4(weeks()[2])).not.toMatch(/balloon|ลูกโป่ง/);
+        expect(d4(weeks()[1])).not.toMatch(/apples|แอปเปิล/);
+        expect(d4(weeks()[1])).toMatch(/ducks/);
+        for (const week of weeks().slice(0, 7)) {
+            const failed = checkStorytimePrintText(week).filter((item) => item.status === 'fail');
+            expect(failed.map((item) => `${item.id}: ${item.detail}`), `Week ${week.meta.week}`).toEqual([]);
+        }
+    });
+
+    it('U2-check: a choice word or a prompt picture word that the D4 script does not say fails the print check', () => {
+        const make = (patch: Record<string, unknown>) => {
+            const copy = JSON.parse(JSON.stringify(weeks()[5])) as StorytimeWeek;
+            Object.assign(copy.print!.writing, patch);
+            return checkStorytimePrintText(StorytimeWeekSchema.parse(copy)).find((item) => item.id === 'print-writing')!;
+        };
+        expect(make({}).status).toBe('pass');
+        expect(make({ choiceWords: ['dog', 'fish', 'zebra'] }).status, 'a choice word that D4 does not say').toBe('fail');
+        expect(make({ promptPicture: 'zebra' }).status, 'a prompt picture that D4 does not say').toBe('fail');
+    });
+
+    it.each([1, 2, 3, 4, 5, 6, 7])('U2-page: week %i D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows', async (weekNumber) => {
+        const { doc } = await book();
+        const week = weeks()[weekNumber - 1];
+        const want = D4_DATA[weekNumber];
+        const page = doc.querySelectorAll('.student-page[data-page-kind="writing"]')[weekNumber - 1];
+        const d4 = page.querySelector('[data-part="step-block"][data-step="D4"]')!;
+        // The prompt picture is a picture-list row that already exists (no new row).
+        const prompts = d4.querySelectorAll('[data-part="prompt-row"] .picture-box');
+        expect(prompts).toHaveLength(want.promptPicture ? 1 : 0);
+        if (want.promptPicture) expect(prompts[0].getAttribute('data-picture-id')).toMatch(/^l2-w0[1-7]-(story-page|check-row|practice-line)-/);
+        const boxes = d4.querySelectorAll('[data-part="writing-picture-box"]');
+        const expectedBoxes = want.pictureBox ? (want.choiceWords ? 2 - (want.promptPicture ? 1 : 0) : 1) : 0;
+        expect(boxes, `Week ${weekNumber} draw boxes`).toHaveLength(expectedBoxes);
+        const choice = Array.from(d4.querySelectorAll('[data-part="choice-word"]'), text);
+        expect(choice).toEqual(want.choiceWords ?? []);
+        for (const word of d4.querySelectorAll('[data-part="choice-word"]')) {
+            expect(word.querySelectorAll('circle[data-part="trace-word-dot"]'), 'one start dot on the first letter').toHaveLength(1);
+            expect(word.querySelector('.writing-trace'), 'each choice word has its own rule line').not.toBeNull();
+        }
+        const numbers = Array.from(page.querySelectorAll('[data-part="row-number"]'), text);
+        expect(numbers, 'the row numbers run 1, 2, 3 through the page').toEqual(numbers.map((_value, index) => String(index + 1)));
+        const labels = Array.from(d4.querySelectorAll('.row-label'), text);
+        expect(labels).toContain('Trace.');
+        expect(labels).toContain('Write.');
+        if (want.promptPicture) expect(labels).toContain('Look.');
+        if (want.choiceWords) expect(labels).toContain('Trace one.');
+        expect(week.print!.writing.line === 'name' ? labels.indexOf('Write.') < labels.indexOf('Draw.') : labels.indexOf('Write.') > labels.lastIndexOf('Trace one.'), 'the name line follows the frame; the word line follows the choice words').toBe(true);
+    });
+
+    it('U2-rows: the picture list keeps its 195 rows and the prompt pictures add none', async () => {
+        const mod = await import(path.join(printDir, 'pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
+        expect(mod.storytimePrintPictures(weeks()).length).toBe(195);
+    });
+
+    it('U2-count: the book keeps 136 pages', async () => {
+        const { doc } = await book();
+        expect(doc.querySelectorAll('.student-page').length).toBe(136);
     });
 });
