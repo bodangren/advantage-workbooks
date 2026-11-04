@@ -230,16 +230,16 @@ function qrBlock(week: StorytimeWeek, book: StorytimeWeek['books'][number]): str
     const address = storytimeQrUrl(qrPathOf(week, book));
     const svg = generateQRCode(address);
     if (!svg) throw new Error(`QR code failed for ${address}`);
-    return `<div class="reader-qr" data-qr-input="${esc(address)}">${svg}<p class="reader-qr-label">${isDecodable(book) ? 'Listen and read the book' : 'Listen to the book'}</p></div>`;
+    return `<div class="reader-qr" data-qr-input="${esc(address)}">${svg}<p class="reader-qr-label">${isDecodable(book) && !book.soundBook ? 'Listen and read the book' : 'Listen to the book'}</p></div>`;
 }
 
-/** The "Sounds in this book" page of a decodable reader (FR-5.2). */
+/** The "Sounds in this book" page of a decodable reader (FR-5.2); the week 1 first-sound book says "The first sound in this book" (A-48 E23). */
 function soundsPage(book: StorytimeWeek['books'][number]): string {
     const sounds = book.soundsPage;
     if (!sounds) throw new Error(`the decodable reader "${book.title}" has no sounds page`);
     const words = sounds.words.map((word) => `<span class="reader-word">${esc(word)}</span>`).join('');
     const tricky = sounds.tricky.map((word) => `<span class="reader-word">${esc(word)}</span>`).join('');
-    return `<h2 class="reader-heading">Sounds in this book</h2>
+    return `<h2 class="reader-heading">${book.soundBook ? 'The first sound in this book' : 'Sounds in this book'}</h2>
 <p class="reader-sound" data-part="reader-sound">${esc(sounds.element)}</p>
 <div class="reader-word-row">${words}</div>
 <p class="reader-heading">Tricky words</p>
