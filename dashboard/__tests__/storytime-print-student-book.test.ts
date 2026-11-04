@@ -1310,7 +1310,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         // A-48: a trace item is an SVG (the grey letter or the grey words, with black start dots).
         const fragments = [
             ...cells.map((cell) => cell.querySelector('svg')!.outerHTML),
-            writing.querySelector('svg')!.outerHTML,
+            // The wrapper without its class, so that the rule line under the words is not measured.
+            `<span data-part="writing-trace">${writing.querySelector('svg')!.outerHTML}</span>`,
         ];
         const measure = async (css: string): Promise<number[]> => Promise.all(fragments.map(async (fragment, index) => {
             const html = isolateMeasurementHtml(`r38-real-${index}`, css, `<section class="student-page">${fragment}</section>`);
@@ -1340,7 +1341,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const box = part(page(doc, 'practice'), 'letter-box');
         const traceRow = box.querySelector('.trace-row')!;
         expect(traceRow, 'The trace row prints.').not.toBeNull();
-        const file = buildPdfx(isolateMeasurementHtml('d2-dots', style, traceRow.outerHTML));
+        const file = buildPdfx(isolateMeasurementHtml('d2-dots', style, `<section class="student-page">${traceRow.outerHTML}</section>`));
         const { width, height, data } = await rasterPage(file, 1, 300);
         const dots = solidBlackDots(data, width, height);
         expect(dots, 'Each of the three letter copies holds a black start dot.').toBeGreaterThanOrEqual(3);

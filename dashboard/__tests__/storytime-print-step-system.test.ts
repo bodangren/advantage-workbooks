@@ -384,7 +384,7 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         week.print!.dictation.words.forEach((word, index) => {
             expect(soundRows[index].querySelectorAll('[data-part="sound-box"]')).toHaveLength([...word].length);
             expect(texts(soundRows[index], '[data-part="sound-box"]').join('')).toBe('');
-            expect(text(soundRows[index]), 'The sound row prints no letter of the word.').not.toContain(word);
+            expect(soundRows[index].querySelector('[data-part="dictation-word"], [data-part="trace-letter"], text'), 'The sound row prints no letter of the word.').toBeNull();
         });
         expect(list[0].querySelector('[data-part="dictation-word"]'), 'The dictated word is not printed (E15).').toBeNull();
         // C3, row 3 (weeks 2 to 7): the trace sentence in grey with a start dot on each word (E14).
@@ -540,6 +540,18 @@ describe('A-48: week 1 data (E17, E18)', () => {
         copy.focus.trickyWords = copy.focus.trickyWords.filter((word) => word !== 'and');
         expect(checkStorytimePrintText(StorytimeWeekSchema.parse(copy)).find((item) => item.id === 'print-practice')?.status,
             'Mutant: "and" in neither the practice lines nor the tricky-word row.').toBe('fail');
+    });
+
+    it('D-extra: an extra picture word that is not a word of its line fails the text check', async () => {
+        const { checkStorytimePrintText } = await import(textCheckModule) as {
+            checkStorytimePrintText: (week: StorytimeWeek) => { id: string; status: string }[];
+        };
+        const week = weeks()[0];
+        expect(checkStorytimePrintText(week).find((item) => item.id === 'print-picture-word')?.status).toBe('pass');
+        const copy = JSON.parse(JSON.stringify(week)) as StorytimeWeek;
+        copy.print!.practice[1].extraPictureWords = ['dog'];
+        expect(checkStorytimePrintText(StorytimeWeekSchema.parse(copy)).find((item) => item.id === 'print-picture-word')?.status,
+            'Mutant: the extra picture "dog" for the line "A nest. A net.".').toBe('fail');
     });
 });
 
