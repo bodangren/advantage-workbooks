@@ -358,7 +358,7 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
     const textTop = Math.round((marginTop + pictureHeight + gap) * 10) / 10;
     return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: ${marginTop}mm ${marginX}mm 0 ${marginX}mm; position: relative; overflow: hidden; }
 .reader-page[data-turn-deg="180"] { transform: rotate(${TURN_180_DEG}deg); transform-origin: center; }
-.reader-picture { position: absolute; left: ${marginX}mm; top: ${marginTop}mm; width: ${pictureWidth}mm; height: ${pictureHeight}mm; border: 0.4mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; overflow: hidden; }
+.reader-picture { position: absolute; left: ${marginX}mm; top: ${marginTop}mm; width: ${pictureWidth}mm; height: ${pictureHeight}mm; border: 0.3mm solid #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; overflow: hidden; }
 .reader-picture img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .reader-text { position: absolute; left: ${marginX}mm; top: ${textTop}mm; width: ${pictureWidth}mm; font-size: ${pt(17)}; line-height: 1.15; text-align: left; }
 .reader-footer { position: absolute; left: ${marginX}mm; bottom: ${bottom}mm; font-size: ${pt(5)}; line-height: 1.2; white-space: nowrap; }
@@ -405,11 +405,11 @@ ${readerPageCss(o.profile)}
 .fold-line { position: absolute; z-index: 4; left: 0; width: 100%; top: ${o.profile.trim.heightMm / 2}mm; border-top: 0.3mm dashed #000; }
 .leaf-mark { position: absolute; z-index: 5; top: 2mm; left: ${leafWidth / 2}mm; transform: translateX(-50%); white-space: nowrap; font-size: 5pt; }
 .reader-side[data-leaf-side="front"] .leaf-mark { left: ${perforationMm + leafWidth / 2}mm; }
-.perforation { position: absolute; top: 0; height: 100%; width: 0; border-left: 0.4mm dashed #000; }
+${readerLeafMarkCss(o.profile)}
 .a3-page { width: 420mm; height: 297mm; position: relative; break-after: page; page-break-after: always; }
 .a3-page:last-of-type { break-after: auto; page-break-after: auto; }
 .a3-scale { position: absolute; left: 12mm; top: 0; width: ${o.profile.readerPage.widthMm}mm; height: ${o.profile.readerPage.heightMm}mm; transform: scale(${A3_SCALE}); transform-origin: 0 0; }
-.a3-scale .reader-picture { border: 0.15mm dashed #000; }
+.a3-scale .reader-picture { border: 0.15mm solid #000; }
 `;
 }
 
@@ -466,6 +466,53 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
 }
 
 /**
+ * The style of the marks on a reader leaf side that are not the pages (fix 6, Daniel 2026-11-04). The fold line is the only
+ * dashed line. The tear-out place is two short solid ticks (the `perforation` element keeps its place 12 mm from the bound edge
+ * and prints no line itself) and a scissors mark with a label in the 12 mm strip. The fold line says "fold" at both ends.
+ * @param profile The print profile that holds the leaf trim and the perforation distance.
+ * @returns The CSS text, for the readers build and for the student workbook.
+ */
+export function readerLeafMarkCss(profile: StorytimePrintProfile): string {
+    const foldTop = Math.round((profile.trim.heightMm / 2 - 1.5) * 10) / 10;
+    return `.perforation.reader-tear { position: absolute; top: 0; width: 0; height: 100%; border: 0; }
+.tear-tick { position: absolute; left: -0.2mm; width: 0; height: 5mm; border-left: 0.4mm solid #000; }
+.tear-tick-top { top: 0; }
+.tear-tick-bottom { bottom: 0; }
+.tear-label { position: absolute; top: 24mm; width: ${profile.perforationMm}mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; }
+.tear-label svg { width: 4mm; height: 4mm; flex: none; }
+.tear-text { writing-mode: vertical-rl; white-space: nowrap; font-size: 6pt; line-height: 1; }
+.fold-label { position: absolute; z-index: 5; top: ${foldTop}mm; height: 3mm; line-height: 3mm; padding: 0 1mm; background: #fff; font-size: 6pt; white-space: nowrap; }
+.tear-text [lang="th"], .fold-label [lang="th"] { font-family: 'Sarabun', 'Andika', sans-serif; }`;
+}
+
+/**
+ * The tear-out place of a reader leaf side (fix 6): the `perforation` element at the perforation distance from the bound edge
+ * with its two solid ticks (5 mm long, one at the top edge and one at the bottom edge), and the scissors mark with its label inside the strip.
+ * The strip stays in the book; nothing of it reaches a reader page.
+ * @param edge The bound edge of the side: `left` for a front, `right` for a back.
+ * @param profile The print profile that holds the perforation distance.
+ * @returns The HTML of the perforation element and the label.
+ */
+export function readerTearOutHtml(edge: 'left' | 'right', profile: StorytimePrintProfile): string {
+    const scissors = '<svg class="scissors" data-part="scissors" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3" fill="none" stroke="#000" stroke-width="1.6"/><circle cx="18" cy="6" r="3" fill="none" stroke="#000" stroke-width="1.6"/><path d="M8 8.2 L18 22 M16 8.2 L6 22" fill="none" stroke="#000" stroke-width="1.6"/></svg>';
+    return `<div class="perforation reader-tear" data-part="perforation" data-distance-mm="${profile.perforationMm}" data-spine-edge="${edge}" style="position:absolute;top:0;${edge}:${profile.perforationMm}mm;"><span class="tear-tick tear-tick-top" data-part="tear-tick"></span><span class="tear-tick tear-tick-bottom" data-part="tear-tick"></span></div>
+<div class="tear-label" data-part="tear-label" data-spine-edge="${edge}" style="${edge}:0;">${scissors}<span class="tear-text"><span lang="th">ตัดออกจากเล่ม</span> / cut out of the book</span></div>`;
+}
+
+/**
+ * The two "fold" labels of a reader leaf side (fix 6): one at each end of the fold line, inside the leaf, on the line.
+ * @param edge The bound edge of the side: `left` for a front, `right` for a back.
+ * @param profile The print profile that holds the perforation distance.
+ * @returns The HTML of the two labels.
+ */
+export function readerFoldLabelsHtml(edge: 'left' | 'right', profile: StorytimePrintProfile): string {
+    const near = `${profile.perforationMm + 1}mm`;
+    const [leftPlace, rightPlace] = edge === 'left' ? [`left:${near}`, 'right:1mm'] : ['left:1mm', `right:${near}`];
+    const label = (place: string): string => `<span class="fold-label" data-part="fold-label" style="${place};"><span lang="th">พับ</span> / fold</span>`;
+    return `${label(leftPlace)}${label(rightPlace)}`;
+}
+
+/**
  * One workbook leaf: two sides, each with two landscape pages, the fold line, and a leaf mark.
  * @param leaf The 1-based leaf number.
  * @param sides The four sides of the two strips: front, back, front, back.
@@ -479,8 +526,9 @@ function leafHtml(sides: StorytimeReaderLeafSide[], profile: StorytimePrintProfi
         return `<div class="reader-side" data-leaf-side="${entry.side}">
 ${entry.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5"></div>
+${readerFoldLabelsHtml(edge, profile)}
 <span class="leaf-mark" data-part="leaf-mark">${esc(entry.title)} &middot; leaf ${entry.leaf} of 3</span>
-<div class="perforation" data-part="perforation" data-distance-mm="${profile.perforationMm}" data-spine-edge="${edge}" style="${edge}:${profile.perforationMm}mm;"></div>
+${readerTearOutHtml(edge, profile)}
 </div>`;
     }).join('');
     return `<div class="reader-leaf" data-reader-leaf data-reader-title="${esc(sides[0].title)}" data-leaf-number="${sides[0].leaf}">${html}</div>`;

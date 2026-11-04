@@ -6,7 +6,7 @@ import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, storytimePrintPracticePicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import { fontFaceCss } from './print-fonts';
-import { readerPageCss, storytimeReaderLeafSides } from './readers';
+import { readerFoldLabelsHtml, readerLeafMarkCss, readerPageCss, readerTearOutHtml, storytimeReaderLeafSides } from './readers';
 import type { StorytimePrintProfile } from './profile';
 
 /**
@@ -157,6 +157,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .student-page[data-page-kind="reader"][data-leaf-side="front"] .leaf-mark { left: ${profile.perforationMm + (profile.trim.widthMm - profile.perforationMm) / 2}mm; }
 .blank-page { }
 ${readerPageCss(profile)}
+${readerLeafMarkCss(profile)}
 `;
 }
 
@@ -164,8 +165,10 @@ ${readerPageCss(profile)}
 const blankPage = (): PageSpec => ({ kind: 'blank', body: '' });
 
 /** The perforation mark of a tear-out side: 12 mm from the parity-dependent spine (P2). */
-const perforationMark = (pageNumber: number, profile: StorytimePrintProfile): string => {
+const perforationMark = (pageNumber: number, profile: StorytimePrintProfile, kind: string): string => {
     const edge = pageNumber % 2 ? 'left' : 'right';
+    // A reader side prints only 2 short ticks and the scissors label (fix 6); a home card keeps its dashed cut line.
+    if (kind === 'reader') return readerTearOutHtml(edge, profile);
     return `<div class="perforation" data-part="perforation" data-spine-edge="${edge}" style="position:absolute;top:0;${edge}:${profile.perforationMm}mm;"></div>`;
 };
 
@@ -399,6 +402,7 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
         const foldWidth = profile.trim.widthMm - profile.perforationMm;
         return { kind: 'reader', body: `${side.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5" style="left:${foldLeft}mm;width:${foldWidth}mm;"></div>
+${readerFoldLabelsHtml(side.side === 'back' ? 'right' : 'left', profile)}
 <span class="leaf-mark" data-part="leaf-mark">${esc(side.title)} &middot; leaf ${side.leaf} of 3</span>` };
     });
 }
@@ -456,7 +460,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         .map((spec, i) => {
             const reader = spec.kind === 'reader' ? readerMeta[readerIndex++] : undefined;
             const attrs = reader ? ` data-reader="${reader.kind}" data-reader-title="${esc(reader.title)}" data-leaf-number="${reader.leaf}" data-leaf-side="${reader.side}"` : '';
-            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile) : ''}</section>`;
+            return `<section class="student-page" data-page-kind="${spec.kind}" data-page-number="${i + 1}"${attrs}>${spec.body}${['reader', 'home-front', 'home-back'].includes(spec.kind) ? perforationMark(i + 1, o.profile, spec.kind) : ''}</section>`;
         })
         .join('\n');
     return { html: `<!doctype html>
