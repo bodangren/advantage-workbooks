@@ -39,13 +39,17 @@ describe('Storytime print binding pad and practice rules', () => {
         expect(pages.at(-1)?.getAttribute('data-page-kind')).toBe('reader');
     });
 
-    it('draws a rule for each practice-text line without one bottom border', () => {
+    it('draws a full-width rule for each practice-text line without one bottom border', () => {
         const css = documentOf(shippedWeeks().slice(0, 1)).querySelector('style')?.textContent ?? '';
         const rule = css.match(/\.practice-text\s*\{([^}]+)\}/)?.[1] ?? '';
 
         expect(rule).not.toMatch(/border-bottom/);
+        expect(rule).toMatch(/line-height:\s*12mm/);
         const lineRule = css.match(/\.practice-text-rule\s*\{([^}]+)\}/)?.[1] ?? '';
-        expect(lineRule).toMatch(/(?:-webkit-)?box-decoration-break:\s*clone/);
-        expect(lineRule).toMatch(/border-bottom:\s*0\.4mm solid #000/);
+        // The rule is a block that repeats at the 12 mm line height: it spans the box, not the text (fix 4).
+        expect(lineRule).toMatch(/display:\s*block/);
+        expect(lineRule).toMatch(/repeating-linear-gradient\([^)]*12mm/);
+        expect(lineRule).not.toMatch(/border-bottom/);
+        expect(lineRule).not.toMatch(/box-decoration-break/);
     });
 });
