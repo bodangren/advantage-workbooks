@@ -143,6 +143,39 @@ describe('Storytime teaching loops in the manual', () => {
         expect(day3.indexOf('Ask who.')).toBeGreaterThan(day3.indexOf('Questions: point to the picture'));
     });
 
+    it.each([
+        ['en', 'Review strip', 'Daily recall', 'No review cards today.'],
+        ['th', 'แถบทบทวน', 'ทบทวนประจำวัน', 'วันนี้ไม่มีบัตรทบทวน'],
+    ] as const)('gives the review strip heading its own content before the recall block (%s)', (lang, strip, recall, noCards) => {
+        const html = renderStorytimeWeek(StorytimeWeekSchema.parse(loopCopy(1)), lang, { loops: true } as any);
+        const days = html.split('<section class="st-day"').slice(1);
+        expect(days).toHaveLength(5);
+        let withCards = 0;
+        let withoutCards = 0;
+        days.forEach((day, i) => {
+            const stripHeading = `<h5>${strip}</h5>`;
+            const from = day.indexOf(stripHeading);
+            expect(from, `day ${i + 1} has the strip heading`).toBeGreaterThan(-1);
+            const opening = day.slice(from + stripHeading.length, day.indexOf('</div>', from));
+            const recallAt = opening.indexOf(`<h5>${recall}</h5>`);
+            expect(recallAt, `day ${i + 1} has the recall heading inside the opening`).toBeGreaterThan(0);
+            const stripContent = opening.slice(0, recallAt);
+            expect(stripContent, `day ${i + 1}: the strip content follows the strip heading`).toMatch(/^\s*<p>/);
+            expect(stripContent, `day ${i + 1}: no heading between the strip heading and its content`).not.toContain('<h5>');
+            const recallBlock = opening.slice(recallAt);
+            expect(recallBlock, `day ${i + 1}: the recall block holds the 5 cards`).toContain('recall5');
+            expect(recallBlock, `day ${i + 1}: the strip text is not under the recall heading`).not.toContain('<strong>');
+            expect(recallBlock, `day ${i + 1}: the no-cards line is not under the recall heading`).not.toContain(noCards);
+            if (stripContent.includes(noCards)) withoutCards += 1;
+            else {
+                withCards += 1;
+                expect(stripContent, `day ${i + 1}: strip cards`).toContain('<strong>');
+            }
+        });
+        expect(withCards).toBeGreaterThan(0);
+        expect(withoutCards).toBeGreaterThan(0);
+    });
+
     it('escapes routine text and prints English when a routine has no Thai line', () => {
         const input = loopCopy(1) as any;
         input.scripts[0].steps.find((step: any) => step.id === 'A4').blendDrill.model = { en: '<script>bad</script>' };
