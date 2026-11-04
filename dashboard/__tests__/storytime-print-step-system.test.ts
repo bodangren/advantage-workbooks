@@ -828,4 +828,13 @@ describe('A-48: Chrome draws the letters and the trace words where the vector mo
         const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
         expect(Number(/Pages:\s+(\d+)/.exec(info)![1]), 'Each week 8 page fits on one page.').toBe(7);
     }, 250000);
+    it('X-fit-write: each of the 7 write pages prints on one page (A-48 F4)', async () => {
+        const { doc } = await book();
+        const style = doc.querySelector('style')!.textContent ?? '';
+        const sections = Array.from(doc.querySelectorAll('.student-page[data-page-kind="writing"]')).map((section) => section.outerHTML);
+        expect(sections).toHaveLength(7);
+        const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>a48 write fit</title><style>${style}</style></head><body>${sections.join('\n')}</body></html>`;
+        const info = execFileSync('pdfinfo', [buildPdfx(html)], { encoding: 'utf8' });
+        expect(Number(/Pages:\s+(\d+)/.exec(info)![1]), 'Each write page fits on one page.').toBe(7);
+    }, 250000);
 });
