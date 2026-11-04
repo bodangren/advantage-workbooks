@@ -350,11 +350,11 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
 .reader-text { position: absolute; left: ${marginX}mm; top: ${textTop}mm; width: ${pictureWidth}mm; font-size: ${pt(17)}; line-height: 1.15; text-align: left; }
 .reader-footer { position: absolute; left: ${marginX}mm; bottom: ${bottom}mm; font-size: ${pt(5)}; line-height: 1.2; white-space: nowrap; }
 .reader-number { position: absolute; right: ${marginX}mm; bottom: ${bottom}mm; font-size: ${pt(9)}; line-height: 1; }
-.reader-cover { text-align: left; padding-top: ${Math.round((pictureHeight + gap) * 10) / 10}mm; }
-.reader-band { display: inline-block; font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; margin-top: ${mm(1.5)}; margin-right: ${mm(3)}; }
-.reader-title { font-size: ${pt(21)}; font-weight: 700; }
-.reader-series { display: inline-block; font-size: ${pt(9)}; margin-right: ${mm(3)}; }
-.reader-week { display: inline-block; font-size: ${pt(10)}; }
+.reader-cover { text-align: left; padding-top: ${Math.round((pictureHeight + gap) * 10) / 10}mm; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: ${mm(3)}; }
+.reader-title { order: -1; flex: 0 0 100%; font-size: ${pt(21)}; font-weight: 700; line-height: 1.15; }
+.reader-band { font-size: ${pt(9)}; letter-spacing: ${mm(0.4)}; text-transform: uppercase; line-height: 1.2; margin-top: ${mm(1)}; }
+.reader-series { font-size: ${pt(9)}; line-height: 1.2; margin-top: ${mm(1)}; }
+.reader-week { font-size: ${pt(10)}; line-height: 1.2; margin-top: ${mm(1)}; }
 .reader-heading { font-size: ${pt(11)}; font-weight: 700; margin-top: ${mm(3)}; }
 .reader-sound { font-size: ${pt(30)}; font-weight: 700; text-align: center; margin-top: ${mm(3)}; }
 .reader-word-row { display: flex; flex-wrap: wrap; gap: ${mm(2)} ${mm(4)}; margin-top: ${mm(2)}; font-size: ${pt(12)}; }
