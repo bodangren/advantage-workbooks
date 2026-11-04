@@ -22,13 +22,13 @@ describe('Storytime print binding pad and practice rules', () => {
         expect(STORYTIME_PRINT_PROFILE).toHaveProperty('bindingPageMultiple', 4);
     });
 
-    it('pads the 8-week book after Benchmark 1 to 136 pages', () => {
+    it('fills the 8-week book to 136 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)', () => {
         const pages = Array.from(documentOf(shippedWeeks()).querySelectorAll('.student-page'));
 
         expect(pages).toHaveLength(136);
-        expect(pages[134]?.getAttribute('data-page-kind')).toBe('benchmark');
-        expect(pages[134]?.getAttribute('data-page-number')).toBe('135');
-        expect(pages[135]?.getAttribute('data-page-kind')).toBe('blank');
+        expect(pages.slice(128).map((page) => page.getAttribute('data-page-kind'))).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review']);
+        expect(pages[129]?.getAttribute('data-page-number')).toBe('130');
+        expect(pages[135]?.getAttribute('data-page-kind')).toBe('review');
         expect(pages[135]?.getAttribute('data-page-number')).toBe('136');
     });
 

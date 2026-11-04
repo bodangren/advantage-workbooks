@@ -41,7 +41,7 @@ describe('Storytime student book, weeks 1 to 8', () => {
         expect(doc.querySelectorAll('[data-page-kind="writing"]')).toHaveLength(7);
         expect(doc.querySelectorAll('[data-page-kind="check"]')).toHaveLength(7);
         expect(doc.querySelectorAll('[data-page-kind="review"]')).toHaveLength(5);
-        expect(doc.querySelectorAll('[data-page-kind="benchmark"]')).toHaveLength(1);
+        expect(doc.querySelectorAll('[data-page-kind="benchmark"]')).toHaveLength(2);
         expect(doc.querySelectorAll('[data-page-kind="reader"]')).toHaveLength(84);
         const pageNumbers = Array.from(doc.querySelectorAll('.student-page'), (page) => Number(page.getAttribute('data-page-number')));
         expect(pageNumbers).toEqual(pageNumbers.map((_n, index) => index + 1));
@@ -57,12 +57,12 @@ describe('Storytime student book, weeks 1 to 8', () => {
         const { compileStorytimeStudentBook } = await import(studentPath);
         const { html } = compileStorytimeStudentBook(weeks(), { profile: STORYTIME_PRINT_PROFILE, mode: 'proof' });
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        const benchmark = doc.querySelector('[data-page-kind="benchmark"]')!;
-        expect(benchmark.querySelectorAll('[data-part="check-row"]')).toHaveLength(8);
-        expect(benchmark.querySelectorAll('[data-picture-id]')).toHaveLength(24);
-        expect(benchmark.querySelectorAll('[data-part="check-write-letter"]')).toHaveLength(7);
-        expect(benchmark.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
-        expect(doc.querySelector('style')?.textContent).toContain('.student-page[data-page-kind="benchmark"] { display: grid;');
+        // A-48 U4: the benchmark is 2 pages (rows 1 to 8, then boxes 9 to 15), before Review 1.
+        const [rowsPage, boxesPage] = Array.from(doc.querySelectorAll('[data-page-kind="benchmark"]'));
+        expect(rowsPage.querySelectorAll('[data-part="benchmark-row"]')).toHaveLength(8);
+        expect(rowsPage.querySelectorAll('[data-picture-id]')).toHaveLength(24);
+        expect(boxesPage.querySelectorAll('[data-part="check-write-letter"]')).toHaveLength(7);
+        expect([rowsPage, boxesPage].flatMap((page) => Array.from(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')))).toHaveLength(0);
         expect(doc.querySelectorAll('[data-page-kind="review"] [data-part="picture-sort"]')).toHaveLength(5);
     }, 30_000);
 

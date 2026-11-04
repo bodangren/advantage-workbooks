@@ -245,3 +245,135 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         expect(doc.querySelectorAll('.student-page').length).toBe(136);
     });
 });
+
+/** The 8 pages of week 8 in the book: the blank leaf side, the 2 benchmark pages, and the 5 review pages (U4). */
+const REVIEW_CODES = ['A2', 'B1', 'C1', 'D1', 'E1'];
+
+function pages(doc: Document): Element[] {
+    return Array.from(doc.querySelectorAll('.student-page'));
+}
+
+/** The picture-list row ids of the check-row words, by word (the rows that the review and benchmark pictures print). */
+async function checkRowIds(): Promise<Map<string, string>> {
+    const mod = await import(path.join(printDir, 'pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string; use: string; text: string; week: number }[] };
+    const map = new Map<string, string>();
+    for (const row of mod.storytimePrintPictures(weeks())) if (row.use === 'check-row' && !map.has(row.text)) map.set(row.text, row.id);
+    return map;
+}
+
+const idsOf = (root: ParentNode): string[] => Array.from(root.querySelectorAll('[data-picture-id]'), (element) => element.getAttribute('data-picture-id') ?? '');
+
+describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23)', () => {
+    it('U4-order: the book keeps 136 pages; the benchmark takes pages 130 and 131 before Review 1 (page 132 to 136), with no pad at the end (B23)', async () => {
+        const { doc } = await book();
+        const list = pages(doc);
+        expect(list).toHaveLength(136);
+        expect(list.map((page) => page.getAttribute('data-page-kind')).slice(128)).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review']);
+        expect(list.map((page) => page.getAttribute('data-page-number'))).toEqual(list.map((_page, index) => String(index + 1)));
+    });
+
+    it('U4-chrome: each benchmark and review page has the week header, the page number, and the step badge (A1, A2, B1, C1, D1, E1)', async () => {
+        const { doc } = await book();
+        const list = pages(doc).slice(129);
+        const codes = ['A1', 'A1', ...REVIEW_CODES];
+        list.forEach((page, index) => {
+            expect(text(page.querySelector('[data-part="week-label"]')!), `page ${130 + index}`).toBe('Week 8 · สัปดาห์ที่ 8');
+            expect(text(page.querySelector('[data-part="page-number"]')!)).toBe(String(130 + index));
+            expect(page.querySelector('[data-part="step-badge"]')!.getAttribute('data-step')).toBe(codes[index]);
+        });
+        expect(text(list[0].querySelector('.page-title')!)).toBe('Benchmark 1');
+        list.slice(2).forEach((page, index) => expect(text(page.querySelector('.page-title')!)).toBe(`Review ${index + 1}`));
+    });
+
+    it('U4-bench1: rows 1 to 8 print 3 pictures each, numbered, with the first-sound or last-sound mark and a head for each group (B22, E43)', async () => {
+        const { doc } = await book();
+        const week8 = weeks()[7];
+        const ids = await checkRowIds();
+        const page = pages(doc)[129];
+        const rows = Array.from(page.querySelectorAll('[data-part="benchmark-row"]'));
+        const items = week8.benchmark!.paper.items.filter((item) => item.kind === 'circle-picture');
+        expect(rows).toHaveLength(8);
+        rows.forEach((row, index) => {
+            const item = items[index] as { pictures: string[]; position?: string };
+            expect(text(row.querySelector('[data-part="row-number"]')!)).toBe(String(index + 1));
+            expect(idsOf(row)).toEqual(item.pictures.map((word) => ids.get(word)));
+            const position = item.position === 'last' ? 'last' : 'first';
+            expect(row.getAttribute('data-position')).toBe(position);
+            expect(row.querySelector('[data-part="position-mark"]')!.getAttribute('data-position')).toBe(position);
+            expect(row.querySelectorAll('.picture-box')).toHaveLength(3);
+        });
+        const heads = Array.from(page.querySelectorAll('[data-part="row-group-head"]'));
+        expect(heads.map(text)).toEqual(['Listen. Circle the picture that starts with the sound.', 'Listen. Circle the picture that ends with the sound.']);
+        expect(heads[0].querySelectorAll('[data-part="step-icon"]')).toHaveLength(2);
+        expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
+        expect(text(page.querySelector('[data-part="score-strip"]')!)).toBe('__ / 8');
+        expect(page.querySelectorAll('[data-part="check-write-letter"]'), 'the letter boxes are on page 2').toHaveLength(0);
+    });
+
+    it('U4-bench2: boxes 9 to 15 are numbered and empty, with the listen-and-write head and a score strip for the letters (B22, E43)', async () => {
+        const { doc } = await book();
+        const page = pages(doc)[130];
+        const boxes = Array.from(page.querySelectorAll('[data-part="benchmark-box"]'));
+        expect(boxes).toHaveLength(7);
+        expect(boxes.map((box) => text(box.querySelector('[data-part="row-number"]')!))).toEqual(['9', '10', '11', '12', '13', '14', '15']);
+        for (const box of boxes) expect(text(box.querySelector('[data-part="check-write-letter"]')!)).toBe('');
+        expect(Array.from(page.querySelectorAll('[data-part="row-group-head"]'), text)).toEqual(['Listen. Write.']);
+        expect(text(page.querySelector('[data-part="score-strip"]')!)).toBe('__ / 7');
+        expect(page.querySelectorAll('[data-picture-id]')).toHaveLength(0);
+    });
+
+    it.each([1, 2, 3, 4, 5])('U4-review%i: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)', async (number) => {
+        const { doc } = await book();
+        const week8 = weeks()[7];
+        const ids = await checkRowIds();
+        const page = pages(doc)[131 + number];
+        const day = week8.block!.days[number - 1];
+        const words = day.paper.filter((item) => item.kind === 'circle-word') as { words: string[]; answer: string }[];
+        const sort = day.paper.find((item) => item.kind === 'picture-sort') as { groups: { sound: string; pictures: string[] }[] };
+        const heads = Array.from(page.querySelectorAll('[data-part="row-group-head"]'), text);
+        expect(heads).toEqual(['Find the same word. Circle it.', number === 5 ? 'Circle the picture that starts with the sound.' : 'Circle the pictures that start with the sound.']);
+        // The match rows: the word to find stands at the row start, and the child circles the same word.
+        const matches = Array.from(page.querySelectorAll('[data-part="match-row"]'));
+        expect(matches).toHaveLength(3);
+        matches.forEach((row, index) => {
+            expect(text(row.querySelector('[data-part="match-target"]')!)).toBe(words[index].answer);
+            expect(Array.from(row.querySelectorAll('[data-part="circle-word"]'), text)).toEqual(words[index].words);
+            expect(text(row.querySelector('[data-part="row-number"]')!)).toBe(String(index + 1));
+        });
+        // The picture rows: the sound label starts the row, and the row mixes the pictures of the sound with pictures of other sounds.
+        const rows = Array.from(page.querySelectorAll('[data-part="picture-sort"] [data-part="sound-row"]'));
+        expect(rows).toHaveLength(sort.groups.length);
+        const letterOf = (sound: string): string => sound.replace(/\//g, '');
+        rows.forEach((row, index) => {
+            const group = sort.groups[index];
+            expect(text(row.querySelector('[data-part="sound-label"]')!)).toBe(group.sound);
+            expect(text(row.querySelector('[data-part="row-number"]')!)).toBe(String(3 + index + 1));
+            const printed = idsOf(row);
+            expect(printed).toHaveLength(4);
+            const targets = group.pictures.slice(0, 2).map((word) => ids.get(word)!);
+            for (const target of targets) expect(printed, `row ${index + 1} holds the target`).toContain(target);
+            const wordOf = new Map([...ids.entries()].map(([word, id]) => [id, word]));
+            const others = printed.filter((id) => !targets.includes(id)).map((id) => wordOf.get(id)!);
+            expect(others).toHaveLength(4 - targets.length);
+            for (const other of others) expect(other.startsWith(letterOf(group.sound)), `${other} does not start with ${group.sound}`).toBe(false);
+            for (const target of targets) expect(wordOf.get(target)!.startsWith(letterOf(group.sound))).toBe(true);
+        });
+        const strip = text(page.querySelector('[data-part="score-strip"]')!);
+        expect(strip).toBe(`__ / ${3 + sort.groups.length}`);
+        expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
+    });
+
+    it('U4-label: one label style for a sound in the whole book, /x/ (E42)', () => {
+        const groups = weeks()[7].block!.days.flatMap((day) => day.paper).flatMap((item) => (item.kind === 'picture-sort' ? item.groups : []));
+        expect(groups).toHaveLength(2 + 2 + 2 + 2 + 7);
+        for (const group of groups) expect(group.sound, 'a sound label of a review group').toMatch(/^\/[a-z]\/$/);
+    });
+
+    it('U4-map: the step map names the benchmark and the 5 review pages', async () => {
+        const mod = await import(path.join(printDir, 'step-map.ts')) as { STORYTIME_STEP_MAP: { code: string; pageKind: string; label: string; icons: string[] }[] };
+        const byCode = new Map(mod.STORYTIME_STEP_MAP.map((entry) => [entry.code, entry]));
+        expect(byCode.get('A1')).toMatchObject({ pageKind: 'benchmark', label: 'Benchmark 1' });
+        REVIEW_CODES.forEach((code, index) => expect(byCode.get(code)).toMatchObject({ pageKind: 'review', label: `Review ${index + 1}` }));
+        expect(new Set(mod.STORYTIME_STEP_MAP.map((entry) => entry.code)).size).toBe(mod.STORYTIME_STEP_MAP.length);
+    });
+});
