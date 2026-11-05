@@ -94,6 +94,6 @@ The whole command of each gate runs inside one heavy-run wrapper: `bash ~/Deskto
   - Lint: `checks-lint-final.txt`; passed. PROJECT_CHECKS: `checks-project-checks-final.txt`; passed with 8 packages, one accepted `published` FAIL, 49 warnings, and `tsc --noEmit`.
   - Mutants F1, F2, 62, and 74 were caught; see `checks-mutants-final.txt`.
   - Frame counts before: st2/1–st2/7 = 8, 9, 9, 10, 12, 9, 10. Counts after: 8, 9, 9, 10, 12, 9, 10.
-- [ ] Task (Check): one report-only checker reads the diffs of the two maker tasks against this phase and runs their tests once. Done when: the report has no open error.
+- [~] Task (Check): one report-only checker reads the diffs of the two maker tasks against this phase and runs their tests once. Done when: the report has no open error.
 - [ ] Task: PROJECT_TESTS once at the phase end; add findings 3 and 7 to 14 to `measure/tech-debt.md` with these triggers: findings 7 and 8 (sound labels) must be fixed before the first week that uses x, qu, ee, or th; findings 3 and 9 (the review-strip week; two right answers) must be fixed before any new week after w08 is written; findings 10 to 14 have no trigger (low).
 - [ ] Task: Measure - User Manual Verification 'Phase 8' (Protocol in workflow.md). Owner: the orchestrator.
