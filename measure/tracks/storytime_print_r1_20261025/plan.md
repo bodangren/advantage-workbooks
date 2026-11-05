@@ -931,7 +931,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 
 ## Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)
 
-- [ ] Task (Red): `__tests__/storytime-print-card-kit.test.ts` on the shipped weeks.
+- [~] Task (Red): `__tests__/storytime-print-card-kit.test.ts` on the shipped weeks.
     - The Red author writes the expected card lists by hand from the `materials` of the 8 files. Example: the sound cards of unit 1 are n, a, p, m, s, t, o. A removed materials item in a copy changes the list and fails the test.
     - The letter strip has the 26 letters of `w08.json` `benchmark.oneToOne.letters`, in that order.
     - The sound and symbol cards are A5. The picture cards and the tricky-word cards are A6 (design §8).
