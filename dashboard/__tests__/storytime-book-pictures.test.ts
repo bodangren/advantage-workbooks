@@ -72,6 +72,7 @@ function jpegFiles(folder: string): string[] {
 afterAll(() => scratch.forEach((folder) => fs.rmSync(folder, { recursive: true, force: true })));
 
 describe('Storytime app book pictures', () => {
+    // The case reads the 18 JPEGs of week 1 and their hashes; it took 3.0 to 3.5 s in 4 runs and timed out at the 5 s default once.
     it('sets the 18 app pictures with valid JPEGs and complete provenance', async () => {
         const week = JSON.parse(fs.readFileSync(WEEK_FILE, 'utf8'));
         const pictures = week.books.flatMap((book: any) => [book.cover, ...book.pages.map((page: any) => page.image)]);
@@ -106,7 +107,7 @@ describe('Storytime app book pictures', () => {
         expect(week.meta.status).toBe('published');
         const check = checkBookPictures(week, STORYTIME_ROOT);
         expect(check).toMatchObject({ id: 'book-pictures', status: 'pass' });
-    });
+    }, 20000);
 
     it('fails the picture check when a named file is missing', () => {
         const folder = temp();
