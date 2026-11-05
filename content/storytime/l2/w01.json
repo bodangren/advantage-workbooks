@@ -1308,7 +1308,7 @@
     "title": "Hello, I Am Pip",
     "styleBrief": "Children's classroom hello song for a kindergarten English classroom, young learners, 104 bpm, C major, bright and playful, one warm clear female lead with an American accent, every word slowly and clearly sung, call-and-response chorus where a small group of young singers echo the short lines, acoustic guitar, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 80 seconds long.",
     "bpm": 104,
-    "lyricSheet": "[Verse]\nHello, hello, I am Pip\nHello, hello, I am Nan\nWave your hand and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?\n\n[Verse]\nPoint to me, I am Pip\nPoint to you, you are Nan\nNod your head and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (clap clap)\nHello, I am Nan (clap clap)\nHello, I am, hello, I am\nHello, who are you?",
+    "lyricSheet": "[Verse]\nHello, hello, I am Pip\nHello, hello, I am Nan\nWave your hand and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (Hello, I am Pip!)\nHello, I am Nan (Hello, I am Nan!)\nHello, who are you? (Hello, who are you?)\nHello, who are you?\n\n[Verse]\nPoint to me, I am Pip\nPoint to you, you are Nan\nNod your head and say it too\nHello, I am you\n\n[Chorus]\nHello, I am Pip (Hello, I am Pip!)\nHello, I am Nan (Hello, I am Nan!)\nHello, who are you? (Hello, who are you?)",
     "lines": [
       {
         "text": "Hello, hello, I am Pip",
@@ -4309,13 +4309,16 @@
           "en": {
             "teacherActions": [
               "Children do the check page: circle the picture that starts with n in each row, and write the letter n.",
-              "Collect the books and mark the check."
+              "Collect the books and mark the check.",
+              "While the class does the written rows, the teacher calls one child at a time for row 5 and row 6 and ticks the box when the child is right."
             ],
             "teacherLanguage": [
               "\"Row 1: nest, cat, fish. Which one starts with nnn? Circle it.\"",
               "\"Row 2: dog, nose, bus. Which one starts with nnn? Circle it.\"",
               "\"Row 3: hat, cup, net. Which one starts with nnn? Circle it.\"",
-              "\"Now write the letter n.\""
+              "\"Now write the letter n.\"",
+              "\"Row 5: Read this word: a.\"",
+              "\"Row 6: /n/ /e/ /t/. What is the word?\""
             ],
             "studentActions": [
               "Children circle one picture in each row and write n."
@@ -4343,13 +4346,16 @@
           "th": {
             "teacherActions": [
               "เด็ก ๆ ทำหน้าตรวจสอบ: วงกลมภาพที่ขึ้นต้นด้วย n ในแต่ละแถว และเขียนตัวอักษร n",
-              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"
+              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",
+              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 5 และแถว 6 แล้วขีดถูกเมื่อเด็กทำถูก"
             ],
             "teacherLanguage": [
               "\"แถว 1: nest, cat, fish คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
               "\"แถว 2: dog, nose, bus คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
               "\"แถว 3: hat, cup, net คำไหนขึ้นต้นด้วย nnn? วงกลมไว้\"",
-              "\"ทีนี้เขียนตัวอักษร n\""
+              "\"ทีนี้เขียนตัวอักษร n\"",
+              "\"แถว 5: อ่านคำนี้: a\"",
+              "\"แถว 6: /n/ /e/ /t/. คำนี้คือคำอะไร?\""
             ],
             "studentActions": [
               "เด็ก ๆ วงกลมภาพ 1 ภาพในแต่ละแถว และเขียน n"
@@ -4533,6 +4539,10 @@
     "readAlongUrl": "/th/st/2/1?part=book"
   },
   "print": {
+    "checkRows": {
+      "trickyWord": "a",
+      "blendWord": "net"
+    },
     "letterBox": {
       "letter": "n",
       "formationWords": "Start at the dot. Down. Up. Over the hill. Down.",

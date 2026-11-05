@@ -1409,7 +1409,7 @@
     "title": "I Have Two",
     "styleBrief": "Bouncy classroom action song for a kindergarten English class, 104 bpm, D major, the melody between C4 and C5, playful, one warm clear female lead with an American accent, every word slowly and clearly sung, a small group of young singers sings the chorus with the lead, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 75 seconds long.",
     "bpm": 104,
-    "lyricSheet": "[Verse]\nI have two eyes. Look, look, look!\nI have two ears. Listen, listen!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Verse]\nI have two hands. Clap, clap, clap!\nI have two feet. Stamp, stamp, stamp!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Verse]\nI have two arms. Reach up high!\nI have two legs. Hop, hop, hop!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!",
+    "lyricSheet": "[Verse]\nI have two eyes. Look, look, look!\nI have two ears. Listen, listen!\nI have two eyes. Look, look, look!\nI have two ears. Listen, listen!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Verse]\nI have two hands. Clap, clap, clap!\nI have two feet. Stamp, stamp, stamp!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Verse]\nI have two arms. Reach up high!\nI have two legs. Hop, hop, hop!\n\n[Chorus]\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\nSam, Sam, Sam! Look at me!\nI have two hands and I have two feet!\n\n[Chorus]",
     "lines": [
       {
         "text": "I have two eyes. Look, look, look!",
@@ -4578,7 +4578,8 @@
           "en": {
             "teacherActions": [
               "Children do the check page: in rows 1 to 3, circle the picture that starts with sss; in rows 4 and 5, circle the word that you say. Then they write the letter s and the word \"Sam\".",
-              "Collect the books and mark the check."
+              "Collect the books and mark the check.",
+              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."
             ],
             "teacherLanguage": [
               "\"Row 1: sun, cat, dog. Which one starts with sss? Circle it.\"",
@@ -4586,7 +4587,9 @@
               "\"Row 3: cup, hat, sofa. Which one starts with sss? Circle it.\"",
               "\"Row 4: Pam, Sam, map. Find the word Sam. Circle it.\"",
               "\"Row 5: with, saw, is. Find the word saw. Circle it.\"",
-              "\"Now write the letter s. Then write the word Sam, with a big letter S.\""
+              "\"Now write the letter s. Then write the word Sam, with a big letter S.\"",
+              "\"Row 8: Read this word: off.\"",
+              "\"Row 9: /s/ /a/ /d/. What is the word?\""
             ],
             "studentActions": [
               "Children circle one picture in each of rows 1 to 3 and one word in each of rows 4 and 5, write the letter s, and write \"Sam\"."
@@ -4615,7 +4618,8 @@
           "th": {
             "teacherActions": [
               "เด็ก ๆ ทำหน้าตรวจสอบ: แถว 1 ถึง 3 วงกลมภาพที่ขึ้นต้นด้วย sss แถว 4 และ 5 วงกลมคำที่ครูพูด จากนั้นเขียนตัวอักษร s และคำ \"Sam\"",
-              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"
+              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",
+              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"
             ],
             "teacherLanguage": [
               "\"แถว 1: sun, cat, dog คำไหนขึ้นต้นด้วย sss? วงกลมไว้\"",
@@ -4623,7 +4627,9 @@
               "\"แถว 3: cup, hat, sofa คำไหนขึ้นต้นด้วย sss? วงกลมไว้\"",
               "\"แถว 4: Pam, Sam, map หาคำว่า Sam วงกลมไว้\"",
               "\"แถว 5: with, saw, is หาคำว่า saw วงกลมไว้\"",
-              "\"ทีนี้เขียนตัวอักษร s แล้วเขียนคำ Sam โดยใช้ S ตัวพิมพ์ใหญ่\""
+              "\"ทีนี้เขียนตัวอักษร s แล้วเขียนคำ Sam โดยใช้ S ตัวพิมพ์ใหญ่\"",
+              "\"แถว 8: อ่านคำนี้: off\"",
+              "\"แถว 9: /s/ /a/ /d/. คำนี้คือคำอะไร?\""
             ],
             "studentActions": [
               "เด็ก ๆ วงกลมภาพแถวละ 1 ภาพในแถว 1 ถึง 3 และวงกลมคำแถวละ 1 คำในแถว 4 และ 5 แล้วเขียนตัวอักษร s และเขียน \"Sam\""
@@ -5147,6 +5153,10 @@
     ]
   },
   "print": {
+    "checkRows": {
+      "trickyWord": "off",
+      "blendWord": "sad"
+    },
     "letterBox": {
       "letter": "s",
       "formationWords": "Start at the dot. Round to the left. Then round to the right.",

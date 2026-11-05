@@ -1372,7 +1372,7 @@
     "title": "It Is Red!",
     "styleBrief": "Bright classroom color song for a kindergarten English class, 96 bpm, F major, the melody between C4 and C5, happy and bouncy, one warm clear female lead with an American accent, every word slowly and clearly sung, a small group of young singers sings the chorus with the lead, ukulele, glockenspiel, hand claps, soft upright bass, dry and uncluttered. The song is about 75 seconds long.",
     "bpm": 96,
-    "lyricSheet": "[Verse]\nLook at the apple. It is red!\nLook at the sky. It is blue!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Verse]\nLook at the sun. It is yellow!\nLook at the tree. It is green!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Verse]\nLook at the grape. It is purple!\nLook at the flower. It is pink!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!",
+    "lyricSheet": "[Verse]\nLook at the apple. It is red!\nLook at the sky. It is blue!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Verse]\nLook at the sun. It is yellow!\nLook at the tree. It is green!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Verse]\nLook at the grape. It is purple!\nLook at the flower. It is pink!\n\n[Chorus]\nPaint, paint, paint! What color is it?\nIt is red! It is blue! It is yellow, too!\n\n[Chorus]",
     "lines": [
       {
         "text": "Look at the apple. It is red!",
@@ -4367,7 +4367,8 @@
           "en": {
             "teacherActions": [
               "Children do the check page: in rows 1 to 3, circle the picture that starts with /p/; in rows 4 and 5, circle the word that you say. Then they write the letter p and the word \"pan\".",
-              "Collect the books and mark the check."
+              "Collect the books and mark the check.",
+              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."
             ],
             "teacherLanguage": [
               "\"Row 1: pen, cat, sun. Which one starts with /p/? Circle it.\"",
@@ -4375,7 +4376,9 @@
               "\"Row 3: fish, hat, pencil. Which one starts with /p/? Circle it.\"",
               "\"Row 4: pan, nap, an. Find the word nap. Circle it.\"",
               "\"Row 5: get, the, can. Find the word the. Circle it.\"",
-              "\"Now write the letter p. Then write the word pan.\""
+              "\"Now write the letter p. Then write the word pan.\"",
+              "\"Row 8: Read this word: get.\"",
+              "\"Row 9: /p/ /a/ /n/. What is the word?\""
             ],
             "studentActions": [
               "Children circle one picture in each of rows 1 to 3 and one word in each of rows 4 and 5, write the letter p, and write \"pan\"."
@@ -4404,7 +4407,8 @@
           "th": {
             "teacherActions": [
               "เด็ก ๆ ทำหน้าตรวจสอบ: แถว 1 ถึง 3 วงกลมภาพที่ขึ้นต้นด้วย /p/ แถว 4 และ 5 วงกลมคำที่ครูพูด จากนั้นเขียนตัวอักษร p และคำ \"pan\"",
-              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"
+              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",
+              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"
             ],
             "teacherLanguage": [
               "\"แถว 1: pen, cat, sun คำไหนขึ้นต้นด้วย /p/? วงกลมไว้\"",
@@ -4412,7 +4416,9 @@
               "\"แถว 3: fish, hat, pencil คำไหนขึ้นต้นด้วย /p/? วงกลมไว้\"",
               "\"แถว 4: pan, nap, an หาคำว่า nap วงกลมไว้\"",
               "\"แถว 5: get, the, can หาคำว่า the วงกลมไว้\"",
-              "\"ทีนี้เขียนตัวอักษร p แล้วเขียนคำ pan\""
+              "\"ทีนี้เขียนตัวอักษร p แล้วเขียนคำ pan\"",
+              "\"แถว 8: อ่านคำนี้: get\"",
+              "\"แถว 9: /p/ /a/ /n/. คำนี้คือคำอะไร?\""
             ],
             "studentActions": [
               "เด็ก ๆ วงกลมภาพแถวละ 1 ภาพในแถว 1 ถึง 3 และวงกลมคำแถวละ 1 คำในแถว 4 และ 5 แล้วเขียนตัวอักษร p และเขียน \"pan\""
@@ -4864,6 +4870,10 @@
     ]
   },
   "print": {
+    "checkRows": {
+      "trickyWord": "get",
+      "blendWord": "pan"
+    },
     "letterBox": {
       "letter": "p",
       "formationWords": "Start at the dot. Down, down, below the line. Back up to the top. Round to the right, and back to the stick.",

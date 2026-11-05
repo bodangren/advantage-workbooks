@@ -56,6 +56,25 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['"\\"เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง\\""', '"\\"เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง\\""'],
         ["start at the top, down, up, over the hill, down.", "start at the dot, down, up, over the hill, down."],
         ['(เริ่มที่ด้านบน ลง ขึ้น ข้ามเนิน ลง)', '(เริ่มที่จุด ลง ขึ้น ข้ามเนิน ลง)'],
+    
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "a",\n      "blendWord": "net"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 5 and row 6 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 5 และแถว 6 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter n.\\""\n            ]',
+         '"\\"Now write the letter n.\\"",\n              "\\"Row 5: Read this word: a.\\"",\n              "\\"Row 6: /n/ /e/ /t/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร n\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร n\\"",\n              "\\"แถว 5: อ่านคำนี้: a\\"",\n              "\\"แถว 6: /n/ /e/ /t/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Verse]\\nHello, hello, I am Pip\\nHello, hello, I am Nan\\nWave your hand and say it too\\nHello, I am you\\n\\n[Chorus]\\nHello, I am Pip (clap clap)\\nHello, I am Nan (clap clap)\\nHello, I am, hello, I am\\nHello, who are you?\\n\\n[Verse]\\nPoint to me, I am Pip\\nPoint to you, you are Nan\\nNod your head and say it too\\nHello, I am you\\n\\n[Chorus]\\nHello, I am Pip (clap clap)\\nHello, I am Nan (clap clap)\\nHello, I am, hello, I am\\nHello, who are you?',
+         '[Verse]\\nHello, hello, I am Pip\\nHello, hello, I am Nan\\nWave your hand and say it too\\nHello, I am you\\n\\n[Chorus]\\nHello, I am Pip (Hello, I am Pip!)\\nHello, I am Nan (Hello, I am Nan!)\\nHello, who are you? (Hello, who are you?)\\nHello, who are you?\\n\\n[Verse]\\nPoint to me, I am Pip\\nPoint to you, you are Nan\\nNod your head and say it too\\nHello, I am you\\n\\n[Chorus]\\nHello, I am Pip (Hello, I am Pip!)\\nHello, I am Nan (Hello, I am Nan!)\\nHello, who are you? (Hello, who are you?)'],
     ],
     2: [
         ['"pig",\n          "bed",\n          "alligator"\n        ],\n        "answer": "alligator"', '"pig",\n          "bed",\n          "axe"\n        ],\n        "answer": "axe"'],
@@ -68,6 +87,43 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['จากนั้นนับแอปเปิลในภาพ และลากเส้นตามคำศัพท์ตัวเลขใต้ภาพ: three', 'จากนั้นนับเป็ดในภาพ: three'],
         ['"\\"นับแอปเปิล How many? Three! ลากเส้นตามคำ three\\""', '"\\"นับเป็ด How many? Three!\\""'],
         ['เด็ก ๆ ลากเส้นตามกรอบประโยคและคำศัพท์ตัวเลข', 'เด็ก ๆ ลากเส้นตามกรอบประโยคและนับเป็ด'],
+    
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "I",\n      "blendWord": "cat"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter a. Then write the word an.\\""\n            ]',
+         '"\\"Now write the letter a. Then write the word an.\\"",\n              "\\"Row 8: Read this word: I.\\"",\n              "\\"Row 9: /k/ /a/ /t/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร a แล้วเขียนคำ an\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร a แล้วเขียนคำ an\\"",\n              "\\"แถว 8: อ่านคำนี้: I\\"",\n              "\\"แถว 9: /k/ /a/ /t/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Verse]\\nHow many suns? One sun!\\nHow many kites? Two kites!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Verse]\\nHow many ducks? Three ducks!\\nHow many birds? Four birds!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Verse]\\nHow many balls? Five balls!\\nHow many friends? Six friends!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!',
+         '[Verse]\\nHow many suns? One sun!\\nHow many kites? Two kites!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Verse]\\nHow many ducks? Three ducks!\\nHow many birds? Four birds!\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Verse]\\nHow many balls? Five balls!\\nHow many friends? Six friends! (How many friends? Six friends!)\\n\\n[Chorus]\\nHow many? How many? One, two, three!\\nRed, red apples! Count with me!\\n\\n[Chorus]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['sound picture cards: apple, ant, alligator, astronaut",\n            "picture cards: dog, sun, bus",\n            "picture cards: cat, hat, fan"',
+         'sound picture cards: apple, ant, axe, astronaut",\n            "picture cards: dog, sun, bus",\n            "picture cards: cat, hat, fan"'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"sorting mat: /a/ / not /a/",\n            "sound picture cards: apple, ant, alligator, astronaut",',
+         '"sorting mat: /a/ / not /a/",\n            "sound picture cards: apple, ant, axe, astronaut",'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"group signs",\n            "sound picture cards: apple, ant, alligator, astronaut"\n          ],',
+         '"group signs",\n            "sound picture cards: apple, ant, axe, astronaut"\n          ],'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['apple, ant, alligator, astronaut."',
+         'apple, ant, axe, astronaut."'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['apple, ant, alligator, astronaut"',
+         'apple, ant, axe, astronaut"'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['วางช้อนหรือของเล่นจำนวนหนึ่งบนโต๊ะ แล้วถามบุตรหลานเป็นภาษาอังกฤษว่า \\"How many?\\" ให้บุตรหลานนับเป็นภาษาอังกฤษ: \\"One, two, three. Three!\\" จากนั้นพูด \\"ap, ap, apple\\" และ \\"an, an, ant\\" พร้อมกับบุตรหลาน (ออกเสียง /a/ สั้น ๆ ใกล้กับเสียงสระ แอะ ไม่ใช่ชื่อตัวอักษร \\"เอ\\")',
+         'วางช้อนหรือของเล่นจำนวนหนึ่งบนโต๊ะ แล้วถามบุตรหลานเป็นภาษาอังกฤษว่า \\"How many?\\" ให้บุตรหลานนับเป็นภาษาอังกฤษ: \\"One, two, three. Three!\\" จากนั้นพูด \\"ap, ap, apple\\" และ \\"an, an, ant\\" พร้อมกับบุตรหลาน'],
     ],
     3: [
         ['"pear",\n      "cup"\n', '"pear",\n      "pencil"\n'],
@@ -82,15 +138,107 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['"\\"ทีนี้ระบายสีลูกโป่ง What color is it? (สีอะไร) หาคำนั้นแล้วลากเส้นตาม\\""', '"\\"ทีนี้วาดสิ่งของแล้วระบายสี What color is it? (สีอะไร) หาคำนั้นแล้วลากเส้นตาม\\""'],
         ['เด็ก ๆ ระบายสีลูกโป่ง แล้วหาคำศัพท์สีและลากเส้นตาม', 'เด็ก ๆ วาดสิ่งของ 1 อย่างและระบายสี แล้วหาคำศัพท์สีและลากเส้นตาม'],
         ['ชี้ที่ลูกโป่งแล้วถามว่า', 'ชี้ที่ภาพแล้วถามว่า'],
+    
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "get",\n      "blendWord": "pan"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter p. Then write the word pan.\\""\n            ]',
+         '"\\"Now write the letter p. Then write the word pan.\\"",\n              "\\"Row 8: Read this word: get.\\"",\n              "\\"Row 9: /p/ /a/ /n/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร p แล้วเขียนคำ pan\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร p แล้วเขียนคำ pan\\"",\n              "\\"แถว 8: อ่านคำนี้: get\\"",\n              "\\"แถว 9: /p/ /a/ /n/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Verse]\\nLook at the apple. It is red!\\nLook at the sky. It is blue!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Verse]\\nLook at the sun. It is yellow!\\nLook at the tree. It is green!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Verse]\\nLook at the grape. It is purple!\\nLook at the flower. It is pink!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!',
+         '[Verse]\\nLook at the apple. It is red!\\nLook at the sky. It is blue!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Verse]\\nLook at the sun. It is yellow!\\nLook at the tree. It is green!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Verse]\\nLook at the grape. It is purple!\\nLook at the flower. It is pink!\\n\\n[Chorus]\\nPaint, paint, paint! What color is it?\\nIt is red! It is blue! It is yellow, too!\\n\\n[Chorus]'],
     ],
-    4: [['with me: am. Man.', 'with me: Am. Man.'], ['Read the words: am. Man.', 'Read the words: Am. Man.']],
-    5: [['        "feet",\n        "nose"\n      ]', '        "feet",\n        "one",\n        "nose",\n        "four"\n      ]']],
-    6: [['with me: sat. Mat.', 'with me: Sat. Mat.'], ['Read the words: sat. Mat.', 'Read the words: Sat. Mat.']],
+    4: [['with me: am. Man.', 'with me: Am. Man.'], ['Read the words: am. Man.', 'Read the words: Am. Man.'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "is",\n      "blendWord": "jam"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter m. Then write the word map.\\""\n            ]',
+         '"\\"Now write the letter m. Then write the word map.\\"",\n              "\\"Row 8: Read this word: is.\\"",\n              "\\"Row 9: /j/ /a/ /m/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร m แล้วเขียนคำ map\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร m แล้วเขียนคำ map\\"",\n              "\\"แถว 8: อ่านคำนี้: is\\"",\n              "\\"แถว 9: /j/ /a/ /m/. คำนี้คือคำอะไร?\\""\n            ]'],
+    ],
+    5: [['        "feet",\n        "nose"\n      ]', '        "feet",\n        "one",\n        "nose",\n        "four"\n      ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "off",\n      "blendWord": "sad"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter s. Then write the word Sam, with a big letter S.\\""\n            ]',
+         '"\\"Now write the letter s. Then write the word Sam, with a big letter S.\\"",\n              "\\"Row 8: Read this word: off.\\"",\n              "\\"Row 9: /s/ /a/ /d/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร s แล้วเขียนคำ Sam โดยใช้ S ตัวพิมพ์ใหญ่\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร s แล้วเขียนคำ Sam โดยใช้ S ตัวพิมพ์ใหญ่\\"",\n              "\\"แถว 8: อ่านคำนี้: off\\"",\n              "\\"แถว 9: /s/ /a/ /d/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Verse]\\nI have two eyes. Look, look, look!\\nI have two ears. Listen, listen!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Verse]\\nI have two hands. Clap, clap, clap!\\nI have two feet. Stamp, stamp, stamp!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Verse]\\nI have two arms. Reach up high!\\nI have two legs. Hop, hop, hop!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!',
+         '[Verse]\\nI have two eyes. Look, look, look!\\nI have two ears. Listen, listen!\\nI have two eyes. Look, look, look!\\nI have two ears. Listen, listen!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Verse]\\nI have two hands. Clap, clap, clap!\\nI have two feet. Stamp, stamp, stamp!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Verse]\\nI have two arms. Reach up high!\\nI have two legs. Hop, hop, hop!\\n\\n[Chorus]\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\nSam, Sam, Sam! Look at me!\\nI have two hands and I have two feet!\\n\\n[Chorus]'],
+    ],
+    6: [['with me: sat. Mat.', 'with me: Sat. Mat.'], ['Read the words: sat. Mat.', 'Read the words: Sat. Mat.'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "he",\n      "blendWord": "ten"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter t. Then write the word sat.\\""\n            ]',
+         '"\\"Now write the letter t. Then write the word sat.\\"",\n              "\\"Row 8: Read this word: he.\\"",\n              "\\"Row 9: /t/ /e/ /n/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร t แล้วเขียนคำ sat\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร t แล้วเขียนคำ sat\\"",\n              "\\"แถว 8: อ่านคำนี้: he\\"",\n              "\\"แถว 9: /t/ /e/ /n/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Verse]\\nI can see a cat. Meow, meow!\\nI can see a dog. Woof, woof!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal!\\n\\n[Verse]\\nI can see a bird. Tweet, tweet!\\nI can see a fish. Swim, swim!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal!\\n\\n[Verse]\\nI can see a frog. Hop, hop!\\nI can see a duck. Quack, quack!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal!',
+         '[Verse]\\nI can see a cat. Meow, meow!\\nI can see a dog. Woof, woof!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal! (What can you see? I can see an animal!)\\n\\n[Verse]\\nI can see a bird. Tweet, tweet!\\nI can see a fish. Swim, swim!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal! (What can you see? I can see an animal!)\\n\\n[Verse]\\nI can see a frog. Hop, hop!\\nI can see a duck. Quack, quack!\\n\\n[Chorus]\\nTap, tap, tap! Look and see!\\nWhat can you see? I can see an animal!\\n\\n[Chorus]'],
+    ],
     7: [
         ['"pen",\n          "bus",\n          "olive"\n        ],\n        "answer": "olive"', '"pen",\n          "bus",\n          "ostrich"\n        ],\n        "answer": "ostrich"'],
         ['Row 3: pen, bus, olive. Which', 'Row 3: pen, bus, ostrich. Which'],
         ['แถว 3: pen, bus, olive คำไหน', 'แถว 3: pen, bus, ostrich คำไหน'],
         ['with me: on. Top.', 'with me: On. Top.'], ['Read the words: on. Top.', 'Read the words: On. Top.']
+    ,
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['  "print": {\n    "letterBox": {',
+         '  "print": {\n    "checkRows": {\n      "trickyWord": "from",\n      "blendWord": "pot"\n    },\n    "letterBox": {'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"Collect the books and mark the check."\n            ]',
+         '"Collect the books and mark the check.",\n              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ"\n            ]',
+         '"เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",\n              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"Now write the letter o. Then write the word top.\\""\n            ]',
+         '"\\"Now write the letter o. Then write the word top.\\"",\n              "\\"Row 8: Read this word: from.\\"",\n              "\\"Row 9: /p/ /o/ /t/. What is the word?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['"\\"ทีนี้เขียนตัวอักษร o แล้วเขียนคำ top\\""\n            ]',
+         '"\\"ทีนี้เขียนตัวอักษร o แล้วเขียนคำ top\\"",\n              "\\"แถว 8: อ่านคำนี้: from\\"",\n              "\\"แถว 9: /p/ /o/ /t/. คำนี้คือคำอะไร?\\""\n            ]'],
+        // v15, A-48 part F (PM decisions of 2026-11-05)
+        ['[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a ball? No, no, no!\\nIs it a doll? No, no, no!\\n\\n[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a car? No, no, no!\\nIs it a kite? No, no, no!\\n\\n[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a drum? No, no, no!\\nIs it a train? No, no, no!\\n\\n[Verse]\\nIs it a top? Yes, yes, yes!\\nTop in the box! Yes, yes, yes!',
+         '[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a ball? No, no, no!\\nIs it a doll? No, no, no!\\n\\n[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a car? No, no, no!\\nIs it a kite? No, no, no!\\n\\n[Chorus]\\nLook in the box! Knock, knock, knock!\\nIs it a toy? Yes, yes, yes!\\n\\n[Verse]\\nIs it a drum? No, no, no!\\nIs it a train? No, no, no!\\nIs it a top? Yes, yes, yes!\\nTop in the box!\\n\\n[Verse]'],
     ],
 };
 
