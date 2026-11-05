@@ -244,7 +244,7 @@ describe('the picture match rule on fixtures', () => {
 });
 
 describe('the match report hygiene (Review B, B-P8-6)', () => {
-    it.fails('X-P8-10 a multi-line reason keeps one line per card', () => {
+    it('X-P8-10 a multi-line reason keeps one line per card', () => {
         const check = pictureRow({ id: 'check-cat', use: 'check-row', text: 'cat' });
         const reason = 'Unexpected token \'x\', "obs": [\n  x\n ]\n}" is not valid JSON';
         const lines = storytimeCardPictureMatchLines(
@@ -253,7 +253,7 @@ describe('the match report hygiene (Review B, B-P8-6)', () => {
         expect(lines[0], 'no raw newline in the line').not.toContain('\n');
     });
 
-    it.fails('X-P8-11 a file system reason names no absolute path outside the repo', () => {
+    it('X-P8-11 a file system reason names no absolute path outside the repo', () => {
         const check = pictureRow({ id: 'check-cat', use: 'check-row', text: 'cat' });
         const reason = `symlink ${path.join(os.tmpdir(), 'evil-manifest.json')} does not resolve`;
         const lines = storytimeCardPictureMatchLines(

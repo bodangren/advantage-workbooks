@@ -1,4 +1,6 @@
+import os from 'node:os';
 import { pathToFileURL } from 'node:url';
+import { REPO_ROOT } from '../../lesson-package/files';
 import { singularOf, type StorytimePictureRow } from './pictures';
 import { fontFaceCss } from './print-fonts';
 import type { StorytimeWeek } from '../schema';
@@ -481,10 +483,46 @@ export function storytimeCardPictureMatchLines(
             // apart: a missing row, or a row whose files are not delivered.
             const candidate = cardPictureMatch(card, rows, all).row;
             const reason = candidate
-                ? `none: ${reasons.get(candidate.id) ?? 'files not delivered'}`
+                ? `none: ${matchReason(reasons.get(candidate.id) ?? 'files not delivered')}`
                 : 'none: no row';
             return `${card.kind}\t${card.label}\tnone\t${reason}`;
         });
+}
+
+/** The longest reason clause of the match report, in characters (Review B, B-P8-6). */
+const MATCH_REASON_MAX = 160;
+
+/**
+ * The path masks of the reason column, longest path first, so that a nested path keeps the
+ * shortest name (Review B, B-P8-6). The repo root becomes `<repo>`, the home folder `~`, and the
+ * OS temp folder `<tmp>`.
+ * @returns The source and the replacement of each mask, longest source first.
+ */
+function reasonMasks(): [string, string][] {
+    const masks: [string, string][] = [
+        [REPO_ROOT, '<repo>'],
+        [os.homedir(), '~'],
+        [os.tmpdir(), '<tmp>'],
+    ];
+    return masks
+        .map(([from, to]): [string, string] => [from.replace(/[\\/]+$/, ''), to])
+        .filter(([from]) => from.length > 0)
+        .sort((a, b) => b[0].length - a[0].length);
+}
+
+/**
+ * The reason text of one unmatched card. The report holds one line for each card, so each run of
+ * white space becomes one space, and a line break or a tab never adds a line or a column. The text
+ * names no path outside the repo: a mask of `reasonMasks` replaces each path. A text longer than
+ * `MATCH_REASON_MAX` keeps its first characters and ends with `...` (Review B, B-P8-6).
+ * @param text The bare message of the failed file check.
+ * @returns The one-line, masked, capped reason.
+ */
+function matchReason(text: string): string {
+    let reason = text.replace(/\s+/g, ' ').trim();
+    for (const [from, to] of reasonMasks()) reason = reason.split(from).join(to);
+    if (reason.length > MATCH_REASON_MAX) reason = `${reason.slice(0, MATCH_REASON_MAX - 3)}...`;
+    return reason;
 }
 
 /** The HTML escape of the card text. */

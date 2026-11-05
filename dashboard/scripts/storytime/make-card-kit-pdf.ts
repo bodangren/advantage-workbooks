@@ -251,7 +251,13 @@ async function main(argv: string[]): Promise<number> {
             built.push({ name: part.name, out: part.out, sheets: part.sheets, pages });
         }
     } finally {
-        await browser?.close();
+        // A close error must not skip the temp folder removal (Review B, B-P8-7): the close has
+        // its own try, so the removal below always runs.
+        try {
+            await browser?.close();
+        } catch (error) {
+            console.error(`browser close: ${error instanceof Error ? error.message : String(error)}`);
+        }
         if (tmp) fs.rmSync(tmp, { recursive: true, force: true });
     }
 
