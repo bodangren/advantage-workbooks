@@ -83,9 +83,12 @@ const NON_OBJECT_NOUNS = new Set(['nap']);
 /**
  * The singular of a count noun: a simple final-s rule, enough for the early-decoder words.
  * Words that end in `us` or `ss` keep their form (`bus`, `octopus`), and the irregular
- * plurals of the early-decoder words map to their singular key (`feet` to `foot`).
+ * plurals of the early-decoder words map to their singular key (`feet` to `foot`). The card kit
+ * reads it too, so that a card word matches the object key of a story page (FR-7).
+ * @param word The word, in lower case.
+ * @returns The singular of the word.
  */
-const singularOf = (word: string) => {
+export const singularOf = (word: string) => {
     const irregular: Record<string, string> = { feet: 'foot' };
     if (irregular[word]) return irregular[word];
     if (!word.endsWith('s') || word.endsWith('ss') || word.endsWith('us')) return word;
