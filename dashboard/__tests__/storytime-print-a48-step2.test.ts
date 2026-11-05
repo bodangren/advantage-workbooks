@@ -380,14 +380,14 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
 });
 
 describe('A-48 U5: the home cards (E44, E45, E47)', () => {
-    it('U5-week: each card side names its week, "Week N · สัปดาห์ที่ N", and the cards carry no page number (a tear-out leaf)', async () => {
+    it('U5-week: each card side names its week, "Week N · สัปดาห์ที่ N", and carries its own page number (A-48 part F F1/E50)', async () => {
         const { doc } = await book();
         for (const kind of ['home-front', 'home-back']) {
             const sides = Array.from(doc.querySelectorAll(`.student-page[data-page-kind="${kind}"]`));
             expect(sides).toHaveLength(7);
             sides.forEach((side, index) => {
                 expect(text(side.querySelector('[data-part="home-week"]')!), `${kind} of week ${index + 1}`).toBe(`Week ${index + 1} · สัปดาห์ที่ ${index + 1}`);
-                expect(side.querySelector('[data-part="page-number"]')).toBeNull();
+                expect(text(side.querySelector('[data-part="page-number"]')!), `${kind} of week ${index + 1}`).toBe(side.getAttribute('data-page-number'));
             });
         }
     });

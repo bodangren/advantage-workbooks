@@ -336,12 +336,15 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         const sound = weekPage(doc, 'practice', weekNumber);
         const list = blocks(sound);
         expect(list.map((block) => block.getAttribute('data-step'))).toEqual(['A3', 'A7', 'A6·D2']);
+        // A decodable sound book is a listen-and-read book: the A7 head says "Listen and read" with ear and read (A-48 part F E2).
+        const soundBookReader = week.books.find((book) => book.kind === 'decodable')?.soundBook === true;
         for (const block of list) {
             const entry = steps.STORYTIME_STEP_MAP.find((item) => item.code === block.getAttribute('data-step'))!;
+            const a7Override = soundBookReader && entry.code === 'A7';
             expect(block.getAttribute('data-block')).toBe(entry.block);
             expect(text(onlyPart(block, 'step-badge'))).toBe(entry.code);
-            expect(text(onlyPart(block, 'step-title'))).toBe(entry.label);
-            expect(headIcons(block)).toEqual(entry.icons);
+            expect(text(onlyPart(block, 'step-title'))).toBe(a7Override ? 'Listen and read' : entry.label);
+            expect(headIcons(block)).toEqual(a7Override ? ['ear', 'read'] : entry.icons);
         }
         const box = onlyPart(list[0], 'letter-box');
         const cells = Array.from(box.querySelectorAll('[data-part="letter-cell"]'));
@@ -473,12 +476,14 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
         const steps = await import(stepMapModule) as StepModule;
         const page = weekPage(doc, 'check', weekNumber);
         const items = week.check.items;
+        const checkRows = week.print?.checkRows;
         const entry = steps.STORYTIME_STEP_MAP.find((item) => item.code === 'E5')!;
         expect(text(onlyPart(page, 'step-badge'))).toBe('E5');
         expect(entry.pageKind).toBe('check');
         const rows = Array.from(page.querySelectorAll('[data-part="check-item"]'));
-        expect(rows).toHaveLength(items.length);
-        expect(rows.map((row) => text(onlyPart(row, 'row-number')))).toEqual(items.map((_item, index) => String(index + 1)));
+        expect(rows).toHaveLength(items.length + (checkRows ? 2 : 0));
+        expect(rows.map((row) => text(onlyPart(row, 'row-number'))))
+            .toEqual(items.map((_item, index) => String(index + 1)).concat(checkRows ? [String(items.length + 1), String(items.length + 2)] : []));
         // One head (icons and one short line) before each run of rows of the same label.
         const expected: { label: string; icons: string[]; rows: number }[] = [];
         for (const item of items) {
@@ -486,6 +491,11 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
             const last = expected.at(-1);
             if (last && last.label === type.label) last.rows += 1;
             else expected.push({ label: type.label, icons: type.icons, rows: 1 });
+        }
+        // The 2 teacher-marked rows after the items, each with its own head (A-48 part F G6/B14).
+        if (checkRows) for (const kind of ['read-word', 'oral-blend'] as const) {
+            const type = steps.STORYTIME_CHECK_ROW_TYPES[kind];
+            expected.push({ label: type.label, icons: type.icons, rows: 1 });
         }
         const found: { label: string; icons: string[]; rows: number }[] = [];
         for (const node of Array.from(page.querySelectorAll('[data-part="row-group-head"], [data-part="check-item"]'))) {
@@ -510,7 +520,7 @@ describe.each([1, 2, 3, 4, 5, 6, 7])('A-48: the page templates of week %i', (wee
             expect(text(wordBoxes[0]), 'The write-word item prints no answer (E39).').toBe('');
             expect(wordBoxes[0].closest('[data-part="check-item"]')).not.toBeNull();
         }
-        expect(text(onlyPart(page, 'score-strip'))).toMatch(new RegExp(`/ ${items.length}$`));
+        expect(text(onlyPart(page, 'score-strip'))).toMatch(new RegExp(`/ ${items.length + (checkRows ? 2 : 0)}$`));
         expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct').length).toBe(0);
     });
 
@@ -540,7 +550,7 @@ describe('A-48: the page chrome and the shared look', () => {
         const marked = Array.from(doc.querySelectorAll('.student-page')).filter((page) => page.querySelector('[data-part="page-number"]'));
         // The week 8 pages (the 2 benchmark pages and the 5 reviews) carry a number and a week header too (A-48 U4).
         expect(marked.map((page) => page.getAttribute('data-page-kind'))).toEqual([
-            ...Array.from({ length: 7 }, () => ['practice', 'writing', 'check']).flat(),
+            ...Array.from({ length: 7 }, () => ['practice', 'writing', 'check', 'home-front', 'home-back']).flat(),
             'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review',
         ]);
         for (const page of marked) expect(text(onlyPart(page, 'page-number'))).toBe(page.getAttribute('data-page-number'));

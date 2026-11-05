@@ -23,7 +23,7 @@ export function checkStorytimePrintText(week: StorytimeWeek): PackageCheck[] {
         practiceCapitalCheck(print),
         dictationCheck(print, say('C3'), week),
         writingCheck(print, say('D4'), (steps.get('D4')?.en.teacherActions ?? []).map(unquote)),
-        fridayCheckCheck(print, say('E5'), week.check.items),
+        fridayCheckCheck(print, say('E5'), week),
     ];
 }
 
@@ -256,15 +256,17 @@ function pictureWordCheck(print: StorytimePrintBlock, week: StorytimeWeek): Pack
 
 /**
  * The Friday check against step E5: each circle row of `check.items` is the picture list of the
- * matching "Row n" line of E5, and the write items are the letters and words that E5 says. The
- * print page shows no answer mark; the answers stay in the teacher book (FR-3).
- * @param print The print block (unused today; the check data is `check.items`).
+ * matching "Row n" line of E5, and the write items are the letters and words that E5 says. When
+ * `print.checkRows` is present, E5 also has the "Row N+1" line with the tricky word and the
+ * "Row N+2" line with the sounds of the blend word (A-48 part F G6/B14). The print page shows no
+ * answer mark; the answers stay in the teacher book (FR-3).
+ * @param print The print block, with the optional `checkRows`.
  * @param e5 The unquoted teacher lines of step E5.
- * @param items The check items of the week.
+ * @param week The parsed week; it holds the check items and the A4 blend drill.
  * @returns The check.
  */
-function fridayCheckCheck(print: StorytimePrintBlock, e5: string[], items: StorytimeCheckItem[]): PackageCheck {
-    void print;
+function fridayCheckCheck(print: StorytimePrintBlock, e5: string[], week: StorytimeWeek): PackageCheck {
+    const items = week.check.items;
     const problems: string[] = [];
     if (!e5.length) problems.push('the scripts have no step E5');
     const rows = e5.flatMap((line) => {
@@ -290,5 +292,25 @@ function fridayCheckCheck(print: StorytimePrintBlock, e5: string[], items: Story
             for (const pic of itemPictures(item)) if (!said.includes(` ${stem(pic)} `)) problems.push(`item ${i + 1}: the picture "${pic}" is not in step E5`);
         }
     });
+    const checkRows = print.checkRows;
+    if (checkRows) {
+        const n = items.length;
+        const read = rows.find((r) => r.n === n + 1);
+        if (!read) problems.push(`step E5 has no "Row ${n + 1}" line for the tricky word of the check row`);
+        else if (!read.words.includes(stem(checkRows.trickyWord))) problems.push(`the tricky word "${checkRows.trickyWord}" of the check row is not in the "Row ${n + 1}" line of step E5`);
+        const drill = week.scripts.flatMap((s) => s.steps).find((step) => step.id === 'A4')?.blendDrill;
+        const sounds = drill?.words.find((word) => word.word === checkRows.blendWord)?.sounds ?? [];
+        const blendLine = e5.find((line) => new RegExp(`row\\s+${n + 2}:`, 'i').test(line));
+        if (!blendLine) problems.push(`step E5 has no "Row ${n + 2}" line for the blend word of the check row`);
+        else {
+            const after = blendLine.slice(blendLine.indexOf(':') + 1);
+            let from = 0;
+            for (const sound of sounds) {
+                const at = after.indexOf(sound, from);
+                if (at < 0) problems.push(`the "Row ${n + 2}" line of step E5 does not name the sound ${sound} of "${checkRows.blendWord}" in order`);
+                else from = at + sound.length;
+            }
+        }
+    }
     return check('print-check', 'Friday check: the rows and the written letters of step E5', problems);
 }

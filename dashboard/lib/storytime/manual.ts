@@ -6,6 +6,7 @@ import type { TeacherManualPaper } from '../teacher-manual/types';
 import { storytimeLabels, type StorytimeLabels } from './i18n';
 import type { BiText, StorytimeCheckItem, StorytimeNote, StorytimeStep, StorytimeWeek } from './schema';
 import { STORYTIME_READER_PAGE_OFFSET, storytimeStepEntry } from './print/step-map';
+import { storytimeReviewSoundRows } from './print/review-rows';
 import { storytimeStepPage, type StorytimeBookPage, type StorytimeStepPage } from './print/step-pages';
 
 /**
@@ -277,7 +278,8 @@ function paperItem(item: StorytimeCheckItem, l: StorytimeLabels): string {
         case 'write-word':
             return l.writeWord(item.word);
         case 'picture-sort':
-            return `${l.pictureSort[item.position]}: ${item.groups.map((g) => `${g.sound}: ${g.pictures.join(', ')}`).join('; ')}`;
+            // The key names only the pictures that the student page prints in the row (A-48 part F F3).
+            return `${l.pictureSort[item.position]}: ${storytimeReviewSoundRows(item.groups).map((row) => `${row.sound}: ${row.targets.join(', ')}`).join('; ')}`;
     }
 }
 

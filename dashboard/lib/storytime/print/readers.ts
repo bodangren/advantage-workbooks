@@ -212,8 +212,9 @@ export function storytimeReaderPictureFiles(weeks: StorytimeWeek[], o: Storytime
     return files;
 }
 
-/** The role of a reader and its mark on the cover: listen and read, sound it out, or say the first sound (A-48 B17). */
+/** The role of a reader and its mark on the cover: listen and read, sound it out, or say the first sound (A-48 B17). A decodable sound book is a listen-and-read book (A-48 part F E2). */
 function roleOf(book: StorytimeWeek['books'][number]): { label: string; icons: StorytimeIcon[] } {
+    if (book.soundBook && isDecodable(book)) return { label: 'Listen and read.', icons: ['ear', 'read'] };
     if (book.soundBook) return { label: 'Say the first sound.', icons: ['ear', 'mouth'] };
     if (isDecodable(book)) return { label: 'Sound it out.', icons: ['read', 'mouth'] };
     return { label: 'Listen and read.', icons: ['ear', 'read'] };

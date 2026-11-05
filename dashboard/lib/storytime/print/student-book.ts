@@ -10,6 +10,7 @@ import { iconSvg } from './icons';
 import { LETTER_BOX, LETTER_CELL_MM, LETTER_GUIDE, letterStrokeData } from './letter-strokes';
 import { fontFaceCss } from './print-fonts';
 import { readerFoldLabelsHtml, readerLeafMarkCss, readerPageCss, readerTearOutHtml, storytimeReaderLeafSides } from './readers';
+import { storytimeReviewSoundRows } from './review-rows';
 import type { StorytimePrintProfile } from './profile';
 import { STORYTIME_CHECK_ROW_TYPES, STORYTIME_DAY_KEY, STORYTIME_ICON_KEY, storytimeStep, type StorytimeIcon } from './step-map';
 import { TRACE_LINE, traceLineLayout } from './trace-words';
@@ -152,13 +153,15 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .choice-word .writing-trace { display: block; flex: none; }
 .tricky-row { display: flex; flex-wrap: wrap; gap: 6mm; }
 .tricky-card { border: 0.6mm solid #000; padding: 2mm 7mm; font-size: 24pt; }
-.row-group-head { display: flex; align-items: center; gap: 2mm; margin-top: 5mm; }
-.row-group-head .check-cue { margin-top: 0; font-size: 13pt; }
-.check-item { display: flex; align-items: center; gap: 4mm; margin-top: 3mm; }
+.row-group-head { display: flex; align-items: center; gap: 2mm; margin-top: 2mm; }
+.row-group-head .check-cue { margin-top: 0; font-size: 11pt; }
+.check-item { display: flex; align-items: center; gap: 4mm; margin-top: 2mm; }
 .check-item .check-row { margin-top: 0; gap: 5mm; }
 .check-item .circle-word-row { margin-top: 0; }
-.check-item .check-row .picture-box { width: 32mm; height: 32mm; }
-.check-item .check-write-letter { margin-top: 0; width: 22mm; height: 22mm; }
+/* The 7 items and the 2 teacher-marked rows hold one A4 page (A-48 part F G6): the pictures stay at 26 mm, above the 18 mm minimum. */
+.check-item .check-row .picture-box { width: 26mm; height: 26mm; }
+.check-item .check-write-letter { margin-top: 0; width: 18mm; height: 18mm; }
+.check-item .circle-word { padding: 1mm 4mm; font-size: 16pt; }
 .check-write-word { display: flex; gap: 3mm; }
 .score-strip { position: absolute; right: 14mm; bottom: 17mm; font-size: 12pt; border: 0.4mm solid #000; padding: 1.5mm 4mm; }
 .score-blank { display: inline-block; width: 12mm; border-bottom: 0.4mm solid #000; margin-right: 1mm; }
@@ -183,6 +186,10 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .sound-row .picture-box { width: 26mm; height: 26mm; }
 .review-dense .sound-row { margin-top: 2mm; }
 .review-dense .sound-row .picture-box { width: 17mm; height: 17mm; }
+/* The 2 teacher-marked check rows (A-48 part F G6/B14): the tricky word prints, the blend word does not. */
+.check-read-word { font-size: 20pt; font-weight: 700; min-width: 36mm; text-align: center; }
+.check-oral-blend { display: inline-block; width: 44mm; height: 11mm; border: 0.6mm solid #000; }
+.teacher-tick { display: inline-block; flex: none; width: 10mm; height: 10mm; border: 0.6mm solid #000; margin-left: auto; }
 .match-row.review-dense { margin-top: 1mm; }
 .match-row.review-dense .match-target { padding: 1mm 4mm; font-size: 16pt; }
 .match-row.review-dense .circle-word { padding: 1mm 4mm; font-size: 16pt; }
@@ -305,15 +312,17 @@ const weekLabel = (week: number): string =>
     `<span class="week-label" data-part="week-label">Week ${week} · ${thaiText(`สัปดาห์ที่ ${week}`)}</span>`;
 
 /** The head of a step block: the grey badge with the step code, the icons, and the short title (A-48). */
-function stepHead(code: string): string {
+function stepHead(code: string, icons?: StorytimeIcon[], label?: string): string {
     const entry = storytimeStep(code);
-    return `<div class="step-head"><span class="step-badge" data-part="step-badge" data-step="${esc(entry.code)}">${esc(entry.code)}</span><span class="step-icons">${entry.icons.map((icon) => iconSvg(icon)).join('')}</span><span class="step-title" data-part="step-title">${esc(entry.label)}</span></div>`;
+    const headIcons = icons ?? entry.icons;
+    const headLabel = label ?? entry.label;
+    return `<div class="step-head"><span class="step-badge" data-part="step-badge" data-step="${esc(entry.code)}">${esc(entry.code)}</span><span class="step-icons">${headIcons.map((icon) => iconSvg(icon)).join('')}</span><span class="step-title" data-part="step-title">${esc(headLabel)}</span></div>`;
 }
 
-/** A framed step block of the step map: the head, then the content. */
-function stepBlock(code: string, content: string): string {
+/** A framed step block of the step map: the head, then the content. An override changes only the icons and the title of the head; the code and the block stay (A-48 part F E2). */
+function stepBlock(code: string, content: string, head?: { icons?: StorytimeIcon[]; label?: string }): string {
     const entry = storytimeStep(code);
-    return `<div class="step-block" data-part="step-block" data-step="${esc(entry.code)}" data-block="${esc(entry.block)}">${stepHead(code)}${content}</div>`;
+    return `<div class="step-block" data-part="step-block" data-step="${esc(entry.code)}" data-block="${esc(entry.block)}">${stepHead(code, head?.icons, head?.label)}${content}</div>`;
 }
 
 /** The numbered start of a row: the row number, the row icons, and the one short line (A-48). */
@@ -407,11 +416,15 @@ function practicePage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Story
 </div>
 <p class="formation-words" data-part="formation-words">${esc(box.formationWords)}</p>
 </div>`;
+    // A decodable sound book is a listen-and-read book (A-48 part F E2): the A7 head of the week
+    // says "Listen and read" with ear and read. The step map entry A7 still pins "Read it" for
+    // step-print and the teacher book.
+    const soundBookReader = week.books.find((book) => book.kind === 'decodable')?.soundBook === true;
     const body = `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">The sound ${esc(week.focus.element?.sound ?? '')}</h2></div>
 ${stepBlock('A3', formation)}
 ${stepBlock('A7', `<div class="practice-sheet" data-part="practice-sheet">
 ${lines.join('\n')}
-</div>`)}
+</div>`, soundBookReader ? { icons: ['ear', 'read'], label: 'Listen and read' } : undefined)}
 ${stepBlock('A6·D2', `<div class="tricky-row" data-part="tricky-row">${week.focus.trickyWords.map((word) => `<span class="tricky-card" data-part="tricky-card">${esc(word)}</span>`).join('')}</div>`)}`;
     return { kind: 'practice', body, numbered: true };
 }
@@ -492,6 +505,15 @@ ${stepBlock('D4', d4)}`;
  */
 function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const items = week.check.items;
+    const checkRows = week.print?.checkRows;
+    if (checkRows) {
+        // The 2 teacher-marked rows must name words of the week (A-48 part F G6/B14).
+        if (!week.focus.trickyWords.includes(checkRows.trickyWord))
+            throw new Error(`the check row tricky word "${checkRows.trickyWord}" of week ${week.meta.week} is not in focus.trickyWords`);
+        const drill = week.scripts.flatMap((s) => s.steps).find((step) => step.id === 'A4')?.blendDrill;
+        if (!drill?.words.some((word) => word.word === checkRows.blendWord))
+            throw new Error(`the check row blend word "${checkRows.blendWord}" of week ${week.meta.week} is not a word of the A4 blend drill`);
+    }
     const rowByName = new Map(rows.filter((r) => r.use === 'check-row').map((r) => [r.text, r]));
     const pictureHtml = (word: string): string => {
         const row = rowByName.get(word);
@@ -513,13 +535,23 @@ function checkPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storytim
         lastLabel = type.label;
         return `${head}<div class="check-item" data-part="check-item"><span class="row-number" data-part="row-number">${index + 1}</span>${content(item)}</div>`;
     }).join('\n');
+    // The 2 teacher-marked rows after the items (A-48 part F G6/B14): the teacher reads the tricky
+    // word (row N+1) and says the sounds of the blend word (row N+2) with one child at a time, and
+    // ticks the box when the child is right. The blend word never prints.
+    const extraRows = checkRows
+        ? `${groupHead(STORYTIME_CHECK_ROW_TYPES['read-word'].icons, STORYTIME_CHECK_ROW_TYPES['read-word'].label)}
+<div class="check-item" data-part="check-item"><span class="row-number" data-part="row-number">${items.length + 1}</span><span class="check-read-word" data-part="check-read-word">${esc(checkRows.trickyWord)}</span><span class="teacher-tick" data-part="teacher-tick" data-student-work></span></div>
+${groupHead(STORYTIME_CHECK_ROW_TYPES['oral-blend'].icons, STORYTIME_CHECK_ROW_TYPES['oral-blend'].label)}
+<div class="check-item" data-part="check-item"><span class="row-number" data-part="row-number">${items.length + 2}</span><span class="check-oral-blend" data-part="check-oral-blend" data-student-work></span><span class="teacher-tick" data-part="teacher-tick" data-student-work></span></div>`
+        : '';
     const entry = storytimeStep('E5');
     return {
         kind: 'check',
         numbered: true,
         body: `<div class="page-head">${weekLabel(week.meta.week)}<h2 class="page-title">Week ${week.meta.week} check</h2><span class="step-badge" data-part="step-badge" data-step="${entry.code}">${entry.code}</span></div>
 ${body}
-<div class="score-strip" data-part="score-strip"><span class="score-blank"></span> / ${items.length}</div>`,
+${extraRows}
+<div class="score-strip" data-part="score-strip"><span class="score-blank"></span> / ${items.length + (checkRows ? 2 : 0)}</div>`,
     };
 }
 
@@ -595,8 +627,9 @@ function benchmarkPages(week: StorytimeWeek, rows: StorytimePictureRow[], o: Sto
  * One review page (a paper center of week 8, B20, B21, E41): the match rows, where the word to find stands at the
  * row start and the child circles the same word, then one picture row for each sound, where the sound label starts
  * the row and the child circles the pictures that start with it. A row holds 4 pictures: the first 2 of the sound
- * (or the one picture of a single-picture group) and pictures of the other sounds. A child can do each row alone,
- * with no teacher voice.
+ * (or the one picture of a single-picture group) and pictures of the other sounds. The selection rule lives in
+ * `storytimeReviewSoundRows` of `review-rows.ts` (A-48 part F F3), so the answer key of the manual names the same
+ * pictures. A child can do each row alone, with no teacher voice.
  */
 function reviewPage(week: StorytimeWeek, dayIndex: number, rows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
     const day = week.block!.days[dayIndex];
@@ -612,16 +645,8 @@ function reviewPage(week: StorytimeWeek, dayIndex: number, rows: StorytimePictur
     const matchRows = itemsOfKind(day.paper, 'circle-word').map((item) =>
         `<div class="match-row${matchDense}" data-part="match-row"><span class="row-number" data-part="row-number">${++number}</span><span class="match-target" data-part="match-target">${esc(item.answer)}</span><span class="match-choices">${item.words.map((word) => `<span class="circle-word" data-part="circle-word">${esc(word)}</span>`).join('')}</span></div>`).join('\n');
     const targetCount = Math.min(2, ...groups.map((group) => group.pictures.length));
-    const soundRows = groups.map((group, index) => {
-        const targets = group.pictures.slice(0, targetCount);
-        const pool = Array.from({ length: groups.length - 1 }, (_value, step) => groups[(index + step + 1) % groups.length].pictures).flat();
-        const others = pool.slice(0, 4 - targets.length);
-        const places = targets.length === 2 ? (index % 2 === 0 ? [0, 3] : [1, 2]) : [index % 4];
-        const printed: string[] = [];
-        let next = 0;
-        for (let place = 0; place < 4; place++) printed.push(places.includes(place) ? targets[places.indexOf(place)] : others[next++]);
-        return `<div class="sound-row" data-part="sound-row"><span class="row-number" data-part="row-number">${++number}</span><span class="sound-label" data-part="sound-label">${esc(group.sound)}</span><span class="sound-pictures">${printed.map(pictureHtml).join('')}</span></div>`;
-    }).join('\n');
+    const soundRows = storytimeReviewSoundRows(groups).map((row) =>
+        `<div class="sound-row" data-part="sound-row"><span class="row-number" data-part="row-number">${++number}</span><span class="sound-label" data-part="sound-label">${esc(row.sound)}</span><span class="sound-pictures">${row.printed.map(pictureHtml).join('')}</span></div>`).join('\n');
     const code = storytimeStep(['A2', 'B1', 'C1', 'D1', 'E1'][dayIndex]).code;
     const dense = groups.length > 2 ? ' review-dense' : '';
     const sortHead = groupHead(['read', 'circle'], targetCount === 1 ? 'Circle the picture that starts with the sound.' : 'Circle the pictures that start with the sound.');
@@ -692,8 +717,8 @@ ${weekLine}
 <p class="home-activity" data-part="home-activity">${esc(home.activity.en)}</p>
 <div class="song-lines">${songLines}</div>`;
     return [
-        { kind: 'home-front', body: front },
-        { kind: 'home-back', body: back },
+        { kind: 'home-front', body: front, numbered: true },
+        { kind: 'home-back', body: back, numbered: true },
     ];
 }
 

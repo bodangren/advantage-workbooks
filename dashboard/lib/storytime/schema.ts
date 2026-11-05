@@ -231,8 +231,8 @@ export const SongSchema = z.object({
     bpm: z.number().int().min(60).max(160).optional(),
     /**
      * The lyric exactly as the music model gets it: `[intro]`, `[verse]`, `[chorus]`, `[outro]` tags
-     * on their own lines. Its other lines are `lines`, in order; a part in parentheses can differ,
-     * because `lines` hold the words as sung (an echo where the sheet says "(clap clap)").
+     * on their own lines. The lines of the sheet without the `[tag]` lines are the sung text of
+     * `lines`, exactly and in order (A-48 part F E48).
      */
     lyricSheet: z.string().default(''),
     /** Every line as it is sung, the repeated chorus lines too. */
@@ -627,6 +627,14 @@ export const StorytimePrintBlockSchema = z
                 promptAction: z.enum(['look', 'color', 'draw']).optional(),
             })
             .strict(),
+        /**
+         * The 2 teacher-marked rows after the check items (A-48 part F G6/B14): the tricky word that
+         * the teacher shows for the child to read (row N+1), and the blend word that the teacher
+         * sounds out for the child to say (row N+2). The build checks both words against the week
+         * data: the tricky word sits in `focus.trickyWords`, and the blend word is a word of the
+         * A4 blend drill.
+         */
+        checkRows: z.object({ trickyWord: z.string().min(1), blendWord: z.string().min(1) }).strict().optional(),
     })
     .strict();
 

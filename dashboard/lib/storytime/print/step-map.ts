@@ -77,6 +77,9 @@ export const STORYTIME_CHECK_ROW_TYPES: Readonly<Record<string, { icons: Storyti
     'circle-word': { icons: ['read', 'circle'], label: 'Circle the word.' },
     'write-letter': { icons: ['ear', 'pencil'], label: 'Listen. Write.' },
     'write-word': { icons: ['ear', 'pencil'], label: 'Listen. Write.' },
+    // The 2 teacher-marked rows after the check items (A-48 part F G6/B14): the tricky word to read, and the blend word the child says.
+    'read-word': { icons: ['read', 'mouth'], label: 'Read the word.' },
+    'oral-blend': { icons: ['ear', 'mouth'], label: 'Listen. Say the word.' },
 };
 
 /** The icon key of page 1: each icon with its short English line and its Thai word (the teacher key; Daniel checks the Thai). */
