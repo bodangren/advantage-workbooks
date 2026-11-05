@@ -931,11 +931,35 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 
 ## Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)
 
-- [~] Task (Red): `__tests__/storytime-print-card-kit.test.ts` on the shipped weeks.
+- [x] Task (Red): `__tests__/storytime-print-card-kit.test.ts` on the shipped weeks. commit 284944cf. Evidence: automated.
     - The Red author writes the expected card lists by hand from the `materials` of the 8 files. Example: the sound cards of unit 1 are n, a, p, m, s, t, o. A removed materials item in a copy changes the list and fails the test.
     - The letter strip has the 26 letters of `w08.json` `benchmark.oneToOne.letters`, in that order.
     - The sound and symbol cards are A5. The picture cards and the tricky-word cards are A6 (design §8).
     - The sticker sheet has 8 stickers: the 7 decodable covers and unit 1.
+    - Scope note (PM, 2026-11-05): Daniel approved the week 1 proof, so the card kit covers all 8 weeks (w01 to w08.json), not only week 1. The test loads the 8 shipped week files.
+    - Red result: the Red gate exited 1. The new file holds 11 failed tests. Each failure sits inside a test body. Each error names the missing module `lib/storytime/print/card-kit.ts`. The other 30 print test files pass with 731 tests. Log: `measure/runs/storytime_print_r1_20261025/red-p8-cardkit-709dd19c-red2.txt`.
+    - The first run (`red-p8-cardkit-709dd19c-red.txt`) holds one failure outside this file. The test `storytime-print-v15.test.ts` "AX-lines" read a working-tree copy of `w02.json` of another session. That session moved the line pins in commit `dce7e4d6`. The second run passes.
+    - ESLint on the new file: exit 0. Log: `measure/runs/storytime_print_r1_20261025/red-p8-cardkit-709dd19c-lint.txt`. `npx tsc --noEmit`: exit 0. Log: `measure/runs/storytime_print_r1_20261025/red-p8-cardkit-709dd19c-tsc.txt`. The tsc run waited over 600 s for the heavy lock. The holder was the `PROJECT_TESTS` run of another session.
+    - The module that the Green task makes, `dashboard/lib/storytime/print/card-kit.ts`, exports these names and signatures:
+        - `storytimeCardKit(weeks: StorytimeWeek[]): StorytimeCardKit`. The function is pure. It reads the weeks only.
+        - `storytimeCardSize(kind: StorytimeCardKind): 'A5' | 'A6'`.
+        - `storytimeCardPagePlan(cards: StorytimeCard[], size: 'A5' | 'A6'): StorytimeCardPagePlan`.
+        - `STORYTIME_CARD_KIT_SPEC: { gsm: number; stickerDiameterMm: number; sheetMm: { widthMm: number; heightMm: number } }`.
+        - The types `StorytimeCardKind`, `StorytimeCard`, `StorytimeKitItem`, `StorytimeCardKit`, `StorytimeCardPagePlan`.
+    - The card list contract. The Red author decides the parts that the plan leaves open. Daniel checks them on the proof.
+        - `StorytimeCardKit` holds `cards: StorytimeCard[]`, `items: StorytimeKitItem[]`, and `letterStrip: string[]`.
+        - `StorytimeCard` holds `kind`, `label`, and `size`.
+        - `StorytimeKitItem` holds `kind`, `label`, and `week`. The kinds are workmat, sorting-mat, word-wall, and sticker.
+        - The card kinds are sound, symbol, picture, sound-picture, family-picture, tricky-word, word, frame, and letter.
+        - The order of a kind: the sound cards and the letter cards stand in the unit teaching order n, a, p, m, s, t, o. Every other kind stands in the order of the week that first names the item. Inside that week the order of the materials line holds.
+        - The frame cards are the sentence frames of the 7 teaching weeks (`focus.frame`).
+        - The workmats are one for each teaching week. The review week reuses them.
+        - The word wall cards and the sorting mats come from the materials lines of the 7 teaching weeks.
+        - The label of a sticker drops the quotes of the materials line.
+        - The sizes: the sound, symbol, letter, and frame cards are A5. The picture, sound-picture, family-picture, tricky-word, and word cards are A6. The plan names only the sound, symbol, picture, and tricky-word cards. The other sizes are a Red default.
+        - The n-up plan: the A5 sheet is A4 landscape (297 × 210 mm) and holds 2 cards. The A6 sheet is A4 portrait (210 × 297 mm) and holds 4 cards. Unit 1 holds 21 A5 cards (11 sheets) and 143 A6 cards (36 sheets). The sheet orientation and the n-up counts are a Red default.
+        - The cut lines and the PDF/X files stay with the print gate and the person cut check. This test does not check them.
+    - The card counts of unit 1: 7 sound cards, 25 picture cards, 29 sound picture cards, 52 family picture cards, 19 tricky-word cards, 18 word cards, 7 letter cards, 7 frame cards, and 0 symbol cards. The kit holds 7 workmats, 7 sorting mats, 7 word wall cards, 8 stickers, and a letter strip of 26 letters.
 - [ ] Task (Green): `lib/storytime/print/card-kit.ts` and `scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks <list>`: cards n-up on A4 with cut lines, one print file for each card size. The classroom language card only after Daniel gives its text (spec P9). Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass.
 - [b] Task (Later, after release 1): center cards for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
 - [b] Task (Later, after release 1): group signs for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
