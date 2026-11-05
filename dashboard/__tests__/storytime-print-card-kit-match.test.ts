@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { REPO_ROOT } from '../lib/lesson-package/files';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { resolveStorytimePictureFiles } from '../lib/storytime/print/picture-check';
@@ -26,6 +27,9 @@ import {
  *    match, the singular rule, the delivered-file rule, and the counts of the shipped weeks.
  * 2. The HTML escape of a hostile label in a card, a sticker, and the document title.
  * 3. The sticker line that mixes a quoted name and an unquoted name.
+ * 4. The mask and cap rules of the reason column of the match report (Review B, B-P8-8 and
+ *    B-P8-9): the three roots, the resolved path of a root, the nested order, the cap, a tab, a CR,
+ *    ESC, NUL, DEL, and one character of the C1 range.
  *
  * Every count below is written by hand. The shipped counts come from the Green build log of
  * 2026-11-06: 106 picture-type cards, 57 matched, 49 with no match; 94 distinct words, 46
@@ -209,7 +213,87 @@ describe('the HTML escape of a hostile label (Review B, B-P8-5)', () => {
     });
 });
 
+describe('the mask and cap rules of the reason column (Review B, B-P8-8, B-P8-9)', () => {
+    /** The row that the card `yacht` matches, so that the reason column is used. */
+    const row = pictureRow({ id: 'check-yacht', use: 'check-row', text: 'yacht' });
+
+    /** The whole line of one card whose matching row carries a failed file check. */
+    function reasonLine(message: string): string {
+        return storytimeCardPictureMatchLines([card('yacht')], [row], new Set(), new Map([[row.id, message]]))[0];
+    }
+
+    /** The reason clause after the `none: ` prefix. A tab would add a field, so the count is checked. */
+    function reasonText(message: string): string {
+        const fields = reasonLine(message).split('\t');
+        expect(fields, 'four fields: a tab in the reason would make more').toHaveLength(4);
+        expect(fields[3], 'the fourth field names the reason').toMatch(/^none: /);
+        return fields[3].slice('none: '.length);
+    }
+
+    it('G-P8-R1 a path under the repo root reads <repo>', () => {
+        const file = path.join(REPO_ROOT, 'content', 'storytime', 'l2', 'print', 'pictures', 'check-yacht-v1.png');
+        expect(reasonText(`picture missing: ${file}`), 'the repo-root mask')
+            .toBe('picture missing: <repo>/content/storytime/l2/print/pictures/check-yacht-v1.png');
+    });
+
+    it('G-P8-R2 a path under the home folder and outside the repo reads ~', () => {
+        const file = path.join(os.homedir(), 'Desktop', 'print-ready', 'x.png');
+        expect(file.startsWith(`${REPO_ROOT}${path.sep}`), 'the fixture sits outside the repo').toBe(false);
+        expect(reasonText(`cannot open ${file}`), 'the home mask').toBe('cannot open ~/Desktop/print-ready/x.png');
+    });
+
+    it('G-P8-R3 the repo root keeps <repo> when the repo sits under the home folder', () => {
+        // The premise of the case: a home-folder path also starts the repo root, so the order decides.
+        expect(REPO_ROOT.startsWith(`${os.homedir()}${path.sep}`), 'the repo sits under the home folder').toBe(true);
+        expect(reasonText(`cannot open ${REPO_ROOT}`), 'the nested order keeps <repo>').toBe('cannot open <repo>');
+    });
+
+    it('G-P8-R4 a resolved root path is masked too, so a symbolic-link home keeps ~', () => {
+        const root = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-p8-r5-'));
+        const home = process.env.HOME;
+        try {
+            const target = path.join(root, 'home');
+            const link = path.join(root, 'link');
+            fs.mkdirSync(target);
+            fs.symlinkSync(target, link);
+            process.env.HOME = link;
+            expect(os.homedir(), 'the home folder is the link').toBe(link);
+            // The reason names the resolved path, which the plain mask can not see.
+            expect(reasonText(`cannot open ${path.join(target, 'x.png')}`), 'the resolved home path')
+                .toBe('cannot open ~/x.png');
+        } finally {
+            process.env.HOME = home;
+            fs.rmSync(root, { recursive: true, force: true });
+        }
+    });
+
+    it('G-P8-R5 the cap gives 160 characters that end with ... and a 160-character reason stays whole', () => {
+        const capped = reasonText('a'.repeat(161));
+        expect(capped, 'the capped reason').toHaveLength(160);
+        expect(capped.endsWith('...'), 'the tail of a capped reason').toBe(true);
+        expect(capped.slice(0, 157), 'the kept first characters').toBe('a'.repeat(157));
+        expect(reasonText('b'.repeat(160)), 'a reason at the cap stays whole').toBe('b'.repeat(160));
+    });
+
+    it('G-P8-R6 a tab and a CR give one line', () => {
+        const line = reasonLine('a\tb\rc');
+        expect(line, 'no line break in the line').not.toContain('\n');
+        expect(line.split('\t'), 'four fields, so no tab survives').toHaveLength(4);
+        expect(line.endsWith('none: a b c'), 'the tab and the CR become one space each').toBe(true);
+    });
+
+    it('G-P8-R7 ESC, NUL, DEL, and a C1 character are removed', () => {
+        const text = reasonText('bad \u001b[2J\u0000\u007f\u0085 name');
+        for (const character of ['\u001b', '\u0000', '\u007f', '\u0085']) {
+            expect(text, `the control character U+${character.codePointAt(0)?.toString(16)} is gone`)
+                .not.toContain(character);
+        }
+        expect(text, 'the printable text stays').toBe('bad [2J name');
+    });
+});
+
 describe('the sticker materials line (Review C, C-P8-2)', () => {
+
     it('G-P8-S1 a line with one quoted name and one unquoted name keeps both stickers', () => {
         const root = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-p8-r3-'));
         try {

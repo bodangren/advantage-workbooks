@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import os from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { REPO_ROOT } from '../../lesson-package/files';
@@ -495,31 +496,44 @@ const MATCH_REASON_MAX = 160;
 /**
  * The path masks of the reason column, longest path first, so that a nested path keeps the
  * shortest name (Review B, B-P8-6). The repo root becomes `<repo>`, the home folder `~`, and the
- * OS temp folder `<tmp>`.
+ * OS temp folder `<tmp>`. Each root also stands as its resolved path when a symbolic link gives a
+ * different one, so a reason that names the resolved path is masked too (Review B, B-P8-8). A root
+ * whose resolved path equals the plain path, or does not resolve, adds no mask.
  * @returns The source and the replacement of each mask, longest source first.
  */
 function reasonMasks(): [string, string][] {
-    const masks: [string, string][] = [
+    const roots: [string, string][] = [
         [REPO_ROOT, '<repo>'],
         [os.homedir(), '~'],
         [os.tmpdir(), '<tmp>'],
     ];
+    const masks = roots.map(([from, to]): [string, string] => [from.replace(/[\\/]+$/, ''), to]);
+    for (const [from, to] of [...masks]) {
+        let resolved: string;
+        try {
+            resolved = fs.realpathSync(from).replace(/[\\/]+$/, '');
+        } catch {
+            continue; // A root that does not resolve keeps its plain mask only.
+        }
+        if (resolved.length > 0 && !masks.some(([known]) => known === resolved)) masks.push([resolved, to]);
+    }
     return masks
-        .map(([from, to]): [string, string] => [from.replace(/[\\/]+$/, ''), to])
         .filter(([from]) => from.length > 0)
         .sort((a, b) => b[0].length - a[0].length);
 }
 
 /**
  * The reason text of one unmatched card. The report holds one line for each card, so each run of
- * white space becomes one space, and a line break or a tab never adds a line or a column. The text
- * names no path outside the repo: a mask of `reasonMasks` replaces each path. A text longer than
- * `MATCH_REASON_MAX` keeps its first characters and ends with `...` (Review B, B-P8-6).
+ * white space and of the control characters (C0, DEL, C1) becomes one space: a line break, a tab,
+ * or a terminal escape of a file name never reaches the reader (Review B, B-P8-6, B-P8-8). A mask
+ * of `reasonMasks` then replaces each of the three roots and their resolved paths. A path outside
+ * those roots stays in the reason, because the report is a local file that holds no secret. A text
+ * longer than `MATCH_REASON_MAX` keeps its first characters and ends with `...`.
  * @param text The bare message of the failed file check.
  * @returns The one-line, masked, capped reason.
  */
 function matchReason(text: string): string {
-    let reason = text.replace(/\s+/g, ' ').trim();
+    let reason = text.replace(/[\s\u0000-\u001f\u007f-\u009f]+/g, ' ').trim();
     for (const [from, to] of reasonMasks()) reason = reason.split(from).join(to);
     if (reason.length > MATCH_REASON_MAX) reason = `${reason.slice(0, MATCH_REASON_MAX - 3)}...`;
     return reason;
