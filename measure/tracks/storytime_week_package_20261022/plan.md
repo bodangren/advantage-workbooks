@@ -164,6 +164,13 @@ The whole command of each gate runs inside one heavy-run wrapper: `bash ~/Deskto
   - The gates: GREEN `p9-w01-green.txt` exit 0, 3 files and 137 tests, and `p9-w01-green2.txt` exit 0, 1 file and 9 tests. PROJECT_CHECKS `p9-w01-checks.txt` exit 0: 8 packages, 0 FAIL, 1 warning, and `tsc --noEmit` passed.
   - After the commit, the week 1 case leaves `git status --porcelain -- content/storytime/l2/media/w01` empty.
 - [ ] Task (Hand-off): the 6 folders by E5; one line to the PM. Done when: the PM confirms each folder (peer-report).
+  - The maker built 7 folders from the commit `c18f1833` (the last commit): `w02-storytime-app-package` to `w07-storytime-app-package` by E5, and `w01-storytime-app-package-r2` by the same rules, because the week 1 scripts changed.
+  - The file counts (the payload files and the manifest): w01 r2 44 and 45, w02 43 and 44, w03 42 and 43, w04 38 and 39, w05 44 and 45, w06 41 and 42, w07 42 and 43.
+  - The checks: `sha256sum -c MANIFEST.txt` exits 0 in each folder and every payload file is OK. The week file of each folder is byte-equal to `git show c18f1833:content/storytime/l2/w<nn>.json`. Every path matches `[A-Za-z0-9._/-]`. Evidence: `p9-handoff-check.txt`.
+  - Each folder holds the week file, every media file that it names, and the provenance file `l2/media/w0N/books/pictures.sha256`. The Monorepo reads the week file and the files that it names, so the extra file is safe.
+  - The MANIFEST of the w01 r2 folder holds the section "Changed since w01-storytime-app-package" with 7 files: w01.json, the 5 JPEGs of the v15 art, and pictures.sha256. The old SHA-256 comes from the MANIFEST of the first w01 folder.
+  - The file `l2/media/w01/song-phone-poster.jpg` is a local file and is not in git. The first w01 folder holds it too. The maker copied it from the content root.
+  - The maker sent one line to the PM session (ses_e8f5ca9c0ffeZdhl9xLl1ytCGV) with the 7 folder paths and the commit. The task stays open until the PM confirms.
 - [x] Task (Owner record): the maker does this inside the maker flow, before the hand-off task. One commit after the picture content commit sets `approval.images` of `content/storytime/l2/w02.json` to `w07.json` by E3. Evidence: owner-approved (PM relay).
   - Commit `da35fad9` sets `approval.images` of w02 to w07. The status is "approved" and the date is "2026-11-05". The words are `"Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)`. The source is `PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; PM relay of 2026-11-05 (owner answer on proof v15, Tasks id bmh2b1hqTFNCVEpDNks4VQ)`. The record names no person.
   - `meta.status` stays "draft". The approvals of audio, song and scripts stay draft. The commit holds the change of the contract-v2 pin with it.
