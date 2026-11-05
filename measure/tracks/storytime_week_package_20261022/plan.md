@@ -71,7 +71,7 @@ The whole command of each gate runs inside one heavy-run wrapper: `bash ~/Deskto
   - Evidence: automated plus person-checked by the orchestrator. Phase 7 GREEN_TEST_COMMAND at HEAD `258e9bbe`: exit 0, 5 test files, 143 tests (`measure/runs/storytime_week_package_20261022/p7-umv-green.txt`). Scope: commits `4cefdf60`, `ae7ef1c0`, `cf30bb2e`; each code file has a test file (`set-book-pictures.ts` and `check-weeks.ts` in `storytime-book-pictures.test.ts`). The test run rewrote 6 tracked week 1 web files; I saved them in `measure/runs/storytime_print_r1_20261025/a48-v14-w01-web-media-2/` and restored them.
   - Owner (Workbooks orchestrator) confirmation, 2026-11-05: yes. Basis: task 64 contact sheet (18 of 18 match, person-checked 2026-11-04), task 66 PM acceptance and the Monorepo take 9c9667917 (43 of 43), and the Phase 7 Green gate at HEAD.
 
-## Phase 8: Fixes from the cloud review of 2026-11-03 (2026-11-04 to 2026-11-06)
+## Phase 8: Fixes from the cloud review of 2026-11-03 (2026-11-04 to 2026-11-06) [checkpoint: df98fbc]
 
 PM 2026-11-03: light lane: one maker, one checker; tests: only the test files that a task changes; PROJECT_TESTS once at the phase end. Source: /home/daniebo/Desktop/handoff/cloud-wb-reports-1103/wb-storytime-checks-review.md (findings) and wb-storytime-checks-mutants.md (mutants 62 and 74), base cc7808c5. Finding 4 is in Phase 7. Finding 5 is by design (PM 2026-11-03): the sound game replaces the calendar (content/storytime/README.md line 15, i18n.ts line 41, schema.ts line 653; Storytime 2026-10-22); the opening stays 6 minutes. Findings 3 and 7 to 14 are not in this phase; they go to measure/tech-debt.md at the phase end.
 
