@@ -12,7 +12,7 @@ const WEEK_FILE = path.join(STORYTIME_ROOT, 'l2/w01.json');
 const PICTURE_FOLDER = path.join(STORYTIME_ROOT, 'l2/print/pictures');
 const OUTPUT_FOLDER = path.join(STORYTIME_ROOT, 'l2/media/w01/books');
 const ROWS_FILE = path.join(STORYTIME_ROOT, 'l2/print/pictures.json');
-const WORDS = '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT)';
+const WORDS = '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)';
 const scratch: string[] = [];
 
 function temp(): string {
@@ -101,7 +101,7 @@ describe('Storytime app book pictures', () => {
         }
 
         expect(pictures.map((image: any) => image.caption)).toEqual(['Hello!', ...Array(8).fill(''), 'Nan Can Nod', ...Array(8).fill('')]);
-        expect(week.approval.images).toMatchObject({ status: 'approved', date: '2026-11-03', words: WORDS });
+        expect(week.approval.images).toMatchObject({ status: 'approved', date: '2026-11-05', words: WORDS });
         expect(week.approval.audio).toMatchObject({ status: 'approved', date: '2026-11-04' });
         expect(week.approval.song).toMatchObject({ status: 'approved', date: '2026-11-04' });
         expect(week.meta.status).toBe('published');

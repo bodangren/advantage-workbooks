@@ -273,9 +273,9 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         const first = parsed(shipped(1)).approval;
         expect(first.images, 'Week 1: images record the approved app pictures.').toEqual({
             status: 'approved',
-            date: '2026-11-03',
-            words: '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT)',
-            source: 'PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; print Phase 4 git note on 2e3272e9',
+            date: '2026-11-05',
+            words: '"Both ok" (2026-11-02 07:00 ICT); "Looks good" (2026-11-02 14:28 ICT); "Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)',
+            source: 'PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; print Phase 4 git note on 2e3272e9; PM relay of 2026-11-05 (owner answer on proof v15, Tasks id bmh2b1hqTFNCVEpDNks4VQ)',
         });
         expect(first.audio, 'Week 1: audio records the owner approval of 2026-11-04.').toEqual({
             status: 'approved',
