@@ -356,18 +356,28 @@ function formationCells(week: StorytimeWeek): string {
     ].join('\n  ');
 }
 
-/** The line height of a practice text in mm; the rule of each line sits at the bottom of its line box (fix 4). */
+/** The line height of a practice text in mm; each line box has one rule (fix 4). */
 const PRACTICE_LINE_MM = 12;
 /** The most lines of a practice text that get a rule; the clip of `.practice-text-rule` cuts the rules under the last line. */
 const PRACTICE_RULE_MAX_LINES = 6;
+/**
+ * The distance in mm from the top of a practice line box to the baseline of its text, which is the place of the
+ * top edge of the rule (audit item C6: each text sits on its line within 0.5 mm). The value was measured in Chrome
+ * with Andika loaded: a zero-size inline-block probe (`vertical-align: baseline`) after each word of the 20 pt text
+ * in the 12 mm line box gave a baseline 9.0 mm under the line box top on all 19 practice lines of the 8-week book.
+ * The old rule at the line box bottom (11.6 mm) lay 2.6 mm under it. If the font size or the line height of
+ * `.practice-text` changes, measure again: `storytime-print-c6-baseline.test.ts` reads the baseline from the browser.
+ */
+const PRACTICE_BASELINE_MM = 9;
 
 /**
- * The rules of a practice text: one vector line at the bottom of each possible line box, across the full width of the text box.
- * The clipped text block hides the rules under its last line, so each wrapped line keeps one rule.
+ * The rules of a practice text: one vector line for each possible line box, across the full width of the text box, with
+ * its top edge on the baseline of the text line (`PRACTICE_BASELINE_MM`). The clipped text block hides the rules under
+ * its last line, so each wrapped line keeps one rule.
  */
 function practiceRuleLines(): string {
     return Array.from({ length: PRACTICE_RULE_MAX_LINES }, (_value, i) => {
-        const top = ((i + 1) * PRACTICE_LINE_MM - 0.4).toFixed(1);
+        const top = (i * PRACTICE_LINE_MM + PRACTICE_BASELINE_MM).toFixed(1);
         return `<span class="practice-rule-line" style="top:${top}mm" aria-hidden="true"></span>`;
     }).join('');
 }
