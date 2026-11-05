@@ -105,6 +105,7 @@ The schema does not change. `image.file` on `books[].cover` and on `books[].page
 ## Addendum 2026-11-05: app packages of weeks 2 to 7 (Phase 9)
 
 Author model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+Amendment 2026-11-05 (after spec review r1) author model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
 
 ### Overview
 
@@ -116,48 +117,58 @@ No book cover or page of weeks 2 to 7 has `image.file` now. The app route of eac
 
 The status of each of the 6 weeks: `meta.status` is "draft". The approvals `approval.text` and `approval.thai` are "approved". The approvals `approval.images`, `approval.audio`, `approval.song`, `approval.scripts` and `approval.loops` are "draft".
 
-Every media path that a week names exists. The path counts of the 6 weeks are 23, 22, 18, 24, 21 and 22. Each book has an `audio.file`, so each book stem exists. The script `dashboard/scripts/storytime/set-book-pictures.ts --level <n> --week <n>` works for any week, because it matches the rows by `week.meta.week`.
+Every media path that a week names exists. The path counts of the 6 weeks are 23, 22, 18, 24, 21 and 22. Each book has an `audio.file`, so each book stem exists. The script `dashboard/scripts/storytime/set-book-pictures.ts --level <n> --week <n>` matches the rows of `pictures.json` by week, use and text. Two weeks repeat a page text, and `content/storytime/l2/print/pictures.json` holds 2 rows for that text. The unchanged script stops with exit 1 for w02 and w06. E9 gives the rule that takes the right row.
 
-Daniel answered "Yes" on 2026-11-03 at 11:54 ICT (PM relay, Tasks id TFBDbWRFTEItTy1kZGUzdw). That answer covers the app too: his print approval of the pictures of weeks 1 to 7 is the app approval of the same pictures. The pictures of weeks 2 to 7 are in proof v15. The PM sent proof v15 to Daniel on 2026-11-05 at 20:5x (Tasks id bmh2b1hqTFNCVEpDNks4VQ). He has not answered yet.
+Daniel answered "Yes" on 2026-11-03 at 11:54 ICT (PM relay, Tasks id TFBDbWRFTEItTy1kZGUzdw). That answer covers the app too: his print approval of the pictures of weeks 1 to 7 is the app approval of the same pictures. The pictures of weeks 2 to 7 are in proof v15. The PM sent proof v15 to Daniel on 2026-11-05 at 20:5x (Tasks id bmh2b1hqTFNCVEpDNks4VQ). He answered on 2026-11-05 with the words "The book seems fine." (PM relay of 2026-11-05).
 
 The schema does not change. `image.file` on `books[].cover` and on `books[].pages[].image` already exists in `StorytimeImageSchema`. It names a JPEG relative to the content root `content/storytime/`.
 
 ### Decisions (pinned before Red; the Red and Green roles do not guess)
 
 - E1 (scope): weeks 2 to 7; 6 weeks x 2 books x (1 cover + 8 pages) = 108 pictures; one app package per week.
-- E2 (rules): the Phase 7 decisions D2 (path rule), D3 (COLOR source through the resolver; never line art), D4 (JPEG output), D5 (one `pictures.sha256` per week), and D6 (caption unchanged) apply without change.
-- E3 (approval): `approval.images` of weeks 2 to 7 stays "draft" in this phase. When the PM relays Daniel's approval of the v15 pictures, a later hand edit records his exact words in `approval.images` of each week 2 to 7, in the form of D7. This is an item of the 11-16 list, not a stop. `meta.status` and the other approvals do not change.
+- E2 (rules): the Phase 7 decisions D2 to D6 apply. The match step of the script follows E9. The other parts of D3 to D6 apply without change: D3 (COLOR source through the resolver; never line art), D4 (JPEG output), D5 (one `pictures.sha256` per week), D6 (caption unchanged).
+- E3 (approval): the maker task makes one separate commit after the picture content commit. That commit sets `approval.images` of `content/storytime/l2/w02.json` to `w07.json` to the status "approved", the date "2026-11-05", the words exactly `"Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)`, and the source exactly `PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; PM relay of 2026-11-05 (owner answer on proof v15, Tasks id bmh2b1hqTFNCVEpDNks4VQ)`. The record names no person. `meta.status` stays "draft". The other approvals do not change.
 - E4 (week 1): w01 is not in this phase. The corrected w01 web pictures (A-48) wait for Daniel's v15 word.
-- E5 (hand-off): one folder per week, `/home/daniebo/Desktop/handoff/w<nn>-storytime-app-package/`, by the rules of Phase 7 task 66 (the week file and every media file that it names, relative paths from `content/storytime/`, MANIFEST.txt with `workbooks-commit`, the source repo and path, each file with its SHA-256, the date, the sender; the week file byte-equal to `git show <sha>:content/storytime/l2/w<nn>.json`; every path matches `[A-Za-z0-9._/-]`). Then one line to the PM session. The PM checks each folder against the Monorepo field contract (A-42 Hand-off 1) before Monorepo takes it.
-- E6 (11-16 list): for each week, the open owner items (`images` after the v15 word, `audio`, `song`, `scripts`, and any look item) go to the PM's 11-16 list. They do not stop the hand-off.
-- E7 (tests): no new test writes into the shipped media; a new test runs the script on a temporary copy of a week and its folders.
+- E5 (hand-off): one folder per week, `/home/daniebo/Desktop/handoff/w<nn>-storytime-app-package/`, by the rules of Phase 7 task 66 (the week file and every media file that it names, relative paths from `content/storytime/`, MANIFEST.txt with `workbooks-commit`, the source repo and path, each file with its SHA-256, the date, the sender; the week file byte-equal to `git show <sha>:content/storytime/l2/w<nn>.json`; every path matches `[A-Za-z0-9._/-]`). The folder takes the commit that holds both the 18 `"file"` lines and the `approval.images` record. That commit is the approval commit of E3 or a later commit. One folder per week. No second folder follows the approval commit. Then one line to the PM session. The PM checks each folder against the Monorepo field contract (A-42 Hand-off 1) before Monorepo takes it.
+- E6 (11-16 list): for each week, the open owner items (`audio`, `song`, `scripts`, and any look item) go to the PM's 11-16 list. They do not stop the hand-off. The `images` item leaves the 11-16 list, because the owner answered on 2026-11-05 and E3 records that answer.
+- E7 (tests): the new cases go into the existing file `dashboard/__tests__/storytime-book-pictures.test.ts`. There is no new test file. No test writes into `content/storytime/`. Each case runs the script on a temporary copy of a week and its folders, like the existing cases of that file.
+  - Case (a), a temporary copy of w02: the run exits 0 and throws nothing. It writes 18 JPEGs, 18 provenance lines, and 18 `"file"` lines in the copied week file. In the provenance, the source names of `books/2-can-i/p01.jpg` to `p03.jpg` start with `l2-w02-story-page-nan-can-v`, `l2-w02-story-page-can-i-v`, and `l2-w02-story-page-i-can-v`. The source names of `p04.jpg` to `p06.jpg` start with `l2-w02-story-page-nan-can-b-`, `l2-w02-story-page-can-i-b-`, and `l2-w02-story-page-i-can-b-`. The test asserts the row-id prefix, not the version number. The test reads the book stem from the `audio.file` of the w02 decodable book. The maker confirms that stem is `2-can-i`.
+  - Case (b), a temporary copy of w06: page 3 of the decodable book takes a source that starts with `l2-w06-story-page-tap-tap-tap-v`. Page 6 takes a source that starts with `l2-w06-story-page-tap-tap-tap-b-`.
+  - Case (c), a temporary rows file with the row `l2-w02-story-page-nan-can-b` removed: the run throws an error whose text starts with `picture match:`. It writes no JPEG, no provenance file, and no change to the week file.
+  - The cases (a) and (b) fail with the current script, because it throws for 2 candidates. They are the Red failures. The case (c) passes before the change.
 - E8 (loops-content compare): `withoutNewFields` in `storytime-loops-content.test.ts` also drops `image.file` of each book cover and book page (media paths, not loops content), with a one-line comment, like the media approvals. No other change to that test.
+- E9 (repeated page text): in one week, the n-th book picture with the same use and text, in book order (each book: the cover, then pages 1 to 8), takes the n-th row with that week, use and text, in `pictures.json` file order. The two rows of one text have different prompts, so they are different pictures. This is the same rule as `rowsByBook` in `dashboard/lib/storytime/print/readers.ts` lines 142 to 153. That rule maps the rows of `storytimePrintPictures([week])` to the pages by position, and it built the approved v15 A3 readers. The app shows on each page the same picture as the approved print book.
+  - The rows of the repeated texts of w02 are `l2-w02-story-page-nan-can` (line 586) and `l2-w02-story-page-nan-can-b` (line 628), `l2-w02-story-page-can-i` (line 600) and `l2-w02-story-page-can-i-b` (line 642), `l2-w02-story-page-i-can` (line 614) and `l2-w02-story-page-i-can-b` (line 656). The rows of w06 are `l2-w06-story-page-tap-tap-tap` (line 2276) and `l2-w06-story-page-tap-tap-tap-b` (line 2322). The file is `content/storytime/l2/print/pictures.json`.
+  - The decodable book of w02 has the texts "Nan can.", "Can I?", and "I can!" on pages 1 to 6. Pages 1 to 3 take the base rows. Pages 4 to 6 take the `-b` rows.
+  - The decodable book of w06 has the text "Tap, tap, tap!" on pages 3 and 6. Page 3 takes `l2-w06-story-page-tap-tap-tap`. Page 6 takes `l2-w06-story-page-tap-tap-tap-b`.
+  - The script stops with exit 1, and the error text starts with `picture match:`, when the count of the rows for a use and text differs from the count of the book pictures with that use and text. The script then writes no file.
+  - Only the match step (lines 50 to 54) of `dashboard/scripts/storytime/set-book-pictures.ts` changes. D2 to D6 apply without change otherwise. The output of w01 stays byte-equal, because w01 repeats no text and the unchanged script succeeded on w01.
 
 ### Functional Requirements
 
-1. **Script** `dashboard/scripts/storytime/set-book-pictures.ts --level 2 --week <nn>`, for each week of weeks 2 to 7, one week at a time. The script of Phase 7 runs without change. It keeps its `USAGE` text and its exit codes: 0 for success, 1 for a data error, 2 for a usage error. It reads the week file and `pictures.json`, resolves each of the 18 source rows by D3, writes the 18 JPEGs by D2 and D4, writes the provenance file by D5, and writes `image.file` into the week file.
+1. **Script** `dashboard/scripts/storytime/set-book-pictures.ts --level 2 --week <nn>`, for each week of weeks 2 to 7, one week at a time. The script of Phase 7 changes in its match step only, and the match step follows E9. It keeps its `USAGE` text and its exit codes: 0 for success, 1 for a data error, 2 for a usage error. It reads the week file and `pictures.json`, matches the 18 source rows by E9, resolves each of them by D3, writes the 18 JPEGs by D2 and D4, writes the provenance file by D5, and writes `image.file` into the week file.
 2. **Week file edit.** The script changes no other byte of the week file. It adds a `"file"` line after the `"caption"` line of each of the 18 image objects, with the indent of the `caption` line. Each week of weeks 2 to 7 gets 18 such lines.
 3. **Repeat run.** A second run with the same inputs changes no byte of the 18 JPEGs, of the provenance file, or of the week file.
 4. **Check** `book-pictures` in `dashboard/scripts/storytime/check-weeks.ts`. The check of Phase 7 applies without change. It reads `image.file` of each book cover and each book page. It has the status `fail` when a named file is missing, with `missing: <paths>` as the detail. It has the status `pass` when all named files exist. It adds no row for a week with no `image.file` on a book picture.
-5. **Content** (hand edit in a later task, not done by the script): `approval.images` of `content/storytime/l2/w02.json` to `w07.json` by E3. The hand edit waits for the PM relay of Daniel's word.
-6. **Tests.** The new test of E7 runs the script on a temporary copy of a week and its folders. It writes nothing into `content/storytime/`. The change of E8 in `storytime-loops-content.test.ts` drops the `image.file` of each book cover and each book page.
+5. **Content** (hand edit in the maker task, not done by the script): one commit after the picture content commit sets `approval.images` of `content/storytime/l2/w02.json` to `w07.json` by E3. The words and the source are the exact strings of E3.
+6. **Tests.** The cases of E7 go into `dashboard/__tests__/storytime-book-pictures.test.ts`. They run the script on a temporary copy of a week and its folders. No test writes into `content/storytime/`. The change of E8 in `storytime-loops-content.test.ts` drops the `image.file` of each book cover and each book page.
 7. **Hand-off.** The 6 hand-off folders of E5 go to the PM session by 2026-11-16 (peer-report).
 
 ### Acceptance Criteria
 
 - AC1: the Phase 7 AC1 to AC4 and AC8 pass for each week of weeks 2 to 7. The phase gives 108 files and 6 provenance files.
 - AC2: `check-weeks.ts --level 2` shows the check `book-pictures` with the status `pass` for st2/2 to st2/7. The same one accepted FAIL stays as before. The detail of `published` stays the same as before the run.
-- AC3: the RED gate fails only on the new and the changed assertions. After Green, the GREEN gate, PROJECT_TESTS, PROJECT_LINT and PROJECT_CHECKS pass.
+- AC3: the RED gate fails only on the new and the changed assertions. The new assertions are the cases (a) and (b) of E7. After Green, the GREEN gate, PROJECT_TESTS, PROJECT_LINT and PROJECT_CHECKS pass.
 - AC4: the orchestrator opens one contact sheet per week and compares each JPEG with the v15 print picture (person-checked). Each JPEG shows the right book, the right page, color, not line art.
 - AC5: each hand-off folder passes `sha256sum -c` and the byte-equal check of E5. The PM confirms each folder (peer-report).
 
 ### Blast radius of the addendum
 
-- Files that change: `content/storytime/l2/w02.json` to `content/storytime/l2/w07.json` (the 18 `"file"` lines of each week).
+- Files that change: `content/storytime/l2/w02.json` to `content/storytime/l2/w07.json` (the 18 `"file"` lines of each week, and the `approval.images` record of E3).
 - New media: `content/storytime/l2/media/w02/books/` to `content/storytime/l2/media/w07/books/` (108 JPEGs and 6 `pictures.sha256` files).
-- Test files that change: `dashboard/__tests__/storytime-loops-content.test.ts` (E8) and the new test file of E7.
-- Any test that counts the check rows of weeks 2 to 7 changes too. The maker greps for them and lists them.
-- `dashboard/scripts/storytime/set-book-pictures.ts` and `dashboard/lib/storytime/schema.ts` do not change, unless a defect shows. The maker reports it then.
+- Test files that change: `dashboard/__tests__/storytime-book-pictures.test.ts` (the cases of E7) and `dashboard/__tests__/storytime-loops-content.test.ts` (E8).
+- The maker runs `grep -rlnE "book-pictures|checkBookPictures|image\.file|pictures\.sha256|approval\.images|images\.status" dashboard/__tests__`. The maker also reads the two tests that read every week: `dashboard/__tests__/storytime-print-covers-16books.test.ts` near line 443 and `dashboard/__tests__/storytime-loops-content.test.ts` near line 264. The maker lists each hit with "changes" or "no change" and the reason in the plan evidence, and adds each changed file to the RED and GREEN commands.
+- `dashboard/scripts/storytime/set-book-pictures.ts` changes in its match step only (E9). `dashboard/lib/storytime/schema.ts` does not change.
 - The repository is public. The pictures are not test items.
 
 ### Out of Scope
