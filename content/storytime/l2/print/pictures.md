@@ -1,6 +1,6 @@
 # Storytime Advantage — print picture list (Level 2)
 
-Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+Version 7 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
 
 ## Week 1
 
@@ -35,6 +35,11 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w01-check-row-net-v1.png | l2-w01-check-row-net-line-v1.png | 1500 × 1500 | check-row | net | C | net 1 |
 | l2-w01-practice-line-nose-v1.png | l2-w01-practice-line-nose-line-v1.png | 1500 × 1500 | practice-line | nose | C | nose 1 |
 | l2-w01-practice-line-nest-v1.png | l2-w01-practice-line-nest-line-v1.png | 1500 × 1500 | practice-line | nest | C | nest 1 |
+| l2-w01-card-hello-v1.png | l2-w01-card-hello-line-v1.png | 1500 × 1500 | card | hello | C | hello 1 |
+| l2-w01-card-goodbye-v1.png | l2-w01-card-goodbye-line-v1.png | 1500 × 1500 | card | goodbye | C | goodbye 1 |
+| l2-w01-card-boy-v1.png | l2-w01-card-boy-line-v1.png | 1500 × 1500 | card | boy | C | boy 1 |
+| l2-w01-card-girl-v1.png | l2-w01-card-girl-line-v1.png | 1500 × 1500 | card | girl | C | girl 1 |
+| l2-w01-card-teacher-v1.png | l2-w01-card-teacher-line-v1.png | 1500 × 1500 | card | teacher | C | teacher 1 |
 
 ## Week 2
 
@@ -67,6 +72,8 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w02-check-row-pig-v1.png | l2-w02-check-row-pig-line-v1.png | 1500 × 1500 | check-row | pig | C | pig 1 |
 | l2-w02-check-row-bed-v1.png | l2-w02-check-row-bed-line-v1.png | 1500 × 1500 | check-row | bed | C | bed 1 |
 | l2-w02-check-row-axe-v1.png | l2-w02-check-row-axe-line-v1.png | 1500 × 1500 | check-row | axe | C | axe 1 |
+| l2-w02-card-fan-v1.png | l2-w02-card-fan-line-v1.png | 1500 × 1500 | card | fan | C | fan 1 |
+| l2-w02-card-astronaut-v1.png | l2-w02-card-astronaut-line-v1.png | 1500 × 1500 | card | astronaut | C | astronaut 1 |
 
 ## Week 3
 
@@ -99,6 +106,9 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w03-check-row-fish-v1.png | l2-w03-check-row-fish-line-v1.png | 1500 × 1500 | check-row | fish | C | fish 1 |
 | l2-w03-check-row-hat-v1.png | l2-w03-check-row-hat-line-v1.png | 1500 × 1500 | check-row | hat | C | hat 1 |
 | l2-w03-check-row-pencil-v1.png | l2-w03-check-row-pencil-line-v1.png | 1500 × 1500 | check-row | pencil | C | pencil 1 |
+| l2-w03-card-sheep-v1.png | l2-w03-card-sheep-line-v1.png | 1500 × 1500 | card | sheep | C | sheep 1 |
+| l2-w03-card-cap-v1.png | l2-w03-card-cap-line-v1.png | 1500 × 1500 | card | cap | C | cap 1 |
+| l2-w03-card-pineapple-v1.png | l2-w03-card-pineapple-line-v1.png | 1500 × 1500 | card | pineapple | C | pineapple 1 |
 
 ## Week 4
 
@@ -131,6 +141,15 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w04-check-row-fish-v1.png | l2-w04-check-row-fish-line-v1.png | 1500 × 1500 | check-row | fish | C | fish 1 |
 | l2-w04-check-row-hat-v1.png | l2-w04-check-row-hat-line-v1.png | 1500 × 1500 | check-row | hat | C | hat 1 |
 | l2-w04-check-row-milk-v1.png | l2-w04-check-row-milk-line-v1.png | 1500 × 1500 | check-row | milk | C | milk 1 |
+| l2-w04-card-jam-v1.png | l2-w04-card-jam-line-v1.png | 1500 × 1500 | card | jam | C | jam 1 |
+| l2-w04-card-ham-v1.png | l2-w04-card-ham-line-v1.png | 1500 × 1500 | card | ham | C | ham 1 |
+| l2-w04-card-mom-v1.png | l2-w04-card-mom-line-v1.png | 1500 × 1500 | card | mom | C | mom 1 |
+| l2-w04-card-dad-v1.png | l2-w04-card-dad-line-v1.png | 1500 × 1500 | card | dad | C | dad 1 |
+| l2-w04-card-brother-v1.png | l2-w04-card-brother-line-v1.png | 1500 × 1500 | card | brother | C | brother 1 |
+| l2-w04-card-sister-v1.png | l2-w04-card-sister-line-v1.png | 1500 × 1500 | card | sister | C | sister 1 |
+| l2-w04-card-grandma-v1.png | l2-w04-card-grandma-line-v1.png | 1500 × 1500 | card | grandma | C | grandma 1 |
+| l2-w04-card-grandpa-v1.png | l2-w04-card-grandpa-line-v1.png | 1500 × 1500 | card | grandpa | C | grandpa 1 |
+| l2-w04-card-family-v1.png | l2-w04-card-family-line-v1.png | 1500 × 1500 | card | family | C | family 1 |
 
 ## Week 5
 
@@ -164,6 +183,9 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w05-check-row-hat-v1.png | l2-w05-check-row-hat-line-v1.png | 1500 × 1500 | check-row | hat | C | hat 1 |
 | l2-w05-check-row-sofa-v1.png | l2-w05-check-row-sofa-line-v1.png | 1500 × 1500 | check-row | sofa | C | sofa 1 |
 | l2-w05-d4-prompt-face-v1.png | l2-w05-d4-prompt-face-line-v1.png | 1500 × 1500 | d4-prompt | face | C | face 1 |
+| l2-w05-card-dress-v1.png | l2-w05-card-dress-line-v1.png | 1500 × 1500 | card | dress | C | dress 1 |
+| l2-w05-card-sad-v1.png | l2-w05-card-sad-line-v1.png | 1500 × 1500 | card | sad | C | sad 1 |
+| l2-w05-card-sandwich-v1.png | l2-w05-card-sandwich-line-v1.png | 1500 × 1500 | card | sandwich | C | sandwich 1 |
 
 ## Week 6
 
@@ -196,6 +218,8 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w06-check-row-dog-v1.png | l2-w06-check-row-dog-line-v1.png | 1500 × 1500 | check-row | dog | C | dog 1 |
 | l2-w06-check-row-pen-v1.png | l2-w06-check-row-pen-line-v1.png | 1500 × 1500 | check-row | pen | C | pen 1 |
 | l2-w06-check-row-table-v1.png | l2-w06-check-row-table-line-v1.png | 1500 × 1500 | check-row | table | C | table 1 |
+| l2-w06-card-boat-v1.png | l2-w06-card-boat-line-v1.png | 1500 × 1500 | card | boat | C | boat 1 |
+| l2-w06-card-tomato-v1.png | l2-w06-card-tomato-line-v1.png | 1500 × 1500 | card | tomato | C | tomato 1 |
 
 ## Week 7
 
@@ -229,6 +253,13 @@ Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w07-check-row-bus-v1.png | l2-w07-check-row-bus-line-v1.png | 1500 × 1500 | check-row | bus | C | bus 1 |
 | l2-w07-check-row-ostrich-v1.png | l2-w07-check-row-ostrich-line-v1.png | 1500 × 1500 | check-row | ostrich | C | ostrich 1 |
 | l2-w07-d4-prompt-ball-v1.png | l2-w07-d4-prompt-ball-line-v1.png | 1500 × 1500 | d4-prompt | ball | C | ball 1 |
+| l2-w07-card-pot-v1.png | l2-w07-card-pot-line-v1.png | 1500 × 1500 | card | pot | C | pot 1 |
+| l2-w07-card-mop-v1.png | l2-w07-card-mop-line-v1.png | 1500 × 1500 | card | mop | C | mop 1 |
+| l2-w07-card-otter-v1.png | l2-w07-card-otter-line-v1.png | 1500 × 1500 | card | otter | C | otter 1 |
+| l2-w07-card-doll-v1.png | l2-w07-card-doll-line-v1.png | 1500 × 1500 | card | doll | C | doll 1 |
+| l2-w07-card-car-v1.png | l2-w07-card-car-line-v1.png | 1500 × 1500 | card | car | C | car 1 |
+| l2-w07-card-train-v1.png | l2-w07-card-train-line-v1.png | 1500 × 1500 | card | train | C | train 1 |
+| l2-w07-card-teddy-v1.png | l2-w07-card-teddy-line-v1.png | 1500 × 1500 | card | teddy | C | teddy 1 |
 
 ## Week 8
 
