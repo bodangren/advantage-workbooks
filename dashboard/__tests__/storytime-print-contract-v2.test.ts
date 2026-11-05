@@ -300,6 +300,16 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
             expect(text.source ?? '', `Week ${week}: the text source names the PM relay.`).toMatch(/relayed by the PM session/);
             for (const part of APP_PARTS) {
                 if (part === 'thai' || part === 'text') continue;
+                if (part === 'images' && week <= 7) {
+                    // The owner approved the app pictures of weeks 2 to 7 on 2026-11-05 (E3 of Phase 9).
+                    expect(approval[part], `Week ${week}: the images part records the owner approval of 2026-11-05.`).toEqual({
+                        status: 'approved',
+                        date: '2026-11-05',
+                        words: '"Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)',
+                        source: 'PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; PM relay of 2026-11-05 (owner answer on proof v15, Tasks id bmh2b1hqTFNCVEpDNks4VQ)',
+                    });
+                    continue;
+                }
                 expect(approval[part], `Week ${week}: ${part} stays draft.`).toEqual({ status: 'draft' });
             }
         }
