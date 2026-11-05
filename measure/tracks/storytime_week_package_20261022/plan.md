@@ -31,7 +31,7 @@
 
 - [~] Task: the gesture pictures of the week 2 to 7 song lines (`video/storytime-song/scripts/line-pictures.mjs`, test first: the week's own Forge set, else the gesture library). The library `content/storytime/forge-gestures/` is a Forge set with gestures only: the week 1 frames and the chibi-sprouts stills for weeks 2 to 7 (advantage-forge `out/chibi-sprouts/r1/week2-7/gestures`, 2026-10-24; 21 gestures, 32 frames). Only its `manifest.json` is in git; the video does not read it, so weeks 2 to 7 keep the placeholder art until Daniel passes the week 1 video. 45 pictures, 540 KB; `image.file` on 50 lines. Follow-up done: march, stamp, and sway looked close to idle in a still (the legs are short and the crop ends below the belt), so chibi-sprouts made one still pose of each for the pictures only (`<gesture>-picture` in the manifest). A pose has its own crop, the whole figure with the raised foot, and does not change the shared crop of the week. Turn has no independent review yet.
 
-## Phase 7: Book pictures for the app, week 1 (2026-11-03 to 2026-11-06)
+## Phase 7: Book pictures for the app, week 1 (2026-11-03 to 2026-11-06) [checkpoint: efd94c3]
 
 Spec review: Kimi, 2026-11-03, fail with 1 blocker (F1) and 7 nonblocking; closed in this commit; a short second review follows.
 
@@ -67,7 +67,9 @@ The whole command of each gate runs inside one heavy-run wrapper: `bash ~/Deskto
   - Folder: `/home/daniebo/Desktop/handoff/w01-storytime-app-package/`; 44 files (43 payload files and `MANIFEST.txt`); all 43 manifest hashes pass; `w01.json` matches commit `cf30bb2eee55806bf8830b3a3e69e4f6044847e6` byte for byte.
   - Evidence: peer-report. The PM accepted the hand-off (pm-log row 2026-11-03 22:0x ICT, "PM: accepted"). The Monorepo took and checked it: commit 9c9667917, 43 of 43 SHA-256 match, `w01.json` byte-equal in the hand-off, in Workbooks, and in the Monorepo (pm-log row 2026-11-03 22:4x ICT).
   - Note: `w01.json` changed after `cf30bb2e` (A-48 commits `e21dd2b1`, `f197afe6`, and `dd28fd78` on 2026-11-04). A new w01 take comes with the corrected web pictures after Daniel approves proof v14 (PM 2026-11-05).
-- [ ] Task: Measure - User Manual Verification 'Phase 7: Book pictures for the app, week 1' (Protocol in workflow.md)
+- [x] Task: Measure - User Manual Verification 'Phase 7: Book pictures for the app, week 1' (Protocol in workflow.md) commit efd94c36090be5983eecb1bbe9bf7bb7a72c16a2
+  - Evidence: automated plus person-checked by the orchestrator. Phase 7 GREEN_TEST_COMMAND at HEAD `258e9bbe`: exit 0, 5 test files, 143 tests (`measure/runs/storytime_week_package_20261022/p7-umv-green.txt`). Scope: commits `4cefdf60`, `ae7ef1c0`, `cf30bb2e`; each code file has a test file (`set-book-pictures.ts` and `check-weeks.ts` in `storytime-book-pictures.test.ts`). The test run rewrote 6 tracked week 1 web files; I saved them in `measure/runs/storytime_print_r1_20261025/a48-v14-w01-web-media-2/` and restored them.
+  - Owner (Workbooks orchestrator) confirmation, 2026-11-05: yes. Basis: task 64 contact sheet (18 of 18 match, person-checked 2026-11-04), task 66 PM acceptance and the Monorepo take 9c9667917 (43 of 43), and the Phase 7 Green gate at HEAD.
 
 ## Phase 8: Fixes from the cloud review of 2026-11-03 (2026-11-04 to 2026-11-06)
 
