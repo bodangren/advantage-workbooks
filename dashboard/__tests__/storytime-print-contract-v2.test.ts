@@ -239,6 +239,16 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
 
     it.each(weekNumbers)('week %i records the thai approval with its pinned source line', (week) => {
         const approval = parsed(shipped(week)).approval;
+        if (week <= 7) {
+            // The owner approved the Thai of the color-own-book lines on 2026-11-05.
+            expect(approval.thai, `Week ${week}: the thai record holds the owner answer of 2026-11-05.`).toEqual({
+                status: 'approved',
+                date: '2026-11-05',
+                words: '"Approved" (2026-11-05 21:4x ICT; the 3 color-own-book Thai lines)',
+                source: `${thaiSource(week)} (2026-10-22); PM relay of 2026-11-05 (owner answer on the color-own-book Thai lines, ~/Desktop/handoff/storytime-color-own-book/lines-2026-11-05.md)`,
+            });
+            return;
+        }
         expect(approval.thai, `Week ${week}: record (a) of P14 with line ${THAI_SOURCE_LINE[week]}.`).toEqual({
             status: 'approved',
             date: '2026-10-22',
