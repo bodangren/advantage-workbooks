@@ -259,7 +259,7 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         expect(approval.scripts, 'Record (b) of P14 for the scripts part.').toEqual(expected);
     });
 
-    it('records the week 1 audio and song approvals of 2026-11-04 and keeps the print part and the other media draft', () => {
+    it('records the week 1 audio and song approvals of 2026-11-04, the week 1 print approval (Daniel, 2026-11-05), and keeps the other print parts and media draft', () => {
         const first = parsed(shipped(1)).approval;
         expect(first.images, 'Week 1: images record the approved app pictures.').toEqual({
             status: 'approved',
@@ -281,7 +281,15 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         });
         for (const week of weekNumbers) {
             const approval = parsed(shipped(week)).approval;
-            expect(approval.print, `Week ${week}: the print part stays draft.`).toEqual({ status: 'draft' });
+            if (week === 1) {
+                expect(approval.print, 'Week 1: the print part records the owner approval of 2026-11-05.').toEqual({
+                    status: 'approved',
+                    date: '2026-11-05',
+                    words: 'The book seems fine.',
+                });
+            } else {
+                expect(approval.print, `Week ${week}: the print part stays draft.`).toEqual({ status: 'draft' });
+            }
             if (week === 1) continue;
             // Daniel approved the weeks 2 to 8 English text on 2026-11-01. His exact words:
             // "3. Covers: Approved" (owner answer relayed by the PM session, covers Phase 2).
