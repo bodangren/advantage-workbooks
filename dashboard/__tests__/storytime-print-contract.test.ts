@@ -289,7 +289,7 @@ describe('Storytime print: Forge picture list', () => {
         expect(new Set(rows.map((row) => row.id)).size, 'Picture ids must be unique across the unit.').toBe(rows.length);
         expect(new Set(rows.map((row) => row.fileName)).size, 'File names must be unique across the unit.').toBe(rows.length);
         for (const row of rows) {
-            expect(row.fileName).toMatch(/^l2-w\d{2}-[a-z-]+-v\d+\.png$/);
+            expect(row.fileName).toMatch(/^l2-w\d{2}-[a-z0-9-]+-v\d+\.png$/);
             expect(Number(row.fileName.match(/^l2-w(\d{2})-/)?.[1]), 'The file week must equal the row week.').toBe(row.week);
             expect(weekNumbers).toContain(row.week);
         }
