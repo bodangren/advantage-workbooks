@@ -299,13 +299,19 @@ describe('Storytime card kit, unit 1 (spec FR-7)', () => {
             const raw = JSON.parse(fs.readFileSync(copy, 'utf8')) as {
                 scripts: { steps: { id: string; materials: string[] }[] }[];
             };
+            // The week file names the line in three steps: A1, E2, and E4. The contract keeps one card
+            // for each label, so the copy must lose the line in every step. One step alone keeps "nest".
+            let replaced = 0;
             for (const script of raw.scripts) {
                 for (const step of script.steps) {
-                    if (step.id !== 'A1') continue;
-                    step.materials = step.materials.map((line) =>
-                        line === 'sound picture cards: nest, net, nut' ? 'sound picture cards: net, nut' : line);
+                    step.materials = step.materials.map((line) => {
+                        if (line !== 'sound picture cards: nest, net, nut') return line;
+                        replaced++;
+                        return 'sound picture cards: net, nut';
+                    });
                 }
             }
+            expect(replaced, 'the replaced materials lines of the copy of week 1').toBe(3);
             fs.writeFileSync(copy, JSON.stringify(raw, null, 2));
             const mutated = mod.storytimeCardKit(weeksFrom(root));
             const labels = mutated.cards
