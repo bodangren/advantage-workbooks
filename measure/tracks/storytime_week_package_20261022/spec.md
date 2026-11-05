@@ -100,3 +100,70 @@ The schema does not change. `image.file` on `books[].cover` and on `books[].page
 - A schema change, a new picture format, and a new resolution for the print.
 - The approval of `audio` and `song`, and the `published` status of the week.
 - A new picture for the app that is not one of the approved print pictures.
+
+
+## Addendum 2026-11-05: app packages of weeks 2 to 7 (Phase 9)
+
+Author model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+
+### Overview
+
+The Storytime app needs the packages of weeks 2 to 7 by 2026-11-16. The at-home release target is 2026-11-20 (internal). Week 1 is done. Weeks 2 to 7 are the gap.
+
+Each of the 6 weeks has 2 books: a readalong and a decodable. Each book has 8 pages. So one week needs 1 cover and 8 pages for each book, which is 18 pictures. Six weeks need 108 pictures. Each week gives one app package.
+
+No book cover or page of weeks 2 to 7 has `image.file` now. The app route of each of these books answers 404.
+
+The status of each of the 6 weeks: `meta.status` is "draft". The approvals `approval.text` and `approval.thai` are "approved". The approvals `approval.images`, `approval.audio`, `approval.song`, `approval.scripts` and `approval.loops` are "draft".
+
+Every media path that a week names exists. The path counts of the 6 weeks are 23, 22, 18, 24, 21 and 22. Each book has an `audio.file`, so each book stem exists. The script `dashboard/scripts/storytime/set-book-pictures.ts --level <n> --week <n>` works for any week, because it matches the rows by `week.meta.week`.
+
+Daniel answered "Yes" on 2026-11-03 at 11:54 ICT (PM relay, Tasks id TFBDbWRFTEItTy1kZGUzdw). That answer covers the app too: his print approval of the pictures of weeks 1 to 7 is the app approval of the same pictures. The pictures of weeks 2 to 7 are in proof v15. The PM sent proof v15 to Daniel on 2026-11-05 at 20:5x (Tasks id bmh2b1hqTFNCVEpDNks4VQ). He has not answered yet.
+
+The schema does not change. `image.file` on `books[].cover` and on `books[].pages[].image` already exists in `StorytimeImageSchema`. It names a JPEG relative to the content root `content/storytime/`.
+
+### Decisions (pinned before Red; the Red and Green roles do not guess)
+
+- E1 (scope): weeks 2 to 7; 6 weeks x 2 books x (1 cover + 8 pages) = 108 pictures; one app package per week.
+- E2 (rules): the Phase 7 decisions D2 (path rule), D3 (COLOR source through the resolver; never line art), D4 (JPEG output), D5 (one `pictures.sha256` per week), and D6 (caption unchanged) apply without change.
+- E3 (approval): `approval.images` of weeks 2 to 7 stays "draft" in this phase. When the PM relays Daniel's approval of the v15 pictures, a later hand edit records his exact words in `approval.images` of each week 2 to 7, in the form of D7. This is an item of the 11-16 list, not a stop. `meta.status` and the other approvals do not change.
+- E4 (week 1): w01 is not in this phase. The corrected w01 web pictures (A-48) wait for Daniel's v15 word.
+- E5 (hand-off): one folder per week, `/home/daniebo/Desktop/handoff/w<nn>-storytime-app-package/`, by the rules of Phase 7 task 66 (the week file and every media file that it names, relative paths from `content/storytime/`, MANIFEST.txt with `workbooks-commit`, the source repo and path, each file with its SHA-256, the date, the sender; the week file byte-equal to `git show <sha>:content/storytime/l2/w<nn>.json`; every path matches `[A-Za-z0-9._/-]`). Then one line to the PM session. The PM checks each folder against the Monorepo field contract (A-42 Hand-off 1) before Monorepo takes it.
+- E6 (11-16 list): for each week, the open owner items (`images` after the v15 word, `audio`, `song`, `scripts`, and any look item) go to the PM's 11-16 list. They do not stop the hand-off.
+- E7 (tests): no new test writes into the shipped media; a new test runs the script on a temporary copy of a week and its folders.
+- E8 (loops-content compare): `withoutNewFields` in `storytime-loops-content.test.ts` also drops `image.file` of each book cover and book page (media paths, not loops content), with a one-line comment, like the media approvals. No other change to that test.
+
+### Functional Requirements
+
+1. **Script** `dashboard/scripts/storytime/set-book-pictures.ts --level 2 --week <nn>`, for each week of weeks 2 to 7, one week at a time. The script of Phase 7 runs without change. It keeps its `USAGE` text and its exit codes: 0 for success, 1 for a data error, 2 for a usage error. It reads the week file and `pictures.json`, resolves each of the 18 source rows by D3, writes the 18 JPEGs by D2 and D4, writes the provenance file by D5, and writes `image.file` into the week file.
+2. **Week file edit.** The script changes no other byte of the week file. It adds a `"file"` line after the `"caption"` line of each of the 18 image objects, with the indent of the `caption` line. Each week of weeks 2 to 7 gets 18 such lines.
+3. **Repeat run.** A second run with the same inputs changes no byte of the 18 JPEGs, of the provenance file, or of the week file.
+4. **Check** `book-pictures` in `dashboard/scripts/storytime/check-weeks.ts`. The check of Phase 7 applies without change. It reads `image.file` of each book cover and each book page. It has the status `fail` when a named file is missing, with `missing: <paths>` as the detail. It has the status `pass` when all named files exist. It adds no row for a week with no `image.file` on a book picture.
+5. **Content** (hand edit in a later task, not done by the script): `approval.images` of `content/storytime/l2/w02.json` to `w07.json` by E3. The hand edit waits for the PM relay of Daniel's word.
+6. **Tests.** The new test of E7 runs the script on a temporary copy of a week and its folders. It writes nothing into `content/storytime/`. The change of E8 in `storytime-loops-content.test.ts` drops the `image.file` of each book cover and each book page.
+7. **Hand-off.** The 6 hand-off folders of E5 go to the PM session by 2026-11-16 (peer-report).
+
+### Acceptance Criteria
+
+- AC1: the Phase 7 AC1 to AC4 and AC8 pass for each week of weeks 2 to 7. The phase gives 108 files and 6 provenance files.
+- AC2: `check-weeks.ts --level 2` shows the check `book-pictures` with the status `pass` for st2/2 to st2/7. The same one accepted FAIL stays as before. The detail of `published` stays the same as before the run.
+- AC3: the RED gate fails only on the new and the changed assertions. After Green, the GREEN gate, PROJECT_TESTS, PROJECT_LINT and PROJECT_CHECKS pass.
+- AC4: the orchestrator opens one contact sheet per week and compares each JPEG with the v15 print picture (person-checked). Each JPEG shows the right book, the right page, color, not line art.
+- AC5: each hand-off folder passes `sha256sum -c` and the byte-equal check of E5. The PM confirms each folder (peer-report).
+
+### Blast radius of the addendum
+
+- Files that change: `content/storytime/l2/w02.json` to `content/storytime/l2/w07.json` (the 18 `"file"` lines of each week).
+- New media: `content/storytime/l2/media/w02/books/` to `content/storytime/l2/media/w07/books/` (108 JPEGs and 6 `pictures.sha256` files).
+- Test files that change: `dashboard/__tests__/storytime-loops-content.test.ts` (E8) and the new test file of E7.
+- Any test that counts the check rows of weeks 2 to 7 changes too. The maker greps for them and lists them.
+- `dashboard/scripts/storytime/set-book-pictures.ts` and `dashboard/lib/storytime/schema.ts` do not change, unless a defect shows. The maker reports it then.
+- The repository is public. The pictures are not test items.
+
+### Out of Scope
+
+- Week 1 (w01). Its corrected web pictures (A-48) wait for Daniel's v15 word.
+- The approval of `audio`, `song`, `scripts` and `loops`.
+- The `published` status of any week.
+- The at-home release of 2026-11-20 and the Monorepo work on the packages.
+- A new picture for the app that is not one of the approved print pictures.
