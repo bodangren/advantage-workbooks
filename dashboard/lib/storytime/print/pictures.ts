@@ -1,3 +1,4 @@
+import type { StorytimeCardPictureEntry } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 
 /** What a print picture is for; the size class follows the use (FR-9). */
@@ -61,9 +62,11 @@ export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> 
  * moved to the tricky-word row; the other row changes of the A-48 batch are in its change list.
  * Version 6 (A-48): the two rows `l2-w05-d4-prompt-face` and `l2-w07-d4-prompt-ball` of the new use `d4-prompt`, the prompt
  * pictures of step D4 in weeks 5 and 7 (the ids are the ids of the Forge files); 196 rows.
+ * Version 7 (Phase 8): the 31 card rows of the card kit follow the 196 book rows, so the list holds
+ * 227 rows. `storytimeCardPictureRows` builds the card rows from `card-pictures.json`.
  * A change of the names or of the counts needs a new version.
  */
-export const STORYTIME_PICTURE_LIST_VERSION = 6;
+export const STORYTIME_PICTURE_LIST_VERSION = 7;
 
 /** Lower case, letters and digits only; the base of a file name slug. */
 const stem = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -170,7 +173,8 @@ function promptCoveringRow(week: StorytimeWeek, pictureWord: string, rows: Story
  * From week 2, a practice word also reuses a matching story-page, check-row, or practice
  * row from the same or an earlier week. Week 1 keeps its practice-line rows (two since A-48:
  * the practice line "and" moved to the tricky-word row).
- * The card and sticker rows come with the card kit (Phase 8). Ids and file
+ * The function returns the book rows only. The card rows of version 7 come from
+ * `storytimeCardPictureRows`, and the writer puts them after these rows. Ids and file
  * names are unique across the level; a repeated slug gets a letter suffix from `-b` through
  * `-z`, and a 27th occurrence throws, because the file name carries no digits between the week
  * and the version (FR-2.3). A color or line-art
@@ -239,6 +243,39 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
         for (const item of week.benchmark?.paper.items ?? []) for (const pic of itemPictures(item)) addReused(week, pic);
     }
     return rows;
+}
+
+/**
+ * The card rows of the picture list (Phase 8, version 7): one row for each entry of
+ * `card-pictures.json`, in file order. A card row repeats the week of its entry, uses the size
+ * class C of the picture words, and holds `{ <word>: 1 }` as its objects. The id is
+ * `<level>-w<NN>-card-<word>`, so a card word always has its own file. The card kit matches
+ * these rows before the book rows (see `storytimeCardPictureRow` in `card-kit.ts`).
+ * @param entries The entries of `readLevelCardPictures`.
+ * @param level The Storytime level.
+ * @returns The card rows, in file order, to put after the book rows.
+ */
+export function storytimeCardPictureRows(entries: StorytimeCardPictureEntry[], level: number): StorytimePictureRow[] {
+    const size = STORYTIME_PICTURE_SPEC[STORYTIME_SIZE_CLASS.card];
+    return entries.map((entry) => {
+        const word = entry.word.trim();
+        const id = `l${level}-w${String(entry.week).padStart(2, '0')}-card-${slugOf(word)}`;
+        const fileName = `${id}-v1.png`;
+        return {
+            id,
+            week: entry.week,
+            use: 'card',
+            text: word,
+            prompt: entry.prompt,
+            caption: '',
+            objectCounts: { [word]: 1 },
+            sizeClass: STORYTIME_SIZE_CLASS.card,
+            fileName,
+            lineArtFileName: lineArtNameOf(fileName),
+            width: size.width,
+            height: size.height,
+        };
+    });
 }
 
 /** Resolves a practice word to its delivered row without creating a new picture. */

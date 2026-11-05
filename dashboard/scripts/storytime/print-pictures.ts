@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
-import { pictureListMarkdown, storytimePrintPictures } from '../../lib/storytime/print/pictures';
+import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { pictureListMarkdown, storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 
 const USAGE = `Writes the print picture list of a level (spec FR-2) to content/storytime/l<n>/print/.
 
@@ -38,12 +38,15 @@ function main(argv: string[]): number {
         for (const w of broken) console.error(`${path.relative(process.cwd(), w.file)}: ${w.error}`);
         return 1;
     }
-    const rows = storytimePrintPictures(weeks.flatMap((w) => (w.week ? [w.week] : [])));
+    const bookRows = storytimePrintPictures(weeks.flatMap((w) => (w.week ? [w.week] : [])));
+    // Version 7: the 31 card rows of the card kit follow the book rows, in file order.
+    const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, level), level);
+    const rows = [...bookRows, ...cardRows];
     const dir = path.join(STORYTIME_ROOT, `l${level}`, 'print');
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'pictures.json'), JSON.stringify(rows, null, 2) + '\n');
     fs.writeFileSync(path.join(dir, 'pictures.md'), pictureListMarkdown(rows, level));
-    console.log(`wrote ${rows.length} picture rows to ${path.relative(process.cwd(), dir)}${path.sep}pictures.json and pictures.md`);
+    console.log(`wrote ${rows.length} picture rows (${bookRows.length} book rows and ${cardRows.length} card rows) to ${path.relative(process.cwd(), dir)}${path.sep}pictures.json and pictures.md`);
     return 0;
 }
 

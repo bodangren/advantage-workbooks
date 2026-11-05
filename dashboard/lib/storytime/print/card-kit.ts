@@ -396,13 +396,14 @@ export function storytimeCardKit(weeks: StorytimeWeek[]): StorytimeCardKit {
 interface CardPictureMatch {
     /** The matched row, or undefined when the card has no picture. */
     row?: StorytimePictureRow;
-    /** `text` for case a, `page` for case b, `none` when no row matches. */
+    /** `text` for a card row or case a, `page` for case b, `none` when no row matches. */
     how: 'text' | 'page' | 'none';
 }
 
 /**
- * The picture match of one card (the PM match rule of 2026-11-05): case a first, then case b, then
- * the earliest week, then the list order. See `storytimeCardPictureRow`.
+ * The picture match of one card (the PM match rule of 2026-11-05, extended by Phase 8): the card
+ * row first, then case a, then case b, then the earliest week, then the list order. See
+ * `storytimeCardPictureRow`.
  * @param card The card.
  * @param rows The rows of the picture list of the level.
  * @param delivered The row ids whose color and line-art files are both delivered.
@@ -415,6 +416,14 @@ function cardPictureMatch(
 ): CardPictureMatch {
     const word = card.label.toLowerCase();
     const earliest = (list: StorytimePictureRow[]) => [...list].sort((a, b) => a.week - b.week)[0];
+    // Version 7 of the picture list: a delivered card row of this word wins. The card row carries
+    // the prompt of the card file, so the picture shows the card word and not a book scene. An
+    // undelivered card row is skipped, so a missing card picture never stops the kit.
+    const cardRows = rows.filter((row) =>
+        delivered.has(row.id)
+        && row.use === 'card'
+        && row.text.toLowerCase() === word);
+    if (cardRows.length) return { row: earliest(cardRows), how: 'text' };
     const direct = rows.filter((row) =>
         delivered.has(row.id)
         && CARD_PICTURE_TEXT_USES.includes(row.use)
@@ -431,16 +440,19 @@ function cardPictureMatch(
 }
 
 /**
- * The picture of one card (the PM match rule of 2026-11-05). A card word matches a row of the
- * picture list in two ways:
+ * The picture of one card (the PM match rule of 2026-11-05, extended by Phase 8). A card word
+ * matches a row of the picture list in three ways:
  *
+ * - a `card` row whose text is the card word, in lower case (version 7 of the list);
  * - case a: a `check-row`, `practice-line`, or `d4-prompt` row whose text is the card word, in
  *   lower case;
  * - case b: a `story-page` row whose object counts hold exactly one key above 0, and that key is
  *   the card word or its singular (`arms` to `arm`, `feet` to `foot`).
  *
  * A row counts only when both its color and its line-art file are delivered, so the caller passes
- * the delivered row ids. Case a wins over case b, then the earliest week, then the list order.
+ * the delivered row ids. The card row wins over case a and case b; case a wins over case b. Then
+ * the earliest week wins, then the list order. An undelivered card row is skipped and never an
+ * error, so a level before the Forge delivery prints the book picture.
  * The 8 color words and the numbers one to nine follow the same rule until Daniel answers the ink
  * question.
  * @param card The card.

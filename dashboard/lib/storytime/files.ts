@@ -95,6 +95,43 @@ export function readPhonicsGraph(file: string = PHONICS_GRAPH_FILE): PhonicsGrap
     return phonicsGraphFrom(JSON.parse(fs.readFileSync(file, 'utf8')));
 }
 
+/** One entry of the card picture file: the card word, its first week, and the Forge prompt. */
+export interface StorytimeCardPictureEntry {
+    /** The word of the card, as the card kit prints it. */
+    word: string;
+    /** The first week whose materials name the card. */
+    week: number;
+    /** The Forge prompt of the picture. */
+    prompt: string;
+}
+
+/**
+ * Reads the card picture file of a level: `<root>/l<level>/print/card-pictures.json`.
+ * A level without that file gives an empty list. A file that is not an array, or that holds an
+ * entry without a word, a week of 1 or more, or a prompt, throws. A broken file never reaches the
+ * picture list.
+ * @param root The Storytime content folder.
+ * @param level The Storytime level.
+ * @returns The entries in file order.
+ * @throws Error When the file is not valid JSON, is not an array, or holds an invalid entry.
+ */
+export function readLevelCardPictures(root: string, level: number): StorytimeCardPictureEntry[] {
+    const file = path.join(root, `l${level}`, 'print', 'card-pictures.json');
+    if (!fs.existsSync(file)) return [];
+    const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf8'));
+    if (!Array.isArray(raw)) throw new Error(`not a card picture list: ${file}`);
+    return raw.map((entry: unknown, index: number) => {
+        const item = entry as Partial<StorytimeCardPictureEntry> | null;
+        const word = typeof item?.word === 'string' ? item.word.trim() : '';
+        const week = typeof item?.week === 'number' ? item.week : 0;
+        const prompt = typeof item?.prompt === 'string' ? item.prompt.trim() : '';
+        if (!word || !Number.isInteger(week) || week < 1 || !prompt) {
+            throw new Error(`card picture entry ${index} needs a word, a week of 1 or more, and a prompt`);
+        }
+        return { word, week, prompt };
+    });
+}
+
 /**
  * Reads Daniel's phoneme bank (S22) from its manifest.
  * @param root The Storytime content folder.
