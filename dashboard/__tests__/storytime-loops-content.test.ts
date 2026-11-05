@@ -318,6 +318,8 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         // Daniel approved the w01 audio and song on 2026-11-04, after the baseline commit; the media approvals are not loops content.
         delete copy.approval.audio;
         delete copy.approval.song;
+        // The owner approved the images of weeks 2 to 7 on 2026-11-05, after the baseline commit; the media approvals are not loops content.
+        delete copy.approval.images;
     }
     delete copy.print;
     return copy;
