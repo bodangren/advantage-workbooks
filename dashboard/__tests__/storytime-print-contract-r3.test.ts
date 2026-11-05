@@ -94,11 +94,11 @@ describe('Storytime print Red 3: exact counts (R15, R16)', () => {
         const rows = await pictures(shippedWeeks());
         const keys = [...new Set(rows.flatMap((row) => Object.keys(row.objectCounts)))].sort();
         // Foot replaces feet. Bus, fish, octopus, mouse, and ox retain their singular forms.
-        // The 56 keys include the four week 8 review words. They exclude nap and five negated-only nouns.
+        // The 57 keys include the four week 8 review words and the face of the D4 prompt (version 6). They exclude nap and five negated-only nouns.
         // Counting answers add cake and friend.
         expect(keys).toEqual([
             'ant', 'apple', 'arm', 'axe', 'bag', 'ball', 'bed', 'bird', 'bus', 'cake', 'cat',
-            'cup', 'dog', 'drum', 'duck', 'ear', 'eye', 'fish', 'foot', 'friend', 'frog', 'hand',
+            'cup', 'dog', 'drum', 'duck', 'ear', 'eye', 'face', 'fish', 'foot', 'friend', 'frog', 'hand',
             'hat', 'horse', 'kite', 'leg', 'man', 'mango', 'map', 'mat', 'milk', 'monkey', 'moon', 'mouse', 'neck', 'nest',
             'net', 'nose', 'nurse', 'nut', 'octopus', 'ostrich', 'ox', 'pan', 'pear', 'pen', 'pencil', 'pig',
             'pot', 'sock', 'sofa', 'sun', 'table', 'ten', 'tiger', 'top',
@@ -225,7 +225,7 @@ describe('Storytime print Red 3: list version 6 (R21)', () => {
     it('R21: keeps pictures.json as a top-level array without a version field', () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8'));
         expect(Array.isArray(committed)).toEqual(true);
-        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(191);
+        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(193);
         expect(Object.hasOwn(committed, 'version')).toEqual(false);
     });
 });
@@ -267,10 +267,11 @@ describe('Storytime print Red 4b: week 8 picture list version 6', () => {
         const current = (await pictures(shippedWeeks())).filter((row) => row.week <= 7);
         // A-48: the week 1 practice line "and" moved to the tricky-word row, so its picture row is the one change.
         // A-48 U7: the check words alligator and olive became axe and ostrich, so those 2 rows differ.
+        // A-48 D: the 2 d4-prompt rows (face, ball) are new in version 6.
         const changed = new Set(['l2-w01-practice-line-nut', 'l2-w02-check-row-alligator', 'l2-w07-check-row-olive']);
-        const added = new Set(['l2-w02-check-row-axe', 'l2-w07-check-row-ostrich']);
+        const added = new Set(['l2-w02-check-row-axe', 'l2-w07-check-row-ostrich', 'l2-w05-d4-prompt-face', 'l2-w07-d4-prompt-ball']);
         expect(JSON.stringify(current.filter((row) => !added.has(row.id)))).toBe(JSON.stringify(baseline.filter((row) => row.week <= 7 && !changed.has(row.id))));
-        expect(current.filter((row) => added.has(row.id)).map((row) => row.id)).toEqual(['l2-w02-check-row-axe', 'l2-w07-check-row-ostrich']);
+        expect(current.filter((row) => added.has(row.id)).map((row) => row.id)).toEqual(['l2-w02-check-row-axe', 'l2-w05-d4-prompt-face', 'l2-w07-check-row-ostrich', 'l2-w07-d4-prompt-ball']);
     });
 
     it('R4b-5 keeps the committed picture list in sync with the list function', async () => {

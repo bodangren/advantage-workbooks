@@ -119,9 +119,9 @@ describe('A-48 part 2, F4: the picture row stands above the trace row of D4', ()
         expect(numbers).toEqual(numbers.map((_value, index) => String(index + 1)));
     });
 
-    it('F4-others: week 1 and the weeks without a prompt picture keep the trace row first', async () => {
+    it('F4-others: week 1 and the weeks without a prompt picture (week 4) keep the trace row first', async () => {
         const { doc } = await book();
-        for (const weekNumber of [1, 4, 5, 7]) {
+        for (const weekNumber of [1, 4]) {
             const page = doc.querySelectorAll('.student-page[data-page-kind="writing"]')[weekNumber - 1];
             const d4 = page.querySelector('[data-part="step-block"][data-step="D4"]')!;
             expect(text(d4.querySelector('.row-label')!), `Week ${weekNumber}`).toBe('Trace.');

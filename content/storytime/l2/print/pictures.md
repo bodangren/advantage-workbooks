@@ -1,6 +1,6 @@
 # Storytime Advantage — print picture list (Level 2)
 
-Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
+Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.
 
 ## Week 1
 
@@ -163,6 +163,7 @@ Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w05-check-row-cup-v1.png | l2-w05-check-row-cup-line-v1.png | 1500 × 1500 | check-row | cup | C | cup 1 |
 | l2-w05-check-row-hat-v1.png | l2-w05-check-row-hat-line-v1.png | 1500 × 1500 | check-row | hat | C | hat 1 |
 | l2-w05-check-row-sofa-v1.png | l2-w05-check-row-sofa-line-v1.png | 1500 × 1500 | check-row | sofa | C | sofa 1 |
+| l2-w05-d4-prompt-face-v1.png | l2-w05-d4-prompt-face-line-v1.png | 1500 × 1500 | d4-prompt | face | C | face 1 |
 
 ## Week 6
 
@@ -227,6 +228,7 @@ Version 5 (FR-2, FR-9). `pictures.json` is the machine list; this page is the re
 | l2-w07-check-row-pen-v1.png | l2-w07-check-row-pen-line-v1.png | 1500 × 1500 | check-row | pen | C | pen 1 |
 | l2-w07-check-row-bus-v1.png | l2-w07-check-row-bus-line-v1.png | 1500 × 1500 | check-row | bus | C | bus 1 |
 | l2-w07-check-row-ostrich-v1.png | l2-w07-check-row-ostrich-line-v1.png | 1500 × 1500 | check-row | ostrich | C | ostrich 1 |
+| l2-w07-d4-prompt-ball-v1.png | l2-w07-d4-prompt-ball-line-v1.png | 1500 × 1500 | d4-prompt | ball | C | ball 1 |
 
 ## Week 8
 

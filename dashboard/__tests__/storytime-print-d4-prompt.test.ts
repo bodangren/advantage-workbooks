@@ -68,9 +68,7 @@ describe('A-48 D4 prompt pictures: the picture list', () => {
 });
 
 describe('A-48 D4 prompt pictures: the write pages', () => {
-    const { html } = compileStorytimeStudentBook(weeks(), { profile: STORYTIME_PRINT_PROFILE, mode: 'proof' });
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const d4Of = (week: number) => doc.querySelectorAll('.student-page[data-page-kind="writing"]')[week - 1].querySelector('[data-part="step-block"][data-step="D4"]')!;
+    const d4Of = (week: number) => new DOMParser().parseFromString(compileStorytimeStudentBook(weeks(), { profile: STORYTIME_PRINT_PROFILE, mode: 'proof' }).html, 'text/html').querySelectorAll('.student-page[data-page-kind="writing"]')[week - 1].querySelector('[data-part="step-block"][data-step="D4"]')!;
 
     it.each([[5, 'l2-w05-d4-prompt-face', 'Draw.'], [7, 'l2-w07-d4-prompt-ball', 'Color.']])('D4P-page: week %i prints %s above the trace row with the label %s and one draw box', (week, id, label) => {
         const d4 = d4Of(week);

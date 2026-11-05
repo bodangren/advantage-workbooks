@@ -1,7 +1,7 @@
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 
 /** What a print picture is for; the size class follows the use (FR-9). */
-export type StorytimePictureUse = 'story-page' | 'cover' | 'check-row' | 'practice-line' | 'card' | 'sticker';
+export type StorytimePictureUse = 'story-page' | 'cover' | 'check-row' | 'practice-line' | 'd4-prompt' | 'card' | 'sticker';
 
 /** One row of the picture list that Forge renders from (FR-2.2). */
 export interface StorytimePictureRow {
@@ -47,6 +47,7 @@ export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> 
     cover: 'B',
     'check-row': 'C',
     'practice-line': 'C',
+    'd4-prompt': 'C',
     card: 'C',
     sticker: 'C',
 };
@@ -58,9 +59,11 @@ export const STORYTIME_SIZE_CLASS: Record<StorytimePictureUse, 'A' | 'B' | 'C'> 
  * and of the Benchmark 1 paper, and reuses the row of a word that weeks 1 to 7 already hold.
  * Version 5 (A-48): the row `l2-w01-practice-line-nut` left the list, because the practice line "and"
  * moved to the tricky-word row; the other row changes of the A-48 batch are in its change list.
+ * Version 6 (A-48): the two rows `l2-w05-d4-prompt-face` and `l2-w07-d4-prompt-ball` of the new use `d4-prompt`, the prompt
+ * pictures of step D4 in weeks 5 and 7 (the ids are the ids of the Forge files); 196 rows.
  * A change of the names or of the counts needs a new version.
  */
-export const STORYTIME_PICTURE_LIST_VERSION = 5;
+export const STORYTIME_PICTURE_LIST_VERSION = 6;
 
 /** Lower case, letters and digits only; the base of a file name slug. */
 const stem = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -136,6 +139,26 @@ const rowMatchesPictureWord = (row: StorytimePictureRow, pictureWord: string): b
 const lineArtNameOf = (fileName: string) => fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png');
 
 /**
+ * The row of an older picture that already covers the prompt picture of step D4, or undefined when the prompt needs its own
+ * `d4-prompt` row. A picture covers a prompt only when it shows the thing: a check row or a practice line of this or an
+ * earlier week with exactly that picture word (the apple of week 3), or a story page of this week whose text names the word
+ * and whose object counts hold it (the ducks of week 2, the cat of week 6). The story page "Is it a ball? No!" names the
+ * word and shows no ball, so the ball of week 7 needs its own row.
+ * @param week The week of the prompt.
+ * @param pictureWord The prompt picture word of the week.
+ * @param rows The rows of the list so far, or the whole list.
+ * @returns The covering row, with the rows of this week first.
+ */
+function promptCoveringRow(week: StorytimeWeek, pictureWord: string, rows: StorytimePictureRow[]): StorytimePictureRow | undefined {
+    const target = pictureWord.toLowerCase();
+    const covers = rows.filter((row) => row.week <= week.meta.week && (
+        (['check-row', 'practice-line'].includes(row.use) && row.text.toLowerCase() === target) ||
+        (row.use === 'story-page' && row.week === week.meta.week && rowMatchesPictureWord(row, target) && (row.objectCounts[singularOf(target)] ?? 0) > 0)
+    ));
+    return covers.find((row) => row.week === week.meta.week) ?? covers[0];
+}
+
+/**
  * The picture list of the given weeks (FR-2): the story pages and covers of the books, the
  * picture words of the Friday check rows, the practice-line picture words of the weeks with
  * a `print` block, and the picture words of the review pages and of the benchmark paper of a
@@ -204,6 +227,9 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
             );
             if (!deliveredRowExists) add(week, 'practice-line', line.pictureWord, '', '', { [line.pictureWord]: 1 });
         }
+        // Version 6: a prompt picture of step D4 that no older picture covers gets its own row.
+        const prompt = week.print?.writing.promptPicture;
+        if (prompt && !promptCoveringRow(week, prompt, rows)) add(week, 'd4-prompt', prompt, '', '', { [singularOf(prompt.toLowerCase())]: 1 });
         // Version 4: the review pages of week 8 and the Benchmark 1 paper need the same picture
         // words; a word that weeks 1 to 7 already hold reuses that row (R4b-3).
         for (const day of week.block?.days ?? []) for (const item of day.paper) for (const pic of itemPictures(item)) addReused(week, pic);
@@ -232,6 +258,20 @@ export function storytimePrintPracticePicture(
             ?? candidates.find((row) => row.use === 'story-page');
     }
     return candidates.find((row) => row.week === week.meta.week) ?? candidates[0];
+}
+
+/**
+ * Resolves the prompt picture of step D4 to its row: the `d4-prompt` row of the week when the list has one, else the older
+ * picture that covers the prompt (see `promptCoveringRow`).
+ * @param week The week of the prompt.
+ * @param pictureWord The prompt picture word.
+ * @param rows The whole picture list.
+ * @returns The row, or undefined when no row serves the prompt.
+ */
+export function storytimePrintPromptPicture(week: StorytimeWeek, pictureWord: string, rows: StorytimePictureRow[]): StorytimePictureRow | undefined {
+    const target = pictureWord.toLowerCase();
+    return rows.find((row) => row.use === 'd4-prompt' && row.week === week.meta.week && row.text.toLowerCase() === target)
+        ?? promptCoveringRow(week, pictureWord, rows);
 }
 
 /**

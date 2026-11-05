@@ -3,7 +3,7 @@ import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
-import { storytimePrintPictures, storytimePrintPracticePicture, type StorytimePictureRow } from './pictures';
+import { storytimePrintPictures, storytimePrintPracticePicture, storytimePrintPromptPicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import { dictationRowKind } from './taught-letters';
 import { iconSvg } from './icons';
@@ -463,7 +463,7 @@ function writingPage(week: StorytimeWeek, rows: StorytimePictureRow[], o: Storyt
     const writing = print.writing;
     const frameRow = () => `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Trace.')}${traceLineHtml(writing.traceText, 'writing-trace')}</div>`;
     const lineRow = () => `<div class="work-row" data-part="work-row">${rowStart(++row, ['pencil'], 'Write.')}<span class="write-line" data-part="${writing.line}-line" data-line="${writing.line}" data-student-work></span></div>`;
-    const promptRowData = writing.promptPicture ? storytimePrintPracticePicture(week, writing.promptPicture, rows) : undefined;
+    const promptRowData = writing.promptPicture ? storytimePrintPromptPicture(week, writing.promptPicture, rows) : undefined;
     if (writing.promptPicture && !promptRowData) throw new Error(`picture row missing for the prompt picture "${writing.promptPicture}" of week ${week.meta.week}`);
     const promptRow = () => promptRowData
         ? `<div class="work-row prompt-row" data-part="prompt-row">${rowStart(++row, PROMPT_ACTIONS[writing.promptAction ?? 'look'].icons, PROMPT_ACTIONS[writing.promptAction ?? 'look'].label)}${pictureElement(promptRowData, o, files, 'prompt-picture')}</div>`

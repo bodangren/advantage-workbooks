@@ -94,13 +94,13 @@ afterEach(() => {
 describe('Storytime print v2: line-art names of the picture list (R11)', () => {
     it('gives every row the line-art name of FR-2.3 and FR-9', async () => {
         const rows = await pictures(shippedWeeks());
-        expect(rows.filter((row) => row.week <= 7).length, 'Weeks 1 to 7 keep their 191 rows (A-48: the week 1 practice line "and" is gone).').toBe(191);
+        expect(rows.filter((row) => row.week <= 7).length, 'Weeks 1 to 7 hold 193 rows (A-48: the week 1 practice line "and" is gone; the 2 d4-prompt rows are new).').toBe(193);
         for (const row of rows) {
             expect(row.lineArtFileName, `The row ${row.id} needs a line-art file name.`).toBe(
                 row.fileName.replace(/-v(\d+)\.png$/, '-line-v$1.png'),
             );
             expect(row.lineArtFileName, `The line-art name of ${row.id} matches the pattern.`).toMatch(
-                /^l2-w\d{2}-[a-z-]+-line-v\d+\.png$/,
+                /^l2-w\d{2}-[a-z0-9-]+-line-v\d+\.png$/,
             );
         }
     });
