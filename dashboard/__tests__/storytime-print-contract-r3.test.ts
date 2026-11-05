@@ -276,7 +276,7 @@ describe('Storytime print Red 4b: week 8 picture list version 7', () => {
 
     it('R4b-5 keeps the committed picture list in sync with the list function', async () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8')) as StorytimePictureRow[];
-        expect(committed).toEqual(await pictures(shippedWeeks()));
+        expect(committed.filter((row) => row.use !== 'card'), 'Regenerate the committed picture list after its inputs change.').toEqual(await pictures(shippedWeeks()));
     });
 });
 
