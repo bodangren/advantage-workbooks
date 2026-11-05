@@ -100,6 +100,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .page-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1mm; }
 .week-label { font-size: 9pt; }
 .page-number { position: absolute; right: 14mm; bottom: 8mm; font-size: 9pt; color: #000; }
+.student-page[data-page-kind="home-back"] .page-number { right: 18mm; /* The cut line of a home-card back stands 12 mm from the right trim edge, so the number keeps 6 mm from it (E47, A-48 part F r2). The book rule stays 14 mm. */ }
 .step-block { border: 0.6mm solid #000; padding: 3mm 4mm 4mm; margin-top: 5mm; break-inside: avoid; }
 .step-head { display: flex; align-items: center; gap: 3mm; margin-bottom: 3mm; }
 .step-badge { display: inline-block; font-size: 8pt; line-height: 1.2; background: #d9d9d9; color: #000; padding: 0.6mm 1.8mm; }
