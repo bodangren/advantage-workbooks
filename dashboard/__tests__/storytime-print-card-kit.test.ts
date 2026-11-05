@@ -10,6 +10,8 @@ import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema
  * The test reads the 8 shipped week files of Level 2 and pins the card list of unit 1.
  * Every expected list below is written by hand from the `materials` of the week files.
  * The module `lib/storytime/print/card-kit.ts` does not exist yet, so each test fails inside its body.
+ * The orchestrator review of 2026-11-05 changed the contract of r2: the letter cards keep the repeat
+ * count of the child set, the letter cards are A6, and every card and item holds a `classSet` flag.
  */
 
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
@@ -24,12 +26,14 @@ interface Card {
     kind: CardKind;
     label: string;
     size: CardSize;
+    classSet: boolean;
 }
 
 interface KitItem {
     kind: KitItemKind;
     label: string;
     week: number;
+    classSet: boolean;
 }
 
 interface Kit {
@@ -60,8 +64,13 @@ interface CardKitModule {
 /** The sound cards of unit 1, in the unit teaching order (plan line 935). */
 const SOUND_CARDS = ['n', 'a', 'p', 'm', 's', 't', 'o'];
 
-/** The letter cards of the class set, in the unit teaching order. */
-const LETTER_CARDS = ['n', 'a', 'p', 'm', 's', 't', 'o'];
+/**
+ * The letter cards of the child set, in the unit teaching order.
+ * The count of a letter is its highest count in any one `letter cards (class set)` line.
+ * The line of week 2 names "a, n, n" and the line of week 3 names "p, a, n, n",
+ * so the child set holds two n cards to build "Nan" and "nan".
+ */
+const LETTER_CARDS = ['n', 'n', 'a', 'p', 'm', 's', 't', 'o'];
 
 /** The frame cards: the sentence frame of each teaching week. */
 const FRAME_CARDS = [
@@ -128,11 +137,11 @@ const LETTER_STRIP = [
     'f', 'l', 'u', 'k', 'w', 'y', 'j', 'v', 'x', 'q', 'z',
 ];
 
-/** The number of A5 cards of unit 1: the sound, letter, and frame cards. */
-const A5_CARD_COUNT = 21;
+/** The number of A5 cards of unit 1: the sound and frame cards. */
+const A5_CARD_COUNT = 14;
 
-/** The number of A6 cards of unit 1: the picture, tricky-word, and word cards. */
-const A6_CARD_COUNT = 143;
+/** The number of A6 cards of unit 1: the picture, tricky-word, word, and letter cards. */
+const A6_CARD_COUNT = 151;
 
 /** The module of the card kit. It does not exist before the Green task. */
 async function cardKit(): Promise<CardKitModule> {
@@ -202,7 +211,7 @@ describe('Storytime card kit, unit 1 (spec FR-7)', () => {
         expect(mod.storytimeCardSize('symbol'), 'the symbol card').toBe('A5');
         expect(mod.storytimeCardSize('picture'), 'the picture card').toBe('A6');
         expect(mod.storytimeCardSize('tricky-word'), 'the tricky-word card').toBe('A6');
-        expect(mod.storytimeCardSize('letter'), 'the letter card').toBe('A5');
+        expect(mod.storytimeCardSize('letter'), 'the letter card').toBe('A6');
         expect(mod.storytimeCardSize('frame'), 'the frame card').toBe('A5');
         expect(mod.storytimeCardSize('sound-picture'), 'the sound picture card').toBe('A6');
         expect(mod.storytimeCardSize('family-picture'), 'the family picture card').toBe('A6');
@@ -221,12 +230,12 @@ describe('Storytime card kit, unit 1 (spec FR-7)', () => {
         const a5 = mod.storytimeCardPagePlan(kit.cards, 'A5');
         expect(a5.perSheet, 'the A5 cards on one sheet').toBe(2);
         expect(a5.cards, 'the number of A5 cards').toBe(A5_CARD_COUNT);
-        expect(a5.sheets, 'the number of A5 sheets').toBe(11);
+        expect(a5.sheets, 'the number of A5 sheets').toBe(7);
         expect(a5.sheet, 'the A5 sheet').toEqual({ widthMm: 297, heightMm: 210 });
         const a6 = mod.storytimeCardPagePlan(kit.cards, 'A6');
         expect(a6.perSheet, 'the A6 cards on one sheet').toBe(4);
         expect(a6.cards, 'the number of A6 cards').toBe(A6_CARD_COUNT);
-        expect(a6.sheets, 'the number of A6 sheets').toBe(36);
+        expect(a6.sheets, 'the number of A6 sheets').toBe(38);
         expect(a6.sheet, 'the A6 sheet').toEqual({ widthMm: 210, heightMm: 297 });
     });
 
@@ -258,6 +267,23 @@ describe('Storytime card kit, unit 1 (spec FR-7)', () => {
         const stickers = kit.items.filter((item) => item.kind === 'sticker');
         expect(stickers.map((item) => item.label)).toEqual(STICKERS);
         expect(stickers).toHaveLength(8);
+    });
+
+    it('R-P8-12 only the letter cards of the class set and the workmats are class-set items', async () => {
+        const mod = await cardKit();
+        const kit = mod.storytimeCardKit(weeks());
+        const classSetKinds = [...new Set(
+            [...kit.cards, ...kit.items].filter((entry) => entry.classSet).map((entry) => entry.kind),
+        )].sort();
+        expect(classSetKinds, 'the class-set kinds of the kit').toEqual(['letter', 'workmat']);
+        for (const card of kit.cards) {
+            expect(card.classSet, `the class-set flag of the ${card.kind} card "${card.label}"`)
+                .toBe(card.kind === 'letter');
+        }
+        for (const item of kit.items) {
+            expect(item.classSet, `the class-set flag of the ${item.kind} item "${item.label}"`)
+                .toBe(item.kind === 'workmat');
+        }
     });
 
     it('R-P8-11 mutant: one removed materials item changes the card list and fails the check', async () => {
