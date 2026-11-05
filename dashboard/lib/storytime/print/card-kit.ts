@@ -143,18 +143,42 @@ interface MaterialsLine {
 const MATERIALS_LINE = /^([a-z][a-z ]*?)\s*(?:\(([^)]*)\))?\s*(?::\s*(.*))?$/i;
 
 /**
+ * Splits the body of a sticker line on the commas that sit outside a pair of double quotes. A name
+ * in quotes keeps its comma (`"Tap, Tap!"`), and a name without quotes stays one item, so a line
+ * that mixes the two forms keeps every name (Review C, C-P8-2). The quotes are dropped.
+ * @param body The text after the colon.
+ * @returns The items, trimmed, in the order of the line.
+ */
+function splitOutsideQuotes(body: string): string[] {
+    const items: string[] = [];
+    let current = '';
+    let quoted = false;
+    for (const char of body) {
+        if (char === '"') {
+            quoted = !quoted;
+            continue;
+        }
+        if (char === ',' && !quoted) {
+            items.push(current);
+            current = '';
+            continue;
+        }
+        current += char;
+    }
+    items.push(current);
+    return items.map((item) => item.trim()).filter(Boolean);
+}
+
+/**
  * Splits the items of a line. A sticker line keeps a comma inside its name (`"Tap, Tap!"`), so a
- * quoted sticker line gives its quoted names, and any other line splits on the commas.
+ * sticker line splits on the commas outside its quotes; any other line splits on the commas.
  * @param name The lower-case name of the line.
  * @param body The text after the colon.
  * @returns The items, trimmed, in the order of the line.
  */
 function itemsOf(name: string, body: string): string[] {
     if (!body) return [];
-    if (name === 'sticker' || name === 'stickers') {
-        const quoted = [...body.matchAll(/"([^"]+)"/g)].map((match) => match[1].trim()).filter(Boolean);
-        return quoted.length ? quoted : [body.trim()];
-    }
+    if (name === 'sticker' || name === 'stickers') return splitOutsideQuotes(body);
     return body.split(',').map((item) => item.trim()).filter(Boolean);
 }
 
@@ -365,6 +389,44 @@ export function storytimeCardKit(weeks: StorytimeWeek[]): StorytimeCardKit {
     return { cards, items, letterStrip };
 }
 
+/** A picture match: the row, and the case of the rule that found it (the PM rule of 2026-11-05). */
+interface CardPictureMatch {
+    /** The matched row, or undefined when the card has no picture. */
+    row?: StorytimePictureRow;
+    /** `text` for case a, `page` for case b, `none` when no row matches. */
+    how: 'text' | 'page' | 'none';
+}
+
+/**
+ * The picture match of one card (the PM match rule of 2026-11-05): case a first, then case b, then
+ * the earliest week, then the list order. See `storytimeCardPictureRow`.
+ * @param card The card.
+ * @param rows The rows of the picture list of the level.
+ * @param delivered The row ids whose color and line-art files are both delivered.
+ * @returns The matched row and the case, or `none`.
+ */
+function cardPictureMatch(
+    card: StorytimeCard,
+    rows: StorytimePictureRow[],
+    delivered: ReadonlySet<string>,
+): CardPictureMatch {
+    const word = card.label.toLowerCase();
+    const earliest = (list: StorytimePictureRow[]) => [...list].sort((a, b) => a.week - b.week)[0];
+    const direct = rows.filter((row) =>
+        delivered.has(row.id)
+        && CARD_PICTURE_TEXT_USES.includes(row.use)
+        && row.text.toLowerCase() === word);
+    if (direct.length) return { row: earliest(direct), how: 'text' };
+    const singular = singularOf(word);
+    const pages = rows.filter((row) => {
+        if (!delivered.has(row.id) || row.use !== 'story-page') return false;
+        const keys = Object.keys(row.objectCounts).filter((key) => (row.objectCounts[key] ?? 0) > 0);
+        return keys.length === 1 && (keys[0] === word || keys[0] === singular);
+    });
+    if (pages.length) return { row: earliest(pages), how: 'page' };
+    return { how: 'none' };
+}
+
 /**
  * The picture of one card (the PM match rule of 2026-11-05). A card word matches a row of the
  * picture list in two ways:
@@ -388,41 +450,40 @@ export function storytimeCardPictureRow(
     rows: StorytimePictureRow[],
     delivered: ReadonlySet<string>,
 ): StorytimePictureRow | undefined {
-    const word = card.label.toLowerCase();
-    const earliest = (list: StorytimePictureRow[]) => [...list].sort((a, b) => a.week - b.week)[0];
-    const direct = rows.filter((row) =>
-        delivered.has(row.id)
-        && CARD_PICTURE_TEXT_USES.includes(row.use)
-        && row.text.toLowerCase() === word);
-    if (direct.length) return earliest(direct);
-    const singular = singularOf(word);
-    const pages = rows.filter((row) => {
-        if (!delivered.has(row.id) || row.use !== 'story-page') return false;
-        const keys = Object.keys(row.objectCounts).filter((key) => (row.objectCounts[key] ?? 0) > 0);
-        return keys.length === 1 && (keys[0] === word || keys[0] === singular);
-    });
-    return earliest(pages);
+    return cardPictureMatch(card, rows, delivered).row;
 }
 
 /**
- * The match result of every picture-type card, one line for each card: the kind, the label, and
- * the matched row id or `none`, separated by tabs. The file `<out>/card-picture-match.txt` holds
- * exactly these lines, so a count of the lines is the count of the picture-type cards.
+ * The match result of every picture-type card, one line for each card: the kind, the label, the
+ * matched row id or `none`, and the fourth column. A matched line names its case (`text` or
+ * `page`); an unmatched line names its reason (`none: no row`, `none: files not delivered`, or the
+ * message of the failed file check, Review B, B-P8-3). The file `<out>/card-picture-match.txt`
+ * holds exactly these lines, so a count of the lines is the count of the picture-type cards.
  * @param cards The cards of the kit.
  * @param rows The rows of the picture list of the level.
  * @param delivered The row ids whose color and line-art files are both delivered.
+ * @param reasons The bare message of each row whose file check failed, by row id.
  * @returns One line for each picture-type card, in kit order.
  */
 export function storytimeCardPictureMatchLines(
     cards: StorytimeCard[],
     rows: StorytimePictureRow[],
     delivered: ReadonlySet<string>,
+    reasons: ReadonlyMap<string, string> = new Map(),
 ): string[] {
+    const all = new Set(rows.map((row) => row.id));
     return cards
         .filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind))
         .map((card) => {
-            const row = storytimeCardPictureRow(card, rows, delivered);
-            return `${card.kind}\t${card.label}\t${row ? row.id : 'none'}`;
+            const match = cardPictureMatch(card, rows, delivered);
+            if (match.row) return `${card.kind}\t${card.label}\t${match.row.id}\t${match.how}`;
+            // The row the card would match when every file were in place tells the two reasons
+            // apart: a missing row, or a row whose files are not delivered.
+            const candidate = cardPictureMatch(card, rows, all).row;
+            const reason = candidate
+                ? `none: ${reasons.get(candidate.id) ?? 'files not delivered'}`
+                : 'none: no row';
+            return `${card.kind}\t${card.label}\tnone\t${reason}`;
         });
 }
 
