@@ -245,7 +245,7 @@ describe('A-48 part 2, U8: the readers (B17, E52) and the question pages (E37)',
         const { doc } = await book();
         const want: Record<string, [string, string[]]> = {
             'Hello!': ['Listen and read.', ['ear', 'read']],
-            'Nan Can Nod': ['Say the first sound.', ['ear', 'mouth']],
+            'Nan Can Nod': ['Listen and read.', ['ear', 'read']],
             'Can I?': ['Sound it out.', ['read', 'mouth']],
             'The Top': ['Sound it out.', ['read', 'mouth']],
             'Paint!': ['Listen and read.', ['ear', 'read']],
