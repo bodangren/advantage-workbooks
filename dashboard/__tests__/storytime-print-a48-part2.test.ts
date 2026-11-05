@@ -82,9 +82,9 @@ describe('A-48 part 2, F5: the label of the picture row', () => {
         expect(make({ promptAction: '' }).success).toBe(false);
     });
 
-    it('F5-data: week 2 looks, weeks 3 and 6 color; weeks 5 and 7 wait for their art', () => {
+    it('F5-data: week 2 looks, weeks 3, 6, and 7 color, week 5 draws', () => {
         const actions = weeks().slice(0, 7).map((week) => week.print!.writing.promptAction);
-        expect(actions).toEqual([undefined, 'look', 'color', undefined, undefined, 'color', undefined]);
+        expect(actions).toEqual([undefined, 'look', 'color', undefined, 'draw', 'color', 'color']);
     });
 
     it('F5-check: color needs the word "color" in D4 and draw needs the word "draw"', () => {
@@ -164,13 +164,13 @@ describe('A-48 part 2, U7: the check pictures axe and ostrich replace the alliga
         }
     });
 
-    it('U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 194 rows (the ostrich row serves week 7 and week 8)', async () => {
+    it('U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 196 rows (the ostrich row serves week 7 and week 8; the 2 d4-prompt rows of weeks 5 and 7 are in the 196)', async () => {
         const mod = await import(path.join(dashboardRoot, 'lib/storytime/print/pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
         const ids = mod.storytimePrintPictures(weeks()).map((row) => row.id);
         expect(ids).toContain('l2-w02-check-row-axe');
         expect(ids).toContain('l2-w07-check-row-ostrich');
         expect(ids.filter((id) => /alligator|olive/.test(id))).toEqual([]);
-        expect(ids).toHaveLength(194);
+        expect(ids).toHaveLength(196);
     });
 
     it('U7-nut: the nut pages keep the word nut (Forge draws a peanut)', () => {

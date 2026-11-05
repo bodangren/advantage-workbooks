@@ -49,12 +49,12 @@ function cssRule(style: string, selector: string): string {
 
 interface TaughtModule { dictationRowKind: (word: string, week: number) => 'sound-boxes' | 'trace' }
 
-describe('A-48 part 1, version: the picture list is Version 5', () => {
-    it('V5-list: the constant, the committed pictures.md, and the generated header say Version 5', async () => {
+describe('A-48 part 1, version: the picture list is Version 6', () => {
+    it('V6-list: the constant, the committed pictures.md, and the generated header say Version 6', async () => {
         const mod = await import(path.join(printDir, 'pictures.ts')) as { STORYTIME_PICTURE_LIST_VERSION: number };
-        expect(mod.STORYTIME_PICTURE_LIST_VERSION).toBe(5);
+        expect(mod.STORYTIME_PICTURE_LIST_VERSION).toBe(6);
         const md = fs.readFileSync(path.join(STORYTIME_ROOT, 'l2/print/pictures.md'), 'utf8');
-        expect(md.split('\n').slice(0, 3).join('\n')).toContain('Version 5');
+        expect(md.split('\n').slice(0, 3).join('\n')).toContain('Version 6');
     });
 });
 
@@ -155,9 +155,9 @@ const D4_DATA: Record<number, { promptPicture?: string; choiceWords?: string[]; 
     2: { promptPicture: 'ducks', choiceWords: ['one', 'two', 'three'], pictureBox: true },
     3: { promptPicture: 'apple', choiceWords: ['red', 'blue', 'yellow'], pictureBox: true },
     4: { choiceWords: ['mom', 'dad', 'brother', 'sister', 'grandma', 'grandpa', 'family'], pictureBox: true },
-    5: { choiceWords: ['hands', 'ears', 'feet'], pictureBox: true },
+    5: { promptPicture: 'face', choiceWords: ['hands', 'ears', 'feet'], pictureBox: true },
     6: { promptPicture: 'cat', choiceWords: ['dog', 'fish', 'bird'], pictureBox: true },
-    7: { choiceWords: ['car', 'kite', 'drum'], pictureBox: true },
+    7: { promptPicture: 'ball', choiceWords: ['car', 'kite', 'drum'], pictureBox: true },
 };
 
 describe('A-48 U2: the write pages (E11 to E16)', () => {
@@ -212,10 +212,10 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         const want = D4_DATA[weekNumber];
         const page = doc.querySelectorAll('.student-page[data-page-kind="writing"]')[weekNumber - 1];
         const d4 = page.querySelector('[data-part="step-block"][data-step="D4"]')!;
-        // The prompt picture is a picture-list row that already exists (no new row).
+        // The prompt picture is a picture-list row: an existing row, or the d4-prompt row of weeks 5 and 7 (version 6).
         const prompts = d4.querySelectorAll('[data-part="prompt-row"] .picture-box');
         expect(prompts).toHaveLength(want.promptPicture ? 1 : 0);
-        if (want.promptPicture) expect(prompts[0].getAttribute('data-picture-id')).toMatch(/^l2-w0[1-7]-(story-page|check-row|practice-line)-/);
+        if (want.promptPicture) expect(prompts[0].getAttribute('data-picture-id')).toMatch(/^l2-w0[1-7]-(story-page|check-row|practice-line|d4-prompt)-/);
         const boxes = d4.querySelectorAll('[data-part="writing-picture-box"]');
         const expectedBoxes = want.pictureBox ? (want.choiceWords ? 2 - (want.promptPicture ? 1 : 0) : 1) : 0;
         expect(boxes, `Week ${weekNumber} draw boxes`).toHaveLength(expectedBoxes);
@@ -235,9 +235,9 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         expect(week.print!.writing.line === 'name' ? labels.indexOf('Write.') < labels.indexOf('Draw.') : labels.indexOf('Write.') > labels.lastIndexOf('Trace one.'), 'the name line follows the frame; the word line follows the choice words').toBe(true);
     });
 
-    it('U2-rows: the picture list keeps its rows (194 after U7) and the prompt pictures add none', async () => {
+    it('U2-rows: the picture list has 196 rows (194 after U7, plus the 2 d4-prompt rows of weeks 5 and 7)', async () => {
         const mod = await import(path.join(printDir, 'pictures.ts')) as { storytimePrintPictures: (w: StorytimeWeek[]) => { id: string }[] };
-        expect(mod.storytimePrintPictures(weeks()).length).toBe(194);
+        expect(mod.storytimePrintPictures(weeks()).length).toBe(196);
     });
 
     it('U2-count: the book keeps 136 pages', async () => {

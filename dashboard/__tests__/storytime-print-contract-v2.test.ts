@@ -11,7 +11,7 @@ import type { PackageCheck } from '../lib/lesson-package/checks';
 /**
  * Green 2 API contract (test strategy 4.13.2):
  * - print/pictures.ts exports STORYTIME_PICTURE_SPEC and adds `lineArtFileName`, `width`, and
- *   `height` to every row; pictureListMarkdown(rows, 2) writes the "Version 5" readable list after Red 4b.
+ *   `height` to every row; pictureListMarkdown(rows, 2) writes the "Version 6" readable list after Red 4b.
  * - print/text-check.ts adds the picture-word check; its id is `print-picture-word`.
  * - schema.ts keeps `source` and `words` on each of the six app approval parts (parsed values).
  * New modules load inside test bodies with await import, so a missing export fails one test.
@@ -312,14 +312,14 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
 });
 
 describe('Storytime print v2: the readable list drift guard (R10b)', () => {
-    it('keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 5"', async () => {
+    it('keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 6"', async () => {
         const exports = await import(path.join(storytimeModuleRoot, 'print', 'pictures.ts'));
         expect(exports.pictureListMarkdown, 'Export pictureListMarkdown from print/pictures.ts.').toBeTypeOf('function');
         const rows = await pictures(shippedWeeks());
         const file = path.join(printDir, 'pictures.md');
         expect(fs.existsSync(file), 'Commit content/storytime/l2/print/pictures.md.').toBe(true);
         const committed = fs.readFileSync(file, 'utf8');
-        expect(committed.split('\n').slice(0, 3).join('\n'), 'The committed list header says Version 5.').toContain('Version 5');
+        expect(committed.split('\n').slice(0, 3).join('\n'), 'The committed list header says Version 6.').toContain('Version 6');
         expect(committed, 'Regenerate pictures.md after its inputs change.').toBe(exports.pictureListMarkdown(rows, 2));
         const lines = committed.split('\n');
         for (const row of rows) {
