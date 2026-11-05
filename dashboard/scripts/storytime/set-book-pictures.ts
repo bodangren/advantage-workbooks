@@ -47,10 +47,34 @@ export async function setBookPictures(options: Options): Promise<number> {
     const images = imagesOf(week);
     const rowsPath = options.rowsFile ?? path.join(path.dirname(options.pictureFolder), 'pictures.json');
     const rows = JSON.parse(fs.readFileSync(rowsPath, 'utf8')) as PictureRow[];
+    // E9: the n-th book picture with the same use and text takes the n-th row with that week,
+    // use and text, in the file order of pictures.json. A different count of rows is a data error.
+    const groupRows = new Map<string, PictureRow[]>();
+    for (const row of rows.filter((row) => row.week === week.meta.week)) {
+        const key = JSON.stringify([row.use, row.text]);
+        const list = groupRows.get(key);
+        if (list) list.push(row);
+        else groupRows.set(key, [row]);
+    }
+    const groupPictures = new Map<string, number>();
+    for (const item of images) {
+        const key = JSON.stringify([item.use, item.text]);
+        groupPictures.set(key, (groupPictures.get(key) ?? 0) + 1);
+    }
+    for (const [key, count] of groupPictures) {
+        const rowCount = groupRows.get(key)?.length ?? 0;
+        if (rowCount !== count) {
+            const [use, text] = JSON.parse(key) as [string, string];
+            throw new Error(`picture match: ${use} "${text}" has ${count} pictures and ${rowCount} rows`);
+        }
+    }
+    const usedRows = new Map<string, number>();
     const matched = images.map((item) => {
-        const candidates = rows.filter((row) => row.week === week.meta.week && row.use === item.use && row.text === item.text);
-        if (candidates.length !== 1) throw new Error(`picture match: ${item.use} "${item.text}" has ${candidates.length} rows`);
-        return { item, row: candidates[0] };
+        const key = JSON.stringify([item.use, item.text]);
+        const list = groupRows.get(key) ?? [];
+        const index = usedRows.get(key) ?? 0;
+        usedRows.set(key, index + 1);
+        return { item, row: list[index] };
     });
     const resolved = resolveStorytimePictureFiles(options.pictureFolder, matched.map(({ row }) => row), 'color');
     if (resolved.length !== images.length) throw new Error(`picture resolver: expected ${images.length} files, got ${resolved.length}`);
