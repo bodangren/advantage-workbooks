@@ -306,7 +306,12 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
             if (dropTh) delete step.th;
         }
     }
-    for (const book of copy.books ?? []) delete book.questions;
+    for (const book of copy.books ?? []) {
+        delete book.questions;
+        // The app picture paths of the book covers and pages are media paths, not loops content.
+        delete book.cover?.file;
+        for (const page of book.pages ?? []) delete page.image?.file;
+    }
     if (copy.approval) {
         delete copy.approval.loops;
         delete copy.approval.print;
