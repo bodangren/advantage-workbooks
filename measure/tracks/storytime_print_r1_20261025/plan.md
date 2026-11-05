@@ -1043,8 +1043,6 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
 - [b] Task (Later, after release 1): the alphabet frieze for the classroom (Daniel 2026-10-26: keep the class accessories in the plan) — deferred:daniel
 - [~] Task (Red, owner approval 2026-11-06 "Go"): the 31 card picture rows (picture list version 7)
 - [ ] Task (Green, owner approval 2026-11-06): card-pictures.json with the 31 prompts, the card rows, pictures.json and pictures.md version 7; the row list to the PM
-- [~] Task (Red, owner approval 2026-11-06 "Go"): the 31 card picture rows (picture list version 7)
-- [ ] Task (Green, owner approval 2026-11-06): card-pictures.json with the 31 prompts, the card rows, pictures.json and pictures.md version 7; the row list to the PM
 - [~] Task (Red, owner request 2026-11-06): the sticker pictures cover the 40 mm circle
     - Owner (Daniel, 2026-11-06, PM relay): "All are fine. The stickers are rectangular images inside of circles with white space around the rectangles. Is it possible to expand the size of the rectangles, cropping to the circle size so that there's no white space inside the circle?" PM decision: scale each sticker picture so that it covers the whole 40 mm circle, centered, and clip it to the circle. No white space stays inside the circle. The cut circle and the sheet layout stay as they are. If the crop cuts a title or a face on a cover, move the center of that picture (an override for that sticker only). The A5 and A6 card files do not change. The sticker file becomes v3.
 - [ ] Task (Green, owner request 2026-11-06): the sticker pictures cover the circle; the sticker file v3 with a 300 dpi contact image
