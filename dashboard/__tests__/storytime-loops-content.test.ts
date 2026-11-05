@@ -37,7 +37,8 @@ const shippedRaw = (n: number): Raw => JSON.parse(fs.readFileSync(weekFile(n), '
 
 /**
  * The script edits of track `storytime_print_r1_20261025` (A-48), exact text pairs of the baseline file: the
- * capital letter of the first word of a practice line quote (F2), and the formation words of week 1 (E49).
+ * capital letter of the first word of a practice line quote (F2), the formation words of week 1 (E49), and the back list
+ * of the week 5 read-along (E4: "one" and "four" are story words and week 2 family words).
  * The baseline side takes each edit before the compare, so any other change of a week file still fails. Each pair
  * must match exactly once: a stale pair fails the test.
  */
@@ -83,6 +84,7 @@ const A48_SCRIPT_EDITS: Record<number, [string, string][]> = {
         ['ชี้ที่ลูกโป่งแล้วถามว่า', 'ชี้ที่ภาพแล้วถามว่า'],
     ],
     4: [['with me: am. Man.', 'with me: Am. Man.'], ['Read the words: am. Man.', 'Read the words: Am. Man.']],
+    5: [['        "feet",\n        "nose"\n      ]', '        "feet",\n        "one",\n        "nose",\n        "four"\n      ]']],
     6: [['with me: sat. Mat.', 'with me: Sat. Mat.'], ['Read the words: sat. Mat.', 'Read the words: Sat. Mat.']],
     7: [
         ['"pen",\n          "bus",\n          "olive"\n        ],\n        "answer": "olive"', '"pen",\n          "bus",\n          "ostrich"\n        ],\n        "answer": "ostrich"'],
