@@ -47,6 +47,39 @@ function cssRule(style: string, selector: string): string {
     return '';
 }
 
+/**
+ * The right offset of the page number of a page, in mm. The inline style of the element wins.
+ * Then a CSS rule that matches the element wins over the book rule of `.page-number`.
+ * @param element The page-number element.
+ * @param style The CSS text of the book.
+ * @returns The offset in mm, or null when no rule sets it.
+ */
+function pageNumberRightMm(element: Element, style: string): number | null {
+    const inline = element.getAttribute('style') ?? '';
+    const inlineRight = inline.match(/(?:^|;)\s*right\s*:\s*([0-9.]+)mm/);
+    if (inlineRight) return Number(inlineRight[1]);
+    let bookRule: number | null = null;
+    let scoped: number | null = null;
+    for (const match of style.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+        const right = match[2].match(/(?:^|;)\s*right\s*:\s*([0-9.]+)mm/);
+        if (!right) continue;
+        for (const selector of match[1].split(',').map((part) => part.trim())) {
+            if (selector === '.page-number') {
+                bookRule = Number(right[1]);
+                continue;
+            }
+            let applies = false;
+            try {
+                applies = element.matches(selector);
+            } catch {
+                applies = false;
+            }
+            if (applies) scoped = Number(right[1]);
+        }
+    }
+    return scoped ?? bookRule;
+}
+
 interface TaughtModule { dictationRowKind: (word: string, week: number) => 'sound-boxes' | 'trace' }
 
 describe('A-48 part 1, version: the picture list is Version 6', () => {
@@ -412,6 +445,24 @@ describe('A-48 U5: the home cards (E44, E45, E47)', () => {
             const cut = card.querySelector('[data-part="perforation"]')!.getAttribute('style') ?? '';
             expect(cut, 'the cut line stays 12 mm from the spine edge').toContain(`${edge}:12mm`);
             expect(card.getAttribute('style') ?? '', `page ${card.getAttribute('data-page-number')}`).toContain(`padding-${edge}:18mm`);
+        }
+    });
+
+    it('U5-number: the page number of a card keeps 6 mm from the cut line (A-48 part F F1)', async () => {
+        const { doc } = await book();
+        const cards = Array.from(doc.querySelectorAll('.student-page[data-page-kind="home-front"], .student-page[data-page-kind="home-back"]'));
+        expect(cards).toHaveLength(14);
+        const style = doc.querySelector('style')!.textContent ?? '';
+        expect(cssRule(style, '.page-number'), 'The book rule puts the page number 14 mm from the outer edge.').toMatch(/right:\s*14mm/);
+        for (const card of cards) {
+            const page = card.getAttribute('data-page-number');
+            const edge = card.querySelector('[data-part="perforation"]')!.getAttribute('data-spine-edge');
+            const number = card.querySelector('[data-part="page-number"]');
+            expect(number, `page ${page} carries a page number`).not.toBeNull();
+            // The cut line stands 12 mm from the spine edge, so the number keeps 6 mm from it at 18 mm.
+            const offset = pageNumberRightMm(number!, style);
+            const expected = edge === 'right' ? 18 : 14;
+            expect(offset, `page ${page}: the page number of a card with the spine edge on the ${edge} keeps ${expected} mm from that edge.`).toBe(expected);
         }
     });
 
