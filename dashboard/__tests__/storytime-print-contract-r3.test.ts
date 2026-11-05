@@ -162,7 +162,7 @@ describe('Storytime print Red 3: bounded suffixes (R20)', () => {
             'l2-w01-check-row-hat', 'l2-w01-check-row-cup', 'l2-w01-check-row-net',
             'l2-w01-practice-line-nose', 'l2-w01-practice-line-nest',
         ];
-        expect(committed.filter((row) => row.week === 1).map((row) => row.id)).toEqual(expected);
+        expect(committed.filter((row) => row.week === 1 && row.use !== 'card').map((row) => row.id)).toEqual(expected);
         expect((await pictures([shipped(1)])).map((row) => row.id)).toEqual(expected);
     });
 
@@ -194,49 +194,49 @@ describe('Storytime print Red 3: bounded suffixes (R20)', () => {
     }, 10000);
 });
 
-describe('Storytime print Red 3: list version 6 (R21)', () => {
-    it('R21: exports one list version constant with the value 6', async () => {
+describe('Storytime print Red 3: list version 7 (R21)', () => {
+    it('R21: exports one list version constant with the value 7', async () => {
         const exports = await import(picturesModule);
-        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(6);
+        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(7);
     });
 
-    it.each([2, 3])('R21: uses level %i as the level and the exported constant as Version 6', async (level) => {
+    it.each([2, 3])('R21: uses level %i as the level and the exported constant as Version 7', async (level) => {
         const exports = await import(picturesModule);
         const rows = await pictures(shippedWeeks());
         const header = exports.pictureListMarkdown(rows, level).split('\n').slice(0, 3);
         expect(header).toEqual([
             `# Storytime Advantage — print picture list (Level ${level})`,
             '',
-            'Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+            'Version 7 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
         ]);
         expect(header[2]).toEqual(
             `Version ${exports.STORYTIME_PICTURE_LIST_VERSION} (FR-2, FR-9). \`pictures.json\` is the machine list; this page is the readable copy.`,
         );
     });
 
-    it('R21: commits the Version 6 header in pictures.md', () => {
+    it('R21: commits the Version 7 header in pictures.md', () => {
         expect(fs.readFileSync(path.join(printDir, 'pictures.md'), 'utf8').split('\n').slice(0, 3)).toEqual([
             '# Storytime Advantage — print picture list (Level 2)',
             '',
-            'Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+            'Version 7 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
         ]);
     });
 
     it('R21: keeps pictures.json as a top-level array without a version field', () => {
         const committed = JSON.parse(fs.readFileSync(path.join(printDir, 'pictures.json'), 'utf8'));
         expect(Array.isArray(committed)).toEqual(true);
-        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(193);
+        expect(committed.filter((row: StorytimePictureRow) => row.week <= 7).length).toEqual(224);
         expect(Object.hasOwn(committed, 'version')).toEqual(false);
     });
 });
 
-describe('Storytime print Red 4b: week 8 picture list version 6', () => {
-    it('R4b-1 exports picture-list version 6 and uses it in generated markdown', async () => {
+describe('Storytime print Red 4b: week 8 picture list version 7', () => {
+    it('R4b-1 exports picture-list version 7 and uses it in generated markdown', async () => {
         const exports = await import(picturesModule);
         const rows = await pictures(shippedWeeks());
-        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(6);
+        expect(exports.STORYTIME_PICTURE_LIST_VERSION).toEqual(7);
         expect(exports.pictureListMarkdown(rows, 2).split('\n')[2]).toBe(
-            'Version 6 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
+            'Version 7 (FR-2, FR-9). `pictures.json` is the machine list; this page is the readable copy.',
         );
     });
 

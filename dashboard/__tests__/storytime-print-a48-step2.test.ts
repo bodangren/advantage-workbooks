@@ -82,12 +82,12 @@ function pageNumberRightMm(element: Element, style: string): number | null {
 
 interface TaughtModule { dictationRowKind: (word: string, week: number) => 'sound-boxes' | 'trace' }
 
-describe('A-48 part 1, version: the picture list is Version 6', () => {
-    it('V6-list: the constant, the committed pictures.md, and the generated header say Version 6', async () => {
+describe('A-48 part 1, version: the picture list is Version 7', () => {
+    it('V6-list: the constant, the committed pictures.md, and the generated header say Version 7', async () => {
         const mod = await import(path.join(printDir, 'pictures.ts')) as { STORYTIME_PICTURE_LIST_VERSION: number };
-        expect(mod.STORYTIME_PICTURE_LIST_VERSION).toBe(6);
+        expect(mod.STORYTIME_PICTURE_LIST_VERSION).toBe(7);
         const md = fs.readFileSync(path.join(STORYTIME_ROOT, 'l2/print/pictures.md'), 'utf8');
-        expect(md.split('\n').slice(0, 3).join('\n')).toContain('Version 6');
+        expect(md.split('\n').slice(0, 3).join('\n')).toContain('Version 7');
     });
 });
 

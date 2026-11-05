@@ -88,8 +88,10 @@ function shipped(): { cards: StorytimeCard[]; rows: StorytimePictureRow[]; deliv
     const rows = JSON.parse(
         fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures.json'), 'utf8'),
     ) as StorytimePictureRow[];
-    const color = resolveStorytimePictureFiles(folder, rows, 'color');
-    resolveStorytimePictureFiles(folder, rows, 'line');
+    // The card rows have no delivered picture file yet, so the resolution reads the book rows only.
+    const bookRows = rows.filter((row) => row.use !== 'card');
+    const color = resolveStorytimePictureFiles(folder, bookRows, 'color');
+    resolveStorytimePictureFiles(folder, bookRows, 'line');
     shippedFacts = {
         cards: storytimeCardKit(weeks()).cards,
         rows,

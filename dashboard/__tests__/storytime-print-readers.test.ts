@@ -1034,7 +1034,7 @@ describe('Storytime two-output picture check', () => {
     }, 30_000);
 
     /** One shipped week 1 picture row: the row id, the flat list names, and the pixel size. */
-    type Week1Row = { id: string; fileName: string; lineArtFileName: string; width: number; height: number; week: number };
+    type Week1Row = { id: string; fileName: string; lineArtFileName: string; width: number; height: number; week: number; use: string };
 
     /**
      * The 29 shipped week 1 rows of `content/storytime/l2/print/pictures.json`. The delivery
@@ -1045,7 +1045,7 @@ describe('Storytime two-output picture check', () => {
     function week1Rows(): Week1Row[] {
         const source = path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures.json');
         const rows = JSON.parse(fs.readFileSync(source, 'utf8')) as Week1Row[];
-        return rows.filter((row) => row.week === 1);
+        return rows.filter((row) => row.week === 1 && row.use !== 'card');
     }
 
     /**

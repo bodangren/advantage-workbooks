@@ -12,7 +12,7 @@ import { checkStorytimePrintText } from '../lib/storytime/print/text-check';
 /**
  * A-48 D4 prompt pictures (Forge items 23 and 24): the D4 scripts of weeks 5 and 7 say "draw their two eyes in
  * the face above it" and "color the ball". Each prompt has its own picture-list row of the use `d4-prompt`
- * (version 6, 196 rows). An older picture covers a prompt only when it shows the thing: the ducks of week 2,
+ * (version 7, 196 book rows and 31 card rows). An older picture covers a prompt only when it shows the thing: the ducks of week 2,
  * the apple of week 3, and the cat of week 6 keep their rows.
  */
 
@@ -27,7 +27,7 @@ const text = (element: Element): string => (element.textContent ?? '').replace(/
 describe('A-48 D4 prompt pictures: the picture list', () => {
     it('D4P-rows: the list has 196 rows and exactly the 2 d4-prompt rows face (week 5) and ball (week 7), size class C, 1500 x 1500', () => {
         const rows = storytimePrintPictures(weeks());
-        expect(STORYTIME_PICTURE_LIST_VERSION).toBe(6);
+        expect(STORYTIME_PICTURE_LIST_VERSION).toBe(7);
         expect(rows).toHaveLength(196);
         const prompts = rows.filter((row) => row.use === 'd4-prompt');
         expect(prompts.map((row) => row.id)).toEqual(['l2-w05-d4-prompt-face', 'l2-w07-d4-prompt-ball']);
@@ -40,9 +40,9 @@ describe('A-48 D4 prompt pictures: the picture list', () => {
         expect(prompts.map((row) => [row.week, row.text])).toEqual([[5, 'face'], [7, 'ball']]);
     });
 
-    it('D4P-json: the committed pictures.json is the generated list', () => {
-        const committed = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2/print/pictures.json'), 'utf8'));
-        expect(committed).toEqual(JSON.parse(JSON.stringify(storytimePrintPictures(weeks()))));
+    it('D4P-json: the committed pictures.json holds the generated book list', () => {
+        const committed = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2/print/pictures.json'), 'utf8')) as { use: string }[];
+        expect(committed.filter((row) => row.use !== 'card')).toEqual(JSON.parse(JSON.stringify(storytimePrintPictures(weeks()))));
     });
 
     it('D4P-resolve: the prompt of week 5 and of week 7 resolves to its d4-prompt row, not to a story page; weeks 2, 3, and 6 keep their rows', () => {
