@@ -35,3 +35,37 @@ Where the fixes are (author record, 2026-11-06):
 - F2, spec: FR-2.7 now says that `STAGE_CHECKS` fails on a `print-missing` warning of a teaching week (st2/9 to st2/15), by an `awk` step in the command. FR-3.3 states why the review week st2/16 may carry the warning: a review week has no print block, as st2/8.
 - F2, plan: `STAGE_CHECKS` has the `awk` step. The done-when lines of Tasks 1.2 to 1.9 use the command; Task 1.9 names the st2/16 exception.
 - Measured on 2026-11-06 with a test copy of `w07.json` as week 9 (plan, "Round 1 fixes"): `STAGE_CHECKS` exits 1 on a week 9 copy without a print block, and 0 with the block. `CARD_MATCH_U2` exits 1 with a `none` line, and 0 after the entry exists. The repository stayed clean after each run.
+
+## Round 2
+
+Date: 2026-11-06
+Reviewer: measure-spec-review, model unknown (the round 2 result does not name it; round 1 used volcengine-agent-plan/glm-5.3-flash)
+Audited commit: 37897969dc7035198840b31194a26ac29c483e6a
+Verdict: pass (no Blocker, 2 Nit)
+Evidence: `measure/runs/storytime_l2_unit2_20261106/spec-review-37897969.json` and `.log`
+
+F1 and F2 are closed in the committed text (the reviewer's checks 1 and 2).
+
+### What this track proposes
+
+This track builds Level 2 Unit 2 of Storytime Advantage (weeks 9 to 16): eight week packages staged in content/storytime/drafts/l2/ under a stage-root gate, a picture list and Forge brief for the book rows and the unit 2 card rows through the PM session, and Daniel's owner gates for the English text, the pictures, the Thai, and the print proof. The card picture rule follows unit 1 (D13): a card word first reuses a picture of the same word from the level's rows, the 8 color words and the number words print as patch and dots, and each word with no match gets one authored entry with a Forge prompt, gated by CARD_MATCH_U2 with 0 none lines. A Phase 4 code change makes the print makers read the unit from meta.unit, adds the letters d, e, h, f, and g to the tracing guides, fixes two checks of tech debt 2026-11-05, and moves the staged files and the card entries into content/storytime/l2/ after the unit 1 print order of 2026-11-25. Phase 5 builds the print files with the existing makers, and the card kit gate needs 0 none lines or a named reason with Daniel's words. Phase 6 hands off the songs, the book audio, the app packages, the QR check, and the facts-changed list; print-ready target 2026-12-08.
+
+### How the current system works, per this spec
+
+The system ships Level 2 Unit 1 as eight week files in content/storytime/l2/, validated by StorytimeWeekSchema and check-weeks.ts, which shows one print-missing warning for the review week st2/8. The print makers read every week file of the level folder and pin unit 1 values (the student book title and file name, the map sticker, the benchmark label, the card kit title, step-map-u1.json, and the picture list at l2/print/), and three unit 1 tests pin the counts, so a new week file in that folder breaks them. The card kit takes card pictures from l2/print/card-pictures.json (31 unit 1 entries); an undelivered card row prints an empty labelled box and does not fail, and the color and number cards print a patch and dots by Daniel's decision of 2026-11-06. Paid Forge renders and Lyria songs need Daniel's go, only Daniel checks the Thai, and the phoneme fields come from his 45-sound bank.
+
+### Findings
+
+- F3 [Nit] metadata.json: the counts are stale after the revision. estimated_tasks is 45 while plan.md holds 47 task lines (grep count), and deviation_notes says 'the spec lists 5 questions with defaults' while spec.md now lists 6. Rationale: bookkeeping that does not change what the implementer builds; Task 6.7 already sets actual_tasks and the deviation notes at closeout.
+- F4 [Nit] plan.md Gate commands STAGE_CHECKS: a mktemp -d failure leaves T unset, and the semicolon after the setup loop still runs the check-weeks call with WORKBOOKS_ROOT empty, so it checks the real repository (8 packages, weeks 1 to 8) and the gate can pass without reading any staged week. Rationale: probe at HEAD showed the empty-WORKBOOKS_ROOT run exits 0; the false pass needs a mktemp failure, and the structure predates this revision, so it stays a Nit.
+
+### Author Response
+
+- F3: FIX
+- F4: FIX
+
+Where the fixes are (author record, 2026-11-06):
+
+- F3: `metadata.json` now says 47 estimated tasks, the defaults D1 to D13, and 6 questions, and it records the two review rounds.
+- F4: the `STAGE_CHECKS` line of `plan.md` exits 1 when `cd dashboard`, `mktemp -d`, the linked copy, or the copy of a staged week fails. An empty `WORKBOOKS_ROOT` reads the real repository (`dashboard/lib/filesystem.ts` line 41), so the gate now stops before check-weeks runs.
+- F4 test (`measure/runs/storytime_l2_unit2_20261106/f4-stage-checks-test.txt`): with a fake `mktemp` that exits 1, the old line exited 0 on the real repository, and the new line exited 1. With a fake `cp` that exits 1, the new line exited 1. A normal run of the new line exited 0.

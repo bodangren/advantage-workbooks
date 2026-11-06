@@ -1,0 +1,20 @@
+F4 test of STAGE_CHECKS, 2026-11-06, base 37897969 (plan.md line 33). Each run: bash -c "$STAGE_CHECKS" from the repository root.
+
+1. Old line, a fake mktemp on PATH that exits 1:
+   exit 0; the report is of the real repository:
+   mktemp: forced failure (F4 test)
+   Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+
+2. New line, the same fake mktemp:
+   exit 1
+   mktemp: forced failure (F4 test)
+
+3. New line, a fake cp on PATH that exits 1:
+   exit 1
+   cp: forced failure (F4 test)
+
+4. New line, normal run (no staged file):
+   exit 0
+   Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+
+git status --porcelain content/storytime after the runs: empty
