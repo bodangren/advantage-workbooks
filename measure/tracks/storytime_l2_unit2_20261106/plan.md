@@ -164,7 +164,7 @@ Risk: Phase 4 changes the makers that built the approved unit 1 files. The unit 
 
 _Blast radius: no code. New files under `content/storytime/drafts/l2/` only; `readLevelWeeks` does not read that folder (spec FR-1)._
 
-- [ ] Task 1.1: record the stage baseline (2026-11-07). Run `STAGE_CHECKS` with no staged file. Done when: its report equals the `check-weeks.ts --level 2` report after the path prefix is removed (8 packages, 0 failed checks, 1 warning), and `git status --porcelain content/storytime` is empty after the run. Evidence: automated.
+- [~] Task 1.1: record the stage baseline (2026-11-07). Run `STAGE_CHECKS` with no staged file. Done when: its report equals the `check-weeks.ts --level 2` report after the path prefix is removed (8 packages, 0 failed checks, 1 warning), and `git status --porcelain content/storytime` is empty after the run. Evidence: automated.
 - [ ] Task 1.2: w09 (2026-11-07): element 8 d; sight words are, has, cannot; frame "I like ___. Yum!"; food and drink. Write `content/storytime/drafts/l2/w09.json` (spec FR-2), and set its phoneme fields with `set-phoneme-audio.ts --file`. Done when: `STAGE_CHECKS` passes (it fails on a FAIL line and on a `print-missing` warning of st2/9 to st2/15); the independent English review findings are fixed or answered in this line; the commit holds only the staged file and its review log under `measure/runs/storytime_l2_unit2_20261106/`. Evidence: automated and peer-report.
 - [ ] Task 1.3: w10 (2026-11-08): element 9 -an -ad; sight words they, too, were; frame "Put on your ___."; clothes. Done when: as for w09, for st2/10.
 - [ ] Task 1.4: w11 (2026-11-09): element 10 short e; sight words me, of; frame "Where is ___? In/On/Under."; home. Done when: as for w09, for st2/11.
