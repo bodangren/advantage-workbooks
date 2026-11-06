@@ -529,7 +529,8 @@ export function storytimeCardPictureRow(
  * its case (`text` or `page`); an unmatched line names its reason (`none: no row`, `none: files not
  * delivered`, or the message of the failed file check, Review B, B-P8-3). The file
  * `<out>/card-picture-match.txt` holds exactly these lines, so a count of the lines is the count of
- * the picture-type cards.
+ * the picture-type cards. The label of a card holds one line and four columns, because each run of
+ * white space and of the control characters becomes one space (X-P8-15).
  * @param cards The cards of the kit.
  * @param rows The rows of the picture list of the level.
  * @param delivered The row ids whose color and line-art files are both delivered.
@@ -546,17 +547,18 @@ export function storytimeCardPictureMatchLines(
     return cards
         .filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind))
         .map((card) => {
+            const label = matchLabel(card.label);
             const special = cardSpecialSource(card);
-            if (special) return `${card.kind}\t${card.label}\t${special}\t${special}`;
+            if (special) return `${card.kind}\t${label}\t${special}\t${special}`;
             const match = cardPictureMatch(card, rows, delivered);
-            if (match.row) return `${card.kind}\t${card.label}\t${match.row.id}\t${match.how}`;
+            if (match.row) return `${card.kind}\t${label}\t${match.row.id}\t${match.how}`;
             // The row the card would match when every file were in place tells the two reasons
             // apart: a missing row, or a row whose files are not delivered.
             const candidate = cardPictureMatch(card, rows, all).row;
             const reason = candidate
                 ? `none: ${matchReason(reasons.get(candidate.id) ?? 'files not delivered')}`
                 : 'none: no row';
-            return `${card.kind}\t${card.label}\tnone\t${reason}`;
+            return `${card.kind}\t${label}\tnone\t${reason}`;
         });
 }
 
@@ -607,7 +609,8 @@ export function storytimeDeliveredPictures(folder: string, rows: StorytimePictur
  * The source of one line of the match report: the picture of a card row, a color patch, a number
  * dot group, or no picture. The third column names the source. When that column says `none`, the
  * fourth column names the source or the reason of the missing picture. A line with fewer than
- * three columns names no source, so the source of that line is `none`.
+ * three columns names no source, so the source of that line is `none`. A third column of white
+ * space names no row either, because a row id holds no white space (X-P8-14).
  * @param line One line of the match report.
  * @returns The source of the line.
  */
@@ -615,7 +618,7 @@ export function storytimeCardMatchSource(line: string): 'picture' | 'patch' | 'd
     const fields = line.split('\t');
     const third = fields[2] ?? '';
     const fourth = fields[3] ?? '';
-    if (third === '') return 'none';
+    if (third.trim() === '') return 'none';
     if (third === 'patch' || fourth === 'patch') return 'patch';
     if (third === 'dots' || fourth === 'dots') return 'dots';
     return third === 'none' ? 'none' : 'picture';
@@ -664,6 +667,19 @@ function reasonMasks(): [string, string][] {
     return masks
         .filter(([from]) => from.length > 0)
         .sort((a, b) => b[0].length - a[0].length);
+}
+
+/**
+ * The label of one card in the match report. The report holds one line for each card and four tab
+ * columns on each line, so each run of white space and of the control characters (C0, DEL, C1) in
+ * the label becomes one space: a label with a tab or a line break never adds a column or a line to
+ * the report (X-P8-15). The label keeps its padding, so a card of a padded label still names no
+ * row.
+ * @param label The label of the card.
+ * @returns The one-line label of the match report.
+ */
+function matchLabel(label: string): string {
+    return label.replace(/[\s\u0000-\u001f\u007f-\u009f]+/g, ' ');
 }
 
 /**
@@ -891,12 +907,14 @@ export const STORYTIME_STICKER_CENTER_OVERRIDES: Record<string, string> = {
     'Sam and Pam': '70% 50%',
 };
 
-/** The shape of a valid centre: two percentages, separated by spaces. */
-const STICKER_CENTRE_PATTERN = /^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/;
+/** The shape of a valid centre: two percentages, separated by the white space of CSS. */
+const STICKER_CENTRE_PATTERN = /^\d+(\.\d+)?%[ \t\n\f\r]+\d+(\.\d+)?%$/;
 
 /**
  * The centre of the picture of one sticker. The centre map holds the centres by label. A label that
  * the map does not hold as its own key has no centre, so the sticker prints at the default centre.
+ * A value whose separator is not the white space of CSS has no centre either, because Chrome
+ * ignores such a pair and prints the sticker at the default centre (X-P8-16).
  * @param centres The centre map of the call: the module map, then the caller map.
  * @param label The sticker label.
  * @returns The `object-position` value; the default centre when the map has no valid entry.

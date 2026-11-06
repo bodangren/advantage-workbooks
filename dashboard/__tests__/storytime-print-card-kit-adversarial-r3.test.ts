@@ -38,7 +38,7 @@ describe('the match source of a malformed or short line', () => {
      * A row id is never white space, so a third column of white space names no source. It must not
      * count as a picture (the same class as X-P8-12, which fixed the empty third column).
      */
-    it.fails('X-P8-14 does not count a match line with only white space in the third column as a picture', () => {
+    it('X-P8-14 does not count a match line with only white space in the third column as a picture', () => {
         for (const third of [' ', '  ', ' ', ' ']) {
             const line = `picture\tfan\t${third}\tnone: no row`;
             expect(storytimeCardMatchSource(line), `a third column of ${JSON.stringify(third)} names no source`).toBe('none');
@@ -78,7 +78,7 @@ describe('the match source of a malformed or short line', () => {
      * adds a line. A materials line `picture cards: a<TAB>b` reaches the label through the kit,
      * because the kit trims the item and keeps its inner characters.
      */
-    it.fails('X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break', () => {
+    it('X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break', () => {
         const cards = [card('a\tb'), card('c\nd'), card('e\r\nf')];
         const lines = linesOf(cards);
         const file = `${lines.join('\n')}\n`;
@@ -139,7 +139,7 @@ describe('the sticker centre map', () => {
      * line feed, a form feed, and a carriage return. The validator then rejects the value, and
      * the sheet states the default centre on purpose.
      */
-    it.fails('X-P8-16 rejects a centre value whose separator is not CSS white space', () => {
+    it('X-P8-16 rejects a centre value whose separator is not CSS white space', () => {
         for (const separator of [' ', ' ', ' ', '　']) {
             const got = positions([sticker('Hello')], { Hello: `20%${separator}80%` });
             expect(got.get('Hello'), `a separator of ${JSON.stringify(separator)} is not a valid CSS pair`).toBe('50% 50%');
