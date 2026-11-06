@@ -689,10 +689,42 @@ ${cardSheetCss(size)}</style></head>
 <body>${body}</body></html>`;
 }
 
+/** The centre of a sticker picture that no override names. */
+export const STORYTIME_STICKER_DEFAULT_CENTRE = '50% 50%';
+
+/**
+ * The centre of a sticker picture, by the sticker label or by the cover picture-list row id
+ * (plan line 1088, owner request 2026-11-06). The map is empty: every picture sits at its centre.
+ * Add one entry only when the cover fit cuts a title or a face. The value is an `object-position`
+ * pair of two percentages, for example `50% 30%`.
+ */
+export const STORYTIME_STICKER_CENTER_OVERRIDES: Record<string, string> = {};
+
+/** The shape of a valid centre: two percentages, separated by spaces. */
+const STICKER_CENTRE_PATTERN = /^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/;
+
+/**
+ * The centre of the picture of one sticker.
+ * @param centres The centre map of the call: the module map, then the caller map.
+ * @param label The sticker label.
+ * @returns The `object-position` value; the default centre when the map has no valid entry.
+ */
+function stickerCentre(centres: Record<string, string>, label: string): string {
+    const raw = centres[label];
+    if (raw === undefined) return STORYTIME_STICKER_DEFAULT_CENTRE;
+    const value = raw.trim();
+    return STICKER_CENTRE_PATTERN.test(value) ? value : STORYTIME_STICKER_DEFAULT_CENTRE;
+}
+
 /** The options of the sticker sheet document. */
 export interface StorytimeStickerSheetOptions {
     /** The absolute picture file of a sticker, or undefined for a sticker of its text only. */
     pictureOf?: (item: StorytimeKitItem) => string | undefined;
+    /**
+     * The centre of the picture of each sticker, by the sticker label (or by the cover
+     * picture-list row id). An entry of this map wins over `STORYTIME_STICKER_CENTER_OVERRIDES`.
+     */
+    centers?: Record<string, string>;
     /** The document title; the default names the sheet. */
     title?: string;
 }
@@ -712,19 +744,20 @@ function stickerSheetCss(): string {
 body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; background: #fff; }
 .sheet { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; overflow: hidden; break-after: page; page-break-after: auto; }
 .sticker { position: absolute; width: ${diameter}mm; height: ${diameter}mm; }
-.sticker-cut { position: absolute; left: 0; top: 0; width: ${diameter}mm; height: ${diameter}mm; }
-.sticker-art { position: absolute; left: 6mm; top: 6mm; width: ${diameter - 12}mm; height: ${diameter - 12}mm; display: flex; align-items: center; justify-content: center; }
-.sticker-art img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
+.sticker-art { position: absolute; left: 0; top: 0; width: ${diameter}mm; height: ${diameter}mm; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; z-index: 1; }
+.sticker-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sticker-cut { position: absolute; left: 0; top: 0; width: ${diameter}mm; height: ${diameter}mm; z-index: 2; pointer-events: none; }
 .sticker-text { font-size: 14pt; font-weight: 700; text-align: center; line-height: 1.1; }
 `;
 }
 
 /**
  * The HTML document of the sticker sheet (plan line 951, spec FR-7): the round 40 mm stickers on
- * an A4 portrait sheet, four to a row, each with a cut circle. A sticker with a picture prints the
- * picture; a sticker without one prints its text (`Unit 1`).
+ * an A4 portrait sheet, four to a row, each with a cut circle. A picture sticker prints its picture
+ * over the whole circle: a cover fit, a clip to the circle, and the cut line above the picture
+ * (owner request 2026-11-06). A sticker without a picture prints its text (`Unit 1`).
  * @param items The kit items; the document holds the stickers only.
- * @param options The picture of a sticker and the document title.
+ * @param options The picture of a sticker, the centre of a sticker picture, and the document title.
  * @returns The HTML, and the number of sheets (one page each).
  */
 export function compileStorytimeStickerSheet(
@@ -734,6 +767,7 @@ export function compileStorytimeStickerSheet(
     const { widthMm, heightMm } = STORYTIME_CARD_KIT_SPEC.sheetMm;
     const diameter = STORYTIME_CARD_KIT_SPEC.stickerDiameterMm;
     const stickers = items.filter((item) => item.kind === 'sticker');
+    const centres: Record<string, string> = { ...STORYTIME_STICKER_CENTER_OVERRIDES, ...(options.centers ?? {}) };
     const columns = 4;
     const gutterMm = 6;
     const rows = Math.max(1, Math.ceil(stickers.length / columns));
@@ -746,7 +780,7 @@ export function compileStorytimeStickerSheet(
         const row = Math.floor(index / columns);
         const picture = options.pictureOf?.(item);
         const art = picture
-            ? `<img src="${esc(pathToFileURL(picture).href)}" alt="">`
+            ? `<img src="${esc(pathToFileURL(picture).href)}" alt="" style="object-position:${esc(stickerCentre(centres, item.label))}">`
             : `<span class="sticker-text">${esc(stickerDisplayLabel(item.label))}</span>`;
         const cut = '<svg class="sticker-cut" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="99" fill="none" stroke="#000" stroke-width="1"/></svg>';
         return `<div class="sticker" data-label="${esc(item.label)}" style="left:${mm(leftMm + column * (diameter + gutterMm))}mm;top:${mm(topMm + row * (diameter + gutterMm))}mm">${cut}<div class="sticker-art">${art}</div></div>`;
