@@ -1,0 +1,69 @@
+Green, review round 6 remediation, Phase 8 (P8).
+
+Track: storytime_print_r1_20261025 (short id storytime_print_r1).
+Phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval). Phase id P8.
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65.
+role_base_sha: 47a911fd2e602da4f1ba666e35b605dae0627110 (HEAD at the start of this role).
+Red test commit: 5fa4c4d1 (dashboard/__tests__/storytime-print-readers.test.ts). It is inside phase_base_sha..HEAD.
+Red plan commits: 0dcb4364 and 47a911fd.
+Red model: OpenAI. Green model: MiniMax. No coder session was needed for this round.
+The committed Red tests stay unchanged. No test file changed in this role.
+
+Findings in this round: F42 (A-P8-22, review-a-p8-89ee3c00.json), F44 (C-P8-6, review-c-p8-89ee3c00.json), F46 (C-P8-8, review-c-p8-89ee3c00.json).
+
+## The Red rerun
+
+The targeted Red command through heavy-run exits 1 with 1 failed and 57 passed. The failed test is R-P8-F44 in dashboard/__tests__/storytime-print-readers.test.ts line 1314. The `--help` run exits 0, and the usage text holds neither `skip  <class> rows of week <N>` nor the phrase that skipped rows do not count in the summary.
+
+## The code change (F44, C-P8-6)
+
+The code commit is 7f294dadc86e271f5b3b9d1283e576b0844a2836. It changes dashboard/scripts/storytime/check-storytime-pictures.ts only. The change is the USAGE text. No behavior changed.
+
+The USAGE text now says that the command prints one line for each requested picture-list row and a summary line. It gives the skip line "skip  <class> rows of week <N>: the batch holds no job for them". It says that skipped rows do not count in the summary, and that a skip line does not change the exit code.
+
+The command holds these facts already. The script prints `skip  book rows of week N: the batch holds no job for them` and `skip  card rows of week N: the batch holds no job for them` before the summary line. The summary counts the rows of the report only. The exit code is the exit code of the report.
+
+The first edit put the phrase "skipped rows do not count in the summary" across a line break. The test still failed. The second edit keeps each sentence on one line. The test then passed.
+
+## The plan changes (F42, A-P8-22, and F46, C-P8-8)
+
+F42: plan line 1107 held the centre map state of the first Green and one appended sentence. The line now matches line 1107 of the plan at commit 89ee3c00 byte for byte. Plan lines 1108 and 1111 hold the owner approval of the v3 sticker look, and each line ends with the tag `[corrected in review round 6, F42]`. The Red commit 0dcb4364 had already put that tag on line 1108.
+
+The plan records the owner approval of the v3 sticker look: PM relay, 2026-11-06, Tasks, the word "Perfect", the sticker file with SHA-256 d7b2070b, the centres "Can I?" 30% 50% and "Sam and Pam" 70% 50%, and the print set A5 v2, A6 v2, and Stickers v3. The Green log of round 5 and its handoff repeat the stale claim that Daniel still checks the v3 sticker look. This log does not repeat it.
+
+F46: the new capture green-p8-r10-checks.txt holds the command, the check-weeks output, the tsc result, and the exit code. Plan line 1208 carries the tag that names both captures.
+
+The check-weeks output of the r10 run holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. The r9 capture green-p8-r9-checks.txt holds two blank lines and `exit: 0` only. The r10 capture replaces it as the readable evidence.
+
+## The gates
+
+Each gate ran through heavy-run in the foreground, one at a time, with `--maxWorkers=1` and no `--testTimeout`.
+
+1. The targeted Red file: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-readers.test.ts --maxWorkers=1`. Exit 0, 1 file, 58 tests of 58 passed. Capture: green-p8-r10-targeted.txt.
+2. GREEN_TEST_COMMAND with `--maxWorkers=1`: exit 0, 37 files, 821 tests passed. Capture: green-p8-r10-green.txt.
+3. PROJECT_LINT: exit 0, no output. Capture: green-p8-r10-lint.txt.
+4. PROJECT_CHECKS: exit 0. The check-weeks part holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. `npx tsc --noEmit` reports no error. Capture: green-p8-r10-checks.txt.
+
+The usage text of the picture check CLI: green-p8-r10-help.txt. The `--help` run exits 0.
+
+The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+
+PROJECT_TESTS did not run. Only a usage string changed, and GREEN_TEST_COMMAND holds every storytime-print test.
+
+## The result
+
+No known failure. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, review round 6 remediation of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: code commit 7f294dadc86e271f5b3b9d1283e576b0844a2836 (fix(storytime): the stage 1 usage text names the skip line and the summary count (storytime_print_r1)); plan evidence commit: the commit that holds plan.md, the five captures, and this log, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha 47a911fd2e602da4f1ba666e35b605dae0627110; final Green HEAD 7f294dadc86e271f5b3b9d1283e576b0844a2836 at the code commit
+tests_run: targeted Red command before the change, exit 1 with 1 failed and 57 passed, the failed test is R-P8-F44; targeted Red file after the change, exit 0 with 1 file and 58 tests passed; GREEN_TEST_COMMAND with --maxWorkers=1, exit 0 with 37 files and 821 tests passed; PROJECT_LINT exit 0 with no output; PROJECT_CHECKS exit 0 with 0 FAIL lines, 1 warning (print-missing), the published check passing, and tsc clean; the --help run of the picture check CLI exit 0
+files_changed: dashboard/scripts/storytime/check-storytime-pictures.ts, measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r10-targeted.txt, measure/runs/storytime_print_r1_20261025/green-p8-r10-green.txt, measure/runs/storytime_print_r1_20261025/green-p8-r10-lint.txt, measure/runs/storytime_print_r1_20261025/green-p8-r10-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r10-help.txt, measure/runs/storytime_print_r1_20261025/green-p8-r10.log
+plan_updates: F42 (A-P8-22) plan line 1107 matches line 1107 of the plan at commit 89ee3c00 byte for byte, and plan lines 1108 and 1111 end with the tag [corrected in review round 6, F42]; F46 (C-P8-8) plan line 1208 ends with the tag that names green-p8-r9-checks.txt and green-p8-r10-checks.txt; the Green task line is [x] with commit 7f294dad and holds the code commit, the four gates with their exit codes and counts, the help capture, and the dispositions line; the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays [ ]
+known_failures: none
+handoff: The committed Red tests stay unchanged, and the Red contract holds. F44: the USAGE text of check-storytime-pictures.ts names the skip line "skip  <class> rows of week <N>: the batch holds no job for them", says that skipped rows do not count in the summary, and says that a skip line does not change the exit code. The change is text only; the command keeps its behavior. F42: the plan holds the owner approval of the v3 sticker look (PM relay, 2026-11-06, Tasks, "Perfect") on plan lines 1108, 1109, and 1111, so no open owner check of that look remains. F46: green-p8-r10-checks.txt holds the command, the check-weeks output, the tsc result, and the exit code 0; the check-weeks output holds 0 FAIL lines, 1 warning (print-missing), and a passing published check. The next role reviews the code commit 7f294dad and the plan evidence commit. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+dispositions: F40=FIX; F41=FIX; F42=FIX; F43=FIX; F44=FIX; F45=FIX; F46=FIX
+END_MEASURE_AGENT_RESULT

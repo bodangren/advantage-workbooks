@@ -1,0 +1,44 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-readers.test.ts --maxWorkers=1'
+
+     ✓ R-P4-6 exposes the readers PDF CLI help  1218ms
+     ✓ R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry  1936ms
+     ✓ R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture  4410ms
+     ✓ R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names  11855ms
+     ✓ R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size  4637ms
+     ✓ R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts  1385ms
+     ✓ R-P4-12 checks every week-one row in a batch and returns a failure for each missing file  2207ms
+     ✓ R-P4-15 rejects a Forge job that is not ready or holds no selected version  1613ms
+     ✓ R-P4-16 reports a row whose Forge job is not ready as fail with a reason  1370ms
+     ✓ R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings  5387ms
+     ✓ R-P4-14 exposes the stage-one batch command  446ms
+     ✓ R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix  20802ms
+     ✓ R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest  2270ms
+     ✓ R-P4-21 reports an unloaded week and a duplicate week like the readers CLI  1291ms
+     ✓ R-P8-F20 checks requested week 2 card rows after the book rows  606ms
+     ✓ R-P8-F32a checks all 31 requested card rows without requesting book rows  6478ms
+     ✓ R-P8-F32b fails the missing requested week 1 card row  5630ms
+     ✓ R-P8-F32c checks a missing card row beside the complete week 1 book delivery  17012ms
+     ✓ R-P8-F40 prints the skip line for card rows in a book-only week 1 batch  16962ms
+     ✓ R-P8-F45 reports requested-row totals in card-only and book-only batches  25631ms
+     ✓ R-P8-F44 documents the skipped-row rule in picture-check usage  836ms
+     ✓ R-P8-F36 prints a clean error when duplicate words break the card list  732ms
+     ✓ R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text  2317ms
+     ✓ R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names  24565ms
+     ✓ R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows  1290ms
+     ✓ R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions  2659ms
+     ✓ R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id  23208ms
+     ✓ R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output  1086ms
+     ✓ R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder  1297ms
+     ✓ R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder  863ms
+     ✓ R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion  740ms
+     ✓ R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output  1071ms
+     ✓ R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file  1037ms
+     ✓ R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path  2533ms
+
+ Test Files  1 passed (1)
+      Tests  58 passed (58)
+   Start at  18:47:40
+   Duration  225.88s (transform 1.07s, setup 390ms, import 1.64s, tests 218.38s, environment 4.39s)
+
+
+exit: 0

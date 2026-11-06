@@ -1,0 +1,42 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts" --maxWorkers=1'
+
+ ✓ __tests__/storytime-print-readers-adversarial.test.ts (12 tests) 3696ms
+     ✓ ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file  1410ms
+     ✓ ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made  1556ms
+     ✓ ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both  362ms
+ ✓ __tests__/storytime-print-h1-classes.test.ts (32 tests) 3574ms
+     ✓ H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder  1729ms
+     ✓ H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside  1611ms
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-XmIyaG/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-C06fzZ/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ ✓ __tests__/storytime-print-teacher-book.test.ts (11 tests) 2922ms
+     ✓ provides the teacher-book print CLI and a successful help response  552ms
+     ✓ R-F-P3-1 exports the exact K-only PDF/X flag list  559ms
+     ✓ B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside  835ms
+     ✓ B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside  819ms
+ ✓ __tests__/storytime-print-reader-howto.test.ts (17 tests) 1368ms
+ ✓ __tests__/storytime-print-covers.test.ts (4 tests) 1493ms
+     ✓ checks each shipped week 1 reader cover for Sprout and catches a copied cover mutation  408ms
+     ✓ composes each teacher-book side as an opaque 300 ppi image at the specified trim  997ms
+ ✓ __tests__/storytime-print-card-kit.test.ts (12 tests) 522ms
+ ✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests) 1141ms
+     ✓ R2: prints the exact address of a good non-shipped path  423ms
+     ✓ R2: prints one code when the read-along path is absent  363ms
+ ✓ __tests__/storytime-print-contract-r3.test.ts (43 tests) 1638ms
+ ✓ __tests__/storytime-print-contract.test.ts (47 tests) 1162ms
+ ✓ __tests__/storytime-print-contract-v2.test.ts (25 tests) 1005ms
+ ✓ __tests__/storytime-print-readers-adversarial-r2.test.ts (10 tests) 903ms
+     ✓ ADV-P4-R2-REGEX-ID a row id with regular-expression characters matches its own file names only  362ms
+     ✓ ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not  377ms
+ ✓ __tests__/storytime-print-card-kit-adversarial.test.ts (13 tests) 537ms
+ ✓ __tests__/storytime-print-card-pictures.test.ts (13 tests) 668ms
+ ✓ __tests__/storytime-print-dictation-case.test.ts (2 tests) 49ms
+ ✓ __tests__/storytime-print-card-kit-cli.test.ts (8 tests) 10ms
+ ✓ __tests__/storytime-print-e4-back-list.test.ts (7 tests) 11ms
+
+ Test Files  37 passed (37)
+      Tests  821 passed (821)
+   Start at  19:08:31
+   Duration  762.17s (transform 4.54s, setup 6.80s, import 16.33s, tests 680.55s, environment 44.87s)
+
+exit=0
