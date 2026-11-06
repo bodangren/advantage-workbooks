@@ -1,6 +1,6 @@
 # Spec: Storytime cover options in the RPG-theme style
 
-Track: `storytime_cover_options_20261106`. Type: chore (classic FR list). Created: 2026-11-06. Owner: Daniel Bo. Status: Daniel picked option A on 2026-11-07 (Phase 1). Phase 2 (the option A covers) is planned; its Red waits for the independent spec review.
+Track: `storytime_cover_options_20261106`. Type: chore (classic FR list). Created: 2026-11-06. Owner: Daniel Bo. Status: Daniel picked option A on 2026-11-07 (Phase 1). Phase 2 (the option A covers) is planned. The independent spec review passed on 2026-11-07 (findings F1 to F6 answered).
 
 ## Owner order
 
@@ -131,15 +131,30 @@ The PM order for Phase 2 (2026-11-07) has two parts. First, the series cover tem
 
 - D-A1 (code location): the template is a new module, `dashboard/lib/storytime/print/cover-quest.ts`. The per-book parts are a new data file, `content/storytime/covers/quest.json`. The build is a new script, `dashboard/scripts/storytime/make-storytime-quest-covers.ts`. Reason: `covers.ts`, `cover-picture.ts`, `teacher-book-cover.ts`, and `content/storytime/covers/books.json` carry the approved v3 and teacher v1 covers and the tests of the print track. A change there can break the print track gates.
 - D-A2 (read only): the new module imports these shared parts and does not change them. From `covers.ts`: the series name, the LINE address, the copy check, the Thai check, the QR grid and its check, the panel values, the font CSS, and the logo file. From `teacher-book-cover.ts`: the teacher and reader copy checks. From `cover-picture.ts`: the 300 ppi value. From `dashboard/lib/covers/back-text.ts`: `BACK_LINES.contact`.
-- D-A3 (guard G-1): no Phase 2 commit changes these paths: `dashboard/lib/storytime/print/{covers,cover-picture,teacher-book-cover,readers,student-book,pictures,picture-check}.ts`, `dashboard/scripts/storytime/make-storytime-book-cover.ts`, `dashboard/scripts/storytime/make-storytime-teacher-cover.ts`, `content/storytime/covers/books.json`, any week file, and anything under `video/`. The proof is `git show --name-only --format= <sha>` for each Phase 2 commit, not a range diff.
-- D-A4 (reader covers in the books): this track builds the reader cover pages as separate files for Daniel's check. The print track puts the approved pages into the A3 reader files and the student book leaves for the release proof of 2026-11-20. The new module exports one function for that call (FR-9.3). The orchestrator sends the hand-off to the print session (Task 2.13).
+- D-A3 (guard G-1, amended after review finding F1): no Phase 2 commit changes a shared file. The list:
+  - the cover code: `dashboard/lib/storytime/print/{covers,cover-picture,teacher-book-cover,readers,student-book,pictures,picture-check,profile,icons}.ts`, `dashboard/scripts/storytime/make-storytime-book-cover.ts`, `dashboard/scripts/storytime/make-storytime-teacher-cover.ts`, and `content/storytime/covers/books.json`;
+  - the shared Thai source and the cover helpers: every file under `dashboard/lib/covers/`, with `dashboard/lib/covers/back-text.ts` (`BACK_LINES.contact`);
+  - the print gate: every file under `dashboard/scripts/print/`, with `dashboard/scripts/print/make-pdfx.ts`;
+  - the other imports: `dashboard/lib/storytime/{schema,files,phonics}.ts`, `dashboard/lib/qr-generator.ts`, `dashboard/lib/document-wrapper/print-fonts.ts`, and `dashboard/lib/lesson-package/files.ts`;
+  - any other file that `cover-quest.ts` or the build script imports at a Phase 2 commit, and any week file, and anything under `video/`.
+  The allowed paths of Phase 2 are the three new files of D-A1 and the two test files of D-A12. The other allowed paths are `measure/tracks/storytime_cover_options_20261106/`, `measure/runs/storytime_cover_options_20261106/`, `measure/tracks.md`, `measure/tech-debt.md`, `measure/lessons-learned.md`, and the one receiving task line of D-A4 in the print plan. The proof is `git show --name-only --format= <sha>` for each Phase 2 commit, not a range diff. Each listed path is in the allowed list.
+- D-A4 (reader covers in the books): this track builds the reader cover pages as separate files for Daniel's check. The print track puts the approved pages into the A3 reader files and the student book leaves for the release proof of 2026-11-20. The new module exports one function for that call (FR-9.3). The orchestrator sends the hand-off to the print session (Task 2.13). The receiving task is the line "Task (Hand-off from storytime_cover_options)" in Phase 9 of `measure/tracks/storytime_print_r1_20261025/plan.md`, before its release proof task (review finding F3). Without Daniel's approval of the option A covers, the release proof keeps the approved covers.
 - D-A5 (bleed): no printer answer is on record on 2026-11-07. The default is no bleed, as Daniel's decision of 2026-11-05 (separate front and back pages, no spine, no bleed). The template takes a bleed value of 0 mm or 3 mm, so a printer answer changes one value. Text, faces, and the frame keep a safe zone of 5 mm inside the trim.
 - D-A6 (art size and upscale): image-01 gives at most 2048 px on the long side. Source: `mmx image generate --help` (width and height from 512 to 2048). The art is 1448 x 2048 px, which is 175 ppi at the A4 trim. A local upscale with the `lanczos3` kernel of `sharp` (a dashboard dependency) makes 2480 x 3508 px. That is 300 ppi at 210 x 297 mm (factor 1.713). No AI upscaler is installed on 2026-11-07, and this track installs no package.
 - D-A7 (reader pictures): the reader covers use the approved files `content/storytime/l2/print/pictures/l2-wNN-cover-<slug>-v1.png` (color, A3) and `-line-v1.png` (black and white, leaf), 4000 x 3000 px. The build does not resample them up. The build report gives the effective ppi (4000 px across 420 mm is 242 ppi).
 - D-A8 (art files): the final art goes into `content/storytime/l2/print/pictures/` with the names `l2-u1-cover-quest-<side>-v1.jpg` (source) and `l2-u1-cover-quest-<side>-v1-300ppi.png` (upscaled). `.gitignore` line 37 keeps that folder out of git. `quest.json` names the files.
-- D-A9 (versions and folders): the build writes into a new folder, `~/Desktop/print-ready/storytime/covers-quest-v1/`. The file versions continue the approved files. The student cover v3 becomes v4, and the teacher cover v1 becomes v2. The reader cover files start at v1. The build refuses a folder that holds files of another version, and it never overwrites a file.
+- D-A9 (versions and folders, amended after review finding F2): the build writes into a new folder, `~/Desktop/print-ready/storytime/covers-quest-v1/`. The file versions continue the approved files. The student cover v3 becomes v4, and the teacher cover v1 becomes v2. The reader cover files start at v1. The build refuses a folder that holds files of another version, and it never overwrites a file. The layout of the folder:
+  - `student/`: `front.png`, `back.png`, `cover.pdf`, `Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf`, `build-report.json`;
+  - `teacher/`: `teacher-front.png`, `teacher-back.png`, `teacher-cover.pdf`, `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf`, `build-report.json`;
+  - `readers-a3/`: `l2-wNN-<slug>-a3-cover.png` (14 files), `reader-covers-a3.pdf`, `Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf`, `build-report.json`;
+  - `readers-leaf/`: `l2-wNN-<slug>-leaf-cover.png` (14 files), `reader-leaf-covers.pdf`, `Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf`, `build-report.json`;
+  - `contact-sheets/`: `student.png`, `teacher.png`, `readers-a3.png`, `readers-leaf.png`, `all.png`;
+  - the folder root: `spend-log.md` (Task 2.8 writes it first) and `MANIFEST.txt` (Task 2.11 writes it last).
+  The 11-16 copy (D-A11) has the same five subfolders, and `README.md`, `spend-log.md`, and `MANIFEST.txt` at its root. `<slug>` is the slug of the approved cover picture file name (for example `nan-can-nod`).
 - D-A10 (teacher back): the PM list names the teacher front only. The teacher book prints a back too (teacher cover v1 has one). Default: the teacher back uses the option A back frame. It holds the back scenery art, the series banner, the contact sign with the five Thai lines, the QR, and "LINE". It has no five-field panel, as the v1 teacher back. It needs no new picture.
 - D-A11 (11-16 folder): no 11-16 check folder exists on 2026-11-07. `~/Desktop/handoff/` has no folder for that date, and `look-points-11-16.md` names no folder. Default: `~/Desktop/handoff/storytime-check-2026-11-16/covers/`.
+- D-A12 (test names, review finding F4): the Phase 2 test files are `dashboard/__tests__/quest-cover-template.test.ts` and `dashboard/__tests__/quest-cover-build.test.ts`. The names are outside the shared globs `__tests__/storytime-*.test.ts` and `__tests__/covers-*.test.ts` of the print, loops, week-package, and unit 2 tracks. Reason: a red file of this track then fails no Green gate of another track, so rule R1 does not bind this track, and Red 1 can start at once. Section 2.3 of `measure/tracks/storytime_teaching_loops_20261103/test-strategy.md` names this structural option. The other tracks lose no cover of a shared module, because guard G-1 keeps every shared file unchanged. The `PROJECT_TESTS` of this track is the shared list plus `__tests__/quest-cover-*.test.ts`, with `--maxWorkers=1`.
+- D-A13 (date fallback, review finding F4): Green 2 can fail to pass by 2026-11-12 18:00 ICT. Then the final covers come from the option A mockup pipeline of `options/`. The steps: `build.py` with the fixed art, Chrome through heavy-run, then `scripts/print/make-pdfx.ts`. The fallback writes the file names and the folders of D-A9, and it keeps every print and check step of Tasks 2.9 to 2.12. The template tasks then follow after 2026-11-14. The fallback changes no file under `dashboard/`.
 
 ### FR-6 The option A frame
 
@@ -159,7 +174,7 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 
 1. A book row of `quest.json` holds the level, the unit, and the lit band. It also holds the art files of the student front, the back, and the teacher front, and the cast group of each front.
 2. The lit band is one of the five bands of the week schema. Level 2 Unit 1 lights "sprout".
-3. The cast group of the student front has at most 2 children and at most 1 animal (D5 and D7 of track `storytime_covers_20261027`). The teacher front shows Teacher Kim and at most 2 children.
+3. The cast of Level 2 Unit 1 is fixed (FR-3.4, review finding F5). The student front shows Nan, Sam, and Pip: 2 children and 1 animal, the limit of D5 and D7 of track `storytime_covers_20261027`. The teacher front shows Teacher Kim, Nan, and Sam. The data check of `quest.json` rejects a cast group above the limits. A student front fails with more than 2 children or more than 1 animal. A teacher front fails with more than Teacher Kim and 2 children.
 4. A reader cover reads its parts from the week file and changes nothing in it. The parts are the title, the week number, the role mark, and the approved picture row with the use "cover".
 5. Level 2 Unit 1 has 14 readers: w01 "Hello!" and "Nan Can Nod" to w07 "Is It a Ball?" and "The Top". Week 8 has no reader.
 
@@ -200,13 +215,13 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 3. `PRINT_GATE` exits 0 for each print file.
 4. A contact sheet for each kind and one for all kinds. A person looks at every page at 100 % and records one line for each page.
 5. `MANIFEST.txt` gives the SHA-256, the size, and the name of each file. `sha256sum -c` passes on it.
-6. The 11-16 check folder (D-A11) gets the print files, the PNGs, and the contact sheets. It also gets a README with one line for each file kind, the spend log, and its own `MANIFEST.txt`.
+6. The 11-16 check folder (D-A11, the layout of D-A9) gets the print files, the PNGs, and the contact sheets. It also gets a README with one line for each file kind, the spend log, and its own `MANIFEST.txt`.
 7. The approved files stay unchanged: the student cover v3 PDF/X (SHA-256 begins `e0e0365a4ece8a5b`), its `cover.pdf` (begins `2964d9b678afc7a0`), and the teacher cover v1 PDF/X (begins `3b992af216dc2238`). They stay the print files until Daniel approves the option A files.
 
 ### Acceptance (Phase 2)
 
 - AC-6: The tests of `cover-quest.ts` and of the build pass, and `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass with no FAIL row.
-- AC-7: Guard G-1 holds for each Phase 2 commit.
+- AC-7: Guard G-1 holds for each Phase 2 commit. No commit changes a file of D-A3, with `dashboard/lib/covers/back-text.ts` and `dashboard/scripts/print/make-pdfx.ts`, and each changed path is in the allowed list of D-A3.
 - AC-8: The spend log lists every paid call of Phase 2, and the Phase 2 total is at most 0.9335 USD.
 - AC-9: The four print files pass `PRINT_GATE`, and the build report shows the copy, Thai, QR, page size, ppi, and band checks as pass.
 - AC-10: The look record has one line for each page, and each line is a pass, or a fault with its fix.

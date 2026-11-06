@@ -40,3 +40,17 @@ Date: 2026-11-07. The author wrote the spec section "Phase 2: The option A cover
 - R-3: D-A6 upscales 1448 x 2048 px art by a factor of 1.713. Check that the look task (Task 2.10) is a sufficient check of the upscale.
 - R-4: D-A10 adds a teacher back that the PM list does not name. Check the default.
 - R-5: the plan puts the Red windows behind the open windows of the print track and the week-package track (rule R1). Check the date risk against the due date of 2026-11-14.
+
+### Independent review (2026-11-07)
+
+Reviewer: `opencode-go/mimo-v2.6-flash` (another model family). Audited commit: ce5b90ba. Result file: `measure/runs/storytime_cover_options_20261106/spec-review-ce5b90ba.json` (log: `spec-review-ce5b90ba.log`). Gate PASS with the baseline cb2d1c0c, because the unit 2 commit cb2d1c0c of another session landed during the review.
+Verdict: pass (0 Blockers; F1 to F4 Major; F5 and F6 Nit).
+
+F1: FIX, guard G-1 (D-A3) and AC-7 now name `dashboard/lib/covers/back-text.ts`, every file under `dashboard/lib/covers/` and `dashboard/scripts/print/` (with `make-pdfx.ts`), the other imports, and an allowed-path list.
+F2: FIX, D-A9 names the subfolders `student/`, `teacher/`, `readers-a3/`, `readers-leaf/`, `contact-sheets/` and the root files; Tasks 2.8, 2.9, 2.11 and their fast gates use these paths.
+F3: FIX, the print plan Phase 9 has the receiving task "Task (Hand-off from storytime_cover_options)" before its release proof task; D-A4 and Task 2.13 name it.
+F4: FIX, D-A12 renames the tests to `quest-cover-template.test.ts` and `quest-cover-build.test.ts`, outside the shared globs, so rule R1 does not bind and Red 1 can start at once; D-A13 adds the 2026-11-12 18:00 ICT fallback through the `options/` pipeline.
+F5: FIX, FR-7.3 names the cast: Nan, Sam, and Pip on the student front; Teacher Kim, Nan, and Sam on the teacher front.
+F6: FIX, the Task 2.10 gate counts labeled lines `page <n>: pass` (32) and `page <n>: fault` (0), not a table cell.
+
+Status: pass (2026-11-07; answers in commit "measure(plan): answer the cover spec review F1 to F6 (storytime_cover_options)"; review file measure/runs/storytime_cover_options_20261106/spec-review-ce5b90ba.json)
