@@ -1217,6 +1217,90 @@ describe('Storytime two-output picture check', () => {
         }
     }, 120_000);
 
+    /** A stage-1 batch for selected shipped card and book rows. */
+    async function cardCliBatch(cards: Array<Record<string, unknown>>, books: Week1Row[] = []): Promise<string> {
+        const dir = temp();
+        const rowsFolder = path.join(dir, 'w01', 'rows');
+        fs.mkdirSync(rowsFolder, { recursive: true });
+        const sharp = (await import('sharp')).default;
+        const jobs = [] as Record<string, unknown>[];
+        for (const row of [...books, ...cards] as Array<Record<string, unknown>>) {
+            const id = String(row.id);
+            const width = Number(row.width);
+            const height = Number(row.height);
+            const colorName = `${id}-v1.png`;
+            const lineName = `${id}-line-v1.png`;
+            const color = path.join(rowsFolder, colorName);
+            const line = path.join(rowsFolder, lineName);
+            await sharp({ create: { width, height, channels: 3, background: '#3b6ea5' } }).png().toFile(color);
+            writeGray1LinePng(line, width, height);
+            jobs.push(forgeJobFixture({
+                id, week: Number(row.week), bookKind: 'readalong', page: 1,
+                colorFile: `w01/rows/${colorName}`, colorSha256: hashOf(color),
+                lineFile: `w01/rows/${lineName}`, lineSha256: hashOf(line), width, height,
+            }));
+        }
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify(forgeManifestOf(jobs)));
+        return dir;
+    }
+
+    async function runPictureCli(dir: string, weeks: string) {
+        const { spawnSync } = await import('node:child_process');
+        return spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', weeks], {
+            encoding: 'utf8', timeout: 120_000,
+        });
+    }
+
+    it('R-P8-F32a checks all 31 requested card rows without requesting book rows', async () => {
+        const rows = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'card-pictures.json'), 'utf8')) as Array<Record<string, unknown>>;
+        const pictures = await import('../lib/storytime/print/pictures');
+        const cards = pictures.storytimeCardPictureRows(rows as never[], 2) as unknown as Array<Record<string, unknown>>;
+        const run = await runPictureCli(await cardCliBatch(cards), '1,2,3,4,5,6,7');
+        const output = run.stdout as string;
+        expect(run.status, output + run.stderr).toBe(0);
+        expect(output.split('\n').filter((line) => line.startsWith('pass  '))).toHaveLength(31);
+        expect(output).not.toMatch(/(?:pass|fail)  l2-w\d\d-(?:story-page|cover|check-row|practice-line|d4-prompt)-/);
+        for (let week = 1; week <= 7; week++) expect(output).toContain(`skip  book rows of week ${week}: the batch holds no job for them`);
+    }, 120_000);
+
+    it('R-P8-F32b fails the missing requested week 1 card row', async () => {
+        const source = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'card-pictures.json'), 'utf8')) as Array<Record<string, unknown>>;
+        const pictures = await import('../lib/storytime/print/pictures');
+        const cards = pictures.storytimeCardPictureRows(source as never[], 2) as unknown as Array<Record<string, unknown>>;
+        const first = cards.find((row) => row.week === 1)!;
+        const run = await runPictureCli(await cardCliBatch(cards.filter((row) => row !== first)), '1,2,3,4,5,6,7');
+        expect(run.status, `${run.stdout}\n${run.stderr}`).toBe(1);
+        expect(run.stdout).toContain(`fail  ${first.id}`);
+    }, 120_000);
+
+    it('R-P8-F32c checks a missing card row beside the complete week 1 book delivery', async () => {
+        const source = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'card-pictures.json'), 'utf8')) as Array<Record<string, unknown>>;
+        const pictures = await import('../lib/storytime/print/pictures');
+        const cards = pictures.storytimeCardPictureRows(source as never[], 2) as unknown as Array<Record<string, unknown>>;
+        const weekCards = cards.filter((row) => row.week === 1);
+        const run = await runPictureCli(await cardCliBatch(weekCards.slice(0, 4), week1Rows()), '1');
+        expect(run.status, `${run.stdout}\n${run.stderr}`).toBe(1);
+        expect(run.stdout).toContain(`fail  ${weekCards[4].id}`);
+    }, 120_000);
+
+    it('R-P8-F36 prints a clean error when duplicate words break the card list', async () => {
+        const repo = temp();
+        const level = path.join(repo, 'content', 'storytime', 'l2');
+        fs.mkdirSync(path.join(level, 'print'), { recursive: true });
+        fs.copyFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, 1), path.join(level, 'w01.json'));
+        fs.writeFileSync(path.join(level, 'print', 'card-pictures.json'), JSON.stringify([
+            { word: 'fan', week: 1, prompt: 'one' }, { word: 'fan', week: 1, prompt: 'two' },
+        ]));
+        const { spawnSync } = await import('node:child_process');
+        const batch = await cardCliBatch([]);
+        const run = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', batch, '--level', '2', '--weeks', '1'], {
+            encoding: 'utf8', timeout: 120_000, env: { ...process.env, WORKBOOKS_ROOT: repo },
+        });
+        expect(run.status, `${run.stdout}\n${run.stderr}`).toBe(1);
+        expect(run.stderr).toMatch(/card picture word repeat/i);
+        expect(run.stderr).not.toMatch(/\bat\s+.*\.(?:ts|js):\d+/);
+    }, 120_000);
+
     it('R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text', async () => {
         // C-P4-10: a broken `manifest.json` is a batch problem of the same class as a missing one,
         // so the CLI gives exit code 2, and the usage text names that case.

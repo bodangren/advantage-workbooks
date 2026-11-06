@@ -490,14 +490,13 @@ function centreMap(): Record<string, string> {
 }
 
 /**
- * The centre of one sticker from the centre map. The key is the sticker label; the cover
- * picture-list row id of the same sticker is accepted as well.
+ * The centre of one sticker from the centre map, keyed by its label.
  * @param map The centre map.
  * @param cover The picture sticker.
  * @returns The centre, or undefined when the map does not name the sticker.
  */
 function centreOf(map: Record<string, string>, cover: { label: string; rowId: string }): string | undefined {
-    return map[cover.label] ?? map[cover.rowId];
+    return map[cover.label];
 }
 
 /**
@@ -654,11 +653,8 @@ describe('Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11
 
     it('R-P8-S8 a centre override moves one sticker only', async () => {
         const moved = '30% 70%';
-        // The map may name the sticker by its label or by the cover picture-list row id, so the
-        // override is offered under both names.
         const overridden = await measureStickerSheet(shippedStickerHtml({
             'Nan Can Nod': moved,
-            'l2-w01-cover-nan-can-nod': moved,
         }));
         const plain = await shippedSheet();
         const movedSticker = readingOf(overridden.stickers, 'Nan Can Nod');

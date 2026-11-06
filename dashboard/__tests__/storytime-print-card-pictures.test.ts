@@ -272,6 +272,10 @@ describe('Phase 8 card picture rows: the card kit match', () => {
             { word: 'Fan', week: 2, prompt: 'one fan' },
             { word: 'fan', week: 3, prompt: 'another fan' },
         ], 2), 'case variants in different weeks name the word').toThrow(/fan/i);
+        expect(() => build([
+            { word: 'ice cream', week: 2, prompt: 'ice cream' },
+            { word: 'ice-cream', week: 2, prompt: 'ice-cream' },
+        ], 2), 'different words with one slug in a week are rejected').toThrow();
     });
 
     it('CP-11: a delivered card row wins over the case (a) row and over the case (b) story page', async () => {

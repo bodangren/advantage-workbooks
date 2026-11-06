@@ -136,10 +136,11 @@ describe('Phase 8 color patches and number dots', () => {
             });
             expect([...cyByRow.values()].every((coordinates) => coordinates.size === 1), `${word} each row has one cy`)
                 .toBe(true);
-            const row2cy = [...(cyByRow.get('2') ?? [])][0];
+            const row0cy = [...(cyByRow.get('0') ?? [])][0];
             const row1cy = [...(cyByRow.get('1') ?? [])][0];
-            if (row1cy !== undefined && row2cy !== undefined) {
-                expect(Number(row2cy), `${word} row 2 sits below row 1`).toBeGreaterThan(Number(row1cy));
+            if (count > 5) {
+                expect(row1cy, `${word} two-row layout defines row 1 cy`).toBeDefined();
+                expect(Number(row1cy), `${word} row 1 sits below row 0`).toBeGreaterThan(Number(row0cy));
             }
         }
     });
