@@ -8,6 +8,7 @@ import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { resolveStorytimePictureFiles } from '../lib/storytime/print/picture-check';
 import type { StorytimePictureRow, StorytimePictureUse } from '../lib/storytime/print/pictures';
+import { jobsFor, writePictureFolder } from './fixtures/storytime-picture-folder';
 import {
     compileStorytimeCardSheet,
     compileStorytimeStickerSheet,
@@ -101,6 +102,20 @@ function shipped(): { cards: StorytimeCard[]; rows: StorytimePictureRow[]; deliv
 }
 
 describe('the PM picture match rule of 2026-11-05', () => {
+    it('G-P8-M8 counts picture, patch, dots, and none source columns', async () => {
+        const api = await import('../lib/storytime/print/card-kit') as unknown as Record<string, unknown>;
+        expect(api.storytimeCardMatchCounts, 'the four source counts are exported').toBeTypeOf('function');
+        const count = api.storytimeCardMatchCounts as (lines: readonly string[]) => { picture: number; patch: number; dots: number; none: number };
+        expect(count([
+            'picture\tcat\trow-cat\ttext',
+            'picture\tblue\tnone\tpatch',
+            'picture\tone\tnone\tdots',
+            'picture\tyacht\tnone\tnone: no row',
+        ])).toEqual({ picture: 1, patch: 1, dots: 1, none: 1 });
+        const cards = storytimeCardKit(weeks()).cards;
+        expect(count(storytimeCardPictureMatchLines(cards, shipped().rows, new Set()))).toEqual({ picture: 0, patch: 8, dots: 9, none: 89 });
+    });
+
     it('G-P8-M1 a case (a) row wins over an earlier case (b) story-page row of the same word', () => {
         const page = pictureRow({
             id: 'page-cat', use: 'story-page', week: 1, text: 'A cat.', objectCounts: { cat: 1 },
@@ -301,6 +316,34 @@ describe('the mask and cap rules of the reason column (Review B, B-P8-8, B-P8-9)
         }
         expect(text, 'the printable text stays').toBe('bad [2J name');
     });
+
+    it('G-P8-M9 resolves delivered pictures and reports manifest errors for missing rows', async () => {
+        const api = await import('../lib/storytime/print/card-kit') as unknown as Record<string, unknown>;
+        expect(api.storytimeDeliveredPictures, 'the delivery resolver is exported').toBeTypeOf('function');
+        const resolve = api.storytimeDeliveredPictures as (folder: string, rows: StorytimePictureRow[]) => {
+            delivered: Set<string>; files: Map<string, string>; reasons: Map<string, string>;
+        };
+        const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-p8-delivered-'));
+        try {
+            const row = pictureRow({ id: 'l2-w02-card-fan', use: 'card', week: 2, text: 'fan' });
+            writePictureFolder(folder, jobsFor(['other-row']));
+            let resolverMessage = '';
+            try {
+                resolveStorytimePictureFiles(folder, [row], 'color');
+            } catch (error) {
+                resolverMessage = error instanceof Error ? error.message : String(error);
+            }
+            const resolved = resolve(folder, [row]);
+            expect(resolved.reasons.get(row.id), 'the missing manifest row keeps the resolver message').toBe(resolverMessage);
+            const line = storytimeCardPictureMatchLines([card('fan')], [row], resolved.delivered, resolved.reasons);
+            expect(line[0], 'the card line carries the masked resolver reason')
+                .toBe(`picture\tfan\tnone\tnone: ${resolverMessage.replaceAll(folder, '<tmp>')}`);
+            expect(storytimeCardPictureMatchLines([card('fan')], [row], resolved.delivered))
+                .toEqual(['picture\tfan\tnone\tnone: files not delivered']);
+        } finally {
+            fs.rmSync(folder, { recursive: true, force: true });
+        }
+    }, 120_000);
 });
 
 describe('the sticker materials line (Review C, C-P8-2)', () => {

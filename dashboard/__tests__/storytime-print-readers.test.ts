@@ -1200,6 +1200,23 @@ describe('Storytime two-output picture check', () => {
         expect(duplicateOut, 'the run rejects the duplicate week').toMatch(/duplicate/i);
     }, 300_000);
 
+    it('R-P8-F20 checks requested week 2 card rows after the book rows', async () => {
+        const dir = temp();
+        fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({ jobs: [] }));
+        const cardRows = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'card-pictures.json'), 'utf8'))
+            .filter((row: { week: number }) => row.week === 2) as { word: string }[];
+        expect(cardRows.length, 'week 2 has card picture rows').toBeGreaterThan(0);
+        const { spawnSync } = await import('node:child_process');
+        const run = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--batch', dir, '--level', '2', '--weeks', '2'], {
+            encoding: 'utf8', timeout: 120_000,
+        });
+        const output = `${run.stdout}\n${run.stderr}`;
+        expect(run.status, `the batch reports missing pictures: ${output}`).toBe(1);
+        for (const word of cardRows.map((row) => row.word.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''))) {
+            expect(output, `week 2 card row ${word} is checked`).toContain(`fail  l2-w02-card-${word}`);
+        }
+    }, 120_000);
+
     it('R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text', async () => {
         // C-P4-10: a broken `manifest.json` is a batch problem of the same class as a missing one,
         // so the CLI gives exit code 2, and the usage text names that case.

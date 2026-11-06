@@ -261,6 +261,19 @@ describe('Phase 8 card picture rows: the card file and the picture list', () => 
 });
 
 describe('Phase 8 card picture rows: the card kit match', () => {
+    it('rejects duplicate card words across weeks without case sensitivity', async () => {
+        const pictures = await import(picturesModule);
+        const build = pictures.storytimeCardPictureRows as (entries: { word: string; week: number; prompt: string }[], level: number) => unknown;
+        expect(() => build([
+            { word: 'fan', week: 2, prompt: 'one fan' },
+            { word: 'fan', week: 2, prompt: 'another fan' },
+        ], 2), 'duplicate entries in one week name the word').toThrow(/fan/i);
+        expect(() => build([
+            { word: 'Fan', week: 2, prompt: 'one fan' },
+            { word: 'fan', week: 3, prompt: 'another fan' },
+        ], 2), 'case variants in different weeks name the word').toThrow(/fan/i);
+    });
+
     it('CP-11: a delivered card row wins over the case (a) row and over the case (b) story page', async () => {
         const cardKit = await import(cardKitModule);
         expect(cardKit.storytimeCardPictureRow, 'Export storytimeCardPictureRow from lib/storytime/print/card-kit.ts.').toBeTypeOf('function');
@@ -274,5 +287,16 @@ describe('Phase 8 card picture rows: the card kit match', () => {
         expect(cardKit.storytimeCardPictureRow(card, [pageRow], new Set([pageRow.id]))?.id, 'without the card row and the case (a) row the case (b) page wins').toBe('l2-w02-story-page-a-fan');
         const lines = cardKit.storytimeCardPictureMatchLines([card], [cardRow, checkRow, pageRow], delivered);
         expect(lines, 'the match report names the card row and the text case').toEqual(['picture\tfan\tl2-w02-card-fan\ttext']);
+    });
+
+    it('CP-11 strengthening: the delivered check row wins over an undelivered card row', async () => {
+        const cardKit = await import(cardKitModule);
+        const cardRow = pictureRow({ id: 'l2-w02-card-fan', week: 2, use: 'card', text: 'fan' });
+        const checkRow = pictureRow({ id: 'l2-w02-check-row-fan', week: 2, use: 'check-row', text: 'fan' });
+        const card = { kind: 'picture', label: 'fan', size: 'A6', classSet: false };
+        const line = cardKit.storytimeCardPictureMatchLines([card], [cardRow, checkRow], new Set([checkRow.id]));
+        expect(line, 'the report chooses the delivered check row').toEqual([
+            'picture\tfan\tl2-w02-check-row-fan\ttext',
+        ]);
     });
 });

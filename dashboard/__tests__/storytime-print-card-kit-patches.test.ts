@@ -78,8 +78,8 @@ describe('Phase 8 color patches and number dots', () => {
             const patch = card?.querySelector('[data-card-patch]');
             expect(patch, `${word} card has a filled patch`).not.toBeNull();
             expect(patch?.getAttribute('data-card-patch'), `${word} patch names its word`).toBe(word);
-            expect(patch?.getAttribute('data-shape'), `${word} patch is a rounded square`)
-                .toBe('rounded-square');
+            expect(patch?.getAttribute('data-shape'), `${word} patch is a rounded rectangle`)
+                .toBe('rounded-rectangle');
             expect(patch?.getAttribute('data-color'), `${word} patch stores its sRGB value`)
                 .toBe(hex);
             expect(patch?.getAttribute('style'), `${word} patch paints the expected color`)
@@ -126,6 +126,21 @@ describe('Phase 8 color patches and number dots', () => {
             });
             expect([...rowCounts.values()].every((rowCount) => rowCount <= 5), `${word} has at most five dots per row`)
                 .toBe(true);
+            const positions = [...((dots ?? []) as NodeListOf<Element>)].map((dot) => [dot.getAttribute('cx'), dot.getAttribute('cy')].join(','));
+            expect(new Set(positions).size, `${word} dot coordinates are distinct`).toBe(count);
+            const cyByRow = new Map<string, Set<string>>();
+            dots?.forEach((dot) => {
+                const row = dot.getAttribute('data-row') ?? 'one-row';
+                const cy = dot.getAttribute('cy');
+                if (cy !== null) cyByRow.set(row, new Set([...(cyByRow.get(row) ?? []), cy]));
+            });
+            expect([...cyByRow.values()].every((coordinates) => coordinates.size === 1), `${word} each row has one cy`)
+                .toBe(true);
+            const row2cy = [...(cyByRow.get('2') ?? [])][0];
+            const row1cy = [...(cyByRow.get('1') ?? [])][0];
+            if (row1cy !== undefined && row2cy !== undefined) {
+                expect(Number(row2cy), `${word} row 2 sits below row 1`).toBeGreaterThan(Number(row1cy));
+            }
         }
     });
 

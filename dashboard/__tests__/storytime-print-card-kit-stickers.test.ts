@@ -555,6 +555,16 @@ body { font-family: 'Andika', sans-serif; color: #000; background: #fff; }
 }
 
 describe('Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06)', () => {
+    it('G-P8-S11 constrains an unsafe centre override to its percentage pair', () => {
+        const sticker: StorytimeKitItem = { kind: 'sticker', label: 'Nan Can Nod', week: 1, classSet: false };
+        const html = cardKit.compileStorytimeStickerSheet([sticker], {
+            pictureOf: () => '/tmp/nan-can-nod.png',
+            centers: { 'Nan Can Nod': '50% 50%;background:url(evil)' },
+        }).html;
+        expect(html, 'the requested position remains a position pair').toContain('style="object-position:50% 50%"');
+        expect(html, 'the injected declaration is absent').not.toContain('evil');
+    });
+
     it('R-P8-S1 the sticker sheet holds 8 stickers: the 7 decodable covers and unit 1', () => {
         const kit = cardKit.storytimeCardKit(weeks());
         const stickers = kit.items.filter((item) => item.kind === 'sticker');
