@@ -20,7 +20,7 @@ RED_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-pri
 GREEN_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"'  # must pass after Green
 PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'
 PROJECT_LINT='cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts'
-PROJECT_CHECKS='cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'  # the whole command runs inside one heavy-run wrapper (line 12); no nested heavy-run
+PROJECT_CHECKS='cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); printf "%s\n" "$out"; test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -eq 0 && npx tsc --noEmit'  # the whole command runs inside one heavy-run wrapper (line 12); no nested heavy-run; 0 FAIL lines since review round 7 of Phase 8 (F48)
 UX_REQUIRED=never   # print files: the visual checks are the contact-sheet tasks and Daniel's proof checks
 PRINT_GATE='cd dashboard && npx tsx scripts/print/make-pdfx.ts <print file> --check'   # exit 0 for each print file
 ```
@@ -30,6 +30,7 @@ Gate exclude: the track `storytime_covers_20261027` owns the file `storytime-pri
 Audit gate (PM 2026-11-04, the print-curriculum-audit hand-off): proof v14 and each later proof go to the PM auditor before Daniel. The PM runs the skill `~/.agents/skills/print-curriculum-audit/` (checklist A1 to J1). This track never audits its own proof (the independence rule of the skill). This track hands the PM the proof PDF, the fold-test PDF, the teacher book PDF, the week data, the step-map file, and the QR list. The gate passes only with 0 blockers and 0 majors. The minors go to Daniel with a default. After a fix batch, the re-audit (J1) re-checks every failed item plus one full pass of sections C and D.
 
 Baseline at 8e6df79 (2026-10-25): `PROJECT_TESTS` passes 10 files and 119 tests. `check-weeks.ts --level 2` exits 1 with one known FAIL (st2/1 `published`, spec P14); the first part of `PROJECT_CHECKS` accepts one FAIL at most, and only that check (measured: exit 0 at 8e6df79). The `tsc` part was not run in this planning session.
+Since commit 67be5603 (2026-11-04), the st2/1 `published` check passes, because the w01 audio and song approvals are set. From review round 7 of Phase 8 (F48, A-P8-25), the first part of `PROJECT_CHECKS` accepts 0 FAIL lines.
 
 Graph note: `graph.db` is from 2026-08-08 (stale), so the blast-radius lines come from `grep`, not from `build-graph`.
 
@@ -1099,7 +1100,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - `GREEN_TEST_COMMAND`: exit 0, 36 files, 803 tests passed. Capture: `green-p8-stickers-green.txt`.
     - `PROJECT_TESTS`: exit 0, 54 files, 1183 tests passed. Capture: `green-p8-stickers-project.txt`.
     - `PROJECT_LINT`: exit 0. Capture: `green-p8-stickers-lint.txt`.
-    - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `tsc --noEmit` passes. Capture: `green-p8-stickers-checks.txt`.
+    - `PROJECT_CHECKS`: exit 0. The capture holds no check-weeks output, only the exit code. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base, so no Phase 8 run held that FAIL. `tsc --noEmit` passes. Capture: `green-p8-stickers-checks.txt`. [corrected in review round 7, F47]
     - The mutant: the picture box back to 28 mm at a 6 mm inset. R-P8-S4 and R-P8-S9 fail. The file is restored, and `cmp` holds. Capture: `green-p8-stickers-mutant.txt`.
     - The v3 build: `npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 3 --out <scratch>` exits 0. It writes A5 7 pages, A6 38 pages, and stickers 1 page; 165 cards and 29 items. Capture: `green-p8-stickers-build.txt`. The scratch folder is removed. Only the sticker file stays in `~/Desktop/print-ready/storytime/card-kit-v3/`; the A5 and A6 files stay at v2.
     - `PRINT_GATE` on the v3 sticker file: exit 0, 1 page, PDF/X-1a:2001. Capture: `green-p8-stickers-printgate.txt`.
@@ -1128,7 +1129,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The targeted gate, without `--testTimeout`: `cd dashboard && npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-match.test.ts __tests__/storytime-print-card-kit-stickers.test.ts --maxWorkers=1` exits 0 with 3 files and 33 tests. Capture: `green-p8-patches-r2-targeted-notimeout.txt`.
     - `PROJECT_TESTS`: exit 0, 55 files, 1188 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-patches-r2-project-notimeout.txt`. `pnpm-lock.yaml` and `content/` stayed clean.
     - `PROJECT_LINT`: exit 0. Capture: `green-p8-patches-r2-lint.txt`.
-    - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `tsc --noEmit` passes. Capture: `green-p8-patches-r2-checks.txt`.
+    - `PROJECT_CHECKS`: exit 0. The capture holds no check-weeks output, only the exit code. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base, so no Phase 8 run held that FAIL. `tsc --noEmit` passes. Capture: `green-p8-patches-r2-checks.txt`. [corrected in review round 7, F47]
     - `GREEN_TEST_COMMAND`: exit 0, 37 files, 808 tests passed. The capture ran with `--testTimeout=120000`, before commit e7962b54. The runs without that flag are `green-p8-patches-r2-targeted-notimeout.txt` and `green-p8-patches-r2-project-notimeout.txt`. Capture: `green-p8-patches-r2-green.txt`. [corrected in review round 4, F28]
     - The mutant: the dot count of the word `three` changed from 3 to 2. R-P8-P2 and R-P8-P5 fail. The file is restored, and `cmp` holds against the copy of the Green file and against HEAD. Capture: `green-p8-patches-r2-mutant.txt`.
     - The check build: `npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 4 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/` exits 0. It writes A5 7 pages, A6 38 pages, and stickers 1 page; 165 cards and 29 items. The match report holds 106 lines, 9 with the source `dots` and 8 with the source `patch`: `green-p8-patches-r2-match-report.txt`.
@@ -1172,7 +1173,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - `GREEN_TEST_COMMAND`: exit 0, 37 files, 814 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r8-green.txt`.
     - `PROJECT_TESTS`: exit 0, 55 files, 1194 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r8-project.txt`.
     - `PROJECT_LINT`: exit 0, no problem. Capture: `green-p8-r8-lint.txt`.
-    - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `npx tsc --noEmit` reports no error. Capture: `green-p8-r8-checks.txt`.
+    - `PROJECT_CHECKS`: exit 0. The capture holds no check-weeks output, only the exit code. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base, so no Phase 8 run held that FAIL. `npx tsc --noEmit` reports no error. Capture: `green-p8-r8-checks.txt`. [corrected in review round 7, F47]
     - The r8 gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty after each gate.
     - The four r8 gates exit 0, so the Green task is `[x]` with the code commit 34d37ffc. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
 - [x] Task (Red, review round 5 remediation): tests for F32 to F39 (review-a/b/c-p8-4cb2056b.json); commit f1f30165.
@@ -1205,7 +1206,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - `GREEN_TEST_COMMAND`: exit 0, 37 files, 818 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r9-green.txt`.
     - `PROJECT_TESTS`: exit 0, 55 files, 1198 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r9-project.txt`.
     - `PROJECT_LINT`: exit 0, no problem. Capture: `green-p8-r9-lint.txt`.
-    - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `npx tsc --noEmit` reports no error. Capture: `green-p8-r9-checks.txt`. [corrected in review round 6, F46: green-p8-r9-checks.txt holds only the exit code; green-p8-r10-checks.txt holds the command and its output]
+    - `PROJECT_CHECKS`: exit 0. The capture holds no check-weeks output, only the exit code. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base, so no Phase 8 run held that FAIL. `npx tsc --noEmit` reports no error. Capture: `green-p8-r9-checks.txt`. [corrected in review round 6, F46: green-p8-r9-checks.txt holds only the exit code; green-p8-r10-checks.txt holds the command and its output] [corrected in review round 7, F47]
     - The mutants: the r7 rule back in the picture check makes R-P8-F32a, R-P8-F32b, and R-P8-F32c fail (exit 1, 3 failed and 52 passed). The card row id check dropped makes the slug case fail (exit 1, 1 failed and 12 passed). Each file came back byte for byte (`cmp`). Captures: `green-p8-r9-mutant-F32.txt` and `green-p8-r9-mutant-F35.txt`.
     - The usage text of both CLIs: capture `green-p8-r9-help.txt`. Each `--help` run exits 0.
     - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
@@ -1232,6 +1233,9 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
     - The dispositions of this Green round: F40=FIX; F41=FIX; F42=FIX; F43=FIX; F44=FIX; F45=FIX; F46=FIX.
     - The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
+- [~] Task (Green, review round 7 remediation): plan fixes for F47 and F48 (review-a/c-p8-e730ead8.json).
+    - Routing: F47=FIX; F48=FIX.
+    - The decision of the orchestrator: option 1 for F48 (A-P8-25). The first part of `PROJECT_CHECKS` accepts 0 FAIL lines.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
