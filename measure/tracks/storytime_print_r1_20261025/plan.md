@@ -1290,6 +1290,7 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - Test 7: `R38` "measures the four compiled trace items ..." (`storytime-print-student-book.test.ts` line 1307). It failed with a Playwright `TimeoutError` at `chromium.launch({ channel: 'chrome', timeout: 15000 })` inside the script of `buildPdfx`, under the 180 s outer timeout.
     - Fix 1 (tests 1 to 6): each test gets the `120_000` ms third argument of `it`, the form of the sibling tests. Plan line 1123 records the same fix (commit e7962b54). Plan line 1141 records it for G-P8-M8 (commit b133c242). No assertion and no test name changed.
     - Fix 2 (test 7): the `chromium.launch` timeout of the `buildPdfx` script goes from 15000 to 60000 ms. The outer 180 s and 185000 ms stay, so the launch stays inside them. The `it` timeout 1200000 of R38 stays, because it is above the outer budget. The other `chromium.launch` call of the file has no timeout value and stays.
+    - Test commit 4ffdbdca (full SHA 4ffdbdcac62986ff3a6443da2945cc7c70730d90): the 6 test files and this task line. Captures: `measure/runs/storytime_print_r1_20261025/red-p8-r11-tests.txt` (exit 0, 6 files, 210 tests passed) and `measure/runs/storytime_print_r1_20261025/red-p8-r11-lint.txt` (exit 0). Report: `measure/runs/storytime_print_r1_20261025/red-p8-r11.log`.
     - The orchestrator closes this task with a later `PROJECT_TESTS` run. `red_expectation`: none; the changed tests pass by design.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
