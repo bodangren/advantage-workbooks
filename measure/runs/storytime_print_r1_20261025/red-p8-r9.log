@@ -2,7 +2,7 @@ Phase 8 Red remediation for review round 5 is complete.
 Both supplied base SHAs resolve. Existing run captures and dashboard/raw.json are generated or ignorable. video/storytime-song/scripts/render.mjs is unrelated user work and remains untouched.
 The Red command ran on all four changed test files through heavy-run. Result: 4 failed and 80 passed, exit 1. The expected F32a, F32b, F32c, and F35 assertions failed inside their test bodies. F36 passed with a clean stderr message and no stack trace. F33, F34, R-P4-18, R-P4-19, R-P4-28, and R-P8-F20 passed.
 ESLint on the four changed test files exited 0.
-The plan diff held only the new Red and Green task lines and their Red evidence. The test commit is f1f301658d25debaca04a6af22353d74379a9e83. The plan commit follows this log update.
+The plan diff held only the new Red and Green task lines and their Red evidence. The test commit is f1f301658d25debaca04a6af22353d74379a9e83. The plan and evidence commit is d58776f1.
 
 MEASURE_AGENT_RESULT
 role: measure-mid-red
@@ -11,8 +11,8 @@ phase: P8
 status: complete
 baseline_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
 role_base_sha: 4cb2056b080094937b49a0441a763c85a62eb929
-head: f1f301658d25debaca04a6af22353d74379a9e83
-commits: f1f301658d25debaca04a6af22353d74379a9e83; plan commit follows
+head: d58776f1
+commits: f1f301658d25debaca04a6af22353d74379a9e83; d58776f1
 tests: 4 files; 4 expected failures, 80 passes; F32a/b/c and F35 fail in assertions; F36 passes; F33 and F34 pass
 lint: ESLint on four changed test files exited 0
 files: dashboard/__tests__/storytime-print-card-kit-patches.test.ts; dashboard/__tests__/storytime-print-card-kit-stickers.test.ts; dashboard/__tests__/storytime-print-card-pictures.test.ts; dashboard/__tests__/storytime-print-readers.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; red-p8-r9-red.txt; red-p8-r9-lint.txt; red-p8-r9.log
