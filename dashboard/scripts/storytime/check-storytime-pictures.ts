@@ -22,13 +22,15 @@ Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [-
   --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1);
             every requested week must load exactly once (checkRequestedWeeks)
 
-The command prints one line for each picture-list row of the weeks and a summary line. The card
+The command prints one line for each requested picture-list row and a summary line. The card
 rows of the card kit follow the book rows. Each row class of a week is requested on its own. The
 book rows of week N are requested when the batch holds a job for a book row of week N. They are
 requested too when the batch holds no job for any row of week N. The card rows of week N follow
 the same rule with the card rows. Every requested row with no job fails. A class of a week that
-the batch does not request prints one skip line before the summary line. Stage 1 is a measurement,
-never an approval (spec P7); it writes no file.
+the batch does not request prints one skip line before the summary line. The skip line reads
+"skip  <class> rows of week <N>: the batch holds no job for them".
+Skipped rows do not count in the summary. A skip line does not change the exit code.
+Stage 1 is a measurement, never an approval (spec P7); it writes no file.
 
 Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
 once. Exit code 2 on an argument error, on a batch folder without a manifest.json, and on a
