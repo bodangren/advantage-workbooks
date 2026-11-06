@@ -1,0 +1,7 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-match.test.ts __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-stickers.test.ts __tests__/storytime-print-card-pictures.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1 | tail -40'
+
+G-P8-M8 counts picture, patch, dots, and none source columns 27857ms
+Test Files 5 passed (5)
+Tests 100 passed (100)
+Duration 166.71s
+exit: 0

@@ -1,0 +1,17 @@
+Red retry r8 fixes the G-P8-M8 timeout. The worktree also contains pre-existing untracked Measure run artifacts and unrelated work. I preserved them and staged only named deliverables.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_print_r1_20261025
+phase: P8 — Card kit
+status: complete
+baseline_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+role_base_sha: 8764c3bcbe6e8aca16824afb1b74869077c676fe
+head: b133c242 (test commit; the plan commit will be HEAD after this report is committed)
+commits: b133c242 test; plan and evidence commit in the current commit
+tests: heavy-run targeted five-file command exited 0; 5 files and 100 tests passed; G-P8-M8 passed in 27857ms
+lint: npx eslint __tests__/storytime-print-card-kit-match.test.ts exited 0
+files: dashboard/__tests__/storytime-print-card-kit-match.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; red-p8-r8-tests.txt; red-p8-r8-lint.txt; red-p8-r8.log
+remaining_failures: none in targeted tests or lint; no other failures were tested
+handoff: Green may rerun gates; the Green task remains [~]
+END_MEASURE_AGENT_RESULT
