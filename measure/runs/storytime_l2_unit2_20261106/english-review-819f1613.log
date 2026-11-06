@@ -1,0 +1,45 @@
+English review log: FR-2.8 of storytime_l2_unit2_20261106 (Review A, P1)
+Audited HEAD: 819f1613704982354def9ee5aea1bc0a2e9d6ba5 (equals HEAD at start).
+Role: measure-review-a-correctness, used as the independent English review (FR-2.8, spec.md line 120). Report-only: only english-review-819f1613.json and this log were written. No commit.
+Writer: Anthropic (Claude Opus). Reviewer: GLM (another family). Thai: only Daniel checks Thai; no drafts/l2 JSON and no Thai field was opened.
+
+Step 1 (provenance): HEAD = 819f1613 (verified). Week staging commits cc10fbf5 (w09) to bf2474b5 (w16); fixes 67d8b02c, 84b9e682, d1822c6a (U1 twist, U2 recall audio), aeb01981 (U6 cast). phase_base_sha 0079c272 (parent of cc10fbf5); role_base_sha the same (first round). The hand-off PDF SHA-256 f25e0846dc1223064bee8027450aeaaff87f5aa7ff35a67b0af6b5a62359fa2e matches plan Task 1.11.
+
+Step 2 (inputs read): spec.md (scope table, FR-2, FR-2.8, FR-3, defaults), plan.md Tasks 1.2 to 1.11, QUESTIONS.txt (Q-A to Q-E, U3, U4), content/storytime/README.md, design.md section 2, unit-read.md, w09- to w16-self-check.txt, unit-read-stage-checks.txt, tech-debt.md rows of 2026-11-05 (the two hand rules). Unit 1 data from w01.json to w08.json through a script that drops every 'th' field and every string with Thai script (tricky words, letters, book texts, twists, the w08 block and benchmark shape).
+
+Step 3 (extract): pdftotext -layout of the 207-page English teacher manual in one heavy-run (9,974 lines; /tmp/opencode/l2u2-en.txt). No Thai translation in the file; Thai script only inside the sound-reference notes that QUESTIONS.txt announces; those lines were skipped (THAI RULE). The full extract was read, weeks 9 to 16.
+
+Step 4 (claims verified before the extract): the Task 1.10 gate capture unit-read-stage-checks.txt matches the plan claims (st2/9 to st2/15 38 PASS each, st2/16 18 PASS, 16 packages, 0 failed, 2 warnings: the allowed print-missing of st2/8 and st2/16). The guard denied my own STAGE_CHECKS rerun, so the capture is the gate evidence. Count claims use labeled check lines, not bare digits (A3). The runs folder holds no Thai (grep over all files: no match).
+
+Step 5 (per-week review, on the extract): each week checked for (1) the scope against Task 1.N, (2) decodability against the letters and tricky words taught to date, (3) English quality for Anuban 3 (story, twist, no repeat of unit 1 or unit 2), (4) the teacher script (four headings, Easier/Harder/Group, 24 minutes of main steps), (5) the song (frame count, gestures, singability, S25), (6) the two hand rules of FR-2.8, and (7) for week 16 the Benchmark 2 shape against the extracted w08 benchmark. All weeks pass. The reading-record texts of week 16 match the week files word for word; the D3 answer pages use the small-book mapping (story page 1 = book page 3) and every checked answer points at the right page.
+
+Hand rule 1 (each review strip card taught by its week): every strip day of weeks 9 to 16 was compared with the real teaching sequence (not the card week fields that the checker trusts, tech-debt finding 3). All cards are taught by their week. The rule holds.
+Hand rule 2 (each check item has exactly one right picture): every E5 picture row of weeks 9 to 15, the 8 benchmark rows of week 16, and the 5 review-page sorts were checked by hand. Each has exactly one right picture. The rule holds (tech-debt finding 9).
+
+Defaults judged: Q-A accept (the design itself puts 'Yum!' in the frame; the 90 percent gate is not machine-checked and already excepts family words and names; Daniel decides). Q-B accept ('goes' in week 14; no week 12 text needs it; the schema change is the heavier route). Q-C accept ('I can ___.'; frameCount cannot match slash words; run, jump, hop stay in the book and song). Q-D accept ('It is ___.'; same limit; the weeks differ in family and story). Q-E accept (12 letter boxes = the 12 taught letters; pass marks keep the week 8 shares, rounded down). U3 accept (unit 1 has the on-a-person twist 4 times; things and persons differ). U4 accept (hide-and-seek vs a guess under a blanket).
+
+Findings: no Blocker, no Major, 5 Nits (details in the JSON):
+- L2U2-W09-1: the karaoke video 'Yum, Yum, Yum!' is named twice in the week 9 materials list (PDF page 2).
+- L2U2-W11-1: 'Ten men in the den!' (page 2 of The Den) — no one has compared this page with its picture prompt yet (the unit read hand-checked only the last two pages); the writer checks whether the prompt shows ten men (PDF pages 68 and 205).
+- L2U2-W12-1: tautological where-questions in D3 ('Where is Nan? — Nan (page 9)'; the same on pages 125, 151, 177); week 11 shows the good form ('Where is Pat? — sofa').
+- L2U2-W13-1: 'Color the jump.' (the other weeks name a thing; PDF page 126).
+- L2U2-W16-1: the week 16 text sends the overflow Benchmark 2 sittings to the week 17 Script E slot; the unit 3 track must honor it, as week 9 honored the week 8 promise (PDF pages 185 and 201).
+
+Explained non-findings: the w16 self-check quotes 3 pictures a sort group while the PDF answer key names 2 — that is the unit 1 print rule (review-rows.ts: the key names only the pictures that the student page prints), not a data error. The week 16 day 4 medley repeats a week 11 song exactly as w08 day 4 does. The Thai sound references in the notes are by design (QUESTIONS.txt).
+
+Verdict: pass. The writer fixes or answers the 5 Nits in the task lines (FR-2.8). The defaults and the 5 Nits go to Daniel with the English text (Task 1.12).
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness (independent English review of FR-2.8)
+phase: P1 Phase 1: Week texts (2026-11-07 to 2026-11-18)
+track: storytime_l2_unit2_20261106
+audited_head_sha: 819f1613704982354def9ee5aea1bc0a2e9d6ba5
+status: pass
+result: measure/runs/storytime_l2_unit2_20261106/english-review-819f1613.json
+blocking_findings: none
+nonblocking_findings: L2U2-W09-1, L2U2-W11-1, L2U2-W12-1, L2U2-W13-1, L2U2-W16-1 (all Nit)
+retry_recommendation: none
+confidence: high
+dispositions: none
+handoff: FR-2.8 holds for weeks 9 to 16; the writer fixes or answers the 5 Nits in the task lines; Q-A to Q-E, U3, and U4 go to Daniel with the English text (Task 1.12); L2U2-W16-1 asks the orchestrator to relay the week 17 Script E dependency to the unit 3 track
+END_MEASURE_AGENT_RESULT

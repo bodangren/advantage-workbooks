@@ -46,3 +46,17 @@ The read found 3 problems and fixed them (U1 and U2 in commit d1822c6, U6 in the
 
 - The independent English review of each week (FR-2.8) is open. The orchestrator runs it on the English review extract of Task 1.11.
 - Daniel's English check (Task 1.12) and Daniel's check of all Thai drafts are open.
+
+## Second read after the English review (2026-11-07)
+
+The independent English review of FR-2.8 (`english-review-819f1613.json`) passed weeks 9 to 16 with 0 blocking findings and 5 Nit findings. Two Nits changed week text. The writer read each changed step again in full, in its week, as the Task 1.10 note requires.
+
+| Finding | Result | Change |
+|---|---|---|
+| L2U2-W09-1 | FIX | The week 9 E2 materials now say `karaoke videos: "Yum, Yum, Yum!", the seven songs of unit 1`. The old text joined the two parts with "and", so `mergeMaterials` kept "Yum, Yum, Yum!" twice in the week list. The merged list now names the video once (checked with `mergeMaterials` on the file). |
+| L2U2-W11-1 | Answer, no change | The page 2 prompt of "The Den" already shows "ten small wooden toy men" in a row on the mat, and the picture-list row `l2-w11-story-page-ten-men-in-the-den` has the object count `men: 10`. The text and the picture match. |
+| L2U2-W12-1 | Answer, no change | The where-question form "Where is X? Point to the picture." with the answer X is the form of all 7 unit 1 read-alongs (for example week 6: "Where is the horse?" with the answer "horse"), and Daniel approved that text. The check `loops-questions` needs the answer to be a word of the page. The frame pages of weeks 9, 10, and 12 to 15 have no place word, so a place answer is not possible without a new text. The question goes to Daniel as Q-F, with the default: keep the unit 1 form. |
+| L2U2-W13-1 | FIX | The week 13 D4 lines now say "Then they color the child who jumps, in the picture above it.", "Color the child who jumps.", and "Now draw yourself: run, kick, or clap." The Thai draft of the first two lines changed to match (for Daniel's check). |
+| L2U2-W16-1 | Answer, no change to the week | The series plan has a new line under Level 2: week 17 Script E hosts the Benchmark 2 sittings that wait from week 16, with the week 16 forms. |
+
+Second read: the writer read the full D4 step of week 13 and the full E2 materials list of week 9, and found no new problem. No picture prompt changed. A new run of `PICTURE_LIST_U2` gave the same committed files, and `CARD_MATCH_U2` gave 0 `none` lines. `STAGE_CHECKS` after the fixes: exit 0, "Summary: 16 package(s), 0 failed check(s), 2 warning(s)"; st2/9 and st2/13 have 38 PASS each (`review-fix-stage-checks.txt`).

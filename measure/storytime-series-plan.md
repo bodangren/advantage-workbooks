@@ -72,6 +72,9 @@ The sounds and the new sight words come from `sequence.json`. The frames are the
 | L2 U3 | 15 -et -en, 16 short i, 17 b, 18 -it -in, 19 c, 20 r, 21 short u | she, will; her, look; eat; stop, them; jump, just; we; go, play, take (13) | Let's go to the ___. / I am ___. Are you ___? / Can you ___? Yes, I can. / What day is it? / The ___ is big/small. / I like ___. Do you? / What is it? It is a ___. |
 | L2 U4 | 22 -ug -un, 23 l, 24 w, 25 -at -ap, 26 j, 27 k, 28 -ut -ub | over, want; would; out; does; good; have; more, some (9) | He/She is a ___. / I have a ___ ache. / I can hear a ___. / It is a ___ (shape). / ___ is big. ___ is small. / How old are you? I am ___. / Here is a ___ for you. |
 
+- L2 U3, week 17: Script E hosts the Benchmark 2 sittings that wait from week 16 (the children after number 27 on the list and the absent children), with the week 16 forms, as week 9 did for Benchmark 1 (English review finding L2U2-W16-1, 2026-11-07).
+- L2 U2, the staged defaults that differ from this table (Daniel decides at his English check): "goes" is taught in week 14, not week 12 (Q-B); the week 13 frame is "I can ___." (Q-C); the week 14 frame is "It is ___." (Q-D).
+
 **Level 3 (P1).**
 
 | Unit | Sounds (elements and Thai weeks) | New sight words | Frames |
