@@ -1,0 +1,15 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-match.test.ts __tests__/storytime-print-card-kit-stickers.test.ts --maxWorkers=1'
+Result: exit 0
+Test files: 3 passed (3)
+Tests: 33 passed (33)
+Duration: 101.43 s
+
+The command holds no `--testTimeout`. The Red timeout fix (commit e7962b54) gives R-P8-P3 and
+R-P8-P4 the 120 000 ms that the sibling file already used.
+
+- storytime-print-card-kit-patches.test.ts: 5 tests passed. R-P8-P1 350 ms, R-P8-P3 29340 ms,
+  R-P8-P4 11749 ms.
+- storytime-print-card-kit-stickers.test.ts: 10 tests passed. The sticker code did not change.
+- storytime-print-card-kit-match.test.ts: 18 tests passed. G-P8-M5 30118 ms.
+
+exit: 0

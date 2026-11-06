@@ -1,0 +1,17 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-match.test.ts --maxWorkers=1 --testTimeout=120000'
+Result: exit 0
+Test files: 2 passed (2)
+Tests: 23 passed (23)
+
+- R-P8-P1 the eight named color words use their approved sRGB patch colors: 324 ms
+- R-P8-P2 the nine number cards show the numeral and exactly its number of round dots: 186 ms
+- R-P8-P3 all 17 special cards replace the empty box and all 32 unmatched cards retain it: 25992 ms
+- R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none: 14238 ms
+- R-P8-P5 falsifier: a dot count off by one fails the exact count assertion: 163 ms
+- The 18 tests of storytime-print-card-kit-match.test.ts pass. G-P8-M5 took 23699 ms.
+
+The only change against the documented command is the timeout. Every assertion of the
+committed Red contract passes. The two long tests need the timeout because they hash the
+picture folder.
+
+exit: 0

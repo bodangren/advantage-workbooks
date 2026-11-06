@@ -1,0 +1,42 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 4 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/'
+Result: exit 0
+
+The build writes:
+- Storytime-Advantage-L2-U1-Card-Kit-A5-v4_PDFX-1a.pdf: 7 pages (plan 7), 383 kB, PDF/X-1a:2001, 2 fonts
+- Storytime-Advantage-L2-U1-Card-Kit-A6-v4_PDFX-1a.pdf: 38 pages (plan 38), 22493 kB, PDF/X-1a:2001, 2 fonts
+- Storytime-Advantage-L2-U1-Card-Kit-Stickers-v4_PDFX-1a.pdf: 1 page (plan 1), 1621 kB, PDF/X-1a:2001, 1 font
+- card-picture-match.txt: 106 lines, 9 lines with the source `dots` and 8 lines with the source `patch`
+
+The report of the build: picture cards 106, matched 57, no match 49. Distinct words 94, matched 46,
+no match 48. Cards 165 (sound 7, frame 7, picture 25, sound-picture 29, family-picture 52,
+tricky-word 19, word 18, letter 8); A5 14 on 7 sheets, A6 151 on 38 sheets. Items 29.
+The match report is copied to `green-p8-patches-r2-match-report.txt`.
+
+The SHA-256 values of the three files of the scratch build:
+- A5 v4: 3d185e8ad7d31e19490044f9f25b2438fb1e29fbc8691d1f7f619259f4c852a4
+- A6 v4: a3a33b267958226418dc76a067245339b45cbc03567ffb471ff3cd2affbd91ae
+- Stickers v4: 5174daf35e9ad0a61685fa0cab329a1a842bc81b2d4a2468afde9aea33ea1b08
+
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/print/make-pdfx.ts /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/Storytime-Advantage-L2-U1-Card-Kit-A6-v4_PDFX-1a.pdf --check'
+Result: exit 0
+Output: 38 pages, 22.0 MB, PDF 1.3, PDF/X-1a:2001, 2 font(s). All checks pass.
+
+The A6 pages that hold a color or a number card: 16, 17, 18, 19, 20. The 17 special cards are the
+A6 cards 61 to 69 (one to nine) and 71 to 78 (red to brown). Each A6 sheet holds 4 cards, so the
+sheet of card N is the page floor((N - 1) / 4) + 1.
+
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /tmp/opencode/p8-patch-check && for n in 16 17 18 19 20; do pdftoppm -r 150 -png -f $n -l $n /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/Storytime-Advantage-L2-U1-Card-Kit-A6-v4_PDFX-1a.pdf a6-v4-page-$n; done'
+Result: exit 0
+The 5 PNG files stay in /tmp/opencode/p8-patch-check/:
+- a6-v4-page-16-16.png: the cards one, two, three, and four with 1 to 4 dots.
+- a6-v4-page-17-17.png: the cards five, six, seven, and eight with 5 to 8 dots.
+- a6-v4-page-18-18.png: the cards nine, red, and blue.
+- a6-v4-page-19-19.png: the cards yellow, green, orange, and pink as rounded squares.
+- a6-v4-page-20-20.png: the cards purple and brown as rounded squares.
+
+The scratch print folder /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/ is
+removed after the check. The approved folders card-kit-v1, card-kit-v2, and card-kit-v3 stay
+untouched. No new A6 deliverable is made: the A6 file is rebuilt once when the 31 Forge card
+pictures arrive (PM, 2026-11-06).
+
+exit: 0

@@ -1,0 +1,16 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+Result: exit 0
+Test files: 55 passed (55)
+Tests: 1188 passed (1188)
+Duration: 723.70 s
+
+The command holds no `--testTimeout`. It is the gate of the plan (line 22) with `--maxWorkers=1`,
+as the orchestrator note of 2026-11-07 asks. The Red timeout fix (commit e7962b54) gives R-P8-P3
+and R-P8-P4 the 120 000 ms that the sibling file already used.
+
+The new file of this Green passes its 5 tests: R-P8-P3 27960 ms, R-P8-P4 5322 ms.
+The sibling file of the same phase passes its 18 tests: G-P8-M5 6687 ms.
+
+`pnpm-lock.yaml` and `content/` stayed clean after the run.
+
+exit: 0

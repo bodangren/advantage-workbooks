@@ -1,0 +1,18 @@
+This capture is the run with `--testTimeout=120000`, before the Red timeout fix. The run after
+the fix, without the flag, is in `green-p8-patches-r2-project-notimeout.txt`.
+
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1 --testTimeout=120000'
+Result: exit 0
+Test files: 55 passed (55)
+Tests: 1188 passed (1188)
+Duration: 758.56 s
+
+The gate of the plan is the same command without `--maxWorkers=1` and without `--testTimeout`.
+The orchestrator note of 2026-11-07 asks for `--maxWorkers=1`. The timeout is needed because the
+committed Red file `dashboard/__tests__/storytime-print-card-kit-patches.test.ts` gives its two
+picture-folder tests no timeout, and the work takes 5 s to 27 s. No assertion changes.
+
+The new file of this Green passes its 5 tests: R-P8-P3 took 25891 ms and R-P8-P4 took 5223 ms.
+The sibling file of the same phase passes its 18 tests. G-P8-M5 took 8515 ms.
+
+exit: 0

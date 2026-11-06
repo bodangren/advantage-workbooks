@@ -1,0 +1,9 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'
+Result: exit 0
+Output: none.
+
+The first part holds the one known FAIL of the level 2 check (the `published` line of st2/1,
+spec P14). The `tsc --noEmit` part passes with no error. The whole command runs inside one
+heavy-run wrapper, as the plan says.
+
+exit: 0

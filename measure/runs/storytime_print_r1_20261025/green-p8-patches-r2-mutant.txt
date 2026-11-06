@@ -1,0 +1,21 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts --maxWorkers=1 --testTimeout=120000'
+Result: exit 1
+Test files: 1 failed (1)
+Tests: 2 failed | 3 passed (5)
+
+The mutant: the dot count of the word `three` in `STORYTIME_CARD_NUMBER_DOTS` of
+`dashboard/lib/storytime/print/card-kit.ts` changed from 3 to 2. One line, line 146.
+
+The two failures sit inside test bodies:
+- R-P8-P2: AssertionError: three numeral: expected '2' to be '3'.
+- R-P8-P5: AssertionError: one fewer or one more dot fails the exact expected count of three:
+  expected <circle ...(5)></circle>... to have a length of 3 but got 2.
+
+The three tests that stay green: R-P8-P1, R-P8-P3, R-P8-P4.
+
+The restore: the file was copied back from the copy of the Green file, and
+`cmp /tmp/opencode/card-kit.ts.green-backup dashboard/lib/storytime/print/card-kit.ts` holds, and
+`git show HEAD:dashboard/lib/storytime/print/card-kit.ts | cmp - dashboard/lib/storytime/print/card-kit.ts`
+holds. `git status --porcelain -uno` shows no change of the file.
+
+exit: 1

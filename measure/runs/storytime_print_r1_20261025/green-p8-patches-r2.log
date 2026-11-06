@@ -1,0 +1,112 @@
+# Green P8 patches r2 log (final)
+
+Track: storytime_print_r1_20261025 (short id storytime_print_r1)
+Phase: P8 - Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)
+Role: measure-jr-green (round 2)
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+role_base_sha: 1738305492b1b80b086248e89c5ee255f1128e08
+Red model: OpenAI. Green model: MiniMax (ra-quota route).
+
+## Step 1: the plan line
+
+The Green line of Phase 8 is now `[~]`. Commit 737e1b82 holds only that line.
+The diff of `plan.md` held one line before that commit.
+
+## Step 2: the saved patch of the first Green
+
+`git apply --check` on `measure/runs/storytime_print_r1_20261025/green-p8-patches-blocked-code.patch` passed.
+The patch applied cleanly. It changes only `dashboard/lib/storytime/print/card-kit.ts`.
+The code of the first Green (DeepSeek) was reused as it stands.
+The sticker code and `STORYTIME_STICKER_CENTER_OVERRIDES` stay unchanged.
+The two new exports (`STORYTIME_CARD_COLOR_PATCH`, `STORYTIME_CARD_NUMBER_DOTS`) carry JSDoc.
+Every export of the module has JSDoc. The private `cardBody` names its four parameters and its result.
+
+Implementation commit: 3cbc0dff.
+
+## Step 3: the gates
+
+### The first round
+
+The targeted command of the 2 Red files failed on a test timeout, not on an assertion:
+`Tests  2 failed | 21 passed (23)`, and both failures said `Test timed out in 5000ms`
+(R-P8-P3 and R-P8-P4).
+
+The reason: the two tests call `resolveStorytimePictureFiles`, which reads and hashes the color
+file of every non-card row of the picture list (196 rows). The measured cost of that work on this
+machine is 5 s to 27 s. The committed Red file gave R-P8-P3 (line 132) and R-P8-P4 (line 189) no
+timeout, so the vitest default of 5 000 ms applied. The sibling file of the same phase and the
+same Red role gave the same work 120 000 ms (lines 166 and 184). The track history holds the same
+defect class: plan line 365, "Red F-P3-1b: two test timeouts for a loaded machine".
+
+The Green role does not edit a committed Red test. The gates of the first round therefore ran
+with `--testTimeout=120000`, the timeout that the sibling Red file already uses. No assertion
+changed. All of them exited 0:
+
+- the targeted command: exit 0, 3 files, 33 tests. `green-p8-patches-r2-targeted-timeout.txt`
+- `GREEN_TEST_COMMAND`: exit 0, 37 files, 808 tests. `green-p8-patches-r2-green.txt`
+- `PROJECT_TESTS`: exit 0, 55 files, 1188 tests. `green-p8-patches-r2-project.txt`
+- `PROJECT_LINT`: exit 0, no output. `green-p8-patches-r2-lint.txt`
+- `PROJECT_CHECKS`: exit 0, no output. `green-p8-patches-r2-checks.txt`
+
+### The Red timeout fix and the second round
+
+Red committed the fix: e7962b54 gives R-P8-P3 and R-P8-P4 the 120 000 ms. The plan line of the
+fix is 26b5a454. The Green code commit 3cbc0dff stays unchanged.
+
+The gates then ran again without `--testTimeout`:
+
+- the targeted command, the 2 Red files of this task and the sticker file:
+  `cd dashboard && npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-match.test.ts __tests__/storytime-print-card-kit-stickers.test.ts --maxWorkers=1`
+  exit 0, 3 files, 33 tests. `green-p8-patches-r2-targeted-notimeout.txt`
+- `PROJECT_TESTS`: exit 0, 55 files, 1188 tests. `green-p8-patches-r2-project-notimeout.txt`
+
+`pnpm-lock.yaml` and `content/` stayed clean after every gate, so no lock file was restored and
+no `w01` media copy was needed.
+
+## Step 4: the mutant
+
+The dot count of the word `three` in `STORYTIME_CARD_NUMBER_DOTS` changed from 3 to 2 (line 146).
+R-P8-P2 and R-P8-P5 fail. The three other tests stay green. The file was copied back from the
+copy of the Green file, and `cmp` holds against that copy and against HEAD.
+Capture: `green-p8-patches-r2-mutant.txt`.
+
+## Step 5: the check build
+
+`npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 4
+--out /home/daniebo/Desktop/print-ready/storytime/card-kit-patch-check/` exits 0. It writes A5 7
+pages, A6 38 pages, and stickers 1 page; 165 cards and 29 items. The match report holds 106
+lines, 9 with the source `dots` and 8 with the source `patch`.
+
+`PRINT_GATE` on the A6 file: exit 0, 38 pages, PDF/X-1a:2001, "All checks pass".
+
+The A6 pages that hold a color or a number card are 16, 17, 18, 19, and 20. Each page was
+rendered at 150 dpi with `pdftoppm` into `/tmp/opencode/p8-patch-check/`. The pages hold the
+numerals with 1 to 9 dots and the 8 rounded squares of the approved sRGB values.
+
+The scratch print folder is removed. The approved folders `card-kit-v1`, `card-kit-v2`, and
+`card-kit-v3` stay untouched. No new A6 file is made: the A6 file is rebuilt once when the 31
+Forge card pictures arrive (PM, 2026-11-06).
+
+Capture: `green-p8-patches-r2-build.txt`. The match report: `green-p8-patches-r2-match-report.txt`.
+
+## Step 6: the plan
+
+The owner look approval line sits under the sticker Green line. The Green evidence sits under the
+patch and dot Green line, and that line is now `[x]` with `commit 3cbc0dff`.
+
+## Status
+
+Complete. The Green task of Phase 8 for the color patches and the number dots is done.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, round 2)
+status: complete
+track: storytime_print_r1_20261025
+phase: P8
+commits: 737e1b82 (plan in progress), 3cbc0dff (implementation), the plan evidence commit of this role
+tests_run: the targeted 2 Red files without --testTimeout (exit 0, 33 tests); PROJECT_TESTS without --testTimeout (exit 0, 55 files, 1188 tests); GREEN_TEST_COMMAND (exit 0, 37 files, 808 tests); PROJECT_LINT (exit 0); PROJECT_CHECKS (exit 0); the mutant (R-P8-P2 and R-P8-P5 fail); the check build (exit 0); PRINT_GATE on the A6 file (exit 0)
+files_changed: dashboard/lib/storytime/print/card-kit.ts; measure/tracks/storytime_print_r1_20261025/plan.md; the run files measure/runs/storytime_print_r1_20261025/green-p8-patches-r2-*
+plan_updates: the owner look approval line under the sticker Green line; the Green evidence under the patch and dot Green line, which is now [x] with commit 3cbc0dff
+known_failures: none
+handoff: the review roles read the captures green-p8-patches-r2-targeted-notimeout.txt, green-p8-patches-r2-project-notimeout.txt, green-p8-patches-r2-green.txt, green-p8-patches-r2-lint.txt, green-p8-patches-r2-checks.txt, green-p8-patches-r2-mutant.txt, green-p8-patches-r2-build.txt, and green-p8-patches-r2-match-report.txt. The new files for the audit scope are the export STORYTIME_CARD_COLOR_PATCH, the export STORYTIME_CARD_NUMBER_DOTS, the report sources patch and dots, the color patch markup, and the numeral with dots in dashboard/lib/storytime/print/card-kit.ts. The sticker code did not change. The A6 file waits for the 31 Forge card pictures, so no new A6 deliverable exists. The PNG pages of the check build stay in /tmp/opencode/p8-patch-check/.
+END_MEASURE_AGENT_RESULT

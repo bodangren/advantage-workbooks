@@ -1,0 +1,7 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts'
+Result: exit 0
+Output: none. ESLint reports no problem.
+
+The command is the gate of the plan (line 21) without a change.
+
+exit: 0

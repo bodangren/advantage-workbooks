@@ -1,0 +1,27 @@
+This capture is the run before the Red timeout fix (commit e7962b54). The run after the fix,
+without `--testTimeout`, is in `green-p8-patches-r2-targeted-notimeout.txt`.
+
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-match.test.ts --maxWorkers=1'
+Result: exit 1
+Test files: 1 failed | 1 passed (2)
+Tests: 2 failed | 21 passed (23)
+
+The two failures are test timeouts, not assertions:
+- R-P8-P3: Test timed out in 5000ms. The test took 25364 ms.
+- R-P8-P4: Test timed out in 5000ms. The test took 14317 ms.
+- R-P8-P1, R-P8-P2, R-P8-P5 pass.
+- G-P8-M5 and the 17 other tests of the match file pass.
+
+The reason: R-P8-P3 and R-P8-P4 call `resolveStorytimePictureFiles`, which reads and hashes
+the color file of every non-card row of the picture list (196 rows). The measured cost of that
+work on this machine is 5 s to 27 s. The committed Red file gives R-P8-P3 (line 132) and
+R-P8-P4 (line 189) no timeout, so the vitest default of 5 000 ms applies. The sibling Red
+file of the same phase gives the same work 120 000 ms (lines 166 and 184).
+
+The same command with `--testTimeout=120000` exits 0 with 23 of 23 tests passed:
+`green-p8-patches-r2-targeted-timeout.txt`.
+
+The Green role does not edit a committed Red test. A Mid Red retry should give R-P8-P3 and
+R-P8-P4 the 120 000 ms that the sibling file uses.
+
+exit: 1
