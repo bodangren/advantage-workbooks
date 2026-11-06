@@ -1176,7 +1176,8 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The r8 gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty after each gate.
     - The four r8 gates exit 0, so the Green task is `[x]` with the code commit 34d37ffc. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
 - [x] Task (Red, review round 5 remediation): tests for F32 to F39 (review-a/b/c-p8-4cb2056b.json); commit f1f30165.
-- [ ] Task (Green, review round 5 remediation): code and plan fixes for F32 to F39.
+- [~] Task (Green, review round 5 remediation): code and plan fixes for F32 to F39.
+    - F36 passes at the base: the rejection handler at the end of check-storytime-pictures.ts already prints the message only and sets exit 1, so R-P8-F36 pins existing behavior (orchestrator check, 2026-11-06).
     - Routing: F32=FIX; F33=FIX; F34=FIX; F35=FIX; F36=FIX; F37=FIX; F38=FIX; F39=FIX.
     - Dispositions are F32=FIX; F33=FIX; F34=FIX; F35=FIX; F36=FIX; F37=FIX; F38=FIX; F39=FIX.
     - F32 contract: select each requested week's book and card rows separately. Request a class when that week has a manifest job for the class, or no row job at all. Every requested row without a job fails. Print one skip line per unrequested class and week before the summary.
