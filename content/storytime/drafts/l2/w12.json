@@ -1,0 +1,3634 @@
+{
+  "approval": {
+    "text": {
+      "status": "draft"
+    },
+    "thai": {
+      "status": "draft"
+    },
+    "images": {
+      "status": "draft"
+    },
+    "audio": {
+      "status": "draft"
+    },
+    "song": {
+      "status": "draft"
+    },
+    "scripts": {
+      "status": "draft"
+    },
+    "print": {
+      "status": "draft"
+    },
+    "loops": {
+      "status": "draft"
+    }
+  },
+  "version": 1,
+  "meta": {
+    "program": "storytime",
+    "shape": "storytime-week",
+    "level": 2,
+    "week": 12,
+    "unit": 2,
+    "key": "st2/12",
+    "kind": "teach",
+    "periodMinutes": 30,
+    "openingMinutes": 6,
+    "title": "Open Your Book!",
+    "band": "Sprout",
+    "status": "draft"
+  },
+  "focus": {
+    "element": {
+      "id": "english.phonics.gpc.h.h",
+      "graphemes": [
+        "h"
+      ],
+      "sound": "/h/",
+      "action": {
+        "en": "Hold a hand in front of your mouth, breathe out, and feel the air: /h/, /h/, /h/. Hat starts with /h/.",
+        "th": "ยกมือไว้หน้าปาก เป่าลมออก แล้วรู้สึกถึงลม: /h/, /h/, /h/ คำว่า hat (หมวก) ขึ้นต้นด้วยเสียง /h/"
+      },
+      "audio": "phonemes/daniel/10-h.mp3"
+    },
+    "paSkill": {
+      "en": "the first sound /h/; blend three sounds by ear",
+      "th": "ฟังเสียงแรก /h/ และฟังแล้วผสม 3 เสียงเป็นคำ"
+    },
+    "trickyWords": [
+      "it",
+      "said",
+      "that"
+    ],
+    "frame": "Open your book.",
+    "family": {
+      "name": {
+        "en": "School",
+        "th": "โรงเรียน"
+      },
+      "words": [
+        {
+          "word": "book",
+          "image": {
+            "prompt": "One closed red book. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "book"
+          }
+        },
+        {
+          "word": "bag",
+          "image": {
+            "prompt": "One blue school bag. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "bag"
+          }
+        },
+        {
+          "word": "pencil",
+          "image": {
+            "prompt": "One yellow pencil. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "pencil"
+          }
+        },
+        {
+          "word": "pen",
+          "image": {
+            "prompt": "One blue pen. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "pen"
+          }
+        },
+        {
+          "word": "crayon",
+          "image": {
+            "prompt": "One green crayon. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "crayon"
+          }
+        },
+        {
+          "word": "eraser",
+          "image": {
+            "prompt": "One pink eraser. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "eraser"
+          }
+        },
+        {
+          "word": "ruler",
+          "image": {
+            "prompt": "One wooden ruler. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": "ruler"
+          }
+        }
+      ]
+    },
+    "wordWall": [
+      "an",
+      "Nan",
+      "pan",
+      "nap",
+      "am",
+      "man",
+      "map",
+      "Pam",
+      "Sam",
+      "sat",
+      "mat",
+      "tap",
+      "Pat",
+      "on",
+      "top",
+      "pot",
+      "Tom",
+      "Mom",
+      "dad",
+      "sad",
+      "nod",
+      "dot",
+      "tan",
+      "mad",
+      "pad",
+      "ten",
+      "pen",
+      "net",
+      "set",
+      "den",
+      "men",
+      "hat",
+      "hot",
+      "hen",
+      "hop",
+      "ham",
+      "had"
+    ]
+  },
+  "opening": {
+    "pa": [
+      {
+        "en": "\"Listen: hat. What is the first sound? /h/! Listen: horse. What is the first sound? /h/!\"",
+        "th": "\"ฟัง: hat เสียงแรกคือเสียงอะไร? /h/! ฟัง: horse เสียงแรกคือเสียงอะไร? /h/!\""
+      },
+      {
+        "en": "\"Listen: house. What is the first sound? /h/! Listen: hippo. What is the first sound? /h/!\"",
+        "th": "\"ฟัง: house เสียงแรกคือเสียงอะไร? /h/! ฟัง: hippo เสียงแรกคือเสียงอะไร? /h/!\""
+      },
+      {
+        "en": "\"Listen: /h/ - /a/ - /t/. What is the word? Hat! Listen: /h/ - /o/ - /t/. What is the word? Hot!\"",
+        "th": "\"ฟัง: /h/ - /a/ - /t/ คำนี้คือคำอะไร? Hat! ฟัง: /h/ - /o/ - /t/ คำนี้คือคำอะไร? Hot!\""
+      },
+      {
+        "en": "\"Listen: /h/ - /e/ - nnn. What is the word? Hen! Listen: /h/ - /o/ - /p/. What is the word? Hop!\"",
+        "th": "\"ฟัง: /h/ - /e/ - nnn คำนี้คือคำอะไร? Hen! ฟัง: /h/ - /o/ - /p/ คำนี้คือคำอะไร? Hop!\""
+      },
+      {
+        "en": "\"Listen: /h/ - /a/ - mmm. What is the word? Ham! Listen: /h/ - /a/ - /d/. What is the word? Had!\"",
+        "th": "\"ฟัง: /h/ - /a/ - mmm คำนี้คือคำอะไร? Ham! ฟัง: /h/ - /a/ - /d/ คำนี้คือคำอะไร? Had!\""
+      }
+    ],
+    "audio": [
+      [
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/10-h.mp3"
+      ],
+      [
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/10-h.mp3"
+      ],
+      [
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/02-t.mp3",
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/02-t.mp3"
+      ],
+      [
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/27-e-short.mp3",
+        "phonemes/daniel/04-n.mp3",
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/29-o-short.mp3",
+        "phonemes/daniel/03-p.mp3"
+      ],
+      [
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/05-m.mp3",
+        "phonemes/daniel/10-h.mp3",
+        "phonemes/daniel/26-a-short.mp3",
+        "phonemes/daniel/06-d.mp3"
+      ]
+    ]
+  },
+  "books": [
+    {
+      "kind": "readalong",
+      "title": "Open Your Book!",
+      "cover": {
+        "prompt": "Sam, May, Ben, Mia, Pat, and Lily (drawn young, about five years old) and Nan sit at the low tables of a bright kindergarten classroom with low tables and a wall with big colorful animal pictures with small closed books in front of them; Teacher Kim holds up a big picture book and smiles. Under one table, a floppy ear with a dark tip sticks out. Nan: Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers. No letters, words, or numbers anywhere.",
+        "characters": [
+          "Sam",
+          "May",
+          "Ben",
+          "Mia",
+          "Pat",
+          "Lily",
+          "Nan",
+          "Teacher Kim"
+        ],
+        "caption": "Open Your Book!"
+      },
+      "pages": [
+        {
+          "text": "Open your book, Sam.",
+          "image": {
+            "prompt": "Teacher Kim holds up a big open picture book at the front of a bright kindergarten classroom with low tables and a wall with big colorful animal pictures; Sam (drawn young, about five years old) sits at a low table and opens his small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Teacher Kim",
+              "Sam"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, May.",
+          "image": {
+            "prompt": "May (drawn young, about five years old) sits at a low table in the same classroom and opens her small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "May"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Ben.",
+          "image": {
+            "prompt": "Ben (drawn young, about five years old) sits at a low table in the same classroom and opens his small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Ben"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Mia.",
+          "image": {
+            "prompt": "Mia (drawn young, about five years old) sits at a low table in the same classroom and opens her small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Mia"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Pat.",
+          "image": {
+            "prompt": "Pat (drawn young, about five years old) sits at a low table in the same classroom and opens his small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Pat"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Lily.",
+          "image": {
+            "prompt": "Lily (drawn young, about five years old) sits at a low table in the same classroom and opens her small book, with a big smile. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Lily"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Nan.",
+          "image": {
+            "prompt": "Nan looks into her open school bag at a low table in the same classroom with a surprised face; there is no book in the bag. Under the table, the tip of a fluffy golden-brown tail sticks out. Nan: Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Nan"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Open your book, Pip!",
+          "image": {
+            "prompt": "Pip the puppy lies under the same low table and opens Nan's small book with his nose and one paw; Nan looks under the table and laughs, and Teacher Kim smiles. Nan: Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers. Pip: a small puppy with golden-brown fur, a cream chest, a cream muzzle, a cream stripe on his forehead, floppy ears with darker tips, large dark-brown eyes, a black nose, a fluffy tail, and a red collar with a small round gold tag. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Pip",
+              "Nan",
+              "Teacher Kim"
+            ],
+            "caption": ""
+          }
+        }
+      ],
+      "backWords": [
+        "open",
+        "your",
+        "book",
+        "Sam",
+        "May",
+        "Ben",
+        "Mia",
+        "Pat",
+        "Lily",
+        "Nan",
+        "Pip"
+      ],
+      "questions": [
+        {
+          "kind": "who",
+          "ask": {
+            "en": "Who has Nan's book on the last page? Point to the picture.",
+            "th": "ในหน้าสุดท้าย ใครเอาหนังสือของ Nan ไป? ชี้ที่ภาพ"
+          },
+          "answer": {
+            "page": 8,
+            "word": "Pip"
+          }
+        },
+        {
+          "kind": "what",
+          "ask": {
+            "en": "What does Sam open? Point to the picture.",
+            "th": "Sam เปิดอะไร? ชี้ที่ภาพ"
+          },
+          "answer": {
+            "page": 1,
+            "word": "book"
+          }
+        },
+        {
+          "kind": "where",
+          "ask": {
+            "en": "Where is Nan? Point to the picture.",
+            "th": "Nan อยู่ที่ไหน? ชี้ที่ภาพ"
+          },
+          "answer": {
+            "page": 7,
+            "word": "Nan"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "decodable",
+      "title": "The Hen and the Hat",
+      "cover": {
+        "prompt": "Dad holds a big straw hat in the sunny farmyard of Grandma and Grandpa's farm, and a small brown hen with a red comb looks up at the hat. The sunny farmyard of Grandma and Grandpa's farm has green grass, a small red barn, a low wooden fence, and a small straw mat on the grass. No letters, words, or numbers anywhere.",
+        "characters": [
+          "Dad"
+        ],
+        "caption": "The Hen and the Hat"
+      },
+      "pages": [
+        {
+          "text": "Dad has a hat.",
+          "image": {
+            "prompt": "Dad holds a big straw hat in the sunny farmyard of Grandma and Grandpa's farm and smiles. The sunny farmyard of Grandma and Grandpa's farm has green grass, a small red barn, a low wooden fence, and a small straw mat on the grass. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Dad"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Dad is hot.",
+          "image": {
+            "prompt": "Dad wipes his forehead with one hand under the bright sun in the same farmyard; he holds the big straw hat in his other hand. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Dad"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "It is on the mat.",
+          "image": {
+            "prompt": "The big straw hat lies upside down on the small straw mat on the grass of the same farmyard; Dad walks to the low wooden fence. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Dad"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "A hen can hop.",
+          "image": {
+            "prompt": "A small brown hen with a red comb hops across the grass of the same farmyard toward the big straw hat on the mat. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Hop, hop, hop!",
+          "image": {
+            "prompt": "The same small brown hen hops onto the small straw mat, next to the big straw hat. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": ""
+          }
+        },
+        {
+          "text": "The hen sat in it.",
+          "image": {
+            "prompt": "The same small brown hen sits in the big straw hat on the small straw mat and fluffs her feathers. No letters, words, or numbers anywhere.",
+            "characters": [],
+            "caption": ""
+          }
+        },
+        {
+          "text": "Dad said, \"Get off!\"",
+          "image": {
+            "prompt": "Dad comes back from the low wooden fence of the same farmyard and waves both hands at the small brown hen in his big straw hat. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Dad"
+            ],
+            "caption": ""
+          }
+        },
+        {
+          "text": "That hen has the hat!",
+          "image": {
+            "prompt": "The same small brown hen walks away across the grass of the same farmyard with the big straw hat on her head; Dad and Tom (drawn young, about eight years old) laugh. No letters, words, or numbers anywhere.",
+            "characters": [
+              "Dad",
+              "Tom"
+            ],
+            "caption": ""
+          }
+        }
+      ],
+      "soundsPage": {
+        "element": "h",
+        "words": [
+          "hat",
+          "hot",
+          "hen",
+          "hop",
+          "Dad",
+          "mat",
+          "sat"
+        ],
+        "tricky": [
+          "it",
+          "said",
+          "that"
+        ]
+      },
+      "backWords": [
+        "Dad",
+        "hat",
+        "hot",
+        "hen",
+        "hop",
+        "mat",
+        "sat",
+        "it",
+        "said",
+        "that"
+      ],
+      "names": []
+    }
+  ],
+  "song": {
+    "title": "Open Your Book and Read!",
+    "styleBrief": "Cheerful classroom song for a kindergarten English class, 96 bpm, C major, the melody between C4 and C5, one warm clear female lead with an American accent sings each line, every word slowly and clearly sung, a small group of young singers sings the last three words of each line, ukulele, hand claps, glockenspiel, soft upright bass, dry and uncluttered. Every line uses the same short melody: \"Open your book\" or \"Open your bag\", then three words on three strong beats. The singing starts after a short instrumental intro. The song is about 75 seconds long.",
+    "bpm": 96,
+    "lyricSheet": "[Chorus]\nOpen your book! Read, read, read!\nOpen your book! Look, look, look!\n\n[Verse]\nOpen your bag! Get your pencil!\nOpen your book! Get your pen!\n\n[Chorus]\nOpen your book! Read, read, read!\nOpen your book! Look, look, look!\n\n[Verse]\nOpen your bag! Get your crayon!\nOpen your book! Get your eraser!\n\n[Chorus]\nOpen your book! Read, read, read!\nOpen your book! Look, look, look!\n\n[Verse]\nOpen your bag! Get your ruler!\nOpen your book! Read with me!",
+    "lines": [
+      {
+        "text": "Open your book! Read, read, read!",
+        "part": "chorus",
+        "gesture": "hands out",
+        "image": {
+          "prompt": "Sam (drawn young, about five years old) sits at a low table in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures and holds his small open book with both hands. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Sam"
+          ],
+          "caption": ""
+        },
+        "note": {
+          "en": "Put your hands side by side, palms up, like an open book.",
+          "th": "วางมือ 2 ข้างเคียงกัน หงายฝ่ามือขึ้น เหมือนหนังสือที่เปิดอยู่"
+        }
+      },
+      {
+        "text": "Open your book! Look, look, look!",
+        "part": "chorus",
+        "gesture": "look",
+        "image": {
+          "prompt": "May (drawn young, about five years old) looks at the pictures in her small open book at a low table in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures. No letters, words, or numbers anywhere.",
+          "characters": [
+            "May"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your bag! Get your pencil!",
+        "part": "verse",
+        "gesture": "reach",
+        "image": {
+          "prompt": "Ben (drawn young, about five years old) reaches into his open school bag in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures and takes out a yellow pencil. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Ben"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your book! Get your pen!",
+        "part": "verse",
+        "gesture": "point forward",
+        "image": {
+          "prompt": "Mia (drawn young, about five years old) points at a blue pen next to her small open book at a low table in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Mia"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your book! Read, read, read!",
+        "part": "chorus",
+        "gesture": "hands out",
+        "imageOf": 0
+      },
+      {
+        "text": "Open your book! Look, look, look!",
+        "part": "chorus",
+        "gesture": "look",
+        "imageOf": 1
+      },
+      {
+        "text": "Open your bag! Get your crayon!",
+        "part": "verse",
+        "gesture": "crouch",
+        "image": {
+          "prompt": "Pat (drawn young, about five years old) crouches next to his open school bag on the floor of a bright kindergarten classroom with low tables and a wall with big colorful animal pictures and holds up a green crayon. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Pat"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your book! Get your eraser!",
+        "part": "verse",
+        "gesture": "nod",
+        "image": {
+          "prompt": "Lily (drawn young, about five years old) holds up a pink eraser next to her small open book at a low table in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures and nods. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Lily"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your book! Read, read, read!",
+        "part": "chorus",
+        "gesture": "hands out",
+        "imageOf": 0
+      },
+      {
+        "text": "Open your book! Look, look, look!",
+        "part": "chorus",
+        "gesture": "look",
+        "imageOf": 1
+      },
+      {
+        "text": "Open your bag! Get your ruler!",
+        "part": "verse",
+        "gesture": "stretch up",
+        "image": {
+          "prompt": "Nan holds a wooden ruler high above her head next to her open school bag in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures. Nan: Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Nan"
+          ],
+          "caption": ""
+        }
+      },
+      {
+        "text": "Open your book! Read with me!",
+        "part": "verse",
+        "gesture": "point to self",
+        "image": {
+          "prompt": "Teacher Kim sits on a low chair in a bright kindergarten classroom with low tables and a wall with big colorful animal pictures with a big open picture book and points to herself; Sam, May, Ben, Mia, Pat, and Lily (drawn young, about five years old) and Nan sit on the rug in front of her with their small open books. Nan: Nan, a five-year-old girl with large dark-brown eyes, short black hair in two small bunches, an orange T-shirt with a white star, red shorts, and white sneakers. No letters, words, or numbers anywhere.",
+          "characters": [
+            "Teacher Kim",
+            "Sam",
+            "May",
+            "Ben",
+            "Mia",
+            "Pat",
+            "Lily",
+            "Nan"
+          ],
+          "caption": ""
+        }
+      }
+    ],
+    "choreography": {
+      "outro": {
+        "en": "After the last line, the class holds a hand in front of the mouth and breathes out: /h/, /h/, /h/ (the action of the letter h).",
+        "th": "หลังบรรทัดสุดท้าย ทั้งชั้นยกมือไว้หน้าปากแล้วเป่าลมออก: /h/, /h/, /h/ (ท่าประจำเสียง h)"
+      }
+    }
+  },
+  "scripts": [
+    {
+      "id": "A",
+      "day": 1,
+      "title": {
+        "en": "Sound Lesson",
+        "th": "บทเรียนเสียง"
+      },
+      "prep": [
+        {
+          "en": "Put the picture cards in order on your table: the /h/ cards and the other cards for A1, then hat, hen, and hop for A4.",
+          "th": "เรียงบัตรภาพไว้บนโต๊ะครูตามลำดับ: บัตรภาพเสียง /h/ และบัตรภาพอื่นสำหรับ A1 แล้วตามด้วยบัตรภาพ hat, hen และ hop สำหรับ A4"
+        }
+      ],
+      "steps": [
+        {
+          "id": "A1",
+          "title": {
+            "en": "Hear it",
+            "th": "ฟังเสียง"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "When the script says /h/, say the short sound: a quiet puff of air from the throat, with no voice, close to the Thai ฮ. Do not add \"uh\" after it.",
+              "When the script says \"the letter h\", say the letter name \"aitch\".",
+              "Hold up one picture card at a time and say the word slowly.",
+              "Say the first sound two times, short and quick: /h/, /h/, hat. Keep the sound short.",
+              "Mix the /h/ words with other words. The sound /h/ comes only at the start of these words."
+            ],
+            "teacherLanguage": [
+              "\"Listen. /h/, /h/, hat. Hat.\"",
+              "\"Is the first sound /h/? Thumbs up or thumbs down?\"",
+              "\"Yes! Hat starts with /h/.\"",
+              "\"Listen. Sun. Does sun start with /h/? No!\"",
+              "\"Listen. Horse. Is the first sound /h/? Yes!\""
+            ],
+            "studentActions": [
+              "Children say each word after the teacher.",
+              "Children show thumbs up for an /h/ word and thumbs down for other words."
+            ],
+            "watchFor": [
+              "Children who say \"huh\" with a long \"uh\" at the end: keep it short: /h/.",
+              "Children who drop the /h/ and say \"at\" for \"hat\": put a hand in front of the mouth and feel the air.",
+              "Children who copy a friend's thumbs: ask them alone with one more card."
+            ]
+          },
+          "easier": {
+            "en": "Use only four cards (hat, horse, sun, pen) and say the first sound two times.",
+            "th": "ใช้บัตรเพียง 4 ใบ (hat, horse, sun, pen) และพูดเสียงแรก 2 ครั้ง"
+          },
+          "harder": {
+            "en": "Say a word with no /h/: \"At.\" Children put /h/ in front: \"Hat!\"",
+            "th": "พูดคำที่ไม่มี /h/: \"At.\" เด็ก ๆ เติมเสียง /h/ ข้างหน้า: \"Hat!\""
+          },
+          "group": {
+            "en": "Pairs: you hold up a card; partner A says the word, and partner B shows the thumbs.",
+            "th": "ทำเป็นคู่: ครูชูบัตร 1 ใบ คู่คนที่ 1 พูดคำ และคู่คนที่ 2 ยกนิ้วโป้งขึ้นหรือคว่ำนิ้วโป้งลง"
+          },
+          "materials": [
+            "sound picture cards: hat, horse, house, hippo",
+            "picture cards: sun, pen, cup"
+          ],
+          "th": {
+            "teacherActions": [
+              "เมื่อบทพูดเขียนว่า /h/ ให้ออกเสียงสั้น ๆ: เป่าลมเบา ๆ ออกจากลำคอ โดยไม่เปล่งเสียง ใกล้กับเสียง ฮ ในภาษาไทย ไม่มีเสียง \"uh\" (เออะ) ตามหลัง",
+              "เมื่อบทพูดเขียนว่า \"the letter h\" ให้พูดชื่อตัวอักษร \"aitch\" (เอช)",
+              "ชูบัตรภาพทีละใบ แล้วพูดคำช้า ๆ",
+              "พูดเสียงแรก 2 ครั้ง สั้น ๆ และเร็ว ๆ: /h/, /h/, hat ออกเสียงให้สั้น",
+              "คละคำที่ขึ้นต้นด้วย /h/ กับคำอื่น เสียง /h/ อยู่ที่ต้นคำเท่านั้นในคำเหล่านี้"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง /h/, /h/, hat, hat (หมวก)\"",
+              "\"เสียงแรกคือ /h/ ไหม? ยกนิ้วโป้งขึ้นหรือคว่ำนิ้วโป้งลง?\"",
+              "\"ใช่! Hat ขึ้นต้นด้วย /h/\"",
+              "\"ฟัง sun คำว่า sun ขึ้นต้นด้วย /h/ ไหม? ไม่ใช่!\"",
+              "\"ฟัง horse เสียงแรกคือ /h/ ไหม? ใช่!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละคำตามครู",
+              "เด็ก ๆ ยกนิ้วโป้งขึ้นสำหรับคำที่มีเสียง /h/ และคว่ำนิ้วโป้งลงสำหรับคำอื่น"
+            ],
+            "watchFor": [
+              "เด็กที่ออกเสียง \"huh\" (เฮอะ) โดยมีเสียง \"uh\" ยาวตามหลัง: ให้ออกเสียงสั้น ๆ: /h/",
+              "เด็กที่ไม่ออกเสียง /h/ และพูด \"at\" แทน \"hat\": วางมือไว้หน้าปากเพื่อรู้สึกถึงลมที่ออกมา",
+              "เด็กที่ทำนิ้วโป้งตามเพื่อน: ให้เด็กคนนั้นตอบคนเดียวด้วยบัตรอีก 1 ใบ"
+            ]
+          },
+          "soundLoop": {
+            "correct": {
+              "en": "\"Listen again: /h/. Hat starts with /h/.\"",
+              "th": "\"ฟังอีกครั้ง: /h/ คำว่า Hat ขึ้นต้นด้วย /h/\""
+            },
+            "practise": {
+              "en": "\"Say it with me: /h/, /h/, /h/.\"",
+              "th": "\"พูดพร้อมครู: /h/, /h/, /h/\""
+            },
+            "retest": {
+              "en": "\"Thumbs up if it starts with /h/. Listen: horse, sun, house.\"",
+              "th": "\"ยกนิ้วโป้งขึ้นถ้าคำขึ้นต้นด้วย /h/: horse, sun, house\""
+            }
+          },
+          "loopMinutes": 5
+        },
+        {
+          "id": "A2",
+          "title": {
+            "en": "See it",
+            "th": "ดูตัวอักษร"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "Show the sound card for the letter h and point to the letter.",
+              "Say the pure sound: a quiet puff of air with no voice: /h/. It is short, close to the Thai ฮ. It is not the letter name \"aitch\".",
+              "Do the action of the letter h: hold a hand in front of your mouth, breathe out, and feel the air: /h/, /h/, /h/. Hat starts with /h/."
+            ],
+            "teacherLanguage": [
+              "\"Look. This is the letter h. It says /h/.\"",
+              "\"Listen: /h/, /h/, /h/. Not 'aitch'. /h/.\"",
+              "\"Watch me: hand in front of my mouth. /h/, /h/, /h/.\"",
+              "\"Your turn. Say it and do it. Three times.\""
+            ],
+            "studentActions": [
+              "Children say /h/, /h/, /h/ with a hand in front of the mouth, three times.",
+              "Children point to the letter h on the card."
+            ],
+            "watchFor": [
+              "A quiet puff with no voice: not \"aitch\", and not \"huh\".",
+              "Every child does the action, not only the front rows."
+            ]
+          },
+          "easier": {
+            "en": "Children feel the air on the hand with the teacher first, then say /h/.",
+            "th": "เด็ก ๆ รู้สึกถึงลมบนมือพร้อมครูก่อน แล้วจึงพูด /h/"
+          },
+          "harder": {
+            "en": "Show the ten sound cards in a mixed order. Children do the action of the card.",
+            "th": "ชูบัตรเสียงทั้ง 10 ใบแบบสลับลำดับ เด็ก ๆ ทำท่าประจำเสียงของบัตรนั้น"
+          },
+          "group": {
+            "en": "Two halves: one half says the sound, and the other half does the action. Then the halves change.",
+            "th": "แบ่งชั้นเป็น 2 ฝั่ง: ฝั่งหนึ่งออกเสียง อีกฝั่งหนึ่งทำท่า แล้วสลับกัน"
+          },
+          "materials": [
+            "sound cards: h, e, d, o, t, s, m, p, a, n"
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรเสียง h และชี้ที่ตัวอักษร",
+              "ออกเสียงล้วน: เป่าลมเบา ๆ โดยไม่เปล่งเสียง: /h/ เป็นเสียงสั้น ใกล้กับเสียง ฮ ในภาษาไทย ไม่ใช่ชื่อตัวอักษร \"aitch\" (เอช)",
+              "ทำท่าประจำเสียง h: ยกมือไว้หน้าปาก เป่าลมออก แล้วรู้สึกถึงลม: /h/, /h/, /h/ คำว่า hat (หมวก) ขึ้นต้นด้วยเสียง /h/"
+            ],
+            "teacherLanguage": [
+              "\"ดู นี่คือตัวอักษร h ออกเสียงว่า /h/\"",
+              "\"ฟัง: /h/, /h/, /h/ ไม่ใช่ 'aitch' แต่เป็น /h/\"",
+              "\"ดูครู: ยกมือไว้หน้าปาก /h/, /h/, /h/\"",
+              "\"ถึงตาเด็ก ๆ แล้ว ออกเสียงและทำท่า 3 ครั้ง\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูด /h/, /h/, /h/ โดยยกมือไว้หน้าปาก 3 ครั้ง",
+              "เด็ก ๆ ชี้ที่ตัวอักษร h บนบัตร"
+            ],
+            "watchFor": [
+              "ลมเบา ๆ โดยไม่เปล่งเสียง: ไม่ใช่ \"aitch\" (เอช) และไม่ใช่ \"huh\" (เฮอะ)",
+              "เด็กทุกคนทำท่า ไม่ใช่เฉพาะแถวหน้า"
+            ]
+          },
+          "soundLoop": {
+            "correct": {
+              "en": "\"Look and listen: /h/. A quiet puff of air. /h/.\"",
+              "th": "\"ดูและฟัง: /h/ เป่าลมเบา ๆ /h/\""
+            },
+            "practise": {
+              "en": "\"Point to the letter. Say /h/ with me, three times.\"",
+              "th": "\"ชี้ที่ตัวอักษร พูด /h/ พร้อมครู 3 ครั้ง\""
+            },
+            "retest": {
+              "en": "\"Point to the letter h. What is its sound? /h/!\"",
+              "th": "\"ชี้ที่ตัวอักษร h ตัวอักษรนี้ออกเสียงอะไร? /h/!\""
+            }
+          },
+          "loopMinutes": 5
+        },
+        {
+          "id": "A3",
+          "title": {
+            "en": "Form it",
+            "th": "เขียนตัวอักษร"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "Write the lower-case letter h large on the board, and say the formation words while you write.",
+              "Write the letter h in the air with your back to the class, so your hand moves the same way as theirs.",
+              "Children write the letter h in the air, then trace it in the book three times."
+            ],
+            "teacherLanguage": [
+              "\"Start at the dot. Down, down to the bottom. Up. Over the hill. Down.\"",
+              "\"Fingers up. Write the letter h in the air with me.\"",
+              "\"Open your book. Find the letter h. Trace it three times. Start at the dot.\""
+            ],
+            "studentActions": [
+              "Children write the letter h in the air with one finger and say the formation words.",
+              "Children trace the letter h three times in the book, from the dot."
+            ],
+            "watchFor": [
+              "Children who make the line of the letter h short, like the letter n: start at the top line and go down, down to the bottom.",
+              "Children who lift the pencil before the hill: go back up the same line, then over the hill.",
+              "Children who start at the bottom: take their hand and start at the dot."
+            ]
+          },
+          "easier": {
+            "en": "Children trace the letter h in the book with a finger first. Then they trace it with the pencil.",
+            "th": "เด็ก ๆ ใช้นิ้วลากเส้นตามตัวอักษร h ในหนังสือก่อน แล้วจึงใช้ดินสอลากเส้นตาม"
+          },
+          "harder": {
+            "en": "Write the letter h two more times on the empty line, with no dots.",
+            "th": "เขียนตัวอักษร h อีก 2 ครั้งบนบรรทัดว่าง โดยไม่มีจุดนำ"
+          },
+          "group": {
+            "en": "Pairs: one child writes the letter h on the partner's back with a finger; the partner says /h/.",
+            "th": "ทำเป็นคู่: คู่คนที่ 1 ใช้นิ้วเขียนตัวอักษร h บนหลังของคู่คนที่ 2 คู่คนที่ 2 พูด /h/"
+          },
+          "materials": [
+            "board",
+            "student book: letter box h"
+          ],
+          "th": {
+            "teacherActions": [
+              "เขียนตัวอักษร h ตัวพิมพ์เล็กขนาดใหญ่บนกระดาน และพูดคำบอกวิธีเขียนขณะเขียน",
+              "เขียนตัวอักษร h กลางอากาศโดยหันหลังให้เด็ก ๆ เพื่อให้มือของครูเคลื่อนไปทางเดียวกับมือของเด็ก ๆ",
+              "เด็ก ๆ เขียนตัวอักษร h กลางอากาศ แล้วลากเส้นตามตัวอักษร h ในหนังสือ 3 ครั้ง"
+            ],
+            "teacherLanguage": [
+              "\"เริ่มที่จุด ลง ลงไปจนสุดด้านล่าง ขึ้น ข้ามเนิน ลง\"",
+              "\"ยกนิ้วขึ้น เขียนตัวอักษร h กลางอากาศพร้อมครู\"",
+              "\"เปิดหนังสือ หาตัวอักษร h ลากเส้นตาม 3 ครั้ง เริ่มที่จุด\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ใช้นิ้ว 1 นิ้วเขียนตัวอักษร h กลางอากาศ และพูดคำบอกวิธีเขียน",
+              "เด็ก ๆ ลากเส้นตามตัวอักษร h ในหนังสือ 3 ครั้ง โดยเริ่มที่จุด"
+            ],
+            "watchFor": [
+              "เด็กที่เขียนเส้นตั้งของตัวอักษร h สั้นเหมือนตัวอักษร n: ให้เริ่มที่เส้นบนสุด แล้วลากลงไปจนสุดด้านล่าง",
+              "เด็กที่ยกดินสอก่อนเขียนเนิน: ให้ลากขึ้นตามเส้นเดิม แล้วจึงข้ามเนิน",
+              "เด็กที่เริ่มเขียนจากด้านล่าง: จับมือเด็กแล้วเริ่มที่จุด"
+            ]
+          },
+          "soundLoop": {
+            "correct": {
+              "en": "\"Watch my hand again: down, down to the bottom, up, over the hill, and down. It says /h/.\"",
+              "th": "\"ดูมือครูอีกครั้ง: ลง ลงไปจนสุดด้านล่าง ขึ้น ข้ามเนิน แล้วลง ตัวอักษรนี้ออกเสียง /h/\""
+            },
+            "practise": {
+              "en": "\"Write it in the air with me. Say /h/ as you write.\"",
+              "th": "\"เขียนกลางอากาศพร้อมครู พูด /h/ ขณะเขียน\""
+            },
+            "retest": {
+              "en": "\"Write the letter h in your book. Say its sound: /h/.\"",
+              "th": "\"เขียนตัวอักษร h ในหนังสือ แล้วบอกเสียงของตัวอักษรนี้: /h/\""
+            }
+          },
+          "loopMinutes": 4
+        },
+        {
+          "id": "A4",
+          "title": {
+            "en": "Blend it",
+            "th": "ผสมเสียง"
+          },
+          "minutes": 6,
+          "en": {
+            "teacherActions": [
+              "First by ear: keep the picture cards hat, hen, and hop face down.",
+              "Say the three sounds with a short stop between them, then say them fast. Show the picture after the class says the word.",
+              "Then with letters: show the word cards \"hat\" and \"hot\". Put your finger under each letter and say its sound, then slide under the whole word.",
+              "Show the word cards \"hen\", \"hop\", and \"had\": the letter h is at the start of each word.",
+              "Show the word cards \"hat\" and \"at\": put the letter h in front of \"at\", and the word is new.",
+              "Say the sounds, not the letter names: /h/, /t/, and /p/ with no \"uh\" after them."
+            ],
+            "teacherLanguage": [
+              "\"Listen. /h/ - /a/ - /t/. What is the word? Hat!\"",
+              "\"Next one. /h/ - /e/ - nnn. Hen! /h/ - /o/ - /p/. Hop!\"",
+              "\"Look at this word. /h/ - /a/ - /t/. Hat! And this one: /h/ - /o/ - /t/. Hot!\"",
+              "\"/h/ - /e/ - nnn. Hen! /h/ - /o/ - /p/. Hop! /h/ - /a/ - /d/. Had!\"",
+              "\"Look: at. Now the letter h in front: /h/ ... at. Hat!\""
+            ],
+            "studentActions": [
+              "Children listen to the three sounds and say the word.",
+              "Children say the sounds of \"hat\", \"hot\", \"hen\", \"hop\", and \"had\" with the teacher, then read the words alone."
+            ],
+            "watchFor": [
+              "Children who read \"hat\" as \"at\": point to the letter h and do the puff of air.",
+              "Children who mix up the letter h and the letter n: point to the tall line of the letter h."
+            ]
+          },
+          "easier": {
+            "en": "Read only \"hat\" and \"hot\" with the class, two times each.",
+            "th": "อ่านเฉพาะ \"hat\" และ \"hot\" พร้อมทั้งชั้น คำละ 2 ครั้ง"
+          },
+          "harder": {
+            "en": "Say a word; children say its three sounds: \"Hen.\" \"/h/ - /e/ - /n/.\"",
+            "th": "พูดคำ 1 คำ เด็ก ๆ พูด 3 เสียงของคำนั้น: \"Hen.\" \"/h/ - /e/ - /n/.\""
+          },
+          "group": {
+            "en": "Pairs: partner A points under the letters, partner B reads the word.",
+            "th": "ทำเป็นคู่: คู่คนที่ 1 ชี้ใต้ตัวอักษร คู่คนที่ 2 อ่านคำ"
+          },
+          "materials": [
+            "picture cards: hat, hen, hop",
+            "word cards: hat, hot, hen, hop, had, at"
+          ],
+          "th": {
+            "teacherActions": [
+              "ขั้นแรกฝึกด้วยการฟัง: คว่ำบัตรภาพ hat, hen และ hop ไว้",
+              "พูด 3 เสียงโดยหยุดสั้น ๆ ระหว่างเสียง แล้วพูดเร็ว ๆ เปิดให้ดูภาพหลังจากทั้งชั้นพูดคำ",
+              "จากนั้นฝึกด้วยตัวอักษร: ชูบัตรคำ \"hat\" และ \"hot\" วางนิ้วใต้ตัวอักษรทีละตัวและออกเสียงของตัวอักษรนั้น แล้วลากนิ้วผ่านใต้ทั้งคำ",
+              "ชูบัตรคำ \"hen\", \"hop\" และ \"had\": ตัวอักษร h อยู่ต้นคำของทุกคำ",
+              "ชูบัตรคำ \"hat\" และ \"at\": เติมตัวอักษร h ข้างหน้าคำ \"at\" แล้วจะได้คำใหม่",
+              "ออกเสียงของตัวอักษร ไม่ใช่ชื่อตัวอักษร: /h/, /t/ และ /p/ ไม่มี \"uh\" (เออะ) ตามหลัง"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง /h/ - /a/ - /t/ คำนี้คือคำอะไร? Hat! (หมวก)\"",
+              "\"คำต่อไป /h/ - /e/ - nnn Hen! (แม่ไก่) /h/ - /o/ - /p/ Hop! (กระโดด)\"",
+              "\"ดูคำนี้ /h/ - /a/ - /t/ Hat! และคำนี้: /h/ - /o/ - /t/ Hot! (ร้อน)\"",
+              "\"/h/ - /e/ - nnn Hen! /h/ - /o/ - /p/ Hop! /h/ - /a/ - /d/ Had!\"",
+              "\"ดู: at ทีนี้เติมตัวอักษร h ข้างหน้า: /h/ ... at, Hat!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ฟัง 3 เสียง แล้วพูดคำ",
+              "เด็ก ๆ ออกเสียงทีละเสียงในคำ \"hat\", \"hot\", \"hen\", \"hop\" และ \"had\" พร้อมครู แล้วอ่านคำเหล่านั้นด้วยตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่อ่าน \"hat\" เป็น \"at\": ชี้ที่ตัวอักษร h แล้วเป่าลมเบา ๆ",
+              "เด็กที่สับสนระหว่างตัวอักษร h กับตัวอักษร n: ชี้ที่เส้นตั้งสูงของตัวอักษร h"
+            ]
+          },
+          "blendDrill": {
+            "words": [
+              {
+                "word": "hat",
+                "sounds": [
+                  "/h/",
+                  "/a/",
+                  "/t/"
+                ],
+                "audio": [
+                  "phonemes/daniel/10-h.mp3",
+                  "phonemes/daniel/26-a-short.mp3",
+                  "phonemes/daniel/02-t.mp3"
+                ]
+              },
+              {
+                "word": "hot",
+                "sounds": [
+                  "/h/",
+                  "/o/",
+                  "/t/"
+                ],
+                "audio": [
+                  "phonemes/daniel/10-h.mp3",
+                  "phonemes/daniel/29-o-short.mp3",
+                  "phonemes/daniel/02-t.mp3"
+                ]
+              },
+              {
+                "word": "hen",
+                "sounds": [
+                  "/h/",
+                  "/e/",
+                  "/n/"
+                ],
+                "audio": [
+                  "phonemes/daniel/10-h.mp3",
+                  "phonemes/daniel/27-e-short.mp3",
+                  "phonemes/daniel/04-n.mp3"
+                ]
+              },
+              {
+                "word": "hop",
+                "sounds": [
+                  "/h/",
+                  "/o/",
+                  "/p/"
+                ],
+                "audio": [
+                  "phonemes/daniel/10-h.mp3",
+                  "phonemes/daniel/29-o-short.mp3",
+                  "phonemes/daniel/03-p.mp3"
+                ]
+              },
+              {
+                "word": "had",
+                "sounds": [
+                  "/h/",
+                  "/a/",
+                  "/d/"
+                ],
+                "audio": [
+                  "phonemes/daniel/10-h.mp3",
+                  "phonemes/daniel/26-a-short.mp3",
+                  "phonemes/daniel/06-d.mp3"
+                ]
+              }
+            ],
+            "model": {
+              "en": "\"Listen. I say the sounds, then the word: /h/ - /a/ - /t/. Hat!\"",
+              "th": "\"ฟัง ครูพูดทีละเสียง แล้วพูดเป็นคำ: /h/ - /a/ - /t/ Hat!\""
+            },
+            "lead": {
+              "en": "\"Say it with me, three times: /h/ - /a/ - /t/. Hat!\"",
+              "th": "\"พูดตามครู 3 รอบ: /h/ - /a/ - /t/ Hat!\""
+            },
+            "test": {
+              "en": "\"Your turn. Say the sounds, then the word.\"",
+              "th": "\"ถึงตาเด็ก ๆ พูดทีละเสียง แล้วพูดเป็นคำ\""
+            },
+            "repeats": 3,
+            "correction": {
+              "en": "\"Stop. Listen again: /h/ - /a/ - /t/. Say the sounds with me, then the word.\"",
+              "th": "\"หยุดก่อน ฟังอีกครั้ง: /h/ - /a/ - /t/ พูดทีละเสียงพร้อมครู แล้วพูดเป็นคำ\""
+            }
+          },
+          "loopMinutes": 5
+        },
+        {
+          "id": "A5",
+          "title": {
+            "en": "Word wall",
+            "th": "ผนังคำศัพท์"
+          },
+          "minutes": 2,
+          "en": {
+            "teacherActions": [
+              "Put the card for the letter h on the word wall, next to the 9 sound cards.",
+              "Put the new words on the wall: \"hat\", \"hot\", \"hen\", \"hop\", \"ham\", and \"had\". The class reads the new words, then all the words on the wall."
+            ],
+            "teacherLanguage": [
+              "\"Here is the letter h. It says /h/.\"",
+              "\"Our new words! Read them with me: Hat. Hot. Hen. Hop. Ham. Had.\"",
+              "\"Now read all the words: an, Nan, pan, nap, am, man, map, Pam, Sam, sat, mat, tap, Pat, on, top, pot, Tom, Mom, dad, sad, nod, dot, tan, mad, pad, ten, pen, net, set, den, men, hat, hot, hen, hop, ham, had.\""
+            ],
+            "studentActions": [
+              "Children say the sounds and read the words at the wall."
+            ],
+            "watchFor": [
+              "Children who read \"hat\" with the letter name \"aitch\": point to each letter and ask for its sound."
+            ]
+          },
+          "easier": {
+            "en": "Read only the 6 new words with the class, two times.",
+            "th": "อ่านเฉพาะคำใหม่ 6 คำพร้อมทั้งชั้น 2 ครั้ง"
+          },
+          "harder": {
+            "en": "A child reads one word on the wall alone, then says its first sound.",
+            "th": "เด็กคนหนึ่งอ่านคำ 1 คำบนผนังคำศัพท์ด้วยตัวเอง แล้วบอกเสียงแรกของคำนั้น"
+          },
+          "group": {
+            "en": "Whole class: one child points, and the class reads.",
+            "th": "ทั้งชั้น: เด็กคนหนึ่งชี้ และทั้งชั้นอ่าน"
+          },
+          "materials": [
+            "word wall",
+            "sound cards: h",
+            "word cards: hat, hot, hen, hop, ham, had"
+          ],
+          "th": {
+            "teacherActions": [
+              "ติดบัตรตัวอักษร hบนผนังคำศัพท์ ข้างบัตรเสียงทั้ง 9 ใบ",
+              "ติดคำใหม่บนผนังคำศัพท์: \"hat\", \"hot\", \"hen\", \"hop\", \"ham\" และ \"had\" ทั้งชั้นอ่านคำใหม่ แล้วอ่านทุกคำบนผนังคำศัพท์"
+            ],
+            "teacherLanguage": [
+              "\"นี่คือตัวอักษร h ออกเสียงว่า /h/\"",
+              "\"คำใหม่ของเรา! อ่านพร้อมครู: hat, hot, hen, hop, ham, had\"",
+              "\"ทีนี้อ่านทุกคำ: an, Nan, pan, nap, am, man, map, Pam, Sam, sat, mat, tap, Pat, on, top, pot, Tom, Mom, dad, sad, nod, dot, tan, mad, pad, ten, pen, net, set, den, men, hat, hot, hen, hop, ham, had\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ออกเสียงและอ่านคำที่ผนังคำศัพท์"
+            ],
+            "watchFor": [
+              "เด็กที่อ่าน \"hat\" โดยใช้ชื่อตัวอักษร \"aitch\" (เอช): ชี้ที่ตัวอักษรทีละตัว แล้วถามว่าออกเสียงอะไร"
+            ]
+          }
+        },
+        {
+          "id": "A6",
+          "title": {
+            "en": "New tricky words",
+            "th": "คำที่ต้องจำชุดใหม่"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "Show the tricky word cards \"it\", \"that\", and \"said\". Show one card at a time.",
+              "Read the word. Show the letters that the class can sound out: the letter t at the end of \"it\" and \"that\", the letter a in \"that\", and the letters s and d in \"said\".",
+              "The other letters are tricky. In \"it\", the letter i comes in a later week. In \"that\", the letters t and h say \"th\", with the tongue between the teeth. In \"said\", the letters a and i say /e/.",
+              "Spell each word with letter names, then write it in the air."
+            ],
+            "teacherLanguage": [
+              "\"Look at this card. Read it with me: it. It is a hat!\"",
+              "\"Next card. Read it with me: that. That is my bag!\"",
+              "\"Next card. Read it with me: said. Dad said, Get off!\"",
+              "\"This is a tricky word. We remember it. Say it with me.\""
+            ],
+            "studentActions": [
+              "Children read each card three times: loud, quiet, loud.",
+              "Children point to a bag and say \"That is my bag!\""
+            ],
+            "watchFor": [
+              "Children who read \"that\" with \"d\" or \"t\" at the start: show the tongue between the teeth for \"th\".",
+              "Children who read \"said\" as \"sad\" or \"sayd\": say \"said\" again; the letters a and i say /e/, as in \"red\"."
+            ]
+          },
+          "easier": {
+            "en": "Teach \"it\" and \"that\" today; \"said\" comes on the review strip tomorrow.",
+            "th": "สอน \"it\" และ \"that\" วันนี้ ส่วน \"said\" จะอยู่บนแถบทบทวนพรุ่งนี้"
+          },
+          "harder": {
+            "en": "Children say a sentence with a tricky word: \"It is a hat!\" or \"That is my bag!\"",
+            "th": "เด็ก ๆ พูดประโยคที่มีคำที่ต้องจำ: \"It is a hat!\" (มันคือหมวก!) หรือ \"That is my bag!\" (นั่นคือกระเป๋าของหนู!)"
+          },
+          "group": {
+            "en": "Pairs: you show a card; partner A reads it to partner B. Then the partners change.",
+            "th": "ทำเป็นคู่: ครูชูบัตร 1 ใบ คู่คนที่ 1 อ่านให้คู่คนที่ 2 ฟัง แล้วสลับกัน"
+          },
+          "materials": [
+            "tricky word cards: it, that, said"
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรคำที่ต้องจำ \"it\", \"that\" และ \"said\" ทีละใบ",
+              "อ่านคำนั้น ชี้ให้ดูตัวอักษรที่ทั้งชั้นสะกดออกเสียงได้: ตัวอักษร t ท้ายคำ \"it\" และ \"that\" ตัวอักษร a ในคำ \"that\" และตัวอักษร s และ d ในคำ \"said\"",
+              "ตัวอักษรอื่นเป็นส่วนที่ต้องจำ ในคำ \"it\" ตัวอักษร i จะได้เรียนในสัปดาห์ต่อ ๆ ไป ในคำ \"that\" ตัวอักษร t และ h ออกเสียง \"th\" โดยวางลิ้นไว้ระหว่างฟัน ในคำ \"said\" ตัวอักษร a และ i ออกเสียง /e/",
+              "สะกดแต่ละคำด้วยชื่อตัวอักษร แล้วเขียนคำนั้นกลางอากาศ"
+            ],
+            "teacherLanguage": [
+              "\"ดูบัตรใบนี้ อ่านพร้อมครู: it (มัน) เช่น It is a hat! (มันคือหมวก!)\"",
+              "\"บัตรใบต่อไป อ่านพร้อมครู: that (นั่น) เช่น That is my bag! (นั่นคือกระเป๋าของหนู!)\"",
+              "\"บัตรใบต่อไป อ่านพร้อมครู: said (พูดว่า) เช่น Dad said, Get off! (พ่อพูดว่า ลงมา!)\"",
+              "\"นี่คือคำที่ต้องจำ เราจำคำนี้ไว้ พูดพร้อมครู\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านบัตรแต่ละใบ 3 ครั้ง: ดัง เบา ดัง",
+              "เด็ก ๆ ชี้ที่กระเป๋าแล้วพูด \"That is my bag!\" (นั่นคือกระเป๋าของหนู!)"
+            ],
+            "watchFor": [
+              "เด็กที่อ่าน \"that\" โดยขึ้นต้นด้วยเสียง \"d\" หรือ \"t\": ให้ดูการวางลิ้นไว้ระหว่างฟันสำหรับเสียง \"th\"",
+              "เด็กที่อ่าน \"said\" เป็น \"sad\" หรือ \"sayd\": พูดคำ \"said\" อีกครั้ง ตัวอักษร a และ i ออกเสียง /e/ แบบในคำ \"red\""
+            ]
+          },
+          "sightWords": {
+            "words": [
+              "it",
+              "said",
+              "that"
+            ],
+            "slide": {
+              "en": "Slide a finger under the word. Say: \"Read it the fast way.\"",
+              "th": "ลากนิ้วใต้คำ แล้วพูดว่า \"Read it the fast way.\" (อ่านแบบเร็ว)"
+            },
+            "check": {
+              "en": "Show one word. The class reads it in 3 seconds.",
+              "th": "ชูคำทีละคำ ให้ทั้งชั้นอ่านภายใน 3 วินาที"
+            },
+            "seconds": 3
+          },
+          "loopMinutes": 3
+        },
+        {
+          "id": "A7",
+          "title": {
+            "en": "Read it",
+            "th": "อ่าน"
+          },
+          "minutes": 1,
+          "en": {
+            "teacherActions": [
+              "Open the practice sheet in the book and point to each line once."
+            ],
+            "teacherLanguage": [
+              "\"Read the sounds with me: /h/, /e/, /d/, /o/, /t/, sss, mmm, /p/, /a/, nnn.\"",
+              "\"Read the words: Hat. Hot. Hen. Hop. Ham. Had.\"",
+              "\"Read the sentences: A hen can hop. Dad is hot.\""
+            ],
+            "studentActions": [
+              "Children read the lines and point to the tricky words \"a\" and \"can\" and \"is\"."
+            ],
+            "watchFor": [
+              "Children who look at the wrong line: show the picture at the start of the line."
+            ]
+          },
+          "easier": {
+            "en": "Read only the line of sounds.",
+            "th": "อ่านเฉพาะบรรทัดของเสียง"
+          },
+          "harder": {
+            "en": "Children read \"A hen can hop.\" alone.",
+            "th": "เด็ก ๆ อ่าน \"A hen can hop.\" ด้วยตัวเอง"
+          },
+          "group": {
+            "en": "Pairs point to the lines for each other.",
+            "th": "ทำเป็นคู่: ชี้บรรทัดให้กันและกัน"
+          },
+          "materials": [
+            "student book: practice sheet"
+          ],
+          "th": {
+            "teacherActions": [
+              "เปิดหน้าฝึกอ่านในหนังสือ และชี้แต่ละบรรทัด 1 ครั้ง"
+            ],
+            "teacherLanguage": [
+              "\"อ่านเสียงพร้อมครู: /h/, /e/, /d/, /o/, /t/, sss, mmm, /p/, /a/, nnn\"",
+              "\"อ่านคำ: hat, hot, hen, hop, ham, had\"",
+              "\"อ่านประโยค: A hen can hop. (แม่ไก่กระโดดได้) Dad is hot. (พ่อร้อน)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านแต่ละบรรทัด และชี้ที่คำที่ต้องจำ \"a\" และ \"can\" และ \"is\""
+            ],
+            "watchFor": [
+              "เด็กที่ดูผิดบรรทัด: ชี้ภาพที่ต้นบรรทัดให้ดู"
+            ]
+          },
+          "moved": "next-opening"
+        },
+        {
+          "id": "A8",
+          "title": {
+            "en": "Home card",
+            "th": "บัตรกิจกรรมที่บ้าน"
+          },
+          "minutes": 0,
+          "en": {
+            "teacherActions": [
+              "Read the Thai line on the home card to the class.",
+              "After class on day 1: tear the week 12 home card out of each student book, and put one card in each child's bag."
+            ],
+            "teacherLanguage": [
+              "\"Your home card is in your bag. Show it to your family.\"",
+              "\"Play a book game with your family. Open your book! What can you see?\""
+            ],
+            "studentActions": [
+              "Children find the home card in their bag."
+            ],
+            "watchFor": [
+              "A child with no card: give the child a card at home time on day 2."
+            ]
+          },
+          "easier": {
+            "en": "Show the card to the child.",
+            "th": "ชูบัตรให้เด็กดู"
+          },
+          "harder": {
+            "en": "A child shows the card to a friend and says: \"/h/, /h/, hat! Open your book!\"",
+            "th": "เด็กคนหนึ่งเอาบัตรให้เพื่อนดูและพูดว่า: \"/h/, /h/, hat! Open your book!\" (เปิดหนังสือ!)"
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "student book: home card"
+          ],
+          "th": {
+            "teacherActions": [
+              "อ่านข้อความภาษาไทยบนบัตรกิจกรรมที่บ้านให้ทั้งชั้นฟัง",
+              "หลังเลิกเรียนวันที่ 1: ฉีกบัตรกิจกรรมที่บ้านของสัปดาห์ที่ 12 ออกจากหนังสือนักเรียนของเด็กแต่ละคน แล้วใส่บัตรในกระเป๋าของเด็กคนละ 1 ใบ"
+            ],
+            "teacherLanguage": [
+              "\"บัตรกิจกรรมที่บ้านอยู่ในกระเป๋าของหนู ๆ แล้ว เอาให้ครอบครัวดูนะ\"",
+              "\"เล่นเกมหนังสือกับครอบครัว Open your book! (เปิดหนังสือ!) What can you see? (หนูเห็นอะไร)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ หาบัตรกิจกรรมที่บ้านในกระเป๋าของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่ไม่มีบัตร: ให้บัตรแก่เด็กตอนกลับบ้านในวันที่ 2"
+            ]
+          },
+          "moved": "next-opening"
+        }
+      ],
+      "recall": {
+        "items": [
+          {
+            "kind": "sound",
+            "text": "e",
+            "week": 11
+          },
+          {
+            "kind": "sound",
+            "text": "o",
+            "week": 7
+          },
+          {
+            "kind": "tricky",
+            "text": "me",
+            "week": 11
+          },
+          {
+            "kind": "tricky",
+            "text": "they",
+            "week": 10
+          },
+          {
+            "kind": "frame",
+            "text": "Where is ___? In/On/Under.",
+            "week": 11
+          }
+        ],
+        "ask": {
+          "en": "Show the five cards. The class says each sound or word.",
+          "th": "ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ"
+        }
+      }
+    },
+    {
+      "id": "B",
+      "day": 2,
+      "title": {
+        "en": "Story Lesson",
+        "th": "บทเรียนนิทาน"
+      },
+      "prep": [
+        {
+          "en": "Get the book audio of \"Open Your Book!\" ready on the tablet, or print its QR code (B3).",
+          "th": "เตรียมเสียงอ่านของหนังสือ \"Open Your Book!\" บนแท็บเล็ต หรือพิมพ์คิวอาร์โค้ดของหนังสือไว้ (B3)"
+        }
+      ],
+      "steps": [
+        {
+          "id": "B1",
+          "title": {
+            "en": "Family words",
+            "th": "คำศัพท์ประจำหมวด"
+          },
+          "minutes": 5,
+          "en": {
+            "teacherActions": [
+              "Show each family picture card and say the word two times.",
+              "Put the cards on the board. Say a word; the class says it and holds up the same thing from the table or the bag.",
+              "Point to a card; the class says the word."
+            ],
+            "teacherLanguage": [
+              "\"Look. A pencil. Say it: pencil. Hold up your pencil!\"",
+              "\"Point to the card with the ruler! Now hold up a ruler!\"",
+              "\"What is this? An eraser!\""
+            ],
+            "studentActions": [
+              "Children say each word two times after the teacher.",
+              "Children point to the card and hold up the same thing."
+            ],
+            "watchFor": [
+              "Children who mix up \"pen\" and \"pencil\": show the two cards side by side and say both words again.",
+              "Children who say the Thai word: say the English; the child says it after you."
+            ]
+          },
+          "easier": {
+            "en": "Use four cards: book, bag, pencil, crayon.",
+            "th": "ใช้บัตร 4 ใบ: book, bag, pencil, crayon"
+          },
+          "harder": {
+            "en": "A child holds up one thing; the class says the word.",
+            "th": "เด็กคนหนึ่งชูของ 1 อย่าง ทั้งชั้นพูดคำนั้น"
+          },
+          "group": {
+            "en": "Pairs: partner A points to a card, partner B says the word and holds up the thing.",
+            "th": "ทำเป็นคู่: คู่คนที่ 1 ชี้ที่บัตร คู่คนที่ 2 พูดคำนั้นและชูของนั้นขึ้นมา"
+          },
+          "materials": [
+            "family picture cards: book, bag, pencil, pen, crayon, eraser, ruler"
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรภาพคำศัพท์แต่ละใบ แล้วพูดคำนั้น 2 ครั้ง",
+              "ติดบัตรบนกระดาน ครูพูดคำ 1 คำ ทั้งชั้นพูดคำนั้นและชูของสิ่งเดียวกันจากโต๊ะหรือจากกระเป๋า",
+              "ชี้ที่บัตร 1 ใบ ทั้งชั้นพูดคำนั้น"
+            ],
+            "teacherLanguage": [
+              "\"ดู A pencil. (ดินสอ) พูดตาม: pencil. ชูดินสอของหนูขึ้นมา!\"",
+              "\"Point to the card with the ruler! (ชี้ที่บัตรรูปไม้บรรทัด) ทีนี้ชูไม้บรรทัดขึ้นมา!\"",
+              "\"What is this? (นี่คืออะไร) An eraser! (ยางลบ)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละคำตามครู 2 ครั้ง",
+              "เด็ก ๆ ชี้ที่บัตร และชูของสิ่งเดียวกันขึ้นมา"
+            ],
+            "watchFor": [
+              "เด็กที่สับสนระหว่าง \"pen\" (ปากกา) กับ \"pencil\" (ดินสอ): วางบัตร 2 ใบเคียงกันให้ดู แล้วพูดทั้ง 2 คำอีกครั้ง",
+              "เด็กที่พูดคำภาษาไทย: พูดเป็นภาษาอังกฤษ แล้วให้เด็กพูดตาม"
+            ]
+          }
+        },
+        {
+          "id": "B2",
+          "title": {
+            "en": "Picture walk",
+            "th": "ดูภาพก่อนอ่าน"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "Show the cover and pages 1 to 7 of \"Open Your Book!\". Cover the words with your hand. Keep page 8 for later.",
+              "On each page, point to the child and ask \"Who is this?\" The class says the name.",
+              "On page 7, point to the empty bag and to the tail under the table, and ask what happens."
+            ],
+            "teacherLanguage": [
+              "\"Look at the cover. Who is this? It is Teacher Kim! What does she have? A book!\"",
+              "\"Look. Who is this? It is Sam! Sam opens his book.\"",
+              "\"Look in the bag. Where is the book? And what is this?\""
+            ],
+            "studentActions": [
+              "Children say what they can see, in Thai or English.",
+              "Children say the name of the child on each page."
+            ],
+            "watchFor": [
+              "Children who answer in Thai: say the English; the child says it after you.",
+              "Do not open page 8 yet: keep the surprise for the reading."
+            ]
+          },
+          "easier": {
+            "en": "Say the name with the class on every page.",
+            "th": "พูดชื่อเด็กพร้อมทั้งชั้นในทุกหน้า"
+          },
+          "harder": {
+            "en": "Before you turn the page, ask: \"Who is next?\"",
+            "th": "ก่อนพลิกหน้า ถามว่า: \"Who is next?\" (หน้าต่อไปเป็นใคร)"
+          },
+          "group": {
+            "en": "Whole class: quiet children tell a partner first, then the class.",
+            "th": "ทั้งชั้น: เด็กที่ไม่ค่อยกล้าพูดบอกคู่ก่อน แล้วจึงบอกทั้งชั้น"
+          },
+          "materials": [
+            "big book or screen: \"Open Your Book!\""
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้ดูปกและหน้า 1 ถึง 7 ของ \"Open Your Book!\" ใช้มือปิดคำไว้ เก็บหน้า 8 ไว้เปิดทีหลัง",
+              "ในแต่ละหน้า ชี้ที่เด็กในภาพ แล้วถามว่า \"Who is this?\" (นี่คือใคร) ทั้งชั้นพูดชื่อ",
+              "ที่หน้า 7 ชี้ที่กระเป๋าที่ว่างเปล่าและหางที่อยู่ใต้โต๊ะ แล้วถามว่าเกิดอะไรขึ้น"
+            ],
+            "teacherLanguage": [
+              "\"ดูที่ปก นี่คือใคร? It is Teacher Kim! (นี่คือครู Kim) ครูมีอะไร? A book! (หนังสือ)\"",
+              "\"ดู นี่คือใคร? It is Sam! (นี่คือ Sam) Sam เปิดหนังสือของเขา\"",
+              "\"ดูในกระเป๋า หนังสืออยู่ที่ไหน? แล้วนี่คืออะไร?\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ บอกสิ่งที่เห็น เป็นภาษาไทยหรือภาษาอังกฤษ",
+              "เด็ก ๆ พูดชื่อเด็กในแต่ละหน้า"
+            ],
+            "watchFor": [
+              "เด็กที่ตอบเป็นภาษาไทย: พูดเป็นภาษาอังกฤษ แล้วให้เด็กพูดตาม",
+              "ยังไม่เปิดหน้า 8: เก็บเซอร์ไพรส์ไว้ตอนอ่าน"
+            ]
+          }
+        },
+        {
+          "id": "B3",
+          "title": {
+            "en": "Listen",
+            "th": "ฟัง"
+          },
+          "minutes": 2,
+          "en": {
+            "teacherActions": [
+              "Play the audio of \"Open Your Book!\" once, at 1.0 speed.",
+              "Point to the picture while the audio reads the page; turn the page with the audio."
+            ],
+            "teacherLanguage": [
+              "\"Now listen to the book. Eyes on the pictures.\"",
+              "\"Open your book with the children in the book!\""
+            ],
+            "studentActions": [
+              "Children listen and look at the pictures.",
+              "Children open their hands like a book on each page."
+            ],
+            "watchFor": [
+              "Children who do not look: hold the book closer to them."
+            ]
+          },
+          "easier": {
+            "en": "Play the audio at 0.75 speed.",
+            "th": "เปิดเสียงที่ความเร็ว 0.75"
+          },
+          "harder": {
+            "en": "Stop the audio before the name on a page; the class says the name.",
+            "th": "หยุดเสียงก่อนถึงชื่อในหน้านั้น ทั้งชั้นพูดชื่อ"
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "book audio, on the tablet or by the QR code: \"Open Your Book!\""
+          ],
+          "th": {
+            "teacherActions": [
+              "เปิดเสียงอ่าน \"Open Your Book!\" 1 รอบ ที่ความเร็ว 1.0",
+              "ชี้ที่ภาพขณะเสียงอ่านหน้านั้น และพลิกหน้าไปพร้อมกับเสียง"
+            ],
+            "teacherLanguage": [
+              "\"ทีนี้ฟังหนังสือ ตาดูที่ภาพ\"",
+              "\"เปิดหนังสือไปพร้อมกับเด็ก ๆ ในหนังสือ!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ฟังและดูภาพ",
+              "เด็ก ๆ ทำมือเหมือนเปิดหนังสือในทุกหน้า"
+            ],
+            "watchFor": [
+              "เด็กที่ไม่ดูภาพ: ถือหนังสือให้ใกล้เด็กมากขึ้น"
+            ]
+          }
+        },
+        {
+          "id": "B4",
+          "title": {
+            "en": "Read with me",
+            "th": "อ่านกับครู"
+          },
+          "minutes": 6,
+          "en": {
+            "teacherActions": [
+              "First reading: read each page and point under each word. The class says the page after you.",
+              "Second reading: read \"Open your book,\" and stop. The class says the name and opens their hands like a book.",
+              "Point to \"Open your book\" on pages 1 to 7: it is the frame of the week. Show the comma before the name and the full stop at the end. On page 8, show the change: \"Open your book, Pip!\" Teacher Kim says it to Pip, so the end has the mark \"!\"."
+            ],
+            "teacherLanguage": [
+              "\"My turn: Open your book, Sam. Your turn!\"",
+              "\"Look at the words. Open your book, ...\"",
+              "\"Read the last page with me: Open your book, Pip!\""
+            ],
+            "studentActions": [
+              "Children say each page after the teacher and point in the air.",
+              "Children say the name on each page and open their hands like a book."
+            ],
+            "watchFor": [
+              "Children who say \"Open book\" with no \"your\": say the frame again slowly and tap the table for each word.",
+              "On the last page, let the children laugh, then read it again together."
+            ]
+          },
+          "easier": {
+            "en": "Read pages 1 to 3 and pages 7 and 8 only.",
+            "th": "อ่านเฉพาะหน้า 1 ถึง 3 และหน้า 7 และ 8"
+          },
+          "harder": {
+            "en": "Children read \"Open your book,\" alone; you say only the names.",
+            "th": "เด็ก ๆ อ่าน \"Open your book,\" ด้วยตัวเอง ส่วนครูพูดเฉพาะชื่อ"
+          },
+          "group": {
+            "en": "Half the class reads \"Open your book,\" (Teacher Kim), and the other half says the name.",
+            "th": "ครึ่งชั้นอ่าน \"Open your book,\" (ครู Kim) อีกครึ่งชั้นพูดชื่อ"
+          },
+          "materials": [
+            "big book or screen: \"Open Your Book!\""
+          ],
+          "th": {
+            "teacherActions": [
+              "อ่านรอบแรก: อ่านแต่ละหน้าและชี้ใต้แต่ละคำ ทั้งชั้นพูดหน้านั้นตาม",
+              "อ่านรอบที่สอง: อ่าน \"Open your book,\" แล้วหยุด ทั้งชั้นพูดชื่อ และทำมือเหมือนเปิดหนังสือ",
+              "ชี้ที่ \"Open your book\" ในหน้า 1 ถึง 7: นี่คือกรอบประโยคของสัปดาห์ ชี้ให้ดูเครื่องหมายจุลภาค (comma) หน้าชื่อ และจุด (full stop) ที่ท้ายประโยค ที่หน้า 8 ชี้ให้ดูว่าประโยคเปลี่ยน: \"Open your book, Pip!\" (เปิดหนังสือสิ Pip!) ครู Kim พูดกับ Pip ท้ายประโยคจึงมีเครื่องหมาย \"!\""
+            ],
+            "teacherLanguage": [
+              "\"ตาครู: Open your book, Sam. (เปิดหนังสือ Sam) ถึงตาเด็ก ๆ!\"",
+              "\"ดูที่คำ Open your book, ... (เปิดหนังสือ ...)\"",
+              "\"อ่านหน้าสุดท้ายพร้อมครู: Open your book, Pip! (เปิดหนังสือสิ Pip!)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ พูดแต่ละหน้าตามครู และชี้ในอากาศ",
+              "เด็ก ๆ พูดชื่อในแต่ละหน้า และทำมือเหมือนเปิดหนังสือ"
+            ],
+            "watchFor": [
+              "เด็กที่พูด \"Open book\" โดยไม่มีคำว่า \"your\": พูดกรอบประโยคอีกครั้งช้า ๆ และเคาะโต๊ะ 1 ครั้งต่อ 1 คำ",
+              "ที่หน้าสุดท้าย ปล่อยให้เด็ก ๆ หัวเราะ แล้วอ่านอีกครั้งพร้อมกัน"
+            ]
+          }
+        },
+        {
+          "id": "B5",
+          "title": {
+            "en": "Frame practice",
+            "th": "ฝึกกรอบประโยค"
+          },
+          "minutes": 7,
+          "en": {
+            "teacherActions": [
+              "Write \"Open your book.\" on the board and point to each word. Show the big letter O at the start and the full stop at the end.",
+              "Say \"Open your book.\" The class opens their student books. Say \"Close your book.\" The class closes them. Do it three times, faster each time.",
+              "Six children come to the front, one at a time. The child says \"Open your book, ___!\" with the name of a friend; the friend opens the book and holds it up. Then pairs play."
+            ],
+            "teacherLanguage": [
+              "\"Listen: Open your book. Close your book. Open your book!\"",
+              "\"Your turn. Choose a friend. Say: Open your book, ...\"",
+              "\"Now with your partner. Say: Open your book!\""
+            ],
+            "studentActions": [
+              "Six children say \"Open your book, ___!\" to a friend, and the friend opens the book.",
+              "Pairs: partner A says \"Open your book.\"; partner B opens the book and points to a picture. Then they change."
+            ],
+            "watchFor": [
+              "Children who say \"Open the book\": say \"your\" again, slowly.",
+              "Children who open the book before the frame ends: wait for the last word, then open."
+            ]
+          },
+          "easier": {
+            "en": "The child says the frame together with the teacher.",
+            "th": "เด็กพูดกรอบประโยคพร้อมกับครู"
+          },
+          "harder": {
+            "en": "The child says two commands: \"Open your book. Open your bag.\"",
+            "th": "เด็กพูดคำสั่ง 2 ประโยค: \"Open your book. Open your bag.\" (เปิดหนังสือ เปิดกระเป๋า)"
+          },
+          "group": {
+            "en": "Pairs, then two pairs together: four children say and do.",
+            "th": "ทำเป็นคู่ แล้วรวม 2 คู่เข้าด้วยกัน: เด็ก 4 คนพูดและทำตาม"
+          },
+          "materials": [
+            "board",
+            "student books"
+          ],
+          "th": {
+            "teacherActions": [
+              "เขียน \"Open your book.\" บนกระดาน และชี้ที่แต่ละคำ ชี้ให้ดูตัวอักษร O ตัวพิมพ์ใหญ่ที่ต้นประโยคและจุด (full stop) ที่ท้ายประโยค",
+              "พูดว่า \"Open your book.\" (เปิดหนังสือ) ทั้งชั้นเปิดหนังสือนักเรียน พูดว่า \"Close your book.\" (ปิดหนังสือ) ทั้งชั้นปิดหนังสือ ทำ 3 ครั้ง ให้เร็วขึ้นทุกครั้ง",
+              "เด็ก 6 คนออกมาหน้าชั้นทีละคน เด็กพูดว่า \"Open your book, ___!\" พร้อมชื่อเพื่อน 1 คน เพื่อนคนนั้นเปิดหนังสือและชูขึ้น จากนั้นให้เล่นเป็นคู่"
+            ],
+            "teacherLanguage": [
+              "\"ฟัง: Open your book. (เปิดหนังสือ) Close your book. (ปิดหนังสือ) Open your book!\"",
+              "\"ถึงตาหนูแล้ว เลือกเพื่อน 1 คน แล้วพูดว่า: Open your book, ...\"",
+              "\"ทีนี้ทำกับคู่ พูดว่า: Open your book!\""
+            ],
+            "studentActions": [
+              "เด็ก 6 คนพูด \"Open your book, ___!\" กับเพื่อน และเพื่อนเปิดหนังสือ",
+              "ทำเป็นคู่: คู่คนที่ 1 พูดว่า \"Open your book.\" คู่คนที่ 2 เปิดหนังสือและชี้ที่ภาพ 1 ภาพ แล้วสลับกัน"
+            ],
+            "watchFor": [
+              "เด็กที่พูดว่า \"Open the book\": พูดคำว่า \"your\" อีกครั้งช้า ๆ",
+              "เด็กที่เปิดหนังสือก่อนครูพูดจบ: รอให้ครูพูดคำสุดท้ายก่อน แล้วจึงเปิด"
+            ]
+          }
+        },
+        {
+          "id": "B6",
+          "title": {
+            "en": "Act it",
+            "th": "แสดงตามเรื่อง"
+          },
+          "minutes": 1,
+          "en": {
+            "teacherActions": [
+              "The whole class acts the book. You are Teacher Kim: say each page. Each table is one child of the book: the table opens its books.",
+              "On the last page, the class acts like Pip: they open a book with their nose and say \"Open your book, Pip!\""
+            ],
+            "teacherLanguage": [
+              "\"Table 1, you are Sam! Open your book, Sam!\"",
+              "\"Open the book with your nose, like Pip!\""
+            ],
+            "studentActions": [
+              "Each table acts its page. On the last page, all children act like Pip."
+            ],
+            "watchFor": [
+              "Children who only watch: open the book with them."
+            ]
+          },
+          "easier": {
+            "en": "The class acts only; you say the pages.",
+            "th": "ทั้งชั้นทำท่าอย่างเดียว ส่วนครูพูดทีละหน้า"
+          },
+          "harder": {
+            "en": "Children say a new line: \"Open your bag, Pip!\"",
+            "th": "เด็ก ๆ พูดประโยคใหม่ที่คิดเอง: \"Open your bag, Pip!\" (เปิดกระเป๋าสิ Pip!)"
+          },
+          "group": {
+            "en": "Whole class, by tables.",
+            "th": "ทั้งชั้น แบ่งตามโต๊ะ"
+          },
+          "materials": [
+            "big book or screen: \"Open Your Book!\""
+          ],
+          "th": {
+            "teacherActions": [
+              "ทั้งชั้นแสดงตามหนังสือ ครูเป็นครู Kim: พูดทีละหน้า แต่ละโต๊ะเป็นเด็ก 1 คนในหนังสือ: โต๊ะนั้นเปิดหนังสือ",
+              "ที่หน้าสุดท้าย ทั้งชั้นทำท่าเหมือน Pip: ใช้จมูกเปิดหนังสือ และพูดว่า \"Open your book, Pip!\""
+            ],
+            "teacherLanguage": [
+              "\"โต๊ะ 1 เป็น Sam! Open your book, Sam! (เปิดหนังสือ Sam!)\"",
+              "\"ใช้จมูกเปิดหนังสือเหมือน Pip!\""
+            ],
+            "studentActions": [
+              "แต่ละโต๊ะแสดงตามหน้าของตัวเอง ที่หน้าสุดท้าย เด็กทุกคนทำท่าเหมือน Pip"
+            ],
+            "watchFor": [
+              "เด็กที่ดูอย่างเดียว: เปิดหนังสือพร้อมเด็ก"
+            ]
+          },
+          "moved": "next-opening"
+        },
+        {
+          "id": "B7",
+          "title": {
+            "en": "Sing it",
+            "th": "ร้องเพลง"
+          },
+          "minutes": 0,
+          "en": {
+            "teacherActions": [
+              "In the opening, play the karaoke video as the song of the week (item 3). The words are on the screen."
+            ],
+            "teacherLanguage": [
+              "\"Sing with the words on the screen. Point to the words!\""
+            ],
+            "studentActions": [
+              "Children sing and point to the words on the screen."
+            ],
+            "watchFor": [
+              "Children who only watch: give them the gesture to do (sway, nod)."
+            ]
+          },
+          "easier": {
+            "en": "Sing only the chorus.",
+            "th": "ร้องเฉพาะท่อนฮุก (chorus)"
+          },
+          "harder": {
+            "en": "Children sing the verse without the video.",
+            "th": "เด็ก ๆ ร้องท่อนเวิร์ส (verse) โดยไม่ใช้วิดีโอ"
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "karaoke videos: \"Open Your Book and Read!\""
+          ],
+          "th": {
+            "teacherActions": [
+              "ในช่วงเปิดคาบ เปิดวิดีโอคาราโอเกะเป็นเพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ) เนื้อเพลงอยู่บนจอ"
+            ],
+            "teacherLanguage": [
+              "\"ร้องตามเนื้อเพลงบนจอ ชี้ที่คำ!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ร้องเพลงและชี้ที่คำบนจอ"
+            ],
+            "watchFor": [
+              "เด็กที่ดูอย่างเดียว: ให้เด็กทำท่าประกอบเพลง (โยกตัว พยักหน้า)"
+            ]
+          },
+          "moved": "next-opening"
+        }
+      ],
+      "recall": {
+        "items": [
+          {
+            "kind": "sound",
+            "text": "e",
+            "week": 11
+          },
+          {
+            "kind": "word",
+            "text": "man",
+            "week": 10
+          },
+          {
+            "kind": "tricky",
+            "text": "it",
+            "week": 12
+          },
+          {
+            "kind": "tricky",
+            "text": "that",
+            "week": 12
+          },
+          {
+            "kind": "frame",
+            "text": "Where is ___? In/On/Under.",
+            "week": 11
+          }
+        ],
+        "ask": {
+          "en": "Show the five cards. The class says each sound or word.",
+          "th": "ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ"
+        }
+      }
+    },
+    {
+      "id": "C",
+      "day": 3,
+      "title": {
+        "en": "Spell and Read",
+        "th": "สะกดและอ่าน"
+      },
+      "prep": [
+        {
+          "en": "Put the card for the letter h in each child's letter card set, with the nine other letter cards.",
+          "th": "ใส่บัตรตัวอักษร h ในชุดบัตรตัวอักษรของเด็กแต่ละคน รวมกับบัตรตัวอักษรอีก 9 ใบ"
+        }
+      ],
+      "steps": [
+        {
+          "id": "C1",
+          "title": {
+            "en": "Sound review",
+            "th": "ทบทวนเสียง"
+          },
+          "minutes": 2,
+          "en": {
+            "teacherActions": [
+              "Show the 10 sound cards fast, in a mixed order.",
+              "Children say the sound and do the action of the card."
+            ],
+            "teacherLanguage": [
+              "\"What sound? /h/! Feel the air!\"",
+              "\"What sound? /e/! Crack the egg!\"",
+              "\"/d/, /o/, /t/, sss, mmm, /p/, /a/, nnn: say the sound and do the action of each card.\"",
+              "\"Again, faster!\""
+            ],
+            "studentActions": [
+              "Children say the sound and do the action."
+            ],
+            "watchFor": [
+              "A quiet /h/ with no voice, not \"aitch\" or \"huh\"."
+            ]
+          },
+          "easier": {
+            "en": "Show each card two times in the same order before the fast round.",
+            "th": "ชูบัตรแต่ละใบ 2 ครั้งตามลำดับเดิมก่อนรอบเร็ว"
+          },
+          "harder": {
+            "en": "Show a card for a short time only, then hide it.",
+            "th": "ชูบัตรเพียงช่วงสั้น ๆ แล้วซ่อน"
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "sound cards: h, e, d, o, t, s, m, p, a, n"
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตรเสียงทั้ง 10 ใบอย่างรวดเร็ว แบบสลับลำดับ",
+              "เด็ก ๆ ออกเสียงและทำท่าประจำเสียงของบัตรนั้น"
+            ],
+            "teacherLanguage": [
+              "\"เสียงอะไร? /h/! รู้สึกถึงลม!\"",
+              "\"เสียงอะไร? /e/! ตอกไข่!\"",
+              "\"/d/, /o/, /t/, sss, mmm, /p/, /a/, nnn: ออกเสียงและทำท่าประจำเสียงของบัตรแต่ละใบ\"",
+              "\"อีกครั้ง เร็วขึ้น!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ออกเสียงและทำท่าประจำเสียง"
+            ],
+            "watchFor": [
+              "เสียง /h/ เบา ๆ โดยไม่เปล่งเสียง ไม่ใช่ \"aitch\" (เอช) หรือ \"huh\" (เฮอะ)"
+            ]
+          }
+        },
+        {
+          "id": "C2",
+          "title": {
+            "en": "Letter cards",
+            "th": "บัตรตัวอักษร"
+          },
+          "minutes": 5,
+          "en": {
+            "teacherActions": [
+              "Each child has a workmat and the ten letter cards of the week: h, e, d, o, t, s, m, p, a, n.",
+              "Build a chain, one change at a time: the word hat, then hot, then hop, then top.",
+              "Children push one card into a box for each sound and say the sound, then read the word."
+            ],
+            "teacherLanguage": [
+              "\"Make hat. /h/ - /a/ - /t/. Push the cards.\"",
+              "\"Change the letter a to the letter o. What is the word now? Hot!\"",
+              "\"Change the letter t to the letter p. /h/ - /o/ - /p/. Hop!\"",
+              "\"Now change the letter h to the letter t. /t/ - /o/ - /p/. Top!\""
+            ],
+            "studentActions": [
+              "Children push the cards, say the sounds, and read each word."
+            ],
+            "watchFor": [
+              "Children who put the card for the letter h for the letter n: show the tall line of the letter h on the word wall."
+            ]
+          },
+          "easier": {
+            "en": "Build only \"hat\" and \"hot\", with the teacher.",
+            "th": "ต่อเฉพาะคำ \"hat\" และ \"hot\" พร้อมครู"
+          },
+          "harder": {
+            "en": "The child builds \"hen\" and \"had\" with no help, and reads both words.",
+            "th": "เด็กต่อคำ \"hen\" และ \"had\" ด้วยตัวเอง และอ่านทั้ง 2 คำ"
+          },
+          "group": {
+            "en": "Pairs share one workmat and take turns to push the cards.",
+            "th": "ทำเป็นคู่: ใช้แผ่นรองกิจกรรมร่วมกัน 1 แผ่น และผลัดกันเลื่อนบัตร"
+          },
+          "materials": [
+            "workmats (class set)",
+            "letter cards (class set): h, e, d, o, t, s, m, p, a, n"
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็กแต่ละคนมีแผ่นรองกิจกรรม 1 แผ่น และบัตรตัวอักษร 10 ใบของสัปดาห์นี้: h, e, d, o, t, s, m, p, a, n",
+              "ต่อคำทีละขั้น โดยเปลี่ยนบัตรครั้งละ 1 ใบ: คำ hat แล้ว hot แล้ว hop แล้ว top",
+              "เด็ก ๆ เลื่อนบัตรเข้าช่องทีละใบ ใบละ 1 เสียง และออกเสียงนั้น แล้วอ่านคำ"
+            ],
+            "teacherLanguage": [
+              "\"ต่อคำ hat /h/ - /a/ - /t/ เลื่อนบัตร\"",
+              "\"เปลี่ยนตัวอักษร a เป็นตัวอักษร o ตอนนี้เป็นคำอะไร? Hot!\"",
+              "\"เปลี่ยนตัวอักษร t เป็นตัวอักษร p /h/ - /o/ - /p/ Hop!\"",
+              "\"ทีนี้เปลี่ยนตัวอักษร h เป็นตัวอักษร t /t/ - /o/ - /p/ Top!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ เลื่อนบัตร ออกเสียง และอ่านแต่ละคำ"
+            ],
+            "watchFor": [
+              "เด็กที่วางบัตรตัวอักษร h แทนตัวอักษร n: ชี้ให้ดูเส้นตั้งสูงของตัวอักษร h บนผนังคำศัพท์"
+            ]
+          }
+        },
+        {
+          "id": "C3",
+          "title": {
+            "en": "Dictation",
+            "th": "เขียนตามคำบอก"
+          },
+          "minutes": 4,
+          "en": {
+            "teacherActions": [
+              "Say the sound /h/; children say it, then write the letter h in the book. Do it two times.",
+              "Say \"hat\". Children say the sounds on 3 fingers, then write the word in 3 boxes.",
+              "Then children trace the sentence \"A hen can hop.\" on the line."
+            ],
+            "teacherLanguage": [
+              "\"When I say /h/, you write the letter h. Ready? /h/.\"",
+              "\"Listen: hat. Say the sounds on your fingers: /h/ - /a/ - /t/. Write one letter in each box.\"",
+              "\"Now trace: A hen can hop. A big letter A at the start. A full stop at the end.\""
+            ],
+            "studentActions": [
+              "Children write the letter h two times and the word \"hat\" in the book.",
+              "Children trace \"A hen can hop.\""
+            ],
+            "watchFor": [
+              "Children who make the letter h short, like the letter n: show the formation again: start at the dot, down, down to the bottom, up, over the hill, and down."
+            ]
+          },
+          "easier": {
+            "en": "Children trace \"hat\" before they write it.",
+            "th": "เด็ก ๆ ลากเส้นตาม \"hat\" ก่อนเขียนเอง"
+          },
+          "harder": {
+            "en": "Children write \"hot\" in 3 boxes, too.",
+            "th": "เด็ก ๆ เขียน \"hot\" ใน 3 ช่องด้วย"
+          },
+          "group": {
+            "en": "Pairs check each other's letter h: start at the dot.",
+            "th": "ทำเป็นคู่: ตรวจตัวอักษร h ของกันและกัน (เริ่มที่จุด)"
+          },
+          "materials": [
+            "student book: dictation lines"
+          ],
+          "th": {
+            "teacherActions": [
+              "ออกเสียง /h/ เด็ก ๆ พูดตาม แล้วเขียนตัวอักษร h ในหนังสือ ทำ 2 ครั้ง",
+              "พูด \"hat\" เด็ก ๆ ออกเสียงทีละเสียงพร้อมชูนิ้วเสียงละ 1 นิ้ว แล้วเขียนคำลงใน 3 ช่อง",
+              "จากนั้นเด็ก ๆ ลากเส้นตามประโยค \"A hen can hop.\" บนบรรทัด"
+            ],
+            "teacherLanguage": [
+              "\"เมื่อครูพูด /h/ ให้เด็ก ๆ เขียนตัวอักษร h พร้อมไหม? /h/\"",
+              "\"ฟัง: hat ออกเสียงทีละเสียงและชูนิ้วทีละนิ้ว: /h/ - /a/ - /t/ เขียนตัวอักษรช่องละ 1 ตัว\"",
+              "\"ทีนี้ลากเส้นตาม: A hen can hop. (แม่ไก่กระโดดได้) ตัวอักษร A ตัวพิมพ์ใหญ่ที่ต้นประโยค ใส่จุดที่ท้ายประโยค\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ เขียนตัวอักษร h 2 ครั้ง และเขียนคำ \"hat\" ในหนังสือ",
+              "เด็ก ๆ ลากเส้นตาม \"A hen can hop.\""
+            ],
+            "watchFor": [
+              "เด็กที่เขียนตัวอักษร h สั้นเหมือนตัวอักษร n: แสดงวิธีเขียนให้ดูอีกครั้ง: เริ่มที่จุด ลง ลงไปจนสุดด้านล่าง ขึ้น ข้ามเนิน แล้วลง"
+            ]
+          }
+        },
+        {
+          "id": "C4",
+          "title": {
+            "en": "Decodable: read together",
+            "th": "หนังสือฝึกสะกดอ่าน: อ่านด้วยกัน"
+          },
+          "minutes": 7,
+          "en": {
+            "teacherActions": [
+              "Show the cover of \"The Hen and the Hat\". Read the title and ask what the book is about.",
+              "Show the \"Sounds in this book\" page: the class says /h/, sounds out \"hat\", \"hot\", \"hen\", \"hop\", \"Dad\", \"mat\", and \"sat\", and reads the tricky words \"it\", \"said\", and \"that\". Show the word list on the back cover: these are the main words of the book.",
+              "Read page 1 with the class: sound out \"Dad\" and \"hat\" with your finger under the letters, and read \"has\" and \"a\" as tricky words.",
+              "Then pairs read: partner A reads a page, partner B reads the next."
+            ],
+            "teacherLanguage": [
+              "\"Look. The Hen and the Hat. What is it? A hen! And a hat! Where is the hen?\"",
+              "\"Look at this page. These are the sounds and the words of the book. What sound? /h/!\"",
+              "\"Finger under the letters. /d/ - /a/ - /d/. Dad! /h/ - /a/ - /t/. Hat!\"",
+              "\"Your turn with your partner. Partner A reads, partner B reads, partner A reads.\""
+            ],
+            "studentActions": [
+              "Children read each page with a finger under the words.",
+              "Pairs take turns, page by page.",
+              "Each child colors their own book."
+            ],
+            "watchFor": [
+              "Children who read \"hen\" as \"en\" or \"hat\" as \"at\": point to the letter h and do the puff of air.",
+              "Children sound out \"Dad\", \"hat\", \"hot\", \"on\", \"mat\", \"hen\", \"hop\", and \"sat\" with the letters. The other words are tricky words: has, a, is, it, the, can, in, said, get, off, that."
+            ]
+          },
+          "easier": {
+            "en": "The child reads with the teacher, page by page.",
+            "th": "เด็กอ่านพร้อมครูทีละหน้า"
+          },
+          "harder": {
+            "en": "The child reads the whole book alone to the partner.",
+            "th": "เด็กอ่านทั้งเล่มให้คู่ฟังด้วยตัวเอง"
+          },
+          "group": {
+            "en": "Pairs; the teacher sits with one pair.",
+            "th": "ทำเป็นคู่ ครูนั่งกับ 1 คู่"
+          },
+          "materials": [
+            "small books (each child's own): \"The Hen and the Hat\"",
+            "crayons"
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้ดูปกของ \"The Hen and the Hat\" อ่านชื่อเรื่อง แล้วถามว่าหนังสือเล่มนี้เกี่ยวกับอะไร",
+              "ให้ดูหน้า \"Sounds in this book\" (เสียงในหนังสือเล่มนี้): ทั้งชั้นพูด /h/ สะกดออกเสียง \"hat\", \"hot\", \"hen\", \"hop\", \"Dad\", \"mat\" และ \"sat\" และอ่านคำที่ต้องจำ \"it\", \"said\" และ \"that\" จากนั้นให้ดูรายการคำที่ปกหลัง: นี่คือคำหลักในหนังสือเล่มนี้",
+              "อ่านหน้า 1 พร้อมทั้งชั้น: สะกดออกเสียง \"Dad\" และ \"hat\" โดยวางนิ้วใต้ตัวอักษร และอ่าน \"has\" และ \"a\" เป็นคำที่ต้องจำ",
+              "จากนั้นให้อ่านเป็นคู่: คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป"
+            ],
+            "teacherLanguage": [
+              "\"ดู The Hen and the Hat (แม่ไก่กับหมวก) นี่คืออะไร? A hen! (แม่ไก่) และ a hat! (หมวก) แม่ไก่อยู่ที่ไหน?\"",
+              "\"ดูหน้านี้ นี่คือเสียงและคำในหนังสือ เสียงอะไร? /h/!\"",
+              "\"วางนิ้วใต้ตัวอักษร /d/ - /a/ - /d/ Dad! /h/ - /a/ - /t/ Hat!\"",
+              "\"ถึงตาเด็ก ๆ อ่านกับคู่ คู่คนที่ 1 อ่าน คู่คนที่ 2 อ่าน คู่คนที่ 1 อ่าน\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านแต่ละหน้า โดยวางนิ้วใต้คำ",
+              "คู่ผลัดกันอ่านทีละหน้า",
+              "เด็ก ๆ ระบายสีหนังสือเล่มเล็กของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่อ่าน \"hen\" เป็น \"en\" หรืออ่าน \"hat\" เป็น \"at\": ชี้ที่ตัวอักษร h แล้วเป่าลมเบา ๆ",
+              "เด็ก ๆ สะกดออกเสียง \"Dad\", \"hat\", \"hot\", \"on\", \"mat\", \"hen\", \"hop\" และ \"sat\" ด้วยตัวอักษร คำอื่นเป็นคำที่ต้องจำ: has, a, is, it, the, can, in, said, get, off, that"
+            ]
+          }
+        },
+        {
+          "id": "C5",
+          "title": {
+            "en": "Comprehension",
+            "th": "ตรวจความเข้าใจ"
+          },
+          "minutes": 3,
+          "en": {
+            "teacherActions": [
+              "Ask two questions about the book, one with a frame of the unit. Children answer with a short sentence."
+            ],
+            "teacherLanguage": [
+              "\"Look at page 2. Is Dad hot? Yes, Dad is hot!\"",
+              "\"Look at page 6. Where is the hen? In the hat!\""
+            ],
+            "studentActions": [
+              "Children answer, then say the full answer with the teacher."
+            ],
+            "watchFor": [
+              "Children who answer with one word: say the full answer; the child says it after you."
+            ]
+          },
+          "easier": {
+            "en": "Ask only yes or no questions: \"Can the hen hop?\"",
+            "th": "ถามเฉพาะคำถามแบบใช่หรือไม่ใช่: \"Can the hen hop?\" (แม่ไก่กระโดดได้ไหม)"
+          },
+          "harder": {
+            "en": "A child asks a question about a page: \"Where is the hat?\"",
+            "th": "เด็กคนหนึ่งถามคำถามเกี่ยวกับหน้าหนึ่ง: \"Where is the hat?\" (หมวกอยู่ที่ไหน)"
+          },
+          "group": {
+            "en": "Pairs ask each other one question.",
+            "th": "ทำเป็นคู่: ผลัดกันถามคำถามคนละ 1 ข้อ"
+          },
+          "materials": [
+            "small books (each child's own): \"The Hen and the Hat\""
+          ],
+          "th": {
+            "teacherActions": [
+              "ถามคำถาม 2 ข้อเกี่ยวกับหนังสือ โดยให้ 1 ข้อใช้กรอบประโยคของหน่วยนี้ เด็ก ๆ ตอบเป็นประโยคสั้น ๆ"
+            ],
+            "teacherLanguage": [
+              "\"ดูหน้า 2 Is Dad hot? (พ่อร้อนไหม) Yes, Dad is hot! (ใช่ พ่อร้อน!)\"",
+              "\"ดูหน้า 6 Where is the hen? (แม่ไก่อยู่ที่ไหน) In the hat! (อยู่ในหมวก!)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ตอบ แล้วพูดคำตอบเต็มพร้อมครู"
+            ],
+            "watchFor": [
+              "เด็กที่ตอบด้วยคำเดียว: พูดคำตอบเต็ม แล้วให้เด็กพูดตาม"
+            ]
+          },
+          "loopMinutes": 3
+        },
+        {
+          "id": "C6",
+          "title": {
+            "en": "Favorite page",
+            "th": "หน้าที่ชอบ"
+          },
+          "minutes": 1,
+          "en": {
+            "teacherActions": [
+              "Ask two or three children to read their favorite page of \"The Hen and the Hat\"."
+            ],
+            "teacherLanguage": [
+              "\"Which page do you like? Read it to us.\""
+            ],
+            "studentActions": [
+              "Two or three children read one page each."
+            ],
+            "watchFor": [
+              "Children who are not sure: let them choose a page, then read it with them."
+            ]
+          },
+          "easier": {
+            "en": "The child points to the page; the class reads it.",
+            "th": "เด็กชี้ที่หน้านั้น ทั้งชั้นอ่าน"
+          },
+          "harder": {
+            "en": "The child reads the page and says why: \"I like the hen!\"",
+            "th": "เด็กอ่านหน้านั้นและบอกเหตุผล: \"I like the hen!\" (หนูชอบแม่ไก่!)"
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "small books (each child's own): \"The Hen and the Hat\""
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้เด็ก 2 หรือ 3 คนอ่านหน้าที่ชอบใน \"The Hen and the Hat\""
+            ],
+            "teacherLanguage": [
+              "\"หนูชอบหน้าไหน? อ่านให้เราฟัง\""
+            ],
+            "studentActions": [
+              "เด็ก 2 หรือ 3 คนอ่านคนละ 1 หน้า"
+            ],
+            "watchFor": [
+              "เด็กที่ไม่แน่ใจ: ให้เด็กเลือกหน้า แล้วอ่านพร้อมเด็ก"
+            ]
+          },
+          "moved": "next-opening"
+        },
+        {
+          "id": "C7",
+          "title": {
+            "en": "Sticker",
+            "th": "สติกเกอร์"
+          },
+          "minutes": 3,
+          "en": {
+            "teacherActions": [
+              "Give each child the sticker of \"The Hen and the Hat\".",
+              "Children put it on number 4 of the book map in their book."
+            ],
+            "teacherLanguage": [
+              "\"You read the book! Here is your sticker.\"",
+              "\"Put it on the book map, on number 4.\""
+            ],
+            "studentActions": [
+              "Children put the sticker on the book map and say the book title."
+            ],
+            "watchFor": [
+              "Children who put the sticker in the wrong place: show number 4 on the map."
+            ]
+          },
+          "easier": {
+            "en": "Put the sticker on the map with the child.",
+            "th": "ติดสติกเกอร์บนแผนที่หนังสือพร้อมกับเด็ก"
+          },
+          "harder": {
+            "en": "The child says the title and reads one page from the book.",
+            "th": "เด็กพูดชื่อหนังสือและอ่าน 1 หน้าจากหนังสือ"
+          },
+          "group": {
+            "en": "The table leader gives out the stickers.",
+            "th": "หัวหน้าโต๊ะแจกสติกเกอร์"
+          },
+          "materials": [
+            "stickers: \"The Hen and the Hat\"",
+            "student book: book map"
+          ],
+          "th": {
+            "teacherActions": [
+              "แจกสติกเกอร์ \"The Hen and the Hat\" ให้เด็กแต่ละคน",
+              "เด็ก ๆ ติดสติกเกอร์ที่หมายเลข 4 ของแผนที่หนังสือในหนังสือของตัวเอง"
+            ],
+            "teacherLanguage": [
+              "\"เด็ก ๆ อ่านหนังสือจบแล้ว! นี่คือสติกเกอร์ของเด็ก ๆ\"",
+              "\"ติดที่แผนที่หนังสือ ที่หมายเลข 4\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ติดสติกเกอร์บนแผนที่หนังสือ และพูดชื่อหนังสือ"
+            ],
+            "watchFor": [
+              "เด็กที่ติดสติกเกอร์ผิดที่: ชี้หมายเลข 4 บนแผนที่หนังสือให้ดู"
+            ]
+          }
+        }
+      ],
+      "recall": {
+        "items": [
+          {
+            "kind": "sound",
+            "text": "h",
+            "week": 12
+          },
+          {
+            "kind": "sound",
+            "text": "o",
+            "week": 7
+          },
+          {
+            "kind": "tricky",
+            "text": "said",
+            "week": 12
+          },
+          {
+            "kind": "tricky",
+            "text": "of",
+            "week": 11
+          },
+          {
+            "kind": "frame",
+            "text": "Open your book.",
+            "week": 12
+          }
+        ],
+        "ask": {
+          "en": "Show the five cards. The class says each sound or word.",
+          "th": "ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ"
+        }
+      }
+    },
+    {
+      "id": "D",
+      "day": 4,
+      "title": {
+        "en": "Read and Write",
+        "th": "อ่านและเขียน"
+      },
+      "prep": [
+        {
+          "en": "Put crayons on each table, and mark the writing page in the student books (D4).",
+          "th": "วางสีเทียนไว้ทุกโต๊ะ และคั่นหน้ากิจกรรมเขียนในหนังสือนักเรียนไว้ (D4)"
+        }
+      ],
+      "steps": [
+        {
+          "id": "D1",
+          "title": {
+            "en": "Re-read",
+            "th": "อ่านซ้ำ"
+          },
+          "minutes": 5,
+          "en": {
+            "teacherActions": [
+              "Children read \"The Hen and the Hat\" again in pairs, with a finger under the words. Partner A reads a page, partner B reads the next.",
+              "Sit with one table and listen to each child read two pages."
+            ],
+            "teacherLanguage": [
+              "\"Read the book again. Finger under the words.\"",
+              "\"Read page 8 to me. Good! That hen has the hat!\""
+            ],
+            "studentActions": [
+              "Children read the book in pairs, with a finger under each word."
+            ],
+            "watchFor": [
+              "Note on the record sheet the children who cannot yet sound out \"hat\", \"hen\", and \"hop\"."
+            ]
+          },
+          "easier": {
+            "en": "The child reads together with the partner.",
+            "th": "เด็กอ่านพร้อมกับคู่"
+          },
+          "harder": {
+            "en": "The child reads the book alone to the partner.",
+            "th": "เด็กอ่านหนังสือให้คู่ฟังด้วยตัวเอง"
+          },
+          "group": {
+            "en": "Pairs; the teacher listens to one table.",
+            "th": "ทำเป็นคู่ ครูฟัง 1 โต๊ะ"
+          },
+          "materials": [
+            "small books (each child's own): \"The Hen and the Hat\"",
+            "record sheet"
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ อ่าน \"The Hen and the Hat\" อีกครั้งเป็นคู่ โดยวางนิ้วใต้คำ คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป",
+              "นั่งกับ 1 โต๊ะ และฟังเด็กแต่ละคนอ่าน 2 หน้า"
+            ],
+            "teacherLanguage": [
+              "\"อ่านหนังสืออีกครั้ง วางนิ้วใต้คำ\"",
+              "\"อ่านหน้า 8 ให้ครูฟัง เก่งมาก! That hen has the hat! (แม่ไก่ตัวนั้นเอาหมวกไป!)\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านหนังสือเป็นคู่ โดยวางนิ้วใต้แต่ละคำ"
+            ],
+            "watchFor": [
+              "จดในแบบบันทึกผล: เด็กที่ยังสะกดออกเสียง \"hat\", \"hen\" และ \"hop\" ไม่ได้"
+            ]
+          }
+        },
+        {
+          "id": "D2",
+          "title": {
+            "en": "Tricky words",
+            "th": "คำที่ต้องจำ"
+          },
+          "minutes": 3,
+          "en": {
+            "teacherActions": [
+              "Show the cards a, and, can, I, in, on, the, get, is, this, saw, off, with, he, put, see, from, run, up, are, has, cannot, they, too, were, me, of, it, said, that fast.",
+              "Write \"said\" on the board, then erase one letter; children say the missing letter."
+            ],
+            "teacherLanguage": [
+              "\"Read it fast! It. Said. That. Me. Of. They. Too. Were. Are. Has. Cannot. From. Run. Up. He. Put. See. Saw. Off. With. This. Is. The. Get. I. In. On. Can. And. A.\"",
+              "\"Close your eyes. ... Open your eyes. What is missing?\""
+            ],
+            "studentActions": [
+              "Children read the cards fast.",
+              "Children say the missing letter name."
+            ],
+            "watchFor": [
+              "Read the tricky word card a as \"uh\", as in \"a cat\".",
+              "Children who mix up \"this\" and \"that\": put the two cards side by side and read them slowly."
+            ]
+          },
+          "easier": {
+            "en": "Show only the new cards: it, said, that.",
+            "th": "ชูเฉพาะบัตรใหม่: it, said, that"
+          },
+          "harder": {
+            "en": "Erase two letters of \"said\".",
+            "th": "ลบตัวอักษร 2 ตัวของ \"said\""
+          },
+          "group": {
+            "en": "Whole class.",
+            "th": "ทั้งชั้น"
+          },
+          "materials": [
+            "tricky word cards: a, and, can, I, in, on, the, get, is, this, saw, off, with, he, put, see, from, run, up, are, has, cannot, they, too, were, me, of, it, said, that",
+            "board"
+          ],
+          "th": {
+            "teacherActions": [
+              "ชูบัตร a, and, can, I, in, on, the, get, is, this, saw, off, with, he, put, see, from, run, up, are, has, cannot, they, too, were, me, of, it, said, that อย่างรวดเร็ว",
+              "เขียน \"said\" บนกระดาน แล้วลบตัวอักษร 1 ตัว เด็ก ๆ บอกตัวอักษรที่หายไป"
+            ],
+            "teacherLanguage": [
+              "\"อ่านเร็ว ๆ! It, said, that, me, of, they, too, were, are, has, cannot, from, run, up, he, put, see, saw, off, with, this, is, the, get, I, in, on, can, and, a\"",
+              "\"หลับตา ... ลืมตา อะไรหายไป?\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่านบัตรอย่างรวดเร็ว",
+              "เด็ก ๆ บอกชื่อตัวอักษรที่หายไป"
+            ],
+            "watchFor": [
+              "อ่านบัตรคำที่ต้องจำ a ว่า \"uh\" (เออะ) แบบใน \"a cat\"",
+              "เด็กที่สับสนระหว่าง \"this\" กับ \"that\": วางบัตร 2 ใบเคียงกัน แล้วอ่านช้า ๆ"
+            ]
+          },
+          "sightWords": {
+            "words": [
+              "it",
+              "said",
+              "that"
+            ],
+            "slide": {
+              "en": "Slide a finger under the word. Say: \"Read it the fast way.\"",
+              "th": "ลากนิ้วใต้คำ แล้วพูดว่า \"Read it the fast way.\" (อ่านแบบเร็ว)"
+            },
+            "check": {
+              "en": "Show one word. The class reads it in 3 seconds.",
+              "th": "ชูคำทีละคำ ให้ทั้งชั้นอ่านภายใน 3 วินาที"
+            },
+            "seconds": 3
+          },
+          "loopMinutes": 3
+        },
+        {
+          "id": "D3",
+          "title": {
+            "en": "Leveled reader",
+            "th": "หนังสืออ่านแบ่งระดับ"
+          },
+          "minutes": 6,
+          "en": {
+            "teacherActions": [
+              "Children take out their own small books.",
+              "Read it together once, then pairs read it page by page."
+            ],
+            "teacherLanguage": [
+              "\"Open your book. Read with me.\"",
+              "\"Now read it with your partner. Partner A reads, partner B reads.\""
+            ],
+            "studentActions": [
+              "Children read \"Open Your Book!\" together, then in pairs.",
+              "Each child colors their own book."
+            ],
+            "watchFor": [
+              "Children who read a name wrong: point to the child in the picture and ask: \"Who is it?\""
+            ]
+          },
+          "easier": {
+            "en": "Pairs read only pages 1 to 4.",
+            "th": "คู่อ่านเฉพาะหน้า 1 ถึง 4"
+          },
+          "harder": {
+            "en": "The child reads the whole book to the partner.",
+            "th": "เด็กอ่านทั้งเล่มให้คู่ฟัง"
+          },
+          "group": {
+            "en": "Pairs.",
+            "th": "ทำเป็นคู่"
+          },
+          "materials": [
+            "small books (each child's own): \"Open Your Book!\" (Sprout band)",
+            "crayons"
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ หยิบหนังสือเล่มเล็กของตัวเองออกมา",
+              "อ่านพร้อมกัน 1 รอบ แล้วให้คู่อ่านทีละหน้า"
+            ],
+            "teacherLanguage": [
+              "\"เปิดหนังสือ อ่านพร้อมครู\"",
+              "\"ทีนี้อ่านกับคู่ คู่คนที่ 1 อ่าน คู่คนที่ 2 อ่าน\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ อ่าน \"Open Your Book!\" พร้อมกัน แล้วอ่านเป็นคู่",
+              "เด็ก ๆ ระบายสีหนังสือเล่มเล็กของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่อ่านชื่อผิด: ชี้ที่เด็กในภาพ แล้วถามว่า: \"Who is it?\" (นี่คือใคร)"
+            ]
+          }
+        },
+        {
+          "id": "D4",
+          "title": {
+            "en": "Write it",
+            "th": "เขียน"
+          },
+          "minutes": 10,
+          "en": {
+            "teacherActions": [
+              "Part 1 (5 min): write \"Open your book.\" on the board. Show where the big letter and the full stop go.",
+              "Children trace \"Open your book.\" in the book. Then they color the book above it.",
+              "Stand-and-move break (at minute 5): all children stand up.",
+              "Hold up one school thing with no word (a pencil, a crayon, a ruler). The class says the word. Then say \"Open your book.\" The class opens their hands like a book. Do three rounds, then sit down.",
+              "Part 2 (5 min): in the second box, children draw a pencil, a crayon, or a ruler. They find the word under the box (pencil, crayon, ruler) and trace it."
+            ],
+            "teacherLanguage": [
+              "\"A big letter O at the start. A full stop at the end.\"",
+              "\"Trace the words: Open your book.\"",
+              "\"Color the book.\"",
+              "\"Stand up! Look at me! What is this?\"",
+              "\"Now draw a pencil, a crayon, or a ruler. Find the word and trace it.\""
+            ],
+            "studentActions": [
+              "Children trace the frame and color the book.",
+              "Children stand, say the word, and act the frame in the break.",
+              "Children draw a school thing, then find and trace its word."
+            ],
+            "watchFor": [
+              "Children who trace the wrong word: point to the picture and ask: \"What is it?\"",
+              "Children who leave no space between the words: put one finger after each word."
+            ]
+          },
+          "easier": {
+            "en": "Draw with the child; the child traces the words.",
+            "th": "วาดภาพพร้อมกับเด็ก แล้วให้เด็กลากเส้นตามคำ"
+          },
+          "harder": {
+            "en": "The child says a new line with the word of the second picture: \"Get your pencil.\"",
+            "th": "เด็กพูดประโยคใหม่โดยใช้คำของภาพที่สอง: \"Get your pencil.\" (หยิบดินสอ)"
+          },
+          "group": {
+            "en": "Alone; at the end, the children make pairs and read their pages to each other.",
+            "th": "ทำคนเดียว ตอนท้ายให้เด็กจับคู่ และอ่านหน้าของตัวเองให้คู่ฟัง"
+          },
+          "materials": [
+            "student book: writing page",
+            "crayons",
+            "board"
+          ],
+          "th": {
+            "teacherActions": [
+              "ส่วนที่ 1 (5 นาที): เขียน \"Open your book.\" บนกระดาน ชี้ให้ดูว่าตัวพิมพ์ใหญ่และจุด (full stop) อยู่ที่ไหน",
+              "เด็ก ๆ ลากเส้นตาม \"Open your book.\" ในหนังสือ จากนั้นระบายสีหนังสือที่อยู่เหนือประโยค",
+              "พักยืนขยับตัว (เมื่อครบ 5 นาที): เด็กทุกคนยืนขึ้น",
+              "ครูชูอุปกรณ์การเรียน 1 อย่างโดยไม่พูด (ดินสอ สีเทียน ไม้บรรทัด) ทั้งชั้นพูดคำนั้น จากนั้นครูพูดว่า \"Open your book.\" ทั้งชั้นทำมือเหมือนเปิดหนังสือ ทำ 3 รอบ แล้วนั่งลง",
+              "ส่วนที่ 2 (5 นาที): ในช่องที่สอง เด็ก ๆ วาดดินสอ สีเทียน หรือไม้บรรทัด แล้วหาคำใต้ช่องที่ตรงกับภาพ (pencil, crayon, ruler) และลากเส้นตามคำนั้น"
+            ],
+            "teacherLanguage": [
+              "\"ตัวอักษร O ตัวพิมพ์ใหญ่ที่ต้นประโยค ใส่จุดที่ท้ายประโยค\"",
+              "\"ลากเส้นตามคำ: Open your book. (เปิดหนังสือ)\"",
+              "\"ระบายสีหนังสือ\"",
+              "\"Stand up! (ยืนขึ้น) Look at me! (ดูครู) What is this? (นี่คืออะไร)\"",
+              "\"ทีนี้วาดดินสอ สีเทียน หรือไม้บรรทัด หาคำนั้นแล้วลากเส้นตาม\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ลากเส้นตามกรอบประโยค และระบายสีหนังสือ",
+              "เด็ก ๆ ยืน พูดคำ และทำท่าตามกรอบประโยคในช่วงพัก",
+              "เด็ก ๆ วาดอุปกรณ์การเรียน 1 อย่าง แล้วหาคำของสิ่งนั้นและลากเส้นตาม"
+            ],
+            "watchFor": [
+              "เด็กที่ลากเส้นตามคำผิด: ชี้ที่ภาพแล้วถามว่า: \"What is it?\" (นี่คืออะไร)",
+              "เด็กที่เขียนคำติดกัน: วางนิ้ว 1 นิ้วหลังแต่ละคำเพื่อเว้นช่องว่าง"
+            ]
+          }
+        },
+        {
+          "id": "D5",
+          "title": {
+            "en": "Share",
+            "th": "นำเสนอ"
+          },
+          "minutes": 1,
+          "en": {
+            "teacherActions": [
+              "Ask four children to read their page to the class. The class opens their hands like a book after each page."
+            ],
+            "teacherLanguage": [
+              "\"Read your page to us. Hold up your book.\""
+            ],
+            "studentActions": [
+              "Four children read \"Open your book.\" from their book and say the word of their picture."
+            ],
+            "watchFor": [
+              "Children who read too quietly: stand next to them and read with them."
+            ]
+          },
+          "easier": {
+            "en": "The child reads with the teacher.",
+            "th": "เด็กอ่านพร้อมครู"
+          },
+          "harder": {
+            "en": "The child reads the line and points to the pictures.",
+            "th": "เด็กอ่านบรรทัดนั้น และชี้ที่ภาพ"
+          },
+          "group": {
+            "en": "Whole class; the class opens their hands like a book after each page.",
+            "th": "ทั้งชั้น: ทั้งชั้นทำมือเหมือนเปิดหนังสือหลังแต่ละหน้า"
+          },
+          "materials": [
+            "student book: writing page"
+          ],
+          "th": {
+            "teacherActions": [
+              "ให้เด็ก 4 คนอ่านหน้าของตัวเองให้ทั้งชั้นฟัง ทั้งชั้นทำมือเหมือนเปิดหนังสือหลังแต่ละหน้า"
+            ],
+            "teacherLanguage": [
+              "\"อ่านหน้าของหนูให้เราฟัง ชูหนังสือขึ้น\""
+            ],
+            "studentActions": [
+              "เด็ก 4 คนอ่าน \"Open your book.\" จากหนังสือของตัวเอง และพูดคำของภาพของตัวเอง"
+            ],
+            "watchFor": [
+              "เด็กที่อ่านเบาเกินไป: ยืนข้างเด็กและอ่านพร้อมเด็ก"
+            ]
+          },
+          "moved": "next-opening"
+        },
+        {
+          "id": "D6",
+          "title": {
+            "en": "Sing it: song show",
+            "th": "ร้องเพลง: การแสดงร้องเพลง"
+          },
+          "minutes": 0,
+          "en": {
+            "teacherActions": [
+              "In the day 5 opening, the song of the week (item 3) is the song show. The class sings with all the gestures; one table leads.",
+              "If the school allows it, film the song on the class tablet."
+            ],
+            "teacherLanguage": [
+              "\"Table 3, you are the leaders today. Show us the gestures!\"",
+              "\"Show time! Sing it with all the gestures!\""
+            ],
+            "studentActions": [
+              "The leaders do the gestures in front; the class sings and copies."
+            ],
+            "watchFor": [
+              "Leaders who forget a gesture: point to the screen.",
+              "Children who are shy on the film: they can stand in the back row."
+            ]
+          },
+          "easier": {
+            "en": "Sing only the chorus with the gestures.",
+            "th": "ร้องเฉพาะท่อนฮุก (chorus) พร้อมท่าประกอบเพลง"
+          },
+          "harder": {
+            "en": "The leaders sing the verse alone.",
+            "th": "ผู้นำร้องท่อนเวิร์ส (verse) เอง"
+          },
+          "group": {
+            "en": "One table leads each week.",
+            "th": "โต๊ะหนึ่งเป็นผู้นำในแต่ละสัปดาห์"
+          },
+          "materials": [
+            "karaoke videos: \"Open Your Book and Read!\"",
+            "class tablet"
+          ],
+          "th": {
+            "teacherActions": [
+              "ในช่วงเปิดคาบของวันที่ 5 เพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ) เป็นการแสดงร้องเพลง ทั้งชั้นร้องพร้อมทำท่าประกอบเพลงทุกท่า โต๊ะหนึ่งเป็นผู้นำ",
+              "ถ้าโรงเรียนอนุญาต ให้ถ่ายวิดีโอการร้องเพลงด้วยแท็บเล็ตของห้อง"
+            ],
+            "teacherLanguage": [
+              "\"โต๊ะ 3 วันนี้เป็นผู้นำ ทำท่าประกอบเพลงให้เพื่อน ๆ ดู!\"",
+              "\"ถึงเวลาแสดงแล้ว! ร้องพร้อมทำท่าประกอบเพลงทุกท่า!\""
+            ],
+            "studentActions": [
+              "ผู้นำทำท่าประกอบเพลงอยู่ด้านหน้า ทั้งชั้นร้องและทำท่าตาม"
+            ],
+            "watchFor": [
+              "ผู้นำที่ลืมท่า: ชี้ที่จอ",
+              "เด็กที่อายกล้อง: ให้ยืนแถวหลังได้"
+            ]
+          },
+          "moved": "next-opening"
+        }
+      ],
+      "recall": {
+        "items": [
+          {
+            "kind": "sound",
+            "text": "o",
+            "week": 7
+          },
+          {
+            "kind": "word",
+            "text": "man",
+            "week": 10
+          },
+          {
+            "kind": "tricky",
+            "text": "from",
+            "week": 7
+          },
+          {
+            "kind": "tricky",
+            "text": "too",
+            "week": 10
+          },
+          {
+            "kind": "frame",
+            "text": "Where is ___? In/On/Under.",
+            "week": 11
+          }
+        ],
+        "ask": {
+          "en": "Show the five cards. The class says each sound or word.",
+          "th": "ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ"
+        }
+      }
+    },
+    {
+      "id": "E",
+      "day": 5,
+      "title": {
+        "en": "Play and Check",
+        "th": "เล่นและตรวจสอบ"
+      },
+      "prep": [
+        {
+          "en": "Put the new cards and books of week 12 in the four centers. Make the word cards hat, hot, hen, hop, ham, had and the tricky word cards it, said, that for the game.",
+          "th": "นำบัตรและหนังสือชุดใหม่ของสัปดาห์ที่ 12 ไปวางที่มุมกิจกรรมทั้ง 4 มุม และทำบัตรคำ hat, hot, hen, hop, ham, had และบัตรคำที่ต้องจำ it, said, that สำหรับเกม"
+        }
+      ],
+      "steps": [
+        {
+          "id": "E1",
+          "title": {
+            "en": "Centers set-up",
+            "th": "จัดมุมกิจกรรม"
+          },
+          "minutes": 2,
+          "en": {
+            "teacherActions": [
+              "Show the four centers and the group signs. Send each group to its first center.",
+              "Groups 1 and 2 start at the picture sort and the book corner; groups 3 and 4 at the karaoke corner and the letter cards.",
+              "Hold up each sound picture card and say the word with the class: hat, horse, house, hippo. Then hold up sun, pen, and cup: they have no /h/."
+            ],
+            "teacherLanguage": [
+              "\"Group 1, go to the picture sort. Group 2, the book corner.\"",
+              "\"Group 3, the karaoke corner. Group 4, the letter cards.\""
+            ],
+            "studentActions": [
+              "Children go to their center and sit down."
+            ],
+            "watchFor": [
+              "Groups that do not know where to go: point to the group sign at each center."
+            ]
+          },
+          "easier": {
+            "en": "Put a picture of each group on its center.",
+            "th": "ติดภาพของแต่ละกลุ่มไว้ที่มุมกิจกรรมของกลุ่มนั้น"
+          },
+          "harder": {
+            "en": "A group leader shows the center card to the group and does the first turn.",
+            "th": "หัวหน้ากลุ่มให้กลุ่มดูบัตรมุมกิจกรรม และเล่นเป็นคนแรก"
+          },
+          "group": {
+            "en": "Four groups.",
+            "th": "4 กลุ่ม"
+          },
+          "materials": [
+            "center cards",
+            "group signs",
+            "sound picture cards: hat, horse, house, hippo",
+            "picture cards: sun, pen, cup"
+          ],
+          "th": {
+            "teacherActions": [
+              "แนะนำมุมกิจกรรม 4 มุมและป้ายกลุ่ม ส่งแต่ละกลุ่มไปที่มุมกิจกรรมแรกของกลุ่ม",
+              "กลุ่ม 1 และ 2 เริ่มที่มุมแยกภาพและมุมหนังสือ กลุ่ม 3 และ 4 เริ่มที่มุมคาราโอเกะและมุมบัตรตัวอักษร",
+              "ชูบัตรภาพประจำเสียงแต่ละใบ และพูดคำพร้อมทั้งชั้น: hat, horse, house, hippo จากนั้นชูบัตรภาพ sun, pen และ cup: คำเหล่านี้ไม่มีเสียง /h/"
+            ],
+            "teacherLanguage": [
+              "\"กลุ่ม 1 ไปมุมแยกภาพ กลุ่ม 2 ไปที่มุมหนังสือ\"",
+              "\"กลุ่ม 3 ไปที่มุมคาราโอเกะ กลุ่ม 4 ไปมุมบัตรตัวอักษร\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ไปที่มุมกิจกรรมของตัวเองและนั่งลง"
+            ],
+            "watchFor": [
+              "กลุ่มที่ไม่รู้ว่าต้องไปที่ไหน: ชี้ที่ป้ายกลุ่มของแต่ละมุมกิจกรรม"
+            ]
+          }
+        },
+        {
+          "id": "E2",
+          "title": {
+            "en": "Centers, rotation 1",
+            "th": "มุมกิจกรรม รอบที่ 1"
+          },
+          "minutes": 7,
+          "en": {
+            "teacherActions": [
+              "Groups work at their center. Picture sort: sort the picture cards into \"/h/\" and \"no /h/\". Letter cards: build the words \"hat\" and \"hot\", and read them. Book corner: read the eight books of weeks 9 to 12 and the books of unit 1. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.",
+              "Sit at the reading-record table with the first two children on the record sheet list. Each child reads \"The Hen and the Hat\"; mark the record sheet."
+            ],
+            "teacherLanguage": [
+              "\"Read the book to me. Finger under the words.\"",
+              "\"Good! Sound it out: /h/ - /e/ - nnn. Hen!\""
+            ],
+            "studentActions": [
+              "Children work at the center.",
+              "Two children read to the teacher."
+            ],
+            "watchFor": [
+              "Note the children who guess the words from the picture and do not look at the letters."
+            ]
+          },
+          "easier": {
+            "en": "At the reading-record table, the child reads with the teacher.",
+            "th": "ที่โต๊ะบันทึกการอ่าน เด็กอ่านพร้อมครู"
+          },
+          "harder": {
+            "en": "At the reading-record table, the child reads the whole book alone.",
+            "th": "ที่โต๊ะบันทึกการอ่าน เด็กอ่านทั้งเล่มด้วยตัวเอง"
+          },
+          "group": {
+            "en": "Four groups; the teacher with two children.",
+            "th": "4 กลุ่ม ครูอยู่กับเด็ก 2 คน"
+          },
+          "materials": [
+            "sorting mat: /h/ / no /h/",
+            "sound picture cards: hat, horse, house, hippo",
+            "picture cards: sun, pen, cup",
+            "workmats (class set)",
+            "letter cards (class set): h, e, d, o, t, s, m, p, a, n",
+            "small books (each child's own): \"Yum!\", \"Dad and the Mop\", \"Dress Up!\", \"The Tan Man\", \"Where Is Pip?\", \"The Den\", \"Open Your Book!\", \"The Hen and the Hat\"",
+            "small books of unit 1 (book corner)",
+            "class tablet",
+            "karaoke videos: \"Yum, Yum, Yum!\", \"Put On Your Hat!\", \"Where Is the Ball?\", \"Open Your Book and Read!\", and the seven songs of unit 1",
+            "record sheet"
+          ],
+          "th": {
+            "teacherActions": [
+              "แต่ละกลุ่มทำกิจกรรมที่มุมของตัวเอง มุมแยกภาพ: แยกบัตรภาพเป็นกองที่มีเสียง /h/ และกองที่ไม่มีเสียง /h/ มุมบัตรตัวอักษร: ต่อคำ \"hat\" และ \"hot\" แล้วอ่าน มุมหนังสือ: อ่านหนังสือ 8 เล่มของสัปดาห์ที่ 9 ถึง 12 และหนังสือของหน่วยที่ 1 มุมคาราโอเกะ: ร้องเพลงตามวิดีโอคาราโอเกะบนแท็บเล็ต โดยเปิดเสียงเบา",
+              "นั่งที่โต๊ะบันทึกการอ่านกับเด็ก 2 คนแรกในรายชื่อของแบบบันทึกผล เด็กแต่ละคนอ่าน \"The Hen and the Hat\" แล้วบันทึกในแบบบันทึกผล"
+            ],
+            "teacherLanguage": [
+              "\"อ่านหนังสือให้ครูฟัง วางนิ้วใต้คำ\"",
+              "\"เก่งมาก! สะกดออกเสียง: /h/ - /e/ - nnn Hen!\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ ทำกิจกรรมที่มุมกิจกรรม",
+              "เด็ก 2 คนอ่านให้ครูฟัง"
+            ],
+            "watchFor": [
+              "จดชื่อเด็กที่เดาคำจากภาพ โดยไม่ดูตัวอักษร"
+            ]
+          }
+        },
+        {
+          "id": "E3",
+          "title": {
+            "en": "Centers, rotation 2",
+            "th": "มุมกิจกรรม รอบที่ 2"
+          },
+          "minutes": 7,
+          "en": {
+            "teacherActions": [
+              "Groups change: 1 and 2 go to the letter cards and the karaoke corner; 3 and 4 go to the book corner and the picture sort.",
+              "Listen to two more children at the reading-record table."
+            ],
+            "teacherLanguage": [
+              "\"Change! Group 1, the letter cards. Group 2, the karaoke corner. Group 3, the book corner. Group 4, the picture sort.\"",
+              "\"Read the book to me. Finger under the words.\""
+            ],
+            "studentActions": [
+              "Children change centers and work.",
+              "Two children read to the teacher."
+            ],
+            "watchFor": [
+              "Groups that change slowly: count down from five."
+            ]
+          },
+          "easier": {
+            "en": "Keep the same center for a group that needs more time.",
+            "th": "ให้กลุ่มที่ต้องการเวลามากขึ้นอยู่ที่มุมเดิม"
+          },
+          "harder": {
+            "en": "Groups that finish early read the word wall words to each other.",
+            "th": "กลุ่มที่ทำเสร็จเร็วอ่านคำบนผนังคำศัพท์ให้กันและกันฟัง"
+          },
+          "group": {
+            "en": "Four groups; the teacher with two children.",
+            "th": "4 กลุ่ม ครูอยู่กับเด็ก 2 คน"
+          },
+          "materials": [
+            "record sheet"
+          ],
+          "th": {
+            "teacherActions": [
+              "กลุ่มสลับมุม: กลุ่ม 1 และ 2 ไปที่มุมบัตรตัวอักษรและมุมคาราโอเกะ กลุ่ม 3 และ 4 ไปที่มุมหนังสือและมุมแยกภาพ",
+              "ฟังเด็กอีก 2 คนอ่านที่โต๊ะบันทึกการอ่าน"
+            ],
+            "teacherLanguage": [
+              "\"เปลี่ยนมุม! กลุ่ม 1 ไปมุมบัตรตัวอักษร กลุ่ม 2 ไปที่มุมคาราโอเกะ กลุ่ม 3 ไปที่มุมหนังสือ กลุ่ม 4 ไปมุมแยกภาพ\"",
+              "\"อ่านหนังสือให้ครูฟัง วางนิ้วใต้คำ\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ เปลี่ยนมุมกิจกรรมและทำกิจกรรม",
+              "เด็ก 2 คนอ่านให้ครูฟัง"
+            ],
+            "watchFor": [
+              "กลุ่มที่เปลี่ยนมุมช้า: นับถอยหลังจาก 5"
+            ]
+          }
+        },
+        {
+          "id": "E4",
+          "title": {
+            "en": "Game",
+            "th": "เกม"
+          },
+          "minutes": 5,
+          "en": {
+            "teacherActions": [
+              "Play \"Swat the word\": put the word cards hat, hot, hen, hop, ham, had and the tricky word cards it, said, that on the board.",
+              "Say a word. Two children run to the board. The first child to touch the card reads it."
+            ],
+            "teacherLanguage": [
+              "\"Ready? Run!\"",
+              "\"Touch the word. Read it: that!\"",
+              "\"Next two. Ready?\""
+            ],
+            "studentActions": [
+              "Two children at a time touch the card and read the word.",
+              "The class reads the word with them."
+            ],
+            "watchFor": [
+              "Fast children who always win: ask them to touch with the left hand, or hop to the board.",
+              "Children who touch \"hot\" for \"hat\": read both words slowly, sound by sound."
+            ]
+          },
+          "easier": {
+            "en": "Put only four cards on the board: hat, hen, it, that.",
+            "th": "ติดบัตรเพียง 4 ใบบนกระดาน: hat, hen, it, that"
+          },
+          "harder": {
+            "en": "Say only the first sound, /h/; the child finds a word that starts with /h/.",
+            "th": "พูดเฉพาะเสียงแรก คือ /h/ เด็กหาคำที่ขึ้นต้นด้วย /h/"
+          },
+          "group": {
+            "en": "Two teams; one child from each team at a time.",
+            "th": "2 ทีม ทีมละ 1 คนในแต่ละครั้ง"
+          },
+          "materials": [
+            "word cards: hat, hot, hen, hop, ham, had",
+            "tricky word cards: it, said, that"
+          ],
+          "th": {
+            "teacherActions": [
+              "เล่นเกม \"Swat the word\": ติดบัตรคำ hat, hot, hen, hop, ham, had และบัตรคำที่ต้องจำ it, said, that บนกระดาน",
+              "พูดคำ 1 คำ เด็ก 2 คนวิ่งไปที่กระดาน เด็กคนแรกที่แตะบัตรนั้นอ่านคำ"
+            ],
+            "teacherLanguage": [
+              "\"พร้อมไหม? run!\"",
+              "\"แตะคำนั้น อ่าน: that!\"",
+              "\"2 คนต่อไป พร้อมไหม?\""
+            ],
+            "studentActions": [
+              "เด็กครั้งละ 2 คนแตะบัตรและอ่านคำ",
+              "ทั้งชั้นอ่านคำนั้นพร้อมกับเด็ก 2 คนนั้น"
+            ],
+            "watchFor": [
+              "เด็กที่เร็วและชนะทุกครั้ง: ให้แตะด้วยมือซ้าย หรือกระโดดขาเดียวไปที่กระดาน",
+              "เด็กที่แตะ \"hot\" แทน \"hat\": อ่านทั้ง 2 คำช้า ๆ ทีละเสียง"
+            ]
+          }
+        },
+        {
+          "id": "E5",
+          "title": {
+            "en": "Check",
+            "th": "ตรวจสอบ"
+          },
+          "minutes": 3,
+          "en": {
+            "teacherActions": [
+              "Children do the check page: in rows 1 to 3, circle the picture that starts with /h/; in rows 4 and 5, circle the word that you say. Then they write the letter h and the word \"hat\".",
+              "Collect the books and mark the check.",
+              "While the class does the written rows, the teacher calls one child at a time for row 8 and row 9 and ticks the box when the child is right."
+            ],
+            "teacherLanguage": [
+              "\"Row 1: hat, sun, cat. Which one starts with /h/? Circle it.\"",
+              "\"Row 2: dog, horse, fish. Which one starts with /h/? Circle it.\"",
+              "\"Row 3: pen, cup, house. Which one starts with /h/? Circle it.\"",
+              "\"Row 4: hat, hot, hop. Find the word hot. Circle it.\"",
+              "\"Row 5: it, said, that. Find the word said. Circle it.\"",
+              "\"Now write the letter h. Then write the word hat.\"",
+              "\"Row 8: Read this word: that.\"",
+              "\"Row 9: /h/ /e/ /n/. What is the word?\""
+            ],
+            "studentActions": [
+              "Children circle one picture in each of rows 1 to 3 and one word in each of rows 4 and 5, write the letter h, and write \"hat\"."
+            ],
+            "watchFor": [
+              "Children who circle every picture, or a wrong picture in two rows: mark /h/ as weak on the record sheet; it goes back on the review strip.",
+              "Children who circle a wrong word in row 4 or row 5: mark that word as weak; it goes back on the review strip."
+            ]
+          },
+          "easier": {
+            "en": "Sit next to the child and point to each picture while you say it.",
+            "th": "นั่งข้างเด็ก และชี้แต่ละภาพขณะพูดคำ"
+          },
+          "harder": {
+            "en": "The child writes \"hot\" too.",
+            "th": "เด็กเขียน \"hot\" ด้วย"
+          },
+          "group": {
+            "en": "Alone.",
+            "th": "ทำคนเดียว"
+          },
+          "materials": [
+            "student book: check page",
+            "record sheet"
+          ],
+          "th": {
+            "teacherActions": [
+              "เด็ก ๆ ทำหน้าตรวจสอบ: แถว 1 ถึง 3 วงกลมภาพที่ขึ้นต้นด้วย /h/ แถว 4 และ 5 วงกลมคำที่ครูพูด จากนั้นเขียนตัวอักษร h และคำ \"hat\"",
+              "เก็บหนังสือ แล้วตรวจหน้าตรวจสอบ",
+              "ขณะที่ชั้นเรียนทำแถวที่ต้องเขียน ครูเรียกเด็กมาทีละคนเพื่อทำแถว 8 และแถว 9 แล้วขีดถูกเมื่อเด็กทำถูก"
+            ],
+            "teacherLanguage": [
+              "\"แถว 1: hat, sun, cat คำไหนขึ้นต้นด้วย /h/? วงกลมไว้\"",
+              "\"แถว 2: dog, horse, fish คำไหนขึ้นต้นด้วย /h/? วงกลมไว้\"",
+              "\"แถว 3: pen, cup, house คำไหนขึ้นต้นด้วย /h/? วงกลมไว้\"",
+              "\"แถว 4: hat, hot, hop หาคำว่า hot วงกลมไว้\"",
+              "\"แถว 5: it, said, that หาคำว่า said วงกลมไว้\"",
+              "\"ทีนี้เขียนตัวอักษร h แล้วเขียนคำ hat\"",
+              "\"แถว 8: อ่านคำนี้: that\"",
+              "\"แถว 9: /h/ /e/ /n/. คำนี้คือคำอะไร?\""
+            ],
+            "studentActions": [
+              "เด็ก ๆ วงกลมภาพแถวละ 1 ภาพในแถว 1 ถึง 3 และวงกลมคำแถวละ 1 คำในแถว 4 และ 5 แล้วเขียนตัวอักษร h และเขียน \"hat\""
+            ],
+            "watchFor": [
+              "เด็กที่วงกลมทุกภาพ หรือวงกลมภาพผิดใน 2 แถว: บันทึกในแบบบันทึกผลว่าเสียง /h/ ยังไม่แม่น แล้วเสียงนี้จะกลับไปอยู่บนแถบทบทวน",
+              "เด็กที่วงกลมคำผิดในแถว 4 หรือแถว 5: บันทึกว่าคำนั้นยังไม่แม่น แล้วคำนั้นจะกลับไปอยู่บนแถบทบทวน"
+            ]
+          }
+        }
+      ],
+      "recall": {
+        "items": [
+          {
+            "kind": "sound",
+            "text": "e",
+            "week": 11
+          },
+          {
+            "kind": "sound",
+            "text": "o",
+            "week": 7
+          },
+          {
+            "kind": "tricky",
+            "text": "were",
+            "week": 10
+          },
+          {
+            "kind": "tricky",
+            "text": "up",
+            "week": 7
+          },
+          {
+            "kind": "frame",
+            "text": "Where is ___? In/On/Under.",
+            "week": 11
+          }
+        ],
+        "ask": {
+          "en": "Show the five cards. The class says each sound or word.",
+          "th": "ชูบัตร 5 ใบ ให้ทั้งชั้นพูดเสียงหรืออ่านคำทีละใบ"
+        }
+      }
+    }
+  ],
+  "review": [
+    {
+      "day": 1,
+      "cards": [
+        {
+          "kind": "sound",
+          "text": "e",
+          "week": 11,
+          "audio": "phonemes/daniel/27-e-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "me",
+          "week": 11
+        },
+        {
+          "kind": "tricky",
+          "text": "of",
+          "week": 11
+        },
+        {
+          "kind": "word",
+          "text": "man",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "they",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "too",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "were",
+          "week": 10
+        },
+        {
+          "kind": "sound",
+          "text": "o",
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "from",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "run",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "up",
+          "week": 7
+        },
+        {
+          "kind": "frame",
+          "text": "Where is ___? In/On/Under.",
+          "week": 11
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "cards": [
+        {
+          "kind": "sound",
+          "text": "h",
+          "week": 12,
+          "audio": "phonemes/daniel/10-h.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "it",
+          "week": 12
+        },
+        {
+          "kind": "tricky",
+          "text": "said",
+          "week": 12
+        },
+        {
+          "kind": "tricky",
+          "text": "that",
+          "week": 12
+        },
+        {
+          "kind": "sound",
+          "text": "e",
+          "week": 11,
+          "audio": "phonemes/daniel/27-e-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "me",
+          "week": 11
+        },
+        {
+          "kind": "tricky",
+          "text": "of",
+          "week": 11
+        },
+        {
+          "kind": "word",
+          "text": "man",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "they",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "too",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "were",
+          "week": 10
+        },
+        {
+          "kind": "sound",
+          "text": "o",
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "from",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "run",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "up",
+          "week": 7
+        },
+        {
+          "kind": "frame",
+          "text": "Where is ___? In/On/Under.",
+          "week": 11
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "cards": [
+        {
+          "kind": "sound",
+          "text": "h",
+          "week": 12,
+          "audio": "phonemes/daniel/10-h.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "it",
+          "week": 12
+        },
+        {
+          "kind": "tricky",
+          "text": "said",
+          "week": 12
+        },
+        {
+          "kind": "tricky",
+          "text": "that",
+          "week": 12
+        },
+        {
+          "kind": "frame",
+          "text": "Open your book.",
+          "week": 12
+        },
+        {
+          "kind": "sound",
+          "text": "e",
+          "week": 11,
+          "audio": "phonemes/daniel/27-e-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "me",
+          "week": 11
+        },
+        {
+          "kind": "tricky",
+          "text": "of",
+          "week": 11
+        },
+        {
+          "kind": "word",
+          "text": "man",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "they",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "too",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "were",
+          "week": 10
+        },
+        {
+          "kind": "sound",
+          "text": "o",
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "from",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "run",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "up",
+          "week": 7
+        },
+        {
+          "kind": "frame",
+          "text": "Where is ___? In/On/Under.",
+          "week": 11
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "cards": [
+        {
+          "kind": "sound",
+          "text": "e",
+          "week": 11,
+          "audio": "phonemes/daniel/27-e-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "me",
+          "week": 11
+        },
+        {
+          "kind": "tricky",
+          "text": "of",
+          "week": 11
+        },
+        {
+          "kind": "word",
+          "text": "man",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "they",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "too",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "were",
+          "week": 10
+        },
+        {
+          "kind": "sound",
+          "text": "o",
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "from",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "run",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "up",
+          "week": 7
+        },
+        {
+          "kind": "frame",
+          "text": "Where is ___? In/On/Under.",
+          "week": 11
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "cards": [
+        {
+          "kind": "sound",
+          "text": "e",
+          "week": 11,
+          "audio": "phonemes/daniel/27-e-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "me",
+          "week": 11
+        },
+        {
+          "kind": "tricky",
+          "text": "of",
+          "week": 11
+        },
+        {
+          "kind": "word",
+          "text": "man",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "they",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "too",
+          "week": 10
+        },
+        {
+          "kind": "tricky",
+          "text": "were",
+          "week": 10
+        },
+        {
+          "kind": "sound",
+          "text": "o",
+          "week": 7,
+          "audio": "phonemes/daniel/29-o-short.mp3"
+        },
+        {
+          "kind": "tricky",
+          "text": "from",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "run",
+          "week": 7
+        },
+        {
+          "kind": "tricky",
+          "text": "up",
+          "week": 7
+        },
+        {
+          "kind": "frame",
+          "text": "Where is ___? In/On/Under.",
+          "week": 11
+        }
+      ]
+    }
+  ],
+  "check": {
+    "items": [
+      {
+        "kind": "circle-picture",
+        "sound": "/h/",
+        "pictures": [
+          "hat",
+          "sun",
+          "cat"
+        ],
+        "answer": "hat"
+      },
+      {
+        "kind": "circle-picture",
+        "sound": "/h/",
+        "pictures": [
+          "dog",
+          "horse",
+          "fish"
+        ],
+        "answer": "horse"
+      },
+      {
+        "kind": "circle-picture",
+        "sound": "/h/",
+        "pictures": [
+          "pen",
+          "cup",
+          "house"
+        ],
+        "answer": "house"
+      },
+      {
+        "kind": "circle-word",
+        "words": [
+          "hat",
+          "hot",
+          "hop"
+        ],
+        "answer": "hot"
+      },
+      {
+        "kind": "circle-word",
+        "words": [
+          "it",
+          "said",
+          "that"
+        ],
+        "answer": "said"
+      },
+      {
+        "kind": "write-letter",
+        "letter": "h"
+      },
+      {
+        "kind": "write-word",
+        "word": "hat"
+      }
+    ]
+  },
+  "home": {
+    "words": [
+      "hat",
+      "horse",
+      "house"
+    ],
+    "line": {
+      "en": "This week, your child learns the sound /h/, as in \"hat\". It is a quiet puff of air, close to the Thai ฮ, and it is not the letter name \"aitch\". Your child also learns to say \"Open your book.\" in English.",
+      "th": "สัปดาห์นี้ บุตรหลานเรียนเสียง /h/ เหมือนในคำว่า \"hat\" เป็นเสียงลมเบา ๆ ใกล้กับเสียง ฮ ในภาษาไทย และไม่ใช่ชื่อตัวอักษร \"aitch\" (เอช) และบุตรหลานยังได้ฝึกพูดเป็นภาษาอังกฤษว่า \"Open your book.\" (เปิดหนังสือ)"
+    },
+    "activity": {
+      "en": "At reading time, say in English: \"Open your book.\" Your child opens a book, points to a picture, and says the word in English. Then hold a hand in front of the mouth with your child and say \"/h/, /h/, hat\".",
+      "th": "ในเวลาอ่านหนังสือ ผู้ปกครองพูดเป็นภาษาอังกฤษว่า \"Open your book.\" (เปิดหนังสือ) ให้บุตรหลานเปิดหนังสือ ชี้ที่ภาพ 1 ภาพ และบอกชื่อสิ่งนั้นเป็นภาษาอังกฤษ จากนั้นยกมือไว้หน้าปากพร้อมบุตรหลาน และพูดว่า \"/h/, /h/, hat\""
+    },
+    "songUrl": "/th/st/2/12?part=song",
+    "readAlongUrl": "/th/st/2/12?part=book"
+  },
+  "tags": {
+    "graphVersion": "phonics-v1",
+    "taught": [
+      "english.phonics.gpc.h.h",
+      "english.phonics.phoneme.h",
+      "english.phonics.letter.h.sound",
+      "english.phonics.letter.h.name",
+      "english.phonics.letter.h.form-lower",
+      "english.phonics.tricky.it",
+      "english.phonics.tricky.said",
+      "english.phonics.tricky.that"
+    ],
+    "reviewed": [
+      "english.phonics.gpc.e.short-e",
+      "english.phonics.pattern.rime-an",
+      "english.phonics.pattern.rime-ad",
+      "english.phonics.gpc.d.d",
+      "english.phonics.gpc.o.short-o",
+      "english.phonics.gpc.t.t",
+      "english.phonics.gpc.s.s",
+      "english.phonics.gpc.m.m",
+      "english.phonics.gpc.p.p",
+      "english.phonics.gpc.a.short-a",
+      "english.phonics.gpc.n.n",
+      "english.phonics.tricky.me",
+      "english.phonics.tricky.of",
+      "english.phonics.tricky.they",
+      "english.phonics.tricky.too",
+      "english.phonics.tricky.were",
+      "english.phonics.tricky.from",
+      "english.phonics.tricky.run",
+      "english.phonics.tricky.up",
+      "english.phonics.tricky.has",
+      "english.phonics.tricky.get",
+      "english.phonics.tricky.off",
+      "english.phonics.tricky.the",
+      "english.phonics.tricky.a",
+      "english.phonics.tricky.can",
+      "english.phonics.tricky.in",
+      "english.phonics.tricky.is",
+      "english.phonics.pattern.cvc-short-a",
+      "english.phonics.pattern.cvc-short-o",
+      "english.phonics.pattern.cvc-short-e",
+      "english.phonics.pa.initial-sound.identify",
+      "english.phonics.pa.phoneme.blend-2-3"
+    ]
+  },
+  "print": {
+    "checkRows": {
+      "trickyWord": "that",
+      "blendWord": "hen"
+    },
+    "letterBox": {
+      "letter": "h",
+      "formationWords": "Start at the dot. Down, down to the bottom. Up. Over the hill. Down.",
+      "startPoint": "dot"
+    },
+    "practice": [
+      {
+        "text": "h h h",
+        "pictureWord": "horse"
+      },
+      {
+        "text": "Hat. Hot. Hen. Hop. Ham. Had. A hen can hop. Dad is hot.",
+        "pictureWord": "hen"
+      }
+    ],
+    "dictation": {
+      "letters": [
+        "h",
+        "h"
+      ],
+      "words": [
+        "hat"
+      ],
+      "traceSentence": "A hen can hop."
+    },
+    "writing": {
+      "traceText": "Open your book.",
+      "line": "word",
+      "pictureBox": true,
+      "promptPicture": "book",
+      "promptAction": "color",
+      "choiceWords": [
+        "pencil",
+        "crayon",
+        "ruler"
+      ]
+    }
+  }
+}

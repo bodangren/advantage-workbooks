@@ -1,0 +1,18 @@
+Self-check of st2/12 (w12.json), Open Your Book!
+1. STAGE_CHECKS: 38 PASS, 0 FAIL, 0 WARN for st2/12; summary: Summary: 12 package(s), 0 failed check(s), 1 warning(s).
+2a. Review strip cards: every card has week <= 12 (the checker also tests this); the weeks used: [7, 10, 11, 12]
+2b. Check items with pictures (one right picture each, judged by the writer): /h/ first: hat, sun, cat -> hat; /h/ first: dog, horse, fish -> horse; /h/ first: pen, cup, house -> house
+3. Read-along "Open Your Book!": 8 pages, 32 words (rule 20 to 35, or 39 to 40 with a 5-word frame); Starters share 100 percent of 16 words (names ['Ben', 'Lily', 'May', 'Mia', 'Nan', 'Pat', 'Pip', 'Sam'] and family words excepted); not Starters: [] (design 6.2 text gate: 90 percent; a frame word of the design, such as yum, is named here)
+   pages: Open your book, Sam. / Open your book, May. / Open your book, Ben. / Open your book, Mia. / Open your book, Pat. / Open your book, Lily. / Open your book, Nan. / Open your book, Pip!
+4. Decodable "The Hen and the Hat": page word counts [4, 3, 5, 4, 3, 5, 4, 5] (rule 2 to 5); names []; new sight words used: ['it', 'said', 'that']
+   pages: Dad has a hat. / Dad is hot. / It is on the mat. / A hen can hop. / Hop, hop, hop! / The hen sat in it. / Dad said, "Get off!" / That hen has the hat!
+5. Family words (7): ['bag', 'book', 'crayon', 'eraser', 'pen', 'pencil', 'ruler']; not on a book page or in a song line: none (a plural form counts)
+6. Song "Open Your Book and Read!": 96 bpm (rule 92 to 108); 12 sung lines; style brief words not allowed: none; lines with a sung sound: none (S25)
+7. Media files named (FR-2.5: none until they exist): none; Daniel's phoneme recordings are the only audio paths
+8. Thai: every Thai field is a draft by Claude for Daniel's check (approval.thai draft); no Thai went to another person or model.
+9. Decisions of the writer (defaults; Daniel decides with the English text):
+   - Q-B: sequence.json (commit ceb728d) gives week 12 four new sight words: goes, it, said, that. The schema allows 1 to 3 words in a sight-word step (SightWordsSchema, lib/storytime/schema.ts line 332), and the check loops-sight needs the A6 and D2 words to equal focus.trickyWords. A week with 4 words fails, so that week needs a code change under dashboard/. Default (content only, no code change): "goes" moves to week 14, which has only one new word ("you"; "this" is a review word). Week 12 teaches it, said, that. The other route is a schema change through the Measure roles; then "goes" goes back to week 12.
+   - The read-along "Open Your Book!" keeps the frame "Open your book." on every page; the change is the name of the child, and the twist is Pip with Nan's book. The school words are in the song lines.
+   - The decodable "The Hen and the Hat" is on the farm of Grandma and Grandpa, with Dad and Tom (the family of Tom and Lily). It uses the 3 new sight words it, said, and that.
+   - The book map number of the week 12 decodable is 4. The D6 song leaders are table 3.
+10. Independent English review (FR-2.8): open. This session starts no subagent (orchestrator rule, 2026-11-06). The review role reads the English review extract (Task 1.11 PDF, no Thai) and this report.
