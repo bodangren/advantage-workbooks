@@ -694,11 +694,16 @@ export const STORYTIME_STICKER_DEFAULT_CENTRE = '50% 50%';
 
 /**
  * The centre of a sticker picture, by the sticker label or by the cover picture-list row id
- * (plan line 1088, owner request 2026-11-06). The map is empty: every picture sits at its centre.
- * Add one entry only when the cover fit cuts a title or a face. The value is an `object-position`
- * pair of two percentages, for example `50% 30%`.
+ * (plan line 1088, owner request 2026-11-06). Two entries move a picture, because the cover fit
+ * cuts a face: the girl at the left edge of "Can I?" and the doll Pam at the right edge of
+ * "Sam and Pam" (orchestrator check of the 300 dpi contact image, 2026-11-06). Every other
+ * picture sits at its centre. Add one entry only when the cover fit cuts a title or a face. The
+ * value is an `object-position` pair of two percentages, for example `50% 30%`.
  */
-export const STORYTIME_STICKER_CENTER_OVERRIDES: Record<string, string> = {};
+export const STORYTIME_STICKER_CENTER_OVERRIDES: Record<string, string> = {
+    'Can I?': '30% 50%',
+    'Sam and Pam': '70% 50%',
+};
 
 /** The shape of a valid centre: two percentages, separated by spaces. */
 const STICKER_CENTRE_PATTERN = /^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/;
