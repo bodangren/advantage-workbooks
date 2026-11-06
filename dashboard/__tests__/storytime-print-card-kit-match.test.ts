@@ -161,21 +161,26 @@ describe('the PM picture match rule of 2026-11-05', () => {
         expect(none, 'the picture cards with no source').toHaveLength(32);
         expect([...matched, ...patches, ...dots].every((field) => field[2] !== 'none'), 'a sourced line has no none row')
             .toBe(true);
-        expect(none.every((field) => field[3].startsWith('none: ')), 'a none line carries its reason').toBe(true);
+        expect(none.every((field) => field[3] === 'none: files not delivered'), 'an unmatched Forge row names undelivered files')
+            .toBe(true);
     }, 120_000);
 
-    it('G-P8-M6 the shipped picture cards hold 94 distinct words: 46 matched and 48 with no match', () => {
+    it('G-P8-M6 the shipped picture cards hold 94 distinct words: 46 picture rows, 17 patches or dots, and 31 none', () => {
         const { cards, rows, delivered } = shipped();
         const fields = storytimeCardPictureMatchLines(cards, rows, delivered)
             .map((line) => line.split('\t'));
-        const words = new Map<string, boolean>();
+        const words = new Map<string, string>();
         for (const field of fields) {
             const key = field[1].toLowerCase();
-            if (!words.has(key)) words.set(key, field[2] !== 'none');
+            if (!words.has(key)) words.set(key, field[3]);
         }
         expect(words.size, 'the distinct picture words').toBe(94);
-        expect([...words.values()].filter(Boolean).length, 'the words with a picture').toBe(46);
-        expect([...words.values()].filter((matched) => !matched).length, 'the words with no picture').toBe(48);
+        expect([...words.values()].filter((source) => source === 'text' || source === 'page').length, 'words with picture rows')
+            .toBe(46);
+        expect([...words.values()].filter((source) => source === 'patch' || source === 'dots').length, 'words with patches or dots')
+            .toBe(17);
+        expect([...words.values()].filter((source) => source === 'none: files not delivered').length, 'words with undelivered rows')
+            .toBe(31);
     }, 120_000);
 
     it('G-P8-M7 a none line says why the card has no picture', () => {

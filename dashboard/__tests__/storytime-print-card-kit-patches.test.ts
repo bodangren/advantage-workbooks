@@ -84,11 +84,12 @@ describe('Phase 8 color patches and number dots', () => {
                 .toBe(hex);
             expect(patch?.getAttribute('style'), `${word} patch paints the expected color`)
                 .toMatch(new RegExp(`(?:background-color|background):\\s*${hex}`, 'i'));
-            const style = patch ? doc.defaultView?.getComputedStyle(patch) : undefined;
-            expect(style?.borderRadius, `${word} patch has rounded corners`).toMatch(/\d/);
-            expect(Number.parseFloat(style?.width ?? '0'), `${word} patch fills most of its picture area`)
+            const inlineStyle = doc.createElement('span');
+            inlineStyle.setAttribute('style', patch?.getAttribute('style') ?? '');
+            expect(inlineStyle.style.borderRadius, `${word} patch has rounded corners`).toMatch(/\d/);
+            expect(Number.parseFloat(inlineStyle.style.width || '0'), `${word} patch fills most of its picture area`)
                 .toBeGreaterThan(50);
-            expect(Number.parseFloat(style?.height ?? '0'), `${word} patch fills most of its picture area`)
+            expect(Number.parseFloat(inlineStyle.style.height || '0'), `${word} patch fills most of its picture area`)
                 .toBeGreaterThan(50);
         }
     });
@@ -109,9 +110,9 @@ describe('Phase 8 color patches and number dots', () => {
             const numeralElement = card?.querySelector('[data-card-numeral]');
             expect(numeralElement?.textContent?.trim(), `${word} numeral`)
                 .toBe(numeral);
-            const numeralSize = numeralElement && doc.defaultView
-                ? Number.parseFloat(doc.defaultView.getComputedStyle(numeralElement).fontSize)
-                : 0;
+            const numeralStyle = doc.createElement('span');
+            numeralStyle.setAttribute('style', numeralElement?.getAttribute('style') ?? '');
+            const numeralSize = Number.parseFloat(numeralStyle.style.fontSize || '0');
             expect(numeralSize, `${word} numeral is large`).toBeGreaterThanOrEqual(40);
             const dots = card?.querySelectorAll('[data-number-dot]');
             expect(dots, `${word} has exactly ${count} round dots`).toHaveLength(count);
@@ -153,7 +154,7 @@ describe('Phase 8 color patches and number dots', () => {
         const otherCards = allPictureCards.filter((card) => !specialLabels.has(card.label.toLowerCase()));
         const otherNoneCards = otherCards.filter((card) => {
             const index = allPictureCards.indexOf(card);
-            return reportFields[index][2] === 'none' && reportFields[index][3] === 'none: no row';
+            return reportFields[index][2] === 'none';
         });
         const otherMatchedCards = otherCards.filter((card) => {
             const index = allPictureCards.indexOf(card);
@@ -175,6 +176,10 @@ describe('Phase 8 color patches and number dots', () => {
         }
         expect(otherNoneCards, 'the remaining cards with no picture row, including both dress cards')
             .toHaveLength(32);
+        expect(otherNoneCards.every((card) => {
+            const index = allPictureCards.indexOf(card);
+            return reportFields[index][3] === 'none: files not delivered';
+        }), 'the 32 unmatched cards have Forge rows whose files are not delivered').toBe(true);
         for (const card of otherNoneCards) {
             expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture-empty`),
                 `${card.label} keeps its empty box`).not.toBeNull();
@@ -194,7 +199,7 @@ describe('Phase 8 color patches and number dots', () => {
         const rowMatches = fields.filter((field) => field[2] !== 'none' && ['text', 'page'].includes(field[3]));
         const patches = fields.filter((field) => field[3] === 'patch');
         const dots = fields.filter((field) => field[3] === 'dots');
-        const none = fields.filter((field) => field[2] === 'none' && field[3] === 'none: no row');
+        const none = fields.filter((field) => field[2] === 'none');
 
         expect(fields, 'one line per picture-type card').toHaveLength(106);
         expect(fields.every((field) => field.length === 4), 'the report has four tab-separated columns')
@@ -207,7 +212,9 @@ describe('Phase 8 color patches and number dots', () => {
         expect([...patches, ...dots].every((field) => field[2] !== 'none'), 'special cards have a source, not none')
             .toBe(true);
         expect(none, 'remaining report rows with no source').toHaveLength(32);
-        expect(fields.filter((field) => field[2] === 'none' && field[3] === 'none: no row'), 'all no-row entries')
+        expect(none.every((field) => field[3] === 'none: files not delivered'), 'all none entries have undelivered Forge rows')
+            .toBe(true);
+        expect(fields.filter((field) => field[2] === 'none' && field[3] === 'none: files not delivered'), 'all unmatched entries')
             .toHaveLength(32);
     });
 
