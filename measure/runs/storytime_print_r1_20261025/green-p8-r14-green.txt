@@ -1,0 +1,21 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts" --maxWorkers=1'
+ ✓ __tests__/storytime-print-binding-practice.test.ts (4 tests) 3473ms
+ ✓ __tests__/storytime-print-covers.test.ts (4 tests) 1863ms
+ ✓ __tests__/storytime-print-reader-howto.test.ts (17 tests) 1374ms
+ ✓ __tests__/storytime-print-contract.test.ts (47 tests) 830ms
+ ✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests) 1725ms
+ ✓ __tests__/storytime-print-contract-r3.test.ts (43 tests) 1872ms
+ ✓ __tests__/storytime-print-contract-v2.test.ts (25 tests) 1240ms
+ ✓ __tests__/storytime-print-readers-adversarial-r2.test.ts (10 tests) 796ms
+ ✓ __tests__/storytime-print-card-kit.test.ts (12 tests) 570ms
+ ✓ __tests__/storytime-print-card-pictures.test.ts (13 tests) 351ms
+ ✓ __tests__/storytime-print-card-kit-adversarial.test.ts (13 tests) 368ms
+ ✓ __tests__/storytime-print-dictation-case.test.ts (2 tests) 67ms
+ ✓ __tests__/storytime-print-card-kit-cli.test.ts (8 tests) 13ms
+ ✓ __tests__/storytime-print-e4-back-list.test.ts (7 tests) 10ms
+
+ Test Files  39 passed (39)
+      Tests  843 passed (843)
+   Start at  23:49:23
+   Duration  1094.65s (transform 5.39s, setup 5.26s, import 14.90s, tests 1020.01s, environment 41.37s)
+exit: 0

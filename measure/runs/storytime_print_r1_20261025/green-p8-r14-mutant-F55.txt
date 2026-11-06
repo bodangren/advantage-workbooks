@@ -1,0 +1,31 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r3.test.ts --maxWorkers=1'
+Mutant F55: the pattern `STICKER_CENTRE_PATTERN` was changed back from `/^\d+(\.\d+)?%[ \t\n\f\r]+\d+(\.\d+)?%$/` to `/^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/`.
+
+     ✓ X-P8-14 does not count a match line with only white space in the third column as a picture 3ms
+     ✓ R3-1 reads a tab with an empty fourth column from the third column and keeps the four counts adding up 3ms
+     ✓ X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break 3ms
+     ✓ R3-2 reads a centre map with a null prototype and an own __proto__ key, and leaves Object.prototype alone 4ms
+     × X-P8-16 rejects a centre value whose separator is not CSS white space 11ms
+     ✓ R3-3 counts the 106 cards of weeks 1 to 8 as picture 57, patch 8, dots 9, and none 32 26088ms
+
+ Failed Tests 1
+
+ FAIL  __tests__/storytime-print-card-kit-adversarial-r3.test.ts > the sticker centre map > X-P8-16 rejects a centre value whose separator is not CSS white space
+AssertionError: a separator of " " is not a valid CSS pair: expected '20% 80%' to be '50% 50%' // Object.is equality
+
+Expected: "50% 50%"
+Received: "20% 80%"
+
+ ❯ __tests__/storytime-print-card-kit-adversarial-r3.test.ts:145:109
+    143|         for (const separator of [' ', ' ', ' ', '　']) {
+    144|             const got = positions([sticker('Hello')], { Hello: `20%${s…
+    145|             expect(got.get('Hello'), `a separator of ${JSON.stringify(…
+       |                                                                                                            ^
+    146|         }
+    147|     });
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  00:33:23
+   Duration  28.24s (transform 457ms, setup 106ms, import 675ms, tests 26.12s, environment 896ms)
+exit: 1

@@ -1,0 +1,30 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 2 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check'
+picture cards: 106, picture 57, patch 8, dots 9, none 32
+distinct words: 94, picture 46, patch or dots 17, none 31
+match report: /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check/card-picture-match.txt
+Converting 7 pages with Ghostscript (fonts kept) ...
+Done in 1 s.
+../../print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-A5-v2_PDFX-1a.pdf: 7 pages, 0.4 MB, PDF 1.3, PDF/X-1a:2001, 2 font(s)
+All checks pass.
+Converting 38 pages with Ghostscript (fonts kept) ...
+Done in 151 s.
+../../print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-A6-v2_PDFX-1a.pdf: 38 pages, 22.0 MB, PDF 1.3, PDF/X-1a:2001, 2 font(s)
+All checks pass.
+Converting 1 pages with Ghostscript (fonts kept) ...
+Done in 42 s.
+../../print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-Stickers-v2_PDFX-1a.pdf: 1 pages, 1.6 MB, PDF 1.3, PDF/X-1a:2001, 1 font(s)
+All checks pass.
+ok   /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-A5-v2_PDFX-1a.pdf: 7 pages (plan 7), 383 kB
+ok   /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-A6-v2_PDFX-1a.pdf: 38 pages (plan 38), 22493 kB
+ok   /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check/Storytime-Advantage-L2-U1-Card-Kit-Stickers-v2_PDFX-1a.pdf: 1 pages (plan 1), 1621 kB
+cards: 165 (sound 7, frame 7, picture 25, sound-picture 29, family-picture 52, tricky-word 19, word 18, letter 8); A5 14 on 7 sheets, A6 151 on 38 sheets
+items: 29; letter strip: 26 letters; paper: 300 gsm, stickers 40 mm
+
+The two count lines of the build:
+picture cards: 106, picture 57, patch 8, dots 9, none 32
+distinct words: 94, picture 46, patch or dots 17, none 31
+
+The `cmp` of the built `card-picture-match.txt` against `measure/runs/storytime_print_r1_20261025/green-p8-patches-r2-match-report.txt` reports no difference: both files hold 106 lines and 6529 bytes, and both hash a0b1c1d862940c9b2d2fce0f0eaf4ada.
+
+The folder /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check was removed after the check. The folders card-kit-v1, card-kit-v2, and card-kit-v3 were not touched.
+exit: 0

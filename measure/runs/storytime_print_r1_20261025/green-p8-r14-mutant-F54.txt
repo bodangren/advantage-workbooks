@@ -1,0 +1,31 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r3.test.ts --maxWorkers=1'
+Mutant F54: the body of `matchLabel` was changed from `return label.replace(/[\s\u0000-\u001f\u007f-\u009f]+/g, ' ');` to `return label;`, so the label reaches column 2 as it stands.
+
+     ✓ R3-2 reads a centre map with a null prototype and an own __proto__ key, and leaves Object.prototype alone 5ms
+     ✓ X-P8-16 rejects a centre value whose separator is not CSS white space 1ms
+     ✓ R3-3 counts the 106 cards of weeks 1 to 8 as picture 57, patch 8, dots 9, and none 32 19594ms
+
+ Failed Tests 1
+
+ FAIL  __tests__/storytime-print-card-kit-adversarial-r3.test.ts > the match source of a malformed or short line > X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break
+AssertionError: the report file holds one line for each card: expected [ …(5) ] to have a length of 3 but got 5
+
+- Expected
++ Received
+
+- 3
++ 5
+
+ ❯ __tests__/storytime-print-card-kit-adversarial-r3.test.ts:86:75
+    84|         const file = `${lines.join('\n')}\n`;
+    85|         const fileLines = file.split('\n').slice(0, -1);
+    86|         expect(fileLines, 'the report file holds one line for each car…
+       |                                                                          ^
+    87|         for (const line of fileLines) expect(line.split('\t'), `${JSON…
+    88|         const counts = storytimeCardMatchCounts(fileLines);
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  00:32:42
+   Duration  21.73s (transform 485ms, setup 119ms, import 708ms, tests 19.64s, environment 779ms)
+exit: 1

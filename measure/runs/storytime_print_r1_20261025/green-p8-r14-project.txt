@@ -1,0 +1,26 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+ ✓ __tests__/storytime-print-readers-adversarial-r2.test.ts (10 tests) 703ms
+ ✓ __tests__/storytime-print-card-kit.test.ts (12 tests) 539ms
+ ✓ __tests__/storytime-loops-audio.test.ts (14 tests) 671ms
+ ✓ __tests__/storytime-loops-schema.test.ts (27 tests) 636ms
+ ✓ __tests__/storytime-print-card-kit-adversarial.test.ts (13 tests) 346ms
+ ✓ __tests__/storytime-print-card-pictures.test.ts (13 tests) 618ms
+ ✓ __tests__/storytime-loops-manual.test.ts (10 tests) 341ms
+ ✓ __tests__/storytime-week.test.ts (44 tests) 282ms
+ ✓ __tests__/storytime-manual.test.ts (27 tests) 304ms
+ ✓ __tests__/covers-kit.test.ts (6 tests) 268ms
+ ✓ __tests__/storytime-phonemes.test.ts (7 tests) 57ms
+ ✓ __tests__/storytime-print-dictation-case.test.ts (2 tests) 69ms
+ ✓ __tests__/storytime-phonics.test.ts (7 tests) 71ms
+ ✓ __tests__/covers-back.test.ts (7 tests) 23ms
+ ✓ __tests__/covers-contract.test.ts (9 tests) 21ms
+ ✓ __tests__/storytime-book-audio.test.ts (8 tests) 19ms
+ ✓ __tests__/storytime-print-card-kit-cli.test.ts (8 tests) 27ms
+ ✓ __tests__/print-pdfx.test.ts (7 tests) 14ms
+ ✓ __tests__/storytime-print-e4-back-list.test.ts (7 tests) 10ms
+
+ Test Files  57 passed (57)
+      Tests  1223 passed (1223)
+   Start at  00:08:00
+   Duration  1316.87s (transform 7.01s, setup 8.48s, import 22.93s, tests 1215.12s, environment 52.41s)
+exit: 0

@@ -1,0 +1,28 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit'
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/8 — Unit 1 Review   [../content/storytime/l2/w08.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
+  PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
+  WARN    print-missing   The print block of the week — no print block
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+(npx tsc --noEmit reported no error)
+exit: 0

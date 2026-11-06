@@ -1,0 +1,11 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r3.test.ts --maxWorkers=1'
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ✓ __tests__/storytime-print-card-kit-adversarial-r3.test.ts (6 tests) 42158ms
+     ✓ R3-3 counts the 106 cards of weeks 1 to 8 as picture 57, patch 8, dots 9, and none 32 42137ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  23:47:47
+   Duration  44.61s (transform 494ms, setup 98ms, import 714ms, tests 42.16s, environment 789ms)
+exit: 0

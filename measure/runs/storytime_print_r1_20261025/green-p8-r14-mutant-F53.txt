@@ -1,0 +1,31 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r3.test.ts --maxWorkers=1'
+Mutant F53: the line `if (third.trim() === '') return 'none';` in `storytimeCardMatchSource` was changed back to `if (third === '') return 'none';`.
+
+     × X-P8-14 does not count a match line with only white space in the third column as a picture 21ms
+     ✓ R3-1 reads a tab with an empty fourth column from the third column and keeps the four counts adding up 5ms
+     ✓ X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break 3ms
+     ✓ R3-2 reads a centre map with a null prototype and an own __proto__ key, and leaves Object.prototype alone 5ms
+     ✓ X-P8-16 rejects a centre value whose separator is not CSS white space 1ms
+     ✓ R3-3 counts the 106 cards of weeks 1 to 8 as picture 57, patch 8, dots 9, and none 32 20812ms
+
+ Failed Tests 1
+
+ FAIL  __tests__/storytime-print-card-kit-adversarial-r3.test.ts > the match source of a malformed or short line > X-P8-14 does not count a match line with only white space in the third column as a picture
+AssertionError: a third column of " " names no source: expected 'picture' to be 'none' // Object.is equality
+
+Expected: "none"
+Received: "picture"
+
+ ❯ __tests__/storytime-print-card-kit-adversarial-r3.test.ts:44:114
+    42|         for (const third of [' ', '  ', ' ', ' ']) {
+    43|             const line = `picture\tfan\t${third}\tnone: no row`;
+    44|             expect(storytimeCardMatchSource(line), `a third column of …
+       |                                                                                                                 ^
+    45|         }
+    46|         const counts = storytimeCardMatchCounts(['picture\tfan\t \tnon…
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  00:31:52
+   Duration  24.01s (transform 496ms, setup 146ms, import 726ms, tests 20.85s, environment 1.27s)
+exit: 1

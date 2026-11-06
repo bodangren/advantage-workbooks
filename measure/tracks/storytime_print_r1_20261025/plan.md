@@ -1267,6 +1267,23 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The gate command ran the plan value as it stands, with no pipe. A form that pipes the output to `tail` and reads `PIPESTATUS` exits 2 under heavy-run, because the inner shell expands `PIPESTATUS[0]` to an empty string.
     - The gate: the new `PROJECT_CHECKS` runs once through heavy-run and exits 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The `npx tsc --noEmit` part reports no error. Capture: `green-p8-r13-checks.txt`.
     - The dispositions of this Green round: F51=FIX; F52=FIX.
+- [x] Task (Green, adversarial remediation r3): fixes for F53, F54, and F55 (adversarial-p8-3f638d98.json). commit ba3acddc
+    - Routing: F53=FIX; F54=FIX; F55=FIX.
+    - Evidence: automated.
+    - The code commit is ba3acddc5abd635523fcc0441264d16853b00222. It changes `dashboard/lib/storytime/print/card-kit.ts` and the three `it.fails` markers of `dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts`.
+    - F53 (X-P8-14): `storytimeCardMatchSource` gives the source `none` when the third column is empty after a trim. A third column of white space names no row, so the line counts as `none` and not as a picture. The JSDoc of the function names the rule.
+    - F54 (X-P8-15): `storytimeCardPictureMatchLines` writes the label of a card through the new `matchLabel`. That function replaces each run of white space and of the control characters with one space. A label with a tab or a line break then adds neither a column nor a line to the report. The label keeps its padding. The shipped labels hold no such character, so the shipped match report stays byte for byte the same.
+    - F55 (X-P8-16): `STICKER_CENTRE_PATTERN` uses `[ \t\n\f\r]+`, the white space of CSS. A centre value with a no-break space (U+00A0) or an em space (U+2003) is rejected. A centre value with a thin space (U+2009) or an ideographic space (U+3000) is rejected too. The sticker then prints at the default centre `50% 50%` on purpose. The values of `STORYTIME_STICKER_CENTER_OVERRIDES` stay the same. The sticker layout, the patch colors, and the dot counts stay the same.
+    - The three `it.fails` markers of X-P8-14 (line 41), X-P8-15 (line 81), and X-P8-16 (line 142) are now `it`. The precedent is commit 03e20aac and commit 9ef650dd, which did the same for X-P8-10, X-P8-11, X-P8-12, and X-P8-13. No other line of any test file changed.
+    - The adversarial file: exit 0, 1 file, 6 tests of 6 passed. Capture: `green-p8-r14-adv.txt`.
+    - `GREEN_TEST_COMMAND` with `--maxWorkers=1`: exit 0, 39 files, 843 tests passed. Capture: `green-p8-r14-green.txt`.
+    - `PROJECT_TESTS` with `--maxWorkers=1`: exit 0, 57 files, 1223 tests passed. Capture: `green-p8-r14-project.txt`.
+    - `PROJECT_LINT`: exit 0, no output. Capture: `green-p8-r14-lint.txt`.
+    - `PROJECT_CHECKS`: exit 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. `npx tsc --noEmit` reports no error. Capture: `green-p8-r14-checks.txt`.
+    - The mutants: the trimmed check of the third column removed makes X-P8-14 fail (exit 1, 1 failed and 5 passed). The `matchLabel` change removed makes X-P8-15 fail (exit 1, 1 failed and 5 passed). The CSS white space pattern changed back to `\s` makes X-P8-16 fail (exit 1, 1 failed and 5 passed). Each file came back byte for byte (`cmp`). The adversarial file after the three restores exits 0 with 6 tests passed. Captures: `green-p8-r14-mutant-F53.txt`, `green-p8-r14-mutant-F54.txt`, and `green-p8-r14-mutant-F55.txt`.
+    - The check build of the match report: exit 0. The two count lines read "picture cards: 106, picture 57, patch 8, dots 9, none 32" and "distinct words: 94, picture 46, patch or dots 17, none 31". The `cmp` of the built `card-picture-match.txt` against `green-p8-patches-r2-match-report.txt` reports no difference: both files hold 106 lines and 6529 bytes. Capture: `green-p8-r14-build.txt`.
+    - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+    - The dispositions of this Green round: F53=FIX; F54=FIX; F55=FIX.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)

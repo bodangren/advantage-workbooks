@@ -1,0 +1,78 @@
+# Green log: Phase 8, adversarial remediation r3 (F53, F54, F55)
+
+Track: storytime_print_r1_20261025 (short id storytime_print_r1).
+Phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval). Phase id P8.
+Role: measure-jr-green (Green, third adversarial remediation of Phase 8).
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65.
+role_base_sha: 0b1233598a825bf0a639abe4713b08e7a4232b77.
+Findings file: measure/runs/storytime_print_r1_20261025/adversarial-p8-3f638d98.json.
+Routing: F53=FIX; F54=FIX; F55=FIX.
+
+## The three fixes
+
+F53 (X-P8-14): `storytimeCardMatchSource` in `dashboard/lib/storytime/print/card-kit.ts` read the third column of a match line with `fields[2] ?? ''` and returned `none` only when that column was the empty string. A third column of white space held no row id, so the function returned `picture` and the count of the build over-counted the pictures. The fix returns `none` when the third column is empty after a trim. `storytimeCardMatchCounts` uses that function, so it counts such a line as `none`. The JSDoc of the function names the rule.
+
+F54 (X-P8-15): `storytimeCardPictureMatchLines` wrote the label of a card into column 2 as it stands, so a label with a tab or a line break gave a line of five columns or more lines than cards. The fix writes the label through the new function `matchLabel`, which replaces each run of white space and of the control characters (C0, DEL, C1) with one space. The label keeps its padding, so a card of a padded label still names no row. The shipped labels hold no such character, so the shipped match report stays byte for byte the same.
+
+F55 (X-P8-16): `STICKER_CENTRE_PATTERN` used `\s`, which accepts a separator that CSS does not accept. Chrome ignores `object-position:20%<no-break space>80%` and prints the sticker at the default centre, so the override did nothing without an error. The fix uses `[ \t\n\f\r]+`, the white space of CSS. The values of `STORYTIME_STICKER_CENTER_OVERRIDES`, the sticker layout, the patch colors, and the dot counts stay the same.
+
+The three `it.fails` markers of X-P8-14 (line 41), X-P8-15 (line 81), and X-P8-16 (line 142) in `dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts` are now `it`. The precedent is commit 03e20aac and commit 9ef650dd. No other line of any test file changed.
+
+## The code commit
+
+`ba3acddc5abd635523fcc0441264d16853b00222` — fix(storytime): trimmed match sources, one-line card labels, and CSS-only centre separators (storytime_print_r1).
+The commit holds `dashboard/lib/storytime/print/card-kit.ts` and `dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts`.
+
+## The gates
+
+Each gate ran through heavy-run in the foreground, one at a time, with `--maxWorkers=1` and no `--testTimeout`.
+
+1. The adversarial file: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r3.test.ts --maxWorkers=1`. Exit 0, 1 file, 6 tests of 6 passed. Capture: `green-p8-r14-adv.txt`.
+2. `GREEN_TEST_COMMAND` with `--maxWorkers=1`: exit 0, 39 files, 843 tests passed. Capture: `green-p8-r14-green.txt`.
+3. `PROJECT_TESTS` with `--maxWorkers=1`: exit 0, 57 files, 1223 tests passed. Capture: `green-p8-r14-project.txt`.
+4. `PROJECT_LINT`: exit 0, no output. Capture: `green-p8-r14-lint.txt`.
+5. `PROJECT_CHECKS`: exit 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. `npx tsc --noEmit` reports no error. Capture: `green-p8-r14-checks.txt`.
+
+The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+
+## The mutants
+
+Each mutant changed one line of `dashboard/lib/storytime/print/card-kit.ts`, ran the adversarial file only, and was restored from a copy.
+
+- Mutant F53: the line `if (third.trim() === '') return 'none';` was changed back to `if (third === '') return 'none';`. X-P8-14 failed with the error "expected 'picture' to be 'none'". Exit 1, 1 failed and 5 passed. Capture: `green-p8-r14-mutant-F53.txt`.
+- Mutant F54: the body of `matchLabel` was changed from `return label.replace(/[\s\u0000-\u001f\u007f-\u009f]+/g, ' ');` to `return label;`. X-P8-15 failed with the error "the report file holds one line for each card: expected [ ...(5) ] to have a length of 3 but got 5". Exit 1, 1 failed and 5 passed. Capture: `green-p8-r14-mutant-F54.txt`.
+- Mutant F55: the pattern `STICKER_CENTRE_PATTERN` was changed back from `/^\d+(\.\d+)?%[ \t\n\f\r]+\d+(\.\d+)?%$/` to `/^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/`. X-P8-16 failed with the error "expected '20% 80%' to be '50% 50%'". Exit 1, 1 failed and 5 passed. Capture: `green-p8-r14-mutant-F55.txt`.
+
+Each file came back byte for byte. The check `cmp` against the copy and the empty check `git diff` against the committed file both passed. The adversarial file after the three restores exits 0 with 6 tests passed.
+
+## The check build of the match report
+
+The build ran through heavy-run: `cd dashboard && npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 2 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-r14-check`. Exit 0.
+
+The two count lines of the build:
+- `picture cards: 106, picture 57, patch 8, dots 9, none 32`
+- `distinct words: 94, picture 46, patch or dots 17, none 31`
+
+The `cmp` of the built `card-picture-match.txt` against `measure/runs/storytime_print_r1_20261025/green-p8-patches-r2-match-report.txt` reports no difference. Both files hold 106 lines and 6529 bytes, and both hash a0b1c1d862940c9b2d2fce0f0eaf4ada. The folder `card-kit-r14-check` was removed after the check. The folders `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` were not touched. Capture: `green-p8-r14-build.txt`.
+
+## The plan evidence
+
+The plan file `measure/tracks/storytime_print_r1_20261025/plan.md` holds the new Green task line before the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'". The line names the routing, the code commit, the three rules, the three removed `it.fails` markers, the five gates with their exit codes and counts, the three mutants, the check build with its `cmp` result, and the dispositions.
+
+## The result
+
+No known failure. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, third adversarial remediation r3 of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: code commit ba3acddc5abd635523fcc0441264d16853b00222 (fix(storytime): trimmed match sources, one-line card labels, and CSS-only centre separators (storytime_print_r1)); plan evidence commit: the commit that holds plan.md, the nine captures, and this log, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha 0b1233598a825bf0a639abe4713b08e7a4232b77; final Green HEAD ba3acddc5abd635523fcc0441264d16853b00222 at the code commit
+tests_run: the adversarial file after the change, exit 0 with 1 file and 6 tests passed; GREEN_TEST_COMMAND with --maxWorkers=1, exit 0 with 39 files and 843 tests passed; PROJECT_TESTS with --maxWorkers=1, exit 0 with 57 files and 1223 tests passed; PROJECT_LINT exit 0 with no output; PROJECT_CHECKS exit 0 with 8 packages, 0 failed checks, 1 warning (print-missing), the published check passing, and tsc clean; mutant F53 exit 1 with 1 failed and 5 passed, the failed test is X-P8-14; mutant F54 exit 1 with 1 failed and 5 passed, the failed test is X-P8-15; mutant F55 exit 1 with 1 failed and 5 passed, the failed test is X-P8-16; the adversarial file after the three restores, exit 0 with 6 tests passed; the check build of the match report, exit 0 with the count lines picture cards 106 picture 57 patch 8 dots 9 none 32 and distinct words 94 picture 46 patch or dots 17 none 31, and the cmp of the built card-picture-match.txt against green-p8-patches-r2-match-report.txt reports no difference
+files_changed: dashboard/lib/storytime/print/card-kit.ts, dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts, measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r14-adv.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-green.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-project.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-lint.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-mutant-F53.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-mutant-F54.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-mutant-F55.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14-build.txt, measure/runs/storytime_print_r1_20261025/green-p8-r14.log
+plan_updates: the new Green task line sits before the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" and is [x] with commit ba3acddc; it names the routing F53=FIX and F54=FIX and F55=FIX, the code commit, the three rules, the three removed it.fails markers with the precedent 03e20aac and 9ef650dd, the five gates with their exit codes and counts, the three mutants, the check build with its cmp result, the clean lock and content check, and the dispositions line; the owner gate stays [ ]
+known_failures: none
+handoff: The committed Red tests stay unchanged except for the three markers of X-P8-14, X-P8-15, and X-P8-16, which changed from it.fails to it as commit 03e20aac and commit 9ef650dd did for the earlier guards. F53: storytimeCardMatchSource gives the source none when the third column of a match line is empty after a trim, so a line whose third column holds only white space is not a picture and storytimeCardMatchCounts counts it as none. F54: storytimeCardPictureMatchLines writes the card label through matchLabel, which replaces each run of white space and of the control characters with one space, so a label with a tab or a line break adds neither a column nor a line and the report holds one line of four columns for each card; the shipped match report stays byte for byte the same. F55: STICKER_CENTRE_PATTERN uses the white space of CSS, so a centre value with a no-break space, an em space, a thin space, or an ideographic space is rejected and the sticker prints at the default centre 50% 50%; the values of STORYTIME_STICKER_CENTER_OVERRIDES, the sticker layout, the patch colors, and the dot counts stay the same. The next role reviews the code commit ba3acddc and the plan evidence commit. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+dispositions: F53=FIX; F54=FIX; F55=FIX
+END_MEASURE_AGENT_RESULT
