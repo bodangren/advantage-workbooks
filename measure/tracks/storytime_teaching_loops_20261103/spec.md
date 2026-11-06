@@ -291,6 +291,7 @@ The consent line (`StorytimeLabels.shareConsent`) and the length line (`shareLen
 - Table 2, one row for each new label of `StorytimeLabels` (4 rows): `| SL-n | Key | English | Thai (draft) |`.
 - The path of the teacher book build and the page numbers of the share icons, so that Daniel can see the captions in place.
 - The last line: `Daniel's answer: ____ (date ____)`.
+- Cell formats: the Week cell is the week number in decimal, the Day cell is 1 to 5, the `SL` row order is `sharePhoto`, `shareVideo`, `shareConsent`, `shareLength`, and `<rows>` in the last line of the cross-check counts the rows read.
 
 **The caption cross-check.** The script `dashboard/scripts/storytime/check-share-captions.ts` compares the caption list with its sources. The teacher book Green task of Phase 3b writes it, and the teacher book Red task tests it first.
 
