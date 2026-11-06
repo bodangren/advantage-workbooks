@@ -1,0 +1,5 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-stickers.test.ts __tests__/storytime-print-card-pictures.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1 | tail -40'
+Result: 4 failed, 80 passed; exit 1.
+Expected failures: F32a expected exit 0 but got 1, with 31 card passes and book-row failures. F32b did not report the missing card row. F32c exited 0 despite a missing card row. F35 accepted two words with one slug.
+Expected pass: F36 reported the repeated-word error on stderr without a stack trace. F33 and F34 passed. R-P4-18, R-P4-19, R-P4-28, and R-P8-F20 passed.
+exit: 1

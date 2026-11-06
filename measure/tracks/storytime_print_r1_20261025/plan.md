@@ -1175,6 +1175,16 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `npx tsc --noEmit` reports no error. Capture: `green-p8-r8-checks.txt`.
     - The r8 gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty after each gate.
     - The four r8 gates exit 0, so the Green task is `[x]` with the code commit 34d37ffc. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
+- [x] Task (Red, review round 5 remediation): tests for F32 to F39 (review-a/b/c-p8-4cb2056b.json); commit f1f30165.
+- [ ] Task (Green, review round 5 remediation): code and plan fixes for F32 to F39.
+    - Routing: F32=FIX; F33=FIX; F34=FIX; F35=FIX; F36=FIX; F37=FIX; F38=FIX; F39=FIX.
+    - Dispositions are F32=FIX; F33=FIX; F34=FIX; F35=FIX; F36=FIX; F37=FIX; F38=FIX; F39=FIX.
+    - F32 contract: select each requested week's book and card rows separately. Request a class when that week has a manifest job for the class, or no row job at all. Every requested row without a job fails. Print one skip line per unrequested class and week before the summary.
+    - F32a fails as expected: the card-only batch returns exit 1 instead of 0. It prints 31 card pass lines and currently fails all 193 book rows. F32b fails as expected: the missing week 1 card row has no fail line. F32c fails as expected: the omitted fifth card row does not fail, and the batch exits 0.
+    - F35 fails as expected: `ice cream` and `ice-cream` share a slug but do not throw. F36 passes: a repeated word gives exit 1 with a clean message on stderr and no stack trace.
+    - F33 and F34 strengthening checks pass. R-P4-18, R-P4-19, R-P4-28, and R-P8-F20 pass with the new assertions. Their existing assertions remain unchanged.
+    - Red command: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-stickers.test.ts __tests__/storytime-print-card-pictures.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1 | tail -40'`; result: 4 failed, 80 passed, exit 1. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r9-red.txt`.
+    - ESLint on the four changed test files exited 0. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r9-lint.txt`.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
