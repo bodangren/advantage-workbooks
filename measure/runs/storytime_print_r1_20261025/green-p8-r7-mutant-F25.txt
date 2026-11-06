@@ -1,0 +1,46 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 389[2mms[22m[39m
+     [32m✓[39m CP-1: the picture list version is 7[32m 2[2mms[22m[39m
+     [32m✓[39m CP-2: the card file holds the 31 words with their weeks, in card kit order[32m 4[2mms[22m[39m
+     [32m✓[39m CP-3: the card file is tracked, not ignored[32m 13[2mms[22m[39m
+     [32m✓[39m CP-4: every card prompt holds the style sentence and ends with the no-letters sentence[32m 6[2mms[22m[39m
+     [32m✓[39m CP-5: the prompts of the cast cards name the known people[32m 3[2mms[22m[39m
+     [32m✓[39m CP-6: no card row names a color word or a number word[32m 101[2mms[22m[39m
+     [32m✓[39m CP-7: each card row carries the fields of a card picture row[32m 60[2mms[22m[39m
+     [32m✓[39m CP-8: the committed list is the 196 book rows and then the 31 card rows[32m 53[2mms[22m[39m
+     [32m✓[39m CP-9: the committed pictures.md says Version 7 and holds the card rows[32m 37[2mms[22m[39m
+     [32m✓[39m CP-10: a card file without a week and a prompt is a data error[32m 3[2mms[22m[39m
+[31m     [31m×[31m rejects duplicate card words across weeks without case sensitivity[39m[32m 9[2mms[22m[39m
+     [32m✓[39m CP-11: a delivered card row wins over the case (a) row and over the case (b) story page[32m 92[2mms[22m[39m
+     [32m✓[39m CP-11 strengthening: the delivered check row wins over an undelivered card row[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-pictures.test.ts[2m > [22mPhase 8 card picture rows: the card kit match[2m > [22mrejects duplicate card words across weeks without case sensitivity
+[31m[1mAssertionError[22m: duplicate entries in one week name the word: expected [Function] to throw an error[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-print-card-pictures.test.ts:[2m270:63[22m[39m
+    [90m268| [39m            { word[33m:[39m [32m'fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'one fan'[39m }[33m,[39m
+    [90m269| [39m            { word[33m:[39m [32m'fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'another fan'[39m }[33m,[39m
+    [90m270| [39m        ], 2), 'duplicate entries in one week name the word').toThrow(…
+    [90m   | [39m                                                              [31m^[39m
+    [90m271| [39m        [34mexpect[39m(() [33m=>[39m [34mbuild[39m([
+    [90m272| [39m            { word[33m:[39m [32m'Fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'one fan'[39m }[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 14:51:42
+[2m   Duration [22m 1.43s[2m (transform 400ms, setup 92ms, import 514ms, tests 389ms, environment 0ms)[22m
+cmp: the restored file equals the HEAD file (byte for byte).
+exit: 1

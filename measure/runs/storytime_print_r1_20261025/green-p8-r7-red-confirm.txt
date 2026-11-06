@@ -1,0 +1,225 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m51 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 116411[2mms[22m[39m
+     [32m✓[39m exports the reader compiler without a collection-time import[32m 163[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 360[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 6316[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 966[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 997[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 348[2mms[22m[39m
+     [32m✓[39m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)[32m 177[2mms[22m[39m
+     [32m✓[39m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)[32m 1[2mms[22m[39m
+     [32m✓[39m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)[32m 168[2mms[22m[39m
+     [32m✓[39m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)[32m 190[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4450[2mms[22m[39m
+     [32m✓[39m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy[32m 134[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders [33m 314[2mms[22m[39m
+     [32m✓[39m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)[32m 108[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 862[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 1323[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 321[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 1198[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1265[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 3926[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 10706[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3683[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1272[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1684[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1082[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1049[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 4534[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 478[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 16099[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 1893[2mms[22m[39m
+     [32m✓[39m R-P4-20 fails a row whose manifest path resolves outside the batch root[32m 9[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1050[2mms[22m[39m
+[31m     [31m×[31m R-P8-F20 checks requested week 2 card rows after the book rows[39m[33m 499[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 930[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 13571[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 844[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 1994[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion [33m 380[2mms[22m[39m
+     [32m✓[39m R-P4-27 rejects an empty request for the batch check[32m 210[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 21975[2mms[22m[39m
+     [32m✓[39m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 203[2mms[22m[39m
+     [32m✓[39m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)[32m 291[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 998[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1274[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 1073[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 725[2mms[22m[39m
+     [32m✓[39m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked[32m 209[2mms[22m[39m
+     [32m✓[39m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 966[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 961[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2127[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit-patches.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 32272[2mms[22m[39m
+[31m     [31m×[31m R-P8-P1 the eight named color words use their approved sRGB patch colors[39m[32m 195[2mms[22m[39m
+     [32m✓[39m R-P8-P2 the nine number cards show the numeral and exactly its number of round dots[32m 150[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-P3 all 17 special cards replace the empty box and all 32 unmatched cards retain it [33m 26040[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none [33m 5826[2mms[22m[39m
+     [32m✓[39m R-P8-P5 falsifier: a dot count off by one fails the exact count assertion[32m 57[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit-match.test.ts [2m([22m[2m20 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 6279[2mms[22m[39m
+[31m     [31m×[31m G-P8-M8 counts picture, patch, dots, and none source columns[39m[32m 13[2mms[22m[39m
+     [32m✓[39m G-P8-M1 a case (a) row wins over an earlier case (b) story-page row of the same word[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-M2 a story-page row with two object counts does not match a card[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-M3 a plural card word matches the singular object count of a story-page row[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-M4 a row without both delivered files does not match[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m G-P8-M5 the shipped weeks give 106 picture-type cards: 57 picture matches, 8 patches, 9 dots, 32 with no match [33m 6222[2mms[22m[39m
+     [32m✓[39m G-P8-M6 the shipped picture cards hold 94 distinct words: 46 picture rows, 17 patches or dots, and 31 none[32m 8[2mms[22m[39m
+     [32m✓[39m G-P8-M7 a none line says why the card has no picture[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-X1 a hostile picture-card label is escaped in the card sheet[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-X2 a hostile sticker label is escaped on the sticker sheet[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-X3 a hostile document title is escaped in the head[32m 0[2mms[22m[39m
+     [32m✓[39m G-P8-R1 a path under the repo root reads <repo>[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R2 a path under the home folder and outside the repo reads ~[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R3 the repo root keeps <repo> when the repo sits under the home folder[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R4 a resolved root path is masked too, so a symbolic-link home keeps ~[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-R5 the cap gives 160 characters that end with ... and a 160-character reason stays whole[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R6 a tab and a CR give one line[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R7 ESC, NUL, DEL, and a C1 character are removed[32m 1[2mms[22m[39m
+[31m     [31m×[31m G-P8-M9 resolves delivered pictures and reports manifest errors for missing rows[39m[32m 7[2mms[22m[39m
+     [32m✓[39m G-P8-S1 a line with one quoted name and one unquoted name keeps both stickers[32m 11[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 355[2mms[22m[39m
+     [32m✓[39m CP-1: the picture list version is 7[32m 2[2mms[22m[39m
+     [32m✓[39m CP-2: the card file holds the 31 words with their weeks, in card kit order[32m 4[2mms[22m[39m
+     [32m✓[39m CP-3: the card file is tracked, not ignored[32m 8[2mms[22m[39m
+     [32m✓[39m CP-4: every card prompt holds the style sentence and ends with the no-letters sentence[32m 6[2mms[22m[39m
+     [32m✓[39m CP-5: the prompts of the cast cards name the known people[32m 3[2mms[22m[39m
+     [32m✓[39m CP-6: no card row names a color word or a number word[32m 86[2mms[22m[39m
+     [32m✓[39m CP-7: each card row carries the fields of a card picture row[32m 60[2mms[22m[39m
+     [32m✓[39m CP-8: the committed list is the 196 book rows and then the 31 card rows[32m 67[2mms[22m[39m
+     [32m✓[39m CP-9: the committed pictures.md says Version 7 and holds the card rows[32m 38[2mms[22m[39m
+     [32m✓[39m CP-10: a card file without a week and a prompt is a data error[32m 3[2mms[22m[39m
+[31m     [31m×[31m rejects duplicate card words across weeks without case sensitivity[39m[32m 10[2mms[22m[39m
+     [32m✓[39m CP-11: a delivered card row wins over the case (a) row and over the case (b) story page[32m 66[2mms[22m[39m
+     [32m✓[39m CP-11 strengthening: the delivered check row wins over an undelivered card row[32m 0[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-stickers.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 9631[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S2 the unit 1 sticker keeps its text and shows no picture [33m 5653[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S8 a centre override moves one sticker only [33m 2414[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S10 falsifier: the old 28 mm inset art fails the same check [33m 1222[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-kit-match.test.ts[2m > [22mthe PM picture match rule of 2026-11-05[2m > [22mG-P8-M8 counts picture, patch, dots, and none source columns
+[31m[1mAssertionError[22m: the four source counts are exported: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-card-kit-match.test.ts:[2m107:85[22m[39m
+    [90m105| [39m    it('G-P8-M8 counts picture, patch, dots, and none source columns',…
+    [90m106| [39m        const api = await import('../lib/storytime/print/card-kit') as…
+    [90m107| [39m        expect(api.storytimeCardMatchCounts, 'the four source counts a…
+    [90m   | [39m                                                                                    [31m^[39m
+    [90m108| [39m        const count = api.storytimeCardMatchCounts as (lines: readonly…
+    [90m109| [39m        [34mexpect[39m([34mcount[39m([
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-kit-match.test.ts[2m > [22mthe mask and cap rules of the reason column (Review B, B-P8-8, B-P8-9)[2m > [22mG-P8-M9 resolves delivered pictures and reports manifest errors for missing rows
+[31m[1mAssertionError[22m: the delivery resolver is exported: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-card-kit-match.test.ts:[2m322:85[22m[39m
+    [90m320| [39m    it('G-P8-M9 resolves delivered pictures and reports manifest error…
+    [90m321| [39m        const api = await import('../lib/storytime/print/card-kit') as…
+    [90m322| [39m        expect(api.storytimeDeliveredPictures, 'the delivery resolver …
+    [90m   | [39m                                                                                    [31m^[39m
+    [90m323| [39m        const resolve = api.storytimeDeliveredPictures as (folder: str…
+    [90m324| [39m            delivered: Set<string>; files: Map<string, string>; reason…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-kit-patches.test.ts[2m > [22mPhase 8 color patches and number dots[2m > [22mR-P8-P1 the eight named color words use their approved sRGB patch colors
+[31m[1mAssertionError[22m: red patch is a rounded rectangle: expected 'rounded-square' to be 'rounded-rectangle' // Object.is equality[39m
+
+Expected: [32m"rounded-[7mrectangl[27me"[39m
+Received: [31m"rounded-[7msquar[27me"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-card-kit-patches.test.ts:[2m82:18[22m[39m
+    [90m 80| [39m            expect(patch?.getAttribute('data-card-patch'), `${word} pa…
+    [90m 81| [39m            expect(patch?.getAttribute('data-shape'), `${word} patch i…
+    [90m 82| [39m                [33m.[39m[34mtoBe[39m([32m'rounded-rectangle'[39m)[33m;[39m
+    [90m   | [39m                 [31m^[39m
+    [90m 83| [39m            expect(patch?.getAttribute('data-color'), `${word} patch s…
+    [90m 84| [39m                [33m.[39m[34mtoBe[39m(hex)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-pictures.test.ts[2m > [22mPhase 8 card picture rows: the card kit match[2m > [22mrejects duplicate card words across weeks without case sensitivity
+[31m[1mAssertionError[22m: duplicate entries in one week name the word: expected [Function] to throw an error[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-print-card-pictures.test.ts:[2m270:63[22m[39m
+    [90m268| [39m            { word[33m:[39m [32m'fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'one fan'[39m }[33m,[39m
+    [90m269| [39m            { word[33m:[39m [32m'fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'another fan'[39m }[33m,[39m
+    [90m270| [39m        ], 2), 'duplicate entries in one week name the word').toThrow(…
+    [90m   | [39m                                                              [31m^[39m
+    [90m271| [39m        [34mexpect[39m(() [33m=>[39m [34mbuild[39m([
+    [90m272| [39m            { word[33m:[39m [32m'Fan'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'one fan'[39m }[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P8-F20 checks requested week 2 card rows after the book rows
+[31m[1mAssertionError[22m: week 2 card row fan is checked: expected 'fail  l2-w02-story-page-how-many-suns…' to contain 'fail  l2-w02-card-fan'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- fail  l2-w02-[7mcard-fan[27m[39m
+[31m+ fail  l2-w02-[7mstory-page-how-many-suns-one: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-suns-one[27m[39m
+[31m+ fail  l2-w02-story-page-how-many-kites-two: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-kites-two[39m
+[31m+ fail  l2-w02-story-page-how-many-ducks-three: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-ducks-three[39m
+[31m+ fail  l2-w02-story-page-how-many-birds-four: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-birds-four[39m
+[31m+ fail  l2-w02-story-page-how-many-balls-five: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-balls-five[39m
+[31m+ fail  l2-w02-story-page-how-many-friends-six: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-friends-six[39m
+[31m+ fail  l2-w02-story-page-how-many-cakes-seven: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-seven[39m
+[31m+ fail  l2-w02-story-page-how-many-cakes-oh-no-pip: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-oh-no-pip[39m
+[31m+ fail  l2-w02-cover-how-many: forge manifest: the manifest holds no job for the row l2-w02-cover-how-many[39m
+[31m+ fail  l2-w02-story-page-nan-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can[39m
+[31m+ fail  l2-w02-story-page-can-i: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i[39m
+[31m+ fail  l2-w02-story-page-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can[39m
+[31m+ fail  l2-w02-story-page-nan-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can-b[39m
+[31m+ fail  l2-w02-story-page-can-i-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i-b[39m
+[31m+ fail  l2-w02-story-page-i-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can-b[39m
+[31m+ fail  l2-w02-story-page-can-nan: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-nan[39m
+[31m+ fail  l2-w02-story-page-nan-and-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-and-i-can[39m
+[31m+ fail  l2-w02-cover-can-i: forge manifest: the manifest holds no job for the row l2-w02-cover-can-i[39m
+[31m+ fail  l2-w02-check-row-apple: forge manifest: the manifest holds no job for the row l2-w02-check-row-apple[39m
+[31m+ fail  l2-w02-check-row-dog: forge manifest: the manifest holds no job for the row l2-w02-check-row-dog[39m
+[31m+ fail  l2-w02-check-row-sun: forge manifest: the manifest holds no job for the row l2-w02-check-row-sun[39m
+[31m+ fail  l2-w02-check-row-bus: forge manifest: the manifest holds no job for the row l2-w02-check-row-bus[39m
+[31m+ fail  l2-w02-check-row-ant: forge manifest: the manifest holds no job for the row l2-w02-check-row-ant[39m
+[31m+ fail  l2-w02-check-row-fish: forge manifest: the manifest holds no job for the row l2-w02-check-row-fish[39m
+[31m+ fail  l2-w02-check-row-pig: forge manifest: the manifest holds no job for the row l2-w02-check-row-pig[39m
+[31m+ fail  l2-w02-check-row-bed: forge manifest: the manifest holds no job for the row l2-w02-check-row-bed[39m
+[31m+ fail  l2-w02-check-row-axe: forge manifest: the manifest holds no job for the row l2-w02-check-row-axe[39m
+[31m+ 0 of 27 rows pass stage 1 (/tmp/opencode/storytime-readers-Eq1xBk)[39m
+[31m+[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1216:66[22m[39m
+    [90m1214| [39m        expect(run.status, `the batch reports missing pictures: ${outp…
+    [90m1215| [39m        for (const word of cardRows.map((row) => row.word.toLowerCase(…
+    [90m1216| [39m            expect(output, `week 2 card row ${word} is checked`).toCon…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m1217| [39m        }
+    [90m1218| [39m    }, 120_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m95 passed[39m[22m[90m (100)[39m
+[2m   Start at [22m 13:44:24
+[2m   Duration [22m 178.12s[2m (transform 1.30s, setup 962ms, import 2.60s, tests 164.95s, environment 7.46s)[22m
+
+exit: 1

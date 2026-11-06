@@ -1,0 +1,166 @@
+# Green r7 log: Phase 8, review round 4 remediation (F20 to F31)
+
+Role: measure-jr-green. Track: storytime_print_r1_20261025. Phase: P8 "Phase 8: Card kit
+(2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)".
+
+- phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+- role_base_sha: 23643f26555bd1ecc0037eaad02044a534208028
+- Red contract: commit 9381c0cf (5 test files). Plan evidence: commit 23643f26.
+- The Red ran on openai/gpt-6-luna#high. This Green runs on MiniMax. No coder session was
+  started, so no model of the OpenAI family did any work of this phase.
+
+## The routed findings
+
+The findings are in review-a-p8-d5a8775e.json, review-b-p8-d5a8775e.json, and
+review-c-p8-d5a8775e.json of this folder. The dispositions are F20=FIX; F21=FIX; F22=FIX;
+F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX; F31=FIX. No finding is
+declined, contested, or escalated.
+
+The findings that this round fixes in code:
+
+- F20 (A-P8-7): the stage 1 picture check never sees the card rows of the picture list.
+- F21 (A-P8-8): the JSDoc of the sticker centre map names a key that the code ignores.
+- F22 (A-P8-9): the build counts the patch and dot cards as "no match".
+- F24 (A-P8-11): the color patch markup says "rounded-square"; the look is a rounded rectangle.
+- F25 (A-P8-12): a repeated card word gives two rows with one id.
+- F30 (C-P8-1): the delivery resolver sits in the build script, so the report reason is not
+  reachable from a test.
+
+The findings that this round fixes in the plan text: F21, F24, F27, F28, F30, F31.
+F23, F26, and F29 ask for a test, and the Red test file of this round holds those tests.
+
+## The Red state
+
+Five tests fail now: R-P8-F20, G-P8-M8, G-P8-M9, R-P8-P1, and the duplicate card word test.
+The rerun of the 5 Red files before the change: exit 1, 5 failed and 95 passed.
+Capture: green-p8-r7-red-confirm.txt.
+
+## The code
+
+One group of four files, in two commits:
+
+- Commit 34d37ffc: `dashboard/lib/storytime/print/card-kit.ts`,
+  `dashboard/lib/storytime/print/pictures.ts`,
+  `dashboard/scripts/storytime/check-storytime-pictures.ts`, and
+  `dashboard/scripts/storytime/make-card-kit-pdf.ts`.
+- Commit 1aa9d06d: `dashboard/scripts/storytime/make-card-kit-pdf.ts` only. The `PROJECT_CHECKS`
+  gate gave the TypeScript error TS2451, because the build used the name `counts` twice. The
+  commit gives the match counts their own name.
+
+The changes:
+
+- F20: `check-storytime-pictures.ts` requests the card rows of the requested weeks after the book
+  rows. A card row of a week is requested when the batch holds a job for it, or when the batch
+  holds no job for any row of that week. A batch that holds the book rows of a week holds no card
+  row of that week, so its request stays the book rows. That rule keeps R-P4-28 and R-P8-F20
+  both green. The rule was needed: an unconditional request makes R-P4-28 fail, because the
+  week 1 batch of that test holds the 29 book rows and no card row.
+- F21: the JSDoc of `STORYTIME_STICKER_CENTER_OVERRIDES` and of the option `centers` names the
+  sticker label as the only key. No behavior change.
+- F22: the new export `storytimeCardMatchCounts(lines)` counts the lines of the match report by
+  source. The build prints `picture cards: 106, picture 57, patch 8, dots 9, none 32` and
+  `distinct words: 94, picture 46, patch or dots 17, none 31`.
+- F24: the patch markup carries `data-shape="rounded-rectangle"`. The look of the A6 file does
+  not change, because the patch fills the same picture area.
+- F25: `storytimeCardPictureRows` throws on a repeated word, and the message names the word. The
+  compare ignores the case and holds in every week.
+- F30: `storytimeDeliveredPictures(folder, rows)` is the new export of `card-kit.ts`, with the
+  behavior and the JSDoc of the old private function of the build script. The build calls it.
+
+## The gates
+
+Each gate ran through heavy-run, in the foreground, one at a time, with `--maxWorkers=1` and no
+`--testTimeout`.
+
+- The 5 Red files after the change: exit 1, 1 failed and 99 passed. The one failure is G-P8-M8,
+  which times out after 5000 ms. Capture: green-p8-r7-targeted.txt.
+- `GREEN_TEST_COMMAND`: exit 1, 37 files, 1 failed and 813 passed. The one failure is G-P8-M8.
+  Capture: green-p8-r7-green.txt.
+- `PROJECT_TESTS`: exit 1, 55 files, 1 failed and 1193 passed. The one failure is G-P8-M8.
+  Capture: green-p8-r7-project.txt.
+- `PROJECT_LINT`: exit 0. Capture: green-p8-r7-lint.txt.
+- `PROJECT_CHECKS`: exit 0 after commit 1aa9d06d. The first run gave the TypeScript error TS2451.
+  Capture: green-p8-r7-checks.txt.
+- Mutant F20: the card rows dropped from the request make R-P8-F20 fail. Exit 1, 1 failed and 50
+  passed. The file came back byte for byte (`cmp`). Capture: green-p8-r7-mutant-F20.txt.
+- Mutant F25: the duplicate-word throw dropped makes the duplicate card word test fail. Exit 1,
+  1 failed and 12 passed. The file came back byte for byte (`cmp`).
+  Capture: green-p8-r7-mutant-F25.txt.
+- The check build: `npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8
+  --version 2 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-r7-check` exits 0. It
+  writes A5 7 pages, A6 38 pages, and the sticker sheet 1 page. The two count lines are
+  `picture cards: 106, picture 57, patch 8, dots 9, none 32` and
+  `distinct words: 94, picture 46, patch or dots 17, none 31`. The `card-picture-match.txt` of the
+  build is byte for byte the r2 report (`cmp` exit 0). The check folder is removed, and
+  `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` stay untouched.
+  Captures: green-p8-r7-build.txt and green-p8-r7-match-compare.txt.
+- After each gate, `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01
+  content/` was empty. No lock file, no week 1 media file, and no content file changed. The
+  uncommitted change of `video/storytime-song/scripts/render.mjs` belongs to another session and
+  was never staged.
+
+## The blocker
+
+G-P8-M8 of the Red test file `__tests__/storytime-print-card-kit-match.test.ts` times out. The
+test calls `shipped()`, which reads the shipped picture folder through
+`resolveStorytimePictureFiles`. The folder holds 1235 MB of color files, and the SHA-256 of that
+folder takes 5424 ms on this CPU (an Intel i5-3470S without SHA-NI, 211 to 244 MB/s). The
+default vitest timeout is 5000 ms, so no Green can pass that test. The probe
+`green-p8-r7-probe-timing.ts` holds that measurement, and `green-p8-r7-probe-hash.ts` holds the
+hash speed of the CPU.
+
+The sibling tests of the same file that call `shipped()` carry the timeout `120_000`, and the plan
+line 1121 records the same fix for the sibling file in commit e7962b54. The Red test of this round
+has no timeout, so it is a defect of the Red test, not of the code. This role changed no test
+file.
+
+The fix is one word in the Red test: `it('G-P8-M8 ...', async () => { ... }, 120_000);`. A Mid Red
+retry makes that change. The next Green then runs the gates again and changes no code.
+
+## The plan
+
+The plan holds the six line corrections and one new sub-line, each with the marker
+`[corrected in review round 4, F<n>]`, and the evidence of this round under the Green line. The
+Green line stays `[~]`, because the targeted command and the two vitest gates exit 1 on the Red
+test defect.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_print_r1_20261025
+phase: P8
+commits: 34d37ffc (code), 1aa9d06d (code), and the plan commit of this log
+tests_run: the 5 Red files (exit 1, 1 failed and 99 passed), GREEN_TEST_COMMAND (exit 1, 37 files,
+  1 failed and 813 passed), PROJECT_TESTS (exit 1, 55 files, 1 failed and 1193 passed),
+  PROJECT_LINT (exit 0), PROJECT_CHECKS (exit 0), the F20 mutant (exit 1), the F25 mutant (exit 1),
+  and the check build (exit 0)
+files_changed: dashboard/lib/storytime/print/card-kit.ts,
+  dashboard/lib/storytime/print/pictures.ts,
+  dashboard/scripts/storytime/check-storytime-pictures.ts,
+  dashboard/scripts/storytime/make-card-kit-pdf.ts,
+  measure/tracks/storytime_print_r1_20261025/plan.md, and the captures green-p8-r7-*.txt and the
+  probes green-p8-r7-probe-timing.ts and green-p8-r7-probe-hash.ts
+plan_updates: the plan lines 1088, 1096, 1105, 1107, 1117, 1126, 1131, and 1135 are corrected, one
+  sub-line is added after line 1037, and the evidence of this round is under the Green line, which
+  stays [~]
+known_failures: G-P8-M8 of the Red test file __tests__/storytime-print-card-kit-match.test.ts
+  times out after 5000 ms. The test hashes the 1235 MB shipped picture folder and has no timeout.
+  Its sibling tests in the same file carry 120_000. The Red test file is not changed by this role.
+handoff: A Mid Red retry adds the timeout to G-P8-M8 of
+  dashboard/__tests__/storytime-print-card-kit-match.test.ts:
+  it('G-P8-M8 counts picture, patch, dots, and none source columns', async () => { ... }, 120_000);
+  The fix matches the one of commit e7962b54 for the sibling file, which the plan line 1121
+  records. No other change of that test file is needed: the assertions of G-P8-M8 pass with the
+  code of commit 34d37ffc. After that, the next Green runs the 5 Red files, GREEN_TEST_COMMAND,
+  PROJECT_TESTS, PROJECT_LINT, and PROJECT_CHECKS again, and marks the Green line [x] with the
+  code commit 34d37ffc and the plan commit. The code of this round is complete for F20, F21, F22,
+  F24, F25, and F30, and the plan holds the corrections of F21, F24, F27, F28, F30, and F31.
+  The two count lines of the build are `picture cards: 106, picture 57, patch 8, dots 9, none 32`
+  and `distinct words: 94, picture 46, patch or dots 17, none 31`. The check build keeps the
+  match report byte for byte, so F30 changed no byte of the report. The new files are the
+  captures green-p8-r7-*.txt and the two probes; the plan commit holds them. The phase base sha
+  is 709dd19ce412597f5c92cdc3edb5272878a8ec65 and the Green HEAD is the plan commit of this
+  log.
+dispositions: F20=FIX; F21=FIX; F22=FIX; F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX;
+  F29=FIX; F30=FIX; F31=FIX
+END_MEASURE_AGENT_RESULT
