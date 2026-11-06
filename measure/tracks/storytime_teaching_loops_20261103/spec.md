@@ -273,7 +273,7 @@ The check reports one problem line for each broken rule:
 3. At least one shot of the day names a step in the period of the day (see Terms).
 4. The two shots of one day name two different steps.
 5. No shot names an assessment step (see Terms). A photo or a video of a check shows the check items and a child under test.
-6. `caption.en` has 1 to 40 words. `caption.th` is not empty after trim. The check does not test the Thai text in other ways (Q9 of the plan).
+6. `caption.en` has 1 to 40 words. The word count: trim `caption.en`, split it on runs of white space (`/\s+/`), and count the non-empty parts. `caption.th` is not empty after trim. The check does not test the Thai text in other ways (Q9 of the plan).
 7. No caption string ends in a media file extension. The pattern is the Monorepo `MEDIA_EXTENSION`: `\.(mp3|wav|m4a|aac|ogg|opus|mp4|m4v|webm|mov|jpg|jpeg|png|webp|gif|svg|pdf)$`, case-insensitive (see "Interface for the Storytime app").
 
 **The teacher book.** `manual.ts` prints the share moments when `StorytimeManualOptions.share` is true. The option is false by default (D21). `make-manual-pdf.ts` and `make-teacher-book-print.ts` get a `--share` flag. At the step of each shot, the step block prints:
@@ -292,6 +292,17 @@ The consent line (`StorytimeLabels.shareConsent`) and the length line (`shareLen
 - The path of the teacher book build and the page numbers of the share icons, so that Daniel can see the captions in place.
 - The last line: `Daniel's answer: ____ (date ____)`.
 
+**The caption cross-check.** The script `dashboard/scripts/storytime/check-share-captions.ts` compares the caption list with its sources. The teacher book Green task of Phase 3b writes it, and the teacher book Red task tests it first.
+
+- Command: `cd dashboard && npx tsx scripts/storytime/check-share-captions.ts --level 2 --list ../measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md`.
+- Arguments: `--level <n>` (the level of the week files, read with `readLevelWeeks` of `lib/storytime/files.ts`) and `--list <path>` (the caption list). Both are required.
+- Sources: the `share` of each script of the level, and the labels `sharePhoto`, `shareVideo`, `shareConsent`, and `shareLength` of `storytimeLabels('en')` and `storytimeLabels('th')` in `lib/storytime/i18n.ts`.
+- Compare: each cell after trim, as exact text. An `SC-` row has the week, the day, the shots (each shot written as `<step> <media>`, two shots joined with `; `), `caption.en`, and `caption.th`. An `SL-` row has the key, the English, and the Thai of the label. A `|` inside a cell is written `\|` and is read back as `|`.
+- Exit 0: the list has exactly one `SC-` row for each day of the level (40 for Level 2) and one `SL-` row for each of the 4 labels, and every cell equals its source.
+- Exit 1: a row differs, a row is missing, a row is extra, or a row id repeats. The script prints one line for each problem, with the row id.
+- Exit 2: a usage error: an unknown flag, a missing `--level` or `--list`, or a list file that does not exist.
+- The last output line is `share captions: <rows> rows, <problems> problems`.
+
 The Thai goes to Daniel only. No model and no other person checks the Thai captions or the Thai labels. The review roles get the English only.
 
 Acceptance criteria:
@@ -305,7 +316,7 @@ Acceptance criteria:
 - AC-14.7 (student book): `compileStorytimeStudentBook` of w01 to w08 with the share fields gives HTML that is byte-equal to the HTML with the share fields removed. FR-13 applies to each commit of Phase 3b.
 - AC-14.8 (teacher book): With the option `share` off or absent, the HTML of each week with the share fields is byte-equal to the HTML of the same week with the share fields removed, with `loops` off and with `loops` on. With `share` on, the block of each shot step holds exactly one element with `data-share-media` equal to the shot media, and the caption text. A teach week has 6 icon elements, and w08 has 5. The consent line prints once in each week part. A caption with `<script>` prints escaped. Each new label has English and Thai in `StorytimeLabels`.
 - AC-14.9 (build): The Thai teacher book of w01 to w08 with `--loops --share` is A4, black only, and passes `PRINT_GATE`. The build records the page count and the PDF SHA-256. The PM session gets the page count for the printer quote.
-- AC-14.10 (caption list): The caption list has 40 `SC-` rows and 4 `SL-` rows. A cross-check command compares each row with the week files and `i18n.ts` at the named commit, and it exits 0.
+- AC-14.10 (caption list): The caption list has 40 `SC-` rows and 4 `SL-` rows. At the commit that the list header names, the command `cd dashboard && npx tsx scripts/storytime/check-share-captions.ts --level 2 --list ../measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md` exits 0. A list with one changed cell, one missing row, or one extra row makes the command exit 1.
 - AC-14.11 (Daniel): The plan records Daniel's answer on the Thai captions and labels, with his words and the date. Until then, his check task stays `[ ]`.
 
 ## Defaults
@@ -364,7 +375,7 @@ The Storytime app in Monorepo reads the week files. The field names come from Ph
 5. The new routines in any teacher view of the scripts (`blendDrill`, `soundLoop`, `sightWords`, `loopMinutes`).
 6. Amendment 1: the share moment of each day in the teacher view of the scripts (`scripts[].share`: `shots[].step`, `shots[].media`, `caption.en`, `caption.th`), at the named step, with the consent line. The app shows it only when `approval.loops` is approved (D23). The app uploads no photo or video.
 
-Contract check for the share field (Amendment 1). The author read the Monorepo on 2026-11-07 at HEAD `db3fc23d8`, read-only.
+Contract check for the share field (Amendment 1). The author read the Monorepo on 2026-11-07 at HEAD `db3fc23d8`, read-only. The spec reviewer (opencode-go/deepseek-v4.1-flash) rechecked the same lines at `f97fffbaf` on 2026-11-07. Each claim below holds at both commits.
 
 - The receiving step is `receiveWeek` in `apps/storytime/scripts/receive-weeks.ts` (line 218). It parses each week with `weekSchema` of `apps/storytime/lib/contracts/week.ts` (line 222).
 - The contract is passthrough, not strict. Every object of `week.ts` uses `.passthrough()`, and `scriptSchema` (line 381) does too. The file header (lines 6 and 7) says: "Every object passes unknown keys through, because Workbooks owns the schema and the app must accept a field that a later phase does not read yet."

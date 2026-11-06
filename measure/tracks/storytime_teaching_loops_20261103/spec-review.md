@@ -68,3 +68,8 @@ Scope of the amendment:
 - plan.md: the row 3b of "Phases and dates"; the section "Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)"; one Phase 4 line (Hand-off 3 now names `--loops --share`). No line of Phase 1, 2, or 3 changed.
 
 Review: pending. The orchestrator sends the amendment to a spec reviewer of a model family other than the author family. The amendment holds no Thai text, so the reviewer reads English only.
+
+F1: FIX, spec FR-14 names the script `dashboard/scripts/storytime/check-share-captions.ts` (`--level`, `--list`; exit 0, 1, 2); the teacher book Red tests it, the teacher book Green writes it, and AC-14.10 and the caption-list task run that command.
+F2: FIX, the Phase 3b Red and Green tasks run `PROJECT_LINT` with `__tests__/fixtures/storytime-share-sample.ts` added to its file list.
+F3: FIX, FR-14 rule 6 names the word count: trim `caption.en`, split it on `/\s+/`, and count the non-empty parts.
+F4: FIX, the Monorepo contract check names `db3fc23d8` (author, 2026-11-07) and the reviewer's recheck of the same lines at `f97fffbaf` on 2026-11-07.
