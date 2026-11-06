@@ -1,0 +1,43 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+
+ ✓ __tests__/storytime-print-contract-r3.test.ts (43 tests) 975ms
+ ✓ __tests__/storytime-print-readers-adversarial-r2.test.ts (10 tests) 697ms
+     ✓ ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not  377ms
+ ✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests) 1131ms
+     ✓ R2: prints the exact address of a good non-shipped path  450ms
+     ✓ R2: prints one code when the read-along path is absent  361ms
+ ✓ __tests__/storytime-print-covers.test.ts (4 tests) 1644ms
+     ✓ checks each shipped week 1 reader cover for Sprout and catches a copied cover mutation  439ms
+     ✓ composes each teacher-book side as an opaque 300 ppi image at the specified trim  1142ms
+ ✓ __tests__/storytime-print-contract.test.ts (47 tests) 771ms
+ ✓ __tests__/storytime-print-contract-v2.test.ts (25 tests) 641ms
+ ✓ __tests__/storytime-loops-checks.test.ts (38 tests) 1484ms
+     ✓ parses, and passes the six loop checks on w01 to w07  432ms
+ ✓ __tests__/storytime-print-card-kit.test.ts (12 tests) 633ms
+ ✓ __tests__/covers-render.test.ts (5 tests) 778ms
+     ✓ cuts the middle two pages of a wide picture into the back (left) and the front (right)  662ms
+ ✓ __tests__/storytime-loops-content.test.ts (103 tests) 849ms
+ ✓ __tests__/storytime-loops-audio.test.ts (14 tests) 508ms
+ ✓ __tests__/storytime-print-card-kit-adversarial.test.ts (13 tests) 381ms
+ ✓ __tests__/storytime-print-card-pictures.test.ts (13 tests) 476ms
+ ✓ __tests__/storytime-loops-schema.test.ts (27 tests) 410ms
+ ✓ __tests__/storytime-loops-manual.test.ts (10 tests) 424ms
+ ✓ __tests__/storytime-week.test.ts (44 tests) 337ms
+ ✓ __tests__/storytime-manual.test.ts (27 tests) 290ms
+ ✓ __tests__/covers-kit.test.ts (6 tests) 246ms
+ ✓ __tests__/storytime-phonemes.test.ts (7 tests) 56ms
+ ✓ __tests__/storytime-print-dictation-case.test.ts (2 tests) 72ms
+ ✓ __tests__/storytime-phonics.test.ts (7 tests) 66ms
+ ✓ __tests__/storytime-print-e4-back-list.test.ts (7 tests) 10ms
+ ✓ __tests__/covers-back.test.ts (7 tests) 51ms
+ ✓ __tests__/storytime-print-card-kit-cli.test.ts (8 tests) 11ms
+ ✓ __tests__/covers-contract.test.ts (9 tests) 27ms
+ ✓ __tests__/storytime-book-audio.test.ts (8 tests) 28ms
+ ✓ __tests__/print-pdfx.test.ts (7 tests) 18ms
+
+ Test Files  56 passed (56)
+      Tests  1217 passed (1217)
+   Start at  21:07:31
+   Duration  1084.30s (transform 7.13s, setup 7.46s, import 20.67s, tests 990.01s, environment 49.77s)
+
+exit: 0

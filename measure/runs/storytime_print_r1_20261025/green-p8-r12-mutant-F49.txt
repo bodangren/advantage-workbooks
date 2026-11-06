@@ -1,0 +1,43 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r2.test.ts --maxWorkers=1' (mutant: the line 'if (third === "") return 'none';' is removed from dashboard/lib/storytime/print/card-kit.ts)
+
+     ✓ R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total  12735ms
+     ✓ R2-6 gives a word with no letter or digit the fallback slug and rejects a second fallback word of the week 5ms
+     ✓ R2-7 rejects a word that differs by case or by padding, in any week 2ms
+     × X-P8-12 does not count a malformed match line as a picture match 16ms
+     ✓ R2-8 counts the lines of the shipped kit by source and the four counts add up 117ms
+     ✓ R2-9 draws exactly the dot count of each number word, in rows of at most 5 dots, inside the view box 16ms
+     ✓ R2-10 treats a label that is an Object.prototype name as a plain picture card 2ms
+     ✓ R2-11 prints a color patch and no picture, even when a card row is delivered for that word 1ms
+     ✓ R2-12 ignores an override for a label that is not on the sheet and a value that is not two percentages 3ms
+     ✓ X-P8-13 prints a sticker whose label is an Object.prototype name at the default centre 0ms
+     ✓ R2-13 does not deliver a row that has a color file and no line-art file, and keeps the rows around it 20ms
+     ✓ R2-14 builds the 31 shipped card rows with one id and one file for each word 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-print-card-kit-adversarial-r2.test.ts > the match counts > X-P8-12 does not count a malformed match line as a picture match
+AssertionError: a line with fewer than 3 columns is not a picture: expected 3 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 3
+
+ ❯ __tests__/storytime-print-card-kit-adversarial-r2.test.ts:313:85
+    311|     it('X-P8-12 does not count a malformed match line as a picture mat…
+    312|         const counts = storytimeCardMatchCounts(['picture\tfan', '', '…
+    313|         expect(counts.picture, 'a line with fewer than 3 columns is no…
+       |                                                                                     ^
+    314|     });
+    315| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  21:31:57
+   Duration  44.21s (transform 555ms, setup 154ms, import 884ms, tests 41.16s, environment 1.02s)
+
+exit: 1

@@ -1,0 +1,43 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts" --maxWorkers=1'
+
+     ✓ B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside  818ms
+ ✓ __tests__/storytime-print-binding-practice.test.ts (4 tests) 3688ms
+     ✓ fills the 8-week book to 136 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)  2872ms
+     ✓ keeps the week 1 book at 20 pages without an end pad  418ms
+     ✓ draws a full-width rule for each practice-text line without one bottom border  387ms
+ ✓ __tests__/storytime-print-readers-adversarial.test.ts (12 tests) 4164ms
+     ✓ ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file  1569ms
+     ✓ ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made  1815ms
+     ✓ ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both  494ms
+ ✓ __tests__/storytime-print-reader-howto.test.ts (17 tests) 1895ms
+     ✓ R-A47-2 the steps are cut, fold, staple, in that order, and each has a diagram  323ms
+     ✓ R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check  401ms
+ ✓ __tests__/storytime-print-covers.test.ts (4 tests) 1648ms
+     ✓ checks each shipped week 1 reader cover for Sprout and catches a copied cover mutation  411ms
+     ✓ composes each teacher-book side as an opaque 300 ppi image at the specified trim  1129ms
+ ✓ __tests__/storytime-print-student-book-adversarial-r2.test.ts (49 tests) 1655ms
+     ✓ R2: prints the exact address of a good non-shipped path  638ms
+     ✓ R2: prints one code when the read-along path is absent  483ms
+     ✓ R2: prints no code and still renders when both paths are absent  328ms
+ ✓ __tests__/storytime-print-contract-r3.test.ts (43 tests) 1840ms
+     ✓ R20: throws on the 27th occurrence instead of cycling suffixes  332ms
+ ✓ __tests__/storytime-print-readers-adversarial-r2.test.ts (10 tests) 1731ms
+     ✓ ADV-P4-R2-REGEX-ID a row id with regular-expression characters matches its own file names only  504ms
+     ✓ ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not  904ms
+ ✓ __tests__/storytime-print-contract.test.ts (47 tests) 1592ms
+ ✓ __tests__/storytime-print-contract-v2.test.ts (25 tests) 1448ms
+     ✓ gives every row the line-art name of FR-2.3 and FR-9  419ms
+ ✓ __tests__/storytime-print-card-kit.test.ts (12 tests) 1050ms
+     ✓ R-P8-1 the sound cards, the letter cards, and the frame cards of unit 1  304ms
+ ✓ __tests__/storytime-print-card-kit-adversarial.test.ts (13 tests) 400ms
+ ✓ __tests__/storytime-print-card-pictures.test.ts (13 tests) 358ms
+ ✓ __tests__/storytime-print-dictation-case.test.ts (2 tests) 55ms
+ ✓ __tests__/storytime-print-card-kit-cli.test.ts (8 tests) 22ms
+ ✓ __tests__/storytime-print-e4-back-list.test.ts (7 tests) 46ms
+
+ Test Files  38 passed (38)
+      Tests  837 passed (837)
+   Start at  20:49:41
+   Duration  897.77s (transform 5.94s, setup 8.80s, import 20.05s, tests 811.05s, environment 43.63s)
+
+exit: 0

@@ -1,0 +1,43 @@
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r2.test.ts --maxWorkers=1' (mutant: the line 'if (!Object.hasOwn(centres, label)) return STORYTIME_STICKER_DEFAULT_CENTRE;' is removed from dashboard/lib/storytime/print/card-kit.ts)
+
+     ✓ R2-2 requests both classes of week 1 when no job id equals a row id  477ms
+     ✓ R2-3 ignores a job of a week that --weeks does not request  11819ms
+     ✓ R2-4 gives each class of each week a result line or a skip line for the book rows of week 1 and the card rows of week 2  13427ms
+     ✓ R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total  11608ms
+     ✓ R2-6 gives a word with no letter or digit the fallback slug and rejects a second fallback word of the week 4ms
+     ✓ R2-7 rejects a word that differs by case or by padding, in any week 2ms
+     ✓ X-P8-12 does not count a malformed match line as a picture match 0ms
+     ✓ R2-8 counts the lines of the shipped kit by source and the four counts add up 107ms
+     ✓ R2-9 draws exactly the dot count of each number word, in rows of at most 5 dots, inside the view box 19ms
+     ✓ R2-10 treats a label that is an Object.prototype name as a plain picture card 3ms
+     ✓ R2-11 prints a color patch and no picture, even when a card row is delivered for that word 1ms
+     ✓ R2-12 ignores an override for a label that is not on the sheet and a value that is not two percentages 4ms
+     × X-P8-13 prints a sticker whose label is an Object.prototype name at the default centre 9ms
+     ✓ R2-13 does not deliver a row that has a color file and no line-art file, and keeps the rows around it 24ms
+     ✓ R2-14 builds the 31 shipped card rows with one id and one file for each word 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-print-card-kit-adversarial-r2.test.ts > the sticker centre overrides > X-P8-13 prints a sticker whose label is an Object.prototype name at the default centre
+TypeError: raw.trim is not a function
+ ❯ stickerCentre lib/storytime/print/card-kit.ts:907:23
+    905|     const raw = centres[label];
+    906|     if (raw === undefined) return STORYTIME_STICKER_DEFAULT_CENTRE;
+    907|     const value = raw.trim();
+       |                       ^
+    908|     return STICKER_CENTRE_PATTERN.test(value) ? value : STORYTIME_STIC…
+    909| }
+ ❯ lib/storytime/print/card-kit.ts:975:99
+ ❯ compileStorytimeStickerSheet lib/storytime/print/card-kit.ts:970:28
+ ❯ positions __tests__/storytime-print-card-kit-adversarial-r2.test.ts:416:22
+ ❯ __tests__/storytime-print-card-kit-adversarial-r2.test.ts:447:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  21:33:07
+   Duration  40.48s (transform 496ms, setup 91ms, import 707ms, tests 38.53s, environment 723ms)
+
+exit: 1

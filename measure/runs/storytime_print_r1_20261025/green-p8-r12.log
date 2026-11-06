@@ -1,0 +1,65 @@
+# Green log: Phase 8, adversarial remediation r2 (F49, F50)
+
+Track: storytime_print_r1_20261025 (short id storytime_print_r1).
+Phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval). Phase id P8.
+Role: measure-jr-green (Green, adversarial remediation of Phase 8).
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65.
+role_base_sha: f2692ef1e7b65a8c25dc460fb71a7c14fcf300bc.
+Findings file: measure/runs/storytime_print_r1_20261025/adversarial-p8-f59a634b.json.
+Routing: F49=FIX; F50=FIX.
+
+## The two fixes
+
+F49 (X-P8-12): `storytimeCardMatchSource` in `dashboard/lib/storytime/print/card-kit.ts` read the third column of a match line with `fields[2] ?? ''`. A line with fewer than three columns had an empty third column, so the function returned `picture`. The fix returns `none` when the third column is missing or empty. `storytimeCardMatchCounts` uses that function, so it counts such a line as `none`. The JSDoc of both functions names the rule.
+
+F50 (X-P8-13): `stickerCentre` in the same file read `centres[label]`. The centre map is a plain object, so a label such as `constructor`, `toString`, or `__proto__` returned an inherited member, and `raw.trim()` threw. The fix reads the centre only when `Object.hasOwn(centres, label)` holds. A label without an own key prints at the default centre `50% 50%`. The values of `STORYTIME_STICKER_CENTER_OVERRIDES` and the sticker layout stay the same.
+
+The two `it.fails` markers of X-P8-12 (line 311) and X-P8-13 (line 445) in `dashboard/__tests__/storytime-print-card-kit-adversarial-r2.test.ts` are now `it`. The precedent is commit 03e20aac, which did the same for X-P8-10 and X-P8-11. No other line of any test file changed.
+
+## The code commit
+
+`9ef650dd380cbc848e4cf36e852bda13c13887bf` — fix(storytime): malformed match lines count as none, and sticker centres read own keys only (storytime_print_r1).
+The commit holds `dashboard/lib/storytime/print/card-kit.ts` and `dashboard/__tests__/storytime-print-card-kit-adversarial-r2.test.ts`.
+
+## The gates
+
+Each gate ran through heavy-run in the foreground, one at a time, with `--maxWorkers=1` and no `--testTimeout`.
+
+1. The adversarial file: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-adversarial-r2.test.ts --maxWorkers=1`. Exit 0, 1 file, 16 tests of 16 passed. Capture: `green-p8-r12-adv.txt`.
+2. `GREEN_TEST_COMMAND` with `--maxWorkers=1`: exit 0, 38 files, 837 tests passed. Capture: `green-p8-r12-green.txt`.
+3. `PROJECT_TESTS` with `--maxWorkers=1`: exit 0, 56 files, 1217 tests passed. Capture: `green-p8-r12-project.txt`.
+4. `PROJECT_LINT`: exit 0, no output. Capture: `green-p8-r12-lint.txt`.
+5. `PROJECT_CHECKS`: exit 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. `npx tsc --noEmit` reports no error. Capture: `green-p8-r12-checks.txt`.
+
+The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+
+## The mutants
+
+Each mutant changed one line of `dashboard/lib/storytime/print/card-kit.ts`, ran the adversarial file only, and was restored from a copy.
+
+- Mutant F49: the line `if (third === '') return 'none';` was removed. X-P8-12 failed with "expected 3 to be +0". Exit 1, 1 failed and 15 passed. Capture: `green-p8-r12-mutant-F49.txt`.
+- Mutant F50: the line `if (!Object.hasOwn(centres, label)) return STORYTIME_STICKER_DEFAULT_CENTRE;` was removed. X-P8-13 failed with the error "raw.trim is not a function". Exit 1, 1 failed and 15 passed. Capture: `green-p8-r12-mutant-F50.txt`.
+
+Both mutants came back byte for byte. The check `cmp` against the copy and the check `cmp` against the committed file both passed.
+
+## The plan evidence
+
+The plan file `measure/tracks/storytime_print_r1_20261025/plan.md` holds the new Green task line before the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'". The line names the routing, the code commit, the five gates with their exit codes and counts, the two mutants, the two `it.fails` markers, and the dispositions.
+
+## The result
+
+No known failure. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, adversarial remediation r2 of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: code commit 9ef650dd380cbc848e4cf36e852bda13c13887bf (fix(storytime): malformed match lines count as none, and sticker centres read own keys only (storytime_print_r1)); plan evidence commit: the commit that holds plan.md, the seven captures, and this log, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha f2692ef1e7b65a8c25dc460fb71a7c14fcf300bc; final Green HEAD 9ef650dd380cbc848e4cf36e852bda13c13887bf at the code commit
+tests_run: the adversarial file after the change, exit 0 with 1 file and 16 tests passed; GREEN_TEST_COMMAND with --maxWorkers=1, exit 0 with 38 files and 837 tests passed; PROJECT_TESTS with --maxWorkers=1, exit 0 with 56 files and 1217 tests passed; PROJECT_LINT exit 0 with no output; PROJECT_CHECKS exit 0 with 0 FAIL lines, 1 warning (print-missing), the published check passing, and tsc clean; mutant F49 exit 1 with 1 failed and 15 passed, the failed test is X-P8-12; mutant F50 exit 1 with 1 failed and 15 passed, the failed test is X-P8-13; the adversarial file after both restores, exit 0 with 16 tests passed
+files_changed: dashboard/lib/storytime/print/card-kit.ts, dashboard/__tests__/storytime-print-card-kit-adversarial-r2.test.ts, measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r12-adv.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-green.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-project.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-lint.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-mutant-F49.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12-mutant-F50.txt, measure/runs/storytime_print_r1_20261025/green-p8-r12.log
+plan_updates: the new Green task line sits before the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" and is [x] with commit 9ef650dd; it names the routing F49=FIX and F50=FIX, the code commit, the F49 and F50 rules, the two removed it.fails markers with the precedent 03e20aac, the five gates with their exit codes and counts, the two mutants, the clean lock and content check, and the dispositions line; the owner gate stays [ ]
+known_failures: none
+handoff: The committed Red tests stay unchanged except for the two markers of X-P8-12 and X-P8-13, which changed from it.fails to it as commit 03e20aac did for X-P8-10 and X-P8-11. F49: storytimeCardMatchSource gives the source none when the third column of a match line is missing or empty, so storytimeCardMatchCounts counts a malformed line as none and not as a picture; the JSDoc of both functions names the rule. F50: stickerCentre reads the centre only when Object.hasOwn(centres, label) holds, so a sticker whose label is constructor, toString, or __proto__ prints at the default centre 50% 50%; the values of STORYTIME_STICKER_CENTER_OVERRIDES and the sticker layout stay the same. The next role reviews the code commit 9ef650dd and the plan evidence commit. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+dispositions: F49=FIX; F50=FIX
+END_MEASURE_AGENT_RESULT

@@ -1242,6 +1242,21 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - F48 (A-P8-25): the `PROJECT_CHECKS` value of the plan accepts 0 FAIL lines. The new line after the baseline line states that the st2/1 `published` check passes since commit 67be5603.
     - The gate: the new `PROJECT_CHECKS` runs once through heavy-run and exits 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The `npx tsc --noEmit` part reports no error. Capture: `green-p8-r11-checks.txt`.
     - The dispositions of this Green round: F47=FIX; F48=FIX.
+- [x] Task (Green, adversarial remediation r2): fixes for F49 and F50 (adversarial-p8-f59a634b.json). commit 9ef650dd
+    - Routing: F49=FIX; F50=FIX.
+    - Evidence: automated.
+    - The code commit is 9ef650dd380cbc848e4cf36e852bda13c13887bf. It changes `dashboard/lib/storytime/print/card-kit.ts` and the two `it.fails` markers of `dashboard/__tests__/storytime-print-card-kit-adversarial-r2.test.ts`.
+    - F49 (X-P8-12): `storytimeCardMatchSource` gives the source `none` when the third column of the line is missing or empty. `storytimeCardMatchCounts` counts such a line as `none`, not as a picture. The JSDoc of both functions names the rule.
+    - F50 (X-P8-13): `stickerCentre` reads the centre only when `Object.hasOwn(centres, label)` holds. A label such as `constructor` or `__proto__` has no own key, so the sticker prints at the default centre `50% 50%`. The values of `STORYTIME_STICKER_CENTER_OVERRIDES` and the sticker layout stay the same.
+    - The two `it.fails` markers of X-P8-12 (line 311) and X-P8-13 (line 445) are now `it`. The precedent is commit 03e20aac, which did the same for X-P8-10 and X-P8-11. No other line of any test file changed.
+    - The adversarial file: exit 0, 1 file, 16 tests of 16 passed. Capture: `green-p8-r12-adv.txt`.
+    - `GREEN_TEST_COMMAND` with `--maxWorkers=1`: exit 0, 38 files, 837 tests passed. Capture: `green-p8-r12-green.txt`.
+    - `PROJECT_TESTS` with `--maxWorkers=1`: exit 0, 56 files, 1217 tests passed. Capture: `green-p8-r12-project.txt`.
+    - `PROJECT_LINT`: exit 0, no output. Capture: `green-p8-r12-lint.txt`.
+    - `PROJECT_CHECKS`: exit 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). The `published` check passes. `npx tsc --noEmit` reports no error. Capture: `green-p8-r12-checks.txt`.
+    - The mutants: the F49 line removed makes X-P8-12 fail (exit 1, 1 failed and 15 passed). The `Object.hasOwn` guard removed makes X-P8-13 fail (exit 1, 1 failed and 15 passed). Each file came back byte for byte (`cmp`). Captures: `green-p8-r12-mutant-F49.txt` and `green-p8-r12-mutant-F50.txt`.
+    - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+    - The dispositions of this Green round: F49=FIX; F50=FIX.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
