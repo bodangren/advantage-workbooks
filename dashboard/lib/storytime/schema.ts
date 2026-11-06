@@ -391,6 +391,32 @@ export const RecallSchema = z
     })
     .strict();
 
+/**
+ * One shot of a parent-share moment (share FR-14): the step of the lesson and the media of the shot.
+ * Strict, so a misspelled key fails the parse. The shot holds no file path.
+ */
+export const ShareShotSchema = z
+    .object({
+        /** The step of the shot, in the form `A1` (the form of `StepSchema.id`). */
+        step: z.string().regex(/^[A-Z]\d{1,2}$/),
+        /** The media of the shot: a photo or a video. */
+        media: z.enum(['photo', 'video']),
+    })
+    .strict();
+
+/**
+ * The parent-share moment of one day (share FR-14): one or two shots and the caption of the post.
+ * Strict, so an extra key fails the parse. It holds no minutes, no file path, and no name of a child.
+ */
+export const ShareSchema = z
+    .object({
+        /** The one or two shots of the moment. */
+        shots: z.array(ShareShotSchema).min(1).max(2),
+        /** The caption of the post, in English and in Thai. */
+        caption: BiTextSchema,
+    })
+    .strict();
+
 export const ScriptSchema = z.object({
     id: ScriptIdSchema,
     day: z.number().int().min(1).max(5),
@@ -400,6 +426,8 @@ export const ScriptSchema = z.object({
     steps: z.array(StepSchema).min(1),
     /** The recall of the day (loops FR-6), shown in the opening; optional in the schema. */
     recall: RecallSchema.optional(),
+    /** The parent-share moment of the day (share FR-14); optional in the schema, and the check `share-moment` requires it. */
+    share: ShareSchema.optional(),
 });
 
 /** The printed review deck of one day (design §4). */

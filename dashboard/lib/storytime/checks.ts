@@ -327,6 +327,10 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     // a loop check with the status `fail` (the Phase 3 switch) also blocks a published week.
     if (level >= 2) checks.push(...loopChecks(w, taught, others));
 
+    // The parent-share moment of each day (share FR-14): Levels 2 to 4 only, teach weeks and review
+    // weeks. It comes before the published block, so that a `fail` after the switch also blocks a week.
+    if (level >= 2) checks.push(shareCheck(w));
+
     // A published week is on the public page: every app part approved, no failed check. The
     // print part stays out (rule G5): the print approval is its own later gate. The loops part
     // stays out too: it gates the routines in the app, not the publication of the week.
@@ -508,6 +512,73 @@ function minutesCheck(w: StorytimeWeek, steps: StorytimeStep[]): PackageCheck {
         if (openingMinutes + main !== periodMinutes) problems.push(`${s.id}: ${openingMinutes} + ${main} = ${openingMinutes + main} with loopMinutes, not ${periodMinutes}`);
     }
     return loopCheck('loops-minutes', 'The loop minutes fill the period; only loop steps change', problems);
+}
+
+/**
+ * The status of the share-moment check (share FR-14): `warn` from the Green task to the switch task, and
+ * `fail` after the switch task, as `LOOP_CHECK_STATUS` was (FR-8, D12). A problem carries this status.
+ */
+export const SHARE_CHECK_STATUS: CheckStatus = 'warn';
+
+/** The 17 media file extensions of the Monorepo `MEDIA_EXTENSION` (share FR-14, rule 7). */
+const SHARE_MEDIA_EXTENSION = /\.(mp3|wav|m4a|aac|ogg|opus|mp4|m4v|webm|mov|jpg|jpeg|png|webp|gif|svg|pdf)$/i;
+
+/** The assessment step of a teach week and of a review week (share FR-14, rule 5). */
+const ASSESSMENT_STEPS: Record<'teach' | 'review', string> = { teach: 'E5', review: 'A1' };
+
+/**
+ * The words of a caption, as share FR-14 rule 6 counts them: trim it, split it on runs of white space,
+ * and count the non-empty parts.
+ * @param text The caption text.
+ * @returns The number of words, and 0 for a text of spaces only.
+ */
+const captionWords = (text: string): number => {
+    const trimmed = text.trim();
+    return trimmed ? trimmed.split(/\s+/).length : 0;
+};
+
+/**
+ * The check `share-moment` (share FR-14): each day of a Level 2 to 4 week has a parent-share moment, and
+ * each moment follows rules 1 to 7 of the spec. The check needs no taught set and no other week, so it
+ * skips no part. A problem carries the status `SHARE_CHECK_STATUS`.
+ * @param w The parsed week of Level 2 to 4.
+ * @returns The check row.
+ */
+function shareCheck(w: StorytimeWeek): PackageCheck {
+    const problems: string[] = [];
+    const assessment = ASSESSMENT_STEPS[w.meta.kind];
+    for (const script of w.scripts) {
+        const day = `day ${script.day}`;
+        const { share } = script;
+        if (!share) {
+            problems.push(`${day}: no share moment`);
+            continue;
+        }
+        // Rule 2: the step of the own script, or a moved step of the script of the day before.
+        const own = new Set(script.steps.map((st) => st.id));
+        const before = w.scripts.find((s) => s.day === script.day - 1);
+        const movedBefore = new Set((before?.steps ?? []).filter((st) => st.moved === 'next-opening').map((st) => st.id));
+        // The period of the day: the own steps without `moved`, and the moved steps of the day before.
+        const period = new Set([...script.steps.filter((st) => !st.moved).map((st) => st.id), ...movedBefore]);
+        for (const shot of share.shots) {
+            if (!own.has(shot.step) && !movedBefore.has(shot.step)) problems.push(`${day}: ${shot.step} is not a step of the script or a moved step of the day before`);
+            // Rule 5: no shot of a check shows the check items and a child under test.
+            if (shot.step === assessment) problems.push(`${day}: ${shot.step} is an assessment step`);
+        }
+        // Rule 3: at least one shot in the period of the day.
+        if (!share.shots.some((shot) => period.has(shot.step))) problems.push(`${day}: no shot in the period of the day`);
+        // Rule 4: the two shots name two different steps.
+        if (new Set(share.shots.map((shot) => shot.step)).size !== share.shots.length) problems.push(`${day}: two shots name the same step`);
+        // Rule 6: 1 to 40 English words, and a Thai caption that is not empty.
+        const words = captionWords(share.caption.en);
+        if (words < 1 || words > 40) problems.push(`${day}: the English caption has ${words} words, not 1 to 40`);
+        if (!share.caption.th.trim()) problems.push(`${day}: the Thai caption is empty`);
+        // Rule 7: no caption string ends in a media file extension.
+        for (const [lang, text] of [['English', share.caption.en], ['Thai', share.caption.th]] as const) {
+            if (SHARE_MEDIA_EXTENSION.test(text)) problems.push(`${day}: the ${lang} caption ends in a media file extension`);
+        }
+    }
+    return check('share-moment', 'Each day has a parent-share moment of 1 or 2 shots with a caption', problems, SHARE_CHECK_STATUS);
 }
 
 /** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
