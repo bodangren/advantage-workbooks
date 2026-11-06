@@ -1283,6 +1283,38 @@ describe('Storytime two-output picture check', () => {
         expect(run.stdout).toContain(`fail  ${weekCards[4].id}`);
     }, 120_000);
 
+    it('R-P8-F40 prints the skip line for card rows in a book-only week 1 batch', async () => {
+        const run = await runPictureCli(await cardCliBatch([], week1Rows()), '1');
+        const output = run.stdout as string;
+        expect(run.status, `${output}\n${run.stderr}`).toBe(0);
+        expect(output).toContain('skip  card rows of week 1: the batch holds no job for them');
+        expect(output).not.toContain('l2-w01-card-');
+    }, 120_000);
+
+    it('R-P8-F45 reports requested-row totals in card-only and book-only batches', async () => {
+        const source = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'card-pictures.json'), 'utf8')) as Array<Record<string, unknown>>;
+        const pictures = await import('../lib/storytime/print/pictures');
+        const cards = pictures.storytimeCardPictureRows(source as never[], 2) as unknown as Array<Record<string, unknown>>;
+        const cardRun = await runPictureCli(await cardCliBatch(cards), '1,2,3,4,5,6,7');
+        expect(cardRun.status, `${cardRun.stdout}\n${cardRun.stderr}`).toBe(0);
+        expect(cardRun.stdout).toMatch(/^31 of 31 rows pass stage 1 \(.*\)$/m);
+
+        const bookRun = await runPictureCli(await cardCliBatch([], week1Rows()), '1');
+        expect(bookRun.status, `${bookRun.stdout}\n${bookRun.stderr}`).toBe(0);
+        expect(bookRun.stdout).toMatch(/^29 of 29 rows pass stage 1 \(.*\)$/m);
+    }, 120_000);
+
+    it('R-P8-F44 documents the skipped-row rule in picture-check usage', async () => {
+        const { spawnSync } = await import('node:child_process');
+        const help = spawnSync(process.execPath, ['--import', 'tsx', pictureBatchCliPath, '--help'], {
+            encoding: 'utf8', timeout: 120_000,
+        });
+        const output = `${help.stdout}\n${help.stderr}`;
+        expect(help.status, output).toBe(0);
+        expect(output).toContain('skip  <class> rows of week <N>');
+        expect(output).toMatch(/skipped rows do not count in the summary/i);
+    }, 120_000);
+
     it('R-P8-F36 prints a clean error when duplicate words break the card list', async () => {
         const repo = temp();
         const level = path.join(repo, 'content', 'storytime', 'l2');
