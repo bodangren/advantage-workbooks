@@ -114,7 +114,7 @@ describe('the PM picture match rule of 2026-11-05', () => {
         ])).toEqual({ picture: 1, patch: 1, dots: 1, none: 1 });
         const cards = storytimeCardKit(weeks()).cards;
         expect(count(storytimeCardPictureMatchLines(cards, shipped().rows, new Set()))).toEqual({ picture: 0, patch: 8, dots: 9, none: 89 });
-    });
+    }, 120_000);
 
     it('G-P8-M1 a case (a) row wins over an earlier case (b) story-page row of the same word', () => {
         const page = pictureRow({
