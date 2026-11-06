@@ -1141,8 +1141,8 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The routed findings F20 to F31 are in review-a-p8-d5a8775e.json, review-b-p8-d5a8775e.json, and review-c-p8-d5a8775e.json. The dispositions are F20=FIX; F21=FIX; F22=FIX; F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX; F31=FIX. No finding is declined, contested, or escalated.
     - `RED_TEST_COMMAND` with `--maxWorkers=1` and no `--testTimeout`: exit 1, 37 files, 5 failed and 809 passed. Only expected F20, F22, F24, F25, and F30 tests fail. F23, F26, and F29 strengthening tests pass. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r7-red.txt`.
     - ESLint on the five changed test files exits 0. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r7-lint.txt`. The report is `measure/runs/storytime_print_r1_20261025/red-p8-r7.log`.
-- [~] Task (Green, review round 4 remediation): code and plan fixes for F20 to F31.
-    - Phase facts: phase_base_sha 709dd19c, role_base_sha 23643f26. Code commits 34d37ffc and 1aa9d06d. Evidence: automated. No new file. The task stays `[~]`, because the Red test defect G-P8-M8 still fails.
+- [x] Task (Green, review round 4 remediation): code and plan fixes for F20 to F31. commit 34d37ffc
+    - Phase facts: phase_base_sha 709dd19c, role_base_sha 23643f26. Code commits 34d37ffc and 1aa9d06d. Evidence: automated. No new file. The task stayed `[~]` in r7, because the Red test defect G-P8-M8 failed. The Red retry b133c242 fixes that defect, so the r8 gates exit 0 and the task is `[x]`.
     - The routed findings F20 to F31 are in review-a-p8-d5a8775e.json, review-b-p8-d5a8775e.json, and review-c-p8-d5a8775e.json. The dispositions are F20=FIX; F21=FIX; F22=FIX; F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX; F31=FIX. No finding is declined, contested, or escalated.
     - F20 (A-P8-7): `check-storytime-pictures.ts` requests the card rows of the requested weeks after the book rows. A card row of a week is requested when the batch holds a job for it, or when the batch holds no job for any row of that week. A batch that holds the book rows of a week holds no card row of that week, so its request stays the book rows. That rule keeps R-P4-28 and R-P8-F20 both green.
     - F21 (A-P8-8): the JSDoc of `STORYTIME_STICKER_CENTER_OVERRIDES` and of the option `centers` names the sticker label as the only key. No behavior change.
@@ -1167,6 +1167,14 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The check build: `npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --version 2 --out /home/daniebo/Desktop/print-ready/storytime/card-kit-r7-check` exits 0. It writes A5 7 pages, A6 38 pages, and the sticker sheet 1 page. The two count lines are `picture cards: 106, picture 57, patch 8, dots 9, none 32` and `distinct words: 94, picture 46, patch or dots 17, none 31`. The `card-picture-match.txt` of the build is byte for byte the r2 report (`cmp` exit 0). The check folder is removed, and `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` stay untouched. Captures: `green-p8-r7-build.txt` and `green-p8-r7-match-compare.txt`.
     - The gates changed no lock file, no week 1 media file, and no content file: `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty after each gate.
     - The next Green runs the gates again after the Mid Red retry. It changes no code when the gates exit 0.
+    - Green r8 phase facts: role_base_sha b51482a8. The Red retry commit b133c242 gives the test G-P8-M8 the 120_000 ms timeout of its sibling tests. This round changed no code file and no test file.
+    - The 5 Red files of r8: exit 0, 5 files, 100 tests passed. The test G-P8-M8 took 26118 ms. Capture: `green-p8-r8-targeted.txt`.
+    - `GREEN_TEST_COMMAND`: exit 0, 37 files, 814 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r8-green.txt`.
+    - `PROJECT_TESTS`: exit 0, 55 files, 1194 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r8-project.txt`.
+    - `PROJECT_LINT`: exit 0, no problem. Capture: `green-p8-r8-lint.txt`.
+    - `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `npx tsc --noEmit` reports no error. Capture: `green-p8-r8-checks.txt`.
+    - The r8 gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty after each gate.
+    - The four r8 gates exit 0, so the Green task is `[x]` with the code commit 34d37ffc. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)

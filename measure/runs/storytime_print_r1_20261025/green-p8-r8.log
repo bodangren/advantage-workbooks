@@ -1,0 +1,78 @@
+# Green r8 log: storytime_print_r1_20261025, Phase 8 (P8)
+
+Role: measure-jr-green (Green retry r8, review round 4 remediation of Phase 8).
+Track: storytime_print_r1_20261025 (short id storytime_print_r1).
+Phase: P8 - "Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)".
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65.
+role_base_sha: b51482a875bc8414d9c0cee0fb900730d7c1500c.
+
+State at the start: Green r7 committed the code for F20 to F31 (34d37ffc, 1aa9d06d) and its plan evidence (8764c3bc). The Red retry r8 gave the test G-P8-M8 the 120_000 ms timeout (test commit b133c242, plan commit b51482a8). The five Red files pass with 100 tests in the Red r8 capture. No code change is expected from this Green.
+
+## Steps
+
+1. Read the plan, the spec, the test strategy, and the Red r8 capture.
+2. Confirm the base SHAs and the Red change inside phase_base_sha..HEAD.
+3. Rerun the targeted Red command.
+4. Run the four gates through heavy-run, one at a time.
+5. Update the plan with the r8 evidence, mark the Green task `[x]`, and commit the plan, the captures, and this log.
+
+## Base SHAs
+
+- `git rev-parse HEAD` gives `b51482a875bc8414d9c0cee0fb900730d7c1500c`, which is the role_base_sha of this role.
+- `git merge-base --is-ancestor 709dd19c b133c242` exits 0, so the Red test commit b133c242 is inside `phase_base_sha..HEAD`.
+- The commits inside `phase_base_sha..HEAD` are 9381c0cf (Red tests), 23643f26 (Red plan), 34d37ffc (Green code), 1aa9d06d (Green code fix), 8764c3bc (Green r7 plan), b133c242 (Red retry test), and b51482a8 (Red retry plan).
+
+## Step 3: the targeted Red command
+
+The Red command of this round is the five Red files of the review round 4 remediation. It failed in r7 on the test G-P8-M8, which timed out after 5000 ms. The Red retry b133c242 gives that test the 120_000 ms timeout of its sibling tests, so the command no longer fails.
+
+Command:
+
+```
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-match.test.ts __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-stickers.test.ts __tests__/storytime-print-card-pictures.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1'
+```
+
+Result: exit 0, 5 test files passed, 100 tests passed. The test G-P8-M8 took 26118 ms. Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r8-targeted.txt`.
+
+## Step 4: the four gates
+
+Each gate ran in the foreground, one at a time, through the heavy-run wrapper. Each command holds `--maxWorkers=1` where the plan gives a test command. No gate holds `--testTimeout`.
+
+1. `GREEN_TEST_COMMAND`: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts" --maxWorkers=1`. Exit 0. 37 test files passed, 814 tests passed. Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r8-green.txt`.
+2. `PROJECT_TESTS`: `cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1`. Exit 0. 55 test files passed, 1194 tests passed. Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r8-project.txt`.
+3. `PROJECT_LINT`: `cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts`. Exit 0, no problem. Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r8-lint.txt`.
+4. `PROJECT_CHECKS`: `cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s\n" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit`. Exit 0. The check-weeks part holds the one known `published` FAIL, and `tsc --noEmit` reports no error. Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r8-checks.txt`.
+
+After each gate, `git status --porcelain -- pnpm-lock.yaml content/storytime/l2/media/w01 content/` was empty. The lock file did not change, so no `git checkout -- pnpm-lock.yaml` ran. The week 1 media folder did not change, so no copy to `green-p8-r8-w01-web-media/` was needed.
+
+## Step 5: the plan
+
+The plan file `measure/tracks/storytime_print_r1_20261025/plan.md` holds the changes of this round only:
+
+- The Green task line of review round 4 remediation changes from `[~]` to `[x]` and gains `commit 34d37ffc`.
+- Its phase-facts sub-line changes its tense for the r7 fact and names the Red retry b133c242.
+- Eight sub-lines are added for the r8 evidence: the phase facts, the targeted Red run, the four gates, the clean worktree, and the state of the owner gate.
+
+The line "- [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)" stays open. No other file of the plan changed. The `git diff` of the plan holds only these lines.
+
+## Notes for the reviewers
+
+- This round changed no code file and no test file. The code of the review round 4 remediation is the code of commits 34d37ffc and 1aa9d06d.
+- The commits 34d37ffc and 1aa9d06d are the code commits of the review round 4 remediation. The plan line of the Green task now names 34d37ffc.
+- The Red r8 commit b133c242 changed one line of `dashboard/__tests__/storytime-print-card-kit-match.test.ts`: the timeout of the test G-P8-M8. That file is a Red file and this role did not change it.
+- The A6 file of the card kit is not rebuilt in this round. The A6 file waits for the 31 Forge card pictures (PM, 2026-11-06).
+- The worktree holds many untracked Measure run artifacts and unrelated work from other sessions. This role preserved them and staged only the named deliverables.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_print_r1_20261025
+phase: P8 - Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)
+commits: 34d37ffc and 1aa9d06d (the code of the review round 4 remediation, from Green r7); b133c242 (the Red retry test commit); b51482a8 (the Red retry plan commit); the plan commit of this log holds plan.md, the five captures, and this log; no code commit in this round because no code changed
+tests_run: the five Red files (exit 0, 5 files, 100 tests passed, G-P8-M8 in 26118 ms); GREEN_TEST_COMMAND (exit 0, 37 files, 814 tests passed); PROJECT_TESTS (exit 0, 55 files, 1194 tests passed); PROJECT_LINT (exit 0, no problem); PROJECT_CHECKS (exit 0, the one known published FAIL holds and tsc --noEmit reports no error)
+files_changed: measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/green-p8-r8-green.txt; measure/runs/storytime_print_r1_20261025/green-p8-r8-project.txt; measure/runs/storytime_print_r1_20261025/green-p8-r8-lint.txt; measure/runs/storytime_print_r1_20261025/green-p8-r8-checks.txt; measure/runs/storytime_print_r1_20261025/green-p8-r8-targeted.txt; measure/runs/storytime_print_r1_20261025/green-p8-r8.log; no code file and no test file changed in this round
+plan_updates: the Green task line of the review round 4 remediation is now [x] with commit 34d37ffc; its phase-facts sub-line names the Red retry b133c242; eight sub-lines hold the r8 evidence of the four gates, their exit codes, their test counts, and their captures; the line "- [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit'" stays open
+known_failures: none; the four gates exit 0 and the five Red files exit 0; the Red test defect G-P8-M8 of the r7 round is fixed by the Red retry b133c242, which gives that test the 120_000 ms timeout of its sibling tests; the A6 file of the card kit is not rebuilt and waits for the 31 Forge card pictures (PM, 2026-11-06); the owner gate of Phase 8 waits for the Measure user manual verification
+handoff: the review roles of round 4 read the code commits 34d37ffc and 1aa9d06d and the Red retry b133c242; this Green r8 changed no code and no test; the four gates exit 0 with the captures green-p8-r8-green.txt, green-p8-r8-project.txt, green-p8-r8-lint.txt, and green-p8-r8-checks.txt, each ending with its exit code, and the targeted Red capture green-p8-r8-targeted.txt; the new files of this round are those five captures and the log green-p8-r8.log; the phase_base_sha is 709dd19ce412597f5c92cdc3edb5272878a8ec65 and the role_base_sha is b51482a875bc8414d9c0cee0fb900730d7c1500c; the Green HEAD is the plan commit of this log; the next role is the phase acceptance of P8, which must keep the owner gate open
+dispositions: F20=FIX; F21=FIX; F22=FIX; F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX; F31=FIX
+END_MEASURE_AGENT_RESULT
