@@ -382,13 +382,16 @@ function sortKeys(value: unknown): unknown {
 }
 
 /**
- * The week without the FR-1 fields, without the two keys of the print track, and without the two media approvals. Both sides of the additive
- * compare go through this function. `dropTh` is a mutant: a deleter that also removes the Thai notes.
+ * The week without the FR-1 fields, without the two keys of the print track, without the two media approvals, and without the
+ * Phase 3b share moment of each script. Both sides of the additive compare go through this function. `dropTh` is a mutant: a
+ * deleter that also removes the Thai notes.
  */
 function withoutNewFields(week: Raw, dropTh = false): Raw {
     const copy = structuredClone(week);
     for (const script of copy.scripts) {
         delete script.recall;
+        // The parent-share moment of Phase 3b (FR-14) is additive content: both sides of the compare lose it (AC-14.5).
+        delete script.share;
         for (const step of script.steps) {
             delete step.blendDrill;
             delete step.soundLoop;
@@ -471,6 +474,22 @@ describe('the content test itself', () => {
 
     it('has the loop checks at the status fail', () => {
         expect(LOOP_CHECK_STATUS).toBe('fail');
+    });
+
+    it('ignores the share moment in the compare, and still sees a change next to a share', () => {
+        const base = parsed(baselineRaw(1));
+        const same = normalize(base);
+        const withShare = (w: Raw) => {
+            w.scripts[0].share = { shots: [{ step: 'A3', media: 'video' }], caption: { en: 'A caption of the test.', th: 'คำบรรยายของการทดสอบ' } };
+            return w;
+        };
+        // The share moment is additive (FR-14, AC-14.5): the compare must not see it.
+        expect(normalize(withShare(structuredClone(base))), 'a copy with only an added share').toBe(same);
+        // A change of an existing line next to the share must still fail the compare.
+        const changed = withShare(structuredClone(base));
+        const step = changed.scripts[0].steps[0];
+        step.en.teacherActions[0] = 'X' + step.en.teacherActions[0].slice(1);
+        expect(normalize(changed), 'a changed existing line next to a share').not.toBe(same);
     });
 });
 
