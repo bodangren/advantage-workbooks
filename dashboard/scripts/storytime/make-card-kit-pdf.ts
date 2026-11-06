@@ -65,7 +65,9 @@ Files: Storytime-Advantage-L<level>-U1-Card-Kit-A5-v<n>_PDFX-1a.pdf,
 Storytime-Advantage-L<level>-U1-Card-Kit-A6-v<n>_PDFX-1a.pdf,
 Storytime-Advantage-L<level>-U1-Card-Kit-Stickers-v<n>_PDFX-1a.pdf, and card-picture-match.txt
 (the kind, the label, the matched picture-list row id or none, and the match case or the reason of
-a missing picture, one tab-separated line for each picture-type card).
+a missing picture, one tab-separated line for each picture-type card). The third and the fourth
+column hold patch or dots for a color patch card and a number dot card. The build prints two count
+lines: 'picture cards: ...' and 'distinct words: ...'.
 
 Exit code 2 on an argument error or an output folder outside the print folder; 1 when a week does
 not parse, a page count misses the plan, or the PDF/X check fails.`;

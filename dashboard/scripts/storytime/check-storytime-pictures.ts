@@ -23,10 +23,12 @@ Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [-
             every requested week must load exactly once (checkRequestedWeeks)
 
 The command prints one line for each picture-list row of the weeks and a summary line. The card
-rows of the card kit follow the book rows. A batch that holds a job for a card row measures that
-row, and a batch that holds no job for a week measures every row of that week, the card rows
-included. Stage 1 is
-a measurement, never an approval (spec P7); it writes no file.
+rows of the card kit follow the book rows. Each row class of a week is requested on its own. The
+book rows of week N are requested when the batch holds a job for a book row of week N. They are
+requested too when the batch holds no job for any row of week N. The card rows of week N follow
+the same rule with the card rows. Every requested row with no job fails. A class of a week that
+the batch does not request prints one skip line before the summary line. Stage 1 is a measurement,
+never an approval (spec P7); it writes no file.
 
 Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
 once. Exit code 2 on an argument error, on a batch folder without a manifest.json, and on a
@@ -124,16 +126,21 @@ async function main(argv: string[]): Promise<number> {
     // (A-P8-7).
     const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, args.level), args.level)
         .filter((row) => args.weeks.includes(row.week));
-    // The card rows of a week are requested when the batch holds a job for one of them, or when
-    // the batch holds no job for any row of that week: a batch that misses every row of a week
-    // misses the card rows too. A batch that holds the book rows of a week holds no card row of
-    // that week, because the card pictures come in their own delivery, so its request stays the
-    // book rows (A-P8-7, R-P4-28).
+    // Review round 5 (A-P8-16): each row class of each requested week is selected on its own. The
+    // book rows of week N are requested when the manifest holds a job for a book row of week N,
+    // or when the manifest holds no job for any row of week N. The card rows of week N follow the
+    // same rule with the card rows. A batch that delivers only the card rows of a week therefore
+    // passes without the book rows, and a batch that delivers only the book rows passes without
+    // the card rows. Every requested row with no job fails (R-P4-28, R-P8-F20, R-P8-F32).
     const jobIds = manifestJobIds(manifest);
-    const weeksWithJobs = new Set<number>();
-    for (const row of [...bookRows, ...cardRows]) if (jobIds.has(row.id)) weeksWithJobs.add(row.week);
-    const requestedCardRows = cardRows.filter((row) => jobIds.has(row.id) || !weeksWithJobs.has(row.week));
-    const rows = [...bookRows, ...requestedCardRows];
+    const bookJobWeeks = new Set<number>();
+    const cardJobWeeks = new Set<number>();
+    for (const row of bookRows) if (jobIds.has(row.id)) bookJobWeeks.add(row.week);
+    for (const row of cardRows) if (jobIds.has(row.id)) cardJobWeeks.add(row.week);
+    const jobWeeks = new Set<number>([...bookJobWeeks, ...cardJobWeeks]);
+    const requestedBookRows = bookRows.filter((row) => bookJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    const requestedCardRows = cardRows.filter((row) => cardJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    const rows = [...requestedBookRows, ...requestedCardRows];
     if (!rows.length) {
         console.error(`no picture rows for level ${args.level} and weeks ${args.weeks.join(', ')}`);
         return 1;
@@ -141,6 +148,18 @@ async function main(argv: string[]): Promise<number> {
     const report = await checkStorytimePictureBatch(rows, args.batch);
     for (const result of report.results) {
         console.log(result.status === 'pass' ? `pass  ${result.rowId}` : `fail  ${result.rowId}: ${result.reason ?? 'no reason'}`);
+    }
+    // A class of a week that the batch does not request prints one skip line, so that no skip is
+    // silent. A week with no row of that class prints no line. The summary counts the requested
+    // rows only.
+    const rowWeeks = [...new Set([...bookRows, ...cardRows].map((row) => row.week))].sort((a, b) => a - b);
+    for (const week of rowWeeks) {
+        if (bookRows.some((row) => row.week === week) && !requestedBookRows.some((row) => row.week === week)) {
+            console.log(`skip  book rows of week ${week}: the batch holds no job for them`);
+        }
+        if (cardRows.some((row) => row.week === week) && !requestedCardRows.some((row) => row.week === week)) {
+            console.log(`skip  card rows of week ${week}: the batch holds no job for them`);
+        }
     }
     const failed = report.results.filter((result) => result.status === 'fail').length;
     console.log(`${report.results.length - failed} of ${report.results.length} rows pass stage 1 (${args.batch})`);

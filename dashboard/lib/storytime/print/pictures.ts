@@ -253,21 +253,27 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
  * these rows before the book rows (see `storytimeCardPictureRow` in `card-kit.ts`).
  * A word that two entries hold gives two rows with one id and one file name, so the function
  * throws on the second entry. The compare ignores the case, and it holds in every week, because
- * one card word has one file in the whole level (A-P8-12).
+ * one card word has one file in the whole level (A-P8-12). Two words of one week that share a
+ * slug give one row id as well, so the function throws on the second one, and the message names
+ * both words (B-P8-11).
  * @param entries The entries of `readLevelCardPictures`.
  * @param level The Storytime level.
  * @returns The card rows, in file order, to put after the book rows.
- * @throws Error When two entries hold the same word.
+ * @throws Error When two entries hold the same word, or two words of one week share a slug.
  */
 export function storytimeCardPictureRows(entries: StorytimeCardPictureEntry[], level: number): StorytimePictureRow[] {
     const size = STORYTIME_PICTURE_SPEC[STORYTIME_SIZE_CLASS.card];
     const words = new Set<string>();
+    const ids = new Map<string, string>();
     return entries.map((entry) => {
         const word = entry.word.trim();
         const key = word.toLowerCase();
         if (words.has(key)) throw new Error(`card picture word repeat: "${word}" is in the card picture list twice; each card word has one row`);
         words.add(key);
         const id = `l${level}-w${String(entry.week).padStart(2, '0')}-card-${slugOf(word)}`;
+        const other = ids.get(id);
+        if (other !== undefined) throw new Error(`card picture word repeat: "${other}" and "${word}" make the same row id "${id}"; each card word has one row`);
+        ids.set(id, word);
         const fileName = `${id}-v1.png`;
         return {
             id,
