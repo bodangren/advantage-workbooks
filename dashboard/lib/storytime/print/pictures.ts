@@ -251,14 +251,22 @@ export function storytimePrintPictures(weeks: StorytimeWeek[]): StorytimePicture
  * class C of the picture words, and holds `{ <word>: 1 }` as its objects. The id is
  * `<level>-w<NN>-card-<word>`, so a card word always has its own file. The card kit matches
  * these rows before the book rows (see `storytimeCardPictureRow` in `card-kit.ts`).
+ * A word that two entries hold gives two rows with one id and one file name, so the function
+ * throws on the second entry. The compare ignores the case, and it holds in every week, because
+ * one card word has one file in the whole level (A-P8-12).
  * @param entries The entries of `readLevelCardPictures`.
  * @param level The Storytime level.
  * @returns The card rows, in file order, to put after the book rows.
+ * @throws Error When two entries hold the same word.
  */
 export function storytimeCardPictureRows(entries: StorytimeCardPictureEntry[], level: number): StorytimePictureRow[] {
     const size = STORYTIME_PICTURE_SPEC[STORYTIME_SIZE_CLASS.card];
+    const words = new Set<string>();
     return entries.map((entry) => {
         const word = entry.word.trim();
+        const key = word.toLowerCase();
+        if (words.has(key)) throw new Error(`card picture word repeat: "${word}" is in the card picture list twice; each card word has one row`);
+        words.add(key);
         const id = `l${level}-w${String(entry.week).padStart(2, '0')}-card-${slugOf(word)}`;
         const fileName = `${id}-v1.png`;
         return {

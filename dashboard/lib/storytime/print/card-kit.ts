@@ -3,6 +3,7 @@ import os from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { REPO_ROOT } from '../../lesson-package/files';
 import { singularOf, type StorytimePictureRow } from './pictures';
+import { resolveStorytimePictureFiles } from './picture-check';
 import { fontFaceCss } from './print-fonts';
 import type { StorytimeWeek } from '../schema';
 
@@ -120,7 +121,7 @@ export const STORYTIME_CARD_PICTURE_KINDS: StorytimeCardKind[] = ['picture', 'so
 
 /**
  * The approved sRGB value of each color word card (owner decision, Daniel, PM relay, 2026-11-06:
- * "The 8 color words print as a color patch"). The card prints a rounded square of this color in
+ * "The 8 color words print as a color patch"). The card prints a rounded rectangle of this color in
  * its picture area. It prints no picture and no empty box. The keys are the card words in lower
  * case.
  */
@@ -559,6 +560,78 @@ export function storytimeCardPictureMatchLines(
         });
 }
 
+/** The row ids of the delivered pictures, the color file of each, and the message of each failed row. */
+export interface DeliveredPictures {
+    /** The row ids whose color and line-art files both resolve. */
+    delivered: Set<string>;
+    /** The color file of each delivered row. */
+    files: Map<string, string>;
+    /** The message of the failed file check of a row, by row id. */
+    reasons: Map<string, string>;
+}
+
+/**
+ * The delivered rows of the picture list: the rows whose color file and line-art file both resolve
+ * through `manifest.json`. The whole list resolves in one call when every file is in place; a
+ * missing file falls back to a row-by-row probe, so one missing picture does not hide the rest. A
+ * row whose check fails keeps its message, so that the match report can say why (Review B, B-P8-3).
+ * @param folder The picture folder of the level.
+ * @param rows The rows of the picture list.
+ * @returns The delivered row ids, the color file of each, and the reason of each failed row.
+ */
+export function storytimeDeliveredPictures(folder: string, rows: StorytimePictureRow[]): DeliveredPictures {
+    const files = new Map<string, string>();
+    const reasons = new Map<string, string>();
+    try {
+        for (const entry of resolveStorytimePictureFiles(folder, rows, 'color')) files.set(entry.rowId, entry.file);
+        resolveStorytimePictureFiles(folder, rows, 'line');
+        return { delivered: new Set(files.keys()), files, reasons };
+    } catch {
+        files.clear();
+    }
+    for (const row of rows) {
+        try {
+            const [color] = resolveStorytimePictureFiles(folder, [row], 'color');
+            resolveStorytimePictureFiles(folder, [row], 'line');
+            files.set(row.id, color.file);
+        } catch (error) {
+            // The row is not delivered; its card prints an empty, labelled picture box, and the
+            // match report names the reason of the failed check.
+            reasons.set(row.id, error instanceof Error ? error.message : String(error));
+        }
+    }
+    return { delivered: new Set(files.keys()), files, reasons };
+}
+
+/**
+ * The source of one line of the match report: the picture of a card row, a color patch, a number
+ * dot group, or no picture. The third column names the source. When that column says `none`, the
+ * fourth column names the source or the reason of the missing picture.
+ * @param line One line of the match report.
+ * @returns The source of the line.
+ */
+export function storytimeCardMatchSource(line: string): 'picture' | 'patch' | 'dots' | 'none' {
+    const fields = line.split('\t');
+    const third = fields[2] ?? '';
+    const fourth = fields[3] ?? '';
+    if (third === 'patch' || fourth === 'patch') return 'patch';
+    if (third === 'dots' || fourth === 'dots') return 'dots';
+    return third === 'none' ? 'none' : 'picture';
+}
+
+/**
+ * The counts of the match report by source: the picture matches, the color patches, the number dot
+ * groups, and the cards with no picture. The count of a line comes from its source, so the four
+ * numbers add up to the number of lines.
+ * @param lines The lines of the match report.
+ * @returns The count of each source.
+ */
+export function storytimeCardMatchCounts(lines: readonly string[]): { picture: number; patch: number; dots: number; none: number } {
+    const counts = { picture: 0, patch: 0, dots: 0, none: 0 };
+    for (const line of lines) counts[storytimeCardMatchSource(line)] += 1;
+    return counts;
+}
+
 /** The longest reason clause of the match report, in characters (Review B, B-P8-6). */
 const MATCH_REASON_MAX = 160;
 
@@ -652,14 +725,16 @@ export interface StorytimeCardSheetOptions {
 const CARD_PATCH_RADIUS_MM = 6;
 
 /**
- * The picture area of a color word card: a rounded square of the approved sRGB value that fills
+ * The picture area of a color word card: a rounded rectangle of the approved sRGB value that fills
  * the area. The `data-card-patch` value is the card word, so the report and the check can find it.
+ * The `data-shape` value is `rounded-rectangle`, because the patch fills the picture area, which is
+ * taller than it is wide (A-P8-11).
  * @param word The card word in lower case.
  * @returns The HTML of the picture area.
  */
 function colorPatchBox(word: string): string {
     const hex = STORYTIME_CARD_COLOR_PATCH[word];
-    return `<div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="${esc(word)}" data-shape="rounded-square" data-color="${hex}" style="background-color:${hex};width:100%;height:100%;align-self:stretch;border-radius:${CARD_PATCH_RADIUS_MM}mm"></div></div>`;
+    return `<div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="${esc(word)}" data-shape="rounded-rectangle" data-color="${hex}" style="background-color:${hex};width:100%;height:100%;align-self:stretch;border-radius:${CARD_PATCH_RADIUS_MM}mm"></div></div>`;
 }
 
 /**
@@ -802,8 +877,8 @@ ${cardSheetCss(size)}</style></head>
 export const STORYTIME_STICKER_DEFAULT_CENTRE = '50% 50%';
 
 /**
- * The centre of a sticker picture, by the sticker label or by the cover picture-list row id
- * (plan line 1088, owner request 2026-11-06). Two entries move a picture, because the cover fit
+ * The centre of a sticker picture, by the sticker label (plan line 1088, owner request
+ * 2026-11-06). Two entries move a picture, because the cover fit
  * cuts a face: the girl at the left edge of "Can I?" and the doll Pam at the right edge of
  * "Sam and Pam" (orchestrator check of the 300 dpi contact image, 2026-11-06). Every other
  * picture sits at its centre. Add one entry only when the cover fit cuts a title or a face. The
@@ -835,8 +910,8 @@ export interface StorytimeStickerSheetOptions {
     /** The absolute picture file of a sticker, or undefined for a sticker of its text only. */
     pictureOf?: (item: StorytimeKitItem) => string | undefined;
     /**
-     * The centre of the picture of each sticker, by the sticker label (or by the cover
-     * picture-list row id). An entry of this map wins over `STORYTIME_STICKER_CENTER_OVERRIDES`.
+     * The centre of the picture of each sticker, by the sticker label. An entry of this map wins
+     * over `STORYTIME_STICKER_CENTER_OVERRIDES`.
      */
     centers?: Record<string, string>;
     /** The document title; the default names the sheet. */

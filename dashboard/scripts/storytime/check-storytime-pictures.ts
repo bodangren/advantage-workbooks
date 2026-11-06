@@ -1,7 +1,7 @@
 import path from 'path';
-import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { checkStorytimePictureBatch, readStorytimePictureManifest } from '../../lib/storytime/print/picture-check';
-import { storytimePrintPictures } from '../../lib/storytime/print/pictures';
+import { storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 import { checkRequestedWeeks } from '../../lib/storytime/print/student-book-cli';
 
 const USAGE = `Runs stage 1 of the picture stages on a Forge batch (spec FR-9, strategy 5.1): the size,
@@ -22,7 +22,10 @@ Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [-
   --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1);
             every requested week must load exactly once (checkRequestedWeeks)
 
-The command prints one line for each picture-list row of the weeks and a summary line. Stage 1 is
+The command prints one line for each picture-list row of the weeks and a summary line. The card
+rows of the card kit follow the book rows. A batch that holds a job for a card row measures that
+row, and a batch that holds no job for a week measures every row of that week, the card rows
+included. Stage 1 is
 a measurement, never an approval (spec P7); it writes no file.
 
 Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
@@ -59,6 +62,25 @@ function parseArgs(argv: string[]): Args {
     return { batch: path.resolve(batch), level, weeks };
 }
 
+/**
+ * The row ids that the manifest of a batch holds a job for. The manifest holds one job for each
+ * delivered row, and the id of the job is the row id.
+ * @param manifest The parsed manifest of the batch.
+ * @returns The row ids of the jobs, empty for a manifest with no jobs list.
+ */
+function manifestJobIds(manifest: unknown): Set<string> {
+    const ids = new Set<string>();
+    if (!manifest || typeof manifest !== 'object') return ids;
+    const jobs = (manifest as { jobs?: unknown }).jobs;
+    if (!Array.isArray(jobs)) return ids;
+    for (const job of jobs) {
+        if (!job || typeof job !== 'object') continue;
+        const id = (job as { id?: unknown }).id;
+        if (typeof id === 'string') ids.add(id);
+    }
+    return ids;
+}
+
 async function main(argv: string[]): Promise<number> {
     if (argv.includes('--help') || argv.includes('-h')) {
         console.log(USAGE);
@@ -74,8 +96,9 @@ async function main(argv: string[]): Promise<number> {
     // A batch folder without a manifest.json and a manifest.json that does not parse are batch
     // problems of the same class (C-P4-10): the command names either one before any row and
     // gives exit 2.
+    let manifest: unknown = undefined;
     try {
-        readStorytimePictureManifest(args.batch);
+        manifest = readStorytimePictureManifest(args.batch);
     } catch (e) {
         console.error(e instanceof Error ? e.message : String(e));
         return 2;
@@ -95,7 +118,22 @@ async function main(argv: string[]): Promise<number> {
         console.error(`no week files for level ${args.level} and weeks ${args.weeks.join(', ')} under ${STORYTIME_ROOT}`);
         return 1;
     }
-    const rows = storytimePrintPictures(weeks).filter((row) => args.weeks.includes(row.week));
+    const bookRows = storytimePrintPictures(weeks).filter((row) => args.weeks.includes(row.week));
+    // Version 7: the card rows of the card kit follow the book rows, so the check measures the
+    // size, the color mode, the alpha, the gray fill, and the pixel size of the card pictures too
+    // (A-P8-7).
+    const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, args.level), args.level)
+        .filter((row) => args.weeks.includes(row.week));
+    // The card rows of a week are requested when the batch holds a job for one of them, or when
+    // the batch holds no job for any row of that week: a batch that misses every row of a week
+    // misses the card rows too. A batch that holds the book rows of a week holds no card row of
+    // that week, because the card pictures come in their own delivery, so its request stays the
+    // book rows (A-P8-7, R-P4-28).
+    const jobIds = manifestJobIds(manifest);
+    const weeksWithJobs = new Set<number>();
+    for (const row of [...bookRows, ...cardRows]) if (jobIds.has(row.id)) weeksWithJobs.add(row.week);
+    const requestedCardRows = cardRows.filter((row) => jobIds.has(row.id) || !weeksWithJobs.has(row.week));
+    const rows = [...bookRows, ...requestedCardRows];
     if (!rows.length) {
         console.error(`no picture rows for level ${args.level} and weeks ${args.weeks.join(', ')}`);
         return 1;

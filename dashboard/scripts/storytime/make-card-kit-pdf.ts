@@ -12,9 +12,12 @@ import {
     compileStorytimeCardSheet,
     compileStorytimeStickerSheet,
     storytimeCardKit,
+    storytimeCardMatchCounts,
+    storytimeCardMatchSource,
     storytimeCardPagePlan,
     storytimeCardPictureMatchLines,
     storytimeCardPictureRow,
+    storytimeDeliveredPictures,
     STORYTIME_CARD_KIT_SPEC,
     STORYTIME_CARD_PICTURE_KINDS,
     type StorytimeCard,
@@ -28,7 +31,6 @@ import {
     type StorytimeCardKitArgs,
     type StorytimeCardKitFileNames,
 } from '../../lib/storytime/print/card-kit-cli';
-import { resolveStorytimePictureFiles } from '../../lib/storytime/print/picture-check';
 import type { StorytimePictureRow } from '../../lib/storytime/print/pictures';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
 
@@ -68,16 +70,6 @@ a missing picture, one tab-separated line for each picture-type card).
 Exit code 2 on an argument error or an output folder outside the print folder; 1 when a week does
 not parse, a page count misses the plan, or the PDF/X check fails.`;
 
-/** The row ids of the delivered pictures, the color file of each, and the message of each failed row. */
-interface DeliveredPictures {
-    /** The row ids whose color and line-art files both resolve. */
-    delivered: Set<string>;
-    /** The color file of each delivered row. */
-    files: Map<string, string>;
-    /** The message of the failed file check of a row, by row id. */
-    reasons: Map<string, string>;
-}
-
 /**
  * Reads the picture list of a level.
  * @param level The Storytime level.
@@ -87,39 +79,6 @@ function readPictureRows(level: number): StorytimePictureRow[] {
     const file = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures.json');
     if (!fs.existsSync(file)) return [];
     return JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimePictureRow[];
-}
-
-/**
- * The delivered rows of the picture list: the rows whose color file and line-art file both resolve
- * through `manifest.json`. The whole list resolves in one call when every file is in place; a
- * missing file falls back to a row-by-row probe, so one missing picture does not hide the rest. A
- * row whose check fails keeps its message, so that the match report can say why (Review B, B-P8-3).
- * @param folder The picture folder of the level.
- * @param rows The rows of the picture list.
- * @returns The delivered row ids, the color file of each, and the reason of each failed row.
- */
-function deliveredPictures(folder: string, rows: StorytimePictureRow[]): DeliveredPictures {
-    const files = new Map<string, string>();
-    const reasons = new Map<string, string>();
-    try {
-        for (const entry of resolveStorytimePictureFiles(folder, rows, 'color')) files.set(entry.rowId, entry.file);
-        resolveStorytimePictureFiles(folder, rows, 'line');
-        return { delivered: new Set(files.keys()), files, reasons };
-    } catch {
-        files.clear();
-    }
-    for (const row of rows) {
-        try {
-            const [color] = resolveStorytimePictureFiles(folder, [row], 'color');
-            resolveStorytimePictureFiles(folder, [row], 'line');
-            files.set(row.id, color.file);
-        } catch (error) {
-            // The row is not delivered; its card prints an empty, labelled picture box, and the
-            // match report names the reason of the failed check.
-            reasons.set(row.id, error instanceof Error ? error.message : String(error));
-        }
-    }
-    return { delivered: new Set(files.keys()), files, reasons };
 }
 
 /**
@@ -189,7 +148,7 @@ async function main(argv: string[]): Promise<number> {
     const kit = storytimeCardKit(parsed);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures');
     const rows = readPictureRows(level);
-    const { delivered, files, reasons } = deliveredPictures(pictureFolder, rows);
+    const { delivered, files, reasons } = storytimeDeliveredPictures(pictureFolder, rows);
 
     const a5Plan = storytimeCardPagePlan(kit.cards, 'A5');
     const a6Plan = storytimeCardPagePlan(kit.cards, 'A6');
@@ -198,15 +157,19 @@ async function main(argv: string[]): Promise<number> {
     const matchLines = storytimeCardPictureMatchLines(kit.cards, rows, delivered, reasons);
     fs.writeFileSync(path.join(outDir, names.match), `${matchLines.join('\n')}\n`);
     const pictureCards = kit.cards.filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind));
-    const matched = pictureCards.filter((card) => storytimeCardPictureRow(card, rows, delivered)).length;
-    const words = new Map<string, boolean>();
-    for (const card of pictureCards) {
-        const key = card.label.toLowerCase();
-        if (!words.has(key)) words.set(key, storytimeCardPictureRow(card, rows, delivered) !== undefined);
+    // The counts come from the match report, so the patch and the dot cards are not counted as
+    // "no match" (A-P8-9).
+    const counts = storytimeCardMatchCounts(matchLines);
+    console.log(`picture cards: ${pictureCards.length}, picture ${counts.picture}, patch ${counts.patch}, dots ${counts.dots}, none ${counts.none}`);
+    // One word can name two cards, so the first line of the word gives the source of the word.
+    const wordSources = new Map<string, 'picture' | 'patch' | 'dots' | 'none'>();
+    for (const line of matchLines) {
+        const label = (line.split('\t')[1] ?? '').toLowerCase();
+        if (!wordSources.has(label)) wordSources.set(label, storytimeCardMatchSource(line));
     }
-    const wordsMatched = [...words.values()].filter(Boolean).length;
-    console.log(`picture cards: ${pictureCards.length}, matched ${matched}, no match ${pictureCards.length - matched}`);
-    console.log(`distinct words: ${words.size}, matched ${wordsMatched}, no match ${words.size - wordsMatched}`);
+    const wordCounts = { picture: 0, patch: 0, dots: 0, none: 0 };
+    for (const source of wordSources.values()) wordCounts[source] += 1;
+    console.log(`distinct words: ${wordSources.size}, picture ${wordCounts.picture}, patch or dots ${wordCounts.patch + wordCounts.dots}, none ${wordCounts.none}`);
     console.log(`match report: ${path.join(outDir, names.match)}`);
 
     const pictureOfCard = (card: StorytimeCard): string | undefined => {
