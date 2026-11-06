@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
+  *Link: [./tracks/storytime_l2_unit2_20261106/](./tracks/storytime_l2_unit2_20261106/)*
+
 - [ ] **Track: Storytime teaching loops: five teaching routines in the Level 2 week scripts (oral blend drill, correct-practise-retest loop, fast-way sight words, read-along question set, daily recall of 5), with checks, the Thai teacher book print, and the content of w01 to w08; Daniel's check by 2026-11-16, print order 2026-11-25.** *(Created: 2026-11-02)*
   *Link: [./tracks/storytime_teaching_loops_20261103/](./tracks/storytime_teaching_loops_20261103/)*
 
