@@ -21,3 +21,22 @@ The approved print files stay unchanged until the pick. The round writes only in
 ### Notes
 - N1: The cast look rule of A-18 (a) and the owner order of 2026-11-06 differ. Q1 records the default; Daniel decides with his pick.
 - N2: Phase 2 has no test plan yet. It needs a strategy role before Red.
+
+## Amendment: Phase 2 option A (2026-11-07)
+
+Author model: claude-code/claude-opus-5-5[1m]
+
+Date: 2026-11-07. The author wrote the spec section "Phase 2: The option A covers" (Amendment 1) and the Phase 2 plan after Daniel's pick "A" (Google Tasks, 2026-11-07 05:06 ICT, PM relay). The Phase 1 spec review was a self-review. An independent reviewer of another model family reviews this amendment before the Phase 2 Red (plan Task 2.2). This section gives no verdict.
+
+### What the amendment adds
+- The owner word, the PM record, and the three PM defaults (the cast in the option A style, the frame around the approved reader pictures, no new Thai).
+- Decisions D-A1 to D-A11: a new template module, data file, and build script; read-only use of the approved cover code; guard G-1; the reader cover hand-off to the print track; no bleed with a 5 mm safe zone; the `lanczos3` upscale to 300 ppi; the art file names; the version numbers (student v4, teacher v2, readers v1); the teacher back; the 11-16 folder default.
+- FR-6 to FR-11 and AC-6 to AC-12.
+- The open points Q1 and Q3 closed; Q2 open with a default; Q4 to Q7 new, each with a default.
+
+### Points for the independent reviewer
+- R-1: D-A1 and guard G-1 keep the approved cover code unchanged. Check that no FR needs a change in a file of guard G-1.
+- R-2: D-A4 gives the wiring of the reader covers to the print track. Check that the release proof of 2026-11-20 has an owner for that step.
+- R-3: D-A6 upscales 1448 x 2048 px art by a factor of 1.713. Check that the look task (Task 2.10) is a sufficient check of the upscale.
+- R-4: D-A10 adds a teacher back that the PM list does not name. Check the default.
+- R-5: the plan puts the Red windows behind the open windows of the print track and the week-package track (rule R1). Check the date risk against the due date of 2026-11-14.
