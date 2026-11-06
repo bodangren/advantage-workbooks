@@ -1,0 +1,47 @@
+Green, Phase 8, review round 7 remediation (storytime_print_r1_20261025)
+
+- Track: storytime_print_r1_20261025. Phase: P8, "Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)".
+- phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65. role_base_sha: e730ead85cb79c26058fc89624cebb91a9b05921.
+- Scope: plan only. No code change and no test change in this round. No Red test was edited.
+- The routed findings: F47 (A-P8-24 and C-P8-9) and F48 (A-P8-25). Both routed as FIX. The routing files are `measure/runs/storytime_print_r1_20261025/review-a-p8-e730ead8.json` and `review-c-p8-e730ead8.json`.
+
+## The facts checked for F47
+
+- Commit 67be5603 (2026-11-04, "content(storytime): approve the w01 audio and song") is an ancestor of the phase base. The check `git merge-base --is-ancestor 67be5603 709dd19ce412597f5c92cdc3edb5272878a8ec65` exits 0.
+- The capture `measure/runs/storytime_print_r1_20261025/green-p8-r10-checks.txt` line 39 holds `  PASS    published`. Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The only "FAIL" text in that file is the Command line of line 1.
+- The four captures named by F47 hold no check-weeks output: `green-p8-stickers-checks.txt` holds 1 line ("exit: 0"), `green-p8-patches-r2-checks.txt` holds 9 lines ("Output: none."), `green-p8-r8-checks.txt` holds 3 lines, and `green-p8-r9-checks.txt` holds 3 lines with an empty body.
+
+## The gate for F48
+
+- Command: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); printf "%s\n" "$out"; test "$(printf "%s\n" "$out" | grep -c "  FAIL ")" -eq 0 && npx tsc --noEmit'`
+- Result: exit 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). The `npx tsc --noEmit` part reports no error. The capture holds the command, the output tail, the summary line, the tsc result, and the exit code: `measure/runs/storytime_print_r1_20261025/green-p8-r11-checks.txt`.
+- The gate changed no lock file and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after the gate. The lock file stayed clean, so no `git checkout -- pnpm-lock.yaml` ran.
+- The gate ran once. No other gate ran in this round, because the round changes no code and no test file.
+
+## The commits
+
+- c460581b: the plan edits of F47 and F48, and the capture `green-p8-r11-checks.txt`. The commit holds two files.
+- The plan evidence commit: the commit that holds the plan evidence and this log. Its SHA is named in the reply of this role, because a commit holds no own SHA.
+
+## The plan edits
+
+- F47: the plan lines 1103, 1132, 1176, and 1209 no longer claim that the check-weeks part held a `published` FAIL. Each line states that the capture holds no check-weeks output, that the gate of that run allowed at most one `published` FAIL, and that the `published` check passes since commit 67be5603 (2026-11-04), before the phase base. Each line ends with the tag `[corrected in review round 7, F47]`. The line 1209 keeps its tag of review round 6 before the new tag.
+- F48: the `PROJECT_CHECKS` value at plan line 23 accepts 0 FAIL lines. The new line after the baseline line 32 states that the st2/1 `published` check passes since commit 67be5603, and that the first part of `PROJECT_CHECKS` accepts 0 FAIL lines.
+
+## The result
+
+No known failure. The Green task line is `[x]` with the commit c460581b. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, review round 7 remediation of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: plan commit c460581b (docs(measure): correct the published check lines and tighten PROJECT_CHECKS (storytime_print_r1)); plan evidence commit: the commit that holds plan.md and this log, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha e730ead85cb79c26058fc89624cebb91a9b05921; final Green HEAD is the plan evidence commit
+tests_run: the new PROJECT_CHECKS through heavy-run, exit 0; the check-weeks output holds 0 FAIL lines and 1 warning (print-missing); its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)."; the tsc part reports no error
+files_changed: measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r11-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r11.log
+plan_updates: F47 (A-P8-24 and C-P8-9): plan lines 1103, 1132, 1176, and 1209 no longer claim a published FAIL and end with the tag [corrected in review round 7, F47]; F48 (A-P8-25): the PROJECT_CHECKS value at plan line 23 accepts 0 FAIL lines, and a new line after the baseline line 32 states that the published check passes since commit 67be5603; the Green task line is [x] with commit c460581b and holds the routing, the decision, the two finding notes, the gate result with its capture, and the dispositions line; the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays [ ]
+known_failures: none
+handoff: The committed Red tests stay unchanged. F47: the plan no longer claims that any Phase 8 run held the st2/1 published FAIL. The commit 67be5603 (2026-11-04) is an ancestor of the phase base, so the published check passes in every Phase 8 run, and green-p8-r10-checks.txt line 39 holds "PASS    published" with the summary "Summary: 8 package(s), 0 failed check(s), 1 warning(s).". The four captures of F47 hold no check-weeks output. F48: the gate now accepts 0 FAIL lines, so a lost app approval fails the gate. The capture green-p8-r11-checks.txt holds the command, the output tail, the summary line, the tsc result, and the exit code 0. The next role reviews the plan commit c460581b and the plan evidence commit. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+dispositions: F47=FIX; F48=FIX
+END_MEASURE_AGENT_RESULT

@@ -1233,9 +1233,15 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
     - The dispositions of this Green round: F40=FIX; F41=FIX; F42=FIX; F43=FIX; F44=FIX; F45=FIX; F46=FIX.
     - The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays `[ ]`, so the phase stays open.
-- [~] Task (Green, review round 7 remediation): plan fixes for F47 and F48 (review-a/c-p8-e730ead8.json).
+- [x] Task (Green, review round 7 remediation): plan fixes for F47 and F48 (review-a/c-p8-e730ead8.json). commit c460581b
     - Routing: F47=FIX; F48=FIX.
     - The decision of the orchestrator: option 1 for F48 (A-P8-25). The first part of `PROJECT_CHECKS` accepts 0 FAIL lines.
+    - Evidence: automated.
+    - The plan commit is c460581b. It changes the plan file and the capture `green-p8-r11-checks.txt` only. No code file and no test file changed.
+    - F47 (A-P8-24 and C-P8-9): the plan lines 1103, 1132, 1176, and 1209 no longer claim that the check-weeks part held a `published` FAIL. Each line states that the capture holds no check-weeks output, that the gate of that run allowed at most one `published` FAIL, and that the `published` check passes since commit 67be5603 (2026-11-04), before the phase base. Each line ends with the tag `[corrected in review round 7, F47]`.
+    - F48 (A-P8-25): the `PROJECT_CHECKS` value of the plan accepts 0 FAIL lines. The new line after the baseline line states that the st2/1 `published` check passes since commit 67be5603.
+    - The gate: the new `PROJECT_CHECKS` runs once through heavy-run and exits 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The `npx tsc --noEmit` part reports no error. Capture: `green-p8-r11-checks.txt`.
+    - The dispositions of this Green round: F47=FIX; F48=FIX.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
