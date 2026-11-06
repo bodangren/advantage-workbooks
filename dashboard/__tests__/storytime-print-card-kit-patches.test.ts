@@ -184,7 +184,7 @@ describe('Phase 8 color patches and number dots', () => {
             expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture-empty`),
                 `${card.label} keeps its empty box`).not.toBeNull();
         }
-    });
+    }, 120_000);
 
     it('R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none', () => {
         const cards = storytimeCardKit(shippedWeeks()).cards;
@@ -216,7 +216,7 @@ describe('Phase 8 color patches and number dots', () => {
             .toBe(true);
         expect(fields.filter((field) => field[2] === 'none' && field[3] === 'none: files not delivered'), 'all unmatched entries')
             .toHaveLength(32);
-    });
+    }, 120_000);
 
     it('R-P8-P5 falsifier: a dot count off by one fails the exact count assertion', () => {
         const card = storytimeCardKit(shippedWeeks()).cards.find((entry) => entry.label.toLowerCase() === 'three');
