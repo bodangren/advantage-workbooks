@@ -10,8 +10,8 @@ phase: P8 — Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards
 status: complete
 baseline_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
 role_base_sha: 89ee3c003ab0a014f3b7668b72dc705af32d8f73
-head: pending plan commit
-commits: 5fa4c4d1 (test); pending plan/evidence commit
+head: 0dcb43645d00305e5ea571362108cbb2f9104ed7
+commits: 5fa4c4d1 (test); 0dcb4364 (plan/evidence)
 tests: targeted Vitest — 1 failed, 57 passed; F40 and F45 pass; F44 fails for missing help documentation
 lint: ESLint exit 0
 files: dashboard/__tests__/storytime-print-readers.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/red-p8-r10-red.txt; measure/runs/storytime_print_r1_20261025/red-p8-r10-lint.txt; measure/runs/storytime_print_r1_20261025/red-p8-r10.log
