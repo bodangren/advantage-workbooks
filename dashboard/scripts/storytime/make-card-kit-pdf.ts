@@ -159,8 +159,8 @@ async function main(argv: string[]): Promise<number> {
     const pictureCards = kit.cards.filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind));
     // The counts come from the match report, so the patch and the dot cards are not counted as
     // "no match" (A-P8-9).
-    const counts = storytimeCardMatchCounts(matchLines);
-    console.log(`picture cards: ${pictureCards.length}, picture ${counts.picture}, patch ${counts.patch}, dots ${counts.dots}, none ${counts.none}`);
+    const matchCounts = storytimeCardMatchCounts(matchLines);
+    console.log(`picture cards: ${pictureCards.length}, picture ${matchCounts.picture}, patch ${matchCounts.patch}, dots ${matchCounts.dots}, none ${matchCounts.none}`);
     // One word can name two cards, so the first line of the word gives the source of the word.
     const wordSources = new Map<string, 'picture' | 'patch' | 'dots' | 'none'>();
     for (const line of matchLines) {
