@@ -66,6 +66,8 @@ All dates are internal. The print order date of unit 2 is Daniel's decision and 
 - **Unit scope change**: the Phase 4 code change that makes the makers read the unit from the week data.
 - **English review extract**: the English teacher manual PDF of the staged weeks (`make-manual-pdf.ts --lang en`). It holds no Thai.
 - **Owner gate**: a task that waits for Daniel's words. The PM session relays the words.
+- **Picture-type card**: a card of the card kit of kind `picture`, `sound-picture`, or `family-picture`. The `materials` lines of the script steps name the cards (`storytimeCardKit`, `lib/storytime/print/card-kit.ts`).
+- **Card picture entry**: one item of a card picture file: the card word, its first week, and a Forge prompt (`readLevelCardPictures`, `lib/storytime/files.ts` line 118). The print picture list makes one `card` row of class C from each entry.
 
 ## Scope of the unit
 
@@ -114,7 +116,7 @@ The decodable examples are a start list for the writer. The `decodable` check de
 4. The phoneme fields come from `set-phoneme-audio.ts --file <staged file>` (Daniel's bank).
 5. A staged file names no media file until the file exists: no song audio, no book audio, and no picture file. The media come in Phase 6 (FR-8).
 6. Every `th` field holds a Thai draft for Daniel's check (FR-5). Every approval part stays `draft` until Daniel's words.
-7. Gate of each week: `STAGE_CHECKS` exits 0 with 0 FAIL lines, and the report of the week has no `print-missing` warning.
+7. Gate of each week: `STAGE_CHECKS` passes. It fails on a check-weeks exit code other than 0, on a FAIL line, and on a `print-missing` warning of a teaching week of unit 2 (st2/9 to st2/15). The last rule is machine-checked in the command (an `awk` step over the report), not read by a person.
 8. One independent English review of each week, on the English review extract only. The writer fixes each finding or answers it in the task line. Until the Phase 4 fix, the review also checks two rules by hand (tech debt of 2026-11-05, findings 3 and 9): each review strip card is taught by the week, and each check item has exactly one right picture.
 
 ### FR-3: The review week 16
@@ -128,20 +130,26 @@ The decodable examples are a start list for the writer. The `decodable` check de
    - one one-to-one sitting of 3 minutes: the 26-letter strip, the sounds of the 12 taught letters on cards, and 4 blend words of the unit;
    - the reading record of a block decodable.
    The pass marks keep the week 8 shares, rounded down. Daniel approves them with the English text.
-3. Gate: as FR-2.7 and FR-2.8.
+3. Gate: `STAGE_CHECKS` passes, and FR-2.8 applies. The review week may show the `print-missing` warning, as st2/8 does: a review week has no print block, and its pages in the student book are the paper pages of `block` and the benchmark. So `STAGE_CHECKS` does not fail on the warning of st2/16.
 
 ### FR-4: The picture list for Forge
 
 1. `PICTURE_LIST_U2` (plan) runs `print-pictures.ts --level 2` on a stage root and keeps the rows of weeks 9 to 16: `content/storytime/drafts/l2/print/pictures-u2.json` and the readable copy `pictures-u2.md`. Nobody edits a row by hand.
 2. The rows follow picture list version 7 and FR-9 version 1 of the print track: class A story pages (4000 × 3000), class B reader covers (4000 × 3000, a calm top 30 percent), and class C picture words (1500 × 1500, white). Each row has a color file and a line-art file, with the names `l2-w<nn>-<use>-<what>-v1.png` and `l2-w<nn>-<use>-<what>-line-v1.png`.
-3. The card rows of unit 2 are not in this list. The card pictures file `l2/print/card-pictures.json` is a unit 1 file, and the unit 2 card rows come with the unit scope change (FR-6).
+3. The card rows of unit 2 are in this list. Their source is the staged file `content/storytime/drafts/l2/print/card-pictures-u2.json`, in the format of the unit 1 file `l2/print/card-pictures.json` (a unit 1 file that this track does not change). The writer of this track authors the entries (default D13):
+   - `CARD_MATCH_U2` (plan) prints the match of every picture-type card of weeks 9 to 16, with every row of the stage list counted as delivered.
+   - The match rule is the PM rule of 2026-11-05 with the Phase 8 extensions of the print track: a `card` row of the same word, then a check-row, practice-line, or d4-prompt row of the same word (case a), then a story page that shows only that object (case b). A unit 1 row counts, so a unit 1 picture of the same word is used again and needs no new render.
+   - The 8 color words print as a color patch, and the number words one to nine print as the numeral with dots (owner decision, Daniel, 2026-11-06). They get no entry.
+   - Each card word with no match (`none: no row`) gets one entry: the word, the first week of weeks 9 to 16 that names the card, and a Forge prompt in the unit 1 card style (one object or one person who does the action, then the fixed end "One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.").
+   - The gate: `CARD_MATCH_U2` exits 0, with 0 `none` lines. The stage commands give the stage root a real card picture file with the 31 unit 1 entries and the staged unit 2 entries, so the maker never writes through a link.
 4. A Forge brief in this track folder (`forge-brief.md`) gives:
    - the scenes, the props, and the cast of each week;
    - the style rules, by reference to FR-9 version 1, with its class table;
+   - the card rows of unit 2 with their prompts (class C, the unit 1 card style);
    - the row count and the cost estimate at the unit 1 rate;
    - the delivery rule: a Forge folder with `manifest.json`, and the copy into `content/storytime/l2/print/pictures/` in Phase 4.
-5. Forge starts paid renders only after Daniel's English approval and his go for the cost (owner gate).
-6. The delivery check is `PICTURE_CHECK_U2` (plan): `check-storytime-pictures.ts` with the Forge folder, level 2, and weeks 9 to 16, on a stage root. Then Daniel looks at the pictures, and `approval.images` of each staged file gets his words.
+5. Forge starts paid renders only after Daniel's English approval and his go for the cost (owner gate). The go names the book rows and the card rows of unit 2 together, through the PM session.
+6. The delivery check is `PICTURE_CHECK_U2` (plan): `check-storytime-pictures.ts` with the Forge folder, level 2, and weeks 9 to 16, on a stage root with the merged card picture file. It checks the book rows and the card rows, before the Phase 5 card kit. A card row that Forge cannot deliver stays open until it passes or Daniel takes the card picture out with his words. Then Daniel looks at the pictures, the card pictures included, and `approval.images` of each staged file gets his words.
 
 ### FR-5: The Thai parts for Daniel's check
 
@@ -160,22 +168,24 @@ The decodable examples are a start list for the writer. The `decodable` check de
    - the step map file (`step-map-u<unit>.json`);
    - the picture list of each unit: unit 1 keeps `l2/print/pictures.json`; unit 2 gets `l2/print/u2/pictures.json`, `pictures.md`, and the card pictures file `l2/print/u2/card-pictures.json`.
 3. The unit 1 tests that count the weeks or the rows of the level read the unit 1 weeks only.
-4. The tracing guides get the letters d, e, h, f, and g in `letter-strokes.ts`, with a test for each letter (tech debt of 2026-10-28, the formation guides).
-5. The checks fix of tech debt 2026-11-05 (findings 3 and 9): a review strip card must be taught by its week, and a check item must have exactly one right picture.
-6. The unit 1 outputs stay the same. A snapshot of every unit 1 print output at the Phase 4 base and after Green proves it (lessons-learned, 2026-10-20). The test strategy names the method.
-7. The move: the 8 staged files go into `content/storytime/l2/`, the delivered pictures go into `content/storytime/l2/print/pictures/` (SHA-256 equal to the Forge manifest), and the unit 2 picture list and step map are made. Then `PROJECT_CHECKS` shows 0 FAIL lines (the gate of the PM brief, `check-weeks.ts --level 2`), and `PROJECT_TESTS` passes.
+4. The card match of unit 2 covers every row of the level, unit 1 rows included, so that the Phase 2 match result stays true after the split of the lists.
+5. The tracing guides get the letters d, e, h, f, and g in `letter-strokes.ts`, with a test for each letter (tech debt of 2026-10-28, the formation guides).
+6. The checks fix of tech debt 2026-11-05 (findings 3 and 9): a review strip card must be taught by its week, and a check item must have exactly one right picture.
+7. The unit 1 outputs stay the same. A snapshot of every unit 1 print output at the Phase 4 base and after Green proves it (lessons-learned, 2026-10-20). The test strategy names the method.
+8. The move: the 8 staged files go into `content/storytime/l2/`, the staged card entries go to `content/storytime/l2/print/u2/card-pictures.json`, the delivered pictures go into `content/storytime/l2/print/pictures/` (SHA-256 equal to the Forge manifest), and the unit 2 picture list and step map are made. Then `PROJECT_CHECKS` shows 0 FAIL lines (the gate of the PM brief, `check-weeks.ts --level 2`), and `PROJECT_TESTS` passes.
 
 ### FR-7: The print build
 
 1. After the move, the existing makers build the print files of unit 2:
    - the student book (`make-student-book-pdf.ts --weeks 9,...,16`), title "Storytime Advantage, Level 2, Unit 2, Student Book";
    - the Thai teacher book (`make-teacher-book-print.ts --weeks 9,...,16 --lang th --loops`);
-   - the 14 color A3 readers (`make-readers-pdf.ts --a3-color`) and the card kit (`make-card-kit-pdf.ts`);
+   - the 14 color A3 readers (`make-readers-pdf.ts --a3-color`) and the card kit (`make-card-kit-pdf.ts`, FR-7.3);
    - the teacher book cover (`make-storytime-teacher-cover.ts --level 2 --unit 2`) and the step map.
 2. The student book cover (`make-storytime-book-cover.ts --level 2 --unit 2 --print`) needs Daniel's go first: the covers of the other 13 books wait for Daniel until after release 1 (Phase 3 of the archived track `storytime_covers_20261027`). After his go, the row of Level 2 Unit 2 in `content/storytime/covers/books.json` gets its picture recipe and panel.
-3. Each print file passes `PRINT_GATE`, is newer than the last commit of its sources, has contact sheets of every page, and shows its fonts in `pdffonts` (lessons-learned, 2026-10-27). `check-qr.ts` decodes the QR codes of the student book.
-4. The PM runs the print-curriculum audit (checklist A1 to J1) before Daniel. The gate passes with 0 blockers and 0 majors. This track never audits its own proof.
-5. Daniel's words and the date go into `approval.print` of `w09.json` to `w16.json`.
+3. The card kit (`make-card-kit-pdf.ts --level 2 --weeks 9,...,16`) builds after the Phase 2 delivery check and the Phase 4 copy of the card pictures. Its `card-picture-match.txt` must have 0 lines whose source is `none`, so no card prints an empty box. A `none` line stops the card kit task until it has a named reason that the PM session records with Daniel's words.
+4. Each print file passes `PRINT_GATE`, is newer than the last commit of its sources, has contact sheets of every page, and shows its fonts in `pdffonts` (lessons-learned, 2026-10-27). `check-qr.ts` decodes the QR codes of the student book.
+5. The PM runs the print-curriculum audit (checklist A1 to J1) before Daniel. The gate passes with 0 blockers and 0 majors. This track never audits its own proof.
+6. Daniel's words and the date go into `approval.print` of `w09.json` to `w16.json`.
 
 ### FR-8: The hand-offs
 
@@ -211,6 +221,7 @@ All hand-offs go to the PM session, and each needs a receipt (peer-report).
 | D10 | Paid generation | The PM asks Daniel's go after his English approval: Forge renders (about 13 to 17 USD at the unit 1 rate) and Lyria songs (about 1.68 USD) | The owner rule: paid generation is Daniel's gate. |
 | D11 | Unit 2 picture folder | The Forge folder until the move; then `content/storytime/l2/print/pictures/` (git-ignored) | The unit 1 folder rule (`.gitignore` line 37) and tech debt of 2026-11-01. |
 | D12 | Unit 2 picture list path after the move | `content/storytime/l2/print/u2/` | The unit 1 list keeps its path, so its tests and the Forge pin stay valid. |
+| D13 | Unit 2 card pictures | The unit 1 rule (FR-4.3): a card word first takes a picture of the same word from the book rows or the card rows of the level; the 8 color words print as a color patch and the numbers one to nine as numeral and dots; each word with no match gets one card entry with a Forge prompt in the unit 1 card style. The writer of this track authors the entries in Phase 2, and they go to Forge with the book rows. | The PM rule of 2026-11-05 and Daniel's decision of 2026-11-06 for unit 1. The card kit prints an empty labelled box for an undelivered card and does not fail (`card-kit.ts` line 474), so the entries, the delivery check, and the card kit gate must exist before Phase 5. |
 
 ## Ownership and overlap
 
@@ -244,3 +255,4 @@ All hand-offs go to the PM session, and each needs a receipt (peer-report).
 3. Daniel's sittings for unit 2 (D9). Default: the dates of D9.
 4. Daniel's go for the paid renders and songs (D10). Default: the PM asks after the English approval.
 5. The unit 2 cover: Daniel's go is needed before the build (FR-7.2). Default: the PM asks after release 1 (2026-12-01).
+6. A unit 2 card word that has a unit 1 picture of the same word uses that picture again, with no new render. Default: yes (FR-4.3, D13).
