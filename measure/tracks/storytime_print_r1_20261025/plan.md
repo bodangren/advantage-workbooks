@@ -1135,6 +1135,11 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The PNG pages: the A6 pages 16, 17, 18, 19, and 20 hold the 17 color and number cards. Each page was rendered at 150 dpi with `pdftoppm` into `/tmp/opencode/p8-patch-check/`. The pages hold the numerals with 1 to 9 dots and the 8 rounded squares. The scratch print folder is removed, and the approved folders `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` stay untouched.
     - The A6 deliverable waits: no new A6 file is made. The A6 file is rebuilt once when the 31 Forge card pictures arrive (PM, 2026-11-06).
     - The Red timeout fix: commit e7962b54 gives R-P8-P3 and R-P8-P4 the 120 000 ms that the sibling file already used. Before that commit, the runs of this Green held `--testTimeout=120000`, and `green-p8-patches-r2-targeted.txt` holds the exit 1 of the run without it.
+- [x] Task (Red, review round 4 remediation): tests for F20 to F31 (review-a/b/c-p8-d5a8775e.json). commit 9381c0cf6f20916bdbb6d9eaf38044b176637cad. Evidence: automated.
+    - The routed findings F20 to F31 are in review-a-p8-d5a8775e.json, review-b-p8-d5a8775e.json, and review-c-p8-d5a8775e.json. The dispositions are F20=FIX; F21=FIX; F22=FIX; F23=FIX; F24=FIX; F25=FIX; F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX; F31=FIX. No finding is declined, contested, or escalated.
+    - `RED_TEST_COMMAND` with `--maxWorkers=1` and no `--testTimeout`: exit 1, 37 files, 5 failed and 809 passed. Only expected F20, F22, F24, F25, and F30 tests fail. F23, F26, and F29 strengthening tests pass. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r7-red.txt`.
+    - ESLint on the five changed test files exits 0. Capture: `measure/runs/storytime_print_r1_20261025/red-p8-r7-lint.txt`. The report is `measure/runs/storytime_print_r1_20261025/red-p8-r7.log`.
+- [~] Task (Green, review round 4 remediation): code and plan fixes for F20 to F31.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)

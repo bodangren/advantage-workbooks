@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: Mid Red
+track: storytime_print_r1_20261025
+phase: P8 — Card kit
+status: complete
+baseline_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+role_base_sha: d5a8775e46055def941d28bdba56454e6d6b2e4a
+head: 9381c0cf6f20916bdbb6d9eaf38044b176637cad (test commit; plan and report commit follows)
+commits: test 9381c0cf6f20916bdbb6d9eaf38044b176637cad
+tests: Red command exits 1 with 5 expected failing tests and 809 passing tests. Failures: G-P8-M8, G-P8-M9, R-P8-P1, duplicate card word test, R-P8-F20. Strengthening tests F23, F26, and F29 pass.
+lint: ESLint exits 0 for the five changed tests.
+files: dashboard/__tests__/storytime-print-card-kit-match.test.ts; dashboard/__tests__/storytime-print-card-kit-patches.test.ts; dashboard/__tests__/storytime-print-card-kit-stickers.test.ts; dashboard/__tests__/storytime-print-card-pictures.test.ts; dashboard/__tests__/storytime-print-readers.test.ts
+captures: measure/runs/storytime_print_r1_20261025/red-p8-r7-red.txt; measure/runs/storytime_print_r1_20261025/red-p8-r7-lint.txt
+remaining_failures: F20, F22, F24, F25, F30. F21, F27, F28, and F31 need plan/comment text changes in Green.
+handoff: Green must fix F20, F22, F24, F25, and F30. F21, F27, F28, and F31 need plan or comment changes. F23, F26, and F29 already pass their strengthened tests.
+END_MEASURE_AGENT_RESULT
