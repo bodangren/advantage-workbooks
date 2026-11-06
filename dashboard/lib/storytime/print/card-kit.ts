@@ -118,6 +118,58 @@ const CARD_KIND_ORDER: StorytimeCardKind[] = [
 /** The kinds that print a picture (the PM match rule of 2026-11-05). */
 export const STORYTIME_CARD_PICTURE_KINDS: StorytimeCardKind[] = ['picture', 'sound-picture', 'family-picture'];
 
+/**
+ * The approved sRGB value of each color word card (owner decision, Daniel, PM relay, 2026-11-06:
+ * "The 8 color words print as a color patch"). The card prints a rounded square of this color in
+ * its picture area. It prints no picture and no empty box. The keys are the card words in lower
+ * case.
+ */
+export const STORYTIME_CARD_COLOR_PATCH: Record<string, string> = {
+    red: '#E53935',
+    blue: '#1E88E5',
+    yellow: '#FDD835',
+    green: '#43A047',
+    orange: '#FB8C00',
+    pink: '#F48FB1',
+    purple: '#8E24AA',
+    brown: '#6D4C41',
+};
+
+/**
+ * The dot count of each number word card (owner decision, Daniel, PM relay, 2026-11-06: "the 9
+ * number words print as the number with dots"). The card prints the numeral and exactly this many
+ * round dots. It prints no picture and no empty box.
+ */
+export const STORYTIME_CARD_NUMBER_DOTS: Record<string, number> = {
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+};
+
+/** The most dots of one row of a number card (the Red contract: at most five dots per row). */
+const CARD_NUMBER_DOT_ROW_MAX = 5;
+
+/** The special picture source of a card: a color patch or a number dot group. */
+type CardSpecialSource = 'patch' | 'dots';
+
+/**
+ * The special picture source of one card.
+ * @param card The card.
+ * @returns `patch` for a color word, `dots` for a number word, or undefined for any other card.
+ */
+function cardSpecialSource(card: StorytimeCard): CardSpecialSource | undefined {
+    const word = card.label.toLowerCase();
+    if (Object.prototype.hasOwnProperty.call(STORYTIME_CARD_COLOR_PATCH, word)) return 'patch';
+    if (Object.prototype.hasOwnProperty.call(STORYTIME_CARD_NUMBER_DOTS, word)) return 'dots';
+    return undefined;
+}
+
 /** The n-up plan of each size (plan line 964). */
 const CARD_SHEETS: Record<StorytimeCardSize, { perSheet: number; sheet: { widthMm: number; heightMm: number } }> = {
     A5: { perSheet: 2, sheet: { widthMm: 297, heightMm: 210 } },
@@ -470,10 +522,13 @@ export function storytimeCardPictureRow(
 
 /**
  * The match result of every picture-type card, one line for each card: the kind, the label, the
- * matched row id or `none`, and the fourth column. A matched line names its case (`text` or
- * `page`); an unmatched line names its reason (`none: no row`, `none: files not delivered`, or the
- * message of the failed file check, Review B, B-P8-3). The file `<out>/card-picture-match.txt`
- * holds exactly these lines, so a count of the lines is the count of the picture-type cards.
+ * matched row id or `none`, and the fourth column. A color word card names the source `patch`, and
+ * a number word card names the source `dots`, in the third and the fourth column, because neither
+ * card prints a picture row (owner decision, Daniel, PM relay, 2026-11-06). A matched line names
+ * its case (`text` or `page`); an unmatched line names its reason (`none: no row`, `none: files not
+ * delivered`, or the message of the failed file check, Review B, B-P8-3). The file
+ * `<out>/card-picture-match.txt` holds exactly these lines, so a count of the lines is the count of
+ * the picture-type cards.
  * @param cards The cards of the kit.
  * @param rows The rows of the picture list of the level.
  * @param delivered The row ids whose color and line-art files are both delivered.
@@ -490,6 +545,8 @@ export function storytimeCardPictureMatchLines(
     return cards
         .filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind))
         .map((card) => {
+            const special = cardSpecialSource(card);
+            if (special) return `${card.kind}\t${card.label}\t${special}\t${special}`;
             const match = cardPictureMatch(card, rows, delivered);
             if (match.row) return `${card.kind}\t${card.label}\t${match.row.id}\t${match.how}`;
             // The row the card would match when every file were in place tells the two reasons
@@ -591,7 +648,56 @@ export interface StorytimeCardSheetOptions {
     title?: string;
 }
 
-/** The body of one card: the label alone, or the label and its picture box. */
+/** The corner radius of a color patch, in millimeters. */
+const CARD_PATCH_RADIUS_MM = 6;
+
+/**
+ * The picture area of a color word card: a rounded square of the approved sRGB value that fills
+ * the area. The `data-card-patch` value is the card word, so the report and the check can find it.
+ * @param word The card word in lower case.
+ * @returns The HTML of the picture area.
+ */
+function colorPatchBox(word: string): string {
+    const hex = STORYTIME_CARD_COLOR_PATCH[word];
+    return `<div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="${esc(word)}" data-shape="rounded-square" data-color="${hex}" style="background-color:${hex};width:100%;height:100%;align-self:stretch;border-radius:${CARD_PATCH_RADIUS_MM}mm"></div></div>`;
+}
+
+/**
+ * The picture area of a number word card: the numeral and exactly its number of round dots. The
+ * dots sit in one or two rows, with at most five dots in a row. A dot is an SVG circle, so it stays
+ * round at any printed size.
+ * @param word The card word in lower case.
+ * @returns The HTML of the picture area.
+ */
+function numberDotsBox(word: string): string {
+    const count = STORYTIME_CARD_NUMBER_DOTS[word];
+    const rows = Math.ceil(count / CARD_NUMBER_DOT_ROW_MAX);
+    const radius = 7;
+    const gap = 4;
+    const rowHeight = 22;
+    const width = 100;
+    const dots: string[] = [];
+    for (let row = 0; row < rows; row++) {
+        const inRow = Math.min(CARD_NUMBER_DOT_ROW_MAX, count - row * CARD_NUMBER_DOT_ROW_MAX);
+        const rowWidth = inRow * 2 * radius + (inRow - 1) * gap;
+        for (let index = 0; index < inRow; index++) {
+            const cx = (width - rowWidth) / 2 + radius + index * (2 * radius + gap);
+            const cy = radius + 4 + row * rowHeight;
+            dots.push(`<circle data-number-dot="1" data-row="${row}" cx="${mm(cx)}" cy="${mm(cy)}" r="${radius}"/>`);
+        }
+    }
+    return `<div class="card-picture card-number-picture"><div class="card-number" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3mm"><div class="card-numeral" data-card-numeral style="font-size:60pt;line-height:1;font-weight:700">${count}</div><svg class="card-number-dots" viewBox="0 0 ${width} ${rows * rowHeight}" style="width:100%;height:auto;max-height:50%" aria-hidden="true">${dots.join('')}</svg></div></div>`;
+}
+
+/**
+ * The body of one card: the label alone, the label and a color patch, the label and the numeral
+ * with dots, or the label and its picture box.
+ * @param card The card.
+ * @param cellWidthMm The width of the card cell, in millimeters.
+ * @param size The card size of the sheet.
+ * @param picture The absolute picture file of the card, when the card prints a picture.
+ * @returns The HTML of the card body.
+ */
 function cardBody(card: StorytimeCard, cellWidthMm: number, size: StorytimeCardSize, picture?: string): string {
     const cap = LABEL_CAP_PT[size];
     if (!STORYTIME_CARD_PICTURE_KINDS.includes(card.kind)) {
@@ -599,6 +705,9 @@ function cardBody(card: StorytimeCard, cellWidthMm: number, size: StorytimeCardS
         return `<div class="card-letter"${bold ? ' data-bold="1"' : ''} style="font-size:${labelPt(card.label, cellWidthMm, bold, cap)}pt">${esc(card.label)}</div>`;
     }
     const label = `<div class="card-label" style="font-size:${labelPt(card.label, cellWidthMm, true, 40)}pt">${esc(card.label)}</div>`;
+    const special = cardSpecialSource(card);
+    if (special === 'patch') return label + colorPatchBox(card.label.toLowerCase());
+    if (special === 'dots') return label + numberDotsBox(card.label.toLowerCase());
     const box = picture
         ? `<div class="card-picture"><img src="${esc(pathToFileURL(picture).href)}" alt=""></div>`
         : `<div class="card-picture card-picture-empty"><span>${esc(card.label)}</span></div>`;
