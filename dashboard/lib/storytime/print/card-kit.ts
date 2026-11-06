@@ -606,7 +606,8 @@ export function storytimeDeliveredPictures(folder: string, rows: StorytimePictur
 /**
  * The source of one line of the match report: the picture of a card row, a color patch, a number
  * dot group, or no picture. The third column names the source. When that column says `none`, the
- * fourth column names the source or the reason of the missing picture.
+ * fourth column names the source or the reason of the missing picture. A line with fewer than
+ * three columns names no source, so the source of that line is `none`.
  * @param line One line of the match report.
  * @returns The source of the line.
  */
@@ -614,6 +615,7 @@ export function storytimeCardMatchSource(line: string): 'picture' | 'patch' | 'd
     const fields = line.split('\t');
     const third = fields[2] ?? '';
     const fourth = fields[3] ?? '';
+    if (third === '') return 'none';
     if (third === 'patch' || fourth === 'patch') return 'patch';
     if (third === 'dots' || fourth === 'dots') return 'dots';
     return third === 'none' ? 'none' : 'picture';
@@ -622,7 +624,7 @@ export function storytimeCardMatchSource(line: string): 'picture' | 'patch' | 'd
 /**
  * The counts of the match report by source: the picture matches, the color patches, the number dot
  * groups, and the cards with no picture. The count of a line comes from its source, so the four
- * numbers add up to the number of lines.
+ * numbers add up to the number of lines. A line with fewer than three columns counts as `none`.
  * @param lines The lines of the match report.
  * @returns The count of each source.
  */
@@ -893,12 +895,14 @@ export const STORYTIME_STICKER_CENTER_OVERRIDES: Record<string, string> = {
 const STICKER_CENTRE_PATTERN = /^\d+(\.\d+)?%\s+\d+(\.\d+)?%$/;
 
 /**
- * The centre of the picture of one sticker.
+ * The centre of the picture of one sticker. The centre map holds the centres by label. A label that
+ * the map does not hold as its own key has no centre, so the sticker prints at the default centre.
  * @param centres The centre map of the call: the module map, then the caller map.
  * @param label The sticker label.
  * @returns The `object-position` value; the default centre when the map has no valid entry.
  */
 function stickerCentre(centres: Record<string, string>, label: string): string {
+    if (!Object.hasOwn(centres, label)) return STORYTIME_STICKER_DEFAULT_CENTRE;
     const raw = centres[label];
     if (raw === undefined) return STORYTIME_STICKER_DEFAULT_CENTRE;
     const value = raw.trim();

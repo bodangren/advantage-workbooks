@@ -308,7 +308,7 @@ describe('the match counts', () => {
      * A line of the match report has four tab columns. A line with fewer than three columns names
      * no row and no source, so it must not count as a picture match.
      */
-    it.fails('X-P8-12 does not count a malformed match line as a picture match', () => {
+    it('X-P8-12 does not count a malformed match line as a picture match', () => {
         const counts = storytimeCardMatchCounts(['picture\tfan', '', 'x']);
         expect(counts.picture, 'a line with fewer than 3 columns is not a picture').toBe(0);
     });
@@ -442,7 +442,7 @@ describe('the sticker centre overrides', () => {
      * `raw.trim()` throws. A sticker whose label is an Object.prototype name must print at the
      * default centre.
      */
-    it.fails('X-P8-13 prints a sticker whose label is an Object.prototype name at the default centre', () => {
+    it('X-P8-13 prints a sticker whose label is an Object.prototype name at the default centre', () => {
         for (const label of ['constructor', 'toString', '__proto__']) {
             const got = positions([sticker(label)]);
             expect(got.get(label), `${label} keeps the default centre`).toBe('50% 50%');
