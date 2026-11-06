@@ -128,18 +128,44 @@ describe('Phase 8 color patches and number dots', () => {
         ).map((entry) => entry.rowId));
         const reportFields = storytimeCardPictureMatchLines(allPictureCards, rows, delivered)
             .map((line) => line.split('\t'));
-        const otherNoneCards = allPictureCards.filter((_card, index) =>
-            reportFields[index][2] === 'none' && reportFields[index][3] === 'none: no row');
-        const specialDoc = documentFor(specialCards);
-        const noneDoc = documentFor(otherNoneCards);
+        const pictureByCard = new Map<StorytimeCard, string | undefined>();
+        allPictureCards.forEach((card, index) => {
+            const source = reportFields[index][3];
+            pictureByCard.set(card, source === 'text' || source === 'page' ? '/tmp/p8-existing-picture.png' : undefined);
+        });
+        const { html } = compileStorytimeCardSheet(allPictureCards, 'A6', {
+            pictureOf: (card) => pictureByCard.get(card),
+        });
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const otherCards = allPictureCards.filter((card) => !specialLabels.has(card.label.toLowerCase()));
+        const otherNoneCards = otherCards.filter((card) => {
+            const index = allPictureCards.indexOf(card);
+            return reportFields[index][2] === 'none' && reportFields[index][3] === 'none: no row';
+        });
+        const otherMatchedCards = otherCards.filter((card) => {
+            const index = allPictureCards.indexOf(card);
+            return reportFields[index][3] === 'text' || reportFields[index][3] === 'page';
+        });
 
         expect(specialCards, 'the eight color and nine number cards').toHaveLength(17);
-        expect(specialDoc.querySelectorAll('.card-picture-empty'), 'the special cards have no empty boxes')
-            .toHaveLength(0);
+        for (const card of specialCards) {
+            expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture-empty`),
+                `${card.label} has no empty box`).toBeNull();
+        }
+        expect(otherCards, 'the 89 non-special picture cards keep their prior picture behavior')
+            .toHaveLength(89);
+        expect(otherMatchedCards, 'the 57 matched non-special cards still show the picture')
+            .toHaveLength(57);
+        for (const card of otherMatchedCards) {
+            expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture img`),
+                `${card.label} still shows its matched picture`).not.toBeNull();
+        }
         expect(otherNoneCards, 'the remaining cards with no picture row, including both dress cards')
             .toHaveLength(32);
-        expect(noneDoc.querySelectorAll('.card-picture-empty'), 'all 32 unmatched cards keep empty boxes')
-            .toHaveLength(32);
+        for (const card of otherNoneCards) {
+            expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture-empty`),
+                `${card.label} keeps its empty box`).not.toBeNull();
+        }
     });
 
     it('R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none', () => {
