@@ -1,0 +1,49 @@
+Green r13, Phase 8, storytime_print_r1_20261025.
+
+Role: measure-jr-green. Round: review round 8 remediation of Phase 8. Phase id P8.
+Phase heading: "Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)".
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+role_base_sha: 504fb6a289205db3fa94cb5a9dc36ade471d577e
+
+Scope: plan only. No code file and no test file changed in this round.
+
+## The findings routed in
+
+- F51 is A-P8-26. It comes from measure/runs/storytime_print_r1_20261025/review-a-p8-504fb6a2.json. Disposition FIX.
+- F52 is A-P8-27 and B-P8-13. It is one defect. It comes from review-a-p8-504fb6a2.json and review-b-p8-504fb6a2.json. Disposition FIX.
+- Both reviews passed. They hold no blocking finding.
+
+## The changes
+
+- F51: the plan lines 1002, 1021, 1037, and 1077 now use the words of F47. The capture holds no check-weeks output. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base. The tsc clause and the capture name stay. Each line ends with the tag `[corrected in review round 8, F51]`.
+- F52: the `PROJECT_CHECKS` value of plan line 23 runs `npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit` with no pipe. The gate then uses the exit code of check-weeks. The baseline sentence of plan line 33 states this rule from review round 8 (F52).
+
+## The facts I checked
+
+- `git rev-parse HEAD` gave 504fb6a2 before my first commit. It equals role_base_sha.
+- The four captures of the F51 lines hold no check-weeks output. green-p8-cardkit-r3-checks.txt holds the command and the exit code. green-p8-cardkit-r4-checks.txt and green-p8-cardkit-r5-checks.txt hold the command and a written result. green-p8-cardrows-checks.txt holds only the exit code.
+- dashboard/scripts/storytime/check-weeks.ts line 89 returns 1 when any check has the status `fail`. Line 93 sets `process.exitCode = main(process.argv.slice(2))`.
+- The gate command of the brief pipes the output to `tail` and reads `PIPESTATUS[0]`. It exits 2 under heavy-run. The inner shell of heavy-run expands `PIPESTATUS[0]` to an empty string. Bash prints "Invalid environment variable name evaluates to an empty string: PIPESTATUS[0]" and "bash: line 1: test: : integer expected".
+- A probe of the inner shell of heavy-run shows the same. The variable stays empty after a pipeline. With `set -o pipefail`, the pipeline `true | tail -1` gives 0 and the pipeline `false | tail -1` gives 1.
+- The gate that passed runs the plan value as it stands. It has no pipe, so the exit code of check-weeks is the exit code of the gate.
+- The gate output holds no FAIL line. It holds 1 warning, `print-missing`. Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The `npx tsc --noEmit` part reports no error. The capture holds "exit: 0".
+- After the gate, `git status --porcelain -- pnpm-lock.yaml content/` was empty. The only modified tracked files were the plan file of this round and video/storytime-song/scripts/render.mjs. That file belongs to another session, and this round did not touch it.
+
+## The commits
+
+- e6dd383dba4dffac2438fbf0b035b77737dbd152 holds the plan file and the capture green-p8-r13-checks.txt. Its message is "docs(measure): correct the four published check lines and use the check-weeks exit code (storytime_print_r1)".
+- The plan evidence commit holds the plan task entry and this log. Its message is "docs(measure): record the P8 review round 8 Green evidence (storytime_print_r1)". Its SHA is the reply of this role, because a commit holds no own SHA.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, review round 8 remediation of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: plan and capture commit e6dd383dba4dffac2438fbf0b035b77737dbd152; plan evidence commit: the commit that holds the plan task entry and this log, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha 504fb6a289205db3fa94cb5a9dc36ade471d577e; final Green HEAD is the plan evidence commit after e6dd383d, and its SHA is the reply of this role
+tests_run: the new PROJECT_CHECKS of plan line 23 through heavy-run in the foreground, exit 0, the check-weeks output holds no FAIL line and 1 warning (print-missing), the summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s).", and the npx tsc --noEmit part reports no error; capture green-p8-r13-checks.txt; no Red command and no test run, because this round changed plan text only
+files_changed: measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r13-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r13.log
+plan_updates: plan line 23 holds the new PROJECT_CHECKS value with the F52 comment; plan line 33 holds the F52 rule of the gate; plan lines 1002, 1021, 1037, and 1077 hold the F47 wording and the tag [corrected in review round 8, F51]; the new Green task line sits before the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" and is [x] with commit e6dd383d; it names the routing F51=FIX and F52=FIX, the decision option 1, the F51 and F52 rules, the gate result with its capture, and the dispositions line; the owner gate stays [ ]
+known_failures: none
+handoff: The task "Task (Green, review round 8 remediation): plan fixes for F51 and F52" is [x] with commit e6dd383d. No task was flipped to [b], and no deferred owner applies. No Red command ran in this round, because the round changed plan text only. The gate is the new PROJECT_CHECKS of plan line 23: it exits 0, it holds no FAIL line, its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s).", and the tsc part reports no error; the capture is green-p8-r13-checks.txt. The gate command of the brief, with PIPESTATUS, exits 2 under heavy-run, because the inner shell of heavy-run expands PIPESTATUS[0] to an empty string; the gate that passed runs the plan value with no pipe. New files: measure/runs/storytime_print_r1_20261025/green-p8-r13-checks.txt and measure/runs/storytime_print_r1_20261025/green-p8-r13.log. The immutable phase_base_sha is 709dd19ce412597f5c92cdc3edb5272878a8ec65. The final Green HEAD is the plan evidence commit after e6dd383d, and its SHA is in the reply of this role. The next role reviews the plan commit e6dd383d and the plan evidence commit. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open, so the phase stays open.
+dispositions: F51=FIX; F52=FIX
+END_MEASURE_AGENT_RESULT

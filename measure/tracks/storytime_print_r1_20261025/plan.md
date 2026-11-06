@@ -1257,6 +1257,16 @@ _Blast radius: `COVER_BOOKS` (`lib/covers/catalogue.ts`, `schema.ts`, `check.ts`
     - The mutants: the F49 line removed makes X-P8-12 fail (exit 1, 1 failed and 15 passed). The `Object.hasOwn` guard removed makes X-P8-13 fail (exit 1, 1 failed and 15 passed). Each file came back byte for byte (`cmp`). Captures: `green-p8-r12-mutant-F49.txt` and `green-p8-r12-mutant-F50.txt`.
     - The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
     - The dispositions of this Green round: F49=FIX; F50=FIX.
+- [x] Task (Green, review round 8 remediation): plan fixes for F51 and F52 (review-a/b-p8-504fb6a2.json). commit e6dd383d
+    - Routing: F51=FIX; F52=FIX.
+    - Evidence: automated.
+    - The plan commit is e6dd383d. It changes the plan file and the capture `green-p8-r13-checks.txt` only. No code file and no test file changed.
+    - F51 (A-P8-26): the plan lines 1002, 1021, 1037, and 1077 no longer claim that the check-weeks part accepted the one known `published` FAIL. The capture holds no check-weeks output. The gate of that run allowed at most one `published` FAIL. The `published` check passes since commit 67be5603 (2026-11-04), before the phase base. Each line ends with the tag `[corrected in review round 8, F51]`.
+    - F52 (A-P8-27 and B-P8-13, one defect): the decision of the orchestrator is option 1. The `PROJECT_CHECKS` value of plan line 23 runs `npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit` with no pipe. The gate then uses the exit code of check-weeks, so a FAIL and a crash fail the gate.
+    - The baseline sentence of plan line 33 states that the gate uses the exit code of check-weeks from review round 8 (F52).
+    - The gate command ran the plan value as it stands, with no pipe. A form that pipes the output to `tail` and reads `PIPESTATUS` exits 2 under heavy-run, because the inner shell expands `PIPESTATUS[0]` to an empty string.
+    - The gate: the new `PROJECT_CHECKS` runs once through heavy-run and exits 0. The check-weeks output holds 0 FAIL lines and 1 warning (`print-missing`). Its summary line reads "Summary: 8 package(s), 0 failed check(s), 1 warning(s)." The `npx tsc --noEmit` part reports no error. Capture: `green-p8-r13-checks.txt`.
+    - The dispositions of this Green round: F51=FIX; F52=FIX.
 - [ ] Task: Measure - User Manual Verification 'Phase 8: Card kit' (Protocol in workflow.md)
 
 ## Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
