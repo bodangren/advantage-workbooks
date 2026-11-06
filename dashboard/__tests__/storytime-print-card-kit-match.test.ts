@@ -144,18 +144,22 @@ describe('the PM picture match rule of 2026-11-05', () => {
             .toBe('check-cat');
     });
 
-    it('G-P8-M5 the shipped weeks give 106 picture-type cards: 57 matched and 49 with no match', () => {
+    it('G-P8-M5 the shipped weeks give 106 picture-type cards: 57 picture matches, 8 patches, 9 dots, 32 with no match', () => {
         const { cards, rows, delivered } = shipped();
         const lines = storytimeCardPictureMatchLines(cards, rows, delivered);
         expect(lines, 'one report line for each picture-type card').toHaveLength(106);
         const fields = lines.map((line) => line.split('\t'));
         expect(fields.every((field) => field.length === 4), 'each line holds kind, label, row id or none, and reason')
             .toBe(true);
-        const matched = fields.filter((field) => field[2] !== 'none');
+        const matched = fields.filter((field) => field[3] === 'text' || field[3] === 'page');
+        const patches = fields.filter((field) => field[3] === 'patch');
+        const dots = fields.filter((field) => field[3] === 'dots');
         const none = fields.filter((field) => field[2] === 'none');
-        expect(matched, 'the matched picture cards').toHaveLength(57);
-        expect(none, 'the picture cards with no match').toHaveLength(49);
-        expect(matched.every((field) => field[3] === 'text' || field[3] === 'page'), 'a matched line names its case')
+        expect(matched, 'picture matches').toHaveLength(57);
+        expect(patches, 'color patch sources').toHaveLength(8);
+        expect(dots, 'number dot sources').toHaveLength(9);
+        expect(none, 'the picture cards with no source').toHaveLength(32);
+        expect([...matched, ...patches, ...dots].every((field) => field[2] !== 'none'), 'a sourced line has no none row')
             .toBe(true);
         expect(none.every((field) => field[3].startsWith('none: ')), 'a none line carries its reason').toBe(true);
     }, 120_000);
