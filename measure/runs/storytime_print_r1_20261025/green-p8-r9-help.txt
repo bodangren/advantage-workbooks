@@ -1,0 +1,56 @@
+$ npx tsx scripts/storytime/check-storytime-pictures.ts --help
+Runs stage 1 of the picture stages on a Forge batch (spec FR-9, strategy 5.1): the size,
+the color mode, the alpha, the gray fill, the file name, the SHA-256, and the pixel size of the
+color file and of the line art of each row, against the row of the picture list and the Forge
+manifest.json.
+
+A Forge job matches a picture-list row by its job.id = the row id. The color file name is
+<row id>-v<N>.png and the line-art name is <row id>-line-v<N>.png. N is a positive number with
+no leading zero, and N equals the selectedVersion of the job. The manifest holds one job for
+each row id; a duplicate row id fails the row.
+
+Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [--level <n>] [--weeks <list>]
+
+  --batch   The Forge batch folder; it must hold manifest.json and the picture files, and each
+            manifest path must stay inside that folder
+  --level   The Storytime level, a whole number from 1 to 4 (default 2)
+  --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1);
+            every requested week must load exactly once (checkRequestedWeeks)
+
+The command prints one line for each picture-list row of the weeks and a summary line. The card
+rows of the card kit follow the book rows. Each row class of a week is requested on its own. The
+book rows of week N are requested when the batch holds a job for a book row of week N. They are
+requested too when the batch holds no job for any row of week N. The card rows of week N follow
+the same rule with the card rows. Every requested row with no job fails. A class of a week that
+the batch does not request prints one skip line before the summary line. Stage 1 is a measurement,
+never an approval (spec P7); it writes no file.
+
+Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
+once. Exit code 2 on an argument error, on a batch folder without a manifest.json, and on a
+manifest.json that does not parse.
+exit: 0
+
+$ npx tsx scripts/storytime/make-card-kit-pdf.ts --help
+Builds the PDF/X-1a print files of the Storytime Advantage card kit (spec FR-7): the A5
+cards, the A6 cards, and the sticker sheet, each through make-pdfx.ts --keep-fonts (color, CMYK).
+Run it under the heavy-job lock (plan rule 12).
+
+Usage: npx tsx scripts/storytime/make-card-kit-pdf.ts --level <n> --weeks <list> [--out <folder>] [--version <n>]
+
+  --level   The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks   The weeks of the kit, each a whole number from 1 to 32, comma separated, e.g. 1,2,3,4,5,6,7,8
+  --out     The output folder, an absolute path strictly inside <home>/Desktop/print-ready/storytime/
+            (default ~/Desktop/print-ready/storytime/card-kit-v<n>/)
+  --version The version in the file names, a whole number of 1 or more (rule 12.2; default 1)
+
+Files: Storytime-Advantage-L<level>-U1-Card-Kit-A5-v<n>_PDFX-1a.pdf,
+Storytime-Advantage-L<level>-U1-Card-Kit-A6-v<n>_PDFX-1a.pdf,
+Storytime-Advantage-L<level>-U1-Card-Kit-Stickers-v<n>_PDFX-1a.pdf, and card-picture-match.txt
+(the kind, the label, the matched picture-list row id or none, and the match case or the reason of
+a missing picture, one tab-separated line for each picture-type card). The third and the fourth
+column hold patch or dots for a color patch card and a number dot card. The build prints two count
+lines: 'picture cards: ...' and 'distinct words: ...'.
+
+Exit code 2 on an argument error or an output folder outside the print folder; 1 when a week does
+not parse, a page count misses the plan, or the PDF/X check fails.
+exit: 0

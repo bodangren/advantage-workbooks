@@ -1,0 +1,39 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 423[2mms[22m[39m
+     [32m✓[39m CP-1: the picture list version is 7[32m 2[2mms[22m[39m
+     [32m✓[39m CP-2: the card file holds the 31 words with their weeks, in card kit order[32m 4[2mms[22m[39m
+     [32m✓[39m CP-3: the card file is tracked, not ignored[32m 8[2mms[22m[39m
+     [32m✓[39m CP-4: every card prompt holds the style sentence and ends with the no-letters sentence[32m 6[2mms[22m[39m
+     [32m✓[39m CP-5: the prompts of the cast cards name the known people[32m 3[2mms[22m[39m
+     [32m✓[39m CP-6: no card row names a color word or a number word[32m 93[2mms[22m[39m
+     [32m✓[39m CP-7: each card row carries the fields of a card picture row[32m 77[2mms[22m[39m
+     [32m✓[39m CP-8: the committed list is the 196 book rows and then the 31 card rows[32m 64[2mms[22m[39m
+     [32m✓[39m CP-9: the committed pictures.md says Version 7 and holds the card rows[32m 40[2mms[22m[39m
+     [32m✓[39m CP-10: a card file without a week and a prompt is a data error[32m 3[2mms[22m[39m
+[31m     [31m×[31m rejects duplicate card words across weeks without case sensitivity[39m[32m 9[2mms[22m[39m
+     [32m✓[39m CP-11: a delivered card row wins over the case (a) row and over the case (b) story page[32m 109[2mms[22m[39m
+     [32m✓[39m CP-11 strengthening: the delivered check row wins over an undelivered card row[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-card-pictures.test.ts[2m > [22mPhase 8 card picture rows: the card kit match[2m > [22mrejects duplicate card words across weeks without case sensitivity
+[31m[1mAssertionError[22m: different words with one slug in a week are rejected: expected [Function] to throw an error[39m
+[36m [2m❯[22m __tests__/storytime-print-card-pictures.test.ts:[2m278:72[22m[39m
+    [90m276| [39m            { word[33m:[39m [32m'ice cream'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'ice cream'[39m }[33m,[39m
+    [90m277| [39m            { word[33m:[39m [32m'ice-cream'[39m[33m,[39m week[33m:[39m [34m2[39m[33m,[39m prompt[33m:[39m [32m'ice-cream'[39m }[33m,[39m
+    [90m278| [39m        ], 2), 'different words with one slug in a week are rejected')…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m279| [39m    })[33m;[39m
+    [90m280| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 17:44:29
+[2m   Duration [22m 2.11s[2m (transform 425ms, setup 330ms, import 692ms, tests 423ms, environment 0ms)[22m
+
+exit: 1

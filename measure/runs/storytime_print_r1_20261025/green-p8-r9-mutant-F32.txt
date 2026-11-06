@@ -1,0 +1,610 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m55 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 156414[2mms[22m[39m
+     [32m✓[39m exports the reader compiler without a collection-time import[32m 145[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 391[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 3149[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 1347[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 1449[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 417[2mms[22m[39m
+     [32m✓[39m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)[32m 215[2mms[22m[39m
+     [32m✓[39m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)[32m 1[2mms[22m[39m
+     [32m✓[39m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)[32m 211[2mms[22m[39m
+     [32m✓[39m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)[32m 240[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4524[2mms[22m[39m
+     [32m✓[39m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy[32m 132[2mms[22m[39m
+     [32m✓[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders[32m 281[2mms[22m[39m
+     [32m✓[39m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)[32m 99[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 908[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 1334[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 396[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 671[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1698[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 4457[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 13970[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 4686[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1206[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1915[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1322[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1054[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 4619[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 1442[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 18808[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 2371[2mms[22m[39m
+     [32m✓[39m R-P4-20 fails a row whose manifest path resolves outside the batch root[32m 10[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1241[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 817[2mms[22m[39m
+[31m     [31m×[31m R-P8-F32a checks all 31 requested card rows without requesting book rows[39m[33m 7338[2mms[22m[39m
+[31m     [31m×[31m R-P8-F32b fails the missing requested week 1 card row[39m[33m 5664[2mms[22m[39m
+[31m     [31m×[31m R-P8-F32c checks a missing card row beside the complete week 1 book delivery[39m[33m 17644[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 535[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 1033[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 14112[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 815[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 2137[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion [33m 343[2mms[22m[39m
+     [32m✓[39m R-P4-27 rejects an empty request for the batch check[32m 206[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 22420[2mms[22m[39m
+     [32m✓[39m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 161[2mms[22m[39m
+     [32m✓[39m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)[32m 117[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1016[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1286[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 981[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 801[2mms[22m[39m
+     [32m✓[39m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked[32m 217[2mms[22m[39m
+     [32m✓[39m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 974[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 959[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2074[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P8-F32a checks all 31 requested card rows without requesting book rows
+[31m[1mAssertionError[22m[39m: fail  l2-w01-story-page-hello-i-am-pat: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-pat
+fail  l2-w01-story-page-hello-i-am-may: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-may
+fail  l2-w01-story-page-hello-i-am-sam: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-sam
+fail  l2-w01-story-page-hello-i-am-mia: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-mia
+fail  l2-w01-story-page-hello-i-am-nan: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-nan
+fail  l2-w01-story-page-hello-i-am-ben: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-ben
+fail  l2-w01-story-page-hello-i-am-your-teacher: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-your-teacher
+fail  l2-w01-story-page-hello-i-am-pip: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-pip
+fail  l2-w01-cover-hello: forge manifest: the manifest holds no job for the row l2-w01-cover-hello
+fail  l2-w01-story-page-a-nest: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nest
+fail  l2-w01-story-page-a-net: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-net
+fail  l2-w01-story-page-a-nut: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nut
+fail  l2-w01-story-page-a-nose: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nose
+fail  l2-w01-story-page-a-neck: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-neck
+fail  l2-w01-story-page-a-nurse: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nurse
+fail  l2-w01-story-page-a-nest-and-a-nut: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nest-and-a-nut
+fail  l2-w01-story-page-nan-can-nod: forge manifest: the manifest holds no job for the row l2-w01-story-page-nan-can-nod
+fail  l2-w01-cover-nan-can-nod: forge manifest: the manifest holds no job for the row l2-w01-cover-nan-can-nod
+fail  l2-w01-check-row-nest: forge manifest: the manifest holds no job for the row l2-w01-check-row-nest
+fail  l2-w01-check-row-cat: forge manifest: the manifest holds no job for the row l2-w01-check-row-cat
+fail  l2-w01-check-row-fish: forge manifest: the manifest holds no job for the row l2-w01-check-row-fish
+fail  l2-w01-check-row-dog: forge manifest: the manifest holds no job for the row l2-w01-check-row-dog
+fail  l2-w01-check-row-nose: forge manifest: the manifest holds no job for the row l2-w01-check-row-nose
+fail  l2-w01-check-row-bus: forge manifest: the manifest holds no job for the row l2-w01-check-row-bus
+fail  l2-w01-check-row-hat: forge manifest: the manifest holds no job for the row l2-w01-check-row-hat
+fail  l2-w01-check-row-cup: forge manifest: the manifest holds no job for the row l2-w01-check-row-cup
+fail  l2-w01-check-row-net: forge manifest: the manifest holds no job for the row l2-w01-check-row-net
+fail  l2-w01-practice-line-nose: forge manifest: the manifest holds no job for the row l2-w01-practice-line-nose
+fail  l2-w01-practice-line-nest: forge manifest: the manifest holds no job for the row l2-w01-practice-line-nest
+fail  l2-w02-story-page-how-many-suns-one: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-suns-one
+fail  l2-w02-story-page-how-many-kites-two: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-kites-two
+fail  l2-w02-story-page-how-many-ducks-three: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-ducks-three
+fail  l2-w02-story-page-how-many-birds-four: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-birds-four
+fail  l2-w02-story-page-how-many-balls-five: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-balls-five
+fail  l2-w02-story-page-how-many-friends-six: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-friends-six
+fail  l2-w02-story-page-how-many-cakes-seven: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-seven
+fail  l2-w02-story-page-how-many-cakes-oh-no-pip: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-oh-no-pip
+fail  l2-w02-cover-how-many: forge manifest: the manifest holds no job for the row l2-w02-cover-how-many
+fail  l2-w02-story-page-nan-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can
+fail  l2-w02-story-page-can-i: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i
+fail  l2-w02-story-page-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can
+fail  l2-w02-story-page-nan-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can-b
+fail  l2-w02-story-page-can-i-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i-b
+fail  l2-w02-story-page-i-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can-b
+fail  l2-w02-story-page-can-nan: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-nan
+fail  l2-w02-story-page-nan-and-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-and-i-can
+fail  l2-w02-cover-can-i: forge manifest: the manifest holds no job for the row l2-w02-cover-can-i
+fail  l2-w02-check-row-apple: forge manifest: the manifest holds no job for the row l2-w02-check-row-apple
+fail  l2-w02-check-row-dog: forge manifest: the manifest holds no job for the row l2-w02-check-row-dog
+fail  l2-w02-check-row-sun: forge manifest: the manifest holds no job for the row l2-w02-check-row-sun
+fail  l2-w02-check-row-bus: forge manifest: the manifest holds no job for the row l2-w02-check-row-bus
+fail  l2-w02-check-row-ant: forge manifest: the manifest holds no job for the row l2-w02-check-row-ant
+fail  l2-w02-check-row-fish: forge manifest: the manifest holds no job for the row l2-w02-check-row-fish
+fail  l2-w02-check-row-pig: forge manifest: the manifest holds no job for the row l2-w02-check-row-pig
+fail  l2-w02-check-row-bed: forge manifest: the manifest holds no job for the row l2-w02-check-row-bed
+fail  l2-w02-check-row-axe: forge manifest: the manifest holds no job for the row l2-w02-check-row-axe
+fail  l2-w03-story-page-it-is-red: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-red
+fail  l2-w03-story-page-it-is-blue: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-blue
+fail  l2-w03-story-page-it-is-yellow: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-yellow
+fail  l2-w03-story-page-it-is-green: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-green
+fail  l2-w03-story-page-it-is-orange: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-orange
+fail  l2-w03-story-page-it-is-pink: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-pink
+fail  l2-w03-story-page-it-is-purple: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-purple
+fail  l2-w03-story-page-it-is-pip: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-pip
+fail  l2-w03-cover-paint: forge manifest: the manifest holds no job for the row l2-w03-cover-paint
+fail  l2-w03-story-page-nan-can-get-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-nan-can-get-a-pan
+fail  l2-w03-story-page-i-can-get-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-i-can-get-a-pan
+fail  l2-w03-story-page-a-pan-in-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-in-a-pan
+fail  l2-w03-story-page-a-pan-on-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-on-a-pan
+fail  l2-w03-story-page-a-pan-on-nan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-on-nan
+fail  l2-w03-story-page-can-i-get-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-can-i-get-the-pan
+fail  l2-w03-story-page-i-can-get-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-i-can-get-the-pan
+fail  l2-w03-story-page-a-nap-in-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-nap-in-the-pan
+fail  l2-w03-cover-the-pan: forge manifest: the manifest holds no job for the row l2-w03-cover-the-pan
+fail  l2-w03-check-row-pen: forge manifest: the manifest holds no job for the row l2-w03-check-row-pen
+fail  l2-w03-check-row-cat: forge manifest: the manifest holds no job for the row l2-w03-check-row-cat
+fail  l2-w03-check-row-sun: forge manifest: the manifest holds no job for the row l2-w03-check-row-sun
+fail  l2-w03-check-row-dog: forge manifest: the manifest holds no job for the row l2-w03-check-row-dog
+fail  l2-w03-check-row-pear: forge manifest: the manifest holds no job for the row l2-w03-check-row-pear
+fail  l2-w03-check-row-bus: forge manifest: the manifest holds no job for the row l2-w03-check-row-bus
+fail  l2-w03-check-row-fish: forge manifest: the manifest holds no job for the row l2-w03-check-row-fish
+fail  l2-w03-check-row-hat: forge manifest: the manifest holds no job for the row l2-w03-check-row-hat
+fail  l2-w03-check-row-pencil: forge manifest: the manifest holds no job for the row l2-w03-check-row-pencil
+fail  l2-w04-story-page-this-is-my-mom: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-mom
+fail  l2-w04-story-page-this-is-my-dad: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-dad
+fail  l2-w04-story-page-this-is-my-brother: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-brother
+fail  l2-w04-story-page-this-is-my-grandma: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-grandma
+fail  l2-w04-story-page-this-is-my-grandpa: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-grandpa
+fail  l2-w04-story-page-this-is-my-house: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-house
+fail  l2-w04-story-page-this-is-my-family: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-family
+fail  l2-w04-story-page-this-is-my-dog-pip: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-dog-pip
+fail  l2-w04-cover-my-family: forge manifest: the manifest holds no job for the row l2-w04-cover-my-family
+fail  l2-w04-story-page-this-is-pam: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-pam
+fail  l2-w04-story-page-pam-can-nap: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-can-nap
+fail  l2-w04-story-page-pam-is-in-a-pan: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-in-a-pan
+fail  l2-w04-story-page-pam-is-on-a-map: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-on-a-map
+fail  l2-w04-story-page-pam-is-on-a-man: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-on-a-man
+fail  l2-w04-story-page-is-this-pam: forge manifest: the manifest holds no job for the row l2-w04-story-page-is-this-pam
+fail  l2-w04-story-page-this-is-the-man: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-the-man
+fail  l2-w04-story-page-nan-and-pam-nap: forge manifest: the manifest holds no job for the row l2-w04-story-page-nan-and-pam-nap
+fail  l2-w04-cover-pam: forge manifest: the manifest holds no job for the row l2-w04-cover-pam
+fail  l2-w04-check-row-monkey: forge manifest: the manifest holds no job for the row l2-w04-check-row-monkey
+fail  l2-w04-check-row-cat: forge manifest: the manifest holds no job for the row l2-w04-check-row-cat
+fail  l2-w04-check-row-sun: forge manifest: the manifest holds no job for the row l2-w04-check-row-sun
+fail  l2-w04-check-row-dog: forge manifest: the manifest holds no job for the row l2-w04-check-row-dog
+fail  l2-w04-check-row-mouse: forge manifest: the manifest holds no job for the row l2-w04-check-row-mouse
+fail  l2-w04-check-row-bus: forge manifest: the manifest holds no job for the row l2-w04-check-row-bus
+fail  l2-w04-check-row-fish: forge manifest: the manifest holds no job for the row l2-w04-check-row-fish
+fail  l2-w04-check-row-hat: forge manifest: the manifest holds no job for the row l2-w04-check-row-hat
+fail  l2-w04-check-row-milk: forge manifest: the manifest holds no job for the row l2-w04-check-row-milk
+fail  l2-w05-story-page-i-have-two-eyes: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-eyes
+fail  l2-w05-story-page-i-have-two-ears: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-ears
+fail  l2-w05-story-page-i-have-two-hands: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-hands
+fail  l2-w05-story-page-i-have-two-arms: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-arms
+fail  l2-w05-story-page-i-have-two-legs: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-legs
+fail  l2-w05-story-page-i-have-two-feet: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-feet
+fail  l2-w05-story-page-i-have-one-nose: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-one-nose
+fail  l2-w05-story-page-i-have-four-legs: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-four-legs
+fail  l2-w05-cover-i-have-two: forge manifest: the manifest holds no job for the row l2-w05-cover-i-have-two
+fail  l2-w05-story-page-sam-saw-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-saw-pam
+fail  l2-w05-story-page-sam-can-get-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-can-get-pam
+fail  l2-w05-story-page-sam-is-with-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-is-with-pam
+fail  l2-w05-story-page-pam-is-in-a-pan: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-in-a-pan
+fail  l2-w05-story-page-pam-is-on-a-map: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-on-a-map
+fail  l2-w05-story-page-pam-is-on-sam: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-on-sam
+fail  l2-w05-story-page-pam-is-off-sam: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-off-sam
+fail  l2-w05-story-page-sam-nan-and-pam-nap: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-nan-and-pam-nap
+fail  l2-w05-cover-sam-and-pam: forge manifest: the manifest holds no job for the row l2-w05-cover-sam-and-pam
+fail  l2-w05-check-row-sun: forge manifest: the manifest holds no job for the row l2-w05-check-row-sun
+fail  l2-w05-check-row-cat: forge manifest: the manifest holds no job for the row l2-w05-check-row-cat
+fail  l2-w05-check-row-dog: forge manifest: the manifest holds no job for the row l2-w05-check-row-dog
+fail  l2-w05-check-row-pen: forge manifest: the manifest holds no job for the row l2-w05-check-row-pen
+fail  l2-w05-check-row-sock: forge manifest: the manifest holds no job for the row l2-w05-check-row-sock
+fail  l2-w05-check-row-bed: forge manifest: the manifest holds no job for the row l2-w05-check-row-bed
+fail  l2-w05-check-row-cup: forge manifest: the manifest holds no job for the row l2-w05-check-row-cup
+fail  l2-w05-check-row-hat: forge manifest: the manifest holds no job for the row l2-w05-check-row-hat
+fail  l2-w05-check-row-sofa: forge manifest: the manifest holds no job for the row l2-w05-check-row-sofa
+fail  l2-w05-d4-prompt-face: forge manifest: the manifest holds no job for the row l2-w05-d4-prompt-face
+fail  l2-w06-story-page-i-can-see-a-cat: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-cat
+fail  l2-w06-story-page-i-can-see-a-dog: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-dog
+fail  l2-w06-story-page-i-can-see-a-bird: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-bird
+fail  l2-w06-story-page-i-can-see-a-fish: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-fish
+fail  l2-w06-story-page-i-can-see-a-frog: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-frog
+fail  l2-w06-story-page-i-can-see-a-duck: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-duck
+fail  l2-w06-story-page-i-can-see-a-horse: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-horse
+fail  l2-w06-story-page-i-can-see-pip: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-pip
+fail  l2-w06-cover-i-can-see: forge manifest: the manifest holds no job for the row l2-w06-cover-i-can-see
+fail  l2-w06-story-page-pat-sat-on-a-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-pat-sat-on-a-mat
+fail  l2-w06-story-page-sam-sat-on-a-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-sam-sat-on-a-mat
+fail  l2-w06-story-page-tap-tap-tap: forge manifest: the manifest holds no job for the row l2-w06-story-page-tap-tap-tap
+fail  l2-w06-story-page-pat-can-see-a-map: forge manifest: the manifest holds no job for the row l2-w06-story-page-pat-can-see-a-map
+fail  l2-w06-story-page-sam-can-see-a-pan: forge manifest: the manifest holds no job for the row l2-w06-story-page-sam-can-see-a-pan
+fail  l2-w06-story-page-tap-tap-tap-b: forge manifest: the manifest holds no job for the row l2-w06-story-page-tap-tap-tap-b
+fail  l2-w06-story-page-he-can-see-pip: forge manifest: the manifest holds no job for the row l2-w06-story-page-he-can-see-pip
+fail  l2-w06-story-page-pip-sat-on-the-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-pip-sat-on-the-mat
+fail  l2-w06-cover-tap-tap: forge manifest: the manifest holds no job for the row l2-w06-cover-tap-tap
+fail  l2-w06-check-row-tiger: forge manifest: the manifest holds no job for the row l2-w06-check-row-tiger
+fail  l2-w06-check-row-sun: forge manifest: the manifest holds no job for the row l2-w06-check-row-sun
+fail  l2-w06-check-row-bag: forge manifest: the manifest holds no job for the row l2-w06-check-row-bag
+fail  l2-w06-check-row-cup: forge manifest: the manifest holds no job for the row l2-w06-check-row-cup
+fail  l2-w06-check-row-ten: forge manifest: the manifest holds no job for the row l2-w06-check-row-ten
+fail  l2-w06-check-row-fish: forge manifest: the manifest holds no job for the row l2-w06-check-row-fish
+fail  l2-w06-check-row-dog: forge manifest: the manifest holds no job for the row l2-w06-check-row-dog
+fail  l2-w06-check-row-pen: forge manifest: the manifest holds no job for the row l2-w06-check-row-pen
+fail  l2-w06-check-row-table: forge manifest: the manifest holds no job for the row l2-w06-check-row-table
+fail  l2-w07-story-page-is-it-a-ball-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-ball-no
+fail  l2-w07-story-page-is-it-a-doll-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-doll-no
+fail  l2-w07-story-page-is-it-a-car-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-car-no
+fail  l2-w07-story-page-is-it-a-kite-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-kite-no
+fail  l2-w07-story-page-is-it-a-drum-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-drum-no
+fail  l2-w07-story-page-is-it-a-train-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-train-no
+fail  l2-w07-story-page-is-it-a-teddy-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-teddy-no
+fail  l2-w07-story-page-is-it-pip-yes: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-pip-yes
+fail  l2-w07-cover-is-it-a-ball: forge manifest: the manifest holds no job for the row l2-w07-cover-is-it-a-ball
+fail  l2-w07-story-page-tom-can-see-a-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-tom-can-see-a-top
+fail  l2-w07-story-page-tom-can-get-the-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-tom-can-get-the-top
+fail  l2-w07-story-page-the-top-on-a-mat: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-on-a-mat
+fail  l2-w07-story-page-the-top-on-a-pot: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-on-a-pot
+fail  l2-w07-story-page-the-top-is-on-mom: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-is-on-mom
+fail  l2-w07-story-page-run-tom-run: forge manifest: the manifest holds no job for the row l2-w07-story-page-run-tom-run
+fail  l2-w07-story-page-can-tom-see-the-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-can-tom-see-the-top
+fail  l2-w07-story-page-the-top-is-on-pip: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-is-on-pip
+fail  l2-w07-cover-the-top: forge manifest: the manifest holds no job for the row l2-w07-cover-the-top
+fail  l2-w07-check-row-octopus: forge manifest: the manifest holds no job for the row l2-w07-check-row-octopus
+fail  l2-w07-check-row-sun: forge manifest: the manifest holds no job for the row l2-w07-check-row-sun
+fail  l2-w07-check-row-bed: forge manifest: the manifest holds no job for the row l2-w07-check-row-bed
+fail  l2-w07-check-row-cat: forge manifest: the manifest holds no job for the row l2-w07-check-row-cat
+fail  l2-w07-check-row-ox: forge manifest: the manifest holds no job for the row l2-w07-check-row-ox
+fail  l2-w07-check-row-fish: forge manifest: the manifest holds no job for the row l2-w07-check-row-fish
+fail  l2-w07-check-row-pen: forge manifest: the manifest holds no job for the row l2-w07-check-row-pen
+fail  l2-w07-check-row-bus: forge manifest: the manifest holds no job for the row l2-w07-check-row-bus
+fail  l2-w07-check-row-ostrich: forge manifest: the manifest holds no job for the row l2-w07-check-row-ostrich
+fail  l2-w07-d4-prompt-ball: forge manifest: the manifest holds no job for the row l2-w07-d4-prompt-ball
+pass  l2-w02-card-fan
+pass  l2-w03-card-sheep
+pass  l2-w03-card-cap
+pass  l2-w04-card-jam
+pass  l2-w04-card-ham
+pass  l2-w05-card-dress
+pass  l2-w05-card-sad
+pass  l2-w06-card-boat
+pass  l2-w07-card-pot
+pass  l2-w07-card-mop
+pass  l2-w02-card-astronaut
+pass  l2-w03-card-pineapple
+pass  l2-w05-card-sandwich
+pass  l2-w06-card-tomato
+pass  l2-w07-card-otter
+pass  l2-w01-card-hello
+pass  l2-w01-card-goodbye
+pass  l2-w01-card-boy
+pass  l2-w01-card-girl
+pass  l2-w01-card-teacher
+pass  l2-w04-card-mom
+pass  l2-w04-card-dad
+pass  l2-w04-card-brother
+pass  l2-w04-card-sister
+pass  l2-w04-card-grandma
+pass  l2-w04-card-grandpa
+pass  l2-w04-card-family
+pass  l2-w07-card-doll
+pass  l2-w07-card-car
+pass  l2-w07-card-train
+pass  l2-w07-card-teddy
+31 of 224 rows pass stage 1 (/tmp/opencode/storytime-readers-IBl3AT)
+: expected 1 to be +0 // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1260:49[22m[39m
+    [90m1258| [39m        const run = await runPictureCli(await cardCliBatch(cards), '1,…
+    [90m1259| [39m        const output = run.stdout as string;
+    [90m1260| [39m        expect(run.status, output + run.stderr).toBe(0);
+    [90m   | [39m                                                [31m^[39m
+    [90m1261| [39m        expect(output.split('\n').filter((line) => line.startsWith('pa…
+    [90m1262| [39m        expect(output).not.toMatch(/(?:pass|fail)  l2-w\d\d-(?:story-p…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P8-F32b fails the missing requested week 1 card row
+[31m[1mAssertionError[22m: expected 'fail  l2-w01-story-page-hello-i-am-pa…' to contain 'fail  l2-w01-card-hello'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- fail  l2-w01-card-hello[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-pat: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-pat[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-may: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-may[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-sam: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-sam[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-mia: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-mia[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-nan: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-nan[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-ben: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-ben[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-your-teacher: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-your-teacher[39m
+[31m+ fail  l2-w01-story-page-hello-i-am-pip: forge manifest: the manifest holds no job for the row l2-w01-story-page-hello-i-am-pip[39m
+[31m+ fail  l2-w01-cover-hello: forge manifest: the manifest holds no job for the row l2-w01-cover-hello[39m
+[31m+ fail  l2-w01-story-page-a-nest: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nest[39m
+[31m+ fail  l2-w01-story-page-a-net: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-net[39m
+[31m+ fail  l2-w01-story-page-a-nut: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nut[39m
+[31m+ fail  l2-w01-story-page-a-nose: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nose[39m
+[31m+ fail  l2-w01-story-page-a-neck: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-neck[39m
+[31m+ fail  l2-w01-story-page-a-nurse: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nurse[39m
+[31m+ fail  l2-w01-story-page-a-nest-and-a-nut: forge manifest: the manifest holds no job for the row l2-w01-story-page-a-nest-and-a-nut[39m
+[31m+ fail  l2-w01-story-page-nan-can-nod: forge manifest: the manifest holds no job for the row l2-w01-story-page-nan-can-nod[39m
+[31m+ fail  l2-w01-cover-nan-can-nod: forge manifest: the manifest holds no job for the row l2-w01-cover-nan-can-nod[39m
+[31m+ fail  l2-w01-check-row-nest: forge manifest: the manifest holds no job for the row l2-w01-check-row-nest[39m
+[31m+ fail  l2-w01-check-row-cat: forge manifest: the manifest holds no job for the row l2-w01-check-row-cat[39m
+[31m+ fail  l2-w01-check-row-fish: forge manifest: the manifest holds no job for the row l2-w01-check-row-fish[39m
+[31m+ fail  l2-w01-check-row-dog: forge manifest: the manifest holds no job for the row l2-w01-check-row-dog[39m
+[31m+ fail  l2-w01-check-row-nose: forge manifest: the manifest holds no job for the row l2-w01-check-row-nose[39m
+[31m+ fail  l2-w01-check-row-bus: forge manifest: the manifest holds no job for the row l2-w01-check-row-bus[39m
+[31m+ fail  l2-w01-check-row-hat: forge manifest: the manifest holds no job for the row l2-w01-check-row-hat[39m
+[31m+ fail  l2-w01-check-row-cup: forge manifest: the manifest holds no job for the row l2-w01-check-row-cup[39m
+[31m+ fail  l2-w01-check-row-net: forge manifest: the manifest holds no job for the row l2-w01-check-row-net[39m
+[31m+ fail  l2-w01-practice-line-nose: forge manifest: the manifest holds no job for the row l2-w01-practice-line-nose[39m
+[31m+ fail  l2-w01-practice-line-nest: forge manifest: the manifest holds no job for the row l2-w01-practice-line-nest[39m
+[31m+ fail  l2-w02-story-page-how-many-suns-one: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-suns-one[39m
+[31m+ fail  l2-w02-story-page-how-many-kites-two: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-kites-two[39m
+[31m+ fail  l2-w02-story-page-how-many-ducks-three: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-ducks-three[39m
+[31m+ fail  l2-w02-story-page-how-many-birds-four: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-birds-four[39m
+[31m+ fail  l2-w02-story-page-how-many-balls-five: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-balls-five[39m
+[31m+ fail  l2-w02-story-page-how-many-friends-six: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-friends-six[39m
+[31m+ fail  l2-w02-story-page-how-many-cakes-seven: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-seven[39m
+[31m+ fail  l2-w02-story-page-how-many-cakes-oh-no-pip: forge manifest: the manifest holds no job for the row l2-w02-story-page-how-many-cakes-oh-no-pip[39m
+[31m+ fail  l2-w02-cover-how-many: forge manifest: the manifest holds no job for the row l2-w02-cover-how-many[39m
+[31m+ fail  l2-w02-story-page-nan-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can[39m
+[31m+ fail  l2-w02-story-page-can-i: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i[39m
+[31m+ fail  l2-w02-story-page-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can[39m
+[31m+ fail  l2-w02-story-page-nan-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-can-b[39m
+[31m+ fail  l2-w02-story-page-can-i-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-i-b[39m
+[31m+ fail  l2-w02-story-page-i-can-b: forge manifest: the manifest holds no job for the row l2-w02-story-page-i-can-b[39m
+[31m+ fail  l2-w02-story-page-can-nan: forge manifest: the manifest holds no job for the row l2-w02-story-page-can-nan[39m
+[31m+ fail  l2-w02-story-page-nan-and-i-can: forge manifest: the manifest holds no job for the row l2-w02-story-page-nan-and-i-can[39m
+[31m+ fail  l2-w02-cover-can-i: forge manifest: the manifest holds no job for the row l2-w02-cover-can-i[39m
+[31m+ fail  l2-w02-check-row-apple: forge manifest: the manifest holds no job for the row l2-w02-check-row-apple[39m
+[31m+ fail  l2-w02-check-row-dog: forge manifest: the manifest holds no job for the row l2-w02-check-row-dog[39m
+[31m+ fail  l2-w02-check-row-sun: forge manifest: the manifest holds no job for the row l2-w02-check-row-sun[39m
+[31m+ fail  l2-w02-check-row-bus: forge manifest: the manifest holds no job for the row l2-w02-check-row-bus[39m
+[31m+ fail  l2-w02-check-row-ant: forge manifest: the manifest holds no job for the row l2-w02-check-row-ant[39m
+[31m+ fail  l2-w02-check-row-fish: forge manifest: the manifest holds no job for the row l2-w02-check-row-fish[39m
+[31m+ fail  l2-w02-check-row-pig: forge manifest: the manifest holds no job for the row l2-w02-check-row-pig[39m
+[31m+ fail  l2-w02-check-row-bed: forge manifest: the manifest holds no job for the row l2-w02-check-row-bed[39m
+[31m+ fail  l2-w02-check-row-axe: forge manifest: the manifest holds no job for the row l2-w02-check-row-axe[39m
+[31m+ fail  l2-w03-story-page-it-is-red: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-red[39m
+[31m+ fail  l2-w03-story-page-it-is-blue: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-blue[39m
+[31m+ fail  l2-w03-story-page-it-is-yellow: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-yellow[39m
+[31m+ fail  l2-w03-story-page-it-is-green: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-green[39m
+[31m+ fail  l2-w03-story-page-it-is-orange: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-orange[39m
+[31m+ fail  l2-w03-story-page-it-is-pink: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-pink[39m
+[31m+ fail  l2-w03-story-page-it-is-purple: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-purple[39m
+[31m+ fail  l2-w03-story-page-it-is-pip: forge manifest: the manifest holds no job for the row l2-w03-story-page-it-is-pip[39m
+[31m+ fail  l2-w03-cover-paint: forge manifest: the manifest holds no job for the row l2-w03-cover-paint[39m
+[31m+ fail  l2-w03-story-page-nan-can-get-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-nan-can-get-a-pan[39m
+[31m+ fail  l2-w03-story-page-i-can-get-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-i-can-get-a-pan[39m
+[31m+ fail  l2-w03-story-page-a-pan-in-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-in-a-pan[39m
+[31m+ fail  l2-w03-story-page-a-pan-on-a-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-on-a-pan[39m
+[31m+ fail  l2-w03-story-page-a-pan-on-nan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-pan-on-nan[39m
+[31m+ fail  l2-w03-story-page-can-i-get-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-can-i-get-the-pan[39m
+[31m+ fail  l2-w03-story-page-i-can-get-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-i-can-get-the-pan[39m
+[31m+ fail  l2-w03-story-page-a-nap-in-the-pan: forge manifest: the manifest holds no job for the row l2-w03-story-page-a-nap-in-the-pan[39m
+[31m+ fail  l2-w03-cover-the-pan: forge manifest: the manifest holds no job for the row l2-w03-cover-the-pan[39m
+[31m+ fail  l2-w03-check-row-pen: forge manifest: the manifest holds no job for the row l2-w03-check-row-pen[39m
+[31m+ fail  l2-w03-check-row-cat: forge manifest: the manifest holds no job for the row l2-w03-check-row-cat[39m
+[31m+ fail  l2-w03-check-row-sun: forge manifest: the manifest holds no job for the row l2-w03-check-row-sun[39m
+[31m+ fail  l2-w03-check-row-dog: forge manifest: the manifest holds no job for the row l2-w03-check-row-dog[39m
+[31m+ fail  l2-w03-check-row-pear: forge manifest: the manifest holds no job for the row l2-w03-check-row-pear[39m
+[31m+ fail  l2-w03-check-row-bus: forge manifest: the manifest holds no job for the row l2-w03-check-row-bus[39m
+[31m+ fail  l2-w03-check-row-fish: forge manifest: the manifest holds no job for the row l2-w03-check-row-fish[39m
+[31m+ fail  l2-w03-check-row-hat: forge manifest: the manifest holds no job for the row l2-w03-check-row-hat[39m
+[31m+ fail  l2-w03-check-row-pencil: forge manifest: the manifest holds no job for the row l2-w03-check-row-pencil[39m
+[31m+ fail  l2-w04-story-page-this-is-my-mom: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-mom[39m
+[31m+ fail  l2-w04-story-page-this-is-my-dad: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-dad[39m
+[31m+ fail  l2-w04-story-page-this-is-my-brother: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-brother[39m
+[31m+ fail  l2-w04-story-page-this-is-my-grandma: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-grandma[39m
+[31m+ fail  l2-w04-story-page-this-is-my-grandpa: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-grandpa[39m
+[31m+ fail  l2-w04-story-page-this-is-my-house: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-house[39m
+[31m+ fail  l2-w04-story-page-this-is-my-family: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-family[39m
+[31m+ fail  l2-w04-story-page-this-is-my-dog-pip: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-my-dog-pip[39m
+[31m+ fail  l2-w04-cover-my-family: forge manifest: the manifest holds no job for the row l2-w04-cover-my-family[39m
+[31m+ fail  l2-w04-story-page-this-is-pam: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-pam[39m
+[31m+ fail  l2-w04-story-page-pam-can-nap: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-can-nap[39m
+[31m+ fail  l2-w04-story-page-pam-is-in-a-pan: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-in-a-pan[39m
+[31m+ fail  l2-w04-story-page-pam-is-on-a-map: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-on-a-map[39m
+[31m+ fail  l2-w04-story-page-pam-is-on-a-man: forge manifest: the manifest holds no job for the row l2-w04-story-page-pam-is-on-a-man[39m
+[31m+ fail  l2-w04-story-page-is-this-pam: forge manifest: the manifest holds no job for the row l2-w04-story-page-is-this-pam[39m
+[31m+ fail  l2-w04-story-page-this-is-the-man: forge manifest: the manifest holds no job for the row l2-w04-story-page-this-is-the-man[39m
+[31m+ fail  l2-w04-story-page-nan-and-pam-nap: forge manifest: the manifest holds no job for the row l2-w04-story-page-nan-and-pam-nap[39m
+[31m+ fail  l2-w04-cover-pam: forge manifest: the manifest holds no job for the row l2-w04-cover-pam[39m
+[31m+ fail  l2-w04-check-row-monkey: forge manifest: the manifest holds no job for the row l2-w04-check-row-monkey[39m
+[31m+ fail  l2-w04-check-row-cat: forge manifest: the manifest holds no job for the row l2-w04-check-row-cat[39m
+[31m+ fail  l2-w04-check-row-sun: forge manifest: the manifest holds no job for the row l2-w04-check-row-sun[39m
+[31m+ fail  l2-w04-check-row-dog: forge manifest: the manifest holds no job for the row l2-w04-check-row-dog[39m
+[31m+ fail  l2-w04-check-row-mouse: forge manifest: the manifest holds no job for the row l2-w04-check-row-mouse[39m
+[31m+ fail  l2-w04-check-row-bus: forge manifest: the manifest holds no job for the row l2-w04-check-row-bus[39m
+[31m+ fail  l2-w04-check-row-fish: forge manifest: the manifest holds no job for the row l2-w04-check-row-fish[39m
+[31m+ fail  l2-w04-check-row-hat: forge manifest: the manifest holds no job for the row l2-w04-check-row-hat[39m
+[31m+ fail  l2-w04-check-row-milk: forge manifest: the manifest holds no job for the row l2-w04-check-row-milk[39m
+[31m+ fail  l2-w05-story-page-i-have-two-eyes: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-eyes[39m
+[31m+ fail  l2-w05-story-page-i-have-two-ears: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-ears[39m
+[31m+ fail  l2-w05-story-page-i-have-two-hands: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-hands[39m
+[31m+ fail  l2-w05-story-page-i-have-two-arms: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-arms[39m
+[31m+ fail  l2-w05-story-page-i-have-two-legs: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-legs[39m
+[31m+ fail  l2-w05-story-page-i-have-two-feet: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-two-feet[39m
+[31m+ fail  l2-w05-story-page-i-have-one-nose: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-one-nose[39m
+[31m+ fail  l2-w05-story-page-i-have-four-legs: forge manifest: the manifest holds no job for the row l2-w05-story-page-i-have-four-legs[39m
+[31m+ fail  l2-w05-cover-i-have-two: forge manifest: the manifest holds no job for the row l2-w05-cover-i-have-two[39m
+[31m+ fail  l2-w05-story-page-sam-saw-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-saw-pam[39m
+[31m+ fail  l2-w05-story-page-sam-can-get-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-can-get-pam[39m
+[31m+ fail  l2-w05-story-page-sam-is-with-pam: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-is-with-pam[39m
+[31m+ fail  l2-w05-story-page-pam-is-in-a-pan: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-in-a-pan[39m
+[31m+ fail  l2-w05-story-page-pam-is-on-a-map: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-on-a-map[39m
+[31m+ fail  l2-w05-story-page-pam-is-on-sam: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-on-sam[39m
+[31m+ fail  l2-w05-story-page-pam-is-off-sam: forge manifest: the manifest holds no job for the row l2-w05-story-page-pam-is-off-sam[39m
+[31m+ fail  l2-w05-story-page-sam-nan-and-pam-nap: forge manifest: the manifest holds no job for the row l2-w05-story-page-sam-nan-and-pam-nap[39m
+[31m+ fail  l2-w05-cover-sam-and-pam: forge manifest: the manifest holds no job for the row l2-w05-cover-sam-and-pam[39m
+[31m+ fail  l2-w05-check-row-sun: forge manifest: the manifest holds no job for the row l2-w05-check-row-sun[39m
+[31m+ fail  l2-w05-check-row-cat: forge manifest: the manifest holds no job for the row l2-w05-check-row-cat[39m
+[31m+ fail  l2-w05-check-row-dog: forge manifest: the manifest holds no job for the row l2-w05-check-row-dog[39m
+[31m+ fail  l2-w05-check-row-pen: forge manifest: the manifest holds no job for the row l2-w05-check-row-pen[39m
+[31m+ fail  l2-w05-check-row-sock: forge manifest: the manifest holds no job for the row l2-w05-check-row-sock[39m
+[31m+ fail  l2-w05-check-row-bed: forge manifest: the manifest holds no job for the row l2-w05-check-row-bed[39m
+[31m+ fail  l2-w05-check-row-cup: forge manifest: the manifest holds no job for the row l2-w05-check-row-cup[39m
+[31m+ fail  l2-w05-check-row-hat: forge manifest: the manifest holds no job for the row l2-w05-check-row-hat[39m
+[31m+ fail  l2-w05-check-row-sofa: forge manifest: the manifest holds no job for the row l2-w05-check-row-sofa[39m
+[31m+ fail  l2-w05-d4-prompt-face: forge manifest: the manifest holds no job for the row l2-w05-d4-prompt-face[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-cat: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-cat[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-dog: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-dog[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-bird: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-bird[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-fish: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-fish[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-frog: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-frog[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-duck: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-duck[39m
+[31m+ fail  l2-w06-story-page-i-can-see-a-horse: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-a-horse[39m
+[31m+ fail  l2-w06-story-page-i-can-see-pip: forge manifest: the manifest holds no job for the row l2-w06-story-page-i-can-see-pip[39m
+[31m+ fail  l2-w06-cover-i-can-see: forge manifest: the manifest holds no job for the row l2-w06-cover-i-can-see[39m
+[31m+ fail  l2-w06-story-page-pat-sat-on-a-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-pat-sat-on-a-mat[39m
+[31m+ fail  l2-w06-story-page-sam-sat-on-a-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-sam-sat-on-a-mat[39m
+[31m+ fail  l2-w06-story-page-tap-tap-tap: forge manifest: the manifest holds no job for the row l2-w06-story-page-tap-tap-tap[39m
+[31m+ fail  l2-w06-story-page-pat-can-see-a-map: forge manifest: the manifest holds no job for the row l2-w06-story-page-pat-can-see-a-map[39m
+[31m+ fail  l2-w06-story-page-sam-can-see-a-pan: forge manifest: the manifest holds no job for the row l2-w06-story-page-sam-can-see-a-pan[39m
+[31m+ fail  l2-w06-story-page-tap-tap-tap-b: forge manifest: the manifest holds no job for the row l2-w06-story-page-tap-tap-tap-b[39m
+[31m+ fail  l2-w06-story-page-he-can-see-pip: forge manifest: the manifest holds no job for the row l2-w06-story-page-he-can-see-pip[39m
+[31m+ fail  l2-w06-story-page-pip-sat-on-the-mat: forge manifest: the manifest holds no job for the row l2-w06-story-page-pip-sat-on-the-mat[39m
+[31m+ fail  l2-w06-cover-tap-tap: forge manifest: the manifest holds no job for the row l2-w06-cover-tap-tap[39m
+[31m+ fail  l2-w06-check-row-tiger: forge manifest: the manifest holds no job for the row l2-w06-check-row-tiger[39m
+[31m+ fail  l2-w06-check-row-sun: forge manifest: the manifest holds no job for the row l2-w06-check-row-sun[39m
+[31m+ fail  l2-w06-check-row-bag: forge manifest: the manifest holds no job for the row l2-w06-check-row-bag[39m
+[31m+ fail  l2-w06-check-row-cup: forge manifest: the manifest holds no job for the row l2-w06-check-row-cup[39m
+[31m+ fail  l2-w06-check-row-ten: forge manifest: the manifest holds no job for the row l2-w06-check-row-ten[39m
+[31m+ fail  l2-w06-check-row-fish: forge manifest: the manifest holds no job for the row l2-w06-check-row-fish[39m
+[31m+ fail  l2-w06-check-row-dog: forge manifest: the manifest holds no job for the row l2-w06-check-row-dog[39m
+[31m+ fail  l2-w06-check-row-pen: forge manifest: the manifest holds no job for the row l2-w06-check-row-pen[39m
+[31m+ fail  l2-w06-check-row-table: forge manifest: the manifest holds no job for the row l2-w06-check-row-table[39m
+[31m+ fail  l2-w07-story-page-is-it-a-ball-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-ball-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-doll-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-doll-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-car-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-car-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-kite-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-kite-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-drum-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-drum-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-train-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-train-no[39m
+[31m+ fail  l2-w07-story-page-is-it-a-teddy-no: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-a-teddy-no[39m
+[31m+ fail  l2-w07-story-page-is-it-pip-yes: forge manifest: the manifest holds no job for the row l2-w07-story-page-is-it-pip-yes[39m
+[31m+ fail  l2-w07-cover-is-it-a-ball: forge manifest: the manifest holds no job for the row l2-w07-cover-is-it-a-ball[39m
+[31m+ fail  l2-w07-story-page-tom-can-see-a-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-tom-can-see-a-top[39m
+[31m+ fail  l2-w07-story-page-tom-can-get-the-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-tom-can-get-the-top[39m
+[31m+ fail  l2-w07-story-page-the-top-on-a-mat: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-on-a-mat[39m
+[31m+ fail  l2-w07-story-page-the-top-on-a-pot: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-on-a-pot[39m
+[31m+ fail  l2-w07-story-page-the-top-is-on-mom: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-is-on-mom[39m
+[31m+ fail  l2-w07-story-page-run-tom-run: forge manifest: the manifest holds no job for the row l2-w07-story-page-run-tom-run[39m
+[31m+ fail  l2-w07-story-page-can-tom-see-the-top: forge manifest: the manifest holds no job for the row l2-w07-story-page-can-tom-see-the-top[39m
+[31m+ fail  l2-w07-story-page-the-top-is-on-pip: forge manifest: the manifest holds no job for the row l2-w07-story-page-the-top-is-on-pip[39m
+[31m+ fail  l2-w07-cover-the-top: forge manifest: the manifest holds no job for the row l2-w07-cover-the-top[39m
+[31m+ fail  l2-w07-check-row-octopus: forge manifest: the manifest holds no job for the row l2-w07-check-row-octopus[39m
+[31m+ fail  l2-w07-check-row-sun: forge manifest: the manifest holds no job for the row l2-w07-check-row-sun[39m
+[31m+ fail  l2-w07-check-row-bed: forge manifest: the manifest holds no job for the row l2-w07-check-row-bed[39m
+[31m+ fail  l2-w07-check-row-cat: forge manifest: the manifest holds no job for the row l2-w07-check-row-cat[39m
+[31m+ fail  l2-w07-check-row-ox: forge manifest: the manifest holds no job for the row l2-w07-check-row-ox[39m
+[31m+ fail  l2-w07-check-row-fish: forge manifest: the manifest holds no job for the row l2-w07-check-row-fish[39m
+[31m+ fail  l2-w07-check-row-pen: forge manifest: the manifest holds no job for the row l2-w07-check-row-pen[39m
+[31m+ fail  l2-w07-check-row-bus: forge manifest: the manifest holds no job for the row l2-w07-check-row-bus[39m
+[31m+ fail  l2-w07-check-row-ostrich: forge manifest: the manifest holds no job for the row l2-w07-check-row-ostrich[39m
+[31m+ fail  l2-w07-d4-prompt-ball: forge manifest: the manifest holds no job for the row l2-w07-d4-prompt-ball[39m
+[31m+ pass  l2-w02-card-fan[39m
+[31m+ pass  l2-w03-card-sheep[39m
+[31m+ pass  l2-w03-card-cap[39m
+[31m+ pass  l2-w04-card-jam[39m
+[31m+ pass  l2-w04-card-ham[39m
+[31m+ pass  l2-w05-card-dress[39m
+[31m+ pass  l2-w05-card-sad[39m
+[31m+ pass  l2-w06-card-boat[39m
+[31m+ pass  l2-w07-card-pot[39m
+[31m+ pass  l2-w07-card-mop[39m
+[31m+ pass  l2-w02-card-astronaut[39m
+[31m+ pass  l2-w03-card-pineapple[39m
+[31m+ pass  l2-w05-card-sandwich[39m
+[31m+ pass  l2-w06-card-tomato[39m
+[31m+ pass  l2-w07-card-otter[39m
+[31m+ pass  l2-w01-card-goodbye[39m
+[31m+ pass  l2-w01-card-boy[39m
+[31m+ pass  l2-w01-card-girl[39m
+[31m+ pass  l2-w01-card-teacher[39m
+[31m+ pass  l2-w04-card-mom[39m
+[31m+ pass  l2-w04-card-dad[39m
+[31m+ pass  l2-w04-card-brother[39m
+[31m+ pass  l2-w04-card-sister[39m
+[31m+ pass  l2-w04-card-grandma[39m
+[31m+ pass  l2-w04-card-grandpa[39m
+[31m+ pass  l2-w04-card-family[39m
+[31m+ pass  l2-w07-card-doll[39m
+[31m+ pass  l2-w07-card-car[39m
+[31m+ pass  l2-w07-card-train[39m
+[31m+ pass  l2-w07-card-teddy[39m
+[31m+ 30 of 223 rows pass stage 1 (/tmp/opencode/storytime-readers-v6WCAM)[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1273:28[22m[39m
+    [90m1271| [39m        const run = await runPictureCli(await cardCliBatch(cards.filte…
+    [90m1272| [39m        expect(run.status, `${run.stdout}\n${run.stderr}`).toBe(1);
+    [90m1273| [39m        expect(run.stdout).toContain(`fail  ${first.id}`);
+    [90m   | [39m                           [31m^[39m
+    [90m1274| [39m    }, 120_000);
+    [90m1275| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime two-output picture check[2m > [22mR-P8-F32c checks a missing card row beside the complete week 1 book delivery
+[31m[1mAssertionError[22m: pass  l2-w01-story-page-hello-i-am-pat
+pass  l2-w01-story-page-hello-i-am-may
+pass  l2-w01-story-page-hello-i-am-sam
+pass  l2-w01-story-page-hello-i-am-mia
+pass  l2-w01-story-page-hello-i-am-nan
+pass  l2-w01-story-page-hello-i-am-ben
+pass  l2-w01-story-page-hello-i-am-your-teacher
+pass  l2-w01-story-page-hello-i-am-pip
+pass  l2-w01-cover-hello
+pass  l2-w01-story-page-a-nest
+pass  l2-w01-story-page-a-net
+pass  l2-w01-story-page-a-nut
+pass  l2-w01-story-page-a-nose
+pass  l2-w01-story-page-a-neck
+pass  l2-w01-story-page-a-nurse
+pass  l2-w01-story-page-a-nest-and-a-nut
+pass  l2-w01-story-page-nan-can-nod
+pass  l2-w01-cover-nan-can-nod
+pass  l2-w01-check-row-nest
+pass  l2-w01-check-row-cat
+pass  l2-w01-check-row-fish
+pass  l2-w01-check-row-dog
+pass  l2-w01-check-row-nose
+pass  l2-w01-check-row-bus
+pass  l2-w01-check-row-hat
+pass  l2-w01-check-row-cup
+pass  l2-w01-check-row-net
+pass  l2-w01-practice-line-nose
+pass  l2-w01-practice-line-nest
+pass  l2-w01-card-hello
+pass  l2-w01-card-goodbye
+pass  l2-w01-card-boy
+pass  l2-w01-card-girl
+33 of 33 rows pass stage 1 (/tmp/opencode/storytime-readers-pHsK6e)
+
+: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1282:60[22m[39m
+    [90m1280| [39m        const weekCards = cards.filter((row) => row.week === 1);
+    [90m1281| [39m        const run = await runPictureCli(await cardCliBatch(weekCards.s…
+    [90m1282| [39m        expect(run.status, `${run.stdout}\n${run.stderr}`).toBe(1);
+    [90m   | [39m                                                           [31m^[39m
+    [90m1283| [39m        expect(run.stdout).toContain(`fail  ${weekCards[4].id}`);
+    [90m1284| [39m    }, 120_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m52 passed[39m[22m[90m (55)[39m
+[2m   Start at [22m 17:40:14
+[2m   Duration [22m 158.92s[2m (transform 796ms, setup 140ms, import 948ms, tests 156.41s, environment 817ms)[22m
+
+exit: 1

@@ -1,0 +1,82 @@
+# Green r9 log: Phase 8 review round 5 remediation (F32 to F39)
+
+Track: storytime_print_r1_20261025 (short id storytime_print_r1)
+Phase: "Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval)" (phase id P8)
+Role: measure-jr-green (Green, review round 5 remediation)
+Branch: master
+phase_base_sha: 709dd19ce412597f5c92cdc3edb5272878a8ec65
+role_base_sha: a54591bbc9b1e61aa2df1f86fb4aed799690fe22
+Red model: openai/gpt-6-luna#high. This Green ran on MiniMax. No coder session was started, so no other model ran on this phase.
+
+## The base
+
+- `git log --oneline 709dd19c..HEAD` holds the Red commits f1f30165, d58776f1, 1ebb9f16 and the plan commit a54591bb.
+- The committed Red change is inside phase_base_sha..HEAD.
+- The working tree held only untracked run files from earlier rounds. No tracked file was modified before this Green.
+
+## The findings
+
+- F32 (A-P8-16): the rule that requests the rows of a week in check-storytime-pictures.ts.
+- F33 (A-P8-17) and F34 (A-P8-18): the Red role fixed the tests. No code change.
+- F35 (B-P8-11): the slug repeat check of storytimeCardPictureRows.
+- F36 (B-P8-12): the rejection handler of check-storytime-pictures.ts.
+- F37 (C-P8-3) and F39 (C-P8-5): the plan lines of the sticker evidence.
+- F38 (C-P8-4): the usage text of make-card-kit-pdf.ts.
+
+## The steps
+
+1. Read the track plan, the spec, the test strategy, the three review files, the four Red test files, and the three code files.
+2. Reran the targeted Red command. It failed as expected.
+3. Changed the three code files and committed them.
+4. Ran the targeted command, the four gates, the two mutants, and the two help prints.
+5. Corrected the plan lines and wrote the evidence under the Green task line.
+6. Committed the plan, the captures, and this log.
+
+## The Red before the change
+
+- Command: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-patches.test.ts __tests__/storytime-print-card-kit-stickers.test.ts __tests__/storytime-print-card-pictures.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1'`
+- Result: 4 failed, 80 passed, exit 1. The failures are R-P8-F32a, R-P8-F32b, R-P8-F32c, and the slug case of the card picture word test.
+- Capture: `measure/runs/storytime_print_r1_20261025/green-p8-r9-red-confirm.txt`.
+
+## The code
+
+- F32: `dashboard/scripts/storytime/check-storytime-pictures.ts`. Each row class of each requested week is selected on its own. The book rows of week N are requested when the manifest holds a job for a book row of week N, or when it holds no job for any row of week N. The card rows of week N follow the same rule with the card rows. Every requested row with no job fails. A class of a week that the batch does not request prints one skip line before the summary line: `skip  book rows of week N: the batch holds no job for them`. The summary counts the requested rows only. The exit codes stay. The usage text and the code comment state this rule.
+- F35: `dashboard/lib/storytime/print/pictures.ts`. `storytimeCardPictureRows` keeps a set of the words and a map of the row ids. Two words of one week that share a slug throw, and the message keeps the prefix `card picture word repeat:` and names both words. The round 4 word check stays.
+- F38: `dashboard/scripts/storytime/make-card-kit-pdf.ts`. The usage text names `patch` and `dots` as the values of the third and the fourth column, and names the two count lines `picture cards: ...` and `distinct words: ...`. No behavior change.
+- F33, F34, and F36: no code change.
+
+## The gates
+
+- The 4 Red files: exit 0, 4 files, 84 tests passed. Capture: `green-p8-r9-targeted.txt`.
+- `GREEN_TEST_COMMAND`: exit 0, 37 files, 818 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r9-green.txt`.
+- `PROJECT_TESTS`: exit 0, 55 files, 1198 tests passed. The command holds `--maxWorkers=1` and no `--testTimeout`. Capture: `green-p8-r9-project.txt`.
+- `PROJECT_LINT`: exit 0, no problem. Capture: `green-p8-r9-lint.txt`.
+- `PROJECT_CHECKS`: exit 0. The `check-weeks.ts --level 2` part holds the one known `published` FAIL, and `npx tsc --noEmit` reports no error. Capture: `green-p8-r9-checks.txt`.
+- The mutants: the r7 rule back in the picture check makes R-P8-F32a, R-P8-F32b, and R-P8-F32c fail (exit 1, 3 failed and 52 passed). The card row id check dropped makes the slug case fail (exit 1, 1 failed and 12 passed). Each file came back byte for byte (`cmp`). Captures: `green-p8-r9-mutant-F32.txt` and `green-p8-r9-mutant-F35.txt`.
+- The usage text of both CLIs: capture `green-p8-r9-help.txt`. Each `--help` run exits 0.
+- The gates changed no lock file, no week 1 media file, and no content file. The check `git status --porcelain -- pnpm-lock.yaml content/` was empty after each gate.
+
+## The plan
+
+- F37 (C-P8-3): the plan line of the patch markup now states `data-shape="rounded-rectangle"`.
+- F39 (C-P8-5): the two plan lines of the sticker hashes now cite `green-p8-stickers.log` lines 37-38 and 94-95, and lines 114 and 134-135.
+- F32: the round 4 sub-line of F20 carries ` [superseded in review round 5, F32]`.
+- The Green task line carries the code commit, the gate results, the mutants, the help capture, the F32 to F39 mapping, and the F36 contest reason. It is `[x]`.
+
+## The result
+
+No known failure. The owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays open.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (Green, review round 5 remediation of Phase 8)
+status: complete
+track: storytime_print_r1_20261025 (short id storytime_print_r1)
+phase: Phase 8: Card kit (2026-11-02 to 2026-11-19; only the week 1 cards before the Phase 6 approval) (phase id P8)
+commits: code commit a5912f6fc809fe4b61c64cabe5ca4e61e84e4df9 (fix(storytime): the row classes of a week in the picture check, the card row id repeat, and the card kit usage text (storytime_print_r1)); plan evidence commit: the commit that holds this log and plan.md, whose SHA the reply of this role names, because a commit holds no own SHA; phase_base_sha 709dd19ce412597f5c92cdc3edb5272878a8ec65; role_base_sha a54591bbc9b1e61aa2df1f86fb4aed799690fe22
+tests_run: Red rerun of the 4 Red files exit 1 with 4 failed and 80 passed (R-P8-F32a, R-P8-F32b, R-P8-F32c, and the slug case of the card picture word test); the 4 Red files after the change exit 0 with 4 files and 84 tests passed; GREEN_TEST_COMMAND exit 0 with 37 files and 818 tests passed; PROJECT_TESTS exit 0 with 55 files and 1198 tests passed; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0 with the one known published FAIL and tsc clean; mutant A (the r7 rule back) exit 1 with 3 failed and 52 passed; mutant B (the card row id check dropped) exit 1 with 1 failed and 12 passed; each mutant file restored byte for byte with cmp; the --help run of both CLIs exits 0
+files_changed: dashboard/scripts/storytime/check-storytime-pictures.ts, dashboard/lib/storytime/print/pictures.ts, dashboard/scripts/storytime/make-card-kit-pdf.ts, measure/tracks/storytime_print_r1_20261025/plan.md, measure/runs/storytime_print_r1_20261025/green-p8-r9.log, measure/runs/storytime_print_r1_20261025/green-p8-r9-red-confirm.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-targeted.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-green.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-project.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-lint.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-checks.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-mutant-F32.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-mutant-F35.txt, measure/runs/storytime_print_r1_20261025/green-p8-r9-help.txt
+plan_updates: F37 (C-P8-3) the plan line of the patch markup now states data-shape="rounded-rectangle"; F39 (C-P8-5) the two plan lines of the sticker hashes now cite green-p8-stickers.log lines 37-38 and 94-95 and lines 114 and 134-135; F32 the round 4 sub-line of F20 carries [superseded in review round 5, F32]; the Green task line is [x] with commit a5912f6f and holds the gate results, the two mutants, the help capture, the F32 to F39 mapping, and the F36 contest reason; the owner gate "Measure - User Manual Verification 'Phase 8: Card kit'" stays [ ]
+known_failures: none
+handoff: The Red tests stay unchanged and the committed Red contract holds. The picture check now selects each row class of each requested week on its own, so a card-only batch passes and a book-only batch passes, and every class that the batch does not request prints one skip line before the summary line. F36 is contested: the rejection handler at the end of check-storytime-pictures.ts already prints the message only and sets exit 1, and R-P8-F36 passes at 4cb2056b, so no code change was made. The card row builder now throws on a repeated row id and names both words. The card kit build usage text names patch, dots, and the two count lines. The next role reviews the code commit a5912f6f and the plan evidence commit. Daniel still checks the v3 sticker look, and the A5 and A6 files stay at v2.
+dispositions: F32=FIX; F33=FIX; F34=FIX; F35=FIX; F36=CONTEST(the rejection handler of main already prints the message only and sets exit 1, and R-P8-F36 passes at 4cb2056b); F37=FIX; F38=FIX; F39=FIX
+END_MEASURE_AGENT_RESULT
