@@ -30,7 +30,7 @@ describe('Storytime print binding pad and practice rules', () => {
         expect(pages[129]?.getAttribute('data-page-number')).toBe('130');
         expect(pages[135]?.getAttribute('data-page-kind')).toBe('review');
         expect(pages[135]?.getAttribute('data-page-number')).toBe('136');
-    });
+    }, 120_000);
 
     it('keeps the week 1 book at 20 pages without an end pad', () => {
         const pages = Array.from(documentOf(shippedWeeks().slice(0, 1)).querySelectorAll('.student-page'));

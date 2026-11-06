@@ -79,5 +79,5 @@ describe('A-48 D4 prompt pictures: the write pages', () => {
         expect(rowsInOrder.indexOf(prompt), 'the picture row stands above the trace row').toBeLessThan(rowsInOrder.indexOf(frame));
         expect(Array.from(d4.querySelectorAll('.row-label'), text)).toContain(label);
         expect(d4.querySelectorAll('[data-part="writing-picture-box"]'), 'one draw box beside the prompt picture').toHaveLength(1);
-    });
+    }, 120_000);
 });

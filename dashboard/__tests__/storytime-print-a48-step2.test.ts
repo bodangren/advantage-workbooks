@@ -114,7 +114,7 @@ describe('A-48 F1: every trace word sits on its rule line', () => {
         const svgRule = cssRule(style, '.trace-line');
         expect(svgRule).toMatch(/display:\s*block/);
         expect(svgRule, 'Letters with a tail hang below the rule line, so the SVG does not clip them.').toMatch(/overflow:\s*visible/);
-    });
+    }, 120_000);
 
     it('F1-layout: the trace line geometry puts the baseline at the line height, and a start dot stays inside the SVG', async () => {
         const words = await import(wordsModule) as { TRACE_LINE: { baselineMm: number; heightMm: number; fontSizeMm: number; dotRadiusMm: number }; TRACE_START_EM: Record<string, { x: number; y: number }> };

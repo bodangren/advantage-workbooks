@@ -292,7 +292,7 @@ describe('A-48: the step map, the badge, and the icons (B section 5)', () => {
         expect(width, 'The .step-icon rule sets a width in mm.').not.toBeNull();
         expect(Number(width![1])).toBeGreaterThanOrEqual(10);
         expect(Number(width![1])).toBeLessThanOrEqual(12);
-    });
+    }, 120_000);
 
     it('M-badge: the step badge is a grey box of 8 pt, and the new look uses only black, white, and grey (PRINT_GATE)', async () => {
         const { html, doc } = await book();

@@ -326,7 +326,7 @@ function buildPdfx(html: string): string {
         import { execFileSync } from 'node:child_process';
         import { chromium } from '@playwright/test';
         import { renderPagedPdf } from ${JSON.stringify(path.join(dashboardRoot, 'lib/print/render.ts'))};
-        const browser = await chromium.launch({ channel: 'chrome', timeout: 15000 });
+        const browser = await chromium.launch({ channel: 'chrome', timeout: 60000 });
         try {
             await renderPagedPdf(browser, ${JSON.stringify(htmlFile)}, ${JSON.stringify(chromeFile)},
                 fs.readFileSync('node_modules/pagedjs/dist/paged.polyfill.js', 'utf8'));

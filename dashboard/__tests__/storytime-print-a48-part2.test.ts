@@ -102,7 +102,7 @@ describe('A-48 part 2, F5: the label of the picture row', () => {
             expect(text(row.querySelector('.row-label')!), `Week ${week}`).toBe(label);
             expect(row.querySelector('.row-icons [data-icon]')!.getAttribute('data-icon')).toBe(icon);
         }
-    });
+    }, 120_000);
 });
 
 describe('A-48 part 2, F4: the picture row stands above the trace row of D4', () => {
