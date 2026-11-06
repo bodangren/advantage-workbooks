@@ -1,0 +1,19 @@
+Self-check of st2/13 (w13.json), Look at Me!
+1. STAGE_CHECKS: 38 PASS, 0 FAIL, 0 WARN for st2/13; summary: Summary: 13 package(s), 0 failed check(s), 1 warning(s).
+2a. Review strip cards: every card has week <= 13 (the checker also tests this); the weeks used: [9, 11, 12, 13]
+2b. Check items with pictures (one right picture each, judged by the writer): -ot last: pot, sun, bed -> pot; -ot last: cup, dot, fish -> dot; -op last: hat, pen, mop -> mop
+3. Read-along "Look at Me!": 8 pages, 24 words (rule 20 to 35, or 39 to 40 with a 5-word frame); Starters share 94 percent of 16 words (names ['Pip'] and family words excepted); not Starters: ['hop'] (design 6.2 text gate: 90 percent; a frame word of the design, such as yum, is named here)
+   pages: I can run. / I can jump. / I can kick. / I can throw. / I can catch. / I can clap. / I can hop. / Pip can catch!
+4. Decodable "Hop on Top!": page word counts [4, 4, 4, 4, 3, 5, 5, 4] (rule 2 to 5); names ['Pip']; new sight words used: ['do', 'for', 'like']
+   pages: Tom has a pot. / A pot for Pip! / Hop on top, Pip! / He is on top! / I like it! / Mom is on a mat. / Do not hop on Mom! / Pip is on Mom!
+5. Family words (7): ['catch', 'clap', 'jump', 'kick', 'run', 'throw', 'walk']; not on a book page or in a song line: none (a plural form counts)
+6. Song "I Can Run and Jump!": 104 bpm (rule 92 to 108); 12 sung lines; style brief words not allowed: none; lines with a sung sound: none (S25)
+7. Media files named (FR-2.5: none until they exist): none; Daniel's phoneme recordings are the only audio paths
+8. Thai: every Thai field is a draft by Claude for Daniel's check (approval.thai draft); no Thai went to another person or model.
+9. Decisions of the writer (defaults; Daniel decides with the English text):
+   - Q-C: the scope row gives the frame "I can run/hop/jump.". The song check reads the frame up to the first full stop and lets "___" stand for 1 to 3 words (frameCount, lib/storytime/checks.ts line 31), so the frame text with the slash words matches no song line. Default: focus.frame is "I can ___."; the read-along and the song use run, jump, and hop with the other action words.
+   - Rime week: the focus element is english.phonics.pattern.rime-ot with graphemes ["o"] and the sound "/o/", as in week 10. The letter box shows the letter o with the week 7 formation words.
+   - The decodable "Hop on Top!" is in the garden of Tom's home, with Tom, Mom, and Pip. The check counts the title and the names in the ratio: the first draft ("A Pot for Pip", 5 times "Pip") had 86 percent, so the title changed and page 4 says "He is on top!" (91 percent).
+   - The family words are actions; "swim" is not in the week (design rule: no child in water). The family pictures show one child with a fixed look (short brown hair, a yellow T-shirt, blue shorts).
+   - The book map number of the week 13 decodable is 5. The D6 song leaders are table 4.
+10. Independent English review (FR-2.8): open. This session starts no subagent (orchestrator rule, 2026-11-06). The review role reads the English review extract (Task 1.11 PDF, no Thai) and this report.
