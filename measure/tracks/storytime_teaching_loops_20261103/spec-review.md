@@ -57,3 +57,14 @@ F1 to F9 are fixed in the committed text.
 The orchestrator checks the F10 fix. No third review round occurs (the round 2 handoff says so).
 
 Post-review edits on 2026-11-02 after the test strategy (ec109f9e): FR-2 (Q1), FR-7 (P9), FR-13 (P7). The orchestrator checked them; no new review round.
+
+## Amendment 1: Phase 3b (2026-11-07)
+
+Author model: claude-code/claude-opus-5-5[1m]
+
+Scope of the amendment:
+
+- spec.md: the Overview paragraph of Amendment 1; the section "Owner request: parent-share moments"; three new rows of "Dates"; two new bullets of "Sources"; the Terms "Share moment", "Shot", "The period of a day", and "Assessment step"; FR-14; the defaults D16 to D28; one bullet of "Ownership and overlap"; item 6 and the contract check of "Interface for the Storytime app (Monorepo)"; two NFR bullets; three "Out of scope" bullets.
+- plan.md: the row 3b of "Phases and dates"; the section "Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)"; one Phase 4 line (Hand-off 3 now names `--loops --share`). No line of Phase 1, 2, or 3 changed.
+
+Review: pending. The orchestrator sends the amendment to a spec reviewer of a model family other than the author family. The amendment holds no Thai text, so the reviewer reads English only.

@@ -16,6 +16,8 @@ The five routines:
 
 The track has four phases: the schema and the checks, the teacher book template and print, the content of weeks 1 to 8, and the report and release. The student workbook, the readers, and the covers do not change.
 
+Amendment 1 (2026-11-07) adds Phase 3b: the parent-share moment of each day (FR-14). Each day gets one photo or video moment that shows a child who uses English, with a caption in English and Thai. The moment adds 0 minutes. The student book v15 does not change.
+
 ## Owner approval
 
 Daniel approved the track with the word "Ok" on 2026-11-02 at 15:50 ICT. The word is his reply to the PM note `dUNHVjdnbEZKbmpvMFYwRw` in Google Tasks item `VHgtTW5teDhwSkhTMEVPRw`. The PM session relayed it at about 15:5x ICT. Evidence class: owner-approved (PM relay).
@@ -29,6 +31,18 @@ The PM note gave Daniel this plan:
 - Daniel checks the English and the Thai of w01 to w08 by 2026-11-16, for the print order of 2026-11-25. The drafts are due 2026-11-09.
 - Default: the week 1 proof of 2026-11-05 keeps the approved text. The loops enter the teacher book at the release proof of 2026-11-20.
 
+### Owner request: parent-share moments (Amendment 1)
+
+Daniel asked for the parent-share moments on 2026-11-06. The PM session relayed his words. Source: advantage-pr `measure/pm-log.md`, lines 2162, 2163, and 2167 (read-only). Evidence class: owner request (PM relay).
+
+- 2026-11-06 11:35 ICT (line 2162), Daniel: "Parent communication (posting children's accomplishments to Facebook or line group) is very important. We need to include at least one "PR" element into each lesson period"
+- 2026-11-06 11:55 ICT (line 2163), Daniel, on the first default list (a book-map sticker on day 3): "Putting stickers in a book is your idea of parental engagement?"
+- 2026-11-06 13:11 ICT (line 2167), Daniel: "So what replaces the sticker moments?"
+
+The PM session then corrected the list (lines 2163 and 2167). Each moment shows the child using English. The corrected list is the moment table of FR-14. The sticker step C7 stays in the lesson as a class reward, and it is not a share moment.
+
+The order of done (line 2162 and the session brief of 2026-11-07, which calls it Daniel's order): the field and its tests, the teacher book build, and the caption list in the 11-16 folder.
+
 ## Dates
 
 | Date | Event |
@@ -36,8 +50,11 @@ The PM note gave Daniel this plan:
 | 2026-11-03 | Track start |
 | 2026-11-05 | Phase 1 done. The week 1 proof of the print track keeps the approved text |
 | 2026-11-07 | Phase 2 done |
+| 2026-11-07 | Phase 3b start (Amendment 1, FR-14) |
 | 2026-11-09 | Phase 3 drafts of w01 to w08 done, checks clean |
+| 2026-11-13 | Phase 3b: the share field and its tests, the teacher book build, and the caption list done |
 | 2026-11-16 | Daniel's English and Thai check of w01 to w08 done |
+| 2026-11-16 | Daniel's check of the Thai share captions (Phase 3b) |
 | 2026-11-20 | Release proof (print track Phase 9). The loops enter the teacher book |
 | 2026-11-25 | Print order |
 
@@ -49,6 +66,8 @@ Other repositories are read-only for this track.
 - Workbooks code: `dashboard/lib/storytime/schema.ts` (`StepSchema`, `NoteSchema`, `ScriptSchema`, `BookSchema`, `StorytimeApprovalsSchema`, the script ids `A` to `E`), `lib/storytime/checks.ts` (`checkStorytimeWeek`), `scripts/storytime/check-weeks.ts`, `lib/storytime/manual.ts` (`renderStorytimeWeek`, `compileStorytimeManual`, `StorytimeManualOptions`), `lib/storytime/i18n.ts` (`StorytimeLabels`), `lib/storytime/phonemes.ts` (`phonemeAudioFields`), `scripts/storytime/make-manual-pdf.ts`, `scripts/storytime/make-teacher-book-print.ts`.
 - Workbooks data: `content/storytime/l2/w01.json` to `w08.json`.
 - Tests that cover these files: `__tests__/storytime-week.test.ts`, `storytime-manual.test.ts`, `storytime-phonemes.test.ts`, `storytime-print-teacher-book.test.ts`, and the other `storytime-*.test.ts` files.
+- Amendment 1 sources: advantage-pr `measure/pm-log.md` lines 2162, 2163, and 2167 (Daniel's words and the corrected moment list). Workbooks: `lib/storytime/print/student-book.ts` (`compileStorytimeStudentBook`, for the guard of AC-14.7 only; no change), `__tests__/storytime-loops-content.test.ts` (the Phase 3 additive compare), `__tests__/fixtures/storytime-week-fixture.ts`, and `measure/tracks/storytime_teaching_loops_20261103/look-points-11-16.md` (the 11-16 sitting).
+- Monorepo, read-only, at HEAD `db3fc23d8` on 2026-11-07: `apps/storytime/scripts/receive-weeks.ts`, `apps/storytime/lib/contracts/week.ts`, `apps/storytime/__tests__/phase3-media-coverage.test.ts`, and `apps/primary-advantage/lib/storytime/week.ts`.
 
 ## Terms
 
@@ -59,6 +78,10 @@ Other repositories are read-only for this track.
 - **Donor step**: a step that gives minutes to the loops. The donors that give minutes are A4 and A6 on day 1. The opening is a host for the recall and gives no minutes (D7).
 - **The text of a day**: the English text of the steps of that day's script (the `en` fields of each step, as FR-6 lists). The prep lines, the Thai lines, and the reader page text do not count.
 - **Baseline**: the week files at commit `cc7808c541ca1cac810a7cd74f34520f748aef5b`.
+- **Share moment**: the parent-share moment of one day (FR-14): one or two shots and one caption.
+- **Shot**: one photo or one video at one step.
+- **The period of a day**: the steps that run in the lesson of that day. These are the steps of the day's script without `moved`, and the steps with `moved: 'next-opening'` of the script of the day before. The moved steps run in the opening of the day. A moved step of the day's own script runs on the next day.
+- **Assessment step**: step E5 (Check) of a teach week, and step A1 (Benchmark: paper part) of a review week.
 
 ## Functional Requirements
 
@@ -211,6 +234,80 @@ Acceptance criteria:
 - For each commit SHA that the plan records for this track, `git show --name-only --format= <sha>` lists none of `lib/storytime/print/student-book.ts`, `readers.ts`, `picture-check.ts`, `pictures.ts`, and `covers.ts`. It also lists nothing under `video/`.
 - The check reads one commit at a time. A range diff is not the proof, because the print track edits these files in the same checkout.
 
+### FR-14: The parent-share moment of each day (Phase 3b, Amendment 1)
+
+Each day of each Level 2 week has one parent-share moment. At the moment, the teacher takes a photo or a video of a child who uses English. The teacher posts it with the caption in the closed class parent group. Daniel asked for the moment on 2026-11-06 (section "Owner request: parent-share moments"). The moment adds 0 minutes, so the day stays at `meta.periodMinutes` (FR-7).
+
+**The moments.** Each moment shows the child using English. The table is the corrected list of the PM log, lines 2163 and 2167.
+
+| Week | Day | Script | Shots (step, media) | What the shot shows |
+|---|---|---|---|---|
+| w01 to w07 | 1 | A | A3 (Form it), video | The child says the sound of the week, says a word with the sound, and writes the letter. |
+| w01 to w07 | 2 | B | B5 (Frame practice), video | The child acts the story and says the frame sentence of the week (D16). |
+| w01 to w07 | 3 | C | C4 (read together), video | One child reads one page of the C4 book aloud, 10 to 20 seconds. The C4 book is the first-sound book in w01 and the decodable in w02 to w07. |
+| w01 to w07 | 4 | D | D4 (Write it), photo; D5 (Share), video | The photo shows the child's own written sentence. The video shows the child who reads the sentence to the class (D18). |
+| w01 to w07 | 5 | E | D6 (Sing it: song show), video | The song show. D6 is a moved step of day 4, and it runs in the opening of day 5. |
+| w08 | 1 | A | A2 (Centers), video | The benchmark day: a child reads one page of a unit 1 book aloud at the decodables center (D17). |
+| w08 | 2 to 4 | B, C, D | B1, C1, D1 (Centers, rotation 1), video | A child reads one page of a unit 1 book aloud at the decodables center (D17). |
+| w08 | 5 | E | E3 (Song show and unit sticker), video | The song show. |
+
+The sticker step C7 stays in the lesson as a class reward (3 minutes). C7 is not a share moment. The week 8 moment of day 5 is the song show of E3, not the unit sticker.
+
+**The field.** `schema.ts` gets one new optional field on the script, with two strict objects:
+
+- `ScriptSchema.share`: a `ShareSchema`, optional in the schema. The check `share-moment` requires it.
+- `ShareSchema`: `{ shots, caption }`, `.strict()`.
+- `shots`: an array of 1 or 2 `ShareShotSchema` entries.
+- `ShareShotSchema`: `{ step, media }`, `.strict()`. `step` is a string in the step id form `^[A-Z]\d{1,2}$` (as `StepSchema.id`). `media` is `'photo'` or `'video'`.
+- `caption`: a `BiText`. `caption.en` is the English text of the post. `caption.th` is the Thai text of the post.
+- The type goes out through the existing `StorytimeScript`. Each new field has JSDoc.
+
+The field holds no minutes, no file path, and no name of a child. The strict objects refuse an extra key, for example `minutes`.
+
+**The check.** `checkStorytimeWeek` gets the check `share-moment`, and `check-weeks.ts --level 2` reports it. A problem has the status of the exported constant `SHARE_CHECK_STATUS`. The status is `'warn'` from the Green task to the switch task, and `'fail'` after the switch task (the pattern of `LOOP_CHECK_STATUS`, FR-8). The check applies to the weeks of Levels 2 to 4 (the script ids `A` to `E`): teach weeks and review weeks. A Level 1 week skips it. The check needs no taught set and no other week, so it has no skipped part. The check runs before the `published` block, so a `fail` also blocks a published week.
+
+The check reports one problem line for each broken rule:
+
+1. Each script has `share`.
+2. Each shot `step` names a step of the same script, or a step with `moved: 'next-opening'` of the script of the day before.
+3. At least one shot of the day names a step in the period of the day (see Terms).
+4. The two shots of one day name two different steps.
+5. No shot names an assessment step (see Terms). A photo or a video of a check shows the check items and a child under test.
+6. `caption.en` has 1 to 40 words. `caption.th` is not empty after trim. The check does not test the Thai text in other ways (Q9 of the plan).
+7. No caption string ends in a media file extension. The pattern is the Monorepo `MEDIA_EXTENSION`: `\.(mp3|wav|m4a|aac|ogg|opus|mp4|m4v|webm|mov|jpg|jpeg|png|webp|gif|svg|pdf)$`, case-insensitive (see "Interface for the Storytime app").
+
+**The teacher book.** `manual.ts` prints the share moments when `StorytimeManualOptions.share` is true. The option is false by default (D21). `make-manual-pdf.ts` and `make-teacher-book-print.ts` get a `--share` flag. At the step of each shot, the step block prints:
+
+- one icon: an inline SVG camera for a photo, or an inline SVG video camera for a video, in black only (D22). The icon element has the attribute `data-share-media` with the value of `media`.
+- the label of the media (`StorytimeLabels.sharePhoto` or `shareVideo`) in the language of the book.
+- the caption. The Thai book prints `caption.th` and, under it, `caption.en`, because the post holds both. The English manual prints `caption.en`.
+
+The consent line (`StorytimeLabels.shareConsent`) and the length line (`shareLength`) print once in each week part, at the first shot of day 1 (D20).
+
+**The caption list.** The file `measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md` (D24) holds the captions for Daniel's sitting of 2026-11-16. It is ready by 2026-11-13. Its form:
+
+- A header with the source commit of the week files, the date, and the line "Answer OK for all rows, or name a row by its id and the change."
+- Table 1, one row for each day of w01 to w08 (40 rows): `| SC-w0N-dD | Week | Day | Shots (step, media) | English caption | Thai caption (draft) |`.
+- Table 2, one row for each new label of `StorytimeLabels` (4 rows): `| SL-n | Key | English | Thai (draft) |`.
+- The path of the teacher book build and the page numbers of the share icons, so that Daniel can see the captions in place.
+- The last line: `Daniel's answer: ____ (date ____)`.
+
+The Thai goes to Daniel only. No model and no other person checks the Thai captions or the Thai labels. The review roles get the English only.
+
+Acceptance criteria:
+
+- AC-14.1 (schema): All shipped weeks `w01.json` to `w08.json` parse. A copy with a valid `share` on each script parses. A copy with 0 shots or 3 shots, a `media` of `audio`, an unknown key in `share` or in a shot (for example `minutes`), or a `step` of `a3` does not parse. The key set of `share` is `caption` and `shots`. The key set of a shot is `media` and `step`.
+- AC-14.2 (check): A share-complete copy of each shipped week, in a temporary folder, passes `share-moment`. Each data mutant below makes the check report a problem with the status `SHARE_CHECK_STATUS`: the share of one day removed; a shot step `A9` that the scripts do not have; a day 2 share with only `B6` (a moved step, so no shot in the period); two shots with the same step; a shot on E5 of a teach week; a shot on A1 of w08; an empty `caption.th`; a `caption.en` of 41 words; a caption that ends in `.mp4`.
+- AC-14.3 (scope): A Level 1 week has no `share-moment` row. In the report, the `share-moment` row comes before the `published` row.
+- AC-14.4 (0 minutes): For each shipped week, the rows `minutes` and `loops-minutes` have the same status and detail with and without the share fields.
+- AC-14.5 (content): After the content task, each script of w01 to w08 has a `share`, and its shots equal the moment table above (step and media). With `share` removed from each script, each week equals its file at the baseline commit of the content Red task (the normalized `JSON.stringify` output, as FR-10). The Phase 3 compare of `storytime-loops-content.test.ts` also removes `share`, so it stays green.
+- AC-14.6 (switch): After the switch task, `SHARE_CHECK_STATUS` is `'fail'`. `check-weeks.ts --level 2` shows `share-moment` `PASS` for st2/1 to st2/8 and no FAIL row.
+- AC-14.7 (student book): `compileStorytimeStudentBook` of w01 to w08 with the share fields gives HTML that is byte-equal to the HTML with the share fields removed. FR-13 applies to each commit of Phase 3b.
+- AC-14.8 (teacher book): With the option `share` off or absent, the HTML of each week with the share fields is byte-equal to the HTML of the same week with the share fields removed, with `loops` off and with `loops` on. With `share` on, the block of each shot step holds exactly one element with `data-share-media` equal to the shot media, and the caption text. A teach week has 6 icon elements, and w08 has 5. The consent line prints once in each week part. A caption with `<script>` prints escaped. Each new label has English and Thai in `StorytimeLabels`.
+- AC-14.9 (build): The Thai teacher book of w01 to w08 with `--loops --share` is A4, black only, and passes `PRINT_GATE`. The build records the page count and the PDF SHA-256. The PM session gets the page count for the printer quote.
+- AC-14.10 (caption list): The caption list has 40 `SC-` rows and 4 `SL-` rows. A cross-check command compares each row with the week files and `i18n.ts` at the named commit, and it exits 0.
+- AC-14.11 (Daniel): The plan records Daniel's answer on the Thai captions and labels, with his words and the date. Until then, his check task stays `[ ]`.
+
 ## Defaults
 
 The owner decisions are above. Where a detail was open, the author chose the default below. Daniel or the orchestrator can change a default before Red of the phase that uses it.
@@ -231,6 +328,22 @@ The owner decisions are above. Where a detail was open, the author chose the def
 - D14: The independent review of each week uses a model other than the author model. The orchestrator picks the model.
 - D15: The page count of Phase 2 is an estimate from a copy of w01 with sample routines in a temporary folder. The real count comes after the Phase 3 content (plan task "measure the real page count").
 
+Defaults of Amendment 1 (FR-14). Daniel or the orchestrator can change a default before the Red task that uses it.
+
+- D16: The day 2 shot is B5 (Frame practice). B6 (Act it) is a moved step: it runs in the opening of day 3 as a one-minute recall. A B6 shot leaves the day 2 period without a moment. In B5, the children say the frame sentence of the week with an action. Question for Daniel: B5 on day 2, or B6 in the opening of day 3?
+- D17: Week 8, day 1 (the benchmark day) films the decodables center of A2. It does not film the paper part A1 or the check table. Daniel named no moment for days 2 to 4 of week 8. The default is the same reading aloud at the decodables center of rotation 1 (B1, C1, D1). Each day reads other unit 1 books, so the posts show the whole unit. Day 5 films the song show of E3.
+- D18: The day 4 moment has two shots: the photo at D4 and the video at D5. D5 is a moved step, and it runs in the opening of day 5. The photo is in the day 4 period, so rule 3 of the check holds.
+- D19: Each caption is for its week. It names the English of the moment: the sound and a word, the frame sentence, the book title, or the song title. A caption names no child. The teacher posts the caption with no change.
+- D20: The consent line, English default: "Post only in the closed class parent group that the school runs. Show a face only when the school has the photo consent of the parents. Else show the work, the hands, or the backs." The length line, English default: "A video is 10 to 20 seconds. The song show video holds the whole song." Both lines print once in each week part, at the first shot of day 1. Their Thai lines are drafts for Daniel.
+- D21: The teacher book prints the share moments only with the option `share` (the flag `--share`). The default is off. Every existing build (the proof of 2026-11-05, proof v15, and each `--loops` build) then stays byte-equal. The release proof of 2026-11-20 builds with `--loops --share` (plan Phase 4, Hand-off 3).
+- D22: The icon is an inline SVG in black (`#000`) only, about 4 mm high, before the label. A camera shows a photo. A video camera shows a video.
+- D23: Amendment 1 adds no approval part. Daniel's check of 2026-11-16 covers the Thai captions and the Thai labels. The Phase 4 record of `approval.loops` then covers the share moments. The app shows a share moment only when `approval.loops` is approved.
+- D24: The caption list is in the track folder, next to `look-points-11-16.md`, because that folder holds the file of the 11-16 sitting. On 2026-11-07, no other folder for that sitting exists. The caption task adds the look point LP-28 to `look-points-11-16.md`. LP-28 points to the caption list.
+- D25: The schema `version` stays 1 (as D13).
+- D26: The content author writes the English and the Thai drafts of the captions. The Green author of the teacher book writes the English and the Thai drafts of the 4 labels. The independent review reads the English only. Daniel checks the Thai.
+- D27: The check `share-moment` applies to Levels 2 to 4, as the loop checks do (FR-8). On 2026-11-07, the repository holds no Level 3 or Level 4 week, so no other level fails.
+- D28: The teacher book build of Phase 3b goes to `~/Desktop/print-ready/storytime/share-check-v1/teacher-book/`. The caption list names this path for the 11-16 sitting.
+
 ## Ownership and overlap
 
 - The track `storytime_week_package_20261022` (open) created `schema.ts`, `checks.ts`, and `manual.ts`. Its open tasks do not touch the schema. This track changes these files through its own Red and Green tasks. The orchestrator runs no task of the two tracks at the same time on one file.
@@ -238,6 +351,7 @@ The owner decisions are above. Where a detail was open, the author chose the def
 - The track `storytime_song_video_20261022` and all `video/**` files stay untouched.
 - The Monorepo pin of 2026-11-02 is Workbooks `ccf3d95c92bb5b3970722946dffbed1de57f9df6`. The new week versions need a new pin through the PM session.
 - Uncommitted files of other sessions stay unstaged: `video/storytime-song/scripts/render.mjs`, `dashboard/raw.json`, and the files under `measure/runs/`.
+- Phase 3b (Amendment 1) edits `schema.ts`, `checks.ts`, `manual.ts`, `i18n.ts`, `make-manual-pdf.ts`, `make-teacher-book-print.ts`, the week files `w01.json` to `w08.json`, and the test files of this track. The rule above applies: the orchestrator runs no task of this track and of `storytime_print_r1_20261025` at the same time on one file. The content task and the teacher book Green start only when `git status --porcelain` of their files is empty.
 
 ## Interface for the Storytime app (Monorepo)
 
@@ -248,6 +362,15 @@ The Storytime app in Monorepo reads the week files. The field names come from Ph
 3. The fast-way sight-word card with the timed check (`steps[].sightWords`: `words`, `slide`, `check`, `seconds`).
 4. The model sound clips of the blend drill (`steps[].blendDrill.words[].audio`).
 5. The new routines in any teacher view of the scripts (`blendDrill`, `soundLoop`, `sightWords`, `loopMinutes`).
+6. Amendment 1: the share moment of each day in the teacher view of the scripts (`scripts[].share`: `shots[].step`, `shots[].media`, `caption.en`, `caption.th`), at the named step, with the consent line. The app shows it only when `approval.loops` is approved (D23). The app uploads no photo or video.
+
+Contract check for the share field (Amendment 1). The author read the Monorepo on 2026-11-07 at HEAD `db3fc23d8`, read-only.
+
+- The receiving step is `receiveWeek` in `apps/storytime/scripts/receive-weeks.ts` (line 218). It parses each week with `weekSchema` of `apps/storytime/lib/contracts/week.ts` (line 222).
+- The contract is passthrough, not strict. Every object of `week.ts` uses `.passthrough()`, and `scriptSchema` (line 381) does too. The file header (lines 6 and 7) says: "Every object passes unknown keys through, because Workbooks owns the schema and the app must accept a field that a later phase does not read yet."
+- Answer: an extra `scripts[].share` field does not break the contract check. The step writes the source text with no change (line 237), so the field reaches the app content.
+- One limit: `mediaPathsOf` (`receive-weeks.ts` line 191) reads every string of a week. The test `apps/storytime/__tests__/phase3-media-coverage.test.ts` fails on a string that ends in a media file extension when `mediaOf` does not list it. So the share field holds no file path (FR-14, rule 7 of the check).
+- The older reader `apps/primary-advantage/lib/storytime/week.ts` uses plain `z.object`, which drops unknown keys. Its header says: "Unknown fields are dropped". It ignores the field.
 
 ## Non-Functional Requirements
 
@@ -255,6 +378,8 @@ The Storytime app in Monorepo reads the week files. The field names come from Ph
 - The English lines follow the existing rules of the week text: the sounds are pure sounds and not letter names, and a sentence that the class repeats is short.
 - New code has JSDoc on each exported function. The code follows the style of the files that it changes.
 - The repository is public. No test item, test paper, answer key, or test audio goes into this track.
+- Amendment 1: the Thai captions and the Thai share labels go to Daniel only. No model and no other person checks them. The review roles get the English only.
+- Amendment 1: a share moment adds no minutes, and it shows no assessment step.
 
 ## Out of scope
 
@@ -264,3 +389,6 @@ The Storytime app in Monorepo reads the week files. The field names come from Ph
 - The week 1 proof of 2026-11-05. It keeps the approved text.
 - New pictures, new audio recordings, and new songs.
 - Any change to the Monorepo app code. This track gives the field names and the interface only.
+- Amendment 1: the posts themselves, the parent groups, and the photo consent forms. The school runs them.
+- Amendment 1: any upload of share photos or videos to the app or to a bucket.
+- Amendment 1: a share moment in the student book, the readers, the covers, or the home card.
