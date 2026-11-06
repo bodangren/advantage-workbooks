@@ -78,10 +78,18 @@ describe('Phase 8 color patches and number dots', () => {
             const patch = card?.querySelector('[data-card-patch]');
             expect(patch, `${word} card has a filled patch`).not.toBeNull();
             expect(patch?.getAttribute('data-card-patch'), `${word} patch names its word`).toBe(word);
+            expect(patch?.getAttribute('data-shape'), `${word} patch is a rounded square`)
+                .toBe('rounded-square');
             expect(patch?.getAttribute('data-color'), `${word} patch stores its sRGB value`)
                 .toBe(hex);
             expect(patch?.getAttribute('style'), `${word} patch paints the expected color`)
                 .toMatch(new RegExp(`(?:background-color|background):\\s*${hex}`, 'i'));
+            const style = patch ? doc.defaultView?.getComputedStyle(patch) : undefined;
+            expect(style?.borderRadius, `${word} patch has rounded corners`).toMatch(/\d/);
+            expect(Number.parseFloat(style?.width ?? '0'), `${word} patch fills most of its picture area`)
+                .toBeGreaterThan(50);
+            expect(Number.parseFloat(style?.height ?? '0'), `${word} patch fills most of its picture area`)
+                .toBeGreaterThan(50);
         }
     });
 
@@ -98,8 +106,13 @@ describe('Phase 8 color patches and number dots', () => {
         for (const [word, count] of Object.entries(NUMBER_DOTS)) {
             const card = doc.querySelector(`[data-label="${word}"]`);
             const numeral = String(count);
-            expect(card?.querySelector('[data-card-numeral]')?.textContent?.trim(), `${word} numeral`)
+            const numeralElement = card?.querySelector('[data-card-numeral]');
+            expect(numeralElement?.textContent?.trim(), `${word} numeral`)
                 .toBe(numeral);
+            const numeralSize = numeralElement && doc.defaultView
+                ? Number.parseFloat(doc.defaultView.getComputedStyle(numeralElement).fontSize)
+                : 0;
+            expect(numeralSize, `${word} numeral is large`).toBeGreaterThanOrEqual(40);
             const dots = card?.querySelectorAll('[data-number-dot]');
             expect(dots, `${word} has exactly ${count} round dots`).toHaveLength(count);
             expect([...((dots ?? []) as NodeListOf<Element>)].every((dot) =>
