@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m)[22m[33m 16914[2mms[22m[39m
+     [33m[2m✓[22m[39m changes no byte and no modification time on a second run [33m 325[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 1341[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 1772[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 1101[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 801[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 2035[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 1029[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1868[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1358[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 530[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m93 passed[39m[22m[90m (93)[39m
+[2m   Start at [22m 19:24:21
+[2m   Duration [22m 18.75s[2m (transform 846ms, setup 498ms, import 908ms, tests 16.91s, environment 0ms)[22m
+
+exit: 0
