@@ -518,7 +518,7 @@ function minutesCheck(w: StorytimeWeek, steps: StorytimeStep[]): PackageCheck {
  * The status of the share-moment check (share FR-14): `warn` from the Green task to the switch task, and
  * `fail` after the switch task, as `LOOP_CHECK_STATUS` was (FR-8, D12). A problem carries this status.
  */
-export const SHARE_CHECK_STATUS: CheckStatus = 'warn';
+export const SHARE_CHECK_STATUS: CheckStatus = 'fail';
 
 /** The 17 media file extensions of the Monorepo `MEDIA_EXTENSION` (share FR-14, rule 7). */
 const SHARE_MEDIA_EXTENSION = /\.(mp3|wav|m4a|aac|ogg|opus|mp4|m4v|webm|mov|jpg|jpeg|png|webp|gif|svg|pdf)$/i;
