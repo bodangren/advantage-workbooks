@@ -1,0 +1,61 @@
+Mid Red log: Phase 3b, text-gate baseline of the share-check teacher book (2026-11-08)
+Model: claude-code/claude-sonnet-5-5#high (the substitute for MiniMax at its weekly cap).
+
+MEASURE_AGENT_RESULT
+status: complete
+track: storytime_teaching_loops_20261103
+phase: 3b
+role: mid-red
+baseline_sha: 1150486e17e3bebe1ddad259e04dc3b69883dbde
+role_base_sha: 1150486e17e3bebe1ddad259e04dc3b69883dbde
+head: see the commit that holds this log (the plan commit is 00665b66)
+test_commit: 7a44dd1aea8e4f6dc0afcf3094034e81a62dddfe
+plan_commit: 00665b6656a2734a91731ac6cecaf8a8cd6f72ef
+files: dashboard/__tests__/storytime-loops-book-pages.test.ts (new, 198 lines); plan.md (4 lines added); captures and the classify script copy in measure/runs/storytime_teaching_loops_20261103/
+
+classification (the PM check; script mid-red-p3b-tg-classify.py, output mid-red-p3b-tg-classify.txt):
+  rows: 316
+  page-list: 316
+  real text: 0
+  split: badge rows 246, reference rows 57, re-wrap rows 13 (the same classes as text-gate-v1-h1.md)
+  rules: (a) the draft id is one id of the book badge (the book merges A6 and D2 as the badge A6 and D2) and the titles are equal;
+         (b) the book page reference becomes the draft form "student book: x", then the lines are equal;
+         (c) a run of rows with consecutive line numbers is joined, then (a) and (b) apply.
+  The script holds no Thai literal (the Thai words come from code points). It checks that the header counts equal the parsed rows.
+  Result: the baseline refresh is safe. No difference row holds real text, so Green fixes no text.
+
+red summary lines:
+  new file alone (mid-red-p3b-tg-new.txt): Test Files  1 failed (1); Tests  11 failed (11); exit 1
+  RED_TEST_COMMAND with --maxWorkers=1 (mid-red-p3b-tg-red.txt): Test Files  1 failed | 10 passed (11); Tests  11 failed | 396 passed (407); exit 1
+  LINT_3B and tsc (mid-red-p3b-tg-lint.txt): ESLINT_EXIT=0, TSC_EXIT=0
+  The failure reason in each test: make-manual-pdf.ts has no --book-pages flag, no export manualPdfHtml, and no studentBookPages argument.
+
+tests (11): B1 wiring 7 (flag read, compile call passes studentBookPages, the unit page list calls, usage text, export and entry guard, --help, accepted flag and unknown flag exit 2); B2 equality 2 (w01, w08); B3 guard 2 (w01, w08).
+
+pass-at-Red list: none. All 11 new tests fail at HEAD, and the 396 older tests pass.
+  Falsifiers (for the mutation role): (1) B1 flag: remove the branch for --book-pages. (2) B1 call: drop studentBookPages from the compile call. (3) B2: build the page list from the requested weeks only, not from the whole level, so the page numbers differ for w01 and w08. (4) B2: pass the list but change the option name. (5) B3: make the page list the default. (6) B3: leave bookPages false but still pass the list.
+  Anti-pattern check (A1 to A7, A9): no digit-only count (A3); the markers test is an equality of full HTML, not a vacuous marker check (A4); no rg exclusion list (A7); no archived-track path (A9).
+
+helper name for Green: export function manualPdfHtml(weeks: StorytimeWeek[], options: { lang: SupportedLanguage; loops?: boolean; share?: boolean; bookPages?: boolean }): string
+  - It returns the html of compileStorytimeManual(weeks, { lang, paper: 'a4', loops, share, studentBookPages }).
+  - With bookPages true, studentBookPages is storytimeStudentBookPages of every parsed week of readLevelWeeks(STORYTIME_ROOT, weeks[0].meta.level) (the lines 189 to 191 of make-teacher-book-print.ts). Without it, the option is absent, so the output equals today.
+  - main must run only at the entry: wrap the last statement as in check-weeks.ts (the test checks the text process.argv[1] in the file). The test loads the module with await import().
+  - main uses the helper and passes the page list to compileStorytimeManual; the AST test needs the argument studentBookPages in every compileStorytimeManual call of the file.
+  - Add --book-pages to the argument loop (the text a === '--book-pages') and to USAGE.
+
+Thai rule: the test file holds no Thai literal. The Thai page word is built from code points (String.fromCharCode) and is used only as a marker in a search pattern. No expect compares a shipped Thai string with a literal.
+
+dispositions: none
+
+defaults taken:
+  1. Helper name manualPdfHtml with the option name bookPages (the orchestrator gave the name as an example).
+  2. The unit page list uses readLevelWeeks of the level of the first week, as the print script does; the equality test uses level 2.
+  3. The module is imported only after an AST proof of the export and the entry guard, so a Red run never starts main in the vitest worker.
+
+handoff for Green:
+  - Edit only dashboard/scripts/storytime/make-manual-pdf.ts for the code. Default off; without the flag the output stays byte-equal.
+  - Then the plan Green task: new drafts with --book-pages into ~/Desktop/print-ready/storytime/share-check-v1/drafts-book-pages/; rebuild with --version 2 and --drafts that folder; expect exit 0 and 0 differences.
+  - The 316 rows are all page-list, so a fix of text is not needed. If the v2 gate shows a difference, report it with its week and line.
+  - Point the caption list to the v2 file and its SHA-256, and rerun the cross-check (exit 0, last line share captions: 44 rows, 0 problems).
+  - Do not stage video/storytime-song/scripts/render.mjs or dashboard/raw.json.
+END_MEASURE_AGENT_RESULT
