@@ -377,3 +377,276 @@ The counts (amendment r2, 2026-11-07): card 16 (w01 5, w04 7, w07 4), patch 7, d
 - A change of any approval, of `meta.status`, or of a w08 family word.
 - The Monorepo receipt of the revisions (at-home Phase 2) and the Monorepo test pins of the missing count.
 - The family pictures of unit 2 (weeks 9 to 16).
+
+## Addendum 2026-11-07, Phase 11: word clips and the song video lead-in (2026-11-07 to 2026-11-14)
+
+Author model: claude-code/claude-opus-5-5[1m]
+
+### Overview
+
+This phase gives each word of the read-along books and the decodable books its own recorded clip. A tap on a word in the app then plays that clip, not a cut of the sentence audio. The phase also adds the field `song.videoLeadInSeconds` where a song video ships. With this field, the app lights each lyric line at the correct time while a song video plays. Both items block the at-home release of 2026-11-20. The phase delivers `w01-storytime-app-package-r4` by 2026-11-10 and `w02-storytime-app-package-r3` to `w07-storytime-app-package-r3` by 2026-11-14.
+
+Daniel's words (2026-11-07 13:53 ICT; `~/Desktop/advantage-pr/measure/pm-log.md` line 2299), verbatim:
+
+> "It is not possible to slice up the sentence audio the way you're trying to do it. You need to use the individual words that we generated."
+
+His note of the same row, verbatim:
+
+> "In the song, the highlighted lines under the video are about one line ahead of the part of the song that is currently playing"
+
+The Monorepo answer and the PM defaults (pm-log line 2300, 2026-11-07 13:59 ICT), verbatim:
+
+> "song cause: both w01 videos start the singing 3.000 s after song.mp3 (silencedetect; 85.376 vs 78.367 s); lyric times fit the mp3; app lights lines from the video time → one line ahead. Word clips: w01 package names none; bank wa-<word>.mp3 covers 11 of 23; missing ben, i, may, mia, pip, your (book 0), a, and, can, neck, nod, nurse (book 1). PM: defaults accepted (song.videoLeadInSeconds; books[].audio.wordClips, no clip = no tap target); Monorepo tasks 1.10 + 1.11 start now; Workbooks asked: wordClips + missing clips (same voice, citation forms; spend only inside its unit 1 approval, else count + cost to PM for Daniel's Go) and videoLeadInSeconds measured per week; w01 by 11-10, w02-w08 by 11-14"
+
+The Monorepo count "11 of 23" agrees with the table below. w01 has 23 book keys, because `nan` is in both books. 11 of these keys have a bank clip.
+
+### Facts (measured 2026-11-07)
+
+- The word bank `content/storytime/words/` holds 98 words: `wa-<word>.wav`, `wa-<word>.mp3`, and `manifest.json` (commit `ba2b72a3`). The manifest gives the bank `storytime-words-l2u1-2026-10-27`, the model `speech-2.8-hd`, the voice `English_captivating_female1`, and the speed 0.9. Its normalisation text is "peak -3 dBFS, edge silence trimmed to 80 ms, 32 kHz mono 16-bit".
+- The manifest approval, verbatim: "Approved, American, ox and axe correct" (Daniel, 2026-10-27). Each of the 98 rows has the keys n, id, word, file, mp3, sources, weeks, take, len_s, peak_dbfs, recognized, note, and sha256.
+- The `sha256` value of each row is the SHA-256 of the WAV file (98 of 98). No row holds the SHA-256 of the mp3 file.
+- The 98 WAV files are 32 kHz, mono, 16-bit, and each has the peak sample 23197 (98 of 98). 23197 is round(32767 × 10^(-3/20)), so the peak is -3.0 dBFS.
+- The 98 mp3 files are 32 kHz, mono, 128 kb/s (98 of 98). The tag `encoder=Lavf62.3.100` shows an ffmpeg encode. The installed ffmpeg is 8.0.1.
+- The edge silence of the 98 WAV files is not one exact rule. At a level of -50 dBFS, the start edge is 80 ms (±1 ms) in 70 of 98 files. The end edge has a median of 34 ms.
+- The manifest text is the Python form `json.dumps(manifest, indent=1)` with one final newline: that form equals the file byte for byte. The Node form `JSON.stringify(manifest, null, 1)` does not equal it, because Node writes `-3.0` as `-3`.
+- No code of this repository reads `content/storytime/words/manifest.json`. The script that made the bank on 2026-10-27 is not in a repository (pm-log line 458: a faster-whisper venv at `~/.local/share/storytime-word-audio-venv`). That venv has faster-whisper 1.2.1. The plain `python3` has no `faster_whisper` module.
+- The book audio tools exist: `dashboard/scripts/storytime/book-audio.ts` (mmx clips, 3 takes at most) and `dashboard/scripts/storytime/word-times.py` (faster-whisper, the local `small` model). `dashboard/lib/media/audio.ts` exports `parseWav`, `writeWav`, `trimSilence`, `longestPause`, and `speechArgs`.
+- `mmx speech synthesize --help` gives the default model `speech-2.8-hd`, the default sample rate 32000, the default bit rate 128000, and the default channel count 1.
+- The book words: the `word` values of `books[].audio.sentences[].words[]` and `books[].audio.slowSentences[].words[]`. No such value holds a character other than a letter. 32 values start with a capital letter (for example `I`, `A`, `Pip`, `Ben`).
+- Weeks 1 to 7 have 2 books each. w08 has `books: []` and no `song`.
+- The 4 w01 song files `song.mp4`, `song-phone.mp4`, `song-poster.jpg`, and `song-phone-poster.jpg` are not in git (`.gitignore` lines 26 to 30). The comment of that block names `video/storytime-song/scripts/render.mjs` as the tool that makes the videos again. The work-tree videos have the SHA-256 values of the r2 and r3 folders (`4c88951f…` and `74ccefed…`).
+- Weeks 2 to 7 have `song.mp3` only, because Daniel stopped the song videos on 2026-10-24. Their mp3 lengths are 71.7 s to 74.6 s.
+- `BookAudioSchema` and `SongSchema` (`dashboard/lib/storytime/schema.ts` lines 147 to 155 and 227 to 266) are not strict. So a parse today removes an unknown key such as `wordClips` from the output.
+- `check-weeks.ts` has the rows `song-media` and `book-audio`. No row reads a word clip.
+
+### The lead-in measure (2026-11-07)
+
+The command form is `ffmpeg -hide_banner -nostats -i <file> -vn -af silencedetect=noise=<n>:d=<d> -f null -`. The lengths are: `song.mp3` 78.367 s, `song.mp4` 85.376 s, and `song-phone.mp4` 85.376 s.
+
+| noise, d | mp3 first sound | `song.mp4` first sound | `song-phone.mp4` first sound | Difference (classroom, phone) |
+|---|---|---|---|---|
+| -40 dB, 0.05 s | 0.0854649 | 3.085458 | 3.085458 | 3.000, 3.000 |
+| -40 dB, 0.02 s | 0.0854649 | 3.085458 | 3.085458 | 3.000, 3.000 |
+| -30 dB, 0.05 s | 0.0856689 | 3.085667 | 3.085667 | 3.000, 3.000 |
+| -50 dB, 0.05 s | 0.0843764 | 3.084812 | 3.083708 | 3.000, 2.999 |
+| -40 dB, 0.1 s | 0 (not detected) | 3.085458 | 3.085458 | 3.085, 3.085 |
+
+- The mp3 starts with 85 ms of quiet (-91 dB for the first 40 ms). A minimum duration of 0.1 s does not detect a quiet part of 85 ms, so that value gives the false lead-in 3.085.
+- The second sound at -40 dB and 0.05 s: mp3 0.654717, `song.mp4` 3.655167 (3.000450), and `song-phone.mp4` 3.654812 (3.000095).
+- The silence edges at -40 dB and 0.1 s agree: the mp3 edge 0.123107 and the video edge 3.123104 differ by 3.000.
+- The first sound of each mp3 of weeks 2 to 7 (-40 dB, 0.05 s): w02 0.093, w03 0.098, w04 0.123, w05 0.094, w06 0.092, w07 0.085. These weeks have no video, so they get no lead-in.
+
+### The book words of weeks 1 to 7
+
+A key is the K2 form of a book word. "Files" counts the distinct keys of a week, because one file serves both books.
+
+| Week | Keys, book 0 | Keys, book 1 | Keys | Files | In the bank | Missing | Missing first in this week |
+|---|---|---|---|---|---|---|---|
+| 1 | 12 | 11 | 23 | 22 | 10 | 12 | 12: a, and, ben, can, i, may, mia, neck, nod, nurse, pip, your |
+| 2 | 19 | 4 | 23 | 23 | 8 | 15 | 11: balls, birds, cakes, ducks, friends, how, kites, many, no, oh, suns |
+| 3 | 10 | 10 | 20 | 20 | 11 | 9 | 5: get, in, is, it, the |
+| 4 | 12 | 14 | 26 | 24 | 14 | 10 | 3: house, my, this |
+| 5 | 12 | 16 | 28 | 28 | 17 | 11 | 4: have, off, saw, with |
+| 6 | 12 | 14 | 26 | 22 | 15 | 7 | 2: he, see |
+| 7 | 13 | 14 | 27 | 24 | 13 | 11 | 2: run, yes |
+| Sum | | | 173 | 163 | | | 39 |
+
+- Distinct keys of weeks 1 to 7: 101. 62 of them have a bank row, and 39 have no bank row.
+- The sums: keys 23 + 23 + 20 + 26 + 28 + 26 + 27 = 173; files 22 + 23 + 20 + 24 + 28 + 22 + 24 = 163; new clips 12 + 11 + 5 + 3 + 4 + 2 + 2 = 39.
+- The TTS characters of one take for each new clip (K8 texts): w01 37, w02 47, w03 12, w04 11, w05 14, w06 5, w07 6. The sum is 132. With 3 takes for each word, the maximum is 396.
+
+### The Monorepo receiver (read only, 2026-11-07)
+
+The Monorepo HEAD is `bdda3dd18`. `git grep` finds no `wordClips` and no `videoLeadIn` in `apps/storytime`.
+
+- `apps/storytime/lib/contracts/week.ts`: `bookAudioSchema` (lines 109 to 117) and `songSchema` (lines 240 to 253) are `passthrough`, so the receiver keeps the two new fields. The `mediaPath` rule (line 35) is the allowlist of Phase 10, with a maximum of 200 characters.
+- `apps/storytime/scripts/receive-weeks.ts`: `mediaPathsOf` (line 191) walks every string of a week and lists each string with a media extension. So it lists each `wordClips` value. The media coverage test (Phase 10, finding F13) needs `mediaOf` (line 80) to list each such path. That change is Monorepo work (tasks 1.10 and 1.11 of pm-log line 2300).
+- `apps/storytime/app/[locale]/st/[level]/[week]/reader.tsx` line 117: `mediaUrl(base, file)` joins the media base and the file value. So a media value must be relative to the content root, as every media value of the package is today.
+
+### Decisions (pinned before Red; the Red and Green roles do not guess)
+
+The letter K names the decisions of this phase.
+
+- K1 (scope): the book words of w01 to w07, 2 books in each week. w08 has no book and no song, so it gets no field and no revision. No book audio file, song audio file, video file, picture, or print file changes. The 98 bank clips do not change.
+- K2 (the key of a book word): the key is computed from each `word` value of `sentences[].words[]` and `slowSentences[].words[]` of a book, in these steps:
+  1. Normalise the text to NFC. Change U+2019 and U+2018 to U+0027 (the straight apostrophe).
+  2. Change the text to lower case (`toLowerCase()`).
+  3. Remove each character other than `a` to `z` and the apostrophe from the start and from the end of the text. This step removes punctuation and quotation marks.
+  4. If no character stays, the word has no key. It gets no clip and no tap target.
+  5. The key must match `^[a-z]+('[a-z]+)*$`. Else the mapper stops with exit 1 before any write, with the token `not a word key`. A hyphen, a digit, or a letter with an accent stops the mapper.
+  - `I` gives the key `i`, and `A` gives `a`. A name gives its lower-case form: `Pip` gives `pip`. One key serves the word in each letter case.
+  - The app must compute the key of a tapped word with the same rule (K17).
+- K3 (the value of a key): the value is the path relative to `content/storytime/`, as every media path of the package is: `l<level>/media/w<nn>/words/wa-<stem>.mp3`. `<nn>` is the two-digit week. `<stem>` is the key with each apostrophe removed (`don't` gives `dont`). The file is in `content/storytime/l2/media/w<nn>/words/`, so each week ships its own clips. If two keys of one week give the same stem, the mapper stops with exit 1 (`two keys, one file`).
+- K4 (the map of a book): `books[i].audio.wordClips` holds one key for each distinct key of that book, from both speeds, and no other key. A key of both books of a week is in both maps, with the same value, and one file serves both books.
+  - The keys are sorted by code point.
+  - The mapper writes the map by a text edit. The line that closes the last key of `audio` gains a comma. Then come the line `"wordClips": {`, one line `"<key>": "<value>"` for each key, and the line `}`.
+  - The key lines have the indent of the last key of `audio` plus 2 spaces. The two other lines have the indent of that key. Each key line except the last ends with a comma. No other byte changes.
+  - In each shipped book, `slowSentences` is the last key of `audio`. So its closing `]` gains a comma, and the edit adds the key count plus 2 lines for each book.
+  - A repeat run with the same map changes nothing: the bytes and the modification time stay. A run with another map replaces only the `wordClips` block.
+- K5 (the bank is the single source): each clip of a week is a byte copy of `content/storytime/words/wa-<stem>.mp3`. A week never holds a clip that the bank does not hold. A new clip goes into the bank first: its WAV, its mp3, and its manifest row. The mapper never makes audio.
+- K6 (the bank row of a new clip): the keys come in this order: n, id, word, file, mp3, sources, weeks, take, len_s, peak_dbfs, recognized, note, sha256, text, added.
+  - `n` continues from 99. `id` is `wa-<stem>`. `word` is the key. `file` is `wa-<stem>.wav`, and `mp3` is `wa-<stem>.mp3`.
+  - `sources` is `book`. `weeks` lists the weeks of the level whose books hold the key, joined by `;` (for example `1;3;4;5;6;7` for `a`).
+  - `take` is the number of the take that stays. `len_s` is the length in seconds, rounded to 3 decimals. `peak_dbfs` is `-3.0`.
+  - `recognized` and `note` follow K9. `sha256` is the SHA-256 of the WAV file, as in the 98 rows.
+  - `text` is the text sent to TTS. The row holds it only when it differs from the key (K8). `added` is the date of the take (`YYYY-MM-DD`).
+  - The top-level keys of the manifest do not change. The `approval` object of 2026-10-27 covers only the rows with no `added` key. The rows with `added` wait for Daniel's listen check (K10).
+  - The bank maker adds each row by a text edit before the `]` that closes `items`, in the Python form of the file. A float keeps its Python text (`-3.0`, not `-3`).
+  - After the edit, this command prints `True`: `python3 -I -c 'import json,sys;t=open(sys.argv[1]).read();print(json.dumps(json.loads(t),indent=1)+"\n"==t)' content/storytime/words/manifest.json`. The git diff of the file adds lines only, except the `}` of the last old row, which gains a comma.
+- K7 (the clip settings, from the bank): one mmx call for each take: `mmx speech synthesize --model speech-2.8-hd --text <text> --voice English_captivating_female1 --speed 0.9 --language English --format wav --sample-rate 32000 --channels 1 --out <file>`. Then these steps, in this order:
+  1. Scale the take so that its largest absolute sample is 23197 (each sample `Math.round(x * 23197 / peak)`).
+  2. Trim it with `trimSilence(samples, 32000, { threshold: 103, padMs: 80 })` of `lib/media/audio.ts`. 103 is the largest sample below -50 dBFS (32767 × 10^(-50/20) = 103.6). The step keeps 2560 samples (80 ms) at each edge, or fewer if the take has fewer.
+  3. Write the WAV: 32 kHz, mono, 16-bit.
+  4. Encode the mp3 with `ffmpeg -y -loglevel error -i <wav> -codec:a libmp3lame -b:a 128k <mp3>`: 128 kb/s, 32 kHz, mono.
+  - The start edge of a new clip is 80 ms at -50 dBFS, as in 70 of the 98 old clips. The end edge is also 80 ms, and the old clips have a median end edge of 34 ms. A tap clip does not need a shorter end edge.
+- K8 (the TTS text and the citation form): the text is the first written form of the key in the books of the level. The order is week, book, speed, sentence, and word. The K2 step 3 characters are removed. Examples: `Ben`, `May`, `Pip`, `nurse`.
+  - Two keys have a fixed text for the citation form. `a` uses the text `uh` (/ə/). `i` uses the text `I` (/aɪ/).
+  - If the heard text of an `i` take is a number (for example `one` or `1`), the next take uses the text `eye`.
+  - The row of each such clip holds its text in `text`. The texts go on the listen list (K10).
+- K9 (the heard check): the bank maker runs `scripts/storytime/word-times.py` on each take, with `$WHISPER_PYTHON` (default `python3`, as `book-audio.ts` does). The script uses faster-whisper, the local `small` model, int8, beam 5, temperature 0, and `language="en"`.
+  - The Clips tasks set `WHISPER_PYTHON=~/.local/share/storytime-word-audio-venv/bin/python`, because the plain `python3` has no `faster_whisper` module.
+  - The heard text is the recognized words, joined with no space, in lower case. Each character other than `a` to `z`, `0` to `9`, and the apostrophe is removed.
+  - A take passes when the heard text equals the key. It also passes when the heard text is in the variant list of the key, `WORD_CLIP_HEARD_VARIANTS` of FR 2: `a`: `uh`, `ah`; `i`: `eye`, `aye`; `in`: `inn`; `no`: `know`; `oh`: `o`, `owe`; `see`: `sea`; `your`: `you're`, `yore`.
+  - A pass by the variant list writes the note `homophone variant: heard '<x>'`, the form of the `an` and `mat` rows. `recognized` holds the heard text.
+  - A take fails when the heard text is another text, or when its longest inner pause is above 0.6 s (`longestPause` and `MAX_PAUSE_S` of `lib/media`). The bank maker then makes another take.
+  - A word gets 3 takes at most. If all 3 takes fail, the third take stays with the note `heard '<x>' in 3 takes`, and the clip goes on the listen list (K10).
+- K10 (the listen list and the approvals): the clips of `a` and `i` go on Daniel's 11-16 listen list as look points. Each clip with a note also goes on the list. Each item names the file path and the text sent. The PM line of each package names the items.
+  - All 39 new clips wait for Daniel's listen check. They do not stop the hand-off (as E6 and H10). If Daniel refuses a clip, a later revision changes it.
+  - Each approval and `meta.status` of each week stay as they are.
+- K11 (the spend and its authority): the authority has two parts. The first part is Daniel's go of 2026-10-24 for the unit 1 book audio with mmx (plan Phase 5, S30). The second part is his words of 2026-10-27 (pm-log line 520), verbatim: "My Minimax subscription is basically barely used and so text to speech and image generation are essentially free so I want you to brainstorm areas where we can use more audio and image support".
+  - The PM line of 2026-11-07 (pm-log line 2300) permits spend only inside the unit 1 approval. The orchestrator records that the 39 clips fit: 132 characters for one take each, and 396 at most with 3 takes.
+  - The cost is about 0.05 USD at the list price and 0 USD inside the MiniMax plan. The list price of the 2026-10-27 run was at most 0.18 USD for 1,800 characters (pm-log line 446). So 500 characters cost at most 0.05 USD.
+  - The hard stop is 500 characters for the phase, all takes included. The bank maker counts the characters of each call. It stops before a call that would take the run above `--max-chars` (default 300).
+  - If mmx refuses a call for quota or for price, the run stops with exit 1. The run uses no other voice, model, or provider.
+- K12 (the check `word-clips`): `checkWordClips(week, contentRoot = STORYTIME_ROOT)` in `dashboard/scripts/storytime/check-weeks.ts`. The CLI adds its row after the `family-pictures` row. The label is exactly `The book word clips named in the package exist and match the word bank`. The check reads the bank manifest `content/storytime/words/manifest.json`.
+  - No row for a week with no book (w08).
+  - `fail` when a key has a fault, with the detail parts in this order, joined by `; `: `missing: <paths>` (no file); `differs from bank: <paths>` (the SHA-256 of the clip differs from the SHA-256 of the bank mp3 of the row with that key); `no bank row: <keys>`; `not a book word: <keys>` (a key that no word of its book gives); `bad path: <paths>` (a value other than the K3 path of its week and key).
+  - `warn` when a book word has no key in the map of its book, or when the book has no map. The detail is `no clip: <keys>`, with each key once, in document order.
+  - `fail` wins over `warn`, and the detail of a `fail` holds only the fail parts. `pass` has no detail.
+  - The status `warn` for a word with no key keeps the `PROJECT_CHECKS` of the print, unit 2, and cover-options tracks at exit 0. This applies between the Green 1 commit and the content commits (rule F9).
+- K13 (the lead-in): `song.videoLeadInSeconds` gives the seconds from the start of a song video to the same sound in `song.mp3`. The app adds it to each `song.times` value when it plays a video.
+  - The measure: run `ffmpeg -hide_banner -nostats -i <file> -vn -af silencedetect=noise=-40dB:d=0.05 -f null -` on `song.audio` and on each of `song.video`, `song.videoPhone`, and `song.karaoke` that the song names.
+  - The sound onsets of one file: if the first silence starts at 0.001 s or less, its `silence_end` is the first onset; else the first onset is 0. The next `silence_end` is the second onset. A `silence_end` within 0.001 s of the length of the file is not an onset.
+  - The lead-in of one video is its first onset minus the first onset of the mp3. The second onsets must give a difference within 0.010 s of that value. Else the script stops with exit 1.
+  - The videos of one song must give lead-ins within 0.010 s of each other. Else the script stops with exit 1.
+  - The value is the lead-in of `song.video`, else of `song.videoPhone`, else of `song.karaoke`. It is rounded to 3 decimals (`Math.round(x * 1000) / 1000`) and written as `String(value)`. So 3.000 is written `3`.
+  - The field exists only when the song names a video. An absent field means no video. Today only w01 has the field, with the value 3 (3.000 measured).
+  - The text edit adds the line `"videoLeadInSeconds": <value>` with the indent of the line before it. That line is the `"videoPhone"` line, else the `"video"` line, else the `"karaoke"` line. The comma rules of JSON apply. In w01, the `"videoPhone"` line is not the last key, so the new line ends with a comma and no other line changes.
+  - A repeat run changes nothing. A run with another value changes that line only.
+  - The w01 videos are not in git. The script reads the work-tree videos only after their SHA-256 equals the lines of the `w01-storytime-app-package-r3` MANIFEST.
+  - A new render of a song video (for example by the song video track) needs a new measure before its package. The package task runs the measure with no write and compares it with the field.
+- K14 (the check `song-lead-in`): `checkSongLeadIn(week)` in `check-weeks.ts`, with its row after the `word-clips` row. The label is exactly `The song video lead-in is set for each song video`.
+  - No row when the song names no video and has no field (w02 to w07), or when the week has no song (w08).
+  - `pass` when the song names a video and has the field. `warn` with the detail `no lead-in` when the song names a video and has no field. `fail` with the detail `lead-in without video` when the song has the field and names no video.
+  - The check does not decode a video. The measure script (K13) owns the value.
+- K15 (the schema): two optional fields in `dashboard/lib/storytime/schema.ts`, each with JSDoc:
+  - `BookAudioSchema.wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional()`.
+  - `SongSchema.videoLeadInSeconds: z.number().finite().min(0).optional()`.
+  - The parse output keeps both fields. A week file without them parses as before.
+  - `schema.ts` is shared with the loops track. Before the Green 1 edit, `git status --porcelain dashboard/lib/storytime/schema.ts` must print nothing. The Green 1 commit stages the file by its path.
+  - The test files that parse week files with `StorytimeWeekSchema` (41 files, `grep -rlE "StorytimeWeekSchema" dashboard/__tests__`) are the cross-track readers. Two of them change, because the shipped week files change:
+    - `storytime-loops-content.test.ts`: `withoutNewFields` must also remove `books[].audio.wordClips` and `song.videoLeadInSeconds`. Line 504 compares the parsed shipped week with the parsed baseline week.
+    - `storytime-print-v15.test.ts`: its 5 pinned lines of `w02.json` (2104, 4129, 4157, 4163, and 4215) come after the two `audio` blocks (lines 367 and 1127). So they move by the lines that the w02 edit adds: 27 by K4.
+  - The Red 1 author runs the grep of FR 7 and records each hit with "changes" or "no change" and the reason.
+- K16 (the package revisions): `w01-storytime-app-package-r4` (previous: r3) by 2026-11-10. `w02-storytime-app-package-r3` to `w07-storytime-app-package-r3` (previous: r2) by 2026-11-14. They are under `/home/daniebo/Desktop/handoff/`.
+  - The H12 form and the nine checks of the Phase 10 Package build task apply, with the Phase 11 values of the plan.
+  - The 4 w01 song files come from `w01-storytime-app-package-r3`, read only, with the SHA-256 values of its MANIFEST. They are not in git (the Phase 10 deviation from rule R4).
+  - The E5 amendment of 2026-11-07 limits the sentence "No second folder follows the approval commit." to the Phase 9 folders. So these revisions need no new E5 line. Each revision is a new folder, and no existing folder changes (hand-off README rule 5).
+  - The payload files: w01 51 + 22 = 73; w02 54 + 23 = 77; w03 50 + 20 = 70; w04 46 + 24 = 70; w05 52 + 28 = 80; w06 49 + 22 = 71; w07 50 + 24 = 74. The changed paths are the clips and the week file: 23, 24, 21, 25, 29, 23, 25. If another track first changes a week file or adds a media file, the "Changed since" list also names that change. The task line then records the measured counts.
+- K17 (the receiver contract, for the PM line to Monorepo): `books[].audio.wordClips` (object: lower-case word -> relative file path) and `song.videoLeadInSeconds` (number, seconds).
+  - The key is the K2 form of the tapped word. The value is relative to the content root, as `books[].audio.file` is (K3). A word with no key has no clip and no tap target.
+  - The app adds `song.videoLeadInSeconds` to each `song.times` value while a song video plays. The app uses `song.times` as it is while `song.mp3` plays. An absent field means that the song has no video.
+- K18 (lane and tests): the light lane. PM approval asked 2026-11-07; default light lane. The lane has no strategy role and no adversarial round. It has one spec review by a model family other than Anthropic, and one Review A by a model family other than the Green family.
+  - One new test file: `dashboard/__tests__/storytime-package-clips.test.ts` (Red 1). The name matches the glob `__tests__/storytime-*.test.ts` of the shared `PROJECT_TESTS`, so rule R1 of Phase 10 applies.
+  - No test writes into `content/storytime/`. Each script case runs on a temporary copy of a week, of the bank, and of the media folder.
+  - The tests replace mmx and faster-whisper with fakes, so no test makes a paid call or loads a model. The ffmpeg cases use short files that the test makes in a temporary folder.
+  - The test file holds no `measure/tracks/` string.
+
+### Functional Requirements
+
+1. **Schema.** The two fields of K15.
+2. **Module** `dashboard/lib/storytime/word-clips.ts` (new and pure: no file access, no process, no network). Every export has JSDoc. The exports:
+   - `bookWordKey(word: string): string | undefined` applies K2. It returns `undefined` when no character stays. It throws an `Error` whose text starts with `word clip:` and holds the word and `not a word key`.
+   - `wordClipStem(key: string): string` removes each apostrophe.
+   - `wordClipPath(level: number, week: number, key: string): string` gives the K3 path. It throws for a key that fails the K2 pattern and for a week below 1 or above 99.
+   - `bookWordKeys(audio: { sentences?: readonly { words?: readonly { word: string }[] }[]; slowSentences?: readonly { words?: readonly { word: string }[] }[] }): string[]` gives the distinct keys of one book, sorted by code point.
+   - `planWordClips(input: { level: number; week: number; books: readonly { audio: Parameters<typeof bookWordKeys>[0] }[] }): { maps: Record<string, string>[]; files: string[] }` gives one map for each book (K4) and the sorted distinct values. It throws `word clip: two keys, one file: <key>, <key>` for two keys with one stem.
+   - `wordClipText(key: string, firstForm: string): string` applies K8: `uh` for `a`, `I` for `i`, else `firstForm`.
+   - `WORD_CLIP_HEARD_VARIANTS: Readonly<Record<string, readonly string[]>>` holds the K9 list.
+   - `heardText(words: readonly string[]): string` and `heardPasses(key: string, heard: string): { pass: boolean; note: string }` apply K9. A pass by the variant list gives the note `homophone variant: heard '<x>'`. An exact pass gives the note `""`.
+   - `normalizeWordClip(samples: Int16Array, rate: number): Int16Array` applies K7 steps 1 and 2.
+   - `appendBankRows(manifestText: string, rows: readonly WordBankRow[]): string` applies the K6 text edit. `WordBankRow` is the exported row type of K6.
+   - `parseSilenceOnsets(ffmpegLog: string, lengthSeconds: number): number[]` gives the K13 onsets in order.
+   - `videoLeadIn(audioOnsets: readonly number[], videoOnsets: readonly number[]): number` gives the K13 lead-in, rounded to 3 decimals. It throws an `Error` whose text starts with `lead-in:` when a list has fewer than 2 onsets, or when the guard of K13 fails.
+3. **Bank maker** `dashboard/scripts/storytime/make-word-bank.ts --level <n> --week <n> [--max-chars <n>] [--dry-run]`. It has a `USAGE` text and the exit codes of the other Storytime scripts. The exit codes are 0 for success, 1 for a data error, and 2 for a usage error. `main(argv)` runs only when the file is the entry point.
+   - It exports `makeWordBank(options: { level: number; week: number; contentRoot: string; bankFolder: string; date: string; maxChars?: number; dryRun?: boolean; synthesize?: (text: string, wavFile: string) => void; recognize?: (wavFiles: readonly string[]) => string[][] }): { made: string[]; chars: number; lines: string[] }`.
+   - The default `synthesize` runs mmx by K7. The default `recognize` runs `word-times.py` by K9 and gives the words of each file.
+   - It lists each key of the books of the week that has no bank row, with its K8 text. It prints `chars: <n>` for one take of each key. With `--dry-run`, it then stops and writes nothing.
+   - For each key, in sorted order, it makes the takes of K9 and writes the WAV and the mp3 into the bank folder by K7. Then it adds the row by K6. So an interrupted run keeps the rows of the finished words. A key that has a row is never made again.
+   - It stops with exit 1 before a call that would take the characters of the run above `maxChars` (default 300). It also stops before the first call when one take of each key needs more than `maxChars`.
+4. **Mapper** `dashboard/scripts/storytime/set-word-clips.ts --level <n> --week <n> [--check]`, with `USAGE`, the same exit codes, and the same entry guard.
+   - It exports `setWordClips(options: { weekFile: string; contentRoot: string; bankFolder: string; check?: boolean }): { keys: number; files: number; removed: string[]; lines: string[] }`.
+   - It reads the week file and the bank manifest, and plans the maps by K2 to K4.
+   - Before any write, it checks each key. The key has a bank row (`no bank row`), and the bank mp3 of the row exists (`no bank file`). The SHA-256 of the bank WAV equals the row (`bank SHA-256 differs`). A failure stops the script with exit 1, and the script writes no file.
+   - With `--check`, it prints one line for each key of each book, and it writes no file. The line holds the book index, the key, the bank id, and `ok` or the rule token, separated by one tab. The exit code is 0 only when every line is `ok`.
+   - Else it copies each bank mp3 to its K3 path, byte for byte. It does not write a file with the same bytes. It removes each `words/wa-*.mp3` file of the week that no key names, and prints `removed <path>`. It writes the maps by K4.
+   - It parses the new week text with `JSON.parse` and `StorytimeWeekSchema.parse` before the first write.
+   - A second run with the same inputs changes no byte.
+5. **Lead-in script** `dashboard/scripts/storytime/measure-video-lead-in.ts --level <n> --week <n> [--write]`, with `USAGE`, the same exit codes, and the same entry guard.
+   - It exports `measureVideoLeadIn(options: { weekFile: string; contentRoot: string; write?: boolean }): { leadIn: number | undefined; lines: string[] }`.
+   - It applies K13. It prints one line for each video, with 4 fields separated by one tab. The fields are the file, the first onset of the video, the first onset of the mp3, and the lead-in with 3 decimals. Then it prints `lead-in: <value with 3 decimals>`.
+   - A song with no video prints `no video`, exits 0, and writes nothing. A song with no `audio` stops with exit 1.
+   - With `--write`, it sets the field by the K13 text edit, and it parses the new week text with `StorytimeWeekSchema.parse` before the write.
+6. **Checks** `word-clips` (K12) and `song-lead-in` (K14) in `dashboard/scripts/storytime/check-weeks.ts`, both exported:
+   - `checkWordClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined`.
+   - `checkSongLeadIn(week: any): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined`.
+7. **Tests** in `dashboard/__tests__/storytime-package-clips.test.ts` (Red 1), the cases C1 to C16:
+   - C1 the K2 table, written by hand: `Hello` → `hello`; `I` → `i`; `A` → `a`; `Pip!` → `pip`; `"Yes,"` → `yes`; `don’t` (U+2019) → `don't`; `...` → `undefined`. `teddy-bear`, `a1`, and `café` throw `not a word key`.
+   - C2 `wordClipStem` and `wordClipPath`: `wordClipPath(2, 1, "don't")` is `l2/media/w01/words/wa-dont.mp3`, and `wordClipPath(2, 1, 'i')` is `l2/media/w01/words/wa-i.mp3`. A bad key, week 0, and week 100 throw. The keys `its` and `it's` in one week make `planWordClips` throw `two keys, one file`.
+   - C3 `bookWordKeys` of the shipped w01: book 0 gives the 12 keys of the table and book 1 the 11 keys, sorted. Both lists are written by hand.
+   - C4 the counts of the table, written by hand: the keys 23, 23, 20, 26, 28, 26, 27 (173); the files 22, 23, 20, 24, 28, 22, 24 (163); w08 has no book.
+   - C5 the schema: a `wordClips` map parses, and the parse output keeps it. An upper-case key and an empty value fail. `videoLeadInSeconds` 3 parses; -0.001 fails.
+   - C6 the mapper on a temporary copy of w01 with a temporary bank of 22 rows: 22 files, each byte-equal to its bank mp3; the two maps of K4; the K4 diff form (27 added lines and 2 changed lines); a second run changes no byte and no modification time; a stale `wa-*.mp3` file is removed.
+   - C7 the mapper stops before any write: a key with no bank row, a bank row with no mp3, and a WAV whose SHA-256 differs from its row. Each error holds its token. No file changes.
+   - C8 `--check` prints 23 lines for the copy of w01 and writes nothing. With 12 bank rows absent, it prints 12 `no bank row` lines and exits 1.
+   - C9 `checkWordClips`: `pass` on the mapped copy; `warn` `no clip: <keys>` with no map; `fail` for each detail part of K12; fail wins; `undefined` for a week with no book; the exact label.
+   - C10 `checkSongLeadIn`: `pass`, `warn` `no lead-in`, `fail` `lead-in without video`, and `undefined`; the exact label.
+   - C11 the onset math on fixed ffmpeg logs (the w01 lines of the lead-in measure): mp3 onsets 0.0854649 and 0.654717; `song.mp4` onsets 3.085458 and 3.655167; `videoLeadIn` gives 3. A second-onset difference 0.011 s away throws. A file that starts with sound gives the first onset 0.
+   - C12 the lead-in script live on short files that ffmpeg makes in the test. The files are an mp3 with 85 ms of quiet and two tones, and an mp4 with the same audio 1.5 s later. The script gives a value within 0.002 of 1.5, because an encoder can add a delay of about 1 ms. `--write` adds the line `"videoLeadInSeconds": <that value>` after the `videoPhone` line of a temporary week. A second run changes no byte. A song with no video prints `no video` and writes nothing.
+   - C13 the bank maker with a fake `synthesize`. The fake writes a 32 kHz mono take with long quiet edges and a peak of 10000. The WAV is 32 kHz, mono, 16-bit, with the peak 23197. Its length is the loud part plus 2 × 2560 samples. The mp3 is 32 kHz, mono, 128 kb/s.
+   - C14 the bank maker heard rule with a fake `recognize`: a take heard as another word is made again, and `take` is 2; 3 failed takes keep the third take with the note `heard '<x>' in 3 takes`; a variant passes with its note; `a` sends `uh` and the row has `text: "uh"`; the character limit stops the run before the call, and no row changes; `--dry-run` writes nothing and prints `chars:`; the manifest text keeps each old line except one comma line, and the Python form test of K6 holds on a fixture; `n` continues.
+   - C15 the bank facts (characterization): the shipped manifest has 98 rows or more, and each `sha256` equals the SHA-256 of its WAV.
+   - C16 the guards of the file: no `measure/tracks/` string, and no write under `content/storytime/`.
+   - The Red 1 grep: `grep -rlnE "wordClips|videoLeadIn|withoutNewFields|AX-lines|BookAudioSchema|SongSchema|audio\??\.(file|slowFile|sentences|slowSentences)|song\??\.(audio|video|videoPhone|times)|words/manifest" dashboard/__tests__`.
+8. **Hand-off.** The 7 revision folders of K16, and one status line to the PM for each delivery. The w01 line is due by 2026-11-10, and the w02 to w07 line by 2026-11-14.
+
+### Acceptance Criteria
+
+- AC11-1: in the repository root, this command prints `173/173 no key: 0`: `node -e 'const fs=require("fs"),c=require("crypto");const h=p=>c.createHash("sha256").update(fs.readFileSync(p)).digest("hex");const by=new Map(JSON.parse(fs.readFileSync("content/storytime/words/manifest.json","utf8")).items.map(r=>[r.word,r]));let t=0,ok=0,miss=0;for(let n=1;n<=7;n++){const w=JSON.parse(fs.readFileSync("content/storytime/l2/w0"+n+".json","utf8"));for(const b of w.books){const keys=new Set();for(const s of [...(b.audio.sentences||[]),...(b.audio.slowSentences||[])])for(const x of (s.words||[])){const k=x.word.normalize("NFC").replace(/[‘’]/g,"\x27").toLowerCase().replace(/^[^a-z\x27]+|[^a-z\x27]+$/g,"");if(k)keys.add(k)}const m=b.audio.wordClips||{};for(const k of keys){t++;const f=m[k];if(!f){miss++;continue}const r=by.get(k);if(r&&fs.existsSync("content/storytime/"+f)&&h("content/storytime/"+f)===h("content/storytime/words/"+r.mp3))ok++}}}console.log(ok+"/"+t+" no key: "+miss)'`.
+- AC11-2: `find content/storytime/l2/media -path '*/words/wa-*.mp3' | wc -l` prints 163. For each week, the file count equals the files value of the table.
+- AC11-3: the bank has 137 rows, with `n` from 1 to 137 and no gap. Each row with `added` has a WAV of 32 kHz, mono, 16-bit, with the peak 23197, and an mp3 of 32 kHz, mono, 128 kb/s. Its `sha256` equals its WAV. The Python form test of K6 prints `True`.
+- AC11-4: `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2` shows `word-clips` with `pass` for st2/1 to st2/7 and no `word-clips` row for st2/8. It shows `song-lead-in` with `pass` for st2/1 and no `song-lead-in` row for st2/2 to st2/8.
+- AC11-5: `measure-video-lead-in.ts --level 2 --week 1` prints `lead-in: 3.000`. `w01.json` holds `"videoLeadInSeconds": 3`, and no other week file holds the key.
+- AC11-6: a second run of the mapper and of the lead-in script on each week changes no byte. This applies to the week file and to each clip.
+- AC11-7: the content commits of a week together change its week file by these insertions and deletions in `git show --numstat --format=`: w01 30 and 2; w02 29 and 2; w03 26 and 2; w04 32 and 2; w05 34 and 2; w06 32 and 2; w07 33 and 2. Each changed line is a closing `]` that gains a comma.
+- AC11-8: `RED_TEST_COMMAND` fails only on the new assertions of the Red 1 file. The four gates pass after Green 1, after the Clips w01 content commit, and after the last content commit of w02 to w07. After each other content commit, `GREEN_TEST_COMMAND` and `PROJECT_CHECKS` pass.
+- AC11-9: the 13 mutants of the Green 1 task are caught.
+- AC11-10: each revision folder passes the nine checks of the Phase 11 package task, with the counts of K16.
+- AC11-11: the PM has one status line for w01 r4 and one for w02 to w07 r3 (peer-report). Each line holds the folder paths, the commit, the K17 contract, and the listen list.
+
+### Blast radius of the addendum
+
+- New files: `lib/storytime/word-clips.ts`, `scripts/storytime/make-word-bank.ts`, `scripts/storytime/set-word-clips.ts`, `scripts/storytime/measure-video-lead-in.ts`, and `__tests__/storytime-package-clips.test.ts`.
+- Files that change: `lib/storytime/schema.ts` (2 optional fields; shared with the loops track); `scripts/storytime/check-weeks.ts` (2 rows); `content/storytime/words/` (39 WAV files, 39 mp3 files, and 39 manifest rows); `content/storytime/l2/w01.json` to `w07.json` (14 maps with 173 keys, and 1 lead-in line in w01); `content/storytime/l2/media/w0<n>/words/` (163 mp3 files).
+- Test files that can change: `__tests__/storytime-loops-content.test.ts` and `__tests__/storytime-print-v15.test.ts` (K15). The Red 1 grep can find more files.
+- Read only: `lib/media/audio.ts`, `lib/media/make-clip.ts`, `scripts/storytime/word-times.py`, the bank of 98 clips, the book audio, and the song files.
+- `lib/storytime/checks.ts`, the print files, and the Monorepo do not change. The Monorepo work (tasks 1.10 and 1.11) adds the tap clips, the lead-in, and the `mediaOf` entries.
+- The repository is public. The clips are not test items.
+
+### Out of Scope
+
+- The Monorepo code: the word tap, the song player, `mediaOf`, and its tests.
+- The skipped words of "Read it to me" (pm-log line 2299: the Monorepo fix 1.9).
+- New song videos for weeks 2 to 7 and their lead-in values (Daniel's stop of 2026-10-24).
+- A change of the 98 approved clips, of the book audio, of `song.times`, or of an approval.
+- The word clips of unit 2 (weeks 9 to 16) and of w08 (no book).
