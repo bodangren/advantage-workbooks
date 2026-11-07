@@ -1,0 +1,121 @@
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 6829[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 1747[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 753[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 765[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 767[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 905[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 1820[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-v15.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 6118[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-qr: the QR label of Nan Can Nod stays "Listen to the book" [33m 2055[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-build-control: a valid checkRows copy of week 3 compiles [33m 1812[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-text-check: the print text check passes on weeks 1 to 7 and fails without the read-word Row line [33m 537[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 5278[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 2335[2mms[22m[39m
+     [33m[2m✓[22m[39m U5-margin: the text of a card keeps 6 mm from the cut line, 4 mm more than before (E47) [33m 329[2mms[22m[39m
+     [33m[2m✓[22m[39m U5-number: the page number of a card keeps 6 mm from the cut line (A-48 part F F1) [33m 406[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 4204[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 455[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 402[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 396[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 384[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 385[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 427[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 432[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 447[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 452[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-c6-baseline.test.ts[2m > [22m[2mStorytime print text on rules sits on the baseline (audit item C6)[2m > [22m[2mC6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded)
+[22m[39mC6 offsets
+practice line (A7): 19 line(s), offset 0.00 to 0.01 mm (rule top minus baseline)
+trace row (dictation-word-trace): 1 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (writing-trace): 25 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (dictation-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (choice-word-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+
+ [32m✓[39m __tests__/storytime-print-c6-baseline.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 4636[2mms[22m[39m
+     [33m[2m✓[22m[39m C6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded) [33m 4632[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-d4-prompt.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4331[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 5 prints l2-w05-d4-prompt-face above the trace row with the label Draw. and one draw box [33m 2171[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 7 prints l2-w07-d4-prompt-ball above the trace row with the label Color. and one draw box [33m 1958[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 5335[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 2221[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 2671[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-h1-classes.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 4666[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder [33m 2564[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside [33m 1915[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-jgHxUT/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-WXAP8N/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3126[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 611[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 451[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 994[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 927[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-binding-practice.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 3218[2mms[22m[39m
+     [33m[2m✓[22m[39m fills the 8-week book to 136 pages with the benchmark before Review 1 and no pad at the end (A-48 U4) [33m 2522[2mms[22m[39m
+     [33m[2m✓[22m[39m keeps the week 1 book at 20 pages without an end pad [33m 418[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 3367[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file [33m 1068[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made [33m 1581[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both [33m 377[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m)[22m[33m 2549[2mms[22m[39m
+     [33m[2m✓[22m[39m J13: no caption string ends in a media file extension [33m 456[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 1485[2mms[22m[39m
+     [33m[2m✓[22m[39m R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check [33m 333[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1400[2mms[22m[39m
+     [33m[2m✓[22m[39m checks each shipped week 1 reader cover for Sprout and catches a copied cover mutation [33m 361[2mms[22m[39m
+     [33m[2m✓[22m[39m composes each teacher-book side as an opaque 300 ppi image at the specified trim [33m 979[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 966[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1187[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial-r2.test.ts [2m([22m[2m49 tests[22m[2m)[22m[33m 1170[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints the exact address of a good non-shipped path [33m 447[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints one code when the read-along path is absent [33m 384[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 794[2mms[22m[39m
+     [33m[2m✓[22m[39m cuts the middle two pages of a wide picture into the back (left) and the front (right) [33m 675[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 774[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial-r2.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 752[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not [33m 343[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m43 tests[22m[2m)[22m[33m 1605[2mms[22m[39m
+     [33m[2m✓[22m[39m R20: throws on the 27th occurrence instead of cycling suffixes [33m 354[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 807[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 333[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 434[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 516[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 342[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 293[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 377[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 196[2mms[22m[39m
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 195[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-dictation-case.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 69[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r4.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-cli.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-e4-back-list.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m62 passed[39m[22m[90m (62)[39m
+[2m      Tests [22m [1m[32m1391 passed[39m[22m[90m (1391)[39m
+[2m   Start at [22m 16:11:39
+[2m   Duration [22m 1100.48s[2m (transform 7.45s, setup 10.39s, import 23.53s, tests 983.95s, environment 64.53s)[22m
+
+exit: 0

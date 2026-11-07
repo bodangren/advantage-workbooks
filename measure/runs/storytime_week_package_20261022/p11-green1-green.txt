@@ -1,0 +1,41 @@
+ [32m✓[39m __tests__/storytime-package-family.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 30385[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 2977[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5b the card JPEG and the Forge JPEG hold the H6 output rules [33m 567[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5c the provenance file follows the H7 sort order [33m 499[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 804[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6b a caption that holds a JSON escape keeps its value [33m 495[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6c the script parses the new week text before it writes [33m 512[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-7 the script stops before any write: 'a Forge folder with only the line fil…' [33m 313[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 486[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 795[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 1015[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 684[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 1230[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-13 a second run changes no byte [33m 646[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 15292[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-19 the 51 shipped pictures hold the H6 facts and the provenance matches the sources [33m 1081[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 6881[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 2383[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 668[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 741[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 712[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 889[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 1398[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m88 tests[22m[2m)[22m[33m 11328[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 1349[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 1096[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 452[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 465[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 1312[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 874[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1164[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1073[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 375[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 216[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[32m181 passed[39m[22m[90m (181)[39m
+[2m   Start at [22m 16:09:58
+[2m   Duration [22m 52.31s[2m (transform 1.20s, setup 453ms, import 2.20s, tests 48.81s, environment 1ms)[22m
+
+exit: 0

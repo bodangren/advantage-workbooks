@@ -1,0 +1,79 @@
+M1: CAUGHT (exit 1) restore cmp: equal
+    bookWordKey keeps the letter case (C1)
+    fail: [31m     [31m×[31m gives the key of the hand-written table[39m[32m 57[2mms[22m[39m
+    fail: [31m     [31m×[31m gives one key for a word in each letter case[39m[32m 6[2mms[22m[39m
+    fail: [31m     [31m×[31m plans one map for each book and the sorted distinct files[39m[32m 5[2mms[22m[39m
+    [2m      Tests [22m [1m[31m40 failed[39m[22m[2m | [22m[1m[32m48 passed[39m[22m[90m (88)[39m
+M2: CAUGHT (exit 1) restore cmp: equal
+    wordClipStem keeps the apostrophe (C2)
+    fail: [31m     [31m×[31m removes each apostrophe from the stem[39m[32m 45[2mms[22m[39m
+    fail: [31m     [31m×[31m gives the K3 path of a key, a level, and a week[39m[32m 4[2mms[22m[39m
+    fail: [31m     [31m×[31m throws "two keys, one file" for the keys its and it's in one week[39m[32m 3[2mms[22m[39m
+    [2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (88)[39m
+M3: CAUGHT (exit 1) restore cmp: equal
+    checkWordClips skips the SHA-256 compare (C9)
+    fail: [31m     [31m×[31m fails with "differs from bank: <path>" when a clip differs from the bank mp3[39m[32m 96[2mms[22m[39m
+    fail: [31m     [31m×[31m joins the five fail parts in the order of K12 with "; "[39m[32m 105[2mms[22m[39m
+    fail: [41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC9 checkWordClips (K12)[2m > [22mfails with "differs from bank: <path>" when a clip differs from the bank mp3
+    [2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m86 passed[39m[22m[90m (88)[39m
+M4: CAUGHT (exit 1) restore cmp: equal
+    a word with no key gives pass, not warn (C9)
+    fail: [31m     [31m×[31m warns "no clip: <keys>" with each key once, in document order, when the books have no map[39m[32m 94[2mms[22m[39m
+    fail: [31m     [31m×[31m warns for the keys that a map lacks, in document order[39m[32m 87[2mms[22m[39m
+    fail: [31m     [31m×[31m warns for a word that has no key in the map of its own book, although the other book maps it[39m[32m 80[2mms[22m[39m
+    [2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m84 passed[39m[22m[90m (88)[39m
+M5: CAUGHT (exit 1) restore cmp: equal
+    checkWordClips gives a row for a week with no book (C9)
+    fail: [31m     [31m×[31m gives no row for a week with no book and for a week with no meta (review F1)[39m[32m 104[2mms[22m[39m
+    fail: [31m     [31m×[31m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08[39m[32m 48[2mms[22m[39m
+    fail: [41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC9 checkWordClips (K12)[2m > [22mgives no row for a week with no book and for a week with no meta (review F1)
+    [2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m86 passed[39m[22m[90m (88)[39m
+M6: CAUGHT (exit 1) restore cmp: equal
+    videoLeadIn rounds to 2 decimals (C11)
+    fail: [31m     [31m×[31m rounds the lead-in to 3 decimals[39m[32m 14[2mms[22m[39m
+    fail: [41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC11 the onset math on fixed ffmpeg logs (K13)[2m > [22mrounds the lead-in to 3 decimals
+    [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m87 passed[39m[22m[90m (88)[39m
+M7: CAUGHT (exit 1) restore cmp: equal
+    the second-onset guard is removed (C11)
+    fail: [31m     [31m×[31m throws when the second onsets differ from the first lead-in by more than 0.010 s, and accepts 0.009 s[39m[32m 15[2mms[22m[39m
+    fail: [41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC11 the onset math on fixed ffmpeg logs (K13)[2m > [22mthrows when the second onsets differ from the first lead-in by more than 0.010 s, and accepts 0.009 s
+    [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m87 passed[39m[22m[90m (88)[39m
+M8: CAUGHT (exit 1) restore cmp: equal
+    the silencedetect duration is d=0.1 (C12)
+    fail: [31m     [31m×[31m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing[39m[33m 895[2mms[22m[39m
+    fail: [31m     [31m×[31m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte[39m[33m 374[2mms[22m[39m
+    fail: [31m     [31m×[31m changes only the line videoLeadInSeconds when the field holds another value[39m[33m 353[2mms[22m[39m
+    [2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (88)[39m
+M9: CAUGHT (exit 1) restore cmp: equal
+    the peak target is 32767 (C13)
+    fail: [31m     [31m×[31m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and 80 ms of quiet at each edge[39m[32m 28[2mms[22m[39m
+    fail: [31m     [31m×[31m scales so that the largest sample is 23197 with Math.round(x * 23197 / peak)[39m[32m 6[2mms[22m[39m
+    fail: [31m     [31m×[31m keeps 80 ms (2560 samples) at each edge, or fewer when the take has fewer[39m[32m 5[2mms[22m[39m
+    [2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (88)[39m
+M10: CAUGHT (exit 1) restore cmp: equal
+    the edge pad is 60 ms (C13)
+    fail: [31m     [31m×[31m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and 80 ms of quiet at each edge[39m[32m 17[2mms[22m[39m
+    fail: [31m     [31m×[31m adds a row of the K6 form for each new word and leaves the 98 old rows as they are[39m[32m 6[2mms[22m[39m
+    fail: [31m     [31m×[31m keeps 80 ms (2560 samples) at each edge, or fewer when the take has fewer[39m[32m 5[2mms[22m[39m
+    [2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (88)[39m
+M11: CAUGHT (exit 1) restore cmp: equal
+    the mapper copies a clip before its bank check (C7)
+    fail: [31m     [31m×[31m stops for a key with no bank row with "no bank row" and changes no file[39m[32m 110[2mms[22m[39m
+    fail: [31m     [31m×[31m stops for a bank row with no mp3 file with "no bank file" and changes no file[39m[32m 95[2mms[22m[39m
+    fail: [31m     [31m×[31m stops for a WAV file whose SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[39m[32m 92[2mms[22m[39m
+    [2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (88)[39m
+M12: CAUGHT (exit 1) restore cmp: equal
+    heardPasses passes every text (C14)
+    fail: [31m     [31m×[31m passes the key and the variants of the key only, with the note of the K9 form[39m[32m 20[2mms[22m[39m
+    fail: [31m     [31m×[31m makes a take again when it is heard as another word, and keeps the take number[39m[33m 1187[2mms[22m[39m
+    fail: [31m     [31m×[31m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[39m[32m 1[2mms[22m[39m
+    [2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m82 passed[39m[22m[90m (88)[39m
+M13: CAUGHT (exit 1) restore cmp: equal
+    videoLeadInSeconds accepts a value below 0 (C5)
+    fail: [31m     [31m×[31m parses videoLeadInSeconds 3 and 0, and keeps the value; it rejects -0.001 and a non-finite value[39m[32m 28[2mms[22m[39m
+    fail: [41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC5 the two optional schema fields (K15)[2m > [22mparses videoLeadInSeconds 3 and 0, and keeps the value; it rejects -0.001 and a non-finite value
+    [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m87 passed[39m[22m[90m (88)[39m
+
+mutants: 13, caught: 13, survivors: none
+restore cmp: all equal
+exit: 0

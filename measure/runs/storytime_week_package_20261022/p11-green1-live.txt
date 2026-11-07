@@ -1,0 +1,52 @@
+=== live proof 1: SHA-256 of the 2 w01 videos against the r3 MANIFEST ===
+song.mp4 sha256 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a: in MANIFEST
+song-phone.mp4 sha256 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e: in MANIFEST
+=== live proof 2: measure-video-lead-in.ts --level 2 --week 1 (no write) ===
+l2/media/w01/song.mp4	3.085	0.085	3.000
+l2/media/w01/song-phone.mp4	3.085	0.085	3.000
+lead-in: 3.000
+measure exit: 0
+=== live proof 3: make-word-bank.ts --level 2 --week 1 --dry-run ===
+a	uh
+and	and
+ben	Ben
+can	can
+i	I
+may	May
+mia	Mia
+neck	neck
+nod	nod
+nurse	nurse
+pip	Pip
+your	your
+chars: 37
+maker exit: 0
+=== live proof 4: set-word-clips.ts --level 2 --week 1 --check ===
+0	am	wa-am	ok
+0	ben	wa-ben	no bank row
+0	hello	wa-hello	ok
+0	i	wa-i	no bank row
+0	may	wa-may	no bank row
+0	mia	wa-mia	no bank row
+0	nan	wa-nan	ok
+0	pat	wa-pat	ok
+0	pip	wa-pip	no bank row
+0	sam	wa-sam	ok
+0	teacher	wa-teacher	ok
+0	your	wa-your	no bank row
+1	a	wa-a	no bank row
+1	and	wa-and	no bank row
+1	can	wa-can	no bank row
+1	nan	wa-nan	ok
+1	neck	wa-neck	no bank row
+1	nest	wa-nest	ok
+1	net	wa-net	ok
+1	nod	wa-nod	no bank row
+1	nose	wa-nose	ok
+1	nurse	wa-nurse	no bank row
+1	nut	wa-nut	ok
+lines: 23
+ok: 11
+no bank row: 12
+mapper check exit: 1
+exit: 0
