@@ -16,7 +16,7 @@ role_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
 red_base: 309a1d24a963bda9fe001680b7bb551e32022fac
 baseline_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
 status: done
-commits: b27f927f6afc5c3b61770db87a5d848b141fc55a (test), PLAN_SHA (plan)
+commits: b27f927f6afc5c3b61770db87a5d848b141fc55a (test), f89a0fff547d952a1491a8f30f47801d608bd854 (plan)
 files_changed: dashboard/__tests__/storytime-package-clips.test.ts; measure/tracks/storytime_week_package_20261022/plan.md; measure/runs/storytime_week_package_20261022/p11-red1*.txt and this log
 tests_run: RED_TEST_COMMAND (heavy-run): exit 1, 85 failed, 3 passed; eslint exit 0; tsc --noEmit exit 0
 handoff: Green 1 (DeepSeek). Remaining failures: 50 Missing module (word-clips.ts 28, set-word-clips.ts 8, make-word-bank.ts 7, measure-video-lead-in.ts 7), 19 Missing export (checkWordClips 15, checkSongLeadIn 4), 4 schema assertions (C5). Question with default: FR 7 C1 lists a1 and cafe as throwing, but K2 step 3 gives a and caf; the test follows K2 (checks a1b, cafes, teddy-bear). Confirm or change K2 step 3 before Green 1.
