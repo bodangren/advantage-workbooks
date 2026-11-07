@@ -30,6 +30,26 @@ export function checkBookPictures(week: any, contentRoot = STORYTIME_ROOT): { id
     };
 }
 
+/**
+ * Checks the family-word pictures named in a Storytime week (decision H9, pins S9 and S10). A
+ * missing file is a fail. A family word with an image and no file is a warn. The check adds no row
+ * for a week with no family word that has an image.
+ * @param week The parsed week data.
+ * @param contentRoot The root for paths named by the week.
+ * @returns The check row, or undefined when no family word has an image.
+ */
+export function checkFamilyPictures(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+    const words = (week.focus?.family?.words ?? []).filter((word: any) => word?.image && typeof word.image === 'object');
+    if (!words.length) return undefined;
+    const named = words.filter((word: any) => typeof word.image.file === 'string' && word.image.file.length > 0);
+    const missing = named.map((word: any) => word.image.file as string).filter((file: string) => !fs.existsSync(path.join(contentRoot, file)));
+    const noFile = words.filter((word: any) => !(typeof word.image.file === 'string' && word.image.file.length > 0)).map((word: any) => String(word.word));
+    const row = { id: 'family-pictures', label: 'The family-word pictures named in the package exist' };
+    if (missing.length) return { ...row, status: 'fail', detail: `missing: ${missing.join(', ')}` };
+    if (noFile.length) return { ...row, status: 'warn', detail: `no file: ${noFile.join(', ')}` };
+    return { ...row, status: 'pass' };
+}
+
 function main(argv: string[]): number {
     const at = argv.indexOf('--level');
     const level = at >= 0 ? Number(argv[at + 1]) : NaN;
@@ -71,6 +91,8 @@ function main(argv: string[]): number {
         }
         const bookPictures = w.week ? checkBookPictures(w.week) : undefined;
         if (bookPictures) report.checks.push(bookPictures);
+        const familyPictures = w.week ? checkFamilyPictures(w.week) : undefined;
+        if (familyPictures) report.checks.push(familyPictures);
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.
         if (w.week && bank) {
             const problems = phonemeAudioProblems(w.week, bank);

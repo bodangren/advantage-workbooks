@@ -1,30 +1,48 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { chromium } from '@playwright/test';
-import { familyCardPageHtml, type StorytimeFamilyCardSource } from '../../lib/storytime/family-pictures';
+import { STORYTIME_ROOT } from '../../lib/storytime/files';
+import {
+    familyCardPageHtml,
+    familyCardSourceName,
+    storytimeFamilyPicturePath,
+    storytimeFamilyPictureSource,
+    type StorytimeFamilyCardSource,
+    type StorytimeFamilyPictureSource,
+} from '../../lib/storytime/family-pictures';
 
 /**
- * The family-word pictures of the Storytime app (Phase 10, spec FR 2, decisions H5 and H6): the
- * raster export of one color patch or one number card. The script builds the page of the module,
- * screenshots it in Chrome at twice the page size, and encodes the JPEG at quality 82, or lower at
- * 75 or more when 82 gives more than 150 KB. The full script of the phase follows this export.
+ * The family-word pictures of the Storytime app (Phase 10, spec FR 2 to FR 4, decisions H2, H3 and
+ * H6 to H8). The script maps each family word to one source, checks every source before the first
+ * write, renders the color patches and the number cards in Chrome, encodes every JPEG, writes the
+ * provenance file, and adds the `"file"` lines to the week file.
  *
- * The script runs only inside a heavy-run job, because it starts Chrome.
+ * This file also holds the raster export of one color patch or one number card: the G1 task of this
+ * phase wrote that export. Every run that renders starts Chrome, so it runs inside a heavy-run job.
  */
 
 /** The usage text of the script. */
 const USAGE = `Sets the family-word pictures of the Storytime app.
 
-Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]`;
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.`;
 
 /** The size of the page and of the screenshot, in CSS pixels (decision H5). */
 const PAGE_SIZE = 400;
 
 /** The scale factor of the screenshot, so that the JPEG is 800 x 800 pixels (decisions H5, H6). */
 const DEVICE_SCALE = 2;
+
+/** The width and the height of one JPEG of the app, in pixels (decision H6). */
+const JPEG_SIZE = 800;
 
 /** The largest byte length of one JPEG: 150 KB (decision H6). */
 const MAX_JPEG_BYTES = 150 * 1024;
@@ -35,11 +53,34 @@ const JPEG_QUALITY = 82;
 /** The lowest quality of a second encode (decision H6). */
 const JPEG_QUALITY_MIN = 75;
 
-/** The background of the page, and the colour that an alpha channel blends with (decision H5). */
+/** The background of the page, and the color that an alpha channel blends with (decision H5). */
 const PAGE_BACKGROUND = '#FFFFFF';
 
 /** The timeout of one page load, in milliseconds. */
 const PAGE_TIMEOUT_MS = 120_000;
+
+/** The width and the height of one source picture, in pixels (decision H8, rule S15). */
+const PNG_SIZE = 1500;
+
+/** The form of one manifest name: one file name with no folder part and no space. */
+const PLAIN_NAME = /^[A-Za-z0-9._-]+$/;
+
+/** The form of one color card file of a folder, in the names of decision H3. */
+const COLOR_CARD_NAME = /^l[0-9]+-w[0-9]+-card-[a-z]+-v[1-9][0-9]*\.png$/;
+
+/** The rule tokens of the delivery check (decision H8, pin S11). */
+const RULE_TOKENS = [
+    'not in MANIFEST',
+    'SHA-256 differs from MANIFEST',
+    '-line- name',
+    'not 8-bit sRGB with 3 channels',
+    'has an alpha channel',
+    'not a PNG',
+    'not 1500 x 1500',
+    'no color file',
+    'two color files',
+    '2 color files',
+];
 
 /** The part of a picture source that the page and the render take: a color patch or a number card. */
 type PatchOrDotsSource = StorytimeFamilyCardSource;
@@ -50,6 +91,231 @@ export interface RenderedFamilyCard {
     jpeg: Buffer;
     /** The quality of the encode, from 75 to 82. */
     quality: number;
+}
+
+/** The options of the setter of this script (pin S8). */
+export interface SetFamilyPicturesOptions {
+    /** The week file to edit. */
+    weekFile: string;
+    /** The content root that holds the media folder. */
+    contentRoot: string;
+    /** The card folder of the hand-off. */
+    cardsFolder: string;
+    /** The card rows file. The default is `<contentRoot>/l2/print/card-pictures.json`. */
+    cardRowsFile?: string;
+    /** The Forge folder of the hand-off. */
+    forgeFolder?: string;
+    /** Skips a Forge word with no color file. */
+    partial?: boolean;
+    /** Prints one line for each word and writes no file. */
+    check?: boolean;
+    /** The renderer of a color patch or a number card. The default is `renderFamilyCardJpeg`. */
+    render?: (source: PatchOrDotsSource) => Promise<RenderedFamilyCard>;
+}
+
+/** The result of the setter of this script (pin S8). */
+export interface SetFamilyPicturesResult {
+    /** The count of the pictures that this run wrote. */
+    mapped: number;
+    /** The words that the run skipped, in document order. */
+    skipped: string[];
+    /** The lines of the provenance file, or the lines of a check run. */
+    lines: string[];
+}
+
+/** One family picture of the plan, after the source check. */
+interface PlannedPicture {
+    /** The family word. */
+    word: string;
+    /** The source of the word. */
+    source: StorytimeFamilyPictureSource;
+    /** The output path, relative to the content root. */
+    outputPath: string;
+    /** The name of the source for the provenance file. */
+    sourceName: string;
+    /** The path of a card or Forge source file. */
+    sourceFile?: string;
+    /** The SHA-256 of the source. */
+    sourceHash: string;
+}
+
+/**
+ * The SHA-256 of a buffer.
+ * @param bytes The bytes.
+ * @returns The hash, in lower-case hex.
+ */
+function sha256(bytes: Buffer): string {
+    return createHash('sha256').update(bytes).digest('hex');
+}
+
+/**
+ * The two digits of a week.
+ * @param week The week.
+ * @returns The week with a leading zero when it is below 10.
+ */
+function weekDigits(week: number): string {
+    return String(week).padStart(2, '0');
+}
+
+/**
+ * Reads a manifest file and checks every name of it.
+ * @param folder The folder of the manifest.
+ * @returns The SHA-256 of each file name.
+ * @throws Error When the manifest is absent, or a name is not one plain file name.
+ */
+function readManifest(folder: string): Map<string, string> {
+    const file = path.join(folder, 'MANIFEST.txt');
+    if (!fs.existsSync(file)) throw new Error(`family picture: ${file}: not in MANIFEST`);
+    const manifest = new Map<string, string>();
+    for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
+        const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
+        if (match) manifest.set(match[2], match[1]);
+    }
+    // A hostile line holds a folder part, an absolute path, or a space. It is refused before any
+    // read, so that no read leaves the folder.
+    for (const name of manifest.keys()) {
+        if (!PLAIN_NAME.test(name) || name === '.' || name === '..') {
+            throw new Error(`family picture: ${name}: not in MANIFEST (the name is not one plain file name)`);
+        }
+    }
+    return manifest;
+}
+
+/**
+ * Lists the color card files of a folder that the manifest does not list. The rule catches a file
+ * that another run left behind, and it catches a file that a person renamed (decision H8).
+ * @param folder The folder to read.
+ * @param manifest The manifest of the folder.
+ * @returns The unlisted names, in path order.
+ */
+function unlistedColorFiles(folder: string, manifest: Map<string, string>): string[] {
+    return colorFilesOf(folder).filter((name) => !manifest.has(name));
+}
+
+/**
+ * Lists the color card files of a folder. A line-art file never matches the color name form.
+ * @param folder The folder to read.
+ * @returns The names, in path order.
+ */
+function colorFilesOf(folder: string): string[] {
+    if (!fs.existsSync(folder)) return [];
+    return fs.readdirSync(folder).filter((name) => COLOR_CARD_NAME.test(name)).sort();
+}
+
+/**
+ * Checks one source file by the rules of decision H8.
+ * @param folder The folder of the file.
+ * @param fileName The name of the file.
+ * @param manifest The manifest of the folder.
+ * @returns The SHA-256 of the file.
+ * @throws Error When the file is not listed, its hash differs, or it is not a 1500 x 1500 PNG of
+ * 8 bits per channel in sRGB with three channels and no alpha channel.
+ */
+async function checkPngSource(folder: string, fileName: string, manifest: Map<string, string>): Promise<string> {
+    const listed = manifest.get(fileName);
+    if (listed === undefined) throw new Error(`family picture: ${fileName}: not in MANIFEST`);
+    const file = path.join(folder, fileName);
+    if (!fs.existsSync(file)) throw new Error(`family picture: ${fileName}: not in MANIFEST (the file is absent)`);
+    const bytes = fs.readFileSync(file);
+    const actual = sha256(bytes);
+    if (actual !== listed) throw new Error(`family picture: ${fileName}: SHA-256 differs from MANIFEST`);
+    const metadata = await sharp(bytes).metadata();
+    if (metadata.format !== 'png') throw new Error(`family picture: ${fileName}: not a PNG`);
+    if (metadata.hasAlpha) throw new Error(`family picture: ${fileName}: has an alpha channel`);
+    if (metadata.space !== 'srgb' || metadata.channels !== 3 || metadata.depth !== 'uchar') {
+        throw new Error(`family picture: ${fileName}: not 8-bit sRGB with 3 channels`);
+    }
+    if (metadata.width !== PNG_SIZE || metadata.height !== PNG_SIZE) {
+        throw new Error(`family picture: ${fileName}: not ${PNG_SIZE} x ${PNG_SIZE}`);
+    }
+    return actual;
+}
+
+/**
+ * Returns the rule token of an error, for the line of a check run (pin S12).
+ * @param error The error.
+ * @returns The first rule token of the message, or the first line of the message.
+ */
+function ruleToken(error: unknown): string {
+    const message = error instanceof Error ? error.message : String(error);
+    return RULE_TOKENS.find((token) => message.includes(token)) ?? message.split('\n')[0];
+}
+
+/**
+ * Reads the provenance file of a week.
+ * @param file The path of the provenance file.
+ * @returns The line of each output path.
+ */
+function readProvenance(file: string): Map<string, string> {
+    const lines = new Map<string, string>();
+    if (!fs.existsSync(file)) return lines;
+    for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
+        if (line) lines.set(line.split('\t')[0], line);
+    }
+    return lines;
+}
+
+/**
+ * Finds the family block of a week file. The block starts at the `"family"` key of `focus` and ends
+ * at the line before the next key of `focus`.
+ * @param text The text of the week file.
+ * @returns The start and the end of the block.
+ * @throws Error When the week file has no family block.
+ */
+function familyBlockRange(text: string): { start: number; end: number } {
+    const key = /\n {4}"family"\s*:\s*\{/.exec(text);
+    if (!key) throw new Error('family picture: the week file has no family block');
+    const start = key.index + 1;
+    const next = /\n {4}"/g;
+    next.lastIndex = start + key[0].length - 1;
+    const found = next.exec(text);
+    return { start, end: found ? found.index + 1 : text.length };
+}
+
+/**
+ * Adds the `"file"` line after each caption line of the family block (decisions H2 and S20). The
+ * caption line gains a comma. A file line with the same value stays as it is. A file line with
+ * another value changes on that line only. A word that this run does not write stays as it is.
+ * @param block The text of the family block.
+ * @param outputs The output path of each word that this run writes.
+ * @returns The new text of the block, and the count of the words that it wrote.
+ */
+function editFamilyBlock(block: string, outputs: Map<string, string>): { text: string; written: number } {
+    const lines = block.split('\n');
+    const out: string[] = [];
+    let word: string | undefined;
+    let written = 0;
+    for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index];
+        const wordMatch = /^(\s*)"word"\s*:\s*"([^"]+)"/.exec(line);
+        if (wordMatch) word = wordMatch[2];
+        const caption = /^(\s*)"caption"\s*:\s*"((?:[^"\\]|\\.)*)"(,?)\s*$/.exec(line);
+        if (!caption || !word) {
+            out.push(line);
+            continue;
+        }
+        const target = outputs.get(word);
+        const existing = index + 1 < lines.length
+            ? /^(\s*)"file"\s*:\s*"((?:[^"\\]|\\.)*)"(,?)\s*$/.exec(lines[index + 1])
+            : null;
+        if (target === undefined) {
+            out.push(line);
+            if (existing) {
+                out.push(lines[index + 1]);
+                index += 1;
+            }
+            continue;
+        }
+        if (existing) {
+            out.push(line, existing[2] === target ? lines[index + 1] : `${caption[1]}"file": "${target}"`);
+            written += 1;
+            index += 1;
+            continue;
+        }
+        out.push(`${caption[1]}"caption": ${JSON.stringify(caption[2])},`, `${caption[1]}"file": "${target}"`);
+        written += 1;
+    }
+    return { text: out.join('\n'), written };
 }
 
 /**
@@ -68,6 +334,25 @@ async function encodeJpeg(png: Buffer): Promise<RenderedFamilyCard> {
         if (jpeg.length <= MAX_JPEG_BYTES) return { jpeg, quality };
     }
     throw new Error(`family picture: the JPEG is above 150 KB at quality ${JPEG_QUALITY_MIN}`);
+}
+
+/**
+ * Encodes one card or Forge picture as a progressive sRGB JPEG of 800 x 800 pixels (decision H6).
+ * The picture takes the crop that the app shows, and no metadata stays in the file.
+ * @param file The path of the source PNG.
+ * @returns The JPEG and the quality of the encode.
+ * @throws Error When the lowest quality gives more than 150 KB.
+ */
+async function encodePngSource(file: string): Promise<RenderedFamilyCard> {
+    for (let quality = JPEG_QUALITY; quality >= JPEG_QUALITY_MIN; quality -= 1) {
+        const jpeg = await sharp(file)
+            .resize({ width: JPEG_SIZE, height: JPEG_SIZE, fit: 'cover' })
+            .flatten({ background: PAGE_BACKGROUND })
+            .jpeg({ quality, progressive: true, chromaSubsampling: '4:2:0' })
+            .toBuffer();
+        if (jpeg.length <= MAX_JPEG_BYTES) return { jpeg, quality };
+    }
+    throw new Error(`family picture: ${path.basename(file)}: the JPEG is above 150 KB at quality ${JPEG_QUALITY_MIN}`);
 }
 
 /**
@@ -110,20 +395,243 @@ export async function renderFamilyCardJpeg(source: PatchOrDotsSource): Promise<R
 }
 
 /**
- * Runs the script with the arguments of the command line. This task holds the usage error and
- * `--help`; the option set of the script arrives with its full body (spec FR 2).
- * @param argv The arguments after the file name.
- * @returns The exit code: 0 for `--help`, 2 for a usage error.
+ * Runs the check mode of this script (pin S12). It prints one line for each word and writes no
+ * file. A line holds the word, the kind, the source name, and `ok` or the failed rule.
+ * @param options The options of the run.
+ * @param words The family words that have an image.
+ * @param level The level of the week.
+ * @param week The week.
+ * @param cardEntries The rows of the card pictures file.
+ * @param cardsFolder The card folder.
+ * @param forgeFolder The Forge folder, when the run has one.
+ * @returns The result of the run, with the check lines.
  */
-export function main(argv: string[]): number {
-    if (argv.length === 1 && (argv[0] === '--help' || argv[0] === '-h')) {
+async function runCheck(
+    options: SetFamilyPicturesOptions,
+    words: any[],
+    level: number,
+    week: number,
+    cardEntries: readonly { word: string; week: number }[],
+    cardsFolder: string,
+    forgeFolder: string | undefined,
+): Promise<SetFamilyPicturesResult> {
+    const cardManifest = readManifest(cardsFolder);
+    const forgeManifest = forgeFolder ? readManifest(forgeFolder) : new Map<string, string>();
+    const unlisted = unlistedColorFiles(cardsFolder, cardManifest);
+    if (unlisted.length) throw new Error(`family picture: ${unlisted[0]}: not in MANIFEST`);
+    const lines: string[] = [];
+    for (const entry of words) {
+        const word = String(entry.word);
+        let source: StorytimeFamilyPictureSource;
+        try {
+            source = storytimeFamilyPictureSource({
+                level,
+                week,
+                word,
+                cardEntries,
+                cardFiles: new Set(cardManifest.keys()),
+                forgeFiles: new Set(forgeFolder ? colorFilesOf(forgeFolder) : []),
+            });
+        } catch (error) {
+            lines.push([word, '', '', ruleToken(error)].join('\t'));
+            continue;
+        }
+        if (source.kind === 'patch' || source.kind === 'dots') {
+            lines.push([word, source.kind, familyCardSourceName(source), 'ok'].join('\t'));
+            continue;
+        }
+        if (!source.fileName) {
+            lines.push([word, source.kind, '', 'no color file'].join('\t'));
+            continue;
+        }
+        const folder = source.kind === 'card' ? cardsFolder : (forgeFolder as string);
+        const manifest = source.kind === 'card' ? cardManifest : forgeManifest;
+        try {
+            await checkPngSource(folder, source.fileName, manifest);
+            lines.push([word, source.kind, source.fileName, 'ok'].join('\t'));
+        } catch (error) {
+            lines.push([word, source.kind, source.fileName, ruleToken(error)].join('\t'));
+        }
+    }
+    return { mapped: 0, skipped: [], lines };
+}
+
+/**
+ * Sets the family-word pictures of one week (spec FR 2 to FR 4, decisions H2, H3 and H6 to H8). The
+ * function checks every source before the first write, so a failed source changes no byte.
+ * @param options The week file, the content root, the source folders, and the flags.
+ * @returns The count of the pictures that this run wrote, the skipped words, and the lines.
+ * @throws Error When the week has nothing to map, a source fails the delivery check, or a family
+ * word of the week has no caption.
+ */
+export async function setFamilyPictures(options: SetFamilyPicturesOptions): Promise<SetFamilyPicturesResult> {
+    const weekText = fs.readFileSync(options.weekFile, 'utf8');
+    const week = JSON.parse(weekText);
+    const level = Number(week.meta.level);
+    const weekNumber = Number(week.meta.week);
+    const words = (week.focus?.family?.words ?? []).filter((entry: any) => entry?.image && typeof entry.image === 'object');
+    if (!words.length) throw new Error('family picture: nothing to map');
+    const cardRowsFile = options.cardRowsFile ?? path.join(options.contentRoot, `l${level}/print/card-pictures.json`);
+    const cardEntries = (JSON.parse(fs.readFileSync(cardRowsFile, 'utf8')) as { word: string; week: number }[]).map((row) => ({
+        word: row.word,
+        week: row.week,
+    }));
+    if (options.check) {
+        return await runCheck(options, words, level, weekNumber, cardEntries, options.cardsFolder, options.forgeFolder);
+    }
+
+    const cardManifest = readManifest(options.cardsFolder);
+    const forgeManifest = options.forgeFolder ? readManifest(options.forgeFolder) : new Map<string, string>();
+    const unlisted = unlistedColorFiles(options.cardsFolder, cardManifest);
+    if (unlisted.length) throw new Error(`family picture: ${unlisted[0]}: not in MANIFEST`);
+
+    const cardFiles = new Set(cardManifest.keys());
+    const forgeFiles = new Set(options.forgeFolder ? colorFilesOf(options.forgeFolder) : []);
+    const planned: PlannedPicture[] = [];
+    const skipped: string[] = [];
+    for (const entry of words) {
+        const word = String(entry.word);
+        const source = storytimeFamilyPictureSource({ level, week: weekNumber, word, cardEntries, cardFiles, forgeFiles });
+        const outputPath = storytimeFamilyPicturePath(level, weekNumber, word);
+        if (source.kind === 'patch' || source.kind === 'dots') {
+            planned.push({
+                word,
+                source,
+                outputPath,
+                sourceName: familyCardSourceName(source),
+                sourceHash: sha256(Buffer.from(familyCardPageHtml(source), 'utf8')),
+            });
+            continue;
+        }
+        if (!source.fileName) {
+            if (options.partial) {
+                skipped.push(word);
+                console.log(`skip ${word}: no Forge file`);
+                continue;
+            }
+            throw new Error(`family picture: ${word}: no color file`);
+        }
+        const folder = source.kind === 'card' ? options.cardsFolder : (options.forgeFolder as string);
+        const manifest = source.kind === 'card' ? cardManifest : forgeManifest;
+        const sourceHash = await checkPngSource(folder, source.fileName, manifest);
+        planned.push({
+            word,
+            source,
+            outputPath,
+            sourceName: source.fileName,
+            sourceFile: path.join(folder, source.fileName),
+            sourceHash,
+        });
+    }
+
+    const render = options.render ?? renderFamilyCardJpeg;
+    const rendered: { planned: PlannedPicture; jpeg: Buffer; quality: number }[] = [];
+    for (const item of planned) {
+        const encoded = item.sourceFile
+            ? await encodePngSource(item.sourceFile)
+            : await render(item.source as PatchOrDotsSource);
+        rendered.push({ planned: item, jpeg: encoded.jpeg, quality: encoded.quality });
+    }
+
+    const provenanceFile = path.join(
+        options.contentRoot,
+        `l${level}/media/w${weekDigits(weekNumber)}/family/pictures.sha256`,
+    );
+    const earlier = readProvenance(provenanceFile);
+    const lines = rendered.map((item) => [
+        item.planned.outputPath,
+        sha256(item.jpeg),
+        item.planned.sourceName,
+        item.planned.sourceHash,
+        item.quality,
+        sharp.versions.sharp,
+    ].join('\t'));
+    // S13: a line of a word that this run skips stays in the provenance file.
+    for (const word of skipped) {
+        const outputPath = storytimeFamilyPicturePath(level, weekNumber, word);
+        const line = earlier.get(outputPath);
+        if (line) lines.push(line);
+    }
+    lines.sort((left, right) => left.localeCompare(right));
+
+    const range = familyBlockRange(weekText);
+    const edited = editFamilyBlock(weekText.slice(range.start, range.end), new Map(rendered.map((item) => [
+        item.planned.word,
+        item.planned.outputPath,
+    ])));
+    if (edited.written !== rendered.length) {
+        throw new Error(`family picture: the week file has ${edited.written} family captions; expected ${rendered.length}`);
+    }
+    const updatedText = weekText.slice(0, range.start) + edited.text + weekText.slice(range.end);
+    const provenanceText = `${lines.join('\n')}\n`;
+
+    // Every check passed. The writes follow.
+    for (const item of rendered) {
+        const file = path.join(options.contentRoot, item.planned.outputPath);
+        const old = fs.existsSync(file) ? fs.readFileSync(file) : undefined;
+        if (old && old.equals(item.jpeg)) continue;
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        fs.writeFileSync(file, item.jpeg);
+    }
+    if (!fs.existsSync(provenanceFile) || fs.readFileSync(provenanceFile, 'utf8') !== provenanceText) {
+        fs.mkdirSync(path.dirname(provenanceFile), { recursive: true });
+        fs.writeFileSync(provenanceFile, provenanceText);
+    }
+    if (updatedText !== weekText) fs.writeFileSync(options.weekFile, updatedText);
+    return { mapped: rendered.length, skipped, lines };
+}
+
+/**
+ * Runs the script with the arguments of the command line. The script reads the shipped week file
+ * and the shipped card rows of Level 2.
+ * @param argv The arguments after the file name.
+ * @returns The exit code: 0 for success, 1 for a data error, 2 for a usage error.
+ */
+export async function main(argv: string[]): Promise<number> {
+    if (argv.includes('--help') || argv.includes('-h')) {
         console.log(USAGE);
         return 0;
     }
-    console.error(USAGE);
-    return 2;
+    const value = (flag: string): string | undefined => {
+        const at = argv.indexOf(flag);
+        return at >= 0 ? argv[at + 1] : undefined;
+    };
+    const level = Number(value('--level'));
+    const week = Number(value('--week'));
+    const cardsFolder = value('--cards');
+    if (
+        !Number.isInteger(level) || level < 1 || level > 4
+        || !Number.isInteger(week) || week < 1 || week > 99
+        || !cardsFolder
+    ) {
+        console.error(USAGE);
+        return 2;
+    }
+    const options: SetFamilyPicturesOptions = {
+        weekFile: path.join(STORYTIME_ROOT, `l${level}/w${weekDigits(week)}.json`),
+        contentRoot: STORYTIME_ROOT,
+        cardsFolder,
+        cardRowsFile: path.join(STORYTIME_ROOT, 'l2/print/card-pictures.json'),
+        forgeFolder: value('--forge'),
+        partial: argv.includes('--partial'),
+        check: argv.includes('--check'),
+    };
+    try {
+        const result = await setFamilyPictures(options);
+        if (options.check) {
+            for (const line of result.lines) console.log(line);
+            return result.lines.every((line) => line.split('\t')[3] === 'ok') ? 0 : 1;
+        }
+        console.log(`set ${result.mapped} family pictures in ${path.relative(process.cwd(), options.weekFile)}`);
+        return 0;
+    } catch (error) {
+        console.error(error instanceof Error ? error.message : String(error));
+        return 1;
+    }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-    process.exitCode = main(process.argv.slice(2));
+    main(process.argv.slice(2)).then((code) => {
+        process.exitCode = code;
+    });
 }
