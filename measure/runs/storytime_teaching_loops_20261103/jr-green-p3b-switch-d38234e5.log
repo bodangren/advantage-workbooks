@@ -1,0 +1,113 @@
+# Jr Green log — Phase 3b switch task (storytime_teaching_loops_20261103)
+
+MEASURE_AGENT_RESULT
+status: ok
+track: storytime_teaching_loops_20261103
+phase: 3b
+role: jr-green
+phase_base_sha: b6c297d9
+role_base_sha: d38234e55f899350e2d990a6ef941e991216e19b
+head_before: d38234e55f899350e2d990a6ef941e991216e19b
+head_after_implementation: 61a3fc52909b532910bea52c1e25f9ac1e21d6a1
+head_after_plan: e52992421bc43ad3bede151b9ffaf79dea9c7815
+task: switch the status of share-moment to fail (AC-14.6, spec D12)
+
+## Base check
+
+The brief names one base value: `role_base_sha` d38234e5. The switch task runs on the Phase 3b
+plan, so this log also names the Phase 3b base. That base is b6c297d9, the parent of the Phase 3b
+Red 1 commit ffe6e74a. The three Red commits of Phase 3b (ffe6e74a, 678b4db4, ce41d8c2) are
+ancestors of HEAD. The range b6c297d9..HEAD holds 91 commits. The Red work is inside the phase
+range.
+
+Precondition check: `git status --porcelain content/storytime dashboard/lib/storytime/checks.ts`
+printed nothing at the start and at the end.
+
+## The committed Red tests
+
+The Red authors are claude-code/claude-sonnet-5-5#high (Red commits 678b4db4 and ce41d8c2). This
+role changed no test file. The Red test N8 is
+`the status of share-moment is fail after the switch (AC-14.6)` in
+`dashboard/__tests__/storytime-loops-share-content.test.ts`.
+
+## The targeted Red command before the change
+
+Command: `cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1`.
+Capture: `jr-green-p3b-switch-red-rerun.txt`.
+
+    Test Files  1 failed | 7 passed (8)
+          Tests  1 failed | 296 passed (297)
+    EXIT=1
+
+The one failure is N8: `AssertionError: expected 'warn' to be 'fail'`.
+
+## The implementation
+
+The commit 61a3fc52 changes one line of `dashboard/lib/storytime/checks.ts`:
+
+    -export const SHARE_CHECK_STATUS: CheckStatus = 'warn';
+    +export const SHARE_CHECK_STATUS: CheckStatus = 'fail';
+
+`git show --stat --format= 61a3fc52` prints `1 file changed, 1 insertion(+), 1 deletion(-)`.
+The fast gate `grep -c "SHARE_CHECK_STATUS: CheckStatus = 'fail'" dashboard/lib/storytime/checks.ts`
+prints `1`. Capture: `jr-green-p3b-switch-fast.txt`.
+
+## Gates
+
+| Gate | Capture | Result | Exit |
+|---|---|---|---|
+| GREEN_TEST_COMMAND | `jr-green-p3b-switch-green.txt` | `Test Files  8 passed (8)`, `Tests  297 passed (297)` | 0 |
+| PROJECT_TESTS (no exclude) | `jr-green-p3b-switch-project.txt` | `Test Files  63 passed (63)`, `Tests  1471 passed (1471)`, 1545.40 s | 0 |
+| LINT_3B | `jr-green-p3b-switch-lint.txt` | no finding | 0 |
+| PROJECT_CHECKS_3B | `jr-green-p3b-switch-checks.txt` | `Summary: 8 package(s), 0 failed check(s), 7 warning(s).`; `PASS share-moment` 8 times; 0 FAIL rows; `tsc --noEmit` clean | 0 |
+| R3 end grep | `jr-green-p3b-switch-r3.txt` | `0` | 1 (the grep "no match" code) |
+
+The `PROJECT_TESTS` log holds `storytime-loops-share-content.test.ts` (grep count 1) and holds no
+`--exclude` (grep count 0). Q26 was not needed: no test failed. The 7 WARN rows of
+`PROJECT_CHECKS_3B` are the pre-existing word-clips rows of st2/2 to st2/7 and the print-missing
+row of st2/8.
+
+## Rule R3 end
+
+The grep `grep '^PROJECT_TESTS=' measure/tracks/storytime_print_r1_20261025/plan.md
+measure/tracks/storytime_teaching_loops_20261103/plan.md | grep -c 'share-content'` prints `0`.
+No `PROJECT_TESTS=` line of either track holds the exclude, so no `measure(plan)` commit removes
+it. The print session is the orchestrator's own session; the orchestrator confirms the removal.
+Rule R3 window closed at commit 61a3fc52.
+
+## Plan changes
+
+Task `switch share-moment to fail` moved from `[ ]` to `[x]`. Its first line ends with
+`commit 61a3fc5`. One evidence sub-bullet states the gate values and the R3 end. No other line
+changed. Commit e5299242 holds `plan.md` and the 5 named captures.
+
+No task moved to `[b]`. No task needs a human action.
+
+## New files added by this role
+
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-red-rerun.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-fast.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-green.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-project.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-lint.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-checks.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-r3.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-switch-d38234e5.log`
+
+The first 5 are in commit e5299242. The other 3 are in the runs commit of this log.
+
+dispositions: none
+
+## Handoff to phase acceptance
+
+- Flipped to `[x]`: the switch task, with implementation commit 61a3fc52 and plan commit e5299242.
+- Flipped to `[b]`: none.
+- The targeted Red command failed on exactly N8 before the change.
+- The implementation is one line in `dashboard/lib/storytime/checks.ts`.
+- All four gates pass without an exclude. The R3 end grep prints `0`.
+- The next Phase 3b task is the teacher-book Red. Its files are
+  `dashboard/__tests__/storytime-loops-share-book.test.ts` and possibly
+  `storytime-loops-share-captions.test.ts`.
+- The orchestrator must tell the print session that rule R3 ended at 61a3fc52.
+- No push, no archive move, no closeout metadata change in this role.
+END_MEASURE_AGENT_RESULT
