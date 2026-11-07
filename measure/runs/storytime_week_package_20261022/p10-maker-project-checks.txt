@@ -1,0 +1,9 @@
+check-weeks exit: 0
+check-weeks FAIL rows other than published: 0
+check-weeks FAIL rows in all: 0
+tsc exit: 2
+tsc error lines: 1
+tsc error lines outside the exception: 0
+--- tsc lines:
+__tests__/quest-cover-template.test.ts(81,37): error TS2307: Cannot find module '../lib/storytime/print/cover-quest' or its corresponding type declarations.
+exit: 1

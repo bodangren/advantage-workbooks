@@ -1,0 +1,52 @@
+Phase 10 acceptance checks at HEAD a5fa259fcc5a8ae0daeb9d6976b99dac3120a531
+date: 2026-11-07
+
+== AC10-1
+AC10-1: 51/51
+
+== AC10-2
+family JPEGs: 51
+family JPEGs over 150k: 0
+family JPEGs over 153600 bytes: 0
+
+== AC10-3
+sha256sum -c exit: 0
+provenance lines: 51
+field 3 -line- names: 0
+field 3 card-kit-patch- names: 7
+field 3 card-kit-dots- names: 10
+field 3 .png names: 34
+
+== AC10-4 (Maker 557b0f73 + Forge a5fa259f, insertions and deletions per week)
+w01: 12 6  (Maker: 10 5 ; Forge: 2 1)
+w02: 20 10  (Maker: 20 10 ; Forge: 0 0)
+w03: 14 7  (Maker: 14 7 ; Forge: 0 0)
+w04: 14 7  (Maker: 14 7 ; Forge: 0 0)
+w05: 14 7  (Maker: 0 0 ; Forge: 14 7)
+w06: 14 7  (Maker: 0 0 ; Forge: 14 7)
+w07: 14 7  (Maker: 8 4 ; Forge: 6 3)
+
+== the final check-weeks rows (capture /tmp/opencode/p10/checks-ac-head.txt)
+check-weeks exit: 0
+PASS family-pictures rows: 7
+WARN family-pictures rows: 0
+FAIL family-pictures rows: 0
+FAIL rows other than published: 0
+--- per-week family-pictures row:
+st2/1: PASS: family-pictures
+st2/2: PASS: family-pictures
+st2/3: PASS: family-pictures
+st2/4: PASS: family-pictures
+st2/5: PASS: family-pictures
+st2/6: PASS: family-pictures
+st2/7: PASS: family-pictures
+--- st2/8 section family-pictures rows: 0
+--- the st2/1 to st2/7 headers:
+st2/1 — Hello!   
+st2/2 — How Many?   
+st2/3 — Paint!   
+st2/4 — My Family   
+st2/5 — I Have Two   
+st2/6 — I Can See   
+st2/7 — Is It a Ball?   
+st2/8 — Unit 1 Review   

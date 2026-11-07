@@ -1,0 +1,16 @@
+F12 mutant record (review-a-p10-r2-64c517fb.json F12)
+date: 2026-11-07
+--- mutant F12-M1: encodePngSource drops the resize to 800 x 800 (one line removed from the sharp chain)
+--- target case: R2-5b (the card JPEG and the Forge JPEG hold the H6 output rules)
+--- capture:
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m32 passed[39m[22m[90m (33)[39m
+[2m   Start at [22m 12:11:59
+[2m   Duration [22m 34.27s[2m (transform 663ms, setup 97ms, import 598ms, tests 33.17s, environment 0ms)[22m
+
+exit: 1
+--- restore:
+restore cmp: equal
+---
+mutants: 1, caught: 1

@@ -1,0 +1,15 @@
+check-weeks exit: 0
+FAIL rows in all: 0
+FAIL rows other than published: 0
+PASS family-pictures rows: 3
+WARN family-pictures rows: 4
+FAIL family-pictures rows: 0
+st2/8 family-pictures rows: 0
+--- family-pictures rows:
+  WARN    family-pictures The family-word pictures named in the package exist — no file: friend
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: eyes, ears, nose, hands, arms, legs, feet
+  WARN    family-pictures The family-word pictures named in the package exist — no file: cat, dog, bird, fish, frog, duck, horse
+  WARN    family-pictures The family-word pictures named in the package exist — no file: ball, kite, drum

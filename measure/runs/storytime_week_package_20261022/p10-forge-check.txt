@@ -1,0 +1,60 @@
+Forge delivery --check runs (plan line 288; test-strategy 5.9)
+date: 2026-11-07
+cmd: npx tsx scripts/storytime/set-family-pictures.ts --level 2 --week <n> --cards ~/Desktop/handoff/storytime-l2-card-pictures --forge ~/Desktop/handoff/storytime-l2-family-word-pictures --check
+weeks: w01, w04, w05, w06, w07
+
+== w01
+hello	card	l2-w01-card-hello-v1.png	ok
+goodbye	card	l2-w01-card-goodbye-v1.png	ok
+boy	card	l2-w01-card-boy-v1.png	ok
+girl	card	l2-w01-card-girl-v1.png	ok
+friend	forge	l2-w01-card-friend-v1.png	ok
+teacher	card	l2-w01-card-teacher-v1.png	ok
+exit: 0
+== w04
+mom	card	l2-w04-card-mom-v1.png	ok
+dad	card	l2-w04-card-dad-v1.png	ok
+brother	card	l2-w04-card-brother-v1.png	ok
+sister	card	l2-w04-card-sister-v1.png	ok
+grandma	card	l2-w04-card-grandma-v1.png	ok
+grandpa	card	l2-w04-card-grandpa-v1.png	ok
+family	card	l2-w04-card-family-v1.png	ok
+exit: 0
+== w05
+eyes	forge	l2-w05-card-eyes-v1.png	ok
+ears	forge	l2-w05-card-ears-v1.png	ok
+nose	forge	l2-w05-card-nose-v1.png	ok
+hands	forge	l2-w05-card-hands-v1.png	ok
+arms	forge	l2-w05-card-arms-v1.png	ok
+legs	forge	l2-w05-card-legs-v1.png	ok
+feet	forge	l2-w05-card-feet-v1.png	ok
+exit: 0
+== w06
+cat	forge	l2-w06-card-cat-v1.png	ok
+dog	forge	l2-w06-card-dog-v1.png	ok
+bird	forge	l2-w06-card-bird-v1.png	ok
+fish	forge	l2-w06-card-fish-v1.png	ok
+frog	forge	l2-w06-card-frog-v1.png	ok
+duck	forge	l2-w06-card-duck-v1.png	ok
+horse	forge	l2-w06-card-horse-v1.png	ok
+exit: 0
+== w07
+ball	forge	l2-w07-card-ball-v1.png	ok
+doll	card	l2-w07-card-doll-v1.png	ok
+car	card	l2-w07-card-car-v1.png	ok
+kite	forge	l2-w07-card-kite-v1.png	ok
+drum	forge	l2-w07-card-drum-v1.png	ok
+train	card	l2-w07-card-train-v1.png	ok
+teddy	card	l2-w07-card-teddy-v1.png	ok
+exit: 0
+
+== labels
+check runs: 5
+run exits: 5 of 5 are 0
+data lines: 34
+ok lines: 34
+card lines: 16
+forge lines: 18
+non-ok lines: 0
+w04 family line: family	card	l2-w04-card-family-v1.png	ok
+w04 family fields: family, card, l2-w04-card-family-v1.png, ok

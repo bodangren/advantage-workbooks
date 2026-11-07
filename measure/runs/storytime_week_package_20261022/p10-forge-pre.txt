@@ -1,0 +1,72 @@
+Forge delivery pre-checks (plan line 288; test-strategy 5.9 steps 1 to 4)
+date: 2026-11-07
+folder: /home/daniebo/Desktop/handoff/storytime-l2-family-word-pictures
+
+== check 1: the MANIFEST and the color files
+cmd: grep -E '^[0-9a-f]{64}  ' MANIFEST.txt | sha256sum -c --quiet -
+sha256sum -c exit: 0
+forge MANIFEST lines: 19
+unlisted color files (MANIFEST vs folder, color names only): 0
+PNG files that are not color files: 1 (storytime-l2-family-word-pictures-contact-sheet.png)
+
+== check 2: the names
+forge color files: 19
+name form check (names that do not match ^l2-w0[1-7]-card-[a-z]+-v[1-9][0-9]*\.png$): 1 (the contact sheet; no color file)
+forge words with one color file: 18 (the used set: 19 color files minus l2-w04-card-family-v1.png, which maps to card by H3)
+forge words with 0 or 2 or more: 0
+forge files listed and not used: 1
+  l2-w04-card-family-v1.png
+line-art files in the folder: 0
+
+== check 3: the PM confirmation of the names (spec H8, review F5)
+recorded: PM hand-off 2026-11-07: sha256sum -c 19 OK; names l2-w0N-card-<word>-v1.png (plan line 288, Pre-check 3)
+
+== check 4: the saturation pre-check
+definition: mean HSV saturation of the whole picture (all pixels); floor = half of the minimum of the 16 card pictures
+card pictures measured: 16
+card minimum: 0.0509 (l2-w01-card-teacher-v1.png)
+floor: 0.0255
+card pictures (mean saturation):
+0.0911  l2-w01-card-boy-v1.png
+0.1643  l2-w01-card-girl-v1.png
+0.0934  l2-w01-card-goodbye-v1.png
+0.2059  l2-w01-card-hello-v1.png
+0.0509  l2-w01-card-teacher-v1.png
+0.1107  l2-w04-card-brother-v1.png
+0.0877  l2-w04-card-dad-v1.png
+0.1822  l2-w04-card-family-v1.png
+0.0731  l2-w04-card-grandma-v1.png
+0.0767  l2-w04-card-grandpa-v1.png
+0.0857  l2-w04-card-mom-v1.png
+0.0865  l2-w04-card-sister-v1.png
+0.2624  l2-w07-card-car-v1.png
+0.1280  l2-w07-card-doll-v1.png
+0.2053  l2-w07-card-teddy-v1.png
+0.1426  l2-w07-card-train-v1.png
+used Forge files (mean saturation):
+0.1873  l2-w01-card-friend-v1.png
+0.2207  l2-w05-card-arms-v1.png
+0.1500  l2-w05-card-ears-v1.png
+0.2589  l2-w05-card-eyes-v1.png
+0.1792  l2-w05-card-feet-v1.png
+0.1197  l2-w05-card-hands-v1.png
+0.0943  l2-w05-card-legs-v1.png
+0.2472  l2-w05-card-nose-v1.png
+0.1301  l2-w06-card-bird-v1.png
+0.1993  l2-w06-card-cat-v1.png
+0.1047  l2-w06-card-dog-v1.png
+0.0203  l2-w06-card-duck-v1.png   BELOW the floor
+0.1498  l2-w06-card-fish-v1.png
+0.1365  l2-w06-card-frog-v1.png
+0.0208  l2-w06-card-horse-v1.png  BELOW the floor
+0.1804  l2-w07-card-ball-v1.png
+0.1206  l2-w07-card-drum-v1.png
+0.0994  l2-w07-card-kite-v1.png
+forge used files below the floor: 2 (duck 0.0203, horse 0.0208)
+pre-check 4: 16 of 18 above the floor 0.0255; duck 0.0203 and horse 0.0208 below it, accepted as false positives by the orchestrator person check of 2026-11-07 (white subjects, color render); deviation
+note: the two files are color card-style pictures (the role opened both: a white duck with an orange beak and feet, a white horse with a cream mane and a pink muzzle). The low mean comes from the large white body. Line-art card files measure 0.0000.
+note: this pre-check is a model pre-check, not an approval (spec H8, test-strategy 5.9 step 4); the contact-sheet person check (AC10-10) decides.
+note (orchestrator decision 2026-11-07, round r2): option A. The orchestrator opened both files. `l2-w06-card-duck-v1.png` is a full-color card render: a white duck with an orange beak and orange feet, no letters, one centered object. `l2-w06-card-horse-v1.png` is a full-color card render: a white horse with a cream mane, a pink muzzle, and grey hooves, no letters, one centered object. Neither is line art.
+
+== decision
+Round r1 stopped before any write (task step 5). Round r2 continues under orchestrator option A: the Forge delivery runs with the deviation above.
