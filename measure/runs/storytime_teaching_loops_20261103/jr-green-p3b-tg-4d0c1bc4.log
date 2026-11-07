@@ -1,0 +1,123 @@
+# Jr Green log: Phase 3b text-gate baseline, PART 1 of 2
+
+- role: jr-green
+- phase: 3b
+- track: storytime_teaching_loops_20261103
+- role_base_sha: 4d0c1bc4b97710adfba2d38f10ec233dbd49ae51
+- red_commit: 7a44dd1a (immutable)
+- red_model: claude-code/claude-sonnet-5-5#high
+- model: deepseek/deepseek-flash#high
+- status: done-part-1
+
+## Scope
+
+I read the Red contract in `mid-red-p3b-tg-1150486e.log` (lines 25 to 60), the test file
+`dashboard/__tests__/storytime-loops-book-pages.test.ts`, `make-manual-pdf.ts`, the
+`studentBookPages` build in `make-teacher-book-print.ts` lines 180 to 192, and the guard in
+`check-weeks.ts`. The Red commit 7a44dd1a is inside `phase_base_sha..HEAD`.
+
+Part 1 edits only `dashboard/scripts/storytime/make-manual-pdf.ts`. Part 2 (the drafts, the v2
+build, and the caption list) runs in a later session.
+
+## Implementation
+
+The implementation commit 40d51889 changes one file. `git show --name-only --format= 40d51889`
+prints only `dashboard/scripts/storytime/make-manual-pdf.ts`.
+
+The file gains:
+
+- the export `manualPdfHtml(weeks, { lang, loops, share, bookPages })` with JSDoc;
+- the unit page list `storytimeStudentBookPages(readLevelWeeks(STORYTIME_ROOT, weeks[0].meta.level)...)`
+  when `bookPages` is true, and no `studentBookPages` value (undefined) when it is false;
+- the flag `--book-pages` in the argument loop and in `USAGE`;
+- `main` uses the helper, so there is one `compileStorytimeManual` call;
+- the `process.argv[1]` entry guard (as `check-weeks.ts`).
+
+The helper destructures `{ lang, loops, share, bookPages }` and passes shorthand properties. The
+older `loops` AST test `storytime-loops-teacher-book.test.ts` needs the `loops` initializer text to
+be `loops`, so the first GREEN run failed on that test, and the restructure in the implementation
+fixed it. No test file changed.
+
+`main` now prints `weeks.length` where it printed `result.weekCount`. The value is the same for a
+non-empty week list.
+
+## Red rerun before the edit
+
+The new test file failed at HEAD: `Test Files 1 failed (1)`, `Tests 11 failed (11)` (Red log).
+
+## Gates
+
+All gates ran in the heavy-run wrapper, with `--maxWorkers=1` for every vitest run.
+
+| Gate | Capture | Result |
+|---|---|---|
+| the new test file alone | `jr-green-p3b-tg-new.txt` | `Test Files 1 passed (1)`, `Tests 11 passed (11)`, EXIT=0 |
+| `GREEN_TEST_COMMAND` | `jr-green-p3b-tg-green.txt` | `Test Files 11 passed (11)`, `Tests 407 passed (407)`, EXIT=0 |
+| `LINT_3B`, `npx tsc --noEmit`, `--help` smoke | `jr-green-p3b-tg-lint.txt` | `SUMMARY lint=0 tsc=0 help=0`, EXIT=0 |
+| 6 falsifiers | `jr-green-p3b-tg-mutants.txt` | `mutants: 6, caught: 6`, `n/a: 0`, `restore cmp: ok`, empty status, EXIT=0 |
+| `PROJECT_TESTS` (no exclude) | `jr-green-p3b-tg-project.txt` | `Test Files 66 passed (66)`, `Tests 1581 passed (1581)`, EXIT=0 |
+
+The `PROJECT_TESTS` count is 1570 older tests plus the 11 new tests. The run took 1638 s.
+
+The `--help` smoke prints the `--book-pages` line, and it exits 0.
+
+The first GREEN run (before the restructure) failed one older test. Its capture was overwritten by
+the passing rerun. The cause is in the section above.
+
+## Mutants
+
+The runner `/tmp/opencode/p3b-tg-mut/run.py` (copied to `jr-green-p3b-tg-mutants-run.py`) applied
+the 6 falsifiers of the Red log one at a time. Each run used
+`npx vitest run __tests__/storytime-loops-book-pages.test.ts --maxWorkers=1 --bail=1`. After each
+run the runner restored the backup and asserted `cmp` equality.
+
+| Mutant | Result |
+|---|---|
+| M1 B1 flag: remove the branch for `--book-pages` | caught |
+| M2 B1 call: drop `studentBookPages` from the compile call | caught |
+| M3 B2: build the page list from the requested weeks only | caught |
+| M4 B2: pass the list under a changed option name | caught |
+| M5 B3: make the page list the default | caught |
+| M6 B3: pass the list while `bookPages` stays false | caught |
+
+No survivor. `git status --porcelain dashboard/scripts/storytime` prints nothing.
+
+## Plan
+
+I added one evidence sub-bullet under the Green task, and I changed no other line. The task stays
+`[~]`, because part 2 builds the drafts and the v2 book. The plan and the captures are in commit
+5b7d97be.
+
+## Files added
+
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-new.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-green.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-lint.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-mutants.txt`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-mutants-run.py`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-project.txt`
+
+## Working tree
+
+`video/storytime-song/scripts/render.mjs` stays unstaged. `dashboard/raw.json` is not touched.
+`pnpm-lock.yaml` does not change.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: 3b
+task: text-gate baseline (part 1 of 2)
+track: storytime_teaching_loops_20261103
+role_base_sha: 4d0c1bc4b97710adfba2d38f10ec233dbd49ae51
+red_commit: 7a44dd1a
+status: done-part-1
+impl_commit: 40d51889f644efac747136ded13efbe1d6329289
+impl_files: dashboard/scripts/storytime/make-manual-pdf.ts
+plan_commit: 5b7d97bec79f4dd5de8b2a89ea373079be508af0
+head: 5b7d97be (before the log commit)
+gates: new file alone exit 0 (Test Files 1 passed (1), Tests 11 passed (11)) jr-green-p3b-tg-new.txt; GREEN_TEST_COMMAND exit 0 (Test Files 11 passed (11), Tests 407 passed (407)) jr-green-p3b-tg-green.txt; LINT_3B exit 0, tsc exit 0, --help exit 0 (SUMMARY lint=0 tsc=0 help=0) jr-green-p3b-tg-lint.txt; PROJECT_TESTS exit 0 (Test Files 66 passed (66), Tests 1581 passed (1581)) jr-green-p3b-tg-project.txt
+mutants: mutants: 6, caught: 6; n/a: 0; restore cmp: ok; survivors: none
+plan_updates: the Green task stays [~]; one evidence sub-bullet gives impl 40d51889, the gate lines, the mutant counts, the PROJECT_TESTS lines, and "part 2: drafts, v2 build, caption list"
+new_files: measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-tg-new.txt, -green.txt, -lint.txt, -mutants.txt, -mutants-run.py, -project.txt, and this log
+handoff: Part 1 is done. The helper `manualPdfHtml` and the flag `--book-pages` are in 40d51889, and without the flag the output stays byte-equal (B3). No test file changed. One older test (`storytime-loops-teacher-book.test.ts`, the `loops` AST check) failed on the first GREEN run, because the helper passed `loops: options.loops`; the destructured shorthand fixed it. Part 2 (next session): build the drafts with --book-pages into ~/Desktop/print-ready/storytime/share-check-v1/drafts-book-pages/, rebuild with --version 2, expect exit 0 and 0 text-gate differences, then point the caption list to the v2 file and its SHA-256 and rerun the cross-check. Reviewers scope the audit to 40d51889 (one file) and the plan evidence commit 5b7d97be. `video/storytime-song/scripts/render.mjs` and `dashboard/raw.json` are not staged.
+dispositions: none
+END_MEASURE_AGENT_RESULT
