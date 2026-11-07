@@ -1,6 +1,7 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
 import { formatPackageReports } from '../../lib/lesson-package/report';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
@@ -8,6 +9,7 @@ import { renderPagedPdf, run } from '../../lib/print/render';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { readLevelWeeks, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { compileStorytimeManual } from '../../lib/storytime/manual';
+import { storytimeStudentBookPages } from '../../lib/storytime/print/step-pages';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../../lib/storytime/schema';
 import type { SupportedLanguage } from '../../lib/teacher-manual/i18n';
 
@@ -15,7 +17,7 @@ const USAGE = `Makes the office-print PDF of a Storytime Advantage teacher's boo
 (from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
 report of every week first.
 
-Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share]
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
 
   --level   Every week file of content/storytime/l<n>/
   --file    One week file (repeat for more), e.g. a test week
@@ -23,12 +25,32 @@ Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.
   --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
   --loops   Print the draft teaching routines
   --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
 
 Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
 Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
 design check is reported, but the book is still made, so that a draft week can be read on paper.`;
 
 const A4 = { width: 595.28, height: 841.89, slack: 2 };
+
+/**
+ * Builds the HTML of the Storytime teacher's book of these weeks.
+ *
+ * @param weeks The parsed weeks, in print order.
+ * @param options The language, the draft sections, and the unit page list switch.
+ * @returns The full HTML of the book.
+ */
+export function manualPdfHtml(
+    weeks: StorytimeWeek[],
+    options: { lang: SupportedLanguage; loops?: boolean; share?: boolean; bookPages?: boolean },
+): string {
+    const { lang, loops, share, bookPages } = options;
+    // The printed pages belong to the whole unit: every week of the level of the first week (A-48 U8).
+    const studentBookPages = bookPages
+        ? storytimeStudentBookPages(readLevelWeeks(STORYTIME_ROOT, weeks[0].meta.level).flatMap((r) => (r.week ? [r.week] : [])))
+        : undefined;
+    return compileStorytimeManual(weeks, { lang, paper: 'a4', loops, share, studentBookPages }).html;
+}
 
 async function main(argv: string[]): Promise<number> {
     let level: number | undefined;
@@ -37,6 +59,7 @@ async function main(argv: string[]): Promise<number> {
     let out: string | undefined;
     let loops = false;
     let share = false;
+    let bookPages = false;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') {
@@ -45,6 +68,7 @@ async function main(argv: string[]): Promise<number> {
         } else if (a === '--level') level = Number(argv[++i]);
         else if (a === '--loops') loops = true;
         else if (a === '--share') share = true;
+        else if (a === '--book-pages') bookPages = true;
         else if (a === '--file') files.push(path.resolve(argv[++i] ?? ''));
         else if (a === '--out') out = path.resolve(argv[++i] ?? '');
         else if (a === '--lang') {
@@ -86,13 +110,13 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     const weeks = read.map((r) => r.week) as StorytimeWeek[];
-    const result = compileStorytimeManual(weeks, { lang, paper: 'a4', loops, share });
+    const html = manualPdfHtml(weeks, { lang, loops, share, bookPages });
     const n = weeks[0].meta.level;
     out ??= path.join(os.homedir(), 'Desktop', 'print-ready', 'storytime', `Storytime-Advantage-Level-${n}-Teachers-Book-${lang.toUpperCase()}.pdf`);
 
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-pdf-'));
     const htmlFile = path.join(tmp, `level-${n}-${lang}.html`);
-    fs.writeFileSync(htmlFile, result.html.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''));
+    fs.writeFileSync(htmlFile, html.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''));
     fs.mkdirSync(path.dirname(out), { recursive: true });
     const pagedSrc = fs.readFileSync(path.join(process.cwd(), 'node_modules', 'pagedjs', 'dist', 'paged.polyfill.js'), 'utf8');
     const browser = await chromium.launch({ channel: 'chrome' });
@@ -113,14 +137,16 @@ async function main(argv: string[]): Promise<number> {
     if (fonts.some((f) => f.type === 'Type 3')) problems.push('Type 3 font');
     if (fonts.some((f) => !f.embedded)) problems.push('a font is not embedded');
     const families = [...new Set(fonts.map((f) => f.name.replace(/^[A-Z]{6}\+/, '')))].join(', ');
-    console.log(`${problems.length ? 'FAIL' : 'done'}  Level ${n} (${lang}): ${out} (${result.weekCount} weeks, ${pages} pages; fonts: ${families}${problems.length ? `; ${problems.join('; ')}` : ''})`);
+    console.log(`${problems.length ? 'FAIL' : 'done'}  Level ${n} (${lang}): ${out} (${weeks.length} weeks, ${pages} pages; fonts: ${families}${problems.length ? `; ${problems.join('; ')}` : ''})`);
     return problems.length ? 1 : 0;
 }
 
-main(process.argv.slice(2)).then(
-    (code) => (process.exitCode = code),
-    (e) => {
-        console.error(e instanceof Error ? e.message : e);
-        process.exitCode = 1;
-    },
-);
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+    main(process.argv.slice(2)).then(
+        (code) => (process.exitCode = code),
+        (e) => {
+            console.error(e instanceof Error ? e.message : e);
+            process.exitCode = 1;
+        },
+    );
+}
