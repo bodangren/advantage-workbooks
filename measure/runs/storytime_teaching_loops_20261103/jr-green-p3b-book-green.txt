@@ -1,0 +1,56 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 8696[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 1724[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops [33m 506[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 3915[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1232[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 6009[2mms[22m[39m
+     [33m[2m✓[22m[39m X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems [33m 596[2mms[22m[39m
+     [33m[2m✓[22m[39m X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id [33m 655[2mms[22m[39m
+     [33m[2m✓[22m[39m X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id [33m 641[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: an unknown flag exits 2 [33m 422[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --list exits 2 [33m 412[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --level exits 2 [33m 423[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level without a value exits 2 [33m 420[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level 9 exits 2 [33m 439[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: both arguments missing exits 2 [33m 427[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a list file that does not exist exits 2 [33m 425[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4263[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 2077[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 1762[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m)[22m[33m 2187[2mms[22m[39m
+     [33m[2m✓[22m[39m J13: no caption string ends in a media file extension [33m 428[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1185[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1558[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 668[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 1221[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 534[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 300[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 380[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+[2m      Tests [22m [1m[32m396 passed[39m[22m[90m (396)[39m
+[2m   Start at [22m 23:53:36
+[2m   Duration [22m 34.92s[2m (transform 1.58s, setup 895ms, import 4.79s, tests 26.33s, environment 3ms)[22m
+
+EXIT=0

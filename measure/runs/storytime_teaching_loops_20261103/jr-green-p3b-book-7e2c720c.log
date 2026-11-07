@@ -1,0 +1,71 @@
+Jr Green 3, Phase 3b part 1: the teacher book share and the caption cross-check
+Track: storytime_teaching_loops_20261103. Phase 3b. Role: jr-green. Status: done-part-1.
+Role base: 7e2c720c493b6c593b2d1f7f49402aeb4b5e2932. Red 3 commit: 56038c16.
+Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (Anthropic).
+Head: 1281d4af9a41d50d2754312642bd207114955224. Implementation commit: 1281d4af.
+This log is a rewrite of the provisional log of part 1. Part 1 stopped at its step limit, so the
+orchestrator verified the facts. Part 2 runs the mutants.
+
+Scope of the implementation commit 1281d4af
+- dashboard/lib/storytime/manual.ts: the option share (default false), the inline black svg icon,
+  the label, the caption, the consent line, and the length line on every shot path: the regular
+  step, the moved group, and the opening song.
+- dashboard/lib/storytime/i18n.ts: sharePhoto, shareVideo, shareConsent, and shareLength in
+  English and in Thai.
+- dashboard/scripts/storytime/make-manual-pdf.ts and make-teacher-book-print.ts: the flag --share.
+- dashboard/scripts/storytime/check-share-captions.ts: the new script, with the export
+  shareCaptionProblems (Q23).
+- No test file changed. The command git show --name-only --format= 1281d4af with the filter
+  __tests__ prints 0. The commit holds 305 insertions and 21 deletions.
+- pnpm-lock.yaml did not change.
+
+Gates (captures in this folder)
+- GREEN_TEST_COMMAND, capture jr-green-p3b-book-new.txt: exit 0, Test Files 2 passed (2),
+  Tests 99 passed (99).
+- PROJECT_TESTS, capture jr-green-p3b-book-green.txt: exit 0, Test Files 10 passed (10),
+  Tests 396 passed (396).
+- LINT_3B, capture jr-green-p3b-book-lint.txt: ESLINT_EXIT=0, TSC_EXIT=0.
+- The manual test file, capture jr-green-p3b-book-manual.txt: exit 0, Tests 33 passed (33).
+
+English labels
+- sharePhoto: Photo
+- shareVideo: Video
+- shareConsent: "Post only in the closed class parent group that the school runs. Show a face only
+  when the school has the photo consent of the parents. Else show the work, the hands, or the backs."
+- shareLength: "A video is 10 to 20 seconds. The song show video holds the whole song."
+- Thai labels: sharePhoto "\u0e23\u0e39\u0e1b\u0e20\u0e32\u0e1e", shareVideo
+  "\u0e04\u0e25\u0e34\u0e1b\u0e27\u0e34\u0e14\u0e35\u0e42\u0e2d". The shipped captions hold the
+  words "\u0e20\u0e32\u0e1e\u0e16\u0e48\u0e32\u0e22" and "\u0e27\u0e34\u0e14\u0e35\u0e42\u0e2d", so other labels would
+  collide in test T4.
+
+Defaults taken in part 1
+1. The Red rerun was not repeated. The Red failure is in mid-red-p3b-book-new.txt, from the Red 3
+   commit 56038c16.
+2. shareCaptionProblems ignores the SC- rows when the week list is empty (X10) and ignores the rows
+   of a week that does not parse (X8).
+3. The consent lines print at the first shot step of the first day with a share, wherever that step
+   renders.
+4. The Thai labels are \u0e23\u0e39\u0e1b\u0e20\u0e32\u0e1e and \u0e04\u0e25\u0e34\u0e1b\u0e27\u0e34\u0e14\u0e35\u0e42\u0e2d,
+   because the shipped captions hold the other two words.
+
+Expectations for part 2
+- MX11 and MB7 are caught. MX2 is caught by X5 or X9. MX9 is caught by X7. MB4 is caught by T2
+  through D5.
+
+MEASURE_AGENT_RESULT
+status: done-part-1
+phase: 3b
+role: jr-green
+role_base_sha: 7e2c720c493b6c593b2d1f7f49402aeb4b5e2932
+head: 1281d4af9a41d50d2754312642bd207114955224
+impl_commit: 1281d4af9a41d50d2754312642bd207114955224
+gates:
+- GREEN_TEST_COMMAND exit 0, Tests 99 passed (99), capture jr-green-p3b-book-new.txt
+- PROJECT_TESTS exit 0, Test Files 10 passed (10), Tests 396 passed (396), capture jr-green-p3b-book-green.txt
+- LINT_3B ESLINT_EXIT=0, TSC_EXIT=0, capture jr-green-p3b-book-lint.txt
+- manual test file exit 0, Tests 33 passed (33), capture jr-green-p3b-book-manual.txt
+labels: sharePhoto, shareVideo, shareConsent, shareLength in en and th
+defaults: 1 Red rerun not repeated; 2 empty week list ignores SC rows and a broken week is ignored; 3 consent at the first shot of the first day with a share; 4 Thai labels are the two words above
+dispositions: none
+handoff: part 2 runs the mutants
+END_MEASURE_AGENT_RESULT

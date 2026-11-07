@@ -1,0 +1,26 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 11134[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 4171[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops [33m 789[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 3695[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1183[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 5711[2mms[22m[39m
+     [33m[2m✓[22m[39m X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems [33m 526[2mms[22m[39m
+     [33m[2m✓[22m[39m X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id [33m 503[2mms[22m[39m
+     [33m[2m✓[22m[39m X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id [33m 533[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: an unknown flag exits 2 [33m 452[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --list exits 2 [33m 442[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --level exits 2 [33m 440[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level without a value exits 2 [33m 429[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level 9 exits 2 [33m 417[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: both arguments missing exits 2 [33m 420[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a list file that does not exist exits 2 [33m 396[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m99 passed[39m[22m[90m (99)[39m
+[2m   Start at [22m 23:53:02
+[2m   Duration [22m 20.93s[2m (transform 1.32s, setup 491ms, import 2.34s, tests 16.85s, environment 1ms)[22m
+
+EXIT=0
