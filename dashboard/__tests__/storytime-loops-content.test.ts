@@ -406,6 +406,8 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         delete book.cover?.file;
         for (const page of book.pages ?? []) delete page.image?.file;
     }
+    // The app picture paths of the family words are media paths, not loops content (Phase 10, E8).
+    for (const word of copy.focus?.family?.words ?? []) delete word.image?.file;
     if (copy.approval) {
         delete copy.approval.loops;
         delete copy.approval.print;
