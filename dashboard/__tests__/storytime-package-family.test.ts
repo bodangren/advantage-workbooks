@@ -1068,7 +1068,7 @@ describe('the family picture script (Phase 10, Red 2)', () => {
             expect(word.image?.file, `the file of ${word.word}`).toBe(`l2/media/w01/family/${word.word}.jpg`);
         }
         const bookFiles = (text: string): string[] => text.split('\n')
-            .filter((line) => line.includes('"file": "l2/media/w01/books/'));
+            .filter((line) => /"file": "l2\/media\/w01\/books\/[^"]*\.jpg"/.test(line));
         expect(bookFiles(before), 'the book file lines: 18').toHaveLength(18);
         expect(bookFiles(after), 'the book file lines stay 18').toHaveLength(18);
         expect(bookFiles(after), 'the book file lines keep their values').toEqual(bookFiles(before));
