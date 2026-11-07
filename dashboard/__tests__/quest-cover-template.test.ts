@@ -220,7 +220,11 @@ const LEVEL_COLOURS: Record<number, string> = { 1: '#E06A1F', 2: '#2A77B8', 3: '
 
 /** The level colours of covers.ts (pin: the tests hand write them and compare). */
 const ESCAPE_IN = 'A & B <i>"x"';
-const ESCAPE_OUT = 'A &amp; B &lt;i&gt;&quot;x&quot;';
+/**
+ * The DOM serial form of ESCAPE_IN in a text node. The serializer escapes `&`, `<`, and `>`
+ * and writes `"` as is, so `outerHTML` never holds `&quot;` in a text node.
+ */
+const ESCAPE_OUT = 'A &amp; B &lt;i&gt;"x"';
 
 /** The words of the forbidden list of spec FR-4.3, plus the year case (T11). */
 const FORBIDDEN_CASES: Array<[string, string]> = [
