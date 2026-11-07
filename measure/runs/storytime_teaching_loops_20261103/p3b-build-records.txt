@@ -1,0 +1,28 @@
+records of the Phase 3b teacher-book build (test-strategy 9.12 step 4)
+file: /home/daniebo/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf
+chrome pdf: /home/daniebo/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+date: 2026-11-08T01:35:54+07:00
+pages: 224
+pdf sha256: 385281cbd61dae3954f45ca8847d2b33baaeed99ce28c7f083e9f2ac8956be61
+non-A4 pages: 0
+nonzero-cmy-pages: 0
+non-A4 page numbers: none
+nonzero-cmy page numbers: none
+consent line count: 8
+length line count: 8
+caption occurrences: 47
+caption strings: 40
+photo label count: 7
+video label count: 40
+
+the counts read the Chrome PDF text, not the print file text: pdftotext gives no Thai text
+from the PDF/X file (lesson 2026-10-02); the Chrome PDF has the same 224 pages and the same order.
+print file consent line count: 0
+print file length line count: 0
+print file caption occurrences: 0
+print file photo label count: 0
+print file video label count: 0
+
+labels used (storytimeLabels th): sharePhoto=รูปภาพ shareVideo=คลิปวิดีโอ
+counting: both the label or caption and the pdftotext -layout text have all white space removed
+expected: consent 8, length 8, caption 47 (40 day captions; day 4 of w01 to w07 prints its caption at two shots)
