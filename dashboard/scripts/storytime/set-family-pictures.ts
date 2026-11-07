@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { chromium } from '@playwright/test';
 import { STORYTIME_ROOT } from '../../lib/storytime/files';
+import { StorytimeWeekSchema } from '../../lib/storytime/schema';
 import {
     familyCardPageHtml,
     familyCardSourceName,
@@ -72,7 +73,6 @@ const COLOR_CARD_NAME = /^l[0-9]+-w[0-9]+-card-[a-z]+-v[1-9][0-9]*\.png$/;
 const RULE_TOKENS = [
     'not in MANIFEST',
     'SHA-256 differs from MANIFEST',
-    '-line- name',
     'not 8-bit sRGB with 3 channels',
     'has an alpha channel',
     'not a PNG',
@@ -312,10 +312,30 @@ function editFamilyBlock(block: string, outputs: Map<string, string>): { text: s
             index += 1;
             continue;
         }
-        out.push(`${caption[1]}"caption": ${JSON.stringify(caption[2])},`, `${caption[1]}"file": "${target}"`);
+        out.push(`${caption[1]}"caption": "${caption[2]}",`, `${caption[1]}"file": "${target}"`);
         written += 1;
     }
     return { text: out.join('\n'), written };
+}
+
+/**
+ * Parses a new week text before the first write (decision H2, review finding F6). The text must be
+ * valid JSON, and the parsed week must pass the week schema.
+ * @param text The new text of the week file.
+ * @throws Error When the text or the parsed week fails a check.
+ */
+function parseWeekText(text: string): void {
+    let week: unknown;
+    try {
+        week = JSON.parse(text);
+    } catch (error) {
+        throw new Error(`family picture: the new week text is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    try {
+        StorytimeWeekSchema.parse(week);
+    } catch (error) {
+        throw new Error(`family picture: the new week text fails the week schema: ${error instanceof Error ? error.message : String(error)}`);
+    }
 }
 
 /**
@@ -419,6 +439,8 @@ async function runCheck(
     const forgeManifest = forgeFolder ? readManifest(forgeFolder) : new Map<string, string>();
     const unlisted = unlistedColorFiles(cardsFolder, cardManifest);
     if (unlisted.length) throw new Error(`family picture: ${unlisted[0]}: not in MANIFEST`);
+    const unlistedForge = forgeFolder ? unlistedColorFiles(forgeFolder, forgeManifest) : [];
+    if (unlistedForge.length) throw new Error(`family picture: ${unlistedForge[0]}: not in MANIFEST`);
     const lines: string[] = [];
     for (const entry of words) {
         const word = String(entry.word);
@@ -484,6 +506,8 @@ export async function setFamilyPictures(options: SetFamilyPicturesOptions): Prom
     const forgeManifest = options.forgeFolder ? readManifest(options.forgeFolder) : new Map<string, string>();
     const unlisted = unlistedColorFiles(options.cardsFolder, cardManifest);
     if (unlisted.length) throw new Error(`family picture: ${unlisted[0]}: not in MANIFEST`);
+    const unlistedForge = options.forgeFolder ? unlistedColorFiles(options.forgeFolder, forgeManifest) : [];
+    if (unlistedForge.length) throw new Error(`family picture: ${unlistedForge[0]}: not in MANIFEST`);
 
     const cardFiles = new Set(cardManifest.keys());
     const forgeFiles = new Set(options.forgeFolder ? colorFilesOf(options.forgeFolder) : []);
@@ -563,6 +587,7 @@ export async function setFamilyPictures(options: SetFamilyPicturesOptions): Prom
         throw new Error(`family picture: the week file has ${edited.written} family captions; expected ${rendered.length}`);
     }
     const updatedText = weekText.slice(0, range.start) + edited.text + weekText.slice(range.end);
+    parseWeekText(updatedText);
     const provenanceText = `${lines.join('\n')}\n`;
 
     // Every check passed. The writes follow.
