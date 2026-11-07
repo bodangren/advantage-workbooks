@@ -1,5 +1,21 @@
 import type { StorytimeWeekInput } from '../../lib/storytime/schema';
 import { LOOP_STEP_IDS, SAMPLE_DRILLS, SAMPLE_SOUND_LOOP, questionsFor, sampleLoopMinutes, sampleSightWords } from './storytime-loops-sample';
+import { REVIEW_MOMENTS, TEACH_MOMENTS, type SampleShare } from './storytime-share-sample';
+
+/**
+ * The parent-share moment of a fixture script (Phase 3b, spec FR-14): the sample moment of the day, so the check
+ * `share-moment` passes at the status `warn` and at the status `fail`. A teach fixture week uses the teach table
+ * (A3, B5, C4, D4 and D5, D6). The review fixture week uses the review table (A2, B1, C1, D1, E3). Every step of
+ * these tables exists in the fixture week.
+ * @param scriptId The script id of the day (A to E).
+ * @param review True for the review fixture week.
+ * @returns A copy of the sample moment, with its own shots and its own caption.
+ */
+function fixtureShare(scriptId: string, review: boolean): SampleShare {
+    const moment = (review ? REVIEW_MOMENTS : TEACH_MOMENTS)[scriptId];
+    if (!moment) throw new Error(`no fixture share moment for script ${scriptId}`);
+    return { shots: moment.shots.map((shot) => ({ ...shot })), caption: { ...moment.caption } };
+}
 
 /**
  * The taught set of `fixtureWeek()`: the letters that its blend drill uses and its tricky words. A test passes it
@@ -51,6 +67,7 @@ function withLoops(week: StorytimeWeekInput): StorytimeWeekInput {
     if (!readAlong) throw new Error('The fixture week has no read-along');
     readAlong.questions = questionsFor(99, readAlong.pages.map((p) => p.text));
     for (const script of week.scripts) if (script.day > 1) script.recall = structuredClone(FIXTURE_RECALL);
+    for (const script of week.scripts) script.share = fixtureShare(script.id, false);
     return week;
 }
 
@@ -184,6 +201,7 @@ export function fixtureReviewWeek(): StorytimeWeekInput {
         day: i + 1,
         title: { en: i === 0 ? 'Benchmark and Centers' : 'Review Centers', th: '' },
         recall: REVIEW_RECALL,
+        share: fixtureShare(id, true),
         steps: i === 0
             ? [reviewStep('A1', 'Benchmark: paper part', 10), reviewStep('A2', 'Centers', 10), reviewStep('A3', 'Close', 4)]
             : [reviewStep(`${id}1`, 'Centers, rotation 1', 10), reviewStep(`${id}2`, 'Centers, rotation 2', 10), reviewStep(`${id}3`, i === 4 ? 'Song show' : 'Close', 4)],
