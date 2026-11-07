@@ -1,0 +1,9 @@
+The 3 mutants of the Phase 10 review remediation, one per code fix (F6 twice, F8 once).
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-package-family.test.ts --maxWorkers=1.
+id     result   cmp   label | summary | first failing case
+MR-M1  caught   True  F6: the caption text is JSON.stringify of the raw text | 1 failed | 32 passed (33) | × R2-6b a caption that holds a JSON escape keeps its value 386ms
+MR-M2  caught   True  F6: the new week text is not parsed before the write | 1 failed | 32 passed (33) | × R2-6c the script parses the new week text before it writes 541ms
+MR-M3  caught   True  F8: the Forge folder is not scanned | 1 failed | 32 passed (33) | × R2-7 the script stops before any write: 'a Forge file that the manifest does n…' 531ms
+mutants: 3, caught: 3
+survivors: none
+restore cmp: all equal

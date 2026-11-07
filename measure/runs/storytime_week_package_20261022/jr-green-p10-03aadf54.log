@@ -1,0 +1,49 @@
+# jr-green, Phase 10, review remediation, track storytime_week_package_20261022
+
+Role base: dac062d98b3e10d95ac7536d07cb34ce71264317. Red base: 33440959f13af6bec03000ee136bd229d45e8f4c. Red commits: 3a3bd4af (tests), bfc2575a (the family card row), 03aadf54 and dac062d9 (the plan lines).
+
+The role applied `p10-green3-blocked-impl.patch` on dac062d9. The patch applied cleanly. It holds four fixes in `dashboard/scripts/storytime/set-family-pictures.ts` only:
+- F6a: `editFamilyBlock` keeps the caption text as written, so a JSON escape is not escaped a second time.
+- F6b: `parseWeekText` runs `JSON.parse` and `StorytimeWeekSchema.parse` on the new week text before the first write.
+- F8: `unlistedColorFiles` runs on the Forge folder too, in the setter and in the check mode, with the error `family picture: <name>: not in MANIFEST`.
+- F7: the unused token `-line- name` is removed from `RULE_TOKENS`; `two color files` stays, because the R2-7 (i) regex reads it.
+
+Gates:
+- GREEN_TEST_COMMAND: `p10-green3-green.txt`, `Test Files  3 passed (3)`, `Tests  57 passed (57)`, `exit: 0`.
+- PROJECT_TESTS: `p10-green3-project.txt`, `Test Files  61 passed (61)`, `Tests  1302 passed (1302)`, `exit: 0`, 1182 s, no exclude, no content change, no lock change.
+- PROJECT_LINT: `p10-green3-lint.txt`, `exit: 0`.
+- PROJECT_CHECKS: `p10-green3-checks.txt` gives the check summary `Summary: 8 package(s), 0 failed check(s), 16 warning(s).` and `exit: 2`. The whole failure is `npx tsc --noEmit`, with two errors, both in committed test files:
+  1. `__tests__/quest-cover-template.test.ts(81,37): error TS2307: Cannot find module '../lib/storytime/print/cover-quest'`. That file is the Red 1 of the cover-options track (commit 6605bd17), and its Green module does not exist yet.
+  2. `__tests__/storytime-package-family.test.ts(1212,16): error TS18048: 'schemaHello' is possibly 'undefined'.` That line is the new case R2-6b of this phase's Red (commit 3a3bd4af).
+
+The role proved that its own change adds no type error: with the script restored to HEAD, `npx tsc --noEmit` gives the same two errors and `exit: 2`. Capture `p10-green3-tsc-head.txt`.
+
+Mutants: `p10-green3-mutants.txt` gives `mutants: 3, caught: 3`, `survivors: none`, `restore cmp: all equal`. The detectors: MR-M1 R2-6b; MR-M2 R2-6c; MR-M3 R2-7 'a Forge file that the manifest does not list'. Each capture `p10-green3-mutant-MR-M1.txt` to `MR-M3.txt` ends with `exit: 1`.
+
+The role changed no test file. Both blockers sit in committed test files, and this role may not edit them. The role kept the fix applied in the worktree (it is identical to the saved patch) so that the next step needs only the gates and the commits.
+
+
+## Round r6 (the review remediation, last round)
+
+The orchestrator fixed blocker (1): Red r4 (opencode-go/mimo-v2.6-flash) committed `da0934f0f33523596d2d76361e21b18250f39c90`, which changes line 1212 to `schemaHello?.image?.caption` and nothing else. The mid-red gate passed.
+
+The orchestrator decided blocker (2): `PROJECT_CHECKS` passes for this round under a bounded gate exception. The check-weeks part must hold 0 FAIL rows other than `published`, and `npx tsc --noEmit` must print exactly one `error TS` line, which must be `__tests__/quest-cover-template.test.ts(81,37): error TS2307: Cannot find module '../lib/storytime/print/cover-quest'`. That line is the open Red window of the cover-options track (commit 6605bd17), and its Green 1 removes it. Any other tsc error fails the gate.
+
+The role re-applies its patch on `da0934f0` and runs the gates of this round.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P10
+task: review remediation
+track: storytime_week_package_20261022
+role_base_sha: da0934f0f33523596d2d76361e21b18250f39c90
+red_base: 33440959f13af6bec03000ee136bd229d45e8f4c
+red_model: opencode-go/mimo-v2.6-flash (r4)
+status: in progress
+commits: pending
+files_changed: pending
+tests_run: pending
+deviations: tsc exception (TS2307 of quest-cover-template.test.ts, the cover-options Red window); PROJECT_TESTS and mutants reused from round r5
+handoff: this round is in progress
+dispositions: F1=FIX; F2=FIX; F3=FIX; F4=FIX; F5=FIX; F6=FIX; F7=FIX; F8=FIX; F9=FIX
+END_MEASURE_AGENT_RESULT

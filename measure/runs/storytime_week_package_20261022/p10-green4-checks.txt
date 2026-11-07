@@ -1,0 +1,11 @@
+__tests__/quest-cover-template.test.ts(81,37): error TS2307: Cannot find module '../lib/storytime/print/cover-quest' or its corresponding type declarations.
+Summary: 8 package(s), 0 failed check(s), 16 warning(s).
+exit: 2
+
+# The three labeled lines of the bounded tsc exception (round r6, the orchestrator decision).
+# First line: a fresh run of check-weeks.ts --level 2 printed 0 FAIL row(s), and 0 of them is not published.
+#   Summary: 8 package(s), 0 failed check(s), 16 warning(s).
+check-weeks FAIL rows other than published: 0
+tsc error lines: 1
+tsc error lines outside the exception: 0
+exit: 2 (the gate string stops at tsc on the exception line; the three labeled lines above are the round r6 criterion)
