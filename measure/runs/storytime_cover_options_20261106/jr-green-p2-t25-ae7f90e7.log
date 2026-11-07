@@ -1,0 +1,62 @@
+# jr-green P2 Task 2.5 (Green 1) · storytime_cover_options_20261106
+
+role_base_sha (round 2): e6e2156ad000d89bb53f19857983299c622f82ac
+phase_base_sha (red_base_1): 62621a9cebcc965d4094a311c687f767e99ac65c
+Red 1 commit: 6605bd1
+Red r2 commit: 7b2d8cec
+Green 1 code commit: 801c8c8a
+Red models: opencode-go/mimo-v2.6-flash (Red 1), claude-code/claude-sonnet-5-5#high (r2)
+Green model: deepseek/deepseek-flash#high (deviation: the table model for Green is not used; MiniMax is above 80 % quota, and the PM stopped every opencode-go route on 2026-11-07)
+
+## Round 1 (2026-11-07): blocked
+T14 asked for `A &amp; B &lt;i&gt;&quot;x&quot;` inside `el.outerHTML`. No single-escape markup
+gives both `&lt;i&gt;` and `&quot;` in one serialized run. The orchestrator chose option A: the
+Red test at 7b2d8cec now expects the DOM text-node form. The proof stays in
+`green1-p2-t14-proof.txt`.
+
+## Round 2 (2026-11-07): done
+- [x] Confirm the Red window: `git log --oneline 62621a9c..HEAD --
+      dashboard/__tests__/quest-cover-template.test.ts` lists 6605bd17 and 7b2d8cec. No other
+      file of the track changed. Line 223 is `const ESCAPE_OUT = 'A &amp; B &lt;i&gt;"x"';`.
+- [x] Write `dashboard/lib/storytime/print/cover-quest.ts` (the option A frame of
+      `options/build.py`: `a_hud`, `a_plaque`, `a_crest`, `a_front`, `a_back`, `a_reader`,
+      `leaf`) and `content/storytime/covers/quest.json`. The colours and the geometry of the
+      source stay the same. The shared D-A2 parts come from `./covers` and
+      `../../covers/back-text`; no shared file changed.
+- [x] `GREEN_TEST_COMMAND`: 185 passed, exit 0 (`green1-p2.txt`).
+- [x] `PROJECT_TESTS`: 62 files, 1488 tests, exit 0, 1265 s (`green1-p2-project.txt`).
+- [x] `PROJECT_LINT`: exit 0, 0 errors, 1 warning on the Red file (`green1-p2-lint.txt`).
+- [x] `PROJECT_CHECKS`: exit 0, 0 failed checks, `tsc error lines: 0` (`green1-p2-checks.txt`).
+- [x] The `check-weeks.ts` diff: only the 7 `family-pictures` rows of st2/1 to st2/7 move,
+      WARN to PASS, with the named cause (`green1-p2-checkweeks.txt`).
+- [x] The 33 mutants of the 17 families: 33 caught, 0 survivors, `restore cmp: all equal`
+      (`mutants-green1.txt`), in one heavy-run wrapper.
+- [x] Fast gate: 13 `export function` lines.
+- [x] Code commit 801c8c8a: `content/storytime/covers/quest.json` and
+      `dashboard/lib/storytime/print/cover-quest.ts` only (`green1-p2-scope.txt`).
+
+Three defects the first Green run found and fixed in the module, before the gate:
+1. The unit bar drew 5 parts instead of 4 (`QUEST_BANDS.map` over 5 bands).
+2. jsdom drops an inline style that holds `background:` together with `color:`. The decoration
+   now uses `background-color:`, so `left` and `top` parse (T09).
+3. Two text blocks that sit in adjacent elements join with no space in `textContent`
+   ("AdvantageChibi"). The render separates them with a newline, and `checkQuestCopy` reads a
+   case change as a word boundary, so T11 catches a word split by `<wbr>`.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P2
+task: 2.5 Green 1
+track: storytime_cover_options_20261106
+role_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c
+red_model: opencode-go/mimo-v2.6-flash (Red 1), claude-code/claude-sonnet-5-5#high (r2)
+status: done
+commits: 801c8c8a (code), <plan sha> (plan evidence)
+files_changed: dashboard/lib/storytime/print/cover-quest.ts, content/storytime/covers/quest.json, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/ (10 files)
+tests_run: GREEN_TEST_COMMAND 185 passed exit 0; PROJECT_TESTS 62 files 1488 tests exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0 with tsc error lines 0
+mutants: 33, caught 33, survivors []
+deviations: model substitution (Green deepseek/deepseek-flash#high, not the table model); check-weeks rows differ only in the 7 family-pictures rows, cause 557b0f73 and a5fa259f plus the week-package check-weeks.ts change
+handoff: next = Review C (quest.json contract), then Task 2.6 Red 2 with red_base_2 = 801c8c8a
+dispositions: none
+END_MEASURE_AGENT_RESULT

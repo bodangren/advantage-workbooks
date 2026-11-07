@@ -1,0 +1,38 @@
+check-weeks.ts --level 2: the rows at phase_base_sha 62621a9c and at Green 1
+
+command: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+green 1 capture: measure/runs/storytime_cover_options_20261106/green1-p2-checks.txt (2026-11-07)
+
+== the rows at phase_base_sha 62621a9c ==
+No full capture exists at 62621a9c itself. No worktree was made (hard rule). Two captures
+bracket that commit:
+  a) storytime_week_package_20261022/p10-green1-checks.txt (2026-11-07 06:08): the full rows
+     before the week-package Green added the family-pictures check: 298 PASS + 9 WARN, 0 FAIL.
+  b) storytime_week_package_20261022/p10-green2-live.txt (2026-11-07 08:02, before the Phase 10
+     content commits of 12:07 and 12:22): the family-pictures rows were 7 WARN and 0 FAIL,
+     with 16 WARN rows in all and 0 FAIL rows in all.
+Union: every row of a) is unchanged, and st2/1 to st2/7 family-pictures were WARN.
+
+== the rows at Green 1 (this HEAD) ==
+305 PASS + 9 WARN + 0 FAIL
+
+== the diff of the two row sets ==
+st2/1 family-pictures: None -> PASS
+st2/2 family-pictures: None -> PASS
+st2/3 family-pictures: None -> PASS
+st2/4 family-pictures: None -> PASS
+st2/5 family-pictures: None -> PASS
+st2/6 family-pictures: None -> PASS
+st2/7 family-pictures: None -> PASS
+7 rows differ
+
+non-family-pictures differences: []
+
+== the named cause of the diff ==
+The week-package Phase 10 content commits 557b0f73 and a5fa259f (2026-11-07) added the 51
+family-word pictures. The family-pictures rows of st2/1 to st2/7 therefore move from WARN
+to PASS. The week-package Green commits also changed check-weeks.ts (the check itself).
+
+== the verdict ==
+Every difference is a family-pictures row. The gate rule of plan line 63 and Task 2.5 accepts
+this diff. FAIL rows: 0 at phase_base_sha and 0 at Green 1. The warning count stays 9.

@@ -1,0 +1,1294 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-template.test.ts [2m([22m[2m185 tests[22m[2m | [22m[31m175 failed[39m[2m)[22m[33m 326[2mms[22m[39m
+[31m     [31m×[31m T01: the module exports every name of pin P1[39m[32m 23[2mms[22m[39m
+     [32m✓[39m T02: the part table holds 53 rows[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="art"] exactly 1 times[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="game-bar"] exactly 1 times[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="band-icon"] exactly 5 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="unit-bar"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-unit-part] exactly 4 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="crest"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="series-banner"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="title-plaque"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="level-line"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="book-line"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="art"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="game-bar"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="band-icon"] exactly 5 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="unit-bar"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-unit-part] exactly 4 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="crest"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="series-banner"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="title-plaque"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="level-line"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="book-line"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="band-pill"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="art"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="logo-box"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="series-banner"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="panel"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="panel-field"] exactly 5 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="contact-sign"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="contact-line"] exactly 5 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="qr"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: student-back holds [data-part="line-label"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="art"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="logo-box"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="series-banner"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="panel"] exactly 0 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="panel-field"] exactly 0 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="contact-sign"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="contact-line"] exactly 5 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="qr"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-back holds [data-part="line-label"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="art"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="game-bar"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="band-word"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="series-banner"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="week-pill"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="title-plaque"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-a3 holds [data-part="role-bar"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="art"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="double-line-frame"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="title-plaque"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="band-word"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="series"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="week"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T02: reader-leaf holds [data-part="role-mark"] exactly 1 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T03: the student back shows the five fields in order with their headings and shared values, and the teacher back has no panel[39m[32m 160[2mms[22m[39m
+     [32m✓[39m T04: the lit band table holds 15 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T04: student-front lights seed once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: student-front lights sprout once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: student-front lights leaf once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: student-front lights bud once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: student-front lights flower once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: teacher-front lights seed once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: teacher-front lights sprout once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: teacher-front lights leaf once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: teacher-front lights bud once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: teacher-front lights flower once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: reader-a3 lights seed once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: reader-a3 lights sprout once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: reader-a3 lights leaf once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: reader-a3 lights bud once in the game bar[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T04: reader-a3 lights flower once in the game bar[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T05: the unit bar table holds 4 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T05: unit 1 fills exactly that many of the 4 unit parts[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T05: unit 2 fills exactly that many of the 4 unit parts[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T05: unit 3 fills exactly that many of the 4 unit parts[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T05: unit 4 fills exactly that many of the 4 unit parts[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T06: the level table holds 4 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T06: level 1 uses the level colour on the title plaque[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T06: level 2 uses the level colour on the title plaque[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T06: level 3 uses the level colour on the title plaque[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T06: level 4 uses the level colour on the title plaque[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T06: the colours match covers.ts and the teacher front and A3 plaque use the level 2 colour[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T07: the frame of two books differs only in the per book values[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T08: the page size table holds 12 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: student-front at bleed 0 has the page size of its trim[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T08: student-front at bleed 3 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: student-back at bleed 0 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: student-back at bleed 3 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: teacher-front at bleed 0 has the page size of its trim[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T08: teacher-front at bleed 3 has the page size of its trim[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T08: teacher-back at bleed 0 has the page size of its trim[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T08: teacher-back at bleed 3 has the page size of its trim[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T08: reader-a3 at bleed 0 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: reader-a3 at bleed 3 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: reader-leaf at bleed 0 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: reader-leaf at bleed 3 has the page size of its trim[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T08: a bleed of 2 is an error[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T09: the box table holds 31 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T09: every box of QUEST_BOXES lies 5 mm inside the trim at bleed 0 and bleed 3[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T09: at bleed 0 every part sits at its box plus the bleed[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T09: at bleed 3 every part sits at its box plus the bleed[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T10: the copy passes, the approved texts show, and no new word appears in the six kinds[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T10: SPROUT is literal on the reader kinds and Sprout is literal on the teacher front[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T11: the forbidden word table holds 18 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T11: CEFR in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: A1 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: A2 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: B1 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: B2 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: C1 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: C2 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Starters in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Primary Advantage in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: GSE in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: YLE in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Reading A-Z in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: RAZ in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Pre-A1 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Pre A1 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Chibi in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: Mitr in a title gives an error that names it[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T11: 2026 in a title gives an error that names it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: the clean titles give no error[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: a forbidden word on a line that holds never and do not is still caught[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T11: a word split by a soft hyphen or by wbr is still caught[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T12: each back holds the Thai of BACK_LINES.contact byte for byte, with no markers[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T12: the fronts and the reader covers hold no Thai[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T12: a changed byte, a removed tone mark, a decomposed sara am, and Thai on a front are errors[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T13: both backs show the LINE QR with 0 different modules[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T13: one flipped module counts as one difference[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T13: the fronts and the reader covers hold no QR[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T14: the escape table holds 5 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T14: the level-line text is escaped exactly once[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T14: the band-pill text is escaped exactly once[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T14: the week-pill text is escaped exactly once[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T14: the title text is escaped exactly once[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T14: the role-label text is escaped exactly once[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T15: questReaders gives the 14 shipped rows and changes no source file[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T16: the role label, the title, and the week text equal the shared reader cover page[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T17: the reader cover page gives body and css with a quest only scope[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T18: the leaf holds only black, white, and grey colour tokens[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T18: the A3 reader cover holds a colour that is not grey (not vacuous)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T19: the CSS of the six kinds and the reader page is PDF/X safe[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T19: questCssSafetyErrors reports unsafe css[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T20: every file font url names an existing file[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T21: every src, href, and url is file or data, and no @import appears[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T22: the rejection table holds 21 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T22: level 0 is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: level 5 is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: level 1.5 is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: unit 5 is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a level and unit repeat is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: litBand Sprout is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: litBand tree is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a missing litBand is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an art name with path traversal is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an art name with an absolute path is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an art name with a NUL byte is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an art name with a wrong extension is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an art name with a wrong side token is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a student cast of 3 children is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a student cast of 2 animals is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a teacher cast of 3 children is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a cast name outside the roster is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: an unknown key in a row is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: a __proto__ key is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: empty books is rejected with an error that names the field[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T22: books that are not an array is rejected with an error that names the field[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m T22: the valid L2U1 row is accepted[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T23: the shipped quest.json passes with the L2U1 row, the sprout band, and the fixed cast[39m[32m 1[2mms[22m[39m
+     [32m✓[39m T24: the art table holds 7 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T24: '2480x3508 passes at bleed 0 with 299.…'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T24: '1448x2048 fails'[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m T24: '1447x2048 fails'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T24: '2400x3400 fails'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T24: '2480x3508 fails at bleed 3 with 291.6…'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T24: '2551x3579 passes at bleed 3'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T24: 'the A3 reader art passes at 240 with …'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T25: the same input gives byte-identical HTML twice[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T27: every exported function and constant has a JSDoc block[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T28: the imports of cover-quest.ts are inside the allowed set[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T29: import and six renders call fetch 0 times and fs.writeFileSync 0 times[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T30: the level line uses the middle dot and the book lines sit in the right kinds only[39m[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 175 [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT01: the module exports every name of pin P1
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m666:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="game-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="band-icon"] exactly 5 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="unit-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-unit-part] exactly 4 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="crest"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="series-banner"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="title-plaque"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="level-line"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="book-line"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="game-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="band-icon"] exactly 5 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="unit-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-unit-part] exactly 4 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="crest"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="series-banner"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="title-plaque"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="level-line"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="book-line"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="band-pill"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="logo-box"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="series-banner"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="panel"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="panel-field"] exactly 5 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="contact-sign"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="contact-line"] exactly 5 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="qr"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-back holds [data-part="line-label"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="logo-box"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="series-banner"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="panel"] exactly 0 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="panel-field"] exactly 0 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="contact-sign"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="contact-line"] exactly 5 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="qr"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-back holds [data-part="line-label"] exactly 1 times
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m738:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="game-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="band-word"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="series-banner"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="week-pill"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="title-plaque"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-a3 holds [data-part="role-bar"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="art"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="double-line-frame"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="title-plaque"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="band-word"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="series"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="week"] exactly 1 times
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: reader-leaf holds [data-part="role-mark"] exactly 1 times
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m shippedReader __tests__/quest-cover-template.test.ts:[2m439:24[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m481:64[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m738:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT03: the student back shows the five fields in order with their headings and shared values, and the teacher back has no panel
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m745:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: student-front lights seed once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: student-front lights sprout once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: student-front lights leaf once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: student-front lights bud once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: student-front lights flower once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: teacher-front lights seed once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: teacher-front lights sprout once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: teacher-front lights leaf once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: teacher-front lights bud once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: teacher-front lights flower once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: reader-a3 lights seed once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: reader-a3 lights sprout once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: reader-a3 lights leaf once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: reader-a3 lights bud once in the game bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT04: reader-a3 lights flower once in the game bar
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m770:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 1 fills exactly that many of the 4 unit parts
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 2 fills exactly that many of the 4 unit parts
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 3 fills exactly that many of the 4 unit parts
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 4 fills exactly that many of the 4 unit parts
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m793:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT06: level 1 uses the level colour on the title plaque
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT06: level 2 uses the level colour on the title plaque
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT06: level 3 uses the level colour on the title plaque
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT06: level 4 uses the level colour on the title plaque
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m811:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT06: the colours match covers.ts and the teacher front and A3 plaque use the level 2 colour
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m824:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT07: the frame of two books differs only in the per book values
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m831:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: student-front at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: student-front at bleed 3 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: student-back at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: student-back at bleed 3 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: teacher-front at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: teacher-front at bleed 3 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: teacher-back at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: teacher-back at bleed 3 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: reader-a3 at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: reader-a3 at bleed 3 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: reader-leaf at bleed 0 has the page size of its trim
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: reader-leaf at bleed 3 has the page size of its trim
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m851:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT08: a bleed of 2 is an error
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m873:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT09: every box of QUEST_BOXES lies 5 mm inside the trim at bleed 0 and bleed 3
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m921:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT09: at bleed 0 every part sits at its box plus the bleed
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT09: at bleed 3 every part sits at its box plus the bleed
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m948:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT10: the copy passes, the approved texts show, and no new word appears in the six kinds
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1004:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT10: SPROUT is literal on the reader kinds and Sprout is literal on the teacher front
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m shippedReader __tests__/quest-cover-template.test.ts:[2m439:24[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m481:64[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1020:57[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: CEFR in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: A1 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: A2 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: B1 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: B2 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: C1 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: C2 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Starters in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Primary Advantage in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: GSE in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: YLE in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Reading A-Z in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: RAZ in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Pre-A1 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Pre A1 in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Chibi in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: Mitr in a title gives an error that names it
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: 2026 in a title gives an error that names it
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1033:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: the clean titles give no error
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1045:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: a forbidden word on a line that holds never and do not is still caught
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1052:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT11: a word split by a soft hyphen or by wbr is still caught
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1061:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT12: each back holds the Thai of BACK_LINES.contact byte for byte, with no markers
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1076:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT12: the fronts and the reader covers hold no Thai
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1089:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT12: a changed byte, a removed tone mark, a decomposed sara am, and Thai on a front are errors
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1098:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT13: both backs show the LINE QR with 0 different modules
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1112:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT13: one flipped module counts as one difference
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1137:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT13: the fronts and the reader covers hold no QR
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1159:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT14: the level-line text is escaped exactly once
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT14: the band-pill text is escaped exactly once
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1187:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT14: the week-pill text is escaped exactly once
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT14: the title text is escaped exactly once
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT14: the role-label text is escaped exactly once
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m shippedReader __tests__/quest-cover-template.test.ts:[2m439:24[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1182:34[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT15: questReaders gives the 14 shipped rows and changes no source file
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1205:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT16: the role label, the title, and the week text equal the shared reader cover page
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1262:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT17: the reader cover page gives body and css with a quest only scope
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1289:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT18: the leaf holds only black, white, and grey colour tokens
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m shippedReader __tests__/quest-cover-template.test.ts:[2m439:24[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m481:64[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1312:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT18: the A3 reader cover holds a colour that is not grey (not vacuous)
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedReaders __tests__/quest-cover-template.test.ts:[2m430:25[22m[39m
+[90m [2m❯[22m shippedReader __tests__/quest-cover-template.test.ts:[2m439:24[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m481:64[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1324:30[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT19: the CSS of the six kinds and the reader page is PDF/X safe
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1341:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT19: questCssSafetyErrors reports unsafe css
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1372:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT20: every file font url names an existing file
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1381:51[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT21: every src, href, and url is file or data, and no @import appears
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1394:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: level 0 is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: level 5 is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: level 1.5 is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: unit 5 is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a level and unit repeat is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: litBand Sprout is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: litBand tree is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a missing litBand is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an art name with path traversal is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an art name with an absolute path is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an art name with a NUL byte is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an art name with a wrong extension is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an art name with a wrong side token is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a student cast of 3 children is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a student cast of 2 animals is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a teacher cast of 3 children is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a cast name outside the roster is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: an unknown key in a row is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: a __proto__ key is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: empty books is rejected with an error that names the field
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: books that are not an array is rejected with an error that names the field
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1524:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT22: the valid L2U1 row is accepted
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1535:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT23: the shipped quest.json passes with the L2U1 row, the sprout band, and the fixed cast
+[31m[1mAssertionError[22m: Missing file: content/storytime/covers/quest.json (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1540:108[22m[39m
+    [90m1538| [39m
+    [90m1539| [39m    it('T23: the shipped quest.json passes with the L2U1 row, the spro…
+    [90m1540| [39m        expect(fs.existsSync(questDataFile), 'Missing file: content/st…
+    [90m   | [39m                                                                                                           [31m^[39m
+    [90m1541| [39m        [35mconst[39m quest [33m=[39m [35mawait[39m [34mapi[39m()[33m;[39m
+    [90m1542| [39m        [35mconst[39m data [33m=[39m quest[33m.[39m[34mloadQuestCovers[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '2480x3508 passes at bleed 0 with 299.…'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '1448x2048 fails'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '1447x2048 fails'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '2400x3400 fails'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '2480x3508 fails at bleed 3 with 291.6…'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: '2551x3579 passes at bleed 3'
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT24: 'the A3 reader art passes at 240 with …'
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1593:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT25: the same input gives byte-identical HTML twice
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1610:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1629:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT27: every exported function and constant has a JSDoc block
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1650:15[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT28: the imports of cover-quest.ts are inside the allowed set
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1658:15[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT29: import and six renders call fetch 0 times and fs.writeFileSync 0 times
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1691:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/175]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT30: the level line uses the middle dot and the book lines sit in the right kinds only
+[31m[1mAssertionError[22m: Missing module: dashboard/lib/storytime/print/cover-quest.ts (Red 1).: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m api __tests__/quest-cover-template.test.ts:[2m253:116[22m[39m
+    [90m251| [39m */[39m
+    [90m252| [39m[35masync[39m [35mfunction[39m [34mapi[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mQuestApi[39m[33m>[39m {
+    [90m253| [39m    expect(fs.existsSync(coverQuestFile), `Missing module: dashboard/l…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m254| [39m    [35mconst[39m loaded [33m=[39m [35mawait[39m [35mimport[39m(coverQuestFile) [35mas[39m unknown [35mas[39m [33mQuestApi[39m[33m;[39m
+    [90m255| [39m    [35mreturn[39m loaded[33m;[39m
+[90m [2m❯[22m shippedBook __tests__/quest-cover-template.test.ts:[2m419:25[22m[39m
+[90m [2m❯[22m standardSubject __tests__/quest-cover-template.test.ts:[2m482:12[22m[39m
+[90m [2m❯[22m standardRender __tests__/quest-cover-template.test.ts:[2m492:36[22m[39m
+[90m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m1723:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/175]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m175 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (185)[39m
+[2m   Start at [22m 13:17:19
+[2m   Duration [22m 4.08s[2m (transform 835ms, setup 991ms, import 1.19s, tests 326ms, environment 873ms)[22m
+

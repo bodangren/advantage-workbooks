@@ -1,0 +1,20 @@
+--- text node, source escaped once
+outerHTML            : <div data-part="title-plaque">A &amp; B &lt;i&gt;"x"</div>
+count(ESCAPE_OUT)    : 0 (T14 needs 1)
+double escape present: false
+textContent holds IN : true
+document holds '<i>' : false
+--- attribute, source escaped once
+outerHTML            : <div data-part="title-plaque" aria-label="A &amp; B <i>&quot;x&quot;"></div>
+count(ESCAPE_OUT)    : 0 (T14 needs 1)
+double escape present: false
+textContent holds IN : false
+document holds '<i>' : true
+--- attribute and text node
+outerHTML            : <div data-part="title-plaque" aria-label="A &amp; B <i>&quot;x&quot;">A &amp; B &lt;i&gt;"x"</div>
+count(ESCAPE_OUT)    : 0 (T14 needs 1)
+double escape present: false
+textContent holds IN : true
+document holds '<i>' : true
+--- the DOM model
+text nodes escape &, <, > and NOT " ; attributes escape & and " and NOT <
