@@ -1,0 +1,24 @@
+Mid Red log, Phase 11 Red 1, track storytime_week_package_20261022
+started: 2026-11-07
+progress 1: Red 1 marked [~] in plan.md; FR 7 grep run (4 files); test file written (17 describe blocks, C1 to C16); Red proof run started in heavy-run (p11-red1.txt).
+FR 7 grep: storytime-loops-content.test.ts withoutNewFields = changes; storytime-print-v15.test.ts AX-lines = changes (27 at w02 content commit); storytime-week.test.ts = no change (synthetic fixtures); storytime-book-pictures.test.ts = no change (reads audio.file of a temp copy).
+red_base: 309a1d24a963bda9fe001680b7bb551e32022fac
+
+progress 2: Red proof exit 1, 85 failed, 3 passed of 88 (C15, C16 x2 pass). ESLint exit 0. tsc exit 0. Test commit b27f927f6afc5c3b61770db87a5d848b141fc55a, scope files 1, outside 0.
+spec conflict (default applied): FR 7 C1 says a1 and cafe throw; K2 step 3 strips a digit or an accent at an end, so a1 gives a and cafe gives caf (AC11-1 script agrees). Test checks a1b, cafes, teddy-bear; a1 and cafe are not asserted. Orchestrator: confirm or change K2 step 3.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+phase: P11
+task: Red 1
+track: storytime_week_package_20261022
+role_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+red_base: 309a1d24a963bda9fe001680b7bb551e32022fac
+baseline_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+status: done
+commits: b27f927f6afc5c3b61770db87a5d848b141fc55a (test), PLAN_SHA (plan)
+files_changed: dashboard/__tests__/storytime-package-clips.test.ts; measure/tracks/storytime_week_package_20261022/plan.md; measure/runs/storytime_week_package_20261022/p11-red1*.txt and this log
+tests_run: RED_TEST_COMMAND (heavy-run): exit 1, 85 failed, 3 passed; eslint exit 0; tsc --noEmit exit 0
+handoff: Green 1 (DeepSeek). Remaining failures: 50 Missing module (word-clips.ts 28, set-word-clips.ts 8, make-word-bank.ts 7, measure-video-lead-in.ts 7), 19 Missing export (checkWordClips 15, checkSongLeadIn 4), 4 schema assertions (C5). Question with default: FR 7 C1 lists a1 and cafe as throwing, but K2 step 3 gives a and caf; the test follows K2 (checks a1b, cafes, teddy-bear). Confirm or change K2 step 3 before Green 1.
+dispositions: none
+END_MEASURE_AGENT_RESULT
