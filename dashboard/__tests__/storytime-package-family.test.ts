@@ -60,6 +60,17 @@ const MAX_QUALITY = 82;
 /** The label of the check row of the family pictures (decision H9). */
 const CHECK_LABEL = 'The family-word pictures named in the package exist';
 
+/** The count of the family words with an image in each shipped week (the Phase 10 addendum). */
+const SHIPPED_FAMILY_COUNTS: Record<number, number> = {
+    1: 6,
+    2: 10,
+    3: 7,
+    4: 7,
+    5: 7,
+    6: 7,
+    7: 7,
+};
+
 /** The source of a color patch. */
 type PatchSource = { kind: 'patch'; word: string; hex: string };
 
@@ -223,14 +234,13 @@ const DOT_COUNT: Record<string, number> = {
 /** The card words of each week: the card folder holds a color file of each. */
 const CARD_WORDS: Record<number, string[]> = {
     1: ['hello', 'goodbye', 'boy', 'girl', 'teacher'],
-    4: ['mom', 'dad', 'brother', 'sister', 'grandma', 'grandpa'],
+    4: ['mom', 'dad', 'brother', 'sister', 'grandma', 'grandpa', 'family'],
     7: ['doll', 'car', 'train', 'teddy'],
 };
 
 /** The Forge words of each week: the Forge folder holds a color file of each. */
 const FORGE_WORDS: Record<number, string[]> = {
     1: ['friend'],
-    4: ['family'],
     5: ['eyes', 'ears', 'nose', 'hands', 'arms', 'legs', 'feet'],
     6: ['cat', 'dog', 'bird', 'fish', 'frog', 'duck', 'horse'],
     7: ['ball', 'kite', 'drum'],
@@ -1560,6 +1570,63 @@ describe('the family picture check (Phase 10, Red 2)', () => {
 
         const week8 = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2/w08.json'), 'utf8'));
         expect(check(week8, contentRoot), 'a week with no family image has no row').toBeUndefined();
+    });
+});
+
+describe('the shipped family-word pictures (Phase 10, Forge delivery)', () => {
+    it('R2-19 the 51 shipped pictures hold the H6 facts and the provenance matches the sources', async () => {
+        const cardManifest = new Map(manifestLines(path.join(requireFolder(CARD_FOLDER), 'MANIFEST.txt'))
+            .map((line) => [line.name, line.hash]));
+        const forgeManifest = new Map(manifestLines(path.join(requireFolder(FORGE_FOLDER), 'MANIFEST.txt'))
+            .map((line) => [line.name, line.hash]));
+        const outputHash = new Map<string, string>();
+        let files = 0;
+        let bytesOverLimit = 0;
+        for (let week = 1; week <= 7; week += 1) {
+            const shipped = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', `w${weekDigits(week)}.json`), 'utf8'));
+            const words = (shipped.focus.family.words as { word: string; image?: { file?: string } }[])
+                .filter((entry) => entry.image);
+            expect(words.length, `the family words of week ${week}`).toBe(SHIPPED_FAMILY_COUNTS[week]);
+            for (const entry of words) {
+                const value = entry.image?.file ?? '';
+                expect(value, `the file of ${entry.word}`).toMatch(/^l2\/media\/w0[1-7]\/family\/[a-z]+\.jpg$/);
+                expect(value, `the week folder of ${entry.word}`).toContain(`/w${weekDigits(week)}/family/`);
+                const file = path.join(STORYTIME_ROOT, value);
+                expect(fs.existsSync(file), `the file of ${entry.word} exists`).toBe(true);
+                files += 1;
+                const metadata = await sharp(file).metadata();
+                expect(metadata.format, `the format of ${entry.word}`).toBe('jpeg');
+                expect(metadata.isProgressive, `the file of ${entry.word} is progressive`).toBe(true);
+                expect(metadata.space, `the colour space of ${entry.word}`).toBe('srgb');
+                expect(metadata.width, `the width of ${entry.word}`).toBe(JPEG_SIZE);
+                expect(metadata.height, `the height of ${entry.word}`).toBe(JPEG_SIZE);
+                if (fs.statSync(file).size > MAX_JPEG_BYTES) bytesOverLimit += 1;
+                outputHash.set(value, fileHash(file));
+            }
+            const lines = provenanceLines(STORYTIME_ROOT, week);
+            expect(lines.length, `the provenance lines of week ${week}`).toBe(SHIPPED_FAMILY_COUNTS[week]);
+            for (const line of lines) {
+                expect(outputHash.get(line[0]), `the output hash of ${line[0]}`).toBe(line[1]);
+                if (line[2].endsWith('.png')) {
+                    const inCards = cardManifest.has(line[2]);
+                    const folder = inCards ? CARD_FOLDER : FORGE_FOLDER;
+                    const listed = inCards ? cardManifest.get(line[2]) : forgeManifest.get(line[2]);
+                    expect(listed, `the manifest line of ${line[2]}`).toBeDefined();
+                    expect(fileHash(path.join(folder, line[2])), `the source hash of ${line[2]}`).toBe(line[3]);
+                    expect(line[3], `the manifest hash of ${line[2]}`).toBe(listed);
+                } else {
+                    expect(line[2], `the special source name of ${line[0]}`).toMatch(/^card-kit-(patch|dots)-/);
+                }
+            }
+        }
+        expect(files, 'files: 51').toBe(51);
+        expect(bytesOverLimit, 'bytes over limit: 0').toBe(0);
+        const all = [1, 2, 3, 4, 5, 6, 7].flatMap((week) => provenanceLines(STORYTIME_ROOT, week));
+        expect(all, 'provenance lines in total: 51').toHaveLength(51);
+        expect(all.filter((line) => line[2].startsWith('card-kit-patch-')), 'patch source lines: 7').toHaveLength(7);
+        expect(all.filter((line) => line[2].startsWith('card-kit-dots-')), 'dots source lines: 10').toHaveLength(10);
+        expect(all.filter((line) => line[2].endsWith('.png')), 'png source lines: 34').toHaveLength(34);
+        expect(all.filter((line) => line[2].includes('-line-')), 'line-art source lines: 0').toHaveLength(0);
     });
 });
 
