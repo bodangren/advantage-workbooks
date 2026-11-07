@@ -1488,6 +1488,91 @@ describe('C7 the mapper stops before any write (K5)', () => {
     }
 });
 
+/**
+ * Every file and every folder of a tree, with its path relative to the tree.
+ * @param root The folder to list.
+ * @returns The sorted relative paths. A folder path ends with a slash.
+ */
+function entryListing(root: string): string[] {
+    const out: string[] = [];
+    const walk = (folder: string): void => {
+        for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+            const full = path.join(folder, entry.name);
+            const relative = path.relative(root, full);
+            if (entry.isDirectory()) {
+                out.push(`${relative}/`);
+                walk(full);
+            } else {
+                out.push(relative);
+            }
+        }
+    };
+    walk(root);
+    return out.sort();
+}
+
+describe('C7b the mapper checks the week structure before any write (K4, K5, FR 4, review A F1)', () => {
+    /** The week file of the tree, edited as an object and written back in the 2-space form. */
+    function editWeek(tree: WordTree, edit: (week: { books: { audio?: unknown }[]; song?: unknown }) => void): string {
+        const week = JSON.parse(fs.readFileSync(tree.weekFile, 'utf8')) as { books: { audio?: unknown }[]; song?: unknown };
+        edit(week);
+        const text = JSON.stringify(week, null, 2);
+        fs.writeFileSync(tree.weekFile, text);
+        return text;
+    }
+
+    const faults: { name: string; fault: (tree: WordTree) => string }[] = [
+        {
+            name: 'a week with 2 books and 1 audio object',
+            fault: (tree) => editWeek(tree, (week) => {
+                delete week.books[1].audio;
+            }),
+        },
+        {
+            name: 'a week whose second book has an empty audio object',
+            fault: (tree) => {
+                const text = editWeek(tree, (week) => {
+                    week.books[1].audio = {};
+                });
+                const opened = text.replace(/^( {6})"audio": \{\}(,?)$/m, '$1"audio": {\n$1}$2');
+                expect(opened, 'the fixture holds an audio object on two lines').not.toBe(text);
+                fs.writeFileSync(tree.weekFile, opened);
+                return opened;
+            },
+        },
+        {
+            name: 'a week that the schema refuses',
+            fault: (tree) => {
+                const text = editWeek(tree, (week) => {
+                    week.song = 'not an object';
+                });
+                expect(StorytimeWeekSchema.safeParse(JSON.parse(text)).success, 'the fixture week fails the schema').toBe(false);
+                return text;
+            },
+        },
+    ];
+
+    for (const { name, fault } of faults) {
+        it(`stops for ${name} and leaves the media folder and the week file as they were`, async () => {
+            const setWordClips = await mapper('setWordClips');
+            const tree = mapperTree();
+            const wordsFolder = path.join(tree.contentRoot, 'l2/media/w01/words');
+            fs.mkdirSync(wordsFolder, { recursive: true });
+            fs.writeFileSync(path.join(wordsFolder, 'wa-zebra.mp3'), 'stale clip\n');
+            const weekText = fault(tree);
+            const listing = entryListing(tree.folder);
+            const hashes = treeHashes(tree.folder);
+
+            const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder }));
+            expect(run.error, 'the mapper throws').toBeInstanceOf(Error);
+            expect(entryListing(tree.folder), 'no clip is copied, and no folder appears').toEqual(listing);
+            expect(fs.existsSync(path.join(wordsFolder, 'wa-zebra.mp3')), 'the stale clip stays').toBe(true);
+            expect(fs.readFileSync(tree.weekFile, 'utf8'), 'the week file is byte equal').toBe(weekText);
+            expect(treeHashes(tree.folder), 'no file changes, and no file appears').toEqual(hashes);
+        }, 60_000);
+    }
+});
+
 describe('C8 the mapper --check (FR 4)', () => {
     it('prints 23 tab lines for the copy of w01 and writes nothing', async () => {
         const setWordClips = await mapper('setWordClips');
@@ -1750,6 +1835,30 @@ describe('C9 checkWordClips (K12)', () => {
             if (row?.status === 'warn') expect(row.detail).toMatch(/^no clip: /);
         }
         expect(checkWordClips(StorytimeWeekSchema.parse(JSON.parse(shippedText(8))))).toBeUndefined();
+    });
+});
+
+describe('C9b checkWordClips with a bank mp3 that the bank folder does not hold (K12, review A F3)', () => {
+    it('fails and names the key when the week clip exists and the row names an absent bank mp3', async () => {
+        const tree = mappedTree();
+        fs.rmSync(path.join(tree.bankFolder, 'wa-nod.mp3'));
+        expect(fs.existsSync(path.join(tree.contentRoot, 'l2/media/w01/words/wa-nod.mp3')), 'the week clip exists').toBe(true);
+        const row = await checkRowOf(tree);
+        expect(row?.id).toBe('word-clips');
+        expect(row?.status, 'a clip with no bank mp3 to compare is not a pass').toBe('fail');
+        expect(row?.detail).toMatch(/\bnod\b/);
+        expect(row?.detail).not.toMatch(/\b(pat|sam|nan)\b/);
+    });
+
+    it('names each key whose bank mp3 is absent', async () => {
+        const tree = mappedTree();
+        fs.rmSync(path.join(tree.bankFolder, 'wa-nod.mp3'));
+        fs.rmSync(path.join(tree.bankFolder, 'wa-pat.mp3'));
+        const row = await checkRowOf(tree);
+        expect(row?.status).toBe('fail');
+        expect(row?.detail).toMatch(/\bnod\b/);
+        expect(row?.detail).toMatch(/\bpat\b/);
+        expect(row?.detail).not.toMatch(/\b(sam|nan)\b/);
     });
 });
 
