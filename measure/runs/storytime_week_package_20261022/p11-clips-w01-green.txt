@@ -1,0 +1,93 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-14 the script refuses a week with nothing to map
+[22m[39mfamily picture: nothing to map
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [32m✓[39m __tests__/storytime-package-family.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 27336[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 2903[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5b the card JPEG and the Forge JPEG hold the H6 output rules [33m 589[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5c the provenance file follows the H7 sort order [33m 353[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 842[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6b a caption that holds a JSON escape keeps its value [33m 507[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6c the script parses the new week text before it writes [33m 546[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-7 the script stops before any write: 'a PNG of 16 bits' [33m 304[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 448[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 713[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 1030[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 798[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 1393[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-13 a second run changes no byte [33m 818[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 11801[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-19 the 51 shipped pictures hold the H6 facts and the provenance matches the sources [33m 1215[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m88 tests[22m[2m)[22m[33m 13329[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 2342[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 1124[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 482[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 467[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 1328[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 843[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1285[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1461[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 429[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 6874[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 1714[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 803[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 847[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 839[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 950[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 1622[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 850[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 252[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m285 passed[39m[22m[90m (285)[39m
+[2m   Start at [22m 17:30:57
+[2m   Duration [22m 53.30s[2m (transform 1.30s, setup 667ms, import 2.57s, tests 48.64s, environment 1ms)[22m
+
