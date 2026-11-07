@@ -249,9 +249,9 @@ describe('v15 AX: week 2 names the axe, not the alligator', () => {
         expect(raw().toLowerCase()).not.toContain('alligator');
     });
 
-    it('AX-lines: the 5 lines 2104, 4129, 4157, 4163, and 4215 name apple, ant, axe, astronaut', () => {
-        const lines = raw().split('\n');
-        for (const number of [2104, 4129, 4157, 4163, 4215]) expect(lines[number - 1], `line ${number}`).toContain('apple, ant, axe, astronaut');
+    it('AX-lines: exactly 5 lines of w02.json name apple, ant, axe, astronaut', () => {
+        const matching = raw().split('\n').filter((line) => line.includes('apple, ant, axe, astronaut'));
+        expect(matching).toHaveLength(5);
     });
 });
 
