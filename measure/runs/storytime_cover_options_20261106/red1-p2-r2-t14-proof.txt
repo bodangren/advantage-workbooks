@@ -1,0 +1,10 @@
+outerHTML: <div data-part="title-plaque">A &amp; B &lt;i&gt;"x"</div>
+PASS: text node serial equals ESCAPE_OUT
+PASS: ESCAPE_OUT appears once
+PASS: no raw <i> in document
+PASS: no double escape
+PASS: textContent contains ESCAPE_IN
+PASS: renderer html with &quot; also serializes to ESCAPE_OUT once
+PASS: renderer html textContent contains ESCAPE_IN
+PASS: old ESCAPE_OUT impossible (outerHTML has no &quot;)
+exit: 0

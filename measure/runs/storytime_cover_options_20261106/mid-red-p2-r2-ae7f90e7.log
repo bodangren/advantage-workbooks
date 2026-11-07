@@ -1,0 +1,33 @@
+Mid Red retry r2 of Task 2.4 (Red 1). role_base_sha ae7f90e7b46f53394651c92034387adeb40833b0. red_base 62621a9cebcc965d4094a311c687f767e99ac65c.
+Model: claude-code/claude-sonnet-5-5#high. Red 1 was MiMo. Substitution: MiniMax and Kimi are above quota, and the PM stopped every opencode-go route.
+
+Defect: T14 compared ESCAPE_OUT (with &quot;) to outerHTML of the parsed DOM. The DOM serializer writes the double quote in a text node as is. The three injected rows could not pass.
+Fix (commit 7b2d8ce): ESCAPE_OUT = 'A &amp; B &lt;i&gt;"x"' plus a comment. All other T14 assertions are unchanged.
+
+Class search (grep for &quot;, &#39;, &#x27;, &apos;, and any named entity in the test file):
+- line 223 ESCAPE_OUT &quot;: changes (the defect).
+- ESCAPE_OUT &amp; and &lt; &gt;: no change; the DOM serializer writes them.
+- lines 1192 and 1198 regex /&amp;(?:amp|lt|gt|quot);/: no change; it is a double-escape guard, not an expected output.
+- No other hit for &quot;, &#39;, &#x27;, or &apos;. No other test compares an entity with outerHTML, innerHTML, or partHtml.
+
+Red proof (red1-p2-r2.txt): Test Files 1 failed (1); Tests 175 failed | 10 passed (185); exit: 1.
+45 failures carry the cover-quest label, 1 carries the quest.json label (the other failures are the same set as in red1-p2.txt). No "No test files found", no SyntaxError.
+T14 proof (red1-p2-r2-t14-proof.txt): jsdom text node serializes to the new ESCAPE_OUT once; no raw <i>; no double escape; 8 PASS.
+Lint (red1-p2-r2-lint.txt): exit 0, 0 errors, 1 warning (no-unused-vars, now line 1695). tsc (red1-p2-r2-tsc.txt): one TS2307 for the missing module.
+Scope (red1-p2-r2-scope.txt): commit 7b2d8cec086dad2abaa972e965a7cf5376fc01e4 lists only dashboard/__tests__/quest-cover-template.test.ts.
+pnpm-lock.yaml unchanged.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+phase: P2
+task: 2.4 Red 1 (r2, T14 fix)
+track: storytime_cover_options_20261106
+role_base_sha: ae7f90e7b46f53394651c92034387adeb40833b0
+red_base: 62621a9cebcc965d4094a311c687f767e99ac65c
+status: done
+commits: 7b2d8cec086dad2abaa972e965a7cf5376fc01e4, (plan sha in the final reply)
+files_changed: dashboard/__tests__/quest-cover-template.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/{mid-red-p2-r2-ae7f90e7.log,red1-p2-r2.txt,red1-p2-r2-t14-proof.txt,red1-p2-r2-lint.txt,red1-p2-r2-tsc.txt,red1-p2-r2-scope.txt}
+tests_run: RED_TEST_COMMAND in one heavy-run; Test Files 1 failed (1); Tests 175 failed | 10 passed (185); exit: 1
+handoff: Green 1 retry
+dispositions: none
+END_MEASURE_AGENT_RESULT
