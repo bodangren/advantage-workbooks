@@ -1,0 +1,60 @@
+# Switch dry run 2 of Phase 3b (content task, day 2026-11-07)
+
+State: `SHARE_CHECK_STATUS` was set to `'fail'` in `dashboard/lib/storytime/checks.ts` from a backup copy at
+`/tmp/opencode/p3b-dryrun2/checks.ts.bak`. `PROJECT_TESTS` ran once inside one heavy-run wrapper, with no exclude.
+The run log is `p3b-dryrun2-project.txt`. After the run the file came back from the backup, and `cmp` printed
+`CMP_RESTORE=equal`. The constant is `'warn'` again (`grep -c "^export const SHARE_CHECK_STATUS: CheckStatus = 'warn';$"` prints 1),
+and `git status --porcelain dashboard/lib/storytime/checks.ts` prints nothing.
+
+## Method
+
+1. `cp dashboard/lib/storytime/checks.ts /tmp/opencode/p3b-dryrun2/checks.ts.bak`.
+2. A python run replaced the exact line `export const SHARE_CHECK_STATUS: CheckStatus = 'warn';` with the value `'fail'`.
+   The script asserted that the line occurs once, and it printed `occurrences: 1`.
+3. `cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1`
+   in one heavy-run wrapper, with no `--exclude`.
+4. `cp /tmp/opencode/p3b-dryrun2/checks.ts.bak dashboard/lib/storytime/checks.ts`, then `cmp` of the backup and the file.
+5. `grep -c "^export const SHARE_CHECK_STATUS: CheckStatus = 'warn';$" dashboard/lib/storytime/checks.ts` and
+   `git status --porcelain dashboard/lib/storytime/checks.ts`.
+
+## Result at the status 'fail'
+
+`Test Files  63 passed (63)`. `Tests  1471 passed (1471)`. Exit 0. Duration 1125.69 s.
+
+## Red list at the status 'fail'
+
+None. No test failed. The rerun rule for a 5000 ms load timeout was not needed.
+
+## N8 at the status 'fail'
+
+Pass. The run log holds `✓ __tests__/storytime-loops-share-content.test.ts (75 tests)`. N8
+(`the status of share-moment is fail after the switch (AC-14.6)`) is one of those 75 tests.
+
+## Restore proof
+
+- `cmp /tmp/opencode/p3b-dryrun2/checks.ts.bak dashboard/lib/storytime/checks.ts` printed `CMP_RESTORE=equal`.
+- `grep -c "^export const SHARE_CHECK_STATUS: CheckStatus = 'warn';$" dashboard/lib/storytime/checks.ts` printed `1`.
+- `git status --porcelain dashboard/lib/storytime/checks.ts` printed nothing.
+
+## The other side (a): the status 'warn'
+
+The constant sits at `'warn'`. The loops files show exactly one red test, and it is N8.
+Evidence in `mid-red-p3b-ax-red.txt`: `Test Files  1 failed | 7 passed (8)`, `Tests  1 failed | 296 passed (297)`.
+The one failure is `the status of share-moment is fail after the switch (AC-14.6)`.
+
+Step 2 of this role passes at `'warn'` with the R3 exclude (`p3b-content-project-r2.txt`):
+`Test Files  62 passed (62)`, `Tests  1396 passed (1396)`, exit 0. The content test file is the only excluded file.
+
+## Orchestrator reading of strategy 9.17
+
+Strategy 9.17 has a wording defect. It asks dry run 2 to list "only N8". With the constant at `'fail'`, N8 passes,
+so N8 cannot be red at that status. The switch changes exactly N8: at `'warn'` N8 is the only red test, and at
+`'fail'` N8 passes and no test is red. Dry run 2 therefore reports the empty red list, and this is the correct
+result, not a defect of the plan. The orchestrator records this reading as its default. N8 passes at `'fail'`
+because the content commit gives every week a valid share, so the switch is the only remaining change.
+
+## Files
+
+- `p3b-dryrun2-project.txt`: the full `PROJECT_TESTS` log at `'fail'` (no exclude), exit 0.
+- `p3b-content-project-r2.txt`: the `PROJECT_TESTS` log at `'warn'` with the R3 exclude, exit 0.
+- `mid-red-p3b-ax-red.txt`: the loops-file run at `'warn'` with N8 as the only red test.
