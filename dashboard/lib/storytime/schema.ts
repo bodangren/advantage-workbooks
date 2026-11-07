@@ -152,6 +152,12 @@ export const BookAudioSchema = z.object({
     /** The whole book at 0.75 speed (design §6.1). */
     slowFile: z.string().optional(),
     slowSentences: z.array(SentenceTimepointSchema).default([]),
+    /**
+     * The clip of each book word, keyed by the K2 key of the word (Phase 11 decision K15). The value
+     * is the media path relative to the content root. A word with no key has no clip and no tap
+     * target. The field is optional, so a week before Phase 11 parses as before.
+     */
+    wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
 });
 
 /**
@@ -261,6 +267,12 @@ export const SongSchema = z.object({
     posterPhone: z.string().optional(),
     /** The karaoke cut: the same picture as `video` over the instrumental (vocal separation). */
     karaoke: z.string().optional(),
+    /**
+     * The seconds from the start of the song video to the same sound in `audio` (Phase 11 decision
+     * K15). The app adds it to each `times` value while a video plays. The field is optional: an
+     * absent field means that the song has no video.
+     */
+    videoLeadInSeconds: z.number().finite().min(0).optional(),
     /** One entry per sung line, with its word times (the karaoke cut). */
     times: z.array(SentenceTimepointSchema).default([]),
 });
