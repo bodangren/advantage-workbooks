@@ -1,0 +1,67 @@
+# jr-green Phase 11 Clips w01
+
+- role: jr-green (Green 2 of Phase 11)
+- track: storytime_week_package_20261022
+- phase: Phase 11: Word clips and the song video lead-in (2026-11-07 to 2026-11-14)
+- task: Task (Clips w01)
+- model: deepseek/deepseek-flash#high
+- red model: claude-code/claude-sonnet-5-5#high
+- role_base_sha: cc4f5e67b194848793f7acf3f27d6d37dc751b13
+- phase_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+- Green 1 commit: 69cd4db4
+- started: 2026-11-07
+
+## Immutable inputs
+
+- The Red test file `dashboard/__tests__/storytime-package-clips.test.ts` is unchanged. The no-edit rule holds.
+- The committed Red change is inside `phase_base_sha..HEAD`: b27f927f (test file) and 69cd4db4 (Green 1) are ancestors of the role base cc4f5e67.
+
+## Steps
+
+1. Measured the w01 book words: keys 23, files 22, in the bank 10, missing 12 (a, and, ben, can, i, may, mia, neck, nod, nurse, pip, your). Capture `p11-words-w01.txt`.
+2. Ran the dry run: 12 keys, `uh` for `a`, `I` for `i`, `chars: 37`. Capture `p11-bank-w01-dry.txt`.
+3. Ran the maker with `WHISPER_PYTHON=~/.local/share/storytime-word-audio-venv/bin/python`, `--max-chars 120`: `made: 12`, 37 characters, 12 calls, every clip on take 1. Capture `p11-bank-w01.txt`.
+4. Checked the bank form: `rows: 110`, K6 Python form `True`, each new WAV 32000 Hz mono 16-bit with peak 23197 (12/12), each new mp3 32000 Hz mono 128 kb/s (12/12), each `sha256` equals its WAV (12/12), max take 1. The manifest diff is `198 0`; plan step 4 expected 1 deletion, and git reports 0 because it aligns the last old `}` with the final new `}` (the byte change is the one comma line, and the Python form test passes). Capture `p11-bank-w01-form.txt`.
+5. Ran the mapper two times: `keys: 23`, `files: 22`; the repeat gives `diff lines: 0`. Captures `p11-map-w01.txt` and `p11-map-w01-repeat.txt`.
+6. The 2 w01 videos equal the r3 MANIFEST lines (4c88951f and 74ccefed). The lead-in script writes twice: both video lines give 3.000, `lead-in: 3.000`, the field line is `"videoLeadInSeconds": 3`, and the second run gives `diff lines: 0`. Capture `p11-leadin-w01.txt`.
+7. Changed `dashboard/__tests__/storytime-loops-content.test.ts`: `withoutNewFields` removes `book.audio.wordClips` and `copy.song.videoLeadInSeconds` (K15). The file showed no change before the edit. `storytime-print-v15.test.ts` does not change for w01, because its 5 pins are of `w02.json`.
+8. Content commit 10d5fcfc by rule F9 (49 files). F9 capture `p11-clips-checks-10d5fcfc.txt`: `FAIL rows other than published: 0`, `word-clips` and `song-lead-in` `pass` on st2/1, `word-clips` `warn` on st2/2 to st2/7, no row on st2/8. Scope capture `p11-clips-w01-scope-10d5fcfc.txt`: `files: 49`, `outside: 0`.
+
+## Gate lines
+
+- GREEN_TEST_COMMAND plus `__tests__/storytime-loops-content.test.ts`: 5 files, 285 tests passed, exit 0 (`p11-clips-w01-green.txt`).
+- PROJECT_TESTS: 62 files, 1391 tests passed, exit 0 (`p11-clips-w01-project.txt`). Rule R3: `dashboard/__tests__/storytime-loops-share-content.test.ts` is absent, so no exclude.
+- PROJECT_LINT: exit 0, no output (`p11-clips-w01-lint.txt`).
+- PROJECT_CHECKS: check-weeks exit 0, `Summary: 8 package(s), 0 failed check(s), 15 warning(s).`, FAIL rows 0, tsc exit 0, gate pass, exit 0 (`p11-clips-w01-checks.txt`).
+- AC11-1 with `n<=1`: `23/23 no key: 0` (`p11-clips-w01-ac11-1.txt`).
+- AC11-7: `git show --numstat --format= 10d5fcfc -- content/storytime/l2/w01.json` prints `30	2`.
+
+## Spend and look points
+
+- mmx: one run, 12 calls, 37 characters, `--max-chars 120`. Each clip took take 1.
+- Phase characters so far: 37 (Green 1 made no mmx call). The phase hard stop is 500.
+- K10 look points: `a` (text `uh`, heard `uh`), `i` (text `I`, heard `aye`), and `your` (heard `you're`). The 12 clips wait for Daniel's 11-16 listen check.
+- Heard results: a `uh`, and `and`, ben `ben`, can `can`, i `aye`, may `may`, mia `mia`, neck `neck`, nod `nod`, nurse `nurse`, pip `pip`, your `you're`.
+
+## Reflection
+
+- No fabrication: each clip is a real mmx take, each recognizer result is the manifest value, and each video hash is measured.
+- No file outside the allowed paths is in the content commit. `video/storytime-song/scripts/render.mjs` and `dashboard/raw.json` were modified or untracked in the work tree and were not staged.
+- The plan `Clips w01` task is `[x]` with the content commit at the end of the entry. The Review A task stays `[ ]` because F1 and F3 need the later Red and Green pair.
+
+MEASURE_AGENT_RESULT
+status: pass
+role: jr-green
+track: storytime_week_package_20261022
+phase_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+role_base_sha: cc4f5e67b194848793f7acf3f27d6d37dc751b13
+head: b3456f86
+commits: content 10d5fcfce4b35c30ed4c6c4cf3c901fe23ac918d; plan b3456f86; log this commit
+chars_spent: 37
+chars_phase_total: 37
+gates: GREEN 5 files/285 tests exit 0; PROJECT_TESTS 62 files/1391 tests exit 0 (no R3 exclude); PROJECT_LINT exit 0; PROJECT_CHECKS 0 FAIL rows and tsc exit 0
+ac11_1: 23/23 no key: 0
+ac11_7: 30	2
+log: measure/runs/storytime_week_package_20261022/jr-green-p11-clips-w01-cc4f5e67.log
+dispositions: none
+END_MEASURE_AGENT_RESULT
