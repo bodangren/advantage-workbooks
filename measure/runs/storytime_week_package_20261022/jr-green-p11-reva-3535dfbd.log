@@ -1,0 +1,47 @@
+# Green, Phase 11 Review A remediation (F1, F3)
+
+- track: storytime_week_package_20261022
+- role: jr-green, Review A remediation of Phase 11
+- phase_base_sha: 3535dfbdea38ec8f5a76607b9c784cffd36797fa (role_base_sha; red_base 176094a4404715f74d8c3ef5df59c1b7bcfafa84)
+- model: deepseek/deepseek-flash#high
+- red_model: claude-code/claude-sonnet-5-5#high
+- red commit: be92ae9ed54c378aef53824ec2a1d3d9b8f1b52d
+- status: pass
+
+## Intent
+
+F1: the mapper checks every audio block and parses the dry-edited week text before any copy, removal, or week write.
+F3: checkWordClips gives fail with the key in the detail when the week clip exists and the bank row names an mp3 the bank folder does not hold.
+
+## Files
+
+- dashboard/scripts/storytime/set-word-clips.ts (F1)
+- dashboard/scripts/storytime/check-weeks.ts (F3)
+
+## Result
+
+- code commit: 526bf1f080dc3c5b3e5cb82d889f5a54699521af (526bf1f)
+- plan commit: d0f05b02 (plan.md and the 7 captures)
+- red commit: be92ae9ed54c378aef53824ec2a1d3d9b8f1b52d (inside phase_base_sha..HEAD)
+- red_model: claude-code/claude-sonnet-5-5#high
+- green_model: deepseek/deepseek-flash#high
+- dispositions: F1=FIX; F2=DECLINE; F3=FIX; F4=DECLINE
+
+## Gates
+
+Each gate ran in one heavy-run wrapper, in the foreground.
+
+- the clips file: exit 0, 93 of 93 tests (p11-reva-green-clips.txt)
+- GREEN_TEST_COMMAND: exit 0, 4 files, 186 tests (p11-reva-green.txt)
+- PROJECT_LINT: exit 0 (p11-reva-lint.txt)
+- PROJECT_CHECKS: exit 0, 0 FAIL rows, word-clips pass on st2/1, tsc 0 errors (p11-reva-checks.txt)
+- PROJECT_TESTS: exit 0, 62 files, 1396 tests (p11-reva-project.txt). Rule R3 exclude not needed: dashboard/__tests__/storytime-loops-share-content.test.ts is absent.
+- mutants: 2, caught: 2, restore cmp: all equal (p11-reva-mutants.txt). MR-1 moved the edit and parse block back after the copy loop and C7b failed 3 cases. MR-2 dropped the absent-bank-mp3 fail part and C9b failed 2 cases.
+- scope: files 2, outside 0 (p11-reva-scope.txt).
+- git status --porcelain content/ is empty after the gates and the mutants.
+
+## Notes for the reviewer
+
+- F1 keeps the two bank passes and the K12 fail part order. The new part is no bank file: keys, after differs from bank. Spec K12 lists five parts and does not name the new part; a spec edit is out of scope for this Green. Review A F3 asked for this fail part.
+- No test file and no content file changed in this Green. The Red tests stay as committed.
+- No mmx call, no install, no push.
