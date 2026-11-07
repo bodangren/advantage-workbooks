@@ -1,0 +1,1071 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m | [22m[31m48 failed[39m[2m)[22m[33m 11096[2mms[22m[39m
+       [32m✓[39m T1 guard w01 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 128[2mms[22m[39m
+       [32m✓[39m T1 guard w01 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 46[2mms[22m[39m
+       [32m✓[39m T1 guard w02 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 46[2mms[22m[39m
+       [32m✓[39m T1 guard w02 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 28[2mms[22m[39m
+       [32m✓[39m T1 guard w03 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 35[2mms[22m[39m
+       [32m✓[39m T1 guard w03 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 27[2mms[22m[39m
+       [32m✓[39m T1 guard w04 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 36[2mms[22m[39m
+       [32m✓[39m T1 guard w04 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 26[2mms[22m[39m
+       [32m✓[39m T1 guard w05 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 37[2mms[22m[39m
+       [32m✓[39m T1 guard w05 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 26[2mms[22m[39m
+       [32m✓[39m T1 guard w06 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 32[2mms[22m[39m
+       [32m✓[39m T1 guard w06 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 34[2mms[22m[39m
+       [32m✓[39m T1 guard w07 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 34[2mms[22m[39m
+       [32m✓[39m T1 guard w07 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 28[2mms[22m[39m
+       [32m✓[39m T1 guard w08 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 34[2mms[22m[39m
+       [32m✓[39m T1 guard w08 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields[32m 26[2mms[22m[39m
+     [32m✓[39m T1 non-vacuity: each shipped week holds 5 shares, the bare copy holds none, and the compare sees a changed step title[32m 44[2mms[22m[39m
+[31m     [31m×[31m T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step[39m[32m 22[2mms[22m[39m
+[31m     [31m×[31m T2 icons w01 'th' loops true: the week holds the icons of its shots, one in the block of each shot step[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m T2 icons w01 'en' loops false: the week holds the icons of its shots, one in the block of each shot step[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m T2 icons w01 'en' loops true: the week holds the icons of its shots, one in the block of each shot step[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T2 icons w08 'th' loops false: the week holds the icons of its shots, one in the block of each shot step[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m T2 icons w08 'th' loops true: the week holds the icons of its shots, one in the block of each shot step[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T2 icons w08 'en' loops false: the week holds the icons of its shots, one in the block of each shot step[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m T2 icons w08 'en' loops true: the week holds the icons of its shots, one in the block of each shot step[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T2 icons w01: day 4 holds a photo at D4 and a video at D5, and the song show D6 holds a video (paths 2 and 3)[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m T3 caption w01 th: the Thai book holds caption.th and then caption.en in each shot block[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m T3 caption w08 th: the Thai book holds caption.th and then caption.en in each shot block[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T3 caption w01 en: the English manual holds caption.en and not caption.th in each shot block[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T3 caption w08 en: the English manual holds caption.en and not caption.th in each shot block[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T4 label w01 'th': a photo block holds sharePhoto and a video block holds shareVideo[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m T4 label w08 'th': a photo block holds sharePhoto and a video block holds shareVideo[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m T4 label w01 'en': a photo block holds sharePhoto and a video block holds shareVideo[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m T4 label w08 'en': a photo block holds sharePhoto and a video block holds shareVideo[39m[32m 62[2mms[22m[39m
+[31m     [31m×[31m T5 consent th: share off prints 0, one week prints 1, two weeks print 2[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T5 consent en: share off prints 0, one week prints 1, two weeks print 2[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T5 consent w01 'th': the lines sit in the block of the first shot of day 1 ('A3')[39m[32m 29[2mms[22m[39m
+[31m     [31m×[31m T5 consent w02 'th': the lines sit in the block of the first shot of day 1 ('A3')[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m T5 consent w08 'th': the lines sit in the block of the first shot of day 1 ('A2')[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m T5 consent w01 'en': the lines sit in the block of the first shot of day 1 ('A3')[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m T5 consent w02 'en': the lines sit in the block of the first shot of day 1 ('A3')[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m T5 consent w08 'en': the lines sit in the block of the first shot of day 1 ('A2')[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m T6 labels sharePhoto: English has no Thai-script character, Thai has one, and the two differ[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T6 labels shareVideo: English has no Thai-script character, Thai has one, and the two differ[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T6 labels shareConsent: English has no Thai-script character, Thai has one, and the two differ[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T6 labels shareLength: English has no Thai-script character, Thai has one, and the two differ[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T6 labels: the consent line names the consent and the closed group, and the length line names seconds (Q17)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m T7 escape en: the caption of this language prints escaped in the book of this language[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m T7 escape th: the caption of this language prints escaped in the book of this language[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m T8 icon colour th: each icon of w01 holds only black, none, or currentColor[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m T8 icon colour en: each icon of w01 holds only black, none, or currentColor[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T9 edge: a week without share and the option on prints no icon and no consent line, and does not throw[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m T9 edge: a week without a day 1 share prints the consent line once, at its first shot (Q18)[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m T10 differential 'th' loops false: after the removal of the share texts the visible text equals the share-off text[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m T10 differential 'th' loops true: after the removal of the share texts the visible text equals the share-off text[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m T10 differential 'en' loops false: after the removal of the share texts the visible text equals the share-off text[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m T10 differential 'en' loops true: after the removal of the share texts the visible text equals the share-off text[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the file reads --share and passes share to the compile call[39m[32m 40[2mms[22m[39m
+[31m     [31m×[31m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the file reads --share and passes share to the compile call[39m[32m 27[2mms[22m[39m
+[31m     [31m×[31m T11 wiring: every call of renderChromePdf in the print script passes share[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m T11 wiring: the manual PDF help names --share[39m[33m 6977[2mms[22m[39m
+[31m     [31m×[31m T11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops[39m[33m 533[2mms[22m[39m
+[31m     [31m×[31m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2[39m[33m 1740[2mms[22m[39m
+[31m     [31m×[31m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2[39m[33m 535[2mms[22m[39m
+[31m     [31m×[31m T12 print path: compileStorytimeManual of w01 with share and studentBookPages holds the icons of w01[39m[32m 229[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m | [22m[31m34 failed[39m[2m)[22m[33m 2049[2mms[22m[39m
+[31m     [31m×[31m X5 baseline: the unchanged list gives 44 rows and 0 problems[39m[32m 120[2mms[22m[39m
+[31m     [31m×[31m X5 function: the English caption of SC-w03-d2 (cell 4) changed gives one problem that starts with the row id[39m[32m 25[2mms[22m[39m
+[31m     [31m×[31m X5 function: the shots of SC-w02-d2 (cell 3) changed gives one problem that starts with the row id[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X5 function: the Thai caption of SC-w05-d4 (cell 5) changed gives one problem that starts with the row id[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X5 function: the Week cell of SC-w04-d1 (cell 1) changed gives one problem that starts with the row id[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X5 function: the Day cell of SC-w04-d1 (cell 2) changed gives one problem that starts with the row id[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X5 function: the SL English of SL-3 (cell 2) changed gives one problem that starts with the row id[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X5 function: the SL Thai of SL-4 (cell 3) changed gives one problem that starts with the row id[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X5 function: the SL key of SL-2 (cell 1) changed gives one problem that starts with the row id[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X6 function: one extra row SC-w09-d1 gives 45 rows and one problem of its id[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X6 function: one repeated row id gives 45 rows and one problem of that id[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X6 function: the row SC-w04-d1 with 5 cells gives one problem of its id[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X6 function: the row SL-2 with 3 cells gives one problem of its id[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m X6 function: one missing row gives 43 rows and one problem of the expected id[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X6 function: a list with no rows gives 0 rows and one problem for each of the 44 expected ids[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m X7 function: a source day without a share gives "<id>: the week file has no share" and does not throw[39m[32m 28[2mms[22m[39m
+[31m     [31m×[31m X8 function: a week that does not parse gives one problem line that starts with its week id, and is never skipped[39m[32m 31[2mms[22m[39m
+[31m     [31m×[31m X9 function: a source label that differs (en sharePhoto) gives one problem of SL-1[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X9 function: a source label that differs (th shareLength) gives one problem of SL-4[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X10 function: a pipe in a caption is written as a backslash and a pipe, and reads back as a pipe[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X10 function: the same caption written without the backslash gives one problem of its row[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X10 function: a header line, a separator line, and prose are not rows[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m X11 function: the two-shot cell "D4 photo; D5 video" equals day 4, and the other order gives one problem[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X12 function: a cell with outer spaces equals its source, and a cell with a changed inner space gives a problem[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems[39m[32m 156[2mms[22m[39m
+[31m     [31m×[31m X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id[39m[32m 147[2mms[22m[39m
+[31m     [31m×[31m X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id[39m[32m 158[2mms[22m[39m
+[31m     [31m×[31m X3 command line: an unknown flag exits 2[39m[32m 153[2mms[22m[39m
+[31m     [31m×[31m X3 command line: a missing --list exits 2[39m[32m 152[2mms[22m[39m
+[31m     [31m×[31m X3 command line: a missing --level exits 2[39m[32m 159[2mms[22m[39m
+[31m     [31m×[31m X3 command line: --level without a value exits 2[39m[32m 159[2mms[22m[39m
+[31m     [31m×[31m X3 command line: --level 9 exits 2[39m[32m 164[2mms[22m[39m
+[31m     [31m×[31m X3 command line: both arguments missing exits 2[39m[32m 159[2mms[22m[39m
+[31m     [31m×[31m X3 command line: a list file that does not exist exits 2[39m[32m 141[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 82 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w01 'th' loops true: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w01 'en' loops false: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w01 'en' loops true: the week holds the icons of its shots, one in the block of each shot step
+[31m[1mAssertionError[22m: the icons of w01: expected +0 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m248:57[22m[39m
+    [90m246| [39m            const html = manual([shipped(n)], { lang, loops, share: tr…
+    [90m247| [39m            [35mconst[39m media [33m=[39m [34miconMedia[39m(html)[33m;[39m
+    [90m248| [39m            expect(media.length, `the icons of w0${n}`).toBe(expectedI…
+    [90m   | [39m                                                        [31m^[39m
+    [90m249| [39m            [35mconst[39m shots [33m=[39m [34mshotsOf[39m(n)[33m;[39m
+    [90m250| [39m            [34mexpect[39m(shots[33m.[39mlength)[33m.[39m[34mtoBe[39m([34mexpectedIcons[39m(n))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w08 'th' loops false: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w08 'th' loops true: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w08 'en' loops false: the week holds the icons of its shots, one in the block of each shot step
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w08 'en' loops true: the week holds the icons of its shots, one in the block of each shot step
+[31m[1mAssertionError[22m: the icons of w08: expected +0 to be 5 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 5[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m248:57[22m[39m
+    [90m246| [39m            const html = manual([shipped(n)], { lang, loops, share: tr…
+    [90m247| [39m            [35mconst[39m media [33m=[39m [34miconMedia[39m(html)[33m;[39m
+    [90m248| [39m            expect(media.length, `the icons of w0${n}`).toBe(expectedI…
+    [90m   | [39m                                                        [31m^[39m
+    [90m249| [39m            [35mconst[39m shots [33m=[39m [34mshotsOf[39m(n)[33m;[39m
+    [90m250| [39m            [34mexpect[39m(shots[33m.[39mlength)[33m.[39m[34mtoBe[39m([34mexpectedIcons[39m(n))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT2 icons: one icon element for each shot (AC-14.8)[2m > [22mT2 icons w01: day 4 holds a photo at D4 and a video at D5, and the song show D6 holds a video (paths 2 and 3)
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'photo' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "photo",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m262:53[22m[39m
+    [90m260| [39m    it('T2 icons w01: day 4 holds a photo at D4 and a video at D5, and…
+    [90m261| [39m        [35mconst[39m html [33m=[39m [34mmanual[39m([[34mshipped[39m([34m1[39m)][33m,[39m { lang[33m:[39m [32m'th'[39m[33m,[39m share[33m:[39m [35mtrue[39m })[33m;[39m
+    [90m262| [39m        [34mexpect[39m([34miconMedia[39m([34mstepBlock[39m(html[33m,[39m [34m1[39m[33m,[39m [32m'D4'[39m)))[33m.[39m[34mtoEqual[39m([[32m'photo'[39m])[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m263| [39m        [34mexpect[39m([34miconMedia[39m([34mstepBlock[39m(html[33m,[39m [34m1[39m[33m,[39m [32m'D5'[39m)))[33m.[39m[34mtoEqual[39m([[32m'video'[39m])[33m;[39m
+    [90m264| [39m        [34mexpect[39m([34miconMedia[39m([34mstepBlock[39m(html[33m,[39m [34m1[39m[33m,[39m [32m'D6'[39m)))[33m.[39m[34mtoEqual[39m([[32m'video'[39m])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT3 caption: the block of a shot step holds the caption of its day (AC-14.8)[2m > [22mT3 caption w01 th: the Thai book holds caption.th and then caption.en in each shot block
+[31m[1mAssertionError[22m: caption.th in the block of A3: expected -1 to be greater than or equal to 0[39m
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m277:67[22m[39m
+    [90m275| [39m            [35mconst[39m th [33m=[39m text[33m.[39m[34mindexOf[39m(shot[33m.[39mcaption[33m.[39mth)[33m;[39m
+    [90m276| [39m            [35mconst[39m en [33m=[39m text[33m.[39m[34mindexOf[39m(shot[33m.[39mcaption[33m.[39men)[33m;[39m
+    [90m277| [39m            expect(th, `caption.th in the block of ${shot.step}`).toBe…
+    [90m   | [39m                                                                  [31m^[39m
+    [90m278| [39m            expect(en, `caption.en in the block of ${shot.step}`).toBe…
+    [90m279| [39m            [34mexpect[39m(th)[33m.[39m[34mtoBeLessThan[39m(en)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT3 caption: the block of a shot step holds the caption of its day (AC-14.8)[2m > [22mT3 caption w08 th: the Thai book holds caption.th and then caption.en in each shot block
+[31m[1mAssertionError[22m: caption.th in the block of A2: expected -1 to be greater than or equal to 0[39m
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m277:67[22m[39m
+    [90m275| [39m            [35mconst[39m th [33m=[39m text[33m.[39m[34mindexOf[39m(shot[33m.[39mcaption[33m.[39mth)[33m;[39m
+    [90m276| [39m            [35mconst[39m en [33m=[39m text[33m.[39m[34mindexOf[39m(shot[33m.[39mcaption[33m.[39men)[33m;[39m
+    [90m277| [39m            expect(th, `caption.th in the block of ${shot.step}`).toBe…
+    [90m   | [39m                                                                  [31m^[39m
+    [90m278| [39m            expect(en, `caption.en in the block of ${shot.step}`).toBe…
+    [90m279| [39m            [34mexpect[39m(th)[33m.[39m[34mtoBeLessThan[39m(en)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT3 caption: the block of a shot step holds the caption of its day (AC-14.8)[2m > [22mT3 caption w01 en: the English manual holds caption.en and not caption.th in each shot block
+[31m[1mAssertionError[22m: caption.en in the block of A3: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m287:95[22m[39m
+    [90m285| [39m        [35mfor[39m ([35mconst[39m shot [35mof[39m [34mshotsOf[39m(n)) {
+    [90m286| [39m            [35mconst[39m text [33m=[39m [34mvisible[39m([34mstepBlock[39m(html[33m,[39m n[33m,[39m shot[33m.[39mstep))[33m;[39m
+    [90m287| [39m            expect(text.includes(shot.caption.en), `caption.en in the …
+    [90m   | [39m                                                                                              [31m^[39m
+    [90m288| [39m            expect(text.includes(shot.caption.th), `caption.th in the …
+    [90m289| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT3 caption: the block of a shot step holds the caption of its day (AC-14.8)[2m > [22mT3 caption w08 en: the English manual holds caption.en and not caption.th in each shot block
+[31m[1mAssertionError[22m: caption.en in the block of A2: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m287:95[22m[39m
+    [90m285| [39m        [35mfor[39m ([35mconst[39m shot [35mof[39m [34mshotsOf[39m(n)) {
+    [90m286| [39m            [35mconst[39m text [33m=[39m [34mvisible[39m([34mstepBlock[39m(html[33m,[39m n[33m,[39m shot[33m.[39mstep))[33m;[39m
+    [90m287| [39m            expect(text.includes(shot.caption.en), `caption.en in the …
+    [90m   | [39m                                                                                              [31m^[39m
+    [90m288| [39m            expect(text.includes(shot.caption.th), `caption.th in the …
+    [90m289| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT4 label: the label of the media prints at each shot[2m > [22mT4 label w01 'th': a photo block holds sharePhoto and a video block holds shareVideo
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT4 label: the label of the media prints at each shot[2m > [22mT4 label w08 'th': a photo block holds sharePhoto and a video block holds shareVideo
+[31m[1mAssertionError[22m: the label sharePhoto of the th book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m297:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT4 label: the label of the media prints at each shot[2m > [22mT4 label w01 'en': a photo block holds sharePhoto and a video block holds shareVideo
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT4 label: the label of the media prints at each shot[2m > [22mT4 label w08 'en': a photo block holds sharePhoto and a video block holds shareVideo
+[31m[1mAssertionError[22m: the label sharePhoto of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m297:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent th: share off prints 0, one week prints 1, two weeks print 2
+[31m[1mAssertionError[22m: the label shareConsent of the th book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m313:30[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent en: share off prints 0, one week prints 1, two weeks print 2
+[31m[1mAssertionError[22m: the label shareConsent of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m313:30[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w01 'th': the lines sit in the block of the first shot of day 1 ('A3')
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w02 'th': the lines sit in the block of the first shot of day 1 ('A3')
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w08 'th': the lines sit in the block of the first shot of day 1 ('A2')
+[31m[1mAssertionError[22m: the label shareConsent of the th book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m332:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w01 'en': the lines sit in the block of the first shot of day 1 ('A3')
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w02 'en': the lines sit in the block of the first shot of day 1 ('A3')
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18)[2m > [22mT5 consent w08 'en': the lines sit in the block of the first shot of day 1 ('A2')
+[31m[1mAssertionError[22m: the label shareConsent of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m332:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT6 labels: the four labels have English and Thai (D20, Q17)[2m > [22mT6 labels sharePhoto: English has no Thai-script character, Thai has one, and the two differ
+[31m[1mAssertionError[22m: the label sharePhoto of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m344:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT6 labels: the four labels have English and Thai (D20, Q17)[2m > [22mT6 labels shareVideo: English has no Thai-script character, Thai has one, and the two differ
+[31m[1mAssertionError[22m: the label shareVideo of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m344:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT6 labels: the four labels have English and Thai (D20, Q17)[2m > [22mT6 labels shareConsent: English has no Thai-script character, Thai has one, and the two differ
+[31m[1mAssertionError[22m: the label shareConsent of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m344:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT6 labels: the four labels have English and Thai (D20, Q17)[2m > [22mT6 labels shareLength: English has no Thai-script character, Thai has one, and the two differ
+[31m[1mAssertionError[22m: the label shareLength of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m344:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT6 labels: the four labels have English and Thai (D20, Q17)[2m > [22mT6 labels: the consent line names the consent and the closed group, and the length line names seconds (Q17)
+[31m[1mAssertionError[22m: the label shareConsent of the en book: expected 'undefined' to be 'string' // Object.is equality[39m
+
+Expected: [32m"string"[39m
+Received: [31m"undefined"[39m
+
+[36m [2m❯[22m label __tests__/storytime-loops-share-book.test.ts:[2m94:66[22m[39m
+    [90m 92| [39m[35mfunction[39m [34mlabel[39m(lang[33m:[39m [33mLang[39m[33m,[39m key[33m:[39m string)[33m:[39m string {
+    [90m 93| [39m    const value = (storytimeLabels(lang) as unknown as Record<string, …
+    [90m 94| [39m    expect(typeof value, `the label ${key} of the ${lang} book`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m 95| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m 96| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m354:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT7 escape: a caption prints escaped (AC-14.8)[2m > [22mT7 escape en: the caption of this language prints escaped in the book of this language
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT7 escape: a caption prints escaped (AC-14.8)[2m > [22mT7 escape th: the caption of this language prints escaped in the book of this language
+[31m[1mAssertionError[22m: the escaped script tag: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m369:98[22m[39m
+    [90m367| [39m        [35mconst[39m html [33m=[39m [34mmanual[39m([week][33m,[39m { lang[33m,[39m share[33m:[39m [35mtrue[39m })[33m;[39m
+    [90m368| [39m        expect(html.includes('<script>alert(1)'), 'a raw script tag in…
+    [90m369| [39m        expect(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'),…
+    [90m   | [39m                                                                                                 [31m^[39m
+    [90m370| [39m        expect(html.includes('Tom &amp; Jerry'), 'the escaped ampersan…
+    [90m371| [39m        [35mconst[39m text [33m=[39m [34mvisible[39m([34mstepBlock[39m(html[33m,[39m [34m1[39m[33m,[39m [32m'A3'[39m))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT8 icon colour: the icon is an inline SVG in black only (D22)[2m > [22mT8 icon colour th: each icon of w01 holds only black, none, or currentColor
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT8 icon colour: the icon is an inline SVG in black only (D22)[2m > [22mT8 icon colour en: each icon of w01 holds only black, none, or currentColor
+[31m[1mAssertionError[22m: the icons of w01: expected +0 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m379:51[22m[39m
+    [90m377| [39m    it.each(LANGS)('T8 icon colour %s: each icon of w01 holds only bla…
+    [90m378| [39m        const chunks = iconChunks(manual([shipped(1)], { lang, share: …
+    [90m379| [39m        [34mexpect[39m(chunks[33m.[39mlength[33m,[39m [32m'the icons of w01'[39m)[33m.[39m[34mtoBe[39m([33mICONS[39m[33m.[39mteach)[33m;[39m
+    [90m   | [39m                                                  [31m^[39m
+    [90m380| [39m        const allowed = ['#000', '#000000', 'black', 'none', 'currentc…
+    [90m381| [39m        [35mfor[39m ([35mconst[39m chunk [35mof[39m chunks) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT9 edge: a week without share (Q18)[2m > [22mT9 edge: a week without share and the option on prints no icon and no consent line, and does not throw
+[31m[1mAssertionError[22m: non-vacuity: the complete week holds its icons: expected +0 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m398:94[22m[39m
+    [90m396| [39m    it('T9 edge: a week without share and the option on prints no icon…
+    [90m397| [39m        const complete = manual([shipped(1)], { lang: 'th', share: tru…
+    [90m398| [39m        expect(iconMedia(complete).length, 'non-vacuity: the complete …
+    [90m   | [39m                                                                                             [31m^[39m
+    [90m399| [39m        [35mconst[39m bare [33m=[39m [34mparsed[39m([34mwithoutShare[39m([34mrawWeek[39m([34m1[39m)))[33m;[39m
+    [90m400| [39m        [35mlet[39m html [33m=[39m [32m''[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT9 edge: a week without share (Q18)[2m > [22mT9 edge: a week without a day 1 share prints the consent line once, at its first shot (Q18)
+[31m[1mAssertionError[22m: the icons of the week without day 1: expected +0 to be 5 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 5[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m415:83[22m[39m
+    [90m413| [39m        [35mfor[39m ([35mconst[39m lang [35mof[39m [33mLANGS[39m) {
+    [90m414| [39m            [35mconst[39m html [33m=[39m [34mmanual[39m([week][33m,[39m { lang[33m,[39m share[33m:[39m [35mtrue[39m })[33m;[39m
+    [90m415| [39m            expect(iconMedia(html).length, 'the icons of the week with…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m416| [39m            [35mconst[39m consent [33m=[39m [34mnorm[39m([34mlabel[39m(lang[33m,[39m [32m'shareConsent'[39m))[33m;[39m
+    [90m417| [39m            expect(occurrences(visible(html), consent), 'consent lines…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT10 differential: the share option adds only the share texts and the icons[2m > [22mT10 differential 'th' loops false: after the removal of the share texts the visible text equals the share-off text
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT10 differential: the share option adds only the share texts and the icons[2m > [22mT10 differential 'th' loops true: after the removal of the share texts the visible text equals the share-off text
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT10 differential: the share option adds only the share texts and the icons[2m > [22mT10 differential 'en' loops false: after the removal of the share texts the visible text equals the share-off text
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT10 differential: the share option adds only the share texts and the icons[2m > [22mT10 differential 'en' loops true: after the removal of the share texts the visible text equals the share-off text
+[31m[1mAssertionError[22m: non-vacuity: the share-on book holds its icons: expected +0 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m429:92[22m[39m
+    [90m427| [39m            const on = manual([shipped(1)], { lang, loops, share: true…
+    [90m428| [39m            const off = manual([shipped(1)], { lang, loops, share: fal…
+    [90m429| [39m            expect(iconMedia(on).length, 'non-vacuity: the share-on bo…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m430| [39m            const parts = [...shareTexts(1, lang), ...LABEL_KEYS.slice…
+    [90m431| [39m            expect(removeAll(visible(on), parts)).toBe(removeAll(visib…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the file reads --share and passes share to the compile call
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the file reads --share and passes share to the compile call
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m474:70[22m[39m
+    [90m472| [39m    it.each([MANUAL_CLI, PRINT_CLI])('T11 wiring %s: the file reads --…
+    [90m473| [39m        const parsedFile = ts.createSourceFile(file, fs.readFileSync(f…
+    [90m474| [39m        expect(parsedFile.getFullText().includes("a === '--share'")).t…
+    [90m   | [39m                                                                     [31m^[39m
+    [90m475| [39m        [35mconst[39m compiles [33m=[39m [34mcallsOf[39m(parsedFile[33m,[39m [32m'compileStorytimeManual'[39m)[33m;[39m
+    [90m476| [39m        expect(compiles.length, 'calls of compileStorytimeManual').toB…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring: every call of renderChromePdf in the print script passes share
+[31m[1mAssertionError[22m: a render call passes share: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m484:133[22m[39m
+    [90m482| [39m        [35mconst[39m renders [33m=[39m [34mcallsOf[39m(parsedFile[33m,[39m [32m'renderChromePdf'[39m)[33m;[39m
+    [90m483| [39m        expect(renders.length, 'calls of renderChromePdf').toBeGreater…
+    [90m484| [39m        for (const call of renders) expect(call.arguments.some((arg) =…
+    [90m   | [39m                                                                                                                                    [31m^[39m
+    [90m485| [39m    })[33m;[39m
+    [90m486| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring: the manual PDF help names --share
+[31m[1mAssertionError[22m: expected 'Makes the office-print PDF of a Story…' to contain '--share'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- --share[39m
+[31m+ Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js[39m
+[31m+ (from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check[39m
+[31m+ report of every week first.[39m
+[31m+[39m
+[31m+ Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops][39m
+[31m+[39m
+[31m+   --level   Every week file of content/storytime/l<n>/[39m
+[31m+   --file    One week file (repeat for more), e.g. a test week[39m
+[31m+   --lang    The book language (default th)[39m
+[31m+   --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)[39m
+[31m+   --loops   Print the draft teaching routines[39m
+[31m+[39m
+[31m+ Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...[39m
+[31m+ Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed[39m
+[31m+ design check is reported, but the book is still made, so that a draft week can be read on paper.[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m490:31[22m[39m
+    [90m488| [39m        [35mconst[39m result [33m=[39m [34mrun[39m([33mMANUAL_CLI[39m[33m,[39m [[32m'--help'[39m])[33m;[39m
+    [90m489| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m490| [39m        [34mexpect[39m(result[33m.[39mstdout)[33m.[39m[34mtoContain[39m([32m'--share'[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m491| [39m    }[33m,[39m [34m30_000[39m)[33m;[39m
+    [90m492| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops
+[31m[1mAssertionError[22m: expected 'unknown argument: --unknown\n\nBuilds…' to contain '--share'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- --share[39m
+[31m+ unknown argument: --unknown[39m
+[31m+[39m
+[31m+ Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):[39m
+[31m+ compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate[39m
+[31m+ of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the[39m
+[31m+ heavy-job lock.[39m
+[31m+[39m
+[31m+ Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops][39m
+[31m+[39m
+[31m+   --level     The Storytime level, a whole number from 1 to 4, e.g. 2[39m
+[31m+   --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1[39m
+[31m+   --lang      The book language: th only (spec P6; en exits 2)[39m
+[31m+   --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/[39m
+[31m+               (default: that folder)[39m
+[31m+   --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)[39m
+[31m+   --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)[39m
+[31m+   --loops     Print the draft teaching routines[39m
+[31m+[39m
+[31m+ Output files in the folder:[39m
+[31m+   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file[39m
+[31m+   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)[39m
+[31m+   text-gate-v<n>.txt                                                the text gate report[39m
+[31m+   text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)[39m
+[31m+[39m
+[31m+ The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the[39m
+[31m+ build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.[39m
+[31m+ Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the[39m
+[31m+ draft line. A difference does not stop the build; the files and the report are written.[39m
+[31m+[39m
+[31m+ Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X[39m
+[31m+ checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a[39m
+[31m+ font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),[39m
+[31m+ the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,[39m
+[31m+ on --lang en, when an output file exists already (use a new --version), or when an output path[39m
+[31m+ is a symbolic link or resolves outside the print folder.[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m497:31[22m[39m
+    [90m495| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m496| [39m        [34mexpect[39m(result[33m.[39mstderr)[33m.[39m[34mtoContain[39m([32m'--loops'[39m)[33m;[39m
+    [90m497| [39m        [34mexpect[39m(result[33m.[39mstderr)[33m.[39m[34mtoContain[39m([32m'--share'[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m498| [39m    }[33m,[39m [34m30_000[39m)[33m;[39m
+    [90m499| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2
+[31m[1mAssertionError[22m: expected 'unknown argument: --share\n\nmakes th…' not to contain 'unknown argument'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- unknown argument[39m
+[31m+ unknown argument[7m: --share[27m[39m
+[31m+[39m
+[31m+ makes the office-print pdf of a storytime advantage teacher's book: a4, laid out by paged.js[39m
+[31m+ (from node_modules) in system chrome (track storytime_week_package_20261022). it prints the check[39m
+[31m+ report of every week first.[39m
+[31m+[39m
+[31m+ usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops][39m
+[31m+[39m
+[31m+   --level   every week file of content/storytime/l<n>/[39m
+[31m+   --file    one week file (repeat for more), e.g. a test week[39m
+[31m+   --lang    the book language (default th)[39m
+[31m+   --out     output file (default ~/desktop/print-ready/storytime/storytime-advantage-level-<n>-teachers-book-<lang>.pdf)[39m
+[31m+   --loops   print the draft teaching routines[39m
+[31m+[39m
+[31m+ run it under the heavy-job lock: flock ~/desktop/primary-parity-progress/heavy.lock npx tsx ...[39m
+[31m+ exit code 1 when a week does not parse, a page is not a4, or a font is not embedded. a failed[39m
+[31m+ design check is reported, but the book is still made, so that a draft week can be read on paper.[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m503:51[22m[39m
+    [90m501| [39m        [35mconst[39m accepted [33m=[39m [34mrun[39m(file[33m,[39m [[32m'--share'[39m])[33m;[39m
+    [90m502| [39m        expect(accepted.status, 'a missing source or level is a usage …
+    [90m503| [39m        expect(accepted.stderr.toLowerCase()).not.toContain('unknown a…
+    [90m   | [39m                                                  [31m^[39m
+    [90m504| [39m        [35mconst[39m unknown [33m=[39m [34mrun[39m(file[33m,[39m [[32m'--share'[39m[33m,[39m [32m'--unknown-flag'[39m])[33m;[39m
+    [90m505| [39m        [34mexpect[39m(unknown[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT11 wiring: the flag --share reaches the compile call in both scripts[2m > [22mT11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2
+[31m[1mAssertionError[22m: expected 'unknown argument: --share\n\nbuilds t…' not to contain 'unknown argument'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- unknown argument[39m
+[31m+ unknown argument[7m: --share[27m[39m
+[31m+[39m
+[31m+ builds the pdf/x-1a print file of the thai storytime advantage teacher book (spec fr-4):[39m
+[31m+ compilestorytimemanual (a4) in system chrome with paged.js (from node_modules), the text gate[39m
+[31m+ of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. run it under the[39m
+[31m+ heavy-job lock.[39m
+[31m+[39m
+[31m+ usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops][39m
+[31m+[39m
+[31m+   --level     the storytime level, a whole number from 1 to 4, e.g. 2[39m
+[31m+   --weeks     the weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1[39m
+[31m+   --lang      the book language: th only (spec p6; en exits 2)[39m
+[31m+   --out       the output folder, an absolute path inside <home>/desktop/print-ready/storytime/[39m
+[31m+               (default: that folder)[39m
+[31m+   --version   the version in the file name, a whole number of 1 or more (rule 12.2; default 1)[39m
+[31m+   --drafts    the folder of the approved drafts (default ~/desktop/primary-parity-progress/storytime/)[39m
+[31m+   --loops     print the draft teaching routines[39m
+[31m+[39m
+[31m+ output files in the folder:[39m
+[31m+   storytime-advantage-l<n>-u<u>-teachers-book-th-v<n>_pdfx-1a.pdf   the print file[39m
+[31m+   storytime-advantage-l<n>-u<u>-teachers-book-th-v<n>-chrome.pdf    the chrome pdf (text gate source)[39m
+[31m+   text-gate-v<n>.txt                                                the text gate report[39m
+[31m+   text-gate-v<n>-h1.md                                              the report with a reason class for each difference (a-48 h1)[39m
+[31m+[39m
+[31m+ the text gate: for each week, the pdftotext -layout text of the chrome pdf of that week (the[39m
+[31m+ build chrome pdf when the book has one week) against storytime-l<n>-w<nn>-teachers-book-th-draft.pdf.[39m
+[31m+ page-number lines ("หน้า 2") are not compared. each difference is listed with the week and the[39m
+[31m+ draft line. a difference does not stop the build; the files and the report are written.[39m
+[31m+[39m
+[31m+ exit code 0 when every file is written, the text gate gives 0 differences, and the pdf/x[39m
+[31m+ checks pass. exit code 1 when a week does not parse, a draft is missing, a page is not a4, a[39m
+[31m+ font is not embedded or is type 3, the copy rule fails (cefr, pre-a1, starters, reading a-z),[39m
+[31m+ the pdf/x checks fail, or the text gate gives a difference. exit code 2 on an argument error,[39m
+[31m+ on --lang en, when an output file exists already (use a new --version), or when an output path[39m
+[31m+ is a symbolic link or resolves outside the print folder.[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m503:51[22m[39m
+    [90m501| [39m        [35mconst[39m accepted [33m=[39m [34mrun[39m(file[33m,[39m [[32m'--share'[39m])[33m;[39m
+    [90m502| [39m        expect(accepted.status, 'a missing source or level is a usage …
+    [90m503| [39m        expect(accepted.stderr.toLowerCase()).not.toContain('unknown a…
+    [90m   | [39m                                                  [31m^[39m
+    [90m504| [39m        [35mconst[39m unknown [33m=[39m [34mrun[39m(file[33m,[39m [[32m'--share'[39m[33m,[39m [32m'--unknown-flag'[39m])[33m;[39m
+    [90m505| [39m        [34mexpect[39m(unknown[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-book.test.ts[2m > [22mT12 print path: the page list of the student book keeps the icons[2m > [22mT12 print path: compileStorytimeManual of w01 with share and studentBookPages holds the icons of w01
+[31m[1mAssertionError[22m: the icons of w01 with the page list: expected +0 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-book.test.ts:[2m514:79[22m[39m
+    [90m512| [39m        const pages = storytimeStudentBookPages(WEEK_NUMBERS.map(shipp…
+    [90m513| [39m        const html = manual([shipped(1)], { lang: 'th', share: true, s…
+    [90m514| [39m        expect(iconMedia(html).length, 'the icons of w01 with the page…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m515| [39m        expect(iconMedia(manual([shipped(1)], { lang: 'th', share: fal…
+    [90m516| [39m    }[33m,[39m [34m60_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 baseline: the unchanged list gives 44 rows and 0 problems
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m154:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the English caption of SC-w03-d2 (cell 4) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the shots of SC-w02-d2 (cell 3) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the Thai caption of SC-w05-d4 (cell 5) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the Week cell of SC-w04-d1 (cell 1) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the Day cell of SC-w04-d1 (cell 2) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the SL English of SL-3 (cell 2) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the SL Thai of SL-4 (cell 3) changed gives one problem that starts with the row id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX5 function: one changed cell is one problem of its row id[2m > [22mX5 function: the SL key of SL-2 (cell 1) changed gives one problem that starts with the row id
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m168:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: one extra row SC-w09-d1 gives 45 rows and one problem of its id
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m176:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: one repeated row id gives 45 rows and one problem of that id
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m181:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: the row SC-w04-d1 with 5 cells gives one problem of its id
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: the row SL-2 with 3 cells gives one problem of its id
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m189:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: one missing row gives 43 rows and one problem of the expected id
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m193:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX6 function: rows that are extra, repeated, malformed, or missing[2m > [22mX6 function: a list with no rows gives 0 rows and one problem for each of the 44 expected ids
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m197:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX7 to X9 function: the source side[2m > [22mX7 function: a source day without a share gives "<id>: the week file has no share" and does not throw
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m209:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX7 to X9 function: the source side[2m > [22mX8 function: a week that does not parse gives one problem line that starts with its week id, and is never skipped
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m217:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX7 to X9 function: the source side[2m > [22mX9 function: a source label that differs (en sharePhoto) gives one problem of SL-1
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX7 to X9 function: the source side[2m > [22mX9 function: a source label that differs (th shareLength) gives one problem of SL-4
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m229:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX10 to X12 function: the cell grammar[2m > [22mX10 function: a pipe in a caption is written as a backslash and a pipe, and reads back as a pipe
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m242:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX10 to X12 function: the cell grammar[2m > [22mX10 function: the same caption written without the backslash gives one problem of its row
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m249:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX10 to X12 function: the cell grammar[2m > [22mX10 function: a header line, a separator line, and prose are not rows
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m254:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX10 to X12 function: the cell grammar[2m > [22mX11 function: the two-shot cell "D4 photo; D5 video" equals day 4, and the other order gives one problem
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m261:17[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX10 to X12 function: the cell grammar[2m > [22mX12 function: a cell with outer spaces equals its source, and a cell with a changed inner space gives a problem
+[31m[1mError[22m: Cannot find module '/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-share-captions.ts' imported from '/home/daniebo/Desktop/Workbooks/dashboard/__tests__/storytime-loops-share-captions.test.ts'[39m
+[36m [2m❯[22m load __tests__/storytime-loops-share-captions.test.ts:[2m135:18[22m[39m
+    [90m133| [39m/** Loads the function inside a test body: a missing script or a missi…
+    [90m134| [39m[35masync[39m [35mfunction[39m [34mload[39m()[33m:[39m [33mPromise[39m[33m<[39m[33mCaptionFn[39m[33m>[39m {
+    [90m135| [39m    const mod = (await import(SCRIPT)) as { shareCaptionProblems?: Cap…
+    [90m   | [39m                 [31m^[39m
+    [90m136| [39m    expect(typeof mod.shareCaptionProblems, 'the export shareCaptionPr…
+    [90m137| [39m    [35mreturn[39m mod[33m.[39mshareCaptionProblems[33m![39m[33m;[39m
+[90m [2m❯[22m check __tests__/storytime-loops-share-captions.test.ts:[2m142:16[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m268:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems
+[31m[1mAssertionError[22m: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m309:31[22m[39m
+    [90m307| [39m    it('X1 command line: a list written from the shipped w01 to w08 an…
+    [90m308| [39m        const result = run(['--level', '2', '--list', list(realRows())…
+    [90m309| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m310| [39m        expect(result.last).toBe('share captions: 44 rows, 0 problems'…
+    [90m311| [39m        expect({ rows: result.rows, problems: result.problems }).toEqu…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id
+[31m[1mAssertionError[22m: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m318:44[22m[39m
+    [90m316| [39m        const result = run(['--level', '2', '--list', list(change(real…
+    [90m317| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m318| [39m        [34mexpect[39m(result[33m.[39mproblemLines[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                           [31m^[39m
+    [90m319| [39m        expect(result.problemLines[0].startsWith('SC-w05-d3: ')).toBe(…
+    [90m320| [39m        expect(result.last).toBe('share captions: 44 rows, 1 problems'…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id
+[31m[1mAssertionError[22m: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m326:44[22m[39m
+    [90m324| [39m        const result = run(['--level', '2', '--list', list(realRows().…
+    [90m325| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m326| [39m        [34mexpect[39m(result[33m.[39mproblemLines[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                           [31m^[39m
+    [90m327| [39m        expect(result.problemLines[0].startsWith('SC-w02-d4: ')).toBe(…
+    [90m328| [39m        expect(result.last).toBe('share captions: 43 rows, 1 problems'…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/82]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: an unknown flag exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: a missing --list exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: a missing --level exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: --level without a value exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: --level 9 exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: both arguments missing exits 2
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-captions.test.ts[2m > [22mX1 to X4 command line: the exit codes (G5)[2m > [22mX3 command line: a list file that does not exist exits 2
+[31m[1mAssertionError[22m: expected 1 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share-captions.test.ts:[2m341:31[22m[39m
+    [90m339| [39m    ] as [string, (file: string) => string[]][])('X3 command line: %s …
+    [90m340| [39m        [35mconst[39m result [33m=[39m [34mrun[39m([34margs[39m([34mlist[39m([34mrealRows[39m())))[33m;[39m
+    [90m341| [39m        [34mexpect[39m(result[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m342| [39m    }[33m,[39m [34m90_000[39m)[33m;[39m
+    [90m343| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/82]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m82 failed[39m[22m[2m | [22m[1m[32m17 passed[39m[22m[90m (99)[39m
+[2m   Start at [22m 23:30:47
+[2m   Duration [22m 16.73s[2m (transform 1.37s, setup 454ms, import 2.47s, tests 13.14s, environment 1ms)[22m
+
+EXIT=1
