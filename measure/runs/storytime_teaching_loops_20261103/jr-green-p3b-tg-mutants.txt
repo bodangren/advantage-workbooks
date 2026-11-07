@@ -1,0 +1,15 @@
+target: dashboard/scripts/storytime/make-manual-pdf.ts
+tests: __tests__/storytime-loops-book-pages.test.ts
+baseline sha256 file: /tmp/opencode/p3b-tg-mut/make-manual-pdf.ts.bak
+
+M1 caught (exit 1): M1 B1 flag: remove the branch for --book-pages  [mutant-1.txt]
+M2 caught (exit 1): M2 B1 call: drop studentBookPages from the compile call  [mutant-2.txt]
+M3 caught (exit 1): M3 B2: build the page list from the requested weeks only  [mutant-3.txt]
+M4 caught (exit 1): M4 B2: pass the list under a changed option name  [mutant-4.txt]
+M5 caught (exit 1): M5 B3: make the page list the default  [mutant-5.txt]
+M6 caught (exit 1): M6 B3: pass the list while bookPages stays false  [mutant-6.txt]
+
+mutants: 6, caught: 6
+n/a: 0
+restore cmp: ok
+git status --porcelain dashboard/scripts/storytime:
