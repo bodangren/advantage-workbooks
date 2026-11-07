@@ -1,0 +1,80 @@
+# Jr Green, Phase 3b, content task, part 3 (the close) (storytime_teaching_loops_20261103)
+
+Role: measure-jr-green. Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high
+(Red 678b4db4, test repair ce41d8c2).
+role_base_sha: 890e2fcb215f1eca804fc594b1122b231e362f21
+phase_base_sha: 2a36b859cf6659daf01737b966d050c94c17f5e0 (the base after the Phase 3b strategy and its plan updates)
+Red commits 678b4db4 and ce41d8c2 are inside phase_base_sha..HEAD. The git merge-base check for each one passed.
+The earlier parts of this task are done: content commit 1d29e893, fix commit 5b9457a1, the content gates, and the
+English review. This role ran the close: `PROJECT_TESTS`, dry run 2, the plan evidence, and this log.
+
+## Precheck
+
+`git status --porcelain content/storytime dashboard/lib/storytime/checks.ts` printed nothing.
+
+## Targeted Red command
+
+The targeted command now passes at this base, and the reason is the content commit 1d29e893. The Red capture
+`p3b-red-content.txt` shows the 50 failures before the content. The `-t "w0"` gate from part 2 shows
+`Tests  56 passed`, 0 failed, exit 0 (`p3b-content-w0-r2.txt`). This role changed no implementation file.
+
+## PROJECT_TESTS with the R3 exclude
+
+Command: `cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts
+__tests__/print-pdfx.test.ts --exclude "**/storytime-loops-share-content.test.ts" --maxWorkers=1`,
+in one heavy-run wrapper. Capture: `p3b-content-project-r2.txt`.
+
+Result: `Test Files  62 passed (62)`. `Tests  1396 passed (1396)`. Exit 0. Duration 1010.25 s.
+No 5000 ms load timeout occurred, so the Q26 rerun was not needed.
+
+## Dry run 2 (P17)
+
+Method: copy of `dashboard/lib/storytime/checks.ts` to `/tmp/opencode/p3b-dryrun2/checks.ts.bak`. A python run
+changed the exact line `export const SHARE_CHECK_STATUS: CheckStatus = 'warn';` to `'fail'`. The script asserted
+one occurrence (`occurrences: 1`). `PROJECT_TESTS` ran with no exclude in one heavy-run wrapper.
+Capture: `p3b-dryrun2-project.txt`.
+
+Result at `'fail'`: `Test Files  63 passed (63)`. `Tests  1471 passed (1471)`. Exit 0. Duration 1125.69 s.
+Red list at `'fail'`: none. N8 (`the status of share-moment is fail after the switch (AC-14.6)`) passes. The log
+holds `✓ __tests__/storytime-loops-share-content.test.ts (75 tests)`, and N8 is one of those 75 tests.
+
+Restore: `cp` from the backup, then `cmp` printed `CMP_RESTORE=equal`. The Q15-style `grep -c` of the `'warn'` line
+printed `1`. `git status --porcelain dashboard/lib/storytime/checks.ts` printed nothing.
+
+The other side: at `'warn'` the loops files show only N8 red (`mid-red-p3b-ax-red.txt`: `Test Files  1 failed |
+7 passed (8)`, `Tests  1 failed | 296 passed (297)`). The run of step 2 passes at `'warn'` with the R3 exclude.
+
+Orchestrator reading of strategy 9.17: the section has a wording defect. With the constant at `'fail'`, N8 passes,
+so N8 cannot be red at that status. The switch changes exactly N8. Dry run 2 therefore reports an empty red list,
+and this is the correct result. The reading is in `share-switch-dryrun-2.txt` as an orchestrator default.
+
+## Plan evidence
+
+Plan commit fe2bec7b5aa0ddc83e6ac1605d573aa1617049a9. It holds 8 files and 1617 insertions.
+The content task line 328 is `[x]`, and its first line ends with the text `Captions commit 1d29e893; fixes commit 5b9457a`.
+One evidence sub-bullet gives: the two commits, the two gate captures, the pack gates (0 Thai characters, 40 rows),
+the review result (E1 fixed, LP-S1 fixed, LP-S2 and LP-S3 to Daniel's sitting of 2026-11-16), the P20 0 reads,
+the net diff `8 files changed, 367 insertions(+)` from 946807e0, the fix commit as a recorded deviation from
+"insertions only" (2 lines changed that 1d29e893 added), the `PROJECT_TESTS` result, and the dry run 2 result with
+the orchestrator reading. No other plan line changed.
+
+## Status
+
+Complete. The content task is closed. The switch task stays `[ ]`; its precondition (dry run 2 lists only N8) now
+reads as "the switch changes exactly N8". No implementation file, test file, or week file changed in this role.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P3b
+task: content task, part 3 (the close)
+track: storytime_teaching_loops_20261103
+role_base_sha: 890e2fcb215f1eca804fc594b1122b231e362f21
+head: fe2bec7b5aa0ddc83e6ac1605d573aa1617049a9
+commits: fe2bec7b5aa0ddc83e6ac1605d573aa1617049a9 (plan evidence and run files, 8 files)
+files_changed: measure/tracks/storytime_teaching_loops_20261103/plan.md; measure/runs/storytime_teaching_loops_20261103/share-switch-dryrun-2.txt; measure/runs/storytime_teaching_loops_20261103/p3b-content-project-r2.txt; measure/runs/storytime_teaching_loops_20261103/p3b-dryrun2-project.txt; measure/runs/storytime_teaching_loops_20261103/p3b-share-english-review-1d29e893.md and .log; measure/runs/storytime_teaching_loops_20261103/p3b-share-english-recheck-5b9457a1.md and .log
+project_tests: exit 0 with the R3 exclude; Test Files 62 passed (62), Tests 1396 passed (1396); duration 1010.25 s; p3b-content-project-r2.txt; no load timeout
+dry_run_2: at SHARE_CHECK_STATUS fail, with no exclude, exit 0; Test Files 63 passed (63), Tests 1471 passed (1471); red list empty; N8 passes; restore cmp equal; the Q15-style grep of warn prints 1 and git status of checks.ts is empty; share-switch-dryrun-2.txt; the strategy 9.17 wording defect is recorded as the orchestrator reading
+plan_updates: content task line 328 [x] with the trailing "Captions commit 1d29e893; fixes commit 5b9457a"; one evidence sub-bullet; no other plan line changed
+handoff: Complete. PROJECT_TESTS with the R3 exclude passes (62 files, 1396 tests, exit 0). Dry run 2 at fail gives 63 files and 1471 tests, exit 0, an empty red list, and N8 passing; the restore cmp is equal. Orchestrator reading of strategy 9.17: the switch changes exactly N8, and N8 cannot be red at fail, so the empty list is correct. The content task line 328 is [x]. Next role: the switch task (precondition met). The review roles can scope their audit to the 8 new run files in commit fe2bec7b and to plan.md. New files: share-switch-dryrun-2.txt, p3b-content-project-r2.txt, p3b-dryrun2-project.txt, and 4 review files. The immutable phase_base_sha is 2a36b859; the Red commits 678b4db4 and ce41d8c2 are inside it. The final Green HEAD is the commit of this log, after fe2bec7b. P20 audit: 0 reads of content/storytime in both review logs (orchestrator-verified).
+dispositions: none
+END_MEASURE_AGENT_RESULT
