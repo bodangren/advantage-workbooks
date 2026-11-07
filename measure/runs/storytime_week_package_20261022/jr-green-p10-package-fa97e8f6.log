@@ -1,0 +1,132 @@
+# jr-green, Phase 10, Check and Package build, track storytime_week_package_20261022
+
+Role base: fa97e8f604a60ca59299cc8c58524d840f53af7b (HEAD at start).
+Phase base: bbfd25b8a74a2e9dd3dee0a643a3816653ce247d (the strategy commit of Phase 10).
+Content commit with all 51 family pictures: a5fa259fcc5a8ae0daeb9d6976b99dac3120a531.
+`git diff --stat a5fa259f..HEAD -- content/storytime/l2/` is empty, and
+`git status --porcelain content/` is empty. The work tree content equals the content commit.
+
+Model: deepseek/deepseek-flash#high (direct DeepSeek). Red families of this phase: MiMo and
+MiniMax. No coder subagent was used: the work is small and local.
+
+## Part 1: the contact sheets (Check task)
+
+The role read each of the 51 rows of the 7 `family/pictures.sha256` files. It derived the kind
+from the source name: `card-kit-patch-` is patch, `card-kit-dots-` is dots, and `l2-w0N-card-`
+is card when the card folder holds it and forge when the Forge folder holds it. `family` (w04)
+is in both folders and takes `card` (H3). Kind counts: card 16, patch 7, dots 10, forge 18.
+
+The script is `/tmp/opencode/p10_contact.py`. The build ran in one heavy-run wrapper. The
+capture `p10-contact-build.txt` ends with the 4 sheet sizes and `tiles.tsv lines: 51`.
+
+| Sheet | Tiles | Pixels |
+|---|---|---|
+| `p10-contact/p10-contact-1-card.png` | 16 | 2024 x 1312 |
+| `p10-contact/p10-contact-2-patch-dots.png` | 17 | 1560 x 1512 |
+| `p10-contact/p10-contact-3-forge-a.png` | 8 | 2128 x 1308 |
+| `p10-contact/p10-contact-4-forge-b.png` | 10 | 2008 x 1632 |
+
+- Each tile holds the output JPEG and, for card and forge, the source PNG. A patch or dots tile
+  holds the JPEG only, because code draws its source.
+- The label holds week, word, kind, source name, and JPEG name. The values come from the week
+  files and `pictures.sha256`, not from the hand.
+- `tiles.tsv` holds 51 lines with no header: week, word, kind, source name, JPEG name, JPEG
+  SHA-256, and pixel size, separated by one tab.
+- Each JPEG is 800 x 800, and each JPEG SHA-256 equals its provenance line. The script stops on
+  a difference.
+- Writes: the run folder and `/tmp/opencode/` only. The hand-off folders are read-only.
+
+The orchestrator person check (AC10-10) passed 51 of 51 on 2026-11-07. The result is on the
+Check task line.
+
+## Part 2: the Package build
+
+Source commit: `a5fa259f` (the commit that holds all 51 `"file"` lines). The build read each
+payload file with `git show a5fa259f:content/storytime/<path>` (rule R4). The script is
+`/tmp/opencode/p10_package_build.py`; the check script is `/tmp/opencode/p10_package_check.py`.
+
+Payload rule: every media-extension string of the week file, plus `l2/w0N.json`, plus
+`books/pictures.sha256` and `family/pictures.sha256`. The payload set equals the previous
+folder file set plus the new family files, for each of the 7 weeks.
+
+The 7 folders, payload file count (the MANIFEST excluded), and MANIFEST SHA-256:
+
+| Folder | Files | MANIFEST SHA-256 |
+|---|---|---|
+| `~/Desktop/handoff/w01-storytime-app-package-r3` | 51 | `9e313a87d2c02f0f36c3b10765c15f49b7930181b7df0bde034350295b751ee6` |
+| `~/Desktop/handoff/w02-storytime-app-package-r2` | 54 | `9055130bc9ccb32244e269a19e418bbedffadcd7f5be0c35e043a460c5b34f01` |
+| `~/Desktop/handoff/w03-storytime-app-package-r2` | 50 | `68d43df680ef93cff8eabe452be3b91f9cebb662f291d3e608d1fb2e67a5ffbe` |
+| `~/Desktop/handoff/w04-storytime-app-package-r2` | 46 | `819c8d967d80f22793bc2e584768b9a839dd148bd8ab4711cb77682e74dd847f` |
+| `~/Desktop/handoff/w05-storytime-app-package-r2` | 52 | `ac87d894d09698d808982d66857a3ff03226aace25e72ac24f80ce02798266b9` |
+| `~/Desktop/handoff/w06-storytime-app-package-r2` | 49 | `0c306102f427459118f4c2d634177f082210f9600e32ce813fa887ef92091d99` |
+| `~/Desktop/handoff/w07-storytime-app-package-r2` | 50 | `931f226cef0a257a38d7f333c20303c814fba07fbcec2aacbb7b147603db1b25` |
+
+Nine checks, capture `p10-handoff-check.txt`: RESULT PASS (9 checks on 7 folders, 0 failures).
+
+- [1] each folder: manifest lines equal payload files, `sha256sum -c` exit 0, 0 unlisted.
+- [2] each folder: `cmp` of the week file with `git show` exit 0.
+- [3] each folder: family JPEGs equal the commit, and the join on `family/pictures.sha256` gives
+  0 differences.
+- [4] each folder: one `# Changed since <previous folder>:` header.
+- [5] each folder: `changed paths expected` equals `listed`, `diff lines: 0`. Changed paths:
+  w01 8, w02 12, each other week 9. `old-sha256:` empty lines: 7, 11, and 8 each.
+  `new-sha256:` empty lines: 0.
+- [6] family counts 6, 10, 7, 7, 7, 7, 7; one provenance line each; 51 family files in all.
+- [7] `source-commit` equals `workbooks-commit`, the value is a 40-hex ancestor of HEAD, and the
+  named lines are present.
+- [8] 0 unsafe paths; each `image.file` value matches the pattern; no path is over 200
+  characters; no `.` or `..` segment.
+- [9] every media string of each week file has its file. One w01 string has no file and the log
+  lists it: `approval.audio.source` ends in `song.mp3`.
+
+The literal shell checks also pass: `sha256sum -c` exits 0 for each folder, `cmp` of each week
+file exits 0, the family count loop prints no line, and `family files in folders: 51`.
+
+## Deviations
+
+1. Rule R4: the 4 w01 song files (`l2/media/w01/song.mp4`, `song-phone.mp4`,
+   `song-poster.jpg`, `song-phone-poster.jpg`) are not in git at `a5fa259f`. The build read them
+   from `w01-storytime-app-package-r2` (read-only), never from the work tree. Their SHA-256
+   values equal that folder and the work tree: `4c88951f`, `74ccefed`, `abef5e06`, `47365f31`.
+   Check 9 names `song-phone-poster.jpg` as the local file that must be present.
+2. No implementation commit: the build output lives outside the repo. The run evidence is in
+   commit dd234147. The plan evidence commit holds `plan.md` and this log, because a commit
+   cannot hold its own SHA.
+3. The first build attempt failed on the first git-absent file. The role removed the partial
+   `w01-storytime-app-package-r3` folder that the attempt created, then reran. The create-only
+   rule held at the start and at the rerun.
+4. Pre-check 4 of the Forge delivery accepted `duck` and `horse`. The person check names them
+   as white subjects. No gate ran tsc in this task, so the tsc exception does not apply.
+5. The plan edit went in through the shell (python), because the measure-guard refuses a direct
+   edit.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P10
+task: Check and Package build
+track: storytime_week_package_20261022
+role_base_sha: fa97e8f604a60ca59299cc8c58524d840f53af7b
+phase_base_sha: bbfd25b8a74a2e9dd3dee0a643a3816653ce247d
+status: done
+commits: dd234147 (the run evidence: 4 contact sheets, tiles.tsv, 3 captures), and this plan
+  evidence commit (measure/tracks/storytime_week_package_20261022/plan.md and this log)
+source_commit: a5fa259fcc5a8ae0daeb9d6976b99dac3120a531
+files_changed: measure/tracks/storytime_week_package_20261022/plan.md,
+  measure/runs/storytime_week_package_20261022/jr-green-p10-package-fa97e8f6.log,
+  measure/runs/storytime_week_package_20261022/p10-contact/ (4 PNG, tiles.tsv),
+  measure/runs/storytime_week_package_20261022/p10-contact-build.txt,
+  measure/runs/storytime_week_package_20261022/p10-handoff-check.txt,
+  measure/runs/storytime_week_package_20261022/p10-package-build.txt
+folders_built: 7, create-only, under ~/Desktop/handoff/; payload files 51, 54, 50, 46, 52, 49,
+  50; family files 51
+tests_run: none; this task is person-checked (part 1) and automated by the 9 hand-off checks
+  (part 2). No tsc, lint, or GREEN gate runs in this task.
+plan_updates: the Check task is [x] with commit a5fa259f and the person-check result for the 51;
+  the Package build task is [x] with commit a5fa259f and 8 evidence bullets. The Hand-off task
+  stays [ ] for the orchestrator.
+handoff: The 7 folders are ready for the PM status line (Hand-off task). Facts changed: none.
+  The person check names `legs` as the weakest picture and `bird` and `ball` with a faint
+  texture; no picture needs a redo. The previous folders and the 2 picture hand-off folders hold
+  the same tree hash before and after the build.
+dispositions: none
+END_MEASURE_AGENT_RESULT
