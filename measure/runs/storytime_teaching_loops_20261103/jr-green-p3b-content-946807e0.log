@@ -1,0 +1,54 @@
+# Jr Green, Phase 3b content, part 1 of 2 (storytime_teaching_loops_20261103)
+
+- Date: 2026-11-07
+- Track: storytime_teaching_loops_20261103
+- Phase heading: `## Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)`
+- Task: the share moments of w01 to w08
+- Role base SHA: `946807e062f8335400227d4bc611d2e186f1595d` (HEAD `946807e0`)
+- Phase base SHA: `946807e062f8335400227d4bc611d2e186f1595d`
+- Red model: claude-code/claude-sonnet-5-5#high (Red `678b4db4`)
+- Green model: deepseek/deepseek-flash#high
+- Red contract: `dashboard/__tests__/storytime-loops-share-content.test.ts` (`678b4db4`). No test change.
+- Rule R3: this part 1 runs no PROJECT_TESTS.
+- Rule R4: `git status --porcelain content/storytime/l2/` was empty at the start. It held only my 8 week files before the `git add`.
+
+## Status: in progress (part 1 done)
+
+Next: part 2 (PROJECT_TESTS with the R3 exclude, dry run 2, the plan record).
+
+## Work
+
+1. Read spec FR-14, D10, D16 to D19, D24 to D26; the test file; the sample table `__tests__/fixtures/storytime-share-sample.ts`.
+2. Added one `share` object to each of the 5 scripts of w01 to w08, as text insertion before the `"id": "<script>"` line of each script. This keeps every existing line. The script asserted the insert-only property: removing the 5 new blocks gives the old text byte for byte.
+   - Shots: the FR-14 moment table (A3 video; B5 video; C4 video; D4 photo and D5 video; D6 video; w08: A2, B1, C1, D1, E3 video).
+   - 40 English captions, all different (12 to 21 words each). 40 Thai drafts for Daniel.
+   - w01 is published: the field was added, and no other change was made.
+3. Content commit `1d29e893f61bb96dc4aff702fce80b60aa050a38` holds exactly the 8 week files:
+   - `git show --stat --format= 1d29e893`: `8 files changed, 367 insertions(+)`, `0 deletions` (`p3b-content-scope.txt`).
+   - Fast gate: `for f in content/storytime/l2/w0[1-8].json; do grep -c '"share": {' "$f"; done` printed `5` eight times.
+4. Targeted test, one heavy-run wrapper, `--maxWorkers=1`, `p3b-content-w0.txt`:
+   - `Test Files  1 passed (1)`
+   - `Tests  56 passed | 19 skipped (75)`
+   - `exit: 0`
+   - Note: the run came after the edit, not before it. The Red result at `678b4db4` is in the Red log (`p3b-red-content.txt`, 50 failed). No test file changed.
+5. `check-weeks.ts --level 2`, one heavy-run wrapper, `p3b-content-checks.txt`:
+   - `share-moment` `PASS` for st2/1, st2/2, st2/3, st2/4, st2/5, st2/6, st2/7, and st2/8 (8 rows).
+   - `grep -c 'FAIL'` prints `0`. Exit 0.
+6. English pack `share-english-pack.md` from the committed files: 40 rows `| w0N | day | script | shots | caption.en |`, the FR-14 moment table, and the caption rules. Gates (`p3b-content-pack-gates.txt`):
+   - `grep -cP '[\x{0E00}-\x{0E7F}]'` prints `0`.
+   - `grep -c '^| w0'` prints `40`.
+7. Commits:
+   - content: `1d29e893f61bb96dc4aff702fce80b60aa050a38`
+   - pack and run files: see below
+   - this log: see below
+
+## Files added
+
+- `measure/runs/storytime_teaching_loops_20261103/p3b-content-w0.txt`
+- `measure/runs/storytime_teaching_loops_20261103/p3b-content-checks.txt`
+- `measure/runs/storytime_teaching_loops_20261103/p3b-content-scope.txt`
+- `measure/runs/storytime_teaching_loops_20261103/p3b-content-pack-gates.txt`
+- `measure/runs/storytime_teaching_loops_20261103/share-english-pack.md`
+- `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-content-946807e0.log`
+
+No code file and no test file changed. The plan has no task mark change in part 1; part 2 records the task.
