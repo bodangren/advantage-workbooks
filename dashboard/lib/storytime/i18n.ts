@@ -48,6 +48,14 @@ export interface StorytimeLabels {
     easier: string;
     harder: string;
     group: string;
+    /** The label of a photo share moment (FR-14, D22). */
+    sharePhoto: string;
+    /** The label of a video share moment (FR-14, D22). */
+    shareVideo: string;
+    /** The consent line of a share moment; it prints once in each week part (FR-14, D20). */
+    shareConsent: string;
+    /** The length line of a share moment; it prints once in each week part (FR-14, D20). */
+    shareLength: string;
     /** Draft headings for the Storytime teaching-loop routines. */
     blendDrill: string;
     soundLoop: string;
@@ -134,6 +142,10 @@ const en: StorytimeLabels = {
     easier: 'Easier',
     harder: 'Harder',
     group: 'Group',
+    sharePhoto: 'Photo',
+    shareVideo: 'Video',
+    shareConsent: 'Post only in the closed class parent group that the school runs. Show a face only when the school has the photo consent of the parents. Else show the work, the hands, or the backs.',
+    shareLength: 'A video is 10 to 20 seconds. The song show video holds the whole song.',
     blendDrill: 'Blend drill',
     soundLoop: 'Sound loop',
     sightWords: 'Read it the fast way',
@@ -247,6 +259,10 @@ const th: StorytimeLabels = {
     easier: 'ง่ายขึ้น',
     harder: 'ท้าทายขึ้น',
     group: 'คู่หรือกลุ่ม',
+    sharePhoto: 'รูปภาพ',
+    shareVideo: 'คลิปวิดีโอ',
+    shareConsent: 'โพสต์ในกลุ่มผู้ปกครองของห้องเรียนที่โรงเรียนดูแลเท่านั้น จะเห็นใบหน้าของเด็กได้เมื่อโรงเรียนได้รับความยินยอมเรื่องภาพจากผู้ปกครองแล้ว หากยังไม่ได้รับความยินยอม ให้ถ่ายผลงาน มือ หรือด้านหลังแทน',
+    shareLength: 'วิดีโอความยาว 10 ถึง 20 วินาที วิดีโอการแสดงเพลงมีความยาวทั้งเพลง',
     blendDrill: 'ฝึกผสมเสียง',
     soundLoop: 'ฝึกเสียงซ้ำ',
     sightWords: 'อ่านคำแบบเร็ว',

@@ -39,7 +39,7 @@ compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), 
 of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
 heavy-job lock.
 
-Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops]
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
 
   --level     The Storytime level, a whole number from 1 to 4, e.g. 2
   --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
@@ -49,6 +49,7 @@ Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks 
   --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
   --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
   --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
 
 Output files in the folder:
   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
@@ -81,6 +82,7 @@ interface Args {
     folder: string;
     drafts: string;
     loops: boolean;
+    share: boolean;
 }
 
 /** Parses one whole-number flag value; throws on a value that is not a safe integer in range. */
@@ -100,6 +102,7 @@ function parseArgs(argv: string[], home: string): Args {
     let folder = printReady;
     let drafts = path.join(home, 'Desktop', 'primary-parity-progress', 'storytime');
     let loops = false;
+    let share = false;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--level') level = wholeNumber(argv[++i], '--level', 1, 4);
@@ -109,13 +112,14 @@ function parseArgs(argv: string[], home: string): Args {
         else if (a === '--out') folder = path.resolve(argv[++i] ?? '');
         else if (a === '--drafts') drafts = path.resolve(argv[++i] ?? '');
         else if (a === '--loops') loops = true;
+        else if (a === '--share') share = true;
         else throw new Error(`unknown argument: ${a}`);
     }
     if (level === undefined) throw new Error('a --level value is required');
     if (!weeks?.length) throw new Error('a --weeks list is required');
     if (lang !== 'th') throw new Error(`the teacher book is Thai only (spec P6): --lang must be th, got "${lang ?? ''}"`);
     if (folder !== printReady && !folder.startsWith(printReady + path.sep)) throw new Error(`--out must be a folder inside ${printReady}, got "${folder}"`);
-    return { level, weeks, version, folder, drafts, loops };
+    return { level, weeks, version, folder, drafts, loops, share };
 }
 
 /** The `pdftotext -layout` text of a PDF file. */
@@ -127,11 +131,11 @@ function layoutText(pdf: string): string {
  * Renders one teacher-book HTML document to a Chrome PDF and returns the page count. The
  * template and the browser load here, not at the top, so that `--help` answers fast.
  */
-async function renderChromePdf(weeks: StorytimeWeek[], pdf: string, tmp: string, pagedSrc: string, loops: boolean, studentBookPages: StorytimeBookPage[]): Promise<number> {
+async function renderChromePdf(weeks: StorytimeWeek[], pdf: string, tmp: string, pagedSrc: string, loops: boolean, share: boolean, studentBookPages: StorytimeBookPage[]): Promise<number> {
     const { chromium } = await import('@playwright/test');
     const { compileStorytimeManual } = await import('../../lib/storytime/manual');
     const htmlFile = path.join(tmp, `${path.basename(pdf, '.pdf')}.html`);
-    const html = compileStorytimeManual(weeks, { lang: 'th', paper: 'a4', loops, studentBookPages }).html;
+    const html = compileStorytimeManual(weeks, { lang: 'th', paper: 'a4', loops, share, studentBookPages }).html;
     fs.writeFileSync(htmlFile, html.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, ''));
     const browser = await chromium.launch({ channel: 'chrome' });
     try {
@@ -168,7 +172,7 @@ async function main(argv: string[]): Promise<number> {
         console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
         return 2;
     }
-    const { level, weeks, version, folder, drafts, loops } = args;
+    const { level, weeks, version, folder, drafts, loops, share } = args;
     const read = readLevelWeeks(STORYTIME_ROOT, level).filter((r) => weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     checkRequestedWeeks(weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     const broken = read.filter((r) => !r.week);
@@ -222,13 +226,13 @@ async function main(argv: string[]): Promise<number> {
     let problems: string[];
     let pages: number;
     try {
-        pages = await renderChromePdf(parsed, chromeFile, tmp, pagedSrc, loops, studentBookPages);
+        pages = await renderChromePdf(parsed, chromeFile, tmp, pagedSrc, loops, share, studentBookPages);
         problems = chromeProblems(chromeFile, layoutText(chromeFile));
         // The text gate of each week reads a Chrome PDF of that week only, as the draft holds one week.
         for (const week of parsed) {
             const n = week.meta.week;
             const weekPdf = parsed.length === 1 ? chromeFile : path.join(tmp, `week-${n}.pdf`);
-            if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, studentBookPages);
+            if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, share, studentBookPages);
             const weekText = layoutText(weekPdf);
             weekTexts.set(n, weekText);
             const draftText = layoutText(draftOf(n));

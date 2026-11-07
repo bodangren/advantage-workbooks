@@ -76,6 +76,26 @@ function escapeHtml(text: string): string {
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
+/**
+ * The inline icon of a parent-share moment (FR-14, D22): a camera for a photo and a video camera for a
+ * video, in black only, about 4 mm high. The element itself holds `data-share-media`, so the reader
+ * finds the media of the shot.
+ */
+const SHARE_ICON: Record<'photo' | 'video', string> = {
+    photo: '<svg class="st-share-icon" data-share-media="photo" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h3l2-2h8l2 2h3v11H3z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>',
+    video: '<svg class="st-share-icon" data-share-media="video" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="13" height="11" rx="2"></rect><path d="M15 11l6-3v10l-6-3z"></path></svg>',
+};
+
+/** The share texts of the teacher book (FR-14, D20, D22): the icon, the label, and the caption of a shot. */
+const SHARE_CSS = `
+    .st-share { border-left: 3px solid #000; padding-left: 6px; margin: 4px 0; font-size: 9.5pt; break-inside: avoid; }
+    .st-share-icon { height: 4mm; width: auto; vertical-align: middle; margin-right: 4px; }
+    .st-share-label { font-weight: 700; }
+    .st-share-caption { margin: 2px 0; }
+    .st-share-consent { border: 1px solid #000; padding: 2px 6px; margin: 4px 0; font-size: 9pt; break-inside: avoid; }
+    .st-share-consent p { margin: 2px 0; }`;
+
+
 /** The Thai of a text in the Thai book when Daniel has written it, else the English. */
 const pick = (t: BiText, lang: SupportedLanguage) => (lang === 'th' && t.th ? t.th : t.en);
 
@@ -101,7 +121,7 @@ function renderNote(en: StorytimeNote, th: StorytimeNote | undefined, lang: Supp
       </div>`;
 }
 
-function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean; loops?: boolean; questions?: StorytimeWeek['books'][number]['questions']; pageOf?: (stepId: string) => StorytimeStepPage | undefined } = {}): string {
+function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLabels, options: { title?: string; showMinutes?: boolean; loops?: boolean; questions?: StorytimeWeek['books'][number]['questions']; pageOf?: (stepId: string) => StorytimeStepPage | undefined; share?: { media: 'photo' | 'video'; caption: BiText }; consent?: boolean } = {}): string {
     const title = options.title !== undefined
         ? escapeHtml(options.title)
         : lang === 'th' && step.title.th ? `${escapeHtml(step.title.th)} <span class="st-en">(${escapeHtml(step.title.en)})</span>` : escapeHtml(step.title.en);
@@ -125,11 +145,23 @@ function renderStep(step: StorytimeStep, lang: SupportedLanguage, l: StorytimeLa
         if (!named || !where) return item;
         return lang === 'th' ? `หนังสือนักเรียน หน้า ${range} (${named[1]})` : `student book, page ${range}: ${named[1]}`;
     };
+    // The share moment of the step (FR-14): the icon of the media, its label, and the caption of its day.
+    // The Thai book prints the Thai caption and then the English one, because the post holds both.
+    const share = options.share;
+    const shareBlock = share ? `
+      <div class="st-share">
+        ${SHARE_ICON[share.media]}<span class="st-share-label">${escapeHtml(share.media === 'photo' ? l.sharePhoto : l.shareVideo)}</span>
+        ${lang === 'th' && share.caption.th ? `<p class="st-share-caption">${escapeHtml(share.caption.th)}</p>` : ''}
+        <p class="st-share-caption">${escapeHtml(share.caption.en)}</p>
+      </div>` : '';
+    // The consent line and the length line print once in each week part, at the first shot of day 1 (D20).
+    const consentBlock = options.consent ? `
+      <div class="st-share-consent"><p>${escapeHtml(l.shareConsent)}</p><p>${escapeHtml(l.shareLength)}</p></div>` : '';
     return `
     <div class="st-step${step.moved ? ' st-moved' : ''}">
       <h4 class="st-step-title">${options.pageOf ? `<span class="st-step-badge" data-part="step-badge">${escapeHtml(badge)}</span> ` : `${escapeHtml(step.id)} · `}${title}${minutes}</h4>
       ${step.materials.length ? `<p class="st-gloss"><strong>${escapeHtml(l.materials)}:</strong> ${escapeHtml(step.materials.map(material).join(', '))}</p>` : ''}
-      ${renderNote(step.en, step.th, lang)}${routines ? `\n      ${routines}` : ''}
+      ${renderNote(step.en, step.th, lang)}${routines ? `\n      ${routines}` : ''}${shareBlock}${consentBlock}
       <div class="st-variants">
         ${variant(l.easier, step.easier)}
         ${variant(l.harder, step.harder)}
@@ -219,12 +251,27 @@ function renderHeader(w: StorytimeWeek, lang: SupportedLanguage, l: StorytimeLab
  * The HTML of one week: the header page and the five day sections.
  * @param w The parsed week.
  * @param lang The book language. The Thai book prints the English of a part that has no Thai yet.
+ * @param options The draft loops, the student-book page list, and the parent-share moments (`share`).
  * @returns The HTML.
  */
-export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, options: { loops?: boolean; studentBookPages?: StorytimeBookPage[] } = {}): string {
+export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, options: { loops?: boolean; studentBookPages?: StorytimeBookPage[]; share?: boolean } = {}): string {
     const l = storytimeLabels(lang);
     const pageOf = options.studentBookPages ? (stepId: string) => storytimeStepPage(options.studentBookPages!, w.meta.week, stepId) : undefined;
     const scripts = [...w.scripts].sort((a, b) => a.day - b.day);
+    // The share moment of each step of the week (FR-14). A moved step prints in another day's section, so
+    // the map holds the shots of the whole week. The consent lines print at the first shot of the first day
+    // that has a share (D20, Q18).
+    const shares = new Map<string, { media: 'photo' | 'video'; caption: BiText }>();
+    let consentStep: string | undefined;
+    if (options.share) {
+        for (const s of scripts) {
+            if (!s.share) continue;
+            if (consentStep === undefined) consentStep = s.share.shots[0]?.step;
+            for (const shot of s.share.shots) shares.set(shot.step, { media: shot.media, caption: s.share.caption });
+        }
+    }
+    const shareOf = (stepId: string) => (options.share ? shares.get(stepId) : undefined);
+    const consentOf = (stepId: string) => options.share === true && stepId === consentStep;
     const days = scripts.map((s, i) => {
         const prep = s.prep.length ? `<div class="st-prep"><h4>${escapeHtml(l.prep)}</h4><ul>${s.prep.map((x) => `<li>${escapeHtml(pick(x, lang))}</li>`).join('')}</ul></div>` : '';
         const strip = w.review.find((r) => r.day === s.day)?.cards ?? [];
@@ -251,13 +298,13 @@ export function renderStorytimeWeek(w: StorytimeWeek, lang: SupportedLanguage, o
     ${prep}
     <div class="st-opening">
       <h4>${escapeHtml(l.opening(w.meta.openingMinutes, recallMinutes))}</h4>
-      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false, pageOf })).join('') : ''}</li>`).join('')}</ol>
+      <ol>${l.openingSteps.map((x, j) => `<li>${escapeHtml(item(x, j))}${j === 2 ? openingSongs.map((st) => renderStep(st, lang, l, { title: openingSongItem, showMinutes: false, pageOf, share: shareOf(st.id), consent: consentOf(st.id) })).join('') : ''}</li>`).join('')}</ol>
       <h5>${escapeHtml(l.strip)}</h5>
       ${stripHtml}${options.loops && s.recall ? `\n      <h5>${escapeHtml(l.recallLoop)}</h5><p>${escapeHtml(s.recall.ask.en)}</p>${lang === 'th' && s.recall.ask.th ? `<p class="st-gloss">${escapeHtml(s.recall.ask.th)}</p>` : ''}<p>${s.recall.items.map((card) => `<span class="st-card">${escapeHtml(card.text)}</span>`).join('')}</p>` : ''}
     </div>
-    ${movedGroup(l.recall, recall, lang, l, pageOf)}
-    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, pageOf, questions: st.id === 'D3' ? w.books.find((book) => book.kind === 'readalong')?.questions : undefined })).join('')}
-    ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l, pageOf) : ''}
+    ${movedGroup(l.recall, recall, lang, l, pageOf, shareOf, consentOf)}
+    ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, pageOf, share: shareOf(st.id), consent: consentOf(st.id), questions: st.id === 'D3' ? w.books.find((book) => book.kind === 'readalong')?.questions : undefined })).join('')}
+    ${i === scripts.length - 1 ? movedGroup(l.nextOpening, moved, lang, l, pageOf, shareOf, consentOf) : ''}
   </section>`;
     });
     return renderHeader(w, lang, l) + days.join('') + renderBenchmark(w, lang, l) + renderSong(w, lang, l);
@@ -339,9 +386,9 @@ function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: Storytime
 }
 
 /** A heading and moved steps: the heading and the first step in one block, the other steps after it. */
-function movedGroup(heading: string, steps: StorytimeStep[], lang: SupportedLanguage, l: StorytimeLabels, pageOf?: (stepId: string) => StorytimeStepPage | undefined): string {
+function movedGroup(heading: string, steps: StorytimeStep[], lang: SupportedLanguage, l: StorytimeLabels, pageOf?: (stepId: string) => StorytimeStepPage | undefined, shareOf?: (stepId: string) => { media: 'photo' | 'video'; caption: BiText } | undefined, consentOf?: (stepId: string) => boolean): string {
     if (!steps.length) return '';
-    const [first, ...rest] = steps.map((st) => renderStep(st, lang, l, { pageOf }));
+    const [first, ...rest] = steps.map((st) => renderStep(st, lang, l, { pageOf, share: shareOf?.(st.id), consent: consentOf?.(st.id) }));
     return `<div class="st-moved-group"><h4>${escapeHtml(heading)}</h4>${first}</div>${rest.join('')}`;
 }
 
@@ -374,6 +421,8 @@ export interface StorytimeManualOptions {
     lang?: SupportedLanguage;
     /** Print the draft teaching loops. Defaults to off for the approved proof. */
     loops?: boolean;
+    /** Print the draft parent-share moments (FR-14). Defaults to off, so every earlier build stays byte-equal (D21). */
+    share?: boolean;
     /** `a4` (the office print, default) or `book` (the printer's page). */
     paper?: TeacherManualPaper;
     /** The page list of the student book of the unit (`storytimeStudentBookPages`); the steps then name the printed pages. */
@@ -403,7 +452,7 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
       <p class="tm-title-subtitle" style="color: ${THEME.secondary};">${escapeHtml(l.subtitle)}</p>
     </div>
   </div>`;
-    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang, { loops: options.loops, studentBookPages: options.studentBookPages })).join('\n');
+    const body = [...weeks].sort((a, b) => a.meta.week - b.meta.week).map((w) => renderStorytimeWeek(w, lang, { loops: options.loops, share: options.share, studentBookPages: options.studentBookPages })).join('\n');
     const html = wrapTeacherManualDocument(title, body, '', {
         seriesName: l.product,
         seriesLevel: levelLabel,
@@ -417,6 +466,7 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
     const thaiInEnglish = lang === 'en' && /[\u0e00-\u0e7f]/.test(body)
         ? `${fontFaceCss(PRINT_FONT_FACES.filter((f) => f.family === 'Sarabun'))}\n    body, body * { font-family: 'Open Sans', 'Sarabun', sans-serif; }`
         : '';
-    // In the head, not the body: Paged.js reads its page breaks only from the head styles.
-    return { html: html.replace('</head>', `<style>${CSS}${options.studentBookPages ? BADGE_CSS : ''}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
+    // In the head, not the body: Paged.js reads its page breaks only from the head styles. The share style is
+    // added only with the share option, so every earlier build stays byte-equal (D21).
+    return { html: html.replace('</head>', `<style>${CSS}${options.studentBookPages ? BADGE_CSS : ''}${options.share ? SHARE_CSS : ''}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
 }
