@@ -402,6 +402,8 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
     }
     for (const book of copy.books ?? []) {
         delete book.questions;
+        // The app word clips of the book words are Phase 11 media, not loops content (Phase 11, K15).
+        delete book.audio?.wordClips;
         // The app picture paths of the book covers and pages are media paths, not loops content.
         delete book.cover?.file;
         for (const page of book.pages ?? []) delete page.image?.file;
@@ -418,6 +420,8 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         delete copy.approval.images;
     }
     delete copy.print;
+    // The song video lead-in is the Phase 11 media of the song video (Phase 11, K15).
+    delete copy.song?.videoLeadInSeconds;
     return copy;
 }
 
