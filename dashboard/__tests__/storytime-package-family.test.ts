@@ -1072,7 +1072,23 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         expect(bookFiles(before), 'the book file lines: 18').toHaveLength(18);
         expect(bookFiles(after), 'the book file lines stay 18').toHaveLength(18);
         expect(bookFiles(after), 'the book file lines keep their values').toEqual(bookFiles(before));
-        expect(diff.suffix, 'the lines after the family block are unchanged').toBeGreaterThan(0);
+        const familyEnd = (lines: string[]): number => {
+            const start = lines.findIndex((line) => line.trim() === '"family": {');
+            if (start < 0) return -1;
+            const indent = lines[start].match(/^\s*/)?.[0] ?? '';
+            for (let index = start + 1; index < lines.length; index += 1) {
+                if (lines[index] === `${indent}},`) return index;
+            }
+            return -1;
+        };
+        const beforeEnd = familyEnd(beforeLines);
+        const afterEnd = familyEnd(afterLines);
+        expect(beforeEnd, 'the family block of the first text ends').toBeGreaterThan(-1);
+        expect(afterEnd, 'the family block of the second text ends').toBeGreaterThan(-1);
+        const beforeTail = beforeLines.slice(beforeEnd + 1);
+        const afterTail = afterLines.slice(afterEnd + 1);
+        expect(beforeTail.length, 'the tail of the week file is not empty').toBeGreaterThan(0);
+        expect(afterTail, 'the lines after the family block are unchanged').toEqual(beforeTail);
     });
 
     it.each(H8_CASES)('R2-7 the script stops before any write: $name', async (testCase) => {
