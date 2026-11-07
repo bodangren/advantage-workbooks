@@ -1,0 +1,28 @@
+[PASS] check 1 manifest lines 73 equals payload files 73; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w01.json with git show 10d5fcfc exit 0
+[PASS] check 3 clips 22 equal git show of media and bank (cmp); MANIFEST sha equals bank mp3 sha; bad 0 []
+[PASS] check 4 headers 1, line '# Changed since w01-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 23, listed: 23, diff lines: 0; old-sha256 empty 22 equals new paths 22; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 clip lines: 22 (line 22 expected); grep exit 0
+[PASS] check 7 source-commit equals workbooks-commit 10d5fcfc; 40 hex; ancestor exit 0; lines 4 of 4
+[PASS] check 8 unsafe paths 0; longest 42; image.file values 36, bad 0
+[PASS] check 9 media strings 71; each has its file except 1: approval.audio.source ends in song.mp3 (a prose note, not a path)
+payload files without the MANIFEST: 73
+MANIFEST sha256: caf4a57843264fc0d815fb283a334b0d10f0b1038a0d1bc4b7233299f9bec332
+RESULT PASS (9 checks, 0 failures)
+
+=== literal shell checks: ~/Desktop/handoff/w01-storytime-app-package-r4 ===
+payload files without the MANIFEST: 73
+sha256sum -c exit: 0
+changed-since headers: 1
+old-sha256 empty lines: 22
+new-sha256 empty lines: 0
+clip lines: 22
+unsafe paths: 0
+longest path (characters): 42
+=== changed paths: join -a1 -a2 of the r3 and r4 MANIFEST lists ===
+changed paths from the join: 23
+listed in the Changed since section: 23
+diff lines: 0
+
+family provenance join: family provenance rows: 6, differences: 0
