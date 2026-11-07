@@ -1,0 +1,93 @@
+# Jr Green · Phase 3b · the caption list for the 11-16 sitting · storytime_teaching_loops_20261103
+
+- Date: 2026-11-08
+- Role: Jr Green (Green phase, Phase 3b, item 2 of the track)
+- role_base_sha: 57c4bf123e77a1830b5cbd578cce2944a5d52a45
+- Starting HEAD: 57c4bf123e77a1830b5cbd578cce2944a5d52a45 (equal to role_base_sha)
+- Final Green HEAD before this log commit: 7d05abefa329387df6b38e8ab5c29d46760f5f5d
+- Task: `- [ ] Task: the caption list for the 11-16 sitting, by 2026-11-13` (plan.md, phase 3b).
+
+## 1. Range check of the committed Red change
+
+The committed Red change of this phase is inside `phase_base_sha..HEAD`:
+
+- `git merge-base --is-ancestor 56038c16 57c4bf12` exits 0 (Red 3, the caption cross-check tests and the teacher book tests, is an ancestor of the role base).
+- The implementation that the list must match is Green 3, commit `1281d4af`.
+- `git diff --quiet 1281d4af HEAD -- content/storytime/l2 dashboard/lib/storytime/i18n.ts` exits 0 before the work. The week files and `i18n.ts` did not change after the switch `61a3fc52` and Green 3 `1281d4af`.
+- `git status --porcelain content/storytime/l2 dashboard/lib/storytime/i18n.ts dashboard/scripts/storytime/check-share-captions.ts` prints nothing before the work.
+- No Red test was edited. The list and the look point file are the only artifacts that changed in the track.
+
+## 2. The pre-task state (the targeted command before the list existed)
+
+`cd dashboard && npx tsx scripts/storytime/check-share-captions.ts --level 2 --list ../measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md`
+
+- Output: `No such list file: /home/daniebo/Desktop/Workbooks/measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md`
+- Exit: 2 (`PRETASK_EXIT=2`). The list did not exist. The target behavior is exit 0 with the last line `share captions: 44 rows, 0 problems`.
+
+## 3. The list
+
+Path: `measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md` (74 lines, 14793 bytes).
+
+- Header: the source commit `57c4bf12…`, the date of the list, the teacher book path and its SHA-256, and the answer sentence of spec FR-14.
+- The labeled line `Share icon pages: 47, 5, 12, …` is a copy of the first line of `share-icon-pages.txt`.
+- Table 1: 40 `SC-w0N-dD` rows (week, day, shots as `<step> <media>` joined by `; `, English caption, Thai caption draft).
+- Table 2: 4 `SL-` rows in the order sharePhoto, shareVideo, shareConsent, shareLength, for `storytimeLabels('en')` and `storytimeLabels('th')`.
+- A note that the Thai columns are drafts for Daniel's check only.
+- The single last line: `Daniel's answer: ____ (date ____)`.
+
+The rows came from code, not by hand: `npx tsx /tmp/opencode/p3b-captions/probe.ts` read the eight week files with `readLevelWeeks(STORYTIME_ROOT, 2)` and the labels with `storytimeLabels('en')` and `storytimeLabels('th')`, and wrote `source.json`. Then `python3 /tmp/opencode/p3b-captions/gen.py` wrote the markdown. `gen.py` escapes a `|` as `\|` and fails on a cell with a line break.
+
+## 4. The look point LP-28
+
+`measure/tracks/storytime_teaching_loops_20261103/look-points-11-16.md`:
+
+- Row LP-28 added after LP-27 (table order): the pointer to the list, the teacher book `share-check-v1/teacher-book`, and the two English review notes LP-S2 (w08 days 1 to 4: "reading center" against "decodables center") and LP-S3 (w01 day 2 "with a name" against w04 day 2 "with an action").
+- `Defaults: 27 look points` changed to `Defaults: 28 look points`. The clause after the count changed from `25 keep` to `26 keep`, because LP-28 is a keep point and 26 + 2 = 28. This is the only other edit on that line.
+- No other row changed. `git diff --numstat` of the file: 2 insertions, 1 deletion.
+
+## 5. Gates (test-strategy 9.13), capture `p3b-captions-gates.txt`
+
+1. Cross-check on the real list: exit 0, last line `share captions: 44 rows, 0 problems` (`XCHECK_EXIT=0`).
+2. Mutation 1, one changed cell (the Thai cell of SC-w01-d1): exit 1, `SC-w01-d1: the row differs from the week file`, last line `share captions: 44 rows, 1 problems`.
+3. Mutation 2, one deleted row (SC-w05-d3): exit 1, `SC-w05-d3: the row is missing`, last line `share captions: 43 rows, 1 problems`.
+4. Mutation 3, one extra row (SC-w09-d1): exit 1, `SC-w09-d1: the row is not in the sources`, last line `share captions: 45 rows, 1 problems`.
+5. `grep -c '^| SC-w0'` prints 40. `grep -c '^| SL-'` prints 4. `grep -c '^Share icon pages: [0-9]'` prints 1. `grep -c 'share-check-v1/teacher-book'` prints 1. `tail -n 1` and the answer-line pattern print 1. `grep -c '^| LP-28 |'` prints 1. `grep -c 'Defaults: 28 look points'` prints 1.
+6. Cross-check rerun at the committed list (HEAD 9d05352d): exit 0, last line `share captions: 44 rows, 0 problems`.
+7. `git diff --quiet 57c4bf12 HEAD -- content/storytime/l2 dashboard/lib/storytime/i18n.ts` exits 0 after the list commit. It also exits 0 after the plan commit at HEAD 7d05abef (`FINAL_DIFF_EXIT=0`). `git status --porcelain` of those paths prints nothing.
+
+The mutation copies are in `/tmp/opencode/p3b-captions/` (`list-changed.md`, `list-deleted.md`, `list-extra.md`). No gate failed, so no rerun of a fixed list was needed.
+
+## 6. Plan evidence
+
+Two sub-bullets went into `plan.md`; no task line changed:
+
+- Under the build task (`[ ]` kept): one sub-bullet with the two orchestrator results of 2026-11-08 (the sheet check, person-checked, with no defect; and the text gate with orchestrator default A, 316 differences, 0 rows with a share label or a caption, no rebuild).
+- Under the caption task (`[ ]` kept): one evidence sub-bullet with the list commit, the cross-check line and exit, the three mutation results, the grep gates, the header commit check, and the PM receipt as pending.
+
+The caption task stays `[ ]`, because its done-when needs the PM receipt.
+
+## 7. Commits
+
+- List and LP-28: `9d05352d` `measure(plan): Phase 3b caption list for the 11-16 sitting and LP-28 (storytime_teaching_loops)`. 2 files, 76 insertions, 1 deletion.
+- Plan evidence and the gate capture: `7d05abef` `measure(plan): Phase 3b caption list evidence and build-task orchestrator results (storytime_teaching_loops)`. 2 files, 57 insertions.
+- This log: its own commit.
+
+No TypeScript file changed, so no graph update was due. `pnpm-lock.yaml` did not change. `video/storytime-song/scripts/render.mjs` and `dashboard/raw.json` are other sessions' work; they were never staged.
+
+## 8. Scope note for the reviewers
+
+- The Thai columns of the list are drafts for Daniel's check only. No model checks or edits them (spec FR-14; test-strategy 9.13). A reviewer audits the list structure and the English columns only.
+- The reviewers get the English pack only (test-strategy 9.8). Their logs must show no read of `content/storytime` (P20).
+- New files for scoping: `measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md` and `measure/runs/storytime_teaching_loops_20261103/p3b-captions-gates.txt`.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: 3b
+role: jr-green
+role_base_sha: 57c4bf123e77a1830b5cbd578cce2944a5d52a45
+head: 7d05abefa329387df6b38e8ab5c29d46760f5f5d
+commits: list 9d05352d; plan evidence 7d05abef; this log commit
+gates: cross-check exit 0 "share captions: 44 rows, 0 problems"; mutations 44/1, 43/1, 45/1 all exit 1; grep gates 40, 4, 1, 1, 1, 1, 1; header commit diff exit 0
+dispositions: none
+handoff: The caption list is ready at measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md (list commit 9d05352d). The cross-check exits 0 with "share captions: 44 rows, 0 problems". LP-28 is in look-points-11-16.md and the Defaults line reads 28 look points. The caption task stays [ ] until the PM session confirms receipt; the orchestrator sent the list to the PM session on 2026-11-08. The build task also stays [ ], and its evidence now holds the orchestrator sheet check and the text-gate default A. Reviewers must audit the list structure and the English columns only, because no model checks the Thai columns (spec FR-14). The Thai is for Daniel's sitting of 2026-11-16. No test file, no TypeScript file, and no content file changed in this role.
+END_MEASURE_AGENT_RESULT
