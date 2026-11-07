@@ -1,0 +1,23 @@
+Mid Red, Phase 3b, test repair: AX-lines of storytime-print-v15.test.ts.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: mid-red
+track: storytime_teaching_loops_20261103
+phase: 3b
+role_base_sha: 2694fc2dafcdfa302472a5b2c0e5022db65b73af
+baseline_sha: 2694fc2dafcdfa302472a5b2c0e5022db65b73af
+head: 8072fcd6beb643897e44e42ed9fc20919a8da7fa
+test_commit: ce41d8c2a6e1ebdde9f37d8501af94ad6703e76a
+plan_commit: 8072fcd6beb643897e44e42ed9fc20919a8da7fa
+files: dashboard/__tests__/storytime-print-v15.test.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md; measure/runs/storytime_teaching_loops_20261103/mid-red-p3b-ax-*.txt
+gates:
+  v15: Tests 28 passed (28), exit 0 (mid-red-p3b-ax-v15.txt)
+  mutant 1 (axe to ax): AX-lines failed, 4 lines instead of 5; cmp restore equal (mid-red-p3b-ax-mut1.txt)
+  mutant 2 (phrase added to a title value): AX-lines failed, 6 lines instead of 5; cmp restore equal (mid-red-p3b-ax-mut2.txt)
+  lint and tsc: exit 0 (mid-red-p3b-ax-lint.txt)
+  red gate: storytime-loops-*.test.ts, Test Files 1 failed | 7 passed (8), Tests 1 failed | 296 passed (297); the one failure is N8 "the status of share-moment is fail after the switch (AC-14.6)" (mid-red-p3b-ax-red.txt)
+  scope: the test commit holds only the v15 test file; w02.json equal to its copy; pnpm-lock.yaml unchanged
+dispositions: none
+handoff: The orchestrator re-runs PROJECT_TESTS; the AX pin block is cured. The vitest exit code of the two mutant runs is not recorded (a shell variable dropped); the summary lines prove the failures. The N8 failure is the only Red failure and the switch task cures it.
+END_MEASURE_AGENT_RESULT
