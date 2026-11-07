@@ -81,7 +81,7 @@ The RPG pattern in five parts: (1) a painted world to the edges, (2) the same he
 
 ### FR-4 The text
 
-1. Every text on a mockup is an approved text, word for word: "Storytime Advantage", "Level 2 · Unit 1", "Student Book", "Teacher Book", "Sprout", the five panel fields of the approved v3 back, "Nan Can Nod", "SPROUT", "Week 1", "Listen and read.", and "LINE".
+1. Every text on a mockup is an approved text, word for word: "Storytime Advantage", "Level 2 · Unit 1", "Student Book", "Teacher Book", "Sprout", the five panel fields of the approved v3 back, "Nan Can Nod", "SPROUT", "Week 1", "Listen and read.", and "LINE". Phase 2 clarification (2026-11-07, F7 of `test-strategy.md`): the role set of the 14 reader covers also holds "Sound it out." (6 readers; FR-7.4).
 2. The five Thai contact lines are byte-identical to `BACK_LINES.contact` (`dashboard/lib/covers/back-text.ts`). A mockup adds no other Thai.
 3. No mockup shows "CEFR", a CEFR level, "Starters", "Primary Advantage", "GSE", "YLE", "Reading A-Z", "RAZ", "Pre-A1", "Pre A1", "Chibi", "Mitr", or a year. No front shows a level badge.
 4. The QR is the approved LINE QR (https://line.me/ti/p/Pf7_EF98Pv), cut from the approved v3 back PNG.
@@ -143,18 +143,18 @@ The PM order for Phase 2 (2026-11-07) has two parts. First, the series cover tem
 - D-A6 (art size and upscale): image-01 gives at most 2048 px on the long side. Source: `mmx image generate --help` (width and height from 512 to 2048). The art is 1448 x 2048 px, which is 175 ppi at the A4 trim. A local upscale with the `lanczos3` kernel of `sharp` (a dashboard dependency) makes 2480 x 3508 px. That is 300 ppi at 210 x 297 mm (factor 1.713). No AI upscaler is installed on 2026-11-07, and this track installs no package.
 - D-A7 (reader pictures): the reader covers use the approved files `content/storytime/l2/print/pictures/l2-wNN-cover-<slug>-v1.png` (color, A3) and `-line-v1.png` (black and white, leaf), 4000 x 3000 px. The build does not resample them up. The build report gives the effective ppi (4000 px across 420 mm is 242 ppi).
 - D-A8 (art files): the final art goes into `content/storytime/l2/print/pictures/` with the names `l2-u1-cover-quest-<side>-v1.jpg` (source) and `l2-u1-cover-quest-<side>-v1-300ppi.png` (upscaled). `.gitignore` line 37 keeps that folder out of git. `quest.json` names the files.
-- D-A9 (versions and folders, amended after review finding F2): the build writes into a new folder, `~/Desktop/print-ready/storytime/covers-quest-v1/`. The file versions continue the approved files. The student cover v3 becomes v4, and the teacher cover v1 becomes v2. The reader cover files start at v1. The build refuses a folder that holds files of another version, and it never overwrites a file. The layout of the folder:
+- D-A9 (versions and folders, amended after review finding F2): the build writes into a new folder, `~/Desktop/print-ready/storytime/covers-quest-v1/`. The file versions continue the approved files. The student cover v3 becomes v4, and the teacher cover v1 becomes v2. The reader cover files start at v1. The build refuses a folder that holds files of another version, and it never overwrites a file. The build option `--version <n>` is the set number (pin P5 of `test-strategy.md`). The folder is `covers-quest-v<n>`, and the file versions are student 3+n, teacher 1+n, and readers n. Set 1 gives v4, v2, and v1. The layout of the folder:
   - `student/`: `front.png`, `back.png`, `cover.pdf`, `Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf`, `build-report.json`;
   - `teacher/`: `teacher-front.png`, `teacher-back.png`, `teacher-cover.pdf`, `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf`, `build-report.json`;
   - `readers-a3/`: `l2-wNN-<slug>-a3-cover.png` (14 files), `reader-covers-a3.pdf`, `Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf`, `build-report.json`;
   - `readers-leaf/`: `l2-wNN-<slug>-leaf-cover.png` (14 files), `reader-leaf-covers.pdf`, `Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf`, `build-report.json`;
   - `contact-sheets/`: `student.png`, `teacher.png`, `readers-a3.png`, `readers-leaf.png`, `all.png`;
   - the folder root: `spend-log.md` (Task 2.8 writes it first) and `MANIFEST.txt` (Task 2.11 writes it last).
-  The 11-16 copy (D-A11) has the same five subfolders, and `README.md`, `spend-log.md`, and `MANIFEST.txt` at its root. `<slug>` is the slug of the approved cover picture file name (for example `nan-can-nod`).
+  The 11-16 copy (D-A11) mirrors the whole folder (orchestrator default of 2026-11-07; `test-strategy.md` section 4.12). It is a byte copy of the 50 files in the same five subfolders, with `spend-log.md` at its root. It adds `README.md` and its own `MANIFEST.txt` at its root. The print-ready folder holds 51 files with its `MANIFEST.txt`, and the copy holds 52. `<slug>` is the slug of the approved cover picture file name (for example `nan-can-nod`).
 - D-A10 (teacher back): the PM list names the teacher front only. The teacher book prints a back too (teacher cover v1 has one). Default: the teacher back uses the option A back frame. It holds the back scenery art, the series banner, the contact sign with the five Thai lines, the QR, and "LINE". It has no five-field panel, as the v1 teacher back. It needs no new picture.
 - D-A11 (11-16 folder): no 11-16 check folder exists on 2026-11-07. `~/Desktop/handoff/` has no folder for that date, and `look-points-11-16.md` names no folder. Default: `~/Desktop/handoff/storytime-check-2026-11-16/covers/`.
 - D-A12 (test names, review finding F4): the Phase 2 test files are `dashboard/__tests__/quest-cover-template.test.ts` and `dashboard/__tests__/quest-cover-build.test.ts`. The names are outside the shared globs `__tests__/storytime-*.test.ts` and `__tests__/covers-*.test.ts` of the print, loops, week-package, and unit 2 tracks. Reason: a red file of this track then fails no Green gate of another track, so rule R1 does not bind this track, and Red 1 can start at once. Section 2.3 of `measure/tracks/storytime_teaching_loops_20261103/test-strategy.md` names this structural option. The other tracks lose no cover of a shared module, because guard G-1 keeps every shared file unchanged. The `PROJECT_TESTS` of this track is the shared list plus `__tests__/quest-cover-*.test.ts`, with `--maxWorkers=1`.
-- D-A13 (date fallback, review finding F4): Green 2 can fail to pass by 2026-11-12 18:00 ICT. Then the final covers come from the option A mockup pipeline of `options/`. The steps: `build.py` with the fixed art, Chrome through heavy-run, then `scripts/print/make-pdfx.ts`. The fallback writes the file names and the folders of D-A9, and it keeps every print and check step of Tasks 2.9 to 2.12. The template tasks then follow after 2026-11-14. The fallback changes no file under `dashboard/`.
+- D-A13 (date fallback, review finding F4): Green 2 can fail to pass by 2026-11-12 18:00 ICT. Then the final covers come from the option A mockup pipeline of `options/`. The steps: `build.py` with the fixed art, Chrome through heavy-run, then `scripts/print/make-pdfx.ts`. The fallback writes the file names and the folders of D-A9, and it keeps every print and check step of Tasks 2.9 to 2.12. The template tasks then follow after 2026-11-14. The fallback changes no file under `dashboard/`. Checkpoint: 2026-11-10 18:00 ICT (orchestrator default of 2026-11-07; `test-strategy.md` section 4.13). If Green 1 is not done then, the orchestrator starts the fallback driver in parallel. Reason (measured): `build.py` builds only the 15 mockups, with no teacher back, no loop over the 14 A3 and 14 leaf covers, and no `--k-only` step. The plan names the trigger command and the record line.
 
 ### FR-6 The option A frame
 
@@ -173,9 +173,9 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 ### FR-7 The per-book parts
 
 1. A book row of `quest.json` holds the level, the unit, and the lit band. It also holds the art files of the student front, the back, and the teacher front, and the cast group of each front.
-2. The lit band is one of the five bands of the week schema. Level 2 Unit 1 lights "sprout".
+2. The lit band is one of the five bands of the week schema. Level 2 Unit 1 lights "sprout". `quest.json` holds the band in lower case (`sprout`). The week schema holds it with a capital (`Sprout`). The data check compares the capitalized `litBand` with `meta.band` of the weeks (pin P11 of `test-strategy.md`).
 3. The cast of Level 2 Unit 1 is fixed (FR-3.4, review finding F5). The student front shows Nan, Sam, and Pip: 2 children and 1 animal, the limit of D5 and D7 of track `storytime_covers_20261027`. The teacher front shows Teacher Kim, Nan, and Sam. The data check of `quest.json` rejects a cast group above the limits. A student front fails with more than 2 children or more than 1 animal. A teacher front fails with more than Teacher Kim and 2 children.
-4. A reader cover reads its parts from the week file and changes nothing in it. The parts are the title, the week number, the role mark, and the approved picture row with the use "cover".
+4. A reader cover reads its parts and changes nothing in their files (clarified 2026-11-07, F7 and F8 of `test-strategy.md`). The title, the week number, and the kind come from `books[]` of the week file. The approved picture row with the use "cover" comes from `content/storytime/l2/print/pictures.json` (14 rows, weeks 1 to 7, two per week), not from the week file. The role mark follows the role rule of `readers.ts`. "Listen and read." marks 8 readers: the 7 read-alongs and "Nan Can Nod", the sound book of week 1. "Sound it out." marks the other 6 decodable readers.
 5. Level 2 Unit 1 has 14 readers: w01 "Hello!" and "Nan Can Nod" to w07 "Is It a Ball?" and "The Top". Week 8 has no reader.
 
 ### FR-8 The art rules
@@ -203,19 +203,19 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 ### FR-10 The text rules
 
 1. Every text is an approved text, word for word, as FR-4.1. The reader texts come from the week files.
-2. The Thai of the back sides is byte-identical to `BACK_LINES.contact`. The fronts and the reader covers hold no Thai.
+2. The Thai of the back sides is byte-identical to `BACK_LINES.contact`. The fronts and the reader covers hold no Thai. The Thai byte check reads the Chrome PDFs or the HTML, never a PDF/X file. Reason (measured, F13 of `test-strategy.md`): `pdftotext` of the PDF/X file drops the Thai tone marks.
 3. The forbidden words of FR-4.3 apply to every page.
-4. The text stays text in the PDF. `pdftotext` finds each approved text on its page.
+4. The text stays text in the PDF. `pdftotext` finds each approved text on its page. The English texts are also checked in the PDF/X file (FR-11.3).
 5. The art holds no letters, no words, no numbers, and no logo.
 
 ### FR-11 The print files and the hand-off
 
-1. The build writes the PNG of each page at 300 ppi, a Chrome PDF, and with `--print` a PDF/X-1a file through `scripts/print/make-pdfx.ts --keep-fonts`.
+1. The build writes the PNG of each page at 300 ppi, a Chrome PDF, and with `--print` a PDF/X-1a file through `scripts/print/make-pdfx.ts --keep-fonts`. The leaf print file adds `--k-only` (amended 2026-11-07, pin P7 of `test-strategy.md`). Reason (measured, F14): without it, the black and grey of the leaf convert to rich black (C, M, and Y at 0.176). With it, C, M, and Y are 0.000, as FR-6.7 needs.
 2. The print files: `Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf` (2 pages), `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf` (2 pages), `Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf` (14 pages), and `Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf` (14 pages).
-3. `PRINT_GATE` exits 0 for each print file.
+3. `PRINT_GATE` exits 0 for each print file. Next to it, the per-page text and font check (`PRINT_TEXT_CHECK` of the plan) runs on each print file. Every page holds "Storytime Advantage" and the title of its kind as text, and every font is embedded, with no Type 3 font. Reason (measured, F12 of `test-strategy.md`): `checkPdfx` excuses a page that already is one page-size image. Each cover page has a full-page art image, so a rasterized page passes `PRINT_GATE`.
 4. A contact sheet for each kind and one for all kinds. A person looks at every page at 100 % and records one line for each page.
 5. `MANIFEST.txt` gives the SHA-256, the size, and the name of each file. `sha256sum -c` passes on it.
-6. The 11-16 check folder (D-A11, the layout of D-A9) gets the print files, the PNGs, and the contact sheets. It also gets a README with one line for each file kind, the spend log, and its own `MANIFEST.txt`.
+6. The 11-16 check folder (D-A11, the layout of D-A9) gets a byte copy of every file of `covers-quest-v1` except its `MANIFEST.txt`. These are the print files, the Chrome PDFs, the PNGs, the build reports, the contact sheets, and the spend log. It also gets a README with one line for each file kind and its own `MANIFEST.txt`.
 7. The approved files stay unchanged: the student cover v3 PDF/X (SHA-256 begins `e0e0365a4ece8a5b`), its `cover.pdf` (begins `2964d9b678afc7a0`), and the teacher cover v1 PDF/X (begins `3b992af216dc2238`). They stay the print files until Daniel approves the option A files.
 
 ### Acceptance (Phase 2)
@@ -223,7 +223,7 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 - AC-6: The tests of `cover-quest.ts` and of the build pass, and `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` pass with no FAIL row.
 - AC-7: Guard G-1 holds for each Phase 2 commit. No commit changes a file of D-A3, with `dashboard/lib/covers/back-text.ts` and `dashboard/scripts/print/make-pdfx.ts`, and each changed path is in the allowed list of D-A3.
 - AC-8: The spend log lists every paid call of Phase 2, and the Phase 2 total is at most 0.9335 USD.
-- AC-9: The four print files pass `PRINT_GATE`, and the build report shows the copy, Thai, QR, page size, ppi, and band checks as pass.
+- AC-9: The four print files pass `PRINT_GATE` and the per-page text and font check of FR-11.3. The build report shows the copy, Thai, QR, page size, ppi, and band checks as pass. The Thai check reads the Chrome PDFs (FR-10.2).
 - AC-10: The look record has one line for each page, and each line is a pass, or a fault with its fix.
 - AC-11: The 11-16 folder holds the files of FR-11.6, and its `MANIFEST.txt` passes `sha256sum -c`.
 - AC-12 (owner-approved): Daniel approves the option A covers, or asks for a change. The task stays open until his word.
