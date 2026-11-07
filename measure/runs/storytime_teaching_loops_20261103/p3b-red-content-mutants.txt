@@ -1,0 +1,11 @@
+MN1 exit=1
+     × compare tolerance: a copy with only an added or a changed share passes the compare 26ms
+      Tests  1 failed | 10 passed | 64 skipped (75)
+MN2 exit=1
+     × compare falsifier: one changed character in an existing Thai line fails the compare 100ms
+     × compare falsifier: a Thai array reordered fails the compare 20ms
+      Tests  2 failed | 9 passed | 64 skipped (75)
+MN3 exit=1
+     × compare falsifier: one changed recall item fails the compare 27ms
+      Tests  1 failed | 10 passed | 64 skipped (75)
+0

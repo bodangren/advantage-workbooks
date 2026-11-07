@@ -1,0 +1,1024 @@
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-loops-share-content.test.ts (75 tests | 50 failed) 1551ms
+     ✓ compare falsifier: one changed character in an existing Thai line fails the compare 76ms
+     ✓ compare falsifier: one deleted existing line fails the compare 20ms
+     ✓ compare falsifier: one changed minutes value fails the compare 24ms
+     ✓ compare falsifier: two steps reordered fail the compare 15ms
+     ✓ compare falsifier: a Thai array reordered fails the compare 19ms
+     ✓ compare falsifier: one changed recall item fails the compare 17ms
+     ✓ compare falsifier: one changed loopMinutes value fails the compare 17ms
+     ✓ compare tolerance: a key reorder alone passes the compare 13ms
+     ✓ compare tolerance: a copy with only an added or a changed share passes the compare 28ms
+     ✓ compare falsifier: a changed existing line next to a share fails the compare 13ms
+     × w01 has a share on each of its 5 scripts 45ms
+     × w01 shots equal the moment table of FR-14, step and media, in order 9ms
+     × w01 passes share-moment with the status pass 17ms
+     × w01 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w01 captions in Thai are present and hold a Thai-script character 1ms
+     × w01 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w01 adds only share moments to its baseline file (additive, AC-14.5) 12ms
+     × w02 has a share on each of its 5 scripts 1ms
+     × w02 shots equal the moment table of FR-14, step and media, in order 9ms
+     × w02 passes share-moment with the status pass 9ms
+     × w02 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w02 captions in Thai are present and hold a Thai-script character 1ms
+     × w02 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w02 adds only share moments to its baseline file (additive, AC-14.5) 20ms
+     × w03 has a share on each of its 5 scripts 1ms
+     × w03 shots equal the moment table of FR-14, step and media, in order 3ms
+     × w03 passes share-moment with the status pass 8ms
+     × w03 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w03 captions in Thai are present and hold a Thai-script character 1ms
+     × w03 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w03 adds only share moments to its baseline file (additive, AC-14.5) 23ms
+     × w04 has a share on each of its 5 scripts 1ms
+     × w04 shots equal the moment table of FR-14, step and media, in order 3ms
+     × w04 passes share-moment with the status pass 9ms
+     × w04 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w04 captions in Thai are present and hold a Thai-script character 1ms
+     × w04 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w04 adds only share moments to its baseline file (additive, AC-14.5) 24ms
+     × w05 has a share on each of its 5 scripts 1ms
+     × w05 shots equal the moment table of FR-14, step and media, in order 3ms
+     × w05 passes share-moment with the status pass 9ms
+     × w05 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w05 captions in Thai are present and hold a Thai-script character 1ms
+     × w05 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w05 adds only share moments to its baseline file (additive, AC-14.5) 26ms
+     × w06 has a share on each of its 5 scripts 1ms
+     × w06 shots equal the moment table of FR-14, step and media, in order 2ms
+     × w06 passes share-moment with the status pass 7ms
+     × w06 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w06 captions in Thai are present and hold a Thai-script character 0ms
+     × w06 English captions differ from each other and from the captions of the other weeks 0ms
+     ✓ w06 adds only share moments to its baseline file (additive, AC-14.5) 22ms
+     × w07 has a share on each of its 5 scripts 1ms
+     × w07 shots equal the moment table of FR-14, step and media, in order 2ms
+     × w07 passes share-moment with the status pass 9ms
+     × w07 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w07 captions in Thai are present and hold a Thai-script character 1ms
+     × w07 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w07 adds only share moments to its baseline file (additive, AC-14.5) 26ms
+     × w08 has a share on each of its 5 scripts 1ms
+     × w08 shots equal the moment table of FR-14, step and media, in order 2ms
+     × w08 passes share-moment with the status pass 6ms
+     × w08 captions in English have 1 to 40 words and no pipe, angle bracket, or line break 1ms
+     × w08 captions in Thai are present and hold a Thai-script character 1ms
+     × w08 English captions differ from each other and from the captions of the other weeks 1ms
+     ✓ w08 adds only share moments to its baseline file (additive, AC-14.5) 24ms
+     × hold 40 shares and 40 different English captions 1ms
+     × the status of share-moment is fail after the switch (AC-14.6) 1ms
+     ✓ is byte-equal with and without the share fields, and holds no caption marker (AC-14.7)  752ms
+     ✓ compares different student books as different (non-vacuity of the student book test) 168ms
+     ✓ keeps the eight week files byte for byte over the run (guard) 8ms
+     ✓ fixtureWeek has a share on each of its 5 scripts and passes share-moment 7ms
+     ✓ fixtureWeek without the share of one day fails share-moment (non-vacuity of the fixture test) 4ms
+     ✓ fixtureReviewWeek has a share on each of its 5 scripts and passes share-moment 4ms
+     ✓ fixtureReviewWeek without the share of one day fails share-moment (non-vacuity of the fixture test) 2ms
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ ✓ __tests__/storytime-loops-teacher-book.test.ts (6 tests) 16709ms
+     ✓ documents --loops in the manual PDF help  8185ms
+     ✓ returns exit 2 for an unknown manual PDF flag  7253ms
+     ✓ does not print loop headings for a shipped week when the option is on  921ms
+ ✓ __tests__/storytime-loops-share.test.ts (23 tests) 3724ms
+     ✓ J1: the eight shipped weeks parse, and no script of them has a share  364ms
+     ✓ J2: a share-complete copy of each week parses, and the parsed share equals the sample  385ms
+     ✓ J13: no caption string ends in a media file extension  426ms
+     ✓ J18: the week files keep their hash, and the test writes nothing into the content folder  1063ms
+ ✓ __tests__/storytime-loops-checks.test.ts (38 tests) 1251ms
+ ✓ __tests__/storytime-loops-content.test.ts (104 tests) 3086ms
+     ✓ compares the baseline with itself and finds a real change (falsifiers on copies)  1314ms
+     ✓ w03 adds only the FR-1 fields to its baseline file (additive, spec D10)  575ms
+ ✓ __tests__/storytime-loops-audio.test.ts (14 tests) 544ms
+ ✓ __tests__/storytime-loops-schema.test.ts (27 tests) 393ms
+ ✓ __tests__/storytime-loops-manual.test.ts (10 tests) 517ms
+     ✓ renders the baseline-commit w01 and w02 to the recorded HTML hashes, with loops absent or off (renderer guard)  332ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 50 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 has a share on each of its 5 scripts
+AssertionError: expected 'w01 scripts with share: 0' to be 'w01 scripts with share: 5' // Object.is equality
+
+Expected: "w01 scripts with share: 5"
+Received: "w01 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 shots equal the moment table of FR-14, step and media, in order
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 shots equal the moment table of FR-14, step and media, in order
+AssertionError: expected [ …(5) ] to deeply equal [ { id: 'A', day: 1, …(1) }, …(4) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "day": 1,
+      "id": "A",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "A3",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 2,
+      "id": "B",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "B5",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 3,
+      "id": "C",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "C4",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 4,
+      "id": "D",
+-     "shots": [
+-       {
+-         "media": "photo",
+-         "step": "D4",
+-       },
+-       {
+-         "media": "video",
+-         "step": "D5",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 5,
+      "id": "E",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "D6",
+-       },
+-     ],
++     "shots": null,
+    },
+  ]
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:234:28
+    232|             const actual = week.scripts.map((s) => ({ id: s.id, day: s…
+    233|             const expected = week.scripts.map((s) => ({ id: s.id, day:…
+    234|             expect(actual).toEqual(expected);
+       |                            ^
+    235|         });
+    236| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 passes share-moment with the status pass
+AssertionError: w01: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w01 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 captions in Thai are present and hold a Thai-script character
+AssertionError: w01 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 English captions differ from each other and from the captions of the other weeks
+AssertionError: w01 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 has a share on each of its 5 scripts
+AssertionError: expected 'w02 scripts with share: 0' to be 'w02 scripts with share: 5' // Object.is equality
+
+Expected: "w02 scripts with share: 5"
+Received: "w02 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 passes share-moment with the status pass
+AssertionError: w02: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w02 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 captions in Thai are present and hold a Thai-script character
+AssertionError: w02 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 English captions differ from each other and from the captions of the other weeks
+AssertionError: w02 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 has a share on each of its 5 scripts
+AssertionError: expected 'w03 scripts with share: 0' to be 'w03 scripts with share: 5' // Object.is equality
+
+Expected: "w03 scripts with share: 5"
+Received: "w03 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 passes share-moment with the status pass
+AssertionError: w03: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w03 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 captions in Thai are present and hold a Thai-script character
+AssertionError: w03 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 English captions differ from each other and from the captions of the other weeks
+AssertionError: w03 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 has a share on each of its 5 scripts
+AssertionError: expected 'w04 scripts with share: 0' to be 'w04 scripts with share: 5' // Object.is equality
+
+Expected: "w04 scripts with share: 5"
+Received: "w04 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 passes share-moment with the status pass
+AssertionError: w04: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w04 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 captions in Thai are present and hold a Thai-script character
+AssertionError: w04 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 English captions differ from each other and from the captions of the other weeks
+AssertionError: w04 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 has a share on each of its 5 scripts
+AssertionError: expected 'w05 scripts with share: 0' to be 'w05 scripts with share: 5' // Object.is equality
+
+Expected: "w05 scripts with share: 5"
+Received: "w05 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 passes share-moment with the status pass
+AssertionError: w05: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w05 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 captions in Thai are present and hold a Thai-script character
+AssertionError: w05 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 English captions differ from each other and from the captions of the other weeks
+AssertionError: w05 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 has a share on each of its 5 scripts
+AssertionError: expected 'w06 scripts with share: 0' to be 'w06 scripts with share: 5' // Object.is equality
+
+Expected: "w06 scripts with share: 5"
+Received: "w06 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 passes share-moment with the status pass
+AssertionError: w06: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w06 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 captions in Thai are present and hold a Thai-script character
+AssertionError: w06 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 English captions differ from each other and from the captions of the other weeks
+AssertionError: w06 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 has a share on each of its 5 scripts
+AssertionError: expected 'w07 scripts with share: 0' to be 'w07 scripts with share: 5' // Object.is equality
+
+Expected: "w07 scripts with share: 5"
+Received: "w07 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 passes share-moment with the status pass
+AssertionError: w07: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w07 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 captions in Thai are present and hold a Thai-script character
+AssertionError: w07 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 English captions differ from each other and from the captions of the other weeks
+AssertionError: w07 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 has a share on each of its 5 scripts
+AssertionError: expected 'w08 scripts with share: 0' to be 'w08 scripts with share: 5' // Object.is equality
+
+Expected: "w08 scripts with share: 5"
+Received: "w08 scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:227:64
+    225|             expect(week.scripts.map((s) => s.id)).toEqual(SCRIPT_IDS);
+    226|             const withShare = week.scripts.filter((s) => shareOf(s) !=…
+    227|             expect(`${name} scripts with share: ${withShare}`).toBe(`$…
+       |                                                                ^
+    228|         });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 shots equal the moment table of FR-14, step and media, in order
+AssertionError: expected [ …(5) ] to deeply equal [ { id: 'A', day: 1, …(1) }, …(4) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "day": 1,
+      "id": "A",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "A2",
++     "shots": null,
+    },
+-     ],
+-   },
+    {
+      "day": 2,
+      "id": "B",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "B1",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 3,
+      "id": "C",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "C1",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 4,
+      "id": "D",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "D1",
+-       },
+-     ],
++     "shots": null,
+    },
+    {
+      "day": 5,
+      "id": "E",
+-     "shots": [
+-       {
+-         "media": "video",
+-         "step": "E3",
+-       },
+-     ],
++     "shots": null,
+    },
+  ]
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:234:28
+    232|             const actual = week.scripts.map((s) => ({ id: s.id, day: s…
+    233|             const expected = week.scripts.map((s) => ({ id: s.id, day:…
+    234|             expect(actual).toEqual(expected);
+       |                            ^
+    235|         });
+    236| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 passes share-moment with the status pass
+AssertionError: w08: day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment: expected 'warn' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:240:66
+    238|             const row = shareRow(shippedRaw(n));
+    239|             expect(row, `${name} has a ${SHARE_ID} row`).toBeDefined();
+    240|             expect(row!.status, `${name}: ${row!.detail ?? ''}`).toBe(…
+       |                                                                  ^
+    241|         });
+    242| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+AssertionError: w08 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:246:102
+    244|             const week = shippedWeek(n);
+    245|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    246|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                      ^
+    247|             for (const [index, caption] of captions.entries()) {
+    248|                 const where = `${name} day ${index + 1}`;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 captions in Thai are present and hold a Thai-script character
+AssertionError: w08 Thai captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:258:99
+    256|             const week = shippedWeek(n);
+    257|             const captions = week.scripts.map((s) => shareOf(s)?.capti…
+    258|             expect(captions.filter((c) => typeof c === 'string').lengt…
+       |                                                                                                   ^
+    259|             for (const [index, caption] of captions.entries()) {
+    260|                 expect(THAI_SCRIPT.test(caption!), `${name} day ${inde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 English captions differ from each other and from the captions of the other weeks
+AssertionError: w08 English captions: expected +0 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 0
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:266:60
+    264|         it(`${name} English captions differ from each other and from t…
+    265|             const own = shippedCaptions(n);
+    266|             expect(own.length, `${name} English captions`).toBe(5);
+       |                                                            ^
+    267|             expect(new Set(own).size, `${name} different captions`).to…
+    268|             const others = new Set(WEEK_NUMBERS.filter((m) => m !== n)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > the share moments of the eight weeks together > hold 40 shares and 40 different English captions
+AssertionError: expected 'scripts with share: 0' to be 'scripts with share: 40' // Object.is equality
+
+Expected: "scripts with share: 40"
+Received: "scripts with share: 0"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:282:58
+    280|         const scripts = shippedWeeks().flatMap((w) => w.scripts);
+    281|         const captions = scripts.flatMap((s) => (shareOf(s) ? [shareOf…
+    282|         expect(`scripts with share: ${captions.length}`).toBe('scripts…
+       |                                                          ^
+    283|         expect(`set size: ${new Set(captions).size}`).toBe('set size: …
+    284|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/50]⎯
+
+ FAIL  __tests__/storytime-loops-share-content.test.ts > the share moments of the eight weeks together > the status of share-moment is fail after the switch (AC-14.6)
+AssertionError: expected 'warn' to be 'fail' // Object.is equality
+
+Expected: "fail"
+Received: "warn"
+
+ ❯ __tests__/storytime-loops-share-content.test.ts:287:58
+    285| 
+    286|     it('the status of share-moment is fail after the switch (AC-14.6)'…
+    287|         expect((checksModule as Raw).SHARE_CHECK_STATUS).toBe('fail');
+       |                                                          ^
+    288|     });
+    289| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/50]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  50 failed | 247 passed (297)
+   Start at  20:17:11
+   Duration  88.20s (transform 2.16s, setup 27.51s, import 20.69s, tests 27.77s, environment 4ms)
+
