@@ -1,0 +1,70 @@
+# Green 1, Phase 11 (storytime_week_package_20261022)
+
+- role: Measure jr-green
+- role_base_sha: 49e84ccd156f413a698cbd39aa630c81be2a2d8e
+- red_base: 309a1d24a963bda9fe001680b7bb551e32022fac
+- red commit: b27f927f6afc5c3b61770db87a5d848b141fc55a (test file only)
+- model: deepseek/deepseek-flash#high (direct DeepSeek)
+- red model: claude-code/claude-sonnet-5-5#high (Anthropic)
+- substitution: MiniMax is above 80 % of its weekly quota; the PM stopped every opencode-go route.
+
+## Orchestrator decision recorded: the C1 conflict
+
+K2 step 3 is the rule: it strips a digit or an accent at an end, so `a1` gives `a` and `cafe` gives
+`caf`. The Red test follows K2 and checks `a1b`, `cafes`, and `teddy-bear` as throwing. The FR 7 C1
+example gets a text fix in a later plan edit. This role does not change the test.
+
+## Steps
+
+1. Preconditions and file inspection: in progress.
+
+## Round r2
+
+- Status: in progress (part 1 of 2 done).
+- Root cause of the K4 invalid JSON: the splice in `setWordClips` dropped the
+  `"audio": {` opening line of each block, so the audio keys merged into the book object.
+  The new text then failed with "Expected ',' or ']' after array element".
+- Fix: `body.slice(0, -1)` keeps the opening line; the closing line comes from `edited.slice(block.end)`.
+- Root cause of the C14 limit case: `makeTakes` checked its own take count only, so the
+  characters of the earlier keys were not counted. Fix: `spentBefore` carries the run count.
+- Clips: 88 passed of 88, exit 0 (`p11-green1-r2-clips.txt`).
+- Lint: exit 0 (`p11-green1-r2-lint.txt`). TSC: exit 0 (`p11-green1-r2-tsc.txt`).
+- `git status --porcelain content/`: empty. No commit in this round.
+- next: part 2 (GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_CHECKS, 13 mutants, live proofs, commits).
+
+## Round r3
+
+- Status: done. Part 2 of 2.
+- GREEN_TEST_COMMAND: 4 files, 181 tests, exit 0 (`p11-green1-green.txt`).
+- PROJECT_LINT: exit 0 (`p11-green1-lint.txt`).
+- PROJECT_CHECKS: 0 FAIL rows, exit 0 (`p11-green1-checks.txt`). `word-clips` is warn on
+  st2/1 to st2/7 and absent on st2/8. `song-lead-in` is warn on st2/1 and absent on st2/2 to
+  st2/8. `npx tsc --noEmit` gives 0 errors.
+- Rule R3: `dashboard/__tests__/storytime-loops-share-content.test.ts` is absent. No exclude.
+- PROJECT_TESTS: 62 files, 1391 tests, exit 0 on the first run (`p11-green1-project.txt`). No load
+  timeout, so no rerun.
+- Mutants: 13, caught 13, survivors none. Each restore equals its held copy (`restore cmp: all
+  equal`; `p11-green1-mutants.txt`). Runner: `/tmp/opencode/p11-mutants.py`. Each mutant runs the
+  whole `storytime-package-clips.test.ts` file with `--maxWorkers=1`.
+- Live proofs (`p11-green1-live.txt`): the SHA-256 of `song.mp4` and `song-phone.mp4` is in the r3
+  MANIFEST. Both video lines give 3.000, and the script prints `lead-in: 3.000`. The dry-run prints
+  12 keys and `chars: 37`. `--check` exits 1 with 23 lines: 11 `ok` and 12 `no bank row`.
+- `git status --porcelain content/` is empty. `pnpm-lock.yaml` is unchanged.
+- Code commit 69cd4db4: 6 files, outside 0 (`p11-green1-scope.txt`). The 4 new files are untracked
+  before the commit; `git add` put them in. `render.mjs` stays unstaged.
+- Plan commit a1fcad97.
+
+MEASURE_AGENT_RESULT
+status: done
+role_base_sha: 49e84ccd156f413a698cbd39aa630c81be2a2d8e
+red_model: claude-code/claude-sonnet-5-5#high
+commits: 69cd4db4 (code), a1fcad97 (plan evidence), this log
+green_head: a1fcad97
+files_changed: dashboard/lib/storytime/word-clips.ts (new); dashboard/scripts/storytime/make-word-bank.ts (new); dashboard/scripts/storytime/set-word-clips.ts (new); dashboard/scripts/storytime/measure-video-lead-in.ts (new); dashboard/scripts/storytime/check-weeks.ts (2 rows); dashboard/lib/storytime/schema.ts (2 fields)
+gates: GREEN_TEST_COMMAND 4 files 181 tests exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS 0 FAIL rows exit 0, tsc 0 errors; PROJECT_TESTS 62 files 1391 tests exit 0
+mutants: 13, caught: 13, survivors: none; restore cmp: all equal
+live_proofs: lead-in 3.000 on both w01 videos; dry-run 12 keys, chars: 37; --check 23 lines, 11 ok, 12 no bank row, exit 1
+plan_updates: Green 1 task [x] with commit 69cd4db4 and one evidence sub-bullet; no archive, registry, or metadata change
+handoff: pass. Phase 11 Green 1 is done. Rule R1: this Green closes the Phase 11 Red window, because PROJECT_TESTS passes with no exclude. The Red test file is unchanged. The next task is Clips w01; it needs the 12 new bank clips and rule R4 shows no foreign change. Review A may start on 49e84ccd..69cd4db4. Root cause 1: the K4 splice dropped the audio opening line; `body.slice(0, -1)` keeps it. Root cause 2: the C14 take loop did not count the earlier keys; `spentBefore` carries the run count. Orchestrator decision C1: K2 step 3 is the rule, and the FR 7 C1 example gets a later text fix. Model substitution: direct DeepSeek, because MiniMax is above 80 % of its weekly quota and opencode-go is stopped.
+dispositions: none
+END_MEASURE_AGENT_RESULT
