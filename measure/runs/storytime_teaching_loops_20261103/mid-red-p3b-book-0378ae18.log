@@ -1,0 +1,86 @@
+Mid Red 3, Phase 3b: the teacher book share and the caption cross-check
+Track: storytime_teaching_loops_20261103. Role base: 0378ae183fdc11d9e01535913a0befe17eff98ce.
+Model: claude-code/claude-sonnet-5-5#high. The Green model of this phase: deepseek/deepseek-flash#high.
+
+Commits of this role (all new after the role base)
+- test commit 56038c16e0dbd212a68fd6193ae6732c2bcfe261 (two test files only)
+- plan commit a27f74031197ff457f3407b502921e7b126e43e6 (plan.md and three captures)
+- log commit: the commit that adds this file (it follows the plan commit)
+
+Captures (in measure/runs/storytime_teaching_loops_20261103/; each ran inside one heavy-run wrapper with --maxWorkers=1)
+- mid-red-p3b-book-new.txt: the two new files alone. Exit 1. Test Files  2 failed (2). Tests  82 failed | 17 passed (99).
+- mid-red-p3b-book-red.txt: RED_TEST_COMMAND. Exit 1. Test Files  2 failed | 8 passed (10). Tests  82 failed | 314 passed (396).
+  All 82 failures are in the two new files: 48 in the book file and 34 in the captions file.
+  The 8 old files pass: teacher-book 6, share 23, share-content 75, checks 38, content 104, audio 14, schema 27, manual 10 (297 tests).
+  The log holds no "No test files found".
+- mid-red-p3b-book-lint.txt: LINT_3B exit 0 (no finding). tsc --noEmit exit 0. The wrapper EXIT=0.
+- Baseline (9.4 point 7), not rerun: PROJECT_TESTS at the parent gave Test Files  63 passed (63) and Tests  1471 passed (1471).
+- pnpm-lock.yaml did not change. render.mjs and dashboard/raw.json were not staged.
+
+Failure reasons at Red (assertion failures, or a missing module inside a test body)
+- Book file, 48 failures: the option share is ignored, so the icon count is 0 (expected 6 or 5); the block holds no caption; the four labels read as undefined; the escaped script tag is missing; the help and usage text of both scripts do not name --share; --share reads as an unknown argument; no renderChromePdf call and no compile call passes share.
+- Captions file, 34 failures: scripts/storytime/check-share-captions.ts does not exist. The 24 function tests fail on "Cannot find module" inside the test body. The 10 command-line tests fail on the exit code or on the missing problem line, because node exits 1 for a missing file. X2 and X4 pass their first check (status 1) and fail on the problem line.
+
+Tests per file
+- storytime-loops-share-book.test.ts: 65 tests. T1 17 (16 guard tests, one for each week and language, and 1 non-vacuity test), T2 9, T3 4, T4 4, T5 8, T6 5, T7 2, T8 2, T9 2, T10 4, T11 7, T12 1.
+- storytime-loops-share-captions.test.ts: 34 tests. X1 1, X2 1, X3 7 (the exit-2 cases of G1), X4 1 (these 10 use the command line); X5 9 (with the baseline test), X6 6, X7 1, X8 1, X9 2, X10 3, X11 1, X12 1 (these 24 call shareCaptionProblems).
+
+Tests that pass at Red (characterization) and their falsifiers
+- The 17 T1 tests pass because the manual ignores the unknown option. Falsifiers: (a) the T1 non-vacuity test asserts that each shipped week has 5 shares, that the bare copy has 0, and that a changed step title changes the HTML, so the compare can fail; (b) the Green 3 mutants MB1 (the option is true by default) and MB2 (the option is ignored and shares print) must make T1 fail.
+- No other test passes at Red. T9 and T10 hold a non-vacuity precondition (the complete week must hold 6 icons), so they fail at Red.
+- Mutants were not run in this role (no implementation exists). Green 3 runs MB1 to MB24 and MX1 to MX13.
+
+Checks of the Red author
+- Thai rule (9.4 point 6): grep -cP '[\x{0E00}-\x{0E7F}]' prints 0 for both files. No expect compares a shipped Thai text with a literal. The function tests use SAMPLE_THAI as test input.
+- The block helpers were probed on the real HTML: in w01 to w07 each of A3, B5, C4, D4, D5, D6 resolves to exactly one step block, and in w08 each of A2, B1, C1, D1, E3 does. No step id repeats in a week.
+- The HOME of every spawned process is a temporary folder. No test builds a PDF. No test writes into content/ or into the real home folder.
+- Scope: git show --name-only --format= 56038c16 prints the two test files. The grep -vc '^dashboard/__tests__/' prints 0.
+
+Defaults taken (the spec and the strategy do not pin these; Green 3 must follow them, or the orchestrator changes the test)
+1. The split of P14 is used (two files). The expected summary is 2 failed | 8 passed (10).
+2. Cross-check output: the summary line is the last non-empty line of stdout. A problem line (starts with SC- or SL-) may go to stdout or to stderr.
+3. X8 (Q24): the function receives a week as an object that is not a valid week ({ meta: { level: 2, week: 5 } }) in the position of w05. It must not throw. It gives exactly one problem line that starts with "w05: ". The 5 list rows of that week add no other problem. rows stays 44. (Q23 fixes the argument type StorytimeWeek[], so the function must accept a bad entry and report it.)
+4. X7 (Q24): the problem text is exactly "SC-w02-d3: the week file has no share".
+5. A row with a wrong cell count gives one problem of its id and no second "missing row" problem. The rows count includes it. A repeated row id gives one problem of that id. An extra row gives one problem of its id.
+6. Teacher book HTML: the icon element (attribute data-share-media) sits inside the div class st-step of the shot step. The block is found by the id in the title ("<id> · "), so the title text must not change. The D5 block holds the caption of day 4 (it prints in the recall group of day 5). The D6 block holds the caption of day 5 (it prints in the opening of day 5).
+7. T10: the share option adds only the icon, the label, the caption, the consent line, and the length line to the visible text. An extra heading fails T10.
+8. T5 and T9 count the consent line in the visible text, after tags, style, script, and svg are removed and entities are decoded. The consent line and the length line sit in the block of the first shot of the first day that has a share (A3 in w01 and w02, A2 in w08, B5 when day 1 has no share).
+9. The icon is an inline svg (the element itself, or inside the element with the attribute). It holds only the colours #000, #000000, black, none, or currentColor.
+10. T4 counts a label in a block as the count in the share-on block (after the removal of the captions, the consent line, and the length line) minus the count in the share-off block. It needs exactly 1 for the label of the media and 0 for the other label.
+11. Both scripts: the source holds the text "a === '--share'". The compile call passes share (shorthand or property). Every renderChromePdf call passes an argument named share. The usage text of both scripts names --share (the print usage also names --loops, as now). A lone --share is accepted: the exit code is 2 (a missing source or level) and stderr holds no "unknown argument". An unknown flag still exits 2 and stderr names the flag.
+12. The script path is dashboard/scripts/storytime/check-share-captions.ts. The tests load it with a path variable. It must export shareCaptionProblems(weeks, labels, list) and run main only when it is the entry point (the pattern of check-weeks.ts).
+
+Handoff for Green 3
+- Changed files stay as the plan lists: manual.ts, i18n.ts, make-manual-pdf.ts, make-teacher-book-print.ts, and the new check-share-captions.ts. No test file changes. Name the four keys sharePhoto, shareVideo, shareConsent, and shareLength in the commit message.
+- Label texts: the English consent label must match /consent/i and /group/i. The English length label must match /second/i. Each English label holds no Thai-script character. Each Thai label holds one. Each English label differs from its Thai label.
+- The whole glob is red until Green 3. PROJECT_TESTS is red from this Red to the Green 3 commit (rule R1). Do not push in this window.
+- New files were committed with git add -N and git commit -- <paths>, because git commit with a path does not take an untracked file.
+- The orchestrator accepted Q17 to Q19 and Q22 to Q26 as written. Q18 stays, so T9 stays.
+- phase_base_sha was not supplied in the prompt of this role. Only role_base_sha was supplied, and it resolves. The field baseline_sha below uses the role base.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: 3b
+role: mid-red
+track: storytime_teaching_loops_20261103
+baseline_sha: 0378ae183fdc11d9e01535913a0befe17eff98ce
+role_base_sha: 0378ae183fdc11d9e01535913a0befe17eff98ce
+head: a27f74031197ff457f3407b502921e7b126e43e6 (the log commit follows it)
+test_commit: 56038c16e0dbd212a68fd6193ae6732c2bcfe261
+plan_commit: a27f74031197ff457f3407b502921e7b126e43e6
+files:
+  - dashboard/__tests__/storytime-loops-share-book.test.ts
+  - dashboard/__tests__/storytime-loops-share-captions.test.ts
+red_command: cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1
+red_summary: Test Files  2 failed | 8 passed (10); Tests  82 failed | 314 passed (396); exit 1
+new_files_alone_summary: Test Files  2 failed (2); Tests  82 failed | 17 passed (99); exit 1
+lint_summary: LINT_3B exit 0; tsc --noEmit exit 0
+new_file_failures: 82 (book 48, captions 34); old-file failures: 0
+tests per file: storytime-loops-share-book.test.ts 65; storytime-loops-share-captions.test.ts 34
+passes at Red: the 17 T1 tests of the book file; falsifiers: MB1, MB2, and the sensitivity assertion of the T1 non-vacuity test
+mutants: not run in this role (Green 3 runs MB1 to MB24 and MX1 to MX13)
+baseline_project_tests: Test Files  63 passed (63); Tests  1471 passed (1471) (not rerun)
+dispositions: none
+remaining_failures: 82 tests in the two new files (48 in the book file, 34 in the captions file); they pass only after Green 3
+handoff: see "Defaults taken" and "Handoff for Green 3" above
+END_MEASURE_AGENT_RESULT
