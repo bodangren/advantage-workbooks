@@ -1,0 +1,55 @@
+# Gates of the caption list task (test-strategy 9.13), Phase 3b (storytime_teaching_loops_20261103)
+
+Date: 2026-11-08
+Role: Jr Green, role_base_sha 57c4bf123e77a1830b5cbd578cce2944a5d52a45
+List: measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md
+
+## 1. The cross-check on the real list
+
+command: npx tsx scripts/storytime/check-share-captions.ts --level 2 --list ../measure/tracks/storytime_teaching_loops_20261103/share-captions-11-16.md
+share captions: 44 rows, 0 problems
+XCHECK_EXIT=0
+
+## 2. Mutation: one changed cell (copy /tmp/opencode/p3b-captions/list-changed.md)
+SC-w01-d1: the row differs from the week file
+share captions: 44 rows, 1 problems
+CHANGED_EXIT=1
+
+## 3. Mutation: one deleted row (copy /tmp/opencode/p3b-captions/list-deleted.md)
+SC-w05-d3: the row is missing
+share captions: 43 rows, 1 problems
+DELETED_EXIT=1
+
+## 4. Mutation: one extra row (copy /tmp/opencode/p3b-captions/list-extra.md)
+SC-w09-d1: the row is not in the sources
+share captions: 45 rows, 1 problems
+EXTRA_EXIT=1
+
+## 5. The grep gates (test-strategy 9.13 items 1, 4, 5, 6)
+
+grep -c '^| SC-w0' list
+40
+grep -c '^| SL-' list
+4
+grep -c '^Share icon pages: [0-9]' list
+1
+grep -c 'share-check-v1/teacher-book' list
+1
+tail -n 1 list | grep -c answer line
+1
+grep -c '^| LP-28 |' look-points-11-16.md
+1
+grep -c 'Defaults: 28 look points' look-points-11-16.md
+1
+
+## 6. The cross-check rerun at the committed list (list commit 9d05352d, sources still 57c4bf12)
+
+9d05352d1fc7321d2bd0b8185c623a8edd0f9481
+share captions: 44 rows, 0 problems
+RERUN_EXIT=0
+
+## 7. The header commit check (test-strategy 9.13 item 4), after the list commit
+
+git diff --quiet 57c4bf123e77a1830b5cbd578cce2944a5d52a45 HEAD -- content/storytime/l2 dashboard/lib/storytime/i18n.ts
+DIFF_EXIT=0
+STATUS_LINES_ABOVE=0
