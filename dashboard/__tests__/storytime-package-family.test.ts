@@ -236,6 +236,16 @@ const FORGE_WORDS: Record<number, string[]> = {
     7: ['ball', 'kite', 'drum'],
 };
 
+/** The output paths of the provenance file of week 1 in the H7 sort order, written by hand. */
+const W01_PROVENANCE_ORDER: string[] = [
+    'l2/media/w01/family/boy.jpg',
+    'l2/media/w01/family/friend.jpg',
+    'l2/media/w01/family/girl.jpg',
+    'l2/media/w01/family/goodbye.jpg',
+    'l2/media/w01/family/hello.jpg',
+    'l2/media/w01/family/teacher.jpg',
+];
+
 /** The temporary folders of the tests. */
 const scratch: string[] = [];
 
@@ -636,9 +646,42 @@ interface TempTree {
 }
 
 /**
+ * The count of the family `"file"` lines of a week text (decision H2).
+ * @param text The text of the week file.
+ * @param week The week.
+ * @returns The count of the lines.
+ */
+function countFamilyFileLines(text: string, week: number): number {
+    const needle = `"file": "l2/media/w${weekDigits(week)}/family/`;
+    return text.split('\n').filter((line) => line.includes(needle)).length;
+}
+
+/**
+ * The week text without its family `"file"` lines, and without the comma that each such line added
+ * to the caption line before it. Every case that copies a shipped week file starts here, so that
+ * the case stays valid after the Maker commit adds those lines (review F1).
+ * @param text The text of the shipped week file.
+ * @param week The week.
+ * @returns The text of the start file.
+ */
+function withoutFamilyFileLines(text: string, week: number): string {
+    const needle = `"file": "l2/media/w${weekDigits(week)}/family/`;
+    const out: string[] = [];
+    for (const line of text.split('\n')) {
+        if (line.includes(needle)) {
+            const previous = out[out.length - 1];
+            if (previous !== undefined && previous.endsWith(',')) out[out.length - 1] = previous.slice(0, -1);
+            continue;
+        }
+        out.push(line);
+    }
+    return out.join('\n');
+}
+
+/**
  * A temporary copy of a week file, of the card rows, of a card folder, and of a Forge folder. The
  * source pictures are solid color files of 1500 x 1500 pixels, and the manifest of each folder
- * lists them with their real hash.
+ * lists them with their real hash. The week copy starts with no family `"file"` line (review F1).
  * @param week The week.
  * @param options The `forge` flag says that the Forge folder holds a color file of each Forge word.
  * @returns The paths of the copy.
@@ -649,7 +692,11 @@ async function tempTree(week: number, options: { forge?: boolean } = {}): Promis
     const name = `w${weekDigits(week)}.json`;
     const weekFile = path.join(contentRoot, 'l2', name);
     fs.mkdirSync(path.dirname(weekFile), { recursive: true });
-    fs.copyFileSync(path.join(STORYTIME_ROOT, 'l2', name), weekFile);
+    const shipped = fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', name), 'utf8');
+    const start = withoutFamilyFileLines(shipped, week);
+    expect(countFamilyFileLines(start, week), 'the start file holds no family file line').toBe(0);
+    expect(() => JSON.parse(start), 'the start file parses as JSON').not.toThrow();
+    fs.writeFileSync(weekFile, start);
     const cardRowsFile = path.join(folder, 'card-pictures.json');
     fs.copyFileSync(path.join(STORYTIME_ROOT, 'l2/print/card-pictures.json'), cardRowsFile);
 
@@ -828,9 +875,9 @@ const H8_CASES: H8Case[] = [
         },
     },
     {
-        name: 'a manifest line with a hostile name',
-        token: /not in MANIFEST|SHA-256 differs from MANIFEST|not a PNG|not 8-bit sRGB with 3 channels|has an alpha channel|not 1500 x 1500|-line- name|no color file|two color files|2 color files/i,
-        names: [],
+        name: 'a manifest line with a folder part',
+        token: /not in MANIFEST/i,
+        names: ['../x.png'],
         fault: async (tree) => {
             const outside = path.join(tree.folder, 'x.png');
             const bytes = await solidPng([1, 2, 3]);
@@ -838,8 +885,26 @@ const H8_CASES: H8Case[] = [
             const manifest = path.join(tree.cardsFolder, 'MANIFEST.txt');
             const lines = manifestLines(manifest);
             lines.push({ hash: sha256(bytes), name: '../x.png' });
-            lines.push({ hash: sha256(bytes), name: 'l2-w01-card-teacher v1.png' });
             writeManifest(manifest, lines);
+        },
+    },
+    {
+        name: 'a manifest line with a space in the name',
+        token: /not in MANIFEST/i,
+        names: ['l2-w01-card-teacher v1.png'],
+        fault: async (tree) => {
+            const manifest = path.join(tree.cardsFolder, 'MANIFEST.txt');
+            const lines = manifestLines(manifest);
+            lines.push({ hash: '0'.repeat(64), name: 'l2-w01-card-teacher v1.png' });
+            writeManifest(manifest, lines);
+        },
+    },
+    {
+        name: 'a Forge file that the manifest does not list',
+        token: /not in MANIFEST/i,
+        names: ['l2-w01-card-zebra-v1.png'],
+        fault: async (tree) => {
+            await writeSolidPng(path.join(tree.forgeFolder, 'l2-w01-card-zebra-v1.png'), [10, 20, 30]);
         },
     },
 ];
@@ -1010,6 +1075,8 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         expect(jpegFiles(folder), 'the run writes six JPEGs').toHaveLength(6);
         const lines = provenanceLines(tree.contentRoot, 1);
         expect(lines, 'provenance lines: 6').toHaveLength(6);
+        expect(lines.map((line) => line[0]), 'the provenance lines are sorted by output path (H7)')
+            .toEqual(W01_PROVENANCE_ORDER);
         for (const line of lines) {
             expect(line.length, 'each provenance line holds six fields').toBe(6);
             const [outputPath, outputHash, sourceName, sourceHash, quality, sharpVersion] = line;
@@ -1027,6 +1094,39 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         for (const file of files) {
             expect(file, 'the file line holds the package path').toMatch(/^l2\/media\/w01\/family\/[a-z]+\.jpg$/);
         }
+    });
+
+    it('R2-5b the card JPEG and the Forge JPEG hold the H6 output rules', async () => {
+        const setter = await familyPictureSetter();
+        const tree = await tempTree(1, { forge: true });
+        await setter(runOptions(tree));
+        const folder = path.join(tree.contentRoot, 'l2/media/w01/family');
+        for (const word of ['hello', 'friend']) {
+            const file = path.join(folder, `${word}.jpg`);
+            expect(fs.existsSync(file), `the run writes ${word}.jpg`).toBe(true);
+            const jpeg = fs.readFileSync(file);
+            expect(jpeg.slice(0, 2).toString('hex'), `the JPEG start marker of ${word}`).toBe('ffd8');
+            expect(jpeg.length, `the byte length of ${word}`).toBeLessThanOrEqual(MAX_JPEG_BYTES);
+            const metadata = await sharp(jpeg).metadata();
+            expect(metadata.format, `the format of ${word}`).toBe('jpeg');
+            expect(metadata.isProgressive, `${word} is progressive`).toBe(true);
+            expect(metadata.space, `the colour space of ${word}`).toBe('srgb');
+            expect(metadata.width, `the width of ${word}`).toBe(JPEG_SIZE);
+            expect(metadata.height, `the height of ${word}`).toBe(JPEG_SIZE);
+            expect(metadata.chromaSubsampling, `the chroma subsampling of ${word}`).toBe('4:2:0');
+            expect(metadata.exif, `${word} holds no EXIF block`).toBeUndefined();
+            expect(metadata.icc, `${word} holds no ICC profile`).toBeUndefined();
+            expect(metadata.xmp, `${word} holds no XMP block`).toBeUndefined();
+        }
+    }, 120_000);
+
+    it('R2-5c the provenance file follows the H7 sort order', async () => {
+        const setter = await familyPictureSetter();
+        const tree = await tempTree(1, { forge: true });
+        await setter(runOptions(tree));
+        const lines = provenanceLines(tree.contentRoot, 1);
+        expect(lines.map((line) => line[0]), 'the output paths of the provenance file are sorted')
+            .toEqual(W01_PROVENANCE_ORDER);
     });
 
     it('R2-6 the week file gains a file line after each caption and changes nothing else', async () => {
@@ -1091,6 +1191,60 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         expect(afterTail, 'the lines after the family block are unchanged').toEqual(beforeTail);
     });
 
+    it('R2-6b a caption that holds a JSON escape keeps its value', async () => {
+        const setter = await familyPictureSetter();
+        const tree = await tempTree(1, { forge: true });
+        const start = fs.readFileSync(tree.weekFile, 'utf8');
+        const plainLine = '            "caption": "hello"';
+        const escapedLine = '            "caption": "a \\"b\\" c"';
+        const injected = start.replace(plainLine, escapedLine);
+        expect(injected, 'the copy holds the escaped caption').not.toBe(start);
+        expect(() => JSON.parse(injected), 'the start file parses as JSON').not.toThrow();
+        fs.writeFileSync(tree.weekFile, injected);
+        await setter(runOptions(tree));
+        const after = fs.readFileSync(tree.weekFile, 'utf8');
+        expect(() => JSON.parse(after), 'the week file after the run parses as JSON').not.toThrow();
+        const parsed = JSON.parse(after);
+        const hello = parsed.focus.family.words.find((word: any) => word.word === 'hello');
+        expect(hello.image.caption, 'the caption of hello keeps its value').toBe('a "b" c');
+        const schemaWeek = StorytimeWeekSchema.parse(parsed);
+        const schemaHello = schemaWeek.focus.family.words.find((word) => word.word === 'hello');
+        expect(schemaHello.image?.caption, 'the schema keeps the caption of hello').toBe('a "b" c');
+    });
+
+    it('R2-6c the script parses the new week text before it writes', async () => {
+        const setter = await familyPictureSetter();
+        const tree = await tempTree(1, { forge: true });
+        const start = fs.readFileSync(tree.weekFile, 'utf8');
+        const captionLast = [
+            '            "characters": [',
+            '              "Pat"',
+            '            ],',
+            '            "caption": "hello"',
+        ].join('\n');
+        const captionFirst = [
+            '            "caption": "hello",',
+            '            "characters": [',
+            '              "Pat"',
+            '            ]',
+        ].join('\n');
+        const injected = start.replace(captionLast, captionFirst);
+        expect(injected, 'the copy holds the caption before the characters').not.toBe(start);
+        expect(() => JSON.parse(injected), 'the start file parses as JSON').not.toThrow();
+        fs.writeFileSync(tree.weekFile, injected);
+        const before = treeHashes(tree.folder);
+        let thrown: Error | undefined;
+        try {
+            await setter(runOptions(tree));
+        } catch (error) {
+            thrown = error as Error;
+        }
+        expect(thrown, 'the run stops when the new week text does not parse').toBeInstanceOf(Error);
+        const after = fs.readFileSync(tree.weekFile, 'utf8');
+        expect(() => JSON.parse(after), 'the week file after the run parses as JSON').not.toThrow();
+        expect(treeHashes(tree.folder), 'the run writes no file').toEqual(before);
+    });
+
     it.each(H8_CASES)('R2-7 the script stops before any write: $name', async (testCase) => {
         const setter = await familyPictureSetter();
         const tree = await tempTree(1, { forge: true });
@@ -1136,9 +1290,7 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         expect(result?.mapped, 'mapped pictures: 5').toBe(5);
         expect(result?.skipped.some((entry) => entry.includes('friend')), 'the skipped list names friend')
             .toBe(true);
-        if (printed.trim().length > 0) {
-            expect(printed, 'the run prints the skip line').toContain('skip friend: no Forge file');
-        }
+        expect(printed, 'the run prints the skip line').toContain('skip friend: no Forge file');
         const folder = path.join(tree.contentRoot, 'l2/media/w01/family');
         expect(jpegFiles(folder), 'the run writes five JPEGs').toHaveLength(5);
         expect(provenanceLines(tree.contentRoot, 1), 'provenance lines: 5').toHaveLength(5);
