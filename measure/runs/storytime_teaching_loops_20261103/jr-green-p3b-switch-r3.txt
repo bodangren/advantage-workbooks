@@ -1,0 +1,32 @@
+# R3 end evidence of Phase 3b (switch task, 2026-11-07)
+
+Role: Jr Green for the switch task of Phase 3b. role_base_sha: d38234e55f899350e2d990a6ef941e991216e19b.
+Implementation commit: 61a3fc52.
+
+## The command (plan rule R3, test-strategy 9.9)
+
+    grep '^PROJECT_TESTS=' measure/tracks/storytime_print_r1_20261025/plan.md measure/tracks/storytime_teaching_loops_20261103/plan.md | grep -c 'share-content'
+
+## The result
+
+    0
+
+Exit code 1 is the grep "no match" code. The count is the evidence: no `PROJECT_TESTS=` line of
+either track holds the share-content exclude.
+
+## The orchestrator default
+
+No separate `measure(plan)` commit removes the exclude. Reason: the orchestrator applied the
+exclude only in role briefs, not in the two plan files. R3 therefore has nothing to remove from
+the plans. The print session is the orchestrator's own session, so the orchestrator confirms the
+removal directly.
+
+## Scope of the end
+
+Rule R3 window closed at commit 61a3fc52. Every later `PROJECT_TESTS` of the print, loops,
+package, and cover tracks runs without the share-content exclude.
+
+## Check of the gate log
+
+The `PROJECT_TESTS` log of this switch task, `jr-green-p3b-switch-project.txt`, holds the file
+`storytime-loops-share-content.test.ts` (grep count 1) and holds no `--exclude` (grep count 0).
