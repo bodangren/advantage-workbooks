@@ -45,3 +45,4 @@ Each gate ran in one heavy-run wrapper, in the foreground.
 - F1 keeps the two bank passes and the K12 fail part order. The new part is no bank file: keys, after differs from bank. Spec K12 lists five parts and does not name the new part; a spec edit is out of scope for this Green. Review A F3 asked for this fail part.
 - No test file and no content file changed in this Green. The Red tests stay as committed.
 - No mmx call, no install, no push.
+- The plan closeout commit sets the Phase 11 Review A line to [x]. It follows the evidence commit d0f05b02.
