@@ -1209,7 +1209,7 @@ describe('the family picture script (Phase 10, Red 2)', () => {
         expect(hello.image.caption, 'the caption of hello keeps its value').toBe('a "b" c');
         const schemaWeek = StorytimeWeekSchema.parse(parsed);
         const schemaHello = schemaWeek.focus.family.words.find((word) => word.word === 'hello');
-        expect(schemaHello.image?.caption, 'the schema keeps the caption of hello').toBe('a "b" c');
+        expect(schemaHello?.image?.caption, 'the schema keeps the caption of hello').toBe('a "b" c');
     });
 
     it('R2-6c the script parses the new week text before it writes', async () => {
