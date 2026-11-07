@@ -171,7 +171,7 @@ const TABLE: TableRow[] = [
     { week: 4, word: 'sister', kind: 'card', value: 'l2-w04-card-sister-v1.png' },
     { week: 4, word: 'grandma', kind: 'card', value: 'l2-w04-card-grandma-v1.png' },
     { week: 4, word: 'grandpa', kind: 'card', value: 'l2-w04-card-grandpa-v1.png' },
-    { week: 4, word: 'family', kind: 'forge', value: 'l2-w04-card-family-v2.png' },
+    { week: 4, word: 'family', kind: 'card', value: 'l2-w04-card-family-v1.png' },
     { week: 5, word: 'eyes', kind: 'forge', value: 'l2-w05-card-eyes-v2.png' },
     { week: 5, word: 'ears', kind: 'forge', value: 'l2-w05-card-ears-v2.png' },
     { week: 5, word: 'nose', kind: 'forge', value: 'l2-w05-card-nose-v2.png' },
@@ -965,8 +965,8 @@ describe('the mapping of the 51 family words (Phase 10, Red 2)', () => {
                 expect(source.count, `the dot count of ${row.word}`).toBe(Number(row.value));
             }
         }
-        expect(kinds.card, 'card words: 15').toBe(15);
-        expect(kinds.forge, 'forge words: 19').toBe(19);
+        expect(kinds.card, 'card words: 16').toBe(16);
+        expect(kinds.forge, 'forge words: 18').toBe(18);
         expect(kinds.patch, 'patch words: 7').toBe(7);
         expect(kinds.dots, 'dots words: 10').toBe(10);
         expect(Object.keys(DOT_COUNT), 'the dot words of the table: 10').toHaveLength(10);
