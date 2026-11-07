@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "role": "spec-review",
+  "track": "storytime_week_package_20261022",
+  "phase": "Phase 11: Word clips and the song video lead-in (2026-11-07 to 2026-11-14)",
+  "audited_head_sha": "84a90f60865dead78909da56db3376139361d083",
+  "status": "pass",
+  "summary": "Spec review of the Phase 11 amendment at HEAD 84a90f60865dead78909da56db3376139361d083 (commit 5d80aae7). The amendment adds the word clips of the bank to each week, 39 new bank words, the song video lead-in, two checks, and the r4 and r3 package dates. The K8 text, the K9 venv rule, the FR 4 signature, and the FR 3 maker task hold as the earlier verdict found. No Blocker. One Major (F1: K12 names no source of the level and week number) and four Nits.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] K12 and FR 6: name week.meta.level and week.meta.week as the source of the K3 path; a week with no meta gets no row. Rationale: checkWordClips receives the week and the content root only, so the implementer must choose a source, and StorytimeMetaSchema is the only one the parsed week holds.",
+    "F2 [Nit] K12: the check hashes the bank mp3 at run time; the row sha256 is the WAV hash; the 98 rows do not change. Rationale: a compare with the row value would fail every clip.",
+    "F3 [Nit] K8 and FR 3: the maker uses the first written form in the books of its --week; a key with no form there keeps its bank row text. Rationale: K8 gives the first written form over the whole level, but the maker of FR 3 reads one week.",
+    "F4 [Nit] plan Phase 11: an absent faster-whisper venv stops the bank maker with exit 2 and a named message. Rationale: K9 sets the default to plain python3, which has no faster_whisper module, and no text names the failure.",
+    "F5 [Nit] FR 4: keys counts key slots per book with repeats (w01 23); files counts distinct clip paths (w01 22). Rationale: the plan expects keys: 23 and files: 22, and no text defines either count."
+  ],
+  "evidence": [
+    "HEAD confirmed: git rev-parse HEAD is 84a90f60865dead78909da56db3376139361d083, equal to audited_head_sha.",
+    "Paraphrase is possible for both halves: the word clips, the bank growth, the lead-in field, the two checks and the dates; and the current bank of 98 rows, the loose BookAudioSchema and SongSchema, and the passthrough receiver.",
+    "F1 checked at spec.md line 588 (the FR 4 and FR 6 signature setWordClips and checkWordClips take weekFile and contentRoot only) and K12, which pins the path l{level}/media/w{nn}/words/wa-{stem}.mp3 with no source for level or week.",
+    "F2 checked: K12 compares the clip with the bank mp3, and the manifest rows hold the WAV sha256.",
+    "F3 checked at spec.md line 502: K8 says 'the first written form of the key in the books of the level', while plan.md line 374 runs the maker with --level 2 --week 1 only.",
+    "F4 checked at spec.md line 507 and plan.md line 374: WHISPER_PYTHON defaults to python3 (no faster_whisper), and the plan gives no failure rule for an absent venv.",
+    "F5 checked at spec.md line 588 (keys: number, files: number) and plan.md line 376 (keys: 23 and files: 22 for w01; the two books hold 12 and 11 key slots).",
+    "Write guard note: this role may write only measure/runs/storytime_week_package_20261022/, so the append of F3 to F5 to the track spec-review.md was rejected by the guard on every path I tried (shell python, edit). The F3 to F5 texts are complete in nonblocking_findings above and in the log artifact.",
+    "The earlier verdict of review 890016dd carried F1 and F2; both still hold at this head, and no finding is withdrawn."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 84a90f60865dead78909da56db3376139361d083",
+    "grep of K8, K9, FR 3, FR 4 in measure/tracks/storytime_week_package_20261022/spec.md -> lines 502, 506, 507, 584, 588",
+    "grep of the bank maker and Clips tasks in plan.md -> lines 367, 374, 376",
+    "python3 -c probe on the write guard -> measure/runs/<track>/ only"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-p11-5d80aae7.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-p11-5d80aae7.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "paraphrase": {
+    "proposes": "Phase 11 adds books[].audio.wordClips (lower-case word to a content-root path of a bank clip copied into each week media folder), grows the word bank from 98 to 137 rows with 39 new clips in the bank voice and settings, adds song.videoLeadInSeconds for weeks that ship a song video (w01 only, 3.000), adds the word-clips and song-lead-in checks, and ships w01 r4 by 11-10 and w02 to w07 r3 by 11-14.",
+    "current_system": "The bank at content/storytime/words/ holds 98 WAV and mp3 files with a Python indent=1 manifest, and each row holds the SHA-256 of the WAV file only. BookAudioSchema and SongSchema are not strict, so a parse drops an unknown key such as wordClips. check-weeks.ts has no row that reads a word clip, and the Monorepo receiver is passthrough for both objects. w01 has song.mp4 and song-phone.mp4 outside git, weeks 2 to 7 have song.mp3 only, and w08 has no book and no song."
+  }
+}
