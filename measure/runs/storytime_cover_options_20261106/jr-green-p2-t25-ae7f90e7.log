@@ -33,7 +33,8 @@ Red test at 7b2d8cec now expects the DOM text-node form. The proof stays in
       (`mutants-green1.txt`), in one heavy-run wrapper.
 - [x] Fast gate: 13 `export function` lines.
 - [x] Code commit 801c8c8a: `content/storytime/covers/quest.json` and
-      `dashboard/lib/storytime/print/cover-quest.ts` only (`green1-p2-scope.txt`).
+      `dashboard/lib/storytime/print/cover-quest.ts` only (`green1-p2-scope.txt`). Plan evidence
+      commit 57e2c9ed holds `plan.md` and the 10 run files.
 
 Three defects the first Green run found and fixed in the module, before the gate:
 1. The unit bar drew 5 parts instead of 4 (`QUEST_BANDS.map` over 5 bands).
@@ -52,7 +53,7 @@ role_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
 phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c
 red_model: opencode-go/mimo-v2.6-flash (Red 1), claude-code/claude-sonnet-5-5#high (r2)
 status: done
-commits: 801c8c8a (code), <plan sha> (plan evidence)
+commits: 801c8c8a (code), 57e2c9ed (plan evidence)
 files_changed: dashboard/lib/storytime/print/cover-quest.ts, content/storytime/covers/quest.json, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/ (10 files)
 tests_run: GREEN_TEST_COMMAND 185 passed exit 0; PROJECT_TESTS 62 files 1488 tests exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0 with tsc error lines 0
 mutants: 33, caught 33, survivors []
