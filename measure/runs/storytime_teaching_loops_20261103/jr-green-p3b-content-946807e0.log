@@ -52,3 +52,51 @@ Next: part 2 (PROJECT_TESTS with the R3 exclude, dry run 2, the plan record).
 - `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-content-946807e0.log`
 
 No code file and no test file changed. The plan has no task mark change in part 1; part 2 records the task.
+
+## Part 2 (2026-11-07, same role base, HEAD `6a5cee01` at the start)
+
+Status: BLOCKED by the AX line pin of the print track test. The content work is done and green.
+
+### Review dispositions
+
+The independent review (Kimi) read the pack of `1d29e893`: report `p3b-share-english-review-1d29e893.md`.
+Dispositions from the orchestrator: E1 = FIX; LP-S1 = FIX; LP-S2 and LP-S3 = no change, they go to
+Daniel's 11-16 sitting as look points. `dispositions: none` for this role (no routed finding in a
+result block).
+
+### Fix commit `5b9457a1cd5163e96d13e293569dc14932c058b8`
+
+- E1, w03 day 2 (B): old `Your child acts the story Paint! and says the frame sentence It is red.`;
+  new `Your child acts the story Paint! and says It is red.`
+- LP-S1, w06 day 1 (A): old `Today we practise the sound t. ...`; new `Today we practice the sound t. ...`
+- Scan of the 40 captions for other British spellings: no hit. The house rule is American English
+  (Daniel, 2026-10-27, "Approved, American"). The pack gained rule 9.
+- Thai: the Thai drafts of w03 d2 and w06 d1 already said the same in plain words, so their Thai text
+  did not change. The Thai still goes to Daniel only.
+- `git show --stat --format= 5b9457a1`: `2 files changed, 2 insertions(+), 2 deletions(-)`, and both
+  changed lines are lines that `1d29e893` added.
+- Net diff `git diff --stat 946807e0 HEAD -- content/storytime/l2/`: `8 files changed, 367 insertions(+)`,
+  0 deletions.
+
+### Gates
+
+- `-t "w0"` (`p3b-content-w0-r2.txt`): `Test Files 1 passed (1)`, `Tests 56 passed | 19 skipped (75)`, exit 0.
+- `check-weeks.ts --level 2` (`p3b-content-checks-r2.txt`): `share-moment` `PASS` for st2/1 to st2/8
+  (8 rows), `grep -c FAIL` prints `0`, exit 0.
+- Pack `share-english-pack.md` from `5b9457a1` (`p3b-content-pack-gates-r2.txt`): Thai-script characters
+  `0`, rows `^| w0` `40`. New section `## Changes after the review` lists the two changed rows.
+- `PROJECT_TESTS` (R3 exclude, `p3b-content-project.txt`): `Test Files 1 failed | 61 passed (62)`,
+  `Tests 1 failed | 1395 passed (1396)`, exit 1, 1137.84 s. The single failure is
+  `storytime-print-v15.test.ts > AX-lines`, which pins 5 absolute lines of `w02.json`. The content
+  commit moved those lines by 9 and 46 lines. The print track moved this pin before, at `dce7e4d6`.
+  Evidence and the 5 new line numbers: `p3b-content-pin-block.txt`.
+
+### Not done
+
+- Dry run 2 was not run: the baseline holds the AX pin failure, so the list would not isolate N8.
+- No plan change. The task stays `[~]`; a plan line cannot claim a green `PROJECT_TESTS`.
+- No commit of a test file. The pin is in the print track, and this role may not change a test.
+
+Next: the orchestrator routes a test-only pin commit (`[2104, 4129, 4157, 4163, 4215]` becomes
+`[2113, 4175, 4203, 4209, 4261]`). Then this role reruns `PROJECT_TESTS` and dry run 2, and writes the
+plan evidence.
