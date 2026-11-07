@@ -1,0 +1,18 @@
+built	w01-storytime-app-package-r3	files 51	changed 8	media strings in week 49	not a path 1
+  no-file string: PM relay Tasks id dGpjemFrb2hIWS1rU0Fkdw; the 4 week 1 book audio files and song.mp3
+  not in git, read from w01-storytime-app-package-r2: l2/media/w01/song-phone-poster.jpg
+  not in git, read from w01-storytime-app-package-r2: l2/media/w01/song-phone.mp4
+  not in git, read from w01-storytime-app-package-r2: l2/media/w01/song-poster.jpg
+  not in git, read from w01-storytime-app-package-r2: l2/media/w01/song.mp4
+built	w02-storytime-app-package-r2	files 54	changed 12	media strings in week 51	not a path 0
+built	w03-storytime-app-package-r2	files 50	changed 9	media strings in week 47	not a path 0
+built	w04-storytime-app-package-r2	files 46	changed 9	media strings in week 43	not a path 0
+built	w05-storytime-app-package-r2	files 52	changed 9	media strings in week 49	not a path 0
+built	w06-storytime-app-package-r2	files 49	changed 9	media strings in week 46	not a path 0
+built	w07-storytime-app-package-r2	files 50	changed 9	media strings in week 47	not a path 0
+
+== notes ==
+- The build ran in one heavy-run wrapper; exit 0.
+- 4 w01 song files are not in git at a5fa259f: l2/media/w01/song.mp4, song-phone.mp4, song-poster.jpg, song-phone-poster.jpg. The build read them from w01-storytime-app-package-r2 (read-only), never from the work tree. Their bytes equal the previous folder and the work tree.
+- One week string ends in a media extension and has no file: approval.audio.source of w01 ends in song.mp3. Check 9 lists it.
+- Target folders were absent at the start. The first build attempt failed at the first of the 4 git-absent files. The role removed the partial w01 r3 folder that attempt created, then reran.

@@ -1,0 +1,119 @@
+Phase 10 hand-off check, 2026-11-07
+source commit: a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 (all 51 file lines)
+source read: git show, never the work tree (rule R4), except the 4 w01 song files that git does not hold
+python check script: /tmp/opencode/p10_package_check.py
+
+== w01-storytime-app-package-r3 (previous w01-storytime-app-package-r2) ==
+[1] w01-storytime-app-package-r3: manifest lines 51, payload files 51, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w01-storytime-app-package-r3: cmp l2/w01.json with git show a5fa259f -> PASS
+[3] w01-storytime-app-package-r3: family files 6, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w01-storytime-app-package-r3: changed headers ['# Changed since w01-storytime-app-package-r2:'] -> PASS
+[5] w01-storytime-app-package-r3: changed paths expected: 8, listed: 8, diff lines: 0
+     old-sha256 empty lines 7 = new paths 7; new-sha256 empty lines 0 -> PASS
+[6] w01-storytime-app-package-r3: family JPEGs 6 = expected 6, family/pictures.sha256 lines 1 -> PASS
+[7] w01-storytime-app-package-r3: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w01-storytime-app-package-r3: unsafe paths 0, image.file values 32, bad image.file 0 -> PASS
+[9] w01-storytime-app-package-r3: media strings 49, present 48, listed with no file 1 -> PASS
+     no file (listed): PM relay Tasks id dGpjemFrb2hIWS1rU0Fkdw; the 4 week 1 book audio files and song.mp3
+== w02-storytime-app-package-r2 (previous w02-storytime-app-package) ==
+[1] w02-storytime-app-package-r2: manifest lines 54, payload files 54, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w02-storytime-app-package-r2: cmp l2/w02.json with git show a5fa259f -> PASS
+[3] w02-storytime-app-package-r2: family files 10, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w02-storytime-app-package-r2: changed headers ['# Changed since w02-storytime-app-package:'] -> PASS
+[5] w02-storytime-app-package-r2: changed paths expected: 12, listed: 12, diff lines: 0
+     old-sha256 empty lines 11 = new paths 11; new-sha256 empty lines 0 -> PASS
+[6] w02-storytime-app-package-r2: family JPEGs 10 = expected 10, family/pictures.sha256 lines 1 -> PASS
+[7] w02-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w02-storytime-app-package-r2: unsafe paths 0, image.file values 34, bad image.file 0 -> PASS
+[9] w02-storytime-app-package-r2: media strings 51, present 51, listed with no file 0 -> PASS
+== w03-storytime-app-package-r2 (previous w03-storytime-app-package) ==
+[1] w03-storytime-app-package-r2: manifest lines 50, payload files 50, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w03-storytime-app-package-r2: cmp l2/w03.json with git show a5fa259f -> PASS
+[3] w03-storytime-app-package-r2: family files 7, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w03-storytime-app-package-r2: changed headers ['# Changed since w03-storytime-app-package:'] -> PASS
+[5] w03-storytime-app-package-r2: changed paths expected: 9, listed: 9, diff lines: 0
+     old-sha256 empty lines 8 = new paths 8; new-sha256 empty lines 0 -> PASS
+[6] w03-storytime-app-package-r2: family JPEGs 7 = expected 7, family/pictures.sha256 lines 1 -> PASS
+[7] w03-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w03-storytime-app-package-r2: unsafe paths 0, image.file values 31, bad image.file 0 -> PASS
+[9] w03-storytime-app-package-r2: media strings 47, present 47, listed with no file 0 -> PASS
+== w04-storytime-app-package-r2 (previous w04-storytime-app-package) ==
+[1] w04-storytime-app-package-r2: manifest lines 46, payload files 46, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w04-storytime-app-package-r2: cmp l2/w04.json with git show a5fa259f -> PASS
+[3] w04-storytime-app-package-r2: family files 7, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w04-storytime-app-package-r2: changed headers ['# Changed since w04-storytime-app-package:'] -> PASS
+[5] w04-storytime-app-package-r2: changed paths expected: 9, listed: 9, diff lines: 0
+     old-sha256 empty lines 8 = new paths 8; new-sha256 empty lines 0 -> PASS
+[6] w04-storytime-app-package-r2: family JPEGs 7 = expected 7, family/pictures.sha256 lines 1 -> PASS
+[7] w04-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w04-storytime-app-package-r2: unsafe paths 0, image.file values 31, bad image.file 0 -> PASS
+[9] w04-storytime-app-package-r2: media strings 43, present 43, listed with no file 0 -> PASS
+== w05-storytime-app-package-r2 (previous w05-storytime-app-package) ==
+[1] w05-storytime-app-package-r2: manifest lines 52, payload files 52, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w05-storytime-app-package-r2: cmp l2/w05.json with git show a5fa259f -> PASS
+[3] w05-storytime-app-package-r2: family files 7, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w05-storytime-app-package-r2: changed headers ['# Changed since w05-storytime-app-package:'] -> PASS
+[5] w05-storytime-app-package-r2: changed paths expected: 9, listed: 9, diff lines: 0
+     old-sha256 empty lines 8 = new paths 8; new-sha256 empty lines 0 -> PASS
+[6] w05-storytime-app-package-r2: family JPEGs 7 = expected 7, family/pictures.sha256 lines 1 -> PASS
+[7] w05-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w05-storytime-app-package-r2: unsafe paths 0, image.file values 31, bad image.file 0 -> PASS
+[9] w05-storytime-app-package-r2: media strings 49, present 49, listed with no file 0 -> PASS
+== w06-storytime-app-package-r2 (previous w06-storytime-app-package) ==
+[1] w06-storytime-app-package-r2: manifest lines 49, payload files 49, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w06-storytime-app-package-r2: cmp l2/w06.json with git show a5fa259f -> PASS
+[3] w06-storytime-app-package-r2: family files 7, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w06-storytime-app-package-r2: changed headers ['# Changed since w06-storytime-app-package:'] -> PASS
+[5] w06-storytime-app-package-r2: changed paths expected: 9, listed: 9, diff lines: 0
+     old-sha256 empty lines 8 = new paths 8; new-sha256 empty lines 0 -> PASS
+[6] w06-storytime-app-package-r2: family JPEGs 7 = expected 7, family/pictures.sha256 lines 1 -> PASS
+[7] w06-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w06-storytime-app-package-r2: unsafe paths 0, image.file values 31, bad image.file 0 -> PASS
+[9] w06-storytime-app-package-r2: media strings 46, present 46, listed with no file 0 -> PASS
+== w07-storytime-app-package-r2 (previous w07-storytime-app-package) ==
+[1] w07-storytime-app-package-r2: manifest lines 50, payload files 50, sha256sum -c exit 0, unlisted 0, absent 0 -> PASS
+[2] w07-storytime-app-package-r2: cmp l2/w07.json with git show a5fa259f -> PASS
+[3] w07-storytime-app-package-r2: family files 7, cmp with git 0 differ, join on pictures.sha256 0 differences -> PASS
+[4] w07-storytime-app-package-r2: changed headers ['# Changed since w07-storytime-app-package:'] -> PASS
+[5] w07-storytime-app-package-r2: changed paths expected: 9, listed: 9, diff lines: 0
+     old-sha256 empty lines 8 = new paths 8; new-sha256 empty lines 0 -> PASS
+[6] w07-storytime-app-package-r2: family JPEGs 7 = expected 7, family/pictures.sha256 lines 1 -> PASS
+[7] w07-storytime-app-package-r2: source-commit a5fa259fcc5a8ae0daeb9d6976b99dac3120a531 = workbooks-commit True, ancestor True, named lines True -> PASS
+[8] w07-storytime-app-package-r2: unsafe paths 0, image.file values 33, bad image.file 0 -> PASS
+[9] w07-storytime-app-package-r2: media strings 47, present 47, listed with no file 0 -> PASS
+[6] family files in folders: 51 (expected 51)
+
+RESULT: PASS (9 checks on 7 folders, 0 failures)
+
+== literal shell checks ==
+[1-shell] w01-r3: sha256sum -c exit 0
+[2-shell] w01-r3: cmp week file exit 0
+[1-shell] w02-r2: sha256sum -c exit 0
+[2-shell] w02-r2: cmp week file exit 0
+[1-shell] w03-r2: sha256sum -c exit 0
+[2-shell] w03-r2: cmp week file exit 0
+[1-shell] w04-r2: sha256sum -c exit 0
+[2-shell] w04-r2: cmp week file exit 0
+[1-shell] w05-r2: sha256sum -c exit 0
+[2-shell] w05-r2: cmp week file exit 0
+[1-shell] w06-r2: sha256sum -c exit 0
+[2-shell] w06-r2: cmp week file exit 0
+[1-shell] w07-r2: sha256sum -c exit 0
+[2-shell] w07-r2: cmp week file exit 0
+[6-shell] family count loop:
+[6-shell] loop done (no line above means every count matched)
+[6-shell] family files in folders: 51
+
+== tree hash of the previous and source folders ==
+before and after are equal for 10 folders (7 previous + 2 picture hand-off folders + w01-storytime-app-package):
+b953d3903dc249fc046038cf9f422a9cb60f185d50fefb2a80c0b52e9a85aa6b  44  w01-storytime-app-package
+89e2f64027814f178a0ae5b2af40c256725de2e76dc6ecc24e796e13d4c9e6fe  45  w01-storytime-app-package-r2
+c286a4e0d3f03246cc9d7af8ed4835477b1052043c6ff9ab7add05570761942e  44  w02-storytime-app-package
+c103bce507e8353b85a55b055a02e848bafb20aa49410e5c6f83a568a745395c  43  w03-storytime-app-package
+43a72716a0cf67f913f937ec1b51a683c2e07088d3285f79c3dd67cf8a4815f3  39  w04-storytime-app-package
+e3334b46963490aeeadd8f0c01a11bcfca59e18e224a50d3d62e484e5e06f1a8  45  w05-storytime-app-package
+ff798e125d5e77d6c12cfa25357c948a98bc1ffbbba6a19ab012ab56dc3b7e79  42  w06-storytime-app-package
+1e1b981331559033c24b8803a85ed1d08f5c7f1c80e06fd29297118161c2dbde  43  w07-storytime-app-package
+3e95026c2cd7ea0ae41d5714877f76f8a9f5623f82abfdc22df8a47adb5177ae  64  storytime-l2-card-pictures
+bdee227ee289dd8015aef30bf68dd289cd0ee50621224fc25b36674cb62ab1e8  22  storytime-l2-family-word-pictures
+diff before/after: 0 lines
