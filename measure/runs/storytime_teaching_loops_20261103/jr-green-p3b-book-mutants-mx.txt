@@ -1,0 +1,87 @@
+pre-flight git status of the two folders: (nothing)
+MX1: file dashboard/scripts/storytime/check-share-captions.ts
+MX1: old      return { rows, problems };
+MX1: new      return { rows, problems: problems.filter((p) => p.includes('differs from the week file') || p.includes('cells') || p.startsWith('w')) };
+MX1: exit 1, caught
+MX1: first failing test: × X6 function: one extra row SC-w09-d1 gives 45 rows and one problem of its id 74ms
+MX1: restore cmp: ok
+MX2: file dashboard/scripts/storytime/check-share-captions.ts
+MX2: old          if (source) { |             if (!source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX2: new          if (source) { |             if (isSc && !source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX2: exit 1, caught
+MX2: first failing test: × X5 function: the SL English of SL-3 (cell 2) changed gives one problem that starts with the row id 50ms
+MX2: restore cmp: ok
+MX3: file dashboard/scripts/storytime/check-share-captions.ts
+MX3: old          if (source) { |             if (!source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX3: new          if (source) { |             if (!source.slice(0, -1).every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX3: exit 1, caught
+MX3: first failing test: × X5 function: the Thai caption of SC-w05-d4 (cell 5) changed gives one problem that starts with the row id 47ms
+MX3: restore cmp: ok
+MX4: file dashboard/scripts/storytime/check-share-captions.ts
+MX4: old      if (level === undefined || listFile === undefined || !Number.isInteger(level) || level < 1 || level > 4) { |         console.error(USAGE); |         return 2; |     }
+MX4: new      if (level === undefined || listFile === undefined || !Number.isInteger(level) || level < 1 || level > 4) { |         console.error(USAGE); |         return 1; |     }
+MX4: exit 1, caught
+MX4: first failing test: × X3 command line: a missing --list exits 2 453ms
+MX4: restore cmp: ok
+MX5: file dashboard/scripts/storytime/check-share-captions.ts
+MX5: old      for (const id of expected.keys()) if (!seen.has(id) && !noShare.has(id)) problems.push(`${id}: the row is missing`);
+MX5: new      for (const id of expected.keys()) if (false && !seen.has(id) && !noShare.has(id)) problems.push(`${id}: the row is missing`);
+MX5: exit 1, caught
+MX5: first failing test: × X6 function: one missing row gives 43 rows and one problem of the expected id 52ms
+MX5: restore cmp: ok
+MX6: file dashboard/scripts/storytime/check-share-captions.ts
+MX6: old          if (source) { |             if (!source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX6: new          if (source) { |             if (!source.slice(0, 1).every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX6: exit 1, caught
+MX6: first failing test: × X5 function: the English caption of SC-w03-d2 (cell 4) changed gives one problem that starts with the row id 69ms
+MX6: restore cmp: ok
+MX7: file dashboard/scripts/storytime/check-share-captions.ts
+MX7: old          problems.push(`${id}: the row is not in the sources`);
+MX7: new          // an extra row is not reported
+MX7: exit 1, caught
+MX7: first failing test: × X6 function: one extra row SC-w09-d1 gives 45 rows and one problem of its id 49ms
+MX7: restore cmp: ok
+MX8: file dashboard/scripts/storytime/check-share-captions.ts
+MX8: old          if (seen.has(id)) { |             problems.push(`${id}: the row repeats`); |             continue; |         }
+MX8: new          if (seen.has(id)) { |             continue; |         }
+MX8: exit 1, caught
+MX8: first failing test: × X6 function: one repeated row id gives 45 rows and one problem of that id 54ms
+MX8: restore cmp: ok
+MX9: file dashboard/scripts/storytime/check-share-captions.ts
+MX9: old              if (!script.share) { |                 noShare.add(id); |                 problems.push(`${id}: the week file has no share`); |                 continue; |             }
+MX9: new              if (!script.share) { |                 noShare.add(id); |                 continue; |             }
+MX9: exit 1, caught
+MX9: first failing test: × X7 function: a source day without a share gives "<id>: the week file has no share" and does not throw 56ms
+MX9: restore cmp: ok
+MX10: file dashboard/scripts/storytime/check-share-captions.ts
+MX10: old          if (c === '\\' && line[i + 1] === '|') { |             cell += '|'; |             i++; |             continue; |         }
+MX10: new  
+MX10: exit 1, caught
+MX10: first failing test: × X10 function: a pipe in a caption is written as a backslash and a pipe, and reads back as a pipe 39ms
+MX10: restore cmp: ok
+MX11: file dashboard/scripts/storytime/check-share-captions.ts
+MX11: old          if (!isSc && !row.startsWith('| SL-')) continue;
+MX11: new          if (!isSc && !row.startsWith('| SL-') && !row.startsWith('| Id') && !row.startsWith('|---')) continue;
+MX11: exit 1, caught
+MX11: first failing test: × X5 baseline: the unchanged list gives 44 rows and 0 problems 187ms
+MX11: restore cmp: ok
+MX12: file dashboard/scripts/storytime/check-share-captions.ts
+MX12: old          if (source) { |             if (!source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX12: new          if (source) { |             const mine = cells.slice(1).map((cell, i) => (isSc && i === 2 ? cell.split('; ').sort().join('; ') : cell)); |             const theirs = source.map((cell, i) => (isSc && i === 2 ? cel
+MX12: exit 1, caught
+MX12: first failing test: × X11 function: the two-shot cell "D4 photo; D5 video" equals day 4, and the other order gives one problem 73ms
+MX12: restore cmp: ok
+MX13: file dashboard/scripts/storytime/check-share-captions.ts
+MX13: old          if (source) { |             if (!source.every((cell, i) => cells[i + 1] === cell)) problems.push(`${id}: the row differs from the week file`); |             continue; |         }
+MX13: new          if (source) { |             const squash = (cell: string) => cell.replace(/\s+/g, ' ').trim(); |             if (!source.every((cell, i) => squash(cells[i + 1] ?? '') === squash(cell))) problems.push(`${id}: the 
+MX13: exit 1, caught
+MX13: first failing test: × X12 function: a cell with outer spaces equals its source, and a cell with a changed inner space gives a problem 96ms
+MX13: restore cmp: ok
+
+mutants: 13, caught: 13
+n/a: 0
+survivors: 0
+restore cmp: ok
+git status --porcelain dashboard/lib/storytime dashboard/scripts/storytime:
+(nothing)
+git status: empty

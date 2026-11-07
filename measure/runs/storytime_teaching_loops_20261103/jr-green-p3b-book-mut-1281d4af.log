@@ -1,0 +1,76 @@
+Jr Green 3, Phase 3b part 2: the mutants of the teacher book and of the caption cross-check
+Track: storytime_teaching_loops_20261103. Phase 3b. Role: jr-green. Status: done-part-2.
+Role base of part 2: 1281d4af9a41d50d2754312642bd207114955224.
+Head before this log: 97e630929e0378bada08cfdbe235db80e0208354 (the part 1 log commit, no source change).
+Implementation commit: 1281d4af. This part changes no source file and no test file.
+Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (Anthropic).
+Protocol: test-strategy 5.6. Lists: MB1 to MB24 of 9.11 and MX1 to MX13 of 9.10.
+
+Part 1
+- The provisional log is now final: jr-green-p3b-book-7e2c720c.log, committed as 97e63092 with
+  the four gate captures.
+- Gates of part 1: GREEN_TEST_COMMAND exit 0 with 99 tests, PROJECT_TESTS exit 0 with 396 tests,
+  LINT_3B with ESLINT_EXIT=0 and TSC_EXIT=0, the manual test file exit 0 with 33 tests.
+
+Method of part 2
+- One runner outside the repository: /tmp/opencode/p3b-mut/run.py. A copy sits in this folder as
+  jr-green-p3b-book-mutants-run.py.
+- Each mutant: copy the target file to /tmp/opencode/p3b-mut/backup, apply one exact string
+  replacement, and assert that the old string occurs exactly one time. Then run
+  npx vitest run TESTFILE --maxWorkers=1 --bail=1 from dashboard with CI=true. Caught when the exit
+  code is not 0. Then restore from the copy and compare with cmp.
+- The pre-flight git status of dashboard/lib/storytime and dashboard/scripts/storytime was empty.
+- Every run went through heavy-run.sh with HEAVY_MIN_AVAIL_MB=1500 and
+  HEAVY_PREFLIGHT_WAIT_S=5400. One heavy run for MB and one for MX.
+- All 37 snippets fit the code one time. No mutant was recorded as n/a.
+
+MB result (capture jr-green-p3b-book-mutants-mb.txt)
+- mutants: 24, caught: 24. n/a: 0. survivors: 0. restore cmp: ok.
+- First failure of each mutant, by test:
+  MB1 T1, MB2 T1, MB3 T2, MB4 T2, MB5 T2, MB6 T2, MB7 T2, MB8 T7 (en), MB9 T7 (th), MB10 T3 (en),
+  MB11 T3 (th), MB12 T5, MB13 T5, MB14 T5, MB15 T5, MB16 T4, MB17 T8, MB18 T11, MB19 T11,
+  MB20 T11, MB21 T10, MB22 T4, MB23 T9, MB24 T12.
+- MB3 was applied as "only the steps that are regular and have minutes get a share", so D5 and D6
+  lose the icon. T2 caught it.
+- MB24 was caught by T12. The must-fail column of 9.11 also names T2, and T2 has no page list, so
+  T12 is the catching test. This is a note, not a defect.
+- MB16 was caught by T4 before T6. An empty Thai sharePhoto label makes a photo block fail the
+  label count, so T4 reports first with --bail=1. This is a note, not a defect.
+
+MX result (capture jr-green-p3b-book-mutants-mx.txt)
+- mutants: 13, caught: 13. n/a: 0. survivors: 0. restore cmp: ok.
+- First failure of each mutant, by test:
+  MX1 X6 (extra row), MX2 X5 (SL English), MX3 X5 (Thai caption), MX4 X3 (missing --list), MX5 X6
+  (missing row), MX6 X5 (English caption), MX7 X6 (extra row), MX8 X6 (repeated row), MX9 X7
+  (no share), MX10 X10 (escaped pipe), MX11 X5 baseline (44 rows), MX12 X11 (shot order), MX13 X12
+  (inner space).
+- MX1 was applied as "the problem list keeps only the cell and parse lines", so a missing row, an
+  extra row, and a repeated row give no problem. X6 caught it.
+- MX2 is caught by X5, as part 1 expected. MX9 is caught by X7, as part 1 expected.
+
+Restore proof
+- Every mutant printed restore cmp: ok. After both runs the command
+  git status --porcelain dashboard/lib/storytime dashboard/scripts/storytime printed nothing, and the
+  capture records git status: empty. pnpm-lock.yaml did not change.
+
+Plan
+- plan.md did not change. The task line stays [~]. The orchestrator or the phase-acceptance role
+  flips it with the evidence of 1281d4af and of this log.
+
+MEASURE_AGENT_RESULT
+status: done-part-2
+phase: 3b
+role: jr-green
+role_base_sha: 1281d4af9a41d50d2754312642bd207114955224
+head: 97e630929e0378bada08cfdbe235db80e0208354
+impl_commit: 1281d4af9a41d50d2754312642bd207114955224
+part1_log_commit: 97e63092
+mb: mutants: 24, caught: 24
+mx: mutants: 13, caught: 13
+na: 0
+survivors: none
+restore: restore cmp: ok, git status of the source folders empty
+tests_changed: none
+dispositions: none
+handoff: the mutants are clean; the build tasks of 9.12 and 9.13 remain; the plan task line stays [~] for the orchestrator
+END_MEASURE_AGENT_RESULT

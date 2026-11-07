@@ -1,0 +1,153 @@
+pre-flight git status of the two folders: (nothing)
+MB1: file dashboard/lib/storytime/manual.ts
+MB1: old      if (options.share) { |         for (const s of scripts) { |             if (!s.share) continue; |             if (consentStep === undefined) consentStep = s.share.shots[0]?.step; |             for (const shot of s.sh
+MB1: new      if (options.share !== false) { |         for (const s of scripts) { |             if (!s.share) continue; |             if (consentStep === undefined) consentStep = s.share.shots[0]?.step; |             for (const sh
+MB1: exit 1, caught
+MB1: first failing test: × T1 guard w01 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields 86ms
+MB1: restore cmp: ok
+MB2: file dashboard/lib/storytime/manual.ts
+MB2: old      if (options.share) { |         for (const s of scripts) { |             if (!s.share) continue; |             if (consentStep === undefined) consentStep = s.share.shots[0]?.step; |             for (const shot of s.sh
+MB2: new      if (true) { |         for (const s of scripts) { |             if (!s.share) continue; |             if (consentStep === undefined) consentStep = s.share.shots[0]?.step; |             for (const shot of s.share.shots
+MB2: exit 1, caught
+MB2: first failing test: × T1 guard w01 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields 92ms
+MB2: restore cmp: ok
+MB3: file dashboard/lib/storytime/manual.ts
+MB3: old              for (const shot of s.share.shots) shares.set(shot.step, { media: shot.media, caption: s.share.caption });
+MB3: new              const regular = new Set(s.steps.filter((st) => !st.moved && st.minutes !== 0).map((st) => st.id)); |             for (const shot of s.share.shots) if (regular.has(shot.step)) shares.set(shot.step, { media: sh
+MB3: exit 1, caught
+MB3: first failing test: × T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step 26ms
+MB3: restore cmp: ok
+MB4: file dashboard/lib/storytime/manual.ts
+MB4: old      const [first, ...rest] = steps.map((st) => renderStep(st, lang, l, { pageOf, share: shareOf?.(st.id), consent: consentOf?.(st.id) }));
+MB4: new      const [first, ...rest] = steps.map((st) => renderStep(st, lang, l, { pageOf, consent: consentOf?.(st.id) }));
+MB4: exit 1, caught
+MB4: first failing test: × T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step 24ms
+MB4: restore cmp: ok
+MB5: file dashboard/lib/storytime/manual.ts
+MB5: old              for (const shot of s.share.shots) shares.set(shot.step, { media: shot.media, caption: s.share.caption });
+MB5: new              for (const shot of s.share.shots.slice(0, 1)) shares.set(shot.step, { media: shot.media, caption: s.share.caption });
+MB5: exit 1, caught
+MB5: first failing test: × T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step 20ms
+MB5: restore cmp: ok
+MB6: file dashboard/lib/storytime/manual.ts
+MB6: old  photo: '<svg class="st-share-icon" data-share-media="photo"
+MB6: new  photo: '<svg class="st-share-icon" data-share-media="video"
+MB6: exit 1, caught
+MB6: first failing test: × T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step 28ms
+MB6: restore cmp: ok
+MB7: file dashboard/lib/storytime/manual.ts
+MB7: old  <span class="st-share-label">${escapeHtml(share.media === 'photo' ? l.sharePhoto : l.shareVideo)}</span>
+MB7: new  <span class="st-share-label" data-share-media="${share.media}">${escapeHtml(share.media === 'photo' ? l.sharePhoto : l.shareVideo)}</span>
+MB7: exit 1, caught
+MB7: first failing test: × T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step 20ms
+MB7: restore cmp: ok
+MB8: file dashboard/lib/storytime/manual.ts
+MB8: old  <p class="st-share-caption">${escapeHtml(share.caption.en)}</p>
+MB8: new  <p class="st-share-caption">${share.caption.en}</p>
+MB8: exit 1, caught
+MB8: first failing test: × T7 escape en: the caption of this language prints escaped in the book of this language 25ms
+MB8: restore cmp: ok
+MB9: file dashboard/lib/storytime/manual.ts
+MB9: old  <p class="st-share-caption">${escapeHtml(share.caption.th)}</p>
+MB9: new  <p class="st-share-caption">${share.caption.th}</p>
+MB9: exit 1, caught
+MB9: first failing test: × T7 escape th: the caption of this language prints escaped in the book of this language 18ms
+MB9: restore cmp: ok
+MB10: file dashboard/lib/storytime/manual.ts
+MB10: old  ${lang === 'th' && share.caption.th ? `<p class="st-share-caption">${escapeHtml(share.caption.th)}</p>` : ''}
+MB10: new  ${share.caption.th ? `<p class="st-share-caption">${escapeHtml(share.caption.th)}</p>` : ''}
+MB10: exit 1, caught
+MB10: first failing test: × T3 caption w01 en: the English manual holds caption.en and not caption.th in each shot block 16ms
+MB10: restore cmp: ok
+MB11: file dashboard/lib/storytime/manual.ts
+MB11: old          ${lang === 'th' && share.caption.th ? `<p class="st-share-caption">${escapeHtml(share.caption.th)}</p>` : ''} |         <p class="st-share-caption">${escapeHtml(share.caption.en)}</p>
+MB11: new          <p class="st-share-caption">${escapeHtml(share.caption.en)}</p> |         ${lang === 'th' && share.caption.th ? `<p class="st-share-caption">${escapeHtml(share.caption.th)}</p>` : ''}
+MB11: exit 1, caught
+MB11: first failing test: × T3 caption w01 th: the Thai book holds caption.th and then caption.en in each shot block 41ms
+MB11: restore cmp: ok
+MB12: file dashboard/lib/storytime/manual.ts
+MB12: old      const consentOf = (stepId: string) => options.share === true && stepId === consentStep;
+MB12: new      const consentOf = (stepId: string) => options.share === true && shares.has(stepId);
+MB12: exit 1, caught
+MB12: first failing test: × T5 consent th: share off prints 0, one week prints 1, two weeks print 2 22ms
+MB12: restore cmp: ok
+MB13: file dashboard/lib/storytime/manual.ts
+MB13: old      const consentOf = (stepId: string) => options.share === true && stepId === consentStep;
+MB13: new      const consentOf = (stepId: string) => options.share === true && scripts.some((s) => s.share?.shots[0]?.step === stepId);
+MB13: exit 1, caught
+MB13: first failing test: × T5 consent th: share off prints 0, one week prints 1, two weeks print 2 24ms
+MB13: restore cmp: ok
+MB14: file dashboard/lib/storytime/manual.ts
+MB14: old      const consentOf = (stepId: string) => options.share === true && stepId === consentStep;
+MB14: new      const consentOf = (stepId: string) => { |         const g = globalThis as unknown as { consentShown?: boolean }; |         const on = options.share === true && stepId === consentStep && !g.consentShown; |         if 
+MB14: exit 1, caught
+MB14: first failing test: × T5 consent th: share off prints 0, one week prints 1, two weeks print 2 30ms
+MB14: restore cmp: ok
+MB15: file dashboard/lib/storytime/manual.ts
+MB15: old      const consentBlock = options.consent ? `
+MB15: new      const consentBlock = options.consent && lang === 'en' ? `
+MB15: exit 1, caught
+MB15: first failing test: × T5 consent th: share off prints 0, one week prints 1, two weeks print 2 21ms
+MB15: restore cmp: ok
+MB16: file dashboard/lib/storytime/i18n.ts
+MB16: old      sharePhoto: 'รูปภาพ',
+MB16: new      sharePhoto: '',
+MB16: exit 1, caught
+MB16: first failing test: × T4 label w01 'th': a photo block holds sharePhoto and a video block holds shareVideo 22ms
+MB16: restore cmp: ok
+MB17: file dashboard/lib/storytime/manual.ts
+MB17: old  photo: '<svg class="st-share-icon" data-share-media="photo" viewBox="0 0 24 24" fill="none" stroke="#000"
+MB17: new  photo: '<svg class="st-share-icon" data-share-media="photo" viewBox="0 0 24 24" fill="none" stroke="#2e6b30"
+MB17: exit 1, caught
+MB17: first failing test: × T8 icon colour th: each icon of w01 holds only black, none, or currentColor 19ms
+MB17: restore cmp: ok
+MB18: file dashboard/scripts/storytime/make-manual-pdf.ts
+MB18: old      const result = compileStorytimeManual(weeks, { lang, paper: 'a4', loops, share });
+MB18: new      const result = compileStorytimeManual(weeks, { lang, paper: 'a4', loops });
+MB18: exit 1, caught
+MB18: first failing test: × T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the file reads --share and passes share to the compile call 55ms
+MB18: restore cmp: ok
+MB19: file dashboard/scripts/storytime/make-teacher-book-print.ts
+MB19: old              if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, share, studentBookPages);
+MB19: new              if (parsed.length > 1) await renderChromePdf([week], weekPdf, tmp, pagedSrc, loops, studentBookPages);
+MB19: exit 1, caught
+MB19: first failing test: × T11 wiring: every call of renderChromePdf in the print script passes share 28ms
+MB19: restore cmp: ok
+MB20: file dashboard/scripts/storytime/make-manual-pdf.ts
+MB20: old          else if (a === '--share') share = true; | 
+MB20: new  
+MB20: exit 1, caught
+MB20: first failing test: × T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the file reads --share and passes share to the compile call 48ms
+MB20: restore cmp: ok
+MB21: file dashboard/lib/storytime/manual.ts
+MB21: old      ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, pageOf, share: shareOf(st.id), consent: consentOf(st.id), questions: st.id === 'D3' ? w.books.
+MB21: new      ${s.steps.filter((st) => !st.moved && !isOpeningSongStep(st)).map((st) => renderStep(st, lang, l, { loops: options.loops, pageOf, title: pick(st.title, lang) + (options.share ? ' share' : ''), share: shareOf(st.id), 
+MB21: exit 1, caught
+MB21: first failing test: × T10 differential 'th' loops false: after the removal of the share texts the visible text equals the share-off text 23ms
+MB21: restore cmp: ok
+MB22: file dashboard/lib/storytime/manual.ts
+MB22: old  share.media === 'photo' ? l.sharePhoto : l.shareVideo
+MB22: new  share.media === 'photo' ? l.shareVideo : l.sharePhoto
+MB22: exit 1, caught
+MB22: first failing test: × T4 label w01 'th': a photo block holds sharePhoto and a video block holds shareVideo 24ms
+MB22: restore cmp: ok
+MB23: file dashboard/lib/storytime/manual.ts
+MB23: old              if (!s.share) continue;
+MB23: new              if (!s.share) throw new Error('the week file has no share');
+MB23: exit 1, caught
+MB23: first failing test: × T9 edge: a week without share and the option on prints no icon and no consent line, and does not throw 23ms
+MB23: restore cmp: ok
+MB24: file dashboard/lib/storytime/manual.ts
+MB24: old      const shareBlock = share ? `
+MB24: new      const shareBlock = share && !options.pageOf ? `
+MB24: exit 1, caught
+MB24: first failing test: × T12 print path: compileStorytimeManual of w01 with share and studentBookPages holds the icons of w01 253ms
+MB24: restore cmp: ok
+
+mutants: 24, caught: 24
+n/a: 0
+survivors: 0
+restore cmp: ok
+git status --porcelain dashboard/lib/storytime dashboard/scripts/storytime:
+(nothing)
+git status: empty
