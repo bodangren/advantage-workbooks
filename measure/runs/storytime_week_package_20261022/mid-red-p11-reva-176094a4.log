@@ -3,4 +3,20 @@ started: 2026-11-07
 red_base: 176094a4404715f74d8c3ef5df59c1b7bcfafa84
 phase_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
 progress 1: read review-a-p11-cc4f5e67.json, set-word-clips.ts (setWordClips, copy loop at the line of "const wordsFolder"), check-weeks.ts checkWordClips, and the C7 and C9 cases. Plan lines and test cases next.
-provisional: status in progress
+progress 2: C7b (3 cases) and C9b (2 cases) added to storytime-package-clips.test.ts. Red proof exit 1, 5 failed, 88 passed of 93. C7b fails on the listing assertion (clips copied and stale clip removed before the throw). C9b gives pass where fail is expected. ESLint exit 0. Test commit be92ae9ed54c378aef53824ec2a1d3d9b8f1b52d, scope files 1, outside 0. Plan commit f650b9cf.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+phase: P11
+task: Red, Review A remediation (F1, F3)
+track: storytime_week_package_20261022
+role_base_sha: 176094a4404715f74d8c3ef5df59c1b7bcfafa84
+red_base: 176094a4404715f74d8c3ef5df59c1b7bcfafa84
+baseline_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+status: done
+commits: be92ae9ed54c378aef53824ec2a1d3d9b8f1b52d (test), f650b9cf (plan and run files)
+files_changed: dashboard/__tests__/storytime-package-clips.test.ts; measure/tracks/storytime_week_package_20261022/plan.md; measure/runs/storytime_week_package_20261022/p11-reva-red*.txt and this log
+tests_run: vitest clips file with maxWorkers=1 in heavy-run: exit 1, 5 failed, 88 passed; eslint exit 0
+handoff: Green (DeepSeek). Remaining failures: C7b x3 (the mapper copies clips and removes the stale clip before the audio block check and the parse of the dry-edited text; move all checks and the parse before the first copy, remove, or write), C9b x2 (checkWordClips records no fault when the bank mp3 named by the row is absent and the week clip exists; add a fail part that names the key). The Green chooses the part text; the tests need the key name in the detail and status fail.
+dispositions: none
+END_MEASURE_AGENT_RESULT
