@@ -1,0 +1,62 @@
+# Block: the AX line pin of w02 (print track test) and the share field
+
+- Date: 2026-11-07
+- Track: storytime_teaching_loops_20261103, Phase 3b content, part 2
+- HEAD at the block: 5b9457a1cd5163e96d13e293569dc14932c058b8 (content fix)
+- Role base: 946807e062f8335400227d4bc611d2e186f1595d
+
+## The failing test
+
+`PROJECT_TESTS` (R3 exclude, one heavy run, `p3b-content-project.txt`):
+
+```
+Test Files  1 failed | 61 passed (62)
+     Tests  1 failed | 1395 passed (1396)
+exit: 1
+```
+
+The one failure:
+
+```
+FAIL  __tests__/storytime-print-v15.test.ts > v15 AX: week 2 names the axe, not the alligator
+      > AX-lines: the 5 lines 2104, 4129, 4157, 4163, and 4215 name apple, ant, axe, astronaut
+AssertionError: line 2104: expected '          "harder": {' to contain 'apple, ant, axe, astronaut'
+```
+
+## The cause
+
+The test pins 5 absolute line numbers of `content/storytime/l2/w02.json`. The content commit
+`1d29e893` inserted 46 lines into that file (5 share blocks: 9, 9, 9, 10, and 9 lines). Every pinned
+line moved. No English or Thai text changed.
+
+| Old pin | New line | Shift | Text at the new line |
+|---|---|---|---|
+| 2104 | 2113 | +9 | sound picture cards: apple, ant, axe, astronaut |
+| 4129 | 4175 | +46 | sound picture cards: apple, ant, axe, astronaut |
+| 4157 | 4203 | +46 | sound picture cards: apple, ant, axe, astronaut |
+| 4163 | 4209 | +46 | Thai line with apple, ant, axe, astronaut |
+| 4215 | 4261 | +46 | sound picture cards: apple, ant, axe, astronaut |
+
+Probe: each new line contains `apple, ant, axe, astronaut`.
+
+## The established remedy
+
+The print track moved this same pin before, in a test-only commit:
+`dce7e4d6 test(storytime): move the AX line pins of w02 by the 21 new lines (storytime_week_package)`.
+
+## The block
+
+The Green role of this track may not change a test file. The pin lives in the print track
+(`dashboard/__tests__/storytime-print-v15.test.ts`). The fix is a test-only commit in that track, or
+an orchestrator authorization for one in this role:
+
+```
+- for (const number of [2104, 4129, 4157, 4163, 4215])
++ for (const number of [2113, 4175, 4203, 4209, 4261])
+```
+
+Dry run 2 was not run. Its baseline would hold the same failure, so the list would not isolate the
+switch test N8. Run it after the pin fix.
+
+The week files, the check status, and the schema are correct: the `-t "w0"` gate gives `Tests  56
+passed`, and `check-weeks.ts --level 2` gives `share-moment` `PASS` for st2/1 to st2/8 with 0 FAIL rows.

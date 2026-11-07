@@ -1,6 +1,6 @@
 # Parent-share captions, English pack (Phase 3b, storytime_teaching_loops_20261103)
 
-This pack holds the English captions of the 40 parent-share moments of Level 2, weeks 1 to 8. It comes from the week files at commit `1d29e893f61bb96dc4aff702fce80b60aa050a38` (2026-11-07, `content/storytime/l2/w01.json` to `w08.json`).
+This pack holds the English captions of the 40 parent-share moments of Level 2, weeks 1 to 8. It comes from the week files at commit `5b9457a1cd5163e96d13e293569dc14932c058b8` (2026-11-07, `content/storytime/l2/w01.json` to `w08.json`). That commit holds the two fixes of the independent English review (see the last section).
 
 The pack holds English text only. The Thai drafts go to Daniel on 2026-11-16 (spec D26). The independent review reads this pack and no week file (test-strategy 9.8, rule P20).
 
@@ -29,6 +29,7 @@ The moment adds 0 minutes. The sticker step C7 is a class reward, and it is not 
 6. A caption holds no file path and no assessment word.
 7. The teacher posts the caption with no change.
 8. The 40 captions are all different, and the 5 captions of one week are all different.
+9. The spelling is American English (Daniel, 2026-10-27, word-bank approval "Approved, American").
 
 ## The 40 captions
 
@@ -45,7 +46,7 @@ The moment adds 0 minutes. The sticker step C7 is a class reward, and it is not 
 | w02 | 4 | D | D4 photo; D5 video | The photo shows the sentence your child wrote. The video shows your child reading it aloud. |
 | w02 | 5 | E | D6 video | The class sings How Many? One, Two! Your child counts one and two in English. |
 | w03 | 1 | A | A3 video | The sound of the week is p. Your child says p, says pen, and writes the letter p. |
-| w03 | 2 | B | B5 video | Your child acts the story Paint! and says the frame sentence It is red. |
+| w03 | 2 | B | B5 video | Your child acts the story Paint! and says It is red. |
 | w03 | 3 | C | C4 video | One child reads one page of the book Paint! aloud to the class. |
 | w03 | 4 | D | D4 photo; D5 video | The photo shows your child's sentence. The video shows your child reading the sentence to us. |
 | w03 | 5 | E | D6 video | Your child sings It Is Red! and names the colors in English. |
@@ -59,7 +60,7 @@ The moment adds 0 minutes. The sticker step C7 is a class reward, and it is not 
 | w05 | 3 | C | C4 video | One child reads one page of the book I Have Two aloud to the class. |
 | w05 | 4 | D | D4 photo; D5 video | The photo shows your child's written sentence with two things. The video shows the reading. |
 | w05 | 5 | E | D6 video | Your child sings I Have Two and counts two of each body part in English. |
-| w06 | 1 | A | A3 video | Today we practise the sound t. Your child says t, says tap, and writes the letter t. |
+| w06 | 1 | A | A3 video | Today we practice the sound t. Your child says t, says tap, and writes the letter t. |
 | w06 | 2 | B | B5 video | Your child acts the story I Can See and says I can see a cat. |
 | w06 | 3 | C | C4 video | One child reads one page of the book I Can See aloud for us. |
 | w06 | 4 | D | D4 photo; D5 video | The photo shows the sentence your child wrote about an animal. The video shows the reading. |
@@ -76,3 +77,16 @@ The moment adds 0 minutes. The sticker step C7 is a class reward, and it is not 
 | w08 | 5 | E | E3 video | The class sings the unit 1 songs at the song show, and your child gets the unit sticker. |
 
 Row count: 40. The Thai caption of each row is a separate draft, and it goes to Daniel only.
+
+## Changes after the review
+
+The independent review read the pack of commit `1d29e893f61bb96dc4aff702fce80b60aa050a38` and found 1 error and 3 look points (report `p3b-share-english-review-1d29e893.md` in this folder). Two captions changed. The dispositions: E1 fixed, LP-S1 fixed, LP-S2 and LP-S3 to Daniel.
+
+| Row | Week | Day | Script | Old English | New English |
+|---|---|---|---|---|---|
+| E1 | w03 | 2 | B | Your child acts the story Paint! and says the frame sentence It is red. | Your child acts the story Paint! and says It is red. |
+| LP-S1 | w06 | 1 | A | Today we practise the sound t. Your child says t, says tap, and writes the letter t. | Today we practice the sound t. Your child says t, says tap, and writes the letter t. |
+
+E1: the caption dropped the jargon "the frame sentence". LP-S1: the house rule is American English, so `practise` became `practice`. A scan of the 40 captions found no other British spelling. The Thai drafts of the two rows already said the same in plain words, so their Thai text did not change.
+
+LP-S2 and LP-S3 stay as they are, and they go to Daniel's sitting of 2026-11-16 as look points.
