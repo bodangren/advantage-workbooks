@@ -1,0 +1,101 @@
+Jr Green, Phase 3b: the teacher book build (proof build of the release path)
+Track: storytime_teaching_loops_20261103. Phase 3b. Task: the teacher book build (plan.md line 351).
+Role: jr-green. Status: blocked at the text gate. No code change and no test change.
+Role base (= build commit): 131684f9374a62550f9b73d08558b37a152cfbd6.
+Green 3 implementation: 1281d4af.
+Head before this log: f7b10bb597370e397a826a9fd7eee8f38b462db6 (the plan and capture commit).
+Model: deepseek/deepseek-flash. Red model of this phase: not used by this task (no Red test changed).
+Runtime: 2026-11-08, 00:52 to 01:35 (+07:00). HOME was the real /home/daniebo.
+
+Preconditions (checked at the start, both hold)
+- HEAD is 131684f9374a62550f9b73d08558b37a152cfbd6.
+- `git status --porcelain content/storytime/l2 dashboard/lib/storytime dashboard/scripts/storytime` prints nothing.
+- The 8 week SHA-256 equal the values that the orchestrator recorded: w01 eab478a4, w02 63782645, w03 50d289d2,
+  w04 065e3ca4, w05 a7c47dc3, w06 a9765a0f, w07 58c5abf5, w08 b3345ee0.
+
+Step 1: the 8 drafts (one wrapper, `p3b-build-drafts.txt`)
+- Output folder: ~/Desktop/print-ready/storytime/share-check-v1/drafts/.
+- Each run went through heavy-run.sh with HEAVY_MIN_AVAIL_MB=1500 and HEAVY_PREFLIGHT_WAIT_S=5400.
+- Exit codes, w01 to w08: 0, 0, 0, 0, 0, 0, 0, 0.
+- Pages per draft: 27, 30, 30, 30, 30, 29, 30, 25 (sum 231).
+- The 8 draft files exist. Two heavy-run lines about /proc/<pid>/cmdline name no build fault.
+
+Step 2: the print build (one wrapper, `p3b-build-print.txt`)
+- Command: make-teacher-book-print.ts --level 2 --weeks 1 to 8 --lang th --loops --share --version 1
+  --out .../share-check-v1/teacher-book --drafts .../share-check-v1/drafts.
+- The PDF/X conversion passes: `All checks pass.`
+- The build exits 1. The text gate gives 316 differences: 41 for w01 to w07 and 29 for w08.
+- Print file: ~/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf (224 pages).
+- The H1 list (`text-gate-v1-h1.md`) gives these classes: A-48 badge 246, page reference 57, word change 8,
+  other 5. The 8 and 5 rows are the same words re-wrapped (a longer Thai page reference).
+- Cause, not a content defect: the book passes the unit page list to compileStorytimeManual
+  (`make-teacher-book-print.ts` line 138 and line 229 with `studentBookPages`). The badge replaces `id · title`
+  (`manual.ts` line 162) and the media line names the printed page (`manual.ts` line 259). The draft path passes
+  no page list (`make-manual-pdf.ts` line 89). So a draft can never match a book of a week with print pages.
+- No fix is in this role: this is a text-gate difference. No code and no test file changed.
+
+Step 3: PRINT_GATE (`p3b-build-pdfx.txt`)
+- `npx tsx scripts/print/make-pdfx.ts <print file> --check` exits 0.
+- The last line is `All checks pass.`
+
+Step 4: the records (`p3b-build-records.txt`)
+- pages: 224
+- pdf sha256: 385281cbd61dae3954f45ca8847d2b33baaeed99ce28c7f083e9f2ac8956be61
+- non-A4 pages: 0
+- nonzero-cmy-pages: 0
+- consent line count: 8
+- length line count: 8
+- caption occurrences: 47 (40 caption strings; day 4 of w01 to w07 prints its caption at two shots)
+- photo label count: 7; video label count: 40 (47 share labels)
+- The Thai counts read the Chrome PDF, which has the same 224 pages. `pdftotext` gives no Thai text from the
+  PDF/X file (lesson 2026-10-02), so the print file text gives 0 for each Thai string. Test-strategy 9.12
+  step 4 names the Chrome PDF for these counts.
+- All 6 expected values hold: 8, 8, 47, 0, 0, and 224 pages.
+
+Step 5: the sheets and the icon pages (`share-icon-pages.txt`, `p3b-build-sheets/`)
+- Share icon pages: 47, 5, 12, 16, 21, 22, 23, 32, 39, 44, 50, 51, 52, 61, 68, 73, 79, 80, 81, 90, 97, 102,
+  108, 109, 110, 119, 126, 131, 137, 138, 139, 148, 155, 159, 165, 166, 167, 176, 184, 188, 194, 195, 196,
+  204, 207, 210, 213, 217.
+- Each line of the file names the week, the day, and the step of the share moment. w01 to w07 hold 6 icon pages
+  each (A3, B5, C4, D4, D6, and D5), and w08 holds 5 (A2, B1, C1, D1, and E3).
+- The day-4 video block (D5) prints after the day-5 title in w01 to w07 ("steps moved to the next opening").
+  The page is still the D5 block of day 4.
+- 12 contact sheets, 20 pages per sheet (5 by 4), page numbers under each page, JPEG 630 to 712 KB each.
+- 47 icon pages rendered alone at 100 dpi in `p3b-build-sheets/icon-pages/`.
+- The sheet folder is 16 MB in total.
+
+Step 6: the plan and the commit
+- The task line stays `[ ]`. Its done-when needs the text gate at 0, the PM receipt, and the orchestrator sheet check.
+- One evidence sub-bullet under the task line records the block, the record lines, and the open items. No other line changed.
+- Commit f7b10bb597370e397a826a9fd7eee8f38b462db6: plan.md, the 5 captures, share-icon-pages.txt, and the sheets
+  (66 files, 788 insertions).
+- `pnpm-lock.yaml` did not change. Nothing of the build enters the repository (A10); only the run captures did.
+- `video/storytime-song/scripts/render.mjs` belongs to another session and was not staged.
+
+Open items for the orchestrator
+- The text gate of an 8-week book is not 0 with the recipe of test-strategy 9.12, because the draft path holds no
+  unit page list. A rebuild after a code fix needs `--version 2`, because the tool refuses an existing output.
+- The PM receipt (peer-report) is not sent, because that message is the orchestrator's.
+- The orchestrator sheet check (person-checked) is open: the icon is black, the label and the caption do not clip,
+  the consent block sits at the first shot of day 1, and no page break falls inside a shot block.
+
+MEASURE_AGENT_RESULT
+status: blocked
+phase: 3b
+role: jr-green
+role_base_sha: 131684f9374a62550f9b73d08558b37a152cfbd6
+head: f7b10bb597370e397a826a9fd7eee8f38b462db6
+print_file: /home/daniebo/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf
+drafts: 8 runs, exit 0, 0, 0, 0, 0, 0, 0, 0 (pages 27, 30, 30, 30, 30, 29, 30, 25)
+print_build: exit 1, text gate 316 differences (41 for w01 to w07, 29 for w08), PDF/X conversion passes
+text_gate_line: week 1: 41 difference(s) ... week 8: 29 difference(s); 316 in total; classes A-48 badge 246, page reference 57, word change 8, other 5
+text_gate_cause: the book passes studentBookPages (make-teacher-book-print.ts line 138 and line 229); the draft path does not (make-manual-pdf.ts line 89)
+print_gate: exit 0, All checks pass (p3b-build-pdfx.txt)
+records: pages: 224; pdf sha256: 385281cbd61dae3954f45ca8847d2b33baaeed99ce28c7f083e9f2ac8956be61; non-A4 pages: 0; nonzero-cmy-pages: 0; consent line count: 8; length line count: 8; caption occurrences: 47; photo labels 7; video labels 40
+icon_pages: 47, 5, 12, 16, 21, 22, 23, 32, 39, 44, 50, 51, 52, 61, 68, 73, 79, 80, 81, 90, 97, 102, 108, 109, 110, 119, 126, 131, 137, 138, 139, 148, 155, 159, 165, 166, 167, 176, 184, 188, 194, 195, 196, 204, 207, 210, 213, 217
+sheets: 12 JPEG in measure/runs/storytime_teaching_loops_20261103/p3b-build-sheets/ (20 pages each, 630 to 712 KB) and 47 icon pages at 100 dpi
+plan_task: stays [ ], one evidence sub-bullet added
+plan_commit: f7b10bb597370e397a826a9fd7eee8f38b462db6
+dispositions: none
+handoff: Blocked at the text gate, which gives 316 differences for the 8-week book. All 303 badge and page-reference rows and the 13 re-wrapped rows come from one cause: the book passes the unit page list and make-manual-pdf.ts does not, so a draft cannot match a week with print pages. The records (8, 8, 47, 0, 0), PRINT_GATE, the sheets, and the icon pages all pass. Decide one of three: A) accept the 316 rows as the intended A-48 U8 output and send them to Daniel for approval (AC-3), with no code change; B) open a Mid Red and Green fix that passes the unit page list to the draft path (make-manual-pdf.ts), then rebuild with --version 2; C) leave the task [ ] for the release-path owner. My default with no answer is C. The task stays [ ] in all three cases until the PM receipt and your sheet check arrive. The log commit follows this evidence commit, so `git rev-parse HEAD` after it names the final Green HEAD.
+END_MEASURE_AGENT_RESULT
