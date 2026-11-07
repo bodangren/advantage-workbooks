@@ -1,0 +1,49 @@
+Mid Red, track storytime_teaching_loops_20261103, phase P3b, task Red (content). Status: done.
+
+## Scope
+
+- Red 2 of Phase 3b: the content test of the share moments of w01 to w08 (FR-14, AC-14.5 to AC-14.7, test-strategy 9.8), and a share on each script of the two fixture weeks.
+- phase_base_sha and role_base_sha: 94be877dc493ca83ec4c5e6bd01dc4c8a81eee03.
+- New file dashboard/__tests__/storytime-loops-share-content.test.ts (75 tests). Changed file dashboard/__tests__/fixtures/storytime-week-fixture.ts (a share on each script of fixtureWeek and fixtureReviewWeek, from the hand-typed tables of storytime-share-sample.ts).
+- No production file, no week file, and no other test file changed.
+
+## Steps
+
+1. Log written; task marked [~].
+2. Fixture upgrade and test file written.
+3. Development run of the new file; the 50 failures checked one by one (all assertion failures).
+4. Mutants MN1 to MN3 run on copies (heavy-run, one wrapper).
+5. Red proof, LINT_3B, fixture users, tsc, and the -t runs in one heavy-run wrapper.
+6. Commit 678b4db4 (two test files only); scope proof written.
+7. Plan commit ddb22f9b (task [x], evidence, R3 note, run files).
+
+## Evidence
+
+- Red run (p3b-red-content.txt, exit 1, --maxWorkers=1): Test Files  1 failed | 7 passed (8); Tests  50 failed | 247 passed (297). The summary equals the Red 2 expectation of test-strategy 9.4. All 50 failures sit in storytime-loops-share-content.test.ts. No collection error; no No test files found.
+- tests per week: 7. Selection with -t "w0": 56 tests (48 failed, 8 passed). Selection with -t "w03": 7 tests (6 failed, 1 passed). The content task gate reads Tests  56 passed.
+- The 19 other tests have no w0 in the name: 10 compare tests, 2 tests of the eight weeks together (40 shares and set size 40; N8 the switch), 3 tests of the student book and the guard, 4 fixture tests.
+- mutants: 3, caught: 3 (p3b-red-content-mutants.txt). MN1 keeps share: 1 test fails. MN2 also drops th: 2 tests fail. MN3 also drops recall: 1 test fails. No temporary test file remained.
+- Characterization tests (pass at Red): N5 of the 8 weeks; the 10 compare tests; N7 and its non-vacuity test; N10; the 4 fixture tests (the fixture upgrade is in the same commit, so N9 passes at Red). Each has a falsifier in the plan evidence.
+- Fixture users after the upgrade (p3b-red-content-fixture-users.txt): Test Files  4 passed (4); Tests  85 passed (85). The 7 old loops files pass in the Red run.
+- LINT_3B exit 0 (p3b-red-content-lint.txt). tsc --noEmit exit 0 (p3b-red-content-tsc.txt). pnpm-lock.yaml unchanged.
+- Scope proof (p3b-red-content-scope.txt): git show --name-only --format= 678b4db4 | grep -vc '^dashboard/__tests__/' prints 0.
+
+## Decisions and deviations
+
+- SHARE_BASELINE_COMMIT is 10d5fcfce4b35c30ed4c6c4cf3c901fe23ac918d (Q21 rule applied at the start of this role). The plan text names 95043edc; the print track changed week files after it.
+- N7 (student book) is one test for the 8 weeks, without w0 in its name: the compile takes the weeks together. So the gate with -t "w0" does not run it; the full-file run does.
+- N4 (40 different captions) has a per-week form (each caption differs from the week and from the other weeks) and a global labeled form (set size: 40).
+- N9 passes at Red because the fixture upgrade is in this commit. The falsifier is a fixture copy without one share.
+- I did not run the switch dry run with the status fail (it needs a temporary edit of checks.ts; the task is tests only). The fixtures pass share-moment with pass, so group (a) of share-switch-dryrun.txt is cured at both statuses.
+- PROJECT_TESTS was not run (the orchestrator owns it in the R3 window).
+
+## Rule R3
+
+- R3 window open from 678b4db4 (2026-11-07). The orchestrator must add --exclude "**/storytime-loops-share-content.test.ts" to the PROJECT_TESTS of the print track and of this track, and tell the print session. RED_TEST_COMMAND and GREEN_TEST_COMMAND are red by design until the switch (50 failures).
+
+## Result block
+
+status: done
+commits: 678b4db4 (tests), ddb22f9b (plan and run files), log commit follows
+dispositions: none
+handoff: Orchestrator: set the R3 exclude now. The next task is the content task; its gate reads Tests  56 passed with -t "w0". Questions: none.
