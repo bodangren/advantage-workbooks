@@ -4,7 +4,7 @@ Source commit of the week files: `57c4bf123e77a1830b5cbd578cce2944a5d52a45`. The
 
 Date of this list: 2026-11-08. The sitting is 2026-11-16.
 
-Teacher book build v1: `~/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf` (224 pages, SHA-256 `385281cbd61dae3954f45ca8847d2b33baaeed99ce28c7f083e9f2ac8956be61`).
+Teacher book build v2: `~/Desktop/print-ready/storytime/share-check-v1/teacher-book/Storytime-Advantage-L2-U1-Teachers-Book-TH-v2_PDFX-1a.pdf` (224 pages, SHA-256 `5897acd31adc89e107c1049299aa7c49f1898af62850efda133aef46998f2e0b`). Build v2 replaces v1 (2026-11-08): the drafts carry the unit page list (--book-pages), so the text gate gives 0 differences.
 
 Answer OK for all rows, or name a row by its id and the change.
 
