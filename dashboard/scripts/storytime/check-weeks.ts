@@ -109,6 +109,7 @@ export function checkWordClips(week: any, contentRoot = STORYTIME_ROOT): { id: s
     const byWord = new Map(rows.map((row) => [row.word, row]));
     const missing: string[] = [];
     const differs: string[] = [];
+    const noBankFile: string[] = [];
     const noBank: string[] = [];
     const notBookWord: string[] = [];
     const badPath: string[] = [];
@@ -149,7 +150,12 @@ export function checkWordClips(week: any, contentRoot = STORYTIME_ROOT): { id: s
                 continue;
             }
             const bank = path.join(contentRoot, 'words', String(row.mp3));
-            if (fs.existsSync(bank) && sha256File(bank) !== sha256File(clip)) differs.push(value);
+            // A row whose mp3 the bank folder does not hold gives no clip to compare (review A F3).
+            if (!fs.existsSync(bank)) {
+                noBankFile.push(key);
+                continue;
+            }
+            if (sha256File(bank) !== sha256File(clip)) differs.push(value);
         }
         for (const key of Object.keys(map)) if (!inBook.has(key)) notBookWord.push(key);
     }
@@ -157,6 +163,7 @@ export function checkWordClips(week: any, contentRoot = STORYTIME_ROOT): { id: s
     const failParts: string[] = [];
     if (missing.length) failParts.push(`missing: ${missing.join(', ')}`);
     if (differs.length) failParts.push(`differs from bank: ${differs.join(', ')}`);
+    if (noBankFile.length) failParts.push(`no bank file: ${noBankFile.join(', ')}`);
     if (noBank.length) failParts.push(`no bank row: ${noBank.join(', ')}`);
     if (notBookWord.length) failParts.push(`not a book word: ${notBookWord.join(', ')}`);
     if (badPath.length) failParts.push(`bad path: ${badPath.join(', ')}`);

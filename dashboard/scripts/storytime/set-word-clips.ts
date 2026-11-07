@@ -248,6 +248,23 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
         if (fault !== 'ok') throw new Error(`word clip: ${slot.key}: ${fault}`);
     }
 
+    // The audio blocks and the dry-edited week text are checked before the first copy, removal, or
+    // write (K4, K5, FR 4, review A F1). A fault of the week structure leaves the media folder and
+    // the week file byte equal.
+    const linesOfText = weekText.split('\n');
+    const blocks = audioBlocks(linesOfText);
+    if (blocks.length !== plan.maps.length) {
+        throw new Error(`word clip: the week file has ${blocks.length} audio objects; expected ${plan.maps.length}`);
+    }
+    let edited = [...linesOfText];
+    for (let index = plan.maps.length - 1; index >= 0; index -= 1) {
+        const block = blocks[index];
+        const body = editAudioBlock(edited, block, plan.maps[index]);
+        edited = [...edited.slice(0, block.start), ...body.slice(0, -1), ...edited.slice(block.end)];
+    }
+    const updatedText = edited.join('\n');
+    parseWeekText(updatedText);
+
     const wordsFolder = path.join(options.contentRoot, `l${level}/media/w${weekDigits(weekNumber)}/words`);
     const removed: string[] = [];
     for (const file of plan.files) {
@@ -267,20 +284,7 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
         }
     }
 
-    // The maps go in by a text edit; the new text is parsed before the write (K4, FR 4).
-    const linesOfText = weekText.split('\n');
-    const blocks = audioBlocks(linesOfText);
-    if (blocks.length !== plan.maps.length) {
-        throw new Error(`word clip: the week file has ${blocks.length} audio objects; expected ${plan.maps.length}`);
-    }
-    let edited = [...linesOfText];
-    for (let index = plan.maps.length - 1; index >= 0; index -= 1) {
-        const block = blocks[index];
-        const body = editAudioBlock(edited, block, plan.maps[index]);
-        edited = [...edited.slice(0, block.start), ...body.slice(0, -1), ...edited.slice(block.end)];
-    }
-    const updatedText = edited.join('\n');
-    parseWeekText(updatedText);
+    // The maps go in by the text edit that passed the parse above (K4, FR 4).
     if (updatedText !== weekText) fs.writeFileSync(options.weekFile, updatedText);
     for (const file of removed) lines.push(`removed ${file}`);
     lines.push(`keys: ${slots.length}`, `files: ${plan.files.length}`);
