@@ -1,0 +1,64 @@
+mutated m1 4
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-v15.test.ts [2m([22m[2m28 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m27 skipped[39m[2m)[22m[32m 20[2mms[22m[39m
+     [2m[90m↓[39m[22m B1-const: the module exports the print line
+     [2m[90m↓[39m[22m B1-sheets: two A4 portrait sheets; sheet 1 holds the line once; sheet 2 is the blank back
+     [2m[90m↓[39m[22m E2-workbook: the leaf sides of Nan Can Nod print "Listen and read." with ear and read, not "Sound it out."
+     [2m[90m↓[39m[22m E2-a3: the A3 color output of Nan Can Nod (cover included) prints "Listen and read."
+     [2m[90m↓[39m[22m E2-qr: the QR label of Nan Can Nod stays "Listen to the book"
+     [2m[90m↓[39m[22m E2-others: each decodable of weeks 2 to 7 still prints "Sound it out."
+     [2m[90m↓[39m[22m E2-page4: the week 1 practice page A7 block says "Listen and read" with ear and read; weeks 2 to 7 say "Read it"
+     [2m[90m↓[39m[22m F3-helper: storytimeReviewSoundRows gives the targets and the 4 printed pictures of each group
+     [2m[90m↓[39m[22m F3-key-en: for each review day and sound, the key names the target pictures that the student page prints in that row
+     [2m[90m↓[39m[22m F3-key-th: for each review day and sound, the key names the target pictures that the student page prints in that row
+     [2m[90m↓[39m[22m AX-none: w02.json has no "alligator" in any case
+[31m     [31m×[31m AX-lines: exactly 5 lines of w02.json name apple, ant, axe, astronaut[39m[32m 17[2mms[22m[39m
+     [2m[90m↓[39m[22m F1-numbers: the 14 home-card pages print their own page number; the book stays at 136 pages
+     [2m[90m↓[39m[22m G6-schema: print.checkRows is an optional strict object of two non-empty strings
+     [2m[90m↓[39m[22m G6-data: weeks 1 to 7 carry print.checkRows with the decided tricky and blend words
+     [2m[90m↓[39m[22m G6-types: STORYTIME_CHECK_ROW_TYPES has read-word and oral-blend
+     [2m[90m↓[39m[22m G6-page: each check page adds the 2 rows after the items, with teacher ticks, and the score strip counts them
+     [2m[90m↓[39m[22m G6-build-tricky: the build throws when the tricky word is not in focus.trickyWords
+     [2m[90m↓[39m[22m G6-build-blend: the build throws when the blend word is not a word of the A4 blend drill
+     [2m[90m↓[39m[22m G6-build-control: a valid checkRows copy of week 3 compiles
+     [2m[90m↓[39m[22m G6-e5-en: step E5 has the Row lines of the 2 rows; the en and th notes keep equal line counts
+     [2m[90m↓[39m[22m G6-e5-th: step E5 has the Row lines of the 2 rows; the en and th notes keep equal line counts
+     [2m[90m↓[39m[22m G6-text-check: the print text check passes on weeks 1 to 7 and fails without the read-word Row line
+     [2m[90m↓[39m[22m E46-none: no home.activity.th of weeks 1 to 7 holds the note
+     [2m[90m↓[39m[22m E46-w02: the w02 activity is the exact decided Thai text
+     [2m[90m↓[39m[22m E46-line: home.line.th of weeks 1 to 7 is the same as at the base commit
+     [2m[90m↓[39m[22m E48-text: the sheet lines, without tags and empty lines, equal song.lines exactly and in order
+     [2m[90m↓[39m[22m E48-tags: the [tag] lines of each sheet are the same as at the base commit
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-v15.test.ts[2m > [22mv15 AX: week 2 names the axe, not the alligator[2m > [22mAX-lines: exactly 5 lines of w02.json name apple, ant, axe, astronaut
+[31m[1mAssertionError[22m: expected [ …(4) ] to have a length of 5 but got 4[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 5[39m
+[31m+ 4[39m
+
+[36m [2m❯[22m __tests__/storytime-print-v15.test.ts:[2m254:26[22m[39m
+    [90m252| [39m    it('AX-lines: exactly 5 lines of w02.json name apple, ant, axe, as…
+    [90m253| [39m        const matching = raw().split('\n').filter((line) => line.inclu…
+    [90m254| [39m        [34mexpect[39m(matching)[33m.[39m[34mtoHaveLength[39m([34m5[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m255| [39m    })[33m;[39m
+    [90m256| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m27 skipped[39m[90m (28)[39m
+[2m   Start at [22m 21:05:57
+[2m   Duration [22m 2.29s[2m (transform 731ms, setup 117ms, import 989ms, tests 20ms, environment 723ms)[22m
+
+VITEST_EXIT=
+CMP_RESTORE=equal
+NOTE: VITEST_EXIT was not recorded (the shell dropped the PIPESTATUS variable). The summary line 'Tests  1 failed | 27 skipped (28)' proves the failure.
