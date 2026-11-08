@@ -1,0 +1,10 @@
+# Phase 1 verification, round 2: step 1 in the tool order (storytime_cover_options_20261106)
+role: jr-green
+role_base_sha: 9453791c
+Round 1 (p1-verify.txt) keeps the real exit 1 of the wrong argument order.
+This capture runs the same check in the order of the tool usage line:
+  python3 -I -B manifest.py <hand-off folder> [--check]
+
+$ python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06 --check
+MANIFEST.txt matches 75 files
+MANIFEST_EXIT=0
