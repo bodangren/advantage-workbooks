@@ -288,6 +288,18 @@ const ART_KEYS = new Set<string>(ART_SIDES.map(([key]) => key));
 const CAST_KEYS = new Set(['studentFront', 'teacherFront']);
 const NAME_KINDS = new Set(['child', 'animal', 'adult']);
 
+/** The exact file name of a reader cover picture: `l2-wNN-cover-<slug>-v1.png`, slug of a to z, 0 to 9, and dash (F2). */
+const READER_COVER_NAME = /^l2-w(\d{2})-cover-([a-z0-9-]+)-v1\.png$/;
+
+/** The exact file name of a reader line art picture: `l2-wNN-cover-<slug>-line-v1.png` (F2). */
+const READER_LINE_NAME = /^l2-w(\d{2})-cover-([a-z0-9-]+)-line-v1\.png$/;
+
+/** The largest cast list that the data check reads; a longer list is a hostile input (F7). */
+const MAX_CAST_NAMES = 8;
+
+/** The zero-width characters that a page text may not hide a word in (F9, F10). */
+const ZERO_WIDTH = /[\u200b\u200c\u200d\u2060\ufeff]/g;
+
 /** The banned CSS fragments of a PDF/X build (spec FR-6.8, test-strategy F11 and F16). */
 const CSS_BANNED = [
     'rgba(',
@@ -458,7 +470,8 @@ function checkArtName(name: unknown, unit: number, side: string): string[] {
 
 /**
  * Checks the cast of one front: the names sit in the roster, the student front holds at most 2
- * children and 1 animal, and the teacher front holds at most 2 children (spec D-A7, T22).
+ * children, 1 animal, and no adult, and the teacher front holds at most 2 children and exactly 1
+ * adult (spec D-A7, T22, review C F2, F7). A list above the bound is refused before the loop.
  * @param list The cast list.
  * @param roster The roster: name to kind.
  * @param teachers True for the teacher front.
@@ -467,6 +480,9 @@ function checkArtName(name: unknown, unit: number, side: string): string[] {
 function checkCastList(list: unknown, roster: Map<string, string>, teachers: boolean): string[] {
     if (!Array.isArray(list)) return ['the cast is not an array'];
     const errors: string[] = [];
+    if (list.length > MAX_CAST_NAMES) {
+        return [`the cast holds ${list.length} names (at most ${MAX_CAST_NAMES})`];
+    }
     const counts: Record<string, number> = { child: 0, animal: 0, adult: 0 };
     for (const name of list) {
         const kind = typeof name === 'string' ? roster.get(name) : undefined;
@@ -478,6 +494,11 @@ function checkCastList(list: unknown, roster: Map<string, string>, teachers: boo
     }
     if (counts.child > 2) errors.push(`the cast holds ${counts.child} children (at most 2)`);
     if (!teachers && counts.animal > 1) errors.push(`the cast holds ${counts.animal} animals (at most 1)`);
+    if (teachers) {
+        if (counts.adult !== 1) errors.push(`the teacher front holds ${counts.adult} adults (exactly 1)`);
+    } else if (counts.adult > 0) {
+        errors.push(`the student front holds ${counts.adult} adults (none)`);
+    }
     return errors;
 }
 
@@ -602,19 +623,36 @@ function readCoverPictures(): RawPictureRow[] {
 }
 
 /**
- * The 14 reader covers of Level 2, weeks 1 to 7, two per week (spec FR-9.3, T15).
+ * The 14 reader covers of Level 2, weeks 1 to 7, two per week (spec FR-9.3, T15). The cover name
+ * and the line art name of `pictures.json` must be the exact names of the week and a slug of
+ * lower case letters, digits, and dashes (F2). A name with a path, or any other name, is an error.
  * @returns The reader rows.
- * @throws Error When a week book has no cover picture row.
+ * @throws Error When a week book has no cover picture row, or a name is not the exact name.
  */
 export function questReaders(): QuestReaderRow[] {
     const pictures = readCoverPictures();
     const rows: QuestReaderRow[] = [];
     for (let week = 1; week <= 7; week++) {
         const raw = JSON.parse(fs.readFileSync(weekFileOf(week), 'utf8')) as RawWeekFile;
+        const weekCode = String(week).padStart(2, '0');
         for (const book of raw.books) {
             const cover = pictures.find((row) => row.week === week && row.text === book.title);
             if (!cover) throw new Error(`pictures.json has no cover row for week ${week} "${book.title}"`);
-            const slug = /^l2-w\d{2}-cover-(.+)-v1\.png$/.exec(cover.fileName)?.[1] ?? '';
+            const name = READER_COVER_NAME.exec(String(cover.fileName));
+            if (!name || name[1] !== weekCode) {
+                throw new Error(
+                    `pictures.json week ${week} "${book.title}": the cover file name "${String(cover.fileName)}" ` +
+                        `is not "l2-w${weekCode}-cover-<slug>-v1.png"`,
+                );
+            }
+            const slug = name[2];
+            const line = READER_LINE_NAME.exec(String(cover.lineArtFileName));
+            if (!line || line[1] !== weekCode || line[2] !== slug) {
+                throw new Error(
+                    `pictures.json week ${week} "${book.title}": the line art file name "${String(cover.lineArtFileName)}" ` +
+                        `is not "l2-w${weekCode}-cover-${slug}-line-v1.png"`,
+                );
+            }
             rows.push({
                 title: book.title,
                 kind: book.kind,
@@ -633,7 +671,9 @@ export function questReaders(): QuestReaderRow[] {
 
 /**
  * The copy check of one page (spec FR-4, FR-10.1, FR-10.3): the series name, no forbidden word,
- * and no year. It shares the rule of the approved covers.
+ * and no year. It shares the rule of the approved covers. The check reads the page twice: once as
+ * it stands, and once with a case boundary as a space, because a `<wbr>` or a soft-hyphen break can
+ * join two words with no space (F8). The zero-width characters come out before both reads (F9).
  * @param pageText The text of the page.
  * @returns The errors.
  */
@@ -641,20 +681,27 @@ export function checkQuestCopy(pageText: string): string[] {
     // A `<wbr>` or a soft-hyphen break splits a word on the page, and the DOM text of the page can
     // then join the two parts with no space ("AdvantageChibi"). The change of case is the word
     // boundary that the page shows, so the check reads that form too (T11).
-    const spaced = pageText.replace(/([a-z])([A-Z])/g, '$1 $2');
-    return checkStorytimeCoverCopy(spaced);
+    const text = pageText.replace(ZERO_WIDTH, '');
+    const spaced = text.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return [...new Set([...checkStorytimeCoverCopy(text), ...checkStorytimeCoverCopy(spaced)])];
 }
 
 /**
  * The Thai check of one page (spec FR-10.2): the two backs hold the Thai of `BACK_LINES.contact`
- * byte for byte, and the fronts and the reader covers hold no Thai.
+ * byte for byte, and the fronts and the reader covers hold no Thai. A back page that holds a
+ * zero-width character is an error, because the shared check reads the Thai letters only (F10).
  * @param pageText The text of the page.
  * @param kind The cover kind.
  * @returns The errors.
  */
 export function checkQuestThai(pageText: string, kind: QuestCoverKind): string[] {
     const back = kind === 'student-back' || kind === 'teacher-back';
-    return checkStorytimeCoverThai(pageText, back ? 'back' : 'front');
+    const errors = checkStorytimeCoverThai(pageText, back ? 'back' : 'front');
+    if (back) {
+        const marks = pageText.match(ZERO_WIDTH);
+        if (marks) errors.push(`the back page holds ${marks.length} zero-width characters`);
+    }
+    return errors;
 }
 
 /**
@@ -755,17 +802,22 @@ export function checkQuestPageSize(html: string, kind: QuestCoverKind, bleedMm: 
 /**
  * The PDF/X safety check of one CSS text (spec FR-6.8, test-strategy F11 and F16): no
  * transparency, no shadow, no filter, no gradient, no variation font, and only the three approved
- * families. It never throws.
+ * families. It never throws. The check compares in lower case and reads the alpha forms of the
+ * colours, so a spelling with upper case letters or a slash alpha is an error too (F12).
  * @param css The CSS.
  * @returns The errors.
  */
 export function questCssSafetyErrors(css: string): string[] {
     const errors: string[] = [];
+    const text = css.toLowerCase();
     for (const banned of CSS_BANNED) {
-        if (css.includes(banned)) errors.push(`the CSS holds "${banned}"`);
+        if (text.includes(banned)) errors.push(`the CSS holds "${banned}"`);
     }
-    if (/font-weight:\s*\d+\s+\d+/.test(css)) errors.push('the CSS holds a font weight range');
-    if (css.includes('font-variation-settings')) errors.push('the CSS holds font-variation-settings');
+    if (/(?:rgb|hsl)\([^)]*\//.test(text)) errors.push('the CSS holds a slash alpha colour');
+    if (/#[0-9a-f]{8}\b/.test(text)) errors.push('the CSS holds an 8 digit hex colour');
+    if (/#[0-9a-f]{4}\b/.test(text)) errors.push('the CSS holds a 4 digit hex colour');
+    if (/font-weight:\s*\d+\s+\d+/.test(text)) errors.push('the CSS holds a font weight range');
+    if (text.includes('font-variation-settings')) errors.push('the CSS holds font-variation-settings');
     for (const rule of css.matchAll(/font-family:\s*([^;}]+)/gi)) {
         for (const raw of rule[1].split(',')) {
             const family = raw.trim().replace(/^['"]|['"]$/g, '').toLowerCase();
