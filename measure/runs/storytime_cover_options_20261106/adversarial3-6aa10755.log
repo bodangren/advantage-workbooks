@@ -1,2 +1,25 @@
-# Adversarial round 3, Phase 2 (provisional)
-role_base_sha 6aa10755; status inconclusive until the steps finish.
+# Adversarial round 3, Phase 2 (storytime_cover_options)
+role_base_sha 6aa10755; test commit 4240d9dd; model claude-code/claude-sonnet-5-5#high.
+Status: inconclusive (infrastructure_retry). Confidence: medium.
+
+## Target 2: the Chrome screenshot error
+Cause: machine load from outside the heavy-run lock. The Green 4 code is not the cause.
+E1 ADV-6 group alone: 5 of 5 pass. E2 build file alone: 1 failure (move-step test, Protocol error).
+E3 build file on the round 2 script bytes: the same two tests fail with the same Protocol error. Restore cmp ok.
+E4 the two tests alone with 6 busy loops: screenshot Timeout 30000ms; the move-step test times out at 900 s.
+GPU probe: 12 of 12 screenshots pass; each takes 2 to 5 s (software rendering, load average 5).
+No OOM kill in the logs. Candidate load source, not proven: the screen saver hack started 20:25:38 on 2026-11-08.
+
+## Target 1: the F17 rollback test
+New test in describe ADV3-6. Real code: pass. M1 (rollback line removed): fail on the student print file that stays.
+M2 (rollback removes all 4 targets): fail on the file that the build did not write. Restores proved with cmp and SHA-256.
+
+## Gate
+GREEN_TEST_COMMAND once on the test commit: EXIT=1; 273 pass, 1 fail (round 2 concurrency test, timeout text not in its retry list).
+Sampler: load 1.92 to 12.09, MemAvailable 1902 to 3304 MB, 23 to 36 Chrome processes (156 samples).
+
+## Findings
+No blocking finding. N8 (no repeat for a Chrome load error in the real build), N9 (retry list of the concurrency test), N10 (process note).
+
+## Handoff
+See the handoff key of adversarial3-6aa10755.json.
