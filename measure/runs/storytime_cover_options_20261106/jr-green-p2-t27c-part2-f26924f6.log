@@ -83,7 +83,8 @@ status: complete. All four gates pass under the load-flake rule, the mutant run 
 - measure/runs/storytime_cover_options_20261106/mutants-green4-runlog.txt
 - measure/runs/storytime_cover_options_20261106/mutants-green4-run.py
 
-dispositions: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
+dispositions: F14=FIX; F15=FIX; F16=FIX; F17=FIX
+nonblocking: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
 
 MEASURE_AGENT_RESULT
 status: complete
@@ -113,7 +114,8 @@ dry_build: 32 pages, 44 files in the message, 40 files written without --print (
 tasks_flipped_x: none
 tasks_flipped_b: none
 plan_line: one sub-bullet under the Adversarial task; no task line changed
-dispositions: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
+dispositions: F14=FIX; F15=FIX; F16=FIX; F17=FIX
+nonblocking: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
 handoff: |
   SURVIVOR FOR ADVERSARIAL ROUND 3: F17 (no rollback of the copied print files) survived the
   mutant run with exit 0. checkPrintFolders (make-storytime-quest-covers.ts line 1252) stops the
