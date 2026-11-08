@@ -1,0 +1,37 @@
+Task 1.13 song request: proof capture
+Folder: /home/daniebo/Desktop/handoff/storytime-l2u2-song-request-2026-11-09
+Files (not MANIFEST): 8
+  fd6a87ca2aea0ac03640fa406cd4034a4cec530afeacddea78aaa65fb7414272  README.md
+  3c0c0bc8d35f770f4e7b2ee5ee52234aba353d3887061b9851562a797099406e  w09-song-request.md
+  61a8a22ef38dafdfa3f567f4ce79f0d846330375eed13753f3c911bd8f0fd7c0  w10-song-request.md
+  6c62d352663d62ad884e305843849de88cd7498993862e83363579f5b3d856d2  w11-song-request.md
+  7816192a458da80e2e0c8949f1a90f22d4440d64c7d0dc5bd66e08cfa05aba9d  w12-song-request.md
+  7b8aa1b87c7b1a2191a5ac42177466ed8193b0c9eb69a22bfc0afa39dabed306  w13-song-request.md
+  f36628211325b1e3114b72ed258549e30a7a2f23f0653f9210534d54599acf31  w14-song-request.md
+  840803c52e86e7297b8bec9e4b40c438a0183c236cd8187cf8c7072b33c4a631  w15-song-request.md
+
+MANIFEST SHA-256: 1a877890285e718ea975808bb753fd91f5b08897c040999c5ac8e0e9129908a0
+
+$ sha256sum -c MANIFEST.txt
+README.md: OK
+w09-song-request.md: OK
+w10-song-request.md: OK
+w11-song-request.md: OK
+w12-song-request.md: OK
+w13-song-request.md: OK
+w14-song-request.md: OK
+w15-song-request.md: OK
+EXIT=0
+
+Lyric sheet compare (python, the file text holds the source string):
+  w09: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 397)
+  w10: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 486)
+  w11: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 443)
+  w12: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 447)
+  w13: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 407)
+  w14: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 406)
+  w15: title=True bpm=True styleBrief=True lyricSheet=True (lyric chars 434)
+All 7 lyric sheets equal their source: True
+Section tags kept: True
+
+No paid call ran for this folder. Delivery folder: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/

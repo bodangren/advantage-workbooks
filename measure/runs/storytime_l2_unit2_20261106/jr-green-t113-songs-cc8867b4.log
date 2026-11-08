@@ -92,6 +92,43 @@ handoff: The ordered route is closed by the provider. The exact question and its
 
 END_MEASURE_AGENT_RESULT
 
+## Round 2 (2026-11-09 05:25): the orchestrator chose route A
+
+- The orchestrator answered the block: route A (Lyria 3 Pro) is the plan fallback and is the
+  route. No paid call ran on this role.
+- Built `~/Desktop/handoff/storytime-l2u2-song-request-2026-11-09/` with one python script
+  (`make-request.py`, copied to the run folder): 7 `w<nn>-song-request.md` files read with
+  `git show HEAD:content/storytime/drafts/l2/w<nn>.json`, `README.md`, and `MANIFEST.txt`.
+- Proof: `sha256sum -c MANIFEST.txt` exits 0 for the 8 files. The 7 lyric sheets, style
+  briefs, titles, and bpms equal their source. No Thai text. Delivery folders w09 to w15 exist
+  and are empty. Capture: `measure/runs/storytime_l2_unit2_20261106/songs-request.txt`.
+- MANIFEST SHA-256: `1a877890285e718ea975808bb753fd91f5b08897c040999c5ac8e0e9129908a0`.
+
+## MEASURE_AGENT_RESULT
+
+status: complete
+phase: P1
+task: T1.13
+role: jr-green
+model: deepseek/deepseek-flash#high
+role_base_sha: cc8867b4d93f0415e983be6696d21eee95fb9f74
+head: 8bd1cae2 (the commit before the request commit; the request commit SHA is in the final reply)
+folder: ~/Desktop/handoff/storytime-l2u2-song-request-2026-11-09
+manifest_sha256: 1a877890285e718ea975808bb753fd91f5b08897c040999c5ac8e0e9129908a0
+delivery_folder: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09 (w09 to w15, empty)
+files: 8 (7 song requests, README.md) plus MANIFEST.txt
+proof: sha256sum -c MANIFEST.txt EXIT=0; 7 of 7 lyric sheets equal their source; no Thai text
+tracks: 0 (this role made no music; the PM makes the candidates)
+spend_list_usd: 0.00
+dispositions: none
+handoff: The song request folder is ready for the PM. The orchestrator sends it. On delivery the
+  candidates go to `~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w<nn>/` as
+  `l2-w<nn>-song-c<k>.mp3` (k = 1 to 3). Workbooks then runs the recognizer and duration check,
+  writes the listen sheet for Daniel, and starts Task 6.1 after his picks. The task line stays
+  `[~]` until the PM's receipt.
+
+END_MEASURE_AGENT_RESULT
+
 [2026-11-08T22:21:05Z] CALL w09 c1 t1 quota 5h=30 weekly=9 out=/home/daniebo/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w09/l2-w09-song-c1-t1.mp3
 [2026-11-08T22:21:07Z] FAIL w09 c1 t1 exit=1
 STDOUT: 
