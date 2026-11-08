@@ -1,0 +1,109 @@
+# Jr Green · Phase 2 · Task T2.7c · part 1 (storytime_cover_options_20261106)
+
+- role: jr-green
+- model: opencode/deepseek-v4.1-flash-free#high
+- phase: P2 (heading `## Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)`)
+- task: T2.7c, the fixes of adversarial round 2, part 1 of 2 (F14, F15, F16, F17)
+- phase_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
+- role_base_sha: f2cade13 (git rev-parse HEAD at the start)
+- red_model: claude-code/claude-sonnet-5-5#high (Anthropic)
+- red_commit: b6bb85099db3e8eada35a8ee3d9d7a71335e99e2
+- scope: 4 fixes and their targeted tests. Part 2 runs the full gates, the mutants, the dry build, and the plan evidence.
+- rules obeyed: no test file changes; G-1 shared files untouched; every process runs with an argv array.
+
+## Status
+
+status: provisional, in progress (part 1). This block is superseded by the final block at the end of this file (status done-part-1).
+
+## Start state
+
+- HEAD: f2cade13 (measure(runs): adversarial round 2 of Phase 2).
+- The red commit b6bb8509 is an ancestor of HEAD: yes.
+- The two test files of b6bb8509 and the two implementation files are clean in `git status --short`.
+- Start SHA-256 of `dashboard/lib/storytime/print/cover-quest.ts`: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d.
+- Start SHA-256 of `dashboard/scripts/storytime/make-storytime-quest-covers.ts`: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979.
+
+## Step log
+
+1. Start state recorded. The Red change is inside `phase_base_sha..HEAD`.
+2. Red proof before the edits: `vitest run __tests__/quest-cover-template.test.ts --maxWorkers=1` gives 2 failed | 197 passed (199), EXIT=1 (capture `green4-p1-red-template.txt`). The two failures are the ADV2-3 tests: 30 invisible splits pass the copy check, and 4 compatibility forms pass it.
+3. F14 and F15 fixed in `cover-quest.ts`. The new `INVISIBLE` pattern strips U+00AD and every `\p{Default_Ignorable_Code_Point}` character. `checkQuestCopy` strips the invisible characters, then reads the NFKC form for the check only. `ZERO_WIDTH` stays for the Thai check (F10). The template test file now gives 199 passed (199), EXIT=0 (capture `green4-p1-template.txt`). Implementation commit 9601ddb5 holds only `cover-quest.ts` (`git show --name-only --format=` prints one path).
+4. F16 and F17 fixed in `make-storytime-quest-covers.ts`: the signal handlers (`cleanTempOnSignals`, exit 130 for SIGINT and 143 for SIGTERM), the release in `finally`, the writable check of the four print folders (`checkPrintFolders`), and the rollback of the copied print files. The targeted build tests are running.
+5. Targeted build tests, `-t ADV2-6`: 5 passed | 69 skipped (74), EXIT=0 (capture `green4-p1-adv26.txt`). The 5 tests are the read-only out folder, the missing graph, the SIGINT test, the SIGTERM test, and the move step (434727 ms).
+6. Each signal test alone, 3 runs:`green4-p1-signal-run1.txt` (SIGINT 7342 ms, SIGTERM 4866 ms, EXIT=0), `green4-p1-signal-run2.txt` (SIGINT 5334 ms, SIGTERM 5098 ms, EXIT=0), `green4-p1-signal-run3.txt` (SIGINT 4061 ms, SIGTERM 5068 ms, EXIT=0). 3 of 3 runs pass.
+7. `npx eslint` on the two files: EXIT=0. `npx tsc --noEmit`: EXIT=0. The `--help` run: EXIT=0, and `grep -c 'Usage:'` prints 1 (capture `green4-p1-lint.txt`).
+8. `/tmp` holds 0 `storytime-quest-` folders at the end (`find /tmp -maxdepth 1 -name 'storytime-quest-*' | wc -l` gives 0).
+9. `pnpm-lock.yaml` is unchanged. No test file is changed.
+10. Implementation commits:
+    - 9601ddb5: `cover-quest.ts` only, new SHA-256 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419.
+    - 15eb2574: `make-storytime-quest-covers.ts` only, new SHA-256 d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1.
+    `git show --name-only --format=` prints one path for each commit.
+
+## Files added
+
+- measure/runs/storytime_cover_options_20261106/jr-green-p2-t27c-part1-f2cade13.log
+- measure/runs/storytime_cover_options_20261106/green4-p1-red-template.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-template.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-adv26.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-signal-run1.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-signal-run2.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-signal-run3.txt
+- measure/runs/storytime_cover_options_20261106/green4-p1-lint.txt
+
+## Handoff to part 2
+
+- Part 2 runs GREEN_TEST_COMMAND and PROJECT_TESTS (not run here), the mutants, the dry build, and the plan evidence.
+- The plan task line and its evidence belong to part 2. Do not mark T2.7c `[x]` before GREEN_TEST_COMMAND passes.
+- N2 to N6 are not fixed here. Part 2 records their dispositions.
+- The signal tests are racy (N3). They passed 3 of 3 runs here after the fix, and 5 of 5 with the ADV2-6 group.
+- No user decision is needed. If a reviewer asks, the default is to keep the NFKC step inside `checkQuestCopy` only; the page HTML never passes through NFKC.
+
+dispositions: none
+
+MEASURE_AGENT_RESULT
+status: done-part-1
+role: jr-green
+phase: P2
+task: T2.7c
+track: storytime_cover_options_20261106
+role_base_sha: f2cade13
+phase_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
+head_before_impl: f2cade13
+head: 15eb2574
+impl_commits:
+  - 9601ddb5 dashboard/lib/storytime/print/cover-quest.ts (F14, F15)
+  - 15eb2574 dashboard/scripts/storytime/make-storytime-quest-covers.ts (F16, F17)
+impl_sha256:
+  - dashboard/lib/storytime/print/cover-quest.ts: 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419
+  - dashboard/scripts/storytime/make-storytime-quest-covers.ts: d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: b6bb8509
+gates:
+  - red (template suite at HEAD file): 2 failed | 197 passed (199), EXIT=1, green4-p1-red-template.txt
+  - green (template suite): 199 passed (199), EXIT=0, green4-p1-template.txt
+  - green (build suite, -t ADV2-6): 5 passed | 69 skipped (74), EXIT=0, green4-p1-adv26.txt
+  - signal run 1 (SIGINT and SIGTERM): 2 passed | 72 skipped, EXIT=0, green4-p1-signal-run1.txt
+  - signal run 2 (SIGINT and SIGTERM): 2 passed | 72 skipped, EXIT=0, green4-p1-signal-run2.txt
+  - signal run 3 (SIGINT and SIGTERM): 2 passed | 72 skipped, EXIT=0, green4-p1-signal-run3.txt
+  - eslint (two files): EXIT=0, green4-p1-lint.txt
+  - tsc --noEmit: EXIT=0, green4-p1-lint.txt
+  - --help: EXIT=0, grep -c 'Usage:' gives 1, green4-p1-lint.txt
+  - tmp_folders: 0 storytime-quest- folders under /tmp
+tasks_flipped_x: none (part 2 holds the plan evidence)
+tasks_flipped_b: none
+new_files:
+  - measure/runs/storytime_cover_options_20261106/jr-green-p2-t27c-part1-f2cade13.log
+  - measure/runs/storytime_cover_options_20261106/green4-p1-red-template.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-template.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-adv26.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-signal-run1.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-signal-run2.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-signal-run3.txt
+  - measure/runs/storytime_cover_options_20261106/green4-p1-lint.txt
+handoff: |
+  Part 1 is done: F14, F15, F16, and F17 are fixed, and the two test files are unchanged.
+  Part 2 runs GREEN_TEST_COMMAND and PROJECT_TESTS in one heavy-run wrapper each, then the
+  mutants, the dry build, and the plan evidence. Do not flip T2.7c to [x] before
+  GREEN_TEST_COMMAND exits 0. N2 to N6 stay open for part 2 to record.
+END_MEASURE_AGENT_RESULT
+
