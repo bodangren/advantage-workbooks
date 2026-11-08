@@ -1,4 +1,4 @@
-status: checkpointing
+status: done
 phase: P1
 role: jr-green
 track: storytime_cover_options_20261106
@@ -10,18 +10,17 @@ scope_source: 4 Phase 1 track commits (no range diff; a range mixes other tracks
 scope_commits: 3f638d98 99c51279 0b123359 ce5b90ba
 code_files: measure/tracks/storytime_cover_options_20261106/options/{build.py,check.py,clean_art.py,contact.py,gen_art.py,manifest.py,qr_check.mjs,render.sh}
 code_files_outside_measure: 0
-round1_capture: measure/runs/storytime_cover_options_20261106/p1-verify.txt (commit 9453791c; keeps the real exit 1)
-round2_capture: measure/runs/storytime_cover_options_20261106/p1-verify-r2.txt (this commit)
 
-step 1 log: written first, provisional
+step 1 log: written first, provisional, and kept current after each step
 step 2 scope: done; 4 commits; all paths under measure/; step 2.3 creates no test
-step 3 verify r1: step 1 failed as written (argument order); steps 2, 3, 4 passed
+step 3 verify r1: step 1 failed as written (flag before the folder); steps 2, 3, 4 passed
 step 3 verify r2: step 1 in the tool order passes: MANIFEST.txt matches 75 files; MANIFEST_EXIT=0
 step 4 capture commit: 9453791c (round 1)
-step 5 checkpoint commit: pending
-step 6 git note: pending
-step 7 plan heading: pending
-step 8 proof: pending
+step 5 checkpoint commit: cdb0c4d9 (C)
+step 6 git note: attached to cdb0c4d9; git notes show prints the report
+step 7 plan heading: Phase 1 now ends with [checkpoint: cdb0c4d]
+step 8 proof: each commit holds only paths under measure/
+plan commit: measure(plan): Mark phase 'Phase 1: The option round' as complete (storytime_cover_options)
 
 verification_detail:
   step1_r1_as_written: exit 1; FileNotFoundError on --check/MANIFEST.txt
@@ -32,10 +31,18 @@ verification_detail:
 
 deviation: the plan step text of line 14 gave the flag before the folder. The orchestrator decided
   option A on 2026-11-08: correct the step text, keep both captures, and finish the checkpoint.
-  Plan line 14 changes in three places only: the argument order, [ ] to [x], and the correction note.
+  Plan line 14 changed in three places only: the argument order, [ ] to [x], and the correction note
+  with commit 50fadae4. The real exit 1 stays recorded in 9453791c.
 
 tasks_flipped_x: Phase 1 verification
 tasks_flipped_b: none
 dispositions: none
+
+handoff:
+  note: The Phase 1 checkpoint is C, cdb0c4d9, with the verification report as a git note.
+  The plan heading ends with [checkpoint: cdb0c4d].
+  next: Phase 2 of this track starts at commit cdb0c4d9. Task 1.7 holds Daniel's pick "A".
+  The 3 PM defaults stand: the cast in option A style; the option A frame around the approved
+  reader pictures; no new Thai.
 
 END_MEASURE_AGENT_RESULT

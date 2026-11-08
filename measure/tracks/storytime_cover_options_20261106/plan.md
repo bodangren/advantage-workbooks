@@ -2,7 +2,7 @@
 
 Spec: [spec.md](./spec.md). Hand-off folder: `~/Desktop/handoff/storytime-cover-options-2026-11-06/`.
 
-## Phase 1: The option round (evidence class: person-checked by Daniel)
+## Phase 1: The option round (evidence class: person-checked by Daniel) [checkpoint: cdb0c4d]
 
 - [x] Task 1.1: Read the RPG covers and the present Storytime covers; write the reading into spec.md ("The RPG covers", "The present Storytime covers") commit 3f638d9
 - [x] Task 1.2: Price check of one paid call (image-01, 0.0035 USD per image) and the spend log in the hand-off folder (outside measure/). Price: MiniMax pay-as-you-go page, read 2026-11-06; `mmx --dry-run` showed `image-01`, `n` 1. Evidence class: automated commit 99c5127
