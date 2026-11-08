@@ -1,0 +1,86 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1652[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed character in an existing Thai line fails the compare[32m 103[2mms[22m[39m
+     [32m✓[39m compare falsifier: one deleted existing line fails the compare[32m 24[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed minutes value fails the compare[32m 25[2mms[22m[39m
+     [32m✓[39m compare falsifier: two steps reordered fail the compare[32m 15[2mms[22m[39m
+     [32m✓[39m compare falsifier: a Thai array reordered fails the compare[32m 18[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed recall item fails the compare[32m 17[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed loopMinutes value fails the compare[32m 16[2mms[22m[39m
+     [32m✓[39m compare tolerance: a key reorder alone passes the compare[32m 12[2mms[22m[39m
+     [32m✓[39m compare tolerance: a copy with only an added or a changed share passes the compare[32m 27[2mms[22m[39m
+     [32m✓[39m compare falsifier: a changed existing line next to a share fails the compare[32m 13[2mms[22m[39m
+     [32m✓[39m w01 has a share on each of its 5 scripts[32m 35[2mms[22m[39m
+     [32m✓[39m w01 shots equal the moment table of FR-14, step and media, in order[32m 1[2mms[22m[39m
+     [32m✓[39m w01 passes share-moment with the status pass[32m 16[2mms[22m[39m
+     [32m✓[39m w01 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w01 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w01 English captions differ from each other and from the captions of the other weeks[32m 1[2mms[22m[39m
+     [32m✓[39m w01 adds only share moments to its baseline file (additive, AC-14.5)[32m 12[2mms[22m[39m
+     [32m✓[39m w02 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w02 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w02 passes share-moment with the status pass[32m 11[2mms[22m[39m
+     [32m✓[39m w02 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w02 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w02 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w02 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 35[2mms[22m[39m
+     [32m✓[39m w03 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w03 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w03 passes share-moment with the status pass[32m 7[2mms[22m[39m
+     [32m✓[39m w03 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w03 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w03 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w03 adds only share moments to its baseline file (additive, AC-14.5)[32m 31[2mms[22m[39m
+     [32m✓[39m w04 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w04 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w04 passes share-moment with the status pass[32m 7[2mms[22m[39m
+     [32m✓[39m w04 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w04 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w04 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w04 adds only share moments to its baseline file (additive, AC-14.5)[32m 22[2mms[22m[39m
+     [32m✓[39m w05 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w05 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w05 passes share-moment with the status pass[32m 7[2mms[22m[39m
+     [32m✓[39m w05 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w05 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w05 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w05 adds only share moments to its baseline file (additive, AC-14.5)[32m 26[2mms[22m[39m
+     [32m✓[39m w06 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w06 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w06 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w06 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w06 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w06 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w06 adds only share moments to its baseline file (additive, AC-14.5)[32m 30[2mms[22m[39m
+     [32m✓[39m w07 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w07 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w07 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w07 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w07 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w07 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w07 adds only share moments to its baseline file (additive, AC-14.5)[32m 28[2mms[22m[39m
+     [32m✓[39m w08 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w08 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w08 passes share-moment with the status pass[32m 5[2mms[22m[39m
+     [32m✓[39m w08 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w08 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w08 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+     [32m✓[39m w08 adds only share moments to its baseline file (additive, AC-14.5)[32m 21[2mms[22m[39m
+     [32m✓[39m hold 40 shares and 40 different English captions[32m 1[2mms[22m[39m
+     [32m✓[39m the status of share-moment is fail after the switch (AC-14.6)[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 850[2mms[22m[39m
+     [32m✓[39m compares different student books as different (non-vacuity of the student book test)[32m 170[2mms[22m[39m
+     [32m✓[39m keeps the eight week files byte for byte over the run (guard)[32m 8[2mms[22m[39m
+     [32m✓[39m fixtureWeek has a share on each of its 5 scripts and passes share-moment[32m 7[2mms[22m[39m
+     [32m✓[39m fixtureWeek without the share of one day fails share-moment (non-vacuity of the fixture test)[32m 3[2mms[22m[39m
+     [32m✓[39m fixtureReviewWeek has a share on each of its 5 scripts and passes share-moment[32m 3[2mms[22m[39m
+     [32m✓[39m fixtureReviewWeek without the share of one day fails share-moment (non-vacuity of the fixture test)[32m 2[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m74 passed[39m[22m[90m (75)[39m
+[2m   Start at [22m 04:07:34
+[2m   Duration [22m 3.85s[2m (transform 786ms, setup 328ms, import 990ms, tests 1.65s, environment 0ms)[22m
+
+EXIT=1
