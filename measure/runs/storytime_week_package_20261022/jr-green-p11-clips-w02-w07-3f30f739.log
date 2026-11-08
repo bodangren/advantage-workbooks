@@ -84,26 +84,66 @@ Status: partial. w02 is complete. w03 to w07 wait for the MiniMax 5h reset.
 - `wa-suns.mp3`: the note is `heard 'sons' in 3 takes`; all 3 takes were heard as 'sons'.
 - The 11 w02 clips wait for Daniel's 11-16 listen check.
 
+## Run r2, part 1b: the share test fix and w03 to w07 (04:07 to 05:05)
+
+### The share test fix (commit 14a8c5eb)
+
+- Red (`p11-share-red.txt`): EXIT=1, 1 failed and 74 passed. The only failure is the w02 case of `storytime-loops-share-content.test.ts:272`.
+- Green (`p11-share-green.txt`): 75 passed, EXIT=0. Lint (`p11-share-lint.txt`): EXIT=0.
+- Mutant (`p11-share-mutant.txt`): the `wordClips` line is removed. The w02 case fails, the run gives EXIT=1, `cmp` gives EXIT=0 after the restore, and the line is back.
+- Scope (`p11-share-scope-14a8c5eb.txt`): `files: 1`, `outside: 0`.
+- Deviation: the Red 1 grep of plan line 369 does not list this file. The orchestrator added it at 04:07 and kept `SHARE_BASELINE_COMMIT` at 10d5fcfc.
+
+### The weeks (one content commit each)
+
+- w03: commit 3e1d3e56, 32 files, `outside: 0`, numstat `26 2`. Dry 12 chars, made 5, `wa-the` took take 2. Run chars 15.
+- w04: commit b936ca3d, 32 files, `outside: 0`, numstat `32 2`. Dry 11 chars, made 3. Run chars 11.
+- w05: commit 7cf125dd, 38 files, `outside: 0`, numstat `34 2`. Dry 14 chars, made 4. Run chars 14.
+- w06: commit dd281da7, 28 files, `outside: 0`, numstat `32 2`. Dry 5 chars, made 2. Run chars 5.
+- w07: commit 953f798e, 30 files, `outside: 0`, numstat `33 2`. Dry 6 chars, made 2. Run chars 6.
+- Each week: the mapper gives `keys` 20, 26, 28, 26, 27 and `files` 20, 24, 28, 22, 24. The repeat run gives `diff lines: 0`. The lead-in prints `no video`. The form check gives `True`, the row count, and all checks per new row.
+- The `--max-chars` slip: w05 to w07 used 371, 357, and 352. The correct limits are 382, 368, 363. No run went over its limit.
+
+### Gates
+
+- GREEN after each week: 7 files and 393 tests, EXIT=0. w02 gave 6 files and 318 tests before the share test fix.
+- w04 first run: EXIT=1 on `storytime-package-family.test.ts` R2-5, `Test timed out in 5000ms` (`p11-clips-w04-green-fail.txt`). The `-t` rerun gave 1 passed, EXIT=0 (`p11-clips-w04-green-rerun.txt`). The full rerun gave 393 passed, EXIT=0. No code changed.
+- After w07: GREEN 7 files and 393 tests, EXIT=0 (`p11-clips-w07-green-final.txt`); PROJECT_TESTS 66 files and 1581 tests, EXIT=0 (`p11-clips-project.txt`); PROJECT_LINT EXIT=0 (`p11-clips-lint.txt`); PROJECT_CHECKS EXIT=0 with 0 FAIL rows and tsc 0 errors (`p11-clips-checks-final.txt`).
+- F9 after each week: `FAIL rows other than published: 0`. `word-clips` is pass on st2/1 to st2/7, and st2/8 has no row. `song-lead-in` is pass on st2/1.
+
+### AC11 (`p11-clips-ac11.txt`, source `p11-ac11.js`)
+
+- AC11-1: `173/173 no key: 0`.
+- AC11-2: 163.
+- AC11-3: 137 rows, gapless, and 39 added rows with WAV, peak, SHA-256, and mp3 correct (39/39 each).
+- AC11-4: the rows of `p11-clips-checks-final.txt`.
+- AC11-7: 30/2, 29/2, 26/2, 32/2, 34/2, 32/2, and 33/2 by commit. The script loop reads HEAD only, so the capture adds the per-commit lines.
+
+### Spend
+
+- w01 37, w02 55, w03 15, w04 11, w05 14, w06 5, w07 6. The phase sum is 143 of 500.
+
 ## End state
 
 - `git status --porcelain content/` prints nothing.
-- The plan evidence line is in `plan.md` after the sub-bullets of the task. The task line stays `[ ]`.
-- The evidence commit is 57d7074f. The log goes in the next commit.
+- The plan commit 230387b2 holds 78 files, all under `measure/`. The task line stays `[ ]`.
+- The log goes in the next commit. About 195 older untracked files of other tasks stay out of it.
 
 MEASURE_AGENT_RESULT
-status: partial
+status: done-part-1
 role: jr-green
 phase: P11
 task: Clips w02 to w07 and Packages r3
 part: 1 of 2 (the clips and their content commits)
 role_base_sha: 3f30f73961df995a906a08a5928c3d53720dc05a
 phase_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
-head: 57d7074f
-commits: content 3f5dec065591fb1399ac81204693602b06fc3fd2; plan and captures 57d7074f0ce15d9e055777365fd6c5a955b382e6; log this commit
-chars_spent: 55
-chars_phase_total: 92
-gates: GREEN 6 files/318 tests exit 0; PROJECT_CHECKS exit 0; F9 FAIL rows other than published: 0; scope files 47 outside 0
-quota: w02 5h 84 %; w03 5h 100 % (stop)
+head: 230387b2
+commits: share test 14a8c5eb; content w02 3f5dec06, w03 3e1d3e56, w04 b936ca3d, w05 7cf125dd, w06 dd281da7, w07 953f798e; plan 230387b2; log this commit
+chars_spent: 106
+chars_phase_total: 143
+gates: GREEN 7 files/393 tests exit 0; PROJECT_TESTS 66 files/1581 tests exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0 with 0 FAIL rows; F9 0 FAIL rows after each week
+ac11: 173/173 no key: 0; 163; 137 rows; AC11-4 pass; AC11-7 holds
+quota: 5h 1 to 7 %, weekly 7 to 8 %
 dispositions: none
-handoff: w03 is next after the MiniMax 5h reset at 04:00. Budget left: 408 of 500 characters. The plan evidence line ends "Next: w03 after the MiniMax 5h reset."
+handoff: The clips part is complete. Part 2 builds the six r3 packages and the PM line. The lesson for the Phase 11 verification task: a grep for the Phase 11 fields must cover every test that compares a shipped week with an older commit, not only `withoutNewFields`. About 195 older untracked files of other tasks stay in the run folder for that task. The first evidence line keeps its historical ending "Next: w03 after the MiniMax 5h reset."
 END_MEASURE_AGENT_RESULT
