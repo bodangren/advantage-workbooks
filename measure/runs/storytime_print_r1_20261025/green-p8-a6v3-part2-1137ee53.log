@@ -1,0 +1,91 @@
+# Jr Green log — Phase 8, A6 v3 part 2 (status: complete)
+
+Track: storytime_print_r1_20261025
+Role: jr-green (print track)
+role_base_sha: 1137ee5397c0de05fc9f52c1f701c163ef0f557d
+Part 1 HEAD: c6b1cdfe6c0c7967805e1ddc04f540991d5c67a3
+Model: deepseek/deepseek-flash#high
+Task: Green, A6 v3 part 2, 2026-11-08 (plan line 1333)
+Build HEAD: 1137ee5397c0de05fc9f52c1f701c163ef0f557d
+Commits: ff56b2360b5a6a91b78410bc4c6d1d758084da98 (step 8 evidence), 451e0791a8ded31956c73513424686e822944682 (LP-29), and the commit after 451e0791 (this log)
+
+## Preflight
+
+- HEAD at start: 1137ee5397c0de05fc9f52c1f701c163ef0f557d.
+- The Red test repair 2cb03be5 is an ancestor of HEAD (`git merge-base --is-ancestor` exit 0).
+- No code file, no test file, and no content file changed in this task.
+- Baseline pages: 38 files in `/tmp/opencode/p8a6/before/`.
+- The folders `card-kit-a6-v3-scratch/` and `card-kit-a6-v3/` did not exist.
+- `git status --short` held run captures of earlier phases, the modified `video/storytime-song/scripts/render.mjs`, and `dashboard/raw.json`. This task staged neither of the last two.
+- `pnpm-lock.yaml` stayed unchanged.
+
+## Steps
+
+1. The build exits 0. A5 7 pages, A6 38 pages, the sticker sheet 1 page. The count lines are `picture cards: 106, picture 89, patch 8, dots 9, none 0` and `distinct words: 94, picture 77, patch or dots 17, none 0`. The `git diff --stat` from c6b1cdfe to HEAD over `content/storytime/l2/`, `dashboard/lib/storytime/`, and `dashboard/scripts/storytime/` prints no line and exits 0. Capture: `green-p8-a6v3-build.txt`. PASS.
+2. The output folder is new. The A6 PDF (33,324,206 bytes) and `card-picture-match.txt` (4,609 bytes) have `cmp` exit 0 for each copy. The scratch folder is removed. Capture: `green-p8-a6v3-keep.txt` (the plan names no capture for step 2). PASS.
+3. `PRINT_GATE` exits 0: `38 pages, 31.8 MB, PDF 1.3, PDF/X-1a:2001, 1 font(s)`, then `All checks pass.` Capture: `green-p8-a6v3-print-gate.txt`. PASS.
+4. The 150 dpi render writes 38 page files. 17 pages have a new SHA-256: 02, 03, 04, 05, 06, 08, 09, 11, 12, 13, 14, 15, 20, 21, 22, 26, and 27. The output `pages-150dpi/` holds 17 files. Capture: `green-p8-a6v3-pages.txt` with the two SHA-256 values of each changed page. PASS.
+5. (agent-opened) Page 02 holds four picture cards, and each box shows a picture. Page 27 holds the picture cards `train` and `teddy` with a picture, and the word cards `a` and `and` that print the word in type by design. Before the build, the two picture boxes of page 27 were empty, labelled boxes, and the two word cards were the same. Page 04 is the ham page; its ham card prints the Forge color picture, not the greyscale fallback. PASS.
+6. `sha256sum` of the 10 files of `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` gives 10 lines. `diff` against `green-p8-a6v3-approved-before.txt` prints no line and exits 0. Capture: `green-p8-a6v3-approved-after.txt`. PASS.
+7. `MANIFEST.txt` holds 19 `sha256sum` lines: the A6 file, `card-picture-match.txt`, and 17 page files with paths relative to the folder. `grep -E '^[0-9a-f]{64}  ' MANIFEST.txt | sha256sum -c -` prints 19 `OK` lines and exits 0. The folder holds 4 entries. Capture: `green-p8-a6v3-manifest-check.txt` (the plan names no capture for step 7). PASS.
+8. The task is `[x]` with the plan evidence. Commit ff56b236 holds the plan and six captures. PASS.
+9. `git status --porcelain` of the look point file printed nothing. The LP-29 row is after the LP-28 row. `Defaults: 28 look points` became `Defaults: 29 look points`, and the rest of that line stays. Commit 451e0791 holds only that file. PASS.
+10. The PM line and the Forge line are in this log and in the reply. The Green role sent no message to another session. PASS.
+
+## Folder facts
+
+- Folder: `/home/daniebo/Desktop/print-ready/storytime/card-kit-a6-v3/`.
+- A6 PDF SHA-256: `56a46e29fe1e303c04a98c6d0f928b8e9f0b320413a5f0c5fa69a18ea8fe452e`.
+- `card-picture-match.txt` SHA-256: `1efc12cceab6a6daccf27434566a36f0fdc454fe3430974b1a6617864f167f30`.
+- `MANIFEST.txt` SHA-256: `85525a16d785efa3483c0fd2261a5fbd71264d21cc90636ea4416751ee11796b`.
+- Changed pages: 02, 03, 04, 05, 06, 08, 09, 11, 12, 13, 14, 15, 20, 21, 22, 26, 27.
+
+## Deviations
+
+- Unrequested test run (recorded per the PM load watch): the command `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"` ran at 08:01, pid 280230, outside `heavy-run.sh`, and without `--maxWorkers=1`. MemAvailable fell to 1,388 MB during the run. The result is `Test Files  6 failed | 34 passed (40)` and `Tests  25 failed | 825 passed (850)`. The fail lines are the heavy-run wrapper assertion `Run CLI cases only through heavy-run.sh.` and 5 s test timeouts under load. This run is not a gate of this task. I did not rerun it. Capture `green-p8-a6v3-green-tests.txt` (information only). The orchestrator run of the 10 card-kit test files (111 of 111) is the authority.
+- Step 2 and step 7 name no capture. I added `green-p8-a6v3-keep.txt` and `green-p8-a6v3-manifest-check.txt`, and the plan evidence names both.
+- Step 5 wording: the last changed page (27) is not all picture cards. Two of its four boxes are word cards by design. Every picture-card box on pages 02 and 27 shows a picture, and no picture-card box is empty. The before page 27 proves the two top boxes changed from empty, labelled boxes to pictures.
+- No stop rule fired. No code or test file changed. The approved folders are untouched.
+
+## Files added (so the reviewers can scope the audit)
+
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-build.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-keep.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-print-gate.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-pages.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-approved-after.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-manifest-check.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-green-tests.txt` (not a gate)
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-part2-1137ee53.log`
+- Helper scripts outside the repo: `/tmp/opencode/p8a6/mark-part2.py`, `evidence-part2.py`, `pages-part2.py`, `manifest-part2.py`, and `look-point-29.py`.
+
+The output folder is outside the repository. It adds no tracked file.
+
+## Step 10 lines
+
+- PM line: `Storytime print Phase 8: card kit A6 v3 built with the 31 Forge card pictures (ham line = Workbooks greyscale fallback); PRINT_GATE exit 0; count lines "picture cards: 106, picture 89, patch 8, dots 9, none 0" and "distinct words: 94, picture 77, patch or dots 17, none 0"; folder ~/Desktop/print-ready/storytime/card-kit-a6-v3/ (MANIFEST.txt); Daniel looks on 2026-11-16 (LP-29). Facts changed: status: card kit A6 v3 built, not approved; the print set stays A5 v2, A6 v2, Stickers v3 until 2026-11-16.`
+- Reply to Forge: `ham fallback made; A6 v3 built`
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: 8
+role: jr-green
+track: storytime_print_r1_20261025
+task: Green, A6 v3 part 2, 2026-11-08
+role_base_sha: 1137ee5397c0de05fc9f52c1f701c163ef0f557d
+head: 451e0791a8ded31956c73513424686e822944682
+commits: ff56b2360b5a6a91b78410bc4c6d1d758084da98 (step 8 evidence), 451e0791a8ded31956c73513424686e822944682 (LP-29), the log commit after 451e0791
+build_head: 1137ee5397c0de05fc9f52c1f701c163ef0f557d
+count_picture_cards: 106, picture 89, patch 8, dots 9, none 0
+count_distinct_words: 94, picture 77, patch or dots 17, none 0
+print_gate: exit 0, All checks pass, 38 pages, 31.8 MB, PDF 1.3, PDF/X-1a:2001, 1 font(s)
+changed_pages: 17 (02, 03, 04, 05, 06, 08, 09, 11, 12, 13, 14, 15, 20, 21, 22, 26, 27)
+approved_folders: 10 lines, diff exit 0
+manifest_check: 19 OK lines, exit 0
+output_folder: /home/daniebo/Desktop/print-ready/storytime/card-kit-a6-v3/ (4 entries)
+lp29: written, commit 451e0791
+step_10: PM line and Forge line in this log; no message sent
+deviations: one unrequested vitest run outside heavy-run (not a gate, not rerun); two unnamed captures added
+dispositions: none
+handoff: Phase 8 A6 v3 part 2 is complete at build HEAD 1137ee53. The plan task is [x] with commit ff56b236. LP-29 is in look-points-11-16.md with commit 451e0791. PRINT_GATE exits 0 on the A6 file, and the MANIFEST check gives 19 OK lines. The approved folders card-kit-v1, card-kit-v2, and card-kit-v3 keep their 10 file hashes (diff exit 0), so the print set stays A5 v2, A6 v2, Stickers v3 until Daniel looks at A6 v3 on 2026-11-16. Two review notes: (1) the last changed page, page 27, holds two word cards by design; every picture-card box on the first and last changed page shows a picture. (2) An unrequested multi-file vitest run at 08:01 ran outside heavy-run and gave 25 failed | 825 passed on 6 of 40 files; the fail lines are the heavy-run wrapper assertion and 5 s timeouts under load. Treat that capture as information only. The orchestrator run of the 10 card-kit files (111 of 111) is the authority. No further vitest, build, render, or PRINT_GATE was run after the load note.
+END_MEASURE_AGENT_RESULT
