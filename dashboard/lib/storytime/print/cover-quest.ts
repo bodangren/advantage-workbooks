@@ -297,8 +297,11 @@ const READER_LINE_NAME = /^l2-w(\d{2})-cover-([a-z0-9-]+)-line-v1\.png$/;
 /** The largest cast list that the data check reads; a longer list is a hostile input (F7). */
 const MAX_CAST_NAMES = 8;
 
-/** The zero-width characters that a page text may not hide a word in (F9, F10). */
+/** The zero-width characters of the Thai check: a back page may not hide a Thai letter with them (F9, F10). */
 const ZERO_WIDTH = /[\u200b\u200c\u200d\u2060\ufeff]/g;
+
+/** The characters that print as nothing: every Unicode default-ignorable code point and U+00AD (F14). */
+const INVISIBLE = /[\u00ad\p{Default_Ignorable_Code_Point}]/gu;
 
 /** The banned CSS fragments of a PDF/X build (spec FR-6.8, test-strategy F11 and F16). */
 const CSS_BANNED = [
@@ -673,7 +676,10 @@ export function questReaders(): QuestReaderRow[] {
  * The copy check of one page (spec FR-4, FR-10.1, FR-10.3): the series name, no forbidden word,
  * and no year. It shares the rule of the approved covers. The check reads the page twice: once as
  * it stands, and once with a case boundary as a space, because a `<wbr>` or a soft-hyphen break can
- * join two words with no space (F8). The zero-width characters come out before both reads (F9).
+ * join two words with no space (F8). The characters that print as nothing come out before both
+ * reads (F9, F14), and the reads use the NFKC form, so a compatibility spelling of a forbidden word
+ * is caught too (F15). The NFKC form is for the check only: this function returns errors and never
+ * text, so no Thai page text passes through NFKC on its way to the page.
  * @param pageText The text of the page.
  * @returns The errors.
  */
@@ -681,7 +687,8 @@ export function checkQuestCopy(pageText: string): string[] {
     // A `<wbr>` or a soft-hyphen break splits a word on the page, and the DOM text of the page can
     // then join the two parts with no space ("AdvantageChibi"). The change of case is the word
     // boundary that the page shows, so the check reads that form too (T11).
-    const text = pageText.replace(ZERO_WIDTH, '');
+    const plain = pageText.replace(INVISIBLE, '');
+    const text = plain.normalize('NFKC').replace(INVISIBLE, '');
     const spaced = text.replace(/([a-z])([A-Z])/g, '$1 $2');
     return [...new Set([...checkStorytimeCoverCopy(text), ...checkStorytimeCoverCopy(spaced)])];
 }
