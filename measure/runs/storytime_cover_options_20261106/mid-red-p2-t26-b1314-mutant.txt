@@ -1,0 +1,76 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-build.test.ts [2m([22m[2m38 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m36 skipped[39m[2m)[22m[33m 8177[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the names of P4 and leaves process.exitCode unchanged
+     [2m[90m↓[39m[22m refuses a level outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a unit outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a version that is not an integer from 1
+     [2m[90m↓[39m[22m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag
+     [2m[90m↓[39m[22m returns the usage for --help, and the defaults of P5 and P6 for a plain call
+     [2m[90m↓[39m[22m reads no file and ends no process
+     [2m[90m↓[39m[22m accepts the default folder and refuses every other target
+     [2m[90m↓[39m[22m refuses an existing target file and leaves its bytes unchanged
+     [2m[90m↓[39m[22m refuses a folder with a print file of another version
+     [2m[90m↓[39m[22m passes an empty folder, a folder that does not exist, and a folder with spend-log.md
+     [2m[90m↓[39m[22m writes files in create-only mode
+     [2m[90m↓[39m[22m gives the four print names of set 1 and set 2
+     [2m[90m↓[39m[22m gives 14 unique PNG names of each reader kind
+     [2m[90m↓[39m[22m lists the 44 paths and the four subfolders
+     [2m[90m↓[39m[22m reads the pages and the size from two real pdfinfo samples
+     [2m[90m↓[39m[22m accepts the right pages and sizes of the four groups
+     [2m[90m↓[39m[22m refuses a wrong page count, a wrong size, and an error above 1.5 pt
+     [2m[90m↓[39m[22m grows each dimension by 17.01 pt at a bleed of 3 mm
+     [2m[90m↓[39m[22m does not throw on a text that is not a pdfinfo output
+     [2m[90m↓[39m[22m passes 32 clean rows with the exact check keys
+     [2m[90m↓[39m[22m fails the report on one fail and keeps the fail in its row
+     [2m[90m↓[39m[22m treats a check that did not run, an extra key, and another value as an error
+     [2m[90m↓[39m[22m passes the valid fixtures and reports the art ppi
+     [2m[90m↓[39m[22m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+     [2m[90m↓[39m[22m refuses a level and unit that have no row in quest.json
+     [2m[90m↓[39m[22m passes 14 pictures of 4000 x 3000 px and reports the effective ppi
+     [2m[90m↓[39m[22m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+     [2m[90m↓[39m[22m keeps the fonts for every group and adds --k-only for the leaf only
+     [2m[90m↓[39m[22m spawns with an argv array and with no shell
+     [2m[90m↓[39m[22m gives 0 different modules for a PNG drawn from the encoder grid
+     [2m[90m↓[39m[22m counts one flipped module as 1 and an all-white PNG as the dark count
+     [2m[90m↓[39m[22m makes no network call while it plans a build
+     [2m[90m↓[39m[22m holds no network or paid tool in its source and spawns only the allowed commands
+     [2m[90m↓[39m[22m prints the usage once and exits 0 for --help
+     [2m[90m↓[39m[22m exits 2 and creates no file for a bad level and for an unknown flag
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 4935[2mms[22m[39m
+[31m     [31m×[31m leaves the private temp folder of a child process empty after --help and after a bad argument[39m[33m 2719[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB14 temp cleanup[2m > [22mleaves the private temp folder of a child process empty after --help and after a bad argument
+[31m[1mAssertionError[22m: --help leaves the temp folder empty: expected [ 'storytime-quest-XjywHT' ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "storytime-quest-XjywHT",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m1177:81[22m[39m
+    [90m1175| [39m            })[33m;[39m
+    [90m1176| [39m            expect([0, 2], `${argv.join(' ')} ends with a clean exit c…
+    [90m1177| [39m            expect(tree(tmp), `${argv.join(' ')} leaves the temp folde…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m1178| [39m        }
+    [90m1179| [39m    }[33m,[39m [34m120000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m36 skipped[39m[90m (38)[39m
+[2m   Start at [22m 09:17:23
+[2m   Duration [22m 9.62s[2m (transform 580ms, setup 98ms, import 755ms, tests 8.18s, environment 0ms)[22m
+
+SHA before: 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+MUTANT_VITEST_EXIT= 1
+SHA after: 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+cmp equal: True
