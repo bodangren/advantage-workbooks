@@ -63,7 +63,7 @@ import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-import { QUEST_BOXES, loadQuestCovers, questReaders } from '../lib/storytime/print/cover-quest';
+import { QUEST_BOXES, checkQuestQr, loadQuestCovers, questReaders, renderQuestCover } from '../lib/storytime/print/cover-quest';
 import { storytimeCoverQrGrid, storytimeCoverQrSvg } from '../lib/storytime/print/covers';
 
 /** The four groups of the build (pin P4). */
@@ -894,6 +894,85 @@ describe('B07 build report (questBuildReport)', () => {
             const result = questBuildReport(odd);
             expect(result.ok, `The value ${JSON.stringify(value)} is not pass or fail.`).toBe(false);
             expect(result.exitCode).toBe(1);
+        }
+    });
+});
+
+describe('B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check)', () => {
+    /** The export that Green adds (default taken): questQrCheck(html, kind) returns 'pass' or 'fail'. */
+    const NEEDS_EXPORT = 'Missing export: questQrCheck(html, kind) of make-storytime-quest-covers.ts (Red retry 2.6c).';
+
+    /**
+     * Renders a real back page with the template call that the build makes.
+     * @param kind The back kind.
+     * @param bleedMm The bleed value.
+     * @returns The page document.
+     */
+    function realBack(kind: 'student-back' | 'teacher-back', bleedMm = 0): string {
+        const assets = kind === 'student-back'
+            ? { art: 'file:///tmp/back-art.png', logo: 'file:///tmp/logo.png', panelValues: [] }
+            : { art: 'file:///tmp/back-art.png', logo: 'file:///tmp/logo.png' };
+        return renderQuestCover(kind, BOOK, assets, { bleedMm });
+    }
+
+    /**
+     * Flips one dark module of the QR inside the box with data-part="qr" (the module turns white).
+     * @param html The page document.
+     * @returns The page with one flipped module.
+     */
+    function flipQrModule(html: string): string {
+        const start = html.indexOf('data-part="qr"');
+        expect(start, 'The page holds the box with data-part="qr".').toBeGreaterThan(-1);
+        const rest = html.slice(start);
+        const rect = rest.match(/<rect\b[^>]*fill="#000000"[^>]*width="10"[^>]*>|<rect\b[^>]*width="10"[^>]*fill="#000000"[^>]*>/i)?.[0];
+        expect(rect, 'The QR box holds a dark module rect.').toBeTruthy();
+        const white = (rect as string).replace('fill="#000000"', 'fill="#ffffff"');
+        return html.slice(0, start) + rest.replace(rect as string, white);
+    }
+
+    /**
+     * Loads the export under test.
+     * @returns The check function.
+     */
+    async function qrCheckFn(): Promise<(html: string, kind: string) => string> {
+        const mod = (await api()) as unknown as { questQrCheck?: (html: string, kind: string) => string };
+        expect(typeof mod.questQrCheck, NEEDS_EXPORT).toBe('function');
+        return mod.questQrCheck as (html: string, kind: string) => string;
+    }
+
+    it('the real student back holds the banner, the sign, and the QR, and the QR is not the first SVG', () => {
+        const html = realBack('student-back');
+        const svgs = html.match(/<svg\b[\s\S]*?<\/svg>/g) ?? [];
+        expect(svgs.length, 'banner, contact sign, and QR').toBeGreaterThanOrEqual(3);
+        expect(html.indexOf('<svg'), 'an SVG comes before the QR box').toBeLessThan(html.indexOf('data-part="qr"'));
+        const first = checkQuestQr(svgs[0] ?? '');
+        expect(first.errors.length, 'the first SVG is not a QR grid (the banner)').toBeGreaterThan(0);
+        const box = html.slice(html.indexOf('data-part="qr"'));
+        const inBox = box.match(/<svg\b[\s\S]*?<\/svg>/)?.[0] ?? '';
+        expect(checkQuestQr(inBox).errors, 'the SVG inside the QR box is the LINE code').toEqual([]);
+    });
+
+    it('(a) the real student back and the real teacher back give pass', async () => {
+        const qrCheck = await qrCheckFn();
+        expect(qrCheck(realBack('student-back'), 'student-back'), 'student back, no bleed').toBe('pass');
+        expect(qrCheck(realBack('teacher-back'), 'teacher-back'), 'teacher back, no bleed').toBe('pass');
+        expect(qrCheck(realBack('student-back', 3), 'student-back'), 'student back, 3 mm bleed').toBe('pass');
+        expect(qrCheck(realBack('teacher-back', 3), 'teacher-back'), 'teacher back, 3 mm bleed').toBe('pass');
+    });
+
+    it('(b) the same real backs with one flipped QR module give fail', async () => {
+        const qrCheck = await qrCheckFn();
+        expect(qrCheck(flipQrModule(realBack('student-back')), 'student-back'), 'student back, one module flipped').toBe('fail');
+        expect(qrCheck(flipQrModule(realBack('teacher-back')), 'teacher-back'), 'teacher back, one module flipped').toBe('fail');
+    });
+
+    it('(c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR', async () => {
+        const qrCheck = await qrCheckFn();
+        const teacher = realBack('teacher-back');
+        expect(teacher, 'the teacher back holds the QR box').toContain('data-part="qr"');
+        expect(qrCheck(teacher.replace('data-part="qr"', 'data-part="qr-gone"').replace(/<svg\b[^>]*viewBox="0 0 \d+ \d+"[\s\S]*?<\/svg>/g, ''), 'teacher-back'), 'a back without any QR fails').toBe('fail');
+        for (const kind of ['student-front', 'teacher-front'] as const) {
+            expect(qrCheck(renderQuestCover(kind, BOOK, { art: 'file:///tmp/front-art.png' }, { bleedMm: 0 }), kind), kind + ' needs no QR').toBe('pass');
         }
     });
 });
