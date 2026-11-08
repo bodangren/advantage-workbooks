@@ -118,8 +118,11 @@ function sortKeys(value: unknown): unknown {
 /**
  * The week without its allow-list (Q21, anti-pattern A7): exactly the keys of the earlier additive compare
  * (`print`, `approval.loops`, `approval.print`, `approval.audio`, `approval.song`, `approval.images`,
- * `books[].cover.file`, and `books[].pages[].image.file`) and `scripts[].share`. Both sides of the compare go
- * through this function. The allow-list has no other key.
+ * `books[].cover.file`, and `books[].pages[].image.file`) and `scripts[].share`. It also removes the two
+ * Phase 11 fields, `books[].audio.wordClips` and `song.videoLeadInSeconds` (spec K15), as `withoutNewFields`
+ * of `storytime-loops-content.test.ts` does: a clips commit adds them after the baseline commit, so the
+ * additive compare must ignore them. Both sides of the compare go through this function.
+ * The allow-list has no other key.
  */
 function withoutAllowList(week: Raw): Raw {
     const copy = structuredClone(week);
@@ -129,8 +132,10 @@ function withoutAllowList(week: Raw): Raw {
     }
     for (const book of copy.books ?? []) {
         delete book.cover?.file;
+        delete book.audio?.wordClips;
         for (const page of book.pages ?? []) delete page.image?.file;
     }
+    delete copy.song?.videoLeadInSeconds;
     if (copy.approval) {
         delete copy.approval.loops;
         delete copy.approval.print;
