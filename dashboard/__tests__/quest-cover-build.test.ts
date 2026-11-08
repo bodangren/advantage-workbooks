@@ -1344,6 +1344,43 @@ function printFilesIn(dir: string): string[] {
     return tree(dir).filter((entry) => entry.endsWith('_PDFX-1a.pdf'));
 }
 
+/**
+ * The text of a Chrome load error: Chrome could not take a screenshot or print a page because the
+ * machine was busy (round 3). Measured: the same build fails with the Protocol error under the
+ * load of other sessions, and with the timeout under a synthetic CPU load; it passes when it runs
+ * alone. No result of the build code carries this text.
+ */
+const CHROME_LOAD = /Protocol error|Target (page, context or browser )?has been closed|browser has been closed|Target closed|page\.screenshot: Timeout|page\.pdf: Timeout/i;
+
+/**
+ * The most builds that one test makes when Chrome stops on a load error. A build that stops on this
+ * error stops early (27 to 110 s measured), so 5 attempts fit the test timeout. Measured on 2026-11-09:
+ * under the load of other sessions, 3 attempts were not enough for one test.
+ */
+const CHROME_ATTEMPTS = 5;
+
+/**
+ * Runs a live build test body again, on a new fixture, only when the build stopped on a Chrome load
+ * error that the test did not expect (CHROME_ATTEMPTS attempts at most, 5). Any other result, and the result of the
+ * last attempt, return as they are, so the assertions of the test run on a real result.
+ * @param run One attempt: it makes its own fixture and returns the child result and a context.
+ * @param expected The text that the expected stop of the test carries.
+ * @returns The last result, its context, and one line for each repeated attempt.
+ */
+async function retryOnChromeLoad<T>(
+    run: (attempt: number) => Promise<{ result: ChildResult; ctx: T }>,
+    expected: RegExp,
+): Promise<{ result: ChildResult; ctx: T; tries: string[] }> {
+    const tries: string[] = [];
+    for (let attempt = 1; ; attempt++) {
+        const done = await run(attempt);
+        const text = done.result.stdout + done.result.stderr;
+        const loadError = done.result.status !== 0 && CHROME_LOAD.test(text) && !expected.test(text);
+        if (!loadError || attempt >= CHROME_ATTEMPTS) return { ...done, tries };
+        tries.push(`attempt ${attempt} stopped on a Chrome load error: ${text.slice(0, 160).replace(/\s+/g, ' ')}`);
+    }
+}
+
 describe('ADV-1 argv and out folder (target group 1; review case B-F2)', () => {
     it('refuses each hostile argument list at the parser', async () => {
         const { parseQuestArgs } = await api();
@@ -1724,30 +1761,35 @@ describe('ADV-6 output and ADV-8 stale file (target groups 6 and 8; review case 
     }, LIVE_MS);
 
     it('a failed PDF/X step leaves no print file with a final name (review B F3)', async () => {
-        const fixture = await liveFixture('adv6-gs');
-        const shimDir = path.join(TMP_BASE, 'adv6-shim');
-        fs.mkdirSync(shimDir, { recursive: true });
-        const shim = [
-            '#!/bin/bash',
-            'case "$*" in',
-            '  *teacher*)',
-            '    prev=""',
-            '    for arg in "$@"; do',
-            '      if [ "$prev" = "-o" ]; then printf partial > "$arg"; fi',
-            '      prev="$arg"',
-            '    done',
-            '    echo "gs shim: forced failure" >&2',
-            '    exit 1 ;;',
-            'esac',
-            'exec /usr/bin/gs "$@"',
-            '',
-        ].join('\n');
-        fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
-        const result = await runBuild(liveArgv(fixture, ['--print']), { PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}` });
-        expect(result.status, `the build fails; stderr ${result.stderr.slice(-300)}`).not.toBe(0);
-        expect(result.stdout + result.stderr, 'the PDF/X step of the teacher group failed').toContain('Ghostscript failed');
+        // Round 3: a Chrome load error (see retryOnChromeLoad) repeats the build on a new fixture, 5 attempts
+        // at most. The assertions below are unchanged and run on the last attempt.
+        const { result, ctx: fixture, tries } = await retryOnChromeLoad(async (attempt) => {
+            const live = await liveFixture(`adv6-gs-${attempt}`);
+            const shimDir = path.join(TMP_BASE, `adv6-shim-${attempt}`);
+            fs.mkdirSync(shimDir, { recursive: true });
+            const shim = [
+                '#!/bin/bash',
+                'case "$*" in',
+                '  *teacher*)',
+                '    prev=""',
+                '    for arg in "$@"; do',
+                '      if [ "$prev" = "-o" ]; then printf partial > "$arg"; fi',
+                '      prev="$arg"',
+                '    done',
+                '    echo "gs shim: forced failure" >&2',
+                '    exit 1 ;;',
+                'esac',
+                'exec /usr/bin/gs "$@"',
+                '',
+            ].join('\n');
+            fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
+            const run = await runBuild(liveArgv(live, ['--print']), { PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}` });
+            return { result: run, ctx: live };
+        }, /Ghostscript failed/);
+        expect(result.status, `the build fails; ${tries.join(' | ')} stderr ${result.stderr.slice(-300)}`).not.toBe(0);
+        expect(result.stdout + result.stderr, `the PDF/X step of the teacher group failed; ${tries.join(' | ')}`).toContain('Ghostscript failed');
         expect(printFilesIn(fixture.out), 'a failed build leaves no print file with a final name').toEqual([]);
-    }, LIVE_MS);
+    }, LIVE_MS * 3);
 });
 
 describe('ADV-9 an unreadable phonics graph (review case A-F1)', () => {
@@ -2091,38 +2133,94 @@ describe('ADV2-6 failure paths and the temp folder (adversarial round 2, risk of
     }, LIVE_MS);
 
     it('a failure in the move step of the print files leaves no print file at a final name and no temp folder', async () => {
-        const fixture = await liveFixture('adv2-move');
-        const shimDir = path.join(TMP_BASE, 'adv2-move-shim');
-        fs.mkdirSync(shimDir, { recursive: true });
-        // The shim closes the readers-leaf folder when the PDF/X step reaches the leaf group, which is
-        // the last group. The staged files are complete, so only the move into the out folder fails.
-        const shim = [
-            '#!/bin/bash',
-            'case "$*" in',
-            '  *readers-leaf*) chmod 555 "$QUEST_SHIM_OUT/readers-leaf" ;;',
-            'esac',
-            'exec /usr/bin/gs "$@"',
-            '',
-        ].join('\n');
-        fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
-        const tmp = privateTmp('adv2-move');
-        let result: ChildResult;
-        try {
-            result = await runBuild(liveArgv(fixture, ['--print']), {
-                ...tmp.env,
-                QUEST_SHIM_OUT: fixture.out,
-                PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}`,
-            });
-        } finally {
-            const leaf = path.join(fixture.out, 'readers-leaf');
-            if (fs.existsSync(leaf)) fs.chmodSync(leaf, 0o755);
-        }
+        // Round 3: a Chrome load error (see retryOnChromeLoad) repeats the build on a new fixture, 5 attempts
+        // at most. The assertions below are unchanged and run on the last attempt.
+        const { result, ctx, tries } = await retryOnChromeLoad(async (attempt) => {
+            const fixture = await liveFixture(`adv2-move-${attempt}`);
+            const shimDir = path.join(TMP_BASE, `adv2-move-shim-${attempt}`);
+            fs.mkdirSync(shimDir, { recursive: true });
+            // The shim closes the readers-leaf folder when the PDF/X step reaches the leaf group, which is
+            // the last group. The staged files are complete, so only the move into the out folder fails.
+            const shim = [
+                '#!/bin/bash',
+                'case "$*" in',
+                '  *readers-leaf*) chmod 555 "$QUEST_SHIM_OUT/readers-leaf" ;;',
+                'esac',
+                'exec /usr/bin/gs "$@"',
+                '',
+            ].join('\n');
+            fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
+            const tmp = privateTmp(`adv2-move-${attempt}`);
+            let run: ChildResult;
+            try {
+                run = await runBuild(liveArgv(fixture, ['--print']), {
+                    ...tmp.env,
+                    QUEST_SHIM_OUT: fixture.out,
+                    PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}`,
+                });
+            } finally {
+                const leaf = path.join(fixture.out, 'readers-leaf');
+                if (fs.existsSync(leaf)) fs.chmodSync(leaf, 0o755);
+            }
+            return { result: run, ctx: { fixture, tmp } };
+        }, /EACCES|permission denied/i);
+        const { fixture, tmp } = ctx;
         const text = result.stdout + result.stderr;
-        expect(result.status, `the build fails; output ${text.slice(-400)}`).not.toBe(0);
-        expect(text, 'the failure is the move into the closed folder').toMatch(/EACCES|permission denied/i);
+        expect(result.status, `the build fails; ${tries.join(' | ')} output ${text.slice(-400)}`).not.toBe(0);
+        expect(text, `the failure is the move into the closed folder; ${tries.join(' | ')}`).toMatch(/EACCES|permission denied/i);
         const printed = printFilesIn(fixture.out);
         expect(printed.length === 0 || printed.length === 4, `a failed build leaves none or all of the 4 print files, not a part (found: ${printed.join(', ')})`).toBe(true);
         expect(printed, 'a failed build leaves no print file with a final name').toEqual([]);
         expect(tmp.left(), 'no storytime-quest- temp folder is left').toEqual([]);
-    }, LIVE_MS);
+    }, LIVE_MS * 3);
+});
+
+describe('ADV3-6 the rollback of the print copy (adversarial round 3, F17)', () => {
+    it('a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write', async () => {
+        const { questFileNames } = await api();
+        const names = questFileNames(2, 1, 1);
+        const leafName = names.readersLeaf;
+        // The shim runs at the PDF/X step of the leaf group, which is after the plan and after the
+        // check of the print folders. It makes a file appear at the final name of the leaf print file,
+        // as a second process could. The folders stay open, so the check of the print folders passes,
+        // and the copies of the student, teacher, and A3 print files succeed before the leaf copy
+        // stops on the file that exists (the copy is create-only).
+        const { result, ctx, tries } = await retryOnChromeLoad(async (attempt) => {
+            const fixture = await liveFixture(`adv3-rollback-${attempt}`);
+            const shimDir = path.join(TMP_BASE, `adv3-rollback-shim-${attempt}`);
+            fs.mkdirSync(shimDir, { recursive: true });
+            const shim = [
+                '#!/bin/bash',
+                'case "$*" in',
+                '  *readers-leaf*) [ -e "$QUEST_SHIM_TARGET" ] || printf foreign > "$QUEST_SHIM_TARGET" ;;',
+                'esac',
+                'exec /usr/bin/gs "$@"',
+                '',
+            ].join('\n');
+            fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
+            const tmp = privateTmp(`adv3-rollback-${attempt}`);
+            const target = path.join(fixture.out, 'readers-leaf', leafName);
+            const run = await runBuild(liveArgv(fixture, ['--print']), {
+                ...tmp.env,
+                QUEST_SHIM_TARGET: target,
+                PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}`,
+            });
+            return { result: run, ctx: { fixture, tmp, target } };
+        }, /EEXIST|already exists/i);
+        const text = result.stdout + result.stderr;
+        expect(result.status, `the build fails; ${tries.join(' | ')} output ${text.slice(-400)}`).not.toBe(0);
+        expect(text, `the failure is the copy onto the file that exists; ${tries.join(' | ')}`).toMatch(/EEXIST|already exists/i);
+        expect(fs.existsSync(ctx.target), 'the file that the build did not write is still there').toBe(true);
+        expect(fs.readFileSync(ctx.target, 'utf8'), 'the build did not change or remove the file that it did not write').toBe('foreign');
+        const printed = printFilesIn(ctx.fixture.out);
+        for (const [folder, name] of [
+            ['student', names.student],
+            ['teacher', names.teacher],
+            ['readers-a3', names.readersA3],
+        ]) {
+            expect(printed, `the print file ${folder}/${name} was copied before the failure and is removed`).not.toContain(`${folder}/${name}`);
+        }
+        expect(printed, 'no print file stays with a final name except the file that the build did not write').toEqual([`readers-leaf/${leafName}`]);
+        expect(ctx.tmp.left(), 'no storytime-quest- temp folder is left').toEqual([]);
+    }, LIVE_MS * 3);
 });
