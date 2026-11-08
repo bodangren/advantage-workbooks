@@ -56,4 +56,58 @@ Rules in force: plan rule 19 (Claude drafts the Thai; only Daniel checks it; no 
 - STAGE_CHECKS: st2/13 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w13.txt`.
 - commit 077fd27638162ad78247cb4d54e20be2ba7153e1. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w13.json | 20 ++++++++++----------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=10. Word diff: `t31-w13-word-diff.txt`.
 
-Orchestrator decision (2026-11-09 05:45): the `share-moment` FAIL rows are outside Task 3.1. The task stays `[~]` until STAGE_CHECKS passes after a later share-moment task. Interim commit of the plan mark, this log, and the w09 to w13 captures: see below.
+Orchestrator decision (2026-11-09 05:45): the `share-moment` FAIL rows are outside Task 3.1. The task stays `[~]` until STAGE_CHECKS passes after a later share-moment task. Interim commit of the plan mark, this log, and the w09 to w13 captures: c5dc9a0b8cfccc38601d5750c3f9d7c1b0e8b636 (13 files).
+
+### Week 14 (w14.json)
+
+- 6 Thai fields changed: the 3 question lines, A3 practise and retest, A5 "ตัวอักษร f บน" (a missing space). The rest of the week 14 Thai matched the approved English and the unit 1 forms.
+- STAGE_CHECKS: st2/14 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w14.txt`.
+- commit b722e6f1ede3540f28612f32e15174f92de5ff50. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w14.json | 12 ++++++------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=6. Word diff: `t31-w14-word-diff.txt`.
+
+### Week 15 (w15.json)
+
+- 8 Thai fields changed: the 3 question lines, A3 practise and retest, A5 "ตัวอักษร g บน" (a missing space), the A4 blend line "Got! (ได้)" (the one bilingual line with no Thai; the gloss of the new word, as in week 12), C5 "กรอบประโยคของสัปดาห์" (the English says "frame of the week"; week 12 says "frame of the unit" and keeps "ของหน่วยนี้").
+- STAGE_CHECKS: st2/15 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w15.txt`.
+- commit 6e6b11bc4baffd08572e1a395d3aa77c5b8ac99f. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w15.json | 16 ++++++++--------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=8. Word diff: `t31-w15-word-diff.txt`.
+
+### Week 16 (w16.json)
+
+- 0 Thai fields changed. The writer read all 268 pairs against the approved English and the unit 1 week 8 Thai. Every benchmark, centers, close, and home line uses the unit 1 week 8 form; the unit number lines say unit 2 as the English does. No commit (the file is unchanged).
+- STAGE_CHECKS: st2/16 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w16.txt`.
+
+## STAGE_CHECKS of all weeks (after w16)
+
+Capture `t31-stage-all.txt`: st2/9 to st2/16 `thai-lines` PASS and `thai` PASS. FAIL rows: 8, all `share-moment` (FAIL_ROWS_NOT_SHARE_MOMENT=0). STAGE_CHECKS_EXIT=1 from that row only.
+
+## PDF (one heavy-run)
+
+- Command: `make-manual-pdf.ts --file <w09.json> ... --file <w16.json> --lang th --loops --out ~/Desktop/print-ready/storytime/text-review/Storytime-Advantage-L2-U2-weeks-9-16-Thai-teacher-book-draft.pdf` under `heavy-run.sh` (HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400). The first run passed the 8 paths after one `--file` and the script refused them ("Unknown argument"); the second run repeats `--file` before each path. Capture `t31-pdf.txt`, EXIT=0.
+- Result: 233 pages, A4 (594.96 x 841.92 pt), fonts embedded: Sarabun (Regular, SemiBold, Bold, Italic), Open Sans (Regular, SemiBold, Bold, ExtraBold, Italic), Liberation Sans (page 227 only: the arrow and multiply signs of the benchmark blend list and the accuracy formula; `t31-pdf-fallback-font-pages.txt`).
+- SHA-256: 8b48acdce088568593aca127e9a2da7490f3ce1214baca42ffbd73fde9ca9ac8
+- The report inside the build names FAIL rows `loops-recall` and `benchmark` for the given files: `--file` mode does not see the other weeks ("not checked ... because the other weeks are not given"). STAGE_CHECKS, which stages all 16 weeks, passes those rows.
+
+## Contact sheets and the page look (one heavy-run)
+
+- `contact.py`: pdftoppm at 130 dpi, 4 pages a sheet with a page label, 59 sheets, folder `~/Desktop/print-ready/storytime/text-review/l2u2-thai-draft-contact-sheets/` (47 MB). Capture `t31-contact-sheets.txt`.
+- The writer looked at every sheet (pages 1 to 233). Record:
+  - Sheets 1 to 6 (pages 1 to 24): week 9 cover table, the check report pages, days 1 to 5: no broken Thai line.
+  - Sheets 7 to 14 (pages 25 to 56): week 9 end, week 10: no broken Thai line.
+  - Sheets 15 to 22 (pages 57 to 88): week 11: no broken Thai line.
+  - Sheets 23 to 30 (pages 89 to 120): week 11 check, week 12: no broken Thai line.
+  - Sheets 31 to 38 (pages 121 to 152): week 13, week 14 cover: no broken Thai line.
+  - Sheets 39 to 46 (pages 153 to 184): week 14, week 15 start: no broken Thai line.
+  - Sheets 47 to 54 (pages 185 to 216): week 15, week 16 start: no broken Thai line.
+  - Sheets 55 to 59 (pages 217 to 233): week 16 days 3 to 5, Benchmark 2, the record sheet, the reading record forms: no broken Thai line. Page 227 uses Liberation Sans for the arrow and multiply signs only; the Thai is Sarabun.
+- Automated support: `pdftotext` of the PDF has no U+FFFD and no page without Thai text (234 text pages, the last one empty).
+- Result: no broken Thai line on any page. No rebuild needed.
+
+## Hand-off folder for Task 3.2 (written, not sent)
+
+`~/Desktop/print-ready/storytime/text-review/l2u2-thai-handoff-2026-11-14/`:
+
+- `Storytime-Advantage-L2-U2-weeks-9-16-Thai-teacher-book-draft.pdf` (SHA-256 8b48acdce088568593aca127e9a2da7490f3ce1214baca42ffbd73fde9ca9ac8)
+- `home-card-lines.md` (home line and home activity of weeks 9 to 16, EN and TH; `homecards.py`)
+- `thai-new-terms.md` (101 terms; the same file as `measure/runs/storytime_l2_unit2_20261106/thai-new-terms.md`)
+- `MANIFEST.txt` (sha256sum lines of the 3 files), SHA-256 of MANIFEST.txt: 9b50f0fe719e0fe2bd462847b862c20b8e89e97afb3c4d38831366472aa7253f
+
+New terms: `newterms.py` keeps a candidate (English source, Thai term) when the Thai term is absent from the unit 1 Thai corpus (weeks 1 to 8). 181 candidates, 101 new.
