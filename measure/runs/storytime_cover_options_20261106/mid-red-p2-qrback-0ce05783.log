@@ -1,0 +1,28 @@
+MEASURE_AGENT_RESULT
+status: success
+phase: P2
+role: mid-red
+track: storytime_cover_options_20261106
+task: Task 2.6c (Red retry; Task 2.7 stays [~])
+model: claude-code/claude-sonnet-5-5#high
+role_base_sha: 0ce057837c2a51367a73dc618b3f08a53cc07f00
+red_base: 0ce057837c2a51367a73dc618b3f08a53cc07f00
+head: PLANHEAD
+test_commit: c8e7c8d64ac59647ef093e8961df33c1e3f349eb
+plan_commit: 972becf330b6bdb7e84e2acf70ebf0c5f96845de
+test_file: dashboard/__tests__/quest-cover-build.test.ts (group B07b, 4 tests; 3 fail, 1 precondition passes)
+red_summary:
+  - new file alone (mid-red-p2-qrback-new.txt): Test Files  1 failed (1); Tests  3 failed | 39 passed (42); EXIT=1
+  - RED_TEST_COMMAND (mid-red-p2-qrback-red.txt): Test Files  1 failed | 1 passed (2); Tests  3 failed | 224 passed (227); EXIT=1
+  - lint (mid-red-p2-qrback-lint.txt): ESLINT_EXIT=0, TSC_EXIT=0, EXIT=0
+failure_lines: 3 x "Missing export: questQrCheck(html, kind) of make-storytime-quest-covers.ts (Red retry 2.6c).: expected 'undefined' to be 'function'" in B07b (a), (b), (c)
+defect_proof: mid-red-p2-qrback-probe.txt. With questQrCheck exported and the first-SVG read, case (a) fails with "student back, no bleed: expected 'fail' to be 'pass'". With the read of the SVG inside the data-part="qr" box, all B07b cases pass.
+falsifier_for_green: read the first SVG again: the new cases fail
+dispositions: none
+handoff:
+  - export to add: export const questQrCheck = qrCheck;  (signature questQrCheck(html: string, kind: QuestCoverKind): string; the test passes a string kind)
+  - one-line fix in qrCheck (line 764 to 768): read the SVG inside the box with data-part="qr", not the first SVG match. A back page without the box gives fail.
+  - the test needs no Chrome and no network; it calls renderQuestCover for both backs with 0 and 3 mm bleed.
+  - Green runs GREEN_TEST_COMMAND, then the dry build again (expected 32 pages, 44 files, exit 0). Task 2.7 stays [~] until Green passes.
+  - default taken: export name questQrCheck.
+END_MEASURE_AGENT_RESULT
