@@ -1,0 +1,10 @@
+MEASURE_AGENT_RESULT
+role: review-c
+phase: P2
+track: storytime_cover_options_20261106
+audited_head_sha: 4005380545612f7ae1c49f42197d630b923e8b72
+status: pass
+findings count: 3
+result path: measure/runs/storytime_cover_options_20261106/review-c-40053805.json
+handoff: No Blocker. The six contract parts hold. F1 Nit: checkArtName hard-codes the 'l2-' prefix and takes no level, so a level other than 2 can never pass (cover-quest.ts:447-457). F2 Nit: checkCastList enforces the upper limits only; no adult rule for the teacher front, no adult ban on the student front, and a repeated name passes (cover-quest.ts:467-482). F3 Nit: roleKeyOfLabel falls back to 'listen' on an unknown label (cover-quest.ts:1201-1206, :1097). All three are latent; no shipped data is affected; each fix can be a plan note or a later Red and Green pair. Six parts: the strict shape check is complete (21 T22 rejections, every error names its field); the roster kinds are child, animal, adult and the shipped casts are {Nan, Pip, Sam} and {Teacher Kim, Nan, Sam}; the lit band is lower case 'sprout' and equals meta.band.toLowerCase() of the seven shipped weeks; the art names are names only, match D-A8, and resolve under pictures/ only at build time (Task 2.7, Review B); the 14 reader rows link one to one to the 14 cover rows of pictures.json with no row missing or extra (live read: 227 rows, 14 cover rows, no duplicate, all 28 files exist at 4000 x 3000); the role copy holds the three labels of FR-10 and matches the rule of readers.ts (8 listen, 6 sound, 0 first sound). The Green 1 captures agree with the plan claims: 185 tests, the project run 62 files and 1488 tests, lint 0 errors, 0 failed checks, 33 of 33 mutants caught. No question for the user. Retry not needed.
+END_MEASURE_AGENT_RESULT
