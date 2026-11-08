@@ -1,0 +1,123 @@
+# Jr Green · P2 T2.7b · storytime_cover_options · Part 1 (the template fixes)
+
+status: done-part-1
+role: jr-green
+phase: P2
+task: T2.7b
+role_base_sha: 3692e5ba
+head_before_impl: 3692e5ba
+impl_commit: d0674b44
+impl_sha256: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d
+red_model: claude-code/claude-sonnet-5-5#high (Anthropic)
+red_commit: d985d325
+scope: dashboard/lib/storytime/print/cover-quest.ts only (F2 reader names, F7, F8, F9, F10, F12)
+guard: G-1 holds; no test file changed; no shared file changed; the build script is untouched
+model_independence: Green deepseek/deepseek-flash#high; Red Anthropic; the families differ
+
+## Work
+
+1. Log written first with a provisional status, and kept current after each step.
+2. Red proof on the HEAD version of cover-quest.ts (temporary restore, then restore back):
+   `green3-p1-red.txt`. 196 tests, 6 failed, 190 passed, EXIT=1. The six failures are the
+   tests of F7 (huge cast), F8 (ChiBi), F9 (invisible joiner), F10 (Thai zero width), F12
+   (CSS spellings), and F12 (SVG OPACITY).
+3. Fixes in cover-quest.ts:
+   - F2: `questReaders` tests `cover.fileName` and `cover.lineArtFileName` against the exact
+     names `l2-wNN-cover-<slug>-v1.png` and `l2-wNN-cover-<slug>-line-v1.png` (slug of
+     `[a-z0-9-]`, week match) and throws with the week and the title. No layout path can leave
+     the out folder.
+   - F7: `checkCastList` refuses a list above 8 names before the loop, a student front with an
+     adult, and a teacher front that does not hold exactly 1 adult (review C F2).
+   - F8: `checkQuestCopy` reads the text as it stands and with the camel-case split, and
+     dedupes the errors.
+   - F9: `checkQuestCopy` removes U+200B, U+200C, U+200D, U+2060, and U+FEFF before both reads.
+   - F10: `checkQuestThai` refuses a zero-width character in the page text of a back.
+   - F12: `questCssSafetyErrors` compares in lower case and adds the slash alpha forms of
+     `rgb` and `hsl`, the 8 digit hex, and the 4 digit hex. The upper case SVG `OPACITY`
+     attribute is caught by the lower case compare.
+4. Gates (all inside heavy-run with `--maxWorkers=1`):
+   - `green3-p1-red.txt`: Red proof, 6 failed | 190 passed, EXIT=1.
+   - `green3-p1-template.txt`: `__tests__/quest-cover-template.test.ts`, 196 passed, EXIT=0.
+   - `green3-p1-slug.txt`: `quest-cover-build.test.ts -t "refuses a reader slug that holds a
+     path"`, EXIT=1. The layout assertion passes (no path leaves the out folder), and the name
+     check throws. The test then fails at `planQuestBuild`: `questLayout` is called at line 528
+     of the build script with no try/catch, so the plan rejects instead of returning an error.
+     This needs one build-script change, which Part 1 forbids.
+   - `green3-p1-lint.txt`: `npx eslint lib/storytime/print/cover-quest.ts` EXIT=0;
+     `npx tsc --noEmit` EXIT=0.
+5. Implementation commit: `d0674b44` (the only file is
+   `dashboard/lib/storytime/print/cover-quest.ts`, proven with
+   `git show --name-only --format=`).
+6. Plan line: BLOCKED by measure-guard. The edit of
+   `measure/tracks/storytime_cover_options_20261106/plan.md` fails with: the heading of
+   "Phase 1: The option round (evidence class: person-checked by Daniel)" has no
+   `[checkpoint: <sha>]`; run the Phase Completion Verification and Checkpointing Protocol
+   first. I did not bypass the guard. plan.md is unchanged. No task went to `[x]` or `[b]`.
+7. Committed the log and the four captures without plan.md.
+
+## Question and default (for the orchestrator)
+
+- Q: Phase 1 has no `[checkpoint: <sha>]`, so measure-guard refuses the plan line. Options:
+  (a) run the Phase Completion Verification and Checkpointing Protocol for Phase 1, then add
+  the line; (b) the owner runs `/measure-off` for this edit. Default taken: leave plan.md
+  unchanged and record the exact line here for the owner.
+- Q: the F2 test needs a build-script catch that Part 1 forbids. Options: (a) Part 2 wraps
+  `questLayout` at `planQuestBuild` line 528 in a try/catch and pushes the error; (b) the
+  orchestrator allows the one-line catch in Part 1. Default taken: keep Part 1 to
+  cover-quest.ts and hand the catch to Part 2.
+
+## Handoff to Part 2 (the script findings)
+
+- Fix F1, F3, F4, F5, F6, F11, F13 in `dashboard/scripts/storytime/make-storytime-quest-covers.ts`.
+- Also finish the plan half of F2: around line 528, call `questLayout` inside a try/catch, push
+  `the reader names are not readable: <message>` (or the like) to `errors`, and keep an empty
+  layout. The test `refuses a reader slug that holds a path` then passes, because `questReaders`
+  already throws on a name that is not exact. Evidence: `green3-p1-slug.txt`.
+- Do not change the two test files. The six template tests are green on d0674b44.
+- The plan line to add (after the last sub-bullet of the Adversarial task block, before Task
+  2.9), once the Phase 1 checkpoint exists:
+
+  `- [~] Task 2.7b (Green 3, 2026-11-08): fix the 13 findings of the adversarial round (adversarial-d985d325.json): F2, F7, F8, F9, F10, and F12 in cover-quest.ts; F1, F3, F4, F5, F6, F11, and F13 in the build script. Change no test file; guard G-1 holds. Done when: GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_LINT, and PROJECT_CHECKS pass, the 23 mutants of Green 2 stay caught on the new script bytes, and the dry build exits 0. Evidence: automated`
+
+- Part 3 runs GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_LINT, PROJECT_CHECKS, the 23
+  mutants, and the dry build.
+
+dispositions: none
+
+MEASURE_AGENT_RESULT
+status: done-part-1
+role: jr-green
+phase: P2
+task: T2.7b
+track: storytime_cover_options_20261106
+role_base_sha: 3692e5ba
+head_before_impl: 3692e5ba
+impl_commit: d0674b44
+impl_sha256: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: d985d325
+gates:
+  - red (HEAD file, template suite): 6 failed | 190 passed (196), EXIT=1, green3-p1-red.txt
+  - green (template suite): 196 passed (196), EXIT=0, green3-p1-template.txt
+  - green F2 slug test: EXIT=1, layout refused, plan rejects at the build script call, green3-p1-slug.txt
+  - eslint: EXIT=0, green3-p1-lint.txt
+  - tsc --noEmit: EXIT=0, green3-p1-lint.txt
+plan_line: blocked by measure-guard (Phase 1 has no [checkpoint: <sha>]); plan.md unchanged
+tasks_flipped_x: none
+tasks_flipped_b: none
+new_files:
+  - measure/runs/storytime_cover_options_20261106/jr-green-p2-t27b-part1-3692e5ba.log
+  - measure/runs/storytime_cover_options_20261106/green3-p1-red.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p1-template.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p1-slug.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p1-lint.txt
+dispositions: none
+handoff: |
+  Part 2 (the script findings) fixes F1, F3, F4, F5, F6, F11, and F13 in
+  dashboard/scripts/storytime/make-storytime-quest-covers.ts. It must also finish the plan half
+  of F2: wrap questLayout at planQuestBuild line 528 in a try/catch and push the error. The
+  F2 build test then passes, because questReaders already throws on a name that is not exact
+  (green3-p1-slug.txt). Part 1 changed cover-quest.ts only (commit d0674b44) and no test file.
+  The plan line is in the log; add it after the Phase 1 checkpoint exists, or after /measure-off.
+  Part 3 runs the full gates, the 23 mutants, and the dry build.
+END_MEASURE_AGENT_RESULT
