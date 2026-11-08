@@ -1634,13 +1634,37 @@ describe('ADV-6 output and ADV-8 stale file (target groups 6 and 8; review case 
 
     it('two builds into one folder at once: one completes, the other fails and overwrites nothing', async () => {
         const { questLayout, questFileNames } = await api();
-        const fixture = await liveFixture('adv6-live');
-        const argv = liveArgv(fixture);
-        const [first, second] = await Promise.all([runBuild(argv), runBuild(argv)]);
-        live = { out: fixture.out };
-        const detail = `first ${first.status}: ${first.stderr.slice(-400)} | second ${second.status}: ${second.stderr.slice(-400)}`;
-        expect([first.status, second.status].sort(), detail).toEqual([0, 1]);
-        const loser = first.status === 1 ? first : second;
+        // Round 2: a Chrome render error (Page.captureScreenshot Protocol error) is machine load, not a
+        // result of the build code. Only that error, seen in the build that won the lock, repeats the
+        // attempt (3 at most). Every assertion below is unchanged and runs on the last attempt.
+        const hook = launchHook();
+        const chromeLoad = /Protocol error|Target (page, context or browser )?has been closed|browser has been closed|Target closed/i;
+        let fixture: LiveFixture | undefined;
+        let first: ChildResult | undefined;
+        let second: ChildResult | undefined;
+        let launches: string[] = [];
+        const tries: string[] = [];
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            fixture = await liveFixture(`adv6-live-${attempt}`);
+            const argv = liveArgv(fixture);
+            const log = path.join(TMP_BASE, `adv6-launch-${attempt}.log`);
+            const env = { NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ''} --import ${hook}`.trim(), QUEST_LAUNCH_LOG: log };
+            [first, second] = await Promise.all([runBuild(argv, env), runBuild(argv, env)]);
+            launches = fs.existsSync(log) ? fs.readFileSync(log, 'utf8').split('\n').filter(Boolean) : [];
+            const winnerLoad = [first, second].filter((run) => run.status === 1 && !/EEXIST|exist/i.test(run.stderr) && chromeLoad.test(run.stderr));
+            if (first.status === 1 && second.status === 1 && winnerLoad.length === 1 && attempt < 3) {
+                tries.push(`attempt ${attempt} stopped on a Chrome load error: ${winnerLoad[0].stderr.slice(-300)}`);
+                continue;
+            }
+            break;
+        }
+        const done = { fixture: fixture as LiveFixture, first: first as ChildResult, second: second as ChildResult };
+        live = { out: done.fixture.out };
+        const detail = `${tries.join(' | ')} first ${done.first.status}: ${done.first.stderr.slice(-400)} | second ${done.second.status}: ${done.second.stderr.slice(-400)}`;
+        expect([done.first.status, done.second.status].sort(), detail).toEqual([0, 1]);
+        expect(launches.length, `only the build that won the lock starts Chrome (launches: ${launches.join(',')})`).toBe(1);
+        const [firstRun, secondRun] = [done.first, done.second];
+        const loser = firstRun.status === 1 ? firstRun : secondRun;
         expect(loser.stderr, 'the failed build says why').toMatch(/EEXIST|exist/i);
         const names = questFileNames(2, 1, 1);
         const printNames = [names.student, names.teacher, names.readersA3, names.readersLeaf];
@@ -1648,14 +1672,14 @@ describe('ADV-6 output and ADV-8 stale file (target groups 6 and 8; review case 
             .files.filter((file) => !printNames.some((name) => file.endsWith(`/${name}`)))
             .sort();
         expect(written.length, 'a build without --print writes 40 of the 44 files').toBe(40);
-        const present = tree(fixture.out).filter((entry) => fs.statSync(path.join(fixture.out, entry)).isFile());
+        const present = tree(done.fixture.out).filter((entry) => fs.statSync(path.join(done.fixture.out, entry)).isFile());
         expect(present, 'the folder holds exactly the files of one complete build').toEqual(written);
-        for (const file of present) expect(fs.statSync(path.join(fixture.out, file)).size, `${file} is not empty`).toBeGreaterThan(0);
+        for (const file of present) expect(fs.statSync(path.join(done.fixture.out, file)).size, `${file} is not empty`).toBeGreaterThan(0);
         for (const group of questLayout(2, 1, 1).folders) {
-            const report = JSON.parse(fs.readFileSync(path.join(fixture.out, group, 'build-report.json'), 'utf8')) as { ok: boolean };
+            const report = JSON.parse(fs.readFileSync(path.join(done.fixture.out, group, 'build-report.json'), 'utf8')) as { ok: boolean };
             expect(report.ok, `${group} report is ok`).toBe(true);
         }
-    }, LIVE_MS);
+    }, LIVE_MS * 3);
 
     it('the build report records the git head of the build (the stale file check needs it)', async () => {
         expect(live, 'the live build test ran first').toBeDefined();
@@ -1741,5 +1765,364 @@ describe('ADV-9 an unreadable phonics graph (review case A-F1)', () => {
         const result = await runBuild(liveArgv(fixture), { MASTERY_PHONICS_GRAPH: graph });
         expect(result.status, `exit code is not 0; stdout ${result.stdout.slice(-200)}`).not.toBe(0);
         expect(result.stderr, 'the error names the graph or the panel, not another fault').toMatch(/graph|panel|phonics/i);
+    }, LIVE_MS);
+});
+
+// ---------------------------------------------------------------------------------------------
+// Adversarial round 2 of Phase 2 (storytime_cover_options_20261106): the risks of the Green 3 code.
+// readGitHead, the staged print files, the size cap, the out folder links, and the temp folder.
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * Writes the preload module that logs each Chrome launch of a build process. The loser of a lock
+ * race must never launch Chrome, so the log shows which process rendered.
+ * @returns The path of the module.
+ */
+function launchHook(): string {
+    const file = path.join(TMP_BASE, 'launch-hook.mjs');
+    if (!fs.existsSync(file)) {
+        const source = [
+            "import fs from 'node:fs';",
+            "import { createRequire } from 'node:module';",
+            `const require = createRequire(${JSON.stringify(path.join(DASHBOARD, 'package.json'))});`,
+            "const { chromium } = require('@playwright/test');",
+            'const launch = chromium.launch.bind(chromium);',
+            'chromium.launch = (...args) => {',
+            "    fs.appendFileSync(process.env.QUEST_LAUNCH_LOG, process.pid + '\\n');",
+            '    return launch(...args);',
+            '};',
+            '',
+        ].join('\n');
+        fs.writeFileSync(file, source);
+    }
+    return file;
+}
+
+/** A private TMPDIR for a child build, and the build temp folders that it left. */
+function privateTmp(label: string): { dir: string; env: Record<string, string>; left: () => string[] } {
+    const dir = fs.mkdtempSync(path.join(TMP_BASE, `${label}-tmp-`));
+    return {
+        dir,
+        // The tsx loader cache would write into the private TMPDIR, so the test turns it off.
+        env: { TMPDIR: dir, TSX_DISABLE_CACHE: '1' },
+        left: () => fs.readdirSync(dir).filter((name) => name.startsWith('storytime-quest-')),
+    };
+}
+
+/**
+ * Loads `readGitHead` of the script. The function is not exported (pin P4), so the test cuts its
+ * text from the script source and runs that text with fs and path. The real bytes run.
+ * @returns The function.
+ */
+function loadReadGitHead(): (repoRoot: string) => string {
+    const source = scriptSource();
+    const body = source.match(/function readGitHead\(repoRoot: string\): string \{[\s\S]*?\n\}\n/)?.[0];
+    expect(body, 'readGitHead is in the script').toBeDefined();
+    const pattern = source.match(/const GIT_HEAD_PATTERN = (\/.*\/);/)?.[1];
+    expect(pattern, 'GIT_HEAD_PATTERN is in the script').toBeDefined();
+    const plain = (body as string).replace('(repoRoot: string): string', '(repoRoot)');
+    const factory = new Function('fs', 'path', 'GIT_HEAD_PATTERN', `${plain}\nreturn readGitHead;`);
+    return factory(fs, path, new Function(`return ${pattern}`)()) as (repoRoot: string) => string;
+}
+
+const ID_A = 'a'.repeat(40);
+const ID_B = 'b'.repeat(40);
+const ID_C = 'c'.repeat(40);
+const ID_D = 'd'.repeat(40);
+const ID_F = 'f'.repeat(40);
+
+/**
+ * Writes files into a fixture folder.
+ * @param label The folder label.
+ * @param files The relative paths and their text.
+ * @returns The folder.
+ */
+function gitFixture(label: string, files: Record<string, string>): string {
+    const dir = path.join(TMP_BASE, `git-${label}`);
+    for (const [name, text] of Object.entries(files)) {
+        fs.mkdirSync(path.dirname(path.join(dir, name)), { recursive: true });
+        fs.writeFileSync(path.join(dir, name), text);
+    }
+    fs.mkdirSync(dir, { recursive: true });
+    return dir;
+}
+
+describe('ADV2-8 readGitHead (adversarial round 2, risk of the Green 3 code)', () => {
+    it('reads a detached HEAD, a loose ref, a ref only in packed-refs, and prefers the loose ref', () => {
+        const read = loadReadGitHead();
+        expect(read(gitFixture('detached', { '.git/HEAD': `${ID_A}\n` })), 'detached HEAD').toBe(ID_A);
+        expect(read(gitFixture('loose', { '.git/HEAD': 'ref: refs/heads/main\n', '.git/refs/heads/main': `${ID_B}\n` })), 'loose ref').toBe(ID_B);
+        const packed = [
+            '# pack-refs with: peeled fully-peeled sorted ',
+            `${ID_D} refs/heads/main2`,
+            `${ID_F} refs/heads/main-old`,
+            `${ID_C} refs/heads/main`,
+            `^${ID_A}`,
+            '',
+        ].join('\n');
+        expect(read(gitFixture('packed', { '.git/HEAD': 'ref: refs/heads/main\n', '.git/packed-refs': packed })), 'ref only in packed-refs').toBe(ID_C);
+        expect(
+            read(gitFixture('both', { '.git/HEAD': 'ref: refs/heads/main\n', '.git/refs/heads/main': `${ID_B}\n`, '.git/packed-refs': packed })),
+            'the loose ref wins over packed-refs',
+        ).toBe(ID_B);
+    });
+
+    it('reads a .git FILE with a relative or an absolute gitdir pointer', () => {
+        const read = loadReadGitHead();
+        const relative = gitFixture('file-rel', { '.git': 'gitdir: ../git-file-rel-store/real\n' });
+        gitFixture('file-rel-store', { 'real/HEAD': `${ID_A}\n` });
+        expect(read(relative), 'relative pointer').toBe(ID_A);
+        const store = gitFixture('file-abs-store', { 'real/HEAD': 'ref: refs/heads/topic\n', 'real/refs/heads/topic': `${ID_B}\n` });
+        const absolute = gitFixture('file-abs', { '.git': `gitdir: ${path.join(store, 'real')}\n` });
+        expect(read(absolute), 'absolute pointer to a gitdir with a loose ref').toBe(ID_B);
+    });
+
+    it('a linked worktree layout (HEAD in the worktree folder, refs in the common folder) fails or reads the right id', () => {
+        const read = loadReadGitHead();
+        const common = gitFixture('wt-common', { '.git/refs/heads/feat': `${ID_F}\n`, '.git/HEAD': `${ID_A}\n` });
+        gitFixture('wt-common', { '.git/worktrees/wt/HEAD': 'ref: refs/heads/feat\n', '.git/worktrees/wt/commondir': '../..\n' });
+        const tree = gitFixture('wt-tree', { '.git': `gitdir: ${path.join(common, '.git', 'worktrees', 'wt')}\n` });
+        let result: string | undefined;
+        try {
+            result = read(tree);
+        } catch {
+            result = undefined; // A refusal is a safe result.
+        }
+        if (result !== undefined) expect(result, 'a value, if any, is the id of the worktree branch').toBe(ID_F);
+    });
+
+    it('fails on a missing, empty, or corrupt HEAD and never returns a wrong id', () => {
+        const read = loadReadGitHead();
+        const cases: Array<[string, Record<string, string>]> = [
+            ['no .git at all', {}],
+            ['no HEAD file', { '.git/config': 'x' }],
+            ['an empty HEAD', { '.git/HEAD': '' }],
+            ['a garbage HEAD', { '.git/HEAD': 'not a head\n' }],
+            ['a 39 character id', { '.git/HEAD': `${ID_A.slice(1)}\n` }],
+            ['a 41 character id', { '.git/HEAD': `${ID_A}a\n` }],
+            ['an upper case id', { '.git/HEAD': `${'A'.repeat(40)}\n` }],
+            ['a 64 character id', { '.git/HEAD': `${ID_A}${ID_B.slice(0, 24)}\n` }],
+            ['a ref with no name', { '.git/HEAD': 'ref: \n' }],
+            ['a ref with trailing words', { '.git/HEAD': 'ref: refs/heads/main extra\n', '.git/refs/heads/main': `${ID_B}\n` }],
+            ['a ref that does not exist', { '.git/HEAD': 'ref: refs/heads/nope\n' }],
+            ['a ref file that holds garbage', { '.git/HEAD': 'ref: refs/heads/main\n', '.git/refs/heads/main': 'garbage\n' }],
+            [
+                'a corrupt loose ref and a good packed ref',
+                { '.git/HEAD': 'ref: refs/heads/main\n', '.git/refs/heads/main': 'garbage\n', '.git/packed-refs': `${ID_C} refs/heads/main\n` },
+            ],
+            ['packed-refs that holds only other branches', { '.git/HEAD': 'ref: refs/heads/main\n', '.git/packed-refs': `${ID_C} refs/heads/main2\n${ID_D} refs/heads/xmain\n` }],
+            ['a .git file with no gitdir line', { '.git': 'hello\n' }],
+            ['a .git file that points to a missing folder', { '.git': 'gitdir: ./does-not-exist\n' }],
+        ];
+        expect(cases.length, 'the table holds 16 cases').toBe(16);
+        const wrong: string[] = [];
+        for (const [index, [label, files]] of cases.entries()) {
+            const dir = gitFixture(`corrupt-${index}`, files);
+            let value: string | undefined;
+            try {
+                value = read(dir);
+            } catch {
+                value = undefined;
+            }
+            if (value !== undefined) wrong.push(`${label}: returned ${value}`);
+        }
+        expect(wrong, 'the corrupt layouts that give a value instead of an error').toEqual([]);
+    });
+
+    it('a HEAD ref that climbs out of the git folder never gives the id of a file outside it', () => {
+        const read = loadReadGitHead();
+        const dir = gitFixture('climb', { '.git/HEAD': 'ref: ../../outside-ref\n', 'outside-ref': `${ID_D}\n` });
+        let value: string | undefined;
+        try {
+            value = read(dir);
+        } catch {
+            value = undefined;
+        }
+        expect(value, 'a ref outside the git folder is refused').toBeUndefined();
+    });
+
+    it('reads the id of this repository (the same id as git rev-parse HEAD)', () => {
+        const read = loadReadGitHead();
+        const repo = path.resolve(DASHBOARD, '..');
+        const expected = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8' }).stdout.trim();
+        expect(expected, 'git gives a 40 character id').toMatch(/^[0-9a-f]{40}$/);
+        expect(read(repo)).toBe(expected);
+    });
+});
+
+describe('ADV2-2 size cap of the art files (adversarial round 2, risk of the Green 3 code)', () => {
+    const CAP = 64 * 1024 * 1024;
+
+    /** Extends a valid PNG with trailing zero bytes to an exact size (a sparse file). */
+    function growTo(file: string, size: number): void {
+        fs.truncateSync(file, size);
+    }
+
+    it('accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it', async () => {
+        const { planQuestBuild } = await api();
+        const cases: Array<[string, number, boolean]> = [
+            ['exactly at the cap', CAP, false],
+            ['one byte below the cap', CAP - 1, false],
+            ['one byte above the cap', CAP + 1, true],
+            ['a sparse file of 4 GiB', 4 * 1024 * 1024 * 1024, true],
+        ];
+        expect(cases.length, 'the table holds 4 sizes').toBe(4);
+        for (const [label, size, refused] of cases) {
+            const pictures = await fixturePictures(`adv2-cap-${size}`, (dir) => growTo(path.join(dir, BOOK.art.studentFront), size));
+            const stat = fs.statSync(path.join(pictures, BOOK.art.studentFront));
+            expect(stat.size, `${label}: the fixture has the size`).toBe(size);
+            const root = makeRoot(`adv2-cap-root-${size}`, []);
+            const plan = await planQuestBuild(planInput(root, pictures));
+            if (refused) {
+                expect(plan.errors.join('\n'), `${label}: an error names the file`).toContain(BOOK.art.studentFront);
+            } else {
+                expect(plan.errors, `${label}: no error`).toEqual([]);
+            }
+            fs.rmSync(path.join(pictures, BOOK.art.studentFront));
+        }
+    }, 120000);
+
+    it('applies the cap to a reader picture and to a line art picture too', async () => {
+        const { planQuestBuild } = await api();
+        for (const [label, name] of [
+            ['reader colour picture', READERS[0].picture.fileName],
+            ['reader line art picture', READERS[1].picture.lineArtFileName],
+        ] as const) {
+            const pictures = await fixturePictures(`adv2-cap-reader-${label.replace(/\s+/g, '-')}`, (dir) => growTo(path.join(dir, name), CAP + 1));
+            const root = makeRoot(`adv2-cap-reader-root-${label.replace(/\s+/g, '-')}`, []);
+            const plan = await planQuestBuild(planInput(root, pictures));
+            expect(plan.errors.join('\n'), `${label}: an error names the file`).toContain(name);
+            fs.rmSync(path.join(pictures, name));
+        }
+    }, 120000);
+});
+
+describe('ADV2-1 links above and at the out folder (adversarial round 2, risk of the Green 3 code)', () => {
+    it('refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them', async () => {
+        const { planQuestBuild } = await api();
+        // (a) the default out folder is a symlink to a folder outside the root.
+        const rootA = makeRoot('adv2-link-a', []);
+        const targetA = path.join(TMP_BASE, 'adv2-link-a-target');
+        fs.mkdirSync(targetA, { recursive: true });
+        fs.symlinkSync(targetA, path.join(rootA, 'storytime', 'covers-quest-v1'));
+        const planA = await planQuestBuild(planInput(rootA, BASE_PICTURES));
+        expect(planA.errors.length, 'the out folder as a symlink to an outside folder is refused').toBeGreaterThan(0);
+        expect(fs.readdirSync(targetA), 'the plan writes nothing through the out folder link').toEqual([]);
+        // (b) the storytime folder, one level higher, is a symlink to a folder outside the root.
+        const rootB = path.join(TMP_BASE, 'adv2-link-b');
+        const targetB = path.join(TMP_BASE, 'adv2-link-b-target');
+        fs.mkdirSync(rootB, { recursive: true });
+        fs.mkdirSync(targetB, { recursive: true });
+        fs.symlinkSync(targetB, path.join(rootB, 'storytime'));
+        const planB = await planQuestBuild(planInput(rootB, BASE_PICTURES));
+        expect(planB.errors.length, 'a storytime folder that is a symlink to an outside folder is refused').toBeGreaterThan(0);
+        expect(fs.readdirSync(targetB), 'the plan writes nothing through the storytime link').toEqual([]);
+    }, 120000);
+
+    it('a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder', async () => {
+        for (const where of ['sub folder', 'out folder'] as const) {
+            const fixture = await liveFixture(`adv2-dangling-${where.replace(' ', '-')}`);
+            const nowhere = path.join(TMP_BASE, `adv2-dangling-nowhere-${where.replace(' ', '-')}`, 'target');
+            fs.mkdirSync(path.dirname(nowhere), { recursive: true });
+            if (where === 'sub folder') {
+                fs.mkdirSync(fixture.out, { recursive: true });
+                fs.symlinkSync(nowhere, path.join(fixture.out, 'readers-leaf'));
+            } else {
+                fs.symlinkSync(nowhere, fixture.out);
+            }
+            const tmp = privateTmp(`adv2-dangling-${where.replace(' ', '-')}`);
+            const result = await runBuild(liveArgv(fixture, ['--print']), tmp.env);
+            expect(result.status, `${where}: the build fails; stderr ${result.stderr.slice(-300)}`).not.toBe(0);
+            expect(result.stderr.length, `${where}: the build prints an error`).toBeGreaterThan(0);
+            expect(fs.readdirSync(path.dirname(nowhere)), `${where}: nothing is created at the link target`).toEqual([]);
+            expect(printFilesIn(fixture.out), `${where}: no print file`).toEqual([]);
+            expect(tmp.left(), `${where}: no storytime-quest- temp folder is left`).toEqual([]);
+        }
+    }, LIVE_MS);
+});
+
+describe('ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code)', () => {
+    it('a read-only out folder leaves no storytime-quest- temp folder', async () => {
+        const fixture = await liveFixture('adv2-ro');
+        fs.mkdirSync(fixture.out, { recursive: true });
+        fs.chmodSync(fixture.out, 0o555);
+        const tmp = privateTmp('adv2-ro');
+        try {
+            const result = await runBuild(liveArgv(fixture, ['--print']), tmp.env);
+            expect(result.status, `the build fails; stderr ${result.stderr.slice(-300)}`).toBe(1);
+        } finally {
+            fs.chmodSync(fixture.out, 0o755);
+        }
+        expect(tmp.left(), 'no storytime-quest- temp folder is left').toEqual([]);
+    }, LIVE_MS);
+
+    it('a missing phonics graph leaves no storytime-quest- temp folder', async () => {
+        const fixture = await liveFixture('adv2-graph');
+        const tmp = privateTmp('adv2-graph');
+        const result = await runBuild(liveArgv(fixture), { ...tmp.env, MASTERY_PHONICS_GRAPH: path.join(TMP_BASE, 'adv2-no-graph', 'graph.json') });
+        expect(result.status, `the build fails; stderr ${result.stderr.slice(-300)}`).not.toBe(0);
+        expect(tmp.left(), 'no storytime-quest- temp folder is left').toEqual([]);
+    }, LIVE_MS);
+
+    it.each(['SIGINT', 'SIGTERM'] as const)('a %s while the build runs leaves no storytime-quest- temp folder', async (signal) => {
+        const fixture = await liveFixture(`adv2-${signal}`);
+        const tmp = privateTmp(`adv2-${signal}`);
+        const child = spawn(process.execPath, ['--import', 'tsx', SCRIPT_FILE, ...liveArgv(fixture)], {
+            cwd: DASHBOARD,
+            env: { ...process.env, ...tmp.env },
+            stdio: ['ignore', 'ignore', 'ignore'],
+        });
+        const closed = new Promise<void>((resolve) => child.on('close', () => resolve()));
+        const started = Date.now();
+        // Wait for the page documents of the build in its temp folder, then stop it.
+        for (;;) {
+            const folder = tmp.left()[0];
+            if (folder && fs.existsSync(path.join(tmp.dir, folder, 'page-0.html'))) break;
+            if (Date.now() - started > 240000) break;
+            await new Promise((resolve) => setTimeout(resolve, 250));
+        }
+        const seen = tmp.left().length;
+        child.kill(signal);
+        const killer = setTimeout(() => child.kill('SIGKILL'), 60000);
+        await closed;
+        clearTimeout(killer);
+        expect(seen, 'the build made its temp folder before the signal').toBe(1);
+        expect(tmp.left(), `no storytime-quest- temp folder is left after ${signal}`).toEqual([]);
+    }, LIVE_MS);
+
+    it('a failure in the move step of the print files leaves no print file at a final name and no temp folder', async () => {
+        const fixture = await liveFixture('adv2-move');
+        const shimDir = path.join(TMP_BASE, 'adv2-move-shim');
+        fs.mkdirSync(shimDir, { recursive: true });
+        // The shim closes the readers-leaf folder when the PDF/X step reaches the leaf group, which is
+        // the last group. The staged files are complete, so only the move into the out folder fails.
+        const shim = [
+            '#!/bin/bash',
+            'case "$*" in',
+            '  *readers-leaf*) chmod 555 "$QUEST_SHIM_OUT/readers-leaf" ;;',
+            'esac',
+            'exec /usr/bin/gs "$@"',
+            '',
+        ].join('\n');
+        fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
+        const tmp = privateTmp('adv2-move');
+        let result: ChildResult;
+        try {
+            result = await runBuild(liveArgv(fixture, ['--print']), {
+                ...tmp.env,
+                QUEST_SHIM_OUT: fixture.out,
+                PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}`,
+            });
+        } finally {
+            const leaf = path.join(fixture.out, 'readers-leaf');
+            if (fs.existsSync(leaf)) fs.chmodSync(leaf, 0o755);
+        }
+        const text = result.stdout + result.stderr;
+        expect(result.status, `the build fails; output ${text.slice(-400)}`).not.toBe(0);
+        expect(text, 'the failure is the move into the closed folder').toMatch(/EACCES|permission denied/i);
+        const printed = printFilesIn(fixture.out);
+        expect(printed.length === 0 || printed.length === 4, `a failed build leaves none or all of the 4 print files, not a part (found: ${printed.join(', ')})`).toBe(true);
+        expect(printed, 'a failed build leaves no print file with a final name').toEqual([]);
+        expect(tmp.left(), 'no storytime-quest- temp folder is left').toEqual([]);
     }, LIVE_MS);
 });

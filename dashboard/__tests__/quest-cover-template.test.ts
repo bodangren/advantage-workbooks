@@ -2037,3 +2037,61 @@ describe('ADV-5 PDF/X safety (adversarial round, target group 5)', () => {
         expect(checked, 'the loop checked 12 pages').toBe(12);
     }, 120000);
 });
+
+// ---------------------------------------------------------------------------------------------
+// Adversarial round 2 of Phase 2 (storytime_cover_options_20261106). Group ADV2-3: the invisible
+// character strip and the compatibility forms before the shared copy check (Green 3, F9).
+// ---------------------------------------------------------------------------------------------
+describe('ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3)', () => {
+    /** Characters that print as nothing (Unicode Default_Ignorable_Code_Point or a bare mark). */
+    const INVISIBLE: Array<[string, string]> = [
+        ['U+00AD soft hyphen', '­'],
+        ['U+034F combining grapheme joiner', '͏'],
+        ['U+061C Arabic letter mark', '؜'],
+        ['U+180E Mongolian vowel separator', '᠎'],
+        ['U+200B zero width space', '​'],
+        ['U+200C zero width non-joiner', '‌'],
+        ['U+200D zero width joiner', '‍'],
+        ['U+200E left-to-right mark', '‎'],
+        ['U+200F right-to-left mark', '‏'],
+        ['U+202A left-to-right embedding', '‪'],
+        ['U+202C pop directional formatting', '‬'],
+        ['U+2060 word joiner', '⁠'],
+        ['U+2061 function application', '⁡'],
+        ['U+2062 invisible times', '⁢'],
+        ['U+2063 invisible separator', '⁣'],
+        ['U+2064 invisible plus', '⁤'],
+        ['U+2066 left-to-right isolate', '⁦'],
+        ['U+2069 pop directional isolate', '⁩'],
+        ['U+FE00 variation selector 1', '︀'],
+        ['U+FE0F variation selector 16', '️'],
+        ['U+FEFF zero width no-break space', '﻿'],
+    ];
+
+    it('fails the copy check for a forbidden word split by each invisible character', async () => {
+        const quest = await api();
+        expect(INVISIBLE.length, 'the table holds 21 characters').toBe(21);
+        const missed: string[] = [];
+        for (const [label, mark] of INVISIBLE) {
+            for (const word of [`Chi${mark}bi`, `CE${mark}FR`, `Pre-${mark}A1`, `${mark}Chibi${mark}`]) {
+                if (quest.checkQuestCopy(`${SERIES} ${word}`).length === 0) missed.push(`${label} in ${JSON.stringify(word)}`);
+            }
+        }
+        expect(missed, 'the invisible splits that pass the copy check').toEqual([]);
+    });
+
+    it('fails the copy check for a forbidden word in a compatibility form (full width, ligature, circled)', async () => {
+        const quest = await api();
+        const cases = ['Ｃｈｉｂｉ', 'ＣＥＦＲ', 'Ｐｒｅ－Ａ１', 'Ⓒhibi'];
+        expect(cases.length, 'the table holds 4 cases').toBe(4);
+        const missed = cases.filter((word) => quest.checkQuestCopy(`${SERIES} ${word}`).length === 0).map((word) => JSON.stringify(word));
+        expect(missed, 'the compatibility forms that pass the copy check').toEqual([]);
+    });
+
+    it('keeps a clean line clean and strips nothing that a clean line needs (A7 control)', async () => {
+        const quest = await api();
+        expect(quest.checkQuestCopy(`${SERIES} A story for every week. We do not forget; never stop.`), 'a clean line gives no error').toEqual([]);
+        expect(quest.checkQuestCopy(`${SERIES} Chi​bi`).length, 'a known split is still caught').toBeGreaterThan(0);
+        expect(quest.checkQuestCopy('no series name here').length, 'the missing series name is still an error').toBeGreaterThan(0);
+    });
+});
