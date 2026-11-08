@@ -1,0 +1,42 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m42 tests[22m[2m)[22m[33m 76514[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 2576[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 2580[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 5196[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 11827[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 3409[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 12372[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 3812[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 2520[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6226[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 580[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [33m 540[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 2520[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 2826[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 5688[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 5240[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 7419[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m185 tests[22m[2m)[22m[33m 23501[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-back holds [data-part="art"] exactly 1 times [33m 361[2mms[22m[39m
+     [33m[2m✓[22m[39m T08: student-back at bleed 3 has the page size of its trim [33m 384[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 4150[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 3219[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 1415[2mms[22m[39m
+     [33m[2m✓[22m[39m T12: each back holds the Thai of BACK_LINES.contact byte for byte, with no markers [33m 336[2mms[22m[39m
+     [33m[2m✓[22m[39m T12: the fronts and the reader covers hold no Thai [33m 313[2mms[22m[39m
+     [33m[2m✓[22m[39m T13: both backs show the LINE QR with 0 different modules [33m 385[2mms[22m[39m
+     [33m[2m✓[22m[39m T13: the fronts and the reader covers hold no QR [33m 422[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 1899[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 1045[2mms[22m[39m
+     [33m[2m✓[22m[39m T20: every file font url names an existing file [33m 488[2mms[22m[39m
+     [33m[2m✓[22m[39m T21: every src, href, and url is file or data, and no @import appears [33m 786[2mms[22m[39m
+     [33m[2m✓[22m[39m T26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed [33m 664[2mms[22m[39m
+     [33m[2m✓[22m[39m T30: the level line uses the middle dot and the book lines sit in the right kinds only [33m 392[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m227 passed[39m[22m[90m (227)[39m
+[2m   Start at [22m 12:10:28
+[2m   Duration [22m 107.69s[2m (transform 1.59s, setup 474ms, import 2.50s, tests 100.02s, environment 3.81s)[22m
+

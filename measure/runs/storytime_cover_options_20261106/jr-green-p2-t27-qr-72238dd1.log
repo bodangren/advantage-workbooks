@@ -1,0 +1,83 @@
+Jr Green log, Task 2.7 (Green 2), QR fix round, part A of 2, track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this task: claude-code/claude-sonnet-5-5#high.
+role_base_sha: 72238dd17c2a51367a73dc618b3f08a53cc07f00. Head at start: 72238dd1.
+Red retry 2.6c commit: c8e7c8d6 (only dashboard/__tests__/quest-cover-build.test.ts, group B07b, 3 failing cases).
+The commit c8e7c8d6 is inside 72238dd1..HEAD: it is an ancestor of HEAD (git merge-base --is-ancestor exit 0).
+
+Status: done-part-A.
+
+The fix (dashboard/scripts/storytime/make-storytime-quest-covers.ts only):
+- `qrCheck` reads the SVG inside the box with data-part="qr", not the first SVG match of the page.
+  A page without the box gives `fail`. The old line was one regex over the whole page.
+- Added `export const questQrCheck = qrCheck;` with one JSDoc line, so the Red test can call it.
+- No test file changed. No other file changed. No plan.md edit in this part.
+
+Proof order (each vitest run in one heavy-run wrapper, with --maxWorkers=1 and its own EXIT line):
+- Targeted Red rerun before the edit, green2-qr-red-rerun.txt: Test Files 1 failed (1); Tests 3 failed
+  | 39 passed (42); EXIT=1. All 3 failure lines read "Missing export: questQrCheck(html, kind)".
+- Build test file alone after the edit, green2-qr-build.txt: Test Files 1 passed (1); Tests 42
+  passed (42); EXIT=0.
+- GREEN_TEST_COMMAND (plan line 54), green2-qr-green.txt: Test Files 2 passed (2); Tests 227
+  passed (227); EXIT=0.
+- PROJECT_LINT (plan line 56), `npx tsc --noEmit`, and `--help`, green2-qr-lint.txt: ESLINT_EXIT=0
+  (0 errors, 1 warning no-unused-vars at line 1695 of the Red 1 template test); TSC_EXIT=0;
+  HELP_EXIT=0.
+- Fast gate: `grep -c "Usage:" dashboard/scripts/storytime/make-storytime-quest-covers.ts` prints 1.
+
+Implementation commit: d65955fe76be742092b4d1b5100414ae1a91c8cb, message "fix(storytime): the QR
+check reads the QR box of the page, not the first SVG (storytime_cover_options)".
+`git show --name-only --format= d65955fe` prints only dashboard/scripts/storytime/make-storytime-quest-covers.ts
+(green2-qr-commit-files.txt).
+New script SHA-256: a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403.
+grep -c 'Usage:' on the new bytes: 1.
+
+Mutants (mutants-green2-qr.txt, runner mutants-green2-qr-run.py, one heavy-run, 23 mutants, each
+`cd dashboard && CI=true npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1 --bail=1`):
+- mutants: 23, caught: 23, n/a: 0, survivors: none.
+- restore cmp: ok. Script SHA-256 after the last restore: a3c822fd...e403.
+- `git status --porcelain dashboard/scripts/storytime` prints nothing.
+- G2-M23 is new: `qrCheck` reads the first SVG match again. Caught by B07b case (a), exit 1.
+- No old-text assert of the runner moved with the fix: the preflight passed for 23 of 23, so the
+  runner needed no old-text change. The only other runner change was the work folder, the out
+  path, the script SHA-256, and the header (22 to 23).
+- Two rows name another test of the file first (G2-M01 caught by B01, G2-M22 caught by B13). Both
+  stay caught; the runner marks the row with the table name.
+
+Part A did not run PROJECT_TESTS, PROJECT_CHECKS, or the dry build. Those belong to part B.
+The earlier dry build proof of this fix is green2-p2-dry-build-fixed.txt (32 pages, 44 files, exit 0).
+
+dispositions: none
+
+Handoff to part B (same role base 72238dd1, new head d65955fe; the log commit is the next one):
+- Flip Task 2.7 to [x] after PROJECT_TESTS, PROJECT_CHECKS, and the dry build pass.
+- Run PROJECT_TESTS (plan line 55), PROJECT_CHECKS (plan line 57), and one dry build with
+  `--print-ready-root <tmp>`; the four picture counts of the plan hold (14 and 14).
+- Update plan.md with d65955fe in a separate plan-evidence commit. Do not move the track to
+  archive and do not touch the closeout metadata.
+- The QR fix is complete in the script; no test edit is needed.
+
+MEASURE_AGENT_RESULT
+status: success
+phase: P2
+role: jr-green
+track: storytime_cover_options_20261106
+task: Task 2.7 (Green 2), QR fix round, part A of 2
+model: deepseek/deepseek-flash#high
+role_base_sha: 72238dd17c2a51367a73dc618b3f08a53cc07f00
+head: d65955fe76be742092b4d1b5100414ae1a91c8cb (before the commit of this log; the log commit is the next one)
+impl_commit: d65955fe76be742092b4d1b5100414ae1a91c8cb
+impl_files: dashboard/scripts/storytime/make-storytime-quest-covers.ts (only)
+script_sha256: a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: c8e7c8d64ac59647ef093e8961df33c1e3f349eb
+gates:
+  - green2-qr-red-rerun.txt: Tests 3 failed | 39 passed (42); EXIT=1
+  - green2-qr-build.txt: Test Files 1 passed (1); Tests 42 passed (42); EXIT=0
+  - green2-qr-green.txt: Test Files 2 passed (2); Tests 227 passed (227); EXIT=0
+  - green2-qr-lint.txt: ESLINT_EXIT=0 (0 errors, 1 warning), TSC_EXIT=0, HELP_EXIT=0
+  - fast gate: grep -c 'Usage:' prints 1
+mutants: 23, caught: 23, na: 0, survivors: none, restore_cmp: ok
+plan_changed: no
+dispositions: none
+handoff: part B runs PROJECT_TESTS, PROJECT_CHECKS, the dry build, and the plan evidence commit; flip Task 2.7 to [x] only then. No blocked item, no question.
+END_MEASURE_AGENT_RESULT
