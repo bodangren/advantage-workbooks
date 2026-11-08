@@ -148,7 +148,8 @@ describe('the sticker centre map', () => {
 });
 
 describe('the shipped match report', () => {
-    it('R3-3 counts the 106 cards of weeks 1 to 8 as picture 57, patch 8, dots 9, and none 32', () => {
+    // The counts follow the gitignored picture folder of this machine. The A6 v3 part 1 merge of 2026-11-08 set them.
+    it('R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0', () => {
         const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []))
             .filter((week) => week.meta.week <= 8);
         expect(weeks.length, 'the shipped weeks 1 to 8 parse').toBe(8);
@@ -159,7 +160,7 @@ describe('the shipped match report', () => {
         expect(lines, 'one line for each picture-type card').toHaveLength(106);
         expect(lines.every((line) => line.split('\t').length === 4), 'each line holds four columns').toBe(true);
         const counts = storytimeCardMatchCounts(lines);
-        expect(counts, 'the counts of the build of the plan (card-picture-match.txt)').toEqual({ picture: 57, patch: 8, dots: 9, none: 32 });
+        expect(counts, 'the counts of the A6 v3 build of the plan (card-picture-match.txt, Phase 8 A6 v3)').toEqual({ picture: 89, patch: 8, dots: 9, none: 0 });
         expect(counts.picture + counts.patch + counts.dots + counts.none, 'the four counts add up to the lines').toBe(lines.length);
         expect(lines.filter((line) => line.split('\t')[2] === 'none').length, 'a none line has the source none').toBe(counts.none);
     }, 120_000);
