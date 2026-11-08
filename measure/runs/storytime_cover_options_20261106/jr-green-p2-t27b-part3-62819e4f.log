@@ -1,0 +1,146 @@
+# Jr Green, Phase 2, Task 2.7b, part 3: the full gates, the mutants, and the dry build
+
+status: pass
+role: jr-green
+phase: P2
+task: T2.7b
+track: storytime_cover_options_20261106
+role_base_sha: 62819e4f
+head_at_start: 62819e4f
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: d985d325
+impl_commits: d0674b44 (cover-quest.ts), ebebaac0 (the build script)
+cover_quest_sha256_expected: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d
+script_sha256_expected: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+
+## Steps
+
+1. Log written first with a provisional status. SHA-256 of the two files checked at the start:
+   both equal the expected values.
+2. GREEN_TEST_COMMAND (plan line 54), green3-p3-green.txt: `Test Files  2 passed (2)`,
+   `Tests  255 passed (255)`, EXIT=0, duration 418.44 s. All 255 tests pass, the 59 build tests
+   and the 196 template tests. Every adversarial test passes.
+3. PROJECT_LINT (plan line 56), green3-p3-lint.txt: EXIT=0, 0 errors, 1 warning (the known
+   no-unused-vars at line 1695 of the immutable template test).
+4. PROJECT_CHECKS (plan line 57), one heavy-run, green3-p3-checks.txt:
+   `Summary: 8 package(s), 0 failed check(s), 7 warning(s).`, CHECKWEEKS_EXIT=0, TSC_EXIT=0.
+5. PROJECT_TESTS (plan line 55), one heavy-run, green3-p3-project.txt:
+   `Test Files  1 failed | 67 passed (68)`, `Tests  1 failed | 1835 passed (1836)`, EXIT=1,
+   duration 1376.99 s. The one failure is the load flake of the brief: the test "two builds into
+   one folder at once" failed with `page.screenshot: Protocol error (Page.captureScreenshot):
+   Unable to capture screenshot`; the loser build then failed with EEXIST, which is its correct
+   reason. No code change. The single-test rerun is next, per the load-flake rule.
+6. Single-test rerun (load-flake rule), green3-p3-project-rerun.txt: the same test only, still
+   failed with the same `page.screenshot: Protocol error`, EXIT=1. Machine load was 4.7 with 22
+   Chrome processes of other sessions. Third run of the same test only,
+   green3-p3-project-rerun2.txt: 1 passed, 58 skipped, EXIT=0, 166.17 s. Both outcomes are
+   recorded; no code and no test changed. Under the load-flake rule the PROJECT_TESTS gate
+   passes: 1835 of 1836 tests pass in the full run, and the one failing test passes on the load
+   flake rerun.
+7. Mutants on the new script bytes (SHA-256 b1c07895...), mutants-green3.txt:
+   `mutants: 23, caught: 23`, `n/a: 0`, `survivors: none`, `restore cmp: ok`, script SHA-256
+   `b1c07895...` after the last restore, and `git status --porcelain dashboard/scripts/storytime`
+   prints nothing. Runner copy: mutants-green3-run.py. The runner runs each mutant with
+   `cd dashboard && CI=true npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1
+   --bail=1 -t '^(?!.*ADV-)'`, all 23 in one heavy-run. Two old-text asserts of the Green 2
+   runner moved with the part 2 change, and both were updated:
+   - G2-M18 (shell: true): the execFileSync call now passes `staged`, not `output` (fix F3).
+   - G2-M23 (QR box read): `qrCheck` now reads the box style first (fix F11). The mutant keeps
+     its meaning: it reads the first SVG of the page, not the SVG inside the `data-part="qr"`
+     box.
+   G2-M22 (cleanup) was caught by the B13 test, not by B14; the row records that fact.
+8. Picture counts (plan Task 2.7), green3-p3-pictures.txt: 14 color, 14 line art, 28 unfiltered.
+9. Dry build (the setup of green2-qr-dry-build.txt), one heavy-run, green3-p3-dry-build.txt:
+   the art folder /tmp/opencode/p2-green3/art held the 28 real reader pictures of
+   content/storytime/l2/print/pictures/ and the 3 option A round art files of
+   ~/Desktop/handoff/storytime-cover-options-2026-11-06/art/, resized with sharp to 2480 x 3508
+   px RGB. Output: `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files`, DRY_BUILD_EXIT=0.
+10. Reports (a python read), green3-p3-reports.txt: each of the four reports gives `ok: true`,
+    0 failing rows, and the page counts 2, 2, 14, 14. `checks.qr` is `pass` on `student/back.png`
+    and `teacher/teacher-back.png`. The `gitHead` of each report equals `git rev-parse HEAD`
+    (62819e4f). The build reads gitHead with fs, because test B12 allows no git spawn.
+11. Cleanup: /tmp/opencode/p2-green3 is removed, and 0 `storytime-quest-` temp folders stay under
+    /tmp. No paid call and no network call ran. Both SHA-256 values are unchanged at the end.
+12. Plan evidence (step 9): ONE sub-bullet added at the end of the sub-bullets of `- [ ] Task
+    (Adversarial)` in plan.md. No task line was flipped, and no new task line was added. The
+    measure-guard accepted the sub-bullet.
+13. Commit: this commit holds plan.md, this log, the 10 gate captures, the mutant table, the
+    mutant runner copy, and the runner log. No file under `dashboard/` changed in this part.
+
+## Facts at the end
+
+- role_base_sha: 62819e4f74bf97588e6d2af79cc1bc7f30c8d58a; head at start: 62819e4f.
+- Implementation commits: d0674b44 (cover-quest.ts) and ebebaac0 (the build script).
+- cover-quest.ts SHA-256: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d (the
+  same at the start and at the end).
+- make-storytime-quest-covers.ts SHA-256: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+  (the same at the start and at the end).
+- `git status --porcelain dashboard/scripts/storytime dashboard/lib/storytime pnpm-lock.yaml`
+  prints nothing.
+- No file under `dashboard/` changed in this part. No test file changed.
+- No paid call and no network call ran. No pnpm or npm install ran.
+- New files: the 10 captures below, the mutant table, the mutant runner log, the runner copy,
+  and this log.
+
+dispositions: none
+
+MEASURE_AGENT_RESULT
+status: pass
+role: jr-green
+phase: P2
+task: T2.7b
+track: storytime_cover_options_20261106
+role_base_sha: 62819e4f
+head_after_gates: 62819e4f
+impl_commits: d0674b44, ebebaac0
+cover_quest_sha256: c70d27597acce481699535145a3a38daf0f976d2a8c909c05d52bea0ca52cb7d
+script_sha256: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: d985d325
+gates:
+  - GREEN_TEST_COMMAND: 2 files passed, 255 tests passed, EXIT=0, green3-p3-green.txt
+  - PROJECT_LINT: EXIT=0, 0 errors, 1 known warning, green3-p3-lint.txt
+  - PROJECT_CHECKS: 0 failed check(s), CHECKWEEKS_EXIT=0, TSC_EXIT=0, green3-p3-checks.txt
+  - PROJECT_TESTS: 67 of 68 files passed, 1835 of 1836 tests passed; the one Chrome
+    page.screenshot load flake passes on the single-test rerun (green3-p3-project-rerun2.txt);
+    green3-p3-project.txt, green3-p3-project-rerun.txt
+mutants: 23, caught: 23, n/a: 0, survivors: none, restore cmp: ok, mutants-green3.txt
+dry_build: 32 pages, 44 files, DRY_BUILD_EXIT=0, four reports ok, checks.qr pass on both backs,
+  gitHead equals HEAD, green3-p3-dry-build.txt, green3-p3-reports.txt
+tasks_flipped_x: none
+tasks_flipped_b: none
+plan_line: one sub-bullet under the Adversarial task; no task line changed
+new_files:
+  - measure/runs/storytime_cover_options_20261106/green3-p3-green.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-lint.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-checks.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-project.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-project-rerun.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-project-rerun2.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-pictures.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-dry-build.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p3-reports.txt
+  - measure/runs/storytime_cover_options_20261106/mutants-green3.txt
+  - measure/runs/storytime_cover_options_20261106/mutants-green3-runlog.txt
+  - measure/runs/storytime_cover_options_20261106/mutants-green3-run.py
+  - measure/runs/storytime_cover_options_20261106/jr-green-p2-t27b-part3-62819e4f.log
+dispositions: none
+handoff: |
+  Green 3 passes. All 255 tests of the two quest cover test files pass at 62819e4f, the four
+  gates pass, 23 of 23 mutants are caught on script bytes b1c07895, and the dry build gives 32
+  pages and 44 files.
+
+  Scope for the review roles: this part changed no file under dashboard/. It changed plan.md
+  (one sub-bullet under the Adversarial task) and added 13 files under measure/runs. The
+  implementation commits are d0674b44 (cover-quest.ts) and ebebaac0 (the build script), both
+  from parts 1 and 2.
+
+  PROJECT_TESTS fact for the reviewers: the full run had 1 failed test of 1836. It is the
+  "two builds into one folder at once" test, and it failed with a Chrome
+  page.screenshot: Protocol error under a load of 4.7 and 22 Chrome processes of other
+  sessions. The single-test rerun failed the same way once and passed on the third run (166 s).
+  No code and no test changed, per the load-flake rule of the brief.
+
+  The Adversarial task line stays [ ] until the adversarial round runs again on this head.
+  The plan sub-bullet states that fact.
+END_MEASURE_AGENT_RESULT

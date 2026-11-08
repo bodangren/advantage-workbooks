@@ -1,0 +1,72 @@
+backup: /tmp/opencode/p2-green3/mut/make-storytime-quest-covers.backup.ts (51057 bytes)
+preflight G2-M01 ok (argv A)
+preflight G2-M02 ok (argv B)
+preflight G2-M03 ok (out folder A)
+preflight G2-M04 ok (out folder B)
+preflight G2-M05 ok (overwrite A)
+preflight G2-M06 ok (overwrite B)
+preflight G2-M07 ok (names A)
+preflight G2-M08 ok (names B)
+preflight G2-M09 ok (PDF page checks A)
+preflight G2-M10 ok (PDF page checks B)
+preflight G2-M11 ok (report A)
+preflight G2-M12 ok (report B)
+preflight G2-M13 ok (plan order A)
+preflight G2-M14 ok (plan order B)
+preflight G2-M15 ok (reader pictures A)
+preflight G2-M16 ok (reader pictures B)
+preflight G2-M17 ok (PDF/X args A)
+preflight G2-M18 ok (PDF/X args B)
+preflight G2-M19 ok (QR from PNG A)
+preflight G2-M20 ok (QR from PNG B)
+preflight G2-M21 ok (import side effect A)
+preflight G2-M22 ok (cleanup A)
+preflight G2-M23 ok (QR box read A)
+G2-M01 exit 1 -> CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M02 exit 1 -> CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M03 exit 1 -> CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 exit 1 -> CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M05 exit 1 -> CAUGHT | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M06 exit 1 -> CAUGHT | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M07 exit 1 -> CAUGHT | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M08 exit 1 -> CAUGHT | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M09 exit 1 -> CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 exit 1 -> CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M11 exit 1 -> CAUGHT | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M12 exit 1 -> CAUGHT | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M13 exit 1 -> CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 exit 1 -> CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M15 exit 1 -> CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 exit 1 -> CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M17 exit 1 -> CAUGHT | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M18 exit 1 -> CAUGHT | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M19 exit 1 -> CAUGHT | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M20 exit 1 -> CAUGHT | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M21 exit 1 -> CAUGHT | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M22 exit 1 -> CAUGHT | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag
+G2-M23 exit 1 -> CAUGHT | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+G2-M01 | argv | A | level bound <= 5 | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M02 | argv | B | accept a float version | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M03 | out folder | A | allow a ".." segment | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 | out folder | B | skip realpath | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M05 | overwrite | A | open with the flag w | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M06 | overwrite | B | skip the other-version scan | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M07 | names | A | drop one file from the layout | B05 | exit 1 | CAUGHT | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M08 | names | B | wrong leaf version | B05 | exit 1 | CAUGHT | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M09 | PDF page checks | A | tolerance 15 pt | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 | PDF page checks | B | accept 13 pages | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M11 | report | A | hide a failed check | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M12 | report | B | omit the check key qr | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M13 | plan order | A | write before the checks: the plan makes the out folder though a check failed | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 | plan order | B | accept alpha art | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M15 | reader pictures | A | skip the coloured-pixel scan | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 | reader pictures | B | accept 3999 px | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M17 | PDF/X args | A | leaf without --k-only | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M18 | PDF/X args | B | shell: true | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M19 | QR from PNG | A | compare the grid with itself | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M20 | QR from PNG | B | ignore the quiet zone shift | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M21 | import side effect | A | main() at module level | B01 | exit 1 | CAUGHT | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M22 | cleanup | A | skip the temp cleanup on an error (the cleanup moves to the success returns) | B14 | exit 1 | CAUGHT | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag [the table names B14; another test of the file caught it first]
+G2-M23 | QR box read | A | read the first SVG match again, not the SVG inside the data-part="qr" box | B07b | exit 1 | CAUGHT | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+restore cmp: ok
+script sha256 after the last restore: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979

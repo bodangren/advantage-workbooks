@@ -1,0 +1,143 @@
+# The mutant table of test-strategy.md section 4.8 (12 families, 22 mutants), plus G2-M23 of
+# the QR fix round (family "QR box read"), re-run on the Green 3 bytes
+# module: dashboard/scripts/storytime/make-storytime-quest-covers.ts at commit ebebaac0
+# script sha256: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+# run: cd dashboard; CI=true npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1 --bail=1 -t '^(?!.*ADV-)'
+# each row: id | family | A or B | change | expected test | exit | result | first failing test
+
+G2-M01 | argv | A | level bound <= 5 | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M02 | argv | B | accept a float version | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M03 | out folder | A | allow a ".." segment | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 | out folder | B | skip realpath | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M05 | overwrite | A | open with the flag w | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M06 | overwrite | B | skip the other-version scan | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M07 | names | A | drop one file from the layout | B05 | exit 1 | CAUGHT | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M08 | names | B | wrong leaf version | B05 | exit 1 | CAUGHT | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M09 | PDF page checks | A | tolerance 15 pt | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 | PDF page checks | B | accept 13 pages | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M11 | report | A | hide a failed check | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M12 | report | B | omit the check key qr | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M13 | plan order | A | write before the checks: the plan makes the out folder though a check failed | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 | plan order | B | accept alpha art | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M15 | reader pictures | A | skip the coloured-pixel scan | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 | reader pictures | B | accept 3999 px | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M17 | PDF/X args | A | leaf without --k-only | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M18 | PDF/X args | B | shell: true | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M19 | QR from PNG | A | compare the grid with itself | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M20 | QR from PNG | B | ignore the quiet zone shift | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M21 | import side effect | A | main() at module level | B01 | exit 1 | CAUGHT | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M22 | cleanup | A | skip the temp cleanup on an error (the cleanup moves to the success returns) | B14 | exit 1 | CAUGHT | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag [the table names B14; another test of the file caught it first]
+G2-M23 | QR box read | A | read the first SVG match again, not the SVG inside the data-part="qr" box | B07b | exit 1 | CAUGHT | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+
+G2-M01 old |     const level = numberFlag(values.get('--level'), 1, 4, '--level', errors);
+G2-M01 new |     const level = numberFlag(values.get('--level'), 1, 5, '--level', errors);
+G2-M01 tests | Tests 1 failed | 1 passed | 17 skipped (59)
+G2-M02 old |     const version = values.has('--version') ? numberFlag(values.get('--version'), 1, 4294967295, '--version', errors) : 1;
+G2-M02 new |     const versionText = values.get('--version');
+              const version = versionText === undefined ? 1 : Number.parseFloat(versionText);
+G2-M02 tests | Tests 1 failed | 3 passed | 17 skipped (59)
+G2-M03 old |     if (out.split(/[\\/]+/).some((segment) => segment === '..')) {
+                  return [`The out folder "${out}" holds a ".." segment.`];
+              }
+G2-M03 new |     // The mutant allows a ".." segment: the check is dropped.
+G2-M03 tests | Tests 1 failed | 7 passed | 17 skipped (59)
+G2-M04 old |     const absolute = path.resolve(target);
+              let head = absolute;
+              const tail: string[] = [];
+              while (!fs.existsSync(head)) {
+                  const parent = path.dirname(head);
+                  if (parent === head) break;
+                  tail.unshift(path.basename(head));
+                  head = parent;
+              }
+              return path.join(fs.realpathSync(head), ...tail);
+G2-M04 new |     return path.resolve(target);
+G2-M04 tests | Tests 1 failed | 7 passed | 17 skipped (59)
+G2-M05 old |     fs.writeFileSync(file, data, { flag: 'wx' });
+G2-M05 new |     fs.writeFileSync(file, data, { flag: 'w' });
+G2-M05 tests | Tests 1 failed | 11 passed | 17 skipped (59)
+G2-M06 old |             if (wanted.has(relative)) errors.push(`the target file ${relative} exists; the build never overwrites a file`);
+                      else errors.push(`the out folder holds the file ${relative}, which this build does not write; the build never overwrites a file`);
+G2-M06 new |             if (wanted.has(relative)) errors.push(`the target file ${relative} exists; the build never overwrites a file`);
+G2-M06 tests | Tests 1 failed | 9 passed | 17 skipped (59)
+G2-M07 old |         'teacher/teacher-back.png',
+          
+G2-M07 new | (empty)
+G2-M07 tests | Tests 1 failed | 14 passed | 17 skipped (59)
+G2-M08 old |         readersLeaf: `${stem}-Reader-Leaf-Covers-v${version}_PDFX-1a.pdf`,
+G2-M08 new |         readersLeaf: `${stem}-Reader-Leaf-Covers-v${version + 1}_PDFX-1a.pdf`,
+G2-M08 tests | Tests 1 failed | 12 passed | 17 skipped (59)
+G2-M09 old | const PDF_TOLERANCE_PT = 1.5;
+G2-M09 new | const PDF_TOLERANCE_PT = 15;
+G2-M09 tests | Tests 1 failed | 17 passed | 17 skipped (59)
+G2-M10 old |     if (info.pages !== expectedPages) errors.push(`the ${group} PDF holds ${info.pages} pages, not ${expectedPages}`);
+G2-M10 new |     if (info.pages !== expectedPages && info.pages !== expectedPages - 1) errors.push(`the ${group} PDF holds ${info.pages} pages, not ${expectedPages}`);
+G2-M10 tests | Tests 1 failed | 17 passed | 17 skipped (59)
+G2-M11 old |             if (value === 'fail') errors.push(`${row.file}: the check "${key}" failed`);
+                      else if (value !== 'pass') errors.push(`${row.file}: the check "${key}" holds ${JSON.stringify(value)}, not pass or fail`);
+G2-M11 new |             if (value !== 'fail' && value !== 'pass') errors.push(`${row.file}: the check "${key}" holds ${JSON.stringify(value)}, not pass or fail`);
+G2-M11 tests | Tests 1 failed | 21 passed | 17 skipped (59)
+G2-M12 old |         for (const key of CHECK_KEYS) {
+G2-M12 new |         for (const key of CHECK_KEYS.filter((entry) => entry !== 'qr')) {
+G2-M12 tests | Tests 1 failed | 22 passed | 17 skipped (59)
+G2-M13 old |     return { errors, files: layout.files, art, pictures };
+G2-M13 new |     if (errors.length) fs.mkdirSync(input.outDir, { recursive: true });
+              return { errors, files: layout.files, art, pictures };
+G2-M13 tests | Tests 1 failed | 28 passed | 17 skipped (59)
+G2-M14 old |             if (meta.hasAlpha) errors.push(`the art file ${name} holds an alpha channel`);
+G2-M14 new |             // The mutant accepts art with an alpha channel.
+G2-M14 tests | Tests 1 failed | 28 passed | 17 skipped (59)
+G2-M15 old |             if (grey && !(await isGreyArt(file, meta.channels))) {
+                          errors.push(`the line art picture ${name} holds a pixel with unequal red, green, and blue values`);
+                      }
+G2-M15 new |             // The mutant skips the coloured-pixel scan.
+G2-M15 tests | Tests 1 failed | 31 passed | 17 skipped (59)
+G2-M16 old |             if (meta.widthPx !== 4000 || meta.heightPx !== 3000) {
+G2-M16 new |             if (meta.widthPx < 3999 || meta.heightPx !== 3000) {
+G2-M16 tests | Tests 1 failed | 31 passed | 17 skipped (59)
+G2-M17 old |     if (group === 'readers-leaf') args.push('--k-only');
+G2-M17 new |     // The mutant leaves --k-only off the leaf.
+G2-M17 tests | Tests 1 failed | 32 passed | 17 skipped (59)
+G2-M18 old |                 execFileSync(process.execPath, questPdfxArgs(group, input, staged), { cwd: DASHBOARD_ROOT, stdio: 'inherit' });
+G2-M18 new |                 execFileSync(process.execPath, questPdfxArgs(group, input, staged), { cwd: DASHBOARD_ROOT, stdio: 'inherit', shell: true });
+G2-M18 tests | Tests 1 failed | 33 passed | 17 skipped (59)
+G2-M19 old |             if (on !== grid.cells[row][col]) different++;
+G2-M19 new |             if (grid.cells[row][col] !== grid.cells[row][col]) different++;
+G2-M19 tests | Tests 1 failed | 35 passed | 17 skipped (59)
+G2-M20 old |             const x = Math.round(left + (col + 4.5) * unit);
+                      const y = Math.round(top + (row + 4.5) * unit);
+G2-M20 new |             const x = Math.round(left + (col + 0.5) * unit);
+                      const y = Math.round(top + (row + 0.5) * unit);
+G2-M20 tests | Tests 1 failed | 34 passed | 17 skipped (59)
+G2-M21 old | if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+G2-M21 new | if (true) {
+G2-M21 tests | Tests 1 failed | 17 skipped (59)
+G2-M22 old |             console.log(parsed.usage);
+                      return 0;
+G2-M22 new |             console.log(parsed.usage);
+                      fs.rmSync(temp, { recursive: true, force: true });
+                      return 0;
+G2-M22 old |         );
+                  return 0;
+              } catch (error) {
+G2-M22 new |         );
+                  fs.rmSync(temp, { recursive: true, force: true });
+                  return 0;
+              } catch (error) {
+G2-M22 old |     } finally {
+                  fs.rmSync(temp, { recursive: true, force: true });
+              }
+G2-M22 new |     }
+G2-M22 tests | Tests 1 failed | 39 passed | 17 skipped (59)
+G2-M23 old |     const svg = html.slice(boxStart).match(/<svg[\s\S]*?<\/svg>/)?.[0] ?? '';
+G2-M23 new |     const svg = html.match(/<svg[\s\S]*?<\/svg>/)?.[0] ?? '';
+G2-M23 tests | Tests 1 failed | 24 passed | 17 skipped (59)
+
+mutants: 23, caught: 23
+n/a: 0
+survivors: none
+restore cmp: ok
+script sha256 after the last restore: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+$ git status --porcelain dashboard/scripts/storytime
+(empty)
+$ exit of that command: 0
