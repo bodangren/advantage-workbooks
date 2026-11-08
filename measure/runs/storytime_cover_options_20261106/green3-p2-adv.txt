@@ -1,0 +1,22 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m59 tests[22m[2m | [22m[33m42 skipped[39m[2m)[22m[33m 323893[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses each hostile argument list at the parser [33m 1059[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 6289[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 522[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3294[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1536[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 602[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 144346[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 13472[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 6986[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 136498[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 4392[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3757[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m17 passed[39m[22m[2m | [22m[33m42 skipped[39m[90m (59)[39m
+[2m   Start at [22m 15:42:26
+[2m   Duration [22m 325.18s[2m (transform 603ms, setup 97ms, import 767ms, tests 323.89s, environment 0ms)[22m
+

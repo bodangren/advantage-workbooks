@@ -1,0 +1,127 @@
+# Jr Green, Phase 2, Task 2.7b, part 2: the build script findings
+
+status: done-part-2
+role: jr-green
+phase: P2
+task: T2.7b
+track: storytime_cover_options_20261106
+role_base_sha: bdd6edc9
+head_at_start: bdd6edc9
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: d985d325
+part1_commit: d0674b44
+impl_commit: ebebaac0
+impl_sha256: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+script: dashboard/scripts/storytime/make-storytime-quest-covers.ts
+script_sha256_at_start: a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403
+
+## Scope
+
+Part 2 fixed the script findings only: F2 (plan half), F1, F3, F4, F5, F6, F11, and F13.
+The Red tests in commit d985d325 did not change. Guard G-1 holds: no shared file changed.
+No test file changed. `plan.md` is unchanged (the measure-guard rule of the brief).
+
+## Fixes
+
+- F2 plan half: `planQuestBuild` wraps `questLayout` in a try/catch and pushes the reader error.
+  The plan then returns an error and writes nothing.
+- F1: the new export `questPanelValues` returns errors for a missing or corrupt phonics graph, a
+  corrupt week file, a level without week files, a unit without weeks, and an empty panel. `main`
+  prints the errors and exits 1 before it makes a folder or writes a file.
+- F3: the plan reads each out sub folder with lstat. A symlink gives an error that names the folder.
+- F4: the PDF/X step writes into the build temp folder. The build copies the four print files to
+  the out folder only after the fourth step passes. A failure leaves no print file in the out folder.
+- F5: `artFileBoundaryError` refuses an art file or reader picture that is a symlink and resolves
+  outside the pictures folder. The error names the file.
+- F6: `artFileBoundaryError` refuses an art file above 64 MB and names the file.
+  The test uses 100 MB, so any cap from 30 to 99 MB passes.
+- F11: `qrCheck` reads the style of the QR box and compares its width and height with
+  `QUEST_BOXES`. A 20 mm box fails.
+- F13: `readGitHead` reads `.git/HEAD`, the ref file, or the packed refs, and validates 40 hex
+  characters. Each `build-report.json` holds `gitHead`.
+  Deviation from the brief: it reads files with `fs` and spawns no process. The committed B12 test
+  allows only `process.execPath`, `node`, `pdfinfo`, `pdftotext`, `pdfimages`, and `pdftoppm` as a
+  spawn command, so a `git` child process would fail B12. The value equals `git rev-parse HEAD`.
+  The ADV-8 test proves this with `git merge-base --is-ancestor`.
+
+## Notes for review
+
+- `questPanelValues` is a new export. It is the only new public function.
+- A week file with a schema error now fails the build for the whole level, not only for its unit.
+  A broken week file is not trustworthy input for the panel.
+- The panel check runs after the plan and before the first `mkdirSync`.
+
+## Gates (all in this part)
+
+- red, narrow set (ADV-1, ADV-2, ADV-4, B04, B05, B07, B08, B12): 29 passed, 30 skipped, EXIT=0
+  (green3-p2-narrow1.txt)
+- ADV-4 verbose: 4 passed, EXIT=0 (green3-p2-qr-markup.txt)
+- older narrow set (B01, B02, B03, B06, B07b, B09, B10, B11, B13, B14): 27 passed, 32 skipped,
+  EXIT=0 (green3-p2-narrow2.txt)
+- ADV gate, the build test file with `-t "ADV-"`: 17 passed, 42 skipped, EXIT=0 (green3-p2-adv.txt)
+- help: `--help` exit 0, `grep -c "Usage:"` prints 1 (green3-p2-help.txt, green3-p2-lint.txt)
+- eslint: ESLINT=0 (green3-p2-lint.txt)
+- tsc --noEmit: TSC=0 (green3-p2-lint.txt)
+- scope: `git show --name-only --format= ebebaac0` prints only
+  `dashboard/scripts/storytime/make-storytime-quest-covers.ts`
+
+## New files
+
+- measure/runs/storytime_cover_options_20261106/jr-green-p2-t27b-part2-bdd6edc9.log
+- measure/runs/storytime_cover_options_20261106/green3-p2-help.txt
+- measure/runs/storytime_cover_options_20261106/green3-p2-narrow1.txt
+- measure/runs/storytime_cover_options_20261106/green3-p2-narrow2.txt
+- measure/runs/storytime_cover_options_20261106/green3-p2-qr-markup.txt
+- measure/runs/storytime_cover_options_20261106/green3-p2-adv.txt
+- measure/runs/storytime_cover_options_20261106/green3-p2-lint.txt
+
+dispositions: none
+
+MEASURE_AGENT_RESULT
+status: done-part-2
+role: jr-green
+phase: P2
+task: T2.7b
+track: storytime_cover_options_20261106
+role_base_sha: bdd6edc9
+head_before_impl: bdd6edc9
+impl_commit: ebebaac0
+impl_sha256: b1c078955e43199e24a0d5023f0285953ca6756cad12e97a8c02931ae12d9979
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: d985d325
+gates:
+  - narrow ADV+B groups: 29 passed, 30 skipped, EXIT=0, green3-p2-narrow1.txt
+  - ADV-4 verbose: 4 passed, EXIT=0, green3-p2-qr-markup.txt
+  - older narrow groups: 27 passed, 32 skipped, EXIT=0, green3-p2-narrow2.txt
+  - ADV gate (-t "ADV-"): 17 passed, 42 skipped, EXIT=0, green3-p2-adv.txt
+  - eslint: EXIT=0, green3-p2-lint.txt
+  - tsc --noEmit: EXIT=0, green3-p2-lint.txt
+  - help: EXIT=0, one Usage line, green3-p2-help.txt and green3-p2-lint.txt
+  - scope: ebebaac0 changes only the script
+tasks_flipped_x: none
+tasks_flipped_b: none
+plan_md: unchanged by the measure-guard rule in the brief
+new_files:
+  - measure/runs/storytime_cover_options_20261106/green3-p2-help.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p2-narrow1.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p2-narrow2.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p2-qr-markup.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p2-adv.txt
+  - measure/runs/storytime_cover_options_20261106/green3-p2-lint.txt
+  - measure/runs/storytime_cover_options_20261106/jr-green-p2-t27b-part2-bdd6edc9.log
+dispositions: none
+handoff: |
+  Part 3 runs the full gates on HEAD after ebebaac0: GREEN_TEST_COMMAND, PROJECT_TESTS,
+  PROJECT_LINT, PROJECT_CHECKS, the 23 mutants of Green 2 on the new script bytes, and the dry
+  build. Add the plan sub-bullets under the Adversarial task; do not add a task line (measure-guard
+  refuses it while Phase 1 has no checkpoint).
+
+  Review scope: ebebaac0 changes one file, dashboard/scripts/storytime/make-storytime-quest-covers.ts
+  (from a3c822fd to b1c07895). The committed Red tests and cover-quest.ts did not change in this
+  part. `questPanelValues` is a new export. The gitHead read uses `fs`, not a `git` child process,
+  because the committed B12 test allows no other spawn command; the value is the exact
+  `git rev-parse HEAD` id, and ADV-8 proves it.
+
+  Note: part 1 ran the template suite (196 tests). Part 3 must run it again under the full gate.
+  The size cap is 64 MB. A schema-broken week file of the level now fails the build.
+END_MEASURE_AGENT_RESULT
