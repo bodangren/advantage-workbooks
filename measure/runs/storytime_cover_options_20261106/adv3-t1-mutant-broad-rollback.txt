@@ -1,0 +1,107 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 560841[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the names of P4 and leaves process.exitCode unchanged
+     [2m[90m↓[39m[22m refuses a level outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a unit outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a version that is not an integer from 1
+     [2m[90m↓[39m[22m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag
+     [2m[90m↓[39m[22m returns the usage for --help, and the defaults of P5 and P6 for a plain call
+     [2m[90m↓[39m[22m reads no file and ends no process
+     [2m[90m↓[39m[22m accepts the default folder and refuses every other target
+     [2m[90m↓[39m[22m refuses an existing target file and leaves its bytes unchanged
+     [2m[90m↓[39m[22m refuses a folder with a print file of another version
+     [2m[90m↓[39m[22m passes an empty folder, a folder that does not exist, and a folder with spend-log.md
+     [2m[90m↓[39m[22m writes files in create-only mode
+     [2m[90m↓[39m[22m gives the four print names of set 1 and set 2
+     [2m[90m↓[39m[22m gives 14 unique PNG names of each reader kind
+     [2m[90m↓[39m[22m lists the 44 paths and the four subfolders
+     [2m[90m↓[39m[22m reads the pages and the size from two real pdfinfo samples
+     [2m[90m↓[39m[22m accepts the right pages and sizes of the four groups
+     [2m[90m↓[39m[22m refuses a wrong page count, a wrong size, and an error above 1.5 pt
+     [2m[90m↓[39m[22m grows each dimension by 17.01 pt at a bleed of 3 mm
+     [2m[90m↓[39m[22m does not throw on a text that is not a pdfinfo output
+     [2m[90m↓[39m[22m passes 32 clean rows with the exact check keys
+     [2m[90m↓[39m[22m fails the report on one fail and keeps the fail in its row
+     [2m[90m↓[39m[22m treats a check that did not run, an extra key, and another value as an error
+     [2m[90m↓[39m[22m the real student back holds the banner, the sign, and the QR, and the QR is not the first SVG
+     [2m[90m↓[39m[22m (a) the real student back and the real teacher back give pass
+     [2m[90m↓[39m[22m (b) the same real backs with one flipped QR module give fail
+     [2m[90m↓[39m[22m (c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR
+     [2m[90m↓[39m[22m passes the valid fixtures and reports the art ppi
+     [2m[90m↓[39m[22m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+     [2m[90m↓[39m[22m refuses a level and unit that have no row in quest.json
+     [2m[90m↓[39m[22m passes 14 pictures of 4000 x 3000 px and reports the effective ppi
+     [2m[90m↓[39m[22m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+     [2m[90m↓[39m[22m keeps the fonts for every group and adds --k-only for the leaf only
+     [2m[90m↓[39m[22m spawns with an argv array and with no shell
+     [2m[90m↓[39m[22m gives 0 different modules for a PNG drawn from the encoder grid
+     [2m[90m↓[39m[22m counts one flipped module as 1 and an all-white PNG as the dark count
+     [2m[90m↓[39m[22m makes no network call while it plans a build
+     [2m[90m↓[39m[22m holds no network or paid tool in its source and spawns only the allowed commands
+     [2m[90m↓[39m[22m prints the usage once and exits 0 for --help
+     [2m[90m↓[39m[22m exits 2 and creates no file for a bad level and for an unknown flag
+     [2m[90m↓[39m[22m leaves the storytime-quest- temp folders unchanged after a success and after a failure
+     [2m[90m↓[39m[22m leaves the private temp folder of a child process empty after --help and after a bad argument
+     [2m[90m↓[39m[22m refuses each hostile argument list at the parser
+     [2m[90m↓[39m[22m refuses each hostile out folder
+     [2m[90m↓[39m[22m refuses a symlink at a sub folder of the out folder (review B F2)
+     [2m[90m↓[39m[22m refuses a reader slug that holds a path (review B F1)
+     [2m[90m↓[39m[22m refuses a symlink art file that points outside the pictures folder (review B F7)
+     [2m[90m↓[39m[22m refuses a 100 MB art file (size cap)
+     [2m[90m↓[39m[22m fails the QR check for a printed code of another address with the same module count
+     [2m[90m↓[39m[22m reads a page PNG that holds the code of another address as different modules
+     [2m[90m↓[39m[22m reads a QR box scaled to 20 mm as different modules
+     [2m[90m↓[39m[22m fails the QR check when the printed QR box is scaled to 20 mm in the page markup
+     [2m[90m↓[39m[22m two builds into one folder at once: one completes, the other fails and overwrites nothing
+     [2m[90m↓[39m[22m the build report records the git head of the build (the stale file check needs it)
+     [2m[90m↓[39m[22m a read-only out folder fails the build with an error and no print file
+     [2m[90m↓[39m[22m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk)
+     [2m[90m↓[39m[22m a failed PDF/X step leaves no print file with a final name (review B F3)
+     [2m[90m↓[39m[22m a missing graph fails the build or a check, never a passing empty student panel
+     [2m[90m↓[39m[22m a corrupt graph file fails the build or a check, never a passing empty student panel
+     [2m[90m↓[39m[22m reads a detached HEAD, a loose ref, a ref only in packed-refs, and prefers the loose ref
+     [2m[90m↓[39m[22m reads a .git FILE with a relative or an absolute gitdir pointer
+     [2m[90m↓[39m[22m a linked worktree layout (HEAD in the worktree folder, refs in the common folder) fails or reads the right id
+     [2m[90m↓[39m[22m fails on a missing, empty, or corrupt HEAD and never returns a wrong id
+     [2m[90m↓[39m[22m a HEAD ref that climbs out of the git folder never gives the id of a file outside it
+     [2m[90m↓[39m[22m reads the id of this repository (the same id as git rev-parse HEAD)
+     [2m[90m↓[39m[22m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it
+     [2m[90m↓[39m[22m applies the cap to a reader picture and to a line art picture too
+     [2m[90m↓[39m[22m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them
+     [2m[90m↓[39m[22m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder
+     [2m[90m↓[39m[22m a read-only out folder leaves no storytime-quest- temp folder
+     [2m[90m↓[39m[22m a missing phonics graph leaves no storytime-quest- temp folder
+     [2m[90m↓[39m[22m a SIGINT while the build runs leaves no storytime-quest- temp folder
+     [2m[90m↓[39m[22m a SIGTERM while the build runs leaves no storytime-quest- temp folder
+     [2m[90m↓[39m[22m a failure in the move step of the print files leaves no print file at a final name and no temp folder
+[31m     [31m×[31m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write[39m[33m 559890[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mADV3-6 the rollback of the print copy (adversarial round 3, F17)[2m > [22ma copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write
+[31m[1mAssertionError[22m: the file that the build did not write is still there: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m2209:99[22m[39m
+    [90m2207| [39m        expect(result.status, `the build fails; ${tries.join(' | ')} o…
+    [90m2208| [39m        expect(text, `the failure is the copy onto the file that exist…
+    [90m2209| [39m        expect(fs.existsSync(ctx.target), 'the file that the build did…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m2210| [39m        expect(fs.readFileSync(ctx.target, 'utf8'), 'the build did not…
+    [90m2211| [39m        const printed = printFilesIn(ctx.fixture.out);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 00:17:11
+[2m   Duration [22m 563.33s[2m (transform 868ms, setup 148ms, import 1.07s, tests 560.84s, environment 0ms)[22m
+

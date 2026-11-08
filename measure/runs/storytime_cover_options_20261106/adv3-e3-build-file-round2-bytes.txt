@@ -1,0 +1,137 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-build.test.ts [2m([22m[2m74 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 473959[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 2604[2mms[22m[39m
+     [32m✓[39m refuses a level outside 1 to 4 and accepts 1 to 4[32m 4[2mms[22m[39m
+     [32m✓[39m refuses a unit outside 1 to 4 and accepts 1 to 4[32m 2[2mms[22m[39m
+     [32m✓[39m refuses a version that is not an integer from 1[32m 1[2mms[22m[39m
+     [32m✓[39m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag[32m 2[2mms[22m[39m
+     [32m✓[39m returns the usage for --help, and the defaults of P5 and P6 for a plain call[32m 2[2mms[22m[39m
+     [32m✓[39m reads no file and ends no process[32m 3[2mms[22m[39m
+     [32m✓[39m accepts the default folder and refuses every other target[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1505[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 3841[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 6034[2mms[22m[39m
+     [32m✓[39m writes files in create-only mode[32m 2[2mms[22m[39m
+     [32m✓[39m gives the four print names of set 1 and set 2[32m 42[2mms[22m[39m
+     [32m✓[39m gives 14 unique PNG names of each reader kind[32m 19[2mms[22m[39m
+     [32m✓[39m lists the 44 paths and the four subfolders[32m 53[2mms[22m[39m
+     [32m✓[39m reads the pages and the size from two real pdfinfo samples[32m 1[2mms[22m[39m
+     [32m✓[39m accepts the right pages and sizes of the four groups[32m 1[2mms[22m[39m
+     [32m✓[39m refuses a wrong page count, a wrong size, and an error above 1.5 pt[32m 1[2mms[22m[39m
+     [32m✓[39m grows each dimension by 17.01 pt at a bleed of 3 mm[32m 1[2mms[22m[39m
+     [32m✓[39m does not throw on a text that is not a pdfinfo output[32m 0[2mms[22m[39m
+     [32m✓[39m passes 32 clean rows with the exact check keys[32m 8[2mms[22m[39m
+     [32m✓[39m fails the report on one fail and keeps the fail in its row[32m 1[2mms[22m[39m
+     [32m✓[39m treats a check that did not run, an extra key, and another value as an error[32m 2[2mms[22m[39m
+     [32m✓[39m the real student back holds the banner, the sign, and the QR, and the QR is not the first SVG[32m 38[2mms[22m[39m
+     [32m✓[39m (a) the real student back and the real teacher back give pass[32m 34[2mms[22m[39m
+     [32m✓[39m (b) the same real backs with one flipped QR module give fail[32m 12[2mms[22m[39m
+     [32m✓[39m (c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1726[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 7074[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 1561[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 2457[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6214[2mms[22m[39m
+     [32m✓[39m keeps the fonts for every group and adds --k-only for the leaf only[32m 10[2mms[22m[39m
+     [32m✓[39m spawns with an argv array and with no shell[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 375[2mms[22m[39m
+     [32m✓[39m counts one flipped module as 1 and an all-white PNG as the dark count[32m 276[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 2185[2mms[22m[39m
+     [32m✓[39m holds no network or paid tool in its source and spawns only the allowed commands[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 3064[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 4335[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 3554[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 4335[2mms[22m[39m
+     [32m✓[39m refuses each hostile argument list at the parser[32m 2[2mms[22m[39m
+     [32m✓[39m refuses each hostile out folder[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 6669[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 526[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3463[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1722[2mms[22m[39m
+     [32m✓[39m fails the QR check for a printed code of another address with the same module count[32m 128[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 565[2mms[22m[39m
+     [32m✓[39m reads a QR box scaled to 20 mm as different modules[32m 167[2mms[22m[39m
+     [32m✓[39m fails the QR check when the printed QR box is scaled to 20 mm in the page markup[32m 12[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 194677[2mms[22m[39m
+     [32m✓[39m the build report records the git head of the build (the stale file check needs it)[32m 219[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 4782[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 3808[2mms[22m[39m
+[31m     [31m×[31m a failed PDF/X step leaves no print file with a final name (review B F3)[39m[33m 74458[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 4230[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3587[2mms[22m[39m
+     [32m✓[39m reads a detached HEAD, a loose ref, a ref only in packed-refs, and prefers the loose ref[32m 4[2mms[22m[39m
+     [32m✓[39m reads a .git FILE with a relative or an absolute gitdir pointer[32m 2[2mms[22m[39m
+     [32m✓[39m a linked worktree layout (HEAD in the worktree folder, refs in the common folder) fails or reads the right id[32m 1[2mms[22m[39m
+     [32m✓[39m fails on a missing, empty, or corrupt HEAD and never returns a wrong id[32m 7[2mms[22m[39m
+     [32m✓[39m a HEAD ref that climbs out of the git folder never gives the id of a file outside it[32m 2[2mms[22m[39m
+     [32m✓[39m reads the id of this repository (the same id as git rev-parse HEAD)[32m 19[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 6396[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 2937[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 3153[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 8999[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 4659[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 4351[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 6855[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 6040[2mms[22m[39m
+[31m     [31m×[31m a failure in the move step of the print files leaves no print file at a final name and no temp folder[39m[33m 78643[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mADV-6 output and ADV-8 stale file (target groups 6 and 8; review case B-F3)[2m > [22ma failed PDF/X step leaves no print file with a final name (review B F3)
+[31m[1mAssertionError[22m: the PDF/X step of the teacher group failed: expected 'page.screenshot: Protocol error (Page…' to contain 'Ghostscript failed'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Ghostscript failed[39m
+[31m+ page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot[39m
+[31m+ Call log:[39m
+[31m+   - taking page screenshot[39m
+[31m+   - waiting for fonts to load...[39m
+[31m+   - fonts loaded[39m
+[31m+[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m1748:93[22m[39m
+    [90m1746| [39m        const result = await runBuild(liveArgv(fixture, ['--print']), …
+    [90m1747| [39m        expect(result.status, `the build fails; stderr ${result.stderr…
+    [90m1748| [39m        expect(result.stdout + result.stderr, 'the PDF/X step of the t…
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m1749| [39m        expect(printFilesIn(fixture.out), 'a failed build leaves no pr…
+    [90m1750| [39m    }, LIVE_MS);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code)[2m > [22ma failure in the move step of the print files leaves no print file at a final name and no temp folder
+[31m[1mAssertionError[22m: the failure is the move into the closed folder: expected 'page.screenshot: Protocol error (Page…' to match /EACCES|permission denied/i[39m
+
+[32m- Expected:[39m 
+/EACCES|permission denied/i
+
+[31m+ Received:[39m 
+"page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot
+Call log:
+  - taking page screenshot
+  - waiting for fonts to load...
+  - fonts loaded
+
+"
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m2122:72[22m[39m
+    [90m2120| [39m        const text = result.stdout + result.stderr;
+    [90m2121| [39m        expect(result.status, `the build fails; output ${text.slice(-4…
+    [90m2122| [39m        expect(text, 'the failure is the move into the closed folder')…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m2123| [39m        const printed = printFilesIn(fixture.out);
+    [90m2124| [39m        expect(printed.length === 0 || printed.length === 4, `a failed…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m72 passed[39m[22m[90m (74)[39m
+[2m   Start at [22m 23:35:21
+[2m   Duration [22m 477.49s[2m (transform 799ms, setup 1.87s, import 1.20s, tests 473.96s, environment 0ms)[22m
+

@@ -1,0 +1,14 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m74 tests[22m[2m | [22m[33m69 skipped[39m[2m)[22m[33m 346561[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 157165[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 6140[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 3540[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 179135[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[2m | [22m[33m69 skipped[39m[90m (74)[39m
+[2m   Start at [22m 23:09:03
+[2m   Duration [22m 348.49s[2m (transform 608ms, setup 108ms, import 779ms, tests 346.56s, environment 0ms)[22m
+

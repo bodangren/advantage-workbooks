@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_cover_options_20261106",
+  "phase": "P2",
+  "phase_base_sha": "e6e2156ad000d89bb53f19857983299c622f82ac",
+  "role_base_sha": "6aa10755fdfb4029351da2aa93e00c10aa618810",
+  "audited_head_sha": "6aa10755fdfb4029351da2aa93e00c10aa618810",
+  "test_commit": null,
+  "status": "inconclusive",
+  "summary": "Provisional. Target 2: the round 2 script bytes (b6bb8509) fail the same two tests with the same Chrome Protocol error, so the Green 4 code is not the cause (adv3-e3-build-file-round2-bytes.txt). Target 1 not done yet.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "E1 ADV-6 group alone (adv3-e1-adv6-group.txt): 5 of 5 pass, EXIT=0. E2 build file alone (adv3-e2-build-file.txt): 73 pass, 1 fail (move test, Protocol error), EXIT=1. E3 build file on round 2 script bytes (adv3-e3-build-file-round2-bytes.txt): 2 fail with the same Protocol error, restore cmp ok, sha256 d48c94a4 restored."
+  ],
+  "commands": [],
+  "changed_files": [],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "infrastructure_retry",
+  "confidence": "low"
+}
