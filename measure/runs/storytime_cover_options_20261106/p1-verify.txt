@@ -1,0 +1,48 @@
+# Phase 1 verification evidence (storytime_cover_options_20261106)
+role: jr-green (Phase 1 is a person-checked phase; no Red role)
+role_base_sha: 093b2046ae79ea2df57dee789d575619ba346299
+phase_base_sha: 3f638d98
+scope_source: the 4 Phase 1 track commits; not a range diff (a range mixes other tracks)
+
+## Scope (protocol step 2)
+3f638d98 docs(measure): create track storytime_cover_options_20261106
+99c51279 docs(measure): Storytime cover options round 1: 3 options, 15 mockups, checks
+0b123359 docs(measure): record the round 1 commit in the plan
+ce5b90ba measure(plan): record the pick A and plan Phase 2
+
+Code files in scope: measure/tracks/storytime_cover_options_20261106/options/build.py
+check.py clean_art.py contact.py gen_art.py manifest.py qr_check.mjs render.sh
+These are Measure evidence tools with their own --check runs, not product code.
+Step 2.3: no new test. Number of code files outside measure/: 0.
+
+## The 4 verification steps
+$ python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py --check /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06
+MANIFEST_EXIT=1
+RESULT: exit 1, FileNotFoundError on --check/MANIFEST.txt (the script takes the folder first; see the docstring)
+$ python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06 --check
+MANIFEST.txt matches 75 files
+MANIFEST_EXIT=0
+
+$ grep -n Total /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06/spend-log.md
+31:**Total: 19 paid calls, 0.0665 USD of the 1.00 USD limit** (19 x 0.0035 USD). All 19 calls saved a picture. Attempts per picture: A-front 3, A-reader 3, B-front 2, B-reader 2, C-front 2, and 1 for each of the other 7 pictures. No picture had a 4th attempt. No Muse call.
+STEP2_EXIT=0
+
+### Step 2: the spend log total
+$ grep -n Total /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06/spend-log.md
+31:**Total: 19 paid calls, 0.0665 USD of the 1.00 USD limit** (19 x 0.0035 USD). All 19 calls saved a picture.
+PASS: the total reads 0.0665 USD.
+
+### Step 3: the approved cover SHA-256
+$ sha256sum /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf
+2964d9b678afc7a01ad8148c56457219e25aa750b272853ebbd3bddb2d8a6822  /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf
+PASS: the SHA-256 begins 2964d9b678afc7a0.
+
+### Step 4: Daniel word in Task 1.7
+$ sed -n 13p measure/tracks/storytime_cover_options_20261106/plan.md
+PASS: the line holds "A", 2026-11-07 05:06 ICT, Google Tasks, PM relay.
+
+## Outcome
+Steps 2, 3, and 4 pass.
+Step 1 fails as written: manifest.py takes the hand-off folder first and --check second.
+The same check in the documented order exits 0: MANIFEST.txt matches 75 files.
+Status: blocked on the Step 1 command order. No plan line changed. No checkpoint.
