@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "track": "storytime_cover_options_20261106",
+  "phase": "Phase 1: The option round (evidence class: person-checked by Daniel)",
+  "phase_base_sha": "3f638d98",
+  "role_base_sha": "3f638d98",
+  "audited_head_sha": "172cadc7f8e3c5a5d4be2dc0bfc370e208a3471b",
+  "role": "phase-acceptance",
+  "status": "pass",
+  "summary": "Phase 1 is accepted. Check 1: every Phase 1 task in plan.md lines 7 to 14 is [x] with a commit on its own line, and line 5 holds [checkpoint: cdb0c4d]. Check 2: Task 1.7 holds Daniel's word 'A', the date 2026-11-07, the time 05:06 ICT, and the source (Google Tasks, PM relay), and test-strategy.md line 3 confirms Phase 1 is closed with no code, so no Red, Green, review, adversarial, or UX gate applies. Check 3: the 4 Phase 1 track commits hold only measure/ paths. Check 4: the manifest check, the spend log grep, and the cover sha256sum were rerun at HEAD 172cadc7 and match the captures (75 files, 0.0665 USD, 2964d9b678afc7a0). Check 5: the git note on cdb0c4d9 holds the commands, the results, the scope list, Daniel's record, and the correction note, and the plan diff changed only the argument order, the [x] mark, and the note. Check 6: the Phase 1 gate command is the manifest check, and it exits 0. No blocking finding stands.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "check1_plan: plan.md line 5 reads '## Phase 1: The option round (evidence class: person-checked by Daniel) [checkpoint: cdb0c4d]'. Lines 7 to 14 are [x] and each holds a short commit on the task line: 1.1 3f638d9, 1.2 99c5127, 1.3 99c5127, 1.4 99c5127, 1.5 99c5127, 1.6 99c5127, 1.7 ce5b90b (with the option round 99c5127), the Phase 1 verification task 50fadae4. No Phase 1 line is [~] or [ ].",
+    "check2_person_check: plan.md line 13 (Task 1.7) holds Daniel's word 'A', the date 2026-11-07, the time 05:06 ICT, and the source (Daniel, Google Tasks, 2026-11-07 05:06 ICT, PM relay, his reply to 'Your pick: Storytime cover look A, B, or C' with contact-sheet.png of storytime-cover-options-2026-11-06, SHA-256 begins fe64b036c17b8b27). metadata.json owner_pick holds the same record.",
+    "check2_strategy: test-strategy.md line 3 reads 'Phase 1 (the option round) is closed and has no code.' Confirmed from the plan and the commits: Phase 1 runs no product test, so no Red, Green, review, adversarial, or UX gate applies. The Phase 1 self-review note in metadata.json deviation_notes is a record, not a gate claim.",
+    "check3_scope: git show --name-only --format= gives only measure/ paths. 3f638d98: measure/tracks.md, metadata.json, plan.md, spec-review.md, spec.md. 99c51279: measure/lessons-learned.md, plan.md, and 30 paths under options/. 0b123359: metadata.json, plan.md. ce5b90ba: metadata.json, plan.md, spec-review.md, spec.md. 0 paths sit outside measure/.",
+    "check4_manifest: the rerun of the manifest check prints 'MANIFEST.txt matches 75 files' and gives MANIFEST_EXIT=0. p1-verify-r2.txt lines 8 to 10 hold the same capture.",
+    "check4_spend: the rerun of the spend log grep prints line 31 '**Total: 19 paid calls, 0.0665 USD of the 1.00 USD limit** (19 x 0.0035 USD).' and exits 0. p1-verify.txt lines 26 to 28 hold the same capture.",
+    "check4_sha: the rerun of sha256sum prints 2964d9b678afc7a01ad8148c56457219e25aa750b272853ebbd3bddb2d8a6822 for /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf. It starts 2964d9b678afc7a0. p1-verify.txt lines 36 to 38 hold the same capture.",
+    "check4_order: p1-verify.txt lines 19 to 21 record the wrong argument order (the flag before the folder): MANIFEST_EXIT=1 and FileNotFoundError on --check/MANIFEST.txt. p1-verify-r2.txt lines 8 to 10 record the tool order with 75 files and exit 0. Both captures are real and both are kept.",
+    "check5_note: git notes show cdb0c4d9 prints 57 lines. It holds the 4 commands with their result lines, the scope list of the 4 commits with their subjects, Daniel's record with the source, and the correction note that the round 1 form put the flag before the folder and exits 1.",
+    "check5_diff: git diff 093b2046 172cadc7 -- measure/tracks/storytime_cover_options_20261106/plan.md changes 3 lines only. The heading gains '[checkpoint: cdb0c4d]'. The line 14 task goes from [ ] to [x]. The step text moves the argument order before the folder. The correction note and 'commit 50fadae4' are added. No task, claim, count, or date changes.",
+    "check6_gate: Phase 1 has no test suite, so GREEN_TEST_COMMAND of the Phase 1 jr-green gate is the manifest check. The rerun at HEAD 172cadc7 prints 'MANIFEST.txt matches 75 files' and exits 0. jr-green-p1-verify-093b2046.log line 1 reads 'status: done' and line 19 records the checkpoint cdb0c4d9.",
+    "a3: the Phase 1 diff has no contract test surface, so A3 does not apply. The manifest check uses a labeled parse ('MANIFEST.txt matches 75 files' and MANIFEST_EXIT), not a digit-only grep.",
+    "a4: no Phase 1 'markers consistent' check of the 0-task kind exists, so A4 does not apply.",
+    "a5: plan.md line 14 step (1) claims the command 'exits 0'. The rerun exits 0. No false claim stands.",
+    "a6: the Phase 1 diff changes no 'X was resolved' claim in measure/tracks.md, so A6 does not apply.",
+    "a7: the Phase 1 diff changes no banned-term filter, so A7 does not apply.",
+    "head_check: git rev-parse HEAD gives 172cadc7f8e3c5a5d4be2dc0bfc370e208a3471b at the start and at the end of this audit. No commit landed during the audit.",
+    "privacy: this audit opened no mockup HTML, no PDF, no PNG, and no file under content/storytime/. The Thai byte counts come from checks.txt of the hand-off folder only: Thai 38 on each student back and Thai 0 on every other mockup, 15 of 15 PDFs pass.",
+    "artifacts_written: measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.json and measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.log. No implementation, test, plan, or registry file changed."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git show --name-only --format= 3f638d98",
+    "git show --name-only --format= 99c51279",
+    "git show --name-only --format= 0b123359",
+    "git show --name-only --format= ce5b90ba",
+    "git notes show cdb0c4d9",
+    "git diff 093b2046 172cadc7 -- measure/tracks/storytime_cover_options_20261106/plan.md",
+    "python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06 --check",
+    "grep -n Total /home/daniebo/Desktop/handoff/storytime-cover-options-2026-11-06/spend-log.md",
+    "sha256sum /home/daniebo/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.json",
+    "measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "artifacts_written": [
+    "measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.json",
+    "measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.log"
+  ],
+  "blockers_for_next_phase": [],
+  "next_action": "Phase 2 of storytime_cover_options_20261106 continues at HEAD 172cadc7. Phase 1 is accepted as person-checked by Daniel with the automated verification of the option round."
+}
