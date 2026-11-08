@@ -1,0 +1,32 @@
+Section Review B, limited. Phase P2, audited head 6cceee91 (HEAD equals the audited head).
+
+Verdict: pass. No Blocker and no Major.
+
+Scope: dashboard/scripts/storytime/make-storytime-quest-covers.ts (sha256 a3c822fd...ae403) and the path and art read parts of cover-quest.ts.
+
+Proven by one tsx probe (no Chrome, no network, no paid call; file removed):
+- parseQuestArgs refuses 1e0, 0x2, 2.0, a huge number, a newline, a Unicode digit, a repeated flag, and a value that starts with a dash.
+- checkQuestOutDir refuses a '..' segment, a leading dash, and a folder of another version.
+- A write with the flag wx refuses an existing symlink (EEXIST).
+- F2: a symlink at out/student passes the checks and a write lands outside the out folder.
+- F1: a crafted reader slug resolves the output path to /tmp/x-a3-cover.png.
+
+Findings:
+- F1 [Minor] reader file names of pictures.json have no pattern check; a crafted slug writes one new PNG outside the out folder (needs a tampered data commit).
+- F2 [Minor] a symlink at a subfolder of the out folder is not refused (needs write access to the out folder).
+- F3 [Minor] a failed build removes nothing; a partial print file can stay (code reading, Ghostscript not run).
+- F4 to F8 [Nit] create-only gaps for page.pdf and make-pdfx; loose root argument; symlink resolve rule; symlink art file; unhashed ICC download under --print.
+- F9 [Nit] the paid-call guard of 2.8a is not reviewable at this head; covered by the 2.8a guard proof.
+
+Spawn: all calls use an argv array. No user value reaches a shell.
+
+MEASURE_AGENT_RESULT
+status: pass
+role: review-b
+phase: P2
+audited_head_sha: 6cceee913701f1859e9f1d37eadfbce8f7671ee5
+verdict: pass
+findings: blocker 0, major 0, minor 3, nit 6
+retry_recommendation: none
+handoff: No Red and Green pair is needed. Fix F1 to F3 in Task 2.8 or record them in measure/tech-debt.md. Default rating of F1 is Minor because it needs a tampered data commit. If the owner counts a data-only pull request as in scope, raise F1 to Major and open a Red and Green pair. Result file: measure/runs/storytime_cover_options_20261106/review-ab-b-6cceee91.json.
+END_MEASURE_AGENT_RESULT

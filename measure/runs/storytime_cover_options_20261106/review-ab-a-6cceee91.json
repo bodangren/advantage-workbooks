@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_cover_options_20261106",
+  "phase": "P2",
+  "phase_base_sha": "e6e2156ad000d89bb53f19857983299c622f82ac",
+  "role_base_sha": "6cceee913701f1859e9f1d37eadfbce8f7671ee5",
+  "audited_head_sha": "6cceee913701f1859e9f1d37eadfbce8f7671ee5",
+  "status": "pass",
+  "summary": "Section Review A. The audit covered Phase 2 of track storytime_cover_options_20261106 at audited_head_sha 6cceee91. Guard G-1 holds: every code and test commit of the track in the range e6e2156a..6cceee91 touches only the five scope files. The template module, the build script, the data file, and both test files match the spec and the pins P1 to P12. The test lists T01 to T30 and B01 to B14 plus B07b are complete, and each test asserts the behavior it names. The QR fix of commit d65955fe reads the QR box and fails a page with no box. Every capture claim matches the files: 227 tests of the two files, 1808 project tests, 22 and 23 mutants caught, 32 pages and 44 files of the dry build. No test run was performed, per the load rule of 2026-11-08. The verdict is pass with no blocker and no major. Three latent findings are nonblocking: one Minor and two Nit.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Minor] review-a: The build script function unitPanelValues catches every error and returns an empty list. A week file or phonics graph read failure renders the student back with an empty panel. Every build report check (copy, thai, qr, pageSize, ppi, band, forbidden) still passes, because checkQuestCopy checks only the series name, the forbidden words, and the year. Latent: the shipped build fills the panel, so no page changed at HEAD. Location: dashboard/scripts/storytime/make-storytime-quest-covers.ts:913. Fix: return an error instead of an empty list, or fail the build when the student back panel is empty.",
+    "F2 [Nit] review-a: checkQuestArt coerces a bleed value other than 3 to 0 instead of reporting an error. Pin P10 says a bleed other than 0 or 3 is an error. The live path is safe: the build hardcodes a bleed of 0, and questPageSize and checkQuestPageSize report the error, which test T08 covers. Latent only. Location: dashboard/lib/storytime/print/cover-quest.ts:691. Fix: push an error when the bleed is not 0 or 3.",
+    "F3 [Nit] review-a: The leaf band glyph SVG container ends 4.5 mm from the trim edge, inside the 5 mm safe zone by box measure. The ink ends about 5.2 mm from the trim, so decision D-A5 holds for the ink. T09 checks only QUEST_BOXES parts, so this inline SVG has no safe zone check. Location: dashboard/lib/storytime/print/cover-quest.ts:1245. Fix: add the band glyph box to QUEST_BOXES, or extend T09 to the inline SVG."
+  ],
+  "evidence": [
+    "HEAD equals audited_head_sha 6cceee913701f1859e9f1d37eadfbce8f7671ee5 (git rev-parse HEAD). No commit landed after it.",
+    "Guard G-1 per commit: git show --name-only over the code and test commits 6605bd1, 7b2d8ce, 686a8a83, c8e7c8d6, 801c8a8a, 0ab68506, and d65955fe lists only the five scope files; every measure commit stays inside measure/tracks/storytime_cover_options_20261106 and measure/runs/storytime_cover_options_20261106. Spec D-A3 requires the per-commit proof because the range diff holds 368 files of other tracks.",
+    "Green 2 captures match: green2-qr-green.txt shows 2 files and 227 tests (42 build and 185 template); green2-qr-project.txt shows 68 files and 1808 tests with exit 0; green2-qr-checks.txt shows 8 packages and 0 failed checks; green2-qr-lint.txt shows 0 errors with exit 0 for eslint and tsc; mutants-green2.txt shows 22 of 22 caught on 6e0c4ab7; mutants-green2-qr.txt shows 23 of 23 caught on a3c822fd, including the QR box read G2-M23; green2-qr-dry-build.txt shows 32 pages, 44 files, exit 0, four reports ok, the QR check pass on student/back.png and teacher/teacher-back.png, and the temp root removed; green2-qr-pictures.txt shows 14 colour, 14 line, and 28 unfiltered rows; green2-qr-commit-files.txt lists only the build script.",
+    "The sha256 of dashboard/scripts/storytime/make-storytime-quest-covers.ts at HEAD equals a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403, which matches the plan claim.",
+    "QR fix of d65955fe: qrCheck of the build script finds data-part=qr, slices forward to the first SVG element after the box, and returns fail when the box is absent (script lines 764 to 770, export questQrCheck at line 773). The single data-part=qr occurrence in cover-quest.ts sits in the HTML at line 1066. Mutant G2-M23 proves the old first SVG read fails case (a).",
+    "Pins P1 to P12 hold. Verified directly in code: P1 exports, P2 and P3 data marks (data-band and data-lit at line 854, data-unit-part and data-filled at line 871, data-plaque-colour at lines 967 and 1186, data-qr-input at line 1066), P4 build exports, P5 version naming, P7 k-only for the leaf group only, P10 ppi rule (299 for the A4 kinds, 240 for the A3 reader art), P11 litBand lower case with meta.band.toLowerCase() at line 623, and P12 timeouts. The remaining pins hold through the test reads (B03 out folder policy, B10 k-only, B11 QR box geometry, and the B12 and B14 temp and network checks).",
+    "Template tests T01 to T30 are complete. Each test asserts the behavior it names. The tables T14, T22, and T24 hold length guards, so a lost row fails the test. The counts are labeled integers, not bare digit matches. T15 asserts 14 rows, 8 listen readers, 6 sound readers, and 0 first sound readers.",
+    "Build tests B01 to B14 plus group B07b are complete. B07b case (a) passes on the real backs, case (b) fails on one flipped module, and case (c) fails when the QR box is gone. The first test of B07b proves the first SVG of the page is the banner and the SVG inside the QR box is the LINE code.",
+    "Anti-patterns A1 to A10 were checked. The phase changed no orchestration script, contract test, or registry, so the framework-wide entries do not apply. No A3 digit-only count, no A4 vacuous pass, and no A5 false claim was found in the phase tests or the plan claims.",
+    "No test run was performed, per the load rule of the PM of 2026-11-08. The conclusions rest on code reading and the existing captures."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline e6e2156a..6cceee91 --grep=storytime_cover_options",
+    "git show --name-only --format= 6605bd1",
+    "git show --name-only --format= 7b2d8ce",
+    "git show --name-only --format= 686a8a83",
+    "git show --name-only --format= c8e7c8d6",
+    "git show --name-only --format= 801c8a8a",
+    "git show --name-only --format= 0ab68506",
+    "git show --name-only --format= d65955fe",
+    "sha256sum dashboard/scripts/storytime/make-storytime-quest-covers.ts",
+    "read dashboard/__tests__/quest-cover-template.test.ts (1748 lines)",
+    "read dashboard/__tests__/quest-cover-build.test.ts (1259 lines)",
+    "read dashboard/lib/storytime/print/cover-quest.ts (1373 lines)",
+    "read dashboard/scripts/storytime/make-storytime-quest-covers.ts (1086 lines)",
+    "read content/storytime/covers/quest.json",
+    "read measure/tracks/storytime_cover_options_20261106/plan.md and spec.md and test-strategy.md",
+    "read measure/runs/storytime_cover_options_20261106/ captures and mutant tables and review-c-40053805.json",
+    "grep data-part, questQrCheck, unitPanelValues, checkQuestArt, bleedMm, QUEST_BOXES, P10 in the scope files"
+  ],
+  "changed_files": [
+    "content/storytime/covers/quest.json",
+    "dashboard/lib/storytime/print/cover-quest.ts",
+    "dashboard/scripts/storytime/make-storytime-quest-covers.ts",
+    "dashboard/__tests__/quest-cover-template.test.ts",
+    "dashboard/__tests__/quest-cover-build.test.ts"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}
