@@ -1,0 +1,74 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/tmpprobe-qr-defect.test.ts [2m([22m[2m42 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m38 skipped[39m[2m)[22m[33m 3022[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the names of P4 and leaves process.exitCode unchanged
+     [2m[90m↓[39m[22m refuses a level outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a unit outside 1 to 4 and accepts 1 to 4
+     [2m[90m↓[39m[22m refuses a version that is not an integer from 1
+     [2m[90m↓[39m[22m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag
+     [2m[90m↓[39m[22m returns the usage for --help, and the defaults of P5 and P6 for a plain call
+     [2m[90m↓[39m[22m reads no file and ends no process
+     [2m[90m↓[39m[22m accepts the default folder and refuses every other target
+     [2m[90m↓[39m[22m refuses an existing target file and leaves its bytes unchanged
+     [2m[90m↓[39m[22m refuses a folder with a print file of another version
+     [2m[90m↓[39m[22m passes an empty folder, a folder that does not exist, and a folder with spend-log.md
+     [2m[90m↓[39m[22m writes files in create-only mode
+     [2m[90m↓[39m[22m gives the four print names of set 1 and set 2
+     [2m[90m↓[39m[22m gives 14 unique PNG names of each reader kind
+     [2m[90m↓[39m[22m lists the 44 paths and the four subfolders
+     [2m[90m↓[39m[22m reads the pages and the size from two real pdfinfo samples
+     [2m[90m↓[39m[22m accepts the right pages and sizes of the four groups
+     [2m[90m↓[39m[22m refuses a wrong page count, a wrong size, and an error above 1.5 pt
+     [2m[90m↓[39m[22m grows each dimension by 17.01 pt at a bleed of 3 mm
+     [2m[90m↓[39m[22m does not throw on a text that is not a pdfinfo output
+     [2m[90m↓[39m[22m passes 32 clean rows with the exact check keys
+     [2m[90m↓[39m[22m fails the report on one fail and keeps the fail in its row
+     [2m[90m↓[39m[22m treats a check that did not run, an extra key, and another value as an error
+     [32m✓[39m the real student back holds the banner, the sign, and the QR, and the QR is not the first SVG[32m 98[2mms[22m[39m
+[31m     [31m×[31m (a) the real student back and the real teacher back give pass[39m[33m 2002[2mms[22m[39m
+     [32m✓[39m (b) the same real backs with one flipped QR module give fail[32m 28[2mms[22m[39m
+     [32m✓[39m (c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR[32m 17[2mms[22m[39m
+     [2m[90m↓[39m[22m passes the valid fixtures and reports the art ppi
+     [2m[90m↓[39m[22m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+     [2m[90m↓[39m[22m refuses a level and unit that have no row in quest.json
+     [2m[90m↓[39m[22m passes 14 pictures of 4000 x 3000 px and reports the effective ppi
+     [2m[90m↓[39m[22m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+     [2m[90m↓[39m[22m keeps the fonts for every group and adds --k-only for the leaf only
+     [2m[90m↓[39m[22m spawns with an argv array and with no shell
+     [2m[90m↓[39m[22m gives 0 different modules for a PNG drawn from the encoder grid
+     [2m[90m↓[39m[22m counts one flipped module as 1 and an all-white PNG as the dark count
+     [2m[90m↓[39m[22m makes no network call while it plans a build
+     [2m[90m↓[39m[22m holds no network or paid tool in its source and spawns only the allowed commands
+     [2m[90m↓[39m[22m prints the usage once and exits 0 for --help
+     [2m[90m↓[39m[22m exits 2 and creates no file for a bad level and for an unknown flag
+     [2m[90m↓[39m[22m leaves the storytime-quest- temp folders unchanged after a success and after a failure
+     [2m[90m↓[39m[22m leaves the private temp folder of a child process empty after --help and after a bad argument
+ [32m✓[39m __tests__/tmpprobe-qr-fixed.test.ts [2m([22m[2m42 tests[22m[2m | [22m[33m38 skipped[39m[2m)[22m[33m 2510[2mms[22m[39m
+     [33m[2m✓[22m[39m (a) the real student back and the real teacher back give pass [33m 1227[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/tmpprobe-qr-defect.test.ts[2m > [22mB07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check)[2m > [22m(a) the real student back and the real teacher back give pass
+[31m[1mAssertionError[22m: student back, no bleed: expected 'fail' to be 'pass' // Object.is equality[39m
+
+Expected: [32m"pass"[39m
+Received: [31m"fail"[39m
+
+[36m [2m❯[22m __tests__/tmpprobe-qr-defect.test.ts:[2m957:93[22m[39m
+    [90m955| [39m    it('(a) the real student back and the real teacher back give pass'…
+    [90m956| [39m        [35mconst[39m qrCheck [33m=[39m [35mawait[39m [34mqrCheckFn[39m()[33m;[39m
+    [90m957| [39m        expect(qrCheck(realBack('student-back'), 'student-back'), 'stu…
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m958| [39m        expect(qrCheck(realBack('teacher-back'), 'teacher-back'), 'tea…
+    [90m959| [39m        expect(qrCheck(realBack('student-back', 3), 'student-back'), '…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m7 passed[39m[22m[2m | [22m[33m76 skipped[39m[90m (84)[39m
+[2m   Start at [22m 11:38:45
+[2m   Duration [22m 7.78s[2m (transform 772ms, setup 272ms, import 1.37s, tests 5.53s, environment 1ms)[22m
+
+EXIT=1

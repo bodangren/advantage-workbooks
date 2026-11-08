@@ -1,0 +1,115 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-build.test.ts [2m([22m[2m42 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 58764[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 1226[2mms[22m[39m
+     [32m✓[39m refuses a level outside 1 to 4 and accepts 1 to 4[32m 4[2mms[22m[39m
+     [32m✓[39m refuses a unit outside 1 to 4 and accepts 1 to 4[32m 2[2mms[22m[39m
+     [32m✓[39m refuses a version that is not an integer from 1[32m 1[2mms[22m[39m
+     [32m✓[39m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag[32m 2[2mms[22m[39m
+     [32m✓[39m returns the usage for --help, and the defaults of P5 and P6 for a plain call[32m 2[2mms[22m[39m
+     [32m✓[39m reads no file and ends no process[32m 4[2mms[22m[39m
+     [32m✓[39m accepts the default folder and refuses every other target[32m 10[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1981[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 5047[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 6634[2mms[22m[39m
+     [32m✓[39m writes files in create-only mode[32m 2[2mms[22m[39m
+     [32m✓[39m gives the four print names of set 1 and set 2[32m 45[2mms[22m[39m
+     [32m✓[39m gives 14 unique PNG names of each reader kind[32m 31[2mms[22m[39m
+     [32m✓[39m lists the 44 paths and the four subfolders[32m 57[2mms[22m[39m
+     [32m✓[39m reads the pages and the size from two real pdfinfo samples[32m 1[2mms[22m[39m
+     [32m✓[39m accepts the right pages and sizes of the four groups[32m 1[2mms[22m[39m
+     [32m✓[39m refuses a wrong page count, a wrong size, and an error above 1.5 pt[32m 1[2mms[22m[39m
+     [32m✓[39m grows each dimension by 17.01 pt at a bleed of 3 mm[32m 0[2mms[22m[39m
+     [32m✓[39m does not throw on a text that is not a pdfinfo output[32m 0[2mms[22m[39m
+     [32m✓[39m passes 32 clean rows with the exact check keys[32m 8[2mms[22m[39m
+     [32m✓[39m fails the report on one fail and keeps the fail in its row[32m 1[2mms[22m[39m
+     [32m✓[39m treats a check that did not run, an extra key, and another value as an error[32m 2[2mms[22m[39m
+     [32m✓[39m the real student back holds the banner, the sign, and the QR, and the QR is not the first SVG[32m 32[2mms[22m[39m
+[31m     [31m×[31m (a) the real student back and the real teacher back give pass[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m (b) the same real backs with one flipped QR module give fail[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m (c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR[39m[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 2345[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 9003[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 2085[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 2065[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6993[2mms[22m[39m
+     [32m✓[39m keeps the fonts for every group and adds --k-only for the leaf only[32m 7[2mms[22m[39m
+     [32m✓[39m spawns with an argv array and with no shell[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 729[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [33m 346[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 1879[2mms[22m[39m
+     [32m✓[39m holds no network or paid tool in its source and spawns only the allowed commands[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 2431[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 4647[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 3799[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 6476[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m185 tests[22m[2m)[22m[33m 12759[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 2041[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1687[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 499[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 943[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 462[2mms[22m[39m
+     [33m[2m✓[22m[39m T20: every file font url names an existing file [33m 375[2mms[22m[39m
+     [33m[2m✓[22m[39m T21: every src, href, and url is file or data, and no @import appears [33m 366[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check)[2m > [22m(a) the real student back and the real teacher back give pass
+[31m[1mAssertionError[22m: Missing export: questQrCheck(html, kind) of make-storytime-quest-covers.ts (Red retry 2.6c).: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m qrCheckFn __tests__/quest-cover-build.test.ts:[2m939:55[22m[39m
+    [90m937| [39m    async function qrCheckFn(): Promise<(html: string, kind: string) =…
+    [90m938| [39m        const mod = (await api()) as unknown as { questQrCheck?: (html…
+    [90m939| [39m        [34mexpect[39m([35mtypeof[39m mod[33m.[39mquestQrCheck[33m,[39m [33mNEEDS_EXPORT[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                      [31m^[39m
+    [90m940| [39m        return mod.questQrCheck as (html: string, kind: string) => str…
+    [90m941| [39m    }
+[90m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m956:25[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check)[2m > [22m(b) the same real backs with one flipped QR module give fail
+[31m[1mAssertionError[22m: Missing export: questQrCheck(html, kind) of make-storytime-quest-covers.ts (Red retry 2.6c).: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m qrCheckFn __tests__/quest-cover-build.test.ts:[2m939:55[22m[39m
+    [90m937| [39m    async function qrCheckFn(): Promise<(html: string, kind: string) =…
+    [90m938| [39m        const mod = (await api()) as unknown as { questQrCheck?: (html…
+    [90m939| [39m        [34mexpect[39m([35mtypeof[39m mod[33m.[39mquestQrCheck[33m,[39m [33mNEEDS_EXPORT[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                      [31m^[39m
+    [90m940| [39m        return mod.questQrCheck as (html: string, kind: string) => str…
+    [90m941| [39m    }
+[90m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m964:25[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check)[2m > [22m(c) the teacher back holds the QR box with the LINE code, and the other kinds need no QR
+[31m[1mAssertionError[22m: Missing export: questQrCheck(html, kind) of make-storytime-quest-covers.ts (Red retry 2.6c).: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m qrCheckFn __tests__/quest-cover-build.test.ts:[2m939:55[22m[39m
+    [90m937| [39m    async function qrCheckFn(): Promise<(html: string, kind: string) =…
+    [90m938| [39m        const mod = (await api()) as unknown as { questQrCheck?: (html…
+    [90m939| [39m        [34mexpect[39m([35mtypeof[39m mod[33m.[39mquestQrCheck[33m,[39m [33mNEEDS_EXPORT[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                      [31m^[39m
+    [90m940| [39m        return mod.questQrCheck as (html: string, kind: string) => str…
+    [90m941| [39m    }
+[90m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m970:25[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m224 passed[39m[22m[90m (227)[39m
+[2m   Start at [22m 11:31:33
+[2m   Duration [22m 75.68s[2m (transform 1.52s, setup 277ms, import 2.03s, tests 71.52s, environment 964ms)[22m
+
+EXIT=1
