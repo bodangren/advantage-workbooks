@@ -1,0 +1,85 @@
+Jr Green log, Task 2.7 (Green 2), part 3 of 3, track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this task: claude-code/claude-sonnet-5-5#high.
+role_base_sha: 56d7668fedec63ff158d2cc6a2899b1112e483f5. Final HEAD: 56d7668fedec63ff158d2cc6a2899b1112e483f5.
+Implementation commit: 0ab68506. Script: dashboard/scripts/storytime/make-storytime-quest-covers.ts,
+SHA-256 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0 (unchanged at the end).
+Red 2 commit: 5281b701. Red repair commit: 686a8a83 (Task 2.6b).
+
+Status: blocked. The project gates pass. The dry build fails on a real defect of the committed
+script. The script reads the wrong SVG for the QR check of a back page. No product change is
+committed. The task line stays `[~]` and no plan evidence exists yet.
+
+Gate results (each run in one heavy-run wrapper, with --maxWorkers=1, and with its own EXIT line):
+- PROJECT_TESTS, green2-p2-project.txt: `Test Files  68 passed (68)`; `Tests  1804 passed (1804)`;
+  EXIT=0; duration 1206.40 s.
+- PROJECT_CHECKS, green2-p2-checks.txt: `check-weeks.ts --level 2` gives
+  `Summary: 8 package(s), 0 failed check(s), 7 warning(s).` and CHECKWEEKS_EXIT=0 (the 7 warnings
+  are the known word-clip and print-block warnings of weeks 2 to 8). TSC_EXIT=0. No type error.
+- Picture counts before the dry build: the color glob (filtered by `grep -vc -- '-line-v1.png'`)
+  prints 14; the line-art glob prints 14.
+
+Dry build at the committed bytes, green2-p2-dry-build.txt:
+- Command: `--level 2 --unit 1 --version 1 --print-ready-root /tmp/opencode/p2-green2-p3/print-ready
+  --pictures-dir /tmp/opencode/p2-green2-p3/art`, with the option A round art of Task 2.5 resized
+  to the fixture names (student front, back, teacher front, 2480 x 3508 px) and the 28 real
+  reader pictures of `content/storytime/l2/print/pictures/`.
+- Output: `student/back.png: the check "qr" failed`. DRY_BUILD_EXIT=1.
+- Report: `student/build-report.json` holds `ok: false`, exit code 1, one error, and the row
+  `student/back.png` with `checks.qr` = `fail`; the other six checks of the two student pages pass.
+
+Cause proof, green2-p2-dry-build-probe.txt: the page holds 3 SVG elements. Match 0 is the series
+banner (`viewBox="0 0 146 22"`). Match 1 is the contact sign (`viewBox="0 0 186 80"`). Match 2 is
+the QR (`width="370" viewBox="0 0 370 370"`). `qrCheck` at line 764 takes the first match, so it
+reads the banner. The probe gives `modules: 0`, `different: 434` for the chosen SVG, and
+`errors per match: [3, 3, 0]`. The teacher back has the same shape, so it fails the same way. No
+Red test covers this path: T13 calls `checkQuestQr` on the QR element found in the DOM, and B07
+tests the report rows with synthetic data.
+
+Fix proof, green2-p2-dry-build-fixed.txt: the one-line change reads the SVG inside the
+`data-part="qr"` box (`html.match(/data-part="qr"[\s\S]*/)` then the first `/svg.../svg/`). With
+that change the same dry build prints
+`Covers of Level 2 Unit 1 set 1: 32 pages, 44 files, out ...` and DRY_BUILD_EXIT=0. All four
+reports give `ok: true` with 0 failing checks (student 2 pages, teacher 2, readers-a3 14,
+readers-leaf 14). The change is not committed: it changes the script SHA-256, which invalidates
+the part 1 build evidence and the part 2 table of 22 mutants on bytes 6e0c4ab7. The change is
+reverted; `git status --porcelain dashboard/scripts/storytime/` prints nothing, and the SHA is
+6e0c4ab7 again.
+
+Cleanup: the temporary root and the art folder are removed. The `storytime-quest-` temp folders
+under `/tmp` number 0 after the runs. `git status --porcelain` shows only the work of other
+sessions (`video/storytime-song/scripts/render.mjs` modified, `dashboard/raw.json` untracked)
+outside `measure/runs`. No paid call and no network call ran. pnpm-lock.yaml is unchanged.
+
+Question for the orchestrator (needs a plan decision; default A):
+The dry build of section 4.8 cannot pass at the pinned script bytes. The QR check of a back page
+reads the series banner, not the QR. A one-line fix is proven to give exit 0, but it moves the
+script SHA and so the part 1 and part 2 evidence. How do we lift the block?
+  A. Mid Red retry adds the missing Red test first (B07 extension: a real student back page gives
+     `checks.qr` = `pass` and one flipped module gives `fail`), then Green applies the one-line
+     fix, then part 1 and the 22-mutant table run again on the new bytes (recommended: Red leads,
+     and the evidence chain stays true).
+  B. The orchestrator approves the Green fix in this part. Green then re-runs GREEN_TEST_COMMAND,
+     the build test file, PROJECT_TESTS, and the 22 mutants, and the plan evidence records the new
+     SHA (faster; the mutant table is re-run, but no new Red test guards the path).
+  C. Keep bytes 6e0c4ab7 and open a new task for the QR check. Task 2.7 then stays open, and the
+     date fallback of spec D-A13 applies.
+
+MEASURE_AGENT_RESULT
+status: blocked
+phase: P2
+task: T2.7
+role: jr-green
+role_base_sha: 56d7668fedec63ff158d2cc6a2899b1112e483f5
+head: 56d7668fedec63ff158d2cc6a2899b1112e483f5
+impl_commit: 0ab68506
+red_model: claude-code/claude-sonnet-5-5#high
+gate: PROJECT_TESTS 68 files, 1804 tests passed, EXIT=0
+gate: PROJECT_CHECKS check-weeks 0 failed, tsc clean, EXIT=0
+gate: picture counts 14 color and 14 line art
+gate: dry build exit 1; student/back.png check qr failed; the fix gives exit 0 with 32 pages
+dispositions: none
+handoff: see the question above the result block; default A. The dry build at the pinned bytes
+  fails on an untested QR check defect of the committed script. The file is unchanged (SHA-256
+  6e0c4ab7), the task line stays [~], and no plan evidence commit exists. The orchestrator must
+  route a Mid Red retry (A) or approve the Green fix (B).
+END_MEASURE_AGENT_RESULT
