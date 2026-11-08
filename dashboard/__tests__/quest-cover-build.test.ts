@@ -1117,7 +1117,8 @@ describe('B13 command line smoke', () => {
             cwd: DASHBOARD,
             encoding: 'utf8',
             timeout: 120000,
-            env: { ...process.env, TMPDIR: tmp },
+            // The tsx loader cache would write into the private TMPDIR, so the test turns it off; the assertion checks the files of the script only.
+            env: { ...process.env, TMPDIR: tmp, TSX_DISABLE_CACHE: '1' },
         });
     }
 
@@ -1169,7 +1170,8 @@ describe('B14 temp cleanup', () => {
                 cwd: DASHBOARD,
                 encoding: 'utf8',
                 timeout: 120000,
-                env: { ...process.env, TMPDIR: tmp },
+                // The tsx loader cache would write into the private TMPDIR, so the test turns it off; the assertion checks the files of the script only.
+                env: { ...process.env, TMPDIR: tmp, TSX_DISABLE_CACHE: '1' },
             });
             expect([0, 2], `${argv.join(' ')} ends with a clean exit code`).toContain(result.status);
             expect(tree(tmp), `${argv.join(' ')} leaves the temp folder empty`).toEqual([]);
