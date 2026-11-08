@@ -1,0 +1,108 @@
+step 8 merge of the folder manifest
+--- script /tmp/opencode/p8a6/merge-manifest-a6v3.py ---
+# Step 8: merge the 30 Forge card jobs, the ham job, and the 14 source batches
+# into the picture folder manifest. Read only outside the folder manifest.
+import hashlib
+import json
+import sys
+
+FOLDER = '/home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures/manifest.json'
+SOURCE = '/home/daniebo/Desktop/handoff/storytime-l2-card-pictures/manifest.json'
+ROWS = '/home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures.json'
+HAM_IN_SHA = '1b1e93e0bd8251ae1a31a7353bc47c82371485db12b7d829e5638c59d9eb795c'
+HAM_LINE_SHA = '4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d'
+HAM_COLOR = 'l2-w04-card-ham-v1.png'
+HAM_LINE = 'l2-w04-card-ham-line-v1.png'
+
+
+def load(path):
+    with open(path, 'rb') as handle:
+        return json.loads(handle.read().decode('utf-8'))
+
+
+def fail(message):
+    print('STOP: ' + message)
+    sys.exit(1)
+
+
+folder = load(FOLDER)
+source = load(SOURCE)
+rows = load(ROWS)
+
+if len(folder['jobs']) != 199 or len(folder['batches']) != 16:
+    fail('the folder manifest is not 199 jobs and 16 batches')
+if len(source['jobs']) != 30 or len(source['batches']) != 14:
+    fail('the source manifest is not 30 jobs and 14 batches')
+
+folder_ids = {job['id'] for job in folder['jobs']}
+overlap = [job['id'] for job in source['jobs'] if job['id'] in folder_ids]
+if overlap:
+    fail('a source job id is already in the folder manifest: ' + ', '.join(overlap))
+if 'l2-w04-card-ham' in folder_ids:
+    fail('the folder manifest already holds the ham job')
+
+ham_rows = [row for row in rows if row.get('id') == 'l2-w04-card-ham']
+if len(ham_rows) != 1:
+    fail('pictures.json does not hold exactly one ham row')
+ham_prompt = ham_rows[0]['prompt']
+
+jobs = list(folder['jobs'])
+for job in source['jobs']:
+    jobs.append(json.loads(json.dumps(job)))
+
+base = [job for job in source['jobs'] if job['id'] == 'l2-w04-card-jam']
+if len(base) != 1:
+    fail('the source manifest does not hold the job l2-w04-card-jam')
+ham = json.loads(json.dumps(base[0]))
+ham['id'] = 'l2-w04-card-ham'
+ham['slug'] = 'l2-w04-card-ham'
+ham['text'] = 'ham'
+ham['sourcePrompt'] = ham_prompt
+ham['selectedFile'] = HAM_COLOR
+ham['selectedSha256'] = HAM_IN_SHA
+candidate = ham['candidates'][0]
+candidate['jobId'] = 'l2-w04-card-ham'
+candidate['file'] = HAM_COLOR
+candidate['fileSha256'] = HAM_IN_SHA
+candidate['structural']['sha256'] = HAM_IN_SHA
+candidate['lineArt']['colorFile'] = HAM_COLOR
+candidate['lineArt']['file'] = HAM_LINE
+candidate['lineArt']['fileSha256'] = HAM_LINE_SHA
+candidate['lineArt']['structural']['sha256'] = HAM_LINE_SHA
+jobs.append(ham)
+
+batches = list(folder['batches'])
+for batch in source['batches']:
+    copy = json.loads(json.dumps(batch))
+    copy['id'] = 'cards/' + batch['id']
+    batches.append(copy)
+
+manifest = {
+    'version': folder['version'],
+    'batchHashAlgorithm': folder['batchHashAlgorithm'],
+    'jobs': jobs,
+    'batches': batches,
+}
+
+ids = [job['id'] for job in jobs]
+if len(ids) != len(set(ids)):
+    fail('the merged jobs hold a duplicate id')
+if len(jobs) != 230:
+    fail('the merged manifest does not hold 230 jobs')
+if len(batches) != 30:
+    fail('the merged manifest does not hold 30 batches')
+
+text = json.dumps(manifest, indent=2, ensure_ascii=False) + '\n'
+with open(FOLDER, 'wb') as handle:
+    handle.write(text.encode('utf-8'))
+
+print('jobs: ' + str(len(jobs)) + ', distinct ids: ' + str(len(set(ids))))
+print('batches: ' + str(len(batches)))
+print('ham job: ' + json.dumps(ham, ensure_ascii=False, sort_keys=True))
+print('new sha256: ' + hashlib.sha256(text.encode('utf-8')).hexdigest())
+--- run ---
+jobs: 230, distinct ids: 230
+batches: 30
+ham job: {"bookKind": "readalong", "bookTitle": "", "candidates": [{"failures": [], "file": "l2-w04-card-ham-v1.png", "fileSha256": "1b1e93e0bd8251ae1a31a7353bc47c82371485db12b7d829e5638c59d9eb795c", "jobId": "l2-w04-card-ham", "lineArt": {"colorFile": "l2-w04-card-ham-v1.png", "errors": [], "file": "l2-w04-card-ham-line-v1.png", "fileSha256": "4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d", "renderEvidenceFile": "", "status": "ready", "structural": {"errors": [], "height": 1500, "sha256": "4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d", "valid": true, "width": 1500}}, "reviews": {}, "status": "ready", "structural": {"errors": [], "height": 1500, "sha256": "1b1e93e0bd8251ae1a31a7353bc47c82371485db12b7d829e5638c59d9eb795c", "valid": true, "width": 1500}, "version": 1}], "characters": [], "directory": "w04", "id": "l2-w04-card-ham", "page": 0, "selectedFile": "l2-w04-card-ham-v1.png", "selectedSha256": "1b1e93e0bd8251ae1a31a7353bc47c82371485db12b7d829e5638c59d9eb795c", "selectedVersion": 1, "size": "small", "slug": "l2-w04-card-ham", "sourcePackage": "", "sourcePrompt": "A slice of pink ham on a small white plate. One clear picture, the main thing large in the middle, a plain light background. No letters, words, or numbers anywhere.", "sourceSha256": "", "status": "ready", "text": "ham", "use": "small", "week": 4}
+new sha256: 67a8cc4a776a82df63c9cebf2b0ef5929cb727ee79fd86573df59fe10be3d789
+MERGE_EXIT=0
