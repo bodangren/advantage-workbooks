@@ -1051,6 +1051,48 @@ export function questPanelValues(level: number, unit: number): { errors: string[
     return { errors, values };
 }
 
+/** The exit codes of the two stop signals: 128 plus the signal number (F16). */
+const SIGNAL_EXIT: Record<'SIGINT' | 'SIGTERM', number> = { SIGINT: 130, SIGTERM: 143 };
+
+/**
+ * Registers the stop-signal handlers of one build run (F16): a SIGINT or a SIGTERM removes the temp
+ * folder of the build with a synchronous remove, then exits with 130 or 143. Call it after the temp
+ * folder exists. The returned release removes both handlers, so a finished build leaves none, and an
+ * import of this module adds no handler.
+ * @param temp The temp folder of the build.
+ * @returns The release of the two handlers.
+ */
+function cleanTempOnSignals(temp: string): () => void {
+    const installed = (['SIGINT', 'SIGTERM'] as const).map((signal) => {
+        const handler = (): void => {
+            fs.rmSync(temp, { recursive: true, force: true });
+            process.exit(SIGNAL_EXIT[signal]);
+        };
+        process.on(signal, handler);
+        return { signal, handler };
+    });
+    return () => {
+        for (const entry of installed) process.off(entry.signal, entry.handler);
+    };
+}
+
+/**
+ * Checks that every target folder of the print files takes a new file (F17). The build calls it
+ * before the first copy, so a closed folder stops the build before a print file gets a final name.
+ * @param outDir The out folder of the build.
+ * @param folders The target folders, relative to the out folder.
+ */
+function checkPrintFolders(outDir: string, folders: readonly string[]): void {
+    for (const folder of folders) {
+        const dir = path.join(outDir, folder);
+        try {
+            fs.accessSync(dir, fs.constants.W_OK);
+        } catch (error) {
+            throw new Error(`the print folder ${dir} is not writable: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    }
+}
+
 /**
  * The build of one unit (spec FR-11.1, FR-11.2, D-A9). Run it under the heavy-job lock.
  * @param argv The arguments after the script name.
@@ -1058,6 +1100,7 @@ export function questPanelValues(level: number, unit: number): { errors: string[
  */
 async function main(argv: string[]): Promise<number> {
     const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-quest-'));
+    const releaseSignals = cleanTempOnSignals(temp);
     try {
         const parsed = parseQuestArgs(argv);
         if (parsed.help) {
@@ -1206,7 +1249,19 @@ async function main(argv: string[]): Promise<number> {
                 execFileSync(process.execPath, questPdfxArgs(group, input, staged), { cwd: DASHBOARD_ROOT, stdio: 'inherit' });
                 copies.push({ from: staged, to: path.join(outDir, printFiles[group]) });
             }
-            for (const copy of copies) fs.copyFileSync(copy.from, copy.to, fs.constants.COPYFILE_EXCL);
+            checkPrintFolders(outDir, Object.keys(printFiles));
+            const copied: string[] = [];
+            try {
+                for (const copy of copies) {
+                    fs.copyFileSync(copy.from, copy.to, fs.constants.COPYFILE_EXCL);
+                    copied.push(copy.to);
+                }
+            } catch (error) {
+                // A failed copy removes the print files that this build already named, so no print
+                // file stays with a final name (F17).
+                for (const file of copied) fs.rmSync(file, { force: true });
+                throw error;
+            }
         }
         console.log(
             `Covers of Level ${args.level} Unit ${args.unit} set ${args.version}: ${pages.length} pages, ${layout.files.length} files, out ${outDir}`,
@@ -1216,6 +1271,7 @@ async function main(argv: string[]): Promise<number> {
         console.error(error instanceof Error ? error.message : String(error));
         return 1;
     } finally {
+        releaseSignals();
         fs.rmSync(temp, { recursive: true, force: true });
     }
 }
