@@ -1,0 +1,28 @@
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1695:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+ESLINT_EXIT=0
+TSC_EXIT=0
+Builds the option A covers of one Storytime Advantage unit (spec FR-11.1, FR-11.2):
+the student cover, the teacher cover, the 14 A3 reader covers, and the 14 leaf reader covers.
+Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-quest-covers.ts --level <n> --unit <m> [--version <n>] [--out <dir>] [--print-ready-root <dir>] [--pictures-dir <dir>] [--print]
+
+  --level              The level of the unit, 1 to 4
+  --unit               The unit of the unit, 1 to 4
+  --version            The set number, an integer from 1 (default 1). Set 1 gives student v4,
+                       teacher v2, and readers v1.
+  --out                The output folder (default <root>/storytime/covers-quest-v<version>)
+  --print-ready-root   The print-ready root (default ~/Desktop/print-ready)
+  --pictures-dir       The folder of the art files (default the shipped picture folder)
+  --print              Also write the PDF/X-1a print files through scripts/print/make-pdfx.ts
+  --help               Print this text and exit 0
+
+Exit code 2 when an argument is not valid or the out folder is not allowed. Exit code 1 when a
+check of the plan, the pages, or the build report fails. The build writes no deliverable when a
+check fails, and it never overwrites a file.
+HELP_EXIT=0

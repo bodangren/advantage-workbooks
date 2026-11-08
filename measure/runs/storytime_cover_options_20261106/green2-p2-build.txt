@@ -1,0 +1,138 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-build.test.ts [2m([22m[2m38 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 53611[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 2423[2mms[22m[39m
+     [32m✓[39m refuses a level outside 1 to 4 and accepts 1 to 4[32m 8[2mms[22m[39m
+     [32m✓[39m refuses a unit outside 1 to 4 and accepts 1 to 4[32m 2[2mms[22m[39m
+     [32m✓[39m refuses a version that is not an integer from 1[32m 2[2mms[22m[39m
+     [32m✓[39m refuses an unknown flag, a flag with no value, a repeated flag, and a missing flag[32m 3[2mms[22m[39m
+     [32m✓[39m returns the usage for --help, and the defaults of P5 and P6 for a plain call[32m 4[2mms[22m[39m
+     [32m✓[39m reads no file and ends no process[32m 5[2mms[22m[39m
+     [32m✓[39m accepts the default folder and refuses every other target[32m 8[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1959[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 3826[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 5308[2mms[22m[39m
+     [32m✓[39m writes files in create-only mode[32m 2[2mms[22m[39m
+     [32m✓[39m gives the four print names of set 1 and set 2[32m 55[2mms[22m[39m
+     [32m✓[39m gives 14 unique PNG names of each reader kind[32m 26[2mms[22m[39m
+     [32m✓[39m lists the 44 paths and the four subfolders[32m 62[2mms[22m[39m
+     [32m✓[39m reads the pages and the size from two real pdfinfo samples[32m 1[2mms[22m[39m
+     [32m✓[39m accepts the right pages and sizes of the four groups[32m 1[2mms[22m[39m
+     [32m✓[39m refuses a wrong page count, a wrong size, and an error above 1.5 pt[32m 1[2mms[22m[39m
+     [32m✓[39m grows each dimension by 17.01 pt at a bleed of 3 mm[32m 0[2mms[22m[39m
+     [32m✓[39m does not throw on a text that is not a pdfinfo output[32m 0[2mms[22m[39m
+     [32m✓[39m passes 32 clean rows with the exact check keys[32m 9[2mms[22m[39m
+     [32m✓[39m fails the report on one fail and keeps the fail in its row[32m 1[2mms[22m[39m
+     [32m✓[39m treats a check that did not run, an extra key, and another value as an error[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1573[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 9486[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 2564[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 1950[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 7402[2mms[22m[39m
+     [32m✓[39m keeps the fonts for every group and adds --k-only for the leaf only[32m 12[2mms[22m[39m
+     [32m✓[39m spawns with an argv array and with no shell[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 405[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [32m 300[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 2016[2mms[22m[39m
+     [32m✓[39m holds no network or paid tool in its source and spawns only the allowed commands[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 3752[2mms[22m[39m
+[31m     [31m×[31m exits 2 and creates no file for a bad level and for an unknown flag[39m[33m 2473[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 4423[2mms[22m[39m
+[31m     [31m×[31m leaves the private temp folder of a child process empty after --help and after a bad argument[39m[33m 2893[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB13 command line smoke[2m > [22mexits 2 and creates no file for a bad level and for an unknown flag
+[31m[1mAssertionError[22m: --level 9 leaves no temp file: expected [ 'tsx-1000', …(22) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "tsx-1000",[39m
+[31m+   "tsx-1000/17941-0a11378dacf586a2f948c4a6aacbccf93ba9c903",[39m
+[31m+   "tsx-1000/17941-111e894341d9ea4468c604eb0e3137deeca3d6b6",[39m
+[31m+   "tsx-1000/17941-112b910fcf00662226515ea289b523993ccb3651",[39m
+[31m+   "tsx-1000/17941-1cbc910d794b8927f709b6124fe8dea9810219e7",[39m
+[31m+   "tsx-1000/17941-268945baa934da770fa8f1fbde1ec265f04d5f27",[39m
+[31m+   "tsx-1000/17941-318654a04cc8e1ba7a8931146cdc6008bf6fc1c7",[39m
+[31m+   "tsx-1000/17941-34c3e9ffa7e96b0bcf5c560bff5c2aa138264dc2",[39m
+[31m+   "tsx-1000/17941-4b78c0b0c140c35ee6afa4131ff7ecb558605deb",[39m
+[31m+   "tsx-1000/17941-58d008a7ae8a872947a60f313a2763083c17741d",[39m
+[31m+   "tsx-1000/17941-74179728e4965cf5d66d20b7a2c448cff139aa6c",[39m
+[31m+   "tsx-1000/17941-771352b2cae7f008a326b1b73851fe1ee88ab854",[39m
+[31m+   "tsx-1000/17941-86d6a45c3be57da1ca78fec1e66cc6e653a222db",[39m
+[31m+   "tsx-1000/17941-8d6f001a72ae8e1abd7320938f8637bf606816e0",[39m
+[31m+   "tsx-1000/17941-8ea7e05498ee9052ef9c0106b338bf5dbca64fef",[39m
+[31m+   "tsx-1000/17941-9c1f35b41976cd46246b2bb25a8e367fbb154e44",[39m
+[31m+   "tsx-1000/17941-af6853e35580a363185a436755c94a37dc3b039e",[39m
+[31m+   "tsx-1000/17941-bf0cb2dc07342bd79e9c2911659a3c5303ca5f5d",[39m
+[31m+   "tsx-1000/17941-e2d2f0836a852ec67cb18c9fa1858de5651a1e99",[39m
+[31m+   "tsx-1000/17941-efa46db997557fe17770bad5d12fab1f6e1a2cba",[39m
+[31m+   "tsx-1000/17941-f020b914f3e04c12a7711b719489552f1ca0427a",[39m
+[31m+   "tsx-1000/17941-f3e060cca72a0ea39d56c97c6ddc134775801d01",[39m
+[31m+   "tsx-1000/17941-f61d8b8626ab3efd4039add41ca0c6acf78060ba",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m1145:63[22m[39m
+    [90m1143| [39m            [34mexpect[39m(result[33m.[39mstatus[33m,[39m [32m`[39m[36m${[39mlabel[36m}[39m[32m exits 2`[39m)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m1144| [39m            expect(tree(root), `${label} creates no file in the root`)…
+    [90m1145| [39m            expect(tree(tmp), `${label} leaves no temp file`).toEqual(…
+    [90m   | [39m                                                              [31m^[39m
+    [90m1146| [39m        }
+    [90m1147| [39m    }[33m,[39m [34m120000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-build.test.ts[2m > [22mB14 temp cleanup[2m > [22mleaves the private temp folder of a child process empty after --help and after a bad argument
+[31m[1mAssertionError[22m: --help leaves the temp folder empty: expected [ 'tsx-1000', …(22) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "tsx-1000",[39m
+[31m+   "tsx-1000/17941-0a11378dacf586a2f948c4a6aacbccf93ba9c903",[39m
+[31m+   "tsx-1000/17941-111e894341d9ea4468c604eb0e3137deeca3d6b6",[39m
+[31m+   "tsx-1000/17941-112b910fcf00662226515ea289b523993ccb3651",[39m
+[31m+   "tsx-1000/17941-1cbc910d794b8927f709b6124fe8dea9810219e7",[39m
+[31m+   "tsx-1000/17941-268945baa934da770fa8f1fbde1ec265f04d5f27",[39m
+[31m+   "tsx-1000/17941-318654a04cc8e1ba7a8931146cdc6008bf6fc1c7",[39m
+[31m+   "tsx-1000/17941-34c3e9ffa7e96b0bcf5c560bff5c2aa138264dc2",[39m
+[31m+   "tsx-1000/17941-4b78c0b0c140c35ee6afa4131ff7ecb558605deb",[39m
+[31m+   "tsx-1000/17941-58d008a7ae8a872947a60f313a2763083c17741d",[39m
+[31m+   "tsx-1000/17941-74179728e4965cf5d66d20b7a2c448cff139aa6c",[39m
+[31m+   "tsx-1000/17941-771352b2cae7f008a326b1b73851fe1ee88ab854",[39m
+[31m+   "tsx-1000/17941-86d6a45c3be57da1ca78fec1e66cc6e653a222db",[39m
+[31m+   "tsx-1000/17941-8d6f001a72ae8e1abd7320938f8637bf606816e0",[39m
+[31m+   "tsx-1000/17941-8ea7e05498ee9052ef9c0106b338bf5dbca64fef",[39m
+[31m+   "tsx-1000/17941-9c1f35b41976cd46246b2bb25a8e367fbb154e44",[39m
+[31m+   "tsx-1000/17941-af6853e35580a363185a436755c94a37dc3b039e",[39m
+[31m+   "tsx-1000/17941-bf0cb2dc07342bd79e9c2911659a3c5303ca5f5d",[39m
+[31m+   "tsx-1000/17941-e2d2f0836a852ec67cb18c9fa1858de5651a1e99",[39m
+[31m+   "tsx-1000/17941-efa46db997557fe17770bad5d12fab1f6e1a2cba",[39m
+[31m+   "tsx-1000/17941-f020b914f3e04c12a7711b719489552f1ca0427a",[39m
+[31m+   "tsx-1000/17941-f3e060cca72a0ea39d56c97c6ddc134775801d01",[39m
+[31m+   "tsx-1000/17941-f61d8b8626ab3efd4039add41ca0c6acf78060ba",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-build.test.ts:[2m1175:81[22m[39m
+    [90m1173| [39m            })[33m;[39m
+    [90m1174| [39m            expect([0, 2], `${argv.join(' ')} ends with a clean exit c…
+    [90m1175| [39m            expect(tree(tmp), `${argv.join(' ')} leaves the temp folde…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m1176| [39m        }
+    [90m1177| [39m    }[33m,[39m [34m120000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m36 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 08:56:58
+[2m   Duration [22m 55.90s[2m (transform 837ms, setup 153ms, import 1.21s, tests 53.61s, environment 0ms)[22m
+
+EXIT=1

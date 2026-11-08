@@ -1,0 +1,82 @@
+Jr Green log, Task 2.7 (Green 2), part 1 of 3, track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this task: claude-code/claude-sonnet-5-5#high.
+role_base_sha: 386490a096d205c35575ad7183978d593cc8ae57.
+Red 2 commit: 5281b70136e65ecb7d74244310f6092281e84ecf (only dashboard/__tests__/quest-cover-build.test.ts).
+
+Status: blocked. The script is written and 36 of the 38 Red tests pass. Two tests (B13, B14)
+fail on the tsx loader cache, not on the script. The gate can pass only after a Mid Red retry
+edits the two tests, or after the orchestrator records a loader setting in the gate. The script
+is NOT committed. Its full patch sits in green2-p2-blocked-impl.patch next to this log.
+
+Part 1 scope: the script dashboard/scripts/storytime/make-storytime-quest-covers.ts and its four
+gate captures. Part 2 (the 22 mutants) and part 3 (PROJECT_TESTS, PROJECT_CHECKS, the dry build,
+the plan evidence) did not run.
+
+Proof order (each run in one heavy-run wrapper, with --maxWorkers=1 and its own EXIT line):
+- Targeted Red rerun before the edit, green2-p2-red-rerun.txt:
+  Test Files  1 failed (1); Tests  38 failed (38); EXIT=1.
+  Every failure carries "Missing module: dashboard/scripts/storytime/make-storytime-quest-covers.ts (Red 2)."
+- Build test file alone after the edit, green2-p2-build.txt:
+  Test Files  1 failed (1); Tests  2 failed | 36 passed (38); EXIT=1.
+  B13 "exits 2 and creates no file for a bad level and for an unknown flag" fails at line 1145.
+  B14 "leaves the private temp folder of a child process empty after --help and after a bad
+  argument" fails at line 1175. Both read a temp folder that holds "tsx-1000" and 22 cache files.
+- Cause proof, green2-p2-blocked-tsx-proof.txt: the same test file with TSX_DISABLE_CACHE=1 in the
+  environment. Test Files  1 passed (1); Tests  38 passed (38); EXIT=0. No code change.
+  Cause: the test spawns `node --import tsx <script>` with TMPDIR set to the private folder. The
+  tsx loader writes its transform cache to `<TMPDIR>/tsx-<uid>` before the script runs. The
+  script cannot stop that: the loader starts first. A script-level fix would delete a shared
+  loader cache, which is a harmful side effect and outside the build.
+- Lint, type, and usage, green2-p2-lint.txt:
+  ESLINT_EXIT=0 (0 errors, 1 warning no-unused-vars at line 1695 of the Red 1 test file; no
+  warning in the new script). TSC_EXIT=0. HELP_EXIT=0, and the usage text holds "Usage:" once.
+- Fast gate: `grep -c 'Usage:' dashboard/scripts/storytime/make-storytime-quest-covers.ts` prints 1.
+
+What the script does (all exports pass their tests):
+parseQuestArgs, checkQuestOutDir, questLayout, questFileNames, questPdfxArgs, planQuestBuild,
+questBuildReport, parseQuestPdfInfo, checkQuestPdfPages, questQrFromPng. JSDoc sits on every
+export. `main` runs only through the `import.meta.url` guard of check-weeks.ts. The build writes
+with the flag wx, spawns only process.execPath and pdfinfo with argv arrays, and uses no network.
+No test file changed. No other file changed. No plan edit. pnpm-lock.yaml is unchanged.
+
+Defaults taken (no question was needed for these):
+1. B13 and B14 need TSX_DISABLE_CACHE=1 (or a tree filter) in the test file. This is the block.
+2. The build temp folder `storytime-quest-` is made at the start of main and removed in `finally`,
+   so the cleanup mutant of section 4.8 can be caught by B14.
+3. The CLI adds `--pictures-dir <dir>` for the part 3 dry build (allowed by the Red 2 log).
+4. The leaf page has no band icon, so the leaf band check reads the `band-word` part. The backs
+   hold no band icon, so their band check is not applicable.
+
+Question for the orchestrator (needs a user or plan decision; default A):
+B13 and B14 assert that the whole private TMPDIR of the child is empty. `node --import tsx` always
+writes `<TMPDIR>/tsx-<uid>` before the script runs. How do we lift the block?
+  A. Mid Red retry edits B13 and B14 to add `TSX_DISABLE_CACHE: '1'` to the child `env`
+     (recommended; the smallest honest change; a rerun then gives 38 passed, as proven).
+  B. Mid Red retry edits `tree()` in the test file to ignore entries whose name starts with `tsx-`.
+  C. Green deletes the tsx loader cache at exit (not recommended: it harms a shared cache).
+  D. The orchestrator records TSX_DISABLE_CACHE=1 in GREEN_TEST_COMMAND and the plan (hidden
+     environment, and every later role must repeat it; not recommended).
+
+MEASURE_AGENT_RESULT
+status: blocked
+phase: P2
+task: T2.7
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: 386490a096d205c35575ad7183978d593cc8ae57
+head: 386490a096d205c35575ad7183978d593cc8ae57
+impl_commit: none (blocked before the implementation commit)
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: 5281b70136e65ecb7d74244310f6092281e84ecf
+script: dashboard/scripts/storytime/make-storytime-quest-covers.ts (uncommitted; patch in measure/runs/storytime_cover_options_20261106/green2-p2-blocked-impl.patch)
+gate_red_rerun: 38 failed (38); EXIT=1 (green2-p2-red-rerun.txt)
+gate_build_test: 2 failed | 36 passed (38); EXIT=1 (green2-p2-build.txt; B13 line 1145, B14 line 1175)
+gate_build_test_with_tsx_cache_off: 38 passed (38); EXIT=0 (green2-p2-blocked-tsx-proof.txt; proof only, not the gate)
+gate_lint: ESLINT_EXIT=0, 0 errors, 1 old warning (line 1695, Red 1 file); TSC_EXIT=0; HELP_EXIT=0 (green2-p2-lint.txt)
+gate_fast: grep -c 'Usage:' prints 1
+gate_green_test_command: not run (the build test file blocks it)
+gate_project_tests: not run (part 3)
+gate_project_checks: not run (part 3)
+dispositions: none
+handoff: Blocked on B13 and B14. The tests assert that the whole private TMPDIR of the child is empty, but `node --import tsx` writes `<TMPDIR>/tsx-<uid>` before the script runs (proof: 38 passed with TSX_DISABLE_CACHE=1, no code change). Request a Mid Red retry. Recommended fix A: in B13 and B14, add `TSX_DISABLE_CACHE: '1'` to the child env next to `TMPDIR: tmp`. Alternative B: ignore `tsx-*` names in `tree()`. Do not choose C (the script must not delete a shared loader cache). After the retry, part 1 restarts from the build test alone and then GREEN_TEST_COMMAND. The script is complete and lints and typechecks; keep green2-p2-blocked-impl.patch for the next Green. Part 2 must run the 22 mutants of section 4.8; expect the cleanup family to be caught by B14 through the temp folder that main makes at start and removes in `finally`. Part 3 runs the dry build with the option round art through --pictures-dir and --print-ready-root.
+END_MEASURE_AGENT_RESULT
