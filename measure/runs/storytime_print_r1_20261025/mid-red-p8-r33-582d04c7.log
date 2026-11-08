@@ -1,0 +1,18 @@
+MEASURE_AGENT_RESULT
+status: complete
+phase: 8
+role: mid-red
+track: storytime_print_r1_20261025
+role_base_sha: 582d04c7f89bdb124e8b24108240d0d5450a328a
+head: 72e2ac1 (before this log commit)
+test_commit: 2cb03be
+plan_commit: 72e2ac1
+gates:
+  tests: dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts, 6 of 6 pass, EXIT=0 (red-p8-r33-tests.txt)
+  mutant: ham line picture moved away, R3-3 fails with picture 88 and none 1 (red-p8-r33-mutant.txt)
+  restore: sha256 4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d, cmp equal, done by the script trap
+  lint: eslint on the test file, EXIT=0 (red-p8-r33-lint.txt)
+red_expectation: none; the changed test passes by design
+dispositions: none
+handoff: The first mutant run used a relative path in the trap, so the trap did not restore the file. The agent restored it by hand (sha256 and cmp proved equal), fixed the path, and ran the mutant again. The committed capture is the second run, with an automatic restore. The plan line of the Green A6 v3 part 1 task now holds commit 21776bd. No default was taken.
+END_MEASURE_AGENT_RESULT
