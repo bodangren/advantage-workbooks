@@ -1,0 +1,109 @@
+# jr-green Phase 11 Clips w02 to w07 (part 1 of 2)
+
+- role: jr-green (Green, part 1 of the Clips w02 to w07 task)
+- track: storytime_week_package_20261022
+- phase: Phase 11: Word clips and the song video lead-in (2026-11-07 to 2026-11-14)
+- phase id: P11
+- task: Task (Clips w02 to w07 and Packages r3)
+- part: 1 of 2. The clips of w02 to w07 and their content commits. The six r3 packages and the PM line run in part 2.
+- model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+- red model: claude-code/claude-sonnet-5-5#high (Red 1 b27f927, remediation Red be92ae9)
+- role_base_sha: 3f30f73961df995a906a08a5928c3d53720dc05a
+- started: 2026-11-09
+
+## Immutable inputs
+
+- The Red test file `dashboard/__tests__/storytime-package-clips.test.ts` is unchanged. The no-edit rule holds.
+- The Red commits b27f927 and be92ae9 are inside `phase_base_sha..HEAD`. The Green 1 commit is 69cd4db4. The Review A remediation Green commit is 526bf1f.
+
+## Rules in force
+
+- Rule R3 is closed. The loops switch commit 61a3fc5 is done, so no gate adds an exclude.
+- Rule R4: before each script run and each `git add` of a week file, `git status --porcelain content/storytime/l2/ content/storytime/words/ dashboard/__tests__/` shows no change of another track in a file that the commit holds.
+- Spend (spec K11): the phase hard stop is 500 TTS characters, all takes included. w01 spent 37. The budget for w02 to w07 is 463 characters. In each `make-word-bank.ts` run, `--max-chars` is the rest of the budget.
+- MiniMax limit (PM rule of 2026-11-09): before each `make-word-bank.ts` run, read `GET http://127.0.0.1:38307/api/quota/minimax-cn-coding-plan` and record the `weekly` and `5h` used percent. If `weekly` is 97 or more, or `5h` is 95 or more, the run stops.
+
+## Steps
+
+Status: partial. w02 is complete. w03 to w07 wait for the MiniMax 5h reset.
+
+## Week log
+
+- w02: content commit 3f5dec06. 11 new clips, 23 files, 23 map keys. The 5 test pins do not move (0 pins exist). F9, scope, GREEN and PROJECT_CHECKS pass.
+- w03: not started. The MiniMax 5h window read 100 % (03:03), so the run stopped before the TTS call.
+- w04 to w07: not started. They follow w03.
+
+## Spend
+
+- Quota read before w02 (02:37): weekly 4 %, 5h 51 % (`p11-quota-w02.txt`).
+- Quota read before the w02 run (02:48): 5h 84 %, weekly 6 % (`p11-quota-w02-make.txt`).
+- Quota read before w03 (02:56 and 03:03): 5h 100 %, weekly 7 % (`p11-quota-w03.txt`, `p11-quota-w03-make.txt`). The rule stopped the w03 run.
+- w02 characters: 47 for one take of each key; 55 with all takes. Takes: 10 at take 1, and `wa-suns` at take 3.
+- Phase characters: 92 of 500 (w01 37, w02 55).
+
+## Run r2 (2026-11-09, deepseek/deepseek-flash#high)
+
+- Route change: r1 ran on minimax-cn-coding-plan/MiniMax-M3.1-Flash. r1 stopped at 02:5x on the MiniMax plan 5h window. r2 runs on deepseek/deepseek-flash#high (`ra-quota pick green --not-family claude --not-family minimax`, 02:57). The orchestrator marked the MiniMax model route until 04:06.
+- r1 error, verbatim: `Token Plan usage limit reached (2056)`.
+- Red model: claude-code/claude-sonnet-5-5#high. The Green model family (DeepSeek) differs from the Red family (Anthropic).
+- `phase_base_sha` 309a1d24 (the Phase 11 spec review commit). `role_base_sha` 3f30f739. The Red commits b27f927 and be92ae9 are ancestors of `role_base_sha` (`git merge-base --is-ancestor`, exit 0 for each).
+- The committed Red test file `dashboard/__tests__/storytime-package-clips.test.ts` is unchanged. The no-edit rule holds.
+
+### Proof of the r1 work files (02:56)
+
+- `git diff --numstat -- content/storytime/l2/w02.json content/storytime/words/manifest.json` prints `29	2` and `178	0`.
+- New untracked files: 22 bank files (11 WAV and 11 mp3: balls, birds, cakes, ducks, friends, how, kites, many, no, oh, suns) and 23 mp3 files under `content/storytime/l2/media/w02/words/`.
+- The manifest holds 121 rows, `n` 111 to 121 with `added` 2026-11-08.
+- SHA-256 proof (`p11-r2-proof-w02.txt`): 11/11 new WAV files equal the `sha256` of their row; 11/11 week clips equal the SHA-256 of their bank mp3; `media files: 23`.
+
+## Step 2: finish w02
+
+### The 5 pins of `storytime-print-v15.test.ts`
+
+- Measured with grep: `grep -rn "2104\|4129\|4157\|4163\|4215" dashboard/__tests__/` finds 0 hits at `role_base_sha`, and 0 hits in the current work tree. The loops commit ce41d8c2 replaced the 5 line pins with a content count (`AX-lines: exactly 5 lines of w02.json name apple, ant, axe, astronaut`); it is an ancestor of `role_base_sha`.
+- The w02 edit adds 27 map lines (19 + 2 for book 0, 4 + 2 for book 1; numstat `29	2`). The added lines hold the string `apple, ant, axe, astronaut` 0 times, so the AX-lines count stays 5.
+- Result: no test edit and no pin move. `git status --porcelain dashboard/__tests__/storytime-print-v15.test.ts` printed nothing before and after.
+
+### The content commit (3f5dec06)
+
+- Commit message `content(storytime): w02 word clips (Phase 11)`. 47 files: `content/storytime/l2/w02.json` (+29/-2), `content/storytime/words/manifest.json` (+178/-0), 11 new WAV and 11 new mp3 under `content/storytime/words/`, and 23 mp3 under `content/storytime/l2/media/w02/words/`.
+- `git show --numstat --format= 3f5dec06 -- content/storytime/l2/w02.json` prints `29	2` (AC11-7).
+- Rule R4 before the commit: the only status paths outside the w02 files were the w02 manifest edit. No foreign track change was in the commit.
+
+### Gates (each in one heavy-run wrapper)
+
+- GREEN_TEST_COMMAND plus `__tests__/storytime-loops-content.test.ts` and `__tests__/storytime-print-v15.test.ts`: 6 files, 318 tests passed, `EXIT=0` (`p11-clips-w02-green.txt`).
+- PROJECT_CHECKS: `EXIT=0` (`p11-clips-w02-checks.txt`).
+- F9: `check-weeks exit: 0`, `FAIL rows other than published: 0` (`p11-clips-checks-3f5dec06.txt`). The `word-clips` row is pass on st2/1 and st2/2, warn on st2/3 to st2/7, and st2/8 has no row. The `song-lead-in` row is pass on st2/1, and st2/2 to st2/8 have no such row.
+- Scope: `files: 47`, `outside: 0` (`p11-clips-w02-scope-3f5dec06.txt`).
+
+## K10 look points (w02)
+
+- `wa-how.mp3`: the text is "How".
+- `wa-oh.mp3`: the text is "Oh".
+- `wa-suns.mp3`: the note is `heard 'sons' in 3 takes`; all 3 takes were heard as 'sons'.
+- The 11 w02 clips wait for Daniel's 11-16 listen check.
+
+## End state
+
+- `git status --porcelain content/` prints nothing.
+- The plan evidence line is in `plan.md` after the sub-bullets of the task. The task line stays `[ ]`.
+- The evidence commit is 57d7074f. The log goes in the next commit.
+
+MEASURE_AGENT_RESULT
+status: partial
+role: jr-green
+phase: P11
+task: Clips w02 to w07 and Packages r3
+part: 1 of 2 (the clips and their content commits)
+role_base_sha: 3f30f73961df995a906a08a5928c3d53720dc05a
+phase_base_sha: 309a1d24a963bda9fe001680b7bb551e32022fac
+head: 57d7074f
+commits: content 3f5dec065591fb1399ac81204693602b06fc3fd2; plan and captures 57d7074f0ce15d9e055777365fd6c5a955b382e6; log this commit
+chars_spent: 55
+chars_phase_total: 92
+gates: GREEN 6 files/318 tests exit 0; PROJECT_CHECKS exit 0; F9 FAIL rows other than published: 0; scope files 47 outside 0
+quota: w02 5h 84 %; w03 5h 100 % (stop)
+dispositions: none
+handoff: w03 is next after the MiniMax 5h reset at 04:00. Budget left: 408 of 500 characters. The plan evidence line ends "Next: w03 after the MiniMax 5h reset."
+END_MEASURE_AGENT_RESULT
