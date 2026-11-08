@@ -80,3 +80,66 @@ gate_project_checks: not run (part 3)
 dispositions: none
 handoff: Blocked on B13 and B14. The tests assert that the whole private TMPDIR of the child is empty, but `node --import tsx` writes `<TMPDIR>/tsx-<uid>` before the script runs (proof: 38 passed with TSX_DISABLE_CACHE=1, no code change). Request a Mid Red retry. Recommended fix A: in B13 and B14, add `TSX_DISABLE_CACHE: '1'` to the child env next to `TMPDIR: tmp`. Alternative B: ignore `tsx-*` names in `tree()`. Do not choose C (the script must not delete a shared loader cache). After the retry, part 1 restarts from the build test alone and then GREEN_TEST_COMMAND. The script is complete and lints and typechecks; keep green2-p2-blocked-impl.patch for the next Green. Part 2 must run the 22 mutants of section 4.8; expect the cleanup family to be caught by B14 through the temp folder that main makes at start and removes in `finally`. Part 3 runs the dry build with the option round art through --pictures-dir and --print-ready-root.
 END_MEASURE_AGENT_RESULT
+
+## Round r2
+
+The block is lifted. Orchestrator route: option A. The Red repair commit 686a8a83 (role Red model
+claude-code/claude-sonnet-5-5#high, plan entry aaab486e, log b87ac9f4) adds `TSX_DISABLE_CACHE:
+'1'` to the child env of B13 and B14 only. The Red repair commit holds only
+dashboard/__tests__/quest-cover-build.test.ts. The plan Task 2.6b records the change.
+New role_base_sha: b87ac9f4d5be663e36acd33df8ebe800335609bc.
+The script is unchanged: SHA-256 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+before the gates and after the gates. The orchestrator accepted the 3 defaults of r1.
+
+Gates of r2 (each run in one heavy-run wrapper, with --maxWorkers=1 and its own EXIT line):
+- Build test file alone, green2-p2-build-r2.txt:
+  Test Files  1 passed (1); Tests  38 passed (38); EXIT=0.
+- GREEN_TEST_COMMAND (plan line 54), green2-p2-green.txt:
+  Test Files  2 passed (2); Tests  223 passed (223); EXIT=0.
+- PROJECT_LINT plus type and usage, green2-p2-lint-r2.txt:
+  ESLINT_EXIT=0 (0 errors, 1 warning no-unused-vars at line 1695 of the Red 1 test file; no new
+  warning). TSC_EXIT=0. HELP_EXIT=0.
+- Fast gate: `grep -c 'Usage:' dashboard/scripts/storytime/make-storytime-quest-covers.ts` prints 1.
+
+Implementation commit 0ab68506: `git show --name-only --format=` prints only
+dashboard/scripts/storytime/make-storytime-quest-covers.ts. No test file changed. plan.md is not
+changed in this part. pnpm-lock.yaml is unchanged.
+
+The 22 mutants of test-strategy.md section 4.8, for part 2 (12 families):
+argv: level bound `<= 5`; accept a float version. out folder: allow `..`; skip `realpath`.
+overwrite: open with `w`; skip the other-version scan. names: drop one file from the layout;
+wrong leaf version. PDF page checks: tolerance 15 pt; accept 13 pages. report: hide a failed
+check; omit a check key. plan order: write before the checks; accept alpha art. reader pictures:
+skip the coloured-pixel scan; accept 3999 px. PDF/X args: leaf without `--k-only`; `shell: true`.
+QR from PNG: compare the grid with itself; ignore the quiet-zone shift. import side effect:
+`main()` at module level. cleanup: skip the temp cleanup on error.
+Expected catch: B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B01, and B14 in that order.
+Expected survivor risk: the cleanup mutant if it removes only the cleanup of the catch branch and
+keeps the `finally` cleanup. B14 reaches the parse-error return and the success return, and no
+throw, so that shape survives. Part 2 must apply the cleanup mutant as "move the rmSync from the
+`finally` into the success return", so the bad-argument child leaks its `storytime-quest-` folder
+and B14 catches it. All 22 mutants then have a catch.
+
+MEASURE_AGENT_RESULT
+status: done-part-1
+phase: P2
+task: T2.7
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: b87ac9f4d5be663e36acd33df8ebe800335609bc
+head: 0ab68506821600dfae4c1ceb03638478ab2f1619
+impl_commit: 0ab68506821600dfae4c1ceb03638478ab2f1619
+red_model: claude-code/claude-sonnet-5-5#high
+red_commits: 5281b70136e65ecb7d74244310f6092281e84ecf, 686a8a83 (the B13 and B14 repair)
+script_sha256: 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+gate_build_test: Test Files  1 passed (1); Tests  38 passed (38); EXIT=0 (green2-p2-build-r2.txt)
+gate_green_test_command: Test Files  2 passed (2); Tests  223 passed (223); EXIT=0 (green2-p2-green.txt)
+gate_lint: ESLINT_EXIT=0, 0 errors, 1 old warning (line 1695, Red 1 file); TSC_EXIT=0; HELP_EXIT=0 (green2-p2-lint-r2.txt)
+gate_fast: grep -c 'Usage:' prints 1
+scope_proof: git show --name-only --format= 0ab68506 prints only dashboard/scripts/storytime/make-storytime-quest-covers.ts
+gate_project_tests: not run (part 3)
+gate_project_checks: not run (part 3)
+mutants: pending in part 2 (22 mutants of section 4.8)
+dispositions: none
+handoff: Part 1 is done. Part 2 runs the 22 mutants of test-strategy.md section 4.8 on commit 0ab68506 and saves mutants-green2.txt. Apply the cleanup mutant as "move the rmSync from the finally into the success return", or B14 cannot catch it. Part 3 runs PROJECT_TESTS, PROJECT_CHECKS, and one dry build with the option round art into a temporary print-ready root (--print-ready-root <tmp> --pictures-dir <tmp-art>), then removes the root; the plan evidence for Task 2.7 lands after part 3. No plan edit in part 1.
+END_MEASURE_AGENT_RESULT
