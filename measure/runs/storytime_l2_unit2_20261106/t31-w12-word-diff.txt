@@ -1,0 +1,56 @@
+diff --git a/content/storytime/drafts/l2/w12.json b/content/storytime/drafts/l2/w12.json
+index 75bd425f..cad4b05c 100644
+--- a/content/storytime/drafts/l2/w12.json
++++ b/content/storytime/drafts/l2/w12.json
+@@ -349,7 +349,7 @@
+          "kind": "who",
+          "ask": {
+            "en": "Who has Nan's book on the last page? Point to the picture.",
+            "th": "ในหน้าสุดท้าย [-ใครเอาหนังสือของ Nan ไป? ชี้ที่ภาพ"-]{+ใครมีหนังสือของ Nan? ให้ชี้ที่ภาพ"+}
+          },
+          "answer": {
+            "page": 8,
+@@ -360,7 +360,7 @@
+          "kind": "what",
+          "ask": {
+            "en": "What does Sam open? Point to the picture.",
+            "th": "Sam เปิดอะไร? [-ชี้ที่ภาพ"-]{+ให้ชี้ที่ภาพ"+}
+          },
+          "answer": {
+            "page": 1,
+@@ -371,7 +371,7 @@
+          "kind": "where",
+          "ask": {
+            "en": "Where is Nan? Point to the picture.",
+            "th": "Nan อยู่ที่ไหน? [-ชี้ที่ภาพ"-]{+ให้ชี้ที่ภาพ"+}
+          },
+          "answer": {
+            "page": 7,
+@@ -900,11 +900,11 @@
+            },
+            "practise": {
+              "en": "\"Write it in the air with me. Say /h/ as you write.\"",
+              "th": "\"เขียนกลางอากาศพร้อมครู [-พูด-]{+และพูด+} /h/ ขณะเขียน\""
+            },
+            "retest": {
+              "en": "\"Write the letter h in your book. Say its sound: /h/.\"",
+              "th": "\"เขียนตัวอักษร h ในหนังสือ [-แล้วบอกเสียงของตัวอักษรนี้:-]{+แล้วพูดเสียงของมัน:+} /h/\""
+            }
+          },
+          "loopMinutes": 4
+@@ -970,7 +970,7 @@
+              "\"ฟัง /h/ - /a/ - /t/ คำนี้คือคำอะไร? Hat! (หมวก)\"",
+              "\"คำต่อไป /h/ - /e/ - nnn Hen! (แม่ไก่) /h/ - /o/ - /p/ Hop! (กระโดด)\"",
+              "\"ดูคำนี้ /h/ - /a/ - /t/ Hat! และคำนี้: /h/ - /o/ - /t/ Hot! (ร้อน)\"",
+              "\"/h/ - /e/ - nnn Hen! /h/ - /o/ - /p/ Hop! /h/ - /a/ - /d/ [-Had!\"",-]{+Had! (มี)\"",+}
+              "\"ดู: at ทีนี้เติมตัวอักษร h ข้างหน้า: /h/ ... at, Hat!\""
+            ],
+            "studentActions": [
+@@ -1113,7 +1113,7 @@
+          ],
+          "th": {
+            "teacherActions": [
+              "ติดบัตรตัวอักษร [-hบนผนังคำศัพท์-]{+h บนผนังคำศัพท์+} ข้างบัตรเสียงทั้ง 9 ใบ",
+              "ติดคำใหม่บนผนังคำศัพท์: \"hat\", \"hot\", \"hen\", \"hop\", \"ham\" และ \"had\" ทั้งชั้นอ่านคำใหม่ แล้วอ่านทุกคำบนผนังคำศัพท์"
+            ],
+            "teacherLanguage": [

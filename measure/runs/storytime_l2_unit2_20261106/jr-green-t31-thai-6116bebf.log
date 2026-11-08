@@ -1,0 +1,59 @@
+# Jr Green log: Task 3.1, the Thai teacher book draft of weeks 9 to 16
+
+Track: storytime_l2_unit2_20261106. Phase P3. Task T3.1. Role: jr-green.
+Model: claude-code/claude-fable-5-1[1m]#high. Date: 2026-11-09.
+role_base_sha: 6116bebfb0d93326d5e9d719998d1d1dee9cba10
+Provisional status: partial (the work is in progress).
+
+Rules in force: plan rule 19 (Claude drafts the Thai; only Daniel checks it; no child session for Thai work), rule 16 (commit by path only), rule 17 (no change under content/storytime/l2/), rule 21 (the task is `[~]` before the first content edit).
+
+## Start state
+
+- git status: `M video/storytime-song/scripts/render.mjs` (another session) and `?? dashboard/raw.json` (another session) stay unstaged. The run files of other tracks stay unstaged.
+- The 8 staged files hold a Thai draft in every bilingual field (the Phase 1 writer drafted them with the English). This task reads every Thai field against the approved English of Task 1.12 (commit cb2d1c0c, Daniel's words "Approved", 2026-11-07) and the unit 1 Thai terms.
+
+## Method
+
+- `python3 -I /tmp/opencode/l2u2-thai/extract.py .` writes every (English, Thai) pair of the 8 staged files and of the 8 unit 1 files to pair files. The writer read every pair of each week against the approved English.
+- `analyze.py` compares the unit 2 Thai with the unit 1 Thai: the same English line with a different Thai (12 lines), a Latin letter glued to a Thai letter (7 lines), a bilingual line with no Thai character (2 lines), and the Thai glosses in parentheses that the unit 1 Thai does not use. Its report: `/tmp/opencode/l2u2-thai/analysis-all.txt`.
+- Each week gets a patch list (exact old text, new text, expected count). `patch.py` applies it, re-parses the JSON, and asserts that every English value and every non-Thai field is byte-identical (the staged files round-trip byte-identical through `json.dumps(indent=2, ensure_ascii=False)`).
+- `week-gate.sh <nn>` runs `STAGE_CHECKS` (capture `t31-stage-w<nn>.txt`), commits the week file alone by path, prints `git show --stat --format= HEAD`, compares the English side of `HEAD~1` and `HEAD` with `en-same.py`, and keeps `git diff HEAD~1 HEAD --word-diff=plain` in `t31-w<nn>-word-diff.txt`.
+- Style rules taken from the unit 1 Thai: the question line ends with "ให้ชี้ที่ภาพ"; the A3 practise line is "เขียนกลางอากาศพร้อมครู และพูด /x/ ขณะเขียน"; the A3 retest line is "แล้วพูดเสียงของมัน: /x/"; "Who has ...?" is "ใครมี ..."; a Latin word stays lower case after "พร้อมไหม?"; the row 9 line keeps the period after the sounds.
+
+## Gate state
+
+`STAGE_CHECKS` exits 1 at role_base_sha and after each week commit. The one FAIL row is `share-moment` on st2/9 to st2/16 (commit 61a3fc52 of storytime_teaching_loops switched that check to `fail`; plan line 161 names this risk). The `thai` and `thai-lines` rows pass for every week. The share moments are new English content outside this task (Thai fields only). Baseline capture: `t31-stage-baseline.txt`.
+
+## Week log
+
+### Week 9 (w09.json)
+
+- 9 Thai fields changed: the 3 question lines ("ให้ชี้ที่ภาพ"), A3 practise and retest (unit 1 form), A5 "ตัวอักษร d บน" (a missing space), C5 and D1 "Who has the mop? (ใครมีไม้ถูพื้น) Pip has the mop! (Pip มีไม้ถูพื้น!)" (the unit 1 form of "has"), and the home activity ("เบา ๆ" removed; the English has no "softly").
+- STAGE_CHECKS: st2/9 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w09.txt`.
+- commit 8664037db8292594180926fe372222b9f39e9c61. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w09.json | 18 +++++++++---------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=9. Word diff: `t31-w09-word-diff.txt`.
+
+### Week 10 (w10.json)
+
+- 7 Thai fields changed: the 3 question lines, A3 practise and retest, A5 "-ad บน" (a missing space), D1 "Run, man, run! (วิ่งสิ วิ่ง!)" (was "run fast").
+- STAGE_CHECKS: st2/10 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w10.txt`.
+- commit 5689947654cc2bd03351d282c22df73742872662. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w10.json | 14 +++++++-------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=7. Word diff: `t31-w10-word-diff.txt`.
+
+### Week 11 (w11.json)
+
+- 9 Thai fields changed: the 3 question lines, A3 practise and retest, A5 "ตัวอักษร e บน" (a missing space), A6 and its harder line "A box of toys. (ของเล่น 1 กล่อง)" (the gloss now shows "of"), D1 "Ten men in the den! (ตุ๊กตาไม้รูปคน 10 ตัว ...)" (the page 2 picture shows wooden toy men, not toy soldiers).
+- STAGE_CHECKS: st2/11 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w11.txt`.
+- commit d4805b810e8650d39d6fa58a0e438f2650369d53. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w11.json | 18 +++++++++---------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=9. Word diff: `t31-w11-word-diff.txt`.
+
+### Week 12 (w12.json)
+
+- 7 Thai fields changed: the 3 question lines (the last-page question now names Nan's book and ends with "ให้ชี้ที่ภาพ"), A3 practise and retest, A5 "ตัวอักษร h บน" (a missing space), A4 blend line "... Had! (มี)" (the gloss of the new word).
+- STAGE_CHECKS: st2/12 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w12.txt`.
+- commit 4522640abec5466dee83600a96ff153f9bc50a5c. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w12.json | 14 +++++++-------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=7. Word diff: `t31-w12-word-diff.txt`.
+
+### Week 13 (w13.json)
+
+- 10 Thai fields changed: the 3 question lines, A3 practise and retest, A5 "-op บน" (a missing space), the letter o formation words "วนให้ครบรอบ" in A3 (teacher language, watchFor, correct line) and C3 watchFor (the unit 1 form of the letter o lines).
+- STAGE_CHECKS: st2/13 `thai-lines` PASS, `thai` PASS; exit 1 from `share-moment` only. Capture `t31-stage-w13.txt`.
+- commit 077fd27638162ad78247cb4d54e20be2ba7153e1. `git show --stat --format= HEAD`: `content/storytime/drafts/l2/w13.json | 20 ++++++++++----------`, 1 file changed. `en-same.py`: english_same=True non_thai_same=True thai_fields_changed=10. Word diff: `t31-w13-word-diff.txt`.
+
+Orchestrator decision (2026-11-09 05:45): the `share-moment` FAIL rows are outside Task 3.1. The task stays `[~]` until STAGE_CHECKS passes after a later share-moment task. Interim commit of the plan mark, this log, and the w09 to w13 captures: see below.
