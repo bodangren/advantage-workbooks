@@ -1744,5 +1744,296 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
     }, 120000);
 });
 
+// ---------------------------------------------------------------------------------------------
+// Adversarial round of Phase 2 (storytime_cover_options_20261106). Groups ADV-2, ADV-3, and ADV-5
+// of test-strategy.md section 4.15. Pins: P8 (no gitignored art, only strings), P9 (no read of
+// measure/tracks), P12 (explicit timeouts). A test that expects the safe behavior and fails on
+// the shipped code is a finding. No test is weakened to pass.
+// ---------------------------------------------------------------------------------------------
 
+/**
+ * Puts one own key with an object value in front of the keys of an object. `JSON.parse` makes a
+ * key such as `__proto__` an own key, as a data file on disk does.
+ * @param value The object.
+ * @param key The key to add.
+ * @returns A new object that holds the key.
+ */
+function withHostileKey(value: unknown, key: string): Record<string, unknown> {
+    return JSON.parse(`{${JSON.stringify(key)}:{"polluted":true},${JSON.stringify(value).slice(1)}`) as Record<string, unknown>;
+}
 
+describe('ADV-2 hostile quest.json data (adversarial round, target group 2)', () => {
+    it('rejects the keys __proto__, constructor, and prototype at the top, row, art, and cast levels', async () => {
+        const quest = await api();
+        const keys = ['__proto__', 'constructor', 'prototype'];
+        const levels = ['top', 'row', 'art', 'cast'];
+        expect(keys.length * levels.length, 'the table holds 12 cases').toBe(12);
+        for (const key of keys) {
+            for (const level of levels) {
+                const data = freshData() as unknown as Record<string, unknown>;
+                const books = data.books as Array<Record<string, unknown>>;
+                let subject: unknown = data;
+                if (level === 'top') subject = withHostileKey(data, key);
+                else if (level === 'row') books[0] = withHostileKey(books[0], key);
+                else books[0][level] = withHostileKey(books[0][level], key);
+                const errors = quest.checkQuestCoverData(subject);
+                expect(errors.length, `${key} at the ${level} level gives an error`).toBeGreaterThan(0);
+                expect(errors.join('\n'), `${key} at the ${level} level is named`).toContain(key);
+            }
+        }
+        expect(({} as Record<string, unknown>).polluted, 'no prototype was changed').toBeUndefined();
+    });
+
+    it('rejects an art name that holds a path, a wrong extension, a wrong case, or a control character', async () => {
+        const quest = await api();
+        const good = 'l2-u1-cover-quest-student-front-v1-300ppi';
+        const names = [
+            'x/../../etc/passwd.jpg',
+            `${good}.jpg`,
+            `${good}.PNG`,
+            `${good}.png `,
+            ` ${good}.png`,
+            `${good.toUpperCase()}.png`,
+            `${good}.png\u0000.jpg`,
+            `${good}.png\n`,
+            '..\\..\\x.png',
+            '/etc/passwd',
+            'file:///etc/passwd',
+            '%2e%2e/x.png',
+            'C:\\x.png',
+            `${good}\uff0epng`,
+            `./${good}.png`,
+        ];
+        expect(names.length, 'the table holds 15 names').toBe(15);
+        for (const name of names) {
+            const data = freshData();
+            data.books[0].art.studentFront = name;
+            const errors = quest.checkQuestCoverData(data);
+            expect(errors.length, `the art name ${JSON.stringify(name)} gives an error`).toBeGreaterThan(0);
+            expect(errors.join('\n'), 'the error names the field').toContain('art');
+        }
+    });
+
+    it('rejects a huge cast array on either front and finishes in time', async () => {
+        const quest = await api();
+        const started = Date.now();
+        const huge = 100000;
+        const cases: Array<[string, 'studentFront' | 'teacherFront', string]> = [
+            ['a student cast of 100000 animals', 'studentFront', 'Pip'],
+            ['a student cast of 100000 adults', 'studentFront', 'Teo'],
+            ['a teacher cast of 100000 adults', 'teacherFront', 'Teo'],
+            ['a teacher cast of 100000 animals', 'teacherFront', 'Pip'],
+            ['a teacher cast of 100000 children', 'teacherFront', 'Ava'],
+        ];
+        expect(cases.length, 'the table holds 5 cases').toBe(5);
+        const accepted = cases
+            .filter(([, front, name]) => {
+                const data = freshData();
+                data.books[0].cast[front] = Array.from({ length: huge }, () => name);
+                return quest.checkQuestCoverData(data).length === 0;
+            })
+            .map(([label]) => label);
+        expect(accepted, 'the cases that the data check accepts').toEqual([]);
+        expect(Date.now() - started, 'the checks finish in 60 s').toBeLessThan(60000);
+    }, 120000);
+});
+
+describe('ADV-3 text injection (adversarial round, target group 3)', () => {
+    const PAYLOADS = [
+        '</div><script>window.__pwn=1</script>',
+        '"><img src=x onerror=window.__pwn=1>',
+        '</title><script>window.__pwn=1</script>',
+        '<style>*{display:none}</style>',
+        '\'\'><svg onload=window.__pwn=1>',
+        '&lt;b&gt;',
+    ];
+
+    /**
+     * Counts the nodes that make a page unsafe: scripts, event attributes, and a changed style count.
+     * @param html The rendered page.
+     * @returns The counts.
+     */
+    function hazards(html: string): { scripts: number; handlers: number; styles: number } {
+        const doc = parseHtml(html);
+        let handlers = 0;
+        for (const element of Array.from(doc.querySelectorAll('*'))) {
+            if (element.getAttributeNames().some((name) => name.toLowerCase().startsWith('on'))) handlers++;
+        }
+        return { scripts: doc.querySelectorAll('script').length, handlers, styles: doc.querySelectorAll('style').length };
+    }
+
+    it('renders a hostile reader title, week text, role label, and band as text, never as markup', async () => {
+        const quest = await api();
+        const reader = await shippedReader();
+        expect(PAYLOADS.length, 'the table holds 6 payloads').toBe(6);
+        for (const kind of ['reader-a3', 'reader-leaf'] as const) {
+            const baseline = hazards(quest.renderQuestCover(kind, reader, await standardAssets(kind), { bleedMm: 0 }));
+            for (const payload of PAYLOADS) {
+                for (const field of ['title', 'weekText', 'roleLabel', 'litBand', 'slug'] as const) {
+                    const subject = { ...reader, [field]: payload } as ReaderRow;
+                    let html: string;
+                    try {
+                        html = quest.renderQuestCover(kind, subject, await standardAssets(kind), { bleedMm: 0 });
+                    } catch {
+                        continue; // Refusing hostile data is a safe result.
+                    }
+                    expect(hazards(html), `${kind} ${field} ${JSON.stringify(payload)}`).toEqual(baseline);
+                }
+            }
+            const title = { ...reader, title: PAYLOADS[0] } as ReaderRow;
+            expect(pageText(parseHtml(quest.renderQuestCover(kind, title, await standardAssets(kind), { bleedMm: 0 }))), `${kind} shows the title text`).toContain(PAYLOADS[0]);
+        }
+    }, 120000);
+
+    it('renders a hostile book band, panel value, and asset URL as text, never as markup', async () => {
+        const quest = await api();
+        const book = await shippedBook();
+        for (const kind of ['student-front', 'student-back', 'teacher-front', 'teacher-back'] as const) {
+            const baseAssets = await standardAssets(kind);
+            const baseline = hazards(quest.renderQuestCover(kind, book, baseAssets, { bleedMm: 0 }));
+            for (const payload of PAYLOADS) {
+                const cases: Array<[string, BookRow, RenderAssets]> = [
+                    ['litBand', { ...book, litBand: payload }, baseAssets],
+                    ['art URL', book, { ...baseAssets, art: `x" ${payload}` }],
+                    ['logo URL', book, { ...baseAssets, logo: `x" ${payload}` }],
+                    ['panel value', book, { ...baseAssets, panelValues: [{ field: 'story', value: payload, items: [payload] }] }],
+                ];
+                for (const [label, subject, assets] of cases) {
+                    let html: string;
+                    try {
+                        html = quest.renderQuestCover(kind, subject, assets, { bleedMm: 0 });
+                    } catch {
+                        continue; // Refusing hostile data is a safe result.
+                    }
+                    expect(hazards(html), `${kind} ${label} ${JSON.stringify(payload)}`).toEqual(baseline);
+                }
+            }
+        }
+    }, 120000);
+
+    it('fails the copy check for a forbidden word split by a soft hyphen, a non-breaking hyphen, or a minus sign', async () => {
+        const quest = await api();
+        const cases = [
+            'Pre\u00adA1',
+            'Pre\u2011A1',
+            'Pre\u2212A1',
+            'Pre\u2010A1',
+            'Pre\u2013A1',
+            'Chi\u00adbi',
+            'CE\u00adFR',
+            'Star\u00adters',
+            'Chi\u200bbi',
+            'ChiBi',
+            'Chi\u00adBi',
+            'CEFR',
+        ];
+        expect(cases.length, 'the table holds 12 cases').toBe(12);
+        const missed = cases.filter((word) => quest.checkQuestCopy(`${SERIES} ${word}`).length === 0).map((word) => JSON.stringify(word));
+        expect(missed, 'the texts that pass the copy check').toEqual([]);
+        const clean = quest.checkQuestCopy(`${SERIES} never do not Hello`);
+        expect(clean, 'a clean line with "never" and "do not" gives no error (A7)').toEqual([]);
+    });
+
+    it('fails the copy check for a forbidden word split by an invisible joiner (extra probe)', async () => {
+        const quest = await api();
+        const cases = ['Chi\u200dbi', 'Chi\u200cbi', 'Chi\u2060bi', 'Chi\ufeffbi', 'CE\u200dFR', 'Pre-\u2060A1', 'Pre\u200d-A1'];
+        expect(cases.length, 'the table holds 7 cases').toBe(7);
+        const missed = cases.filter((word) => quest.checkQuestCopy(`${SERIES} ${word}`).length === 0).map((word) => JSON.stringify(word));
+        expect(missed, 'the texts that pass the copy check').toEqual([]);
+    });
+
+    it('fails the Thai check for a Thai look-alike on a back or a front', async () => {
+        const quest = await api();
+        const contact = BACK_LINES.contact.join('\n').replace(/\*\*/g, '');
+        const back = `${SERIES}\n${contact}`;
+        expect(quest.checkQuestThai(back, 'student-back'), 'the control back has no Thai error').toEqual([]);
+        expect(quest.checkQuestThai(back, 'teacher-back'), 'the control teacher back has no Thai error').toEqual([]);
+        const cases: Array<[string, string]> = [
+            ['a Thai digit added', `${back} \u0e51`],
+            ['a decomposed sara am (nikhahit then sara aa)', back.replace('\u0e40\u0e23\u0e32', '\u0e40\u0e23\u0e4d\u0e32')],
+            ['a zero-width joiner inside a Thai word', back.replace('\u0e15\u0e34\u0e14', '\u0e15\u0e34\u200d\u0e14')],
+            ['a zero-width non-joiner inside a Thai word', back.replace('\u0e15\u0e34\u0e14', '\u0e15\u0e34\u200c\u0e14')],
+            ['a Thai tone mark removed', back.replace('\u0e48', '')],
+            ['a Thai letter swapped for a look-alike', back.replace('\u0e15', '\u0e16')],
+        ];
+        expect(cases.length, 'the table holds 6 cases').toBe(6);
+        const missed: string[] = [];
+        for (const [label, text] of cases) {
+            expect(text, `${label}: the edit changed the text`).not.toBe(back);
+            for (const kind of ['student-back', 'teacher-back'] as const) {
+                if (quest.checkQuestThai(text, kind).length === 0) missed.push(`${label} on ${kind}`);
+            }
+        }
+        const front = `${SERIES} \u0e51`;
+        for (const kind of ['student-front', 'teacher-front', 'reader-a3', 'reader-leaf'] as const) {
+            if (quest.checkQuestThai(front, kind).length === 0) missed.push(`a Thai digit on ${kind}`);
+        }
+        expect(missed, 'the look-alikes that pass the Thai check').toEqual([]);
+    });
+});
+
+describe('ADV-5 PDF/X safety (adversarial round, target group 5)', () => {
+    it('flags transparency and effects in every spelling of the CSS', async () => {
+        const quest = await api();
+        const cases = [
+            '.a{opacity:.5}',
+            '.a{OPACITY:.5}',
+            '.a{Opacity:0.5}',
+            '.a{filter:blur(2px)}',
+            '.a{FILTER:blur(2px)}',
+            '.a{-webkit-filter:blur(2px)}',
+            '.a{box-shadow:0 0 3px #000}',
+            '.a{BOX-SHADOW:0 0 3px #000}',
+            '.a{color:RGBA(0,0,0,.5)}',
+            '.a{color:rgb(0 0 0 / 50%)}',
+            '.a{color:hsl(0 0% 0% / 50%)}',
+            '.a{color:#00000080}',
+            '.a{color:#0008}',
+            '.a{mix-blend-mode:multiply}',
+            '.a{background:linear-gradient(red,blue)}',
+            '.a{background:RADIAL-GRADIENT(red,blue)}',
+        ];
+        expect(cases.length, 'the table holds 16 cases').toBe(16);
+        const control = quest.questCssSafetyErrors('.a{color:#112233;background:#ffffff}');
+        expect(control, 'a clean rule gives no error').toEqual([]);
+        const missed = cases.filter((css) => quest.questCssSafetyErrors(css).length === 0);
+        expect(missed, 'the CSS texts that pass the safety check').toEqual([]);
+    });
+
+    it('flags an SVG opacity attribute and a CSS filter in a page or in the reader function CSS', async () => {
+        const quest = await api();
+        const html = await standardRender('student-front', 0);
+        expect(quest.questCssSafetyErrors(html), 'the shipped page has no unsafe construct').toEqual([]);
+        const withOpacity = html.replace('<svg', '<svg opacity="0.5"');
+        expect(withOpacity, 'the edit added the attribute').not.toBe(html);
+        expect(quest.questCssSafetyErrors(withOpacity).length, 'an svg opacity attribute gives an error').toBeGreaterThan(0);
+        const variants: Array<[string, string]> = [
+            ['an upper case svg OPACITY attribute', html.replace('<svg', '<svg OPACITY="0.5"')],
+            ['a stroke-opacity attribute', html.replace('<svg', '<svg stroke-opacity="0.5"')],
+            ['a fill-opacity attribute', html.replace('<svg', '<svg fill-opacity="0.5"')],
+            ['an inline style with filter', html.replace('<svg', '<svg style="filter:blur(1px)"')],
+            ['an inline style with FILTER', html.replace('<svg', '<svg style="FILTER:blur(1px)"')],
+        ];
+        expect(variants.length, 'the table holds 5 variants').toBe(5);
+        const missed = variants.filter(([, text]) => quest.questCssSafetyErrors(text).length === 0).map(([label]) => label);
+        expect(missed, 'the page variants that pass the safety check').toEqual([]);
+        const reader = await shippedReader();
+        const page = quest.questReaderCoverPage(reader, { widthMm: 420, heightMm: 297 }, await standardAssets('reader-a3'), { bleedMm: 0 });
+        expect(quest.questCssSafetyErrors(page.css), 'the reader function CSS is safe').toEqual([]);
+        expect(quest.questCssSafetyErrors(`${page.css}\n.quest-reader-page{filter:grayscale(1)}`).length, 'a filter added to the reader CSS gives an error').toBeGreaterThan(0);
+    }, 120000);
+
+    it('renders the six kinds at both bleeds with no opacity, filter, shadow, or alpha colour in the markup', async () => {
+        const unsafe = /(?:^|[\s;"'{(])(?:fill-|stroke-|stop-)?opacity\s*[:=]|filter\s*[:=(]|box-shadow|text-shadow|drop-shadow|mix-blend|backdrop|rgba\(|hsla\(|gradient\(|#[0-9a-f]{8}\b|#[0-9a-f]{4}\b/i;
+        let checked = 0;
+        for (const kind of KINDS) {
+            for (const bleed of [0, 3] as const) {
+                const html = await standardRender(kind, bleed);
+                const match = unsafe.exec(html);
+                expect(match?.[0] ?? null, `${kind} at bleed ${bleed} holds no unsafe construct`).toBeNull();
+                checked++;
+            }
+        }
+        expect(checked, 'the loop checked 12 pages').toBe(12);
+    }, 120000);
+});

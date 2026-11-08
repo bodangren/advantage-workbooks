@@ -55,7 +55,7 @@
  * make no network call and launch no Chrome.
  */
 import { createHash } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
 import https from 'node:https';
@@ -63,6 +63,7 @@ import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { generateQRCode } from '../lib/qr-generator';
 import { QUEST_BOXES, checkQuestQr, loadQuestCovers, questReaders, renderQuestCover } from '../lib/storytime/print/cover-quest';
 import { storytimeCoverQrGrid, storytimeCoverQrSvg } from '../lib/storytime/print/covers';
 
@@ -1256,4 +1257,489 @@ describe('B14 temp cleanup', () => {
             expect(tree(tmp), `${argv.join(' ')} leaves the temp folder empty`).toEqual([]);
         }
     }, 120000);
+});
+
+// ---------------------------------------------------------------------------------------------
+// Adversarial round of Phase 2 (storytime_cover_options_20261106). Groups ADV-1 to ADV-9 of
+// test-strategy.md section 4.15, plus the review cases A-F1, B-F1, B-F2, B-F3, and B-F7.
+// Pins: P8 (fixtures are small sharp buffers in a temporary folder, no gitignored art),
+// P9 (no read of measure/tracks), P12 (a test that spawns a process has an explicit timeout).
+// A live build test uses the longer timeout LIVE_MS, because one real build of 32 pages renders
+// 32 PNG files and 4 PDF files in Chrome.
+// ---------------------------------------------------------------------------------------------
+
+/** The result of one child build. */
+interface ChildResult {
+    status: number | null;
+    stdout: string;
+    stderr: string;
+}
+
+/** The timeout of a test that runs one or two real builds, in milliseconds. */
+const LIVE_MS = 900000;
+
+/**
+ * Runs the build script in a child process and waits for it. It never throws.
+ * @param argv The arguments of the script.
+ * @param env Extra environment values.
+ * @returns The exit code and the text output of the child.
+ */
+function runBuild(argv: string[], env: Record<string, string> = {}): Promise<ChildResult> {
+    return new Promise((resolve) => {
+        const child = spawn(process.execPath, ['--import', 'tsx', SCRIPT_FILE, ...argv], {
+            cwd: DASHBOARD,
+            env: { ...process.env, ...env },
+            stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        let stdout = '';
+        let stderr = '';
+        child.stdout.on('data', (chunk) => {
+            stdout += String(chunk);
+        });
+        child.stderr.on('data', (chunk) => {
+            stderr += String(chunk);
+        });
+        const timer = setTimeout(() => child.kill('SIGKILL'), LIVE_MS - 60000);
+        child.on('close', (status) => {
+            clearTimeout(timer);
+            resolve({ status, stdout, stderr });
+        });
+    });
+}
+
+/** The fixtures of one live build: a print-ready root, the default out folder, and pictures. */
+interface LiveFixture {
+    root: string;
+    out: string;
+    pictures: string;
+}
+
+/**
+ * Makes the fixtures of one live build in the temporary base folder.
+ * @param label The folder label.
+ * @returns The root, the out folder, and the pictures folder.
+ */
+async function liveFixture(label: string): Promise<LiveFixture> {
+    const root = makeRoot(label, []);
+    const pictures = await fixturePictures(label);
+    return { root, pictures, out: path.join(root, 'storytime', 'covers-quest-v1') };
+}
+
+/**
+ * The argument list of a live build of Level 2 Unit 1, set 1.
+ * @param fixture The fixtures.
+ * @param extra Extra arguments.
+ * @returns The arguments.
+ */
+function liveArgv(fixture: LiveFixture, extra: string[] = []): string[] {
+    return ['--level', '2', '--unit', '1', '--version', '1', '--print-ready-root', fixture.root, '--pictures-dir', fixture.pictures, ...extra];
+}
+
+/**
+ * The print files (final deliverable names of the PDF/X step) in a folder tree.
+ * @param dir The folder.
+ * @returns The relative paths.
+ */
+function printFilesIn(dir: string): string[] {
+    return tree(dir).filter((entry) => entry.endsWith('_PDFX-1a.pdf'));
+}
+
+describe('ADV-1 argv and out folder (target group 1; review case B-F2)', () => {
+    it('refuses each hostile argument list at the parser', async () => {
+        const { parseQuestArgs } = await api();
+        const base = ['--level', '2', '--unit', '1'];
+        const cases: Array<[string, string[]]> = [
+            ['--level 1e0', ['--level', '1e0', '--unit', '1']],
+            ['--level 0x2', ['--level', '0x2', '--unit', '1']],
+            ['--level 2.0', ['--level', '2.0', '--unit', '1']],
+            ['--level with a trailing newline', ['--level', '2\n', '--unit', '1']],
+            ['--level with a zero-width space', ['--level', '2​', '--unit', '1']],
+            ['--unit 1e0', ['--level', '2', '--unit', '1e0']],
+            ['--unit 0x2', ['--level', '2', '--unit', '0x2']],
+            ['--unit 2.0', ['--level', '2', '--unit', '2.0']],
+            ['--version 4294967296', [...base, '--version', '4294967296']],
+            ['--version +1', [...base, '--version', '+1']],
+            ['--version 1e3', [...base, '--version', '1e3']],
+            ['a repeated --level', ['--level', '2', '--level', '3', '--unit', '1']],
+            ['a repeated --out', [...base, '--out', 'a', '--out', 'b']],
+            ['--print twice', [...base, '--print', '--print']],
+            ['--out followed by a name with a leading dash', [...base, '--out', '-covers']],
+            ['--out followed by a flag', [...base, '--out', '--print']],
+            ['--print-ready-root followed by a name with a leading dash', [...base, '--print-ready-root', '-x']],
+            ['a flag name with a newline', [...base, '--print\n']],
+        ];
+        expect(cases.length).toBe(18);
+        for (const [label, argv] of cases) {
+            const result = parseQuestArgs(argv);
+            expect(result.errors.length, `${label} gives an error`).toBeGreaterThan(0);
+            expect(result.args, `${label} gives no args`).toBeNull();
+        }
+    });
+
+    it('refuses each hostile out folder', async () => {
+        const { checkQuestOutDir } = await api();
+        const root = makeRoot('adv1-root', APPROVED_FOLDERS.filter((name) => !name.startsWith('covers-quest-')));
+        const S = path.join(root, 'storytime');
+        const rootLink = makeRoot('adv1-root-link', ['print-v3', 'teacher-cover-l2u1']);
+        fs.symlinkSync(path.join(rootLink, 'storytime', 'print-v3'), path.join(rootLink, 'storytime', 'covers-quest-v1'));
+        const linkToApproved = path.join(TMP_BASE, 'adv1-link-to-approved');
+        fs.symlinkSync(path.join(S, 'print-v3'), linkToApproved);
+        const approvedExceptTarget = APPROVED_FOLDERS.filter((name) => name !== 'covers-quest-v1');
+        const refuse: Array<[string, string, string]> = [
+            ['--out ../../..', '../../..', root],
+            ['a .. path above the root', `${S}/covers-quest-v1/../../..`, root],
+            ...approvedExceptTarget.map((name): [string, string, string] => [`the approved folder ${name}`, path.join(S, name), root]),
+            ['a symlink outside the root that points to print-v3', linkToApproved, root],
+            ['a target folder that is a symlink to print-v3', path.join(rootLink, 'storytime', 'covers-quest-v1'), rootLink],
+            ['a name with a newline', path.join(S, 'covers-quest-v1\nx'), root],
+            ['a name with a leading dash', '-covers-quest-v1', root],
+            ['a sub folder of the right folder', path.join(S, 'covers-quest-v1', 'sub'), root],
+            ['the empty text', '', root],
+        ];
+        expect(refuse.length, 'the table holds 2 + 7 + 6 rows').toBe(15);
+        for (const [label, out, base] of refuse) {
+            expect(checkQuestOutDir(out, 1, base).length, `${label} is refused`).toBeGreaterThan(0);
+        }
+    });
+
+    it('refuses a symlink at a sub folder of the out folder (review B F2)', async () => {
+        const { planQuestBuild, questLayout } = await api();
+        const folders = questLayout(2, 1, 1).folders;
+        expect(folders.length, 'the build writes 4 sub folders').toBe(4);
+        const accepted: string[] = [];
+        for (const folder of folders) {
+            const root = makeRoot(`adv1-sub-${folder}`, []);
+            const outDir = path.join(root, 'storytime', 'covers-quest-v1');
+            const target = path.join(TMP_BASE, `adv1-sub-target-${folder}`);
+            fs.mkdirSync(outDir, { recursive: true });
+            fs.mkdirSync(target, { recursive: true });
+            fs.symlinkSync(target, path.join(outDir, folder));
+            const plan = await planQuestBuild(planInput(root, BASE_PICTURES));
+            if (!plan.errors.join('\n').includes(folder)) accepted.push(folder);
+            expect(fs.readdirSync(target), `the plan writes nothing through the link at ${folder}`).toEqual([]);
+        }
+        expect(accepted, 'the sub folders whose symlink the plan does not refuse (an error that names the folder)').toEqual([]);
+    }, 120000);
+});
+
+describe('ADV-2 hostile pictures and art files (target group 2; review cases B-F1 and B-F7)', () => {
+    it('refuses a reader slug that holds a path (review B F1)', async () => {
+        const { planQuestBuild, questLayout } = await api();
+        const real = fs.readFileSync.bind(fs) as unknown as (...args: unknown[]) => unknown;
+        const picturesSuffix = path.join('l2', 'print', 'pictures.json');
+        const SLUG = 'x/../../../../esc-slug';
+        const spy = vi.spyOn(fs, 'readFileSync').mockImplementation(((file: unknown, ...rest: unknown[]) => {
+            const raw = real(file, ...rest);
+            if (typeof file === 'string' && file.endsWith(picturesSuffix) && typeof raw === 'string') {
+                const rows = JSON.parse(raw) as Array<Record<string, unknown>>;
+                const first = rows.find((row) => row.use === 'cover');
+                if (first) {
+                    first.fileName = `l2-w01-cover-${SLUG}-v1.png`;
+                    first.lineArtFileName = `l2-w01-cover-${SLUG}-line-v1.png`;
+                }
+                return JSON.stringify(rows);
+            }
+            return raw;
+        }) as unknown as typeof fs.readFileSync);
+        try {
+            const outDir = path.join(TMP_BASE, 'adv2-slug-out');
+            let layoutFiles: string[] = [];
+            try {
+                layoutFiles = questLayout(2, 1, 1).files;
+            } catch {
+                // A throw is a safe refusal of the slug.
+            }
+            const escaped = layoutFiles.filter((file) => !path.resolve(outDir, file).startsWith(outDir + path.sep));
+            expect(escaped, 'no layout path leaves the out folder').toEqual([]);
+
+            // The pictures sit where the slug path reads them, so only a name check can refuse.
+            const deep = path.join(TMP_BASE, 'adv2-deep', 'a', 'b', 'c', 'pics');
+            fs.mkdirSync(path.dirname(deep), { recursive: true });
+            fs.cpSync(BASE_PICTURES, deep, { recursive: true });
+            fs.writeFileSync(path.join(TMP_BASE, 'adv2-deep', 'a', 'esc-slug-v1.png'), await flatPng(4000, 3000, 3));
+            fs.writeFileSync(path.join(TMP_BASE, 'adv2-deep', 'a', 'esc-slug-line-v1.png'), await flatPng(4000, 3000, 1));
+            const root = makeRoot('adv2-slug-root', []);
+            const plan = await planQuestBuild(planInput(root, deep));
+            expect(plan.errors.length, 'the plan refuses a slug with a path').toBeGreaterThan(0);
+        } finally {
+            spy.mockRestore();
+        }
+    }, 120000);
+
+    it('refuses a symlink art file that points outside the pictures folder (review B F7)', async () => {
+        const { planQuestBuild } = await api();
+        const outside = path.join(TMP_BASE, 'adv2-outside');
+        fs.mkdirSync(outside, { recursive: true });
+        const outsideBook = path.join(outside, 'real-book.png');
+        const outsidePicture = path.join(outside, 'real-picture.png');
+        fs.writeFileSync(outsideBook, await flatPng(2480, 3508, 3));
+        fs.writeFileSync(outsidePicture, await flatPng(4000, 3000, 3));
+        const cases = [
+            { label: 'book', file: BOOK.art.studentFront, target: outsideBook },
+            { label: 'reader', file: READERS[0].picture.fileName, target: outsidePicture },
+        ];
+        expect(cases.length).toBe(2);
+        const accepted: string[] = [];
+        for (const entry of cases) {
+            const pictures = await fixturePictures(`adv2-link-${entry.label}`, (dir) => {
+                fs.rmSync(path.join(dir, entry.file));
+                fs.symlinkSync(entry.target, path.join(dir, entry.file));
+            });
+            const root = makeRoot(`adv2-link-root-${entry.label}`, []);
+            const plan = await planQuestBuild(planInput(root, pictures));
+            if (!plan.errors.join('\n').includes(entry.file)) accepted.push(`${entry.label}: ${entry.file}`);
+        }
+        expect(accepted, 'the symlink files outside the pictures folder that the plan does not refuse (an error that names the file)').toEqual([]);
+    }, 120000);
+
+    it('refuses a 100 MB art file (size cap)', async () => {
+        const { planQuestBuild } = await api();
+        const pictures = await fixturePictures('adv2-big', (dir) => {
+            fs.truncateSync(path.join(dir, BOOK.art.studentFront), 100 * 1024 * 1024);
+        });
+        expect(fs.statSync(path.join(pictures, BOOK.art.studentFront)).size, 'the fixture file is 100 MB').toBe(100 * 1024 * 1024);
+        const root = makeRoot('adv2-big-root', []);
+        const plan = await planQuestBuild(planInput(root, pictures));
+        expect(plan.errors.length, 'the plan refuses a 100 MB art file').toBeGreaterThan(0);
+        expect(plan.errors.join('\n'), 'the error names the file').toContain(BOOK.art.studentFront);
+    }, 120000);
+});
+
+describe('ADV-4 QR (target group 4)', () => {
+    /**
+     * Renders a real back page.
+     * @param kind The back kind.
+     * @returns The page document.
+     */
+    function realBack(kind: 'student-back' | 'teacher-back'): string {
+        const assets = kind === 'student-back'
+            ? { art: 'file:///tmp/back-art.png', logo: 'file:///tmp/logo.png', panelValues: [] }
+            : { art: 'file:///tmp/back-art.png', logo: 'file:///tmp/logo.png' };
+        return renderQuestCover(kind, BOOK, assets, { bleedMm: 0 });
+    }
+
+    /**
+     * The check function of the script.
+     * @returns The function.
+     */
+    async function qrCheckFn(): Promise<(html: string, kind: string) => string> {
+        const mod = (await api()) as unknown as { questQrCheck?: (html: string, kind: string) => string };
+        expect(typeof mod.questQrCheck, 'The script exports questQrCheck.').toBe('function');
+        return mod.questQrCheck as (html: string, kind: string) => string;
+    }
+
+    /** Addresses that look like the LINE address; the test keeps those with the same module count. */
+    const LOOKALIKES = [
+        'https://line.me/ti/p/Pf7_EF98Pw',
+        'https://line.me/ti/p/Pf7_EF98Pv2',
+        'https://line.me/ti/p/Qf7_EF98Pv',
+        'https://line.me/ti/p/pf7_ef98pv',
+        'https://line.me/ti/p/Pf7_EF98Pu',
+        'https://line.me/ti/p/Pf7_EF98Pv#',
+    ];
+
+    /**
+     * The look-alike QR SVGs with the module count of the LINE code.
+     * @returns The address and the SVG of each look-alike.
+     */
+    function sameCountLookalikes(): Array<{ url: string; svg: string }> {
+        const lineModules = storytimeCoverQrGrid(storytimeCoverQrSvg()).modules;
+        return LOOKALIKES.map((url) => ({ url, svg: generateQRCode(url) ?? '' })).filter((entry) => storytimeCoverQrGrid(entry.svg).modules === lineModules);
+    }
+
+    /**
+     * Draws a page PNG with one QR grid in a box of a given width, at 300 ppi, from the box origin.
+     * @param kind The back kind.
+     * @param grid The grid to draw.
+     * @param boxWidthMm The width of the drawn box.
+     * @returns The PNG bytes.
+     */
+    async function qrPageCustom(kind: 'student-back' | 'teacher-back', grid: { modules: number; cells: boolean[][] }, boxWidthMm: number): Promise<Buffer> {
+        const ppm = 300 / 25.4;
+        const pageW = Math.round(210 * ppm);
+        const pageH = Math.round(297 * ppm);
+        const buf = Buffer.alloc(pageW * pageH, 255);
+        const box = QUEST_BOXES[`${kind}:qr`];
+        const unitPx = (boxWidthMm * ppm) / (grid.modules + 8);
+        for (let row = 0; row < grid.modules; row++) {
+            for (let col = 0; col < grid.modules; col++) {
+                if (!grid.cells[row][col]) continue;
+                const x0 = Math.round(box.leftMm * ppm + (col + 4) * unitPx);
+                const x1 = Math.round(box.leftMm * ppm + (col + 5) * unitPx);
+                const y0 = Math.round(box.topMm * ppm + (row + 4) * unitPx);
+                const y1 = Math.round(box.topMm * ppm + (row + 5) * unitPx);
+                for (let y = y0; y < y1; y++) buf.fill(0, y * pageW + x0, y * pageW + x1);
+            }
+        }
+        return sharp(buf, { raw: { width: pageW, height: pageH, channels: 1 } }).png().toBuffer();
+    }
+
+    it('fails the QR check for a printed code of another address with the same module count', async () => {
+        const qrCheck = await qrCheckFn();
+        const same = sameCountLookalikes();
+        expect(same.length, 'at least 2 look-alike addresses share the module count of the LINE code').toBeGreaterThanOrEqual(2);
+        for (const kind of ['student-back', 'teacher-back'] as const) {
+            const html = realBack(kind);
+            const start = html.indexOf('data-part="qr"');
+            expect(start, 'the back holds the QR box').toBeGreaterThan(-1);
+            for (const { url, svg } of same) {
+                const rest = html.slice(start);
+                const original = rest.match(/<svg[\s\S]*?<\/svg>/)?.[0] ?? '';
+                expect(original.length, 'the box holds an SVG').toBeGreaterThan(0);
+                const swapped = html.slice(0, start) + rest.replace(original, svg);
+                expect(qrCheck(swapped, kind), `${kind} with the code of ${url} fails`).toBe('fail');
+            }
+        }
+    });
+
+    it('reads a page PNG that holds the code of another address as different modules', async () => {
+        const { questQrFromPng } = await api();
+        const same = sameCountLookalikes();
+        expect(same.length).toBeGreaterThanOrEqual(2);
+        for (const { url, svg } of same) {
+            const result = await questQrFromPng(await qrPageCustom('student-back', storytimeCoverQrGrid(svg), 50), 'student-back');
+            expect(result.modules, 'the grid has modules').toBeGreaterThan(0);
+            expect(result.different, `the PNG of ${url} differs from the LINE code`).toBeGreaterThan(0);
+        }
+    }, 120000);
+
+    it('reads a QR box scaled to 20 mm as different modules', async () => {
+        const { questQrFromPng } = await api();
+        const grid = storytimeCoverQrGrid(storytimeCoverQrSvg());
+        const exact = await questQrFromPng(await qrPageCustom('student-back', grid, 50), 'student-back');
+        expect(exact.modules).toBeGreaterThan(0);
+        expect(exact.different, 'the 50 mm control PNG has 0 different modules').toBe(0);
+        const small = await questQrFromPng(await qrPageCustom('student-back', grid, 20), 'student-back');
+        expect(small.different, 'the 20 mm PNG differs from the LINE code').toBeGreaterThan(0);
+    }, 120000);
+
+    it('fails the QR check when the printed QR box is scaled to 20 mm in the page markup', async () => {
+        const qrCheck = await qrCheckFn();
+        for (const kind of ['student-back', 'teacher-back'] as const) {
+            const html = realBack(kind);
+            const start = html.indexOf('data-part="qr"');
+            const head = html.slice(0, start);
+            const rest = html.slice(start);
+            expect(rest, 'the QR box is 50 mm wide').toContain('width:50mm');
+            const small = head + rest.replace('width:50mm', 'width:20mm').replace('height:50mm', 'height:20mm');
+            expect(small, 'the edit changed the page').not.toBe(html);
+            expect(qrCheck(small, kind), `${kind} with a 20 mm QR box fails`).toBe('fail');
+        }
+    });
+});
+
+describe('ADV-6 output and ADV-8 stale file (target groups 6 and 8; review case B-F3)', () => {
+    /** The result of the two concurrent live builds, kept for the stale file test. */
+    let live: { out: string } | undefined;
+
+    it('two builds into one folder at once: one completes, the other fails and overwrites nothing', async () => {
+        const { questLayout, questFileNames } = await api();
+        const fixture = await liveFixture('adv6-live');
+        const argv = liveArgv(fixture);
+        const [first, second] = await Promise.all([runBuild(argv), runBuild(argv)]);
+        live = { out: fixture.out };
+        const detail = `first ${first.status}: ${first.stderr.slice(-400)} | second ${second.status}: ${second.stderr.slice(-400)}`;
+        expect([first.status, second.status].sort(), detail).toEqual([0, 1]);
+        const loser = first.status === 1 ? first : second;
+        expect(loser.stderr, 'the failed build says why').toMatch(/EEXIST|exist/i);
+        const names = questFileNames(2, 1, 1);
+        const printNames = [names.student, names.teacher, names.readersA3, names.readersLeaf];
+        const written = questLayout(2, 1, 1)
+            .files.filter((file) => !printNames.some((name) => file.endsWith(`/${name}`)))
+            .sort();
+        expect(written.length, 'a build without --print writes 40 of the 44 files').toBe(40);
+        const present = tree(fixture.out).filter((entry) => fs.statSync(path.join(fixture.out, entry)).isFile());
+        expect(present, 'the folder holds exactly the files of one complete build').toEqual(written);
+        for (const file of present) expect(fs.statSync(path.join(fixture.out, file)).size, `${file} is not empty`).toBeGreaterThan(0);
+        for (const group of questLayout(2, 1, 1).folders) {
+            const report = JSON.parse(fs.readFileSync(path.join(fixture.out, group, 'build-report.json'), 'utf8')) as { ok: boolean };
+            expect(report.ok, `${group} report is ok`).toBe(true);
+        }
+    }, LIVE_MS);
+
+    it('the build report records the git head of the build (the stale file check needs it)', async () => {
+        expect(live, 'the live build test ran first').toBeDefined();
+        const out = (live as { out: string }).out;
+        for (const group of ['student', 'teacher', 'readers-a3', 'readers-leaf']) {
+            const report = JSON.parse(fs.readFileSync(path.join(out, group, 'build-report.json'), 'utf8')) as Record<string, unknown>;
+            expect(String(report.gitHead), `${group} report holds gitHead (a 40 character commit id)`).toMatch(/^[0-9a-f]{40}$/);
+            const ancestor = spawnSync('git', ['merge-base', '--is-ancestor', String(report.gitHead), 'HEAD'], { cwd: DASHBOARD });
+            expect(ancestor.status, `${group} gitHead is a commit of this repository that HEAD contains`).toBe(0);
+        }
+    });
+
+    it('a read-only out folder fails the build with an error and no print file', async () => {
+        const fixture = await liveFixture('adv6-ro');
+        fs.mkdirSync(fixture.out, { recursive: true });
+        fs.chmodSync(fixture.out, 0o555);
+        let result: ChildResult;
+        try {
+            result = await runBuild(liveArgv(fixture, ['--print']));
+        } finally {
+            fs.chmodSync(fixture.out, 0o755);
+        }
+        expect(result.status, `exit code 1; stderr ${result.stderr.slice(-300)}`).toBe(1);
+        expect(result.stderr.length, 'the build prints an error').toBeGreaterThan(0);
+        expect(printFilesIn(fixture.out), 'no print file').toEqual([]);
+    }, LIVE_MS);
+
+    it('a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk)', async () => {
+        const fixture = await liveFixture('adv6-write');
+        const blocked = path.join(fixture.out, 'readers-leaf');
+        fs.mkdirSync(blocked, { recursive: true });
+        fs.chmodSync(blocked, 0o555);
+        let result: ChildResult;
+        try {
+            result = await runBuild(liveArgv(fixture, ['--print']));
+        } finally {
+            fs.chmodSync(blocked, 0o755);
+        }
+        expect(result.status, `exit code 1; stderr ${result.stderr.slice(-300)}`).toBe(1);
+        expect(result.stderr.length, 'the build prints an error').toBeGreaterThan(0);
+        expect(printFilesIn(fixture.out), 'no print file').toEqual([]);
+    }, LIVE_MS);
+
+    it('a failed PDF/X step leaves no print file with a final name (review B F3)', async () => {
+        const fixture = await liveFixture('adv6-gs');
+        const shimDir = path.join(TMP_BASE, 'adv6-shim');
+        fs.mkdirSync(shimDir, { recursive: true });
+        const shim = [
+            '#!/bin/bash',
+            'case "$*" in',
+            '  *teacher*)',
+            '    prev=""',
+            '    for arg in "$@"; do',
+            '      if [ "$prev" = "-o" ]; then printf partial > "$arg"; fi',
+            '      prev="$arg"',
+            '    done',
+            '    echo "gs shim: forced failure" >&2',
+            '    exit 1 ;;',
+            'esac',
+            'exec /usr/bin/gs "$@"',
+            '',
+        ].join('\n');
+        fs.writeFileSync(path.join(shimDir, 'gs'), shim, { mode: 0o755 });
+        const result = await runBuild(liveArgv(fixture, ['--print']), { PATH: `${shimDir}${path.delimiter}${process.env.PATH ?? ''}` });
+        expect(result.status, `the build fails; stderr ${result.stderr.slice(-300)}`).not.toBe(0);
+        expect(result.stdout + result.stderr, 'the PDF/X step of the teacher group failed').toContain('Ghostscript failed');
+        expect(printFilesIn(fixture.out), 'a failed build leaves no print file with a final name').toEqual([]);
+    }, LIVE_MS);
+});
+
+describe('ADV-9 an unreadable phonics graph (review case A-F1)', () => {
+    it('a missing graph fails the build or a check, never a passing empty student panel', async () => {
+        const fixture = await liveFixture('adv9-missing');
+        const result = await runBuild(liveArgv(fixture), { MASTERY_PHONICS_GRAPH: path.join(TMP_BASE, 'adv9-no-such-folder', 'graph.json') });
+        expect(result.status, `exit code is not 0; stdout ${result.stdout.slice(-200)}`).not.toBe(0);
+        expect(result.stderr, 'the error names the graph or the panel, not another fault').toMatch(/graph|panel|phonics/i);
+    }, LIVE_MS);
+
+    it('a corrupt graph file fails the build or a check, never a passing empty student panel', async () => {
+        const fixture = await liveFixture('adv9-corrupt');
+        const graph = path.join(TMP_BASE, 'adv9-corrupt-graph.json');
+        fs.writeFileSync(graph, '{ this is not json');
+        const result = await runBuild(liveArgv(fixture), { MASTERY_PHONICS_GRAPH: graph });
+        expect(result.status, `exit code is not 0; stdout ${result.stdout.slice(-200)}`).not.toBe(0);
+        expect(result.stderr, 'the error names the graph or the panel, not another fault').toMatch(/graph|panel|phonics/i);
+    }, LIVE_MS);
 });
