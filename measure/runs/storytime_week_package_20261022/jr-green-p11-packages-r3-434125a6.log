@@ -1,0 +1,165 @@
+# jr-green, Phase 11, Clips w02 to w07 and Packages r3 (PART 2 of 2), track storytime_week_package_20261022
+
+Status: complete. The result block is at the end of this file.
+
+Role base: 434125a65024f08d7d729114d6ba9c31c031274a (HEAD at start).
+Phase base: 5d80aae7bcb5bbe1b85b044e76d21ae16697831a (the Phase 11 plan section commit).
+Source commit: 953f798ea309cc10abd5538c202e05ff31a2320d (the w07 word clips content commit).
+Previous folders: `~/Desktop/handoff/w0<n>-storytime-app-package-r2` for weeks 02 to 07 (read only).
+Model: deepseek/deepseek-flash#high. Red model of the phase: claude-code/claude-sonnet-5-5#high.
+No coder subagent: the work is a local build and a check.
+
+## Opening state
+
+- HEAD at start: 434125a6. The work tree held only untracked run files of other tracks. This role
+  staged no such file.
+- The committed Red changes are inside `phase_base_sha..HEAD`: b27f927f (the Phase 11 test file)
+  and be92ae9 (the Review A remediation test file) are ancestors of the role base.
+- The source paths are equal at HEAD: `git diff --stat 953f798e HEAD -- content/storytime/l2/
+  content/storytime/words/ content/storytime/l2/media/w02/ to w07/` prints nothing.
+  Capture `p11-handoff-r3-source-proof.txt`.
+- No `w0<n>-storytime-app-package-r3` folder existed for weeks 02 to 07. The build is create-only.
+
+## Part 1: the tree hash before
+
+Capture `p11-handoff-r3-tree-before.txt`: one line for each of the 16 existing
+`w0*-storytime-app-package*` folders (w01 package, r2, r3, r4, and w02 to w07 package and r2).
+
+## Part 2: the build
+
+Script `/tmp/opencode/p11-r3/build.py` (copied as `p11-handoff-r3-build.py`), one run for the six
+weeks. Capture `p11-handoff-r3-build.txt`, exit 0.
+
+The payload rule follows the w01 r4 build: each media string of the week file that has a file at
+the source commit, the 2 provenance files `l2/media/w<nn>/books/pictures.sha256` and
+`l2/media/w<nn>/family/pictures.sha256`, and the week file `l2/w<nn>.json`. The build reads each
+file with `git show 953f798e:content/storytime/<path>`, never from the work tree. All payload
+files are in git at the source commit, so the w01 song exception does not apply.
+
+| Folder | Payload | Previous payload | Changed paths | New paths (`old-sha256:` empty) | `new-sha256:` empty | Other-track paths |
+|---|---|---|---|---|---|---|
+| `w02-storytime-app-package-r3` | 77 | 54 | 24 | 23 | 0 | none |
+| `w03-storytime-app-package-r3` | 70 | 50 | 21 | 20 | 0 | none |
+| `w04-storytime-app-package-r3` | 70 | 46 | 25 | 24 | 0 | none |
+| `w05-storytime-app-package-r3` | 80 | 52 | 29 | 28 | 0 | none |
+| `w06-storytime-app-package-r3` | 71 | 49 | 23 | 22 | 0 | none |
+| `w07-storytime-app-package-r3` | 74 | 50 | 25 | 24 | 0 | none |
+
+No other track changed a week path after the r2 build. Each changed list holds the new word clips
+and the week file only.
+
+MANIFEST SHA-256:
+
+- `w02-storytime-app-package-r3`: `61f910dfbb6a4ff28e97a8525f1699149882e4cee22684541cda3c75712f73a4`
+- `w03-storytime-app-package-r3`: `24925d02141da8de88966166fb3d6b1b20dab4c379f25c6ef170446a7b538656`
+- `w04-storytime-app-package-r3`: `da5e369233f9c7af8b806c38bca0e2206d92db3365955d11147ba6d73e7b4085`
+- `w05-storytime-app-package-r3`: `faae38198c80be3de6e6e8de9f1f7c5247132ae610fc394b0c4145e91984f02e`
+- `w06-storytime-app-package-r3`: `bd6685c7fb9736ed0cc593094e8cc225f3f9e1c82785f641520e87dce628068f`
+- `w07-storytime-app-package-r3`: `24114ad24b465a365a7e1fdb6c88dae6f38f175390eb89b717c44337b467f64f`
+
+## Part 3: the nine checks
+
+Script `/tmp/opencode/p11-r3/check.py` (copied as `p11-handoff-r3-check.py`), one run for the six
+folders. Capture `p11-handoff-r3.txt`, exit 0.
+
+Every check passes on every folder: `RESULT PASS (9 checks on 6 folders, 0 failures)`. The literal
+`sha256sum -c` of each folder exits 0. `cmp` of each week file with `git show` exits 0. Each family
+JPEG and each word clip equals `git show`, and its MANIFEST SHA-256 equals its bank mp3 or its
+`pictures.sha256` row. Each folder holds one header line. The changed list equals the join of the
+r2 and r3 MANIFEST lists with `diff lines: 0`. Each `source-commit` equals `workbooks-commit`,
+both are 40 hex, and the commit is an ancestor of HEAD. No unsafe path. Check 9 lists no media
+string without a file. Every folder has 0 such strings (w01 r4 had the 1 prose note).
+
+Clip counts: 23, 20, 24, 28, 22, 24. The Python form of the line 403 loop prints no difference:
+`clip loop lines: 0`.
+
+`words files in folders: 163` with `w01-storytime-app-package-r4` (22) and the six r3 folders
+(23, 20, 24, 28, 22, 24).
+
+## Part 4: the tree hash after
+
+Capture `p11-handoff-r3-tree-after.txt` (22 folders) and `p11-handoff-r3-tree-compare.txt`.
+The 16 existing folders hold the same hash before and after: `diff lines: 0`. The 6 new folders
+are the r3 folders.
+
+| Folder | Tree hash |
+|---|---|
+| `w02-storytime-app-package-r3` | `73e69509` |
+| `w03-storytime-app-package-r3` | `de5ab446` |
+| `w04-storytime-app-package-r3` | `f3ce94cc` |
+| `w05-storytime-app-package-r3` | `7435eb11` |
+| `w06-storytime-app-package-r3` | `ae1cc3e7` |
+| `w07-storytime-app-package-r3` | `5e4af186` |
+
+## PM line (draft)
+
+The orchestrator sends this line. The role sends no message to the PM session.
+
+> Storytime package revisions r3 are ready for weeks 02 to 07. The folders are
+> `~/Desktop/handoff/w02-storytime-app-package-r3`, `~/Desktop/handoff/w03-storytime-app-package-r3`,
+> `~/Desktop/handoff/w04-storytime-app-package-r3`, `~/Desktop/handoff/w05-storytime-app-package-r3`,
+> `~/Desktop/handoff/w06-storytime-app-package-r3`, and
+> `~/Desktop/handoff/w07-storytime-app-package-r3`. Source commit: `953f798e`.
+> Receiver contract (K17, word for word): `books[].audio.wordClips` (object: lower-case word ->
+> relative file path) and `song.videoLeadInSeconds` (number, seconds). The key is the K2 form of
+> the tapped word: NFC, U+2019 and U+2018 to U+0027, lower case, outer characters other than a to
+> z and the apostrophe removed, and the key must match `^[a-z]+('[a-z]+)*$`. The value is relative
+> to `content/storytime/`, as `books[].audio.file` is. A word with no key has no clip and no tap
+> target. Listen points of the 27 new clips (K10): w02 `wa-how.mp3` (text "How"), `wa-oh.mp3`
+> (text "Oh"), `wa-suns.mp3` (note "heard 'sons' in 3 takes"); w03 `wa-it.mp3` (text "It"); w04
+> `wa-this.mp3` (text "This"); w06 `wa-he.mp3` (text "He"); w07 `wa-run.mp3` (text "Run"),
+> `wa-yes.mp3` (text "Yes"). w05 has no look point. Facts changed: none.
+
+## Plan and commits
+
+- Plan: `measure/tracks/storytime_week_package_20261022/plan.md` task line 400 is `[x]` with
+  ` commit 953f798e`. One evidence bullet `Evidence (packages r3, 2026-11-09)` sits under it.
+- Plan, captures, and scripts: commit fa6cd7e6 (14 files).
+- This log: its own commit, after fa6cd7e6.
+
+## Deviations
+
+1. The task has no Red test and no code. The nine checks are the live gate, and they pass.
+2. The build read each payload file with `git show`. All payload files are in git at the source
+   commit, so no file came from an existing folder or from the work tree.
+3. The plan edit went in through the shell (python), because the measure-guard refuses a direct
+   edit of the plan.
+4. The line 403 loop holds a here-string. The check script runs the same test in Python and prints
+   `clip loop lines: 0`.
+
+## Result
+
+- Status: complete.
+- Commits: fa6cd7e6 (the plan, 7 captures, and 6 scripts), and the log commit.
+- Folders: `~/Desktop/handoff/w02-storytime-app-package-r3` to `w07-storytime-app-package-r3`.
+- Nine checks: RESULT PASS (9 checks on 6 folders, 0 failures).
+- Words files in folders: 163.
+- Tree hashes: 16 existing folders equal before and after (diff lines 0).
+- Dispositions: none (this brief holds no routed findings).
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P11
+task: Clips w02 to w07 and Packages r3 (PART 2 of 2: the six r3 folders and the PM line draft)
+track: storytime_week_package_20261022
+role_base_sha: 434125a65024f08d7d729114d6ba9c31c031274a
+phase_base_sha: 5d80aae7bcb5bbe1b85b044e76d21ae16697831a
+head: fa6cd7e6 (the plan evidence commit; the log commit follows this block)
+source_commit: 953f798ea309cc10abd5538c202e05ff31a2320d
+status: complete
+folders: ~/Desktop/handoff/w02-storytime-app-package-r3, ~/Desktop/handoff/w03-storytime-app-package-r3, ~/Desktop/handoff/w04-storytime-app-package-r3, ~/Desktop/handoff/w05-storytime-app-package-r3, ~/Desktop/handoff/w06-storytime-app-package-r3, ~/Desktop/handoff/w07-storytime-app-package-r3
+manifest_sha256: w02 61f910dfbb6a4ff28e97a8525f1699149882e4cee22684541cda3c75712f73a4; w03 24925d02141da8de88966166fb3d6b1b20dab4c379f25c6ef170446a7b538656; w04 da5e369233f9c7af8b806c38bca0e2206d92db3365955d11147ba6d73e7b4085; w05 faae38198c80be3de6e6e8de9f1f7c5247132ae610fc394b0c4145e91984f02e; w06 bd6685c7fb9736ed0cc593094e8cc225f3f9e1c82785f641520e87dce628068f; w07 24114ad24b465a365a7e1fdb6c88dae6f38f175390eb89b717c44337b467f64f
+payload_files: 77, 70, 70, 80, 71, 74
+changed_paths: 24, 21, 25, 29, 23, 25
+old_sha256_empty: 23, 20, 24, 28, 22, 24
+clip_counts: 23, 20, 24, 28, 22, 24
+nine_checks: RESULT PASS (9 checks on 6 folders, 0 failures)
+words_files_in_folders: 163
+tree_hashes: 16 existing folders equal before and after (diff lines 0); the 6 r3 folders are new
+tasks_flipped_x: Task (Clips w02 to w07 and Packages r3), with commit 953f798e and the packages r3 evidence bullet
+tasks_flipped_b: none
+new_files: the 7 run captures p11-handoff-r3-{source-proof,tree-before,tree-after,tree-compare,probe,build}.txt and p11-handoff-r3.txt, and the 6 copied scripts p11-handoff-r3-{build,check,probe,tree,compare,source}.py; the 6 hand-off folders are outside the repo
+pm_line: drafted in this log under "PM line (draft)"; the orchestrator sends it
+handoff: Review B and phase acceptance. All six folders pass the nine checks. No other track changed a path after the r2 build. The 27 new clips (w02-w07) wait for Daniel's listen check on 2026-11-16 (K10). The w01 r4 folder is unchanged. The packages read source commit 953f798e; the source paths are equal at HEAD. Review A was closed before this build.
+dispositions: none
+END_MEASURE_AGENT_RESULT
