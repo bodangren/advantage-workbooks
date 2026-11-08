@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_cover_options_20261106",
+  "phase": "P2",
+  "phase_base_sha": "e6e2156ad000d89bb53f19857983299c622f82ac",
+  "role_base_sha": "6cceee913701f1859e9f1d37eadfbce8f7671ee5",
+  "audited_head_sha": "d985d325550cf3605be9dd127e9e9f23459888da",
+  "test_commit": "d985d325550cf3605be9dd127e9e9f23459888da",
+  "status": "fail",
+  "summary": "The round added 28 tests in the two allowed test files. 13 pass and 15 fail on the shipped code. Each failure shows a defect, and the 227 older tests still pass. The five review cases A-F1, B-F1, B-F2, B-F3, and B-F7 are all real defects. Group 7 is deferred to the 2.8a guard proof. The F12 raster case of group 5 is deferred to check 4 of Task 2.9. No production file changed.",
+  "blocking_findings": [
+    "F1 [Major] adversarial A-F1 (ADV-9, 2 tests): unitPanelValues (make-storytime-quest-covers.ts:890-916) swallows every error and returns an empty list. A missing or corrupt phonics graph (MASTERY_PHONICS_GRAPH) gives exit 0 and a build with an empty student back panel. Fix: return an error and fail the build, or fail a check, when the panel is empty or the graph or a week is unreadable; the error text must name the graph or the panel.",
+    "F2 [Major] adversarial B-F1 (ADV-2): a reader slug such as x/../../../../esc-slug from pictures.json gives layout paths readers-a3/l2-w01-x/../../../../esc-slug-a3-cover.png that leave the out folder, and planQuestBuild gives no error. Fix: test cover.fileName and cover.lineArtFileName in questReaders with an exact pattern (l2-wNN-cover-<slug>-v1.png and -line-v1.png, slug of [a-z0-9-]) and throw on a mismatch; check each write path against the out folder.",
+    "F3 [Major] adversarial B-F2 (ADV-1): a symlink at student, teacher, readers-a3, or readers-leaf in the out folder is not refused by planQuestBuild (4 of 4 accepted). Fix: use lstatSync on the four sub folders and add an error that names the folder when one is a symlink.",
+    "F4 [Major] adversarial B-F3 (ADV-6): when the PDF/X step fails at the teacher group, the build exits non-zero but leaves the complete student print file and a partial teacher print file (6 bytes from the gs shim) with final deliverable names. Fix: write the print files into a temp folder and move all four to the out folder only after the last check, or remove each created print file in the failure path.",
+    "F5 [Major] adversarial B-F7 (ADV-2): a symlink art file that points outside the pictures folder is accepted for the book art and for a reader picture. Fix: use lstatSync or compare realpath with the realpath of the pictures folder, and refuse a file outside it.",
+    "F6 [Minor] adversarial group 2 (ADV-2): a 100 MB art file (a valid PNG padded to 100 MB) is accepted by planQuestBuild. Test strategy 4.15 lists a size cap. Fix: refuse an art file above a cap (the test uses 100 MB; any cap from 30 to 99 MB passes the test) and name the file.",
+    "F7 [Minor] adversarial group 2 (ADV-2): checkQuestCoverData accepts a student cast of 100000 adults, a teacher cast of 100000 adults, and a teacher cast of 100000 animals. Fix: add a total length bound and the kind rules of Review C F2 (a student front has no adult; a teacher front holds exactly 1 adult).",
+    "F8 [Minor] adversarial group 3 (ADV-3): checkQuestCopy passes the forbidden word Chibi written as ChiBi, because the camel-case split turns it into 'Chi Bi'. Fix: check the text with and without the camel split.",
+    "F9 [Minor] adversarial group 3 (ADV-3): checkQuestCopy passes a forbidden word split by U+200D, U+200C, U+2060, or U+FEFF (5 of 7 invisible-joiner cases). The shared normaliser removes only U+00AD and U+200B. Fix inside cover-quest.ts (no shared file may change, G-1): strip the invisible characters in checkQuestCopy before the shared call.",
+    "F10 [Minor] adversarial group 3 (ADV-3): checkQuestThai passes a Thai contact line with U+200D or U+200C inside a Thai word (back kinds), because the shared check compares only the Thai block characters. Fix inside cover-quest.ts: refuse a zero-width character in the page text of a back.",
+    "F11 [Minor] adversarial group 4 (ADV-4): questQrCheck passes a back whose printed QR box is scaled to 20 mm (the check reads only the grid). questQrFromPng is not called by main either. Fix: compare the box width and height in the markup with QUEST_BOXES, or call questQrFromPng on the page PNG in the build and fail the qr check on a difference.",
+    "F12 [Minor] adversarial group 5 (ADV-5, 2 tests): questCssSafetyErrors misses OPACITY, Opacity, BOX-SHADOW, RGBA(, rgb with slash alpha, hsl with slash alpha, #RRGGBBAA, #RGBA, RADIAL-GRADIENT, and an upper case SVG OPACITY attribute (9 CSS texts and 1 page variant). Fix: compare in lower case and add the alpha forms (slash alpha, 4 and 8 digit hex).",
+    "F13 [Minor] adversarial group 8 (ADV-8): build-report.json holds no gitHead, so no check can find a print file that is older than the last commit of cover-quest.ts or quest.json. Test strategy 4.15 says the report holds gitHead. Fix: write gitHead (git rev-parse HEAD at build time, 40 hex characters) into each build-report.json. See the question in the handoff."
+  ],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial: a live build test needs 900000 ms, not the pin P12 value of 120000 ms, because one real build of 32 pages takes 150 to 230 s. The other spawn tests keep 120000 ms.",
+    "N2 [Nit] adversarial: 2 of about 10 real builds stopped with page.screenshot Protocol error (Page.captureScreenshot) under machine load. A re-run passed. This is a flake of the build under load, not a result of a test.",
+    "N3 [Nit] adversarial: a failed build leaves build-report.json, PNG, and Chrome PDF files in the out folder, and a re-run is refused by the never-overwrite rule (Review B F3). No test asserts this leftover.",
+    "N4 [Nit] adversarial: group 7 deferred (options/gen_art_final.py does not exist at this head; the 2.8a guard proof of Task 2.8 covers it). The F12 raster case of group 5 is deferred to check 4 of Task 2.9."
+  ],
+  "evidence": [
+    "Provenance: role_base_sha 6cceee91 equals the HEAD at the start. The Review A and Review B artifacts were committed first as c3edec8b. The test commit is d985d325 and it lists only dashboard/__tests__/quest-cover-build.test.ts and dashboard/__tests__/quest-cover-template.test.ts. No production file changed.",
+    "Counts: GREEN_TEST_COMMAND gave EXIT=1, Test Files 2 failed (2), Tests 14 failed | 241 passed (255), 593 s (adversarial-green-command.txt). Two small test edits came after it: the Thai case that edited nothing was replaced, and the two ADV-9 tests now also require a graph or panel message. The re-runs adv-template-thai.txt and adv-build-adv9.txt give the final state: 15 new tests fail, 13 pass, and 0 older tests fail (227 pass).",
+    "Group lines: group 1 3 tests 2 pass 1 fail; group 2 6 tests 2 pass 4 fail; group 3 5 tests 2 pass 3 fail; group 4 4 tests 3 pass 1 fail; group 5 3 tests 1 pass 2 fail; group 6 4 tests 3 pass 1 fail; group 7 deferred; group 8 1 test 0 pass 1 fail; ADV-9 (A-F1) 2 tests 0 pass 2 fail.",
+    "Live proofs that pass: two builds into one folder at once give exit codes 0 and 1, the loser says EEXIST, and the folder holds exactly the 40 files of one build with 4 reports ok; a read-only out folder and a read-only readers-leaf sub folder give exit 1, an error text, and no print file. The full disk case used the forced write error, because no safe full disk exists.",
+    "A4 check: each it.each-style table asserts its length first; the corrupt graph test of the first full run passed because Chrome failed early (56 s), so the test now also requires a graph or panel message. A7 check: a clean line with never and do not gives no copy error. A5 check: the cited exit codes are in the captures.",
+    "F1-F13 each have a failing test with a named message in adversarial-green-command.txt, adv-template-thai.txt, adv-build-adv9.txt, or adv-build-live-d.txt.",
+    "Pins: P8 holds (fixtures are small sharp buffers in a temporary folder; a live build reads the shipped week files, pictures.json, and the sibling phonics graph, not the gitignored art). P9 holds (no test reads measure/tracks). P12: see N1."
+  ],
+  "commands": [
+    "git rev-parse HEAD (6cceee91 at the start; d985d325 after the test commit)",
+    "git commit c3edec8b (4 review artifacts) and d985d325 (2 test files), each with explicit paths",
+    "heavy-run: npx vitest run __tests__/quest-cover-template.test.ts --maxWorkers=1 -t ADV (adv-template-run1.txt)",
+    "heavy-run: npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1 -t 'ADV-(1|2|4) ' (adv-build-run1.txt) and live groups (adv-build-live-a.txt to adv-build-live-d.txt, adv-build-adv9.txt)",
+    "heavy-run: GREEN_TEST_COMMAND once (adversarial-green-command.txt)"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/quest-cover-build.test.ts",
+    "dashboard/__tests__/quest-cover-template.test.ts"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_green",
+  "confidence": "high"
+}

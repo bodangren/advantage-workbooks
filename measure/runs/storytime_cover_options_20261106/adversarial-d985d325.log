@@ -1,0 +1,37 @@
+MEASURE_AGENT_RESULT
+status: fail
+role: adversarial-testing
+phase: P2
+track: storytime_cover_options_20261106
+role_base_sha: 6cceee913701f1859e9f1d37eadfbce8f7671ee5
+head: d985d325550cf3605be9dd127e9e9f23459888da
+test_commit: d985d325550cf3605be9dd127e9e9f23459888da
+reviews_commit: c3edec8b
+counts: 28 new tests, 13 pass, 15 fail; 227 older tests pass (GREEN_TEST_COMMAND: 255 tests, 14 failed before two small edits; final state 15 failed)
+failing_tests:
+  - ADV-1 refuses a symlink at a sub folder of the out folder (review B F2)
+  - ADV-2 refuses a reader slug that holds a path (review B F1)
+  - ADV-2 refuses a symlink art file that points outside the pictures folder (review B F7)
+  - ADV-2 refuses a 100 MB art file (size cap)
+  - ADV-2 rejects a huge cast array on either front and finishes in time
+  - ADV-3 fails the copy check for a forbidden word split by a soft hyphen, a non-breaking hyphen, or a minus sign (ChiBi)
+  - ADV-3 fails the copy check for a forbidden word split by an invisible joiner (extra probe)
+  - ADV-3 fails the Thai check for a Thai look-alike on a back or a front
+  - ADV-4 fails the QR check when the printed QR box is scaled to 20 mm in the page markup
+  - ADV-5 flags transparency and effects in every spelling of the CSS
+  - ADV-5 flags an SVG opacity attribute and a CSS filter in a page or in the reader function CSS
+  - ADV-6 a failed PDF/X step leaves no print file with a final name (review B F3)
+  - ADV-8 the build report records the git head of the build (the stale file check needs it)
+  - ADV-9 a missing graph fails the build or a check, never a passing empty student panel (review A F1)
+  - ADV-9 a corrupt graph file fails the build or a check, never a passing empty student panel (review A F1)
+retry_recommendation: retry_green
+handoff: |
+  For Green (DeepSeek): change production code only. Do not change the two test files. Fixes F1 to F13 are in adversarial-d985d325.json.
+  Files: dashboard/scripts/storytime/make-storytime-quest-covers.ts (F1, F3, F4, F5, F6, F11, F13) and dashboard/lib/storytime/print/cover-quest.ts (F2, F7, F8, F9, F10, F12).
+  Guard G-1: change no shared file. F9 and F10 must be fixed inside cover-quest.ts (strip invisible characters before the shared call).
+  Rerun one test at a time with -t, for example -t "ADV-9", inside heavy-run with --maxWorkers=1. A live build test takes 150 to 230 s.
+  A Chrome error "page.screenshot: Protocol error" is a load flake. Run the test again before you change code.
+  Every Green commit invalidates this result. The adversarial gate must run again after the fixes.
+  Question for the orchestrator (default taken, no answer needed to start): test-strategy 4.15 says the build report holds gitHead, but no spec line requires it. Default: Green adds gitHead (git rev-parse HEAD) to every build-report.json (test ADV-8). If the owner does not want it, drop test ADV-8 and record the stale file check as a manual step of Task 2.9.
+  Deferred: group 7 (covered by the 2.8a guard proof of Task 2.8) and the F12 raster case of group 5 (check 4 of Task 2.9).
+END_MEASURE_AGENT_RESULT
