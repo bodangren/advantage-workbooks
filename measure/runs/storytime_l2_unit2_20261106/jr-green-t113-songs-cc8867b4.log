@@ -1,0 +1,54 @@
+# Jr Green · P1 T1.13 · storytime_l2_unit2_20261106 · song candidates
+
+- Role: jr-green
+- Model: deepseek/deepseek-flash#high
+- role_base_sha: cc8867b4d93f0415e983be6696d21eee95fb9f74
+- Task: plan.md line 181, `- [x/~/ ] Task 1.13 (Hand-off 2)`
+- Started: 2026-11-09 (session clock)
+
+## Scope
+
+Make 3 song candidates for each of weeks 9 to 15 with `mmx music generate` on the MiniMax
+plan. 7 songs, 21 first takes, up to 11 retakes, stop at 40 tracks (6.00 USD at 0.15 USD a
+track). No file under `content/` or `dashboard/` changes. The staged week files are inputs
+only.
+
+## Gates
+
+- Red: this task has no Red test. It is a paid media hand-off (plan Task 1.13, spec FR-9 /
+  D10). The committed Tree holds no Red change for it, so there is no Red command to rerun.
+- Green gate: the folder proof (file count, `sha256sum -c MANIFEST.txt`, spend sum) and the
+  per-take check in `songs-check.txt`.
+
+## Log
+
+- 2026-11-08T22:18Z: Task 1.13 marked `[~]`. Log and spend log written first.
+- 2026-11-08T22:19Z: `mmx music generate --help` read into `songs-mmx-help.txt`. Model `music-3.0`
+  is listed (default). List price 0.15 USD a track.
+- 2026-11-08T22:22Z: quota read: `5h` 29 %, `weekly` 9 %.
+- 2026-11-08T22:21:05Z: call 1, w09 c1 t1, model `music-3.0`. Quota before: `5h` 30 %,
+  `weekly` 9 %. Exit 1. No file. Exact stderr:
+  "API error: This Music API is no longer available to new users. Existing paying customers
+  can continue to use the service. For new access, please try MiniMax Audio
+  (https://www.minimax.io/audio) or the open-source model at
+  https://huggingface.co/MiniMaxAI/MiniMax-Music3 (HTTP 410)".
+- 2026-11-08T22:22Z: probe with free model `music-2.6-free`, same region: same HTTP 410. No file.
+- 2026-11-08T22:24Z: probe with `--region global`, free model: "API error: invalid api key
+  (HTTP 200)". The key is a cn key. No file.
+- 2026-11-08T22:25Z: `mmx quota show` lists groups `general` and `video` only. No music group.
+- 2026-11-08T22:26Z: local fallback tools checked: no `lyria`, `gm`, `genmedia`, `gemini`,
+  `musicgen`, `aistudio`, or `vertex`. No `google.genai` and no `vertexai` Python package.
+- 2026-11-08T22:27Z: last quota read: `5h` 30 %, `weekly` 9 %.
+- STOP. The route is closed by the provider. No retry: the block is not a rate or budget error.
+  Tracks made: 0. Spend at the list price: 0.00 USD. No MANIFEST.
+- Blocked capture: `measure/runs/storytime_l2_unit2_20261106/songs-blocked.txt`.
+
+[2026-11-08T22:21:05Z] CALL w09 c1 t1 quota 5h=30 weekly=9 out=/home/daniebo/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w09/l2-w09-song-c1-t1.mp3
+[2026-11-08T22:21:07Z] FAIL w09 c1 t1 exit=1
+STDOUT: 
+STDERR: {
+  "error": {
+    "code": 1,
+    "message": "API error: This Music API is no longer available to new users. Existing paying customers can continue to use the service. For new access, please try MiniMax Audio (https://www.minimax.io/audio) or the open-source model at https://huggingface.co/MiniMaxAI/MiniMax-Music3 (HTTP 410)"
+  }
+}

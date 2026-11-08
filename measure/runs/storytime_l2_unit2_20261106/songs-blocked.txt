@@ -1,0 +1,65 @@
+# T1.13 song candidates: blocked capture (2026-11-09)
+
+Role base: cc8867b4d93f0415e983be6696d21eee95fb9f74
+Model: deepseek/deepseek-flash#high
+Folder: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09 (created; holds w09/ only; 0 mp3)
+
+## mmx version and route
+
+    mmx 1.0.19
+    mmx music generate --help: model music-3.0 is listed (default); list price 0.15 USD a track
+    mmx config: region cn, base_url https://api.minimaxi.com, auth method api-key
+
+## Call 1 (first take of week 9, candidate 1)
+
+    mmx music generate --prompt <styleBrief w09> --lyrics <lyricSheet w09> --bpm 100 \
+      --model music-3.0 --quiet --output json \
+      --out ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w09/l2-w09-song-c1-t1.mp3
+
+Exit code: 1. No output file. Exact stderr:
+
+    {
+      "error": {
+        "code": 1,
+        "message": "API error: This Music API is no longer available to new users. Existing paying customers can continue to use the service. For new access, please try MiniMax Audio (https://www.minimax.io/audio) or the open-source model at https://huggingface.co/MiniMaxAI/MiniMax-Music3 (HTTP 410)"
+      }
+    }
+
+## Diagnostic probe: free model, same region
+
+    --model music-2.6-free
+    Exit code: 0 (CLI) with the same HTTP 410 error body. No output file.
+
+## Diagnostic probe: free model, region global
+
+    mmx --region global music generate ... --model music-2.6-free
+    Exact error:
+
+    {
+      "error": {
+        "code": 1,
+        "message": "API error: invalid api key (HTTP 200)"
+      }
+    }
+
+## Quota group check
+
+    mmx quota show: groups general (interval 70 %, weekly 91 %) and video (interval 33 %,
+    weekly 90 %). No music group.
+
+## Local fallback tools
+
+    which lyria gm genmedia gemini musicgen aistudio vertex: none
+    python3 -c "import google.genai": not installed
+    python3 -c "import vertexai": not installed
+
+## Quota reads (GET http://127.0.0.1:38307/api/quota/minimax-cn-coding-plan)
+
+    first: 5h 29 %, weekly 9 %
+    before call 1: 5h 30 %, weekly 9 %
+    last: 5h 30 %, weekly 9 %
+
+## Files
+
+    handoff folder: 0 mp3 files. MANIFEST.txt: not written (no media).
+    Spend at the list price: 0.00 USD.
