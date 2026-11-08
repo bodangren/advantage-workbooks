@@ -1,6 +1,6 @@
 # Adversarial round 3, Phase 2 (storytime_cover_options)
 role_base_sha 6aa10755; test commit 4240d9dd; model claude-code/claude-sonnet-5-5#high.
-Status: inconclusive (infrastructure_retry). Confidence: medium.
+Status: pass (retry none). Confidence: high for the result; medium for the Target 2 cause.
 
 ## Target 2: the Chrome screenshot error
 Cause: machine load from outside the heavy-run lock. The Green 4 code is not the cause.
@@ -23,3 +23,9 @@ No blocking finding. N8 (no repeat for a Chrome load error in the real build), N
 
 ## Handoff
 See the handoff key of adversarial3-6aa10755.json.
+
+## Update 2026-11-09: the N9 fix and the second gate run
+N9 is fixed in test commit ee8d5fc3 (the concurrency test uses CHROME_LOAD; no assertion changed). Lint exit 0 (adv3-lint-n9.txt).
+GREEN_TEST_COMMAND once on ee8d5fc3: EXIT=0, Test Files 2 passed (2), Tests 274 passed (274), 1152.45 s (adversarial3-green-command-r2.txt).
+Sampler: load 1.67 to 7.69, MemAvailable 1861 to 3295 MB, 23 to 37 Chrome processes (115 samples).
+Status: pass, retry none. No blocking finding is open. N8 stays as advice for Task 2.9.
