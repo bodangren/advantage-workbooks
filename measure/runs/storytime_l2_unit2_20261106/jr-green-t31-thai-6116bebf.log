@@ -111,3 +111,31 @@ Capture `t31-stage-all.txt`: st2/9 to st2/16 `thai-lines` PASS and `thai` PASS. 
 - `MANIFEST.txt` (sha256sum lines of the 3 files), SHA-256 of MANIFEST.txt: 9b50f0fe719e0fe2bd462847b862c20b8e89e97afb3c4d38831366472aa7253f
 
 New terms: `newterms.py` keeps a candidate (English source, Thai term) when the Thai term is absent from the unit 1 Thai corpus (weeks 1 to 8). 181 candidates, 101 new.
+
+## Plan evidence
+
+- Plan-evidence commit 1c15b94deb2ba2dd211e7c8a1bf7ae8d26e2eb6f: the Task 3.1 sub-bullet (the task stays `[~]`), this log through the hand-off section, the captures `t31-stage-w14.txt`, `t31-stage-w15.txt`, `t31-stage-w16.txt`, `t31-stage-all.txt`, `t31-w14-word-diff.txt`, `t31-w15-word-diff.txt`, `t31-pdf.txt`, `t31-contact-sheets.txt`, `t31-pdf-fallback-font-pages.txt`, and `thai-new-terms.md`.
+- The log commit with the result block below follows the plan-evidence commit; a commit cannot hold its own SHA.
+
+## Final status
+
+Status: partial. Steps 2 to 6 of the brief are complete, and every page render passed the look. The task line stays `[~]` by the orchestrator decision of 2026-11-09 05:45: STAGE_CHECKS exits 1 from the `share-moment` rows, which a later task owns.
+
+MEASURE_AGENT_RESULT
+status: partial
+phase: P3
+task: T3.1
+role: jr-green
+role_base_sha: 6116bebf
+head: 1c15b94deb2ba2dd211e7c8a1bf7ae8d26e2eb6f
+week_commits: w09 8664037db8292594180926fe372222b9f39e9c61; w10 5689947654cc2bd03351d282c22df73742872662; w11 d4805b810e8650d39d6fa58a0e438f2650369d53; w12 4522640abec5466dee83600a96ff153f9bc50a5c; w13 077fd27638162ad78247cb4d54e20be2ba7153e1; w14 b722e6f1ede3540f28612f32e15174f92de5ff50; w15 6e6b11bc4baffd08572e1a395d3aa77c5b8ac99f; w16 no change
+other_commits: c5dc9a0b8cfccc38601d5750c3f9d7c1b0e8b636 (interim runs, weeks 9 to 13); 1c15b94deb2ba2dd211e7c8a1bf7ae8d26e2eb6f (plan evidence)
+pdf: ~/Desktop/print-ready/storytime/text-review/Storytime-Advantage-L2-U2-weeks-9-16-Thai-teacher-book-draft.pdf
+pdf_sha256: 8b48acdce088568593aca127e9a2da7490f3ce1214baca42ffbd73fde9ca9ac8
+pdf_pages: 233
+contact_sheets: ~/Desktop/print-ready/storytime/text-review/l2u2-thai-draft-contact-sheets/ (59 sheets; every page looked at; no broken Thai line)
+new_terms: 101 (measure/runs/storytime_l2_unit2_20261106/thai-new-terms.md)
+handoff_folder: ~/Desktop/print-ready/storytime/text-review/l2u2-thai-handoff-2026-11-14/ (MANIFEST.txt SHA-256 9b50f0fe719e0fe2bd462847b862c20b8e89e97afb3c4d38831366472aa7253f)
+dispositions: none
+handoff: Task 3.1 stays `[~]`. The `thai` and `thai-lines` rows pass for st2/9 to st2/16 in `t31-stage-all.txt`; the only FAIL row is `share-moment` on each of the 8 weeks (no parent-share moments in the staged weeks, plan line 161), and the orchestrator placed that outside this task on 2026-11-09 05:45. Flip the task to `[x]` with commit 6e6b11bc when STAGE_CHECKS passes after a later share-moment task. Task 3.2 (hand-off 4, 2026-11-14 18:00 ICT): the folder above is ready; the PM session sends it to Daniel. The PDF holds the draft Thai; only Daniel checks it (rule 19). Week 16 has no commit because its Thai needed no change. Week 12 keeps "frame of the unit" in Thai because its English says so; week 15 says "frame of the week" in both languages. Page 227 uses Liberation Sans for the arrow and multiply signs only; the Thai is Sarabun on every page. Other sessions' files (video/**, dashboard/raw.json, other tracks' runs) stay untouched and unstaged.
+END_MEASURE_AGENT_RESULT
