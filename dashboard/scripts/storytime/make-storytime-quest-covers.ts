@@ -5,7 +5,7 @@ import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import { chromium, type Browser } from '@playwright/test';
 import sharp from 'sharp';
-import { readLevelWeeks, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readLevelWeeks, readPhonicsGraph, PHONICS_GRAPH_FILE, STORYTIME_ROOT } from '../../lib/storytime/files';
 import {
     STORYTIME_COVER_LOGO_FILE,
     storytimeCoverFileUrl,
@@ -218,6 +218,12 @@ const PPI = 300;
 /** The points per millimetre. */
 const PT_PER_MM = 72 / 25.4;
 
+/** The size cap of one art file: 64 MB (test strategy 4.15). */
+const ART_SIZE_CAP_BYTES = 64 * 1024 * 1024;
+
+/** The pattern of a full commit id. */
+const GIT_HEAD_PATTERN = /^[0-9a-f]{40}$/;
+
 /** The dashboard folder, the root of the print scripts. */
 const DASHBOARD_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -346,6 +352,44 @@ function realish(target: string): string {
         head = parent;
     }
     return path.join(fs.realpathSync(head), ...tail);
+}
+
+/**
+ * Reads the commit id of the working repository without a child process: the `.git/HEAD` file, the
+ * ref file, or the packed refs (test strategy 4.15, review case ADV-8). The build report records
+ * this value, so a check can compare a print file with the last change.
+ * @param repoRoot The repository root.
+ * @returns The 40 character commit id.
+ * @throws Error When the repository, the ref, or the commit id is not readable.
+ */
+function readGitHead(repoRoot: string): string {
+    const dotGit = path.join(repoRoot, '.git');
+    let gitDir = dotGit;
+    if (!fs.existsSync(dotGit)) throw new Error(`the repository ${repoRoot} holds no .git`);
+    if (fs.statSync(dotGit).isFile()) {
+        const pointer = fs.readFileSync(dotGit, 'utf8').trim().match(/^gitdir:\s*(.+)$/)?.[1];
+        if (!pointer) throw new Error(`the file ${dotGit} holds no git folder`);
+        gitDir = path.resolve(repoRoot, pointer.trim());
+    }
+    const headFile = path.join(gitDir, 'HEAD');
+    const head = fs.readFileSync(headFile, 'utf8').trim();
+    if (GIT_HEAD_PATTERN.test(head)) return head;
+    const ref = head.match(/^ref:\s+(\S+)$/)?.[1];
+    if (!ref) throw new Error(`the file ${headFile} holds neither a commit id nor a ref`);
+    const refFile = path.join(gitDir, ref);
+    if (fs.existsSync(refFile)) {
+        const id = fs.readFileSync(refFile, 'utf8').trim();
+        if (GIT_HEAD_PATTERN.test(id)) return id;
+        throw new Error(`the ref file ${refFile} holds no commit id`);
+    }
+    const packed = path.join(gitDir, 'packed-refs');
+    if (fs.existsSync(packed)) {
+        for (const line of fs.readFileSync(packed, 'utf8').split('\n')) {
+            const row = line.match(/^([0-9a-f]{40})\s+(\S+)$/);
+            if (row && row[2] === ref) return row[1];
+        }
+    }
+    throw new Error(`the ref ${ref} of ${gitDir} is not readable`);
 }
 
 /**
@@ -518,6 +562,42 @@ async function isGreyArt(file: string, channels: number): Promise<boolean> {
 }
 
 /**
+ * The error of one art file that the build must refuse: a symlink that resolves outside the
+ * pictures folder, or a file above the size cap. The lstat check reads the link, not its target
+ * (review cases B-F6 and B-F7, test strategy 4.15).
+ * @param picturesDir The pictures folder.
+ * @param name The art file name, relative to the pictures folder.
+ * @returns The error, or undefined.
+ */
+function artFileBoundaryError(picturesDir: string, name: string): string | undefined {
+    const file = path.join(picturesDir, name);
+    let stat: fs.Stats;
+    try {
+        stat = fs.lstatSync(file);
+    } catch {
+        return undefined; // The metadata check names a missing file.
+    }
+    if (stat.isSymbolicLink()) {
+        let realFile: string;
+        let realDir: string;
+        try {
+            realFile = fs.realpathSync(file);
+            realDir = fs.realpathSync(picturesDir);
+        } catch {
+            return `the file ${name} is a symlink that does not resolve`;
+        }
+        if (realFile !== path.resolve(realDir, name) && !realFile.startsWith(realDir + path.sep)) {
+            return `the file ${name} is a symlink to ${realFile}, outside the pictures folder ${realDir}`;
+        }
+        return undefined;
+    }
+    if (stat.size > ART_SIZE_CAP_BYTES) {
+        return `the file ${name} is ${stat.size} bytes, above the size cap of ${ART_SIZE_CAP_BYTES} bytes`;
+    }
+    return undefined;
+}
+
+/**
  * Plans the build before it writes a file (pins P4 and P6, spec FR-11.2). It writes nothing and
  * creates no folder. Every error names the file or the folder that it concerns.
  * @param input The level, the unit, the set, the out folder, the root, and the picture folder.
@@ -525,7 +605,12 @@ async function isGreyArt(file: string, channels: number): Promise<boolean> {
  */
 export async function planQuestBuild(input: QuestPlanInput): Promise<QuestPlan> {
     const errors: string[] = [];
-    const layout = questLayout(input.level, input.unit, input.version);
+    let layout: { folders: string[]; files: string[] } = { folders: [], files: [] };
+    try {
+        layout = questLayout(input.level, input.unit, input.version);
+    } catch (error) {
+        errors.push(`the reader rows are not readable: ${error instanceof Error ? error.message : String(error)}`);
+    }
     const art: QuestPlanRow[] = [];
     const pictures: QuestPlanRow[] = [];
     for (const error of checkQuestOutDir(input.outDir, input.version, input.printReadyRoot)) errors.push(error);
@@ -541,6 +626,11 @@ export async function planQuestBuild(input: QuestPlanInput): Promise<QuestPlan> 
     if (book) {
         for (const { side, kind } of BOOK_ART_SIDES) {
             const name = book.art[side];
+            const boundary = artFileBoundaryError(input.picturesDir, name);
+            if (boundary) {
+                errors.push(`The art of the ${kind} side: ${boundary}`);
+                continue;
+            }
             const file = path.join(input.picturesDir, name);
             const meta = await artMetadata(file);
             if (typeof meta === 'string') {
@@ -573,6 +663,11 @@ export async function planQuestBuild(input: QuestPlanInput): Promise<QuestPlan> 
             { file: row.picture.fileName, kind: 'reader-a3', grey: false },
             { file: row.picture.lineArtFileName, kind: 'reader-leaf', grey: true },
         ]) {
+            const boundary = artFileBoundaryError(input.picturesDir, name);
+            if (boundary) {
+                errors.push(`The picture of ${kind}: ${boundary}`);
+                continue;
+            }
             const file = path.join(input.picturesDir, name);
             const meta = await artMetadata(file);
             if (typeof meta === 'string') {
@@ -600,7 +695,12 @@ export async function planQuestBuild(input: QuestPlanInput): Promise<QuestPlan> 
     for (const folder of layout.folders) {
         const dir = path.join(input.outDir, folder);
         if (!fs.existsSync(dir)) continue;
-        if (!fs.statSync(dir).isDirectory()) {
+        const stat = fs.lstatSync(dir);
+        if (stat.isSymbolicLink()) {
+            errors.push(`the out folder holds a symlink at the sub folder ${folder}; the build refuses to write through it`);
+            continue;
+        }
+        if (!stat.isDirectory()) {
             errors.push(`the out folder holds the file ${folder}, not a folder`);
             continue;
         }
@@ -756,7 +856,9 @@ function pageText(html: string): string {
 }
 
 /**
- * The QR check of one page: the backs hold the LINE code; every other page has no QR.
+ * The QR check of one page: the backs hold the LINE code in the box of `QUEST_BOXES`, and every
+ * other page has no QR. A box of another size or position fails, so a scaled printed code cannot
+ * pass (review case ADV-4, test strategy 4.15).
  * @param html The page.
  * @param kind The cover kind.
  * @returns `pass` or `fail`.
@@ -765,6 +867,13 @@ function qrCheck(html: string, kind: QuestCoverKind): string {
     if (kind !== 'student-back' && kind !== 'teacher-back') return 'pass';
     const boxStart = html.indexOf('data-part="qr"');
     if (boxStart === -1) return 'fail';
+    const box = QUEST_BOXES[`${kind}:qr`];
+    const tag = html.slice(boxStart).match(/^[^>]*>/)?.[0] ?? '';
+    const style = tag.match(/style="([^"]*)"/)?.[1] ?? '';
+    const width = Number(style.match(/width:\s*([0-9.]+)mm/)?.[1]);
+    const height = Number(style.match(/height:\s*([0-9.]+)mm/)?.[1]);
+    if (!box || !(width > 0) || !(height > 0)) return 'fail';
+    if (Math.abs(width - box.widthMm) > 0.5 || Math.abs(height - box.heightMm) > 0.5) return 'fail';
     const svg = html.slice(boxStart).match(/<svg[\s\S]*?<\/svg>/)?.[0] ?? '';
     return checkQuestQr(svg).errors.length === 0 ? 'pass' : 'fail';
 }
@@ -882,37 +991,64 @@ function rowOf(plan: QuestPlan, kind: string): QuestPlanRow {
 }
 
 /**
- * The five panel values of the student back, from the shipped week files of the unit.
+ * The five panel values of the student back, from the shipped week files of the unit. A missing or
+ * corrupt phonics graph or week file, a unit without weeks, and an empty panel each give an error,
+ * so the build fails instead of printing a passing empty student panel (review case A-F1).
  * @param level The level.
  * @param unit The unit.
- * @returns The panel values, or an empty list.
+ * @returns The errors and the panel values.
  */
-function unitPanelValues(level: number, unit: number): QuestPanelValue[] {
+export function questPanelValues(level: number, unit: number): { errors: string[]; values: QuestPanelValue[] } {
+    let entries: ReturnType<typeof readLevelWeeks>;
     try {
-        const weeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((entry) => (entry.week ? [entry.week] : []));
-        const unitWeeks = weeks.filter((week) => week.meta.unit === unit).map((week) => week.meta.week).sort((a, b) => a - b);
-        const graph = readPhonicsGraph();
-        if (!graph || !unitWeeks.length) return [];
-        const book: StorytimeCoverBook = {
-            level,
-            unit,
-            firstWeek: unitWeeks[0],
-            lastWeek: unitWeeks[unitWeeks.length - 1],
-            title: `Level ${level} Unit ${unit}`,
-            levelColour: '#22345A',
-            pictureRecipe: [],
-            panel: {
-                story: { text: '', weeks: [] },
-                sounds: { weeks: [] },
-                decodable: { weeks: [] },
-                sight: { weeks: [] },
-                books: { weeks: [] },
-            },
-        };
-        return storytimeCoverPanelValues(book, { weeks, graph });
-    } catch {
-        return [];
+        entries = readLevelWeeks(STORYTIME_ROOT, level);
+    } catch (error) {
+        return { errors: [`the week files of Level ${level} are not readable: ${error instanceof Error ? error.message : String(error)}`], values: [] };
     }
+    const errors: string[] = [];
+    if (!entries.length) errors.push(`the week folder of Level ${level} holds no week file`);
+    for (const entry of entries) {
+        if (entry.error) errors.push(`the week file ${entry.file} is not readable: ${entry.error}`);
+    }
+    const weeks = entries.flatMap((entry) => (entry.week ? [entry.week] : []));
+    const unitWeeks = weeks.filter((week) => week.meta.unit === unit).map((week) => week.meta.week).sort((a, b) => a - b);
+    if (!unitWeeks.length) errors.push(`the week files of Level ${level} hold no week of Unit ${unit}`);
+    let graph: ReturnType<typeof readPhonicsGraph>;
+    try {
+        graph = readPhonicsGraph();
+    } catch (error) {
+        errors.push(`the phonics graph ${PHONICS_GRAPH_FILE} is not readable: ${error instanceof Error ? error.message : String(error)}`);
+        return { errors, values: [] };
+    }
+    if (!graph) {
+        errors.push(`the phonics graph ${PHONICS_GRAPH_FILE} is missing; the student back panel needs it`);
+        return { errors, values: [] };
+    }
+    if (errors.length) return { errors, values: [] };
+    const book: StorytimeCoverBook = {
+        level,
+        unit,
+        firstWeek: unitWeeks[0],
+        lastWeek: unitWeeks[unitWeeks.length - 1],
+        title: `Level ${level} Unit ${unit}`,
+        levelColour: '#22345A',
+        pictureRecipe: [],
+        panel: {
+            story: { text: '', weeks: [] },
+            sounds: { weeks: [] },
+            decodable: { weeks: [] },
+            sight: { weeks: [] },
+            books: { weeks: [] },
+        },
+    };
+    let values: QuestPanelValue[];
+    try {
+        values = storytimeCoverPanelValues(book, { weeks, graph });
+    } catch (error) {
+        return { errors: [`the student back panel is not computable: ${error instanceof Error ? error.message : String(error)}`], values: [] };
+    }
+    if (!values.length) errors.push('the student back panel is empty; the build refuses an empty panel');
+    return { errors, values };
 }
 
 /**
@@ -960,9 +1096,15 @@ async function main(argv: string[]): Promise<number> {
         const readers = questReaders();
         const names = questFileNames(args.level, args.unit, args.version);
         const layout = questLayout(args.level, args.unit, args.version);
+        const panel = questPanelValues(args.level, args.unit);
+        if (panel.errors.length) {
+            for (const error of panel.errors) console.error(error);
+            return 1;
+        }
+        const gitHead = readGitHead(REPO_ROOT);
         for (const folder of layout.folders) fs.mkdirSync(path.join(outDir, folder), { recursive: true });
         const bleedMm = 0;
-        const panelValues = unitPanelValues(args.level, args.unit);
+        const panelValues = panel.values;
         const logo = storytimeCoverFileUrl(STORYTIME_COVER_LOGO_FILE);
 
         const pages: Array<{ group: QuestGroup; kind: QuestCoverKind; html: string; file: string; widthMm: number; heightMm: number; art: QuestPlanRow }> = [];
@@ -1024,7 +1166,7 @@ async function main(argv: string[]): Promise<number> {
         for (const group of Object.keys(reportRows) as QuestGroup[]) {
             const report = questBuildReport(reportRows[group]);
             const reportFile = path.join(outDir, group, 'build-report.json');
-            writeNew(reportFile, `${JSON.stringify(report, null, 2)}\n`);
+            writeNew(reportFile, `${JSON.stringify({ ...report, gitHead }, null, 2)}\n`);
             if (!report.ok) {
                 for (const error of report.errors) console.error(error);
                 return 1;
@@ -1055,11 +1197,16 @@ async function main(argv: string[]): Promise<number> {
                 'readers-a3': `readers-a3/${names.readersA3}`,
                 'readers-leaf': `readers-leaf/${names.readersLeaf}`,
             };
+            const printDir = path.join(temp, 'print');
+            fs.mkdirSync(printDir);
+            const copies: Array<{ from: string; to: string }> = [];
             for (const group of Object.keys(printFiles) as QuestGroup[]) {
                 const input = path.join(outDir, pdfNames[group]);
-                const output = path.join(outDir, printFiles[group]);
-                execFileSync(process.execPath, questPdfxArgs(group, input, output), { cwd: DASHBOARD_ROOT, stdio: 'inherit' });
+                const staged = path.join(printDir, `${group}.pdf`);
+                execFileSync(process.execPath, questPdfxArgs(group, input, staged), { cwd: DASHBOARD_ROOT, stdio: 'inherit' });
+                copies.push({ from: staged, to: path.join(outDir, printFiles[group]) });
             }
+            for (const copy of copies) fs.copyFileSync(copy.from, copy.to, fs.constants.COPYFILE_EXCL);
         }
         console.log(
             `Covers of Level ${args.level} Unit ${args.unit} set ${args.version}: ${pages.length} pages, ${layout.files.length} files, out ${outDir}`,
