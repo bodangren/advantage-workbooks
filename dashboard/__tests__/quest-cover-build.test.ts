@@ -1675,7 +1675,7 @@ describe('ADV-6 output and ADV-8 stale file (target groups 6 and 8; review case 
         // result of the build code. Only that error, seen in the build that won the lock, repeats the
         // attempt (3 at most). Every assertion below is unchanged and runs on the last attempt.
         const hook = launchHook();
-        const chromeLoad = /Protocol error|Target (page, context or browser )?has been closed|browser has been closed|Target closed/i;
+        const chromeLoad = CHROME_LOAD;
         let fixture: LiveFixture | undefined;
         let first: ChildResult | undefined;
         let second: ChildResult | undefined;
