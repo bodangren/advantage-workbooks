@@ -1,0 +1,82 @@
+# Jr Green log — Phase 8, A6 v3 part 1 (status: complete)
+
+Track: storytime_print_r1_20261025
+Role: jr-green (print track)
+role_base_sha: c6b1cdfe6c0c7967805e1ddc04f540991d5c67a3
+Model: deepseek/deepseek-flash#high
+Task: Green, A6 v3 part 1, 2026-11-08 (plan line 1296)
+Evidence commit: 21776bde07097d8dca5c56a7e962f4e8562abaf3
+
+## Preflight (facts before part 1)
+
+- Picture folder entries: 437 (expected 437).
+- Folder manifest: 199 jobs, 16 batches, version 1 (expected).
+- Folder manifest SHA-256: 8679312872b03968ee8a1037531642eb73574fa64423cfcfb39c2654ad3f83ca (expected).
+- `pictures.json` at `content/storytime/l2/print/pictures.json`: SHA-256 ba3956fc10de8f0c37ccdbd6cd70b1c11d35a1a67608e0aa3d0fe3d410078ddf, 227 rows, 31 card rows (expected).
+- No source job id is in the folder manifest (overlap empty).
+- Helper `ham-line.cjs` SHA-256: 3cf2b3e1e326f9b4adde089140c6c9928bd58499c2a1da0730e361cb6adfd8b8 (expected). The file was present; I did not write it again.
+- Helper `resolve-cards.ts` SHA-256: f82e43574e7f92e80d3fd565bf6634ba4cefb43aa8f7b6cbbfd4a3a0dff4bd63 (expected). The file was present; I did not write it again.
+
+## Steps
+
+1. `sha256sum` of the approved `card-kit-v1`, `card-kit-v2`, and `card-kit-v3` folders gives 10 lines. Capture: `green-p8-a6v3-approved-before.txt`. PASS.
+2. The source `MANIFEST.txt` check gives 61 `OK` lines and 0 failures. Stage 1 on the source exits 1 with the 39 expected lines. The fail line is the ham line. The summary is `30 of 31 rows pass stage 1 (/home/daniebo/Desktop/handoff/storytime-l2-card-pictures)`. Capture: `green-p8-a6v3-source-check.txt`. PASS.
+3. The baseline build exits 0. A5 7 pages, A6 38 pages, the sticker sheet 1 page. The count lines are `picture cards: 106, picture 57, patch 8, dots 9, none 32` and `distinct words: 94, picture 46, patch or dots 17, none 31`. The `cmp` against `green-p8-patches-r2-match-report.txt` reports no difference (exit 0). The part 1 HEAD is c6b1cdfe6c0c7967805e1ddc04f540991d5c67a3. Capture: `green-p8-a6v3-before-build.txt`. PASS.
+4. The 150 dpi render writes 38 page files. The SHA-256 list holds 38 lines. The scratch folder `card-kit-a6-v3-before` is removed. Capture: `green-p8-a6v3-before-pages.txt`. PASS.
+5. The backup `/tmp/opencode/p8a6/manifest-before-a6v3.json` has a `cmp` of no difference against the folder manifest (exit 0). PASS.
+6. The `cp -n` run adds 61 files of 61 with a `cmp` of no difference for each one. The folder holds 498 entries. Capture: `green-p8-a6v3-copy.txt` (the plan names no capture for this step). PASS.
+7. The ham fallback matches every expected value. Script SHA-256 `3cf2b3e1e326f9b4adde089140c6c9928bd58499c2a1da0730e361cb6adfd8b8`. Input SHA-256 `1b1e93e0bd8251ae1a31a7353bc47c82371485db12b7d829e5638c59d9eb795c`. Result object `{"format":"png","width":1500,"height":1500,"channels":1,"premultiplied":false,"size":483067}`. `file` line `PNG image data, 1500 x 1500, 8-bit grayscale, non-interlaced`. Output SHA-256 `4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d`. The copy has a `cmp` of no difference. The folder holds 499 entries. Capture: `green-p8-a6v3-ham-fallback.txt`. PASS.
+8. The merge gives 230 jobs with 230 different ids and 30 batches. The ham job holds the plan values. The new `manifest.json` SHA-256 is `67a8cc4a776a82df63c9cebf2b0ef5929cb727ee79fd86573df59fe10be3d789`. Capture: `green-p8-a6v3-merge.txt`. PASS.
+9. The resolver prints `delivered 227 of 227; card rows 31 of 31; reasons 0` and exits 0. Capture: `green-p8-a6v3-resolve.txt`. PASS.
+10. (agent-opened) The fallback is a grey copy of the color picture with the same framing. The plate, the ham disc, the shine, and the speckles keep their places. PASS.
+11. The plan task is `[x]` with the evidence. The commit is 21776bde. It holds the plan and the eight captures; this log is in the commit right after it. PASS.
+
+## Deviations
+
+- The plan names no capture for step 6. I added `green-p8-a6v3-copy.txt` and recorded that in the plan evidence.
+- The plan names no capture for step 5. That evidence is in this log.
+- `cp -n` prints a portability warning on this host. The copies are correct, and the warnings stay out of the captures.
+- No stop rule fired. No code change was needed.
+
+## Files added (so the reviewers can scope the audit)
+
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-approved-before.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-source-check.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-before-build.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-before-pages.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-copy.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-ham-fallback.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-merge.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-resolve.txt`
+- `measure/runs/storytime_print_r1_20261025/green-p8-a6v3-part1-c6b1cdfe.log`
+- Helper scripts (outside the repo): `/tmp/opencode/p8a6/merge-manifest-a6v3.py` and `/tmp/opencode/p8a6/edit-plan-part1.py`.
+
+The picture folder `content/storytime/l2/print/pictures/` is gitignored (`.gitignore` line 37). The merge and the 62 copies add no tracked file.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: 8
+role: jr-green
+track: storytime_print_r1_20261025
+task: Green, A6 v3 part 1, 2026-11-08
+role_base_sha: c6b1cdfe6c0c7967805e1ddc04f540991d5c67a3
+head: 21776bde07097d8dca5c56a7e962f4e8562abaf3
+commit: 21776bde07097d8dca5c56a7e962f4e8562abaf3
+step 1: PASS, 10 lines of the approved folders, capture green-p8-a6v3-approved-before.txt
+step 2: PASS, 61 OK and 0 failures; stage 1 exit 1 with 30 pass, 7 skip, the ham fail line, and the summary 30 of 31, capture green-p8-a6v3-source-check.txt
+step 3: PASS, exit 0, A6 38 pages, picture cards 106/57/8/9/32, distinct words 94/46/17/31, cmp exit 0, capture green-p8-a6v3-before-build.txt
+step 4: PASS, 38 pages rendered and 38 SHA-256 lines, scratch folder removed, capture green-p8-a6v3-before-pages.txt
+step 5: PASS, backup cmp exit 0
+step 6: PASS, 61 of 61 copies with cmp exit 0, 498 entries, capture green-p8-a6v3-copy.txt
+step 7: PASS, ham fallback output SHA-256 4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d, 499 entries, capture green-p8-a6v3-ham-fallback.txt
+step 8: PASS, 230 jobs with 230 ids and 30 batches, manifest SHA-256 67a8cc4a776a82df63c9cebf2b0ef5929cb727ee79fd86573df59fe10be3d789, capture green-p8-a6v3-merge.txt
+step 9: PASS, delivered 227 of 227; card rows 31 of 31; reasons 0, capture green-p8-a6v3-resolve.txt
+step 10: PASS, agent-opened, the fallback is a grey copy of the color picture with the same framing
+step 11: PASS, task marked [x], commit 21776bde
+ham_fallback_script_sha256: 3cf2b3e1e326f9b4adde089140c6c9928bd58499c2a1da0730e361cb6adfd8b8
+ham_fallback_output_sha256: 4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d
+merge_counts: jobs 230, distinct ids 230, batches 30
+resolver_line: delivered 227 of 227; card rows 31 of 31; reasons 0
+dispositions: none
+handoff: part 2 can start. The part 1 HEAD of step 3 is c6b1cdfe6c0c7967805e1ddc04f540991d5c67a3; use it as $PART1_HEAD. The folder manifest now holds 230 jobs and 30 batches, and the picture folder holds 499 entries. The ham line file is a greyscale fallback: stage 1 would reject it, and the card kit build does not run stage 1. Part 2 step 1 must expect `picture cards: 106, picture 89, patch 8, dots 9, none 0` and `distinct words: 94, picture 77, patch or dots 17, none 0`. Part 2 copies the corner note into its MANIFEST. The plan names no capture for step 6; I added green-p8-a6v3-copy.txt. Never stage video/storytime-song/scripts/render.mjs or dashboard/raw.json.
+END_MEASURE_AGENT_RESULT
