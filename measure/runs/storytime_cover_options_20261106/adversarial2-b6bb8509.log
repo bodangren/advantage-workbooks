@@ -1,0 +1,73 @@
+Adversarial round 2, Phase 2, storytime_cover_options_20261106
+role_base_sha 172cadc7; audited head b6bb8509; status fail; retry_implementation
+GREEN_TEST_COMMAND (r2): Test Files 2 failed (2); Tests 3 failed | 270 passed (273); EXIT=1; capture adversarial2-green-command-r2.txt
+MEASURE_AGENT_RESULT
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_cover_options_20261106",
+  "phase": "P2",
+  "phase_base_sha": "e6e2156ad000d89bb53f19857983299c622f82ac",
+  "role_base_sha": "172cadc7f8e3c5a5d4be2dc0bfc370e208a3471b",
+  "audited_head_sha": "b6bb85099db3e8eada35a8ee3d9d7a71335e99e2",
+  "test_commit": "b6bb85099db3e8eada35a8ee3d9d7a71335e99e2",
+  "status": "fail",
+  "summary": "Round 2 confirms F1 to F13: each has a test that failed in round 1 and passes now. The unstable concurrency test passed 4 of 4 runs and its cause is machine load, not a code defect. New probes found 4 defects in the Green 3 code: 3 tests fail in GREEN_TEST_COMMAND (270 pass, 3 fail, EXIT=1): invisible characters and compatibility forms pass the copy check, and a failure in the move step leaves 3 of 4 print files. A fourth defect (SIGINT or SIGTERM leaves the storytime-quest- temp folder) is proven by a deterministic probe and by failing runs, but its test is racy. No production file changed.",
+  "blocking_findings": [
+    "F14 [Minor] adversarial ADV2-3 test 'fails the copy check for a forbidden word split by each invisible character' (quest-cover-template.test.ts:2045 block; capture adv2-template-run1.txt, adversarial2-green-command-r2.txt): checkQuestCopy passes Chi and bi split by U+034F, U+061C, U+180E, U+200E, U+200F, U+202A, U+202C, U+2061 to U+2064, U+2066, U+2069, U+FE00, or U+FE0F (30 misses in 84 probes; the same marks split CEFR). These characters print as nothing, so the forbidden word prints. Defect: dashboard/lib/storytime/print/cover-quest.ts:301 (ZERO_WIDTH holds only U+200B, U+200C, U+200D, U+2060, U+FEFF) and :684. Fix: strip the Unicode Default_Ignorable_Code_Point class (and U+00AD) before the shared check.",
+    "F15 [Minor] adversarial ADV2-3 test 'fails the copy check for a forbidden word in a compatibility form' (same captures): checkQuestCopy passes the full-width forms of Chibi, CEFR, and Pre-A1 and a circled C form of Chibi (4 of 4). Defect: dashboard/lib/storytime/print/cover-quest.ts:680-686 (no NFKC step; the shared normaliser in covers.ts may not change, G-1). Fix: apply normalize('NFKC') in checkQuestCopy before the shared call.",
+    "F16 [Minor] adversarial ADV2-6 tests 'a SIGINT while the build runs leaves no storytime-quest- temp folder' and the SIGTERM twin (captures adv2-build-fast2.txt: both fail; adv2-signal-probe.txt: 4 of 4 probes leave the folder at both stages, html and reports): a SIGINT or SIGTERM ends the build without the finally block, so /tmp/storytime-quest-XXXX stays with the page HTML. Defect: dashboard/scripts/storytime/make-storytime-quest-covers.ts:1060 and :1219 (cleanup only in finally; no signal handler). Fix: remove the temp folder in a SIGINT and SIGTERM handler. See N3: the committed signal tests are racy and pass in some runs.",
+    "F17 [Minor] adversarial ADV2-6 test 'a failure in the move step of the print files leaves no print file at a final name and no temp folder' (captures adv2-build-move.txt, adversarial2-green-command-r2.txt): when the copy of the last print file fails (EACCES on readers-leaf), the build exits 1 but the first 3 print files stay with final deliverable names (student, teacher, readers-a3). Defect: dashboard/scripts/storytime/make-storytime-quest-covers.ts:1209 (a copy loop with no rollback). Fix: remove the copies already made when one copy fails, or check every target folder before the first copy. This is the move-step case of the Green 3 fix for F4."
+  ],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial concurrency test: cause of the old instability (see evidence). The test now repeats an attempt only when the build that won the lock stops on a Chrome load error (Protocol error, Target closed; 3 attempts at most), and it asserts that exactly 1 process launched Chrome. All earlier assertions are unchanged. The timeout is LIVE_MS times 3.",
+    "N2 [Nit] adversarial ADV2-2 probe (capture adv2-cap-symlink-probe.txt, scratch run, not a committed test): a symlink inside the pictures folder that points to a 100 MB file inside the same folder passes planQuestBuild with no error. The size cap runs only for a file that is not a symlink. Defect: make-storytime-quest-covers.ts:592 (return undefined before the size check). Safe in practice: the folder is trusted data. Fix: apply the cap to the resolved file.",
+    "N3 [Nit] adversarial ADV2-6 signal tests are racy: with the defect present they failed in adv2-build-fast2.txt (2 of 2) and adv2-signal-run1.txt (SIGINT), and they passed in adversarial2-green-command-r2.txt, adv2-signal-run2.txt, and adv2-signal-run3.txt. The scratch probe (adv2-signal-probe.txt) shows the defect every time. Cause of the pass is not found. Suggested tighter test: wait for student/build-report.json before the signal, and put the exit code and signal into the message.",
+    "N4 [Nit] adversarial ADV2-1: a dangling symlink at the out folder or at a sub folder is not refused by the plan (checkQuestOutDir realish at make-storytime-quest-covers.ts:348 and the existsSync at :697 follow links). The build then stops at mkdir with an error, creates nothing at the link target, and leaves no print file or temp folder (test 'a dangling symlink at a sub folder or at the out folder fails the build', passes). Safe; the error text is poor.",
+    "N5 [Nit] adversarial ADV2-8: a linked worktree layout (HEAD in the worktree folder, refs in the common folder) is read as the right id or refused, never a wrong id (test passes; the outcome is not pinned). The build cannot read the ref through a commondir file, so it most likely refuses; this repository forbids worktrees.",
+    "N6 [Nit] adversarial: the live print test of the move step takes 400 to 680 s on this machine (LIVE_MS is 900000 ms and the build kills its child at 840 s). A slower machine can time out.",
+    "N7 [Nit] adversarial: adversarial2-green-command.txt is PARTIAL (the machine shutdown of 2026-11-08 stopped that run; it has no EXIT line). It is not a gate result. The gate result is adversarial2-green-command-r2.txt."
+  ],
+  "evidence": [
+    "F1 confirmed: tests 'a missing graph fails the build or a check, never a passing empty student panel' and 'a corrupt graph file fails the build or a check, never a passing empty student panel' (ADV-9). Failed in round 1 (adv-build-adv9.txt); pass in adversarial2-green-command-r2.txt.",
+    "F2 confirmed: 'refuses a reader slug that holds a path (review B F1)'. Failed in round 1; passes now.",
+    "F3 confirmed: 'refuses a symlink at a sub folder of the out folder (review B F2)'. Failed in round 1; passes now.",
+    "F4 confirmed: 'a failed PDF/X step leaves no print file with a final name (review B F3)'. Failed in round 1 (adv-build-live-d.txt); passes now. The move-step case is the new F17.",
+    "F5 confirmed: 'refuses a symlink art file that points outside the pictures folder (review B F7)'. Failed in round 1; passes now. A symlink inside the folder is the new N2.",
+    "F6 confirmed: 'refuses a 100 MB art file (size cap)'. Failed in round 1; passes now. New cap tests at the cap, 1 byte below, 1 byte above, 4 GiB sparse, a reader picture, and a line art picture all pass (adv2-build-fast.txt).",
+    "F7 confirmed: 'rejects a huge cast array on either front and finishes in time' (quest-cover-template.test.ts:1817). Failed in round 1; passes now.",
+    "F8 confirmed: 'fails the copy check for a forbidden word split by a soft hyphen, a non-breaking hyphen, or a minus sign' (includes ChiBi). Failed in round 1; passes now.",
+    "F9 confirmed: 'fails the copy check for a forbidden word split by an invisible joiner (extra probe)'. Failed in round 1; passes now. The wider set of marks is the new F14.",
+    "F10 confirmed: 'fails the Thai check for a Thai look-alike on a back or a front'. Failed in round 1 (adv-template-thai.txt); passes now.",
+    "F11 confirmed: 'fails the QR check when the printed QR box is scaled to 20 mm in the page markup' and 'reads a QR box scaled to 20 mm as different modules'. Failed in round 1; pass now.",
+    "F12 confirmed: 'flags transparency and effects in every spelling of the CSS' and 'flags an SVG opacity attribute and a CSS filter in a page or in the reader function CSS'. Failed in round 1; pass now.",
+    "F13 confirmed: 'the build report records the git head of the build (the stale file check needs it)'. Failed in round 1; passes now (gitHead is an ancestor of HEAD in all 4 reports).",
+    "GREEN_TEST_COMMAND on b6bb8509 (adversarial2-green-command-r2.txt, one heavy-run wrapper, EXIT=1): Test Files 2 failed (2); Tests 3 failed | 270 passed (273); Duration 835.02s. The 3 failures are the two ADV2-3 copy tests and the ADV2-6 move-step test. The 255 older tests all pass.",
+    "Cause of the old unstable test ('two builds into one folder at once...'): machine load, a Chrome render error, not a code defect. Evidence: (1) the test passed 4 of 4 runs with the whole output kept (adv2-concurrency-run1.txt to run3.txt, 330 s, 267 s, 256 s; adv2-concurrency-hook.txt, 406 s) and in the r2 gate run. (2) Code: both builds write student/build-report.json with the wx flag (make-storytime-quest-covers.ts:1169, before chromium.launch at :1176), so the loser fails with EEXIST before it starts Chrome; a preload hook that logs each chromium.launch shows exactly 1 launch for the two builds (adv2-concurrency-hook.txt, assertion 'only the build that won the lock starts Chrome'). So the loser cannot disturb the winner. (3) The same error text 'page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot' (after fonts loaded) occurred in round 1 in a single, non-concurrent build (adv-build-live-c.txt, a gs shim test, 79 s). (4) A failure is not deterministic (about 2 in 5 earlier, 0 in 5 now); the failing run in green3-p3-project-rerun.txt stopped at 41 s, long before a normal 250 to 400 s build. Most likely the 2 earlier failures were that Chrome screenshot error under memory pressure (the machine got a RAM upgrade today). Confidence: medium. The error text of those 2 failures was not kept (the Green 3 captures were filtered), so it is not proven.",
+    "A4 (vacuous pass): every table test asserts its length first (4, 12, 16, 21, 4 cases) before the loop. A7 (over-broad filter): the control line with 'never' and 'do not' gives no error and a known split is still caught (test 'keeps a clean line clean...'). A5 (false claim): the cited Green 3 line 'Tests 255 passed (255)' is true for its head; at b6bb8509 the count is 273 with 3 failures.",
+    "readGitHead (risk 1): 6 tests pass: a detached HEAD, a loose ref, a ref only in packed-refs (with decoy branches main2 and main-old and a peeled line), loose before packed, a .git file with a relative and an absolute gitdir pointer (built as temp fixtures, no git worktree), a linked worktree layout (right id or refusal), 16 missing or corrupt layouts (all refuse), a ref that climbs out of .git (refused), and the id of this repository equals git rev-parse HEAD. No wrong id was found.",
+    "Staged print files (risk 2): the temp folder is removed after a read-only out folder, a missing phonics graph, a dangling symlink, and the move-step failure in the private TMPDIR tests (those four pass; the move-step test fails on its print file assertion first, the temp folder assertion was not reached). The signal paths leave the folder (F16). 0 storytime-quest- folders stay under /tmp after the runs.",
+    "Out folder links (risk 5): a symlink at the default out folder to an outside folder, and a symlink at the storytime folder one level higher, are refused and nothing is written through them (test passes).",
+    "Privacy: a grep for the storytime content path in this JSON and in the log gives 0. No Thai text is quoted.",
+    "Provenance: role_base_sha 172cadc7 equals the HEAD at the start. The test commit b6bb8509 lists only the two test files (git show --name-only --format=). pnpm-lock.yaml is unchanged."
+  ],
+  "commands": [
+    "git rev-parse HEAD (172cadc7 at the start; b6bb8509 after the test commit)",
+    "heavy-run: vitest -t 'two builds into one folder' three times (adv2-concurrency-run1.txt to run3.txt) and once with the Chrome launch hook (adv2-concurrency-hook.txt)",
+    "heavy-run: vitest -t ADV2 groups (adv2-template-run1.txt, adv2-build-fast.txt, adv2-build-fast2.txt, adv2-build-move.txt, adv2-signal-run1.txt to run3.txt)",
+    "heavy-run: npx tsx /tmp/opencode/sigprobe.mts and capprobe.mts (scratch, outside the repository; adv2-signal-probe.txt, adv2-cap-symlink-probe.txt)",
+    "git commit b6bb8509 (two test files, explicit paths)",
+    "heavy-run: GREEN_TEST_COMMAND once (adversarial2-green-command-r2.txt, EXIT=1); the first run (adversarial2-green-command.txt) is PARTIAL, stopped by the machine shutdown"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/quest-cover-build.test.ts",
+    "dashboard/__tests__/quest-cover-template.test.ts"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high"
+}
+END_MEASURE_AGENT_RESULT
