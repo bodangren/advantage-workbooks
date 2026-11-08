@@ -1,0 +1,137 @@
+# Jr Green · Phase 2 · Task T2.7c · part 2 (storytime_cover_options_20261106)
+
+- role: jr-green
+- model: deepseek/deepseek-flash#high
+- phase: P2 (heading `## Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)`)
+- task: T2.7c, part 2 of 2: the full gates, the mutants, the dry build, the dispositions, and the plan evidence
+- phase_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
+- role_base_sha: f26924f6 (git rev-parse HEAD at the start)
+- red_model: claude-code/claude-sonnet-5-5#high (Anthropic)
+- red_commit: b6bb8509
+- impl_commits: 9601ddb5 (cover-quest.ts, F14 and F15), 15eb2574 (the build script, F16 and F17), both from part 1
+- scope: no file under `dashboard/` changes in this part.
+
+## Status
+
+status: complete. All four gates pass under the load-flake rule, the mutant run gives 26 of 27 caught with one test gap (F17), and the dry build passes.
+
+## Start state
+
+- HEAD: f26924f6. The red commit b6bb8509 is an ancestor of HEAD (checked with `git merge-base --is-ancestor`).
+- The phase base e6e2156a is an ancestor of HEAD.
+- SHA-256 of `cover-quest.ts`: 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419 (equal to the expected value).
+- SHA-256 of `make-storytime-quest-covers.ts`: d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1 (equal to the expected value).
+- `git status --short dashboard` prints only `?? dashboard/raw.json`.
+
+## Step log
+
+1. Start state recorded.
+2. GREEN_TEST_COMMAND (plan line 54), one heavy-run, capture `green4-p2-green.txt`: `Test Files  1 failed | 1 passed (2)`, `Tests  2 failed | 271 passed (273)`, EXIT=1, duration 362.62 s. Both failures are the Chrome load flake of the brief, and both show `page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot`:
+   - "a failed PDF/X step leaves no print file with a final name (review B F3)": the expected text was `Ghostscript failed`, and the received text was the Protocol error.
+   - "a failure in the move step of the print files leaves no print file at a final name and no temp folder": the expected text was `/EACCES|permission denied/i`, and the received text was the Protocol error.
+   No code change. Per the load-flake rule, the single-test rerun of each failing test is next.
+3. Green rerun 1, `green4-p2-green-rerun1.txt`: "a failed PDF/X step leaves no print file" only, 1 passed | 73 skipped, EXIT=0, 203359 ms.
+4. Green rerun 2, `green4-p2-green-rerun2.txt`: "a failure in the move step of the print files" only, 1 passed | 73 skipped, EXIT=0, 392300 ms.
+   Under the load-flake rule the GREEN_TEST_COMMAND gate passes: 271 of 273 tests pass in the full run, and each of the 2 failing tests passes on its single-test rerun.
+5. PROJECT_LINT (plan line 56), one heavy-run, `green4-p2-lint.txt`: EXIT=0, 0 errors, 1 warning (the known `no-unused-vars` at line 1695 of the immutable template test, the same warning as Green 3).
+6. PROJECT_CHECKS (plan line 57), one heavy-run, `green4-p2-checks.txt`: `Summary: 8 package(s), 0 failed check(s), 7 warning(s).`, CHECKWEEKS_EXIT=0, TSC_EXIT=0.
+7. PROJECT_TESTS (plan line 55), one heavy-run, `green4-p2-project.txt`: `Test Files  2 failed | 66 passed (68)`, `Tests  2 failed | 1852 passed (1854)`, EXIT=1, duration 1863.52 s. Both failures are the same Chrome load flake:
+   - "a failed PDF/X step leaves no print file with a final name (review B F3)" of this track: `page.screenshot: Protocol error`.
+   - "R1-7 the render of the card of one is a progressive JPEG of 800 x 800" of `storytime-package-raster.test.ts` (another track, the Phase 10 raster export): `page.screenshot: Protocol error`.
+8. PROJECT_TESTS rerun 1, `green4-p2-project-rerun1.txt`: the PDF/X test only, 1 passed | 73 skipped, EXIT=0, 153212 ms. Rerun 2, `green4-p2-project-rerun2.txt`: the raster test only, 1 passed | 14 skipped, EXIT=0, 6856 ms. Under the load-flake rule the PROJECT_TESTS gate passes: 1852 of 1854 tests pass, and each of the 2 failing tests passes on its single-test rerun.
+9. Mutants, one heavy-run, capture `mutants-green4-runlog.txt`, table `mutants-green4.txt`, runner copy `mutants-green4-run.py`: `mutants: 27, caught: 26`, `n/a: 0`, `restore cmp: ok`, and one survivor: F17. Both SHA-256 values are equal to the expected values after the last restore, and `git status --porcelain dashboard` prints only `?? dashboard/raw.json`.
+   - One old-text assert moved with part 1 and is updated: G2-M22 (cleanup). The `finally` block now calls `releaseSignals()` before `fs.rmSync`, so the third edit keeps that line and removes only the temp cleanup. The other 22 old texts are unchanged.
+   - The slow live ADV and ADV2 tests of both rounds are excluded with `-t '^(?!.*ADV2?-)'`.
+   - F14 (strip only the old 5 zero-width characters) and F15 (no `normalize('NFKC')`) are caught by the ADV2-3 tests of the template file.
+   - F16 (no `cleanTempOnSignals` call) ran 3 times on the two signal tests: run1 exit 1 (SIGINT test failed), run2 exit 1 (SIGTERM test failed), run3 exit 1 (SIGINT test failed). 3 of 3 fail, so F16 is caught.
+   - F17 (no rollback of the copied print files) SURVIVED with exit 0. Cause: `checkPrintFolders` (line 1252) stops the move-step test before the first copy, so no test reaches the rollback at line 1262. This is a test gap, not a Green defect. No test and no code changed. Adversarial round 3 owns the new test.
+10. Dry build, the setup of Green 3 part 3, into `/tmp/opencode/p2-green4/print-ready` with the art in `/tmp/opencode/p2-green4/art` (the 28 real reader pictures of `content/storytime/l2/print/pictures/` plus 3 option A art files resized with sharp to 2480 x 3508 px RGB), one heavy-run, `green4-p2-dry-build.txt`: `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files`, DRY_BUILD_EXIT=0.
+    - Attempt 1 failed with the Chrome `page.screenshot: Protocol error` and left the student and teacher groups in the folder.
+    - Attempt 2 stopped with the correct create-only error (`the target file ... exists; the build never overwrites a file`) because that folder was not empty (`green4-p2-dry-build-rerun.txt`).
+    - I removed the folder, and attempt 3 passed. The capture of attempt 1 was replaced by attempt 3; its error text is recorded here.
+11. Reports (a python read), `green4-p2-reports.txt`: each of the four reports gives `ok=True` and 0 failing checks, the page counts are 2, 2, 14, 14, `checks.qr` is `pass` on `student/back.png` and `teacher/teacher-back.png`, and the `gitHead` of each report equals `git rev-parse HEAD` (f26924f6).
+12. File count, N7: the dry build writes 40 files, and `questLayout` (line 469) lists 44 names. The 4 other names are the PDF/X print files, which the build writes only with `--print` (`grep -c -e '--print' green4-p2-dry-build.txt` gives 0). The summary line (line 1267) prints `layout.files.length`, not the count of written files. Not a defect: the four reports pass. Disposition N7=DECLINE.
+13. Cleanup: `/tmp/opencode/p2-green4` is removed, and 0 `storytime-quest-` temp folders stay under `/tmp`. No paid call and no network call ran. Both SHA-256 values are unchanged at the end.
+14. Dispositions of the nonblocking findings (orchestrator defaults, recorded as written): N2=DEFER, N3=DEFER, N4=DECLINE, N5=DECLINE, N6=DEFER. N7=DECLINE. The N2, N3, and N6 rows are added to `measure/tech-debt.md` in the format of that file; the file goes from 50 to 53 lines, one line for each finding.
+15. Plan evidence: ONE sub-bullet added at the end of the sub-bullets of `- [ ] Task (Adversarial)`. No task line was flipped, and no new task line was added.
+
+## Facts at the end
+
+- role_base_sha: f26924f6518c40bbb30827984778e729e3159909; head before the measure commit: f26924f6.
+- Implementation commits: 9601ddb5 (cover-quest.ts) and 15eb2574 (the build script), both from part 1.
+- cover-quest.ts SHA-256: 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419 (the same at the start and at the end).
+- make-storytime-quest-covers.ts SHA-256: d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1 (the same at the start and at the end).
+- No file under `dashboard/` changed in this part. No test file changed. `pnpm-lock.yaml` is untouched.
+- No paid call and no network call ran. No pnpm or npm install ran.
+- The survivor F17 is a test gap for adversarial round 3.
+
+## Files added by part 2
+
+- measure/runs/storytime_cover_options_20261106/jr-green-p2-t27c-part2-f26924f6.log
+- measure/runs/storytime_cover_options_20261106/green4-p2-green.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-green-rerun1.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-green-rerun2.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-lint.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-checks.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-project.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-project-rerun1.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-project-rerun2.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-dry-build.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-dry-build-rerun.txt
+- measure/runs/storytime_cover_options_20261106/green4-p2-reports.txt
+- measure/runs/storytime_cover_options_20261106/mutants-green4.txt
+- measure/runs/storytime_cover_options_20261106/mutants-green4-runlog.txt
+- measure/runs/storytime_cover_options_20261106/mutants-green4-run.py
+
+dispositions: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
+
+MEASURE_AGENT_RESULT
+status: complete
+role: jr-green
+phase: P2
+task: T2.7c
+track: storytime_cover_options_20261106
+role_base_sha: f26924f6
+head_before_impl: f26924f6
+head: f26924f6
+impl_commits:
+  - 9601ddb5 dashboard/lib/storytime/print/cover-quest.ts (F14, F15)
+  - 15eb2574 dashboard/scripts/storytime/make-storytime-quest-covers.ts (F16, F17)
+impl_sha256:
+  - dashboard/lib/storytime/print/cover-quest.ts: 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419
+  - dashboard/scripts/storytime/make-storytime-quest-covers.ts: d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: b6bb8509
+gates:
+  - GREEN_TEST_COMMAND: 2 files, 271 of 273 tests passed, EXIT=1 from 2 Chrome page.screenshot Protocol errors; each failing test passed on its single-test rerun (EXIT=0); green4-p2-green.txt, green4-p2-green-rerun1.txt, green4-p2-green-rerun2.txt
+  - PROJECT_LINT: EXIT=0, 0 errors, 1 known warning, green4-p2-lint.txt
+  - PROJECT_CHECKS: 0 failed check(s), CHECKWEEKS_EXIT=0, TSC_EXIT=0, green4-p2-checks.txt
+  - PROJECT_TESTS: 66 of 68 files passed, 1852 of 1854 tests passed, EXIT=1 from 2 Chrome page.screenshot Protocol errors; each failing test passed on its single-test rerun (EXIT=0); green4-p2-project.txt, green4-p2-project-rerun1.txt, green4-p2-project-rerun2.txt
+mutants: 27, caught: 26, n/a: 0, survivors: F17 (no rollback of the copied print files; checkPrintFolders stops the move-step test before the first copy), restore cmp: ok, mutants-green4.txt
+mutant_f16_runs: run1 exit 1 (SIGINT), run2 exit 1 (SIGTERM), run3 exit 1 (SIGINT); 3 of 3 fail, caught
+dry_build: 32 pages, 44 files in the message, 40 files written without --print (N7), DRY_BUILD_EXIT=0, four reports ok with 0 failing checks, checks.qr pass on both backs, gitHead f26924f6 in all four; green4-p2-dry-build.txt, green4-p2-dry-build-rerun.txt, green4-p2-reports.txt
+tasks_flipped_x: none
+tasks_flipped_b: none
+plan_line: one sub-bullet under the Adversarial task; no task line changed
+dispositions: N2=DEFER; N3=DEFER; N4=DECLINE; N5=DECLINE; N6=DEFER; N7=DECLINE
+handoff: |
+  SURVIVOR FOR ADVERSARIAL ROUND 3: F17 (no rollback of the copied print files) survived the
+  mutant run with exit 0. checkPrintFolders (make-storytime-quest-covers.ts line 1252) stops the
+  move-step test before the first copy, so no test reaches the rollback at line 1262. This is a
+  test gap, not a Green defect. Round 3 adds a test with a copy that fails after the pre-check
+  passes. Green changed no test and no code.
+
+  Scope for the review roles: this part changed no file under dashboard/. It changed plan.md (one
+  sub-bullet under the Adversarial task), measure/tech-debt.md (3 rows), and added 15 files under
+  measure/runs. The implementation commits are 9601ddb5 (cover-quest.ts) and 15eb2574 (the build
+  script), both from part 1.
+
+  Gate facts: both vitest gates had 2 Chrome page.screenshot Protocol error load flakes, and every
+  flake passed on its single-test rerun; no code and no test changed. The other two gates pass
+  without a flake. 26 of 27 mutants are caught, and F16 failed 3 of 3 signal runs.
+
+  The dry build writes 40 files without --print; the layout lists 44 names, and the 4 other names
+  are the PDF/X print files (N7, DECLINE). All four build reports pass.
+
+  The Adversarial task line stays [ ] until adversarial round 3 runs on this head.
+END_MEASURE_AGENT_RESULT

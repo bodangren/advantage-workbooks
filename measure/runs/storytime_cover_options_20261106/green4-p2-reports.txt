@@ -1,0 +1,21 @@
+# The four build reports of the dry build (Green 4 part 2)
+# read by a python read of each build-report.json
+# HEAD: f26924f6518c40bbb30827984778e729e3159909
+
+student/build-report.json: ok=True pages=2 failing_checks=0 gitHead=f26924f6518c40bbb30827984778e729e3159909
+  checks.qr on student/back.png: pass
+  student/front.png kinds checks all pass: True
+  student/back.png kinds checks all pass: True
+teacher/build-report.json: ok=True pages=2 failing_checks=0 gitHead=f26924f6518c40bbb30827984778e729e3159909
+  checks.qr on teacher/teacher-back.png: pass
+  teacher/teacher-front.png kinds checks all pass: True
+  teacher/teacher-back.png kinds checks all pass: True
+readers-a3/build-report.json: ok=True pages=14 failing_checks=0 gitHead=f26924f6518c40bbb30827984778e729e3159909
+  readers-a3/l2-w01-hello-a3-cover.png kinds checks all pass: True
+  readers-a3/l2-w01-nan-can-nod-a3-cover.png kinds checks all pass: True
+readers-leaf/build-report.json: ok=True pages=14 failing_checks=0 gitHead=f26924f6518c40bbb30827984778e729e3159909
+  readers-leaf/l2-w01-hello-leaf-cover.png kinds checks all pass: True
+  readers-leaf/l2-w01-nan-can-nod-leaf-cover.png kinds checks all pass: True
+
+all four reports ok with 0 failing checks: True
+gitHead equals git rev-parse HEAD in all four reports: True

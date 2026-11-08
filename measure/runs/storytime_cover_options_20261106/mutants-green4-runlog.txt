@@ -1,0 +1,117 @@
+backup build: /tmp/opencode/p2-green4/mut/backup/build.ts (53464 bytes)
+backup template: /tmp/opencode/p2-green4/mut/backup/template.ts (66173 bytes)
+preflight G2-M01 ok on build (argv A)
+preflight G2-M02 ok on build (argv B)
+preflight G2-M03 ok on build (out folder A)
+preflight G2-M04 ok on build (out folder B)
+preflight G2-M05 ok on build (overwrite A)
+preflight G2-M06 ok on build (overwrite B)
+preflight G2-M07 ok on build (names A)
+preflight G2-M08 ok on build (names B)
+preflight G2-M09 ok on build (PDF page checks A)
+preflight G2-M10 ok on build (PDF page checks B)
+preflight G2-M11 ok on build (report A)
+preflight G2-M12 ok on build (report B)
+preflight G2-M13 ok on build (plan order A)
+preflight G2-M14 ok on build (plan order B)
+preflight G2-M15 ok on build (reader pictures A)
+preflight G2-M16 ok on build (reader pictures B)
+preflight G2-M17 ok on build (PDF/X args A)
+preflight G2-M18 ok on build (PDF/X args B)
+preflight G2-M19 ok on build (QR from PNG A)
+preflight G2-M20 ok on build (QR from PNG B)
+preflight G2-M21 ok on build (import side effect A)
+preflight G2-M22 ok on build (cleanup A)
+preflight G2-M23 ok on build (QR box read A)
+preflight F14 ok on template (invisible characters (F14) A)
+preflight F15 ok on template (compatibility forms (F15) A)
+preflight F16 ok on build (stop signals (F16) A)
+preflight F17 ok on build (move step rollback (F17) A)
+G2-M01 run 1 -> exit 1 | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M01 exit 1 -> CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M02 run 1 -> exit 1 | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M02 exit 1 -> CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M03 run 1 -> exit 1 | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M03 exit 1 -> CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 run 1 -> exit 1 | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 exit 1 -> CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M05 run 1 -> exit 1 | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M05 exit 1 -> CAUGHT | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M06 run 1 -> exit 1 | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M06 exit 1 -> CAUGHT | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M07 run 1 -> exit 1 | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M07 exit 1 -> CAUGHT | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M08 run 1 -> exit 1 | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M08 exit 1 -> CAUGHT | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M09 run 1 -> exit 1 | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M09 exit 1 -> CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 run 1 -> exit 1 | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 exit 1 -> CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M11 run 1 -> exit 1 | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M11 exit 1 -> CAUGHT | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M12 run 1 -> exit 1 | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M12 exit 1 -> CAUGHT | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M13 run 1 -> exit 1 | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M13 exit 1 -> CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 run 1 -> exit 1 | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 exit 1 -> CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M15 run 1 -> exit 1 | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M15 exit 1 -> CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 run 1 -> exit 1 | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 exit 1 -> CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M17 run 1 -> exit 1 | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M17 exit 1 -> CAUGHT | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M18 run 1 -> exit 1 | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M18 exit 1 -> CAUGHT | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M19 run 1 -> exit 1 | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M19 exit 1 -> CAUGHT | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M20 run 1 -> exit 1 | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M20 exit 1 -> CAUGHT | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M21 run 1 -> exit 1 | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M21 exit 1 -> CAUGHT | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M22 run 1 -> exit 1 | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag
+G2-M22 exit 1 -> CAUGHT | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag
+G2-M23 run 1 -> exit 1 | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+G2-M23 exit 1 -> CAUGHT | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+F14 run 1 -> exit 1 | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word split by each invisible character
+F14 exit 1 -> CAUGHT | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word split by each invisible character
+F15 run 1 -> exit 1 | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word in a compatibility form (full width, ligature, circled)
+F15 exit 1 -> CAUGHT | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word in a compatibility form (full width, ligature, circled)
+F16 run 1 -> exit 1 | ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder
+F16 run 2 -> exit 1 | ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGTERM while the build runs leaves no storytime-quest- temp folder
+F16 run 3 -> exit 1 | ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder
+F16 exit 1, 1, 1 -> CAUGHT | ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder
+F17 run 1 -> exit 0 | (none)
+F17 exit 0 -> SURVIVED | (none)
+G2-M01 | argv | A | level bound <= 5 | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a level outside 1 to 4 and accepts 1 to 4
+G2-M02 | argv | B | accept a float version | B02 | exit 1 | CAUGHT | B02 argv bounds (parseQuestArgs) > refuses a version that is not an integer from 1
+G2-M03 | out folder | A | allow a ".." segment | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M04 | out folder | B | skip realpath | B03 | exit 1 | CAUGHT | B03 out folder policy (checkQuestOutDir, pin P6) > accepts the default folder and refuses every other target
+G2-M05 | overwrite | A | open with the flag w | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > writes files in create-only mode
+G2-M06 | overwrite | B | skip the other-version scan | B04 | exit 1 | CAUGHT | B04 never overwrite (planQuestBuild) > refuses a folder with a print file of another version
+G2-M07 | names | A | drop one file from the layout | B05 | exit 1 | CAUGHT | B05 file names and layout > lists the 44 paths and the four subfolders
+G2-M08 | names | B | wrong leaf version | B05 | exit 1 | CAUGHT | B05 file names and layout > gives the four print names of set 1 and set 2
+G2-M09 | PDF page checks | A | tolerance 15 pt | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M10 | PDF page checks | B | accept 13 pages | B06 | exit 1 | CAUGHT | B06 PDF page checks (parseQuestPdfInfo, checkQuestPdfPages) > refuses a wrong page count, a wrong size, and an error above 1.5 pt
+G2-M11 | report | A | hide a failed check | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > fails the report on one fail and keeps the fail in its row
+G2-M12 | report | B | omit the check key qr | B07 | exit 1 | CAUGHT | B07 build report (questBuildReport) > treats a check that did not run, an extra key, and another value as an error
+G2-M13 | plan order | A | write before the checks: the plan makes the out folder though a check failed | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M14 | plan order | B | accept alpha art | B08 | exit 1 | CAUGHT | B08 plan before write (planQuestBuild) > refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png
+G2-M15 | reader pictures | A | skip the coloured-pixel scan | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M16 | reader pictures | B | accept 3999 px | B09 | exit 1 | CAUGHT | B09 reader pictures (planQuestBuild) > refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel
+G2-M17 | PDF/X args | A | leaf without --k-only | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > keeps the fonts for every group and adds --k-only for the leaf only
+G2-M18 | PDF/X args | B | shell: true | B10 | exit 1 | CAUGHT | B10 PDF/X arguments (questPdfxArgs) > spawns with an argv array and with no shell
+G2-M19 | QR from PNG | A | compare the grid with itself | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > counts one flipped module as 1 and an all-white PNG as the dark count
+G2-M20 | QR from PNG | B | ignore the quiet zone shift | B11 | exit 1 | CAUGHT | B11 QR from the page PNG (questQrFromPng) > gives 0 different modules for a PNG drawn from the encoder grid
+G2-M21 | import side effect | A | main() at module level | B01 | exit 1 | CAUGHT | B01 import of the script > exports the names of P4 and leaves process.exitCode unchanged
+G2-M22 | cleanup | A | skip the temp cleanup on an error (the cleanup moves to the success returns) | B14 | exit 1 | CAUGHT | B13 command line smoke > exits 2 and creates no file for a bad level and for an unknown flag [the table names B14; another test of the file caught it first]
+G2-M23 | QR box read | A | read the first SVG match again, not the SVG inside the data-part="qr" box | B07b | exit 1 | CAUGHT | B07b the QR check of a real back page (questQrCheck; FR-11 build report, AC-9, QR module check) > (a) the real student back and the real teacher back give pass
+F14 | invisible characters (F14) | A | strip only the old 5 zero-width characters, not every default-ignorable code point | ADV2-3 | exit 1 | CAUGHT | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word split by each invisible character
+F15 | compatibility forms (F15) | A | no normalize(NFKC) before the shared copy check | ADV2-3 | exit 1 | CAUGHT | ADV2-3 invisible characters and compatibility forms (adversarial round 2, target group 3) > fails the copy check for a forbidden word in a compatibility form (full width, ligature, circled)
+F16 | stop signals (F16) | A | no cleanTempOnSignals call: a SIGINT or a SIGTERM leaves the temp folder (the signal tests are racy, N3: 3 runs, caught only when all 3 fail) | ADV2-6 | exit 1, 1, 1 | CAUGHT | ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder [3 runs: run1 exit 1 ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder; run2 exit 1 ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGTERM while the build runs leaves no storytime-quest- temp folder; run3 exit 1 ADV2-6 failure paths and the temp folder (adversarial round 2, risk of the Green 3 code) > a SIGINT while the build runs leaves no storytime-quest- temp folder]
+F17 | move step rollback (F17) | A | no rollback of the copied print files | ADV2-6 | exit 0 | SURVIVED | (none)
+restore cmp: ok
+script sha256 after the last restore: d48c94a4b71ea506afd86ea2e270e14e7b9444707794d887ffd5b9b0922d6df1
+template sha256 after the last restore: 309a6e93080dd2a4b04b3da2edd5dbc90c131358c30b2c47d0848a8085c0c419
+$ git status --porcelain dashboard
+?? dashboard/raw.json
