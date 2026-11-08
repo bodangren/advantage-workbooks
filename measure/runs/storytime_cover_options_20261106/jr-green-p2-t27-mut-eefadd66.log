@@ -1,0 +1,101 @@
+Jr Green log, Task 2.7 (Green 2), part 2 of 3 (the 22 mutants), track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this task: claude-code/claude-sonnet-5-5#high.
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c.
+role_base_sha: eefadd66b4b3fb671ff86295db7bfc7601c4d0d2 (HEAD when part 2 started).
+Code under test: 0ab68506821600dfae4c1ceb03638478ab2f1619 (only dashboard/scripts/storytime/make-storytime-quest-covers.ts).
+Red commits inside phase_base_sha..HEAD: 5281b70136e65ecb7d74244310f6092281e84ecf and 686a8a83 (only dashboard/__tests__/quest-cover-build.test.ts).
+
+Status: done-part-2. Part 2 holds no product change. It runs the 22 mutants of test-strategy.md
+section 4.8 against the script of commit 0ab68506. Part 1 (the script and its four gates) is done.
+Part 3 (PROJECT_TESTS, PROJECT_CHECKS, the dry build, the plan evidence) follows.
+
+Result: mutants 22, caught 22, n/a 0, survivors none. Every family of section 4.8 has a catch.
+The capture sits in mutants-green2.txt beside this log. The runner sits in mutants-green2-run.py.
+
+Run shape: one heavy-run wrapper (HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400) held all
+22 runs. Each run used only `cd dashboard && CI=true npx vitest run
+__tests__/quest-cover-build.test.ts --maxWorkers=1 --bail=1`. No other vitest run happened in
+part 2. The heavy-run wrapper was not nested.
+
+Method: the runner copies the pristine script to a backup by absolute path. For each mutant it
+asserts that the old text occurs exactly once, then writes the mutant. A count other than 1 stops
+the run, so a mutant never applies to nothing. After the test run, a `try/finally` restores the
+backup, and a byte compare proves the restore. A signal handler also restores the script.
+
+Restore proof: `restore cmp: ok` on every row (the compare runs after each mutant and once at the
+end). The script sha256 before the run and after the last restore is
+6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0. `git status --porcelain
+dashboard/scripts/storytime` prints nothing, exit 0. The capture holds both lines.
+
+Rows (id | family | mutant | expected test | result | catching test):
+G2-M01 argv A, level bound <= 5, B02, caught by B02 "refuses a level outside 1 to 4 and accepts 1 to 4".
+G2-M02 argv B, accept a float version, B02, caught by B02 "refuses a version that is not an integer from 1".
+G2-M03 out folder A, allow a ".." segment, B03, caught by B03 "accepts the default folder and refuses every other target".
+G2-M04 out folder B, skip realpath, B03, caught by the same B03 test.
+G2-M05 overwrite A, open with the flag w, B04, caught by B04 "writes files in create-only mode".
+G2-M06 overwrite B, skip the other-version scan, B04, caught by B04 "refuses a folder with a print file of another version".
+G2-M07 names A, drop one file from the layout, B05, caught by B05 "lists the 44 paths and the four subfolders".
+G2-M08 names B, wrong leaf version, B05, caught by B05 "gives the four print names of set 1 and set 2".
+G2-M09 PDF page checks A, tolerance 15 pt, B06, caught by B06 "refuses a wrong page count, a wrong size, and an error above 1.5 pt".
+G2-M10 PDF page checks B, accept 13 pages, B06, caught by the same B06 test.
+G2-M11 report A, hide a failed check, B07, caught by B07 "fails the report on one fail and keeps the fail in its row".
+G2-M12 report B, omit the check key qr, B07, caught by B07 "treats a check that did not run, an extra key, and another value as an error".
+G2-M13 plan order A, write before the checks, B08, caught by B08 "refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png".
+G2-M14 plan order B, accept alpha art, B08, caught by the same B08 test.
+G2-M15 reader pictures A, skip the coloured-pixel scan, B09, caught by B09 "refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel".
+G2-M16 reader pictures B, accept 3999 px, B09, caught by the same B09 test.
+G2-M17 PDF/X args A, leaf without --k-only, B10, caught by B10 "keeps the fonts for every group and adds --k-only for the leaf only".
+G2-M18 PDF/X args B, shell: true, B10, caught by B10 "spawns with an argv array and with no shell".
+G2-M19 QR from PNG A, compare the grid with itself, B11, caught by B11 "counts one flipped module as 1 and an all-white PNG as the dark count".
+G2-M20 QR from PNG B, ignore the quiet zone shift, B11, caught by B11 "gives 0 different modules for a PNG drawn from the encoder grid".
+G2-M21 import side effect A, main() at module level, B01, caught by B01 "exports the names of P4 and leaves process.exitCode unchanged".
+G2-M22 cleanup A, skip the temp cleanup on an error, B14, caught by B13 "exits 2 and creates no file for a bad level and for an unknown flag" (see note 1).
+
+Notes:
+1. M22: the table names B14. The mutant moves the `fs.rmSync` of the `finally` to the two success
+   returns, so the bad-argument child leaks its `storytime-quest-` folder. B13 also asserts that
+   the bad-argument child leaves no temp file, and B13 runs before B14. With `--bail=1` the first
+   failing test is B13's smoke test. The mutant is caught. B14 holds the same assertion, so the
+   family has a catch in two tests.
+2. M13: the mutant creates the out folder when a check failed, because a `mkdir` at the top of
+   `planQuestBuild` would fail B04 first. This form keeps the table's B08 attribution and stays a
+   write of the target folder before the checks pass.
+3. M02: the mutant replaces the integer check of `--version` with `Number.parseFloat`, so a float,
+   a hex value, and `x` reach the arguments. B02 catches it.
+4. M03 and M04 both fail the same B03 test. That is expected: the `..` check and the symlink
+   resolution guard the same target. Each mutant removes a different guard.
+
+Defaults taken (no question was needed):
+1. The cleanup mutant uses three replacements in one mutant: the two success returns clean the
+   temp folder, and the `finally` loses the cleanup. A single removal of the `finally` would keep
+   the error path clean and would survive.
+2. Each mutant restores the script before the next mutant, even when a run fails. The backup lives
+   at /tmp/opencode/p2-green2-mut/, outside the repository.
+3. The first capture run labeled the catching test without its describe group. A second run used
+   the corrected parser (the FAIL line) and replaced the capture. The counts are equal in both
+   runs: 22 of 22 caught.
+
+Scope: the part 2 commit holds this log, mutants-green2.txt, and mutants-green2-run.py only. No
+test file, no script, and no plan file changed. pnpm-lock.yaml is unchanged. GREEN_TEST_COMMAND,
+PROJECT_TESTS, PROJECT_CHECKS, and the dry build did not run in part 2; they are part 3.
+
+MEASURE_AGENT_RESULT
+status: done-part-2
+phase: P2
+task: T2.7
+role: jr-green
+track: storytime_cover_options_20261106
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c
+role_base_sha: eefadd66b4b3fb671ff86295db7bfc7601c4d0d2
+code_under_test: 0ab68506821600dfae4c1ceb03638478ab2f1619
+script_sha256: 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+mutants: 22, caught: 22
+na: 0
+survivors: none
+capture: measure/runs/storytime_cover_options_20261106/mutants-green2.txt
+runner: measure/runs/storytime_cover_options_20261106/mutants-green2-run.py
+restore: cmp ok before every next mutant and at the end; git status --porcelain dashboard/scripts/storytime is empty
+attribution_note: G2-M22 is caught by B13, not by B14 (the table names B14); both tests assert the same temp-folder property
+dispositions: none
+handoff: Part 2 is done, and the mutant gate of test-strategy.md section 4.8 holds. Part 3 runs PROJECT_TESTS, PROJECT_CHECKS, and one dry build with the option round art into a temporary print-ready root (--print-ready-root <tmp> --pictures-dir <tmp-art>), then removes the root; check the two picture counts (14 and 14) before the dry build. After part 3, the plan evidence for Task 2.7 lands in a separate commit that names the implementation commit 0ab68506 and this part 2 commit. Part 3 must keep the script sha256 6e0c4ab7 unchanged, or record a new Green gate.
+END_MEASURE_AGENT_RESULT
