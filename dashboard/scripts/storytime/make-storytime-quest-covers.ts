@@ -763,9 +763,14 @@ function pageText(html: string): string {
  */
 function qrCheck(html: string, kind: QuestCoverKind): string {
     if (kind !== 'student-back' && kind !== 'teacher-back') return 'pass';
-    const svg = html.match(/<svg[^>]*viewBox="0 0 \d+ \d+"[^>]*>[\s\S]*?<\/svg>/)?.[0] ?? '';
+    const boxStart = html.indexOf('data-part="qr"');
+    if (boxStart === -1) return 'fail';
+    const svg = html.slice(boxStart).match(/<svg[\s\S]*?<\/svg>/)?.[0] ?? '';
     return checkQuestQr(svg).errors.length === 0 ? 'pass' : 'fail';
 }
+
+/** The export of `qrCheck` for the Red test of the build report (Task 2.6c). */
+export const questQrCheck = qrCheck;
 
 /**
  * The lit band check of one page. The fronts and the A3 readers hold the band icons; the leaf
