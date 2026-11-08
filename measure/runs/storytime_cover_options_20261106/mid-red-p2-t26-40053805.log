@@ -1,0 +1,45 @@
+Mid Red log, Task 2.6 (Red 2), track storytime_cover_options_20261106, phase P2.
+Role model: claude-code/claude-sonnet-5-5#high (substitution: the table Red model MiniMax is at 99 percent of its weekly quota).
+Review C precondition: review-c-40053805.json, status pass, 0 Blocker, 3 Nit. Orchestrator gate PASS 2026-11-08. F1 DEFER, F2 DECLINE, F3 DECLINE.
+
+Red 2 proof (each run in one heavy-run, with --maxWorkers=1 and its own exit line):
+- New file alone, measure/runs/storytime_cover_options_20261106/mid-red-p2-t26-new.txt:
+  Test Files  1 failed (1); Tests  38 failed (38); EXIT=1.
+  38 failures carry the label "Missing module: dashboard/scripts/storytime/make-storytime-quest-covers.ts (Red 2)."
+- RED_TEST_COMMAND, mid-red-p2-t26-red.txt:
+  Test Files  1 failed | 1 passed (2); Tests  38 failed | 185 passed (223); EXIT=1.
+  The template file passes. No "No test files found", no SyntaxError, no "is not a function".
+- PROJECT_LINT plus tsc, mid-red-p2-t26-lint.txt: ESLINT_EXIT=0 (0 errors, 1 old warning at line 1695 of the Red 1 file), TSC_EXIT=0.
+- pnpm-lock.yaml unchanged. Tests that pass at Red: none (38 of 38 fail), so no falsifier is due.
+- Test commit 5281b70136e65ecb7d74244310f6092281e84ecf holds only dashboard/__tests__/quest-cover-build.test.ts.
+- Plan commit ca3cbbab7bffcf56e979fdf3b0e0206855c45652 holds plan.md, the three captures, and the two Review C run files.
+
+Defaults taken (no question to the orchestrator was necessary):
+1. New export checkQuestPdfPages(info, group, bleedMm) is added to the P4 list. It is the page check of B06.
+2. B10 and B12: no pure function spawns a process, so the spy on execFileSync and spawnSync is a source scan. Rules: no shell: true; no exec, execSync, spawn, or fork; the second argument of each spawn call is an argument list; the first argument is only process.execPath or the string node, pdfinfo, pdftotext, pdfimages, or pdftoppm.
+3. B04 create-only mode is a source check: the script holds the flag wx (or COPYFILE_EXCL) and no flag w.
+4. B09: a reader picture must be exactly 4000 x 3000 px (case 3999 px fails). The colour art serves reader-a3 (ppi 241.9). The line art serves reader-leaf (ppi 513.1; no pixel with unequal red, green, and blue).
+5. Fixtures live in a temporary folder named quest-build-test-<random> (not a storytime-quest- name, so B14 stays valid).
+
+MEASURE_AGENT_RESULT
+status: pass
+phase: P2
+task: T2.6
+role: mid-red
+track: storytime_cover_options_20261106
+role_base_sha: 4005380545612f7ae1c49f42197d630b923e8b72
+red_base_2: 4005380545612f7ae1c49f42197d630b923e8b72
+baseline_sha: 4005380545612f7ae1c49f42197d630b923e8b72
+head: ca3cbbab7bffcf56e979fdf3b0e0206855c45652 (the plan commit; the log commit follows it)
+test_commit: 5281b70136e65ecb7d74244310f6092281e84ecf
+plan_commit: ca3cbbab7bffcf56e979fdf3b0e0206855c45652
+commits: 5281b70 (test), ca3cbba (plan and captures), the log commit
+tests: dashboard/__tests__/quest-cover-build.test.ts (38 tests, B01 to B14)
+files: dashboard/__tests__/quest-cover-build.test.ts; plan.md; mid-red-p2-t26-new.txt, mid-red-p2-t26-red.txt, mid-red-p2-t26-lint.txt; review-c-40053805.json and .log
+red_summary_new: Test Files  1 failed (1); Tests  38 failed (38)
+red_summary_red_command: Test Files  1 failed | 1 passed (2); Tests  38 failed | 185 passed (223)
+remaining_failures: all 38 tests of quest-cover-build.test.ts, each on the missing module make-storytime-quest-covers
+pass_at_red: none
+dispositions: none
+handoff: Green 2 writes dashboard/scripts/storytime/make-storytime-quest-covers.ts. The API contract is the header comment of quest-cover-build.test.ts. Exports (all functions): parseQuestArgs, checkQuestOutDir, questLayout, questFileNames, questPdfxArgs, planQuestBuild, questBuildReport, parseQuestPdfInfo, checkQuestPdfPages, questQrFromPng. Run main only when import.meta.url equals the entry file (no change of process.exitCode on import). Exit code 2 for bad argv and for --help absent; exit 0 for --help; usage text holds Usage: once. parseQuestArgs returns { help, errors, usage, args } with args { level, unit, version (default 1), out (raw text, default root/storytime/covers-quest-v<n>), printReadyRoot (default home/Desktop/print-ready), print }. planQuestBuild({ level, unit, version, outDir, printReadyRoot, picturesDir }) returns { errors, files (44), art (3 rows), pictures (28 rows) }, creates nothing, and names each bad file in its error. Rows are { file, kind, widthPx, heightPx, ppi }. questFileNames returns { student, teacher, readersA3, readersLeaf, readerPngsA3, readerPngsLeaf }. questLayout returns { folders, files }. questPdfxArgs(group, input, output) returns ['--import','tsx', make-pdfx path, input, '--out', output, '--keep-fonts', plus '--k-only' for readers-leaf]. questQrFromPng(png, kind, bleedMm = 0) returns { modules, dark, different } from the QR box of QUEST_BOXES at 300 ppi. questBuildReport(rows) returns { ok, exitCode, errors, pages }; checks has exactly copy, thai, qr, pageSize, ppi, band, forbidden. Spawn only process.execPath, node, pdfinfo, pdftotext, pdfimages, pdftoppm; write with the flag wx. A temp folder of the build starts with storytime-quest- and is removed on success and on failure. The CLI may add a --pictures-dir option for the dry build; the tests do not use it. Mutant table of section 4.8: 12 families, 22 mutants; B01 to B14 are the catch tests.
+END_MEASURE_AGENT_RESULT
