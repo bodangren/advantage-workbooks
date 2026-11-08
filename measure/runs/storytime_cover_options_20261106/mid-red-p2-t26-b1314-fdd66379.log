@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+status: pass
+phase: P2
+role: mid-red
+track: storytime_cover_options_20261106
+role_base_sha: fdd6637991eba58f3a3cafb38a7021946625bcab
+head: aaab486 (before this log commit)
+test_commit: 686a8a83
+plan_commit: aaab486e
+tests: Tests  38 passed (38), EXIT=0 (mid-red-p2-t26-b1314-tests.txt, with the uncommitted Green script)
+mutant: the removal of the storytime-quest- temp folder in finally was deleted; -t B14 failed (the child test left storytime-quest-XjywHT in the private TMPDIR); mid-red-p2-t26-b1314-mutant.txt
+restore: cmp equal; SHA-256 before and after 6e0c4ab7d89d59faa5172b1c41e545d0107f5866bb8915eb9f43939b79be4dd0
+lint: eslint on the test file, EXIT=0 (empty output)
+red_expectation: the repaired tests pass with the uncommitted Green script; the mutant proves they still catch a temp leftover
+dispositions: none
+handoff: Green 2 part 1 may continue. Change no test file. The script and pnpm-lock.yaml were not changed by this role.
