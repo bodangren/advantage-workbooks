@@ -1,0 +1,19 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-card-kit-adversarial-r3.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 58016[2mms[22m[39m
+     [2m[90m↓[39m[22m X-P8-14 does not count a match line with only white space in the third column as a picture
+     [2m[90m↓[39m[22m R3-1 reads a tab with an empty fourth column from the third column and keeps the four counts adding up
+     [2m[90m↓[39m[22m X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break
+     [2m[90m↓[39m[22m R3-2 reads a centre map with a null prototype and an own __proto__ key, and leaves Object.prototype alone
+     [2m[90m↓[39m[22m X-P8-16 rejects a centre value whose separator is not CSS white space
+[31m     [31m×[31m R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0[39m[33m 58013[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m5 skipped[39m[90m (6)[39m
+[2m   Start at [22m 07:41:03
+[2m   Duration [22m 66.01s[2m (transform 596ms, setup 401ms, import 990ms, tests 58.02s, environment 5.46s)[22m
+
+TEST_EXIT=1
+RESTORE_SHA: 4b257b069af57f2f4fc19573d2f8a6598071ffe35ab6abd0ce407932b86bd66d  /home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures/l2-w04-card-ham-line-v1.png
+CMP_EQUAL
