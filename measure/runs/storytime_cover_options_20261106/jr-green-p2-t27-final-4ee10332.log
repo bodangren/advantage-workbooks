@@ -1,0 +1,92 @@
+Jr Green log, Task 2.7 (Green 2), final round, part B of 2, track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this task: claude-code/claude-sonnet-5-5#high.
+role_base_sha: 4ee103323629dad679b450550265497596ccf684. Head at start: 4ee10332.
+Implementation commits: 0ab68506 (the script) and d65955fe (the QR fix).
+Script: dashboard/scripts/storytime/make-storytime-quest-covers.ts, SHA-256
+a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403 (the same at the start and at the
+end of this part).
+
+Status: success. Every gate passes. Task 2.7 is [x], and the plan evidence is in the commit after
+the implementation commits.
+
+Check before the work:
+- The Red retry 2.6c commit c8e7c8d6 is an ancestor of HEAD (git merge-base --is-ancestor exit 0),
+  so the committed Red change is inside role_base_sha..HEAD.
+- `git status --porcelain -- dashboard content video pnpm-lock.yaml` printed only the work of other
+  sessions: ` M video/storytime-song/scripts/render.mjs` and `?? dashboard/raw.json`. This part
+  changed no file under `dashboard/` and staged neither of those paths.
+- The four part A captures (green2-qr-red-rerun.txt, green2-qr-build.txt, green2-qr-green.txt,
+  green2-qr-lint.txt) are at HEAD.
+
+Gate results (each vitest, tsc, and Chrome job ran in one heavy-run wrapper, with --maxWorkers=1,
+and with its own EXIT line inside the wrapper):
+
+1. PROJECT_TESTS (plan line 55), green2-qr-project.txt: the command is
+   `cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts
+   __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1`.
+   `Test Files  68 passed (68)`; `Tests  1808 passed (1808)`; `EXIT=0`. The count is 4 more than the
+   1804 of the earlier part 3 run: group B07b of Red retry 2.6c adds 3 cases to the build test file
+   and 1 more case to the same group, so the build file holds 42 tests.
+2. PROJECT_CHECKS (plan line 57), green2-qr-checks.txt: `npx tsx scripts/storytime/check-weeks.ts
+   --level 2` gives `Summary: 8 package(s), 0 failed check(s), 7 warning(s).` and
+   CHECKWEEKS_EXIT=0. The 7 warnings are the known word-clip warnings of weeks 2 to 7 and the
+   print-block warning of week 8. `npx tsc --noEmit` gives TSC_EXIT=0 and no type error.
+3. Picture counts (plan Task 2.7), green2-qr-pictures.txt: the color glob with
+   `grep -vc -- '-line-v1.png'` prints 14; the line-art glob with `wc -l` prints 14; the unfiltered
+   glob prints 28.
+4. Dry build, green2-qr-dry-build.txt: the setup is the same as the earlier part 3. The art folder
+   `/tmp/opencode/p2-green2-qrb/art` held the 28 real reader pictures of
+   `content/storytime/l2/print/pictures/` and the option A round art of Task 1.3, resized to
+   2480 x 3508 px RGB (`A-front-a1-clean.jpg`, `A-back-a1.jpg`, `A-teacher-a1.jpg` to the three
+   fixture names of `quest.json`). The command:
+   `npx tsx scripts/storytime/make-storytime-quest-covers.ts --level 2 --unit 1 --version 1
+   --print-ready-root /tmp/opencode/p2-green2-qrb/print-ready
+   --pictures-dir /tmp/opencode/p2-green2-qrb/art`.
+   Output: `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and DRY_BUILD_EXIT=0.
+   The four reports give `ok: true` and 0 failing rows (student 2 pages, teacher 2, readers-a3 14,
+   readers-leaf 14). `checks.qr` is `pass` on `student/back.png` and `teacher/teacher-back.png`.
+   The temporary root is removed, and the `storytime-quest-` temp folders under `/tmp` number 0
+   after the run. No paid call and no network call ran. pnpm-lock.yaml is unchanged.
+
+Plan evidence (separate commit, message "measure(plan): Green 2 of the option A covers passes
+(storytime_cover_options)"):
+- `- [~] Task 2.7` becomes `- [x] Task 2.7`, and the line ends `Evidence: automated commit d65955f`.
+- One sub-bullet under it holds the two implementation commits, the final script SHA-256, the part A
+  gates (42 and 227 tests, lint and tsc), the two mutant tables (22 of 22 on 6e0c4ab7, 23 of 23 on
+  a3c822fd), the PROJECT_TESTS counts, the PROJECT_CHECKS line, the picture counts, the dry build
+  line, and the capture paths.
+- The route: the dry build found the QR defect (0ce05783). Red retry 2.6c (c8e7c8d6) added group
+  B07b. The fix d65955fe makes it pass.
+- The date fallback of spec D-A13 is not triggered: Green 2 passes before 2026-11-12 18:00 ICT.
+- No other task line changed. The track stays out of the archive, and the closeout metadata is
+  untouched.
+
+MEASURE_AGENT_RESULT
+status: success
+phase: P2
+task: T2.7
+role: jr-green
+track: storytime_cover_options_20261106
+model: deepseek/deepseek-flash#high
+role_base_sha: 4ee103323629dad679b450550265497596ccf684
+head: 4ee103323629dad679b450550265497596ccf684
+impl_commit: d65955fe76be742092b4d1b5100414ae1a91c8cb
+impl_commits: 0ab68506, d65955fe
+script_sha256: a3c822fd369316bf7c98ce091948fa3984f25b4a95018b2885935ea8e35ae403
+red_model: claude-code/claude-sonnet-5-5#high
+red_commit: c8e7c8d64ac59647ef093e8961df33c1e3f349eb
+gates:
+  - green2-qr-project.txt: Test Files 68 passed (68); Tests 1808 passed (1808); EXIT=0
+  - green2-qr-checks.txt: check-weeks 0 failed check(s), 7 warning(s), CHECKWEEKS_EXIT=0; TSC_EXIT=0
+  - green2-qr-pictures.txt: 14 color and 14 line art (the unfiltered glob gives 28)
+  - green2-qr-dry-build.txt: 32 pages, 44 files; DRY_BUILD_EXIT=0; four reports ok true with 0 failing rows; checks.qr pass on student/back.png and teacher/teacher-back.png
+mutants: 22 of 22 caught on 6e0c4ab7; 23 of 23 caught on a3c822fd
+tasks_flipped: Task 2.7 [~] to [x], with commit d65955f in the evidence tail
+deferred: none
+new_files: measure/runs/storytime_cover_options_20261106/green2-qr-project.txt, green2-qr-checks.txt, green2-qr-pictures.txt, green2-qr-dry-build.txt, jr-green-p2-t27-final-4ee10332.log
+plan_changed: yes
+dispositions: none
+handoff: Green 2 of Task 2.7 is complete and gated. The review roles A and B (limited) and the
+  adversarial round follow on this HEAD. The temporary dry-build root is removed; no paid call and
+  no network call ran; dashboard/ is unchanged.
+END_MEASURE_AGENT_RESULT

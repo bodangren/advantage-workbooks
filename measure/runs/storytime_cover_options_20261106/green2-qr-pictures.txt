@@ -1,0 +1,7 @@
+Picture counts before the dry build (plan Task 2.7, measured 2026-11-08, HEAD 4ee10332):
+Task: ls content/storytime/l2/print/pictures/l2-w0[1-7]-cover-*-v1.png | grep -vc -- -line-v1.png prints 14
+Task: ls content/storytime/l2/print/pictures/l2-w0[1-7]-cover-*-line-v1.png | wc -l prints 14
+The unfiltered glob prints 28 (measured 2026-11-07).
+color glob (filtered): 14
+line-art glob: 14
+unfiltered glob: 28
