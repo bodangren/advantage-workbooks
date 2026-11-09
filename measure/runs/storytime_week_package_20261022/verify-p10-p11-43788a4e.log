@@ -1,0 +1,87 @@
+# Phase 10 and Phase 11 verification (mechanical part), HEAD 43788a4e
+
+Role: build. Owner of the final [x]: the orchestrator. The two task lines stay [ ].
+Track: storytime_week_package_20261022. Date: 2026-11-09. Repo: /home/daniebo/Desktop/Workbooks.
+
+## Thai gate (first command)
+
+Command: python3 -I with a regex count of the characters U+0E00 to U+0E7F on each input file.
+
+| File | Thai characters | Result |
+|---|---|---|
+| measure/tracks/storytime_week_package_20261022/plan.md | 61 | not 0 |
+| measure/tech-debt.md | 0 | pass |
+| measure/workflow.md | 0 | pass |
+
+PLAN is not 0. So this role read PLAN only through a filter that replaces each Thai run
+with [TH]. This role never opened measure/lessons-learned.md and never opened a week file
+(content/storytime/**/*.json).
+
+## Safe defaults (no question tool)
+
+- PLAN holds Thai, so every read of PLAN used the filter. The 61 characters stay.
+- The loops R3 window is closed, so `PROJECT_TESTS` ran with no exclude.
+- The two task lines stay [ ]. The orchestrator owns the final [x].
+
+## STEP 1: PROJECT_TESTS at HEAD (PLAN line 194 form)
+
+One heavy-run, one command, with --maxWorkers=1:
+`HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'`
+
+Result: Test Files 66 passed (66), Tests 1581 passed (1581), EXIT=0.
+Capture: measure/runs/storytime_week_package_20261022/verify-p10-p11-project.txt.
+The read filter dropped 5 Thai lines of the raw test output.
+No test failed, so there is no rerun and no rerun capture.
+git checkout -- pnpm-lock.yaml: the lock file did not change.
+
+## STEP 2: The test file of each code file
+
+Capture: measure/runs/storytime_week_package_20261022/verify-p10-p11-testmap.txt.
+
+Phase 10 code files (commits ad767a78, 1a3a38ed, 34e57cfd): 3.
+- dashboard/lib/storytime/family-pictures.ts
+- dashboard/scripts/storytime/set-family-pictures.ts
+- dashboard/scripts/storytime/check-weeks.ts
+Each file has a test file. Findings: 0.
+
+Phase 11 code files (commits 69cd4db4, 526bf1f0): 6.
+- dashboard/lib/storytime/schema.ts
+- dashboard/lib/storytime/word-clips.ts
+- dashboard/scripts/storytime/make-word-bank.ts
+- dashboard/scripts/storytime/set-word-clips.ts
+- dashboard/scripts/storytime/measure-video-lead-in.ts
+- dashboard/scripts/storytime/check-weeks.ts
+Each file has a test file. Findings: 0.
+
+No commit of Phase 10 or Phase 11 changed a file under video/**.
+
+## STEP 3: measure/tech-debt.md
+
+- The three rows of storytime_cover_options_20261106 of 2026-11-08 (N2, N3, N6) are one
+  row now. The row keeps every fact.
+- Two new rows of 2026-11-09: the Phase 10 A9 row, and the Phase 11 row with 3 items.
+- File result: 53 lines, 0 Thai characters.
+- The file is 3 lines over the 50-line limit. A Claude curation follows.
+
+## STEP 4: The plan evidence
+
+- One sub-bullet under the Phase 10 task (line 330) and one under the Phase 11 task (line 414).
+- Both task lines stay [ ]. Both sub-bullets end with the open items of the task order.
+- The Phase 11 sub-bullet holds the PM receipt of the r3 folders word for word
+  (2026-11-09 05:17 ICT) and the PM fact of 05:25 ICT.
+- measure-guard refuses direct edits of PLAN, so the edit went in through python.
+- The word "deferred" is not in either bullet.
+
+## STEP 5: Commit
+
+Command: git commit -m "measure(week-package): Phase 10 and 11 verification, the test run, the
+test map, and the tech-debt rows (storytime_week_package)" -- <paths>.
+Paths: PLAN, measure/tech-debt.md, and the 3 captures of this log's folder.
+No rerun capture exists. No video/**, dashboard/raw.json, or other-track file is staged.
+
+## Left open
+
+- The orchestrator confirmation of both task lines.
+- The PM confirmation of the Phase 10 hand-off (line 329).
+- The PM receipt of w01 r4.
+- The 2 lessons go to a Claude role after 2026-11-10 15:22 (lessons-learned.md holds Thai).

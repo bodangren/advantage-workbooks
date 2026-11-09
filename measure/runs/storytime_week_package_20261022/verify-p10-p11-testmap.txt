@@ -1,0 +1,49 @@
+# Test map: each code file of Phase 10 and Phase 11 and its test file
+Role: build. HEAD 43788a4e. Date: 2026-11-09.
+Code paths of the scope: dashboard/lib/**, dashboard/scripts/**, video/**.
+Proof: grep of the module path in dashboard/__tests__/.
+
+## Phase 10 (PLAN lines 181 to 331)
+
+Commits of the phase (task lines and their evidence): 7f587966, 38c7419d, ae68a01f,
+ad767a78, 1fb10d7d, 1af1bc15, 680ec458, 1a3a38ed, 64c517fb, 3a3bd4af, bfc2575a,
+da0934f0, 34e57cfd, 6605bd17, 557b0f73, a5fa259f, a5fa259.
+Commits that changed a code file: ad767a78, 1a3a38ed, 34e57cfd.
+
+| Code file | Test file (grep proof) | Commits |
+|---|---|---|
+| dashboard/lib/storytime/family-pictures.ts | dashboard/__tests__/storytime-package-family.test.ts:30; dashboard/__tests__/storytime-package-raster.test.ts:31 | ad767a78 |
+| dashboard/scripts/storytime/set-family-pictures.ts | dashboard/__tests__/storytime-package-family.test.ts:33; dashboard/__tests__/storytime-package-raster.test.ts:34 | ad767a78, 1a3a38ed, 34e57cfd |
+| dashboard/scripts/storytime/check-weeks.ts | dashboard/__tests__/storytime-package-family.test.ts:36; dashboard/__tests__/storytime-package-clips.test.ts:41; dashboard/__tests__/storytime-book-pictures.test.ts:8 | 1a3a38ed |
+
+video/**: no commit of Phase 10 changed a file.
+
+Result: 3 code files, 3 files have a test file. Findings: none.
+
+## Phase 11 (PLAN lines 332 and later)
+
+Commits of the phase (task lines and their evidence): 84a90f60, b27f927f, 69cd4db4,
+10d5fcfc, 180e3eb6, 953f798e, 14a8c5eb, 3f5dec06, 3e1d3e56, b936ca3d, 7cf125dd,
+dd281da7, 526bf1f0, be92ae9e.
+Commits that changed a code file: 69cd4db4, 526bf1f0.
+
+| Code file | Test file (grep proof) | Commits |
+|---|---|---|
+| dashboard/lib/storytime/schema.ts | 48 test files import ../lib/storytime/schema (count below); the phase file is dashboard/__tests__/storytime-package-clips.test.ts:8 | 69cd4db4 |
+| dashboard/lib/storytime/word-clips.ts | dashboard/__tests__/storytime-package-clips.test.ts:29 | 69cd4db4 |
+| dashboard/scripts/storytime/make-word-bank.ts | dashboard/__tests__/storytime-package-clips.test.ts:32 | 69cd4db4 |
+| dashboard/scripts/storytime/set-word-clips.ts | dashboard/__tests__/storytime-package-clips.test.ts:35 | 69cd4db4, 526bf1f0 |
+| dashboard/scripts/storytime/measure-video-lead-in.ts | dashboard/__tests__/storytime-package-clips.test.ts:38 | 69cd4db4 |
+| dashboard/scripts/storytime/check-weeks.ts | dashboard/__tests__/storytime-package-clips.test.ts:41; dashboard/__tests__/storytime-package-family.test.ts:36; dashboard/__tests__/storytime-book-pictures.test.ts:8 | 69cd4db4, 526bf1f0 |
+
+video/**: no commit of Phase 11 changed a file.
+
+Result: 6 code files, 6 files have a test file. Findings: none.
+
+## Count of the test files that import the schema
+
+grep -rl "from '../lib/storytime/schema'" dashboard/__tests__/ --include=*.ts | wc -l
+48
+grep -rl "lib/storytime/schema" dashboard/__tests__/ --include=*.ts | wc -l
+49
+The 49th is dashboard/__tests__/fixtures/storytime-week-fixture.ts (a fixture, not a test file).
