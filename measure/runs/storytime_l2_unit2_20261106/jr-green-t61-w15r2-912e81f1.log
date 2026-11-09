@@ -1,0 +1,139 @@
+# Jr Green · Task 6.1 week 15 r2 coverage · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: 912e81f1
+- Track: storytime_l2_unit2_20261106
+- Task 6.1, week 15 r2 support work: a measurement of the 3 new takes for the PM listen sheet
+- Status: COMPLETE
+- Model: deepseek/deepseek-flash#high (ra-quota pick)
+- Red model of this phase: none (Task 6.1 has no code and no Red role). No subagent was used.
+
+## Inputs
+
+- Takes folder: `~/Desktop/handoff/storytime-l2u2-w15-candidates-r2/`, files
+  `l2-w15-song-r2-c1.mp3`, `-c2.mp3`, and `-c3.mp3`.
+- The 13 sheet lines in order, from the `## Lyric sheet` section of `RUNS/w15-lyrics-r2.md`.
+- No week file was needed. The role read no week file after the Thai filter.
+- No file under `content/` and none under `dashboard/` changed. No `plan.md` change.
+  No write in any `~/Desktop/handoff/` folder.
+
+## Hard rules kept
+
+- Thai filter first: `python3 -I` wrote the Thai-free copy `/tmp/opencode/t61/in/w15.json`.
+  `THAI_CHARS_IN_OUTPUT=0`. The Thai character count of `w15-lyrics-r2.md` is 0.
+  This log holds no Thai text.
+- One heavy job only. The later scoring pass ran on saved JSON, with no speech model.
+- No push, no vitest, no tsc, no pnpm, no npm. Commit with a path list.
+
+## Steps
+
+1. Manifest check: `cd ~/Desktop/handoff/storytime-l2u2-w15-candidates-r2 && sha256sum -c MANIFEST.txt`
+   gives 5 OK and 0 FAILED. `MANIFEST.txt` SHA-256 is
+   `225e440e5b7d8cf00307f8d81d92313b6d4befd7cc4f4508fa680384e2ca4d73`.
+2. Script `RUNS/t61-w15-r2-coverage.py` follows the style of
+   `jr-green-t113-check-songs-r2.py`: `norm_words`, `probe`, `pcm`, and a faster-whisper
+   `small` transcript with int8, cpu, local files only, language en, word times on,
+   `condition_on_previous_text` off, VAD off, beam 5, temperature 0.0, and no prompt.
+   The loop rule is one word 10 times or more in a row. A LOOP take also gets the `base` model.
+   The script writes `songs-transcripts/w15-r2-c1.json`, `-c2.json`, and `-c3.json`.
+3. First run, one heavy job (`HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400`) with the
+   venv python. The transcript files came out with 72, 64, and 72 words, and durations
+   67.474, 65.829, and 67.370 s at 44100 Hz. No take was a LOOP.
+   The first scoring used a time cursor ("words after the end of the previous matched line").
+   That cursor held the fault:
+   - c3 held all 13 lines in order and scored 0 of 13. Line 2 "Look," starts at 13.08 s, the
+     same time as the end of line 1 "beep" at 13.08 s, so the time cursor dropped the token
+     and every later line failed.
+   - c2 held the ending "Wave goodbye, time to go home" from 58.0 s and scored line 13 at
+     0.00, because the missed lines 11 and 12 blocked the time cursor.
+4. Fix per the orchestrator (scoring only; the transcribe settings did not change):
+   - a token index cursor in place of the time cursor;
+   - start offsets 0 to 8 tokens for each line, with lookahead 3 tokens;
+   - a line at 0.8 or more is accepted and moves the cursor; a missed line keeps the cursor;
+   - `--score-only` re-scores the 3 saved transcripts and loads no speech model;
+   - `faster_whisper` imports inside `load_model` only.
+5. Second run, a light run on saved JSON:
+   `python3 -I RUNS/t61-w15-r2-coverage.py --score-only --capture RUNS/t61-w15-r2-coverage.txt`.
+   Exit 0. The capture file is 50 lines, SHA-256
+   `a5d8a57784452ef418928065faaaaf5d4f23da716b25e3dbeb93515bf8d55990`.
+   No heavy-run and no new transcription.
+6. Transcript proof: the 3 transcript files hold equal SHA-256 before and after the run.
+   - c1 `9ba7b3ea004f58a8a7fb8ae17efea61f71f67bbd9753fd4a4bbaf544ec70294b`
+   - c2 `6b862180a520b04629b5255879df31648acb2662c5f8964c30783573976887cf`
+   - c3 `16fcaa2ae2a1e0287b43df258929bfcd2e5d05c7776adeedfd3641b2b1f622f8`
+
+## Results, new rule
+
+Row: take, model, duration, sample rate, LOOP, lines sung of 13.
+
+| Take | Duration | Rate | LOOP | Lines sung | Per-line coverage | Missed lines |
+|---|---|---|---|---|---|---|
+| c1 | 67.5 s | 44100 Hz | no | 13/13 | 1.00 on all 13 lines | none |
+| c2 | 65.8 s | 44100 Hz | no | 10/13 | 1.00, 0.50, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.00, 0.00, 1.00 | 2, 11, 12 |
+| c3 | 67.4 s | 44100 Hz | no | 12/13 | 0.67, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00 | 1 |
+
+- c1: 72 of 72 line words matched. Chorus order holds: line 11 starts later than line 5, and
+  line 12 starts later than line 6. The sheet order is exact.
+- c2: 60 of 72 line words matched. Line 2 matches 3 of 6 words: the recognizer heard "chew"
+  where the sheet has "choo" (tokens at 17.20, 17.90, and 18.50 s). The take sings one chorus
+  (lines 5 and 6 at 28.4 and 32.5 s) and goes to the ending at 58.0 s, so lines 11 and 12 have
+  no match and the chorus order checks fail for the missing lines only.
+- c3: 70 of 72 line words matched. Line 1 matches 4 of 6 words. The recognizer gave 2 "beep"
+  tokens a zero length (12.320 and 13.080 s), so the 0.05 s drop rule removes them and the
+  line scores 4 of 6. The word list holds all 13 lines in order, and the old rule hears 11 of
+  11 distinct lines.
+- No take sings a line more times than the sheet has it, so the extra-line note is `none` for
+  all 3 takes.
+
+## Results, old Task 1.13 rule
+
+Distinct lines heard anywhere, in order inside the line. The rule reads every recognized word
+and applies no duration filter.
+
+- c1: 11 of 11 distinct lines.
+- c2: 10 of 11 distinct lines. Missed: "look a train choo choo choo".
+- c3: 11 of 11 distinct lines.
+
+## Artifact state of the transcripts
+
+The 3 transcript files keep the words, the times, and the settings of the first run. Their
+`lines` field holds the first-run scoring, which used the time cursor. The capture file
+`t61-w15-r2-coverage.txt` holds the corrected scoring and is the authoritative number set. The
+`--score-only` run wrote no transcript file, so the 3 SHA-256 stay equal.
+
+## Commits
+
+- Implementation: `RUNS/t61-w15-r2-coverage.py`, `RUNS/t61-w15-r2-coverage.txt`, and the 3
+  transcript files. Commit `23d5935dbf0c804c01e74992efc181fd4cb89ae8`, 5 files, 3453 insertions.
+- Log: this file alone.
+
+## Handoff
+
+- The 3 week 15 r2 takes have line coverage rows for the PM listen sheet.
+- c1 is a clean take: 13 of 13 lines, two choruses, the ending, and no loop.
+- c2 sings 10 of 13 lines. It has one chorus and no second chorus. The recognizer heard "chew"
+  in place of "choo" on line 2.
+- c3 sings the full sheet in order. The new rule scores line 1 at 0.67 because 2 zero-length
+  "beep" tokens drop out. A reader should treat line 1 of c3 as sung.
+- No plan task changed. The Task 6.1 line stays `[~]`, and this support work added no plan
+  evidence line.
+- The MP3 copy and `song.audio` wait for Task 4.3.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 week 15 r2 coverage (measurement)
+role: jr-green
+role_base_sha: 912e81f1
+head: 23d5935dbf0c804c01e74992efc181fd4cb89ae8
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0; 0 Thai characters in w15-lyrics-r2.md
+- manifest: 5 OK, 0 FAILED; MANIFEST.txt SHA-256 225e440e5b7d8cf00307f8d81d92313b6d4befd7cc4f4508fa680384e2ca4d73
+- takes: c1 67.5 s 13/13; c2 65.8 s 10/13, missed 2, 11, 12; c3 67.4 s 12/13, line 1 at 0.67 from 2 zero-length beep tokens; LOOP none
+- old rule: c1 11/11; c2 10/11; c3 11/11
+- corpus: 72, 64, and 72 recognized words; 44100 Hz on all 3 takes
+- transcripts: 3 SHA-256 equal before and after the score-only run
+dispositions: none
+files: measure/runs/storytime_l2_unit2_20261106/t61-w15-r2-coverage.py; measure/runs/storytime_l2_unit2_20261106/t61-w15-r2-coverage.txt; measure/runs/storytime_l2_unit2_20261106/songs-transcripts/w15-r2-c1.json; -c2.json; -c3.json; this log
+handoff: The 3 week 15 r2 takes have line coverage rows for the PM listen sheet. c1 is clean at 13 of 13 lines. c2 sings 10 of 13 lines, with one chorus and "chew" heard for "choo". c3 sings the full sheet in order, and its line 1 scores 0.67 only because 2 zero-length beep tokens drop out. The capture file holds the corrected scoring. The transcript JSON keeps the first-run scoring field. No plan task changed, and the Task 6.1 line stays [~].
+END_MEASURE_AGENT_RESULT
