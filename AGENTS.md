@@ -24,6 +24,7 @@ No `graph.db` exists in this repo yet — run `repo-graph scan . ./graph.db` bef
 * **Layout Engine:** Paged.js handles print layout. CSS print changes require testing in the browser print preview.
 * **Memory Protocol:** You must read and update `measure/tech-debt.md` and `measure/lessons-learned.md` as part of your standard track workflow.
 * **Test Items:** Secure test items, test papers, answer keys, and test audio go only into `~/Desktop/level-tests/`, never into a repository. This repository is public (Daniel, 2026-10-28).
+* **Thai filter first:** A non-Claude model must not see Thai text. A non-Claude role that can touch a week file (`content/storytime/**/*.json`) makes its Thai filter its first command, before any read: one script that drops every `th` key and every string with a character from U+0E00 to U+0E7F, and proves 0 Thai characters in its output (PM rule, 2026-11-09).
 
 ## Connected Repositories
 
