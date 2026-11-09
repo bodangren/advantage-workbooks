@@ -46,9 +46,9 @@ ROWS = [
     (9, 1, "A", "The sound of the week is d. Your child says /d/, says dog, and writes the letter d."),
     (9, 2, "B", "Your child acts the story Yum! and says I like rice, Yum! at the front of the class."),
     (9, 3, "C", "One child reads one page of the book Dad and the Mop aloud to the class."),
-    (9, 4, "D", "The photo shows your child's sentence I like cake with Yum! at the end. The video shows your child reading it to the class."),
+    (9, 4, "D", "The photo shows the sentence I like cake, Yum! in your child's hand. The video shows your child reading it to the class."),
     (9, 5, "E", "The class sings Yum, Yum, Yum! at the song show, and your child does the actions."),
-    (10, 1, "A", "This week the class works on the endings -an and -ad. Your child writes the letters and reads man and dad."),
+    (10, 1, "A", "Your child writes the letter a, then the endings -an and -ad, and says the formation words."),
     (10, 2, "B", "Your child acts the story Dress Up! and says Put on your hat at the front of the class."),
     (10, 3, "C", "One child reads one page of the book The Tan Man aloud to the class."),
     (10, 4, "D", "The photo shows the sentence Put on your hat in your child's hand. The video shows your child reading it to the class."),
@@ -63,12 +63,12 @@ ROWS = [
     (12, 3, "C", "One child reads one page of the book The Hen and the Hat aloud to the class."),
     (12, 4, "D", "The photo shows the sentence Open your book in your child's hand. The video shows your child reading it to the class."),
     (12, 5, "E", "The class sings Open Your Book and Read! at the song show, and your child does the actions."),
-    (13, 1, "A", "This week the class works on the endings -ot and -op. Your child writes the letters and reads pot and top."),
+    (13, 1, "A", "Your child writes the letter o, then the endings -ot and -op, and says the formation words."),
     (13, 2, "B", "Your child acts the story Look at Me! and says I can jump with an action."),
     (13, 3, "C", "One child reads one page of the book Hop on Top! aloud to the class."),
     (13, 4, "D", "The photo shows the sentence I can jump in your child's hand. The video shows your child reading it to the class."),
     (13, 5, "E", "The class sings I Can Run and Jump! at the song show, and your child does the actions."),
-    (14, 1, "A", "The sound of the week is f. Your child says fff, says fish, and writes the letter f."),
+    (14, 1, "A", "The sound of the week is f. Your child says /f/, says fish, and writes the letter f."),
     (14, 2, "B", "Your child acts the story Hot and Cold and says It is sunny with an action."),
     (14, 3, "C", "One child reads one page of the book On Goes the Fan! aloud to the class."),
     (14, 4, "D", "The photo shows the sentence It is hot in your child's hand. The video shows your child reading it to the class."),
@@ -81,7 +81,7 @@ ROWS = [
     (16, 1, "A", "Your child reads Yum! and Dress Up! with a partner at the big book center."),
     (16, 2, "B", "Your child reads Where Is Pip? and Open Your Book! with a partner at the big book center."),
     (16, 3, "C", "Your child reads Look at Me! and Hot and Cold with a partner at the big book center."),
-    (16, 4, "D", "Your child reads Look, a Bus! and one more unit 2 book with a partner."),
+    (16, 4, "D", "Your child reads Look, a Bus! and one more book from this unit with a partner at the big book center."),
     (16, 5, "E", "The class votes for a unit 2 song, sings it at the song show, and your child gets the unit 2 sticker."),
 ]
 
@@ -165,10 +165,30 @@ def check_rows(data):
     return errors
 
 
+REVIEW_ANSWERS = """
+## Review answers
+
+Source of the findings: `share-english-review.md` (part b, audited head 1484e9a6). The step text is from
+`t31b-english-extract.txt`.
+
+| finding | rows | result | reason | new caption |
+|---|---|---|---|---|
+| E1 | SC-w10-d1 | FIX | The A3 step writes the letter a, then the letter n (an) and the letter d (ad), and the class says the formation words. The step does not read man or dad, so the old caption was wrong on the two words. The finding is wrong on one point: the element of week 10 is the two word families -an and -ad, not the single sound a (plan element; A1 of the week says "no new letter"). | Your child writes the letter a, then the endings -an and -ad, and says the formation words. |
+| E1 | SC-w13-d1 | FIX | The A3 step writes the letter o, then the letter t (ot) and the letter p (op), and the class says the formation words. The step reads no word. The element of week 13 is the two word families -ot and -op, not the single sound o. | Your child writes the letter o, then the endings -ot and -op, and says the formation words. |
+| E2 | SC-w14-d1 | FIX | The caption now writes the sound as /f/, as the other sound rows do. | The sound of the week is f. Your child says /f/, says fish, and writes the letter f. |
+| E3 | SC-w09-d3, SC-w10-d3, SC-w11-d3, SC-w12-d3, SC-w13-d3, SC-w14-d3, SC-w15-d3 | ANSWER | The moment table of FR-14 films one child who reads one page of the C4 book aloud for 10 to 20 seconds. The step C4 is "read together", and the shot shows one child of the class, not every child. The shipped captions of w01 to w08 use the same words, for example w01 day 3: "One child reads one page of Nan Can Nod aloud to the class for ten seconds." D19 forbids a name, so the caption cannot say which child. The parent sees one child of the class, and the teacher knows the child. | no change |
+| E4 | SC-w16-d4 | FIX | The D1 step reads Look, a Bus! and the read-along of the weakest week at the centers. The caption now names the big book center and the second book. | Your child reads Look, a Bus! and one more book from this unit with a partner at the big book center. |
+| E5 | SC-w09-d4 | FIX | The D4 trace is "I like cake. Yum!" The caption now uses the shape of the other six day 4 rows, and the comma form of SC-w09-d2. | The photo shows the sentence I like cake, Yum! in your child's hand. The video shows your child reading it to the class. |
+
+A fix changes the draft row and the pack row. The other 33 rows are unchanged.
+"""
+
+
 def write_draft():
     lines = ["# Share captions, English draft: Storytime L2 unit 2 weeks 9 to 16", ""]
     lines.append("Task 3.1b part (a). Source of the steps: the staged weeks 9 to 16.")
     lines.append("Rules: FR-14 and D19 of `storytime_teaching_loops_20261103`. The review of part (b) reads the pack.")
+    lines.append("The answers to the review are in the last section.")
     lines.append("")
     lines.append("| id | script | shots | English caption | words |")
     lines.append("|---|---|---|---|---|")
@@ -176,6 +196,7 @@ def write_draft():
         shots = "; ".join("%s %s" % (code, media) for code, media in shots_for(week, day))
         lines.append("| %s | %s | %s | %s | %d |" % (row_id(week, day), script_id, shots, caption, words(caption)))
     lines.append("")
+    lines.append(REVIEW_ANSWERS)
     (RUN / "share-captions-en.md").write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -233,6 +254,7 @@ def main():
              "errors: %d" % len(errors)]
     lines.extend("ERROR " + e for e in errors)
     (RUN / "t31b-a-rules.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (RUN / "t31b-a-rules-r2.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("rows", len(ROWS), "errors", len(errors))
     for e in errors:
         print("ERROR", e)

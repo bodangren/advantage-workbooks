@@ -32,9 +32,9 @@ on day 5.
 | SC-w09-d1 | A | A3 Form it (video) | The sound of the week is d. Your child says /d/, says dog, and writes the letter d. | 18 |
 | SC-w09-d2 | B | B5 Frame practice (video) | Your child acts the story Yum! and says I like rice, Yum! at the front of the class. | 18 |
 | SC-w09-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book Dad and the Mop aloud to the class. | 16 |
-| SC-w09-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows your child's sentence I like cake with Yum! at the end. The video shows your child reading it to the class. | 24 |
+| SC-w09-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence I like cake, Yum! in your child's hand. The video shows your child reading it to the class. | 23 |
 | SC-w09-d5 | E | D6 Sing it: song show (video) | The class sings Yum, Yum, Yum! at the song show, and your child does the actions. | 16 |
-| SC-w10-d1 | A | A3 Form it (video) | This week the class works on the endings -an and -ad. Your child writes the letters and reads man and dad. | 21 |
+| SC-w10-d1 | A | A3 Form it (video) | Your child writes the letter a, then the endings -an and -ad, and says the formation words. | 17 |
 | SC-w10-d2 | B | B5 Frame practice (video) | Your child acts the story Dress Up! and says Put on your hat at the front of the class. | 19 |
 | SC-w10-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book The Tan Man aloud to the class. | 15 |
 | SC-w10-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence Put on your hat in your child's hand. The video shows your child reading it to the class. | 23 |
@@ -49,12 +49,12 @@ on day 5.
 | SC-w12-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book The Hen and the Hat aloud to the class. | 17 |
 | SC-w12-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence Open your book in your child's hand. The video shows your child reading it to the class. | 22 |
 | SC-w12-d5 | E | D6 Sing it: song show (video) | The class sings Open Your Book and Read! at the song show, and your child does the actions. | 18 |
-| SC-w13-d1 | A | A3 Form it (video) | This week the class works on the endings -ot and -op. Your child writes the letters and reads pot and top. | 21 |
+| SC-w13-d1 | A | A3 Form it (video) | Your child writes the letter o, then the endings -ot and -op, and says the formation words. | 17 |
 | SC-w13-d2 | B | B5 Frame practice (video) | Your child acts the story Look at Me! and says I can jump with an action. | 16 |
 | SC-w13-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book Hop on Top! aloud to the class. | 15 |
 | SC-w13-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence I can jump in your child's hand. The video shows your child reading it to the class. | 22 |
 | SC-w13-d5 | E | D6 Sing it: song show (video) | The class sings I Can Run and Jump! at the song show, and your child does the actions. | 18 |
-| SC-w14-d1 | A | A3 Form it (video) | The sound of the week is f. Your child says fff, says fish, and writes the letter f. | 18 |
+| SC-w14-d1 | A | A3 Form it (video) | The sound of the week is f. Your child says /f/, says fish, and writes the letter f. | 18 |
 | SC-w14-d2 | B | B5 Frame practice (video) | Your child acts the story Hot and Cold and says It is sunny with an action. | 16 |
 | SC-w14-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book On Goes the Fan! aloud to the class. | 16 |
 | SC-w14-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence It is hot in your child's hand. The video shows your child reading it to the class. | 22 |
@@ -67,5 +67,5 @@ on day 5.
 | SC-w16-d1 | A | A2 Centers (video) | Your child reads Yum! and Dress Up! with a partner at the big book center. | 15 |
 | SC-w16-d2 | B | B1 Centers, rotation 1 (video) | Your child reads Where Is Pip? and Open Your Book! with a partner at the big book center. | 18 |
 | SC-w16-d3 | C | C1 Centers, rotation 1 (video) | Your child reads Look at Me! and Hot and Cold with a partner at the big book center. | 18 |
-| SC-w16-d4 | D | D1 Centers, rotation 1 (video) | Your child reads Look, a Bus! and one more unit 2 book with a partner. | 15 |
+| SC-w16-d4 | D | D1 Centers, rotation 1 (video) | Your child reads Look, a Bus! and one more book from this unit with a partner at the big book center. | 21 |
 | SC-w16-d5 | E | E3 Song show and unit sticker (video) | The class votes for a unit 2 song, sings it at the song show, and your child gets the unit 2 sticker. | 22 |

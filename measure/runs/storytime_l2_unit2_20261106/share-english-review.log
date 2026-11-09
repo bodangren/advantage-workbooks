@@ -1,0 +1,56 @@
+English review log, Task 3.1b part (b), share parent captions weeks 9 to 16.
+
+Reviewer model: minimax-cn-coding-plan/MiniMax-M3#high (family Y, MiniMax).
+Maker family: X (DeepSeek, deepseek/deepseek-flash#high).
+Audited head: 1484e9a6.
+Role: review, report only. No file edited, no commit.
+
+Steps.
+1. Read the one permitted input: measure/runs/storytime_l2_unit2_20261106/share-english-pack.md.
+2. Took the FR-14 rules 1 to 7, D19, the moment table, and the 40 rows from that pack.
+3. Checked every row by hand against the word count, the media extension rule, American spelling, the age word rule, the shot count, the two different steps rule, the assessment step rule, the period of the day rule, the moment table, and D19.
+4. Wrote this log and the report first with a provisional verdict of fail.
+5. Ran the commands below on the pack file only.
+6. Refined this log and the report with the command output.
+
+Commands (read only, on the pack file only).
+awk -F'|' '/^\| SC-/ {c=$5; gsub(/^ +| +$/,"",c); n=split(c,w,/ +/); printf "%s count=%d pack=%s\n", $2, n, $6}' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -Eic '\.(mp4|mov|m4a|mp3|wav|png|jpg|jpeg|webp|svg|pdf)[[:space:]]*$' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -Eio '\b(kid|kids|little one|little ones|year old|year-old|years old|aged)\b' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -ci 'your child' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c 'One child reads one page' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c 'The sound of the week is' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c 'the class works on the endings' measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c "says fff" measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c "in your child's hand" measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+grep -c "at the big book center" measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+
+Command result.
+1. The computed word count matches the count in the pack for all 40 rows. The lowest is 14 and the highest is 24. Every count is inside 1 to 40.
+2. The extension pattern returns 0 rows. No caption ends in a media file extension.
+3. The age word pattern returns no match. No row names an age, and no row says "kids" or "little ones".
+4. The pattern "your child" holds in 33 rows. The pattern "One child reads one page" holds in 7 rows. Together they cover 40 rows.
+5. The pattern "The sound of the week is" holds in 5 rows. The pattern "the class works on the endings" holds in 2 rows. The A3 caption has two shapes.
+6. The pattern "says fff" holds in 1 row. The pattern "in your child's hand" holds in 6 rows. The pattern "at the big book center" holds in 3 rows.
+
+Findings.
+E1 error, rows SC-w10-d1 and SC-w13-d1. The A3 Form it caption has another shape in these two weeks. It names no sound and it claims the child reads two words.
+E2 nit, row SC-w14-d1. The sound is written as "fff" and not as "/f/".
+E3 nit, rows SC-w09-d3, SC-w10-d3, SC-w11-d3, SC-w12-d3, SC-w13-d3, SC-w14-d3, SC-w15-d3. These seven rows say "One child" and the other 33 rows say "Your child".
+E4 nit, row SC-w16-d4. The caption leaves out the center and says "one more unit 2 book".
+E5 nit, row SC-w09-d4. The photo clause has another shape and drops the comma of the frame sentence.
+
+Final verdict: fail. One error finding on two rows. Four nit findings on ten rows. The report file holds the fixes.
+
+MEASURE_AGENT_RESULT
+status: fail
+role: review (report-only)
+task: T3.1b part (b)
+audited_head_sha: 1484e9a6
+errors: 1
+error_rows: SC-w10-d1, SC-w13-d1
+nits: 4
+nit_rows: SC-w09-d4, SC-w14-d1, SC-w09-d3, SC-w10-d3, SC-w11-d3, SC-w12-d3, SC-w13-d3, SC-w14-d3, SC-w15-d3, SC-w16-d4
+verdict: fail
+report: measure/runs/storytime_l2_unit2_20261106/share-english-review.md
+END_MEASURE_AGENT_RESULT
