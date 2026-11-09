@@ -112,6 +112,8 @@ Two source points with a default:
 | Thai teacher book, A4 pages | measured by the Level 1 shape track | 223 (unit 1 proof v15, measured) | more than 223 (49-minute period) | more than 223 (49-minute period) |
 | Color A3 readers | 7 | 14 | 14 | 14 |
 
+Song text rule (PM decision, 2026-11-09; unit 2 spec D17): every new song text has a verse, a chorus with a short hook line that repeats, and a clear ending line. The song request of each unit states this rule, and the writer checks each lyric sheet against it before the request.
+
 ## 4. Reuse of the unit 1 makers and templates
 
 The makers live in `dashboard/scripts/storytime/` and `dashboard/lib/storytime/`. The planning session read each usage text and searched the code for fixed unit 1 values.
