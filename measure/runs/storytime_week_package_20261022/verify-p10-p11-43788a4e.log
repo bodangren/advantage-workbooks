@@ -124,6 +124,23 @@ steps 6 to 8 (lines 123 to 134).
 - Step 8: the Phase 9 heading ends with "[checkpoint: 3f64f22]".
 - PLAN keeps its 61 Thai characters. This role read PLAN through the filter only.
 
+## Follow-up 6: PM receipts in three other track plans (2026-11-09)
+
+Thai check: the unit 2 plan and the cover plan hold 0 Thai characters. The loops plan holds
+188 characters, not the 5 of the task order. This role read the loops plan only through the filter.
+
+Guard: no edit was refused. All 5 edits went in through the editor.
+
+- Loops plan: A1 under the teacher book build task (the task line stays [ ]); A2 under the caption
+  list task, with [x] and "Evidence: automated plus peer-report commit 9d05352"; receipt B under
+  Task (Hand-off 4), with [x] and "Evidence: peer-report commit 2a36b859".
+- The command of receipt B: `git log --before='2026-11-08 02:19' -1 --format=%h -- measure/tracks/storytime_teaching_loops_20261103/spec.md`
+  gives `2a36b859` (2026-11-07 03:00:48 +0700).
+- Unit 2 plan: A3 under Task 2.4, with [x] and "Evidence: peer-report commit d7a2efa".
+- Cover plan: A4 under the Task 2.8 evidence sub-bullet. Task 2.8 stays [~].
+
+Commits: loops 633baa7a, l2u2 3aa78b8f, cover 441c5dce, and this log commit.
+
 ## Left open
 
 - The orchestrator confirmation of the two verification task lines.
