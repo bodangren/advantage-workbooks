@@ -177,8 +177,9 @@ The whole command of each gate runs inside one heavy-run wrapper: `bash ~/Deskto
   - Commit `da35fad9` sets `approval.images` of w02 to w07. The status is "approved" and the date is "2026-11-05". The words are `"Yes" (2026-11-03 11:54 ICT); "The book seems fine." (2026-11-05 ICT)`. The source is `PM relay Tasks id TFBDbWRFTEItTy1kZGUzdw; PM relay of 2026-11-05 (owner answer on proof v15, Tasks id bmh2b1hqTFNCVEpDNks4VQ)`. The record names no person.
   - `meta.status` stays "draft". The approvals of audio, song and scripts stay draft. The commit holds the change of the contract-v2 pin with it.
   - Evidence: owner-approved (PM relay). The pin of the test, the check `book-pictures` and the gates pass: `p9-gate-green.txt` exit 0, `p9-gate-checks.txt` exit 0.
-- [ ] Task: Measure - User Manual Verification 'Phase 9' (Protocol in workflow.md). Owner: the orchestrator.
+- [x] Task: Measure - User Manual Verification 'Phase 9' (Protocol in workflow.md). Owner: the orchestrator. Evidence: automated plus peer-report commit 92a553d
   - Verification (mechanical part), 2026-11-09, HEAD 43788a4e: the test map `verify-p9-testmap.txt` lists 1 code file of the phase (`set-book-pictures.ts`), and it has a test file (`storytime-book-pictures.test.ts`); findings: 0. `PROJECT_TESTS` at HEAD 43788a4e gives 66 files and 1581 tests, EXIT=0 (capture `verify-p10-p11-project.txt`). The run stays valid: `git diff --stat 43788a4e HEAD -- dashboard content video` gives no output, so the later commits change only measure/ files. Open: the PM receipt of the Phase 9 hand-off is in the hand-off task (2026-11-09); the orchestrator confirmation.
+  - Orchestrator confirmation 2026-11-09: I checked the Phase 9 test map (1 code file, set-book-pictures.ts, with its test file), the PROJECT_TESTS capture (66 files, 1581 tests, EXIT=0 at 43788a4e, valid at HEAD because later commits change only measure/), and the PM receipt of the hand-off. Phase 9 is verified.
 
 ## Phase 10: Family-word pictures for the app (2026-11-07 to 2026-11-12)
 
