@@ -1,0 +1,73 @@
+# Jr Green · Task 2.6 (the card entries and the list again) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: 4ab75994
+- Phase base SHA: 0079c2728e63a1dcb442333bb10870e0e7fd7043 (the track base, recorded in `english-review-819f1613.json`)
+- Track: storytime_l2_unit2_20261106
+- Task 2.6 (plan line 198), Phase 2 (Picture list for Forge)
+- Status: COMPLETE
+- Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (ra-quota pick green)
+- Red model of this phase: none (Phase 2 has no code). No subagent was used.
+
+## Inputs
+
+- The 8 staged week files `content/storytime/drafts/l2/w09.json` to `w16.json`, read only through the Thai-free copies.
+- The committed card entries `content/storytime/drafts/l2/print/card-pictures-u2.json` (36 entries).
+- The committed list `content/storytime/drafts/l2/print/pictures-u2.json` (229 rows) and `pictures-u2.md`.
+- The plan blocks `CARD_MATCH_U2` and `PICTURE_LIST_U2` (plan lines 40 to 112).
+
+## Hard rules kept
+
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0` for each of the 8 filtered copies (w09 to w16). The captures, the diff file, and the 3 list files hold 0 Thai characters.
+- No file under `content/storytime/l2/` and none under `dashboard/` was written. No week file was written.
+- No push, no pnpm, no npm, and no change to any lock file. Commit with `git commit -- <paths>`.
+- The plan block text reached the shell only through a python file, so the shell guard saw no backtick, no less-than sign, and no greater-than sign.
+
+## Steps
+
+1. Plan: Task 2.6 took the mark `[~]` before any other file changed. The guard allowed the edit.
+2. The Thai-free copies: one `python3 -I` script wrote the copy of each of the 8 staged week files into `/tmp/opencode/t26/in/` and printed `THAI_CHARS_IN_OUTPUT=0` for each copy.
+3. The block runner `/tmp/opencode/t26/run_block.py` reads the plan block of a name, runs it with `bash` from the repository root, drops every output line with a Thai character, and writes the output and the exit code to the capture file.
+4. CARD_MATCH_U2 in one heavy-run: exit 0, 99 picture-type cards, 0 `none` lines. Capture `RUNS/card-match-u2-r2.txt`.
+5. The 36 entries: each entry word still names a card of its own week, and the match line of each names the row `l2-w<week>-card-<word>`. No entry was added and no entry was removed. `card-pictures-u2.json` did not change.
+6. PICTURE_LIST_U2 in one heavy-run: exit 0, 229 rows, 36 card rows; week 9: 34, week 10: 34, week 11: 31, week 12: 33, week 13: 34, week 14: 33, week 15: 29, week 16: 1. Capture `RUNS/picture-list-u2-r2.txt`.
+7. The row difference: `RUNS/picture-list-u2-r2-diff.txt` compares the new list with `git show HEAD:content/storytime/drafts/l2/print/pictures-u2.json` by row id. 0 rows removed, 0 rows added, 0 rows changed. The row count per week is equal before and after.
+   The cause: the English changes of 3be286b3 and cb2d1c0c and the song line removals of Task 6.1 touch the approval records, the scripts, and the song lines. No book page, check row, card, cover, or d4 prompt changed. The script that compares the two lists prints every changed path of a week file.
+8. A second PICTURE_LIST_U2 run in one heavy-run gave the same files. `cmp` gave exit 0 for `pictures-u2.json`, `pictures-u2.md`, and `card-pictures-u2.json` against the copies of the first run. Capture `RUNS/picture-list-u2-r2-run2.txt`.
+9. Plan: Task 2.6 took the mark `[x]` and one evidence sub-bullet, with the SHA of the capture commit.
+10. The working tree: `git status --short content/` was empty after both runs, so no list file changed and no list file is in the commit.
+
+## Commits
+
+- Capture commit: `measure/runs/storytime_l2_unit2_20261106/card-match-u2-r2.txt`, `picture-list-u2-r2.txt`, `picture-list-u2-r2-run2.txt`, `picture-list-u2-r2-diff.txt`, and the plan with the `[~]` mark. Commit `933fa65370ebd23a36e889eabb7a83a01ef2e64c`, 5 files, 155 insertions, 1 deletion.
+- Plan evidence commit: the plan alone, with the `[x]` mark, the evidence sub-bullet, and the SHA of the capture commit. Commit `a04ee61463639cfc568cf4064810e9a1bb23580b`, 1 file, 2 insertions, 1 deletion.
+- Log: this file alone. It is the last commit of the role.
+
+## Handoff
+
+- Task 2.6 is done. No card entry changed, no row changed, and the committed list equals a new run.
+- The PM needs no row difference. The list is the same as the list that Forge received on 2026-11-07, so the 9 retries of the delivery stand.
+- The 18 family-word pictures of the app (egg, milk, cake, hat, bed, table, sofa, box, chair, book, bag, pencil, pen, jump, bus, bike, truck, plane) stay outside `pictures-u2.json`, as the note of Task 2.6 says.
+- Open: Task 2.5 (the go of Daniel for the paid Forge renders) and Task 2.7 (the delivery check).
+- No code was written and no committed Red test was touched. Phase 2 holds no Red commit.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P2
+task: T2.6
+role: jr-green
+role_base_sha: 4ab75994
+phase_base_sha: 0079c2728e63a1dcb442333bb10870e0e7fd7043
+head: 933fa65370ebd23a36e889eabb7a83a01ef2e64c
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for the 8 filtered week copies; 0 Thai characters in the captures, the diff file, and the 3 list files
+- CARD_MATCH_U2: exit 0; 99 picture-type cards; 0 none lines
+- card entries: 36 entries; each entry word still names a card of its own week; no entry added and no entry removed
+- PICTURE_LIST_U2: exit 0; 229 rows; 36 card rows; week 9: 34, week 10: 34, week 11: 31, week 12: 33, week 13: 34, week 14: 33, week 15: 29, week 16: 1
+- row difference: 0 rows removed, 0 rows added, 0 rows changed; no row changed
+- cmp: exit 0 for pictures-u2.json, pictures-u2.md, and card-pictures-u2.json after a second run
+- plan: Task 2.6 is [x] with the evidence sub-bullet and the SHA of the capture commit
+dispositions: none
+files: measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/card-match-u2-r2.txt; measure/runs/storytime_l2_unit2_20261106/picture-list-u2-r2.txt; measure/runs/storytime_l2_unit2_20261106/picture-list-u2-r2-run2.txt; measure/runs/storytime_l2_unit2_20261106/picture-list-u2-r2-diff.txt; this log
+handoff: Task 2.6 is done. No card entry changed, no row changed, and the committed list equals a new run (cmp exit 0 for pictures-u2.json, pictures-u2.md, and card-pictures-u2.json). The PM needs no row difference, because the list is the same as the list that Forge received on 2026-11-07; the 9 retries of the delivery stand. The 18 family-word pictures of the app stay outside pictures-u2.json, as the note of Task 2.6 says. Open: Task 2.5 (the go of Daniel for the paid Forge renders) and Task 2.7 (the delivery check). No code was written and no committed Red test was touched.
+END_MEASURE_AGENT_RESULT
