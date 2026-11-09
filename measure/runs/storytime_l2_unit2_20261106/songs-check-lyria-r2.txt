@@ -1,0 +1,22 @@
+model: faster-whisper small (int8, cpu, local); language en; word times on; no lyric prompt
+rule: pass when coverage is 0.8 or more and the duration is 45 to 120 s
+week cand duration_s sample_rate_hz coverage lines_heard/lines missed_lines
+w14 c1-r2 72.6 44100 0.50 4/8 It is windy! Blow, blow, blow! | It is cloudy! Look, look, look! | It is hot! Fan, fan, fan! | It is very cold! Hug, hug, hug!
+w14 c3-r2 72.4 44100 0.62 5/8 It is hot! Fan, fan, fan! | It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w15 c1-r2 72.7 44100 0.88 7/8 Look, a helicopter! Up, up, up!
+w15 c2-r2 75.4 44100 0.75 6/8 Look, a train! Choo, choo, choo! | Look, a helicopter! Up, up, up!
+
+PASS 1 of 4
+FAILED TAKES
+w14 c1-r2: coverage 0.50, duration 72.6 s
+  missed: It is windy! Blow, blow, blow!
+  missed: It is cloudy! Look, look, look!
+  missed: It is hot! Fan, fan, fan!
+  missed: It is very cold! Hug, hug, hug!
+w14 c3-r2: coverage 0.62, duration 72.4 s
+  missed: It is hot! Fan, fan, fan!
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w15 c2-r2: coverage 0.75, duration 75.4 s
+  missed: Look, a train! Choo, choo, choo!
+  missed: Look, a helicopter! Up, up, up!
