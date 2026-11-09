@@ -1,0 +1,166 @@
+# Log of the memory curation, 2026-11-09
+
+Role: build, report and record only. Track: storytime_week_package_20261022 (the memory files). Repo: /home/daniebo/Desktop/Workbooks, branch master.
+
+Start head: fbf3a62f51561d5f2e3cc48e89a213ee55befaba (HEAD7 fbf3a62).
+
+Thai rule (rule 19): this session reads no Thai and writes no Thai. A Thai character is any character from U+0E00 to U+0E7F. The script `thai_count.py` prints counts only. The file `measure/lessons-learned.md` was never opened with the read tool, cat, sed, head, an unfiltered grep or an unfiltered git diff. The method of job 2 gave the only view of it. The script `ll-thai.json` was never read or printed.
+
+## Step 0: the Thai count table
+
+Command: `python3 -I /tmp/opencode/mem-curate/thai_count.py`
+
+| File | Lines | Thai lines | Thai characters |
+|---|---|---|---|
+| measure/lessons-learned.md | 50 | 3 | 39 |
+| measure/tech-debt.md | 53 | 0 | 0 |
+| measure/tracks/storytime_l2_unit2_20261106/plan.md | 250 | 0 | 0 |
+| measure/runs/storytime_l2_unit2_20261106/share-english-recheck.md | 58 | 0 | 0 |
+| measure/runs/storytime_l2_unit2_20261106/share-english-recheck.log | 54 | 0 | 0 |
+| measure/runs/storytime_l2_unit2_20261106/share-english-review.md | 118 | 0 | 0 |
+| measure/runs/storytime_l2_unit2_20261106/share-english-review.log | 56 | 0 | 0 |
+| measure/runs/storytime_l2_unit2_20261106/share-captions-en.md | 65 | 0 | 0 |
+
+The expectation holds: lessons-learned.md has 50 lines and 3 Thai lines. Every other file has 0 Thai.
+
+Command: `git rev-parse HEAD` gives fbf3a62f51561d5f2e3cc48e89a213ee55befaba.
+
+Command: `git status --porcelain -- measure/tech-debt.md measure/lessons-learned.md measure/tracks/storytime_l2_unit2_20261106/plan.md measure/runs/storytime_week_package_20261022/memory-curate-fbf3a62.log measure/runs/storytime_l2_unit2_20261106/share-english-recheck.md measure/runs/storytime_l2_unit2_20261106/share-english-recheck.log` gives only two untracked entries, the two recheck files of job 3. The three files to edit were clean.
+
+## Job 1: measure/tech-debt.md
+
+Merged 3 row pairs into 3 rows. Each row keeps its numbered parts in the Item cell and the Notes cell, and the words "merged on 2026-11-09 to keep this file at 50 lines".
+
+1. The two rows of 2026-10-26 (storytime_print_r1_20261025): part (1) is the Review A N7 text-check gaps with the line numbers 161, 141, and 223; part (2) is the unused STORYTIME_APPROVAL_PARTS at schema.ts:425 with Review A NC-1.
+2. The two rows of 2026-10-28 (storytime_print_r1_20261025): part (1) is the two lows of the student-book build, B-P2-05 and B-P2-06; part (2) is the formation guide paths at student-book.ts:237-243 for the letter n.
+3. The two rows of 2026-11-09 (storytime_week_package_20261022): part (1) is Phase 10 A9 with the two handoff folders; part (2) is Phase 11 with the three items, now numbered 2.1, 2.2, and 2.3.
+
+No row was deleted and no row was set to Resolved.
+
+Command: `grep -c '' measure/tech-debt.md` gives 50.
+
+Command: `python3 -I /tmp/opencode/mem-curate/thai_count.py` gives 0 Thai lines for measure/tech-debt.md.
+
+Commit: `git commit -m "measure(memory): merge 3 row pairs of tech-debt.md to 50 lines" -- measure/tech-debt.md` gives 3b534e6d94f5c1fd3ae5236c4ec60d745f3730de.
+
+## Job 2: measure/lessons-learned.md
+
+### Step a: the split
+
+Command: `python3 -I /tmp/opencode/mem-curate/split.py`
+
+Result: 50 view lines; placeholder ids @@KEEP-TH-15@@, @@KEEP-TH-33@@, @@KEEP-TH-44@@; Thai SHA-256 a9bfbb55ad6ca46a517f57570ca3b1b318360f86608f3b300b4c3124f733d993.
+
+The Thai lines went to /tmp/opencode/mem-curate/ll-thai.json. That file was never read or printed.
+
+### Step b: the view
+
+Command: `python3 -I /tmp/opencode/mem-curate/check_thai.py /tmp/opencode/mem-curate/ll-view.md` gives 50 lines, 0 Thai lines, 0 Thai characters.
+
+The edits were made in the view file only, with the script edit_view.py. The script checks the 4 anchors before it writes: the line count before is 50, and the 3 placeholders sit at lines 15, 33, and 44.
+
+Freed 3 lines by 3 merges. Each merged row keeps the date tag and the facts of both old rows.
+
+1. Line 16 (2026-03 consolidated, the dashboard toggles and the Next.js previews) with line 24 (2026-03-22 consolidated, Playwright).
+2. Line 27 (2026-04-26, the Primary print template) with line 28 (2026-04-26, the Thai vocabulary fields).
+3. Line 29 (2026-08-03, the step numbers) with line 30 (2026-08-03, the Paged.js rAF freeze).
+
+Appended 4 parts to 4 existing rows. Each part starts with "(2026-11-09, <track>)".
+
+1. L2 to line 18 (the audio lessons), storytime_week_package_20261022: the silencedetect d=0.1 gap, the 85 ms quiet start of the w01 song.mp3, the lead-in of 3.085 s in place of 3.000 s, the new d=0.05, the mutant M8, and the rule for d.
+2. L5 to line 19 (the background jobs), storytime_week_package_20261022: the OpenChamber session.send that aborts a running prompt, the wait for the result, and the collection of the follow-up items.
+3. L3 to line 35 (the Forge manifest form), storytime_week_package_20261022: the json.dumps(manifest, indent=1) form of content/storytime/words/manifest.json, the Node JSON.stringify write of -3.0 as -3, the TypeScript writer, and the Python round-trip check.
+4. L1 to line 37 (the pattern tests), storytime_week_package_20261022, Phase 10: the image\.file pattern that missed storytime-loops-content.test.ts, the image?.file form, the short list of readers, the F10 break, the image\??\.file pattern, and the rule for a pattern.
+
+Added 3 new rows. Each starts with its date tag.
+
+1. L4 at the end of Recurring Gotchas, after the old line 38: "(2026-11-09, Storytime tracks)".
+2. L6 and L7 in one new row after L4: "(2026-11-09, storytime_cover_options_20261106, Task 2.8)".
+3. L8 and L9 in one new row at the end of Planning Improvements: "(2026-11-09, PM receipts and paid media)".
+
+The header, the 4 section headings, the 4 HTML comments, and the 3 placeholder lines did not change.
+
+### Step c: the join
+
+Command: `python3 -I /tmp/opencode/mem-curate/join.py`
+
+Checks, all PASS:
+
+| Check | Result |
+|---|---|
+| view holds 0 Thai characters | PASS (thai_chars=0) |
+| each placeholder occurs exactly once | PASS (@@KEEP-TH-15@@=1 @@@KEEP-TH-33@@=1 @@@KEEP-TH-44@@=1) |
+| no placeholder remains in the result | PASS (leftover=0) |
+| result has 3 Thai lines | PASS (thai_lines=3) |
+| result has 50 lines or less | PASS (lines=50) |
+| Thai SHA-256 matches step a | PASS (sha256=a9bfbb55ad6ca46a517f57570ca3b1b318360f86608f3b300b4c3124f733d993) |
+
+The script wrote measure/lessons-learned.md with 50 lines and 3 Thai lines. It writes nothing and exits 1 when a check fails.
+
+Command: `python3 -I /tmp/opencode/mem-curate/verify_lessons.py` gives old lines 50, new lines 50, 5 headings, 4 HTML comments, the header lines 1 to 4 unchanged, 3 Thai lines in both files, and the Thai line texts unchanged.
+
+Command: `grep -c '' measure/lessons-learned.md` gives 50.
+
+### Step d: the diff
+
+Command: `python3 -I /tmp/opencode/mem-curate/diff_filter.py` pipes the git diff through a filter that prints [TH LINE] in place of each line with a Thai character. The diff shows 10 changed rows and 3 new rows.
+
+Commit: `git commit -m "measure(memory): today's lessons and a curation of lessons-learned.md to 50 lines" -- measure/lessons-learned.md` gives 69d7fbd6baffca0efa2b7fa3e68545ddc986d80a.
+
+## Job 3: Task 3.1b part (b) of storytime_l2_unit2_20261106
+
+### Step a: the log audit
+
+Command: `grep -c 'content/storytime' measure/runs/storytime_l2_unit2_20261106/share-english-review.log` gives 0.
+
+Command: `grep -c 'content/storytime' measure/runs/storytime_l2_unit2_20261106/share-english-recheck.log` gives 0.
+
+Both gates pass, so the commit of job 3 goes ahead.
+
+### Step b: the counts
+
+Round 1 (measure/runs/storytime_l2_unit2_20261106/share-english-review.md): the verdict table holds 40 rows. The verdict is fail. The findings are E1 (error), E2, E3, E4, E5 (nits). The final verdict says 1 error finding and 4 nit findings. The error covers SC-w10-d1 and SC-w13-d1. The nits cover 10 rows.
+
+The recheck (measure/runs/storytime_l2_unit2_20261106/share-english-recheck.md): the verdict is pass. The findings table closes E1, E2, E3, E4, and E5. The final verdict says all five findings are closed and no error stays open. The audited head is a65f6c1d and the reviewer model is minimax-cn-coding-plan/MiniMax-M3#high of family Y.
+
+The counts match the expectation.
+
+### Step c: the commits
+
+Command: `git log --format='%h %s' -- measure/runs/storytime_l2_unit2_20261106/share-captions-en.md measure/runs/storytime_l2_unit2_20261106/share-english-pack.md measure/runs/storytime_l2_unit2_20261106/share-english-review.md` gives:
+
+```
+4cbe0e8c measure(runs): Task 3.1b, two fixes of the review answers (storytime_l2_unit2)
+5dee7331 measure(runs): Task 3.1b, the answers to the English review (storytime_l2_unit2)
+498e6e46 measure(runs): Task 3.1b part (a), the English share captions of weeks 9 to 16 (storytime_l2_unit2)
+```
+
+### Step d: the plan sub-bullet
+
+One sub-bullet was added after the task line "- [ ] Task 3.1b: the share moments of weeks 9 to 16" and before the line of Task 3.2. The task line keeps the mark [ ]. No other line changed.
+
+Command: `git diff --stat -- measure/tracks/storytime_l2_unit2_20261106/plan.md` gives 1 insertion.
+
+Command: `python3 -I /tmp/opencode/mem-curate/check_thai.py measure/tracks/storytime_l2_unit2_20261106/plan.md` gives 251 lines, 0 Thai lines.
+
+The two recheck files were untracked, so they were added with `git add --` on those two paths alone before the commit.
+
+Commit: `git commit -m "measure(l2u2): Task 3.1b part (b), the English recheck E1 to E5 (storytime_l2_unit2)" -- measure/runs/storytime_l2_unit2_20261106/share-english-recheck.md measure/runs/storytime_l2_unit2_20261106/share-english-recheck.log measure/tracks/storytime_l2_unit2_20261106/plan.md` gives 68f87bd5127d3badf05b892f718ea92309b89131.
+
+## The 4 commits
+
+1. 3b534e6d94f5c1fd3ae5236c4ec60d745f3730de measure(memory): merge 3 row pairs of tech-debt.md to 50 lines
+2. 69d7fbd6baffca0efa2b7fa3e68545ddc986d80a measure(memory): today's lessons and a curation of lessons-learned.md to 50 lines
+3. 68f87bd5127d3badf05b892f718ea92309b89131 measure(l2u2): Task 3.1b part (b), the English recheck E1 to E5 (storytime_l2_unit2)
+4. this log commit
+
+## Scratch files
+
+All scratch files sit in /tmp/opencode/mem-curate/: thai_count.py, check_thai.py, split.py, ll-view.md, ll-view.md.bak, ll-thai.json, edit_view.py, join.py, verify_lessons.py, and diff_filter.py.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: build (record)
+head: fbf3a62f51561d5f2e3cc48e89a213ee55befaba, then 3b534e6d94f5c1fd3ae5236c4ec60d745f3730de, 69d7fbd6baffca0efa2b7fa3e68545ddc986d80a, 68f87bd5127d3badf05b892f718ea92309b89131, then this log commit
+gates: thai (each file: lessons-learned.md 3 Thai lines and 39 Thai characters; tech-debt.md 0; plan.md 0; share-english-recheck.md 0; share-english-recheck.log 0; share-english-review.md 0; share-english-review.log 0; share-captions-en.md 0), tech_debt lines (50), lessons lines (50) and Thai SHA match (a9bfbb55ad6ca46a517f57570ca3b1b318360f86608f3b300b4c3124f733d993), review log greps (0 and 0)
+handoff: Task 3.1b parts (c) and (d) stay open. Part (c) needs a Claude role after 2026-11-10 15:22 for the Thai captions and the share field insert. Part (d) is the check of that insert. The tech-debt row for Phase 11 holds the venv path for the word audio maker, and the song videos of w01 are still not in git.
