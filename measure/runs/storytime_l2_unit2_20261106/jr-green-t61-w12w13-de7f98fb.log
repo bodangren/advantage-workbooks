@@ -1,0 +1,164 @@
+# Jr Green · Task 6.1 weeks 12 and 13 (staged) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: de7f98fb
+- Track: storytime_l2_unit2_20261106
+- Task 6.1 (plan line 241), weeks 12 and 13, staged form (plan line 8)
+- Status: COMPLETE. Week 13 is applied in staged form. Week 12 is held for Daniel's answer (orchestrator option A, 2026-11-09).
+- Red model: none. Task 6.1 has no code and no Red role.
+
+## Inputs
+
+- Week 12: owner words "Week 12 c2", Tasks item VG5CR19oU19xTlVzOUJSTg, 17:34 ICT; take `w12/l2-w12-song-c2.mp3` (72.856 s; MANIFEST SHA-256 f5c4b00dbd789d119c11c9b7c11d65baa7ca6330743e8724222711c792fd6ebd). HELD.
+- Week 13: owner words "W13 c3", Tasks item MDlYRU42RXlZejdtWTdWdw, 17:39 ICT; take `w13/l2-w13-song-c3.mp3` (74.162 s; MANIFEST SHA-256 40779deed9fabeef826ea0db84a521fc483aa218776337d2a70173568b2cca67).
+- Candidate folder: `~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/`; `MANIFEST.txt` SHA-256 8543fd1ff0a9b62e7d653043992e426587d5e53cb3493548a87599f7e3169bcc.
+- Listen sheet before this task: SHA-256 097e07b46f4424f17e5ef33540977301cf2b0480ecada4ea2a21302ac9c00810. The PM quoted 8664f4e0..., which is the first version of the sheet (plan line 185). The current sheet is the 097e07b4 version.
+- Transcripts: `songs-transcripts/w12-c2.json` and `w13-c3.json` (faster-whisper small, local, no lyric prompt).
+- Week files: `content/storytime/drafts/l2/w12.json` (unchanged) and `w13.json` (applied).
+
+## Hard rules kept
+
+- Thai filter first: one `python3 -I` script copied w09, w10, w11, w12, and w13 to `/tmp/opencode/t61/in/` without `th` keys and without Thai strings; `THAI_CHARS_IN_OUTPUT=0` for all five.
+- No file under `content/storytime/l2/` and none under `dashboard/`. No MP3 copy and no `song.audio`; both wait for Task 4.3.
+- The shell guard kept: the wrapper reads the STAGE_CHECKS line from the plan; commands use no backtick, no less-than sign, and no greater-than sign.
+- No pnpm, no npm, no vitest. No push. Commit with paths only.
+
+## Step 1: the sung form (second local passes)
+
+Settings for every pass: faster-whisper int8, cpu, local files only, language en, word timestamps, no condition on previous text, no VAD, beam 5, temperature 0.0, no lyric prompt. Each recognizer job ran inside one heavy-run wrapper. Cut passes wrote a 16 kHz mono WAV under `/tmp/opencode/t61/`.
+
+| Point | Result |
+|---|---|
+| w12 line 2 sings "Open your book" two times, then "Look, look, look" | CONFIRMED. Cut 14-26: open 16.24, your 17.26, book 17.68; open 18.62, your 19.64, book 20.08; look 20.88, 22.52, 23.80. |
+| w12 line 6 sings "Open your book" two times | REFUTED. Cut 40-52: one open 44.92-46.08, your 46.08-46.48, book 46.48-47.32, then look 47.82, 49.02, 50.22. Base full file: one open 45.40-46.10. |
+| w12 line 4 has an extra heard word "hand" at 36.00 s | REFUTED. Cut 30-40 hears open 35.92-37.86 (line 5) and no "hand"; the base full file hears no "hand". The full small pass misheard "open" as "hand". |
+| w12 lines 9 and 10 (the third chorus) are not sung | CONFIRMED. Cut 55-64: eraser 60.72-61.62, then open 62.38, your 62.88, bag 63.30 (line 11). Base full file: eraser 60.72-61.28, then open 62.52 (line 11). |
+| w12 zero-length tokens at 27.34 s ("open your bag") and 54.38 s ("get your pencil") | CONFIRMED as decoder echoes. Cut 24-31 hears one "open your bag" at 25.30-28.06 and "get your pencil" 28.54-30.36; the echoes vanish in the cut pass. |
+| w13 all 12 lines in order; lines 1 to 11 repeat the action word 5 or 6 times; line 12 hears 3 of 4 "hop" | CONFIRMED by the base full file; no cut pass needed. The base hears hop 71.32, 71.92, 72.30. Coverage 0.875 is the missing fourth hop of line 12. |
+
+Second-pass files: `w12-c2-pass2-base.json`, `w12-c2-pass2-small-14-26.json`, `w12-c2-pass2-small-24-31.json`, `w12-c2-pass2-small-30-40.json`, `w12-c2-pass2-small-40-52.json`, `w12-c2-pass2-small-55-64.json`, `w13-c3-pass2-base.json`.
+
+## Step 2: line times
+
+`t61-song-times.py` gained options only: `--lookahead`, `--key-after`, `--min-token`, `--drop-lines`, `--extend-line-end`, `--coverage-min`, `--out`, `--print-words`. Without options it keeps the week 9 to 11 behavior.
+
+### Week 12 (10 entries, lines 9 and 10 dropped for the trial)
+
+Command: `--lookahead 3 --drop-lines 9,10 --min-token 0.05`.
+
+| # | start | end | words (start-end) | estimated |
+|---|---|---|---|---|
+| 1 | 11.26 | 16.04 | Open 11.26-12.48, your 12.48-12.88, book! 12.88-13.60, Read, 13.76-14.80, read, 15.16-15.42, read! 15.64-16.04 | none |
+| 2 | 16.12 | 24.40 | Open 16.12-17.26, your 17.26-17.68, book! 17.68-18.30, Look, 20.70-21.90, look, 22.60-23.22, look! 23.72-24.40 | none |
+| 3 | 25.82 | 30.42 | Open 25.82-26.96, your 26.96-27.26, bag! 27.34-27.86, Get 28.26-29.14, your 29.14-29.66, pencil! 29.66-30.42 | none |
+| 4 | 31.02 | 35.42 | Open 31.02-31.68, your 31.68-32.08, book! 32.08-32.76, Get 33.04-33.98, your 33.98-34.50, pen! 34.50-35.42 | none |
+| 5 | 37.86 | 42.62 | Open 37.86-38.86, your 38.86-39.28, book! 39.28-40.06, Read, 40.24-41.18, read, 41.60-41.76, read! 42.06-42.62 | none |
+| 6 | 42.62 | 50.78 | Open 42.62-46.06, your 46.06-46.48, book! 46.48-47.30, Look, 47.82-48.38, look, 49.02-49.62, look! 50.22-50.78 | none |
+| 7 | 51.32 | 57.28 | Open 51.32-53.30, your 53.30-53.66, bag! 53.66-54.30, Get 54.38-55.54, your 55.54-56.04, crayon! 56.04-57.28 | none |
+| 8 | 57.28 | 61.62 | Open 57.28-58.08, your 58.08-58.46, book! 58.46-59.16, Get 59.16-60.26, your 60.26-60.70, eraser! 60.70-61.62 | none |
+| 9 | 62.26 | 66.46 | Open 62.26-62.88, your 62.88-63.26, bag! 63.26-63.98, Get 63.98-65.14, your 65.14-65.66, ruler! 65.66-66.46 | none |
+| 10 | 67.00 | 71.02 | Open 67.00-67.70, your 67.70-68.08, book! 68.08-68.84, Read 69.22-69.92, with 69.92-70.48, me! 70.48-71.02 | none |
+
+### Week 13 (12 entries)
+
+Command: `--key-after can --extend-line-end --min-token 0.05 --coverage-min 0.8`.
+
+| # | start | end | words (start-end) | estimated |
+|---|---|---|---|---|
+| 1 | 10.72 | 15.86 | I 10.72-11.66, can 11.66-11.92, run! 11.92-12.34, Run, 12.62-13.48, run, 13.74-14.34, run! 14.34-14.68; end extended over the sung repeats 14.68-15.36 and 15.36-15.86 | none |
+| 2 | 15.86 | 21.88 | I 15.86-16.22, can 16.22-16.52, jump! 16.52-17.04, Jump, 17.20-18.06, jump, 18.24-18.86, jump! 18.86-19.30; end extended over 19.30-20.00 and 20.00-21.88 | none |
+| 3 | 21.88 | 27.18 | I 21.88-23.08, can 23.08-23.36, walk! 23.36-23.76, Walk, 24.04-24.86, walk, 25.18-25.32, walk! 25.32-25.90; end extended over 25.90-26.28, 26.28-27.00, 27.00-27.18 | none |
+| 4 | 27.18 | 31.24 | I 27.18-27.62, can 27.62-27.92, clap! 27.92-28.38, Clap, 28.96-29.50, clap, 29.74-30.28, clap! 30.28-31.24 | none |
+| 5 | 33.64 | 38.84 | I 33.64-34.52, can 34.52-34.84, run! 34.84-35.28, Run, 35.72-36.36, run, 36.64-37.26, run! 37.26-37.80; end extended over 37.84-38.60 and 38.60-38.84 | none |
+| 6 | 38.84 | 44.18 | I 38.84-39.08, can 39.08-39.38, jump! 39.38-39.90, Jump, 40.04-40.94, jump, 41.10-41.86, jump! 41.88-42.38; end extended over 42.52-44.18 | none |
+| 7 | 44.88 | 49.84 | I 44.88-45.92, can 45.92-46.20, kick! 46.20-46.60, Kick, 46.84-47.28, kick, 47.80-48.28, kick! 48.38-48.96; end extended over 48.96-49.84 | none |
+| 8 | 49.84 | 53.70 | I 49.84-50.50, can 50.50-50.76, throw! 50.76-51.22, Throw, 51.46-52.34, throw, 52.42-52.96, throw! 52.96-53.70 | none |
+| 9 | 53.70 | 61.42 | I 53.70-55.12, can 55.12-57.64, run! 57.64-58.10, Run, 58.56-59.22, run, 59.44-60.10, run! 60.10-60.62; end extended over 60.62-61.42 | none |
+| 10 | 61.42 | 66.86 | I 61.42-61.92, can 61.92-62.22, jump! 62.22-62.70, Jump, 62.94-63.76, jump, 64.00-64.62, jump! 64.62-65.10; end extended over 65.10-66.86 | none |
+| 11 | 67.86 | 70.64 | I 67.86-68.78, can 68.78-69.06, catch! 69.06-69.54, Catch, 69.74-69.96, catch, 70.04-70.36, catch! 70.36-70.64 | none |
+| 12 | 70.64 | 73.69 | I 70.64-71.08, can 71.08-71.38, hop! 71.38-71.76, Hop, 72.04-72.36, hop, 72.54-72.92, hop! 73.39-73.69 | line 12 fourth "hop" (both passes hear 3 of 4) |
+
+### Acceptance criteria
+
+- C1: every line word maps in order to a heard token of 0.05 s or more. `word_tokens_min_0.05` PASS for both weeks; `words_in_order` PASS. Week 12 has 0 estimated words. Week 13 has 1 estimated word: line 12 fourth "hop" 73.39-73.69, which no pass hears.
+- C2: a line runs from its first sung word to its last sung word. Week 12 line 2 starts at the first "Open" 16.12 and includes the extra "Open your book" repeat through the last "look" 24.40; week 13 lines 1 to 11 end on the last sung action repeat. `line_ends_before_next` PASS for both weeks. Week 12 line 6 keeps the committed token start 42.62; the cut pass hears the syllable at 44.92 and the base at 45.40 (recorded, not hidden). Week 13 line 12 ends at the estimated word 73.69; the last sung hop ends 72.92.
+- C3: line starts rise (`times_increase` PASS); all times are in 0 to 72.856 s (w12) and 0 to 74.162 s (w13) (`range_0_duration` PASS); coverage is 1.0 (w12) and 0.875 (w13). The w13 miss is line 12 with 3 of the 4 hops heard; this is not a fail.
+- C4: without options the script gives `cmp`-equal output to the committed `t61-w09-song-times.json`, `t61-w10-song-times.json`, and `t61-w11-song-times.json`. The regression files are `/tmp/opencode/t61/regress-w09.json`, `regress-w10.json`, and `regress-w11.json`; the committed files were not overwritten.
+
+## Step 3: the song.lines decision
+
+Both passes do not hear w12 lines 9 and 10. The schema says `song.lines` holds every line as it is sung (`dashboard/lib/storytime/schema.ts` line 244), and the song-sheet check says a generated song can differ, then the lines follow the audio (`checks.ts` line 248). The default: remove items 9 and 10 from w12 and keep `lyricSheet` unchanged.
+
+Proof on the filtered copy: item 9 and item 10 have only `text`, `part`, `gesture`, and `imageOf` (imageOf 0 and 1); no note and no image; the raw items have 0 Thai characters; no later item has an `imageOf` that points to them. No line text, gesture, picture, note, or lyricSheet changed.
+
+The drop was applied once for the trial and then reverted, because of the result in step 5.
+
+## Step 4: apply
+
+`t61-apply-week.py` gained `--time`, `--drop-lines`, `--take-sha`, and `--out-times`. Without the new options the week 10 and 11 use is the same.
+
+Week 13: `STRUCTURE_EQUAL=1`; 12 times; 12 lines; `approval.song` words "W13 c3"; Thai lines 464, SHA d7ea560068d6ca2e25911cc1dd09a6f9c865738792d8269bc835f6e425de0c66 before and after (`THAI_LINES_EQUAL=1`); `git diff --numstat` 451 added, 2 removed. `song.times` sits after `choreography`; the format is indent 2, `ensure_ascii=False`, final newline.
+
+Week 12 trial: `STRUCTURE_EQUAL=1`; 10 times; 10 lines; `approval.song` words "Week 12 c2"; Thai lines 467, SHA d6848bbc8c82922f41846c03cb962f40bd7bad5bfb2a0a61c078cc62016352d1 before and after; `git diff --numstat` 377 added, 14 removed. The file was then restored from `/tmp/opencode/t61/w12.before.json`; `git status --porcelain` and `git diff --stat` on it print nothing.
+
+The approval source records the take SHA-256 for both weeks.
+
+## Step 5: STAGE_CHECKS
+
+Through the same Thai-dropping wrapper as weeks 10 and 11, inside one heavy-run wrapper.
+
+- BEFORE (`t61-stage-before-w12w13.txt`): EXIT=1, FAIL lines 8, WARN lines 9, dropped Thai lines 0. st2/12 and st2/13: 39 PASS, 1 FAIL, 1 WARN each. The FAIL is `share-moment`; the WARN is `family-pictures`.
+- WEEK 12 DROP TRIAL (`t61-stage-w12-drop-trial.txt`): EXIT=1, FAIL lines 9, WARN lines 10. st2/12: 37 PASS, 2 FAIL, 2 WARN. New FAIL `song-frame — 7 times`; new WARN `song-sheet` that names the line difference. st2/13 is unchanged.
+- AFTER (`t61-stage-after-w13.txt`): EXIT=1, FAIL lines 8, WARN lines 9, dropped Thai lines 0. st2/12 and st2/13: 39 PASS, 1 FAIL, 1 WARN each. `song-frame`, `song-sheet`, `song-gestures`, `song-picture-refs`, `song-pictures`, and `song-media` are PASS on both weeks.
+
+The `song-frame` check counts the frame in `song.lines` (`checks.ts` line 236). Week 12 has 9 frame lines; dropping lines 9 and 10 leaves 7, below the rule of 8. So the drop cannot pass `PROJECT_CHECKS` without a code or text change, and task 6.1 cannot close.
+
+## Week 12: held
+
+Orchestrator decision (option A, 2026-11-09): week 12 stays unchanged and waits for Daniel. The week file is at HEAD. The 10-line times are in `t61-w12-song-times.json` and are not applied.
+
+Question for Daniel (via the PM): keep c2 with 10 lines and a song-frame waiver for week 12, or take c3 (8 of 8 lyric lines), or make a new take. Default: week 12 waits for his answer; task 6.1 cannot close before the week 14 and 15 picks in any case.
+
+## Listen sheet (outside git)
+
+The w12 c2 row: `Daniel: "Week 12 c2" (2026-11-09 17:34 ICT, PM relay; held)`. The w13 c3 row: `Daniel: "W13 c3" (2026-11-09 17:39 ICT, PM relay)`. One note line under the week 12 notes gives the 10-of-12 lines and the 7 frame lines. `sha256sum -c MANIFEST.txt`: 25 of 25 OK. New listen-sheet SHA-256: 1661f5e0e7d725b9357d858a1e334cc8b013141ea23d21be21c1887da65d3bc6 (was 097e07b4...).
+
+## Plan
+
+The week 12 and week 13 sub-bullets went under the week 11 sub-bullet through the shell route that the PM rule of 2026-11-09 allows. The Task 6.1 status line stays `[~]`; it was not edited. No checkpoint was added.
+
+## Commits
+
+- Implementation: content/storytime/drafts/l2/w13.json, the plan, the three scripts, the two times files, the seven second-pass transcripts, and the three stage captures. Commit fc40c37b7781bb07bed830ec71fc7608b2a0ee6c.
+- Log: this file alone.
+
+## Handoff
+
+- Week 13 is done in staged form. Task 6.1 stays `[~]` until all picks and PROJECT_CHECKS.
+- Week 12 is held. The week file is unchanged. The question above waits for Daniel through the PM.
+- The MP3 copies to `l2/media/w13/song.mp3` and `song.audio` wait for Task 4.3. The same holds for week 12 if Daniel keeps c2.
+- The listen sheet is outside git; its new SHA-256 is in the plan sub-bullets.
+- Defaults recorded: lookahead 3 and drop 9,10 for the w12 trial; `--key-after can --extend-line-end` for w13; the estimator places a missing last word between the last sung word and the take end.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 week 13 (staged); week 12 held
+role: jr-green
+role_base_sha: de7f98fb
+head: fc40c37b7781bb07bed830ec71fc7608b2a0ee6c
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for w09, w10, w11, w12, w13; 0 dropped Thai lines in all three captures
+- second passes: 7 JSON files with settings; the step 1 table records confirm or refute for every point
+- times w12: 10 entries, C1 0 estimated, C2/C3 pass; not applied (week 12 held)
+- times w13: 12 entries, C1 1 estimated (line 12 fourth hop), coverage 0.875 recorded, C2/C3 pass
+- regression w09, w10, w11: cmp equal to the committed times files
+- structure w13: STRUCTURE_EQUAL=1; Thai 464 lines equal; numstat 451 2
+- STAGE_CHECKS before: EXIT=1, FAIL 8, WARN 9; st2/12 and st2/13 39 PASS, 1 FAIL, 1 WARN
+- STAGE_CHECKS w12 drop trial: EXIT=1, FAIL 9, WARN 10; st2/12 37 PASS, 2 FAIL, 2 WARN; new song-frame FAIL
+- STAGE_CHECKS after: EXIT=1, FAIL 8, WARN 9; st2/12 and st2/13 39 PASS, 1 FAIL, 1 WARN; no new FAIL or WARN
+- listen sheet: 25 of 25 OK; new SHA-256 1661f5e0e7d725b9357d858a1e334cc8b013141ea23d21be21c1887da65d3bc6
+dispositions: week 12 held under option A (orchestrator decision, 2026-11-09); no routed findings
+files: content/storytime/drafts/l2/w13.json; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/t61-song-times.py; t61-apply-week.py; t61-pass2-transcript.py; t61-w12-song-times.json; t61-w13-song-times.json; songs-transcripts/w12-c2-pass2-base.json; w12-c2-pass2-small-14-26.json; w12-c2-pass2-small-24-31.json; w12-c2-pass2-small-30-40.json; w12-c2-pass2-small-40-52.json; w12-c2-pass2-small-55-64.json; w13-c3-pass2-base.json; t61-stage-before-w12w13.txt; t61-stage-w12-drop-trial.txt; t61-stage-after-w13.txt; this log
+handoff: Week 13 is applied and gate-clean in staged form. Week 12 is unchanged at HEAD and held for Daniel; the question is in the plan sub-bullet and in this log. Task 6.1 stays [~]. The MP3 copies and song.audio wait for Task 4.3. The listen sheet is outside git; its new SHA-256 is in the plan sub-bullets. The plan sub-bullets went in through the allowed shell route; the status line was not edited and no checkpoint was added. Facts changed: week 13 song.times (12 entries) and approval.song ("W13 c3", 17:39 ICT, Tasks item MDlYRU42RXlZejdtWTdWdw) are set in the staged week file; the listen sheet has the two picks with clock times and the week 12 note; week 12 has no file change.
+END_MEASURE_AGENT_RESULT
