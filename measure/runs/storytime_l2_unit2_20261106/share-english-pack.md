@@ -32,9 +32,9 @@ on day 5.
 | SC-w09-d1 | A | A3 Form it (video) | The sound of the week is d. Your child says /d/, says dog, and writes the letter d. | 18 |
 | SC-w09-d2 | B | B5 Frame practice (video) | Your child acts the story Yum! and says I like rice, Yum! at the front of the class. | 18 |
 | SC-w09-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book Dad and the Mop aloud to the class. | 16 |
-| SC-w09-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence I like cake, Yum! in your child's hand. The video shows your child reading it to the class. | 23 |
+| SC-w09-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence I like cake. Yum! in your child's hand. The video shows your child reading it to the class. | 23 |
 | SC-w09-d5 | E | D6 Sing it: song show (video) | The class sings Yum, Yum, Yum! at the song show, and your child does the actions. | 16 |
-| SC-w10-d1 | A | A3 Form it (video) | Your child writes the letter a, then the endings -an and -ad, and says the formation words. | 17 |
+| SC-w10-d1 | A | A3 Form it (video) | Your child writes the letter a and the endings -an and -ad, and says the words for each stroke out loud. | 21 |
 | SC-w10-d2 | B | B5 Frame practice (video) | Your child acts the story Dress Up! and says Put on your hat at the front of the class. | 19 |
 | SC-w10-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book The Tan Man aloud to the class. | 15 |
 | SC-w10-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence Put on your hat in your child's hand. The video shows your child reading it to the class. | 23 |
@@ -49,7 +49,7 @@ on day 5.
 | SC-w12-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book The Hen and the Hat aloud to the class. | 17 |
 | SC-w12-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence Open your book in your child's hand. The video shows your child reading it to the class. | 22 |
 | SC-w12-d5 | E | D6 Sing it: song show (video) | The class sings Open Your Book and Read! at the song show, and your child does the actions. | 18 |
-| SC-w13-d1 | A | A3 Form it (video) | Your child writes the letter o, then the endings -ot and -op, and says the formation words. | 17 |
+| SC-w13-d1 | A | A3 Form it (video) | Your child writes the letter o and the endings -ot and -op, and says the words for each stroke out loud. | 21 |
 | SC-w13-d2 | B | B5 Frame practice (video) | Your child acts the story Look at Me! and says I can jump with an action. | 16 |
 | SC-w13-d3 | C | C4 Decodable: read together (video) | One child reads one page of the book Hop on Top! aloud to the class. | 15 |
 | SC-w13-d4 | D | D4 Write it (photo); D5 Share (video) | The photo shows the sentence I can jump in your child's hand. The video shows your child reading it to the class. | 22 |
