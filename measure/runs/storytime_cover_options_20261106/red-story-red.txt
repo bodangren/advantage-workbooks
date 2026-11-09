@@ -1,0 +1,132 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+EXIT: 1
+----- stdout -----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 410[2mms[22m[39m
+[31m     [31m×[31m gives no error and holds the approved story text[39m[32m 186[2mms[22m[39m
+[31m     [31m×[31m equals the story text of the Level 2 Unit 1 row of books.json[39m[32m 59[2mms[22m[39m
+[31m     [31m×[31m gives the five fields in order and every value is a non-empty text[39m[32m 68[2mms[22m[39m
+[31m     [31m×[31m holds the story text in the story field of the panel and once in the page[39m[32m 90[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1457643[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 1084[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1479[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 3482[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 5624[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 2089[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 9795[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 2874[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 3678[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6037[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 2413[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 5095[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 4532[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 3305[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 7171[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 7503[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 422[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3248[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1593[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 779[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 144698[2mms[22m[39m
+     [33m[2m✓[22m[39m the build report records the git head of the build (the stale file check needs it) [33m 335[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 9930[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 4557[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 249732[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 7849[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3424[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 6371[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 2846[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 2846[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 8177[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 3424[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 3392[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 4371[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 3820[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 546906[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 379744[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m199 tests[22m[2m)[22m[33m 14866[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 1282[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1257[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 415[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 800[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 339[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 968[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 3423[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m274 passed[39m[22m[90m (278)[39m
+[2m   Start at [22m 06:15:59
+[2m   Duration [22m 1483.29s[2m (transform 1.83s, setup 1.06s, import 3.72s, tests 1472.92s, environment 4.17s)[22m
+
+----- stderr -----
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS1 the panel of Level 2 Unit 1 holds the approved story text[2m > [22mgives no error and holds the approved story text
+[31m[1mAssertionError[22m: The story value is the approved story text.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m89:77[22m[39m
+    [90m 87| [39m        const story = result.values.find((value) => value.field === 's…
+    [90m 88| [39m        [34mexpect[39m(story[33m,[39m [32m'The panel holds a story value.'[39m)[33m.[39m[34mtoBeTruthy[39m()[33m;[39m
+    [90m 89| [39m        expect(story?.value, 'The story value is the approved story te…
+    [90m   | [39m                                                                            [31m^[39m
+    [90m 90| [39m    })[33m;[39m
+    [90m 91| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS2 the story value is the story text of the data file row[2m > [22mequals the story text of the Level 2 Unit 1 row of books.json
+[31m[1mAssertionError[22m: The story value is the story text of the data file row.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m98:89[22m[39m
+    [90m 96| [39m        [35mconst[39m result [33m=[39m [34mquestPanelValues[39m([34m2[39m[33m,[39m [34m1[39m)[33m;[39m
+    [90m 97| [39m        const story = result.values.find((value) => value.field === 's…
+    [90m 98| [39m        expect(story?.value, 'The story value is the story text of the…
+    [90m   | [39m                                                                                        [31m^[39m
+    [90m 99| [39m    })[33m;[39m
+    [90m100| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS3 the panel gives five values in the panel order and no empty value[2m > [22mgives the five fields in order and every value is a non-empty text
+[31m[1mAssertionError[22m: The value of story is not empty.: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m112:97[22m[39m
+    [90m110| [39m        [35mfor[39m ([35mconst[39m value [35mof[39m result[33m.[39mvalues) {
+    [90m111| [39m            expect(typeof value.value, 'The value of ' + value.field +…
+    [90m112| [39m            expect(value.value.trim().length, 'The value of ' + value.…
+    [90m   | [39m                                                                                                [31m^[39m
+    [90m113| [39m        }
+    [90m114| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS4 the student back page holds the story text once[2m > [22mholds the story text in the story field of the panel and once in the page
+[31m[1mAssertionError[22m: The story field of the panel holds the approved story text.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m123:86[22m[39m
+    [90m121| [39m        [35mconst[39m field [33m=[39m html[33m.[39m[34mslice[39m(html[33m.[39m[34mindexOf[39m([32m'data-field="story"'[39m))[33m;[39m
+    [90m122| [39m        const value = field.match(/<p[^>]*data-part="panel-value"[^>]*…
+    [90m123| [39m        expect(value, 'The story field of the panel holds the approved…
+    [90m   | [39m                                                                                     [31m^[39m
+    [90m124| [39m        expect(countOf(html, APPROVED_STORY), 'The page holds the stor…
+    [90m125| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+

@@ -1,0 +1,87 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-story.test.ts --maxWorkers=1
+EXIT: 1
+----- stdout -----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 463[2mms[22m[39m
+[31m     [31m×[31m gives no error and holds the approved story text[39m[32m 196[2mms[22m[39m
+[31m     [31m×[31m equals the story text of the Level 2 Unit 1 row of books.json[39m[32m 69[2mms[22m[39m
+[31m     [31m×[31m gives the five fields in order and every value is a non-empty text[39m[32m 63[2mms[22m[39m
+[31m     [31m×[31m holds the story text in the story field of the panel and once in the page[39m[32m 131[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[90m (4)[39m
+[2m   Start at [22m 06:15:52
+[2m   Duration [22m 5.01s[2m (transform 720ms, setup 450ms, import 3.61s, tests 463ms, environment 0ms)[22m
+
+----- stderr -----
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS1 the panel of Level 2 Unit 1 holds the approved story text[2m > [22mgives no error and holds the approved story text
+[31m[1mAssertionError[22m: The story value is the approved story text.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m89:77[22m[39m
+    [90m 87| [39m        const story = result.values.find((value) => value.field === 's…
+    [90m 88| [39m        [34mexpect[39m(story[33m,[39m [32m'The panel holds a story value.'[39m)[33m.[39m[34mtoBeTruthy[39m()[33m;[39m
+    [90m 89| [39m        expect(story?.value, 'The story value is the approved story te…
+    [90m   | [39m                                                                            [31m^[39m
+    [90m 90| [39m    })[33m;[39m
+    [90m 91| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS2 the story value is the story text of the data file row[2m > [22mequals the story text of the Level 2 Unit 1 row of books.json
+[31m[1mAssertionError[22m: The story value is the story text of the data file row.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m98:89[22m[39m
+    [90m 96| [39m        [35mconst[39m result [33m=[39m [34mquestPanelValues[39m([34m2[39m[33m,[39m [34m1[39m)[33m;[39m
+    [90m 97| [39m        const story = result.values.find((value) => value.field === 's…
+    [90m 98| [39m        expect(story?.value, 'The story value is the story text of the…
+    [90m   | [39m                                                                                        [31m^[39m
+    [90m 99| [39m    })[33m;[39m
+    [90m100| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS3 the panel gives five values in the panel order and no empty value[2m > [22mgives the five fields in order and every value is a non-empty text
+[31m[1mAssertionError[22m: The value of story is not empty.: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m112:97[22m[39m
+    [90m110| [39m        [35mfor[39m ([35mconst[39m value [35mof[39m result[33m.[39mvalues) {
+    [90m111| [39m            expect(typeof value.value, 'The value of ' + value.field +…
+    [90m112| [39m            expect(value.value.trim().length, 'The value of ' + value.…
+    [90m   | [39m                                                                                                [31m^[39m
+    [90m113| [39m        }
+    [90m114| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-story.test.ts[2m > [22mS4 the student back page holds the story text once[2m > [22mholds the story text in the story field of the panel and once in the page
+[31m[1mAssertionError[22m: The story field of the panel holds the approved story text.: expected '' to be 'Hello, I am Nan. Nan can nod. A nest,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose.[39m
+
+[36m [2m❯[22m __tests__/quest-cover-story.test.ts:[2m123:86[22m[39m
+    [90m121| [39m        [35mconst[39m field [33m=[39m html[33m.[39m[34mslice[39m(html[33m.[39m[34mindexOf[39m([32m'data-field="story"'[39m))[33m;[39m
+    [90m122| [39m        const value = field.match(/<p[^>]*data-part="panel-value"[^>]*…
+    [90m123| [39m        expect(value, 'The story field of the panel holds the approved…
+    [90m   | [39m                                                                                     [31m^[39m
+    [90m124| [39m        expect(countOf(html, APPROVED_STORY), 'The page holds the stor…
+    [90m125| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+

@@ -1,0 +1,11 @@
+STEP: ESLINT
+COMMAND: cd dashboard && npx eslint __tests__/quest-cover-story.test.ts
+EXIT: 0
+----- stdout -----
+----- stderr -----
+
+STEP: TSC
+COMMAND: cd dashboard && npx tsc --noEmit -p .
+EXIT: 0
+----- stdout -----
+----- stderr -----
