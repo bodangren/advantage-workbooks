@@ -1,0 +1,68 @@
+Measure Red log: storytime_cover_options_20261106, Phase 2, the story line pair of Task 2.9 part 1 r2.
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (MiniMax family).
+phase_base_sha (red_base_1): 62621a9cebcc965d4094a311c687f767e99ac65c (the Phase 2 base of the track).
+role_base_sha: b1a704cff43a7960b4332a0c2b8f368b4041e11c (the base of this pair; the dispatch gave it as HEAD).
+HEAD at start: b1a704cf.
+The Thai filter of the PM rule 2026-11-09 ran first: THAI_CHARS_IN_OUTPUT=0 for w01.json to w08.json, and content/storytime/covers/books.json holds 0 Thai characters. No PNG and no PDF page image was opened.
+
+The fault: the option A student back printed the heading "Story" with no text under it. The build script builds its own book row, and that row holds an empty story, so the five panel values of the student back hold no story text. The guard of the build refuses only a fully empty panel, so the build printed a passing empty story.
+
+The new file dashboard/__tests__/quest-cover-story.test.ts holds 4 tests: S1 to S4.
+Each test fails at HEAD for the empty story value. A probe of questPanelValues(2, 1) at b1a704cf gives 0 errors, 5 values, and an empty story value, so the 4 tests fail on the fault and not on a missing export.
+
+Labeled lines of the new file alone (measure/runs/storytime_cover_options_20261106/red-story-new.txt):
+Test Files  1 failed (1)
+Tests  4 failed (4)
+exit: 1
+
+Labeled lines of the RED_TEST_COMMAND (measure/runs/storytime_cover_options_20261106/red-story-red.txt):
+Test Files  1 failed | 2 passed (3)
+Tests  4 failed | 274 passed (278)
+exit: 1
+
+The failing tests, the same 4 in both captures:
+S1 the panel of Level 2 Unit 1 holds the approved story text > gives no error and holds the approved story text
+S2 the story value is the story text of the data file row > equals the story text of the Level 2 Unit 1 row of books.json
+S3 the panel gives five values in the panel order and no empty value > gives the five fields in order and every value is a non-empty text
+S4 the student back page holds the story text once > holds the story text in the story field of the panel and once in the page
+
+Every failure sits in the new file. The two older files pass 274 tests.
+The captures hold no "No test files found", no SyntaxError, and no "is not a function".
+The lint capture (red-story-lint.txt): ESLINT exit 0 and TSC exit 0.
+The three captures hold 0 Thai characters. The repo holds no pnpm-lock.yaml.
+The measure-guard accepted the plan edit of the task pair.
+
+Commit 40e4846a1c74cb1b56f3161ab262605808b691e8 holds the test file only.
+Commit 9ecd475134c713a31888be8016d0d30ee61ebe86 holds the plan and the three captures.
+
+Deviation: this role read the file measure/tracks/storytime_cover_options_20261106/options/approved-text.json in full, and that file holds Thai. The PM rule of 2026-11-09 keeps Thai away from a non-Claude model. The orchestrator reports the exposure to the PM. No Thai text went into the plan, the test file, the captures, or this log. The next role of this track needs a Thai-free copy of that file.
+
+Green is next: questPanelValues takes panel.story from the books.json row of the level and unit, and refuses an empty panel field. Then the student cover and the teacher candidate are built again (Task 2.9 part 1, r2).
+
+MEASURE_AGENT_RESULT
+status: pass
+phase: P2
+task: T2.9a (Red, story line)
+role: mid-red
+track: storytime_cover_options_20261106
+role_base_sha: b1a704cff43a7960b4332a0c2b8f368b4041e11c
+baseline_sha: b1a704cff43a7960b4332a0c2b8f368b4041e11c
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c
+head: 9ecd475134c713a31888be8016d0d30ee61ebe86 (the plan commit; the log commit follows it)
+test_commit: 40e4846a1c74cb1b56f3161ab262605808b691e8
+plan_commit: 9ecd475134c713a31888be8016d0d30ee61ebe86
+commits: 40e4846a (test), 9ecd4751 (plan and captures), the log commit
+tests: dashboard/__tests__/quest-cover-story.test.ts (4 tests, S1 to S4)
+files: dashboard/__tests__/quest-cover-story.test.ts; plan.md; red-story-new.txt, red-story-red.txt, red-story-lint.txt; mid-red-story-b1a704cf.log
+red_summary_new: Test Files  1 failed (1); Tests  4 failed (4); exit 1
+red_summary_red_command: Test Files  1 failed | 2 passed (3); Tests  4 failed | 274 passed (278); exit 1
+failing_tests: S1 the panel of Level 2 Unit 1 holds the approved story text; S2 the story value is the story text of the data file row; S3 the panel gives five values in the panel order and no empty value; S4 the student back page holds the story text once
+remaining_failures: S1, S2, S3, and S4 of quest-cover-story.test.ts, each on the empty story value
+pass_at_red: none
+lint: ESLINT exit 0; TSC exit 0
+thai_captures: 0 Thai characters in the three captures
+deviations: this role read measure/tracks/storytime_cover_options_20261106/options/approved-text.json, which holds Thai; the orchestrator reports it to the PM
+dispositions: none
+handoff: Green (jr-green) changes dashboard/scripts/storytime/make-storytime-quest-covers.ts only, and changes no test file. questPanelValues(level, unit) reads the book row of that level and unit from content/storytime/covers/books.json, and it passes the panel of that row to storytimeCoverPanelValues, so the story value is panel.story.text of the row. The function refuses a panel field that is empty, so the build stops instead of printing an empty story. Then the student cover and the teacher candidate are built again (Task 2.9 part 1, r2). The 4 tests of dashboard/__tests__/quest-cover-story.test.ts are the contract: the story value equals the approved text, the story value equals the row of books.json, the five values sit in the order story, sounds, decodable, sight, books and no value is empty, and the student back page holds the story text once.
+END_MEASURE_AGENT_RESULT
