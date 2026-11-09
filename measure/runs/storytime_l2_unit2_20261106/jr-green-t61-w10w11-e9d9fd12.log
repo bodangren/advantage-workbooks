@@ -1,0 +1,73 @@
+# Jr Green · Task 6.1 weeks 10 and 11 (staged) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: e9d9fd12
+- Track: storytime_l2_unit2_20261106
+- Task 6.1 (plan line 239), weeks 10 and 11 only, staged form (plan line 8)
+- Status: COMPLETE
+
+## Inputs
+
+- Week 10: owner words "Week 10 c2", Tasks item QmhmVTBTRGxsRzlvOENqVQ; take `w10/l2-w10-song-c2.mp3` (73.5 s; coverage 1.00, 8 of 8 lyric lines).
+- Week 11: owner words "Week 11 C1" (his capital C), Tasks item aktlV1FTTEZmRHd2SVdaUQ; take `w11/l2-w11-song-c1.mp3` (73.1 s; coverage 1.00, 8 of 8 lyric lines).
+- The PM gave no clock time. Both records use the date 2026-11-09 and the Tasks item, with no clock time.
+- Candidate folder: `~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/`.
+- Transcripts: `measure/runs/storytime_l2_unit2_20261106/songs-transcripts/w10-c2.json` and `w11-c1.json` (faster-whisper `small`, local, word times).
+- Week files: `content/storytime/drafts/l2/w10.json` and `w11.json` (staged form).
+
+## Hard rules kept
+
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0` for the filtered copies of w10, w11, and w07. The stage captures have 0 Thai lines.
+- No file under `content/storytime/l2/` and none under `dashboard/`.
+- No MP3 copy and no `song.audio`; both wait for Task 4.3.
+- No push, no pnpm, no npm install. Commit with `git commit -- <paths>`.
+
+## Steps
+
+0. Thai filter: done, 0 Thai characters in the three filtered copies.
+1. Line times: `t61-song-times.py` now takes `<week> <candidate>`. It normalizes tokens (lower case, letters only), joins a hyphen token (`-shirt,` after `t` gives `tshirt`), drops zero-length tokens, and anchors each line on its key word: the word after `like`, `your`, `the`, or `is`. The words before and after the key are matched in order from the previous line, with a lookahead of two tokens. A key word that is not heard stops the run with exit 1.
+   - w10 c2: 12 entries; key words heard for all lines; rising starts; all times in 0 to 73.5 s; coverage 1.00. 1 estimated word: line 5 `hat!` 32.96-33.06 (the recognizer heard 3 hats of the 4). Line spans: hat 10.96-15.60, shoes 15.60-19.74, socks 19.74-24.56, T-shirt 24.56-29.24, hat 29.24-33.06, shoes 33.06-37.98, trousers 37.98-42.74, jacket 42.74-47.48, hat 47.48-52.04, shoes 52.04-56.32, dress 56.32-61.04, skirt 61.04-65.54.
+   - w11 c1: 12 entries; key words heard for all lines; rising starts; all times in 0 to 73.1 s; coverage 1.00. 0 estimated words. Line spans: ball 13.06-18.36, cat 18.98-23.14, teddy 23.74-28.00, car 28.42-32.88, ball 33.68-37.56, cat 38.28-42.14, bird 43.06-47.20, doll 47.86-51.78, ball 51.78-56.82, cat 57.32-61.42, bag 62.50-66.38, Pip 66.98-71.12 (the line ends at the last "here").
+   - Outputs: `t61-w10-song-times.json` and `t61-w11-song-times.json`.
+   - Regression w09 c2: the new script gives `cmp` equal to the committed `t61-w09-song-times.json`. The committed week 9 data did not change.
+   - Default: line 5 of week 10 takes the same 0.10 s overlap rule as week 9 line 5 (a missing word at a zero gap).
+2. Listen sheet (outside the repository, so not committed): the `w10 c2` row says `Daniel: "Week 10 c2" (2026-11-09, PM relay)`; the `w11 c1` row says `Daniel: "Week 11 C1" (2026-11-09, PM relay)`. No other change. `sha256sum -c MANIFEST.txt`: exit 0, 25 of 25 OK. New `listen-sheet.md` SHA-256: `097e07b46f4424f17e5ef33540977301cf2b0480ecada4ea2a21302ac9c00810` (was `9a62524c...`).
+3. Week files: `t61-apply-week.py` (new; the week is an argument) set `song.times` after `choreography` and `approval.song` (status approved, date 2026-11-09, his words, the source with the Tasks item and the take).
+   - w10: `STRUCTURE_EQUAL=1`, numstat `511 2`. w11: `STRUCTURE_EQUAL=1`, numstat `506 2`.
+   - The format stays: indent 2, `ensure_ascii=False`, final newline. No other field moved.
+4. STAGE_CHECKS through the Thai-dropping wrapper, before and after both week files.
+   - BEFORE (`t61-stage-before-w10w11.txt`): EXIT=1, FAIL lines 8, WARN lines 9, dropped Thai lines 0. st2/10 and st2/11: 39 PASS, 1 FAIL, 1 WARN each.
+   - AFTER (`t61-stage-after-w10w11.txt`): EXIT=1, FAIL lines 8, WARN lines 9, dropped Thai lines 0. st2/10 and st2/11: 39 PASS, 1 FAIL, 1 WARN each.
+   - The captures are identical after the temporary folder name is normalized. The FAIL is `share-moment` and the WARN is `family-pictures` in both runs; both are baseline. No new FAIL and no new WARN for st2/10 or st2/11. The `song-sheet` and `song-media` rows stay PASS.
+5. Plan sub-bullets for weeks 10 and 11, under the week 9 sub-bullet. The PM rule of 2026-11-09 allows the shell route for the Task 6.1 status line and the week sub-bullets of weeks 10 to 15; the sub-bullets went in that way. The status line stays `[~]`; it was not edited. No checkpoint was added.
+
+## Commits
+
+- Implementation: content/storytime/drafts/l2/w10.json, content/storytime/drafts/l2/w11.json, the plan, the two scripts, the two time files, and the two stage captures.
+- Log: this file alone.
+
+## Handoff
+
+- Task 6.1 stays `[~]`. Weeks 12 to 15 have no picks yet.
+- The MP3 copies to `l2/media/w10/song.mp3` and `l2/media/w11/song.mp3`, and `song.audio`, wait for Task 4.3.
+- The listen sheet is outside git; its new SHA-256 is in both plan sub-bullets.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 weeks 10 and 11 (staged)
+role: jr-green
+role_base_sha: e9d9fd12
+head: cca689bc04382a98672497488297084499505238
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0; 0 Thai characters in the three filtered copies and in both stage captures
+- listen sheet: sha256sum -c 25 of 25 OK; new SHA-256 097e07b46f4424f17e5ef33540977301cf2b0480ecada4ea2a21302ac9c00810
+- times w10: 12 entries, all checks pass, 1 estimated word (line 5 hat!)
+- times w11: 12 entries, all checks pass, 0 estimated words
+- regression w09: cmp equal to the committed t61-w09-song-times.json; the committed week 9 data is unchanged
+- structure: w10 STRUCTURE_EQUAL=1, numstat 511 2; w11 STRUCTURE_EQUAL=1, numstat 506 2
+- STAGE_CHECKS: before exit 1, FAIL 8; after exit 1, FAIL 8; st2/10 and st2/11 39 PASS, 1 FAIL, 1 WARN in both; no new FAIL and no new WARN (captures identical after temporary path normalization)
+dispositions: none
+files: content/storytime/drafts/l2/w10.json; content/storytime/drafts/l2/w11.json; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/t61-song-times.py; measure/runs/storytime_l2_unit2_20261106/t61-apply-week.py; measure/runs/storytime_l2_unit2_20261106/t61-w10-song-times.json; measure/runs/storytime_l2_unit2_20261106/t61-w11-song-times.json; measure/runs/storytime_l2_unit2_20261106/t61-stage-before-w10w11.txt; measure/runs/storytime_l2_unit2_20261106/t61-stage-after-w10w11.txt; this log
+handoff: Weeks 10 and 11 are done in staged form. Task 6.1 stays [~] until all 7 picks and PROJECT_CHECKS. The MP3 copies and song.audio wait for Task 4.3. The listen sheet is outside the repo; its new SHA-256 is in both plan sub-bullets. The plan sub-bullets went in through the shell route that the PM rule of 2026-11-09 allows; the status line was not edited and no checkpoint was added. Weeks 12 to 15 have no picks yet. Defaults: the aligner anchors on the key word with a two-token lookahead; zero-length tokens are dropped; line 5 of week 10 uses the 0.10 s overlap rule.
+END_MEASURE_AGENT_RESULT
