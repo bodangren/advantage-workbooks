@@ -16,7 +16,13 @@ proves that the Thai lines are byte-equal without printing Thai text.
 Options:
   --time TEXT       the clock time in the owner record (default: none)
   --drop-lines LIST song lines to remove, 1-based, comma separated (default: none)
+  --allow-image-drop LIST
+                    the dropped lines whose `image` key may go with them, 1-based,
+                    comma separated (default: none). The image must hold no Thai
+                    characters. The SHA-256 of the dropped image is printed.
   --take-sha SHA    the take SHA-256; it is added to the approval source
+  --source-note TEXT
+                    a note appended to the approval source (default: none)
   --out-times PATH  the times file (default measure/runs/.../t61-<week>-song-times.json)
 """
 import argparse
@@ -31,6 +37,12 @@ TEMPLATE = "content/storytime/drafts/l2/%s.json"
 BEFORE = "/tmp/opencode/t61/%s.before.json"
 THAI = re.compile("[\u0e00-\u0e7f]")
 ALLOWED_LINE_KEYS = {"text", "part", "gesture", "imageOf"}
+
+
+def image_digest(image):
+    """The SHA-256 of the dropped image JSON, in one canonical form."""
+    text = json.dumps(image, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def strip(value, drops):
@@ -58,12 +70,15 @@ def main():
     parser.add_argument("take")
     parser.add_argument("--time", default="")
     parser.add_argument("--drop-lines", default="")
+    parser.add_argument("--allow-image-drop", default="")
     parser.add_argument("--take-sha", default="")
+    parser.add_argument("--source-note", default="")
     parser.add_argument("--out-times", default=None)
     args = parser.parse_args()
 
     week, words, item, take = args.week, args.words, args.item, args.take
     drops = {int(part) for part in args.drop_lines.split(",") if part.strip()}
+    image_drops = {int(part) for part in args.allow_image_drop.split(",") if part.strip()}
     target = TEMPLATE % week
     before_path = BEFORE % week
     times_path = args.out_times or "%s/t61-%s-song-times.json" % (RUNS, week)
@@ -77,6 +92,8 @@ def main():
     }
     if args.take_sha:
         approval["source"] += " Take SHA-256 %s." % args.take_sha
+    if args.source_note:
+        approval["source"] += " " + args.source_note
 
     shutil.copyfile(target, before_path)
     raw = open(before_path, encoding="utf-8").read()
@@ -90,8 +107,26 @@ def main():
             line = before["song"]["lines"][index - 1]
             extra = sorted(set(line) - ALLOWED_LINE_KEYS)
             thai_chars = len(THAI.findall(json.dumps(line, ensure_ascii=False)))
-            print("DROPPED_LINE %d keys=%s other_keys=%s thai_chars=%d" % (index, sorted(line), extra, thai_chars))
-            if extra or thai_chars:
+            allowed_extra = list(extra)
+            image_sha = ""
+            if index in image_drops:
+                image = line.get("image")
+                if image is None:
+                    print("DROPPED_LINE %d keys=%s other_keys=%s thai_chars=%d" % (index, sorted(line), extra, thai_chars))
+                    print("DROP_LINE_NO_IMAGE line %d" % index)
+                    return 1
+                image_thai = len(THAI.findall(json.dumps(image, ensure_ascii=False)))
+                image_sha = image_digest(image)
+                allowed_extra = [key for key in extra if key != "image"]
+                if image_thai:
+                    print("DROPPED_LINE %d keys=%s other_keys=%s thai_chars=%d image_sha256=%s" % (
+                        index, sorted(line), extra, thai_chars, image_sha))
+                    print("DROP_LINE_IMAGE_HAS_THAI line %d" % index)
+                    return 1
+            print("DROPPED_LINE %d keys=%s other_keys=%s thai_chars=%d%s" % (
+                index, sorted(line), extra, thai_chars,
+                (" image_sha256=%s" % image_sha) if image_sha else ""))
+            if allowed_extra or thai_chars:
                 print("DROP_LINE_NOT_PLAIN line %d" % index)
                 return 1
         pointing = [

@@ -1,0 +1,543 @@
+{
+ "week": 15,
+ "candidate": "c2",
+ "pass": "pass2-merged",
+ "model": "base and small",
+ "file": "/home/daniebo/Desktop/Workbooks/measure/runs/storytime_l2_unit2_20261106/songs-transcripts/w15-pass2-merged.json",
+ "duration_s": 73.587,
+ "language": "en",
+ "coverage": 0.8333,
+ "coverage_meaning": "the share of the song's lines whose line coverage is at or over coverage_min; the house measure over the distinct lyric lines is distinct_line_coverage",
+ "coverage_min": 0.8,
+ "distinct_line_coverage": 0.75,
+ "lyric_lines": [
+  "Look, a bus! Beep, beep, beep!",
+  "Look, a train! Choo, choo, choo!",
+  "Look, a car! Drive, drive, drive!",
+  "Look, a bike! Ride, ride, ride!",
+  "Look, a boat! Row, row, row!",
+  "Look, a truck! Big, big, big!",
+  "Look, a plane! Fly, fly, fly!",
+  "Look, a helicopter! Up, up, up!"
+ ],
+ "missed_lines": [
+  "Look, a plane! Fly, fly, fly!",
+  "Look, a helicopter! Up, up, up!"
+ ],
+ "settings": "one word list: for each line of the lyric sheet, the second-pass window that confirms the most words of that line; the earliest of the best windows wins; the line coverage counts the words the merged word list confirms, in order",
+ "restored_words": [
+  {
+   "line": 4,
+   "index": 2,
+   "was": "bite,",
+   "word": "bike!",
+   "start": 28.82,
+   "end": 29.52,
+   "reason": "The base pass heard one token 'bite,' at 28.82-29.52 s, in the slot of the sheet's third word, between the heard 'a' and the heard 'ride, ride, ride'. The token count and the neighbouring words match the sheet's line 4, and the listen sheet records the same slot misheard as 'Look, a roll' in the c1 take, so the sheet word is restored at the heard time."
+  }
+ ],
+ "lines": [
+  {
+   "line": 1,
+   "text": "Look, a bus! Beep, beep, beep!",
+   "source": "c2-pass2-base",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 9.68,
+   "end": 14.6,
+   "window": [
+    0,
+    5
+   ]
+  },
+  {
+   "line": 2,
+   "text": "Look, a train! Choo, choo, choo!",
+   "source": "c2-pass2-base",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 14.6,
+   "end": 22.3,
+   "window": [
+    6,
+    11
+   ]
+  },
+  {
+   "line": 3,
+   "text": "Look, a car! Drive, drive, drive!",
+   "source": "c2-pass2-base",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 22.3,
+   "end": 26.28,
+   "window": [
+    12,
+    17
+   ]
+  },
+  {
+   "line": 4,
+   "text": "Look, a bike! Ride, ride, ride!",
+   "source": "c2-pass2-base",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 26.28,
+   "end": 33.08,
+   "window": [
+    18,
+    23
+   ]
+  },
+  {
+   "line": 5,
+   "text": "Look, a bus! Beep, beep, beep!",
+   "source": "c2-pass2-base",
+   "confirmed": 5,
+   "words": 6,
+   "coverage": 0.8333,
+   "start": 33.08,
+   "end": 37.62,
+   "window": [
+    24,
+    28
+   ]
+  },
+  {
+   "line": 6,
+   "text": "Look, a train! Choo, choo, choo!",
+   "source": "c2-pass2-small-38-50",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 38.0,
+   "end": 44.94,
+   "window": [
+    0,
+    5
+   ]
+  },
+  {
+   "line": 7,
+   "text": "Look, a boat! Row, row, row!",
+   "source": "c2-pass2-small-38-50",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 44.94,
+   "end": 49.04,
+   "window": [
+    6,
+    11
+   ]
+  },
+  {
+   "line": 8,
+   "text": "Look, a truck! Big, big, big!",
+   "source": "c2-pass2-small-48-60",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 49.2,
+   "end": 55.86,
+   "window": [
+    2,
+    7
+   ]
+  },
+  {
+   "line": 9,
+   "text": "Look, a bus! Beep, beep, beep!",
+   "source": "c2-pass2-small-48-60",
+   "confirmed": 5,
+   "words": 6,
+   "coverage": 0.8333,
+   "start": 55.86,
+   "end": 59.8,
+   "window": [
+    8,
+    12
+   ]
+  },
+  {
+   "line": 10,
+   "text": "Look, a train! Choo, choo, choo!",
+   "source": "c2-pass2-base",
+   "confirmed": 6,
+   "words": 6,
+   "coverage": 1.0,
+   "start": 60.64,
+   "end": 67.66,
+   "window": [
+    53,
+    58
+   ]
+  },
+  {
+   "line": 11,
+   "text": "Look, a plane! Fly, fly, fly!",
+   "source": "c2-pass2-base",
+   "confirmed": 3,
+   "words": 6,
+   "coverage": 0.5,
+   "start": 67.66,
+   "end": 69.64,
+   "window": [
+    59,
+    61
+   ]
+  },
+  {
+   "line": 12,
+   "text": "Look, a helicopter! Up, up, up!",
+   "source": "c2-pass2-base",
+   "confirmed": 3,
+   "words": 6,
+   "coverage": 0.5,
+   "start": 69.98,
+   "end": 71.76,
+   "window": [
+    63,
+    66
+   ]
+  }
+ ],
+ "segments": [
+  {
+   "text": "Look a bus, beep beep beep look a train, choo choo choo look a car, drive drive drive Look, a bike! ride, ride, ride Look, a bus, beep, beep, Look, a train, choo choo choo, look a boat, row row row, look a truck big big big look a bus beep beep look a train Choo choo choo, look a plane, a help, up, up",
+   "start": 9.68,
+   "end": 71.76,
+   "words": [
+    {
+     "word": "Look",
+     "start": 9.68,
+     "end": 11.08
+    },
+    {
+     "word": "a",
+     "start": 11.08,
+     "end": 11.66
+    },
+    {
+     "word": "bus,",
+     "start": 11.66,
+     "end": 12.46
+    },
+    {
+     "word": "beep",
+     "start": 12.64,
+     "end": 13.4
+    },
+    {
+     "word": "beep",
+     "start": 13.4,
+     "end": 14.18
+    },
+    {
+     "word": "beep",
+     "start": 14.18,
+     "end": 14.6
+    },
+    {
+     "word": "look",
+     "start": 14.6,
+     "end": 15.74
+    },
+    {
+     "word": "a",
+     "start": 15.74,
+     "end": 17.32
+    },
+    {
+     "word": "train,",
+     "start": 17.32,
+     "end": 18.7
+    },
+    {
+     "word": "choo",
+     "start": 18.7,
+     "end": 20.8
+    },
+    {
+     "word": "choo",
+     "start": 20.8,
+     "end": 21.18
+    },
+    {
+     "word": "choo",
+     "start": 21.18,
+     "end": 22.3
+    },
+    {
+     "word": "look",
+     "start": 22.3,
+     "end": 22.52
+    },
+    {
+     "word": "a",
+     "start": 22.52,
+     "end": 23.08
+    },
+    {
+     "word": "car,",
+     "start": 23.08,
+     "end": 23.82
+    },
+    {
+     "word": "drive",
+     "start": 24.08,
+     "end": 24.98
+    },
+    {
+     "word": "drive",
+     "start": 24.98,
+     "end": 25.6
+    },
+    {
+     "word": "drive",
+     "start": 25.6,
+     "end": 26.28
+    },
+    {
+     "word": "Look,",
+     "start": 26.28,
+     "end": 27.16
+    },
+    {
+     "word": "a",
+     "start": 27.44,
+     "end": 28.82
+    },
+    {
+     "word": "bike!",
+     "start": 28.82,
+     "end": 29.52
+    },
+    {
+     "word": "ride,",
+     "start": 29.52,
+     "end": 31.76
+    },
+    {
+     "word": "ride,",
+     "start": 32.1,
+     "end": 32.68
+    },
+    {
+     "word": "ride",
+     "start": 32.68,
+     "end": 33.08
+    },
+    {
+     "word": "Look,",
+     "start": 33.08,
+     "end": 34.02
+    },
+    {
+     "word": "a",
+     "start": 34.4,
+     "end": 34.5
+    },
+    {
+     "word": "bus,",
+     "start": 34.5,
+     "end": 35.38
+    },
+    {
+     "word": "beep,",
+     "start": 36.08,
+     "end": 36.24
+    },
+    {
+     "word": "beep,",
+     "start": 37.24,
+     "end": 37.62
+    },
+    {
+     "word": "Look,",
+     "start": 38.0,
+     "end": 38.72
+    },
+    {
+     "word": "a",
+     "start": 39.28,
+     "end": 40.22
+    },
+    {
+     "word": "train,",
+     "start": 40.22,
+     "end": 40.82
+    },
+    {
+     "word": "choo",
+     "start": 41.64,
+     "end": 43.32
+    },
+    {
+     "word": "choo",
+     "start": 43.32,
+     "end": 43.98
+    },
+    {
+     "word": "choo,",
+     "start": 43.98,
+     "end": 44.94
+    },
+    {
+     "word": "look",
+     "start": 44.94,
+     "end": 45.44
+    },
+    {
+     "word": "a",
+     "start": 45.44,
+     "end": 45.96
+    },
+    {
+     "word": "boat,",
+     "start": 45.96,
+     "end": 46.62
+    },
+    {
+     "word": "row",
+     "start": 47.18,
+     "end": 47.78
+    },
+    {
+     "word": "row",
+     "start": 47.78,
+     "end": 48.4
+    },
+    {
+     "word": "row,",
+     "start": 48.4,
+     "end": 49.04
+    },
+    {
+     "word": "look",
+     "start": 49.2,
+     "end": 50.0
+    },
+    {
+     "word": "a",
+     "start": 50.0,
+     "end": 51.64
+    },
+    {
+     "word": "truck",
+     "start": 51.64,
+     "end": 52.04
+    },
+    {
+     "word": "big",
+     "start": 52.04,
+     "end": 54.66
+    },
+    {
+     "word": "big",
+     "start": 54.66,
+     "end": 55.3
+    },
+    {
+     "word": "big",
+     "start": 55.3,
+     "end": 55.86
+    },
+    {
+     "word": "look",
+     "start": 55.86,
+     "end": 56.92
+    },
+    {
+     "word": "a",
+     "start": 56.92,
+     "end": 57.4
+    },
+    {
+     "word": "bus",
+     "start": 57.4,
+     "end": 58.2
+    },
+    {
+     "word": "beep",
+     "start": 58.2,
+     "end": 59.16
+    },
+    {
+     "word": "beep",
+     "start": 59.16,
+     "end": 59.8
+    },
+    {
+     "word": "look",
+     "start": 60.64,
+     "end": 61.32
+    },
+    {
+     "word": "a",
+     "start": 61.32,
+     "end": 63.06
+    },
+    {
+     "word": "train",
+     "start": 63.06,
+     "end": 64.34
+    },
+    {
+     "word": "Choo",
+     "start": 65.36,
+     "end": 66.16
+    },
+    {
+     "word": "choo",
+     "start": 66.16,
+     "end": 66.86
+    },
+    {
+     "word": "choo,",
+     "start": 66.86,
+     "end": 67.66
+    },
+    {
+     "word": "look",
+     "start": 67.66,
+     "end": 68.26
+    },
+    {
+     "word": "a",
+     "start": 68.26,
+     "end": 68.78
+    },
+    {
+     "word": "plane,",
+     "start": 68.78,
+     "end": 69.64
+    },
+    {
+     "word": "a",
+     "start": 69.98,
+     "end": 70.24
+    },
+    {
+     "word": "help,",
+     "start": 70.24,
+     "end": 70.66
+    },
+    {
+     "word": "up,",
+     "start": 70.98,
+     "end": 71.22
+    },
+    {
+     "word": "up",
+     "start": 71.6,
+     "end": 71.76
+    }
+   ]
+  }
+ ]
+}

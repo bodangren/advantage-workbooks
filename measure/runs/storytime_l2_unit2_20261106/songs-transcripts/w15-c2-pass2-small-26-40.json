@@ -1,0 +1,44 @@
+{
+ "week": 15,
+ "candidate": "c2",
+ "pass": "pass2-small-cut",
+ "model": "small",
+ "file": "/home/daniebo/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w15/l2-w15-song-c2.mp3",
+ "duration_s": 73.587,
+ "sample_rate_hz": 44100,
+ "language": "en",
+ "cut": [
+  26.0,
+  40.0
+ ],
+ "settings": "int8, cpu, local_files_only=True, language=en, word_timestamps=True, condition_on_previous_text=False, vad_filter=False, beam_size=5, temperature=0.0, no initial prompt",
+ "segments": [
+  {
+   "text": "Beep Beep Beep Look",
+   "start": 35.28,
+   "end": 38.58,
+   "words": [
+    {
+     "word": "Beep",
+     "start": 35.28,
+     "end": 36.68
+    },
+    {
+     "word": "Beep",
+     "start": 36.68,
+     "end": 37.2
+    },
+    {
+     "word": "Beep",
+     "start": 37.2,
+     "end": 38.28
+    },
+    {
+     "word": "Look",
+     "start": 38.28,
+     "end": 38.58
+    }
+   ]
+  }
+ ]
+}
