@@ -1,0 +1,97 @@
+# Jr Green · Task 2.9 part 1 · storytime_cover_options_20261106
+
+- Role: jr-green
+- Role base SHA: 0ec5ed4b (0ec5ed4b47a45cd3ada0caf478997f3a437b9d83)
+- Track: storytime_cover_options_20261106
+- Task 2.9 (plan line 119), part 1 only, by a PM decision
+- Status: done-part-1 (Task 2.9 stays [~])
+- Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (ra-quota pick green)
+- Red model of this phase: claude-code/claude-sonnet-5-5#high (Anthropic). Another family. No subagent was used.
+
+## Inputs
+
+- The PM decision of 2026-11-10, from Daniel's words in Tasks bkgwSHFrYWJwRnloTFZWNA, word for word: "The student front and back covers are final. The teacher front cover comes from Forge by 11-13".
+- The student front Q-front-a3 and the back A-back-a1 (the Task 2.8 evidence, the upscaled files in `content/storytime/l2/print/pictures/`).
+- The teacher front waits for Forge (due 2026-11-13). The fallback art is `Q-teacher-a1-clean2.jpg`.
+- The hand-off folder `~/Desktop/print-ready/storytime/covers-quest-v1/` held only `spend-log.md` before this round.
+- `role_base_sha` = HEAD at the start of the round = 0ec5ed4b.
+
+## Hard rules kept
+
+- Thai filter first: one `python3 -I` script (`/tmp/opencode/c29/thai_stage.py`, model `/tmp/opencode/t61/thai_filter.py`) wrote Thai-free copies of `content/storytime/l2/w01.json` to `w08.json` into `/tmp/opencode/c29/in/`. Every copy printed `THAI_CHARS_IN_OUTPUT=0`, and `content/storytime/covers/quest.json` holds 0 Thai characters.
+- No week file was written. Nothing under `content/` or `dashboard/` was written. No code was changed. No script was patched.
+- No PNG or PDF page image was opened or viewed. No `pdftotext` output with Thai was printed. Every printed line holds counts, PASS or FAIL lines, or English text.
+- The teacher fallback art went into `/tmp/opencode/c29/pictures/`, never into `content/storytime/l2/print/pictures/`, because the name `l2-u1-cover-quest-teacher-front-v1-300ppi.png` there waits for the Forge front.
+- No push. `pnpm-lock.yaml` is unchanged. The work of another session (`video/storytime-song/scripts/render.mjs`) was not staged.
+
+## Steps
+
+1. The plan marker: Task 2.9 changed from `[ ]` to `[~]`. The edit tool accepted the change; measure-guard raised no refusal.
+2. The temporary pictures folder `/tmp/opencode/c29/pictures/`:
+   - The student front `l2-u1-cover-quest-student-front-v1-300ppi.png` and the back `l2-u1-cover-quest-back-v1-300ppi.png` are byte copies; the SHA-256 of each copy equals the SHA-256 of the source.
+   - The 28 reader art files (14 color and 14 line art) are byte copies too, because the build reads them from the pictures folder. Every SHA-256 pair is equal.
+   - The teacher fallback: `Q-teacher-a1-clean2.jpg` was copied as `l2-u1-cover-quest-teacher-front-v1.jpg` (SHA-256 equal) and upscaled with the method of `options/upscale.mjs` (sharp from the dashboard package, lanczos3, 2480 x 3508 px, removeAlpha, PNG density 300, create-only) into `l2-u1-cover-quest-teacher-front-v1-300ppi.png`.
+   - `options/upscale_check.mjs` on that file without `--real`: 6 of 6 checks pass (2480 x 3508 px, PNG, no alpha, 3 channels, mean difference 1.432 of 255, the name of spec D-A8).
+3. The build, one heavy-run wrapper per attempt (`HEAVY_MIN_AVAIL_MB=1500`, `HEAVY_PREFLIGHT_WAIT_S=5400`):
+   - Attempt 1 used `--out /tmp/opencode/c29/out`. The build refused it and exited 2: `The out folder "/tmp/opencode/c29/out" resolves to /tmp/opencode/c29/out, not to /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1.` (pin P6). The fallback of the brief then applies.
+   - Attempt 2 used `--print-ready-root /tmp/opencode/c29/pr` and no `--out`. The build stopped with the known Chrome load flake, exit 1: `page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot`. The plan advises a re-run after that error (N8). No script was patched.
+   - Attempt 3 used `--print-ready-root /tmp/opencode/c29/pr2` and no `--out`. The build exits 0: `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files`. The gate inside the build passed 4 of 4 (`All checks pass` for the student, the teacher, the A3 readers, and the leaf readers). The capture is `measure/runs/storytime_cover_options_20261106/build-2-9a.txt`.
+4. The copies into `~/Desktop/print-ready/storytime/covers-quest-v1/`: 10 byte copies, and the SHA-256 of each copy equals the SHA-256 of the build output.
+   - `student/`: `front.png`, `back.png`, `cover.pdf`, `Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf`, `build-report.json`.
+   - `teacher-candidate/`: `teacher/teacher-front.png` as `teacher-front-candidate.png`, `teacher/teacher-back.png` as `teacher-back-candidate.png`, `teacher/teacher-cover.pdf` as `teacher-cover-candidate.pdf`, `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf` as `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf`, `build-report.json`, and `README.txt` with the two lines of the brief.
+   - The reader groups and the `teacher/` folder name stayed out of the hand-off folder. `spend-log.md` is unchanged.
+5. The print checks, one labeled line each, in `measure/runs/storytime_cover_options_20261106/print-gate-2-9a.txt`:
+   - `(1) PRINT_GATE` exits 1 on both print files: `FAIL page(s) 1, 2 became one image each`. Reason: each quest cover page is one full-page art image, and `checkPdfx` excuses such a page only when it knows the source PDF (`sourcePageImages`). The standalone `--check` has no source PDF. The gate inside the build, which has the source, passed 4 of 4. The print files are not rasterized: 5 embedded fonts, no Type 3, and the text is readable. This is the F12 case of `test-strategy.md`, and the gate command of section 4.10 check 1 cannot pass on a cover print file.
+   - `(2) pdfinfo -box`: 2 pages each, and the TrimBox equals the page size with a delta of 0.000 pt. PASS.
+   - `(3) The text counts per page`: the front page holds "Storytime Advantage" 1 time, "Level 2" 1 time, and "Student Book" or "Teacher Book" 1 time; the back page holds "Storytime Advantage" 1 time, and holds no level and no title. The back page has no title, because a back cover has no title. PASS under that rule.
+   - `(4) pdffonts`: 5 fonts each, all embedded, no Type 3. PASS.
+   - `(5) pdfimages -list`: the art of every page is 2480 x 3508 px at 300.0 x 300.0 ppi. PASS.
+   - `(6) The Thai byte check on the Chrome PDFs only`: the student `cover.pdf` holds 0 Thai characters on page 1 and 38 on page 2; the teacher `teacher-cover-candidate.pdf` holds 0 on page 1 and 38 on page 2. The 38 characters of each back equal `BACK_LINES.contact`, the five approved contact lines of spec FR-10.2. The brief expected 0 Thai characters on the whole student cover, but the student back carries the same approved Thai lines as the teacher back. PASS under the rule of FR-10.2.
+   - `(7) The QR`: the build reports show `qr` `pass` for both backs, and `options/qr_check.mjs` on the QR crop of `back.png` and of `teacher-back-candidate.png` gives 0 of 841 modules different on each. PASS.
+   - `(8) The build reports`: the student report holds 2 page rows and 0 fail rows, the teacher report holds 2 page rows and 0 fail rows, 4 page rows in all. PASS.
+6. The contact sheets, `python3 -I` with PIL and the font `dashboard/assets/print-fonts/andika-bold.ttf`, model `options/contact.py`: `contact-sheets/student.png` and `contact-sheets/teacher-candidate.png`, each 2064 x 1566 px, mode RGB, PNG. The front and the back stand side by side at 1400 px high, each with its file name under it; the teacher sheet holds the heading "CANDIDATE: fallback front art". No sheet was viewed.
+7. The manifest: `options/manifest.py` wrote `MANIFEST.txt` with 14 files, and `options/manifest.py --check` exits 0. The SHA-256 of `MANIFEST.txt` is `5d09597870ac6e4c5fd799802241522272d8ead322cfe27b4c33fb795e158c10`.
+8. The plan record: one sub-bullet under Task 2.9 holds the PM decision, the file names, the check results, and the MANIFEST SHA-256. Task 2.9 stays `[~]`.
+9. The commits:
+   - The implementation and the plan evidence: commit b1b13e30fc351d5f298f1971b43f4fe605d57a98, 4 files: `measure/tracks/storytime_cover_options_20261106/plan.md`, `measure/runs/storytime_cover_options_20261106/build-2-9a.txt`, `measure/runs/storytime_cover_options_20261106/print-gate-2-9a.txt`, `measure/runs/storytime_cover_options_20261106/contact-2-9a.py`.
+   - This log, alone.
+
+## The hand-off folder
+
+- `student/front.png`, `student/back.png`, `student/cover.pdf`, `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf`, `student/build-report.json`.
+- `teacher-candidate/teacher-front-candidate.png`, `teacher-candidate/teacher-back-candidate.png`, `teacher-candidate/teacher-cover-candidate.pdf`, `teacher-candidate/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf`, `teacher-candidate/build-report.json`, `teacher-candidate/README.txt`.
+- `contact-sheets/student.png`, `contact-sheets/teacher-candidate.png`, `spend-log.md` (unchanged), `MANIFEST.txt` (14 files).
+
+## The open finding for the orchestrator and the PM
+
+- The print gate command of section 4.10 check 1 exits 1 on a quest cover print file. The reason is the F12 case: each cover page is one full-page art image, and the standalone `--check` of `scripts/print/make-pdfx.ts` cannot excuse it, because the exemption needs the source PDF. The gate inside the build has the source and passed 4 of 4. The per-page text and font checks of FR-11.3, which the spec names as the defense of F12, pass. The fix is a plan amendment to check 1 or a gate change through a new Red and Green pair. This role changed no script.
+- The brief expected 0 Thai characters on the student Chrome PDF. The measured count is 38 on the student back page, because the student back carries the five approved Thai contact lines of `BACK_LINES.contact` (spec FR-10.2 and D-A10). The fronts hold no Thai. The check compares the Thai of each back with `BACK_LINES.contact`, and both backs match.
+
+## Commits
+
+- The implementation and the plan evidence: `b1b13e30fc351d5f298f1971b43f4fe605d57a98`.
+- The log: this file, alone.
+
+MEASURE_AGENT_RESULT
+status: done-part-1
+phase: P2
+task: T2.9 part 1 (print build, the student cover v4 and the teacher cover candidate)
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: 0ec5ed4b
+head: b1b13e30fc351d5f298f1971b43f4fe605d57a98
+impl_commit: b1b13e30fc351d5f298f1971b43f4fe605d57a98
+red_model: claude-code/claude-sonnet-5-5#high
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for w01 to w08; content/storytime/covers/quest.json holds 0 Thai characters
+- upscale check: 6 of 6 checks pass on the teacher fallback (2480 x 3508 px, PNG, no alpha, 3 channels, mean difference 1.432, the D-A8 name)
+- build: exit 0, 32 pages, 44 files; the gate inside the build passed 4 of 4; attempt 1 refused the --out folder (exit 2, pin P6) and attempt 2 hit the Chrome screenshot flake (exit 1) and was re-run
+- copy: 10 of 10 byte copies, every SHA-256 pair equal
+- print gate check 1: FAIL, exit 1 on both print files, "page(s) 1, 2 became one image each" (F12: each cover page is one full-page art image and the standalone --check has no source PDF)
+- print gate checks 2 to 8: PASS (2 pages each and a TrimBox delta of 0.000 pt; the front page holds the series name, Level 2, and the title of its kind; 5 fonts each, all embedded, no Type 3; the art is 2480 x 3508 px at 300.0 x 300.0 ppi; no Thai on the fronts and 38 Thai characters on each back, equal to BACK_LINES.contact; the QR is pass and 0 of 841 modules differ on both backs; 4 page rows and 0 fail rows)
+- contact sheets: 2 files, each 2064 x 1566 px, PNG, mode RGB
+- manifest: 14 files, MANIFEST.txt SHA-256 5d09597870ac6e4c5fd799802241522272d8ead322cfe27b4c33fb795e158c10, the --check exits 0
+dispositions: none
+files: measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/build-2-9a.txt; measure/runs/storytime_cover_options_20261106/print-gate-2-9a.txt; measure/runs/storytime_cover_options_20261106/contact-2-9a.py; this log; outside the repository, ~/Desktop/print-ready/storytime/covers-quest-v1/ with student/ (5 files), teacher-candidate/ (6 files), contact-sheets/ (2 files), spend-log.md, and MANIFEST.txt
+handoff: Part 1 of Task 2.9 is done. The student cover v4 (front Q-front-a3 and back A-back-a1) stands in covers-quest-v1/student/ and a teacher cover candidate with the fallback front Q-teacher-a1-clean2.jpg stands in covers-quest-v1/teacher-candidate/; both are byte copies of the build output, and the MANIFEST.txt of the folder holds 14 files. One check fails: the print gate command of section 4.10 check 1 exits 1 on a cover print file, because each cover page is one full-page art image and the standalone --check of make-pdfx.ts cannot excuse it without the source PDF (F12); the gate inside the build passed 4 of 4, and the text and font checks of FR-11.3 pass. The orchestrator and the PM must choose a plan amendment to check 1 or a gate change through a new Red and Green pair; this role changed no script. The brief expected 0 Thai characters on the student Chrome PDF, but the student back carries the five approved Thai contact lines of BACK_LINES.contact (FR-10.2), so the measured count is 38 on each back and 0 on each front. The teacher cover v2, the readers, and Tasks 2.10 to 2.13 wait for the Forge teacher front (due 2026-11-13). Task 2.9 stays [~]. No code was written, no committed Red test was touched, and no image was viewed.
+END_MEASURE_AGENT_RESULT
