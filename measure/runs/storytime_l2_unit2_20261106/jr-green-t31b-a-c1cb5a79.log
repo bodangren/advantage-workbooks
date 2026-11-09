@@ -69,3 +69,46 @@ I am not a Claude model, so no Thai text may reach me (plan rule 19).
 - `t31b-a-rules.txt` (the rules capture)
 - this log
 
+## Result block
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P3
+task: T3.1b part (a)
+role: jr-green
+role_base_sha: c1cb5a79f0106b83b6197b9a8c142ec669d4cd4d
+head: 498e6e46
+gates:
+- extract thai: `grep -cP '[\x{0E00}-\x{0E7F}]' t31b-english-extract.txt` = 0
+- pack thai: `grep -cP '[\x{0E00}-\x{0E7F}]' share-english-pack.md` = 0
+- pack rows: `grep -c '^| SC-w' share-english-pack.md` = 40
+- draft thai: `grep -cP '[\x{0E00}-\x{0E7F}]' share-captions-en.md` = 0
+- rules: `t31b-a-rules.txt` rows 40, errors 0
+- content: `git status --porcelain content/storytime` is empty
+tasks: no plan task is open for part (a) alone; Task 3.1b stays `[ ]` for parts (b) to (d)
+files:
+- measure/runs/storytime_l2_unit2_20261106/jr-green-t31b-extract-en.py
+- measure/runs/storytime_l2_unit2_20261106/t31b-english-extract.txt
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-captions.py
+- measure/runs/storytime_l2_unit2_20261106/share-captions-en.md
+- measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-rules.txt
+- measure/runs/storytime_l2_unit2_20261106/jr-green-t31b-a-c1cb5a79.log
+dispositions: none
+handoff: |
+  Part (a) is complete. Part (b) reads `share-english-pack.md` only, against FR-14 and D19, on a
+  second non-Claude family Y. The pack holds the rules and 40 rows with the step codes and English
+  step text. The draft `share-captions-en.md` is the file for the fixes of an (a)-role.
+  Notes for the reviewer:
+  - The teach weeks use the moment table A3, B5, C4, D4 + D5, D6; week 16 uses A2, B1, C1, D1, E3.
+  - The day 5 script E carries step D6 of the day before. D6 has `moved: next-opening`, so it is in
+    the period of the day (check rule 3).
+  - Week 16 has no song field. The day 5 caption names the voted unit 2 song, not a title.
+  - The week 10 and week 13 sound lessons have no new letter. Their day 1 caption names the endings
+    -an and -ad, or -ot and -op.
+  - One early probe printed one caption in `\u` escape form before the filter existed. It is ASCII
+    escape text, and no Thai character was written to any file. All work after that used the filter.
+  Default if part (b) is not yet assigned: hand the pack to the orchestrator for the family Y pick.
+END_MEASURE_AGENT_RESULT
+
+
