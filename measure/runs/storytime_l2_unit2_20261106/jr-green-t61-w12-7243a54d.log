@@ -1,0 +1,81 @@
+# Jr Green · Task 6.1 week 12 (staged) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: 7243a54d
+- Track: storytime_l2_unit2_20261106
+- Task 6.1 (plan line 241), week 12 only, staged form (plan line 8)
+- Status: COMPLETE for week 12
+- Model: deepseek/deepseek-flash#high (ra-quota pick)
+- Red model of this phase: none (Task 6.1 has no code and no Red role). No subagent was used.
+
+## Inputs
+
+- Owner words "Week 12 c2", Tasks item VG5CR19oU19xTlVzOUJSTg, 17:34 ICT, date 2026-11-09.
+- Take `w12/l2-w12-song-c2.mp3` (72.9 s; SHA-256 `f5c4b00dbd789d119c11c9b7c11d65baa7ca6330743e8724222711c792fd6ebd`).
+- Candidate folder: `~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/`.
+- Second local pass: `RUNS/songs-transcripts/w12-c2-pass2-*.json`, 7 files (base full file and 5 cut windows, plus the week 13 base file).
+- Line times: `RUNS/t61-w12-song-times.json`, 10 entries, committed before this round.
+- Week file: `content/storytime/drafts/l2/w12.json` (staged form).
+
+## Hard rules kept
+
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0` for the filtered copy of w12. The stage capture has 0 Thai lines. No Thai text is in this log.
+- No file under `content/storytime/l2/` and none under `dashboard/`. No script change. No code written.
+- No MP3 copy and no `song.audio`; both wait for Task 4.3.
+- No push, no pnpm, no npm, no vitest. Commit with `git commit -- <paths>`.
+- Step 0 check: `git diff --quiet 7243a54d HEAD -- content/storytime/drafts/l2/` exit 0. HEAD was 7243a54d. No new before capture was run.
+
+## PM decision (2026-11-09, word for word)
+
+"Keep Daniel's pick c2. The lyrics follow the audio: lines 9 and 10 (the third chorus) come out of the w12 week file. The song-frame rule takes a recorded exception for week 12: 7 frame lines in place of 8 (PM decision, 11-09). Reasons: Daniel chose c2 for how it sounds; the frame count is our own design rule; and print plus audio stay equal. Record the exception where the song-frame check reads it, so the check passes with the exception named, not hidden."
+
+## Steps
+
+1. Apply: `python3 -I RUNS/t61-apply-week.py w12 "Week 12 c2" VG5CR19oU19xTlVzOUJSTg l2-w12-song-c2.mp3 --time "17:34 ICT" --drop-lines 9,10 --take-sha f5c4b00d...6ebd`.
+   - `STRUCTURE_EQUAL=1`; `times_count=10`; `lines_count=10`; `approval_song_words='Week 12 c2'`.
+   - Thai lines before and after: 467 lines, SHA `d6848bbc8c82922f41846c03cb962f40bd7bad5bfb2a0a61c078cc62016352d1`; `THAI_LINES_EQUAL=1`.
+   - Dropped lines 9 and 10: keys `gesture`, `imageOf`, `part`, `text`; 0 other keys; 0 Thai characters. `LATER_IMAGEOF_POINTERS=0`.
+   - `git diff --numstat`: `377	14	content/storytime/drafts/l2/w12.json`. This equals the trial number.
+   - The 10 `song.times` entries are equal to `RUNS/t61-w12-song-times.json` (`TIMES_EQUAL=1`; first 11.26-16.04, last 67.00-71.02).
+   - `approval.song`: status approved, date 2026-11-09, words "Week 12 c2", the source with the Tasks item, 17:34 ICT, the take name, and the take SHA-256.
+   - No `song.audio` field and no new field in the week file.
+2. STAGE_CHECKS after, through `stage_wrap.py` inside one heavy-run wrapper (`HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400`). Capture `RUNS/t61-stage-after-w12.txt`.
+   - BEFORE (`RUNS/t61-stage-after-w13.txt`, committed): EXIT=1, FAIL lines 8, WARN lines 9, dropped Thai lines 0. st2/12: 39 PASS, 1 FAIL, 1 WARN.
+   - AFTER (`RUNS/t61-stage-after-w12.txt`): EXIT=1, FAIL lines 9, WARN lines 10, dropped Thai lines 0. st2/12: 37 PASS, 2 FAIL, 2 WARN. st2/13: 39 PASS, 1 FAIL, 1 WARN.
+   - The only new rows: `FAIL song-frame — The frame 8 or more times in the song — 7 times` and `WARN song-sheet ... — line 9: "Open your book! Read, read, read!" in the sheet, "Open your bag! Get your ruler!" in the lines`.
+   - A `diff` of the two captures shows only the summary counts, the run-specific temporary folder name, the two song rows of st2/12, and the st2/12 count. Every other row of st2/12 and st2/13 is equal.
+3. Listen sheet (outside the repository, so not committed): the `w12 c2` row now says `Daniel: "Week 12 c2" (2026-11-09 17:34 ICT, PM relay)`; the `w12 c2` note now ends with `the PM kept c2 on 2026-11-09: lines 9 and 10 are out of the week file, and the song-frame rule takes a recorded exception for week 12 (7 frame lines in place of 8).` No other change (a replace-back check gives the old text). `sha256sum -c MANIFEST.txt`: 25 of 25 OK, 0 FAILED. New `listen-sheet.md` SHA-256: `4e08ce65970478bf21ab200a6cdee9566252398329a0b8e5d2c8fd1407ad0391` (was `1661f5e0...`).
+4. Plan: the week 12 sub-bullet (line 245) took the week 11 form: his words, the Tasks item and 17:34 ICT, the take and 72.9 s, the second-pass evidence, 10 lines of 12 with lines 9 and 10 out, 0 estimated words, `approval.song` set, the new listen-sheet SHA-256, both captures with their st2/12 rows, the PM decision word for word, the orchestrator decision, and the stage rule. The replacement ran through `python3 -I` on the one line: `OTHER_LINES_EQUAL=1`, `CHANGED_LINES=[245]`, line count 254 before and after. The Task 6.1 status line stays `[~]`. No checkpoint was added. No Phase 4 task was edited.
+5. Orchestrator decision (2026-11-09), recorded in the plan: the song-frame exception needs a code change in `dashboard/lib/storytime/checks.ts`. This track takes code only through a Red task and then a Green task. `checks.ts` is in the Phase 4 blast radius, so the exception goes to Tasks 4.1 and 4.2, before the Task 4.3 gate of 0 FAIL lines. Design default: a constant beside the song-frame check, keyed by `st2/12` and the count 7; the check passes and its text names the exception and the PM decision; any other count or week keeps the rule of 8. The week file gets no new field. Until Task 4.2, STAGE_CHECKS shows the song-frame FAIL on st2/12 at 7 times, and the plan sub-bullet names it. This role wrote no code.
+
+## Commits
+
+- Implementation: `content/storytime/drafts/l2/w12.json`, the plan, and `RUNS/t61-stage-after-w12.txt`. Commit `4696021181adb4aa97b621286d10176f1599b98f`, 3 files, 474 insertions, 15 deletions.
+- Log: this file alone.
+
+## Handoff
+
+- Week 12 is done in staged form with Daniel's pick c2 and 10 song lines.
+- Open item: the song-frame exception code goes to Phase 4 Tasks 4.1 (Red) and 4.2 (Green). The Phase 4 task text needs a plan amendment to name the exception. Until then, STAGE_CHECKS keeps the song-frame FAIL on st2/12.
+- Task 6.1 stays `[~]` until the week 14 and 15 picks and PROJECT_CHECKS.
+- The MP3 copy to `l2/media/w12/song.mp3` and `song.audio` wait for Task 4.3.
+- The listen sheet is outside git; its new SHA-256 is in the plan sub-bullet.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 week 12 (staged)
+role: jr-green
+role_base_sha: 7243a54d
+head: 4696021181adb4aa97b621286d10176f1599b98f
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0; 0 Thai characters in the filtered w12 copy and in the stage capture
+- apply: STRUCTURE_EQUAL=1; 10 times equal to t61-w12-song-times.json; 10 lines; numstat 377 14
+- thai lines of the week file: 467 before and after, SHA d6848bbc8c82922f41846c03cb962f40bd7bad5bfb2a0a61c078cc62016352d1; THAI_LINES_EQUAL=1
+- listen sheet: 25 of 25 OK; new SHA-256 4e08ce65970478bf21ab200a6cdee9566252398329a0b8e5d2c8fd1407ad0391
+- STAGE_CHECKS: before exit 1, FAIL 8, WARN 9; after exit 1, FAIL 9, WARN 10; st2/12 37 PASS, 2 FAIL, 2 WARN; st2/13 39 PASS, 1 FAIL, 1 WARN; new rows are song-frame (7 times) and song-sheet (line 9)
+- plan: one line changed (245), status line stays [~], no checkpoint added
+dispositions: none
+files: content/storytime/drafts/l2/w12.json; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/t61-stage-after-w12.txt; this log
+handoff: Week 12 is done in staged form with Daniel's pick c2, 10 of 12 lines, and the PM decision in the plan. Open item: the song-frame exception code goes to Phase 4 Tasks 4.1 (Red) and 4.2 (Green), and the Phase 4 task text needs a plan amendment to name it; until Task 4.2, STAGE_CHECKS shows the song-frame FAIL on st2/12 (7 times) and the plan sub-bullet names it. Task 6.1 stays [~] until the week 14 and 15 picks and PROJECT_CHECKS. The MP3 copy to l2/media/w12/song.mp3 and song.audio wait for Task 4.3. The listen sheet is outside the repo; its new SHA-256 is in the plan sub-bullet. No code was written and no committed Red test was touched.
+END_MEASURE_AGENT_RESULT
