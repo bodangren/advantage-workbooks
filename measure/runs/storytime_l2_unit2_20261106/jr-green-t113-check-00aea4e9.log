@@ -91,3 +91,58 @@ transcripts: measure/runs/storytime_l2_unit2_20261106/songs-transcripts/ (21 JSO
 dispositions: none
 handoff: Task 1.13 is `[x]` with commit 4ad6c8bc (the plan line names the request commit 6116bebf and the PM receipt). The PM sends the listen sheet to Daniel with the 7 songs; Daniel picks one candidate a song in the empty "Daniel's pick" column. Seven candidates fail the rule (w10 c1, w11 c3, w12 c1, w14 c1, w14 c3, w15 c1, w15 c2); each can get one PM retake on request, and w15 c2 repeats "Ride, ride, ride" and omits 5 of 8 lines, so the sheet says do not pick it. Every week has at least 1 passing candidate, so Daniel can pick a candidate for all 7 songs without a retake. Task 6.1 follows his picks and sets `song.lines` and `song.times` from a transcript of the chosen audio. The listen sheet is a new file in the delivery folder; the PM MANIFEST is unchanged and its check passes. Other sessions' files (video/**, dashboard/raw.json, other tracks' runs) stay untouched and unstaged.
 END_MEASURE_AGENT_RESULT
+
+## Retakes (2026-11-09 07:31 ICT)
+
+- 2026-11-09T00:40Z: delivery proof. `sha256sum MANIFEST.txt` = 8543fd1f...69bcc; 25 lines;
+  `sha256sum -c` exit 0, 25 of 25 OK; the 4 `-r2` files exist. Capture:
+  `songs-delivery-proof-r2.txt`. No file of the PM changed.
+- 2026-11-09T00:42Z: retake script `check_songs_r2.py` (copy in this folder as
+  `jr-green-t113-check-songs-r2.py`). The lyric lines come from the committed first-take
+  transcripts (`w14-c1.json`, `w15-c1.json`); the script reads no week file and no Thai text.
+  Same rule and same recognizer: faster-whisper `small`, int8, CPU, language en, word times,
+  no lyric prompt.
+- 2026-11-09T00:47Z: one heavy-run (`HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400`),
+  exit 0. 1 of 4 retakes pass: w15 c1-r2 0.88 (72.7 s). Fail: w14 c1-r2 0.50 (72.6 s),
+  w14 c3-r2 0.62 (72.4 s), w15 c2-r2 0.75 (75.4 s). All 4 files are 44.1 kHz. Capture:
+  `songs-check-lyria-r2.txt`; transcripts: `songs-transcripts/w<nn>-c<k>-r2.json`.
+- 2026-11-09T00:55Z: `listen-sheet.md` updated: each `-r2` take sits under its candidate, the
+  first takes stay, and the "Daniel's pick" column stays empty. The top holds the retake spend
+  (4 calls, 0.32 USD) and the song total (2.00 USD), and the two PM notes word for word. The
+  end holds the updated list of 10 failing takes. New SHA-256
+  `8664f4e0d62faa42e557b985ddb9f8b4f0765744a965541e7ab6c5e5690e7238`. `sha256sum -c
+  MANIFEST.txt` runs again after the update: exit 0, 25 of 25 OK.
+- 2026-11-09T01:00Z: plan sub-bullet "Retakes 2026-11-09" added under Task 1.13 (the line
+  stays `[x]`). Implementation commit b66e15c7 (plan, capture, proof, 4 transcripts, script).
+- 2026-11-09T01:02Z: log section and this result block. Log commit follows.
+
+## Final status (retakes)
+
+Status: complete. 15 of 25 takes pass (14 first takes and 1 retake). Every week has at least
+one passing take: w09 3, w10 2, w11 2, w12 2, w13 3, w14 1, w15 2. The sheet SHA-256 is
+`8664f4e0d62faa42e557b985ddb9f8b4f0765744a965541e7ab6c5e5690e7238`. Task 6.1 waits for
+Daniel's picks. No file under `content/` or `dashboard/` changed. No paid call and no network
+call.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P1
+task: T1.13
+role: jr-green
+role_base_sha: 00aea4e9b9b0cbde6f1e137babf4298377ec9207
+head: b66e15c7
+implementation_commit: b66e15c7
+delivery_manifest_sha256: 8543fd1ff0a9b62e7d653043992e426587d5e53cb3493548a87599f7e3169bcc (25 lines; sha256sum -c exit 0, 25 of 25 OK; valid with the updated listen sheet)
+retake_files: w14/l2-w14-song-c1-r2.mp3 72.6 s; w14/l2-w14-song-c3-r2.mp3 72.4 s; w15/l2-w15-song-c1-r2.mp3 72.7 s; w15/l2-w15-song-c2-r2.mp3 75.4 s (all 44.1 kHz)
+retake_result: 1 of 4 pass; w15 c1-r2 0.88; fail w14 c1-r2 0.50, w14 c3-r2 0.62, w15 c2-r2 0.75
+recognizer: faster-whisper small (int8, cpu, local), language en, word times, no lyric prompt
+spend_usd: retakes 0.32 (4 calls, all HTTP 200); song total 2.00
+pass_count: 15 of 25 takes
+passing_per_song: w09 3; w10 2; w11 2; w12 2; w13 3; w14 1; w15 2
+listen_sheet: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/listen-sheet.md
+listen_sheet_sha256: 8664f4e0d62faa42e557b985ddb9f8b4f0765744a965541e7ab6c5e5690e7238
+check_capture: measure/runs/storytime_l2_unit2_20261106/songs-check-lyria-r2.txt
+transcripts: measure/runs/storytime_l2_unit2_20261106/songs-transcripts/ (4 new `-r2` JSON)
+dispositions: none
+handoff: The retake of w15 c1 passes; the other 3 retakes fail the rule. The listen sheet holds every take and the updated 10-failing-take list. The PM sends the sheet to Daniel; he picks one passing take a song. If he wants a further retake of w14 c1, w14 c3, or w15 c2, that is a PM decision (the first retake is used). Task 6.1 follows his picks and sets `song.lines` and `song.times` from a transcript of the chosen audio. The PM notes: Lyria reports 105 bpm for w15 against 104 on the sheet; Lyria's own scene text for w15 has 'children's' and 'preschool', which are not in our style text. Other sessions' files stay untouched and unstaged.
+END_MEASURE_AGENT_RESULT
