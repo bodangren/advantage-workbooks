@@ -1,0 +1,92 @@
+# Jr Green · Task 6.1 week 15 (Daniel's pick r2 c3, staged) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: 802f60f9
+- Phase base SHA: 802f60f9 (the hand-off names HEAD as the base of the role)
+- Track: storytime_l2_unit2_20261106
+- Task 6.1 (plan line 242), week 15, staged form
+- Status: COMPLETE for week 15 in staged form
+- Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (ra-quota pick green)
+- Red model of this phase: none (Task 6.1 has no code and no Red role). No subagent was used. No coder session was started.
+
+## Inputs
+
+- Week 15: Daniel's words "W15 r2 c3" (PM relay, Tasks item aklrc1IyZ2paejVRNm0xaw, 2026-11-10 05:01 ICT). Take `l2-w15-song-r2-c3.mp3` (67.4 s; SHA-256 `340a771e2a127c63967bf6788d766055053342577ae9f8ae7bf186e37d4066ac`), of the folder `~/Desktop/handoff/storytime-l2u2-w15-candidates-r2/`.
+- The folder MANIFEST.txt (SHA-256 `225e440e5b7d8cf00307f8d81d92313b6d4befd7cc4f4508fa680384e2ca4d73`) gives 5 of 5 OK with `sha256sum -c`. The take replaces the c2 fallback of spec D17.
+- The committed transcript `RUNS/songs-transcripts/w15-r2-c3.json` (faster-whisper small, int8, cpu, local; language en; word times on; no lyric prompt). The coverage rule of `RUNS/t61-w15-r2-coverage.txt` gives 12 of 13 lines; line 1 is at 0.67 only, because the two "beep" tokens at 12.32 s and 13.08 s have zero length.
+- The line plan `~/Desktop/handoff/storytime-l2u2-w15-lyrics-r2-2026-11-09/w15-line-plan.md` and the sheet `w15-song-request.md` of the same folder. No speech model ran; the committed transcript was read.
+- The present week file at `67946609` (the 12-line file) for the pictures of the present lines.
+- The week file `content/storytime/drafts/l2/w15.json` (staged form).
+
+## Hard rules kept
+
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0` for the filtered copies of w15 at HEAD and at 67946609, in `/tmp/opencode/t61r8/in/`. The stage capture has `DROPPED_THAI_LINES=0`. No Thai text is in this log. The apply script reads the week file and the present file of 67946609, and it prints no Thai text.
+- No file under `content/storytime/l2/` and none under `dashboard/`. No code written. The schema was read only, for the 24 gesture names and the two song parts.
+- No MP3 copy and no `song.audio`; both wait for Task 4.3.
+- No checkpoint. No Phase 4 task edit. No file of the hand-off folder was changed.
+- No push, no pnpm, no npm, no vitest, no tsc. One heavy-run only, for STAGE_CHECKS. No nested heavy-run.
+- `render.mjs`, `dashboard/raw.json`, and the `spec-review-*` files stayed unstaged and untouched.
+
+## Step 1: the line times
+
+- `RUNS/t61-w15-r2-song-times.py` reads `songs-transcripts/w15-r2-c3.json` and the 13 line texts of the r2 line plan. It uses the index-cursor matcher of `RUNS/t61-w15-r2-coverage.py` (start offsets 0 to 8, lookahead 3). For the timing the zero-length tokens stay in the token list.
+- Output `RUNS/t61-w15-r2-song-times.json`, in the format of `RUNS/t61-w15-song-times.json`.
+- Checks: `lines_count_13` PASS; `sentence_equals_line_text` PASS; `word_counts_equal` PASS; `coverage_full` PASS (13 lines at 1.00); `start_times_increase` PASS; `line_ends_before_next` PASS; `word_start_below_end` PASS; `range_0_duration` PASS. `ESTIMATED_WORDS=2`, both on line 1: "beep," at 12.01-12.29 and "beep!" at 12.47-12.75. The two words take an estimated window between their neighbors, because the heard tokens have zero length.
+- The take runs 67.37 s; the first line starts at 8.48 s and the last line ends at 66.42 s.
+
+## Step 2: the apply
+
+- `RUNS/t61-apply-w15-r2.py` has the read, write, and check parts of `RUNS/t61-apply-week.py`. It writes `song.lines`, `song.times`, `song.lyricSheet`, `song.styleBrief`, and `approval.song`. It never prints Thai.
+- The dry run wrote `/tmp/opencode/t61r8/w15.dry.json` and left the week file alone. The real run wrote the week file.
+- Checks: `STRUCTURE_EQUAL=1` (everything outside `song` and `approval.song` equals HEAD); `THAI_LINES_BEFORE=465 SHA=35e4ee191ff84269fc67b4c02bd4db7b30da35f7f2ca765450196da16bdf31a8`; `THAI_LINES_AFTER=465 SHA=35e4ee191ff84269fc67b4c02bd4db7b30da35f7f2ca765450196da16bdf31a8`; `THAI_LINES_EQUAL=1`; `lines_count=13`; `times_count=13`; `approval_song_words='W15 r2 c3'`; `GESTURES_COUNT=24` and `GESTURES_OK=1` (the gestures of the schema, `dashboard/lib/storytime/schema.ts` lines 48 to 51); `PARTS_OK=1` (the schema allows only "verse" and "chorus", line 216); `PICTURES_OK=1`; `IMAGEOF_TARGETS_OK=1`; `FRAME_LINES=8` (the rule is 8 or more); `SHEET_LINES=13 SUNG_LINES=13 SHEET_MATCHES_LINES=1`; `git diff --numstat` `303 185 content/storytime/drafts/l2/w15.json`.
+- The 13 lines follow the r2 line plan. The 8 word lines keep the picture of the present line of 67946609 and the key order of the present object. The 5 other lines take the `imageOf` of an earlier line: lines 5, 6, 11, and 12 take 0, and line 13 takes 9. The part of line 13 is "verse", because the schema allows only "verse" and "chorus". The title, the bpm, and the choreography stay unchanged.
+- The lyric sheet: `LYRIC_SHEET_EQUALS_RUNS_SHEET=1`. The sheet of `w15-song-request.md` and the "## Lyric sheet" section of `RUNS/w15-lyrics-r2.md` are the same, with the labels [Verse 1], [Chorus], [Verse 2], [Chorus], and [Ending]. There is no difference. The style brief of `w15-song-request.md` is the `song.styleBrief` (739 characters).
+
+## Step 3: the STAGE_CHECKS
+
+- One heavy-run: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I /tmp/opencode/t61r8/stage_capture_w15r2.py'`.
+- BEFORE (`RUNS/t61-stage-after-w14w15.txt`): EXIT=1, FAIL_LINES=9, WARN_LINES=12, DROPPED_THAI_LINES=0.
+- AFTER (`RUNS/t61-stage-after-w15r2.txt`): EXIT=1, FAIL_LINES=9, WARN_LINES=12, DROPPED_THAI_LINES=0, WRAP_EXIT=0.
+  - st2/15: 38 PASS, 1 FAIL, 2 WARN. The FAIL is the share-moment row that every week has. song-frame PASS with 8 frame lines. The WARN song-sheet names line 1: "[Verse 1]" in the sheet, "Look, a bus! Beep, beep, beep!" in the lines. The check drops the labels of letters only, so the labels [Verse 1] and [Verse 2] stay in the sheet list. The WARN family-pictures row is the known one.
+  - st2/14: 38 PASS, 1 FAIL, 2 WARN. st2/12: 37 PASS, 2 FAIL, 2 WARN. st2/13: 39 PASS, 1 FAIL, 1 WARN. The three blocks are byte-equal to the BEFORE blocks, after the temp folder name is set aside.
+  - The st2/15 block differs from the BEFORE block in one row: the song-sheet WARN named line 11 and now names line 1. The PASS, FAIL, and WARN counts of st2/15 stay 38, 1, and 2. There is no new FAIL, so the hold rule did not apply and the week is staged.
+
+## Step 4: the plan
+
+- One `python3 -I` script on `measure/tracks/storytime_l2_unit2_20261106/plan.md`, under Task 6.1 only. `OTHER_LINES_EQUAL=1`. `CHANGED_LINES=[249]`: the week 15 sub-bullet, at plan line 249.
+- The appended text names his words and the Tasks item, the take and its 67.4 s and SHA-256, the 13 lines by the r2 line plan, the r2 lyric sheet, the 13 song.times entries and the 2 estimated words, the part default of line 13, the STAGE_CHECKS counts, and the stage rule.
+- The Task 6.1 status line stays `[~]`. No checkpoint and no Phase 4 task was edited.
+
+## Commits
+
+- Implementation: 6 files. Commit `46a0cefd`: the week file, `t61-apply-w15-r2.py`, `t61-w15-r2-song-times.py`, `t61-w15-r2-song-times.json`, `t61-stage-after-w15r2.txt`, and the plan.
+- Log: this file alone.
+
+## Handoff
+
+- Week 15 is staged with Daniel's pick r2 c3, 13 lines and 13 times, and no new FAIL. The hold rule did not apply.
+- Open item for the orchestrator: the song-sheet check drops a label of letters only, so the labels [Verse 1] and [Verse 2] of the r2 sheet stay in the sheet list and the row is a WARN that names line 1. A change of the label pattern in `dashboard/lib/storytime/checks.ts` would go through the Phase 4 Red and Green tasks, the same path as the st2/12 song-frame exception. This role wrote no code.
+- Open item: the MP3 copy to `l2/media/w15/song.mp3` and `song.audio` wait for Task 4.3.
+- Task 6.1 stays `[~]` until all 7 picks and PROJECT_CHECKS.
+- The Red command: this phase has no code and no Red role, so no Red command exists to rerun.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 week 15 (Daniel's pick r2 c3, staged)
+role: jr-green
+role_base_sha: 802f60f9506f80c0cb788b7cc9627945a883be6f
+phase_base_sha: 802f60f9506f80c0cb788b7cc9627945a883be6f
+head: 46a0cefd
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for the filtered w15 copies at HEAD and at 67946609; DROPPED_THAI_LINES=0 in the capture
+- week file: STRUCTURE_EQUAL=1; Thai lines 465 equal (SHA 35e4ee191ff84269fc67b4c02bd4db7b30da35f7f2ca765450196da16bdf31a8); 13 lines, 13 times; GESTURES_OK=1 (24 gestures); PARTS_OK=1; PICTURES_OK=1; IMAGEOF_TARGETS_OK=1; FRAME_LINES=8; numstat 303 185
+- times: 13 entries; the sentence of every entry equals its line text; the word counts match; the start times rise; ESTIMATED_WORDS=2, both on line 1
+- take: SHA-256 340a771e2a127c63967bf6788d766055053342577ae9f8ae7bf186e37d4066ac; the folder MANIFEST.txt SHA-256 225e440e5b7d8cf00307f8d81d92313b6d4befd7cc4f4508fa680384e2ca4d73; 5 of 5 OK
+- lyric sheet: the sheet of w15-song-request.md equals the "## Lyric sheet" section of RUNS/w15-lyrics-r2.md; no difference; the 13 sheet lines equal the 13 song lines
+- STAGE_CHECKS: before exit 1, FAIL 9, WARN 12; after exit 1, FAIL 9, WARN 12; st2/15 38 PASS, 1 FAIL, 2 WARN; song-frame PASS with 8 frame lines; the WARN song-sheet names line 1; st2/14 38/1/2 equal; st2/12 37/2/2 equal; st2/13 39/1/1 equal; no new FAIL
+- plan: OTHER_LINES_EQUAL=1; the week 15 sub-bullet at plan line 249; Task 6.1 stays [~]; no checkpoint; no Phase 4 edit
+dispositions: none
+files: content/storytime/drafts/l2/w15.json; measure/runs/storytime_l2_unit2_20261106/t61-apply-w15-r2.py; t61-w15-r2-song-times.py; t61-w15-r2-song-times.json; t61-stage-after-w15r2.txt; measure/tracks/storytime_l2_unit2_20261106/plan.md; this log
+handoff: Week 15 is staged with Daniel's pick r2 c3, 13 lines and 13 times, 2 estimated words on line 1, and no new FAIL. The hold rule did not apply. One item for the orchestrator: the song-sheet check drops the labels of letters only, so the r2 labels [Verse 1] and [Verse 2] stay in the sheet list and the row is a WARN that names line 1; a change of that pattern would go through the Phase 4 Red and Green tasks. The MP3 copy and song.audio wait for Task 4.3. Task 6.1 stays [~]. No code was written and no committed Red test was touched.
+END_MEASURE_AGENT_RESULT
