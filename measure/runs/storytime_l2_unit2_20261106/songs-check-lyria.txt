@@ -1,0 +1,53 @@
+model: faster-whisper small (int8, cpu, local); language en; word times on; no lyric prompt
+rule: pass when coverage is 0.8 or more and the duration is 45 to 120 s
+week cand duration_s sample_rate_hz coverage lines_heard/lines missed_lines
+w09 c1 72.0 44100 1.00 8/8 none
+w09 c2 69.8 44100 1.00 8/8 none
+w09 c3 72.2 44100 1.00 8/8 none
+w10 c1 73.8 44100 0.62 5/8 Put on your socks! Socks, socks, socks! | Put on your dress! Turn, turn, turn! | Put on your skirt! Sway, sway, sway!
+w10 c2 73.5 44100 1.00 8/8 none
+w10 c3 73.6 44100 0.88 7/8 Put on your skirt! Sway, sway, sway!
+w11 c1 73.1 44100 1.00 8/8 none
+w11 c2 74.0 44100 1.00 8/8 none
+w11 c3 72.4 44100 0.62 5/8 Where is the doll? In the bed! | Where is the bag? On the door! | Where is Pip? Here, here, here!
+w12 c1 74.9 44100 0.75 6/8 Open your bag! Get your ruler! | Open your book! Read with me!
+w12 c2 72.9 44100 1.00 8/8 none
+w12 c3 72.5 44100 1.00 8/8 none
+w13 c1 69.6 44100 0.88 7/8 I can walk! Walk, walk, walk!
+w13 c2 72.3 44100 1.00 8/8 none
+w13 c3 74.2 44100 0.88 7/8 I can hop! Hop, hop, hop!
+w14 c1 71.1 44100 0.75 6/8 It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w14 c2 73.4 44100 0.88 7/8 It is very cold! Hug, hug, hug!
+w14 c3 73.0 44100 0.75 6/8 It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w15 c1 71.0 44100 0.75 6/8 Look, a bike! Ride, ride, ride! | Look, a boat! Row, row, row!
+w15 c2 73.6 44100 0.38 3/8 Look, a bike! Ride, ride, ride! | Look, a boat! Row, row, row! | Look, a truck! Big, big, big! | Look, a plane! Fly, fly, fly! | Look, a helicopter! Up, up, up!
+w15 c3 73.3 44100 1.00 8/8 none
+
+PASS 14 of 21
+FAILED CANDIDATES
+w10 c1: coverage 0.62, duration 73.8 s
+  missed: Put on your socks! Socks, socks, socks!
+  missed: Put on your dress! Turn, turn, turn!
+  missed: Put on your skirt! Sway, sway, sway!
+w11 c3: coverage 0.62, duration 72.4 s
+  missed: Where is the doll? In the bed!
+  missed: Where is the bag? On the door!
+  missed: Where is Pip? Here, here, here!
+w12 c1: coverage 0.75, duration 74.9 s
+  missed: Open your bag! Get your ruler!
+  missed: Open your book! Read with me!
+w14 c1: coverage 0.75, duration 71.1 s
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w14 c3: coverage 0.75, duration 73.0 s
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w15 c1: coverage 0.75, duration 71.0 s
+  missed: Look, a bike! Ride, ride, ride!
+  missed: Look, a boat! Row, row, row!
+w15 c2: coverage 0.38, duration 73.6 s
+  missed: Look, a bike! Ride, ride, ride!
+  missed: Look, a boat! Row, row, row!
+  missed: Look, a truck! Big, big, big!
+  missed: Look, a plane! Fly, fly, fly!
+  missed: Look, a helicopter! Up, up, up!

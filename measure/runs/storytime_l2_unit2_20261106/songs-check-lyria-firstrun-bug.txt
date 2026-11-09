@@ -1,0 +1,216 @@
+model: faster-whisper small (int8, cpu, local); language en; word times on; no lyric prompt
+rule: pass when coverage is 0.8 or more and the duration is 45 to 120 s
+week cand duration_s sample_rate_hz coverage lines_heard/lines missed_lines
+w09 c1 72.0 44100 0.00 0/8 I like rice! Yum, yum, yum! | I like milk! Yum, yum, yum! | I like eggs! Yum, yum, yum! | I like bread! Yum, yum, yum! | I like juice! Yum, yum, yum! | I like cake! Yum, yum, yum! | I like bananas! Yum, yum, yum! | I like lunch! Yum, yum, yum!
+w09 c2 69.8 44100 0.00 0/8 I like rice! Yum, yum, yum! | I like milk! Yum, yum, yum! | I like eggs! Yum, yum, yum! | I like bread! Yum, yum, yum! | I like juice! Yum, yum, yum! | I like cake! Yum, yum, yum! | I like bananas! Yum, yum, yum! | I like lunch! Yum, yum, yum!
+w09 c3 72.2 44100 0.00 0/8 I like rice! Yum, yum, yum! | I like milk! Yum, yum, yum! | I like eggs! Yum, yum, yum! | I like bread! Yum, yum, yum! | I like juice! Yum, yum, yum! | I like cake! Yum, yum, yum! | I like bananas! Yum, yum, yum! | I like lunch! Yum, yum, yum!
+w10 c1 73.8 44100 0.00 0/8 Put on your hat! Hat, hat, hat! | Put on your shoes! Stamp, stamp, stamp! | Put on your socks! Socks, socks, socks! | Put on your T-shirt! Up, up, up! | Put on your trousers! Hop, hop, hop! | Put on your jacket! Zip it up! | Put on your dress! Turn, turn, turn! | Put on your skirt! Sway, sway, sway!
+w10 c2 73.5 44100 0.00 0/8 Put on your hat! Hat, hat, hat! | Put on your shoes! Stamp, stamp, stamp! | Put on your socks! Socks, socks, socks! | Put on your T-shirt! Up, up, up! | Put on your trousers! Hop, hop, hop! | Put on your jacket! Zip it up! | Put on your dress! Turn, turn, turn! | Put on your skirt! Sway, sway, sway!
+w10 c3 73.6 44100 0.00 0/8 Put on your hat! Hat, hat, hat! | Put on your shoes! Stamp, stamp, stamp! | Put on your socks! Socks, socks, socks! | Put on your T-shirt! Up, up, up! | Put on your trousers! Hop, hop, hop! | Put on your jacket! Zip it up! | Put on your dress! Turn, turn, turn! | Put on your skirt! Sway, sway, sway!
+w11 c1 73.1 44100 0.00 0/8 Where is the ball? In the box! | Where is the cat? Under the bed! | Where is the teddy? On the sofa! | Where is the car? Under the table! | Where is the bird? In the window! | Where is the doll? In the bed! | Where is the bag? On the door! | Where is Pip? Here, here, here!
+w11 c2 74.0 44100 0.00 0/8 Where is the ball? In the box! | Where is the cat? Under the bed! | Where is the teddy? On the sofa! | Where is the car? Under the table! | Where is the bird? In the window! | Where is the doll? In the bed! | Where is the bag? On the door! | Where is Pip? Here, here, here!
+w11 c3 72.4 44100 0.00 0/8 Where is the ball? In the box! | Where is the cat? Under the bed! | Where is the teddy? On the sofa! | Where is the car? Under the table! | Where is the bird? In the window! | Where is the doll? In the bed! | Where is the bag? On the door! | Where is Pip? Here, here, here!
+w12 c1 74.9 44100 0.00 0/8 Open your book! Read, read, read! | Open your book! Look, look, look! | Open your bag! Get your pencil! | Open your book! Get your pen! | Open your bag! Get your crayon! | Open your book! Get your eraser! | Open your bag! Get your ruler! | Open your book! Read with me!
+w12 c2 72.9 44100 0.00 0/8 Open your book! Read, read, read! | Open your book! Look, look, look! | Open your bag! Get your pencil! | Open your book! Get your pen! | Open your bag! Get your crayon! | Open your book! Get your eraser! | Open your bag! Get your ruler! | Open your book! Read with me!
+w12 c3 72.5 44100 0.00 0/8 Open your book! Read, read, read! | Open your book! Look, look, look! | Open your bag! Get your pencil! | Open your book! Get your pen! | Open your bag! Get your crayon! | Open your book! Get your eraser! | Open your bag! Get your ruler! | Open your book! Read with me!
+w13 c1 69.6 44100 0.00 0/8 I can run! Run, run, run! | I can jump! Jump, jump, jump! | I can walk! Walk, walk, walk! | I can clap! Clap, clap, clap! | I can kick! Kick, kick, kick! | I can throw! Throw, throw, throw! | I can catch! Catch, catch, catch! | I can hop! Hop, hop, hop!
+w13 c2 72.3 44100 0.00 0/8 I can run! Run, run, run! | I can jump! Jump, jump, jump! | I can walk! Walk, walk, walk! | I can clap! Clap, clap, clap! | I can kick! Kick, kick, kick! | I can throw! Throw, throw, throw! | I can catch! Catch, catch, catch! | I can hop! Hop, hop, hop!
+w13 c3 74.2 44100 0.00 0/8 I can run! Run, run, run! | I can jump! Jump, jump, jump! | I can walk! Walk, walk, walk! | I can clap! Clap, clap, clap! | I can kick! Kick, kick, kick! | I can throw! Throw, throw, throw! | I can catch! Catch, catch, catch! | I can hop! Hop, hop, hop!
+w14 c1 71.1 44100 0.00 0/8 It is sunny! Sun, sun, sun! | It is rainy! Rain, rain, rain! | It is windy! Blow, blow, blow! | It is cloudy! Look, look, look! | It is hot! Fan, fan, fan! | It is cold! Hug, hug, hug! | It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w14 c2 73.4 44100 0.00 0/8 It is sunny! Sun, sun, sun! | It is rainy! Rain, rain, rain! | It is windy! Blow, blow, blow! | It is cloudy! Look, look, look! | It is hot! Fan, fan, fan! | It is cold! Hug, hug, hug! | It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w14 c3 73.0 44100 0.00 0/8 It is sunny! Sun, sun, sun! | It is rainy! Rain, rain, rain! | It is windy! Blow, blow, blow! | It is cloudy! Look, look, look! | It is hot! Fan, fan, fan! | It is cold! Hug, hug, hug! | It is very cold! Hug, hug, hug! | It is fun! Fun, fun, fun!
+w15 c1 71.0 44100 0.00 0/8 Look, a bus! Beep, beep, beep! | Look, a train! Choo, choo, choo! | Look, a car! Drive, drive, drive! | Look, a bike! Ride, ride, ride! | Look, a boat! Row, row, row! | Look, a truck! Big, big, big! | Look, a plane! Fly, fly, fly! | Look, a helicopter! Up, up, up!
+w15 c2 73.6 44100 0.00 0/8 Look, a bus! Beep, beep, beep! | Look, a train! Choo, choo, choo! | Look, a car! Drive, drive, drive! | Look, a bike! Ride, ride, ride! | Look, a boat! Row, row, row! | Look, a truck! Big, big, big! | Look, a plane! Fly, fly, fly! | Look, a helicopter! Up, up, up!
+w15 c3 73.3 44100 0.00 0/8 Look, a bus! Beep, beep, beep! | Look, a train! Choo, choo, choo! | Look, a car! Drive, drive, drive! | Look, a bike! Ride, ride, ride! | Look, a boat! Row, row, row! | Look, a truck! Big, big, big! | Look, a plane! Fly, fly, fly! | Look, a helicopter! Up, up, up!
+
+PASS 0 of 21
+FAILED CANDIDATES
+w09 c1: coverage 0.00, duration 72.0 s
+  missed: I like rice! Yum, yum, yum!
+  missed: I like milk! Yum, yum, yum!
+  missed: I like eggs! Yum, yum, yum!
+  missed: I like bread! Yum, yum, yum!
+  missed: I like juice! Yum, yum, yum!
+  missed: I like cake! Yum, yum, yum!
+  missed: I like bananas! Yum, yum, yum!
+  missed: I like lunch! Yum, yum, yum!
+w09 c2: coverage 0.00, duration 69.8 s
+  missed: I like rice! Yum, yum, yum!
+  missed: I like milk! Yum, yum, yum!
+  missed: I like eggs! Yum, yum, yum!
+  missed: I like bread! Yum, yum, yum!
+  missed: I like juice! Yum, yum, yum!
+  missed: I like cake! Yum, yum, yum!
+  missed: I like bananas! Yum, yum, yum!
+  missed: I like lunch! Yum, yum, yum!
+w09 c3: coverage 0.00, duration 72.2 s
+  missed: I like rice! Yum, yum, yum!
+  missed: I like milk! Yum, yum, yum!
+  missed: I like eggs! Yum, yum, yum!
+  missed: I like bread! Yum, yum, yum!
+  missed: I like juice! Yum, yum, yum!
+  missed: I like cake! Yum, yum, yum!
+  missed: I like bananas! Yum, yum, yum!
+  missed: I like lunch! Yum, yum, yum!
+w10 c1: coverage 0.00, duration 73.8 s
+  missed: Put on your hat! Hat, hat, hat!
+  missed: Put on your shoes! Stamp, stamp, stamp!
+  missed: Put on your socks! Socks, socks, socks!
+  missed: Put on your T-shirt! Up, up, up!
+  missed: Put on your trousers! Hop, hop, hop!
+  missed: Put on your jacket! Zip it up!
+  missed: Put on your dress! Turn, turn, turn!
+  missed: Put on your skirt! Sway, sway, sway!
+w10 c2: coverage 0.00, duration 73.5 s
+  missed: Put on your hat! Hat, hat, hat!
+  missed: Put on your shoes! Stamp, stamp, stamp!
+  missed: Put on your socks! Socks, socks, socks!
+  missed: Put on your T-shirt! Up, up, up!
+  missed: Put on your trousers! Hop, hop, hop!
+  missed: Put on your jacket! Zip it up!
+  missed: Put on your dress! Turn, turn, turn!
+  missed: Put on your skirt! Sway, sway, sway!
+w10 c3: coverage 0.00, duration 73.6 s
+  missed: Put on your hat! Hat, hat, hat!
+  missed: Put on your shoes! Stamp, stamp, stamp!
+  missed: Put on your socks! Socks, socks, socks!
+  missed: Put on your T-shirt! Up, up, up!
+  missed: Put on your trousers! Hop, hop, hop!
+  missed: Put on your jacket! Zip it up!
+  missed: Put on your dress! Turn, turn, turn!
+  missed: Put on your skirt! Sway, sway, sway!
+w11 c1: coverage 0.00, duration 73.1 s
+  missed: Where is the ball? In the box!
+  missed: Where is the cat? Under the bed!
+  missed: Where is the teddy? On the sofa!
+  missed: Where is the car? Under the table!
+  missed: Where is the bird? In the window!
+  missed: Where is the doll? In the bed!
+  missed: Where is the bag? On the door!
+  missed: Where is Pip? Here, here, here!
+w11 c2: coverage 0.00, duration 74.0 s
+  missed: Where is the ball? In the box!
+  missed: Where is the cat? Under the bed!
+  missed: Where is the teddy? On the sofa!
+  missed: Where is the car? Under the table!
+  missed: Where is the bird? In the window!
+  missed: Where is the doll? In the bed!
+  missed: Where is the bag? On the door!
+  missed: Where is Pip? Here, here, here!
+w11 c3: coverage 0.00, duration 72.4 s
+  missed: Where is the ball? In the box!
+  missed: Where is the cat? Under the bed!
+  missed: Where is the teddy? On the sofa!
+  missed: Where is the car? Under the table!
+  missed: Where is the bird? In the window!
+  missed: Where is the doll? In the bed!
+  missed: Where is the bag? On the door!
+  missed: Where is Pip? Here, here, here!
+w12 c1: coverage 0.00, duration 74.9 s
+  missed: Open your book! Read, read, read!
+  missed: Open your book! Look, look, look!
+  missed: Open your bag! Get your pencil!
+  missed: Open your book! Get your pen!
+  missed: Open your bag! Get your crayon!
+  missed: Open your book! Get your eraser!
+  missed: Open your bag! Get your ruler!
+  missed: Open your book! Read with me!
+w12 c2: coverage 0.00, duration 72.9 s
+  missed: Open your book! Read, read, read!
+  missed: Open your book! Look, look, look!
+  missed: Open your bag! Get your pencil!
+  missed: Open your book! Get your pen!
+  missed: Open your bag! Get your crayon!
+  missed: Open your book! Get your eraser!
+  missed: Open your bag! Get your ruler!
+  missed: Open your book! Read with me!
+w12 c3: coverage 0.00, duration 72.5 s
+  missed: Open your book! Read, read, read!
+  missed: Open your book! Look, look, look!
+  missed: Open your bag! Get your pencil!
+  missed: Open your book! Get your pen!
+  missed: Open your bag! Get your crayon!
+  missed: Open your book! Get your eraser!
+  missed: Open your bag! Get your ruler!
+  missed: Open your book! Read with me!
+w13 c1: coverage 0.00, duration 69.6 s
+  missed: I can run! Run, run, run!
+  missed: I can jump! Jump, jump, jump!
+  missed: I can walk! Walk, walk, walk!
+  missed: I can clap! Clap, clap, clap!
+  missed: I can kick! Kick, kick, kick!
+  missed: I can throw! Throw, throw, throw!
+  missed: I can catch! Catch, catch, catch!
+  missed: I can hop! Hop, hop, hop!
+w13 c2: coverage 0.00, duration 72.3 s
+  missed: I can run! Run, run, run!
+  missed: I can jump! Jump, jump, jump!
+  missed: I can walk! Walk, walk, walk!
+  missed: I can clap! Clap, clap, clap!
+  missed: I can kick! Kick, kick, kick!
+  missed: I can throw! Throw, throw, throw!
+  missed: I can catch! Catch, catch, catch!
+  missed: I can hop! Hop, hop, hop!
+w13 c3: coverage 0.00, duration 74.2 s
+  missed: I can run! Run, run, run!
+  missed: I can jump! Jump, jump, jump!
+  missed: I can walk! Walk, walk, walk!
+  missed: I can clap! Clap, clap, clap!
+  missed: I can kick! Kick, kick, kick!
+  missed: I can throw! Throw, throw, throw!
+  missed: I can catch! Catch, catch, catch!
+  missed: I can hop! Hop, hop, hop!
+w14 c1: coverage 0.00, duration 71.1 s
+  missed: It is sunny! Sun, sun, sun!
+  missed: It is rainy! Rain, rain, rain!
+  missed: It is windy! Blow, blow, blow!
+  missed: It is cloudy! Look, look, look!
+  missed: It is hot! Fan, fan, fan!
+  missed: It is cold! Hug, hug, hug!
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w14 c2: coverage 0.00, duration 73.4 s
+  missed: It is sunny! Sun, sun, sun!
+  missed: It is rainy! Rain, rain, rain!
+  missed: It is windy! Blow, blow, blow!
+  missed: It is cloudy! Look, look, look!
+  missed: It is hot! Fan, fan, fan!
+  missed: It is cold! Hug, hug, hug!
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w14 c3: coverage 0.00, duration 73.0 s
+  missed: It is sunny! Sun, sun, sun!
+  missed: It is rainy! Rain, rain, rain!
+  missed: It is windy! Blow, blow, blow!
+  missed: It is cloudy! Look, look, look!
+  missed: It is hot! Fan, fan, fan!
+  missed: It is cold! Hug, hug, hug!
+  missed: It is very cold! Hug, hug, hug!
+  missed: It is fun! Fun, fun, fun!
+w15 c1: coverage 0.00, duration 71.0 s
+  missed: Look, a bus! Beep, beep, beep!
+  missed: Look, a train! Choo, choo, choo!
+  missed: Look, a car! Drive, drive, drive!
+  missed: Look, a bike! Ride, ride, ride!
+  missed: Look, a boat! Row, row, row!
+  missed: Look, a truck! Big, big, big!
+  missed: Look, a plane! Fly, fly, fly!
+  missed: Look, a helicopter! Up, up, up!
+w15 c2: coverage 0.00, duration 73.6 s
+  missed: Look, a bus! Beep, beep, beep!
+  missed: Look, a train! Choo, choo, choo!
+  missed: Look, a car! Drive, drive, drive!
+  missed: Look, a bike! Ride, ride, ride!
+  missed: Look, a boat! Row, row, row!
+  missed: Look, a truck! Big, big, big!
+  missed: Look, a plane! Fly, fly, fly!
+  missed: Look, a helicopter! Up, up, up!
+w15 c3: coverage 0.00, duration 73.3 s
+  missed: Look, a bus! Beep, beep, beep!
+  missed: Look, a train! Choo, choo, choo!
+  missed: Look, a car! Drive, drive, drive!
+  missed: Look, a bike! Ride, ride, ride!
+  missed: Look, a boat! Row, row, row!
+  missed: Look, a truck! Big, big, big!
+  missed: Look, a plane! Fly, fly, fly!
+  missed: Look, a helicopter! Up, up, up!

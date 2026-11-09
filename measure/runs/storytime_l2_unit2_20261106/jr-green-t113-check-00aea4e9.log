@@ -1,0 +1,50 @@
+# Jr Green · P1 T1.13 · storytime_l2_unit2_20261106 · the unit 2 song candidate check
+
+- Role: jr-green
+- Model: deepseek/deepseek-flash#high (provider deepseek, model deepseek-flash)
+- role_base_sha: 00aea4e9b9b0cbde6f1e137babf4298377ec9207
+- phase_base_sha: 0079c2728e63a1dcb442333bb10870e0e7fd7043 (parent of the first staging commit, recorded in `english-review-819f1613.json`)
+- Task: plan.md line 181, `- [~] Task 1.13 (Hand-off 2)`
+- Started: 2026-11-09 (session clock)
+
+## Scope
+
+Check the 21 Lyria 3 Pro song candidates that the PM delivered for weeks 9 to 15: duration,
+sample rate, and lyric coverage from a faster-whisper transcript with no lyric prompt. Write
+the listen sheet for Daniel. Close Task 1.13 with the PM receipt. Change no file under
+`content/` or `dashboard/`. Make no paid call and no network call.
+
+## Gates
+
+- Red: this task has no Red test. It is a media hand-off (plan Task 1.13, spec FR-8.2). The
+  committed change of the phase is the song request, commit 6116bebf, inside
+  `phase_base_sha..HEAD` (checked: `git merge-base --is-ancestor 6116bebf HEAD` exit 0). The
+  Red command is the delivery proof and the candidate check; before the delivery the folder
+  held 0 mp3 files.
+- Green gate: the check script over the 21 files (coverage 0.8 or more and duration 45 to
+  120 s), the delivery `sha256sum -c MANIFEST.txt`, and the listen sheet.
+
+## Log
+
+- 2026-11-09T00:00Z: log written first. role_base_sha 00aea4e9, phase_base_sha 0079c272.
+- 2026-11-09T00:00Z: `git status --short` read before any edit: 1561 untracked paths, 1
+  modified path `video/storytime-song/scripts/render.mjs`. Both belong to other work; this
+  role stages no file of either. Unrelated work stays untouched.
+- 2026-11-09T00:02Z: delivery proof. `sha256sum MANIFEST.txt` = 49e0d1c6...e5d5; `sha256sum
+  -c MANIFEST.txt` exit 0 (21 of 21 OK); 21 mp3 files, 3 in each of w09 to w15. Capture:
+  `songs-delivery-proof.txt`. No file of the PM changed.
+- 2026-11-09T00:05Z: check script `check_songs.py` written (copy in this folder as
+  `jr-green-t113-check-songs.py`). Model `small` from `dashboard/scripts/storytime/word-times.py`
+  (faster-whisper, int8, local); language en; word times on; no lyric prompt.
+- 2026-11-09T00:07Z: first run gave 0 of 21, because the script rebound the segment generator
+  before the loop. The capture is kept as `songs-check-lyria-firstrun-bug.txt`. The script is
+  fixed (a new list for the segment rows). A diagnostic run proved the audio is good (w09 c1:
+  72.0 s, 15 segments, "I like rice, ... Yum yum yum").
+- 2026-11-09T00:12Z: second run (one heavy-run, `HEAVY_MIN_AVAIL_MB=1500
+  HEAVY_PREFLIGHT_WAIT_S=5400`): 14 of 21 pass. All 21 files are 44.1 kHz, 192 kbps, duration
+  69.6 to 74.9 s. Capture: `songs-check-lyria.txt`; transcripts: `songs-transcripts/`.
+  Failing candidates: w10 c1 0.62, w11 c3 0.62, w12 c1 0.75, w14 c1 0.75, w14 c3 0.75,
+  w15 c1 0.75, w15 c2 0.38.
+- 2026-11-09T00:22Z: `listen-sheet.md` written in the delivery folder (a new file, not in the
+  PM MANIFEST). SHA-256 `e88c641faf978961230cbddf193bc146cc4abd4f0f0de19a2a0459dcc6b8c1f2`.
+  `sha256sum -c MANIFEST.txt` runs again after the new file: exit 0, 21 of 21 OK.
