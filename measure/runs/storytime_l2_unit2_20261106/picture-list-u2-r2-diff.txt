@@ -1,0 +1,46 @@
+Task 2.6 picture list difference: new run vs the committed list at HEAD
+
+OLD_FILE=/tmp/opencode/t26/pictures-u2-head.json
+NEW_FILE=content/storytime/drafts/l2/print/pictures-u2.json
+OLD_ROWS=229
+NEW_ROWS=229
+
+ROW COUNT PER WEEK
+week 9: before 34, after 34
+week 10: before 34, after 34
+week 11: before 31, after 31
+week 12: before 33, after 33
+week 13: before 34, after 34
+week 14: before 33, after 33
+week 15: before 29, after 29
+week 16: before 1, after 1
+
+ROWS REMOVED=0
+
+ROWS ADDED=0
+
+ROWS CHANGED=0
+
+SUMMARY removed=0 added=0 changed=0
+SUMMARY no row changed
+
+SECOND RUN AND CMP PROOF
+
+FILE=pictures-u2.json
+  copy of the first run = the committed file at HEAD: cmp exit 0
+  copy of the first run = the file after the second run: cmp exit 0
+  SHA-256 of the first run copy: 63d415000eca9d6be1a6ad533c12ff81e127cd2c76ffac339697f91b99f754ec
+  SHA-256 of the file after the second run: 63d415000eca9d6be1a6ad533c12ff81e127cd2c76ffac339697f91b99f754ec
+  Thai characters in the file after the second run: 0
+FILE=pictures-u2.md
+  copy of the first run = the committed file at HEAD: cmp exit 0
+  copy of the first run = the file after the second run: cmp exit 0
+  SHA-256 of the first run copy: fbf80559419b1fefcc97834cd146c245f437e479365c507c1616cb094bb4e24f
+  SHA-256 of the file after the second run: fbf80559419b1fefcc97834cd146c245f437e479365c507c1616cb094bb4e24f
+  Thai characters in the file after the second run: 0
+FILE=card-pictures-u2.json
+  copy of the first run = the committed file at HEAD: cmp exit 0
+  copy of the first run = the file after the second run: cmp exit 0
+  SHA-256 of the first run copy: d24d534361d84ad9b4ebc27f3571e0380fc59f6d493442043d4207fa7eae9059
+  SHA-256 of the file after the second run: d24d534361d84ad9b4ebc27f3571e0380fc59f6d493442043d4207fa7eae9059
+  Thai characters in the file after the second run: 0
