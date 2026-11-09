@@ -1,0 +1,91 @@
+{
+ "week": 12,
+ "candidate": "c2",
+ "pass": "pass2-small-cut",
+ "model": "small",
+ "file": "/home/daniebo/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/w12/l2-w12-song-c2.mp3",
+ "duration_s": 72.856,
+ "sample_rate_hz": 44100,
+ "language": "en",
+ "cut": [
+  14.0,
+  26.0
+ ],
+ "settings": "int8, cpu, local_files_only=True, language=en, word_timestamps=True, condition_on_previous_text=False, vad_filter=False, beam_size=5, temperature=0.0, no initial prompt",
+ "segments": [
+  {
+   "text": "Read, read, read, open your book, open your book",
+   "start": 14.0,
+   "end": 20.88,
+   "words": [
+    {
+     "word": "Read,",
+     "start": 14.0,
+     "end": 14.84
+    },
+    {
+     "word": "read,",
+     "start": 15.08,
+     "end": 15.42
+    },
+    {
+     "word": "read,",
+     "start": 15.62,
+     "end": 16.1
+    },
+    {
+     "word": "open",
+     "start": 16.24,
+     "end": 17.26
+    },
+    {
+     "word": "your",
+     "start": 17.26,
+     "end": 17.68
+    },
+    {
+     "word": "book,",
+     "start": 17.68,
+     "end": 18.5
+    },
+    {
+     "word": "open",
+     "start": 18.62,
+     "end": 19.64
+    },
+    {
+     "word": "your",
+     "start": 19.64,
+     "end": 20.08
+    },
+    {
+     "word": "book",
+     "start": 20.08,
+     "end": 20.88
+    }
+   ]
+  },
+  {
+   "text": "Look, look, look",
+   "start": 20.88,
+   "end": 24.38,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 20.88,
+     "end": 21.9
+    },
+    {
+     "word": "look,",
+     "start": 22.52,
+     "end": 23.14
+    },
+    {
+     "word": "look",
+     "start": 23.8,
+     "end": 24.38
+    }
+   ]
+  }
+ ]
+}

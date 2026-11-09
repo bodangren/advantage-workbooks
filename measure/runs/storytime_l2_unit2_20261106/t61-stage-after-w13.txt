@@ -1,0 +1,96 @@
+EXIT=1
+FAIL_LINES=8
+WARN_LINES=9
+DROPPED_THAI_LINES=0
+ST2_12_BLOCK_BEGIN
+st2/12 — Open Your Book!   [../../../../../tmp/tmp.LWMGToVD8Y/content/storytime/l2/w12.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 44)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  FAIL    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption — day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment
+  PASS    song-media      The song files named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: book, bag, pencil, pen, crayon, eraser, ruler
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+ST2_12_BLOCK_END
+ST2_12 PASS=39 FAIL=1 WARN=1
+ST2_13_BLOCK_BEGIN
+st2/13 — Look at Me!   [../../../../../tmp/tmp.LWMGToVD8Y/content/storytime/l2/w13.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 45; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  FAIL    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption — day 1: no share moment; day 2: no share moment; day 3: no share moment; day 4: no share moment; day 5: no share moment
+  PASS    song-media      The song files named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: run, jump, walk, clap, kick, throw, catch
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+ST2_13_BLOCK_END
+ST2_13 PASS=39 FAIL=1 WARN=1
