@@ -158,7 +158,7 @@ gates:
 - STAGE_CHECKS w12 drop trial: EXIT=1, FAIL 9, WARN 10; st2/12 37 PASS, 2 FAIL, 2 WARN; new song-frame FAIL
 - STAGE_CHECKS after: EXIT=1, FAIL 8, WARN 9; st2/12 and st2/13 39 PASS, 1 FAIL, 1 WARN; no new FAIL or WARN
 - listen sheet: 25 of 25 OK; new SHA-256 1661f5e0e7d725b9357d858a1e334cc8b013141ea23d21be21c1887da65d3bc6
-dispositions: week 12 held under option A (orchestrator decision, 2026-11-09); no routed findings
+dispositions: none
 files: content/storytime/drafts/l2/w13.json; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/t61-song-times.py; t61-apply-week.py; t61-pass2-transcript.py; t61-w12-song-times.json; t61-w13-song-times.json; songs-transcripts/w12-c2-pass2-base.json; w12-c2-pass2-small-14-26.json; w12-c2-pass2-small-24-31.json; w12-c2-pass2-small-30-40.json; w12-c2-pass2-small-40-52.json; w12-c2-pass2-small-55-64.json; w13-c3-pass2-base.json; t61-stage-before-w12w13.txt; t61-stage-w12-drop-trial.txt; t61-stage-after-w13.txt; this log
 handoff: Week 13 is applied and gate-clean in staged form. Week 12 is unchanged at HEAD and held for Daniel; the question is in the plan sub-bullet and in this log. Task 6.1 stays [~]. The MP3 copies and song.audio wait for Task 4.3. The listen sheet is outside git; its new SHA-256 is in the plan sub-bullets. The plan sub-bullets went in through the allowed shell route; the status line was not edited and no checkpoint was added. Facts changed: week 13 song.times (12 entries) and approval.song ("W13 c3", 17:39 ICT, Tasks item MDlYRU42RXlZejdtWTdWdw) are set in the staged week file; the listen sheet has the two picks with clock times and the week 12 note; week 12 has no file change.
 END_MEASURE_AGENT_RESULT
