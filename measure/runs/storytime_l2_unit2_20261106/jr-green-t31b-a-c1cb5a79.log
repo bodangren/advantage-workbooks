@@ -111,4 +111,50 @@ handoff: |
   Default if part (b) is not yet assigned: hand the pack to the orchestrator for the family Y pick.
 END_MEASURE_AGENT_RESULT
 
+## Round 2: the answers to the English review (2026-11-09)
+
+Input: `share-english-review.md` and `share-english-review.log` (family Y, MiniMax, audited head 1484e9a6).
+Step text: my committed English extract. I opened no week file.
+
+- E1 (error, SC-w10-d1 and SC-w13-d1): FIX. The old captions claimed that the child reads man and dad, and
+  A3 reads no word. The new captions name the letter, the two endings, and the formation words. The finding
+  is wrong on one point: the plan element is the two word families -an and -ad (w10) and -ot and -op (w13),
+  not the single sound a or o.
+- E2 (nit, SC-w14-d1): FIX. The sound is now /f/.
+- E3 (nit, the seven day 3 rows): ANSWER. FR-14 films one child who reads one page of the C4 book for 10 to
+  20 seconds. The shipped captions of w01 to w08 use the same words. D19 forbids a child name.
+- E4 (nit, SC-w16-d4): FIX. The caption names the big book center and the second book.
+- E5 (nit, SC-w09-d4): FIX. The photo clause uses the shape of the other six day 4 rows and the comma form.
+
+Rebuilt the draft and the pack from one source. Gates: pack Thai 0, pack rows 40, rules rows 40 with 0
+errors (`t31b-a-rules-r2.txt`). `git status --porcelain content/storytime` is empty.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P3
+task: T3.1b part (a), review round 2
+role: jr-green
+role_base_sha: c1cb5a79f0106b83b6197b9a8c142ec669d4cd4d
+head: 1484e9a6
+gates:
+- pack thai: `grep -cP '[\x{0E00}-\x{0E7F}]' share-english-pack.md` = 0
+- pack rows: `grep -c '^| SC-w' share-english-pack.md` = 40
+- rules: `t31b-a-rules-r2.txt` rows 40, errors 0
+- content: `git status --porcelain content/storytime` is empty
+dispositions: none
+review_answers: E1=FIX; E2=FIX; E3=ANSWER; E4=FIX; E5=FIX
+files:
+- measure/runs/storytime_l2_unit2_20261106/share-captions-en.md (5 rows changed, new `## Review answers`)
+- measure/runs/storytime_l2_unit2_20261106/share-english-pack.md (rebuilt)
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-captions.py (the source of both files)
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-rules-r2.txt
+- measure/runs/storytime_l2_unit2_20261106/share-english-review.md and .log (unchanged, committed)
+handoff: |
+  The draft holds the answers for the re-review: five fixes and one answer with a reason. The re-review
+  reads the pack and the draft answers. E3 keeps the shipped wording of w01 to w08; if the reviewer
+  repeats the nit, the reason is in the draft. The Thai captions of part (c) must use the new English of
+  the five fixed rows: SC-w09-d4, SC-w10-d1, SC-w13-d1, SC-w14-d1, SC-w16-d4.
+END_MEASURE_AGENT_RESULT
+
+
 
