@@ -147,3 +147,85 @@ Commits: loops 633baa7a, l2u2 3aa78b8f, cover 441c5dce, and this log commit.
 - The 2 lessons go to a Claude role after 2026-11-10 15:22 (lessons-learned.md holds Thai).
 - The 2 PM receipts are recorded: the Phase 10 hand-off in line 329, and w01 r4 under the
   Package w01-r4 task (2026-11-09).
+
+## Follow-up 7: the Phase 10 and Phase 11 checkpoints (2026-11-09)
+
+Protocol: measure/workflow.md, section "Phase Completion Verification and Checkpointing
+Protocol", steps 6 to 8 (lines 123 to 134). Role: build (record).
+
+Thai gate (first command): a python3 -I script printed the line numbers of the Thai lines of
+PLAN, measure/workflow.md, and this log. Result: PLAN line 103 (61 characters);
+measure/workflow.md 0 lines; this log 0 lines. PLAN holds Thai on line 103 only, so this role
+read PLAN from line 184 to the end. This role never opened measure/lessons-learned.md and
+never opened a week file.
+
+### STEP 1: the test run proof
+
+Command: git diff --stat 43788a4e HEAD -- dashboard content video
+Result: no output (0 bytes). The capture verify-p10-p11-project.txt stays valid at HEAD, so
+the run of 66 files and 1581 tests with EXIT=0 holds.
+
+### STEP 2: Phase 10
+
+- The verification task line (334) is [x] now. The line ends with "Evidence: automated plus
+  peer-report commit f62960e4".
+- The verification sub-bullet (335) ends with the closed sentence of 2026-11-09.
+- The sub-bullet (336) holds the orchestrator confirmation word for word.
+- The guard refused no edit. All 3 edits went in through the editor.
+- Command: git commit -m "measure(checkpoint): Checkpoint end of Phase 10 (storytime_week_package)" -- /home/daniebo/Desktop/Workbooks/measure/tracks/storytime_week_package_20261022/plan.md
+- Result: commit e896dfcfa3c53d68be2e8f8ec8e280189449c0b9 (plan.md only; 3 insertions, 2
+  deletions).
+- Command: git notes add -F report e896dfcfa3c53d68be2e8f8ec8e280189449c0b9
+- Result: one note on that commit. The note holds the phase scope, the test map, the
+  PROJECT_TESTS command and result, the step 1 proof, the tech-debt and lesson commits, the
+  PM receipt, the deferred adversarial round, and the orchestrator confirmation.
+
+### STEP 3: Phase 11
+
+- The verification task line (421) is [x] now. The line ends with "Evidence: automated plus
+  peer-report commit f62960e4".
+- The verification sub-bullet (422) ends with the closed sentence of 2026-11-09.
+- The sub-bullet (423) holds the orchestrator confirmation word for word.
+- The guard refused no edit. All 3 edits went in through the editor.
+- Command: git commit -m "measure(checkpoint): Checkpoint end of Phase 11 (storytime_week_package)" -- /home/daniebo/Desktop/Workbooks/measure/tracks/storytime_week_package_20261022/plan.md
+- Result: commit 3c0a6ab9a2bebb8d65514c8651e69e10ce332fe2 (plan.md only; 3 insertions, 2
+  deletions).
+- Command: git notes add -F report 3c0a6ab9a2bebb8d65514c8651e69e10ce332fe2
+- Result: one note on that commit. The note holds the same 8 items for Phase 11.
+
+### STEP 4: the checkpoint markers, this log, and the commit
+
+- The Phase 10 heading (184) ends with "[checkpoint: e896dfc]".
+- The Phase 11 heading (338) ends with "[checkpoint: 3c0a6ab]".
+- This section is the log of steps 1 to 5.
+- Command: git commit -m "measure(week-package): record the Phase 10 and 11 checkpoints (storytime_week_package)" -- /home/daniebo/Desktop/Workbooks/measure/tracks/storytime_week_package_20261022/plan.md /home/daniebo/Desktop/Workbooks/measure/runs/storytime_week_package_20261022/verify-p10-p11-43788a4e.log
+- Result: one commit with the 2 files. No video/** file, no dashboard/raw.json, and no file
+  of another track is staged.
+
+### STEP 5: the interphase checks
+
+Command: python3 -I ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py status --help
+Result: the status command takes --repo and an optional --track regex.
+
+Command: python3 -I ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py status --repo /home/daniebo/Desktop/Workbooks --track storytime_week_package_20261022
+Result, through the Thai filter (0 Thai lines):
+  repo: /home/daniebo/Desktop/Workbooks
+  head: 3c0a6ab9a2bebb8d65514c8651e69e10ce332fe2
+  worktree: dirty
+  incomplete_phases: 4
+  [1] storytime_week_package_20261022 -- Phase 3: Hand-off (1/1 remaining)
+  [2] storytime_week_package_20261022 -- Phase 4: Level 2 week 1 (S17, approved 2026-10-22) (1/1 remaining)
+  [3] storytime_week_package_20261022 -- Phase 5: Book audio (S30, Storytime 2026-10-23; Daniel's go 2026-10-24) (1/1 remaining)
+  [4] storytime_week_package_20261022 -- Phase 6: Song-line pictures for weeks 2 to 7 (QR3; Daniel's go 2026-10-24, item 4) (1/1 remaining)
+  next_phase: storytime_week_package_20261022 -- Phase 3: Hand-off
+  closeout_candidates: 0
+Phase 10 and Phase 11 are not in the list of incomplete phases. The run happened before the
+commit of this section, so the worktree held the 2 heading edits of PLAN.
+
+### The open items of the earlier section
+
+- The orchestrator confirmation of the two verification task lines is closed. Both lines are
+  [x] now, and both hold an orchestrator confirmation sub-bullet.
+- The 2 lessons are in commit 69d7fbd6. No role waits for them now.
+- The 2 PM receipts stay on record: the Phase 10 hand-off in line 329, and w01 r4 under the
+  Package w01-r4 task (2026-11-09).
