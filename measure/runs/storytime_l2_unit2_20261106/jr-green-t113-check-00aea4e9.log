@@ -48,3 +48,46 @@ the listen sheet for Daniel. Close Task 1.13 with the PM receipt. Change no file
 - 2026-11-09T00:22Z: `listen-sheet.md` written in the delivery folder (a new file, not in the
   PM MANIFEST). SHA-256 `e88c641faf978961230cbddf193bc146cc4abd4f0f0de19a2a0459dcc6b8c1f2`.
   `sha256sum -c MANIFEST.txt` runs again after the new file: exit 0, 21 of 21 OK.
+
+## Plan evidence
+
+- Implementation commit 4ad6c8bc0546cf32f2008f9a26a5caa34ea6783b: the Task 1.13 line is
+  `[x]` with `Evidence: peer-report. commit 6116bebf` (the song request); one new sub-bullet
+  holds the receipt, the delivery MANIFEST SHA-256, the check result, the recognizer model,
+  the listen sheet path and SHA-256, and "Task 6.1 follows Daniel's picks". The commit holds
+  this log, the script, the two check captures, the delivery proof, and the 21 transcripts.
+- The plan-evidence commit of the Phase 1 receipts is 6116bebf; this task adds its own
+  evidence commit, as the plan rule asks: a commit cannot hold its own SHA.
+- This log commit with the result block follows; it holds this log file only.
+
+## Final status
+
+Status: complete. The delivery passes its MANIFEST check three times (before the check, after
+the check, and after the listen sheet). 14 of 21 candidates pass the rule. The task line is
+`[x]` with the PM receipt. Task 6.1 waits for Daniel's picks. No file under `content/` or
+`dashboard/` changed. No paid call and no network call.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P1
+task: T1.13
+role: jr-green
+role_base_sha: 00aea4e9b9b0cbde6f1e137babf4298377ec9207
+head: 4ad6c8bc0546cf32f2008f9a26a5caa34ea6783b
+readiness: The song request commit 6116bebf is inside phase_base_sha 0079c272..HEAD (ancestor check exit 0).
+delivery_folder: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/
+delivery_manifest_sha256: 49e0d1c69fa771fe9c1f9a3920133aab65fdda3ec0186c37644fd09e5a1d65d5 (sha256sum -c exit 0, 21 of 21 OK; valid with the new listen sheet)
+files: 21 mp3, 3 in each of w09 to w15, 44.1 kHz, 192 kbps, duration 69.6 to 74.9 s
+source: Lyria 3 Pro (lyria-3-pro-preview), Vertex AI, project reading-advantage, global
+spend_list_usd: 1.68 (21 calls, all HTTP 200, no retakes; PM spend.md)
+recognizer: faster-whisper small (int8, cpu, local; dashboard/scripts/storytime/word-times.py), language en, word times, no lyric prompt
+pass_rule: coverage 0.8 or more and duration 45 to 120 s
+pass_count: 14 of 21
+failing: w10 c1 0.62; w11 c3 0.62; w12 c1 0.75; w14 c1 0.75; w14 c3 0.75; w15 c1 0.75; w15 c2 0.38
+listen_sheet: ~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/listen-sheet.md
+listen_sheet_sha256: e88c641faf978961230cbddf193bc146cc4abd4f0f0de19a2a0459dcc6b8c1f2
+check_capture: measure/runs/storytime_l2_unit2_20261106/songs-check-lyria.txt
+transcripts: measure/runs/storytime_l2_unit2_20261106/songs-transcripts/ (21 JSON)
+dispositions: none
+handoff: Task 1.13 is `[x]` with commit 4ad6c8bc (the plan line names the request commit 6116bebf and the PM receipt). The PM sends the listen sheet to Daniel with the 7 songs; Daniel picks one candidate a song in the empty "Daniel's pick" column. Seven candidates fail the rule (w10 c1, w11 c3, w12 c1, w14 c1, w14 c3, w15 c1, w15 c2); each can get one PM retake on request, and w15 c2 repeats "Ride, ride, ride" and omits 5 of 8 lines, so the sheet says do not pick it. Every week has at least 1 passing candidate, so Daniel can pick a candidate for all 7 songs without a retake. Task 6.1 follows his picks and sets `song.lines` and `song.times` from a transcript of the chosen audio. The listen sheet is a new file in the delivery folder; the PM MANIFEST is unchanged and its check passes. Other sessions' files (video/**, dashboard/raw.json, other tracks' runs) stay untouched and unstaged.
+END_MEASURE_AGENT_RESULT
