@@ -1,0 +1,21 @@
+# Test map: each code file of Phase 9 and its test file
+Role: build. HEAD 43788a4e (the commit range 43788a4e..HEAD changes no dashboard, content,
+or video file). Date: 2026-11-09.
+Code paths of the scope: dashboard/lib/**, dashboard/scripts/**, video/**.
+Proof: grep of the module path in dashboard/__tests__/.
+
+## Phase 9 (PLAN line 106 to line 180)
+
+Commits of the phase (evidence lines of the [x] tasks): bdf8077f, 7fcff393, 85f8dbd1,
+598252bd, 2e87690d, 98445ef2, 5c6261b7, b7c3655e, 08540414, 835c1c30, edbca805,
+da35fad9, 52fea755, dce7e4d6, 67be5603, 45de24ef, 77c49712, 2e17f279, 82f88853.
+Commits that changed a code file: 2e87690d.
+
+| Code file | Test file (grep proof) | Commits |
+|---|---|---|
+| dashboard/scripts/storytime/set-book-pictures.ts | dashboard/__tests__/storytime-book-pictures.test.ts:9 (`import { main, setBookPictures } from '../scripts/storytime/set-book-pictures';`) | 2e87690d |
+
+video/**: no commit of Phase 9 changed a file.
+dashboard/lib/**: no commit of Phase 9 changed a file.
+
+Result: 1 code file, 1 file has a test file. Findings: none.

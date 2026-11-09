@@ -92,6 +92,16 @@ No rerun capture exists. No video/**, dashboard/raw.json, or other-track file is
 - Commit: measure(week-package): the PM receipts of the Phase 10 hand-off and w01 r4
   (storytime_week_package). Paths: PLAN and this log.
 
+## Follow-up 3: Phase 9 verification (2026-11-09)
+
+- Test map `verify-p9-testmap.txt`: 1 code file of Phase 9, `set-book-pictures.ts` (commit 2e87690d).
+  Its test file is `storytime-book-pictures.test.ts:9`. Findings: 0. No `video/**` or
+  `dashboard/lib/**` file changed in the phase.
+- PROJECT_TESTS did not run again. The run at HEAD 43788a4e (66 files, 1581 tests, EXIT=0) stands.
+  Proof: `git diff --stat 43788a4e HEAD -- dashboard content video` gave no output.
+- One sub-bullet under the Phase 9 verification line (line 179). The line stays [ ].
+- Open: the PM receipt of the Phase 9 hand-off (7 folders from 82f88853); the orchestrator confirmation.
+
 ## Left open
 
 - The orchestrator confirmation of the two verification task lines.
