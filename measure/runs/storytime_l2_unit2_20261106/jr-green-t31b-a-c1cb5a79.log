@@ -156,5 +156,45 @@ handoff: |
   the five fixed rows: SC-w09-d4, SC-w10-d1, SC-w13-d1, SC-w14-d1, SC-w16-d4.
 END_MEASURE_AGENT_RESULT
 
+## Round 3: two corrections of the review answers (2026-11-09)
+
+Input: my English extract (`t31b-english-extract.txt`) and one probe of the committed filter (0 Thai
+characters) for the full A3 text of w10 and w13. I opened no week file.
+
+- E5 (SC-w09-d4): the frame sentence keeps its period. The caption now reads "I like cake. Yum!" The
+  reviewer's premise about a missing comma was wrong; the E5 answer says so.
+- E1 (SC-w10-d1 and SC-w13-d1): the formation words are the words for each stroke ("Start at the dot.
+  Round to the left..."). The captions now say "says the words for each stroke out loud", for the parent.
+- The other 38 rows are unchanged. The A3 captions have 21 words.
+
+Gates: pack Thai 0, pack rows 40, rules rows 40 with 0 errors (`t31b-a-rules-r3.txt`).
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P3
+task: T3.1b part (a), review round 3
+role: jr-green
+role_base_sha: c1cb5a79f0106b83b6197b9a8c142ec669d4cd4d
+head: 1484e9a6
+gates:
+- pack thai: `grep -cP '[\x{0E00}-\x{0E7F}]' share-english-pack.md` = 0
+- pack rows: `grep -c '^| SC-w' share-english-pack.md` = 40
+- rules: `t31b-a-rules-r3.txt` rows 40, errors 0
+dispositions: none
+review_answers: E1=FIX; E2=FIX; E3=ANSWER; E4=FIX; E5=FIX
+files:
+- measure/runs/storytime_l2_unit2_20261106/share-captions-en.md
+- measure/runs/storytime_l2_unit2_20261106/share-english-pack.md
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-rules-r3.txt
+- measure/runs/storytime_l2_unit2_20261106/t31b-a-captions.py (the source of both files)
+handoff: |
+  The three corrected captions: SC-w09-d4 "The photo shows the sentence I like cake. Yum! in your
+  child's hand. The video shows your child reading it to the class."; SC-w10-d1 "Your child writes the
+  letter a and the endings -an and -ad, and says the words for each stroke out loud."; SC-w13-d1 "Your
+  child writes the letter o and the endings -ot and -op, and says the words for each stroke out loud."
+  The re-review reads the pack and the draft `## Review answers`. The Thai captions of part (c) must use
+  the five fixed English rows.
+END_MEASURE_AGENT_RESULT
+
 
 
