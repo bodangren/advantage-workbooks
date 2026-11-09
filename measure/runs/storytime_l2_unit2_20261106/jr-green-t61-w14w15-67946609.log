@@ -1,0 +1,85 @@
+# Jr Green · Task 6.1 weeks 14 and 15 (staged) · storytime_l2_unit2_20261106
+
+- Role: jr-green
+- Role base SHA: 67946609
+- Track: storytime_l2_unit2_20261106
+- Task 6.1 (plan line 241), weeks 14 and 15, staged form
+- Status: COMPLETE for weeks 14 and 15 in staged form
+- Model: deepseek/deepseek-flash#high (ra-quota pick green)
+- Red model of this phase: none (Task 6.1 has no code and no Red role). No subagent was used. No coder session was started.
+
+## Inputs
+
+- Week 14: Daniel's words "W14 C2" (PM relay, Tasks item MDA5aElwYUtsOElscWptRw, 2026-11-09 21:06 ICT; the PM log records the relay at 21:10). Take `w14/l2-w14-song-c2.mp3` (73.4 s; SHA-256 `9b46aea40c04fef68c711b0c1f85dc503f619c998f36a0fd4319c3d680d14a66`).
+- Week 15: Daniel's words "W15 probably C2, but they are all pretty mediocre, probably because the lyrics have no real structure to them. They just kind of amble on until the end" (PM relay, Tasks item OEFrVGtrU2Q5N293b3F6Zg, 2026-11-09 21:12 ICT). Take `w15/l2-w15-song-c2.mp3` (73.6 s; SHA-256 `1c9ea1e58088b78125513a59fa359830fc849009a04e6c3e7cd96daba0fa1917`), the D17 fallback.
+- Candidate folder: `~/Desktop/handoff/storytime-l2u2-song-candidates-2026-11-09/`. Listen sheet SHA-256 `312fe5169fb43b430240d90dc2dc4f82323aa67fea009af149d74f4564b94e34`; `sha256sum -c MANIFEST.txt` gives 25 of 25 OK.
+- Second local pass: `RUNS/songs-transcripts/w14-c2-pass2-*.json` (2 files) and `w15-c2-pass2-*.json` (5 files), plus `w15-pass2-merged.json`.
+- Line times: `RUNS/t61-w14-song-times.json` and `RUNS/t61-w15-song-times.json`.
+- Week files: `content/storytime/drafts/l2/w14.json` and `w15.json` (staged form).
+- The previous role (r5) applied both weeks in the working tree, uncommitted. This role took those changes over unchanged and checked them.
+
+## Hard rules kept
+
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0` for the filtered copies of w14 and w15 at `/tmp/opencode/t61/in/`. The stage capture has `DROPPED_THAI_LINES=0`. No Thai text is in this log. No week file was written by this role.
+- No file under `content/storytime/l2/` and none under `dashboard/`. No code written.
+- No MP3 copy and no `song.audio`; both wait for Task 4.3.
+- No checkpoint. No Phase 4 task edit. The listen sheet was not edited.
+- No push, no pnpm, no npm, no vitest. One heavy-run only, for STAGE_CHECKS. No nested heavy-run.
+- Step 1 check: `git diff --quiet 46960211 HEAD -- content/storytime dashboard` gives exit 0, so the BEFORE capture `RUNS/t61-stage-after-w12.txt` (committed) holds the same week files and the same dashboard code as HEAD. `git status --porcelain` showed the two week files, `t61-apply-week.py`, and the new run files, all as the brief names. `render.mjs`, `dashboard/raw.json`, and the `spec-review-*` files stayed unstaged and untouched.
+
+## Step 1 and 2: the BEFORE and AFTER captures
+
+- BEFORE (`RUNS/t61-stage-after-w12.txt`): EXIT=1, FAIL_LINES=9, WARN_LINES=10, DROPPED_THAI_LINES=0. The capture holds the blocks for weeks 12 and 13 only, because the r6 brief's `stage_capture.py` asked for weeks 12 and 13. Weeks 14 and 15 were not printed there. At HEAD each of the two week files has 12 song lines, no `song.times`, and 12 frame lines, so song-frame passes and song-sheet passes on both.
+- AFTER (`RUNS/t61-stage-after-w14w15.txt`): one heavy-run, `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I /tmp/opencode/t61/stage_capture_w14w15.py'`.
+  - EXIT=1, FAIL_LINES=9, WARN_LINES=12, DROPPED_THAI_LINES=0, WRAP_EXIT=0.
+  - st2/14: 38 PASS, 1 FAIL, 2 WARN. The FAIL is the share-moment row that every week has. The new row is the WARN song-sheet: `line 10: "It is rainy! Rain, rain, rain!" in the sheet, "It is fun! Fun, fun, fun!" in the lines`. song-frame passes with 10 frame lines.
+  - st2/15: 38 PASS, 1 FAIL, 2 WARN. The FAIL is the share-moment row that every week has. The new row is the WARN song-sheet: `line 11: "Look, a plane! Fly, fly, fly!" in the sheet, "(none)" in the lines`. song-frame passes with 10 frame lines.
+  - st2/12: 37 PASS, 2 FAIL, 2 WARN. The known song-frame FAIL says 7 times; the exception waits for Phase 4 Task 4.2.
+  - st2/13: 39 PASS, 1 FAIL, 1 WARN.
+  - The st2/12 and st2/13 blocks are equal to the BEFORE blocks, after the run-specific temporary folder name is set aside. The FAIL_LINES count stays 9. The WARN_LINES count goes from 10 to 12, and the two new WARN rows are the two song-sheet rows above. There is no new FAIL on st2/14 and none on st2/15, so the hold rule did not apply and both weeks are staged.
+
+## Checks of the two week files
+
+- w14: `STRUCTURE_EQUAL=1`; 10 song lines and 10 `song.times`; 0 estimated words; 0 later `imageOf` pointers; Thai lines 466 before and after (`THAI_LINES_EQUAL=1`); `git diff --numstat` `377 20`.
+- w15: `STRUCTURE_EQUAL=1`; 10 song lines and 10 `song.times`; 2 estimated words (line 5 and line 9 "beep!", 5 of 6 words each); 0 later `imageOf` pointers; Thai lines 465 before and after (`THAI_LINES_EQUAL=1`); `git diff --numstat` `377 33`.
+- w14: the second pass (base full file and the small 55-74 s window) never hears lines 10 and 11; both lines come out under D16. Line 11 had its own image key, so the apply used `--allow-image-drop 11`; the line 11 picture row is not used in the song.
+- w15: the merged second pass confirms lines 1 to 10 at 0.833 or more and lines 11 and 12 at 0.50 each; both come out under D17. The take fades out during lines 11 and 12. The base pass hears "look a plane" 67.66-69.64 s, three short syllables 69.80-70.68 s, "up" 70.98 s and 71.60 s, and the fade from about 71.95 s. The first small pass looped "ride," 111 times (31.22-55.84 s); that loop gave the old 0.38 score, not the take.
+
+## Step 4: plan
+
+- One `python3 -I` script on `measure/tracks/storytime_l2_unit2_20261106/plan.md`, under Task 6.1 only. `OTHER_LINES_EQUAL=1`.
+- New week 14 sub-bullet at plan line 247, in the form of the week 12 and week 13 sub-bullets: his words, the Tasks item and 21:06 ICT, the take and 73.4 s, the SHA-256, the second-pass result, lines 10 and 11 out (D16), 10 lines and 10 times, 0 estimated words, the unused line 11 picture row, the song-frame and song-sheet results, the STAGE_CHECKS counts, and the stage rule.
+- The week 15 sub-bullet is now plan line 248. The end of it took the staging result and then the PM receipt, word for word: "Stage w15 c2 as the fallback with 10 lines. The final w15 take comes from Daniel's r2 listening check."
+- The Task 6.1 status line stays `[~]`. No checkpoint and no Phase 4 task was edited.
+
+## Commits
+
+- Implementation: 16 files. Commit `f938f16f50a44a362f6e33b6de639ca9450c5cb2`: the two week files, `t61-apply-week.py`, `t61-merge-passes.py`, the two times files, the 8 transcript files, `t61-stage-after-w14w15.txt`, and the plan.
+- Log: this file alone.
+
+## Handoff
+
+- Week 14 is done in staged form with Daniel's pick c2 and 10 lines. Week 15 is staged in staged form with the c2 fallback and 10 lines; the hold rule did not apply.
+- Open item: the final w15 take comes from Daniel's r2 listening check (the lyric rewrite and the 3 new takes; target 2026-11-12). The PM receipt in the plan names it.
+- Open item: the song-frame exception for st2/12 goes to Phase 4 Tasks 4.1 (Red) and 4.2 (Green). Until Task 4.2, STAGE_CHECKS keeps the song-frame FAIL on st2/12.
+- The MP3 copies to `l2/media/w14/song.mp3` and `l2/media/w15/song.mp3` and `song.audio` wait for Task 4.3.
+- Task 6.1 stays `[~]` until all picks and PROJECT_CHECKS. The listen sheet is outside git; its new SHA-256 is in the plan sub-bullets.
+- The Red command: this phase has no code and no Red role, so no Red command exists to rerun.
+
+MEASURE_AGENT_RESULT
+status: complete
+phase: P6
+task: T6.1 weeks 14 and 15 (staged)
+role: jr-green
+role_base_sha: 67946609
+head: f938f16f50a44a362f6e33b6de639ca9450c5cb2
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for the filtered w14 and w15 copies; DROPPED_THAI_LINES=0 in the capture
+- week files: STRUCTURE_EQUAL=1 on both; Thai lines 466 (w14) and 465 (w15) equal; 10 lines, 10 times; 0 later imageOf; numstat 377 20 and 377 33
+- takes: SHA-256 9b46aea40c04fef68c711b0c1f85dc503f619c998f36a0fd4319c3d680d14a66 (w14) and 1c9ea1e58088b78125513a59fa359830fc849009a04e6c3e7cd96daba0fa1917 (w15); listen sheet 312fe5169fb43b430240d90dc2dc4f82323aa67fea009af149d74f4564b94e34; MANIFEST 25 of 25 OK
+- STAGE_CHECKS: before exit 1, FAIL 9, WARN 10; after exit 1, FAIL 9, WARN 12; st2/14 38 PASS, 1 FAIL, 2 WARN; st2/15 38 PASS, 1 FAIL, 2 WARN; st2/12 37/2/2 equal; st2/13 39/1/1 equal; the only new rows are the two song-sheet WARNs
+- plan: OTHER_LINES_EQUAL=1; week 14 at line 247, week 15 at line 248; Task 6.1 stays [~]; no checkpoint; no Phase 4 edit
+dispositions: none
+files: content/storytime/drafts/l2/w14.json; content/storytime/drafts/l2/w15.json; measure/runs/storytime_l2_unit2_20261106/t61-apply-week.py; t61-merge-passes.py; t61-w14-song-times.json; t61-w15-song-times.json; songs-transcripts/w14-c2-pass2-base.json; w14-c2-pass2-small-55-74.json; w15-c2-pass2-base.json; w15-c2-pass2-small-26-40.json; w15-c2-pass2-small-38-50.json; w15-c2-pass2-small-48-60.json; w15-c2-pass2-small-62-74.json; w15-pass2-merged.json; t61-stage-after-w14w15.txt; measure/tracks/storytime_l2_unit2_20261106/plan.md; this log
+handoff: Weeks 14 and 15 are staged with 10 lines each, and no new FAIL appeared. Week 15 is staged, not held; the hold rule did not apply. The final w15 take comes from Daniel's r2 listening check (target 2026-11-12), and the PM receipt is in the plan. The song-frame exception for st2/12 waits for Phase 4 Tasks 4.1 and 4.2, so STAGE_CHECKS keeps that known FAIL. The MP3 copies and song.audio wait for Task 4.3. Task 6.1 stays [~]. No code was written and no committed Red test was touched.
+END_MEASURE_AGENT_RESULT
