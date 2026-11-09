@@ -1,0 +1,11 @@
+PASS six_fields_ok: rows=7, rows_with_a_missing_field=0
+PASS phase2_equals_row_sum: rows_units=245, stated_phase2_units=245
+PASS phase2_at_most_9335: phase2_units=245, limit=9335
+PASS track_equals_665_plus_phase2: track_units=910, expected=910
+PASS track_at_most_10000: track_units=910, limit=10000
+PASS at_least_2_rows: rows=7
+PASS attempts_1_to_3: rows_outside_1_to_3=0
+PASS id_ok: id_ok=True (1 recorded exception: row 4 probe)
+PASS saved_files_exist: saved_rows_without_a_file=0
+rows=7 checks=8 failures=0
+EXIT=0

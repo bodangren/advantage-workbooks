@@ -1,0 +1,39 @@
+{
+  "note": "The faults per attempt of the final quest covers (track storytime_cover_options_20261106, task 2.8, section 4.9 of test-strategy.md). The orchestrator's look at native size. Result files are relative to ~/Desktop/print-ready/storytime/ unless the path starts with content/.",
+  "pictures": {
+    "Q-front": {
+      "file": "covers-quest-art-v1/Q-front-a3.jpg",
+      "attempts": {
+        "a1": "failed call (network error), no picture",
+        "a2": "AF-1 pass, AF-2 pass; fault: made-up letters on the boy's chest; minor: the girl has blue eyes",
+        "a3": "AF-1 pass (two white stripes, nothing else on the shirt); AF-2 pass (white star, no letters); no letters, numbers, or logo in the tiles; cast: 2 children and 1 puppy; minor: the girl has small side bunches, the boy has brown shoes"
+      },
+      "faults": [],
+      "result": "pass"
+    },
+    "back": {
+      "file": "covers-quest-art-v1/A-back-a1.jpg",
+      "attempts": {
+        "a1": "A-back-a1.jpg of the option round"
+      },
+      "faults": [],
+      "result": "pass (no fault in the option round; upscale only)"
+    },
+    "Q-teacher": {
+      "file": "pending (Forge)",
+      "fallback": "Q-teacher-a1-clean2.jpg",
+      "attempts": {
+        "a1": "AF-3 pass; fault AF-4: the book faces the viewer and the children look at each other; fault: made-up marks between the boy's stripes; fault: the teacher has two top buns and looks like a girl; a second open book on the grass",
+        "a2": "AF-3 pass; fault AF-4: the teacher reads the book herself; fault: a top bun, not a low ponytail; fault: a made-up signature at the top left; fault: a red strip with ticks at the left edge; marks on the pages",
+        "a3": "AF-4 pass (the book is shown to the children, who point at it); fault AF-3: the clothes of the children are swapped (the girl wears a red dress with no star; the boy wears the orange shirt with the star and no stripes); fault: the teacher has two small buns and a side ponytail; the red circle on the white page looks like a national flag"
+      },
+      "faults": [
+        "AF-4 open: the book faces the viewer, not the children, and the children look at each other",
+        "the teacher has two top buns, not a low ponytail",
+        "a second open book lies on the grass (no letters)"
+      ],
+      "local_fix": "made-up marks between the boy's stripes and on the book spine filled from the nearby color (FR-8.5: made-up letters only)",
+      "result": "Forge route (PM 2026-11-09; brief MANIFEST fbd0a3c5); fallback a1 with the local mark fix, used only if Forge misses 2026-11-13"
+    }
+  }
+}

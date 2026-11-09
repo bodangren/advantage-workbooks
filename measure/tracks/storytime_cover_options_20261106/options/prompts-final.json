@@ -1,0 +1,33 @@
+{
+  "note": "Final text prompts for mmx image-01 (track storytime_cover_options_20261106, task 2.8, FR-8). Option A of the option round. No call uses --subject-ref: no 3D render and no picture goes to the model. {NAN}, {SAM}, {PIP}, and {KIM} come from the cast sheet notes (advantage-forge/docs/storytime/l2-unit1/judge/cast.json), shortened. The cast values start with a role word, not with the name, so the model does not print the name on a shirt. One composed prompt is at most 1500 characters.",
+  "cast": {
+    "NAN": "The girl: a 5-year-old girl, big round head and small body, black hair in exactly two round buns with red ring bands, an orange T-shirt with a white star, no letters.",
+    "SAM": "The boy: a 5-year-old boy, big round head and small body, short brown hair with a side-swept fringe, a plain red T-shirt with exactly two white stripes across the chest and nothing else on the shirt, blue shorts, no letters.",
+    "PIP": "The puppy: a small puppy as tall as Nan's knees, golden-brown fur, cream chest and muzzle, floppy ears with darker tips, big dark-brown eyes, black nose, fluffy tail, red collar with a small gold tag, no letters.",
+    "KIM": "The teacher: an adult woman, long dark-brown hair in one low ponytail that hangs over her shoulder, no buns, green cardigan over a cream blouse, navy trousers, no letters."
+  },
+  "styles": {
+    "A": "Bright painted anime fantasy key art, like the key art of a Japanese role-playing game for children: soft cel shading, clean line art, lush detailed scenery, warm sunlight, vivid colors, big expressive eyes. Not 3D, not a render, not clay."
+  },
+  "noText": "No letters, words, numbers, titles, signatures, watermarks, signs, or logos anywhere: a picture with no text.",
+  "pictures": [
+    {
+      "id": "Q-front",
+      "option": "A",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "A sunny storybook adventure valley: a cobblestone path leads through a flower meadow toward a giant old tree with a round wooden door, cottages, a windmill; blue sky, green hills. The girl and the boy walk side by side toward the viewer and wave; the puppy trots in front of them. Portrait picture: the top 30 percent is sky and treetops with no character; the children are large in the lower middle, heads at half height, feet near the bottom. {NAN} {SAM} {PIP}"
+    },
+    {
+      "id": "Q-teacher",
+      "option": "A",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "Story time, front view: an old tree, sunny storybook valley meadow, a stream behind. The teacher sits on a low stump, center, facing the viewer. Teacher Kim shows the open book to the children: one big picture book held up beside her face in both hands, pages turned outward to the children and the viewer; she smiles down at them. The girl sits left, the boy right, both looking up and pointing at its pictures. Left page: one red circle. Right page: one blue square. One book only. No border, no frame, no signature. Top 30 percent: leaves and sky, no character. {KIM} {NAN} {SAM}"
+    }
+  ]
+}

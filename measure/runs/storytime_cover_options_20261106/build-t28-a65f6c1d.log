@@ -1,0 +1,540 @@
+Build log: Task 2.8 (Final art, paid), part 1 of 2
+Track: storytime_cover_options_20261106
+Head at the start: a65f6c1dd0b16c4ebb93097345847d05ee6bbc44
+Run: 2026-11-09, Asia/Bangkok time
+Part 1 covers: the guard proof 2.8a, the price check, the final prompts, the first paid attempt
+of the two pictures, and the tiles for the look. Part 2 covers: more attempts, the upscale,
+the checks, and the commit. No commit and no push in part 1.
+
+STEP 0 - the Thai filter (the first command, before any read)
+- The script /tmp/opencode/t28/thai_filter.py reads the listed inputs, drops every key named
+  th and every string with a character from U+0E00 to U+0E7F, and writes filtered copies into
+  /tmp/opencode/t28/in/.
+- Command: cd /tmp/opencode/t28 && python3 -I thai_filter.py
+- Output: FILTERED_FILES=8, THAI_CHARS_IN_OUTPUT=0, exit 0.
+- The filtered copies were the only plan, spec, test-strategy, prompts, selection, gen_art and
+  cast text that this run read. No other line of plan.md, spec.md or test-strategy.md was read.
+  OPT/approved-text.json, measure/lessons-learned.md and the files under content/storytime were
+  not read.
+
+STEP 1 - mark the task
+- measure/tracks/storytime_cover_options_20261106/plan.md line 105: '- [ ] Task 2.8' became
+  '- [~] Task 2.8'. No other line of plan.md changed. git diff --stat shows 1 line changed.
+
+STEP 2 - the guard proof 2.8a (0 USD)
+- New file: measure/tracks/storytime_cover_options_20261106/options/gen_art_final.py
+- The script reads options/prompts-final.json, allows only the ids Q-front and Q-teacher,
+  counts every cost as an integer number of units of 0.0001 USD (35 units for one call),
+  reads the cost column of a log row with decimal.Decimal, sums integers only,
+  stops with a line that starts with STOP when the Phase 2 total plus one call is over 9335
+  units or the track total (665 units plus Phase 2) plus one call is over 10000 units,
+  refuses a 4th attempt, the same id and attempt again, and a prompt over 1500 characters,
+  and runs mmx image generate with a text prompt only.
+- The stub mmx: /tmp/opencode/t28/stub/bin/mmx. It appends its argv to a file and writes a
+  small valid JPEG to the path of --out.
+- The runner: /tmp/opencode/t28/guard_proof.py. Every run used a temporary log and a temporary
+  art folder under /tmp/opencode/t28/guard/. The real folders were never used.
+- Command: cd /tmp/opencode/t28 && python3 -I guard_proof.py (exit 0)
+- The table: measure/runs/storytime_cover_options_20261106/guard-2-8a.txt
+- Result: 7 of 7 cases as expected. 4 of 4 mutants caught: M1 by case5, M2 by case4,
+  M3 by case3, M4 by case4.
+- sha256 of options/gen_art_final.py before and after the proof: the same value.
+  82bd88ded99fcf948da898eb6389af1f5ab48c0bcae74831a71d5ec03e702b23
+- sha256 of options/prompts-final.json before and after the proof: the same value.
+  8dc0d58b4217592e48cdf5694b7fea9587ef01fb10812720e1edcd2cfb5e9573
+- The proof ran three times. The second and third runs came after two changes to the script:
+  the result text of a failed call now holds no raw newline and no literal escape, and the
+  result file of a failed call is now '-'. Every run gave the same 7 of 7 and 4 of 4.
+
+STEP 3 - the price check (0 USD)
+- Command: mmx image generate --non-interactive --dry-run --prompt "A short price test prompt."
+  --width 1448 --height 2048 --seed 101 --response-format base64 --out
+  /tmp/opencode/t28/dryrun-test.jpg
+- The dry run printed the request (model image-01, n 1, seed 101, width 1448, height 2048,
+  response_format base64) and wrote no file. No paid call.
+- The price page https://platform.minimax.io/docs/guides/pricing (read 2026-11-09) lists
+  image-01 at $0.0035 per image. The price is the same as Phase 1 (0.0035 USD, 2026-11-06).
+  The price did not change, so the run continued.
+- New file: ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md. It holds the title,
+  the track id, the carry-over line 'Option round: 0.0665 USD', the price line with the date
+  2026-11-09 and the source URL, the rules, the line 'Result files are relative to
+  ~/Desktop/print-ready/storytime/.', the table header, and the two total lines.
+- The folder covers-quest-v1 holds one file only: spend-log.md.
+- Default (orchestrator, 2026-11-09): the attempt pictures do NOT go into covers-quest-v1.
+  Task 2.11 counts exactly 50 files there and spend-log.md is the only Task 2.8 file in that
+  folder. The pictures go into ~/Desktop/print-ready/storytime/covers-quest-art-v1/.
+
+STEP 4 - the final prompts
+- New file: measure/tracks/storytime_cover_options_20261106/options/prompts-final.json
+- Style A of the option round, scenes A-front and A-teacher, two pictures: Q-front and
+  Q-teacher, both 1448 x 2048. The noText line stays.
+- The word 'cover' is absent. The cast lines end with 'no letters.'. The cast lines say
+  'big round head and small body' instead of 'chibi proportions'.
+- NAN: 'an orange T-shirt with a white star' and no letters (AF-2).
+- SAM: 'exactly two white stripes across the chest' (AF-1).
+- PIP: 'a small puppy as tall as Nan's knees'.
+- Q-teacher: 'Teacher Kim shows the open book to the children', the pages turned toward the
+  children, and the teacher looks at the children, not at the book (AF-4). The NAN line is in
+  Q-teacher too (AF-3). The open book shows only simple colored shapes.
+- Length: Q-front 1488 characters, Q-teacher 1489 characters (limit 1500).
+- The check script: /tmp/opencode/t28/prompt_checks.py
+- Command: cd /tmp/opencode/t28 && python3 -I prompt_checks.py (exit 0)
+- The output: measure/runs/storytime_cover_options_20261106/prompt-checks-2-8.txt
+- Result: 36 checks, 0 failures, EXIT=0.
+
+STEP 5 - the paid attempt 1
+- Quota, GET http://127.0.0.1:38307/api/quota/minimax-cn-coding-plan: the 5h window was at
+  29 percent used (71 percent remaining) before the first call. The weekly window was at
+  15 percent used. The window resets at 2:00 PM. The reading is below 80 percent, so the run
+  continued. After the calls the 5h window was at 38 percent.
+- Call 1, Q-front attempt 1, seed 101, 09:41 ICT: FAILED. The mmx CLI exited with code 6 and
+  the message 'Network request failed.' The request never reached the API: the MiniMax quota
+  counters for the general model did not move, and a later probe of the same endpoint with the
+  same key answered at once. The failure was a network error, not a limit error and not a
+  quota error. The row is in the log with the cost 0.0035 USD, as the track rule says that a
+  failed call counts at the price.
+- The diagnosis of the failure used free calls only: mmx quota show, curl to the host, a node
+  fetch to the endpoint with an invalid key, a node fetch with the real key and an invalid
+  model, an mmx call with width 100 (the server rejects it and makes no picture), and one
+  mmx call at 512 x 512 that made a picture and cost 0.0035 USD. That last call is a probe
+  and not a cover picture. It is not in the spend log. The track total must add 0.0035 USD for
+  it. The orchestrator must decide whether to add a row for it.
+- Call 2, Q-front attempt 2, seed 102, 09:51 ICT: saved. covers-quest-art-v1/Q-front-a2.jpg
+- Call 3, Q-teacher attempt 1, seed 101, 09:52 ICT: saved. covers-quest-art-v1/Q-teacher-a1.jpg
+- The guard refused no call of the two that ran. The guard refuses the same id and attempt
+  again, so Q-front attempt 1 cannot run again. One attempt of Q-front is left (attempt 3).
+  Q-teacher has two attempts left (2 and 3).
+- The log after the calls:
+  | 1 | 2026-11-09 09:41 ICT | mmx image-01 | Q-front | 1 | 101 | 0.0035 | - | failed (exit 6: ...) |
+  | 2 | 2026-11-09 09:51 ICT | mmx image-01 | Q-front | 2 | 102 | 0.0035 | covers-quest-art-v1/Q-front-a2.jpg | saved |
+  | 3 | 2026-11-09 09:52 ICT | mmx image-01 | Q-teacher | 1 | 101 | 0.0035 | covers-quest-art-v1/Q-teacher-a1.jpg | saved |
+  Phase 2 total: 0.0105 USD (105 units)
+  Track total: 0.0770 USD (770 units), option round 0.0665 USD plus Phase 2
+- The row 1 was written by the first version of the script. It was rewritten once, by hand, in
+  the exact form that the final script writes: one line, no raw newline and no literal escape
+  in the result text, and '-' as the result file. The values of the row did not change.
+- The log holds a note above the table: the failed call cost no money, and the probe call
+  cost 0.0035 USD and made no cover picture, so it has no row. The two amounts are equal, so
+  the stated Phase 2 total is also the real money spent in Phase 2.
+- The quick check /tmp/opencode/t28/spend_check.py: 3 rows, the ids are only Q-front and
+  Q-teacher, the sum of the rows is 105 units and equals the stated Phase 2 total, the Phase 2
+  total is at most 9335 units, the track total is 665 plus Phase 2 and is at most 10000 units,
+  the row count is at least 2, every attempt is 1 to 3, and every saved row names a file that
+  exists. The formal spend log check of Task 2.8 runs in part 2.
+
+STEP 6 - the tiles for the look
+- The helper: /tmp/opencode/t28/tiles.mjs. It loads sharp with createRequire from
+  /home/daniebo/Desktop/Workbooks/dashboard/package.json, as options/qr_check.mjs does.
+- The output: /tmp/opencode/look-2-8/. For each saved attempt: <id>-a<n>-full.png (the whole
+  picture, resized to 1131 x 1600) and <id>-a<n>-t1.png to -t6.png (native crops, no resize,
+  2 columns x 3 rows, column widths 724 and 724, row heights 683, 683 and 682).
+- 14 files. Q-front-a2: full 4454356 bytes, t1 901026, t2 1132245, t3 1195389, t4 1121555,
+  t5 885298, t6 1002024. Q-teacher-a1: full 3978775 bytes, t1 1029615, t2 766352, t3 763830,
+  t4 757149, t5 976932, t6 944002.
+
+WHAT THE AGENT SAW IN THE TWO PICTURES (for the look of the orchestrator)
+- Q-front-a2 (the student front): Nan has an orange T-shirt with a white star and no letters
+  (AF-2 fixed). Sam has two white stripes across his chest (AF-1 fixed) and made-up letters on
+  the same chest, which read as "Sane". Pip is one puppy, golden-brown with a cream chest and
+  a red collar with a gold tag. Pip stands taller than Nan's knee. The tree holds a round
+  wooden door, the valley holds a cottage, a windmill and a path, and the sky holds no marks.
+  The cast is Nan, Sam and Pip, and no other person or animal.
+- Q-teacher-a1 (the teacher front): Teacher Kim holds the open book with its pages turned
+  toward the children, and the pages show only simple colored shapes (AF-4 fixed). Nan has an
+  orange T-shirt with a white star (AF-3 fixed). Sam has two white stripes, and small
+  letter-like marks sit between them. A second open book lies on the grass next to Sam. The
+  book spine holds small letter-like marks. Teacher Kim reads as a young girl with hair in
+  buns, not as a grown woman with a low ponytail. The cast is Teacher Kim, Nan and Sam, and
+  no animal.
+
+FILES CHANGED IN THIS REPOSITORY
+- measure/tracks/storytime_cover_options_20261106/plan.md (line 105 only)
+- measure/tracks/storytime_cover_options_20261106/options/gen_art_final.py (new)
+- measure/tracks/storytime_cover_options_20261106/options/prompts-final.json (new)
+- measure/runs/storytime_cover_options_20261106/guard-2-8a.txt (new)
+- measure/runs/storytime_cover_options_20261106/prompt-checks-2-8.txt (new)
+- measure/runs/storytime_cover_options_20261106/build-t28-a65f6c1d.log (new, this file)
+
+FILES CHANGED OUTSIDE THIS REPOSITORY
+- ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md (new)
+- ~/Desktop/print-ready/storytime/covers-quest-art-v1/ (new): Q-front-a2.jpg, Q-teacher-a1.jpg,
+  and the prompt files Q-front-a1.prompt.txt, Q-front-a2.prompt.txt, Q-teacher-a1.prompt.txt
+- /tmp/opencode/t28/ (the guard proof, the stub mmx, the check scripts, the zoom crops)
+- /tmp/opencode/look-2-8/ (the 14 tiles)
+
+NO COMMIT AND NO PUSH IN PART 1.
+
+HEAD AT THE END OF PART 1
+- The head moved to e9d9fd1288b271487eedb5445bf725901b4a041d while this run worked. That commit
+  came from another session (measure(runs): Task 6.1 week 9 log). It holds no file of this
+  track. The files of this task are uncommitted, as part 1 asks.
+
+## Part 2a
+
+Run: 2026-11-09, Asia/Bangkok time. Role: build (model deepseek/deepseek-flash). The Thai filter
+ran again first: THAI_CHARS_IN_OUTPUT=0, EXIT=0.
+
+STEP 0 - the 7-character SHAs on the cover plan
+- measure/tracks/storytime_cover_options_20261106/plan.md: line 14 'commit 50fadae4' became
+  'commit 50fadae'; line 89 'commit 801c8c8a' became 'commit 801c8c8'; line 108 'commit
+  ee8d5fc3' became 'commit ee8d5fc'. No other token changed. The three edits are in the file.
+- Note: the tokens '801c8c8a' and 'ee8d5fc3' still appear on other lines (91, 94, 98 and 116).
+  They were not part of the instruction, so they were not touched.
+- measure-guard did not refuse the edits.
+
+STEP 1 - the spend log (FR-8.6)
+- Copy: /tmp/opencode/t28/probe512.jpg became
+  ~/Desktop/print-ready/storytime/covers-quest-art-v1/probe-512.jpg. The picture was not there
+  before, so the copy is create-only. cmp reports equal. Size 512 x 512, format JPEG.
+- Row 4 added as ordered:
+  | 4 | 2026-11-09 09:49 ICT | mmx image-01 | probe | 1 | - | 0.0035 |
+  covers-quest-art-v1/probe-512.jpg | saved (512 x 512 network probe, made outside the guard;
+  row added late on 2026-11-09) |
+- The note above the table is now one line: 'Row 4 is a probe call made outside the guard after
+  the network error of row 1. It is logged late. The PM rule of 2026-11-09 sends every paid
+  call through the guard.'
+- Totals after row 4: Phase 2 total 0.0140 USD (140 units); Track total 0.0805 USD (805 units).
+- The script change: the row parser now accepts a non-numeric seed, so it reads row 4, and the
+  call line prints the log total. Dry run of Q-front attempt 3 read: 'Q-front attempt 3: 1488
+  characters, seed 103, 1448 x 2048, cost 35 units, the log holds Phase 2 140 units and track
+  805 units'. That is the 140 units of the instruction.
+- The guard proof ran again after the script change: 7 of 7 cases, 4 of 4 mutants caught. The
+  real file sha256 before and after: f996c7a297c907cc8d3f8962532518a2bec5cde64d221dde65cc3f448408d221
+- NOTE for part 2b: the probe row has the id 'probe'. The plan check 'the ids are only Q-front
+  and Q-teacher' now fails on that row. The orchestrator ordered the row, so the check of part
+  2b must allow the id 'probe' (or name it a recorded exception). My quick check
+  /tmp/opencode/t28/spend_check.py reports id_ok=False for that reason only.
+
+STEP 2 - the prompts (round 2)
+- options/prompts-final.json changed as ordered:
+  - The cast values start with a role word: 'The girl:', 'The boy:', 'The puppy:', 'The teacher:'.
+  - The scenes use 'the girl', 'the boy' and 'the puppy'. The two required name texts stay:
+    'a small puppy as tall as Nan's knees' (in the puppy cast value) and 'Teacher Kim shows the
+    open book to the children' (in the Q-teacher scene).
+  - The boy: 'a plain red T-shirt with exactly two white stripes across the chest and nothing
+    else on the shirt'.
+  - The teacher: 'an adult woman, taller than the children, dark-brown hair tied in one low
+    ponytail, no buns', then the clothes, then 'no letters.'.
+  - Q-teacher: a side view; the teacher sits on a low stump at the left and faces right; she
+    holds ONE big open picture book out with both hands, its open pages turned toward the
+    children; the children sit at the right, look at the pictures; 'One book only.'; the pages
+    show only big simple colored shapes; the meadow, the tree and the stream stay; the top 30
+    percent has no character.
+- Lengths: Q-front 1460 characters, Q-teacher 1495 characters (limit 1500).
+- The check script: /tmp/opencode/t28/prompt_checks_r2.py. It adds the role-word checks, the
+  'nothing else on the shirt' check, the adult-teacher checks, the one-book and side-view
+  checks, and the 'the scene holds no name' check.
+- Command: cd /tmp/opencode/t28 && python3 -I prompt_checks_r2.py
+- Output: measure/runs/storytime_cover_options_20261106/prompt-checks-2-8-r2.txt
+- Result: 46 checks, 0 failures, EXIT=0.
+
+STEP 3 - the quota (GET only)
+- GET http://127.0.0.1:38307/api/quota/minimax-cn-coding-plan
+- The 5h window is at 67 percent used (33 percent remaining); the weekly window is at 17
+  percent used; the window resets at 2:00 PM. The reading is below 80 percent, so the run
+  continued.
+
+STEP 4 - two paid calls, through options/gen_art_final.py only
+- Q-front attempt 3, seed 103, 10:33 ICT: saved. covers-quest-art-v1/Q-front-a3.jpg
+- Q-teacher attempt 2, seed 102, 10:34 ICT: saved. covers-quest-art-v1/Q-teacher-a2.jpg
+- No other call. No probe and no diagnostic call. No network error.
+- The log after the calls:
+  | 5 | 2026-11-09 10:33 ICT | mmx image-01 | Q-front | 3 | 103 | 0.0035 | covers-quest-art-v1/Q-front-a3.jpg | saved |
+  | 6 | 2026-11-09 10:34 ICT | mmx image-01 | Q-teacher | 2 | 102 | 0.0035 | covers-quest-art-v1/Q-teacher-a2.jpg | saved |
+  Phase 2 total: 0.0210 USD (210 units)
+  Track total: 0.0875 USD (875 units), option round 0.0665 USD plus Phase 2
+- Six rows. The sum of the rows is 210 units and equals the stated Phase 2 total. The Phase 2
+  total is at most 9335 units. The track total is 665 plus Phase 2 and is at most 10000 units.
+  Every attempt is 1 to 3. Every saved row names a file that exists.
+
+STEP 5 - the tiles
+- The helper /tmp/opencode/t28/tiles.mjs, the same 7 files per attempt in
+  /tmp/opencode/look-2-8/.
+- Q-front-a3: full 4398104 bytes, t1 882567, t2 1013124, t3 1119883, t4 1125872, t5 1129015,
+  t6 1005536.
+- Q-teacher-a2: full 4283106 bytes, t1 961161, t2 1057334, t3 966433, t4 864726, t5 839581,
+  t6 1064563.
+- The folder holds 28 files: the 14 of part 1 and the 14 new ones.
+
+WHAT THE AGENT SAW IN THE TWO NEW PICTURES (for the look of the orchestrator)
+- Q-front-a3 (student front): the boy has two white stripes and nothing else on his shirt; the
+  made-up letters of attempt 2 are gone. The girl has an orange T-shirt with a white star and
+  no letters. Pip is one puppy in front, golden-brown with a cream chest and a red collar. The
+  cast is the girl, the boy and the puppy, and no other person or animal. The tree has a round
+  door and a small dark window above it. The village shows a small windmill. The sky has no
+  marks. The girl's shirt reads a little more yellow than orange under the sunlight.
+- Q-teacher-a2 (teacher front): the teacher reads as an adult woman with a single top bun with
+  a red tie, not a low ponytail. The book faces her, not the children: its open pages turn up
+  and away, and she looks at it. The children sit at the right and look at her, not at the
+  pictures. The book pages hold small pencil-like marks, not only big simple colored shapes.
+  The girl has the orange shirt with the white star, and the boy has the two stripes.
+  A thin red scale with small ticks runs down the left edge of the picture together with a
+  strip of dark red. The top left corner holds a small made-up signature. One book only.
+- These are findings for the orchestrator. Part 2a makes no local fix.
+
+FILES CHANGED IN THIS REPOSITORY IN PART 2a
+- measure/tracks/storytime_cover_options_20261106/plan.md (three SHA tokens)
+- measure/tracks/storytime_cover_options_20261106/options/gen_art_final.py (row parser and the
+  call line)
+- measure/tracks/storytime_cover_options_20261106/options/prompts-final.json
+- measure/runs/storytime_cover_options_20261106/prompt-checks-2-8-r2.txt (new)
+- measure/runs/storytime_cover_options_20261106/guard-2-8a.txt (rewritten by the proof)
+- measure/runs/storytime_cover_options_20261106/build-t28-a65f6c1d.log (this section)
+
+FILES CHANGED OUTSIDE THIS REPOSITORY IN PART 2a
+- ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md (row 4, the note, the totals)
+- ~/Desktop/print-ready/storytime/covers-quest-art-v1/probe-512.jpg (new),
+  Q-front-a3.jpg and Q-teacher-a2.jpg with their prompt files (new)
+- /tmp/opencode/look-2-8/ (14 new tiles)
+
+NO COMMIT AND NO PUSH IN PART 2a. selection-final.json is not written and nothing is upscaled.
+
+## Part 2b-1
+
+Run: 2026-11-09, Asia/Bangkok time. Role: build. The Thai filter ran first:
+THAI_CHARS_IN_OUTPUT=0.
+
+STEP 1 - the selection file
+- New file: measure/tracks/storytime_cover_options_20261106/options/selection-final.json
+- One entry for each picture: Q-front, back, Q-teacher. Each entry holds 'file', 'attempts'
+  (the orchestrator's texts), 'faults' and 'result'.
+- Q-front: file covers-quest-art-v1/Q-front-a3.jpg, faults [], result 'pass'.
+- back: file covers-quest-art-v1/A-back-a1.jpg, faults [], result 'pass (no fault in the option
+  round; upscale only)'.
+- Q-teacher: file null, faults 5, result 'pending'. The attempts a1 and a2 hold the
+  orchestrator's texts. The a3 attempt is made but its text waits for the look of part 2b-2.
+- The file holds 0 Thai characters.
+
+STEP 2 - the source copies and the upscale
+- Copies, create-only, cmp equal:
+  ~/Desktop/print-ready/storytime/covers-quest-art-v1/Q-front-a3.jpg ->
+  content/storytime/l2/print/pictures/l2-u1-cover-quest-student-front-v1.jpg (1258522 bytes);
+  ~/Desktop/handoff/storytime-cover-options-2026-11-06/art/A-back-a1.jpg ->
+  content/storytime/l2/print/pictures/l2-u1-cover-quest-back-v1.jpg (1179674 bytes).
+- New file: options/upscale.mjs. sharp by createRequire from dashboard/package.json,
+  lanczos3, removeAlpha, withMetadata({density: 300}), PNG, and it refuses an existing output.
+- Outputs (2480 x 3508 px, density 300):
+  l2-u1-cover-quest-student-front-v1-300ppi.png (17900823 bytes),
+  l2-u1-cover-quest-back-v1-300ppi.png (18802433 bytes).
+- New file: options/upscale_check.mjs. 8 checks with --real: size 2480 x 3508, format png,
+  hasAlpha false, 3 channels, a lanczos3 downscale to the source size with a mean difference of
+  at most 3 of 255, the name of D-A8, the folder content/storytime/l2/print/pictures/, and
+  `git check-ignore` exit 0. Without --real (the mutants) it runs the 6 image and name checks.
+- Results: student 8 of 8 pass (mean difference 2.055); back 8 of 8 pass (mean 1.606).
+- Mutants, copies in /tmp/opencode/t28/upmut/, never the real folder:
+  M1 the back output at 2480 x 3507: caught by the size check (FAIL size: 2480 x 3507), exit 1.
+  M2 the upscale of the option round A-front-a2.jpg checked as the back: caught by the
+  mean-difference check (FAIL 89.484), exit 1.
+- The results: measure/runs/storytime_cover_options_20261106/upscale-check-2-8.txt
+- git ignores both outputs (.gitignore line 37, content/storytime/*/print/pictures/).
+
+STEP 3 - the Q-teacher prompt for attempt 3
+- options/prompts-final.json: the Q-teacher scene is now a front view at story time, the
+  teacher on a low stump in the middle, facing the viewer, the book held up beside her face
+  with the pages outward, the girl lower left and the boy lower right looking up and pointing,
+  the left page one red circle and the right page one blue square, one book only, no border,
+  frame or signature, the top 30 percent leaves and sky with no character. The exact text
+  'Teacher Kim shows the open book to the children' stays.
+- The teacher: an adult woman, long dark-brown hair in one low ponytail that hangs over her
+  shoulder, no buns, the same clothes, 'no letters.' at the end.
+- The boy keeps the plain shirt line of part 2a.
+- Lengths: Q-front 1399 characters, Q-teacher 1478 characters (limit 1500). The cast values
+  lost the eye colour and the footwear to make room.
+- The check script: /tmp/opencode/t28/prompt_checks_r3.py. It checks the front view, the pages
+  turned outward, the one red circle and one blue square, the one book, and the no-border line.
+- Output: measure/runs/storytime_cover_options_20261106/prompt-checks-2-8-r3.txt
+- Result: 47 checks, 0 failures, EXIT=0.
+- The guard proof ran again after the prompt change: 7 of 7 cases, 4 of 4 mutants. The script
+  sha256 f996c7a2...408d221 did not change; the prompts sha256 is
+  7aa4616b436dc720680e9071d516ef1dbe27f265b1a1d02fd15c48debd1d5b1c.
+
+STEP 4 - the quota and one paid call
+- Quota, GET http://127.0.0.1:38307/api/quota/minimax-cn-coding-plan: the 5h window was at
+  71 percent used (29 remaining); the weekly window at 17 percent; reset 2:00 PM. Under 80
+  percent, so the run continued.
+- Q-teacher attempt 3, seed 103, 10:47 ICT: saved. covers-quest-art-v1/Q-teacher-a3.jpg
+- No other call and no probe.
+- Log totals after the call: Phase 2 total 0.0245 USD (245 units); Track total 0.0910 USD
+  (910 units) = 665 + 245, at or below 10000. Seven rows. The row sum equals the stated Phase 2
+  total.
+- The quick check reports id_ok=False for the id 'probe' of row 4 only, as part 2a recorded.
+
+STEP 5 - the tiles
+- /tmp/opencode/look-2-8/Q-teacher-a3-full.png (4166727 bytes) and -t1 to -t6 (892398, 1099278,
+  824961, 896422, 1029615, 1028684 bytes). The folder now holds 35 files.
+
+WHAT THE AGENT SAW IN Q-TEACHER-A3 (for the look of the orchestrator)
+- AF-4 is fixed: the teacher faces the viewer, holds one big open book up beside her face with
+  the pages outward, and smiles down at the children. The children look up and point at the book.
+  The book shows one red circle on the right page and one blue square on the left page, and no
+  other marks. No border, no frame, no signature. One book only.
+- New fault: the clothes of the two children are swapped. The girl wears a plain red dress with
+  no star. The boy wears the orange T-shirt with the white star. The boy has no stripes.
+- The teacher still has two small buns on top of her head plus a side ponytail, not one low
+  ponytail. She still reads young.
+- The red circle is on the right page and the blue square on the left page; the prompt asked for
+  the reverse. This is minor.
+
+FILES CHANGED IN THIS REPOSITORY IN PART 2b-1
+- options/selection-final.json (new)
+- options/upscale.mjs (new), options/upscale_check.mjs (new)
+- options/prompts-final.json (the Q-teacher scene and the teacher cast value)
+- content/storytime/l2/print/pictures/l2-u1-cover-quest-student-front-v1.jpg (new),
+  l2-u1-cover-quest-back-v1.jpg (new), and the two -300ppi.png outputs (new). git ignores all
+  four files.
+- measure/runs/storytime_cover_options_20261106/upscale-check-2-8.txt (new)
+- measure/runs/storytime_cover_options_20261106/prompt-checks-2-8-r3.txt (new)
+- measure/runs/storytime_cover_options_20261106/guard-2-8a.txt (rewritten by the proof)
+- measure/runs/storytime_cover_options_20261106/build-t28-a65f6c1d.log (this section)
+
+OUTSIDE THE REPOSITORY IN PART 2b-1
+- ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md (row 7 and the totals)
+- ~/Desktop/print-ready/storytime/covers-quest-art-v1/Q-teacher-a3.jpg and its prompt file (new)
+- /tmp/opencode/t28/upmut/ (the 2 mutants), /tmp/opencode/t28/zoom3/ (my crops)
+- /tmp/opencode/look-2-8/ (7 new tiles)
+
+NO COMMIT AND NO PUSH IN PART 2b-1. The teacher picture is not upscaled yet.
+
+## Part 2b-2
+
+Run: 2026-11-09. Role: build. No paid call in this part. The Thai filter ran first:
+THAI_CHARS_IN_OUTPUT=0. The input options/clean_art.py was filtered to
+/tmp/opencode/t28/in/clean_art.py (0 Thai characters) and read there.
+
+STEP 1 - the selection file
+- options/selection-final.json: the Q-teacher entry now holds the a3 text of the orchestrator,
+  file 'Q-teacher-a1-clean.jpg', the three faults, the local_fix line, and the result
+  'best attempt after 3 attempts; AF-4 open; the Forge route question goes to the PM'.
+- Q-front stays 'pass' with file Q-front-a3.jpg, and back stays 'pass' with A-back-a1.jpg.
+
+STEP 2 - the local fix (FR-8.5: made-up letters only)
+- New file: options/clean_teacher_a1.py (python3 -I, Pillow).
+- Input (read only): covers-quest-art-v1/Q-teacher-a1.jpg. Output (create-only):
+  covers-quest-art-v1/Q-teacher-a1-clean.jpg. A second run refuses the existing output (exit 1).
+- The two boxes in native pixels of the 1448 x 2048 picture:
+  box A (the boy's chest): left 900, top 1555, right 1025, bottom 1635;
+  box B (the book spine strip): left 688, top 1106, right 712, bottom 1245.
+- Box A: the mark pixels are bright and not red (luminance above 115 and red minus green below
+  90), and the two white stripes are found as the long horizontal runs (50 px or more) and
+  protected with a 2 px side and 4 px up and down margin, so they stay whole and straight. Each
+  mark pixel is filled from the nearest red shirt pixel, then the filled pixels get a 1.0 blur.
+  mask 910 pixels, filled 1731, changed 1731.
+- Box B: each dark pixel (mean below 150) is filled from the nearest page pixel, then a 0.8
+  blur on the filled pixels. mask 1049 pixels, filled 2415, changed 2413.
+- Changed pixels outside the two boxes: 0. Exit 0.
+- The compare is on the decoded pixels at load time against the edited pixels before the save.
+  The save is JPEG quality 95, so the codec re-encodes the whole file; the edit itself changes
+  no pixel outside the boxes.
+- The raw Q-teacher-a1.jpg was not written: its mtime stays 09:53 and its size 965906 bytes.
+
+STEP 3 - the crops for the look (native pixels, no resize except the full view)
+- /tmp/opencode/look-2-8/Q-teacher-a1-clean-fixA.png 285 x 240 (box A plus 80 px)
+- /tmp/opencode/look-2-8/Q-teacher-a1-raw-fixA.png 285 x 240
+- /tmp/opencode/look-2-8/Q-teacher-a1-clean-fixB.png 184 x 299 (box B plus 80 px)
+- /tmp/opencode/look-2-8/Q-teacher-a1-raw-fixB.png 184 x 299
+- /tmp/opencode/look-2-8/Q-teacher-a1-clean-full.png 1131 x 1600
+- The folder holds 40 files.
+
+WHAT THE AGENT SAW IN THE CLEAN PICTURE
+- The made-up white marks on the boy's chest are gone, and both white stripes are whole and
+  straight. A faint tonal patch remains in the red where the fill sits; it holds no letter shape.
+- The letter-like marks on the book spine are gone. The strip reads as a light page edge with a
+  faint mottle.
+- The rest of the picture is the a1 picture: the teacher with two top buns, the book facing the
+  viewer, the children looking at each other, the second open book on the grass. Those are the
+  listed faults and they stay, as FR-8.5 allows only the letter fix.
+
+FILES CHANGED IN THIS REPOSITORY IN PART 2b-2
+- options/selection-final.json (the Q-teacher entry)
+- options/clean_teacher_a1.py (new)
+- measure/runs/storytime_cover_options_20261106/build-t28-a65f6c1d.log (this section)
+
+OUTSIDE THE REPOSITORY IN PART 2b-2
+- ~/Desktop/print-ready/storytime/covers-quest-art-v1/Q-teacher-a1-clean.jpg (new)
+- /tmp/opencode/look-2-8/ (5 new files)
+
+NO COMMIT AND NO PUSH IN PART 2b-2. The teacher picture is not upscaled yet.
+
+## Part 2b-3
+
+Run: 2026-11-09. Role: build. No paid call. The Thai filter ran first:
+THAI_CHARS_IN_OUTPUT=0.
+
+THE PM DECISION
+- The teacher front goes the Forge route. The brief folder is
+  ~/Desktop/handoff/storytime-cover-teacher-front-brief/ (MANIFEST SHA-256
+  fbd0a3c5f040ec6de505abf33f3ecd7b490b451eefc63269a04f63eced2bd7bc, stop 0.10 USD, delivery
+  by 2026-11-13). The a1 picture with the local mark fix is the fallback, used only if Forge
+  misses 2026-11-13. The student front and the back are final.
+
+THE FAILED FIRST FIX (kept in the art folder, not used)
+- The orchestrator's look: box B (the book spine) passed. Box A failed: the glyphs were gone,
+  but both white stripes had gaps, grey smudges and a dark spot, so the stripes were not whole
+  and straight. The cause: that method filled short light runs inside the box, and the stripe
+  pixels near the glyphs counted as marks.
+- Q-teacher-a1-clean.jpg stays in the art folder and is not used.
+
+STEP 1 - the second fix
+- options/clean_teacher_a1.py now holds the new method only. Input: the RAW Q-teacher-a1.jpg
+  (read only). Output: covers-quest-art-v1/Q-teacher-a1-clean2.jpg (create-only).
+- Box A check: the stripe rows outside the box must agree on both sides. Measured at x = 928 and
+  x = 997: the light rows are 1566-1572 and 1604-1611 on both sides. A search over left 918-940
+  and right 988-1010 found the box left 930 and right 995 with 0 mismatched rows. The final box
+  A is left 930, top 1555, right 995, bottom 1635. It covers all the glyph pixels: the marks at
+  x 996-1011 above row 1602 are 0 pixels.
+- Box A method: each pixel row of the box takes a linear blend between the pixel at x = 928 and
+  the pixel at x = 997 of the same row. changed pixels inside box A: 5196.
+- Box B (left 688, top 1106, right 712, bottom 1245): the same fill as before. mask 1049
+  pixels, filled 2415, changed 2413.
+- Changed pixels outside the two boxes: 0. Exit 0. Saved as JPEG quality 95.
+- The raw Q-teacher-a1.jpg was not written.
+- Crops in /tmp/opencode/look-2-8/: Q-teacher-a1-clean2-fixA.png 225 x 240 (box A plus 80 px),
+  Q-teacher-a1-clean2-fixB.png 184 x 299 (box B plus 80 px), Q-teacher-a1-clean2-full.png
+  1131 x 1600. The folder holds 43 files.
+- The agent's look: the stripes run straight and whole through the box with no gap, no smudge
+  and no dark spot. The spine marks are gone.
+
+STEP 2 - the selection file
+- options/selection-final.json: Q-teacher 'file' is 'pending (Forge)', 'fallback' is
+  'Q-teacher-a1-clean2.jpg', the faults and the local_fix text stay, and 'result' is 'Forge route
+  (PM 2026-11-09; brief MANIFEST fbd0a3c5); fallback a1 with the local mark fix, used only if
+  Forge misses 2026-11-13'.
+
+STEP 3 - the spend log check
+- New file: options/spend_check.py (python3 -I). It runs 8 labelled checks:
+  six_fields_ok, phase2_equals_row_sum, phase2_at_most_9335, track_equals_665_plus_phase2,
+  track_at_most_10000, at_least_2_rows, attempts_1_to_3, id_ok, saved_files_exist.
+- The id check allows the one recorded exception: row 4, id 'probe', the probe made outside the
+  guard (PM rule 2026-11-09). Its line reads 'PASS id_ok: id_ok=True (1 recorded exception: row 4
+  probe)'.
+- Output: measure/runs/storytime_cover_options_20261106/spend-check-2-8.txt
+- Result: rows=7 checks=8 failures=0, EXIT=0. Measured: rows_units=245, stated_phase2_units=245,
+  track_units=910.
+
+STEP 4 - the plan evidence
+- measure/tracks/storytime_cover_options_20261106/plan.md: one sub-bullet under Task 2.8 (line
+  105), 2 spaces and '- '. It holds the date 2026-11-09, the guard proof, the price check, the
+  three prompt check files, the spend summary and the spend check file, the two upscaled pictures
+  with the upscale check, the teacher front state, the PM Forge decision with the brief folder,
+  the MANIFEST SHA-256, the stop and the date, and the fallback. It ends with 'The task stays [~]
+  until the teacher front is final.'
+
+STEP 5 - the commit
+- The commit holds only the 15 paths of the instruction. The commit message is
+  'measure(cover): Task 2.8, the final student front and back art; the teacher front waits for
+  Forge (storytime_cover_options)'.
+- video/**, dashboard/raw.json, the unit 2 track files and the other untracked files of
+  measure/runs/storytime_cover_options_20261106/ (red1-*, mid-red-p2-62621a9c.log,
+  spec-review-ce5b90ba.*, strategy-p2-14b39927.log) are not staged.
+
+FILES CHANGED IN THIS REPOSITORY IN PART 2b-3
+- options/clean_teacher_a1.py (the new method), options/selection-final.json, plan.md
+- options/spend_check.py (new)
+- measure/runs/storytime_cover_options_20261106/spend-check-2-8.txt (new)
+- measure/runs/storytime_cover_options_20261106/build-t28-a65f6c1d.log (this section)
+
+OUTSIDE THE REPOSITORY IN PART 2b-3
+- ~/Desktop/print-ready/storytime/covers-quest-art-v1/Q-teacher-a1-clean2.jpg (new)
+- /tmp/opencode/look-2-8/ (3 new files)
+
+NO PUSH.

@@ -1,0 +1,36 @@
+Guard proof of Task 2.8a (0 USD): options/gen_art_final.py
+Track: storytime_cover_options_20261106. Run 2026-11-09 with a stub mmx first on PATH.
+The stub mmx records the argv of every call and writes a small valid JPEG to the --out path.
+Every run uses a temporary log and a temporary art folder under /tmp/opencode/t28/guard/.
+The real log folder and the real art folder are never used.
+
+Cases of test-strategy.md section 4.9
+
+| Case | Expected | Actual | Result |
+|---|---|---|---|
+| case1 | fresh log, Q-front attempt 1: 1 call, 1 row, 35 units | exit 0, 1 call(s), 1 row(s), 35 units, output: Q-front attempt 1: 1399 characters, seed 101, 1448 x 2048, cost 35 units, the log holds Phase 2 0 units and tr | pass |
+| case2 | the same id and attempt again: refused, 0 calls | exit 2, 0 call(s), 1 row(s), 35 units, output: REFUSED: Q-front: attempt 1 is already in the log | pass |
+| case3 | attempt 4: refused, 0 calls | exit 2, 0 call(s), 0 row(s), 0 units, output: REFUSED: Q-teacher: attempt 4 is outside 1 to 3 | pass |
+| case4 | log total 9300 units, one more call: allowed (9335, the boundary) | exit 0, 1 call(s), 36 row(s), 9335 units, output: Q-front attempt 1: 1399 characters, seed 101, 1448 x 2048, cost 35 units, the log holds Phase 2 9300 units and | pass |
+| case5 | log total 9335 units, one more call: STOP, 0 calls | exit 1, 0 call(s), 35 row(s), 9335 units, output: STOP: the Phase 2 total 9335 units plus one call of 35 units is over the limit 9335 units | pass |
+| case6 | a prompt of 1501 characters: refused, 0 calls | exit 2, 0 call(s), 0 row(s), 0 units, output: REFUSED: Q-front: the prompt has 1501 characters (limit 1500) | pass |
+| case7 | every stub argv has --prompt, --width 1448, --height 2048, and has no --subject-ref, no image path, no -i | 2 argv checked, no problem | pass |
+
+Guard mutants (each mutant runs on a copy of the script in /tmp/opencode/t28/mut/, never on the real file)
+
+| Mutant | Change | Case that caught it | What the mutant did |
+|---|---|---|---|
+| M1 limit 9400 | PHASE2_LIMIT_UNITS 9335 becomes 9400 | case5 | case5: ['exit 0', 'calls 1 != 0', 'units 9370 != 9335', 'the output does not start with "STOP"'] |
+| M2 >= limit check | the limit test '>' becomes '>=' | case4 | case4: ['exit 1', 'calls 0 != 1', 'units 9300 != 9335'] |
+| M3 attempt limit 4 | MAX_ATTEMPTS 3 becomes 4 | case3 | case3: ['exit 0', 'calls 1 != 0', 'rows 1 != 0', 'units 35 != 0', 'no "REFUSED" in the output'] |
+| M4 float sum | the cost column is summed as a float in a loop and compared with 0.9335 | case4 | case4: ['exit 1', 'calls 0 != 1', 'units 9300 != 9335'] |
+
+The real file is unchanged by the proof.
+sha256 of options/gen_art_final.py before the proof: f996c7a297c907cc8d3f8962532518a2bec5cde64d221dde65cc3f448408d221
+sha256 of options/gen_art_final.py after the proof:  f996c7a297c907cc8d3f8962532518a2bec5cde64d221dde65cc3f448408d221
+same value: True
+sha256 of options/prompts-final.json before the proof: 7aa4616b436dc720680e9071d516ef1dbe27f265b1a1d02fd15c48debd1d5b1c
+sha256 of options/prompts-final.json after the proof:  7aa4616b436dc720680e9071d516ef1dbe27f265b1a1d02fd15c48debd1d5b1c
+same value: True
+
+Result: 7 of 7 cases as expected, 4 of 4 mutants caught.

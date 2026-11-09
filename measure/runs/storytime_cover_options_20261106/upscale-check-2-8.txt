@@ -1,0 +1,49 @@
+Upscale check of Task 2.8 (track storytime_cover_options_20261106, D-A6/D-A8)
+Run 2026-11-09. The upscale: options/upscale.mjs (sharp, lanczos3, removeAlpha, withMetadata density 300, PNG, create-only).
+The check: options/upscale_check.mjs. One labelled line per check, exit 0 when all pass.
+
+Real outputs (folder content/storytime/l2/print/pictures/, --real: 8 checks each)
+--- student front: l2-u1-cover-quest-student-front-v1-300ppi.png
+PASS size: 2480 x 3508
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+PASS mean difference at most 3 of 255: 2.055
+PASS name of spec D-A8: l2-u1-cover-quest-student-front-v1-300ppi.png
+PASS file in the print pictures folder: /home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures
+PASS git ignores the file: git check-ignore exit 0
+checks=8 failures=0
+STUDENT_EXIT=0
+--- back: l2-u1-cover-quest-back-v1-300ppi.png
+PASS size: 2480 x 3508
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+PASS mean difference at most 3 of 255: 1.606
+PASS name of spec D-A8: l2-u1-cover-quest-back-v1-300ppi.png
+PASS file in the print pictures folder: /home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures
+PASS git ignores the file: git check-ignore exit 0
+checks=8 failures=0
+BACK_EXIT=0
+
+Mutants (copies in /tmp/opencode/t28/upmut/, never the real folder: 6 image checks each)
+--- M1: the back output at 2480 x 3507 (one pixel short)
+FAIL size: 2480 x 3507
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+PASS mean difference at most 3 of 255: 1.606
+PASS name of spec D-A8: l2-u1-cover-quest-back-v1-300ppi.png
+checks=6 failures=1
+M1_EXIT=1
+--- M2: the upscale of the option round A-front-a2.jpg, checked as the back
+PASS size: 2480 x 3508
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+FAIL mean difference at most 3 of 255: 89.484
+PASS name of spec D-A8: l2-u1-cover-quest-back-v1-300ppi.png
+checks=6 failures=1
+M2_EXIT=1
+
+Result: 2 of 2 real outputs pass 8 of 8 checks. 2 of 2 mutants are caught (M1 by the size check, M2 by the mean-difference check).

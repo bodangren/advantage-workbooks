@@ -1,0 +1,38 @@
+PASS ids: the file holds ['Q-front', 'Q-teacher']
+PASS Q-front length: 1488 characters (limit 1500)
+PASS Q-front says picture: 'picture' is in the prompt
+PASS Q-front has no cover: the word 'cover' is absent
+PASS Q-front has no year: no 4-digit year
+PASS Q-front has no forbidden word: none of 11 words
+PASS Q-front has no Thai: 0 Thai characters
+PASS Q-teacher length: 1489 characters (limit 1500)
+PASS Q-teacher says picture: 'picture' is in the prompt
+PASS Q-teacher has no cover: the word 'cover' is absent
+PASS Q-teacher has no year: no 4-digit year
+PASS Q-teacher has no forbidden word: none of 11 words
+PASS Q-teacher has no Thai: 0 Thai characters
+PASS cast KIM ends with no letters: ' no letters.'
+PASS cast NAN ends with no letters: ' no letters.'
+PASS cast PIP ends with no letters: ' no letters.'
+PASS cast SAM ends with no letters: ' no letters.'
+PASS cast NAN shirt: "an orange T-shirt with a white star"
+PASS cast SAM shirt: "two white stripes across the chest"
+PASS cast SAM two stripes: 'exactly two white stripes'
+PASS cast PIP size: "a small puppy as tall as Nan's knees"
+PASS cast NAN no letters on the shirt: a white star and no letters
+PASS Q-teacher teacher pose: "Teacher Kim shows the open book to the children"
+PASS Q-teacher pages to the children: 'pages turned toward the children'
+PASS Q-teacher teacher looks at the children: 'looks at the children, not at the book'
+PASS Q-teacher book has simple shapes: the open book shows only simple colored shapes
+PASS Q-front cast: ['NAN', 'PIP', 'SAM']
+PASS Q-teacher cast: ['KIM', 'NAN', 'SAM']
+PASS Q-front size: [1448, 2048]
+PASS Q-teacher size: [1448, 2048]
+PASS scene outside the classroom: no classroom in the scenes
+PASS scene is the valley of option A: the valley and the meadow of option A
+PASS no subjectRef field: the fields are ['id', 'option', 'scene', 'size']
+PASS no images field: the fields are ['id', 'option', 'scene', 'size']
+PASS file has no Thai: the whole file has 0 Thai characters
+PASS file has no subjectRef or images: neither name is in the file
+checks=36 failures=0
+EXIT=0
