@@ -1,0 +1,71 @@
+# Jr Green · P3 T3.1b part (a) · storytime_l2_unit2_20261106
+
+- role: jr-green
+- phase: P3
+- task: T3.1b part (a)
+- model: deepseek/deepseek-flash#high
+- role_base_sha: c1cb5a79f0106b83b6197b9a8c142ec669d4cd4d
+- date: 2026-11-09
+- status: running
+
+## Scope
+
+Task 3.1b part (a) makes the English share captions for the 40 Storytime Level 2 unit 2
+scripts of weeks 9 to 16. The work reads only English text. A first python extract removes
+every Thai key and every Thai string before I see any week file.
+
+## Steps
+
+1. Extract the English from w01 to w16. Prove 0 Thai characters.
+2. Read the rules: plan line 207, spec D14, loops spec FR-14 and D19, check code.
+3. Write 40 caption rows and the English pack. Check the rows with python.
+4. Commit the run files. Write this final block in its own commit.
+
+## Thai rule
+
+I am not a Claude model, so no Thai text may reach me (plan rule 19).
+
+- I wrote the extract script first: `jr-green-t31b-extract-en.py`. It drops every `th` key and
+  every string with a character in U+0E00 to U+0E7F, and it refuses to write an output that
+  still holds Thai.
+- The extract `t31b-english-extract.txt` holds 0 Thai characters: `grep -cP` prints 0.
+- One early probe (before the filter) printed one week caption in `\u` escape form. The escape
+  form is ASCII, and no Thai character reached the log. I stopped the probe, wrote the filter,
+  and used only filtered output after that. No file of this task holds Thai text.
+- I did not open a week file with a plain read.
+
+## Rules read
+
+- `plan.md` line 207, Task 3.1b, all four parts.
+- `spec.md` D14.
+- `storytime_teaching_loops_20261103/spec.md` FR-14 (line 237) and D19 (line 348).
+- `dashboard/lib/storytime/checks.ts` `shareCheck` (line 547) and the Terms line 84.
+
+## Work
+
+- 40 rows: 35 rows for the teach weeks 9 to 15, 5 rows for the review week 16.
+- Teach weeks use the moment table A3, B5, C4, D4 + D5, and D6. Week 16 uses A2, B1, C1, D1,
+  and E3. I checked each code against the staged steps of the extract.
+- Caption style follows the 40 shipped captions of w01 to w08: 2 short sentences, 14 to 25
+  words, the sound and a word, the frame, the book title, or the song title. American spelling.
+  No child is named.
+- The generator `t31b-a-captions.py` holds the rows and writes the draft, the pack, and the
+  rules capture from one source. It reads the step titles through the same Thai filter.
+
+## Gates
+
+- `grep -cP '[\x{0E00}-\x{0E7F}]' share-english-pack.md` prints 0.
+- `grep -c '^| SC-w' share-english-pack.md` prints 40.
+- The python rules check (`t31b-a-rules.txt`): rows 40, errors 0.
+- `git status --porcelain content/storytime` prints nothing.
+
+## Files written
+
+- `jr-green-t31b-extract-en.py` (the extract script)
+- `t31b-english-extract.txt` (the English extract, 0 Thai characters)
+- `t31b-a-captions.py` (the caption generator and rules checker)
+- `share-captions-en.md` (the draft, 40 rows)
+- `share-english-pack.md` (the review pack, rules and 40 rows)
+- `t31b-a-rules.txt` (the rules capture)
+- this log
+
