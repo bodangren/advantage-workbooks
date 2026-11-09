@@ -1,0 +1,896 @@
+{
+ "take": "c2",
+ "file": "/home/daniebo/Desktop/handoff/storytime-l2u2-w15-candidates-r2/l2-w15-song-r2-c2.mp3",
+ "model": "small",
+ "settings": {
+  "compute_type": "int8",
+  "device": "cpu",
+  "local_files_only": true,
+  "language": "en",
+  "word_timestamps": true,
+  "condition_on_previous_text": false,
+  "vad_filter": false,
+  "beam_size": 5,
+  "temperature": 0.0,
+  "initial_prompt": null
+ },
+ "duration_s": 65.829,
+ "sample_rate_hz": 44100,
+ "language": "en",
+ "loop": false,
+ "longest_repeat": {
+  "word": "look",
+  "count": 4
+ },
+ "lyric_lines": [
+  "Look, a bus! Beep, beep, beep!",
+  "Look, a train! Choo, choo, choo!",
+  "Look, a car! Drive, drive, drive!",
+  "Look, a bike! Ride, ride, ride!",
+  "Look, look, look around!",
+  "Look, look, look with me!",
+  "Look, a boat! Row, row, row!",
+  "Look, a truck! Big, big, big!",
+  "Look, a plane! Fly, fly, fly!",
+  "Look, a helicopter! Up, up, up!",
+  "Look, look, look around!",
+  "Look, look, look with me!",
+  "Wave goodbye! Time to go home!"
+ ],
+ "tokens_used": 64,
+ "lines": [
+  {
+   "line": 1,
+   "text": "Look, a bus! Beep, beep, beep!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 9.8,
+   "first_token": 0
+  },
+  {
+   "line": 2,
+   "text": "Look, a train! Choo, choo, choo!",
+   "words": 6,
+   "matched": 3,
+   "coverage": 0.5,
+   "start": 14.96,
+   "first_token": 6
+  },
+  {
+   "line": 3,
+   "text": "Look, a car! Drive, drive, drive!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 19.66,
+   "first_token": 12
+  },
+  {
+   "line": 4,
+   "text": "Look, a bike! Ride, ride, ride!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 23.7,
+   "first_token": 18
+  },
+  {
+   "line": 5,
+   "text": "Look, look, look around!",
+   "words": 4,
+   "matched": 4,
+   "coverage": 1.0,
+   "start": 28.4,
+   "first_token": 24
+  },
+  {
+   "line": 6,
+   "text": "Look, look, look with me!",
+   "words": 5,
+   "matched": 5,
+   "coverage": 1.0,
+   "start": 32.54,
+   "first_token": 29
+  },
+  {
+   "line": 7,
+   "text": "Look, a boat! Row, row, row!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 39.82,
+   "first_token": 34
+  },
+  {
+   "line": 8,
+   "text": "Look, a truck! Big, big, big!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 44.3,
+   "first_token": 40
+  },
+  {
+   "line": 9,
+   "text": "Look, a plane! Fly, fly, fly!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 49.04,
+   "first_token": 46
+  },
+  {
+   "line": 10,
+   "text": "Look, a helicopter! Up, up, up!",
+   "words": 6,
+   "matched": 6,
+   "coverage": 1.0,
+   "start": 53.44,
+   "first_token": 52
+  },
+  {
+   "line": 11,
+   "text": "Look, look, look around!",
+   "words": 4,
+   "matched": 0,
+   "coverage": 0.0,
+   "start": null,
+   "first_token": null
+  },
+  {
+   "line": 12,
+   "text": "Look, look, look with me!",
+   "words": 5,
+   "matched": 0,
+   "coverage": 0.0,
+   "start": null,
+   "first_token": null
+  },
+  {
+   "line": 13,
+   "text": "Wave goodbye! Time to go home!",
+   "words": 6,
+   "matched": 0,
+   "coverage": 0.0,
+   "start": null,
+   "first_token": null
+  }
+ ],
+ "lines_sung": [
+  1,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "lines_missed": [
+  2,
+  11,
+  12,
+  13
+ ],
+ "chorus_order": {
+  "5 before 11": false,
+  "6 before 12": false
+ },
+ "extra_lines": [],
+ "old_rule": {
+  "distinct_heard": 10,
+  "distinct_total": 11,
+  "missed": [
+   "look a train choo choo choo"
+  ]
+ },
+ "segments": [
+  {
+   "text": "Look a bus, beep beep beep, look a train, chew chew chew, look a car, drive drive drive,",
+   "start": 9.8,
+   "end": 23.7,
+   "words": [
+    {
+     "word": "Look",
+     "start": 9.8,
+     "end": 11.02
+    },
+    {
+     "word": "a",
+     "start": 11.02,
+     "end": 11.82
+    },
+    {
+     "word": "bus,",
+     "start": 11.82,
+     "end": 12.4
+    },
+    {
+     "word": "beep",
+     "start": 12.54,
+     "end": 13.24
+    },
+    {
+     "word": "beep",
+     "start": 13.24,
+     "end": 13.92
+    },
+    {
+     "word": "beep,",
+     "start": 13.92,
+     "end": 14.54
+    },
+    {
+     "word": "look",
+     "start": 14.96,
+     "end": 15.56
+    },
+    {
+     "word": "a",
+     "start": 15.56,
+     "end": 16.34
+    },
+    {
+     "word": "train,",
+     "start": 16.34,
+     "end": 16.9
+    },
+    {
+     "word": "chew",
+     "start": 17.2,
+     "end": 17.9
+    },
+    {
+     "word": "chew",
+     "start": 17.9,
+     "end": 18.5
+    },
+    {
+     "word": "chew,",
+     "start": 18.5,
+     "end": 18.92
+    },
+    {
+     "word": "look",
+     "start": 19.66,
+     "end": 20.16
+    },
+    {
+     "word": "a",
+     "start": 20.16,
+     "end": 20.92
+    },
+    {
+     "word": "car,",
+     "start": 20.92,
+     "end": 21.56
+    },
+    {
+     "word": "drive",
+     "start": 21.94,
+     "end": 22.52
+    },
+    {
+     "word": "drive",
+     "start": 22.52,
+     "end": 23.06
+    },
+    {
+     "word": "drive,",
+     "start": 23.06,
+     "end": 23.7
+    }
+   ]
+  },
+  {
+   "text": "Look, a bike, ride, ride, ride",
+   "start": 23.7,
+   "end": 28.4,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 23.7,
+     "end": 24.82
+    },
+    {
+     "word": "a",
+     "start": 25.42,
+     "end": 25.52
+    },
+    {
+     "word": "bike,",
+     "start": 25.52,
+     "end": 25.96
+    },
+    {
+     "word": "ride,",
+     "start": 26.5,
+     "end": 27.14
+    },
+    {
+     "word": "ride,",
+     "start": 27.36,
+     "end": 27.68
+    },
+    {
+     "word": "ride",
+     "start": 27.84,
+     "end": 28.4
+    }
+   ]
+  },
+  {
+   "text": "Look, look, look, look around",
+   "start": 28.4,
+   "end": 32.54,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 28.4,
+     "end": 29.3
+    },
+    {
+     "word": "look,",
+     "start": 29.58,
+     "end": 29.94
+    },
+    {
+     "word": "look,",
+     "start": 30.04,
+     "end": 30.54
+    },
+    {
+     "word": "look",
+     "start": 31.1,
+     "end": 31.56
+    },
+    {
+     "word": "around",
+     "start": 31.56,
+     "end": 32.54
+    }
+   ]
+  },
+  {
+   "text": "Look, look, look with me",
+   "start": 32.54,
+   "end": 36.62,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 32.54,
+     "end": 33.9
+    },
+    {
+     "word": "look,",
+     "start": 34.16,
+     "end": 34.46
+    },
+    {
+     "word": "look",
+     "start": 34.74,
+     "end": 35.04
+    },
+    {
+     "word": "with",
+     "start": 35.04,
+     "end": 35.84
+    },
+    {
+     "word": "me",
+     "start": 35.84,
+     "end": 36.62
+    }
+   ]
+  },
+  {
+   "text": "Look, a boat, row, row, row",
+   "start": 39.82,
+   "end": 44.3,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 39.82,
+     "end": 40.72
+    },
+    {
+     "word": "a",
+     "start": 41.3,
+     "end": 41.52
+    },
+    {
+     "word": "boat,",
+     "start": 41.52,
+     "end": 41.96
+    },
+    {
+     "word": "row,",
+     "start": 42.54,
+     "end": 43.1
+    },
+    {
+     "word": "row,",
+     "start": 43.32,
+     "end": 43.66
+    },
+    {
+     "word": "row",
+     "start": 43.86,
+     "end": 44.3
+    }
+   ]
+  },
+  {
+   "text": "Look, a truck, big, big, big",
+   "start": 44.3,
+   "end": 49.04,
+   "words": [
+    {
+     "word": "Look,",
+     "start": 44.3,
+     "end": 45.3
+    },
+    {
+     "word": "a",
+     "start": 45.96,
+     "end": 46.06
+    },
+    {
+     "word": "truck,",
+     "start": 46.06,
+     "end": 46.5
+    },
+    {
+     "word": "big,",
+     "start": 47.1,
+     "end": 47.64
+    },
+    {
+     "word": "big,",
+     "start": 47.94,
+     "end": 48.28
+    },
+    {
+     "word": "big",
+     "start": 48.28,
+     "end": 49.04
+    }
+   ]
+  },
+  {
+   "text": "Look a plane, fly, fly, fly",
+   "start": 49.04,
+   "end": 53.44,
+   "words": [
+    {
+     "word": "Look",
+     "start": 49.04,
+     "end": 49.92
+    },
+    {
+     "word": "a",
+     "start": 49.92,
+     "end": 50.64
+    },
+    {
+     "word": "plane,",
+     "start": 50.64,
+     "end": 51.18
+    },
+    {
+     "word": "fly,",
+     "start": 51.54,
+     "end": 52.16
+    },
+    {
+     "word": "fly,",
+     "start": 52.42,
+     "end": 52.7
+    },
+    {
+     "word": "fly",
+     "start": 52.94,
+     "end": 53.44
+    }
+   ]
+  },
+  {
+   "text": "Look a helicopter, up, up, up",
+   "start": 53.44,
+   "end": 58.02,
+   "words": [
+    {
+     "word": "Look",
+     "start": 53.44,
+     "end": 54.4
+    },
+    {
+     "word": "a",
+     "start": 54.4,
+     "end": 54.72
+    },
+    {
+     "word": "helicopter,",
+     "start": 54.72,
+     "end": 55.66
+    },
+    {
+     "word": "up,",
+     "start": 55.7,
+     "end": 56.76
+    },
+    {
+     "word": "up,",
+     "start": 57.1,
+     "end": 57.36
+    },
+    {
+     "word": "up",
+     "start": 57.4,
+     "end": 58.02
+    }
+   ]
+  },
+  {
+   "text": "Wave goodbye, time to go home",
+   "start": 58.02,
+   "end": 62.94,
+   "words": [
+    {
+     "word": "Wave",
+     "start": 58.02,
+     "end": 59.08
+    },
+    {
+     "word": "goodbye,",
+     "start": 59.08,
+     "end": 60.12
+    },
+    {
+     "word": "time",
+     "start": 60.8,
+     "end": 61.32
+    },
+    {
+     "word": "to",
+     "start": 61.32,
+     "end": 61.54
+    },
+    {
+     "word": "go",
+     "start": 61.54,
+     "end": 61.9
+    },
+    {
+     "word": "home",
+     "start": 61.9,
+     "end": 62.94
+    }
+   ]
+  }
+ ],
+ "words": [
+  {
+   "word": "Look",
+   "start": 9.8,
+   "end": 11.02
+  },
+  {
+   "word": "a",
+   "start": 11.02,
+   "end": 11.82
+  },
+  {
+   "word": "bus,",
+   "start": 11.82,
+   "end": 12.4
+  },
+  {
+   "word": "beep",
+   "start": 12.54,
+   "end": 13.24
+  },
+  {
+   "word": "beep",
+   "start": 13.24,
+   "end": 13.92
+  },
+  {
+   "word": "beep,",
+   "start": 13.92,
+   "end": 14.54
+  },
+  {
+   "word": "look",
+   "start": 14.96,
+   "end": 15.56
+  },
+  {
+   "word": "a",
+   "start": 15.56,
+   "end": 16.34
+  },
+  {
+   "word": "train,",
+   "start": 16.34,
+   "end": 16.9
+  },
+  {
+   "word": "chew",
+   "start": 17.2,
+   "end": 17.9
+  },
+  {
+   "word": "chew",
+   "start": 17.9,
+   "end": 18.5
+  },
+  {
+   "word": "chew,",
+   "start": 18.5,
+   "end": 18.92
+  },
+  {
+   "word": "look",
+   "start": 19.66,
+   "end": 20.16
+  },
+  {
+   "word": "a",
+   "start": 20.16,
+   "end": 20.92
+  },
+  {
+   "word": "car,",
+   "start": 20.92,
+   "end": 21.56
+  },
+  {
+   "word": "drive",
+   "start": 21.94,
+   "end": 22.52
+  },
+  {
+   "word": "drive",
+   "start": 22.52,
+   "end": 23.06
+  },
+  {
+   "word": "drive,",
+   "start": 23.06,
+   "end": 23.7
+  },
+  {
+   "word": "Look,",
+   "start": 23.7,
+   "end": 24.82
+  },
+  {
+   "word": "a",
+   "start": 25.42,
+   "end": 25.52
+  },
+  {
+   "word": "bike,",
+   "start": 25.52,
+   "end": 25.96
+  },
+  {
+   "word": "ride,",
+   "start": 26.5,
+   "end": 27.14
+  },
+  {
+   "word": "ride,",
+   "start": 27.36,
+   "end": 27.68
+  },
+  {
+   "word": "ride",
+   "start": 27.84,
+   "end": 28.4
+  },
+  {
+   "word": "Look,",
+   "start": 28.4,
+   "end": 29.3
+  },
+  {
+   "word": "look,",
+   "start": 29.58,
+   "end": 29.94
+  },
+  {
+   "word": "look,",
+   "start": 30.04,
+   "end": 30.54
+  },
+  {
+   "word": "look",
+   "start": 31.1,
+   "end": 31.56
+  },
+  {
+   "word": "around",
+   "start": 31.56,
+   "end": 32.54
+  },
+  {
+   "word": "Look,",
+   "start": 32.54,
+   "end": 33.9
+  },
+  {
+   "word": "look,",
+   "start": 34.16,
+   "end": 34.46
+  },
+  {
+   "word": "look",
+   "start": 34.74,
+   "end": 35.04
+  },
+  {
+   "word": "with",
+   "start": 35.04,
+   "end": 35.84
+  },
+  {
+   "word": "me",
+   "start": 35.84,
+   "end": 36.62
+  },
+  {
+   "word": "Look,",
+   "start": 39.82,
+   "end": 40.72
+  },
+  {
+   "word": "a",
+   "start": 41.3,
+   "end": 41.52
+  },
+  {
+   "word": "boat,",
+   "start": 41.52,
+   "end": 41.96
+  },
+  {
+   "word": "row,",
+   "start": 42.54,
+   "end": 43.1
+  },
+  {
+   "word": "row,",
+   "start": 43.32,
+   "end": 43.66
+  },
+  {
+   "word": "row",
+   "start": 43.86,
+   "end": 44.3
+  },
+  {
+   "word": "Look,",
+   "start": 44.3,
+   "end": 45.3
+  },
+  {
+   "word": "a",
+   "start": 45.96,
+   "end": 46.06
+  },
+  {
+   "word": "truck,",
+   "start": 46.06,
+   "end": 46.5
+  },
+  {
+   "word": "big,",
+   "start": 47.1,
+   "end": 47.64
+  },
+  {
+   "word": "big,",
+   "start": 47.94,
+   "end": 48.28
+  },
+  {
+   "word": "big",
+   "start": 48.28,
+   "end": 49.04
+  },
+  {
+   "word": "Look",
+   "start": 49.04,
+   "end": 49.92
+  },
+  {
+   "word": "a",
+   "start": 49.92,
+   "end": 50.64
+  },
+  {
+   "word": "plane,",
+   "start": 50.64,
+   "end": 51.18
+  },
+  {
+   "word": "fly,",
+   "start": 51.54,
+   "end": 52.16
+  },
+  {
+   "word": "fly,",
+   "start": 52.42,
+   "end": 52.7
+  },
+  {
+   "word": "fly",
+   "start": 52.94,
+   "end": 53.44
+  },
+  {
+   "word": "Look",
+   "start": 53.44,
+   "end": 54.4
+  },
+  {
+   "word": "a",
+   "start": 54.4,
+   "end": 54.72
+  },
+  {
+   "word": "helicopter,",
+   "start": 54.72,
+   "end": 55.66
+  },
+  {
+   "word": "up,",
+   "start": 55.7,
+   "end": 56.76
+  },
+  {
+   "word": "up,",
+   "start": 57.1,
+   "end": 57.36
+  },
+  {
+   "word": "up",
+   "start": 57.4,
+   "end": 58.02
+  },
+  {
+   "word": "Wave",
+   "start": 58.02,
+   "end": 59.08
+  },
+  {
+   "word": "goodbye,",
+   "start": 59.08,
+   "end": 60.12
+  },
+  {
+   "word": "time",
+   "start": 60.8,
+   "end": 61.32
+  },
+  {
+   "word": "to",
+   "start": 61.32,
+   "end": 61.54
+  },
+  {
+   "word": "go",
+   "start": 61.54,
+   "end": 61.9
+  },
+  {
+   "word": "home",
+   "start": 61.9,
+   "end": 62.94
+  }
+ ]
+}

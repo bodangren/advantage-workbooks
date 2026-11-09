@@ -1,0 +1,50 @@
+week 15 r2 takes, line coverage of the 13 sheet lines
+model: faster-whisper small (int8, cpu, local); language en; word times on; no lyric prompt
+new rule: 13 sheet lines in order, start offsets 0 to 8 tokens, lookahead 3 tokens, tokens 0.05 s or longer, line sung at 0.8 or more, a missed line keeps the cursor
+loop rule: one word 10 times or more in a row; a LOOP take also gets the base model
+
+mode: score only, from the saved transcripts; no speech model
+
+c1 small 67.5s 44100Hz LOOP=no line_sung=13/13
+  cover: [1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
+  missed: none
+  chorus order: 5 before 11: yes; 6 before 12: yes
+  extra sung lines: none
+  old rule: 11/11 distinct lines heard
+  matched words: 72 of 72; tokens used: 72; longest repeat: beep x3
+  short tokens dropped: 0
+
+c2 small 65.8s 44100Hz LOOP=no line_sung=10/13
+  cover: [1.00, 0.50, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.00, 0.00, 1.00]
+  missed: 2,11,12
+  chorus order: 5 before 11: no (line 11 not matched); 6 before 12: no (line 12 not matched)
+  extra sung lines: none
+  old rule: 10/11 distinct lines heard (missed: look a train choo choo choo)
+  matched words: 60 of 72; tokens used: 64; longest repeat: look x4
+  short tokens dropped: 0
+  line 2 cover 0.50 (3/6) offset 0
+    heard: look(14.96) a(15.56) train,(16.34) chew(17.20) chew(17.90) chew,(18.50) look(19.66)
+    matched: look(14.96) a(15.56) train(16.34)
+    missed: choo choo choo
+  line 11 cover 0.00 (0/4) offset 0
+    heard: Wave(58.02) goodbye,(59.08) time(60.80) to(61.32)
+    matched: none
+    missed: look look look around
+  line 12 cover 0.00 (0/5) offset 0
+    heard: Wave(58.02) goodbye,(59.08) time(60.80) to(61.32)
+    matched: none
+    missed: look look look with me
+
+c3 small 67.4s 44100Hz LOOP=no line_sung=12/13
+  cover: [0.67, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
+  missed: 1
+  chorus order: 5 before 11: yes; 6 before 12: yes
+  extra sung lines: none
+  old rule: 11/11 distinct lines heard
+  matched words: 70 of 72; tokens used: 70; longest repeat: beep x3
+  short tokens dropped: 2 - beep, (12.32-12.32); beep (13.08-13.08)
+  line 1 cover 0.67 (4/6) offset 0
+    heard: Look,(8.48) a(9.76) bus,(10.18) beep,(11.02) Look,(13.08) a(14.58) train,(14.72) choo,(16.04)
+    matched: look(8.48) a(9.76) bus(10.18) beep(11.02)
+    missed: beep beep
+
