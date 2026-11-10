@@ -1,0 +1,96 @@
+Measure Green log: storytime_cover_options_20261106, Phase 2, Task (Green, the plaque text fits), pair of Red eee69aa3.
+
+Role: measure-jr-green. Model: deepseek/deepseek-flash#high (ra-quota pick green).
+Red model of this pair: minimax-cn-coding-plan/MiniMax-M3.1-Flash (another family).
+phase_base_sha: 9c8d34dac4292458472f04092542833529e3c4f8 (resolves).
+role_base_sha: 9c8d34dac4292458472f04092542833529e3c4f8 (the same commit).
+HEAD at start: 9c8d34da.
+The committed Red change eee69aa3 lies inside phase_base_sha..HEAD (git merge-base --is-ancestor exits 0).
+Thai count of this log and of every file this role touched: 0 characters from U+0E00 to U+0E7F.
+
+The finding (orchestrator page look of the r3 fronts, PM accepted the fix): "on both fronts the 2
+title lines cross the plaque frame lines, and the plaque hides the bottom of the Sprout tab text".
+The contract is the test file dashboard/__tests__/quest-cover-plaque-fit.test.ts, P1 to P6. No test
+file changed. git status showed no modified tracked file in dashboard/lib, dashboard/__tests__, or
+the track folders before the edit, so no unrelated work moved.
+
+The change of commit 0a2e73b3 (dashboard/lib/storytime/print/cover-quest.ts only):
+- titlePlaqueFront sets one flex row at 6.4 mm, line height 1, League Spartan bold, white-space
+  nowrap, centred: the span level-line ("Level 2 · Unit 1", #fff), the span plaque-sep ("·",
+  #FFE7A3, margin 0 1.6 mm), and the span book-line ("Student Book" or "Teacher Book", #FFE7A3).
+  The level-line text and the book-line text stay byte-equal to the old pins. One newline space
+  between the spans keeps the approved words of P4 after the middle dots come out.
+- bandPill keeps the box, the colours, the border, and 13 pt; it adds font-family 'League Spartan'
+  and line-height 5.9 mm, so the line box spans 272.1 mm to 278.0 mm. No lower line height was
+  needed; 5.9 mm passed P5 on the first run.
+- The JSDoc of both functions records round 4 of 2026-11-10: one row, the fit numbers, the reason.
+- The frame, the boxes, the readers, and the series banner do not change, so P6 and
+  quest-cover-frame-r3.test.ts F1 to F6 keep their results.
+
+The gates ran in ONE heavy-run (HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400,
+the python3 -I runner at /tmp/opencode/c29d/run_green.py):
+(a) cd dashboard && CI=true npx vitest run __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1
+    Test Files  1 passed (1)
+    Tests  10 passed (10)
+    EXIT: 0
+    The file measure/runs/storytime_cover_options_20261106/green-fit-new.txt holds this output.
+(b) GREEN_TEST_COMMAND: the 5 files __tests__/quest-cover-*.test.ts, one argument each, --maxWorkers=1
+    Test Files  5 passed (5)
+    Tests  284 passed (284)
+    EXIT: 0, Duration 1549.75 s
+    No Chrome Protocol error appeared, so no retry ran. The file green-fit-green.txt holds it.
+(c) PROJECT_LINT in the same heavy-run
+    npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts: EXIT 0, 0 errors,
+    1 warning (quest-cover-template.test.ts line 1704, an unused 'quest' of an older task)
+    npx tsc --noEmit -p .: EXIT 0, 0 error lines
+    The file green-fit-lint.txt holds both.
+
+The measured mm values (a separate light probe run of about 10 s, appended to green-fit-new.txt; the
+probe is not a gate):
+- Band in the level colour: 28.81 mm to 181.19 mm wide, 280.80 mm to 289.20 mm high (8.40 mm).
+- Student front texts: level-line 63.65 to 104.17 mm, plaque-sep 105.77 to 107.59 mm, book-line
+  109.19 to 146.34 mm; every text box is 282.06 mm to 287.88 mm (5.82 mm high), inside the band.
+- Teacher front texts: level-line 63.88 to 104.40 mm, plaque-sep 106.00 to 107.82 mm, book-line
+  109.42 to 146.11 mm; the same vertical box.
+- Diamond ornaments: 27.21 to 39.35 mm and 170.65 to 182.79 mm. The row keeps 24.30 mm and
+  24.31 mm clear of them.
+- Sprout tab text (13 pt, League Spartan): 98.27 to 111.72 mm wide, 272.82 mm to 277.06 mm high.
+  Its bottom is 0.94 mm above the plaque top at 278.00 mm, and it stays inside its pill
+  (271.5 mm to 280.5 mm).
+
+Commits:
+- 0a2e73b3, implementation, dashboard/lib/storytime/print/cover-quest.ts only (17 insertions,
+  9 deletions).
+- b1dfe29b, plan evidence, plan.md plus green-fit-new.txt, green-fit-green.txt, and
+  green-fit-lint.txt.
+- This log file, alone, in the third commit.
+
+Task state: the Green line stays [~], because the r4 rebuild of the student cover and of the teacher
+candidate follows in Task 2.9 part 1. No task flipped to [x]. No task needed [b].
+
+New files of this role: measure/runs/storytime_cover_options_20261106/green-fit-new.txt,
+green-fit-green.txt, green-fit-lint.txt, and this log. No other file added.
+
+Handoff to the review roles and to Phase acceptance: review the 2 functions of cover-quest.ts
+against P1 to P6 and the mm values above; the r4 rebuild of Task 2.9 part 1 is next; the 5 tests of
+quest-cover-* stay green; the newline space between the spans is a white-space text node, not a
+layout item, and it keeps P4 true.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P2
+task: T2.9c plaque fit
+track: storytime_cover_options_20261106
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+phase_base_sha: 9c8d34dac4292458472f04092542833529e3c4f8
+role_base_sha: 9c8d34dac4292458472f04092542833529e3c4f8
+red_commit: eee69aa3
+head: b1dfe29b (the HEAD before this log commit)
+status: complete
+commits: 0a2e73b3, b1dfe29b
+files_changed: dashboard/lib/storytime/print/cover-quest.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/green-fit-new.txt, measure/runs/storytime_cover_options_20261106/green-fit-green.txt, measure/runs/storytime_cover_options_20261106/green-fit-lint.txt, measure/runs/storytime_cover_options_20261106/jr-green-fit-9c8d34da.log
+tests_run: (a) quest-cover-plaque-fit 10 passed, EXIT 0; (b) quest-cover-* 5 files, 284 passed, EXIT 0; (c) eslint 0 errors 1 older warning, tsc 0 errors, EXIT 0
+red_immutability: no test file changed; git status holds no modified file under dashboard/__tests__
+handoff: the review roles audit the 2 functions and the mm values; Task 2.9 part 1 r4 rebuild next; the Green line stays [~] until the r4 evidence
+dispositions: none
+END_MEASURE_AGENT_RESULT
