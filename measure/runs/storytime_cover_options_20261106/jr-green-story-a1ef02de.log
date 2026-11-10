@@ -1,0 +1,81 @@
+Jr Green log, Task (Green, story line), the story-line pair of Task 2.9 part 1 (r1), track
+storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this pair: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c (the Phase 2 base of the track).
+role_base_sha: a1ef02de3543b7af1609924f1307ba36d0d25ea3 (HEAD when this role started).
+Red commit inside phase_base_sha..HEAD: 40e4846a (only dashboard/__tests__/quest-cover-story.test.ts, S1 to S4).
+Code under test: ace10cba5d1b57598e5018c01129a61c9bf725dc (only dashboard/scripts/storytime/make-storytime-quest-covers.ts).
+
+Status: done. The task stays `[~]`, because the r2 rebuild (Task 2.9 part 1) follows in the next role.
+
+The fault: the Task 2.9 part 1 build printed the student back with the heading "Story" and no text
+under it. `questPanelValues` built its own book row, and that row held an empty story text. The
+guard of the build refused only a fully empty panel, so an empty story passed.
+
+The fix, in `questPanelValues(level, unit)`:
+1. It now reads the book row of that level and unit from `content/storytime/covers/books.json`
+   through `loadStorytimeCoverBooks` and the constant `STORYTIME_COVER_BOOKS_FILE` of
+   `dashboard/lib/storytime/print/covers.ts` (read-only import, spec D-A2).
+2. It passes that row's panel (the story text and its weeks, and the four week lists) to
+   `storytimeCoverPanelValues`. A missing row is an error.
+3. It refuses an empty panel field. An empty value pushes "the student back panel field <field> is
+   empty; the build refuses an empty field" and returns no values (the A-F1 form).
+4. The JSDoc names the new source and the new gate for the caller.
+
+No committed Red test changed. No shared file changed. No test file changed.
+
+Gates, one heavy-run wrapper for (a) and (b) (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500,
+HEAVY_PREFLIGHT_WAIT_S=5400; not nested), then one light run for PROJECT_LINT:
+
+(a) `cd dashboard && CI=true npx vitest run __tests__/quest-cover-story.test.ts --maxWorkers=1`
+    Test Files 1 passed (1); Tests 4 passed (4); exit 0; 4.2 s. Capture: green-story-new.txt.
+(b) `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1`
+    Test Files 3 passed (3); Tests 278 passed (278); exit 0; 1161.0 s. Capture: green-story-green.txt.
+    No "Protocol error" screenshot load failure appeared, so no single-test rerun was needed.
+(c) PROJECT_LINT (light): `npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts`
+    exit 0 with 1 warning, a `no-unused-vars` warning at quest-cover-template.test.ts:1695 in an
+    unchanged committed test file; `npx tsc --noEmit -p .` exit 0. Capture: green-story-lint.txt.
+    `bash measure/doctor.sh` does not bind this track; the track gate of the strategy is (b).
+
+A quick targeted run before the heavy-run wrapper also gave 4 passed on the same command. The
+recorded capture is the heavy-run run in green-story-new.txt.
+
+Commits:
+1. ace10cba5d1b57598e5018c01129a61c9bf725dc, the script alone, 1 file, 34 insertions, 12 deletions.
+2. 680f2b82a54505794da4ce96b215700f5d07378b, the plan evidence and the three captures.
+3. This log alone.
+
+New files added: none. The role added the three captures under measure/runs/ and this log.
+
+Plan state: the Green task is `[~]` with one evidence sub-bullet. No task is `[b]`. No task is
+`[x]`. The [x] flip waits for the r2 rebuild of Task 2.9 part 1, which prints the student cover
+and the teacher candidate again. The track stays out of archive, and no closeout metadata changed.
+
+Leftover for the next role: build the student cover v4 and the teacher candidate into
+covers-quest-v1/ with `--print` again, then check the student back page holds the approved story
+text once and no empty panel field. The three capture files are the evidence of this role.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: P2
+task: T2.9a
+role: jr-green
+track: storytime_cover_options_20261106
+phase_base_sha: 62621a9cebcc965d4094a311c687f767e99ac65c
+role_base_sha: a1ef02de3543b7af1609924f1307ba36d0d25ea3
+red_commit: 40e4846a
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+head: 680f2b82a54505794da4ce96b215700f5d07378b (commit 2; this log lands in commit 3)
+impl_commit: ace10cba5d1b57598e5018c01129a61c9bf725dc
+plan_commit: 680f2b82a54505794da4ce96b215700f5d07378b
+files_changed: dashboard/scripts/storytime/make-storytime-quest-covers.ts (34 insertions, 12 deletions)
+tasks_flipped_x: none (the Green task stays [~] for the r2 rebuild of Task 2.9 part 1)
+tasks_flipped_b: none
+targeted_gate: quest-cover-story.test.ts, Test Files 1 passed (1), Tests 4 passed (4), exit 0
+green_gate: quest-cover-*.test.ts, Test Files 3 passed (3), Tests 278 passed (278), exit 0
+lint: eslint exit 0 (1 existing warning in an unchanged test file); tsc --noEmit exit 0
+gate_captures: measure/runs/storytime_cover_options_20261106/green-story-new.txt, green-story-green.txt, green-story-lint.txt
+new_files: none
+dispositions: none
+handoff: The story line is Green. `questPanelValues` reads the Level 2 Unit 1 panel from books.json and refuses an empty panel field. The r2 rebuild of Task 2.9 part 1 (the student cover v4 and the teacher candidate, with --print) runs next, then one look at the student back page: the story text shows once and no panel field is empty. The [x] flip and the plan evidence for Task 2.9 name the build commit. Keep the Red file dashboard/__tests__/quest-cover-story.test.ts unchanged.
+END_MEASURE_AGENT_RESULT
