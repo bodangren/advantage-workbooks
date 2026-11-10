@@ -153,11 +153,12 @@ const pageList = (pages: number[]) => [...new Set(pages)].sort((a, b) => a - b).
 
 /**
  * The checks on a converted file.
- * @param o What poppler read from the file, the PDF/X marker, whether an output intent exists, and
- *   the pages of the source PDF that already were one page-size picture.
+ * @param o What poppler read from the file, the PDF/X marker, whether an output intent exists, the
+ *   pages of the source PDF that already were one page-size picture, and the pages that hold live
+ *   text (an embedded font that is not Type 3).
  * @returns The failed checks (empty when the file is good).
  */
-export function checkPdfx(o: { info: PdfInfo; pdfxVersion?: string; hasOutputIntent: boolean; fonts: FontRow[]; images: ImageRow[]; sourcePageImages?: number[] }): { errors: string[] } {
+export function checkPdfx(o: { info: PdfInfo; pdfxVersion?: string; hasOutputIntent: boolean; fonts: FontRow[]; images: ImageRow[]; sourcePageImages?: number[]; textPages?: number[] }): { errors: string[] } {
     const errors: string[] = [];
     if (o.info.version !== '1.3') errors.push(`PDF version ${o.info.version || '?'} (PDF/X-1a:2001 needs 1.3)`);
     if (o.pdfxVersion !== 'PDF/X-1a:2001') errors.push('no PDF/X-1a marker (GTS_PDFXVersion)');
@@ -168,7 +169,11 @@ export function checkPdfx(o: { info: PdfInfo; pdfxVersion?: string; hasOutputInt
     const loose = o.fonts.filter((f) => !f.embedded);
     if (loose.length) errors.push(`fonts not embedded: ${[...new Set(loose.map((f) => f.name))].join(', ')}`);
     const source = new Set(o.sourcePageImages ?? []);
-    const rendered = pageImages(o.images, o.info).filter((p) => !source.has(p));
+    // A full-page art cover page with live text (an embedded font, no Type 3) holds no flattening:
+    // Ghostscript kept the text, so the page-size image is the art of the cover, not the page renders.
+    // The PM decision of 2026-11-10 17:50; the CLI --check reads the fonts of each page for it.
+    const text = new Set(o.textPages ?? []);
+    const rendered = pageImages(o.images, o.info).filter((p) => !source.has(p) && !text.has(p));
     if (rendered.length) errors.push(`page(s) ${pageList(rendered)} became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)`);
     const rgb = o.images.filter((i) => i.color === 'rgb');
     if (rgb.length) errors.push(`RGB image(s) on page(s) ${pageList(rgb.map((i) => i.page))}`);

@@ -19,7 +19,9 @@ Usage: npx tsx scripts/print/make-pdfx.ts <book.pdf> [--out <file.pdf>] [--outli
                 writes every fill as DeviceRGB, and the plain conversion turns RGB black into
                 four-color rich black. The default (without the flag) is unchanged. The student
                 workbook (storytime_print_r1) passes this flag; the Primary files do not.
-  --check       Only check <file.pdf>; convert nothing
+  --check       Only check <file.pdf>; convert nothing. The check reads the fonts of each page
+                with pdffonts, so a full-page art cover page that keeps its live text (embedded
+                fonts, no Type 3) is not reported as one image.
 
 Output: CMYK, output intent Japan Color 2001 Coated, PDF 1.3, TrimBox = page size, no bleed.
 The profile is cached in ~/.cache/workbooks-print/ (downloaded from Adobe on first use; the
@@ -28,6 +30,8 @@ pdfimages), and unzip.
 
 Checks: PDF 1.3, PDF/X-1a marker, output intent, TrimBox, no Type 3 font, every font embedded,
 no page that became one image (transparency in the source), no RGB image, no soft mask.
+A page with live text is not "one image": the cover files hold a full-page art image and their
+text, so the --check passes them (the PM decision of 2026-11-10 17:50).
 Exit code 1 when a check fails.`;
 
 const PROFILE = JAPAN_COLOR_2001_COATED;
@@ -81,8 +85,25 @@ function readPdf(file: string): Read {
     };
 }
 
-function report(file: string, r: Read, sourcePageImages?: number[]): number {
-    const { errors } = checkPdfx({ ...r, sourcePageImages });
+/**
+ * The pages that hold live text: `pdffonts -f N -l N` lists at least 1 embedded font, and the page
+ * holds no Type 3 font. A full-page art cover page keeps its text, so its page-size image is the
+ * art, not a flattened page. The PM decision of 2026-11-10 17:50.
+ * @param file The PDF file.
+ * @param pages The page count from `pdfinfo`.
+ * @returns The page numbers, ascending.
+ */
+function liveTextPages(file: string, pages: number): number[] {
+    const found: number[] = [];
+    for (let p = 1; p <= pages; p++) {
+        const fonts = parsePdffonts(run('pdffonts', ['-f', String(p), '-l', String(p), file]));
+        if (fonts.some((f) => f.embedded && f.type !== 'Type 3')) found.push(p);
+    }
+    return found;
+}
+
+function report(file: string, r: Read, sourcePageImages?: number[], textPages?: number[]): number {
+    const { errors } = checkPdfx({ ...r, sourcePageImages, textPages });
     const mb = (fs.statSync(file).size / 1024 / 1024).toFixed(1);
     const fonts = r.fonts.length ? `${r.fonts.length} font(s)` : 'no fonts (text as outlines)';
     console.log(`${path.relative(process.cwd(), file)}: ${r.info.pages} pages, ${mb} MB, PDF ${r.info.version}, ${r.pdfxVersion ?? 'no PDF/X marker'}, ${fonts}`);
@@ -121,7 +142,9 @@ async function main(argv: string[]): Promise<number> {
         return 2;
     }
     const source = readPdf(input);
-    if (check) return report(input, source);
+    // The check has no source PDF, so it reads the fonts of each page: a cover page keeps its live
+    // text, and the page-size image is its art, not a flattened page.
+    if (check) return report(input, source, undefined, liveTextPages(input, source.info.pages));
 
     const type3 = source.fonts.filter((f) => f.type === 'Type 3');
     if (outline === undefined) {
