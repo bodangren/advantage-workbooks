@@ -1,0 +1,54 @@
+# Jr Green log: Phase 3b plan record
+
+Task: fix finding A-P3b-1 in Review A. The finding named four task lines that measure-guard cannot read.
+
+## Scope
+
+I changed one file: the Phase 3b plan. I changed no code, no test, and no content file.
+
+## Thai filter
+
+I am not a Claude model. I read the plan only through a copy with each Thai line hidden. The copy held 0 Thai characters. The plan still holds 5 Thai lines. No Thai line changed.
+
+## Edits
+
+The edit script applied 9 edits. The script made each edit with an assertion on the exact old text. All assertions passed.
+
+The four task lines now end with a SHA of 7 hex characters. The measure-guard regex reads each SHA.
+
+- Line 284: commit ffe6e74
+- Line 302: commit e994696
+- Line 310: commit 2a36b85
+- Line 312: commit 678b4db
+
+The teacher book build task on line 352 now holds `[x]`. Its evidence is commit e223d9a. The orchestrator closed the task with the v2 evidence commit and the PM receipt of 2026-11-09.
+
+Line 361 names the role base ccf59077 and the evidence commit e223d9a8. The old text named ccf59077 as the build commit. That was wrong.
+
+One new sub-bullet follows line 362. It records the closure and the sheet check.
+
+## Checks
+
+1. The guard regex matched each of the five lines. The count was 1 on each line.
+2. The diff stat read: 1 file changed, 7 insertions(+), 6 deletions(-).
+3. The plan held 5 Thai lines before and after.
+4. The diff held 9 changed task lines that start with `- [x]`.
+5. The count of open tasks fell from 11 to 10.
+
+## Commit
+
+The plan commit is 9a6e087c. The commit holds only the plan file. pnpm-lock.yaml did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_teaching_loops_20261103
+phase: Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)
+baseline_sha: ca837be6f58b422457f6482e8dc74814ef317486
+commits: 9a6e087c
+tests_run: none (plan-record task); the STEP 2 fast checks: guard regex count 1 on lines 284, 302, 310, 312, 352 (captures ffe6e74, e994696, 2a36b85, 678b4db, e223d9a); diff stat 1 file changed, 7 insertions(+), 6 deletions(-); Thai lines 5 before and 5 after; changed [x] task lines 9; open task count 11 to 10
+files_changed: measure/tracks/storytime_teaching_loops_20261103/plan.md
+plan_updates: A-P3b-1 fixed on lines 284, 302, 310, 312; the teacher book build task closed (commit e223d9a); line 361 corrected; one new sub-bullet after line 362
+known_failures: none
+handoff: The plan commit is 9a6e087c on top of ca837be6. The four task lines now end with a 7-hex SHA, so measure-guard reads a SHA for each. The teacher book build task on line 352 holds [x] with the evidence commit e223d9a, and the new sub-bullet on line 363 records the v1 sheet check carried to v2. No code, test, or content file changed. Another agent has an unrelated modified file, video/storytime-song/scripts/render.mjs; I did not stage it.
+END_MEASURE_AGENT_RESULT
