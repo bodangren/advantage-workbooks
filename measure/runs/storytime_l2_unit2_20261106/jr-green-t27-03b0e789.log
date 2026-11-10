@@ -1,0 +1,155 @@
+# Jr Green log: Task 2.7 part 1, the delivery check (storytime_l2_unit2_20261106)
+
+Role: measure-jr-green. Track: storytime_l2_unit2_20261106. Phase: Phase 2: Picture list for
+Forge (2026-11-07 to 2026-11-23). Task: 2.7, part 1.
+
+role_base_sha: 03b0e789068d79e185905743f99cab60d50a8321. The command
+`git merge-base --is-ancestor 03b0e789 HEAD` printed OK.
+
+Outcome: blocked. The check ran and it produced the evidence. The union of the 2 folders passes
+215 of 229 rows. The expected value says 224 of 229. The 9 rows that differ fail on a version
+field of the delivered manifest. The plan record was not written. edit.py was not run.
+
+## STEP 0: the Thai filter
+
+The first command read 6 files. No week file was read. Each line ended with `:0`.
+
+- measure/tracks/storytime_l2_unit2_20261106/plan.md:0
+- content/storytime/drafts/l2/print/pictures-u2.json:0
+- handoff folder 1 README.md:0
+- handoff folder 1 manifest.json:0
+- handoff folder 2 not-delivered/README.md:0
+- handoff folder 2 manifest.json:0
+
+The heavy-run dropped 0 Thai lines in each capture. The 4 evidence files hold 0 Thai characters.
+
+## STEP 1: the picture check
+
+`git status --porcelain measure/tracks/storytime_l2_unit2_20261106/plan.md` printed nothing.
+
+run.py ran the check for 2 folders. Each folder ran in one heavy-run. The 2 captures are new
+files. Their times are 23:06 and 23:07 on 2026-11-10.
+
+Folder 1, `/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures/`:
+
+- MANIFEST.txt SHA-256 `46f9e723c8fef18647b11bcafa6faa72e8d8442f01ceb0b8f74e812b607a242c`
+- 468 hash lines OK, 0 bad lines
+- manifest.json holds 220 jobs
+- PICTURE_CHECK_U2 exit 1, summary line `211 of 238 rows pass stage 1`
+- 211 rows pass, 18 rows fail with no job, 9 rows fail for another reason, 0 skip lines
+
+Folder 2, `/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-retry1/`:
+
+- MANIFEST.txt SHA-256 `0e7a5223ac4c238bd1d84e025835f9443bc825a871e5668c5407398fcb0be748`
+- 22 hash lines OK, 0 bad lines
+- manifest.json holds 4 jobs
+- PICTURE_CHECK_U2 exit 1, summary line `4 of 183 rows pass stage 1`
+- 4 rows pass, 179 rows fail with no job, 0 rows fail for another reason, 2 skip lines
+- the 2 skip lines name the book rows of weeks 13 and 14
+
+Union:
+
+- the picture list holds 229 rows
+- 215 rows pass in one folder
+- 0 rows pass in both folders
+- 14 rows are open
+- 0 ids are not list rows
+
+The 14 open rows are the 5 expected rows and the 9 rows below.
+
+- l2-w12-card-hippo
+- l2-w12-card-ruler
+- l2-w13-card-clap
+- l2-w14-card-cold
+- l2-w10-story-page-put-on-your-hat-pip
+- l2-w10-check-row-ten
+- l2-w11-story-page-here
+- l2-w11-story-page-ten-men-in-the-den
+- l2-w11-story-page-the-den-is-on-dad
+- l2-w12-story-page-open-your-book-nan
+- l2-w13-cover-look-at-me
+- l2-w13-check-row-dot
+- l2-w13-d4-prompt-jump
+- l2-w15-cover-look-a-bus
+
+## The block: the 9 extra rows fail on a version field
+
+The expected value says the union passes 224 rows, 0 rows pass in both, and each folder has 0
+rows that fail for another reason. The run gives 215 rows, 0 rows in both, and 9 rows in folder 1
+that fail for another reason.
+
+All 9 rows fail on one rule. The rule sits in `dashboard/lib/storytime/print/picture-check.ts:188`.
+The N in the file name must equal the selectedVersion of the job. The message of each row reads:
+
+```
+picture batch: the files "<row id>-v1.png" and "<row id>-line-v1.png" of the row <row id> are
+version 1; the job selected version 2, so N must equal the selected version
+```
+
+The manifest of folder 1 holds 9 jobs whose selectedVersion is 2 or 3. The only candidate of each
+of these jobs names a `-v1.png` file and a `-line-v1.png` file. The candidate version field and
+the file names disagree.
+
+| row | selectedVersion | candidate file | candidate version field |
+| --- | --- | --- | --- |
+| l2-w10-check-row-ten | 2 | l2-w10-check-row-ten-v1.png | 2 |
+| l2-w11-story-page-here | 3 | l2-w11-story-page-here-v1.png | 3 |
+| l2-w11-story-page-ten-men-in-the-den | 3 | l2-w11-story-page-ten-men-in-the-den-v1.png | 3 |
+| l2-w11-story-page-the-den-is-on-dad | 2 | l2-w11-story-page-the-den-is-on-dad-v1.png | 2 |
+| l2-w12-story-page-open-your-book-nan | 2 | l2-w12-story-page-open-your-book-nan-v1.png | 2 |
+| l2-w13-cover-look-at-me | 2 | l2-w13-cover-look-at-me-v1.png | 2 |
+| l2-w13-check-row-dot | 2 | l2-w13-check-row-dot-v1.png | 2 |
+| l2-w13-d4-prompt-jump | 2 | l2-w13-d4-prompt-jump-v1.png | 2 |
+| l2-w15-cover-look-a-bus | 2 | l2-w15-cover-look-a-bus-v1.png | 2 |
+
+## The probe: the 9 rows hold good pictures
+
+A probe in `/tmp/opencode/t27/` repaired the 9 version fields to the N in the file names. The
+probe folder held hard links of the files of folder 1 and a copy of manifest.json. The Forge
+folders were not changed. The probe ran the same check command in one heavy-run.
+
+The probe gives 220 of 238 rows pass in folder 1, and 9 rows more than the real folder. Each of
+the 9 rows now passes. Every remaining fail is a row with no job. The union would then be 224 of
+229, and the 5 open rows would be the 5 expected rows. So the 9 rows hold good pictures. They
+fail only on the version fields of the delivered manifest.
+
+The writer of that manifest is not in this repo. The only code here that reads selectedVersion is
+the checker and its test fixtures. The fix belongs to the Forge hand-off. No new Forge render is
+needed for the 9 rows.
+
+Because the values differ, edit.py was not run. The plan keeps the line `- [ ] Task 2.7: the
+delivery check`.
+
+## STEP 3 checks
+
+- `git diff --stat -- measure/tracks/storytime_l2_unit2_20261106/plan.md` printed nothing. The
+  plan has no change.
+- `git status --porcelain content/storytime` printed nothing. No content file changed.
+- `git status --porcelain pnpm-lock.yaml` printed nothing.
+- The 2 Forge folders were read only. No file in them was written, moved, or deleted.
+- The 4 picture-check-u2 files are new and untracked. They hold the evidence of this run. The
+  brief says to commit only the log on a block, so they stay untracked for the orchestrator.
+
+## What the orchestrator must do
+
+1. Send the 9 rows to the PM session that owns the Forge hand-off. The delivery must set
+   selectedVersion to 1 for each of the 9 jobs, or it must deliver files named `-v2.png` and
+   `-v3.png`.
+2. Re-run Task 2.7 part 1 after the delivery is repaired. The union then gives 224 of 229 with
+   the 5 expected open rows.
+3. Commit the 4 picture-check-u2 files with the plan record. The 5 open rows and the fallback
+   defaults from the brief stay as they are.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: 03b0e789068d79e185905743f99cab60d50a8321
+commits: none; the plan record was not written because the check values differ from the expected values. This log is the only commit.
+tests_run: PICTURE_CHECK_U2 on folder 1 exit 1 (211 pass, 18 no job, 9 fail for the version rule) and on folder 2 exit 1 (4 pass, 179 no job, 0 fail for another reason); union 215 of 229; manifest hash lines 468 and 22 OK, 0 bad
+files_changed: this log only; the 4 picture-check-u2 files are new and untracked
+plan_updates: none; Task 2.7 stays `- [ ]`
+known_failures: 9 rows fail because the delivered manifest holds selectedVersion 2 or 3 while the file names say v1; a probe with the version fields repaired gives 224 of 229. Each folder exits 1 on rows with no job in that folder.
+handoff: The union of the 2 Forge folders passes 215 of 229 rows, not 224 of 229. Folder 1 `/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures/` gives 211 of 238 rows, and 9 rows fail for another reason: l2-w10-check-row-ten, l2-w11-story-page-here, l2-w11-story-page-ten-men-in-the-den, l2-w11-story-page-the-den-is-on-dad, l2-w12-story-page-open-your-book-nan, l2-w13-cover-look-at-me, l2-w13-check-row-dot, l2-w13-d4-prompt-jump, l2-w15-cover-look-a-bus. The message of each row names the version rule of `dashboard/lib/storytime/print/picture-check.ts:188`: the N in the file name must equal the selectedVersion of the job, and the delivered manifest holds selectedVersion 2 or 3 while the only candidate of each of these jobs names a `-v1.png` file. A probe in /tmp that set the 9 version fields to 1 gave 220 of 238 in folder 1 and a union of 224 of 229, so the 9 pictures hold good art and need no new Forge render; the delivery must repair the manifest or deliver `-v2.png` and `-v3.png` files. Folder 2 gives 4 of 183 rows and 2 skip lines for the book rows of weeks 13 and 14. The MANIFEST.txt hashes match the expected values (46f9e723..., 0e7a5223...) with 468 and 22 hash lines OK and 0 bad. The 4 evidence files are in `measure/runs/storytime_l2_unit2_20261106/` and stay untracked for the orchestrator. edit.py was not run, so the plan keeps `- [ ] Task 2.7`.
+END_MEASURE_AGENT_RESULT
