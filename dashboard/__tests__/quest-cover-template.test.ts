@@ -55,6 +55,11 @@
  *   data-band, data-lit, and wrap the ring and the glyph that change with the lit band. The
  *   unit bar holds 4 children with data-unit-part="1" to "4" and data-filled="true" or
  *   "false". The title plaque carries data-plaque-colour on the A4 fronts and the A3 cover.
+ *   Round 3 of 2026-11-10 (the Red of no game bar and the dog clear): the student front and
+ *   the teacher front hold no game bar, so they hold no band icon and no unit bar either. The
+ *   reader A3 cover keeps its game bar and its band icons. No side holds a unit bar now. The
+ *   title plaque of both fronts stands at 277 mm to 292 mm from the top edge, and the teacher
+ *   band pill moves with it.
  *   The leaf plaque carries no level colour. The QR box carries data-qr-input.
  *   Geometry: every frame part carries left, top, width, and height inline in millimetres.
  *   At bleed 3 the left and top values are the QUEST_BOXES value plus 3. The level colour
@@ -677,23 +682,27 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         expect(/export\s+type\s+QuestCoverKind\b/.test(source), 'the type export QuestCoverKind of P1.').toBe(true);
     });
 
-    /** Every frame part of every kind, with its exact count (T02, spec FR-6.9). */
+    /**
+     * Every frame part of every kind, with its exact count (T02, spec FR-6.9). Round 3 of
+     * 2026-11-10: the two fronts hold no game bar, so they hold no band icon and no unit bar
+     * either. The reader A3 game bar stays.
+     */
     const PART_COUNTS: Array<[QuestCoverKind, string, number]> = [
         ['student-front', '[data-part="art"]', 1],
-        ['student-front', '[data-part="game-bar"]', 1],
-        ['student-front', '[data-part="band-icon"]', 5],
-        ['student-front', '[data-part="unit-bar"]', 1],
-        ['student-front', '[data-unit-part]', 4],
+        ['student-front', '[data-part="game-bar"]', 0],
+        ['student-front', '[data-part="band-icon"]', 0],
+        ['student-front', '[data-part="unit-bar"]', 0],
+        ['student-front', '[data-unit-part]', 0],
         ['student-front', '[data-part="crest"]', 1],
         ['student-front', '[data-part="series-banner"]', 1],
         ['student-front', '[data-part="title-plaque"]', 1],
         ['student-front', '[data-part="level-line"]', 1],
         ['student-front', '[data-part="book-line"]', 1],
         ['teacher-front', '[data-part="art"]', 1],
-        ['teacher-front', '[data-part="game-bar"]', 1],
-        ['teacher-front', '[data-part="band-icon"]', 5],
-        ['teacher-front', '[data-part="unit-bar"]', 1],
-        ['teacher-front', '[data-unit-part]', 4],
+        ['teacher-front', '[data-part="game-bar"]', 0],
+        ['teacher-front', '[data-part="band-icon"]', 0],
+        ['teacher-front', '[data-part="unit-bar"]', 0],
+        ['teacher-front', '[data-unit-part]', 0],
         ['teacher-front', '[data-part="crest"]', 1],
         ['teacher-front', '[data-part="series-banner"]', 1],
         ['teacher-front', '[data-part="title-plaque"]', 1],
@@ -762,12 +771,15 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         expect(teacherBack.querySelectorAll('[data-part="panel-field"]').length, 'the teacher back has no field').toBe(0);
     });
 
-    /** The kinds with a game bar, and the five bands (T04). */
-    const T04_KINDS: QuestCoverKind[] = ['student-front', 'teacher-front', 'reader-a3'];
+    /**
+     * The kinds with a game bar, and the five bands (T04). Round 3 of 2026-11-10: only the
+     * reader A3 cover keeps its game bar, so the two fronts light no band icon.
+     */
+    const T04_KINDS: QuestCoverKind[] = ['reader-a3'];
     const T04_CASES: Array<[QuestCoverKind, string]> = T04_KINDS.flatMap((kind) => BANDS.map((band): [QuestCoverKind, string] => [kind, band]));
 
-    it('T04: the lit band table holds 15 rows', () => {
-        expect(T04_CASES.length).toBe(15);
+    it('T04: the lit band table holds 5 rows', () => {
+        expect(T04_CASES.length).toBe(5);
     });
 
     it.each(T04_CASES)('T04: %s lights %s once in the game bar', async (kind, band) => {
@@ -793,16 +805,11 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         expect(T05_UNITS.length).toBe(4);
     });
 
-    it.each(T05_UNITS)('T05: unit %i fills exactly that many of the 4 unit parts', async (unit) => {
+    it.each(T05_UNITS)('T05: unit %i leaves the student front with no unit bar', async (unit) => {
         const subject = { ...(await shippedBook()), unit };
         const doc = parseHtml(await renderQuest('student-front', subject, { art: ART_A }, 0));
-        const parts = Array.from(doc.querySelectorAll('[data-unit-part]'));
-        expect(parts.length, 'the unit bar holds 4 parts').toBe(4);
-        expect(parts.map((part) => part.getAttribute('data-unit-part')), 'the part indices').toEqual(['1', '2', '3', '4']);
-        expect(
-            parts.filter((part) => part.getAttribute('data-filled') === 'true').length,
-            `unit ${unit} fills ${unit} parts`,
-        ).toBe(unit);
+        expect(doc.querySelectorAll('[data-part="unit-bar"]').length, 'the front holds no unit bar').toBe(0);
+        expect(doc.querySelectorAll('[data-unit-part]').length, 'the front holds no unit part').toBe(0);
     });
 
     const T06_LEVELS = [1, 2, 3, 4];
@@ -882,13 +889,15 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         expect(quest.checkQuestPageSize(html, 'student-front', 0), 'the right bleed passes').toEqual([]);
     });
 
-    /** The text and face parts of every kind (T09, spec D-A5 safe zone). */
+    /**
+     * The text and face parts of every kind (T09, spec D-A5 safe zone). Round 3 of 2026-11-10:
+     * the two fronts hold no game bar, so the two front game bar rows are gone. The reader A3
+     * game bar row stays.
+     */
     const REQUIRED_BOXES: Array<[QuestCoverKind, string]> = [
-        ['student-front', 'game-bar'],
         ['student-front', 'crest'],
         ['student-front', 'series-banner'],
         ['student-front', 'title-plaque'],
-        ['teacher-front', 'game-bar'],
         ['teacher-front', 'crest'],
         ['teacher-front', 'series-banner'],
         ['teacher-front', 'title-plaque'],
@@ -917,14 +926,14 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         ['reader-leaf', 'role-mark'],
     ];
 
-    it('T09: the box table holds 31 rows', () => {
-        expect(REQUIRED_BOXES.length).toBe(31);
+    it('T09: the box table holds 29 rows', () => {
+        expect(REQUIRED_BOXES.length).toBe(29);
     });
 
     it('T09: every box of QUEST_BOXES lies 5 mm inside the trim at bleed 0 and bleed 3', async () => {
         const quest = await api();
         const entries = Object.entries(quest.QUEST_BOXES);
-        expect(entries.length, 'QUEST_BOXES holds at least the required boxes').toBeGreaterThanOrEqual(31);
+        expect(entries.length, 'QUEST_BOXES holds at least the required boxes').toBeGreaterThanOrEqual(29);
         expect(Object.keys(quest.QUEST_BOXES).some((key) => key.endsWith(':art')), 'the art is exempt').toBe(false);
         for (const [kind, part] of REQUIRED_BOXES) {
             expect(quest.QUEST_BOXES[`${kind}:${part}`], `QUEST_BOXES holds ${kind}:${part}`).toBeDefined();
