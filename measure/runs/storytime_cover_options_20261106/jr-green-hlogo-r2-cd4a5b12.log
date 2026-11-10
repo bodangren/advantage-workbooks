@@ -1,0 +1,45 @@
+# Jr Green log: A2 r2 continuation, the tighter logo tile (storytime_cover_options, Phase 2)
+
+- Date: 2026-11-11
+- Role: Measure Jr Green, model deepseek/deepseek-flash#high
+- start base: cd4a5b12. The first Green run was blocked by a tsc error in the committed Red test (log b53c9d86).
+- The Red retry b7b6a2dc changed line 442 to `matches[0] ?? ''` and added 3 tsc captures. Its plan record is 5c51a232, its log is cd4a5b12.
+- The Thai filter ran first: `THAI_CHARS_IN_OUTPUT=0`.
+
+## The change
+
+One file: `dashboard/lib/storytime/print/cover-quest.ts`. This run applied the saved patch `green-hlogo-r2-blocked-impl.patch` again. `git apply` succeeded, and `git diff | grep -c '^[-+] '` printed 14.
+
+- fronts `leftMm` 21.4 and `widthMm` 167.2 (top 12, height 54)
+- backs `leftMm` 49.7 and `widthMm` 110.6 (top 7, height 36)
+- each tile stays centered at 105 mm, and the comment block names the 80 % rule
+- `logoTile()` does not change, and no test file changed
+
+## The gates (one heavy-run each, p1)
+
+1. tests: exit 0. 8 files and 311 tests pass. `quest-cover-hlogo.test.ts` passes A1 to A9.
+2. lint: exit 0. One unrelated warning sits in `quest-cover-template.test.ts`.
+3. checks: exit 0. `check-weeks` passes 8 packages with 0 failed checks, and `tsc --noEmit` is clean.
+4. `git status --porcelain pnpm-lock.yaml` printed nothing.
+
+Captures: `green-hlogo-r2-tests.txt`, `green-hlogo-r2-lint.txt`, `green-hlogo-r2-checks.txt`. The patch file joined the same commit.
+
+## The commits
+
+- 93ad740: the implementation, the 3 captures and the patch file.
+- 2326169: the plan evidence.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 007e19fc46136b249a3f92e1bf4522cfc2ae2d06
+continuation_base_sha: cd4a5b12
+commits: 93ad740 (implementation, 3 captures, patch), 2326169 (plan evidence), this log
+tests_run: tests exit 0 (8 files, 311 tests; quest-cover-hlogo A1 to A9 pass); lint exit 0 (1 unrelated warning); checks exit 0 (check-weeks 8 packages, 0 failed; tsc clean)
+files_changed: dashboard/lib/storytime/print/cover-quest.ts; measure/runs/storytime_cover_options_20261106/green-hlogo-r2-tests.txt, green-hlogo-r2-lint.txt, green-hlogo-r2-checks.txt, green-hlogo-r2-blocked-impl.patch; measure/tracks/storytime_cover_options_20261106/plan.md; this log
+plan_updates: the Green A2 r2 line is [x] with one evidence line
+known_failures: none
+handoff: The tile values are fronts leftMm 21.4 and widthMm 167.2 (top 12, height 54) and backs leftMm 49.7 and widthMm 110.6 (top 7, height 36). Each tile stays centered at 105 mm. The build of the A2 r2 student cover and the A2 r2 teacher cover v2 runs as Task 2.9 part 3. The build role must pass `--top hlogo`.
+END_MEASURE_AGENT_RESULT
