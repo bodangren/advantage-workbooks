@@ -1,0 +1,59 @@
+Jr Green, Phase 3 Tasks 3.1b and 3.1, storytime_l2_unit2_20261106
+Date: 2026-11-10
+Session 1: ses_e3b1412c4ffepJ3gtIlEKd6KBM (Claude; Thai drafting, insert, gates, PDF rebuild, sheets 1 to 12 and 24 to 60)
+Session 2: Green P3 T3.1b r2 (claude-opus-5-5; sheets 13 to 23, caption sheet, hand-off folder, plan records)
+role_base_sha of session 2: d8f6cee2a26e7c58f71dbe745f06119629170ae3
+
+Commits
+- d8f6cee2 content(storytime): the share blocks of the 8 staged files (8 files, 367 insertions, 0 deletions; 40 captions; 0 new Thai terms; no home card line changed)
+- ea96888f measure(storytime): the Task 3.1b and Task 3.1 records, with t31b-stage-all.txt, t31b-pdf.txt, t31b-contact-sheets.txt
+- this commit: the run log only
+
+STAGE_CHECKS (t31b-stage-all.txt)
+- share-moment PASS on st2/1 to st2/16; thai PASS and thai-lines PASS on st2/9 to st2/16.
+- The only FAIL row is song-frame of st2/12, the recorded week 12 exception (take c2, 7 frame lines); its code is Phase 4 Tasks 4.1 and 4.2.
+
+PDF (t31b-pdf.txt)
+- ~/Desktop/print-ready/storytime/text-review/Storytime-Advantage-L2-U2-weeks-9-16-Thai-teacher-book-draft.pdf
+- built with --loops --share (D21); SHA-256 42e0114a27551d7091f9f11b0435754dd0efb48c0a295274b67b6e2e25a9a7a5; 238 pages
+- fonts embedded as CID TrueType, no Type 3; Liberation Sans on page 232 for 4 arrows and 1 multiply sign
+- pdftotext: 0 U+FFFD, Thai on every page, 40 of 40 captions, song lines w12 10/10, w14 10/10, w15 13/13
+
+Contact sheets (60 sheets, t31b-contact-sheets.txt)
+- Session 1 looked at sheets 1 to 12 and 24 to 60.
+- Session 2 looked at sheets 13 to 23 (pages 49 to 92), one image for each read:
+  sheet 13 (pp 49-52) seen, no defect
+  sheet 14 (pp 53-56) seen, no defect
+  sheet 15 (pp 57-60) seen, no defect
+  sheet 16 (pp 61-64) seen, no defect
+  sheet 17 (pp 65-68) seen, no defect
+  sheet 18 (pp 69-72) seen, no defect
+  sheet 19 (pp 73-76) seen, no defect
+  sheet 20 (pp 77-80) seen, no defect
+  sheet 21 (pp 81-84) seen, no defect
+  sheet 22 (pp 85-88) seen, no defect
+  sheet 23 (pp 89-92) seen, no defect
+- Defect classes: broken Thai line, missing glyph, clipped text. Count found: 0.
+- Layout note (not a defect class): page 85 holds only the day 5 heading and the box of the start of the lesson; the warm-up box starts on page 86.
+
+Hand-off folder ~/Desktop/print-ready/storytime/text-review/l2u2-thai-handoff-2026-11-14/ (written, not sent)
+- 42e0114a27551d7091f9f11b0435754dd0efb48c0a295274b67b6e2e25a9a7a5  Storytime-Advantage-L2-U2-weeks-9-16-Thai-teacher-book-draft.pdf (byte copy, cmp OK)
+- 56c269059daf4b22490b5b7aae8be6b924d0ff35684fee9df131ba5551149b55  home-card-lines.md (unchanged)
+- 1e632295a30732bfe851814f5ff4660b375b62709e449d9545cef0643600b267  thai-new-terms.md (unchanged)
+- c0058d42f4c5dde3e3706577c94c1d7759cbd74caeda2c7f1be89258db3a1e13  share-captions-sheet.md (new; 40 rows; built from the 8 files at d8f6cee2; every caption.en and caption.th agrees with the captions of session 1)
+- 82e8ed31c109a9c367e6ff1a3593b820a7cb4361426840e718501fab712bc09a  MANIFEST.txt (sha256sum -c: 4 of 4 OK)
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_l2_unit2_20261106
+phase: 3
+tasks: 3.1b [x] commit d8f6cee; 3.1 [x] commit 6e6b11b; 3.2 stays [ ]
+status: done
+role_base_sha: d8f6cee2a26e7c58f71dbe745f06119629170ae3
+commits: d8f6cee2 (content), ea96888f (plan evidence and captures), this log commit
+evidence: automated and peer-report (3.1b); automated and person-checked (3.1)
+deferred: none
+new_files: measure/runs/storytime_l2_unit2_20261106/t31b-stage-all.txt, t31b-pdf.txt, t31b-contact-sheets.txt, jr-green-t31b-d8f6cee2.log; outside the repo: share-captions-sheet.md and the new MANIFEST.txt in the hand-off folder
+handoff: Task 3.2 sends the hand-off folder to the PM session for Daniel by 2026-11-14 18:00 ICT. No Thai goes to another person or model. The song-frame FAIL of st2/12 stays open for Phase 4 Tasks 4.1 and 4.2. measure/doctor.sh does not exist in this repository, so the gate is STAGE_CHECKS.
+dispositions: none
+END_MEASURE_AGENT_RESULT
