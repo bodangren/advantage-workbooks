@@ -37,9 +37,9 @@
  *       4 kinds. The 4 hashes are the pins of the r5 state at this commit.
  *   A3: With top 'hlogo', the 2 fronts hold no series banner, no series logo, and no crest. The 2
  *       backs hold no series banner and no logo box. Each kind holds one logo tile with one image
- *       of the horizontal logo. No text node of the body holds the series name. The 2 fronts hold
- *       the level line once. The check reads the body: the document title and the style block are
- *       not visible chrome.
+ *       of the horizontal logo. No text node of the body holds the series name outside the contact
+ *       lines. Each back holds its 5 contact lines. The 2 fronts hold the level line once. The
+ *       check reads the body: the document title and the style block are not visible chrome.
  *   A4: The box table holds the key "<kind>:logo-tile" for the 4 kinds. The tile is 168 mm to
  *       178.5 mm wide, is centered at 105 mm, and starts at 5 mm or more. The tile of the 2 fronts
  *       ends at 100 mm or less. The tile of the student back ends 3 mm above the panel. The boxes
@@ -51,7 +51,17 @@
  *   A7: The PDF of the student front and of the student back holds no Type 3 font and holds an
  *       embedded font.
  *   A8: The build takes the flag --top. The value hlogo parses, the default is banner, and the
- *       value round is an error.
+ *       value round is an error. Every call holds --level and --unit, because the build requires
+ *       them.
+ *
+ * The r2 change of 2026-11-10, after the Green finding of 8f46d85c:
+ *   (1) A3 read every text node of the body for the series name. The 2 backs hold the 5 contact
+ *       lines, and 2 of them hold the series name. A5 keeps the contact block, so the check skips
+ *       the text nodes of every element with data-part="contact-line". The check matches the 2
+ *       words "Storytime" and "Advantage" as whole words, case-sensitive.
+ *   (2) A8 called parseQuestArgs without --level and without --unit. The build requires both, and
+ *       the old test B02 of quest-cover-build.test.ts refuses such a call. Every call of A8 holds
+ *       --level 2 and --unit 1.
  *
  * The 2 backs render the 5 contact lines, which hold Thai. The file prints no text of a back: it
  * prints millimetre values, counts, colors, hashes, and part names only.
@@ -391,7 +401,7 @@ function renderKind(kind: Kind, opts: TopOptions): string {
 }
 
 /**
- * Finds the text nodes of the body that hold the series name.
+ * Finds the text nodes of the body that hold the series name outside the contact lines.
  * @param doc The parsed document.
  * @returns The part mark of each node, or the tag name when no part holds it.
  */
@@ -405,7 +415,8 @@ function seriesNameNodes(doc: Document): string[] {
         const parent = node.parentElement;
         if (!parent) continue;
         if (parent.closest('style, script')) continue;
-        if (!/storytime|advantage/i.test(node.nodeValue ?? '')) continue;
+        if (parent.closest('[data-part="contact-line"]')) continue;
+        if (!/\b(?:Storytime|Advantage)\b/.test(node.nodeValue ?? '')) continue;
         const part = parent.closest('[data-part]');
         found.push(part?.getAttribute('data-part') ?? parent.tagName.toLowerCase());
     }
@@ -555,6 +566,12 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
                 names.length,
                 `no text node of the ${kind} body holds the series name: ${summarise(names)}`,
             ).toBe(0);
+            if (kind === 'student-back' || kind === 'teacher-back') {
+                expect(
+                    doc.querySelectorAll('[data-part="contact-line"]').length,
+                    `the ${kind} holds its 5 contact lines.`,
+                ).toBe(5);
+            }
         }
         for (const kind of KINDS_FRONT) {
             const html = renderKind(kind, HLOGO_OPTIONS);
@@ -697,16 +714,17 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
     }, 300_000);
 
     it('A8: the build takes the flag --top', () => {
-        const withTop = parseQuestArgs(['--top', 'hlogo']);
+        const withTop = parseQuestArgs(['--level', '2', '--unit', '1', '--top', 'hlogo']);
         expect(withTop.errors, 'the flag --top hlogo holds no error.').toEqual([]);
         const args = withTop.args as TopArgs | null;
         expect(args, 'the flag --top hlogo parses.').not.toBeNull();
         expect(args!.top, 'the parsed top style is hlogo.').toBe('hlogo');
-        const plain = parseQuestArgs([]);
+        const plain = parseQuestArgs(['--level', '2', '--unit', '1']);
+        expect(plain.errors, 'the build without --top holds no error.').toEqual([]);
         const plainArgs = plain.args as TopArgs | null;
         expect(plainArgs, 'the build without --top parses.').not.toBeNull();
         expect(plainArgs!.top, 'the default top style is banner.').toBe('banner');
-        const bad = parseQuestArgs(['--top', 'round']);
+        const bad = parseQuestArgs(['--level', '2', '--unit', '1', '--top', 'round']);
         expect(bad.errors.length, 'the flag --top round is an error.').toBeGreaterThan(0);
         expect(bad.args, 'the flag --top round parses no arguments.').toBeNull();
     });
