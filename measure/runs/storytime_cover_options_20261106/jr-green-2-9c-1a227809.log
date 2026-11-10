@@ -1,0 +1,55 @@
+# Jr Green log: Task 2.9 part 3, the A2 r2 covers
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 3
+Role: measure-jr-green
+Model: deepseek/deepseek-flash#high
+role_base_sha: 1a227809ad5255ca1f092b2e9ad923d12ef8189b
+Green code commit: 93ad740f
+
+## Narrative
+
+This round is a build task. It changed no code, no test, and no file under `content/`.
+
+The Thai filter ran first and printed `THAI_CHARS_IN_OUTPUT=0`.
+The committed Red change of `93ad740f` is inside `role_base_sha..HEAD`.
+
+STEP 1 made the 31-file pictures folder. The 29 hard links gave 29 of 29 equal SHA-256 pairs and
+29 of 29 the same inode. The student front holds `9087de28...`. The edge fill kept its source at
+`5411e37e...` and wrote `881e93b2...`. The prepared teacher front holds `09014118...`, and both raw
+values hold `8fc2be06...`, so no pixel changed.
+
+STEP 2 ran one build with `--top hlogo` in one heavy-run wrapper. It exits 0 on the first attempt.
+It prints `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and 4 lines `All checks pass.`.
+
+STEP 3 copied 10 files as byte copies into the hand-off folder under the `-alt-hlogo-r2` names.
+All 10 SHA-256 pairs are equal. The script also wrote `README-alt-hlogo-r2.txt` and checked the 6
+guard print files.
+
+STEP 4 ran 30 print-check lines. All 30 are PASS and 0 are FAIL. `PRINT_GATE` exits 0 on both print
+files with `All checks pass.`
+
+STEP 5 made the 4 contact sheets. STEP 6 rewrote `MANIFEST.txt` with 48 lines, and its 33 old lines
+are byte-equal. STEP 7 inserted one plan sub-bullet under Task 2.9, and Task 2.9 stays `[~]`.
+
+STEP 8 committed the scripts, the captures, and the plan in `c5c7457d`, then this log alone. Then it
+deleted the scratch folder and proved the 2 shipped pictures unchanged.
+
+## Result
+
+```
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 1a227809ad5255ca1f092b2e9ad923d12ef8189b
+commits: c5c7457d
+tests_run: build exit 0 (1 attempt, 4 lines "All checks pass."); print checks 30 PASS and 0 FAIL lines; PRINT_GATE exit 0 on both files with "All checks pass." count 1 each
+files_changed: outside the repository 15 new files: student/front-alt-hlogo-r2.png, student/back-alt-hlogo-r2.png, student/cover-alt-hlogo-r2.pdf, student/build-report-alt-hlogo-r2.json, student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf, teacher/teacher-front-alt-hlogo-r2.png, teacher/teacher-back-alt-hlogo-r2.png, teacher/teacher-cover-alt-hlogo-r2.pdf, teacher/build-report-alt-hlogo-r2.json, teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf of ~/Desktop/print-ready/storytime/covers-quest-v1/, the new README-alt-hlogo-r2.txt, 4 new contact sheets, and the rewritten MANIFEST.txt; inside the repository the plan and 20 new files of measure/runs/storytime_cover_options_20261106/ that end in -2-9c or _2_9c (9 scripts, 11 captures, and manifest-old-2-9c.txt), plus this log
+plan_updates: one Part 3 A2 r2 sub-bullet under Task 2.9; Task 2.9 stays [~]
+known_failures: none
+handoff: The 10 new r2 files. student/front-alt-hlogo-r2.png 5e96dc4058ba156423d6c274cf6ba5156448bec22f30d5222acdfb536834982e; student/back-alt-hlogo-r2.png 1adc4e7df4de14ff101f4043b7f80a1a01801f89e2e8086a43ffc055c636f968; student/cover-alt-hlogo-r2.pdf af7ca3be5378719fa1aad5659876ba77a9c67177628d315e9567589ec990ea75; student/build-report-alt-hlogo-r2.json 0987b1fdabb395d89e6cc10b36928131dfa4d6af8f7a7004297e2c63a005c058; student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663; teacher/teacher-front-alt-hlogo-r2.png c0acc1ad5e99fa4d3002630901b02653e0e3dbbc2c57fdd2e9eb29a392cfb103; teacher/teacher-back-alt-hlogo-r2.png ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4; teacher/teacher-cover-alt-hlogo-r2.pdf b65dc772126dec22de7745414e53389f7637d7f6ab0b097bc21262ff448df138; teacher/build-report-alt-hlogo-r2.json 827e257bec52f2106a86607c2fe43aeed9972ce9fe7f530b2da61f86290cfa4d; teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf 6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd. The 4 sheets of contact-sheets/: student-alt-hlogo-r2.png 092344f420b18e0d45ec5f1dde056fc994ef3757f213a3a40df872e234a3a846; teacher-alt-hlogo-r2.png 8d82be3dd5ae91369668d8acaa9c88cd3f9688be610793dcf42ddc035955e90b; student-r5-vs-alt-hlogo-r2.png 7fca6ada5469f9f97179b32ca8d9967fc254c8d9ed39d348be437b1555aa8d34; teacher-r5-vs-alt-hlogo-r2.png 2bbd84488b6e5efe1e7f703ca3c05112dea58635467498e3c6deb76e652fb340. The new MANIFEST.txt holds 48 lines with SHA-256 2aa88d4082df1c94bd3f67d2792b1e0065e139375592b6479e9f4faedb96043d, and its 33 old lines are byte-equal. README-alt-hlogo-r2.txt holds 2c8946028fe89531ad40929076ce947b79644b6a5754a44130386ecbc5fd5893. The 6 guard print files keep their SHA-256. Both print files are A4 PDF 1.3 PDF/X-1a:2001, 2 pages, 5 embedded fonts, 0 Type 3 fonts, one 2480 x 3508 px art at 300.0 ppi per page. The 2 fronts hold 0 Thai characters, and each back holds the 38 Thai characters of BACK_LINES.contact. The QR check gives 0 of 841 modules different on both backs. Daniel picks between r5 (no suffix) and A2 r2 for both books, with no new build. No push.
+END_MEASURE_AGENT_RESULT
+```
