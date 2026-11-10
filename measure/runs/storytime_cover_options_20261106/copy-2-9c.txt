@@ -1,0 +1,22 @@
+SOURCE_LISTING student 5: Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf back.png build-report.json cover.pdf front.png
+SOURCE_LISTING teacher 5: Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf build-report.json teacher-back.png teacher-cover.pdf teacher-front.png
+COPY student/front.png -> student/front-alt-hlogo-r2.png bytes=15264455 sha256=5e96dc4058ba156423d6c274cf6ba5156448bec22f30d5222acdfb536834982e pair_equal=true
+COPY student/back.png -> student/back-alt-hlogo-r2.png bytes=5364334 sha256=1adc4e7df4de14ff101f4043b7f80a1a01801f89e2e8086a43ffc055c636f968 pair_equal=true
+COPY student/cover.pdf -> student/cover-alt-hlogo-r2.pdf bytes=36596704 sha256=af7ca3be5378719fa1aad5659876ba77a9c67177628d315e9567589ec990ea75 pair_equal=true
+COPY student/build-report.json -> student/build-report-alt-hlogo-r2.json bytes=838 sha256=0987b1fdabb395d89e6cc10b36928131dfa4d6af8f7a7004297e2c63a005c058 pair_equal=true
+COPY student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf -> student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf bytes=6300245 sha256=bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663 pair_equal=true
+COPY teacher/teacher-front.png -> teacher/teacher-front-alt-hlogo-r2.png bytes=15511771 sha256=c0acc1ad5e99fa4d3002630901b02653e0e3dbbc2c57fdd2e9eb29a392cfb103 pair_equal=true
+COPY teacher/teacher-back.png -> teacher/teacher-back-alt-hlogo-r2.png bytes=12577643 sha256=ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4 pair_equal=true
+COPY teacher/teacher-cover.pdf -> teacher/teacher-cover-alt-hlogo-r2.pdf bytes=37296640 sha256=b65dc772126dec22de7745414e53389f7637d7f6ab0b097bc21262ff448df138 pair_equal=true
+COPY teacher/build-report.json -> teacher/build-report-alt-hlogo-r2.json bytes=854 sha256=827e257bec52f2106a86607c2fe43aeed9972ce9fe7f530b2da61f86290cfa4d pair_equal=true
+COPY teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf -> teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf bytes=7029461 sha256=6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd pair_equal=true
+COPIES 10
+SHA_PAIRS_EQUAL 10
+README /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/README-alt-hlogo-r2.txt bytes=1715 sha256=2c8946028fe89531ad40929076ce947b79644b6a5754a44130386ecbc5fd5893
+GUARD student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf sha256=920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d expected=920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d ok=true
+GUARD student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo_PDFX-1a.pdf sha256=8ae118b644765eaeab537b503cab76bc7bb573d9dae6d3b4ed567c465dc5d6fa expected=8ae118b644765eaeab537b503cab76bc7bb573d9dae6d3b4ed567c465dc5d6fa ok=true
+GUARD teacher-candidate/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf sha256=d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37 expected=d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37 ok=true
+GUARD teacher-candidate/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate-alt-hlogo_PDFX-1a.pdf sha256=665c044f6e828e618fc4c488564d26c6e63ddaf3d61432b3dba8aebd7596bf1a expected=665c044f6e828e618fc4c488564d26c6e63ddaf3d61432b3dba8aebd7596bf1a ok=true
+GUARD teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf sha256=1d2bcd99b347836a0dc48b8518064edb919947c0c0b26e076f05e1973f304e0e expected=1d2bcd99b347836a0dc48b8518064edb919947c0c0b26e076f05e1973f304e0e ok=true
+GUARD teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo_PDFX-1a.pdf sha256=f0c43292cca3add0fbfa99e8da651198f158489ad18086f33b370ac54644bf60 expected=f0c43292cca3add0fbfa99e8da651198f158489ad18086f33b370ac54644bf60 ok=true
+GUARDS_OK 6
