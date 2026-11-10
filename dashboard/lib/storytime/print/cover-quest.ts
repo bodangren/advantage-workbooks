@@ -101,22 +101,24 @@ const PUBLISHER_MARK_TOP_MM = 251.5;
  * the crest of both fronts, so the 2 crest keys are gone. The publisher mark of both backs stands
  * in the contact sign, left of the QR and under the contact lines. The alternate A2 of 2026-11-10
  * adds one `logo-tile` box to the 2 fronts and the 2 backs: the horizontal logo on its amber tile,
- * the only top chrome of that opt-in style. The A2 box of the 2 fronts is 172 mm by 54 mm at
- * 19 mm and 12 mm; the A2 box of the 2 backs is 172 mm by 36 mm at 19 mm and 7 mm.
+ * the only top chrome of that opt-in style. The A2 r2 change of 2026-11-11 (PM look check) makes
+ * the tile narrower, so that the logo fills 80 % of the inner tile both ways: the A2 box of the 2
+ * fronts is 167.2 mm by 54 mm at 21.4 mm and 12 mm; the A2 box of the 2 backs is 110.6 mm by 36 mm
+ * at 49.7 mm and 7 mm.
  */
 export const QUEST_BOXES: Record<string, QuestBox> = {
     'student-front:series-logo': { kind: 'student-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'student-front:series-banner': { kind: 'student-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
-    'student-front:logo-tile': { kind: 'student-front', leftMm: 19, topMm: 12, widthMm: 172, heightMm: 54 },
+    'student-front:logo-tile': { kind: 'student-front', leftMm: 21.4, topMm: 12, widthMm: 167.2, heightMm: 54 },
     'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:series-logo': { kind: 'teacher-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'teacher-front:series-banner': { kind: 'teacher-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
-    'teacher-front:logo-tile': { kind: 'teacher-front', leftMm: 19, topMm: 12, widthMm: 172, heightMm: 54 },
+    'teacher-front:logo-tile': { kind: 'teacher-front', leftMm: 21.4, topMm: 12, widthMm: 167.2, heightMm: 54 },
     'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:band-pill': { kind: 'teacher-front', leftMm: 83, topMm: 271.5, widthMm: 44, heightMm: 9 },
     'student-back:logo-box': { kind: 'student-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'student-back:series-banner': { kind: 'student-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
-    'student-back:logo-tile': { kind: 'student-back', leftMm: 19, topMm: 7, widthMm: 172, heightMm: 36 },
+    'student-back:logo-tile': { kind: 'student-back', leftMm: 49.7, topMm: 7, widthMm: 110.6, heightMm: 36 },
     'student-back:panel': { kind: 'student-back', leftMm: 12, topMm: 48, widthMm: 186, heightMm: 142 },
     'student-back:contact-sign': { kind: 'student-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'student-back:qr': { kind: 'student-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
@@ -130,7 +132,7 @@ export const QUEST_BOXES: Record<string, QuestBox> = {
     },
     'teacher-back:logo-box': { kind: 'teacher-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'teacher-back:series-banner': { kind: 'teacher-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
-    'teacher-back:logo-tile': { kind: 'teacher-back', leftMm: 19, topMm: 7, widthMm: 172, heightMm: 36 },
+    'teacher-back:logo-tile': { kind: 'teacher-back', leftMm: 49.7, topMm: 7, widthMm: 110.6, heightMm: 36 },
     'teacher-back:contact-sign': { kind: 'teacher-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'teacher-back:qr': { kind: 'teacher-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
     'teacher-back:line-label': { kind: 'teacher-back', leftMm: 141, topMm: 259, widthMm: 50, heightMm: 8 },
