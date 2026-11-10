@@ -1,0 +1,68 @@
+# Jr Green record log: Task 2.7 part 1, the delivery check (storytime_l2_unit2_20261106)
+
+Role: measure-jr-green. Track: storytime_l2_unit2_20261106. Phase: Phase 2: Picture list for
+Forge (2026-11-07 to 2026-11-23). Task: 2.7, part 1, second pass.
+
+Baseline: 53aca14c018fc51625bdf0ae0f67d79174237f4c. The command `git rev-parse HEAD` printed that
+SHA before the edit. The plan was clean. The first pass had committed the log
+`jr-green-t27-03b0e789.log` and had not touched the plan.
+
+## The Thai proof
+
+The first command of this pass read 5 files. No week file was read. Each line ended with `:0`.
+
+- measure/tracks/storytime_l2_unit2_20261106/plan.md:0
+- measure/runs/storytime_l2_unit2_20261106/picture-check-u2.txt:0
+- measure/runs/storytime_l2_unit2_20261106/picture-check-u2-summary.json:0
+- measure/runs/storytime_l2_unit2_20261106/picture-check-u2-main.txt:0
+- measure/runs/storytime_l2_unit2_20261106/picture-check-u2-retry1.txt:0
+
+## The plan record
+
+`python3 -I /tmp/opencode/t27r2/edit.py` printed `edits: 2`. The script read the summary JSON of
+the first pass and the picture list. It did not read a week file.
+
+The check values in the record come from the captures of the first pass. No check ran in this pass.
+
+- folder 1: exit 1, 211 rows pass, 18 rows fail with no job, 9 rows fail on the version rule
+- folder 2: exit 1, 4 rows pass, 179 rows fail with no job, 0 rows fail for another reason
+- the union passes 215 of the 229 list rows, and 0 rows pass in both folders
+- the MANIFEST.txt hashes are `46f9e723...` with 468 hash lines OK and `0e7a5223...` with 22 hash
+  lines OK, and 0 bad lines in each folder
+
+The plan checks after the edit:
+
+- `git diff --stat` prints `1 file changed, 2 insertions(+), 1 deletion(-)`
+- the Thai count of the plan is 0
+- the count of `deferred` is 2 before the edit and 2 after the edit
+
+Task 2.7 now reads `- [~]`. One part 1 sub-bullet follows it. The sub-bullet names the 2
+findings, the 14 open rows, the 9 ids outside the list, the fallback defaults, and the report
+files.
+
+## The record commit
+
+Commit c7ff3615 holds the plan and the 4 picture-check-u2 files. The commit lists only these 5
+files. `git status --porcelain pnpm-lock.yaml` prints nothing.
+
+## The probe deviation
+
+The first pass ran a probe outside its brief. The probe held hard links of the files of folder 1
+and a copy of manifest.json in `/tmp/opencode/t27/`. The probe set the 9 version fields to 1 and
+gave 224 of 229. The orchestrator recorded the probe as a deviation on 2026-11-10. The sub-bullet
+of the plan names the probe and its result. The Forge folders were never written, moved, or
+deleted. The scratch folder was deleted.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: 53aca14c018fc51625bdf0ae0f67d79174237f4c
+commits: c7ff3615
+tests_run: none in this pass; the part 1 check values come from the captures of the first pass (folder 1 exit 1, 211 pass; folder 2 exit 1, 4 pass; union 215 of 229)
+files_changed: plan.md and the 4 picture-check-u2 files
+plan_updates: Task 2.7 marked [~]; one part 1 sub-bullet with the stage 1 results, the 2 findings, and the fallback defaults
+known_failures: 14 open rows (9 version-rule rows of folder 1; 5 Forge FAIL rows); 9 checker ids outside the list
+handoff: The plan record of Task 2.7 part 1 is in commit c7ff3615 and names both findings. The 9 version-rule rows of folder 1 and the 9 ids outside the list went to the PM on 2026-11-10. The 9 version-rule rows need a repair of the delivered manifest or of the file names at 0 USD, with no new render. The 9 ids outside the list are a checker defect: `dashboard/scripts/storytime/check-storytime-pictures.ts:110` loads only weeks 9 to 16, so the reuse of a unit 1 picture does not show. That code fix goes with Phase 4, rule R1. Task 2.7 stays open until the 14 rows pass or Daniel takes a card picture out with his words in the plan line. The probe of the first pass stays a recorded deviation. The first pass log is `jr-green-t27-03b0e789.log` in commit 53aca14c. This record log is the only other commit.
+END_MEASURE_AGENT_RESULT
