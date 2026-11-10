@@ -1,0 +1,26 @@
+Mid Red of storytime_cover_options_20261106, phase P2, Task (Red r2, no text stroke). Role base 16056bee, phase base 16056bee, 2026-11-10.
+
+Work done:
+- Read the Thai counts first: the plan holds 0 Thai characters and the test file holds 0 Thai characters. No file under options/, no test-strategy.md, and no dashboard/lib/covers/back-text.ts was read. No PNG or PDF was opened. The test file prints no text of a back, only colors, part names, and millimetre values.
+- Changed C3 in dashboard/__tests__/quest-cover-logo-tone.test.ts and added C4. No other test of the file changed.
+- C3 now takes the logo brown #92400e for the "Advantage" word of every series banner and for the book line of every front plaque. The check runs over every series banner of the page, not only over the first one. The "Storytime" word and the panel headings keep the brown. The white constant of the file went away, because no check uses it now.
+- C4 is a new test. It reads the computed webkitTextStrokeWidth of every element inside every chrome part, and of the level line, the book line, and the plaque separator. The width must be 0 px. The reason: Chrome writes text with -webkit-text-stroke as a Type 3 font, and the print rule refuses a Type 3 font (dashboard/lib/print/pdfx.ts, the lines 166 and 167).
+- The JSDoc header holds the reason and the orchestrator decision of 2026-11-10 13:35. The decision words: "Advantage" and the front plaque book line take the logo brown #92400E as live text with no text stroke.
+- The gates ran in one heavy run (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400, the runner /tmp/opencode/c29g2/run_red2.py). The runner wrote measure/runs/storytime_cover_options_20261106/red-tone-r2.txt.
+- No production file changed. The uncommitted Green work of the pair stayed in the tree: dashboard/lib/storytime/print/cover-quest.ts, the plan line marked [~], content/storytime/covers/logos/, and the green-tone run files. Only the plan line, the test file, and the 2 new run files went into the commits. No push. No install.
+
+The recorded deviation: the run was measured on the uncommitted Green tree, because the Green of this pair stopped before its commits. The Red failures are therefore the failures of the Green tree, and they are the 2 expected ones.
+
+MEASURE_AGENT_RESULT
+status: done
+role: Measure Mid Red
+track: storytime_cover_options_20261106
+phase: P2
+baseline_sha: 16056bee548bbf012a11eb762a5945ae4da41f7e
+role_base_sha: 16056bee548bbf012a11eb762a5945ae4da41f7e
+head: 4174350e70240457bc6e3c72b6ae837e41354dd3
+commits: 44a08b4ec985809fc14e919f146cb09cb44128eb (the test file); 4174350e70240457bc6e3c72b6ae837e41354dd3 (the plan line and the evidence file); the third commit holds this log
+tests: (a) red-tone-r2.txt, exit 1, 1 file, 11 tests, 2 failed, 9 passed, 12.23 s; (b) npx eslint __tests__/quest-cover-logo-tone.test.ts, exit 0 with 0 errors and 0 warnings
+files: dashboard/__tests__/quest-cover-logo-tone.test.ts; measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/red-tone-r2.txt; measure/runs/storytime_cover_options_20261106/mid-red-tone-r2-16056bee.log
+remaining_failures: C3 and C4 of the new file. C3: the Advantage color of the student-front series banner 0 is #ffffff instead of #92400e. C4: the chrome of the student-front holds 2 text strokes, series-banner > div at 2.26772 px and title-plaque > book-line at 1.70079 px. The 9 other tests pass: L1, L2, L3, C1, C2, F1, V1, V2, and V3.
+dispositions: none
