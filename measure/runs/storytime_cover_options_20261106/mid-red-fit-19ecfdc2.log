@@ -1,0 +1,83 @@
+Mid Red of storytime_cover_options_20261106, phase P2, the Task (Red, the plaque text fits) pair of 2026-11-10.
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Role base sha: 19ecfdc27bb9d19042432528584d61e06f2cedae (the HEAD of the dispatch). The dispatch supplies
+one sha for the phase base and the role base, so both read 19ecfdc2.
+
+Thai filter (the first command): the script printed 0 Thai characters for the plan, the library
+`dashboard/lib/storytime/print/cover-quest.ts`, `dashboard/__tests__/quest-cover-frame-r3.test.ts`,
+`dashboard/__tests__/quest-cover-template.test.ts`, and
+`dashboard/__tests__/storytime-print-c6-baseline.test.ts`. The new test file holds 0 Thai characters.
+No file under `measure/tracks/storytime_cover_options_20261106/options/` was read. No PNG or PDF page
+image was opened. The file holds the student front and the teacher front only, and prints no back HTML.
+
+The finding (the orchestrator page look of the r3 fronts, 2026-11-10 10:40; the PM accepted the fix at
+10:45): "on both fronts the 2 title lines cross the plaque frame lines, and the plaque hides the bottom
+of the Sprout tab text".
+
+Work done:
+- Read `measure/tracks/storytime_cover_options_20261106/plan.md`, the track spec, the library
+  `dashboard/lib/storytime/print/cover-quest.ts`, `dashboard/__tests__/quest-cover-frame-r3.test.ts`, and
+  `dashboard/__tests__/storytime-print-c6-baseline.test.ts` (lines 48 to 61 for the browser form).
+- Inserted 2 lines in the plan before the line that starts "- [~] Task 2.9 (Print build)": the Red line
+  with the `[~]` mark and the Green line with the `[ ]` mark.
+- Wrote `dashboard/__tests__/quest-cover-plaque-fit.test.ts` with 10 tests, P1 to P6. The file renders
+  the 2 fronts with `renderQuestCover(kind, book, { art: ART }, { bleedMm: 0 })`, writes each HTML into a
+  new folder from `fs.mkdtempSync(path.join(os.tmpdir(), 'quest-plaque-'))`, opens it in Chrome
+  (`chromium.launch({ channel: 'chrome', timeout: 30_000 })`), waits for `document.fonts.ready`, checks
+  `document.fonts.check('16px "League Spartan"')` is true, measures the boxes in the page with
+  `getBoundingClientRect` and a `Range` over each text node, and converts the pixels to millimetres at
+  96 px = 25.4 mm. The browser closes in a `finally`. Each test holds a timeout of 120000 ms.
+- The contract holds no layout choice. P1 wants every plaque text inside the band in the level colour
+  (the SVG path whose fill equals the `data-plaque-colour` value) within 0.1 mm. P2 wants no text on a
+  diamond ornament and no 2 texts on each other. P3 wants a font size of 4.2 mm or more. P4 wants the
+  words "Level 2 Unit 1 Student Book" and "Level 2 Unit 1 Teacher Book" after the middle dots are
+  removed and the spaces are collapsed. P5 wants the Sprout tab text inside its pill and at or above the
+  top of the plaque. P6 wants the bytes of the readers and of the series banners to stay the same.
+- The 4 pinned values of P6, computed at the role base sha 19ecfdc2 with the same `DOMParser`:
+  the reader A3 plaque `b2fcb49e6162d2b03b40d15480eb6f0d556227ad5244c55e72de64548ecee707`; the reader
+  leaf plaque `4b37d4ca7d78f6f9228a97a94e8568d69e9593041e83d9af4fdce841f55eeaa1`; the series banner of
+  the student front and the series banner of the teacher front
+  `47ee7dadf2ccfc0ce7a6d70b013c9ebaab98f27a0cdfbc198680442d7d1c0bb9`.
+- Gate (a), in one heavy-run with `HEAVY_PRIORITY=p1`: the new file alone,
+  `measure/runs/storytime_cover_options_20261106/red-fit-new.txt`: `Test Files  1 failed (1)`,
+  `Tests  5 failed | 5 passed (10)`, `EXIT: 1`, 8.28 s. The capture holds no "No test files found", no
+  "SyntaxError", and no "is not a function".
+- Gate (b), in the same heavy-run: `measure/runs/storytime_cover_options_20261106/red-fit-lint.txt`:
+  ESLINT `EXIT: 0` with 0 errors and 0 warnings, and TSC `EXIT: 0` with 0 error lines.
+- The 5 failing tests fail for the fit, and each message holds the measured millimetres of every
+  failing box:
+  - P1, the student front: the text "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm,
+    bottom 285.80 mm) and the text "Student Book" (left 91.40 mm, top 285.34 mm, right 118.60 mm,
+    bottom 291.96 mm) leave the band (left 28.81 mm, top 280.80 mm, right 181.19 mm, bottom 289.20 mm).
+  - P1, the teacher front: the text "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm,
+    bottom 285.80 mm) and the text "Teacher Book" (left 91.28 mm, top 285.34 mm, right 118.71 mm,
+    bottom 291.96 mm) leave the same band.
+  - P2, both fronts: the 2 texts touch each other, because the level line ends at 285.80 mm and the book
+    line starts at 285.34 mm. No text touches a diamond ornament.
+  - P5, the teacher front: the Sprout tab text (left 97.42 mm, top 272.03 mm, right 112.57 mm,
+    bottom 279.44 mm) reaches 279.44 mm, below the top of the plaque (left 26.00 mm, top 278.00 mm,
+    right 184.00 mm, bottom 292.00 mm) at 278.00 mm. The text stays inside its pill.
+- The 5 passing tests: P3 of the student front, P3 of the teacher front, P4 of the student front, P4 of
+  the teacher front, and P6.
+- The whole quest-cover suite did not run at Red, because this task adds 1 test file and changes no
+  shared code and no old pin. The Green gate runs the whole suite.
+- Commit eee69aa3 holds only the test file. Commit 0f48085d holds the plan and the 2 captures. No
+  shared file changed (guard G-1), no push, no `npm install`, no `pnpm install`. The unrelated untracked
+  work of the other tracks stays untouched.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Mid Red
+track: storytime_cover_options_20261106
+phase: P2
+task: Task (Red, the plaque text fits)
+baseline_sha: 19ecfdc27bb9d19042432528584d61e06f2cedae
+role_base_sha: 19ecfdc27bb9d19042432528584d61e06f2cedae
+head: 0f48085da1bc9f484b7bb17ead8c4fd42f13e505
+commits: eee69aa3b6c63ae58ba972e63225a2c76d102feb (the Red test file); 0f48085da1bc9f484b7bb17ead8c4fd42f13e505 (the plan and the 2 captures); the commit of this log
+tests: the new file alone, gate (a): Test Files  1 failed (1), Tests  5 failed | 5 passed (10), exit 1, 8.28 s; gate (b): eslint exit 0 (0 errors, 0 warnings), tsc --noEmit exit 0
+files: dashboard/__tests__/quest-cover-plaque-fit.test.ts; measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/red-fit-new.txt; measure/runs/storytime_cover_options_20261106/red-fit-lint.txt; measure/runs/storytime_cover_options_20261106/mid-red-fit-19ecfdc2.log
+remaining_failures: 5 tests in dashboard/__tests__/quest-cover-plaque-fit.test.ts. P1, the student front: the level line and the book line leave the band in the level colour. P1, the teacher front: the level line and the teacher line leave the band. P2, the student front: the level line and the book line touch each other. P2, the teacher front: the level line and the teacher line touch each other. P5: the Sprout tab text reaches 279.44 mm, below the top of the plaque at 278.00 mm. The 5 passing tests at Red: P3 of both fronts, P4 of both fronts, and P6.
+handoff: Green (jr-green) sets the front plaque text on one line, "Level 2 · Unit 1 · Student Book" and "Level 2 · Unit 1 · Teacher Book", inside the 8.4 mm band of the plaque (the band spans 2.8 mm to 11.2 mm of the 14 mm box, so the text of one line at 4.2 mm to 6.7 mm fits), and moves the Sprout tab text up so that its bottom is at or above 278.00 mm. The Green changes no test file. The words of P4 stay the same in the same order, and the 4 bytes of P6 stay the same, so the readers and the series banners do not change. Then build the student cover and the teacher candidate again (Task 2.9 part 1, r4).
+dispositions: none
+END_MEASURE_AGENT_RESULT
