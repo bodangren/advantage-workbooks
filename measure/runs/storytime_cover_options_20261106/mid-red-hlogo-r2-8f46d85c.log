@@ -1,0 +1,63 @@
+# Red r2: the alternate A2 with the horizontal logo as the only top chrome
+
+- Track: storytime_cover_options_20261106. Phase: P2. Date: 2026-11-10.
+- Role: Measure Mid Red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+- role_base_sha: 8f46d85cb6a94c006e9ea2788997ad0129b78d13.
+- phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd.
+- The Green of this pair runs on deepseek/deepseek-flash#high.
+- The Red r1 commit: dbc2116dbdc193ce83205f874a457a3e52d6a979.
+
+## The Green finding of 8f46d85c
+
+- The Green of the pair stopped before its commits. Its log and its patch are commit 8f46d85c.
+- Finding A3, near line 557: the word check matched the series name inside the email address and
+  the TikTok handle of the kept contact lines. The contact lines are kept parts (A5).
+- Finding A8, near lines 700 and 705: `parseQuestArgs([])` and `parseQuestArgs(['--top','hlogo'])`
+  give an error, because `--level` and `--unit` are required. The old test B02 of
+  `dashboard/__tests__/quest-cover-build.test.ts` requires that error.
+
+## The r2 change of the Red file
+
+- A3: the check of the series name reads the text nodes outside every element with
+  `data-part="contact-line"`. The 2 words are "Storytime" and "Advantage", as whole words,
+  case-sensitive. Every other A3 assertion stays. One assertion is new: each back holds its 5
+  contact lines.
+- A8: every call holds the full argument list. The 3 calls are `['--level','2','--unit','1','--top',
+  'hlogo']`, `['--level','2','--unit','1']`, and `['--level','2','--unit','1','--top','round']`.
+- The JSDoc header of the file holds the 2 reasons. No other line of the file changed.
+- The file holds 0 Thai characters.
+
+## The gate
+
+- The gate ran in one heavy-run: `HEAVY_PRIORITY=p1`, `HEAVY_MIN_AVAIL_MB=1500`,
+  `HEAVY_PREFLIGHT_WAIT_S=5400`, with the runner `/tmp/opencode/c29h2/run_red2.py` under
+  `python3 -I`. The runner wrote `measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt`.
+- (a) `cd dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1`
+  gives `Test Files  1 passed (1)`, `Tests  8 passed (8)`, `Duration  12.93s`, `EXIT=0`.
+- (b) `cd dashboard && npx eslint __tests__/quest-cover-hlogo.test.ts` gives `EXIT=0` with 0 errors.
+- The deviation: the run was measured on the uncommitted Green tree, because the Green of this pair
+  stopped before its commits.
+- The evidence file holds 0 Thai characters.
+
+## The commits
+
+- `f7f36188932f1c35a0197bb58e0fd0271b050ff3` "test(covers): Red r2 of A2, the series-name check
+  skips the kept contact lines and the --top parse uses a full argument list
+  (storytime_cover_options)". The commit holds the test file alone, 27 insertions and 9 deletions.
+- `927b8ade6f67e31c7b708ffc5184c64faa3980c5` "measure(covers): Red r2 alternate A2 evidence
+  (storytime_cover_options)". The commit holds the plan line and the run file.
+
+MEASURE_AGENT_RESULT
+status: done
+role: Measure Mid Red
+track: storytime_cover_options_20261106
+phase: P2
+baseline_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
+head: 927b8ade6f67e31c7b708ffc5184c64faa3980c5
+commits: f7f36188932f1c35a0197bb58e0fd0271b050ff3 "test(covers): Red r2 of A2, the series-name check skips the kept contact lines and the --top parse uses a full argument list (storytime_cover_options)" (dashboard/__tests__/quest-cover-hlogo.test.ts, 27 insertions, 9 deletions); 927b8ade6f67e31c7b708ffc5184c64faa3980c5 "measure(covers): Red r2 alternate A2 evidence (storytime_cover_options)" (measure/tracks/storytime_cover_options_20261106/plan.md, 2 insertions; measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt, new file)
+tests: (a) `cd dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1` gives `Test Files  1 passed (1)`, `Tests  8 passed (8)`, `Duration  12.93s`, `EXIT=0` (measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt). All 8 tests pass: A1, A2, A3, A4, A5, A6, A7, and A8. (b) `cd dashboard && npx eslint __tests__/quest-cover-hlogo.test.ts` gives `EXIT=0` with 0 errors. The deviation: the run was measured on the uncommitted Green tree, because the Green of this pair stopped before its commits.
+files: dashboard/__tests__/quest-cover-hlogo.test.ts (2 edits of the A3 and A8 checks and the JSDoc header); measure/tracks/storytime_cover_options_20261106/plan.md (the Red r2 task line and its evidence sub-bullet); measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt (new, the gate evidence); measure/runs/storytime_cover_options_20261106/mid-red-hlogo-r2-8f46d85c.log (new, this log). Not staged and not changed: dashboard/lib/storytime/print/cover-quest.ts, dashboard/scripts/storytime/make-storytime-quest-covers.ts, content/storytime/covers/logos/storytime-advantage-horizontal.svg, dashboard/raw.json, and the unrelated untracked paths.
+remaining_failures: None in the r2 file on the uncommitted Green tree. At role_base_sha 8f46d85c the r2 file fails as a Red file must: A1, A3, A4, A6, and A8 fail, and A2, A5, and A7 pass (the gate rerun of the Green log of 8f46d85c). A3 finds the series banner text of the 2 fronts, and A8 reads no `--top` flag.
+dispositions: none
+handoff: (1) The Green of this pair owns the implementation: the logo file, the top style, the build flag, and the 2 build candidates under the -alt-hlogo names. Its work sits uncommitted in the tree. (2) The A3 check now skips the text nodes of every element with `data-part="contact-line"`, and it matches the 2 words "Storytime" and "Advantage" as whole words, case-sensitive. The Green must keep the contact block, and A5 pins its HTML. (3) The A8 check calls `parseQuestArgs` with the full argument list only. The old test B02 of quest-cover-build.test.ts refuses a call without `--level` and `--unit`, and that contract stays. (4) Each back holds its 5 contact lines, and the new A3 assertion pins that count. (5) The Red needs no user decision.
+END_MEASURE_AGENT_RESULT
