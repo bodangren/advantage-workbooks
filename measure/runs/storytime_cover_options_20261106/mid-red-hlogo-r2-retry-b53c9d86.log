@@ -1,0 +1,30 @@
+Mid Red log of the A2 r2 retry (storytime_cover_options, Phase 2)
+
+Cause: the Green found that `npx tsc --noEmit` failed on `__tests__/quest-cover-hlogo.test.ts(442,25)` (TS2769). The value `matches[0]` of `withoutLogoTile` is `string | undefined`.
+
+Fix: line 442 now reads `return html.replace(matches[0] ?? '', '');`. The change is 1 line. No pin changed. No production code changed.
+
+Model change: the model minimax-cn-coding-plan/MiniMax-M3.1-Flash made the fix and the 3 captures. Its plan hit the usage limit (error 2056) at 02:03 ICT, before the commits. The model claude-code/claude-sonnet-5-5#high checked the diff and the captures and made the commits. This role did not run the tests again.
+
+Captures (red-hlogo-r2-retry-*.txt):
+- tests: HEAVY_EXIT 1, 2 failed and 7 passed (A4 and A6).
+- tsc: HEAVY_EXIT 0.
+- eslint: HEAVY_EXIT 0.
+
+Commits:
+- b7b6a2d: the test fix and the 3 captures.
+- 5c51a232: one Red A2 r2 retry line in plan.md.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: b53c9d864a74be4fa4cce692cc21e0dbb0c139d0
+commits: b7b6a2d, 5c51a232
+tests_run: capture red-hlogo-r2-retry-tests.txt (vitest, HEAVY_EXIT 1, 2 failed | 7 passed (9)); red-hlogo-r2-retry-tsc.txt (npx tsc --noEmit, HEAVY_EXIT 0); red-hlogo-r2-retry-lint.txt (eslint, HEAVY_EXIT 0)
+files_changed: dashboard/__tests__/quest-cover-hlogo.test.ts; measure/runs/storytime_cover_options_20261106/red-hlogo-r2-retry-tests.txt; measure/runs/storytime_cover_options_20261106/red-hlogo-r2-retry-tsc.txt; measure/runs/storytime_cover_options_20261106/red-hlogo-r2-retry-lint.txt; measure/tracks/storytime_cover_options_20261106/plan.md
+plan_updates: one Red A2 r2 retry line under the Red A2 r2 evidence line
+known_failures: A4 (aspect 3.2348 and 4.9080) and A6 (width share 0.7769 and 0.5120) fail by design until Green
+handoff: Green applies its patch green-hlogo-r2-blocked-impl.patch again and reruns its 3 gates (tests, tsc, eslint)
+END_MEASURE_AGENT_RESULT
