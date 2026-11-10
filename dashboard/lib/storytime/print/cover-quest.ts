@@ -1003,7 +1003,11 @@ function seriesBanner(kind: QuestCoverKind, size: 'front' | 'back' | 'reader', b
 }
 
 /**
- * Draws the unit bar pill of the teacher front (`options/build.py`, `a_front`).
+ * Draws the unit bar pill of the teacher front (`options/build.py`, `a_front`). Round 4 of
+ * 2026-11-10: the pill keeps its box, its colours, its border, and its 13 pt size, and adds the
+ * League Spartan family and a line height of 5.9 mm. With border-box sizing the line box spans
+ * 272.1 mm to 278.0 mm, and the text box about 272.9 mm to 277.2 mm. The text then sits above the
+ * top of the plaque at 278 mm, so the plaque no longer hides the bottom of the Sprout tab text.
  * @param litBand The band of the book.
  * @param bleedMm The bleed.
  * @returns The HTML.
@@ -1013,16 +1017,18 @@ function bandPill(litBand: string, bleedMm: number): string {
     const label = litBand ? litBand.charAt(0).toUpperCase() + litBand.slice(1) : '';
     return (
         `<div data-part="band-pill" style="${boxStyle(box, bleedMm)};box-sizing:border-box;border-radius:4.5mm;` +
-        `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-weight:700;font-size:13pt;` +
-        `line-height:7.6mm;text-align:center">${esc(label)}</div>`
+        `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-family:'League Spartan';` +
+        `font-weight:700;font-size:13pt;line-height:5.9mm;text-align:center">${esc(label)}</div>`
     );
 }
 
 /**
  * Draws the title plaque of a front side (`options/build.py`, `a_front`): the plaque in the level
- * colour, the level line, and the book line. Round 3 of 2026-11-10: the plaque is 14 mm high, so
- * the level line is set to 7 mm and the book line to 4.2 mm, at a line height of 1.05, and the
- * frame parts are compact. Both lines then fit inside the box.
+ * colour, and one row that holds the level line, a separator dot, and the book line. Round 4 of
+ * 2026-11-10: the band in the level colour spans 280.8 mm to 289.2 mm, an 8.4 mm band, and 2 title
+ * lines of 7 mm and 4.2 mm do not fit it. The row is set at 6.4 mm on one line, so its text box is
+ * about 6.04 mm high and lies inside the band, and about 74 mm wide and clear of the diamond
+ * ornaments. The reader plaques and the series banners keep their bytes.
  * @param kind The cover kind.
  * @param book The book row.
  * @param bleedMm The bleed.
@@ -1036,9 +1042,11 @@ function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: num
         `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(box, bleedMm)}">` +
         plaqueSvg(box.widthMm, box.heightMm, colour, true) +
         `<div class="quest-c" style="position:absolute;left:0;top:0;width:${mm(box.widthMm)};height:${mm(box.heightMm)};` +
-        `color:#fff;display:flex;flex-direction:column;justify-content:center;line-height:1.05">` +
-        `<div data-part="level-line" style="font-family:'League Spartan';font-weight:700;font-size:7mm">Level ${String(book.level)} · Unit ${String(book.unit)}</div>\n` +
-        `<div data-part="book-line" style="font-weight:700;font-size:4.2mm;margin-top:0.4mm;color:#FFE7A3">${esc(bookLine)}</div>` +
+        `color:#fff;display:flex;flex-direction:row;align-items:center;justify-content:center;white-space:nowrap;` +
+        `font-family:'League Spartan';font-weight:700;font-size:6.4mm;line-height:1">` +
+        `<span data-part="level-line" style="color:#fff">Level ${String(book.level)} · Unit ${String(book.unit)}</span>\n` +
+        `<span data-part="plaque-sep" style="color:#FFE7A3;margin:0 1.6mm">·</span>\n` +
+        `<span data-part="book-line" style="color:#FFE7A3">${esc(bookLine)}</span>` +
         `</div></div>`
     );
 }
