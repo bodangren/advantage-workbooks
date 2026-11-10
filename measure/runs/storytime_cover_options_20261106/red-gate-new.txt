@@ -1,0 +1,109 @@
+PART A: the new test file alone (Red gate)
+COMMAND: npx vitest run __tests__/quest-cover-print-gate.test.ts --maxWorkers=1
+CWD: /home/daniebo/Desktop/Workbooks/dashboard
+EXIT: 1
+DURATION_S: 7.75
+--- output ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-print-gate.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 3560[2mms[22m[39m
+[31m     [31m×[31m G1: the gate passes a full-page art cover page that holds live text[39m[32m 16[2mms[22m[39m
+     [32m✓[39m G2: the build path of the gate stays as it is now[32m 1[2mms[22m[39m
+     [32m✓[39m G3: the 4 cover files sit in the print-ready folder with their pinned SHA-256[32m 103[2mms[22m[39m
+[31m     [31m×[31m G4: the print gate passes the 4 cover files on their own merit[39m[33m 3305[2mms[22m[39m
+     [32m✓[39m G5: the 4 cover files keep their SHA-256 after the print gate ran[32m 131[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-print-gate.test.ts[2m > [22mquest-cover-print-gate: G1 to G5 (Red, the cover print gate on its own merit)[2m > [22mG1: the gate passes a full-page art cover page that holds live text
+[31m[1mAssertionError[22m: the 3 verdicts of the gate on a full-page art cover page with live text.: expected { textPages12: { …(2) }, …(2) } to deeply equal { …(3) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -1,13 +1,13 @@[39m
+[2m  {[22m
+[2m    "textPages12": {[22m
+[32m-     "errors": 0,[39m
+[32m-     "pages": "",[39m
+[31m+     "errors": 1,[39m
+[31m+     "pages": "1, 2",[39m
+[2m    },[22m
+[2m    "textPages2": {[22m
+[2m      "errors": 1,[22m
+[32m-     "pages": "1",[39m
+[31m+     "pages": "1, 2",[39m
+[2m    },[22m
+[2m    "textPagesNone": {[22m
+[2m      "errors": 1,[22m
+[2m      "pages": "1, 2",[22m
+[2m    },[22m
+
+[36m [2m❯[22m __tests__/quest-cover-print-gate.test.ts:[2m196:11[22m[39m
+    [90m194| [39m            }[33m,[39m
+    [90m195| [39m            'the 3 verdicts of the gate on a full-page art cover page …
+    [90m196| [39m        )[33m.[39m[34mtoEqual[39m({
+    [90m   | [39m          [31m^[39m
+    [90m197| [39m            textPages12[33m:[39m { pages[33m:[39m [32m''[39m[33m,[39m errors[33m:[39m [34m0[39m }[33m,[39m
+    [90m198| [39m            textPagesNone[33m:[39m { pages[33m:[39m [32m'1, 2'[39m[33m,[39m errors[33m:[39m [34m1[39m }[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-print-gate.test.ts[2m > [22mquest-cover-print-gate: G1 to G5 (Red, the cover print gate on its own merit)[2m > [22mG4: the print gate passes the 4 cover files on their own merit
+[31m[1mAssertionError[22m: the 4 verdicts of the print gate on the cover files.: expected { …(4) } to deeply equal { …(4) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[2m    "a2-student": {[22m
+[32m-     "allPass": true,[39m
+[32m-     "became": false,[39m
+[32m-     "exit": 0,[39m
+[31m+     "allPass": false,[39m
+[31m+     "became": true,[39m
+[31m+     "exit": 1,[39m
+[2m    },[22m
+[2m    "a2-teacher": {[22m
+[32m-     "allPass": true,[39m
+[32m-     "became": false,[39m
+[32m-     "exit": 0,[39m
+[31m+     "allPass": false,[39m
+[31m+     "became": true,[39m
+[31m+     "exit": 1,[39m
+[2m    },[22m
+[2m    "r5-student": {[22m
+[32m-     "allPass": true,[39m
+[32m-     "became": false,[39m
+[32m-     "exit": 0,[39m
+[31m+     "allPass": false,[39m
+[31m+     "became": true,[39m
+[31m+     "exit": 1,[39m
+[2m    },[22m
+[2m    "r5-teacher": {[22m
+[32m-     "allPass": true,[39m
+[32m-     "became": false,[39m
+[32m-     "exit": 0,[39m
+[31m+     "allPass": false,[39m
+[31m+     "became": true,[39m
+[31m+     "exit": 1,[39m
+[2m    },[22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/quest-cover-print-gate.test.ts:[2m231:81[22m[39m
+    [90m229| [39m            results[file.label] = printGate(path.join(COVERS_DIR, file…
+    [90m230| [39m        }
+    [90m231| [39m        expect(results, 'the 4 verdicts of the print gate on the cover…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m232| [39m            [32m'r5-student'[39m[33m:[39m { exit[33m:[39m [34m0[39m[33m,[39m allPass[33m:[39m [35mtrue[39m[33m,[39m became[33m:[39m [35mfalse[39m }[33m,[39m
+    [90m233| [39m            [32m'r5-teacher'[39m[33m:[39m { exit[33m:[39m [34m0[39m[33m,[39m allPass[33m:[39m [35mtrue[39m[33m,[39m became[33m:[39m [35mfalse[39m }[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 17:48:50
+[2m   Duration [22m 6.12s[2m (transform 62ms, setup 153ms, import 67ms, tests 3.56s, environment 1.64s)[22m
+

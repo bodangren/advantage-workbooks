@@ -1,0 +1,15 @@
+PART B: the lint and the types of the new test file
+COMMAND: npx eslint __tests__/quest-cover-print-gate.test.ts
+CWD: /home/daniebo/Desktop/Workbooks/dashboard
+EXIT: 0
+DURATION_S: 6.00
+--- output ---
+
+COMMAND: npx tsc --noEmit -p .
+CWD: /home/daniebo/Desktop/Workbooks/dashboard
+EXIT: 0
+DURATION_S: 7.70
+--- output ---
+
+ESLINT_EXIT: 0
+TSC_EXIT: 0
