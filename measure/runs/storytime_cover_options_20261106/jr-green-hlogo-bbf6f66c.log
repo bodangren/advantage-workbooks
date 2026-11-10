@@ -115,3 +115,64 @@ gate_green_test_command: not run (the block forbids it)
 dispositions: none
 handoff: Blocked on the committed Red file, A3 (line 557) and A8 (lines 700 and 705). A3 requires 0 body text nodes with the series name on the 2 backs, but 2 contact-line nodes hold it, and A5 plus the print gate keep the contact block. A8 requires `parseQuestArgs([])` to return args, but old test B02 (quest-cover-build.test.ts lines 517 to 536) requires an error and args null for the same input. Request a Mid Red retry. Default A: edit A3 to skip `[data-part="contact-line"]` nodes (or check the chrome parts only), and edit A8 to parse `['--level', '2', '--unit', '1', '--top', 'hlogo']` and `['--level', '2', '--unit', '1']`; keep `['--top', 'round']` with the full argv. Do not change the parser to satisfy A8: B02 line 529 forbids it. After the retry, Green reruns the fast loop, gate (a), gate (b), and gate (c), prints the A6 values, and commits the 3 implementation paths, the RUNS files, and the run log. The implementation holds A1, A2, A4, A5, A6, and A7 now. The Green plan line stays [~] and is uncommitted. The implementation stays uncommitted in the working tree and is also saved as green-hlogo-blocked-impl.patch.
 END_MEASURE_AGENT_RESULT
+
+## Continuation r2, 2026-11-10
+
+The block is lifted. The Red r2 commit f7f36188932f1c35a0197bb58e0fd0271b050ff3 changes only
+dashboard/__tests__/quest-cover-hlogo.test.ts. A3 now skips the kept contact lines and matches
+"Storytime" and "Advantage" as whole words, case-sensitive. A8 now parses full argument lists. The
+plan record is 927b8ade and the run log is c96142ba. The continuation base is c96142ba (HEAD at the
+start of this round). The implementation of r1 stayed in the working tree, unchanged.
+
+The 3 gates ran in one heavy-run (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500,
+HEAVY_PREFLIGHT_WAIT_S=5400), in the foreground. The runner is /tmp/opencode/c29i/run_green.py, and
+it holds no backtick and no angle bracket.
+- (a) green-hlogo-new.txt: `CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts
+  --maxWorkers=1`. Test Files  1 passed (1); Tests  8 passed (8); EXIT 0; Duration 18.40s.
+- (b) green-hlogo-green.txt: `CI=true npx vitest run __tests__/quest-cover-*.test.ts
+  --maxWorkers=1`. Test Files  7 passed (7); Tests  305 passed (305); EXIT 0; Duration 1294.58s.
+- (c) green-hlogo-lint.txt: ESLINT EXIT 0 with 0 errors and the 1 known `no-unused-vars` warning at
+  line 1706 of the unchanged quest-cover-template.test.ts. TSC EXIT 0 with 0 output lines.
+
+The A6 values, computed from QUEST_BOXES with the border 0.6 mm, the fill share 0.8, and the aspect
+1461.6 / 464.88: the front tile is 172.00 x 54.00 mm, the inner box 170.80 x 52.80 mm, and the image
+132.8041 x 42.2400 mm at left 18.9979 and top 5.2800 mm. The back tile is 172.00 x 36.00 mm, the
+inner box 170.80 x 34.80 mm, and the image 87.5300 x 27.8400 mm at left 41.6350 and top 3.4800 mm.
+The inner height share is 0.8000, and the aspect is 3.144037. A6 passed in the run, so the measured
+left and right gaps differ by at most 1 mm, the top and bottom gaps differ by at most 1 mm, and the
+aspect stays within 1 %.
+
+Commits of this round:
+- fc555b74: the 3 implementation paths (cover-quest.ts, make-storytime-quest-covers.ts, and the new
+  content/storytime/covers/logos/storytime-advantage-horizontal.svg). 3 files, 133 insertions,
+  25 deletions.
+- c573e28f: plan.md (1 evidence sub-bullet under the Green line) and the 3 RUNS files.
+- The commit that holds this log (the SHA is in `git log -- measure/runs/storytime_cover_options_20261106/jr-green-hlogo-bbf6f66c.log`).
+No test file changed. The Green plan line stays [~], because the A2 build follows in the next role.
+pnpm-lock.yaml, graph.db, raw.json, video/storytime-song/scripts/render.mjs, and every
+spec-review-* file are untouched. The temporary folder /tmp/opencode/c29i is deleted.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: P2
+task: T2.9e
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: bbf6f66c6cbe9693171b13ce06e5337c0f7519b6
+continuation_base_sha: c96142baf9791205d49e88664f588b4cd20e38bc
+phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
+head: c573e28f (green HEAD after the evidence commit; the log commit follows this block)
+impl_commit: fc555b74
+evidence_commit: c573e28f
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+red_commits: dbc2116dbdc193ce83205f874a457a3e52d6a979, f7f36188932f1c35a0197bb58e0fd0271b050ff3
+gate_a: Test Files  1 passed (1); Tests  8 passed (8); EXIT=0; 18.40s (green-hlogo-new.txt)
+gate_b: Test Files  7 passed (7); Tests  305 passed (305); EXIT=0; 1294.58s (green-hlogo-green.txt)
+gate_c: ESLINT_EXIT=0 (0 errors, 1 known warning at line 1706 of the unchanged template test); TSC_EXIT=0 (green-hlogo-lint.txt)
+a6: front tile 172.00 x 54.00, inner 170.80 x 52.80, img 132.8041 x 42.2400 at left 18.9979 top 5.2800; back tile 172.00 x 36.00, inner 170.80 x 34.80, img 87.5300 x 27.8400 at left 41.6350 top 3.4800; inner height share 0.8000; aspect 3.144037
+new_files: content/storytime/covers/logos/storytime-advantage-horizontal.svg (SHA-256 3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc), measure/runs/storytime_cover_options_20261106/green-hlogo-new.txt, green-hlogo-green.txt, green-hlogo-lint.txt
+tasks_flipped_x: none
+tasks_flipped_b: none
+dispositions: none
+handoff: The implementation is done and the Green line stays [~], because the A2 build follows in the next role. The next role builds the A2 student cover and teacher candidate with `--top hlogo` under the -alt-hlogo names. The option is opt in; the r5 covers stay exactly as they are (A2 pins the 4 r5 hashes, and the default render is byte equal). The new paths for review: dashboard/lib/storytime/print/cover-quest.ts, dashboard/scripts/storytime/make-storytime-quest-covers.ts, content/storytime/covers/logos/storytime-advantage-horizontal.svg, and the 3 RUNS files. The phase base is e7ff06a3, the role base is bbf6f66c, and the Green HEAD is c573e28f (the log commit follows).
+END_MEASURE_AGENT_RESULT
