@@ -1,0 +1,25 @@
+BUILD CAPTURE of r5 teacher cover v2 with the Forge teacher front
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsx scripts/storytime/make-storytime-quest-covers.ts --level 2 --unit 1 --version 1 --pictures-dir /tmp/opencode/c29v2/pictures --print-ready-root /tmp/opencode/c29v2/pr-r5 --print
+HEAVY_EXIT: 0
+--- STDOUT ---
+Converting 2 pages with Ghostscript (fonts kept) ...
+Done in 9 s.
+../../../../../tmp/storytime-quest-bUyDj3/print/student.pdf: 2 pages, 6.0 MB, PDF 1.3, PDF/X-1a:2001, 5 font(s)
+All checks pass.
+Converting 2 pages with Ghostscript (fonts kept) ...
+Done in 6 s.
+../../../../../tmp/storytime-quest-bUyDj3/print/teacher.pdf: 2 pages, 6.7 MB, PDF 1.3, PDF/X-1a:2001, 5 font(s)
+All checks pass.
+Converting 14 pages with Ghostscript (fonts kept) ...
+Done in 70 s.
+../../../../../tmp/storytime-quest-bUyDj3/print/readers-a3.pdf: 14 pages, 42.9 MB, PDF 1.3, PDF/X-1a:2001, 2 font(s)
+All checks pass.
+Pre-converting to DeviceGray (K-only) ...
+Converting 14 pages with Ghostscript (fonts kept, K-only) ...
+Done in 3 s.
+../../../../../tmp/storytime-quest-bUyDj3/print/readers-leaf.pdf: 14 pages, 3.2 MB, PDF 1.3, PDF/X-1a:2001, 3 font(s)
+All checks pass.
+Covers of Level 2 Unit 1 set 1: 32 pages, 44 files, out /tmp/opencode/c29v2/pr-r5/storytime/covers-quest-v1
+--- STDERR ---

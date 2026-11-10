@@ -1,0 +1,41 @@
+BUILD CAPTURE of print checks of the teacher cover v2, both top variants
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: python3 -I -B /home/daniebo/Desktop/Workbooks/measure/runs/storytime_cover_options_20261106/print_gate_2_9b.py /home/daniebo/Desktop/Workbooks/measure/runs/storytime_cover_options_20261106/print-gate-2-9b.txt
+HEAVY_EXIT: 0
+--- STDOUT ---
+CHECK_1_PRINT_GATE_R5: exit=0, "All checks pass." count=1, FAIL lines=0, PASS
+CHECK_1_PRINT_GATE_A2: exit=0, "All checks pass." count=1, FAIL lines=0, PASS
+CHECK_2_PAGES_TRIMBOX_R5: pages=2 max_trimbox_delta_pt=0.000, rule: 2 pages and a TrimBox delta at most 0.5 pt, PASS
+CHECK_2_PAGES_TRIMBOX_A2: pages=2 max_trimbox_delta_pt=0.000, rule: 2 pages and a TrimBox delta at most 0.5 pt, PASS
+CHECK_3_TEXT_COUNTS_R5: page 1 level_2=1 teacher_book=1 series=1 word_Storytime=1 word_Advantage=1, page 2 level_2=0 teacher_book=0 series=1 word_Storytime=1 word_Advantage=1, rule: the front page holds the series name, Level 2, and Teacher Book, and the back page holds the series name, PASS
+CHECK_3_TEXT_COUNTS_A2: page 1 level_2=1 teacher_book=1 series=0 word_Storytime=0 word_Advantage=0, page 2 level_2=0 teacher_book=0 series=0 word_Storytime=0 word_Advantage=0, rule: the front page holds Level 2 and Teacher Book and 0 whole words Storytime or Advantage, and the back page holds 0 whole words Storytime, PASS
+CHECK_4_FONTS_R5: fonts=5 embedded=5 type3=0, rule: every font is embedded and no Type 3 font, PASS
+CHECK_4_FONTS_A2: fonts=5 embedded=5 type3=0, rule: every font is embedded and no Type 3 font, PASS
+CHECK_5_ART_PPI_R5: page 1 art=2480x3508 ppi=300.0x300.0, page 2 art=2480x3508 ppi=300.0x300.0, rule: each page art is 2480 x 3508 px at 299 ppi or more, and the teacher front page art of both variants is 2480 x 3508 px at 299 ppi or more, PASS
+CHECK_5_ART_PPI_A2: page 1 art=2480x3508 ppi=300.0x300.0, page 2 art=2480x3508 ppi=300.0x300.0, rule: each page art is 2480 x 3508 px at 299 ppi or more, and the teacher front page art of both variants is 2480 x 3508 px at 299 ppi or more, PASS
+CHECK_6_THAI_R5: page 1 thai_chars=0 (front holds no Thai), page 2 thai_chars=38 (back Thai equals BACK_LINES.contact), approved contact lines thai_chars=38, PASS
+CHECK_6_THAI_A2: page 1 thai_chars=0 (front holds no Thai), page 2 thai_chars=38 (back Thai equals BACK_LINES.contact), approved contact lines thai_chars=38, PASS
+CHECK_7_QR_R5: report qr=pass; 0 of 841 modules differ on the back page, rule: qr pass and 0 of 841 modules different, PASS
+CHECK_7_QR_A2: report qr=pass; 0 of 841 modules differ on the back page, rule: qr pass and 0 of 841 modules different, PASS
+CHECK_8_BUILD_REPORT_ROWS_R5: rows=2 fail_rows=0, rule: 2 page rows and 0 fail rows, PASS
+CHECK_8_BUILD_REPORT_ROWS_A2: rows=2 fail_rows=0, rule: 2 page rows and 0 fail rows, PASS
+CHECK_9_TEACHER_BACK_NO_PANEL_R5: story_text_count=0, Story=0, Sounds=0, Decodable words=0, Sight words=0, Books=0, rule: the teacher back page holds no student panel, PASS
+CHECK_9_TEACHER_BACK_NO_PANEL_A2: story_text_count=0, Story=0, Sounds=0, Decodable words=0, Sight words=0, Books=0, rule: the teacher back page holds no student panel, PASS
+CHECK_10_NO_EMPTY_FIELD_R5: build report errors=0, build output lines with "is empty"=0, PASS
+CHECK_10_NO_EMPTY_FIELD_A2: build report errors=0, build output lines with "is empty"=0, PASS
+CHECK_11_NO_GAME_BAR_R5: student front game-bar elements=0, teacher front game-bar elements=0, rule: the 2 fronts hold no game bar (renderQuestCover), PASS
+CHECK_11_HLOGO_TOP_PARTS_A2: student-front game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, student-back game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, teacher-front game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, teacher-back game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, rule: with the top style hlogo each of the 4 sides holds 0 game-bar, 0 series-banner, 0 series-logo, 0 logo-box, and 1 logo-tile, PASS
+CHECK_12_FRONT_LINES_R5: page 1 level_line=1 book_line=1 sprout=1, rule: the front page holds "Level 2 · Unit 1" once, "Teacher Book" once, and "Sprout" once, PASS
+CHECK_12_FRONT_LINES_A2: page 1 level_line=1 book_line=1 sprout=1, rule: the front page holds "Level 2 · Unit 1" once, "Teacher Book" once, and "Sprout" once, PASS
+CHECK_13_PLAQUE_ONE_LINE_R5: page 1 layout_lines_with_level_and_book=1 sprout=1, rule: one layout line holds "Level 2 · Unit 1" and "Teacher Book", and "Sprout" holds once, PASS
+CHECK_13_PLAQUE_ONE_LINE_A2: page 1 layout_lines_with_level_and_book=1 sprout=1, rule: one layout line holds "Level 2 · Unit 1" and "Teacher Book", and "Sprout" holds once, PASS
+CHECK_14_ONE_IMAGE_PER_PAGE_R5: page 1 images=1, page 2 images=1, rule: each page holds exactly one image, the art, PASS
+CHECK_14_ONE_IMAGE_PER_PAGE_A2: page 1 images=1, page 2 images=1, rule: each page holds exactly one image, the art, PASS
+CHECK_15_NO_TYPE3_FONTS_R5: type3_fonts=0 fonts=5 embedded=5, rule: 0 Type 3 fonts, PASS
+CHECK_15_NO_TYPE3_FONTS_A2: type3_fonts=0 fonts=5 embedded=5, rule: 0 Type 3 fonts, PASS
+CHECK_16_GUARD_FILES: Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf matches=true, Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf matches=true, Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo_PDFX-1a.pdf matches=true, Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate-alt-hlogo_PDFX-1a.pdf matches=true, rule: the 4 old print files of Task 2.9 part 1 hold their SHA-256 values, PASS
+CHECK_17_REPORT_FRONT_SHA_R5: not in report, rule: the build report holds no picture SHA-256 value, PASS
+CHECK_17_REPORT_FRONT_SHA_A2: not in report, rule: the build report holds no picture SHA-256 value, PASS
+PRINT_GATE_SUMMARY lines=33 pass_lines=33 fail_lines=0
+--- STDERR ---
