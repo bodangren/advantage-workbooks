@@ -1,0 +1,27 @@
+Task 2.8 prep: the look package of the unit 2 pictures.
+
+Thai proof: the first command counted Thai characters in the plan, the picture list, the 3 stage 1 captures, and the not-delivered README. Every count was 0. The plan showed no change in git.
+
+Heavy run: one heavy-run ran the look script. The script exited 0. It asserted the 3 Forge MANIFEST hashes, the 229 rows of the picture list, the 228 delivered rows, and the 1 open row.
+
+Sheets: 8 week sheets, each 2000 px wide. Week 9 holds 34 rows. Week 10 holds 34 rows with 33 delivered. Week 11 holds 31 rows. Week 12 holds 33 rows. Week 13 holds 34 rows. Week 14 holds 33 rows. Week 15 holds 29 rows. Week 16 holds 1 row. The sheet hat-pip.jpg shows the open row, with the color m3 and the line try 3.
+
+Package check: sha256sum -c MANIFEST.txt exited 0. The MANIFEST holds 11 lines. The Thai count was 0 for README.md, rows.tsv, and the report. The git status of content/storytime and pnpm-lock.yaml printed nothing.
+
+Plan check: the plan diff shows 2 insertions and 0 deletions. The Thai count of the plan is 0. The Task 2.8 line appears once and stays [ ].
+
+Commit: b81c2e66 holds the plan, the script, and the report.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: bd4dc986e531a90de6a301e2522d1a0f3b0423d4
+commits: b81c2e66
+tests_run: the look script in one heavy-run, exit 0; sha256sum -c of the package, exit 0; Thai counts 0
+files_changed: measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/make_picture_look_2_8.py; measure/runs/storytime_l2_unit2_20261106/picture-look-2-8.txt; /home/daniebo/Desktop/handoff/storytime-l2u2-picture-look-2026-11-11/
+plan_updates: 2 lines under Task 2.8 (the PM order words and the prep result); Task 2.8 stays [ ]
+known_failures: none
+handoff: The package sits in /home/daniebo/Desktop/handoff/storytime-l2u2-picture-look-2026-11-11/. The MANIFEST.txt SHA-256 is 2da72ee1e528133a057e9e45a49456e2542ccca20a9471bd4b90c3e6f516d94b. The 11 files with their SHA-256: README.md 37364fb6c87d6feed4a909eebcc7cb0e5d573de4c4728453d79c81ec929d1559; contact-sheet-w09.jpg 8de173e75b0681932f5c9d8fe50208b5a98967bde78cf251d919bfbdaded5888; contact-sheet-w10.jpg 10df31de4fb4f5716e06bf8b22b680342d387e2ed5efd18ce6c9f2553d41e92f; contact-sheet-w11.jpg 2c0633c32113441a88b4f0079276fa9d283460ea3addddc31789198b1c21199c; contact-sheet-w12.jpg 3fb44089b821c3790ff626b0b0d2cdcebd35919255bea2253f5ecd41a0f09c29; contact-sheet-w13.jpg e4c996c9ba71f6596094d7e2176e1ce147c87ab8a1842ea1969141dca3305953; contact-sheet-w14.jpg 0673d86e8c11d1be477708efe0c5b6150e44f929c1f1da1024837deedfd83ed8; contact-sheet-w15.jpg ed7a186a9590f4b26712646515e285b38aa79b03b57aa80e74f261600c36f221; contact-sheet-w16.jpg dbb00feea9162ef98cee379400448a095dbb3ba810ed76e149a6f4c3660ec809; hat-pip.jpg aa62ced4e10c820a8de16676d6ed2c44e63ae8173b6237f676d6563e9ee59cec; rows.tsv a62a67d88f78d85d3cfbcf571e01bf58efee2822f09a5b84fa1f3ab250e671f6. The 8 week sheets hold w09 34 rows, w10 34 rows with 33 delivered, w11 31 rows, w12 33 rows, w13 34 rows, w14 33 rows, w15 29 rows, w16 1 row. The 229 rows of the list hold 228 delivered rows: 211 rows from main, 4 rows from retry1, 13 rows from repair1. The open row is l2-w10-story-page-put-on-your-hat-pip. Its color m3 SHA-256 is 6db86851b359760ea88e9feb67cf2bc784720ac4466abc5419af6f1dfff6bdff and its line try 3 SHA-256 is 1474680276aa160dd972cd78b8559039a765032e703323cdb1ff41f0583aa9e1. The judge reason is: Teacher Kim wears round glasses; Pip has no red collar and no gold tag. The orchestrator must look at the 8 sheets and the hat-pip sheet. No code, no test, and no file under content/ changed. The PM uploads the package and sends Daniel one look note. Task 2.8 closes only with Daniel's words and the date in approval.images of each staged file.
+END_MEASURE_AGENT_RESULT
