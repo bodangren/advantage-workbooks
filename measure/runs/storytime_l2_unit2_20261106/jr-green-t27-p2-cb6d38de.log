@@ -1,0 +1,91 @@
+# Jr Green log: Task 2.7 part 2, the delivery check of the Forge repair folder (storytime_l2_unit2_20261106)
+
+Role: measure-jr-green. Track: storytime_l2_unit2_20261106. Phase: Phase 2: Picture list for
+Forge (2026-11-07 to 2026-11-23). Task: 2.7, part 2. Phase id P2.
+
+Baseline: cb6d38ded5157dfb5e64735fafbae109a000b81e. The command `git rev-parse HEAD` printed that
+SHA before the edit. The plan was clean. This task changed no code, no test, and no file under
+`content/`.
+
+## The Thai proof
+
+The first command of this pass ran the Thai filter. It read the 8 staged week files and wrote the
+clean copies to `/tmp/opencode/t27p2/in/`. It printed `THAI_CHARS_IN_OUTPUT=0`.
+
+The proof of the 2 files of this pass:
+
+- measure/tracks/storytime_l2_unit2_20261106/plan.md:0
+- content/storytime/drafts/l2/print/pictures-u2.json:0
+
+The command `git status --porcelain measure/tracks/storytime_l2_unit2_20261106/plan.md` printed
+nothing before the edit. No week file was read, printed, or written.
+
+## The MANIFEST check
+
+The script `python3 -I /tmp/opencode/t27p2/run.py` checked the folder
+`/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-repair1/`. The SHA-256 of its
+MANIFEST.txt is `09dfa9f03b12c2042c70fc4a63970e23e7fe15ebb84cd7dfd25993691732de7e`. The hash of
+the file matches. The 32 hash lines of the MANIFEST check OK, and 0 lines fail. The manifest.json
+holds 13 jobs. No file of the folder was written, moved, or deleted.
+
+## The check
+
+The plan block `PICTURE_CHECK_U2` ran in one heavy-run. The run waited about 8 minutes for the
+heavy lock. The check exited 1 on the first attempt. Its summary line is
+`13 of 198 rows pass stage 1 (/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-repair1)`.
+The exit 1 is the expected value, because the folder holds no job for the other rows.
+
+The 13 jobs pass: the 9 version rows `l2-w10-check-row-ten`, `l2-w11-story-page-here`,
+`l2-w11-story-page-ten-men-in-the-den`, `l2-w11-story-page-the-den-is-on-dad`,
+`l2-w12-story-page-open-your-book-nan`, `l2-w13-cover-look-at-me`, `l2-w13-check-row-dot`,
+`l2-w13-d4-prompt-jump`, `l2-w15-cover-look-a-bus`, and the 4 card rows `l2-w12-card-hippo`,
+`l2-w12-card-ruler`, `l2-w13-card-clap`, `l2-w14-card-cold`. No row of the folder fails for
+another reason. The capture holds 0 Thai lines.
+
+## The union
+
+The union of the 3 folders passes 228 of the 229 list rows. The 2 part 1 captures give
+`211 of 238 rows pass stage 1` for the main folder and `4 of 183 rows pass stage 1` for the retry1
+folder. No row passes in 2 or more folders. The open row is `l2-w10-story-page-put-on-your-hat-pip`.
+The count of ids outside the list is 9: `l2-w10-d4-prompt-hat`, `l2-w16-check-row-apple`,
+`l2-w16-check-row-bag`, `l2-w16-check-row-nest`, `l2-w16-check-row-net`,
+`l2-w16-check-row-nose`, `l2-w16-check-row-octopus`, `l2-w16-check-row-ostrich`, and
+`l2-w16-check-row-ox`. Each id reuses a unit 1 picture. The code fix goes with Phase 4.
+
+The 4 card rows take the line width as a recorded exception. The PM decision of 2026-11-10 and
+`dashboard/lib/storytime/print/card-kit.ts:584` give the reason. The card kit prints only the
+color file of a card row.
+
+## The plan record
+
+The script `python3 -I /tmp/opencode/t27p2/plan_edit.py` printed `edits: 2`. The plan holds 2 new
+lines under Task 2.7: the words of PM HAND-OFF 6 and the part 2 result line.
+
+The plan checks after the edit:
+
+- `git diff --stat` prints `1 file changed, 2 insertions(+)`
+- the Thai count of the plan is 0
+- the count of `^- [~] Task 2.7` is 1
+
+Task 2.7 stays `- [~]`. The row `l2-w10-story-page-put-on-your-hat-pip` goes to Task 2.8 with both
+prints, by the PM decision of HAND-OFF 6. No picture is copied into `content/storytime/`; Task 4.3
+makes the copy.
+
+## The record commit
+
+Commit d2c03466 holds the plan and the 3 new run files. The commit lists only these 4 paths.
+`git status --porcelain content/storytime pnpm-lock.yaml` prints nothing.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: cb6d38ded5157dfb5e64735fafbae109a000b81e
+commits: d2c03466
+tests_run: PICTURE_CHECK_U2 on the repair folder in one heavy-run, exit 1, 13 of 198 rows pass stage 1; union 228 of 229
+files_changed: measure/tracks/storytime_l2_unit2_20261106/plan.md, measure/runs/storytime_l2_unit2_20261106/picture-check-u2-repair1.txt, measure/runs/storytime_l2_unit2_20261106/picture-check-u2-part2.txt, measure/runs/storytime_l2_unit2_20261106/picture-check-u2-part2-summary.json
+plan_updates: 2 lines under Task 2.7 (the PM HAND-OFF 6 words and the part 2 result); Task 2.7 stays [~]
+known_failures: 1 open row, l2-w10-story-page-put-on-your-hat-pip; the repair folder holds no job for that row, and its 3 line tries are used, so no more paid tries (PM decision); the row goes to Task 2.8 with both prints
+handoff: The union of the 3 Forge folders passes 228 of the 229 list rows. No row passes in 2 or more folders. The 1 open row is l2-w10-story-page-put-on-your-hat-pip; it goes to Task 2.8 with both prints, by the PM decision of HAND-OFF 6. The count of ids outside the list is 9 (the unit 1 reuse ids of the Task 4.1 add line); each one reuses a unit 1 picture, and the code fix goes with Phase 4. The 4 card rows pass with the line width as a recorded exception. Every expected value of the PM hand-off holds: 32 MANIFEST lines OK, 13 jobs pass, exit 1, union 228 of 229, 1 open row, 0 rows in 2 or more folders, 9 ids outside the list. No picture is copied into content/storytime/; Task 4.3 makes the copy. New files for the audit scope: picture-check-u2-repair1.txt, picture-check-u2-part2.txt, picture-check-u2-part2-summary.json.
+END_MEASURE_AGENT_RESULT
