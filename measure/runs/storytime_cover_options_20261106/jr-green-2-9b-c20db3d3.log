@@ -1,0 +1,84 @@
+# Jr Green · Task 2.9 part 2, teacher cover v2, both top variants · storytime_cover_options_20261106
+
+- Role: jr-green (build and check, no code)
+- Role base SHA: c20db3d3 (c20db3d3e37ba0140d851ee5e9bf3e4a5506f815)
+- Track: storytime_cover_options_20261106
+- Task 2.9 (plan line 149), part 2: the teacher cover v2 in both top variants
+- Status: done (Task 2.9 stays [~])
+- Model: deepseek/deepseek-flash#high
+- The Red models of this phase: claude-code/claude-sonnet-5-5#high and minimax-cn-coding-plan/MiniMax-M3.1-Flash. This model is independent of both. No subagent ran.
+- The brief names no `phase_base_sha`. This is a build task: it opens no Red window, and it changes no code, no test, and no file under `content/`. Default: the baseline is the role base `c20db3d3`, and HEAD at the start was `c20db3d3`.
+
+## Hard rules kept
+
+- The Thai filter ran first: `/tmp/opencode/c29v2/thai_filter.py` printed `THAI_CHARS_IN_OUTPUT=0` for the 8 week copies.
+- No week file of `content/storytime/l2/` was read, cat, grep, or sed. Only the copies in `/tmp/opencode/c29v2/in/` hold the facts.
+- No PNG and no PDF page image was opened or viewed. Every printed line holds a count, a SHA-256, a PASS or FAIL line, or English text.
+- `test-strategy.md` was not read. No file `options/*.json` was read. Only the `.py`, `.mjs`, and `.tsx` scripts of `options/` and the runs folder were read or run.
+- The hand-off folder of the Forge art was read only. No file there was written, moved, or deleted.
+- Nothing under `content/` or `dashboard/` was written. No script of the build was patched.
+- The edge fill wrote only into `/tmp/opencode/c29v2/pictures/`. The back link was never made, so the shipped back art was never written.
+- No push. The work of another session (`video/storytime-song/scripts/render.mjs`) was not staged. `dashboard/raw.json` and the `spec-review-*` files were not staged. `pnpm-lock.yaml` stayed unchanged after each heavy step.
+
+## Steps
+
+1. The pictures folder `/tmp/opencode/c29v2/pictures/` holds 31 files: 29 hard links of `content/storytime/l2/print/pictures/` (the student front and the 28 reader art files), the edge-filled back, and the prepared teacher front.
+   - The names came from `planQuestBuild` of `dashboard/scripts/storytime/make-storytime-quest-covers.ts`, called in `plan_names_2_9b.tsx`: 44 planned files, 2 art rows, and 28 picture rows. Its one error names the missing teacher front in the repository folder.
+   - `link_pictures_2_9b.py` made 29 links. It refuses any name that holds "back". The link step gave 29 of 29 SHA-256 pairs equal and 29 of 29 the same inode.
+   - The student front holds `9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f`.
+   - `fix-back-edge-2-9b.py` (the A2 script with the new folder) fills the 14 left columns with the mirror of columns 14 to 27. The source holds `5411e37ec7044d7afd70726ee5fffeccd985225ef0b0da4283db8e6a3979b7bf` before and after. The output holds `881e93b2a87385eb15e5cf0240df8629c501a10f0375284f9cec2fe09eda37c4`.
+   - `prep-teacher-front-2-9b.mjs` reads the Forge art of PM hand-off TC1. The art holds `c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53`, and the folder `MANIFEST.txt` holds `50069dce22d85fc75bf833ac06538fdd3a17f295541ee8cefb72534ee106e128`. The art is 2480 x 3508 px with 3 channels. The script makes no resize. It calls `removeAlpha()` and `withMetadata({ density: 300 })`, the same call as the A2 script. The raw pixels did not change: the source and the output both hold the raw SHA-256 `8fc2be064dc2f81c91f2debf7808582839db8881ee073bf31901157f76de4b24`. The prepared file holds `0901411875407c09bd69e779f5aad31b36147d84d0e742feee6316712bf96283`.
+   - `options/upscale_check.mjs` without `--real` gives 6 PASS lines and `checks=6 failures=0`.
+2. The 2 builds, one heavy-run wrapper each (`HEAVY_PRIORITY=p1`, `HEAVY_MIN_AVAIL_MB=1500`, `HEAVY_PREFLIGHT_WAIT_S=5400`): exit 0 on the first attempt each.
+   - (a) r5: `build-2-9b-r5.txt`.
+   - (b) A2 with `--top hlogo`: `build-2-9b-a2.txt`.
+   - Each capture holds `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and 4 lines `All checks pass.`. The capture script holds 0 Thai lines.
+3. The copies into `~/Desktop/print-ready/storytime/covers-quest-v1/teacher/`: 10 byte copies, and 10 of 10 SHA-256 pairs are equal. `teacher/README.txt` holds the art source, the PM layout D16, the model-evidence note, the 2 file sets, and the pick rule.
+4. The print checks of `print-gate-2-9b.txt`: 33 lines, 33 PASS, 0 FAIL.
+   - `PRINT_GATE` exits 0 on both print files with `All checks pass.`. The check 1 deviation of Part 1 stays closed (commit 805a2911).
+   - The teacher front page art is 2480 x 3508 px at 300.0 x 300.0 ppi in both variants.
+   - Check 17 reads "not in report" for both variants, because the build reports hold no picture SHA-256 value.
+5. The 3 contact sheets: `teacher.png`, `teacher-alt-hlogo.png`, and `teacher-r5-vs-alt-hlogo.png`, each 2064 x 1566 px. The script is create-only.
+6. The manifest: `options/manifest.py` wrote 33 lines. `manifest_check_2_9b.py` gives `OLD_LINES_IN_NEW 19`, `LINES_MATCHED 33`, `FILES_NOT_LISTED 0`, `LINES_NOT_ON_DISK 0`, and `MANIFEST_OK true`. The new `MANIFEST.txt` holds 33 lines with SHA-256 `8451debeaedf9a074d0408822960cd95246991f56cc34be2fa182ee9d7647006`.
+7. The plan record: one sub-bullet under Task 2.9, right before the Task 2.10 line. `grep -cP` of the Thai range prints 0, and `git diff --stat` prints 1 insertion. Task 2.9 stays `[~]`, and Task 2.8 stays `[~]`.
+8. The commits: the evidence commit `b4cdee6b` holds the plan and the 22 new `-2-9b` / `_2_9b` scripts and captures. This log is a separate commit.
+
+## The hand-off folder
+
+- `teacher/teacher-front.png` `ca6678c57507f846a2b22f6aef2cad4da4cc4210887b3a43c1c739cc293f63c0`
+- `teacher/teacher-back.png` `ac56760f7ac0344a96a9c49e17a5d69b04bd64fd2c670e6b3bfd098c11d39005`
+- `teacher/teacher-cover.pdf` `35022d2276570f4aef83d4a00ade267a6d3f81020644073a8ccd249d5276fea8`
+- `teacher/build-report.json` `aa9e752bf7ac01cc01b8a1955a6fcf2e9dc8174acca58d4fa7ba297268c6ce75`
+- `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf` `1d2bcd99b347836a0dc48b8518064edb919947c0c0b26e076f05e1973f304e0e`
+- `teacher/teacher-front-alt-hlogo.png` `a9670c598e2a8ea5b3638c7f81a2f6cde64f632a53bd6fc319101d6263f690b8`
+- `teacher/teacher-back-alt-hlogo.png` `cbf27022df38adad43f748094e8b41970169a0981541f68f9959aff5355f3d30`
+- `teacher/teacher-cover-alt-hlogo.pdf` `c7419c73038b84171efac4d93a8f7d888524da5117f35fce610087ee74786e15`
+- `teacher/build-report-alt-hlogo.json` `aa9e752bf7ac01cc01b8a1955a6fcf2e9dc8174acca58d4fa7ba297268c6ce75`
+- `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo_PDFX-1a.pdf` `f0c43292cca3add0fbfa99e8da651198f158489ad18086f33b370ac54644bf60`
+- `teacher/README.txt` `2b4fd0648d28d6f33667e021e61ea7df8146bde7f410e3bd772149b654799127`
+- `contact-sheets/teacher.png` `aabb52f072233f00199a97c53e65ed1d8c8e0d410e00e73227c4ee5f05c5fee6`
+- `contact-sheets/teacher-alt-hlogo.png` `63afa77f2add1bffaf0312f97d01e323306247e2cf65cec1b5eb25090c00770b`
+- `contact-sheets/teacher-r5-vs-alt-hlogo.png` `cab2131a7fc317f9981dd13f25c71c77242cbb21e6ca9548a57cddd0a0ea3965`
+- The 19 old files keep their SHA-256 values, and `MANIFEST.txt` holds 33 lines with SHA-256 `8451debeaedf9a074d0408822960cd95246991f56cc34be2fa182ee9d7647006`.
+
+## Open findings for the orchestrator
+
+- The teacher back holds 38 Thai characters. They are the five approved contact lines of `BACK_LINES.contact` (spec FR-10.2 and D-A10). Both variants hold the same count. The fronts hold no Thai.
+- The build reports hold no picture SHA-256 value, so check 17 reads "not in report". A later build report change would close that check.
+- The look at 100 % of the 4 teacher pages is the work of the orchestrator. The page PNGs stand in `teacher/`, and the 3 sheets stand in `contact-sheets/`.
+- Daniel's look word picks one variant, with no new build. The teacher front art enters `content/storytime/l2/print/pictures/` only after that look.
+- The readers and the game bar change of Part 2 wait for a later round.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: c20db3d3e37ba0140d851ee5e9bf3e4a5506f815
+commits: b4cdee6b
+tests_run: build (a) exit 0; build (b) exit 0; print checks 33 PASS and 0 FAIL lines; PRINT_GATE exit 0 and 0
+files_changed: repository: measure/tracks/storytime_cover_options_20261106/plan.md, and 22 new files of measure/runs/storytime_cover_options_20261106/ that end in -2-9b or _2_9b (build-2-9b-r5.txt, build-2-9b-a2.txt, print-gate-2-9b.txt, print-gate-run-2-9b.txt, print_gate_2_9b.py, copy-teacher-2-9b.txt, copy_teacher_2_9b.py, contact-2-9b.py, contact-run-2-9b.txt, manifest-check-2-9b.txt, manifest_check_2_9b.py, plan-names-2-9b.txt, plan_names_2_9b.tsx, plan_edit_2_9b.py, link-pictures-2-9b.txt, link_pictures_2_9b.py, fix-back-edge-2-9b.py, fix-back-edge-2-9b.txt, prep-teacher-front-2-9b.mjs, prep-teacher-front-2-9b.txt, upscale-check-2-9b.txt, heavy_capture_2_9b.py); outside the repository: ~/Desktop/print-ready/storytime/covers-quest-v1/teacher/ with 11 new files, 3 new contact sheets, and the new MANIFEST.txt; this log
+plan_updates: one Part 2 teacher v2 sub-bullet under Task 2.9; Task 2.9 stays [~]
+known_failures: none
+handoff: The teacher cover v2 was built in both top variants with the Forge teacher front. The 10 output files and the README stand in ~/Desktop/print-ready/storytime/covers-quest-v1/teacher/ with these SHA-256: teacher-front.png ca6678c57507f846a2b22f6aef2cad4da4cc4210887b3a43c1c739cc293f63c0, teacher-back.png ac56760f7ac0344a96a9c49e17a5d69b04bd64fd2c670e6b3bfd098c11d39005, teacher-cover.pdf 35022d2276570f4aef83d4a00ade267a6d3f81020644073a8ccd249d5276fea8, build-report.json aa9e752bf7ac01cc01b8a1955a6fcf2e9dc8174acca58d4fa7ba297268c6ce75, Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf 1d2bcd99b347836a0dc48b8518064edb919947c0c0b26e076f05e1973f304e0e, teacher-front-alt-hlogo.png a9670c598e2a8ea5b3638c7f81a2f6cde64f632a53bd6fc319101d6263f690b8, teacher-back-alt-hlogo.png cbf27022df38adad43f748094e8b41970169a0981541f68f9959aff5355f3d30, teacher-cover-alt-hlogo.pdf c7419c73038b84171efac4d93a8f7d888524da5117f35fce610087ee74786e15, build-report-alt-hlogo.json aa9e752bf7ac01cc01b8a1955a6fcf2e9dc8174acca58d4fa7ba297268c6ce75, Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo_PDFX-1a.pdf f0c43292cca3add0fbfa99e8da651198f158489ad18086f33b370ac54644bf60, and README.txt 2b4fd0648d28d6f33667e021e61ea7df8146bde7f410e3bd772149b654799127. The 3 sheets are contact-sheets/teacher.png aabb52f072233f00199a97c53e65ed1d8c8e0d410e00e73227c4ee5f05c5fee6, teacher-alt-hlogo.png 63afa77f2add1bffaf0312f97d01e323306247e2cf65cec1b5eb25090c00770b, and teacher-r5-vs-alt-hlogo.png cab2131a7fc317f9981dd13f25c71c77242cbb21e6ca9548a57cddd0a0ea3965. The new MANIFEST.txt holds 33 lines with SHA-256 8451debeaedf9a074d0408822960cd95246991f56cc34be2fa182ee9d7647006, and the 19 old lines are byte-equal. The 4 guard print files keep their SHA-256 values. PRINT_GATE exits 0 on both print files, so check 1 stays closed, and check 17 reads "not in report" because the build reports hold no picture SHA-256 value. The teacher back holds 38 Thai characters, equal to BACK_LINES.contact; the fronts hold none. Question: the brief names no phase_base_sha. Default: the baseline is the role base c20db3d3, because this build task opens no Red window. The look at 100 % of the 4 teacher pages is yours. Daniel's look word picks one variant, with no new build. Task 2.9 stays [~] and Task 2.8 stays [~].
+END_MEASURE_AGENT_RESULT
