@@ -40,19 +40,24 @@
  *       of the horizontal logo. No text node of the body holds the series name outside the contact
  *       lines. Each back holds its 5 contact lines. The 2 fronts hold the level line once. The
  *       check reads the body: the document title and the style block are not visible chrome.
- *   A4: The box table holds the key "<kind>:logo-tile" for the 4 kinds. The tile is 168 mm to
- *       178.5 mm wide, is centered at 105 mm, and starts at 5 mm or more. The tile of the 2 fronts
- *       ends at 100 mm or less. The tile of the student back ends 3 mm above the panel. The boxes
- *       of the kept parts do not change.
+ *   A4: The box table holds the key "<kind>:logo-tile" for the 4 kinds. The tile of the 2 fronts
+ *       starts at 12 mm and is 54 mm high. The tile of the 2 backs starts at 7 mm and is 36 mm high.
+ *       The tile is centered at 105 mm. The inner tile aspect (the width minus 1.2 mm over the
+ *       height minus 1.2 mm) is 3.144 within 1 %. The 1.2 mm is the 0.6 mm border on each side. The
+ *       tile of the 2 fronts ends at 100 mm or less. The tile of the student back ends 3 mm above
+ *       the panel. The boxes of the kept parts do not change.
  *   A5: The kept parts hold the same HTML in the hlogo render and in the default render.
- *   A6: The logo sits centered in its tile, fills 75 % to 85 % of the inner tile height, keeps the
- *       aspect 3.144 within 1 %, and the tile takes the amber and the brown with no shadow and no
- *       opacity under 1.
+ *   A6: The logo sits centered in its tile, fills 78 % to 82 % of the inner tile height, fills 78 %
+ *       to 82 % of the inner tile width, keeps the aspect 3.144 within 1 %, and the tile takes the
+ *       amber and the brown with no shadow and no opacity under 1.
  *   A7: The PDF of the student front and of the student back holds no Type 3 font and holds an
  *       embedded font.
  *   A8: The build takes the flag --top. The value hlogo parses, the default is banner, and the
  *       value round is an error. Every call holds --level and --unit, because the build requires
  *       them.
+ *   A9: The hlogo render of each kind keeps every part outside the logo tile. The cut method: the
+ *       element starts at the open tag `<div data-part="logo-tile"` and ends at the first `</div>`
+ *       after it. The SHA-256 of the rest of the HTML is the pin.
  *
  * The r2 change of 2026-11-10, after the Green finding of 8f46d85c:
  *   (1) A3 read every text node of the body for the series name. The 2 backs hold the 5 contact
@@ -62,6 +67,17 @@
  *   (2) A8 called parseQuestArgs without --level and without --unit. The build requires both, and
  *       the old test B02 of quest-cover-build.test.ts refuses such a call. Every call of A8 holds
  *       --level 2 and --unit 1.
+ *
+ * The A2 r2 change of 2026-11-11 (PM look check):
+ *   (1) A4 replaces the tile width band with the tile top, the tile height, and the inner tile
+ *       aspect. The tile keeps its top and its height: 12 mm and 54 mm on the 2 fronts, 7 mm and
+ *       36 mm on the 2 backs. The tile gets narrower, so the inner tile aspect (the width minus
+ *       1.2 mm over the height minus 1.2 mm) must be 3.144 within 1 %.
+ *   (2) A6 adds the width share. The logo image must fill 78 % to 82 % of the inner tile width, and
+ *       the inner tile height share narrows to 78 % to 82 %.
+ *   (3) A9 is new. It guards the plaques and all text: the hlogo render of each kind, with the one
+ *       logo tile element cut out, must keep its SHA-256. The cut method is the open tag
+ *       `<div data-part="logo-tile"` up to the first `</div>` after it.
  *
  * The 2 backs render the 5 contact lines, which hold Thai. The file prints no text of a back: it
  * prints millimetre values, counts, colors, hashes, and part names only.
@@ -118,10 +134,16 @@ const SHA_HORIZONTAL_LOGO = '3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba
 const LOGO_ASPECT = 3.144;
 
 /** The least share of the inner tile height that the logo fills. */
-const MIN_FILL_SHARE = 0.75;
+const MIN_FILL_SHARE = 0.78;
 
 /** The most share of the inner tile height that the logo fills. */
-const MAX_FILL_SHARE = 0.85;
+const MAX_FILL_SHARE = 0.82;
+
+/** The least share of the inner tile width that the logo fills. */
+const MIN_WIDTH_FILL_SHARE = 0.78;
+
+/** The most share of the inner tile width that the logo fills. */
+const MAX_WIDTH_FILL_SHARE = 0.82;
 
 /** The least share of the tile height that the logo fills. */
 const MIN_TILE_FILL_SHARE = 0.75;
@@ -138,11 +160,20 @@ const ASPECT_TOLERANCE = 0.01;
 /** The centre of a cover, in millimetres. */
 const COVER_CENTRE_MM = 105;
 
-/** The least width of the logo tile, in millimetres: 80 % of 210 mm. */
-const MIN_TILE_WIDTH_MM = 168;
+/** The border of the logo tile on each side, in millimetres. */
+const TILE_BORDER_MM = 0.6;
 
-/** The most width of the logo tile, in millimetres: 85 % of 210 mm. */
-const MAX_TILE_WIDTH_MM = 178.5;
+/** The tile of the 2 fronts: the top and the height, in millimetres. */
+const FRONT_TILE_TOP_MM = 12;
+
+/** The tile of the 2 fronts: the top and the height, in millimetres. */
+const FRONT_TILE_HEIGHT_MM = 54;
+
+/** The tile of the 2 backs: the top and the height, in millimetres. */
+const BACK_TILE_TOP_MM = 7;
+
+/** The tile of the 2 backs: the top and the height, in millimetres. */
+const BACK_TILE_HEIGHT_MM = 36;
 
 /** The r5 pins: the SHA-256 of the default render of each kind at this commit. */
 const R5_PINS: Record<Kind, string> = {
@@ -150,6 +181,19 @@ const R5_PINS: Record<Kind, string> = {
     'teacher-front': 'b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf',
     'student-back': '8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0',
     'teacher-back': '5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79',
+};
+
+/**
+ * The A9 pins: the SHA-256 of the hlogo render of each kind with its logo tile element cut out, at
+ * this commit. The cut method: the element starts at the open tag `<div data-part="logo-tile"` and
+ * ends at the first `</div>` after it. The tile holds one image and no other element, so the first
+ * close tag ends the element.
+ */
+const HLOGO_REST_PINS: Record<Kind, string> = {
+    'student-front': '36d05fe67745f2be15174b5b9775e078e6140df53140ac8c5f2f38708063a4a5',
+    'teacher-front': '57af1f5b57223e767b7f9810e71ef373fd5e6876457c00dce3e98e662886596f',
+    'student-back': '1ad46398121731360f98a84bc0470683ec877848a9dc47d86e2a673a198d0f2e',
+    'teacher-back': 'e552bed9a86de2ee3eb0662b0d70acf2394fa5c081988f32579e46844f91f22a',
 };
 
 /** The parts that A2 keeps. */
@@ -387,6 +431,18 @@ function panelValues(): QuestPanelValue[] {
 }
 
 /**
+ * Cuts the one logo tile element out of one rendered HTML. The cut method: the element starts at
+ * the open tag `<div data-part="logo-tile"` and ends at the first `</div>` after it.
+ * @param html The rendered HTML.
+ * @returns The HTML without the logo tile element.
+ */
+function withoutLogoTile(html: string): string {
+    const matches = html.match(/<div data-part="logo-tile"[\s\S]*?<\/div>/g) ?? [];
+    expect(matches.length, 'the render holds one logo tile element.').toBe(1);
+    return html.replace(matches[0], '');
+}
+
+/**
  * Renders one kind with the given options.
  * @param kind The cover kind.
  * @param opts The render options.
@@ -523,7 +579,7 @@ afterAll(async () => {
     }
 });
 
-describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo)', () => {
+describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)', () => {
     it('A1: the horizontal logo file sits in the logo folder with the approved hash', () => {
         expect(
             fs.existsSync(horizontalLogoFile),
@@ -581,21 +637,23 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
     });
 
     it('A4: the box table holds the tile of the 4 kinds and the kept boxes do not change', () => {
+        const aspects: { kind: Kind; value: number }[] = [];
         for (const kind of KINDS) {
             const tile = QUEST_BOXES[`${kind}:logo-tile`];
             expect(tile, `the box table holds ${kind}:logo-tile.`).toBeDefined();
-            expect(tile!.widthMm, `${kind} logo tile width is 168 mm to 178.5 mm.`).toBeGreaterThanOrEqual(
-                MIN_TILE_WIDTH_MM,
-            );
-            expect(tile!.widthMm, `${kind} logo tile width is 168 mm to 178.5 mm.`).toBeLessThanOrEqual(
-                MAX_TILE_WIDTH_MM,
-            );
+            const front = kind === 'student-front' || kind === 'teacher-front';
+            const topMm = front ? FRONT_TILE_TOP_MM : BACK_TILE_TOP_MM;
+            const heightMm = front ? FRONT_TILE_HEIGHT_MM : BACK_TILE_HEIGHT_MM;
+            expect(tile!.topMm, `${kind} logo tile top is ${topMm} mm.`).toBe(topMm);
+            expect(tile!.heightMm, `${kind} logo tile height is ${heightMm} mm.`).toBe(heightMm);
             expect(
                 Math.abs(tile!.leftMm + tile!.widthMm / 2 - COVER_CENTRE_MM),
                 `${kind} logo tile centre is 105 mm.`,
             ).toBeLessThanOrEqual(0.5);
-            expect(tile!.topMm, `${kind} logo tile top is 5 mm or more.`).toBeGreaterThanOrEqual(5);
-            if (kind === 'student-front' || kind === 'teacher-front') {
+            const innerWidth = tile!.widthMm - 2 * TILE_BORDER_MM;
+            const innerHeight = tile!.heightMm - 2 * TILE_BORDER_MM;
+            aspects.push({ kind, value: innerWidth / innerHeight });
+            if (front) {
                 expect(tile!.topMm + tile!.heightMm, `${kind} logo tile bottom is 100 mm or less.`).toBeLessThanOrEqual(
                     100,
                 );
@@ -625,6 +683,13 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
             expect(found!.widthMm, `the width of ${key}.`).toBe(box.widthMm);
             expect(found!.heightMm, `the height of ${key}.`).toBe(box.heightMm);
         }
+        const aspectSummary = aspects.map((row) => `${row.kind} ${row.value.toFixed(4)}`).join(', ');
+        for (const row of aspects) {
+            expect(
+                Math.abs(row.value - LOGO_ASPECT) / LOGO_ASPECT,
+                `the inner tile aspect of the ${row.kind} is 3.144 within 1 %: ${aspectSummary}.`,
+            ).toBeLessThanOrEqual(ASPECT_TOLERANCE);
+        }
     });
 
     it('A5: the kept parts hold the same HTML in the hlogo render and in the default render', () => {
@@ -644,6 +709,7 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
     });
 
     it('A6: the logo sits centered in its tile and the tile takes the amber and the brown', async () => {
+        const widthShares: { kind: Kind; value: number }[] = [];
         for (const kind of KINDS) {
             const raw = await measureTile(kind);
             expect(raw, `the ${kind} holds a logo tile.`).not.toBeNull();
@@ -673,12 +739,14 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
             ).toBeLessThanOrEqual(CENTRE_TOLERANCE_MM);
             const innerHeight = inner.bottomMm - inner.topMm;
             const share = (img.bottomMm - img.topMm) / innerHeight;
-            expect(share, `the logo of the ${kind} fills 75 % to 85 % of the inner tile height.`).toBeGreaterThanOrEqual(
+            expect(share, `the logo of the ${kind} fills 78 % to 82 % of the inner tile height.`).toBeGreaterThanOrEqual(
                 MIN_FILL_SHARE,
             );
-            expect(share, `the logo of the ${kind} fills 75 % to 85 % of the inner tile height.`).toBeLessThanOrEqual(
+            expect(share, `the logo of the ${kind} fills 78 % to 82 % of the inner tile height.`).toBeLessThanOrEqual(
                 MAX_FILL_SHARE,
             );
+            const innerWidth = inner.rightMm - inner.leftMm;
+            widthShares.push({ kind, value: (img.rightMm - img.leftMm) / innerWidth });
             const tileShare = (img.bottomMm - img.topMm) / (box.bottomMm - box.topMm);
             expect(
                 tileShare,
@@ -699,6 +767,17 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
             }
             expect(tile.shadows.length, `the ${kind} tile holds no text shadow.`).toBe(0);
             expect(tile.opacities.length, `the ${kind} tile holds no opacity under 1.`).toBe(0);
+        }
+        const summary = widthShares.map((row) => `${row.kind} ${row.value.toFixed(4)}`).join(', ');
+        for (const row of widthShares) {
+            expect(
+                row.value,
+                `the logo of the ${row.kind} fills 78 % to 82 % of the inner tile width: ${summary}.`,
+            ).toBeGreaterThanOrEqual(MIN_WIDTH_FILL_SHARE);
+            expect(
+                row.value,
+                `the logo of the ${row.kind} fills 78 % to 82 % of the inner tile width: ${summary}.`,
+            ).toBeLessThanOrEqual(MAX_WIDTH_FILL_SHARE);
         }
     }, 300_000);
 
@@ -727,5 +806,15 @@ describe('quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal
         const bad = parseQuestArgs(['--level', '2', '--unit', '1', '--top', 'round']);
         expect(bad.errors.length, 'the flag --top round is an error.').toBeGreaterThan(0);
         expect(bad.args, 'the flag --top round parses no arguments.').toBeNull();
+    });
+
+    it('A9: the hlogo render of each kind keeps every part outside the logo tile', () => {
+        for (const kind of KINDS) {
+            const rest = withoutLogoTile(renderKind(kind, HLOGO_OPTIONS));
+            expect(
+                hashOfText(rest),
+                `the SHA-256 of the ${kind} hlogo render without its logo tile.`,
+            ).toBe(HLOGO_REST_PINS[kind]);
+        }
     });
 });

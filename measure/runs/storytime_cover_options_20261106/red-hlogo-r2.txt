@@ -1,33 +1,51 @@
-Red r2 gate: the alternate A2 with the horizontal logo (storytime_cover_options_20261106, Phase 2)
-role_base_sha: 8f46d85cb6a94c006e9ea2788997ad0129b78d13
-phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
-time: 2026-11-10 15:56:19 ICT
-deviation: measured on the uncommitted Green tree, because the Green of this pair stopped before its commits
+GATE CAPTURE of Red A2 r2 gate, the horizontal logo fills about 80 % of a tighter tile on the 2 fronts and the 2 backs
 
-(a) cd dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1
-
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
 
 [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
 
- [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 6748[2mms[22m[39m
-     [33m[2m✓[22m[39m A2: the default render of each kind is byte equal to the r5 pin [33m 431[2mms[22m[39m
-     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 621[2mms[22m[39m
-     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 560[2mms[22m[39m
-     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1994[2mms[22m[39m
-     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1066[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 3564[2mms[22m[39m
+     [32m✓[39m A1: the horizontal logo file sits in the logo folder with the approved hash[32m 4[2mms[22m[39m
+     [32m✓[39m A2: the default render of each kind is byte equal to the r5 pin[32m 204[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 372[2mms[22m[39m
+[31m     [31m×[31m A4: the box table holds the tile of the 4 kinds and the kept boxes do not change[39m[32m 13[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 508[2mms[22m[39m
+[31m     [31m×[31m A6: the logo sits centered in its tile and the tile takes the amber and the brown[39m[33m 1211[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 816[2mms[22m[39m
+     [32m✓[39m A8: the build takes the flag --top[32m 10[2mms[22m[39m
+     [32m✓[39m A9: the hlogo render of each kind keeps every part outside the logo tile[32m 91[2mms[22m[39m
 
-[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
-[2m      Tests [22m [1m[32m8 passed[39m[22m[90m (8)[39m
-[2m   Start at [22m 15:56:20
-[2m   Duration [22m 12.93s[2m (transform 670ms, setup 161ms, import 3.97s, tests 6.75s, environment 1.42s)[22m
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m7 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 01:37:32
+[2m   Duration [22m 7.35s[2m (transform 574ms, setup 95ms, import 2.57s, tests 3.56s, environment 720ms)[22m
+--- STDERR ---
 
-EXIT=0
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
 
-(b) cd dashboard && npx eslint __tests__/quest-cover-hlogo.test.ts
+[41m[1m FAIL [22m[49m __tests__/quest-cover-hlogo.test.ts[2m > [22mquest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)[2m > [22mA4: the box table holds the tile of the 4 kinds and the kept boxes do not change
+[31m[1mAssertionError[22m: the inner tile aspect of the student-front is 3.144 within 1 %: student-front 3.2348, teacher-front 3.2348, student-back 4.9080, teacher-back 4.9080.: expected 0.02889582851414923 to be less than or equal to 0.01[39m
+[36m [2m❯[22m __tests__/quest-cover-hlogo.test.ts:[2m691:15[22m[39m
+    [90m689| [39m                [33mMath[39m[33m.[39m[34mabs[39m(row[33m.[39mvalue [33m-[39m [33mLOGO_ASPECT[39m) [33m/[39m [33mLOGO_ASPECT[39m[33m,[39m
+    [90m690| [39m                `the inner tile aspect of the ${row.kind} is 3.144 wit…
+    [90m691| [39m            )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mASPECT_TOLERANCE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m692| [39m        }
+    [90m693| [39m    })[33m;[39m
 
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
 
+[41m[1m FAIL [22m[49m __tests__/quest-cover-hlogo.test.ts[2m > [22mquest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)[2m > [22mA6: the logo sits centered in its tile and the tile takes the amber and the brown
+[31m[1mAssertionError[22m: the logo of the student-front fills 78 % to 82 % of the inner tile width: student-front 0.7769, teacher-front 0.7769, student-back 0.5120, teacher-back 0.5120.: expected 0.7768748941933301 to be greater than or equal to 0.78[39m
+[36m [2m❯[22m __tests__/quest-cover-hlogo.test.ts:[2m776:15[22m[39m
+    [90m774| [39m                row[33m.[39mvalue[33m,[39m
+    [90m775| [39m                `the logo of the ${row.kind} fills 78 % to 82 % of the…
+    [90m776| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_WIDTH_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m777| [39m            [34mexpect[39m(
+    [90m778| [39m                row[33m.[39mvalue[33m,[39m
 
-EXIT=0
-
-VITEST_EXIT=0
-ESLINT_EXIT=0
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
