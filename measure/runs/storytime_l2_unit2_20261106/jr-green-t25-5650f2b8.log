@@ -1,0 +1,58 @@
+# Jr Green log: the Task 2.5 record pass (storytime_l2_unit2_20261106)
+
+Role: measure-jr-green. Track: storytime_l2_unit2_20261106. Phase: Phase 2: Picture list for
+Forge (2026-11-07 to 2026-11-23).
+
+Baseline: 5650f2b8234f26a566392493ecf6b73fdf7a8dac. The command `git rev-parse HEAD` printed that
+SHA before the edit. The plan was clean.
+
+## The Thai proof
+
+The first command read the plan only. No week file was read.
+
+- the Thai count of the plan is 0
+- `git status --porcelain measure/tracks/storytime_l2_unit2_20261106/plan.md` printed nothing
+
+## The edit
+
+`python3 -I /tmp/opencode/t25/edit.py` printed `edits: 8`. The script read the plan and wrote the
+plan. It touched no code, test, or content file.
+
+The edit did 8 things:
+
+- Task 2.1 ends with commit `4d7a3e9`
+- Task 2.2 ends with commit `c4f2e7d`
+- Task 2.3 ends with commit `d7a2efa`
+- Task 2.6 ends with commit `933fa65`
+- Task 2.5 changed from `- [ ]` to `- [x]`. The line holds Daniel's word "Go" (Google Tasks item
+  MUFzbGFhX2tSV0tuQVJkRw, 2026-11-08 20:17 ICT). It answers the PM request "unit 2 paid media,
+  20.16 USD expected, 25.21 USD hard stop". The PM session relayed the word on 2026-11-10 and
+  confirmed that both numbers are exact. The approved hard stop is 25.21 USD. The 27.25 USD of the
+  paid media list above is not an approved number. The line ends with commit `f1575f2`.
+- the sub-bullet of Task 2.7 part 1 now holds the PM answers of 2026-11-10, word for word
+- the line of Task 4.1 now holds the new test line of the checker fix of finding 2
+
+## The 3 check values
+
+- `git diff --stat` prints `1 file changed, 7 insertions(+), 5 deletions(-)`
+- the SHA tail check prints `1` for each of the 6 tasks 2.1, 2.2, 2.3, 2.4, 2.5, and 2.6
+- the Thai count of the plan is 0
+
+## The commit
+
+Commit 13a23b23 holds the plan file. The commit lists only this file.
+`git status --porcelain pnpm-lock.yaml` prints nothing.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: 5650f2b8234f26a566392493ecf6b73fdf7a8dac
+commits: 13a23b23
+tests_run: none (plan-record task); the 3 fast checks: diff stat `1 file changed, 7 insertions(+), 5 deletions(-)`; the SHA tail check prints 1 for each of the 6 tasks; the Thai count of the plan is 0
+files_changed: measure/tracks/storytime_l2_unit2_20261106/plan.md
+plan_updates: Task 2.5 marked [x] with Daniel's Go and the approved hard stop of 25.21 USD; the PM answers of 2026-11-10 added under Task 2.7 part 1; a new test line added under Task 4.1 for the checker fix of finding 2; commit SHAs added to the lines of Tasks 2.1, 2.2, 2.3, 2.5, and 2.6
+known_failures: none in this pass; the 14 open rows of Task 2.7 part 1 stay open, and the 9 ids outside the list stay a checker defect for Phase 4 rule R1
+handoff: The plan record of the Task 2.5 gate, the PM answers, and the Phase 4 test line is in commit 13a23b23. The approved hard stop for unit 2 paid media is 25.21 USD, not the 27.25 USD of the paid media list, and the plan now says so. Part 2 of Task 2.7 waits for the PM session to send the repaired folder and the new delivery jobs with their MANIFEST hashes. The probe of the first pass stays a recorded deviation. The earlier logs are `jr-green-t27-03b0e789.log` (commit 53aca14c) and `jr-green-t27-r2-53aca14c.log` (commit 5650f2b8). This log is the only other commit.
+END_MEASURE_AGENT_RESULT
