@@ -1,0 +1,132 @@
+# Jr Green · Task 2.9 part 1, r5 · storytime_cover_options_20261106
+
+- Role: jr-green
+- Role base SHA: cd6ae0e9 (cd6ae0e9aa32379d66b5d08b7bc5739fff35b73c)
+- `phase_base_sha`: 4964d4ed
+- Track: storytime_cover_options_20261106
+- Task 2.9 (plan line 139), part 1, round 5
+- Status: done (Task 2.9 stays [~])
+- Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+- The Red model of this phase pair: minimax-cn-coding-plan/MiniMax-M3.1-Flash, the same family as this role. The Red commits 4559212c and 44a08b4e were committed before this round. This role changed no production code and no committed Red test. The fix of the tested behavior came from another model, deepseek/deepseek-flash#high, in commit deb12edd. No subagent was used.
+- The Red commits 4559212c and 44a08b4e lie inside `phase_base_sha..HEAD`: `git merge-base --is-ancestor 4964d4ed 4559212c` exits 0 and `git merge-base --is-ancestor 4559212c cd6ae0e9` exits 0.
+
+## Why r5
+
+- Daniel wrote in Tasks U0ZLNVU2bHdsMGhYTmtJcQ: "story Time logo not present the name of story time is not centered vertically and the Chrome should match the tone of the logo text should also fill the Chrome instead of maybe 50%. Back cover text also not centered in chrome".
+- The fix deb12edd adds the Storytime logo to the front and to the back logo box, the RA publisher mark, the amber and brown chrome, the 82 to 84 % text fill, and the centered blocks.
+- The PM decision of 2026-11-10 13:40: "'Advantage', 'Student Book', and 'Teacher Book' take the logo brown #92400E as live text with no edge. 'Storytime' stays brown and larger."
+
+## Hard rules kept
+
+- The Thai filter ran first. One `python3 -I` script (`/tmp/opencode/t61/thai_filter.py`) wrote Thai-free copies of `content/storytime/l2/w01.json` to `w08.json` into `/tmp/opencode/c29r5/in/`. Every copy printed `THAI_CHARS_IN_OUTPUT=0`. The counts of `content/storytime/covers/books.json` and `quest.json` are 0.
+- Every file was read only after its Thai count was printed as 0. `dashboard/lib/covers/back-text.ts` was never read by this role; only the check script counts its characters.
+- No PNG and no PDF page image was opened or viewed. Every printed line holds a count, a PASS or FAIL line, or English text.
+- No week file was written. Nothing under `content/` or `dashboard/` was written. No production code was changed. No script of the build was patched.
+- The edge fill wrote only into `/tmp/opencode/c29r5/pictures/`. The shipped art under `content/storytime/l2/print/pictures/` is unchanged.
+- The teacher fallback art went into the temporary pictures folder only.
+- No push. The work of another session (`video/storytime-song/scripts/render.mjs`) was not staged. `dashboard/raw.json` and the `spec-review-*` files were not staged.
+
+## Steps
+
+1. The pictures folder `/tmp/opencode/c29r5/pictures/` holds 31 files:
+   - The names came from `planQuestBuild` of `dashboard/scripts/storytime/make-storytime-quest-covers.ts`, called in a small script with the level 2, the unit 1, the version 1, the pictures folder of the repository, and a print-ready root in the scratch folder. It gave 44 planned files, 2 art rows, and 28 picture rows. Its one error names the missing teacher front in the repository folder, and the build ran on.
+   - The student front `l2-u1-cover-quest-student-front-v1-300ppi.png` and the 28 reader art files are hard links of `content/storytime/l2/print/pictures/`, because the build only reads them and the disk is near its floor. All 29 SHA-256 pairs are equal.
+   - The student front has the SHA-256 `9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f`.
+   - The edge-filled back `l2-u1-cover-quest-back-v1-300ppi.png` has the SHA-256 `881e93b2a87385eb15e5cf0240df8629c501a10f0375284f9cec2fe09eda37c4`. The source has the SHA-256 `5411e37ec7044d7afd70726ee5fffeccd985225ef0b0da4283db8e6a3979b7bf`. The script is `measure/runs/storytime_cover_options_20261106/fix-back-edge-2-9a-r5.py`, a copy of the r4 script with only the output folder changed. The size is 2480 x 3508, the mode is RGB, the file holds no alpha, the density is 300, the 0 differing pixels outside the strip hold, and the mirror test holds.
+   - The teacher fallback `l2-u1-cover-quest-teacher-front-v1-300ppi.png` has the SHA-256 `9a47fa2b0ca2f444fd44fe29baa94afe0223ceb5f56f5ea752db49b46e3c7869`. It is the upscale of `Q-teacher-a1-clean2.jpg` with the method of `options/upscale.mjs`: sharp from the dashboard package, the lanczos3 kernel, 2480 x 3508 px, removeAlpha, a PNG density of 300. The source is 1448 x 2048 px, the output holds 300 ppi, and the expected SHA-256 holds.
+2. The build, one heavy-run wrapper (`HEAVY_PRIORITY=p1`, `HEAVY_MIN_AVAIL_MB=1500`, `HEAVY_PREFLIGHT_WAIT_S=5400`): exit 0 on the first attempt. The line `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` stands. The gate inside the build passed 4 of 4 (`All checks pass.` four times). The capture is `measure/runs/storytime_cover_options_20261106/build-2-9a-r5.txt`. No Chrome load error and no second attempt.
+3. The copies into `~/Desktop/print-ready/storytime/covers-quest-v1/`: 10 byte copies, and the SHA-256 of each copy equals the SHA-256 of the build output.
+   - `student/`: `front.png`, `back.png`, `cover.pdf`, `Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf`, `build-report.json`.
+   - `teacher-candidate/`: `teacher/teacher-front.png` as `teacher-front-candidate.png`, `teacher/teacher-back.png` as `teacher-back-candidate.png`, `teacher/teacher-cover.pdf` as `teacher-cover-candidate.pdf`, `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf` as `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf`, and `teacher/build-report.json` as `build-report.json`.
+   - The reader groups and the `teacher/` folder name stayed out of the hand-off folder. `README.txt` and `spend-log.md` are unchanged.
+4. The print checks, one labeled line each, in `measure/runs/storytime_cover_options_20261106/print-gate-2-9a-r5.txt`. The `PRINT_GATE` run and the 15 checks ran inside one heavy-run wrapper with `HEAVY_PRIORITY=p1`. The script is `measure/runs/storytime_cover_options_20261106/print_gate_2_9a_r5.py`, a copy of the r4 script with the paths of r5 and the 2 new checks. The gate run capture is `measure/runs/storytime_cover_options_20261106/print-gate-run-2-9a-r5.txt`.
+   - `(1) PRINT_GATE` exits 1 on both print files: `FAIL page(s) 1, 2 became one image each`. This is the recorded deviation of Task 2.9 check 1 (PM decision 2026-11-10). The gate inside the build had the source PDF and passed 4 of 4.
+   - `(2) pdfinfo -box`: 2 pages each, and the TrimBox equals the page size with a delta of 0.000 pt. PASS.
+   - `(3) The text counts per page`: the front page holds "Storytime Advantage" 1 time, "Level 2" 1 time, and the title of its kind 1 time; the back page holds "Storytime Advantage" 1 time, and holds no level and no title. PASS under that rule.
+   - `(4) pdffonts`: 5 fonts each, all embedded, no Type 3. PASS.
+   - `(5) pdfimages -list`: the art of every page is 2480 x 3508 px at 300.0 x 300.0 ppi. PASS.
+   - `(6) The Thai byte check on the Chrome PDFs only`: the student `cover.pdf` holds 0 Thai characters on page 1 and 38 on page 2; the teacher `teacher-cover-candidate.pdf` holds 0 on page 1 and 38 on page 2. The 38 characters of each back equal `BACK_LINES.contact`, the five approved contact lines of spec FR-10.2. PASS under the rule of FR-10.2.
+   - `(7) The QR`: the build reports show `qr` `pass` for both backs, and `options/qr_check.mjs` on the QR crop of `back.png` and of `teacher-back-candidate.png` gives 0 of 841 modules different on each. PASS.
+   - `(8) The build reports`: the student report holds 2 page rows and 0 fail rows, the teacher report holds 2 page rows and 0 fail rows, 4 page rows in all. PASS.
+   - `(9) The story line`: on page 2 of `student/cover.pdf`, after the join of the words with single spaces and the drop of every Thai line, the text "Hello, I am Nan. Nan can nod. A nest, a net, a nut, a nose." appears exactly once. The headings Story, Sounds, Decodable words, Sight words, and Books each appear once. PASS.
+   - `(10) The empty field`: the student build report holds 0 errors, and the build output holds no line with "is empty". PASS.
+   - `(11) The game bar`: the student front and the teacher front hold 0 elements `data-part="game-bar"`. The build deletes its HTML, so the count comes from a fresh render with `renderQuestCover` of `dashboard/lib/storytime/print/cover-quest.ts`, in `measure/runs/storytime_cover_options_20261106/game_bar_count_r3.tsx`. PASS.
+   - `(12) The front lines`: page 1 of `student/cover.pdf` holds "Level 2 · Unit 1" 1 time, "Student Book" 1 time, and "Sprout" 0 times. Page 1 of `teacher-cover-candidate.pdf` holds "Level 2 · Unit 1" 1 time, "Teacher Book" 1 time, and "Sprout" 1 time. PASS.
+   - `(13) The plaque line`: with `pdftotext -layout`, one line of page 1 of `student/cover.pdf` holds "Level 2 · Unit 1" and "Student Book", and one line of page 1 of `teacher-cover-candidate.pdf` holds "Level 2 · Unit 1" and "Teacher Book". The teacher page 1 holds "Sprout" once and the student page 1 holds it 0 times. PASS.
+   - `(14) The images per page, new`: each page of each print file holds exactly 1 image, the art. The logos and the QR stay vector. PASS.
+   - `(15) The Type 3 fonts, new`: each print file holds 0 Type 3 fonts, 5 fonts each, all embedded. PASS.
+   - The summary line reads `PRINT_GATE_SUMMARY lines=15 fail_lines=1 other_fail_lines=0`. The one failing line is check 1, the recorded deviation.
+5. The contact sheets, `python3 -I -B measure/runs/storytime_cover_options_20261106/contact-2-9a.py`: `contact-sheets/student.png` and `contact-sheets/teacher-candidate.png`, each 2064 x 1566 px, mode RGB, PNG. The SHA-256 values are `45755f95f544f1979ec6153c8784bd5547ac8aa8ffc8746d89c4bbfe3f1cbe23` and `1f997aaa3fc7bf80021c056dc5fe7d568dae7148fdd7cf5fb8fdd9af8bbdf903`. No sheet was viewed.
+6. The manifest: `options/manifest.py` wrote `MANIFEST.txt` with 14 files, and `options/manifest.py --check` exits 0. The SHA-256 of `MANIFEST.txt` is `99abd7225cfa80426dd3954955fe422657f24237e71c881756fb404d834f1eda`. The file holds 14 lines.
+7. The plan record: the task (Green, logo and tone r5) is `[x]` and the line ends with `commit deb12ed`. One sub-bullet under Task 2.9 part 1 holds the r5 record. Task 2.9 stays `[~]`.
+8. The commits:
+   - The evidence and the helpers: commit 701624b4, 5 files: `measure/runs/storytime_cover_options_20261106/build-2-9a-r5.txt`, `measure/runs/storytime_cover_options_20261106/print-gate-2-9a-r5.txt`, `measure/runs/storytime_cover_options_20261106/print-gate-run-2-9a-r5.txt`, `measure/runs/storytime_cover_options_20261106/print_gate_2_9a_r5.py`, `measure/runs/storytime_cover_options_20261106/fix-back-edge-2-9a-r5.py`.
+   - The plan evidence: commit 3bfcd9ba, one file: `measure/tracks/storytime_cover_options_20261106/plan.md`. The plan holds the SHA of the evidence commit, because a commit cannot hold its own SHA.
+   - This log, alone.
+
+## The hand-off folder
+
+- `student/front.png` `54b7392c1e2e9e4c8aed677380d1e801660bde63e1f316469c0c62a56d4f14b0`
+- `student/back.png` `aeda81cabc053048f750fe57548df1d2381ac9524de26a9a9c727a7d28216ee7`
+- `student/cover.pdf` `4994ce5498d82a95a6bcc1018c48831b463e4c4b9d877ec445d9bd3a959d68a1`
+- `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf` `920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d`
+- `student/build-report.json` `f461149cf082582be13f763b8b94b6c4f12c71b8e6ebe347c6046357112fb2f0`
+- `teacher-candidate/teacher-front-candidate.png` `b79ebcf3aca9ea91c64fc5005a28d09610f003953066801b6dbc71c91d94a0cf`
+- `teacher-candidate/teacher-back-candidate.png` `ac56760f7ac0344a96a9c49e17a5d69b04bd64fd2c670e6b3bfd098c11d39005`
+- `teacher-candidate/teacher-cover-candidate.pdf` `9854a965d266a4b7c45c7ed6b09a66ede1c4f1cdbef112e3cc2d55a6f73e5b0e`
+- `teacher-candidate/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-candidate_PDFX-1a.pdf` `d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37`
+- `teacher-candidate/build-report.json` `9e29b8969fb77f6f82423adafb800310bf9521cc67761562ad92aef1cd6bbbb2`
+- `teacher-candidate/README.txt` `e35707acbbe88e0574f77a17738a76045cb9681709b77fed3bf2f1cad6eea6fa` (unchanged)
+- `contact-sheets/student.png` `45755f95f544f1979ec6153c8784bd5547ac8aa8ffc8746d89c4bbfe3f1cbe23`
+- `contact-sheets/teacher-candidate.png` `1f997aaa3fc7bf80021c056dc5fe7d568dae7148fdd7cf5fb8fdd9af8bbdf903`
+- `spend-log.md` `ca5cbc85975a14c7a709fcbcd9bd5da6bef5dec524753337a92e83d1cf367028` (unchanged)
+- `MANIFEST.txt` `99abd7225cfa80426dd3954955fe422657f24237e71c881756fb404d834f1eda` (14 files)
+
+## The disk and the scratch folder
+
+- The scratch folder `/tmp/opencode/c29r5` held 665 MB before the delete. The delete removed the folder, and the test of the path after the delete exits 1, so the folder is gone. The hard links removed only the extra name: `content/storytime/l2/print/pictures/l2-u1-cover-quest-student-front-v1-300ppi.png` still holds the SHA-256 `9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f`, and the folder still holds 503 files. No other folder under `/tmp/opencode` was touched.
+
+## The open findings for the orchestrator and the PM
+
+- Check 1 is the recorded deviation of Task 2.9 check 1. The `PRINT_GATE` command of section 4.10 check 1 exits 1 on a quest cover print file, because each cover page is one full-page art image and the standalone `--check` of `scripts/print/make-pdfx.ts` cannot excuse it without the source PDF (F12). The gate inside the build had the source PDF and passed 4 of 4. The make-pdfx.ts gate fix gets its own Red and Green pair later, and it must close before the 11-25 printer order. This role changed no script.
+- The student back holds 38 Thai characters. They are the five approved contact lines of `BACK_LINES.contact` (spec FR-10.2 and D-A10). The fronts hold no Thai. The teacher back holds the same 38 characters, because both backs use the same back art.
+- The edge fill reached the teacher back too, because both backs use the same back art.
+- The review finding for phase acceptance: `checkQuestLitBand` returns no error on any page with no game bar. A reader A3 page that loses its bar passes this check. The render test F2 still requires the bar on reader A3.
+- The new checks 14 and 15 hold for the r5 print files: each page holds exactly 1 image, so the new logos and the QR stay vector, and no Type 3 font appears. The logos are live text and live vector art, so the print rule of FR-11.3 keeps its defense.
+- The look at 100 % of the 2 student pages, the 2 teacher pages, and the 28 reader pages is the work of the orchestrator. The pages stand in `covers-quest-v1/student/` and `covers-quest-v1/teacher-candidate/`, and the readers stand in the build output of `/tmp/opencode/c29r5/pr`, which this role deleted with the scratch folder. The readers enter `covers-quest-v1` in Task 2.9 part 2.
+- The model note: the Red model of this phase pair is the same family as this role. This role wrote no production code, changed no committed Red test, and changed no script of the build. The reviewer should read the Red and Green independence of the tested behavior from the model pair, not from this role.
+
+## Commits
+
+- The evidence and the helpers: `701624b4`.
+- The plan evidence: `3bfcd9ba`.
+- The log: this file, alone.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: P2
+task: T2.9 part 1, r5 (the print build of the student cover v4 and the teacher cover candidate with the Storytime logo, the logo tone chrome, the 82 to 84 % text fill, and the centered blocks)
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: cd6ae0e9
+phase_base_sha: 4964d4ed
+head: 3bfcd9ba
+impl_commit: deb12edd
+evidence_commit: 701624b4
+plan_commit: 3bfcd9ba
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+red_commit: 4559212c
+gates:
+- thai filter: THAI_CHARS_IN_OUTPUT=0 for w01 to w08; content/storytime/covers/books.json holds 0 Thai characters; content/storytime/covers/quest.json holds 0 Thai characters
+- pictures: 31 files; the student front and the 28 reader art files are hard links with 29 of 29 SHA-256 pairs equal; the edge-filled back has SHA-256 881e93b2a87385eb15e5cf0240df8629c501a10f0375284f9cec2fe09eda37c4; the teacher fallback has SHA-256 9a47fa2b0ca2f444fd44fe29baa94afe0223ceb5f56f5ea752db49b46e3c7869
+- build: exit 0 on the first attempt, 32 pages, 44 files, the gate inside the build passed 4 of 4
+- copy: 10 of 10 byte copies, every SHA-256 pair equal, README.txt and spend-log.md unchanged
+- print gate check 1: FAIL, exit 1 on both print files, "page(s) 1, 2 became one image each"; the recorded deviation of Task 2.9 check 1 (PM decision 2026-11-10); the gate inside the build passed 4 of 4 with the source PDF
+- print gate checks 2 to 15: PASS (2 pages each and a TrimBox delta of 0.000 pt; the front page holds the series name, Level 2, and the title of its kind; 5 fonts each, all embedded, no Type 3; the art is 2480 x 3508 px at 300.0 x 300.0 ppi; no Thai on the fronts and 38 Thai characters on each back, equal to BACK_LINES.contact; the QR is pass and 0 of 841 modules differ on both backs; 4 page rows and 0 fail rows; the story text appears exactly once on page 2 of student/cover.pdf and the five headings each appear once; the student build report holds 0 errors and the build output holds no line with "is empty"; the student front and the teacher front hold 0 elements data-part="game-bar"; the front page holds "Level 2 · Unit 1" once and its book line once and the teacher front holds "Sprout" once; one layout line of page 1 holds "Level 2 · Unit 1" and its book line on both fronts; each page of each print file holds exactly 1 image, so the logos and the QR stay vector; each print file holds 0 Type 3 fonts)
+- contact sheets: 2 files, each 2064 x 1566 px, PNG, mode RGB
+- manifest: 14 files, 14 lines, MANIFEST.txt SHA-256 99abd7225cfa80426dd3954955fe422657f24237e71c881756fb404d834f1eda, the --check exits 0
+- disk: the scratch folder /tmp/opencode/c29r5 held 665 MB and is gone; the shipped student front keeps the SHA-256 9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f
+dispositions: none
+files: measure/runs/storytime_cover_options_20261106/build-2-9a-r5.txt; measure/runs/storytime_cover_options_20261106/print-gate-2-9a-r5.txt; measure/runs/storytime_cover_options_20261106/print-gate-run-2-9a-r5.txt; measure/runs/storytime_cover_options_20261106/print_gate_2_9a_r5.py; measure/runs/storytime_cover_options_20261106/fix-back-edge-2-9a-r5.py; measure/tracks/storytime_cover_options_20261106/plan.md; this log; outside the repository, ~/Desktop/print-ready/storytime/covers-quest-v1/ with student/ (5 files), teacher-candidate/ (6 files), contact-sheets/ (2 files), spend-log.md, and MANIFEST.txt
+handoff: Part 1 of Task 2.9 is done in round 5. The student cover v4 and the teacher cover candidate hold the Storytime logo, the logo tone chrome, the 82 to 84 % text fill, and the centered blocks of the fix deb12edd. The student files stand in covers-quest-v1/student/ and the teacher cover candidate stands in covers-quest-v1/teacher-candidate/; all 10 files are byte copies of the build output, and the MANIFEST.txt of the folder holds 14 files with SHA-256 99abd7225cfa80426dd3954955fe422657f24237e71c881756fb404d834f1eda. The checks 2 to 15 pass, and the 2 new checks hold: each page of each print file holds exactly 1 image, so the logos and the QR stay vector, and no print file holds a Type 3 font. One check fails: the print gate command of section 4.10 check 1 exits 1 on a cover print file, because each cover page is one full-page art image and the standalone --check of make-pdfx.ts cannot excuse it without the source PDF (F12); this is the recorded deviation of Task 2.9 check 1 by the PM decision of 2026-11-10, the make-pdfx.ts gate fix gets its own Red and Green pair later, and it must close before the 11-25 printer order. The gate inside the build passed 4 of 4. The student back holds 38 Thai characters, which are the five approved contact lines of BACK_LINES.contact (FR-10.2). The edge fill reached the teacher back too, because both backs use the same back art. The teacher cover v2, the readers, and Tasks 2.10 to 2.13 wait for the Forge teacher front (due 2026-11-13). Task 2.9 stays [~]. The look at 100 % of the pages is the work of the orchestrator. The review finding for phase acceptance: checkQuestLitBand returns no error on any page with no game bar; a reader A3 page that loses its bar passes this check; the render test F2 still requires the bar on reader A3. No production code was written, no committed Red test was touched, no image was viewed, and the plan holds the SHA of the evidence commit in a separate commit.
+END_MEASURE_AGENT_RESULT
