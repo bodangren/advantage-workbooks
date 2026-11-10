@@ -1,0 +1,243 @@
+heavy-run: lock wait over 1800 s — priority p1 — holder PID 200274: flock -w 1800 -E 201 /home/daniebo/Desktop/primary-parity-progress/heavy.lock /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh --locked -c pnpm architecture:pin:refresh --acknowledge 
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 426: /proc/200274/cmdline: No such file or directory
+pass  l2-w09-story-page-i-like-rice-yum
+pass  l2-w09-story-page-i-like-eggs-yum
+pass  l2-w09-story-page-i-like-milk-yum
+pass  l2-w09-story-page-i-like-bananas-yum
+pass  l2-w09-story-page-i-like-bread-yum
+pass  l2-w09-story-page-i-like-juice-yum
+pass  l2-w09-story-page-i-like-cake-yum
+pass  l2-w09-story-page-pip-likes-cake-yum
+pass  l2-w09-cover-yum
+pass  l2-w09-story-page-dad-has-a-mop
+pass  l2-w09-story-page-dad-can-mop-the-mat
+pass  l2-w09-story-page-dad-sat-on-the-mat
+pass  l2-w09-story-page-dad-cannot-see-the-mop
+pass  l2-w09-story-page-dad-is-sad
+fail  l2-w09-story-page-tom-can-see-the-mop: forge manifest: the manifest holds no job for the row l2-w09-story-page-tom-can-see-the-mop
+pass  l2-w09-story-page-pip-has-the-mop
+pass  l2-w09-story-page-pip-can-mop
+pass  l2-w09-cover-dad-and-the-mop
+pass  l2-w09-check-row-dog
+pass  l2-w09-check-row-sun
+pass  l2-w09-check-row-cat
+pass  l2-w09-check-row-fish
+pass  l2-w09-check-row-duck
+pass  l2-w09-check-row-bus
+pass  l2-w09-check-row-pen
+pass  l2-w09-check-row-cup
+pass  l2-w09-check-row-doll
+pass  l2-w09-d4-prompt-cake
+pass  l2-w10-story-page-put-on-your-dress
+pass  l2-w10-story-page-put-on-your-skirt
+pass  l2-w10-story-page-put-on-your-t-shirt
+pass  l2-w10-story-page-put-on-your-trousers
+pass  l2-w10-story-page-put-on-your-socks
+pass  l2-w10-story-page-put-on-your-shoes
+pass  l2-w10-story-page-put-on-your-jacket
+fail  l2-w10-story-page-put-on-your-hat-pip: forge manifest: the manifest holds no job for the row l2-w10-story-page-put-on-your-hat-pip
+pass  l2-w10-cover-dress-up
+pass  l2-w10-story-page-dad-has-a-pan
+pass  l2-w10-story-page-a-tan-man
+pass  l2-w10-story-page-run-man-run
+pass  l2-w10-story-page-tom-and-dad-run
+pass  l2-w10-story-page-they-were-sad
+pass  l2-w10-story-page-a-man-on-a-mat
+pass  l2-w10-story-page-tom-and-dad-sat
+pass  l2-w10-story-page-the-man-sat-too
+pass  l2-w10-cover-the-tan-man
+pass  l2-w10-check-row-fan
+pass  l2-w10-check-row-dog
+pass  l2-w10-check-row-bed
+pass  l2-w10-check-row-cup
+pass  l2-w10-check-row-van
+pass  l2-w10-check-row-sun
+pass  l2-w10-check-row-sock
+pass  l2-w10-check-row-dad
+fail  l2-w10-check-row-ten: picture batch: the files "l2-w10-check-row-ten-v1.png" and "l2-w10-check-row-ten-line-v1.png" of the row l2-w10-check-row-ten are version 1; the job selected version 2, so N must equal the selected version
+fail  l2-w10-d4-prompt-hat: forge manifest: the manifest holds no job for the row l2-w10-d4-prompt-hat
+pass  l2-w11-story-page-where-is-sam-under-the-table
+pass  l2-w11-story-page-where-is-may-in-the-box
+pass  l2-w11-story-page-where-is-ben-under-the-bed
+pass  l2-w11-story-page-where-is-mia-in-the-bed
+pass  l2-w11-story-page-where-is-pat-on-the-sofa
+pass  l2-w11-story-page-where-is-lily-on-the-chair
+pass  l2-w11-story-page-where-is-pip
+fail  l2-w11-story-page-here: picture batch: the files "l2-w11-story-page-here-v1.png" and "l2-w11-story-page-here-line-v1.png" of the row l2-w11-story-page-here are version 1; the job selected version 3, so N must equal the selected version
+pass  l2-w11-cover-where-is-pip
+pass  l2-w11-story-page-tom-set-up-a-den
+fail  l2-w11-story-page-ten-men-in-the-den: picture batch: the files "l2-w11-story-page-ten-men-in-the-den-v1.png" and "l2-w11-story-page-ten-men-in-the-den-line-v1.png" of the row l2-w11-story-page-ten-men-in-the-den are version 1; the job selected version 3, so N must equal the selected version
+pass  l2-w11-story-page-see-me-mom
+pass  l2-w11-story-page-mom-is-in-too
+pass  l2-w11-story-page-dad-is-in-too
+pass  l2-w11-story-page-pip-sat-on-top
+pass  l2-w11-story-page-pip-get-off
+fail  l2-w11-story-page-the-den-is-on-dad: picture batch: the files "l2-w11-story-page-the-den-is-on-dad-v1.png" and "l2-w11-story-page-the-den-is-on-dad-line-v1.png" of the row l2-w11-story-page-the-den-is-on-dad are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w11-cover-the-den
+pass  l2-w11-check-row-egg
+pass  l2-w11-check-row-sun
+pass  l2-w11-check-row-cat
+pass  l2-w11-check-row-dog
+pass  l2-w11-check-row-elephant
+pass  l2-w11-check-row-fish
+pass  l2-w11-check-row-cat-b
+pass  l2-w11-check-row-dog-b
+pass  l2-w11-check-row-ten
+pass  l2-w12-story-page-open-your-book-sam
+pass  l2-w12-story-page-open-your-book-may
+pass  l2-w12-story-page-open-your-book-ben
+pass  l2-w12-story-page-open-your-book-mia
+pass  l2-w12-story-page-open-your-book-pat
+pass  l2-w12-story-page-open-your-book-lily
+fail  l2-w12-story-page-open-your-book-nan: picture batch: the files "l2-w12-story-page-open-your-book-nan-v1.png" and "l2-w12-story-page-open-your-book-nan-line-v1.png" of the row l2-w12-story-page-open-your-book-nan are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w12-story-page-open-your-book-pip
+pass  l2-w12-cover-open-your-book
+pass  l2-w12-story-page-dad-has-a-hat
+pass  l2-w12-story-page-dad-is-hot
+pass  l2-w12-story-page-it-is-on-the-mat
+pass  l2-w12-story-page-a-hen-can-hop
+pass  l2-w12-story-page-hop-hop-hop
+pass  l2-w12-story-page-the-hen-sat-in-it
+pass  l2-w12-story-page-dad-said-get-off
+pass  l2-w12-story-page-that-hen-has-the-hat
+pass  l2-w12-cover-the-hen-and-the-hat
+pass  l2-w12-check-row-hat
+pass  l2-w12-check-row-sun
+pass  l2-w12-check-row-cat
+pass  l2-w12-check-row-dog
+pass  l2-w12-check-row-horse
+pass  l2-w12-check-row-fish
+pass  l2-w12-check-row-pen
+pass  l2-w12-check-row-cup
+pass  l2-w12-check-row-house
+pass  l2-w12-d4-prompt-book
+pass  l2-w13-story-page-i-can-run
+pass  l2-w13-story-page-i-can-jump
+pass  l2-w13-story-page-i-can-kick
+pass  l2-w13-story-page-i-can-throw
+pass  l2-w13-story-page-i-can-catch
+pass  l2-w13-story-page-i-can-clap
+pass  l2-w13-story-page-i-can-hop
+pass  l2-w13-story-page-pip-can-catch
+fail  l2-w13-cover-look-at-me: picture batch: the files "l2-w13-cover-look-at-me-v1.png" and "l2-w13-cover-look-at-me-line-v1.png" of the row l2-w13-cover-look-at-me are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w13-story-page-tom-has-a-pot
+pass  l2-w13-story-page-a-pot-for-pip
+pass  l2-w13-story-page-hop-on-top-pip
+pass  l2-w13-story-page-he-is-on-top
+pass  l2-w13-story-page-i-like-it
+pass  l2-w13-story-page-mom-is-on-a-mat
+pass  l2-w13-story-page-do-not-hop-on-mom
+pass  l2-w13-story-page-pip-is-on-mom
+pass  l2-w13-cover-hop-on-top
+pass  l2-w13-check-row-pot
+pass  l2-w13-check-row-sun
+pass  l2-w13-check-row-bed
+pass  l2-w13-check-row-cup
+fail  l2-w13-check-row-dot: picture batch: the files "l2-w13-check-row-dot-v1.png" and "l2-w13-check-row-dot-line-v1.png" of the row l2-w13-check-row-dot are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w13-check-row-fish
+pass  l2-w13-check-row-hat
+pass  l2-w13-check-row-pen
+pass  l2-w13-check-row-mop
+fail  l2-w13-d4-prompt-jump: picture batch: the files "l2-w13-d4-prompt-jump-v1.png" and "l2-w13-d4-prompt-jump-line-v1.png" of the row l2-w13-d4-prompt-jump are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w14-story-page-it-is-sunny
+pass  l2-w14-story-page-it-is-cloudy
+pass  l2-w14-story-page-it-is-windy
+pass  l2-w14-story-page-it-is-rainy
+pass  l2-w14-story-page-it-is-hot
+pass  l2-w14-story-page-it-is-cold
+pass  l2-w14-story-page-it-is-very-cold
+pass  l2-w14-story-page-pip-is-cold-too
+pass  l2-w14-cover-hot-and-cold
+pass  l2-w14-story-page-dad-is-hot
+pass  l2-w14-story-page-mom-has-a-fan
+pass  l2-w14-story-page-on-goes-the-fan
+pass  l2-w14-story-page-dad-is-not-hot
+pass  l2-w14-story-page-pip-is-hot
+pass  l2-w14-story-page-pip-sat-on-the-mat
+pass  l2-w14-story-page-dad-is-hot-b
+pass  l2-w14-story-page-a-fan-for-you-pip
+pass  l2-w14-cover-on-goes-the-fan
+pass  l2-w14-check-row-fish
+pass  l2-w14-check-row-sun
+pass  l2-w14-check-row-cat
+pass  l2-w14-check-row-dog
+pass  l2-w14-check-row-foot
+pass  l2-w14-check-row-bed
+pass  l2-w14-check-row-pen
+pass  l2-w14-check-row-cup
+pass  l2-w14-check-row-fan
+pass  l2-w15-story-page-look-a-bus
+pass  l2-w15-story-page-look-a-car
+pass  l2-w15-story-page-look-a-bike
+pass  l2-w15-story-page-look-a-truck
+pass  l2-w15-story-page-look-a-train
+pass  l2-w15-story-page-look-a-boat
+pass  l2-w15-story-page-look-a-plane
+pass  l2-w15-story-page-look-pip-on-a-bike
+fail  l2-w15-cover-look-a-bus: picture batch: the files "l2-w15-cover-look-a-bus-v1.png" and "l2-w15-cover-look-a-bus-line-v1.png" of the row l2-w15-cover-look-a-bus are version 1; the job selected version 2, so N must equal the selected version
+pass  l2-w15-story-page-pip-has-a-tag
+pass  l2-w15-story-page-pip-has-no-tag
+pass  l2-w15-story-page-is-it-on-the-mat
+pass  l2-w15-story-page-no-it-is-not
+pass  l2-w15-story-page-is-it-in-the-pot
+pass  l2-w15-story-page-no-it-is-not-b
+pass  l2-w15-story-page-it-is-on-a-peg
+pass  l2-w15-story-page-pip-got-his-tag
+pass  l2-w15-cover-the-tag
+pass  l2-w15-check-row-goat
+pass  l2-w15-check-row-sun
+pass  l2-w15-check-row-cat
+pass  l2-w15-check-row-bed
+pass  l2-w15-check-row-girl
+pass  l2-w15-check-row-fish
+pass  l2-w15-check-row-sun-b
+pass  l2-w15-check-row-pen
+pass  l2-w15-check-row-dog
+fail  l2-w16-check-row-nest: forge manifest: the manifest holds no job for the row l2-w16-check-row-nest
+fail  l2-w16-check-row-nose: forge manifest: the manifest holds no job for the row l2-w16-check-row-nose
+fail  l2-w16-check-row-net: forge manifest: the manifest holds no job for the row l2-w16-check-row-net
+fail  l2-w16-check-row-bag: forge manifest: the manifest holds no job for the row l2-w16-check-row-bag
+fail  l2-w16-check-row-octopus: forge manifest: the manifest holds no job for the row l2-w16-check-row-octopus
+fail  l2-w16-check-row-ox: forge manifest: the manifest holds no job for the row l2-w16-check-row-ox
+fail  l2-w16-check-row-ostrich: forge manifest: the manifest holds no job for the row l2-w16-check-row-ostrich
+pass  l2-w16-check-row-guitar
+fail  l2-w16-check-row-apple: forge manifest: the manifest holds no job for the row l2-w16-check-row-apple
+pass  l2-w09-card-nod
+pass  l2-w09-card-dinosaur
+fail  l2-w09-card-rice: forge manifest: the manifest holds no job for the row l2-w09-card-rice
+pass  l2-w09-card-banana
+pass  l2-w09-card-bread
+pass  l2-w09-card-juice
+pass  l2-w10-card-pad
+pass  l2-w10-card-skirt
+pass  l2-w10-card-t-shirt
+pass  l2-w10-card-trousers
+pass  l2-w10-card-socks
+pass  l2-w10-card-shoes
+pass  l2-w10-card-jacket
+pass  l2-w11-card-elbow
+pass  l2-w11-card-envelope
+pass  l2-w11-card-door
+pass  l2-w11-card-window
+pass  l2-w12-card-hop
+fail  l2-w12-card-hippo: forge manifest: the manifest holds no job for the row l2-w12-card-hippo
+pass  l2-w12-card-crayon
+pass  l2-w12-card-eraser
+fail  l2-w12-card-ruler: forge manifest: the manifest holds no job for the row l2-w12-card-ruler
+pass  l2-w13-card-run
+pass  l2-w13-card-walk
+fail  l2-w13-card-clap: forge manifest: the manifest holds no job for the row l2-w13-card-clap
+pass  l2-w13-card-kick
+fail  l2-w13-card-throw: forge manifest: the manifest holds no job for the row l2-w13-card-throw
+pass  l2-w13-card-catch
+pass  l2-w14-card-sunny
+pass  l2-w14-card-cloudy
+fail  l2-w14-card-windy: forge manifest: the manifest holds no job for the row l2-w14-card-windy
+pass  l2-w14-card-rainy
+pass  l2-w14-card-hot
+fail  l2-w14-card-cold: forge manifest: the manifest holds no job for the row l2-w14-card-cold
+pass  l2-w15-card-garden
+pass  l2-w15-card-helicopter
+211 of 238 rows pass stage 1 (/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures)
+THAI_LINES_DROPPED=0
+EXIT=1
