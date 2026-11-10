@@ -9,6 +9,7 @@ import {
     checkStorytimeCoverCopy,
     checkStorytimeCoverQr,
     checkStorytimeCoverThai,
+    storytimeCoverFileUrl,
     storytimeCoverFontCss,
     storytimeCoverQrGrid,
     storytimeCoverQrSvg,
@@ -62,19 +63,49 @@ export interface QuestBox {
     heightMm: number;
 }
 
+/** The tile amber of the Storytime Advantage logo (round 5 of 2026-11-10). */
+const LOGO_AMBER = '#FCD34D';
+
+/** The mark brown of the Storytime Advantage logo. */
+const LOGO_BROWN = '#92400E';
+
+/** The light cream of the logo, the middle ring of an amber plaque. */
+const LOGO_CREAM = '#FEF3C7';
+
+/** The paper tone of the logo, the panel fill of the student back. */
+const LOGO_PAPER = '#FFFBEB';
+
+/** The white of the logo, the "Advantage" text of an amber banner. */
+const LOGO_WHITE = '#FFFFFF';
+
+/**
+ * The top of the contact line block of both backs, in millimetres at bleed 0 (round 5 of
+ * 2026-11-10). The block of the 5 lines and the publisher mark stands centered in the board of the
+ * contact sign (203 mm to 277 mm).
+ */
+const CONTACT_LINES_TOP_MM = 215.0;
+
+/**
+ * The top of the publisher mark of both backs, in millimetres at bleed 0. The mark stands under
+ * the contact lines with a 2.80 mm gap, at the centre 78 mm of the board minus 7 mm.
+ */
+const PUBLISHER_MARK_TOP_MM = 251.5;
+
 /**
  * Every text or face part of every kind, keyed `<kind>:<part>` (pin P3, spec D-A5). The art part is
  * exempt: it covers the page. Every box lies 5 mm inside the trim at bleed 0, and the render moves
  * it by the bleed value (T09). Round 3 of 2026-11-10: the student front and the teacher front hold
  * no game bar, so they hold no game bar box. The reader A3 cover keeps its game bar box. The title
  * plaque of both fronts is 14 mm high and stands at 278 mm to 292 mm from the top edge, clear of
- * the dog of the student front art.
+ * the dog of the student front art. Round 5 of 2026-11-10: the Storytime Advantage logo replaces
+ * the crest of both fronts, so the 2 crest keys are gone. The publisher mark of both backs stands
+ * in the contact sign, left of the QR and under the contact lines.
  */
 export const QUEST_BOXES: Record<string, QuestBox> = {
-    'student-front:crest': { kind: 'student-front', leftMm: 91, topMm: 28, widthMm: 28, heightMm: 28 },
+    'student-front:series-logo': { kind: 'student-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'student-front:series-banner': { kind: 'student-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
     'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
-    'teacher-front:crest': { kind: 'teacher-front', leftMm: 91, topMm: 28, widthMm: 28, heightMm: 28 },
+    'teacher-front:series-logo': { kind: 'teacher-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'teacher-front:series-banner': { kind: 'teacher-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
     'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:band-pill': { kind: 'teacher-front', leftMm: 83, topMm: 271.5, widthMm: 44, heightMm: 9 },
@@ -84,11 +115,25 @@ export const QUEST_BOXES: Record<string, QuestBox> = {
     'student-back:contact-sign': { kind: 'student-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'student-back:qr': { kind: 'student-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
     'student-back:line-label': { kind: 'student-back', leftMm: 141, topMm: 259, widthMm: 50, heightMm: 8 },
+    'student-back:publisher-mark': {
+        kind: 'student-back',
+        leftMm: 71,
+        topMm: PUBLISHER_MARK_TOP_MM,
+        widthMm: 14,
+        heightMm: 14,
+    },
     'teacher-back:logo-box': { kind: 'teacher-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'teacher-back:series-banner': { kind: 'teacher-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
     'teacher-back:contact-sign': { kind: 'teacher-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'teacher-back:qr': { kind: 'teacher-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
     'teacher-back:line-label': { kind: 'teacher-back', leftMm: 141, topMm: 259, widthMm: 50, heightMm: 8 },
+    'teacher-back:publisher-mark': {
+        kind: 'teacher-back',
+        leftMm: 71,
+        topMm: PUBLISHER_MARK_TOP_MM,
+        widthMm: 14,
+        heightMm: 14,
+    },
     'reader-a3:game-bar': { kind: 'reader-a3', leftMm: 14, topMm: 12, widthMm: 150, heightMm: 15 },
     'reader-a3:band-word': { kind: 'reader-a3', leftMm: 78, topMm: 14, widthMm: 30, heightMm: 11 },
     'reader-a3:series-banner': { kind: 'reader-a3', leftMm: 274, topMm: 12, widthMm: 132, heightMm: 20 },
@@ -181,8 +226,22 @@ export interface QuestPanelValue {
 export interface QuestRenderAssets {
     /** The URL of the art, `file://` or `data:`. */
     art?: string;
-    /** The URL of the company logo. */
+    /**
+     * The URL of the company logo. Round 5 of 2026-11-10: the backs no longer show this field, and
+     * the Storytime Advantage logo of `seriesLogo` takes its place. The field stays for the caller
+     * of the older covers of `covers.ts`; a value is escaped and never printed.
+     */
     logo?: string;
+    /**
+     * The URL of the Storytime Advantage logo of the 2 fronts and of the 2 back logo boxes. The
+     * default is `content/storytime/covers/logos/storytime-advantage.svg`.
+     */
+    seriesLogo?: string;
+    /**
+     * The URL of the Reading Advantage logo, the publisher mark of the contact sign of both backs.
+     * The default is `content/storytime/covers/logos/reading-advantage.svg`.
+     */
+    publisherLogo?: string;
     /** The five panel values of a student back. */
     panelValues?: QuestPanelValue[];
 }
@@ -228,6 +287,21 @@ const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 
 /** The repository root. */
 const REPO_ROOT = path.resolve(MODULE_DIR, '..', '..', '..', '..');
+
+/** The folder of the 2 approved logo files (round 5 of 2026-11-10). */
+const LOGO_DIR = path.join(REPO_ROOT, 'content', 'storytime', 'covers', 'logos');
+
+/** The file of the Storytime Advantage logo. */
+const SERIES_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage.svg');
+
+/** The file of the Reading Advantage logo, the publisher mark of the backs. */
+const PUBLISHER_LOGO_FILE = path.join(LOGO_DIR, 'reading-advantage.svg');
+
+/** The URL of the Storytime Advantage logo, the default `seriesLogo` of every render. */
+const SERIES_LOGO_URL = storytimeCoverFileUrl(SERIES_LOGO_FILE);
+
+/** The URL of the Reading Advantage logo, the default `publisherLogo` of every render. */
+const PUBLISHER_LOGO_URL = storytimeCoverFileUrl(PUBLISHER_LOGO_FILE);
 
 /** The print font folder. */
 const PRINT_FONT_DIR = path.resolve(MODULE_DIR, '..', '..', '..', 'assets', 'print-fonts');
@@ -863,6 +937,60 @@ function bandGlyph(band: string, x: number, y: number, size: number, fill: strin
     );
 }
 
+/** The colours of one plaque drawing (round 5 of 2026-11-10). */
+interface QuestPlaquePalette {
+    /** The fill of the outer shape. */
+    outerFill: string;
+    /** The stroke of the outer shape. */
+    outerStroke: string;
+    /** The fill of the middle ring. */
+    ringFill: string;
+    /** The stroke of the highlight line. */
+    highlightStroke: string;
+    /** The fill attribute of the highlight line: `fill="none" `, or empty for no attribute. */
+    highlightFill: string;
+    /** The 2 fills of the upper ornament paths. */
+    ornamentFill: [string, string];
+    /** The stroke of the 2 upper ornament paths. */
+    ornamentStroke: string;
+    /** The 2 fills of the diamond halves. */
+    diamondFill: [string, string];
+}
+
+/**
+ * The palette of the reader plaques and of the reader series banner: the present blue frame of the
+ * option A plaque, byte for byte, so the reader A3 plaque keeps its pinned bytes (P6).
+ */
+const PLAQUE_BLUE_PALETTE: QuestPlaquePalette = {
+    outerFill: A.silver,
+    outerStroke: A.steel,
+    ringFill: A.deep,
+    highlightStroke: '#5A9AD6',
+    highlightFill: '',
+    ornamentFill: ['#DCE9F8', '#EAF4FF'],
+    ornamentStroke: '#7F9BC0',
+    diamondFill: ['#C9DDF4', '#FFFFFF'],
+};
+
+/**
+ * The palette of the amber plaque of the 2 fronts and of the 2 back series banners (round 5 of
+ * 2026-11-10): the tile amber, the mark brown, the cream, and the white of the Storytime Advantage
+ * logo. The highlight line is stroke only, so it takes `fill="none"` (a path with no fill
+ * attribute gets the black default fill, and C1 refuses it).
+ */
+const PLAQUE_AMBER_PALETTE: QuestPlaquePalette = {
+    outerFill: LOGO_BROWN,
+    outerStroke: LOGO_BROWN,
+    ringFill: LOGO_CREAM,
+    highlightStroke: LOGO_WHITE,
+    highlightFill: 'fill="none" ',
+    ornamentFill: [LOGO_CREAM, LOGO_WHITE],
+    ornamentStroke: LOGO_BROWN,
+    // The same amber as the band, in lower case: the band is the only path whose fill attribute
+    // equals the `data-plaque-colour` value, the rule that P1 of the plaque fit test reads.
+    diamondFill: ['#fcd34d', LOGO_WHITE],
+};
+
 /**
  * Draws the crystal-edged plaque of the option A frame (`options/build.py`, `a_plaque`).
  * @param width The width.
@@ -870,9 +998,17 @@ function bandGlyph(band: string, x: number, y: number, size: number, fill: strin
  * @param fill The centre fill.
  * @param compact When true, scales the corner bevel with the height and sets the diamond end
  * ornaments inside the box, for the thin 14 mm plaque of the fronts (round 3 of 2026-11-10).
+ * @param palette The colours of the plaque; the blue reader palette by default (round 5 of
+ * 2026-11-10). The default gives the present bytes of the reader A3 plaque.
  * @returns The SVG.
  */
-function plaqueSvg(width: number, height: number, fill: string, compact = false): string {
+function plaqueSvg(
+    width: number,
+    height: number,
+    fill: string,
+    compact = false,
+    palette: QuestPlaquePalette = PLAQUE_BLUE_PALETTE,
+): string {
     const c = compact ? Math.min(6, height * 0.15) : 6;
     const shape = (i: number): string =>
         `M${f2(i)} ${f2(c + i)} L${f2(c + i)} ${f2(i)} L${f2(width - c - i)} ${f2(i)} L${f2(width - i)} ${f2(c + i)} ` +
@@ -882,15 +1018,15 @@ function plaqueSvg(width: number, height: number, fill: string, compact = false)
     const inset = compact ? s * 1.6 + 1.2 : 0;
     const crystal = (cx: number, flip: number): string =>
         `<g transform="translate(${f2(cx)} ${f2(height / 2)}) scale(${String(flip)} 1)">` +
-        `<path d="M${f2(s * 0.4)} ${f2(-s * 0.45)} L${f2(s * 1.6)} -1 L${f2(s)} 0 L${f2(s * 1.6)} 1 L${f2(s * 0.4)} ${f2(s * 0.45)}" fill="#DCE9F8" stroke="#7F9BC0" stroke-width="0.4"/>` +
-        `<path d="M-${f2(s)} 0 L0 -${f2(s)} L${f2(s)} 0 L0 ${f2(s)}Z" fill="#EAF4FF" stroke="#7F9BC0" stroke-width="0.5"/>` +
-        `<path d="M-${f2(s)} 0 L0 -${f2(s)} L0 ${f2(s)}Z" fill="#C9DDF4"/><path d="M0 -${f2(s)} L${f2(s)} 0 L0 0Z" fill="#FFFFFF"/></g>`;
+        `<path d="M${f2(s * 0.4)} ${f2(-s * 0.45)} L${f2(s * 1.6)} -1 L${f2(s)} 0 L${f2(s * 1.6)} 1 L${f2(s * 0.4)} ${f2(s * 0.45)}" fill="${palette.ornamentFill[0]}" stroke="${palette.ornamentStroke}" stroke-width="0.4"/>` +
+        `<path d="M-${f2(s)} 0 L0 -${f2(s)} L${f2(s)} 0 L0 ${f2(s)}Z" fill="${palette.ornamentFill[1]}" stroke="${palette.ornamentStroke}" stroke-width="0.5"/>` +
+        `<path d="M-${f2(s)} 0 L0 -${f2(s)} L0 ${f2(s)}Z" fill="${palette.diamondFill[0]}"/><path d="M0 -${f2(s)} L${f2(s)} 0 L0 0Z" fill="${palette.diamondFill[1]}"/></g>`;
     return (
         `<svg viewBox="0 0 ${f2(width)} ${f2(height)}" style="position:absolute;left:0;top:0;width:${mm(width)};height:${mm(height)}">` +
-        `<path d="${shape(0)}" fill="${A.silver}" stroke="${A.steel}" stroke-width="0.6"/>` +
-        `<path d="${shape(1.8)}" fill="${A.deep}"/>` +
+        `<path d="${shape(0)}" fill="${palette.outerFill}" stroke="${palette.outerStroke}" stroke-width="0.6"/>` +
+        `<path d="${shape(1.8)}" fill="${palette.ringFill}"/>` +
         `<path d="${shape(2.8)}" fill="${fill}"/>` +
-        `<path d="M${f2(c + 3)} 3.6 L${f2(width - c - 3)} 3.6" stroke="#5A9AD6" stroke-width="0.6"/>` +
+        `<path d="M${f2(c + 3)} 3.6 L${f2(width - c - 3)} 3.6" ${palette.highlightFill}stroke="${palette.highlightStroke}" stroke-width="0.6"/>` +
         `${crystal(inset, -1)}${crystal(width - inset, 1)}</svg>`
     );
 }
@@ -961,28 +1097,33 @@ function gameBar(kind: QuestCoverKind, litBand: string, unit: number | null, ble
 }
 
 /**
- * Draws the crest of the option A frame (`options/build.py`, `a_crest`): the round emblem with the
- * sprout glyph and the white wave.
+ * Draws the Storytime Advantage logo of a front (round 5 of 2026-11-10): the amber tile with the
+ * brown border and the logo image, in the box 4 mm above the series banner of both fronts.
  * @param kind The cover kind.
+ * @param assets The assets.
  * @param bleedMm The bleed.
  * @returns The HTML.
  */
-function crest(kind: QuestCoverKind, bleedMm: number): string {
-    const box = boxOf(kind, 'crest');
+function seriesLogo(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number): string {
+    const box = boxOf(kind, 'series-logo');
+    const src = assets.seriesLogo ?? SERIES_LOGO_URL;
     return (
-        `<div data-part="crest" style="${boxStyle(box, bleedMm)}">` +
-        `<svg viewBox="0 0 28 28" style="position:absolute;left:0;top:0;width:28mm;height:28mm">` +
-        `<circle cx="14" cy="14" r="13.4" fill="${A.silver}" stroke="${A.steel}" stroke-width="0.5"/>` +
-        `<circle cx="14" cy="14" r="11.8" fill="${A.navy}"/>` +
-        `<path d="M4 17.5 C8 15.6 11.5 15.8 14 18 C16.5 15.8 20 15.6 24 17.5 V21.5 C20 19.6 16.5 19.8 14 22 C11.5 19.8 8 19.6 4 21.5Z" fill="#FFFFFF"/>` +
-        bandGlyph('sprout', 14, 10.5, 12, '#8BD14A', '#0E1A33', '#FFFFFF', 1.1) +
-        `</svg></div>`
+        `<div data-part="series-logo" style="${boxStyle(box, bleedMm)};box-sizing:border-box;` +
+        `background-color:${LOGO_AMBER};border:0.6mm solid ${LOGO_BROWN};border-radius:3mm;overflow:hidden">` +
+        `<img src="${esc(src)}" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%"></div>`
     );
 }
 
 /**
  * Draws the series banner of the option A frame (`options/build.py`, `a_crest` and `a_back`): the
- * plaque with the series name.
+ * plaque with the series name. Round 5 of 2026-11-10: the 2 front and back banners take the amber
+ * palette of the Storytime Advantage logo, and the series name sits on 2 lines, "Storytime" in the
+ * mark brown at the larger size and "Advantage" in the mark brown, centered in the band. The front
+ * block is about 27.0 mm of the 32.4 mm band and the back block about 13.8 mm of the 16.4 mm band.
+ * The second round of round 5 (PM decision of 2026-11-10 13:40) sets "Advantage" in the logo brown
+ * with no text edge: Chrome prints a stroked glyph run as a Type 3 font, and the print rule of
+ * `lib/print/pdfx.ts` refuses a Type 3 font. The reader A3 banner keeps its present single line and
+ * its blue palette, byte for byte.
  * @param kind The cover kind.
  * @param size 'front' for the 38 mm banner, 'back' for the 22 mm banner, 'reader' for the 20 mm.
  * @param bleedMm The bleed.
@@ -990,24 +1131,37 @@ function crest(kind: QuestCoverKind, bleedMm: number): string {
  */
 function seriesBanner(kind: QuestCoverKind, size: 'front' | 'back' | 'reader', bleedMm: number): string {
     const box = boxOf(kind, 'series-banner');
-    const fontPt = size === 'front' ? 36 : size === 'back' ? 20 : 17;
-    const subPt = size === 'front' ? 22 : 0;
-    const top = size === 'front' ? 3.4 : size === 'back' ? 5.5 : 4.6;
+    if (size === 'reader') {
+        const inner =
+            `<div class="quest-c" style="position:absolute;left:0;top:${mm(4.6)};width:${mm(box.widthMm)};` +
+            `color:#fff;font-family:'League Spartan';font-weight:700;font-size:17pt;line-height:1">${esc(STORYTIME_SERIES)}</div>`;
+        return (
+            `<div data-part="series-banner" style="${boxStyle(box, bleedMm)}">` +
+            `${plaqueSvg(box.widthMm, box.heightMm, PLAQUE_BLUE)}${inner}</div>`
+        );
+    }
+    const mainMm = size === 'front' ? 17.5 : 9;
+    const subMm = size === 'front' ? 10.5 : 5.4;
     const inner =
-        size === 'front'
-            ? `<div class="quest-c" style="position:absolute;left:0;top:${mm(top)};width:${mm(box.widthMm)};color:#fff;font-family:'League Spartan';font-weight:700;line-height:1">` +
-              `<div style="font-size:${String(fontPt)}pt">Storytime</div>\n` +
-              `<div style="font-size:${String(subPt)}pt;margin-top:0.8mm;letter-spacing:0.5pt">Advantage</div></div>`
-            : `<div class="quest-c" style="position:absolute;left:0;top:${mm(top)};width:${mm(box.widthMm)};color:#fff;font-family:'League Spartan';font-weight:700;font-size:${String(fontPt)}pt;line-height:1">${esc(STORYTIME_SERIES)}</div>`;
-    return `<div data-part="series-banner" style="${boxStyle(box, bleedMm)}">${plaqueSvg(box.widthMm, box.heightMm, PLAQUE_BLUE)}${inner}</div>`;
+        `<div style="position:absolute;left:0;top:0;width:${mm(box.widthMm)};height:${mm(box.heightMm)};` +
+        `display:flex;flex-direction:column;align-items:center;justify-content:center;` +
+        `font-family:'League Spartan';font-weight:700;line-height:1;white-space:nowrap">` +
+        `<div style="font-size:${mm(mainMm)};color:${LOGO_BROWN}">Storytime</div>\n` +
+        `<div style="font-size:${mm(subMm)};color:${LOGO_BROWN}">Advantage</div>` +
+        `</div>`;
+    return (
+        `<div data-part="series-banner" style="${boxStyle(box, bleedMm)}">` +
+        `${plaqueSvg(box.widthMm, box.heightMm, LOGO_AMBER, false, PLAQUE_AMBER_PALETTE)}${inner}</div>`
+    );
 }
 
 /**
  * Draws the unit bar pill of the teacher front (`options/build.py`, `a_front`). Round 4 of
- * 2026-11-10: the pill keeps its box, its colours, its border, and its 13 pt size, and adds the
- * League Spartan family and a line height of 5.9 mm. With border-box sizing the line box spans
- * 272.1 mm to 278.0 mm, and the text box about 272.9 mm to 277.2 mm. The text then sits above the
- * top of the plaque at 278 mm, so the plaque no longer hides the bottom of the Sprout tab text.
+ * 2026-11-10: the pill keeps its box, its border, and a 13 pt size, and adds the League Spartan
+ * family and a line height of 5.9 mm. With border-box sizing the line box spans 272.1 mm to
+ * 278.0 mm, and the text box about 272.9 mm to 277.2 mm. The text then sits above the top of the
+ * plaque at 278 mm, so the plaque no longer hides the bottom of the Sprout tab text. Round 5 of
+ * 2026-11-10: the fill and the text take the mark brown and the border takes the tile amber.
  * @param litBand The band of the book.
  * @param bleedMm The bleed.
  * @returns The HTML.
@@ -1017,18 +1171,21 @@ function bandPill(litBand: string, bleedMm: number): string {
     const label = litBand ? litBand.charAt(0).toUpperCase() + litBand.slice(1) : '';
     return (
         `<div data-part="band-pill" style="${boxStyle(box, bleedMm)};box-sizing:border-box;border-radius:4.5mm;` +
-        `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-family:'League Spartan';` +
+        `background-color:${LOGO_BROWN};border:0.6mm solid ${LOGO_AMBER};color:${LOGO_AMBER};font-family:'League Spartan';` +
         `font-weight:700;font-size:13pt;line-height:5.9mm;text-align:center">${esc(label)}</div>`
     );
 }
 
 /**
- * Draws the title plaque of a front side (`options/build.py`, `a_front`): the plaque in the level
- * colour, and one row that holds the level line, a separator dot, and the book line. Round 4 of
- * 2026-11-10: the band in the level colour spans 280.8 mm to 289.2 mm, an 8.4 mm band, and 2 title
- * lines of 7 mm and 4.2 mm do not fit it. The row is set at 6.4 mm on one line, so its text box is
- * about 6.04 mm high and lies inside the band, and about 74 mm wide and clear of the diamond
- * ornaments. The reader plaques and the series banners keep their bytes.
+ * Draws the title plaque of a front side (`options/build.py`, `a_front`): the plaque in the logo
+ * amber, and one row that holds the level line, a separator dot, and the book line. Round 4 of
+ * 2026-11-10: the band spans 280.8 mm to 289.2 mm, an 8.4 mm band, and the row is set on one line
+ * inside it. Round 5 of 2026-11-10: the row takes 7.4 mm, so its text box of about 6.88 mm fills
+ * 82 % of the band. The band fill and the `data-plaque-colour` value are the same string,
+ * "#FCD34D" (P1 of the plaque fit test finds the band by that equality), on every level. The level
+ * line, the separator, and the book line take the mark brown; the second round of round 5 (PM
+ * decision of 2026-11-10 13:40) gives the book line no text edge, because Chrome prints a stroked
+ * glyph run as a Type 3 font. The reader plaques keep their bytes (P6).
  * @param kind The cover kind.
  * @param book The book row.
  * @param bleedMm The bleed.
@@ -1036,23 +1193,24 @@ function bandPill(litBand: string, bleedMm: number): string {
  */
 function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: number): string {
     const box = boxOf(kind, 'title-plaque');
-    const colour = STORYTIME_LEVEL_COLOURS[book.level] ?? A.blue;
     const bookLine = kind === 'teacher-front' ? 'Teacher Book' : 'Student Book';
     return (
-        `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(box, bleedMm)}">` +
-        plaqueSvg(box.widthMm, box.heightMm, colour, true) +
+        `<div data-part="title-plaque" data-plaque-colour="${LOGO_AMBER}" style="${boxStyle(box, bleedMm)}">` +
+        plaqueSvg(box.widthMm, box.heightMm, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE) +
         `<div class="quest-c" style="position:absolute;left:0;top:0;width:${mm(box.widthMm)};height:${mm(box.heightMm)};` +
         `color:#fff;display:flex;flex-direction:row;align-items:center;justify-content:center;white-space:nowrap;` +
-        `font-family:'League Spartan';font-weight:700;font-size:6.4mm;line-height:1">` +
-        `<span data-part="level-line" style="color:#fff">Level ${String(book.level)} · Unit ${String(book.unit)}</span>\n` +
-        `<span data-part="plaque-sep" style="color:#FFE7A3;margin:0 1.6mm">·</span>\n` +
-        `<span data-part="book-line" style="color:#FFE7A3">${esc(bookLine)}</span>` +
+        `font-family:'League Spartan';font-weight:700;font-size:7.4mm;line-height:1">` +
+        `<span data-part="level-line" style="color:${LOGO_BROWN}">Level ${String(book.level)} · Unit ${String(book.unit)}</span>\n` +
+        `<span data-part="plaque-sep" style="color:${LOGO_BROWN};margin:0 1.6mm">·</span>\n` +
+        `<span data-part="book-line" style="color:${LOGO_BROWN}">${esc(bookLine)}</span>` +
         `</div></div>`
     );
 }
 
 /**
- * Draws the logo box of a back side (`options/build.py`, `a_back`).
+ * Draws the logo box of a back side (`options/build.py`, `a_back`). Round 5 of 2026-11-10: the box
+ * shows the Storytime Advantage logo in the amber tile with the brown border. The company logo of
+ * `assets.logo` no longer shows.
  * @param kind The cover kind.
  * @param assets The assets.
  * @param bleedMm The bleed.
@@ -1060,40 +1218,61 @@ function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: num
  */
 function logoBox(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number): string {
     const box = boxOf(kind, 'logo-box');
-    const image = assets.logo
-        ? `<img src="${esc(assets.logo)}" alt="" style="position:absolute;left:2mm;top:2mm;width:30mm;height:30mm">`
-        : '';
+    const src = assets.seriesLogo ?? SERIES_LOGO_URL;
     return (
-        `<div data-part="logo-box" style="${boxStyle(box, bleedMm)};box-sizing:border-box;background-color:#fff;` +
-        `border-radius:3mm;border:0.6mm solid ${A.steel}">${image}</div>`
+        `<div data-part="logo-box" style="${boxStyle(box, bleedMm)};box-sizing:border-box;` +
+        `background-color:${LOGO_AMBER};border-radius:3mm;border:0.6mm solid ${LOGO_BROWN};overflow:hidden">` +
+        `<img src="${esc(src)}" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%"></div>`
     );
 }
 
 /**
- * Draws the back panel with the five fields (`options/build.py`, `a_back`).
+ * The vertical padding of the back panel, in millimetres (round 5 of 2026-11-10). The padding is
+ * 1.75 mm smaller at the top, because the ink box of the last panel value overflows its line box
+ * of 1.32 on the Andika face by about 0.87 mm at each side, and the block of headings and values
+ * then stands centered in the panel (V2).
+ */
+const PANEL_PAD_TOP_MM = 7.25;
+
+/** The bottom padding of the back panel and the side padding, in millimetres. */
+const PANEL_PAD_MM = 9;
+
+/** The side padding of the back panel, in millimetres. */
+const PANEL_PAD_SIDE_MM = 11;
+
+/**
+ * Draws the back panel with the five fields (`options/build.py`, `a_back`). Round 5 of 2026-11-10:
+ * the paper fill and the brown border take the logo tone, the headings take the mark brown, and
+ * the block of headings and values stands centered in the panel: a 15 pt size at a line height of
+ * 1.32, a 2.4 mm gap after fields 1 to 4, and no gap after field 5. The block is under 120 mm, so
+ * the 15 pt size stays.
  * @param bleedMm The bleed.
  * @param values The panel values, in the panel order.
  * @returns The HTML.
  */
 function panel(bleedMm: number, values: QuestPanelValue[]): string {
     const box = boxOf('student-back', 'panel');
-    const fields = PANEL_FIELDS.map((field) => {
+    const fields = PANEL_FIELDS.map((field, index) => {
         const value = values.find((entry) => entry.field === field)?.value ?? '';
+        const gap = index < PANEL_FIELDS.length - 1 ? '2.4mm' : '0';
         return (
-            `<div data-part="panel-field" data-field="${field}" style="margin:0 0 2.2mm 0">` +
-            `<h3 data-part="panel-heading" style="margin:0;font-family:'League Spartan';font-weight:700;font-size:14pt;color:${PLAQUE_BLUE}">${esc(PANEL_HEADINGS[field])}</h3>\n` +
-            `<p data-part="panel-value" style="margin:0;font-size:14pt;line-height:1.32;color:#1a1a1a">${esc(value)}</p>` +
+            `<div data-part="panel-field" data-field="${field}" style="margin:0 0 ${gap} 0">` +
+            `<h3 data-part="panel-heading" style="margin:0;font-family:'League Spartan';font-weight:700;font-size:15pt;line-height:1.32;color:${LOGO_BROWN}">${esc(PANEL_HEADINGS[field])}</h3>\n` +
+            `<p data-part="panel-value" style="margin:0;font-size:15pt;line-height:1.32;color:#1a1a1a">${esc(value)}</p>` +
             `</div>`
         );
     }).join('\n');
     return (
-        `<div data-part="panel" style="${boxStyle(box, bleedMm)};box-sizing:border-box;background-color:#F8F1DE;` +
-        `border:0.8mm solid #C8A96A;border-radius:3mm;padding:9mm 11mm">${fields}</div>`
+        `<div data-part="panel" style="${boxStyle(box, bleedMm)};box-sizing:border-box;background-color:${LOGO_PAPER};` +
+        `border:0.8mm solid ${LOGO_BROWN};border-radius:3mm;padding:${mm(PANEL_PAD_TOP_MM)} ${mm(PANEL_PAD_SIDE_MM)} ${mm(PANEL_PAD_MM)} ${mm(PANEL_PAD_SIDE_MM)};` +
+        `display:flex;flex-direction:column;justify-content:center">${fields}</div>`
     );
 }
 
 /**
- * Draws the wooden contact sign of a back side (`options/build.py`, `a_back`).
+ * Draws the wooden contact sign of a back side (`options/build.py`, `a_back`). Round 5 of
+ * 2026-11-10: the outer rect and the nails take the mark brown, the board takes the cream, and the
+ * plank lines take the tile amber as stroke only paths.
  * @param kind The cover kind.
  * @param bleedMm The bleed.
  * @returns The HTML.
@@ -1103,37 +1282,61 @@ function contactSign(kind: QuestCoverKind, bleedMm: number): string {
     const planks = [9, 23, 37, 51, 65]
         .map(
             (y) =>
-                `<path d="M5 ${f2(y)} C60 ${f2(y - 0.9)} 120 ${f2(y + 0.9)} 181 ${f2(y)}" stroke="#D5A86C" stroke-width="0.35" fill="none"/>`,
+                `<path d="M5 ${f2(y)} C60 ${f2(y - 0.9)} 120 ${f2(y + 0.9)} 181 ${f2(y)}" stroke="${LOGO_AMBER}" stroke-width="0.35" fill="none"/>`,
         )
         .join('');
     const nails = [4, 182]
-        .flatMap((x) => [6, 74].map((y) => `<circle cx="${String(x)}" cy="${String(y)}" r="1" fill="#7A4A22"/>`))
+        .flatMap((x) => [6, 74].map((y) => `<circle cx="${String(x)}" cy="${String(y)}" r="1" fill="${LOGO_BROWN}"/>`))
         .join('');
     return (
         `<div data-part="contact-sign" style="${boxStyle(box, bleedMm)}">` +
         `<svg viewBox="0 0 186 80" style="position:absolute;left:0;top:0;width:186mm;height:80mm">` +
-        `<rect x="-1" y="-1" width="188" height="82" rx="3" fill="#6B3F1C"/>` +
-        `<rect x="3" y="3" width="180" height="74" rx="2" fill="#E6BD85"/>${planks}${nails}</svg></div>`
+        `<rect x="-1" y="-1" width="188" height="82" rx="3" fill="${LOGO_BROWN}"/>` +
+        `<rect x="3" y="3" width="180" height="74" rx="2" fill="${LOGO_CREAM}"/>${planks}${nails}</svg></div>`
     );
 }
 
 /**
  * Draws the five contact lines of a back side (`options/build.py`, `contact_html`). The `**bold**`
- * markers become `<b>`, and the output holds no marker.
+ * markers become `<b>`, and the output holds no marker. Round 5 of 2026-11-10: the 5 lines sit in
+ * one wrapper of the board width 126 mm (15 mm to 141 mm, the board left edge to the QR left edge)
+ * and in an inner div of the widest line, so the block stands centered between the 2 edges.
  * @param bleedMm The bleed.
  * @returns The HTML.
  */
 function contactLines(bleedMm: number): string {
-    return BACK_LINES.contact
+    const lines = BACK_LINES.contact
         .map(
             (line, index) =>
-                `<div data-part="contact-line" class="quest-contact-line${index === 0 ? ' quest-contact-head' : ''}" style="position:absolute;left:${mm(20 + bleedMm)};top:${mm(208 + bleedMm + index * 6.4)};width:112mm;font-size:12pt;line-height:1.6;color:#1E1208">${richHtml(line)}</div>`,
+                `<div data-part="contact-line" class="quest-contact-line${index === 0 ? ' quest-contact-head' : ''}" style="font-size:12pt;line-height:1.6;color:#1E1208">${richHtml(line)}</div>`,
         )
         .join('\n');
+    return (
+        `<div style="position:absolute;left:${mm(15 + bleedMm)};top:${mm(CONTACT_LINES_TOP_MM + bleedMm)};` +
+        `width:126mm;display:flex;justify-content:center"><div style="width:max-content">${lines}</div></div>`
+    );
 }
 
 /**
- * Draws the LINE QR box of a back side (`options/build.py`, `a_back`, `cut_qr`).
+ * Draws the Reading Advantage logo of the contact sign of a back side (round 5 of 2026-11-10): the
+ * small publisher mark under the contact lines, at the centre 78 mm of the board minus 7 mm.
+ * @param kind The cover kind.
+ * @param assets The assets.
+ * @param bleedMm The bleed.
+ * @returns The HTML.
+ */
+function publisherMark(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number): string {
+    const box = boxOf(kind, 'publisher-mark');
+    const src = assets.publisherLogo ?? PUBLISHER_LOGO_URL;
+    return (
+        `<div data-part="publisher-mark" style="${boxStyle(box, bleedMm)};overflow:hidden">` +
+        `<img src="${esc(src)}" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%"></div>`
+    );
+}
+
+/**
+ * Draws the LINE QR box of a back side (`options/build.py`, `a_back`, `cut_qr`). Round 5 of
+ * 2026-11-10: the border takes the mark brown; the white fill and the QR SVG stay.
  * @param kind The cover kind.
  * @param bleedMm The bleed.
  * @returns The HTML.
@@ -1142,7 +1345,7 @@ function qrBox(kind: QuestCoverKind, bleedMm: number): string {
     const box = boxOf(kind, 'qr');
     return (
         `<div data-part="qr" class="quest-qr" data-qr-input="${esc(STORYTIME_LINE_ADDRESS)}" style="${boxStyle(box, bleedMm)};` +
-        `box-sizing:border-box;background-color:#fff;border-radius:2.5mm;border:0.6mm solid #6B3F1C">` +
+        `box-sizing:border-box;background-color:#fff;border-radius:2.5mm;border:0.6mm solid ${LOGO_BROWN}">` +
         `<div style="position:absolute;left:3mm;top:3mm;width:44mm;height:44mm">${storytimeCoverQrSvg()}</div></div>`
     );
 }
@@ -1200,8 +1403,9 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 
 /**
  * Builds the body of a front side (`options/build.py`, `a_front`). The fronts hold no game bar
- * (round 3 of 2026-11-10): the crest, the series banner, the teacher band pill, and the title
- * plaque are the only frame parts.
+ * (round 3 of 2026-11-10): the Storytime Advantage logo, the series banner, the teacher band pill,
+ * and the title plaque are the only frame parts. Round 5 of 2026-11-10: the logo replaces the
+ * crest above the series banner.
  * @param kind The cover kind.
  * @param book The book row.
  * @param assets The assets.
@@ -1211,7 +1415,7 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 function frontBody(kind: QuestCoverKind, book: QuestBookRow, assets: QuestRenderAssets, bleedMm: number): string {
     const parts = [
         artLayer(kind, assets, bleedMm),
-        crest(kind, bleedMm),
+        seriesLogo(kind, assets, bleedMm),
         seriesBanner(kind, 'front', bleedMm),
     ];
     if (kind === 'teacher-front') parts.push(bandPill(book.litBand, bleedMm));
@@ -1221,7 +1425,8 @@ function frontBody(kind: QuestCoverKind, book: QuestBookRow, assets: QuestRender
 
 /**
  * Builds the body of a back side (`options/build.py`, `a_back`). The student back holds the panel;
- * the teacher back holds none.
+ * the teacher back holds none. Round 5 of 2026-11-10: the Storytime Advantage logo, the centered
+ * contact lines, and the Reading Advantage publisher mark of the contact sign.
  * @param kind The cover kind.
  * @param assets The assets.
  * @param bleedMm The bleed.
@@ -1234,7 +1439,13 @@ function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
         seriesBanner(kind, 'back', bleedMm),
     ];
     if (kind === 'student-back') parts.push(panel(bleedMm, assets.panelValues ?? []));
-    parts.push(contactSign(kind, bleedMm), contactLines(bleedMm), qrBox(kind, bleedMm), lineLabel(kind, bleedMm));
+    parts.push(
+        contactSign(kind, bleedMm),
+        contactLines(bleedMm),
+        publisherMark(kind, assets, bleedMm),
+        qrBox(kind, bleedMm),
+        lineLabel(kind, bleedMm),
+    );
     return parts.join('\n');
 }
 
