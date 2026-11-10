@@ -1,0 +1,33 @@
+Red r2 gate: the alternate A2 with the horizontal logo (storytime_cover_options_20261106, Phase 2)
+role_base_sha: 8f46d85cb6a94c006e9ea2788997ad0129b78d13
+phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
+time: 2026-11-10 15:56:19 ICT
+deviation: measured on the uncommitted Green tree, because the Green of this pair stopped before its commits
+
+(a) cd dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 6748[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: the default render of each kind is byte equal to the r5 pin [33m 431[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 621[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 560[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1994[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1066[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m8 passed[39m[22m[90m (8)[39m
+[2m   Start at [22m 15:56:20
+[2m   Duration [22m 12.93s[2m (transform 670ms, setup 161ms, import 3.97s, tests 6.75s, environment 1.42s)[22m
+
+EXIT=0
+
+(b) cd dashboard && npx eslint __tests__/quest-cover-hlogo.test.ts
+
+
+
+EXIT=0
+
+VITEST_EXIT=0
+ESLINT_EXIT=0
