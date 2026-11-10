@@ -7,12 +7,15 @@ import { chromium, type Browser } from '@playwright/test';
 import sharp from 'sharp';
 import { readLevelWeeks, readPhonicsGraph, PHONICS_GRAPH_FILE, STORYTIME_ROOT } from '../../lib/storytime/files';
 import {
+    loadStorytimeCoverBooks,
+    STORYTIME_COVER_BOOKS_FILE,
     STORYTIME_COVER_LOGO_FILE,
     storytimeCoverFileUrl,
     storytimeCoverPanelValues,
     storytimeCoverQrGrid,
     storytimeCoverQrSvg,
     type StorytimeCoverBook,
+    type StorytimeCoverBookPanel,
 } from '../../lib/storytime/print/covers';
 import {
     checkQuestArt,
@@ -991,12 +994,15 @@ function rowOf(plan: QuestPlan, kind: string): QuestPlanRow {
 }
 
 /**
- * The five panel values of the student back, from the shipped week files of the unit. A missing or
- * corrupt phonics graph or week file, a unit without weeks, and an empty panel each give an error,
- * so the build fails instead of printing a passing empty student panel (review case A-F1).
+ * The five panel values of the student back, from the book row of the level and unit in the data
+ * file, and from the shipped week files of the unit. The story text and its source weeks, and the
+ * four week lists, come from that row (spec FR-4.1, FR-10.1: every text on a cover is an approved
+ * text, word for word). A missing row, a missing or corrupt phonics graph or week file, a unit
+ * without weeks, an empty panel, and an empty panel field each give an error, so the build fails
+ * instead of printing a passing empty student panel (review case A-F1).
  * @param level The level.
  * @param unit The unit.
- * @returns The errors and the panel values.
+ * @returns The errors and the five panel values; the values are empty when an error exists.
  */
 export function questPanelValues(level: number, unit: number): { errors: string[]; values: QuestPanelValue[] } {
     let entries: ReturnType<typeof readLevelWeeks>;
@@ -1025,6 +1031,21 @@ export function questPanelValues(level: number, unit: number): { errors: string[
         return { errors, values: [] };
     }
     if (errors.length) return { errors, values: [] };
+    let data: ReturnType<typeof loadStorytimeCoverBooks>;
+    try {
+        data = loadStorytimeCoverBooks();
+    } catch (error) {
+        errors.push(
+            `the book rows file ${STORYTIME_COVER_BOOKS_FILE} is not readable: ${error instanceof Error ? error.message : String(error)}`,
+        );
+        return { errors, values: [] };
+    }
+    const row = (data.books ?? []).find((entry) => entry.level === level && entry.unit === unit);
+    if (!row) {
+        errors.push(`the book rows file ${STORYTIME_COVER_BOOKS_FILE} holds no row of Level ${level} Unit ${unit}`);
+        return { errors, values: [] };
+    }
+    const panel: StorytimeCoverBookPanel = row.panel;
     const book: StorytimeCoverBook = {
         level,
         unit,
@@ -1033,13 +1054,7 @@ export function questPanelValues(level: number, unit: number): { errors: string[
         title: `Level ${level} Unit ${unit}`,
         levelColour: '#22345A',
         pictureRecipe: [],
-        panel: {
-            story: { text: '', weeks: [] },
-            sounds: { weeks: [] },
-            decodable: { weeks: [] },
-            sight: { weeks: [] },
-            books: { weeks: [] },
-        },
+        panel,
     };
     let values: QuestPanelValue[];
     try {
@@ -1047,7 +1062,14 @@ export function questPanelValues(level: number, unit: number): { errors: string[
     } catch (error) {
         return { errors: [`the student back panel is not computable: ${error instanceof Error ? error.message : String(error)}`], values: [] };
     }
-    if (!values.length) errors.push('the student back panel is empty; the build refuses an empty panel');
+    if (!values.length) {
+        errors.push('the student back panel is empty; the build refuses an empty panel');
+        return { errors, values: [] };
+    }
+    for (const value of values) {
+        if (!value.value.trim()) errors.push(`the student back panel field ${value.field} is empty; the build refuses an empty field`);
+    }
+    if (errors.length) return { errors, values: [] };
     return { errors, values };
 }
 
