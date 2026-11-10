@@ -1,0 +1,8 @@
+PART C: ESLint and tsc
+COMMAND: cd dashboard && npx eslint lib/print scripts/print __tests__/quest-cover-print-gate.test.ts
+ESLINT_EXIT: 0, THAI_LINES_HIDDEN 0, 17.02 s
+(no output)
+
+COMMAND: cd dashboard && npx tsc --noEmit -p .
+TSC_EXIT: 0, THAI_LINES_HIDDEN 0, 12.96 s
+(no output)
