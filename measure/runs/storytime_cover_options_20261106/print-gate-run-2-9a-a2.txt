@@ -1,0 +1,32 @@
+BUILD CAPTURE of the print gate run and the checks 1 to 16 of Task 2.9 part 1 A2 (track storytime_cover_options_20261106, the fix fc555b74)
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks && python3 -I -B measure/runs/storytime_cover_options_20261106/gate_run_2_9a_a2.py && python3 -I -B measure/runs/storytime_cover_options_20261106/print_gate_2_9a_a2.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1 measure/runs/storytime_cover_options_20261106/print-gate-2-9a-a2.txt /tmp/opencode/c29a2/pr/storytime/covers-quest-v1 /tmp/opencode/c29a2/pictures
+HEAVY_EXIT: 0
+--- STDOUT ---
+STUDENT_GATE_EXIT=1
+STUDENT FAIL page(s) 1, 2 became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)
+STUDENT_THAI_CHARS 0
+TEACHER_GATE_EXIT=1
+TEACHER FAIL page(s) 1, 2 became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)
+TEACHER_THAI_CHARS 0
+CAPTURE_FILE /tmp/opencode/c29a2/print-gate-run.txt
+CHECK_1_PRINT_GATE: student exit=1, teacher exit=1, FAIL, recorded deviation of Task 2.9 check 1 (PM decision 2026-11-10), the gate inside the build passed 4 of 4 with the source PDF
+CHECK_2_PAGES_TRIMBOX: student pages=2 max_trimbox_delta_pt=0.000 ok, teacher pages=2 max_trimbox_delta_pt=0.000 ok, PASS
+CHECK_3_TEXT_COUNTS_A2: student page 1 level_2=1 kind=1 word_Storytime=0 word_Advantage=0, student page 2 level_2=0 kind=0 word_Storytime=0 word_Advantage=0, teacher page 1 level_2=1 kind=1 word_Storytime=0 word_Advantage=0, teacher page 2 level_2=0 kind=0 word_Storytime=0 word_Advantage=0, rule: the front page holds "Level 2" and the title of its kind, and 0 whole words "Storytime" or "Advantage" (case-sensitive; the name is only in the logo tile); the back page holds 0 whole words "Storytime" (the kept contact lines may hold reading-advantage), PASS
+CHECK_4_FONTS: student fonts=5 embedded=5 type3=0, teacher fonts=5 embedded=5 type3=0, PASS
+CHECK_5_ART_PPI: student page 1 art=2480x3508 ppi=300.0x300.0, student page 2 art=2480x3508 ppi=300.0x300.0, teacher page 1 art=2480x3508 ppi=300.0x300.0, teacher page 2 art=2480x3508 ppi=300.0x300.0, PASS
+CHECK_6_THAI: student page 1 thai_chars=0 (front holds no Thai), student page 2 thai_chars=38 (back Thai equals BACK_LINES.contact), teacher page 1 thai_chars=0 (front holds no Thai), teacher page 2 thai_chars=38 (back Thai equals BACK_LINES.contact), approved contact lines thai_chars=38, PASS
+CHECK_7_QR: report student qr=pass, teacher qr=pass; student back.png 0 of 841 modules differ, teacher back 0 of 841 modules differ, PASS
+CHECK_8_BUILD_REPORT_ROWS: student rows=2 fail_rows=0, teacher rows=2 fail_rows=0, total rows=4 fail_rows=0, PASS
+CHECK_9_STORY_LINE: student cover.pdf page 2 story_text_count=1, Story=1, Sounds=1, Decodable words=1, Sight words=1, Books=1, PASS
+CHECK_10_NO_EMPTY_FIELD: student build report errors=0, build output lines with "is empty"=0, PASS
+CHECK_11_HLOGO_TOP_PARTS: student-front game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, student-back game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, teacher-front game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, teacher-back game-bar=0 series-banner=0 series-logo=0 logo-box=0 logo-tile=1, rule: with the top style hlogo each of the 4 sides holds 0 game-bar, 0 series-banner, 0 series-logo, 0 logo-box, and 1 logo-tile (renderQuestCover of dashboard/lib/storytime/print/cover-quest.ts), PASS
+CHECK_12_FRONT_LINES: student page 1 level_line=1 book_line=1 sprout=0, teacher page 1 level_line=1 book_line=1 sprout=1, rule: the front page holds "Level 2 · Unit 1" once and its book line once, and the teacher front holds the band label "Sprout" once, PASS
+CHECK_13_PLAQUE_ONE_LINE: student page 1 layout_lines_with_level_and_book=1 sprout=0, teacher page 1 layout_lines_with_level_and_book=1 sprout=1, rule: one layout line of page 1 holds "Level 2 · Unit 1" and its book line, and the teacher front holds "Sprout" once, PASS
+CHECK_14_ONE_IMAGE_PER_PAGE: student page 1 images=1, student page 2 images=1, teacher page 1 images=1, teacher page 2 images=1, rule: each page holds exactly one image, the art, so the logo tile and the QR stay vector, PASS
+CHECK_15_NO_TYPE3_FONTS: student type3_fonts=0 fonts=5 embedded=5, teacher type3_fonts=0 fonts=5 embedded=5, rule: 0 Type 3 fonts in each print file, PASS
+CHECK_16_R5_FILES_UNCHANGED: student r5 file sha256=920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d matches_r5=true, teacher r5 file sha256=d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37 matches_r5=true, rule: the 2 r5 print files hold their r5 SHA-256 values, PASS
+PRINT_GATE_SUMMARY lines=16 fail_lines=1 other_fail_lines=0
+--- STDERR ---
+
