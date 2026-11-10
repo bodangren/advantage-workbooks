@@ -1,0 +1,78 @@
+Red r2 evidence of the logo and tone test
+Track storytime_cover_options_20261106, Phase 2, the Task (Red, logo and tone r5) pair, the r2 retry.
+The git HEAD at the run: 16056bee548bbf012a11eb762a5945ae4da41f7e
+The deviation: the run was measured on the uncommitted Green tree.
+The reason: the Green of this pair stopped before its commits, so its work is in the tree.
+The changed tracked files under dashboard and content at the run:
+M dashboard/__tests__/quest-cover-logo-tone.test.ts
+ M dashboard/lib/storytime/print/cover-quest.ts
+?? content/storytime/covers/logos/
+?? dashboard/raw.json
+
+=== a: cd dashboard && CI=true npx vitest run __tests__/quest-cover-logo-tone.test.ts --maxWorkers=1 ===
+EXIT: 1
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 6881[2mms[22m[39m
+     [32m✓[39m L1: the 2 logo files sit in the logo folder with the approved hashes[32m 19[2mms[22m[39m
+     [32m✓[39m L2: each front holds the Storytime logo and no crest[32m 187[2mms[22m[39m
+     [33m[2m✓[22m[39m L3: each back holds the Storytime logo in the logo box and the RA logo as the publisher mark [33m 310[2mms[22m[39m
+     [33m[2m✓[22m[39m C1: every color of every chrome part is in the logo palette [33m 2105[2mms[22m[39m
+     [32m✓[39m C2: every series banner and every front plaque takes the amber band[32m 6[2mms[22m[39m
+[31m     [31m×[31m C3: the series name, the front plaque, and the panel headings take the logo colors[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m C4: no chrome text carries a text stroke[39m[32m 3[2mms[22m[39m
+     [32m✓[39m F1: the title text fills 80 % or more of its band and stays inside it[32m 4[2mms[22m[39m
+     [32m✓[39m V1: every title text block is centered in its band[32m 2[2mms[22m[39m
+     [32m✓[39m V2: the panel block of the student back is centered in the panel[32m 1[2mms[22m[39m
+     [32m✓[39m V3: the contact block of both backs is centered in the sign and stands left of the QR[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C4, F1, V1 to V3 (Red, logo and tone r5, retry r2)[2m > [22mC3: the series name, the front plaque, and the panel headings take the logo colors
+[31m[1mAssertionError[22m: the Advantage color of the student-front series banner 0.: expected '#ffffff' to be '#92400e' // Object.is equality[39m
+
+Expected: [32m"#[7m92400e[27m"[39m
+Received: [31m"#[7mffffff[27m"[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m1010:19[22m[39m
+    [90m1008| [39m                    [34mtoHex[39m(word[33m.[39mstyle[33m![39m[33m.[39mcolor)[33m,[39m
+    [90m1009| [39m                    `the Advantage color of the ${kind} series banner …
+    [90m1010| [39m                )[33m.[39m[34mtoBe[39m([33mBROWN[39m)[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m1011| [39m            }
+    [90m1012| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C4, F1, V1 to V3 (Red, logo and tone r5, retry r2)[2m > [22mC4: no chrome text carries a text stroke
+[31m[1mAssertionError[22m: no element of the chrome of the student-front carries a text stroke: series-banner > div 2.26772px; title-plaque > book-line 1.70079px: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m1037:15[22m[39m
+    [90m1035| [39m                `no element of the chrome of the ${kind} carries a tex…
+    [90m1036| [39m                    summarise(raw.chromeStrokes.map((one) => `${one.wh…
+    [90m1037| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1038| [39m            [34mexpect[39m(
+    [90m1039| [39m                raw[33m.[39mlineStrokes[33m.[39mlength[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 13:41:30
+[2m   Duration [22m 12.23s[2m (transform 596ms, setup 335ms, import 1.03s, tests 6.88s, environment 3.03s)[22m
+
+=== b: cd dashboard && npx eslint __tests__/quest-cover-logo-tone.test.ts ===
+EXIT: 0
+
+
+Thai characters in the evidence: 0
+
