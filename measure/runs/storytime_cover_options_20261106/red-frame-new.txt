@@ -1,0 +1,79 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-frame-r3.test.ts --maxWorkers=1
+EXIT: 1
+----- stdout -----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-frame-r3.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 260[2mms[22m[39m
+[31m     [31m×[31m F1: the box table holds no front game bar and keeps the reader A3 game bar[39m[32m 18[2mms[22m[39m
+[31m     [31m×[31m F2: the fronts render no game bar and the reader A3 cover renders one[39m[32m 120[2mms[22m[39m
+[31m     [31m×[31m F3: the title plaque of both fronts stands below the dog of the student front art[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m F4: the teacher Sprout tab sits on the top edge of the teacher plaque and moved down with it[39m[32m 1[2mms[22m[39m
+     [32m✓[39m F5: the crest and the series banner of both fronts keep their present boxes[32m 2[2mms[22m[39m
+     [32m✓[39m F6: both fronts hold their approved texts once[32m 113[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 08:14:20
+[2m   Duration [22m 7.47s[2m (transform 447ms, setup 434ms, import 829ms, tests 260ms, environment 4.52s)[22m
+
+----- stderr -----
+/home/daniebo/.profile: line 35: /home/daniebo/.cargo/env: No such file or directory
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF1: the box table holds no front game bar and keeps the reader A3 game bar
+[31m[1mAssertionError[22m: the box table holds no student front game bar: expected [ 'student-front:game-bar', …(31) ] to not include 'student-front:game-bar'[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m130:75[22m[39m
+    [90m128| [39m    it('F1: the box table holds no front game bar and keeps the reader…
+    [90m129| [39m        [35mconst[39m keys [33m=[39m [33mObject[39m[33m.[39m[34mkeys[39m([33mQUEST_BOXES[39m)[33m;[39m
+    [90m130| [39m        expect(keys, 'the box table holds no student front game bar').…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m131| [39m        expect(keys, 'the box table holds no teacher front game bar').…
+    [90m132| [39m        expect(QUEST_BOXES['reader-a3:game-bar'], 'the box table keeps…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF2: the fronts render no game bar and the reader A3 cover renders one
+[31m[1mAssertionError[22m: student-front holds no game bar.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m138:105[22m[39m
+    [90m136| [39m        for (const kind of ['student-front', 'teacher-front'] as const…
+    [90m137| [39m            [35mconst[39m doc [33m=[39m [34mparseHtml[39m([35mawait[39m [34mfrontHtml[39m(kind))[33m;[39m
+    [90m138| [39m            expect(doc.querySelectorAll('[data-part="game-bar"]').leng…
+    [90m   | [39m                                                                                                        [31m^[39m
+    [90m139| [39m        }
+    [90m140| [39m        [35mconst[39m reader [33m=[39m [34mparseHtml[39m([35mawait[39m [34mreaderHtml[39m())[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF3: the title plaque of both fronts stands below the dog of the student front art
+[31m[1mAssertionError[22m: student-front plaque top is 277 mm or more.: expected 239 to be greater than or equal to 277[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m148:72[22m[39m
+    [90m146| [39m            [35mconst[39m box [33m=[39m [33mQUEST_BOXES[39m[[32m`[39m[36m${[39mkind[36m}[39m[32m:title-plaque`[39m][33m;[39m
+    [90m147| [39m            expect(box, `the box table holds ${kind}:title-plaque.`).t…
+    [90m148| [39m            expect(box.topMm, `${kind} plaque top is 277 mm or more.`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m149| [39m            expect(box.topMm + box.heightMm, `${kind} plaque bottom is…
+    [90m150| [39m            expect(box.heightMm, `${kind} plaque height is 12 mm or mo…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF4: the teacher Sprout tab sits on the top edge of the teacher plaque and moved down with it
+[31m[1mAssertionError[22m: the tab moved down with the plaque.: expected 241.5 to be greater than or equal to 279[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m172:83[22m[39m
+    [90m170| [39m        expect(gap, 'the tab bottom sits 2 mm to 3 mm under the plaque…
+    [90m171| [39m        expect(gap, 'the tab bottom sits 2 mm to 3 mm under the plaque…
+    [90m172| [39m        expect(pill.topMm + pill.heightMm, 'the tab moved down with th…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m173| [39m    })[33m;[39m
+    [90m174| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+

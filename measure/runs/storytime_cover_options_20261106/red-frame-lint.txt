@@ -1,0 +1,19 @@
+STEP: ESLINT
+COMMAND: cd dashboard && npx eslint __tests__/quest-cover-frame-r3.test.ts __tests__/quest-cover-template.test.ts
+EXIT: 0
+----- stdout -----
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1704:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+----- stderr -----
+
+STEP: TSC
+COMMAND: cd dashboard && npx tsc --noEmit -p .
+EXIT: 0
+----- stdout -----
+
+----- stderr -----

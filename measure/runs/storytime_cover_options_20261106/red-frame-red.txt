@@ -1,0 +1,482 @@
+COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+EXIT: 1
+----- stdout -----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-frame-r3.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 267[2mms[22m[39m
+[31m     [31m×[31m F1: the box table holds no front game bar and keeps the reader A3 game bar[39m[32m 19[2mms[22m[39m
+[31m     [31m×[31m F2: the fronts render no game bar and the reader A3 cover renders one[39m[32m 119[2mms[22m[39m
+[31m     [31m×[31m F3: the title plaque of both fronts stands below the dog of the student front art[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m F4: the teacher Sprout tab sits on the top edge of the teacher plaque and moved down with it[39m[32m 1[2mms[22m[39m
+     [32m✓[39m F5: the crest and the series banner of both fronts keep their present boxes[32m 2[2mms[22m[39m
+     [32m✓[39m F6: both fronts hold their approved texts once[32m 121[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1288008[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 3614[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1528[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 3524[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 4569[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1964[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 6442[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 1990[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 2076[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6540[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 385[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [33m 328[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 1634[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 4442[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 6965[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 4097[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 4033[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 7359[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 475[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 4688[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1938[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 768[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 151459[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 8060[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 3511[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 176361[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 7552[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3963[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 6993[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 3386[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 3376[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 8404[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 5023[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 3935[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 4157[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 4574[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 407174[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 417873[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-template.test.ts [2m([22m[2m189 tests[22m[2m | [22m[31m12 failed[39m[2m)[22m[33m 18240[2mms[22m[39m
+     [32m✓[39m T01: the module exports every name of pin P1[32m 49[2mms[22m[39m
+     [32m✓[39m T02: the part table holds 53 rows[32m 1[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="art"] exactly 1 times[32m 145[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="game-bar"] exactly 0 times[39m[32m 64[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="band-icon"] exactly 0 times[39m[32m 38[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-part="unit-bar"] exactly 0 times[39m[32m 67[2mms[22m[39m
+[31m     [31m×[31m T02: student-front holds [data-unit-part] exactly 0 times[39m[32m 33[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="crest"] exactly 1 times[32m 26[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="series-banner"] exactly 1 times[32m 24[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="title-plaque"] exactly 1 times[32m 26[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="level-line"] exactly 1 times[32m 30[2mms[22m[39m
+     [32m✓[39m T02: student-front holds [data-part="book-line"] exactly 1 times[32m 26[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="art"] exactly 1 times[32m 63[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="game-bar"] exactly 0 times[39m[32m 34[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="band-icon"] exactly 0 times[39m[32m 30[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-part="unit-bar"] exactly 0 times[39m[32m 29[2mms[22m[39m
+[31m     [31m×[31m T02: teacher-front holds [data-unit-part] exactly 0 times[39m[32m 27[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="crest"] exactly 1 times[32m 28[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="series-banner"] exactly 1 times[32m 28[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="title-plaque"] exactly 1 times[32m 27[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="level-line"] exactly 1 times[32m 32[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="book-line"] exactly 1 times[32m 22[2mms[22m[39m
+     [32m✓[39m T02: teacher-front holds [data-part="band-pill"] exactly 1 times[32m 21[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-back holds [data-part="art"] exactly 1 times [33m 311[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="logo-box"] exactly 1 times[32m 136[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="series-banner"] exactly 1 times[32m 122[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="panel"] exactly 1 times[32m 118[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="panel-field"] exactly 5 times[32m 142[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="contact-sign"] exactly 1 times[32m 120[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="contact-line"] exactly 5 times[32m 109[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="qr"] exactly 1 times[32m 127[2mms[22m[39m
+     [32m✓[39m T02: student-back holds [data-part="line-label"] exactly 1 times[32m 105[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="art"] exactly 1 times[32m 56[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="logo-box"] exactly 1 times[32m 45[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="series-banner"] exactly 1 times[32m 46[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="panel"] exactly 0 times[32m 46[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="panel-field"] exactly 0 times[32m 88[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="contact-sign"] exactly 1 times[32m 107[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="contact-line"] exactly 5 times[32m 55[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="qr"] exactly 1 times[32m 49[2mms[22m[39m
+     [32m✓[39m T02: teacher-back holds [data-part="line-label"] exactly 1 times[32m 49[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="art"] exactly 1 times[32m 44[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="game-bar"] exactly 1 times[32m 39[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="band-word"] exactly 1 times[32m 48[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="series-banner"] exactly 1 times[32m 37[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="week-pill"] exactly 1 times[32m 38[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="title-plaque"] exactly 1 times[32m 40[2mms[22m[39m
+     [32m✓[39m T02: reader-a3 holds [data-part="role-bar"] exactly 1 times[32m 49[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="art"] exactly 1 times[32m 50[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="double-line-frame"] exactly 1 times[32m 39[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="title-plaque"] exactly 1 times[32m 41[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="band-word"] exactly 1 times[32m 58[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="series"] exactly 1 times[32m 37[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="week"] exactly 1 times[32m 36[2mms[22m[39m
+     [32m✓[39m T02: reader-leaf holds [data-part="role-mark"] exactly 1 times[32m 41[2mms[22m[39m
+     [32m✓[39m T03: the student back shows the five fields in order with their headings and shared values, and the teacher back has no panel[32m 240[2mms[22m[39m
+     [32m✓[39m T04: the lit band table holds 5 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T04: reader-a3 lights seed once in the game bar[32m 45[2mms[22m[39m
+     [32m✓[39m T04: reader-a3 lights sprout once in the game bar[32m 42[2mms[22m[39m
+     [32m✓[39m T04: reader-a3 lights leaf once in the game bar[32m 39[2mms[22m[39m
+     [32m✓[39m T04: reader-a3 lights bud once in the game bar[32m 39[2mms[22m[39m
+     [32m✓[39m T04: reader-a3 lights flower once in the game bar[32m 46[2mms[22m[39m
+     [32m✓[39m T05: the unit bar table holds 4 rows[32m 0[2mms[22m[39m
+[31m     [31m×[31m T05: unit 1 leaves the student front with no unit bar[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m T05: unit 2 leaves the student front with no unit bar[39m[32m 19[2mms[22m[39m
+[31m     [31m×[31m T05: unit 3 leaves the student front with no unit bar[39m[32m 37[2mms[22m[39m
+[31m     [31m×[31m T05: unit 4 leaves the student front with no unit bar[39m[32m 35[2mms[22m[39m
+     [32m✓[39m T06: the level table holds 4 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T06: level 1 uses the level colour on the title plaque[32m 44[2mms[22m[39m
+     [32m✓[39m T06: level 2 uses the level colour on the title plaque[32m 46[2mms[22m[39m
+     [32m✓[39m T06: level 3 uses the level colour on the title plaque[32m 27[2mms[22m[39m
+     [32m✓[39m T06: level 4 uses the level colour on the title plaque[32m 21[2mms[22m[39m
+     [32m✓[39m T06: the colours match covers.ts and the teacher front and A3 plaque use the level 2 colour[32m 61[2mms[22m[39m
+     [32m✓[39m T07: the frame of two books differs only in the per book values[32m 56[2mms[22m[39m
+     [32m✓[39m T08: the page size table holds 12 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T08: student-front at bleed 0 has the page size of its trim[32m 19[2mms[22m[39m
+     [32m✓[39m T08: student-front at bleed 3 has the page size of its trim[32m 20[2mms[22m[39m
+     [32m✓[39m T08: student-back at bleed 0 has the page size of its trim[32m 129[2mms[22m[39m
+     [32m✓[39m T08: student-back at bleed 3 has the page size of its trim[32m 105[2mms[22m[39m
+     [32m✓[39m T08: teacher-front at bleed 0 has the page size of its trim[32m 24[2mms[22m[39m
+     [32m✓[39m T08: teacher-front at bleed 3 has the page size of its trim[32m 25[2mms[22m[39m
+     [32m✓[39m T08: teacher-back at bleed 0 has the page size of its trim[32m 192[2mms[22m[39m
+     [32m✓[39m T08: teacher-back at bleed 3 has the page size of its trim[32m 53[2mms[22m[39m
+     [32m✓[39m T08: reader-a3 at bleed 0 has the page size of its trim[32m 45[2mms[22m[39m
+     [32m✓[39m T08: reader-a3 at bleed 3 has the page size of its trim[32m 49[2mms[22m[39m
+     [32m✓[39m T08: reader-leaf at bleed 0 has the page size of its trim[32m 36[2mms[22m[39m
+     [32m✓[39m T08: reader-leaf at bleed 3 has the page size of its trim[32m 37[2mms[22m[39m
+     [32m✓[39m T08: a bleed of 2 is an error[32m 22[2mms[22m[39m
+     [32m✓[39m T09: the box table holds 29 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T09: every box of QUEST_BOXES lies 5 mm inside the trim at bleed 0 and bleed 3[32m 13[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 1647[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1645[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 454[2mms[22m[39m
+     [32m✓[39m T10: SPROUT is literal on the reader kinds and Sprout is literal on the teacher front[32m 82[2mms[22m[39m
+     [32m✓[39m T11: the forbidden word table holds 18 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T11: CEFR in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: A1 in a title gives an error that names it[32m 1[2mms[22m[39m
+     [32m✓[39m T11: A2 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: B1 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: B2 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: C1 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: C2 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: Starters in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: Primary Advantage in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: GSE in a title gives an error that names it[32m 1[2mms[22m[39m
+     [32m✓[39m T11: YLE in a title gives an error that names it[32m 1[2mms[22m[39m
+     [32m✓[39m T11: Reading A-Z in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: RAZ in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: Pre-A1 in a title gives an error that names it[32m 3[2mms[22m[39m
+     [32m✓[39m T11: Pre A1 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: Chibi in a title gives an error that names it[32m 3[2mms[22m[39m
+     [32m✓[39m T11: Mitr in a title gives an error that names it[32m 3[2mms[22m[39m
+     [32m✓[39m T11: 2026 in a title gives an error that names it[32m 2[2mms[22m[39m
+     [32m✓[39m T11: the clean titles give no error[32m 3[2mms[22m[39m
+     [32m✓[39m T11: a forbidden word on a line that holds never and do not is still caught[32m 3[2mms[22m[39m
+     [32m✓[39m T11: a word split by a soft hyphen or by wbr is still caught[32m 6[2mms[22m[39m
+     [32m✓[39m T12: each back holds the Thai of BACK_LINES.contact byte for byte, with no markers[32m 185[2mms[22m[39m
+     [32m✓[39m T12: the fronts and the reader covers hold no Thai[32m 120[2mms[22m[39m
+     [32m✓[39m T12: a changed byte, a removed tone mark, a decomposed sara am, and Thai on a front are errors[32m 2[2mms[22m[39m
+     [32m✓[39m T13: both backs show the LINE QR with 0 different modules[32m 217[2mms[22m[39m
+     [32m✓[39m T13: one flipped module counts as one difference[32m 12[2mms[22m[39m
+     [32m✓[39m T13: the fronts and the reader covers hold no QR[32m 121[2mms[22m[39m
+     [32m✓[39m T14: the escape table holds 5 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T14: the level-line text is escaped exactly once[32m 28[2mms[22m[39m
+     [32m✓[39m T14: the band-pill text is escaped exactly once[32m 27[2mms[22m[39m
+     [32m✓[39m T14: the week-pill text is escaped exactly once[32m 63[2mms[22m[39m
+     [32m✓[39m T14: the title text is escaped exactly once[32m 49[2mms[22m[39m
+     [32m✓[39m T14: the role-label text is escaped exactly once[32m 50[2mms[22m[39m
+     [32m✓[39m T15: questReaders gives the 14 shipped rows and changes no source file[32m 92[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 940[2mms[22m[39m
+     [32m✓[39m T17: the reader cover page gives body and css with a quest only scope[32m 22[2mms[22m[39m
+     [32m✓[39m T18: the leaf holds only black, white, and grey colour tokens[32m 22[2mms[22m[39m
+     [32m✓[39m T18: the A3 reader cover holds a colour that is not grey (not vacuous)[32m 21[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 467[2mms[22m[39m
+     [32m✓[39m T19: questCssSafetyErrors reports unsafe css[32m 2[2mms[22m[39m
+     [32m✓[39m T20: every file font url names an existing file[32m 296[2mms[22m[39m
+     [32m✓[39m T21: every src, href, and url is file or data, and no @import appears[32m 267[2mms[22m[39m
+     [32m✓[39m T22: the rejection table holds 21 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T22: level 0 is rejected with an error that names the field[32m 3[2mms[22m[39m
+     [32m✓[39m T22: level 5 is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: level 1.5 is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: unit 5 is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a level and unit repeat is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: litBand Sprout is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: litBand tree is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a missing litBand is rejected with an error that names the field[32m 1[2mms[22m[39m
+     [32m✓[39m T22: an art name with path traversal is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: an art name with an absolute path is rejected with an error that names the field[32m 1[2mms[22m[39m
+     [32m✓[39m T22: an art name with a NUL byte is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: an art name with a wrong extension is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: an art name with a wrong side token is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a student cast of 3 children is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a student cast of 2 animals is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a teacher cast of 3 children is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a cast name outside the roster is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: an unknown key in a row is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: a __proto__ key is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: empty books is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: books that are not an array is rejected with an error that names the field[32m 2[2mms[22m[39m
+     [32m✓[39m T22: the valid L2U1 row is accepted[32m 2[2mms[22m[39m
+     [32m✓[39m T23: the shipped quest.json passes with the L2U1 row, the sprout band, and the fixed cast[32m 19[2mms[22m[39m
+     [32m✓[39m T24: the art table holds 7 rows[32m 0[2mms[22m[39m
+     [32m✓[39m T24: '2480x3508 passes at bleed 0 with 299.…'[32m 2[2mms[22m[39m
+     [32m✓[39m T24: '1448x2048 fails'[32m 2[2mms[22m[39m
+     [32m✓[39m T24: '1447x2048 fails'[32m 2[2mms[22m[39m
+     [32m✓[39m T24: '2400x3400 fails'[32m 1[2mms[22m[39m
+     [32m✓[39m T24: '2480x3508 fails at bleed 3 with 291.6…'[32m 1[2mms[22m[39m
+     [32m✓[39m T24: '2551x3579 passes at bleed 3'[32m 1[2mms[22m[39m
+     [32m✓[39m T24: 'the A3 reader art passes at 240 with …'[32m 2[2mms[22m[39m
+     [32m✓[39m T25: the same input gives byte-identical HTML twice[32m 32[2mms[22m[39m
+     [33m[2m✓[22m[39m T26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed [33m 404[2mms[22m[39m
+     [32m✓[39m T27: every exported function and constant has a JSDoc block[32m 44[2mms[22m[39m
+     [32m✓[39m T28: the imports of cover-quest.ts are inside the allowed set[32m 8[2mms[22m[39m
+     [32m✓[39m T29: import and six renders call fetch 0 times and fs.writeFileSync 0 times[32m 140[2mms[22m[39m
+     [32m✓[39m T30: the level line uses the middle dot and the book lines sit in the right kinds only[32m 250[2mms[22m[39m
+     [32m✓[39m rejects the keys __proto__, constructor, and prototype at the top, row, art, and cast levels[32m 3[2mms[22m[39m
+     [32m✓[39m rejects an art name that holds a path, a wrong extension, a wrong case, or a control character[32m 3[2mms[22m[39m
+     [32m✓[39m rejects a huge cast array on either front and finishes in time[32m 43[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 1095[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 3913[2mms[22m[39m
+     [32m✓[39m fails the copy check for a forbidden word split by a soft hyphen, a non-breaking hyphen, or a minus sign[32m 7[2mms[22m[39m
+     [32m✓[39m fails the copy check for a forbidden word split by an invisible joiner (extra probe)[32m 3[2mms[22m[39m
+     [32m✓[39m fails the Thai check for a Thai look-alike on a back or a front[32m 4[2mms[22m[39m
+     [32m✓[39m flags transparency and effects in every spelling of the CSS[32m 2[2mms[22m[39m
+     [32m✓[39m flags an SVG opacity attribute and a CSS filter in a page or in the reader function CSS[32m 35[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the six kinds at both bleeds with no opacity, filter, shadow, or alpha colour in the markup [33m 347[2mms[22m[39m
+     [32m✓[39m fails the copy check for a forbidden word split by each invisible character[32m 21[2mms[22m[39m
+     [32m✓[39m fails the copy check for a forbidden word in a compatibility form (full width, ligature, circled)[32m 12[2mms[22m[39m
+     [32m✓[39m keeps a clean line clean and strips nothing that a clean line needs (A7 control)[32m 9[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 311[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m258 passed[39m[22m[90m (274)[39m
+[2m   Start at [22m 08:14:33
+[2m   Duration [22m 1326.78s[2m (transform 2.28s, setup 1.94s, import 8.79s, tests 1306.83s, environment 6.74s)[22m
+
+----- stderr -----
+/home/daniebo/.profile: line 35: /home/daniebo/.cargo/env: No such file or directory
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 16 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF1: the box table holds no front game bar and keeps the reader A3 game bar
+[31m[1mAssertionError[22m: the box table holds no student front game bar: expected [ 'student-front:game-bar', …(31) ] to not include 'student-front:game-bar'[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m130:75[22m[39m
+    [90m128| [39m    it('F1: the box table holds no front game bar and keeps the reader…
+    [90m129| [39m        [35mconst[39m keys [33m=[39m [33mObject[39m[33m.[39m[34mkeys[39m([33mQUEST_BOXES[39m)[33m;[39m
+    [90m130| [39m        expect(keys, 'the box table holds no student front game bar').…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m131| [39m        expect(keys, 'the box table holds no teacher front game bar').…
+    [90m132| [39m        expect(QUEST_BOXES['reader-a3:game-bar'], 'the box table keeps…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF2: the fronts render no game bar and the reader A3 cover renders one
+[31m[1mAssertionError[22m: student-front holds no game bar.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m138:105[22m[39m
+    [90m136| [39m        for (const kind of ['student-front', 'teacher-front'] as const…
+    [90m137| [39m            [35mconst[39m doc [33m=[39m [34mparseHtml[39m([35mawait[39m [34mfrontHtml[39m(kind))[33m;[39m
+    [90m138| [39m            expect(doc.querySelectorAll('[data-part="game-bar"]').leng…
+    [90m   | [39m                                                                                                        [31m^[39m
+    [90m139| [39m        }
+    [90m140| [39m        [35mconst[39m reader [33m=[39m [34mparseHtml[39m([35mawait[39m [34mreaderHtml[39m())[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF3: the title plaque of both fronts stands below the dog of the student front art
+[31m[1mAssertionError[22m: student-front plaque top is 277 mm or more.: expected 239 to be greater than or equal to 277[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m148:72[22m[39m
+    [90m146| [39m            [35mconst[39m box [33m=[39m [33mQUEST_BOXES[39m[[32m`[39m[36m${[39mkind[36m}[39m[32m:title-plaque`[39m][33m;[39m
+    [90m147| [39m            expect(box, `the box table holds ${kind}:title-plaque.`).t…
+    [90m148| [39m            expect(box.topMm, `${kind} plaque top is 277 mm or more.`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m149| [39m            expect(box.topMm + box.heightMm, `${kind} plaque bottom is…
+    [90m150| [39m            expect(box.heightMm, `${kind} plaque height is 12 mm or mo…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-frame-r3.test.ts[2m > [22mquest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)[2m > [22mF4: the teacher Sprout tab sits on the top edge of the teacher plaque and moved down with it
+[31m[1mAssertionError[22m: the tab moved down with the plaque.: expected 241.5 to be greater than or equal to 279[39m
+[36m [2m❯[22m __tests__/quest-cover-frame-r3.test.ts:[2m172:83[22m[39m
+    [90m170| [39m        expect(gap, 'the tab bottom sits 2 mm to 3 mm under the plaque…
+    [90m171| [39m        expect(gap, 'the tab bottom sits 2 mm to 3 mm under the plaque…
+    [90m172| [39m        expect(pill.topMm + pill.heightMm, 'the tab moved down with th…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m173| [39m    })[33m;[39m
+    [90m174| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="game-bar"] exactly 0 times
+[31m[1mAssertionError[22m: student-front: [data-part="game-bar"]: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="band-icon"] exactly 0 times
+[31m[1mAssertionError[22m: student-front: [data-part="band-icon"]: expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-part="unit-bar"] exactly 0 times
+[31m[1mAssertionError[22m: student-front: [data-part="unit-bar"]: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: student-front holds [data-unit-part] exactly 0 times
+[31m[1mAssertionError[22m: student-front: [data-unit-part]: expected 4 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 4[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="game-bar"] exactly 0 times
+[31m[1mAssertionError[22m: teacher-front: [data-part="game-bar"]: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="band-icon"] exactly 0 times
+[31m[1mAssertionError[22m: teacher-front: [data-part="band-icon"]: expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-part="unit-bar"] exactly 0 times
+[31m[1mAssertionError[22m: teacher-front: [data-part="unit-bar"]: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT02: teacher-front holds [data-unit-part] exactly 0 times
+[31m[1mAssertionError[22m: teacher-front: [data-unit-part]: expected 4 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 4[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m752:79[22m[39m
+    [90m750| [39m    it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (k…
+    [90m751| [39m        const doc = parseHtml(await standardRender(kind, 0));
+    [90m752| [39m        expect(doc.querySelectorAll(selector).length, `${kind}: ${sele…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m753| [39m    });
+    [90m754| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 1 leaves the student front with no unit bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 2 leaves the student front with no unit bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 3 leaves the student front with no unit bar
+[41m[1m FAIL [22m[49m __tests__/quest-cover-template.test.ts[2m > [22mquest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261106)[2m > [22mT05: unit 4 leaves the student front with no unit bar
+[31m[1mAssertionError[22m: the front holds no unit bar: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-template.test.ts:[2m811:102[22m[39m
+    [90m809| [39m        const subject = { ...(await shippedBook()), unit };
+    [90m810| [39m        const doc = parseHtml(await renderQuest('student-front', subje…
+    [90m811| [39m        expect(doc.querySelectorAll('[data-part="unit-bar"]').length, …
+    [90m   | [39m                                                                                                     [31m^[39m
+    [90m812| [39m        expect(doc.querySelectorAll('[data-unit-part]').length, 'the f…
+    [90m813| [39m    });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯[22m[39m
+
