@@ -99,18 +99,24 @@ const PUBLISHER_MARK_TOP_MM = 251.5;
  * plaque of both fronts is 14 mm high and stands at 278 mm to 292 mm from the top edge, clear of
  * the dog of the student front art. Round 5 of 2026-11-10: the Storytime Advantage logo replaces
  * the crest of both fronts, so the 2 crest keys are gone. The publisher mark of both backs stands
- * in the contact sign, left of the QR and under the contact lines.
+ * in the contact sign, left of the QR and under the contact lines. The alternate A2 of 2026-11-10
+ * adds one `logo-tile` box to the 2 fronts and the 2 backs: the horizontal logo on its amber tile,
+ * the only top chrome of that opt-in style. The A2 box of the 2 fronts is 172 mm by 54 mm at
+ * 19 mm and 12 mm; the A2 box of the 2 backs is 172 mm by 36 mm at 19 mm and 7 mm.
  */
 export const QUEST_BOXES: Record<string, QuestBox> = {
     'student-front:series-logo': { kind: 'student-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'student-front:series-banner': { kind: 'student-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
+    'student-front:logo-tile': { kind: 'student-front', leftMm: 19, topMm: 12, widthMm: 172, heightMm: 54 },
     'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:series-logo': { kind: 'teacher-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
     'teacher-front:series-banner': { kind: 'teacher-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
+    'teacher-front:logo-tile': { kind: 'teacher-front', leftMm: 19, topMm: 12, widthMm: 172, heightMm: 54 },
     'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:band-pill': { kind: 'teacher-front', leftMm: 83, topMm: 271.5, widthMm: 44, heightMm: 9 },
     'student-back:logo-box': { kind: 'student-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'student-back:series-banner': { kind: 'student-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
+    'student-back:logo-tile': { kind: 'student-back', leftMm: 19, topMm: 7, widthMm: 172, heightMm: 36 },
     'student-back:panel': { kind: 'student-back', leftMm: 12, topMm: 48, widthMm: 186, heightMm: 142 },
     'student-back:contact-sign': { kind: 'student-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'student-back:qr': { kind: 'student-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
@@ -124,6 +130,7 @@ export const QUEST_BOXES: Record<string, QuestBox> = {
     },
     'teacher-back:logo-box': { kind: 'teacher-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'teacher-back:series-banner': { kind: 'teacher-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
+    'teacher-back:logo-tile': { kind: 'teacher-back', leftMm: 19, topMm: 7, widthMm: 172, heightMm: 36 },
     'teacher-back:contact-sign': { kind: 'teacher-back', leftMm: 12, topMm: 200, widthMm: 186, heightMm: 80 },
     'teacher-back:qr': { kind: 'teacher-back', leftMm: 141, topMm: 205, widthMm: 50, heightMm: 50 },
     'teacher-back:line-label': { kind: 'teacher-back', leftMm: 141, topMm: 259, widthMm: 50, heightMm: 8 },
@@ -246,10 +253,20 @@ export interface QuestRenderAssets {
     panelValues?: QuestPanelValue[];
 }
 
+/**
+ * The top chrome style of the 2 fronts and the 2 backs (the alternate A2 of 2026-11-10).
+ * `banner` is the r5 style and the default: the Storytime Advantage logo in its square tile and the
+ * series banner with the name. `hlogo` is the alternate A2: the horizontal logo on its amber tile
+ * is the only top chrome, and no part repeats the series name. The 2 readers ignore the option.
+ */
+export type QuestTopStyle = 'banner' | 'hlogo';
+
 /** The options of one render. */
 export interface QuestRenderOptions {
     /** The bleed in millimetres: 0 or 3 (spec D-A5). */
     bleedMm: number;
+    /** The top chrome style: `banner` (the default, r5) or `hlogo` (the alternate A2 of 2026-11-10). */
+    top?: QuestTopStyle;
 }
 
 /** A trim in millimetres. */
@@ -302,6 +319,25 @@ const SERIES_LOGO_URL = storytimeCoverFileUrl(SERIES_LOGO_FILE);
 
 /** The URL of the Reading Advantage logo, the default `publisherLogo` of every render. */
 const PUBLISHER_LOGO_URL = storytimeCoverFileUrl(PUBLISHER_LOGO_FILE);
+
+/**
+ * The file of the horizontal Storytime Advantage logo (the alternate A2 of 2026-11-10). The file is
+ * a byte copy of `advantage-pr/assets/logos/vector/horizontal/storytime-advantage.svg`, SHA-256
+ * 3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc.
+ */
+const HORIZONTAL_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal.svg');
+
+/** The URL of the horizontal Storytime Advantage logo, the only top chrome of A2. */
+const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
+
+/** The aspect of the horizontal logo: the viewBox of 1461.6 mm by 464.88 mm (A6). */
+const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
+
+/** The share of the inner tile height that the horizontal logo fills (A6). */
+const LOGO_TILE_FILL_SHARE = 0.8;
+
+/** The border width of the logo tile, in millimetres (A6). */
+const LOGO_TILE_BORDER_MM = 0.6;
 
 /** The print font folder. */
 const PRINT_FONT_DIR = path.resolve(MODULE_DIR, '..', '..', '..', 'assets', 'print-fonts');
@@ -1227,6 +1263,35 @@ function logoBox(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numbe
 }
 
 /**
+ * Draws the horizontal Storytime Advantage logo on its amber tile (the alternate A2 of 2026-11-10,
+ * Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA): the only top chrome of the 2 fronts and the
+ * 2 backs. The tile takes the amber fill, the brown border, the 3 mm radius, and the hidden
+ * overflow. One image of the horizontal logo stands inside the border, centered on both axes. The
+ * image height is 80 % of the inner height (the box height minus 2 borders), and its width follows
+ * the viewBox aspect 1461.6 by 464.88. The values come from the box, not from fixed numbers.
+ * @param kind The cover kind.
+ * @param bleedMm The bleed.
+ * @returns The HTML.
+ */
+function logoTile(kind: QuestCoverKind, bleedMm: number): string {
+    const box = boxOf(kind, 'logo-tile');
+    const innerWidthMm = box.widthMm - 2 * LOGO_TILE_BORDER_MM;
+    const innerHeightMm = box.heightMm - 2 * LOGO_TILE_BORDER_MM;
+    const imageHeightMm = innerHeightMm * LOGO_TILE_FILL_SHARE;
+    const imageWidthMm = imageHeightMm * HORIZONTAL_LOGO_ASPECT;
+    const leftMm = (innerWidthMm - imageWidthMm) / 2;
+    const topMm = (innerHeightMm - imageHeightMm) / 2;
+    return (
+        `<div data-part="logo-tile" style="${boxStyle(box, bleedMm)};box-sizing:border-box;` +
+        `background-color:${LOGO_AMBER};border:${mm(LOGO_TILE_BORDER_MM)} solid ${LOGO_BROWN};` +
+        `border-radius:3mm;overflow:hidden">` +
+        `<img src="${esc(HORIZONTAL_LOGO_URL)}" alt="" ` +
+        `style="position:absolute;left:${mm(leftMm)};top:${mm(topMm)};` +
+        `width:${mm(imageWidthMm)};height:${mm(imageHeightMm)}"></div>`
+    );
+}
+
+/**
  * The vertical padding of the back panel, in millimetres (round 5 of 2026-11-10). The padding is
  * 1.75 mm smaller at the top, because the ink box of the last panel value overflows its line box
  * of 1.32 on the Andika face by about 0.87 mm at each side, and the block of headings and values
@@ -1403,21 +1468,31 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 
 /**
  * Builds the body of a front side (`options/build.py`, `a_front`). The fronts hold no game bar
- * (round 3 of 2026-11-10): the Storytime Advantage logo, the series banner, the teacher band pill,
- * and the title plaque are the only frame parts. Round 5 of 2026-11-10: the logo replaces the
- * crest above the series banner.
+ * (round 3 of 2026-11-10). Round 5 of 2026-11-10: the Storytime Advantage logo replaces the crest
+ * above the series banner, and the logo, the series banner, the teacher band pill, and the title
+ * plaque are the only frame parts. The alternate A2 of 2026-11-10: with the top style `hlogo`, the
+ * horizontal logo on its amber tile stands in place of the logo and the series banner, the band
+ * pill and the title plaque stay, and no part repeats the series name.
  * @param kind The cover kind.
  * @param book The book row.
  * @param assets The assets.
  * @param bleedMm The bleed.
+ * @param top The top chrome style.
  * @returns The HTML fragment.
  */
-function frontBody(kind: QuestCoverKind, book: QuestBookRow, assets: QuestRenderAssets, bleedMm: number): string {
-    const parts = [
-        artLayer(kind, assets, bleedMm),
-        seriesLogo(kind, assets, bleedMm),
-        seriesBanner(kind, 'front', bleedMm),
-    ];
+function frontBody(
+    kind: QuestCoverKind,
+    book: QuestBookRow,
+    assets: QuestRenderAssets,
+    bleedMm: number,
+    top: QuestTopStyle,
+): string {
+    const parts = [artLayer(kind, assets, bleedMm)];
+    if (top === 'hlogo') {
+        parts.push(logoTile(kind, bleedMm));
+    } else {
+        parts.push(seriesLogo(kind, assets, bleedMm), seriesBanner(kind, 'front', bleedMm));
+    }
     if (kind === 'teacher-front') parts.push(bandPill(book.litBand, bleedMm));
     parts.push(titlePlaqueFront(kind, book, bleedMm));
     return parts.join('\n');
@@ -1426,18 +1501,22 @@ function frontBody(kind: QuestCoverKind, book: QuestBookRow, assets: QuestRender
 /**
  * Builds the body of a back side (`options/build.py`, `a_back`). The student back holds the panel;
  * the teacher back holds none. Round 5 of 2026-11-10: the Storytime Advantage logo, the centered
- * contact lines, and the Reading Advantage publisher mark of the contact sign.
+ * contact lines, and the Reading Advantage publisher mark of the contact sign. The alternate A2 of
+ * 2026-11-10: with the top style `hlogo`, the horizontal logo on its amber tile stands in place of
+ * the logo box and the series banner, and every other part stays.
  * @param kind The cover kind.
  * @param assets The assets.
  * @param bleedMm The bleed.
+ * @param top The top chrome style.
  * @returns The HTML fragment.
  */
-function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number): string {
-    const parts = [
-        artLayer(kind, assets, bleedMm),
-        logoBox(kind, assets, bleedMm),
-        seriesBanner(kind, 'back', bleedMm),
-    ];
+function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number, top: QuestTopStyle): string {
+    const parts = [artLayer(kind, assets, bleedMm)];
+    if (top === 'hlogo') {
+        parts.push(logoTile(kind, bleedMm));
+    } else {
+        parts.push(logoBox(kind, assets, bleedMm), seriesBanner(kind, 'back', bleedMm));
+    }
     if (kind === 'student-back') parts.push(panel(bleedMm, assets.panelValues ?? []));
     parts.push(
         contactSign(kind, bleedMm),
@@ -1601,7 +1680,7 @@ function documentOf(kind: QuestCoverKind, bleedMm: number, body: string): string
  * @param kind The cover kind.
  * @param subject The book row or the reader row.
  * @param assets The assets of the render.
- * @param opts The options: the bleed.
+ * @param opts The options: the bleed, and the top chrome style (the alternate A2 of 2026-11-10).
  * @returns The document.
  * @throws Error When the bleed is not 0 or 3, or the kind is a reader side without a reader row.
  */
@@ -1612,6 +1691,7 @@ export function renderQuestCover(
     opts: QuestRenderOptions,
 ): string {
     const bleedMm = opts?.bleedMm ?? 0;
+    const top = opts?.top ?? 'banner';
     questPageSize(kind, bleedMm);
     if (kind === 'reader-a3' || kind === 'reader-leaf') {
         const reader = subject as QuestReaderRow;
@@ -1621,8 +1701,8 @@ export function renderQuestCover(
     const book = subject as QuestBookRow;
     const body =
         kind === 'student-back' || kind === 'teacher-back'
-            ? backBody(kind, assets, bleedMm)
-            : frontBody(kind, book, assets, bleedMm);
+            ? backBody(kind, assets, bleedMm, top)
+            : frontBody(kind, book, assets, bleedMm, top);
     return documentOf(kind, bleedMm, body);
 }
 

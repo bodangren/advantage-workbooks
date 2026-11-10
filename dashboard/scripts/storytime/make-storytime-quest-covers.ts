@@ -33,6 +33,7 @@ import {
     type QuestCoverKind,
     type QuestPanelValue,
     type QuestReaderRow,
+    type QuestTopStyle,
 } from '../../lib/storytime/print/cover-quest';
 
 /**
@@ -48,13 +49,19 @@ import {
  *
  * The folder of one set is `<root>/storytime/covers-quest-v<n>` (pins P5 and P6). `--version <n>`
  * is the set number: set 1 gives student v4, teacher v2, and readers v1.
+ *
+ * The alternate A2 of 2026-11-10 (Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA: "I want an
+ * alternate where we just use the horizontal logo as the entire top Chrome here") adds the flag
+ * `--top banner|hlogo`. The default is `banner`, the r5 style, and it renders byte for byte as
+ * before. `hlogo` sets the horizontal Storytime Advantage logo on its amber tile as the only top
+ * chrome of the 2 fronts and the 2 backs. The 2 readers ignore the flag.
  */
 
 const USAGE = `Builds the option A covers of one Storytime Advantage unit (spec FR-11.1, FR-11.2):
 the student cover, the teacher cover, the 14 A3 reader covers, and the 14 leaf reader covers.
 Run it under the heavy-job lock.
 
-Usage: npx tsx scripts/storytime/make-storytime-quest-covers.ts --level <n> --unit <m> [--version <n>] [--out <dir>] [--print-ready-root <dir>] [--pictures-dir <dir>] [--print]
+Usage: npx tsx scripts/storytime/make-storytime-quest-covers.ts --level <n> --unit <m> [--version <n>] [--out <dir>] [--print-ready-root <dir>] [--pictures-dir <dir>] [--top <style>] [--print]
 
   --level              The level of the unit, 1 to 4
   --unit               The unit of the unit, 1 to 4
@@ -63,6 +70,8 @@ Usage: npx tsx scripts/storytime/make-storytime-quest-covers.ts --level <n> --un
   --out                The output folder (default <root>/storytime/covers-quest-v<version>)
   --print-ready-root   The print-ready root (default ~/Desktop/print-ready)
   --pictures-dir       The folder of the art files (default the shipped picture folder)
+  --top                The top chrome style of the 2 fronts and the 2 backs: banner (default,
+                       the r5 style) or hlogo (the alternate A2, the horizontal logo)
   --print              Also write the PDF/X-1a print files through scripts/print/make-pdfx.ts
   --help               Print this text and exit 0
 
@@ -89,6 +98,11 @@ export interface QuestArgs {
     print: boolean;
     /** The folder of the art files. */
     picturesDir?: string;
+    /**
+     * The top chrome style of the 2 fronts and the 2 backs (the alternate A2 of 2026-11-10):
+     * `banner` (the default, the r5 style) or `hlogo` (the horizontal logo).
+     */
+    top: QuestTopStyle;
 }
 
 /** The result of `parseQuestArgs`. */
@@ -279,14 +293,23 @@ function numberFlag(text: string | undefined, min: number, max: number, flag: st
 
 /**
  * Parses the argv of the build (pin P4). It reads no file, ends no process, and returns the
- * arguments or the errors.
+ * arguments or the errors. The alternate A2 of 2026-11-10 adds the flag `--top` with the values
+ * `banner` (the default) and `hlogo`; any other value is an error.
  * @param argv The arguments after the script name.
  * @returns The parsed result.
  */
 export function parseQuestArgs(argv: string[]): QuestParseResult {
     const errors: string[] = [];
     const values = new Map<string, string>();
-    const valueFlags = new Set(['--level', '--unit', '--version', '--out', '--print-ready-root', '--pictures-dir']);
+    const valueFlags = new Set([
+        '--level',
+        '--unit',
+        '--version',
+        '--out',
+        '--print-ready-root',
+        '--pictures-dir',
+        '--top',
+    ]);
     let help = false;
     let print = false;
     for (let i = 0; i < argv.length; i++) {
@@ -319,7 +342,10 @@ export function parseQuestArgs(argv: string[]): QuestParseResult {
     const level = numberFlag(values.get('--level'), 1, 4, '--level', errors);
     const unit = numberFlag(values.get('--unit'), 1, 4, '--unit', errors);
     const version = values.has('--version') ? numberFlag(values.get('--version'), 1, 4294967295, '--version', errors) : 1;
-    if (errors.length || level === undefined || unit === undefined || version === undefined) {
+    const topText = values.get('--top') ?? 'banner';
+    const top: QuestTopStyle | undefined = topText === 'banner' || topText === 'hlogo' ? topText : undefined;
+    if (top === undefined) errors.push(`The flag --top must be banner or hlogo, not "${topText}".`);
+    if (errors.length || level === undefined || unit === undefined || version === undefined || top === undefined) {
         return { help: false, errors, usage: usageText(), args: null };
     }
     const printReadyRoot = values.get('--print-ready-root') ?? path.join(os.homedir(), 'Desktop', 'print-ready');
@@ -331,6 +357,7 @@ export function parseQuestArgs(argv: string[]): QuestParseResult {
         out,
         printReadyRoot,
         print,
+        top,
     };
     if (values.has('--pictures-dir')) args.picturesDir = values.get('--pictures-dir');
     print = values.has('--print');
@@ -1182,7 +1209,7 @@ async function main(argv: string[]): Promise<number> {
             { kind: 'teacher-back', group: 'teacher', file: 'teacher/teacher-back.png', assets: { art: storytimeCoverFileUrl(path.join(picturesDir, book.art.back)), logo } },
         ];
         for (const entry of bookPages) {
-            const html = renderQuestCover(entry.kind, book, entry.assets, { bleedMm });
+            const html = renderQuestCover(entry.kind, book, entry.assets, { bleedMm, top: args.top });
             const page = questPageSize(entry.kind, bleedMm);
             docs[entry.group].push(html);
             pages.push({ group: entry.group, kind: entry.kind, html, file: entry.file, widthMm: page.widthMm, heightMm: page.heightMm, art: rowOf(plan, entry.kind) });
