@@ -1,0 +1,117 @@
+Jr Green log, Task (Green, no game bar and the dog clear), the frame r3 pair (Task 2.9 part 1, r3),
+track storytime_cover_options_20261106, phase P2.
+Role model: deepseek/deepseek-flash#high. Red model of this pair:
+minimax-cn-coding-plan/MiniMax-M3.1-Flash (another family, so the Red and Green models stay apart).
+phase_base_sha: 92546bd100d70c07c27ee3212bf9d082514f3827 (the Phase 2 base of this pair).
+role_base_sha: 92546bd100d70c07c27ee3212bf9d082514f3827 (HEAD when this role started).
+Red commit inside phase_base_sha..HEAD: c3b4397d (dashboard/__tests__/quest-cover-frame-r3.test.ts
+F1 to F6, and the changed pins of dashboard/__tests__/quest-cover-template.test.ts). The commit is
+an ancestor of HEAD (`git merge-base --is-ancestor c3b4397d HEAD` exits 0).
+Code under test: 1e78793e99ad05c5cad4abb7b04fe13a7027ce54 (only
+dashboard/lib/storytime/print/cover-quest.ts).
+
+Status: done. The task stays `[~]`, because the r3 rebuild (Task 2.9 part 1) follows in the next
+role. No task is `[x]`. No task is `[b]`.
+
+The owner words (Daniel, Tasks bFdjbzVmNEFDbXNiaFdiSg): "On the cover the top XP bar is unnecessary
+because we don't have a gaming theme and the bottom title bar covers the dog".
+
+The change, in cover-quest.ts alone:
+1. QUEST_BOXES holds no `student-front:game-bar` and no `teacher-front:game-bar`.
+   `reader-a3:game-bar` stays.
+2. frontBody renders no game bar. The reader A3 body, its game bar box, and its call stay as they
+   were.
+3. The title plaque of both fronts: {leftMm 26, topMm 278, widthMm 158, heightMm 14} (was top 239,
+   height 40). The teacher band pill: {leftMm 83, topMm 271.5, widthMm 44, heightMm 9}, so its
+   bottom 280.5 mm sits 2.5 mm under the plaque top.
+4. The plaque content fits the 14 mm box: the level line is 7 mm, the book line is 4.2 mm, the line
+   height is 1.05, and the two lines sit in a centered flex column. plaqueSvg takes a `compact`
+   flag: the corner bevel scales with the height (2.1 mm at 14 mm), and the diamond end ornaments
+   move inside the box by 1.2 mm plus their own half width. The plaque colour and the font stay.
+5. The crest, the series banner, the backs, and the readers are unchanged. The JSDoc of QUEST_BOXES,
+   checkQuestLitBand, plaqueSvg, gameBar, titlePlaqueFront, and frontBody is updated.
+
+One change beyond the dispatch list: `checkQuestLitBand` returns no error on a page with no game
+bar. The reason: the `band` check of the build script calls it for the fronts, so both front builds
+failed with `student/front.png: the check "band" failed`, and 7 tests of quest-cover-build.test.ts
+fell with it (3 of them on a cascaded missing file). A page with a game bar is checked as before, so
+a reader A3 cover with no lit icon still fails. A page with no game bar has no band icon to light,
+and the teacher front shows its band on the band pill. The JSDoc names the new rule.
+
+No committed Red test changed. No other file changed. No test file changed.
+
+Red rerun before the fix (headless, one heavy-run): the role copied the HEAD version of the library
+over the Green copy, ran the new file, and restored the Green copy. The HEAD copy gives Test Files 1
+failed (1), Tests 4 failed | 2 passed (6), RED_RERUN_EXIT=1. F1, F2, F3, and F4 fail; F5 and F6 pass.
+The restore line is RESTORE_OK=1. This matches the Red capture red-frame-new.txt of the Red role.
+
+Gates, one heavy-run wrapper for (a), (b), and (c) (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500,
+HEAVY_PREFLIGHT_WAIT_S=5400; not nested; the runner is a python3 -I file, because the shell guard
+rejects the backtick, the less-than sign, and the greater-than sign):
+
+(a) `cd dashboard && CI=true npx vitest run __tests__/quest-cover-frame-r3.test.ts --maxWorkers=1`
+    Test Files 1 passed (1); Tests 6 passed (6); EXIT=0. Capture: green-frame-new.txt.
+(b) GREEN_TEST_COMMAND: `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts
+    --maxWorkers=1` (`quest-cover-build`, `quest-cover-frame-r3`, `quest-cover-story`,
+    `quest-cover-template`)
+    Test Files 4 passed (4); Tests 274 passed (274); EXIT=0. Capture: green-frame-green.txt.
+    No "Protocol error" screenshot load failure appeared, so no single-test rerun was needed.
+(c) PROJECT_LINT inside the same heavy-run: `npx eslint lib/storytime scripts/storytime` plus the 4
+    quest-cover test files, then `npx tsc --noEmit -p .`
+    ESLINT_EXIT=0, 0 errors and 1 known warning (`quest` is assigned a value but never used,
+    quest-cover-template.test.ts:1704, an unchanged committed test file). TSC_EXIT=0,
+    TSC_ERROR_LINES=0. Capture: green-frame-lint.txt.
+
+Two runner notes, for the record. First, an earlier heavy-run of (b) passed the glob as a literal
+string with no shell, so vitest printed "No test files found" and exited 1; the runner now expands
+the glob itself, and green-frame-green.txt holds the good run. Second, the first full run of (b)
+after the library change gave 7 failed | 267 passed, all 7 in quest-cover-build.test.ts and all
+from the `band` check named above; the `checkQuestLitBand` change cleared all 7 on the next run.
+
+The targeted Red command output at the fix: `Test Files 1 passed (1)`, `Tests 6 passed (6)`, EXIT=0.
+
+Commits:
+1. 1e78793e99ad05c5cad4abb7b04fe13a7027ce54, the library alone, 1 file, 31 insertions,
+   19 deletions.
+2. 9730baab, the plan evidence and the three captures (4 files).
+3. This log alone.
+
+New files added: none. The role added the three captures under
+measure/runs/storytime_cover_options_20261106/ and this log.
+
+Plan state: the Green task is `[~]` with one evidence sub-bullet that names commit 1e78793e, the
+summary lines of (a), (b), and (c), and the new box values. No task is `[b]`. No task is `[x]`. The
+track stays out of archive, and no closeout metadata changed. The graph artifact `graph.db` is not
+rebuilt: its last commit is d9c1c933, and the other library commits of this track did not rebuild
+it either.
+
+Leftover for the next role: build the student cover v4 and the teacher candidate again with
+`--print` (Task 2.9 part 1, r3). Then check the 2 front pages: no game bar, the title plaque at
+278 mm to 292 mm, and the crest, the banner, the level line, the book line, and the Sprout tab
+unchanged.
+
+MEASURE_AGENT_RESULT
+status: done
+phase: P2
+task: T2.9b
+role: jr-green
+track: storytime_cover_options_20261106
+phase_base_sha: 92546bd100d70c07c27ee3212bf9d082514f3827
+role_base_sha: 92546bd100d70c07c27ee3212bf9d082514f3827
+red_commit: c3b4397d
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+head: 9730baab (commit 2; this log lands in commit 3)
+impl_commit: 1e78793e99ad05c5cad4abb7b04fe13a7027ce54
+plan_commit: 9730baab
+files_changed: dashboard/lib/storytime/print/cover-quest.ts (31 insertions, 19 deletions)
+new_boxes: student-front:title-plaque and teacher-front:title-plaque {26, 278, 158, 14}; teacher-front:band-pill {83, 271.5, 44, 9}
+tasks_flipped_x: none (the Green task stays [~] for the r3 rebuild of Task 2.9 part 1)
+tasks_flipped_b: none
+targeted_gate: quest-cover-frame-r3.test.ts, Test Files 1 passed (1), Tests 6 passed (6), EXIT=0
+green_gate: quest-cover-*.test.ts, Test Files 4 passed (4), Tests 274 passed (274), EXIT=0
+lint: eslint exit 0 (0 errors, 1 existing warning in an unchanged test file); tsc --noEmit exit 0, 0 error lines
+gate_captures: measure/runs/storytime_cover_options_20261106/green-frame-new.txt, green-frame-green.txt, green-frame-lint.txt
+new_files: none
+dispositions: none
+handoff: The frame r3 pair is Green. The 2 fronts hold no game bar, and the title plaque stands at 278 mm to 292 mm with the band pill 2.5 mm under it. `checkQuestLitBand` now returns no error on a page with no game bar, so the build script's `band` check passes on the fronts; this one line is beyond the dispatch list and the plan names it. Next: the r3 rebuild of Task 2.9 part 1 with --print (the student cover v4 and the teacher candidate), then the look at 100 %. Keep the 2 Red test files unchanged. Do not stage video/storytime-song/scripts/render.mjs, which holds unrelated uncommitted work.
+END_MEASURE_AGENT_RESULT
