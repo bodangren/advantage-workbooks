@@ -1,0 +1,117 @@
+Jr Green log, Task (Green, alternate A2 horizontal logo), track storytime_cover_options_20261106,
+phase P2, task T2.9e.
+Role model: deepseek/deepseek-flash#high. Red model of this pair: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+role_base_sha: bbf6f66c6cbe9693171b13ce06e5337c0f7519b6.
+phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd (the role base of the Red, plan line 140).
+Red commit: dbc2116dbdc193ce83205f874a457a3e52d6a979 (new file dashboard/__tests__/quest-cover-hlogo.test.ts only).
+The Red change is inside phase_base_sha..HEAD: `git log --oneline e7ff06a3..HEAD` gives dbc2116d, 73ec2c54, and bbf6f66c.
+
+Status: blocked. The implementation is written and 6 of the 8 Red tests pass. A3 and A8 cannot pass
+with the Red tests as committed. Each one contradicts another contract that stays in force. No test
+file is changed. The implementation is not committed. Its patch sits next to this log as
+green-hlogo-blocked-impl.patch, and the 3 files stay in the working tree for the next Green.
+
+Thai gate: the first command printed 0 Thai characters (U+0E00 to U+0E7F) in plan.md, cover-quest.ts,
+make-storytime-quest-covers.ts, covers.ts, red-hlogo-new.txt, and quest-cover-hlogo.test.ts. No file
+under options/, no test-strategy.md, no back-text.ts, no PNG, and no PDF page image was read.
+
+Proof order (each run in one heavy-run wrapper with HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500,
+HEAVY_PREFLIGHT_WAIT_S=5400, in the foreground):
+
+1. The targeted Red command before the edit:
+   `CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1`.
+   Test Files  1 failed (1); Tests  5 failed | 3 passed (8); EXIT=1; Duration 17.51s.
+   A1, A3, A4, A6, and A8 fail. A2, A5, and A7 pass. The summary matches red-hlogo-new.txt.
+
+2. The fast loop after the edit:
+   `CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts __tests__/quest-cover-logo-tone.test.ts
+   __tests__/quest-cover-plaque-fit.test.ts __tests__/quest-cover-frame-r3.test.ts --maxWorkers=1`.
+   Test Files  1 failed | 3 passed (4); Tests  2 failed | 33 passed (35); EXIT=1; Duration 28.81s.
+   A1, A2, A4, A5, A6, and A7 pass. A3 and A8 fail. The 3 old files pass in full (11 + 10 + 6 tests).
+
+3. Lint and types: `npx eslint lib/storytime/print/cover-quest.ts
+   scripts/storytime/make-storytime-quest-covers.ts` gives ESLINT_EXIT=0 with 0 warnings.
+   `npx tsc --noEmit -p .` gives TSC_EXIT=0 with 0 output lines.
+
+Why A3 cannot pass (test-side conflict):
+A3 (line 557) requires 0 text nodes of every back body to hold "storytime" or "advantage". The
+student back and the teacher back render the 5 contact lines of BACK_LINES.contact. Two of those
+lines hold the series name as ASCII text. The failure names 2 `contact-line` nodes on the
+student-back. A5 keeps the contact block, and spec D-A9 and the print gate (test-strategy.md section
+4.10 check 3) require the words "Storytime Advantage" on every back page. So the bodies cannot both
+keep the contact block and hold no series name. The fronts pass A3.
+
+Why A8 cannot pass (test-side conflict):
+A8 (line 700) calls `parseQuestArgs(['--top', 'hlogo'])` with no --level and no --unit, and expects
+errors [] and args not null. A8 (line 705) calls `parseQuestArgs([])` and expects args not null.
+Old test B02 (quest-cover-build.test.ts lines 517 to 536) expects an error and args null for
+`['--unit', '1']` (no --level), for `['--level', '2']` (no --unit), and for `[]` (no argument). The
+same input `[]` has two opposite expectations, so no parser can satisfy both. The flag itself works:
+`--top hlogo` sets top hlogo, the default is banner, and `--top round` gives an error with args null.
+
+What the uncommitted implementation does (A1, A2, A4, A5, A6, A7 hold):
+- A1: `content/storytime/covers/logos/storytime-advantage-horizontal.svg` is a byte copy of
+  `advantage-pr/assets/logos/vector/horizontal/storytime-advantage.svg`, SHA-256
+  3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc (matches A1).
+- LIB: `QuestTopStyle = 'banner' | 'hlogo'`, and `QuestRenderOptions.top?: QuestTopStyle` (default
+  banner). Constants: HORIZONTAL_LOGO_FILE, HORIZONTAL_LOGO_URL, HORIZONTAL_LOGO_ASPECT =
+  1461.6 / 464.88, LOGO_TILE_FILL_SHARE = 0.8, LOGO_TILE_BORDER_MM = 0.6.
+- QUEST_BOXES adds the 4 keys: the 2 fronts `logo-tile` {19, 12, 172, 54}, the 2 backs `logo-tile`
+  {19, 7, 172, 36}. Every other box is unchanged.
+- `logoTile(kind, bleedMm)` draws the amber tile with the brown 0.6 mm border, the 3 mm radius, and
+  the hidden overflow, and one img of the horizontal logo. The image height is 80 % of the inner
+  height, and its width is the height times the aspect. Both values come from the box. Computed
+  values: front inner 170.80 x 52.80 mm, image 132.8041 x 42.2400 mm at left 18.9979 and top 5.2800;
+  back inner 170.80 x 34.80 mm, image 87.5300 x 27.8400 mm at left 41.6350 and top 3.4800. A6 passes,
+  so the left and right gaps and the top and bottom gaps differ by at most 1 mm, the fill share is
+  0.80, and the aspect is 3.144037.
+- `frontBody` and `backBody` take the top style. With hlogo the front holds the art, the tile, the
+  teacher band pill, and the title plaque. The back holds the art, the tile, the student panel, the
+  contact sign, the contact lines, the publisher mark, the QR, and the LINE label. The default path
+  builds the same strings in the same order, so A2 holds the 4 r5 pins byte for byte, and A5 holds
+  every kept part byte for byte.
+- BUILD: `--top` is a value flag with the values banner and hlogo, the default is banner, and any
+  other value is an error with args null. The usage text names the flag once. The 4 front and back
+  renders take `{ bleedMm, top: args.top }`, and the readers ignore the option.
+
+Working tree state for the next role (do not stage the 3 implementation paths by accident):
+- M dashboard/lib/storytime/print/cover-quest.ts
+- M dashboard/scripts/storytime/make-storytime-quest-covers.ts
+- ?? content/storytime/covers/logos/storytime-advantage-horizontal.svg
+- M measure/tracks/storytime_cover_options_20261106/plan.md (the Green line is [~] only)
+No test file changed. No commit of the implementation. pnpm-lock.yaml, graph.db, raw.json,
+video/storytime-song/scripts/render.mjs, and every spec-review file are untouched.
+
+Question for the orchestrator (needs a Mid Red retry; default A):
+How do we lift the A3 and A8 blocks?
+  A. Mid Red edits A3 to skip the contact-line nodes and edits A8 to pass --level 2 --unit 1.
+     A3: add `if (parent.closest('[data-part="contact-line"]')) continue;` in `seriesNameNodes`, or
+     check only the chrome parts. A8: `parseQuestArgs(['--level', '2', '--unit', '1', '--top',
+     'hlogo'])` and `parseQuestArgs(['--level', '2', '--unit', '1'])` (recommended: the smallest
+     honest change, and B02 stays as it stands).
+  B. Mid Red narrows A3 to the 2 fronts only and keeps the A8 edit of A. The backs then hold the
+     contact block with the series name, and the test says so.
+  C. The orchestrator drops A3 and A8 from the gate and records the reason. Not recommended: the
+     two contracts then have no test.
+Do not edit the parser: a parser that makes `parseQuestArgs([])` return args breaks B02 line 529.
+
+MEASURE_AGENT_RESULT
+status: blocked
+phase: P2
+task: T2.9e
+role: jr-green
+track: storytime_cover_options_20261106
+role_base_sha: bbf6f66c6cbe9693171b13ce06e5337c0f7519b6
+phase_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
+head: bbf6f66c6cbe9693171b13ce06e5337c0f7519b6
+impl_commit: none (blocked before the implementation commit)
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+red_commit: dbc2116dbdc193ce83205f874a457a3e52d6a979
+impl: uncommitted in the working tree; patch in measure/runs/storytime_cover_options_20261106/green-hlogo-blocked-impl.patch; new file content/storytime/covers/logos/storytime-advantage-horizontal.svg (SHA-256 3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc)
+gate_red_rerun: 5 failed | 3 passed (8); EXIT=1 (A1, A3, A4, A6, A8 fail)
+gate_fast_loop: Test Files 1 failed | 3 passed (4); Tests 2 failed | 33 passed (35); EXIT=1 (hlogo A3 and A8 fail; logo-tone 11, plaque-fit 10, frame-r3 6 pass)
+gate_lint: ESLINT_EXIT=0 (0 warnings); TSC_EXIT=0 (0 output lines)
+gate_green_test_command: not run (the block forbids it)
+dispositions: none
+handoff: Blocked on the committed Red file, A3 (line 557) and A8 (lines 700 and 705). A3 requires 0 body text nodes with the series name on the 2 backs, but 2 contact-line nodes hold it, and A5 plus the print gate keep the contact block. A8 requires `parseQuestArgs([])` to return args, but old test B02 (quest-cover-build.test.ts lines 517 to 536) requires an error and args null for the same input. Request a Mid Red retry. Default A: edit A3 to skip `[data-part="contact-line"]` nodes (or check the chrome parts only), and edit A8 to parse `['--level', '2', '--unit', '1', '--top', 'hlogo']` and `['--level', '2', '--unit', '1']`; keep `['--top', 'round']` with the full argv. Do not change the parser to satisfy A8: B02 line 529 forbids it. After the retry, Green reruns the fast loop, gate (a), gate (b), and gate (c), prints the A6 values, and commits the 3 implementation paths, the RUNS files, and the run log. The implementation holds A1, A2, A4, A5, A6, and A7 now. The Green plan line stays [~] and is uncommitted. The implementation stays uncommitted in the working tree and is also saved as green-hlogo-blocked-impl.patch.
+END_MEASURE_AGENT_RESULT
