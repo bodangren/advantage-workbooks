@@ -1,0 +1,125 @@
+LABEL red_fit_new
+NOTE the new Red test file alone; the exit code must be 1
+COMMAND npx vitest run __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1
+CWD /home/daniebo/Desktop/Workbooks/dashboard
+EXIT 1
+DURATION_S 9.9
+--- output ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[33m 5675[2mms[22m[39m
+[31m     [31m×[31m P1: the plaque text of the student-front lies inside the band in the level colour[39m[33m 377[2mms[22m[39m
+[31m     [31m×[31m P2: the plaque text of the student-front is clear of the diamond ornaments and of itself[39m[32m 270[2mms[22m[39m
+     [32m✓[39m P3: the plaque text of the student-front is set at a readable size[32m 269[2mms[22m[39m
+     [32m✓[39m P4: the plaque text of the student-front reads the approved words[32m 294[2mms[22m[39m
+[31m     [31m×[31m P1: the plaque text of the teacher-front lies inside the band in the level colour[39m[32m 296[2mms[22m[39m
+[31m     [31m×[31m P2: the plaque text of the teacher-front is clear of the diamond ornaments and of itself[39m[32m 282[2mms[22m[39m
+     [32m✓[39m P3: the plaque text of the teacher-front is set at a readable size[32m 291[2mms[22m[39m
+     [32m✓[39m P4: the plaque text of the teacher-front reads the approved words[32m 283[2mms[22m[39m
+[31m     [31m×[31m P5: the Sprout tab text of the teacher front lies inside its pill and above the plaque[39m[32m 280[2mms[22m[39m
+     [32m✓[39m P6: the reader plaques and the series banners keep their bytes of the role base sha[32m 276[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-plaque-fit.test.ts[2m > [22mquest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)[2m > [22mP1: the plaque text of the student-front lies inside the band in the level colour
+[31m[1mAssertionError[22m: the text of the student-front plaque lies inside the band in the level colour within 0.1 mm on all 4 sides: the text "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm, bottom 285.80 mm) leaves the band (left 28.81 mm, top 280.80 mm, right 181.19 mm, bottom 289.20 mm); the text "Student Book" (left 91.40 mm, top 285.34 mm, right 118.60 mm, bottom 291.96 mm) leaves the band (left 28.81 mm, top 280.80 mm, right 181.19 mm, bottom 289.20 mm): expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/quest-cover-plaque-fit.test.ts:[2m379:15[22m[39m
+    [90m377| [39m                `the text of the ${front.kind} plaque lies inside the …
+    [90m378| [39m                    [32m`0.1 mm on all 4 sides: [39m[36m${[39mdetail[36m}[39m[32m`[39m[33m,[39m
+    [90m379| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m380| [39m        }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m381| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-plaque-fit.test.ts[2m > [22mquest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)[2m > [22mP2: the plaque text of the student-front is clear of the diamond ornaments and of itself
+[31m[1mAssertionError[22m: the text of the student-front plaque is clear of the diamond ornaments and of the other texts, with a tolerance of 0.1 mm: the texts "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm, bottom 285.80 mm) and "Student Book" (left 91.40 mm, top 285.34 mm, right 118.60 mm, bottom 291.96 mm) touch each other: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-plaque-fit.test.ts:[2m411:15[22m[39m
+    [90m409| [39m                `the text of the ${front.kind} plaque is clear of the …
+    [90m410| [39m                    `other texts, with a tolerance of 0.1 mm: ${proble…
+    [90m411| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m412| [39m        }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m413| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-plaque-fit.test.ts[2m > [22mquest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)[2m > [22mP1: the plaque text of the teacher-front lies inside the band in the level colour
+[31m[1mAssertionError[22m: the text of the teacher-front plaque lies inside the band in the level colour within 0.1 mm on all 4 sides: the text "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm, bottom 285.80 mm) leaves the band (left 28.81 mm, top 280.80 mm, right 181.19 mm, bottom 289.20 mm); the text "Teacher Book" (left 91.28 mm, top 285.34 mm, right 118.71 mm, bottom 291.96 mm) leaves the band (left 28.81 mm, top 280.80 mm, right 181.19 mm, bottom 289.20 mm): expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/quest-cover-plaque-fit.test.ts:[2m379:15[22m[39m
+    [90m377| [39m                `the text of the ${front.kind} plaque lies inside the …
+    [90m378| [39m                    [32m`0.1 mm on all 4 sides: [39m[36m${[39mdetail[36m}[39m[32m`[39m[33m,[39m
+    [90m379| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m380| [39m        }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m381| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-plaque-fit.test.ts[2m > [22mquest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)[2m > [22mP2: the plaque text of the teacher-front is clear of the diamond ornaments and of itself
+[31m[1mAssertionError[22m: the text of the teacher-front plaque is clear of the diamond ornaments and of the other texts, with a tolerance of 0.1 mm: the texts "Level 2 · Unit 1" (left 82.84 mm, top 279.19 mm, right 127.15 mm, bottom 285.80 mm) and "Teacher Book" (left 91.28 mm, top 285.34 mm, right 118.71 mm, bottom 291.96 mm) touch each other: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-plaque-fit.test.ts:[2m411:15[22m[39m
+    [90m409| [39m                `the text of the ${front.kind} plaque is clear of the …
+    [90m410| [39m                    `other texts, with a tolerance of 0.1 mm: ${proble…
+    [90m411| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m412| [39m        }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m413| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-plaque-fit.test.ts[2m > [22mquest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)[2m > [22mP5: the Sprout tab text of the teacher front lies inside its pill and above the plaque
+[31m[1mAssertionError[22m: the Sprout tab text of the teacher front lies inside its pill and at or above the top of the plaque, with a tolerance of 0.1 mm: the Sprout tab text (left 97.42 mm, top 272.03 mm, right 112.57 mm, bottom 279.44 mm) reaches 279.44 mm, below the top of the plaque (left 26.00 mm, top 278.00 mm, right 184.00 mm, bottom 292.00 mm) at 278.00 mm: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-plaque-fit.test.ts:[2m457:11[22m[39m
+    [90m455| [39m            `the Sprout tab text of the teacher front lies inside its …
+    [90m456| [39m                `the plaque, with a tolerance of 0.1 mm: ${problems.jo…
+    [90m457| [39m        )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m458| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m459| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 10:48:25
+[2m   Duration [22m 8.28s[2m (transform 523ms, setup 155ms, import 785ms, tests 5.68s, environment 1.12s)[22m
+

@@ -1,0 +1,14 @@
+LABEL red_fit_lint
+NOTE eslint on the new Red test file; 0 errors expected
+COMMAND npx eslint __tests__/quest-cover-plaque-fit.test.ts
+CWD /home/daniebo/Desktop/Workbooks/dashboard
+EXIT 0
+DURATION_S 5.7
+--- output ---
+LABEL red_fit_tsc
+NOTE tsc --noEmit on the project; 0 errors expected
+COMMAND npx tsc --noEmit -p .
+CWD /home/daniebo/Desktop/Workbooks/dashboard
+EXIT 0
+DURATION_S 7.5
+--- output ---
