@@ -1,0 +1,44 @@
+Measure Green log: storytime_cover_options_20261106, Phase 2, Task (Green, cover print gate) = Task 2.9f, unit 1 print order.
+
+Role: measure-jr-green. Model: deepseek/deepseek-flash#high (the RA quota pick for Green).
+Red model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (another family; the Red commit is 5a4ac326).
+phase_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac (the Phase 2 base that the Phase 2 review, adversarial, and acceptance runs record).
+role_base_sha: 4e191249c417d3b4a2068e0cd4d1e1791afc23c1 (recorded at the start; this was HEAD).
+The Red commit 5a4ac326 sits inside phase_base_sha..HEAD (git merge-base --is-ancestor: yes).
+The Thai count of 6 files ran first: 5 files hold 0 Thai characters, and print-pdfx.test.ts holds 4 Thai characters on 1 line.
+The test file print-pdfx.test.ts was read only as a filtered copy in the scratch folder (1 line replaced by [line hidden]).
+Every capture passed through the Thai line filter; each run file holds 0 Thai lines.
+
+The change (2 files, 36 insertions, 8 deletions; no test file changes):
+1. `dashboard/lib/print/pdfx.ts`: `checkPdfx` takes the optional `textPages`. A full-page image page that sits in `textPages` is not reported as "became one image". With `sourcePageImages` the result stays as before. The JSDoc names the reason: a full-page art cover page with live text (the PM decision of 2026-11-10 17:50).
+2. `dashboard/scripts/print/make-pdfx.ts`: in `--check` mode the CLI reads `pdffonts -f N -l N` for each page N from `pdfinfo` Pages, computes the pages with at least 1 embedded font that is not Type 3 (`liveTextPages`), and passes `textPages` into `checkPdfx`. The convert path stays as before. The USAGE text and the comment note the new behavior only.
+
+One heavy-run (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400) ran the runner `/tmp/opencode/c29k/run_green.py`:
+(a) targeted Red command, `cd dashboard && CI=true npx vitest run __tests__/quest-cover-print-gate.test.ts --maxWorkers=1`: EXIT 0, Test Files 1 passed (1), Tests 5 passed (5), Duration 5.05 s. The G4 line: "G4: the print gate passes the 4 cover files on their own merit 3505ms". Run file green-gate-new.txt.
+(b) the print tests, 10 files: EXIT 0, Test Files 10 passed (10), Tests 313 passed (313), Duration 1733.12 s. Run file green-gate-green.txt.
+(c) `npx eslint lib/print scripts/print __tests__/quest-cover-print-gate.test.ts`: ESLINT_EXIT 0, no output; `npx tsc --noEmit -p .`: TSC_EXIT 0, no output. Run file green-gate-lint.txt.
+(d) the stand-alone PRINT_GATE on the 4 real cover files: EXIT 0 four times, "All checks pass." four times, no "became one image". The 4 SHA-256 values are unchanged: 920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d, d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37, 8ae118b644765eaeab537b503cab76bc7bb573d9dae6d3b4ed567c465dc5d6fa, 665c044f6e828e618fc4c488564d26c6e63ddaf3d61432b3dba8aebd7596bf1a. The gate only reads.
+The Thai byte rule held: no `pdftotext` ran on a cover PDF; only pdfinfo and pdffonts read them.
+
+Tasks flipped: Task (Green, cover print gate) from [~] to [x] with "commit 805a291". Task 2.9 stays [~], and the new sub-bullet "Part 1 check 1" records that check 1 of Task 2.9 is closed and the recorded deviation ends.
+Files added: measure/runs/storytime_cover_options_20261106/green-gate-new.txt, green-gate-green.txt, green-gate-lint.txt, and this log.
+Untouched: all test files, spec files, options/*.json, test-strategy.md, dashboard/lib/covers/back-text.ts, video/storytime-song/scripts/render.mjs, dashboard/raw.json. No push. No install.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P2
+task: T2.9f (Green, cover print gate)
+track: storytime_cover_options_20261106
+phase_base_sha: e6e2156ad000d89bb53f19857983299c622f82ac
+role_base_sha: 4e191249c417d3b4a2068e0cd4d1e1791afc23c1
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+head: ec70ec16 (implementation 805a2911 and plan evidence ec70ec16; this log is the third and last Green commit)
+status: complete
+commits: 805a2911 (lib/print/pdfx.ts and scripts/print/make-pdfx.ts), ec70ec16 (plan.md and the 3 run files), and the log commit (this file alone)
+files_changed: dashboard/lib/print/pdfx.ts, dashboard/scripts/print/make-pdfx.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/green-gate-new.txt, measure/runs/storytime_cover_options_20261106/green-gate-green.txt, measure/runs/storytime_cover_options_20261106/green-gate-lint.txt, measure/runs/storytime_cover_options_20261106/jr-green-gate-4e191249.log
+tests_run: (a) quest-cover-print-gate.test.ts EXIT 0, 5 passed; (b) 10 print test files EXIT 0, Test Files 10 passed (10), Tests 313 passed (313), 1733.12 s; (c) ESLINT_EXIT 0 and TSC_EXIT 0; (d) CLI --check EXIT 0 on r5-student, r5-teacher, a2-student, a2-teacher with "All checks pass." on each
+test_files_of_b: __tests__/print-pdfx.test.ts, __tests__/quest-cover-build.test.ts, __tests__/quest-cover-hlogo.test.ts, __tests__/quest-cover-logo-tone.test.ts, __tests__/quest-cover-print-gate.test.ts, __tests__/storytime-print-covers-16books-adversarial.test.ts, __tests__/storytime-print-covers-16books.test.ts, __tests__/storytime-print-step-system.test.ts, __tests__/storytime-print-student-book.test.ts, __tests__/storytime-print-teacher-book.test.ts
+plan_updates: the Green task is [x] with "commit 805a291"; one evidence sub-bullet holds the (a) to (d) summary lines, the 4 exit codes, and the 4 SHA-256 values; a new "Part 1 check 1" sub-bullet records that check 1 of Task 2.9 is closed and the recorded deviation ends; Task 2.9 stays [~]
+handoff: the review roles audit commit 805a2911 (2 files, 36 insertions, 8 deletions, no test change), the 3 run files, and the plan edits. The reviewers may re-run `npx tsx scripts/print/make-pdfx.ts FILE --check` on the 4 cover files (read only; the SHA-256 values must stay the same). A full-page art cover page with live text now passes the stand-alone gate; a flattened page with no font still fails it (G1 and G2 prove both). The next Phase 2 step is Task 2.10 (the page look) and the rest of Task 2.9.
+dispositions: none
+END_MEASURE_AGENT_RESULT
