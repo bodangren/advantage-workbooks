@@ -1,0 +1,54 @@
+# Green run log: the logo and tone r5 task (storytime_cover_options_20261106, Phase 2)
+
+- Role: jr-green. Continuation of the Green role after the first block (Type 3 font).
+- Model of this role: deepseek/deepseek-flash#high (ra-quota pick green).
+- Red model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (another family; independence holds).
+- phase_base_sha: `4964d4ed`. role_base_sha: `16056bee`. Continuation base: `b02c5f84`.
+- Red commits: `4559212c` (L1 to L3, C1 to C3, F1, V1 to V3) and `44a08b4e` (C3 amended, C4 added).
+- Green commits: `deb12edd` (the library and the 2 logo files) and `df4f0807` (the plan evidence and the 3 captures).
+- Block of the first round: `-webkit-text-stroke` makes Chrome write a Type 3 font. A probe print of
+  `Advantage` with the stroke gave a Type 3 font row; a plain print gave a CID TrueType row. The print
+  rule `dashboard/lib/print/pdfx.ts:166` refuses a Type 3 font, so 3 build tests fell.
+- PM decision of 2026-11-10 13:40 (word for word): "'Advantage', 'Student Book', and 'Teacher Book'
+  take the logo brown #92400E as live text with no edge. 'Storytime' stays brown and larger."
+- The module now holds no `text-stroke` and no `paint-order`.
+- Gates, one heavy-run (`HEAVY_PRIORITY=p1`): (a) `green-tone-new.txt`, 11 passed, EXIT 0, 9.45 s;
+  (b) `green-tone-green.txt`, 6 files and 297 tests passed, EXIT 0, 1310.15 s, including the 3 build
+  tests of lines 1763, 2135, and 2179; (c) `green-tone-lint.txt`, ESLINT EXIT 0 (1 known warning) and
+  TSC EXIT 0.
+- The task line stays `[~]`, because the r5 rebuild follows in the next role.
+- Thai check: 0 characters in the plan, the library, and the 5 test files (the first command of the round).
+- Tuned values: `PANEL_PAD_TOP_MM` 9 to 7.25; `CONTACT_LINES_TOP_MM` 215.5 to 215.0;
+  `PUBLISHER_MARK_TOP_MM` 250.5 to 251.5; the diamond half `#fcd34d` in lower case; a newline
+  between the 2 banner words.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: done
+phase: 2
+task: Task (Green, logo and tone r5)
+track: storytime_cover_options_20261106
+red_model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+red_commits: 4559212c 44a08b4e
+phase_base_sha: 4964d4ed
+role_base_sha: 16056bee
+continuation_base_sha: b02c5f84
+commits: deb12edd df4f0807
+dispositions: none
+handoff: |
+  Done. The task line stays [~]; the r5 rebuild follows in the next role (Task 2.9 part 1 r5).
+  Flipped to [x]: none. Flipped to [b]: none.
+  Commit 1 `deb12edd` changes dashboard/lib/storytime/print/cover-quest.ts and adds the 2 logo
+  files under content/storytime/covers/logos/. Commit 2 `df4f0807` holds the plan evidence and the
+  3 captures. Commit 3 holds this log alone.
+  The continuation base is `b02c5f84`. That base still held the text stroke, which the r2 Red rows C3
+  and C4 refuse, so the Green change of this round is the absence of the stroke and the new colors.
+  After the change the 3 target files give Test Files 3 passed, Tests 27 passed (11 + 10 + 6).
+  Gate (a): 11 passed, EXIT 0, 9.45 s. Gate (b): 6 files and 297 tests passed, EXIT 0, 1310.15 s,
+  with the 3 build tests of quest-cover-build.test.ts lines 1763, 2135, and 2179 passing. Gate (c):
+  ESLINT EXIT 0 (0 errors, the 1 known no-unused-vars warning on line 1706 of the template test) and
+  TSC EXIT 0.
+  New files: content/storytime/covers/logos/storytime-advantage.svg and reading-advantage.svg.
+  Measured millimetres and every tuned value sit in the plan evidence sub-bullet of `df4f0807`.
+  No test file changed. No push. Renders and print files are Task 2.9, not this task.
+END_MEASURE_AGENT_RESULT
