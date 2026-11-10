@@ -1,0 +1,66 @@
+# Jr Green log: A2 r2, the tighter logo tile (storytime_cover_options, Phase 2)
+
+- Date: 2026-11-11
+- Role: Measure Jr Green, model deepseek/deepseek-flash#high
+- role_base_sha: 007e19fc46136b249a3f92e1bf4522cfc2ae2d06 (HEAD, equals the given role_base_sha)
+- Red: model minimax-cn-coding-plan/MiniMax-M3.1-Flash, test commit `3f4d7f6b`, plan record `89e10eac`, log `007e19fc`
+- Thai filter first: `THAI_CHARS_IN_OUTPUT=0`
+
+## The state of the tree
+
+`git status --short` holds many untracked run files of other tracks. None of them is mine.
+The HEAD at the start is 007e19fc. The Red test commit 3f4d7f6b sits inside `phase_base_sha..HEAD`.
+
+## The change (one file, not committed)
+
+File: `dashboard/lib/storytime/print/cover-quest.ts`.
+
+- `student-front:logo-tile`: `leftMm` 21.4, `widthMm` 167.2, top 12 and height 54 stay.
+- `teacher-front:logo-tile`: `leftMm` 21.4, `widthMm` 167.2, top 12 and height 54 stay.
+- `student-back:logo-tile`: `leftMm` 49.7, `widthMm` 110.6, top 7 and height 36 stay.
+- `teacher-back:logo-tile`: `leftMm` 49.7, `widthMm` 110.6, top 7 and height 36 stay.
+- The comment block above `QUEST_BOXES` names the new values and the 80 % rule.
+- `logoTile()` does not change.
+- `git diff --stat` gives 1 file, 8 insertions and 6 deletions. The changed line count is 14.
+
+## The gates (one heavy-run each, p1)
+
+1. tests, `CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1`: exit 0. 8 files and 311 tests pass. `quest-cover-hlogo.test.ts` passes its 9 tests: A1 to A9. A2 keeps the 4 r5 pins. A9 keeps the 4 rest pins.
+2. lint, `npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts`: exit 0. One warning sits in `__tests__/quest-cover-template.test.ts` and is not mine.
+3. checks, `npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit`: exit 2. `check-weeks` passes: 8 packages, 0 failed checks, 1 warning. `tsc` fails on one error in the committed Red test file.
+4. `git status --porcelain pnpm-lock.yaml` prints nothing.
+
+Captures: `green-hlogo-r2-tests.txt`, `green-hlogo-r2-lint.txt`, `green-hlogo-r2-checks.txt`.
+
+## The block
+
+The exact error:
+
+```
+__tests__/quest-cover-hlogo.test.ts(442,25): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'string | RegExp'.
+      Type 'undefined' is not assignable to type 'string | RegExp'.
+```
+
+The line is `return html.replace(matches[0], '');` in the helper `withoutLogoTile`. TypeScript types `matches[0]` as `string | undefined`.
+
+The file `__tests__/quest-cover-hlogo.test.ts` is a committed Red test of commit 3f4d7f6b. My write scope holds no test file. I do not edit it.
+The r1 Green ran `npx tsc --noEmit -p .` with `TSC_EXIT=0` (see `jr-green-hlogo-bbf6f66c.log`). The Red r2 test edit of 137 lines introduced the error.
+A Mid Red retry must repair the type in the test, for example `html.replace(matches[0] ?? '', '')`.
+
+No test file changed. No pin changed. The candidate fix stays in the worktree, uncommitted.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 007e19fc46136b249a3f92e1bf4522cfc2ae2d06
+commits: this log only; the implementation and the 3 captures stay uncommitted
+tests_run: tests exit 0 (8 files, 311 tests pass; quest-cover-hlogo A1 to A9 pass); lint exit 0 (1 unrelated warning); checks exit 2 (check-weeks passes, tsc fails on the Red test)
+files_changed: dashboard/lib/storytime/print/cover-quest.ts (uncommitted); measure/runs/storytime_cover_options_20261106/green-hlogo-r2-tests.txt, green-hlogo-r2-lint.txt, green-hlogo-r2-checks.txt (uncommitted, untracked); this log
+plan_updates: none; the Green A2 r2 line stays [ ]
+known_failures: dashboard/__tests__/quest-cover-hlogo.test.ts(442,25) error TS2769, `matches[0]` is `string | undefined` in `withoutLogoTile`
+handoff: the 4 box values of cover-quest.ts are fronts leftMm 21.4 widthMm 167.2 (top 12, height 54) and backs leftMm 49.7 widthMm 110.6 (top 7, height 36); both stay centered at 105 mm; the build role needs nothing else. But first a Mid Red retry must repair the type error in the committed Red test `__tests__/quest-cover-hlogo.test.ts` line 442: `html.replace(matches[0], '')` takes a `string | undefined`; use `matches[0] ?? ''` or a non-null assertion. Do not change a pin. Then Green reruns the 3 gates.
+END_MEASURE_AGENT_RESULT
