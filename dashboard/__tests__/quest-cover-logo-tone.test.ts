@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 /**
  * Red of the logo and the tone of the r5 covers (track storytime_cover_options_20261106, Phase 2,
- * the Task (Red, logo and tone r5) pair of 2026-11-10).
+ * the Task (Red, logo and tone r5) pair of 2026-11-10, the r2 retry).
  *
  * The owner words (Daniel, the look note on the r4 covers, Google Tasks U0ZLNVU2bHdsMGhYTmtJcQ,
  * 2026-11-10 12:24, relayed by the PM, word for word): "story Time logo not present the name of
@@ -17,14 +17,23 @@
  *       content/storytime/covers/logos/reading-advantage.svg, SHA-256
  *       6606fec623b7d3efa9404531ca2b9d0e94b51adcdff473d9ead7e431bc7a8b52.
  *   (2) Every banner, plaque, and frame takes the logo colors: the tile amber #fcd34d and the
- *       mark brown #92400e. The "Storytime" text is brown #92400e. The "Advantage" text is white
- *       with a brown edge. No blue chrome stays.
+ *       mark brown #92400e. The "Storytime" text is brown #92400e. The "Advantage" text is brown
+ *       #92400e as live text, with no text stroke. The front plaque book line is brown #92400e as
+ *       live text, with no text stroke. No blue chrome stays.
  *   (3) The title text block fills 80 % or more of the inner band of the front title banner, the
  *       front plaque, and the back title banner.
  *   (4) Every text block is centered in its chrome, and the gap difference is 1 mm or less. The
  *       back panel block and the contact text next to the QR stand in the same rule.
  *   (5) The reader covers do not change in this run. The front plaque takes the amber on every
  *       level. The reader A3 keeps its level colour.
+ *
+ * The reason of the r2 contract (the Green finding of 2026-11-10, proved by a print probe): Chrome
+ * writes text with -webkit-text-stroke as a Type 3 font, and the print rule refuses a Type 3 font
+ * (dashboard/lib/print/pdfx.ts, the lines 166 and 167). So 3 tests of quest-cover-build.test.ts fail
+ * and no print file can pass. A vector edge needs a font library that is not installed.
+ *
+ * The orchestrator decision of 2026-11-10 13:35 (sent to the PM): "Advantage" and the front plaque
+ * book line take the logo brown #92400E as live text with no text stroke.
  *
  * The contract of this file:
  *   L1: The 2 logo files sit in content/storytime/covers/logos/ with the approved SHA-256 values.
@@ -39,7 +48,11 @@
  *   C2: The band of every series banner and of every front plaque is amber. The 2 front plaques
  *       carry data-plaque-colour "#FCD34D".
  *   C3: The series name takes the logo colors in every series banner, the front plaque takes the
- *       brown, and the panel headings of the student back take the brown.
+ *       brown, and the panel headings of the student back take the brown. The "Advantage" word of
+ *       every series banner and the book line of every front plaque take the brown as live text.
+ *   C4: No element inside any chrome part, and none of the level line, the book line, and the
+ *       plaque separator, carries a text stroke. Chrome writes a stroked text as a Type 3 font,
+ *       and the print rule refuses a Type 3 font.
  *   F1: The title text fills 80 % or more of its band, lies inside the band, and touches no
  *       ornament.
  *   V1: Every title text block is centered in its band, vertically and horizontally.
@@ -94,9 +107,6 @@ const AMBER = '#fcd34d';
 
 /** The brown of the logo mark. */
 const BROWN = '#92400e';
-
-/** The white of the logo text. */
-const WHITE = '#ffffff';
 
 /** The SHA-256 of the Storytime Advantage logo. */
 const SHA_STORYTIME_LOGO = '66175fba578501796664f8a0d2d95db5fc2a1bcc3b818bec19481f847d052fb8';
@@ -188,8 +198,18 @@ interface RawTextStyle {
 interface RawWord {
     /** The word. */
     word: string;
+    /** The index of the series banner that holds the word. */
+    banner: number;
     /** The styles of the element, or null when the page holds no such element. */
     style: RawTextStyle | null;
+}
+
+/** One element that carries a text stroke. */
+interface RawStroke {
+    /** The name of the element. */
+    who: string;
+    /** The computed webkit text stroke width, in pixels. */
+    width: number;
 }
 
 /** One marked element of the frame, with its text styles. */
@@ -250,6 +270,10 @@ interface RawKind {
     words: RawWord[];
     /** The marked elements of the frame. */
     marks: RawMark[];
+    /** The chrome elements that carry a text stroke. */
+    chromeStrokes: RawStroke[];
+    /** The level line, the book line, and the plaque separator that carry a text stroke. */
+    lineStrokes: RawStroke[];
 }
 
 /** The temporary folders of the renders. */
@@ -580,6 +604,16 @@ async function measureKind(kind: Kind): Promise<RawKind> {
                 };
             };
             /**
+             * Reads the computed webkit text stroke width of one element.
+             * @param element The element.
+             * @returns The width, in pixels.
+             */
+            const strokeWidthOf = (element: Element): number => {
+                const style = window.getComputedStyle(element);
+                const width = Number.parseFloat(style.webkitTextStrokeWidth);
+                return Number.isFinite(width) ? width : 0;
+            };
+            /**
              * Finds the element that holds one word alone.
              * @param root The element.
              * @param word The word.
@@ -711,19 +745,39 @@ async function measureKind(kind: Kind): Promise<RawKind> {
                 contactTexts.push(...textBoxes(line));
             }
             const words: RawWord[] = [];
-            for (const banner of Array.from(document.querySelectorAll('[data-part="series-banner"]'))) {
+            const banners = Array.from(document.querySelectorAll('[data-part="series-banner"]'));
+            banners.forEach((banner, bannerIndex) => {
                 for (const word of WORDS) {
                     const element = wordElement(banner, word);
-                    words.push({ word, style: element ? styleOf(element) : null });
+                    words.push({ word, banner: bannerIndex, style: element ? styleOf(element) : null });
                 }
-            }
+            });
             const marks: RawMark[] = [];
             for (const part of MARK_PARTS) {
                 for (const element of Array.from(document.querySelectorAll(`[data-part="${part}"]`))) {
                     marks.push({ part, style: styleOf(element) });
                 }
             }
-            return { parts, rects, panel, fields, contactTexts, words, marks };
+            const chromeStrokes: RawStroke[] = [];
+            for (const name of CHROME_PARTS) {
+                const element = document.querySelector(`[data-part="${name}"]`);
+                if (!element) continue;
+                for (const target of [element, ...Array.from(element.querySelectorAll('*'))]) {
+                    const width = strokeWidthOf(target);
+                    if (width > 0) {
+                        const who = target.getAttribute('data-part') ?? target.tagName.toLowerCase();
+                        chromeStrokes.push({ who: `${name} > ${who}`, width });
+                    }
+                }
+            }
+            const lineStrokes: RawStroke[] = [];
+            for (const part of ['level-line', 'book-line', 'plaque-sep']) {
+                for (const element of Array.from(document.querySelectorAll(`[data-part="${part}"]`))) {
+                    const width = strokeWidthOf(element);
+                    if (width > 0) lineStrokes.push({ who: part, width });
+                }
+            }
+            return { parts, rects, panel, fields, contactTexts, words, marks, chromeStrokes, lineStrokes };
         });
         measurements.set(kind, raw);
         return raw;
@@ -778,7 +832,7 @@ afterAll(async () => {
     }
 });
 
-describe('quest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)', () => {
+describe('quest-cover-logo-tone: L1 to L3, C1 to C4, F1, V1 to V3 (Red, logo and tone r5, retry r2)', () => {
     it('L1: the 2 logo files sit in the logo folder with the approved hashes', () => {
         for (const [file, hash] of [
             [storytimeLogoFile, SHA_STORYTIME_LOGO],
@@ -937,17 +991,24 @@ describe('quest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and
     it('C3: the series name, the front plaque, and the panel headings take the logo colors', async () => {
         for (const kind of KINDS) {
             const raw = await measureKind(kind);
-            const storytime = raw.words.find((entry) => entry.word === 'Storytime');
-            expect(storytime?.style, `the series banner of the ${kind} holds the word Storytime.`).not.toBeNull();
-            expect(toHex(storytime!.style!.color), `the Storytime color of the ${kind}.`).toBe(BROWN);
-            const advantage = raw.words.find((entry) => entry.word === 'Advantage');
-            expect(advantage?.style, `the series banner of the ${kind} holds the word Advantage.`).not.toBeNull();
-            expect(toHex(advantage!.style!.color), `the Advantage color of the ${kind}.`).toBe(WHITE);
-            expect(
-                Number.parseFloat(advantage!.style!.strokeWidth),
-                `the Advantage text stroke width of the ${kind} is over 0 px.`,
-            ).toBeGreaterThan(0);
-            expect(toHex(advantage!.style!.strokeColor), `the Advantage text stroke color of the ${kind}.`).toBe(BROWN);
+            const storytime = raw.words.filter((entry) => entry.word === 'Storytime');
+            expect(storytime.length, `the series banner of the ${kind} holds the word Storytime.`).toBeGreaterThan(0);
+            for (const word of storytime) {
+                expect(word.style, `the word Storytime of the ${kind} series banner ${word.banner}.`).not.toBeNull();
+                expect(
+                    toHex(word.style!.color),
+                    `the Storytime color of the ${kind} series banner ${word.banner}.`,
+                ).toBe(BROWN);
+            }
+            const advantage = raw.words.filter((entry) => entry.word === 'Advantage');
+            expect(advantage.length, `the series banner of the ${kind} holds the word Advantage.`).toBeGreaterThan(0);
+            for (const word of advantage) {
+                expect(word.style, `the word Advantage of the ${kind} series banner ${word.banner}.`).not.toBeNull();
+                expect(
+                    toHex(word.style!.color),
+                    `the Advantage color of the ${kind} series banner ${word.banner}.`,
+                ).toBe(BROWN);
+            }
         }
         for (const kind of KINDS_FRONT) {
             const raw = await measureKind(kind);
@@ -956,18 +1017,29 @@ describe('quest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and
             expect(toHex(level!.style.color), `the level line color of the ${kind}.`).toBe(BROWN);
             const book = raw.marks.find((mark) => mark.part === 'book-line');
             expect(book, `the front plaque of the ${kind} holds the book line.`).toBeDefined();
-            const color = toHex(book!.style.color);
-            const stroke = toHex(book!.style.strokeColor);
-            expect(
-                color === BROWN || (color === WHITE && stroke === BROWN),
-                `the book line color of the ${kind} is ${color} with the stroke ${stroke}.`,
-            ).toBe(true);
+            expect(toHex(book!.style.color), `the book line color of the ${kind}.`).toBe(BROWN);
         }
         const student = await measureKind('student-back');
         const headings = student.marks.filter((mark) => mark.part === 'panel-heading');
         expect(headings.length, 'the student back holds 5 panel headings.').toBe(5);
         for (const heading of headings) {
             expect(toHex(heading.style.color), 'the panel heading color of the student back.').toBe(BROWN);
+        }
+    }, 300_000);
+
+    it('C4: no chrome text carries a text stroke', async () => {
+        for (const kind of KINDS) {
+            const raw = await measureKind(kind);
+            expect(
+                raw.chromeStrokes.length,
+                `no element of the chrome of the ${kind} carries a text stroke: ` +
+                    summarise(raw.chromeStrokes.map((one) => `${one.who} ${one.width}px`)),
+            ).toBe(0);
+            expect(
+                raw.lineStrokes.length,
+                `the level line, the book line, and the plaque separator of the ${kind} carry no text stroke: ` +
+                    summarise(raw.lineStrokes.map((one) => `${one.who} ${one.width}px`)),
+            ).toBe(0);
         }
     }, 300_000);
 
