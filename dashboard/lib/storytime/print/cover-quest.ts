@@ -65,18 +65,19 @@ export interface QuestBox {
 /**
  * Every text or face part of every kind, keyed `<kind>:<part>` (pin P3, spec D-A5). The art part is
  * exempt: it covers the page. Every box lies 5 mm inside the trim at bleed 0, and the render moves
- * it by the bleed value (T09).
+ * it by the bleed value (T09). Round 3 of 2026-11-10: the student front and the teacher front hold
+ * no game bar, so they hold no game bar box. The reader A3 cover keeps its game bar box. The title
+ * plaque of both fronts is 14 mm high and stands at 278 mm to 292 mm from the top edge, clear of
+ * the dog of the student front art.
  */
 export const QUEST_BOXES: Record<string, QuestBox> = {
-    'student-front:game-bar': { kind: 'student-front', leftMm: 12, topMm: 9, widthMm: 186, heightMm: 15 },
     'student-front:crest': { kind: 'student-front', leftMm: 91, topMm: 28, widthMm: 28, heightMm: 28 },
     'student-front:series-banner': { kind: 'student-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
-    'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 239, widthMm: 158, heightMm: 40 },
-    'teacher-front:game-bar': { kind: 'teacher-front', leftMm: 12, topMm: 9, widthMm: 186, heightMm: 15 },
+    'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
     'teacher-front:crest': { kind: 'teacher-front', leftMm: 91, topMm: 28, widthMm: 28, heightMm: 28 },
     'teacher-front:series-banner': { kind: 'teacher-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
-    'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 239, widthMm: 158, heightMm: 40 },
-    'teacher-front:band-pill': { kind: 'teacher-front', leftMm: 83, topMm: 232.5, widthMm: 44, heightMm: 9 },
+    'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
+    'teacher-front:band-pill': { kind: 'teacher-front', leftMm: 83, topMm: 271.5, widthMm: 44, heightMm: 9 },
     'student-back:logo-box': { kind: 'student-back', leftMm: 10, topMm: 9, widthMm: 34, heightMm: 34 },
     'student-back:series-banner': { kind: 'student-back', leftMm: 52, topMm: 14, widthMm: 146, heightMm: 22 },
     'student-back:panel': { kind: 'student-back', leftMm: 12, topMm: 48, widthMm: 186, heightMm: 142 },
@@ -760,12 +761,16 @@ export function checkQuestArt(input: {
 
 /**
  * The lit band check of one page (spec FR-6.4, T04): exactly one band icon carries
- * `data-lit="true"`, and it is the band of the book.
+ * `data-lit="true"`, and it is the band of the book. Round 3 of 2026-11-10: the student front and
+ * the teacher front hold no game bar, so they hold no band icon. A page with no game bar passes
+ * this check: it has no band icon to light, and the teacher front shows its band on the band pill.
+ * A page with a game bar is checked as before, so a reader A3 cover with no lit icon still fails.
  * @param html The rendered page.
  * @param band The band of the book.
  * @returns The errors.
  */
 export function checkQuestLitBand(html: string, band: string): string[] {
+    if (!html.includes('data-part="game-bar"')) return [];
     const tags = html.match(/<[^>]*data-part="band-icon"[^>]*>/g) ?? [];
     const lit = tags.filter((tag) => /data-lit="true"/.test(tag));
     if (lit.length !== 1) return [`the page lights ${lit.length} band icons (exactly one)`];
@@ -863,15 +868,18 @@ function bandGlyph(band: string, x: number, y: number, size: number, fill: strin
  * @param width The width.
  * @param height The height.
  * @param fill The centre fill.
+ * @param compact When true, scales the corner bevel with the height and sets the diamond end
+ * ornaments inside the box, for the thin 14 mm plaque of the fronts (round 3 of 2026-11-10).
  * @returns The SVG.
  */
-function plaqueSvg(width: number, height: number, fill: string): string {
-    const c = 6;
+function plaqueSvg(width: number, height: number, fill: string, compact = false): string {
+    const c = compact ? Math.min(6, height * 0.15) : 6;
     const shape = (i: number): string =>
         `M${f2(i)} ${f2(c + i)} L${f2(c + i)} ${f2(i)} L${f2(width - c - i)} ${f2(i)} L${f2(width - i)} ${f2(c + i)} ` +
         `L${f2(width - i)} ${f2(height - c - i)} L${f2(width - c - i)} ${f2(height - i)} L${f2(c + i)} ${f2(height - i)} ` +
         `L${f2(i)} ${f2(height - c - i)}Z`;
     const s = Math.min(9, height / 3);
+    const inset = compact ? s * 1.6 + 1.2 : 0;
     const crystal = (cx: number, flip: number): string =>
         `<g transform="translate(${f2(cx)} ${f2(height / 2)}) scale(${String(flip)} 1)">` +
         `<path d="M${f2(s * 0.4)} ${f2(-s * 0.45)} L${f2(s * 1.6)} -1 L${f2(s)} 0 L${f2(s * 1.6)} 1 L${f2(s * 0.4)} ${f2(s * 0.45)}" fill="#DCE9F8" stroke="#7F9BC0" stroke-width="0.4"/>` +
@@ -883,14 +891,15 @@ function plaqueSvg(width: number, height: number, fill: string): string {
         `<path d="${shape(1.8)}" fill="${A.deep}"/>` +
         `<path d="${shape(2.8)}" fill="${fill}"/>` +
         `<path d="M${f2(c + 3)} 3.6 L${f2(width - c - 3)} 3.6" stroke="#5A9AD6" stroke-width="0.6"/>` +
-        `${crystal(0, -1)}${crystal(width, 1)}</svg>`
+        `${crystal(inset, -1)}${crystal(width - inset, 1)}</svg>`
     );
 }
 
 /**
  * Draws the game bar of the option A frame (`options/build.py`, `a_hud`): the 5 band slots, the
  * unit track, the book mark, and the star. The unit bar of a book side holds 4 parts with
- * `data-filled`; a reader side holds no unit bar.
+ * `data-filled`; a reader side holds no unit bar. Round 3 of 2026-11-10: the reader A3 cover alone
+ * calls this function, so `unit` is null and no unit bar renders. The 2 fronts hold no game bar.
  * @param kind The cover kind.
  * @param litBand The band of the book.
  * @param unit The unit of the book, or null for a reader side.
@@ -1011,7 +1020,9 @@ function bandPill(litBand: string, bleedMm: number): string {
 
 /**
  * Draws the title plaque of a front side (`options/build.py`, `a_front`): the plaque in the level
- * colour, the level line, and the book line.
+ * colour, the level line, and the book line. Round 3 of 2026-11-10: the plaque is 14 mm high, so
+ * the level line is set to 7 mm and the book line to 4.2 mm, at a line height of 1.05, and the
+ * frame parts are compact. Both lines then fit inside the box.
  * @param kind The cover kind.
  * @param book The book row.
  * @param bleedMm The bleed.
@@ -1020,14 +1031,14 @@ function bandPill(litBand: string, bleedMm: number): string {
 function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: number): string {
     const box = boxOf(kind, 'title-plaque');
     const colour = STORYTIME_LEVEL_COLOURS[book.level] ?? A.blue;
-    const top = kind === 'teacher-front' ? 8 : 7;
     const bookLine = kind === 'teacher-front' ? 'Teacher Book' : 'Student Book';
     return (
         `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(box, bleedMm)}">` +
-        plaqueSvg(box.widthMm, box.heightMm, colour) +
-        `<div class="quest-c" style="position:absolute;left:0;top:${mm(top)};width:${mm(box.widthMm)};color:#fff;line-height:1">` +
-        `<div data-part="level-line" style="font-family:'League Spartan';font-weight:700;font-size:29pt">Level ${String(book.level)} · Unit ${String(book.unit)}</div>\n` +
-        `<div data-part="book-line" style="font-weight:700;font-size:15pt;margin-top:2mm;color:#FFE7A3">${esc(bookLine)}</div>` +
+        plaqueSvg(box.widthMm, box.heightMm, colour, true) +
+        `<div class="quest-c" style="position:absolute;left:0;top:0;width:${mm(box.widthMm)};height:${mm(box.heightMm)};` +
+        `color:#fff;display:flex;flex-direction:column;justify-content:center;line-height:1.05">` +
+        `<div data-part="level-line" style="font-family:'League Spartan';font-weight:700;font-size:7mm">Level ${String(book.level)} · Unit ${String(book.unit)}</div>\n` +
+        `<div data-part="book-line" style="font-weight:700;font-size:4.2mm;margin-top:0.4mm;color:#FFE7A3">${esc(bookLine)}</div>` +
         `</div></div>`
     );
 }
@@ -1180,7 +1191,9 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 }
 
 /**
- * Builds the body of a front side (`options/build.py`, `a_front`).
+ * Builds the body of a front side (`options/build.py`, `a_front`). The fronts hold no game bar
+ * (round 3 of 2026-11-10): the crest, the series banner, the teacher band pill, and the title
+ * plaque are the only frame parts.
  * @param kind The cover kind.
  * @param book The book row.
  * @param assets The assets.
@@ -1190,7 +1203,6 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 function frontBody(kind: QuestCoverKind, book: QuestBookRow, assets: QuestRenderAssets, bleedMm: number): string {
     const parts = [
         artLayer(kind, assets, bleedMm),
-        gameBar(kind, book.litBand, book.unit, bleedMm),
         crest(kind, bleedMm),
         seriesBanner(kind, 'front', bleedMm),
     ];
