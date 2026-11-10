@@ -1,0 +1,45 @@
+Mid Red log of the A2 r2 change of the cover track, 2026-11-11.
+
+The role is measure-mid-red. The model is minimax-cn-coding-plan/MiniMax-M3.1-Flash. The track is
+storytime_cover_options_20261106, Phase 2. The role base is 82568758.
+
+The PM look check of 2026-11-11 named one rule that the A2 variant fails: the logo in the top tile
+fills about 50 % of the tile width on the back of both books, and about 75 % on the front. The order
+is alt-hlogo r2: the logo fills about 80 % of its tile on the front and on the back, centered in the
+tile both ways, and the r5 variant, the bottom plaques, and all text stay. The orchestrator decision
+of the same day keeps the logo size, the tile top, and the tile height, and makes the tile narrower.
+
+The Thai filter ran first. It printed THAI_CHARS_IN_OUTPUT=0, and every later command that printed
+test output dropped the Thai lines first. No week file was read by hand.
+
+The test file `dashboard/__tests__/quest-cover-hlogo.test.ts` holds the tests A1 to A9. A4 replaces
+the tile width band with the tile top, the tile height, and the inner tile aspect. A6 adds the inner
+tile width share of 78 % to 82 % and narrows the inner height share to the same band. A9 is new: it
+hashes the hlogo render of each kind with the one logo tile element cut out, so the plaques and all
+text stay. The 4 A9 pins came from the role base with the same cut method.
+
+One defect and its fix: my first edit moved the A4 aspect check to the end of A4 and left the file
+with no aspect assertion, so A4 passed on the current code; the orchestrator found it in the
+uncommitted diff, and I inserted the aspect assertion after the kept-boxes loop, so A4 fails on the
+aspect again.
+
+The gate ran in one heavy-run wrapper and the capture is
+`measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt`. The run exits 1, with 2 failed and
+7 passed tests of 9. A4 fails on the inner tile aspect: 3.2348 on the 2 fronts and 4.9080 on the 2
+backs, against the rule of 3.144 within 1 %. A6 fails on the inner tile width share: 0.7769 on the 2
+fronts and 0.5120 on the 2 backs, against the rule of 78 % to 82 %. A1, A2, A3, A5, A7, A8, and A9
+pass. The lint of the one file exits 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 825687589f3ea5d87ea430fde1a49c913e35afe4
+commits: 3f4d7f6b, 89e10eac
+tests_run: the gate `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1` in one heavy-run (`HEAVY_PRIORITY=p1`, `HEAVY_MIN_AVAIL_MB=1500`, `HEAVY_PREFLIGHT_WAIT_S=5400`), exit 1, `Test Files  1 failed (1)`, `Tests  2 failed | 7 passed (9)`, 7.35 s; A4 fails on the inner tile aspect (student-front 3.2348, teacher-front 3.2348, student-back 4.9080, teacher-back 4.9080) and A6 fails on the inner tile width share (student-front 0.7769, teacher-front 0.7769, student-back 0.5120, teacher-back 0.5120); A1, A2, A3, A5, A7, A8, and A9 pass; the lint `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-hlogo.test.ts` exits 0 with 0 errors
+files_changed: dashboard/__tests__/quest-cover-hlogo.test.ts, measure/runs/storytime_cover_options_20261106/red-hlogo-r2.txt, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/mid-red-hlogo-r2-82568758.log
+plan_updates: one Red A2 r2 task line [x] with its evidence line, and one Green A2 r2 task line [ ]
+known_failures: A4 and A6 fail by design until Green
+handoff: the expected Green values are the fronts 167.2 mm wide at left 21.4 mm and the backs 110.6 mm wide at left 49.7 mm, each value (inner height x 3.144) + 1.2 mm, centered at 105 mm, with the tile top and the tile height unchanged (12 mm and 54 mm on the 2 fronts, 7 mm and 36 mm on the 2 backs); A4 then gives the inner aspect 3.144 and A6 gives the inner width share 0.80 on the 4 kinds; the A9 cut method is the open tag `<div data-part="logo-tile"` up to the first `</div>` after it, and the 4 pins are student-front 36d05fe67745f2be15174b5b9775e078e6140df53140ac8c5f2f38708063a4a5, teacher-front 57af1f5b57223e767b7f9810e71ef373fd5e6876457c00dce3e98e662886596f, student-back 1ad46398121731360f98a84bc0470683ec877848a9dc47d86e2a673a198d0f2e, teacher-back e552bed9a86de2ee3eb0662b0d70acf2394fa5c081988f32579e46844f91f22a; Green changes the 4 `logo-tile` boxes of `dashboard/lib/storytime/print/cover-quest.ts` only, keeps the r5 render, the plaques, and all text, and changes no test file; the A9 pins hold only while the rest of the hlogo render stays byte-equal, so a Green that touches any other part fails A9
+END_MEASURE_AGENT_RESULT
