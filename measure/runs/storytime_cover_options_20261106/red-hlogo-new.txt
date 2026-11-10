@@ -1,0 +1,107 @@
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/quest-cover-hlogo.test.ts (8 tests | 5 failed) 9178ms
+     × A1: the horizontal logo file sits in the logo folder with the approved hash 16ms
+     ✓ A2: the default render of each kind is byte equal to the r5 pin  381ms
+     × A3: with the top style hlogo, the logo tile is the only top chrome 156ms
+     × A4: the box table holds the tile of the 4 kinds and the kept boxes do not change 1ms
+     ✓ A5: the kept parts hold the same HTML in the hlogo render and in the default render  749ms
+     × A6: the logo sits centered in its tile and the tile takes the amber and the brown 1593ms
+     ✓ A7: the PDF of the student front and of the student back holds no Type 3 font  2043ms
+     × A8: the build takes the flag --top 4ms
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 3 passed (8)
+   Start at  15:09:53
+   Duration  18.37s (transform 698ms, setup 343ms, import 5.06s, tests 9.18s, environment 3.31s)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/quest-cover-hlogo.test.ts > quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo) > A1: the horizontal logo file sits in the logo folder with the approved hash
+AssertionError: the horizontal logo file sits in content/storytime/covers/logos/.: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ __tests__/quest-cover-hlogo.test.ts:520:11
+    518|             fs.existsSync(horizontalLogoFile),
+    519|             'the horizontal logo file sits in content/storytime/covers…
+    520|         ).toBe(true);
+       |           ^
+    521|         expect(hashOfFile(horizontalLogoFile), 'the SHA-256 of the hor…
+    522|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  __tests__/quest-cover-hlogo.test.ts > quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo) > A3: with the top style hlogo, the logo tile is the only top chrome
+AssertionError: student-front holds no series banner.: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ __tests__/quest-cover-hlogo.test.ts:536:115
+    534|         for (const kind of KINDS) {
+    535|             const doc = parseHtml(renderKind(kind, HLOGO_OPTIONS));
+    536|             expect(doc.querySelectorAll('[data-part="series-banner"]')…
+       |                                                                                                                   ^
+    537|             if (kind === 'student-front' || kind === 'teacher-front') {
+    538|                 expect(doc.querySelectorAll('[data-part="series-logo"]…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  __tests__/quest-cover-hlogo.test.ts > quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo) > A4: the box table holds the tile of the 4 kinds and the kept boxes do not change
+AssertionError: the box table holds student-front:logo-tile.: expected undefined to be defined
+ ❯ __tests__/quest-cover-hlogo.test.ts:569:68
+    567|         for (const kind of KINDS) {
+    568|             const tile = QUEST_BOXES[`${kind}:logo-tile`];
+    569|             expect(tile, `the box table holds ${kind}:logo-tile.`).toB…
+       |                                                                    ^
+    570|             expect(tile!.widthMm, `${kind} logo tile width is 168 mm t…
+    571|                 MIN_TILE_WIDTH_MM,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  __tests__/quest-cover-hlogo.test.ts > quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo) > A6: the logo sits centered in its tile and the tile takes the amber and the brown
+AssertionError: the student-front holds a logo tile.: expected null not to be null
+ ❯ __tests__/quest-cover-hlogo.test.ts:632:63
+    630|         for (const kind of KINDS) {
+    631|             const raw = await measureTile(kind);
+    632|             expect(raw, `the ${kind} holds a logo tile.`).not.toBeNull…
+       |                                                               ^
+    633|             const tile = raw!;
+    634|             const box = toMm(tile.rect);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  __tests__/quest-cover-hlogo.test.ts > quest-cover-hlogo: A1 to A8 (Red, the alternate A2 with the horizontal logo) > A8: the build takes the flag --top
+AssertionError: the flag --top hlogo holds no error.: expected [ …(4) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "The flag \"--top\" is not a flag of the build.",
++   "The flag \"hlogo\" is not a flag of the build.",
++   "The flag --level is missing.",
++   "The flag --unit is missing.",
++ ]
+
+ ❯ __tests__/quest-cover-hlogo.test.ts:701:72
+    699|     it('A8: the build takes the flag --top', () => {
+    700|         const withTop = parseQuestArgs(['--top', 'hlogo']);
+    701|         expect(withTop.errors, 'the flag --top hlogo holds no error.')…
+       |                                                                        ^
+    702|         const args = withTop.args as TopArgs | null;
+    703|         expect(args, 'the flag --top hlogo parses.').not.toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
