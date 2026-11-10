@@ -1,0 +1,21 @@
+STEP: c: the lint of the 4 files and the project type check
+COMMAND: npx eslint __tests__/quest-cover-logo-tone.test.ts __tests__/quest-cover-template.test.ts __tests__/quest-cover-frame-r3.test.ts __tests__/quest-cover-plaque-fit.test.ts
+EXIT: 0
+---- OUTPUT ----
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1706:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+
+---- END OUTPUT ----
+COMMAND: npx tsc --noEmit -p .
+EXIT: 0
+---- OUTPUT ----
+
+
+---- END OUTPUT ----
+GATE_EXITS: [0, 0]
+GATE_SECONDS: 17.4

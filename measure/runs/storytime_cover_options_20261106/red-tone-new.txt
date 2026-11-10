@@ -1,0 +1,188 @@
+STEP: a: the new Red file of the logo and tone r5
+COMMAND: npx vitest run __tests__/quest-cover-logo-tone.test.ts --maxWorkers=1
+EXIT: 1
+---- OUTPUT ----
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[33m 8340[2mms[22m[39m
+[31m     [31m×[31m L1: the 2 logo files sit in the logo folder with the approved hashes[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m L2: each front holds the Storytime logo and no crest[39m[32m 114[2mms[22m[39m
+[31m     [31m×[31m L3: each back holds the Storytime logo in the logo box and the RA logo as the publisher mark[39m[33m 390[2mms[22m[39m
+[31m     [31m×[31m C1: every color of every chrome part is in the logo palette[39m[33m 1401[2mms[22m[39m
+[31m     [31m×[31m C2: every series banner and every front plaque takes the amber band[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m C3: the series name, the front plaque, and the panel headings take the logo colors[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m F1: the title text fills 80 % or more of its band and stays inside it[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m V1: every title text block is centered in its band[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m V2: the panel block of the student back is centered in the panel[39m[33m 537[2mms[22m[39m
+[31m     [31m×[31m V3: the contact block of both backs is centered in the sign and stands left of the QR[39m[32m 1[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m10 failed[39m[22m[90m (10)[39m
+[2m   Start at [22m 12:50:00
+[2m   Duration [22m 11.26s[2m (transform 537ms, setup 166ms, import 860ms, tests 8.34s, environment 1.51s)[22m
+
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 10 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mL1: the 2 logo files sit in the logo folder with the approved hashes
+[31m[1mAssertionError[22m: the logo file storytime-advantage.svg sits in content/storytime/covers/logos/.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m790:15[22m[39m
+    [90m788| [39m                fs[33m.[39m[34mexistsSync[39m(file)[33m,[39m
+    [90m789| [39m                `the logo file ${path.basename(file)} sits in content/…
+    [90m790| [39m            )[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m791| [39m            expect(hashOfFile(file), `the SHA-256 of ${path.basename(f…
+    [90m792| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mL2: each front holds the Storytime logo and no crest
+[31m[1mAssertionError[22m: student-front holds no crest.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m798:99[22m[39m
+    [90m796| [39m        [35mfor[39m ([35mconst[39m kind [35mof[39m [33mKINDS_FRONT[39m) {
+    [90m797| [39m            [35mconst[39m doc [33m=[39m [34mparseHtml[39m([34mfrontHtml[39m(kind))[33m;[39m
+    [90m798| [39m            expect(doc.querySelectorAll('[data-part="crest"]').length,…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m799| [39m            const logos = doc.querySelectorAll('[data-part="series-log…
+    [90m800| [39m            expect(logos.length, `${kind} holds one series logo.`).toB…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mL3: each back holds the Storytime logo in the logo box and the RA logo as the publisher mark
+[31m[1mAssertionError[22m: student-back logo box holds one image.: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m835:75[22m[39m
+    [90m833| [39m            expect(logoBox, `${kind} holds a logo box.`).not.toBeNull(…
+    [90m834| [39m            const boxImages = Array.from(logoBox!.querySelectorAll('im…
+    [90m835| [39m            expect(boxImages.length, `${kind} logo box holds one image…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m836| [39m            [34mexpect[39m(
+    [90m837| [39m                hashOfSrc(boxImages[0].getAttribute('src') ?? '', `${k…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mC1: every color of every chrome part is in the logo palette
+[31m[1mAssertionError[22m: every color of every chrome part of the student-front is in the logo palette: 32 problems: series-banner path fill #e7eef7; series-banner path stroke #8fa3bf; series-banner path fill #123e73; series-banner path fill #1f5fa8; series-banner path fill #000000; series-banner path stroke #5a9ad6; series-banner path fill #dce9f8; series-banner path stroke #7f9bc0; series-banner path fill #eaf4ff; series-banner path stroke #7f9bc0: expected 32 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 32[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m914:15[22m[39m
+    [90m912| [39m                problems[33m.[39mlength[33m,[39m
+    [90m913| [39m                `every color of every chrome part of the ${kind} is in…
+    [90m914| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m915| [39m        }
+    [90m916| [39m    }[33m,[39m [34m300_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mC2: every series banner and every front plaque takes the amber band
+[31m[1mAssertionError[22m: the series banner band fill of the student-front.: expected '#1f5fa8' to be '#fcd34d' // Object.is equality[39m
+
+Expected: [32m"#[7mfcd34d[27m"[39m
+Received: [31m"#[7m1f5fa8[27m"[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m923:97[22m[39m
+    [90m921| [39m            [35mconst[39m banner [33m=[39m [34mpartOf[39m(raw[33m,[39m [32m'series-banner'[39m)[33m;[39m
+    [90m922| [39m            expect(banner.band, `the series banner of the ${kind} hold…
+    [90m923| [39m            expect(toHex(banner.bandFill ?? ''), `the series banner ba…
+    [90m   | [39m                                                                                                [31m^[39m
+    [90m924| [39m        }
+    [90m925| [39m        [35mfor[39m ([35mconst[39m kind [35mof[39m [33mKINDS_FRONT[39m) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mC3: the series name, the front plaque, and the panel headings take the logo colors
+[31m[1mAssertionError[22m: the Storytime color of the student-front.: expected '#ffffff' to be '#92400e' // Object.is equality[39m
+
+Expected: [32m"#[7m92400e[27m"[39m
+Received: [31m"#[7mffffff[27m"[39m
+
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m942:91[22m[39m
+    [90m940| [39m            const storytime = raw.words.find((entry) => entry.word ===…
+    [90m941| [39m            expect(storytime?.style, `the series banner of the ${kind}…
+    [90m942| [39m            expect(toHex(storytime!.style!.color), `the Storytime colo…
+    [90m   | [39m                                                                                          [31m^[39m
+    [90m943| [39m            const advantage = raw.words.find((entry) => entry.word ===…
+    [90m944| [39m            expect(advantage?.style, `the series banner of the ${kind}…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mF1: the title text fills 80 % or more of its band and stays inside it
+[31m[1mAssertionError[22m: the student-front series-banner text fills its band: the text is 20.64 mm, the band is 32.40 mm.: expected 0.6371435888201488 to be greater than or equal to 0.8[39m
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m994:15[22m[39m
+    [90m992| [39m                    `${(text.bottomMm - text.topMm).toFixed(2)} mm, th…
+    [90m993| [39m                    [32m`[39m[36m${[39m(band[33m.[39mbottomMm [33m-[39m band[33m.[39mtopMm)[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m994| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m995| [39m            [34mexpect[39m(
+    [90m996| [39m                [34mliesInside[39m(text[33m,[39m band)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mV1: every title text block is centered in its band
+[31m[1mAssertionError[22m: the student-front series-banner text is centered vertically: the top gap is 0.86 mm, the bottom gap is 10.89 mm.: expected 10.029366016387932 to be less than or equal to 1[39m
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m1030:15[22m[39m
+    [90m1028| [39m                `the ${kind} ${name} text is centered vertically: the …
+    [90m1029| [39m                    [32m`the bottom gap is [39m[36m${[39mbottomGap[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m1030| [39m            )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mCENTRE_TOLERANCE_MM[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1031| [39m            [35mconst[39m leftGap [33m=[39m text[33m.[39mleftMm [33m-[39m band[33m.[39mleftMm[33m;[39m
+    [90m1032| [39m            [35mconst[39m rightGap [33m=[39m band[33m.[39mrightMm [33m-[39m text[33m.[39mrightMm[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mV2: the panel block of the student back is centered in the panel
+[31m[1mAssertionError[22m: the student back panel text is centered vertically: the top gap is 9.00 mm, the bottom gap is 40.82 mm.: expected 31.82441406249999 to be less than or equal to 1[39m
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m1060:11[22m[39m
+    [90m1058| [39m            `the student back panel text is centered vertically: the t…
+    [90m1059| [39m                [32m`the bottom gap is [39m[36m${[39mbottomGap[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m1060| [39m        )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mCENTRE_TOLERANCE_MM[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m1061| [39m        [35mconst[39m fields [33m=[39m [34munionOf[39m(raw[33m.[39mfields)[33m;[39m
+    [90m1062| [39m        expect(fields, 'the student back holds panel fields.').not.toB…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-logo-tone.test.ts[2m > [22mquest-cover-logo-tone: L1 to L3, C1 to C3, F1, V1 to V3 (Red, logo and tone r5)[2m > [22mV3: the contact block of both backs is centered in the sign and stands left of the QR
+[31m[1mAssertionError[22m: the student-back holds a publisher mark.: expected undefined to be defined[39m
+[36m [2m❯[22m __tests__/quest-cover-logo-tone.test.ts:[2m1084:65[22m[39m
+    [90m1082| [39m            [35mconst[39m board [33m=[39m [34mbandBoxOf[39m(sign)[33m;[39m
+    [90m1083| [39m            [35mconst[39m mark [33m=[39m raw[33m.[39mrects[[32m'publisher-mark'[39m][33m;[39m
+    [90m1084| [39m            expect(mark, `the ${kind} holds a publisher mark.`).toBeDe…
+    [90m   | [39m                                                                [31m^[39m
+    [90m1085| [39m            [35mconst[39m block [33m=[39m [34mtoMm[39m([34munionOf[39m([[33m...[39mraw[33m.[39mcontactTexts[33m,[39m mark[33m![39m])[33m![39m)[33m;[39m
+    [90m1086| [39m            [35mconst[39m topGap [33m=[39m block[33m.[39mtopMm [33m-[39m board[33m.[39mtopMm[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯[22m[39m
+
+
+---- END OUTPUT ----
+GATE_EXITS: [1]
+GATE_SECONDS: 13.5
