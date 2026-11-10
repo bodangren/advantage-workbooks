@@ -1,0 +1,89 @@
+Measure Red log: storytime_cover_options_20261106, Phase 2, the frame round 3 pair of Task 2.9 part 1 r3.
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (MiniMax family).
+phase_base_sha (red_base_1): 5bdd896a956c5c9d76545bbab13a3eb41f349368 (the dispatch gave the base of this pair as HEAD; it resolves).
+role_base_sha: 5bdd896a956c5c9d76545bbab13a3eb41f349368 (the base of this pair; the dispatch gave it as HEAD).
+HEAD at start: 5bdd896a.
+The Thai filter of the PM rule 2026-11-09 ran first: THAI_CHARS_IN_OUTPUT=0 for w01.json to w08.json. The plan, the library file cover-quest.ts, and the 2 test files hold 0 Thai characters. No PNG and no PDF page image was opened.
+
+The owner words (Daniel, Google Tasks bFdjbzVmNEFDbXNiaFdiSg, the look check of the v4 covers, relayed by the PM): "On the cover the top XP bar is unnecessary because we don't have a gaming theme and the bottom title bar covers the dog".
+The PM decisions of 2026-11-10: the game bar, the part mark "game-bar" with its 5 band icons, goes off the student front and the teacher front, and the reader A3 game bar stays in this run; the title plaque of both fronts moves down and gets thinner, to about 278 mm to 292 mm from the top edge, and it stands at 239 mm to 279 mm now; the texts stay the same, and the teacher Sprout tab, the band pill, moves with the plaque; the crest stays. The dog of the student front art spans about x 84 mm to 132 mm and y 202 mm to 277 mm.
+
+The new file dashboard/__tests__/quest-cover-frame-r3.test.ts holds 6 tests, F1 to F6.
+Each of F1 to F4 fails at HEAD for the old frame. F5 and F6 pass at Red, because the crest, the series banner, and the texts of the fronts stay as they are.
+
+Labeled lines of the new file alone (measure/runs/storytime_cover_options_20261106/red-frame-new.txt):
+Test Files  1 failed (1)
+Tests  4 failed | 2 passed (6)
+exit: 1
+
+Labeled lines of the RED_TEST_COMMAND (measure/runs/storytime_cover_options_20261106/red-frame-red.txt):
+Test Files  2 failed | 2 passed (4)
+Tests  16 failed | 258 passed (274)
+exit: 1
+
+The failing tests of the new file, the same 4 in both captures:
+F1 the box table holds no front game bar and keeps the reader A3 game bar
+F2 the fronts render no game bar and the reader A3 cover renders one
+F3 the title plaque of both fronts stands below the dog of the student front art
+F4 the teacher Sprout tab sits on the top edge of the teacher plaque and moved down with it
+
+The other 12 failures sit in the changed old pins of dashboard/__tests__/quest-cover-template.test.ts:
+T02: student-front holds [data-part="game-bar"] exactly 0 times
+T02: student-front holds [data-part="band-icon"] exactly 0 times
+T02: student-front holds [data-part="unit-bar"] exactly 0 times
+T02: student-front holds [data-unit-part] exactly 0 times
+T02: teacher-front holds [data-part="game-bar"] exactly 0 times
+T02: teacher-front holds [data-part="band-icon"] exactly 0 times
+T02: teacher-front holds [data-part="unit-bar"] exactly 0 times
+T02: teacher-front holds [data-unit-part] exactly 0 times
+T05: unit 1 leaves the student front with no unit bar
+T05: unit 2 leaves the student front with no unit bar
+T05: unit 3 leaves the student front with no unit bar
+T05: unit 4 leaves the student front with no unit bar
+
+The changed old pins, and the test names:
+T02, 8 rows. The count of the front game bar, the band icon, the unit bar, and the unit part goes from 1, 5, 1, and 4 to 0. The table keeps its 53 rows.
+T04, the kinds with a game bar. Only the reader A3 cover keeps its game bar, so the table holds 5 rows now, not 15. The test "T04: the lit band table holds 5 rows" changes, and the 5 reader rows of "T04: %s lights %s once in the game bar" stay.
+T05, 4 rows. The test "T05: unit %i fills exactly that many of the 4 unit parts" becomes "T05: unit %i leaves the student front with no unit bar". The unit bar sits inside the game bar, so no side holds a unit bar now.
+T09, the box table. The 2 front game bar rows are gone, so the table holds 29 rows, not 31, and the bound of the box count goes from 31 to 29. The test "T09: the box table holds 29 rows" changes.
+The reader pins stay unchanged: the reader A3 game bar, the reader band word, the reader title plaque, and the leaf parts keep their rows and their counts.
+
+The lint capture (measure/runs/storytime_cover_options_20261106/red-frame-lint.txt): ESLINT exit 0 with 0 errors and 1 known warning no-unused-vars on line 1704 of the template test; TSC exit 0.
+The 3 captures and the 2 test files hold 0 Thai characters. The repo holds no pnpm-lock.yaml.
+The Red run (b) took 1326.78 s in one heavy-run. The lint ran in a second heavy-run.
+The captures hold no "No test files found", no SyntaxError, and no "is not a function".
+
+Commit c3b4397deef82e0df124a44e500986c2519fcdaf holds the 2 test files only.
+Commit 604afd35d99e835d8e9402b93a14621ecce77a9d holds the plan and the 3 captures.
+
+Two recorded deviations. First, F4 holds a third check: the tab bottom stands at 279 mm or more, so the tab moved down with the plaque. The 2 checks of the dispatch pass at HEAD, because the tab already sits 2.5 mm under the plaque top there. The third check makes F4 fail at Red. Second, the changed old pins of the template test fail at Red too, and not only the new file. The dispatch asked for that change. The Red gate holds the failures in the new file and in the changed pins only.
+
+Green is next: cover-quest.ts drops the game bar of the student front and the teacher front, moves the title plaque of both fronts down to 277 mm or more with an end at 292 mm or less, and moves the teacher band pill with the plaque. Then the student cover and the teacher candidate are built again (Task 2.9 part 1, r3).
+
+MEASURE_AGENT_RESULT
+status: pass
+phase: P2
+task: T2.9a (Red, no game bar and the dog clear)
+role: mid-red
+track: storytime_cover_options_20261106
+role_base_sha: 5bdd896a956c5c9d76545bbab13a3eb41f349368
+baseline_sha: 5bdd896a956c5c9d76545bbab13a3eb41f349368
+phase_base_sha: 5bdd896a956c5c9d76545bbab13a3eb41f349368
+head: 604afd35d99e835d8e9402b93a14621ecce77a9d (the plan commit; the log commit follows it)
+test_commit: c3b4397deef82e0df124a44e500986c2519fcdaf
+plan_commit: 604afd35d99e835d8e9402b93a14621ecce77a9d
+commits: c3b4397d (the 2 test files), 604afd35 (the plan and the 3 captures), the log commit
+tests: dashboard/__tests__/quest-cover-frame-r3.test.ts (6 tests, F1 to F6)
+files: dashboard/__tests__/quest-cover-frame-r3.test.ts; dashboard/__tests__/quest-cover-template.test.ts; plan.md; red-frame-new.txt; red-frame-red.txt; red-frame-lint.txt; mid-red-frame-5bdd896a.log
+red_summary_new: Test Files  1 failed (1); Tests  4 failed | 2 passed (6); exit 1
+red_summary_red_command: Test Files  2 failed | 2 passed (4); Tests  16 failed | 258 passed (274); exit 1
+failing_tests: F1, F2, F3, and F4 of quest-cover-frame-r3.test.ts; the 8 T02 rows and the 4 T05 rows of quest-cover-template.test.ts
+remaining_failures: F1 and F2 fail on the game bar of the fronts; F3 fails on the old plaque top of 239 mm; F4 fails on the old tab bottom of 241.5 mm; the T02 and T05 rows fail on the game bar of the fronts
+pass_at_red: F5 and F6 of the new file
+lint: ESLINT exit 0 (0 errors, 1 known warning no-unused-vars on line 1704 of the template test); TSC exit 0
+thai_captures: 0 Thai characters in the 3 captures and the 2 test files
+deviations: F4 holds a third check, the tab bottom at 279 mm or more, because the 2 checks of the dispatch pass at HEAD; the changed old pins of the template test fail at Red too, as the dispatch asked
+dispositions: none
+handoff: Green (jr-green) changes dashboard/lib/storytime/print/cover-quest.ts only, and changes no test file. The 2 front game bar rows leave QUEST_BOXES, and the front bodies hold no game bar element, so they hold no band icon and no unit bar. The reader A3 game bar, its band icons, and its box stay. The title plaque of the student front and the title plaque of the teacher front stand at 277 mm or more from the top edge, end at 292 mm or less, are 12 mm or more high, are 120 mm or more wide, and keep their centre at 105 mm, and they touch no part of the dog box (left 84 mm, top 202 mm, width 48 mm, height 75 mm). The teacher band pill keeps its centre at 105 mm, its bottom sits 2 mm to 3 mm under the plaque top, and its bottom stands at 279 mm or more. The crest and the series banner of both fronts keep their boxes. The texts of the fronts stay the same. Then the student cover and the teacher candidate are built again (Task 2.9 part 1, r3).
+END_MEASURE_AGENT_RESULT
