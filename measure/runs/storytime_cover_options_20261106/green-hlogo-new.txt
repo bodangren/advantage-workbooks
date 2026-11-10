@@ -1,0 +1,29 @@
+(a) cd dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1
+
+=== a ===
+EXIT: 0
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 8031[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: the default render of each kind is byte equal to the r5 pin [33m 331[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 430[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 567[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 2011[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1211[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m8 passed[39m[22m[90m (8)[39m
+[2m   Start at [22m 16:01:39
+[2m   Duration [22m 18.40s[2m (transform 716ms, setup 317ms, import 5.85s, tests 8.03s, environment 3.53s)[22m
+
+
+A6 values, computed from QUEST_BOXES with the border 0.6 mm, the fill share 0.8, and the aspect
+1461.6 / 464.88 (A6 passed in this run, so the measured gaps differ by at most 1 mm, the height
+share is 0.75 to 0.85, and the aspect is within 1 %):
+front: tile 172.00 x 54.00 mm; inner 170.80 x 52.80 mm; img 132.8041 x 42.2400 mm;
+       left gap 18.9979 mm; right gap 18.9979 mm; top gap 5.2800 mm; bottom gap 5.2800 mm;
+       inner height share 0.8000; aspect 3.144037
+back:  tile 172.00 x 36.00 mm; inner 170.80 x 34.80 mm; img 87.5300 x 27.8400 mm;
+       left gap 41.6350 mm; right gap 41.6350 mm; top gap 3.4800 mm; bottom gap 3.4800 mm;
+       inner height share 0.8000; aspect 3.144037
