@@ -693,7 +693,8 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         ['student-front', '[data-part="band-icon"]', 0],
         ['student-front', '[data-part="unit-bar"]', 0],
         ['student-front', '[data-unit-part]', 0],
-        ['student-front', '[data-part="crest"]', 1],
+        ['student-front', '[data-part="series-logo"]', 1],
+        ['student-front', '[data-part="crest"]', 0],
         ['student-front', '[data-part="series-banner"]', 1],
         ['student-front', '[data-part="title-plaque"]', 1],
         ['student-front', '[data-part="level-line"]', 1],
@@ -703,7 +704,8 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         ['teacher-front', '[data-part="band-icon"]', 0],
         ['teacher-front', '[data-part="unit-bar"]', 0],
         ['teacher-front', '[data-unit-part]', 0],
-        ['teacher-front', '[data-part="crest"]', 1],
+        ['teacher-front', '[data-part="series-logo"]', 1],
+        ['teacher-front', '[data-part="crest"]', 0],
         ['teacher-front', '[data-part="series-banner"]', 1],
         ['teacher-front', '[data-part="title-plaque"]', 1],
         ['teacher-front', '[data-part="level-line"]', 1],
@@ -743,8 +745,8 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         ['reader-leaf', '[data-part="role-mark"]', 1],
     ];
 
-    it('T02: the part table holds 53 rows', () => {
-        expect(PART_COUNTS.length).toBe(53);
+    it('T02: the part table holds 55 rows', () => {
+        expect(PART_COUNTS.length).toBe(55);
     });
 
     it.each(PART_COUNTS)('T02: %s holds %s exactly %i times', async (kind, selector, expected) => {
@@ -818,22 +820,22 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
         expect(T06_LEVELS.length).toBe(4);
     });
 
-    it.each(T06_LEVELS)('T06: level %i uses the level colour on the title plaque', async (level) => {
+    it.each(T06_LEVELS)('T06: level %i uses the logo amber on the title plaque', async (level) => {
         const subject = { ...(await shippedBook()), level };
         const doc = parseHtml(await renderQuest('student-front', subject, { art: ART_A }, 0));
         const plaque = doc.querySelector('[data-part="title-plaque"]');
         expect(plaque, 'the title plaque exists').not.toBeNull();
-        expect(plaque!.getAttribute('data-plaque-colour'), `level ${level} plaque colour`).toBe(LEVEL_COLOURS[level]);
+        expect(plaque!.getAttribute('data-plaque-colour'), `level ${level} plaque colour`).toBe('#FCD34D');
     });
 
-    it('T06: the colours match covers.ts and the teacher front and A3 plaque use the level 2 colour', async () => {
+    it('T06: the colours match covers.ts, the teacher front uses the amber, and the A3 plaque uses the level 2 colour', async () => {
         expect(LEVEL_COLOURS[2], 'the level 2 colour').toBe('#2A77B8');
         expect(Object.keys(LEVEL_COLOURS).length, 'four level colours').toBe(4);
         for (const [level, colour] of Object.entries(STORYTIME_LEVEL_COLOURS)) {
             expect(LEVEL_COLOURS[Number(level)], `the hand written colour of level ${level}`).toBe(colour);
         }
         const teacher = parseHtml(await standardRender('teacher-front', 0));
-        expect(teacher.querySelector('[data-part="title-plaque"]')?.getAttribute('data-plaque-colour'), 'the teacher plaque').toBe('#2A77B8');
+        expect(teacher.querySelector('[data-part="title-plaque"]')?.getAttribute('data-plaque-colour'), 'the teacher plaque').toBe('#FCD34D');
         const reader = parseHtml(await standardRender('reader-a3', 0));
         expect(reader.querySelector('[data-part="title-plaque"]')?.getAttribute('data-plaque-colour'), 'the A3 plaque').toBe('#2A77B8');
     });
@@ -895,10 +897,10 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
      * game bar row stays.
      */
     const REQUIRED_BOXES: Array<[QuestCoverKind, string]> = [
-        ['student-front', 'crest'],
+        ['student-front', 'series-logo'],
         ['student-front', 'series-banner'],
         ['student-front', 'title-plaque'],
-        ['teacher-front', 'crest'],
+        ['teacher-front', 'series-logo'],
         ['teacher-front', 'series-banner'],
         ['teacher-front', 'title-plaque'],
         ['teacher-front', 'band-pill'],

@@ -13,7 +13,8 @@
  *   (2) The title plaque of both fronts moves down and gets thinner, to about 278 mm to 292 mm
  *       from the top edge. It stands at 239 mm to 279 mm now. The texts stay the same, and the
  *       teacher Sprout tab, the band pill, moves with the plaque.
- *   (3) The crest stays.
+ *   (3) The crest stays. Round 5 of 2026-11-10 replaces the crest with the Storytime logo, so
+ *       the box table holds no front crest key. The series banner keeps its box.
  *   (4) The dog of the student front art spans about x 84 mm to 132 mm and y 202 mm to 277 mm.
  *       The orchestrator measured the art.
  *
@@ -28,7 +29,8 @@
  *       dog box of the student front art.
  *   F4: The teacher band pill, the Sprout tab, holds its centre at 105 mm, its bottom edge sits
  *       2 mm to 3 mm under the top edge of the teacher plaque, and it moved down with the plaque.
- *   F5: The crest and the series banner of both fronts keep their present boxes.
+ *   F5: The box table holds no front crest key, and the series banner of both fronts keeps its
+ *       present box.
  *   F6: The student front holds the level line once and the student line once. The teacher front
  *       holds the level line, the teacher line, and the Sprout tab once each. Both fronts show the
  *       series name in the series banner.
@@ -172,14 +174,9 @@ describe('quest-cover-frame-r3: F1 to F6 (Red, no game bar and the dog clear)', 
         expect(pill.topMm + pill.heightMm, 'the tab moved down with the plaque.').toBeGreaterThanOrEqual(279);
     });
 
-    it('F5: the crest and the series banner of both fronts keep their present boxes', () => {
+    it('F5: the fronts hold no crest box and the series banner keeps its present box', () => {
         for (const kind of ['student-front', 'teacher-front'] as const) {
-            const crest = QUEST_BOXES[`${kind}:crest`];
-            expect(crest, `the box table holds ${kind}:crest.`).toBeDefined();
-            expect(crest.leftMm, `${kind} crest left.`).toBe(91);
-            expect(crest.topMm, `${kind} crest top.`).toBe(28);
-            expect(crest.widthMm, `${kind} crest width.`).toBe(28);
-            expect(crest.heightMm, `${kind} crest height.`).toBe(28);
+            expect(QUEST_BOXES[`${kind}:crest`], `the box table holds no ${kind}:crest key.`).toBeUndefined();
             const banner = QUEST_BOXES[`${kind}:series-banner`];
             expect(banner, `the box table holds ${kind}:series-banner.`).toBeDefined();
             expect(banner.leftMm, `${kind} series banner left.`).toBe(22);

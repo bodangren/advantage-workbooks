@@ -30,8 +30,9 @@
  *       "Level 2 Unit 1 Teacher Book" on the teacher front, with the middle dots removed.
  *   P5: The text of the teacher Sprout tab lies inside its pill, and its bottom is at or above
  *       the top of the plaque (0.1 mm tolerance).
- *   P6: The 2 reader plaques and the 2 series banners keep the bytes of the role base sha
- *       19ecfdc2. The file runs no browser for this check.
+ *   P6: The 2 reader plaques keep the bytes of the role base sha 19ecfdc2. Round 5 of 2026-11-10
+ *       drops the 2 front series banner pins, because the r5 chrome changes the front banners.
+ *       The file runs no browser for this check.
  *
  * The contract holds no layout choice. A plaque that fits in any way passes P1 to P4.
  */
@@ -70,9 +71,6 @@ const PIN_READER_A3_PLAQUE = 'b2fcb49e6162d2b03b40d15480eb6f0d556227ad5244c55e72
 
 /** The SHA-256 of the reader leaf title plaque at the role base sha 19ecfdc2 (pin P6). */
 const PIN_READER_LEAF_PLAQUE = '4b37d4ca7d78f6f9228a97a94e8568d69e9593041e83d9af4fdce841f55eeaa1';
-
-/** The SHA-256 of the series banner of both fronts at the role base sha 19ecfdc2 (pin P6). */
-const PIN_SERIES_BANNER = '47ee7dadf2ccfc0ce7a6d70b013c9ebaab98f27a0cdfbc198680442d7d1c0bb9';
 
 /** The 2 fronts of the check, with the plaque text of each. */
 const FRONTS = [
@@ -457,7 +455,7 @@ describe('quest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)', () => {
         ).toBe(0);
     }, 120_000);
 
-    it('P6: the reader plaques and the series banners keep their bytes of the role base sha', () => {
+    it('P6: the reader plaques keep their bytes of the role base sha', () => {
         expect(
             shaOfPart('reader-a3', 'title-plaque'),
             'the reader A3 title plaque keeps its bytes of the role base sha 19ecfdc2.',
@@ -466,13 +464,5 @@ describe('quest-cover-plaque-fit: P1 to P6 (Red, the plaque text fits)', () => {
             shaOfPart('reader-leaf', 'title-plaque'),
             'the reader leaf title plaque keeps its bytes of the role base sha 19ecfdc2.',
         ).toBe(PIN_READER_LEAF_PLAQUE);
-        expect(
-            shaOfPart('student-front', 'series-banner'),
-            'the series banner of the student front keeps its bytes of the role base sha 19ecfdc2.',
-        ).toBe(PIN_SERIES_BANNER);
-        expect(
-            shaOfPart('teacher-front', 'series-banner'),
-            'the series banner of the teacher front keeps its bytes of the role base sha 19ecfdc2.',
-        ).toBe(PIN_SERIES_BANNER);
     });
 });
