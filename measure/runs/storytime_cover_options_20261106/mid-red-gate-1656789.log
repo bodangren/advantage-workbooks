@@ -1,0 +1,105 @@
+Mid Red log: the cover print gate (storytime_cover_options_20261106, Phase 2)
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (PM route).
+Track: storytime_cover_options_20261106. Phase: Phase 2, the option A covers.
+Task: Task (Red, cover print gate), the pair of 2026-11-10.
+role_base_sha (the recorded HEAD at the start of the role): 1656789d6dbc6f62cb20ab14896b2e593ed52fa0
+phase_base_sha: 1656789d6dbc6f62cb20ab14896b2e593ed52fa0
+
+The PM decision of 2026-11-10 17:50, word for word:
+"close the recorded check 1 deviation of Task 2.9. make-pdfx.ts --check (PRINT_GATE) excuses or
+flags a full-page art cover page wrongly. ... Red: a test that proves the gate's verdict on a
+full-page art cover page with live text and vector logos (the r5 and A2 files). Green: the
+smallest change, so that PRINT_GATE passes the 4 cover files on its own merit. Done when
+PRINT_GATE exits 0 on r5 and A2 with no deviation, and the r5 and A2 bytes stay unchanged (the
+check only reads)."
+
+The reading of the code (the orchestrator, 2026-11-10): in the mode --check the CLI calls checkPdfx
+with no sourcePageImages. The function pageImages then flags every full-page art page, and the
+message reads "page(s) 1, 2 became one image each". A page that Ghostscript flattened holds no
+font. A cover page holds the full-page art plus live text with embedded fonts.
+
+The design (the orchestrator, 2026-11-10; the tests decide):
+  (1) checkPdfx takes an optional textPages. It lists the pages on which pdffonts -f N -l N lists
+      at least 1 embedded font, and no font of the type Type 3.
+  (2) A full-page image page that sits in textPages is not "became one image".
+  (3) With sourcePageImages the result stays as it is now. The build path stays as it is now.
+  (4) The CLI --check reads the fonts of each page with pdffonts -f N -l N, and passes textPages.
+
+The Thai filter (the first command of the role): the Thai counts (U+0E00 to U+0E7F) are
+measure/tracks/storytime_cover_options_20261106/plan.md 0,
+measure/tracks/storytime_l2_unit2_20261106/plan.md 0, dashboard/lib/print/pdfx.ts 0,
+dashboard/scripts/print/make-pdfx.ts 0, and dashboard/__tests__/print-pdfx.test.ts 4 (1 line). The
+file print-pdfx.test.ts was read only as a copy in the scratch folder, with the Thai line
+replaced by "[line hidden]". The 4 cover PDFs hold Thai on their backs: the role ran pdfinfo,
+pdfimages -list, and pdffonts only, and it never ran pdftotext on them. The new test file, the 2
+captures, and the 2 plan files hold 0 Thai characters.
+
+The gate (one heavy-run, HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400):
+  (a) cd dashboard && CI=true npx vitest run __tests__/quest-cover-print-gate.test.ts --maxWorkers=1
+      red-gate-new.txt: Test Files  1 failed (1); Tests  2 failed | 3 passed (5); EXIT: 1; 6.12 s.
+  (b) cd dashboard && npx eslint __tests__/quest-cover-print-gate.test.ts, then npx tsc --noEmit -p .
+      red-gate-lint.txt: ESLINT_EXIT: 0 (0 errors, 0 warnings); TSC_EXIT: 0 (0 errors).
+The file adds 1 test file and changes no old test, so the whole suite did not run at Red.
+
+The 5 tests and their measured values at HEAD 1656789:
+  G1 FAILS. The 3 verdicts of the gate on a full-page art cover page with live text:
+      textPages [1, 2] gives the pages "1, 2" and 1 error (the gate must give no page, no error).
+      textPages [] gives the pages "1, 2" and 1 error (the gate must give the pages 1, 2).
+      textPages [2] gives the pages "1, 2" and 1 error (the gate must give the page 1 only).
+      The cause: checkPdfx takes no textPages, so the field is ignored.
+  G2 PASSES. The build path stays as it is now: sourcePageImages [1, 2] gives no page and no error;
+      sourcePageImages [] gives the pages "1, 2" and 1 error.
+  G3 PASSES. The 4 cover files sit in the print-ready folder with their pinned SHA-256:
+      920f6ddf93ba4308e17a3cc7dc562786a331e55e48b970775101ed7727199c9d (r5 student),
+      d2e512552f6f1aea7c7b73f86d8072ad05d28d2909354737a17b782611970d37 (r5 teacher),
+      8ae118b644765eaeab537b503cab76bc7bb573d9dae6d3b4ed567c465dc5d6fa (A2 student), and
+      665c044f6e828e618fc4c488564d26c6e63ddaf3d61432b3dba8aebd7596bf1a (A2 teacher).
+  G4 FAILS. The print gate on the 4 cover files: each of the 4 gives the exit code 1, no
+      "All checks pass.", and the mark "became one image".
+  G5 PASSES. The 4 SHA-256 values are unchanged after the gate ran.
+
+The plan records:
+  measure/tracks/storytime_cover_options_20261106/plan.md holds the Task (Red, cover print gate)
+  line as [x] with " commit 5a4ac32" and one evidence sub-bullet, and the Task (Green, cover
+  print gate) line as [ ].
+  measure/tracks/storytime_l2_unit2_20261106/plan.md holds Task 3.2 as [x] with " commit
+  ea96888" and the PM receipt sub-bullet, and the new Task 5.0 (keep-with-next) line in Phase 5.
+
+The guard of the track (G-1) holds: the Red commit changes no shared file. The role staged no
+file of another track, no `measure/runs/**` of another track, no `dashboard/raw.json`, and no
+`video/` file. The unrelated user work in `video/storytime-song/scripts/render.mjs` stays
+untouched. There was no push.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+track: storytime_cover_options_20261106
+phase: Phase 2 (the option A covers)
+task: Task (Red, cover print gate)
+role_base_sha: 1656789d6dbc6f62cb20ab14896b2e593ed52fa0
+phase_base_sha: 1656789d6dbc6f62cb20ab14896b2e593ed52fa0
+resulting_head: 801a0b89d6cbba35af657c7c838aa749adaa2c10
+commits:
+  - 5a4ac326fc28b5d397e841e4db7fb66985083e7a test(covers): Red, PRINT_GATE passes a full-page art cover page with live text on its own merit and still fails a flattened page (storytime_cover_options)
+  - bbd6c1b20023272fac6285a56e96d40449258d0d measure(covers): Red cover print gate evidence (storytime_cover_options)
+  - 801a0b89d6cbba35af657c7c838aa749adaa2c10 measure(storytime): Task 3.2 closed with the PM receipt, and the Phase 5 keep-with-next task (storytime_l2_unit2)
+  - the log commit adds this file alone
+tests:
+  - dashboard/__tests__/quest-cover-print-gate.test.ts (new, 5 tests: G1 to G5; G1 and G4 fail at HEAD, G2, G3, and G5 pass)
+files:
+  - dashboard/__tests__/quest-cover-print-gate.test.ts
+  - measure/tracks/storytime_cover_options_20261106/plan.md
+  - measure/runs/storytime_cover_options_20261106/red-gate-new.txt
+  - measure/runs/storytime_cover_options_20261106/red-gate-lint.txt
+  - measure/tracks/storytime_l2_unit2_20261106/plan.md
+  - measure/runs/storytime_cover_options_20261106/mid-red-gate-1656789.log
+remaining_failures:
+  - G1: checkPdfx takes no textPages, so the gate flags the pages 1, 2 of a full-page art cover page that holds live text
+  - G4: the print gate exits 1 on the 4 cover files, and the message reads "page(s) 1, 2 became one image each"
+gates:
+  - (a) red-gate-new.txt: Test Files 1 failed (1); Tests 2 failed | 3 passed (5); EXIT 1
+  - (b) red-gate-lint.txt: ESLINT EXIT 0; TSC EXIT 0
+thai_characters: 0
+dispositions: none
+status: done
