@@ -1,0 +1,27 @@
+$ npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+LABEL: ESLINT
+EXIT: 0
+MINUTES: 0.40
+
+STDOUT:
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1706:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+
+STDERR:
+
+
+$ npx tsc --noEmit -p .
+LABEL: TSC
+EXIT: 0
+MINUTES: 0.31
+
+STDOUT:
+
+
+STDERR:
+

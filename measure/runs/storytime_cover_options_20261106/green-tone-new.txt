@@ -1,0 +1,77 @@
+$ CI=true npx vitest run __tests__/quest-cover-logo-tone.test.ts --maxWorkers=1
+LABEL: a: the logo and tone test
+EXIT: 0
+MINUTES: 0.21
+
+STDOUT:
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 5436[2mms[22m[39m
+     [33m[2m✓[22m[39m C1: every color of every chrome part is in the logo palette [33m 1510[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 13:46:41
+[2m   Duration [22m 9.45s[2m (transform 856ms, setup 96ms, import 1.12s, tests 5.44s, environment 1.50s)[22m
+
+
+
+STDERR:
+
+
+
+=== the measured millimetres of the r5 chrome (probe, no back text) ===
+PROBE EXIT: 0
+The values: part, box, band height, text height, top gap, bottom gap, fill share.
+
+== student-front
+ part series-banner box left 22.00 top 48.00 right 187.99 bottom 85.99
+   band box left 24.80 top 50.80 right 185.19 bottom 83.19 height 32.40
+   text box left 67.51 top 53.52 right 142.48 bottom 80.55 height 27.02 topGap 2.73 bottomGap 2.64 share 0.834
+ part title-plaque box left 26.00 top 278.00 right 184.00 bottom 292.00
+   band box left 28.81 top 280.80 right 181.19 bottom 289.20 height 8.40
+   text box left 57.43 top 281.30 right 152.56 bottom 288.18 height 6.88 topGap 0.50 bottomGap 1.02 share 0.819
+ part series-logo box left 90.00 top 14.00 right 120.00 bottom 44.00
+== teacher-front
+ part series-banner box left 22.00 top 48.00 right 187.99 bottom 85.99
+   band box left 24.80 top 50.80 right 185.19 bottom 83.19 height 32.40
+   text box left 67.51 top 53.52 right 142.48 bottom 80.55 height 27.02 topGap 2.73 bottomGap 2.64 share 0.834
+ part title-plaque box left 26.00 top 278.00 right 184.00 bottom 292.00
+   band box left 28.81 top 280.80 right 181.19 bottom 289.20 height 8.40
+   text box left 57.70 top 281.30 right 152.29 bottom 288.18 height 6.88 topGap 0.50 bottomGap 1.02 share 0.819
+ part series-logo box left 90.00 top 14.00 right 120.00 bottom 44.00
+== student-back
+ part series-banner box left 52.00 top 14.00 right 198.00 bottom 36.00
+   band box left 54.80 top 16.80 right 195.19 bottom 33.20 height 16.40
+   text box left 105.72 top 18.06 right 144.27 bottom 31.82 height 13.76 topGap 1.26 bottomGap 1.37 share 0.839
+ part panel box left 12.00 top 48.00 right 198.00 bottom 190.00
+   text box left 23.79 top 65.51 right 183.54 bottom 172.48 height 106.98
+ part contact-sign box left 12.00 top 200.00 right 198.00 bottom 280.00
+   band box left 15.00 top 203.00 right 195.00 bottom 277.00 height 74.00
+ part logo-box box left 10.00 top 9.00 right 44.00 bottom 43.00
+ part qr box left 141.00 top 205.00 right 191.00 bottom 255.00
+   band box left 144.52 top 208.52 right 188.52 bottom 252.52 height 44.00
+ panel inner left 12.79 top 48.79 right 197.20 bottom 189.20
+ panel text top 65.51 bottom 172.48 topGap 16.71 bottomGap 16.72 blockHeight 106.98
+ panel fields left 23.79 right 186.20 leftGap 11.00 rightGap 11.00
+ contact text left 37.89 top 214.73 right 118.11 bottom 248.70 textHeight 33.97
+ mark box left 71.00 top 251.50 right 85.00 bottom 265.50
+ block top 214.73 bottom 265.50 topGap 11.74 bottomGap 11.50 leftGap 22.89 rightGap 22.89 blockHeight 50.76
+== teacher-back
+ part series-banner box left 52.00 top 14.00 right 198.00 bottom 36.00
+   band box left 54.80 top 16.80 right 195.19 bottom 33.20 height 16.40
+   text box left 105.72 top 18.06 right 144.27 bottom 31.82 height 13.76 topGap 1.26 bottomGap 1.37 share 0.839
+ part contact-sign box left 12.00 top 200.00 right 198.00 bottom 280.00
+   band box left 15.00 top 203.00 right 195.00 bottom 277.00 height 74.00
+ part logo-box box left 10.00 top 9.00 right 44.00 bottom 43.00
+ part qr box left 141.00 top 205.00 right 191.00 bottom 255.00
+   band box left 144.52 top 208.52 right 188.52 bottom 252.52 height 44.00
+ contact text left 37.89 top 214.73 right 118.11 bottom 248.70 textHeight 33.97
+ mark box left 71.00 top 251.50 right 85.00 bottom 265.50
+ block top 214.73 bottom 265.50 topGap 11.74 bottomGap 11.50 leftGap 22.89 rightGap 22.89 blockHeight 50.76
+PROBE_OK
+
+
+PROBE STDERR:
+
