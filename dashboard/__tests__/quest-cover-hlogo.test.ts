@@ -439,7 +439,7 @@ function panelValues(): QuestPanelValue[] {
 function withoutLogoTile(html: string): string {
     const matches = html.match(/<div data-part="logo-tile"[\s\S]*?<\/div>/g) ?? [];
     expect(matches.length, 'the render holds one logo tile element.').toBe(1);
-    return html.replace(matches[0], '');
+    return html.replace(matches[0] ?? '', '');
 }
 
 /**
