@@ -1,0 +1,87 @@
+# Red: the alternate A2 with the horizontal logo as the only top chrome
+
+- Track: storytime_cover_options_20261106. Phase: P2. Date: 2026-11-10.
+- Role: Measure Mid Red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+- role_base_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd.
+- The Green of this pair runs on deepseek/deepseek-flash#high.
+
+## The owner words and the PM spec
+
+- Daniel, the look note on the r5 covers, Google Tasks NXlkaVBtUW9hZWRuU1J6UA, 2026-11-10 14:50,
+  relayed by the PM, word for word: "I want an alternate where we just use the horizontal logo as
+  the entire top Chrome here, meaning the logo is the only thing on the top and it doesn't repeat
+  the words story Time Advantage the way we have now".
+- The PM spec: keep r5 exactly as it is (option A). Make one alternate, option A2, of the student
+  and the teacher covers, front and back. The top holds only the horizontal logo, on its own amber
+  #FCD34D tile with a brown #92400E edge. The logo is centered in the tile within 1 mm and fills
+  about 80 % of the tile height. The tile is centered at the top and takes about 80 % to 85 % of
+  the cover width. The tile replaces the square logo and the title banner of the fronts, and the
+  logo box and the title banner of the backs. The plaque, the Sprout tab, the story panel, the
+  contact sign with the RA mark, the QR, the art, no game bar, and 0 Type 3 fonts stay.
+- The design: an opt in top style. `QuestRenderOptions.top` is `banner` (the default, r5) or
+  `hlogo` (A2). The build takes the flag `--top banner|hlogo`. The tile part is
+  `data-part="logo-tile"` and holds one img of the horizontal logo. The box table holds the key
+  `<kind>:logo-tile` for the 2 fronts and the 2 backs.
+
+## What the Red file proves
+
+- The new file `dashboard/__tests__/quest-cover-hlogo.test.ts` holds 8 tests, A1 to A8.
+- A1 fails at HEAD: the file `content/storytime/covers/logos/storytime-advantage-horizontal.svg`
+  does not exist.
+- A2 passes at HEAD: the 4 default renders and the 4 top banner renders hold the 4 r5 pins.
+- A3 fails at HEAD: the `student-front` holds 1 series banner, expected 1 to be +0.
+- A4 fails at HEAD: the box table holds no `student-front:logo-tile` key.
+- A5 passes at HEAD: the kept parts hold the same HTML in the hlogo render and in the default
+  render, because the hlogo render is the default render.
+- A6 fails at HEAD: the `student-front` holds no logo tile, expected null not to be null.
+- A7 passes at HEAD: the student front PDF and the student back PDF hold 0 Type 3 fonts and an
+  embedded font.
+- A8 fails at HEAD: the build reads no `--top` flag, expected [ …(4) ] to deeply equal [].
+
+## The r5 pins
+
+The SHA-256 of the default render of each kind at role_base_sha, with bleed 0 and no top option,
+computed in a tsx script with the exact render call of `quest-cover-logo-tone.test.ts`.
+
+- student-front: 5ae17617643524865a9dbbc63cc73754b0170fbe5063bc71d35399288d3265b6
+- teacher-front: b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf
+- student-back: 8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0
+- teacher-back: 5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79
+
+## The gate
+
+One heavy run, in the foreground, with the command
+`HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I
+/tmp/opencode/c29h/run_red.py'`. The runner wrote `red-hlogo-new.txt` and `red-hlogo-lint.txt` in
+`measure/runs/storytime_cover_options_20261106/`.
+
+- (a) `CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts --maxWorkers=1` exits 1.
+  The summary lines: `Test Files  1 failed (1)`, `Tests  5 failed | 3 passed (8)`, and
+  `Duration  18.37s`.
+- (b) `npx eslint __tests__/quest-cover-hlogo.test.ts` exits 0, and `npx tsc --noEmit -p .` exits
+  0 with 0 output lines.
+- The Thai count of the new test file is 0.
+- The file adds one test file and changes no old test. The whole suite did not run at Red.
+
+## The scope of the dirty paths
+
+- `video/storytime-song/scripts/render.mjs` was already modified at HEAD. The Red left it alone.
+- The 1561 untracked paths at HEAD are the run files of the other sessions. The Red touched none.
+- The Red staged only `dashboard/__tests__/quest-cover-hlogo.test.ts`, the plan file, the 2 run
+  files, and this log.
+
+MEASURE_AGENT_RESULT
+status: done
+role: Measure Mid Red
+track: storytime_cover_options_20261106
+phase: P2
+baseline_sha: e7ff06a3a1f324a369e07ffa2ed5ec8f85d331dd
+head: 73ec2c545026ac6b0c89502dc6664400759af2d3
+commits: dbc2116dbdc193ce83205f874a457a3e52d6a979 "test(covers): Red, the alternate A2 with the horizontal logo as the only top chrome (storytime_cover_options)" (dashboard/__tests__/quest-cover-hlogo.test.ts, 713 insertions, new file); 73ec2c545026ac6b0c89502dc6664400759af2d3 "measure(covers): Red alternate A2 evidence (storytime_cover_options)" (measure/tracks/storytime_cover_options_20261106/plan.md, 3 insertions; measure/runs/storytime_cover_options_20261106/red-hlogo-new.txt, 107 insertions; measure/runs/storytime_cover_options_20261106/red-hlogo-lint.txt, new file)
+tests: RED_TEST_COMMAND exit 1 (measure/runs/storytime_cover_options_20261106/red-hlogo-new.txt). 8 tests: 5 failed, 3 passed. Pass: A2 (the 4 r5 pins), A5 (the kept parts hold the same HTML), A7 (0 Type 3 fonts and an embedded font in the student front PDF and the student back PDF). Fail: A1 (the horizontal logo file does not exist), A3 (the student-front holds 1 series banner, expected 1 to be +0), A4 (the box table holds no student-front:logo-tile key), A6 (the student-front holds no logo tile), A8 (the build reads no --top flag). LINT exit 0 and TSC exit 0 with 0 output lines (measure/runs/storytime_cover_options_20261106/red-hlogo-lint.txt).
+files: dashboard/__tests__/quest-cover-hlogo.test.ts (new); measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/red-hlogo-new.txt; measure/runs/storytime_cover_options_20261106/red-hlogo-lint.txt; measure/runs/storytime_cover_options_20261106/mid-red-hlogo-e7ff06a.log. Not staged: video/storytime-song/scripts/render.mjs (dirty at HEAD), dashboard/raw.json, and the unrelated untracked paths.
+remaining_failures: The 5 Red failures are expected until Green. A1 needs the file content/storytime/covers/logos/storytime-advantage-horizontal.svg with the SHA-256 3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc. A3 needs the tile data-part="logo-tile" and no series banner, no series logo, no crest, and no logo box. A4 needs the 4 box table keys <kind>:logo-tile, with a width of 168 mm to 178.5 mm, a centre of 105 mm within 0.5 mm, a top of 5 mm or more, a bottom of 100 mm or less on the fronts, and a bottom 3 mm above the panel on the student back. A6 needs the logo centered in its tile within 1 mm, at 75 % to 85 % of the inner tile height, at the aspect 3.144 within 1 %, on the amber tile with the brown edge, and no shadow and no opacity under 1. A8 needs the build flag --top with the values hlogo, banner as the default, and round as an error.
+dispositions: none
+handoff: (1) The Red file proves the r5 state with 4 pins. A2 fails at Green if the default render changes by one byte. (2) The render options carry the top style as a widened type in the test file, so the file type checks at HEAD and at Green. (3) The A3 text check reads the text nodes of the body. The document title and the style block are not visible chrome. (4) The A5 check compares the SHA-256 of the HTML of the kept parts, so no Thai text of a back is ever printed. (5) A7 reads the PDFs of the student front and the student back with poppler pdffonts. (6) The Red needs no user decision. The Green owns the copy of the logo file, the top style, the build flag, and the 2 build candidates under the -alt-hlogo names.
+END_MEASURE_AGENT_RESULT
