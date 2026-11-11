@@ -62,7 +62,8 @@ function impositionProblems(doc: Document): string[] {
 /** The sides with one change: a back page turned, the pages of a front swapped, or page 12 turned upside down again. */
 function mutated(sides: StorytimeReaderLeafSide[], kind: 'back-turned' | 'front-swapped' | 'page12-turned' | 'page1-frameless' | 'page12-framed'): StorytimeReaderLeafSide[] {
     return sides.map((side) => {
-        if (kind === 'page1-frameless' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/class="reader-picture"/g, 'class="reader-none"') };
+        // changed 2026-11-12 (F5, PM look): page 1 is the quest reader cover, so the mutant renames the quest page class too.
+        if (kind === 'page1-frameless' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/class="reader-picture"/g, 'class="reader-none"').replace(/class="quest-reader-page"/g, 'class="reader-none"') };
         if (kind === 'page12-framed' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/(data-half="bottom"[^>]*>)/, '$1<div class="reader-picture"></div>') };
         if (kind === 'page12-turned' && side.leaf === 1 && side.side === 'front') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };
         if (kind === 'back-turned' && side.leaf === 1 && side.side === 'back') return { ...side, html: side.html.replace(/data-turn-deg="0"/g, 'data-turn-deg="180"') };

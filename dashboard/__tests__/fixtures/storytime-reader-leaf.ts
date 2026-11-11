@@ -291,6 +291,12 @@ export function leafStyleProblems(css: string): string[] {
 /** A box in millimeters from the top left corner of its frame. */
 export interface BoxMm { left: number; top: number; right: number; bottom: number }
 
+/** A measured content box of a reader page, with the name of the element that holds it. */
+export interface MeasuredContent extends BoxMm {
+    /** The tag, the class, and the data-part of the element. It is empty when the name was not measured. */
+    element?: string;
+}
+
 /** What the browser measured on one reader page, in millimeters from the top left corner of the page (before any turn). */
 export interface MeasuredReaderPage {
     /** The page number from 1 to 12. */
@@ -327,6 +333,15 @@ export const READER_LAYOUT = {
 } as const;
 
 const intersects = (a: BoxMm, b: BoxMm): boolean => a.left < b.right - 0.01 && b.left < a.right - 0.01 && a.top < b.bottom - 0.01 && b.top < a.bottom - 0.01;
+
+/**
+ * The text of a box in millimeters: the left, the top, the right, and the bottom, each with 2 decimals.
+ * @param box The box.
+ * @returns The text, for example `(12.34, 5.67, 45.89, 9.01)`.
+ */
+function boxText(box: BoxMm): string {
+    return `(${box.left.toFixed(2)}, ${box.top.toFixed(2)}, ${box.right.toFixed(2)}, ${box.bottom.toFixed(2)})`;
+}
 
 /**
  * Lists every way in which the measured pages of one reader break the landscape page layout (spec FR-5.1).
@@ -450,8 +465,8 @@ export interface MeasuredLeafSide {
     perforationX: number;
     /** The boxes of the two reader pages, top then bottom. */
     pages: BoxMm[];
-    /** The boxes of the content of the two pages (every element with a size inside a reader page). */
-    content: BoxMm[];
+    /** The boxes of the content of the two pages (every element with a size inside a reader page), each with the name of its element. */
+    content: MeasuredContent[];
 }
 
 /**
@@ -462,6 +477,19 @@ export interface MeasuredLeafSide {
  */
 export function measureLeafSidesInBrowser(selector: string): MeasuredLeafSide[] {
     const pxPerMm = 96 / 25.4;
+    /**
+     * The name of an element for the diagnosis: its tag, its class, and its data-part. The helper stays inside this
+     * function, because `page.evaluate` sends only the body of the function to the browser.
+     * @param element The element.
+     * @returns A short name, for example `div.reader-picture[data-part="art"]`.
+     */
+    const elementName = (element: Element): string => {
+        const tag = element.tagName.toLowerCase();
+        const classes = (element.getAttribute('class') ?? '').trim().split(/\s+/).filter(Boolean);
+        const part = element.getAttribute('data-part');
+        const name = classes.length > 0 ? `${tag}.${classes.join('.')}` : tag;
+        return part ? `${name}[data-part="${part}"]` : name;
+    };
     return Array.from(document.querySelectorAll<HTMLElement>(selector), (side) => {
         const origin = side.getBoundingClientRect();
         const box = (element: Element): { left: number; top: number; right: number; bottom: number } => {
@@ -470,9 +498,10 @@ export function measureLeafSidesInBrowser(selector: string): MeasuredLeafSide[] 
         };
         const fold = side.querySelector('[data-part="fold-line"]')!.getBoundingClientRect();
         const perforation = side.querySelector('[data-part="perforation"]')!.getBoundingClientRect();
+        // changed 2026-11-12 (diagnosis): each content box carries the name of its element, so the [mark-overlap] message names the element.
         const content = Array.from(side.querySelectorAll('[data-reader-page] *'))
             .filter((element) => element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0)
-            .map(box);
+            .map((element) => ({ ...box(element), element: elementName(element) }));
         const pages = Array.from(side.querySelectorAll('[data-reader-page]'), box);
         // changed 2026-11-12 (D-B, orchestrator decision): on a page 1 side the one mark lies inside the turned quest page, so its box is its ink box.
         const markElement = side.querySelector('[data-part="leaf-mark"]')!;
@@ -509,7 +538,7 @@ export function leafSidePlacementProblems(sides: MeasuredLeafSide[]): string[] {
         if (Math.abs(mark.bottom - entry.foldY) < 3 || (mark.top < entry.foldY && mark.bottom > entry.foldY - 3)) problems.push(`[mark-fold] ${tag}: the mark is within 3 mm of the fold line`);
         if (Math.abs(mark.left - entry.perforationX) < 3 || Math.abs(mark.right - entry.perforationX) < 3 || (mark.left < entry.perforationX && mark.right > entry.perforationX)) problems.push(`[mark-perforation] ${tag}: the mark is within 3 mm of the perforation`);
         if (front ? mark.left < entry.perforationX + 3 : mark.right > entry.perforationX - 3) problems.push(`[mark-leaf] ${tag}: the mark is not inside the torn leaf`);
-        for (const box of entry.content) if (intersects(mark, box)) problems.push(`[mark-overlap] ${tag}: the mark overlaps page content`);
+        for (const box of entry.content) if (intersects(mark, box)) problems.push(`[mark-overlap] ${tag}: the mark box ${boxText(mark)} overlaps the content box ${boxText(box)} of ${box.element || 'an element with no name'}`);
     });
     return problems;
 }
