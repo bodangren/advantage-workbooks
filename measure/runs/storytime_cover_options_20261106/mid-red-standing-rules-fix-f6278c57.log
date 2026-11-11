@@ -1,0 +1,51 @@
+# Mid Red log: the standing rules fix (storytime_cover_options_20261106)
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash. Date: 2026-11-11.
+Role base: `f6278c57`. Phase: P2, Phase 2: The option A covers.
+The Thai filter was the first command: it counted 0 Thai characters in the 2 files of the scope.
+
+## The defect
+
+The orchestrator review of commit `105fc317` found one test defect. S4 (a) measured the across
+centre of the A3 `role-bar` from the label text alone. The role bar holds 2 role icons left of the
+label. B7 of `quest-cover-readers-r2b.test.ts` pins even paddings around the icons and the label.
+The label alone therefore stands about 8 mm right of the bar centre. S4 and B7 could not pass
+together.
+
+## The fix
+
+The role bar text block is the role mark: the 2 icons and the label. The PM rule 4 reads "each
+text block is centered within 1 mm".
+
+`measurePage` now also measures the boxes of the role icon spans of the `role-bar` part, the
+`span` elements of the role mark that hold an `svg`, as the footer icons are measured. S4 (a)
+builds the union of the label ink box and the icon boxes for the `role-bar` part. The across
+centre, the down centre, and the inside-the-part-box check use that union. Every other part keeps
+its present measure. The file changes no production code.
+
+## The gates
+
+The standing-rules file alone exits 1: `Tests 3 failed | 2 passed (5)`. The failing tests are S3,
+S4, and S5. S1 and S2 pass. S4 fails on 26 pages, from 30. No role bar line remains in S4. The 14
+role bar lines of S3 stay: the cap height is 3.70 mm of the 10.80 mm band, 34.3 %. The reader-a3
+S4 down failures now come only from the title plaque, 2.77 mm to 3.30 mm.
+
+The tsc gate exits 0. The lint gate exits 0 with no output. Each capture holds 0 Thai lines.
+`pnpm-lock.yaml` is unchanged.
+
+The captures: `red-standing-rules-fix.txt`, `red-standing-rules-fix-tsc.txt`,
+`red-standing-rules-fix-lint.txt`.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16), id P2
+baseline_sha: f6278c573b919a1981c7b8a040bfeecab0844444
+commits: 698c841 (the test file and the 3 captures), badf7ff8 (the plan), and this log commit
+tests_run: the standing-rules file alone, `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-standing-rules.test.ts --maxWorkers=1`, exits 1 with Tests 3 failed | 2 passed (5): S3, S4, and S5 fail, S1 and S2 pass; S4 fails on 26 pages, from 30; no role bar line remains in S4; the 14 role bar S3 lines stay at 34.3 %; the reader-a3 S4 down failures come only from the title plaque, 2.77 mm to 3.30 mm. `cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit` exits 0. `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-standing-rules.test.ts` exits 0 with no output. Each capture holds 0 Thai lines.
+files_changed: dashboard/__tests__/quest-cover-standing-rules.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, and the 3 captures measure/runs/storytime_cover_options_20261106/red-standing-rules-fix.txt, red-standing-rules-fix-tsc.txt, and red-standing-rules-fix-lint.txt
+plan_updates: 1 new line, numstat 1 0. The script /tmp/opencode/rsrf/plan.py found the anchor line once and 0 Thai lines, then wrote the line directly after the anchor.
+known_failures: S3, S4, and S5 fail by design until Green
+handoff: the role bar union now stands within 1 mm on all 14 A3 pages; the 14 role bar S3 lines remain at 34.3 %; the A3 S4 down failures come only from the title plaque, 2.77 mm to 3.30 mm
+END_MEASURE_AGENT_RESULT
