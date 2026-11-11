@@ -149,6 +149,7 @@ export const QUEST_BOXES: Record<string, QuestBox> = {
     'reader-a3:week-pill': { kind: 'reader-a3', leftMm: 322, topMm: 35, widthMm: 36, heightMm: 10 },
     'reader-a3:title-plaque': { kind: 'reader-a3', leftMm: 100, topMm: 236, widthMm: 220, heightMm: 40 },
     'reader-a3:role-bar': { kind: 'reader-a3', leftMm: 150, topMm: 278, widthMm: 120, heightMm: 12 },
+    'reader-a3:logo-tile': { kind: 'reader-a3', leftMm: 126.4, topMm: 12, widthMm: 167.2, heightMm: 54 },
     'reader-leaf:double-line-frame': { kind: 'reader-leaf', leftMm: 8, topMm: 7, widthMm: 182, heightMm: 104 },
     'reader-leaf:title-plaque': { kind: 'reader-leaf', leftMm: 44, topMm: 113, widthMm: 110, heightMm: 20 },
     'reader-leaf:band-word': { kind: 'reader-leaf', leftMm: 47, topMm: 137, widthMm: 20, heightMm: 6 },
@@ -1531,36 +1532,53 @@ function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
 }
 
 /**
- * Builds the body of the A3 reader cover (`options/build.py`, `a_reader`): the game bar with the
- * band word, the series banner, the week pill, the title plaque, and the role bar.
+ * Builds the body of the A3 reader cover (`options/build.py`, `a_reader`). The default top style is
+ * the game bar with the band word, the series banner, the week pill, the title plaque, and the role
+ * bar. The round of 2026-11-11: with the top style `hlogo`, the horizontal logo on its amber tile
+ * is the only top chrome, and the week pill, the title plaque, and the role bar keep their HTML.
  * @param reader The reader row.
  * @param assets The assets.
  * @param bleedMm The bleed.
+ * @param top The top chrome style.
  * @returns The HTML fragment.
  */
-function readerA3Body(reader: QuestReaderRow, assets: QuestRenderAssets, bleedMm: number): string {
+function readerA3Body(
+    reader: QuestReaderRow,
+    assets: QuestRenderAssets,
+    bleedMm: number,
+    top: QuestTopStyle,
+): string {
     const kind: QuestCoverKind = 'reader-a3';
     const bandWord = boxOf(kind, 'band-word');
     const weekPill = boxOf(kind, 'week-pill');
     const plaque = boxOf(kind, 'title-plaque');
     const roleBar = boxOf(kind, 'role-bar');
     const colour = STORYTIME_LEVEL_COLOURS[reader.level] ?? A.blue;
+    const weekPillHtml =
+        `<div data-part="week-pill" class="quest-c" style="${boxStyle(weekPill, bleedMm)};box-sizing:border-box;border-radius:5mm;` +
+        `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-weight:700;font-size:14pt;` +
+        `line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`;
+    const plaqueHtml =
+        `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(plaque, bleedMm)}">` +
+        plaqueSvg(plaque.widthMm, plaque.heightMm, colour) +
+        `<div class="quest-c" style="position:absolute;left:0;top:8mm;width:${mm(plaque.widthMm)};color:#fff;` +
+        `font-family:'League Spartan';font-weight:700;font-size:40pt;line-height:1">${esc(reader.title)}</div></div>`;
+    const roleBarHtml =
+        `<div data-part="role-bar" class="quest-c" style="${boxStyle(roleBar, bleedMm)};box-sizing:border-box;` +
+        `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
+        `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
+    if (top === 'hlogo') {
+        return [artLayer(kind, assets, bleedMm), logoTile(kind, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
+    }
     return [
         artLayer(kind, assets, bleedMm),
         gameBar(kind, reader.litBand, null, bleedMm),
         `<div data-part="band-word" style="${boxStyle(bandWord, bleedMm)};font-family:'League Spartan';font-weight:700;` +
             `font-size:6.2mm;line-height:${mm(bandWord.heightMm)};color:${AMBER}">${esc(reader.litBand.toUpperCase())}</div>`,
         seriesBanner(kind, 'reader', bleedMm),
-        `<div data-part="week-pill" class="quest-c" style="${boxStyle(weekPill, bleedMm)};box-sizing:border-box;border-radius:5mm;` +
-            `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-weight:700;font-size:14pt;` +
-            `line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`,
-        `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(plaque, bleedMm)}">` +
-            plaqueSvg(plaque.widthMm, plaque.heightMm, colour) +
-            `<div class="quest-c" style="position:absolute;left:0;top:8mm;width:${mm(plaque.widthMm)};color:#fff;` +
-            `font-family:'League Spartan';font-weight:700;font-size:40pt;line-height:1">${esc(reader.title)}</div></div>`,
-        `<div data-part="role-bar" class="quest-c" style="${boxStyle(roleBar, bleedMm)};box-sizing:border-box;` +
-            `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
-            `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`,
+        weekPillHtml,
+        plaqueHtml,
+        roleBarHtml,
     ].join('\n');
 }
 
@@ -1678,7 +1696,8 @@ function documentOf(kind: QuestCoverKind, bleedMm: number, body: string): string
 }
 
 /**
- * Renders one cover side into one full HTML document (pin P2).
+ * Renders one cover side into one full HTML document (pin P2). The A3 reader takes the top style
+ * too: with `hlogo`, the logo tile is its only top chrome (round of 2026-11-11).
  * @param kind The cover kind.
  * @param subject The book row or the reader row.
  * @param assets The assets of the render.
@@ -1697,7 +1716,7 @@ export function renderQuestCover(
     questPageSize(kind, bleedMm);
     if (kind === 'reader-a3' || kind === 'reader-leaf') {
         const reader = subject as QuestReaderRow;
-        const body = kind === 'reader-a3' ? readerA3Body(reader, assets, bleedMm) : leafBody(reader, assets, bleedMm);
+        const body = kind === 'reader-a3' ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm);
         return documentOf(kind, bleedMm, body);
     }
     const book = subject as QuestBookRow;
@@ -1725,11 +1744,12 @@ function readerPageCss(trim: QuestTrim): string {
 
 /**
  * Renders one reader cover page as a body and a CSS text, for the print track (spec FR-9.5, D-A4).
- * The body holds no document tag, and the CSS holds no `@page` rule.
+ * The body holds no document tag, and the CSS holds no `@page` rule. The A3 page takes the top
+ * style: with `hlogo`, the logo tile is its only top chrome (round of 2026-11-11).
  * @param reader The reader row.
  * @param trim The trim of the page.
  * @param assets The assets.
- * @param opts The options: the bleed.
+ * @param opts The options: the bleed, and the top chrome style.
  * @returns The body and the CSS.
  */
 export function questReaderCoverPage(
@@ -1739,7 +1759,8 @@ export function questReaderCoverPage(
     opts: QuestRenderOptions,
 ): { body: string; css: string } {
     const bleedMm = opts?.bleedMm ?? 0;
+    const top = opts?.top ?? 'banner';
     questPageSize(trim.widthMm >= 300 ? 'reader-a3' : 'reader-leaf', bleedMm);
-    const body = trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm) : leafBody(reader, assets, bleedMm);
+    const body = trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm);
     return { body: `<div class="quest-reader-page">\n${body}\n</div>`, css: readerPageCss(trim) };
 }

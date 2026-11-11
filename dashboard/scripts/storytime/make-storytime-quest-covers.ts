@@ -1219,7 +1219,7 @@ async function main(argv: string[]): Promise<number> {
             { kind: 'reader-leaf' as QuestCoverKind, group: 'readers-leaf' as QuestGroup, names: names.readerPngsLeaf, side: 'lineArtFileName' as const },
         ]) {
             for (const [index, reader] of readers.entries()) {
-                const html = renderQuestCover(entry.kind, reader, { art: storytimeCoverFileUrl(path.join(picturesDir, reader.picture[entry.side])) }, { bleedMm });
+                const html = renderQuestCover(entry.kind, reader, { art: storytimeCoverFileUrl(path.join(picturesDir, reader.picture[entry.side])) }, { bleedMm, top: args.top });
                 const page = questPageSize(entry.kind, bleedMm);
                 docs[entry.group].push(html);
                 pages.push({ group: entry.group, kind: entry.kind, html, file: `${entry.group}/${entry.names[index]}`, widthMm: page.widthMm, heightMm: page.heightMm, art: rowOf(plan, entry.kind) });
