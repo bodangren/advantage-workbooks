@@ -100,3 +100,50 @@ deviation: (1) the key box file is a content file (the PM-ordered place). (2) Th
 questions: Q1 w01-2 reader-a3 cannot show the Nan head and the Pip body together (2930 of 2828.6 visible rows); default: the dog wins, the art aligns its bottom edge, and the Nan head may lie up to 12 mm above the top edge. Q2 the A3 quest cover holds no series line; default: checkStorytimeReaderCoverCopy drops the series rule, keeps the forbidden word and year rules, and fails every band word. Q3 the exception list; default: w01-2 reader-a3 and w01-2 reader-leaf. Q4 the Pam dolls; default: head boxes only, no title-object box.
 handoff: Green (deepseek/deepseek-flash#high): implement D3 to D7 and keep D8 in cover-quest.ts, readers.ts (page 1, page 12, CSS), make-storytime-quest-covers.ts, and make-readers-pdf.ts and teacher-book-cover.ts only where page 1 needs them; change no test and no key box. Page 1: one wrapper with data-picture-id and data-picture-file around the questReaderCoverPage body (hlogo, bleed 0; leaf 198 x 148.5 mm with line art on workbook; A3 420 x 297 mm with colour art and no 2.0 scale on a3-color); proof mode: the quest chrome, PICTURE MISSING, no image outside a logo tile; the readers CSS loads League Spartan. Leaf strip: the top-level part footer-strip, #FFFFFF, opaque, no border, at least 1 mm around the footer ink. Placement: the 6 moved covers are w01-2, w07-1, w07-2 (A3 and leaf); w01-2 A3 and leaf are the exceptions; the w01-2 A3 art aligns its bottom edge (Q1). Page 12: drop the reader-series line. Remaining failures: the 20 tests listed in step 3.
 END_MEASURE_AGENT_RESULT
+
+Red retry (2026-11-12), role base 0ab64a93, model claude-code/claude-opus-5-5[1m]#high.
+Cause: the Green block jr-green-f3f6-0ab64a93.log (capture green-f3f6-page1-conflict.txt). D6 needs
+page 1 as one data-picture-id wrapper around the quest page. pictureSourceProblems of
+dashboard/__tests__/fixtures/storytime-picture-folder.ts needed one plain img in every picture
+element. The message was "w01-1-cover: the picture element holds 2 child element(s), expected one img".
+Fix, in the tests only, commit 3ed17fc5:
+- pictureSourceProblems accepts a picture element whose only child is the quest reader page. That page
+  holds exactly one img[data-part="art"] with the attributes alt, class, data-part, src, and style,
+  and no other img outside a logo tile. Its src must be a file URL with no fragment and no query, and
+  it must decode to the resolved file of the row (colour on a3-color, line art on workbook). The art
+  img counts in the raw img total and in the picture img total. The plain picture elements keep
+  every rule. The event attribute rule and data-picture-file rule stay for both forms.
+- D6 of quest-cover-f3f6.test.ts needs the quest page as the only child of the wrapper.
+- Grep of data-picture-id, "picture element", and "expected one img": 2 more pins read page 1 as a
+  plain placeholder. storytime-print-student-book.test.ts line 1185 and
+  storytime-print-student-book-adversarial.test.ts line 353 now accept the quest page that holds
+  PICTURE MISSING. R-P4-* of storytime-print-readers line 1734 and R28 of the student book read the
+  first img of the wrapper, which is the art img, so they need no change.
+- Each change holds one "changed 2026-11-12 (F5, ...)" comment line. The 24 added lines hold 0 Thai
+  characters. storytime-print-student-book.test.ts holds 16 older Thai characters outside the changed
+  line, so the Green runs it and does not open it.
+Gates:
+- Retry gate (limit 1800 s, red-f3f6-retry.txt): quest-cover-f3f6, storytime-print-readers,
+  storytime-print-student-book, and storytime-print-student-book-adversarial exit 1 with Test Files
+  2 failed | 2 passed (4) and Tests 11 failed | 193 passed (204). The 11 failures are the 10 F3 to F6
+  contract tests of quest-cover-f3f6 (D2 x2, D3 x2, D5, D6 x4, D7) and R-P4-3 (the word "Sprout"),
+  each for its first-round reason. R-P4-38, R-P4-39, R-P4-41, and the student book guards pass.
+- tsc (limit 300 s, red-f3f6-retry-tsc.txt): exit 0, no output.
+- eslint on the 4 changed files (limit 300 s, red-f3f6-retry-lint.txt): exit 0, no output.
+- pnpm-lock.yaml stayed unchanged.
+Plan: one sub-line before "- [ ] Task (Green, F3 to F6)", numstat 1 0, plan Thai count 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 0ab64a93
+baseline_sha: f2a2a1d9
+commits: 3ed17fc5 (the fixture, D6, the 2 placeholder pins, the plan sub-line, the 3 captures), this log (measure(runs))
+tests_run: retry gate of 4 files: Test Files 2 failed | 2 passed (4), Tests 11 failed | 193 passed (204), exit 1; tsc exit 0; eslint exit 0
+red_command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts --maxWorkers=1
+deviation: the fixture and 2 student book test files belong to storytime_print_r1; this track changes them because F5 moves page 1.
+questions: none new; Q1 to Q4 of the first round stay open with their defaults.
+handoff: The Green writes page 1 as one data-picture-id wrapper whose only child is the questReaderCoverPage body. The art img keeps the attributes alt, class, data-part, src, and style, and its src is the encoded file URL of the resolved cover file. Proof mode puts PICTURE MISSING inside the quest page and prints no img. Remaining failures: the 10 contract tests of quest-cover-f3f6 and R-P4-3, plus the other first-round moved pins (G3, G5, G7, T16, M9 x4, and the reader cover test).
+END_MEASURE_AGENT_RESULT
