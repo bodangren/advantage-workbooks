@@ -1,0 +1,241 @@
+BUILD CAPTURE of Red retry F1 F2
+
+HEAVY_RUN_TIMEOUT_S 900
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-readers-r2b.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 8770[2mms[22m[39m
+     [32m✓[39m B1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups[32m 15[2mms[22m[39m
+     [32m✓[39m B2: the hlogo week pill and role bar take the logo amber and brown[32m 6[2mms[22m[39m
+     [32m✓[39m B3: the hlogo title text box is centred across the plaque band and is clear of the ornaments[32m 3[2mms[22m[39m
+     [32m✓[39m B4: the hlogo plaque width follows the title and the plaque sits on the page[32m 4[2mms[22m[39m
+     [32m✓[39m B5: a title of 40 characters wraps to 2 lines and the plaque grows upward[32m 1[2mms[22m[39m
+     [32m✓[39m B6: the hlogo week pill text has 1 line box and is centred across the pill[32m 2[2mms[22m[39m
+     [32m✓[39m B7: the hlogo role bar fits its text with even padding[32m 5[2mms[22m[39m
+[31m     [31m×[31m B8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile[39m[32m 176[2mms[22m[39m
+     [32m✓[39m B9: the K logo file holds only grays and the same shape as the color logo[32m 17[2mms[22m[39m
+     [32m✓[39m B10: the leaf series line stays on one line inside the 35 mm box[32m 3[2mms[22m[39m
+[31m     [31m×[31m B11: the hlogo leaf parts keep the HTML of the default leaf render[39m[32m 70[2mms[22m[39m
+     [32m✓[39m B12: the 4 book kinds keep their bytes in the default style[32m 157[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 5838[2mms[22m[39m
+     [32m✓[39m R1: the box table holds the A3 reader logo tile and the kept reader boxes do not change[32m 4[2mms[22m[39m
+[31m     [31m×[31m R2: with the top style hlogo, the A3 reader cover holds no logo tile and no top chrome[39m[32m 171[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art layer keeps its HTML [33m 679[2mms[22m[39m
+     [32m✓[39m R4: the default renders and the reader page outputs keep their pins[32m 30[2mms[22m[39m
+[31m     [31m×[31m R5: the hlogo A3 reader cover holds no logo tile in the browser[39m[33m 389[2mms[22m[39m
+[31m     [31m×[31m R6: the reader page with the top style hlogo holds no logo tile and no game bar[39m[32m 36[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 3195[2mms[22m[39m
+     [32m✓[39m A1: the horizontal logo file sits in the logo folder with the approved hash[32m 3[2mms[22m[39m
+     [32m✓[39m A2: the default render of each kind is byte equal to the r5 pin[32m 204[2mms[22m[39m
+[31m     [31m×[31m A3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile[39m[32m 120[2mms[22m[39m
+     [32m✓[39m A4: the box table holds the tile of the 4 kinds and the kept boxes do not change[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 609[2mms[22m[39m
+[31m     [31m×[31m A6: the logo sits centered in its tile and the tile takes the amber and the brown[39m[33m 322[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1266[2mms[22m[39m
+     [32m✓[39m A8: the build takes the flag --top[32m 2[2mms[22m[39m
+     [32m✓[39m A9: the hlogo render of each kind keeps every part outside the logo tile[32m 5[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m7 failed[39m[22m[2m | [22m[1m[32m20 passed[39m[22m[90m (27)[39m
+[2m   Start at [22m 18:43:46
+[2m   Duration [22m 30.59s[2m (transform 869ms, setup 1.52s, import 7.67s, tests 17.80s, environment 2.11s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 7 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-hlogo.test.ts[2m > [22mquest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)[2m > [22mA3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile
+[31m[1mAssertionError[22m: student-front holds no logo tile.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-hlogo.test.ts:[2m622:111[22m[39m
+    [90m620| [39m                expect(doc.querySelectorAll('[data-part="series-logo"]…
+    [90m621| [39m                expect(doc.querySelectorAll('[data-part="crest"]').len…
+    [90m622| [39m                expect(doc.querySelectorAll('[data-part="logo-tile"]')…
+    [90m   | [39m                                                                                                              [31m^[39m
+    [90m623| [39m            } [35melse[39m {
+    [90m624| [39m                expect(doc.querySelectorAll('[data-part="logo-box"]').…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-hlogo.test.ts[2m > [22mquest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)[2m > [22mA6: the logo sits centered in its tile and the tile takes the amber and the brown
+[31m[1mAssertionError[22m: the student-front holds no logo tile.: expected { rect: { left: 80.875, …(3) }, …(6) } to be null[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+{
+  "background": "rgb(252, 211, 77)",
+  "borderColors": [
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+  ],
+  "borders": {
+    "bottom": 2,
+    "left": 2,
+    "right": 2,
+    "top": 2,
+  },
+  "imgRect": {
+    "bottom": 226.9375,
+    "left": 145.59375,
+    "right": 647.515625,
+    "top": 67.296875,
+  },
+  "opacities": [],
+  "rect": {
+    "bottom": 249.4375,
+    "left": 80.875,
+    "right": 712.796875,
+    "top": 45.34375,
+  },
+  "shadows": [],
+}
+
+[36m [2m❯[22m __tests__/quest-cover-hlogo.test.ts:[2m735:60[22m[39m
+    [90m733| [39m        [35mfor[39m ([35mconst[39m kind [35mof[39m [33mKINDS_FRONT[39m) {
+    [90m734| [39m            [35mconst[39m raw [33m=[39m [35mawait[39m [34mmeasureTile[39m(kind)[33m;[39m
+    [90m735| [39m            [34mexpect[39m(raw[33m,[39m [32m`the [39m[36m${[39mkind[36m}[39m[32m holds no logo tile.`[39m)[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m   | [39m                                                           [31m^[39m
+    [90m736| [39m        }
+    [90m737| [39m        [35mfor[39m ([35mconst[39m kind [35mof[39m [33mKINDS_BACK[39m) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2.test.ts[2m > [22mquest-cover-readers-r2: R1 to R6 (Red, the r2 readers)[2m > [22mR2: with the top style hlogo, the A3 reader cover holds no logo tile and no top chrome
+[31m[1mAssertionError[22m: the A3 reader cover w01-1 holds no logo tile.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2.test.ts:[2m389:15[22m[39m
+    [90m387| [39m                doc[33m.[39m[34mquerySelectorAll[39m([32m'[data-part="logo-tile"]'[39m)[33m.[39mlength[33m,[39m
+    [90m388| [39m                [32m`the A3 reader cover [39m[36m${[39mid[36m}[39m[32m holds no logo tile.`[39m[33m,[39m
+    [90m389| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m390| [39m            [35mconst[39m text [33m=[39m doc[33m.[39mbody[33m.[39mtextContent [33m??[39m [32m''[39m[33m;[39m
+    [90m391| [39m            [34mexpect[39m(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2.test.ts[2m > [22mquest-cover-readers-r2: R1 to R6 (Red, the r2 readers)[2m > [22mR5: the hlogo A3 reader cover holds no logo tile in the browser
+[31m[1mAssertionError[22m: the hlogo A3 reader cover of the first row holds no logo tile.: expected { …(6) } to be null[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+{
+  "background": "rgb(252, 211, 77)",
+  "borderColors": [
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+    "rgb(146, 64, 14)",
+  ],
+  "borders": {
+    "bottom": 2,
+    "left": 2,
+    "right": 2,
+    "top": 2,
+  },
+  "imgRect": {
+    "bottom": 226.9375,
+    "left": 542.4375,
+    "right": 1044.359375,
+    "top": 67.296875,
+  },
+  "page": {
+    "bottom": 1122.515625,
+    "left": 0,
+    "right": 1587.390625,
+    "top": 0,
+  },
+  "rect": {
+    "bottom": 249.4375,
+    "left": 477.71875,
+    "right": 1109.640625,
+    "top": 45.34375,
+  },
+}
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2.test.ts:[2m463:87[22m[39m
+    [90m461| [39m        [35mconst[39m rows [33m=[39m [34mreaderRows[39m()[33m;[39m
+    [90m462| [39m        [35mconst[39m raw [33m=[39m [35mawait[39m [34mmeasureTile[39m(rows[[34m0[39m])[33m;[39m
+    [90m463| [39m        expect(raw, 'the hlogo A3 reader cover of the first row holds …
+    [90m   | [39m                                                                                      [31m^[39m
+    [90m464| [39m    }[33m,[39m [34m300_000[39m)[33m;[39m
+    [90m465| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2.test.ts[2m > [22mquest-cover-readers-r2: R1 to R6 (Red, the r2 readers)[2m > [22mR6: the reader page with the top style hlogo holds no logo tile and no game bar
+[31m[1mAssertionError[22m: the hlogo A3 reader page holds no logo tile.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2.test.ts:[2m479:11[22m[39m
+    [90m477| [39m            doc[33m.[39m[34mquerySelectorAll[39m([32m'[data-part="logo-tile"]'[39m)[33m.[39mlength[33m,[39m
+    [90m478| [39m            [32m'the hlogo A3 reader page holds no logo tile.'[39m[33m,[39m
+    [90m479| [39m        )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m480| [39m        [34mexpect[39m(
+    [90m481| [39m            doc[33m.[39m[34mquerySelectorAll[39m([32m'[data-part="game-bar"]'[39m)[33m.[39mlength[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile
+[31m[1mAssertionError[22m: the hlogo leaf reader cover w01-1 holds no logo tile.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m999:15[22m[39m
+    [90m997| [39m                alt[33m.[39m[34mquerySelectorAll[39m([32m'[data-part="logo-tile"]'[39m)[33m.[39mlength[33m,[39m
+    [90m998| [39m                `the hlogo leaf reader cover ${id} holds no logo tile.…
+    [90m999| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1000| [39m        }
+    [90m1001| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB11: the hlogo leaf parts keep the HTML of the default leaf render
+[31m[1mAssertionError[22m: the hlogo leaf reader cover w01-1 holds no logo tile.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1058:91[22m[39m
+    [90m1056| [39m            [35mconst[39m alt [33m=[39m [34mparseHtml[39m([34mleafHtml[39m(row[33m,[39m [33mHLOGO_OPTIONS[39m))[33m;[39m
+    [90m1057| [39m            const tiles = alt.querySelectorAll('[data-part="logo-tile"…
+    [90m1058| [39m            expect(tiles.length, `the hlogo leaf reader cover ${id} ho…
+    [90m   | [39m                                                                                          [31m^[39m
+    [90m1059| [39m            for (const part of Array.from(alt.querySelectorAll('[data-…
+    [90m1060| [39m                [35mconst[39m name [33m=[39m part[33m.[39m[34mgetAttribute[39m([32m'data-part'[39m) [33m??[39m [32m''[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯[22m[39m

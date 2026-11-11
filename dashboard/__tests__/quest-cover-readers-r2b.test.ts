@@ -217,11 +217,6 @@ const LONG_TITLE = "Antidisestablishmentarian's Unbelievable";
 /** The repo root. */
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-/** The URL of the gray horizontal Storytime Advantage logo, the K logo. */
-const K_LOGO_URL = pathToFileURL(
-    path.join(repoRoot, 'content', 'storytime', 'covers', 'logos', 'storytime-advantage-horizontal-k.svg'),
-).href;
-
 /** The row ids of the 14 reader rows, in the order of `questReaders()`. */
 const ROW_IDS = [
     'w01-1',
@@ -458,19 +453,6 @@ function borderWidthMm(style: string): number | null {
     if (match[2] === 'px') return number * (25.4 / 96);
     if (match[2] === 'pt') return number * (25.4 / 72);
     return null;
-}
-
-/**
- * Reads the color of one inline style property.
- * @param style The inline style.
- * @param property The name of the property.
- * @returns The color value, or an empty text when the style holds no color.
- */
-function inlineColour(style: string, property: string): string {
-    const match = new RegExp(`${property}\\s*:\\s*([^;]+)`, 'i').exec(style);
-    if (!match) return '';
-    const colour = /(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\))/i.exec(match[1]);
-    return colour ? colour[1] : '';
 }
 
 /**
@@ -993,7 +975,8 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
-    it('B8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none', () => {
+    // B8 changed 2026-11-11 (F1 F2, Daniel's look): the leaf cover holds no logo tile, the gray logo moves to page 12.
+    it('B8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile', () => {
         const tile = QUEST_BOXES['reader-leaf:logo-tile'];
         expect(tile, 'the box table holds the key reader-leaf:logo-tile.').toBeDefined();
         expect(tile!.kind, 'the kind of the leaf logo tile.').toBe('reader-leaf');
@@ -1010,23 +993,10 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
                 `the default leaf reader cover ${id} holds no logo tile.`,
             ).toBe(0);
             const alt = parseHtml(leafHtml(row, HLOGO_OPTIONS));
-            const tiles = alt.querySelectorAll('[data-part="logo-tile"]');
-            expect(tiles.length, `the hlogo leaf reader cover ${id} holds one logo tile.`).toBe(1);
-            const images = Array.from(tiles[0].querySelectorAll('img'));
-            expect(images.length, `the logo tile of the hlogo leaf reader cover ${id} holds one image.`).toBe(1);
             expect(
-                images[0].getAttribute('src') ?? '',
-                `the logo tile of the hlogo leaf reader cover ${id} holds the K logo.`,
-            ).toBe(K_LOGO_URL);
-            const style = tiles[0].getAttribute('style') ?? '';
-            expect(
-                isGrey(inlineColour(style, 'background(?:-color)?')),
-                `the logo tile fill of the leaf reader cover ${id} is a gray.`,
-            ).toBe(true);
-            expect(
-                isGrey(inlineColour(style, 'border(?:-color)?')),
-                `the logo tile border of the leaf reader cover ${id} is a gray.`,
-            ).toBe(true);
+                alt.querySelectorAll('[data-part="logo-tile"]').length,
+                `the hlogo leaf reader cover ${id} holds no logo tile.`,
+            ).toBe(0);
         }
     });
 
@@ -1077,7 +1047,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
-    // B11 changed 2026-11-11 (readers r2c): the hlogo leaf changes the tile, the plaque, and the footer, so the skip list holds 6 part names.
+    // B11 changed 2026-11-11 (F1 F2, Daniel's look): the hlogo leaf cover holds no logo tile.
     it('B11: the hlogo leaf parts keep the HTML of the default leaf render', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
@@ -1085,7 +1055,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             const plain = parseHtml(leafHtml(row, DEFAULT_OPTIONS));
             const alt = parseHtml(leafHtml(row, HLOGO_OPTIONS));
             const tiles = alt.querySelectorAll('[data-part="logo-tile"]');
-            expect(tiles.length, `the hlogo leaf reader cover ${id} holds one logo tile.`).toBe(1);
+            expect(tiles.length, `the hlogo leaf reader cover ${id} holds no logo tile.`).toBe(0);
             for (const part of Array.from(alt.querySelectorAll('[data-part]'))) {
                 const name = part.getAttribute('data-part') ?? '';
                 if (SKIPPED_LEAF_PARTS.includes(name)) continue;

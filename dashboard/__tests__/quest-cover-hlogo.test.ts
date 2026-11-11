@@ -611,26 +611,28 @@ describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal
         }
     });
 
-    it('A3: with the top style hlogo, the logo tile is the only top chrome', () => {
+    // A3 changed 2026-11-11 (F1 F2, Daniel's look): the 2 fronts hold no logo tile, the 2 backs keep one logo tile.
+    it('A3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile', () => {
         for (const kind of KINDS) {
             const doc = parseHtml(renderKind(kind, HLOGO_OPTIONS));
             expect(doc.querySelectorAll('[data-part="series-banner"]').length, `${kind} holds no series banner.`).toBe(0);
             if (kind === 'student-front' || kind === 'teacher-front') {
                 expect(doc.querySelectorAll('[data-part="series-logo"]').length, `${kind} holds no series logo.`).toBe(0);
                 expect(doc.querySelectorAll('[data-part="crest"]').length, `${kind} holds no crest.`).toBe(0);
+                expect(doc.querySelectorAll('[data-part="logo-tile"]').length, `${kind} holds no logo tile.`).toBe(0);
             } else {
                 expect(doc.querySelectorAll('[data-part="logo-box"]').length, `${kind} holds no logo box.`).toBe(0);
+                const tiles = doc.querySelectorAll('[data-part="logo-tile"]');
+                expect(tiles.length, `${kind} holds one logo tile.`).toBe(1);
+                const tile = tiles[0];
+                const images =
+                    tile.tagName.toLowerCase() === 'img' ? [tile] : Array.from(tile.querySelectorAll('img'));
+                expect(images.length, `${kind} logo tile holds one image.`).toBe(1);
+                expect(
+                    hashOfSrc(images[0].getAttribute('src') ?? '', `${kind} logo tile`),
+                    `the logo tile of the ${kind} holds the horizontal logo bytes.`,
+                ).toBe(SHA_HORIZONTAL_LOGO);
             }
-            const tiles = doc.querySelectorAll('[data-part="logo-tile"]');
-            expect(tiles.length, `${kind} holds one logo tile.`).toBe(1);
-            const tile = tiles[0];
-            const images =
-                tile.tagName.toLowerCase() === 'img' ? [tile] : Array.from(tile.querySelectorAll('img'));
-            expect(images.length, `${kind} logo tile holds one image.`).toBe(1);
-            expect(
-                hashOfSrc(images[0].getAttribute('src') ?? '', `${kind} logo tile`),
-                `the logo tile of the ${kind} holds the horizontal logo bytes.`,
-            ).toBe(SHA_HORIZONTAL_LOGO);
             const names = seriesNameNodes(doc);
             expect(
                 names.length,
@@ -725,9 +727,14 @@ describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal
         }
     });
 
+    // A6 changed 2026-11-11 (F1 F2, Daniel's look): the 2 fronts hold no logo tile, so the tile measures run for the 2 backs only.
     it('A6: the logo sits centered in its tile and the tile takes the amber and the brown', async () => {
         const widthShares: { kind: Kind; value: number }[] = [];
-        for (const kind of KINDS) {
+        for (const kind of KINDS_FRONT) {
+            const raw = await measureTile(kind);
+            expect(raw, `the ${kind} holds no logo tile.`).toBeNull();
+        }
+        for (const kind of KINDS_BACK) {
             const raw = await measureTile(kind);
             expect(raw, `the ${kind} holds a logo tile.`).not.toBeNull();
             const tile = raw!;

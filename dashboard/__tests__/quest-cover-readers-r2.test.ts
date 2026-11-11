@@ -70,7 +70,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { Browser } from '@playwright/test';
@@ -86,21 +86,6 @@ import {
 /** The art string of the renders. The test reads no art file. */
 const ART = 'data:image/png;base64,iVBORw0KGgo=';
 
-/** The millimetres of one pixel: 96 px is 25.4 mm. */
-const MM_PER_PX = 25.4 / 96;
-
-/** The amber of the logo tile. */
-const AMBER = '#fcd34d';
-
-/** The brown of the logo edge. */
-const BROWN = '#92400e';
-
-/** The tolerance of the tile centring on the page width, in millimetres. */
-const PAGE_CENTRE_TOLERANCE_MM = 0.5;
-
-/** The tolerance of the logo centring in its tile, in millimetres. */
-const TILE_CENTRE_TOLERANCE_MM = 0.25;
-
 /** The width of the A3 reader page, in millimetres. */
 const A3_PAGE_WIDTH_MM = 420;
 
@@ -109,14 +94,6 @@ const LEAF_PAGE_WIDTH_MM = 198;
 
 /** The height of the leaf reader page, in millimetres. */
 const LEAF_PAGE_HEIGHT_MM = 148.5;
-
-/** The repo root. */
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-
-/** The URL of the horizontal Storytime Advantage logo, the logo of the tile. */
-const HORIZONTAL_LOGO_URL = pathToFileURL(
-    path.join(repoRoot, 'content', 'storytime', 'covers', 'logos', 'storytime-advantage-horizontal.svg'),
-).href;
 
 /** The row ids of the 14 reader rows, in the order of `questReaders()`. */
 const ROW_IDS = [
@@ -258,20 +235,6 @@ function parseHtml(html: string): Document {
 }
 
 /**
- * Converts one computed color to a lower case hex value.
- * @param value The computed color.
- * @returns The hex value.
- */
-function toHex(value: string): string {
-    const match = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(value);
-    if (!match) return value.trim().toLowerCase();
-    const hex = [match[1], match[2], match[3]]
-        .map((part) => Number.parseInt(part, 10).toString(16).padStart(2, '0'))
-        .join('');
-    return `#${hex}`;
-}
-
-/**
  * Reads the 14 reader rows of the shipped Level 2 weeks.
  * @returns The rows.
  */
@@ -402,7 +365,8 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
         }
     });
 
-    it('R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome', () => {
+    // R2 changed 2026-11-11 (F1 F2, Daniel's look): the A3 reader cover holds no logo tile.
+    it('R2: with the top style hlogo, the A3 reader cover holds no logo tile and no top chrome', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
             const id = ROW_IDS[index];
@@ -419,14 +383,10 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
                 doc.querySelectorAll('[data-part="series-banner"]').length,
                 `the A3 reader cover ${id} holds no series banner.`,
             ).toBe(0);
-            const tiles = doc.querySelectorAll('[data-part="logo-tile"]');
-            expect(tiles.length, `the A3 reader cover ${id} holds one logo tile.`).toBe(1);
-            const images = Array.from(tiles[0].querySelectorAll('img'));
-            expect(images.length, `the logo tile of the A3 reader cover ${id} holds one image.`).toBe(1);
             expect(
-                images[0].getAttribute('src') ?? '',
-                `the logo tile of the A3 reader cover ${id} holds the horizontal logo.`,
-            ).toBe(HORIZONTAL_LOGO_URL);
+                doc.querySelectorAll('[data-part="logo-tile"]').length,
+                `the A3 reader cover ${id} holds no logo tile.`,
+            ).toBe(0);
             const text = doc.body.textContent ?? '';
             expect(
                 text.includes('Storytime Advantage'),
@@ -496,48 +456,15 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
         ).toBe(PAGE_LEAF_PIN);
     });
 
-    it('R5: the logo tile of the A3 reader cover sits centered in the page', async () => {
+    // R5 changed 2026-11-11 (F1 F2, Daniel's look): the A3 reader cover holds no logo tile, so the browser measure holds no tile.
+    it('R5: the hlogo A3 reader cover holds no logo tile in the browser', async () => {
         const rows = readerRows();
         const raw = await measureTile(rows[0]);
-        expect(raw, 'the hlogo A3 reader cover of the first row holds a logo tile.').not.toBeNull();
-        const tile = raw!;
-        const pageWidthMm = (tile.page.right - tile.page.left) * MM_PER_PX;
-        expect(pageWidthMm, 'the A3 reader page is 420 mm wide.').toBeCloseTo(A3_PAGE_WIDTH_MM, 1);
-        const pageCentreMm = ((tile.page.left + tile.page.right) / 2) * MM_PER_PX;
-        const tileCentreMm = ((tile.rect.left + tile.rect.right) / 2) * MM_PER_PX;
-        expect(
-            Math.abs(tileCentreMm - pageCentreMm),
-            `the logo tile is centered on the page width: the tile centre is ${tileCentreMm.toFixed(2)} mm, ` +
-                `the page centre is ${pageCentreMm.toFixed(2)} mm.`,
-        ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
-        expect(tile.imgRect, 'the logo tile holds an image.').not.toBeNull();
-        const img = tile.imgRect!;
-        const innerLeft = (tile.rect.left + tile.borders.left) * MM_PER_PX;
-        const innerRight = (tile.rect.right - tile.borders.right) * MM_PER_PX;
-        const innerTop = (tile.rect.top + tile.borders.top) * MM_PER_PX;
-        const innerBottom = (tile.rect.bottom - tile.borders.bottom) * MM_PER_PX;
-        const leftGap = img.left * MM_PER_PX - innerLeft;
-        const rightGap = innerRight - img.right * MM_PER_PX;
-        const topGap = img.top * MM_PER_PX - innerTop;
-        const bottomGap = innerBottom - img.bottom * MM_PER_PX;
-        expect(
-            Math.abs(leftGap - rightGap),
-            `the logo is centered in its tile: the left gap is ${leftGap.toFixed(2)} mm, ` +
-                `the right gap is ${rightGap.toFixed(2)} mm.`,
-        ).toBeLessThanOrEqual(TILE_CENTRE_TOLERANCE_MM);
-        expect(
-            Math.abs(topGap - bottomGap),
-            `the logo is centered in its tile: the top gap is ${topGap.toFixed(2)} mm, ` +
-                `the bottom gap is ${bottomGap.toFixed(2)} mm.`,
-        ).toBeLessThanOrEqual(TILE_CENTRE_TOLERANCE_MM);
-        expect(toHex(tile.background), 'the background of the logo tile.').toBe(AMBER);
-        expect(tile.borderColors.length, 'the logo tile holds a border.').toBeGreaterThanOrEqual(1);
-        for (const colour of tile.borderColors) {
-            expect(toHex(colour), 'every border color of the logo tile.').toBe(BROWN);
-        }
+        expect(raw, 'the hlogo A3 reader cover of the first row holds no logo tile.').toBeNull();
     }, 300_000);
 
-    it('R6: the reader page with the top style hlogo holds one logo tile and no game bar', () => {
+    // R6 changed 2026-11-11 (F1 F2, Daniel's look): the reader page holds no logo tile.
+    it('R6: the reader page with the top style hlogo holds no logo tile and no game bar', () => {
         const rows = readerRows();
         const page = questReaderCoverPage(
             rows[0],
@@ -548,8 +475,8 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
         const doc = parseHtml(page.body);
         expect(
             doc.querySelectorAll('[data-part="logo-tile"]').length,
-            'the hlogo A3 reader page holds one logo tile.',
-        ).toBe(1);
+            'the hlogo A3 reader page holds no logo tile.',
+        ).toBe(0);
         expect(
             doc.querySelectorAll('[data-part="game-bar"]').length,
             'the hlogo A3 reader page holds no game bar.',
