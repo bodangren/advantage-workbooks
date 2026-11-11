@@ -1,0 +1,90 @@
+# Jr Green log: readers r2b (storytime_cover_options_20261106)
+
+- Role: Measure Jr Green, Phase 2, the task `Task (Green, readers r2b)`.
+- Model: deepseek/deepseek-flash#high.
+- Red model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (commits 1d3c861d, ab405a80, log 6ce6a588).
+- role_base_sha: 6ce6a588. The Red change 1d3c861d and the Red log 6ce6a588 are inside
+  `6ce6a588..HEAD`, and the Red test file is a committed ancestor of the role base.
+- Status: complete.
+
+## Step 0: the Thai filter
+
+`grep -cP` gave 0 for each of the 5 files. Every capture ran through
+`heavy_capture_r2b.py`, which drops each Thai line and prints `THAI_LINES_DROPPED=0` and `EXIT=<n>`.
+No week file was read, and no rendered page was printed.
+
+## The work
+
+The change sits in `dashboard/lib/storytime/print/cover-quest.ts` and in the new leaf logo.
+
+- D1 and D3: `readerTitlePlaque` draws the hlogo A3 plaque with
+  `plaqueSvg(width, height, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE)` and
+  `data-plaque-colour="#FCD34D"`. The title takes `#92400E`, League Spartan 700, `line-height:1`,
+  `font-kerning:none`, and no text stroke. The band is the plaque height minus 5.6 mm.
+- The width rule: the plaque width is the title width plus 54 mm, between 120 mm and 340 mm. The
+  title width comes from the new 95-entry advance table of League Spartan 700, in em units, with a
+  fallback of 0.5117 em for a character outside the table. The table comes from the committed script
+  `league-spartan-widths-r2b.mjs`: a Chrome page reads `measureText` of each character at 1000 px
+  with `fontKerning` off. A title that passes 286 mm wraps at the same font size, and the plaque
+  grows upward while its bottom stays at 276 mm.
+- D2 and D4: with hlogo, the week pill and the role bar take the amber fill, the 0.6 mm brown
+  border, and the brown text, and the role mark takes the brown stroke. The role bar takes
+  `width:max-content`, 6 mm side paddings, `left:50%`, and `translateX(-50%)`.
+- D5 and D6: the box `reader-leaf:logo-tile` is 59.6/5.7/78.8/25.5 mm, and the leaf series box is
+  35 mm wide in both styles. `logoTile` takes optional colours, so the leaf draws the same tile in
+  `#D2D2D2` and `#4E4E4E` with the K logo; the book tile output stays byte-equal.
+- The K logo: `make-k-logo-r2b.py` (python3 -I, create-only) changed 11 colors to the gray of the
+  same luminance. The file keeps 19505 bytes, the viewBox, and the path count.
+
+The default A3 render, the 4 book kinds in both styles, and the leaf page with the series part
+removed keep their pins.
+
+## The faults and their fixes
+
+Gate 1 run 1 failed 2 tests of 28. B3 read a 68.80 mm band on the row w01-2, because the wrap
+simulation ran on a single-line title: the greedy sum of the advances exceeded the title width by a
+rounding step. The code now simulates the wrap only when the width rule is clamped at the maximum.
+B4 read a plaque of 119.9968 mm on the row w04-2, because Chrome measures a 120 mm box a fraction
+short. A clamped plaque now takes 0.4 mm inside its bound. The run 1 title text box was 27.25 mm of
+the 34.40 mm band at 29.5914 mm, so `READER_TITLE_BOX_EM` is now the measured 0.921, and the title
+font is 29.8806 mm for the 80 % share. The week pill font is 4.379 mm, and the role bar label font
+is 15 pt with 6 mm paddings; the pill and bar shares passed in every gate 1 run.
+
+## The time limits and the stopped probe
+
+The PM stopped my probe `/tmp/opencode/gr2b/probe-r2b.ts` on 2026-11-11: it hung inside heavy-run
+for 601 s with the Chrome browser open, and it held the shared heavy lock. I deleted the probe and
+its partial capture `probe-a3-r2b.txt`, and I ran no other probe. Every heavy-run then took its own
+limit: `HEAVY_RUN_TIMEOUT_S=300` for gate 1, the mutant, tsc, and lint, and `HEAVY_RUN_TIMEOUT_S=1800`
+for gate 2. No heavy-run hit its limit.
+
+## Gates
+
+1. Gate 1, `green-readers-r2b-red-files-2.txt` (run 2 of 2): 3 files passed, 28 tests passed,
+   `EXIT=0`, 29.57 s. Run 1 is `-1.txt`.
+2. Gate 2, `green-readers-r2b-green.txt`: 10 files passed, 329 tests passed, `EXIT=0`, 1573.82 s.
+3. tsc, `green-readers-r2b-tsc.txt`: `EXIT=0` with no output.
+4. eslint, `green-readers-r2b-lint.txt`: `EXIT=0` with 0 errors and the 1 known warning of the
+   unchanged `quest-cover-template.test.ts`.
+5. The mutant, `green-readers-r2b-mutant.txt`: `PLAQUE_BLUE_PALETTE` in the hlogo plaque fails 1
+   test of 28 (B1, `#E7EEF7`). The restore gave the SHA-256 `31380c53`, equal to the saved bytes.
+
+## Commits
+
+- `b78f8da3`: the code, the K logo, the 2 scripts, the capture wrapper, and the width capture.
+- `d9fc57f1`: the plan evidence and the 6 gate captures.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 6ce6a588
+commits: b78f8da3, d9fc57f1
+tests_run: gate 1 `cd dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1` in one heavy-run (HEAVY_RUN_TIMEOUT_S=300), run 2, exit 0, `Test Files 3 passed (3)`, `Tests 28 passed (28)`, 29.57 s; gate 2 `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1` in one heavy-run (HEAVY_RUN_TIMEOUT_S=1800), exit 0, `Test Files 10 passed (10)`, `Tests 329 passed (329)`, 1573.82 s; `npx tsc --noEmit` exit 0 with no output; `npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts` exit 0 with 0 errors and 1 known warning; the mutant run exit 1 with 1 failed and 27 passed (B1), and the restore SHA-256 is 31380c5336add1c983101653515f0918d3b51e39ca318988041fafb7a796bf86; every capture holds THAI_LINES_DROPPED=0
+files_changed: dashboard/lib/storytime/print/cover-quest.ts, content/storytime/covers/logos/storytime-advantage-horizontal-k.svg, measure/runs/storytime_cover_options_20261106/league-spartan-widths-r2b.mjs, measure/runs/storytime_cover_options_20261106/make-k-logo-r2b.py, measure/runs/storytime_cover_options_20261106/heavy_capture_r2b.py, measure/runs/storytime_cover_options_20261106/widths-r2b.txt, measure/tracks/storytime_cover_options_20261106/plan.md, the 6 gate captures, this log
+plan_updates: one Green readers r2b task line [x] with commit b78f8da and one evidence line; the numstat of the plan is `2 1`; the plan holds 0 Thai characters
+tasks_flipped: `- [x] Task (Green, readers r2b)` with commit b78f8da; no task went to [b]
+known_failures: none in the cover suite; the mutant is not committed
+handoff: the build role must know these facts. (1) All new chrome applies only with the top style `hlogo`; the default A3 render, the 4 book kinds in both styles, and the leaf page with the series part removed keep their pins, so a rebuild must pass `--top hlogo` for the 14 A3 and 14 leaf reader covers. (2) The hlogo A3 title plaque is now fitted: its width is the title width plus 54 mm between 120 mm and 340 mm, its bottom stays at 276 mm, and its top moves up when a title wraps. No box table edit stands for it, so a check that reads `reader-a3:title-plaque` {100, 236, 220, 40} reads the default box only. (3) The leaf series box is 35 mm in both styles, so the leaf covers change in the series line even in the default style. (4) The leaf hlogo cover holds the K logo file `content/storytime/covers/logos/storytime-advantage-horizontal-k.svg`; keep that file with the covers, and keep the 2 scripts and `widths-r2b.txt` because the evidence line names them. (5) The graph artifact `graph.db` is not rebuilt; the other commits of this track did not rebuild it. (6) I did not build a cover and I did not touch the print-ready folder or the spend log.
+END_MEASURE_AGENT_RESULT
