@@ -1,0 +1,74 @@
+MEASURE jr-green F1 F2 and heads (storytime_cover_options, Phase 2, Task 2.9 part 8)
+date: 2026-11-11
+model: deepseek/deepseek-flash#high
+route: deepseek/deepseek-flash#high
+gates: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+the Red of this pair: claude-code/claude-opus-5-5[1m]#high, the Red commit 888d00a7
+role_base_sha: 0ae043e8
+phase_base_sha: d3a581ec
+status: blocked, the 3 Red test files pass, and 7 committed pins of 3 older files fail
+
+The narrative
+- The Thai filter ran first. The 5 files hold 0 Thai characters.
+- The role base 0ae043e8 is an ancestor of HEAD. The Red commit 888d00a7 stands inside the range
+  d3a581ec..HEAD.
+- The Red rerun of the 3 Red files exits 1: 3 files failed, 8 tests failed, 5 passed (G1, G3, G5,
+  G7, S1, S2, S4, S5 fail; G2, G4, G6, H0, S3 pass). The capture is green-f1f2-red-rerun.txt.
+- The read files: the Mid Red log, the 2 new test files, the changed standing rules file, and the
+  cover functions frontBody, readerA3Body, leafBody, logoTile, and artLayer.
+- The implementation holds 4 changes. One: with `hlogo`, `leafBody` draws no `double-line-frame`.
+  Two: with `hlogo`, `frontBody`, `readerA3Body`, and `leafBody` draw no `logo-tile`, and no other
+  part takes its place. Three: `backBody` keeps its bytes, so the 2 book backs keep their SHA-256
+  pins. Four: page 12 of each reader drops the band line "Sprout" and gains one `logo-tile` of
+  78.8 mm by 25.5 mm at reader page scale, centred across the page, 103 mm from the top edge: the
+  tile bottom stands 20 mm above the page bottom, 11.8 mm above the footer text, and more than
+  55 mm below the word row. The tile takes the colour logo on the amber tile with the brown border
+  on `a3-color`, and the K logo on the gray tile with the gray border on `workbook`. The logo
+  fills 80 % of the inner tile height, and its width follows the viewBox aspect 3.144.
+- The quick loop try 1 exits 0: 3 files passed, 13 tests passed. G5 checks 28 page 12 pages with
+  0 problems. G2 reads FRAMED_PAGES_CHECKED=252 and FRAMED_PAGES_FAILED=0. G7 reads
+  HEAD_PAIRS_CHECKED=241 and HEAD_OVERLAPS=0, by part none. S1 to S5 fail on 0 pages.
+- tsc exits 0 on the change. eslint exits 0 on the 2 files. The lock file did not change.
+- The blocker. The Green gate also runs the 15 older quest-cover and storytime-print files, and 3
+  of them pin the behaviour that F1 and F2 remove. The run of those 3 files exits 1: 7 tests
+  failed, 20 passed. The 7 pins:
+  quest-cover-hlogo.test.ts A3 "student-front holds one logo tile" (line 624).
+  quest-cover-hlogo.test.ts A6 "the student-front holds a logo tile" (line 728).
+  quest-cover-readers-r2.test.ts R2 "the A3 reader cover w01-1 holds one logo tile" (line 422).
+  quest-cover-readers-r2.test.ts R5 "the hlogo A3 reader cover of the first row holds a logo
+  tile" (line 505).
+  quest-cover-readers-r2.test.ts R6 "the hlogo A3 reader page holds one logo tile" (line 546).
+  quest-cover-readers-r2b.test.ts B8 "the hlogo leaf reader cover w01-1 holds one logo tile"
+  (line 1013).
+  quest-cover-readers-r2b.test.ts B11 "the hlogo leaf reader cover w01-1 holds one logo tile"
+  (line 1087).
+  Each pin reads the same `hlogo` option that G1 and G3 read, so no rendering satisfies both
+  groups. The capture is green-f1f2-old-tests.txt.
+- The write scope of this role excludes every test file. So the block is a test contract conflict,
+  not an implementation defect: a Mid Red retry must move the 7 pins to the F1 F2 contract.
+- The tree is reverted to the role base. The implementation is kept as a patch that applies to
+  HEAD: green-f1f2-blocked-impl.patch (264 lines, `git apply --check` passes).
+
+MEASURE_AGENT_RESULT
+status: blocked
+role: measure jr green, the F1 F2 and heads pair
+track: storytime_cover_options_20261106
+phase: P2, the Phase 2 option A covers
+role_base_sha: 0ae043e8
+phase_base_sha: d3a581ec
+red_commit: 888d00a7
+commits: the evidence commit and this log commit; no implementation commit
+implementation: complete in green-f1f2-blocked-impl.patch, reverted from the tree, applies to HEAD
+red_rerun: 3 files failed, 8 tests failed, 5 passed (green-f1f2-red-rerun.txt)
+quick_loop: try 1 exits 0, 3 files passed, 13 tests passed (green-f1f2-try1.txt)
+numbers: FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0; HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0
+  by part none; G5 page 12 checked 28 problems 0; S1 to S5 pages failing 0
+tsc: exit 0
+lint: exit 0
+page_12_tile: 78.8 mm by 25.5 mm, tile top 103 mm, tile bottom 128.5 mm, 20 mm above the page
+  bottom, 11.8 mm above the footer text, more than 55 mm below the word row
+old_pins_failing: 7, in quest-cover-hlogo A3 and A6, quest-cover-readers-r2 R2, R5, and R6, and
+  quest-cover-readers-r2b B8 and B11 (green-f1f2-old-tests.txt)
+handoff: a Mid Red retry moves the 7 pins to the F1 F2 contract, then Green applies the patch and
+  runs the 18-file gate
+END_MEASURE_AGENT_RESULT
