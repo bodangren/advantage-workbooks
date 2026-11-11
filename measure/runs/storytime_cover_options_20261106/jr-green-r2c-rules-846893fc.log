@@ -1,0 +1,121 @@
+# Jr Green log: readers r2c and the standing cover rules (storytime_cover_options_20261106)
+
+Role: measure-jr-green. Model: deepseek/deepseek-flash#high. Date: 2026-11-11.
+Role base: `846893fc`, and it is an ancestor of HEAD. Phase: P2, Phase 2: The option A covers, id P2.
+The track: storytime_cover_options_20261106. The 2 tasks: `Task (Green, readers r2c)` and
+`Task (Green, standing rules)`, in one role.
+The Red model: minimax-cn-coding-plan/MiniMax-M3.1-Flash. The Red commits: 9b06aa2e, e4581309,
+105fc317, 698c841e. All 4 are ancestors of HEAD, so the committed Red change lies inside
+`846893fc..HEAD`. No coder was delegated.
+
+The Thai filter was the first command of this role, and of the earlier blocked attempt. It counted 0
+Thai characters in the library, the build script, the 2 test files, the plan, and the patch. Every
+capture holds `THAI_LINES_DROPPED=0`. The role read no week file, no `options/*.json` file, and no
+`test-strategy.md`. It printed no back render.
+
+## The answer to the open question
+
+The first attempt blocked on C6 of the Red test, and on the vertical centring of the titles. The
+orchestrator answered on 2026-11-11: do not use 2 fixed em shifts. Center the ink box of each title
+exactly, from a letter extent table. It is the same method as the advance width table of r2b.
+
+## The letter extent table
+
+The script `measure/runs/storytime_cover_options_20261106/league-spartan-extents-r2c.mjs` is a copy
+of `league-spartan-widths-r2b.mjs` with the measure part and the output changed. It records, for the
+95 ASCII characters 32 to 126 at 1000 px, `actualBoundingBoxAscent / 1000` and
+`actualBoundingBoxDescent / 1000`. It records also `measureText('H').actualBoundingBoxAscent`
+(0.6719), `fontBoundingBoxAscent` (0.70), and `fontBoundingBoxDescent` (0.22). The launch timeout
+stays 30 s, and `browser.close()` stands in a `finally` block.
+
+One heavy-run with `HEAVY_RUN_TIMEOUT_S=300` exits 0 and prints 95 ascents, 95 descents, the cap, and
+the 2 font values. The capture is `league-spartan-extents-r2c.txt`.
+
+Deviation D-1: one committed generator script ran Chrome once in heavy-run with a 300 s limit to
+make the letter extent table (orchestrator decision 2026-11-11).
+
+## The code
+
+`dashboard/lib/storytime/print/cover-quest.ts`:
+
+- E1 to E11 of the readers r2c Red, from the patch `green-readers-r2c-blocked-impl.patch`: the A3
+  week pill and role bar letters at 80 % of the inner height, the pill hugging its text with even
+  padding and 340 mm centring, the leaf plaque in the K palette from the r2 book plaque drawing, the
+  leaf footer, and the band check export of the build script.
+- The measured extent tables `LEAGUE_SPARTAN_700_ASCENT` and `LEAGUE_SPARTAN_700_DESCENT` (95
+  values each), `LEAGUE_SPARTAN_700_CAP` (0.6719), `LEAGUE_SPARTAN_700_FONT_ASCENT` (0.70), and
+  `LEAGUE_SPARTAN_700_FONT_DESCENT` (0.22). `LEAGUE_SPARTAN_CAP_EM` takes the measured cap. Every
+  one has JSDoc, and the JSDoc names the script.
+- `titleInkEm(text)` gives the ink top (the larger of the cap and the largest table ascent of the
+  characters) and the ink bottom (the largest table descent). A character outside the table counts
+  as the cap ascent and 0 descent.
+- `titleCapFontMm(bandMm)` gives the font whose cap height is 80 % of the band. The A3 title takes
+  40.96 mm, the leaf title 17.15 mm, and the front row 10.00 mm.
+- `titleLineTopMm(text, fontMm, bandTopMm, bandMm, lines)` places the baseline by the line box: the
+  baseline lies `(1 - A - D) / 2 + A` em below the top of the 1 em line box, that is 0.74 em. The
+  top is set so that the ink centre stands at the band centre. The A3 title, the leaf title, and the
+  front row use it, and the 2-line case of B5 uses it with the grown band. `TITLE_SHIFT_EM`,
+  `TITLE_DESCENDER_SHIFT_EM`, `hasDescenderLetter`, and `titleShiftMm` are gone.
+- The leaf plaque width is the title width plus 2 x 21 mm, at least 110 mm and at most 182 mm,
+  centered on the 198 mm page. The top 113 mm and the height 20 mm stay.
+- The front plaque width with hlogo is the row width plus 2 x 16 mm, at least 158 mm, centered on
+  the 210 mm page. The top 278 mm and the height 14 mm stay. The box table does not change.
+- With hlogo, the teacher front renders no `band-pill` part. The box `teacher-front:band-pill` and
+  the default render of the pill stay.
+- With hlogo, the student back panel takes `text-align:center` on its headings and its values. Its
+  box, its padding, and its font sizes stay.
+- The JSDoc of every changed function names the round of 2026-11-11.
+
+`dashboard/scripts/storytime/make-storytime-quest-covers.ts`: the `bandCheck` reader leaf branch
+passes a leaf with the logo tile that holds no band word part and no band word, and the script
+exports `questBandCheck`. The JSDoc is updated.
+
+## The quick loop
+
+One heavy-run, 4 files, `HEAVY_RUN_TIMEOUT_S=600`: `Tests 37 passed (37)`, `Test Files 4 passed (4)`,
+EXIT 0. The standing rules give S1 to S5 with 0 failing pages each. The first attempt already holds,
+because the extent table places every title on its own ink box. The role used 1 of the 5 tries. The
+capture is `/tmp/opencode/grr/try1.txt`, and the role removed it at the end.
+
+## The gates
+
+- The Green gate `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts
+  --maxWorkers=1` in one heavy-run with `HEAVY_RUN_TIMEOUT_S=1800`: EXIT 0, `Test Files 12 passed
+  (12)`, `Tests 345 passed (345)`. Capture: `green-r2c-rules-green.txt`.
+- The tsc gate `npx tsc --noEmit`: EXIT 0, no output. Capture: `green-r2c-rules-tsc.txt`.
+- The eslint gate `npx eslint lib/storytime/print/cover-quest.ts
+  scripts/storytime/make-storytime-quest-covers.ts`: EXIT 0, no output. Capture:
+  `green-r2c-rules-lint.txt`.
+- The mutant: the hlogo front plaque font back to 7.4 mm, the standing-rules file alone, one
+  heavy-run with `HEAVY_RUN_TIMEOUT_S=600`. It exits 1 with `Tests 1 failed | 4 passed (5)`, and S3
+  fails on both fronts: the cap height is 5.03 mm of the 8.40 mm band, 59.9 %. Capture:
+  `green-r2c-rules-mutant.txt`. The restore is the exact inverse of one line, and `git diff --stat`
+  gives the code of the Green gate again.
+- `pnpm-lock.yaml` is unchanged after every gate.
+
+## The commits
+
+1. `2aed3e09`: the 2 code files.
+2. `af448cca`: the plan (3 added lines, 2 removed lines), the 4 gate captures, the extent script and
+   its capture, and the 3 files of the first readers r2c Green. In the log of the first Green
+   (`jr-green-readers-r2c-27ba18d2.log`) the 2 durations that the role could not support are
+   corrected: the log now says that the durations of try 1 and try 2 were not kept, and it keeps the
+   recorded 8.05 s of try 3.
+3. This log.
+
+The plan keeps the 2 tasks at `[x]` with `commit 2aed3e0` each, and it holds one evidence line under
+the standing rules Green line. The plan numstat is `3	2`.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16), id P2
+baseline_sha: 846893fc
+commits: 2aed3e09 (the code), af448cca (the plan and the evidence), and the log commit
+tests_run: the quick loop `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-standing-rules.test.ts __tests__/quest-cover-readers-r2c.test.ts __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-hlogo.test.ts --maxWorkers=1` exits 0 with 4 files and 37 tests passed; the Green gate `CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1` exits 0 with 12 files and 345 tests passed; `npx tsc --noEmit` exits 0 with no output; `npx eslint lib/storytime/print/cover-quest.ts scripts/storytime/make-storytime-quest-covers.ts` exits 0 with no output; the mutant (the hlogo front plaque font back to 7.4 mm) on the standing-rules file exits 1 with Tests 1 failed | 4 passed (5) and S3 fails on both fronts at 59.9 %; the extent script exits 0 with 95 ascents, 95 descents, the cap 0.6719, the font ascent 0.70, and the font descent 0.22; every capture holds THAI_LINES_DROPPED=0; pnpm-lock.yaml is unchanged after every gate
+files_changed: dashboard/lib/storytime/print/cover-quest.ts and dashboard/scripts/storytime/make-storytime-quest-covers.ts (the code); new measure/runs/storytime_cover_options_20261106/league-spartan-extents-r2c.mjs, league-spartan-extents-r2c.txt, green-r2c-rules-green.txt, green-r2c-rules-tsc.txt, green-r2c-rules-lint.txt, green-r2c-rules-mutant.txt, and this log; the 3 evidence files of the first readers r2c Green (green-readers-r2c-blocked-impl.patch, green-readers-r2c-blocked.txt, jr-green-readers-r2c-27ba18d2.log, with the 2 durations corrected); measure/tracks/storytime_cover_options_20261106/plan.md
+plan_updates: 2 task flips to `[x]` with `commit 2aed3e0`, and 1 evidence line under the standing rules Green line; the plan numstat is `3	2`
+known_failures: none in the test pins; deviation D-1 is one committed generator script that ran Chrome once in heavy-run with a 300 s limit to make the letter extent table (orchestrator decision 2026-11-11); Task 2.8 and Task 2.9 stay `[~]` and are outside this role
+handoff: the 2 Green tasks are done and the 12 quest-cover files pass at 345 tests. The next role is the review pair. The evidence to read: green-r2c-rules-green.txt (12 files, 345 tests), green-r2c-rules-tsc.txt and green-r2c-rules-lint.txt (both exit 0 with no output), green-r2c-rules-mutant.txt (S3 fails at 59.9 % on both fronts), league-spartan-extents-r2c.txt (the letter extent table), and the plan evidence line of 2026-11-11. The code change is in 2 files: the hlogo titles take a cap height of 80 % of the band from the measured cap 0.6719 em (the A3 title 40.96 mm, the leaf title 17.15 mm, the front row 10.00 mm), the plaque widths follow the text, and `titleLineTopMm` puts the ink box of each title at the band centre from the extent table. With hlogo, the teacher front holds no band pill and the student back panel centers its text. The default renders are byte-equal, and the box table is unchanged. A reviewer should check D-1 and the fact that the 3 evidence files of the first Green are now committed with 2 corrected durations.
+END_MEASURE_AGENT_RESULT
