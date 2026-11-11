@@ -1,0 +1,95 @@
+# Jr Green log: Task 2.7 part 3 and the close of Task 2.8 (storytime_l2_unit2_20261106)
+
+Role: measure-jr-green. Track: storytime_l2_unit2_20261106. Phase: Phase 2: Picture list for
+Forge (2026-11-07 to 2026-11-23). Phase id P2. Tasks: 2.7 part 3, and the close of 2.8.
+
+Baseline: 277267086c24f6a8b85c10f2c75df4e0e1e8c90d. The command `git rev-parse HEAD` printed that
+SHA before the edit. The command `git merge-base --is-ancestor 27726708 HEAD` printed no error.
+The plan and the w10 file were clean. This task changed no code and no test.
+
+## The Thai proof
+
+The first command of this pass ran the Thai filter. It read the 8 staged week files and wrote the
+clean copies to `/tmp/opencode/t27p3/in/`. It printed `THAI_CHARS_IN_OUTPUT=0`.
+
+The proof of the 3 files of this pass:
+
+- measure/tracks/storytime_l2_unit2_20261106/plan.md:0
+- /home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-look1/README.md:0
+- /home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-look1/manifest.json:0
+
+No week file was read, printed, or written by hand. The script wrote only the w10 file. The Thai
+count of the plan, the 4 new captures, and the script is 0.
+
+## The MANIFEST check
+
+The script `measure/runs/storytime_l2_unit2_20261106/record_t27p3_t28.py` checked the folder
+`/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-look1/`. The SHA-256 of its MANIFEST.txt
+is `6ae4e14f0f37914eb542596a5d756c5a41a2de6abfc728f176bbd0d09aa6c077`. The hash matches. The
+hashes of the 4 picture files match. No file of the folder was written, moved, or deleted.
+
+## The check of the look1 folder
+
+The plan block `PICTURE_CHECK_U2` ran in one heavy-run with a 300 s limit. The run held the lock on
+the first attempt. The check exited 1. Its summary line is
+`2 of 231 rows pass stage 1 (/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-look1)`.
+The exit 1 is the expected value, because the folder holds no job for the other rows.
+
+The 2 rows pass: `l2-w10-story-page-put-on-your-hat-pip` and
+`l2-w10-story-page-put-on-your-t-shirt`. No row of the folder fails for another reason. The capture
+holds 0 Thai lines.
+
+## The union of the 4 folders
+
+The union of the 4 Forge folders gives 229 of the 229 list rows a delivery job. The open rows are 0.
+The source counts are look1 2, repair1 13, retry1 4, and main 210. No row passes in 2 older folders.
+The T-shirt row takes its look1 job in place of its main job.
+
+## The record of Daniel's word
+
+The script wrote the new `approval.images` of the staged w10 file. The status is approved and the
+date is 2026-11-11. The words hold Daniel's 06:27 words and his "Ok" on the redo. The source names
+the look package, the look1 MANIFEST, and the 4 hashes of the 2 look1 pairs.
+
+A JSON compare proves that only `approval.images` changed. The other keys of the file hold their old
+values. The 8 staged files now hold the status approved.
+
+## The stage checks
+
+`STAGE_CHECKS` ran in one heavy-run with a 600 s limit. It held the lock on the first attempt. The
+exit is 1. The report holds 16 packages, 1 failed check, 12 warnings, and 0 print-missing warnings
+of st2/9 to st2/15. The only FAIL row is song-frame of st2/12. That row is the recorded week 12
+exception of the PM decision of 2026-11-09. Its code is Phase 4 Tasks 4.1 and 4.2.
+
+## The plan
+
+The plan holds 5 new lines. The lines are the words of PM HAND-OFF 7, the words of the PM decision
+of 2026-11-11, the part 3 result, the words of the PM relay, and the record 2 line. The command
+`git diff --numstat` prints `5	0` for the plan.
+
+Commit d1e9408b holds the plan, the w10 file, the script, and the 4 captures. The commit lists only
+these 7 paths. The command `git diff --numstat` prints `3	3` for the w10 file. The brief expected
+`4	4`. The date line holds the same value in the old record and in the new record, so only the
+status, the words, and the source lines change. The content matches the script.
+
+Commit e72c1c3a holds the plan only. It changes the 2 task markers to `- [x]` and ends each line
+with ` commit d1e9408`. The command `git diff --numstat` prints `2	2` for the plan against
+commit d1e9408b.
+
+No picture is copied into `content/storytime/`; Task 4.3 makes the copy.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+phase_id: P2
+tasks: 2.7 part 3, and the close of 2.8
+baseline_sha: 277267086c24f6a8b85c10f2c75df4e0e1e8c90d
+commits: d1e9408b (the w10 record, the 5 plan lines, the script, and the 4 captures); e72c1c3a (the 2 plan markers); the log commit is the last commit of the role
+tests_run: PICTURE_CHECK_U2 on the look1 folder in one heavy-run with a 300 s limit, exit 1, 2 of 231 rows pass stage 1, 2 rows pass, 0 rows fail for another reason, 0 Thai lines dropped; the union gives 229 of 229 rows with a delivery job and 0 open rows, the source counts are look1 2, repair1 13, retry1 4, main 210; STAGE_CHECKS in one heavy-run with a 600 s limit, exit 1, 16 packages, 1 failed check, 12 warnings, 0 print-missing warnings of st2/9 to st2/15, the only FAIL row is song-frame of st2/12
+files_changed: content/storytime/drafts/l2/w10.json; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/record_t27p3_t28.py; measure/runs/storytime_l2_unit2_20261106/picture-check-u2-look1.txt; measure/runs/storytime_l2_unit2_20261106/picture-check-u2-part3.txt; measure/runs/storytime_l2_unit2_20261106/picture-check-u2-part3-summary.json; measure/runs/storytime_l2_unit2_20261106/approval-images-w10-stage-checks.txt; measure/runs/storytime_l2_unit2_20261106/jr-green-t27p3-t28-27726708.log
+plan_updates: Tasks 2.7 and 2.8 are [x] in commit e72c1c3a, each line ends with commit d1e9408; commit d1e9408b adds 5 lines
+known_failures: st2/12 song-frame, the recorded week 12 exception of the PM decision of 2026-11-09; its code is Phase 4 Tasks 4.1 and 4.2
+handoff: The look1 check exits 1 with the 2 rows l2-w10-story-page-put-on-your-hat-pip and l2-w10-story-page-put-on-your-t-shirt passing, and no row fails for another reason. The union of the 4 Forge folders gives 229 of 229 rows a delivery job and 0 open rows. The T-shirt row takes its look1 job in place of its main job. Daniel's "Ok" on the T-shirt redo is in approval.images of the staged w10 file with the status approved and the date 2026-11-11; a JSON compare proves that only approval.images changed. The 8 staged files hold the status approved. STAGE_CHECKS exits 1 with 16 packages, 1 failed check, 12 warnings, and 0 print-missing warnings of st2/9 to st2/15; the only FAIL row is song-frame of st2/12, the recorded exception. Tasks 2.7 and 2.8 are [x] in commit e72c1c3a. The w10 numstat is 3 3 and not the 4 4 of the brief, because the date line holds the same value in the old record and in the new record. New files for the audit scope: record_t27p3_t28.py, picture-check-u2-look1.txt, picture-check-u2-part3.txt, picture-check-u2-part3-summary.json, approval-images-w10-stage-checks.txt. The phase base is 277267086c24f6a8b85c10f2c75df4e0e1e8c90d and the role base is 27726708. The final Green HEAD is the log commit, the third commit of this role.
+END_MEASURE_AGENT_RESULT
