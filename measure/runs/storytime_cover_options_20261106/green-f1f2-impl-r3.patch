@@ -1,0 +1,289 @@
+diff --git a/dashboard/lib/storytime/print/cover-quest.ts b/dashboard/lib/storytime/print/cover-quest.ts
+index 1ab5bd33..6940307c 100644
+--- a/dashboard/lib/storytime/print/cover-quest.ts
++++ b/dashboard/lib/storytime/print/cover-quest.ts
+@@ -580,8 +580,11 @@ const PUBLISHER_LOGO_URL = storytimeCoverFileUrl(PUBLISHER_LOGO_FILE);
+  */
+ const HORIZONTAL_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal.svg');
+ 
+-/** The URL of the horizontal Storytime Advantage logo, the only top chrome of A2. */
+-const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
++/**
++ * The URL of the horizontal Storytime Advantage logo, the colour logo of the book backs and of the
++ * page 12 of the reader A3 pages (round of 2026-11-11, F2).
++ */
++export const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
+ 
+ /**
+  * The file of the gray horizontal logo, the K logo of the leaf cover (round of 2026-11-11, readers
+@@ -590,11 +593,14 @@ const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
+  */
+ const K_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal-k.svg');
+ 
+-/** The URL of the gray horizontal logo of the leaf cover. */
+-const K_LOGO_URL = storytimeCoverFileUrl(K_LOGO_FILE);
++/**
++ * The URL of the gray horizontal logo, the K logo of the workbook leaves and of the page 12 of the
++ * workbook (round of 2026-11-11, F2).
++ */
++export const K_LOGO_URL = storytimeCoverFileUrl(K_LOGO_FILE);
+ 
+ /** The aspect of the horizontal logo: the viewBox of 1461.6 mm by 464.88 mm (A6). */
+-const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
++export const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
+ 
+ /** The share of the inner tile height that the horizontal logo fills (A6). */
+ const LOGO_TILE_FILL_SHARE = 0.8;
+@@ -1687,13 +1693,14 @@ function logoBox(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numbe
+ 
+ /**
+  * Draws the horizontal Storytime Advantage logo on its amber tile (the alternate A2 of 2026-11-10,
+- * Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA): the only top chrome of the 2 fronts and the
+- * 2 backs. The tile takes the amber fill, the brown border, the 3 mm radius, and the hidden
+- * overflow. One image of the horizontal logo stands inside the border, centered on both axes. The
+- * image height is 80 % of the inner height (the box height minus 2 borders), and its width follows
+- * the viewBox aspect 1461.6 by 464.88. The values come from the box, not from fixed numbers. The
+- * round of 2026-11-11 (readers r2b) adds the optional colours, so the leaf cover draws the same
+- * tile in the K grays with the gray logo; the default keeps the book tile bytes.
++ * Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA): the top chrome of the 2 backs. The tile
++ * takes the amber fill, the brown border, the 3 mm radius, and the hidden overflow. One image of
++ * the horizontal logo stands inside the border, centered on both axes. The image height is 80 % of
++ * the inner height (the box height minus 2 borders), and its width follows the viewBox aspect
++ * 1461.6 by 464.88. The values come from the box, not from fixed numbers. The round of 2026-11-11
++ * (readers r2b) adds the optional colours, so the leaf cover drew the same tile in the K grays
++ * with the gray logo. The round of 2026-11-11 (F2, Daniel's look) moves the logo off the 4 front
++ * kinds: the 2 backs keep this tile, and page 12 of the readers holds its own tile.
+  * @param kind The cover kind.
+  * @param bleedMm The bleed.
+  * @param colours The tile fill, the tile border, and the logo file; the amber, the brown, and the
+@@ -1923,6 +1930,9 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
+  * pill and the title plaque stay, and no part repeats the series name. The round of 2026-11-11 (the
+  * standing rules): with `hlogo`, the teacher front holds no band pill, because the standing rule 5
+  * forbids a band word and a game bar on every cover; the default render keeps the pill and its box.
++ * The round of 2026-11-11 (F2, Daniel's look): with `hlogo`, the front holds no logo tile and no
++ * other part takes its place, because the horizontal logo covered the head of almost every cover
++ * picture; the default render and the box table keep the tile entry.
+  * @param kind The cover kind.
+  * @param book The book row.
+  * @param assets The assets.
+@@ -1938,9 +1948,7 @@ function frontBody(
+     top: QuestTopStyle,
+ ): string {
+     const parts = [artLayer(kind, assets, bleedMm)];
+-    if (top === 'hlogo') {
+-        parts.push(logoTile(kind, bleedMm));
+-    } else {
++    if (top !== 'hlogo') {
+         parts.push(seriesLogo(kind, assets, bleedMm), seriesBanner(kind, 'front', bleedMm));
+     }
+     if (kind === 'teacher-front' && top !== 'hlogo') parts.push(bandPill(book.litBand, bleedMm));
+@@ -1986,7 +1994,8 @@ function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
+  * takes the amber book plaque style, the week pill and the role bar take the logo amber and brown,
+  * and the role bar fits its text with even padding. The round of 2026-11-11 (readers r2c): with
+  * `hlogo`, the week pill and the role bar letters take 80 % of the inner height, the pill hugs its
+- * text with an even padding, and both stay centred on the page.
++ * text with an even padding, and both stay centred on the page. The round of 2026-11-11 (F2,
++ * Daniel's look): with `hlogo`, the page holds no logo tile; the pill, the plaque, and the bar stay.
+  * @param reader The reader row.
+  * @param assets The assets.
+  * @param bleedMm The bleed.
+@@ -2034,7 +2043,7 @@ function readerA3Body(
+               `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
+               `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
+     if (top === 'hlogo') {
+-        return [artLayer(kind, assets, bleedMm), logoTile(kind, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
++        return [artLayer(kind, assets, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
+     }
+     return [
+         artLayer(kind, assets, bleedMm),
+@@ -2066,7 +2075,9 @@ function roleKeyOfLabel(label: string): string {
+  * of 2026-11-11 (readers r2b) adds the K logo tile at the top with the top style hlogo; the default
+  * leaf holds no tile. The round of 2026-11-11 (readers r2c): with `hlogo`, the plaque takes the r2
+  * book plaque drawing in the K grays, the title fills 80 % of the band, the band word and the band
+- * icons go, and the series, the week, and the role line move into one centred footer.
++ * icons go, and the series, the week, and the role line move into one centred footer. The round of
++ * 2026-11-11 (F1 and F2, Daniel's look): with `hlogo`, the art fills the page with no double-line
++ * frame and no logo tile; the default leaf keeps the frame, its bytes, and its box table entry.
+  * @param reader The reader row.
+  * @param assets The assets.
+  * @param bleedMm The bleed.
+@@ -2094,13 +2105,9 @@ function leafBody(
+         `<rect x="0.5" y="0.5" width="181" height="103" rx="5" fill="none" stroke="${black}" stroke-width="1"/>` +
+         `<rect x="2.3" y="2.3" width="177.4" height="99.4" rx="4" fill="none" stroke="${black}" stroke-width="0.4"/></svg></div>`;
+     if (top === 'hlogo') {
+-        return [
+-            artLayer(kind, assets, bleedMm),
+-            logoTile(kind, bleedMm, { fill: LEAF_PLAQUE_BAND, border: '#4E4E4E', src: K_LOGO_URL }),
+-            frameHtml,
+-            leafTitlePlaque(reader.title, bleedMm),
+-            leafFooter(reader, bleedMm),
+-        ].join('\n');
++        return [artLayer(kind, assets, bleedMm), leafTitlePlaque(reader.title, bleedMm), leafFooter(reader, bleedMm)].join(
++            '\n',
++        );
+     }
+     const glyphs = QUEST_BANDS.map((band, index) =>
+         bandGlyph(band, 3 + index * 7, 3.5, 5.2, band === 'sprout' ? black : white, black, white, 1.3),
+diff --git a/dashboard/lib/storytime/print/readers.ts b/dashboard/lib/storytime/print/readers.ts
+index 99082a2f..f0c2e3fa 100644
+--- a/dashboard/lib/storytime/print/readers.ts
++++ b/dashboard/lib/storytime/print/readers.ts
+@@ -3,6 +3,7 @@ import { pathToFileURL } from 'node:url';
+ import { generateQRCode } from '../../qr-generator';
+ import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
+ import type { StorytimeWeek } from '../schema';
++import { HORIZONTAL_LOGO_ASPECT, HORIZONTAL_LOGO_URL, K_LOGO_URL } from './cover-quest';
+ import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
+ import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
+ import type { StorytimePrintProfile } from './profile';
+@@ -278,19 +279,77 @@ function closingPage(week: StorytimeWeek, book: StorytimeWeek['books'][number]):
+ <div class="reader-word-row">${words}</div>`;
+ }
+ 
+-/** The back cover: the word list of the reader (FR-5.2 and FR-5.3, `backWords`). */
+-function backPage(book: StorytimeWeek['books'][number]): string {
++/**
++ * The width of the page 12 logo tile at reader page scale, in millimetres (the look of 2026-11-11,
++ * F2: the horizontal logo moves off the front kinds and onto the back cover of each reader).
++ */
++const BACK_LOGO_TILE_WIDTH_MM = 78.8;
++
++/** The height of the page 12 logo tile at reader page scale, in millimetres. */
++const BACK_LOGO_TILE_HEIGHT_MM = 25.5;
++
++/** The border of the page 12 logo tile, in millimetres: the border of the cover logo tile. */
++const BACK_LOGO_TILE_BORDER_MM = 0.6;
++
++/** The corner radius of the page 12 logo tile, in millimetres. */
++const BACK_LOGO_TILE_RADIUS_MM = 3;
++
++/**
++ * The distance of the top edge of the page 12 logo tile from the top edge of the reader page, in
++ * millimetres. The word row ends above 48 mm, so the tile stands more than 5 mm below it; the tile
++ * bottom stands 20 mm above the page bottom and clear of the footer text.
++ */
++const BACK_LOGO_TILE_TOP_MM = 103;
++
++/** The share of the inner height of the page 12 logo tile that the logo image fills. */
++const BACK_LOGO_FILL_SHARE = 0.8;
++
++/** The fill, the border, and the logo source of the page 12 tile of each reader output. */
++const BACK_LOGO_COLOURS: Record<StorytimeReaderOutput, { fill: string; border: string; src: string }> = {
++    'a3-color': { fill: '#FCD34D', border: '#92400E', src: HORIZONTAL_LOGO_URL },
++    workbook: { fill: '#D2D2D2', border: '#4E4E4E', src: K_LOGO_URL },
++};
++
++/**
++ * The logo tile of the back cover of a reader (the look of 2026-11-11, F2). The colour A3 pages
++ * take the colour logo on the amber tile with the brown border; the workbook takes the K logo on
++ * the gray tile with the gray border. The tile is 78.8 mm by 25.5 mm at reader page scale, centred
++ * across the page, with a 3 mm radius and hidden overflow. The logo image fills 80 % of the inner
++ * height and follows the viewBox aspect of the horizontal logo. The CSS of the page holds the place
++ * of the tile; this function sets the colours of the output.
++ * @param output The reader output.
++ * @returns The HTML of the tile.
++ */
++function backLogoTile(output: StorytimeReaderOutput): string {
++    const colours = BACK_LOGO_COLOURS[output];
++    return (
++        `<div data-part="logo-tile" class="reader-logo-tile" style="background-color:${colours.fill};` +
++        `border:${BACK_LOGO_TILE_BORDER_MM}mm solid ${colours.border}">` +
++        `<img src="${esc(colours.src)}" alt=""></div>`
++    );
++}
++
++/**
++ * The back cover: the word list of the reader (FR-5.2 and FR-5.3, `backWords`), and the logo tile
++ * of the round of 2026-11-11 (F2). The band line is gone, because standing rule 5 forbids a band
++ * word on every page; the series line, the heading, and the word row stay.
++ * @param book The reader.
++ * @param output The reader output: the colour pages take the colour logo, the workbook the K logo.
++ * @returns The HTML.
++ */
++function backPage(book: StorytimeWeek['books'][number], output: StorytimeReaderOutput): string {
+     const words = book.backWords.map((word) => `<span class="reader-word">${esc(word)}</span>`).join('');
+-    return `<p class="reader-band">Sprout</p>
+-<p class="reader-series">Storytime Advantage</p>
++    return `<p class="reader-series">Storytime Advantage</p>
+ <h2 class="reader-heading">Words in this book</h2>
+-<div class="reader-word-row" data-part="reader-back-words">${words}</div>`;
++<div class="reader-word-row" data-part="reader-back-words">${words}</div>
++${backLogoTile(output)}`;
+ }
+ 
+ /**
+  * The 12 pages of one reader, in reading order (FR-5.2 and FR-5.3): cover; the sounds page of a
+  * decodable or the title page of a read-along; the 8 story pages; the closing page; the back
+- * cover. The page text is the master (FR-5.7): each story page prints `pages[i].text`.
++ * cover. The page text is the master (FR-5.7): each story page prints `pages[i].text`. The round of
++ * 2026-11-11 (F2) gives the back cover the logo tile of its output.
+  * @param week The week of the reader.
+  * @param book The reader.
+  * @param rows The picture rows of this reader.
+@@ -312,7 +371,7 @@ function readerPages(week: StorytimeWeek, book: StorytimeWeek['books'][number],
+         { number: 2, body: isDecodable(book) ? soundsPage(book) : titlePage(week, book), footer, numbered: true },
+         ...story,
+         { number: 11, body: closingPage(week, book), footer, numbered: true },
+-        { number: 12, body: backPage(book), footer, numbered: false },
++        { number: 12, body: backPage(book, o.output), footer, numbered: false },
+     ];
+     if (pages.length !== READER_PAGES) throw new Error(`the reader "${book.title}" has ${pages.length} pages; a reader has 12`);
+     return pages;
+@@ -359,7 +418,9 @@ const READER_SPACE = {
+  * lines under the picture and left-aligned with it, the page number at the bottom right, and a small footer at
+  * the bottom left. A page that is turned 180 degrees (`data-turn-deg="180"`, a front page) turns about its center.
+  * The student workbook appends this rule set to its own style, so the reader pages look the same in the
+- * workbook and in the readers build (Red 4c).
++ * workbook and in the readers build (Red 4c). The round of 2026-11-11 (F2) adds the page 12 logo tile:
++ * 78.8 mm by 25.5 mm at reader page scale, centred across the page, 103 mm from the top edge, with the
++ * logo at 80 % of the inner height.
+  * @param profile The print profile that holds the reader page size (P15).
+  * @returns The CSS text of the reader page rules.
+  */
+@@ -371,6 +432,10 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
+     const pictureWidth = profile.readerPage.widthMm - 2 * marginX;
+     const pictureHeight = Math.round((pictureWidth / aspect) * 10) / 10;
+     const textTop = Math.round((marginTop + pictureHeight + gap) * 10) / 10;
++    const round = (value: number): number => Math.round(value * 1000) / 1000;
++    const tileInnerMm = BACK_LOGO_TILE_HEIGHT_MM - 2 * BACK_LOGO_TILE_BORDER_MM;
++    const tileImageHeightMm = round(tileInnerMm * BACK_LOGO_FILL_SHARE);
++    const tileImageWidthMm = round(tileImageHeightMm * HORIZONTAL_LOGO_ASPECT);
+     return `.reader-page { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; padding: ${marginTop}mm ${marginX}mm 0 ${marginX}mm; position: relative; overflow: hidden; }
+ .reader-page[data-turn-deg="180"] { transform: rotate(${TURN_180_DEG}deg); transform-origin: center; }
+ .reader-picture { position: absolute; left: ${marginX}mm; top: ${marginTop}mm; width: ${pictureWidth}mm; height: ${pictureHeight}mm; border: 0.3mm solid #000; display: flex; align-items: center; justify-content: center; font-size: ${pt(7)}; overflow: hidden; }
+@@ -391,7 +456,9 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
+ .reader-frame { font-size: ${pt(13)}; margin-top: ${mm(3)}; }
+ .reader-qr { text-align: center; margin-top: ${mm(4)}; }
+ .reader-qr svg { width: ${mm(34)}; height: ${mm(34)}; }
+-.reader-qr-label { font-size: ${pt(8)}; }`;
++.reader-qr-label { font-size: ${pt(8)}; }
++.reader-logo-tile { position: absolute; left: calc(50% - ${round(BACK_LOGO_TILE_WIDTH_MM / 2)}mm); top: ${BACK_LOGO_TILE_TOP_MM}mm; width: ${BACK_LOGO_TILE_WIDTH_MM}mm; height: ${BACK_LOGO_TILE_HEIGHT_MM}mm; border-radius: ${BACK_LOGO_TILE_RADIUS_MM}mm; overflow: hidden; display: flex; align-items: center; justify-content: center; }
++.reader-logo-tile img { width: ${tileImageWidthMm}mm; height: ${tileImageHeightMm}mm; display: block; }`;
+ }
+ 
+ /**
+diff --git a/dashboard/scripts/storytime/make-storytime-quest-covers.ts b/dashboard/scripts/storytime/make-storytime-quest-covers.ts
+index fa15764e..40ae45d2 100644
+--- a/dashboard/scripts/storytime/make-storytime-quest-covers.ts
++++ b/dashboard/scripts/storytime/make-storytime-quest-covers.ts
+@@ -914,7 +914,10 @@ export const questQrCheck = qrCheck;
+ /**
+  * The lit band check of one page. The fronts and the A3 readers hold the band icons; the leaf shows
+  * the band word, unless it holds the logo tile of the top style hlogo: a leaf with the logo tile
+- * shows neither the band word nor the band icons (readers r2c, E10).
++ * shows neither the band word nor the band icons (readers r2c, E10). The round of 2026-11-11 (F1
++ * and F2, Daniel's look) removes the double-line frame and the logo tile from the hlogo leaf, so a
++ * leaf with no frame is the hlogo leaf and shows no band word, and a leaf with the frame is the
++ * default leaf and still needs the band word.
+  * @param html The page.
+  * @param kind The cover kind.
+  * @param band The lit band of the book.
+@@ -924,7 +927,7 @@ function bandCheck(html: string, kind: QuestCoverKind, band: string): string {
+     if (kind === 'student-back' || kind === 'teacher-back') return 'pass';
+     if (kind === 'reader-leaf') {
+         const word = band.toUpperCase();
+-        if (html.includes('data-part="logo-tile"')) {
++        if (html.includes('data-part="logo-tile"') || !html.includes('data-part="double-line-frame"')) {
+             return !html.includes('data-part="band-word"') && !html.includes(word) ? 'pass' : 'fail';
+         }
+         return html.includes('data-part="band-word"') && html.includes(word) ? 'pass' : 'fail';
