@@ -1,0 +1,136 @@
+Mid Red retry 5 log of the F3 to F6 round
+Track: storytime_cover_options_20261106
+Phase: P2, Phase 2: The option A covers
+Role: measure-mid-red
+Role base SHA: 781d700c
+Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+Date: 2026-11-12
+
+Scope of this retry
+
+This retry makes 2 test changes only. It writes no production code.
+
+1. The mutant page1-frameless of R-A47-6 in
+   dashboard/__tests__/storytime-print-reader-howto.test.ts replaces
+   class="reader-picture" on the leaf 1 front. Page 1 of a reader now holds
+   the quest reader cover, which has class="quest-reader-page" and no
+   reader-picture. The mutant changes nothing, so the test fails with
+   "mutant page1-frameless must be caught". The mutant now also replaces
+   class="quest-reader-page" on that side. Every other mutant stays.
+2. The [mark-overlap] text of leafSidePlacementProblems in
+   dashboard/__tests__/fixtures/storytime-reader-leaf.ts names the mark box,
+   the overlapping content box, the tag, the class, and the data-part of the
+   content element. The rule and every number of the check stay.
+
+Thai filter
+
+The first command of this role was the Thai filter over the 3 files.
+The counts were 0, 0, and 5. The how-to test file holds Thai on lines 238,
+250, 277, 312, and 317. This role read that file only through the filtered
+copy /tmp/opencode/rr5/howto-no-thai.ts, which a python script made. The
+script printed only the dropped line numbers. Every edit to the real file
+used exact string python replacements with assertions. The Thai count of the
+real file stayed 5 after the edit, on lines 239, 251, 278, 313, and 318.
+The leaf fixture and the plan hold 0 Thai lines.
+
+Proof of the mutant
+
+A probe read the leaf 1 front side of the shipped week 1. The side holds 0
+reader-picture elements and 1 quest-reader-page element. The old mutant
+therefore changed nothing. With the new mutant the how-to page 1 frame count
+goes from 3 to 0, in the cut, the fold-leaf, and the closed diagrams. The
+check of the frame count therefore catches the mutant.
+
+Gates
+
+Gate 1, the tree run on the uncommitted Green code.
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run
+__tests__/storytime-print-reader-howto.test.ts __tests__/storytime-print-readers.test.ts
+__tests__/storytime-print-student-book.test.ts --maxWorkers=1
+Capture: measure/runs/storytime_cover_options_20261106/red-f3f6-retry5-tree.txt
+Result: Test Files 2 failed | 1 passed (3), Tests 2 failed | 150 passed (152),
+exit 1, 354.65 s, 0 Thai lines dropped.
+
+Gate 1a, the how-to file alone.
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run
+__tests__/storytime-print-reader-howto.test.ts --maxWorkers=1
+Capture: measure/runs/storytime_cover_options_20261106/red-f3f6-retry5-howto-check.txt
+Result: Test Files 1 passed (1), Tests 17 passed (17), exit 0.
+
+Gate 2, the types.
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit
+Capture: measure/runs/storytime_cover_options_20261106/red-f3f6-retry5-tsc.txt
+Result: exit 0, no output.
+
+Gate 3, the lint of the 2 changed files.
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint
+__tests__/storytime-print-reader-howto.test.ts __tests__/fixtures/storytime-reader-leaf.ts
+Capture: measure/runs/storytime_cover_options_20261106/red-f3f6-retry5-lint.txt
+Result: exit 0, no output.
+
+The lock file pnpm-lock.yaml is unchanged after each gate.
+
+The [mark-overlap] lines of R-P6-F3c
+
+[mark-overlap] side 4: the mark box (102.05, 2.00, 119.94, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture
+[mark-overlap] side 6: the mark box (102.05, 2.00, 119.94, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture
+[mark-overlap] side 10: the mark box (132.11, 2.00, 155.89, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture
+[mark-overlap] side 12: the mark box (132.11, 2.00, 155.89, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture
+
+The mark box and the content box are in millimeters from the top left corner
+of the leaf side, with 2 decimals. The content element is a div with the
+class reader-picture.
+
+The 2 failures of the tree run
+
+R-P6-F3c of dashboard/__tests__/storytime-print-readers.test.ts fails with the
+4 [mark-overlap] lines above. It is the leaf mark rule of the readers build.
+
+R32 of dashboard/__tests__/storytime-print-student-book.test.ts fails with the
+2 [mark-a-ring] lines of the Q5 rule, on side 1 and side 7:
+[mark-a-ring] side 1: the footer strip has less than 1 mm around the mark ink
+[mark-a-ring] side 7: the footer strip has less than 1 mm around the mark ink
+This matches the Red retry 4 log, which recorded the same R32 faults. R32
+shows no [mark-overlap] line. The student book sides pass the leaf mark rule
+of the fixture, so the detailed message does not appear there.
+
+One defect of this retry, and its fix
+
+The first tree run of this retry failed with
+"page.evaluate: ReferenceError: elementName is not defined" in R-P6-F3c and in
+R32. The cause: page.evaluate sends only the body of the function to the
+browser, so a module level helper does not exist there. The fix moves the
+element name helper inside measureLeafSidesInBrowser. The box text helper
+stays at module level, because leafSidePlacementProblems runs in Node. The
+second tree run gave the result above.
+
+Commits
+
+1. d9d1de06: the 2 test files, the plan, and the 4 captures.
+   Message: test(covers): Red retry 5 F3 to F6, the page 1 frameless mutant and
+   the mark overlap detail (storytime_cover_options)
+2. This log alone.
+   Message: measure(runs): Mid Red retry 5 log of F3 to F6 (storytime_cover_options)
+
+The plan sub-line
+
+The plan holds one new sub-line before the line of the Green task. Its
+numstat is 1 insertion and 0 deletions. The plan holds 0 Thai lines.
+
+Scope proof
+
+The Green of this round holds 6 uncommitted code files. This role never
+opened, staged, changed, or reverted them. The commit d9d1de06 holds 7 paths:
+the 2 test files, the plan, and the 4 captures.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 781d700c
+commits: d9d1de06 (the 2 test files, the plan, and the 4 captures), the log commit of this file
+tests_run: dashboard/__tests__/storytime-print-reader-howto.test.ts, dashboard/__tests__/storytime-print-readers.test.ts, dashboard/__tests__/storytime-print-student-book.test.ts
+red_command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-reader-howto.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-student-book.test.ts --maxWorkers=1
+handoff: The tree run on the Green code gives Test Files 2 failed | 1 passed (3), Tests 2 failed | 150 passed (152), exit 1, 354.65 s (measure/runs/storytime_cover_options_20261106/red-f3f6-retry5-tree.txt). R-A47-6 passes: the mutant page1-frameless now renames class="quest-reader-page" on the leaf 1 front side, and the how-to page 1 frame count goes from 3 to 0. R-P6-F3c fails with these 4 lines: "[mark-overlap] side 4: the mark box (102.05, 2.00, 119.94, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture", "[mark-overlap] side 6: the mark box (102.05, 2.00, 119.94, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture", "[mark-overlap] side 10: the mark box (132.11, 2.00, 155.89, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture", "[mark-overlap] side 12: the mark box (132.11, 2.00, 155.89, 7.50) overlaps the content box (20.00, 6.00, 177.99, 113.00) of div.reader-picture". The boxes are in side millimeters with 2 decimals, and the element is a div with the class reader-picture. R32 fails with the 2 [mark-a-ring] lines of the Q5 rule on side 1 and side 7, as the Red retry 4 log recorded, and with no [mark-overlap] line. The tsc gate and the eslint gate on the 2 changed files exit 0, and pnpm-lock.yaml is unchanged. The Green must move the leaf mark of the sides 4, 6, 10, and 12 clear of the div.reader-picture content box, and must give the mark ink 1 mm around it inside the footer strip on the sides 1 and 7.
+END_MEASURE_AGENT_RESULT
