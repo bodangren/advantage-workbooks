@@ -1,0 +1,519 @@
+BUILD CAPTURE of Jr Green F3 F6, the quick loop 6
+
+HEAVY_RUN_TIMEOUT_S 2400
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-template.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-covers-adversarial.test.ts __tests__/storytime-print-covers.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-v15.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts __tests__/storytime-print-reader-howto.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 176329[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the reader compiler without a collection-time import [33m 314[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 462[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 5917[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 1048[2mms[22m[39m
+[31m     [31m×[31m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)[39m[33m 1135[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 421[2mms[22m[39m
+     [32m✓[39m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)[32m 230[2mms[22m[39m
+     [32m✓[39m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)[32m 1[2mms[22m[39m
+     [32m✓[39m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)[32m 176[2mms[22m[39m
+     [32m✓[39m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)[32m 236[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4821[2mms[22m[39m
+     [32m✓[39m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy[32m 169[2mms[22m[39m
+     [32m✓[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders[32m 298[2mms[22m[39m
+     [32m✓[39m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)[32m 142[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 932[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 968[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 347[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 2283[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1420[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 4431[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 11258[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3046[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1094[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1457[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1183[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1021[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 4511[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 901[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 16676[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 1845[2mms[22m[39m
+     [32m✓[39m R-P4-20 fails a row whose manifest path resolves outside the batch root[32m 14[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1085[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 543[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 5063[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 5422[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 14290[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 14001[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 19175[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 429[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 543[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 980[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 12525[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 716[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 1732[2mms[22m[39m
+     [32m✓[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion[32m 202[2mms[22m[39m
+     [32m✓[39m R-P4-27 rejects an empty request for the batch check[32m 144[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 20795[2mms[22m[39m
+     [32m✓[39m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 149[2mms[22m[39m
+     [32m✓[39m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)[32m 115[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1031[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1407[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 934[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 765[2mms[22m[39m
+     [32m✓[39m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked[32m 218[2mms[22m[39m
+     [32m✓[39m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 1331[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 1279[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2613[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD1 guard: the key box file holds the 3 kinds, and the dog-body and title-object boxes of the PM order
+[22m[39mKEY_BOXES head=100 dog-body=5 title-object=8
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: no chrome part comes within 1 mm of a key box on the 2 fronts and the 28 reader covers
+[22m[39mKEY_PAIRS_CHECKED=325 KEY_OVERLAPS=0 BY_PART: none
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: every key box lies inside the trim (Q1 on w01-2 reader-a3), and the art keeps its aspect and covers the page
+[22m[39mTRIM_KEYS_CHECKED=113 TRIM_PROBLEMS=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD3: a cover whose default chrome is free keeps every chrome box, and the week pill keeps its free default box
+[22m[39mDEFAULT_BOX student-front | title-plaque | 22.98 278.00 187.02 292.00
+DEFAULT_BOX teacher-front | title-plaque | 22.94 278.00 187.05 292.00
+DEFAULT_BOX w01-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-1 reader-a3 | title-plaque | 132.70 236.00 287.30 278.92
+DEFAULT_BOX w01-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w01-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w01-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w01-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w01-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-2 reader-a3 | title-plaque | 64.86 254.00 213.13 275.46
+DEFAULT_BOX w01-2 reader-a3 | role-bar | 75.47 271.42 202.52 291.26
+DEFAULT_BOX w01-2 reader-leaf | footer-strip | 13.78 135.26 98.22 142.98
+DEFAULT_BOX w01-2 reader-leaf | title-plaque | 20.12 122.00 91.87 131.99
+DEFAULT_BOX w01-2 reader-leaf | footer | 14.78 136.26 97.22 141.98
+DEFAULT_BOX w02-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-1 reader-a3 | title-plaque | 78.91 236.00 341.09 275.99
+DEFAULT_BOX w02-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w02-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w02-1 reader-leaf | title-plaque | 34.44 113.00 163.56 132.99
+DEFAULT_BOX w02-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w02-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-2 reader-a3 | title-plaque | 126.14 236.00 293.85 278.60
+DEFAULT_BOX w02-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w02-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w02-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w02-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w03-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-1 reader-a3 | title-plaque | 129.85 236.00 290.15 278.92
+DEFAULT_BOX w03-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w03-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w03-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w03-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-2 reader-a3 | title-plaque | 111.46 236.00 308.54 278.92
+DEFAULT_BOX w03-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w03-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w03-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w04-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-1 reader-a3 | title-plaque | 91.18 236.00 328.81 275.99
+DEFAULT_BOX w04-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w04-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w04-1 reader-leaf | title-plaque | 39.57 113.00 158.42 132.99
+DEFAULT_BOX w04-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w04-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-2 reader-a3 | title-plaque | 143.51 236.00 276.49 278.28
+DEFAULT_BOX w04-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w04-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w04-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w04-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w05-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-1 reader-a3 | title-plaque | 84.60 236.00 335.40 278.28
+DEFAULT_BOX w05-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w05-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w05-1 reader-leaf | title-plaque | 36.82 113.00 161.18 132.99
+DEFAULT_BOX w05-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w05-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-2 reader-a3 | title-plaque | 58.79 236.00 361.20 278.92
+DEFAULT_BOX w05-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w05-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w05-2 reader-leaf | title-plaque | 26.01 113.00 171.98 132.99
+DEFAULT_BOX w05-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w06-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-1 reader-a3 | title-plaque | 98.76 236.00 321.24 278.60
+DEFAULT_BOX w06-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w06-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w06-1 reader-leaf | title-plaque | 42.74 113.00 155.26 132.99
+DEFAULT_BOX w06-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w06-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-2 reader-a3 | title-plaque | 98.23 236.00 321.76 275.99
+DEFAULT_BOX w06-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w06-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w06-2 reader-leaf | title-plaque | 42.52 113.00 155.47 132.99
+DEFAULT_BOX w06-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w07-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-1 reader-a3 | title-plaque | 84.69 58.00 335.30 100.92
+DEFAULT_BOX w07-1 reader-a3 | role-bar | 146.47 95.42 273.52 115.26
+DEFAULT_BOX w07-1 reader-leaf | footer-strip | 56.78 49.26 141.22 56.98
+DEFAULT_BOX w07-1 reader-leaf | title-plaque | 36.85 26.00 161.14 46.00
+DEFAULT_BOX w07-1 reader-leaf | footer | 57.78 50.26 140.22 55.98
+DEFAULT_BOX w07-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-2 reader-a3 | title-plaque | 112.97 25.00 307.02 65.00
+DEFAULT_BOX w07-2 reader-a3 | role-bar | 156.92 62.42 263.07 82.26
+DEFAULT_BOX w07-2 reader-leaf | footer-strip | 59.21 34.26 138.79 41.98
+DEFAULT_BOX w07-2 reader-leaf | title-plaque | 44.01 11.00 153.99 30.99
+DEFAULT_BOX w07-2 reader-leaf | footer | 60.21 35.26 137.79 40.98
+D3_FREE_COVERS=24 D3_MOVED=["w01-2 reader-a3","w01-2 reader-leaf","w07-1 reader-a3","w07-1 reader-leaf","w07-2 reader-a3","w07-2 reader-leaf"] D3_PROBLEMS=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD4: the exception list equals the covers with no centred free place at the 50 % plaque size
+[22m[39mD4 student-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 teacher-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-2 reader-a3: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-a3: the 50 % group needs 35.80 mm of height in the centre band 134.9 to 285.1 mm between 5 mm and 293.26 mm; the key boxes in the band: Nan head (head) x 36.8 to 222.6 mm, y -11.7 to 158.4 mm; Pip dog head (head) x 216.3 to 331.8 mm, y 143.7 to 219.3 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 215.3 to 360.1 mm, y 142.7 to 295.9 mm.
+D4 w01-2 reader-leaf: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-leaf: the 50 % group needs 20.98 mm of height in the centre band 55.8 to 142.2 mm between 5 mm and 143.98 mm; the key boxes in the band: Nan head (head) x 17.3 to 104.9 mm, y 3.0 to 82.2 mm; Pip dog head (head) x 101.0 to 153.5 mm, y 76.2 to 110.9 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 100.5 to 166.8 mm, y 75.7 to 147.0 mm.
+D4 w02-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w07-1 reader-a3: full size free 178 mm up; 50 % size free 178 mm up.
+D4 w07-1 reader-leaf: full size free 87 mm up; 50 % size free 87 mm up.
+D4 w07-2 reader-a3: full size free 211 mm up; 50 % size free 211 mm up.
+D4 w07-2 reader-leaf: full size free 102 mm up; 50 % size free 102 mm up.
+D4_EXCEPTIONS=["w01-2 reader-a3","w01-2 reader-leaf"]
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[22m[39mD5 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)
+[22m[39mD6 page 1 checked 28, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book
+[22m[39mBAND_PAGES_CHECKED=840 BAND_WORD_PAGES=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer
+[22m[39mD7 page 12 checked 28, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free
+[22m[39mD8 student-front: the default place is free.
+D8 teacher-front: the default place is free.
+D8_SHA banner student-front | 5ae17617643524865a9dbbc63cc73754b0170fbe5063bc71d35399288d3265b6
+D8_SHA banner teacher-front | b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf
+D8_SHA banner student-back | 8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0
+D8_SHA banner teacher-back | 5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79
+D8_SHA banner w01-1 reader-a3 | c9aa5de6afa1b18b4e0a0530a6e9792243513e0fd0395344f2ac7d4bffe27f52
+D8_SHA banner w01-1 reader-leaf | e0385f97b6567f6e6eace8c28d005547a33bbb8c561e753af7dc45d0f94cd90e
+D8_SHA banner w01-2 reader-a3 | aa409176d61dd2d8e22f1d9b2efcdb23e07e5254b8c2c2e366fce443f4118be6
+D8_SHA banner w01-2 reader-leaf | 1ff960ed3a394b79ef0a710b2c29c3d06e40c94f5c06aa6944dc87de1828456a
+D8_SHA banner w02-1 reader-a3 | a1cfa0349af43fceb6d90a6621367b2e73f961d68fdc675985838724fbe0e605
+D8_SHA banner w02-1 reader-leaf | 90a7900d5703b54f7c7840ed9cf068d89d587a029ae11a55fb36352906414b66
+D8_SHA banner w02-2 reader-a3 | 2cd0e4bb7a9d83e2f0101e695508358ef931feab13869c96ee4046df20e3a93b
+D8_SHA banner w02-2 reader-leaf | adf5fb301742daf131c9de24700827ba52a2648bfde1b495b20cff2e2d38649c
+D8_SHA banner w03-1 reader-a3 | 3786e785037e4c4af1e11dd26655c226a4bb97bcc03c894994f2ab4f08dec118
+D8_SHA banner w03-1 reader-leaf | 422ceb07591469ea3168f4e0fbecb45483c11ea738f82305acbcfa9ba758fd88
+D8_SHA banner w03-2 reader-a3 | 340d03d7d423f69090005b0573ea1d14b037b4540591b07e1053643d981ca18b
+D8_SHA banner w03-2 reader-leaf | a264e5460fe91a3599b5183eaa4d48ed82f3cbfeb4473db8880bc4f1f7ba6aba
+D8_SHA banner w04-1 reader-a3 | 352e248aa74e893243ae52b2f0f109d153f218cfdc7a20b581713ce3fe6c6e29
+D8_SHA banner w04-1 reader-leaf | f3e4e723801e6441ce9b5efb4928d9f704ab52c2abd781217bfc9a0773cea52b
+D8_SHA banner w04-2 reader-a3 | f0480220f3e81af34e642768d97e006ecd73fa96be6bca967e167b63f75f6462
+D8_SHA banner w04-2 reader-leaf | cfcd3394dc0cbab1ecdc99a6659c5a3db0014a130d88ca62d987176c0fa1f944
+D8_SHA banner w05-1 reader-a3 | b4432ae3f60b2cdfa56456439618471ad38f3f35aeca09e8aa883e00ee375f45
+D8_SHA banner w05-1 reader-leaf | e084c3b4b799663b02f95d9cdc637b905d48fd12aa41ec0de327b9adef51613b
+D8_SHA banner w05-2 reader-a3 | b5de52066edbc492b29d6ad015925cd26b8928bc024e68b945d7dd7305832ba1
+D8_SHA banner w05-2 reader-leaf | d4132c6514500298d62e99127bcd937611393ed8bb16d431863f9c739683a1af
+D8_SHA banner w06-1 reader-a3 | cca6cbbcc33e056c50fad81dd86869ac930a7e6d05c6ce5dfad1f5ed406ca645
+D8_SHA banner w06-1 reader-leaf | 3a43ddc49971f925b0944787c04d64818bcfcd672410479b44d9080237560f24
+D8_SHA banner w06-2 reader-a3 | 7b9a09a21da649b2f0e0c21d168688d13ccfa01b97af489d43f91d029f51ede5
+D8_SHA banner w06-2 reader-leaf | 1084a5bbea57dc66ae87d1e770bd9704e0b9e3a76f331aa49f8a2f1b3b6e4632
+D8_SHA banner w07-1 reader-a3 | 39a7db579aaa89dd8b4f85c29189d7ec9460ec2fae950391c354b15ff4e71fd1
+D8_SHA banner w07-1 reader-leaf | 47198cc13bd033cb258aab9a451bb7455180070c583b2566450ad9d69d27c37b
+D8_SHA banner w07-2 reader-a3 | 9572ca9689f90b27c2488bfae3a7a1e2b3c48f0660cfc6d7ca6b4754c612adf1
+D8_SHA banner w07-2 reader-leaf | f62606373859bd28467c28f3c37bd5d9d3c47185e5568877b39f98f90391cb7a
+D8_SHA hlogo student-front | f400d9bb70319b10c686399ad6b850bec950fb1f3551e4cc4b3223b7ea73e093
+D8_SHA hlogo teacher-front | c1740c1ac7990a5a77e23bf9bae0a68b568ff0070356b56fb4a762cfb7487d5c
+
+ [32m✓[39m __tests__/quest-cover-f3f6.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 129096[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs) [33m 4747[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: proof mode page 1 holds the quest chrome on the PICTURE MISSING placeholder, the picture-id wrapper, and no image outside a logo tile [33m 2143[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book [33m 5454[2mms[22m[39m
+     [33m[2m✓[22m[39m D7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer [33m 1824[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+NBDDKL+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     20  0
+RIGJGG+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+NYAHJN+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+UCFIFH+LeagueSpartanThin-Bold        CID TrueType      Identity-H       yes yes yes    152  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 compiled trace medians: 175, 175, 175, 175
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 removed-gray-rule medians: 0, 0, 0, 0
+
+ [31m❯[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m77 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 95517[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 869[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3) [33m 331[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: uses the P11 default title and the eight book-map places [33m 310[2mms[22m[39m
+     [32m✓[39m R23: draws n with the top start dot, arrows, three trace copies, and one write space[32m 262[2mms[22m[39m
+     [32m✓[39m R24: prints the two practice lines and their picture ids in data order[32m 269[2mms[22m[39m
+     [32m✓[39m R25: prints the dictation, Hello, I am, the name line, and the picture box[32m 265[2mms[22m[39m
+     [32m✓[39m R26: prints three unmarked check rows, nine picture ids, and one empty write-letter box[32m 250[2mms[22m[39m
+     [32m✓[39m R27: prints the Thai home front, the sound, net nut nose, the frame, and the activity[32m 275[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 1286[2mms[22m[39m
+     [32m✓[39m R27: prints the English home back and all 15 sung lines, not the lyric sheet[32m 260[2mms[22m[39m
+     [33m[2m✓[22m[39m R35: keeps the QR deploy mark in proof mode and excludes it from final mode [33m 618[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: excludes the four forbidden labels and every CJK character from the HTML [33m 322[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken [33m 381[2mms[22m[39m
+     [32m✓[39m R28: selects the line-art file for every picture, including a proof placeholder[32m 277[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 1939[2mms[22m[39m
+     [32m✓[39m R34: uses valid CSS format hints for every font face[32m 258[2mms[22m[39m
+     [32m✓[39m R30: exports the P2 and P15 default profile in millimeters (reader page 198 x 148.5, spec FR-5.1)[32m 19[2mms[22m[39m
+     [32m✓[39m R30: renders the same week at 210 x 297 mm from one profile constant[32m 245[2mms[22m[39m
+     [32m✓[39m R30: renders the same week at 210 x 285 mm from one profile constant[32m 238[2mms[22m[39m
+     [32m✓[39m R31: preserves the exact default Ghostscript arguments without the K-only option[32m 57[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 962[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 12428[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 957[2mms[22m[39m
+     [33m[2m✓[22m[39m R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract [33m 343[2mms[22m[39m
+     [33m[2m✓[22m[39m R44: final mode requires and selects line art, not the color file [33m 477[2mms[22m[39m
+     [32m✓[39m R45: validates student-book CLI ranges and every requested week without rendering[32m 19[2mms[22m[39m
+     [32m✓[39m R46: limits an explicit output path to the print-ready Storytime folder[32m 1[2mms[22m[39m
+     [32m✓[39m R47: requires an explicit output file strictly inside the print folder[32m 1[2mms[22m[39m
+     [32m✓[39m R47: rejects output paths that filesystem links redirect outside the print folder[32m 4[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/../evil"[32m 1[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/../../evil"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/./1"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1/.."[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st//2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1/3"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/0/1"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/5/1"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/0"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/33"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/02/1"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/01"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1 "[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1\t"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1\n"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1#x"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1?week=2"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1?part=video"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1?part=song?part=book"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1?part=song&part=book"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: rejects the QR page path "/th/st/2/1?part=SONG"[32m 0[2mms[22m[39m
+     [32m✓[39m R48: accepts the canonical Storytime QR page paths and keeps the host[32m 1[2mms[22m[39m
+     [32m✓[39m R48: accepts the shipped song and read-along page paths of every level 2 week[32m 44[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 2866[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 1074[2mms[22m[39m
+     [32m✓[39m R32: puts each reader and home perforation 12 mm from the parity-dependent spine (P2 default)[32m 263[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1) [33m 392[2mms[22m[39m
+     [32m✓[39m R32: prints 6 reader leaves for each teaching week, 3 for each reader, each with a front and a back, each side perforated 12 mm from the spine (spec FR-3, P2 defaults)[32m 242[2mms[22m[39m
+     [32m✓[39m R32: prints a dashed fold line and a small leaf mark on each reader side, and no cut line or strip (spec FR-5.1)[32m 275[2mms[22m[39m
+[31m     [31m×[31m R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)[39m[33m 7345[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1) [33m 5270[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages [33m 436[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a removed home leaf on a temporary HTML copy [33m 626[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 851[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 728[2mms[22m[39m
+     [32m✓[39m R38: gives every trace item a start dot (D2)[32m 243[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 6598[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in [33m 30390[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 4659[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 878[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1) [33m 2388[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-30 prints the line art of a redone row from the folder manifest and never the color file [33m 730[2mms[22m[39m
+     [32m✓[39m R-P4-31b final mode without manifest.json stops and names manifest.json and the folder[32m 75[2mms[22m[39m
+     [32m✓[39m R-P4-32b final mode with a line-art file that differs from the manifest SHA-256 stops and names the row id[32m 96[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 313[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file [33m 2562[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2240[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-adversarial.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 43749[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symbolic link --out into an occupied print-ready folder and writes no file [33m 3474[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a print-ready folder that holds any file [33m 1672[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the gates for a new folder and for an empty folder in print-ready [33m 3350[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves a folder outside print-ready with its own rules [33m 1664[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out at the end and writes no folder [33m 1783[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --band at the end after a full --out and writes no folder [33m 1727[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out followed by another flag and writes no folder [33m 1898[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --version followed by --print and writes no folder [33m 2132[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --front followed by another flag and writes no folder [33m 2123[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a fully transparent front art file and writes nothing [33m 4489[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 and writes no file in --out when Ghostscript fails [33m 13102[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the reader cover check for the real covers and writes the print file [33m 6231[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m)[22m[33m 6298[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile week text out of the markup [33m 1576[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps a hostile start point inside its attribute [33m 304[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: catches a broken copy that injects the raw payload [33m 483[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: carries no answer element anywhere in the book [33m 316[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: names only the line-art picture file in any attribute [33m 303[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: runs the output check before the write and the browser [33m 648[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1396[2mms[22m[39m
+     [33m[2m✓[22m[39m checks each shipped week 1 reader cover for no band word and catches a copied cover mutation [33m 466[2mms[22m[39m
+     [33m[2m✓[22m[39m composes each teacher-book side as an opaque 300 ppi image at the specified trim [33m 871[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1353[2mms[22m[39m
+     [32m✓[39m R-A47-1 the fixture agrees with the real sides of readers.ts (the data the diagrams read)[32m 66[2mms[22m[39m
+     [32m✓[39m R-A47-2 the steps are cut, fold, staple, in that order, and each has a diagram[32m 223[2mms[22m[39m
+     [32m✓[39m R-A47-3 the cut diagram and the fold diagram use the profile size: 198 x 297 after the cut, the fold at 148.5, the 12 mm strip[32m 92[2mms[22m[39m
+     [32m✓[39m R-A47-4 the page numbers and their turns in the diagrams equal the imposition of readers.ts[32m 52[2mms[22m[39m
+     [32m✓[39m R-A47-5 the diagrams follow the profile, not a retyped size[32m 48[2mms[22m[39m
+[31m     [31m×[31m R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check[39m[32m 242[2mms[22m[39m
+     [32m✓[39m R-A47-7 there are 2 staples, both on the fold at the top of the closed reader[32m 47[2mms[22m[39m
+     [32m✓[39m R-A47-8 every English line has a Thai line before it, and every Thai line holds Thai[32m 57[2mms[22m[39m
+     [32m✓[39m R-A47-9 the copy names "Storytime Advantage" only: no CEFR level, no other brand, no year[32m 44[2mms[22m[39m
+     [32m✓[39m R-A47-10 two A4 portrait sheets, black and white, with the Sarabun and Andika print faces[32m 60[2mms[22m[39m
+     [32m✓[39m R-A47-12 the fold line is the only dashed line, and each fold line says "fold" at both ends[32m 47[2mms[22m[39m
+     [32m✓[39m R-A47-13 page 12 is the back cover: it prints upright, and the fold model reads it when the reader is turned over[32m 52[2mms[22m[39m
+     [32m✓[39m R-A47-14 each tick of step 1 is large and thick: at least 10 mm long and 1 mm thick on the sheet[32m 36[2mms[22m[39m
+     [32m✓[39m R-A47-16 the frames follow the v13 leaf: page 1 has its own frame, pages 2, 11, and 12 have none, and no rectangle runs around two pages[32m 70[2mms[22m[39m
+     [32m✓[39m R-A47-17 the leaf mark has the place and the orientation of the v13 leaf: 2 mm from the top, centered over the leaf, upright, not turned with a page[32m 116[2mms[22m[39m
+[31m     [31m×[31m R-A47-11 the leaf mark in the cut diagram is the mark of the real leaf[39m[32m 48[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[22m[39mG1 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG2: every framed picture of the reader pages holds one image at most and clips it inside its frame
+[22m[39mFRAMED_PAGES_CHECKED=224 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=224
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[22m[39mG3 fronts 30, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base)
+[22m[39mG4 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, logo tiles 1
+G4 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab, logo tiles 1
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[22m[39mG5 page 12 checked 28, problems 0
+
+ [32m✓[39m __tests__/quest-cover-f1f2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 50791[2mms[22m[39m
+     [33m[2m✓[22m[39m G1: the hlogo leaf cover holds no frame element, and the art layer still covers the page [33m 356[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box [33m 837[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base) [33m 309[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m191 tests[22m[2m)[22m[33m 14988[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 1396[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1322[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 400[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 944[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 462[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 949[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 2980[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part2.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 8468[2mms[22m[39m
+     [33m[2m✓[22m[39m F3-check: the trace text equals the sentence of the D4 teacher action, with the punctuation [33m 482[2mms[22m[39m
+     [33m[2m✓[22m[39m F5-page: the label and the icon follow the action (Look. eye; Color. pencil) [33m 2264[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-badge: each step carries the grey badge of its code, and a part that two steps share carries both codes [33m 1672[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-questions: the read-along questions print in D3 with the printed page, and not in C5 [33m 1445[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-v15.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 5836[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-workbook: the leaf sides of Nan Can Nod print "Listen and read." with ear and read, not "Sound it out." [33m 326[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-qr: the QR label of Nan Can Nod stays "Listen to the book" [33m 1949[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-build-control: a valid checkRows copy of week 3 compiles [33m 1662[2mms[22m[39m
+     [33m[2m✓[22m[39m E46-line: home.line.th of weeks 1 to 7 is the same as at the base commit [33m 394[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mH0: pictures-heads.json holds the 31 art files with their real pixel size and boxes inside each picture
+[22m[39mHEAD_FILE_ENTRIES=31 ART_FILES_OF_PAGES=31
+HEAD_BOXES=113
+
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mG7: no chrome part box overlaps a head box on any of the 32 shipped pages
+[22m[39mHEAD_PAIRS_CHECKED=272 HEAD_OVERLAPS=0 BY_PART: none
+
+ [32m✓[39m __tests__/quest-cover-heads.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 4157[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m495 passed[39m[22m[90m (499)[39m
+[2m   Start at [22m 04:17:46
+[2m   Duration [22m 579.61s[2m (transform 4.02s, setup 3.65s, import 7.43s, tests 537.98s, environment 24.51s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-reader-howto.test.ts[2m > [22mA-47 the how-to "How to make a student book"[2m > [22mR-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check
+[31m[1mAssertionError[22m: mutant page1-frameless must be caught: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-reader-howto.test.ts:[2m207:70[22m[39m
+    [90m205| [39m            const changed = docOf(compileReaderHowto(mutated(readerSid…
+    [90m206| [39m            const problems = [...impositionProblems(changed), ...frame…
+    [90m207| [39m            expect(problems.length, `mutant ${kind} must be caught`).t…
+    [90m   | [39m                                                                     [31m^[39m
+    [90m208| [39m        }
+    [90m209| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-reader-howto.test.ts[2m > [22mA-47 the how-to "How to make a student book"[2m > [22mR-A47-11 the leaf mark in the cut diagram is the mark of the real leaf
+[31m[1mAssertionError[22m: expected 'Hello! · leaf 1 of 3' to be 'Hello! · sheet 1 of 3' // Object.is equality[39m
+
+Expected: [32m"Hello! · [7msheet[27m 1 of 3"[39m
+Received: [31m"Hello! · [7mleaf[27m 1 of 3"[39m
+
+[36m [2m❯[22m __tests__/storytime-print-reader-howto.test.ts:[2m384:63[22m[39m
+    [90m382| [39m        const mark = doc.querySelector('svg[data-diagram="cut"] [data-…
+    [90m383| [39m        // changed 2026-11-12 (D-A, orchestrator decision): the diagra…
+    [90m384| [39m        expect(mark.textContent?.replace(/\s+/g, ' ').trim()).toBe(`${…
+    [90m   | [39m                                                              [31m^[39m
+    [90m385| [39m    })[33m;[39m
+    [90m386| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: shipped week 1, P15 default[2m > [22mR-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)
+[31m[1mAssertionError[22m: expected [ …(4) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "[mark-overlap] side 4: the mark overlaps page content",[39m
+[31m+   "[mark-overlap] side 6: the mark overlaps page content",[39m
+[31m+   "[mark-overlap] side 10: the mark overlaps page content",[39m
+[31m+   "[mark-overlap] side 12: the mark overlaps page content",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m603:45[22m[39m
+    [90m601| [39m            expect(proofQuest.map((side) => side.index), 'the sides wi…
+    [90m602| [39m            const sides = measured.map((side, index) => ({ ...side, co…
+    [90m603| [39m            expect(leafMarkProblems(sides)).toEqual([]);
+    [90m   | [39m                                            [31m^[39m
+    [90m604| [39m            const moved = JSON.parse(JSON.stringify(sides)) as typeof …
+    [90m605| [39m            moved[0].mark = { left: 20, top: moved[0].foldY - 2, right…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book.test.ts[2m > [22mStorytime student workbook: the shipped week 1[2m > [22mR32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)
+[31m[1mAssertionError[22m: expected [ …(2) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "[mark-a-ring] side 1: the footer strip has less than 1 mm around the mark ink",[39m
+[31m+   "[mark-a-ring] side 7: the footer strip has less than 1 mm around the mark ink",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-student-book.test.ts:[2m1494:36[22m[39m
+    [90m1492| [39m            const quest = await questMarkCheck(page, '.student-page[da…
+    [90m1493| [39m            expect(quest.sides.map((side) => side.index), 'the final s…
+    [90m1494| [39m            expect(quest.problems).toEqual([]);
+    [90m   | [39m                                   [31m^[39m
+    [90m1495| [39m        } finally {
+    [90m1496| [39m            await browser.close();
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m

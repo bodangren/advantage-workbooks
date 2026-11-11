@@ -1,0 +1,47 @@
+BUILD CAPTURE of Jr Green F3 F6, the howto
+
+HEAVY_RUN_TIMEOUT_S 400
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-reader-howto.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1277[2mms[22m[39m
+     [32m✓[39m R-A47-1 the fixture agrees with the real sides of readers.ts (the data the diagrams read)[32m 60[2mms[22m[39m
+     [32m✓[39m R-A47-2 the steps are cut, fold, staple, in that order, and each has a diagram[32m 214[2mms[22m[39m
+     [32m✓[39m R-A47-3 the cut diagram and the fold diagram use the profile size: 198 x 297 after the cut, the fold at 148.5, the 12 mm strip[32m 90[2mms[22m[39m
+     [32m✓[39m R-A47-4 the page numbers and their turns in the diagrams equal the imposition of readers.ts[32m 54[2mms[22m[39m
+     [32m✓[39m R-A47-5 the diagrams follow the profile, not a retyped size[32m 48[2mms[22m[39m
+[31m     [31m×[31m R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check[39m[32m 242[2mms[22m[39m
+     [32m✓[39m R-A47-7 there are 2 staples, both on the fold at the top of the closed reader[32m 48[2mms[22m[39m
+     [32m✓[39m R-A47-8 every English line has a Thai line before it, and every Thai line holds Thai[32m 57[2mms[22m[39m
+     [32m✓[39m R-A47-9 the copy names "Storytime Advantage" only: no CEFR level, no other brand, no year[32m 44[2mms[22m[39m
+     [32m✓[39m R-A47-10 two A4 portrait sheets, black and white, with the Sarabun and Andika print faces[32m 63[2mms[22m[39m
+     [32m✓[39m R-A47-12 the fold line is the only dashed line, and each fold line says "fold" at both ends[32m 48[2mms[22m[39m
+     [32m✓[39m R-A47-13 page 12 is the back cover: it prints upright, and the fold model reads it when the reader is turned over[32m 51[2mms[22m[39m
+     [32m✓[39m R-A47-14 each tick of step 1 is large and thick: at least 10 mm long and 1 mm thick on the sheet[32m 38[2mms[22m[39m
+     [32m✓[39m R-A47-16 the frames follow the v13 leaf: page 1 has its own frame, pages 2, 11, and 12 have none, and no rectangle runs around two pages[32m 64[2mms[22m[39m
+     [32m✓[39m R-A47-17 the leaf mark has the place and the orientation of the v13 leaf: 2 mm from the top, centered over the leaf, upright, not turned with a page[32m 72[2mms[22m[39m
+     [32m✓[39m R-A47-11 the leaf mark in the cut diagram is the mark of the real leaf[32m 35[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m16 passed[39m[22m[90m (17)[39m
+[2m   Start at [22m 04:28:10
+[2m   Duration [22m 3.86s[2m (transform 815ms, setup 95ms, import 1.03s, tests 1.28s, environment 702ms)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-reader-howto.test.ts[2m > [22mA-47 the how-to "How to make a student book"[2m > [22mR-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check
+[31m[1mAssertionError[22m: mutant page1-frameless must be caught: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-print-reader-howto.test.ts:[2m207:70[22m[39m
+    [90m205| [39m            const changed = docOf(compileReaderHowto(mutated(readerSid…
+    [90m206| [39m            const problems = [...impositionProblems(changed), ...frame…
+    [90m207| [39m            expect(problems.length, `mutant ${kind} must be caught`).t…
+    [90m   | [39m                                                                     [31m^[39m
+    [90m208| [39m        }
+    [90m209| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m

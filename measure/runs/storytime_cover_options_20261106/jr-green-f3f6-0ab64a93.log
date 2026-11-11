@@ -1,62 +1,52 @@
-Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93, 3fdddeee, 9039779f, and
-a8831f98 (the last round). Status: partial. The 4 fault groups of the round stand; the Q5 leaf mark
-stands with the prescribed text; the quick loop still fails 5 rules of the Red tree, and 3 of them
-conflict with each other in the tests.
+Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93, 3fdddeee, 9039779f,
+a8831f98, and e97bb32f (this round). Status: partial. The 4 fault groups are fixed except 3 lines:
+2 mark-overlap lines of the side mark (R-P6-F3c and R32) and 1 stale mutant of the how-to (R-A47-6).
 
 Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high. Commits of this
-round: this log and the captures only. No code commit: the quick loop fails.
+round: this log and the captures only. No code commit: the quick loop fails 2 tests.
 
-Step 1 (the bases): `git merge-base --is-ancestor a8831f98 HEAD` exits 0. HEAD is a8831f98.
+Step 1 (the bases): `git merge-base --is-ancestor e97bb32f HEAD` exits 0. HEAD is e97bb32f.
 
-Step 2 (the Thai filter): a python script drops every line of readers.ts with a character from
-U+0E00 to U+0E7F, prints only the dropped line numbers (636 and 648) and the count (2), and writes
-/tmp/opencode/gf36/readers-no-thai.ts; every read of readers.ts is that copy, and every edit is an
-exact-string python replacement with assertions that print no Thai line. The forbidden files stay
-closed. Every capture holds 0 Thai characters after the script's filter.
+Step 2 (the Thai rule, 3 files): a python script drops every line with a character from U+0E00 to
+U+0E7F and prints only the dropped line numbers: readers.ts 2 lines (636, 648), student-book.ts 4
+lines (311, 313, 680, 681), reader-howto.ts 41 lines (24, 247, 256, 257, 263, 287, ...). Every read is
+the filtered copy. Every edit is an exact-string python replacement with assertions that print no
+Thai line. After each edit the script proves the Thai line count of the file: readers.ts 2 to 2,
+student-book.ts 4 to 4, reader-howto.ts 41 to 41. The forbidden test files stay closed.
 
-Step 3 (the leaf mark, the Q5 rule of a8831f98): `QuestRenderOptions` takes `leafMark`, and
-`questReaderCoverPage` passes it to the leaf body. `leafFooterStrip` draws one
-`[data-part="leaf-mark"]` inside the F4 white strip and grows the strip to hold the mark ink with
-1 mm around it and the footer ink. `leafMarkPlace` places the mark in the side coordinates of the top
-margin (1.5 mm from the side top, 15 mm or more from the side left, so 3 mm clear of the 12 mm
-perforation) and maps it back to the page, because the imposition turns page 1 by 180 degrees in the
-readers build (the first attempt placed it at the page top and the mark printed at the page bottom,
-144 mm from the side top). The clearance test uses `questPageOneClearBoxes` (the chrome parts and the
-key boxes of the page, mirrored for the turn) with the 1 mm clearance. The readers build passes the
-mark on the workbook page 1 of every reader and on the student book reader sides that hold page 1,
-and it draws no other mark on those sides; the a3-color output and the covers build pass none.
+Step 3 (the D-A mark text): every reader leaf mark reads `<reader title> · sheet <n> of 3` (U+00B7):
+readers.ts `markHtml` (`&middot; sheet ${entry.leaf} of 3`) and the `leafMark` option of page 1
+(`sheet 1 of 3`), student-book.ts `sheet ${side.leaf} of 3`, and reader-howto.ts `leafMark()`
+(`· sheet N of M`). No printed page holds a band word now: the "leaf" word is gone from the 3 files.
 
-Step 4 (the loop of 11 files, 2400 s, `green-f3f6-loop5.txt`): Test Files 4 failed | 7 passed (11),
-Tests 11 failed | 471 passed (482), exit 1. The 4 fault groups of the round pass (R31, R34, R36,
-R40; A1 x3; the reader cover check). The remaining failures, with their English messages:
-1. quest-cover-f3f6 D6 page 1 equality, 14 lines: `week 1 workbook "Hello!": the page 1 body holds
-   the leaf marks ["Hello! · sheet 1 of 3"] (the pin is 1 mark "Hello! · leaf <n> of <m>").` This
-   one is fixed in the tree: the text is back to `<title> · leaf 1 of 3`, the prescribed text.
-2. quest-cover-f3f6 D6 no band word (from the loop 4 capture, `green-f3f6-loop4.txt`):
-   `week 1 workbook proof "Hello!" page 1: the band word "leaf".` The mark text holds "leaf", which
-   is a QUEST_BANDS word, and the printed-page rule scans the page 1 text.
-3. storytime-print-readers R-P4-3: `expected '\n\nPICTURE MISSING\nStorytime Advant…' not to match
-   /\b(seed|sprout|leaf|bud|flower)\b/i` (the same word).
-4. storytime-print-covers "checks each shipped week 1 reader cover for no band word" and
-   storytime-print-covers-adversarial "passes the reader cover check for the real covers": the Q2
-   copy rule fails the page 1 text on the same word.
-5. storytime-print-readers R-P6-F3c and storytime-print-student-book R32 (the mark place), and
-   R-P4-2, R-P4-2c, R-P4-2d, and the student book R32 "prints a dashed fold line and a small leaf
-   mark on each reader side": the page 1 sides now hold the mark inside the quest page and not as a
-   side mark, and those rules read the side mark.
+Step 4 (D-B, one mark per side): student-book.ts draws no side mark on a side that holds page 1
+(`side.pages.includes(1)` gives an empty mark), so on student book sides 1 and 7 the only mark is the
+one inside `.quest-reader-page`. The `.leaf-mark` CSS of the student book keeps its class selector, so
+it does not touch the page 1 mark, which carries no class. readers.ts already returned no second mark
+on those sides.
 
-Step 5 (the conflict, for the Red): the pinned mark text `<reader title> · leaf <n> of <m>` holds
-the word "leaf", and 4 Red-owned rules forbid that word on a printed reader page (the 2 D6 rules of
-quest-cover-f3f6, R-P4-3 of storytime-print-readers, and the Q2 copy rule of the 2 covers files).
-The code cannot satisfy both. The fix belongs to the test side: exempt the text of
-`[data-part="leaf-mark"]` from the band word rule and from the cover copy check, as the logo tile is
-exempted, or change the pinned mark text. The other 4 failures (R-P6-F3c, R32, R-P4-2, R-P4-2c/d)
-need the Red to decide whether the page 1 sides keep the side mark, and if not, to move those 4
-rules to the quest mark.
+Step 5 (R-A47-16, the how-to frame): the frame read of reader-howto.ts counts the page 1 quest cover
+(`/class="(?:reader-picture|quest-reader-page)"/`), so the cut, fold-leaf, and closed diagrams take
+page 1 as a picture page; pages 2, 11, and 12 keep no frame. R-A47-11 (the diagram mark text) passes.
 
-Step 6 (state): 4 code files are modified in the working tree and uncommitted (cover-quest.ts,
-readers.ts, teacher-book-cover.ts, make-readers-pdf.ts). tsc exits 0 and eslint exits 0 with 0
-warnings on the 4 files. The plan holds no change, the key box file holds no change, and no test
-file changed by me. pnpm-lock.yaml is unchanged. Gate A, Gate B, and the 3 mutants did not run,
-because the quick loop fails. Captures: green-f3f6-loop4.txt, green-f3f6-loop5.txt,
-green-f3f6-student-build.txt, and green-f3f6-f3c.txt.
+Step 6 (the quick loop of 12 files, 2400 s, `green-f3f6-loop6.txt`): Test Files 3 failed | 9 passed
+(12), Tests 4 failed | 495 passed (499), exit 1. The remaining failures, with their English messages:
+1. storytime-print-readers R-P6-F3c: `[mark-overlap] side 4: the mark overlaps page content` (and
+   the same for sides 6, 10, and 12). Those are the leaf sides that hold no page 1; they keep the old
+   side mark, the same markup and the same CSS place as at the role base of retry 3, so the overlap
+   is not moved by this round's code; the new measure of the retry 4 (the text range box) is the open
+   item.
+2. storytime-print-student-book R32: the same 4 lines for the student book sides.
+3. storytime-print-reader-howto R-A47-6: `mutant page1-frameless must be caught: expected 0 to be
+   greater than 0`. The mutant takes the frame of page 1 away. Page 1 is the quest reader cover now,
+   so it holds no `reader-picture` frame, and its frame comes from the `quest-reader-page` class,
+   which the mutant does not touch; the mutant is stale for the D6 page 1 and needs a Red edit.
+
+Step 7 (gates): the quick loop ran (above). Gate A, Gate B, the 3 mutants, and the code commit did
+not run, because the quick loop fails. tsc exits 0 and eslint exits 0 (0 warnings) on the 6 changed
+files. `pnpm-lock.yaml` is unchanged after every run.
+
+Step 8 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
+readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts. The plan
+holds no change, the key box file holds no change, and no test file changed by me. Captures:
+green-f3f6-loop6.txt, green-f3f6-howto.txt, and the earlier green-f3f6-*.txt files.
