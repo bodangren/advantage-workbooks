@@ -1,0 +1,1147 @@
+BUILD CAPTURE of Red retry F3 to F6 gate (the changed files, the fixture users, and the student book)
+
+HEAVY_RUN_TIMEOUT_S 1800
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 216161[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the reader compiler without a collection-time import [33m 416[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 417[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 7196[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 1245[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 1989[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 499[2mms[22m[39m
+     [32m✓[39m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)[32m 174[2mms[22m[39m
+     [32m✓[39m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)[32m 0[2mms[22m[39m
+     [32m✓[39m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)[32m 167[2mms[22m[39m
+     [32m✓[39m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)[32m 213[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4436[2mms[22m[39m
+[31m     [31m×[31m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy[39m[32m 150[2mms[22m[39m
+     [32m✓[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders[32m 290[2mms[22m[39m
+     [32m✓[39m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)[32m 161[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 856[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 2391[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 330[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 3315[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1445[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 4657[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 13052[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3686[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1376[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1933[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1454[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1195[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 5939[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 594[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 19914[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 2482[2mms[22m[39m
+     [32m✓[39m R-P4-20 fails a row whose manifest path resolves outside the batch root[32m 24[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1398[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 696[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 5732[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 5665[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 18058[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 16909[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 23064[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 495[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 685[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 1335[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 18656[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 683[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 2626[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion [33m 483[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-27 rejects an empty request for the batch check [33m 461[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 25026[2mms[22m[39m
+     [32m✓[39m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 128[2mms[22m[39m
+     [32m✓[39m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)[32m 97[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1142[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1390[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 984[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 852[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked [33m 306[2mms[22m[39m
+     [32m✓[39m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 9[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 1683[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 1951[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 3555[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD1 guard: the key box file holds the 3 kinds, and the dog-body and title-object boxes of the PM order
+[22m[39mKEY_BOXES head=100 dog-body=5 title-object=8
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: no chrome part comes within 1 mm of a key box on the 2 fronts and the 28 reader covers
+[22m[39mKEY-OVERLAP w01-2 reader-a3 title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 144.03 mm x 42.92 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 61.72 to 358.28 mm by 236.00 to 278.92 mm).
+KEY-OVERLAP w01-2 reader-a3 role-bar "Pip dog whole body (ears to paws and tail)" (dog-body): 59.27 mm x 19.84 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 146.47 to 273.52 mm by 273.42 to 293.26 mm).
+KEY-OVERLAP w01-2 reader-leaf title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 68.33 mm x 20.00 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 27.24 to 170.76 mm by 113.00 to 132.99 mm).
+KEY-OVERLAP w01-2 reader-leaf footer "Pip dog whole body (ears to paws and tail)" (dog-body): 40.74 mm x 5.72 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 57.78 to 140.22 mm by 137.26 to 142.98 mm).
+KEY-OVERLAP w07-1 reader-a3 title-plaque "the ball under its red cloth (title object)" (title-object): 144.27 mm x 27.43 mm with the 1 mm clearance (key 147.05 to 291.32 mm by 196.32 to 263.42 mm; part 84.69 to 335.30 mm by 236.00 to 278.92 mm).
+KEY-OVERLAP w07-1 reader-leaf title-plaque "the ball under its cloth (title object)" (title-object): 69.57 mm x 15.96 mm with the 1 mm clearance (key 68.30 to 137.87 mm by 95.77 to 128.96 mm; part 36.85 to 161.14 mm by 113.00 to 132.99 mm).
+KEY-OVERLAP w07-2 reader-a3 title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 72.82 mm x 27.95 mm with the 1 mm clearance (key 234.20 to 308.65 mm by 158.52 to 263.95 mm; part 112.97 to 307.02 mm by 236.00 to 275.99 mm).
+KEY-OVERLAP w07-2 reader-leaf title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 36.15 mm x 16.21 mm with the 1 mm clearance (key 109.63 to 145.79 mm by 79.19 to 129.20 mm; part 44.01 to 153.99 mm by 113.00 to 132.99 mm).
+KEY_PAIRS_CHECKED=272 KEY_OVERLAPS=8 BY_PART: title-plaque 6, role-bar 1, footer 1
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: every key box lies inside the trim (Q1 on w01-2 reader-a3), and the art keeps its aspect and covers the page
+[22m[39mTRIM_KEYS_CHECKED=113 TRIM_PROBLEMS=1
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD3: a cover whose default chrome is free keeps every chrome box, and the week pill keeps its free default box
+[22m[39mDEFAULT_BOX student-front | title-plaque | 22.98 278.00 187.02 292.00
+DEFAULT_BOX teacher-front | title-plaque | 22.94 278.00 187.05 292.00
+DEFAULT_BOX w01-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-1 reader-a3 | title-plaque | 132.70 236.00 287.30 278.92
+DEFAULT_BOX w01-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w01-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w01-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w01-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-2 reader-a3 | title-plaque | 61.72 236.00 358.28 278.92
+DEFAULT_BOX w01-2 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w01-2 reader-leaf | title-plaque | 27.24 113.00 170.76 132.99
+DEFAULT_BOX w01-2 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w02-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-1 reader-a3 | title-plaque | 78.91 236.00 341.09 275.99
+DEFAULT_BOX w02-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w02-1 reader-leaf | title-plaque | 34.44 113.00 163.56 132.99
+DEFAULT_BOX w02-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w02-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-2 reader-a3 | title-plaque | 126.14 236.00 293.85 278.60
+DEFAULT_BOX w02-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w02-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w02-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w03-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-1 reader-a3 | title-plaque | 129.85 236.00 290.15 278.92
+DEFAULT_BOX w03-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w03-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w03-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-2 reader-a3 | title-plaque | 111.46 236.00 308.54 278.92
+DEFAULT_BOX w03-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w03-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w04-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-1 reader-a3 | title-plaque | 91.18 236.00 328.81 275.99
+DEFAULT_BOX w04-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w04-1 reader-leaf | title-plaque | 39.57 113.00 158.42 132.99
+DEFAULT_BOX w04-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w04-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-2 reader-a3 | title-plaque | 143.51 236.00 276.49 278.28
+DEFAULT_BOX w04-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w04-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w04-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w05-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-1 reader-a3 | title-plaque | 84.60 236.00 335.40 278.28
+DEFAULT_BOX w05-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w05-1 reader-leaf | title-plaque | 36.82 113.00 161.18 132.99
+DEFAULT_BOX w05-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w05-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-2 reader-a3 | title-plaque | 58.79 236.00 361.20 278.92
+DEFAULT_BOX w05-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w05-2 reader-leaf | title-plaque | 26.01 113.00 171.98 132.99
+DEFAULT_BOX w05-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w06-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-1 reader-a3 | title-plaque | 98.76 236.00 321.24 278.60
+DEFAULT_BOX w06-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w06-1 reader-leaf | title-plaque | 42.74 113.00 155.26 132.99
+DEFAULT_BOX w06-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w06-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-2 reader-a3 | title-plaque | 98.23 236.00 321.76 275.99
+DEFAULT_BOX w06-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w06-2 reader-leaf | title-plaque | 42.52 113.00 155.47 132.99
+DEFAULT_BOX w06-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w07-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-1 reader-a3 | title-plaque | 84.69 236.00 335.30 278.92
+DEFAULT_BOX w07-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w07-1 reader-leaf | title-plaque | 36.85 113.00 161.14 132.99
+DEFAULT_BOX w07-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w07-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-2 reader-a3 | title-plaque | 112.97 236.00 307.02 275.99
+DEFAULT_BOX w07-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w07-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w07-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+D3_FREE_COVERS=24 D3_MOVED=["w01-2 reader-a3","w01-2 reader-leaf","w07-1 reader-a3","w07-1 reader-leaf","w07-2 reader-a3","w07-2 reader-leaf"] D3_PROBLEMS=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD4: the exception list equals the covers with no centred free place at the 50 % plaque size
+[22m[39mD4 student-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 teacher-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-2 reader-a3: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-a3: the 50 % group needs 35.80 mm of height in the centre band 134.9 to 285.1 mm between 5 mm and 293.26 mm; the key boxes in the band: Nan head (head) x 36.8 to 222.6 mm, y -11.7 to 158.4 mm; Pip dog head (head) x 216.3 to 331.8 mm, y 143.7 to 219.3 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 215.3 to 360.1 mm, y 142.7 to 295.9 mm.
+D4 w01-2 reader-leaf: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-leaf: the 50 % group needs 20.98 mm of height in the centre band 55.8 to 142.2 mm between 5 mm and 143.98 mm; the key boxes in the band: Nan head (head) x 17.3 to 104.9 mm, y 3.0 to 82.2 mm; Pip dog head (head) x 101.0 to 153.5 mm, y 76.2 to 110.9 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 100.5 to 166.8 mm, y 75.7 to 147.0 mm.
+D4 w02-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w07-1 reader-a3: full size free 178 mm up; 50 % size free 178 mm up.
+D4 w07-1 reader-leaf: full size free 87 mm up; 50 % size free 87 mm up.
+D4 w07-2 reader-a3: full size free 211 mm up; 50 % size free 211 mm up.
+D4 w07-2 reader-leaf: full size free 102 mm up; 50 % size free 102 mm up.
+D4_EXCEPTIONS=["w01-2 reader-a3","w01-2 reader-leaf"]
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[22m[39mD5 leaf covers 14, problems 14
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)
+[22m[39mD6 page 1 checked 28, problems 42
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book
+[22m[39mBAND_PAGES_CHECKED=840 BAND_WORD_PAGES=70
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer
+[22m[39mD7 page 12 checked 28, problems 56
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free
+[22m[39mD8 student-front: the default place is free.
+D8 teacher-front: the default place is free.
+D8_SHA banner student-front | 5ae17617643524865a9dbbc63cc73754b0170fbe5063bc71d35399288d3265b6
+D8_SHA banner teacher-front | b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf
+D8_SHA banner student-back | 8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0
+D8_SHA banner teacher-back | 5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79
+D8_SHA banner w01-1 reader-a3 | c9aa5de6afa1b18b4e0a0530a6e9792243513e0fd0395344f2ac7d4bffe27f52
+D8_SHA banner w01-1 reader-leaf | e0385f97b6567f6e6eace8c28d005547a33bbb8c561e753af7dc45d0f94cd90e
+D8_SHA banner w01-2 reader-a3 | aa409176d61dd2d8e22f1d9b2efcdb23e07e5254b8c2c2e366fce443f4118be6
+D8_SHA banner w01-2 reader-leaf | 1ff960ed3a394b79ef0a710b2c29c3d06e40c94f5c06aa6944dc87de1828456a
+D8_SHA banner w02-1 reader-a3 | a1cfa0349af43fceb6d90a6621367b2e73f961d68fdc675985838724fbe0e605
+D8_SHA banner w02-1 reader-leaf | 90a7900d5703b54f7c7840ed9cf068d89d587a029ae11a55fb36352906414b66
+D8_SHA banner w02-2 reader-a3 | 2cd0e4bb7a9d83e2f0101e695508358ef931feab13869c96ee4046df20e3a93b
+D8_SHA banner w02-2 reader-leaf | adf5fb301742daf131c9de24700827ba52a2648bfde1b495b20cff2e2d38649c
+D8_SHA banner w03-1 reader-a3 | 3786e785037e4c4af1e11dd26655c226a4bb97bcc03c894994f2ab4f08dec118
+D8_SHA banner w03-1 reader-leaf | 422ceb07591469ea3168f4e0fbecb45483c11ea738f82305acbcfa9ba758fd88
+D8_SHA banner w03-2 reader-a3 | 340d03d7d423f69090005b0573ea1d14b037b4540591b07e1053643d981ca18b
+D8_SHA banner w03-2 reader-leaf | a264e5460fe91a3599b5183eaa4d48ed82f3cbfeb4473db8880bc4f1f7ba6aba
+D8_SHA banner w04-1 reader-a3 | 352e248aa74e893243ae52b2f0f109d153f218cfdc7a20b581713ce3fe6c6e29
+D8_SHA banner w04-1 reader-leaf | f3e4e723801e6441ce9b5efb4928d9f704ab52c2abd781217bfc9a0773cea52b
+D8_SHA banner w04-2 reader-a3 | f0480220f3e81af34e642768d97e006ecd73fa96be6bca967e167b63f75f6462
+D8_SHA banner w04-2 reader-leaf | cfcd3394dc0cbab1ecdc99a6659c5a3db0014a130d88ca62d987176c0fa1f944
+D8_SHA banner w05-1 reader-a3 | b4432ae3f60b2cdfa56456439618471ad38f3f35aeca09e8aa883e00ee375f45
+D8_SHA banner w05-1 reader-leaf | e084c3b4b799663b02f95d9cdc637b905d48fd12aa41ec0de327b9adef51613b
+D8_SHA banner w05-2 reader-a3 | b5de52066edbc492b29d6ad015925cd26b8928bc024e68b945d7dd7305832ba1
+D8_SHA banner w05-2 reader-leaf | d4132c6514500298d62e99127bcd937611393ed8bb16d431863f9c739683a1af
+D8_SHA banner w06-1 reader-a3 | cca6cbbcc33e056c50fad81dd86869ac930a7e6d05c6ce5dfad1f5ed406ca645
+D8_SHA banner w06-1 reader-leaf | 3a43ddc49971f925b0944787c04d64818bcfcd672410479b44d9080237560f24
+D8_SHA banner w06-2 reader-a3 | 7b9a09a21da649b2f0e0c21d168688d13ccfa01b97af489d43f91d029f51ede5
+D8_SHA banner w06-2 reader-leaf | 1084a5bbea57dc66ae87d1e770bd9704e0b9e3a76f331aa49f8a2f1b3b6e4632
+D8_SHA banner w07-1 reader-a3 | 39a7db579aaa89dd8b4f85c29189d7ec9460ec2fae950391c354b15ff4e71fd1
+D8_SHA banner w07-1 reader-leaf | 47198cc13bd033cb258aab9a451bb7455180070c583b2566450ad9d69d27c37b
+D8_SHA banner w07-2 reader-a3 | 9572ca9689f90b27c2488bfae3a7a1e2b3c48f0660cfc6d7ca6b4754c612adf1
+D8_SHA banner w07-2 reader-leaf | f62606373859bd28467c28f3c37bd5d9d3c47185e5568877b39f98f90391cb7a
+D8_SHA hlogo student-front | f400d9bb70319b10c686399ad6b850bec950fb1f3551e4cc4b3223b7ea73e093
+D8_SHA hlogo teacher-front | c1740c1ac7990a5a77e23bf9bae0a68b568ff0070356b56fb4a762cfb7487d5c
+
+ [31m❯[39m __tests__/quest-cover-f3f6.test.ts [2m([22m[2m14 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[33m 115563[2mms[22m[39m
+     [32m✓[39m D1 guard: the key box file holds the 3 kinds, and the dog-body and title-object boxes of the PM order[32m 19[2mms[22m[39m
+[31m     [31m×[31m D2: no chrome part comes within 1 mm of a key box on the 2 fronts and the 28 reader covers[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m D2: every key box lies inside the trim (Q1 on w01-2 reader-a3), and the art keeps its aspect and covers the page[39m[32m 3[2mms[22m[39m
+     [32m✓[39m D3: a cover whose default chrome is free keeps every chrome box, and the week pill keeps its free default box[32m 5[2mms[22m[39m
+[31m     [31m×[31m D3: the plaque and its sub-part stay centred on each other, the plaque stays centred on the page outside the exception list, and an exception group stays 5 mm inside the trim[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m D3: a cover with a full-size centred free place keeps the full size at the lowest free place; the title fonts stay at 50 % or more; the leaf footer keeps 9 pt; the week pill stays in a top column[39m[32m 5[2mms[22m[39m
+     [32m✓[39m D4: the exception list equals the covers with no centred free place at the 50 % plaque size[32m 7[2mms[22m[39m
+[31m     [31m×[31m D5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m D6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)[39m[33m 3808[2mms[22m[39m
+[31m     [31m×[31m D6: in Chrome, page 1 fills its page, holds the chrome boxes of the cover build within 0.1 mm, and loads League Spartan[39m[32m 19[2mms[22m[39m
+[31m     [31m×[31m D6: proof mode page 1 holds the quest chrome on the PICTURE MISSING placeholder, the picture-id wrapper, and no image outside a logo tile[39m[33m 1680[2mms[22m[39m
+[31m     [31m×[31m D6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book[39m[33m 5378[2mms[22m[39m
+[31m     [31m×[31m D7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer[39m[33m 2201[2mms[22m[39m
+     [32m✓[39m D8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free[32m 205[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+NBDDKL+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     20  0
+RIGJGG+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+YFTGRO+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 compiled trace medians: 175, 175, 175, 175
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 removed-gray-rule medians: 0, 0, 0, 0
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m77 tests[22m[2m)[22m[33m 94021[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 713[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3) [33m 328[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: uses the P11 default title and the eight book-map places [33m 302[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 1013[2mms[22m[39m
+     [33m[2m✓[22m[39m R35: keeps the QR deploy mark in proof mode and excludes it from final mode [33m 706[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken [33m 355[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 691[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 921[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 11914[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 357[2mms[22m[39m
+     [33m[2m✓[22m[39m R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract [33m 352[2mms[22m[39m
+     [33m[2m✓[22m[39m R44: final mode requires and selects line art, not the color file [33m 446[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 3081[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 1171[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1) [33m 386[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 3379[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1) [33m 4793[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages [33m 409[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a removed home leaf on a temporary HTML copy [33m 582[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 645[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 739[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 5797[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in [33m 35170[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 5164[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 1206[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1) [33m 2311[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-30 prints the line art of a redone row from the folder manifest and never the color file [33m 761[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 774[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file [33m 2482[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2943[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m)[22m[33m 6984[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile week text out of the markup [33m 1706[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: prints hostile week text as literal text [33m 321[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps a hostile start point inside its attribute [33m 337[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile Thai text as text and creates no element [33m 321[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: catches a broken copy that injects the raw payload [33m 545[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: fills each reader side with the R32 reader pages in two landscape halves and keeps both marks (spec FR-5.1) [33m 313[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: keeps the blank aligner side empty [33m 332[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: names only the line-art picture file in any attribute [33m 385[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: runs the output check before the write and the browser [33m 611[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m11 failed[39m[22m[2m | [22m[1m[32m193 passed[39m[22m[90m (204)[39m
+[2m   Start at [22m 00:21:30
+[2m   Duration [22m 454.53s[2m (transform 2.93s, setup 1.81s, import 4.14s, tests 432.73s, environment 12.33s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 11 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD2: no chrome part comes within 1 mm of a key box on the 2 fronts and the 28 reader covers
+[31m[1mAssertionError[22m: KEY-OVERLAP w01-2 reader-a3 title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 144.03 mm x 42.92 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 61.72 to 358.28 mm by 236.00 to 278.92 mm).
+KEY-OVERLAP w01-2 reader-a3 role-bar "Pip dog whole body (ears to paws and tail)" (dog-body): 59.27 mm x 19.84 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 146.47 to 273.52 mm by 273.42 to 293.26 mm).
+KEY-OVERLAP w01-2 reader-leaf title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 68.33 mm x 20.00 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 27.24 to 170.76 mm by 113.00 to 132.99 mm).
+KEY-OVERLAP w01-2 reader-leaf footer "Pip dog whole body (ears to paws and tail)" (dog-body): 40.74 mm x 5.72 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 57.78 to 140.22 mm by 137.26 to 142.98 mm).
+KEY-OVERLAP w07-1 reader-a3 title-plaque "the ball under its red cloth (title object)" (title-object): 144.27 mm x 27.43 mm with the 1 mm clearance (key 147.05 to 291.32 mm by 196.32 to 263.42 mm; part 84.69 to 335.30 mm by 236.00 to 278.92 mm).
+KEY-OVERLAP w07-1 reader-leaf title-plaque "the ball under its cloth (title object)" (title-object): 69.57 mm x 15.96 mm with the 1 mm clearance (key 68.30 to 137.87 mm by 95.77 to 128.96 mm; part 36.85 to 161.14 mm by 113.00 to 132.99 mm).
+KEY-OVERLAP w07-2 reader-a3 title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 72.82 mm x 27.95 mm with the 1 mm clearance (key 234.20 to 308.65 mm by 158.52 to 263.95 mm; part 112.97 to 307.02 mm by 236.00 to 275.99 mm).
+KEY-OVERLAP w07-2 reader-leaf title-plaque "Pip dog whole body (ears to paws and tail)" (dog-body): 36.15 mm x 16.21 mm with the 1 mm clearance (key 109.63 to 145.79 mm by 79.19 to 129.20 mm; part 44.01 to 153.99 mm by 113.00 to 132.99 mm).: expected [ …(8) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "KEY-OVERLAP w01-2 reader-a3 title-plaque \"Pip dog whole body (ears to paws and tail)\" (dog-body): 144.03 mm x 42.92 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 61.72 to 358.28 mm by 236.00 to 278.92 mm).",[39m
+[31m+   "KEY-OVERLAP w01-2 reader-a3 role-bar \"Pip dog whole body (ears to paws and tail)\" (dog-body): 59.27 mm x 19.84 mm with the 1 mm clearance (key 214.25 to 361.15 mm by 150.65 to 305.95 mm; part 146.47 to 273.52 mm by 273.42 to 293.26 mm).",[39m
+[31m+   "KEY-OVERLAP w01-2 reader-leaf title-plaque \"Pip dog whole body (ears to paws and tail)\" (dog-body): 68.33 mm x 20.00 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 27.24 to 170.76 mm by 113.00 to 132.99 mm).",[39m
+[31m+   "KEY-OVERLAP w01-2 reader-leaf footer \"Pip dog whole body (ears to paws and tail)\" (dog-body): 40.74 mm x 5.72 mm with the 1 mm clearance (key 99.48 to 167.81 mm by 74.73 to 148.01 mm; part 57.78 to 140.22 mm by 137.26 to 142.98 mm).",[39m
+[31m+   "KEY-OVERLAP w07-1 reader-a3 title-plaque \"the ball under its red cloth (title object)\" (title-object): 144.27 mm x 27.43 mm with the 1 mm clearance (key 147.05 to 291.32 mm by 196.32 to 263.42 mm; part 84.69 to 335.30 mm by 236.00 to 278.92 mm).",[39m
+[31m+   "KEY-OVERLAP w07-1 reader-leaf title-plaque \"the ball under its cloth (title object)\" (title-object): 69.57 mm x 15.96 mm with the 1 mm clearance (key 68.30 to 137.87 mm by 95.77 to 128.96 mm; part 36.85 to 161.14 mm by 113.00 to 132.99 mm).",[39m
+[31m+   "KEY-OVERLAP w07-2 reader-a3 title-plaque \"Pip dog whole body (ears to paws and tail)\" (dog-body): 72.82 mm x 27.95 mm with the 1 mm clearance (key 234.20 to 308.65 mm by 158.52 to 263.95 mm; part 112.97 to 307.02 mm by 236.00 to 275.99 mm).",[39m
+[31m+   "KEY-OVERLAP w07-2 reader-leaf title-plaque \"Pip dog whole body (ears to paws and tail)\" (dog-body): 36.15 mm x 16.21 mm with the 1 mm clearance (key 109.63 to 145.79 mm by 79.19 to 129.20 mm; part 44.01 to 153.99 mm by 113.00 to 132.99 mm).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1043:83[22m[39m
+    [90m1041| [39m        console.log(`KEY_PAIRS_CHECKED=${checked} KEY_OVERLAPS=${overl…
+    [90m1042| [39m        expect(checked, 'the check reads at least one key and part pai…
+    [90m1043| [39m        expect([...problems, ...overlaps], [...problems, ...overlaps].…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m1044| [39m    })[33m;[39m
+    [90m1045| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD2: every key box lies inside the trim (Q1 on w01-2 reader-a3), and the art keeps its aspect and covers the page
+[31m[1mAssertionError[22m: w01-2 reader-a3 "Pip dog whole body (ears to paws and tail)" (dog-body): the key box (215.25 to 360.15 mm by 151.65 to 304.95 mm) leaves the trim by 7.95 mm (the pin is inside the trim).: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "w01-2 reader-a3 \"Pip dog whole body (ears to paws and tail)\" (dog-body): the key box (215.25 to 360.15 mm by 151.65 to 304.95 mm) leaves the trim by 7.95 mm (the pin is inside the trim).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1088:47[22m[39m
+    [90m1086| [39m        console.log(`TRIM_KEYS_CHECKED=${checked} TRIM_PROBLEMS=${prob…
+    [90m1087| [39m        [34mexpect[39m(checked)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m1088| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1089| [39m    })[33m;[39m
+    [90m1090| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD3: the plaque and its sub-part stay centred on each other, the plaque stays centred on the page outside the exception list, and an exception group stays 5 mm inside the trim
+[31m[1mAssertionError[22m: w01-1 reader-leaf: the cover holds no footer-strip box.
+w01-2 reader-a3: the exception group part role-bar (146.47 to 273.52 mm by 273.42 to 293.26 mm) is not 5 mm inside the trim.
+w01-2 reader-leaf: the cover holds no footer-strip box.
+w02-1 reader-leaf: the cover holds no footer-strip box.
+w02-2 reader-leaf: the cover holds no footer-strip box.
+w03-1 reader-leaf: the cover holds no footer-strip box.
+w03-2 reader-leaf: the cover holds no footer-strip box.
+w04-1 reader-leaf: the cover holds no footer-strip box.
+w04-2 reader-leaf: the cover holds no footer-strip box.
+w05-1 reader-leaf: the cover holds no footer-strip box.
+w05-2 reader-leaf: the cover holds no footer-strip box.
+w06-1 reader-leaf: the cover holds no footer-strip box.
+w06-2 reader-leaf: the cover holds no footer-strip box.
+w07-1 reader-leaf: the cover holds no footer-strip box.
+w07-2 reader-leaf: the cover holds no footer-strip box.: expected [ …(15) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "w01-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w01-2 reader-a3: the exception group part role-bar (146.47 to 273.52 mm by 273.42 to 293.26 mm) is not 5 mm inside the trim.",[39m
+[31m+   "w01-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w02-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w02-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w03-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w03-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w04-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w04-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w05-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w05-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w06-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w06-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w07-1 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+   "w07-2 reader-leaf: the cover holds no footer-strip box.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1187:47[22m[39m
+    [90m1185| [39m            if (delta > CENTRE_TOLERANCE_MM) problems.push(`${spec.id}…
+    [90m1186| [39m        }
+    [90m1187| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1188| [39m    })[33m;[39m
+    [90m1189| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD3: a cover with a full-size centred free place keeps the full size at the lowest free place; the title fonts stay at 50 % or more; the leaf footer keeps 9 pt; the week pill stays in a top column
+[31m[1mAssertionError[22m: w07-1 reader-a3: the plaque top is 236.00 mm, and the lowest full-size centred free place has its top at 58.00 mm (178 mm up; the pin is that place, or up to 2 mm higher).
+w07-1 reader-leaf: the plaque top is 113.00 mm, and the lowest full-size centred free place has its top at 26.00 mm (87 mm up; the pin is that place, or up to 2 mm higher).
+w07-2 reader-a3: the plaque top is 236.00 mm, and the lowest full-size centred free place has its top at 25.00 mm (211 mm up; the pin is that place, or up to 2 mm higher).
+w07-2 reader-leaf: the plaque top is 113.00 mm, and the lowest full-size centred free place has its top at 11.00 mm (102 mm up; the pin is that place, or up to 2 mm higher).: expected [ …(4) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "w07-1 reader-a3: the plaque top is 236.00 mm, and the lowest full-size centred free place has its top at 58.00 mm (178 mm up; the pin is that place, or up to 2 mm higher).",[39m
+[31m+   "w07-1 reader-leaf: the plaque top is 113.00 mm, and the lowest full-size centred free place has its top at 26.00 mm (87 mm up; the pin is that place, or up to 2 mm higher).",[39m
+[31m+   "w07-2 reader-a3: the plaque top is 236.00 mm, and the lowest full-size centred free place has its top at 25.00 mm (211 mm up; the pin is that place, or up to 2 mm higher).",[39m
+[31m+   "w07-2 reader-leaf: the plaque top is 113.00 mm, and the lowest full-size centred free place has its top at 11.00 mm (102 mm up; the pin is that place, or up to 2 mm higher).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1238:47[22m[39m
+    [90m1236| [39m            }
+    [90m1237| [39m        }
+    [90m1238| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1239| [39m    })[33m;[39m
+    [90m1240| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[31m[1mAssertionError[22m: w01-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w01-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w02-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w02-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w03-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w03-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w04-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w04-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w05-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w05-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w06-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w06-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w07-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).
+w07-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).: expected [ …(14) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "w01-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w01-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w02-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w02-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w03-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w03-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w04-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w04-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w05-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w05-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w06-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w06-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w07-1 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+   "w07-2 reader-leaf: the leaf holds 0 footer-strip parts (the pin is 1).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1318:47[22m[39m
+    [90m1316| [39m        }
+    [90m1317| [39m        console[33m.[39m[34mlog[39m([32m`D5 leaf covers 14, problems [39m[36m${[39mproblems[33m.[39mlength[36m}[39m[32m`[39m)[33m;[39m
+    [90m1318| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1319| [39m    })[33m;[39m
+    [90m1320| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)
+[31m[1mAssertionError[22m: week 1 workbook "Hello!": page 1 holds 0 quest reader pages (the pin is 1).
+week 1 workbook "Nan Can Nod": page 1 holds 0 quest reader pages (the pin is 1).
+week 2 workbook "How Many?": page 1 holds 0 quest reader pages (the pin is 1).
+week 2 workbook "Can I?": page 1 holds 0 quest reader pages (the pin is 1).
+week 3 workbook "Paint!": page 1 holds 0 quest reader pages (the pin is 1).
+week 3 workbook "The Pan": page 1 holds 0 quest reader pages (the pin is 1).
+week 4 workbook "My Family": page 1 holds 0 quest reader pages (the pin is 1).
+week 4 workbook "Pam": page 1 holds 0 quest reader pages (the pin is 1).
+week 5 workbook "I Have Two": page 1 holds 0 quest reader pages (the pin is 1).
+week 5 workbook "Sam and Pam": page 1 holds 0 quest reader pages (the pin is 1).
+week 6 workbook "I Can See": page 1 holds 0 quest reader pages (the pin is 1).
+week 6 workbook "Tap, Tap!": page 1 holds 0 quest reader pages (the pin is 1).
+week 7 workbook "Is It a Ball?": page 1 holds 0 quest reader pages (the pin is 1).
+week 7 workbook "The Top": page 1 holds 0 quest reader pages (the pin is 1).
+week 1 a3-color "Hello!": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 1 a3-color "Hello!": page 1 holds 0 quest reader pages (the pin is 1).
+week 1 a3-color "Nan Can Nod": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 1 a3-color "Nan Can Nod": page 1 holds 0 quest reader pages (the pin is 1).
+week 2 a3-color "How Many?": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 2 a3-color "How Many?": page 1 holds 0 quest reader pages (the pin is 1).
+week 2 a3-color "Can I?": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 2 a3-color "Can I?": page 1 holds 0 quest reader pages (the pin is 1).
+week 3 a3-color "Paint!": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 3 a3-color "Paint!": page 1 holds 0 quest reader pages (the pin is 1).
+week 3 a3-color "The Pan": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 3 a3-color "The Pan": page 1 holds 0 quest reader pages (the pin is 1).
+week 4 a3-color "My Family": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 4 a3-color "My Family": page 1 holds 0 quest reader pages (the pin is 1).
+week 4 a3-color "Pam": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 4 a3-color "Pam": page 1 holds 0 quest reader pages (the pin is 1).
+week 5 a3-color "I Have Two": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 5 a3-color "I Have Two": page 1 holds 0 quest reader pages (the pin is 1).
+week 5 a3-color "Sam and Pam": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 5 a3-color "Sam and Pam": page 1 holds 0 quest reader pages (the pin is 1).
+week 6 a3-color "I Can See": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 6 a3-color "I Can See": page 1 holds 0 quest reader pages (the pin is 1).
+week 6 a3-color "Tap, Tap!": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 6 a3-color "Tap, Tap!": page 1 holds 0 quest reader pages (the pin is 1).
+week 7 a3-color "Is It a Ball?": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 7 a3-color "Is It a Ball?": page 1 holds 0 quest reader pages (the pin is 1).
+week 7 a3-color "The Top": page 1 holds a 2.0 scale (the pin is the full A3 page).
+week 7 a3-color "The Top": page 1 holds 0 quest reader pages (the pin is 1).: expected [ …(42) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook \"Hello!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 1 workbook \"Nan Can Nod\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 2 workbook \"How Many?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 2 workbook \"Can I?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 3 workbook \"Paint!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 3 workbook \"The Pan\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 4 workbook \"My Family\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 4 workbook \"Pam\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 5 workbook \"I Have Two\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 5 workbook \"Sam and Pam\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 6 workbook \"I Can See\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 6 workbook \"Tap, Tap!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 7 workbook \"Is It a Ball?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 7 workbook \"The Top\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 1 a3-color \"Hello!\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 1 a3-color \"Hello!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 2 a3-color \"How Many?\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 2 a3-color \"How Many?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 2 a3-color \"Can I?\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 2 a3-color \"Can I?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 3 a3-color \"Paint!\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 3 a3-color \"Paint!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 3 a3-color \"The Pan\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 3 a3-color \"The Pan\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 4 a3-color \"My Family\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 4 a3-color \"My Family\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 4 a3-color \"Pam\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 4 a3-color \"Pam\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 5 a3-color \"I Have Two\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 5 a3-color \"I Have Two\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 6 a3-color \"I Can See\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 6 a3-color \"I Can See\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+   "week 7 a3-color \"The Top\": page 1 holds a 2.0 scale (the pin is the full A3 page).",[39m
+[31m+   "week 7 a3-color \"The Top\": page 1 holds 0 quest reader pages (the pin is 1).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1373:47[22m[39m
+    [90m1371| [39m        console.log(`D6 page 1 checked ${checked}, problems ${problems…
+    [90m1372| [39m        expect(checked, 'the check reads page 1 of the 14 readers in t…
+    [90m1373| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1374| [39m    })[33m;[39m
+    [90m1375| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD6: in Chrome, page 1 fills its page, holds the chrome boxes of the cover build within 0.1 mm, and loads League Spartan
+[31m[1mAssertionError[22m: week 1 workbook "Hello!": the document holds no loaded League Spartan face.
+week 1 workbook "Hello!": page 1 holds no quest page box.
+week 1 workbook "Nan Can Nod": the document holds no loaded League Spartan face.
+week 1 workbook "Nan Can Nod": page 1 holds no quest page box.
+week 2 workbook "How Many?": the document holds no loaded League Spartan face.
+week 2 workbook "How Many?": page 1 holds no quest page box.
+week 2 workbook "Can I?": the document holds no loaded League Spartan face.
+week 2 workbook "Can I?": page 1 holds no quest page box.
+week 3 workbook "Paint!": the document holds no loaded League Spartan face.
+week 3 workbook "Paint!": page 1 holds no quest page box.
+week 3 workbook "The Pan": the document holds no loaded League Spartan face.
+week 3 workbook "The Pan": page 1 holds no quest page box.
+week 4 workbook "My Family": the document holds no loaded League Spartan face.
+week 4 workbook "My Family": page 1 holds no quest page box.
+week 4 workbook "Pam": the document holds no loaded League Spartan face.
+week 4 workbook "Pam": page 1 holds no quest page box.
+week 5 workbook "I Have Two": the document holds no loaded League Spartan face.
+week 5 workbook "I Have Two": page 1 holds no quest page box.
+week 5 workbook "Sam and Pam": the document holds no loaded League Spartan face.
+week 5 workbook "Sam and Pam": page 1 holds no quest page box.
+week 6 workbook "I Can See": the document holds no loaded League Spartan face.
+week 6 workbook "I Can See": page 1 holds no quest page box.
+week 6 workbook "Tap, Tap!": the document holds no loaded League Spartan face.
+week 6 workbook "Tap, Tap!": page 1 holds no quest page box.
+week 7 workbook "Is It a Ball?": the document holds no loaded League Spartan face.
+week 7 workbook "Is It a Ball?": page 1 holds no quest page box.
+week 7 workbook "The Top": the document holds no loaded League Spartan face.
+week 7 workbook "The Top": page 1 holds no quest page box.
+week 1 a3-color "Hello!": the document holds no loaded League Spartan face.
+week 1 a3-color "Hello!": page 1 holds no quest page box.
+week 1 a3-color "Nan Can Nod": the document holds no loaded League Spartan face.
+week 1 a3-color "Nan Can Nod": page 1 holds no quest page box.
+week 2 a3-color "How Many?": the document holds no loaded League Spartan face.
+week 2 a3-color "How Many?": page 1 holds no quest page box.
+week 2 a3-color "Can I?": the document holds no loaded League Spartan face.
+week 2 a3-color "Can I?": page 1 holds no quest page box.
+week 3 a3-color "Paint!": the document holds no loaded League Spartan face.
+week 3 a3-color "Paint!": page 1 holds no quest page box.
+week 3 a3-color "The Pan": the document holds no loaded League Spartan face.
+week 3 a3-color "The Pan": page 1 holds no quest page box.
+week 4 a3-color "My Family": the document holds no loaded League Spartan face.
+week 4 a3-color "My Family": page 1 holds no quest page box.
+week 4 a3-color "Pam": the document holds no loaded League Spartan face.
+week 4 a3-color "Pam": page 1 holds no quest page box.
+week 5 a3-color "I Have Two": the document holds no loaded League Spartan face.
+week 5 a3-color "I Have Two": page 1 holds no quest page box.
+week 5 a3-color "Sam and Pam": the document holds no loaded League Spartan face.
+week 5 a3-color "Sam and Pam": page 1 holds no quest page box.
+week 6 a3-color "I Can See": the document holds no loaded League Spartan face.
+week 6 a3-color "I Can See": page 1 holds no quest page box.
+week 6 a3-color "Tap, Tap!": the document holds no loaded League Spartan face.
+week 6 a3-color "Tap, Tap!": page 1 holds no quest page box.
+week 7 a3-color "Is It a Ball?": the document holds no loaded League Spartan face.
+week 7 a3-color "Is It a Ball?": page 1 holds no quest page box.
+week 7 a3-color "The Top": the document holds no loaded League Spartan face.
+week 7 a3-color "The Top": page 1 holds no quest page box.: expected [ …(56) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook \"Hello!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 1 workbook \"Hello!\": page 1 holds no quest page box.",[39m
+[31m+   "week 1 workbook \"Nan Can Nod\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 1 workbook \"Nan Can Nod\": page 1 holds no quest page box.",[39m
+[31m+   "week 2 workbook \"How Many?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 2 workbook \"How Many?\": page 1 holds no quest page box.",[39m
+[31m+   "week 2 workbook \"Can I?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 2 workbook \"Can I?\": page 1 holds no quest page box.",[39m
+[31m+   "week 3 workbook \"Paint!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 3 workbook \"Paint!\": page 1 holds no quest page box.",[39m
+[31m+   "week 3 workbook \"The Pan\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 3 workbook \"The Pan\": page 1 holds no quest page box.",[39m
+[31m+   "week 4 workbook \"My Family\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 4 workbook \"My Family\": page 1 holds no quest page box.",[39m
+[31m+   "week 4 workbook \"Pam\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 4 workbook \"Pam\": page 1 holds no quest page box.",[39m
+[31m+   "week 5 workbook \"I Have Two\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 5 workbook \"I Have Two\": page 1 holds no quest page box.",[39m
+[31m+   "week 5 workbook \"Sam and Pam\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 5 workbook \"Sam and Pam\": page 1 holds no quest page box.",[39m
+[31m+   "week 6 workbook \"I Can See\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 6 workbook \"I Can See\": page 1 holds no quest page box.",[39m
+[31m+   "week 6 workbook \"Tap, Tap!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 6 workbook \"Tap, Tap!\": page 1 holds no quest page box.",[39m
+[31m+   "week 7 workbook \"Is It a Ball?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 7 workbook \"Is It a Ball?\": page 1 holds no quest page box.",[39m
+[31m+   "week 7 workbook \"The Top\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 7 workbook \"The Top\": page 1 holds no quest page box.",[39m
+[31m+   "week 1 a3-color \"Hello!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 1 a3-color \"Hello!\": page 1 holds no quest page box.",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\": page 1 holds no quest page box.",[39m
+[31m+   "week 2 a3-color \"How Many?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 2 a3-color \"How Many?\": page 1 holds no quest page box.",[39m
+[31m+   "week 2 a3-color \"Can I?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 2 a3-color \"Can I?\": page 1 holds no quest page box.",[39m
+[31m+   "week 3 a3-color \"Paint!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 3 a3-color \"Paint!\": page 1 holds no quest page box.",[39m
+[31m+   "week 3 a3-color \"The Pan\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 3 a3-color \"The Pan\": page 1 holds no quest page box.",[39m
+[31m+   "week 4 a3-color \"My Family\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 4 a3-color \"My Family\": page 1 holds no quest page box.",[39m
+[31m+   "week 4 a3-color \"Pam\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 4 a3-color \"Pam\": page 1 holds no quest page box.",[39m
+[31m+   "week 5 a3-color \"I Have Two\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 5 a3-color \"I Have Two\": page 1 holds no quest page box.",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\": page 1 holds no quest page box.",[39m
+[31m+   "week 6 a3-color \"I Can See\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 6 a3-color \"I Can See\": page 1 holds no quest page box.",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\": page 1 holds no quest page box.",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\": page 1 holds no quest page box.",[39m
+[31m+   "week 7 a3-color \"The Top\": the document holds no loaded League Spartan face.",[39m
+[31m+   "week 7 a3-color \"The Top\": page 1 holds no quest page box.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1418:47[22m[39m
+    [90m1416| [39m            }
+    [90m1417| [39m        }
+    [90m1418| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1419| [39m    })[33m;[39m
+    [90m1420| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD6: proof mode page 1 holds the quest chrome on the PICTURE MISSING placeholder, the picture-id wrapper, and no image outside a logo tile
+[31m[1mAssertionError[22m: week 1 workbook proof "Hello!": page 1 holds no quest page with the title plaque of the title.
+week 1 workbook proof "Nan Can Nod": page 1 holds no quest page with the title plaque of the title.
+week 1 a3-color proof "Hello!": page 1 holds no quest page with the title plaque of the title.
+week 1 a3-color proof "Nan Can Nod": page 1 holds no quest page with the title plaque of the title.
+week 2 workbook proof "How Many?": page 1 holds no quest page with the title plaque of the title.
+week 2 workbook proof "Can I?": page 1 holds no quest page with the title plaque of the title.
+week 2 a3-color proof "How Many?": page 1 holds no quest page with the title plaque of the title.
+week 2 a3-color proof "Can I?": page 1 holds no quest page with the title plaque of the title.
+week 3 workbook proof "Paint!": page 1 holds no quest page with the title plaque of the title.
+week 3 workbook proof "The Pan": page 1 holds no quest page with the title plaque of the title.
+week 3 a3-color proof "Paint!": page 1 holds no quest page with the title plaque of the title.
+week 3 a3-color proof "The Pan": page 1 holds no quest page with the title plaque of the title.
+week 4 workbook proof "My Family": page 1 holds no quest page with the title plaque of the title.
+week 4 workbook proof "Pam": page 1 holds no quest page with the title plaque of the title.
+week 4 a3-color proof "My Family": page 1 holds no quest page with the title plaque of the title.
+week 4 a3-color proof "Pam": page 1 holds no quest page with the title plaque of the title.
+week 5 workbook proof "I Have Two": page 1 holds no quest page with the title plaque of the title.
+week 5 workbook proof "Sam and Pam": page 1 holds no quest page with the title plaque of the title.
+week 5 a3-color proof "I Have Two": page 1 holds no quest page with the title plaque of the title.
+week 5 a3-color proof "Sam and Pam": page 1 holds no quest page with the title plaque of the title.
+week 6 workbook proof "I Can See": page 1 holds no quest page with the title plaque of the title.
+week 6 workbook proof "Tap, Tap!": page 1 holds no quest page with the title plaque of the title.
+week 6 a3-color proof "I Can See": page 1 holds no quest page with the title plaque of the title.
+week 6 a3-color proof "Tap, Tap!": page 1 holds no quest page with the title plaque of the title.
+week 7 workbook proof "Is It a Ball?": page 1 holds no quest page with the title plaque of the title.
+week 7 workbook proof "The Top": page 1 holds no quest page with the title plaque of the title.
+week 7 a3-color proof "Is It a Ball?": page 1 holds no quest page with the title plaque of the title.
+week 7 a3-color proof "The Top": page 1 holds no quest page with the title plaque of the title.: expected [ …(28) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook proof \"Hello!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 1 workbook proof \"Nan Can Nod\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 1 a3-color proof \"Hello!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 1 a3-color proof \"Nan Can Nod\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 2 workbook proof \"How Many?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 2 workbook proof \"Can I?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 2 a3-color proof \"How Many?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 2 a3-color proof \"Can I?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 3 workbook proof \"Paint!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 3 workbook proof \"The Pan\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 3 a3-color proof \"Paint!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 3 a3-color proof \"The Pan\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 4 workbook proof \"My Family\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 4 workbook proof \"Pam\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 4 a3-color proof \"My Family\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 4 a3-color proof \"Pam\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 5 workbook proof \"I Have Two\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 5 workbook proof \"Sam and Pam\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 5 a3-color proof \"I Have Two\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 5 a3-color proof \"Sam and Pam\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 6 workbook proof \"I Can See\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 6 workbook proof \"Tap, Tap!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 6 a3-color proof \"I Can See\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 6 a3-color proof \"Tap, Tap!\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 7 workbook proof \"Is It a Ball?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 7 workbook proof \"The Top\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 7 a3-color proof \"Is It a Ball?\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+   "week 7 a3-color proof \"The Top\": page 1 holds no quest page with the title plaque of the title.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1450:47[22m[39m
+    [90m1448| [39m            }
+    [90m1449| [39m        }
+    [90m1450| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1451| [39m    })[33m;[39m
+    [90m1452| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book
+[31m[1mAssertionError[22m: week 1 workbook proof "Hello!" page 1: the band word "Sprout".
+week 1 workbook proof "Nan Can Nod" page 1: the band word "Sprout".
+week 1 workbook final "Hello!" page 1: the band word "Sprout".
+week 1 workbook final "Nan Can Nod" page 1: the band word "Sprout".
+week 1 a3-color proof "Hello!" page 1: the band word "Sprout".
+week 1 a3-color proof "Nan Can Nod" page 1: the band word "Sprout".
+week 1 a3-color final "Hello!" page 1: the band word "Sprout".
+week 1 a3-color final "Nan Can Nod" page 1: the band word "Sprout".
+week 2 workbook proof "How Many?" page 1: the band word "Sprout".
+week 2 workbook proof "Can I?" page 1: the band word "Sprout".
+week 2 workbook final "How Many?" page 1: the band word "Sprout".
+week 2 workbook final "Can I?" page 1: the band word "Sprout".
+week 2 a3-color proof "How Many?" page 1: the band word "Sprout".
+week 2 a3-color proof "Can I?" page 1: the band word "Sprout".
+week 2 a3-color final "How Many?" page 1: the band word "Sprout".
+week 2 a3-color final "Can I?" page 1: the band word "Sprout".
+week 3 workbook proof "Paint!" page 1: the band word "Sprout".
+week 3 workbook proof "The Pan" page 1: the band word "Sprout".
+week 3 workbook final "Paint!" page 1: the band word "Sprout".
+week 3 workbook final "The Pan" page 1: the band word "Sprout".
+week 3 a3-color proof "Paint!" page 1: the band word "Sprout".
+week 3 a3-color proof "The Pan" page 1: the band word "Sprout".
+week 3 a3-color final "Paint!" page 1: the band word "Sprout".
+week 3 a3-color final "The Pan" page 1: the band word "Sprout".
+week 4 workbook proof "My Family" page 1: the band word "Sprout".
+week 4 workbook proof "Pam" page 1: the band word "Sprout".
+week 4 workbook final "My Family" page 1: the band word "Sprout".
+week 4 workbook final "Pam" page 1: the band word "Sprout".
+week 4 a3-color proof "My Family" page 1: the band word "Sprout".
+week 4 a3-color proof "Pam" page 1: the band word "Sprout".
+week 4 a3-color final "My Family" page 1: the band word "Sprout".
+week 4 a3-color final "Pam" page 1: the band word "Sprout".
+week 5 workbook proof "I Have Two" page 1: the band word "Sprout".
+week 5 workbook proof "Sam and Pam" page 1: the band word "Sprout".
+week 5 workbook final "I Have Two" page 1: the band word "Sprout".
+week 5 workbook final "Sam and Pam" page 1: the band word "Sprout".
+week 5 a3-color proof "I Have Two" page 1: the band word "Sprout".
+week 5 a3-color proof "Sam and Pam" page 1: the band word "Sprout".
+week 5 a3-color final "I Have Two" page 1: the band word "Sprout".
+week 5 a3-color final "Sam and Pam" page 1: the band word "Sprout".
+week 6 workbook proof "I Can See" page 1: the band word "Sprout".
+week 6 workbook proof "Tap, Tap!" page 1: the band word "Sprout".
+week 6 workbook final "I Can See" page 1: the band word "Sprout".
+week 6 workbook final "Tap, Tap!" page 1: the band word "Sprout".
+week 6 a3-color proof "I Can See" page 1: the band word "Sprout".
+week 6 a3-color proof "Tap, Tap!" page 1: the band word "Sprout".
+week 6 a3-color final "I Can See" page 1: the band word "Sprout".
+week 6 a3-color final "Tap, Tap!" page 1: the band word "Sprout".
+week 7 workbook proof "Is It a Ball?" page 1: the band word "Sprout".
+week 7 workbook proof "The Top" page 1: the band word "Sprout".
+week 7 workbook final "Is It a Ball?" page 1: the band word "Sprout".
+week 7 workbook final "The Top" page 1: the band word "Sprout".
+week 7 a3-color proof "Is It a Ball?" page 1: the band word "Sprout".
+week 7 a3-color proof "The Top" page 1: the band word "Sprout".
+week 7 a3-color final "Is It a Ball?" page 1: the band word "Sprout".
+week 7 a3-color final "The Top" page 1: the band word "Sprout".
+student book proof "Hello!" page 1: the band word "Sprout".
+student book proof "Nan Can Nod" page 1: the band word "Sprout".
+student book proof "How Many?" page 1: the band word "Sprout".
+student book proof "Can I?" page 1: the band word "Sprout".
+student book proof "Paint!" page 1: the band word "Sprout".
+student book proof "The Pan" page 1: the band word "Sprout".
+student book proof "My Family" page 1: the band word "Sprout".
+student book proof "Pam" page 1: the band word "Sprout".
+student book proof "I Have Two" page 1: the band word "Sprout".
+student book proof "Sam and Pam" page 1: the band word "Sprout".
+student book proof "I Can See" page 1: the band word "Sprout".
+student book proof "Tap, Tap!" page 1: the band word "Sprout".
+student book proof "Is It a Ball?" page 1: the band word "Sprout".
+student book proof "The Top" page 1: the band word "Sprout".: expected [ …(70) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook proof \"Hello!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 workbook proof \"Nan Can Nod\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 workbook final \"Hello!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 workbook final \"Nan Can Nod\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 a3-color proof \"Hello!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 a3-color proof \"Nan Can Nod\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 a3-color final \"Hello!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 1 a3-color final \"Nan Can Nod\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 workbook proof \"How Many?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 workbook proof \"Can I?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 workbook final \"How Many?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 workbook final \"Can I?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 a3-color proof \"How Many?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 a3-color proof \"Can I?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 a3-color final \"How Many?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 2 a3-color final \"Can I?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 workbook proof \"Paint!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 workbook proof \"The Pan\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 workbook final \"Paint!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 workbook final \"The Pan\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 a3-color proof \"Paint!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 a3-color proof \"The Pan\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 a3-color final \"Paint!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 3 a3-color final \"The Pan\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 workbook proof \"My Family\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 workbook proof \"Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 workbook final \"My Family\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 workbook final \"Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 a3-color proof \"My Family\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 a3-color proof \"Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 a3-color final \"My Family\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 4 a3-color final \"Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 workbook proof \"I Have Two\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 workbook proof \"Sam and Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 workbook final \"I Have Two\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 workbook final \"Sam and Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 a3-color proof \"I Have Two\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 a3-color proof \"Sam and Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 a3-color final \"I Have Two\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 5 a3-color final \"Sam and Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 workbook proof \"I Can See\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 workbook proof \"Tap, Tap!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 workbook final \"I Can See\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 workbook final \"Tap, Tap!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 a3-color proof \"I Can See\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 a3-color proof \"Tap, Tap!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 a3-color final \"I Can See\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 6 a3-color final \"Tap, Tap!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 workbook proof \"Is It a Ball?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 workbook proof \"The Top\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 workbook final \"Is It a Ball?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 workbook final \"The Top\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 a3-color proof \"Is It a Ball?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 a3-color proof \"The Top\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 a3-color final \"Is It a Ball?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "week 7 a3-color final \"The Top\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Hello!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Nan Can Nod\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"How Many?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Can I?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Paint!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"The Pan\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"My Family\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"I Have Two\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Sam and Pam\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"I Can See\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Tap, Tap!\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"Is It a Ball?\" page 1: the band word \"Sprout\".",[39m
+[31m+   "student book proof \"The Top\" page 1: the band word \"Sprout\".",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1483:47[22m[39m
+    [90m1481| [39m        console.log(`BAND_PAGES_CHECKED=${pages} BAND_WORD_PAGES=${pro…
+    [90m1482| [39m        [34mexpect[39m(pages)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m1483| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1484| [39m    })[33m;[39m
+    [90m1485| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer
+[31m[1mAssertionError[22m[39m: week 1 workbook "Hello!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 1 workbook "Hello!" page 12: the page holds a reader-series line (the pin is 0).
+week 1 workbook "Nan Can Nod" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 1 workbook "Nan Can Nod" page 12: the page holds a reader-series line (the pin is 0).
+week 1 a3-color "Hello!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 1 a3-color "Hello!" page 12: the page holds a reader-series line (the pin is 0).
+week 1 a3-color "Nan Can Nod" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 1 a3-color "Nan Can Nod" page 12: the page holds a reader-series line (the pin is 0).
+week 2 workbook "How Many?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 2 workbook "How Many?" page 12: the page holds a reader-series line (the pin is 0).
+week 2 workbook "Can I?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 2 workbook "Can I?" page 12: the page holds a reader-series line (the pin is 0).
+week 2 a3-color "How Many?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 2 a3-color "How Many?" page 12: the page holds a reader-series line (the pin is 0).
+week 2 a3-color "Can I?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 2 a3-color "Can I?" page 12: the page holds a reader-series line (the pin is 0).
+week 3 workbook "Paint!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 3 workbook "Paint!" page 12: the page holds a reader-series line (the pin is 0).
+week 3 workbook "The Pan" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 3 workbook "The Pan" page 12: the page holds a reader-series line (the pin is 0).
+week 3 a3-color "Paint!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 3 a3-color "Paint!" page 12: the page holds a reader-series line (the pin is 0).
+week 3 a3-color "The Pan" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 3 a3-color "The Pan" page 12: the page holds a reader-series line (the pin is 0).
+week 4 workbook "My Family" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 4 workbook "My Family" page 12: the page holds a reader-series line (the pin is 0).
+week 4 workbook "Pam" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 4 workbook "Pam" page 12: the page holds a reader-series line (the pin is 0).
+week 4 a3-color "My Family" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 4 a3-color "My Family" page 12: the page holds a reader-series line (the pin is 0).
+week 4 a3-color "Pam" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 4 a3-color "Pam" page 12: the page holds a reader-series line (the pin is 0).
+week 5 workbook "I Have Two" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 5 workbook "I Have Two" page 12: the page holds a reader-series line (the pin is 0).
+week 5 workbook "Sam and Pam" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 5 workbook "Sam and Pam" page 12: the page holds a reader-series line (the pin is 0).
+week 5 a3-color "I Have Two" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 5 a3-color "I Have Two" page 12: the page holds a reader-series line (the pin is 0).
+week 5 a3-color "Sam and Pam" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 5 a3-color "Sam and Pam" page 12: the page holds a reader-series line (the pin is 0).
+week 6 workbook "I Can See" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 6 workbook "I Can See" page 12: the page holds a reader-series line (the pin is 0).
+week 6 workbook "Tap, Tap!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 6 workbook "Tap, Tap!" page 12: the page holds a reader-series line (the pin is 0).
+week 6 a3-color "I Can See" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 6 a3-color "I Can See" page 12: the page holds a reader-series line (the pin is 0).
+week 6 a3-color "Tap, Tap!" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 6 a3-color "Tap, Tap!" page 12: the page holds a reader-series line (the pin is 0).
+week 7 workbook "Is It a Ball?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 7 workbook "Is It a Ball?" page 12: the page holds a reader-series line (the pin is 0).
+week 7 workbook "The Top" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 7 workbook "The Top" page 12: the page holds a reader-series line (the pin is 0).
+week 7 a3-color "Is It a Ball?" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 7 a3-color "Is It a Ball?" page 12: the page holds a reader-series line (the pin is 0).
+week 7 a3-color "The Top" page 12: the page holds the text "Storytime Advantage" (the pin is 0).
+week 7 a3-color "The Top" page 12: the page holds a reader-series line (the pin is 0).: expected [ …(56) ] to deeply equal []
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook \"Hello!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 1 workbook \"Hello!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 1 workbook \"Nan Can Nod\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 1 workbook \"Nan Can Nod\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 1 a3-color \"Hello!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 1 a3-color \"Hello!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 1 a3-color \"Nan Can Nod\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 2 workbook \"How Many?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 2 workbook \"How Many?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 2 workbook \"Can I?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 2 workbook \"Can I?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 2 a3-color \"How Many?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 2 a3-color \"How Many?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 2 a3-color \"Can I?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 2 a3-color \"Can I?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 3 workbook \"Paint!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 3 workbook \"Paint!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 3 workbook \"The Pan\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 3 workbook \"The Pan\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 3 a3-color \"Paint!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 3 a3-color \"Paint!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 3 a3-color \"The Pan\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 3 a3-color \"The Pan\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 4 workbook \"My Family\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 4 workbook \"My Family\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 4 workbook \"Pam\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 4 workbook \"Pam\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 4 a3-color \"My Family\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 4 a3-color \"My Family\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 4 a3-color \"Pam\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 4 a3-color \"Pam\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 5 workbook \"I Have Two\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 5 workbook \"I Have Two\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 5 workbook \"Sam and Pam\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 5 workbook \"Sam and Pam\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 5 a3-color \"I Have Two\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 5 a3-color \"I Have Two\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 5 a3-color \"Sam and Pam\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 6 workbook \"I Can See\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 6 workbook \"I Can See\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 6 workbook \"Tap, Tap!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 6 workbook \"Tap, Tap!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 6 a3-color \"I Can See\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 6 a3-color \"I Can See\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 6 a3-color \"Tap, Tap!\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 7 workbook \"Is It a Ball?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 7 workbook \"Is It a Ball?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 7 workbook \"The Top\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 7 workbook \"The Top\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 7 a3-color \"Is It a Ball?\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+   "week 7 a3-color \"The Top\" page 12: the page holds the text \"Storytime Advantage\" (the pin is 0).",[39m
+[31m+   "week 7 a3-color \"The Top\" page 12: the page holds a reader-series line (the pin is 0).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f3f6.test.ts:[2m1511:47[22m[39m
+    [90m1509| [39m        console.log(`D7 page 12 checked ${checked}, problems ${problem…
+    [90m1510| [39m        expect(checked, 'the check reads page 12 of the 14 readers in …
+    [90m1511| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m1512| [39m    })[33m;[39m
+    [90m1513| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: shipped week 1, P15 default[2m > [22mR-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+[31m[1mAssertionError[22m: expected '\n  PICTURE MISSING\n  Sprout\n  Hell…' not to match /\b(seed|sprout|leaf|bud|flower)\b/i[39m
+
+[32m- Expected:[39m 
+/\b(seed|sprout|leaf|bud|flower)\b/i
+
+[31m+ Received:[39m 
+"
+  PICTURE MISSING
+  Sprout
+  Hello!
+  Storytime Advantage
+  Week 1
+  Listen and read.
+
+Storytime Advantage
+Words in this book
+helloIamyourteacher
+Hello! • Level 2
+Hello!
+Storytime Advantage
+Listen to the bookHello! • Level 22
+Hello, I am ___.
+More words
+hellogoodbyeboygirlfriendteacherHello! • Level 211
+PICTURE MISSINGHello, I am Pat.Hello! • Level 23
+PICTURE MISSINGHello, I am Pip!Hello! • Level 210
+PICTURE MISSINGHello, I am May.Hello! • Level 24
+PICTURE MISSINGHello, I am your teacher.Hello! • Level 29
+PICTURE MISSINGHello, I am Sam.Hello! • Level 25
+PICTURE MISSINGHello, I am Ben.Hello! • Level 28
+PICTURE MISSINGHello, I am Mia.Hello! • Level 26
+PICTURE MISSINGHello, I am Nan.Hello! • Level 27"
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m465:34[22m[39m
+    [90m463| [39m            // changed 2026-11-11 (F5, PM look): page 1 is the quest r…
+    [90m464| [39m            const pageText = parts.flatMap((part) => Array.from(part.q…
+    [90m465| [39m            expect(pageText).not.toMatch(/\b(seed|sprout|leaf|bud|flow…
+    [90m   | [39m                                 [31m^[39m
+    [90m466| [39m            expect(readerText).toContain('Storytime Advantage');
+    [90m467| [39m            expect(readerText).toContain('Week 1');
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯[22m[39m

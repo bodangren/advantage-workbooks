@@ -162,11 +162,24 @@ export function pictureSourceProblems(html: string, pictures: string, jobs: Pict
         const relative = (kind === 'line' ? job.linePath : job.colorPath) ?? '';
         const expected = path.resolve(pictures, relative);
         const inside = el.querySelectorAll('*');
-        if (inside.length !== 1 || inside[0].tagName !== 'IMG') { problems.push(`${id}: the picture element holds ${inside.length} child element(s), expected one img`); continue; }
-        const names = inside[0].getAttributeNames().sort();
-        if (names.join(',') !== 'alt,src') problems.push(`${id}: the img attributes are [${names.join(', ')}], expected [alt, src]`);
+        // changed 2026-11-12 (F5, PM look): page 1 wraps the quest reader page, whose one art img (attributes alt, class, data-part, src, style) is the picture.
+        const quest = el.children.length === 1 && el.children[0].classList.contains('quest-reader-page') ? el.children[0] : null;
+        let image: Element;
+        if (quest) {
+            const arts = quest.querySelectorAll('img[data-part="art"]');
+            const others = Array.from(quest.querySelectorAll('img')).filter((img) => img.getAttribute('data-part') !== 'art' && img.closest('[data-part="logo-tile"]') === null);
+            if (arts.length !== 1 || others.length !== 0) { problems.push(`${id}: the quest reader page holds ${arts.length} art img and ${others.length} other img, expected one art img`); continue; }
+            image = arts[0];
+            const names = image.getAttributeNames().sort();
+            if (names.join(',') !== 'alt,class,data-part,src,style') problems.push(`${id}: the art img attributes are [${names.join(', ')}], expected [alt, class, data-part, src, style]`);
+        } else {
+            if (inside.length !== 1 || inside[0].tagName !== 'IMG') { problems.push(`${id}: the picture element holds ${inside.length} child element(s), expected one img`); continue; }
+            image = inside[0];
+            const names = image.getAttributeNames().sort();
+            if (names.join(',') !== 'alt,src') problems.push(`${id}: the img attributes are [${names.join(', ')}], expected [alt, src]`);
+        }
         if (el.getAttribute('data-picture-file') !== path.basename(expected)) problems.push(`${id}: data-picture-file is ${el.getAttribute('data-picture-file')}, expected ${path.basename(expected)}`);
-        const src = inside[0].getAttribute('src') ?? '';
+        const src = image.getAttribute('src') ?? '';
         let decoded = '';
         try {
             const url = new URL(src);

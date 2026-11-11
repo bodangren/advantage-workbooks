@@ -1360,8 +1360,9 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                 const styles = Array.from(doc.querySelectorAll('style'), (style) => style.textContent ?? '').join('\n');
                 if (!styles.includes(expected.css)) problems.push(`${id}: the document style holds no questReaderCoverPage CSS of the trim.`);
                 const wrappers = Array.from(page.querySelectorAll('[data-picture-id]'));
-                if (wrappers.length !== 1 || !wrappers[0].contains(quests[0]) || wrappers[0].getAttribute('data-picture-file') !== wantedFile) {
-                    problems.push(`${id}: page 1 holds ${wrappers.length} picture-id elements (the pin is 1 wrapper of the quest page with data-picture-file ${wantedFile}).`);
+                // changed 2026-11-12 (F5, Red retry): the quest page is the only child of the wrapper, as pictureSourceProblems of the picture folder fixture reads it.
+                if (wrappers.length !== 1 || wrappers[0].children.length !== 1 || wrappers[0].children[0] !== quests[0] || wrappers[0].getAttribute('data-picture-file') !== wantedFile) {
+                    problems.push(`${id}: page 1 holds ${wrappers.length} picture-id elements (the pin is 1 wrapper whose only child is the quest page, with data-picture-file ${wantedFile}).`);
                 }
                 const children = Array.from(page.children).filter((child) => child.tagName.toLowerCase() !== 'style');
                 if (children.length !== 1 || !children[0].contains(quests[0])) problems.push(`${id}: page 1 holds more than the quest cover.`);

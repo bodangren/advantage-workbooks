@@ -350,7 +350,8 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
                 const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
                 const pictureBoxes = Array.from(found.querySelectorAll('[data-picture-id]'));
                 expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
-                expect(pictureBoxes.filter((box) => text(box) === 'PICTURE MISSING'),
+                // changed 2026-11-12 (F5, PM look): the proof page 1 placeholder is the quest reader page that holds the text PICTURE MISSING.
+                expect(pictureBoxes.filter((box) => text(box) === 'PICTURE MISSING' || (box.querySelector('.quest-reader-page') !== null && text(box).includes('PICTURE MISSING'))),
                     `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
                 expect(text(found), `Reader page ${pageNumber} text.`).not.toBe('');
             }

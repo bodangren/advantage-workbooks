@@ -1182,7 +1182,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
                 const expectedPictureCount = pageNumber === 1 || (pageNumber >= 3 && pageNumber <= 10) ? 1 : 0;
                 const pictureBoxes = Array.from(page.querySelectorAll('[data-picture-id]'));
                 expect(pictureBoxes, `Reader page ${pageNumber} picture-box count.`).toHaveLength(expectedPictureCount);
-                expect(pictureBoxes.filter((box) => (box.textContent ?? '').trim() === 'PICTURE MISSING'),
+                // changed 2026-11-12 (F5, PM look): the proof page 1 placeholder is the quest reader page that holds the text PICTURE MISSING.
+                expect(pictureBoxes.filter((box) => (box.textContent ?? '').trim() === 'PICTURE MISSING' || (box.querySelector('.quest-reader-page') !== null && (box.textContent ?? '').includes('PICTURE MISSING'))),
                     `Reader page ${pageNumber} proof-placeholder count.`).toHaveLength(expectedPictureCount);
             }
         }
