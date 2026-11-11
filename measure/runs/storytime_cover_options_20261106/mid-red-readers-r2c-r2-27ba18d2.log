@@ -1,0 +1,70 @@
+Mid Red log of the readers r2c retry of the cover track, 2026-11-11.
+
+The role is measure-mid-red. The model is minimax-cn-coding-plan/MiniMax-M3.1-Flash. The track is
+storytime_cover_options_20261106, Phase 2 (P2). The role base is 27ba18d2, and it is an ancestor of
+HEAD. The task is the retry of the Red of the readers r2c pair.
+
+The Green of 2026-11-11 (jr-green, model deepseek/deepseek-flash#high, role base 27ba18d2) built E1 to
+E11. 10 of the 11 tests passed. C6 cannot pass with the pins of the Red. The leaf plaque box of
+110 x 20 mm fixes the ornament reach at 18.78 mm from each end, so at most 68.44 mm of title text
+fits. The title "Nan Can Nod" is 74.08 mm, and the title "Sam and Pam" is 75.87 mm. Both are wider
+than the free band. The orchestrator decision of 2026-11-11 changed one pin: the leaf plaque width
+follows the title.
+
+The pin change (E4 and C4 of the test file):
+
+- E4 now holds: the hlogo leaf `title-plaque` part keeps its top 113 mm and its height 20 mm; its
+  width is the title text width plus 2 x 21 mm, at least 110 mm and at most 182 mm, within the 0.5 mm
+  `WIDTH_TOLERANCE_MM` of B4; it is centred on the 198 mm page within 0.5 mm; its SVG is the r2 book
+  plaque drawing with the same path count and the same command letters as the hlogo A3 title plaque
+  of the same row; it holds exactly 2 crystal groups; every path box and every group box lies inside
+  the plaque part box within 0.1 mm.
+- C4 now holds: the plaque top and height, the width rule, the page centring, the path count, the
+  path letters, the crystal groups, and the path and group boxes inside the plaque part box. The
+  fixed box check of 44/113/110/20 mm is gone.
+- The new constants of the test file are `LEAF_PLAQUE_PADDING_MM` (21), `LEAF_PLAQUE_MIN_WIDTH_MM`
+  (110), `LEAF_PLAQUE_MAX_WIDTH_MM` (182), `LEAF_PLAQUE_TOP_MM` (113), `LEAF_PLAQUE_HEIGHT_MM` (20),
+  and `WIDTH_TOLERANCE_MM` (0.5). Each has a one-line JSDoc.
+- The title width is the range box of the title text, as B4 of the r2b file measures it. For the 14
+  rows the rule gives 110 mm for 12 rows, about 116.1 mm for "Nan Can Nod", and about 117.9 mm for
+  "Sam and Pam".
+- E1 to E3, E5 to E11, and C1 to C3 and C5 to C11 do not change. E6 keeps the 80 % ± 5 % share, the
+  1 mm centring, the 1 line box, and the 2 mm clearance.
+
+One deviation. D-1: the 2 bound checks of C4 use the 0.5 mm width tolerance. The browser rounds the
+110 mm box to 109.9964 mm, so a strict bound fails on a rounding error of 0.0036 mm.
+
+The Thai filter ran first. It printed 0 Thai characters for the test file, the Green log, and the
+plan. The 3 captures hold `THAI_LINES_DROPPED=0`. The role read no week file, no `options/*.json`
+file, and no test-strategy.md.
+
+The gates ran in the heavy-run wrapper with `HEAVY_RUN_TIMEOUT_S=300`:
+
+- The Red gate of the r2c file alone: `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx
+  vitest run __tests__/quest-cover-readers-r2c.test.ts --maxWorkers=1`, exit 1, 14.38 s, `Tests 10
+  failed | 1 passed (11)`. C1 to C10 fail on the missing behaviour, and C11 passes. The capture is
+  `measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2.txt`.
+- The tsc gate: `cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit`, exit 0, no
+  output. The capture is `measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2-tsc.txt`.
+- The eslint gate: `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint
+  __tests__/quest-cover-readers-r2c.test.ts`, exit 0, 1 warning of the file that no change of this
+  role touches. The capture is
+  `measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2-lint.txt`.
+- The lock file `pnpm-lock.yaml` is unchanged after each gate.
+
+The commits are e458130 (the test file and the 3 captures) and cc3e0fb1 (the 2 plan lines). The role
+made no change to any production code.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 27ba18d261176b17dde553df7cf268f865d1245e
+commits: e458130, cc3e0fb1
+tests_run: the Red gate `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2c.test.ts --maxWorkers=1` in one heavy-run, exit 1, 14.38 s, `Test Files 1 failed (1)`, `Tests 10 failed | 1 passed (11)`, C1 to C10 fail and C11 passes; the tsc gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit` in one heavy-run, exit 0, no output; the lint gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-readers-r2c.test.ts` in one heavy-run, exit 0, 1 warning; the 3 captures hold 0 Thai lines
+files_changed: dashboard/__tests__/quest-cover-readers-r2c.test.ts, measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2-tsc.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2c-r2-lint.txt, measure/runs/storytime_cover_options_20261106/mid-red-readers-r2c-r2-27ba18d2.log
+plan_updates: 2 new lines directly after the line `  - Red readers r2c evidence (2026-11-11`: the Green readers r2c block line of 2026-11-11 and the Red readers r2c retry evidence line of 2026-11-11. The plan numstat is `2	0`.
+known_failures: C1 to C10 fail by design until Green
+handoff: the C4 failure and the pin. C4 fails on the path count: the leaf plaque of the row w01-1 holds 4 paths, and the A3 plaque holds 12. The leaf still holds the old crystal banner drawing. The pin is the hlogo leaf title plaque of `leafBody` in `dashboard/lib/storytime/print/cover-quest.ts` (the plaque HTML at line 1818) and the call of `plaqueSvg` (line 1098). The Green must draw the r2 book plaque in the leaf, scale it to the width of the rule (the title width plus 2 x 21 mm, 110 mm to 182 mm), and centre it on the 198 mm page. The Green must keep the top 113 mm and the height 20 mm of the plaque. The width rule reads the title text width, so the title font of E6 (80 % of the 14.4 mm band, 12.508 mm) sets the width: 110 mm for 12 rows, about 116.1 mm for "Nan Can Nod", and about 117.9 mm for "Sam and Pam". The Green must also keep the 2 mm ornament clearance of E6: at the width of the rule, the widest title leaves about 10 mm of clearance. The other pins do not change. The 2 other known failures of the Green block stay: C5 wants the `data-plaque-colour` value `#D2D2D2` and the 12 paths of the A3 plaque, and C6 wants the title text box at 80 % ± 5 % of the band.
+END_MEASURE_AGENT_RESULT
