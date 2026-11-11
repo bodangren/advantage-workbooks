@@ -1,98 +1,73 @@
-Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93 (round 1) and 3fdddeee
-(round 2, the Red retry). Status: partial. The implementation of D2 to D7 stands in the working tree
-and passes the f3f6 file, but 9 Red-owned tests of the older reader rounds cannot pass without a test
-change. No code commit is made.
+Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93 (round 1), 3fdddeee
+(round 2), 9039779f (round 3, the Red retry 2 that moved the older page 1 pins). Status: partial. The
+4 fault groups of the round are fixed in the working tree; the quick loop holds 2 failures, both from
+the new Q5 rule as the Red retry 3 writes it now.
 
-Model: deepseek/deepseek-flash#high. The Red of this pair: claude-code/claude-opus-5-5[1m]#high,
-commits 6567c205 (the tests and the key boxes), 659d333d (the plan), 0ab64a93 (the Red log),
-3ed17fc5 (the Red retry), 3fdddeee (the retry log).
+Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high. Commits of this
+round: this log and the 2 new captures only. No code commit: the quick loop still fails 2 tests.
 
-Step 1 (the bases): `git merge-base --is-ancestor 3fdddeee HEAD` exits 0, and so does the same run
-with e6e2156a (the Phase 2 base, `phase_base_sha`) and 6567c205 (the Red). HEAD is 3fdddeee.
+Step 1 (the bases): `git merge-base --is-ancestor 9039779f HEAD` exits 0. HEAD is 9039779f. The
+Phase 2 base is e6e2156a.
 
-Step 2 (the Thai filter): `grep -cP '[\x{0E00}-\x{0E7F}]'` gives 0 for cover-quest.ts,
-make-storytime-quest-covers.ts, make-readers-pdf.ts, teacher-book-cover.ts, quest-cover-f3f6.test.ts,
-pictures-heads.json, and the Red log. Deviation D-1 (round 1): one read of readers.ts at offset 470
-with limit 140 ended at line 609 and crossed the 2 Thai lines. I did not use that text and did not
-print it. Round 2 follows the stricter rule: a python script drops every line of readers.ts with a
-character from U+0E00 to U+0E7F, prints only the dropped line numbers (583 and 595) and the count (2),
-and writes /tmp/opencode/gf36/readers-no-thai.ts; every read of readers.ts in round 2 is that copy,
-and every edit of the real file is an exact-string python replacement with assertions that print no
-Thai line. storytime-print-student-book.test.ts (1 Thai line) is run and not read.
+Step 2 (the Thai filter): a python script drops every line of readers.ts with a character from
+U+0E00 to U+0E7F, prints only the dropped line numbers (641 and 653) and the count (2), and writes
+/tmp/opencode/gf36-readers-no-thai.ts; every read of readers.ts is that copy, and every edit is an
+exact-string python replacement with assertions that print no Thai line. The files I must not open
+stay closed: storytime-print-student-book.test.ts, storytime-print-a48-part2.test.ts,
+storytime-print-v15.test.ts, storytime-print-step-system.test.ts, student-book.ts, and the week
+files. Every capture holds 0 Thai characters.
 
-Step 3 (the implementation, working tree only).
-cover-quest.ts:
-- The D3 placement step `questChromePlacement(kind, artFile, title, roleLabel)`: it reads
-  `content/storytime/l2/print/pictures-heads.json` once, maps the key boxes to page millimetres
-  through the `object-fit: cover` transform and the computed object-position, and places the chrome
-  by the D3 order: the default; up in 1 mm steps at the full size with a 1 mm clearance and the
-  plaque top 5 mm inside the trim; then, on an exception cover, the plaque at 50 % and the group on a
-  horizontal slide 5 mm inside the trim. No cover name and no final box number is in the code.
-- `questArtPosition` (Q1): the first of `50% 50%` and `50% 100%` that keeps every dog-body and
-  title-object box inside the trim and every head box inside it or at most 12 mm above the top edge.
-  The centred position returns null, so the default render keeps its bytes.
-- The painted default group of a part comes from the geometry constants of the render plus the
-  measured paint offsets of the role bar, the week pill, and the leaf footer, which the Chrome
-  measure of the role base pins; a text part paints outside its box, so no formula alone gives it.
-- `artLayer` takes the object-position, and it draws the placeholder `PICTURE MISSING` when the art
-  is empty (the proof mode of page 1).
-- `readerTitlePlaque`, `leafTitlePlaque`, `leafFooter`, `leafBody`, and `readerA3Body` take the
-  placement. The week pill follows the D3 rule (the top right box, the mirrored top left box, then
-  down the column). `leafFooterStrip` adds the top-level part `footer-strip`: `#FFFFFF`, opaque, no
-  border, 1 mm around the measured footer ink, and `width:max-content` on a hidden copy of the
-  footer text, so the strip fits the footer.
-- `questReaderPageCss` and `questFontFaces` are exported for the readers document.
-readers.ts (page 1, page 12, and the CSS): `coverPage` is the `questReaderCoverPage` body with the
-top style hlogo, on the trim of the output (198 x 148.5 mm on `workbook`, 420 x 297 mm on
-`a3-color`), inside one `data-picture-id`/`data-picture-file` wrapper, with the line art on the
-workbook and the colour art on the A3 page; proof mode holds the quest chrome, `PICTURE MISSING`, and
-no img. page 1 of the A3 output has no `.a3-scale`. `backPage` drops the `reader-series` line.
-`readerPageCss` emits the quest CSS of the rendered trim and the League Spartan face. The quest rows
-are cached once.
-teacher-book-cover.ts: `checkStorytimeReaderCoverCopy` drops the series rule (Q2), keeps the
-forbidden word rule and the year rule, and fails every band word of QUEST_BANDS as a whole word.
+Step 3 (fault 1, R31 R34 R36 R40, the PDF/X raster): the cause was NOT a colour, an opacity, a
+shadow, a gradient, or a rounded box. It was the `transform: scale(0.5)` of the 50 % plaque of the
+exception cover w01-2: Chrome turns a page with a scaled layer into one image, and page 15 of the
+student book holds that cover. Fix: the plaque takes the 50 % size in its own layout
+(`readerTitlePlaque`, `leafTitlePlaque`: width, height, font, padding, and the band all times the
+scale), with its bottom edge kept, so no transform lands on a quest page. `questScalePlaque`
+replaces `questScaleAboutCentre`. The capture `green-f3f6-student-build.txt` runs the same week 1
+proof build as the Red: exit 0, 20 pages, PDF/X-1a:2001, 4 fonts (Andika regular, Andika bold,
+Sarabun, and League Spartan on the pages with `.quest-reader-page`), and no `FAIL page(s)` line.
 
-Step 4 (the measured placement, `green-f3f6-single.txt` and the probe of the log): the 4 moved
-covers take the full size at the lowest centred free place: w07-1 reader-a3 178 mm up (plaque top
-58.00 mm), w07-1 reader-leaf 87 mm (26.00 mm), w07-2 reader-a3 211 mm (25.00 mm), and w07-2
-reader-leaf 102 mm (11.00 mm). The 2 exception covers take the 50 % plaque and a slide:
-w01-2 reader-a3 (-71, -2) mm, w01-2 reader-leaf (-43, -1) mm. w01-2 reader-a3 takes
-`object-position: 50% 100%` (Q1). The 22 other reader covers and the 2 fronts keep their bytes.
+Step 4 (fault 2, R32 and R-P6-F3c, the leaf mark): the mark no longer overlaps page content. Two
+changes: (a) the quest page takes no paper background inside a reader page
+(`.quest-cover-picture .quest-reader-page { background: transparent; }`), and (b) the Q5 rule of the
+PM answer of 2026-11-12: a side that holds page 1 takes a mark with its own white strip
+(`.leaf-mark-strip`: `#FFFFFF`, opaque, `padding: 0 1mm`, 5.5 mm high, at least 1 mm around the ink),
+placed by `coverMarkCentreMm` at least 1 mm clear of every chrome part and key box of that quest page
+(`questPageOneClearBoxes`, new in cover-quest.ts), at the page centre or the nearest free side. The
+new `lineArtFileName` field of `StorytimeReaderLeafSide` carries the cover art name. Every other
+side keeps the old mark rule. The mark-overlap messages are gone from the loop.
 
-Step 5 (the gates).
-- `quest-cover-f3f6.test.ts` alone (`green-f3f6-single.txt`): Test Files 1 failed (1), Tests 1 failed
-  | 13 passed (14). The one failure is a 5000 ms test timeout on the band-word test, not a check:
-  that test compiles the student book. Earlier runs of the same file gave 0 problems on D2, D3, D4,
-  D5, D6 (page 1 and Chrome), D7, and D8: KEY_PAIRS_CHECKED=325 KEY_OVERLAPS=0; TRIM_PROBLEMS=0;
-  D3_FREE_COVERS=24 and D3_MOVED = the 6 covers; D4_EXCEPTIONS = the 2 covers; D5 problems 0;
-  D6 page 1 problems 0; BAND_PAGES_CHECKED=840 BAND_WORD_PAGES=0; D7 problems 0; D8 34 hashes pass.
-- The quick loop of 11 files (`green-f3f6-loop1.txt`, 1800 s): Test Files 5 failed | 6 passed (11),
-  Tests 20 failed | 462 passed (482), exit 1. 11 of the 20 failures are the fixture and page-1 work
-  of the Red retry, which pass now; the 9 that block are older Red-owned tests of the reader rounds
-  that the D6 change invalidates and that the Red did not move:
-  * storytime-print-readers.test.ts R-P6-F3a "every reader page has the landscape layout: a wide
-    framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom
-    left", expected [] but 13 problems on "Hello!" (page 1 is the quest cover now).
-  * storytime-print-readers.test.ts R-P6-F3b "the unchanged copy is right" (13 problems).
-  * storytime-print-readers.test.ts R-P6-F3c "each leaf mark lies inside a page margin" (7 problems).
-  * storytime-print-readers.test.ts R-P4-4a "scales each color A3 reader page to 2.0 (396 x 297 mm)",
-    2 problems (page 1 has no `.a3-scale`, which D6 requires).
-  * storytime-print-readers.test.ts R-P4-4b "the unchanged copy is right" (2 problems).
-  * storytime-print-readers.test.ts R-P4-4d "expected 197.99928385416663 to be close to 396"
-    (page 1 of the A3 output).
-  * storytime-print-student-book-adversarial.test.ts A1 "keeps hostile week text out of the
-    markup", A1 "prints hostile week text as literal text", and A1 "keeps a hostile start point
-    inside its attribute" (page 1 no longer holds the reader picture element of the old shape).
-  * storytime-print-covers-adversarial.test.ts "passes the reader cover check for the real covers
-    and writes the print file": "expected 1 to be +0" on the printed reader cover text.
-  Gate A, Gate B, tsc, eslint, and the 2 mutants did not run: the tree cannot pass the quick loop, so
-  a long gate would only repeat the same 9 failures. `npx tsc --noEmit` exits 0 on the changed tree.
-Step 6 (the next step): a Mid Red retry relaxes the 9 tests above for page 1 of the reader document
-(the quest cover, no picture element of the old shape, no `.a3-scale` on the A3 page 1, no band word,
-and the copy rule of Q2 on the printed text). The implementation of this log then stands as is, and
-the Green runs the quick loop, Gate A, Gate B, tsc, eslint, and the 2 mutants.
+Step 5 (fault 3, A1 x3 of storytime-print-student-book-adversarial): the page-1 quest row is built
+from the week book in hand (title, kind, week, weekText, band, role label, level, and the cover
+picture rows), not by a title lookup on disk, so a hostile title renders as escaped text. The
+on-disk row cache is gone.
 
-Step 7 (state): 3 code files are modified in the working tree and uncommitted (cover-quest.ts,
-readers.ts, teacher-book-cover.ts). The plan holds no change, the key box file holds no change, and
-no test file changed. pnpm-lock.yaml is unchanged. The captures of both rounds are committed with
-this log.
+Step 6 (fault 4, storytime-print-covers-adversarial "the laid-out document holds 0 reader cover
+pages"): `make-readers-pdf.ts` now reads the cover texts from `.pagedjs_page .quest-reader-page`
+instead of `.pagedjs-page .reader-cover`, so the check finds the 2 page 1 quest covers and applies
+the Q2 copy rule to them.
+
+Step 7 (the quick loop of the 11 files, 2400 s, `green-f3f6-loop3.txt`): Test Files 2 failed | 9
+passed (11), Tests 2 failed | 480 passed (482), exit 1. The 2 failures:
+- storytime-print-readers.test.ts R-P6-F3c and storytime-print-student-book.test.ts R32, both with
+  the message "[mark-a-free] side 1: the footer strip has room for the mark ink at (16.23, 1.73) mm,
+  so the mark must lie inside the footer strip" (and the same for side 7 at (111.73, 1.73) mm; the
+  student book report reads (15.23, 0.98) mm and (111.73, 0.98) mm).
+That rule is the first branch of Q5 ("put the leaf mark inside the white footer-strip of that quest
+page if it fits"). The tree holds uncommitted changes of the Red retry 3 in
+`storytime-print-readers.test.ts` and `storytime-print-student-book.test.ts`, which I did not make.
+R44 passed in this run.
+
+Step 8 (a finding for the retry, no code change): the mark text ("<title> · leaf N of 3") cannot go
+inside the quest page's `footer-strip` without breaking D6 of `quest-cover-f3f6.test.ts`, which pins
+page 1 to the body of `questReaderCoverPage(row, trim, { art: src }, HLOGO_OPTIONS)` exactly. The
+function takes no leaf number and no mark text, and the D6 test builds its expected body the same
+way, so the mark must be drawn by `questReaderCoverPage` itself (for example from a new optional
+field of `QuestRenderOptions` that the D6 test does not pass) or the D6 pin must allow the strip's
+second child. The 2 messages above need one of those 2 decisions before the mark can pass.
+
+Step 9 (state): 4 code files are modified in the working tree and uncommitted (cover-quest.ts,
+readers.ts, teacher-book-cover.ts, make-readers-pdf.ts); the tests of the Red retry 3 are also
+uncommitted and are not mine. The plan holds no change, the key box file holds no change, and no test
+file changed by me. `npx tsc --noEmit` exits 0. pnpm-lock.yaml is unchanged. Captures of this round:
+green-f3f6-student-build.txt and green-f3f6-loop3.txt.
