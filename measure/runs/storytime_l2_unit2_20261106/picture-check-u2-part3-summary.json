@@ -1,0 +1,28 @@
+{
+ "look1": {
+  "manifest_sha256": "6ae4e14f0f37914eb542596a5d756c5a41a2de6abfc728f176bbd0d09aa6c077",
+  "exit": 1,
+  "attempts": 1,
+  "summary_line": "2 of 231 rows pass stage 1 (/home/daniebo/Desktop/handoff/storytime-l2u2-book-pictures-look1)",
+  "pass_ids": [
+   "l2-w10-story-page-put-on-your-hat-pip",
+   "l2-w10-story-page-put-on-your-t-shirt"
+  ],
+  "fail_other": {},
+  "thai_lines_dropped": 0
+ },
+ "union": {
+  "rows": 229,
+  "with_job": 229,
+  "open_rows": [],
+  "source_counts": {
+   "look1": 2,
+   "repair1": 13,
+   "retry1": 4,
+   "main": 210
+  },
+  "replaced": {
+   "l2-w10-story-page-put-on-your-t-shirt": "main -> look1"
+  }
+ }
+}
