@@ -47,11 +47,12 @@
  *       1.2 mm). The middle of the cap band lies at the bar centre within 0.5 mm. The role mark
  *       icon box lies inside the bar inner box. The even paddings, the 60 % content share, the page
  *       centring, the top 278 mm, and the height 12 mm stay (B7).
- *   E4: The hlogo leaf `title-plaque` part keeps the box `reader-leaf:title-plaque`
- *       (44/113/110/20 mm). Its SVG is the r2 book plaque drawing: the same path count and the same
- *       command letter sequence as the hlogo A3 title plaque of the same row. It holds exactly 2
- *       crystal groups. Every path box and every group box lies inside the plaque part box within
- *       0.1 mm.
+ *   E4: The hlogo leaf `title-plaque` part keeps its top 113 mm and its height 20 mm. Its width is
+ *       the title text width plus 2 x 21 mm, at least 110 mm and at most 182 mm. It is centred on the
+ *       198 mm page within 0.5 mm. Its SVG is the r2 book plaque drawing: the same path count and
+ *       the same command letter sequence as the hlogo A3 title plaque of the same row. It holds
+ *       exactly 2 crystal groups. Every path box and every group box lies inside the plaque part box
+ *       within 0.1 mm.
  *   E5: The leaf plaque takes the K palette: the outer fill and stroke `#4E4E4E`, the ring fill
  *       `#F2F2F2`, the band fill `#D2D2D2`, the highlight stroke `#FFFFFF` with `fill="none"`, the
  *       ornament fills `#F2F2F2` and `#FFFFFF`, the ornament stroke `#4E4E4E`, and the diamond fills
@@ -83,8 +84,9 @@
  *       pill colours.
  *   C3: E3 on 14 rows: the role label cap height share, the cap band centre, the icon box, the
  *       even paddings, the content share, the page centring, the top, and the height.
- *   C4: E4 on 14 rows: the plaque box, the path count, the path letters, the crystal groups, and the
- *       path and group boxes inside the plaque part box.
+ *   C4: E4 on 14 rows: the plaque top and height, the plaque width rule, the page centring, the path
+ *       count, the path letters, the crystal groups, and the path and group boxes inside the plaque
+ *       part box.
  *   C5: E5 on 14 rows: the plaque palette values and the `data-plaque-colour` value.
  *   C6: E6 on 14 rows: the leaf title fill share, the band centres, the line box count, the
  *       ornament clearance, and the text colour and face.
@@ -105,6 +107,9 @@
  *     baseline. The baseline minus half the cap height is the middle of the cap band.
  *   - The leaf plaque part box is the box of the `title-plaque` div. The path boxes and the group
  *     boxes are the browser boxes of the SVG elements.
+ *   - E4 changed 2026-11-11 (readers r2c retry): the leaf plaque width follows the title, title + 2
+ *     x 21 mm, 110 mm to 182 mm, because a fixed 110 mm plaque cannot hold the 2 widest titles with
+ *     the 80 % font and the 2 mm clearance. The title width is the range box of the title text.
  *   - The command letters of one path are the letters of its `d` attribute, with the numbers
  *     removed.
  *   - The pins of C11 are the SHA-256 values of the 14 default leaf renders at the role base
@@ -120,7 +125,6 @@ import { createHash } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { Browser, Page } from '@playwright/test';
 import {
-    QUEST_BOXES,
     questReaders,
     renderQuestCover,
     type QuestReaderRow,
@@ -238,8 +242,23 @@ const FOOTER_FONT_PX = 12;
 /** The middle dot of the footer text, U+00B7. */
 const MIDDLE_DOT = '\u00b7';
 
-/** The box of the leaf title plaque, in millimetres. */
-const LEAF_PLAQUE_BOX = { leftMm: 44, topMm: 113, widthMm: 110, heightMm: 20 };
+/** The padding of the leaf plaque on each side of the title, in millimetres. */
+const LEAF_PLAQUE_PADDING_MM = 21;
+
+/** The least width of the leaf plaque, in millimetres. */
+const LEAF_PLAQUE_MIN_WIDTH_MM = 110;
+
+/** The most width of the leaf plaque, in millimetres: the width of the double line frame. */
+const LEAF_PLAQUE_MAX_WIDTH_MM = 182;
+
+/** The top of the leaf plaque, in millimetres. */
+const LEAF_PLAQUE_TOP_MM = 113;
+
+/** The height of the leaf plaque, in millimetres. */
+const LEAF_PLAQUE_HEIGHT_MM = 20;
+
+/** The tolerance of the width rule of the leaf plaque, in millimetres. */
+const WIDTH_TOLERANCE_MM = 0.5;
 
 /** The row ids of the 14 reader rows, in the order of `questReaders()`. */
 const ROW_IDS = [
@@ -1012,39 +1031,53 @@ describe('quest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters a
         }
     });
 
-    it('C4: the hlogo leaf plaque is the r2 book plaque drawing', () => {
+    it('C4: the hlogo leaf plaque is the r2 book plaque drawing and its width follows the title', () => {
         expect(leafMeasures.length, 'the browser measures 14 leaf rows.').toBe(14);
-        const box = QUEST_BOXES['reader-leaf:title-plaque'];
-        expect(box, 'the box table holds the key reader-leaf:title-plaque.').toBeDefined();
-        expect(box!.leftMm, 'the left of the leaf title plaque is 44 mm.').toBe(LEAF_PLAQUE_BOX.leftMm);
-        expect(box!.topMm, 'the top of the leaf title plaque is 113 mm.').toBe(LEAF_PLAQUE_BOX.topMm);
-        expect(box!.widthMm, 'the width of the leaf title plaque is 110 mm.').toBe(LEAF_PLAQUE_BOX.widthMm);
-        expect(box!.heightMm, 'the height of the leaf title plaque is 20 mm.').toBe(LEAF_PLAQUE_BOX.heightMm);
         for (const [index, measure] of leafMeasures.entries()) {
             const id = ROW_IDS[index];
             const dom = leafDoms[index];
             const a3Letters = a3PlaqueLetters[index];
             expect(measure.plaqueBox, `the hlogo leaf reader cover ${id} holds a title plaque.`).not.toBeNull();
+            expect(measure.title.rects.length, `the leaf title of the row ${id} has 1 line box.`).toBe(1);
             const plaque = measure.plaqueBox!;
             expect(
-                Math.abs(plaque.left - LEAF_PLAQUE_BOX.leftMm),
-                `the leaf title plaque of the row ${id} starts at ${LEAF_PLAQUE_BOX.leftMm} mm: ` +
-                    `the left is ${plaque.left.toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
-            expect(
-                Math.abs(plaque.top - LEAF_PLAQUE_BOX.topMm),
-                `the leaf title plaque of the row ${id} starts at ${LEAF_PLAQUE_BOX.topMm} mm: ` +
+                Math.abs(plaque.top - LEAF_PLAQUE_TOP_MM),
+                `the leaf title plaque of the row ${id} starts at ${LEAF_PLAQUE_TOP_MM} mm: ` +
                     `the top is ${plaque.top.toFixed(2)} mm.`,
             ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
             expect(
-                Math.abs(plaque.right - plaque.left - LEAF_PLAQUE_BOX.widthMm),
-                `the leaf title plaque of the row ${id} is ${LEAF_PLAQUE_BOX.widthMm} mm wide: ` +
-                    `the width is ${(plaque.right - plaque.left).toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
-            expect(
-                Math.abs(plaque.bottom - plaque.top - LEAF_PLAQUE_BOX.heightMm),
-                `the leaf title plaque of the row ${id} is ${LEAF_PLAQUE_BOX.heightMm} mm high: ` +
+                Math.abs(plaque.bottom - plaque.top - LEAF_PLAQUE_HEIGHT_MM),
+                `the leaf title plaque of the row ${id} is ${LEAF_PLAQUE_HEIGHT_MM} mm high: ` +
                     `the height is ${(plaque.bottom - plaque.top).toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            const text = measure.title.rects[0];
+            const titleWidth = text.right - text.left;
+            const wanted = Math.min(
+                LEAF_PLAQUE_MAX_WIDTH_MM,
+                Math.max(LEAF_PLAQUE_MIN_WIDTH_MM, titleWidth + 2 * LEAF_PLAQUE_PADDING_MM),
+            );
+            expect(
+                Math.abs(plaque.right - plaque.left - wanted),
+                `the leaf title plaque of the row ${id} follows its title: the title is ${titleWidth.toFixed(2)} mm, ` +
+                    `the plaque is ${(plaque.right - plaque.left).toFixed(2)} mm, the rule gives ${wanted.toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(WIDTH_TOLERANCE_MM);
+            expect(
+                plaque.right - plaque.left,
+                `the leaf title plaque of the row ${id} stays between ${LEAF_PLAQUE_MIN_WIDTH_MM} mm and ` +
+                    `${LEAF_PLAQUE_MAX_WIDTH_MM} mm: the width is ${(plaque.right - plaque.left).toFixed(2)} mm.`,
+            ).toBeGreaterThanOrEqual(LEAF_PLAQUE_MIN_WIDTH_MM - WIDTH_TOLERANCE_MM);
+            expect(
+                plaque.right - plaque.left,
+                `the leaf title plaque of the row ${id} stays between ${LEAF_PLAQUE_MIN_WIDTH_MM} mm and ` +
+                    `${LEAF_PLAQUE_MAX_WIDTH_MM} mm: the width is ${(plaque.right - plaque.left).toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(LEAF_PLAQUE_MAX_WIDTH_MM + WIDTH_TOLERANCE_MM);
+            expect(measure.page, `the leaf reader cover ${id} holds a page.`).not.toBeNull();
+            const page = measure.page!;
+            expect(
+                Math.abs((plaque.left + plaque.right) / 2 - (page.left + page.right) / 2),
+                `the leaf title plaque of the row ${id} is centred on the page: ` +
+                    `the plaque centre is ${((plaque.left + plaque.right) / 2).toFixed(2)} mm, ` +
+                    `the page centre is ${((page.left + page.right) / 2).toFixed(2)} mm.`,
             ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
             expect(
                 dom.paths.length,
