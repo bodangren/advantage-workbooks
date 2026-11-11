@@ -1,0 +1,98 @@
+Mid Red log of the readers r2b pair of the cover track, 2026-11-11.
+
+The role is measure-mid-red. The model is minimax-cn-coding-plan/MiniMax-M3.1-Flash. The track is
+storytime_cover_options_20261106, Phase 2. The role base is 916d3d33.
+
+The PM look check of 2026-11-11 named 4 faults of the reader covers. The A3 reader chrome is not in
+the logo colors. The A3 title plaque is the blue game plaque with its crystal diamond ends. The A3
+title text uses about 35 to 40 % of the plaque height, and the role bar text uses about 40 % of its
+width. The leaf cover holds no product logo. The PM accepted the leaf series box of 68 to 103 mm at
+9 pt on one line.
+
+The design of this Red role (the orchestrator pins of 2026-11-11, with the PM change of the same
+day):
+
+D1. With the top style `hlogo`, the A3 title plaque is drawn in the r2 book plaque style. The
+    plaque uses the call of the book plaque at `dashboard/lib/storytime/print/cover-quest.ts:1238`,
+    `plaqueSvg(width, height, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE)`. The plaque holds the
+    colors of `PLAQUE_AMBER_PALETTE`: the outer fill and stroke `#92400E`, the ring `#FEF3C7`, the
+    band `#FCD34D`, the ornament fills `#FEF3C7` and `#FFFFFF`, and the diamond fills `#fcd34d` and
+    `#FFFFFF`. The plaque holds exactly 2 crystal groups, `<g transform="translate(`, and their
+    centers lie inside the plaque box. The plaque holds none of the colors of
+    `PLAQUE_BLUE_PALETTE`. The `data-plaque-colour` value is `#FCD34D`. The title text is `#92400E`
+    with no text stroke.
+D2. With `hlogo`, the A3 week pill and role bar take the fill `#FCD34D`, a 0.6 mm border `#92400E`,
+    and the text `#92400E`. The role mark icon stroke is `#92400E`.
+D3. With `hlogo`, the title text box fills 80 % ± 5 % of the plaque band height, which is the
+    plaque height minus 5.6 mm. Its center lies at the band center within 1 mm on both axes. The
+    title text box lies clear of each crystal group box by at least 2 mm. The plaque width is the
+    title width plus 2 x 27 mm, at least 120 mm and at most 340 mm. The plaque is centered on the
+    420 mm page within 0.5 mm. The plaque bottom stays at 276 mm. A title wider than the maximum
+    wraps to 2 lines at the same font size, and the plaque grows upward.
+D4. With `hlogo`, the week pill text box fills 80 % ± 5 % of the pill inner height, which is the
+    box height minus 1.2 mm, and it is centered in the pill within 0.5 mm. The role bar label text
+    box fills 80 % ± 5 % of the bar inner height. The bar width is its content, the icon and the
+    label, plus 2 paddings that differ by at most 0.5 mm. The bar is centered on the page within
+    0.5 mm. Its top 278 mm and its height 12 mm stay.
+D5. With `hlogo`, the leaf cover holds one `logo-tile` part in the new box
+    `reader-leaf:logo-tile` = `{ kind: 'reader-leaf', leftMm: 59.6, topMm: 5.7, widthMm: 78.8,
+    heightMm: 25.5 }`. The tile fill and border are grays. Its one image is the new file
+    `content/storytime/covers/logos/storytime-advantage-horizontal-k.svg`. Every color of that file
+    is a gray, its viewBox equals the viewBox of `storytime-advantage-horizontal.svg`, and it holds
+    the same count of `path` elements. The leaf default render holds no logo tile.
+D6. In both styles, the leaf series box is `reader-leaf:series` = `{ kind: 'reader-leaf', leftMm:
+    68, topMm: 137, widthMm: 35, heightMm: 6 }`. In Chrome the series text has 1 line box with its
+    right edge at or before 103 mm, on 14 of 14 rows.
+D7. The default A3 render stays byte-equal to the pins of `quest-cover-readers-r2.test.ts` R4, and
+    P6 of `quest-cover-plaque-fit.test.ts` stays valid. The default leaf render changes only in its
+    series part. With `hlogo`, the leaf parts other than the new tile keep the HTML of the default
+    leaf render.
+D8. The 4 book kinds keep their bytes in both styles.
+
+The PM change of 2026-11-11 replaced my first pin of D1. My first pin asked for no diamond ends.
+The new D1 keeps the crystal ornaments, so B1 now holds the colors of the amber palette, the 2
+crystal groups, and the absence of the blue palette. The new D3 changes the plaque padding from
+12 mm to 27 mm, because the ornaments of a 40 mm compact plaque reach about 24.6 mm in from each
+end. B3 now also holds the 2 mm clearance of the title text box from each ornament group box. The
+title text box of B5 uses a title of 40 characters, and the title wraps to 2 line boxes at every
+font size from 55 pt to 110 pt in a 286 mm box, so the rule of D3 holds for any font size of the
+plaque band.
+
+The Thai filter ran first. It printed 0 Thai characters for the plan, the source file, the 3 test
+files, and the horizontal logo. Every capture dropped its Thai lines, and every capture holds
+`THAI_LINES_DROPPED=0`. No week file was read by hand.
+
+The new file `dashboard/__tests__/quest-cover-readers-r2b.test.ts` holds the tests B1 to B12. The
+file `dashboard/__tests__/quest-cover-readers-r2.test.ts` changed in 2 tests. R3 keeps only the art
+layer equality, because D1 to D4 change the A3 chrome. R4 compares the leaf renders and the leaf
+page output with the series part removed, because D6 changes the series box. The 15 leaf pins were
+computed at the role base on the HTML with the series part removed. The 14 A3 pins and the A3 page
+pin stay.
+
+Two defects and their fixes. The first tsc run failed on one line, because the band lookup gives
+an undefined path element. The line now reads `boxOf(band ?? null)`. The first eslint run failed
+on 2 lines, because the 2 measure arrays never change their binding. The lines now read `const`.
+
+The Red gate ran in one heavy-run wrapper. The capture is
+`measure/runs/storytime_cover_options_20261106/red-readers-r2b.txt`. The run exits 1, with 11
+failed and 17 passed tests of 28. B1 to B11 fail on the missing behavior. B12, R1 to R6, and P1 to
+P6 pass. The tsc capture `red-readers-r2b-tsc.txt` exits 0, and the eslint capture
+`red-readers-r2b-lint.txt` exits 0.
+
+The role reached its step limit twice. The first resume came after the Red gate and the plan
+script. The second resume came after the tsc capture, when the orchestrator sent the PM change of
+D1 and D3. The tests, the plan, and the commits follow the change.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 916d3d33b8a7ce020c56d51957def2934e7d9d4a
+commits: 1d3c861d, ab405a80
+tests_run: the gate `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1` in one heavy-run (`HEAVY_PRIORITY=p1`, `HEAVY_MIN_AVAIL_MB=1500`, `HEAVY_PREFLIGHT_WAIT_S=5400`), exit 1, `Test Files  1 failed | 2 passed (3)`, `Tests  11 failed | 17 passed (28)`, 27.52 s; the tsc gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit` in one heavy-run exits 0 with no output; the lint gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2.test.ts` exits 0 with no output; the 2 test files and the 3 captures hold 0 Thai lines
+files_changed: dashboard/__tests__/quest-cover-readers-r2b.test.ts, dashboard/__tests__/quest-cover-readers-r2.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-readers-r2b.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2b-tsc.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2b-lint.txt, measure/runs/storytime_cover_options_20261106/mid-red-readers-r2b-916d3d33.log
+plan_updates: one Red readers r2b task line [x] with its evidence line, one Green readers r2b task line [ ], the PM look and order sub-line, the PM decision sub-line, and the 242 ppi decision sub-line
+known_failures: B1 to B11 fail by design until Green
+handoff: the failing reasons and the pin locations are these. B1 fails because the hlogo plaque holds the level colour `#2A77B8` and the blue palette; B1 wants the amber palette, `data-plaque-colour` `#FCD34D`, 2 crystal groups, and no blue colour. B2 fails because the week pill fill is `#16264A` and the role bar fill is `#16264A`; B2 wants `#FCD34D` with a 0.6 mm `#92400E` border and `#92400E` text. B3 fails because the title text box is 12.96 mm of a 34.40 mm band, a share of 37.7 %; B3 wants 80 % ± 5 %, the center of the band within 1 mm, and a 2 mm clearance from each crystal group box. B4 fails because the plaque is 220.00 mm wide and the rule gives 120.00 mm; B4 wants the width of the title plus 2 x 27 mm, bounded by 120 mm and 340 mm, the page center within 0.5 mm, and the bottom at 276 mm. B5 fails because the synthetic title of 40 characters has 1 line box; B5 wants 2 line boxes at the font size of the 1-line titles. B6 fails because the week pill text box is 7.94 mm of an 8.80 mm inner height, a share of 90.2 %; B6 wants 80 % ± 5 % and the center of the pill within 0.5 mm. B7 fails because the role bar content fills 48.8 % of the bar width; B7 wants at least 60 %, even paddings within 0.5 mm, the page center within 0.5 mm, and the top 278 mm with the height 12 mm. B8 fails because the box table holds no key `reader-leaf:logo-tile`; B8 wants the box 59.6/5.7/78.8/25.5 mm, one gray tile with the K logo in the hlogo leaf render, and no tile in the default leaf render. B9 fails because the file `content/storytime/covers/logos/storytime-advantage-horizontal-k.svg` does not exist; B9 wants only grays, the viewBox of the color logo, and the same count of `path` elements. B10 fails because the leaf series box is 30 mm wide and the series text has 2 line boxes; B10 wants the box 68/137/35/6 mm, 1 line box, and the right edge at or before 103 mm on 14 of 14 rows in both styles. B11 fails because the hlogo leaf render holds no logo tile; B11 wants one tile and the same HTML for every other leaf part. The measure methods for Green: the text box is the range over the text node, as in `quest-cover-plaque-fit.test.ts`; the band is the path whose fill equals `data-plaque-colour`; the plaque box is the union of the plaque part box and the plaque SVG box; the crystal group box is the browser box of the `<g>` element; the border width is read from the inline style, because the browser rounds a computed border width to whole pixels. The pin locations for Green: the leaf pins of `quest-cover-readers-r2.test.ts` hold the HTML with the series part removed, so the series box may change; the 14 A3 pins and the A3 page pin hold the default render, so the default A3 render must not change; the 8 pins of B12 hold the 4 book kinds in the default style and in the hlogo style, so the book kinds must not change; the pin of P6 of `quest-cover-plaque-fit.test.ts` holds the reader plaques of the default render, so the default plaques must not change. Green changes only `dashboard/lib/storytime/print/cover-quest.ts` and adds the file `content/storytime/covers/logos/storytime-advantage-horizontal-k.svg`, and changes no test file.
+END_MEASURE_AGENT_RESULT
