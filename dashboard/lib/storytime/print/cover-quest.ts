@@ -580,8 +580,11 @@ const PUBLISHER_LOGO_URL = storytimeCoverFileUrl(PUBLISHER_LOGO_FILE);
  */
 const HORIZONTAL_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal.svg');
 
-/** The URL of the horizontal Storytime Advantage logo, the only top chrome of A2. */
-const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
+/**
+ * The URL of the horizontal Storytime Advantage logo, the colour logo of the book backs and of the
+ * page 12 of the reader A3 pages (round of 2026-11-11, F2).
+ */
+export const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
 
 /**
  * The file of the gray horizontal logo, the K logo of the leaf cover (round of 2026-11-11, readers
@@ -590,11 +593,14 @@ const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
  */
 const K_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal-k.svg');
 
-/** The URL of the gray horizontal logo of the leaf cover. */
-const K_LOGO_URL = storytimeCoverFileUrl(K_LOGO_FILE);
+/**
+ * The URL of the gray horizontal logo, the K logo of the workbook leaves and of the page 12 of the
+ * workbook (round of 2026-11-11, F2).
+ */
+export const K_LOGO_URL = storytimeCoverFileUrl(K_LOGO_FILE);
 
 /** The aspect of the horizontal logo: the viewBox of 1461.6 mm by 464.88 mm (A6). */
-const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
+export const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
 
 /** The share of the inner tile height that the horizontal logo fills (A6). */
 const LOGO_TILE_FILL_SHARE = 0.8;
@@ -1687,13 +1693,14 @@ function logoBox(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numbe
 
 /**
  * Draws the horizontal Storytime Advantage logo on its amber tile (the alternate A2 of 2026-11-10,
- * Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA): the only top chrome of the 2 fronts and the
- * 2 backs. The tile takes the amber fill, the brown border, the 3 mm radius, and the hidden
- * overflow. One image of the horizontal logo stands inside the border, centered on both axes. The
- * image height is 80 % of the inner height (the box height minus 2 borders), and its width follows
- * the viewBox aspect 1461.6 by 464.88. The values come from the box, not from fixed numbers. The
- * round of 2026-11-11 (readers r2b) adds the optional colours, so the leaf cover draws the same
- * tile in the K grays with the gray logo; the default keeps the book tile bytes.
+ * Daniel's look note of Tasks NXlkaVBtUW9hZWRuU1J6UA): the top chrome of the 2 backs. The tile
+ * takes the amber fill, the brown border, the 3 mm radius, and the hidden overflow. One image of
+ * the horizontal logo stands inside the border, centered on both axes. The image height is 80 % of
+ * the inner height (the box height minus 2 borders), and its width follows the viewBox aspect
+ * 1461.6 by 464.88. The values come from the box, not from fixed numbers. The round of 2026-11-11
+ * (readers r2b) adds the optional colours, so the leaf cover drew the same tile in the K grays
+ * with the gray logo. The round of 2026-11-11 (F2, Daniel's look) moves the logo off the 4 front
+ * kinds: the 2 backs keep this tile, and page 12 of the readers holds its own tile.
  * @param kind The cover kind.
  * @param bleedMm The bleed.
  * @param colours The tile fill, the tile border, and the logo file; the amber, the brown, and the
@@ -1923,6 +1930,9 @@ function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
  * pill and the title plaque stay, and no part repeats the series name. The round of 2026-11-11 (the
  * standing rules): with `hlogo`, the teacher front holds no band pill, because the standing rule 5
  * forbids a band word and a game bar on every cover; the default render keeps the pill and its box.
+ * The round of 2026-11-11 (F2, Daniel's look): with `hlogo`, the front holds no logo tile and no
+ * other part takes its place, because the horizontal logo covered the head of almost every cover
+ * picture; the default render and the box table keep the tile entry.
  * @param kind The cover kind.
  * @param book The book row.
  * @param assets The assets.
@@ -1938,9 +1948,7 @@ function frontBody(
     top: QuestTopStyle,
 ): string {
     const parts = [artLayer(kind, assets, bleedMm)];
-    if (top === 'hlogo') {
-        parts.push(logoTile(kind, bleedMm));
-    } else {
+    if (top !== 'hlogo') {
         parts.push(seriesLogo(kind, assets, bleedMm), seriesBanner(kind, 'front', bleedMm));
     }
     if (kind === 'teacher-front' && top !== 'hlogo') parts.push(bandPill(book.litBand, bleedMm));
@@ -1986,7 +1994,8 @@ function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
  * takes the amber book plaque style, the week pill and the role bar take the logo amber and brown,
  * and the role bar fits its text with even padding. The round of 2026-11-11 (readers r2c): with
  * `hlogo`, the week pill and the role bar letters take 80 % of the inner height, the pill hugs its
- * text with an even padding, and both stay centred on the page.
+ * text with an even padding, and both stay centred on the page. The round of 2026-11-11 (F2,
+ * Daniel's look): with `hlogo`, the page holds no logo tile; the pill, the plaque, and the bar stay.
  * @param reader The reader row.
  * @param assets The assets.
  * @param bleedMm The bleed.
@@ -2034,7 +2043,7 @@ function readerA3Body(
               `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
               `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
     if (top === 'hlogo') {
-        return [artLayer(kind, assets, bleedMm), logoTile(kind, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
+        return [artLayer(kind, assets, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
     }
     return [
         artLayer(kind, assets, bleedMm),
@@ -2066,7 +2075,9 @@ function roleKeyOfLabel(label: string): string {
  * of 2026-11-11 (readers r2b) adds the K logo tile at the top with the top style hlogo; the default
  * leaf holds no tile. The round of 2026-11-11 (readers r2c): with `hlogo`, the plaque takes the r2
  * book plaque drawing in the K grays, the title fills 80 % of the band, the band word and the band
- * icons go, and the series, the week, and the role line move into one centred footer.
+ * icons go, and the series, the week, and the role line move into one centred footer. The round of
+ * 2026-11-11 (F1 and F2, Daniel's look): with `hlogo`, the art fills the page with no double-line
+ * frame and no logo tile; the default leaf keeps the frame, its bytes, and its box table entry.
  * @param reader The reader row.
  * @param assets The assets.
  * @param bleedMm The bleed.
@@ -2094,13 +2105,9 @@ function leafBody(
         `<rect x="0.5" y="0.5" width="181" height="103" rx="5" fill="none" stroke="${black}" stroke-width="1"/>` +
         `<rect x="2.3" y="2.3" width="177.4" height="99.4" rx="4" fill="none" stroke="${black}" stroke-width="0.4"/></svg></div>`;
     if (top === 'hlogo') {
-        return [
-            artLayer(kind, assets, bleedMm),
-            logoTile(kind, bleedMm, { fill: LEAF_PLAQUE_BAND, border: '#4E4E4E', src: K_LOGO_URL }),
-            frameHtml,
-            leafTitlePlaque(reader.title, bleedMm),
-            leafFooter(reader, bleedMm),
-        ].join('\n');
+        return [artLayer(kind, assets, bleedMm), leafTitlePlaque(reader.title, bleedMm), leafFooter(reader, bleedMm)].join(
+            '\n',
+        );
     }
     const glyphs = QUEST_BANDS.map((band, index) =>
         bandGlyph(band, 3 + index * 7, 3.5, 5.2, band === 'sprout' ? black : white, black, white, 1.3),

@@ -914,7 +914,10 @@ export const questQrCheck = qrCheck;
 /**
  * The lit band check of one page. The fronts and the A3 readers hold the band icons; the leaf shows
  * the band word, unless it holds the logo tile of the top style hlogo: a leaf with the logo tile
- * shows neither the band word nor the band icons (readers r2c, E10).
+ * shows neither the band word nor the band icons (readers r2c, E10). The round of 2026-11-11 (F1
+ * and F2, Daniel's look) removes the double-line frame and the logo tile from the hlogo leaf, so a
+ * leaf with no frame is the hlogo leaf and shows no band word, and a leaf with the frame is the
+ * default leaf and still needs the band word.
  * @param html The page.
  * @param kind The cover kind.
  * @param band The lit band of the book.
@@ -924,7 +927,7 @@ function bandCheck(html: string, kind: QuestCoverKind, band: string): string {
     if (kind === 'student-back' || kind === 'teacher-back') return 'pass';
     if (kind === 'reader-leaf') {
         const word = band.toUpperCase();
-        if (html.includes('data-part="logo-tile"')) {
+        if (html.includes('data-part="logo-tile"') || !html.includes('data-part="double-line-frame"')) {
             return !html.includes('data-part="band-word"') && !html.includes(word) ? 'pass' : 'fail';
         }
         return html.includes('data-part="band-word"') && html.includes(word) ? 'pass' : 'fail';
