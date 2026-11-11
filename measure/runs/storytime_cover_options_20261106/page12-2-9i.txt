@@ -1,0 +1,58 @@
+CAPTURE of Task 2.9 part 9 step 5c, page 12 of the 2 readers, corrected rule
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/page12_2_9i.py
+
+--- STDOUT ---
+ROOT /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/reader-back-r4
+NEW_FILE Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf bytes=3182447 sha256=cd3d0d4b020e73960a3698897852e4033f99da6e817e51886cca1d90f6869d8c
+NEW_FILE Storytime-Advantage-L2-W01-hello-A3-v1.pdf bytes=83273761 sha256=1eb3fc228a73503cf95f6143043fe70dec821b0dc8df0787dfe282b6e30c9f0c
+NEW_FILE Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf bytes=61137450 sha256=30f57988725925a67ba4b3bba204fdecf293aa6e8cd36678a6bc284387f0c1d0
+A3 Storytime-Advantage-L2-W01-hello-A3-v1.pdf pages=12 size_mm=420.20x297.01 px_expected=4963x3508 ok=true
+A3 Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf pages=12 size_mm=420.20x297.01 px_expected=4963x3508 ok=true
+HELLO_PAGE 12 render_exit=0 px=4963x3508
+WORKBOOK_PAGE p=1 words_in_this_book=1 nan_can_nod=0
+WORKBOOK_PAGE p=2 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=3 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=4 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=5 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=6 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=7 words_in_this_book=1 nan_can_nod=3
+WORKBOOK_PAGE p=8 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=9 words_in_this_book=0 nan_can_nod=4
+WORKBOOK_PAGE p=10 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=11 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=12 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGES 12 size_mm=209.89x297.01 px_expected=2479x3508
+WORD_LIST_PAGES 2
+NOD_WORD_LIST_PAGES 1
+CHOICE_RULE with-nan-can-nod
+CHOSEN_PAGE 7
+NOD_PAGE 7 render_exit=0 px=2479x3508
+A3_PAGE12 words_in_this_book=1 storytime_advantage=1 sprout=0 info_series=info ok=true
+WORKBOOK_HALF TOP y=0 words_in_this_book=0 storytime_advantage=1 sprout=1
+WORKBOOK_HALF BOTTOM y=421 words_in_this_book=1 storytime_advantage=1 sprout=0
+WORD_HALVES 1
+WORKBOOK_PAGE12_HALF BOTTOM words_in_this_book=1 storytime_advantage=1 sprout=0 ok=true
+WORKBOOK_PAGE1_HALF TOP words_in_this_book=0 storytime_advantage=1 sprout=1 info
+OLD_BUILD pages=6 search_page=7 page=3 whole words_in_this_book=1 storytime_advantage=2 sprout=2 info
+INK p=1 C=0.00000 M=0.00000 Y=0.00000 K=0.08530 ok=true
+INK p=2 C=0.00000 M=0.00000 Y=0.00000 K=0.02355 ok=true
+INK p=3 C=0.00000 M=0.00000 Y=0.00000 K=0.08503 ok=true
+INK p=4 C=0.00000 M=0.00000 Y=0.00000 K=0.12020 ok=true
+INK p=5 C=0.00000 M=0.00000 Y=0.00000 K=0.07320 ok=true
+INK p=6 C=0.00000 M=0.00000 Y=0.00000 K=0.12656 ok=true
+INK p=7 C=0.00000 M=0.00000 Y=0.00000 K=0.08239 ok=true
+INK p=8 C=0.00000 M=0.00000 Y=0.00000 K=0.02563 ok=true
+INK p=9 C=0.00000 M=0.00000 Y=0.00000 K=0.08268 ok=true
+INK p=10 C=0.00000 M=0.00000 Y=0.00000 K=0.08681 ok=true
+INK p=11 C=0.00000 M=0.00000 Y=0.00000 K=0.06121 ok=true
+INK p=12 C=0.00000 M=0.00000 Y=0.00000 K=0.07231 ok=true
+INK_COVERAGE_OK true
+PNG l2-w01-hello-a3-page12.png px=4963x3508 px_expected=4963x3508 px_ok=true bytes=175430 sha256=13cbdfd3600a33108a9f2c016ef087e4aff649554769ceaf90b06c6ffbf1c3ea
+PNG l2-w01-nan-can-nod-leaf-page12.png px=2479x3508 px_expected=2479x3508 px_ok=true bytes=581601 sha256=7fe62a54e073d0e85f0edbf4c6608b3c3a8f25741f9dcd859fffcce3b30e5124
+PNG_SIZE_OK true
+PAGE12_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
