@@ -1,0 +1,60 @@
+# Jr Green log: Task 2.9 part 6, the r2b reader covers
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 6
+Role: measure-jr-green
+Model: deepseek/deepseek-flash#high
+role_base_sha: c8c3312f0af8ed330ebf61a1b3645f4de29ba90a
+phase_base_sha: 62621a9c
+Green code commit: b78f8da3
+Red commit: 1d3c861d
+
+## Narrative
+
+This round is a build task. It changes no code, no test, and no file under `content/`.
+
+The Thai filter ran first and printed `0` for each of the 11 named files. Every capture holds 0 Thai
+lines. The committed Red change of `1d3c861d` is inside `phase_base_sha..HEAD`.
+
+STEP 1 made the 31-file pictures folder with the part 5 scripts. The values equal part 5: 29 hard
+links with 29 equal SHA-256 pairs and 29 equal inodes, the back `881e93b2...` from the unchanged
+source `5411e37e...`, and the teacher front `09014118...`.
+
+STEP 2 ran one build with `--top hlogo` in one heavy-run wrapper. It exits 0 on the first attempt. It
+prints `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and 4 lines `All checks pass.`.
+
+STEP 3 replaces the 34 reader files. Each old SHA-256 equals its MANIFEST line before the write. 34
+of 34 copies equal the build output. No book file changed.
+
+STEP 4 runs the checks C1 to C16 on the 2 new reader print files in one heavy-run wrapper. The
+result is `PASS_LINES=15` and `FAIL_LINES=0`. C4 passes on both files.
+
+STEP 5 makes the 3 sheets and replaces them. The 3 old SHA-256 values match the old MANIFEST.
+
+STEP 6 rewrites `MANIFEST.txt`. The old file is `34384529...` with 85 lines. The new file holds 85
+lines with `6cf6c806...`; its 48 book lines are byte-equal, and 37 lines changed.
+
+STEP 7 inserts 2 plan lines under Task 2.9. `git diff --numstat` prints `2	0` and the plan Thai count
+is 0. Task 2.9 stays `[~]`.
+
+The step limit stopped this role directly after the plan commit `e34e231c`. The orchestrator resumed
+the role to write this log and to remove the scratch folder. This log is the second commit.
+
+## Result
+
+```
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: c8c3312f0af8ed330ebf61a1b3645f4de29ba90a
+commits: e34e231c (the scripts, the captures, and the plan), and this log alone
+tests_run: build exit 0 (1 attempt, "Covers of Level 2 Unit 1 set 1: 32 pages, 44 files", 4 lines "All checks pass."); print checks PASS_LINES=15 FAIL_LINES=0; C4 PASS on the A3 file (title at least 1, series 0, band word 0 on each page) and on the leaf file (title at least 1 and series at least 1 on each of the 14 pages); PRINT_GATE exit 0 on both reader print files with 1 line "All checks pass." each; MANIFEST 85 of 85 lines OK, 48 lines byte-equal, 37 lines changed; plan numstat 2 0 and Thai count 0
+files_changed: outside the repository 37 replaced files of ~/Desktop/print-ready/storytime/covers-quest-v1/: readers-a3/ (17 files), readers-leaf/ (17 files), contact-sheets/readers-a3.png, contact-sheets/readers-leaf.png, contact-sheets/all.png, and the rewritten MANIFEST.txt. The 48 book lines address files that did not change. Inside the repository the plan (2 inserted lines) and 22 new files of measure/runs/storytime_cover_options_20261106/ that end in -2-9f or _2_9f (11 scripts and 11 captures, with manifest-old-2-9f.txt), plus this log.
+plan_updates: 2 inserted lines under Task 2.9 (the Part 6 evidence line and the Part 6 replacement table with the 37 old and new SHA-256 values); Task 2.9 stays [~]
+known_failures: none. FAIL_LINES=0. The 4 print-check mutants and the final check log of Task 2.9 stay open for a later part.
+handoff: The folder ~/Desktop/print-ready/storytime/covers-quest-v1/ holds the r2b reader covers as byte copies of the build output, with 34 of 34 SHA-256 pairs equal and 3 replaced sheets: contact-sheets/readers-a3.png (7154 x 1658 px, 14 tiles), contact-sheets/readers-leaf.png (6755 x 1658 px, 14 tiles), and contact-sheets/all.png (3648 x 5698 px, 32 tiles). The new MANIFEST.txt holds 85 lines with SHA-256 6cf6c806f56dde9787b23b462bbe06a35d4dd3c0e828d40be6899c3599a496f2; 48 book lines are byte-equal and 37 lines changed. The print checks of print-gate-2-9f.txt give 15 PASS lines and 0 FAIL lines; C4 passes on both reader files. The key captures are build-2-9f.txt (exit 0), replace-2-9f.txt (REPLACED 34, PAIR_EQUAL 34), print-gate-2-9f.txt (PASS_LINES=15), contact-run-2-9f.txt (REPLACED 3), manifest-check-2-9f.txt (MANIFEST_OK true, 37 CHANGED lines), and plan-insert-2-9f.txt (INSERTED 2). The orchestrator looks at the 3 sheets. Task 2.9 stays [~].
+END_MEASURE_AGENT_RESULT
+```
