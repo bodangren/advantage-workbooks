@@ -56,3 +56,58 @@ plan_updates: none (the script restored the plan; Task 2.8 stays [ ] and no line
 known_failures: st2/12 (week 12, Open Your Book!) - FAIL song-frame, "The frame 8 or more times in the song - 7 times"; the check needs 8 lines with the frame and week 12 has 7 of 10; the same failure occurs on the clean tree at 21c73835 without the record
 handoff: The record is ready but not committed, because the gate is red at HEAD and Task 2.8 needs STAGE_CHECKS to pass. The 8 records would give approved for weeks 9 and 11 to 16 and draft for week 10, with the date 2026-11-11 and Daniel's words "Hat-pip image passes, but the w10 put on your t shirt image doesn't pass." The red gate is outside this role: week 12 holds the frame "Open your book." in 7 of its 10 song lines and the check needs 8; the last commit that changed week 12 is 46960211 (Task 6.1, the song lines 9 and 10 out). A fix of the week 12 song must come first, then the same script must run again. Before that run, remove the untracked file measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks.txt, because the script stops when that file exists. Question for the orchestrator: should the record wait for the week 12 song fix, or should the record go in now with the red gate noted? My default: wait. The plan sets the done-when of Task 2.8 to "STAGE_CHECKS passes, and the 8 files hold the record", and a record with a red gate would claim a pass that no check gives. The scratch folder /tmp/opencode/t28r/ stays.
 END_MEASURE_AGENT_RESULT
+
+## Run 2
+
+### The answer
+
+The orchestrator answered on 2026-11-11: do not wait. The FAIL row of st2/12 is the recorded week 12 exception. The plan line under Task 6.1 holds the PM decision of 2026-11-09 word for word: "The named FAIL on st2/12 until then is fine." Task 3.1 closed with the same row. The first brief of this role asked for 0 FAIL rows. That was the orchestrator's error. The record goes in now.
+
+### The probe deviation
+
+The first run used a probe script, /tmp/opencode/t28r/probe_w12.py. It read the raw file content/storytime/drafts/l2/w12.json. It dropped every string with a Thai character before it printed. The printed output held 0 Thai characters. The rule now says that a probe reads only the filtered copies in /tmp/opencode/t28r/in/. The probe broke that rule once, and it read one file. The gate run and the record run read the week files by their own rules. The script prints no Thai. It drops the Thai lines of the gate output, and it asserts that the record block and the plan hold no Thai.
+
+### The script run
+
+The failed capture moved to measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks-try1.txt. The script holds two edits. The gate check now accepts the one recorded FAIL row of st2/12, and the plan line names it.
+
+The script output:
+
+plan: Task 2.8 set to [~]
+w09.json: approval.images status approved, date 2026-11-11
+w10.json: approval.images status draft, date 2026-11-11
+w11.json: approval.images status approved, date 2026-11-11
+w12.json: approval.images status approved, date 2026-11-11
+w13.json: approval.images status approved, date 2026-11-11
+w14.json: approval.images status approved, date 2026-11-11
+w15.json: approval.images status approved, date 2026-11-11
+w16.json: approval.images status approved, date 2026-11-11
+STAGE_CHECKS exit 1, attempts 1, packages 16, FAIL lines 1, WARN lines 12, Thai lines dropped 0, ['Summary: 16 package(s), 1 failed check(s), 12 warning(s).']
+FAIL rows [('st2/12', 'song-frame')]; print-missing warnings of st2/9 to st2/15: 0
+plan: 3 lines inserted, Task 2.8 [~]
+
+### The checks
+
+The numstat gives 4 additions and 1 deletion for each of the 8 week files. The plan holds 4 additions and 1 deletion. The first brief expected 3 and 1 for the plan. The Task 2.8 line change adds one more line.
+
+The Thai counts: the plan 0, the capture 0, the try1 capture 0, the script 1. The script line holds the filter range U+0E00 to U+0E7F. It holds no Thai content. The first brief expected 0 for the script.
+
+The marker counts: Task 2.8 [~] = 1, Task 2.7 [~] = 1. The 8 status values: 9 approved, 10 draft, 11 approved, 12 approved, 13 approved, 14 approved, 15 approved, 16 approved.
+
+### The commit
+
+The record commit is a2e78906. It holds 12 paths: the 8 week files, the plan, the script, the capture, and the try1 capture.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: de0ff43e
+commits: a2e78906 (the record commit)
+tests_run: STAGE_CHECKS in one heavy-run inside the script, exit 1, Summary: 16 package(s), 1 failed check(s), 12 warning(s).; the only FAIL row is song-frame of st2/12 (7 frame lines), the recorded week 12 exception; 0 print-missing warnings of st2/9 to st2/15
+files_changed: the 12 paths of commit a2e78906: content/storytime/drafts/l2/w09.json, content/storytime/drafts/l2/w10.json, content/storytime/drafts/l2/w11.json, content/storytime/drafts/l2/w12.json, content/storytime/drafts/l2/w13.json, content/storytime/drafts/l2/w14.json, content/storytime/drafts/l2/w15.json, content/storytime/drafts/l2/w16.json, measure/tracks/storytime_l2_unit2_20261106/plan.md, measure/runs/storytime_l2_unit2_20261106/record_images_2_8.py, measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks.txt, measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks-try1.txt
+plan_updates: Task 2.8 [~], not [x]; 1 line under Task 2.7 (Daniel's word on hat-pip, the part 3 next step); 2 lines under Task 2.8 (the PM relay words and the record)
+known_failures: st2/12 song-frame, "The frame 8 or more times in the song - 7 times"; the recorded week 12 exception under the PM decision of 2026-11-09; its code is Phase 4 Tasks 4.1 and 4.2; the first run of this record and a run on the clean tree at 21c73835 gave the same FAIL row
+handoff: The 8 records hold the status approved for weeks 9 and 11 to 16, and the status draft for week 10. Each holds the date 2026-11-11 and Daniel's words "Hat-pip image passes, but the w10 put on your t shirt image doesn't pass." The source holds the look package MANIFEST SHA-256 2da72ee1e528133a057e9e45a49456e2542ccca20a9471bd4b90c3e6f516d94b and the rows.tsv SHA-256 a62a67d88f78d85d3cfbcf571e01bf58efee2822f09a5b84fa1f3ab250e671f6. The STAGE_CHECKS counts: exit 1, 16 packages, 1 FAIL row (st2/12 song-frame, the recorded week 12 exception), 12 warnings, 0 print-missing warnings of st2/9 to st2/15. The deviations of this role: the probe /tmp/opencode/t28r/probe_w12.py read the raw w12.json once and printed 0 Thai characters; the plan numstat is 4 and 1, not 3 and 1; the script holds 1 Thai line, the filter range only. Task 2.8 stays [~] until Daniel's word on the T-shirt redo. Task 2.7 stays [~], and its part 3 runs PICTURE_CHECK_U2 on the look1 folder. The next role can use the scratch folder /tmp/opencode/t28r/ or remove it.
+END_MEASURE_AGENT_RESULT
