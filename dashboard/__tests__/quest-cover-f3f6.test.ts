@@ -1352,7 +1352,16 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                 if (!src.startsWith('file:') || decodeURIComponent(path.basename(src)) !== wantedFile) {
                     problems.push(`${id}: the art source ends with "${path.basename(src)}" (the pin is a file URL of ${wantedFile}).`);
                 }
-                const expected = questReaderCoverPage(row, OUTPUT_TRIM[output], { art: src }, HLOGO_OPTIONS);
+                // changed 2026-11-12 (Q5, orchestrator decision): the workbook page 1 body draws the leaf mark of its side (option leafMark); the a3-color body draws none.
+                const marks = Array.from(quests[0].querySelectorAll('[data-part="leaf-mark"]'), (mark) => mark.textContent ?? '');
+                const escapedTitle = row.title.replace(/[.*+?^$|()[\]{}\\]/g, '\\$&');
+                const markPattern = new RegExp('^' + escapedTitle + ' · leaf [0-9]+ of [0-9]+$');
+                if (output === 'workbook' && (marks.length !== 1 || !markPattern.test(marks[0]))) {
+                    problems.push(`${id}: the page 1 body holds the leaf marks ${JSON.stringify(marks)} (the pin is 1 mark "${row.title} · leaf <n> of <m>").`);
+                }
+                if (output === 'a3-color' && marks.length !== 0) problems.push(`${id}: the a3-color page 1 body holds ${marks.length} leaf marks (the pin is 0).`);
+                const options = output === 'workbook' && marks.length === 1 ? ({ ...HLOGO_OPTIONS, leafMark: marks[0] } as QuestRenderOptions) : HLOGO_OPTIONS;
+                const expected = questReaderCoverPage(row, OUTPUT_TRIM[output], { art: src }, options);
                 const template = doc.createElement('template');
                 template.innerHTML = expected.body;
                 const wanted = template.content.firstElementChild;
@@ -1411,6 +1420,13 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                         Math.abs(found.box.right - part.box.right),
                         Math.abs(found.box.bottom - part.box.bottom),
                     );
+                    // changed 2026-11-12 (Q5, orchestrator decision): on the workbook page 1 the footer strip may grow to hold the leaf mark, so it must hold the strip of the cover build.
+                    if (output === 'workbook' && part.name === 'footer-strip') {
+                        const holds = found.box.left <= part.box.left + PAGE1_BOX_MM && found.box.top <= part.box.top + PAGE1_BOX_MM
+                            && found.box.right >= part.box.right - PAGE1_BOX_MM && found.box.bottom >= part.box.bottom - PAGE1_BOX_MM;
+                        if (!holds) problems.push(`${id}: the footer-strip box does not hold the footer-strip box of the cover build.`);
+                        continue;
+                    }
                     if (delta > PAGE1_BOX_MM) problems.push(`${id}: the ${part.name} box differs from the cover build by ${delta.toFixed(2)} mm.`);
                 }
             }

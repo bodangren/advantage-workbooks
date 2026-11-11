@@ -181,6 +181,359 @@ function pages(doc: Document): Element[] {
     return Array.from(doc.querySelectorAll('.student-page'));
 }
 
+// changed 2026-11-12 (Q5, PM decision): on a side with the quest page 1, the leaf mark lies in the F4 footer strip when it fits, else on its own white strip over the art.
+/** One box in millimetres from the top left corner of a leaf side, or in pixels of a side screenshot. */
+interface QuestMarkBox {
+    /** The left edge. */
+    left: number;
+    /** The top edge. */
+    top: number;
+    /** The right edge. */
+    right: number;
+    /** The bottom edge. */
+    bottom: number;
+}
+
+/** The key box file of the level 2 covers: the art file name to its pixel size and its key boxes. */
+type QuestKeyFile = Record<string, { widthPx: number; heightPx: number; boxes: { label: string; box: number[] }[] }>;
+
+/** The measure of one leaf side that holds the quest page 1 (Q5, PM decision 2026-11-12). */
+interface QuestMarkSide {
+    /** The side index, from 0, among the measured sides. */
+    index: number;
+    /** The box of the quest page 1. */
+    quest: QuestMarkBox;
+    /** The box of the leaf mark element. */
+    mark: QuestMarkBox;
+    /** The ink box of the leaf mark text, or null when the mark prints no text. */
+    ink: QuestMarkBox | null;
+    /** The box of the F4 footer strip of the quest page, or null. */
+    footerStrip: QuestMarkBox | null;
+    /** Every `leaf-mark-strip` part of the side, with its computed fill and opacity. */
+    markStrips: { box: QuestMarkBox; fill: string; opacity: string }[];
+    /** The painted box of every top-level chrome part of the quest page (not the art and not a strip). */
+    chrome: { name: string; box: QuestMarkBox }[];
+    /** The key boxes of the page 1 art, mapped through `object-fit: cover` and the turn of the page. */
+    keys: { label: string; box: QuestMarkBox }[];
+    /** The content boxes of the other reader page of the side. */
+    otherContent: QuestMarkBox[];
+    /** The perforation x position. */
+    perforationX: number;
+    /** True on a front side. */
+    front: boolean;
+}
+
+/** The clearance of the Q5 rule, in millimetres. */
+const QUEST_MARK_CLEARANCE_MM = 1;
+
+/** The grid step of the free place search of the Q5 rule, in millimetres. */
+const QUEST_MARK_STEP_MM = 0.25;
+
+/** The pixel rule of the mark strip: each channel 250 or more. */
+const QUEST_MARK_WHITE = 250;
+
+/**
+ * Reads the key box file of the level 2 covers.
+ * @returns The key boxes by art file name.
+ */
+function questKeyFile(): QuestKeyFile {
+    return JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures-heads.json'), 'utf8')) as QuestKeyFile;
+}
+
+/**
+ * Measures, in the browser, each leaf side that holds a quest page 1. The key boxes come from
+ * probe boxes in the layout box of the art, so that the turn of the page applies to them.
+ * @param input The selector of the leaf sides and the key box file.
+ * @returns One measure for each side with a quest page 1.
+ */
+function measureQuestMarkSidesInBrowser([selector, keys]: [string, QuestKeyFile]): QuestMarkSide[] {
+    const pxPerMm = 96 / 25.4;
+    const result: QuestMarkSide[] = [];
+    Array.from(document.querySelectorAll<HTMLElement>(selector)).forEach((side, index) => {
+        const quest = side.querySelector<HTMLElement>('.quest-reader-page');
+        if (!quest) return;
+        const origin = side.getBoundingClientRect();
+        const toMm = (rect: DOMRect): QuestMarkBox => ({
+            left: (rect.left - origin.left) / pxPerMm, top: (rect.top - origin.top) / pxPerMm,
+            right: (rect.right - origin.left) / pxPerMm, bottom: (rect.bottom - origin.top) / pxPerMm,
+        });
+        const union = (rects: DOMRect[]): QuestMarkBox | null => {
+            const sized = rects.filter((rect) => rect.width > 0 && rect.height > 0);
+            if (sized.length === 0) return null;
+            return {
+                left: (Math.min(...sized.map((rect) => rect.left)) - origin.left) / pxPerMm,
+                top: (Math.min(...sized.map((rect) => rect.top)) - origin.top) / pxPerMm,
+                right: (Math.max(...sized.map((rect) => rect.right)) - origin.left) / pxPerMm,
+                bottom: (Math.max(...sized.map((rect) => rect.bottom)) - origin.top) / pxPerMm,
+            };
+        };
+        const textRects = (root: Element): DOMRect[] => {
+            const rects: DOMRect[] = [];
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                if (!(node.nodeValue ?? '').trim() || !node.parentElement || getComputedStyle(node.parentElement).visibility === 'hidden') continue;
+                const range = document.createRange();
+                range.selectNodeContents(node);
+                rects.push(...Array.from(range.getClientRects()));
+            }
+            return rects;
+        };
+        const painted = (root: Element): DOMRect[] => {
+            const rects = textRects(root);
+            for (const element of [root, ...Array.from(root.querySelectorAll('*'))]) {
+                if (element instanceof SVGElement) {
+                    if (['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line', 'text', 'use', 'image'].includes(element.tagName.toLowerCase())) rects.push(element.getBoundingClientRect());
+                    continue;
+                }
+                const style = getComputedStyle(element);
+                if (style.display === 'none' || style.visibility === 'hidden') continue;
+                const fill = style.backgroundColor.replace(/\s+/g, '');
+                const border = ['top', 'right', 'bottom', 'left'].some((edge) =>
+                    Number.parseFloat(style.getPropertyValue(`border-${edge}-width`)) > 0 && style.getPropertyValue(`border-${edge}-style`) !== 'none');
+                if ((fill !== 'transparent' && fill !== 'rgba(0,0,0,0)') || style.backgroundImage !== 'none' || border || element.tagName === 'IMG') rects.push(element.getBoundingClientRect());
+            }
+            return rects;
+        };
+        const mark = side.querySelector('[data-part="leaf-mark"]')!;
+        const skip = ['art', 'footer-strip', 'leaf-mark', 'leaf-mark-strip'];
+        const chrome = Array.from(quest.querySelectorAll('[data-part]'))
+            .filter((part) => {
+                const parent = part.parentElement?.closest('[data-part]');
+                return !skip.includes(part.getAttribute('data-part') ?? '') && (!parent || !quest.contains(parent));
+            })
+            .flatMap((part) => {
+                const box = union(painted(part));
+                return box ? [{ name: part.getAttribute('data-part') ?? '', box }] : [];
+            });
+        const found: { label: string; box: QuestMarkBox }[] = [];
+        const art = quest.querySelector<HTMLImageElement>('img[data-part="art"]');
+        const holder = art?.offsetParent;
+        const entry = art ? keys[decodeURIComponent(art.getAttribute('src') ?? '').split('/').pop() ?? ''] : undefined;
+        if (art && holder && entry) {
+            const width = art.offsetWidth;
+            const height = art.offsetHeight;
+            const scale = Math.max(width / entry.widthPx, height / entry.heightPx);
+            const tokens = getComputedStyle(art).objectPosition.trim().split(/\s+/);
+            const offset = (token: string | undefined, free: number): number =>
+                !token ? free / 2 : token.endsWith('%') ? (free * Number.parseFloat(token)) / 100 : Number.parseFloat(token);
+            const left = art.offsetLeft + offset(tokens[0], width - entry.widthPx * scale);
+            const top = art.offsetTop + offset(tokens[1] ?? tokens[0], height - entry.heightPx * scale);
+            for (const key of entry.boxes) {
+                const probe = document.createElement('div');
+                probe.style.cssText = `position:absolute;left:${left + key.box[0] * scale}px;top:${top + key.box[1] * scale}px;` +
+                    `width:${(key.box[2] - key.box[0]) * scale}px;height:${(key.box[3] - key.box[1]) * scale}px`;
+                holder.appendChild(probe);
+                found.push({ label: key.label, box: toMm(probe.getBoundingClientRect()) });
+                probe.remove();
+            }
+        }
+        const strip = quest.querySelector('[data-part="footer-strip"]');
+        const otherContent = Array.from(side.querySelectorAll('[data-reader-page]'))
+            .filter((page) => !page.contains(quest))
+            .flatMap((page) => Array.from(page.querySelectorAll('*')))
+            .filter((element) => element !== mark && !element.contains(mark) && element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0)
+            .map((element) => toMm(element.getBoundingClientRect()));
+        result.push({
+            index,
+            quest: toMm(quest.getBoundingClientRect()),
+            mark: toMm(mark.getBoundingClientRect()),
+            ink: union(textRects(mark)),
+            footerStrip: strip ? toMm(strip.getBoundingClientRect()) : null,
+            markStrips: Array.from(side.querySelectorAll('[data-part="leaf-mark-strip"]'), (part) => ({
+                box: toMm(part.getBoundingClientRect()), fill: getComputedStyle(part).backgroundColor, opacity: getComputedStyle(part).opacity,
+            })),
+            chrome,
+            keys: found,
+            otherContent,
+            perforationX: (side.querySelector('[data-part="perforation"]')!.getBoundingClientRect().left - origin.left) / pxPerMm,
+            front: index % 2 === 0,
+        });
+    });
+    return result;
+}
+
+/**
+ * Tells if two boxes share an area.
+ * @param one The first box.
+ * @param two The second box.
+ * @returns True when the boxes overlap by more than 0.01 mm in both directions.
+ */
+function questBoxesOverlap(one: QuestMarkBox, two: QuestMarkBox): boolean {
+    return Math.min(one.right, two.right) - Math.max(one.left, two.left) > 0.01 && Math.min(one.bottom, two.bottom) - Math.max(one.top, two.top) > 0.01;
+}
+
+/**
+ * Grows a box on each edge.
+ * @param box The box.
+ * @param by The growth.
+ * @returns The grown box.
+ */
+function questGrow(box: QuestMarkBox, by: number): QuestMarkBox {
+    return { left: box.left - by, top: box.top - by, right: box.right + by, bottom: box.bottom + by };
+}
+
+/**
+ * Tells if a box lies inside another box, with 0.05 mm of slack.
+ * @param inner The inner box.
+ * @param outer The outer box.
+ * @returns True when the inner box lies inside the outer box.
+ */
+function questInside(inner: QuestMarkBox, outer: QuestMarkBox): boolean {
+    return inner.left >= outer.left - 0.05 && inner.top >= outer.top - 0.05 && inner.right <= outer.right + 0.05 && inner.bottom <= outer.bottom + 0.05;
+}
+
+/**
+ * Finds a free place for the mark ink in the footer strip (rule a of Q5). A place is free when the ink
+ * with 1 mm around it is clear of every chrome part and every key box, the mark keeps the leaf rules
+ * (0.5 mm to 10 mm from the side top, 3 mm clear of the perforation, inside the torn leaf), and the
+ * footer strip grown to hold it stays inside the page, clear of every chrome part outside the strip,
+ * and 1 mm clear of every key box that the strip clears by 1 mm.
+ * @param side The measured side.
+ * @returns The free ink box, or null when rule a does not fit.
+ */
+function questMarkFreePlace(side: QuestMarkSide): QuestMarkBox | null {
+    const strip = side.footerStrip;
+    const ink = side.ink;
+    if (!strip || !ink) return null;
+    const width = ink.right - ink.left;
+    const height = ink.bottom - ink.top;
+    const chrome = side.chrome.map((part) => part.box);
+    const outside = chrome.filter((box) => !questBoxesOverlap(box, strip));
+    const keys = side.keys.map((key) => key.box);
+    const clearOfStrip = keys.filter((key) => !questBoxesOverlap(questGrow(strip, QUEST_MARK_CLEARANCE_MM), key));
+    for (let top = side.quest.top + QUEST_MARK_CLEARANCE_MM; top + height <= side.quest.bottom - QUEST_MARK_CLEARANCE_MM; top += QUEST_MARK_STEP_MM) {
+        const markTop = top - (ink.top - side.mark.top);
+        if (markTop < 0.5 || markTop > 10) continue;
+        for (let left = side.quest.left + QUEST_MARK_CLEARANCE_MM; left + width <= side.quest.right - QUEST_MARK_CLEARANCE_MM; left += QUEST_MARK_STEP_MM) {
+            const markLeft = left - (ink.left - side.mark.left);
+            const markRight = left + width + (side.mark.right - ink.right);
+            if (side.front ? markLeft < side.perforationX + 3 : markRight > side.perforationX - 3) continue;
+            const ring = questGrow({ left, top, right: left + width, bottom: top + height }, QUEST_MARK_CLEARANCE_MM);
+            if (chrome.some((box) => questBoxesOverlap(ring, box)) || keys.some((box) => questBoxesOverlap(ring, box))) continue;
+            const grown = {
+                left: Math.min(strip.left, ring.left), top: Math.min(strip.top, ring.top),
+                right: Math.max(strip.right, ring.right), bottom: Math.max(strip.bottom, ring.bottom),
+            };
+            if (!questInside(grown, side.quest) || outside.some((box) => questBoxesOverlap(grown, box))) continue;
+            if (clearOfStrip.some((key) => questBoxesOverlap(questGrow(grown, QUEST_MARK_CLEARANCE_MM), key))) continue;
+            return { left, top, right: left + width, bottom: top + height };
+        }
+    }
+    return null;
+}
+
+/**
+ * Lists every way in which the leaf mark of a side with the quest page 1 breaks the Q5 rule (PM
+ * decision 2026-11-12): (a) the mark ink, with 1 mm of strip around it, lies inside the F4 footer
+ * strip, 1 mm clear of every chrome part and key box; rule a is required when it fits. (b) Only when
+ * rule a does not fit: one `leaf-mark-strip` part, `#FFFFFF` and opaque, holds the ink with 1 mm
+ * around it, lies over the page 1 art, and is 1 mm clear of every chrome part and key box.
+ * @param sides The measured sides with the quest page 1.
+ * @returns The problems, each with a stable tag in brackets.
+ */
+function questMarkProblems(sides: QuestMarkSide[]): string[] {
+    const problems: string[] = [];
+    for (const side of sides) {
+        const tag = `side ${side.index + 1}`;
+        if (!side.ink) { problems.push(`[mark-ink] ${tag}: the leaf mark prints no text`); continue; }
+        if (side.keys.length === 0) problems.push(`[mark-keys] ${tag}: no key box of the page 1 art was measured`);
+        const ring = questGrow(side.ink, QUEST_MARK_CLEARANCE_MM);
+        const chrome = side.chrome.filter((part) => questBoxesOverlap(ring, part.box)).map((part) => part.name);
+        const keys = side.keys.filter((key) => questBoxesOverlap(ring, key.box)).map((key) => key.label);
+        if (side.footerStrip && questInside(side.ink, side.footerStrip)) {
+            if (!questInside(ring, side.footerStrip)) problems.push(`[mark-a-ring] ${tag}: the footer strip has less than 1 mm around the mark ink`);
+            if (chrome.length) problems.push(`[mark-a-chrome] ${tag}: the mark ink is within 1 mm of the chrome part(s) ${chrome.join(', ')}`);
+            if (keys.length) problems.push(`[mark-a-key] ${tag}: the mark ink is within 1 mm of the key box(es) ${keys.join(', ')}`);
+            continue;
+        }
+        const free = questMarkFreePlace(side);
+        if (free) {
+            problems.push(`[mark-a-free] ${tag}: the footer strip has room for the mark ink at (${free.left.toFixed(2)}, ${free.top.toFixed(2)}) mm, so the mark must lie inside the footer strip`);
+            continue;
+        }
+        const own = side.markStrips.filter((strip) => questInside(ring, strip.box));
+        if (own.length !== 1) { problems.push(`[mark-b-strip] ${tag}: ${own.length} leaf-mark-strip parts hold the mark ink with 1 mm around it, want 1`); continue; }
+        const strip = own[0];
+        if (strip.fill.replace(/\s+/g, '') !== 'rgb(255,255,255)' || strip.opacity !== '1') problems.push(`[mark-b-fill] ${tag}: the leaf-mark-strip is ${strip.fill} at opacity ${strip.opacity}, want #FFFFFF and opaque`);
+        if (!questInside(strip.box, side.quest)) problems.push(`[mark-b-art] ${tag}: the leaf-mark-strip does not lie over the page 1 art`);
+        const near = questGrow(strip.box, QUEST_MARK_CLEARANCE_MM);
+        const nearChrome = [...side.chrome, ...(side.footerStrip ? [{ name: 'footer-strip', box: side.footerStrip }] : [])].filter((part) => questBoxesOverlap(near, part.box)).map((part) => part.name);
+        if (nearChrome.length) problems.push(`[mark-b-chrome] ${tag}: the leaf-mark-strip is within 1 mm of the chrome part(s) ${nearChrome.join(', ')}`);
+        const nearKeys = side.keys.filter((key) => questBoxesOverlap(near, key.box)).map((key) => key.label);
+        if (nearKeys.length) problems.push(`[mark-b-key] ${tag}: the leaf-mark-strip is within 1 mm of the key box(es) ${nearKeys.join(', ')}`);
+    }
+    return problems;
+}
+
+/**
+ * The pixel region of the Q5 check, in millimetres: the ink with 1 mm around it (rule a), or the
+ * box of the one own strip (rule b).
+ * @param side The measured side.
+ * @returns The region, or null without ink.
+ */
+function questMarkRegion(side: QuestMarkSide): QuestMarkBox | null {
+    if (!side.ink) return null;
+    const ring = questGrow(side.ink, QUEST_MARK_CLEARANCE_MM);
+    if (side.footerStrip && questInside(side.ink, side.footerStrip)) return ring;
+    return side.markStrips.find((strip) => questInside(ring, strip.box))?.box ?? ring;
+}
+
+/**
+ * Counts, in the browser, the pixels of a side screenshot inside the region and outside the ink box
+ * that are not white (a channel under 250), as in D5. The pixel at the region edge is not counted.
+ * @param input The PNG in base64, the region in pixels, and the ink box in pixels.
+ * @returns The count and the lowest channel.
+ */
+async function questMarkPixelsInBrowser([data, region, ink, white]: [string, QuestMarkBox, QuestMarkBox, number]): Promise<{ dark: number; low: number; checked: number }> {
+    const image = new Image();
+    image.src = `data:image/png;base64,${data}`;
+    await image.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext('2d')!;
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let dark = 0;
+    let low = 255;
+    let checked = 0;
+    for (let y = Math.max(0, Math.ceil(region.top) + 1); y < Math.min(canvas.height, Math.floor(region.bottom) - 1); y++) {
+        for (let x = Math.max(0, Math.ceil(region.left) + 1); x < Math.min(canvas.width, Math.floor(region.right) - 1); x++) {
+            if (x + 1 > ink.left && x < ink.right && y + 1 > ink.top && y < ink.bottom) continue;
+            const at = (y * canvas.width + x) * 4;
+            const value = Math.min(pixels[at], pixels[at + 1], pixels[at + 2]);
+            checked += 1;
+            low = Math.min(low, value);
+            if (value < white) dark += 1;
+        }
+    }
+    return { dark, low, checked };
+}
+
+/**
+ * Runs the Q5 rule and its pixel check on an open document.
+ * @param page The browser page with the final document.
+ * @param selector The selector of the leaf sides.
+ * @returns The measured sides and the problems.
+ */
+async function questMarkCheck(page: import('@playwright/test').Page, selector: string): Promise<{ sides: QuestMarkSide[]; problems: string[] }> {
+    await page.evaluate(() => Promise.all(Array.from(document.images, (image) => image.decode().catch(() => undefined))));
+    const sides = await page.evaluate(measureQuestMarkSidesInBrowser, [selector, questKeyFile()] as [string, QuestKeyFile]);
+    const problems = questMarkProblems(sides);
+    const pxPerMm = 96 / 25.4;
+    const toPx = (box: QuestMarkBox): QuestMarkBox => ({ left: box.left * pxPerMm, top: box.top * pxPerMm, right: box.right * pxPerMm, bottom: box.bottom * pxPerMm });
+    for (const side of sides) {
+        const region = questMarkRegion(side);
+        if (!region || !side.ink) continue;
+        const shot = (await page.locator(selector).nth(side.index).screenshot({ type: 'png' })).toString('base64');
+        const result = await page.evaluate(questMarkPixelsInBrowser, [shot, toPx(region), toPx(questGrow(side.ink, 0.3)), QUEST_MARK_WHITE] as [string, QuestMarkBox, QuestMarkBox, number]);
+        if (result.checked === 0) problems.push(`[mark-pixels] side ${side.index + 1}: no pixel of the mark strip was read`);
+        if (result.dark > 0) problems.push(`[mark-pixels] side ${side.index + 1}: ${result.dark} of ${result.checked} pixels of the mark strip outside the ink are not white (lowest channel ${result.low})`);
+    }
+    return { sides, problems };
+}
+
 function page(doc: Document, kind: string): Element {
     const found = doc.querySelectorAll(`.student-page[data-page-kind="${kind}"]`);
     expect(found.length, `Exactly one ${kind} page must print.`).toBe(1);
@@ -842,7 +1195,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         writePictureFolder(pictures, jobsFor(rows.map((row) => row.id)));
         const { doc } = await renderFinalIn(repo, week);
         for (const picture of Array.from(doc.querySelectorAll('[data-picture-id] img'))) {
-            const row = rows.find((item) => item.id === picture.parentElement?.getAttribute('data-picture-id'));
+            // changed 2026-11-12 (Q6, PM decision): the art img of the quest page 1 is a grandchild of the wrapper, so R44 reads the closest wrapper.
+            const row = rows.find((item) => item.id === picture.closest('[data-picture-id]')?.getAttribute('data-picture-id'));
             expect(row).toBeDefined();
             expect(decodeURIComponent(picture.getAttribute('src') ?? '').split('/').pop()).toBe(row!.lineArtFileName);
         }
@@ -1121,13 +1475,25 @@ describe('Storytime student workbook: the shipped week 1', () => {
             await page.goto(pathToFileURL(file).href);
             await page.evaluate(() => document.fonts.ready);
             expect(await page.evaluate(() => document.fonts.check('16px Andika')), 'the Andika print font loads in the browser').toBe(true);
-            const sides = await page.evaluate(measureLeafSidesInBrowser, '.student-page[data-page-kind="reader"]');
-            expect(sides).toHaveLength(12);
+            const measured = await page.evaluate(measureLeafSidesInBrowser, '.student-page[data-page-kind="reader"]');
+            expect(measured).toHaveLength(12);
+            // changed 2026-11-12 (Q5, PM decision): on the 2 quest page 1 sides the old content rule reads the other page only; the Q5 rule checks the quest page in final mode.
+            const proofQuest = await page.evaluate(measureQuestMarkSidesInBrowser, ['.student-page[data-page-kind="reader"]', questKeyFile()] as [string, QuestKeyFile]);
+            expect(proofQuest.map((side) => side.index), 'the sides with the quest page 1').toEqual([0, 6]);
+            const sides = measured.map((side, index) => ({ ...side, content: proofQuest.find((quest) => quest.index === index)?.otherContent ?? side.content }));
             expect(leafMarkProblems(sides)).toEqual([]);
+            const { html: finalHtml } = await renderFinalIn(path.resolve(STORYTIME_ROOT, '..', '..'));
+            const finalFile = path.join(temporaryFolder(), 'student-final.html');
+            fs.writeFileSync(finalFile, finalHtml);
+            await page.goto(pathToFileURL(finalFile).href);
+            await page.evaluate(() => document.fonts.ready);
+            const quest = await questMarkCheck(page, '.student-page[data-page-kind="reader"]');
+            expect(quest.sides.map((side) => side.index), 'the final sides with the quest page 1').toEqual([0, 6]);
+            expect(quest.problems).toEqual([]);
         } finally {
             await browser.close();
         }
-    }, 60_000);
+    }, 180_000);
 
     it('R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1)', async () => {
         const week = shipped();
