@@ -238,3 +238,118 @@ deviation: the fixture and the student book tests belong to storytime_print_r1; 
 questions: Q5 (default: R32 and R-P6-F3c stay unchanged; the PM decides if the leaf mark may lie over the full-page art of page 1 on side 7, or the Green moves the mark off page 1). Q6 (default: R44 stays on parentElement; the PM decides if R44 may read picture.closest('[data-picture-id]'), because D6 makes the art img a grandchild of the wrapper; tree run 2 shows R44 passes with closest). Q1 to Q4 stay open with their defaults.
 handoff: Green faults, each with its English message: (1) R31 x2, R34, R36, R40: "Error: Command failed: ... make-pdfx.ts ... --keep-fonts --k-only"; cause "FAIL page(s) 15 became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)"; remove what makes Chrome rasterize the quest page 1 in the workbook. (2) R32 and R-P6-F3c: "[mark-overlap] side 1: the mark overlaps page content" (x4) and "[mark-overlap] side 7: the mark overlaps page content" (x3); side 1 overlaps content other than the art; side 7 overlaps only the full-page art (Q5). (3) R44: "AssertionError: expected undefined to be defined"; keep D6 and wait for Q6. (4) A1 x3: "Error: the quest reader cover row of ... is missing"; build the quest row from the week book in hand (title, kind, week, band, role, level, cover picture), not by a title lookup on disk. (5) covers-adversarial reader cover check: "AssertionError: The real reader covers pass the cover check.: expected 1 to be +0"; the build says "the laid-out document holds 0 reader cover pages; it must hold 2"; make the reader build find the 2 page 1 quest covers. R34 also needs LeagueSpartanThin-Bold only on the PDF pages that hold .quest-reader-page. storytime-print-student-book.test.ts, a48-part2, and v15 hold older Thai text: run them, do not open them.
 END_MEASURE_AGENT_RESULT
+
+## Red retry 3 (2026-11-12, mid-red, model claude-code/claude-opus-5-5[1m]#high; role_base_sha 9039779f) - PARTIAL
+
+PM decisions of 2026-11-12: Q5 (the leaf mark goes in the F4 footer strip when it fits, else on its
+own white strip over the page 1 art) and Q6 (R44 reads the closest wrapper).
+PM load watch of 2026-11-12: no test run, no tsc, and no eslint while the Green run is active. So
+this retry holds edits only. The edits are uncommitted, and their gates did not run.
+
+Edits (uncommitted, in the tree):
+- storytime-print-readers.test.ts and storytime-print-student-book.test.ts: one same helper block
+  (measureQuestMarkSidesInBrowser, questMarkFreePlace, questMarkProblems, questMarkRegion,
+  questMarkPixelsInBrowser, questMarkCheck). The fixture file is unchanged.
+- R-P6-F3c (readers) and R32 "each leaf mark of the student book lies inside a page margin ..."
+  (student book): the old rule runs on all 12 proof sides. On the 2 sides with the quest page 1
+  (sides 1 and 7), the content of the old rule is the other reader page only. Then a final-mode
+  render runs the Q5 rule and the pixel check on sides 1 and 7. The time limit is 180 s.
+  R-P6-F3c keeps its 2 old mutants on the changed sides and adds one Q5 mutant (the mark ink over
+  the art, outside every strip, must fail).
+- R44: picture.closest('[data-picture-id]'); the line-art check is unchanged.
+- Each change holds one "changed 2026-11-12 (Q5, PM decision)" or "(Q6, PM decision)" comment line.
+  The added lines hold 0 Thai characters.
+
+The Q5 rule (side with the quest page 1; 1 mm = the clearance; boxes in side mm):
+- Rule a: the mark ink box (the text range box of [data-part="leaf-mark"]), grown by 1 mm, lies
+  inside [data-part="footer-strip"] of the quest page, and it is clear of every chrome part (the
+  painted box of each top-level [data-part] of the quest page except art, footer-strip, leaf-mark,
+  and leaf-mark-strip) and of every key box (pictures-heads.json of the art file, mapped through
+  object-fit cover and the turn of the page).
+- Rule a is required when it fits: a free place exists on a 0.25 mm grid where the ink with 1 mm
+  around it is clear of every chrome part and key box, the mark keeps the leaf rules (0.5 mm to 10 mm
+  from the side top, 3 mm clear of the perforation, inside the torn leaf), and the footer strip grown
+  to hold it stays inside the page, clear of every chrome part outside the strip, and 1 mm clear of
+  every key box that the strip clears by 1 mm. Else the test fails with [mark-a-free].
+- Rule b, only when rule a does not fit: exactly one [data-part="leaf-mark-strip"] holds the ink with
+  1 mm around it, has the computed fill rgb(255, 255, 255) and the opacity 1, lies inside the quest
+  page, and is 1 mm clear of every chrome part, the footer strip, and every key box.
+- Pixels, as in D5: in a side screenshot, every pixel of the region (rule a: the ink plus 1 mm; rule
+  b: the leaf-mark-strip box), outside the ink box grown by 0.3 mm and 1 px inside the region edge,
+  has each channel 250 or more.
+- Every other side keeps the old rule.
+
+Gates still to run (when the heavy lock is free): the tree run of the 2 changed files (limit 2400 s,
+red-f3f6-retry3-tree.txt), tsc (300 s), eslint on the 2 files (300 s). Then the plan sub-line, the
+test commit, and the log commit.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: partial
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 9039779f
+baseline_sha: f2a2a1d9
+head: 9039779f
+commits: none (PM load watch: no commit of test edits without their gates)
+tests_run: none (PM load watch)
+files: dashboard/__tests__/storytime-print-readers.test.ts and dashboard/__tests__/storytime-print-student-book.test.ts (uncommitted), this log section (uncommitted)
+remaining: the tree run red-f3f6-retry3-tree.txt (2400 s), tsc (300 s), eslint (300 s), the plan sub-line, the 2 commits
+handoff: see the Q5 rule above; R44 reads closest('[data-picture-id]').
+END_MEASURE_AGENT_RESULT
+
+## Red retry 3, resumed (2026-11-12, mid-red, model claude-code/claude-opus-5-5[1m]#high; role_base_sha 9039779f)
+
+The Green run ended (990e6ace holds its log and 2 captures; its code stays uncommitted in
+cover-quest.ts, readers.ts, teacher-book-cover.ts, and make-readers-pdf.ts). Its loop
+green-f3f6-loop3.txt: 2 failed | 480 passed (482); the 2 failures are R-P6-F3c and R32 with
+"[mark-a-free]", because D6 pins the page 1 body, which holds no mark.
+
+Orchestrator decision (2026-11-12): questReaderCoverPage takes the option leafMark (the mark text).
+With it, the function draws [data-part="leaf-mark"] inside the footer-strip by Q5 rule a, or on its
+own leaf-mark-strip by rule b. The readers build passes it on the leaf sides with page 1 (the
+workbook output and the student book reader sides) and draws no other leaf mark there. The a3-color
+output and the covers build pass none.
+
+Edits to quest-cover-f3f6.test.ts (each with one "changed 2026-11-12 (Q5, orchestrator decision)"
+comment line):
+- D6 body test: the workbook page 1 body must hold exactly 1 [data-part="leaf-mark"] whose text is
+  "<reader title> · leaf <n> of <m>" (n and m whole numbers). The expected body is
+  questReaderCoverPage(row, trim, { art }, { ...HLOGO_OPTIONS, leafMark: <that text> }). The a3-color
+  body must hold 0 marks, and its expected body takes HLOGO_OPTIONS.
+- D6 Chrome test: on the workbook page 1 the footer-strip box must hold the footer-strip box of the
+  cover build (0.1 mm), because the strip may grow to hold the mark. Every other part keeps 0.1 mm.
+
+Gates:
+- Tree run (limit 2400 s, red-f3f6-retry3-tree.txt) of quest-cover-f3f6, storytime-print-readers,
+  and storytime-print-student-book: Test Files 3 failed (3), Tests 3 failed | 146 passed (149).
+  1. D6 "page 1 of every reader is the quest reader cover of its row, its trim, and its art (final
+     mode, both outputs)": 14 lines of the form 'week 1 workbook "Hello!": the page 1 body holds the
+     leaf marks [] (the pin is 1 mark "Hello! · leaf <n> of <m>").' The Green has no leafMark yet.
+  2. R-P6-F3c: "[mark-a-free] side 1: the footer strip has room for the mark ink at (16.23, 1.73) mm,
+     so the mark must lie inside the footer strip" and the same for side 7 at (111.73, 1.73) mm.
+  3. R32 (student book, "each leaf mark of the student book lies inside a page margin ..."):
+     "[mark-a-free]" for side 1 at (15.23, 0.98) mm and side 7 at (111.73, 0.98) mm.
+  R44 and every other test of the 3 files pass.
+- tsc (limit 300 s, red-f3f6-retry3-tsc.txt): exit 0, no output.
+- eslint on the 3 changed test files (limit 300 s, red-f3f6-retry3-lint.txt): exit 0, no output.
+- pnpm-lock.yaml stayed unchanged. The added test lines and the captures hold 0 Thai characters.
+Plan: one sub-line before "- [ ] Task (Green, F3 to F6)", numstat 1 0, plan Thai count 0.
+Commit: 1b42334b (3 test files, the plan, 3 captures).
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 9039779f
+baseline_sha: f2a2a1d9
+head: 1b42334b before this log commit
+commits: 1b42334b (test(covers): Red retry 3), this log (measure(runs))
+tests_run: tree run of 3 files: Test Files 3 failed (3), Tests 3 failed | 146 passed (149), exit 1; tsc exit 0; eslint exit 0
+red_command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-student-book.test.ts --maxWorkers=1
+files: dashboard/__tests__/quest-cover-f3f6.test.ts, dashboard/__tests__/storytime-print-readers.test.ts, dashboard/__tests__/storytime-print-student-book.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-f3f6-retry3-{tree,tsc,lint}.txt
+remaining_failures: D6 body test (no leafMark in the page 1 body), R-P6-F3c and R32 ([mark-a-free] on sides 1 and 7)
+questions: none
+handoff: see the reply of this retry for the exact rule; in short: questReaderCoverPage(row, trim, assets, { ...opts, leafMark }) draws one [data-part="leaf-mark"] with the text "<title> · leaf <n> of <m>" in the page 1 body; rule a puts its ink plus 1 mm inside the footer-strip (the strip may grow but must hold its cover-build box), 1 mm clear of every chrome part and key box; rule b only when rule a has no free place; the pixels round the ink are white; the a3-color output and the covers build pass no leafMark; the side draws no other leaf mark.
+END_MEASURE_AGENT_RESULT
