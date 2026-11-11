@@ -1,0 +1,47 @@
+# Jr Green log: readers r2 (storytime_cover_options_20261106, Phase 2)
+
+Role: measure-jr-green. Model: deepseek/deepseek-flash#high. Date: 2026-11-11.
+Role base: a1f7eabd. HEAD equalled the role base at the start, and the Red commits a0f5cb2c,
+5c2e55ec, and a1f7eabd are ancestors.
+
+## What happened
+
+1. The Thai check ran first. The 4 files printed 0 Thai characters.
+2. The targeted Red rerun ran on the unchanged tree. It failed 4 of the 6 tests (R1, R2, R5, R6)
+   with EXIT 1. R3 and R4 passed.
+3. The change touched 6 places in 2 files. No test file changed.
+   - QUEST_BOXES gains the key `reader-a3:logo-tile` {126.4, 12, 167.2, 54}.
+   - `readerA3Body` takes the parameter `top: QuestTopStyle`.
+   - The `hlogo` branch holds the art, `logoTile`, the week pill, the title plaque, and the role bar.
+   - The other branch keeps the present array and its order, byte for byte.
+   - `renderQuestCover` passes `top` to `readerA3Body`.
+   - `questReaderCoverPage` reads `top` and passes it to the A3 trim.
+   - The build reader render call passes `top: args.top`.
+   - The JSDoc of the 3 changed functions names the round of 2026-11-11.
+4. The 5 gates ran, each in one heavy-run, through the Thai filter.
+5. One mutant proved that the Red file catches the loss of the hlogo branch. The mutant was
+   restored. The saved SHA-256 and the written-back SHA-256 are equal.
+6. The code commit came first (75c847db). The plan and the 5 captures came second (2be71ea5).
+
+## Notes
+
+- The gate 1 capture file holds the run after the change. It replaced the first capture of the
+  unchanged tree. The Red rerun numbers are in the plan evidence and in this log.
+- `graph.db` is not rebuilt. Its last commit is d9c1c933, and the other library commits of this
+  track did not rebuild it.
+- The build has no exported seam for the reader render options. The build checks of Task 2.9 part 5
+  must prove that the A3 reader pages hold the logo tile.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: a1f7eabd
+commits: 75c847db, 2be71ea5
+tests_run: (a) targeted Red file, green-readers-r2-red-file.txt: Test Files 1 passed (1), Tests 6 passed (6), EXIT 0; (b) GREEN_TEST_COMMAND quest-cover-*.test.ts, green-readers-r2-green.txt: Test Files 9 passed (9), Tests 317 passed (317), EXIT 0; (c) tsc --noEmit, green-readers-r2-tsc.txt: no output, EXIT 0; (d) eslint lib/storytime scripts/storytime quest-cover-*.test.ts, green-readers-r2-lint.txt: 0 errors and 1 known warning in the unchanged template test, EXIT 0; (e) mutant, green-readers-r2-mutant.txt: Tests 3 failed | 3 passed (6), EXIT 1, RESTORE_EQUAL YES
+files_changed: dashboard/lib/storytime/print/cover-quest.ts; dashboard/scripts/storytime/make-storytime-quest-covers.ts; measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/green-readers-r2-red-file.txt, green-readers-r2-green.txt, green-readers-r2-tsc.txt, green-readers-r2-lint.txt, green-readers-r2-mutant.txt; this log
+plan_updates: Task (Green, readers r2) marked [x] with commit 75c847d; 1 evidence sub-line; numstat 2 1
+known_failures: none
+handoff: The build role must run Task 2.9 part 5 with --top hlogo for the readers-a3 and readers-leaf groups. The build reader render call now passes args.top, and the A3 reader body draws the logo tile with no game bar, no band word, and no series banner. The leaf render ignores the top style, and its pins stay. The default A3 render and both questReaderCoverPage default outputs keep their pins (R4 passes). The build has no exported seam for the reader render options, so the build checks of Task 2.9 part 5 are the proof of D6. graph.db is not rebuilt. The gate 1 capture holds the post-change run; the pre-change Red rerun was 4 failed | 2 passed (6) with EXIT 1.
+END_MEASURE_AGENT_RESULT
