@@ -8,31 +8,43 @@ the Red of this pair: claude-code/claude-opus-5-5[1m]#high and minimax-cn-coding
 role_base_sha: b0d2aeb3
 the role base of the block: 0ae043e8
 phase_base_sha: d3a581ec
-status: blocked on one test of Gate A
+status: blocked on 6 tests of Gate B, all on the 2 img elements of the page 12 logo tile
 
 The narrative
 - The Thai filter ran first. The 8 files hold 0 Thai characters, and the 3 retried test files are
-  in the list.
+  in the list. `make-storytime-quest-covers.ts` holds 0 Thai characters.
 - The role base b0d2aeb3 is an ancestor of HEAD.
 - The patch green-f1f2-blocked-impl.patch applies to HEAD. The diff holds cover-quest.ts and
-  readers.ts only, plus the render.mjs of another session, which this role never stages.
-- Gate A exits 1: 14 files, 13 files passed and 1 failed; 353 tests, 352 passed and 1 failed.
-  The failure is C10 of quest-cover-readers-r2c.test.ts:
-  "the band check of the hlogo leaf reader cover w01-1.: expected 'fail' to be 'pass'".
-- Every other check of the F1 F2 contract passes in Gate A: G5 checks 28 page 12 pages with 0
+  readers.ts, plus the render.mjs of another session, which this role never stages.
+- The orchestrator gave this role the function `bandCheck` of
+  `dashboard/scripts/storytime/make-storytime-quest-covers.ts`, and the rule of C10 of
+  quest-cover-readers-r2c is the contract. The fix adds one condition: a `reader-leaf` page with
+  the logo tile or with no `double-line-frame` part passes when it holds no `band-word` part and no
+  band word, and a leaf with the frame still needs the band word. The logo-tile branch stays as a
+  second sign of the hlogo leaf. The JSDoc names the round of 2026-11-11 (F1 and F2, Daniel's look).
+- Gate A exits 0: 14 files passed and 353 tests passed. G5 checks the 28 page 12 pages with 0
   problems, G2 reads FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0, G7 reads
-  HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0, and S1 to S5 fail on 0 pages. A3, A6, R2, R5, R6, B8,
-  and B11 pass with their new 0-tile pins.
-- The cause of C10: `bandCheck` in `dashboard/scripts/storytime/make-storytime-quest-covers.ts`
-  (lines 923 to 934) passes a `reader-leaf` page that holds a `logo-tile` when it holds no
-  `band-word`, and it needs the `band-word` on a leaf with no `logo-tile`. F2 removes both the
-  tile and the band word from the shipped hlogo leaf, so the check returns 'fail'.
-- C10 is satisfiable: a leaf with no `double-line-frame` (the hlogo leaf) passes when it holds no
-  band-word part and no band word, and a leaf with the frame (the default leaf) still needs the
-  band word. The 3 other cases of C10 keep their result.
-- The build script is outside the write scope of this role, so this role cannot close the gap. No
-  test file changed. The patch stays applied and uncommitted for the next role.
-- Gate B, tsc, lint, and the mutant did not run, because Gate A fails.
+  HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0, and S1 to S5 fail on 0 pages. C10 passes.
+- Gate B exits 1: 4 files failed and 62 passed (66); 7 tests failed and 1574 passed (1581).
+  Six failures come from the page 12 change: the reader documents hold 2 more `img` elements, the
+  2 logo tiles, than the older guard tests allow.
+- The 6 failures:
+  `storytime-print-readers.test.ts` R-P4-38: "the raw HTML holds 20 "<img", expected 18 (18
+  pictures + 0 other)" and "2 img element(s) outside the picture elements, expected 0", for the
+  workbook and the a3-color output.
+  `storytime-print-readers.test.ts` R-P4-39: the same 2 messages.
+  `storytime-print-readers.test.ts` R-P4-41: the same message on the workbook.
+  `storytime-print-step-system.test.ts` C-hostile: "expected 2 to be +0" on `script, img`.
+  `storytime-print-student-book-adversarial.test.ts` A1 "keeps hostile week text out of the
+  markup": "The hostile text must not make an image element.: expected 2 to be +0".
+  `storytime-print-student-book-adversarial.test.ts` A1 "keeps hostile Thai text as text and
+  creates no element": "expected 2 to be +0".
+- The 7th failure is `storytime-package-family.test.ts` R2-5 with "Test timed out in 5000ms". This
+  test reads the family picture script and never touches a reader page.
+- The 2 page 12 images are part of the G5 and S1 contract, so no render removes them. The 6 guard
+  tests must count the 2 logo tiles as known images, and that is a test change of the track that
+  owns those guards. This role changes no test.
+- tsc, eslint, and the mutant did not run. The 3 code files stay modified and uncommitted.
 
 MEASURE_AGENT_RESULT
 status: blocked
@@ -45,19 +57,23 @@ the role base of the block: 0ae043e8
 phase_base_sha: d3a581ec
 red_commit: 888d00a7
 red_retry_commit: 6cf8df5a
-gate_a: exit 1; 14 files, 13 passed and 1 failed; 353 tests, 352 passed and 1 failed
+commits: the evidence commit of the 2 captures and this log commit; no code commit, no plan edit
+bandcheck: the `logo-tile` branch stays, and the added `!html.includes('data-part="double-line-frame"')` sign makes the hlogo leaf pass with no band word
+gate_a: exit 0; 14 files passed; 353 tests passed; G5 page 12 28 pages 0 problems;
+  FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0; HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0
 gate_a_capture: measure/runs/storytime_cover_options_20261106/green-f1f2-green.txt
-failing_test: dashboard/__tests__/quest-cover-readers-r2c.test.ts, C10 "the build band check passes
-  the hlogo leaf and the default leaf"
-failure_message: "the band check of the hlogo leaf reader cover w01-1.: expected 'fail' to be
-  'pass'"
-failing_file_of_the_fix: dashboard/scripts/storytime/make-storytime-quest-covers.ts, the function
-  `bandCheck` (lines 923 to 934), outside the write scope of this role
-numbers_that_pass: G5 page 12 checked 28 problems 0; FRAMED_PAGES_CHECKED=252
-  FRAMED_PAGES_FAILED=0; HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0 BY_PART none
-not_run: Gate B, tsc, eslint, the mutant, the 3 commits, and the plan `[x]` line
-tree: the patch is applied and uncommitted in cover-quest.ts and readers.ts
-handoff: extend the write scope to the `bandCheck` function, or give the fix its own role; the rule
-  is: a leaf with no `double-line-frame` passes when it holds no `band-word` part and no band word,
-  and a leaf with the frame needs the band word
+gate_b: exit 1; 4 files failed and 62 passed (66); 7 tests failed and 1574 passed (1581)
+gate_b_capture: measure/runs/storytime_cover_options_20261106/green-f1f2-project.txt
+failing_tests:
+  dashboard/__tests__/storytime-print-readers.test.ts R-P4-38, R-P4-39, and R-P4-41
+  dashboard/__tests__/storytime-print-step-system.test.ts C-hostile
+  dashboard/__tests__/storytime-print-student-book-adversarial.test.ts A1 (2 tests)
+failure_messages: "the raw HTML holds 20 \"<img\", expected 18 (18 pictures + 0 other)"; "2 img
+  element(s) outside the picture elements, expected 0"; "expected 2 to be +0"; "The hostile text
+  must not make an image element.: expected 2 to be +0"
+unrelated_failure: storytime-package-family.test.ts R2-5, "Test timed out in 5000ms", no reader page
+not_run: tsc, eslint, the mutant, the code commit, and the plan `[x]` line
+tree: the 3 code files are modified and uncommitted; `pnpm-lock.yaml` did not change
+handoff: the track that owns the 6 guards counts the 2 page 12 logo tiles as known images; then
+  Green runs tsc, eslint, the mutant, and both gates again and commits
 END_MEASURE_AGENT_RESULT
