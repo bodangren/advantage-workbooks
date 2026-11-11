@@ -1,0 +1,339 @@
+BUILD CAPTURE of Red retry 2 F1 F2
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-step-system.test.ts __tests__/storytime-print-student-book-adversarial.test.ts __tests__/storytime-print-readers.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 195803[2mms[22m[39m
+     [32m✓[39m exports the reader compiler without a collection-time import[32m 193[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 369[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 6257[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 907[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 1022[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 340[2mms[22m[39m
+     [32m✓[39m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)[32m 173[2mms[22m[39m
+     [32m✓[39m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)[32m 1[2mms[22m[39m
+     [32m✓[39m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)[32m 164[2mms[22m[39m
+     [32m✓[39m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)[32m 185[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4108[2mms[22m[39m
+     [32m✓[39m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy[32m 128[2mms[22m[39m
+     [32m✓[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders[32m 273[2mms[22m[39m
+     [32m✓[39m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)[32m 102[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 827[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 1051[2mms[22m[39m
+     [32m✓[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder[32m 296[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 1274[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1456[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 4690[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 11707[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3355[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1152[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1705[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1160[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1076[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 5221[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 914[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 17642[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 2016[2mms[22m[39m
+     [32m✓[39m R-P4-20 fails a row whose manifest path resolves outside the batch root[32m 10[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 3413[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 1625[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 8243[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 5687[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 16345[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 15463[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 22128[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 643[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 563[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 937[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 14586[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 795[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 2110[2mms[22m[39m
+     [32m✓[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion[32m 275[2mms[22m[39m
+     [32m✓[39m R-P4-27 rejects an empty request for the batch check[32m 186[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 23034[2mms[22m[39m
+     [32m✓[39m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 124[2mms[22m[39m
+     [32m✓[39m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)[32m 118[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1958[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1716[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 1262[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 1121[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked [33m 326[2mms[22m[39m
+     [32m✓[39m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)[32m 6[2mms[22m[39m
+[31m     [31m×[31m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output[39m[33m 1346[2mms[22m[39m
+[31m     [31m×[31m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file[39m[33m 1286[2mms[22m[39m
+[31m     [31m×[31m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path[39m[33m 650[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-step-system.test.ts [2m([22m[2m57 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 36516[2mms[22m[39m
+     [32m✓[39m S-n: the strokes follow the Andika outline, cover the letter, and start at the dots (2 strokes)[32m 149[2mms[22m[39m
+     [32m✓[39m S-a: the strokes follow the Andika outline, cover the letter, and start at the dots (2 strokes)[32m 136[2mms[22m[39m
+     [32m✓[39m S-p: the strokes follow the Andika outline, cover the letter, and start at the dots (2 strokes)[32m 143[2mms[22m[39m
+     [32m✓[39m S-m: the strokes follow the Andika outline, cover the letter, and start at the dots (3 strokes)[32m 146[2mms[22m[39m
+     [32m✓[39m S-s: the strokes follow the Andika outline, cover the letter, and start at the dots (1 strokes)[32m 92[2mms[22m[39m
+     [32m✓[39m S-t: the strokes follow the Andika outline, cover the letter, and start at the dots (2 strokes)[32m 53[2mms[22m[39m
+     [32m✓[39m S-o: the strokes follow the Andika outline, cover the letter, and start at the dots (1 strokes)[32m 71[2mms[22m[39m
+     [32m✓[39m S-all: a stroke path is not shared by two letters, and an unknown letter fails loudly[32m 3[2mms[22m[39m
+     [32m✓[39m S-weeks: the table holds the letter of each of the 7 teaching weeks, in order[32m 136[2mms[22m[39m
+     [32m✓[39m S-a-up: stroke 1 of the a goes up the stem to the top, and stroke 2 starts there beside it (week 2 words)[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m S-mutants: the n strokes for o, a dot off the stroke, and a missing stroke each fail the check [33m 466[2mms[22m[39m
+     [32m✓[39m W-start: each first-letter start point lies on the ink of its Andika letter[32m 19[2mms[22m[39m
+     [32m✓[39m W-advance: the advance table equals the Andika advance of every printable ASCII character[32m 9[2mms[22m[39m
+     [32m✓[39m W-layout: every trace text of the 7 weeks lays out, with one dot for each word that starts with a letter[32m 60[2mms[22m[39m
+     [32m✓[39m M-map: one constant maps each step code to its page kind, block, icons, and label[32m 14[2mms[22m[39m
+     [33m[2m✓[22m[39m M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide [33m 3731[2mms[22m[39m
+     [33m[2m✓[22m[39m M-badge: the step badge is a grey box of 8 pt, and the new look uses only black, white, and grey (PRINT_GATE) [33m 361[2mms[22m[39m
+     [32m✓[39m M-key: page 1 carries the icon key: 6 icons with their Thai words, and the day letters A to E[32m 26[2mms[22m[39m
+     [33m[2m✓[22m[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word [33m 372[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 61[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 45[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 7[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 38[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 43[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 41[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 5[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 35[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 40[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 36[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 5[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 35[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 39[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 44[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 5[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 35[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 40[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 35[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 6[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 39[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 39[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 46[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 6[2mms[22m[39m
+     [32m✓[39m P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word[32m 38[2mms[22m[39m
+     [32m✓[39m P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace[32m 39[2mms[22m[39m
+     [32m✓[39m P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip[32m 34[2mms[22m[39m
+     [32m✓[39m P-chrome: the week header and the page number sit on the sound, write, and check pages[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m C-pages: the page number is at the bottom right; the reader leaves carry no page number and no week header [33m 630[2mms[22m[39m
+[31m     [31m×[31m C-hostile: a hostile trace text and a hostile dictation word add no element and print only as text[39m[33m 539[2mms[22m[39m
+     [32m✓[39m T-rule: a word of taught letters gets sound boxes, a word with an untaught letter is a trace row[32m 2[2mms[22m[39m
+     [32m✓[39m T-weeks: the order table equals the letter of each week, and the C3 script of each week matches the rule[32m 29[2mms[22m[39m
+     [32m✓[39m D-w01: the practice line "and" moves to the tricky-word row, and line 2 shows the nest and the net[32m 28[2mms[22m[39m
+     [32m✓[39m D-checks: the text check accepts the A7 word "and" in the tricky-word row, and still fails a word that neither holds[32m 83[2mms[22m[39m
+     [32m✓[39m D-extra: an extra picture word that is not a word of its line fails the text check[32m 40[2mms[22m[39m
+     [33m[2m✓[22m[39m X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm [33m 16917[2mms[22m[39m
+     [33m[2m✓[22m[39m X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm) [33m 3785[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4) [33m 3662[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit-write: each of the 7 write pages prints on one page (A-48 F4) [33m 3958[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5534[2mms[22m[39m
+[31m     [31m×[31m A1: keeps hostile week text out of the markup[39m[33m 885[2mms[22m[39m
+     [32m✓[39m A1: prints hostile week text as literal text[32m 300[2mms[22m[39m
+     [32m✓[39m A1: keeps a hostile start point inside its attribute[32m 289[2mms[22m[39m
+     [32m✓[39m A1: keeps hostile Thai text as text and creates no element[32m 254[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: catches a broken copy that injects the raw payload [33m 443[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path "https://evil.example/th/st/2/1"[32m 1[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path "//evil.example/th/st/2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path "/th/stx/2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path "/TH/ST/2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path " /th/st/2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path "/en/st/2/1"[32m 0[2mms[22m[39m
+     [32m✓[39m A1: rejects the QR path ""[32m 0[2mms[22m[39m
+     [32m✓[39m A1: prints the canonical S23 address for both codes of the home front[32m 238[2mms[22m[39m
+     [32m✓[39m A1: stops the build when the QR query is hostile[32m 28[2mms[22m[39m
+     [32m✓[39m A1: stops the build when the QR path is "https://evil.example/th/st/2/1"[32m 10[2mms[22m[39m
+     [32m✓[39m A1: stops the build when the QR path is "//evil.example/th/st/2/1"[32m 11[2mms[22m[39m
+     [32m✓[39m A2: never prints the answer of a check row[32m 235[2mms[22m[39m
+     [32m✓[39m A2: carries no answer element anywhere in the book[32m 261[2mms[22m[39m
+     [32m✓[39m A2: marks only the tear-out sides with a perforation[32m 241[2mms[22m[39m
+     [32m✓[39m A2: names the reader and the leaf number on every leaf mark, on all 12 reader sides (spec FR-5.1)[32m 240[2mms[22m[39m
+     [32m✓[39m A2: gives each reader the leaves 1, 2, and 3 over six sides, and no strip (spec FR-5.1)[32m 262[2mms[22m[39m
+     [32m✓[39m A2: fills each reader side with the R32 reader pages in two landscape halves and keeps both marks (spec FR-5.1)[32m 261[2mms[22m[39m
+     [32m✓[39m A2: prints the two QR codes on the home front and none on the back[32m 218[2mms[22m[39m
+     [32m✓[39m A2: keeps the blank aligner side empty[32m 232[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: names only the line-art picture file in any attribute [33m 310[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1;2"[32m 19[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1 2"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value ""[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1,"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value ",1"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1,,1"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "99999999999999999999"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "-1"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1_0"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "1e999"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --weeks value "0.5"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "0"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "-1"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "1.5"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "Infinity"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "NaN"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "9007199254740993"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects the --version value "1e999"[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects --level without a value[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects --weeks without a value[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects --out without a value[32m 1[2mms[22m[39m
+     [32m✓[39m A3: rejects an unknown argument[32m 1[2mms[22m[39m
+     [32m✓[39m A3: rejects both build modes at once[32m 0[2mms[22m[39m
+     [32m✓[39m A3: rejects an --out path that is not a PDF file inside the print folder[32m 2[2mms[22m[39m
+     [32m✓[39m A3: accepts an --out path inside the print folder[32m 1[2mms[22m[39m
+     [32m✓[39m A3: rejects an output below a chain of two links that ends outside[32m 2[2mms[22m[39m
+     [32m✓[39m A3: rejects an output below a relative link that points outside[32m 2[2mms[22m[39m
+     [32m✓[39m A3: rejects an output that is a link to an outside file[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: runs the output check before the write and the browser [33m 757[2mms[22m[39m
+     [32m✓[39m A3: writes the file that the output check covers[32m 9[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m165 passed[39m[22m[90m (170)[39m
+[2m   Start at [22m 20:23:46
+[2m   Duration [22m 248.43s[2m (transform 1.75s, setup 700ms, import 2.17s, tests 237.85s, environment 5.91s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)[2m > [22mR-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output
+[31m[1mAssertionError[22m: workbook:
+the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader): expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1946:73[22m[39m
+    [90m1944| [39m            const { failure, problems } = await sourceProblems(HOSTILE…
+    [90m1945| [39m            expect.soft(failure, `${output}: the build accepts the hos…
+    [90m1946| [39m            expect.soft(problems, `${output}:\n${problems.join('\n')}`…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m1947| [39m        }
+    [90m1948| [39m    }, 180_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)[2m > [22mR-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output
+[31m[1mAssertionError[22m: a3-color:
+the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader): expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1946:73[22m[39m
+    [90m1944| [39m            const { failure, problems } = await sourceProblems(HOSTILE…
+    [90m1945| [39m            expect.soft(failure, `${output}: the build accepts the hos…
+    [90m1946| [39m            expect.soft(problems, `${output}:\n${problems.join('\n')}`…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m1947| [39m        }
+    [90m1948| [39m    }, 180_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)[2m > [22mR-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file
+[31m[1mAssertionError[22m: workbook:
+the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader): expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1955:73[22m[39m
+    [90m1953| [39m            const { failure, problems } = await sourceProblems(AWKWARD…
+    [90m1954| [39m            expect.soft(failure, `${output}: the build accepts the fol…
+    [90m1955| [39m            expect.soft(problems, `${output}:\n${problems.join('\n')}`…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m1956| [39m        }
+    [90m1957| [39m    }, 180_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)[2m > [22mR-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file
+[31m[1mAssertionError[22m: a3-color:
+the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader): expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1955:73[22m[39m
+    [90m1953| [39m            const { failure, problems } = await sourceProblems(AWKWARD…
+    [90m1954| [39m            expect.soft(failure, `${output}: the build accepts the fol…
+    [90m1955| [39m            expect.soft(problems, `${output}:\n${problems.join('\n')}`…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m1956| [39m        }
+    [90m1957| [39m    }, 180_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)[2m > [22mR-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path
+[31m[1mAssertionError[22m: workbook with prefix "w01/rows/":
+the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader): expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the build holds 0 logo tile image(s), expected 2 (one tile on page 12 of each reader)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m1965:101[22m[39m
+    [90m1963| [39m                const { failure, problems } = await sourceProblems(pre…
+    [90m1964| [39m                expect(failure, `${output} with prefix "${prefixes[0]}…
+    [90m1965| [39m                expect(problems, `${output} with prefix "${prefixes[0]…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m1966| [39m            }
+    [90m1967| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-step-system.test.ts[2m > [22mA-48: the page chrome and the shared look[2m > [22mC-hostile: a hostile trace text and a hostile dictation word add no element and print only as text
+[31m[1mAssertionError[22m: Each reader of the week holds one logo tile image.: expected +0 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-print-step-system.test.ts:[2m585:14[22m[39m
+    [90m583| [39m        expect(imagesOutsideLogoTile(dirty).length, 'The hostile text …
+    [90m584| [39m        expect(clean.querySelectorAll('[data-part="logo-tile"] img').l…
+    [90m585| [39m            [33m.[39m[34mtoBe[39m([34mweeks[39m()[[34m0[39m][33m.[39mbooks[33m.[39mlength)[33m;[39m
+    [90m   | [39m             [31m^[39m
+    [90m586| [39m        expect(dirty.querySelectorAll('[data-part="logo-tile"] img').l…
+    [90m587| [39m            .toBe(clean.querySelectorAll('[data-part="logo-tile"] img'…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-student-book-adversarial.test.ts[2m > [22mAdversarial guards: the Phase 2 student workbook of week 1[2m > [22mA1: keeps hostile week text out of the markup
+[31m[1mAssertionError[22m: Each reader of the week holds one logo tile image.: expected +0 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-print-student-book-adversarial.test.ts:[2m167:14[22m[39m
+    [90m165| [39m            .toBe(clean.doc.querySelectorAll('[data-part="logo-tile"] …
+    [90m166| [39m        expect(clean.doc.querySelectorAll('[data-part="logo-tile"] img…
+    [90m167| [39m            [33m.[39m[34mtoBe[39m([34mshipped[39m()[33m.[39mbooks[33m.[39mlength)[33m;[39m
+    [90m   | [39m             [31m^[39m
+    [90m168| [39m        for (const element of Array.from(dirty.doc.querySelectorAll('*…
+    [90m169| [39m            [35mfor[39m ([35mconst[39m attribute [35mof[39m [33mArray[39m[33m.[39m[35mfrom[39m(element[33m.[39mattributes)) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯[22m[39m

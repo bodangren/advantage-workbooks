@@ -103,6 +103,16 @@ function onlyPart(root: ParentNode, name: string): Element {
     return found[0];
 }
 
+// changed 2026-11-11 (F2, Daniel's look): page 12 of each reader holds one logo tile image; the hostile text still makes no other image.
+/**
+ * The image elements of a document that stand outside a logo tile.
+ * @param doc The parsed document.
+ * @returns The image elements.
+ */
+function imagesOutsideLogoTile(doc: Document): Element[] {
+    return Array.from(doc.querySelectorAll('img')).filter((image) => image.closest('[data-part="logo-tile"]') === null);
+}
+
 function blocks(page: Element): Element[] {
     return Array.from(page.querySelectorAll('[data-part="step-block"]'));
 }
@@ -569,7 +579,12 @@ describe('A-48: the page chrome and the shared look', () => {
         const dirty = new DOMParser().parseFromString(compileStorytimeStudentBook(changed, { profile: STORYTIME_PRINT_PROFILE, mode: 'proof' }).html, 'text/html');
         const clean = new DOMParser().parseFromString(compileStorytimeStudentBook(weeks().slice(0, 1), { profile: STORYTIME_PRINT_PROFILE, mode: 'proof' }).html, 'text/html');
         expect(dirty.querySelectorAll('*').length).toBe(clean.querySelectorAll('*').length);
-        expect(dirty.querySelectorAll('script, img').length).toBe(0);
+        expect(dirty.querySelectorAll('script').length, 'The hostile text must not make a script element.').toBe(0);
+        expect(imagesOutsideLogoTile(dirty).length, 'The hostile text must not make an image element.').toBe(0);
+        expect(clean.querySelectorAll('[data-part="logo-tile"] img').length, 'Each reader of the week holds one logo tile image.')
+            .toBe(weeks()[0].books.length);
+        expect(dirty.querySelectorAll('[data-part="logo-tile"] img').length, 'The hostile text makes no other image.')
+            .toBe(clean.querySelectorAll('[data-part="logo-tile"] img').length);
         expect(text(onlyPart(dirty, 'writing-trace'))).toBe(hostile);
     });
 });

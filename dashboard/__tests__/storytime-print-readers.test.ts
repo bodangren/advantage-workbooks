@@ -1887,6 +1887,17 @@ describe('Storytime readers: final-mode picture folder (Red 4g, orchestrator dec
 });
 
 describe('Storytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B)', () => {
+    // changed 2026-11-11 (F2, Daniel's look): page 12 of each reader holds one logo tile image; the hostile text still makes no other image.
+    /**
+     * The logo tile images of a built readers HTML.
+     * @param html The built HTML.
+     * @returns The logo tile image elements.
+     */
+    function logoTileImages(html: string): Element[] {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return Array.from(doc.querySelectorAll('[data-part="logo-tile"] img'));
+    }
+
     /**
      * Builds the final readers HTML of the shipped week 1 in a temporary repository whose picture
      * folder holds the given prefixes, and lists the problems of the printed pictures.
@@ -1909,7 +1920,20 @@ describe('Storytime readers: the img source of a final picture is an encoded fil
             }
         });
         if (built.failure) return { failure: built.failure, problems: [] };
-        return { failure: '', problems: pictureSourceProblems(built.html, pictures, jobs, output === 'workbook' ? 'line' : 'color', 0) };
+        const logos = logoTileImages(built.html);
+        const problems = pictureSourceProblems(built.html, pictures, jobs, output === 'workbook' ? 'line' : 'color', logos.length);
+        const wanted = shipped().books.length;
+        if (logos.length !== wanted) {
+            problems.push(`the build holds ${logos.length} logo tile image(s), expected ${wanted} (one tile on page 12 of each reader)`);
+        }
+        const wantedSrc = output === 'workbook'
+            ? '/content/storytime/covers/logos/storytime-advantage-horizontal-k.svg'
+            : '/content/storytime/covers/logos/storytime-advantage-horizontal.svg';
+        for (const image of logos) {
+            const src = image.getAttribute('src') ?? '';
+            if (!src.endsWith(wantedSrc)) problems.push(`the logo tile image source ${src} does not end with ${wantedSrc}`);
+        }
+        return { failure: '', problems };
     }
 
     it('R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output', async () => {

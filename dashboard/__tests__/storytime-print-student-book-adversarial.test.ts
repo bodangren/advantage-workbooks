@@ -113,6 +113,16 @@ function part(root: ParentNode, name: string): Element {
     return found[0];
 }
 
+// changed 2026-11-11 (F2, Daniel's look): page 12 of each reader holds one logo tile image; the hostile text still makes no other image.
+/**
+ * The image elements of a document that stand outside a logo tile.
+ * @param doc The parsed document.
+ * @returns The image elements.
+ */
+function imagesOutsideLogoTile(doc: Document): Element[] {
+    return Array.from(doc.querySelectorAll('img')).filter((image) => image.closest('[data-part="logo-tile"]') === null);
+}
+
 function text(element: Element): string {
     return (element.textContent ?? '').replace(/\s+/g, ' ').trim();
 }
@@ -143,13 +153,18 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
 
     // ---- Area 1: the HTML escape and the QR input ----
 
+    // changed 2026-11-11 (F2, Daniel's look): page 12 of each reader holds one logo tile image; the hostile text still makes no other image.
     it('A1: keeps hostile week text out of the markup', async () => {
         const clean = await render();
         const dirty = await render(changedWeek(poisonEnglish));
         expect(dirty.doc.querySelectorAll('*').length, 'The hostile text must not add an element.')
             .toBe(clean.doc.querySelectorAll('*').length);
         expect(dirty.doc.querySelectorAll('script').length, 'The hostile text must not make a script element.').toBe(0);
-        expect(dirty.doc.querySelectorAll('img').length, 'The hostile text must not make an image element.').toBe(0);
+        expect(imagesOutsideLogoTile(dirty.doc).length, 'The hostile text must not make an image element.').toBe(0);
+        expect(dirty.doc.querySelectorAll('[data-part="logo-tile"] img').length, 'The hostile text makes no other image.')
+            .toBe(clean.doc.querySelectorAll('[data-part="logo-tile"] img').length);
+        expect(clean.doc.querySelectorAll('[data-part="logo-tile"] img').length, 'Each reader of the week holds one logo tile image.')
+            .toBe(shipped().books.length);
         for (const element of Array.from(dirty.doc.querySelectorAll('*'))) {
             for (const attribute of Array.from(element.attributes)) {
                 expect(attribute.name.toLowerCase().startsWith('on'),
@@ -182,6 +197,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         expect(dirty.doc.querySelectorAll('.letter-box [data-part="start-dot"]').length).toBe(1);
     }, 30000);
 
+    // changed 2026-11-11 (F2, Daniel's look): page 12 of each reader holds one logo tile image; the hostile text still makes no other image.
     it('A1: keeps hostile Thai text as text and creates no element', async () => {
         const dirty = await render(changedWeek((copy) => {
             copy.home!.line.th = HOSTILE;
@@ -193,7 +209,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         expect(front.querySelectorAll('[data-part="home-line"] .th-run, [data-part="home-activity"] .th-run').length, 'Each Thai run keeps one span.')
             .toBe(2 * HOSTILE.split(/\s+/).filter(Boolean).length);
         expect(dirty.doc.querySelectorAll('script').length).toBe(0);
-        expect(dirty.doc.querySelectorAll('img').length).toBe(0);
+        expect(imagesOutsideLogoTile(dirty.doc).length, 'The hostile text must not make an image element.').toBe(0);
     }, 30000);
 
     it('A1: catches a broken copy that injects the raw payload', async () => {
@@ -202,7 +218,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         const broken = clean.html.replace('>n n n<', `>${HOSTILE}<`);
         expect(broken, 'The control must change the page.').not.toBe(clean.html);
         const doc = new DOMParser().parseFromString(broken, 'text/html');
-        expect(doc.querySelectorAll('img').length, 'The raw payload must create an element.').toBeGreaterThan(0);
+        expect(imagesOutsideLogoTile(doc).length, 'The raw payload must create an element.').toBeGreaterThan(0);
         expect(doc.querySelectorAll('script').length, 'The raw payload must create an element.').toBeGreaterThan(0);
     }, 30000);
 
