@@ -1,0 +1,102 @@
+Mid Red log of F3 to F6 (storytime_cover_options), role base f2a2a1d9.
+Start: 2026-11-11 23:24 ICT. End: 2026-11-12 00:10 ICT. Status: done (Red complete).
+Model: claude-code/claude-opus-5-5[1m]#high. The Green of this round is deepseek/deepseek-flash#high.
+
+Step 1 (read): done. The plan rules, the Red and Green lines of F1 F2, quest-cover-heads.test.ts
+(H0, G7), quest-cover-f1f2.test.ts, the standing rules S4, cover-quest.ts (readerA3Body, leafBody,
+leafFooter, frontBody, artLayer, questReaderCoverPage), and readers.ts (coverPage, backPage,
+readerPages, compileStorytimeReaders) were read. Week 8 holds 0 readers, so the readers of weeks 1
+to 7 are all the shipped readers of Level 2. The proof: `git merge-base --is-ancestor f2a2a1d9 HEAD`
+exited 0.
+
+D1 (key boxes): content/storytime/l2/print/pictures-heads.json.
+- The format of each entry stays (widthPx, heightPx, boxes). Each box now holds label, box, and
+  kind. The file is a map of art file names, and H0 refuses an extra key, so the file holds no
+  top-level note line.
+- Counts: 31 entries, 113 boxes: 100 head (the present boxes, unchanged), 5 dog-body, 8 title-object.
+- New boxes (art pixels x0, y0, x1, y1):
+  l2-w01-cover-nan-can-nod-v1.png        dog-body      [2050, 1530, 3430, 2990]
+  l2-w01-cover-nan-can-nod-line-v1.png   dog-body      [2030, 1530, 3370, 2970]
+  l2-w07-cover-the-top-v1.png            dog-body      [2240, 1605, 2930, 2590]
+  l2-w07-cover-the-top-v1.png            title-object  [1070, 1000, 1320, 1400] (the top)
+  l2-w07-cover-the-top-line-v1.png       dog-body      [2235, 1620, 2925, 2590]
+  l2-w07-cover-the-top-line-v1.png       title-object  [1070, 995, 1315, 1395] (the top)
+  l2-u1-cover-quest-student-front-v1-300ppi.png dog-body [995, 2390, 1550, 3250]
+  l2-w03-cover-the-pan-v1.png            title-object  [1160, 1695, 1680, 1970] (red pan)
+  l2-w03-cover-the-pan-v1.png            title-object  [2300, 1730, 2760, 1975] (blue pan)
+  l2-w03-cover-the-pan-line-v1.png       title-object  [1000, 1810, 1800, 2125] (left pan)
+  l2-w03-cover-the-pan-line-v1.png       title-object  [2280, 1815, 2920, 2105] (right pan)
+  l2-w07-cover-is-it-a-ball-v1.png       title-object  [1410, 1965, 2765, 2585] (ball and cloth)
+  l2-w07-cover-is-it-a-ball-line-v1.png  title-object  [1400, 1955, 2765, 2585] (ball and cloth)
+- Look: all 31 pictures on overview sheets with a 200 px grid, and each new box on a crop sheet at
+  100 % plus one proof sheet of the 13 final boxes (scratch /tmp/opencode/rf36/, not committed, now
+  removed). Pip shows on 5 pictures only. The teacher front, the back, and the other 24 reader
+  pictures hold no Pip.
+
+Step 2 (tests), commit 6567c205:
+- New file dashboard/__tests__/quest-cover-f3f6.test.ts (14 tests): D1 guard; D2 overlaps; D2 trim
+  and aspect; D3 free default boxes; D3 centring; D3 full size, fonts, footer, pill; D4 exceptions;
+  D5 strip pixels; D6 page 1 equality; D6 page 1 in Chrome; D6 proof page 1; D6 band words; D7
+  page 12; D8 bytes.
+- The pins DEFAULT_BOXES (30 covers, 72 boxes), KEEP_SHA (32 banner renders and 2 hlogo fronts),
+  EXCEPTIONS, and F3_MOVED_COVERS came from 2 measurement runs of the new file at HEAD (captures
+  red-f3f6-pins.txt and red-f3f6-pins2.txt), filled by 2 scratch scripts with assertions.
+- Moved older pins, each with a "changed 2026-11-11 (F.., PM look)" comment: quest-cover-f1f2 G3
+  and G5; quest-cover-heads H0 and G7; quest-cover-template T16; storytime-print-readers R-P4-3;
+  storytime-print-covers (the reader cover test); storytime-print-covers-adversarial M9;
+  storytime-print-a48-part2 B17-role; storytime-print-v15 E2. S4 of the standing rules needs no
+  change.
+
+Step 3 (gates):
+- Red gate (limit 1800 s, red-f3f6.txt): `CI=true npx vitest run <the 9 files> --maxWorkers=1`
+  exits 1 with Test Files 7 failed | 2 passed (9), Tests 20 failed | 330 passed (350).
+  The 20 failing tests and their first messages:
+  quest-cover-f3f6 D2 overlaps: KEY_OVERLAPS=8 (w01-2 A3 plaque and role bar, w01-2 leaf plaque and
+    footer, w07-1 A3 and leaf plaque, w07-2 A3 and leaf plaque; all on dog-body or title-object).
+  quest-cover-f3f6 D2 trim: the Pip body of w01-2 reader-a3 leaves the trim by 7.95 mm.
+  quest-cover-f3f6 D3 centring: w01-1 reader-leaf holds no footer-strip box.
+  quest-cover-f3f6 D3 full size: w07-1 reader-a3 plaque top 236.00 mm; the lowest free place 58.00 mm.
+  quest-cover-f3f6 D5: the leaf holds 0 footer-strip parts.
+  quest-cover-f3f6 D6 equality: page 1 holds 0 quest reader pages.
+  quest-cover-f3f6 D6 Chrome: no loaded League Spartan face; no quest page box.
+  quest-cover-f3f6 D6 proof: page 1 holds no quest page with the title plaque.
+  quest-cover-f3f6 D6 band words: BAND_PAGES_CHECKED=840 BAND_WORD_PAGES=70 ("Sprout" on page 1).
+  quest-cover-f3f6 D7: page 12 holds the text "Storytime Advantage".
+  quest-cover-f1f2 G3: the leaf part set holds no footer-strip.
+  quest-cover-f1f2 G5: page 12 holds 1 series line.
+  quest-cover-heads G7: HEAD_OVERLAPS=8 (the new key boxes).
+  quest-cover-template T16: no quest reader page on page 1.
+  storytime-print-covers-adversarial M9 (4 tests): the old rule needs "Sprout" and the series name.
+  storytime-print-covers (1 test): the copied cover with "SPROUT" passes the old rule.
+  storytime-print-readers R-P4-3: the reader pages show "Sprout".
+  Passing guards of the new file: D1, D3 free boxes (24 free covers), D4 (the list equals the pin),
+  D8 (34 hashes). Every untouched test of the 9 files passes.
+- tsc gate (limit 300 s, red-f3f6-tsc.txt): `npx tsc --noEmit` exits 0 with no output.
+- eslint gate (limit 300 s, red-f3f6-lint.txt): exits 0 with 0 errors and 1 warning
+  (quest-cover-template.test.ts line 1709, 'quest' unused, from commit 6605bd17 of 2026-11-07).
+- pnpm-lock.yaml stayed unchanged after each gate.
+
+Step 4 (plan), commit 659d333d: 11 lines before "- [~] Task 2.9 (Print build)": the [x] Red task
+with commit 6567c20, the PM words, D1 to D8, D1 counts, the D4 list with its proof, Q1 to Q4, the
+moved pins, the Green paths, the handoff notes, the Red evidence, and the [ ] Green task. The plan
+Thai count is 0 before and after the script.
+
+Thai proof: the new test file, the key box file, the 5 captures, the plan, and this log hold 0 Thai
+characters. The 423 added lines of commit 6567c205 hold 0 Thai characters. The 2 moved files
+storytime-print-a48-part2.test.ts (418) and storytime-print-v15.test.ts (144) hold older Thai
+characters outside the changed lines.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: f2a2a1d9
+baseline_sha: f2a2a1d9
+commits: 6567c205 (tests, key boxes, captures), 659d333d (plan), this log (commit 3, measure(runs))
+tests_run: Red gate of 9 files: Test Files 7 failed | 2 passed (9), Tests 20 failed | 330 passed (350), exit 1; tsc exit 0; eslint exit 0 (0 errors, 1 older warning)
+red_command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-template.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-covers-adversarial.test.ts __tests__/storytime-print-covers.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-v15.test.ts --maxWorkers=1
+deviation: (1) the key box file is a content file (the PM-ordered place). (2) The Red changes 5 test files of storytime_print_r1 (readers, covers, covers-adversarial, a48-part2, v15), because F5 moves page 1. (3) 2 pin runs of the new file at HEAD filled the measured pins. (4) The 2 moved files a48-part2 and v15 hold older Thai text; the Green runs them and does not open them.
+questions: Q1 w01-2 reader-a3 cannot show the Nan head and the Pip body together (2930 of 2828.6 visible rows); default: the dog wins, the art aligns its bottom edge, and the Nan head may lie up to 12 mm above the top edge. Q2 the A3 quest cover holds no series line; default: checkStorytimeReaderCoverCopy drops the series rule, keeps the forbidden word and year rules, and fails every band word. Q3 the exception list; default: w01-2 reader-a3 and w01-2 reader-leaf. Q4 the Pam dolls; default: head boxes only, no title-object box.
+handoff: Green (deepseek/deepseek-flash#high): implement D3 to D7 and keep D8 in cover-quest.ts, readers.ts (page 1, page 12, CSS), make-storytime-quest-covers.ts, and make-readers-pdf.ts and teacher-book-cover.ts only where page 1 needs them; change no test and no key box. Page 1: one wrapper with data-picture-id and data-picture-file around the questReaderCoverPage body (hlogo, bleed 0; leaf 198 x 148.5 mm with line art on workbook; A3 420 x 297 mm with colour art and no 2.0 scale on a3-color); proof mode: the quest chrome, PICTURE MISSING, no image outside a logo tile; the readers CSS loads League Spartan. Leaf strip: the top-level part footer-strip, #FFFFFF, opaque, no border, at least 1 mm around the footer ink. Placement: the 6 moved covers are w01-2, w07-1, w07-2 (A3 and leaf); w01-2 A3 and leaf are the exceptions; the w01-2 A3 art aligns its bottom edge (Q1). Page 12: drop the reader-series line. Remaining failures: the 20 tests listed in step 3.
+END_MEASURE_AGENT_RESULT
