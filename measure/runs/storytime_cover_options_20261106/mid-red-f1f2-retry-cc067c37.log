@@ -1,0 +1,25 @@
+MEASURE mid-red F1 F2 retry (storytime_cover_options, Phase 2, the Task (Red, F1 F2 and heads) pair)
+date: 2026-11-11
+model: opencode/minimax-m3.1-flash-free#high
+route: opencode/minimax-m3.1-flash-free#high
+role_base_sha: cc067c37
+
+The narrative
+- The Thai filter ran first. The 3 test files, the Green log, and the old-test capture hold 0 Thai characters.
+- The role base cc067c37 is an ancestor of HEAD. The 7 older pins of 3 older files move to the F2 contract.
+- A3 and A6 of quest-cover-hlogo, R2, R5, and R6 of quest-cover-readers-r2, and B8 and B11 of quest-cover-readers-r2b now require 0 logo tiles on the 2 fronts, the 14 A3 reader covers, and the 14 leaf covers. The 2 book backs keep one tile. The image, gray colour, and tile centring checks of the fronts go away.
+- The Red run of the 3 files exits 1: 3 test files failed, 7 tests failed, 20 tests passed (27 tests). The 7 failures are A3, A6, R2, R5, R6, B8, and B11. Each fails on its new 0-tile assertion. Every other test of the 3 files passes.
+- The tsc gate exits 0 with no output and the eslint gate exits 0 with no output. The lock file did not change.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: measure-mid-red
+track: storytime_cover_options_20261106
+phase: P2, the Phase 2 option A covers
+role_base_sha: cc067c37
+commits: 6cf8df5a
+tests_run: the Red run of the 3 files exits 1 with 3 test files failed, 7 tests failed, and 20 tests passed (27 tests); the 7 failures are A3, A6, R2, R5, R6, B8, and B11; tsc exits 0; eslint exits 0 with 0 errors
+red_command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-hlogo.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-readers-r2b.test.ts --maxWorkers=1
+captures: measure/runs/storytime_cover_options_20261106/red-f1f2-retry.txt, red-f1f2-retry-tsc.txt, red-f1f2-retry-lint.txt
+handoff: Green applies green-f1f2-blocked-impl.patch and runs its gates
+END_MEASURE_AGENT_RESULT
