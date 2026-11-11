@@ -1,0 +1,887 @@
+BUILD CAPTURE of Red rerun of the F1 F2 and heads pair (jr-green 2026-11-11)
+
+HEAVY_RUN_TIMEOUT_S 900
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-standing-rules.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[22m[39mG1 leaf covers 14, problems 42
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG2: every framed picture of the reader pages holds one image at most and clips it inside its frame
+[22m[39mFRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=252
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[22m[39mG3 fronts 30, problems 104
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base)
+[22m[39mG4 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, logo tiles 1
+G4 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab, logo tiles 1
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[22m[39mG5 page 12 checked 28, problems 84
+
+ [31m❯[39m __tests__/quest-cover-f1f2.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 47017[2mms[22m[39m
+[31m     [31m×[31m G1: the hlogo leaf cover holds no frame element, and the art layer still covers the page[39m[33m 459[2mms[22m[39m
+     [32m✓[39m G2: every framed picture of the reader pages holds one image at most and clips it inside its frame[32m 2[2mms[22m[39m
+[31m     [31m×[31m G3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box[39m[33m 857[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base) [33m 338[2mms[22m[39m
+[31m     [31m×[31m G5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word[39m[32m 5[2mms[22m[39m
+     [32m✓[39m G6: the standing rules file holds the changed S1 and the page 12 scope of S2, S4, and S5[32m 1[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile
+[22m[39mSTANDING-RULES S1: checks 32, pages in scope 32, pages failing 30. By group: student-front 1/1, teacher-front 1/1, student-back 0/1, teacher-back 0/1, reader-a3 14/14, reader-leaf 14/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[22m[39mSTANDING-RULES S2: checks 60, pages in scope 60, pages failing 28. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS3: the cap height of every band text is 75 % to 85 % of its band
+[22m[39mSTANDING-RULES S3: checks 62, pages in scope 30, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS4: every text block stands centred within 1 mm, front and back
+[22m[39mSTANDING-RULES S4: checks 103, pages in scope 60, pages failing 28. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[22m[39mSTANDING-RULES S5: checks 60, pages in scope 60, pages failing 28. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+ [31m❯[39m __tests__/quest-cover-standing-rules.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 9472[2mms[22m[39m
+[31m     [31m×[31m S1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile[39m[33m 748[2mms[22m[39m
+[31m     [31m×[31m S2: every chrome colour comes from the logo token table, and every leaf colour is a gray[39m[32m 4[2mms[22m[39m
+     [32m✓[39m S3: the cap height of every band text is 75 % to 85 % of its band[32m 1[2mms[22m[39m
+[31m     [31m×[31m S4: every text block stands centred within 1 mm, front and back[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m S5: no page holds a band word, a band icon, an XP bar, or a game bar[39m[33m 1010[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mH0: pictures-heads.json holds the 31 art files with their real pixel size and boxes inside each picture
+[22m[39mHEAD_FILE_ENTRIES=31 ART_FILES_OF_PAGES=31
+HEAD_BOXES=100
+
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mG7: no chrome part box overlaps a head box on any of the 32 shipped pages
+[22m[39mHEAD-OVERLAP w01-1 reader-a3 logo-tile "teacher head": 32.55 mm x 21.45 mm (head 193.2 to 225.7 mm by 44.6 to 83.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w01-1 reader-leaf logo-tile "teacher head": 13.86 mm x 6.45 mm (head 91.1 to 104.9 mm by 24.7 to 43.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w01-2 reader-a3 logo-tile "Nan head": 96.20 mm x 54.00 mm (head 36.7 to 222.6 mm by -2.7 to 167.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w01-2 reader-leaf logo-tile "Nan head": 45.34 mm x 25.50 mm (head 17.3 to 104.9 mm by 3.0 to 82.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w02-1 reader-a3 logo-tile "teacher head": 54.60 mm x 39.30 mm (head 189.0 to 243.6 mm by 26.7 to 91.8 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w02-1 reader-leaf logo-tile "teacher head": 24.75 mm x 14.37 mm (head 90.1 to 114.8 mm by 16.8 to 47.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w03-1 reader-a3 logo-tile "teacher head": 26.89 mm x 16.20 mm (head 266.7 to 296.1 mm by 49.8 to 85.5 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-1 reader-leaf logo-tile "teacher head": 12.66 mm x 3.48 mm (head 125.7 to 139.6 mm by 27.7 to 46.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w03-2 reader-a3 logo-tile "Nan head": 73.10 mm x 7.80 mm (head 60.9 to 199.5 mm by 58.2 to 173.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-2 reader-a3 logo-tile "boy head": 79.39 mm x 12.00 mm (head 214.2 to 331.8 mm by 54.0 to 171.6 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-2 reader-leaf logo-tile "boy head": 36.42 mm x 0.01 mm (head 102.0 to 154.4 mm by 31.2 to 85.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "father head": 26.90 mm x 54.00 mm (head 107.1 to 153.3 mm by 12.0 to 75.0 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "grandmother head": 58.80 mm x 20.40 mm (head 163.8 to 222.6 mm by 45.6 to 98.1 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "grandfather head": 37.39 mm x 38.25 mm (head 256.2 to 300.3 mm by 27.8 to 81.3 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "father head": 12.67 mm x 21.30 mm (head 49.5 to 72.3 mm by 9.9 to 39.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "grandmother head": 28.71 mm x 6.45 mm (head 76.2 to 104.9 mm by 24.7 to 51.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "grandfather head": 18.60 mm x 14.37 mm (head 119.8 to 142.6 mm by 16.8 to 42.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-2 reader-a3 logo-tile "Nan head": 136.10 mm x 35.10 mm (head 116.5 to 262.5 mm by 30.9 to 152.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-2 reader-leaf logo-tile "Nan head": 64.15 mm x 12.39 mm (head 54.4 to 123.7 mm by 18.8 to 76.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD_PAIRS_CHECKED=341 HEAD_OVERLAPS=19 BY_PART: logo-tile 19
+
+ [31m❯[39m __tests__/quest-cover-heads.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 4308[2mms[22m[39m
+     [32m✓[39m H0: pictures-heads.json holds the 31 art files with their real pixel size and boxes inside each picture[32m 68[2mms[22m[39m
+[31m     [31m×[31m G7: no chrome part box overlaps a head box on any of the 32 shipped pages[39m[32m 10[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 18:20:42
+[2m   Duration [22m 72.49s[2m (transform 810ms, setup 698ms, import 2.03s, tests 60.80s, environment 7.75s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f1f2.test.ts[2m > [22mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[31m[1mAssertionError[22m: w01-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w01-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w01-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w01-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w01-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w01-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w02-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w02-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w02-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w02-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w02-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w02-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w03-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w03-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w03-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w03-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w03-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w03-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w04-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w04-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w04-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w04-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w04-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w04-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w05-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w05-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w05-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w05-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w05-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w05-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w06-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w06-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w06-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w06-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w06-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w06-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w07-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w07-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w07-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.
+w07-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).
+w07-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.
+w07-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.: expected [ …(42) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "w01-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w01-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w01-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w01-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w01-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w01-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w02-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w02-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w02-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w02-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w02-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w02-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w03-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w03-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w03-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w03-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w03-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w03-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w04-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w04-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w04-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w04-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w04-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w04-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w05-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w05-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w05-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w05-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w05-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w05-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w06-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w06-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w06-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w06-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w06-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w06-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w07-1 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w07-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w07-1 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+   "w07-2 reader-leaf: the leaf holds 1 double-line-frame parts (the pin is 0).",[39m
+[31m+   "w07-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 181.0 mm x 103.0 mm.",[39m
+[31m+   "w07-2 reader-leaf: a frame element draws a line around the art: <rect> in the part double-line-frame, 177.4 mm x 99.4 mm.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f1f2.test.ts:[2m686:47[22m[39m
+    [90m684| [39m        }
+    [90m685| [39m        console[33m.[39m[34mlog[39m([32m`G1 leaf covers 14, problems [39m[36m${[39mproblems[33m.[39mlength[36m}[39m[32m`[39m)[33m;[39m
+    [90m686| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m687| [39m    })[33m;[39m
+    [90m688| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f1f2.test.ts[2m > [22mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[31m[1mAssertionError[22m[39m: student-front: the front holds 1 logo-tile parts (the pin is 0).
+student-front: the part set is art, book-line, level-line, logo-tile, plaque-sep, title-plaque (the pin is art, book-line, level-line, plaque-sep, title-plaque).
+student-front: the part logo-tile (21.4 to 188.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+teacher-front: the front holds 1 logo-tile parts (the pin is 0).
+teacher-front: the part set is art, book-line, level-line, logo-tile, plaque-sep, title-plaque (the pin is art, book-line, level-line, plaque-sep, title-plaque).
+teacher-front: the part logo-tile (21.4 to 188.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w01-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w01-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w01-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w01-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w01-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w01-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w01-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w01-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w01-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w01-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w01-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w01-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w01-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w01-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w02-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w02-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w02-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w02-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w02-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w02-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w02-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w02-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w02-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w02-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w02-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w02-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w02-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w02-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w03-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w03-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w03-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w03-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w03-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w03-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w03-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w03-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w03-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w03-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w03-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w03-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w03-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w03-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w04-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w04-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w04-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w04-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w04-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w04-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w04-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w04-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w04-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w04-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w04-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w04-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w04-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w04-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w05-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w05-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w05-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w05-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w05-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w05-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w05-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w05-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w05-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w05-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w05-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w05-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w05-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w05-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w06-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w06-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w06-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w06-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w06-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w06-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w06-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w06-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w06-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w06-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w06-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w06-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w06-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w06-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w07-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w07-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w07-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w07-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w07-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w07-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w07-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.
+w07-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).
+w07-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).
+w07-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.
+w07-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).
+w07-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).
+w07-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.
+w07-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.: expected [ …(104) ] to deeply equal []
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "student-front: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "student-front: the part set is art, book-line, level-line, logo-tile, plaque-sep, title-plaque (the pin is art, book-line, level-line, plaque-sep, title-plaque).",[39m
+[31m+   "student-front: the part logo-tile (21.4 to 188.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "teacher-front: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "teacher-front: the part set is art, book-line, level-line, logo-tile, plaque-sep, title-plaque (the pin is art, book-line, level-line, plaque-sep, title-plaque).",[39m
+[31m+   "teacher-front: the part logo-tile (21.4 to 188.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w01-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w01-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w01-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w01-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w01-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w01-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w01-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w01-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w01-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w01-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w01-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w01-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w01-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w01-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w02-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w02-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w02-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w02-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w02-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w02-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w02-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w02-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w02-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w02-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w02-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w02-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w02-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w02-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w03-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w03-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w03-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w03-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w03-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w03-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w03-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w03-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w03-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w03-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w03-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w03-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w03-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w03-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w04-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w04-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w04-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w04-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w04-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w04-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w04-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w04-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w04-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w04-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w04-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w04-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w04-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w04-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w05-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w05-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w05-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w05-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w05-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w05-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w05-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w05-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w05-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w05-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w05-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w05-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w05-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w05-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w06-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w06-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w06-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w06-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w06-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w06-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w06-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w06-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w06-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w06-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w06-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w06-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w06-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w06-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w07-1 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w07-1 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w07-1 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w07-1 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w07-1 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w07-1 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w07-1 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+   "w07-2 reader-a3: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w07-2 reader-a3: the part set is art, logo-tile, role-bar, title-plaque, week-pill (the pin is art, role-bar, title-plaque, week-pill).",[39m
+[31m+   "w07-2 reader-a3: the part logo-tile (126.4 to 293.6 mm by 12.0 to 66.0 mm) enters the r3 tile box.",[39m
+[31m+   "w07-2 reader-leaf: the front holds 1 logo-tile parts (the pin is 0).",[39m
+[31m+   "w07-2 reader-leaf: the part set is art, double-line-frame, footer, logo-tile, role-mark, series, title-plaque, week (the pin is art, footer, role-mark, series, title-plaque, week).",[39m
+[31m+   "w07-2 reader-leaf: the part logo-tile (59.6 to 138.4 mm by 5.7 to 31.2 mm) enters the r3 tile box.",[39m
+[31m+   "w07-2 reader-leaf: the part double-line-frame (8.0 to 190.0 mm by 7.0 to 111.0 mm) enters the r3 tile box.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f1f2.test.ts:[2m761:47[22m[39m
+    [90m759| [39m        }
+    [90m760| [39m        console.log(`G3 fronts ${covers.length}, problems ${problems.l…
+    [90m761| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m762| [39m    })[33m;[39m
+    [90m763| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f1f2.test.ts[2m > [22mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[31m[1mAssertionError[22m[39m: week 1 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 1 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 1 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 1 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 1 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 1 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 1 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 1 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 1 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 1 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 1 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 1 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 2 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 2 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 2 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 2 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 2 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 2 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 2 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 2 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 2 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 2 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 2 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 2 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 3 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 3 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 3 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 3 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 3 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 3 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 3 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 3 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 3 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 3 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 3 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 3 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 4 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 4 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 4 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 4 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 4 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 4 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 4 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 4 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 4 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 4 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 4 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 4 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 5 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 5 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 5 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 5 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 5 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 5 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 5 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 5 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 5 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 5 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 5 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 5 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 6 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 6 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 6 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 6 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 6 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 6 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 6 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 6 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 6 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 6 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 6 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 6 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 7 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 7 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 7 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 7 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 7 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 7 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 7 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 7 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).
+week 7 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).
+week 7 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).
+week 7 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).
+week 7 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).: expected [ …(84) ] to deeply equal []
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "week 1 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 1 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 1 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 1 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 1 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 1 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 1 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 1 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 1 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 1 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 1 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 1 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 2 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 2 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 2 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 2 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 2 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 2 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 2 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 2 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 2 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 2 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 2 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 2 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 3 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 3 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 3 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 3 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 3 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 3 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 3 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 3 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 3 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 3 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 3 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 3 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 4 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 4 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 4 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 4 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 4 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 4 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 4 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 4 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 4 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 4 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 4 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 4 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 5 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 5 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 5 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 5 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 5 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 5 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 5 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 5 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 5 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 5 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 5 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 5 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 6 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 6 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 6 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 6 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 6 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 6 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 6 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 6 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 6 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 6 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 6 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 6 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 7 workbook reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 7 workbook reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 7 workbook reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 7 workbook reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 7 workbook reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 7 workbook reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 7 a3-color reader 1 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 7 a3-color reader 1 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 7 a3-color reader 1 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+   "week 7 a3-color reader 2 page 12: the page holds 1 reader-band lines (the pin is 0).",[39m
+[31m+   "week 7 a3-color reader 2 page 12: the page holds 1 band words (the pin is 0).",[39m
+[31m+   "week 7 a3-color reader 2 page 12: the page holds 0 logo-tile parts (the pin is 1).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f1f2.test.ts:[2m856:47[22m[39m
+    [90m854| [39m        console.log(`G5 page 12 checked ${checked}, problems ${problem…
+    [90m855| [39m        expect(checked, 'the check reads the page 12 of the 14 readers…
+    [90m856| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m857| [39m    })[33m;[39m
+    [90m858| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-heads.test.ts[2m > [22mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22mG7: no chrome part box overlaps a head box on any of the 32 shipped pages
+[31m[1mAssertionError[22m: HEAD-OVERLAP w01-1 reader-a3 logo-tile "teacher head": 32.55 mm x 21.45 mm (head 193.2 to 225.7 mm by 44.6 to 83.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w01-1 reader-leaf logo-tile "teacher head": 13.86 mm x 6.45 mm (head 91.1 to 104.9 mm by 24.7 to 43.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w01-2 reader-a3 logo-tile "Nan head": 96.20 mm x 54.00 mm (head 36.7 to 222.6 mm by -2.7 to 167.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w01-2 reader-leaf logo-tile "Nan head": 45.34 mm x 25.50 mm (head 17.3 to 104.9 mm by 3.0 to 82.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w02-1 reader-a3 logo-tile "teacher head": 54.60 mm x 39.30 mm (head 189.0 to 243.6 mm by 26.7 to 91.8 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w02-1 reader-leaf logo-tile "teacher head": 24.75 mm x 14.37 mm (head 90.1 to 114.8 mm by 16.8 to 47.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w03-1 reader-a3 logo-tile "teacher head": 26.89 mm x 16.20 mm (head 266.7 to 296.1 mm by 49.8 to 85.5 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-1 reader-leaf logo-tile "teacher head": 12.66 mm x 3.48 mm (head 125.7 to 139.6 mm by 27.7 to 46.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w03-2 reader-a3 logo-tile "Nan head": 73.10 mm x 7.80 mm (head 60.9 to 199.5 mm by 58.2 to 173.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-2 reader-a3 logo-tile "boy head": 79.39 mm x 12.00 mm (head 214.2 to 331.8 mm by 54.0 to 171.6 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w03-2 reader-leaf logo-tile "boy head": 36.42 mm x 0.01 mm (head 102.0 to 154.4 mm by 31.2 to 85.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "father head": 26.90 mm x 54.00 mm (head 107.1 to 153.3 mm by 12.0 to 75.0 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "grandmother head": 58.80 mm x 20.40 mm (head 163.8 to 222.6 mm by 45.6 to 98.1 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-a3 logo-tile "grandfather head": 37.39 mm x 38.25 mm (head 256.2 to 300.3 mm by 27.8 to 81.3 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "father head": 12.67 mm x 21.30 mm (head 49.5 to 72.3 mm by 9.9 to 39.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "grandmother head": 28.71 mm x 6.45 mm (head 76.2 to 104.9 mm by 24.7 to 51.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-1 reader-leaf logo-tile "grandfather head": 18.60 mm x 14.37 mm (head 119.8 to 142.6 mm by 16.8 to 42.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).
+HEAD-OVERLAP w04-2 reader-a3 logo-tile "Nan head": 136.10 mm x 35.10 mm (head 116.5 to 262.5 mm by 30.9 to 152.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).
+HEAD-OVERLAP w04-2 reader-leaf logo-tile "Nan head": 64.15 mm x 12.39 mm (head 54.4 to 123.7 mm by 18.8 to 76.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).: expected [ …(19) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "HEAD-OVERLAP w01-1 reader-a3 logo-tile \"teacher head\": 32.55 mm x 21.45 mm (head 193.2 to 225.7 mm by 44.6 to 83.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w01-1 reader-leaf logo-tile \"teacher head\": 13.86 mm x 6.45 mm (head 91.1 to 104.9 mm by 24.7 to 43.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w01-2 reader-a3 logo-tile \"Nan head\": 96.20 mm x 54.00 mm (head 36.7 to 222.6 mm by -2.7 to 167.4 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w01-2 reader-leaf logo-tile \"Nan head\": 45.34 mm x 25.50 mm (head 17.3 to 104.9 mm by 3.0 to 82.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w02-1 reader-a3 logo-tile \"teacher head\": 54.60 mm x 39.30 mm (head 189.0 to 243.6 mm by 26.7 to 91.8 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w02-1 reader-leaf logo-tile \"teacher head\": 24.75 mm x 14.37 mm (head 90.1 to 114.8 mm by 16.8 to 47.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w03-1 reader-a3 logo-tile \"teacher head\": 26.89 mm x 16.20 mm (head 266.7 to 296.1 mm by 49.8 to 85.5 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w03-1 reader-leaf logo-tile \"teacher head\": 12.66 mm x 3.48 mm (head 125.7 to 139.6 mm by 27.7 to 46.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w03-2 reader-a3 logo-tile \"Nan head\": 73.10 mm x 7.80 mm (head 60.9 to 199.5 mm by 58.2 to 173.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w03-2 reader-a3 logo-tile \"boy head\": 79.39 mm x 12.00 mm (head 214.2 to 331.8 mm by 54.0 to 171.6 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w03-2 reader-leaf logo-tile \"boy head\": 36.42 mm x 0.01 mm (head 102.0 to 154.4 mm by 31.2 to 85.1 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-a3 logo-tile \"father head\": 26.90 mm x 54.00 mm (head 107.1 to 153.3 mm by 12.0 to 75.0 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-a3 logo-tile \"grandmother head\": 58.80 mm x 20.40 mm (head 163.8 to 222.6 mm by 45.6 to 98.1 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-a3 logo-tile \"grandfather head\": 37.39 mm x 38.25 mm (head 256.2 to 300.3 mm by 27.8 to 81.3 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-leaf logo-tile \"father head\": 12.67 mm x 21.30 mm (head 49.5 to 72.3 mm by 9.9 to 39.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-leaf logo-tile \"grandmother head\": 28.71 mm x 6.45 mm (head 76.2 to 104.9 mm by 24.7 to 51.5 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-1 reader-leaf logo-tile \"grandfather head\": 18.60 mm x 14.37 mm (head 119.8 to 142.6 mm by 16.8 to 42.6 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-2 reader-a3 logo-tile \"Nan head\": 136.10 mm x 35.10 mm (head 116.5 to 262.5 mm by 30.9 to 152.7 mm; part 126.4 to 293.6 mm by 12.0 to 66.0 mm).",[39m
+[31m+   "HEAD-OVERLAP w04-2 reader-leaf logo-tile \"Nan head\": 64.15 mm x 12.39 mm (head 54.4 to 123.7 mm by 18.8 to 76.2 mm; part 59.6 to 138.4 mm by 5.7 to 31.2 mm).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-heads.test.ts:[2m513:83[22m[39m
+    [90m511| [39m        console.log(`HEAD_PAIRS_CHECKED=${checked} HEAD_OVERLAPS=${ove…
+    [90m512| [39m        expect(checked, 'the check reads at least one head and part pa…
+    [90m513| [39m        expect([...problems, ...overlaps], [...problems, ...overlaps].…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m514| [39m    })[33m;[39m
+    [90m515| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile
+[31m[1mAssertionError[22m: S1 fails on 30 of 32 pages.
+student-front logo-tile: the front holds 1 logo tiles (the rule is 0).
+teacher-front logo-tile: the front holds 1 logo tiles (the rule is 0).
+w01-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w01-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w01-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w01-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w02-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w02-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w02-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w02-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w03-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w03-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w03-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w03-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w04-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w04-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w04-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w04-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w05-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w05-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w05-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w05-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w06-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w06-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w06-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w06-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w07-1 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w07-1 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).
+w07-2 reader-a3 logo-tile: the front holds 1 logo tiles (the rule is 0).
+w07-2 reader-leaf logo-tile: the front holds 1 logo tiles (the rule is 0).: expected 30 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 30[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m867:7[22m[39m
+    [90m865| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m866| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m867| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m868| [39m}
+    [90m869| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m976:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[31m[1mAssertionError[22m: S2 fails on 28 of 60 pages.
+w01-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w01-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w01-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w01-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w02-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w02-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w02-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w02-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w03-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w03-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w03-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w03-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w04-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w04-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w04-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w04-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w05-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w05-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w05-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w05-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w06-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w06-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w06-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w06-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w07-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w07-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w07-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).
+w07-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile colour can be read (the rule is 1).: expected 28 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 28[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m867:7[22m[39m
+    [90m865| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m866| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m867| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m868| [39m}
+    [90m869| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m1037:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS4: every text block stands centred within 1 mm, front and back
+[31m[1mAssertionError[22m: S4 fails on 28 of 60 pages.
+w01-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w01-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w01-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w01-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w02-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w02-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w02-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w02-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w03-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w03-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w03-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w03-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w04-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w04-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w04-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w04-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w05-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w05-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w05-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w05-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w06-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w06-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w06-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w06-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w07-1 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w07-2 page12 workbook logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w07-1 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.
+w07-2 page12 a3-color logo-tile: the page holds 0 logo tiles, so no tile centre can stand at the page centre.: expected 28 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 28[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m867:7[22m[39m
+    [90m865| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m866| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m867| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m868| [39m}
+    [90m869| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m1282:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[31m[1mAssertionError[22m[39m: S5 fails on 28 of 60 pages.
+w01-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w01-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w01-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w01-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-1 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-1 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-2 page12 workbook band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-2 page12 workbook body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-1 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-1 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-2 page12 a3-color band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-2 page12 a3-color body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).: expected 56 to be +0 // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 56[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m867:7[22m[39m
+    [90m865| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m866| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m867| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m868| [39m}
+    [90m869| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m1334:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m

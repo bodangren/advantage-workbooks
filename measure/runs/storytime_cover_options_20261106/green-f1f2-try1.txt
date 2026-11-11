@@ -1,0 +1,60 @@
+BUILD CAPTURE of Quick loop try 1 of the F1 F2 and heads pair (jr-green 2026-11-11)
+
+HEAVY_RUN_TIMEOUT_S 900
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-standing-rules.test.ts --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[22m[39mG1 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG2: every framed picture of the reader pages holds one image at most and clips it inside its frame
+[22m[39mFRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=252
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[22m[39mG3 fronts 30, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base)
+[22m[39mG4 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, logo tiles 1
+G4 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab, logo tiles 1
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[22m[39mG5 page 12 checked 28, problems 0
+
+ [32m✓[39m __tests__/quest-cover-f1f2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 37337[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box [33m 737[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile
+[22m[39mSTANDING-RULES S1: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[22m[39mSTANDING-RULES S2: checks 60, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS3: the cap height of every band text is 75 % to 85 % of its band
+[22m[39mSTANDING-RULES S3: checks 62, pages in scope 30, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS4: every text block stands centred within 1 mm, front and back
+[22m[39mSTANDING-RULES S4: checks 103, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[22m[39mSTANDING-RULES S5: checks 60, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+ [32m✓[39m __tests__/quest-cover-standing-rules.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 9768[2mms[22m[39m
+     [33m[2m✓[22m[39m S1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile [33m 658[2mms[22m[39m
+     [33m[2m✓[22m[39m S5: no page holds a band word, a band icon, an XP bar, or a game bar [33m 963[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mH0: pictures-heads.json holds the 31 art files with their real pixel size and boxes inside each picture
+[22m[39mHEAD_FILE_ENTRIES=31 ART_FILES_OF_PAGES=31
+HEAD_BOXES=100
+
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mG7: no chrome part box overlaps a head box on any of the 32 shipped pages
+[22m[39mHEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0 BY_PART: none
+
+ [32m✓[39m __tests__/quest-cover-heads.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 3919[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 18:24:50
+[2m   Duration [22m 56.73s[2m (transform 808ms, setup 521ms, import 1.85s, tests 51.02s, environment 2.10s)[22m
+--- STDERR ---
