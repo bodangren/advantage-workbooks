@@ -1,0 +1,105 @@
+BUILD CAPTURE of Jr Green F3 F6, R-P6-F3c only
+
+HEAVY_RUN_TIMEOUT_S 400
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-readers.test.ts -t 'R-P6-F3c' --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m57 skipped[39m[2m)[22m[33m 10968[2mms[22m[39m
+     [2m[90m↓[39m[22m exports the reader compiler without a collection-time import
+     [2m[90m↓[39m[22m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default)
+     [2m[90m↓[39m[22m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04)
+     [2m[90m↓[39m[22m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1)
+[31m     [31m×[31m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)[39m[33m 10964[2mms[22m[39m
+     [2m[90m↓[39m[22m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1)
+     [2m[90m↓[39m[22m R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)
+     [2m[90m↓[39m[22m R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default)
+     [2m[90m↓[39m[22m R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)
+     [2m[90m↓[39m[22m R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)
+     [2m[90m↓[39m[22m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1)
+     [2m[90m↓[39m[22m R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+     [2m[90m↓[39m[22m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+     [2m[90m↓[39m[22m R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)
+     [2m[90m↓[39m[22m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8)
+     [2m[90m↓[39m[22m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8)
+     [2m[90m↓[39m[22m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+     [2m[90m↓[39m[22m R-P4-6 exposes the readers PDF CLI help
+     [2m[90m↓[39m[22m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry
+     [2m[90m↓[39m[22m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture
+     [2m[90m↓[39m[22m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names
+     [2m[90m↓[39m[22m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size
+     [2m[90m↓[39m[22m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts
+     [2m[90m↓[39m[22m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file
+     [2m[90m↓[39m[22m R-P4-15 rejects a Forge job that is not ready or holds no selected version
+     [2m[90m↓[39m[22m R-P4-16 reports a row whose Forge job is not ready as fail with a reason
+     [2m[90m↓[39m[22m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings
+     [2m[90m↓[39m[22m R-P4-14 exposes the stage-one batch command
+     [2m[90m↓[39m[22m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix
+     [2m[90m↓[39m[22m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest
+     [2m[90m↓[39m[22m R-P4-20 fails a row whose manifest path resolves outside the batch root
+     [2m[90m↓[39m[22m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI
+     [2m[90m↓[39m[22m R-P8-F20 checks requested week 2 card rows after the book rows
+     [2m[90m↓[39m[22m R-P8-F32a checks all 31 requested card rows without requesting book rows
+     [2m[90m↓[39m[22m R-P8-F32b fails the missing requested week 1 card row
+     [2m[90m↓[39m[22m R-P8-F32c checks a missing card row beside the complete week 1 book delivery
+     [2m[90m↓[39m[22m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch
+     [2m[90m↓[39m[22m R-P8-F45 reports requested-row totals in card-only and book-only batches
+     [2m[90m↓[39m[22m R-P8-F44 documents the skipped-row rule in picture-check usage
+     [2m[90m↓[39m[22m R-P8-F36 prints a clean error when duplicate words break the card list
+     [2m[90m↓[39m[22m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text
+     [2m[90m↓[39m[22m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names
+     [2m[90m↓[39m[22m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows
+     [2m[90m↓[39m[22m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions
+     [2m[90m↓[39m[22m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion
+     [2m[90m↓[39m[22m R-P4-27 rejects an empty request for the batch check
+     [2m[90m↓[39m[22m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id
+     [2m[90m↓[39m[22m R-P4-35 takes the expected name stem from the row id and not from the list file names (A-P4-12)
+     [2m[90m↓[39m[22m R-P4-37 fails a color file or a line art with an extra suffix after the version, and names the row id and the file (A-P4-13)
+     [2m[90m↓[39m[22m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output
+     [2m[90m↓[39m[22m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder
+     [2m[90m↓[39m[22m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder
+     [2m[90m↓[39m[22m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion
+     [2m[90m↓[39m[22m R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked
+     [2m[90m↓[39m[22m R-P4-36 the final-mode resolver takes the expected name stem from the row id and not from the list file names (A-P4-12)
+     [2m[90m↓[39m[22m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output
+     [2m[90m↓[39m[22m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file
+     [2m[90m↓[39m[22m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m57 skipped[39m[90m (58)[39m
+[2m   Start at [22m 03:11:30
+[2m   Duration [22m 18.35s[2m (transform 898ms, setup 508ms, import 1.01s, tests 10.97s, environment 5.05s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-readers.test.ts[2m > [22mStorytime readers: shipped week 1, P15 default[2m > [22mR-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)
+[31m[1mAssertionError[22m: expected [ …(8) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "[mark-position] side 1: the mark starts 144.0 mm from the top, want a page margin at the top",[39m
+[31m+   "[mark-fold] side 1: the mark is within 3 mm of the fold line",[39m
+[31m+   "[mark-overlap] side 4: the mark overlaps page content",[39m
+[31m+   "[mark-overlap] side 6: the mark overlaps page content",[39m
+[31m+   "[mark-position] side 7: the mark starts 144.0 mm from the top, want a page margin at the top",[39m
+[31m+   "[mark-fold] side 7: the mark is within 3 mm of the fold line",[39m
+[31m+   "[mark-overlap] side 10: the mark overlaps page content",[39m
+[31m+   "[mark-overlap] side 12: the mark overlaps page content",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-readers.test.ts:[2m602:45[22m[39m
+    [90m600| [39m            expect(proofQuest.map((side) => side.index), 'the sides wi…
+    [90m601| [39m            const sides = measured.map((side, index) => ({ ...side, co…
+    [90m602| [39m            expect(leafMarkProblems(sides)).toEqual([]);
+    [90m   | [39m                                            [31m^[39m
+    [90m603| [39m            const moved = JSON.parse(JSON.stringify(sides)) as typeof …
+    [90m604| [39m            moved[0].mark = { left: 20, top: moved[0].foldY - 2, right…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
