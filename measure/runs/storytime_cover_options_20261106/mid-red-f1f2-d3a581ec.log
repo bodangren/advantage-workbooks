@@ -1,0 +1,66 @@
+MEASURE mid-red F1 F2 and heads (storytime_cover_options, Phase 2, Task 2.9 part 8)
+date: 2026-11-11
+model: claude-code/claude-opus-5-5[1m]#high (the test text; the ra-quota red route is MiniMax)
+gates: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+role_base_sha: d3a581ec2f28562838b9affa79fcc26894569f69
+phase_base_sha: d3a581ec2f28562838b9affa79fcc26894569f69
+commits: 888d00a (the Red tests, the head box file, and the 4 captures), 570b96b (the plan), this log commit
+status: complete
+
+The narrative
+- Two Claude sessions wrote the 3 test files and the head box file. They ended before the gates. This role ran the gates, fixed 1 test defect, and committed.
+- The Thai filter ran first. The 3 test files and the plan hold 0 Thai characters.
+- The full gate of 2026-11-11 exits 1. Test Files 3 failed | 15 passed (18). Tests 6 failed | 400 passed (406). The failing tests are G1, G3, G5, G7, S1, and S2. Each failure names the missing behavior.
+- G2 passes. FRAMED_PAGES_CHECKED 252, FRAMED_PAGES_FAILED 0, FRAMED_PICTURES 252.
+- H0 passes. HEAD_FILE_ENTRIES 31, ART_FILES_OF_PAGES 31, HEAD_BOXES 100.
+- G4 passes. The 2 book backs keep their SHA-256 pins of the role base.
+- The defect fix: the standing rules file declared the page 12 scope for S4 and S5 in its header, but the bodies read only the 32 cover pages. The fix gives S4 the page 12 tile centre across the reader page centre within 1 mm and the logo centre in the tile centre within 1 mm. The fix gives S5 the 0 forbidden parts, the 0 band words, and the 0 XP or sprout matches on the 28 page 12 pages. The fix uses the page 12 measures that S2 already reads.
+- The r2 gate of 2026-11-11 exits 1. Test Files 2 failed (2). Tests 7 failed | 4 passed (11). The failing tests are G1, G3, G5, S1, S2, S4, and S5. The passing tests are G2, G4, G6, and S3. S4 reads 103 checks in a scope of 60 pages and fails on 28 pages. S5 reads 60 checks in a scope of 60 pages and fails on 28 pages.
+- The tsc gate exits 0. The eslint gate on the 3 test files exits 0. The lock file did not change.
+
+The head overlap result
+- HEAD_PAIRS_CHECKED 341, HEAD_OVERLAPS 19, BY_PART: logo-tile 19.
+- The overlaps with a part other than logo-tile: 0. The count by part: logo-tile 19, every other part 0.
+- F2 removes the logo tile from the 4 front kinds. So 0 head overlaps remain after F2.
+- The overlap list, with the page, the part, the label, and the overlap area in millimetres:
+  w01-1 reader-a3 logo-tile "teacher head" 32.55 x 21.45
+  w01-1 reader-leaf logo-tile "teacher head" 13.86 x 6.45
+  w01-2 reader-a3 logo-tile "Nan head" 96.20 x 54.00
+  w01-2 reader-leaf logo-tile "Nan head" 45.34 x 25.50
+  w02-1 reader-a3 logo-tile "teacher head" 54.60 x 39.30
+  w02-1 reader-leaf logo-tile "teacher head" 24.75 x 14.37
+  w03-1 reader-a3 logo-tile "teacher head" 26.89 x 16.20
+  w03-1 reader-leaf logo-tile "teacher head" 12.66 x 3.48
+  w03-2 reader-a3 logo-tile "Nan head" 73.10 x 7.80
+  w03-2 reader-a3 logo-tile "boy head" 79.39 x 12.00
+  w03-2 reader-leaf logo-tile "boy head" 36.42 x 0.01
+  w04-1 reader-a3 logo-tile "father head" 26.90 x 54.00
+  w04-1 reader-a3 logo-tile "grandmother head" 58.80 x 20.40
+  w04-1 reader-a3 logo-tile "grandfather head" 37.39 x 38.25
+  w04-1 reader-leaf logo-tile "father head" 12.67 x 21.30
+  w04-1 reader-leaf logo-tile "grandmother head" 28.71 x 6.45
+  w04-1 reader-leaf logo-tile "grandfather head" 18.60 x 14.37
+  w04-2 reader-a3 logo-tile "Nan head" 136.10 x 35.10
+  w04-2 reader-leaf logo-tile "Nan head" 64.15 x 12.39
+
+The default rule for the Green, with numbers
+- The 14 leaf covers hold 0 frame elements. The art layer keeps the page box within 0.1 mm with object-fit cover.
+- The 4 front kinds hold 0 logo tiles. No other part enters the r3 tile box.
+- The 2 book backs keep their logo tile and every r3 part. Their SHA-256 stays equal to the pins of the role base.
+- The page 12 tile of the reader is 78.8 mm x 25.5 mm at reader page scale, with a tolerance of 0.2 mm. The tile centre stands at the reader page centre across within 1 mm. The logo centre stands at the tile centre within 1 mm. The tile stands at least 5 mm below the word row and at least 5 mm above the bottom edge, and it is clear of the footer. The logo fills 78 % to 82 % of the inner tile height.
+- The page 12 holds 0 band words and 0 reader-band lines. The series line, the heading, and the word row stay.
+- No chrome part shares a head box. The 9 chrome parts of the check are logo-tile, title-plaque, week-pill, role-bar, footer, panel, contact-sign, qr, and band-pill. The overlap may be 0 mm.
+- The default renders stay byte-equal to the pins of the role base.
+
+MEASURE_AGENT_RESULT
+status: complete
+baseline_sha: d3a581ec2f28562838b9affa79fcc26894569f69
+role_base_sha: d3a581ec2f28562838b9affa79fcc26894569f69
+role: measure mid-red, the F1 F2 and heads pair
+track: storytime_cover_options_20261106
+phase: P2, the Phase 2 option A covers
+commits: 888d00a, 570b96b, and this log commit
+tests: dashboard/__tests__/quest-cover-f1f2.test.ts (G1 to G6), dashboard/__tests__/quest-cover-heads.test.ts (H0 and G7), dashboard/__tests__/quest-cover-standing-rules.test.ts (S1 to S5)
+data: content/storytime/l2/print/pictures-heads.json, 31 pictures and 100 head boxes
+gates: the Red gate exits 1 (3 files failed, 15 passed; 6 tests failed, 400 passed); the r2 gate exits 1 (2 files failed; 7 tests failed, 4 passed); tsc exits 0; eslint exits 0
+remaining_failures: G1 the leaf frame, G3 the front logo tiles, G5 the page 12 tile and the band word, G7 the head overlaps, S1 the front logo tiles, S2 the page 12 tile colours, S4 the page 12 centring, S5 the page 12 band word
