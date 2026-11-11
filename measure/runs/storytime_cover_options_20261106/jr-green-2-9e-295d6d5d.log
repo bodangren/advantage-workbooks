@@ -1,0 +1,61 @@
+# Jr Green log: Task 2.9 part 5, the r2 reader covers
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 5
+Role: measure-jr-green
+Model: deepseek/deepseek-flash#high
+role_base_sha: 295d6d5dc6a0ba75918f604cfd83576e494941a5
+Green code commit: 75c847db
+Red commit: 5c2e55ec
+
+## Narrative
+
+This round is a build task. It changed no code, no test, and no file under `content/`.
+
+The Thai filter ran first and printed `0` for each of the 9 named files. Every capture holds 0 Thai
+lines. The committed Red change of `5c2e55ec` is inside `role_base_sha..HEAD`.
+
+STEP 1 made the 31-file pictures folder. The 29 hard links gave 29 of 29 equal SHA-256 pairs and 29
+of 29 the same inode. The back target was absent before the edge fill, so the shipped back art was
+never written. The edge fill kept its source at `5411e37e...` and wrote `881e93b2...`. The prepared
+teacher front holds `09014118...`.
+
+STEP 2 ran one build with `--top hlogo` in one heavy-run wrapper. It exits 0 on the first attempt. It
+prints `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and 4 lines `All checks pass.`.
+
+STEP 3 copied 34 files as byte copies into the 2 new folders `readers-a3/` and `readers-leaf/` of
+`covers-quest-v1`. All 34 SHA-256 pairs are equal. The 4 book PNGs equal the shipped r2 files, and
+the 4 book PDFs differ. Those 8 lines are information only.
+
+STEP 4 ran 15 print-check lines: 14 PASS and 1 FAIL. `PRINT_GATE` exits 0 on both reader print files
+with `All checks pass.` The `CHECK_4_TEXT_COUNTS_LEAF` line is FAIL: "Storytime Advantage" reads 0
+times on 13 of the 14 leaf pages. The 2 diagnosis captures show the cause. The series box is 30 mm
+wide at 9 pt, so the name wraps and the second word falls to the page edge.
+
+STEP 5 made the 3 contact sheets. STEP 6 rewrote `MANIFEST.txt` with 85 lines, and its 48 old lines
+are byte-equal.
+
+STEP 7 inserted one plan sub-bullet under Task 2.9, and Task 2.9 stays `[~]`. The commit of the
+scripts, the captures, and the plan is `69acdd26`. This log is the second commit.
+
+The orchestrator accepted the C4 leaf finding. A new Red and Green pair fixes the leaf series line,
+not this role.
+
+## Result
+
+```
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 295d6d5dc6a0ba75918f604cfd83576e494941a5
+commits: 69acdd26 (the scripts, the captures, and the plan), and this log alone
+tests_run: build exit 0 (1 attempt, "Covers of Level 2 Unit 1 set 1: 32 pages, 44 files", 4 lines "All checks pass."); print checks PASS_LINES=14 FAIL_LINES=1; PRINT_GATE exit 0 on both reader print files with "All checks pass." count 1 each; MANIFEST 85 of 85 lines OK
+files_changed: outside the repository 37 new files and 1 rewritten file of ~/Desktop/print-ready/storytime/covers-quest-v1/: readers-a3/ (17 files), readers-leaf/ (17 files), contact-sheets/readers-a3.png, contact-sheets/readers-leaf.png, contact-sheets/all.png, and MANIFEST.txt. No existing file changed. Inside the repository the plan and 24 new files of measure/runs/storytime_cover_options_20261106/ that end in -2-9e or _2_9e (11 scripts, 12 captures, and manifest-old-2-9e.txt), plus this log.
+plan_updates: one Part 5 readers r2 sub-bullet under Task 2.9; Task 2.9 stays [~]
+known_failures: CHECK_4_TEXT_COUNTS_LEAF: the leaf print file holds "Storytime Advantage" 0 times on 13 of 14 pages. The series box of 30 mm at 9 pt wraps the name and the second word falls to the page edge. The orchestrator accepted the finding and routed the fix to a new Red and Green pair.
+handoff: The folder ~/Desktop/print-ready/storytime/covers-quest-v1/ now holds readers-a3/ (17 files) and readers-leaf/ (17 files) as byte copies of the build output, with 34 of 34 SHA-256 pairs equal. The new MANIFEST.txt holds 85 lines with SHA-256 34384529f605a733282e314540953bcb7c39f830076d0b323297f6b3d5b481b8, and its 48 old lines are byte-equal. The 3 new sheets are contact-sheets/readers-a3.png (7154 x 1658 px, 14 tiles), contact-sheets/readers-leaf.png (6755 x 1658 px, 14 tiles), and contact-sheets/all.png (3648 x 5698 px, 32 tiles: the 4 shipped r2 book pages, the 14 A3 pages, and the 14 leaf pages). The key values: build-2-9e.txt exit 0; copy-2-9e.txt COPIED 34 PAIR_EQUAL 34; print-gate-2-9e.txt 14 PASS and 1 FAIL; manifest-check-2-9e.txt LINES_MATCHED 85. The FAIL line is CHECK_4_TEXT_COUNTS_LEAF: p1 to p13 series=0, p14 series=1. The 2 diagnosis captures are leaf-series-counts-2-9e.txt (advantage 0 on pages 1 to 13) and leaf-series-ink-2-9e.txt (ink_band2 0 on pages 1 and 5, 439 on page 14). A new Red and Green pair fixes the leaf series line; the 17 leaf files, contact-sheets/readers-leaf.png, and contact-sheets/all.png are then replaced, with the old and new SHA-256 values in the plan. Task 2.9 stays [~]; the 4 print-check mutants and the final check log come next.
+END_MEASURE_AGENT_RESULT
+```
