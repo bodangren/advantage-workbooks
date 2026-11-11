@@ -1,79 +1,83 @@
-MEASURE jr-green F1 F2 and heads, second run (storytime_cover_options, Phase 2, Task 2.9 part 8)
+MEASURE jr-green F1 F2 and heads, third run (storytime_cover_options, Phase 2, Task 2.9 part 8)
 date: 2026-11-11
 model: deepseek/deepseek-flash#high
 route: deepseek/deepseek-flash#high
 gates: minimax-cn-coding-plan/MiniMax-M3.1-Flash
 the Red of this pair: claude-code/claude-opus-5-5[1m]#high and minimax-cn-coding-plan/MiniMax-M3.1-Flash
-  (the Red commit 888d00a7); the Red retry: opencode/minimax-m3.1-flash-free#high (the commit 6cf8df5a)
-role_base_sha: b0d2aeb3
-the role base of the block: 0ae043e8
+  (the Red commit 888d00a7); the Red retries: opencode/minimax-m3.1-flash-free#high (the commits
+  6cf8df5a and 2aeb3f30)
+role_base_sha: 3f95fdc9
+the role bases of the 2 earlier runs: 0ae043e8 (the block) and b0d2aeb3 (the image guard block)
 phase_base_sha: d3a581ec
-status: blocked on 6 tests of Gate B, all on the 2 img elements of the page 12 logo tile
+status: complete
 
 The narrative
-- The Thai filter ran first. The 8 files hold 0 Thai characters, and the 3 retried test files are
-  in the list. `make-storytime-quest-covers.ts` holds 0 Thai characters.
-- The role base b0d2aeb3 is an ancestor of HEAD.
-- The patch green-f1f2-blocked-impl.patch applies to HEAD. The diff holds cover-quest.ts and
-  readers.ts, plus the render.mjs of another session, which this role never stages.
-- The orchestrator gave this role the function `bandCheck` of
-  `dashboard/scripts/storytime/make-storytime-quest-covers.ts`, and the rule of C10 of
-  quest-cover-readers-r2c is the contract. The fix adds one condition: a `reader-leaf` page with
-  the logo tile or with no `double-line-frame` part passes when it holds no `band-word` part and no
-  band word, and a leaf with the frame still needs the band word. The logo-tile branch stays as a
-  second sign of the hlogo leaf. The JSDoc names the round of 2026-11-11 (F1 and F2, Daniel's look).
-- Gate A exits 0: 14 files passed and 353 tests passed. G5 checks the 28 page 12 pages with 0
-  problems, G2 reads FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0, G7 reads
-  HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0, and S1 to S5 fail on 0 pages. C10 passes.
-- Gate B exits 1: 4 files failed and 62 passed (66); 7 tests failed and 1574 passed (1581).
-  Six failures come from the page 12 change: the reader documents hold 2 more `img` elements, the
-  2 logo tiles, than the older guard tests allow.
-- The 6 failures:
-  `storytime-print-readers.test.ts` R-P4-38: "the raw HTML holds 20 "<img", expected 18 (18
-  pictures + 0 other)" and "2 img element(s) outside the picture elements, expected 0", for the
-  workbook and the a3-color output.
-  `storytime-print-readers.test.ts` R-P4-39: the same 2 messages.
-  `storytime-print-readers.test.ts` R-P4-41: the same message on the workbook.
-  `storytime-print-step-system.test.ts` C-hostile: "expected 2 to be +0" on `script, img`.
-  `storytime-print-student-book-adversarial.test.ts` A1 "keeps hostile week text out of the
-  markup": "The hostile text must not make an image element.: expected 2 to be +0".
-  `storytime-print-student-book-adversarial.test.ts` A1 "keeps hostile Thai text as text and
-  creates no element": "expected 2 to be +0".
-- The 7th failure is `storytime-package-family.test.ts` R2-5 with "Test timed out in 5000ms". This
-  test reads the family picture script and never touches a reader page.
-- The 2 page 12 images are part of the G5 and S1 contract, so no render removes them. The 6 guard
-  tests must count the 2 logo tiles as known images, and that is a test change of the track that
-  owns those guards. This role changes no test.
-- tsc, eslint, and the mutant did not run. The 3 code files stay modified and uncommitted.
+- The Thai filter ran first. The 10 files hold 0 Thai characters. `make-storytime-quest-covers.ts`
+  holds 0 Thai characters. This role read no line of `storytime-print-step-system.test.ts`.
+- The role base 3f95fdc9 is an ancestor of HEAD.
+- The patch green-f1f2-impl-r3.patch applies to HEAD, and the 3 code files take their SHA-256
+  values: cover-quest.ts 4bbcbd4b, readers.ts a7736b9b, make-storytime-quest-covers.ts 7df333a1.
+- The change: with `hlogo`, the 14 leaf covers hold no double-line frame and no logo tile, and the
+  2 fronts and the 14 A3 reader covers hold no logo tile; no other part takes its place, and the 2
+  book backs keep their SHA-256 pins. Page 12 of each reader drops the band line and holds one
+  logo tile of 78.8 mm by 25.5 mm at reader page scale, top 103 mm, centred across the page, 20 mm
+  above the page bottom and clear of the footer text: the colour logo on the amber tile with the
+  brown border on `a3-color`, and the K logo on the gray tile with the gray border on `workbook`,
+  with the logo at 80 % of the inner height. The function `bandCheck` of the build script passes a
+  leaf with the logo tile or with no frame, and still needs the band word on a leaf with the frame;
+  the logo-tile branch stays as a second sign of the hlogo leaf.
+- Gate A exits 0. Attempt 1 failed one test, ADV-6 and ADV-8 of quest-cover-build, on a Chrome
+  load error: "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture
+  screenshot". The wrapper of the capture script ran the job once more, and attempt 2 passed 14 of
+  14 files and 353 of 353 tests. The rule of the brief calls this a load flake, and both attempts
+  stand in the capture.
+- The numbers of Gate A attempt 2: `G5 page 12 checked 28, problems 0`,
+  `FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=252`,
+  `HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0 BY_PART: none`, and S1 to S5 fail on 0 pages.
+- Gate B exits 0 on the first attempt: 66 of 66 files pass and 1581 of 1581 tests pass, and the 6
+  image guards of the page 12 tile pass. `storytime-package-family.test.ts` R2-5 passes, so the
+  one-file rerun rule did not run and no rerun capture exists.
+- tsc exits 0 on the 3 code files. eslint exits 0 on the 3 code files. The lock file did not
+  change after each gate.
+- The mutant puts the leaf double-line frame back and runs only `quest-cover-f1f2.test.ts`: G1
+  fails and the run exits 1. The restore gives the same SHA-256 value for the 3 files.
+- The commits: 23f746a4 holds the 3 code files, 400de099 holds the plan `[x]` line with its
+  evidence sub-line and the 5 captures, and the last commit holds this log.
 
 MEASURE_AGENT_RESULT
-status: blocked
+status: complete
 role: measure jr green, the F1 F2 and heads pair
 track: storytime_cover_options_20261106
 phase: P2, the Phase 2 option A covers
-task: `- [ ] Task (Green, F1 F2 and heads)`, still `[ ]`
-role_base_sha: b0d2aeb3
-the role base of the block: 0ae043e8
+task: `- [x] Task (Green, F1 F2 and heads)` with commit 23f746a; no `[b]` task
+role_base_sha: 3f95fdc9
+the role bases of the 2 earlier runs: 0ae043e8 and b0d2aeb3
 phase_base_sha: d3a581ec
 red_commit: 888d00a7
-red_retry_commit: 6cf8df5a
-commits: the evidence commit of the 2 captures and this log commit; no code commit, no plan edit
-bandcheck: the `logo-tile` branch stays, and the added `!html.includes('data-part="double-line-frame"')` sign makes the hlogo leaf pass with no band word
-gate_a: exit 0; 14 files passed; 353 tests passed; G5 page 12 28 pages 0 problems;
-  FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0; HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0
-gate_a_capture: measure/runs/storytime_cover_options_20261106/green-f1f2-green.txt
-gate_b: exit 1; 4 files failed and 62 passed (66); 7 tests failed and 1574 passed (1581)
-gate_b_capture: measure/runs/storytime_cover_options_20261106/green-f1f2-project.txt
-failing_tests:
-  dashboard/__tests__/storytime-print-readers.test.ts R-P4-38, R-P4-39, and R-P4-41
-  dashboard/__tests__/storytime-print-step-system.test.ts C-hostile
-  dashboard/__tests__/storytime-print-student-book-adversarial.test.ts A1 (2 tests)
-failure_messages: "the raw HTML holds 20 \"<img\", expected 18 (18 pictures + 0 other)"; "2 img
-  element(s) outside the picture elements, expected 0"; "expected 2 to be +0"; "The hostile text
-  must not make an image element.: expected 2 to be +0"
-unrelated_failure: storytime-package-family.test.ts R2-5, "Test timed out in 5000ms", no reader page
-not_run: tsc, eslint, the mutant, the code commit, and the plan `[x]` line
-tree: the 3 code files are modified and uncommitted; `pnpm-lock.yaml` did not change
-handoff: the track that owns the 6 guards counts the 2 page 12 logo tiles as known images; then
-  Green runs tsc, eslint, the mutant, and both gates again and commits
+red_retry_commits: 6cf8df5a, 2aeb3f30
+commits: 23f746a4 (the code: cover-quest.ts, readers.ts, make-storytime-quest-covers.ts);
+  400de099 (the plan `[x]` line, the evidence sub-line, and the 5 captures); the log commit
+final_head: 400de099 plus the log commit
+gate_a: exit 0 on attempt 2; 14 files and 353 tests pass; attempt 1 failed ADV-6 and ADV-8 of
+  quest-cover-build on a Chrome Page.captureScreenshot load error, and the wrapper reran once
+gate_a_numbers: G5 page 12 28 pages 0 problems; FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0;
+  HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0 BY_PART none; S1 to S5 fail on 0 pages
+gate_b: exit 0; 66 files and 1581 tests pass; the 6 image guards of the page 12 tile pass;
+  storytime-package-family R2-5 passes, so the rerun rule did not run
+tsc: exit 0 (green-f1f2-tsc.txt)
+lint: exit 0 on the 3 code files (green-f1f2-lint.txt)
+mutant: the hlogo leaf double-line frame back fails G1 and the run exits 1 (green-f1f2-mutant.txt);
+  the restore gives cover-quest.ts 4bbcbd4b, readers.ts a7736b9b, and make-storytime-quest-covers.ts
+  7df333a1
+page_12_tile: 78.8 mm by 25.5 mm at reader page scale, top 103 mm, centred across the page,
+  20 mm above the page bottom and clear of the footer text
+captures: green-f1f2-green.txt, green-f1f2-project.txt, green-f1f2-tsc.txt, green-f1f2-lint.txt,
+  and green-f1f2-mutant.txt in measure/runs/storytime_cover_options_20261106/
+new_files: the 5 captures and this log; green-f1f2-impl-r3.patch stays in the run folder
+lock: pnpm-lock.yaml did not change after any gate
+tree: no test file changed, no head box data file changed, and
+  `git status --porcelain dashboard measure/tracks/storytime_cover_options_20261106` lists only
+  `?? dashboard/raw.json`
+handoff: the review roles own the next step: Review A and Review B check the 3 code files and the
+  page 12 tile, and the phase-acceptance role reads the plan evidence
 END_MEASURE_AGENT_RESULT
