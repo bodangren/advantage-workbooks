@@ -300,12 +300,14 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
         const readerSides = pages(doc).filter((side) => side.getAttribute('data-page-kind') === 'reader');
         expect(readerSides).toHaveLength(12);
         readerSides.forEach((side, index) => {
+            // changed 2026-11-12 (D-B, orchestrator decision): each side holds 1 mark; on a page 1 side it lies inside the quest page.
             const marks = side.querySelectorAll('[data-part="leaf-mark"]');
             expect(marks, 'Each reader side has one leaf mark.').toHaveLength(1);
             const mark = text(marks[0]);
-            expect(mark, 'Each leaf mark names the book and a leaf number from 1 to 3.').toMatch(/\bleaf [123]\b/);
+            // changed 2026-11-12 (D-A, orchestrator decision): the mark names the sheet number from 1 to 3, not the band word "leaf".
+            expect(mark, 'Each leaf mark names the book and a sheet number from 1 to 3.').toMatch(/\bsheet [123] of 3\b/);
             expect(mark.startsWith(index < 6 ? 'Hello!' : 'Nan Can Nod'), 'The mark names the reader of its side.').toBe(true);
-            expect(mark.match(/leaf (\d)/)?.[1], 'The mark leaf number is the leaf of its side.').toBe(String(Math.floor((index % 6) / 2) + 1));
+            expect(mark.match(/sheet (\d)/)?.[1], 'The mark sheet number is the leaf of its side.').toBe(String(Math.floor((index % 6) / 2) + 1));
         });
     }, 30000);
 
@@ -337,6 +339,7 @@ describe('Adversarial guards: the Phase 2 student workbook of week 1', () => {
             const readerPages = Array.from(side.querySelectorAll('[data-reader-page]'));
             expect(readerPages).toHaveLength(2);
             expect(readerPages.map((found) => found.getAttribute('data-half'))).toEqual(['top', 'bottom']);
+            // changed 2026-11-12 (D-B, orchestrator decision): the one mark of a page 1 side lies inside the quest page.
             expect(side.querySelectorAll('[data-part="leaf-mark"]')).toHaveLength(1);
             expect(side.querySelectorAll('[data-part="fold-line"]')).toHaveLength(1);
             const pageNumbers: number[] = [];

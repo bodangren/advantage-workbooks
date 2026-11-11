@@ -1457,6 +1457,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
         expect(readerSides).toHaveLength(12);
         for (const side of readerSides) {
             expect(side.querySelectorAll('[data-part="fold-line"]'), 'one fold line').toHaveLength(1);
+            // changed 2026-11-12 (D-B, orchestrator decision): the one mark of a page 1 side lies inside the quest page; no other mark is on that side.
             expect(side.querySelectorAll('[data-part="leaf-mark"]'), 'one leaf mark').toHaveLength(1);
             expect(side.querySelectorAll('[data-part="cut-line"], .cut-line, [data-part="reader-strip"], .strip-mark'), 'no cut line and no strip').toHaveLength(0);
         }
@@ -1475,6 +1476,7 @@ describe('Storytime student workbook: the shipped week 1', () => {
             await page.goto(pathToFileURL(file).href);
             await page.evaluate(() => document.fonts.ready);
             expect(await page.evaluate(() => document.fonts.check('16px Andika')), 'the Andika print font loads in the browser').toBe(true);
+            // changed 2026-11-12 (D-B, orchestrator decision): measureLeafSidesInBrowser reads the ink box of the one mark inside the quest page on sides 1 and 7.
             const measured = await page.evaluate(measureLeafSidesInBrowser, '.student-page[data-page-kind="reader"]');
             expect(measured).toHaveLength(12);
             // changed 2026-11-12 (Q5, PM decision): on the 2 quest page 1 sides the old content rule reads the other page only; the Q5 rule checks the quest page in final mode.
@@ -1515,7 +1517,9 @@ describe('Storytime student workbook: the shipped week 1', () => {
             }],
             ['fold line removed', '[fold-line]', (doc) => readerSidesOf(doc)[3].querySelector('[data-part="fold-line"]')!.remove()],
             ['leaf mark removed', '[leaf-mark]', (doc) => readerSidesOf(doc)[0].querySelector('[data-part="leaf-mark"]')!.remove()],
-            ['leaf mark with leaf 5', '[leaf-mark]', (doc) => { readerSidesOf(doc)[4].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 5'; }],
+            // changed 2026-11-12 (D-A, orchestrator decision): the wrong-number mutant uses the sheet text, and the old leaf text is a mutant too.
+            ['leaf mark with sheet 5', '[leaf-mark]', (doc) => { readerSidesOf(doc)[4].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! \u00b7 sheet 5 of 3'; }],
+            ['leaf mark with the old leaf text', '[leaf-mark]', (doc) => { readerSidesOf(doc)[2].querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! \u00b7 leaf 2 of 3'; }],
             ['a front page not turned', '[turn]', (doc) => readerSidesOf(doc)[0].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '0')],
             ['a back page turned 180', '[turn]', (doc) => readerSidesOf(doc)[1].querySelector('[data-reader-page]')!.setAttribute('data-turn-deg', '180')],
             ['page 12 turned 180 again (fix 5)', '[turn]', (doc) => readerSidesOf(doc)[0].querySelectorAll('[data-reader-page]')[1].setAttribute('data-turn-deg', '180')],

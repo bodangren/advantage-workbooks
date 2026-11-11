@@ -9,7 +9,7 @@
  *   (`top` or `bottom`), `data-turn-deg` (180 on a front, 0 on a back), `data-page-number`,
  *   `data-width-mm`, and `data-height-mm` (the page as printed, no turn of 90 degrees: 198 x 148.5);
  * - one `[data-part="fold-line"]` with `data-position-mm` 148.5 (the middle of the A4 leaf);
- * - one `[data-part="leaf-mark"]` whose text names the reader title and `leaf N` (N from 1 to 3);
+ * - one `[data-part="leaf-mark"]` whose text names the reader title and `sheet N of 3` (N from 1 to 3; D-A, 2026-11-12);
  * - one `[data-part="perforation"]` with `data-distance-mm` 12;
  * - no cut line and no strip.
  */
@@ -183,8 +183,9 @@ export function leafSideProblems(side: Element, want: LeafSideExpectation): stri
     if (marks.length !== 1) problems.push(`[leaf-mark] ${want.title} leaf ${want.leaf} ${want.face}: ${marks.length} marks, want 1`);
     else {
         const text = (marks[0].textContent ?? '').replace(/\s+/g, ' ').trim();
-        const leaf = text.match(/\bleaf\s+(\d+)/i);
-        if (!text.includes(want.title) || !leaf || Number(leaf[1]) !== want.leaf) problems.push(`[leaf-mark] mark "${text}", want the title "${want.title}" and "leaf ${want.leaf}"`);
+        // changed 2026-11-12 (D-A, orchestrator decision): the mark names the sheet, not the band word "leaf"; on a page 1 side the one mark lies inside the quest page (D-B).
+        const leaf = text.match(/\bsheet\s+(\d+)\s+of\s+3\b/);
+        if (!text.includes(want.title) || !leaf || Number(leaf[1]) !== want.leaf) problems.push(`[leaf-mark] mark "${text}", want the title "${want.title}" and "sheet ${want.leaf} of 3"`);
     }
     const perforations = side.querySelectorAll('[data-part="perforation"]');
     if (perforations.length !== 1) problems.push(`[perforation] ${want.title} leaf ${want.leaf} ${want.face}: ${perforations.length} perforations, want 1`);
@@ -473,7 +474,13 @@ export function measureLeafSidesInBrowser(selector: string): MeasuredLeafSide[] 
             .filter((element) => element.getBoundingClientRect().width > 0 && element.getBoundingClientRect().height > 0)
             .map(box);
         const pages = Array.from(side.querySelectorAll('[data-reader-page]'), box);
-        return { side: box(side), pages, mark: box(side.querySelector('[data-part="leaf-mark"]')!), foldY: (fold.top - origin.top) / pxPerMm, perforationX: (perforation.left - origin.left) / pxPerMm, content };
+        // changed 2026-11-12 (D-B, orchestrator decision): on a page 1 side the one mark lies inside the turned quest page, so its box is its ink box.
+        const markElement = side.querySelector('[data-part="leaf-mark"]')!;
+        const markRange = document.createRange();
+        markRange.selectNodeContents(markElement);
+        const markRect = markElement.closest('.quest-reader-page') ? markRange.getBoundingClientRect() : markElement.getBoundingClientRect();
+        const markBox = { left: (markRect.left - origin.left) / pxPerMm, top: (markRect.top - origin.top) / pxPerMm, right: (markRect.right - origin.left) / pxPerMm, bottom: (markRect.bottom - origin.top) / pxPerMm };
+        return { side: box(side), pages, mark: markBox, foldY: (fold.top - origin.top) / pxPerMm, perforationX: (perforation.left - origin.left) / pxPerMm, content };
     });
 }
 

@@ -1355,9 +1355,10 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                 // changed 2026-11-12 (Q5, orchestrator decision): the workbook page 1 body draws the leaf mark of its side (option leafMark); the a3-color body draws none.
                 const marks = Array.from(quests[0].querySelectorAll('[data-part="leaf-mark"]'), (mark) => mark.textContent ?? '');
                 const escapedTitle = row.title.replace(/[.*+?^$|()[\]{}\\]/g, '\\$&');
-                const markPattern = new RegExp('^' + escapedTitle + ' · leaf [0-9]+ of [0-9]+$');
+                // changed 2026-11-12 (D-A, orchestrator decision): the page 1 mark reads "<title> \u00b7 sheet <n> of <m>", so no band word prints.
+                const markPattern = new RegExp('^' + escapedTitle + ' \u00b7 sheet [0-9]+ of [0-9]+$');
                 if (output === 'workbook' && (marks.length !== 1 || !markPattern.test(marks[0]))) {
-                    problems.push(`${id}: the page 1 body holds the leaf marks ${JSON.stringify(marks)} (the pin is 1 mark "${row.title} · leaf <n> of <m>").`);
+                    problems.push(`${id}: the page 1 body holds the leaf marks ${JSON.stringify(marks)} (the pin is 1 mark "${row.title} \u00b7 sheet <n> of <m>").`);
                 }
                 if (output === 'a3-color' && marks.length !== 0) problems.push(`${id}: the a3-color page 1 body holds ${marks.length} leaf marks (the pin is 0).`);
                 const options = output === 'workbook' && marks.length === 1 ? ({ ...HLOGO_OPTIONS, leafMark: marks[0] } as QuestRenderOptions) : HLOGO_OPTIONS;

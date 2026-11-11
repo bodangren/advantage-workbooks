@@ -380,6 +380,7 @@ describe('A-47 the how-to "How to make a student book"', () => {
         const sides = readerSides();
         const doc = docOf(compileReaderHowto(sides).html);
         const mark = doc.querySelector('svg[data-diagram="cut"] [data-part="leaf-mark"]')!;
-        expect(mark.textContent?.replace(/\s+/g, ' ').trim()).toBe(`${sides[0].title} · leaf 1 of 3`);
+        // changed 2026-11-12 (D-A, orchestrator decision): the diagram copies the sheet text of the real mark.
+        expect(mark.textContent?.replace(/\s+/g, ' ').trim()).toBe(`${sides[0].title} \u00b7 sheet 1 of 3`);
     });
 });

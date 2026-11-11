@@ -593,6 +593,7 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         try {
             const page = await browser.newPage();
             await openWithFonts(page, html);
+            // changed 2026-11-12 (D-B, orchestrator decision): measureLeafSidesInBrowser reads the ink box of the one mark inside the quest page on sides 1 and 7.
             const measured = await page.evaluate(measureLeafSidesInBrowser, '[data-leaf-side]');
             expect(measured).toHaveLength(12);
             // changed 2026-11-12 (Q5, PM decision): on the 2 quest page 1 sides the old content rule reads the other page only; the Q5 rule below checks the quest page.
@@ -742,8 +743,11 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const doc = await workbookDocument();
         const sides = Array.from(doc.querySelectorAll('[data-leaf-side]'));
         expect(sides).toHaveLength(12);
+        // changed 2026-11-12 (D-B, orchestrator decision): each side holds 1 mark; on a page 1 side it lies inside the quest page.
+        expect(sides.map((side) => side.querySelectorAll('[data-part="leaf-mark"]').length)).toEqual(Array(12).fill(1));
         const marks = sides.map((side) => (side.querySelector('[data-part="leaf-mark"]')?.textContent ?? '').replace(/\s+/g, ' ').trim());
-        expect(marks.map((mark) => mark.match(/\bleaf\s+(\d+)/i)?.[1])).toEqual(['1', '1', '2', '2', '3', '3', '1', '1', '2', '2', '3', '3']);
+        // changed 2026-11-12 (D-A, orchestrator decision): the mark reads "<title> \u00b7 sheet <n> of 3"; the band word "leaf" is not printed.
+        expect(marks.map((mark) => mark.match(/\bsheet\s+(\d+)\s+of\s+3\b/)?.[1])).toEqual(['1', '1', '2', '2', '3', '3', '1', '1', '2', '2', '3', '3']);
         expect(marks.map((mark) => mark.includes('Hello!'))).toEqual([...Array(6).fill(true), ...Array(6).fill(false)]);
         expect(marks.map((mark) => mark.includes('Nan Can Nod'))).toEqual([...Array(6).fill(false), ...Array(6).fill(true)]);
         // Default: the front of each reader leaf is a right page, so its spine is left; the duplex back has its spine right.
@@ -783,7 +787,9 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
                 doc.querySelector('[data-leaf-side]')!.append(cut);
             }],
             ['leaf mark removed', '[leaf-mark]', (doc) => doc.querySelector('[data-part="leaf-mark"]')!.remove()],
-            ['leaf mark with leaf 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! · leaf 4 of 3'; }],
+            // changed 2026-11-12 (D-A, orchestrator decision): the wrong-number mutant uses the sheet text, and the old leaf text is a mutant too.
+            ['leaf mark with sheet 4', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! \u00b7 sheet 4 of 3'; }],
+            ['leaf mark with the old leaf text', '[leaf-mark]', (doc) => { doc.querySelector('[data-part="leaf-mark"]')!.textContent = 'Hello! \u00b7 leaf 1 of 3'; }],
             ['a front page not turned', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page]')!.setAttribute('data-turn-deg', '0')],
             ['a back page turned 180', '[turn]', (doc) => doc.querySelector('[data-leaf-side="back"] [data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '180')],
             ['page 12 turned 180 again (fix 5)', '[turn]', (doc) => doc.querySelector('[data-leaf-side="front"] [data-reader-page][data-half="bottom"]')!.setAttribute('data-turn-deg', '180')],
