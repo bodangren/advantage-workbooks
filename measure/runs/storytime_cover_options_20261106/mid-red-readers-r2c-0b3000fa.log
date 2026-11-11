@@ -1,0 +1,92 @@
+Mid Red log of the readers r2c pair of the cover track, 2026-11-11.
+
+The role is measure-mid-red. The model is minimax-cn-coding-plan/MiniMax-M3.1-Flash. The track is
+storytime_cover_options_20261106, Phase 2. The role base is 0b3000fa.
+
+The PM look of 2026-11-11 named 2 faults of the A3 reader chrome and 3 faults of the leaf. The A3
+week pill letters and the A3 role bar letters use about 35 % of their inner height. The leaf title
+plaque is the old crystal banner shape and its title uses about 35 % of the band. The leaf bottom
+row shows the band word and the 5 band icons. The leaf week and role text stay as footer text.
+
+The design of this Red role (the orchestrator pins of 2026-11-11):
+
+E1. The cap height of the A3 week pill text is 80 % ± 5 % of the pill inner height, the box height
+    minus 1.2 mm. The middle of the cap band lies at the pill centre within 0.5 mm. The text is
+    centred across within 0.5 mm. The text has 1 line box.
+E2. The A3 week pill fits its text: the left padding and the right padding differ by at most
+    0.5 mm, and each is the 5 mm corner radius. The pill centre across stays at 340 mm within
+    0.5 mm. Its top stays 35 mm and its height 10 mm. Its colours stay (B2).
+E3. The cap height of the A3 role label is 80 % ± 5 % of the bar inner height, 12 mm minus 1.2 mm.
+    The middle of the cap band lies at the bar centre within 0.5 mm. The role mark icon box lies
+    inside the bar inner box. The even paddings, the 60 % content share, the page centring, the
+    top 278 mm, and the height 12 mm stay (B7).
+E4. The hlogo leaf `title-plaque` part keeps the box `reader-leaf:title-plaque` (44/113/110/20 mm).
+    Its SVG is the r2 book plaque drawing: the same path count and the same command letter sequence
+    as the hlogo A3 title plaque of the same row. It holds exactly 2 crystal groups. Every path box
+    and every group box lies inside the plaque part box within 0.1 mm.
+E5. The leaf plaque takes the K palette: the outer fill and stroke `#4E4E4E`, the ring fill
+    `#F2F2F2`, the band fill `#D2D2D2`, the highlight stroke `#FFFFFF` with `fill="none"`, the
+    ornament fills `#F2F2F2` and `#FFFFFF`, the ornament stroke `#4E4E4E`, and the diamond fills
+    `#d2d2d2` and `#FFFFFF`. The `data-plaque-colour` value is `#D2D2D2`. Every fill and stroke
+    value is one of these values or `none`.
+E6. The leaf title text box fills 80 % ± 5 % of the band height, 20 mm minus 5.6 mm = 14.4 mm. Its
+    centre lies at the band centre within 1 mm on both axes. The text has 1 line box. It lies at
+    least 2 mm clear of each crystal group box. The text colour is `rgb(0, 0, 0)` with no text
+    stroke, in League Spartan 700.
+E7. The hlogo leaf holds 0 `band-word` parts, 0 `band-icon` parts, 0 matches of `/sprout/i` in its
+    body text, and 0 `<svg>` elements outside the parts `double-line-frame`, `title-plaque`, and
+    `role-mark`.
+E8. The hlogo leaf holds exactly one `footer` part. It holds exactly one `series`, one `week`, and
+    one `role-mark` part. Its text is `Storytime Advantage · Week N · <role line>`. The footer and
+    its 3 parts hold no background colour and no border.
+E9. The series text, the week text, and the role label text have the computed font size 12 px. All
+    text line boxes of the footer lie on one line. The footer content box is centred on the 198 mm
+    page within 1 mm, at 99 mm. Its vertical centre is 140 mm within 1 mm. It lies inside 5 mm to
+    193 mm across.
+E10. The build script exports `questBandCheck(html, kind, band)`. A `reader-leaf` page with a
+     `logo-tile` part passes when it holds no `band-word` part and no band word in upper case. A
+     `reader-leaf` page with no `logo-tile` part needs the `band-word` part and the band word.
+E11. The full default leaf render of each of the 14 rows keeps its SHA-256 of the role base
+     `0b3000fa`. The default A3 pins (R4), the 8 book pins (B12), and P6 stay.
+
+The Thai filter ran first. It printed 0 Thai characters for the plan, the source file, the 3 test
+files, and the new test file. Every capture dropped its Thai lines, and every capture holds
+`THAI_LINES_DROPPED=0`. No week file was read by hand.
+
+The new file `dashboard/__tests__/quest-cover-readers-r2c.test.ts` holds the tests C1 to C11, one
+test for each of E1 to E11. The file `dashboard/__tests__/quest-cover-readers-r2b.test.ts` changed
+in 4 tests. B6 keeps the 1 line box and the centre across, because the cap height rule of E1
+replaces the fill share and the vertical centre of the line box. B7 keeps the even paddings, the
+content share, the page centring, the top, and the height, because the cap height rule of E3
+replaces the fill share of the label line box. B10 keeps the box values and the 1 line box, and
+checks the right edge for the default style only, because the hlogo leaf holds the series part in
+the footer. B11 compares only the parts that the hlogo leaf keeps: it skips `logo-tile`,
+`title-plaque`, `footer`, `series`, `week`, and `role-mark`, and it keeps the tile count check.
+
+Two deviations. D-1: C2 pins each week pill padding at 5 mm to 5.5 mm. The reading "at least
+5 mm" passes at the role base, because the pill is a fixed 36 mm box with small letters. The
+measure is the text left minus the pill left, so it holds the 0.6 mm border. D-2: the 14 leaf pins
+of C11 came from one tsx hash probe inside `heavy_capture_r2b.py` with
+`HEAVY_RUN_TIMEOUT_S=300`. The probe printed hashes only, and it opened no browser.
+
+The Red gate ran in one heavy-run wrapper. The capture is
+`measure/runs/storytime_cover_options_20261106/red-readers-r2c.txt`. The run exits 1, with
+`Test Files 1 failed | 10 passed (11)`, `Tests 10 failed | 330 passed (340)`, and 1104.58 s. Only
+the file `quest-cover-readers-r2c.test.ts` fails. C1 to C10 fail on the missing behaviour, and C11
+passes. Every other quest-cover file passes, including the relaxed B6, B7, B10, and B11 of the
+r2b file. The tsc capture `red-readers-r2c-tsc.txt` exits 0, and the eslint capture
+`red-readers-r2c-lint.txt` exits 0. The lock file `pnpm-lock.yaml` is unchanged.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 0b3000fa0ac5bd033e4891c60682a6909cd3d739
+commits: 9b06aa2e, edff4afe
+tests_run: the gate `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1` in one heavy-run, exit 1, `Test Files 1 failed | 10 passed (11)`, `Tests 10 failed | 330 passed (340)`, 1104.58 s, only `quest-cover-readers-r2c.test.ts` fails, C1 to C10 fail and C11 passes; the tsc gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsc --noEmit` in one heavy-run exits 0 with no output; the lint gate `cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-readers-r2c.test.ts __tests__/quest-cover-readers-r2b.test.ts` in one heavy-run exits 0 with no output; the 3 captures hold 0 Thai lines
+files_changed: dashboard/__tests__/quest-cover-readers-r2c.test.ts, dashboard/__tests__/quest-cover-readers-r2b.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-readers-r2c.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2c-tsc.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2c-lint.txt, measure/runs/storytime_cover_options_20261106/mid-red-readers-r2c-0b3000fa.log
+plan_updates: 4 new lines before the Task 2.9 line: the Red readers r2c task line [x] with its commit, the PM look and order sub-line, the Red readers r2c evidence sub-line with the deviations D-1 and D-2, and the Green readers r2c task line [ ]
+known_failures: C1 to C10 fail by design until Green
+handoff: the failing reasons, the measured values, and the pin locations are these. C1 fails because the week pill cap height of the row w01-1 is 3.44 mm of an 8.80 mm inner height, a share of 39.1 %; C1 wants 80 % ± 5 %, the cap band middle at the pill centre within 0.5 mm, and the text centred across within 0.5 mm. The pin is the hlogo week pill of `readerA3Body` in `dashboard/lib/storytime/print/cover-quest.ts` (the pill HTML at line 1729) and the cap height method of the new test file. C2 fails because the left padding of the week pill of the row w01-1 is 10.22 mm; C2 wants 5 mm to 5.5 mm on each side, the pill centre at 340 mm, the top 35 mm, the height 10 mm, and the colours of B2. The pin is the same pill HTML, and the pill width must follow its text. C3 fails because the role bar cap height of the row w01-1 is 3.70 mm of a 10.80 mm inner height, a share of 34.3 %; C3 wants 80 % ± 5 %, the cap band middle at the bar centre within 0.5 mm, the role mark icon box inside the bar inner box, the even paddings, the 60 % content share, the page centre, the top 278 mm, and the height 12 mm. The pin is the hlogo role bar of `readerA3Body` (the bar HTML at line 1744) and the role label font size. C4 fails because the leaf plaque of the row w01-1 holds 4 paths and the A3 plaque holds 12; C4 wants the same path count and the same command letter sequence as the A3 plaque, the box 44/113/110/20 mm, exactly 2 crystal groups, and every path box and group box inside the plaque part box within 0.1 mm. The pin is the hlogo leaf title plaque of `leafBody` (the plaque HTML at line 1818) and the call of `plaqueSvg` (line 1098). C5 fails because the `data-plaque-colour` value of the leaf plaque of the row w01-1 is empty; C5 wants `#D2D2D2`, 12 paths, the outer fill and stroke `#4E4E4E`, the ring fill `#F2F2F2`, the band fill `#D2D2D2`, the highlight stroke `#FFFFFF` with `fill="none"`, the ornament fills `#F2F2F2` and `#FFFFFF`, the ornament stroke `#4E4E4E`, the diamond fills `#d2d2d2` and `#FFFFFF`, and no other value. The pin is the K palette of `plaqueSvg` (line 1098) and the leaf plaque of `leafBody` (line 1818). C6 fails because the leaf title text box of the row w01-1 is 6.61 mm of a 14.40 mm band, a share of 45.9 %; C6 wants 80 % ± 5 %, the band centre within 1 mm on both axes, 1 line box, a 2 mm clearance from each crystal group box, the colour `rgb(0, 0, 0)`, no text stroke, and League Spartan 700. The pin is the leaf title text of `leafBody` (line 1824). C7 fails because the hlogo leaf reader cover w01-1 holds 1 `band-word` part; C7 wants 0 band word parts, 0 band icon parts, 0 matches of `/sprout/i` in the body text, and 0 SVG elements outside `double-line-frame`, `title-plaque`, and `role-mark`. The pin is the band word part of `leafBody` (line 1826) and the 5 band glyphs of `leafBody` (lines 1805 to 1807 and the SVG at line 1828). C8 fails because the hlogo leaf reader cover w01-1 holds 0 footer parts; C8 wants one footer part with one series, one week, and one role mark part, the text `Storytime Advantage · Week N · <role line>`, and no background colour and no border in the inline styles. The pin is the series, week, and role mark parts of `leafBody` (lines 1829 to 1832), and they move into one new footer part. C9 fails because the footer of the leaf reader cover w01-1 holds no series line box; C9 wants the computed font size 12 px for the series, week, and role label text, one line, the content centre at 99 mm within 1 mm, the vertical centre at 140 mm within 1 mm, and the content inside 5 mm to 193 mm across. The pin is the footer part of `leafBody`, and the 2 role icon boxes count as content. C10 fails because the build script does not export `questBandCheck`; C10 wants the export of the band check of one page, and a `reader-leaf` page with a `logo-tile` part passes with no band word part and no band word, while a page with no `logo-tile` part needs the band word part and the band word. The pin is `bandCheck` in `dashboard/scripts/storytime/make-storytime-quest-covers.ts` (line 922) and the export beside `questQrCheck` (line 912). C11 passes on the 14 leaf pins of the role base `0b3000fa`; the Green role must keep them.
+END_MEASURE_AGENT_RESULT
