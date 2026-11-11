@@ -1,0 +1,70 @@
+Mid Red log of the readers r2 Red (track storytime_cover_options_20261106, Phase 2, Task (Red, readers r2)).
+
+The finding (orchestrator, 2026-11-11): the PM ordered a build of the reader covers with --top hlogo.
+The flag never reaches the reader covers.
+renderQuestCover gives the top style only to the book fronts and the book backs (cover-quest.ts:1698).
+The reader A3 body and the reader leaf body take no top style.
+The build renders the reader pages without the top style (make-storytime-quest-covers.ts:1222).
+A build with --top hlogo alone gives the old reader look.
+
+The new file dashboard/__tests__/quest-cover-readers-r2.test.ts holds the 6 tests R1 to R6.
+The file changes no production code.
+The Thai rule ran first: the 7 week files were filtered into /tmp/opencode/rr2/in/ and the filter printed THAI_CHARS_IN_OUTPUT=0.
+The plan and the 5 source files hold 0 Thai characters.
+The role base is a6a3173e45d40b954efeffd5789fbc54e1863869, and the production folders are equal to it.
+
+The contract of the 6 tests:
+R1: the box table holds the key reader-a3:logo-tile with the box 126.4/12/167.2/54 mm, and the 6 kept A3 reader keys hold their values.
+R2: the hlogo render of each of the 14 reader rows holds no game bar, no band word, and no series banner, and it holds one logo tile with the horizontal logo and no series name in its text.
+R3: the art, the week pill, the title plaque, and the role bar hold the same HTML in the hlogo render and in the default render.
+R4: the default A3 renders, the default leaf renders, the hlogo leaf renders, and the 2 default questReaderCoverPage outputs hold their 30 pins of the role base.
+R5: in Chrome, the tile is centered on the 420 mm page within 0.5 mm, the logo is centered in the tile within 0.25 mm, and the tile takes the amber and the brown.
+R6: questReaderCoverPage with the A3 trim and the top style hlogo holds one logo tile and no game bar.
+
+The Red gate ran in one heavy-run (HEAVY_PRIORITY=p1, HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400).
+The command was: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2.test.ts --maxWorkers=1
+The capture is measure/runs/storytime_cover_options_20261106/red-readers-r2.txt.
+The result: Test Files 1 failed (1), Tests 4 failed | 2 passed (6), EXIT 1, 17.13 s.
+
+The 4 failing tests and their reasons:
+R1: the box table holds no key reader-a3:logo-tile, expected undefined to be defined.
+R2: the hlogo render of the A3 reader cover w01-1 holds 1 game bar, expected 1 to be 0.
+R5: the hlogo A3 reader cover holds no logo tile, expected null not to be null.
+R6: the hlogo A3 reader page holds 0 logo tiles, expected 0 to be 1.
+
+The 2 passing tests:
+R3 holds the same HTML for the 4 kept parts in both renders, for each of the 14 rows.
+R4 holds the 30 pins: 14 default A3 renders, 14 default leaf renders, 14 hlogo leaf renders, and the 2 default reader page outputs.
+The pins live in the constants A3_PINS, LEAF_PINS, PAGE_A3_PIN, and PAGE_LEAF_PIN of the test file.
+
+The tsc gate ran in one heavy-run: npx tsc --noEmit exits 0 with no output.
+The eslint gate ran outside heavy-run: npx eslint __tests__/quest-cover-readers-r2.test.ts exits 0 with no output.
+Each of the 3 captures holds 0 Thai lines and the count of dropped lines is in each file.
+pnpm-lock.yaml is unchanged.
+
+The R7 test is not written.
+The build script has no exported function that holds the render options of the reader pages.
+planQuestBuild holds the file paths, the art rows, and the picture rows only.
+The reader render call sits in main at make-storytime-quest-covers.ts:1222.
+The build checks of Task 2.9 part 5 prove that the build passes --top to the A3 reader pages.
+
+Commit a0f5cb2c holds the test file and the plan.
+Commit 5c2e55ec holds the plan and the 3 captures.
+The Red line of the plan is [x] and holds the commit tag a0f5cb2.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+phase: P2
+task: Task (Red, readers r2)
+track: storytime_cover_options_20261106
+baseline_sha: a6a3173e45d40b954efeffd5789fbc54e1863869
+role_base_sha: a6a3173e45d40b954efeffd5789fbc54e1863869
+status: complete
+commits: a0f5cb2c, 5c2e55ec
+files_changed: dashboard/__tests__/quest-cover-readers-r2.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-readers-r2.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2-tsc.txt, measure/runs/storytime_cover_options_20261106/red-readers-r2-lint.txt, measure/runs/storytime_cover_options_20261106/mid-red-readers-r2-a6a3173e.log
+tests_run: one heavy-run of CI=true npx vitest run __tests__/quest-cover-readers-r2.test.ts --maxWorkers=1; capture red-readers-r2.txt; Test Files 1 failed (1); Tests 4 failed | 2 passed (6); exit 1
+red_expectation: met; R1, R2, R5, and R6 fail on the missing behavior; R3 and R4 pass; no import error, no type error, no timeout; tsc exits 0; eslint exits 0; 0 Thai lines dropped
+plan_updates: the Red line and the Green line sit before Task 2.9; the PM decision sub-line and the PM receipt sub-line are in the plan; the Red line is [x] with the commit tag a0f5cb2; the evidence sub-line names the tests, the counts, the failures, and the exits
+handoff: Green (jr-green) changes dashboard/lib/storytime/print/cover-quest.ts and dashboard/scripts/storytime/make-storytime-quest-covers.ts. R1 needs the new box reader-a3:logo-tile { kind: reader-a3, leftMm: 126.4, topMm: 12, widthMm: 167.2, heightMm: 54 }. R2 and R6 need the top style hlogo to give the A3 reader body one logo tile from the same logoTile function, and to drop the game bar, the band word, and the series banner. R5 needs the tile centered on the 420 mm page and the logo centered in the tile within 0.25 mm, with the amber FCD34D and the brown 92400E. R3 and R4 keep the renders byte-equal: the pins are the constants A3_PINS (14 values), LEAF_PINS (14 values), PAGE_A3_PIN, and PAGE_LEAF_PIN of dashboard/__tests__/quest-cover-readers-r2.test.ts. The default A3 render, the default leaf render, the hlogo leaf render, and the 2 default questReaderCoverPage outputs must keep these values. D6 has no test: the build has no exported seam for its reader render options, so the reader render call must take the --top value, and the build checks of Task 2.9 part 5 prove it. The build then writes the reader covers with --top hlogo into covers-quest-v1/readers-a3/ and covers-quest-v1/readers-leaf/.
+dispositions: none
+END_MEASURE_AGENT_RESULT
