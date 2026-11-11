@@ -1,52 +1,76 @@
 Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93, 3fdddeee, 9039779f,
-a8831f98, and e97bb32f (this round). Status: partial. The 4 fault groups are fixed except 3 lines:
-2 mark-overlap lines of the side mark (R-P6-F3c and R32) and 1 stale mutant of the how-to (R-A47-6).
+a8831f98, e97bb32f, 9eed6a91 (this round). Status: partial. The quick loop passes; Gate A fails 13
+tests, and each one is a pin of the D3 exception covers, of the art position of Q1, or of the new
+footer strip. No code commit (PM decision of 2026-11-12 06:00, item 2: a failing run is reported, not
+worked around; my brief: commit nothing that fails).
 
 Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high. Commits of this
-round: this log and the captures only. No code commit: the quick loop fails 2 tests.
+round: this log and the 2 captures.
 
-Step 1 (the bases): `git merge-base --is-ancestor e97bb32f HEAD` exits 0. HEAD is e97bb32f.
+Step 1 (the bases): `git merge-base --is-ancestor 9eed6a91 HEAD` exits 0 (checked at the round start,
+before the Red retry 5's log commit). Time of the Gate A run: 06:07 ICT.
 
-Step 2 (the Thai rule, 3 files): a python script drops every line with a character from U+0E00 to
-U+0E7F and prints only the dropped line numbers: readers.ts 2 lines (636, 648), student-book.ts 4
-lines (311, 313, 680, 681), reader-howto.ts 41 lines (24, 247, 256, 257, 263, 287, ...). Every read is
-the filtered copy. Every edit is an exact-string python replacement with assertions that print no
-Thai line. After each edit the script proves the Thai line count of the file: readers.ts 2 to 2,
-student-book.ts 4 to 4, reader-howto.ts 41 to 41. The forbidden test files stay closed.
+Step 2 (the Thai rule, 3 files): filtered copies only (readers.ts 2 dropped lines 636 and 648,
+student-book.ts 4 lines 311, 313, 680, 681, reader-howto.ts 41 lines). Every edit is an exact-string
+python replacement with assertions, and the Thai line count is proved unchanged after each edit
+(2, 4, 41). No forbidden file opened.
 
-Step 3 (the D-A mark text): every reader leaf mark reads `<reader title> · sheet <n> of 3` (U+00B7):
-readers.ts `markHtml` (`&middot; sheet ${entry.leaf} of 3`) and the `leafMark` option of page 1
-(`sheet 1 of 3`), student-book.ts `sheet ${side.leaf} of 3`, and reader-howto.ts `leafMark()`
-(`· sheet N of M`). No printed page holds a band word now: the "leaf" word is gone from the 3 files.
+Step 3 (the 2 faults of the round, fixed):
+- The side mark of a non-page-1 side is the plain old span of the committed HEAD again: the strip
+  style and the place override no longer reach it, so its box ends at 4.00 mm from the side top and
+  clears the picture frame at 6.00 mm.
+- The page 1 mark of the D-B option: the strip grows by 2 mm around the measured mark box, and the
+  mark box is 2.0 mm to 4.5 mm from the side top, so the ink plus 1 mm lies inside the strip, 1 mm
+  clear of the footer part and of every key box, with white pixels round it. `leafMarkPlace` leaves
+  the sub-part box out of the blockers (the mark stands inside the strip), which was the last bug:
+  with the footer as a blocker the search fell back to the page edge and the mark met the Pip body
+  of w01-2.
 
-Step 4 (D-B, one mark per side): student-book.ts draws no side mark on a side that holds page 1
-(`side.pages.includes(1)` gives an empty mark), so on student book sides 1 and 7 the only mark is the
-one inside `.quest-reader-page`. The `.leaf-mark` CSS of the student book keeps its class selector, so
-it does not touch the page 1 mark, which carries no class. readers.ts already returned no second mark
-on those sides.
+Step 4 (the quick loop of 12 files, 2400 s, `green-f3f6-loopA.txt`): Test Files 12 passed (12), Tests
+499 passed (499), exit 0.
 
-Step 5 (R-A47-16, the how-to frame): the frame read of reader-howto.ts counts the page 1 quest cover
-(`/class="(?:reader-picture|quest-reader-page)"/`), so the cut, fold-leaf, and closed diagrams take
-page 1 as a picture page; pages 2, 11, and 12 keep no frame. R-A47-11 (the diagram mark text) passes.
+Step 5 (Gate A, the 10 `quest-cover-*` files, 2400 s, `green-f3f6-gateA.txt`): Test Files 4 failed | 7
+passed (11), Tests 13 failed | 258 passed (271), exit 1. The 13 assertions, each with its reason:
+1. quest-cover-readers-r2 R3: `the HTML of the part art of the A3 reader cover w01-2 is the same in
+   both renders.: expected '<img data-part="art" class="quest-art…' to be '<img data-p…'`. Reason: Q1
+   needs `object-position: 50% 100%` on that cover's art, and R3 pins the art HTML of the 2 renders
+   as equal. F3.
+2. quest-cover-readers-r2b B3: `the title text box of the row w01-2 lies clear of a crystal group
+   box: the gap is 0.00 mm.: expected 0 to be greater than or equal to 2`. Reason: the D3 exception
+   draws the plaque at 50 %, and the rule assumes the full size. F3.
+3. B4: `the plaque width of the row w01-2 follows the title: the title is 121.27 mm, the plaque is
+   148.29 mm, the rule gives 175.27 mm.`. Reason: the 50 % plaque width. F3.
+4. B5: `the synthetic title keeps the font size of the 1-line titles: 77.40 px and 154.80 px.`.
+   Reason: the 50 % title font. F3.
+5. B7: `the role bar of the row w01-2 is centered on the page.: expected 71.00135091145833 to be less
+   than or equal to 0.5`. Reason: the D3 horizontal slide of the exception cover. F3.
+6. B11: `the default leaf reader cover w01-1 holds the part footer-strip.: expected null not to be
+   null`. Reason: the footer strip exists only with the top style hlogo; the default (banner) leaf
+   render must keep its bytes (D8), so it holds no strip. F4.
+7. quest-cover-readers-r2c C3: `the role bar of the row w01-2 is centred on the page.: expected
+   71.00135091145833 to be less than or equal to 0.5`. Reason: the slide. F3.
+8. C4: `the leaf title plaque of the row w01-2 starts at 113 mm: the top is 122.00 mm.`. Reason: the
+   50 % plaque of the exception cover. F3.
+9. C6: `the band of the leaf plaque of the row w01-2 is 14.40 mm high: the band is 4.40 mm.`.
+   Reason: the 50 % plaque band. F3.
+10. C7: `the hlogo leaf reader cover w01-1 holds no SVG outside the frame, the plaque, and the role
+    mark: it holds 2.`. Reason: the str-less leaf keeps... the count is 2; the strip holds no SVG and
+    the title text box no SVG; this needs the retry's own count read (F4).
+11. C9: `the footer content of the leaf reader cover w01-2 is centred on the page: the content centre
+    is 56.00 mm, the page centre is 99 mm.`. Reason: the slide of the exception cover. F3.
+12. quest-cover-standing-rules S3: `S3 fails on 2 of 30 pages.` Reason: the cap height of the 50 %
+    plaque texts of w01-2 on the 2 exception covers. F3.
+13. quest-cover-standing-rules S4: `S4 fails on 1 of 60 pages.` Reason: the centring of the slid
+    group of w01-2. F3.
+So 11 of the 13 need the D3/D4 exception covers accepted by the old pins (the 50 % plaque and the
+slide), and 2 need the art position (R3) and the default leaf strip (B11) accepted. All 13 are
+consequences of F3 and F4, none is F5-only, and none is a code fault of this round: the quick loop,
+the 2 faults of this round, tsc, and eslint are green.
 
-Step 6 (the quick loop of 12 files, 2400 s, `green-f3f6-loop6.txt`): Test Files 3 failed | 9 passed
-(12), Tests 4 failed | 495 passed (499), exit 1. The remaining failures, with their English messages:
-1. storytime-print-readers R-P6-F3c: `[mark-overlap] side 4: the mark overlaps page content` (and
-   the same for sides 6, 10, and 12). Those are the leaf sides that hold no page 1; they keep the old
-   side mark, the same markup and the same CSS place as at the role base of retry 3, so the overlap
-   is not moved by this round's code; the new measure of the retry 4 (the text range box) is the open
-   item.
-2. storytime-print-student-book R32: the same 4 lines for the student book sides.
-3. storytime-print-reader-howto R-A47-6: `mutant page1-frameless must be caught: expected 0 to be
-   greater than 0`. The mutant takes the frame of page 1 away. Page 1 is the quest reader cover now,
-   so it holds no `reader-picture` frame, and its frame comes from the `quest-reader-page` class,
-   which the mutant does not touch; the mutant is stale for the D6 page 1 and needs a Red edit.
+Step 6 (gates): Gate B, the 3 mutants, the SHA-256 proof, and the code commit did not run, because
+Gate A fails. tsc exits 0 and eslint exits 0 (0 warnings) on the 6 changed files.
+`pnpm-lock.yaml` is unchanged.
 
-Step 7 (gates): the quick loop ran (above). Gate A, Gate B, the 3 mutants, and the code commit did
-not run, because the quick loop fails. tsc exits 0 and eslint exits 0 (0 warnings) on the 6 changed
-files. `pnpm-lock.yaml` is unchanged after every run.
-
-Step 8 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
-readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts. The plan
-holds no change, the key box file holds no change, and no test file changed by me. Captures:
-green-f3f6-loop6.txt, green-f3f6-howto.txt, and the earlier green-f3f6-*.txt files.
+Step 7 (state): 6 code files are modified in the working tree and uncommitted (cover-quest.ts,
+readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts). The plan
+holds no change, the key box file holds no change, and no test file changed by me.
