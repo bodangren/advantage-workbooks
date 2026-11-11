@@ -1,0 +1,205 @@
+CAPTURE: red-readers-r2b.txt
+MODE: heavy
+COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1
+EXIT=1
+THAI_LINES_DROPPED=0
+--- OUTPUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m11 failed[39m[2m)[22m[33m 8626[2mms[22m[39m
+[31m     [31m×[31m B1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m B2: the hlogo week pill and role bar take the logo amber and brown[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m B3: the hlogo title text box fills the plaque band and is clear of the ornaments[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m B4: the hlogo plaque width follows the title and the plaque sits on the page[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m B5: a title of 40 characters wraps to 2 lines and the plaque grows upward[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m B6: the hlogo week pill text fills the pill and sits at its center[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m B7: the hlogo role bar fits its text with even padding[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m B8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m B9: the K logo file holds only grays and the same shape as the color logo[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m B10: the leaf series line stays on one line inside the 35 mm box[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m B11: the hlogo leaf parts keep the HTML of the default leaf render[39m[32m 196[2mms[22m[39m
+     [32m✓[39m B12: the 4 book kinds keep their bytes in both styles[32m 230[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 6744[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the student-front lies inside the band in the level colour [33m 629[2mms[22m[39m
+     [33m[2m✓[22m[39m P2: the plaque text of the student-front is clear of the diamond ornaments and of itself [33m 784[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the teacher-front reads the approved words [33m 614[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 3817[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome [33m 467[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art layer keeps its HTML [33m 626[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the logo tile of the A3 reader cover sits centered in the page [33m 425[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m11 failed[39m[22m[2m | [22m[1m[32m17 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 09:13:44
+[2m   Duration [22m 27.48s[2m (transform 710ms, setup 785ms, import 1.46s, tests 19.19s, environment 5.09s)[22m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 11 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups
+[31m[1mAssertionError[22m: the plaque colour of the row w01-1.: expected '#2A77B8' to be '#FCD34D' // Object.is equality[39m
+
+Expected: [32m"#[7mFCD34D[27m"[39m
+Received: [31m"#[7m2A77B8[27m"[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m768:81[22m[39m
+    [90m766| [39m        [35mfor[39m ([35mconst[39m measure [35mof[39m a3Measures) {
+    [90m767| [39m            [35mconst[39m id [33m=[39m measure[33m.[39mid[33m;[39m
+    [90m768| [39m            expect(measure.plaqueColour, `the plaque colour of the row…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m769| [39m            const colours = measure.plaqueColours.map((value) => value…
+    [90m770| [39m            [35mfor[39m ([35mconst[39m blue [35mof[39m [33mBLUE_PALETTE_COLOURS[39m) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB2: the hlogo week pill and role bar take the logo amber and brown
+[31m[1mAssertionError[22m: the week pill fill of the row w01-1.: expected '#16264a' to be '#fcd34d' // Object.is equality[39m
+
+Expected: [32m"#[7mfcd34d[27m"[39m
+Received: [31m"#[7m16264a[27m"[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m819:92[22m[39m
+    [90m817| [39m        [35mfor[39m ([35mconst[39m measure [35mof[39m a3Measures) {
+    [90m818| [39m            [35mconst[39m id [33m=[39m measure[33m.[39mid[33m;[39m
+    [90m819| [39m            expect(toHex(measure.pill.background), `the week pill fill…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m820| [39m            expect(toHex(measure.pill.borderColour), `the week pill bo…
+    [90m821| [39m            expect(toHex(measure.pill.colour), `the week pill text of …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB3: the hlogo title text box fills the plaque band and is clear of the ornaments
+[31m[1mAssertionError[22m: the title text box of the row w01-1 fills 80 % of the plaque band: the text box is 12.96 mm, the band is 34.40 mm.: expected 0.37690042665705187 to be greater than or equal to 0.75[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m855:15[22m[39m
+    [90m853| [39m                    `the text box is ${(title.bottom - title.top).toFi…
+    [90m854| [39m                    [32m`the band is [39m[36m${[39mbandHeight[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m855| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m856| [39m            [34mexpect[39m(
+    [90m857| [39m                share[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB4: the hlogo plaque width follows the title and the plaque sits on the page
+[31m[1mAssertionError[22m: the plaque width of the row w01-1 follows the title: the title is 34.66 mm, the plaque is 220.00 mm, the rule gives 120.00 mm.: expected 99.99690755208334 to be less than or equal to 0.5[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m903:15[22m[39m
+    [90m901| [39m                `the plaque width of the row ${id} follows the title: …
+    [90m902| [39m                    `the plaque is ${(plaque.right - plaque.left).toFi…
+    [90m903| [39m            )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mWIDTH_TOLERANCE_MM[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m904| [39m            [34mexpect[39m(
+    [90m905| [39m                plaque[33m.[39mright [33m-[39m plaque[33m.[39mleft[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB5: a title of 40 characters wraps to 2 lines and the plaque grows upward
+[31m[1mAssertionError[22m: the synthetic title has 2 line boxes.: expected 1 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m929:85[22m[39m
+    [90m927| [39m        [35mconst[39m measure [33m=[39m syntheticMeasure[33m![39m[33m;[39m
+    [90m928| [39m        expect(LONG_TITLE.length, 'the synthetic title has 40 characte…
+    [90m929| [39m        expect(measure.title.rects.length, 'the synthetic title has 2 …
+    [90m   | [39m                                                                                    [31m^[39m
+    [90m930| [39m        [35mconst[39m first [33m=[39m a3Measures[[34m0[39m][33m;[39m
+    [90m931| [39m        expect(first, 'the browser measures the first A3 row.').toBeDe…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB6: the hlogo week pill text fills the pill and sits at its center
+[31m[1mAssertionError[22m: the week pill text of the row w01-1 fills 80 % of the pill inner height: the text box is 7.94 mm, the inner height is 8.80 mm.: expected 0.9023691631325357 to be less than or equal to 0.85[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m970:15[22m[39m
+    [90m968| [39m                    `the text box is ${(text.bottom - text.top).toFixe…
+    [90m969| [39m                    `the inner height is ${innerHeight.toFixed(2)} mm.…
+    [90m970| [39m            )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mMAX_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m971| [39m            [34mexpect[39m(
+    [90m972| [39m                Math.abs((text.top + text.bottom) / 2 - (pill.top + pi…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB7: the hlogo role bar fits its text with even padding
+[31m[1mAssertionError[22m: the role bar of the row w01-1 fits its text: the content fills 48.8 % of the bar width.: expected 0.48799870007381974 to be greater than or equal to 0.6[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1021:15[22m[39m
+    [90m1019| [39m                `the role bar of the row ${id} fits its text: the cont…
+    [90m1020| [39m                    `${((contentWidth / innerWidth) * 100).toFixed(1)}…
+    [90m1021| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_BAR_CONTENT_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1022| [39m            expect(measure.page, `the A3 reader cover ${id} holds a pa…
+    [90m1023| [39m            [35mconst[39m page [33m=[39m measure[33m.[39mpage[33m![39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none
+[31m[1mAssertionError[22m: the box table holds the key reader-leaf:logo-tile.: expected undefined to be defined[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1041:76[22m[39m
+    [90m1039| [39m    it('B8: the hlogo leaf cover holds one gray logo tile and the defa…
+    [90m1040| [39m        [35mconst[39m tile [33m=[39m [33mQUEST_BOXES[39m[[32m'reader-leaf:logo-tile'[39m][33m;[39m
+    [90m1041| [39m        expect(tile, 'the box table holds the key reader-leaf:logo-til…
+    [90m   | [39m                                                                           [31m^[39m
+    [90m1042| [39m        expect(tile!.kind, 'the kind of the leaf logo tile.').toBe('re…
+    [90m1043| [39m        expect(tile!.leftMm, 'the left of the leaf logo tile is 59.6 m…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB9: the K logo file holds only grays and the same shape as the color logo
+[31m[1mAssertionError[22m: the K logo file sits in content/storytime/covers/logos/.: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1080:98[22m[39m
+    [90m1078| [39m        const kFile = path.join(logoDir, 'storytime-advantage-horizont…
+    [90m1079| [39m        const colourFile = path.join(logoDir, 'storytime-advantage-hor…
+    [90m1080| [39m        expect(fs.existsSync(kFile), 'the K logo file sits in content/…
+    [90m   | [39m                                                                                                 [31m^[39m
+    [90m1081| [39m        const kDoc = new DOMParser().parseFromString(fs.readFileSync(k…
+    [90m1082| [39m        const colourDoc = new DOMParser().parseFromString(fs.readFileS…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB10: the leaf series line stays on one line inside the 35 mm box
+[31m[1mAssertionError[22m: the width of the leaf series box is 35 mm.: expected 30 to be 35 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 35[39m
+[31m+ 30[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1105:76[22m[39m
+    [90m1103| [39m        expect(box!.leftMm, 'the left of the leaf series box is 68 mm.…
+    [90m1104| [39m        expect(box!.topMm, 'the top of the leaf series box is 137 mm.'…
+    [90m1105| [39m        expect(box!.widthMm, 'the width of the leaf series box is 35 m…
+    [90m   | [39m                                                                           [31m^[39m
+    [90m1106| [39m        expect(box!.heightMm, 'the height of the leaf series box is 6 …
+    [90m1107| [39m        expect(leafMeasures.length, 'the browser measures 28 leaf rend…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB11: the hlogo leaf parts keep the HTML of the default leaf render
+[31m[1mAssertionError[22m: the hlogo leaf reader cover w01-1 holds one logo tile.: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1128:92[22m[39m
+    [90m1126| [39m            [35mconst[39m alt [33m=[39m [34mparseHtml[39m([34mleafHtml[39m(row[33m,[39m [33mHLOGO_OPTIONS[39m))[33m;[39m
+    [90m1127| [39m            const tiles = alt.querySelectorAll('[data-part="logo-tile"…
+    [90m1128| [39m            expect(tiles.length, `the hlogo leaf reader cover ${id} ho…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m1129| [39m            for (const part of Array.from(alt.querySelectorAll('[data-…
+    [90m1130| [39m                [35mconst[39m name [33m=[39m part[33m.[39m[34mgetAttribute[39m([32m'data-part'[39m) [33m??[39m [32m''[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯[22m[39m
