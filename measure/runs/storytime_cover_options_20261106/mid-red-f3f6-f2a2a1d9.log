@@ -353,3 +353,78 @@ remaining_failures: D6 body test (no leafMark in the page 1 body), R-P6-F3c and 
 questions: none
 handoff: see the reply of this retry for the exact rule; in short: questReaderCoverPage(row, trim, assets, { ...opts, leafMark }) draws one [data-part="leaf-mark"] with the text "<title> · leaf <n> of <m>" in the page 1 body; rule a puts its ink plus 1 mm inside the footer-strip (the strip may grow but must hold its cover-build box), 1 mm clear of every chrome part and key box; rule b only when rule a has no free place; the pixels round the ink are white; the a3-color output and the covers build pass no leafMark; the side draws no other leaf mark.
 END_MEASURE_AGENT_RESULT
+
+## Red retry 4 (2026-11-12, mid-red, model claude-code/claude-opus-5-5[1m]#high; role_base_sha 8fc4549a)
+
+Green state: 8fc4549a holds the Green log and 2 captures; its code stays uncommitted in
+cover-quest.ts, readers.ts, teacher-book-cover.ts, and make-readers-pdf.ts. The tree prints
+"<title> · leaf <n> of 3" (readers.ts lines 277 and 706, student-book.ts line 738).
+
+Orchestrator decisions (2026-11-12):
+- D-A: the mark text is "<reader title> · sheet <n> of <m>" on every reader side. The band word
+  scans stay. The part name [data-part="leaf-mark"] stays.
+- D-B: on a page 1 side the mark tests read the one mark inside the quest page (its ink box in side
+  mm). Every geometry rule and the count of 1 mark per side stay.
+
+Edits (each with one "changed 2026-11-12 (D-A, orchestrator decision)" or "(D-B, ...)" comment line;
+0 Thai characters added):
+- fixtures/storytime-reader-leaf.ts: leafSideProblems needs "sheet <leaf> of 3" and the title
+  (D-A); measureLeafSidesInBrowser takes the text range box of a mark inside .quest-reader-page (D-B).
+- quest-cover-f3f6.test.ts D6 body test: the pattern is "<title> · sheet [0-9]+ of [0-9]+".
+- storytime-print-readers.test.ts: R-P4-2c counts 1 mark per side and reads "sheet <n> of 3";
+  R-P4-2d mutant "Hello! · sheet 4 of 3" plus a new mutant with the old text "Hello! · leaf 1 of 3";
+  R-P6-F3c gets the D-B comment.
+- storytime-print-student-book.test.ts: R32 mutant "Hello! · sheet 5 of 3" plus a new mutant with
+  the old text "Hello! · leaf 2 of 3"; the D-B comment in the dashed fold line test and the mark
+  placement test.
+- storytime-print-student-book-adversarial.test.ts: A2 reads "sheet [123] of 3" and the sheet number;
+  the D-B comment in the 2 A2 tests.
+- storytime-print-reader-howto.test.ts: R-A47-11 pins "<title> · sheet 1 of 3" (this file holds
+  57 older Thai characters; the edited line holds none).
+
+Tree run (limit 2400 s, red-f3f6-retry4-tree.txt) of quest-cover-f3f6, storytime-print-readers,
+storytime-print-student-book, storytime-print-student-book-adversarial, storytime-print-reader-howto,
+storytime-print-covers, storytime-print-covers-adversarial: Test Files 7 failed (7), Tests 17 failed |
+228 passed (245).
+1. The mark text "leaf" (9 tests): D6 body ('week 1 workbook "Hello!": the page 1 body holds the leaf
+   marks ["Hello! · leaf 1 of 3"] (the pin is 1 mark "Hello! · sheet <n> of <m>").'); D6 no band word
+   ('week 1 workbook proof "Hello!" page 1: the band word "leaf".'); covers-adversarial reader cover
+   check ("The real reader covers pass the cover check.: expected 1 to be +0"); covers Q2 copy ('The
+   page shows the band word "leaf".'); R-A47-11 ("expected 'Hello! · leaf 1 of 3' to be 'Hello! ·
+   sheet 1 of 3'"); R-P4-2 and R-P4-2d ('[leaf-mark] mark "Hello! · leaf 1 of 3", want the title
+   "Hello!" and "sheet 1 of 3"'); R-P4-2c ("expected [ undefined, undefined, ... ]"); R-P4-3 (the page
+   text "Hello! · leaf 1 of 3" matches /\b(seed|sprout|leaf|bud|flower)\b/i).
+2. Two marks on the student book sides 1 and 7 (5 tests): A2 "names the reader and the leaf
+   number ..." and A2 "fills each reader side ..." ("expected ... to have a length of 1 but got 2");
+   R32 imposition ("[leaf-mark] Hello! leaf 1 front: 2 marks, want 1" and the text lines); R32 dashed
+   fold line ("one leaf mark: expected ... to have a length of 1 but got 2"); R32 mutants (the clean
+   document gives the same problems).
+3. Green geometry faults (2 tests): R-P6-F3c ("[mark-overlap] side 4: the mark overlaps page
+   content", also sides 6, 10, and 12; these back sides passed in retry 3, so the new leaf-mark-strip
+   place of readers.ts moves the mark onto the content); R32 mark placement ("[mark-a-ring] side 1: the
+   footer strip has less than 1 mm around the mark ink", also side 7, and "[mark-pixels] side 7: no
+   pixel of the mark strip was read").
+4. R-A47-16 of the how-to ("[frame] cut page 1: 0 frames, want 1", "[frame-own] page 1 has no frame
+   of its own"): the how-to diagrams read the real page 1, which is now the quest cover with no frame.
+   This is an older page 1 pin of F5. It is not moved, because the brief of this retry did not name it
+   (Q7).
+tsc (limit 300 s, red-f3f6-retry4-tsc.txt): exit 0. eslint on the 6 changed files (limit 300 s,
+red-f3f6-retry4-lint.txt): exit 0. pnpm-lock.yaml stayed unchanged.
+Plan: one sub-line before "- [ ] Task (Green, F3 to F6)", numstat 1 0, plan Thai count 0.
+Commit: 88e99378 (6 test files, the plan, 3 captures).
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 8fc4549a
+baseline_sha: f2a2a1d9
+head: 88e99378 before this log commit
+commits: 88e99378 (test(covers): Red retry 4), this log (measure(runs))
+tests_run: tree run of 7 files: Test Files 7 failed (7), Tests 17 failed | 228 passed (245), exit 1; tsc exit 0; eslint exit 0
+red_command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts __tests__/storytime-print-reader-howto.test.ts __tests__/storytime-print-covers.test.ts __tests__/storytime-print-covers-adversarial.test.ts --maxWorkers=1
+remaining_failures: 9 by the mark text "leaf"; 5 by the 2 marks of the student book on sides 1 and 7; R-P6-F3c and R32 placement by the Green geometry; R-A47-16 (Q7)
+questions: Q7 (default: R-A47-16 stays unchanged and fails; the orchestrator decides if the how-to diagrams may draw page 1 with no frame, as an F5 move of the pin "page 1 has its own frame").
+handoff: Rule for the Green. (1) D-A: every reader leaf mark (the readers build and the student book, all 12 sides of each week, and the page 1 mark of the leafMark option) reads exactly "<reader title> · sheet <n> of 3" with n the leaf number (1, 1, 2, 2, 3, 3 per reader); the how-to cut diagram copies "<title> · sheet 1 of 3". No printed reader page holds a band word (seed, sprout, leaf, bud, flower); the band word scans are unchanged. The part name stays [data-part="leaf-mark"]. (2) D-B: each reader side holds exactly 1 [data-part="leaf-mark"]. On sides 1 and 7 (page 1) that mark is the one inside .quest-reader-page; student-book.ts must draw no side mark there (today it draws 2). (3) The page 1 mark keeps the Q5 rule: its ink box plus 1 mm inside the footer-strip, 1 mm clear of every chrome part and key box, the pixels round it white; R32 in the student book fails "[mark-a-ring] side 1: the footer strip has less than 1 mm around the mark ink" (also side 7) and "[mark-pixels] side 7: no pixel of the mark strip was read"; check that the student book CSS for .leaf-mark does not move the page 1 mark. (4) Every other side keeps the old rule: the mark in a page margin, 0.5 to 10 mm from the side top, clear of the page content, 3 mm clear of the fold line and the perforation, inside the torn leaf; R-P6-F3c fails "[mark-overlap] side 4: the mark overlaps page content" (also sides 6, 10, and 12) with the new leaf-mark-strip place of readers.ts. (5) R-A47-16 of the how-to fails "[frame] cut page 1: 0 frames, want 1"; this is an older page 1 pin (Q7); do not change the how-to for it until the orchestrator answers. storytime-print-student-book.test.ts, storytime-print-reader-howto.test.ts, a48-part2, and v15 hold older Thai text: run them, do not open them.
+END_MEASURE_AGENT_RESULT
