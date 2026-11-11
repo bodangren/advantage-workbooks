@@ -33,7 +33,8 @@
  *   S4: the centring: each band text stands at its band centre within 1 mm and its ink box lies
  *       inside its part box, the leaf footer stands at the page centre, the back contact lines stand
  *       between the board edge and the QR, and the student back panel block stands at the panel
- *       centre.
+ *       centre. S4 changed 2026-11-11 (standing rules fix): the role bar text block is the role mark,
+ *       the 2 icons and the label.
  *   S5: the game UI: no band word, no band icon, no XP bar, and no game bar on any page.
  *
  * The method notes:
@@ -207,6 +208,8 @@ interface RawPart {
     bandBox: RawBox | null;
     /** The place of the band. */
     bandSource: string;
+    /** The boxes of the role icon spans of the part. */
+    iconBoxes: RawBox[];
 }
 
 /** The measure of one page in Chrome. */
@@ -267,6 +270,8 @@ interface BandBlock {
     bandSource: string;
     /** The box of the part. */
     partBox: RawBox | null;
+    /** The boxes of the role icon spans of the part. */
+    iconBoxes: RawBox[];
 }
 
 /** The result of one rule over the 32 pages. */
@@ -588,6 +593,11 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
                 }
                 return found;
             };
+            const iconBoxesOf = (element: Element): RawBox[] =>
+                Array.from(element.querySelectorAll('span'))
+                    .filter((one) => one.querySelector('svg'))
+                    .map((one) => boxOf(one))
+                    .filter((one): one is RawBox => one !== null);
             const bandOf = (part: Element, name: string): { box: RawBox | null; source: string } => {
                 if (name === 'title-plaque') {
                     const colour = (part.getAttribute('data-plaque-colour') ?? '').toLowerCase();
@@ -626,6 +636,7 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
                     texts: textsOf(element),
                     bandBox: band.box,
                     bandSource: band.source,
+                    iconBoxes: name === 'role-bar' ? iconBoxesOf(element) : [],
                 });
             }
             const footer = document.querySelector('[data-part="footer"]');
@@ -684,6 +695,7 @@ function bandBlocksOf(raw: RawPage): BandBlock[] {
             band: part.bandBox,
             bandSource: part.bandSource,
             partBox: part.box,
+            iconBoxes: part.iconBoxes,
         });
     }
     return found;
@@ -948,10 +960,21 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
                     );
                     continue;
                 }
+                // The role bar text block is the role mark: the 2 icons and the label.
+                let boxLeft = inkLeft;
+                let boxRight = inkRight;
+                let boxTop = inkTop;
+                let boxBottom = inkBottom;
+                for (const icon of block.iconBoxes) {
+                    boxLeft = Math.min(boxLeft, icon.left);
+                    boxRight = Math.max(boxRight, icon.right);
+                    boxTop = Math.min(boxTop, icon.top);
+                    boxBottom = Math.max(boxBottom, icon.bottom);
+                }
                 const across = Math.abs(
-                    (inkLeft + inkRight) / 2 - (block.band.left + block.band.right) / 2,
+                    (boxLeft + boxRight) / 2 - (block.band.left + block.band.right) / 2,
                 );
-                const down = Math.abs((inkTop + inkBottom) / 2 - (block.band.top + block.band.bottom) / 2);
+                const down = Math.abs((boxTop + boxBottom) / 2 - (block.band.top + block.band.bottom) / 2);
                 if (across > CENTRE_TOLERANCE_MM) {
                     problems.push(
                         `${page.id} ${block.part}: the ink box centre is ${across.toFixed(2)} mm from the band centre ` +
@@ -969,14 +992,14 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
                     continue;
                 }
                 const inside =
-                    inkLeft >= block.partBox.left - INSIDE_TOLERANCE_MM &&
-                    inkRight <= block.partBox.right + INSIDE_TOLERANCE_MM &&
-                    inkTop >= block.partBox.top - INSIDE_TOLERANCE_MM &&
-                    inkBottom <= block.partBox.bottom + INSIDE_TOLERANCE_MM;
+                    boxLeft >= block.partBox.left - INSIDE_TOLERANCE_MM &&
+                    boxRight <= block.partBox.right + INSIDE_TOLERANCE_MM &&
+                    boxTop >= block.partBox.top - INSIDE_TOLERANCE_MM &&
+                    boxBottom <= block.partBox.bottom + INSIDE_TOLERANCE_MM;
                 if (!inside) {
                     problems.push(
-                        `${page.id} ${block.part}: the ink box is ${inkLeft.toFixed(2)} to ${inkRight.toFixed(2)} mm ` +
-                            `by ${inkTop.toFixed(2)} to ${inkBottom.toFixed(2)} mm, and the part box is ` +
+                        `${page.id} ${block.part}: the ink box is ${boxLeft.toFixed(2)} to ${boxRight.toFixed(2)} mm ` +
+                            `by ${boxTop.toFixed(2)} to ${boxBottom.toFixed(2)} mm, and the part box is ` +
                             `${block.partBox.left.toFixed(2)} to ${block.partBox.right.toFixed(2)} mm by ` +
                             `${block.partBox.top.toFixed(2)} to ${block.partBox.bottom.toFixed(2)} mm (the ink box ` +
                             `must lie inside the part box).`,

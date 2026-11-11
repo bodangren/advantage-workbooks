@@ -1,0 +1,245 @@
+CAPTURE of standing rules fix Red gate
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-standing-rules.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS1: every page holds the product logo, by file hash, centred in its tile
+[22m[39mSTANDING-RULES S1: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[22m[39mSTANDING-RULES S2: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS3: the cap height of every band text is 75 % to 85 % of its band
+[22m[39mSTANDING-RULES S3: checks 63, pages in scope 30, pages failing 30. By group: student-front 1/1, teacher-front 1/1, student-back 0/1, teacher-back 0/1, reader-a3 14/14, reader-leaf 14/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS4: every text block stands centred within 1 mm, front and back
+[22m[39mSTANDING-RULES S4: checks 76, pages in scope 32, pages failing 26. By group: student-front 0/1, teacher-front 1/1, student-back 1/1, teacher-back 0/1, reader-a3 10/14, reader-leaf 14/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[22m[39mSTANDING-RULES S5: checks 32, pages in scope 32, pages failing 15. By group: student-front 0/1, teacher-front 1/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 14/14.
+
+ [31m❯[39m __tests__/quest-cover-standing-rules.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 9273[2mms[22m[39m
+     [33m[2m✓[22m[39m S1: every page holds the product logo, by file hash, centred in its tile [33m 823[2mms[22m[39m
+     [32m✓[39m S2: every chrome colour comes from the logo token table, and every leaf colour is a gray[32m 2[2mms[22m[39m
+[31m     [31m×[31m S3: the cap height of every band text is 75 % to 85 % of its band[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m S4: every text block stands centred within 1 mm, front and back[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m S5: no page holds a band word, a band icon, an XP bar, or a game bar[39m[33m 939[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 13:44:41
+[2m   Duration [22m 12.35s[2m (transform 686ms, setup 150ms, import 986ms, tests 9.27s, environment 1.30s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS3: the cap height of every band text is 75 % to 85 % of its band
+[31m[1mAssertionError[22m[39m: S3 fails on 30 of 30 pages.
+student-front title-plaque: the cap height is 5.03 mm and the band is 8.40 mm (the band path of the plaque), the share is 59.9 % for 3 of 3 texts (the rule is 75 % to 85 %).
+teacher-front title-plaque: the cap height is 5.03 mm and the band is 8.40 mm (the band path of the plaque), the share is 59.9 % for 3 of 3 texts (the rule is 75 % to 85 %).
+teacher-front band-pill: the cap height is 2.91 mm and the band is 7.80 mm (the inner box of the part, the border is 0.60 mm), the share is 37.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w01-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w02-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w03-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w04-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w05-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w06-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-1 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-1 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-1 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-1 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-2 reader-a3 title-plaque: the cap height is 19.84 mm and the band is 34.40 mm (the band path of the plaque), the share is 57.7 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-2 reader-a3 week-pill: the cap height is 3.44 mm and the band is 8.80 mm (the inner box of the part, the border is 0.60 mm), the share is 39.1 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-2 reader-a3 role-bar: the cap height is 3.70 mm and the band is 10.80 mm (the inner box of the part, the border is 0.60 mm), the share is 34.3 % for 1 of 1 texts (the rule is 75 % to 85 %).
+w07-2 reader-leaf title-plaque: the cap height is 4.50 mm and the band is 0.00 mm (no band path in the plaque), the share is 0.0 % for 1 of 1 texts (the rule is 75 % to 85 %).: expected 59 to be +0 // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 59[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m748:7[22m[39m
+    [90m746| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m747| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m748| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m749| [39m}
+    [90m750| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m925:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS4: every text block stands centred within 1 mm, front and back
+[31m[1mAssertionError[22m: S4 fails on 26 of 32 pages.
+teacher-front band-pill: the ink box centre is 1.06 mm from the band centre down (the rule is 1.00 mm).
+student-back panel: the panel text block centre is 1.33 mm from the panel centre across (the rule is 1.00 mm).
+w01-1 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w01-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w01-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w01-2 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w01-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w01-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w02-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w02-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w02-2 reader-a3 title-plaque: the ink box centre is 3.04 mm from the band centre down (the rule is 1.00 mm).
+w02-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w02-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w03-1 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w03-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w03-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w03-2 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w03-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w03-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w04-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w04-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w04-2 reader-a3 title-plaque: the ink box centre is 2.77 mm from the band centre down (the rule is 1.00 mm).
+w04-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w04-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w05-1 reader-a3 title-plaque: the ink box centre is 2.77 mm from the band centre down (the rule is 1.00 mm).
+w05-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w05-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w05-2 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w05-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w05-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w06-1 reader-a3 title-plaque: the ink box centre is 3.04 mm from the band centre down (the rule is 1.00 mm).
+w06-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w06-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w06-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w06-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w07-1 reader-a3 title-plaque: the ink box centre is 3.30 mm from the band centre down (the rule is 1.00 mm).
+w07-1 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w07-1 reader-leaf footer: the page holds no footer content, so the rule reads nothing.
+w07-2 reader-leaf title-plaque: the band is missing (no band path in the plaque), so the ink box centre cannot stand at the band centre.
+w07-2 reader-leaf footer: the page holds no footer content, so the rule reads nothing.: expected 40 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 40[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m748:7[22m[39m
+    [90m746| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m747| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m748| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m749| [39m}
+    [90m750| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m1086:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[31m[1mAssertionError[22m: S5 fails on 15 of 32 pages.
+teacher-front band-pill: the page holds 1 parts of the forbidden list (the rule is 0).
+teacher-front band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+teacher-front body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w01-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w01-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w01-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w01-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w01-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w02-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w02-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w02-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w02-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w03-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w03-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w03-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w03-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w04-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w04-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w04-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w04-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w05-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w05-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w05-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w05-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w06-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w06-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w06-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w06-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-1 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w07-1 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-1 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).
+w07-2 reader-leaf band-word: the page holds 1 parts of the forbidden list (the rule is 0).
+w07-2 reader-leaf band-word: the page holds 1 text nodes that equal a band name (the rule is 0).
+w07-2 reader-leaf body: the page holds 1 XP or sprout matches outside the panel value and the contact lines (the rule is 0).: expected 45 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 45[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m748:7[22m[39m
+    [90m746| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m747| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m748| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m749| [39m}
+    [90m750| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m1115:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
