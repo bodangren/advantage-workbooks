@@ -1,0 +1,63 @@
+CAPTURE of r2c and rules mutant 1
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-standing-rules.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS1: every page holds the product logo, by file hash, centred in its tile
+[22m[39mSTANDING-RULES S1: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[22m[39mSTANDING-RULES S2: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS3: the cap height of every band text is 75 % to 85 % of its band
+[22m[39mSTANDING-RULES S3: checks 62, pages in scope 30, pages failing 2. By group: student-front 1/1, teacher-front 1/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS4: every text block stands centred within 1 mm, front and back
+[22m[39mSTANDING-RULES S4: checks 75, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[22m[39mSTANDING-RULES S5: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+ [31m❯[39m __tests__/quest-cover-standing-rules.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 9434[2mms[22m[39m
+     [33m[2m✓[22m[39m S1: every page holds the product logo, by file hash, centred in its tile [33m 791[2mms[22m[39m
+     [32m✓[39m S2: every chrome colour comes from the logo token table, and every leaf colour is a gray[32m 3[2mms[22m[39m
+[31m     [31m×[31m S3: the cap height of every band text is 75 % to 85 % of its band[39m[32m 7[2mms[22m[39m
+     [32m✓[39m S4: every text block stands centred within 1 mm, front and back[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m S5: no page holds a band word, a band icon, an XP bar, or a game bar [33m 871[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 14:40:50
+[2m   Duration [22m 15.60s[2m (transform 660ms, setup 482ms, import 1.14s, tests 9.43s, environment 4.07s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-standing-rules.test.ts[2m > [22mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22mS3: the cap height of every band text is 75 % to 85 % of its band
+[31m[1mAssertionError[22m: S3 fails on 2 of 30 pages.
+student-front title-plaque: the cap height is 5.03 mm and the band is 8.40 mm (the band path of the plaque), the share is 59.9 % for 3 of 3 texts (the rule is 75 % to 85 %).
+teacher-front title-plaque: the cap height is 5.03 mm and the band is 8.40 mm (the band path of the plaque), the share is 59.9 % for 3 of 3 texts (the rule is 75 % to 85 %).: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m expectRule __tests__/quest-cover-standing-rules.test.ts:[2m748:7[22m[39m
+    [90m746| [39m        outcome[33m.[39mproblems[33m.[39mlength[33m,[39m
+    [90m747| [39m        `${rule} fails on ${outcome.failing.length} of ${outcome.scope…
+    [90m748| [39m    )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m749| [39m}
+    [90m750| [39m
+[90m [2m❯[22m __tests__/quest-cover-standing-rules.test.ts:[2m925:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1

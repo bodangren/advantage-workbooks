@@ -1,0 +1,44 @@
+CAPTURE of readers r2c try 3
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2c.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2c.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 6004[2mms[22m[39m
+     [32m✓[39m C1: the hlogo week pill letters fill 80 % of the pill inner height[32m 6[2mms[22m[39m
+     [32m✓[39m C2: the hlogo week pill fits its text and keeps its place on the page[32m 11[2mms[22m[39m
+     [32m✓[39m C3: the hlogo role bar letters fill 80 % of the bar inner height[32m 9[2mms[22m[39m
+     [32m✓[39m C4: the hlogo leaf plaque is the r2 book plaque drawing[32m 14[2mms[22m[39m
+     [32m✓[39m C5: the hlogo leaf plaque takes the K gray palette[32m 18[2mms[22m[39m
+[31m     [31m×[31m C6: the hlogo leaf title fills 80 % of the plaque band[39m[32m 4[2mms[22m[39m
+     [32m✓[39m C7: the hlogo leaf holds no band word and no band icon[32m 2[2mms[22m[39m
+     [32m✓[39m C8: the hlogo leaf holds one footer with the series, the week, and the role line[32m 21[2mms[22m[39m
+     [32m✓[39m C9: the hlogo leaf footer sits on one line at the centre of the page[32m 7[2mms[22m[39m
+     [32m✓[39m C10: the build band check passes the hlogo leaf and the default leaf[32m 206[2mms[22m[39m
+     [32m✓[39m C11: the default leaf render of each row keeps its bytes of the role base 0b3000fa[32m 19[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 11:56:17
+[2m   Duration [22m 8.05s[2m (transform 598ms, setup 93ms, import 840ms, tests 6.00s, environment 726ms)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC6: the hlogo leaf title fills 80 % of the plaque band
+[31m[1mAssertionError[22m: the leaf title text box of the row w01-2 lies clear of a crystal group box: the gap is 0.00 mm.: expected 0 to be greater than or equal to 2[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1204:19[22m[39m
+    [90m1202| [39m                    `the leaf title text box of the row ${id} lies cle…
+    [90m1203| [39m                        [32m`the gap is [39m[36m${[39mgap[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m1204| [39m                )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mORNAMENT_CLEARANCE_MM[39m)[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m1205| [39m            }
+    [90m1206| [39m            expect(measure.title.colour, `the leaf title text colour o…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1

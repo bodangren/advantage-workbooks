@@ -1,0 +1,109 @@
+Jr Green log of the readers r2c pair of the cover track, 2026-11-11.
+
+The role is measure-jr-green. The model is deepseek/deepseek-flash#high. The track is
+storytime_cover_options_20261106, Phase 2 (P2), and the task is `Task (Green, readers r2c)`. The role
+base is 27ba18d2, and it is an ancestor of HEAD. The Red model is
+minimax-cn-coding-plan/MiniMax-M3.1-Flash, and the Red commit is 9b06aa2e. No coder was delegated.
+
+The Thai filter ran first. It printed 0 Thai characters for the library, the build script, the 2
+test files, the Red log, and the plan. It printed 0 Thai characters for the blocked capture. Every
+capture holds THAI_LINES_DROPPED=0. No week file, no options file, and no test-strategy.md was read.
+
+Result: the role is BLOCKED. Ten of the 11 tests pass after my change. C6 cannot pass, for any
+implementation, with the pins that the Red test holds. The tree is therefore clean again, and the
+change waits in a patch.
+
+1. What I changed (the patch `green-readers-r2c-blocked-impl.patch`, 2 files, +195 / -20).
+
+- `dashboard/lib/storytime/print/cover-quest.ts`: 11 new constants with JSDoc (the pill font, the
+  pill padding and centre, the pill and bar text shifts, the bar icon shift, the bar label font, the
+  leaf plaque height, the leaf title font and text box, the leaf footer top and height), the
+  `PLAQUE_K_PALETTE` constant and the `LEAF_PLAQUE_BAND` constant with JSDoc, the optional
+  `iconCss` parameter of `roleMark` (empty by default, so the default bytes stay), the new
+  `leafTitlePlaque` and `leafFooter` functions with JSDoc, the 2 JSDoc updates of `readerA3Body` and
+  `leafBody`, the hlogo pill with `width:max-content`, the 4.65 mm padding, the 340 mm centre, the
+  `translateX(-50%)` centring, the cap font and the text shift, the hlogo bar with the cap font and
+  the icon shift, and the hlogo leaf with the r2 plaque drawing in K, the centred title, the single
+  footer, and no band word and no band glyph.
+- `dashboard/scripts/storytime/make-storytime-quest-covers.ts`: `bandCheck` takes the logo tile
+  branch of the reader leaf (a tile page passes with no band word part and no band word, a page with
+  no tile keeps the present rule), the JSDoc is updated, and the script exports
+  `export const questBandCheck = bandCheck;` with JSDoc.
+
+2. The r2c runs (one heavy-run each, the r2c file alone, `HEAVY_RUN_TIMEOUT_S=300`).
+
+- try 1: `Tests 3 failed | 8 passed (11)`, EXIT 1, the duration of the attempt was not kept.
+  C4, C5, C7, C8, C9, C10, C11 and C2
+  pass. C1 fails on the cap share (6.35 mm of 8.80 mm, 72.2 %), C3 on the cap band centre
+  (285.02 mm against 284.00 mm), and C6 on the title centre across (102.03 mm against 99.00 mm).
+- try 2: `Tests 2 failed | 9 passed (11)`, EXIT 1, the duration of the attempt was not kept.
+  C1 passes after the pill cap font
+  (9.93 mm) and the text shift. C3 fails on the icon box (the icon top is 273.40 mm against the
+  278.60 mm inner top), and C6 keeps the title centre across at 102.03 mm.
+- try 3: `Tests 1 failed | 10 passed (11)`, EXIT 1, 8.05 s (the capture holds this duration). C3 passes with no icon shift. C6 fails
+  on the crystal group clearance of the row w01-2: the gap is 0.00 mm against the 2 mm rule.
+  Capture: `green-readers-r2c-blocked.txt`. The 3 raw captures are in `/tmp/opencode/gr2c/`.
+
+3. Why C6 cannot pass (the block).
+
+C6 holds 4 pins together: the title text box fills 80 % ± 5 % of the 14.40 mm band, the text box
+has 1 line box, the box lies 2 mm clear of each crystal group box, and every row must pass. The
+band height and the ink height fix the font, and the plaque drawing fixes the ornament reach:
+
+- The text box height is 0.921 x the font size (READER_TITLE_BOX_EM, measured in Chrome). The pin
+  gives a font of 12.508 mm (share 80.0 %). The 0.75 floor gives 11.726 mm.
+- The plaque drawing `plaqueSvg(110, 20, ..., true, ...)` puts each crystal group from 1.20 mm to
+  18.53 mm in from its end (18.78 mm with the 0.25 mm half stroke). The free band is therefore
+  18.78 mm to 91.22 mm, and its centre is 55 mm. The text centre is 55 mm. The most text width
+  that keeps the 2 mm rule is 68.44 mm.
+- The widths of the 14 titles from the advance table of the module, at 12.508 mm: Hello 26.93,
+  Nan Can Nod 74.08, Can I? 34.73, How Many? 63.58, Paint 28.67, The Pan 43.70, My Family 56.08,
+  Pam 24.12, I Have Two 60.10, Sam and Pam 75.87, I Can See 51.46, Tap Tap 44.35, Is It a Ball?
+  60.05, The Top 42.77 mm.
+- Two titles break the rule at any font that C6 allows: Nan Can Nod (74.08 mm, 69.45 mm at the 0.75
+  floor) and Sam and Pam (75.87 mm, 71.13 mm at the floor). Both are wider than 68.44 mm, and both
+  are wider than the 72.44 mm free band at the 80 % font. The measured overlap of the row w01-2
+  (0.00 mm gap, a 74.06 mm ink box) matches the table.
+- The orchestrator pin assumed that the longest title is "Is It a Ball?" at about 60 mm. That value
+  is right (60.05 mm), but 2 longer titles exist.
+- The band height pin (14.40 ± 0.1 mm) and the 110 x 20 mm plaque box fix the vertical scale of the
+  drawing at 1:1, so the ornament reach cannot shrink inside the pinned box. A narrower font fails
+  the 0.75 share floor. 2 lines fail the 1 line box rule. A wider plaque fails the box pin of C4
+  (44/113/110/20 mm).
+
+4. The state of the tree.
+
+I reverted the 2 code files, because a Mid Red retry must see the Red tests fail on a clean tree. The
+change is in `measure/runs/storytime_cover_options_20261106/green-readers-r2c-blocked-impl.patch`,
+and `git apply --check` passes on it. `git status --porcelain dashboard` lists only `?? dashboard/raw.json`.
+`pnpm-lock.yaml` is unchanged. I made no commit, because no Green gate passed.
+
+5. The question for the orchestrator (a Mid Red retry, or a PM decision).
+
+The default that I recommend: **A. Widen the leaf plaque.** The Red retry sets the box
+`reader-leaf:title-plaque` to {34, 113, 130, 20} mm (still centred on 99 mm), moves the C4 box pin
+and E6 to it, and keeps the 2 mm rule and the 80 % rule. At 130 mm the free band is 92.44 mm wide,
+so the widest title (75.87 mm) keeps an 8.2 mm clearance. No drawing and no colour changes.
+
+The other options: **B. Keep the 110 mm plaque and scale the leaf ornaments down** (a new ornament
+scale parameter of `plaqueSvg`, s = 4.0 mm: the clearance is then 3.0 mm for the widest title). This
+deviates from "the same plaque drawing as the A3", so it needs a Red and a PM pin.
+**C. Keep the 110 mm plaque and drop the title fill share to 65 % to 75 %** (a font of 11.7 mm or
+less). Even then Nan Can Nod needs 1.5 mm and Sam and Pam needs 0.1 mm of clearance, so this option
+also needs a 1.5 mm rule at best. **D. Keep the 110 mm plaque and the 80 % font, and change the
+clearance rule to 0 mm.** This one still fails: the 2 long titles overlap the ornaments by 0.8 mm
+and 1.7 mm.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 27ba18d261176b17dde553df7cf268f865d1245e
+commits: none (the tree is reverted; the change is in measure/runs/storytime_cover_options_20261106/green-readers-r2c-blocked-impl.patch)
+tests_run: the r2c file `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2c.test.ts --maxWorkers=1` in 3 heavy-runs: try 1 `Tests 3 failed | 8 passed (11)` EXIT 1, try 2 `Tests 2 failed | 9 passed (11)` EXIT 1, try 3 `Tests 1 failed | 10 passed (11)` EXIT 1; C1 to C5 and C7 to C11 pass, C6 fails on the crystal group clearance of the rows w01-2 and w05-2 for every implementation; the Green gate, tsc, lint, and the mutant did not run, because C6 blocks them
+files_changed: none in the tree; new run files measure/runs/storytime_cover_options_20261106/green-readers-r2c-blocked-impl.patch, measure/runs/storytime_cover_options_20261106/green-readers-r2c-blocked.txt, and this log
+plan_updates: none (the task stays `[ ]`, because the r2c test file does not pass)
+known_failures: C6 of dashboard/__tests__/quest-cover-readers-r2c.test.ts is unsatisfiable with the pins it holds: the 80 % ± 5 % band share plus the 2 mm crystal group clearance plus the 110 x 20 mm plaque box, against the titles "Nan Can Nod" (74.08 mm) and "Sam and Pam" (75.87 mm) at the pinned 12.508 mm font
+handoff: question for the orchestrator, with my default A. The Red retry must change one pin of E4/C4/E6. A (my default): widen the box reader-leaf:title-plaque to {34, 113, 130, 20} mm and keep the 80 % rule and the 2 mm rule; the widest title then keeps 8.2 mm. B: keep 110 mm and add an ornament scale parameter to plaqueSvg (s = 4.0 mm) with a Red and a PM pin. C: keep 110 mm and drop the fill share to 65 % to 75 %, which still needs a 1.5 mm clearance rule. D: keep 110 mm and the 80 % font and drop the clearance rule to 0 mm, which still fails by 0.8 mm and 1.7 mm. The 7 implementation items of the brief are built and proven in the patch: C1, C2, C3, C4, C5, C7, C8, C9, C10, and C11 pass on it. After the Red retry, the next Green applies the patch and changes only the leaf plaque box and the title placement.
+END_MEASURE_AGENT_RESULT
