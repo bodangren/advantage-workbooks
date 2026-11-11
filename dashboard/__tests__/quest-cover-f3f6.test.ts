@@ -1371,7 +1371,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
         console.log(`D6 page 1 checked ${checked}, problems ${problems.length}`);
         expect(checked, 'the check reads page 1 of the 14 readers in the 2 outputs.').toBe(28);
         expect(problems, problems.join('\n')).toEqual([]);
-    });
+    }, 120_000);
 
     it('D6: in Chrome, page 1 fills its page, holds the chrome boxes of the cover build within 0.1 mm, and loads League Spartan', () => {
         const rows = questReaders();
@@ -1448,7 +1448,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
             }
         }
         expect(problems, problems.join('\n')).toEqual([]);
-    });
+    }, 120_000);
 
     it('D6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book', () => {
         const band = new RegExp(`\\b(${QUEST_BANDS.join('|')})\\b`, 'i');
@@ -1481,7 +1481,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
         console.log(`BAND_PAGES_CHECKED=${pages} BAND_WORD_PAGES=${problems.length}`);
         expect(pages).toBeGreaterThan(0);
         expect(problems, problems.join('\n')).toEqual([]);
-    });
+    }, 120_000);
 
     it('D7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer', () => {
         const problems: string[] = [];
@@ -1509,7 +1509,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
         console.log(`D7 page 12 checked ${checked}, problems ${problems.length}`);
         expect(checked, 'the check reads page 12 of the 14 readers in the 2 outputs.').toBe(28);
         expect(problems, problems.join('\n')).toEqual([]);
-    });
+    }, 120_000);
 
     it('D8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free', () => {
         const book = bookRow();

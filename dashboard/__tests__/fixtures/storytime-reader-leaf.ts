@@ -306,6 +306,8 @@ export interface MeasuredReaderPage {
     footer?: BoxMm & { text: string; fontPt: number };
     /** The boxes of every other element of the page (each descendant that has a size). */
     others: BoxMm[];
+    /** True when the page holds the quest reader cover (`.quest-reader-page`). */
+    quest?: boolean;
 }
 
 /** The numbers of the landscape layout of a reader page (spec FR-5.1 "page layout", Daniel's reference of 2026-11-04). */
@@ -339,6 +341,11 @@ export function readerLayoutProblems(pages: MeasuredReaderPage[], title: string,
     const high = READER_PAGE_MM.heightMm;
     if (pages.length !== 12) problems.push(`[layout-pages] ${pages.length} measured pages, want 12`);
     for (const page of pages) {
+        // changed 2026-11-12 (F5, PM look): page 1 is the quest reader cover, whose layout D6 of quest-cover-f3f6.test.ts pins, so the story page rules skip it.
+        if (page.number === 1) {
+            if (!page.quest) problems.push(`[layout-quest] ${title} page 1: no quest reader cover`);
+            continue;
+        }
         const tag = `${title} page ${page.number}`;
         if (Math.abs(page.page.right - page.page.left - wide) > 0.3 || Math.abs(page.page.bottom - page.page.top - high) > 0.3) {
             problems.push(`[layout-page] ${tag}: ${(page.page.right - page.page.left).toFixed(1)} x ${(page.page.bottom - page.page.top).toFixed(1)} mm, want ${wide} x ${high}`);
@@ -425,6 +432,7 @@ export function measureReaderPagesInBrowser(scale: number): MeasuredReaderPage[]
             pageNumber: number ? { ...box(number), text: number.textContent ?? '' } : undefined,
             footer: footer ? { ...box(footer), text: footer.textContent ?? '', fontPt: parseFloat(style(footer).fontSize) * 0.75 } : undefined,
             others,
+            quest: reader.querySelector('.quest-reader-page') !== null,
         };
     });
 }

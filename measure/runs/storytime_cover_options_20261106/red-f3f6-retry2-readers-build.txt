@@ -1,0 +1,9 @@
+BUILD CAPTURE of Red retry 2: the reader build of week 1 (workbook, proof) on the current tree, for the error text
+
+HEAVY_RUN_TIMEOUT_S 600
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && HOME=/tmp/opencode/rf36b/home node --import tsx scripts/storytime/make-readers-pdf.ts --level 2 --weeks 1 --proof --workbook --out /tmp/opencode/rf36b/home/Desktop/print-ready/storytime/readers-cover-check
+HEAVY_EXIT: 1
+--- STDOUT ---
+--- STDERR ---
+Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf: the laid-out document holds 0 reader cover pages; it must hold 2.

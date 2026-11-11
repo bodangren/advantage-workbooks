@@ -521,6 +521,11 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
         const a3Pages = Array.from(doc.querySelectorAll('[data-a3-page]'));
         if (a3Pages.length !== 24) problems.push(`[a3-pages] ${a3Pages.length} A3 pages, want 24 (one reader page on each A3 page)`);
         for (const a3 of a3Pages) {
+            // changed 2026-11-12 (F5, PM look): page 1 is the quest A3 cover on the full 420 x 297 mm page with no scale (D6 of quest-cover-f3f6.test.ts).
+            if (a3.getAttribute('data-page-number') === '1') {
+                if (!a3.querySelector('.quest-reader-page')) problems.push('[a3-quest] page 1: no quest reader cover');
+                continue;
+            }
             const scaled = a3.querySelectorAll('.a3-scale');
             if (scaled.length !== 1) { problems.push(`[a3-scale] page ${a3.getAttribute('data-page-number')}: ${scaled.length} scale boxes, want 1`); continue; }
             const box = scaled[0];
@@ -597,8 +602,9 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             await openWithFonts(page, html);
             const boxes = await page.evaluate(() => {
                 const pxPerMm = 96 / 25.4;
-                const a3 = document.querySelector('[data-a3-page]')!.getBoundingClientRect();
-                const reader = document.querySelector('[data-a3-page] [data-reader-page]')!.getBoundingClientRect();
+                // changed 2026-11-12 (F5, PM look): page 1 is the unscaled quest A3 cover, so the scale check reads page 2.
+                const a3 = document.querySelector('[data-a3-page][data-page-number="2"]')!.getBoundingClientRect();
+                const reader = document.querySelector('[data-a3-page][data-page-number="2"] [data-reader-page]')!.getBoundingClientRect();
                 return {
                     pageWidth: a3.width / pxPerMm, pageHeight: a3.height / pxPerMm,
                     left: (reader.left - a3.left) / pxPerMm, right: (a3.right - reader.right) / pxPerMm,

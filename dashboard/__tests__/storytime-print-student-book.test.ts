@@ -673,7 +673,8 @@ describe('Storytime student workbook: the shipped week 1', () => {
         const families: string[] = [];
         for (const face of faces) {
             const family = face.match(/font-family:\s*['"]?([^;'"}]+)/)?.[1].trim();
-            expect(['Andika', 'Sarabun']).toContain(family);
+            // changed 2026-11-12 (F5, PM look): the quest cover of reader page 1 adds the static League Spartan 700 face with OFL-league-spartan.txt.
+            expect(['Andika', 'League Spartan', 'Sarabun']).toContain(family);
             families.push(family!);
             expect(face).not.toMatch(/font-weight:\s*\d+\s+\d+|https?:|local\(/i);
             const url = face.match(/url\(['"]?([^)'"\s]+)['"]?\)/)?.[1];
@@ -683,15 +684,29 @@ describe('Storytime student workbook: the shipped week 1', () => {
             if (url!.startsWith('data:')) fs.writeFileSync(file, Buffer.from(url!.split(',')[1], 'base64'));
             expect(fs.existsSync(file), `Missing font: ${file}`).toBe(true);
             const metadata = execFileSync('fc-scan', ['--format', '%{family}|%{variable}', file], { encoding: 'utf8', timeout: 15000 });
-            expect(metadata).toBe(`${family}|False`);
-            expect(fs.readFileSync(path.join(fontDir, `OFL-${family!.toLowerCase()}.txt`), 'utf8'))
+            // changed 2026-11-12 (F5, PM look): the static League Spartan 700 file names its family "League Spartan Thin"; fc-scan weight 200 is bold.
+            if (family === 'League Spartan') {
+                expect(execFileSync('fc-scan', ['--format', '%{family}|%{variable}|%{weight}|%{postscriptname}', file], { encoding: 'utf8', timeout: 15000 }))
+                    .toBe('League Spartan Thin|False|200|LeagueSpartanThin-Bold');
+            } else expect(metadata).toBe(`${family}|False`);
+            expect(fs.readFileSync(path.join(fontDir, `OFL-${family!.toLowerCase().replace(/\s+/g, '-')}.txt`), 'utf8'))
                 .toMatch(/SIL OPEN FONT LICENSE Version 1\.1/i);
         }
-        expect([...new Set(families)].sort()).toEqual(['Andika', 'Sarabun']);
-        for (const match of css.matchAll(/font-family:\s*([^;}]+)/g)) {
-            expect(match[1].replace(/['"]/g, '').split(',').map((name) => name.trim()))
-                .toEqual(expect.arrayContaining([expect.stringMatching(/^(?:Andika|Sarabun)$/)]));
-            expect(match[1]).not.toMatch(/Comic Sans|Arial|Chalkboard|Google/i);
+        expect([...new Set(families)].sort()).toEqual(['Andika', 'League Spartan', 'Sarabun']);
+        // changed 2026-11-12 (F5, PM look): League Spartan only in the quest cover chrome; story text, word lists, and teacher text stay Andika and Sarabun only.
+        for (const rule of css.replace(/@font-face\s*\{[^}]+\}/g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+            for (const match of rule[2].matchAll(/font-family:\s*([^;}]+)/g)) {
+                const names = match[1].replace(/['"]/g, '').split(',').map((name) => name.trim());
+                expect(match[1]).not.toMatch(/Comic Sans|Arial|Chalkboard|Google/i);
+                if (names.includes('League Spartan')) {
+                    for (const selector of rule[1].split(',')) expect(selector.trim(), 'League Spartan only in a quest cover rule.').toMatch(/^\.quest-/);
+                } else expect(names).toEqual(expect.arrayContaining([expect.stringMatching(/^(?:Andika|Sarabun)$/)]));
+            }
+        }
+        const inline = Array.from(doc.querySelectorAll('[style*="League Spartan"]'));
+        expect(inline.length, 'The quest page 1 chrome prints in League Spartan.').toBeGreaterThan(0);
+        for (const element of inline) {
+            expect(element.closest('.quest-reader-page, .quest-page'), `League Spartan outside the quest cover: ${element.outerHTML.slice(0, 120)}`).not.toBeNull();
         }
     }, 30000);
 
@@ -784,15 +799,23 @@ describe('Storytime student workbook: the shipped week 1', () => {
     }, 230000);
 
     it('R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X', async () => {
-        const { html } = await render();
+        const { html, doc } = await render();
         const file = buildPdfx(html);
         const output = execFileSync('pdffonts', [file], { encoding: 'utf8', timeout: 5000 });
         console.info(`R34 pdffonts:\n${output}`);
         const rows = output.trim().split('\n').slice(2).map((line) => line.trim().split(/\s+/));
         const names = rows.map((row) => row[0].replace(/^[A-Z]{6}\+/, ''));
-        expect([...new Set(names)].sort(), 'The PDF must contain the three required faces and no fallback family.')
+        // changed 2026-11-12 (F5, PM look): the quest cover chrome adds the League Spartan 700 face, and only on the PDF pages that hold the quest page 1.
+        expect([...new Set(names.filter((name) => name !== 'LeagueSpartanThin-Bold'))].sort(), 'The PDF must contain the three required faces and no fallback family.')
             .toEqual(['Andika', 'Andika-Bold', 'Sarabun-Regular']);
         for (const row of rows) expect(row.at(-5), `The font ${row[0]} must be embedded.`).toBe('yes');
+        const questPages = pages(doc).flatMap((sheet, index) => sheet.querySelector('.quest-reader-page') ? [index + 1] : []);
+        expect(questPages.length, 'The student book prints the quest page 1 of its reader.').toBeGreaterThan(0);
+        for (let number = 1; number <= pages(doc).length; number += 1) {
+            const pageFonts = execFileSync('pdffonts', ['-f', String(number), '-l', String(number), file], { encoding: 'utf8', timeout: 5000 })
+                .trim().split('\n').slice(2).map((line) => line.trim().split(/\s+/)[0].replace(/^[A-Z]{6}\+/, ''));
+            expect(pageFonts.includes('LeagueSpartanThin-Bold'), `PDF page ${number}: League Spartan only on a quest page 1 side.`).toBe(questPages.includes(number));
+        }
     }, 230000);
 
     it('R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract', async () => {
