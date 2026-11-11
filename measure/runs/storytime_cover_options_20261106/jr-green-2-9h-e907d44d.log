@@ -1,0 +1,93 @@
+# Jr Green log - Task 2.9 part 8 interim (cover track)
+
+Track: storytime_cover_options_20261106
+Phase: P2, the option A covers
+Task: Task 2.9 (Print build), part 8, interim
+Role: jr-green
+Model: deepseek/deepseek-flash#high (route deepseek/deepseek-flash#high)
+Date: 2026-11-11
+role_base_sha: e907d44d (an ancestor of HEAD)
+Status: partial
+
+## The order change
+
+The PM changed the order on 2026-11-11 16:35 ICT. Daniel's look sends the covers back for 2 fixes:
+F1 removes the leaf frame, and F2 moves the logo from the fronts to the backs. The r3 files will
+change, so the final check log is stale. The plan keeps Task 2.9 `[~]`, and it holds no Part 8
+close line.
+
+## The Thai filter
+
+First command: `grep -cP` of U+0E00 to U+0E7F on the plan, `print_gate_2_9g.py`, and the part 7
+log. The 3 counts are 0. Every script prints counts, names, sizes, exit codes, and SHA-256 values
+only. The 2 heavy captures dropped 0 Thai lines.
+
+## Step 1, the final check log (stale)
+
+`print_gate_final.py` holds the 11 checks of the Task 2.9 plan line for the 6 print files of the 2
+book sets. One heavy-run (`HEAVY_RUN_TIMEOUT_S=900`) ran it and wrote `print-gate.txt`; the wrapper
+capture is `print-gate-run-2-9h.txt`. The run exited 0 on the first attempt, and the log ends with
+`PASS_LINES=42` and `FAIL_LINES=0`. The measurement covers the pre-fix r2 and r3 files. The final
+check log runs again after the F1 and F2 rebuild.
+
+## Step 2, the 4 mutants (kept)
+
+`print-mutants-2-9h.ts` makes the 4 mutants on copies in `/tmp/opencode/c29h/` only. The mutants
+test the checks, not the covers, so they stay. One heavy-run (`HEAVY_RUN_TIMEOUT_S=900`) ran the
+script and wrote `print-mutants-2-9h.txt`; the wrapper capture is `print-mutants-run-2-9h.txt`.
+
+- M1: check 5 fails. The student front with `Q-front-a2.jpg` holds 1448 x 2048 px at 175.0 ppi.
+- M2: check 6 fails. The teacher back with 1 Thai tone mark removed holds 37 Thai characters, not
+  the approved 38.
+- M3: check 7 fails. The leaf PDF/X without `--k-only` holds C=0.39915, M=0.39891, Y=0.39899.
+- M4: check 4 fails with title=0. The make-pdfx conversion check, with the source PDF, passes with
+  exit 0 and "All checks pass." (the F12 proof). The stand-alone `--check` fails, because it has no
+  source PDF.
+
+`MUTANTS_CAUGHT=4`.
+
+## The deviations
+
+- D-1 (check 4): the series name is the logo picture on the book and A3 pages. The series text is
+  required on the 14 leaf pages; the kind title text is required on the 32 pages of the release
+  set.
+- D-2 (check 11): the 5 named sheets are `all.png`, `readers-a3.png`, `readers-leaf.png`,
+  `student-alt-hlogo-r3.png`, and `teacher-alt-hlogo-r3.png`. The 2 r2 sheets also open as PNG.
+- D-3 (the fast gate): the folder holds the r5, old alt-hlogo, r2, and r3 variants. The fast gate
+  is the existence of the 6 named print files and the 5 named sheets.
+- D-4: the mutants ran by one committed script with Chrome in one heavy-run with a 900 s limit
+  (orchestrator decision 2026-11-11).
+
+## The commits
+
+Commit `3640cd74` holds the 6 interim files: `print_gate_final.py`, `print-mutants-2-9h.ts`,
+`print-gate.txt`, `print-gate-run-2-9h.txt`, `print-mutants-2-9h.txt`, and
+`print-mutants-run-2-9h.txt`. The plan is unchanged: the Task 2.9 line is `[~]`, and no Part 8
+close line exists.
+
+## The gates
+
+- The mutant log: `MUTANTS_CAUGHT=4`.
+- The final check log: `PASS_LINES=42`, `FAIL_LINES=0`, stale after the F1 and F2 rebuild.
+- The scratch folder `/tmp/opencode/c29h` is removed.
+- `git status --porcelain dashboard measure/tracks/storytime_cover_options_20261106` lists only
+  `?? dashboard/raw.json`.
+
+MEASURE_AGENT_RESULT
+status: partial
+role: jr-green
+track: storytime_cover_options_20261106
+phase: P2
+task: Task 2.9 (Print build), part 8, interim
+phase_base_sha: e907d44d
+final_head: 3640cd74
+red_command: none (this task has no Red window; its gate is the mutant log and the final check log)
+gate_mutants: MUTANTS_CAUGHT=4 (print-mutants-2-9h.txt, one heavy-run, exit 0)
+gate_print: PASS_LINES=42 FAIL_LINES=0 (print-gate.txt, one heavy-run, exit 0), STALE: the final check log runs again after the F1 and F2 rebuild
+mutant_lines: M1 check 5 FAIL (option round art at 175.0 ppi); M2 check 6 FAIL (37 Thai characters, not 38); M3 check 7 FAIL (C=0.39915 M=0.39891 Y=0.39899 without --k-only); M4 check 4 FAIL (title=0) while the make-pdfx conversion check passes with the source PDF (F12)
+plan_state: Task 2.9 stays [~]; no [x] mark; no Part 8 close line; the plan is byte-equal to e907d44d
+commits: 3640cd74 (the 6 interim files, message "measure(covers): Task 2.9 part 8 interim, the check script and the print-check mutants before the F1 and F2 fix (storytime_cover_options)")
+new_files: measure/runs/storytime_cover_options_20261106/print_gate_final.py, print-mutants-2-9h.ts, print-gate.txt, print-gate-run-2-9h.txt, print-mutants-2-9h.txt, print-mutants-run-2-9h.txt
+deviations: D-1 check 4 (series name is the logo picture on the book and A3 pages); D-2 check 11 (the 5 named sheets, the 2 r2 sheets also open); D-3 the fast gate (the folder holds more than 4 print files; the gate is the 6 named files and 5 named sheets); D-4 the mutants ran by one committed script with Chrome in one heavy-run with a 900 s limit
+handoff: The interim work is committed. The F1 and F2 fix changes the r3 files; then the final check log runs again with print_gate_final.py, and the mutant log stays valid. Task 2.9 stays [~] until the rebuild and the new final log pass.
+END_MEASURE_AGENT_RESULT
