@@ -1,0 +1,62 @@
+# Jr Green log: Task 2.9 part 4 (record of Daniel's cover pick, A2 r2 for both books)
+
+Model: deepseek/deepseek-flash#high. Track: storytime_cover_options_20261106. Phase: Phase 2.
+role_base_sha: fc28638bb20e934e17acc60ddc48481df74021d9. HEAD at start: fc28638b (equal).
+
+## Scope
+
+This is a record task. I changed no code, no test, and no file under `content/`,
+`~/Desktop/print-ready/storytime/covers-quest-v1/`, or `~/Desktop/handoff/`. I built nothing.
+I made no paid call and no network call.
+
+## Thai proof
+
+My first command ran `grep -cP '[\x{0E00}-\x{0E7F}]'` on the 3 files that the script reads:
+- `measure/tracks/storytime_cover_options_20261106/plan.md`: 0
+- `covers-quest-v1/MANIFEST.txt`: 0
+- `storytime-cover-teacher-front-forge/MANIFEST.txt`: 0
+
+Every count is 0. I did not read `options/*.json` or `test-strategy.md`.
+I did not print the text of a PDF or a PNG. The script reads bytes only.
+
+## Before the script
+
+`git status --porcelain measure/tracks/storytime_cover_options_20261106/plan.md` printed nothing.
+`pick-record-2-9.txt` did not exist. The Part 3 A2 r2 line was at line 163, once.
+Line 164 was `- [ ] Task 2.10 (Look at every page)`. Task 2.9 was `[~]` once.
+Task 2.14 was `[ ]` once.
+
+## Script output
+
+Command: `python3 -I measure/runs/storytime_cover_options_20261106/record_pick_2_9.py`. Exit 0.
+- `covers-quest-v1 MANIFEST.txt` SHA-256 `2aa88d40...6043d`: 48 of 48 lines OK (SHA-256 and size).
+- r2 files: 15 of 15 SHA-256 values equal in the MANIFEST and on disk.
+- TC1 `MANIFEST.txt` SHA-256 `b63708b1...409a7`: 3 of 3 lines OK; the art keeps `c9171990...1a53`.
+- `plan: 3 lines inserted after the Part 3 A2 r2 line; Task 2.9 stays [~]`.
+
+## Checks
+
+- `git diff --numstat` on the plan: `3	0`.
+- Thai count on the plan, the report, and the script: 0 for each.
+- `grep -c -E '^- \[~\] Task 2\.9 \(Print build\)'`: 1.
+- `grep -c -E '^- \[ \] Task 2\.14'`: 1.
+
+## Commit
+
+Record commit `b8afc824` holds exactly 3 paths: the plan, the script, and the report.
+
+```
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: fc28638bb20e934e17acc60ddc48481df74021d9
+commits: b8afc824
+tests_run: record_pick_2_9.py, exit 0: cover MANIFEST 48 of 48 OK, r2 15 of 15 equal, TC1 3 of 3 OK
+files_changed: measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/record_pick_2_9.py; measure/runs/storytime_cover_options_20261106/pick-record-2-9.txt
+plan_updates: 3 lines under Task 2.9 (Daniel's pick word for word, the part 4 record, the PM readers order); Task 2.9 stays [~]
+known_failures: none
+handoff: Daniel picked A2 r2 for both books (his words, 2026-11-11 06:29 ICT: "Yes. R2. Yes, deploy."). The cover folder MANIFEST.txt has SHA-256 2aa88d4082df1c94bd3f67d2792b1e0065e139375592b6479e9f4faedb96043d and 48 of 48 lines OK. The 15 r2 files hold the same SHA-256 value in the MANIFEST and on disk. The TC1 MANIFEST.txt has SHA-256 b63708b128e0b9593005986a18baf57b21b0a83b7715b63564c6be85ad4409a7, 3 of 3 lines OK, art c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53. The PM order for the readers-a3 and readers-leaf covers with --top hlogo is in the plan. Task 2.9 stays [~], because the readers covers are not in covers-quest-v1. Task 2.14 stays open for the 11-16 check. The release proof takes the 2 r2 print files with no new build.
+END_MEASURE_AGENT_RESULT
+```
