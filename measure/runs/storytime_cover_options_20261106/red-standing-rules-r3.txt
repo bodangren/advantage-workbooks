@@ -1,0 +1,26 @@
+CAPTURE of standing rules r3 r2b and hlogo files
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-hlogo.test.ts --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 8461[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none [33m 797[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 483[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 4298[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 436[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 597[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1550[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 933[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 12:50:54
+[2m   Duration [22m 18.37s[2m (transform 679ms, setup 184ms, import 3.25s, tests 12.76s, environment 1.54s)[22m
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

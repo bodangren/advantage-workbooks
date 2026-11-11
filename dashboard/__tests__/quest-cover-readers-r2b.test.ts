@@ -67,8 +67,10 @@
  *       of the blue palette. The title text color and the text stroke.
  *   B2: D2 on 14 rows: the week pill and role bar fill, border width, border color, and text color,
  *       and the role mark icon stroke.
- *   B3: D3 on 14 rows: the title text box fill share, the centring on the band, 1 line box, and
- *       the clearance from each crystal group box.
+ *   B3: D3 on 14 rows: the title text box is centred across the plaque band, 1 line box, and the
+ *       clearance from each crystal group box. The change of 2026-11-11 (standing rules): the cap
+ *       height rule of S3 and the centring rule of S4 replace the 2 fill share checks and the
+ *       vertical centre check of the line box.
  *   B4: D3 on 14 rows: the plaque width rule, the page centring, and the plaque bottom.
  *   B5: D3 on 1 synthetic row: a title of 40 characters wraps to 2 line boxes at the same font size
  *       as the 1-line titles, the plaque width stays at or below 340 mm, and the plaque bottom
@@ -89,7 +91,10 @@
  *   B11: with `hlogo`, the leaf parts that the hlogo leaf keeps equal the default leaf render parts.
  *       The change of 2026-11-11 (readers r2c): the skip list holds the logo tile, the title plaque,
  *       the footer, the series, the week, and the role mark.
- *   B12: D8: the 8 pins of the 4 book kinds, in the default style and in the `hlogo` style.
+ *   B12: D8: the default pins of the 4 book kinds, and the `hlogo` pin of every kind that the
+ *       standing rules do not change. The change of 2026-11-11 (standing rules): the `hlogo` pin of
+ *       the student front, the teacher front, and the student back is removed, because S3, S4, or S5
+ *       fails on those kinds and the Green changes their `hlogo` render.
  *
  * The method notes:
  *   - The text box measure is the method of `quest-cover-plaque-fit.test.ts`: a range over the
@@ -157,12 +162,6 @@ const BLUE_PALETTE_COLOURS = [
     '#7F9BC0',
     '#C9DDF4',
 ];
-
-/** The least fill share of a text box, 80 % minus 5 %. */
-const MIN_FILL_SHARE = 0.75;
-
-/** The most fill share of a text box, 80 % plus 5 %. */
-const MAX_FILL_SHARE = 0.85;
 
 /** The tolerance of the centring of a text box in its band, in millimetres. */
 const BAND_CENTRE_TOLERANCE_MM = 1;
@@ -244,11 +243,8 @@ const ROW_IDS = [
 /** The pins of the 4 book kinds, in the default style and in the hlogo style, at the role base. */
 const BOOK_PINS: Record<string, string> = {
     'student-front:default': '5ae17617643524865a9dbbc63cc73754b0170fbe5063bc71d35399288d3265b6',
-    'student-front:hlogo': '76168718378d7f8fe37205d298cbf1bca6154b830c56fa642f654a6d3ea5ac31',
     'teacher-front:default': 'b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf',
-    'teacher-front:hlogo': 'c764a1642611a89425c15d18a5b302383c5badc657603a8d155c86eecdf1d432',
     'student-back:default': '8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0',
-    'student-back:hlogo': '863df9afc2cbe441a0b0a35b89a516edd2bbfe83c64b8558e8d7fa5819d31ac2',
     'teacher-back:default': '5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79',
     'teacher-back:hlogo': 'f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab',
 };
@@ -846,7 +842,8 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
-    it('B3: the hlogo title text box fills the plaque band and is clear of the ornaments', () => {
+    // B3 changed 2026-11-11 (standing rules): the cap height rule of S3 and the centring rule of S4 replace the fill share checks and the vertical centre check of the line box.
+    it('B3: the hlogo title text box is centred across the plaque band and is clear of the ornaments', () => {
         expect(a3Measures.length, 'the browser measures 14 A3 rows.').toBe(14);
         for (const measure of a3Measures) {
             const id = measure.id;
@@ -854,24 +851,6 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             expect(measure.band, `the plaque of the row ${id} holds a band.`).not.toBeNull();
             const band = measure.band!;
             const title = measure.title.rects[0];
-            const bandHeight = band.bottom - band.top;
-            const share = (title.bottom - title.top) / bandHeight;
-            expect(
-                share,
-                `the title text box of the row ${id} fills 80 % of the plaque band: ` +
-                    `the text box is ${(title.bottom - title.top).toFixed(2)} mm, ` +
-                    `the band is ${bandHeight.toFixed(2)} mm.`,
-            ).toBeGreaterThanOrEqual(MIN_FILL_SHARE);
-            expect(
-                share,
-                `the title text box of the row ${id} fills 80 % of the plaque band: ` +
-                    `the text box is ${(title.bottom - title.top).toFixed(2)} mm, ` +
-                    `the band is ${bandHeight.toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(MAX_FILL_SHARE);
-            expect(
-                Math.abs((title.top + title.bottom) / 2 - (band.top + band.bottom) / 2),
-                `the title text box of the row ${id} sits at the center of the band.`,
-            ).toBeLessThanOrEqual(BAND_CENTRE_TOLERANCE_MM);
             expect(
                 Math.abs((title.left + title.right) / 2 - (band.left + band.right) / 2),
                 `the title text box of the row ${id} sits at the center of the band.`,
@@ -1120,15 +1099,16 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
-    it('B12: the 4 book kinds keep their bytes in both styles', () => {
+    // B12 changed 2026-11-11 (standing rules): the hlogo pin of every book kind that fails S3, S4, or S5 is removed, because the Green changes the hlogo render of that kind. The default pin of every kind stays.
+    it('B12: the 4 book kinds keep their bytes in the default style', () => {
         const kinds = ['student-front', 'teacher-front', 'student-back', 'teacher-back'] as const;
         for (const kind of kinds) {
             expect(bookHash(kind), `the SHA-256 of the default render of the ${kind}.`).toBe(
                 BOOK_PINS[`${kind}:default`],
             );
-            expect(bookHash(kind, 'hlogo'), `the SHA-256 of the hlogo render of the ${kind}.`).toBe(
-                BOOK_PINS[`${kind}:hlogo`],
-            );
+            const pin = BOOK_PINS[`${kind}:hlogo`];
+            if (!pin) continue;
+            expect(bookHash(kind, 'hlogo'), `the SHA-256 of the hlogo render of the ${kind}.`).toBe(pin);
         }
     });
 });

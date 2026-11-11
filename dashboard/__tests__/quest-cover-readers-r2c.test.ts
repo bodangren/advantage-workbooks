@@ -88,8 +88,10 @@
  *       count, the path letters, the crystal groups, and the path and group boxes inside the plaque
  *       part box.
  *   C5: E5 on 14 rows: the plaque palette values and the `data-plaque-colour` value.
- *   C6: E6 on 14 rows: the leaf title fill share, the band centres, the line box count, the
- *       ornament clearance, and the text colour and face.
+ *   C6: E6 on 14 rows: the leaf title is centred across the plaque band, the band height, the line
+ *       box count, the ornament clearance, and the text colour and face. The change of 2026-11-11
+ *       (standing rules): the cap height rule of S3 and the centring rule of S4 replace the 2 fill
+ *       share checks and the vertical centre check of the line box.
  *   C7: E7 on 14 rows: no band word part, no band icon part, no band word text, and no loose SVG.
  *   C8: E8 on 14 rows: the footer part, its 3 parts, its text, and its inline styles.
  *   C9: E9 on 14 rows: the footer font sizes, the one line, the page centre, the vertical centre,
@@ -1182,24 +1184,14 @@ describe('quest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters a
         }
     });
 
-    it('C6: the hlogo leaf title fills 80 % of the plaque band', () => {
+    // C6 changed 2026-11-11 (standing rules): the cap height rule of S3 and the centring rule of S4 replace the 2 fill share checks and the vertical centre check of the line box.
+    it('C6: the hlogo leaf title is centred across the plaque band', () => {
         expect(leafMeasures.length, 'the browser measures 14 leaf rows.').toBe(14);
         for (const measure of leafMeasures) {
             const id = measure.id;
             expect(measure.title.rects.length, `the leaf title of the row ${id} has 1 line box.`).toBe(1);
             const text = measure.title.rects[0];
             const textHeight = text.bottom - text.top;
-            const share = textHeight / BAND_HEIGHT_MM;
-            expect(
-                share,
-                `the leaf title text box of the row ${id} fills 80 % of the band: ` +
-                    `the text box is ${textHeight.toFixed(2)} mm, the band is ${BAND_HEIGHT_MM.toFixed(2)} mm.`,
-            ).toBeGreaterThanOrEqual(MIN_FILL_SHARE);
-            expect(
-                share,
-                `the leaf title text box of the row ${id} fills 80 % of the band: ` +
-                    `the text box is ${textHeight.toFixed(2)} mm, the band is ${BAND_HEIGHT_MM.toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(MAX_FILL_SHARE);
             expect(
                 measure.bandBox,
                 `the leaf plaque of the row ${id} holds a band path: the title text box is ` +
@@ -1211,12 +1203,6 @@ describe('quest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters a
                 `the band of the leaf plaque of the row ${id} is ${BAND_HEIGHT_MM.toFixed(2)} mm high: ` +
                     `the band is ${(band.bottom - band.top).toFixed(2)} mm.`,
             ).toBeLessThanOrEqual(BAND_HEIGHT_TOLERANCE_MM);
-            expect(
-                Math.abs((text.top + text.bottom) / 2 - (band.top + band.bottom) / 2),
-                `the leaf title text box of the row ${id} sits at the band centre: ` +
-                    `the text centre is ${((text.top + text.bottom) / 2).toFixed(2)} mm, ` +
-                    `the band centre is ${((band.top + band.bottom) / 2).toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(BAND_CENTRE_TOLERANCE_MM);
             expect(
                 Math.abs((text.left + text.right) / 2 - (band.left + band.right) / 2),
                 `the leaf title text box of the row ${id} sits at the band centre: ` +

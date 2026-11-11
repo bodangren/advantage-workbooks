@@ -46,7 +46,10 @@
  *       height minus 1.2 mm) is 3.144 within 1 %. The 1.2 mm is the 0.6 mm border on each side. The
  *       tile of the 2 fronts ends at 100 mm or less. The tile of the student back ends 3 mm above
  *       the panel. The boxes of the kept parts do not change.
- *   A5: The kept parts hold the same HTML in the hlogo render and in the default render.
+ *   A5: The kept parts hold the same HTML in the hlogo render and in the default render. The
+ *       change of 2026-11-11 (standing rules): the title plaque and the band pill are skipped for
+ *       the 2 fronts, and the panel is skipped for the student back, because S3, S4, or S5 fails on
+ *       those kinds and the Green changes those parts of the hlogo render.
  *   A6: The logo sits centered in its tile, fills 78 % to 82 % of the inner tile height, fills 78 %
  *       to 82 % of the inner tile width, keeps the aspect 3.144 within 1 %, and the tile takes the
  *       amber and the brown with no shadow and no opacity under 1.
@@ -57,7 +60,10 @@
  *       them.
  *   A9: The hlogo render of each kind keeps every part outside the logo tile. The cut method: the
  *       element starts at the open tag `<div data-part="logo-tile"` and ends at the first `</div>`
- *       after it. The SHA-256 of the rest of the HTML is the pin.
+ *       after it. The SHA-256 of the rest of the HTML is the pin. The change of 2026-11-11
+ *       (standing rules): the pin of the student front, the teacher front, and the student back is
+ *       removed, because S3, S4, or S5 fails on those kinds and the Green changes their hlogo
+ *       render.
  *
  * The r2 change of 2026-11-10, after the Green finding of 8f46d85c:
  *   (1) A3 read every text node of the body for the series name. The 2 backs hold the 5 contact
@@ -189,11 +195,19 @@ const R5_PINS: Record<Kind, string> = {
  * ends at the first `</div>` after it. The tile holds one image and no other element, so the first
  * close tag ends the element.
  */
-const HLOGO_REST_PINS: Record<Kind, string> = {
-    'student-front': '36d05fe67745f2be15174b5b9775e078e6140df53140ac8c5f2f38708063a4a5',
-    'teacher-front': '57af1f5b57223e767b7f9810e71ef373fd5e6876457c00dce3e98e662886596f',
-    'student-back': '1ad46398121731360f98a84bc0470683ec877848a9dc47d86e2a673a198d0f2e',
+const HLOGO_REST_PINS: Record<string, string> = {
     'teacher-back': 'e552bed9a86de2ee3eb0662b0d70acf2394fa5c081988f32579e46844f91f22a',
+};
+
+/**
+ * The parts that A5 skips for each kind, because the standing rules of 2026-11-11 change them in
+ * the `hlogo` render: the 2 fronts change the title plaque and the band pill, and the student back
+ * changes the panel.
+ */
+const SKIPPED_PARTS_BY_KIND: Record<string, string[]> = {
+    'student-front': ['title-plaque', 'band-pill'],
+    'teacher-front': ['title-plaque', 'band-pill'],
+    'student-back': ['panel'],
 };
 
 /** The parts that A2 keeps. */
@@ -692,11 +706,14 @@ describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal
         }
     });
 
+    // A5 changed 2026-11-11 (standing rules): the parts that the standing rules change in the hlogo render are skipped for that kind.
     it('A5: the kept parts hold the same HTML in the hlogo render and in the default render', () => {
         for (const kind of KINDS) {
             const plain = parseHtml(renderKind(kind, DEFAULT_OPTIONS));
             const alt = parseHtml(renderKind(kind, HLOGO_OPTIONS));
+            const skipped = SKIPPED_PARTS_BY_KIND[kind] ?? [];
             for (const part of KEPT_PARTS) {
+                if (skipped.includes(part)) continue;
                 const one = plain.querySelector(`[data-part="${part}"]`);
                 if (!one) continue;
                 const two = alt.querySelector(`[data-part="${part}"]`);
@@ -808,13 +825,14 @@ describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal
         expect(bad.args, 'the flag --top round parses no arguments.').toBeNull();
     });
 
+    // A9 changed 2026-11-11 (standing rules): the pin of every book kind that fails S3, S4, or S5 is removed, because the Green changes the hlogo render of that kind.
     it('A9: the hlogo render of each kind keeps every part outside the logo tile', () => {
-        for (const kind of KINDS) {
-            const rest = withoutLogoTile(renderKind(kind, HLOGO_OPTIONS));
+        for (const [kind, pin] of Object.entries(HLOGO_REST_PINS)) {
+            const rest = withoutLogoTile(renderKind(kind as Kind, HLOGO_OPTIONS));
             expect(
                 hashOfText(rest),
                 `the SHA-256 of the ${kind} hlogo render without its logo tile.`,
-            ).toBe(HLOGO_REST_PINS[kind]);
+            ).toBe(pin);
         }
     });
 });
