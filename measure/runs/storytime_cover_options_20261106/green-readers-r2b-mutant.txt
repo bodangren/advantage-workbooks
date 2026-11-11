@@ -1,0 +1,59 @@
+CAPTURE of gate 5 mutant
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-plaque-fit.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 10389[2mms[22m[39m
+[31m     [31m×[31m B1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups[39m[32m 12[2mms[22m[39m
+     [32m✓[39m B2: the hlogo week pill and role bar take the logo amber and brown[32m 7[2mms[22m[39m
+     [32m✓[39m B3: the hlogo title text box fills the plaque band and is clear of the ornaments[32m 5[2mms[22m[39m
+     [32m✓[39m B4: the hlogo plaque width follows the title and the plaque sits on the page[32m 4[2mms[22m[39m
+     [32m✓[39m B5: a title of 40 characters wraps to 2 lines and the plaque grows upward[32m 1[2mms[22m[39m
+     [32m✓[39m B6: the hlogo week pill text fills the pill and sits at its center[32m 3[2mms[22m[39m
+     [32m✓[39m B7: the hlogo role bar fits its text with even padding[32m 6[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none [33m 640[2mms[22m[39m
+     [32m✓[39m B9: the K logo file holds only grays and the same shape as the color logo[32m 15[2mms[22m[39m
+     [32m✓[39m B10: the leaf series line stays on one line inside the 35 mm box[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 461[2mms[22m[39m
+     [32m✓[39m B12: the 4 book kinds keep their bytes in both styles[32m 247[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 4636[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the student-front lies inside the band in the level colour [33m 363[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the teacher-front reads the approved words [33m 350[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 3488[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome [33m 484[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art layer keeps its HTML [33m 551[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the logo tile of the A3 reader cover sits centered in the page [33m 370[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m27 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 10:24:21
+[2m   Duration [22m 24.90s[2m (transform 712ms, setup 299ms, import 1.35s, tests 18.51s, environment 3.79s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups
+[31m[1mAssertionError[22m: the hlogo plaque of the row w01-1 holds no color of the blue palette: #E7EEF7.: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m774:19[22m[39m
+    [90m772| [39m                    colours[33m.[39m[34mincludes[39m(blue[33m.[39m[34mtoLowerCase[39m())[33m,[39m
+    [90m773| [39m                    `the hlogo plaque of the row ${id} holds no color …
+    [90m774| [39m                )[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m775| [39m            }
+    [90m776| [39m            expect(colours.includes(BROWN.toLowerCase()), `the plaque …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1

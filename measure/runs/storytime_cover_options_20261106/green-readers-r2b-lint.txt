@@ -1,0 +1,15 @@
+CAPTURE of gate 4 lint
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1706:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
