@@ -1,0 +1,58 @@
+# Jr Green, Task 2.8, the record of Daniel's picture look
+
+Track storytime_l2_unit2_20261106, Phase 2. Base commit 21c73835924adeb1e9092047f7dd1d9b7e6972b9.
+
+## Thai filter
+
+The Thai filter ran first. It printed THAI_CHARS_IN_OUTPUT=0. The plan file holds 0 Thai characters.
+
+## The record run
+
+The script measure/runs/storytime_l2_unit2_20261106/record_images_2_8.py ran once. It set Task 2.8 to [~] and wrote 8 records:
+
+w09.json: approval.images status approved, date 2026-11-11
+w10.json: approval.images status draft, date 2026-11-11
+w11.json: approval.images status approved, date 2026-11-11
+w12.json: approval.images status approved, date 2026-11-11
+w13.json: approval.images status approved, date 2026-11-11
+w14.json: approval.images status approved, date 2026-11-11
+w15.json: approval.images status approved, date 2026-11-11
+w16.json: approval.images status approved, date 2026-11-11
+
+The JSON compare proved that only approval.images changed in each file.
+
+## The gate
+
+STAGE_CHECKS ran in one heavy-run. It exited 1.
+
+Summary: 16 package(s), 1 failed check(s), 12 warning(s).
+
+The failed check sits in week 12:
+
+  FAIL    song-frame      The frame 8 or more times in the song — 7 times
+
+The script restored the 8 week files and the plan. They hold their text at 21c73835. The numstat of the 8 files and the plan is empty.
+
+## The failure does not come from the record
+
+A second heavy-run of STAGE_CHECKS on the clean tree at 21c73835 gave the same result. It exited 1 with 16 packages, 1 failed check, 12 warnings, and the same FAIL line. The red gate stands at HEAD without the record.
+
+Week 12 holds the frame "Open your book." Seven of its 10 song lines carry the frame. Three lines say "Open your bag!". The check needs 8 lines with the frame. The last commit that changed week 12 is 46960211 (Task 6.1, the song lines 9 and 10 out). This role does not change the song. The record task stays blocked.
+
+## The state
+
+No content file changed. No plan line changed. Task 2.8 stays [ ] in the plan. The script file and the gate report stay untracked. The pnpm-lock.yaml file did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_l2_unit2_20261106
+phase: Phase 2: Picture list for Forge (2026-11-07 to 2026-11-23)
+baseline_sha: 21c73835924adeb1e9092047f7dd1d9b7e6972b9
+commits: none for the record (the gate failed, so the script restored the 8 week files and the plan; this log commit is the branch HEAD after this commit)
+tests_run: STAGE_CHECKS in one heavy-run inside the script, exit 1, Summary: 16 package(s), 1 failed check(s), 12 warning(s).; a second heavy-run of STAGE_CHECKS on the clean tree at 21c73835, exit 1, the same summary and the same FAIL line
+files_changed: none in content/ and none in the plan; the new files measure/runs/storytime_l2_unit2_20261106/record_images_2_8.py and measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks.txt stay untracked; this log is measure/runs/storytime_l2_unit2_20261106/jr-green-t28-record-21c73835.log
+plan_updates: none (the script restored the plan; Task 2.8 stays [ ] and no line under Task 2.7 or Task 2.8 changed)
+known_failures: st2/12 (week 12, Open Your Book!) - FAIL song-frame, "The frame 8 or more times in the song - 7 times"; the check needs 8 lines with the frame and week 12 has 7 of 10; the same failure occurs on the clean tree at 21c73835 without the record
+handoff: The record is ready but not committed, because the gate is red at HEAD and Task 2.8 needs STAGE_CHECKS to pass. The 8 records would give approved for weeks 9 and 11 to 16 and draft for week 10, with the date 2026-11-11 and Daniel's words "Hat-pip image passes, but the w10 put on your t shirt image doesn't pass." The red gate is outside this role: week 12 holds the frame "Open your book." in 7 of its 10 song lines and the check needs 8; the last commit that changed week 12 is 46960211 (Task 6.1, the song lines 9 and 10 out). A fix of the week 12 song must come first, then the same script must run again. Before that run, remove the untracked file measure/runs/storytime_l2_unit2_20261106/approval-images-stage-checks.txt, because the script stops when that file exists. Question for the orchestrator: should the record wait for the week 12 song fix, or should the record go in now with the red gate noted? My default: wait. The plan sets the done-when of Task 2.8 to "STAGE_CHECKS passes, and the 8 files hold the record", and a record with a red gate would claim a pass that no check gives. The scratch folder /tmp/opencode/t28r/ stays.
+END_MEASURE_AGENT_RESULT
