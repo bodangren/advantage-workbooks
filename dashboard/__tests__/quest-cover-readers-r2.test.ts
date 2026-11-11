@@ -45,12 +45,14 @@
  *       no `game-bar` part, no `band-word` part, and no `series-banner` part. It holds one
  *       `logo-tile` part. The tile holds one image, and the source of that image is the URL of the
  *       horizontal logo file. The text of the page holds no "Storytime Advantage".
- *   R3: For each of the 14 rows, the outer HTML of the art layer, the `week-pill` part, the
- *       `title-plaque` part, and the `role-bar` part is the same in the hlogo render and in the
- *       default render.
- *   R4: The default A3 render of each of the 14 rows, the default leaf render of each of the 14
- *       rows, the leaf render of each of the 14 rows with the top style `hlogo`, and the 2 default
- *       outputs of `questReaderCoverPage` hold their pins of the role base.
+ *   R3: For each of the 14 rows, the outer HTML of the art layer is the same in the hlogo render
+ *       and in the default render. The change of 2026-11-11: the week pill, the title plaque, and
+ *       the role bar take the logo colors by D1 to D4 of the readers r2b pair, so they no longer
+ *       keep their HTML.
+ *   R4: The default A3 render of each of the 14 rows and the 2 default outputs of
+ *       `questReaderCoverPage` hold their pins of the role base. The leaf pins cover the HTML with
+ *       the series part removed, because the leaf series part changes by D6 of the readers r2b
+ *       pair.
  *   R5: In Chrome, the tile of the hlogo render of the first row is centered on the page width
  *       within 0.5 mm. The logo image is centered in the tile on both axes within 0.25 mm. The
  *       tile takes the amber `#FCD34D` and the brown `#92400E`.
@@ -154,27 +156,27 @@ const A3_PINS: Record<string, string> = {
 
 /** The pins of the default leaf render of each row, at the role base `a6a3173e`. */
 const LEAF_PINS: Record<string, string> = {
-    'w01-1': 'd14213b57a92c1dc3eeb5504f1ac54a601423430b8724a70f5252983d40f26c6',
-    'w01-2': 'b2cf0f1f5f6ce536064aeb453570424ff3e85d55ce2b76f97e9af676cf08ddd5',
-    'w02-1': '94e30959cf4cf21bd7f3e7323a1e1c18cf65ce228860ed150c2199c439a40f3f',
-    'w02-2': '39c5290d9998b6a5b42753fea6f0571f698e7d1a6b9dde04e51f8cfd346ff5a1',
-    'w03-1': '22fb723259b61171b6e16d6b4d3fef2cc7b1f215b99ace5eacc51043955e3a06',
-    'w03-2': 'dbafbc10fc53a0bc00da8a4c3a126bb8120efd0816ddf710e35b054b84b0ca55',
-    'w04-1': '87bdaad39dcb2784c5e6eb844b15f800c0f815a786e8c61d3b7ada05e831af69',
-    'w04-2': '43d78a754ea3722d8cee376fd4e296ddbcd80059b7d8e286e549075b12a46e19',
-    'w05-1': '3c7678384d3ae3014ecaeb14f860e157888733bc2ecf078432cf15990da591a7',
-    'w05-2': '959dc345f6c964acd43c4b5cd69fb31099f8fc2e4ceb7f86d8907f6d395caa8b',
-    'w06-1': '79df65dd50d44c33a323018402435d498ff21770cf794c81dd0f8855c2a1a260',
-    'w06-2': 'c737b40c3366c58557ebb32abe542ee12d4cfff53f6f8c073f83f60a191c4279',
-    'w07-1': '687761ea1353fb9d5db6163032937777658fb9a61ec420347d0995485dffe52b',
-    'w07-2': 'b109111c6d39113cd6921321180d7fa983bca23d6f9dab19a7b02be63faf3b7b',
+    'w01-1': '475df6726430ae674a004ea54896aa7800a38dc9d99ac5bffcb0ad9a6662b619',
+    'w01-2': '95c48d548af88714e45453d28e9611278a8e3c16319a53885d1f6cebbd345382',
+    'w02-1': 'c1542129a1cde245f6fa3ab68253bb7adf4d847e0d1a847e42c05298bd1fb430',
+    'w02-2': '077a040ec9393c1580ffd138303cd43b3048a7aac8650dcb6814a8beb77c3229',
+    'w03-1': 'c9a17143063e02e3b7a882871ea370b50641915f05f8a56f9bd92901ea209f3a',
+    'w03-2': '2bb91e2985d6d37eb25e87350741715aa568996e0d0b49812a314382dbf86403',
+    'w04-1': 'd4e208df2d12e371d9c7af21b4bf2b75a44ff79658db10adf465eb73ac62af00',
+    'w04-2': 'ee6a88904301be8d5bb1b36d5e31a0c86e93b3c3e6a92871117f8c53c376b4d5',
+    'w05-1': '2ce2d8926c756ad524cdd8bc9827343173657ca33d0e05e0501bf4f0e7d454e6',
+    'w05-2': '4ea6106973de77f01a7588a374074715e636daf34e5b76eebd54c2333dfc8cb3',
+    'w06-1': 'a022e7a19bb762c9c1f4c71825ca0a214759ca724415f534d570d1c3d1bb3ac6',
+    'w06-2': '102830bc08431f4345eca1d0636c56f8e9b49c36dd11d9f39f05f07d3e755413',
+    'w07-1': '07250c74b6d5783acaa2bece3620f55a45bc5d4e4aec854f31b29079ddda3559',
+    'w07-2': '52a45239e087ae707222a11298cbdb52f180cd54e14094769035ae5d9182c675',
 };
 
 /** The pin of the default `questReaderCoverPage` output of the first row, with the A3 trim. */
 const PAGE_A3_PIN = '0b2978bb3960e1d53a3232688f060994e0b5c040eeba58ca0f4d48ba048fa606';
 
-/** The pin of the default `questReaderCoverPage` output of the first row, with the leaf trim. */
-const PAGE_LEAF_PIN = 'b65b537343c9f1369423ef42e6fc99f511ec49d20ca8e33c4f42e85df8de455a';
+/** The pin of the default leaf reader page output of the first row, with the series part removed. */
+const PAGE_LEAF_PIN = '0609dfdc6feb49ed93634b76564567b43087486749c48baec9f3541ce5f36e09';
 
 /** The D1 box of the A3 reader logo tile. */
 const LOGO_TILE_BOX = { kind: 'reader-a3', leftMm: 126.4, topMm: 12, widthMm: 167.2, heightMm: 54 };
@@ -190,7 +192,7 @@ const KEPT_BOXES: Record<string, { leftMm: number; topMm: number; widthMm: numbe
 };
 
 /** The parts that R3 keeps, with their part names. */
-const KEPT_PARTS = ['art', 'week-pill', 'title-plaque', 'role-bar'] as const;
+const KEPT_PARTS = ['art'] as const;
 
 /** The default render options: the look of the role base. */
 const DEFAULT_OPTIONS: QuestRenderOptions = { bleedMm: 0 };
@@ -297,6 +299,18 @@ function a3Html(row: QuestReaderRow, opts: QuestRenderOptions): string {
  */
 function leafHtml(row: QuestReaderRow, opts: QuestRenderOptions): string {
     return renderQuestCover('reader-leaf', row, { art: ART }, opts);
+}
+
+/**
+ * Cuts the series part out of one rendered leaf document. The cut method: the element starts at
+ * the open tag `<div data-part="series"` and ends at the first `</div>` after it.
+ * @param html The rendered HTML.
+ * @returns The HTML without the series part.
+ */
+function withoutSeries(html: string): string {
+    const matches = html.match(/<div data-part="series"[\s\S]*?<\/div>/g) ?? [];
+    expect(matches.length, 'the leaf render holds one series part.').toBe(1);
+    return html.replace(matches[0] ?? '', '');
 }
 
 /**
@@ -421,7 +435,8 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
         }
     });
 
-    it('R3: the art, the week pill, the title plaque, and the role bar keep their HTML', () => {
+    // R3 changed 2026-11-11: the week pill, the title plaque, and the role bar take the logo colors by D1 to D4, so only the art layer keeps its HTML.
+    it('R3: the art layer keeps its HTML', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
             const id = ROW_IDS[index];
@@ -440,6 +455,7 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
         }
     });
 
+    // R4 changed 2026-11-11: the leaf series part changes by D6, so the leaf pins cover the HTML with the series part removed.
     it('R4: the default renders and the reader page outputs keep their pins', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
@@ -453,12 +469,8 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
                 `the SHA-256 of the top banner A3 render of the row ${id}.`,
             ).toBe(A3_PINS[id]);
             expect(
-                hashOfText(leafHtml(row, DEFAULT_OPTIONS)),
-                `the SHA-256 of the default leaf render of the row ${id}.`,
-            ).toBe(LEAF_PINS[id]);
-            expect(
-                hashOfText(leafHtml(row, HLOGO_OPTIONS)),
-                `the SHA-256 of the hlogo leaf render of the row ${id}.`,
+                hashOfText(withoutSeries(leafHtml(row, DEFAULT_OPTIONS))),
+                `the SHA-256 of the default leaf render of the row ${id}, with the series part removed.`,
             ).toBe(LEAF_PINS[id]);
         }
         const first = rows[0];
@@ -479,8 +491,8 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
             DEFAULT_OPTIONS,
         );
         expect(
-            hashOfText(JSON.stringify(pageLeaf)),
-            'the SHA-256 of the default leaf reader page of the first row.',
+            hashOfText(JSON.stringify({ body: withoutSeries(pageLeaf.body), css: pageLeaf.css })),
+            'the SHA-256 of the default leaf reader page of the first row, with the series part removed.',
         ).toBe(PAGE_LEAF_PIN);
     });
 
