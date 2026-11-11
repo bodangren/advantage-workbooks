@@ -1,0 +1,105 @@
+CAPTURE of gate 2: green readers r2, every quest-cover test file
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+— stdout —
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1151339[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 1235[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1355[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 3031[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 4565[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1427[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 7881[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 1959[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 2135[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 6114[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 529[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [33m 327[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 2266[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 2954[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 4127[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 2911[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 4020[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 5960[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 439[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3525[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 2014[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 571[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 113038[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 6852[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 3606[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 113071[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 6761[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3359[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 6154[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 3370[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 4639[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 9580[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 4313[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 3845[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 3851[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 3825[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 378055[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 425947[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m191 tests[22m[2m)[22m[33m 30318[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-front holds [data-part="art"] exactly 1 times [33m 557[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-back holds [data-part="art"] exactly 1 times [33m 865[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-back holds [data-part="logo-box"] exactly 1 times [33m 476[2mms[22m[39m
+     [33m[2m✓[22m[39m T02: student-back holds [data-part="series-banner"] exactly 1 times [33m 317[2mms[22m[39m
+     [33m[2m✓[22m[39m T03: the student back shows the five fields in order with their headings and shared values, and the teacher back has no panel [33m 307[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 3396[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 3276[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 1093[2mms[22m[39m
+     [33m[2m✓[22m[39m T12: the fronts and the reader covers hold no Thai [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m T13: both backs show the LINE QR with 0 different modules [33m 355[2mms[22m[39m
+     [33m[2m✓[22m[39m T13: the fronts and the reader covers hold no QR [33m 373[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 2068[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 687[2mms[22m[39m
+     [33m[2m✓[22m[39m T20: every file font url names an existing file [33m 357[2mms[22m[39m
+     [33m[2m✓[22m[39m T21: every src, href, and url is file or data, and no @import appears [33m 359[2mms[22m[39m
+     [33m[2m✓[22m[39m T26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed [33m 347[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 1214[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 4837[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-print-gate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 24718[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 4 cover files sit in the print-ready folder with their pinned SHA-256 [33m 466[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the print gate passes the 4 cover files on their own merit [33m 23789[2mms[22m[39m
+     [33m[2m✓[22m[39m G5: the 4 cover files keep their SHA-256 after the print gate ran [33m 451[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 18985[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the student-front lies inside the band in the level colour [33m 1059[2mms[22m[39m
+     [33m[2m✓[22m[39m P2: the plaque text of the student-front is clear of the diamond ornaments and of itself [33m 609[2mms[22m[39m
+     [33m[2m✓[22m[39m P3: the plaque text of the student-front is set at a readable size [33m 724[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the student-front reads the approved words [33m 870[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the teacher-front lies inside the band in the level colour [33m 674[2mms[22m[39m
+     [33m[2m✓[22m[39m P2: the plaque text of the teacher-front is clear of the diamond ornaments and of itself [33m 951[2mms[22m[39m
+     [33m[2m✓[22m[39m P3: the plaque text of the teacher-front is set at a readable size [33m 1019[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the teacher-front reads the approved words [33m 795[2mms[22m[39m
+     [33m[2m✓[22m[39m P5: the Sprout tab text of the teacher front lies inside its pill and above the plaque [33m 767[2mms[22m[39m
+     [33m[2m✓[22m[39m P6: the reader plaques keep their bytes of the role base sha [33m 450[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 5875[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome [33m 669[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art, the week pill, the title plaque, and the role bar keep their HTML [33m 980[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the logo tile of the A3 reader cover sits centered in the page [33m 683[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 10143[2mms[22m[39m
+     [33m[2m✓[22m[39m L2: each front holds the Storytime logo and no crest [33m 368[2mms[22m[39m
+     [33m[2m✓[22m[39m L3: each back holds the Storytime logo in the logo box and the RA logo as the publisher mark [33m 863[2mms[22m[39m
+     [33m[2m✓[22m[39m C1: every color of every chrome part is in the logo palette [33m 3673[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 6899[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: the default render of each kind is byte equal to the r5 pin [33m 301[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 442[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 619[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 2654[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1879[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-frame-r3.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 383[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 485[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[32m317 passed[39m[22m[90m (317)[39m
+[2m   Start at [22m 07:34:44
+[2m   Duration [22m 1298.77s[2m (transform 4.44s, setup 4.75s, import 13.10s, tests 1249.14s, environment 26.73s)[22m
+— stderr —
+
+THAI_LINES_DROPPED=0
+EXIT=0

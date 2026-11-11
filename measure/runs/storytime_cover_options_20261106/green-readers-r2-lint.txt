@@ -1,0 +1,14 @@
+CAPTURE of gate 4: green readers r2, eslint
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+— stdout —
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1706:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+— stderr —
+
+THAI_LINES_DROPPED=0
+EXIT=0

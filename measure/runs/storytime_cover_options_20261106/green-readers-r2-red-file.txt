@@ -1,0 +1,21 @@
+CAPTURE of gate 1: green readers r2, targeted Red file after the change
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2.test.ts --maxWorkers=1
+— stdout —
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4150[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome [33m 532[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art, the week pill, the title plaque, and the role bar keep their HTML [33m 876[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the logo tile of the A3 reader cover sits centered in the page [33m 605[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 07:34:31
+[2m   Duration [22m 6.06s[2m (transform 482ms, setup 134ms, import 586ms, tests 4.15s, environment 797ms)[22m
+— stderr —
+
+THAI_LINES_DROPPED=0
+EXIT=0
