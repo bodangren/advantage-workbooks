@@ -147,3 +147,94 @@ deviation: the fixture and 2 student book test files belong to storytime_print_r
 questions: none new; Q1 to Q4 of the first round stay open with their defaults.
 handoff: The Green writes page 1 as one data-picture-id wrapper whose only child is the questReaderCoverPage body. The art img keeps the attributes alt, class, data-part, src, and style, and its src is the encoded file URL of the resolved cover file. Proof mode puts PICTURE MISSING inside the quest page and prints no img. Remaining failures: the 10 contract tests of quest-cover-f3f6 and R-P4-3, plus the other first-round moved pins (G3, G5, G7, T16, M9 x4, and the reader cover test).
 END_MEASURE_AGENT_RESULT
+
+## Red retry 2 (2026-11-12, mid-red, model claude-code/claude-opus-5-5[1m]#high; role_base_sha 403e664c)
+
+State: the Green code of F3 to F6 is uncommitted in the tree (cover-quest.ts, readers.ts,
+teacher-book-cover.ts). This role did not open, change, or stage these 3 files.
+PM decisions of 2026-11-12 (received during this retry) apply: League Spartan only in the quest
+cover chrome; page 1 is the quest cover and the story starts on page 2; R31, R32, R36, R40, R44, and
+the 3 A1 guards are real faults until a test proves otherwise.
+
+Tree run 1 (limit 2400 s, red-f3f6-retry2-tree.txt), 11 files: Test Files 5 failed | 6 passed (11),
+Tests 20 failed | 462 passed (482).
+
+Moved to the F5 contract (each change holds one "changed 2026-11-12 (F5, PM look)" comment line):
+- fixtures/storytime-reader-leaf.ts readerLayoutProblems: page 1 skips the story page rules and must
+  hold .quest-reader-page ([layout-quest]). The old messages: "[layout-page] Hello! page 1: 99.0 x
+  74.2 mm, want 198 x 148.5" and "[layout-picture] Hello! page 1: no picture box" (R-P6-F3a, R-P6-F3b).
+- storytime-print-readers.test.ts a3Problems: page 1 skips the scale rule and must hold
+  .quest-reader-page ([a3-quest]). The old message: "[a3-scale] page 1: 0 scale boxes, want 1"
+  (R-P4-4a, R-P4-4b).
+- R-P6-F3d measures A3 page 2. The old message: "expected 197.99928385416663 to be close to 396".
+- R29: League Spartan is a third @font-face family with OFL-league-spartan.txt. The file
+  league-spartan-latin-700-normal.woff2 gives fc-scan "League Spartan Thin|False|200|LeagueSpartanThin-Bold"
+  (static, weight 200 = bold), and R29 pins this exact string. A CSS rule that names League Spartan
+  must have only .quest- selectors. An element with League Spartan in its style must be inside
+  .quest-reader-page or .quest-page. Every other font-family keeps Andika or Sarabun.
+- R34: the PDF/X holds Andika, Andika-Bold, Sarabun-Regular, and LeagueSpartanThin-Bold only. pdffonts
+  per page must show LeagueSpartanThin-Bold exactly on the pages that hold .quest-reader-page.
+- quest-cover-f3f6.test.ts: the 4 D6 and D7 tests at the old lines 1374, 1451, 1484, and 1512 get
+  120_000 ms. The old message: "Error: Test timed out in 5000ms."
+
+Tried and reverted by the PM decisions (the evidence stays in red-f3f6-retry2-tree2.txt):
+- R44 with picture.closest('[data-picture-id]') passed in tree run 2. It is back to
+  picture.parentElement. Tree run 3 message: "AssertionError: expected undefined to be defined".
+  Proof of a conflict (Q6): D6 needs the quest page as the only child of the wrapper, so the art img
+  cannot be a child of the wrapper, and parentElement cannot give the picture id.
+- measureLeafSidesInBrowser without the quest art, the quest page, and the wrapper: tree run 2 cleared
+  side 7, and side 1 still failed. The fixture is back to the old content set. So side 1 holds a real
+  mark fault on non-art content, and side 7 overlaps only the full-page art (Q5).
+
+Tree run 2 (limit 2400 s, red-f3f6-retry2-tree2.txt, before the PM decisions): Test Files 4 failed |
+7 passed (11), Tests 12 failed | 470 passed (482).
+Tree run 3 (limit 2400 s, red-f3f6-retry2-tree3.txt, after the PM decisions): Test Files 4 failed |
+7 passed (11), Tests 12 failed | 470 passed (482). Every moved test passes except R34, which fails
+only on the make-pdfx build (a Green fault). R29 passes.
+HEAD run: skipped. No clean copy of HEAD with node_modules exists without a change to the Green files.
+tsc (limit 300 s, red-f3f6-retry2-tsc.txt): exit 0. eslint on the 4 changed test files (limit 300 s,
+red-f3f6-retry2-lint.txt): exit 0. pnpm-lock.yaml stayed unchanged. The added test lines and the 7
+captures hold 0 Thai characters (the capture script dropped 1 Thai line in each tree run).
+Plan: one sub-line before "- [ ] Task (Green, F3 to F6)", numstat 1 0.
+Commit: 75cb9fd2 (4 test files, the plan, 7 captures).
+
+Real faults for the Green (tree run 3, unchanged tests):
+1. student-book R31 "gives every PDF/X inside page zero CMY coverage and preserves the physical page
+   count", R31 "detects CMY on a temporary PDF/X copy with an explicit cyan patch", R34 "embeds only
+   Andika regular, Andika bold, and Sarabun in the built PDF/X", R36 "matches both printed PDF/X QR
+   matrices to their labeled song and book addresses", R40 "mirrors the horizontal fold line with the
+   leaf parity and prints it across the middle of the leaf": "Error: Command failed: timeout ...
+   make-pdfx.ts ... --keep-fonts --k-only". The cause (red-f3f6-retry2-student-build.txt): "FAIL
+   page(s) 15 became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or
+   dashed rounded boxes with a background)". Page 15 is the leaf side with the quest page 1.
+2. student-book R32 and readers R-P6-F3c: "[mark-overlap] side 1: the mark overlaps page content"
+   (4 times) and "[mark-overlap] side 7: the mark overlaps page content" (3 times).
+3. student-book R44 "final mode requires and selects line art, not the color file": "AssertionError:
+   expected undefined to be defined" (Q6).
+4. student-book-adversarial A1 "keeps hostile week text out of the markup", "prints hostile week text
+   as literal text", "keeps a hostile start point inside its attribute": "Error: the quest reader cover
+   row of \"\"><img src=x onerror=alert(1)><script>alert(2)</script>&\" is missing". This is a throw in
+   the Green code, not a page 1 shape read, so the guards stay unchanged.
+5. covers-adversarial "passes the reader cover check for the real covers and writes the print file":
+   "AssertionError: The real reader covers pass the cover check.: expected 1 to be +0". The build text
+   (red-f3f6-retry2-readers-build.txt): "the laid-out document holds 0 reader cover pages; it must
+   hold 2." By Q2 this is a Green fault.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: 403e664c
+baseline_sha: f2a2a1d9
+head: 75cb9fd2 before this log commit
+commits: 75cb9fd2 (test(covers): Red retry 2, 4 test files, the plan sub-line, 7 captures), this log (measure(runs))
+tests_run: tree run 3 of 11 files on the uncommitted Green code: Test Files 4 failed | 7 passed (11), Tests 12 failed | 470 passed (482), exit 1; tsc exit 0; eslint exit 0; HEAD run skipped (no clean copy with node_modules)
+red_command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-template.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-covers-adversarial.test.ts __tests__/storytime-print-covers.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-v15.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts --maxWorkers=1
+files: dashboard/__tests__/quest-cover-f3f6.test.ts, dashboard/__tests__/storytime-print-readers.test.ts, dashboard/__tests__/storytime-print-student-book.test.ts, dashboard/__tests__/fixtures/storytime-reader-leaf.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-f3f6-retry2-{tree,tree2,tree3,readers-build,student-build,tsc,lint}.txt
+moved: R-P6-F3a, R-P6-F3b, R-P4-4a, R-P4-4b (page 1 skipped and pinned as the quest cover), R-P6-F3d (page 2), R29 and R34 (League Spartan only in the quest cover chrome), 4 D6 and D7 tests (120 s)
+remaining_failures: R31 x2, R32, R-P6-F3c, R34, R36, R40, R44, A1 x3, covers-adversarial reader cover check (12)
+deviation: the fixture and the student book tests belong to storytime_print_r1; this track changes them because F5 moves page 1.
+questions: Q5 (default: R32 and R-P6-F3c stay unchanged; the PM decides if the leaf mark may lie over the full-page art of page 1 on side 7, or the Green moves the mark off page 1). Q6 (default: R44 stays on parentElement; the PM decides if R44 may read picture.closest('[data-picture-id]'), because D6 makes the art img a grandchild of the wrapper; tree run 2 shows R44 passes with closest). Q1 to Q4 stay open with their defaults.
+handoff: Green faults, each with its English message: (1) R31 x2, R34, R36, R40: "Error: Command failed: ... make-pdfx.ts ... --keep-fonts --k-only"; cause "FAIL page(s) 15 became one image each (in the source: emoji, rgba, opacity, shadows, gradients, or dashed rounded boxes with a background)"; remove what makes Chrome rasterize the quest page 1 in the workbook. (2) R32 and R-P6-F3c: "[mark-overlap] side 1: the mark overlaps page content" (x4) and "[mark-overlap] side 7: the mark overlaps page content" (x3); side 1 overlaps content other than the art; side 7 overlaps only the full-page art (Q5). (3) R44: "AssertionError: expected undefined to be defined"; keep D6 and wait for Q6. (4) A1 x3: "Error: the quest reader cover row of ... is missing"; build the quest row from the week book in hand (title, kind, week, band, role, level, cover picture), not by a title lookup on disk. (5) covers-adversarial reader cover check: "AssertionError: The real reader covers pass the cover check.: expected 1 to be +0"; the build says "the laid-out document holds 0 reader cover pages; it must hold 2"; make the reader build find the 2 page 1 quest covers. R34 also needs LeagueSpartanThin-Bold only on the PDF pages that hold .quest-reader-page. storytime-print-student-book.test.ts, a48-part2, and v15 hold older Thai text: run them, do not open them.
+END_MEASURE_AGENT_RESULT
