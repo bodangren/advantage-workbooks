@@ -1,0 +1,89 @@
+# Mid Red log: the standing cover rules (storytime_cover_options_20261106)
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash. Date: 2026-11-11.
+Role base: `0d3800f9`. Phase: P2, Phase 2: The option A covers.
+The Thai filter was the first command: it counted 0 Thai characters in the 5 files of the scope.
+
+## The task
+
+The PM standing order of 2026-11-11 puts Daniel's 5 cover rules into every Red of a cover or a
+print-chrome change. The new file `dashboard/__tests__/quest-cover-standing-rules.test.ts` pins the
+5 rules on the 32 shipped pages: the 4 book kinds, the 14 A3 readers, and the 14 leaf readers, in the
+shipped style `hlogo` with the bleed 0. The file reads no week file and prints no page text.
+
+## The rules and the measured results at the role base
+
+S1, the logo by file hash: 32 of 32 pages pass. The 18 colour pages hold the horizontal logo, and
+the 14 leaf pages hold the K logo. The image box stands at the tile box centre within 1 mm on both
+axes. The 2 pins are `3b9f8f4334ae316d9f0061b7b2707b07433b0eecd8ac0adddba0a68d9a3bb9cc` and
+`93e1eef8aaa890f61f16564a09c9c9bf6b6f330da63a0cfaffed2fe0c9922489`.
+
+S2, the token colours: 32 of 32 pages pass. The colour pages hold only `#fcd34d`, `#92400e`,
+`#fef3c7`, `#fffbeb`, and `#ffffff`. Every value of a leaf page is a gray.
+
+S3, the cap height: 30 of the 30 pages in scope fail. The 2 fronts: the title plaque cap is 5.03 mm
+of the 8.40 mm band, 59.9 %. The 14 A3 readers: the plaque is 19.84 mm of 34.40 mm, 57.7 %; the week
+pill is 3.44 mm of 8.80 mm, 39.1 %; the role bar is 3.70 mm of 10.80 mm, 34.3 %. The 14 leaf readers:
+the plaque holds no band path, so the band is 0.00 mm. The 2 backs hold no band text, so the rule
+has no scope on them.
+
+S4, the centring: 30 of 32 pages fail. The teacher front: the band pill ink box is 1.06 mm down. The
+student back: the panel block is 1.33 mm across. The 14 A3 readers: the plaque ink box is 3.30 mm
+down and the role bar ink box is 8.00 mm across. The 14 leaf readers: the plaque holds no band path
+and the page holds no footer. The student front and the teacher back pass.
+
+S5, the game UI: 15 of 32 pages fail. The teacher front: 1 band pill part, 1 band word text, and 1 XP
+or sprout match. The 14 leaf readers: the same 3 faults each. The student front, the 2 backs, and the
+14 A3 readers pass.
+
+## The relax edits
+
+The first Red gate showed 2 test defects, and both are fixed. The short hex `#fff` of the QR fill now
+becomes `#ffffff`, so S2 passes. The front title plaque holds one row of 3 texts, so the ink box is
+now the union of the row, and the 2 fronts no longer fail S4 across.
+
+B3 of `quest-cover-readers-r2b.test.ts` drops the 2 fill share checks and the vertical centre check.
+C6 of `quest-cover-readers-r2c.test.ts` drops the same checks. Each file holds the note in its header.
+
+The second relax pass, after the first gate. The book kinds that fail S3, S4, or S5 are the student
+front, the teacher front, and the student back. The teacher back fails no rule, so its pins stay.
+
+B12 of the r2b file drops the hlogo pins of the student front, the teacher front, and the student
+back. The 4 default pins stay. A9 of the hlogo file drops the pins of the student front, the teacher
+front, and the student back. The teacher back pin `e552bed9` stays. A5 of the hlogo file skips the
+title plaque and the band pill for the 2 fronts, and the panel for the student back.
+
+## The conflicts that I did not change
+
+`quest-cover-plaque-fit.test.ts` P6 pins the bytes of the A3 plaque and the leaf plaque. The Green
+changes both plaques, so P6 conflicts with S3 and S4.
+`quest-cover-template.test.ts` holds 3 rows on the teacher front band pill: the part count row, the
+`REQUIRED_BOXES` row, and the `T14_SLOTS` row. S5 forbids the band pill, so the 3 rows conflict.
+`quest-cover-frame-r3.test.ts` F4 reads the box `teacher-front:band-pill`. The Green removes the band
+pill and its box, so F4 conflicts with S5.
+
+## The gates
+
+The Red gate `RED_TEST_COMMAND` exits 1: `Test Files 2 failed | 10 passed (12)`, `Tests 13 failed |
+332 passed (345)`. Only the new file and the r2c file fail. The r2c file fails C1 to C10 by design.
+The 2 failing files exit 1 with `Tests 13 failed | 3 passed (16)`. The r2b and hlogo files exit 0 with
+`Tests 21 passed (21)`. The tsc gate exits 0. The lint gate exits 0 with 0 errors and 1 known
+warning: `quest-cover-readers-r2c.test.ts` line 224, `LEAF_PAGE_HEIGHT_MM`. Every capture holds 0
+Thai lines. `pnpm-lock.yaml` is unchanged.
+
+The captures: `red-standing-rules.txt`, `red-standing-rules-r2.txt`, `red-standing-rules-r3.txt`,
+`red-standing-rules-tsc.txt`, `red-standing-rules-lint.txt`.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16), id P2
+baseline_sha: 0d3800f9f33132ffef5f8f4ea7e6a4ea596e4ceb
+commits: 105fc317 (the test files and the captures), a777a27f (the plan), and this log commit
+tests_run: the Red gate `cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1` exits 1 with Test Files 2 failed | 10 passed (12) and Tests 13 failed | 332 passed (345); the 2 failing files exit 1 with Tests 13 failed | 3 passed (16); the r2b and hlogo files exit 0 with Tests 21 passed (21); `npx tsc --noEmit` exits 0; `npx eslint` over the 4 files exits 0 with 0 errors and 1 known warning
+files_changed: dashboard/__tests__/quest-cover-standing-rules.test.ts (new), dashboard/__tests__/quest-cover-readers-r2b.test.ts, dashboard/__tests__/quest-cover-readers-r2c.test.ts, dashboard/__tests__/quest-cover-hlogo.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, and the 5 captures in measure/runs/storytime_cover_options_20261106/
+plan_updates: 4 new lines, numstat 4 0. The bullet under `### Rules for every Phase 2 task` holds the PM standing order word for word. The 3 lines before the line `- [ ] Task (Green, readers r2c)` are the Red task with `commit 105fc31`, the evidence line, and the Green task.
+known_failures: S3, S4, and S5 fail by design until the Green of this pair. The r2c file fails C1 to C10 by design. The conflicts I did not change are P6 of quest-cover-plaque-fit.test.ts, 3 rows of quest-cover-template.test.ts, and F4 of quest-cover-frame-r3.test.ts.
+handoff: the Green makes the 32 shipped pages pass S1 to S5. The failing parts and the measured values with the pin location in cover-quest.ts. (1) The front title plaque, both fronts: the cap height is 5.03 mm of the 8.40 mm band, 59.9 %, and the ink box centre is 1.45 mm above the band centre. The pin is `titlePlaqueFront` at cover-quest.ts:1389, the font size 7.4 mm at line 1397, and the band path of `plaqueSvg` with the `data-plaque-colour` `#FCD34D` at line 1393. The Green grows the cap height to 75 % to 85 % of the band. (2) The teacher front band pill: the cap height is 2.91 mm of the 7.80 mm inner band, 37.3 %, and the ink box centre is 1.06 mm down. The pin is `bandPill` at cover-quest.ts:1364, the font size 13 pt at line 1370, and the box `teacher-front:band-pill`. S5 forbids the part, so the Green removes it and its box. (3) The A3 title plaque, 14 pages: the cap height is 19.84 mm of the 34.40 mm band, 57.7 %, and the ink box centre is 3.30 mm down. The pin is `readerTitlePlaque` at cover-quest.ts:1201, the font size `READER_TITLE_FONT_MM` at line 1225, and the band at line 1214. (4) The A3 week pill, 14 pages: the cap height is 3.44 mm of the 8.80 mm inner band, 39.1 %. The pin is `readerA3Body` at cover-quest.ts:1727, the font size `READER_PILL_FONT_MM` at line 1731. (5) The A3 role bar label, 14 pages: the cap height is 3.70 mm of the 10.80 mm inner band, 34.3 %, and the ink box centre is 8.00 mm across. The pin is `readerA3Body` at cover-quest.ts:1742, the label font size 15 pt at line 1748. (6) The leaf title plaque, 14 pages: the cap height is 4.50 mm and the band is 0.00 mm, because the leaf plaque is the old crystal shape with 4 paths and no `data-plaque-colour`. The pin is `leafBody` at cover-quest.ts:1818. The r2c Green draws the r2 book plaque in K tints. (7) The leaf footer, 14 pages: the page holds no footer part. The pin is `leafBody` at cover-quest.ts:1829, where the series, week, and role parts stand alone. The r2c Green adds the footer part. (8) The leaf band word, 14 pages: the page holds 1 band word part and 1 band word text. The pin is `leafBody` at cover-quest.ts:1826. (9) The student back panel: the panel text block centre is 1.33 mm across from the panel centre. The pin is `panel` at cover-quest.ts:1489, with the top padding 7.25 mm and the bottom padding 9 mm at lines 1471 and 1477.
+END_MEASURE_AGENT_RESULT
