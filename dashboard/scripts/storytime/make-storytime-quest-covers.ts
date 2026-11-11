@@ -912,8 +912,9 @@ function qrCheck(html: string, kind: QuestCoverKind): string {
 export const questQrCheck = qrCheck;
 
 /**
- * The lit band check of one page. The fronts and the A3 readers hold the band icons; the leaf
- * shows the band word; a back holds the same book and no band icon.
+ * The lit band check of one page. The fronts and the A3 readers hold the band icons; the leaf shows
+ * the band word, unless it holds the logo tile of the top style hlogo: a leaf with the logo tile
+ * shows neither the band word nor the band icons (readers r2c, E10).
  * @param html The page.
  * @param kind The cover kind.
  * @param band The lit band of the book.
@@ -922,10 +923,17 @@ export const questQrCheck = qrCheck;
 function bandCheck(html: string, kind: QuestCoverKind, band: string): string {
     if (kind === 'student-back' || kind === 'teacher-back') return 'pass';
     if (kind === 'reader-leaf') {
-        return html.includes('data-part="band-word"') && html.includes(band.toUpperCase()) ? 'pass' : 'fail';
+        const word = band.toUpperCase();
+        if (html.includes('data-part="logo-tile"')) {
+            return !html.includes('data-part="band-word"') && !html.includes(word) ? 'pass' : 'fail';
+        }
+        return html.includes('data-part="band-word"') && html.includes(word) ? 'pass' : 'fail';
     }
     return checkQuestLitBand(html, band).length === 0 ? 'pass' : 'fail';
 }
+
+/** The export of `bandCheck` for the Green test of the reader leaf band (readers r2c). */
+export const questBandCheck = bandCheck;
 
 /**
  * The seven checks of one page.
