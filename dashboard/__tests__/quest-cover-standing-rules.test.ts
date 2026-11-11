@@ -37,6 +37,21 @@
  *       the 2 icons and the label.
  *   S5: the game UI: no band word, no band icon, no XP bar, and no game bar on any page.
  *
+ * The change of 2026-11-11 (F1 F2, Daniel's look of 2026-11-11 and the PM order of the same day):
+ *   S1 changed 2026-11-11 (F1 F2): the logo by file hash is on the 2 book backs only. The 4 front
+ *       kinds (the student front, the teacher front, the 14 reader-a3 pages, and the 14 reader-leaf
+ *       pages) hold 0 logo tiles. The page 12 tile of the readers has its hash pin in G5 of
+ *       `quest-cover-f1f2.test.ts`.
+ *   S2 changed 2026-11-11 (F1 F2): the scope adds the page 12 logo tile of the 14 readers in the 2
+ *       reader outputs: the computed colours of the tile are token colours on `a3-color` and grays
+ *       on `workbook`.
+ *   S4 changed 2026-11-11 (F1 F2): the scope adds the page 12 logo tile: the tile centre stands at
+ *       the reader page centre across within 1 mm, and the logo centre stands at the tile centre
+ *       within 1 mm, at reader page scale.
+ *   S5 changed 2026-11-11 (F1 F2): the scope adds page 12 of the 14 readers in the 2 outputs.
+ *   The page 12 pages (28) come from `compileStorytimeReaders` in proof mode, one document for
+ *   each week and output.
+ *
  * The method notes:
  *   - The cap height method is the method of C1 of `quest-cover-readers-r2c.test.ts`: the computed
  *     font of the parent of the text sets on a canvas 2d context, and the `actualBoundingBoxAscent`
@@ -70,12 +85,23 @@ import {
 } from '../lib/storytime/print/cover-quest';
 import { loadStorytimeCoverBooks, storytimeCoverPanelValues } from '../lib/storytime/print/covers';
 import { STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph } from '../lib/storytime/files';
+import { compileStorytimeReaders, type StorytimeReaderOutput } from '../lib/storytime/print/readers';
+import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
 
 /** The art string of the renders. The test reads no art file. */
 const ART = 'data:image/png;base64,iVBORw0KGgo=';
 
 /** The 4 book kinds of this file. */
 const BOOK_KINDS = ['student-front', 'teacher-front', 'student-back', 'teacher-back'] as const;
+
+/** The 4 front kinds of S1 (F1 F2): they hold 0 logo tiles. */
+const FRONT_KINDS = ['student-front', 'teacher-front', 'reader-a3', 'reader-leaf'] as const;
+
+/** The 2 reader outputs of the page 12 scope (F1 F2). */
+const PAGE12_OUTPUTS: StorytimeReaderOutput[] = ['workbook', 'a3-color'];
+
+/** The reader page width at reader page scale, in millimetres. */
+const READER_PAGE_WIDTH_MM = STORYTIME_PRINT_PROFILE.readerPage.widthMm;
 
 /** The chrome parts that S2 and S3 read. */
 const CHROME_PARTS = [
@@ -297,6 +323,37 @@ let pages: PageSpec[] = [];
 
 /** The Chrome measures of the 32 pages. */
 const measures = new Map<string, RawPage>();
+
+/** The Chrome measure of one page 12 of a reader (F1 F2). */
+interface Page12Raw {
+    /** The index of the reader in its document. */
+    reader: number;
+    /** The box of the reader page. */
+    pageBox: RawBox;
+    /** The count of the logo tiles of the page. */
+    tiles: number;
+    /** The box of the first tile. */
+    tileBox: RawBox | null;
+    /** The box of the first image of the first tile. */
+    imgBox: RawBox | null;
+    /** The computed colours of the tile and its descendants: the backgrounds and the drawn borders. */
+    colours: RawColour[];
+    /** The HTML of the reader page, for S5. */
+    html: string;
+}
+
+/** One page 12 of the page 12 scope (F1 F2). */
+interface Page12Spec {
+    /** The name of the page in the failure messages. */
+    id: string;
+    /** The reader output. */
+    output: StorytimeReaderOutput;
+    /** The Chrome measure. */
+    raw: Page12Raw;
+}
+
+/** The 28 page 12 pages of the page 12 scope (F1 F2). */
+const page12: Page12Spec[] = [];
 
 /**
  * Converts a computed colour to a lower case hex value.
@@ -678,6 +735,68 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
 }
 
 /**
+ * Opens one reader document in Chrome and measures the page 12 of each reader (F1 F2).
+ * @param page The browser page.
+ * @param html The reader document.
+ * @returns The measure of each page 12.
+ */
+async function measurePage12(page: Page, html: string): Promise<Page12Raw[]> {
+    const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'quest-standing-p12-'));
+    scratch.push(folder);
+    const file = path.join(folder, 'readers.html');
+    fs.writeFileSync(file, html);
+    await page.goto(pathToFileURL(file).href);
+    await page.evaluate(() => document.fonts.ready);
+    return page.evaluate((): Page12Raw[] => {
+        const mm = 25.4 / 96;
+        const boxOf = (element: Element | null): RawBox | null => {
+            if (!element) return null;
+            const rect = element.getBoundingClientRect();
+            return { left: rect.left * mm, top: rect.top * mm, right: rect.right * mm, bottom: rect.bottom * mm };
+        };
+        const titles = [
+            ...new Set(
+                Array.from(document.querySelectorAll('.reader-leaf[data-reader-title], .reader-book[data-reader-title]'), (element) =>
+                    element.getAttribute('data-reader-title') ?? '',
+                ),
+            ),
+        ];
+        const found: Page12Raw[] = [];
+        for (const readerPage of Array.from(document.querySelectorAll('.reader-page[data-page-number="12"]'))) {
+            const holder = readerPage.closest('[data-reader-title]');
+            const tiles = Array.from(readerPage.querySelectorAll('[data-part="logo-tile"]'));
+            const tile = tiles[0] ?? null;
+            const colours: RawColour[] = [];
+            if (tile) {
+                for (const element of [tile, ...Array.from(tile.querySelectorAll('*'))]) {
+                    const style = window.getComputedStyle(element);
+                    const background = style.backgroundColor.replace(/\s+/g, '');
+                    if (background !== 'transparent' && background !== 'rgba(0,0,0,0)') {
+                        colours.push({ value: style.backgroundColor, source: 'computed background' });
+                    }
+                    for (const side of ['top', 'right', 'bottom', 'left']) {
+                        const width = Number.parseFloat(style.getPropertyValue(`border-${side}-width`));
+                        if (width > 0 && style.getPropertyValue(`border-${side}-style`) !== 'none') {
+                            colours.push({ value: style.getPropertyValue(`border-${side}-color`), source: `computed border ${side}` });
+                        }
+                    }
+                }
+            }
+            found.push({
+                reader: titles.indexOf(holder ? (holder.getAttribute('data-reader-title') ?? '') : ''),
+                pageBox: boxOf(readerPage)!,
+                tiles: tiles.length,
+                tileBox: boxOf(tile),
+                imgBox: boxOf(tile ? tile.querySelector('img') : null),
+                colours,
+                html: `<!doctype html><html><body>${readerPage.outerHTML}</body></html>`,
+            });
+        }
+        return found;
+    });
+}
+
+/**
  * Reads the band text blocks of one measured page. The front title plaque holds one row of 3 texts,
  * so the block of a part is the union of its one-line texts.
  * @param raw The measure of the page.
@@ -761,6 +880,21 @@ beforeAll(async () => {
         for (const spec of pages) {
             measures.set(spec.id, await measurePage(page, spec.html));
         }
+        // S2, S4, and S5 changed 2026-11-11 (F1 F2): the page 12 scope, one document for each week and output.
+        const weeks = readLevelWeeks(STORYTIME_ROOT, 2)
+            .flatMap((entry) => (entry.week ? [entry.week] : []))
+            .filter((week) => week.meta.week >= 1 && week.meta.week <= 7);
+        expect(weeks.length, 'Level 2 holds the weeks 1 to 7.').toBe(7);
+        for (const week of weeks) {
+            for (const output of PAGE12_OUTPUTS) {
+                const { html } = compileStorytimeReaders([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output });
+                for (const raw of await measurePage12(page, html)) {
+                    const code = String(week.meta.week).padStart(2, '0');
+                    page12.push({ id: `w${code}-${raw.reader + 1} page12 ${output}`, output, raw });
+                }
+            }
+        }
+        expect(page12.length, 'the page 12 scope holds 28 pages.').toBe(28);
     } finally {
         await context.close();
     }
@@ -775,13 +909,21 @@ afterAll(async () => {
 });
 
 describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)', () => {
-    it('S1: every page holds the product logo, by file hash, centred in its tile', () => {
+    it('S1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile', () => {
         const problems: string[] = [];
         const failing: string[] = [];
         for (const page of pages) {
             const before = problems.length;
             const doc = parseHtml(page.html);
             const tiles = doc.querySelectorAll('[data-part="logo-tile"]');
+            // S1 changed 2026-11-11 (F1 F2): the 4 front kinds hold 0 logo tiles; the logo moves to page 12 of the readers.
+            if ((FRONT_KINDS as readonly string[]).includes(page.group)) {
+                if (tiles.length !== 0) {
+                    problems.push(`${page.id} logo-tile: the front holds ${tiles.length} logo tiles (the rule is 0).`);
+                    failing.push(page.id);
+                }
+                continue;
+            }
             if (tiles.length !== 1) {
                 problems.push(`${page.id} logo-tile: the page holds ${tiles.length} logo tiles (the rule is 1).`);
             } else {
@@ -875,7 +1017,24 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
             }
             if (problems.length > before) failing.push(page.id);
         }
-        expectRule('S2', { problems, failing, checked: pages.length, scope: pages.length });
+        // S2 changed 2026-11-11 (F1 F2): the page 12 logo tile takes the token colours on a3-color and grays on workbook.
+        for (const entry of page12) {
+            const before = problems.length;
+            if (entry.raw.tiles !== 1) {
+                problems.push(`${entry.id} logo-tile: the page holds ${entry.raw.tiles} logo tiles, so no tile colour can be read (the rule is 1).`);
+            }
+            for (const colour of entry.raw.colours) {
+                const hex = toHex(colour.value);
+                if (entry.output === 'workbook' ? !isGrey(hex) : !TOKEN_COLOURS.includes(hex)) {
+                    problems.push(
+                        `${entry.id} logo-tile: the ${colour.source} holds ${hex} and the rule is ` +
+                            `${entry.output === 'workbook' ? 'a gray' : `one of ${TOKEN_COLOURS.join(', ')}`}.`,
+                    );
+                }
+            }
+            if (problems.length > before) failing.push(entry.id);
+        }
+        expectRule('S2', { problems, failing, checked: pages.length + page12.length, scope: pages.length + page12.length });
     });
 
     it('S3: the cap height of every band text is 75 % to 85 % of its band', () => {
@@ -1083,7 +1242,44 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
             }
             if (problems.length > before) failing.push(page.id);
         }
-        expectRule('S4', { problems, failing, checked, scope });
+        // S4 changed 2026-11-11 (F1 F2): the page 12 logo tile stands centred on the reader page.
+        for (const entry of page12) {
+            const before = problems.length;
+            const scale = (entry.raw.pageBox.right - entry.raw.pageBox.left) / READER_PAGE_WIDTH_MM;
+            checked += 1;
+            if (entry.raw.tiles !== 1) {
+                problems.push(
+                    `${entry.id} logo-tile: the page holds ${entry.raw.tiles} logo tiles, so no tile centre can stand ` +
+                        'at the page centre.',
+                );
+            } else {
+                const tile = entry.raw.tileBox!;
+                const pageCentre = (entry.raw.pageBox.left + entry.raw.pageBox.right) / 2;
+                const across = Math.abs((tile.left + tile.right) / 2 - pageCentre) / scale;
+                if (across > CENTRE_TOLERANCE_MM) {
+                    problems.push(
+                        `${entry.id} logo-tile: the tile centre is ${across.toFixed(2)} mm from the page centre across ` +
+                            `(the rule is ${CENTRE_TOLERANCE_MM.toFixed(2)} mm at reader page scale).`,
+                    );
+                }
+                if (!entry.raw.imgBox) {
+                    problems.push(`${entry.id} logo-tile: the tile holds no logo image.`);
+                } else {
+                    const image = entry.raw.imgBox;
+                    const imageAcross = Math.abs((image.left + image.right) / 2 - (tile.left + tile.right) / 2) / scale;
+                    const imageDown = Math.abs((image.top + image.bottom) / 2 - (tile.top + tile.bottom) / 2) / scale;
+                    if (imageAcross > CENTRE_TOLERANCE_MM || imageDown > CENTRE_TOLERANCE_MM) {
+                        problems.push(
+                            `${entry.id} logo-tile: the logo centre is ${imageAcross.toFixed(2)} mm across and ` +
+                                `${imageDown.toFixed(2)} mm down from the tile centre (the rule is ` +
+                                `${CENTRE_TOLERANCE_MM.toFixed(2)} mm at reader page scale).`,
+                        );
+                    }
+                }
+            }
+            if (problems.length > before) failing.push(entry.id);
+        }
+        expectRule('S4', { problems, failing, checked, scope: scope + page12.length });
     });
 
     it('S5: no page holds a band word, a band icon, an XP bar, or a game bar', () => {
@@ -1112,6 +1308,29 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
             }
             if (problems.length > before) failing.push(page.id);
         }
-        expectRule('S5', { problems, failing, checked: pages.length, scope: pages.length });
+        // S5 changed 2026-11-11 (F1 F2): the page 12 pages hold no band word, no band icon, no XP bar, and no game bar.
+        for (const entry of page12) {
+            const before = problems.length;
+            const facts = domFacts(entry.raw.html);
+            for (const part of facts.forbidden) {
+                problems.push(
+                    `${entry.id} ${part.name}: the page holds ${part.count} parts of the forbidden list (the rule is 0).`,
+                );
+            }
+            if (facts.bandWordTexts > 0) {
+                problems.push(
+                    `${entry.id} band-word: the page holds ${facts.bandWordTexts} text nodes that equal a band name ` +
+                        '(the rule is 0).',
+                );
+            }
+            if (facts.gameMatches > 0) {
+                problems.push(
+                    `${entry.id} body: the page holds ${facts.gameMatches} XP or sprout matches outside the panel value ` +
+                        'and the contact lines (the rule is 0).',
+                );
+            }
+            if (problems.length > before) failing.push(entry.id);
+        }
+        expectRule('S5', { problems, failing, checked: pages.length + page12.length, scope: pages.length + page12.length });
     });
 });
