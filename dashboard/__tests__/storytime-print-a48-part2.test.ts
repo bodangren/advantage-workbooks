@@ -250,13 +250,16 @@ describe('A-48 part 2, U8: the readers (B17, E52) and the question pages (E37)',
             'The Top': ['Sound it out.', ['read', 'mouth']],
             'Paint!': ['Listen and read.', ['ear', 'read']],
         };
+        // changed 2026-11-11 (F5, PM look): page 1 is the quest leaf cover, so the role mark is the role-mark part of its footer;
+        // its 2 icons are quest step icons with no data-icon names, so the check counts them.
+        const ROLE = '[data-part="reader-role"], .quest-reader-page [data-part="role-mark"]';
         for (const [title, [label, icons]] of Object.entries(want)) {
-            const marks = (await sections(title)).flatMap((section) => Array.from(section.querySelectorAll('[data-part="reader-role"]')));
+            const marks = (await sections(title)).flatMap((section) => Array.from(section.querySelectorAll(ROLE)));
             expect(marks, title).toHaveLength(1);
             expect(text(marks[0]), title).toBe(label);
-            expect(Array.from(marks[0].querySelectorAll('[data-icon]'), (icon) => icon.getAttribute('data-icon')), title).toEqual(icons);
+            expect(marks[0].querySelectorAll('svg').length, title).toBe(icons.length);
         }
-        const all = doc.querySelectorAll('.student-page[data-page-kind="reader"] [data-part="reader-role"]');
+        const all = doc.querySelectorAll('.student-page[data-page-kind="reader"] [data-part="reader-role"], .student-page[data-page-kind="reader"] .quest-reader-page [data-part="role-mark"]');
         expect(all.length, 'one role mark for each of the 14 readers').toBe(14);
     });
 

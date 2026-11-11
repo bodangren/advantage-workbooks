@@ -131,6 +131,20 @@ const R3_TILE_BOXES: Record<string, [number, number, number, number]> = {
     'reader-leaf': [59.6, 5.7, 78.8, 25.5],
 };
 
+/**
+ * The covers whose default chrome comes within 1 mm of a key box at the role base f2a2a1d9, so that
+ * the F3 placement moves it (changed 2026-11-11, F3, PM look; the D3 test of
+ * quest-cover-f3f6.test.ts reads the same covers).
+ */
+const F3_MOVED_COVERS: string[] = [
+    'w01-2 reader-a3',
+    'w01-2 reader-leaf',
+    'w07-1 reader-a3',
+    'w07-1 reader-leaf',
+    'w07-2 reader-a3',
+    'w07-2 reader-leaf',
+];
+
 /** The pins of the page 12 logo tile of each output. */
 const PAGE12_TILE: Record<StorytimeReaderOutput, { file: string; sha: string; fill: string; border: string }> = {
     'a3-color': {
@@ -736,7 +750,9 @@ describe('quest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)'
             const tiles = doc.querySelectorAll('[data-part="logo-tile"]').length;
             if (tiles !== 0) problems.push(`${spec.id}: the front holds ${tiles} logo-tile parts (the pin is 0).`);
             const removed = spec.kind === 'reader-leaf' ? ['logo-tile', 'double-line-frame'] : ['logo-tile'];
-            const wanted = R3_PARTS[spec.kind].filter((name) => !removed.includes(name));
+            // changed 2026-11-11 (F4, PM look): the hlogo leaf cover adds the white footer strip part.
+            const added = spec.kind === 'reader-leaf' ? ['footer-strip'] : [];
+            const wanted = [...R3_PARTS[spec.kind].filter((name) => !removed.includes(name)), ...added].sort();
             const found = partSet(spec.html);
             if (JSON.stringify(found) !== JSON.stringify(wanted)) {
                 problems.push(`${spec.id}: the part set is ${found.join(', ')} (the pin is ${wanted.join(', ')}).`);
@@ -748,6 +764,9 @@ describe('quest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)'
             }
             const [left, top, width, height] = R3_TILE_BOXES[spec.kind];
             const tileBox: MmBox = { left, top, right: left + width, bottom: top + height };
+            // changed 2026-11-11 (F3, PM look): where the F3 placement moves the chrome, the key box rule of
+            // quest-cover-f3f6.test.ts governs the place, so the r3 tile box rule reads the other covers only.
+            if (F3_MOVED_COVERS.includes(spec.id)) continue;
             for (const part of raw.parts) {
                 if (overlaps(part.box, tileBox)) {
                     problems.push(
@@ -791,8 +810,9 @@ describe('quest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)'
                 if (entry.bandLines !== 0) problems.push(`${id}: the page holds ${entry.bandLines} reader-band lines (the pin is 0).`);
                 const bandTexts = entry.texts.filter((text) => (QUEST_BANDS as readonly string[]).includes(text)).length;
                 if (bandTexts !== 0) problems.push(`${id}: the page holds ${bandTexts} band words (the pin is 0).`);
-                if (entry.series.length !== 1 || entry.series[0] !== 'Storytime Advantage') {
-                    problems.push(`${id}: the page holds ${entry.series.length} series lines (the pin is 1, "Storytime Advantage").`);
+                // changed 2026-11-11 (F6, PM look): page 12 holds no series line and no "Storytime Advantage" text.
+                if (entry.series.length !== 0 || entry.texts.some((text) => text.includes('storytime advantage'))) {
+                    problems.push(`${id}: the page holds ${entry.series.length} series lines (the pin is 0, and no "Storytime Advantage" text).`);
                 }
                 if (entry.headings.length !== 1 || entry.headings[0] !== 'Words in this book') {
                     problems.push(`${id}: the page holds ${entry.headings.length} headings (the pin is 1, "Words in this book").`);

@@ -1,0 +1,13 @@
+BUILD CAPTURE of Red F3 to F6 eslint gate (the new and the changed test files)
+
+HEAVY_RUN_TIMEOUT_S 300
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-f3f6.test.ts __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-template.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-covers-adversarial.test.ts __tests__/storytime-print-covers.test.ts __tests__/storytime-print-readers.test.ts __tests__/storytime-print-v15.test.ts
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+--- STDERR ---

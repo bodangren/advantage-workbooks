@@ -101,7 +101,8 @@ describe('Storytime week 1 covers', () => {
         expect(api.checkTeacherBookCoverCopy(fs.readFileSync(nonBreakingSpace, 'utf8')), 'U+00A0 is normalized by the cover-track check.').not.toEqual([]);
     });
 
-    it('checks each shipped week 1 reader cover for Sprout and catches a copied cover mutation', async () => {
+    // changed 2026-11-11 (F5, PM look): page 1 is the quest reader cover, and the reader cover check forbids every band word; a copied cover with "SPROUT" fails.
+    it('checks each shipped week 1 reader cover for no band word and catches a copied cover mutation', async () => {
         const api = await teacherCover();
         const [week] = shippedWeeks();
         const html = compileStorytimeReaders([week], {
@@ -121,10 +122,10 @@ describe('Storytime week 1 covers', () => {
 
         const folder = tempFolder();
         const copy = path.join(folder, 'reader-cover.html');
-        fs.writeFileSync(copy, pages[0].replace('Sprout', ''));
+        fs.writeFileSync(copy, `${pages[0]}\nSPROUT`);
         expect(
             api.checkStorytimeReaderCoverCopy(fs.readFileSync(copy, 'utf8')),
-            'The copied reader cover fails when Sprout is missing.',
+            'The copied reader cover fails when it shows the band word.',
         ).not.toEqual([]);
     });
 

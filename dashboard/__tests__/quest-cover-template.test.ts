@@ -1287,14 +1287,17 @@ describe('quest-cover-template: T01 to T30 (Red 1, storytime_cover_options_20261
                 bookTitle: row.title,
             }).html;
             const doc = parseHtml(compiled);
-            const role = doc.querySelector('[data-part="reader-role"]');
-            expect(role, `${row.title} reader-role part`).not.toBeNull();
-            const roleText = (role!.querySelector('span')?.textContent ?? role!.textContent ?? '').trim();
+            // changed 2026-11-11 (F5, PM look): page 1 is the quest reader cover, so the parity reads its role bar, its title plaque, and its week pill.
+            const cover = doc.querySelector('section.a3-page[data-page-number="1"] .quest-reader-page');
+            expect(cover, `${row.title} quest reader page on page 1`).not.toBeNull();
+            const role = cover!.querySelector('[data-part="role-bar"]');
+            expect(role, `${row.title} role-bar part`).not.toBeNull();
+            const roleText = (role!.textContent ?? '').trim();
             expect(row.roleLabel, `${row.title} role parity`).toBe(roleText);
-            const title = doc.querySelector('[data-part="reader-cover-title"]');
-            expect(title, `${row.title} reader-cover-title part`).not.toBeNull();
+            const title = cover!.querySelector('[data-part="title-plaque"]');
+            expect(title, `${row.title} title-plaque part`).not.toBeNull();
             expect(row.title, `${row.title} title parity`).toBe((title!.textContent ?? '').trim());
-            const weekText = (doc.querySelector('.reader-week')?.textContent ?? '').trim();
+            const weekText = (cover!.querySelector('[data-part="week-pill"]')?.textContent ?? '').trim();
             expect(row.weekText, `${row.title} week text parity`).toBe(weekText);
             expect(weekText, `the week text of week ${row.week}`).toBe(`Week ${row.week}`);
         }

@@ -101,27 +101,37 @@ afterAll(() => {
 /** A reader cover page as the print CSS shows it: the band in capitals. */
 const printedReaderCover = (band: string): string => `Storytime Advantage\nLevel 2 · Unit 1\n${band}\nWeek 1\nHello!`;
 
-describe('Adversarial: the reader cover check keeps the base cover copy check (M9)', () => {
-    it('passes the printed reader cover that shows the uppercase band and the series name', () => {
-        expect(checkStorytimeReaderCoverCopy(printedReaderCover('SPROUT')), 'A known good cover passes.').toEqual([]);
+// changed 2026-11-11 (F5, PM look): the quest reader cover is page 1. No band word may show on it, and
+// the series name is not required, because the A3 quest cover holds no series line after F2 (Q2 of the
+// Red log of F3 to F6). The forbidden word rule and the year rule stay.
+describe('Adversarial: the reader cover check keeps the forbidden word and year rules and forbids every band word (M9)', () => {
+    /** The 5 band names of QUEST_BANDS. */
+    const BANDS = ['seed', 'sprout', 'leaf', 'bud', 'flower'];
+
+    it('passes the printed quest reader cover with no band word, with or without the series name', () => {
+        expect(checkStorytimeReaderCoverCopy('Week 1\nHello!\nListen and read.'), 'The A3 quest cover passes.').toEqual([]);
+        expect(checkStorytimeReaderCoverCopy('Hello!\nStorytime Advantage · Week 1 · Listen and read.'), 'The leaf quest cover passes.').toEqual([]);
     });
 
-    it('fails a reader cover text that shows "Sprout" and the banned word "CEFR"', () => {
+    it('fails a reader cover text that shows "SPROUT" and the banned word "CEFR"', () => {
         const errors = checkStorytimeReaderCoverCopy('Storytime Advantage\nSPROUT\nLevel 2 · Unit 1\nCEFR\nWeek 1');
         const text = errors.join('\n');
         expect(text, 'The base cover copy check still reports the banned word.').toContain('The page shows the forbidden word "cefr"');
-        expect(errors.filter((error) => error.includes('band name')), 'The band is present, so the band rule is quiet.').toEqual([]);
+        expect(errors.filter((error) => /band word/i.test(error)).length, 'The band word rule reports the band.').toBeGreaterThan(0);
     });
 
-    it('fails a reader cover text without "Storytime Advantage"', () => {
-        const text = checkStorytimeReaderCoverCopy('Level 2 · Unit 1\nSPROUT\nWeek 1\nHello!').join('\n');
-        expect(text, 'The series name rule still runs on a reader cover.').toContain('The page does not show "Storytime Advantage".');
+    it('fails each band name of QUEST_BANDS in any case', () => {
+        for (const band of BANDS) {
+            for (const shown of [band, band.toUpperCase(), band[0].toUpperCase() + band.slice(1)]) {
+                const errors = checkStorytimeReaderCoverCopy(`Week 1\nHello!\n${shown}`);
+                expect(errors.filter((error) => /band word/i.test(error)).length, `"${shown}" is a band word.`).toBeGreaterThan(0);
+            }
+        }
     });
 
-    it('fails a reader cover that shows a year, and does not read a longer word as the band', () => {
-        expect(checkStorytimeReaderCoverCopy(printedReaderCover('SPROUT') + ' 2026').join('\n'), 'A year fails the base check.').toContain('The page shows a year.');
-        const longer = checkStorytimeReaderCoverCopy('Storytime Advantage\nSprouts\nWeek 1').join('\n');
-        expect(longer, 'A longer word is not the band name.').toContain('The reader cover does not show the band name "Sprout".');
+    it('fails a reader cover that shows a year, and does not read a longer word as a band word', () => {
+        expect(checkStorytimeReaderCoverCopy(printedReaderCover('Hello') + ' 2026').join('\n'), 'A year fails the base check.').toContain('The page shows a year.');
+        expect(checkStorytimeReaderCoverCopy('Week 1\nSprouts\nLeafy\nBuddy\nSeeds'), 'A longer word is not a band word.').toEqual([]);
     });
 });
 

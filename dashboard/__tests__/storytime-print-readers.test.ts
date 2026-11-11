@@ -460,7 +460,9 @@ describe('Storytime readers: shipped week 1, P15 default', () => {
             for (const page of book.pages) expect(readerText).toContain(page.text);
             for (const word of book.backWords) expect(readerText).toContain(word);
             expect(readerText).toContain(book.title);
-            expect(readerText).toContain('Sprout');
+            // changed 2026-11-11 (F5, PM look): page 1 is the quest reader cover, and no printed reader page shows a band word.
+            const pageText = parts.flatMap((part) => Array.from(part.querySelectorAll('[data-reader-page]'), (page) => page.textContent ?? '')).join('\n');
+            expect(pageText).not.toMatch(/\b(seed|sprout|leaf|bud|flower)\b/i);
             expect(readerText).toContain('Storytime Advantage');
             expect(readerText).toContain('Week 1');
             if (book.kind === 'decodable') for (const text of ['The first sound in this book', 'n', 'nest', 'net', 'nut', 'a', 'and', 'can']) expect(readerText).toContain(text);

@@ -110,7 +110,11 @@ describe('v15 B1: the fold-test lead sheet prints the agreed line', () => {
 
 describe('v15 E2/E23/B05: Nan Can Nod says "Listen and read."', () => {
     const week1 = (): StorytimeWeek => weeks()[0];
-    const roleMarks = (doc: Document | Element): Element[] => Array.from(doc.querySelectorAll('[data-part="reader-role"]'));
+    // changed 2026-11-11 (F5, PM look): page 1 is the quest reader cover: the role mark is the role-mark part of the leaf
+    // footer or the A3 role bar, and its 2 icons are quest step icons with no data-icon names, so the checks count them.
+    const roleMarks = (doc: Document | Element): Element[] =>
+        Array.from(doc.querySelectorAll('[data-part="reader-role"], .quest-reader-page [data-part="role-mark"], .quest-reader-page [data-part="role-bar"]'));
+    const roleIcons = (mark: Element): number => mark.querySelectorAll('svg').length;
 
     it('E2-workbook: the leaf sides of Nan Can Nod print "Listen and read." with ear and read, not "Sound it out."', () => {
         const sides = storytimeReaderLeafSides(week1(), { profile: STORYTIME_PRINT_PROFILE, mode: 'proof', output: 'workbook', bookTitle: 'Nan Can Nod' });
@@ -119,7 +123,7 @@ describe('v15 E2/E23/B05: Nan Can Nod says "Listen and read."', () => {
         const marks = roleMarks(doc);
         expect(marks).toHaveLength(1);
         expect(text(marks[0])).toBe('Listen and read.');
-        expect(iconsOf(marks[0])).toEqual(['ear', 'read']);
+        expect(roleIcons(marks[0])).toBe(2);
         expect(html).not.toContain('Sound it out.');
         expect(html).not.toContain('Say the first sound.');
     });
@@ -130,7 +134,7 @@ describe('v15 E2/E23/B05: Nan Can Nod says "Listen and read."', () => {
         const marks = roleMarks(doc);
         expect(marks).toHaveLength(1);
         expect(text(marks[0])).toBe('Listen and read.');
-        expect(iconsOf(marks[0])).toEqual(['ear', 'read']);
+        expect(roleIcons(marks[0])).toBe(2);
         expect(doc.body.textContent).not.toContain('Sound it out.');
     });
 
@@ -151,7 +155,7 @@ describe('v15 E2/E23/B05: Nan Can Nod says "Listen and read."', () => {
                 .filter((s) => s.getAttribute('data-reader-title') === title).flatMap((s) => roleMarks(s));
             expect(marks, title).toHaveLength(1);
             expect(text(marks[0]), title).toBe('Sound it out.');
-            expect(iconsOf(marks[0]), title).toEqual(['read', 'mouth']);
+            expect(roleIcons(marks[0]), title).toBe(2);
         }
     });
 

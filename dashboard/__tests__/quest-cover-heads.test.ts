@@ -131,6 +131,8 @@ interface HeadBox {
     label: string;
     /** The box in pixels of the file: x0, y0, x1, y1. */
     box: [number, number, number, number];
+    /** The key kind: head, dog-body, or title-object (changed 2026-11-11, F3, PM look). */
+    kind?: string;
 }
 
 /** One entry of the JSON. */
@@ -357,12 +359,17 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
  * @param art The art element box in millimetres.
  * @returns The head box in page millimetres.
  */
-function headBoxMm(box: HeadBox['box'], entry: HeadEntry, art: MmBox): MmBox {
+function headBoxMm(box: HeadBox['box'], entry: HeadEntry, art: MmBox, position = '50% 50%'): MmBox {
     const widthMm = art.right - art.left;
     const heightMm = art.bottom - art.top;
     const scale = Math.max(widthMm / entry.widthPx, heightMm / entry.heightPx);
-    const offsetX = art.left + (widthMm - entry.widthPx * scale) / 2;
-    const offsetY = art.top + (heightMm - entry.heightPx * scale) / 2;
+    // changed 2026-11-11 (F3, PM look): the mapping reads the computed object-position (a percentage
+    // or a length in px), because the Q1 default of quest-cover-f3f6.test.ts aligns one A3 art bottom.
+    const share = (token: string | undefined, free: number): number =>
+        token && token.endsWith('px') ? Number.parseFloat(token) * (25.4 / 96) : (free * Number.parseFloat(token ?? '50%')) / 100;
+    const tokens = position.trim().split(/\s+/);
+    const offsetX = art.left + share(tokens[0], widthMm - entry.widthPx * scale);
+    const offsetY = art.top + share(tokens[1] ?? tokens[0], heightMm - entry.heightPx * scale);
     return {
         left: offsetX + box[0] * scale,
         top: offsetY + box[1] * scale,
@@ -436,6 +443,10 @@ describe('quest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the
                 if (typeof head.label !== 'string' || head.label.trim() === '') {
                     problems.push(`${name}: a box holds no label.`);
                 }
+                // changed 2026-11-11 (F3, PM look): each box names its key kind.
+                if (!['head', 'dog-body', 'title-object'].includes(head.kind ?? '')) {
+                    problems.push(`${name} "${head.label}": the kind "${String(head.kind)}" is not head, dog-body, or title-object.`);
+                }
                 const [x0, y0, x1, y1] = head.box;
                 const inside =
                     head.box.length === 4 &&
@@ -479,15 +490,13 @@ describe('quest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the
                 problems.push(`${spec.id}: the head box file holds no entry for ${spec.artFile}.`);
                 continue;
             }
-            if (raw.objectFit !== 'cover' || raw.objectPosition !== '50% 50%') {
-                problems.push(
-                    `${spec.id}: the art element is object-fit ${raw.objectFit} at ${raw.objectPosition} ` +
-                        `(the mapping needs cover at 50% 50%).`,
-                );
+            // changed 2026-11-11 (F3, PM look): the mapping reads any object-position; the aspect rule stays cover.
+            if (raw.objectFit !== 'cover') {
+                problems.push(`${spec.id}: the art element is object-fit ${raw.objectFit} (the mapping needs cover).`);
                 continue;
             }
             for (const head of entry.boxes) {
-                const headMm = headBoxMm(head.box, entry, raw.artBox);
+                const headMm = headBoxMm(head.box, entry, raw.artBox, raw.objectPosition);
                 for (const part of raw.parts) {
                     checked += 1;
                     if (!part.box) continue;
