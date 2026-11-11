@@ -91,6 +91,46 @@ const CONTACT_LINES_TOP_MM = 215.0;
  */
 const PUBLISHER_MARK_TOP_MM = 251.5;
 
+/** The bottom of the A3 reader title plaque, in millimetres at bleed 0 (round of 2026-11-11). */
+const READER_PLAQUE_BOTTOM_MM = 276;
+
+/** The height of the A3 reader title plaque with the top style hlogo, in millimetres. */
+const READER_PLAQUE_HEIGHT_MM = 40;
+
+/** The inset of the plaque band from the plaque edge, in millimetres: the band is the height minus 5.6. */
+const READER_PLAQUE_BAND_INSET_MM = 5.6;
+
+/** The share of the plaque band that the A3 reader title text box fills (D3). */
+const READER_TITLE_FILL_SHARE = 0.8;
+
+/** The share of the title font size that the League Spartan 700 text box fills, measured in Chrome. */
+const READER_TITLE_BOX_EM = 0.921;
+
+/** The font size of the A3 reader title with the top style hlogo, in millimetres (D3). */
+const READER_TITLE_FONT_MM =
+    ((READER_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM) * READER_TITLE_FILL_SHARE) / READER_TITLE_BOX_EM;
+
+/** The padding of the A3 reader plaque on each side of the title, in millimetres (D3). */
+const READER_TITLE_PADDING_MM = 27;
+
+/** The font size of the A3 week pill text with the top style hlogo, in millimetres (D4). */
+const READER_PILL_FONT_MM = 4.379;
+
+/** The side padding of the A3 role bar with the top style hlogo, in millimetres (D4). */
+const READER_BAR_PADDING_MM = 6;
+
+/** The least width of the A3 reader plaque with the top style hlogo, in millimetres (D3). */
+const READER_TITLE_MIN_WIDTH_MM = 120;
+
+/** The most width of the A3 reader plaque with the top style hlogo, in millimetres (D3). */
+const READER_TITLE_MAX_WIDTH_MM = 340;
+
+/**
+ * The width that a clamped plaque gives back, in millimetres. Chrome measures a 120 mm box a
+ * fraction short of 120 mm, so a clamped plaque takes the inner side of its bound.
+ */
+const READER_PLAQUE_SLOP_MM = 0.4;
+
 /**
  * Every text or face part of every kind, keyed `<kind>:<part>` (pin P3, spec D-A5). The art part is
  * exempt: it covers the page. Every box lies 5 mm inside the trim at bleed 0, and the render moves
@@ -104,7 +144,8 @@ const PUBLISHER_MARK_TOP_MM = 251.5;
  * the only top chrome of that opt-in style. The A2 r2 change of 2026-11-11 (PM look check) makes
  * the tile narrower, so that the logo fills 80 % of the inner tile both ways: the A2 box of the 2
  * fronts is 167.2 mm by 54 mm at 21.4 mm and 12 mm; the A2 box of the 2 backs is 110.6 mm by 36 mm
- * at 49.7 mm and 7 mm.
+ * at 49.7 mm and 7 mm. The round of 2026-11-11 (readers r2b) adds the leaf logo tile of the hlogo
+ * leaf cover and widens the leaf series box to 35 mm, so that the series line stays on one line.
  */
 export const QUEST_BOXES: Record<string, QuestBox> = {
     'student-front:series-logo': { kind: 'student-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
@@ -151,9 +192,10 @@ export const QUEST_BOXES: Record<string, QuestBox> = {
     'reader-a3:role-bar': { kind: 'reader-a3', leftMm: 150, topMm: 278, widthMm: 120, heightMm: 12 },
     'reader-a3:logo-tile': { kind: 'reader-a3', leftMm: 126.4, topMm: 12, widthMm: 167.2, heightMm: 54 },
     'reader-leaf:double-line-frame': { kind: 'reader-leaf', leftMm: 8, topMm: 7, widthMm: 182, heightMm: 104 },
+    'reader-leaf:logo-tile': { kind: 'reader-leaf', leftMm: 59.6, topMm: 5.7, widthMm: 78.8, heightMm: 25.5 },
     'reader-leaf:title-plaque': { kind: 'reader-leaf', leftMm: 44, topMm: 113, widthMm: 110, heightMm: 20 },
     'reader-leaf:band-word': { kind: 'reader-leaf', leftMm: 47, topMm: 137, widthMm: 20, heightMm: 6 },
-    'reader-leaf:series': { kind: 'reader-leaf', leftMm: 68, topMm: 137, widthMm: 30, heightMm: 6 },
+    'reader-leaf:series': { kind: 'reader-leaf', leftMm: 68, topMm: 137, widthMm: 35, heightMm: 6 },
     'reader-leaf:week': { kind: 'reader-leaf', leftMm: 104, topMm: 137, widthMm: 18, heightMm: 6 },
     'reader-leaf:role-mark': { kind: 'reader-leaf', leftMm: 122, topMm: 136, widthMm: 52, heightMm: 7 },
 };
@@ -260,7 +302,9 @@ export interface QuestRenderAssets {
  * The top chrome style of the 2 fronts and the 2 backs (the alternate A2 of 2026-11-10).
  * `banner` is the r5 style and the default: the Storytime Advantage logo in its square tile and the
  * series banner with the name. `hlogo` is the alternate A2: the horizontal logo on its amber tile
- * is the only top chrome, and no part repeats the series name. The 2 readers ignore the option.
+ * is the only top chrome, and no part repeats the series name. The round of 2026-11-11 (readers
+ * r2b): the 2 readers take the option too, and with `hlogo` their chrome takes the logo colors and
+ * the leaf holds the K logo tile.
  */
 export type QuestTopStyle = 'banner' | 'hlogo';
 
@@ -332,6 +376,16 @@ const HORIZONTAL_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal
 
 /** The URL of the horizontal Storytime Advantage logo, the only top chrome of A2. */
 const HORIZONTAL_LOGO_URL = storytimeCoverFileUrl(HORIZONTAL_LOGO_FILE);
+
+/**
+ * The file of the gray horizontal logo, the K logo of the leaf cover (round of 2026-11-11, readers
+ * r2b). The committed script `make-k-logo-r2b.py` writes it from the color logo: every color
+ * becomes the gray of the same luminance.
+ */
+const K_LOGO_FILE = path.join(LOGO_DIR, 'storytime-advantage-horizontal-k.svg');
+
+/** The URL of the gray horizontal logo of the leaf cover. */
+const K_LOGO_URL = storytimeCoverFileUrl(K_LOGO_FILE);
 
 /** The aspect of the horizontal logo: the viewBox of 1461.6 mm by 464.88 mm (A6). */
 const HORIZONTAL_LOGO_ASPECT = 1461.6 / 464.88;
@@ -1071,6 +1125,108 @@ function plaqueSvg(
 }
 
 /**
+ * The advance widths of the League Spartan 700 face, in em units, for the 95 ASCII characters 32 to
+ * 126, in code point order (round of 2026-11-11, readers r2b). The table comes from the committed
+ * script `measure/runs/storytime_cover_options_20261106/league-spartan-widths-r2b.mjs`, which reads
+ * `measureText` of each character at a 1000 px size with kerning off. A title with
+ * `font-kerning:none` renders as the sum of its table widths times the font size.
+ */
+const LEAGUE_SPARTAN_700_ADVANCE: number[] = [
+    0.265, 0.3035, 0.4095, 0.665, 0.5595, 0.799, 0.697, 0.242, 0.327, 0.327, 0.415, 0.531, 0.29, 0.378, 0.3035,
+    0.496, 0.593, 0.3275, 0.5695, 0.538, 0.526, 0.54, 0.5625, 0.545, 0.561, 0.5625, 0.284, 0.287, 0.545, 0.52,
+    0.545, 0.483, 0.7615, 0.6755, 0.559, 0.6445, 0.6005, 0.5345, 0.48, 0.735, 0.6385, 0.2705, 0.4105, 0.579, 0.49,
+    0.822, 0.723, 0.742, 0.553, 0.73, 0.5915, 0.5595, 0.51, 0.6365, 0.6745, 0.915, 0.706, 0.6005, 0.63, 0.3605,
+    0.496, 0.3605, 0.4215, 0.422, 0.335, 0.5645, 0.5585, 0.426, 0.5585, 0.498, 0.353, 0.5655, 0.554, 0.262, 0.269,
+    0.5125, 0.25, 0.811, 0.549, 0.5165, 0.566, 0.566, 0.3965, 0.43, 0.3635, 0.548, 0.547, 0.73, 0.5435, 0.5145,
+    0.4495, 0.366, 0.221, 0.3815, 0.5795,
+];
+
+/** The advance width of a character outside the ASCII table, in em units (the table average). */
+const LEAGUE_SPARTAN_700_FALLBACK = 0.5117;
+
+/**
+ * Reads the width of one text in the League Spartan 700 face, from the advance table.
+ * @param text The text.
+ * @param fontMm The font size in millimetres.
+ * @returns The width in millimetres.
+ */
+function leagueSpartanWidthMm(text: string, fontMm: number): number {
+    let total = 0;
+    for (const char of text) {
+        const index = (char.codePointAt(0) ?? 0) - 32;
+        total +=
+            index >= 0 && index < LEAGUE_SPARTAN_700_ADVANCE.length
+                ? LEAGUE_SPARTAN_700_ADVANCE[index]
+                : LEAGUE_SPARTAN_700_FALLBACK;
+    }
+    return total * fontMm;
+}
+
+/**
+ * Reads the line count of one title inside one width, by a greedy word wrap on the advance table.
+ * @param text The title.
+ * @param fontMm The font size in millimetres.
+ * @param contentMm The width of the text box in millimetres.
+ * @returns The line count, at least 1.
+ */
+function readerTitleLineCount(text: string, fontMm: number, contentMm: number): number {
+    const words = text.split(/\s+/).filter((word) => word.length > 0);
+    if (words.length === 0) return 1;
+    const spaceMm = leagueSpartanWidthMm(' ', fontMm);
+    let lines = 1;
+    let widthMm = 0;
+    for (const word of words) {
+        const wordMm = leagueSpartanWidthMm(word, fontMm);
+        if (widthMm === 0) {
+            widthMm = wordMm;
+        } else if (widthMm + spaceMm + wordMm <= contentMm) {
+            widthMm += spaceMm + wordMm;
+        } else {
+            lines += 1;
+            widthMm = wordMm;
+        }
+    }
+    return lines;
+}
+
+/**
+ * Draws the A3 reader title plaque of the top style hlogo in the r2 book plaque style (round of
+ * 2026-11-11, readers r2b): the width follows the title plus 2 x 27 mm between 120 mm and 340 mm,
+ * and a title wider than 286 mm wraps at the same font size while the plaque grows upward. The
+ * bottom stays at 276 mm and the plaque is centered on the page.
+ * @param title The title of the reader.
+ * @param bleedMm The bleed.
+ * @returns The HTML.
+ */
+function readerTitlePlaque(title: string, bleedMm: number): string {
+    const page = questPageSize('reader-a3', bleedMm);
+    const fontMm = READER_TITLE_FONT_MM;
+    const titleMm = leagueSpartanWidthMm(title, fontMm);
+    const naturalMm = titleMm + 2 * READER_TITLE_PADDING_MM;
+    const widthMm =
+        naturalMm > READER_TITLE_MAX_WIDTH_MM
+            ? READER_TITLE_MAX_WIDTH_MM - READER_PLAQUE_SLOP_MM
+            : naturalMm < READER_TITLE_MIN_WIDTH_MM
+              ? READER_TITLE_MIN_WIDTH_MM + READER_PLAQUE_SLOP_MM
+              : naturalMm;
+    const contentMm = widthMm - 2 * READER_TITLE_PADDING_MM;
+    const lines = naturalMm > READER_TITLE_MAX_WIDTH_MM ? readerTitleLineCount(title, fontMm, contentMm) : 1;
+    const bandMm = READER_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM;
+    const heightMm = bandMm * Math.max(1, lines) + READER_PLAQUE_BAND_INSET_MM;
+    const leftMm = (page.widthMm - widthMm) / 2;
+    const topMm = READER_PLAQUE_BOTTOM_MM - heightMm;
+    return (
+        `<div data-part="title-plaque" data-plaque-colour="${LOGO_AMBER}" style="position:absolute;` +
+        `left:${mm(leftMm + bleedMm)};top:${mm(topMm + bleedMm)};width:${mm(widthMm)};height:${mm(heightMm)}">` +
+        plaqueSvg(widthMm, heightMm, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE) +
+        `<div class="quest-c" style="position:absolute;left:${mm(READER_TITLE_PADDING_MM)};top:0;` +
+        `width:${mm(contentMm)};height:100%;display:flex;flex-direction:column;justify-content:center;` +
+        `white-space:normal;color:${LOGO_BROWN};font-family:'League Spartan';font-weight:700;` +
+        `font-size:${mm(fontMm)};line-height:1;font-kerning:none">${esc(title)}</div></div>`
+    );
+}
+
+/**
  * Draws the game bar of the option A frame (`options/build.py`, `a_hud`): the 5 band slots, the
  * unit track, the book mark, and the star. The unit bar of a book side holds 4 parts with
  * `data-filled`; a reader side holds no unit bar. Round 3 of 2026-11-10: the reader A3 cover alone
@@ -1271,12 +1427,24 @@ function logoBox(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numbe
  * 2 backs. The tile takes the amber fill, the brown border, the 3 mm radius, and the hidden
  * overflow. One image of the horizontal logo stands inside the border, centered on both axes. The
  * image height is 80 % of the inner height (the box height minus 2 borders), and its width follows
- * the viewBox aspect 1461.6 by 464.88. The values come from the box, not from fixed numbers.
+ * the viewBox aspect 1461.6 by 464.88. The values come from the box, not from fixed numbers. The
+ * round of 2026-11-11 (readers r2b) adds the optional colours, so the leaf cover draws the same
+ * tile in the K grays with the gray logo; the default keeps the book tile bytes.
  * @param kind The cover kind.
  * @param bleedMm The bleed.
+ * @param colours The tile fill, the tile border, and the logo file; the amber, the brown, and the
+ * horizontal logo by default.
  * @returns The HTML.
  */
-function logoTile(kind: QuestCoverKind, bleedMm: number): string {
+function logoTile(
+    kind: QuestCoverKind,
+    bleedMm: number,
+    colours: { fill: string; border: string; src: string } = {
+        fill: LOGO_AMBER,
+        border: LOGO_BROWN,
+        src: HORIZONTAL_LOGO_URL,
+    },
+): string {
     const box = boxOf(kind, 'logo-tile');
     const innerWidthMm = box.widthMm - 2 * LOGO_TILE_BORDER_MM;
     const innerHeightMm = box.heightMm - 2 * LOGO_TILE_BORDER_MM;
@@ -1286,9 +1454,9 @@ function logoTile(kind: QuestCoverKind, bleedMm: number): string {
     const topMm = (innerHeightMm - imageHeightMm) / 2;
     return (
         `<div data-part="logo-tile" style="${boxStyle(box, bleedMm)};box-sizing:border-box;` +
-        `background-color:${LOGO_AMBER};border:${mm(LOGO_TILE_BORDER_MM)} solid ${LOGO_BROWN};` +
+        `background-color:${colours.fill};border:${mm(LOGO_TILE_BORDER_MM)} solid ${colours.border};` +
         `border-radius:3mm;overflow:hidden">` +
-        `<img src="${esc(HORIZONTAL_LOGO_URL)}" alt="" ` +
+        `<img src="${esc(colours.src)}" alt="" ` +
         `style="position:absolute;left:${mm(leftMm)};top:${mm(topMm)};` +
         `width:${mm(imageWidthMm)};height:${mm(imageHeightMm)}"></div>`
     );
@@ -1535,7 +1703,9 @@ function backBody(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: numb
  * Builds the body of the A3 reader cover (`options/build.py`, `a_reader`). The default top style is
  * the game bar with the band word, the series banner, the week pill, the title plaque, and the role
  * bar. The round of 2026-11-11: with the top style `hlogo`, the horizontal logo on its amber tile
- * is the only top chrome, and the week pill, the title plaque, and the role bar keep their HTML.
+ * is the only top chrome. The round of 2026-11-11 (readers r2b): with `hlogo`, the title plaque
+ * takes the amber book plaque style, the week pill and the role bar take the logo amber and brown,
+ * and the role bar fits its text with even padding.
  * @param reader The reader row.
  * @param assets The assets.
  * @param bleedMm The bleed.
@@ -1555,18 +1725,30 @@ function readerA3Body(
     const roleBar = boxOf(kind, 'role-bar');
     const colour = STORYTIME_LEVEL_COLOURS[reader.level] ?? A.blue;
     const weekPillHtml =
-        `<div data-part="week-pill" class="quest-c" style="${boxStyle(weekPill, bleedMm)};box-sizing:border-box;border-radius:5mm;` +
-        `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-weight:700;font-size:14pt;` +
-        `line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`;
+        top === 'hlogo'
+            ? `<div data-part="week-pill" class="quest-c" style="${boxStyle(weekPill, bleedMm)};box-sizing:border-box;border-radius:5mm;` +
+              `background-color:${LOGO_AMBER};border:0.6mm solid ${LOGO_BROWN};color:${LOGO_BROWN};font-weight:700;` +
+              `font-size:${mm(READER_PILL_FONT_MM)};line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`
+            : `<div data-part="week-pill" class="quest-c" style="${boxStyle(weekPill, bleedMm)};box-sizing:border-box;border-radius:5mm;` +
+              `background-color:${A.navy};border:0.6mm solid ${AMBER};color:${AMBER};font-weight:700;font-size:14pt;` +
+              `line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`;
     const plaqueHtml =
-        `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(plaque, bleedMm)}">` +
-        plaqueSvg(plaque.widthMm, plaque.heightMm, colour) +
-        `<div class="quest-c" style="position:absolute;left:0;top:8mm;width:${mm(plaque.widthMm)};color:#fff;` +
-        `font-family:'League Spartan';font-weight:700;font-size:40pt;line-height:1">${esc(reader.title)}</div></div>`;
+        top === 'hlogo'
+            ? readerTitlePlaque(reader.title, bleedMm)
+            : `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(plaque, bleedMm)}">` +
+              plaqueSvg(plaque.widthMm, plaque.heightMm, colour) +
+              `<div class="quest-c" style="position:absolute;left:0;top:8mm;width:${mm(plaque.widthMm)};color:#fff;` +
+              `font-family:'League Spartan';font-weight:700;font-size:40pt;line-height:1">${esc(reader.title)}</div></div>`;
     const roleBarHtml =
-        `<div data-part="role-bar" class="quest-c" style="${boxStyle(roleBar, bleedMm)};box-sizing:border-box;` +
-        `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
-        `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
+        top === 'hlogo'
+            ? `<div data-part="role-bar" class="quest-c" style="position:absolute;left:50%;top:${mm(roleBar.topMm + bleedMm)};` +
+              `transform:translateX(-50%);width:max-content;height:${mm(roleBar.heightMm)};box-sizing:border-box;` +
+              `padding:0 ${mm(READER_BAR_PADDING_MM)};background-color:${LOGO_AMBER};border-radius:2mm;` +
+              `border:0.6mm solid ${LOGO_BROWN};color:${LOGO_BROWN};line-height:${mm(roleBar.heightMm - 1.2)}">` +
+              `${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, LOGO_BROWN, 7, 'font-weight:700;font-size:15pt')}</div>`
+            : `<div data-part="role-bar" class="quest-c" style="${boxStyle(roleBar, bleedMm)};box-sizing:border-box;` +
+              `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
+              `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
     if (top === 'hlogo') {
         return [artLayer(kind, assets, bleedMm), logoTile(kind, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
     }
@@ -1596,13 +1778,21 @@ function roleKeyOfLabel(label: string): string {
 
 /**
  * Builds the body of the black-and-white reader leaf (`options/build.py`, `leaf`): the double-line
- * frame, the plaque with the title, and the meta row. Only black, white, and grey appear.
+ * frame, the plaque with the title, and the meta row. Only black, white, and grey appear. The round
+ * of 2026-11-11 (readers r2b) adds the K logo tile at the top with the top style hlogo; the default
+ * leaf holds no tile.
  * @param reader The reader row.
  * @param assets The assets.
  * @param bleedMm The bleed.
+ * @param top The top chrome style.
  * @returns The HTML fragment.
  */
-function leafBody(reader: QuestReaderRow, assets: QuestRenderAssets, bleedMm: number): string {
+function leafBody(
+    reader: QuestReaderRow,
+    assets: QuestRenderAssets,
+    bleedMm: number,
+    top: QuestTopStyle,
+): string {
     const kind: QuestCoverKind = 'reader-leaf';
     const black = '#000000';
     const white = '#ffffff';
@@ -1615,8 +1805,12 @@ function leafBody(reader: QuestReaderRow, assets: QuestRenderAssets, bleedMm: nu
     const glyphs = QUEST_BANDS.map((band, index) =>
         bandGlyph(band, 3 + index * 7, 3.5, 5.2, band === 'sprout' ? black : white, black, white, 1.3),
     ).join('');
+    const parts = [artLayer(kind, assets, bleedMm)];
+    if (top === 'hlogo') {
+        parts.push(logoTile(kind, bleedMm, { fill: '#D2D2D2', border: '#4E4E4E', src: K_LOGO_URL }));
+    }
     return [
-        artLayer(kind, assets, bleedMm),
+        ...parts,
         `<div data-part="double-line-frame" style="${boxStyle(frame, bleedMm)}">` +
             `<svg viewBox="0 0 182 104" style="position:absolute;left:0;top:0;width:182mm;height:104mm">` +
             `<rect x="0.5" y="0.5" width="181" height="103" rx="5" fill="none" stroke="${black}" stroke-width="1"/>` +
@@ -1696,8 +1890,9 @@ function documentOf(kind: QuestCoverKind, bleedMm: number, body: string): string
 }
 
 /**
- * Renders one cover side into one full HTML document (pin P2). The A3 reader takes the top style
- * too: with `hlogo`, the logo tile is its only top chrome (round of 2026-11-11).
+ * Renders one cover side into one full HTML document (pin P2). The 2 readers take the top style
+ * too: with `hlogo`, the logo tile is the A3 top chrome, the A3 chrome takes the logo colors, and
+ * the leaf cover holds the K logo tile (round of 2026-11-11, readers r2b).
  * @param kind The cover kind.
  * @param subject The book row or the reader row.
  * @param assets The assets of the render.
@@ -1716,7 +1911,7 @@ export function renderQuestCover(
     questPageSize(kind, bleedMm);
     if (kind === 'reader-a3' || kind === 'reader-leaf') {
         const reader = subject as QuestReaderRow;
-        const body = kind === 'reader-a3' ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm);
+        const body = kind === 'reader-a3' ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm, top);
         return documentOf(kind, bleedMm, body);
     }
     const book = subject as QuestBookRow;
@@ -1745,7 +1940,8 @@ function readerPageCss(trim: QuestTrim): string {
 /**
  * Renders one reader cover page as a body and a CSS text, for the print track (spec FR-9.5, D-A4).
  * The body holds no document tag, and the CSS holds no `@page` rule. The A3 page takes the top
- * style: with `hlogo`, the logo tile is its only top chrome (round of 2026-11-11).
+ * style: with `hlogo`, the chrome takes the logo colors. The leaf page takes it too: with `hlogo`,
+ * it holds the K logo tile (round of 2026-11-11, readers r2b).
  * @param reader The reader row.
  * @param trim The trim of the page.
  * @param assets The assets.
@@ -1761,6 +1957,6 @@ export function questReaderCoverPage(
     const bleedMm = opts?.bleedMm ?? 0;
     const top = opts?.top ?? 'banner';
     questPageSize(trim.widthMm >= 300 ? 'reader-a3' : 'reader-leaf', bleedMm);
-    const body = trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm);
+    const body = trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm, top);
     return { body: `<div class="quest-reader-page">\n${body}\n</div>`, css: readerPageCss(trim) };
 }
