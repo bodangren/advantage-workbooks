@@ -1,0 +1,63 @@
+MEASURE jr-green F1 F2 and heads, second run (storytime_cover_options, Phase 2, Task 2.9 part 8)
+date: 2026-11-11
+model: deepseek/deepseek-flash#high
+route: deepseek/deepseek-flash#high
+gates: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+the Red of this pair: claude-code/claude-opus-5-5[1m]#high and minimax-cn-coding-plan/MiniMax-M3.1-Flash
+  (the Red commit 888d00a7); the Red retry: opencode/minimax-m3.1-flash-free#high (the commit 6cf8df5a)
+role_base_sha: b0d2aeb3
+the role base of the block: 0ae043e8
+phase_base_sha: d3a581ec
+status: blocked on one test of Gate A
+
+The narrative
+- The Thai filter ran first. The 8 files hold 0 Thai characters, and the 3 retried test files are
+  in the list.
+- The role base b0d2aeb3 is an ancestor of HEAD.
+- The patch green-f1f2-blocked-impl.patch applies to HEAD. The diff holds cover-quest.ts and
+  readers.ts only, plus the render.mjs of another session, which this role never stages.
+- Gate A exits 1: 14 files, 13 files passed and 1 failed; 353 tests, 352 passed and 1 failed.
+  The failure is C10 of quest-cover-readers-r2c.test.ts:
+  "the band check of the hlogo leaf reader cover w01-1.: expected 'fail' to be 'pass'".
+- Every other check of the F1 F2 contract passes in Gate A: G5 checks 28 page 12 pages with 0
+  problems, G2 reads FRAMED_PAGES_CHECKED=252 FRAMED_PAGES_FAILED=0, G7 reads
+  HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0, and S1 to S5 fail on 0 pages. A3, A6, R2, R5, R6, B8,
+  and B11 pass with their new 0-tile pins.
+- The cause of C10: `bandCheck` in `dashboard/scripts/storytime/make-storytime-quest-covers.ts`
+  (lines 923 to 934) passes a `reader-leaf` page that holds a `logo-tile` when it holds no
+  `band-word`, and it needs the `band-word` on a leaf with no `logo-tile`. F2 removes both the
+  tile and the band word from the shipped hlogo leaf, so the check returns 'fail'.
+- C10 is satisfiable: a leaf with no `double-line-frame` (the hlogo leaf) passes when it holds no
+  band-word part and no band word, and a leaf with the frame (the default leaf) still needs the
+  band word. The 3 other cases of C10 keep their result.
+- The build script is outside the write scope of this role, so this role cannot close the gap. No
+  test file changed. The patch stays applied and uncommitted for the next role.
+- Gate B, tsc, lint, and the mutant did not run, because Gate A fails.
+
+MEASURE_AGENT_RESULT
+status: blocked
+role: measure jr green, the F1 F2 and heads pair
+track: storytime_cover_options_20261106
+phase: P2, the Phase 2 option A covers
+task: `- [ ] Task (Green, F1 F2 and heads)`, still `[ ]`
+role_base_sha: b0d2aeb3
+the role base of the block: 0ae043e8
+phase_base_sha: d3a581ec
+red_commit: 888d00a7
+red_retry_commit: 6cf8df5a
+gate_a: exit 1; 14 files, 13 passed and 1 failed; 353 tests, 352 passed and 1 failed
+gate_a_capture: measure/runs/storytime_cover_options_20261106/green-f1f2-green.txt
+failing_test: dashboard/__tests__/quest-cover-readers-r2c.test.ts, C10 "the build band check passes
+  the hlogo leaf and the default leaf"
+failure_message: "the band check of the hlogo leaf reader cover w01-1.: expected 'fail' to be
+  'pass'"
+failing_file_of_the_fix: dashboard/scripts/storytime/make-storytime-quest-covers.ts, the function
+  `bandCheck` (lines 923 to 934), outside the write scope of this role
+numbers_that_pass: G5 page 12 checked 28 problems 0; FRAMED_PAGES_CHECKED=252
+  FRAMED_PAGES_FAILED=0; HEAD_PAIRS_CHECKED=241 HEAD_OVERLAPS=0 BY_PART none
+not_run: Gate B, tsc, eslint, the mutant, the 3 commits, and the plan `[x]` line
+tree: the patch is applied and uncommitted in cover-quest.ts and readers.ts
+handoff: extend the write scope to the `bandCheck` function, or give the fix its own role; the rule
+  is: a leaf with no `double-line-frame` passes when it holds no `band-word` part and no band word,
+  and a leaf with the frame needs the band word
+END_MEASURE_AGENT_RESULT
