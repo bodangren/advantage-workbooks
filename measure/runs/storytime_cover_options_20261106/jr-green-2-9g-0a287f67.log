@@ -1,0 +1,86 @@
+# Jr Green log: Task 2.9 part 7, the r2c reader covers and the r3 book covers
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 7
+Role: measure-jr-green
+Model: deepseek/deepseek-flash#high
+role_base_sha: 0a287f67
+phase_base_sha: 62621a9c
+Green code commit: 2aed3e09
+
+## Narrative
+
+This round is a build task. It changes no code, no test, and no file under `content/`. HEAD is
+`0a287f67` (= the role base), and the Green code `2aed3e09` is inside `phase_base_sha..HEAD`.
+
+The Thai filter ran first and printed `0` for each of the 3 named files. Every capture ran through
+`light_capture_2_9g.py` or `heavy_capture_2_9g.py`, and each capture prints `THAI_LINES_DROPPED 0`.
+The old MANIFEST of the folder held the SHA-256
+`6cf6c806f56dde9787b23b462bbe06a35d4dd3c0e828d40be6899c3599a496f2` with 85 lines before the first
+write.
+
+STEP 1 made the 31-file pictures folder in `/tmp/opencode/c29g/pictures`. The 29 hard links gave 29
+of 29 equal SHA-256 pairs and 29 of 29 the same inode, and the student front keeps
+`9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f`. The edge fill wrote the back
+`881e93b2a87385eb15e5cf0240df8629c501a10f0375284f9cec2fe09eda37c4` from the unchanged source
+`5411e37ec7044d7afd70726ee5fffeccd985225ef0b0da4283db8e6a3979b7bf`, with
+`DIFFERING_PIXELS_OUTSIDE_STRIP 0` and `EDGE_FILL_OK True`. The prepared teacher front holds
+`0901411875407c09bd69e779f5aad31b36147d84d0e742feee6316712bf96283`, with `RAW_EQUAL true`,
+`OUTPUT_DENSITY 300`, and `PREP_OK true`.
+
+STEP 2 ran one build with `--top hlogo` in one heavy-run wrapper (`HEAVY_RUN_TIMEOUT_S=1800`). It
+exits 0 on the first attempt. It prints `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files` and 4
+lines `All checks pass.` (`build-2-9g.txt`).
+
+STEP 3 replaces the 34 reader files of `readers-a3/` and `readers-leaf/`. The old SHA-256 of each
+target equals its line of the old MANIFEST before the write: `REPLACED 34`, `PAIR_EQUAL 34`, and
+`COPY_OK true`.
+
+STEP 4 copies the 10 book files of the build into the folder under the `-alt-hlogo-r3` names:
+`COPIES 10`, `SHA_PAIRS_EQUAL 10`, and `GUARDS_OK 8`. The r2 files of Daniel's pick, the r5 files,
+and the old `-alt-hlogo` files stay untouched.
+
+STEP 5 runs the print checks on the 2 reader print files and the 2 new r3 book PDF/X files in one
+heavy-run wrapper (`HEAVY_RUN_TIMEOUT_S=900`). The result is `PASS_LINES=48` and `FAIL_LINES=0`.
+`PRINT_GATE` exits 0 on the 4 files with 1 line `All checks pass.` each, and both r3 files are A4
+PDF 1.3 PDF/X-1a:2001 with 2 pages. The 3 new counts hold: the band word `sprout` occurs 0 times on
+each of the 14 pages of the A3 file and of the leaf file; "Storytime Advantage" occurs at least once
+on each of the 14 leaf pages; and page 1 of the r3 teacher file holds `sprout` 0 times.
+
+STEP 6 makes the 5 sheets in one heavy-run wrapper (`HEAVY_RUN_TIMEOUT_S=600`). The 3 sheets
+`readers-a3.png`, `readers-leaf.png`, and `all.png` replace their targets, and each old SHA-256
+equals its MANIFEST line before the write. The 2 new sheets `student-alt-hlogo-r3.png` and
+`teacher-alt-hlogo-r3.png` are new files. `CONTACT_OK true`.
+
+STEP 7 rewrites `MANIFEST.txt`. The new file holds 97 lines with SHA-256
+`64a8dd2f03787668679d0f226d496e4d3eacc73b71e002add4cef4d8d6448407`. The 48 unchanged lines are
+byte-equal, 37 lines changed (the 34 reader files and the 3 sheets), and 12 lines are new (the 10 r3
+book files and the 2 sheets). The 2 r2 lines of Daniel's pick are byte-equal. `sha256sum -c` runs on
+a 2-column projection of the same lines, because `sha256sum` reads 2 columns and this manifest holds
+3: 97 lines OK and 0 FAILED. `MANIFEST_OK true`. The orchestrator rechecked the folder: 97 of 97
+files match their SHA-256 and size.
+
+STEP 8 inserts the 3 plan lines directly after the Part 6 replacement table line: `INSERTED 3`,
+`git diff --numstat` prints `3	0`, and the plan Thai count is 0. Task 2.9 stays `[~]`.
+
+STEP 9 gives the 6 full-size pages of the standing order of 2026-11-11 below, each with its pixel
+size and SHA-256. The scratch folder `/tmp/opencode/c29g` is removed after the 2 commits.
+
+## Result
+
+```
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 0a287f677e480fa201b0f535fe2eef4ad921a58b
+commits: COMMIT_1 (the 11 new 2_9g scripts, the 12 captures, manifest-old-2-9g.txt, and the plan), and COMMIT_2 (this log alone)
+tests_run: build exit 0 (1 attempt, "Covers of Level 2 Unit 1 set 1: 32 pages, 44 files", 4 lines "All checks pass."); print checks PASS_LINES=48 FAIL_LINES=0 with PRINT_GATE exit 0 on the 4 print files and 1 line "All checks pass." each; sprout 0 on each of the 14 A3 pages and each of the 14 leaf pages; "Storytime Advantage" at least 1 on each of the 14 leaf pages; sprout 0 on page 1 of the r3 teacher file; 34 of 34 reader copies equal the build output; 10 of 10 r3 book copies equal the build output; 8 of 8 guard print files keep their SHA-256; MANIFEST 97 of 97 lines matched, 48 byte-equal, 37 changed, 12 new, sha256sum -c 97 OK and 0 FAILED; plan numstat 3 0 and plan Thai count 0
+files_changed: outside the repository 49 files of ~/Desktop/print-ready/storytime/covers-quest-v1/: the 34 replaced reader files of readers-a3/ (17) and readers-leaf/ (17), the 3 replaced sheets contact-sheets/readers-a3.png, contact-sheets/readers-leaf.png, contact-sheets/all.png, the 10 new r3 book files (student/front-alt-hlogo-r3.png, student/back-alt-hlogo-r3.png, student/cover-alt-hlogo-r3.pdf, student/build-report-alt-hlogo-r3.json, student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r3_PDFX-1a.pdf, teacher/teacher-front-alt-hlogo-r3.png, teacher/teacher-back-alt-hlogo-r3.png, teacher/teacher-cover-alt-hlogo-r3.pdf, teacher/build-report-alt-hlogo-r3.json, teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r3_PDFX-1a.pdf), the 2 new sheets contact-sheets/student-alt-hlogo-r3.png and contact-sheets/teacher-alt-hlogo-r3.png, and the rewritten MANIFEST.txt; inside the repository the plan (3 inserted lines) and 24 new files of measure/runs/storytime_cover_options_20261106/ that end in -2-9g or _2_9g (11 scripts, 12 captures, and manifest-old-2-9g.txt), plus this log
+plan_updates: 3 inserted lines directly after the Part 6 replacement table line (the Part 7 evidence line with the 6 pages and the 5 sheets, the Part 7 replacement table with the 37 changed files, and the Part 7 new files with the 12 SHA-256 values); Task 2.9 stays [~]
+known_failures: none. FAIL_LINES=0. The 4 print-check mutants and the final check log of Task 2.9 stay open for a later part.
+handoff: The folder ~/Desktop/print-ready/storytime/covers-quest-v1/ holds the r2c reader covers and the r3 book covers as byte copies of the build output, with 34 of 34 reader pairs and 10 of 10 book pairs equal. The new MANIFEST.txt holds 97 lines with SHA-256 64a8dd2f03787668679d0f226d496e4d3eacc73b71e002add4cef4d8d6448407; 48 lines are byte-equal, 37 lines changed, and 12 lines are new. The 5 sheets: contact-sheets/readers-a3.png 7154x1658 px 60edb7768c86488719e3cf8cd748ac721baefa2b009f8670dd93a1dbb90c6bed; contact-sheets/readers-leaf.png 6755x1658 px cf60255d9c660fffe93a1bb50a496b84d4aa0a452d7dd691242521fedccf184d; contact-sheets/all.png 3648x5698 px 4954f872ca6c47c1030acd2e671fb116dfdd65833a2a9a4acf62b04a4a1dbfaa; contact-sheets/student-alt-hlogo-r3.png 2064x1496 px 810dd48f54368394a1abd9cef2798174a7d932c828ba2d810760d8b846621ed0; contact-sheets/teacher-alt-hlogo-r3.png 2064x1496 px 1b3b983052a3c317ac94e5e2030312539e2c08e4a054a9ba29a4949aa25750eb. The 6 full-size pages for the PM, in the standing order of 2026-11-11: student/front-alt-hlogo-r3.png 2480x3508 px 1475f59602bcd6e89a61efeebbbaca3631352ac180d74e4602af2f3286570d5c; student/back-alt-hlogo-r3.png 2480x3508 px 9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3; teacher/teacher-front-alt-hlogo-r3.png 2480x3508 px f912f5a91754d51773b47f9988ea104aedbd3b214da325051b6d1f416a187b58; teacher/teacher-back-alt-hlogo-r3.png 2480x3508 px ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4; readers-a3/l2-w04-my-family-a3-cover.png 4961x3508 px 02f245e6f3dc0c62d5c27c0ec25da5d66b34bffe2664314d3d89729bd7076166; readers-leaf/l2-w05-sam-and-pam-leaf-cover.png 2339x1754 px c67039674d95ce6ec7787c6beb21dd66acd8291624d4e2e11bdc4f4453122187. The key captures are build-2-9g.txt (exit 0), replace-2-9g.txt (REPLACED 34, PAIR_EQUAL 34), copy-2-9g.txt (COPIES 10, GUARDS_OK 8), print-gate-2-9g.txt (PASS_LINES=48, FAIL_LINES=0), contact-run-2-9g.txt (REPLACED 3, CREATED 2), manifest-check-2-9g.txt (MANIFEST_OK true, 37 CHANGED and 12 ADDED lines), and plan-insert-2-9g.txt (INSERTED 3). The orchestrator looks at the 5 sheets. Task 2.9 stays [~].
+END_MEASURE_AGENT_RESULT
+```
