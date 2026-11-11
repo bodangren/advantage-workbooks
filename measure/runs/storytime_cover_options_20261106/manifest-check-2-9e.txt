@@ -1,0 +1,26 @@
+CAPTURE of STEP 6, the MANIFEST rewrite
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/manifest_check_2_9e.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1
+
+--- STDOUT ---
+OLD_MANIFEST_SHA256 2aa88d4082df1c94bd3f67d2792b1e0065e139375592b6479e9f4faedb96043d
+OLD_MANIFEST_SHA_EXPECTED true
+OLD_COPY /home/daniebo/Desktop/Workbooks/measure/runs/storytime_cover_options_20261106/manifest-old-2-9e.txt bytes=5578
+WRITER_EXIT 0: MANIFEST.txt: 85 files
+OLD_LINES 48
+OLD_LINES_IN_NEW 48
+LINES_MATCHED 85
+LINES_BAD 0
+FILES 85
+FILES_NOT_LISTED 0
+LINES_NOT_ON_DISK 0
+OLD_LINE_COUNT_EXPECTED true
+NEW_LINE_COUNT 85
+NEW_LINE_COUNT_EXPECTED true
+MANIFEST_SHA256 34384529f605a733282e314540953bcb7c39f830076d0b323297f6b3d5b481b8
+MANIFEST_BYTES 9873
+MANIFEST_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
