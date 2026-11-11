@@ -73,16 +73,22 @@
  *   B5: D3 on 1 synthetic row: a title of 40 characters wraps to 2 line boxes at the same font size
  *       as the 1-line titles, the plaque width stays at or below 340 mm, and the plaque bottom
  *       stays at 276 mm.
- *   B6: D4 on 14 rows: the week pill text fill share and its centring.
- *   B7: D4 on 14 rows: the role bar label fill share, the even paddings, the bar fits its text, the
- *       page centring, and the top and the height.
+ *   B6: the week pill text of 14 rows has 1 line box and is centred across the pill. The change of
+ *       2026-11-11 (readers r2c): the cap height rule of E1 replaces the fill share and the
+ *       vertical centre of the line box.
+ *   B7: the role bar of 14 rows has even paddings, fits its text, sits at the page centre, and keeps
+ *       its top and its height. The change of 2026-11-11 (readers r2c): the cap height rule of E3
+ *       replaces the fill share of the label line box.
  *   B8: D5: the box `reader-leaf:logo-tile`, the logo tile of the 14 hlogo leaf renders, and no
  *       logo tile in the 14 default leaf renders.
  *   B9: D5: the K logo file holds only grays, the same viewBox, and the same `path` count as the
  *       color logo.
- *   B10: D6 on 14 rows and both styles: the series box values, 1 line box, and the right edge.
- *   B11: D7: with `hlogo`, the leaf parts other than the logo tile equal the default leaf render
- *       parts.
+ *   B10: the series box values, 1 line box, and the right edge of the default style. The change of
+ *       2026-11-11 (readers r2c): the hlogo leaf holds the series part in the footer, so the right
+ *       edge check runs for the default style only.
+ *   B11: with `hlogo`, the leaf parts that the hlogo leaf keeps equal the default leaf render parts.
+ *       The change of 2026-11-11 (readers r2c): the skip list holds the logo tile, the title plaque,
+ *       the footer, the series, the week, and the role mark.
  *   B12: D8: the 8 pins of the 4 book kinds, in the default style and in the `hlogo` style.
  *
  * The method notes:
@@ -202,6 +208,9 @@ const BORDER_WIDTH_MM = 0.6;
 
 /** The right edge of the leaf series text, in millimetres. */
 const SERIES_RIGHT_MM = 103;
+
+/** The leaf parts that the hlogo leaf changes, and that B11 skips. */
+const SKIPPED_LEAF_PARTS = ['logo-tile', 'title-plaque', 'footer', 'series', 'week', 'role-mark'];
 
 /** The title of the synthetic row of B5: 40 characters. */
 const LONG_TITLE = "Antidisestablishmentarian's Unbelievable";
@@ -946,7 +955,8 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
     });
 
-    it('B6: the hlogo week pill text fills the pill and sits at its center', () => {
+    // B6 changed 2026-11-11 (readers r2c): the cap height rule of E1 replaces the fill share and the vertical centre of the line box.
+    it('B6: the hlogo week pill text has 1 line box and is centred across the pill', () => {
         expect(a3Measures.length, 'the browser measures 14 A3 rows.').toBe(14);
         for (const measure of a3Measures) {
             const id = measure.id;
@@ -954,31 +964,14 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             expect(measure.pill.text.rects.length, `the week pill text of the row ${id} has 1 line box.`).toBe(1);
             const pill = measure.pill.box!;
             const text = measure.pill.text.rects[0];
-            const innerHeight = pill.bottom - pill.top - INNER_SIZE_MM;
-            const share = (text.bottom - text.top) / innerHeight;
-            expect(
-                share,
-                `the week pill text of the row ${id} fills 80 % of the pill inner height: ` +
-                    `the text box is ${(text.bottom - text.top).toFixed(2)} mm, ` +
-                    `the inner height is ${innerHeight.toFixed(2)} mm.`,
-            ).toBeGreaterThanOrEqual(MIN_FILL_SHARE);
-            expect(
-                share,
-                `the week pill text of the row ${id} fills 80 % of the pill inner height: ` +
-                    `the text box is ${(text.bottom - text.top).toFixed(2)} mm, ` +
-                    `the inner height is ${innerHeight.toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(MAX_FILL_SHARE);
-            expect(
-                Math.abs((text.top + text.bottom) / 2 - (pill.top + pill.bottom) / 2),
-                `the week pill text of the row ${id} sits at the center of the pill.`,
-            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
             expect(
                 Math.abs((text.left + text.right) / 2 - (pill.left + pill.right) / 2),
-                `the week pill text of the row ${id} sits at the center of the pill.`,
+                `the week pill text of the row ${id} is centred across the pill.`,
             ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
         }
     });
 
+    // B7 changed 2026-11-11 (readers r2c): the cap height rule of E3 replaces the fill share of the label line box.
     it('B7: the hlogo role bar fits its text with even padding', () => {
         expect(a3Measures.length, 'the browser measures 14 A3 rows.').toBe(14);
         for (const measure of a3Measures) {
@@ -990,21 +983,6 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             const bar = measure.bar.box!;
             const icon = measure.bar.iconBox!;
             const label = measure.bar.labelBox!;
-            const text = measure.bar.text.rects[0];
-            const innerHeight = bar.bottom - bar.top - INNER_SIZE_MM;
-            const share = (text.bottom - text.top) / innerHeight;
-            expect(
-                share,
-                `the role bar label of the row ${id} fills 80 % of the bar inner height: ` +
-                    `the text box is ${(text.bottom - text.top).toFixed(2)} mm, ` +
-                    `the inner height is ${innerHeight.toFixed(2)} mm.`,
-            ).toBeGreaterThanOrEqual(MIN_FILL_SHARE);
-            expect(
-                share,
-                `the role bar label of the row ${id} fills 80 % of the bar inner height: ` +
-                    `the text box is ${(text.bottom - text.top).toFixed(2)} mm, ` +
-                    `the inner height is ${innerHeight.toFixed(2)} mm.`,
-            ).toBeLessThanOrEqual(MAX_FILL_SHARE);
             const leftPadding = icon.left - bar.left;
             const rightPadding = bar.right - label.right;
             expect(
@@ -1096,6 +1074,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         ).toBe(colourDoc.getElementsByTagName('path').length);
     });
 
+    // B10 changed 2026-11-11 (readers r2c): the hlogo leaf holds the series part in the footer, so the right edge check runs for the default style only.
     it('B10: the leaf series line stays on one line inside the 35 mm box', () => {
         const box = QUEST_BOXES['reader-leaf:series'];
         expect(box, 'the box table holds the key reader-leaf:series.').toBeDefined();
@@ -1109,6 +1088,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             const id = `${measure.id} (${measure.style})`;
             expect(measure.seriesBox, `the leaf reader cover ${id} holds a series part.`).not.toBeNull();
             expect(measure.seriesRects.length, `the series text of the leaf reader cover ${id} has 1 line box.`).toBe(1);
+            if (measure.style !== 'default') continue;
             const text = measure.seriesRects[0];
             expect(
                 text.right,
@@ -1118,6 +1098,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
+    // B11 changed 2026-11-11 (readers r2c): the hlogo leaf changes the tile, the plaque, and the footer, so the skip list holds 6 part names.
     it('B11: the hlogo leaf parts keep the HTML of the default leaf render', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
@@ -1128,7 +1109,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             expect(tiles.length, `the hlogo leaf reader cover ${id} holds one logo tile.`).toBe(1);
             for (const part of Array.from(alt.querySelectorAll('[data-part]'))) {
                 const name = part.getAttribute('data-part') ?? '';
-                if (name === 'logo-tile') continue;
+                if (SKIPPED_LEAF_PARTS.includes(name)) continue;
                 const one = plain.querySelector(`[data-part="${name}"]`);
                 expect(one, `the default leaf reader cover ${id} holds the part ${name}.`).not.toBeNull();
                 expect(

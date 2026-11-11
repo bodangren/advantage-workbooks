@@ -1,0 +1,15 @@
+CAPTURE of readers r2c lint
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/quest-cover-readers-r2c.test.ts __tests__/quest-cover-readers-r2b.test.ts
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-readers-r2c.test.ts
+  218:7  warning  'LEAF_PAGE_HEIGHT_MM' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

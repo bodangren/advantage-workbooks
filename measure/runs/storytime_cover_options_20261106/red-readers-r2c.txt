@@ -1,0 +1,265 @@
+CAPTURE of readers r2c Red gate
+
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 11814[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the hlogo leaf cover holds one gray logo tile and the default leaf holds none [33m 680[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 425[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1018611[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 1200[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1647[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 2973[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 4633[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1559[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 6298[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 1559[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 1657[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 4838[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 393[2mms[22m[39m
+     [33m[2m✓[22m[39m counts one flipped module as 1 and an all-white PNG as the dark count [33m 308[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 1603[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 2835[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 3872[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 2931[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 3999[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 6123[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 430[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3160[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1580[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 566[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 85560[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 7791[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 4519[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 104386[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 3175[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3343[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 5710[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 2817[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 2906[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 7266[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 3764[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 3688[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 3688[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 3862[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 394357[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 326012[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m191 tests[22m[2m)[22m[33m 15395[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 1430[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1405[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 432[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 773[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 426[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 944[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 3247[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-readers-r2c.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[33m 7789[2mms[22m[39m
+[31m     [31m×[31m C1: the hlogo week pill letters fill 80 % of the pill inner height[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m C2: the hlogo week pill fits its text and keeps its place on the page[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m C3: the hlogo role bar letters fill 80 % of the bar inner height[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m C4: the hlogo leaf plaque is the r2 book plaque drawing[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m C5: the hlogo leaf plaque takes the K gray palette[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m C6: the hlogo leaf title fills 80 % of the plaque band[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m C7: the hlogo leaf holds no band word and no band icon[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m C8: the hlogo leaf holds one footer with the series, the week, and the role line[39m[32m 24[2mms[22m[39m
+[31m     [31m×[31m C9: the hlogo leaf footer sits on one line at the centre of the page[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m C10: the build band check passes the hlogo leaf and the default leaf[39m[32m 256[2mms[22m[39m
+     [32m✓[39m C11: the default leaf render of each row keeps its bytes of the role base 0b3000fa[32m 30[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-print-gate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 6535[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 4 cover files sit in the print-ready folder with their pinned SHA-256 [33m 466[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the print gate passes the 4 cover files on their own merit [33m 5945[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 6088[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the student-front lies inside the band in the level colour [33m 523[2mms[22m[39m
+     [33m[2m✓[22m[39m P2: the plaque text of the student-front is clear of the diamond ornaments and of itself [33m 428[2mms[22m[39m
+     [33m[2m✓[22m[39m P3: the plaque text of the student-front is set at a readable size [33m 488[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the student-front reads the approved words [33m 361[2mms[22m[39m
+     [33m[2m✓[22m[39m P3: the plaque text of the teacher-front is set at a readable size [33m 323[2mms[22m[39m
+     [33m[2m✓[22m[39m P4: the plaque text of the teacher-front reads the approved words [33m 322[2mms[22m[39m
+     [33m[2m✓[22m[39m P5: the Sprout tab text of the teacher front lies inside its pill and above the plaque [33m 312[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 3888[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the logo tile is the only top chrome [33m 452[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 625[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1331[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 760[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 4329[2mms[22m[39m
+     [33m[2m✓[22m[39m L3: each back holds the Storytime logo in the logo box and the RA logo as the publisher mark [33m 363[2mms[22m[39m
+     [33m[2m✓[22m[39m C1: every color of every chrome part is in the logo palette [33m 1459[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 3805[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds one logo tile and no top chrome [33m 534[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art layer keeps its HTML [33m 599[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the logo tile of the A3 reader cover sits centered in the page [33m 381[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 293[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-frame-r3.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 309[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m      Tests [22m [1m[31m10 failed[39m[22m[2m | [22m[1m[32m330 passed[39m[22m[90m (340)[39m
+[2m   Start at [22m 11:22:18
+[2m   Duration [22m 1104.58s[2m (transform 2.26s, setup 1.25s, import 7.93s, tests 1078.86s, environment 13.13s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 10 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC1: the hlogo week pill letters fill 80 % of the pill inner height
+[31m[1mAssertionError[22m: the week pill cap height of the row w01-1 is 80 % of the pill inner height: the cap height is 3.44 mm, the inner height is 8.80 mm.: expected 0.3910266373574321 to be greater than or equal to 0.75[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m864:15[22m[39m
+    [90m862| [39m                `the week pill cap height of the row ${id} is 80 % of …
+    [90m863| [39m                    `the cap height is ${cap.toFixed(2)} mm, the inner…
+    [90m864| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m865| [39m            [34mexpect[39m(
+    [90m866| [39m                share[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC2: the hlogo week pill fits its text and keeps its place on the page
+[31m[1mAssertionError[22m: the week pill of the row w01-1 hugs its text: the left padding is 10.22 mm, the corner radius is 5 mm.: expected 10.215397135416652 to be less than or equal to 5.5[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m910:15[22m[39m
+    [90m908| [39m                `the week pill of the row ${id} hugs its text: the lef…
+    [90m909| [39m                    [32m`the corner radius is [39m[36m${[39m[33mPILL_PADDING_MM[39m[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m910| [39m            ).toBeLessThanOrEqual(PILL_PADDING_MM + PADDING_TOLERANCE_…
+    [90m   | [39m              [31m^[39m
+    [90m911| [39m            [34mexpect[39m(
+    [90m912| [39m                rightPadding[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC3: the hlogo role bar letters fill 80 % of the bar inner height
+[31m[1mAssertionError[22m: the role bar cap height of the row w01-1 is 80 % of the bar inner height: the cap height is 3.70 mm, the inner height is 10.80 mm.: expected 0.3430673218969511 to be greater than or equal to 0.75[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m960:15[22m[39m
+    [90m958| [39m                `the role bar cap height of the row ${id} is 80 % of t…
+    [90m959| [39m                    `the cap height is ${cap.toFixed(2)} mm, the inner…
+    [90m960| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m961| [39m            [34mexpect[39m(
+    [90m962| [39m                share[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC4: the hlogo leaf plaque is the r2 book plaque drawing
+[31m[1mAssertionError[22m: the leaf plaque of the row w01-1 holds the same path count as the A3 plaque: the leaf holds 4 paths, the A3 holds 12 paths.: expected 4 to be 12 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12[39m
+[31m+ 4[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1053:15[22m[39m
+    [90m1051| [39m                `the leaf plaque of the row ${id} holds the same path …
+    [90m1052| [39m                    `the leaf holds ${dom.paths.length} paths, the A3 …
+    [90m1053| [39m            )[33m.[39m[34mtoBe[39m(a3Letters[33m.[39mlength)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1054| [39m            [35mfor[39m ([35mconst[39m [pathIndex[33m,[39m element] [35mof[39m dom[33m.[39mpaths[33m.[39m[34mentries[39m()) {
+    [90m1055| [39m                [34mexpect[39m(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC5: the hlogo leaf plaque takes the K gray palette
+[31m[1mAssertionError[22m: the data-plaque-colour value of the leaf plaque of the row w01-1: it holds "".: expected '' to be '#D2D2D2' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- #D2D2D2[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1100:15[22m[39m
+    [90m1098| [39m                dom[33m.[39mplaqueColour[33m,[39m
+    [90m1099| [39m                `the data-plaque-colour value of the leaf plaque of th…
+    [90m1100| [39m            )[33m.[39m[34mtoBe[39m([33mK_BAND[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1101| [39m            [34mexpect[39m(
+    [90m1102| [39m                dom[33m.[39mpaths[33m.[39mlength[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC6: the hlogo leaf title fills 80 % of the plaque band
+[31m[1mAssertionError[22m: the leaf title text box of the row w01-1 fills 80 % of the band: the text box is 6.61 mm, the band is 14.40 mm.: expected 0.4593460648148145 to be greater than or equal to 0.75[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1164:15[22m[39m
+    [90m1162| [39m                `the leaf title text box of the row ${id} fills 80 % o…
+    [90m1163| [39m                    `the text box is ${textHeight.toFixed(2)} mm, the …
+    [90m1164| [39m            )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mMIN_FILL_SHARE[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1165| [39m            [34mexpect[39m(
+    [90m1166| [39m                share[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC7: the hlogo leaf holds no band word and no band icon
+[31m[1mAssertionError[22m: the hlogo leaf reader cover w01-1 holds no band word part: it holds 1.: expected 1 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 1[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1221:15[22m[39m
+    [90m1219| [39m                `the hlogo leaf reader cover ${id} holds no band word …
+    [90m1220| [39m                    [32m`it holds [39m[36m${[39mdom[33m.[39mpartCounts[[32m'band-word'[39m] [33m??[39m [34m0[39m[36m}[39m[32m.`[39m[33m,[39m
+    [90m1221| [39m            )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m              [31m^[39m
+    [90m1222| [39m            [34mexpect[39m(
+    [90m1223| [39m                dom[33m.[39mpartCounts[[32m'band-icon'[39m] [33m??[39m [34m0[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC8: the hlogo leaf holds one footer with the series, the week, and the role line
+[31m[1mAssertionError[22m: the hlogo leaf reader cover w01-1 holds one footer part: it holds 0.: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1246:126[22m[39m
+    [90m1244| [39m            [35mconst[39m id [33m=[39m [33mROW_IDS[39m[index][33m;[39m
+    [90m1245| [39m            [35mconst[39m row [33m=[39m rows[index][33m;[39m
+    [90m1246| [39m            expect(dom.footerCount, `the hlogo leaf reader cover ${id}…
+    [90m   | [39m                                                                                                                             [31m^[39m
+    [90m1247| [39m            expect(dom.seriesCount, `the footer of the leaf reader cov…
+    [90m1248| [39m            expect(dom.weekCount, `the footer of the leaf reader cover…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC9: the hlogo leaf footer sits on one line at the centre of the page
+[31m[1mAssertionError[22m: the series text of the leaf reader cover w01-1 has 1 line box.: expected +0 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1295:122[22m[39m
+    [90m1293| [39m                    `the page is ${(page.right - page.left).toFixed(2)…
+    [90m1294| [39m            )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mPAGE_CENTRE_TOLERANCE_MM[39m)[33m;[39m
+    [90m1295| [39m            expect(measure.footer.series.rects.length, `the series tex…
+    [90m   | [39m                                                                                                                         [31m^[39m
+    [90m1296| [39m                [34m1[39m[33m,[39m
+    [90m1297| [39m            )[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2c.test.ts[2m > [22mquest-cover-readers-r2c: C1 to C11 (Red, the A3 pill and bar letters and the leaf plaque and footer)[2m > [22mC10: the build band check passes the hlogo leaf and the default leaf
+[31m[1mAssertionError[22m: The build script exports questBandCheck.: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m bandCheckFn __tests__/quest-cover-readers-r2c.test.ts:[2m810:83[22m[39m
+    [90m808| [39m        questBandCheck?: (html: string, kind: string, band: string) =>…
+    [90m809| [39m    }[33m;[39m
+    [90m810| [39m    expect(typeof mod.questBandCheck, 'The build script exports questB…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m811| [39m    return mod.questBandCheck as (html: string, kind: string, band: st…
+    [90m812| [39m}
+[90m [2m❯[22m __tests__/quest-cover-readers-r2c.test.ts:[2m1368:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
