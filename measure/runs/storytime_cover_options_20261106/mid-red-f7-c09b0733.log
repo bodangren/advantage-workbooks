@@ -92,3 +92,21 @@ THE HANDOFF FOR THE GREEN:
   dashboard/__tests__/quest-cover-f3f6.test.ts passes its 14 tests (D6 included).
 - The readers tests of storytime-print-readers.test.ts keep working: the SHA rule gives the small
   fixture of the temp folder its own path back.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task (Red, F7)
+role_base_sha: c09b0733
+baseline_sha: e6e2156a
+commits: a21289b8, db54eabf, e6df04e8
+tests_run: "cd dashboard && npx tsc --noEmit, exit 0, capture red-f7-tsc.txt; cd dashboard && npx eslint __tests__/quest-cover-f7.test.ts __tests__/quest-cover-f3f6.test.ts, exit 0, capture red-f7-lint.txt; cd dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts --maxWorkers=1, exit 1, Test Files 1 failed (1), Tests 8 failed (8), capture red-f7.txt; cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts --maxWorkers=1, exit 1, Test Files 1 failed (1), Tests 1 failed | 13 passed (14), capture red-f7-f3f6.txt"
+failure_causes: "F7-1, F7-2, F7-2b, F7-3, F7-4, F7-5 fail on the missing module dashboard/lib/storytime/print/art-edge-fill.ts (Cannot find module); F7-6 fails on w01-1 only with 57 white edge rows on the 1588 x 1123 px page (the 8.30 mm top band and the 6.94 mm bottom band), and the 13 other A3 reader covers and the 4 book sides hold 0 white edge rows and 0 white edge columns; F7-7 fails because the a3-color page 1 of week 1 still uses the source art; D6 of quest-cover-f3f6.test.ts fails on the moved pin (the art source ends with l2-w01-cover-hello-v1.png, and the pin is the filled copy 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png in the temp folder of D-F7-4)"
+moved_pins: "dashboard/__tests__/quest-cover-f3f6.test.ts, test D6: the a3-color page 1 art becomes the edge-filled copy (D-F7-5), so the src basename pin moves to <16 hex>-<fileName> under the temp folder storytime-art-edge-fill; the workbook output keeps the line art source path; the data-picture-file pin is unchanged"
+files_changed: "dashboard/__tests__/quest-cover-f7.test.ts; dashboard/__tests__/quest-cover-f3f6.test.ts; measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/red-f7.txt; measure/runs/storytime_cover_options_20261106/red-f7-f3f6.txt; measure/runs/storytime_cover_options_20261106/red-f7-tsc.txt; measure/runs/storytime_cover_options_20261106/red-f7-lint.txt; measure/runs/storytime_cover_options_20261106/mid-red-f7-c09b0733.log"
+plan_updates: "plan.md line 206: - [x] Task (Red, F7) with commit a21289b; line 207: the Red F7 evidence with D-F7-1 to D-F7-6 as amended, the 4 gates, and the 1 px seam deviation; line 208: - [ ] Task (Green, F7): implement D-F7-2 to D-F7-5, so that dashboard/__tests__/quest-cover-f7.test.ts and every other quest-cover test pass; then the part 11 A3 rebuild of Task 2.9."
+dispositions: none
+handoff: "Green may write dashboard/lib/storytime/print/art-edge-fill.ts (the exports ArtEdgeFill with the 5 fields, ArtEdgeFillTable, readArtEdgeFillTable, and edgeFilledArtPath), content/storytime/l2/print/pictures-edge-fill.json (the one entry of D-F7-2), and the two render paths in dashboard/lib/storytime/print/cover-quest.ts (the A3 reader cover art) and dashboard/lib/storytime/print/readers.ts (page 1 of the a3-color reader), with the art path of dashboard/scripts/storytime/make-storytime-quest-covers.ts. The expected pass state: quest-cover-f7.test.ts passes its 8 tests and quest-cover-f3f6.test.ts passes its 14 tests with D6 included; the filled copy keeps the name 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png in os.tmpdir()/storytime-art-edge-fill; the readers tests of storytime-print-readers.test.ts keep working because the SHA rule gives the small temp fixture its own path back (F7-2b); content/storytime/l2/print/pictures.json, pictures.md, pictures-heads.json, and pictures/manifest.json stay unchanged (D-F7-6)."
+END_MEASURE_AGENT_RESULT
