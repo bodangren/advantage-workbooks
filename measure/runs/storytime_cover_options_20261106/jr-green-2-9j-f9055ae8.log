@@ -1,0 +1,189 @@
+# Jr Green log: Task 2.9 part 10, the rebuild after F3 to F6, the r5 book files, page 12, and the final check log
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 10
+Role: measure-jr-green
+Session: Green · P2 T2.9 · storytime_cover_options · r10
+Model: nvidia/deepseek-ai/deepseek-v4.1-flash#high
+role_base_sha: f9055ae8
+phase_base_sha: e6e2156a
+Green code: 22d42ad8 and 74ef6e4e (both inside e6e2156a..HEAD)
+Red model of this phase: claude-code/claude-sonnet-5-5#high (Red retry 8, 93909d2f)
+Route substitution (recorded deviation): the role table route volcengine-agent-plan/glm-5.3-flash#high
+is WAIT (Ark Agent monthly 82.8 %). This round uses the route of
+`ra-quota --fresh pick green --not-family anthropic --not-family minimax` (Anthropic is the Red
+family; the MiniMax weekly window is at 81 %). The DeepSeek DNS faults of 18:40 are on
+api.deepseek.com; this route uses integrate.api.nvidia.com.
+Status: complete
+
+## Narrative
+
+This round is a build task. It changes no code, no test, and no file under `content/`. HEAD was
+`f9055ae8` (= the role base) and stays at the same tree for the source, so the Green code `22d42ad8`
+and `74ef6e4e` is untouched and inside `e6e2156a..HEAD`.
+
+The Thai filter ran first and printed 0 Thai characters for each part 9 file that this round copies,
+for the part 9 log, for the plan, for `MANIFEST.txt`, and for each capture of this round. Every heavy
+capture goes through `heavy_capture_2_9j.py` and every light capture through `light_capture_2_9g.py`;
+each capture prints its dropped-line count, and the count is 0 for all 15 captures. The 4 heavy jobs
+ran alone in the foreground with a 1800 s, 1800 s, 600 s, or 1200 s limit.
+
+The 11 scripts of this round are copies of their part 9 or part 7 partners with exact-string
+replacements, and the numbers of the pairs are in the section "The numstat of the 11 pairs".
+`heavy_capture_2_9j.py` is the part 7 capture script with `HEAVY_PRIORITY` changed from `p1` to `p2`
+(the orchestrator decision of 2026-11-13), so it keeps the Thai filter, the Protocol-error retry, and
+the capture format, and it runs at p2.
+
+STEP 1 (the pictures). `link_pictures_2_9j.py` makes 29 hard links with `SHA_PAIRS_EQUAL 29` and
+`INODE_PAIRS_EQUAL 29`, and `PICTURES_DIR_FILES 29` before the back and the teacher front join the
+folder. The student front holds
+`9087de2811caed07c6f3c7c75a0fffe4a52f7e99b03b1fbd094e5b55ebe3881f`
+(`STUDENT_FRONT_SHA_EXPECTED true`). `fix-back-edge-2_9j.py` writes the back
+`881e93b2a87385eb15e5cf0240df8629c501a10f0375284f9cec2fe09eda37c4` from the source
+`5411e37ec7044d7afd70726ee5fffeccd985225ef0b0da4283db8e6a3979b7bf` with
+`DIFFERING_PIXELS_OUTSIDE_STRIP 0` and `EDGE_FILL_OK True` (the adjacent-column mean falls from
+4.0470 to 1.6838). `prep-teacher-front-2_9j.mjs` writes the prepared teacher front
+`0901411875407c09bd69e779f5aad31b36147d84d0e742feee6316712bf96283`
+(`RAW_EQUAL true` and `PREP_OK true`). The 3 values equal the part 9 values exactly.
+
+STEP 2 (the build). One heavy run exits 0 on the first attempt and prints `Covers of Level 2 Unit 1
+set 1: 32 pages, 44 files` with 4 lines `All checks pass.` (`build-2-9j.txt`, capture dropped lines
+0).
+
+STEP 3 (the reader files). `copy_readers_2_9j.py` replaces the 34 files of `readers-a3/` and
+`readers-leaf/`. The old MANIFEST holds
+`1ff3dfd361c66ee2e334826cd0da489adff137cdee85f00ddaa8d7b3ddc0a384`
+(`MANIFEST_SHA_EXPECTED true`), each old SHA-256 equals its MANIFEST line before the write, and the
+run gives `REPLACED 34`, `PAIR_EQUAL 34`, `COPY_OK true` (17 source and 17 target files per folder).
+
+STEP 4 (the r5 book files). `copy_2_9j.py` writes the 10 r5 book files as byte copies: `COPIES 10`,
+`SHA_PAIRS_EQUAL 10`, `GUARDS_OK 20`. The guard set is the 10 part 9 guards plus the 10 r4 book
+files, so the r2, the r3, the r4, the plain r5 (no suffix), and the old `-alt-hlogo` files stay
+byte-equal. The 2 information lines show that each r5 back PNG equals its r4 back PNG
+(`INFO_BACK_R5_VS_R4 ... equal=true`, `9f5b588f...` and `ad6c3335...`), so G4 holds.
+
+STEP 5 (page 12). Both heavy builds exit 0 on the first attempt: `--a3-color` writes the 2 A3 files
+of 12 pages at 420.20 x 297.01 mm, and `--workbook` writes the K-only workbook PDF/X file of 12
+pages. `page12_2_9j.py` gives `PAGE12_OK true` with the 4 part 10 rules:
+(a) `A3_PAGE12 words_in_this_book=1 storytime_advantage=0 sprout=0 ok=true` (F6);
+(b) `CHOICE_RULE with-nan-can-nod`, `CHOSEN_PAGE 7`: the BOTTOM half holds page 12 with
+    `words_in_this_book=1 storytime_advantage=0 sprout=0 ok=true`, and the TOP half holds page 1 with
+    `sprout=0 info_ok=true` (F5; the series line on the page 1 half is information only);
+(c) the band word is 0 on every page of the 3 reader back files, 36 pages in total
+    (`BAND_FILE ... ok=true` for 12 + 12 + 12 pages, `BAND_RULE_OK true`);
+(d) `INK_COVERAGE_OK true`: C, M, and Y at 0.00000 on each of the 12 workbook pages.
+The 2 page 12 PNGs are rendered at 300 ppi: 4963x3508 px
+`15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667` and 2479x3508 px
+`303012dcdcd96be157576b83ba90423b4aa2ec84e667ab3a2793dceb44f68be4`. One information line: the old
+build of 2026-11-11 (6 pages) holds the phrase on page 3 with the series line 2 times and the band
+word 2 times on the whole page, so F5 and F6 changed the reader pages.
+
+STEP 6 (the sheets). `contact-2-9j.py` runs in one heavy run (600 s) and gives `CONTACT_OK true`. It
+replaces `readers-a3.png`, `readers-leaf.png`, and `all.png`, and each old SHA-256 equals its
+MANIFEST line before the write. It creates `student-alt-hlogo-r5.png` and
+`teacher-alt-hlogo-r5.png`, each 2064x1496 px. The 5 sheet values are in the plan line and in the
+handoff.
+
+STEP 7 (the MANIFEST). `manifest_check_2_9j.py` rewrites `MANIFEST.txt` in the part 9 format with 131
+lines and SHA-256 `f8c0377ec34f333f062bb96800f51e206f4d075b8f10241b3435126cf2ccec41` (15468 bytes).
+`sha256sum -c` on the 2-column projection gives 131 OK and 0 FAILED. `MANIFEST_OK true` with 88
+byte-equal lines, 26 changed lines, and 17 new lines.
+
+The first run stopped at `UNCHANGED_LINES_EXPECTED false` with `UNCHANGED_LINES 88` and
+`CHANGED_LINES 26`. The brief predicted 77 byte-equal lines (the 60 of part 9 and the 17 r4 lines) and
+37 changed lines (the 34 reader files and the 3 sheets). The difference is 11 lines, and the 11 are
+the 11 A3 reader cover PNGs whose render is byte-identical between part 9 and part 10. Evidence: the
+3 A3 rows with a nonzero art shift or a 0.50 scale are w01-2 (nan-can-nod), w07-1 (is-it-a-ball), and
+w07-2 (the-top) (plan lines 202 and 203, the Red retry 6 rows `dy -178, -211, -2.00` and `s 0.50 on
+the 2 exception covers`), and exactly those 3 A3 cover PNGs changed. The 14 leaf cover PNGs all
+changed, which matches F4 (the white `#FFFFFF` footer strip on the 14 leaf covers). The 4 reader PDFs
+and the 2 reader build reports follow those pages. So the changed names are the 3 sheets, the 4 reader
+PDFs, the 2 reader build reports, the 14 leaf cover PNGs, and the 3 A3 cover PNGs above: 26 in total.
+The script now asserts 88 and 26, and it adds 2 real checks in place of the single equality:
+`CHANGED_SUBSET_OF_PLANNED` (every changed name is a reader file or a sheet) and
+`PLANNED_UNCHANGED_MATCH` (the planned names that did not change are exactly the 11 A3 covers). Both
+print true. The run then passes from the saved old copy `manifest-old-2-9j.txt`.
+
+STEP 8 (the final check log). `print_gate_final_2_9j.py` runs in one heavy run (1200 s) and writes
+`print-gate.txt`. It gives `PASS_LINES=43`, `FAIL_LINES=0`, and `MANIFEST_SHA256_START` equal to
+`MANIFEST_SHA256_END` = `f8c0377ec34f333f062bb96800f51e206f4d075b8f10241b3435126cf2ccec41`. The 4
+book variants (r2 and r5) hold 4 lines `All checks pass.` each. The new `CHECK_12_READER_BACK` is
+PASS with the (a) to (d) rule: `A3 page 12 phrase=1 band_word=0 series=0`, `workbook page=7
+rule=with-nan-can-nod halves=TOP(phrase=0 band_word=0 series=1) BOTTOM(phrase=1 band_word=0 series=0)
+page12_half=BOTTOM`, `band word pages=36 pages_with_band_word=0`, and the workbook ink at C, M, and Y
+0.00000 on all 12 pages. `gate-functions-2-9j.py` proves that every other check function is
+byte-equal: the helper region (254 lines) and the CHECK_1 to CHECK_11 region (225 lines) are equal
+between the part 9 and the part 10 script, so `CHECK_FUNCTIONS_BYTE_EQUAL true`. So the 4 print-check
+mutants of part 8 (`MUTANTS_CAUGHT=4`) stay valid.
+
+Note: `MANIFEST_SHA_EXPECTED` (line 78 of `print_gate_final_2_9j.py`) is defined and not used. Part 9
+carried the same unused constant; the script compares the start value with the end value instead. The
+value stays for the record.
+
+STEP 9 (the proofs). `readers-w01-final/` keeps its 3 SHA-256 values
+(`aff26065d303cf62c82ca814f682058de55934d1e5ccc5a4c684d120ff38e0d8`,
+`d94d0d429b588e47fa74e1261ba822a6324a3c672c2ad021770efd3e4f84f648`, and
+`4773521abeb4cb62b48ef070e65fdacc508d55a2f3f60be3b53ca6647f32308f`). `git status --porcelain --
+dashboard content pnpm-lock.yaml` prints only `?? dashboard/raw.json`, and `pnpm-lock.yaml` has no
+change.
+
+STEP 10 (the plan). `plan_insert_2_9j.py` inserts 3 lines directly after the last Part 9 sub-line
+(`  - Part 9 new files (SHA-256):`, line 229), before Task 2.10: `INSERTED 3`, `OLD_LINE_COUNT 235`,
+`NEW_LINE_COUNT 238`. `git diff --numstat` prints `3	0`, and the plan Thai count is 0. Task 2.9 stays
+`[~]`, because Task 2.8 is `[~]`. The evidence line records the route substitution.
+
+STEP 11 (the pages for the PM). The 8 full-size pages and the 5 sheets are in the Part 10 plan line
+with their pixel size and SHA-256, and in the handoff of the result block.
+
+STEP 12 (the commits). Commit 1 `1aa3e2df` holds the 12 new part 10 scripts, the 17 new capture files
+of the run folder, the rewritten `print-gate.txt`, and the plan. Commit 2 holds this log alone.
+
+## The numstat of the 11 pairs
+
+`numstat-2-9j.txt` holds the first measurement. Three pairs grew after that file was written: the
+orchestrator review of `print_gate_final_2_9j.py` (the `STUDENT_R5` and `TEACHER_R5` labels and the
+date), the 88 and 26 counts of `manifest_check_2_9j.py`, and the part 10 rewrite of
+`plan_insert_2_9j.py`. The final values are these, insertions first:
+
+- link_pictures_2_9i.py -> link_pictures_2_9j.py: 3 3
+- fix-back-edge-2-9i.py -> fix-back-edge-2_9j.py: 3 3
+- prep-teacher-front-2-9i.mjs -> prep-teacher-front-2-9j.mjs: 3 3
+- copy_readers_2_9i.py -> copy_readers_2_9j.py: 6 6
+- copy_2_9i.py -> copy_2_9j.py: 49 26
+- page12_2_9i.py -> page12_2_9j.py: 55 28
+- contact-2-9i.py -> contact-2-9j.py: 17 17
+- manifest_check_2_9i.py -> manifest_check_2_9j.py: 54 38
+- print_gate_final_2_9i.py -> print_gate_final_2_9j.py: 81 49
+- plan_insert_2_9i.py -> plan_insert_2_9j.py: 71 57
+- heavy_capture_2_9g.py -> heavy_capture_2_9j.py: 5 5
+
+## The gates
+
+- Build: exit 0, 1 attempt, 32 pages, 44 files, 4 lines `All checks pass.`
+- Reader files: 34 of 34 replaced and equal, `COPY_OK true`.
+- r5 book files: 10 of 10 equal, 20 of 20 guards hold, both r5 backs equal their r4 backs.
+- Page 12: `PAGE12_OK true` with `A3_RULE_OK`, `LEAF_RULE_OK`, `BAND_RULE_OK`, and `INK_RULE_OK` true.
+- Sheets: `CONTACT_OK true` (3 replaced, 2 created).
+- MANIFEST: `MANIFEST_OK true`, 131 lines, 88 byte-equal, 26 changed, 17 new, 131 OK and 0 FAILED.
+- Final check log: `PASS_LINES=43`, `FAIL_LINES=0`, `CHECK_FUNCTIONS_BYTE_EQUAL true`.
+- Plan: 3 inserted lines, `3	0`, Thai count 0.
+- `pnpm-lock.yaml` is unchanged, `readers-w01-final/` is unchanged, and the scope of `git status` holds
+  only `?? dashboard/raw.json`.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task 2.9 (Print build), part 10
+role_base_sha: f9055ae8
+phase_base_sha: e6e2156a
+green_code: 22d42ad8, 74ef6e4e
+commits: 1aa3e2df (the 12 new part 10 scripts, the 17 new capture files of the run folder, the rewritten print-gate.txt, and the 3 plan lines), and COMMIT_2 (this log alone)
+tests_run: build exit 0 (1 attempt, 32 pages 44 files, 4 lines All checks pass.); pictures 29 of 29 hard links with 29 equal pairs and 29 equal inodes, student front 9087de28, back 881e93b2 from 5411e37e with DIFFERING_PIXELS_OUTSIDE_STRIP 0, teacher front 09014118 with RAW_EQUAL true
+checks: readers REPLACED 34 PAIR_EQUAL 34 COPY_OK true; r5 books COPIES 10 SHA_PAIRS_EQUAL 10 GUARDS_OK 20 with both r5 backs equal their r4 backs; page 12 PAGE12_OK true (a A3 page 12 phrase 1 series 0 band 0; b workbook leaf page 7 BOTTOM = page 12 phrase 1 series 0 band 0, TOP = page 1 band 0 series 1 information; c band word 0 on all 36 pages of the 3 reader back files; d workbook ink C M Y 0.00000 on all 12 pages; 2 A3 files 12 pages at 420.20 x 297.01 mm; PNGs 4963x3508 15e56a3f and 2479x3508 303012dc); sheets CONTACT_OK true (REPLACED 3 CREATED 2); MANIFEST_OK true (131 lines, 88 byte-equal, 26 changed, 17 new, sha256sum -c 131 OK 0 FAILED, new SHA f8c0377ec34f333f062bb96800f51e206f4d075b8f10241b3435126cf2ccec41, 15468 bytes, with CHANGED_SUBSET_OF_PLANNED true and PLANNED_UNCHANGED_MATCH true); final check log PASS_LINES=43 FAIL_LINES=0 with MANIFEST_SHA256_START = MANIFEST_SHA256_END and CHECK_12_READER_BACK PASS and CHECK_FUNCTIONS_BYTE_EQUAL true (254 and 225 byte-equal lines); plan INSERTED 3 with numstat 3 0 and Thai count 0; readers-w01-final unchanged; git status scope only ?? dashboard/raw.json; pnpm-lock.yaml unchanged
+plan_updates: 3 inserted lines directly after the last Part 9 sub-line (line 229, `  - Part 9 new files (SHA-256):`) and before Task 2.10: the Part 10 evidence line with the route substitution, the build, the pictures, the 34 replacements, the 10 r5 files and the 20 guards, the reader back counts of rules (a) to (d), the MANIFEST values, the 26 and 88 explanation, the check log counts, and the 8 full-size pages; the Part 10 replacement table with 26 old and new SHA-256 values; the Part 10 new files with 17 SHA-256 values. Task 2.9 stays [~].
+known_failures: none. FAIL_LINES=0. Two recorded notes: (1) the brief predicted 77 byte-equal and 37 changed MANIFEST lines; the measured values are 88 and 26, and the 11 differences are the 11 A3 reader cover PNGs that the F3 to F6 fixes leave byte-identical (the 3 A3 rows w01-2, w07-1, w07-2 change, per plan lines 202 and 203); the script asserts the measured values and adds CHANGED_SUBSET_OF_PLANNED and PLANNED_UNCHANGED_MATCH as real checks. (2) `MANIFEST_SHA_EXPECTED` in print_gate_final_2_9j.py is defined and unused, as in part 9; the script compares the start value with the end value.
+handoff: The folder ~/Desktop/print-ready/storytime/covers-quest-v1/ holds the new r5 book files, the rebuilt 34 reader cover files, the 3 rebuilt sheets, the 2 new r5 sheets, the new reader-back-r5/ folder (2 A3 files of 12 pages, 1 workbook PDF/X file of 12 pages, 2 page 12 PNGs), and the new MANIFEST.txt with 131 lines and SHA-256 f8c0377ec34f333f062bb96800f51e206f4d075b8f10241b3435126cf2ccec41. The 8 full-size pages for the PM, in the standing order of 2026-11-11: student/front-alt-hlogo-r5.png 2480x3508 px 6750339526f85e6fbcddb3de8ad93d9b43258b4b943cea4092528babb437d795; student/back-alt-hlogo-r5.png 2480x3508 px 9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3; teacher/teacher-front-alt-hlogo-r5.png 2480x3508 px 6a0d5227a074b9af9ca8822cc62afa3cdfe4d52d8819df43dfdb5fc5e2fe5f3b; teacher/teacher-back-alt-hlogo-r5.png 2480x3508 px ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4; readers-a3/l2-w01-hello-a3-cover.png 4961x3508 px d4e04a3f50d5e04255897adaef1e56de6d85e1eee17778409758fd6d3461b35b; reader-back-r5/l2-w01-hello-a3-page12.png 4963x3508 px 15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667; readers-leaf/l2-w01-nan-can-nod-leaf-cover.png 2339x1754 px b7a27a2eeb1d9f578654666c7efeba9adc0ae54f6f56c515bdb97ea13d2d3c26; reader-back-r5/l2-w01-nan-can-nod-leaf-page12.png 2479x3508 px 303012dcdcd96be157576b83ba90423b4aa2ec84e667ab3a2793dceb44f68be4. The 5 sheets: contact-sheets/readers-a3.png 7154x1658 px d33d991b249ad8e02bf64ac5bdd15117fb488de379689fe86db11defc9fcda2e; contact-sheets/readers-leaf.png 6755x1658 px c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960; contact-sheets/all.png 3648x5698 px b35a429b7d5df9ed0b5b9341d0767b3d70fb4b655f80f6d63afe75db38d1cbea; contact-sheets/student-alt-hlogo-r5.png 2064x1496 px 861c2e902f1f0d64952b31edeb184d5bf6ff6fd51c2b77cdf0cc3d1bc5aab553; contact-sheets/teacher-alt-hlogo-r5.png 2064x1496 px b57a7ed586bc7f43e2d43a5723375bde546017e686730b7f5c44af8d55250c01. Task 2.9 stays [~] and Task 2.10 is the next step. A reviewer should check 4 scripts beyond the exact-string rules: page12_2_9j.py (the (a) to (d) rule), copy_2_9j.py (the 20 guards), manifest_check_2_9j.py (the 88 and 26 counts and the 2 substitute checks), and plan_insert_2_9j.py (the part 10 evidence text).
+END_MEASURE_AGENT_RESULT
