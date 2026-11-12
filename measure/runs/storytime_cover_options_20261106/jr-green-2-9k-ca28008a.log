@@ -1,0 +1,195 @@
+# Jr Green log: Task 2.9 part 11, the A3 rebuild after F7
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 11
+Role: measure-jr-green
+Session: Green · P2 T2.9 · storytime_cover_options · r11 (continued in a new slot at 04:42 after the first slot stopped at 04:38 in step 8)
+Model: claude-code/claude-sonnet-5-5#high (no coder)
+role_base_sha: ca28008a
+phase_base_sha: e6e2156a
+Green F7 code: 310ad128 (inside e6e2156a..HEAD)
+Red model of F7: opencode/minimax-m3.1-flash-free#high (MiniMax family)
+Commit 1: 463bd6f8
+Status: done (with CHECK_14 FAIL on F8, open; F7b open)
+
+## Narrative
+
+This is a build task. It changes no code, no test, no file under `content/`, and it runs no vitest
+file. HEAD was `ca28008a` (= the role base) at the start. Every heavy capture goes through
+`heavy_capture_2_9j.py` (p2, Thai filter, foreground, alone) and every light capture through
+`light_capture_2_9g.py`; each capture printed `THAI_LINES_DROPPED 0`. Before commit 1, one Python
+check read the 41 committed files (38 new part 11 scripts and captures, `print-gate.txt`, `plan.md`)
+and found 0 characters from U+0E00 to U+0E7F.
+
+The heavy commands, each with its exit code and wall time:
+
+- Build (limit 1800 s): exit 0, 1 attempt, 7 min 15.7 s.
+- Reader back A3, first try with `--out /tmp/opencode/c29k/reader-back` (limit 1800 s): exit 2, 3 min
+  03 s (most of it a load hold of the wrapper), written nothing: the script accepts only an `--out`
+  folder inside `~/Desktop/print-ready/storytime/`.
+- Reader back A3, second try into `~/Desktop/print-ready/storytime/_scratch-c29k/reader-back` (limit
+  1800 s): exit 0, 1 attempt, 1 min 04 s.
+- Contact sheets (limit 600 s): exit 0, 1 attempt, 58.4 s.
+- Final check log (limit 1200 s): exit 1, 1 attempt, 3 min 00.7 s. The exit 1 is the one FAIL line
+  (CHECK_14); the first slot stopped before this command ran.
+
+STEP 1 (the pictures). The 3 scripts are copies of the part 10 partners with the scratch root
+`/tmp/opencode/c29k` (numstat 3 3 each). `link_pictures_2_9k.py`: `LINKS 29`, `SHA_PAIRS_EQUAL 29`,
+`INODE_PAIRS_EQUAL 29`, student front `9087de2811ca...` (`STUDENT_FRONT_SHA_EXPECTED true`).
+`fix-back-edge-2_9k.py`: back `881e93b2a873...` from `5411e37ec704...`,
+`DIFFERING_PIXELS_OUTSIDE_STRIP 0`, `EDGE_FILL_OK True`. `prep-teacher-front-2-9k.mjs`: teacher front
+`090141187540...`, `RAW_EQUAL true`, `PREP_OK true`. All 3 values equal part 10.
+
+STEP 2 (the build). Exit 0, `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files`, 4 lines `All checks
+pass.`. The filled copy `/tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png`
+has the mtime 1794518135 (the build start is 1794518132, `MTIME_AFTER_BUILD_START True`), 10224662
+bytes, SHA-256 `e0b8dc48adaeea48e07023e6b0f5ae39f70422bb040f65af4012e010e874e79f`
+(`filled-copy-2-9k.txt`).
+
+STEP 3 (the F7 edge check). `edge_white_2_9k.py` (PIL; a white row or column holds only pixels with R,
+G, and B at 250 or more; every pixel sampled; the module also gives `edge_counts` for the check log).
+(a) The old hand-off A3 cover `d4e04a3f50d5...` holds white edge rows 182 (top 100, bottom 82) and
+white edge columns 3 (right 3), so the check catches F7. (b) The 14 new A3 PNGs hold white edge rows
+0 (top 0, bottom 0) on every file. The strict column count is 3 on every file (the right 3 columns,
+x 4958 to 4960, value 255, `edge-cols-diag-2-9k.txt`). They are in the 13 files that are byte-equal
+to the shipped files too, so F7 did not cause them. The A3 page is 1191.12 pt = 420.2 mm = 4963 px at
+300 ppi and the cover PNG is 4961 px. I asked the orchestrator; D-P11-1 decides that the columns count
+with the outermost 3 px of each side ignored (the Chrome sub-pixel seam of 0.25 mm, the same seam as
+the accepted F7-6 rule), and CHECK_13 prints the raw count (42) as information. (c) `compare_2_9k.py`
+gives `A3_OTHER_EQUAL 13 of 13`, `LEAF_EQUAL 14 of 14`, `BOOK_EQUAL 4 of 4`, `HELLO_A3_DIFFERS true`
+(6b42938e vs d4e04a3f), `COMPARE_OK true`. No other PNG differs, so step 4 ran.
+
+STEP 4 (the reader cover files). Before the write, a backup copy of every file that the part 11 steps
+replace is in `/tmp/opencode/c29k/old/`. `copy_readers_2_9k.py`: `REPLACED 34`, `PAIR_EQUAL 34`,
+`COPY_OK true`; each old SHA-256 matched its MANIFEST line (the old MANIFEST f8c0377e,
+`MANIFEST_SHA_EXPECTED true`). No book file was copied.
+
+STEP 5 (the reader back A3). Recorded deviation: `make-readers-pdf.ts` accepts only an output folder
+inside `~/Desktop/print-ready/storytime/`, and the hand-off `reader-back-r5/` holds the same file
+names already (an existing output file is an error). So the build wrote into the new scratch folder
+`~/Desktop/print-ready/storytime/_scratch-c29k/reader-back/` and I copied the 2 PDFs to
+`/tmp/opencode/c29k/reader-back/`. The scratch folder stays in place (orchestrator instruction); it
+is not in the hand-off folder. The K-only workbook file was not rebuilt. (a) Old hello A3 page 1 at
+100 ppi, outer 2 px ignored, whole page: white edge rows 614 (top 31, bottom 583), columns 873. (b)
+New files, whole page: top 0, bottom 583, right 873. Page 1 holds the cover as a leaf-size box
+(198 x 148.5 mm = 780 x 585 px) in the top-left corner and the rest of the sheet is white (I looked at
+both renders). So the literal whole-page rule cannot reach 0, and I used the cover box
+`0,0,780,585` with 2 px ignored on each side of the box: old top 31 white rows; new hello 0 and 0;
+new nan-can-nod 0 and 0. The orchestrator then decided D-P11-2: this is a defect, F8 (open), see the
+section "Decisions". (c) `page12_2_9k.py` (ROOT is a scratch check folder with the 2 new A3 files and
+a byte copy of the unchanged workbook file): `PAGE12_OK true` with `A3_PAGE12 words_in_this_book=1
+storytime_advantage=0 sprout=0`, workbook page 7 BOTTOM `words_in_this_book=1`, the band word 0 on 36
+pages, ink C, M, and Y 0.00000 on 12 pages, page 12 PNGs 4963x3508 `15e56a3f...` and 2479x3508
+`303012dc...`. `copy_back_2_9k.py` replaces the 2 A3 PDFs with the old-SHA guard
+(`ac226a9b...` -> `b11aba0a...`, `54e4d919...` -> `3019e183...`; `PAIR_EQUAL_PDFS 2`), renders page 12
+of the hello file again at 300 ppi, and the render is byte-equal to `15e56a3f...`
+(`RENDER_EQUALS_OLD_PNG true`; `COPY_BACK_OK true`).
+
+STEP 6 (the sheets). `contact-2-9k.py` (heavy, 600 s): `CONTACT_OK true`, `REPLACED 3`, `CREATED 0`; it
+does not write the r5 book sheets. `readers-a3.png` d33d991b -> f1b72ac5; `all.png` b35a429b ->
+74d63e8b; `readers-leaf.png` c2076b5e stays byte-equal (the leaf covers do not change).
+
+STEP 7 (the MANIFEST). `manifest_check_2_9k.py` rewrites `MANIFEST.txt`: `MANIFEST_OK true`. Old
+SHA-256 `f8c0377ec34f...` (131 lines); new SHA-256
+`288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b` (15468 bytes), 131 lines, 0 new
+names, 0 removed names, 120 byte-equal lines, 11 changed lines. `sha256sum -c`: 131 OK, 0 FAILED.
+MUST_CHANGE (4 names) all changed. Every changed name lies in the planned set
+(`CHANGED_OUTSIDE_PLANNED 0`). MUST_EQUAL (115 names: the 13 other A3 cover PNGs, the 14 leaf cover
+PNGs, `student/`, `teacher/`, `teacher-candidate/`, `reader-back-r4/`, the workbook PDF/X file, every
+other sheet) all equal. The 11 changed names: the sheets `contact-sheets/all.png` and `contact-sheets/readers-a3.png`; the 2
+A3 PDFs of `reader-back-r5/`; in `readers-a3/` the w01-1 cover PNG, the PDF/X file, `build-report.json`,
+and `reader-covers-a3.pdf`; in `readers-leaf/` the PDF/X file, `build-report.json`, and
+`reader-leaf-covers.pdf`. I report 11; I did not predict a total for the PDF and report files. Note: the nan-can-nod A3
+PDF changed by byte too, though its page 1 art is not edge-filled; a PDF rebuild changes bytes (the
+page 12 PNGs stay byte-equal).
+
+STEP 8 (the final check log). `print_gate_final_2_9k.py` is a copy of the part 10 script (numstat 118
+insertions, 7 deletions) with CHECK_13, CHECK_14, and one information line. The hand-off folder is not
+written. `gate-functions-2-9k.py`: `HELPER_BYTE_EQUAL true` (254 lines), `CHECK_1_TO_12_BYTE_EQUAL true`
+(331 lines), `CHECK_FUNCTIONS_BYTE_EQUAL true`. Result: `PASS_LINES=44`, `FAIL_LINES=1`,
+`MANIFEST_SHA256_START` equal to `MANIFEST_SHA256_END` (`288d8478...`). The only FAIL line is
+`CHECK_14_READER_PAGE1_FILL`. CHECK_13 (the line is in `print-gate.txt`): the 14 A3 PNGs hold
+white_edge_rows=0 and white_edge_cols=0 with the outermost 3 px of each side ignored for the columns,
+information raw white edge columns with no pixel ignored=42 (3 on each of 14 files); page 1 cover box
+files=2 with white_edge_rows=0 and white_edge_cols=0; `png_rows_rule=PASS png_cols_rule=PASS
+page1_box_rule=PASS`; PASS. CHECK_14: `whole page 1 of the 2 A3 files of reader-back-r5 at 100 ppi with 2
+px ignored on each side white_edge_rows=1166 white_edge_cols=1746 (hello top=0 bottom=583 left=0
+right=873; nan-can-nod top=0 bottom=583 left=0 right=873), ... reason: F8 open: the cover is clipped
+to the leaf box, FAIL`. Information line: `INFO_13_PRINT_FILE_PAGE1: readers-a3/Storytime-Advantage-L2-U1-
+Reader-Covers-A3-v1_PDFX-1a.pdf page 1 at 150 ppi size=2478x1750 ignore=2 top=0 bottom=0 left=0
+right=0 white_edge_rows=0 white_edge_cols=0, information only (no verdict)`. CHECK_1 shows
+`All checks pass.` on the 6 print files, and CHECK_12 shows the workbook gate `exit=0`.
+
+STEP 9 (the proofs). `readers-w01-final/` keeps `aff26065d303cf62...`, `d94d0d429b588e47...`, and
+`4773521abeb4cb62...`. `content/storytime/l2/print/pictures/l2-w01-cover-hello-v1.png` keeps
+`99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f`. `git status --porcelain --
+dashboard content pnpm-lock.yaml` prints only `?? dashboard/raw.json`; `pnpm-lock.yaml` has no change.
+The hand-off folder holds 132 files (131 MANIFEST lines plus `MANIFEST.txt`), and this continuation
+wrote nothing there.
+
+STEP 10 (the plan). `plan_insert_2_9k.py` inserts 2 lines directly after the last Part 10 sub-line
+(line 236) and before Task 2.10: `INSERTED 2`, 242 to 244 lines, `git diff --numstat` `2 0`, the plan
+Thai count 0. The script asserts the check log (PASS 44, FAIL 1, CHECK_14 the only FAIL, CHECK_13
+PASS), the build capture, the edge captures, the MANIFEST values, and the 11 table pairs before the
+write. Task 2.9 stays `[~]`. The evidence line names F8 and F7b as open with the next round.
+
+STEP 11 (the pages for the PM). The 8 full-size pages and the 5 sheets are in the handoff and in the
+plan line with their pixel size and SHA-256.
+
+## Decisions of the orchestrator, recorded
+
+- D-P11-1: the 3 right columns of the A3 cover PNGs (x 4958 to 4960) are the Chrome sub-pixel seam
+  (0.25 mm; the same seam as the accepted F7-6 rule, 1 px at 96 ppi = 0.26 mm). CHECK_13 counts white
+  edge rows with no pixel ignored and white edge columns with the outermost 3 px of each side ignored.
+  The raw counts are information. One information line shows page 1 of the A3 print file at 150 ppi.
+- D-P11-2: page 1 of the A3 readers shows only the top-left 198 x 148.5 mm of the A3 cover, with no
+  title plaque and no logo; the rest of the sheet is white while pages 2 and 12 fill the sheet. This is
+  a defect, F8 (open). The cause is `readers.ts` line 510: `.reader-page > .quest-cover-picture` has the
+  leaf size, but the a3-color cover renders at 420 x 297 mm. F8 is in the old r5 file too, so F7 did
+  not cause it. The next Red and Green round fixes it. CHECK_13 checks the F7 scope and passes;
+  CHECK_14 checks whole page 1 and fails now.
+- D-P11-3 (information, as written): "F7b open: the mirror copies the soft edge rows of the Forge art
+  (row 167 at the top, mean 193.7 with 697 light pixels; rows 2831 to 2833 at the bottom, means 98.2,
+  88.5, 148.1, against 105.6 for the floor). This leaves a hairline of about 0.2 mm at about 8.5 mm
+  from the top and bottom edges of the w01-1 A3 cover. The next round changes the fill to topRows 168
+  and bottomRows 169."
+
+## The numstat of the 10 script pairs (insertions then deletions)
+
+link_pictures_2_9j -> 2_9k: 3 3; fix-back-edge-2_9j -> 2_9k: 3 3; prep-teacher-front-2-9j -> 2-9k:
+3 3; copy_readers_2_9j -> 2_9k: 6 6; page12_2_9j -> 2_9k: 8 9; contact-2-9j -> 2-9k: 10 17;
+manifest_check_2_9j -> 2_9k: 109 92; print_gate_final_2_9j -> 2_9k: 118 7; gate-functions-2-9j -> 2-9k:
+18 16; plan_insert_2_9j -> 2_9k: 115 77. New with no partner: `edge_white_2_9k.py`, `compare_2_9k.py`,
+`copy_back_2_9k.py`, `edge_cols_diag_2_9k.py`. Reused without a change: `heavy_capture_2_9j.py` and
+`light_capture_2_9g.py`. The file `numstat-2-9k.txt` holds the values.
+
+## The gates
+
+- Build: exit 0, 32 pages, 44 files, 4 lines `All checks pass.`.
+- Pictures: 29 of 29 links, front 9087de28, back 881e93b2, teacher front 09014118.
+- Edge check: old 182 white edge rows, new 0; 13 + 14 + 4 PNGs byte-equal; w01-1 differs.
+- Reader files: `REPLACED 34`, `PAIR_EQUAL 34`; A3 PDFs: 2 replaced, pairs equal; page 12 `PAGE12_OK true`.
+- Sheets: `CONTACT_OK true`, 3 replaced.
+- MANIFEST: `MANIFEST_OK true`, 131 lines, 0 new, 0 removed, 120 equal, 11 changed, 131 OK 0 FAILED.
+- Check log: `PASS_LINES=44`, `FAIL_LINES=1` (CHECK_14 only), `CHECK_FUNCTIONS_BYTE_EQUAL true`.
+- Proofs: `readers-w01-final/` unchanged; the source art unchanged; `pnpm-lock.yaml` unchanged.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task 2.9 (Print build), part 11, the A3 rebuild after F7
+role_base_sha: ca28008a
+phase_base_sha: e6e2156a
+green_code: 310ad128 (F7, inside e6e2156a..HEAD)
+commits: 463bd6f8 (the 38 new part 11 scripts and captures, the rewritten print-gate.txt, and the 2 plan lines), and COMMIT_2 (this log alone)
+tests_run: no vitest file (build task); build exit 0 (1 attempt, 7 min 15.7 s, 32 pages 44 files, 4 lines All checks pass.); reader back A3 build exit 0 (1 attempt, 1 min 04 s; one earlier try exit 2 on the --out argument check); contact sheets exit 0 (58.4 s); final check log exit 1 (3 min 00.7 s; the one FAIL line CHECK_14); edge check old hand-off A3 cover of w01-1 white edge rows 182 (top 100 bottom 82), new 0; page 1 cover box old 31 white rows at the top, new 0 and 0 on both A3 files
+checks: pictures 29 links SHA_PAIRS_EQUAL 29 INODE_PAIRS_EQUAL 29 front 9087de28 back 881e93b2 teacher front 09014118; compare 13 of 13 A3 PNGs, 14 of 14 leaf PNGs, 4 of 4 book PNGs equal and w01-1 differs; copy_readers REPLACED 34 PAIR_EQUAL 34; A3 PDFs 2 replaced with old-SHA guard; page 12 PAGE12_OK true (hello page 12 PNG equals 15e56a3f); CONTACT_OK true (3 replaced, readers-leaf equal); MANIFEST_OK true (131 lines, 0 new, 0 removed, 120 equal, 11 changed, sha256sum -c 131 OK 0 FAILED, old f8c0377e, new 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b); check log PASS_LINES=44 FAIL_LINES=1 with MANIFEST_SHA256_START = END, CHECK_13_EDGE_WHITE PASS, CHECK_14_READER_PAGE1_FILL FAIL (F8 open), CHECK_FUNCTIONS_BYTE_EQUAL true (254 and 331 lines); INFO_13 page 1 of the A3 print file at 150 ppi (2478x1750 px, 2 px ignored) 0 white edge rows and 0 columns; readers-w01-final unchanged; git status scope only ?? dashboard/raw.json; pnpm-lock.yaml unchanged; plan Thai count 0
+files_changed: 38 new files in measure/runs/storytime_cover_options_20261106/ (scripts, captures: 2_9k and 2-9k names), print-gate.txt (rewritten), plan.md (2 lines), this log; hand-off folder covers-quest-v1: 34 reader files, 2 A3 PDFs of reader-back-r5, hello page 12 PNG (byte-equal rewrite), 3 sheets, MANIFEST.txt
+plan_updates: 2 inserted lines directly after the last Part 10 sub-line (line 236) and before Task 2.10: the Part 11 evidence line (route, build, edge check before and after, D-P11-1 to D-P11-3, replacements, MANIFEST values, check log counts, F8 and F7b open, the 8 pages and 5 sheets) and the Part 11 replacement table with 11 old and new SHA-256 values. Task 2.9 stays [~].
+known_failures: CHECK_14_READER_PAGE1_FILL FAIL (F8 open: the cover is clipped to the leaf box; whole page 1 of the 2 A3 reader files holds 1166 white edge rows and 1746 white edge columns; cause readers.ts line 510, in the old r5 file too; the next Red and Green round fixes it). F7b open (D-P11-3: the mirror fill leaves a hairline of about 0.2 mm at about 8.5 mm from the top and bottom edges of the w01-1 A3 cover; the next round changes the fill to topRows 168 and bottomRows 169). Recorded deviation: the reader back A3 build wrote into the scratch folder ~/Desktop/print-ready/storytime/_scratch-c29k/reader-back (make-readers-pdf.ts accepts no other output folder), and the folder stays in place.
+dispositions: none
+handoff: The hand-off folder ~/Desktop/print-ready/storytime/covers-quest-v1/ holds the A3 covers after F7: the w01-1 A3 cover PNG has no white band (182 white edge rows before, 0 after), the 34 reader files, the 2 A3 reader back PDFs, 3 sheets, and MANIFEST.txt (131 lines, SHA-256 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b). The scratch folder ~/Desktop/print-ready/storytime/_scratch-c29k/ (holds reader-back/ with the 2 A3 PDFs) stays in place for the PM; a backup of the replaced files is in /tmp/opencode/c29k/old/. phase_base_sha e6e2156a; Green HEAD after commit 1 is 463bd6f8. The 8 pages: student/front-alt-hlogo-r5.png 2480x3508 px 6750339526f85e6fbcddb3de8ad93d9b43258b4b943cea4092528babb437d795; student/back-alt-hlogo-r5.png 2480x3508 px 9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3; teacher/teacher-front-alt-hlogo-r5.png 2480x3508 px 6a0d5227a074b9af9ca8822cc62afa3cdfe4d52d8819df43dfdb5fc5e2fe5f3b; teacher/teacher-back-alt-hlogo-r5.png 2480x3508 px ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4; readers-a3/l2-w01-hello-a3-cover.png 4961x3508 px 6b42938e85ae042fe5ee9cffe57f65f7578a64e869f2cdff276c5c1c89e36056 (new); reader-back-r5/l2-w01-hello-a3-page12.png 4963x3508 px 15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667; readers-leaf/l2-w01-nan-can-nod-leaf-cover.png 2339x1754 px b7a27a2eeb1d9f578654666c7efeba9adc0ae54f6f56c515bdb97ea13d2d3c26; reader-back-r5/l2-w01-nan-can-nod-leaf-page12.png 2479x3508 px 303012dcdcd96be157576b83ba90423b4aa2ec84e667ab3a2793dceb44f68be4. The 5 sheets: contact-sheets/readers-a3.png 7154x1658 px f1b72ac5ff17bcbd2ee59a4a945b5adc7aec46f1c4a9bd77bf4c48e5cad54661 (new); contact-sheets/readers-leaf.png 6755x1658 px c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960 (equal); contact-sheets/all.png 3648x5698 px 74d63e8b4e302f2c46f046468f6fb42b7eea3e5af4aab2adbec151ec622b1647 (new); contact-sheets/student-alt-hlogo-r5.png 2064x1496 px 861c2e902f1f0d64952b31edeb184d5bf6ff6fd51c2b77cdf0cc3d1bc5aab553; contact-sheets/teacher-alt-hlogo-r5.png 2064x1496 px b57a7ed586bc7f43e2d43a5723375bde546017e686730b7f5c44af8d55250c01. Next: the F8 and F7b round (Red, then Green) and a part 12 rebuild; Task 2.9 stays [~].
+END_MEASURE_AGENT_RESULT
