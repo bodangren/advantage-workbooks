@@ -1,0 +1,50 @@
+Red retry 8 of F3 to F6 (storytime_cover_options_20261106, P2), mid-red, claude-code/claude-sonnet-5-5#high.
+Substitution (recorded): ra-quota pick red --not-family deepseek gave minimax-cn-coding-plan/MiniMax-M3.1-Flash, whose weekly window is at 80 %. Green runs on deepseek/deepseek-flash#high.
+role_base_sha: c1e2af6d. phase_base_sha: e6e2156a.
+PM decision (2026-11-12, about 14:30 ICT): scale 4 stays; if a run proves that the 840 s limit is hit while every page renders, one short Red step raises only that limit, with the assertions unchanged.
+
+Step 1 (ended 14:46 ICT): read the file and the captures before any change. The PM reading holds.
+- runBuild killed the child at LIVE_MS - 60000 = 840000 ms (line 1302).
+- The failing lines 2170 and 2212 are the second assertions, so the first assertion (status not 0) passed.
+- Each non-zero exit of the build script prints an error line (the return 1 paths and lines 1333 and 1347). A SIGKILL gives status null and no line.
+- make-storytime-quest-covers.ts line 1311 runs make-pdfx with execFileSync and stdio inherit, one group at a time. After the kill of the parent, the running group finishes and prints All checks pass.; the next groups and the copy step never run.
+- The test times 883.0 s and 921.4 s are 43 s and 81 s above 840 s. This is the end time of the running group after the kill (the A3 group needs about 102 s).
+- Green log jr-green-f3f6-0ab64a93.log read the same output as a success path. A success gives status 0 and would fail line 2169, not line 2170, so the evidence refutes that reading.
+- The captured failure text (the end of the output) is not in green-f3f6-build4.txt; the proof rests on the status, the line numbers, the timing, and the code path.
+
+Step 2 (ended 14:47 ICT): the edit in dashboard/__tests__/quest-cover-build.test.ts: a new constant BUILD_KILL_MS = 1800000 with a JSDoc comment (measurement and date 2026-11-12). runBuild uses it in place of LIVE_MS - 60000. Nothing else changed.
+- git diff --numstat: 11 added, 1 removed, one file.
+- Count of expect( lines: 309 before and 309 after; 0 changed expect( lines in the diff.
+- Fit: the 4 long tests have the timeout LIVE_MS * 3 = 2700 s, so one attempt of up to 1800 s plus the fixture fits. A heavy-run p2 job is capped at 1800 s until 2026-11-20 (maxLockSecondsP2, default 1800 in heavy-run.sh line 178), so a test run alone at p2 has the same cap as the kill limit. Note for Green r13: the cap of the job can still cut a build that needs more than about 1750 s with its fixture.
+- Side effect: a test with the timeout LIVE_MS (900 s) and one build that hangs now fails at 900 s through the vitest timeout, and the child lives until 1800 s. It is no wrong result of a test; the PM decision allowed this.
+
+Step 3 (ended 14:48 ICT): verification, light runs only, no Chrome, no live build test.
+- npx tsc --noEmit -p dashboard: exit 0 (red8-f3f6-tsc.txt).
+- npx eslint --max-warnings 0 dashboard/__tests__/quest-cover-build.test.ts: exit 0, 0 warnings (red8-f3f6-lint.txt).
+- Both ran through heavy-run (project rule for tsc; the earlier Red retries did the same), each at the default priority.
+
+Commits:
+1. 93909d2f test(covers): Red retry 8 F3 to F6, the build kill limit at 1800 s (storytime_cover_options)
+2. 481eedf3 measure(plan): the Red retry 8 sub-line under the F3 to F6 Red task
+3. f0e963d1 measure(runs): the 2 captures
+4. this log, alone.
+
+Not touched: the 7 uncommitted Green code files, video/storytime-song/scripts/render.mjs, dashboard/raw.json, spec-review-* files. pnpm-lock.yaml unchanged. No push.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+track: storytime_cover_options_20261106
+phase: P2
+scope: F3 to F6 Red retry 8
+status: complete
+baseline_sha: e6e2156a
+role_base_sha: c1e2af6d
+head: (the log commit, after f0e963d1)
+commits: 93909d2f, 481eedf3, f0e963d1, and the log commit
+files: dashboard/__tests__/quest-cover-build.test.ts; measure/tracks/storytime_cover_options_20261106/plan.md; red8-f3f6-tsc.txt; red8-f3f6-lint.txt; this log
+tests_run: tsc exit 0; eslint exit 0; no live build test (Green r13 runs the 2 failing tests alone)
+red_command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-build.test.ts -t "<test name>" --maxWorkers=1 (through heavy-run at p2, one test per job)
+remaining_failures: none known in this step; the 2 tests are expected to pass with the new limit, to be proven by Green r13
+deviation: route substitution claude-code/claude-sonnet-5-5#high for MiniMax-M3.1-Flash (weekly window 80 %)
+handoff: Green r13 runs the 2 tests alone: "a failure in the move step of the print files leaves no print file at a final name and no temp folder" and "a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write". Set HEAVY_RUN_TIMEOUT_S to 1800 or more if the p2 cap allows. If a test fails with an error line (EACCES or EEXIST missing while the status is 0), the kill reading is wrong and the build code must be examined. Process note: Green log jr-green-f3f6-0ab64a93.log calls these failures a success path of the build; the status check at lines 2169 and 2211 refutes that.
+END_MEASURE_AGENT_RESULT
