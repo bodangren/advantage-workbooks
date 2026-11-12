@@ -1279,6 +1279,16 @@ interface ChildResult {
 const LIVE_MS = 900000;
 
 /**
+ * The time after which runBuild kills a build child, in milliseconds (1800 s). It stays below the test timeout
+ * of LIVE_MS * 3 (2700 s) and at the cap of one p2 heavy-run job (1800 s until 2026-11-20). Measured on
+ * 2026-11-12: with the A3 page screenshots at 43 to 63 s each, a build with --print ran longer than the
+ * old limit of 840 s. The kill gave status null and no error line, and the 2 tests of the print file
+ * failure injection (the move into a closed folder, the copy onto an existing file) failed on their
+ * second assertion. The assertions did not change.
+ */
+const BUILD_KILL_MS = 1800000;
+
+/**
  * Runs the build script in a child process and waits for it. It never throws.
  * @param argv The arguments of the script.
  * @param env Extra environment values.
@@ -1299,7 +1309,7 @@ function runBuild(argv: string[], env: Record<string, string> = {}): Promise<Chi
         child.stderr.on('data', (chunk) => {
             stderr += String(chunk);
         });
-        const timer = setTimeout(() => child.kill('SIGKILL'), LIVE_MS - 60000);
+        const timer = setTimeout(() => child.kill('SIGKILL'), BUILD_KILL_MS);
         child.on('close', (status) => {
             clearTimeout(timer);
             resolve({ status, stdout, stderr });
