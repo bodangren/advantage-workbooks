@@ -1,0 +1,18 @@
+MEM MemTotal:        7492052 kB
+LOAD 2.23 2.47 2.9
+INNER cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-card-kit-stickers.test.ts --maxWorkers=1
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-card-kit-stickers.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 191238[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S2 the unit 1 sticker keeps its text and shows no picture [33m 47594[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S8 a centre override moves one sticker only [33m 138783[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S10 falsifier: the old 28 mm inset art fails the same check [33m 3723[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 19:37:23
+[2m   Duration [22m 193.80s[2m (transform 547ms, setup 382ms, import 1.66s, tests 191.24s, environment 0ms)[22m
+
+
+EXIT 0 THAI_DROPPED 0

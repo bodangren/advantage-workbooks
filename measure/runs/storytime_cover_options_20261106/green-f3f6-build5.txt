@@ -1,0 +1,32 @@
+MEM MemTotal:        7492052 kB
+LOAD 3.42 2.99 4.43
+=== TEST a failure in the move step of the print files ===
+Thu Nov 12 02:57:38 PM +07 2026
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 918232[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 917658[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 15:00:19
+[2m   Duration [22m 920.96s[2m (transform 716ms, setup 416ms, import 1.88s, tests 918.23s, environment 0ms)[22m
+
+HEAVY_EXIT 0
+Thu Nov 12 03:15:40 PM +07 2026
+=== TEST a copy that fails after the first print files were copied ===
+Thu Nov 12 03:15:40 PM +07 2026
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 1038489[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 1037950[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 15:15:45
+[2m   Duration [22m 1040.69s[2m (transform 955ms, setup 259ms, import 1.54s, tests 1038.49s, environment 0ms)[22m
+
+HEAVY_EXIT 0
+Thu Nov 12 03:33:07 PM +07 2026

@@ -1,55 +1,64 @@
-Green r12 log of F3 to F6 (storytime_cover_options). Status: partial. The one-line screenshot timeout is
-in the tree and it works: 2 of the 4 build tests pass now (the Chrome error is gone), and 2 fail on
-their own failure-path assertions. Per the brief that is a STOP: no code commit.
+Green r13 log of F3 to F6 (storytime_cover_options). Status: partial. Gate B fails 11 tests in 3 files;
+the diagnosis of the 3 files alone is below. role_base_sha ff578ed1; phase_base_sha e6e2156a.
 
-Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (retry 7).
-Session `Green P2 F3-F6 storytime_cover_options r12`. role_base_sha 52192e8f; phase_base_sha
-e6e2156a.
+Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (Red retry 8,
+93909d2f). Session `Green P2 F3-F6 storytime_cover_options r13`.
 
-Orchestrator decisions this round: (a) 12:44, the write scope grows to 7 code files with
-`dashboard/scripts/storytime/make-storytime-quest-covers.ts`, for ONE line: `timeout: 300000` on the
-`page.screenshot` of `renderPagePng`; `deviceScaleFactor`, the clip, and the sharp resize stay.
-(b) the PM follow-up on the 840 s risk: an 840 s kill with no page error is a test-environment defect;
-any other failure is a STOP.
+Steps before the DNS stop (checked by the orchestrator, not rerun):
+- Step 1: `green-f3f6-build5.txt`: the 2 build tests passed alone (920.96 s and 1040.69 s), exit 0.
+- Step 2: tsc --noEmit exit 0 and eslint --max-warnings 0 exit 0 (0 warnings) on the 7 code files;
+  code commit 22d42ad8 at 15:35 (7 files, 936 insertions, 97 deletions).
+- Gate A-fast (`green-f3f6-gateAfast3.txt`): 14 files, 294 passed (294), 759.85 s, exit 0.
+- Gate A-build (`green-f3f6-gateAbuild3.txt`): part 1 70 passed and 5 skipped; parts 2 to 4 one test
+  each; part 5 two tests; 75 of 75 in all; exit 0 on every part.
+- Gate B (`green-f3f6-gateB.txt`): half 1 25 files passed; half 2 (18:09 to 18:37, 1681 s, load 0.92
+  at the start) 3 files failed | 38 passed (41), 11 tests failed | 885 passed (896), exit 1. The Gate B
+  capture holds stdout only (no vitest failure blocks, which vitest writes to stderr) and 1 Thai line
+  (line 342).
+Gate B capture read: NO raw read. I saw it only through ASCII-only grep patterns (HEAVY_EXIT, Test
+Files, Tests, AssertionError, HALF2), which never printed the Thai line. Every capture of this round
+passed through the Thai filter of the capture script, and each proves 0 Thai characters.
 
-Step 1 (12:46 ICT): the one-line change is in `renderPagePng`:
-`page.screenshot({ clip: ..., timeout: 300000 })`, with a 2-line comment that names the Green r11
-probe. `npx tsc --noEmit` exits 0 and `npx eslint --max-warnings 0` on the 7 code files exits 0 with
-0 warnings.
+Step 1, the diagnosis of the 3 files alone (the same heavy-run form at p2, `-c` for the shell string,
+stdout and stderr merged by /tmp/opencode/r13/diag.py, Thai lines dropped and counted):
+- 18:51 ICT, `green-f3f6-diag-ink.txt` (42 s, 0 Thai): storytime-print-reader-ink.test.ts FAILS
+  alone: 3 failed | 1 passed (4).
+- 18:54 ICT, `green-f3f6-diag-16books.txt` (168 s, 0 Thai): storytime-print-covers-16books.test.ts
+  PASSES alone: 46 passed (46), exit 0.
+- 19:12 ICT, `green-f3f6-diag-stickers.txt` (28 min, 0 Thai): the first try exited 75 (the wrapper
+  memory hold: "avail 1144 MB (min 1500)"); with HEAVY_PREFLIGHT_WAIT_S=5400 it ran and
+  storytime-print-card-kit-stickers.test.ts PASSES alone: 11 passed (11), exit 0.
 
-Step 2 (12:47 to 14:33 ICT, `green-f3f6-build4.txt`, 0 Thai characters): the 4 build tests, each
-alone through heavy-run at `HEAVY_PRIORITY=p2` (the p2 cap cut the 4-in-one run at 1800 s, so each
-test ran in its own job with `HEAVY_RUN_TIMEOUT_S=1800`), `--maxWorkers=1`. MemTotal 7492052 kB, the
-load average 2.97 7.28 9.12 at the start.
-- "a failed PDF/X step leaves no print file with a final name (review B F3)": PASS, test 1322825 ms.
-- "a failure in the move step of the print files leaves no print file at a final name and no temp
-  folder": FAIL at 883018 ms. The line: `AssertionError: the failure is the move into the closed
-  folder; : expected 'Converting 2 pages with Ghostscript (...' to match /EACCES|permission denied/i`.
-  The child output in the capture shows the 4 print files converted and `All checks pass.` for
-  student.pdf, teacher.pdf, readers-a3.pdf (102 s), and readers-leaf.pdf, so the build SUCCEEDED where
-  the test expects a refusal from the closed destination folder. No screenshot or Chrome line appears.
-- "a copy that fails after the first print files were copied leaves none of the 4 at a final name and
-  keeps a file that the build did not write": FAIL at 921354 ms. The line: `AssertionError: the
-  failure is the copy onto the file that exists; : expected 'Converting 2 pages with Ghostscript (...'
-  to match /EEXIST|already exists/i`. Again the capture shows the normal success path (`All checks
-  pass.` for student.pdf, teacher.pdf, readers-a3.pdf), so the copy onto an existing file did not
-  conflict. No screenshot or Chrome line.
-- "two builds into one folder at once: one completes, the other fails and overwrites nothing": PASS,
-  test 925229 ms (inside the 840 s line for the child: its own build passed and the second build
-  failed as the test expects).
-So the r11 diagnosis holds: the screenshot timeout removed the Chrome `page.screenshot` error, and 2
-of the 4 tests now pass. The 2 remaining failures are the tests' own failure injections (the closed
-folder and the existing file), not the 840 s kill and not a page error: both builds ran to completion
-with the printed "All checks pass." lines. They were masked before, because the Chrome error stopped
-each test at attempt 1 before the assertions ran. Their subject is the build's failure path in
-`make-storytime-quest-covers.ts`, outside the ONE line this role may change.
+Step 2, the cause line of each failing test (class a = the F3 to F6 code, b = the test environment,
+c = a test that expects the old behavior; F-number = the F rule whose change met the test):
+- storytime-print-reader-ink R-P6-F6a: "AssertionError: expected [ …(12) ] to deeply equal []", with
+  12 lines "[fold-label] side 1: a label overlaps the page content" (6) and the same for side 7 (6).
+  Cause: the test's own rule 5 asks for 2 fold labels within 3 mm of the fold line, and rule 5 then
+  forbids any overlap with a descendant of a reader page. On a page 1 side the F5 quest cover fills
+  its half to the fold (the wrapper, the quest page, the art, the F4 footer strip, the plaque), so a
+  label at the fold meets the page 1 boxes; a label placed below the fold meets page 12 instead, so
+  no place satisfies both. The code side is `dashboard/lib/storytime/print/readers.ts` page 1 (F5) and
+  the label markup of the same file (`readerFoldLabelsHtml`). Class c (a test rule that predates the
+  full-bleed page 1), F5.
+- storytime-print-reader-ink R-P6-F6b: the same 12 lines from the readers workbook build. Same cause,
+  same class, F5.
+- storytime-print-reader-ink R-P6-F6d: "the unchanged copy is right: expected [ …(12) ] to deeply
+  equal []" - the mutant test's clean copy carries the same 12 lines. Same cause, class c, F5.
+- storytime-print-reader-ink R-P6-F6c: passes (no page 1 rule).
+- storytime-print-covers-16books R14 "--print writes a PDF/X file, checkPdfx passes, and the fonts
+  remain": in Gate B "AssertionError: Build Level 2 Unit 1 exit: expected 1 to be +0"; ALONE it
+  passes (46 of 46, 168 s, exit 0). Cause unknown, passes alone; class b probable (the Gate B half ran
+  1681 s with the machine loaded and no line proves a Chrome error), F-number none.
+- storytime-print-card-kit-stickers R-P8-S2 (130 s in Gate B), S3, S4, S5, S7 (0 to 2 ms each), S8
+  (124 s), S9: in Gate B the capture shows "TimeoutError: page.goto: Timeout 120000ms exceeded" for
+  the sheet measure, and the 0 to 2 ms failures follow the same dead browser. ALONE the file passes
+  11 of 11 in 28 minutes. Cause: the test environment (Chrome load under the loaded run), class b,
+  F-number none.
 
-Build times for the record: the failing tests' builds ran the 4 print files in about 130 s each
-(2 pages of Ghostscript at 13 s and 12 s, the 14-page A3 at 102 s, the 14-page leaf at 4 s), well
-inside the 840 s kill line; the tests' own elapsed times (883 s and 921 s) come from the fixture and
-the PDF/X work around them, not from a killed child.
+Step 3, state: the code commit 22d42ad8 stands; no code file and no test file changed in this resume;
+no gate is rerun (the one full gate of this role is spent); the mutants do not run; the plan holds no
+[x] line. Captures committed with this log: green-f3f6-build5.txt, green-f3f6-gateAfast3.txt,
+green-f3f6-gateAbuild3.txt, green-f3f6-gateB.txt, green-f3f6-diag-ink.txt, green-f3f6-diag-16books.txt,
+and green-f3f6-diag-stickers.txt. `pnpm-lock.yaml` unchanged after every run.
 
-Per the brief (step 3: if any of the 4 fails, STOP; the PM follow-up: an assertion failure stays a
-STOP): no code commit. Committed: this log and `green-f3f6-build4.txt`. `pnpm-lock.yaml` unchanged.
-
-Step ends: 12:46, 12:47, and 14:33 ICT.
+Step ends: 18:51, 18:54, 19:12, and 19:41 ICT (the log write).
