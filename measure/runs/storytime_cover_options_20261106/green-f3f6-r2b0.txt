@@ -1,0 +1,55 @@
+BUILD CAPTURE of Jr Green F3 F6, r2b k0
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 12891[2mms[22m[39m
+     [32m✓[39m B1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups[32m 27[2mms[22m[39m
+     [32m✓[39m B2: the hlogo week pill and role bar take the logo amber and brown[32m 10[2mms[22m[39m
+[31m     [31m×[31m B3: the hlogo title text box is centred across the plaque band and is clear of the ornaments[39m[32m 4[2mms[22m[39m
+     [32m✓[39m B4: the hlogo plaque width follows the title and the plaque sits on the page[32m 9[2mms[22m[39m
+[31m     [31m×[31m B5: a title of 40 characters wraps to 2 lines and the plaque grows upward[39m[32m 2[2mms[22m[39m
+     [32m✓[39m B6: the hlogo week pill text has 1 line box and is centred across the pill[32m 2[2mms[22m[39m
+     [32m✓[39m B7: the hlogo role bar fits its text with even padding[32m 7[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile [33m 716[2mms[22m[39m
+     [32m✓[39m B9: the K logo file holds only grays and the same shape as the color logo[32m 29[2mms[22m[39m
+     [32m✓[39m B10: the leaf series line stays on one line inside the 35 mm box[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 767[2mms[22m[39m
+     [32m✓[39m B12: the 4 book kinds keep their bytes in the default style[32m 210[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m   Start at [22m 09:31:55
+[2m   Duration [22m 17.92s[2m (transform 623ms, setup 299ms, import 1.00s, tests 12.89s, environment 2.78s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB3: the hlogo title text box is centred across the plaque band and is clear of the ornaments
+[31m[1mAssertionError[22m: the title text box of the row w01-2 lies clear of a crystal group box: the gap is 1.19 mm.: expected 1.1935721715291407 to be greater than or equal to 2[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m870:19[22m[39m
+    [90m868| [39m                    `the title text box of the row ${id} lies clear of…
+    [90m869| [39m                        [32m`the gap is [39m[36m${[39mgap[33m.[39m[34mtoFixed[39m([34m2[39m)[36m}[39m[32m mm.`[39m[33m,[39m
+    [90m870| [39m                )[33m.[39m[34mtoBeGreaterThanOrEqual[39m([33mORNAMENT_CLEARANCE_MM[39m)[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m871| [39m            }
+    [90m872| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB5: a title of 40 characters wraps to 2 lines and the plaque grows upward
+[31m[1mAssertionError[22m: the synthetic title keeps the font size of the 1-line titles: 123.84 px and 154.80 px.: expected 30.961 to be less than or equal to 0.05[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m959:11[22m[39m
+    [90m957| [39m            `the synthetic title keeps the font size of the 1-line tit…
+    [90m958| [39m                `${measure.title.fontPx.toFixed(2)} px and ${first.tit…
+    [90m959| [39m        )[33m.[39m[34mtoBeLessThanOrEqual[39m([34m0.05[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m960| [39m        expect(measure.plaque, 'the synthetic cover holds a title plaq…
+    [90m961| [39m        [35mconst[39m plaque [33m=[39m measure[33m.[39mplaque[33m![39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
