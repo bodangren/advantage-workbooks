@@ -1,0 +1,21 @@
+CAPTURE of Task 2.9 part 11, the numstat of the script pairs (insertions then deletions)
+COMMAND: cd measure/runs/storytime_cover_options_20261106; for p in link_pictures_2_9j.py:link_pictures_2_9k.py fix-back-edge-2_9j.py:fix-back-edge-2_9k.py prep-teacher-front-2-9j.mjs:prep-teacher-front-2-9k.mjs copy_readers_2_9j.py:copy_readers_2_9k.py page12_2_9j.py:page12_2_9k.py contact-2-9j.py:contact-2-9k.py manifest_check_2_9j.py:manifest_check_2_9k.py print_gate_final_2_9j.py:print_gate_final_2_9k.py gate-functions-2-9j.py:gate-functions-2-9k.py plan_insert_2_9j.py:plan_insert_2_9k.py; do a=${p%%:*}; b=${p##*:}; echo PAIR $a -\> $b: $(git diff --no-index --numstat $a $b | cut -f1,2); done; echo NEW_WITHOUT_PARTNER edge_white_2_9k.py compare_2_9k.py copy_back_2_9k.py edge_cols_diag_2_9k.py; echo UNCHANGED_REUSED heavy_capture_2_9j.py light_capture_2_9g.py
+
+--- STDOUT ---
+PAIR link_pictures_2_9j.py -> link_pictures_2_9k.py: 3 3
+PAIR fix-back-edge-2_9j.py -> fix-back-edge-2_9k.py: 3 3
+PAIR prep-teacher-front-2-9j.mjs -> prep-teacher-front-2-9k.mjs: 3 3
+PAIR copy_readers_2_9j.py -> copy_readers_2_9k.py: 6 6
+PAIR page12_2_9j.py -> page12_2_9k.py: 8 9
+PAIR contact-2-9j.py -> contact-2-9k.py: 10 17
+PAIR manifest_check_2_9j.py -> manifest_check_2_9k.py: 109 92
+PAIR print_gate_final_2_9j.py -> print_gate_final_2_9k.py: 118 7
+PAIR gate-functions-2-9j.py -> gate-functions-2-9k.py: 18 16
+PAIR plan_insert_2_9j.py -> plan_insert_2_9k.py: 115 77
+NEW_WITHOUT_PARTNER edge_white_2_9k.py compare_2_9k.py copy_back_2_9k.py edge_cols_diag_2_9k.py
+UNCHANGED_REUSED heavy_capture_2_9j.py light_capture_2_9g.py
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

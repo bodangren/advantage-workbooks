@@ -1,0 +1,22 @@
+CAPTURE of Task 2.9 part 11 step 9, the proofs
+COMMAND: sha256sum /home/daniebo/Desktop/print-ready/storytime/readers-w01-final/*; sha256sum content/storytime/l2/print/pictures/l2-w01-cover-hello-v1.png; echo GIT_STATUS_SCOPE_BEGIN; git status --porcelain -- dashboard content pnpm-lock.yaml; echo GIT_STATUS_SCOPE_END; git status --porcelain -- pnpm-lock.yaml | wc -l; git log --oneline -1; sha256sum /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt; ls /home/daniebo/Desktop/print-ready/storytime/_scratch-c29k/reader-back; echo FILES_IN_HANDOFF=$(find /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1 -type f | wc -l)
+
+--- STDOUT ---
+aff26065d303cf62c82ca814f682058de55934d1e5ccc5a4c684d120ff38e0d8  /home/daniebo/Desktop/print-ready/storytime/readers-w01-final/Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf
+d94d0d429b588e47fa74e1261ba822a6324a3c672c2ad021770efd3e4f84f648  /home/daniebo/Desktop/print-ready/storytime/readers-w01-final/Storytime-Advantage-L2-W01-hello-A3-v1.pdf
+4773521abeb4cb62b48ef070e65fdacc508d55a2f3f60be3b53ca6647f32308f  /home/daniebo/Desktop/print-ready/storytime/readers-w01-final/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f  content/storytime/l2/print/pictures/l2-w01-cover-hello-v1.png
+GIT_STATUS_SCOPE_BEGIN
+?? dashboard/raw.json
+GIT_STATUS_SCOPE_END
+0
+ca28008a measure(runs): Green F7 log (storytime_cover_options)
+288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+Storytime-Advantage-L2-W01-hello-A3-v1.pdf
+Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+FILES_IN_HANDOFF=132
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

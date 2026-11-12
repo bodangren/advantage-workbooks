@@ -1,0 +1,17 @@
+CAPTURE of Task 2.9 part 11 step 5b, the cover box of page 1 of the 2 new A3 files, 100 ppi, 2 px ignored on each side of the box
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/edge_white_2_9k.py --pdf --box 0,0,780,585 --ignore 2 --expect zero /tmp/opencode/c29k/p1-new-box /tmp/opencode/c29k/reader-back/Storytime-Advantage-L2-W01-hello-A3-v1.pdf /tmp/opencode/c29k/reader-back/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf
+
+--- STDOUT ---
+EDGE Storytime-Advantage-L2-W01-hello-A3-v1.pdf page1 size=776x581 box=0,0,780,585 ignore=2 top=0 bottom=0 left=0 right=0 white_edge_rows=0 white_edge_cols=0 sha256=def86a263090249687a625f0d5a77306ccc4d7ec9457bb4555d25457e954cd72
+EDGE Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf page1 size=776x581 box=0,0,780,585 ignore=2 top=0 bottom=0 left=0 right=0 white_edge_rows=0 white_edge_cols=0 sha256=d3406878ec7169f7bfc14590fb76dc7d6ca9235f44ba3275b2e92bebf155e38b
+FILES 2
+FILES_WITH_WHITE_EDGE_ROWS 0
+FILES_WITH_WHITE_EDGE_COLS 0
+WHITE_EDGE_ROWS_TOTAL 0
+WHITE_EDGE_COLS_TOTAL 0
+EDGE_EXPECT zero EDGE_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

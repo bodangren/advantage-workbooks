@@ -1,0 +1,14 @@
+CAPTURE of Task 2.9 part 11 step 2, the filled copy of the w01-1 art
+COMMAND: stat -c '%n mtime=%Y bytes=%s' /tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png; echo build_start_epoch=$(cat /tmp/opencode/c29k/build-start.txt); sha256sum /tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png; ls -l --time-style=full-iso /tmp/storytime-art-edge-fill/
+
+--- STDOUT ---
+/tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png mtime=1794518135 bytes=10224662
+build_start_epoch=1794518132
+e0b8dc48adaeea48e07023e6b0f5ae39f70422bb040f65af4012e010e874e79f  /tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
+total 9988
+-rw-rw-r-- 1 daniebo daniebo 10224662 2026-11-13 04:15:35.985611304 +0700 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

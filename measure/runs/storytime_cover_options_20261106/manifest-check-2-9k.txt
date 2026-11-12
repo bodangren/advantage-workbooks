@@ -1,0 +1,74 @@
+CAPTURE of Task 2.9 part 11 step 7, the MANIFEST rewrite and check
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/manifest_check_2_9k.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1
+
+--- STDOUT ---
+OLD_MANIFEST_SHA256 f8c0377ec34f333f062bb96800f51e206f4d075b8f10241b3435126cf2ccec41
+OLD_MANIFEST_SHA_EXPECTED true
+OLD_COPY /home/daniebo/Desktop/Workbooks/measure/runs/storytime_cover_options_20261106/manifest-old-2-9k.txt bytes=15468
+WRITER_EXIT 0: MANIFEST.txt: 131 files
+WRITER_CHECK_EXIT 0: MANIFEST.txt matches 131 files
+OLD_LINES 131
+OLD_LINES_IN_NEW 120
+LINES_MATCHED 131
+LINES_BAD 0
+FILES 131
+FILES_NOT_LISTED 0
+LINES_NOT_ON_DISK 0
+OLD_LINE_COUNT_EXPECTED true
+NEW_LINE_COUNT 131
+NEW_LINE_COUNT_EXPECTED true
+NEW_NAMES 0
+REMOVED_NAMES 0
+EQUAL_LINES 120
+CHANGED_LINES 11
+MUST_CHANGE readers-a3/l2-w01-hello-a3-cover.png changed=true
+MUST_CHANGE reader-back-r5/Storytime-Advantage-L2-W01-hello-A3-v1.pdf changed=true
+MUST_CHANGE contact-sheets/readers-a3.png changed=true
+MUST_CHANGE contact-sheets/all.png changed=true
+MUST_CHANGE_OK true
+CHANGED_OUTSIDE_PLANNED 0
+CHANGED contact-sheets/all.png old=b35a429b7d5df9ed0b5b9341d0767b3d70fb4b655f80f6d63afe75db38d1cbea new=74d63e8b4e302f2c46f046468f6fb42b7eea3e5af4aab2adbec151ec622b1647
+CHANGED contact-sheets/readers-a3.png old=d33d991b249ad8e02bf64ac5bdd15117fb488de379689fe86db11defc9fcda2e new=f1b72ac5ff17bcbd2ee59a4a945b5adc7aec46f1c4a9bd77bf4c48e5cad54661
+CHANGED reader-back-r5/Storytime-Advantage-L2-W01-hello-A3-v1.pdf old=ac226a9b905c54e707376f4cf55476ccae0e6a16ebd5d228ad7caa80bd44070a new=b11aba0a6323f0ffe16ae0cf398a05351836e9777e545eacb32136a1f229ed60
+CHANGED reader-back-r5/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf old=54e4d91978c58b31fbb0c6839f1fefa68861a69e70fedb714cdbf6df09098cde new=3019e183823485ae7419d2760201bd332fc6ea8aa3d1519bcd968032290daa80
+CHANGED readers-a3/Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf old=41eedf992e68a2d0299127da88768daf636e565438ce99a7e6ea522daf350648 new=333c85fff0262cacd9786a5ffd44f6135420b2c6a0046ce853e2454e14e2dc32
+CHANGED readers-a3/build-report.json old=a8629e2352ef22f5348c41f727d7ca75f359ebe1b56057c3e60219cdfdf4ba24 new=cd497a1b4bf5dad8d3c61490a3cc836d8ba68d66c5e20c21ca13f25f4b9237f5
+CHANGED readers-a3/l2-w01-hello-a3-cover.png old=d4e04a3f50d5e04255897adaef1e56de6d85e1eee17778409758fd6d3461b35b new=6b42938e85ae042fe5ee9cffe57f65f7578a64e869f2cdff276c5c1c89e36056
+CHANGED readers-a3/reader-covers-a3.pdf old=17bddeb6bb228b0537320cee995d70f6fb168a253588f2564d59197f9a1601c3 new=889e90d68641579a04592385116a8cb3c7ee4479f00c0417ab1886a511167ab8
+CHANGED readers-leaf/Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf old=3d1955168280a0ea3bfcb0211fc1dac624cef15e39b5b662058ac6c2976bd8c2 new=ea7a320c193a96b73b45d288885dc85ac1afddc05413756552395710922687a0
+CHANGED readers-leaf/build-report.json old=dd72abfee1e75d13824577ccc51abba6f3118620f3f381ebb73b4c95f31b63d9 new=f5b7700b839e4084d291ebb21729c23272e1520fa8c10f305082474abeb5ba6e
+CHANGED readers-leaf/reader-leaf-covers.pdf old=633973d8ba1a7138bd1949fc641dbae0c8d03f112b0d4e15232d8b7ba6ace715 new=cbf3c428e45d48451a5edba263acc135e0a4c11eb527dba47e593ee0fe76ef64
+MUST_EQUAL_NAMES 115
+MUST_EQUAL_NOT_EQUAL 0
+A3_OTHER_COVER_PNGS_EQUAL 13 of 13
+LEAF_COVER_PNGS_EQUAL 14 of 14
+PLANNED_BUT_EQUAL contact-sheets/readers-leaf.png
+PLANNED_BUT_EQUAL reader-back-r5/l2-w01-hello-a3-page12.png
+PLANNED_BUT_EQUAL readers-a3/l2-w01-nan-can-nod-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w02-can-i-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w02-how-many-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w03-paint-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w03-the-pan-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w04-my-family-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w04-pam-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w05-i-have-two-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w05-sam-and-pam-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w06-i-can-see-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w06-tap-tap-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w07-is-it-a-ball-a3-cover.png
+PLANNED_BUT_EQUAL readers-a3/l2-w07-the-top-a3-cover.png
+PICK_LINE student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf sha256=bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663 expected=bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663 byte_equal=true
+PICK_LINE teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf sha256=6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd expected=6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd byte_equal=true
+PICK_LINES_EQUAL 2
+SHA256SUM_C_EXIT 0
+SHA256SUM_C_OK_LINES 131
+SHA256SUM_C_FAILED_LINES 0
+SHA256SUM_C_OK_EXPECTED true
+MANIFEST_SHA256 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b
+MANIFEST_BYTES 15468
+MANIFEST_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,101 @@
+CAPTURE of Task 2.9 part 11 step 5c, the page 12 rule on the 2 new A3 files and the unchanged workbook file
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/page12_2_9k.py
+
+--- STDOUT ---
+ROOT /tmp/opencode/c29k/reader-back-check
+NEW_FILE Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf bytes=3284968 sha256=ffece06e0c94df8b587417aad55bf1c74f5a9ee6e3f73f11d22e7eb2dde128bd
+NEW_FILE Storytime-Advantage-L2-W01-hello-A3-v1.pdf bytes=83492831 sha256=b11aba0a6323f0ffe16ae0cf398a05351836e9777e545eacb32136a1f229ed60
+NEW_FILE Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf bytes=62519591 sha256=3019e183823485ae7419d2760201bd332fc6ea8aa3d1519bcd968032290daa80
+A3 Storytime-Advantage-L2-W01-hello-A3-v1.pdf pages=12 size_mm=420.20x297.01 px_expected=4963x3508 ok=true
+A3 Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf pages=12 size_mm=420.20x297.01 px_expected=4963x3508 ok=true
+HELLO_PAGE 12 render_exit=0 px=4963x3508
+WORKBOOK_PAGE p=1 words_in_this_book=1 nan_can_nod=0
+WORKBOOK_PAGE p=2 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=3 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=4 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=5 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=6 words_in_this_book=0 nan_can_nod=0
+WORKBOOK_PAGE p=7 words_in_this_book=1 nan_can_nod=3
+WORKBOOK_PAGE p=8 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=9 words_in_this_book=0 nan_can_nod=4
+WORKBOOK_PAGE p=10 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=11 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGE p=12 words_in_this_book=0 nan_can_nod=3
+WORKBOOK_PAGES 12 size_mm=209.89x297.01 px_expected=2479x3508
+WORD_LIST_PAGES 2
+NOD_WORD_LIST_PAGES 1
+CHOICE_RULE with-nan-can-nod
+CHOSEN_PAGE 7
+NOD_PAGE 7 render_exit=0 px=2479x3508
+A3_PAGE12 words_in_this_book=1 storytime_advantage=0 sprout=0 ok=true
+WORKBOOK_HALF TOP y=0 words_in_this_book=0 storytime_advantage=1 sprout=0
+WORKBOOK_HALF BOTTOM y=421 words_in_this_book=1 storytime_advantage=0 sprout=0
+WORD_HALVES 1
+WORKBOOK_PAGE12_HALF BOTTOM words_in_this_book=1 storytime_advantage=0 sprout=0 ok=true
+WORKBOOK_PAGE1_HALF TOP words_in_this_book=0 storytime_advantage=1 sprout=0 info_ok=true
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=1 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=2 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=3 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=4 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=5 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=6 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=7 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=8 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=9 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=10 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=11 sprout=0
+BAND Storytime-Advantage-L2-W01-hello-A3-v1.pdf p=12 sprout=0
+BAND_FILE Storytime-Advantage-L2-W01-hello-A3-v1.pdf pages=12 ok=true
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=1 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=2 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=3 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=4 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=5 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=6 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=7 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=8 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=9 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=10 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=11 sprout=0
+BAND Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf p=12 sprout=0
+BAND_FILE Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf pages=12 ok=true
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=1 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=2 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=3 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=4 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=5 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=6 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=7 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=8 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=9 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=10 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=11 sprout=0
+BAND Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf p=12 sprout=0
+BAND_FILE Storytime-Advantage-L2-Readers-W01-v1_PDFX-1a.pdf pages=12 ok=true
+OLD_BUILD pages=6 search_page=7 page=3 whole words_in_this_book=1 storytime_advantage=2 sprout=2 info
+INK p=1 C=0.00000 M=0.00000 Y=0.00000 K=0.13121 ok=true
+INK p=2 C=0.00000 M=0.00000 Y=0.00000 K=0.02356 ok=true
+INK p=3 C=0.00000 M=0.00000 Y=0.00000 K=0.08505 ok=true
+INK p=4 C=0.00000 M=0.00000 Y=0.00000 K=0.12021 ok=true
+INK p=5 C=0.00000 M=0.00000 Y=0.00000 K=0.07322 ok=true
+INK p=6 C=0.00000 M=0.00000 Y=0.00000 K=0.12657 ok=true
+INK p=7 C=0.00000 M=0.00000 Y=0.00000 K=0.10650 ok=true
+INK p=8 C=0.00000 M=0.00000 Y=0.00000 K=0.02565 ok=true
+INK p=9 C=0.00000 M=0.00000 Y=0.00000 K=0.08270 ok=true
+INK p=10 C=0.00000 M=0.00000 Y=0.00000 K=0.08683 ok=true
+INK p=11 C=0.00000 M=0.00000 Y=0.00000 K=0.06123 ok=true
+INK p=12 C=0.00000 M=0.00000 Y=0.00000 K=0.07233 ok=true
+INK_COVERAGE_OK true
+PNG l2-w01-hello-a3-page12.png px=4963x3508 px_expected=4963x3508 px_ok=true bytes=153414 sha256=15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667
+PNG l2-w01-nan-can-nod-leaf-page12.png px=2479x3508 px_expected=2479x3508 px_ok=true bytes=656495 sha256=303012dcdcd96be157576b83ba90423b4aa2ec84e667ab3a2793dceb44f68be4
+PNG_SIZE_OK true
+A3_RULE_OK true
+LEAF_RULE_OK true
+BAND_RULE_OK true
+INK_RULE_OK true
+PAGE12_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

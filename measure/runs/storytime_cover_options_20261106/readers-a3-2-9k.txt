@@ -1,0 +1,10 @@
+BUILD CAPTURE of Task 2.9 part 11 step 5, the reader back A3 files into a scratch folder of the print folder
+
+HEAVY_RUN_TIMEOUT_S 1800
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsx scripts/storytime/make-readers-pdf.ts --level 2 --weeks 1 --final --a3-color --version 1 --out /home/daniebo/Desktop/print-ready/storytime/_scratch-c29k/reader-back
+HEAVY_EXIT: 0
+--- STDOUT ---
+reader cover check: 2 cover pages passed (FR-6.3)
+done  Level 2 (final, a3-color, weeks 1): /home/daniebo/Desktop/print-ready/storytime/_scratch-c29k/reader-back/Storytime-Advantage-L2-W01-hello-A3-v1.pdf (12 pages); /home/daniebo/Desktop/print-ready/storytime/_scratch-c29k/reader-back/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf (12 pages)
+--- STDERR ---

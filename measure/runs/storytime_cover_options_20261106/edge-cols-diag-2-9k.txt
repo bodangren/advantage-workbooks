@@ -1,0 +1,12 @@
+CAPTURE of Task 2.9 part 11 step 3b, diagnosis of the 3 right edge columns
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/edge_cols_diag_2_9k.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png /tmp/opencode/c29k/pr/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png /tmp/opencode/c29k/pr/storytime/covers-quest-v1/readers-a3/l2-w07-the-top-a3-cover.png
+
+--- STDOUT ---
+COLS l2-w01-hello-a3-cover.png size=4961x3508 | x=4955 low=(68,32,1) high=(255,255,255) | x=4956 low=(67,28,0) high=(255,255,255) | x=4957 low=(95,59,30) high=(255,255,255) | x=4958 low=(255,255,255) high=(255,255,255) | x=4959 low=(254,254,253) high=(255,255,255) | x=4960 low=(255,255,255) high=(255,255,255)
+COLS l2-w01-hello-a3-cover.png size=4961x3508 | x=4955 low=(68,32,1) high=(254,229,206) | x=4956 low=(67,28,0) high=(255,228,204) | x=4957 low=(95,59,30) high=(254,232,212) | x=4958 low=(255,255,255) high=(255,255,255) | x=4959 low=(254,254,253) high=(255,255,255) | x=4960 low=(255,255,255) high=(255,255,255)
+COLS l2-w07-the-top-a3-cover.png size=4961x3508 | x=4955 low=(57,35,12) high=(243,229,209) | x=4956 low=(44,25,2) high=(243,229,208) | x=4957 low=(73,57,37) high=(245,233,215) | x=4958 low=(255,255,255) high=(255,255,255) | x=4959 low=(254,254,253) high=(255,255,255) | x=4960 low=(255,255,255) high=(255,255,255)
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
