@@ -273,6 +273,15 @@ const ROW_IDS = [
     'w07-2',
 ] as const;
 
+/**
+ * The colour cover art files with an entry in the edge fill table of
+ * `content/storytime/l2/print/pictures-edge-fill.json` (D-F7-2 of 2026-11-13).
+ */
+const EDGE_FILL_FILES = new Set(['l2-w01-cover-hello-v1.png']);
+
+/** The first 16 hex of the SHA-256 of the week 1 colour cover art (the name prefix of D-F7-4). */
+const EDGE_FILL_SHA16 = '99ee1b8d1fe0e9ad';
+
 /** The 2 reader outputs. */
 const OUTPUTS: StorytimeReaderOutput[] = ['workbook', 'a3-color'];
 
@@ -1349,7 +1358,14 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                 const art = quests[0].querySelector('[data-part="art"]');
                 const src = art?.getAttribute('src') ?? '';
                 const wantedFile = output === 'workbook' ? row.picture.lineArtFileName : row.picture.fileName;
-                if (!src.startsWith('file:') || decodeURIComponent(path.basename(src)) !== wantedFile) {
+                // changed 2026-11-13 (F7, PM order): the a3-color page 1 uses the edge-filled copy of the colour cover art (D-F7-5), so its source is the filled file in the temp folder of D-F7-4. The workbook page 1 keeps the line art source path.
+                const filled = output === 'a3-color' && EDGE_FILL_FILES.has(wantedFile);
+                if (filled) {
+                    const base = decodeURIComponent(path.basename(src));
+                    if (!src.startsWith('file:') || base !== `${EDGE_FILL_SHA16}-${wantedFile}` || !src.includes('storytime-art-edge-fill')) {
+                        problems.push(`${id}: the art source ends with "${base}" (the pin is the filled copy ${EDGE_FILL_SHA16}-${wantedFile} in the temp folder of D-F7-4).`);
+                    }
+                } else if (!src.startsWith('file:') || decodeURIComponent(path.basename(src)) !== wantedFile) {
                     problems.push(`${id}: the art source ends with "${path.basename(src)}" (the pin is a file URL of ${wantedFile}).`);
                 }
                 // changed 2026-11-12 (Q5, orchestrator decision): the workbook page 1 body draws the leaf mark of its side (option leafMark); the a3-color body draws none.
