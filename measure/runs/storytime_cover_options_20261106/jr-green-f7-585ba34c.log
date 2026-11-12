@@ -1,0 +1,35 @@
+JR GREEN F7 LOG (track storytime_cover_options_20261106, Phase 2, Task (Green, F7))
+role_base_sha 585ba34c; phase_base_sha e6e2156a; model claude-code/claude-sonnet-5-5#high; Red model opencode/minimax-m3.1-flash-free#high; no coder. Red commit a21289b8 lies inside e6e2156a..HEAD.
+
+STEP 1 DONE: code written. art-edge-fill.ts holds one synchronous core (own 8-bit RGB PNG decoder and encoder with zlib, scratch name plus rename) and an async wrapper; the data file pictures-edge-fill.json holds the one entry of D-F7-2. readers.ts: a3-color page 1 takes edgeFilledArtPathSync after the picture check; the workbook output keeps the line art. The quest build: the reader-a3 art of every row goes through edgeFilledArtPath after the plan checks and before Chrome; the leaf and book art keep their path. make-readers-pdf.ts needed no change, because compile is correct alone.
+STEP 2 DONE: file runs, each alone (heavy-run p2): quest-cover-f7 8 passed (green-f7-f7.txt); quest-cover-f3f6 14 passed (green-f7-f3f6.txt); storytime-print-reader-ink 4 passed (green-f7-ink.txt); readers-adversarial plus r2 22 passed (green-f7-adv.txt). storytime-print-readers: first run 54 passed, 4 failed (R-P4-29, R-P4-38, R-P4-39, R-P4-41: ENOENT, the temp fixture repo has no pictures-edge-fill.json; green-f7-readers.txt). Fix: readArtEdgeFillTable gives an empty table on ENOENT only. Second run 58 passed (58) (green-f7-readers2.txt).
+STEP 3 DONE: R2 proof. rm -r /tmp/storytime-art-edge-fill, then F7-7 alone: 1 passed, 7 skipped, exit 0 (green-f7-r2.txt); the folder holds the filled copy afterward.
+STEP 4 DONE: R1 probe (green-f7-r1-probe.txt): the reader-a3 page HTML of w01-1 names src="…/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png"; the leaf of w01-1 names l2-w01-cover-hello-line-v1.png; the a3 page of w02-1 keeps l2-w02-cover-how-many-v1.png. The build has no dry mode, so the probe is a tsx call that repeats the lines of the build loop.
+STEP 5 DONE: full gate, once, after the fix.
+  Gate A-fast: 15 files, 302 passed (302), exit 0 (green-f7-gateAfast.txt; file list green-f7-gate-afast-files.txt).
+  Gate A-build: part 1 (the 5 long or dependent tests excluded by a negative-lookahead -t) 70 passed, 5 skipped, exit 0 (green-f7-gateAbuild.txt; an earlier try that excluded only 4 tests failed the git-head test, because it needs the "two builds" test, green-f7-gateAbuild-try1.txt; no code fault); part 2 a failed PDF/X step 1 passed; part 3 move step 1 passed; part 4 copy that fails 1 passed; part 5 two builds plus the git-head test 2 passed; every part exit 0; 75 of 75.
+  Gate B (the 66 files of the r14 gate, 25, 20, and 21 per part): B1 684 passed, 1 failed (storytime-loops-share J18, "the content folder is clean": it saw the new untracked data file; F-number none); B2 367 passed (367); B3 529 passed (529). After the code commit 310ad12, storytime-loops-share alone: 23 passed (23), exit 0 (green-f7-j18.txt).
+  tsc --noEmit exit 0 (green-f7-tsc.txt); eslint lib/storytime scripts/storytime and the quest-cover tests exit 0 (green-f7-lint.txt); git status --porcelain -- pnpm-lock.yaml prints nothing.
+STEP 6 DONE: mutants, each on quest-cover-f7 only; each file restored with an equal SHA-256 (art-edge-fill.ts 4fc6137a1dc6..., readers.ts f004bae1adae..., the build script cd32dc04823b...).
+  M1 (top mirror repeats row 167): F7-1 and F7-7 fail (2 failed, 6 passed), exit 1 (green-f7-mutant-m1.txt).
+  M2 (a3-color page 1 uses the source art): F7-7 fails (1 failed, 7 passed), exit 1 (green-f7-mutant-m2.txt).
+  M3 (no edgeFilledArtPath call in the quest build): nothing fails (8 passed), exit 0. This is the known gap: no test builds the PNG. Part 11 measures the built PNG (green-f7-mutant-m3.txt).
+STEP 7 DONE: commits: code 310ad12 (4 files... code and data file, plus the 2 changed files), plan e30ce059, captures, this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task (Green, F7)
+role_base_sha: 585ba34c
+phase_base_sha: e6e2156a
+commits: code 310ad12 (feat(covers): Green F7, the mirror fill of the week 1 colour cover art); plan e30ce059; captures (green-f7-*.txt); log (this file, last)
+tests_run: quest-cover-f7 8 passed (8); quest-cover-f3f6 14 passed (14); readers 58 passed (58) after one fix; reader-ink 4 passed (4); readers-adversarial and r2 22 passed (22); R2 F7-7 alone with the temp folder deleted 1 passed; Gate A-fast 302 passed (302) in 15 files; Gate A-build 75 of 75 in 5 parts; Gate B 684 passed with 1 failed (J18, untracked data file, passes alone after the commit: 23 passed), 367 passed, 529 passed; tsc exit 0; eslint exit 0; R1 probe: the reader-a3 HTML of w01-1 names 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
+files_changed: dashboard/lib/storytime/print/art-edge-fill.ts (new); content/storytime/l2/print/pictures-edge-fill.json (new); dashboard/lib/storytime/print/readers.ts; dashboard/scripts/storytime/make-storytime-quest-covers.ts; plan.md; captures; log
+plan_updates: line 208 marked [x] with code 310ad12 at the line end, and one evidence sub-line
+known_failures: none open. Gate B J18 failed once, because the data file was untracked when the gate ran; it passes alone after the commit (F-number none). Mutant M3 is not caught by any test (the known gap; part 11 measures the built PNG).
+mutants: M1 caught (F7-1, F7-7); M2 caught (F7-7); M3 not caught (8 passed); each file restored, SHA-256 equal
+dispositions: none
+handoff: Run part 11, the A3 rebuild of Task 2.9, in a later role. The build must show the filled copy in the w01-1 page HTML and a PNG of w01-1 with no white band (measure the built PNG, because no test covers the build wiring, M3). The reader PDF build (make-readers-pdf.ts) is unchanged and correct, because compileStorytimeReaders makes the copy itself. The filled copy sits in /tmp/storytime-art-edge-fill/ and is rewritten at each call. Note for the reviewers: a tree with no pictures-edge-fill.json gets an empty table (the readers test fixtures need this). Final Green code HEAD 310ad12; phase_base_sha e6e2156a.
+END_MEASURE_AGENT_RESULT
