@@ -1,56 +1,51 @@
-Jr Green log of F3 to F6 (storytime_cover_options). role_base_sha 36871d01; log commit 0b78c6dd on
-top. Status: partial. Gate A-fast holds 2 failures: B5 (a proven test defect, with a ladder trace)
-and the C6 leaf crystal gap (a code fault that conflicts with the C6 path rule inside the 10 mm leaf
-plaque). No code commit.
+Jr Green log of F3 to F6 (storytime_cover_options). role_base_sha b3fa60c0. Status: partial. The
+ladder still picks 0.80 for the synthetic row where the test's check needs 0.75, and the cause is
+proven: the ladder models the painted union box (82.1 mm at 100 % for the 2-line title) while the
+test reads the part (div) box (74.4 mm). No code commit.
 
-Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high (retry 6).
-Commits of this round: the log and the captures only.
+Model: deepseek/deepseek-flash@deepseek-flash. Red model: claude-code/claude-sonnet-5-5#high
+(retry 7).
 
-Step 1 (the ladder, fault 4): `questChromePlacement` now runs the full D3 ladder: the default place,
-then 1 mm steps up at 100 %, then the sizes 95 %, 90 %, ... 50 %, each with its own places; the
-sideways slide stays for the 2 exception covers only, after 50 %. The Red retry 6 pins hold: the 4
-moved covers stay at 100 % (dy -178, -211, -87, -102) and the 2 w01-2 covers at s = 0.50 (checked by
-Gate A-fast: D2, D3, D4, and the f3f6 file pass).
-The B5 trace (`green-f3f6-b5-trace.txt`, 0 Thai characters) reads: the synthetic row is Hello! with
-the 40-character title, 2 lines; the ladder chooses scale 0.80 with dy 0. At 100 % the plaque group
-box in the default place is x 135.86 to 284.15 mm, y 201.60 to 276.00 mm, and the first blocking key
-box is "child 2 head (pink shirt)" (head), x 80.85 to 147.00 mm, y 142.20 to 215.70 mm, with an
-overlap of 12.14 x 15.10 mm; the lowest steps stay blocked by "child 3 head (Sam)" (head), x 144.90
-to 211.05 mm, y 143.25 to 214.65 mm (overlaps 0.17 to 3.94 mm at 85 % to 80 %). Above the children a
-100 % plaque of 74.4 mm cannot pass the teacher head band (y 43.55 to 84.40 mm grown) with its 19.84
-mm role bar, so 100 % has no free place at any step. B5's line: `the synthetic title keeps the font
-size of the 1-line titles: 123.84 px and 154.80 px.: expected 30.961 to be less than or equal to
-0.05`. The trace and this line together are the proof that B5 conflicts with D3; the test is not
-changed.
+Step 1 (the base): `git merge-base --is-ancestor b3fa60c0 HEAD` exits 0. `date` before each gate:
+10:00 ICT.
 
-Step 2 (B3 and C6, fault 2): the measured gap line of the A3 crystal group was 1.19 mm at inset 0 and
-0.19 mm at inset +2 mm, so the slope is -0.5 mm per mm of inset. The A3 plaque now takes
-`crystalInset = -4 * (1 - scale)` (inset -2 mm at s = 0.5) and B3 passes (Gate A-fast). The leaf
-plaque keeps `crystalInset = 0`, because at -2 mm the C6 path rule fails: `the path 4 of the leaf
-plaque of the row w01-2 lies inside the plaque part box: the path box is 19.73 to 23.72 mm`. With
-inset 0 the leaf gap is 1.23 mm and C6 wants 2 mm: the 10 mm leaf plaque (the 20 mm plaque at s =
-0.5) cannot hold a 2 mm gap and the crystal paths inside its own box at the same time. That is a code
-fault to solve in the next step (for example by drawing the leaf crystals inside a smaller group, or
-by a different leaf crystal drawing at a reduced size); it is not a test change.
+Step 2 (the ladder, fault 1): I made the group's plaque box the union of the part box and the text
+line box (the text box can stand above or below the part box for a 2-line title) and I kept the
+width from `readerPlaqueGeometry` (one width function for the ladder and the render, as the brief
+asks). The measured result, from a probe of the code:
+- the ladder chooses scale 0.80 with dy 0 for the synthetic row;
+- the placement's plaque box is 74.16 to 345.84 mm by 218.08 to 284.01 mm (height 65.93 = the union
+  at 0.80);
+- the rendered part box is 216.48 to 276.00 mm (the test's line);
+- the child 2 head (pink shirt) box is 80.85 to 147.00 mm by 142.20 to 215.70 mm; its 1 mm grown
+  bottom is 216.70 mm, and the rendered part box top of 216.48 mm lies 0.22 mm inside that
+  clearance.
+So the two boxes differ by the text-line overflow of the 2-line plaque (82.1 mm union against 74.4
+mm part), and the ladder's anchor (the union) puts the part box 1.60 mm too low at 0.80. The fix is a
+single box model shared by the search and the render: anchor the part box (74.4 mm at 100 %) and
+check the text-line overflow as an added clearance, or move the part box by the text overflow in the
+render. The r2b run `green-f3f6-r2bc4.txt` holds the 2 lines: `the synthetic title has the 1-line
+font size times 0.75: 123.84 px, the 1-line font size is 154.80 px.: expected 7.739999999` and
+`(a) the plaque of the synthetic row (74.16 to 345.84 mm by 216.48 to 276.00 mm) lies 1 mm clear of
+every key box.: expected [ Array(1) ] to deeply equal []`. B5-full (w03-1) passes.
 
-Step 3 (the gates, each in its own capture, `date` before each):
-- r2b and r2c alone (09:30 and 09:32 and 09:33 ICT): `green-f3f6-r2bc.txt`, `r2b0.txt`, `r2bc2.txt`,
-  `r2bc3.txt`. The final state has B3 green and C6's crystal gap at 1.23 mm.
-- Gate A-fast (14 files, 1200 s, 09:34 ICT, `green-f3f6-gateA-fast.txt`): Test Files 2 failed | 12
-  passed (14), Tests 2 failed | 290 passed (292). The 2: the B5 line above, and `the leaf title text
-  box of the row w01-2 lies clear of a crystal group box: the gap is 1.23 mm.: expected 1.225793 to be
-  greater than or equal to 2`.
-- Gate A-build, Gate B, tsc and eslint, the 3 mutants, the SHA-256 proof, and the code commit did not
-  run, because Gate A-fast holds a failure that is not B5 alone.
-`pnpm-lock.yaml` is unchanged after every run. The scratch folder is removed at the end of the round.
+Step 3 (the C6 leaf crystal gap, fault 2): the leaf plaque draws its crystal groups at a factor of
+0.6 (`LEAF_CRYSTAL_SCALE`), the same fills, strokes, and the count of 2. The r2b and r2c run
+`green-f3f6-r2bc4.txt` gives Tests 2 failed | 23 passed (25): the 2 failures are the B5 lines above,
+so C6's crystal gap and path rules now pass.
 
-Step 4 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
+Step 4 (the gates): r2b and r2c alone at 10:00 ICT (`green-f3f6-r2bc4.txt`): Tests 2 failed | 23
+passed (25). Gate A-fast, Gate A-build, Gate B, tsc and eslint, the 3 mutants, the SHA-256 proof, and
+the 3 commits did not run, because Gate A-fast would fail on B5.
+`pnpm-lock.yaml` is unchanged. The scratch folder is removed at the end of the round.
+
+Step 5 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
 readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts. The plan
-holds no change, the key box file holds no change, no test file changed by me. Captures:
-green-f3f6-b5-trace.txt, green-f3f6-gateA-fast.txt, green-f3f6-r2bc.txt, green-f3f6-r2b0.txt,
-green-f3f6-r2bc2.txt, green-f3f6-r2bc3.txt.
+holds no change, the key box file holds no change, no test file changed by me. Capture of this round:
+green-f3f6-r2bc4.txt.
 
-Step 5 (the next step): (a) one short Red step for B5 only, per PM rule 1, from the trace; (b) solve
-the leaf crystal gap: the gap must be 2 mm and the crystal paths must stay inside the 10 mm leaf
-plaque box; then Gate A-fast once more, Gate A-build, Gate B, tsc, eslint, the 3 mutants, and the 3
-commits.
+Step 6 (the next step, one line for the next role): make ONE box model for the plaque in
+`cover-quest.ts`: the search (`questReaderGroup` and `questCentredPlace`) and the render
+(`readerTitlePlaque`) must use the same box (the part box, top = 276 + dy - height) and the search
+must add the text-line overflow as a second clearance box. Then the ladder gives s = 0.75 on w01-1,
+and the rest of the gate sequence follows.

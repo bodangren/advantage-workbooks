@@ -1,0 +1,68 @@
+BUILD CAPTURE of Jr Green F3 F6, r2b and r2c r4
+
+HEAVY_RUN_TIMEOUT_S 1500
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2c.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m14 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 30855[2mms[22m[39m
+     [32m✓[39m B1: the hlogo A3 plaque holds the r2 book plaque colors and the crystal groups[32m 20[2mms[22m[39m
+     [32m✓[39m B2: the hlogo week pill and role bar take the logo amber and brown[32m 8[2mms[22m[39m
+     [32m✓[39m B3: the hlogo title text box is centred across the plaque band and is clear of the ornaments[32m 4[2mms[22m[39m
+     [32m✓[39m B4: the hlogo plaque width follows the title and the plaque sits on the page[32m 7[2mms[22m[39m
+[31m     [31m×[31m B5: a title of 40 characters wraps to 2 lines and the D3 ladder gives the size 0.75 on w01-1[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m B5 keys: the ladder result on w01-1 is 0.75 at the shift 0, the measured group is 1 mm clear, and the next step is not[39m[32m 32[2mms[22m[39m
+     [32m✓[39m B5-full: on w03-1 the 40-character title keeps the 1-line font size and the plaque bottom[32m 18[2mms[22m[39m
+     [32m✓[39m B6: the hlogo week pill text has 1 line box and is centred across the pill[32m 2[2mms[22m[39m
+     [32m✓[39m B7: the hlogo role bar fits its text with even padding[32m 7[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile [33m 539[2mms[22m[39m
+     [32m✓[39m B9: the K logo file holds only grays and the same shape as the color logo[32m 25[2mms[22m[39m
+     [32m✓[39m B10: the leaf series line stays on one line inside the 35 mm box[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 375[2mms[22m[39m
+     [32m✓[39m B12: the 4 book kinds keep their bytes in the default style[32m 212[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2c.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 13985[2mms[22m[39m
+     [33m[2m✓[22m[39m C10: the build band check passes the hlogo leaf and the default leaf [33m 1323[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 10:01:00
+[2m   Duration [22m 64.77s[2m (transform 1.03s, setup 2.87s, import 3.15s, tests 44.84s, environment 8.80s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB5: a title of 40 characters wraps to 2 lines and the D3 ladder gives the size 0.75 on w01-1
+[31m[1mAssertionError[22m: the synthetic title has the 1-line font size times 0.75: 123.84 px, the 1-line font size is 154.80 px.: expected 7.739999999999995 to be less than or equal to 0.05[39m
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1119:11[22m[39m
+    [90m1117| [39m            `the synthetic title has the 1-line font size times ${SYNT…
+    [90m1118| [39m                `${measure.title.fontPx.toFixed(2)} px, the 1-line fon…
+    [90m1119| [39m        )[33m.[39m[34mtoBeLessThanOrEqual[39m([33mFONT_TOLERANCE_PX[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m1120| [39m        expect(measure.plaque, 'the synthetic cover holds a title plaq…
+    [90m1121| [39m        [35mconst[39m plaque [33m=[39m measure[33m.[39mplaque[33m![39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-readers-r2b.test.ts[2m > [22mquest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the leaf logo)[2m > [22mB5 keys: the ladder result on w01-1 is 0.75 at the shift 0, the measured group is 1 mm clear, and the next step is not
+[31m[1mAssertionError[22m: (a) the plaque of the synthetic row (74.16 to 345.84 mm by 216.48 to 276.00 mm) lies 1 mm clear of every key box.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "child 2 head (pink shirt) (68.15 x 0.22 mm)",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-readers-r2b.test.ts:[2m1173:11[22m[39m
+    [90m1171| [39m            `(a) the plaque of the synthetic row (${plaque.left.toFixe…
+    [90m1172| [39m                `${plaque.top.toFixed(2)} to ${plaque.bottom.toFixed(2…
+    [90m1173| [39m        )[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m1174| [39m        [34mexpect[39m(
+    [90m1175| [39m            [34mkeysMetBy[39m(bar[33m,[39m keys)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
