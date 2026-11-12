@@ -125,6 +125,9 @@ const FORBIDDEN_PARTS = ['band-word', 'band-pill', 'band-icon', 'game-bar', 'uni
 /** The parts that hold a band text for S3 and S4. */
 const BAND_PARTS = ['title-plaque', 'week-pill', 'role-bar', 'band-pill'] as const;
 
+/** The exception pages of D4: the group slides sideways on these 2 pages. */
+const EXCEPTION_PAGE_IDS = ['w01-2 reader-a3', 'w01-2 reader-leaf'];
+
 /** The token colours of the logo table, in lower case. */
 const TOKEN_COLOURS = ['#fcd34d', '#92400e', '#fef3c7', '#fffbeb', '#ffffff'];
 
@@ -242,6 +245,8 @@ interface RawPart {
 interface RawPage {
     /** The box of the page. */
     pageBox: RawBox | null;
+    /** The box of the footer strip. */
+    stripBox: RawBox | null;
     /** The box of the logo tile. */
     tileBox: RawBox | null;
     /** The box of the logo image. */
@@ -706,6 +711,7 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
             const footerTextBoxes = footer
                 ? textsOf(footer).flatMap((text) => text.rects)
                 : [];
+            const strip = document.querySelector('[data-part="footer-strip"]');
             const contactParts = Array.from(document.querySelectorAll('[data-part="contact-line"]'));
             const contactBoxes = contactParts.flatMap((one) => textsOf(one).flatMap((text) => text.rects));
             const qr = document.querySelector('[data-part="qr"]');
@@ -719,6 +725,7 @@ async function measurePage(page: Page, html: string): Promise<RawPage> {
                 : [];
             return {
                 pageBox: boxOf(document.querySelector('.quest-page')),
+                stripBox: boxOf(strip),
                 tileBox: boxOf(tile),
                 imgBox: boxOf(image),
                 parts,
@@ -1084,6 +1091,7 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
         expectRule('S3', { problems, failing, checked, scope });
     });
 
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-gateA.txt at e95fa275): S4, the footer of the 2 exception pages centres on the footer strip, and the strip lies inside the trim.
     it('S4: every text block stands centred within 1 mm, front and back', () => {
         const problems: string[] = [];
         const failing: string[] = [];
@@ -1171,14 +1179,32 @@ describe('quest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules 
                     problems.push(`${page.id} footer: the page holds no footer content, so the rule reads nothing.`);
                 } else if (!raw.pageBox) {
                     problems.push(`${page.id} footer: the page holds no page box.`);
+                } else if (!raw.stripBox) {
+                    problems.push(`${page.id} footer: the page holds no footer strip, so the rule reads nothing.`);
                 } else {
-                    const across = Math.abs(
-                        (raw.footerBox.left + raw.footerBox.right) / 2 - (raw.pageBox.left + raw.pageBox.right) / 2,
-                    );
+                    const strip = raw.stripBox;
+                    const inside =
+                        strip.left >= raw.pageBox.left - 0.05 &&
+                        strip.right <= raw.pageBox.right + 0.05 &&
+                        strip.top >= raw.pageBox.top - 0.05 &&
+                        strip.bottom <= raw.pageBox.bottom + 0.05;
+                    if (!inside) {
+                        problems.push(
+                            `${page.id} footer: the footer strip is ${strip.left.toFixed(2)} to ` +
+                                `${strip.right.toFixed(2)} mm by ${strip.top.toFixed(2)} to ` +
+                                `${strip.bottom.toFixed(2)} mm, and it must lie inside the trim.`,
+                        );
+                    }
+                    const exception = EXCEPTION_PAGE_IDS.includes(page.id);
+                    const wanted = exception
+                        ? (strip.left + strip.right) / 2
+                        : (raw.pageBox.left + raw.pageBox.right) / 2;
+                    const across = Math.abs((raw.footerBox.left + raw.footerBox.right) / 2 - wanted);
                     if (across > CENTRE_TOLERANCE_MM) {
                         problems.push(
-                            `${page.id} footer: the footer content centre is ${across.toFixed(2)} mm from the page ` +
-                                `centre across (the rule is ${CENTRE_TOLERANCE_MM.toFixed(2)} mm).`,
+                            `${page.id} footer: the footer content centre is ${across.toFixed(2)} mm from the ` +
+                                `${exception ? 'footer strip' : 'page'} centre across ` +
+                                `(the rule is ${CENTRE_TOLERANCE_MM.toFixed(2)} mm).`,
                         );
                     }
                 }

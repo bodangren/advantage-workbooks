@@ -190,6 +190,25 @@ const MIN_PLAQUE_WIDTH_MM = 120;
 /** The most width of the plaque, in millimetres. */
 const MAX_PLAQUE_WIDTH_MM = 340;
 
+/** The exception rows of D4: the row w01-2 has no centred free place at the 50 % plaque size. */
+const EXCEPTION_ROW_IDS = ['w01-2'];
+
+/** The pinned shift of the A3 group of each row, in millimetres. */
+const A3_GROUP_DY_MM: Record<string, number> = {
+    'w01-2': -2,
+    'w07-1': -178,
+    'w07-2': -211,
+};
+
+/** The scale of the plaque on the exception rows: half of the full size. */
+const EXCEPTION_SCALE = 0.5;
+
+/** The tolerance of the scale of the plaque, in units of 1. */
+const SCALE_TOLERANCE = 0.01;
+
+/** The tolerance of the shift of the group, in millimetres. */
+const GROUP_DY_TOLERANCE_MM = 0.5;
+
 /** The bottom of the plaque, in millimetres. */
 const PLAQUE_BOTTOM_MM = 276;
 
@@ -209,7 +228,7 @@ const BORDER_WIDTH_MM = 0.6;
 const SERIES_RIGHT_MM = 103;
 
 /** The leaf parts that the hlogo leaf changes, and that B11 skips. */
-const SKIPPED_LEAF_PARTS = ['logo-tile', 'title-plaque', 'footer', 'series', 'week', 'role-mark'];
+const SKIPPED_LEAF_PARTS = ['logo-tile', 'title-plaque', 'footer', 'series', 'week', 'role-mark', 'footer-strip'];
 
 /** The title of the synthetic row of B5: 40 characters. */
 const LONG_TITLE = "Antidisestablishmentarian's Unbelievable";
@@ -853,8 +872,13 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-gateA.txt at e95fa275): B4 and the group transform of D3, the shift and the scale of the group set the plaque width, the fixed sizes, and the fixed places.
     it('B4: the hlogo plaque width follows the title and the plaque sits on the page', () => {
         expect(a3Measures.length, 'the browser measures 14 A3 rows.').toBe(14);
+        const reference = a3Measures[0];
+        expect(reference, 'the browser measures the first A3 row.').toBeDefined();
+        expect(reference.plaque, 'the first A3 row holds a title plaque.').not.toBeNull();
+        const fullHeight = reference.plaque!.bottom - reference.plaque!.top;
         for (const measure of a3Measures) {
             const id = measure.id;
             expect(measure.title.rects.length, `the title text of the row ${id} has 1 line box.`).toBe(1);
@@ -862,9 +886,31 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             const plaque = measure.plaque!;
             const title = measure.title.rects[0];
             const titleWidth = title.right - title.left;
+            const dy = plaque.bottom - PLAQUE_BOTTOM_MM;
+            const s = measure.title.fontPx / reference.title.fontPx;
+            const pinnedDy = A3_GROUP_DY_MM[id] ?? 0;
+            const pinnedScale = EXCEPTION_ROW_IDS.includes(id) ? EXCEPTION_SCALE : 1;
+            expect(
+                Math.abs(dy - pinnedDy),
+                `the group shift of the row ${id} is ${pinnedDy.toFixed(2)} mm: the shift is ${dy.toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(GROUP_DY_TOLERANCE_MM);
+            expect(
+                Math.abs(s - pinnedScale),
+                `the plaque scale of the row ${id} is ${pinnedScale.toFixed(2)}: the scale is ${s.toFixed(4)}.`,
+            ).toBeLessThanOrEqual(SCALE_TOLERANCE);
+            expect(
+                Math.abs(plaque.bottom - (PLAQUE_BOTTOM_MM + pinnedDy)),
+                `the plaque bottom of the row ${id} is ${(PLAQUE_BOTTOM_MM + pinnedDy).toFixed(2)} mm: ` +
+                    `the bottom is ${plaque.bottom.toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(GROUP_DY_TOLERANCE_MM);
+            expect(
+                Math.abs(plaque.top - (PLAQUE_BOTTOM_MM + pinnedDy - fullHeight * s)),
+                `the plaque top of the row ${id} is ${(PLAQUE_BOTTOM_MM + pinnedDy - fullHeight * s).toFixed(2)} mm: ` +
+                    `the top is ${plaque.top.toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(GROUP_DY_TOLERANCE_MM);
             const wanted = Math.min(
-                MAX_PLAQUE_WIDTH_MM,
-                Math.max(MIN_PLAQUE_WIDTH_MM, titleWidth + 2 * PLAQUE_PADDING_MM),
+                MAX_PLAQUE_WIDTH_MM * s,
+                Math.max(MIN_PLAQUE_WIDTH_MM * s, titleWidth + 2 * PLAQUE_PADDING_MM * s),
             );
             expect(
                 Math.abs((plaque.right - plaque.left) - wanted),
@@ -873,22 +919,29 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             ).toBeLessThanOrEqual(WIDTH_TOLERANCE_MM);
             expect(
                 plaque.right - plaque.left,
-                `the plaque width of the row ${id} stays between ${MIN_PLAQUE_WIDTH_MM} mm and ${MAX_PLAQUE_WIDTH_MM} mm.`,
-            ).toBeGreaterThanOrEqual(MIN_PLAQUE_WIDTH_MM);
+                `the plaque width of the row ${id} stays between ${(MIN_PLAQUE_WIDTH_MM * s).toFixed(2)} mm and ` +
+                    `${(MAX_PLAQUE_WIDTH_MM * s).toFixed(2)} mm.`,
+            ).toBeGreaterThanOrEqual(MIN_PLAQUE_WIDTH_MM * s);
             expect(
                 plaque.right - plaque.left,
-                `the plaque width of the row ${id} stays between ${MIN_PLAQUE_WIDTH_MM} mm and ${MAX_PLAQUE_WIDTH_MM} mm.`,
-            ).toBeLessThanOrEqual(MAX_PLAQUE_WIDTH_MM);
+                `the plaque width of the row ${id} stays between ${(MIN_PLAQUE_WIDTH_MM * s).toFixed(2)} mm and ` +
+                    `${(MAX_PLAQUE_WIDTH_MM * s).toFixed(2)} mm.`,
+            ).toBeLessThanOrEqual(MAX_PLAQUE_WIDTH_MM * s);
             expect(measure.page, `the A3 reader cover ${id} holds a page.`).not.toBeNull();
             const page = measure.page!;
-            expect(
-                Math.abs((plaque.left + plaque.right) / 2 - (page.left + page.right) / 2),
-                `the plaque of the row ${id} is centered on the page.`,
-            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
-            expect(
-                Math.abs(plaque.bottom - PLAQUE_BOTTOM_MM),
-                `the plaque bottom of the row ${id} is ${PLAQUE_BOTTOM_MM} mm.`,
-            ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            expect(measure.bar.box, `the hlogo A3 reader cover ${id} holds a role bar.`).not.toBeNull();
+            const bar = measure.bar.box!;
+            if (EXCEPTION_ROW_IDS.includes(id)) {
+                expect(
+                    Math.abs((plaque.left + plaque.right) / 2 - (bar.left + bar.right) / 2),
+                    `the plaque of the row ${id} is centered on the role bar.`,
+                ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            } else {
+                expect(
+                    Math.abs((plaque.left + plaque.right) / 2 - (page.left + page.right) / 2),
+                    `the plaque of the row ${id} is centered on the page.`,
+                ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            }
         }
     });
 
@@ -933,6 +986,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
     });
 
     // B7 changed 2026-11-11 (readers r2c): the cap height rule of E3 replaces the fill share of the label line box.
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-gateA.txt at e95fa275): B7, the role bar keeps the gap of the group and its centre rule, and the gap does not scale.
     it('B7: the hlogo role bar fits its text with even padding', () => {
         expect(a3Measures.length, 'the browser measures 14 A3 rows.').toBe(14);
         for (const measure of a3Measures) {
@@ -960,13 +1014,29 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             ).toBeGreaterThanOrEqual(MIN_BAR_CONTENT_SHARE);
             expect(measure.page, `the A3 reader cover ${id} holds a page.`).not.toBeNull();
             const page = measure.page!;
+            expect(measure.plaque, `the hlogo A3 reader cover ${id} holds a title plaque.`).not.toBeNull();
+            const plaque = measure.plaque!;
+            const dy = plaque.bottom - PLAQUE_BOTTOM_MM;
+            if (EXCEPTION_ROW_IDS.includes(id)) {
+                expect(
+                    Math.abs((bar.left + bar.right) / 2 - (plaque.left + plaque.right) / 2),
+                    `the role bar of the row ${id} is centered on the plaque.`,
+                ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            } else {
+                expect(
+                    Math.abs((bar.left + bar.right) / 2 - (page.left + page.right) / 2),
+                    `the role bar of the row ${id} is centered on the page.`,
+                ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+            }
             expect(
-                Math.abs((bar.left + bar.right) / 2 - (page.left + page.right) / 2),
-                `the role bar of the row ${id} is centered on the page.`,
+                Math.abs(bar.top - (ROLE_BAR_TOP_MM + dy)),
+                `the role bar top of the row ${id} is ${(ROLE_BAR_TOP_MM + dy).toFixed(2)} mm: ` +
+                    `the top is ${bar.top.toFixed(2)} mm.`,
             ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
             expect(
-                Math.abs(bar.top - ROLE_BAR_TOP_MM),
-                `the role bar top of the row ${id} is ${ROLE_BAR_TOP_MM} mm.`,
+                Math.abs((bar.top - plaque.bottom) - (ROLE_BAR_TOP_MM - PLAQUE_BOTTOM_MM)),
+                `the gap of the role bar of the row ${id} is ${(ROLE_BAR_TOP_MM - PLAQUE_BOTTOM_MM).toFixed(2)} mm: ` +
+                    `the gap is ${(bar.top - plaque.bottom).toFixed(2)} mm.`,
             ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
             expect(
                 Math.abs(bar.bottom - bar.top - ROLE_BAR_HEIGHT_MM),
@@ -1048,6 +1118,7 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
     });
 
     // B11 changed 2026-11-11 (F1 F2, Daniel's look): the hlogo leaf cover holds no logo tile.
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-gateA.txt at e95fa275): B11, the hlogo leaf holds one footer strip and the banner leaf holds none, so the strip joins the skip list.
     it('B11: the hlogo leaf parts keep the HTML of the default leaf render', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
@@ -1056,6 +1127,10 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
             const alt = parseHtml(leafHtml(row, HLOGO_OPTIONS));
             const tiles = alt.querySelectorAll('[data-part="logo-tile"]');
             expect(tiles.length, `the hlogo leaf reader cover ${id} holds no logo tile.`).toBe(0);
+            const strips = alt.querySelectorAll('[data-part="footer-strip"]');
+            expect(strips.length, `the hlogo leaf reader cover ${id} holds exactly 1 footer strip.`).toBe(1);
+            const plainStrips = plain.querySelectorAll('[data-part="footer-strip"]');
+            expect(plainStrips.length, `the default leaf reader cover ${id} holds no footer strip.`).toBe(0);
             for (const part of Array.from(alt.querySelectorAll('[data-part]'))) {
                 const name = part.getAttribute('data-part') ?? '';
                 if (SKIPPED_LEAF_PARTS.includes(name)) continue;

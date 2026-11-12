@@ -171,6 +171,15 @@ const KEPT_BOXES: Record<string, { leftMm: number; topMm: number; widthMm: numbe
 /** The parts that R3 keeps, with their part names. */
 const KEPT_PARTS = ['art'] as const;
 
+/** The row of Q1: the hlogo art aligns its bottom edge with the trim. */
+const Q1_ART_ROW = 'w01-2';
+
+/** The art fit of the default render. */
+const ART_FIT = 'object-fit:cover';
+
+/** The art fit of the row of Q1: the same fit with the art position of Q1. */
+const ART_FIT_Q1 = 'object-fit:cover;object-position:50% 100%';
+
 /** The default render options: the look of the role base. */
 const DEFAULT_OPTIONS: QuestRenderOptions = { bleedMm: 0 };
 
@@ -396,6 +405,7 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
     });
 
     // R3 changed 2026-11-11: the week pill, the title plaque, and the role bar take the logo colors by D1 to D4, so only the art layer keeps its HTML.
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-gateA.txt at e95fa275): R3, the hlogo art of the row of Q1 takes the art position of Q1, and every other row keeps the same HTML.
     it('R3: the art layer keeps its HTML', () => {
         const rows = readerRows();
         for (const [index, row] of rows.entries()) {
@@ -407,10 +417,11 @@ describe('quest-cover-readers-r2: R1 to R6 (Red, the r2 readers)', () => {
                 expect(one, `the default A3 reader cover ${id} holds the part ${part}.`).not.toBeNull();
                 const two = alt.querySelector(`[data-part="${part}"]`);
                 expect(two, `the hlogo A3 reader cover ${id} holds the part ${part}.`).not.toBeNull();
+                const wanted = id === Q1_ART_ROW ? one!.outerHTML.replace(ART_FIT, ART_FIT_Q1) : one!.outerHTML;
                 expect(
                     two!.outerHTML,
                     `the HTML of the part ${part} of the A3 reader cover ${id} is the same in both renders.`,
-                ).toBe(one!.outerHTML);
+                ).toBe(wanted);
             }
         }
     });
