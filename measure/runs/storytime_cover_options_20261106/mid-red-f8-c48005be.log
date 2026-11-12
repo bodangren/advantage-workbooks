@@ -1,0 +1,50 @@
+Red round of the F7b and F8 defects, track storytime_cover_options_20261106, Phase 2, the Task (Red, F7b and F8) of 2026-11-13.
+
+The Thai filter ran as the first command: one python3 -I script wrote the filtered copies under /tmp/opencode/f8red/ and printed THAI_CHARS_IN_OUTPUT: 0. The role read only the filtered copies of readers.ts, student-book.ts, storytime-print-readers.test.ts, storytime-print-reader-ink.test.ts, cover-quest.ts, profile.ts, files.ts, art-edge-fill.ts, quest-cover-f7.test.ts, make-readers-pdf.ts, and plan.md. The role opened no week file. The 4 captures ran through light_capture_2_9g.py and heavy_capture_2_9j.py, and each capture holds THAI_LINES_DROPPED=0.
+
+The moved pins of dashboard/__tests__/quest-cover-f7.test.ts, each hunk with the comment "changed 2026-11-13 (F7b)":
+- F7-1 pins the rows of D-F7b-1: the output row r is the source row 335 - r for r 0 to 167, and the source row 5661 - r for r 2831 to 2999. The constants TOP_ROWS and BOTTOM_ROWS moved from 167 and 166 to 168 and 169.
+- F7-1b is new: the stripe rule of D-F7b-2 on the filled copy that edgeFilledArtPath gives for the real hello v1 file. A stripe at row r is a row mean more than 15 above both row means at r-2 and r+2, or more than 15 below both. The filled copy holds 0 stripes in rows 3 to 339 and in rows 2660 to 2996. The test prints the largest stripe value and its row for the top and for the bottom.
+- F7-3 takes the row counts 168 and 169 in the table of the wrong size.
+- F7-4 pins the entry of D-F7b-1: widthPx 4000, heightPx 3000, topRows 168, bottomRows 169, and the SHA-256 of the source.
+- F7-7 takes the row counts 168 and 169 in the mirror rule of the a3-color page 1 art.
+
+The new file dashboard/__tests__/quest-cover-f8.test.ts holds F8-1, F8-2, and F8-3. The code under test, dashboard/lib/storytime/print/readers.ts, loads with a dynamic import inside each test.
+- F8-1: page 1 of the final a3-color reader of week 1 "Hello!" and of "Nan Can Nod" is rendered as Chrome prints it, at 420 x 297 mm and 96 ppi, and holds 0 white edge rows and 0 white edge columns. The outermost pixel of each side is ignored, the seam rule of F7-6. A white row or column has R, G, and B at 250 or more for every pixel, and every pixel is sampled. The test reports the count of each side.
+- F8-2: page 1 of each of the 2 books, rendered in this way, is close to the A3 reader cover of the same row rendered at trim size through the functions of the quest cover build, as F7-6 does. The mean absolute difference per channel is 4 or less on a scale of 0 to 255. The test reports the value.
+- F8-3: the workbook output keeps its page 1. The rendered box of .quest-cover-picture on page 1 has the leaf size of profile.readerPage within 0.5 mm, and its page 1 art keeps the line art source.
+
+The 4 commands with the exit codes and the counts:
+- cd dashboard && npx tsc --noEmit: exit 0. Capture red-f8-tsc.txt.
+- cd dashboard && npx eslint __tests__/quest-cover-f7.test.ts __tests__/quest-cover-f8.test.ts: exit 0. Capture red-f8-lint.txt.
+- cd dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts --maxWorkers=1, in one heavy-run with the limit 1200 s: exit 1, Tests 4 failed | 5 passed (9). Capture red-f8-f7.txt.
+- cd dashboard && CI=true npx vitest run __tests__/quest-cover-f8.test.ts --maxWorkers=1, in one heavy-run with the limit 1200 s: exit 1, Tests 2 failed | 1 passed (3). Capture red-f8.txt.
+
+The failure cause and the values of each failing test:
+- F7-1: the filled copy follows the old fill, so the output row 0 is the source row 333 and not the source row 335. The first mismatching row is 0.
+- F7-1b: the old fill holds 2 stripes in rows 3 to 339 and 4 stripes in rows 2660 to 2996. The largest stripe of the top is 29.4 at row 166, and the largest stripe of the bottom is 49.9 at row 2833. The rows of the orchestrator, counted from 1, are 167 and 2834.
+- F7-4: the entry of the data file holds topRows 167 and bottomRows 166, and the test wants topRows 168 and bottomRows 169.
+- F7-7: the art of the a3-color page 1 follows the old fill, so the first broken row of the mirror rule of D-F7b-1 is 0.
+- F8-1: the page 1 of each of the 2 books shows only the top-left 198 x 148.5 mm of the A3 cover. On the 1588 x 1123 px sheet at 96 ppi the white edge rows are 0 at the top and 561 at the bottom, and the white edge columns are 0 at the left and 839 at the right.
+- F8-2: the mean absolute difference between the built page 1 and the A3 reader cover at trim size is R 66.87, G 91.13, B 126.91 for "Hello!", and R 82.63, G 90.54, B 134.24 for "Nan Can Nod". The limit is 4.
+- F8-3 passes: the workbook page 1 holds a quest cover picture of 198.03 x 148.53 mm, and its art keeps the line art source l2-w01-cover-hello-line-v1.png.
+
+The role changed no production code, no data file, and no picture. The unrelated user work in the working tree, the change of video/storytime-song/scripts/render.mjs and the untracked files dashboard/raw.json and the spec-review files, was left untouched.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task (Red, F7b and F8)
+role_base_sha: c48005be
+phase_base_sha: e6e2156a
+commits: 291e4991, b436052b
+tests_run: cd dashboard && npx tsc --noEmit (exit 0); cd dashboard && npx eslint __tests__/quest-cover-f7.test.ts __tests__/quest-cover-f8.test.ts (exit 0); cd dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts --maxWorkers=1 (exit 1, 4 failed and 5 passed of 9, capture red-f8-f7.txt); cd dashboard && CI=true npx vitest run __tests__/quest-cover-f8.test.ts --maxWorkers=1 (exit 1, 2 failed and 1 passed of 3, capture red-f8.txt)
+failure_causes: F7-1 the filled copy follows the old fill, the output row 0 is the source row 333 and not 335, the first mismatching row is 0; F7-1b the old fill holds 2 stripes in rows 3 to 339 (the largest 29.4 at row 166) and 4 stripes in rows 2660 to 2996 (the largest 49.9 at row 2833); F7-4 the data file entry holds topRows 167 and bottomRows 166 instead of 168 and 169; F7-7 the a3-color page 1 art follows the old fill, the first broken row is 0; F8-1 the a3-color page 1 shows only the top-left 198 x 148.5 mm of the A3 cover, the white edge rows are 0 at the top and 561 at the bottom and the white edge columns are 0 at the left and 839 at the right on the 1588 x 1123 px sheet; F8-2 the mean absolute difference against the A3 reader cover at trim size is R 66.87, G 91.13, B 126.91 for "Hello!" and R 82.63, G 90.54, B 134.24 for "Nan Can Nod", the limit is 4
+moved_pins: quest-cover-f7.test.ts F7-1 pins the rows 335 - r and 5661 - r; F7-1b is new, the stripe rule of D-F7b-2; F7-3 takes the row counts 168 and 169; F7-4 pins the entry of D-F7b-1; F7-7 takes the row counts 168 and 169; each hunk carries the comment "changed 2026-11-13 (F7b)"
+files_changed: dashboard/__tests__/quest-cover-f7.test.ts, dashboard/__tests__/quest-cover-f8.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-f8-f7.txt, measure/runs/storytime_cover_options_20261106/red-f8.txt, measure/runs/storytime_cover_options_20261106/red-f8-tsc.txt, measure/runs/storytime_cover_options_20261106/red-f8-lint.txt, measure/runs/storytime_cover_options_20261106/mid-red-f8-c48005be.log
+plan_updates: the line "- [x] Task (Red, F7b and F8)" with its evidence sub-line, and the line "- [ ] Task (Green, F7b and F8): implement D-F7b-1 and D-F8-1, so that quest-cover-f7.test.ts, quest-cover-f8.test.ts, and every other quest-cover test pass; then the part 12 A3 rebuild of Task 2.9."
+dispositions: none
+handoff: Green implements D-F7b-1 in content/storytime/l2/print/pictures-edge-fill.json, so the entry holds topRows 168 and bottomRows 169, and D-F8-1 in dashboard/lib/storytime/print/readers.ts, so that the a3-color page 1 shows the whole A3 quest reader cover and fills the 420 x 297 mm sheet, and the workbook page 1 stays as it is. The expected pass state is quest-cover-f7 9 of 9 and quest-cover-f8 3 of 3, and every other quest-cover test keeps its pass. Then the part 12 A3 rebuild of Task 2.9 runs.
+END_MEASURE_AGENT_RESULT
