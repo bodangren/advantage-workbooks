@@ -1,0 +1,26 @@
+Mid Red retry 6 of F3 to F6 (storytime_cover_options, phase P2), 2026-11-12.
+
+Narrative. The MiniMax Red (minimax-cn-coding-plan/MiniMax-M3.1-Flash) started retry 6 and stopped on its Token Plan limit (error 2056) with 4 uncommitted test files. The route was changed to claude-code/claude-sonnet-5-5#high (ra-quota pick red --not-family deepseek --not-family minimax, 2026-11-12 06:45). The base was proved: e95fa275 is an ancestor of HEAD. The diff of the 4 test files matched the 8 rules. Two gaps were fixed: (1) the C9 vertical pin now follows the plaque bottom of the group, plus the unscaled default gap of 7.00 mm; (2) the unused constant LEAF_PAGE_HEIGHT_MM was removed (0 lint warnings). The tree run of the 11 files gave Tests 5 failed | 266 passed (271). The 5 failures are the 5 Green faults. All 8 changed tests pass on the Green code. tsc and eslint exit 0. The bite probe fails a 2 mm leaf plaque top error and a 3 mm footer error of w01-2. The test commit is 965cd4e4.
+
+Deviation from the 8 rules: the C9 vertical pin of rule 3 (the scaled offset) gives 135.50 mm on w01-2, and the measured footer centre is 139.12 mm. The D4 proof gives a group height of 20.98 mm, so the gap between the plaque and the footer does not scale. The pin uses the plaque bottom plus 7.00 mm. This agrees with the rule of B7 (the gap does not scale). On the 13 other covers both rules give the same value. Question for the PM (default applied): keep the unscaled gap? If the PM wants the scaled offset, the Green must move the footer of w01-2 up by 3.6 mm.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_cover_options_20261106
+phase: P2
+role_base_sha: e95fa275
+baseline_sha: e95fa275 (the phase_base_sha is the one that the orchestrator supplied for P2; this retry used e95fa275 as the role base)
+commits: 965cd4e4 test(covers): Red retry 6 F3 to F6, the 8 pins of the moved and exception covers (storytime_cover_options)
+tests_run: the 11 quest-cover files with vitest, Test Files 3 failed | 8 passed (11), Tests 5 failed | 266 passed (271); tsc --noEmit exit 0; eslint on the 4 files exit 0 with 0 warnings; the bite probe (red-f3f6-retry6-bite.txt)
+red_command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts __tests__/quest-cover-f1f2.test.ts __tests__/quest-cover-heads.test.ts __tests__/quest-cover-template.test.ts __tests__/quest-cover-readers-r2.test.ts __tests__/quest-cover-readers-r2b.test.ts __tests__/quest-cover-readers-r2c.test.ts __tests__/quest-cover-standing-rules.test.ts __tests__/quest-cover-hlogo.test.ts __tests__/quest-cover-plaque-fit.test.ts __tests__/quest-cover-print-gate.test.ts --maxWorkers=1
+files: dashboard/__tests__/quest-cover-readers-r2.test.ts, quest-cover-readers-r2b.test.ts, quest-cover-readers-r2c.test.ts, quest-cover-standing-rules.test.ts, measure/tracks/storytime_cover_options_20261106/plan.md, measure/runs/storytime_cover_options_20261106/red-f3f6-retry6-{tree,bite,tsc,lint}.txt
+deviation: the route is claude-code/claude-sonnet-5-5#high, a substitution for minimax-cn-coding-plan/MiniMax-M3.1-Flash (Token Plan limit, error 2056). The C9 vertical pin uses the unscaled gap (see the narrative).
+handoff: The 5 failing English lines of the tree run, with the exact rule for each Green fault (the tests stay unchanged):
+1. B3 (r2b): "the title text box of the row w01-2 lies clear of a crystal group box: the gap is 0.00 mm.: expected 0 to be greater than or equal to 2". Rule: the gap between the title text box and each crystal group box of the plaque is at least 2 mm (ORNAMENT_CLEARANCE_MM) on every hlogo A3 cover, w01-2 included.
+2. B5 (r2b): "the synthetic title keeps the font size of the 1-line titles: 77.40 px and 154.80 px.: expected 77.4023 to be less than or equal to 0.05". Rule: the synthetic row of 40 characters wraps to 2 lines at the same title font size as the 1-line titles (154.80 px within 0.05 px), and the plaque grows upward. The synthetic row must not take the 50 % scale of the exception rule.
+3. C6 (r2c): "the band of the leaf plaque of the row w01-2 is 7.20 mm high: the band is 4.40 mm.: expected 2.801636171889064 to be less than or equal to 0.1". Rule: the band height of the leaf plaque = BAND_HEIGHT_MM (14.40) x s within 0.1 mm; on w01-2, s = 0.50, so the band is 7.20 mm. The plaque of w01-2 is 10 mm high and the band is only 4.40 mm.
+4. C7 (r2c): "the hlogo leaf reader cover w01-1 holds no SVG outside the frame, the plaque, and the role mark: it holds 2.: expected 2 to be +0". Rule: the hlogo leaf holds 0 SVG elements outside the frame, the title plaque, and the role mark. The Green code adds 2 SVG elements elsewhere on every hlogo leaf.
+5. S3 (standing rules): "S3 fails on 2 of 30 pages." Rule: the cap height of every band text is 75 % to 85 % of its band path. Failing: "w01-2 reader-a3 title-plaque: the cap height is 13.76 mm and the band is 14.40 mm, the share is 95.6 %"; "w01-2 reader-leaf title-plaque: the cap height is 5.82 mm and the band is 4.40 mm, the share is 132.3 %". The title font must scale with the band on the 50 % covers (the same cause as C6 and B5).
+Moved pins that now pass: R3, B4, B7, B11, C3, C4, C9, S4. The Green must keep them passing.
+END_MEASURE_AGENT_RESULT
