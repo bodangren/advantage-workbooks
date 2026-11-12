@@ -1,76 +1,69 @@
 Jr Green log of F3 to F6 (storytime_cover_options). Role bases: 0ab64a93, 3fdddeee, 9039779f,
-a8831f98, e97bb32f, 9eed6a91 (this round). Status: partial. The quick loop passes; Gate A fails 13
-tests, and each one is a pin of the D3 exception covers, of the art position of Q1, or of the new
-footer strip. No code commit (PM decision of 2026-11-12 06:00, item 2: a failing run is reported, not
-worked around; my brief: commit nothing that fails).
+a8831f98, e97bb32f, 9eed6a91, 36871d01 (this round). Status: partial. The quick loop passes; Gate A
+cannot finish inside its 2400 s limit (it timed out at 08:45 to 09:25 ICT after 8 of the 15 files and
+no failing check), and B5 still wants the full title size on its synthetic 2-line row.
 
-Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high. Commits of this
-round: this log and the 2 captures.
+Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-opus-5-5[1m]#high (retry 6).
+Commits of this round: this log and the 4 captures. No code commit: Gate A did not pass.
 
-Step 1 (the bases): `git merge-base --is-ancestor 9eed6a91 HEAD` exits 0 (checked at the round start,
-before the Red retry 5's log commit). Time of the Gate A run: 06:07 ICT.
+Step 1 (the bases): `git merge-base --is-ancestor 36871d01 HEAD` exits 0 (checked at the round start).
+`date` was run before each gate: 07:05 and 07:21 (the quick loop), 07:34 (Gate A r2), 08:45 (Gate A
+r3).
 
 Step 2 (the Thai rule, 3 files): filtered copies only (readers.ts 2 dropped lines 636 and 648,
-student-book.ts 4 lines 311, 313, 680, 681, reader-howto.ts 41 lines). Every edit is an exact-string
-python replacement with assertions, and the Thai line count is proved unchanged after each edit
-(2, 4, 41). No forbidden file opened.
+student-book.ts 4 lines 311, 313, 680, 681, reader-howto.ts 41 lines 24, 247, 256, 257, 263, 287 and
+more); exact-string python edits with assertions; the Thai line count is proved unchanged (2, 4, 41)
+after each. No forbidden file opened.
 
-Step 3 (the 2 faults of the round, fixed):
-- The side mark of a non-page-1 side is the plain old span of the committed HEAD again: the strip
-  style and the place override no longer reach it, so its box ends at 4.00 mm from the side top and
-  clears the picture frame at 6.00 mm.
-- The page 1 mark of the D-B option: the strip grows by 2 mm around the measured mark box, and the
-  mark box is 2.0 mm to 4.5 mm from the side top, so the ink plus 1 mm lies inside the strip, 1 mm
-  clear of the footer part and of every key box, with white pixels round it. `leafMarkPlace` leaves
-  the sub-part box out of the blockers (the mark stands inside the strip), which was the last bug:
-  with the footer as a blocker the search fell back to the page edge and the mark met the Pip body
-  of w01-2.
+Step 3 (the 5 faults):
+1. C6 and S3 (the band path at 50 %): the plaque drawing now keeps the FULL geometry and takes a
+   `renderScale`, so the SVG viewBox scales every path by the factor s: the band = the full band
+   times s, the corner bevel and the crystal offsets scale with it, and the cap share equals the
+   full-size share. The plaque SVG of the A3 and of the leaf pass the full width and height plus the
+   factor.
+2. B3 and C6 (the crystal clearance): the crystal group takes an inset of `((1 - s) / s) * 10` full
+   millimetres, so the rendered gap stays above 2 mm at every size. The first try (inset factor 2)
+   measured 0.19 mm (A3) and 0.23 mm (leaf) against the rule of 2 mm; the factor 10 is in the tree
+   and was not re-measured inside a full Gate A run, because that run timed out.
+3. C7 (2 SVG elements outside the frame, the plaque, and the role mark): they were the 2 role icons of
+   the hidden copy of the footer inside the white strip. The strip no longer holds the hidden copy
+   (its width is explicit from the measured footer width), so the strip draws no SVG; the part name
+   `[data-part="footer-strip"]` and the D5 pixel rule stay.
+4. B5 (the synthetic 40-character title takes the 50 % size): not fixed. The D3 ladder of the code
+   reads the default place, then 1 mm steps up at the full size, then the 50 % size with the slide
+   for an exception cover; it does not try the 95 %, 90 % ... steps that the brief describes. The
+   trace capture `green-f3f6-b5-trace.txt` was NOT made, because the synthetic row is built inside
+   the test and the round hit its gate limit first. Reported as an open item.
+5. The accepted default stays: the gap from the plaque to the role bar and to the leaf footer does
+   not scale.
 
-Step 4 (the quick loop of 12 files, 2400 s, `green-f3f6-loopA.txt`): Test Files 12 passed (12), Tests
-499 passed (499), exit 0.
+Step 4 (the gates):
+- The quick loop of 12 files (2400 s, 07:21 ICT, `green-f3f6-loopB.txt`): Test Files 12 passed (12),
+  Tests 499 passed (499), exit 0.
+- Gate A r2 (`green-f3f6-gateA2.txt`, 07:34 ICT): Test Files 3 failed | 12 passed (15), Tests 4
+  failed | 363 passed (367). The 4: quest-cover-build ADV-6 "attempt 1 stopped on a Chrome load
+  error: page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot" (a
+  load flake); readers-r2b B3 "the title text box of the row w01-2 lies clear of a crystal group box:
+  the gap is 0.19 mm.: expected 0.1937381744384794 to be greater than or equal to 2"; readers-r2b B5
+  "the synthetic title keeps the font size of the 1-line titles: 77.40 px and 154.80 px.: expected
+  77.4023 to be less than or equal to 0.05"; readers-r2c C6 "the leaf title text box of the row
+  w01-2 lies clear of a crystal group box: the gap is 0.23 mm.". So the pins that retry 6 moved pass
+  (R3, B4, B7, B11, C3, C4, C9, S4); S3 and C6's band rule pass; only the crystal gap and B5 remain.
+- Gate A r3, with the inset factor 10 (`green-f3f6-gateA3.txt`, 08:45 ICT): HEAVY_EXIT 124, the
+  2400 s limit expired after 8 of the 15 files (the whole file set took over 40 minutes: f1f2 64 s,
+  template 15 s, and the f3f6 Chrome page 1 checks 5 to 20 s per test). No failing check appeared in
+  the part that ran (f3f6, f1f2, template, heads all pass). A 15-file Gate A needs more than 2400 s
+  in this environment; the limit and the file list are the orchestrator's call.
+- tsc and eslint on the 6 code files: exit 0, 0 warnings.
+- Gate B, the 3 mutants, the SHA-256 proof, the code commit, and the plan `[x]` line did not run,
+  because Gate A did not pass inside its limit. `pnpm-lock.yaml` is unchanged.
 
-Step 5 (Gate A, the 10 `quest-cover-*` files, 2400 s, `green-f3f6-gateA.txt`): Test Files 4 failed | 7
-passed (11), Tests 13 failed | 258 passed (271), exit 1. The 13 assertions, each with its reason:
-1. quest-cover-readers-r2 R3: `the HTML of the part art of the A3 reader cover w01-2 is the same in
-   both renders.: expected '<img data-part="art" class="quest-art…' to be '<img data-p…'`. Reason: Q1
-   needs `object-position: 50% 100%` on that cover's art, and R3 pins the art HTML of the 2 renders
-   as equal. F3.
-2. quest-cover-readers-r2b B3: `the title text box of the row w01-2 lies clear of a crystal group
-   box: the gap is 0.00 mm.: expected 0 to be greater than or equal to 2`. Reason: the D3 exception
-   draws the plaque at 50 %, and the rule assumes the full size. F3.
-3. B4: `the plaque width of the row w01-2 follows the title: the title is 121.27 mm, the plaque is
-   148.29 mm, the rule gives 175.27 mm.`. Reason: the 50 % plaque width. F3.
-4. B5: `the synthetic title keeps the font size of the 1-line titles: 77.40 px and 154.80 px.`.
-   Reason: the 50 % title font. F3.
-5. B7: `the role bar of the row w01-2 is centered on the page.: expected 71.00135091145833 to be less
-   than or equal to 0.5`. Reason: the D3 horizontal slide of the exception cover. F3.
-6. B11: `the default leaf reader cover w01-1 holds the part footer-strip.: expected null not to be
-   null`. Reason: the footer strip exists only with the top style hlogo; the default (banner) leaf
-   render must keep its bytes (D8), so it holds no strip. F4.
-7. quest-cover-readers-r2c C3: `the role bar of the row w01-2 is centred on the page.: expected
-   71.00135091145833 to be less than or equal to 0.5`. Reason: the slide. F3.
-8. C4: `the leaf title plaque of the row w01-2 starts at 113 mm: the top is 122.00 mm.`. Reason: the
-   50 % plaque of the exception cover. F3.
-9. C6: `the band of the leaf plaque of the row w01-2 is 14.40 mm high: the band is 4.40 mm.`.
-   Reason: the 50 % plaque band. F3.
-10. C7: `the hlogo leaf reader cover w01-1 holds no SVG outside the frame, the plaque, and the role
-    mark: it holds 2.`. Reason: the str-less leaf keeps... the count is 2; the strip holds no SVG and
-    the title text box no SVG; this needs the retry's own count read (F4).
-11. C9: `the footer content of the leaf reader cover w01-2 is centred on the page: the content centre
-    is 56.00 mm, the page centre is 99 mm.`. Reason: the slide of the exception cover. F3.
-12. quest-cover-standing-rules S3: `S3 fails on 2 of 30 pages.` Reason: the cap height of the 50 %
-    plaque texts of w01-2 on the 2 exception covers. F3.
-13. quest-cover-standing-rules S4: `S4 fails on 1 of 60 pages.` Reason: the centring of the slid
-    group of w01-2. F3.
-So 11 of the 13 need the D3/D4 exception covers accepted by the old pins (the 50 % plaque and the
-slide), and 2 need the art position (R3) and the default leaf strip (B11) accepted. All 13 are
-consequences of F3 and F4, none is F5-only, and none is a code fault of this round: the quick loop,
-the 2 faults of this round, tsc, and eslint are green.
+Step 5 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
+readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts. The plan
+holds no change, the key box file holds no change, no test file changed by me. Captures:
+green-f3f6-loopB.txt, green-f3f6-gateA2.txt, green-f3f6-gateA3.txt.
 
-Step 6 (gates): Gate B, the 3 mutants, the SHA-256 proof, and the code commit did not run, because
-Gate A fails. tsc exits 0 and eslint exits 0 (0 warnings) on the 6 changed files.
-`pnpm-lock.yaml` is unchanged.
-
-Step 7 (state): 6 code files are modified in the working tree and uncommitted (cover-quest.ts,
-readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts). The plan
-holds no change, the key box file holds no change, and no test file changed by me.
+Step 6 (the next step): raise the Gate A limit (or split it into 2 runs of `quest-cover-f3f6` and the
+rest) and re-measure the crystal gap; then decide B5 (the code needs the 5 % ladder that the test
+expects, or the test row is a defect: its full-size place is not free in the key box data). Then Gate
+B, the 3 mutants, the SHA-256 proof, and the 3 commits.
