@@ -1,52 +1,55 @@
-Green r11 log of F3 to F6 (storytime_cover_options). role_base_sha 49d7eb80; phase_base_sha
-e6e2156a. Status: partial. The screenshot probe separates the cause of the 4 build failures from the
-r9/r10 code, and the cause lies in `make-storytime-quest-covers.ts`, outside this role's write scope.
+Green r12 log of F3 to F6 (storytime_cover_options). Status: partial. The one-line screenshot timeout is
+in the tree and it works: 2 of the 4 build tests pass now (the Chrome error is gone), and 2 fail on
+their own failure-path assertions. Per the brief that is a STOP: no code commit.
 
 Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (retry 7).
-Session `Green P2 F3-F6 storytime_cover_options r11`.
+Session `Green P2 F3-F6 storytime_cover_options r12`. role_base_sha 52192e8f; phase_base_sha
+e6e2156a.
 
-State at the start: HEAD 49d7eb80; the 6 code files modified and uncommitted; `dashboard/raw.json`
-untracked; `pnpm-lock.yaml` unchanged.
+Orchestrator decisions this round: (a) 12:44, the write scope grows to 7 code files with
+`dashboard/scripts/storytime/make-storytime-quest-covers.ts`, for ONE line: `timeout: 300000` on the
+`page.screenshot` of `renderPagePng`; `deviceScaleFactor`, the clip, and the sharp resize stay.
+(b) the PM follow-up on the 840 s risk: an 840 s kill with no page error is a test-environment defect;
+any other failure is a STOP.
 
-Step 1, the screenshot probe (12:30 and 12:34 ICT, then 12:40): `/tmp/opencode/r11/probe.ts`, a
-scratch script that renders each page kind with the build's own page code (`renderQuestCover` at the
-bleed 3 mm and the top style hlogo) and takes the screenshot exactly as `renderPagePng` does:
-viewport from the mm at 96 px an inch, `deviceScaleFactor: 4`, `goto` with `load`,
-`document.fonts.ready`, print media, a clip screenshot, then `sharp` to 300 ppi.
-Inputs: the shipped book row of `quest.json`, the week 1 and week 7 reader rows, and the real picture
-files under `content/storytime/l2/print/pictures`. Ran through heavy-run at `HEAVY_PRIORITY=p2`,
-foreground. Captures: `green-f3f6-probe.txt` and `green-f3f6-probe2.txt` (both 0 Thai characters).
+Step 1 (12:46 ICT): the one-line change is in `renderPagePng`:
+`page.screenshot({ clip: ..., timeout: 300000 })`, with a 2-line comment that names the Green r11
+probe. `npx tsc --noEmit` exits 0 and `npx eslint --max-warnings 0` on the 7 code files exits 0 with
+0 warnings.
 
-Results (probe 1, MemAvailable 1.85 GB, load 3.30):
-- student-front 11.8 s, teacher-front 3.8 s, student-back 6.5 s, teacher-back 3.6 s: all 2480x3508 px,
-  OK.
-- w01 reader-a3 43.1 s and w07 reader-a3 46.7 s: the PNG size is right (4961x3508) but over the 30 s
-  bar.
-- w01 reader-leaf 2.4 s and w07 reader-leaf 4.2 s: OK.
-Probe 2 (the same pages plus 2 controls, MemAvailable 1.85 GB, load 3.30 at the start, 1.54 GB at the
-end):
-- w01 reader-a3 59.1 s, w07 reader-a3 63.2 s.
-- w01 reader-a3 with a 1 x 1 PNG data URL as the art: 23.7 s (OK).
-- w01 reader-a3 with the BANNER chrome, which r9/r10 did not touch: 49.6 s.
-So the slow pages are the A3 reader pages, the cost follows the real 4000 x 3000 art image on a 420 mm
-page (23.7 s with no art), and the untouched banner A3 page is as slow as the hlogo one. The r9/r10
-change (the D3 ladder, the leaf crystals, the B5 box) is not the cause; the leaf pages are fast.
+Step 2 (12:47 to 14:33 ICT, `green-f3f6-build4.txt`, 0 Thai characters): the 4 build tests, each
+alone through heavy-run at `HEAVY_PRIORITY=p2` (the p2 cap cut the 4-in-one run at 1800 s, so each
+test ran in its own job with `HEAVY_RUN_TIMEOUT_S=1800`), `--maxWorkers=1`. MemTotal 7492052 kB, the
+load average 2.97 7.28 9.12 at the start.
+- "a failed PDF/X step leaves no print file with a final name (review B F3)": PASS, test 1322825 ms.
+- "a failure in the move step of the print files leaves no print file at a final name and no temp
+  folder": FAIL at 883018 ms. The line: `AssertionError: the failure is the move into the closed
+  folder; : expected 'Converting 2 pages with Ghostscript (...' to match /EACCES|permission denied/i`.
+  The child output in the capture shows the 4 print files converted and `All checks pass.` for
+  student.pdf, teacher.pdf, readers-a3.pdf (102 s), and readers-leaf.pdf, so the build SUCCEEDED where
+  the test expects a refusal from the closed destination folder. No screenshot or Chrome line appears.
+- "a copy that fails after the first print files were copied leaves none of the 4 at a final name and
+  keeps a file that the build did not write": FAIL at 921354 ms. The line: `AssertionError: the
+  failure is the copy onto the file that exists; : expected 'Converting 2 pages with Ghostscript (...'
+  to match /EEXIST|already exists/i`. Again the capture shows the normal success path (`All checks
+  pass.` for student.pdf, teacher.pdf, readers-a3.pdf), so the copy onto an existing file did not
+  conflict. No screenshot or Chrome line.
+- "two builds into one folder at once: one completes, the other fails and overwrites nothing": PASS,
+  test 925229 ms (inside the 840 s line for the child: its own build passed and the second build
+  failed as the test expects).
+So the r11 diagnosis holds: the screenshot timeout removed the Chrome `page.screenshot` error, and 2
+of the 4 tests now pass. The 2 remaining failures are the tests' own failure injections (the closed
+folder and the existing file), not the 840 s kill and not a page error: both builds ran to completion
+with the printed "All checks pass." lines. They were masked before, because the Chrome error stopped
+each test at attempt 1 before the assertions ran. Their subject is the build's failure path in
+`make-storytime-quest-covers.ts`, outside the ONE line this role may change.
 
-The mechanism: `renderPagePng` in `dashboard/scripts/storytime/make-storytime-quest-covers.ts` (the
-screenshot at about line 995) passes no `timeout` to `page.screenshot`, so Playwright's default 30 s
-applies; the A3 page needs 43 to 63 s on this machine, and the abort surfaces as `page.screenshot:
-Protocol error (Page.captureScreenshot): Unable to capture screenshot`, the line of the 4 failing
-build tests. Every probe screenshot succeeds when it is given 60 s, and the PNG sizes are right.
+Build times for the record: the failing tests' builds ran the 4 print files in about 130 s each
+(2 pages of Ghostscript at 13 s and 12 s, the 14-page A3 at 102 s, the 14-page leaf at 4 s), well
+inside the 840 s kill line; the tests' own elapsed times (883 s and 921 s) come from the fixture and
+the PDF/X work around them, not from a killed child.
 
-Step 2: the probe fails its 30 s bar on the 2 A3 pages, so per the PM steps I stop before the code
-commit and report. The fix is one line in the build script, outside this role's 6-file write scope:
-`page.screenshot({ clip, timeout: 300000 })` (or a lower `deviceScaleFactor` for the A3 page with the
-sharp resize kept). No test change is needed.
+Per the brief (step 3: if any of the 4 fails, STOP; the PM follow-up: an assertion failure stays a
+STOP): no code commit. Committed: this log and `green-f3f6-build4.txt`. `pnpm-lock.yaml` unchanged.
 
-State at the end: 6 code files modified and uncommitted (cover-quest.ts, readers.ts,
-teacher-book-cover.ts, student-book.ts, reader-howto.ts, make-readers-pdf.ts); the plan holds no
-change; the key box file holds no change; no test file changed by me. Captures of this round:
-green-f3f6-probe.txt, green-f3f6-probe2.txt. `date` of the step ends: 12:33 and 12:40 ICT.
-
-Thai: readers.ts, student-book.ts, and reader-howto.ts were not read in this round (the probe and the
-captures hold 0 Thai characters); D-1 from the earlier rounds stands in the handoff.
+Step ends: 12:46, 12:47, and 14:33 ICT.
