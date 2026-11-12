@@ -1,0 +1,62 @@
+Mid Red retry 7, F3 to F6, track storytime_cover_options_20261106, phase P2.
+Time: 2026-11-12 09:45 to 09:59 ICT. State: DONE (Red committed, 2 tests fail on the Green code for a real code fault).
+
+Prove: role_base_sha e2dc9327 is an ancestor of HEAD. phase_base_sha e6e2156a resolves.
+Route: claude-code/claude-sonnet-5-5#high, a recorded substitution for MiniMax-M3.1-Flash (MiniMax limit, error 2056).
+The Green's 6 uncommitted code files stayed unstaged and unchanged. dashboard/raw.json and the video render.mjs stayed unstaged.
+
+What changed (dashboard/__tests__/quest-cover-readers-r2b.test.ts only; each part has a "changed 2026-11-12" line):
+1. B5 pins the D3 ladder result on w01-1: 40 characters, 2 line boxes, font = 1-line font x 0.75 within 0.05 px,
+   plaque bottom 276 mm within 0.5 mm (dy 0), plaque width at or below 340 x 0.75 mm.
+2. New test "B5 keys" (independent check). It maps the w01-1 key boxes from pictures-heads.json to A3 millimetres
+   (object-fit cover, 50% 50%). It derives the 100 % plaque from the measured plaque, runs the D3 ladder again,
+   and checks (a) the measured plaque and role bar lie 1 mm clear of every key box, (b) the next 5 % step meets a key box.
+3. New test "B5-full" on w03-1: the 2-line group at 100 % is free; font as the 1-line title (0.05 px), 2 line boxes,
+   plaque bottom 276 mm, the measured group is 1 mm clear of every key box, the ladder keeps size 1 at dy 0.
+
+DEVIATION FROM THE ORDER (the evidence is in red-f3f6-retry7-r2b.txt and red-f3f6-retry7-bite.txt):
+The order pinned s = 0.80. The independent check shows that 0.80 is not the D3 result.
+- The trace model uses a 2-line plaque 148.3 mm wide at 100 % (x 135.86 to 284.15 mm).
+- The rendered 2-line plaque is 339.6 mm wide at 100 % (the width limit 340 mm): at 0.80 it is 74.16 to 345.84 mm by 216.48 to 276.00 mm.
+- At 0.80 the plaque top (216.48 mm) is 0.22 mm inside the 1 mm clearance of "child 2 head (pink shirt)" (bottom 215.70 mm).
+- The ladder on the real geometry gives s = 0.75 at dy 0 (top 220.20 mm, 3.5 mm clear). No up step helps at a larger size.
+So the pin is 0.75. The 0.80 pin would fix a code fault into the test.
+Default taken (question for the orchestrator and the PM): pin 0.75. If the PM wants 0.80, the PM must change the clearance rule, not the test.
+
+B5-full row choice. With the real plaque (x 40.2 to 379.8 mm, y 201.6 to 276 mm) and the role bar (y 278 to 290 mm):
+  free rows: w03-1, w03-2, w04-2, w05-1, w05-2, w06-1, w06-2. B5-full uses w03-1 (the first free row).
+  Blocking key box of each blocked row (at 100 %):
+  w01-1 child 1 head and child 2 head; w01-2 Pip dog head and body; w02-1 child 1 head and child 2 head;
+  w02-2 Nan head and boy head; w04-1 girl head; w07-1 the ball under its red cloth; w07-2 Pip dog head and body.
+  The ladder on the real geometry gives: w01-1 0.75; w02-1 0.85; w04-1 0.90; w02-2 size 1 after a rise of 179 mm
+  (not a useful place, other code paths apply); w07-1 size 1 after a rise of 174 mm; w01-2 and w07-2 none (exception rows).
+
+Runs (all on the Green's uncommitted code):
+- Gate 1, r2b alone (red-f3f6-retry7-r2b.txt): 14 tests, 12 pass, 2 fail.
+  FAIL B5: "the synthetic title has the 1-line font size times 0.75: 123.84 px, the 1-line font size is 154.80 px."
+  FAIL B5 keys: "(a) the plaque of the synthetic row (74.16 to 345.84 mm by 216.48 to 276.00 mm) lies 1 mm clear of every key box"
+  with "child 2 head (pink shirt) (68.15 x 0.22 mm)". The ladder assertion of that test (0.75 at dy 0) passed before (a).
+  PASS B5-full, B3, B4, B6 to B12.
+  Real code fault for the Green: the D3 ladder uses a 2-line plaque width of 148.3 mm, but the render makes it 339.6 mm.
+  The fix is to use the real plaque width in the placement. The ladder then gives 0.75 at dy 0 on w01-1.
+- Gate 2, bite probe (red-f3f6-retry7-bite.txt): font pin fails for s 0.80 and 0.85; (a) fails for s 0.80 and 0.85 at dy 0;
+  (a) for 0.75 fails when the group moves 4 mm up and passes at 3 mm up; the ladder gives 0.75 at dy 0 on w01-1 and 1.00 on w03-1;
+  the B5-full precondition fails on w01-1 and passes on w03-1; the plaque bottom pin fails at 1 mm.
+  Note: a group 1 mm lower cannot fail (a), because every key box lies above the group.
+- Gate 3: tsc exit 0 (red-f3f6-retry7-tsc.txt); eslint exit 0, 0 warnings (red-f3f6-retry7-lint.txt). pnpm-lock.yaml was never changed.
+
+Plan: 1 sub-line added after the Red retry 6 line (numstat 1 0); the plan Thai count is 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: red-complete
+track: storytime_cover_options_20261106
+phase: P2
+baseline_sha: e6e2156a
+role_base_sha: e2dc9327
+commits: 694b2c1e (test, plan, captures); the log commit follows this one
+tests_run: r2b alone on the Green's uncommitted code: 14 tests, 12 pass, 2 fail (B5, B5 keys); bite probe; tsc exit 0; eslint exit 0
+red_command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-readers-r2b.test.ts --maxWorkers=1
+deviation: route substitution claude-code/claude-sonnet-5-5#high for MiniMax-M3.1-Flash; B5 pins s 0.75, not the ordered 0.80, because the independent key box check refutes 0.80
+handoff: Green fixes the placement. The 2-line plaque width in the D3 ladder must be the rendered width (339.6 mm at 100 %). Expected result on w01-1: size 0.75, dy 0. Then B5, B5 keys, and B5-full pass.
+END_MEASURE_AGENT_RESULT
