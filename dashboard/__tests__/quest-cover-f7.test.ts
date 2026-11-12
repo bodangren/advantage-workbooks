@@ -18,14 +18,25 @@
  *       height, and then the 6 child head boxes (x 90 to 3950 px) span 429.9 mm on a 420 mm page.
  *       The fix is a mirror fill in a print copy, in the form of the back art edge fill.
  *   D-F7-2 (amended 2026-11-13, the orchestrator answer to the Red fault): a new tracked data file
- *       `content/storytime/l2/print/pictures-edge-fill.json` holds exactly this one entry:
- *       `{"l2-w01-cover-hello-v1.png": {"widthPx": 4000, "heightPx": 3000, "topRows": 167,
- *       "bottomRows": 166, "sha256": "99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f"}}`.
+ *       `content/storytime/l2/print/pictures-edge-fill.json` holds exactly this one entry.
  *   D-F7-3: the mirror rule. In the filled copy, the output row r for 0 <= r < topRows equals the
- *       source row (2 * topRows - 1 - r), which is 333 - r. The output row r for
+ *       source row (2 * topRows - 1 - r). The output row r for
  *       heightPx - bottomRows <= r < heightPx equals the source row
- *       (2 * (heightPx - bottomRows) - 1 - r), which is 5667 - r. Every other pixel equals the
+ *       (2 * (heightPx - bottomRows) - 1 - r). Every other pixel equals the
  *       source pixel. The size, the mode (8-bit RGB), and the format (PNG) stay the same.
+ *
+ * The orchestrator decisions D-F7b-1 and D-F7b-2 of 2026-11-13 (the contract of the F7b round):
+ *   D-F7b-1: the entry of `content/storytime/l2/print/pictures-edge-fill.json` becomes
+ *       `{"l2-w01-cover-hello-v1.png": {"widthPx": 4000, "heightPx": 3000, "topRows": 168,
+ *       "bottomRows": 169, "sha256": "99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f"}}`.
+ *       The general rule of D-F7-3 stays: the output row r equals the source row 335 - r for
+ *       r 0 to 167, and the source row 5661 - r for r 2831 to 2999. Every other pixel equals the
+ *       source pixel.
+ *   D-F7b-2: the stripe rule. The row mean is the mean of R, G, and B over the whole row of the
+ *       4000 px filled copy. A stripe at row r is a row mean more than 15 above both row means at
+ *       r-2 and r+2, or more than 15 below both. The filled copy holds 0 stripes in rows 3 to 339
+ *       and in rows 2660 to 2996. The old fill of D-F7-2 gives 29.4 at row 166 and 49.9 at row
+ *       2833 (the rows of the orchestrator, counted from 1, are 167 and 2834).
  *   D-F7-4 (amended 2026-11-13, the orchestrator answer to the Red fault): a new module
  *       `dashboard/lib/storytime/print/art-edge-fill.ts` with the exports `ArtEdgeFill`,
  *       `ArtEdgeFillTable`, `readArtEdgeFillTable`, and `edgeFilledArtPath`. The type
@@ -49,8 +60,11 @@
  * The pins of this file:
  *   F7-1: `edgeFilledArtPath` on the real hello v1 file gives a path under the temp folder of
  *       D-F7-4, with the name of D-F7-4. The output is 4000 x 3000 px, 8-bit RGB, PNG. Its rows
- *       167 to 2833 equal the source rows, and its rows 0 to 166 and 2834 to 2999 follow D-F7-3.
+ *       168 to 2830 equal the source rows, and its rows 0 to 167 and 2831 to 2999 follow D-F7-3.
  *       The output holds 0 white edge rows and 0 white edge columns.
+ *   F7-1b: the filled copy of the real hello v1 file holds no stripe in rows 3 to 339 and in rows
+ *       2660 to 2996 (D-F7b-2). The test prints the largest stripe value and its row for the top
+ *       and for the bottom.
  *   F7-2: a file with no entry (`l2-w01-cover-nan-can-nod-v1.png`) gives back the source path
  *       unchanged, and no file is written for it.
  *   F7-2b: a temp file named `l2-w01-cover-hello-v1.png` with other bytes gives back its own path
@@ -140,11 +154,11 @@ const HELLO_SHA256 = '99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a
 /** The first 16 hex of the SHA-256 of the same file: the name prefix of D-F7-4. */
 const HELLO_SHA16 = '99ee1b8d1fe0e9ad';
 
-/** The white rows of the table of D-F7-2 at the top of the source. */
-const TOP_ROWS = 167;
+/** The mirrored rows of the table of D-F7b-1 at the top of the source. changed 2026-11-13 (F7b) */
+const TOP_ROWS = 168;
 
-/** The white rows of the table of D-F7-2 at the bottom of the source. */
-const BOTTOM_ROWS = 166;
+/** The mirrored rows of the table of D-F7b-1 at the bottom of the source. changed 2026-11-13 (F7b) */
+const BOTTOM_ROWS = 169;
 
 /** The temp folder of D-F7-4. */
 const FILL_DIR = path.join(os.tmpdir(), 'storytime-art-edge-fill');
@@ -156,12 +170,12 @@ const WHITE_LEVEL = 250;
 const FORGE_TEACHER_FRONT =
     '/home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png';
 
-/** The edge fill entry of D-F7-2, with the 5 fields of the amended decision. */
+/** The edge fill entry of D-F7b-1, with the 5 fields of the amended decision. changed 2026-11-13 (F7b) */
 const EDGE_FILL_ENTRY = {
     widthPx: 4000,
     heightPx: 3000,
-    topRows: TOP_ROWS,
-    bottomRows: BOTTOM_ROWS,
+    topRows: 168,
+    bottomRows: 169,
     sha256: HELLO_SHA256,
 };
 
@@ -303,6 +317,79 @@ function firstBrokenRow(filled: RawImage, source: RawImage, topRows: number, bot
         if (!out.equals(from)) return r;
     }
     return -1;
+}
+
+/**
+ * Finds the first row of a list whose filled row differs from the mapped source row.
+ * @param filled The filled copy.
+ * @param source The source image.
+ * @param rows The row numbers to check.
+ * @param map The source row of each filled row.
+ * @returns The row number, or -1 when every row follows the map.
+ */
+function firstMismatchWithMap(filled: RawImage, source: RawImage, rows: number[], map: (row: number) => number): number {
+    const rowBytes = filled.width * filled.channels;
+    for (const r of rows) {
+        const s = map(r);
+        const out = filled.data.subarray(r * rowBytes, (r + 1) * rowBytes);
+        const from = source.data.subarray(s * rowBytes, (s + 1) * rowBytes);
+        if (!out.equals(from)) return r;
+    }
+    return -1;
+}
+
+/**
+ * Gives the mean of R, G, and B of every row of a raw image.
+ * @param image The raw image.
+ * @returns One mean per row.
+ */
+function rowMeans(image: RawImage): number[] {
+    const means: number[] = [];
+    for (let y = 0; y < image.height; y++) {
+        let total = 0;
+        for (let x = 0; x < image.width; x++) {
+            const at = (y * image.width + x) * image.channels;
+            total += image.data[at] + image.data[at + 1] + image.data[at + 2];
+        }
+        means.push(total / (image.width * 3));
+    }
+    return means;
+}
+
+/**
+ * Finds the stripes of the row means (D-F7b-2). A stripe at row r is a row mean more than the
+ * threshold above both row means at r-2 and r+2, or more than the threshold below both.
+ * @param means The row means.
+ * @param threshold The threshold of the rule.
+ * @param first The first row of the range.
+ * @param last The last row of the range.
+ * @returns One entry per stripe: the row and the value of the stripe.
+ */
+function stripes(means: number[], threshold: number, first: number, last: number): { row: number; value: number }[] {
+    const found: { row: number; value: number }[] = [];
+    for (let r = first; r <= last; r++) {
+        const up = means[r] - means[r - 2];
+        const down = means[r] - means[r + 2];
+        if (up > threshold && down > threshold) {
+            found.push({ row: r, value: Math.min(up, down) });
+        } else if (-up > threshold && -down > threshold) {
+            found.push({ row: r, value: -Math.max(up, down) });
+        }
+    }
+    return found;
+}
+
+/**
+ * Gives the largest stripe of a list.
+ * @param list The stripes.
+ * @returns The stripe with the largest value, or undefined when the list is empty.
+ */
+function largestStripe(list: { row: number; value: number }[]): { row: number; value: number } | undefined {
+    let best: { row: number; value: number } | undefined;
+    for (const stripe of list) {
+        if (!best || stripe.value > best.value) best = stripe;
+    }
+    return best;
 }
 
 /**
@@ -457,13 +544,47 @@ describe('quest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 
         const middle = out.data
             .subarray(TOP_ROWS * rowBytes, (out.height - BOTTOM_ROWS) * rowBytes)
             .equals(from.data.subarray(TOP_ROWS * rowBytes, (out.height - BOTTOM_ROWS) * rowBytes));
-        expect(middle, 'the rows 167 to 2833 are the source rows.').toBe(true);
+        expect(middle, 'the rows 168 to 2830 are the source rows.').toBe(true);
+        // changed 2026-11-13 (F7b): the rows of D-F7b-1, 335 - r at the top and 5661 - r at the bottom.
+        const topRowNumbers: number[] = [];
+        for (let r = 0; r < TOP_ROWS; r++) topRowNumbers.push(r);
+        expect(
+            firstMismatchWithMap(out, from, topRowNumbers, (r) => 335 - r),
+            'the top rows of the filled copy follow 335 - r.',
+        ).toBe(-1);
+        const bottomRowNumbers: number[] = [];
+        for (let r = out.height - BOTTOM_ROWS; r < out.height; r++) bottomRowNumbers.push(r);
+        expect(
+            firstMismatchWithMap(out, from, bottomRowNumbers, (r) => 5661 - r),
+            'the bottom rows of the filled copy follow 5661 - r.',
+        ).toBe(-1);
         expect(
             firstBrokenRow(out, from, TOP_ROWS, BOTTOM_ROWS),
             'every row of the filled copy follows the mirror rule of D-F7-3.',
         ).toBe(-1);
         expect(whiteRows(out).length, 'the filled copy holds no white row.').toBe(0);
         expect(whiteColumns(out).length, 'the filled copy holds no white column.').toBe(0);
+    }, 300_000);
+
+    it('F7-1b: the filled copy holds no stripe in the mirrored rows (D-F7b-2)', async () => {
+        const edgeFill = await loadArtEdgeFill();
+        const source = path.join(PICTURES_DIR, HELLO_FILE);
+        expect(fs.existsSync(source), 'the Forge colour cover art exists.').toBe(true);
+        const filled = await edgeFill.edgeFilledArtPath(source, HELLO_FILE);
+        const image = await readRaw(filled);
+        expect(image.width, 'the filled copy is 4000 px wide.').toBe(4000);
+        expect(image.height, 'the filled copy is 3000 px high.').toBe(3000);
+        const means = rowMeans(image);
+        const top = stripes(means, 15, 3, 339);
+        const bottom = stripes(means, 15, 2660, 2996);
+        const topBest = largestStripe(top);
+        const bottomBest = largestStripe(bottom);
+        console.log(
+            `F7-1b top stripes ${top.length}, largest ${topBest ? topBest.value.toFixed(1) : 'none'} at row ${topBest ? topBest.row : 'none'}; ` +
+                `bottom stripes ${bottom.length}, largest ${bottomBest ? bottomBest.value.toFixed(1) : 'none'} at row ${bottomBest ? bottomBest.row : 'none'}`,
+        );
+        expect(top.length, 'the rows 3 to 339 hold no stripe.').toBe(0);
+        expect(bottom.length, 'the rows 2660 to 2996 hold no stripe.').toBe(0);
     }, 300_000);
 
     it('F7-2: a file with no entry gives the source path back and writes no file', async () => {
@@ -495,6 +616,7 @@ describe('quest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 
         const edgeFill = await loadArtEdgeFill();
         const source = path.join(PICTURES_DIR, HELLO_FILE);
         const table: ArtEdgeFillTable = {
+            // changed 2026-11-13 (F7b): the row counts of D-F7b-1, 168 and 169.
             [HELLO_FILE]: { widthPx: 1234, heightPx: 567, topRows: TOP_ROWS, bottomRows: BOTTOM_ROWS, sha256: HELLO_SHA256 },
         };
         let message = '';
@@ -517,7 +639,15 @@ describe('quest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 
         const edgeFill = await loadArtEdgeFill();
         const table = edgeFill.readArtEdgeFillTable();
         expect(Object.keys(table), 'the table holds exactly one entry.').toEqual([HELLO_FILE]);
-        expect(table[HELLO_FILE], 'the entry holds the geometry of D-F7-2.').toEqual(EDGE_FILL_ENTRY);
+        // changed 2026-11-13 (F7b): the entry of D-F7b-1, with 168 top rows and 169 bottom rows.
+        expect(table[HELLO_FILE], 'the entry holds the geometry of D-F7b-1.').toEqual({
+            widthPx: 4000,
+            heightPx: 3000,
+            topRows: 168,
+            bottomRows: 169,
+            sha256: HELLO_SHA256,
+        });
+        expect(table[HELLO_FILE], 'the entry holds the geometry of D-F7b-1.').toEqual(EDGE_FILL_ENTRY);
         expect(fs.existsSync(EDGE_FILL_FILE), 'the data file of D-F7-2 exists.').toBe(true);
         const data = JSON.parse(fs.readFileSync(EDGE_FILL_FILE, 'utf8')) as unknown;
         expect(data, 'the data file holds exactly the entry of D-F7-2.').toEqual({ [HELLO_FILE]: EDGE_FILL_ENTRY });
@@ -607,9 +737,10 @@ describe('quest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 
         expect(out.height, 'the art of the a3-color page 1 is 3000 px high.').toBe(3000);
         expect(whiteRows(out).length, 'the art of the a3-color page 1 holds no white row.').toBe(0);
         expect(whiteColumns(out).length, 'the art of the a3-color page 1 holds no white column.').toBe(0);
+        // changed 2026-11-13 (F7b): the mirror rows of D-F7b-1, 168 top rows and 169 bottom rows.
         expect(
             firstBrokenRow(out, from, TOP_ROWS, BOTTOM_ROWS),
-            'the art of the a3-color page 1 follows the mirror rule of D-F7-3.',
+            'the art of the a3-color page 1 follows the mirror rule of D-F7b-1.',
         ).toBe(-1);
         const workbook = compileStorytimeReaders([week], { profile: STORYTIME_PRINT_PROFILE, mode: 'final', output: 'workbook' }).html;
         const workbookFile = fileURLToPath(pageOneArtSrc(workbook));
