@@ -1,71 +1,62 @@
-Green r13 log of F3 to F6 (storytime_cover_options). Status: partial. Gate B fails 11 tests in 3 files;
-the diagnosis of the 3 files alone is below. role_base_sha ff578ed1; phase_base_sha e6e2156a.
+jr-green-f3f6-0ab64a93.log — Green r14, F3 to F6
+Track: storytime_cover_options_20261106. Phase 2 heading: the option A covers (2026-11-07 to 2026-11-16).
+Role: measure-jr-green. Model route: kimi-code-plan-cn/kimi-for-coding.
+Route substitution: the role table route volcengine-agent-plan/glm-5.3-flash#high; this round uses ra-quota pick green --not-family anthropic --not-family deepseek --not-family minimax. The PM excluded DeepSeek and MiniMax: the VPN DNS fails for their hosts since 18:40.
+role_base_sha: b11d4309. phase_base_sha: e6e2156a. Red model: claude-code/claude-sonnet-5-5#high (Red retry 8, commit 93909d2f).
+Code base: 22d42ad8 (Green F3 to F6). Role bases: 52192e8f, c1e2af6d, ff578ed1, b11d4309.
+PM Thai rule: I am not a Claude model. The first command filtered every file I read (python3 -I), dropped every line with a Thai char (U+0E00 to U+0E7F), and proved 0 Thai chars in each copy. Edits: exact-string replacement scripts on lines with no Thai only. I do not read week files.
 
-Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (Red retry 8,
-93909d2f). Session `Green P2 F3-F6 storytime_cover_options r13`.
+STEP log (updated after each step):
+[DONE] 1. Fix applied (uncommitted): readers.ts +10/-4 (const foldCentre, the CSS rule .fold-labels-below-fold .fold-label at top fold+0.2 mm, height 2.5 mm, the belowFold parameter of readerFoldLabelsHtml, the wrapper div, the call with entry.pages.includes(1)) and student-book.ts line 742 (the call with side.pages.includes(1)). The label text line (Thai) untouched. Thai line counts unchanged: readers.ts 2 lines / 16 chars, student-book.ts 4 lines / 55 chars. Analysis: the fold is at 148.5 mm; page 1 (quest cover) is turned 179.99 degrees, so its box ends at 148.517 mm; page 12 starts its first element at 157.5 mm. The 3 mm label cannot fit between 148.507 and 148.5, so the below-fold variant is 2.5 mm tall at top 148.7 mm (bottom 151.2 mm), inside the page 12 half, within 3 mm of the fold, clear of both pages.
+[NOTE] Command form: the single-string form of the brief (heavy-run.sh "<cmd string>") mis-parsed in the scope wrapper (env printed, exit 0, 1 s, no test run). The -c form works: heavy-run.sh -c "cd ... && CI=true npx vitest run __tests__/<file> --maxWorkers=1".
+[DONE] 2. storytime-print-reader-ink.test.ts alone: PASS 4/4 (heavy-run log: pid 877162, lock 20:02:30, exit 0 after 51 s). My capture: 4 passed, wall 81 s, MemAvailable 1418576 kB, dropped 0 Thai lines. Heavy-run log line: 2026-11-12T20:03:51 heavy-run[877162]: job ended exit 0 after 51 s, job: ...reader-ink...
+[DONE] 2b. quest-cover-f3f6.test.ts alone: PASS (heavy-run log: pid 885144, lock 20:04:10, exit 0 after 571 s, ended 20:13:41). No capture file exists; the full gate reruns this file.
+[DONE] 3. storytime-print-readers.test.ts alone: PASS 58/58, wall 192 s (green-f3f6-r14-readers.txt). storytime-print-student-book.test.ts alone: PASS 77/77, wall 101 s (green-f3f6-r14-student.txt). tsc --noEmit exit 0; eslint --max-warnings 0 on the 2 changed files exit 0. pnpm-lock.yaml untouched.
+[PROV] 4. Full gate, one time: Gate A-fast (green-f3f6-gateAfast4.txt), Gate A-build in 5 parts (green-f3f6-gateAbuild4.txt), Gate B in 3 parts (green-f3f6-gateB2.txt). Split a cap cut; record load failures with F-number none.
+[DONE] 4a. Gate A-fast: 14 files (the r13 list), 294 passed (294), exit 0, wall 224 s (green-f3f6-gateAfast4.txt).
+[DONE] 4b. Gate A-build in 5 parts (green-f3f6-gateAbuild4.txt): part 1 with the negative-lookahead -t filter, 70 passed | 5 skipped (75); parts 2, 3, 4 one long test each (1 passed, 74 skipped); part 5 two tests (2 passed, 73 skipped). 75 of 75 in all. Every part exit 0. Walls: 105 s, 111 s, 299 s, 306 s, 125 s.
+[DONE] 4c. Gate B in 3 parts (green-f3f6-gateB2.txt): B1 the r13 half 1 command (25 files), 685 passed (685), wall 140 s; B2 storytime-print files 1 to 20, 367 passed (367), wall 225 s; B3 files 21 to 41, 529 passed (529), wall 533 s. Every part exit 0. No cap cut, no load failure.
+[DONE] 5. Three mutants (green-f3f6-mutants4.txt): M1 (F3) cover-quest.ts KEY_CLEARANCE_MM 1 to 0 fails quest-cover-f3f6 (3 failed, exit 1, 113 s); M2 (F4) the footer strip fill #FFFFFF to #F5F5F5 fails quest-cover-f3f6 (1 failed, D5, exit 1, 137 s); M3 (r14 fix) readers.ts .fold-labels-below-fold back across the fold fails storytime-print-reader-ink (3 failed, [fold-label] overlaps, exit 1, 20 s). Each file restored; the SHA-256 after the restore equals the SHA-256 before (cover-quest.ts a179ceec1742..., readers.ts 3d92eb2201d5...).
+[DONE] 6. Plan line 205 marked [x] with the code SHA 74ef6e4e at the line end, plus the role bases, Red retry 8, the code commits, and the substitution. The plan commit, the captures commit, and the log commit follow.
+[DONE] 7. This log holds the full MEASURE_AGENT_RESULT block at the end.
 
-Steps before the DNS stop (checked by the orchestrator, not rerun):
-- Step 1: `green-f3f6-build5.txt`: the 2 build tests passed alone (920.96 s and 1040.69 s), exit 0.
-- Step 2: tsc --noEmit exit 0 and eslint --max-warnings 0 exit 0 (0 warnings) on the 7 code files;
-  code commit 22d42ad8 at 15:35 (7 files, 936 insertions, 97 deletions).
-- Gate A-fast (`green-f3f6-gateAfast3.txt`): 14 files, 294 passed (294), 759.85 s, exit 0.
-- Gate A-build (`green-f3f6-gateAbuild3.txt`): part 1 70 passed and 5 skipped; parts 2 to 4 one test
-  each; part 5 two tests; 75 of 75 in all; exit 0 on every part.
-- Gate B (`green-f3f6-gateB.txt`): half 1 25 files passed; half 2 (18:09 to 18:37, 1681 s, load 0.92
-  at the start) 3 files failed | 38 passed (41), 11 tests failed | 885 passed (896), exit 1. The Gate B
-  capture holds stdout only (no vitest failure blocks, which vitest writes to stderr) and 1 Thai line
-  (line 342).
-Gate B capture read: NO raw read. I saw it only through ASCII-only grep patterns (HEAVY_EXIT, Test
-Files, Tests, AssertionError, HALF2), which never printed the Thai line. Every capture of this round
-passed through the Thai filter of the capture script, and each proves 0 Thai characters.
+MEASURE_AGENT_RESULT
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2 (the option A covers, 2026-11-07 to 2026-11-16)
+role: measure-jr-green, Green r14 of F3 to F6
+model: kimi-code-plan-cn/kimi-for-coding
+role_base_sha: b11d4309
+phase_base_sha: e6e2156a
+red_model: claude-code/claude-sonnet-5-5#high (Red retry 8, 93909d2f)
+role_bases: 52192e8f, c1e2af6d, ff578ed1, b11d4309
+code_commits: 22d42ad8 (r13 code), 74ef6e4e (r14 fold-label fix)
+final_green_head: 74ef6e4e (code; the plan, captures, and log commits follow it)
+route_substitution: the role table route volcengine-agent-plan/glm-5.3-flash#high; this round used ra-quota pick green --not-family anthropic --not-family deepseek --not-family minimax, because the VPN DNS fails for the DeepSeek and MiniMax hosts since 18:40.
 
-Step 1, the diagnosis of the 3 files alone (the same heavy-run form at p2, `-c` for the shell string,
-stdout and stderr merged by /tmp/opencode/r13/diag.py, Thai lines dropped and counted):
-- 18:51 ICT, `green-f3f6-diag-ink.txt` (42 s, 0 Thai): storytime-print-reader-ink.test.ts FAILS
-  alone: 3 failed | 1 passed (4).
-- 18:54 ICT, `green-f3f6-diag-16books.txt` (168 s, 0 Thai): storytime-print-covers-16books.test.ts
-  PASSES alone: 46 passed (46), exit 0.
-- 19:12 ICT, `green-f3f6-diag-stickers.txt` (28 min, 0 Thai): the first try exited 75 (the wrapper
-  memory hold: "avail 1144 MB (min 1500)"); with HEAVY_PREFLIGHT_WAIT_S=5400 it ran and
-  storytime-print-card-kit-stickers.test.ts PASSES alone: 11 passed (11), exit 0.
+fix: On a reader leaf side that holds page 1, the 2 fold labels moved below the fold into the page 12 half: new CSS rule .fold-labels-below-fold .fold-label at top fold + 0.2 mm, height 2.5 mm, and a belowFold parameter of readerFoldLabelsHtml with a wrapper div. The call sites pass pages.includes(1): readers.ts (workbook leaves) and student-book.ts line 742 (recorded scope extension). Every other side keeps the labels across the fold. The label text (the Thai line 646) is untouched. Thai line counts unchanged: readers.ts 2 lines, student-book.ts 4 lines.
 
-Step 2, the cause line of each failing test (class a = the F3 to F6 code, b = the test environment,
-c = a test that expects the old behavior; F-number = the F rule whose change met the test):
-- storytime-print-reader-ink R-P6-F6a: "AssertionError: expected [ …(12) ] to deeply equal []", with
-  12 lines "[fold-label] side 1: a label overlaps the page content" (6) and the same for side 7 (6).
-  Cause: the test's own rule 5 asks for 2 fold labels within 3 mm of the fold line, and rule 5 then
-  forbids any overlap with a descendant of a reader page. On a page 1 side the F5 quest cover fills
-  its half to the fold (the wrapper, the quest page, the art, the F4 footer strip, the plaque), so a
-  label at the fold meets the page 1 boxes; a label placed below the fold meets page 12 instead, so
-  no place satisfies both. The code side is `dashboard/lib/storytime/print/readers.ts` page 1 (F5) and
-  the label markup of the same file (`readerFoldLabelsHtml`). Class c (a test rule that predates the
-  full-bleed page 1), F5.
-- storytime-print-reader-ink R-P6-F6b: the same 12 lines from the readers workbook build. Same cause,
-  same class, F5.
-- storytime-print-reader-ink R-P6-F6d: "the unchanged copy is right: expected [ …(12) ] to deeply
-  equal []" - the mutant test's clean copy carries the same 12 lines. Same cause, class c, F5.
-- storytime-print-reader-ink R-P6-F6c: passes (no page 1 rule).
-- storytime-print-covers-16books R14 "--print writes a PDF/X file, checkPdfx passes, and the fonts
-  remain": in Gate B "AssertionError: Build Level 2 Unit 1 exit: expected 1 to be +0"; ALONE it
-  passes (46 of 46, 168 s, exit 0). Cause unknown, passes alone; class b probable (the Gate B half ran
-  1681 s with the machine loaded and no line proves a Chrome error), F-number none.
-- storytime-print-card-kit-stickers R-P8-S2 (130 s in Gate B), S3, S4, S5, S7 (0 to 2 ms each), S8
-  (124 s), S9: in Gate B the capture shows "TimeoutError: page.goto: Timeout 120000ms exceeded" for
-  the sheet measure, and the 0 to 2 ms failures follow the same dead browser. ALONE the file passes
-  11 of 11 in 28 minutes. Cause: the test environment (Chrome load under the loaded run), class b,
-  F-number none.
+tests_run:
+- storytime-print-reader-ink.test.ts alone: 4 passed (4), exit 0 (heavy-run log pid 877162, 51 s; capture wall 81 s)
+- quest-cover-f3f6.test.ts alone: exit 0 (heavy-run log pid 885144, 571 s; no capture file, rerun in Gate A-fast)
+- storytime-print-readers.test.ts alone: 58 passed (58), exit 0 (green-f3f6-r14-readers.txt)
+- storytime-print-student-book.test.ts alone: 77 passed (77), exit 0 (green-f3f6-r14-student.txt)
+- tsc --noEmit exit 0; eslint --max-warnings 0 on the 2 changed files exit 0; pnpm-lock.yaml unchanged
 
-Step 3, state: the code commit 22d42ad8 stands; no code file and no test file changed in this resume;
-no gate is rerun (the one full gate of this role is spent); the mutants do not run; the plan holds no
-[x] line. Captures committed with this log: green-f3f6-build5.txt, green-f3f6-gateAfast3.txt,
-green-f3f6-gateAbuild3.txt, green-f3f6-gateB.txt, green-f3f6-diag-ink.txt, green-f3f6-diag-16books.txt,
-and green-f3f6-diag-stickers.txt. `pnpm-lock.yaml` unchanged after every run.
+gate (one full gate, p2, nothing else heavy started by me):
+- Gate A-fast (green-f3f6-gateAfast4.txt): 14 files, 294 passed (294), exit 0, wall 224 s
+- Gate A-build (green-f3f6-gateAbuild4.txt): 5 parts; part 1 negative-lookahead -t filter 70 passed | 5 skipped; parts 2 to 4 one long test each; part 5 two tests; 75 of 75 in all; every part exit 0
+- Gate B (green-f3f6-gateB2.txt): B1 the r13 half 1 command, 25 files, 685 passed (685), exit 0, wall 140 s; B2 storytime-print files 1 to 20, 367 passed (367), exit 0, wall 225 s; B3 files 21 to 41, 529 passed (529), exit 0, wall 533 s. No cap cut, no load failure, F-number none.
 
-Step ends: 18:51, 18:54, 19:12, and 19:41 ICT (the log write).
+mutants (green-f3f6-mutants4.txt):
+- M1 (F3): KEY_CLEARANCE_MM 1 to 0 in cover-quest.ts fails quest-cover-f3f6 (3 failed, exit 1)
+- M2 (F4): footer strip fill #FFFFFF to #F5F5F5 in cover-quest.ts fails quest-cover-f3f6 (D5, 1 failed, exit 1)
+- M3 (r14 fix): .fold-labels-below-fold back across the fold in readers.ts fails storytime-print-reader-ink (3 failed, [fold-label] overlaps, exit 1)
+- Each file restored; SHA-256 before and after equal.
 
-Step 4, the commits: commit 626cb290 holds the 7 captures (build5, gateAfast3, gateAbuild3, gateB,
-diag-ink, diag-16books, diag-stickers) and this log as it stood at 19:41; the log-only commit follows
-this closing note. The Gate B capture was filtered of its 1 Thai line before the commit and proves 0
-Thai characters after it. No code file, no test file, no plan line changed in this resume. The
-`dashboard/raw.json` file stays untracked and unstaged, and `pnpm-lock.yaml` is unchanged.
-Step end: 19:42 ICT.
+plan: line 205 marked [x] with 74ef6e4e at the line end; committed alone.
+commits: code 74ef6e4e (the 2 code files); then the plan commit, the captures commit, and this log commit.
+new_files: measure/runs/storytime_cover_options_20261106/green-f3f6-r14-readers.txt, green-f3f6-r14-student.txt, green-f3f6-gateAfast4.txt, green-f3f6-gateAbuild4.txt, green-f3f6-gateB2.txt, green-f3f6-mutants4.txt (captures only; no production or test file added).
+
+handoff: Green r14 is done. The F3 to F6 code is 22d42ad8 + 74ef6e4e. The 3 real defects of r13 (R-P6-F6a, F6b, F6d of storytime-print-reader-ink) are fixed and green; the 8 r13 load failures did not recur. The plan line 205 is [x]. No [b] tasks, no deferrals, no blocked items. The r13 diag captures (green-f3f6-diag-*.txt) stay as r13 evidence. Reviewers: audit 74ef6e4e (readers.ts, student-book.ts) against the reader-ink test rule 5; the mutants file proves the tests catch the reverts.
+END_MEASURE_AGENT_RESULT
