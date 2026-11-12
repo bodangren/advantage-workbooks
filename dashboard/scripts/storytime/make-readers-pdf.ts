@@ -172,7 +172,7 @@ async function checkBuiltReaderCovers(documents: Array<{ pdf: string; html: stri
                 await page.addScriptTag({ content: pagedSrc });
                 await page.evaluate('(async () => { await document.fonts.ready; await window.PagedPolyfill.preview(); await document.fonts.ready; })()');
                 await page.emulateMedia({ media: 'print' });
-                texts = (await page.evaluate(`Array.from(document.querySelectorAll('.pagedjs_page .reader-cover'), (element) => element.innerText)`)) as string[];
+                texts = (await page.evaluate(`Array.from(document.querySelectorAll('.pagedjs_page .quest-reader-page'), (element) => element.innerText)`)) as string[];
             } finally {
                 await page.close();
             }

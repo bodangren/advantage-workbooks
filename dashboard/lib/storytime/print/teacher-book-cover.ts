@@ -1,7 +1,8 @@
 import sharp from 'sharp';
 import { placeArt } from '../../covers/compose';
 import { StorytimeMetaSchema } from '../schema';
-import { STORYTIME_COVER_TRIM, checkStorytimeCoverCopy, storytimeCoverMmToPx } from './covers';
+import { STORYTIME_COVER_TRIM, STORYTIME_SERIES, checkStorytimeCoverCopy, storytimeCoverMmToPx } from './covers';
+import { QUEST_BANDS } from './cover-quest';
 import { STORYTIME_COVER_PPI, checkStorytimeCoverPicture } from './cover-picture';
 
 /**
@@ -66,17 +67,21 @@ export function checkTeacherBookCoverCopy(pageText: string): string[] {
 }
 
 /**
- * The copy check of a reader cover page (spec FR-6.3): the cover copy check, and the band name
- * "Sprout" must show. The case does not matter, because the print CSS shows the band in capitals
- * and the check reads the printed text. A longer word such as "Sprouts" does not count as the
- * band name.
+ * The copy check of a reader cover page (spec FR-6.3; the PM look of 2026-11-11, F5, question Q2 of
+ * the round F3 to F6): the forbidden word rule and the year rule of the cover copy check, without
+ * the series name rule, because the quest reader cover holds no series line after F2; and every band
+ * word of `QUEST_BANDS` fails, in any case and as a whole word. Page 1 of a reader is the quest
+ * reader cover, so the band name "Sprout" no longer shows there.
  * @param pageText The text of one reader cover page.
  * @returns The errors (empty when the copy is good).
  */
 export function checkStorytimeReaderCoverCopy(pageText: string): string[] {
-    const errors = checkStorytimeCoverCopy(pageText);
-    const text = pageText.replace(/ /g, ' ').replace(/[­​]/g, '');
-    if (!/\bSprout\b/i.test(text)) errors.push('The reader cover does not show the band name "Sprout".');
+    const series = `The page does not show "${STORYTIME_SERIES}".`;
+    const errors = checkStorytimeCoverCopy(pageText).filter((error) => error !== series);
+    const text = pageText.replace(/\u00a0/g, ' ').replace(/\u00ad/g, '');
+    for (const band of QUEST_BANDS) {
+        if (new RegExp(`\\b${band}\\b`, 'i').test(text)) errors.push(`The page shows the band word "${band}".`);
+    }
     return errors;
 }
 

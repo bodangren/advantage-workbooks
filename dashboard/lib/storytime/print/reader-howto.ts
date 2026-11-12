@@ -66,7 +66,8 @@ export function readerHowtoLeaves(sides: StorytimeReaderLeafSide[]): HowtoLeafFa
         if (side.pages.length !== 2 || turns.length !== 2) throw new Error(`leaf ${side.leaf} ${side.side}: the side must hold 2 pages, each with a turn`);
         const chunks = side.html.split('data-reader-page').slice(1);
         if (chunks.length !== 2) throw new Error(`leaf ${side.leaf} ${side.side}: the side HTML must hold 2 reader pages`);
-        const frames = chunks.map((chunk) => /class="reader-picture"/.test(chunk));
+        // changed 2026-11-12 (R-A47-16, the F5 page 1): the quest reader cover page 1 is a picture page too.
+        const frames = chunks.map((chunk) => /class="(?:reader-picture|quest-reader-page)"/.test(chunk));
         return { leaf: side.leaf, face: side.side, pages: [side.pages[0], side.pages[1]], turns: [turns[0], turns[1]], frames: [frames[0], frames[1]] };
     });
     const leaves = Array.from(new Set(faces.map((face) => face.leaf)));
@@ -143,8 +144,8 @@ const LEAF_MARK = { topMm: 2 } as const;
 /** The ticks of step 1 on the sheet, in millimeters of the printed how-to. The printed ticks are 5 mm long and 0.4 mm thick; the diagram draws them large so that a teacher sees them. */
 const TICK_MM = { length: 12, thick: 1.6 } as const;
 
-/** The mark of a leaf, as the book prints it (`<title> · leaf N of M`). */
-const leafMark = (title: string, leaf: number, leaves: number): string => `${title} · leaf ${leaf} of ${leaves}`;
+/** The mark of a leaf, as the book prints it (`<title> · sheet N of M`, D-A of 2026-11-12). */
+const leafMark = (title: string, leaf: number, leaves: number): string => `${title} · sheet ${leaf} of ${leaves}`;
 
 /** HTML-escapes a text. */
 const esc = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

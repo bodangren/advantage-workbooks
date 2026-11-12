@@ -732,10 +732,15 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
     return sides.map((side) => {
         const foldLeft = side.side === 'back' ? 0 : profile.perforationMm;
         const foldWidth = profile.trim.widthMm - profile.perforationMm;
+        // changed 2026-11-12 (D-A and D-B, orchestrator decision): the mark says "sheet <n> of 3", and a
+        // side that holds page 1 draws no side mark, because the quest page 1 holds its own mark.
+        const mark = side.pages.includes(1)
+            ? ''
+            : `<span class="leaf-mark" data-part="leaf-mark">${esc(side.title)} &middot; sheet ${side.leaf} of 3</span>`;
         return { kind: 'reader', body: `${side.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5" style="left:${foldLeft}mm;width:${foldWidth}mm;"></div>
 ${readerFoldLabelsHtml(side.side === 'back' ? 'right' : 'left', profile)}
-<span class="leaf-mark" data-part="leaf-mark">${esc(side.title)} &middot; leaf ${side.leaf} of 3</span>` };
+${mark}` };
     });
 }
 

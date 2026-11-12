@@ -986,7 +986,9 @@ async function renderPagePng(browser: Browser, htmlFile: string, file: string, w
         await page.goto(storytimeCoverFileUrl(htmlFile), { waitUntil: 'load', timeout: 120000 });
         await page.evaluate('document.fonts.ready');
         await page.emulateMedia({ media: 'print' });
-        const shot = await page.screenshot({ clip: { x: 0, y: 0, width: cssWidth, height: cssHeight } });
+        // the A3 page needs more than the 30 s default screenshot timeout on a loaded machine (Green r11
+        // probe, 2026-11-12): the screenshot gets 300 s, and the clip and the sharp resize stay.
+        const shot = await page.screenshot({ clip: { x: 0, y: 0, width: cssWidth, height: cssHeight }, timeout: 300000 });
         const png = await sharp(shot)
             .resize(Math.round((widthMm / 25.4) * PPI), Math.round((heightMm / 25.4) * PPI), { fit: 'fill' })
             .removeAlpha()

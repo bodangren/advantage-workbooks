@@ -516,6 +516,13 @@ export type QuestTopStyle = 'banner' | 'hlogo';
 
 /** The options of one render. */
 export interface QuestRenderOptions {
+    /**
+     * The leaf mark text of a reader leaf page 1 (the Q5 decision of 2026-11-12): the text
+     * `<reader title> \u00b7 leaf <n> of <m>`. When it is set, the quest leaf body draws one
+     * `[data-part="leaf-mark"]` inside its white footer strip, and the strip grows to hold the mark
+     * ink with 1 mm around it. When it is absent, the body is unchanged.
+     */
+    leafMark?: string;
     /** The bleed in millimetres: 0 or 3 (spec D-A5). */
     bleedMm: number;
     /** The top chrome style: `banner` (the default, r5) or `hlogo` (the alternate A2 of 2026-11-10). */
@@ -1333,21 +1340,24 @@ function plaqueSvg(
     fill: string,
     compact = false,
     palette: QuestPlaquePalette = PLAQUE_BLUE_PALETTE,
+    renderScale = 1,
+    crystalInsetMm = 0,
+    crystalScale = 1,
 ): string {
     const c = compact ? Math.min(6, height * 0.15) : 6;
     const shape = (i: number): string =>
         `M${f2(i)} ${f2(c + i)} L${f2(c + i)} ${f2(i)} L${f2(width - c - i)} ${f2(i)} L${f2(width - i)} ${f2(c + i)} ` +
         `L${f2(width - i)} ${f2(height - c - i)} L${f2(width - c - i)} ${f2(height - i)} L${f2(c + i)} ${f2(height - i)} ` +
         `L${f2(i)} ${f2(height - c - i)}Z`;
-    const s = Math.min(9, height / 3);
-    const inset = compact ? s * 1.6 + 1.2 : 0;
+    const s = Math.min(9, height / 3) * crystalScale;
+    const inset = (compact ? s * 1.6 + 1.2 : 0) + crystalInsetMm;
     const crystal = (cx: number, flip: number): string =>
         `<g transform="translate(${f2(cx)} ${f2(height / 2)}) scale(${String(flip)} 1)">` +
         `<path d="M${f2(s * 0.4)} ${f2(-s * 0.45)} L${f2(s * 1.6)} -1 L${f2(s)} 0 L${f2(s * 1.6)} 1 L${f2(s * 0.4)} ${f2(s * 0.45)}" fill="${palette.ornamentFill[0]}" stroke="${palette.ornamentStroke}" stroke-width="0.4"/>` +
         `<path d="M-${f2(s)} 0 L0 -${f2(s)} L${f2(s)} 0 L0 ${f2(s)}Z" fill="${palette.ornamentFill[1]}" stroke="${palette.ornamentStroke}" stroke-width="0.5"/>` +
         `<path d="M-${f2(s)} 0 L0 -${f2(s)} L0 ${f2(s)}Z" fill="${palette.diamondFill[0]}"/><path d="M0 -${f2(s)} L${f2(s)} 0 L0 0Z" fill="${palette.diamondFill[1]}"/></g>`;
     return (
-        `<svg viewBox="0 0 ${f2(width)} ${f2(height)}" style="position:absolute;left:0;top:0;width:${mm(width)};height:${mm(height)}">` +
+        `<svg viewBox="0 0 ${f2(width)} ${f2(height)}" style="position:absolute;left:0;top:0;width:${mm(width * renderScale)};height:${mm(height * renderScale)}">` +
         `<path d="${shape(0)}" fill="${palette.outerFill}" stroke="${palette.outerStroke}" stroke-width="0.6"/>` +
         `<path d="${shape(1.8)}" fill="${palette.ringFill}"/>` +
         `<path d="${shape(2.8)}" fill="${fill}"/>` +
@@ -1432,30 +1442,28 @@ function readerTitleLineCount(text: string, fontMm: number, contentMm: number): 
  * @param bleedMm The bleed.
  * @returns The HTML.
  */
-function readerTitlePlaque(title: string, bleedMm: number): string {
+function readerTitlePlaque(title: string, bleedMm: number, placement: QuestChromePlacement | null = null): string {
     const page = questPageSize('reader-a3', bleedMm);
-    const fontMm = READER_TITLE_FONT_MM;
-    const titleMm = leagueSpartanWidthMm(title, fontMm);
-    const naturalMm = titleMm + 2 * READER_TITLE_PADDING_MM;
-    const widthMm =
-        naturalMm > READER_TITLE_MAX_WIDTH_MM
-            ? READER_TITLE_MAX_WIDTH_MM - READER_PLAQUE_SLOP_MM
-            : naturalMm < READER_TITLE_MIN_WIDTH_MM
-              ? READER_TITLE_MIN_WIDTH_MM + READER_PLAQUE_SLOP_MM
-              : naturalMm;
-    const contentMm = widthMm - 2 * READER_TITLE_PADDING_MM;
-    const lines = naturalMm > READER_TITLE_MAX_WIDTH_MM ? readerTitleLineCount(title, fontMm, contentMm) : 1;
-    const bandMm = READER_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM;
-    const heightMm = bandMm * Math.max(1, lines) + READER_PLAQUE_BAND_INSET_MM;
-    const leftMm = (page.widthMm - widthMm) / 2;
-    const topMm = READER_PLAQUE_BOTTOM_MM - heightMm;
-    const linesMm = Math.max(1, lines);
-    const lineTopMm = titleLineTopMm(title, fontMm, PLAQUE_BAND_EDGE_MM, bandMm * linesMm, linesMm);
+    const scale = placement?.scale ?? 1;
+    const crystalInset = scale === 1 ? 0 : -4 * (1 - scale);
+    const dxMm = placement?.plaqueDxMm ?? 0;
+    const dyMm = placement?.plaqueDyMm ?? 0;
+    const fontMm = READER_TITLE_FONT_MM * scale;
+    const geometry = readerPlaqueGeometry(title);
+    const widthMm = geometry.widthMm * scale;
+    const contentMm = geometry.contentMm * scale;
+    const paddingMm = READER_TITLE_PADDING_MM * scale;
+    const linesMm = geometry.lines;
+    const bandMm = geometry.bandMm * scale;
+    const heightMm = geometry.heightMm * scale;
+    const leftMm = (page.widthMm - widthMm) / 2 + dxMm;
+    const topMm = READER_PLAQUE_BOTTOM_MM + dyMm - heightMm;
+    const lineTopMm = titleLineTopMm(title, fontMm, PLAQUE_BAND_EDGE_MM * scale, bandMm * linesMm, linesMm);
     return (
         `<div data-part="title-plaque" data-plaque-colour="${LOGO_AMBER}" style="position:absolute;` +
         `left:${mm(leftMm + bleedMm)};top:${mm(topMm + bleedMm)};width:${mm(widthMm)};height:${mm(heightMm)}">` +
-        plaqueSvg(widthMm, heightMm, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE) +
-        `<div class="quest-c" style="position:absolute;left:${mm(READER_TITLE_PADDING_MM)};` +
+        plaqueSvg(geometry.widthMm, geometry.heightMm, LOGO_AMBER, true, PLAQUE_AMBER_PALETTE, scale, crystalInset) +
+        `<div class="quest-c" style="position:absolute;left:${mm(paddingMm)};` +
         `top:${mm(lineTopMm)};width:${mm(contentMm)};height:${mm(fontMm * linesMm)};` +
         `white-space:normal;color:${LOGO_BROWN};font-family:'League Spartan';font-weight:700;` +
         `font-size:${mm(fontMm)};line-height:${mm(fontMm)};font-kerning:none">${esc(title)}</div></div>`
@@ -1906,19 +1914,686 @@ function roleMark(
     return `${icons}<span style="vertical-align:middle;${textCss}">${esc(label)}</span>`;
 }
 
+/** A box in page millimetres: the left, top, right, and bottom edges (D2, D3, the round of 2026-11-12). */
+interface QuestMmBox {
+    /** The left edge. */
+    left: number;
+    /** The top edge. */
+    top: number;
+    /** The right edge. */
+    right: number;
+    /** The bottom edge. */
+    bottom: number;
+}
+
+/** One box of the key box file, in art pixels (D1, the PM order of 2026-11-11). */
+interface QuestKeyFileBox {
+    /** The name of the key object. */
+    label: string;
+    /** The box in pixels of the art file: x0, y0, x1, y1. */
+    box: [number, number, number, number];
+    /** The kind: `head`, `dog-body`, or `title-object`. */
+    kind: string;
+}
+
+/** One entry of the key box file (D1). */
+interface QuestKeyFileEntry {
+    /** The width of the art file in pixels. */
+    widthPx: number;
+    /** The height of the art file in pixels. */
+    heightPx: number;
+    /** The key boxes of the art file. */
+    boxes: QuestKeyFileBox[];
+}
+
+/** One key box in page millimetres (D2). */
+interface QuestKeyMmBox {
+    /** The name of the key object. */
+    label: string;
+    /** The kind. */
+    kind: string;
+    /** The box in page millimetres. */
+    box: QuestMmBox;
+}
+
+/** The placement of the chrome of one cover by the rule D3 (the round of 2026-11-12, F3). */
+export interface QuestChromePlacement {
+    /** The plaque size share: 1 for the default size, 0.5 on an exception cover (D3). */
+    scale: number;
+    /** The horizontal move of the plaque from its default place, in millimetres. */
+    plaqueDxMm: number;
+    /** The vertical move of the plaque from its default place, in millimetres. */
+    plaqueDyMm: number;
+    /** The horizontal move of the sub-part (the A3 role bar or the leaf footer), in millimetres. */
+    subDxMm: number;
+    /** The vertical move of the sub-part, in millimetres. */
+    subDyMm: number;
+    /** The horizontal move of the A3 week pill, in millimetres (D3). */
+    pillDxMm: number;
+    /** The vertical move of the A3 week pill, in millimetres (D3). */
+    pillDyMm: number;
+    /** The computed object-position of the art, or null for the default `50% 50%` (Q1). */
+    artPosition: string | null;
+}
+
+/** The clearance between a chrome part and a key box, in millimetres (D2). */
+const KEY_CLEARANCE_MM = 1;
+
+/** The least distance of a moved chrome group from the trim edge, in millimetres (D3, D4). */
+const KEY_TRIM_MARGIN_MM = 5;
+
+/** The key box file of the art of Level 2 (D1). */
+const KEY_BOX_FILE = path.join(STORYTIME_CONTENT_DIR, 'l2', 'print', 'pictures-heads.json');
+
+/** The art positions that the placement rule tries, in order (Q1, D2): centred, then the bottom edge. */
+const KEY_ART_POSITIONS = ['50% 50%', '50% 100%'] as const;
+
+/** The most distance of a head box above the top edge on the cover of Q1, in millimetres (Q1). */
+const KEY_HEAD_ABOVE_TOP_MM = 12;
+
+/** The tolerance of the trim and cover check of the key boxes, in millimetres (D2). */
+const KEY_TRIM_TOLERANCE_MM = 0.05;
+
+/** The safety that the horizontal slide of an exception cover adds, in millimetres (D3, D4). */
+const KEY_SLIDE_SAFETY_MM = 0.5;
+
 /**
- * Draws the art layer: the first element of the page, to the page edges (spec FR-9.1, T26).
+ * The painted width of the A3 hlogo role bar of each role label, in millimetres (the Chrome measure
+ * of the role base of 2026-11-12). A label outside the table takes the widest measure, so that the
+ * placement never reads a part smaller than it paints.
+ */
+const READER_BAR_PAINT_WIDTH_MM: Record<string, number> = {
+    'Listen and read.': 127.05,
+    'Sound it out.': 106.15,
+};
+
+/** The widest painted width of the A3 hlogo role bar, in millimetres. */
+const READER_BAR_PAINT_WIDTH_MAX_MM = 127.05;
+
+/**
+ * The painted box of the A3 hlogo role bar above its box top, in millimetres: the box of the icon
+ * spans and of the text line, which stands above the 12 mm bar box (the Chrome measure of the role
+ * base of 2026-11-12).
+ */
+const READER_BAR_PAINT_ABOVE_MM = 4.58;
+
+/** The painted box of the A3 hlogo role bar below its box bottom, in millimetres. */
+const READER_BAR_PAINT_BELOW_MM = 3.26;
+
+/**
+ * The painted width of the leaf footer of each role label, in millimetres (the Chrome measure of the
+ * role base of 2026-11-12: `57.78` to `140.22` mm and `60.21` to `137.79` mm around the page centre).
+ */
+const LEAF_FOOTER_PAINT_WIDTH_MM: Record<string, number> = {
+    'Listen and read.': 82.44,
+    'Sound it out.': 77.58,
+};
+
+/** The widest painted width of the leaf footer, in millimetres. */
+const LEAF_FOOTER_PAINT_WIDTH_MAX_MM = 82.44;
+
+/** The painted top of the leaf footer inside its 6 mm box, in millimetres (the role base measure). */
+const LEAF_FOOTER_PAINT_TOP_MM = 137.26;
+
+/** The painted height of the leaf footer, in millimetres (the role base measure). */
+const LEAF_FOOTER_PAINT_HEIGHT_MM = 5.72;
+
+/** The painted box of the A3 hlogo week pill above its box top, in millimetres (the role base measure). */
+const READER_PILL_PAINT_ABOVE_MM = 3.99;
+
+/** The painted box of the A3 hlogo week pill below its box bottom, in millimetres. */
+const READER_PILL_PAINT_BELOW_MM = 2.15;
+
+/** The painted width of the A3 hlogo week pill of one week digit, in millimetres. */
+const READER_PILL_PAINT_WIDTH_MM = 45.66;
+
+/** The key box file, read once (D1). */
+let keyBoxCache: Record<string, QuestKeyFileEntry> | null = null;
+
+/**
+ * Reads the key box file of the art of Level 2 (D1). A missing or broken file gives no box, so a
+ * build still renders its cover.
+ * @returns The entries by art file name.
+ */
+function questKeyBoxes(): Record<string, QuestKeyFileEntry> {
+    if (keyBoxCache) return keyBoxCache;
+    try {
+        keyBoxCache = JSON.parse(fs.readFileSync(KEY_BOX_FILE, 'utf8')) as Record<string, QuestKeyFileEntry>;
+    } catch {
+        keyBoxCache = {};
+    }
+    return keyBoxCache;
+}
+
+/**
+ * Tells whether 2 boxes overlap with a positive area (D2).
+ * @param one The first box.
+ * @param two The second box.
+ * @returns True when the boxes share an area.
+ */
+function questOverlap(one: QuestMmBox, two: QuestMmBox): boolean {
+    return Math.min(one.right, two.right) - Math.max(one.left, two.left) > 0 && Math.min(one.bottom, two.bottom) - Math.max(one.top, two.top) > 0;
+}
+
+/**
+ * Grows a box on each side (D2).
+ * @param box The box.
+ * @param by The growth in millimetres.
+ * @returns The grown box.
+ */
+function questGrow(box: QuestMmBox, by: number): QuestMmBox {
+    return { left: box.left - by, top: box.top - by, right: box.right + by, bottom: box.bottom + by };
+}
+
+/**
+ * Tells whether a box lies 5 mm inside the trim within the tolerance (D3, D4).
+ * @param box The box in page millimetres.
+ * @param page The page size.
+ * @returns True when the box lies inside the trim margin.
+ */
+function questInsideTrim(box: QuestMmBox, page: QuestTrim): boolean {
+    return (
+        box.left >= KEY_TRIM_MARGIN_MM - KEY_TRIM_TOLERANCE_MM &&
+        box.top >= KEY_TRIM_MARGIN_MM - KEY_TRIM_TOLERANCE_MM &&
+        box.right <= page.widthMm - KEY_TRIM_MARGIN_MM + KEY_TRIM_TOLERANCE_MM &&
+        box.bottom <= page.heightMm - KEY_TRIM_MARGIN_MM + KEY_TRIM_TOLERANCE_MM
+    );
+}
+
+/**
+ * Tells whether a box meets no grown key box (D2).
+ * @param box The box in page millimetres.
+ * @param keys The key boxes in page millimetres.
+ * @param clearanceMm The clearance in millimetres.
+ * @returns True when the box meets no key box.
+ */
+function questClearOfKeys(box: QuestMmBox, keys: QuestKeyMmBox[], clearanceMm = KEY_CLEARANCE_MM): boolean {
+    return keys.every((key) => !questOverlap(box, questGrow(key.box, clearanceMm)));
+}
+
+/**
+ * Reads the millimetres of one token of a computed object-position.
+ * @param token The token: a percentage or a length in px.
+ * @param freeMm The free space of the axis in millimetres.
+ * @returns The offset in millimetres, or 0 for an unknown token.
+ */
+function questPositionOffset(token: string | undefined, freeMm: number): number {
+    if (!token) return 0;
+    if (token.endsWith('%')) return (freeMm * Number.parseFloat(token)) / 100;
+    if (token.endsWith('px')) return (Number.parseFloat(token) * 25.4) / 96;
+    return 0;
+}
+
+/**
+ * Maps the key boxes of one art file to page millimetres through the `object-fit: cover` transform
+ * of the art layer and its object-position (D2).
+ * @param entry The entry of the art file.
+ * @param page The page size.
+ * @param position The object-position.
+ * @returns The key boxes in page millimetres, and the image box.
+ */
+function questKeyBoxesMm(entry: QuestKeyFileEntry, page: QuestTrim, position: string): { keys: QuestKeyMmBox[]; image: QuestMmBox } {
+    const scale = Math.max(page.widthMm / entry.widthPx, page.heightMm / entry.heightPx);
+    const tokens = position.trim().split(/\s+/);
+    const offsetX = questPositionOffset(tokens[0], page.widthMm - entry.widthPx * scale);
+    const offsetY = questPositionOffset(tokens[1] ?? tokens[0], page.heightMm - entry.heightPx * scale);
+    return {
+        image: {
+            left: offsetX,
+            top: offsetY,
+            right: offsetX + entry.widthPx * scale,
+            bottom: offsetY + entry.heightPx * scale,
+        },
+        keys: entry.boxes.map((key) => ({
+            label: key.label,
+            kind: key.kind,
+            box: {
+                left: offsetX + key.box[0] * scale,
+                top: offsetY + key.box[1] * scale,
+                right: offsetX + key.box[2] * scale,
+                bottom: offsetY + key.box[3] * scale,
+            },
+        })),
+    };
+}
+
+/**
+ * Reads the art object-position that keeps every key box inside the trim (Q1, D2): the centred
+ * position, and then the bottom edge. A head box may lie up to 12 mm above the top edge on the cover
+ * where no position shows the head and the dog together (Q1). The first position of the list gives
+ * null, so that the default render keeps its bytes.
+ * @param entry The entry of the art file.
+ * @param page The page size.
+ * @returns The object-position, or null for the default `50% 50%`.
+ */
+function questArtPosition(entry: QuestKeyFileEntry, page: QuestTrim): string | null {
+    for (const [index, position] of KEY_ART_POSITIONS.entries()) {
+        const mapped = questKeyBoxesMm(entry, page, position);
+        if (
+            mapped.image.left > KEY_TRIM_TOLERANCE_MM ||
+            mapped.image.top > KEY_TRIM_TOLERANCE_MM ||
+            mapped.image.right < page.widthMm - KEY_TRIM_TOLERANCE_MM ||
+            mapped.image.bottom < page.heightMm - KEY_TRIM_TOLERANCE_MM
+        ) {
+            continue;
+        }
+        const fits = mapped.keys.every((key) => {
+            const out = {
+                left: -key.box.left,
+                top: -key.box.top,
+                right: key.box.right - page.widthMm,
+                bottom: key.box.bottom - page.heightMm,
+            };
+            const allowedTop = key.kind === 'head' ? KEY_HEAD_ABOVE_TOP_MM : KEY_TRIM_TOLERANCE_MM;
+            return out.left <= KEY_TRIM_TOLERANCE_MM && out.right <= KEY_TRIM_TOLERANCE_MM && out.bottom <= KEY_TRIM_TOLERANCE_MM && out.top <= allowedTop;
+        });
+        if (fits) return index === 0 ? null : position;
+    }
+    return null;
+}
+
+/** The geometry of the A3 reader title plaque (D3, readers r2b and r2c). */
+interface QuestPlaqueGeometry {
+    /** The width of the plaque, in millimetres. */
+    widthMm: number;
+    /** The height of the plaque, in millimetres. */
+    heightMm: number;
+    /** The line count of the title. */
+    lines: number;
+    /** The width of the title text box, in millimetres. */
+    contentMm: number;
+    /** The height of one title band, in millimetres. */
+    bandMm: number;
+}
+
+/**
+ * Reads the geometry of the A3 reader title plaque of the top style hlogo (readers r2b, E4): the
+ * width follows the title plus 2 x 27 mm between 120 mm and 340 mm, a title wider than 286 mm wraps,
+ * and the height follows the line count.
+ * @param title The title of the reader.
+ * @returns The geometry.
+ */
+function readerPlaqueGeometry(title: string): QuestPlaqueGeometry {
+    const fontMm = READER_TITLE_FONT_MM;
+    const titleMm = leagueSpartanWidthMm(title, fontMm);
+    const naturalMm = titleMm + 2 * READER_TITLE_PADDING_MM;
+    const widthMm =
+        naturalMm > READER_TITLE_MAX_WIDTH_MM
+            ? READER_TITLE_MAX_WIDTH_MM - READER_PLAQUE_SLOP_MM
+            : naturalMm < READER_TITLE_MIN_WIDTH_MM
+              ? READER_TITLE_MIN_WIDTH_MM + READER_PLAQUE_SLOP_MM
+              : naturalMm;
+    const contentMm = widthMm - 2 * READER_TITLE_PADDING_MM;
+    const lines = naturalMm > READER_TITLE_MAX_WIDTH_MM ? readerTitleLineCount(title, fontMm, contentMm) : 1;
+    const bandMm = READER_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM;
+    return { widthMm, heightMm: bandMm * Math.max(1, lines) + READER_PLAQUE_BAND_INSET_MM, lines: Math.max(1, lines), contentMm, bandMm };
+}
+
+/** The geometry of the leaf reader title plaque of the top style hlogo (readers r2c, E4). */
+interface QuestLeafPlaqueGeometry {
+    /** The width of the plaque, in millimetres. */
+    widthMm: number;
+    /** The left edge of the plaque, in millimetres. */
+    leftMm: number;
+    /** The top of the title line box inside the plaque, in millimetres. */
+    lineTopMm: number;
+}
+
+/**
+ * Reads the geometry of the leaf reader title plaque of the top style hlogo (readers r2c, E4): the
+ * width follows the title plus 2 x 21 mm between 110 mm and 182 mm, centred on the 198 mm page.
+ * @param title The title of the reader.
+ * @returns The geometry.
+ */
+function leafPlaqueGeometry(title: string): QuestLeafPlaqueGeometry {
+    const fontMm = LEAF_TITLE_FONT_MM;
+    const titleMm = leagueSpartanWidthMm(title, fontMm);
+    const widthMm = Math.min(LEAF_PLAQUE_MAX_WIDTH_MM, Math.max(LEAF_PLAQUE_MIN_WIDTH_MM, titleMm + 2 * LEAF_PLAQUE_PADDING_MM));
+    const bandMm = LEAF_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM;
+    return { widthMm, leftMm: (questPageSize('reader-leaf', 0).widthMm - widthMm) / 2, lineTopMm: titleLineTopMm(title, fontMm, PLAQUE_BAND_EDGE_MM, bandMm) };
+}
+
+/** The width that the leaf mark box of a page 1 side reserves, in millimetres (Q5). */
+const LEAF_MARK_BOX_WIDTH_MM = 34;
+
+/** The height of the leaf mark box of a page 1 side, in millimetres (Q5). */
+const LEAF_MARK_BOX_HEIGHT_MM = 2.5;
+
+/** The top of the leaf mark box of a page 1 side, in millimetres from the side top (Q5: 0.5 to 10). */
+const LEAF_MARK_TOP_MM = 2;
+
+/** The size factor of the crystal groups of the leaf plaque (C6 of 2026-11-12: the gap of 2 mm at s = 0.5). */
+const LEAF_CRYSTAL_SCALE = 0.6;
+
+/** The least left edge of the leaf mark of a page 1 side, in millimetres: 3 mm right of the 12 mm perforation (FR-5.1). */
+const LEAF_MARK_MIN_LEFT_MM = 15;
+
+/**
+ * Reads the free place of the leaf mark of a page 1 quest cover (Q5 rule a, the PM decision of
+ * 2026-11-12). The leaf side turns page 1 by 180 degrees in the imposition, so the mark is placed in
+ * the side coordinates of the top margin and mapped back to the page. The mark box with 1 mm around
+ * it stays clear of every chrome part and every key box of the page, at least 3 mm from the
+ * perforation (x 12 mm) and inside the torn leaf. The white footer strip grows to hold the mark.
+ * @param artFile The line art file of the reader cover.
+ * @param title The title of the reader.
+ * @param roleLabel The role label of the reader.
+ * @returns The mark box in page millimetres.
+ */
+function leafMarkPlace(artFile: string, title: string, roleLabel: string): QuestMmBox {
+    const page = questPageSize('reader-leaf', 0);
+    const mirror = (box: QuestMmBox): QuestMmBox => ({
+        left: page.widthMm - box.right,
+        top: page.heightMm - box.bottom,
+        right: page.widthMm - box.left,
+        bottom: page.heightMm - box.top,
+    });
+    const all = questPageOneClearBoxes('reader-leaf', artFile, title, roleLabel);
+    // the mark stands inside the footer strip, so the sub-part box (the footer) is not a blocker
+    const boxes = all.slice(0, Math.max(0, all.length - 1)).map((box) => questGrow(mirror(box), KEY_CLEARANCE_MM));
+    const widthMm = LEAF_MARK_BOX_WIDTH_MM;
+    const heightMm = LEAF_MARK_BOX_HEIGHT_MM;
+    const top = LEAF_MARK_TOP_MM;
+    for (let left = LEAF_MARK_MIN_LEFT_MM; left <= page.widthMm - KEY_TRIM_MARGIN_MM - widthMm; left += 1) {
+        const side = { left, top, right: left + widthMm, bottom: top + heightMm };
+        if (boxes.some((box) => questOverlap(box, side))) continue;
+        return mirror(side);
+    }
+    return mirror({ left: LEAF_MARK_MIN_LEFT_MM, top, right: LEAF_MARK_MIN_LEFT_MM + widthMm, bottom: top + heightMm });
+}
+
+/**
+ * Reads the painted default group of one reader cover (D3, D4): the plaque box and the sub-part box,
+ * in the page millimetres of the bleed 0. The painted box of a text part holds the boxes of its
+ * lines and of its icons, so the group takes the measured paint offsets of the role bar and of the
+ * leaf footer, which the Chrome measure of the role base of 2026-11-12 pins.
+ * @param kind The cover kind: `reader-a3` or `reader-leaf`.
+ * @param title The title of the reader.
+ * @param roleLabel The role label of the reader.
+ * @param page The page size.
+ * @returns The group in page millimetres.
+ */
+function questReaderGroup(
+    kind: QuestCoverKind,
+    title: string,
+    roleLabel: string,
+    page: QuestTrim,
+): { plaque: QuestMmBox; sub: QuestMmBox; overflowTopMm: number; overflowBottomMm: number } {
+    const centre = page.widthMm / 2;
+    if (kind === 'reader-a3') {
+        const geometry = readerPlaqueGeometry(title);
+        const bandMm = geometry.bandMm * geometry.lines;
+        const lineTopMm = titleLineTopMm(title, READER_TITLE_FONT_MM, PLAQUE_BAND_EDGE_MM, bandMm, geometry.lines);
+        const leftMm = (page.widthMm - geometry.widthMm) / 2;
+        const topMm = READER_PLAQUE_BOTTOM_MM - geometry.heightMm;
+        const bar = boxOf('reader-a3', 'role-bar');
+        const barWidthMm = READER_BAR_PAINT_WIDTH_MM[roleLabel] ?? READER_BAR_PAINT_WIDTH_MAX_MM;
+        return {
+            plaque: {
+                left: leftMm,
+                top: topMm,
+                right: leftMm + geometry.widthMm,
+                bottom: topMm + geometry.heightMm,
+            },
+            overflowTopMm: Math.max(0, -lineTopMm),
+            overflowBottomMm: Math.max(0, lineTopMm + READER_TITLE_FONT_MM * geometry.lines - geometry.heightMm),
+            sub: {
+                left: centre - barWidthMm / 2,
+                top: bar.topMm - READER_BAR_PAINT_ABOVE_MM,
+                right: centre + barWidthMm / 2,
+                bottom: bar.topMm + bar.heightMm + READER_BAR_PAINT_BELOW_MM,
+            },
+        };
+    }
+    const geometry = leafPlaqueGeometry(title);
+    const footerWidthMm = LEAF_FOOTER_PAINT_WIDTH_MM[roleLabel] ?? LEAF_FOOTER_PAINT_WIDTH_MAX_MM;
+    return {
+        plaque: {
+            left: geometry.leftMm,
+            top: LEAF_PLAQUE_TOP_MM,
+            right: geometry.leftMm + geometry.widthMm,
+            bottom: LEAF_PLAQUE_TOP_MM + LEAF_PLAQUE_HEIGHT_MM,
+        },
+        overflowTopMm: Math.max(0, -geometry.lineTopMm),
+        overflowBottomMm: Math.max(0, geometry.lineTopMm + LEAF_TITLE_FONT_MM - LEAF_PLAQUE_HEIGHT_MM),
+        sub: questGrow(
+            {
+                left: centre - footerWidthMm / 2,
+                top: LEAF_FOOTER_PAINT_TOP_MM,
+                right: centre + footerWidthMm / 2,
+                bottom: LEAF_FOOTER_PAINT_TOP_MM + LEAF_FOOTER_PAINT_HEIGHT_MM,
+            },
+            KEY_CLEARANCE_MM,
+        ),
+    };
+}
+
+/**
+ * Finds the lowest centred free place of one chrome group (D3): the group moves up from its default
+ * bottom in 1 mm steps, at the plaque size share, and the plaque top stays 5 mm inside the trim.
+ * @param page The page size.
+ * @param group The default group.
+ * @param scale The plaque size share.
+ * @param keys The key boxes in page millimetres.
+ * @returns The step count in millimetres, or null when no centred place is free.
+ */
+function questCentredPlace(
+    page: QuestTrim,
+    group: { plaque: QuestMmBox; sub: QuestMmBox; overflowTopMm: number; overflowBottomMm: number },
+    scale: number,
+    keys: QuestKeyMmBox[],
+): number | null {
+    const centre = page.widthMm / 2;
+    const plaqueWidthMm = (group.plaque.right - group.plaque.left) * scale;
+    const plaqueHeightMm = (group.plaque.bottom - group.plaque.top) * scale;
+    const gapMm = group.sub.top - group.plaque.bottom;
+    const subWidthMm = group.sub.right - group.sub.left;
+    const subHeightMm = group.sub.bottom - group.sub.top;
+    for (let step = 0; step < 400; step += 1) {
+        const bottom = group.sub.bottom - step;
+        const sub = { left: centre - subWidthMm / 2, top: bottom - subHeightMm, right: centre + subWidthMm / 2, bottom };
+        const plaqueBottom = bottom - subHeightMm - gapMm;
+        const plaque = { left: centre - plaqueWidthMm / 2, top: plaqueBottom - plaqueHeightMm, right: centre + plaqueWidthMm / 2, bottom: plaqueBottom };
+        const paint = {
+            left: plaque.left,
+            top: plaque.top - group.overflowTopMm * scale,
+            right: plaque.right,
+            bottom: plaque.bottom + group.overflowBottomMm * scale,
+        };
+        if (paint.top < KEY_TRIM_MARGIN_MM) return null;
+        if (questClearOfKeys(plaque, keys) && questClearOfKeys(paint, keys) && questClearOfKeys(sub, keys)) return step;
+    }
+    return null;
+}
+
+/**
+ * Scales one box to the size share of D3 around the page centre, with its bottom edge kept (the 50 %
+ * step of an exception cover). The plaque takes the smaller size in its own layout, so that no
+ * transform lands on the page: Chrome turns a page with a scaled layer into one image (R31).
+ * @param box The box.
+ * @param scale The size share.
+ * @param centreMm The horizontal centre of the page, in millimetres.
+ * @returns The scaled box.
+ */
+function questScalePlaque(box: QuestMmBox, scale: number, centreMm: number): QuestMmBox {
+    const halfWidth = ((box.right - box.left) * scale) / 2;
+    return { left: centreMm - halfWidth, top: box.bottom - (box.bottom - box.top) * scale, right: centreMm + halfWidth, bottom: box.bottom };
+}
+
+/**
+ * Finds the lowest free place of an exception cover group (D3, D4): the plaque takes the 50 % size
+ * and the group slides horizontally, because no centred place is free. The group moves up in 1 mm
+ * steps, and the slide tries the page centre and then both sides step by step.
+ * @param page The page size.
+ * @param plaque The scaled plaque box.
+ * @param sub The sub-part box.
+ * @param keys The key boxes in page millimetres.
+ * @returns The slide in millimetres, or null when no place is free.
+ */
+function questSlidePlace(
+    page: QuestTrim,
+    plaque: QuestMmBox,
+    sub: QuestMmBox,
+    keys: QuestKeyMmBox[],
+    paint: QuestMmBox,
+): { dxMm: number; dyMm: number } | null {
+    const widthMm = page.widthMm / 2;
+    const group = { left: Math.min(plaque.left, sub.left), top: plaque.top, right: Math.max(plaque.right, sub.right), bottom: sub.bottom };
+    const safety = keys.map((key) => ({ ...key, box: questGrow(key.box, KEY_SLIDE_SAFETY_MM) }));
+    for (let dy = 0; dy < page.heightMm; dy += 1) {
+        for (let offset = 0; offset <= widthMm; offset += 1) {
+            for (const dx of offset === 0 ? [0] : [-offset, offset]) {
+                const moved = { left: group.left + dx, top: group.top - dy, right: group.right + dx, bottom: group.bottom - dy };
+                if (!questInsideTrim(moved, page)) continue;
+                if (!questClearOfKeys({ left: plaque.left + dx, top: plaque.top - dy, right: plaque.right + dx, bottom: plaque.bottom - dy }, safety)) continue;
+                if (!questClearOfKeys({ left: paint.left + dx, top: paint.top - dy, right: paint.right + dx, bottom: paint.bottom - dy }, safety)) continue;
+                if (!questClearOfKeys({ left: sub.left + dx, top: sub.top - dy, right: sub.right + dx, bottom: sub.bottom - dy }, safety)) continue;
+                return { dxMm: dx, dyMm: -dy };
+            }
+        }
+    }
+    return null;
+}
+
+/**
+ * Reads the move of the A3 hlogo week pill (D3): the pill keeps its top right box when that box is
+ * free, else it takes the mirrored top left box, else it steps down in that column. The painted box
+ * of the pill takes the measured paint offsets of the role base of 2026-11-12.
+ * @param page The page size.
+ * @param keys The key boxes in page millimetres.
+ * @returns The move of the pill in millimetres.
+ */
+function questPillMove(page: QuestTrim, keys: QuestKeyMmBox[]): { dxMm: number; dyMm: number } {
+    const box = boxOf('reader-a3', 'week-pill');
+    const base: QuestMmBox = {
+        left: READER_PILL_CENTRE_MM - READER_PILL_PAINT_WIDTH_MM / 2,
+        top: box.topMm - READER_PILL_PAINT_ABOVE_MM,
+        right: READER_PILL_CENTRE_MM + READER_PILL_PAINT_WIDTH_MM / 2,
+        bottom: box.topMm + box.heightMm + READER_PILL_PAINT_BELOW_MM,
+    };
+    if (questClearOfKeys(base, keys)) return { dxMm: 0, dyMm: 0 };
+    const mirrorDxMm = page.widthMm - base.right - base.left;
+    const mirrored = { ...base, left: base.left + mirrorDxMm, right: base.right + mirrorDxMm };
+    if (questClearOfKeys(mirrored, keys)) return { dxMm: mirrorDxMm, dyMm: 0 };
+    for (let step = 1; step < 200; step += 1) {
+        const lower = { ...mirrored, top: mirrored.top + step, bottom: mirrored.bottom + step };
+        if (questClearOfKeys(lower, keys)) return { dxMm: mirrorDxMm, dyMm: step };
+    }
+    return { dxMm: 0, dyMm: 0 };
+}
+
+/**
+ * Places the chrome of one reader cover by the rule D3 (the round of 2026-11-12, F3 and F4): the
+ * default place; then the group up in 1 mm steps; then, on an exception cover, the plaque at 50 %
+ * and the group on a horizontal slide. The step reads the key boxes of the art file from
+ * `pictures-heads.json` and maps them to page millimetres through the `object-fit: cover` transform
+ * of the art layer, with a 1 mm clearance. The D4 exception list is w01-2 reader-a3 and
+ * w01-2 reader-leaf; the step computes that list from the key boxes, so no cover name is in the code.
+ * @param kind The cover kind.
+ * @param artFile The art file name of the key box file.
+ * @param title The title of the reader.
+ * @param roleLabel The role label of the reader.
+ * @returns The placement of the chrome.
+ */
+export function questChromePlacement(kind: QuestCoverKind, artFile: string, title: string, roleLabel: string): QuestChromePlacement {
+    const none: QuestChromePlacement = { scale: 1, plaqueDxMm: 0, plaqueDyMm: 0, subDxMm: 0, subDyMm: 0, pillDxMm: 0, pillDyMm: 0, artPosition: null };
+    const page = questPageSize(kind, 0);
+    const entry = questKeyBoxes()[artFile];
+    if (!entry) return none;
+    const artPosition = questArtPosition(entry, page);
+    const keys = questKeyBoxesMm(entry, page, artPosition ?? KEY_ART_POSITIONS[0]).keys;
+    const group = questReaderGroup(kind, title, roleLabel, page);
+    const step = questCentredPlace(page, group, 1, keys);
+    const pill = kind === 'reader-a3' ? questPillMove(page, keys) : { dxMm: 0, dyMm: 0 };
+    if (step === 0) return { ...none, artPosition, pillDxMm: pill.dxMm, pillDyMm: pill.dyMm };
+    if (step !== null) {
+        return { ...none, artPosition, plaqueDyMm: -step, subDyMm: -step, pillDxMm: pill.dxMm, pillDyMm: pill.dyMm };
+    }
+    // the D3 ladder: the plaque at 95 %, 90 %, ... 50 %, each size with its own place
+    for (let percent = 95; percent >= 50; percent -= 5) {
+        const sizeScale = percent / 100;
+        const sizeStep = questCentredPlace(page, group, sizeScale, keys);
+        if (sizeStep === null) continue;
+        return { ...none, scale: sizeScale, artPosition, plaqueDyMm: -sizeStep, subDyMm: -sizeStep, pillDxMm: pill.dxMm, pillDyMm: pill.dyMm };
+    }
+    const scaledPlaque = questScalePlaque(group.plaque, 0.5, questPageSize(kind, 0).widthMm / 2);
+    const scaledPaint = {
+        left: scaledPlaque.left,
+        top: scaledPlaque.top - group.overflowTopMm * 0.5,
+        right: scaledPlaque.right,
+        bottom: scaledPlaque.bottom + group.overflowBottomMm * 0.5,
+    };
+    const slide = questSlidePlace(page, scaledPlaque, group.sub, keys, scaledPaint);
+    if (!slide) return { ...none, artPosition };
+    return {
+        scale: 0.5,
+        plaqueDxMm: slide.dxMm,
+        plaqueDyMm: slide.dyMm,
+        subDxMm: slide.dxMm,
+        subDyMm: slide.dyMm,
+        pillDxMm: 0,
+        pillDyMm: 0,
+        artPosition,
+    };
+}
+
+/**
+ * Reads the boxes that the leaf mark of a page 1 quest cover must clear, in page millimetres (Q5 of
+ * the PM answer of 2026-11-12): the key boxes of the art, the placed title plaque box, and the
+ * placed sub-part box.
+ * @param kind The cover kind.
+ * @param artFile The art file name of the key box file.
+ * @param title The title of the reader.
+ * @param roleLabel The role label of the reader.
+ * @returns The boxes, or an empty list when the key box file holds no entry.
+ */
+export function questPageOneClearBoxes(kind: QuestCoverKind, artFile: string, title: string, roleLabel: string): QuestMmBox[] {
+    const page = questPageSize(kind, 0);
+    const entry = questKeyBoxes()[artFile];
+    if (!entry) return [];
+    const position = questArtPosition(entry, page) ?? KEY_ART_POSITIONS[0];
+    const keys = questKeyBoxesMm(entry, page, position).keys.map((key) => key.box);
+    const placement = questChromePlacement(kind, artFile, title, roleLabel);
+    const group = questReaderGroup(kind, title, roleLabel, page);
+    const scale = placement.scale;
+    const plaqueWidthMm = (group.plaque.right - group.plaque.left) * scale;
+    const plaqueHeightMm = (group.plaque.bottom - group.plaque.top) * scale;
+    const centreMm = page.widthMm / 2 + placement.plaqueDxMm;
+    const bottom = group.plaque.bottom + placement.plaqueDyMm;
+    return [
+        ...keys,
+        { left: centreMm - plaqueWidthMm / 2, top: bottom - plaqueHeightMm, right: centreMm + plaqueWidthMm / 2, bottom },
+        {
+            left: centreMm - (group.sub.right - group.sub.left) / 2,
+            top: group.sub.top + placement.subDyMm,
+            right: centreMm + (group.sub.right - group.sub.left) / 2,
+            bottom: group.sub.bottom + placement.subDyMm,
+        },
+    ];
+}
+
+
+/**
+ * Draws the art layer: the first element of the page, to the page edges (spec FR-9.1, T26). The
+ * round of 2026-11-12 (F3, Q1): the object-position follows the placement step, and it stays absent
+ * for the default centred position, so that the default render keeps its bytes.
  * @param kind The cover kind.
  * @param assets The assets.
  * @param bleedMm The bleed.
+ * @param artPosition The object-position, or null for the default `50% 50%` (Q1).
  * @returns The HTML.
  */
-function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number): string {
+function artLayer(kind: QuestCoverKind, assets: QuestRenderAssets, bleedMm: number, artPosition: string | null = null): string {
     const page = questPageSize(kind, bleedMm);
-    return (
-        `<img data-part="art" class="quest-art" src="${esc(assets.art ?? '')}" alt="" ` +
-        `style="position:absolute;left:0mm;top:0mm;width:${mm(page.widthMm)};height:${mm(page.heightMm)};object-fit:cover">`
-    );
+    const position = artPosition === null ? '' : `;object-position:${artPosition}`;
+    const box = `position:absolute;left:0mm;top:0mm;width:${mm(page.widthMm)};height:${mm(page.heightMm)}`;
+    const art = assets.art ?? '';
+    if (!art) {
+        return (
+            `<div data-part="art" class="quest-art" style="${box};display:flex;align-items:center;` +
+            `justify-content:center;background:#EFEFEF"><span class="quest-missing">PICTURE MISSING</span></div>`
+        );
+    }
+    return `<img data-part="art" class="quest-art" src="${esc(art)}" alt="" style="${box};object-fit:cover${position}">`;
 }
 
 /**
@@ -2014,10 +2689,18 @@ function readerA3Body(
     const plaque = boxOf(kind, 'title-plaque');
     const roleBar = boxOf(kind, 'role-bar');
     const colour = STORYTIME_LEVEL_COLOURS[reader.level] ?? A.blue;
+    const placement = top === 'hlogo' ? questChromePlacement(kind, reader.picture.fileName, reader.title, reader.roleLabel) : null;
+    const page = questPageSize(kind, 0);
+    const pillLeftCss = `left:${mm(READER_PILL_CENTRE_MM + (placement?.pillDxMm ?? 0) + bleedMm)}`;
+    const pillShiftCss = 'transform:translateX(-50%);';
+    const pillTopMm = weekPill.topMm + (placement?.pillDyMm ?? 0);
+    const barLeftCss = placement && placement.subDxMm !== 0 ? `left:${mm(page.widthMm / 2 + placement.subDxMm + bleedMm)}` : 'left:50%';
+    const barShiftCss = 'transform:translateX(-50%);';
+    const barTopMm = roleBar.topMm + (placement?.subDyMm ?? 0);
     const weekPillHtml =
         top === 'hlogo'
-            ? `<div data-part="week-pill" class="quest-c" style="position:absolute;left:${mm(READER_PILL_CENTRE_MM + bleedMm)};` +
-              `top:${mm(weekPill.topMm + bleedMm)};transform:translateX(-50%);width:max-content;box-sizing:border-box;` +
+            ? `<div data-part="week-pill" class="quest-c" style="position:absolute;${pillLeftCss};` +
+              `top:${mm(pillTopMm + bleedMm)};${pillShiftCss}width:max-content;box-sizing:border-box;` +
               `height:${mm(weekPill.heightMm)};padding:0 ${mm(READER_PILL_PADDING_MM)};border-radius:5mm;` +
               `background-color:${LOGO_AMBER};border:0.6mm solid ${LOGO_BROWN};color:${LOGO_BROWN};font-weight:700;` +
               `font-size:${mm(READER_PILL_CAP_FONT_MM)};line-height:${mm(weekPill.heightMm - 1.2)}">` +
@@ -2027,15 +2710,15 @@ function readerA3Body(
               `line-height:${mm(weekPill.heightMm - 1.2)}">${esc(reader.weekText)}</div>`;
     const plaqueHtml =
         top === 'hlogo'
-            ? readerTitlePlaque(reader.title, bleedMm)
+            ? readerTitlePlaque(reader.title, bleedMm, placement)
             : `<div data-part="title-plaque" data-plaque-colour="${colour}" style="${boxStyle(plaque, bleedMm)}">` +
               plaqueSvg(plaque.widthMm, plaque.heightMm, colour) +
               `<div class="quest-c" style="position:absolute;left:0;top:8mm;width:${mm(plaque.widthMm)};color:#fff;` +
               `font-family:'League Spartan';font-weight:700;font-size:40pt;line-height:1">${esc(reader.title)}</div></div>`;
     const roleBarHtml =
         top === 'hlogo'
-            ? `<div data-part="role-bar" class="quest-c" style="position:absolute;left:50%;top:${mm(roleBar.topMm + bleedMm)};` +
-              `transform:translateX(-50%);width:max-content;height:${mm(roleBar.heightMm)};box-sizing:border-box;` +
+            ? `<div data-part="role-bar" class="quest-c" style="position:absolute;${barLeftCss};top:${mm(barTopMm + bleedMm)};` +
+              `${barShiftCss}width:max-content;height:${mm(roleBar.heightMm)};box-sizing:border-box;` +
               `padding:0 ${mm(READER_BAR_PADDING_MM)};background-color:${LOGO_AMBER};border-radius:2mm;` +
               `border:0.6mm solid ${LOGO_BROWN};color:${LOGO_BROWN};line-height:${mm(roleBar.heightMm - 1.2)}">` +
               `${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, LOGO_BROWN, 7, `font-weight:700;font-size:${mm(READER_BAR_LETTER_FONT_MM)};position:relative;top:${mm(READER_BAR_TEXT_SHIFT_MM)}`, `;position:relative;top:${mm(READER_BAR_ICON_SHIFT_MM)}`)}</div>`
@@ -2043,7 +2726,7 @@ function readerA3Body(
               `background-color:${A.navy};border-radius:2mm;border:0.6mm solid ${A.steel};color:#fff;` +
               `line-height:${mm(roleBar.heightMm - 1.2)}">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#FFFFFF', 7, 'font-weight:700;font-size:15pt')}</div>`;
     if (top === 'hlogo') {
-        return [artLayer(kind, assets, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
+        return [artLayer(kind, assets, bleedMm, placement?.artPosition ?? null), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
     }
     return [
         artLayer(kind, assets, bleedMm),
@@ -2089,6 +2772,7 @@ function leafBody(
     assets: QuestRenderAssets,
     bleedMm: number,
     top: QuestTopStyle,
+    leafMark = '',
 ): string {
     const kind: QuestCoverKind = 'reader-leaf';
     const black = '#000000';
@@ -2105,9 +2789,13 @@ function leafBody(
         `<rect x="0.5" y="0.5" width="181" height="103" rx="5" fill="none" stroke="${black}" stroke-width="1"/>` +
         `<rect x="2.3" y="2.3" width="177.4" height="99.4" rx="4" fill="none" stroke="${black}" stroke-width="0.4"/></svg></div>`;
     if (top === 'hlogo') {
-        return [artLayer(kind, assets, bleedMm), leafTitlePlaque(reader.title, bleedMm), leafFooter(reader, bleedMm)].join(
-            '\n',
-        );
+        const placement = questChromePlacement(kind, reader.picture.lineArtFileName, reader.title, reader.roleLabel);
+        return [
+            artLayer(kind, assets, bleedMm, placement.artPosition),
+            leafFooterStrip(reader, bleedMm, placement, leafMark),
+            leafTitlePlaque(reader.title, bleedMm, placement),
+            leafFooter(reader, bleedMm, placement),
+        ].join('\n');
     }
     const glyphs = QUEST_BANDS.map((band, index) =>
         bandGlyph(band, 3 + index * 7, 3.5, 5.2, band === 'sprout' ? black : white, black, white, 1.3),
@@ -2143,22 +2831,23 @@ function leafBody(
  * @param bleedMm The bleed.
  * @returns The HTML.
  */
-function leafTitlePlaque(title: string, bleedMm: number): string {
+function leafTitlePlaque(title: string, bleedMm: number, placement: QuestChromePlacement | null = null): string {
     const page = questPageSize('reader-leaf', bleedMm);
-    const fontMm = LEAF_TITLE_FONT_MM;
-    const titleMm = leagueSpartanWidthMm(title, fontMm);
-    const widthMm = Math.min(
-        LEAF_PLAQUE_MAX_WIDTH_MM,
-        Math.max(LEAF_PLAQUE_MIN_WIDTH_MM, titleMm + 2 * LEAF_PLAQUE_PADDING_MM),
-    );
-    const bandMm = LEAF_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM;
-    const leftMm = (page.widthMm - widthMm) / 2;
-    const lineTopMm = titleLineTopMm(title, fontMm, PLAQUE_BAND_EDGE_MM, bandMm);
+    const scale = placement?.scale ?? 1;
+    const crystalInset = 0;
+    const fontMm = LEAF_TITLE_FONT_MM * scale;
+    const geometry = leafPlaqueGeometry(title);
+    const widthMm = geometry.widthMm * scale;
+    const bandMm = (LEAF_PLAQUE_HEIGHT_MM - READER_PLAQUE_BAND_INSET_MM) * scale;
+    const heightMm = LEAF_PLAQUE_HEIGHT_MM * scale;
+    const leftMm = (page.widthMm - widthMm) / 2 + (placement?.plaqueDxMm ?? 0);
+    const topMm = LEAF_PLAQUE_TOP_MM + LEAF_PLAQUE_HEIGHT_MM + (placement?.plaqueDyMm ?? 0) - heightMm;
+    const lineTopMm = titleLineTopMm(title, fontMm, PLAQUE_BAND_EDGE_MM * scale, bandMm);
     return (
         `<div data-part="title-plaque" data-plaque-colour="${LEAF_PLAQUE_BAND}" style="position:absolute;` +
-        `left:${mm(leftMm + bleedMm)};top:${mm(LEAF_PLAQUE_TOP_MM + bleedMm)};width:${mm(widthMm)};` +
-        `height:${mm(LEAF_PLAQUE_HEIGHT_MM)}">` +
-        plaqueSvg(widthMm, LEAF_PLAQUE_HEIGHT_MM, LEAF_PLAQUE_BAND, true, PLAQUE_K_PALETTE) +
+        `left:${mm(leftMm + bleedMm)};top:${mm(topMm + bleedMm)};width:${mm(widthMm)};` +
+        `height:${mm(heightMm)}">` +
+        plaqueSvg(geometry.widthMm, LEAF_PLAQUE_HEIGHT_MM, LEAF_PLAQUE_BAND, true, PLAQUE_K_PALETTE, scale, crystalInset, LEAF_CRYSTAL_SCALE) +
         `<div class="quest-c" style="position:absolute;left:0;top:${mm(lineTopMm)};` +
         `width:${mm(widthMm)};height:${mm(fontMm)};` +
         `color:#000000;font-family:'League Spartan';font-weight:700;` +
@@ -2167,21 +2856,89 @@ function leafTitlePlaque(title: string, bleedMm: number): string {
 }
 
 /**
- * Draws the footer of the leaf reader cover with the top style hlogo (readers r2c, E8 and E9): the
- * series, the week, and the role line in one centered line at 9 pt, with no bar.
+ * Draws the footer content of the leaf reader cover with the top style hlogo: the series, the week,
+ * and the role line, with the role icons (readers r2c, E8). The round of 2026-11-12 (F4) draws the
+ * same content twice: once in the footer, and once hidden inside the white strip, so that the strip
+ * fits the footer text.
  * @param reader The reader row.
- * @param bleedMm The bleed.
+ * @param stroke The stroke colour of the role icons.
+ * @param parts When true, the text spans carry the `data-part` marks of the footer.
  * @returns The HTML.
  */
-function leafFooter(reader: QuestReaderRow, bleedMm: number): string {
+function leafFooterContent(reader: QuestReaderRow, stroke: string, parts: boolean): string {
+    const mark = parts ? ' data-part="series"' : '';
+    const weekMark = parts ? ' data-part="week"' : '';
+    const role = parts ? '<span data-part="role-mark">' : '<span>';
+    return (
+        `<span${mark}>${esc(STORYTIME_SERIES)}</span> \u00b7 ` +
+        `<span${weekMark}>${esc(reader.weekText)}</span> \u00b7 ` +
+        `${role}${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, stroke, 4.6, '')}</span>`
+    );
+}
+
+/**
+ * Draws the footer of the leaf reader cover with the top style hlogo (readers r2c, E8 and E9): the
+ * series, the week, and the role line in one centered line at 9 pt, with no bar. The round of
+ * 2026-11-12 (F4) moves it by the placement step, and keeps its 9 pt size.
+ * @param reader The reader row.
+ * @param bleedMm The bleed.
+ * @param placement The placement of the chrome (D3).
+ * @returns The HTML.
+ */
+function leafFooter(reader: QuestReaderRow, bleedMm: number, placement: QuestChromePlacement | null = null): string {
     const page = questPageSize('reader-leaf', bleedMm);
+    const topMm = LEAF_FOOTER_TOP_MM + (placement?.subDyMm ?? 0);
+    const shift = placement && placement.subDxMm !== 0 ? `transform:translateX(${mm(placement.subDxMm)});` : '';
     return (
         `<div data-part="footer" class="quest-c" style="position:absolute;left:${mm(bleedMm)};` +
-        `top:${mm(LEAF_FOOTER_TOP_MM + bleedMm)};width:${mm(page.widthMm - 2 * bleedMm)};` +
-        `height:${mm(LEAF_FOOTER_HEIGHT_MM)};font-size:9pt;line-height:${mm(LEAF_FOOTER_HEIGHT_MM)};color:#000000">` +
-        `<span data-part="series">${esc(STORYTIME_SERIES)}</span> \u00b7 ` +
-        `<span data-part="week">${esc(reader.weekText)}</span> \u00b7 ` +
-        `<span data-part="role-mark">${roleMark(roleKeyOfLabel(reader.roleLabel), reader.roleLabel, '#000000', 4.6, '')}</span></div>`
+        `top:${mm(topMm + bleedMm)};width:${mm(page.widthMm - 2 * bleedMm)};` +
+        `height:${mm(LEAF_FOOTER_HEIGHT_MM)};font-size:9pt;line-height:${mm(LEAF_FOOTER_HEIGHT_MM)};color:#000000;${shift}">` +
+        `${leafFooterContent(reader, '#000000', true)}</div>`
+    );
+}
+
+/**
+ * Draws the white strip of the leaf reader footer (the PM look of 2026-11-11, F4; D5): one top-level
+ * part `footer-strip`, `#FFFFFF`, opaque, with no border, at least 1 mm around the footer ink. It
+ * stands behind the footer, and its width follows the footer text, so that no line art crosses a
+ * letter. The 1 mm ring comes from the measured painted footer box of the role base of 2026-11-12
+ * (`137.26` mm to `142.98` mm high).
+ * @param reader The reader row.
+ * @param bleedMm The bleed.
+ * @param placement The placement of the chrome (D3).
+ * @returns The HTML.
+ */
+function leafFooterStrip(reader: QuestReaderRow, bleedMm: number, placement: QuestChromePlacement | null = null, leafMark = ''): string {
+    const page = questPageSize('reader-leaf', bleedMm);
+    const topMm = LEAF_FOOTER_PAINT_TOP_MM - KEY_CLEARANCE_MM + (placement?.subDyMm ?? 0);
+    const heightMm = LEAF_FOOTER_PAINT_HEIGHT_MM + 2 * KEY_CLEARANCE_MM;
+    const centreMm = page.widthMm / 2 + (placement?.subDxMm ?? 0);
+    const widthMm = LEAF_FOOTER_PAINT_WIDTH_MM[reader.roleLabel] ?? LEAF_FOOTER_PAINT_WIDTH_MAX_MM;
+    const box: QuestMmBox = {
+        left: centreMm - widthMm / 2 - KEY_CLEARANCE_MM,
+        top: topMm,
+        right: centreMm + widthMm / 2 + KEY_CLEARANCE_MM,
+        bottom: topMm + heightMm,
+    };
+    let markHtml = '';
+    if (leafMark) {
+        const place = leafMarkPlace(reader.picture.lineArtFileName, reader.title, reader.roleLabel);
+        const ring = questGrow(place, 2 * KEY_CLEARANCE_MM);
+        box.left = Math.min(box.left, ring.left);
+        box.top = Math.min(box.top, ring.top);
+        box.right = Math.max(box.right, ring.right);
+        box.bottom = Math.max(box.bottom, ring.bottom);
+        markHtml =
+            `<span data-part="leaf-mark" style="position:absolute;left:${mm(place.left - box.left)};` +
+            `top:${mm(place.top - box.top)};width:${mm(place.right - place.left)};` +
+            `height:${mm(place.bottom - place.top)};font-size:5pt;line-height:${mm(place.bottom - place.top)};` +
+            `white-space:nowrap;color:#000000;text-align:left">${esc(leafMark)}</span>`;
+    }
+    return (
+        `<div data-part="footer-strip" style="position:absolute;left:${mm(box.left + bleedMm)};` +
+        `top:${mm(box.top + bleedMm)};width:${mm(box.right - box.left)};height:${mm(box.bottom - box.top)};` +
+        `background-color:#FFFFFF;font-size:9pt;line-height:${mm(LEAF_FOOTER_HEIGHT_MM)};color:#000000">` +
+        `${markHtml}</div>`
     );
 }
 
@@ -2190,7 +2947,7 @@ function leafFooter(reader: QuestReaderRow, bleedMm: number): string {
  * Spartan face of the banner and the level line.
  * @returns The CSS.
  */
-function fontFaces(): string {
+export function questFontFaces(): string {
     const league =
         `@font-face { font-family: 'League Spartan'; font-weight: 700; font-style: normal; ` +
         `src: url('file://${PRINT_FONT_DIR}/league-spartan-latin-700-normal.woff2') format('woff2'); }`;
@@ -2208,7 +2965,7 @@ function documentCss(kind: QuestCoverKind, bleedMm: number): string {
     const page = questPageSize(kind, bleedMm);
     const leaf = kind === 'reader-leaf';
     const rules = [
-        fontFaces(),
+        questFontFaces(),
         `@page { size: ${mm(page.widthMm)} ${mm(page.heightMm)}; margin: 0; }`,
         `html, body { margin: 0; padding: 0; background: #ffffff; }`,
         `body { font-synthesis: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }`,
@@ -2280,7 +3037,7 @@ export function renderQuestCover(
  * @param trim The trim of the page.
  * @returns The CSS.
  */
-function readerPageCss(trim: QuestTrim): string {
+export function questReaderPageCss(trim: QuestTrim): string {
     return [
         `.quest-reader-page { position: relative; overflow: hidden; background: #ffffff; color: #1a1a1a; width: ${mm(trim.widthMm)}; height: ${mm(trim.heightMm)}; font-family: 'Andika', 'Sarabun', sans-serif; font-synthesis: none; }`,
         `.quest-reader-page .quest-c { text-align: center; white-space: nowrap; }`,
@@ -2309,6 +3066,7 @@ export function questReaderCoverPage(
     const bleedMm = opts?.bleedMm ?? 0;
     const top = opts?.top ?? 'banner';
     questPageSize(trim.widthMm >= 300 ? 'reader-a3' : 'reader-leaf', bleedMm);
-    const body = trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm, top);
-    return { body: `<div class="quest-reader-page">\n${body}\n</div>`, css: readerPageCss(trim) };
+    const body =
+        trim.widthMm >= 300 ? readerA3Body(reader, assets, bleedMm, top) : leafBody(reader, assets, bleedMm, top, opts?.leafMark ?? '');
+    return { body: `<div class="quest-reader-page">\n${body}\n</div>`, css: questReaderPageCss(trim) };
 }

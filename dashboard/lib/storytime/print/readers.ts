@@ -3,12 +3,19 @@ import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeWeek } from '../schema';
-import { HORIZONTAL_LOGO_ASPECT, HORIZONTAL_LOGO_URL, K_LOGO_URL } from './cover-quest';
+import {
+    HORIZONTAL_LOGO_ASPECT,
+    HORIZONTAL_LOGO_URL,
+    K_LOGO_URL,
+    questFontFaces,
+    questReaderCoverPage,
+    questReaderPageCss,
+    type QuestReaderRow,
+} from './cover-quest';
 import { storytimePrintPictures, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
 import type { StorytimePrintProfile } from './profile';
 import { fontFaceCss } from './print-fonts';
-import { iconSvg } from './icons';
 import { STORYTIME_READER_PAGE_OFFSET, type StorytimeIcon } from './step-map';
 
 /**
@@ -73,6 +80,9 @@ const A3_PAGE_SIZE = '1190.55 x 841.89 pts (A3)';
 
 /** The scale of a reader page on an A3 page (297 / 148.5 = 2.0, FR-5.8). */
 const A3_SCALE = 2;
+
+/** The trim of the colour A3 page, in millimetres: the page that holds one reader page (D6). */
+const A3_PAGE_TRIM = { widthMm: 420, heightMm: 297 };
 
 /**
  * What a reader build makes: the workbook leaves (line art), or the color A3 pages of the teacher.
@@ -221,20 +231,53 @@ function roleOf(book: StorytimeWeek['books'][number]): { label: string; icons: S
     return { label: 'Listen and read.', icons: ['ear', 'read'] };
 }
 
-/** The reader cover page (FR-5.5): the title, the band "Sprout", the series, the week number, and the role mark. */
+/**
+ * The reader cover page (FR-5.5, the PM look of 2026-11-11, F5 and D6): the quest reader cover of
+ * `questReaderCoverPage` with the top style hlogo, on the page trim of the output. The leaf design
+ * takes the 198 x 148.5 mm page with the line art on `workbook`, and the A3 design takes the full
+ * 420 x 297 mm page with the colour art on `a3-color`, with no 2.0 scale. One element of the page
+ * holds `data-picture-id` and `data-picture-file` and wraps the quest page, so the picture lists keep
+ * the cover row. Proof mode prints the quest chrome and the text PICTURE MISSING, and holds no image.
+ * No band word shows on the page.
+ * @param week The week of the reader.
+ * @param book The reader.
+ * @param cover The picture row of the cover.
+ * @param o The build options.
+ * @param files The resolved picture files of the week, by row id; empty in proof mode.
+ * @returns The page.
+ * @throws Error When the quest row is missing, a cover text breaks the copy rule (FR-6.3), or final
+ *   mode holds no picture file for the row (FR-5.6).
+ */
 function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], cover: StorytimePictureRow, o: StorytimeReaderOptions, files: Map<string, StorytimePictureFile>): ReaderPageSpec {
-    const copy = [book.title, 'Sprout', 'Storytime Advantage', `Week ${week.meta.week}`];
+    const copy = [book.title, 'Storytime Advantage', `Week ${week.meta.week}`];
     const banned = copy.filter((line) => COVER_COPY_RULE.test(line));
     if (banned.length) throw new Error(`reader cover copy (FR-6.3): ${banned.join('; ')}`);
-    const role = roleOf(book);
-    const body = `<div class="reader-cover">
-  ${pictureElement(cover, o, files)}
-  <p class="reader-band">Sprout</p>
-  <h1 class="reader-title" data-part="reader-cover-title">${esc(book.title)}</h1>
-  <p class="reader-series">Storytime Advantage</p>
-  <p class="reader-week">Week ${week.meta.week}</p>
-  <p class="reader-role" data-part="reader-role">${role.icons.map((icon) => iconSvg(icon, 'reader-role-icon', 'reader-role-icon')).join('')}<span>${esc(role.label)}</span></p>
-</div>`;
+    const row: QuestReaderRow = {
+        title: book.title,
+        kind: book.kind,
+        week: week.meta.week,
+        weekText: `Week ${week.meta.week}`,
+        litBand: String(week.meta.band).toLowerCase(),
+        roleLabel: roleOf(book).label,
+        level: week.meta.level,
+        slug: '',
+        picture: { fileName: cover.fileName, lineArtFileName: cover.lineArtFileName },
+    };
+    const listName = o.output === 'workbook' ? cover.lineArtFileName : cover.fileName;
+    let art = '';
+    let fileName = listName;
+    if (o.mode === 'final') {
+        const entry = files.get(cover.id);
+        if (!entry) throw new Error(`picture missing: ${cover.id} (${listName})`);
+        art = pathToFileURL(entry.file).href;
+        fileName = entry.fileName;
+    }
+    const trim = o.output === 'workbook' ? { widthMm: o.profile.readerPage.widthMm, heightMm: o.profile.readerPage.heightMm } : A3_PAGE_TRIM;
+    const leafMark = o.output === 'workbook' ? `${book.title} \u00b7 sheet 1 of ${LEAF_PAGES.length}` : '';
+    const page = questReaderCoverPage(row, trim, { art }, { bleedMm: 0, top: 'hlogo', leafMark });
+    const body =
+        `<div class="quest-cover-picture" data-picture-id="${esc(cover.id)}" ` +
+        `data-picture-file="${esc(fileName)}">\n${page.body}\n</div>`;
     return { number: 1, body, numbered: false };
 }
 
@@ -339,8 +382,7 @@ function backLogoTile(output: StorytimeReaderOutput): string {
  */
 function backPage(book: StorytimeWeek['books'][number], output: StorytimeReaderOutput): string {
     const words = book.backWords.map((word) => `<span class="reader-word">${esc(word)}</span>`).join('');
-    return `<p class="reader-series">Storytime Advantage</p>
-<h2 class="reader-heading">Words in this book</h2>
+    return `<h2 class="reader-heading">Words in this book</h2>
 <div class="reader-word-row" data-part="reader-back-words">${words}</div>
 ${backLogoTile(output)}`;
 }
@@ -424,7 +466,7 @@ const READER_SPACE = {
  * @param profile The print profile that holds the reader page size (P15).
  * @returns The CSS text of the reader page rules.
  */
-export function readerPageCss(profile: StorytimePrintProfile): string {
+export function readerPageCss(profile: StorytimePrintProfile, trim: { widthMm: number; heightMm: number } = profile.readerPage): string {
     const scale = readerContentScale(profile);
     const mm = (value: number): string => `${Math.round(value * scale * 1000) / 1000}mm`;
     const pt = (value: number): string => `${Math.round(value * scale * 1000) / 1000}pt`;
@@ -458,7 +500,13 @@ export function readerPageCss(profile: StorytimePrintProfile): string {
 .reader-qr svg { width: ${mm(34)}; height: ${mm(34)}; }
 .reader-qr-label { font-size: ${pt(8)}; }
 .reader-logo-tile { position: absolute; left: calc(50% - ${round(BACK_LOGO_TILE_WIDTH_MM / 2)}mm); top: ${BACK_LOGO_TILE_TOP_MM}mm; width: ${BACK_LOGO_TILE_WIDTH_MM}mm; height: ${BACK_LOGO_TILE_HEIGHT_MM}mm; border-radius: ${BACK_LOGO_TILE_RADIUS_MM}mm; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.reader-logo-tile img { width: ${tileImageWidthMm}mm; height: ${tileImageHeightMm}mm; display: block; }`;
+.reader-logo-tile img { width: ${tileImageWidthMm}mm; height: ${tileImageHeightMm}mm; display: block; }
+.quest-cover-picture { position: absolute; left: 0; top: 0; }
+.quest-cover-picture .quest-reader-page { background: transparent; }
+.reader-page > .quest-cover-picture { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; }
+.a3-page > .quest-cover-picture { width: ${A3_PAGE_TRIM.widthMm}mm; height: ${A3_PAGE_TRIM.heightMm}mm; }
+${questFontFaces()}
+${questReaderPageCss(trim)}`;
 }
 
 /**
@@ -480,7 +528,7 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #000; backgro
 .reader-leaf:last-of-type { break-after: auto; page-break-after: auto; }
 .reader-side { width: ${widthMm}mm; height: ${heightMm - 0.5}mm; position: relative; break-after: page; page-break-after: always; overflow: hidden; }
 .reader-side:last-child { break-after: auto; page-break-after: auto; }
-${readerPageCss(o.profile)}
+${readerPageCss(o.profile, o.output === 'workbook' ? o.profile.readerPage : A3_PAGE_TRIM)}
 .reader-side > .reader-page { position: absolute; }
 .reader-side[data-leaf-side="front"] > .reader-page { left: ${perforationMm}mm; }
 .reader-side[data-leaf-side="back"] > .reader-page { left: 0; }
@@ -515,6 +563,8 @@ export interface StorytimeReaderLeafSide {
     pages: number[];
     /** The HTML of the two reader pages. */
     html: string;
+    /** The line art file name of the cover picture of the reader, or empty (Q5 of 2026-11-12). */
+    lineArtFileName?: string;
 }
 
 /**
@@ -540,6 +590,7 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
                     leaf,
                     side,
                     pages: [...numbers],
+                    lineArtFileName: rows[i].cover.lineArtFileName,
                     html: numbers.map((number, index) => readerPageHtml(pages[number - 1], o.profile)
                         .replace('data-reader-page', `data-reader-page data-half="${index === 0 ? 'top' : 'bottom'}" data-turn-deg="${pageTurnDeg(side, number)}"`)).join(''),
                 });
@@ -596,6 +647,21 @@ export function readerFoldLabelsHtml(edge: 'left' | 'right', profile: StorytimeP
     return `${label(leftPlace)}${label(rightPlace)}`;
 }
 
+
+
+/**
+ * The leaf mark of one side (spec FR-5.1). A side that holds page 1 of a reader takes the white strip
+ * of Q5 (the PM answer of 2026-11-12), because the quest cover art fills the page; every other side
+ * keeps the plain mark of the page margin.
+ * @param entry The leaf side.
+ * @param profile The print profile.
+ * @returns The HTML of the mark.
+ */
+function markHtml(entry: StorytimeReaderLeafSide): string {
+    if (entry.pages.includes(1)) return '';
+    return `<span class="leaf-mark" data-part="leaf-mark">${esc(entry.title)} &middot; sheet ${entry.leaf} of 3</span>`;
+}
+
 /**
  * One workbook leaf: two sides, each with two landscape pages, the fold line, and a leaf mark.
  * @param leaf The 1-based leaf number.
@@ -611,7 +677,7 @@ function leafHtml(sides: StorytimeReaderLeafSide[], profile: StorytimePrintProfi
 ${entry.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5"></div>
 ${readerFoldLabelsHtml(edge, profile)}
-<span class="leaf-mark" data-part="leaf-mark">${esc(entry.title)} &middot; leaf ${entry.leaf} of 3</span>
+${markHtml(entry)}
 ${readerTearOutHtml(edge, profile)}
 </div>`;
     }).join('');
@@ -642,7 +708,9 @@ export function compileStorytimeReaders(weeks: StorytimeWeek[], o: StorytimeRead
         if (o.output === 'a3-color') {
             for (const entry of books) {
                 body.push(`<section class="reader-book" data-reader-title="${esc(entry.book.title)}" data-reader-output="a3-color">${entry.pages
-                    .map((page) => `<section class="a3-page" data-a3-page data-page-size="${A3_PAGE_SIZE}" data-page-number="${page.number}"><div class="a3-scale" data-scale="2" data-white-left-mm="12" data-white-right-mm="12">${readerPageHtml(page, o.profile)}</div></section>`)
+                    .map((page) => page.number === 1
+                        ? `<section class="a3-page" data-a3-page data-page-size="${A3_PAGE_SIZE}" data-page-number="1">${readerPageHtml(page, o.profile)}</section>`
+                        : `<section class="a3-page" data-a3-page data-page-size="${A3_PAGE_SIZE}" data-page-number="${page.number}"><div class="a3-scale" data-scale="2" data-white-left-mm="12" data-white-right-mm="12">${readerPageHtml(page, o.profile)}</div></section>`)
                     .join('')}</section>`);
             }
             continue;
