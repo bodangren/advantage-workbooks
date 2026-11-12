@@ -14,7 +14,7 @@ STEP 6 DONE: mutants, each on quest-cover-f7 only; each file restored with an eq
   M1 (top mirror repeats row 167): F7-1 and F7-7 fail (2 failed, 6 passed), exit 1 (green-f7-mutant-m1.txt).
   M2 (a3-color page 1 uses the source art): F7-7 fails (1 failed, 7 passed), exit 1 (green-f7-mutant-m2.txt).
   M3 (no edgeFilledArtPath call in the quest build): nothing fails (8 passed), exit 0. This is the known gap: no test builds the PNG. Part 11 measures the built PNG (green-f7-mutant-m3.txt).
-STEP 7 DONE: commits: code 310ad12 (4 files... code and data file, plus the 2 changed files), plan e30ce059, captures, this log.
+STEP 7 DONE: commits: code 310ad12 (4 files: art-edge-fill.ts, pictures-edge-fill.json, readers.ts, make-storytime-quest-covers.ts), plan e30ce059, captures e8c6fcbf (28 files), this log.
 
 MEASURE_AGENT_RESULT
 role: measure-jr-green
@@ -24,7 +24,7 @@ phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval
 task: Task (Green, F7)
 role_base_sha: 585ba34c
 phase_base_sha: e6e2156a
-commits: code 310ad12 (feat(covers): Green F7, the mirror fill of the week 1 colour cover art); plan e30ce059; captures (green-f7-*.txt); log (this file, last)
+commits: code 310ad12; plan e30ce059; captures e8c6fcbf; log (this file, last)
 tests_run: quest-cover-f7 8 passed (8); quest-cover-f3f6 14 passed (14); readers 58 passed (58) after one fix; reader-ink 4 passed (4); readers-adversarial and r2 22 passed (22); R2 F7-7 alone with the temp folder deleted 1 passed; Gate A-fast 302 passed (302) in 15 files; Gate A-build 75 of 75 in 5 parts; Gate B 684 passed with 1 failed (J18, untracked data file, passes alone after the commit: 23 passed), 367 passed, 529 passed; tsc exit 0; eslint exit 0; R1 probe: the reader-a3 HTML of w01-1 names 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
 files_changed: dashboard/lib/storytime/print/art-edge-fill.ts (new); content/storytime/l2/print/pictures-edge-fill.json (new); dashboard/lib/storytime/print/readers.ts; dashboard/scripts/storytime/make-storytime-quest-covers.ts; plan.md; captures; log
 plan_updates: line 208 marked [x] with code 310ad12 at the line end, and one evidence sub-line
