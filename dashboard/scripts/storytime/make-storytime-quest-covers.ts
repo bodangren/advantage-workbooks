@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { chromium, type Browser } from '@playwright/test';
 import sharp from 'sharp';
 import { readLevelWeeks, readPhonicsGraph, PHONICS_GRAPH_FILE, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { edgeFilledArtPath } from '../../lib/storytime/print/art-edge-fill';
 import {
     loadStorytimeCoverBooks,
     STORYTIME_COVER_BOOKS_FILE,
@@ -1232,7 +1233,12 @@ async function main(argv: string[]): Promise<number> {
             { kind: 'reader-leaf' as QuestCoverKind, group: 'readers-leaf' as QuestGroup, names: names.readerPngsLeaf, side: 'lineArtFileName' as const },
         ]) {
             for (const [index, reader] of readers.entries()) {
-                const html = renderQuestCover(entry.kind, reader, { art: storytimeCoverFileUrl(path.join(picturesDir, reader.picture[entry.side])) }, { bleedMm, top: args.top });
+                const artName = reader.picture[entry.side];
+                const artSource = path.join(picturesDir, artName);
+                // The A3 colour art takes the print copy with the mirror fill (D-F7-5), after the
+                // boundary checks of the plan; the leaf line art keeps its source.
+                const artFile = entry.kind === 'reader-a3' ? await edgeFilledArtPath(artSource, artName) : artSource;
+                const html = renderQuestCover(entry.kind, reader, { art: storytimeCoverFileUrl(artFile) }, { bleedMm, top: args.top });
                 const page = questPageSize(entry.kind, bleedMm);
                 docs[entry.group].push(html);
                 pages.push({ group: entry.group, kind: entry.kind, html, file: `${entry.group}/${entry.names[index]}`, widthMm: page.widthMm, heightMm: page.heightMm, art: rowOf(plan, entry.kind) });

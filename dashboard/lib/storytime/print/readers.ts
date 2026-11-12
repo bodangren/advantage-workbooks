@@ -3,6 +3,7 @@ import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
 import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeWeek } from '../schema';
+import { edgeFilledArtPathSync } from './art-edge-fill';
 import {
     HORIZONTAL_LOGO_ASPECT,
     HORIZONTAL_LOGO_URL,
@@ -269,7 +270,10 @@ function coverPage(week: StorytimeWeek, book: StorytimeWeek['books'][number], co
     if (o.mode === 'final') {
         const entry = files.get(cover.id);
         if (!entry) throw new Error(`picture missing: ${cover.id} (${listName})`);
-        art = pathToFileURL(entry.file).href;
+        // The colour art of the A3 page takes the print copy with the mirror fill (D-F7-5); the
+        // workbook leaf keeps the line art source. The picture check ran on the source file.
+        const artFile = o.output === 'a3-color' ? edgeFilledArtPathSync(entry.file, entry.fileName) : entry.file;
+        art = pathToFileURL(artFile).href;
         fileName = entry.fileName;
     }
     const trim = o.output === 'workbook' ? { widthMm: o.profile.readerPage.widthMm, heightMm: o.profile.readerPage.heightMm } : A3_PAGE_TRIM;
