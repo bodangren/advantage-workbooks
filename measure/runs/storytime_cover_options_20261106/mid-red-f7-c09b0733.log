@@ -1,0 +1,94 @@
+Mid Red log, F7 (track storytime_cover_options_20261106, Phase 2, the Task (Red, F7) pair).
+
+Role: mid-red. Model: opencode/minimax-m3.1-flash-free#high.
+role_base_sha: c09b0733 (HEAD at the start). phase_base_sha: e6e2156a.
+Date: 2026-11-13 (ICT).
+
+STEP 1: the Thai filter ran first, before any read.
+Command: python3 -I /tmp/opencode/f7red/filter.py dashboard/lib/storytime/print/readers.ts dashboard/lib/storytime/print/student-book.ts dashboard/__tests__/storytime-print-reader-ink.test.ts dashboard/__tests__/storytime-print-readers.test.ts measure/index.md measure/tracks.md measure/tracks/storytime_cover_options_20261106/spec.md measure/tracks/storytime_cover_options_20261106/plan.md measure/tracks/storytime_cover_options_20261106/test-strategy.md measure/anti-patterns.md dashboard/__tests__/quest-cover-f3f6.test.ts dashboard/scripts/storytime/make-storytime-quest-covers.ts dashboard/lib/storytime/print/cover-quest.ts
+Output: filtered files: 13 / Thai characters in filtered output: 0 / PROOF_ZERO_THAI
+The repo-wide scan of the text files found Thai only in the content banks, the teacher guide, the
+other tracks, and the older run folders. The files of this role hold no Thai.
+The week files were never opened.
+
+STEP 2: the measurement of the Forge art, with PIL, outside the repo.
+content/storytime/l2/print/pictures/l2-w01-cover-hello-v1.png: 4000 x 3000 px, RGB.
+Fully white rows (every pixel R, G, B at 250 or more): 331 (rows 0 to 165 and rows 2835 to 2999).
+Fully white columns: 0. Row 166 has a lowest channel of 236, row 2834 has 233.
+The mirror fill of D-F7-3 (topRows 167, bottomRows 166) gives 0 fully white rows and 0 fully white
+columns, because the source rows 167 to 333 and 2668 to 2833 hold no fully white row.
+The 13 other A3 cover files hold 0 fully white rows and 0 fully white columns.
+The 3 book art files: the student front and the back hold 0 fully white rows and 0 fully white
+columns; the teacher front file is not in the repo pictures folder, and the Forge hand-off file
+/home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png
+is 2480 x 3508 px with 0 fully white rows and 0 fully white columns.
+
+STEP 3: the probe of the dynamic import, through heavy-run.sh.
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/zz-f7-probe.test.ts --maxWorkers=1
+Output: Test Files 1 passed (1), Tests 2 passed (2). A runtime specifier resolves an existing module,
+and the missing module gives a catchable error: "Cannot find module '/lib/storytime/print/art-edge-fill'".
+The probe file was deleted afterwards. The probe keeps the TypeScript check green before and after
+the Green change.
+
+STEP 4: the amendment of the orchestrator of 2026-11-13.
+The entry of D-F7-2 holds 5 fields now (with the sha256 of the source), and D-F7-4 gives the source
+path back when the SHA-256 of the source bytes differs from the entry. The test file holds F7-2b
+now: a temp file named l2-w01-cover-hello-v1.png with other bytes gives its own path back and
+writes nothing. The moved pin of D6 keeps the filled name 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
+in os.tmpdir()/storytime-art-edge-fill for the colour output; the workbook output keeps the line art.
+
+STEP 5: the light gates, through light_capture_2_9g.py.
+Command: cd dashboard && npx tsc --noEmit. Capture red-f7-tsc.txt. EXIT 0.
+Command: cd dashboard && npx eslint __tests__/quest-cover-f7.test.ts __tests__/quest-cover-f3f6.test.ts.
+Capture red-f7-lint.txt. The first run gave 7 errors of @next/next/no-assign-module-variable, because
+the local variable was named `module`. The name changed to `edgeFill`, and the second run gives
+EXIT 0. THAI_LINES_DROPPED 0 in both captures.
+
+STEP 6: the Red gate of the new file, through heavy_capture_2_9j.py (limit 1200 s).
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts --maxWorkers=1
+Capture red-f7.txt. HEAVY_EXIT 1, ATTEMPTS 1, THAI_LINES_DROPPED 0. Tests 8 failed (8).
+F7-1, F7-2, F7-2b, F7-3, F7-4, and F7-5 fail on the missing module dashboard/lib/storytime/print/art-edge-fill.ts.
+F7-6 fails on w01-1 only: 57 white edge rows on the 1588 x 1123 px page (the 8.30 mm band of the top
+and the 6.94 mm band of the bottom), and 0 white edge columns inside the seam. The 13 other A3 reader
+covers and the 4 book sides hold 0 white edge rows and 0 white edge columns.
+F7-7 fails because the a3-color page 1 of week 1 still uses the source art.
+The first run of this gate gave 14 failures in F7-6: every A3 page showed 1 white column. The cause
+is the rendering, not the art: Chrome paints the art to a whole pixel, so the last column 1587 of the
+1588 px page shows the white page background (0.26 mm). The 4 A4 pages at 794 px hold no seam column.
+The white rule of F7-6 now counts the white rows and columns inside the outermost pixel of each side,
+and the gate prints the white row and column indices of every page.
+
+STEP 7: the Red gate of the moved-pin file, through heavy_capture_2_9j.py (limit 1500 s).
+Command: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts --maxWorkers=1
+Capture red-f7-f3f6.txt. HEAVY_EXIT 1, ATTEMPTS 1, THAI_LINES_DROPPED 0. Tests 1 failed | 13 passed (14).
+Only D6 fails, with the new pin: the art source ends with "l2-w01-cover-hello-v1.png" (the pin is the
+filled copy 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png in the temp folder of D-F7-4).
+
+STEP 8: the commits.
+Commit a21289b: the test file dashboard/__tests__/quest-cover-f7.test.ts and the hunk of
+dashboard/__tests__/quest-cover-f3f6.test.ts (the moved pin of D6).
+Commit db54eabf: the plan lines of measure/tracks/storytime_cover_options_20261106/plan.md and the 4
+captures red-f7.txt, red-f7-f3f6.txt, red-f7-tsc.txt, and red-f7-lint.txt.
+Commit 3: this log alone.
+The files of other roles in the run folder (mid-red-p2-62621a9c.log, red1-p2-*.txt,
+spec-review-ce5b90ba.*, strategy-p2-14b39927.log) are not mine and stay untracked.
+
+THE FAULT THAT THE ORCHESTRATOR ANSWERED: the readers tests put a small fixture with the same name
+into a temp folder, and the quest cover build reads hard links in /tmp/opencode/.../pictures. A path
+rule fails there and a SHA rule works. The amendment of D-F7-2 and D-F7-4 uses the SHA-256 of the
+source bytes, and the Red file holds F7-2b for that case.
+
+THE HANDOFF FOR THE GREEN:
+- The Green writes dashboard/lib/storytime/print/art-edge-fill.ts with the exports ArtEdgeFill
+  (5 fields, with the sha256), ArtEdgeFillTable, readArtEdgeFillTable, and edgeFilledArtPath.
+- The Green writes content/storytime/l2/print/pictures-edge-fill.json with the one entry of D-F7-2.
+- The Green uses the filled copy in dashboard/lib/storytime/print/cover-quest.ts (the A3 reader cover
+  art of the quest cover build) and in dashboard/lib/storytime/print/readers.ts (page 1 of the
+  a3-color reader). The build script dashboard/scripts/storytime/make-storytime-quest-covers.ts
+  resolves the art path. The leaf covers and the K-only workbook reader keep their line art source.
+- The Green must not change content/storytime/l2/print/pictures.json, pictures.md, pictures-heads.json,
+  or pictures/manifest.json (D-F7-6).
+- The expected pass state: dashboard/__tests__/quest-cover-f7.test.ts passes its 8 tests, and
+  dashboard/__tests__/quest-cover-f3f6.test.ts passes its 14 tests (D6 included).
+- The readers tests of storytime-print-readers.test.ts keep working: the SHA rule gives the small
+  fixture of the temp folder its own path back.
