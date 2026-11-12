@@ -508,7 +508,8 @@ export function readerPageCss(profile: StorytimePrintProfile, trim: { widthMm: n
 .quest-cover-picture { position: absolute; left: 0; top: 0; }
 .quest-cover-picture .quest-reader-page { background: transparent; }
 .reader-page > .quest-cover-picture { width: ${profile.readerPage.widthMm}mm; height: ${profile.readerPage.heightMm}mm; }
-.a3-page > .quest-cover-picture { width: ${A3_PAGE_TRIM.widthMm}mm; height: ${A3_PAGE_TRIM.heightMm}mm; }
+.a3-page > .reader-page { width: ${A3_PAGE_TRIM.widthMm}mm; height: ${A3_PAGE_TRIM.heightMm}mm; }
+.a3-page > .reader-page > .quest-cover-picture { width: ${A3_PAGE_TRIM.widthMm}mm; height: ${A3_PAGE_TRIM.heightMm}mm; }
 ${questFontFaces()}
 ${questReaderPageCss(trim)}`;
 }
