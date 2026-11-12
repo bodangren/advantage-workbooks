@@ -75,6 +75,12 @@
  *   B5: D3 on 1 synthetic row: a title of 40 characters wraps to 2 line boxes at the same font size
  *       as the 1-line titles, the plaque width stays at or below 340 mm, and the plaque bottom
  *       stays at 276 mm.
+ *       Changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): on the row
+ *       w01-1 the 2-line group has no free place at 100 %, so the D3 ladder gives a smaller size at
+ *       the shift 0. B5 pins the ladder result, and B5 keys computes the ladder again from the key
+ *       boxes and the measured plaque geometry. The measured 2-line plaque is 339.6 mm wide at 100 %
+ *       (the width limit), not the 148.3 mm of the trace model, so the ladder result is 0.75.
+ *       B5-full keeps the old rule on the row w03-1, where the 2-line group at 100 % is free.
  *   B6: the week pill text of 14 rows has 1 line box and is centred across the pill. The change of
  *       2026-11-11 (readers r2c): the cap height rule of E1 replaces the fill share and the
  *       vertical centre of the line box.
@@ -233,6 +239,40 @@ const SKIPPED_LEAF_PARTS = ['logo-tile', 'title-plaque', 'footer', 'series', 'we
 /** The title of the synthetic row of B5: 40 characters. */
 const LONG_TITLE = "Antidisestablishmentarian's Unbelievable";
 
+// changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): the D3 ladder result of the synthetic row on w01-1, from the measured plaque geometry.
+/** The plaque size share that the D3 ladder gives the synthetic title on the row w01-1, at the shift 0. */
+const SYNTHETIC_SCALE = 0.75;
+
+/** The step of the D3 size ladder, in units of 1. */
+const LADDER_STEP = 0.05;
+
+/** The least plaque size share of the D3 ladder. */
+const LADDER_MIN_SCALE = 0.5;
+
+/** The least distance of a moved group from the trim, in millimetres. */
+const TRIM_MARGIN_MM = 5;
+
+/** The tolerance of the font size of the synthetic title, in pixels. */
+const FONT_TOLERANCE_PX = 0.05;
+
+/** The least distance between a chrome box and a key box, in millimetres (D2 of the F3 to F6 contract). */
+const CLEARANCE_MM = 1;
+
+/** The A3 reader trim, in millimetres. */
+const A3_WIDTH_MM = 420;
+
+/** The A3 reader trim height, in millimetres. */
+const A3_HEIGHT_MM = 297;
+
+/** The key box file of the Level 2 pictures. */
+const KEYS_FILE = path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures-heads.json');
+
+/** The row of B5-full: the 2-line group at 100 % lies at least 1 mm clear of every key box of its picture. */
+const FULL_ROW_ID = 'w03-1';
+
+/** The row index of FULL_ROW_ID in `questReaders()`. */
+const FULL_ROW_INDEX = 4;
+
 /** The repo root. */
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -273,6 +313,26 @@ interface RawBox {
     right: number;
     /** The bottom edge. */
     bottom: number;
+}
+
+/** One key box of the key box file. */
+interface KeyFileBox {
+    /** The name of the key object. */
+    label: string;
+    /** The box in pixels of the art file: x0, y0, x1, y1. */
+    box: [number, number, number, number];
+    /** The kind: head, dog-body, or title-object. */
+    kind: string;
+}
+
+/** One entry of the key box file. */
+interface KeyFileEntry {
+    /** The width of the art file in pixels. */
+    widthPx: number;
+    /** The height of the art file in pixels. */
+    heightPx: number;
+    /** The key boxes. */
+    boxes: KeyFileBox[];
 }
 
 /** The measure of the text of one part. */
@@ -373,6 +433,9 @@ const leafMeasures: LeafMeasure[] = [];
 
 /** The measurement of the synthetic row of B5. */
 let syntheticMeasure: A3Measure | null = null;
+
+/** The measurement of the synthetic row of B5-full: the row w03-1 with the 40-character title. */
+let syntheticFullMeasure: A3Measure | null = null;
 
 /** The render options of the default style. */
 const DEFAULT_OPTIONS: QuestRenderOptions = { bleedMm: 0 };
@@ -687,6 +750,99 @@ async function measureLeaf(page: Page, id: string, style: string, html: string):
 }
 
 /**
+ * Maps the key boxes of one A3 reader picture to page millimetres. The art fills the trim with
+ * `object-fit: cover` at the position 50% 50%, so the scale is the larger of the two axis ratios.
+ * @param fileName The name of the art file.
+ * @returns The key boxes in millimetres.
+ */
+function a3KeyBoxesMm(fileName: string): { label: string; box: RawBox }[] {
+    const keys = JSON.parse(fs.readFileSync(KEYS_FILE, 'utf8')) as Record<string, KeyFileEntry>;
+    const entry = keys[fileName];
+    expect(entry, `the key box file holds the picture ${fileName}.`).toBeDefined();
+    const scale = Math.max(A3_WIDTH_MM / entry.widthPx, A3_HEIGHT_MM / entry.heightPx);
+    const offsetX = (A3_WIDTH_MM - entry.widthPx * scale) / 2;
+    const offsetY = (A3_HEIGHT_MM - entry.heightPx * scale) / 2;
+    return entry.boxes.map((key) => ({
+        label: key.label,
+        box: {
+            left: offsetX + key.box[0] * scale,
+            top: offsetY + key.box[1] * scale,
+            right: offsetX + key.box[2] * scale,
+            bottom: offsetY + key.box[3] * scale,
+        },
+    }));
+}
+
+/**
+ * Lists the key boxes that one chrome box meets. A key box grown by the clearance that has a
+ * positive overlap area with the chrome box counts as met.
+ * @param box The chrome box in millimetres.
+ * @param keys The key boxes in millimetres.
+ * @returns The labels of the key boxes that the chrome box meets, with the overlap sizes.
+ */
+function keysMetBy(box: RawBox, keys: { label: string; box: RawBox }[]): string[] {
+    const met: string[] = [];
+    for (const key of keys) {
+        const width =
+            Math.min(box.right, key.box.right + CLEARANCE_MM) - Math.max(box.left, key.box.left - CLEARANCE_MM);
+        const height =
+            Math.min(box.bottom, key.box.bottom + CLEARANCE_MM) - Math.max(box.top, key.box.top - CLEARANCE_MM);
+        if (width > 0 && height > 0) met.push(`${key.label} (${width.toFixed(2)} x ${height.toFixed(2)} mm)`);
+    }
+    return met;
+}
+
+/**
+ * Scales one box about a fixed point.
+ * @param box The box in millimetres.
+ * @param factor The scale factor.
+ * @param anchorX The x of the fixed point.
+ * @param anchorY The y of the fixed point.
+ * @returns The scaled box.
+ */
+function scaleAbout(box: RawBox, factor: number, anchorX: number, anchorY: number): RawBox {
+    return {
+        left: anchorX + (box.left - anchorX) * factor,
+        top: anchorY + (box.top - anchorY) * factor,
+        right: anchorX + (box.right - anchorX) * factor,
+        bottom: anchorY + (box.bottom - anchorY) * factor,
+    };
+}
+
+/**
+ * Runs the D3 size ladder on the default group of one row: the default place, then the places up
+ * in 1 mm steps, at each size from 100 % down to 50 % in steps of 5 %. The first size with a free
+ * place wins. A place is free when the plaque and the role bar lie at least the clearance from every
+ * key box and the plaque stays inside the trim margin. The sideways slide of the exception covers
+ * is not part of this function.
+ * @param plaque The plaque box at 100 % in its default place, in millimetres.
+ * @param bar The role bar box in its default place, in millimetres.
+ * @param keys The key boxes in millimetres.
+ * @returns The size share and the shift up in millimetres, or null when no place is free.
+ */
+function ladderResult(
+    plaque: RawBox,
+    bar: RawBox,
+    keys: { label: string; box: RawBox }[],
+): { scale: number; step: number } | null {
+    const anchorX = (plaque.left + plaque.right) / 2;
+    const stepCount = Math.round((1 - LADDER_MIN_SCALE) / LADDER_STEP);
+    for (let index = 0; index <= stepCount; index++) {
+        const scale = 1 - index * LADDER_STEP;
+        const scaled = scaleAbout(plaque, scale, anchorX, plaque.bottom);
+        for (let step = 0; step < 400; step++) {
+            if (scaled.top - step < TRIM_MARGIN_MM) break;
+            const movedPlaque = { ...scaled, top: scaled.top - step, bottom: scaled.bottom - step };
+            const movedBar = { ...bar, top: bar.top - step, bottom: bar.bottom - step };
+            if (keysMetBy(movedPlaque, keys).length === 0 && keysMetBy(movedBar, keys).length === 0) {
+                return { scale, step };
+            }
+        }
+    }
+    return null;
+}
+
+/**
  * Reads the panel values of the shipped Level 2 Unit 1 row.
  * @returns The values.
  */
@@ -753,6 +909,8 @@ beforeAll(async () => {
         }
         const synthetic: QuestReaderRow = { ...rows[0], title: LONG_TITLE };
         syntheticMeasure = await measureA3(page, 'synthetic', a3Html(synthetic, HLOGO_OPTIONS));
+        const syntheticFull: QuestReaderRow = { ...rows[FULL_ROW_INDEX], title: LONG_TITLE };
+        syntheticFullMeasure = await measureA3(page, 'synthetic-full', a3Html(syntheticFull, HLOGO_OPTIONS));
     } finally {
         await context.close();
     }
@@ -945,28 +1103,133 @@ describe('quest-cover-readers-r2b: B1 to B12 (Red, the r2 reader chrome and the 
         }
     });
 
-    it('B5: a title of 40 characters wraps to 2 lines and the plaque grows upward', () => {
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): B5 on w01-1, the 2-line group has no free place at 100 % (child 2 head at the default place, child 3 head above), so the D3 ladder gives a smaller size at the shift 0.
+    it('B5: a title of 40 characters wraps to 2 lines and the D3 ladder gives the size 0.75 on w01-1', () => {
         expect(syntheticMeasure, 'the browser measures the synthetic row.').not.toBeNull();
         const measure = syntheticMeasure!;
         expect(LONG_TITLE.length, 'the synthetic title has 40 characters.').toBe(40);
         expect(measure.title.rects.length, 'the synthetic title has 2 line boxes.').toBe(2);
         const first = a3Measures[0];
         expect(first, 'the browser measures the first A3 row.').toBeDefined();
+        // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): the font size is the 1-line font size times the ladder size.
         expect(
-            Math.abs(measure.title.fontPx - first.title.fontPx),
-            `the synthetic title keeps the font size of the 1-line titles: ` +
-                `${measure.title.fontPx.toFixed(2)} px and ${first.title.fontPx.toFixed(2)} px.`,
-        ).toBeLessThanOrEqual(0.05);
+            Math.abs(measure.title.fontPx - first.title.fontPx * SYNTHETIC_SCALE),
+            `the synthetic title has the 1-line font size times ${SYNTHETIC_SCALE.toFixed(2)}: ` +
+                `${measure.title.fontPx.toFixed(2)} px, the 1-line font size is ${first.title.fontPx.toFixed(2)} px.`,
+        ).toBeLessThanOrEqual(FONT_TOLERANCE_PX);
         expect(measure.plaque, 'the synthetic cover holds a title plaque.').not.toBeNull();
         const plaque = measure.plaque!;
+        // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): the width limit scales with the ladder size.
         expect(
             plaque.right - plaque.left,
-            `the plaque width of the synthetic row stays at or below ${MAX_PLAQUE_WIDTH_MM} mm.`,
-        ).toBeLessThanOrEqual(MAX_PLAQUE_WIDTH_MM);
+            `the plaque width of the synthetic row stays at or below ${(MAX_PLAQUE_WIDTH_MM * SYNTHETIC_SCALE).toFixed(2)} mm.`,
+        ).toBeLessThanOrEqual(MAX_PLAQUE_WIDTH_MM * SYNTHETIC_SCALE);
+        // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): the ladder keeps the plaque bottom at the default (the shift is 0).
         expect(
             Math.abs(plaque.bottom - PLAQUE_BOTTOM_MM),
-            `the plaque bottom of the synthetic row is ${PLAQUE_BOTTOM_MM} mm.`,
+            `the plaque bottom of the synthetic row is ${PLAQUE_BOTTOM_MM} mm: the bottom is ${plaque.bottom.toFixed(2)} mm.`,
         ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+    });
+
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): the independent check of the ladder result from the key boxes and the measured plaque geometry.
+    it('B5 keys: the ladder result on w01-1 is 0.75 at the shift 0, the measured group is 1 mm clear, and the next step is not', () => {
+        expect(syntheticMeasure, 'the browser measures the synthetic row.').not.toBeNull();
+        const measure = syntheticMeasure!;
+        const first = a3Measures[0];
+        const keys = a3KeyBoxesMm(readerRows()[0].picture.fileName);
+        expect(keys.length, 'the picture of the row w01-1 holds key boxes.').toBeGreaterThan(0);
+        expect(measure.plaque, 'the synthetic cover holds a title plaque.').not.toBeNull();
+        expect(measure.bar.box, 'the synthetic cover holds a role bar.').not.toBeNull();
+        const plaque = measure.plaque!;
+        const bar = measure.bar.box!;
+        const measuredScale = measure.title.fontPx / first.title.fontPx;
+        // The plaque at 100 % in its default place: scale the measured plaque about its bottom centre, then move it to the default bottom.
+        const anchorX = (plaque.left + plaque.right) / 2;
+        const scaledUp = scaleAbout(plaque, 1 / measuredScale, anchorX, plaque.bottom);
+        const shiftToDefault = PLAQUE_BOTTOM_MM - plaque.bottom;
+        const fullPlaque: RawBox = {
+            left: scaledUp.left,
+            top: scaledUp.top + shiftToDefault,
+            right: scaledUp.right,
+            bottom: scaledUp.bottom + shiftToDefault,
+        };
+        const defaultBar: RawBox = {
+            left: bar.left,
+            top: ROLE_BAR_TOP_MM,
+            right: bar.right,
+            bottom: ROLE_BAR_TOP_MM + ROLE_BAR_HEIGHT_MM,
+        };
+        const result = ladderResult(fullPlaque, defaultBar, keys);
+        expect(
+            result,
+            `the ladder on the 2-line plaque at 100 % (${fullPlaque.left.toFixed(2)} to ${fullPlaque.right.toFixed(2)} mm by ` +
+                `${fullPlaque.top.toFixed(2)} to ${fullPlaque.bottom.toFixed(2)} mm) gives the size ${SYNTHETIC_SCALE.toFixed(2)} at the shift 0.`,
+        ).toEqual({ scale: SYNTHETIC_SCALE, step: 0 });
+        // (a) the measured group lies at least 1 mm clear of every key box.
+        expect(
+            keysMetBy(plaque, keys),
+            `(a) the plaque of the synthetic row (${plaque.left.toFixed(2)} to ${plaque.right.toFixed(2)} mm by ` +
+                `${plaque.top.toFixed(2)} to ${plaque.bottom.toFixed(2)} mm) lies ${CLEARANCE_MM} mm clear of every key box.`,
+        ).toEqual([]);
+        expect(
+            keysMetBy(bar, keys),
+            `(a) the role bar of the synthetic row (${bar.left.toFixed(2)} to ${bar.right.toFixed(2)} mm by ` +
+                `${bar.top.toFixed(2)} to ${bar.bottom.toFixed(2)} mm) lies ${CLEARANCE_MM} mm clear of every key box.`,
+        ).toEqual([]);
+        // (b) the group one 5 % step larger, anchored at the plaque bottom centre, meets a key box with the 1 mm clearance.
+        const next = scaleAbout(plaque, (measuredScale + LADDER_STEP) / measuredScale, anchorX, plaque.bottom);
+        const nextMet = [...keysMetBy(next, keys), ...keysMetBy(bar, keys)];
+        expect(
+            nextMet.length,
+            `(b) the group at ${(measuredScale + LADDER_STEP).toFixed(2)} (plaque ${next.left.toFixed(2)} to ${next.right.toFixed(2)} mm by ` +
+                `${next.top.toFixed(2)} to ${next.bottom.toFixed(2)} mm) meets a key box with the ${CLEARANCE_MM} mm clearance.`,
+        ).toBeGreaterThan(0);
+    });
+
+    // changed 2026-11-12 (PM rule 1, Green proof green-f3f6-b5-trace.txt at e2dc9327): B5-full keeps the old B5 rule on a row where the 2-line group at 100 % is free.
+    it('B5-full: on w03-1 the 40-character title keeps the 1-line font size and the plaque bottom', () => {
+        expect(ROW_IDS[FULL_ROW_INDEX], 'the index of the B5-full row.').toBe(FULL_ROW_ID);
+        expect(syntheticFullMeasure, 'the browser measures the synthetic row of w03-1.').not.toBeNull();
+        const measure = syntheticFullMeasure!;
+        const keys = a3KeyBoxesMm(readerRows()[FULL_ROW_INDEX].picture.fileName);
+        const oneLine = a3Measures[FULL_ROW_INDEX];
+        expect(measure.title.rects.length, 'the synthetic title on w03-1 has 2 line boxes.').toBe(2);
+        expect(
+            Math.abs(measure.title.fontPx - oneLine.title.fontPx),
+            `the synthetic title on w03-1 keeps the font size of the 1-line titles: ` +
+                `${measure.title.fontPx.toFixed(2)} px and ${oneLine.title.fontPx.toFixed(2)} px.`,
+        ).toBeLessThanOrEqual(FONT_TOLERANCE_PX);
+        expect(measure.plaque, 'the synthetic cover of w03-1 holds a title plaque.').not.toBeNull();
+        expect(measure.bar.box, 'the synthetic cover of w03-1 holds a role bar.').not.toBeNull();
+        const plaque = measure.plaque!;
+        const bar = measure.bar.box!;
+        expect(
+            Math.abs(plaque.bottom - PLAQUE_BOTTOM_MM),
+            `the plaque bottom of the synthetic row on w03-1 is ${PLAQUE_BOTTOM_MM} mm: the bottom is ${plaque.bottom.toFixed(2)} mm.`,
+        ).toBeLessThanOrEqual(PAGE_CENTRE_TOLERANCE_MM);
+        expect(
+            plaque.right - plaque.left,
+            `the plaque width of the synthetic row on w03-1 stays at or below ${MAX_PLAQUE_WIDTH_MM} mm.`,
+        ).toBeLessThanOrEqual(MAX_PLAQUE_WIDTH_MM);
+        // The row is free at 100 %: the measured 2-line group lies 1 mm clear of every key box of the picture, so the ladder keeps the full size.
+        expect(
+            keysMetBy(plaque, keys),
+            `the 2-line plaque at 100 % on the row ${FULL_ROW_ID} lies ${CLEARANCE_MM} mm clear of every key box.`,
+        ).toEqual([]);
+        expect(
+            keysMetBy(bar, keys),
+            `the role bar of the 2-line cover on the row ${FULL_ROW_ID} lies ${CLEARANCE_MM} mm clear of every key box.`,
+        ).toEqual([]);
+        const fullBar: RawBox = {
+            left: bar.left,
+            top: ROLE_BAR_TOP_MM,
+            right: bar.right,
+            bottom: ROLE_BAR_TOP_MM + ROLE_BAR_HEIGHT_MM,
+        };
+        expect(
+            ladderResult(plaque, fullBar, keys),
+            `the ladder on the row ${FULL_ROW_ID} keeps the full size at the shift 0.`,
+        ).toEqual({ scale: 1, step: 0 });
     });
 
     // B6 changed 2026-11-11 (readers r2c): the cap height rule of E1 replaces the fill share and the vertical centre of the line box.

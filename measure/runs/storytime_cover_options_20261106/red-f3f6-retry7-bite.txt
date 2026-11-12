@@ -1,0 +1,34 @@
+BUILD CAPTURE of Red retry 7 bite probe
+
+HEAVY_RUN_TIMEOUT_S 120
+=== ATTEMPT 1 ===
+INNER_COMMAND: node /tmp/opencode/rr7/bite.mjs
+HEAVY_EXIT: 0
+--- STDOUT ---
+PROBE ladder on the w01-1 geometry: {"scale":0.75,"step":0} (expected scale 0.75 step 0)
+--- B5 font pin: |font - 1-line font x 0.75| <= 0.05 ---
+s=0.75 font=116.10 px diff=0.00 -> pin PASS
+s=0.80 font=123.84 px diff=7.74 -> pin FAIL
+s=0.85 font=131.58 px diff=15.48 -> pin FAIL
+--- check (a): the group lies 1 mm clear of every key box ---
+s=0.75 dy=0 mm plaque top=220.20 -> (a) PASS
+s=0.80 dy=0 mm plaque top=216.48 -> (a) FAIL child 2 head (pink shirt) (68.15 x 0.22 mm)
+s=0.85 dy=0 mm plaque top=212.76 -> (a) FAIL child 1 head (brown hair) (20.38 x 1.84 mm); child 2 head (pink shirt) (68.15 x 3.94 mm); child 3 head (Sam) (68.15 x 2.89 mm); child 4 head (yellow shirt) (70.25 x 2.89 mm); child 5 head (back view) (69.20 x 0.79 mm); child 6 head (Nan) (18.28 x 0.79 mm)
+s=0.75 dy=down 1 mm plaque top=221.20 -> (a) PASS
+s=0.75 dy=up 1 mm plaque top=219.20 -> (a) PASS
+s=0.75 dy=up 3 mm plaque top=217.20 -> (a) PASS
+s=0.75 dy=up 4 mm plaque top=216.20 -> (a) FAIL child 2 head (pink shirt) (65.35 x 0.50 mm)
+s=0.80 dy=down 1 mm plaque top=217.48 -> (a) PASS
+s=0.80 dy=up 1 mm plaque top=215.48 -> (a) FAIL child 2 head (pink shirt) (68.15 x 1.22 mm); child 3 head (Sam) (68.15 x 0.17 mm); child 4 head (yellow shirt) (70.25 x 0.17 mm)
+--- check (b): the group one 5 % step above the 0.75 result meets a key box ---
+next 0.80 plaque top=216.48 -> (b) PASS child 2 head (pink shirt) (68.15 x 0.22 mm)
+mutant: next step = 0.75 (no growth) -> (b) FAIL (expect FAIL)
+--- plaque bottom pin: |bottom - 276| <= 0.5 ---
+bottom shift 0 mm -> pin PASS
+bottom shift 0.4 mm -> pin PASS
+bottom shift 1 mm -> pin FAIL
+bottom shift -1 mm -> pin FAIL
+--- B5-full precondition on each row picture: the 100 % group is clear (the row with a blocker fails) ---
+l2-w01-cover-hello-v1.png -> precondition FAIL child 1 head (brown hair) (45.85 x 13.00 mm); ladder {"scale":0.75,"step":0}
+l2-w03-cover-paint-v1.png -> precondition PASS; ladder {"scale":1,"step":0}
+--- STDERR ---
