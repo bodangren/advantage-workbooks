@@ -1,0 +1,342 @@
+BUILD CAPTURE of Green F7 Gate A-fast
+
+HEAVY_RUN_TIMEOUT_S 1500
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run $(cat ../measure/runs/storytime_cover_options_20261106/green-f7-gate-afast-files.txt) --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD1 guard: the key box file holds the 3 kinds, and the dog-body and title-object boxes of the PM order
+[22m[39mKEY_BOXES head=100 dog-body=5 title-object=8
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: no chrome part comes within 1 mm of a key box on the 2 fronts and the 28 reader covers
+[22m[39mKEY_PAIRS_CHECKED=325 KEY_OVERLAPS=0 BY_PART: none
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD2: every key box lies inside the trim (Q1 on w01-2 reader-a3), and the art keeps its aspect and covers the page
+[22m[39mTRIM_KEYS_CHECKED=113 TRIM_PROBLEMS=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD3: a cover whose default chrome is free keeps every chrome box, and the week pill keeps its free default box
+[22m[39mDEFAULT_BOX student-front | title-plaque | 22.98 278.00 187.02 292.00
+DEFAULT_BOX teacher-front | title-plaque | 22.94 278.00 187.05 292.00
+DEFAULT_BOX w01-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-1 reader-a3 | title-plaque | 132.70 236.00 287.30 278.92
+DEFAULT_BOX w01-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w01-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w01-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w01-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w01-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w01-2 reader-a3 | title-plaque | 64.46 254.00 213.53 275.46
+DEFAULT_BOX w01-2 reader-a3 | role-bar | 75.47 271.42 202.52 291.26
+DEFAULT_BOX w01-2 reader-leaf | footer-strip | 13.78 135.26 98.22 142.98
+DEFAULT_BOX w01-2 reader-leaf | title-plaque | 20.12 122.00 91.87 131.99
+DEFAULT_BOX w01-2 reader-leaf | footer | 14.78 136.26 97.22 141.98
+DEFAULT_BOX w02-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-1 reader-a3 | title-plaque | 78.91 236.00 341.09 275.99
+DEFAULT_BOX w02-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w02-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w02-1 reader-leaf | title-plaque | 34.44 113.00 163.56 132.99
+DEFAULT_BOX w02-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w02-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w02-2 reader-a3 | title-plaque | 126.14 236.00 293.85 278.60
+DEFAULT_BOX w02-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w02-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w02-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w02-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w03-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-1 reader-a3 | title-plaque | 129.85 236.00 290.15 278.92
+DEFAULT_BOX w03-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w03-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w03-1 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w03-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w03-2 reader-a3 | title-plaque | 111.46 236.00 308.54 278.92
+DEFAULT_BOX w03-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w03-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w03-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w03-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w04-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-1 reader-a3 | title-plaque | 91.18 236.00 328.81 275.99
+DEFAULT_BOX w04-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w04-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w04-1 reader-leaf | title-plaque | 39.57 113.00 158.42 132.99
+DEFAULT_BOX w04-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w04-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w04-2 reader-a3 | title-plaque | 143.51 236.00 276.49 278.28
+DEFAULT_BOX w04-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w04-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w04-2 reader-leaf | title-plaque | 44.01 113.00 153.99 132.99
+DEFAULT_BOX w04-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w05-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-1 reader-a3 | title-plaque | 84.60 236.00 335.40 278.28
+DEFAULT_BOX w05-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w05-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w05-1 reader-leaf | title-plaque | 36.82 113.00 161.18 132.99
+DEFAULT_BOX w05-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w05-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w05-2 reader-a3 | title-plaque | 58.79 236.00 361.20 278.92
+DEFAULT_BOX w05-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w05-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w05-2 reader-leaf | title-plaque | 26.01 113.00 171.98 132.99
+DEFAULT_BOX w05-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w06-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-1 reader-a3 | title-plaque | 98.76 236.00 321.24 278.60
+DEFAULT_BOX w06-1 reader-a3 | role-bar | 146.47 273.42 273.52 293.26
+DEFAULT_BOX w06-1 reader-leaf | footer-strip | 56.78 136.26 141.22 143.97
+DEFAULT_BOX w06-1 reader-leaf | title-plaque | 42.74 113.00 155.26 132.99
+DEFAULT_BOX w06-1 reader-leaf | footer | 57.78 137.26 140.22 142.98
+DEFAULT_BOX w06-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w06-2 reader-a3 | title-plaque | 98.23 236.00 321.76 275.99
+DEFAULT_BOX w06-2 reader-a3 | role-bar | 156.92 273.42 263.07 293.26
+DEFAULT_BOX w06-2 reader-leaf | footer-strip | 59.21 136.26 138.79 143.97
+DEFAULT_BOX w06-2 reader-leaf | title-plaque | 42.52 113.00 155.47 132.99
+DEFAULT_BOX w06-2 reader-leaf | footer | 60.21 137.26 137.79 142.98
+DEFAULT_BOX w07-1 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-1 reader-a3 | title-plaque | 84.69 58.00 335.30 100.92
+DEFAULT_BOX w07-1 reader-a3 | role-bar | 146.47 95.42 273.52 115.26
+DEFAULT_BOX w07-1 reader-leaf | footer-strip | 56.78 49.26 141.22 56.98
+DEFAULT_BOX w07-1 reader-leaf | title-plaque | 36.85 26.00 161.14 46.00
+DEFAULT_BOX w07-1 reader-leaf | footer | 57.78 50.26 140.22 55.98
+DEFAULT_BOX w07-2 reader-a3 | week-pill | 317.17 31.01 362.83 47.15
+DEFAULT_BOX w07-2 reader-a3 | title-plaque | 112.97 25.00 307.02 65.00
+DEFAULT_BOX w07-2 reader-a3 | role-bar | 156.92 62.42 263.07 82.26
+DEFAULT_BOX w07-2 reader-leaf | footer-strip | 59.21 34.26 138.79 41.98
+DEFAULT_BOX w07-2 reader-leaf | title-plaque | 44.01 11.00 153.99 30.99
+DEFAULT_BOX w07-2 reader-leaf | footer | 60.21 35.26 137.79 40.98
+D3_FREE_COVERS=24 D3_MOVED=["w01-2 reader-a3","w01-2 reader-leaf","w07-1 reader-a3","w07-1 reader-leaf","w07-2 reader-a3","w07-2 reader-leaf"] D3_PROBLEMS=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD4: the exception list equals the covers with no centred free place at the 50 % plaque size
+[22m[39mD4 student-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 teacher-front: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w01-2 reader-a3: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-a3: the 50 % group needs 35.80 mm of height in the centre band 134.9 to 285.1 mm between 5 mm and 293.26 mm; the key boxes in the band: Nan head (head) x 36.8 to 222.6 mm, y -11.7 to 158.4 mm; Pip dog head (head) x 216.3 to 331.8 mm, y 143.7 to 219.3 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 215.3 to 360.1 mm, y 142.7 to 295.9 mm.
+D4 w01-2 reader-leaf: full size no free place; 50 % size no free place.
+D4 PROOF w01-2 reader-leaf: the 50 % group needs 20.98 mm of height in the centre band 55.8 to 142.2 mm between 5 mm and 143.98 mm; the key boxes in the band: Nan head (head) x 17.3 to 104.9 mm, y 3.0 to 82.2 mm; Pip dog head (head) x 101.0 to 153.5 mm, y 76.2 to 110.9 mm; Pip dog whole body (ears to paws and tail) (dog-body) x 100.5 to 166.8 mm, y 75.7 to 147.0 mm.
+D4 w02-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w02-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w03-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w04-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w05-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-1 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-a3: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w06-2 reader-leaf: full size free 0 mm up; 50 % size free 0 mm up.
+D4 w07-1 reader-a3: full size free 178 mm up; 50 % size free 178 mm up.
+D4 w07-1 reader-leaf: full size free 87 mm up; 50 % size free 87 mm up.
+D4 w07-2 reader-a3: full size free 211 mm up; 50 % size free 211 mm up.
+D4 w07-2 reader-leaf: full size free 102 mm up; 50 % size free 102 mm up.
+D4_EXCEPTIONS=["w01-2 reader-a3","w01-2 reader-leaf"]
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[22m[39mD5 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)
+[22m[39mD6 page 1 checked 28, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book
+[22m[39mBAND_PAGES_CHECKED=840 BAND_WORD_PAGES=0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer
+[22m[39mD7 page 12 checked 28, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f3f6.test.ts[2m > [22m[2mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22m[2mD8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free
+[22m[39mD8 student-front: the default place is free.
+D8 teacher-front: the default place is free.
+D8_SHA banner student-front | 5ae17617643524865a9dbbc63cc73754b0170fbe5063bc71d35399288d3265b6
+D8_SHA banner teacher-front | b526e81e4f6aa9e9c94d8354f334e4d044b9ca22f8e7f5b344b28fe515895daf
+D8_SHA banner student-back | 8bdd615af444553c3aecca920c809beb5d52bc7ec7cc819763b837b76d4df2b0
+D8_SHA banner teacher-back | 5e086f4fcc6b2ba6d799f9c9d16212338ff5cf4d0c055cd5319fbd5ad486be79
+D8_SHA banner w01-1 reader-a3 | c9aa5de6afa1b18b4e0a0530a6e9792243513e0fd0395344f2ac7d4bffe27f52
+D8_SHA banner w01-1 reader-leaf | e0385f97b6567f6e6eace8c28d005547a33bbb8c561e753af7dc45d0f94cd90e
+D8_SHA banner w01-2 reader-a3 | aa409176d61dd2d8e22f1d9b2efcdb23e07e5254b8c2c2e366fce443f4118be6
+D8_SHA banner w01-2 reader-leaf | 1ff960ed3a394b79ef0a710b2c29c3d06e40c94f5c06aa6944dc87de1828456a
+D8_SHA banner w02-1 reader-a3 | a1cfa0349af43fceb6d90a6621367b2e73f961d68fdc675985838724fbe0e605
+D8_SHA banner w02-1 reader-leaf | 90a7900d5703b54f7c7840ed9cf068d89d587a029ae11a55fb36352906414b66
+D8_SHA banner w02-2 reader-a3 | 2cd0e4bb7a9d83e2f0101e695508358ef931feab13869c96ee4046df20e3a93b
+D8_SHA banner w02-2 reader-leaf | adf5fb301742daf131c9de24700827ba52a2648bfde1b495b20cff2e2d38649c
+D8_SHA banner w03-1 reader-a3 | 3786e785037e4c4af1e11dd26655c226a4bb97bcc03c894994f2ab4f08dec118
+D8_SHA banner w03-1 reader-leaf | 422ceb07591469ea3168f4e0fbecb45483c11ea738f82305acbcfa9ba758fd88
+D8_SHA banner w03-2 reader-a3 | 340d03d7d423f69090005b0573ea1d14b037b4540591b07e1053643d981ca18b
+D8_SHA banner w03-2 reader-leaf | a264e5460fe91a3599b5183eaa4d48ed82f3cbfeb4473db8880bc4f1f7ba6aba
+D8_SHA banner w04-1 reader-a3 | 352e248aa74e893243ae52b2f0f109d153f218cfdc7a20b581713ce3fe6c6e29
+D8_SHA banner w04-1 reader-leaf | f3e4e723801e6441ce9b5efb4928d9f704ab52c2abd781217bfc9a0773cea52b
+D8_SHA banner w04-2 reader-a3 | f0480220f3e81af34e642768d97e006ecd73fa96be6bca967e167b63f75f6462
+D8_SHA banner w04-2 reader-leaf | cfcd3394dc0cbab1ecdc99a6659c5a3db0014a130d88ca62d987176c0fa1f944
+D8_SHA banner w05-1 reader-a3 | b4432ae3f60b2cdfa56456439618471ad38f3f35aeca09e8aa883e00ee375f45
+D8_SHA banner w05-1 reader-leaf | e084c3b4b799663b02f95d9cdc637b905d48fd12aa41ec0de327b9adef51613b
+D8_SHA banner w05-2 reader-a3 | b5de52066edbc492b29d6ad015925cd26b8928bc024e68b945d7dd7305832ba1
+D8_SHA banner w05-2 reader-leaf | d4132c6514500298d62e99127bcd937611393ed8bb16d431863f9c739683a1af
+D8_SHA banner w06-1 reader-a3 | cca6cbbcc33e056c50fad81dd86869ac930a7e6d05c6ce5dfad1f5ed406ca645
+D8_SHA banner w06-1 reader-leaf | 3a43ddc49971f925b0944787c04d64818bcfcd672410479b44d9080237560f24
+D8_SHA banner w06-2 reader-a3 | 7b9a09a21da649b2f0e0c21d168688d13ccfa01b97af489d43f91d029f51ede5
+D8_SHA banner w06-2 reader-leaf | 1084a5bbea57dc66ae87d1e770bd9704e0b9e3a76f331aa49f8a2f1b3b6e4632
+D8_SHA banner w07-1 reader-a3 | 39a7db579aaa89dd8b4f85c29189d7ec9460ec2fae950391c354b15ff4e71fd1
+D8_SHA banner w07-1 reader-leaf | 47198cc13bd033cb258aab9a451bb7455180070c583b2566450ad9d69d27c37b
+D8_SHA banner w07-2 reader-a3 | 9572ca9689f90b27c2488bfae3a7a1e2b3c48f0660cfc6d7ca6b4754c612adf1
+D8_SHA banner w07-2 reader-leaf | f62606373859bd28467c28f3c37bd5d9d3c47185e5568877b39f98f90391cb7a
+D8_SHA hlogo student-front | f400d9bb70319b10c686399ad6b850bec950fb1f3551e4cc4b3223b7ea73e093
+D8_SHA hlogo teacher-front | c1740c1ac7990a5a77e23bf9bae0a68b568ff0070356b56fb4a762cfb7487d5c
+
+ [32m✓[39m __tests__/quest-cover-f3f6.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 111471[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs) [33m 4112[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: proof mode page 1 holds the quest chrome on the PICTURE MISSING placeholder, the picture-id wrapper, and no image outside a logo tile [33m 2015[2mms[22m[39m
+     [33m[2m✓[22m[39m D6: no band word on any printed reader page: both outputs, proof and final mode, and the reader leaves of the student book [33m 5180[2mms[22m[39m
+     [33m[2m✓[22m[39m D7: page 12 holds no "Storytime Advantage" line, and keeps the heading, the word row, the logo tile, and the footer [33m 1742[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[22m[39mG1 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG2: every framed picture of the reader pages holds one image at most and clips it inside its frame
+[22m[39mFRAMED_PAGES_CHECKED=224 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=224
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[22m[39mG3 fronts 30, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base)
+[22m[39mG4 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, logo tiles 1
+G4 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab, logo tiles 1
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[22m[39mG5 page 12 checked 28, problems 0
+
+ [32m✓[39m __tests__/quest-cover-f1f2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 20788[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box [33m 738[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-template.test.ts [2m([22m[2m191 tests[22m[2m)[22m[33m 15135[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 0 every part sits at its box plus the bleed [33m 1353[2mms[22m[39m
+     [33m[2m✓[22m[39m T09: at bleed 3 every part sits at its box plus the bleed [33m 1417[2mms[22m[39m
+     [33m[2m✓[22m[39m T10: the copy passes, the approved texts show, and no new word appears in the six kinds [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m T16: the role label, the title, and the week text equal the shared reader cover page [33m 954[2mms[22m[39m
+     [33m[2m✓[22m[39m T19: the CSS of the six kinds and the reader page is PDF/X safe [33m 383[2mms[22m[39m
+     [33m[2m✓[22m[39m T26: the art layer is first, alt empty, covered, without opacity, and at trim plus bleed [33m 328[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile reader title, week text, role label, and band as text, never as markup [33m 966[2mms[22m[39m
+     [33m[2m✓[22m[39m renders a hostile book band, panel value, and asset URL as text, never as markup [33m 3014[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile
+[22m[39mSTANDING-RULES S1: checks 32, pages in scope 32, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS2: every chrome colour comes from the logo token table, and every leaf colour is a gray
+[22m[39mSTANDING-RULES S2: checks 60, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS3: the cap height of every band text is 75 % to 85 % of its band
+[22m[39mSTANDING-RULES S3: checks 62, pages in scope 30, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS4: every text block stands centred within 1 mm, front and back
+[22m[39mSTANDING-RULES S4: checks 103, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+[90mstdout[2m | __tests__/quest-cover-standing-rules.test.ts[2m > [22m[2mquest-cover-standing-rules: S1 to S5 (Red, the 5 standing cover rules on the 32 shipped pages)[2m > [22m[2mS5: no page holds a band word, a band icon, an XP bar, or a game bar
+[22m[39mSTANDING-RULES S5: checks 60, pages in scope 60, pages failing 0. By group: student-front 0/1, teacher-front 0/1, student-back 0/1, teacher-back 0/1, reader-a3 0/14, reader-leaf 0/14.
+
+ [32m✓[39m __tests__/quest-cover-standing-rules.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 7256[2mms[22m[39m
+     [33m[2m✓[22m[39m S1: the 2 book backs hold the product logo, by file hash, centred in its tile, and the 4 front kinds hold no logo tile [33m 655[2mms[22m[39m
+     [33m[2m✓[22m[39m S5: no page holds a band word, a band icon, an XP bar, or a game bar [33m 972[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w01-1 reader-a3 (l2-w01-cover-hello-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w01-2 reader-a3 (l2-w01-cover-nan-can-nod-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w02-1 reader-a3 (l2-w02-cover-how-many-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w02-2 reader-a3 (l2-w02-cover-can-i-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w03-1 reader-a3 (l2-w03-cover-paint-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w03-2 reader-a3 (l2-w03-cover-the-pan-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w04-1 reader-a3 (l2-w04-cover-my-family-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w04-2 reader-a3 (l2-w04-cover-pam-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w05-1 reader-a3 (l2-w05-cover-i-have-two-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w05-2 reader-a3 (l2-w05-cover-sam-and-pam-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w06-1 reader-a3 (l2-w06-cover-i-can-see-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w06-2 reader-a3 (l2-w06-cover-tap-tap-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w07-1 reader-a3 (l2-w07-cover-is-it-a-ball-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w07-2 reader-a3 (l2-w07-cover-the-top-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page student-front (l2-u1-cover-quest-student-front-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page student-back (l2-u1-cover-quest-back-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page teacher-front (l2-u1-cover-quest-teacher-front-forge-v1.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page teacher-back (l2-u1-cover-quest-back-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 pages checked 18, failures 0
+
+ [32m✓[39m __tests__/quest-cover-f7.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 33078[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-1: the filled copy of the hello v1 art follows D-F7-3 and holds no white edge row [33m 1098[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-5: the helper leaves the source file and the content folder unchanged [33m 6581[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column [33m 21411[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-7: the a3-color page 1 of week 1 uses the filled art, and the workbook page 1 keeps the line art [33m 1695[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2b.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 5550[2mms[22m[39m
+     [33m[2m✓[22m[39m B8: the box table keeps the leaf logo tile, and no leaf cover holds a logo tile [33m 489[2mms[22m[39m
+     [33m[2m✓[22m[39m B11: the hlogo leaf parts keep the HTML of the default leaf render [33m 352[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2c.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 5827[2mms[22m[39m
+     [33m[2m✓[22m[39m C10: the build band check passes the hlogo leaf and the default leaf [33m 360[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-plaque-fit.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 4605[2mms[22m[39m
+     [33m[2m✓[22m[39m P1: the plaque text of the student-front lies inside the band in the level colour [33m 336[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mH0: pictures-heads.json holds the 31 art files with their real pixel size and boxes inside each picture
+[22m[39mHEAD_FILE_ENTRIES=31 ART_FILES_OF_PAGES=31
+HEAD_BOXES=113
+
+[90mstdout[2m | __tests__/quest-cover-heads.test.ts[2m > [22m[2mquest-cover-heads: H0 and G7 (Red, no chrome part covers a head on the 32 shipped pages)[2m > [22m[2mG7: no chrome part box overlaps a head box on any of the 32 shipped pages
+[22m[39mHEAD_PAIRS_CHECKED=272 HEAD_OVERLAPS=0 BY_PART: none
+
+ [32m✓[39m __tests__/quest-cover-heads.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 4131[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-print-gate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 6471[2mms[22m[39m
+     [33m[2m✓[22m[39m G3: the 4 cover files sit in the print-ready folder with their pinned SHA-256 [33m 584[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the print gate passes the 4 cover files on their own merit [33m 5751[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-logo-tone.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3672[2mms[22m[39m
+     [33m[2m✓[22m[39m C1: every color of every chrome part is in the logo palette [33m 1229[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-readers-r2.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 3514[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: with the top style hlogo, the A3 reader cover holds no logo tile and no top chrome [33m 442[2mms[22m[39m
+     [33m[2m✓[22m[39m R3: the art layer keeps its HTML [33m 546[2mms[22m[39m
+     [33m[2m✓[22m[39m R5: the hlogo A3 reader cover holds no logo tile in the browser [33m 436[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 3378[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 521[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1128[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 768[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-frame-r3.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 321[2mms[22m[39m
+ [32m✓[39m __tests__/quest-cover-story.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 393[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m      Tests [22m [1m[32m302 passed[39m[22m[90m (302)[39m
+[2m   Start at [22m 03:07:13
+[2m   Duration [22m 249.09s[2m (transform 2.52s, setup 1.48s, import 8.55s, tests 225.59s, environment 10.23s)[22m
+--- STDERR ---

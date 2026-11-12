@@ -1,0 +1,18 @@
+BUILD CAPTURE of Green F7 R2 F7-7 only
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts -t F7-7 --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-f7.test.ts [2m([22m[2m8 tests[22m[2m | [22m[33m7 skipped[39m[2m)[22m[33m 9807[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-7: the a3-color page 1 of week 1 uses the filled art, and the workbook page 1 keeps the line art [33m 5757[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m7 skipped[39m[90m (8)[39m
+[2m   Start at [22m 03:05:57
+[2m   Duration [22m 13.01s[2m (transform 706ms, setup 433ms, import 1.28s, tests 9.81s, environment 702ms)[22m
+--- STDERR ---

@@ -1,0 +1,213 @@
+BUILD CAPTURE of Green F7 Gate b1
+
+HEAVY_RUN_TIMEOUT_S 1800
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run $(cat ../measure/runs/storytime_cover_options_20261106/green-f7-gate-b1-files.txt) --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-book-pictures.test.ts[2m > [22m[2mStorytime app book pictures[2m > [22m[2mruns the week command successfully on the shipped w01
+[22m[39mset 18 book pictures in ../content/storytime/l2/w01.json
+
+ [32m✓[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 32281[2mms[22m[39m
+     [33m[2m✓[22m[39m sets the 18 app pictures with valid JPEGs and complete provenance [33m 4674[2mms[22m[39m
+     [33m[2m✓[22m[39m runs the week command successfully on the shipped w01 [33m 6105[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w02 pages with a repeated text the base row and the second row (E7 case a) [33m 11128[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w06 pages with a repeated text the base row and the second row (E7 case b) [33m 10150[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [32m✓[39m __tests__/storytime-package-family.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 28970[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 2669[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5b the card JPEG and the Forge JPEG hold the H6 output rules [33m 458[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5c the provenance file follows the H7 sort order [33m 379[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 740[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6b a caption that holds a JSON escape keeps its value [33m 444[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6c the script parses the new week text before it writes [33m 491[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 459[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 781[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 937[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 731[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 1355[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-13 a second run changes no byte [33m 930[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 13695[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-19 the 51 shipped pictures hold the H6 facts and the provenance matches the sources [33m 1551[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m)[22m[33m 18314[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 1580[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 5286[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 969[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 480[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 448[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 1253[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 817[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1174[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1162[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 793[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 15342[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 3966[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops [33m 573[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 7544[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1791[2mms[22m[39m
+     [33m[2m✓[22m[39m T12 print path: compileStorytimeManual of w01 with share and studentBookPages holds the icons of w01 [33m 316[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-book-pages.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 9466[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: --help exits 0 and names --book-pages [33m 2293[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: the flag --book-pages is accepted, and an unknown flag still exits 2 [33m 4910[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 1730[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w08: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 380[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 8246[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 2230[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 874[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 868[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 1036[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 1083[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 2060[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 5810[2mms[22m[39m
+     [33m[2m✓[22m[39m X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems [33m 553[2mms[22m[39m
+     [33m[2m✓[22m[39m X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id [33m 515[2mms[22m[39m
+     [33m[2m✓[22m[39m X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id [33m 509[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: an unknown flag exits 2 [33m 450[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --list exits 2 [33m 432[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --level exits 2 [33m 427[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level without a value exits 2 [33m 456[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level 9 exits 2 [33m 404[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: both arguments missing exits 2 [33m 411[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a list file that does not exist exits 2 [33m 438[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4113[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 1791[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 1898[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 2583[2mms[22m[39m
+     [32m✓[39m J1: the eight shipped weeks parse, and no script of them has a share[32m 223[2mms[22m[39m
+     [32m✓[39m J2: a share-complete copy of each week parses, and the parsed share equals the sample[32m 119[2mms[22m[39m
+     [32m✓[39m J3: a moment holds one or two shots, and refuses zero and three[32m 49[2mms[22m[39m
+     [32m✓[39m J3: a shot holds the media photo or video, and refuses audio, Photo, and the empty string[32m 57[2mms[22m[39m
+     [32m✓[39m J3: a step id holds the form A1, and refuses the other forms[32m 119[2mms[22m[39m
+     [32m✓[39m J4: a share and a shot refuse an unknown key, and hold only their own keys[32m 164[2mms[22m[39m
+     [32m✓[39m J5: a caption holds English and Thai, and the English needs one character[32m 53[2mms[22m[39m
+     [32m✓[39m J6: a share-complete copy of each week passes the check[32m 220[2mms[22m[39m
+     [32m✓[39m J7: a day without a moment reports, and the detail names that day only[32m 99[2mms[22m[39m
+     [32m✓[39m J8: a shot names a step of its own script, or a moved step of the day before[32m 89[2mms[22m[39m
+     [32m✓[39m J9: a day needs one shot in the period of the day[32m 51[2mms[22m[39m
+     [32m✓[39m J10: two shots of a day name two different steps[32m 33[2mms[22m[39m
+     [32m✓[39m J11: a shot names no assessment step[32m 68[2mms[22m[39m
+     [32m✓[39m J12: the caption of the sample holds 12 English words[32m 47[2mms[22m[39m
+     [32m✓[39m J12: a caption holds 1 to 40 English words and a Thai text[32m 159[2mms[22m[39m
+     [33m[2m✓[22m[39m J13: no caption string ends in a media file extension [33m 504[2mms[22m[39m
+     [32m✓[39m J14: every problem of the check has the status SHARE_CHECK_STATUS[32m 79[2mms[22m[39m
+     [32m✓[39m J15: a Level 1 week has no share-moment row, and a Level 3 week has one[32m 27[2mms[22m[39m
+     [32m✓[39m J16: the share-moment row comes before the published row[32m 100[2mms[22m[39m
+     [32m✓[39m J16: a published week with a broken moment blocks the publication at the status fail[32m 14[2mms[22m[39m
+     [32m✓[39m J17: the share field adds no minutes to any week[32m 212[2mms[22m[39m
+     [32m✓[39m J17: the compare of the minute rows can fail[32m 20[2mms[22m[39m
+[31m     [31m×[31m J18: the week files keep their hash, and the test writes nothing into the content folder[39m[32m 67[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 1604[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 793[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1234[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 801[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 757[2mms[22m[39m
+     [33m[2m✓[22m[39m cuts the middle two pages of a wide picture into the back (left) and the front (right) [33m 646[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 430[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 389[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 350[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 251[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 200[2mms[22m[39m
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 181[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m684 passed[39m[22m[90m (685)[39m
+[2m   Start at [22m 03:38:22
+[2m   Duration [22m 160.95s[2m (transform 3.70s, setup 2.60s, import 10.16s, tests 131.55s, environment 10.06s)[22m
+--- STDERR ---
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-14 the script refuses a week with nothing to map
+[22m[39mfamily picture: nothing to map
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share.test.ts[2m > [22mthe shipped week files[2m > [22mJ18: the week files keep their hash, and the test writes nothing into the content folder
+[31m[1mAssertionError[22m: the content folder is clean: expected '?? content/storytime/l2/print/picture…' to be '' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[31m+ ?? content/storytime/l2/print/pictures-edge-fill.json[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share.test.ts:[2m582:64[22m[39m
+    [90m580| [39m            expect(hash, `the hash of w0${week}`).toBe(SHIPPED_HASHES.…
+    [90m581| [39m        }
+    [90m582| [39m        expect(contentStatus(), 'the content folder is clean').toBe(''…
+    [90m   | [39m                                                               [31m^[39m
+    [90m583| [39m    })[33m;[39m
+    [90m584| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
