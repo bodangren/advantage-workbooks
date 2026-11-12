@@ -1,0 +1,22 @@
+BUILD CAPTURE of Task 2.9 part 10 step 6, the 5 contact sheets
+
+HEAVY_RUN_TIMEOUT_S 600
+=== ATTEMPT 1 ===
+INNER_COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/contact-2-9j.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1
+HEAVY_EXIT: 0
+--- STDOUT ---
+MANIFEST_SHA256 1ff3dfd361c66ee2e334826cd0da489adff137cdee85f00ddaa8d7b3ddc0a384
+MANIFEST_SHA_EXPECTED true
+/tmp/opencode/c29j/sheets/readers-a3.png tiles=14 size=7154x1658 bytes=9516763
+/tmp/opencode/c29j/sheets/readers-leaf.png tiles=14 size=6755x1658 bytes=2977870
+/tmp/opencode/c29j/sheets/all.png tiles=32 size=3648x5698 bytes=12203185
+SHEETS 3
+REPLACE contact-sheets/readers-a3.png old=b3545da15faf827c3368244be8998b840fe409532da26ef4569f66a2d737a0f8 new=d33d991b249ad8e02bf64ac5bdd15117fb488de379689fe86db11defc9fcda2e
+REPLACE contact-sheets/readers-leaf.png old=d374f96d964755636c180e05378c32fc6ee19efa498133f100c1d1764a136dde new=c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960
+REPLACE contact-sheets/all.png old=edeec520716dd53ec872795ad37037e7a40dd5b01345603b912a4bbf42be575c new=b35a429b7d5df9ed0b5b9341d0767b3d70fb4b655f80f6d63afe75db38d1cbea
+REPLACED 3
+CREATE contact-sheets/student-alt-hlogo-r5.png size=2064x1496 bytes=2930527 sha256=861c2e902f1f0d64952b31edeb184d5bf6ff6fd51c2b77cdf0cc3d1bc5aab553
+CREATE contact-sheets/teacher-alt-hlogo-r5.png size=2064x1496 bytes=3809952 sha256=b57a7ed586bc7f43e2d43a5723375bde546017e686730b7f5c44af8d55250c01
+CREATED 2
+CONTACT_OK true
+--- STDERR ---
