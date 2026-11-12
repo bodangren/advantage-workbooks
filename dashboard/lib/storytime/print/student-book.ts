@@ -739,7 +739,7 @@ function readerPages(week: StorytimeWeek, profile: StorytimePrintProfile, mode: 
             : `<span class="leaf-mark" data-part="leaf-mark">${esc(side.title)} &middot; sheet ${side.leaf} of 3</span>`;
         return { kind: 'reader', body: `${side.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5" style="left:${foldLeft}mm;width:${foldWidth}mm;"></div>
-${readerFoldLabelsHtml(side.side === 'back' ? 'right' : 'left', profile)}
+${readerFoldLabelsHtml(side.side === 'back' ? 'right' : 'left', profile, side.pages.includes(1))}
 ${mark}` };
     });
 }

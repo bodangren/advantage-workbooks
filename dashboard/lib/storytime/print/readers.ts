@@ -609,6 +609,7 @@ export function storytimeReaderLeafSides(week: StorytimeWeek, o: StorytimeReader
  */
 export function readerLeafMarkCss(profile: StorytimePrintProfile): string {
     const foldTop = Math.round((profile.trim.heightMm / 2 - 1.5) * 10) / 10;
+    const foldCentre = Math.round((profile.trim.heightMm / 2) * 10) / 10;
     return `.perforation.reader-tear { position: absolute; top: 0; width: 0; height: 100%; border: 0; }
 .tear-tick { position: absolute; left: -0.2mm; width: 0; height: 5mm; border-left: 0.4mm solid #000; }
 .tear-tick-top { top: 0; }
@@ -617,6 +618,7 @@ export function readerLeafMarkCss(profile: StorytimePrintProfile): string {
 .tear-label svg { width: 4mm; height: 4mm; flex: none; }
 .tear-text { writing-mode: vertical-rl; white-space: nowrap; font-size: 6pt; line-height: 1; }
 .fold-label { position: absolute; z-index: 5; top: ${foldTop}mm; height: 3mm; line-height: 3mm; padding: 0 1mm; background: #fff; font-size: 6pt; white-space: nowrap; }
+.fold-labels-below-fold .fold-label { top: ${foldCentre + 0.2}mm; height: 2.5mm; line-height: 2.5mm; }
 .tear-text [lang="th"], .fold-label [lang="th"] { font-family: 'Sarabun', 'Andika', sans-serif; }`;
 }
 
@@ -636,15 +638,19 @@ export function readerTearOutHtml(edge: 'left' | 'right', profile: StorytimePrin
 
 /**
  * The two "fold" labels of a reader leaf side (fix 6): one at each end of the fold line, inside the leaf, on the line.
+ * A side that holds page 1 takes the labels below the fold (the quest cover art reaches the fold),
+ * inside the page 12 half, still within 3 mm of the fold and clear of the page content.
  * @param edge The bound edge of the side: `left` for a front, `right` for a back.
  * @param profile The print profile that holds the perforation distance.
+ * @param belowFold True when the side holds page 1: the labels move into the page 12 half.
  * @returns The HTML of the two labels.
  */
-export function readerFoldLabelsHtml(edge: 'left' | 'right', profile: StorytimePrintProfile): string {
+export function readerFoldLabelsHtml(edge: 'left' | 'right', profile: StorytimePrintProfile, belowFold = false): string {
     const near = `${profile.perforationMm + 1}mm`;
     const [leftPlace, rightPlace] = edge === 'left' ? [`left:${near}`, 'right:1mm'] : ['left:1mm', `right:${near}`];
     const label = (place: string): string => `<span class="fold-label" data-part="fold-label" style="${place};"><span lang="th">พับ</span> / fold</span>`;
-    return `${label(leftPlace)}${label(rightPlace)}`;
+    const labels = `${label(leftPlace)}${label(rightPlace)}`;
+    return belowFold ? `<div class="fold-labels-below-fold">${labels}</div>` : labels;
 }
 
 
@@ -676,7 +682,7 @@ function leafHtml(sides: StorytimeReaderLeafSide[], profile: StorytimePrintProfi
         return `<div class="reader-side" data-leaf-side="${entry.side}">
 ${entry.html}
 <div class="fold-line" data-part="fold-line" data-position-mm="148.5"></div>
-${readerFoldLabelsHtml(edge, profile)}
+${readerFoldLabelsHtml(edge, profile, entry.pages.includes(1))}
 ${markHtml(entry)}
 ${readerTearOutHtml(edge, profile)}
 </div>`;
