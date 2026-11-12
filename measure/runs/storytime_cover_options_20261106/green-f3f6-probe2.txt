@@ -1,0 +1,15 @@
+MEM_AVAILABLE MemAvailable:    1720608 kB
+LOADAVG 4.69 5.25 4.75
+INPUTS the shipped book row of quest.json, the week 1 and week 7 reader rows, bleed 3 mm, top hlogo, the real picture files when present, else a 1 x 1 PNG data URL
+student-front student-front 210x297mm: OK 14985 ms, 2480x3508 px (want 2480x3508), 16892 kB
+teacher-front teacher-front 210x297mm: OK 3969 ms, 2480x3508 px (want 2480x3508), 102 kB
+student-back student-back 210x297mm: OK 13407 ms, 2480x3508 px (want 2480x3508), 5379 kB
+teacher-back teacher-back 210x297mm: OK 4153 ms, 2480x3508 px (want 2480x3508), 386 kB
+w01-reader-a3 reader-a3 420x297mm: FAIL 59147 ms, 4961x3508 px (want 4961x3508), 11854 kB
+w01-reader-a3-tinyart reader-a3 420x297mm: OK 23726 ms, 4961x3508 px (want 4961x3508), 252 kB
+w01-reader-a3-banner reader-a3 420x297mm: FAIL 49637 ms, 4961x3508 px (want 4961x3508), 11293 kB
+w01-reader-leaf reader-leaf 198x148.5mm: OK 5091 ms, 2339x1754 px (want 2339x1754), 603 kB
+w07-reader-a3 reader-a3 420x297mm: FAIL 63226 ms, 4961x3508 px (want 4961x3508), 16129 kB
+w07-reader-leaf reader-leaf 198x148.5mm: OK 3169 ms, 2339x1754 px (want 2339x1754), 425 kB
+PROBE_RESULT pages 10 failures 3
+MEM_AVAILABLE_END MemAvailable:    1539876 kB

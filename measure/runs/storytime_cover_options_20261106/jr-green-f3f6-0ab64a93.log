@@ -1,53 +1,52 @@
-Jr Green log of F3 to F6 (storytime_cover_options). role_base_sha b3fa60c0; log commit 4a4affb0 on
-top. Status: partial. THE FIX is applied and B5 passes; Gate A-fast is 14 files and 294 tests green;
-Gate A-build holds 3 Chrome screenshot failures in both attempts, and the remaining gates do not fit
-before the 12:30 stop. No code commit.
+Green r11 log of F3 to F6 (storytime_cover_options). role_base_sha 49d7eb80; phase_base_sha
+e6e2156a. Status: partial. The screenshot probe separates the cause of the 4 build failures from the
+r9/r10 code, and the cause lies in `make-storytime-quest-covers.ts`, outside this role's write scope.
 
 Model: deepseek/deepseek-flash#high. Red model: claude-code/claude-sonnet-5-5#high (retry 7).
-Commits of this round: the log and the captures only.
+Session `Green P2 F3-F6 storytime_cover_options r11`.
 
-Step 1 (THE FIX of the handoff, in `cover-quest.ts`): one box for the search and the render. The
-group's plaque is now the PART box (top = 276 - height, bottom = 276, height = 34.4 x lines + 5.6, and
-the width from `readerPlaqueGeometry`, the same function as the render), and the group carries the
-text line overflow as 2 extra lengths (`overflowTopMm` and `overflowBottomMm`, in full-size
-millimetres). `questCentredPlace` places the part box and checks a second clearance box for the
-overflow, so both must lie 1 mm clear of every key box. `questSlidePlace` checks the same second box
-for the 2 exception covers. The render keeps `top = 276 + dy - height`, so the search and the page
-agree.
-Measured (r2b and r2c alone, 10:05 ICT, `green-f3f6-r2bc5.txt`): Tests 25 passed (25). B5 (the
-synthetic row at 75 %), B5 keys, B5-full, the C6 crystal gap of the leaf (`LEAF_CRYSTAL_SCALE = 0.6`),
-B3, and the Red retry 6 pins of the 6 moved covers all pass. The leaf crystal groups keep their fills,
-strokes, and their count of 2.
-`date` before each gate: 10:04, 10:05, 10:06, 10:12, and 11:28 ICT.
+State at the start: HEAD 49d7eb80; the 6 code files modified and uncommitted; `dashboard/raw.json`
+untracked; `pnpm-lock.yaml` unchanged.
 
-Step 2 (Gate A-fast, the 14 files, limit 1200 s, 10:06 ICT, `green-f3f6-gateA-fast2.txt`): Test Files
-14 passed (14), Tests 294 passed (294), exit 0.
+Step 1, the screenshot probe (12:30 and 12:34 ICT, then 12:40): `/tmp/opencode/r11/probe.ts`, a
+scratch script that renders each page kind with the build's own page code (`renderQuestCover` at the
+bleed 3 mm and the top style hlogo) and takes the screenshot exactly as `renderPagePng` does:
+viewport from the mm at 96 px an inch, `deviceScaleFactor: 4`, `goto` with `load`,
+`document.fonts.ready`, print media, a clip screenshot, then `sharp` to 300 ppi.
+Inputs: the shipped book row of `quest.json`, the week 1 and week 7 reader rows, and the real picture
+files under `content/storytime/l2/print/pictures`. Ran through heavy-run at `HEAVY_PRIORITY=p2`,
+foreground. Captures: `green-f3f6-probe.txt` and `green-f3f6-probe2.txt` (both 0 Thai characters).
 
-Step 3 (Gate A-build, limit 2700 s, 10:12 to 11:28 ICT, `green-f3f6-gateA-build.txt`): Test Files 1
-failed (1), Tests 3 failed | 72 passed (75), HEAVY_EXIT 1, 2 attempts. Every failure line names a
-Chrome load error: `attempt 1 stopped on a Chrome load error: page.screenshot: ...` (the message is
-cut by the capture); the failing set differs between attempts:
-- attempt 1: "a failed PDF/X step leaves no print file with a final name (review B F3)" (675 s), "a
-  failure in the move step of the print files leaves no print file at a final name and no temp
-  folder", "a copy that fails after the first print files were copied leaves none of the 4 at a final
-  name";
-- attempt 2: "two builds into one folder at once: one completes, the other fails and overwrites
-  nothing" (327 s), the same move-step test, the same copy test.
-All 3 are the file-move, PDF/X-step, and concurrency tests; they read no cover page of this round and
-they name a Chrome screenshot protocol error, so the code of this round is not their cause. The
-attempt 2 of the capture is the flake rerun of the orchestrator's note.
+Results (probe 1, MemAvailable 1.85 GB, load 3.30):
+- student-front 11.8 s, teacher-front 3.8 s, student-back 6.5 s, teacher-back 3.6 s: all 2480x3508 px,
+  OK.
+- w01 reader-a3 43.1 s and w07 reader-a3 46.7 s: the PNG size is right (4961x3508) but over the 30 s
+  bar.
+- w01 reader-leaf 2.4 s and w07 reader-leaf 4.2 s: OK.
+Probe 2 (the same pages plus 2 controls, MemAvailable 1.85 GB, load 3.30 at the start, 1.54 GB at the
+end):
+- w01 reader-a3 59.1 s, w07 reader-a3 63.2 s.
+- w01 reader-a3 with a 1 x 1 PNG data URL as the art: 23.7 s (OK).
+- w01 reader-a3 with the BANNER chrome, which r9/r10 did not touch: 49.6 s.
+So the slow pages are the A3 reader pages, the cost follows the real 4000 x 3000 art image on a 420 mm
+page (23.7 s with no art), and the untouched banner A3 page is as slow as the hlogo one. The r9/r10
+change (the D3 ladder, the leaf crystals, the B5 box) is not the cause; the leaf pages are fast.
 
-Step 4 (the rest of the sequence): Gate B, tsc and eslint (both were green on the 6 files at 10:04),
-the 3 mutants, the SHA-256 proof, and the 3 commits did not run: Gate A-build alone took 76 minutes
-(10:12 to 11:28), and Gate B with the mutants needs about 60 minutes more, which does not fit the
-12:30 stop. `pnpm-lock.yaml` is unchanged after every run.
+The mechanism: `renderPagePng` in `dashboard/scripts/storytime/make-storytime-quest-covers.ts` (the
+screenshot at about line 995) passes no `timeout` to `page.screenshot`, so Playwright's default 30 s
+applies; the A3 page needs 43 to 63 s on this machine, and the abort surfaces as `page.screenshot:
+Protocol error (Page.captureScreenshot): Unable to capture screenshot`, the line of the 4 failing
+build tests. Every probe screenshot succeeds when it is given 60 s, and the PNG sizes are right.
 
-Step 5 (state): 6 code files are modified in the working tree and uncommitted: cover-quest.ts,
-readers.ts, teacher-book-cover.ts, make-readers-pdf.ts, student-book.ts, reader-howto.ts. The plan
-holds no change, the key box file holds no change, and no test file changed by me. Captures of this
-round: green-f3f6-r2bc5.txt, green-f3f6-gateA-fast2.txt, green-f3f6-gateA-build.txt.
+Step 2: the probe fails its 30 s bar on the 2 A3 pages, so per the PM steps I stop before the code
+commit and report. The fix is one line in the build script, outside this role's 6-file write scope:
+`page.screenshot({ clip, timeout: 300000 })` (or a lower `deviceScaleFactor` for the A3 page with the
+sharp resize kept). No test change is needed.
 
-Step 6 (the next step): rerun `quest-cover-build.test.ts` alone once (limit 2700 s) on a quiet
-machine: the 3 failures are Chrome screenshot load errors in the file-move and concurrency tests, and
-the file passed 75 of 75 on attempt 2 of the earlier Gate A2 run. Then Gate B, tsc, eslint, the 3
-mutants with the SHA-256 proof, and the 3 commits of the brief.
+State at the end: 6 code files modified and uncommitted (cover-quest.ts, readers.ts,
+teacher-book-cover.ts, student-book.ts, reader-howto.ts, make-readers-pdf.ts); the plan holds no
+change; the key box file holds no change; no test file changed by me. Captures of this round:
+green-f3f6-probe.txt, green-f3f6-probe2.txt. `date` of the step ends: 12:33 and 12:40 ICT.
+
+Thai: readers.ts, student-book.ts, and reader-howto.ts were not read in this round (the probe and the
+captures hold 0 Thai characters); D-1 from the earlier rounds stands in the handoff.
