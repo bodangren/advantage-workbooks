@@ -1,0 +1,171 @@
+BUILD CAPTURE of Red F7b quest-cover-f7 test run
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/quest-cover-f7.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-1b: the filled copy holds no stripe in the mirrored rows (D-F7b-2)
+[22m[39mF7-1b top stripes 2, largest 29.4 at row 166; bottom stripes 4, largest 49.9 at row 2833
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w01-1 reader-a3 (l2-w01-cover-hello-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w01-2 reader-a3 (l2-w01-cover-nan-can-nod-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w02-1 reader-a3 (l2-w02-cover-how-many-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w02-2 reader-a3 (l2-w02-cover-can-i-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w03-1 reader-a3 (l2-w03-cover-paint-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w03-2 reader-a3 (l2-w03-cover-the-pan-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w04-1 reader-a3 (l2-w04-cover-my-family-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w04-2 reader-a3 (l2-w04-cover-pam-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w05-1 reader-a3 (l2-w05-cover-i-have-two-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w05-2 reader-a3 (l2-w05-cover-sam-and-pam-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w06-1 reader-a3 (l2-w06-cover-i-can-see-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w06-2 reader-a3 (l2-w06-cover-tap-tap-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w07-1 reader-a3 (l2-w07-cover-is-it-a-ball-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page w07-2 reader-a3 (l2-w07-cover-the-top-v1.png): 1588 x 1123 px, white rows [], white columns [1587], the seam rows [] and the seam columns [1587]
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page student-front (l2-u1-cover-quest-student-front-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page student-back (l2-u1-cover-quest-back-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page teacher-front (l2-u1-cover-quest-teacher-front-forge-v1.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 page teacher-back (l2-u1-cover-quest-back-v1-300ppi.png): 794 x 1123 px, white rows [], white columns [], the seam rows [] and the seam columns []
+
+[90mstdout[2m | __tests__/quest-cover-f7.test.ts[2m > [22m[2mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22m[2mF7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column
+[22m[39mF7-6 pages checked 18, failures 0
+
+ [31m❯[39m __tests__/quest-cover-f7.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 59931[2mms[22m[39m
+[31m     [31m×[31m F7-1: the filled copy of the hello v1 art follows D-F7-3 and holds no white edge row[39m[33m 1575[2mms[22m[39m
+[31m     [31m×[31m F7-1b: the filled copy holds no stripe in the mirrored rows (D-F7b-2)[39m[33m 1530[2mms[22m[39m
+     [32m✓[39m F7-2: a file with no entry gives the source path back and writes no file[32m 4[2mms[22m[39m
+     [32m✓[39m F7-2b: a temp file with the same name and other bytes gives its own path back and writes nothing[32m 23[2mms[22m[39m
+     [32m✓[39m F7-3: a table entry with a wrong size throws an error that names the file and both sizes[32m 206[2mms[22m[39m
+[31m     [31m×[31m F7-4: the table of D-F7-2 holds exactly one entry, and its data file is tracked[39m[32m 8[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-5: the helper leaves the source file and the content folder unchanged [33m 14551[2mms[22m[39m
+     [33m[2m✓[22m[39m F7-6: the 14 A3 reader covers and the 4 book sides hold no white edge row and no white edge column [33m 28145[2mms[22m[39m
+[31m     [31m×[31m F7-7: the a3-color page 1 of week 1 uses the filled art, and the workbook page 1 keeps the line art[39m[33m 5685[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 05:06:30
+[2m   Duration [22m 66.69s[2m (transform 931ms, setup 803ms, import 1.71s, tests 59.93s, environment 3.11s)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f7.test.ts[2m > [22mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22mF7-1: the filled copy of the hello v1 art follows D-F7-3 and holds no white edge row
+[31m[1mAssertionError[22m: the top rows of the filled copy follow 335 - r.: expected +0 to be -1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- -1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-f7.test.ts:[2m554:11[22m[39m
+    [90m552| [39m            firstMismatchWithMap(out, from, topRowNumbers, (r) => 335 …
+    [90m553| [39m            [32m'the top rows of the filled copy follow 335 - r.'[39m[33m,[39m
+    [90m554| [39m        )[33m.[39m[34mtoBe[39m([33m-[39m[34m1[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m555| [39m        [35mconst[39m bottomRowNumbers[33m:[39m number[] [33m=[39m [][33m;[39m
+    [90m556| [39m        for (let r = out.height - BOTTOM_ROWS; r < out.height; r++) bo…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f7.test.ts[2m > [22mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22mF7-1b: the filled copy holds no stripe in the mirrored rows (D-F7b-2)
+[31m[1mAssertionError[22m: the rows 3 to 339 hold no stripe.: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/quest-cover-f7.test.ts:[2m586:65[22m[39m
+    [90m584| [39m                `bottom stripes ${bottom.length}, largest ${bottomBest…
+    [90m585| [39m        )[33m;[39m
+    [90m586| [39m        expect(top.length, 'the rows 3 to 339 hold no stripe.').toBe(0…
+    [90m   | [39m                                                                [31m^[39m
+    [90m587| [39m        expect(bottom.length, 'the rows 2660 to 2996 hold no stripe.')…
+    [90m588| [39m    }[33m,[39m [34m300_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f7.test.ts[2m > [22mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22mF7-4: the table of D-F7-2 holds exactly one entry, and its data file is tracked
+[31m[1mAssertionError[22m: the entry holds the geometry of D-F7b-1.: expected { widthPx: 4000, heightPx: 3000, …(3) } to deeply equal { widthPx: 4000, heightPx: 3000, …(3) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "bottomRows": 169,[39m
+[31m+   "bottomRows": 166,[39m
+[2m    "heightPx": 3000,[22m
+[2m    "sha256": "99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f",[22m
+[32m-   "topRows": 168,[39m
+[31m+   "topRows": 167,[39m
+[2m    "widthPx": 4000,[22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/quest-cover-f7.test.ts:[2m643:79[22m[39m
+    [90m641| [39m        expect(Object.keys(table), 'the table holds exactly one entry.…
+    [90m642| [39m        // changed 2026-11-13 (F7b): the entry of D-F7b-1, with 168 to…
+    [90m643| [39m        expect(table[HELLO_FILE], 'the entry holds the geometry of D-F…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m644| [39m            widthPx[33m:[39m [34m4000[39m[33m,[39m
+    [90m645| [39m            heightPx[33m:[39m [34m3000[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f7.test.ts[2m > [22mquest-cover-f7: the edge fill of the week 1 colour cover art (Red, F7 of the PM look of 2026-11-13)[2m > [22mF7-7: the a3-color page 1 of week 1 uses the filled art, and the workbook page 1 keeps the line art
+[31m[1mAssertionError[22m: the art of the a3-color page 1 follows the mirror rule of D-F7b-1.: expected +0 to be -1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- -1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-f7.test.ts:[2m744:11[22m[39m
+    [90m742| [39m            [34mfirstBrokenRow[39m(out[33m,[39m [35mfrom[39m[33m,[39m [33mTOP_ROWS[39m[33m,[39m [33mBOTTOM_ROWS[39m)[33m,[39m
+    [90m743| [39m            'the art of the a3-color page 1 follows the mirror rule of…
+    [90m744| [39m        )[33m.[39m[34mtoBe[39m([33m-[39m[34m1[39m)[33m;[39m
+    [90m   | [39m          [31m^[39m
+    [90m745| [39m        const workbook = compileStorytimeReaders([week], { profile: ST…
+    [90m746| [39m        [35mconst[39m workbookFile [33m=[39m [34mfileURLToPath[39m([34mpageOneArtSrc[39m(workbook))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
