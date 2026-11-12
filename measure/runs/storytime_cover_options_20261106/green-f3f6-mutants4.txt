@@ -1,0 +1,22 @@
+M1 (F3) cover-quest.ts const KEY_CLEARANCE_MM = 1; -> 0
+sha256 before: a179ceec1742bcbb40bc50891a3a0435323ef168d40b9dd8d1923a280cf2af30
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (14)[39m
+### exit: 1 | dropped 0 Thai line(s) | wall 113s
+sha256 after restore: a179ceec1742bcbb40bc50891a3a0435323ef168d40b9dd8d1923a280cf2af30 (EQUAL)
+
+M2 (F4) cover-quest.ts footer strip fill #FFFFFF -> #F5F5F5
+sha256 before: a179ceec1742bcbb40bc50891a3a0435323ef168d40b9dd8d1923a280cf2af30
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f3f6.test.ts[2m > [22mquest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11)[2m > [22mD5: each hlogo leaf cover holds one white footer strip, and by pixels no line art crosses the footer letters
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (14)[39m
+### exit: 1 | dropped 0 Thai line(s) | wall 137s
+sha256 after restore: a179ceec1742bcbb40bc50891a3a0435323ef168d40b9dd8d1923a280cf2af30 (EQUAL)
+
+M3 (r14 fix) readers.ts .fold-labels-below-fold .fold-label back across the fold (top foldTop, height 3 mm)
+sha256 before: 3d92eb2201d55c28aa866d2b88fe1f38425b83d4daaae242bda7a1143d8f2898
+[31m+   "[fold-label] side 7: a label overlaps the page content",[39m
+[31m+   "[fold-label] side 7: a label overlaps the page content",[39m
+[31m+   "[fold-label] side 7: a label overlaps the page content",[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (4)[39m
+### exit: 1 | dropped 0 Thai line(s) | wall 20s
+sha256 after restore: 3d92eb2201d55c28aa866d2b88fe1f38425b83d4daaae242bda7a1143d8f2898 (EQUAL)

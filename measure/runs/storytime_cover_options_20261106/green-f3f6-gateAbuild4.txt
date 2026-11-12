@@ -1,0 +1,100 @@
+### MemAvailable: MemAvailable:    4097016 kB | loadavg: 1.88 2.98 2.73 1/813 1339906
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 101894[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the names of P4 and leaves process.exitCode unchanged [33m 1032[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an existing target file and leaves its bytes unchanged [33m 1352[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a folder with a print file of another version [33m 2951[2mms[22m[39m
+     [33m[2m✓[22m[39m passes an empty folder, a folder that does not exist, and a folder with spend-log.md [33m 4496[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the valid fixtures and reports the art ppi [33m 1393[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing art file, art of the wrong size, art with alpha, and a JPEG named .png [33m 6377[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a level and unit that have no row in quest.json [33m 1441[2mms[22m[39m
+     [33m[2m✓[22m[39m passes 14 pictures of 4000 x 3000 px and reports the effective ppi [33m 1450[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a missing picture, a width of 3999 px, and a line art file with a coloured pixel [33m 4847[2mms[22m[39m
+     [33m[2m✓[22m[39m gives 0 different modules for a PNG drawn from the encoder grid [33m 355[2mms[22m[39m
+     [33m[2m✓[22m[39m makes no network call while it plans a build [33m 1495[2mms[22m[39m
+     [33m[2m✓[22m[39m prints the usage once and exits 0 for --help [33m 2516[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 and creates no file for a bad level and for an unknown flag [33m 3849[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the storytime-quest- temp folders unchanged after a success and after a failure [33m 2973[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves the private temp folder of a child process empty after --help and after a bad argument [33m 4042[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink at a sub folder of the out folder (review B F2) [33m 5884[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a reader slug that holds a path (review B F1) [33m 424[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symlink art file that points outside the pictures folder (review B F7) [33m 3099[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a 100 MB art file (size cap) [33m 1583[2mms[22m[39m
+     [33m[2m✓[22m[39m reads a page PNG that holds the code of another address as different modules [33m 1057[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder fails the build with an error and no print file [33m 3318[2mms[22m[39m
+     [33m[2m✓[22m[39m a forced write error inside a sub folder fails the build and leaves no print file (stands in for a full disk) [33m 3317[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing graph fails the build or a check, never a passing empty student panel [33m 3106[2mms[22m[39m
+     [33m[2m✓[22m[39m a corrupt graph file fails the build or a check, never a passing empty student panel [33m 3095[2mms[22m[39m
+     [33m[2m✓[22m[39m accepts a file at the cap, refuses one byte above, and refuses a sparse file far above it [33m 5706[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the cap to a reader picture and to a line art picture too [33m 2761[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses an out folder that is a symlink, and a symlink one level higher, and writes nothing through them [33m 2779[2mms[22m[39m
+     [33m[2m✓[22m[39m a dangling symlink at a sub folder or at the out folder fails the build, writes nothing through it, and leaves no temp folder [33m 7112[2mms[22m[39m
+     [33m[2m✓[22m[39m a read-only out folder leaves no storytime-quest- temp folder [33m 4074[2mms[22m[39m
+     [33m[2m✓[22m[39m a missing phonics graph leaves no storytime-quest- temp folder [33m 3905[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGINT while the build runs leaves no storytime-quest- temp folder [33m 4590[2mms[22m[39m
+     [33m[2m✓[22m[39m a SIGTERM while the build runs leaves no storytime-quest- temp folder [33m 4127[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m70 passed[39m[22m[2m | [22m[33m5 skipped[39m[90m (75)[39m
+[2m   Start at [22m 21:12:43
+[2m   Duration [22m 103.54s[2m (transform 648ms, setup 167ms, import 779ms, tests 101.89s, environment 0ms)[22m
+
+### exit: 0 | dropped 0 Thai line(s) | wall 105s
+=== PART 2 a failed PDF/X step leaves no print file ===
+### MemAvailable: MemAvailable:    4148612 kB | loadavg: 2.12 2.86 2.73 1/806 1341933
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 108054[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 107587[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 21:14:49
+[2m   Duration [22m 109.35s[2m (transform 554ms, setup 93ms, import 810ms, tests 108.05s, environment 0ms)[22m
+
+### exit: 0 | dropped 0 Thai line(s) | wall 111s
+=== PART 3 a failure in the move step of the print files ===
+### MemAvailable: MemAvailable:    4094792 kB | loadavg: 2.60 3.11 2.86 4/822 1348119
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 294687[2mms[22m[39m
+     [33m[2m✓[22m[39m a failure in the move step of the print files leaves no print file at a final name and no temp folder [33m 294198[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 21:17:06
+[2m   Duration [22m 296.53s[2m (transform 537ms, setup 109ms, import 882ms, tests 294.69s, environment 0ms)[22m
+
+### exit: 0 | dropped 0 Thai line(s) | wall 299s
+=== PART 4 a copy that fails after the first print files were copied ===
+### MemAvailable: MemAvailable:    4080148 kB | loadavg: 1.65 2.48 2.68 1/832 1353720
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 303630[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 303166[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 21:22:04
+[2m   Duration [22m 304.90s[2m (transform 621ms, setup 95ms, import 765ms, tests 303.63s, environment 0ms)[22m
+
+### exit: 0 | dropped 0 Thai line(s) | wall 306s
+=== PART 5 two builds into one folder at once|the build report records the git head ===
+### MemAvailable: MemAvailable:    4213092 kB | loadavg: 1.10 2.10 2.50 2/824 1363373
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m73 skipped[39m[2m)[22m[33m 121686[2mms[22m[39m
+     [33m[2m✓[22m[39m two builds into one folder at once: one completes, the other fails and overwrites nothing [33m 121153[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m2 passed[39m[22m[2m | [22m[33m73 skipped[39m[90m (75)[39m
+[2m   Start at [22m 21:27:27
+[2m   Duration [22m 123.07s[2m (transform 661ms, setup 92ms, import 840ms, tests 121.69s, environment 0ms)[22m
+
+### exit: 0 | dropped 0 Thai line(s) | wall 125s
