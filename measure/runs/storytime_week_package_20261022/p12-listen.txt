@@ -1,0 +1,9 @@
+listen: w02 b1 b1-s01.mp3 take 3 note "" heard "Nancan." heard-pass true
+listen: w04 b1 b1-s08.mp3 take 3 note "heard 'Nan and Pam Knapp' in 3 takes" heard "NaN and PamNap." heard-pass true
+listen: w06 b1 b1-s01.mp3 take 3 note "" heard "Pat sat on a mat." heard-pass true
+listen: w05 b1 b1-s08.mp3 take 1 note "" heard "Sam, Nan, and Pam Knap." heard-pass false  live-check note: re-heard check failed on the shipped mp3
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

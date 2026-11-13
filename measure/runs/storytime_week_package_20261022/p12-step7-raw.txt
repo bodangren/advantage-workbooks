@@ -1,0 +1,130 @@
+CAPTURE of P12 step 7 rerun: library looksLikeCut decision per clip, 56 clips
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "cd dashboard && npx tsx /tmp/opencode/p12-clips/step7.ts"
+
+--- STDOUT ---
+NOTE: dashboard/lib/storytime/sentence-clips.ts looksLikeCut exposes only the boolean decision (no correlation value); each line prints the decision of the library function over the shipped clip and the decoded book mp3.
+--- cut proof ---
+w01 b1 b1-s01.mp3 looksLikeCut false
+w01 b1 b1-s02.mp3 looksLikeCut false
+w01 b1 b1-s03.mp3 looksLikeCut false
+w01 b1 b1-s04.mp3 looksLikeCut false
+w01 b1 b1-s05.mp3 looksLikeCut false
+w01 b1 b1-s06.mp3 looksLikeCut false
+w01 b1 b1-s07.mp3 looksLikeCut false
+w01 b1 b1-s08.mp3 looksLikeCut false
+w02 b1 b1-s01.mp3 looksLikeCut false
+w02 b1 b1-s02.mp3 looksLikeCut false
+w02 b1 b1-s03.mp3 looksLikeCut false
+w02 b1 b1-s04.mp3 looksLikeCut false
+w02 b1 b1-s05.mp3 looksLikeCut false
+w02 b1 b1-s06.mp3 looksLikeCut false
+w02 b1 b1-s07.mp3 looksLikeCut false
+w02 b1 b1-s08.mp3 looksLikeCut false
+w03 b1 b1-s01.mp3 looksLikeCut false
+w03 b1 b1-s02.mp3 looksLikeCut false
+w03 b1 b1-s03.mp3 looksLikeCut false
+w03 b1 b1-s04.mp3 looksLikeCut false
+w03 b1 b1-s05.mp3 looksLikeCut false
+w03 b1 b1-s06.mp3 looksLikeCut false
+w03 b1 b1-s07.mp3 looksLikeCut false
+w03 b1 b1-s08.mp3 looksLikeCut false
+w04 b1 b1-s01.mp3 looksLikeCut false
+w04 b1 b1-s02.mp3 looksLikeCut false
+w04 b1 b1-s03.mp3 looksLikeCut false
+w04 b1 b1-s04.mp3 looksLikeCut false
+w04 b1 b1-s05.mp3 looksLikeCut false
+w04 b1 b1-s06.mp3 looksLikeCut false
+w04 b1 b1-s07.mp3 looksLikeCut false
+w04 b1 b1-s08.mp3 looksLikeCut false
+w05 b1 b1-s01.mp3 looksLikeCut false
+w05 b1 b1-s02.mp3 looksLikeCut false
+w05 b1 b1-s03.mp3 looksLikeCut false
+w05 b1 b1-s04.mp3 looksLikeCut false
+w05 b1 b1-s05.mp3 looksLikeCut false
+w05 b1 b1-s06.mp3 looksLikeCut false
+w05 b1 b1-s07.mp3 looksLikeCut false
+w05 b1 b1-s08.mp3 looksLikeCut false
+w06 b1 b1-s01.mp3 looksLikeCut false
+w06 b1 b1-s02.mp3 looksLikeCut false
+w06 b1 b1-s03.mp3 looksLikeCut false
+w06 b1 b1-s04.mp3 looksLikeCut false
+w06 b1 b1-s05.mp3 looksLikeCut false
+w06 b1 b1-s06.mp3 looksLikeCut false
+w06 b1 b1-s07.mp3 looksLikeCut false
+w06 b1 b1-s08.mp3 looksLikeCut false
+w07 b1 b1-s01.mp3 looksLikeCut false
+w07 b1 b1-s02.mp3 looksLikeCut false
+w07 b1 b1-s03.mp3 looksLikeCut false
+w07 b1 b1-s04.mp3 looksLikeCut false
+w07 b1 b1-s05.mp3 looksLikeCut false
+w07 b1 b1-s06.mp3 looksLikeCut false
+w07 b1 b1-s07.mp3 looksLikeCut false
+w07 b1 b1-s08.mp3 looksLikeCut false
+cuts: 0
+--- heard check ---
+w01 b1 b1-s01.mp3 take 1 note "" heard "A nest." heard-pass true
+w01 b1 b1-s02.mp3 take 1 note "" heard "A net." heard-pass true
+w01 b1 b1-s03.mp3 take 1 note "" heard "A nut." heard-pass true
+w01 b1 b1-s04.mp3 take 1 note "" heard "a nose" heard-pass true
+w01 b1 b1-s05.mp3 take 1 note "" heard "a neck." heard-pass true
+w01 b1 b1-s06.mp3 take 1 note "" heard "a nurse." heard-pass true
+w01 b1 b1-s07.mp3 take 1 note "" heard "A nest and a nut." heard-pass true
+w01 b1 b1-s08.mp3 take 1 note "" heard "Nan can nod." heard-pass true
+w02 b1 b1-s01.mp3 take 3 note "" heard "Nancan." heard-pass true
+w02 b1 b1-s02.mp3 take 1 note "" heard "Can I?" heard-pass true
+w02 b1 b1-s03.mp3 take 1 note "" heard "I can!" heard-pass true
+w02 b1 b1-s04.mp3 take 1 note "" heard "Nancan" heard-pass true
+w02 b1 b1-s05.mp3 take 1 note "" heard "Can I?" heard-pass true
+w02 b1 b1-s06.mp3 take 1 note "" heard "I can!" heard-pass true
+w02 b1 b1-s07.mp3 take 1 note "" heard "Can Nan?" heard-pass true
+w02 b1 b1-s08.mp3 take 1 note "" heard "Nan and I can!" heard-pass true
+w03 b1 b1-s01.mp3 take 1 note "" heard "Nan can get a pan." heard-pass true
+w03 b1 b1-s02.mp3 take 1 note "" heard "I can get a pan." heard-pass true
+w03 b1 b1-s03.mp3 take 1 note "" heard "A pan in a pan." heard-pass true
+w03 b1 b1-s04.mp3 take 1 note "" heard "A Pan on a Pan." heard-pass true
+w03 b1 b1-s05.mp3 take 1 note "" heard "A Pan on Nan" heard-pass true
+w03 b1 b1-s06.mp3 take 1 note "" heard "Can I get the pan?" heard-pass true
+w03 b1 b1-s07.mp3 take 1 note "" heard "I can get the pan!" heard-pass true
+w03 b1 b1-s08.mp3 take 1 note "" heard "A nap in the pan!" heard-pass true
+w04 b1 b1-s01.mp3 take 1 note "" heard "This is Pam." heard-pass true
+w04 b1 b1-s02.mp3 take 2 note "" heard "Pam can nap." heard-pass true
+w04 b1 b1-s03.mp3 take 1 note "" heard "Pam is in a pan." heard-pass true
+w04 b1 b1-s04.mp3 take 1 note "" heard "Pam is on a map." heard-pass true
+w04 b1 b1-s05.mp3 take 1 note "" heard "Pam is on a man" heard-pass true
+w04 b1 b1-s06.mp3 take 1 note "" heard "Is this Pam?" heard-pass true
+w04 b1 b1-s07.mp3 take 1 note "" heard "This is the man." heard-pass true
+w04 b1 b1-s08.mp3 take 3 note "heard 'Nan and Pam Knapp' in 3 takes" heard "NaN and PamNap." heard-pass true
+w05 b1 b1-s01.mp3 take 1 note "" heard "Sam Saw -Pam" heard-pass true
+w05 b1 b1-s02.mp3 take 1 note "" heard "Sam can get Pam." heard-pass true
+w05 b1 b1-s03.mp3 take 1 note "" heard "Sam is with Pam." heard-pass true
+w05 b1 b1-s04.mp3 take 1 note "" heard "Pam is in a pan." heard-pass true
+w05 b1 b1-s05.mp3 take 1 note "" heard "Pam is on a map!" heard-pass true
+w05 b1 b1-s06.mp3 take 1 note "" heard "Pam is on Sam!" heard-pass true
+w05 b1 b1-s07.mp3 take 1 note "" heard "Pam is off, Sam." heard-pass true
+w05 b1 b1-s08.mp3 take 1 note "" heard "Sam, Nan, and Pam Knap." heard-pass false
+w06 b1 b1-s01.mp3 take 3 note "" heard "Pat sat on a mat." heard-pass true
+w06 b1 b1-s02.mp3 take 1 note "" heard "Sam sat on a mat." heard-pass true
+w06 b1 b1-s03.mp3 take 1 note "" heard "Tap, tap, tap." heard-pass true
+w06 b1 b1-s04.mp3 take 1 note "" heard "Pat can see a map." heard-pass true
+w06 b1 b1-s05.mp3 take 1 note "" heard "Sam can see a pan." heard-pass true
+w06 b1 b1-s06.mp3 take 1 note "" heard "Tap, tap, tap." heard-pass true
+w06 b1 b1-s07.mp3 take 1 note "" heard "He can see Pip." heard-pass true
+w06 b1 b1-s08.mp3 take 1 note "" heard "Pip sat on the mat." heard-pass true
+w07 b1 b1-s01.mp3 take 1 note "" heard "Tom can see a top." heard-pass true
+w07 b1 b1-s02.mp3 take 1 note "" heard "Tom can get the top." heard-pass true
+w07 b1 b1-s03.mp3 take 1 note "" heard "The top on a mat." heard-pass true
+w07 b1 b1-s04.mp3 take 1 note "" heard "The Top on a Pot" heard-pass true
+w07 b1 b1-s05.mp3 take 1 note "" heard "The top is on mom." heard-pass true
+w07 b1 b1-s06.mp3 take 1 note "" heard "Run Tom, run!" heard-pass true
+w07 b1 b1-s07.mp3 take 1 note "" heard "Can Tom see the top?" heard-pass true
+w07 b1 b1-s08.mp3 take 1 note "" heard "The top is on Pip." heard-pass true
+--- listen list ---
+listen: w02 b1 b1-s01.mp3 take 3 note "" heard "Nancan." heard-pass true
+listen: w04 b1 b1-s08.mp3 take 3 note "heard 'Nan and Pam Knapp' in 3 takes" heard "NaN and PamNap." heard-pass true
+listen: w06 b1 b1-s01.mp3 take 3 note "" heard "Pat sat on a mat." heard-pass true
+listen: w05 b1 b1-s08.mp3 take 1 note "" heard "Sam, Nan, and Pam Knap." heard-pass false  live-check note: re-heard check failed on the shipped mp3
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

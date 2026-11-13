@@ -1,0 +1,34 @@
+CAPTURE of P12 step 4: bank form check
+COMMAND: python3 -I -B /tmp/opencode/p12-clips/bank-form.py
+
+--- STDOUT ---
+True
+rows: 152
+n 1..152 no gap: True
+new rows: 15
+fan	take 1	len 0.94	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 1;2
+hen	take 1	len 0.729	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 1
+cap	take 1	len 1.077	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 3
+arm	take 1	len 0.733	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 4
+ham	take 1	len 0.927	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 4
+jam	take 1	len 0.859	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 4
+mop	take 1	len 0.835	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 4;7
+dress	take 1	len 0.88	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 5
+sad	take 1	len 0.929	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 5
+sit	take 1	len 0.805	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 5
+put	take 1	len 0.699	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources tricky	weeks 6
+from	take 1	len 0.629	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources tricky	weeks 7
+hop	take 1	len 0.763	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 7
+hot	take 1	len 0.713	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources opening	weeks 7
+up	take 1	len 0.723	sha equal	wav 32000/1/16	peak 23197	32000,1,128000	sources tricky	weeks 7
+rows checked: 15
+sha256 equals WAV: 15/15
+WAV 32000/1/16: 15/15
+peak 23197: 15/15
+mp3 32000/1/128000: 15/15
+max take: 1
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

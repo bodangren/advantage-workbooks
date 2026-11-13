@@ -1,0 +1,18 @@
+CAPTURE of P12 w06 set-sentence-clips run 2
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/set-sentence-clips.ts --level 2 --week 6'
+
+--- STDOUT ---
+1	l2/media/w06/sentences/b1-s01.mp3	ok
+1	l2/media/w06/sentences/b1-s02.mp3	ok
+1	l2/media/w06/sentences/b1-s03.mp3	ok
+1	l2/media/w06/sentences/b1-s04.mp3	ok
+1	l2/media/w06/sentences/b1-s05.mp3	ok
+1	l2/media/w06/sentences/b1-s06.mp3	ok
+1	l2/media/w06/sentences/b1-s07.mp3	ok
+1	l2/media/w06/sentences/b1-s08.mp3	ok
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
+diff lines: 0

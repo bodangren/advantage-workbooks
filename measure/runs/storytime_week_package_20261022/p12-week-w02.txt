@@ -1,0 +1,80 @@
+CAPTURE of P12 week w02 full stage, retry
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "bash /tmp/opencode/p12-clips/week.sh 2 186"
+
+--- STDOUT ---
+== week w02 step 5: set-word-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-map-w02.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-map-w02-repeat.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+map diff lines: 0
+== week w02 quota check ==
+weekly used: 86  5h used: 47
+== week w02 step 6: make-sentence-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-sentences-w02.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+== week w02 set-sentence-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-setsent-w02.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-setsent-w02-repeat.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+setsent diff lines: 69
+== week w02 commit ==
+ M content/storytime/l2/w02.json
+?? content/storytime/l2/media/w02/sentences/
+?? content/storytime/l2/media/w02/words/wa-ant.mp3
+?? content/storytime/l2/media/w02/words/wa-apple.mp3
+?? content/storytime/l2/media/w02/words/wa-bag.mp3
+?? content/storytime/l2/media/w02/words/wa-cat.mp3
+?? content/storytime/l2/media/w02/words/wa-eight.mp3
+?? content/storytime/l2/media/w02/words/wa-fan.mp3
+?? content/storytime/l2/media/w02/words/wa-hat.mp3
+?? content/storytime/l2/media/w02/words/wa-in.mp3
+?? content/storytime/l2/media/w02/words/wa-man.mp3
+?? content/storytime/l2/media/w02/words/wa-nap.mp3
+?? content/storytime/l2/media/w02/words/wa-nine.mp3
+?? content/storytime/l2/media/w02/words/wa-on.mp3
+?? content/storytime/l2/media/w02/words/wa-ten.mp3
+[master 7f9cad2e] feat(storytime): Phase 12 Clips w02, practice word maps and sentence clips (storytime_week_package)
+ 23 files changed, 168 insertions(+), 4 deletions(-)
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s01.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s02.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s03.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s04.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s05.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s06.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s07.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/b1-s08.mp3
+ create mode 100644 content/storytime/l2/media/w02/sentences/manifest.json
+ create mode 100644 content/storytime/l2/media/w02/words/wa-ant.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-apple.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-bag.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-cat.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-eight.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-fan.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-hat.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-in.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-man.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-nap.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-nine.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-on.mp3
+ create mode 100644 content/storytime/l2/media/w02/words/wa-ten.mp3
+week commit: 7f9cad2eedddb0d2a7193b941094b3b1255ca4ff
+== week w02 scope capture ==
+scope: files 23 outside 0
+== week w02 F9 check ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-clips-checks-7f9cad2e.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+f9 fails: 0
+== week w02 done: 7f9cad2eedddb0d2a7193b941094b3b1255ca4ff ==
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

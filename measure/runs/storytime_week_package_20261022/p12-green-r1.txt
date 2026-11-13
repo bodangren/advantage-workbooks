@@ -1,0 +1,29 @@
+CAPTURE of P12 Green R1: folder fix gates
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "bash /tmp/opencode/p12-clips/green-r1.sh"
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m89 tests[22m[2m)[22m[33m 15201[2mms[22m[39m
+     [33m[2m✓[22m[39m makes only the book words without the flag, and the 15 words with it (week 3: cap) [33m 560[2mms[22m[39m
+     [33m[2m✓[22m[39m makes the 15 words in the order of the runs and sends no text for a word that has a row [33m 1973[2mms[22m[39m
+     [33m[2m✓[22m[39m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 1084[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character [33m 452[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 326[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 936[2mms[22m[39m
+     [33m[2m✓[22m[39m creates the sentences folder before the first synthesize call (R1) [33m 885[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge [33m 1218[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as other words, and keeps the take number [33m 1411[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars [33m 773[2mms[22m[39m
+     [33m[2m✓[22m[39m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path [33m 1313[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m89 passed[39m[22m[90m (89)[39m
+[2m   Start at [22m 12:38:09
+[2m   Duration [22m 17.07s[2m (transform 815ms, setup 372ms, import 863ms, tests 15.20s, environment 0ms)[22m
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

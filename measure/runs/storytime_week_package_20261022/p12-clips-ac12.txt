@@ -1,0 +1,24 @@
+CAPTURE of P12 Clips AC12-1 to AC12-8 and characters, final
+COMMAND: python3 -I -B /tmp/opencode/p12-clips/ac12.py
+
+--- STDOUT ---
+AC12-1 128/128 no key: 0
+AC12-2 218
+AC12-3 rows 152, n 1..152 no gap, Python form True, new rows 15/15 form, True
+AC12-4 56 clips, text and provenance checks True
+AC12-5 cuts: 0 ; heard check p12-sentences-heard.txt, 1 clip on the listen list with its note
+AC12-6 practice-clips PASS 7/7, sentence-clips PASS 7/7, exit 0 (p12-clips-checks.txt)
+AC12-7 repeat runs diff lines: 0 for set-word-clips and set-sentence-clips on each week (p12-map-*-repeat.txt, p12-setsent-*-repeat.txt)
+AC12-8 w01 numstat 61 4 (insertions deletions of the week file)
+AC12-8 w02 numstat 65 4 (insertions deletions of the week file)
+AC12-8 w03 numstat 62 4 (insertions deletions of the week file)
+AC12-8 w04 numstat 62 4 (insertions deletions of the week file)
+AC12-8 w05 numstat 61 4 (insertions deletions of the week file)
+AC12-8 w06 numstat 62 4 (insertions deletions of the week file)
+AC12-8 w07 numstat 63 4 (insertions deletions of the week file)
+chars: words 47 (15 clips, one take each); sentences one-take 779, sent 887 (incl. the 2 failed w01 calls, 14); total 934 (MiniMax plan, no credits)
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

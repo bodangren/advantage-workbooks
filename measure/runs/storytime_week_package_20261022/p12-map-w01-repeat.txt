@@ -1,0 +1,12 @@
+CAPTURE of P12 w01 set-word-clips run 2
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/set-word-clips.ts --level 2 --week 1'
+
+--- STDOUT ---
+keys: 40
+files: 30
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
+diff lines: 0

@@ -1,0 +1,27 @@
+CAPTURE of P12 w03 make-sentence-clips
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/make-sentence-clips.ts --level 2 --week 3 --max-chars 390'
+
+--- STDOUT ---
+l2/media/w03/sentences/b1-s01.mp3	Nan can get a pan.
+l2/media/w03/sentences/b1-s02.mp3	I can get a pan.
+l2/media/w03/sentences/b1-s03.mp3	A pan in a pan.
+l2/media/w03/sentences/b1-s04.mp3	A pan on a pan.
+l2/media/w03/sentences/b1-s05.mp3	A pan on Nan!
+l2/media/w03/sentences/b1-s06.mp3	Can I get the pan?
+l2/media/w03/sentences/b1-s07.mp3	I can get the pan!
+l2/media/w03/sentences/b1-s08.mp3	A nap in the pan!
+chars: 130
+made l2/media/w03/sentences/b1-s01.mp3 take 1
+made l2/media/w03/sentences/b1-s02.mp3 take 1
+made l2/media/w03/sentences/b1-s03.mp3 take 1
+made l2/media/w03/sentences/b1-s04.mp3 take 1
+made l2/media/w03/sentences/b1-s05.mp3 take 1
+made l2/media/w03/sentences/b1-s06.mp3 take 1
+made l2/media/w03/sentences/b1-s07.mp3 take 1
+made l2/media/w03/sentences/b1-s08.mp3 take 1
+made: 8
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

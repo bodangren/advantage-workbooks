@@ -1,0 +1,27 @@
+CAPTURE of P12 w05 make-sentence-clips
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/make-sentence-clips.ts --level 2 --week 5 --max-chars 381'
+
+--- STDOUT ---
+l2/media/w05/sentences/b1-s01.mp3	Sam saw Pam.
+l2/media/w05/sentences/b1-s02.mp3	Sam can get Pam.
+l2/media/w05/sentences/b1-s03.mp3	Sam is with Pam.
+l2/media/w05/sentences/b1-s04.mp3	Pam is in a pan!
+l2/media/w05/sentences/b1-s05.mp3	Pam is on a map!
+l2/media/w05/sentences/b1-s06.mp3	Pam is on Sam!
+l2/media/w05/sentences/b1-s07.mp3	Pam is off Sam!
+l2/media/w05/sentences/b1-s08.mp3	Sam, Nan, and Pam nap.
+chars: 127
+made l2/media/w05/sentences/b1-s01.mp3 take 1
+made l2/media/w05/sentences/b1-s02.mp3 take 1
+made l2/media/w05/sentences/b1-s03.mp3 take 1
+made l2/media/w05/sentences/b1-s04.mp3 take 1
+made l2/media/w05/sentences/b1-s05.mp3 take 1
+made l2/media/w05/sentences/b1-s06.mp3 take 1
+made l2/media/w05/sentences/b1-s07.mp3 take 1
+made l2/media/w05/sentences/b1-s08.mp3 take 1
+made: 8
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

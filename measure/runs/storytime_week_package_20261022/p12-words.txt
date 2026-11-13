@@ -1,0 +1,17 @@
+CAPTURE of P12 step 1: measure the practice words
+COMMAND: cd dashboard && npx tsx /tmp/opencode/p12-clips/measure-practice.ts
+
+--- STDOUT ---
+slots: 128
+gap slots: 55
+unique gap words: 47
+gap words with bank row: 32
+gap words without bank row: 15
+rows now: 137
+missing 15: yes
+arm cap dress fan from ham hen hop hot jam mop put sad sit up
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

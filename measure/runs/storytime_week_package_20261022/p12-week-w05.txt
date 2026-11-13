@@ -1,0 +1,66 @@
+CAPTURE of P12 week w05 full stage, retry
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "bash /tmp/opencode/p12-clips/week.sh 5 381"
+
+--- STDOUT ---
+== week w05 step 5: set-word-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-map-w05.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-map-w05-repeat.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+map diff lines: 0
+== week w05 quota check ==
+weekly used: 87  5h used: 50
+== week w05 step 6: make-sentence-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-sentences-w05.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+== week w05 set-sentence-clips ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-setsent-w05.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-setsent-w05-repeat.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+setsent diff lines: 0
+== week w05 commit ==
+ M content/storytime/l2/w05.json
+?? content/storytime/l2/media/w05/sentences/
+?? content/storytime/l2/media/w05/words/wa-bus.mp3
+?? content/storytime/l2/media/w05/words/wa-dress.mp3
+?? content/storytime/l2/media/w05/words/wa-sad.mp3
+?? content/storytime/l2/media/w05/words/wa-sit.mp3
+?? content/storytime/l2/media/w05/words/wa-sock.mp3
+?? content/storytime/l2/media/w05/words/wa-sun.mp3
+[master abcecab7] feat(storytime): Phase 12 Clips w05, practice word maps and sentence clips (storytime_week_package)
+ 16 files changed, 164 insertions(+), 4 deletions(-)
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s01.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s02.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s03.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s04.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s05.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s06.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s07.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/b1-s08.mp3
+ create mode 100644 content/storytime/l2/media/w05/sentences/manifest.json
+ create mode 100644 content/storytime/l2/media/w05/words/wa-bus.mp3
+ create mode 100644 content/storytime/l2/media/w05/words/wa-dress.mp3
+ create mode 100644 content/storytime/l2/media/w05/words/wa-sad.mp3
+ create mode 100644 content/storytime/l2/media/w05/words/wa-sit.mp3
+ create mode 100644 content/storytime/l2/media/w05/words/wa-sock.mp3
+ create mode 100644 content/storytime/l2/media/w05/words/wa-sun.mp3
+week commit: abcecab7f15b4c95e9578b83c84574a5041ac06b
+== week w05 scope capture ==
+scope: files 16 outside 0
+== week w05 F9 check ==
+CAPTURE_FILE measure/runs/storytime_week_package_20261022/p12-clips-checks-abcecab7.txt
+EXIT 0
+THAI_LINES_DROPPED 0
+f9 fails: 0
+== week w05 done: abcecab7f15b4c95e9578b83c84574a5041ac06b ==
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
