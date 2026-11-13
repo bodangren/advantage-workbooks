@@ -1,0 +1,38 @@
+CAPTURE of P9 hand-off, the cause lines of the 28 page compares (A3 and leaf)
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I -B measure/runs/storytime_print_r1_20261025/p9_cause.py /tmp/opencode/p9/work'
+
+--- STDOUT ---
+A3 w01 hello         none: raster equals the accepted source page (max diff 1)
+A3 w01 nan-can-nod   none: raster equals the accepted source page (max diff 1)
+A3 w02 how-many      none: raster equals the accepted source page (max diff 1)
+A3 w02 can-i         none: raster equals the accepted source page (max diff 1)
+A3 w03 paint         text glyph edge noise: 14 px above 2 and 10 px above 8 of 17.4 M, max 17, one band rows 2988-3058, cols 1593-3404
+A3 w03 the-pan       text glyph edge noise: 13 px above 2 and 9 px above 8 of 17.4 M, max 15, one band rows 2981-3059, cols 1373-3621
+A3 w04 my-family     text glyph edge noise: 19 px above 2 and 13 px above 8 of 17.4 M, max 17, one band rows 2986-3067, cols 1106-3848
+A3 w04 pam           text glyph edge noise: 11 px above 2 and 6 px above 8 of 17.4 M, max 17, one band rows 2985-3065, cols 1719-3231
+A3 w05 i-have-two    text glyph edge noise: 10 px above 2 and 4 px above 8 of 17.4 M, max 15, one band rows 2985-3067, cols 1028-3927
+A3 w05 sam-and-pam   text glyph edge noise: 27 px above 2 and 17 px above 8 of 17.4 M, max 17, one band rows 2980-3060, cols 719-4236
+A3 w06 i-can-see     text glyph edge noise: 17 px above 2 and 9 px above 8 of 17.4 M, max 16, one band rows 2983-3057, cols 1191-3772
+A3 w06 tap-tap       text glyph edge noise: 20 px above 2 and 11 px above 8 of 17.4 M, max 17, one band rows 2921-3059, cols 1216-3777
+A3 w07 is-it-a-ball  text glyph edge noise: 18 px above 2 and 13 px above 8 of 17.4 M, max 17, one band rows 878-963, cols 1049-3934
+A3 w07 the-top       text glyph edge noise: 19 px above 2 and 12 px above 8 of 17.4 M, max 16, one band rows 495-568, cols 1363-3598
+Leaf w01 hello         registration and resample noise only: blur mean 1.49, 0.000 % of the area above 30
+Leaf w01 nan-can-nod   registration and resample noise only: blur mean 1.52, 0.012 % of the area above 30, blocks above 30 at cols 336-2336 rows 316-1684
+Leaf w02 how-many      registration and resample noise only: blur mean 1.50, 0.303 % of the area above 30, blocks above 30 at cols 664-2028 rows 1360-1684
+Leaf w02 can-i         registration and resample noise only: blur mean 1.28, 0.102 % of the area above 30, blocks above 30 at cols 1748-2336 rows 452-1616
+Leaf w03 paint         registration and resample noise only: blur mean 1.74, 0.040 % of the area above 30, blocks above 30 at cols 1976-2068 rows 1600-1628
+Leaf w03 the-pan       registration and resample noise only: blur mean 1.51, 0.051 % of the area above 30, blocks above 30 at cols 1636-2336 rows 84-1640
+Leaf w04 my-family     registration and resample noise only: blur mean 1.65, 0.104 % of the area above 30, blocks above 30 at cols 1664-1888 rows 1604-1652
+Leaf w04 pam           registration and resample noise only: blur mean 1.02, 0.000 % of the area above 30
+Leaf w05 i-have-two    registration and resample noise only: blur mean 0.83, 0.000 % of the area above 30
+Leaf w05 sam-and-pam   registration and resample noise only: blur mean 0.81, 0.000 % of the area above 30
+Leaf w06 i-can-see     registration and resample noise only: blur mean 0.99, 0.124 % of the area above 30, blocks above 30 at cols 1668-2188 rows 1604-1684
+Leaf w06 tap-tap       registration and resample noise only: blur mean 1.09, 0.091 % of the area above 30, blocks above 30 at cols 752-1568 rows 1356-1544
+Leaf w07 is-it-a-ball  CONTENT DIFFERENCE: blur mean 11.91, 10.077 % of the area above 30, blocks above 30 at cols 664-2336 rows 296-1652
+Leaf w07 the-top       CONTENT DIFFERENCE: blur mean 11.51, 10.858 % of the area above 30, blocks above 30 at cols 692-2188 rows 492-1684
+SUMMARY leaf content differences: 2 of 14
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
