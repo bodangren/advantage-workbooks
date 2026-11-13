@@ -1,0 +1,14 @@
+Scope guard of the P13 Green 1 code commit 993d9642
+Command: git show --name-only --format= 993d9642
+dashboard/lib/storytime/schema.ts
+dashboard/lib/storytime/sentence-clips.ts
+dashboard/scripts/storytime/check-weeks.ts
+dashboard/scripts/storytime/make-sentence-clips.ts
+dashboard/scripts/storytime/make-word-bank.ts
+dashboard/scripts/storytime/set-sentence-clips.ts
+Allowed paths: the 6 files of the task line.
+files: 6
+outside: 0
+grep -c "readalong-sentence-clips" dashboard/scripts/storytime/check-weeks.ts: 2
+grep -c "run failed": make-sentence-clips.ts 3, make-word-bank.ts 2
+grep -c "Phase 13 decision M2" dashboard/lib/storytime/schema.ts: 1
