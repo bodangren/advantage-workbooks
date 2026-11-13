@@ -1,0 +1,38 @@
+CAPTURE of P9 hand-off, the footer-strip box of each reader cover in the student book HTML, weeks 1 to 7
+COMMAND: cd dashboard && for w in 1 2 3 4 5 6 7; do npx tsx ../measure/runs/storytime_print_r1_20261025/p9_strip_dump.ts $w; done
+
+--- STDOUT ---
+week 1 footer-strip left 56.78 mm, top 136.26 mm, width 128.22 mm, height 12.24 mm
+week 1 footer-strip left 13.78 mm, top 135.26 mm, width 87.22 mm, height 13.24 mm
+week 2 footer-strip left 56.78 mm, top 136.26 mm, width 128.22 mm, height 12.24 mm
+week 2 footer-strip left 59.21 mm, top 136.26 mm, width 125.79 mm, height 12.24 mm
+week 4 footer-strip left 56.78 mm, top 136.26 mm, width 128.22 mm, height 12.24 mm
+week 4 footer-strip left 59.21 mm, top 136.26 mm, width 125.79 mm, height 12.24 mm
+week 5 footer-strip left 56.78 mm, top 136.26 mm, width 128.22 mm, height 12.24 mm
+week 5 footer-strip left 59.21 mm, top 136.26 mm, width 125.79 mm, height 12.24 mm
+week 6 footer-strip left 56.78 mm, top 136.26 mm, width 128.22 mm, height 12.24 mm
+week 6 footer-strip left 59.21 mm, top 136.26 mm, width 125.79 mm, height 12.24 mm
+week 7 footer-strip left 56.78 mm, top 49.26 mm, width 128.22 mm, height 99.24 mm
+week 7 footer-strip left 59.21 mm, top 34.26 mm, width 125.79 mm, height 114.24 mm
+
+--- STDERR ---
+/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/picture-check.ts:466
+    if (!matches.length) throw new Error(`forge manifest: the manifest holds no job for the row ${rowId}`);
+                               ^
+
+Error: forge manifest: the manifest holds no job for the row l2-w03-d4-prompt-apple
+    at forgeJobForRow (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/picture-check.ts:466:32)
+    at forgeManifestEntriesForRow (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/picture-check.ts:492:17)
+    at <anonymous> (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/picture-check.ts:618:25)
+    at Array.map (<anonymous>)
+    at resolveStorytimePictureFiles (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/picture-check.ts:616:17)
+    at compileStorytimeStudentBook (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/print/student-book.ts:767:29)
+    at <anonymous> (/home/daniebo/Desktop/Workbooks/measure/runs/storytime_print_r1_20261025/p9_strip_dump.ts:12:16)
+    at Object.<anonymous> (/home/daniebo/Desktop/Workbooks/measure/runs/storytime_print_r1_20261025/p9_strip_dump.ts:18:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object.transformer (/home/daniebo/Desktop/Workbooks/dashboard/node_modules/tsx/dist/register-B1c7OH6V.cjs:22:2188)
+
+Node.js v24.19.0
+
+THAI_LINES_DROPPED=0
+EXIT=0
