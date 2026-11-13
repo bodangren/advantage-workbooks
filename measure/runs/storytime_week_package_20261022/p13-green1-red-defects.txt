@@ -1,0 +1,124 @@
+P13 Green 1: defects of the Red 1 test file (2026-11-14 01:07 ICT)
+Test file: dashboard/__tests__/storytime-package-readalong-clips.test.ts (commits 1e2f0573 and d9a1e363)
+Green code: p13-green1-wip.patch (the 6 code files, applies to 25c2fa1d)
+Role: measure-jr-green, claude-code/claude-opus-5-5[1m]#high, role_base_sha 25c2fa1d, phase_base_sha c42918df
+
+Result at the Green code: RED_TEST_COMMAND gives 18 failed | 33 passed (51).
+Proof: a scratch copy of the test file with the 6 fixes below gave 51 passed (51) at the Green code.
+The scratch copy is deleted. No committed test file is changed.
+
+D1. The fake take is too short for a read-along sentence (line 772)
+Cases: the shared fake `fakeVoice` (used by N2, N3, N5, N7, N11).
+Cause: the loud part of a fake take is 16000 samples (0.5 s). After the trim to 80 ms of quiet at
+each edge, the take is about 0.66 s. Rule L8 (kept by spec M9) needs 0.2 s for each word at least.
+A read-along sentence of w01 has 4 or 5 words (0.8 s or 1.0 s at least). So each take fails the
+length check, and each sentence gets 3 takes and 3 calls. The Phase 12 decodable sentences have 2
+or 3 words, so the Phase 12 fake passed. The fix gives 1.66 s, inside the bounds of 1 to 5 words.
+Fix:
+@@ -772 +772 @@
+-            const span = 16000 + (options.spanOffset ?? 0) + 16 * calls.length;
++            const span = 48000 + (options.spanOffset ?? 0) + 16 * calls.length;
+
+D2. N5 "the character limit stops the run before a call, and the failed sent line follows" (lines 1347 to 1359; the limit on line 1350)
+Cause: the limit is 63 (4 sentences minus 1), and one take of the 8 sentences is 137. Spec M6 says
+"The real run checks that sum against --max-chars before the first call", and the Phase 12 case
+"stops before the first call when one take of each sentence needs more than maxChars"
+(storytime-package-practice-clips.test.ts line 2425) pins that check. So the run stops before call 1,
+and no implementation can make 3 calls first. The fix keeps the limit at the one-take sum (137) and
+uses a retake of sentence 1, so the limit stops the run before call 9.
+Fix:
+@@ -1350,9 +1350,10 @@
+-        const limit = lens[0] + lens[1] + lens[2] + lens[3] - 1;
+-        const voice = fakeVoice();
++        const limit = 137;
++        const first = readAlongSentences(1)[0];
++        const voice = fakeVoice({ heard: (text, take) => (take === 1 && text === first ? ['no'] : text.split(' ')) });
+         const run = await runSentenceMaker(tree, voice, { kinds: ['readalong'], maxChars: limit });
+         expect(run.error, 'the maker throws').toBeInstanceOf(Error);
+         expect(run.error?.message).toMatch(/char/i);
+-        expect(voice.calls.map((call) => call.text), 'the 3 sentences before the limit are made').toEqual(readAlongSentences(1).slice(0, 3));
+-        expect(run.log.filter((line) => line.startsWith('call ')), 'the 3 call lines').toHaveLength(3);
++        expect(voice.calls.map((call) => call.text), 'the calls before the limit').toEqual([first, ...readAlongSentences(1).slice(0, 7)]);
++        expect(run.log.filter((line) => line.startsWith('call ')), 'the 8 call lines').toHaveLength(8);
+         expect(run.log[run.log.length - 1], 'the failed sent line holds the characters of the earlier calls')
+-            .toBe(`sent: ${lens[0] + lens[1] + lens[2]} (run failed)`);
++            .toBe(`sent: ${lens[0] * 2 + lens.slice(1, 7).reduce((a, b) => a + b, 0)} (run failed)`);
+
+D3. N5 "a run with a done sentence gives its kept line with the exact bytes" (line 1378)
+Cause: the case changes the mp3 of b0-s03, so b0-s03 is not done (spec M5: the sha256 must equal the
+SHA-256 of the mp3 on disk), and the run makes it again (the case itself expects 1 call line). The
+case then expects a kept line for all 8 sentences, b0-s03 included. Spec M6 gives the kept line only
+to a done sentence, "in place of its list line". The fix expects 7 kept lines and no kept line for
+b0-s03.
+Fix:
+@@ -1378 +1378,2 @@
+-        for (const line of kept) expect(run.log, `the exact bytes of ${JSON.stringify(line)}`).toContain(line);
++        for (const line of kept.filter((_, index) => index !== 2)) expect(run.log, `the exact bytes of ${JSON.stringify(line)}`).toContain(line);
++        expect(run.log, 'no kept line for the remade sentence').not.toContain(kept[2]);
+
+D4. N6 "gives the exact call lines with the word key, the sent: line, and the Phase 12 list, chars, and made lines" (lines 1399 and 1400)
+Cause: the case pins the call line of hen at index 4 and `sent: 6` at index 5. Spec M6 says that the
+made lines of the word maker do not change, and that `sent: <s>` comes at the end of the run. The
+Phase 12 maker adds `made wa-fan ...` after the take of fan, so it sits at index 4, between call 1 and
+call 2. If the made lines move after `sent: 6`, the N7 case "a real run of the word maker ends with
+sent: <s> and then made: <n>" fails, because main prints the same lines through `log`. The fix pins
+the indexes 5 and 7.
+Fix:
+@@ -1399,2 +1399,2 @@
+-        expect(run.value?.lines[4], 'the call line of hen').toBe('call 2\then\ttake 1\tchars 3\tsent 6');
+-        expect(run.value?.lines[5], 'the sent line').toBe('sent: 6');
++        expect(run.value?.lines[5], 'the call line of hen').toBe('call 2\then\ttake 1\tchars 3\tsent 6');
++        expect(run.value?.lines[7], 'the sent line').toBe('sent: 6');
+
+D5. N6 "a fake that throws on call 2 gives 1 call line and the failed sent line" (lines 1412 and 1413)
+Cause: the fake throws on the call for Hen, which is call 2. Spec M6 says that the call line comes
+before each mmx call, and that "The count includes a call that fails, because the provider can
+charge it". The N5 twin case ("throws on call 3 gives 3 call lines") counts the failed call. So the
+correct log holds 2 call lines and `sent: 6 (run failed)`.
+Fix:
+@@ -1412,2 +1412,2 @@
+-        expect(run.log.filter((line) => line.startsWith('call ')), 'the call line of fan').toEqual(['call 1\tfan\ttake 1\tchars 3\tsent 3']);
+-        expect(run.log[run.log.length - 1], 'the failed sent line is the last line').toBe('sent: 3 (run failed)');
++        expect(run.log.filter((line) => line.startsWith('call ')), 'the call lines of fan and hen').toEqual(['call 1\tfan\ttake 1\tchars 3\tsent 3', 'call 2\then\ttake 1\tchars 3\tsent 6']);
++        expect(run.log[run.log.length - 1], 'the failed sent line is the last line').toBe('sent: 6 (run failed)');
+
+D6. N8 "a missing read-along file or a differing hash stops the run before any write" (line 1633)
+Cause: the N8 cases share one cached tree (`n8Tree`). The earlier N8 cases write the read-along array
+into its week file. The last assertion compares the week file with `before`, the text of the setup
+run, so it fails although the run throws and writes nothing (the listing and hash assertions on
+lines 1631 and 1632 pass). Spec FR 4 requires "before any write", so the compare must use the text
+right before this run. The fix reads that text after line 1625 and compares with it.
+Fix:
+@@ -1625,2 +1625,4 @@
+         fs.rmSync(path.join(tree.contentRoot, readAlongPath(1, 2)));
++        const current = fs.readFileSync(tree.weekFile, 'utf8');
++        expect(current, 'the cached tree already holds the array of the earlier cases').not.toBe(before);
+         const listing = entryListing(tree.folder);
+@@ -1633 +1635 @@
+-        expect(fs.readFileSync(tree.weekFile, 'utf8')).toBe(before);
++        expect(fs.readFileSync(tree.weekFile, 'utf8')).toBe(current);
+
+The 18 cases that fail at the Green code, with their defect:
+1. N2 makes one call for each read-along sentence, in order, with the exact text, the voice of the book, and the speed 1 (D1)
+2. N2 made holds the 8 paths b0-s01.mp3 to b0-s08.mp3 (D1)
+3. N2 the provenance file holds 16 items sorted by book and n, the 8 old items equal the fixture, and the header keys equal the fixture keys (D1)
+4. N2 the 8 old mp3 files are byte-equal (D1)
+5. N3 a done sentence whose mp3 hash differs from its item is made again (D1)
+6. N3 a fake that throws on call 5 leaves 4 finished items in the provenance file (D1)
+7. N3 a run again with a working fake makes only the other sentences (D1)
+8. N5 a run with one retake gives the exact call lines call 1 to call 9, and the last line is sent: <s> (D1)
+9. N5 log receives the same lines in the same order as result.lines (D1)
+10. N5 a fake that throws on call 3 gives 3 call lines, the failed sent line, and the same error (D1)
+11. N5 the character limit stops the run before a call, and the failed sent line follows (D2)
+12. N5 a run with a done sentence gives its kept line with the exact bytes (D3)
+13. N6 gives the exact call lines with the word key, the sent: line, and the Phase 12 list, chars, and made lines (D4)
+14. N6 a fake that throws on call 2 gives 1 call line and the failed sent line (D5)
+15. N7 a real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once (D1)
+16. N7 a failed run of the sentence maker exits 1, with the failed sent line in stdout and the error in stderr (D1)
+17. N8 a missing read-along file or a differing hash stops the run before any write (D6)
+18. N11 gives true for a maker clip that the synthetic book mp3 holds, and false for a maker output of a fresh generation (D1)
+
+Open decision with a default (no test change needed): spec M3 and FR 3 give no --kind flag to the word
+maker, but N7 needs its usage to name --kind and a bad value to exit 2. Default in the patch: the word
+maker refuses --kind with any value (exit 2), and its usage says that --kind belongs to
+make-sentence-clips.ts.
