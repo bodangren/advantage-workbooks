@@ -1,0 +1,1245 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m88 tests[22m[2m | [22m[31m84 failed[39m[2m)[22m[33m 4114[2mms[22m[39m
+[31m     [31m×[31m keeps opening.wordClips, focus.family.wordClips, focus.trickyWordClips, and sentenceClips in the parse output[39m[32m 74[2mms[22m[39m
+[31m     [31m×[31m keeps the fields in the parse output of FocusSchema and BookAudioSchema[39m[32m 8[2mms[22m[39m
+     [32m✓[39m parses a week without the fields as before, and leaves each field undefined[32m 12[2mms[22m[39m
+[31m     [31m×[31m refuses an upper-case key and an empty value in each of the three maps[39m[32m 27[2mms[22m[39m
+[31m     [31m×[31m refuses a sentence clip item with no file, and an item with an empty file[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the 8 words of the hand-written table of the shipped w01[39m[32m 37[2mms[22m[39m
+[31m     [31m×[31m gives the distinct counts 8, 8, 9, 9, 7, 8, 9 and the hand-written words for w01 to w07[39m[32m 1[2mms[22m[39m
+     [32m✓[39m finds 10 word forms in the 5 lines of each shipped week (the data, counted with the expression of L4)[32m 133[2mms[22m[39m
+[31m     [31m×[31m reads both forms and ignores a sound line, a first-sound question, and the case of the word[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m throws "opening: no word form in line <i>" with i from 0 for a line with no form[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m never reads the th text: a change of th, and a th that throws when it is read, give the same keys[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the three lists of each shipped week, sorted by code point, with the hand-written words[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m plans the three maps and the sorted distinct files of the shipped w01[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m serves two maps with one file, and plans an empty map for an absent list[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m throws "two keys, one file" for the keys its and it's in one week[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing[39m[32m 245[2mms[22m[39m
+[31m     [31m×[31m makes only the book words without the flag, and the 15 words with it (week 3: cap)[39m[32m 181[2mms[22m[39m
+[31m     [31m×[31m makes the 15 words in the order of the runs and sends no text for a word that has a row[39m[32m 289[2mms[22m[39m
+[31m     [31m×[31m adds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m adds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay[39m[32m 43[2mms[22m[39m
+[31m     [31m×[31m applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character[39m[32m 155[2mms[22m[39m
+[31m     [31m×[31m stops before the first call when one take of each word needs more than maxChars, and changes no row[39m[32m 176[2mms[22m[39m
+[31m     [31m×[31m stops before the call that would take the run above maxChars, and keeps the rows of the finished words[39m[32m 168[2mms[22m[39m
+[31m     [31m×[31m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[39m[32m 133[2mms[22m[39m
+[31m     [31m×[31m names the flag --practice in its usage[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines[39m[32m 191[2mms[22m[39m
+[31m     [31m×[31m changes no byte and no modification time on a second run[39m[32m 167[2mms[22m[39m
+[31m     [31m×[31m removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names[39m[32m 95[2mms[22m[39m
+[31m     [31m×[31m prints one tab line for each key of each map with --check and writes nothing[39m[32m 98[2mms[22m[39m
+[31m     [31m×[31m stops for a practice word with no bank row with "no bank row" and changes no file[39m[32m 103[2mms[22m[39m
+[31m     [31m×[31m stops for a practice word with no bank mp3 file with "no bank file" and changes no file[39m[32m 110[2mms[22m[39m
+[31m     [31m×[31m stops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[39m[32m 107[2mms[22m[39m
+[31m     [31m×[31m gives the exact id and label, and pass with no detail on the mapped copy[39m[32m 233[2mms[22m[39m
+[31m     [31m×[31m warns "no clip: <keys>" for a key that its map lacks, and for a list that has no map[39m[32m 79[2mms[22m[39m
+[31m     [31m×[31m warns for a practice word that only a book map names[39m[32m 75[2mms[22m[39m
+[31m     [31m×[31m fails with "missing: <path>" when a clip file is absent[39m[32m 89[2mms[22m[39m
+[31m     [31m×[31m fails with "differs from bank: <path>" when a clip differs from the bank mp3[39m[32m 112[2mms[22m[39m
+[31m     [31m×[31m fails with "no bank file: <key>" when the bank mp3 is absent and the week clip exists[39m[32m 100[2mms[22m[39m
+[31m     [31m×[31m fails with "no bank row: <key>" when a key has no bank row[39m[32m 91[2mms[22m[39m
+[31m     [31m×[31m fails with "not a practice word: <key>" for a key that no word of its list gives[39m[32m 80[2mms[22m[39m
+[31m     [31m×[31m fails with "bad path: <path>" for a value that is not the K3 path of its key[39m[32m 74[2mms[22m[39m
+[31m     [31m×[31m joins the six fail parts in the order of L9 with "; "[39m[32m 90[2mms[22m[39m
+[31m     [31m×[31m lets a fail win over a warn, and the detail of the fail holds no warn part[39m[32m 77[2mms[22m[39m
+[31m     [31m×[31m gives no row for a week with no meta and for a week with no book (the review week w08)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m gives the path l2/media/w<nn>/sentences/b<i>-s<jj>.mp3[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m plans the decodable books only, in the order of the books, and gives nothing for a read-along book[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m plans 8 sentences for each shipped week (56 in all, 779 characters), none for the read-along books, and none for w08[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1[39m[32m 40[2mms[22m[39m
+[31m     [31m×[31m succeeds although the tree has no book audio file, so the maker does not read the book audio[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m exports main, which prints the usage for --help and exits 2 for a missing option[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m passes a take only when the recognizer heard each word in order (sentenceHeardPasses)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the bounds of a sentence: 0.2 s for each word at least, and 1.2 s for each word plus 1 s at most[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m writes only the mp3 clips and the provenance file: no WAV file and no take file stays[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m writes the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m makes a take again when it is heard as other words, and keeps the take number[39m[32m 36[2mms[22m[39m
+[31m     [31m×[31m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m makes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m sends the sentences in order with the takes in a row, and counts every character[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m stops before the first call when one take of each sentence needs more than maxChars, and writes nothing[39m[32m 48[2mms[22m[39m
+[31m     [31m×[31m stops before the call that would take the run above maxChars[39m[32m 54[2mms[22m[39m
+[31m     [31m×[31m lists the 8 sentences and prints "chars: 70" for --dry-run, and writes nothing[39m[32m 63[2mms[22m[39m
+[31m     [31m×[31m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[39m[32m 63[2mms[22m[39m
+[31m     [31m×[31m gives true for a window cut from a synthetic source, also after a change of the gain (the positive control)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives false for an unrelated synthetic signal of the same length (the negative control)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the exact id and label, and pass with no detail[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m warns "no clips" when the decodable book has no field[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m fails with "count differs: <book>" when the array length is not the sentence count[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m fails with "text differs: <path>" when an item sentence is not the book sentence[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m fails with "missing: <path>" when a clip file is absent[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m fails with "bad path: <path>" for a value that is not the L7 path of its index[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m joins the four fail parts in the order of L9 with "; "[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m lets a fail win over a warn, and the detail of the fail holds no warn part[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m gives no row for a week with no decodable book[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m gives pass or warn and never fail for the shipped w01 to w07[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m writes the array form after the last key of the decodable audio object, and the new text parses with the schema[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m changes no byte and no modification time on a second run[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m stops for a clip file that is absent and writes nothing[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m stops for a clip whose SHA-256 differs from the provenance row and writes nothing[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m names the flags in its usage and exits 2 for a missing option[39m[32m 1[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 1[2mms[22m[39m
+     [32m✓[39m writes nothing under content/storytime (this case runs last)[32m 11[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m84 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (88)[39m
+[2m   Start at [22m 09:46:52
+[2m   Duration [22m 6.43s[2m (transform 953ms, setup 265ms, import 1.38s, tests 4.11s, environment 0ms)[22m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 84 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD1 the four optional schema fields (L10)[2m > [22mkeeps opening.wordClips, focus.family.wordClips, focus.trickyWordClips, and sentenceClips in the parse output
+[31m[1mAssertionError[22m: opening.wordClips: expected undefined to deeply equal { …(8) }[39m
+
+[32m- Expected:[39m 
+{
+  "fan": "l2/media/w01/words/wa-fan.mp3",
+  "hen": "l2/media/w01/words/wa-hen.mp3",
+  "nest": "l2/media/w01/words/wa-nest.mp3",
+  "net": "l2/media/w01/words/wa-net.mp3",
+  "nose": "l2/media/w01/words/wa-nose.mp3",
+  "nut": "l2/media/w01/words/wa-nut.mp3",
+  "pen": "l2/media/w01/words/wa-pen.mp3",
+  "sun": "l2/media/w01/words/wa-sun.mp3",
+}
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1425:64[22m[39m
+    [90m1423| [39m    it('keeps opening.wordClips, focus.family.wordClips, focus.trickyW…
+    [90m1424| [39m        const parsed = StorytimeWeekSchema.parse(weekWithFields()) as …
+    [90m1425| [39m        expect(parsed.opening?.wordClips, 'opening.wordClips').toEqual…
+    [90m   | [39m                                                               [31m^[39m
+    [90m1426| [39m        expect(parsed.focus.family.wordClips, 'focus.family.wordClips'…
+    [90m1427| [39m        expect(parsed.focus.trickyWordClips, 'focus.trickyWordClips').…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD1 the four optional schema fields (L10)[2m > [22mkeeps the fields in the parse output of FocusSchema and BookAudioSchema
+[31m[1mAssertionError[22m: expected undefined to deeply equal { …(3) }[39m
+
+[32m- Expected:[39m 
+{
+  "a": "l2/media/w01/words/wa-a.mp3",
+  "and": "l2/media/w01/words/wa-and.mp3",
+  "can": "l2/media/w01/words/wa-can.mp3",
+}
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1434:39[22m[39m
+    [90m1432| [39m        const raw = weekWithFields();
+    [90m1433| [39m        const focus = FocusSchema.parse(raw.focus) as unknown as RawWe…
+    [90m1434| [39m        expect(focus.trickyWordClips).toEqual(w01Map(W01_TRICKY));
+    [90m   | [39m                                      [31m^[39m
+    [90m1435| [39m        expect(focus.family.wordClips).toEqual(w01Map(W01_FAMILY));
+    [90m1436| [39m        const audio = BookAudioSchema.parse({ sentences: [], sentenceC…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD1 the four optional schema fields (L10)[2m > [22mrefuses an upper-case key and an empty value in each of the three maps
+[31m[1mAssertionError[22m: an upper-case key in opening.wordClips: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1461:70[22m[39m
+    [90m1459| [39m            const raw = weekWithFields();
+    [90m1460| [39m            edit(raw);
+    [90m1461| [39m            expect(StorytimeWeekSchema.safeParse(raw).success, name).t…
+    [90m   | [39m                                                                     [31m^[39m
+    [90m1462| [39m        }
+    [90m1463| [39m    });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD1 the four optional schema fields (L10)[2m > [22mrefuses a sentence clip item with no file, and an item with an empty file
+[31m[1mAssertionError[22m: an item with no file: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1467:136[22m[39m
+    [90m1465| [39m    it('refuses a sentence clip item with no file, and an item with an…
+    [90m1466| [39m        expect(BookAudioSchema.safeParse({ sentences: [], sentenceClip…
+    [90m1467| [39m        expect(BookAudioSchema.safeParse({ sentences: [], sentenceClip…
+    [90m   | [39m                                                                                                                                       [31m^[39m
+    [90m1468| [39m        expect(BookAudioSchema.safeParse({ sentences: [], sentenceClip…
+    [90m1469| [39m    });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD2 openingWordKeys (L4)[2m > [22mgives the 8 words of the hand-written table of the shipped w01
+[31m[1mError[22m: Missing export: openingWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1481:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD2 openingWordKeys (L4)[2m > [22mgives the distinct counts 8, 8, 9, 9, 7, 8, 9 and the hand-written words for w01 to w07
+[31m[1mError[22m: Missing export: openingWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1488:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD2 openingWordKeys (L4)[2m > [22mreads both forms and ignores a sound line, a first-sound question, and the case of the word
+[31m[1mError[22m: Missing export: openingWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1507:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD2 openingWordKeys (L4)[2m > [22mthrows "opening: no word form in line <i>" with i from 0 for a line with no form
+[31m[1mError[22m: Missing export: openingWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1516:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD2 openingWordKeys (L4)[2m > [22mnever reads the th text: a change of th, and a th that throws when it is read, give the same keys
+[31m[1mError[22m: Missing export: openingWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1530:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mgives the three lists of each shipped week, sorted by code point, with the hand-written words
+[31m[1mError[22m: Missing export: practiceWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1551:34[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mcounts 58 opening words, 51 family words, and 19 tricky words: 128 word slots
+[31m[1mError[22m: Missing export: practiceWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1561:34[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mfinds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words
+[31m[1mError[22m: Missing export: practiceWordKeys of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1576:34[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mplans the three maps and the sorted distinct files of the shipped w01
+[31m[1mError[22m: Missing export: planPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1600:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mserves two maps with one file, and plans an empty map for an absent list
+[31m[1mError[22m: Missing export: planPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1613:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mthrows "two keys, one file" for the keys its and it's in one week
+[31m[1mError[22m: Missing export: planPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1629:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD3 practiceWordKeys, planPracticeClips, and the counts of the Facts section (L2, L3, L5)[2m > [22mgives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)
+[31m[1mError[22m: Missing export: planPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1642:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mlists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing
+[31m[1mAssertionError[22m: week 1: the listed words and their texts: expected [] to deeply equal [ 'fan\tFan', 'hen\tHen' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "fan	Fan",[39m
+[32m-   "hen	Hen",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1675:78[22m[39m
+    [90m1673| [39m            expect(result.made, `week ${week}: a dry run makes nothing…
+    [90m1674| [39m            const listed = result.lines.filter((line) => line.includes…
+    [90m1675| [39m            expect(listed, `week ${week}: the listed words and their t…
+    [90m   | [39m                                                                             [31m^[39m
+    [90m1676| [39m            expect(result.lines, `week ${week}: the line with the char…
+    [90m1677| [39m            expect(result.chars).toBe(DRY_CHARS[week - 1]);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mmakes only the book words without the flag, and the 15 words with it (week 3: cap)
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'wa-cap' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "wa-cap",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1696:38[22m[39m
+    [90m1694| [39m        const practice = await runMaker(tree, voice, 3);
+    [90m1695| [39m        expect(practice.error?.message, 'the run with the flag').toBeU…
+    [90m1696| [39m        expect(practice.value?.made).toEqual(['wa-cap']);
+    [90m   | [39m                                     [31m^[39m
+    [90m1697| [39m        expect(voice.calls.map((call) => call.text)).toEqual(['Cap']);
+    [90m1698| [39m    }, 120_000);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mmakes the 15 words in the order of the runs and sends no text for a word that has a row
+[31m[1mAssertionError[22m: week 1: the made words: expected [] to deeply equal [ 'wa-fan', 'wa-hen' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "wa-fan",[39m
+[32m-   "wa-hen",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1703:75[22m[39m
+    [90m1701| [39m        const run = await sequenceRun();
+    [90m1702| [39m        for (const step of run.steps) {
+    [90m1703| [39m            expect(step.result.made, `week ${step.week}: the made word…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m1704| [39m            expect(step.result.chars, `week ${step.week}: the characte…
+    [90m1705| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22madds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are
+[31m[1mAssertionError[22m: expected [ { n: 1, …(12) }, …(136) ] to have a length of 152 but got 137[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 152[39m
+[31m+ 137[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1716:21[22m[39m
+    [90m1714| [39m        const run = await sequenceRun();
+    [90m1715| [39m        const all = manifestItems(run.tree.manifestFile);
+    [90m1716| [39m        expect(all).toHaveLength(152);
+    [90m   | [39m                    [31m^[39m
+    [90m1717| [39m        expect(all.map((row) => row.n), 'n continues from 138, with no…
+    [90m1718| [39m        expect(all.slice(0, 137), 'the 137 old rows are as they were')…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mwrites a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word
+[31m[1mError[22m: ENOENT: no such file or directory, open '/tmp/opencode/storytime-practice-bank-XfMXf7/content/words/wa-fan.wav'[39m
+[36m [2m❯[22m readWav __tests__/storytime-package-practice-clips.test.ts:[2m798:20[22m[39m
+    [90m796| [39m */
+    [90m797| [39mfunction readWav(file: string): WavFile {
+    [90m798| [39m    const buf = fs.readFileSync(file);
+    [90m   | [39m                   [31m^[39m
+    [90m799| [39m    expect(buf.toString('ascii', 0, 4), `${file} starts with RIFF`).to…
+    [90m800| [39m    let at = 12;
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1750:25[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22madds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay
+[31m[1mAssertionError[22m: each row keeps the text -3.0: expected 137 to be 152 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 152[39m
+[31m+ 137[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1771:99[22m[39m
+    [90m1769| [39m        const last = run.steps[run.steps.length - 1].after;
+    [90m1770| [39m        expect(pythonFormHolds(run.tree.manifestFile), 'the Python for…
+    [90m1771| [39m        expect((last.match(/"peak_dbfs": -3\.0,/g) ?? []).length, 'eac…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m1772| [39m        const { items: oldItems, ...oldTop } = JSON.parse(run.before) …
+    [90m1773| [39m        const { items: newItems, ...newTop } = JSON.parse(last) as Rec…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mapplies the heard rule, the retake, and the 3-take note to a practice word, and counts every character
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'take')[39m
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1790:25[22m[39m
+    [90m1788| [39m        expect(run.error?.message, 'the run').toBeUndefined();
+    [90m1789| [39m        const rows = newRows(tree);
+    [90m1790| [39m        expect(rows.sad.take, 'sad: take 1 was heard as "sat"').toBe(2…
+    [90m   | [39m                        [31m^[39m
+    [90m1791| [39m        expect(rows.sad.note).toBe('');
+    [90m1792| [39m        expect(rows.dress.take).toBe(3);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mstops before the first call when one take of each word needs more than maxChars, and changes no row
+[31m[1mAssertionError[22m: the maker throws: expected undefined to be an instance of Error[39m
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1805:47[22m[39m
+    [90m1803| [39m        const hashes = treeHashes(tree.bankFolder);
+    [90m1804| [39m        const run = await runMaker(tree, voice, 5, { maxChars: 10 });
+    [90m1805| [39m        expect(run.error, 'the maker throws').toBeInstanceOf(Error);
+    [90m   | [39m                                              [31m^[39m
+    [90m1806| [39m        expect(run.error?.message).toMatch(/char/i);
+    [90m1807| [39m        expect(voice.calls, 'no call is made').toHaveLength(0);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mstops before the call that would take the run above maxChars, and keeps the rows of the finished words
+[31m[1mAssertionError[22m: the maker throws before the call for "Sad": expected undefined to be an instance of Error[39m
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1816:73[22m[39m
+    [90m1814| [39m        const voice = fakeVoice({ heard: (text) => (text === 'dress' ?…
+    [90m1815| [39m        const run = await runMaker(tree, voice, 5, { maxChars: 15 });
+    [90m1816| [39m        expect(run.error, 'the maker throws before the call for "Sad"'…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m1817| [39m        expect(run.error?.message).toMatch(/char/i);
+    [90m1818| [39m        expect(voice.calls.map((call) => call.text)).toEqual(['dress',…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mthrows "no faster-whisper venv at <path>" before the first call when recognize is absent
+[31m[1mAssertionError[22m: week 5 has 3 words to make with the flag: expected [] to deeply equal [ 'dress\tdress', 'sad\tSad', …(1) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "dress	dress",[39m
+[32m-   "sad	Sad",[39m
+[32m-   "sit	Sit",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1828:124[22m[39m
+    [90m1826| [39m        const hashes = treeHashes(tree.bankFolder);
+    [90m1827| [39m        const dry = await runMaker(tree, voice, 5, { dryRun: true });
+    [90m1828| [39m        expect((dry.value?.lines ?? []).filter((line) => line.includes…
+    [90m   | [39m                                                                                                                           [31m^[39m
+    [90m1829| [39m        const run = await runMaker(tree, voice, 5, { recognize: undefi…
+    [90m1830| [39m        expect(run.error, 'the maker throws').toBeInstanceOf(Error);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD4 the word maker with --practice (L6)[2m > [22mnames the flag --practice in its usage
+[31m[1mAssertionError[22m: expected 'Makes the word bank clips of one Stor…' to contain '--practice'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- --practice[39m
+[31m+ Makes the word bank clips of one Storytime week (Phase 11, spec FR 3).[39m
+[31m+[39m
+[31m+ Usage: npx tsx scripts/storytime/make-word-bank.ts --level <n> --week <n> [--max-chars <n>] [--dry-run][39m
+[31m+[39m
+[31m+ --level      The level of the week.[39m
+[31m+ --week       The week.[39m
+[31m+ --max-chars  The character limit of the run, all takes included (default 300).[39m
+[31m+ --dry-run    List each key and its TTS text, print the characters of one take of each key, and write nothing.[39m
+[31m+[39m
+[31m+ The WAV and the mp3 of a key go into content/storytime/words/. The row goes into the manifest of that[39m
+[31m+ folder. A key that has a row is never made again. A run stops with exit 2 when the faster-whisper venv[39m
+[31m+ is absent, before the first mmx call.[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1840:37[22m[39m
+    [90m1838| [39m        const help = await captureOutput(() => main(['--help']));
+    [90m1839| [39m        expect(help.value).toBe(0);
+    [90m1840| [39m        expect(help.out.join('\n')).toContain('--practice');
+    [90m   | [39m                                    [31m^[39m
+    [90m1841| [39m        expect(help.out.join('\n')).toContain('--max-chars');
+    [90m1842| [39m    });
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD5 the word mapper with the three new maps on a copy of w01 (L5, L17)[2m > [22mwrites the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines
+[31m[1mAssertionError[22m: the distinct clip files of the week: expected 22 to be 30 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 30[39m
+[31m+ 22[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1859:69[22m[39m
+    [90m1857| [39m        expect(run.error?.message, 'the mapper runs').toBeUndefined();
+    [90m1858| [39m        const result = run.value as SetWordClipsResult;
+    [90m1859| [39m        expect(result.files, 'the distinct clip files of the week').to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m1860| [39m        expect(result.removed).toEqual([]);
+    [90m1861| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD5 the word mapper with the three new maps on a copy of w01 (L5, L17)[2m > [22mchanges no byte and no modification time on a second run
+[31m[1mAssertionError[22m: expected 22 to be 30 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 30[39m
+[31m+ 22[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1906:37[22m[39m
+    [90m1904| [39m        expect(second.error?.message, 'the second run').toBeUndefined(…
+    [90m1905| [39m        expect(second.value?.removed).toEqual([]);
+    [90m1906| [39m        expect(second.value?.files).toBe(30);
+    [90m   | [39m                                    [31m^[39m
+    [90m1907| [39m        expect(treeHashes(tree.contentRoot), 'no byte changes').toEqua…
+    [90m1908| [39m        expect(treeStamps(tree.contentRoot), 'no modification time cha…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD5 the word mapper with the three new maps on a copy of w01 (L5, L17)[2m > [22mremoves a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names
+[31m[1mAssertionError[22m: the practice clip of fan stays: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1925:78[22m[39m
+    [90m1923| [39m        for (const key of ['fan', 'hen', 'sun', 'boy', 'girl', 'friend…
+    [90m1924| [39m            const clip = path.join(wordsFolder, `wa-${key}.mp3`);
+    [90m1925| [39m            expect(fs.existsSync(clip), `the practice clip of ${key} s…
+    [90m   | [39m                                                                             [31m^[39m
+    [90m1926| [39m            expect(fileHash(clip)).toBe(fileHash(path.join(tree.bankFo…
+    [90m1927| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD5 the word mapper with the three new maps on a copy of w01 (L5, L17)[2m > [22mprints one tab line for each key of each map with --check and writes nothing
+[31m[1mAssertionError[22m: one line for each key: 12 + 11 book keys, 8 opening, 6 family, and 3 tricky: expected [ [ '0', 'am', 'wa-am', 'ok' ], …(22) ] to have a length of 40 but got 23[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 40[39m
+[31m+ 23[39m
+
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1941:101[22m[39m
+    [90m1939| [39m        expect(run.error?.message, 'the check runs').toBeUndefined();
+    [90m1940| [39m        const rows = (run.value as SetWordClipsResult).lines.map((line…
+    [90m1941| [39m        expect(rows, 'one line for each key: 12 + 11 book keys, 8 open…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m1942| [39m        for (const row of rows) {
+    [90m1943| [39m            expect(row, row.join(' | ')).toHaveLength(4);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD6 the word mapper stops before any write for a practice word (L5, K5)[2m > [22mstops for a practice word with no bank row with "no bank row" and changes no file
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD6 the word mapper stops before any write for a practice word (L5, K5)[2m > [22mstops for a practice word with no bank mp3 file with "no bank file" and changes no file
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD6 the word mapper stops before any write for a practice word (L5, K5)[2m > [22mstops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file
+[31m[1mAssertionError[22m: the mapper throws: expected undefined to be an instance of Error[39m
+[36m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1981:52[22m[39m
+    [90m1979| [39m            const hashes = treeHashes(tree.folder);
+    [90m1980| [39m            const run = await attempt(() => setWordClips({ weekFile: t…
+    [90m1981| [39m            expect(run.error, 'the mapper throws').toBeInstanceOf(Erro…
+    [90m   | [39m                                                   [31m^[39m
+    [90m1982| [39m            expect(run.error?.message).toContain(token);
+    [90m1983| [39m            expect(run.error?.message).toContain(key);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mgives the exact id and label, and pass with no detail on the mapped copy
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2065:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mwarns "no clip: <keys>" for a key that its map lacks, and for a list that has no map
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2073:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mwarns for a practice word that only a book map names
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2096:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "missing: <path>" when a clip file is absent
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2104:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "differs from bank: <path>" when a clip differs from the bank mp3
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2110:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "no bank file: <key>" when the bank mp3 is absent and the week clip exists
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2118:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "no bank row: <key>" when a key has no bank row
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2126:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "not a practice word: <key>" for a key that no word of its list gives
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2134:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mfails with "bad path: <path>" for a value that is not the K3 path of its key
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2142:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mjoins the six fail parts in the order of L9 with "; "
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2155:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mlets a fail win over a warn, and the detail of the fail holds no warn part
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m practiceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2025:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2171:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mgives no row for a week with no meta and for a week with no book (the review week w08)
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2177:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD7 checkPracticeClips (L9)[2m > [22mgives pass or warn and never fail for the shipped w01 to w07, and no row for w08
+[31m[1mError[22m: Missing export: checkPracticeClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2186:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD8 sentenceClipPath and planSentenceClips (L7)[2m > [22mgives the path l2/media/w<nn>/sentences/b<i>-s<jj>.mp3
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2203:40[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD8 sentenceClipPath and planSentenceClips (L7)[2m > [22mplans the decodable books only, in the order of the books, and gives nothing for a read-along book
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2210:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD8 sentenceClipPath and planSentenceClips (L7)[2m > [22mplans 8 sentences for each shipped week (56 in all, 779 characters), none for the read-along books, and none for w08
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2230:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD9 the sentence maker on a copy of w01 that has no book mp3 (L8, FR 5)[2m > [22mmakes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD9 the sentence maker on a copy of w01 that has no book mp3 (L8, FR 5)[2m > [22msucceeds although the tree has no book audio file, so the maker does not read the book audio
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mwrites only the mp3 clips and the provenance file: no WAV file and no take file stays
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mwrites an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mwrites the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1332:27[22m[39m
+[90m [2m❯[22m baseSentenceRun __tests__/storytime-package-practice-clips.test.ts:[2m1335:5[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2259:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD9 the sentence maker on a copy of w01 that has no book mp3 (L8, FR 5)[2m > [22mexports main, which prints the usage for --help and exits 2 for a missing option
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2277:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mpasses a take only when the recognizer heard each word in order (sentenceHeardPasses)
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2293:43[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mgives the bounds of a sentence: 0.2 s for each word at least, and 1.2 s for each word plus 1 s at most
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2303:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mmakes a take again when it is heard as other words, and keeps the take number
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mkeeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mmakes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22msends the sentences in order with the takes in a row, and counts every character
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m1365:27[22m[39m
+[90m [2m❯[22m scenarioSentenceRun __tests__/storytime-package-practice-clips.test.ts:[2m1368:5[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2363:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mstops before the first call when one take of each sentence needs more than maxChars, and writes nothing
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2410:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mstops before the call that would take the run above maxChars
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2424:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mlists the 8 sentences and prints "chars: 70" for --dry-run, and writes nothing
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2435:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD10 the sentence heard rule, the length rule, and the files (L8)[2m > [22mthrows "no faster-whisper venv at <path>" before the first call when recognize is absent
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m614:127[22m[39m
+[90m [2m❯[22m runSentenceMaker __tests__/storytime-package-practice-clips.test.ts:[2m1274:37[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2450:27[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD11 looksLikeCut (L8)[2m > [22mgives true for a window cut from a synthetic source, also after a change of the gain (the positive control)
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2464:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD11 looksLikeCut (L8)[2m > [22mgives false for an unrelated synthetic signal of the same length (the negative control)
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2473:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD11 looksLikeCut (L8)[2m > [22mgives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentences __tests__/storytime-package-practice-clips.test.ts:[2m605:115[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2479:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mgives the exact id and label, and pass with no detail
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2536:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mwarns "no clips" when the decodable book has no field
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2544:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mfails with "count differs: <book>" when the array length is not the sentence count
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2550:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mfails with "text differs: <path>" when an item sentence is not the book sentence
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2558:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mfails with "missing: <path>" when a clip file is absent
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2566:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[65/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mfails with "bad path: <path>" for a value that is not the L7 path of its index
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2574:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[66/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mjoins the four fail parts in the order of L9 with "; "
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2587:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[67/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mlets a fail win over a warn, and the detail of the fail holds no warn part
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m sentenceRowOf __tests__/storytime-package-practice-clips.test.ts:[2m2530:32[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2602:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[68/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mgives no row for a week with no decodable book
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2608:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[69/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD12 checkSentenceClips (L9)[2m > [22mgives pass or warn and never fail for the shipped w01 to w07
+[31m[1mError[22m: Missing export: checkSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m597:54[22m[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+    [90m597| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m598| [39m    return value as NonNullable<T[K]>;
+    [90m599| [39m}
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2617:36[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[70/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD13 set-sentence-clips.ts (FR 6, L17)[2m > [22mwrites the array form after the last key of the decodable audio object, and the new text parses with the schema
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/set-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMapper __tests__/storytime-package-practice-clips.test.ts:[2m617:126[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2670:40[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[71/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD13 set-sentence-clips.ts (FR 6, L17)[2m > [22mchanges no byte and no modification time on a second run
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/set-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMapper __tests__/storytime-package-practice-clips.test.ts:[2m617:126[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2687:40[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[72/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD13 set-sentence-clips.ts (FR 6, L17)[2m > [22mstops for a clip file that is absent and writes nothing
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD13 set-sentence-clips.ts (FR 6, L17)[2m > [22mstops for a clip whose SHA-256 differs from the provenance row and writes nothing
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/set-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMapper __tests__/storytime-package-practice-clips.test.ts:[2m617:126[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2712:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[73/84]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-practice-clips.test.ts[2m > [22mD13 set-sentence-clips.ts (FR 6, L17)[2m > [22mnames the flags in its usage and exits 2 for a missing option
+[31m[1mError[22m: Missing module: /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/set-sentence-clips.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-practice-clips.test.ts:[2m594:37[22m[39m
+    [90m592| [39m */
+    [90m593| [39masync function exportOf<T extends object, K extends keyof T>(file: str…
+    [90m594| [39m    if (!fs.existsSync(file)) throw new Error(`Missing module: ${file}…
+    [90m   | [39m                                    [31m^[39m
+    [90m595| [39m    const mod = await import(file) as T;
+    [90m596| [39m    const value = mod[name];
+[90m [2m❯[22m sentenceMapper __tests__/storytime-package-practice-clips.test.ts:[2m617:126[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-practice-clips.test.ts:[2m2726:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[74/84]⎯[22m[39m
+
+
+exit: 1
