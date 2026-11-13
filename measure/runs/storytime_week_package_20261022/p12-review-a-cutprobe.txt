@@ -1,0 +1,73 @@
+CAPTURE of Review A P12 live cut probe (AC12-5), audited head fb5a4dbf, run 2026-11-13 about 20:00 ICT (HEAD 7e0f8576; no Phase 12 path changed after fb5a4dbf)
+COMMAND: HEAVY_PRIORITY=p2 HEAVY_LOAD_WAIT_S=1200 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsx ../measure/runs/storytime_week_package_20261022/p12-review-a-cutprobe.ts; echo "exit: $?"'
+METHOD: each shipped sentence clip and each book mp3 decoded by ffmpeg to 32 kHz mono s16; the library looksLikeCut decision; max-ncc is an independent FFT copy of the normalised cross-correlation over all full-overlap lags. Positive control: a 1.5 s window of the decoded book mp3 (from 2.0 s), encoded as an mp3 of 128 kb/s and decoded again.
+
+--- STDOUT ---
+heavy-run: load hold — load 6.91 over 6
+w01 b1 control: a re-encoded 1.5 s window of l2/media/w01/books/2-nan-can-nod.mp3 looksLikeCut true max-ncc 1.000
+w01 b1-s01.mp3 looksLikeCut false max-ncc 0.178
+w01 b1-s02.mp3 looksLikeCut false max-ncc 0.303
+w01 b1-s03.mp3 looksLikeCut false max-ncc 0.140
+w01 b1-s04.mp3 looksLikeCut false max-ncc 0.246
+w01 b1-s05.mp3 looksLikeCut false max-ncc 0.325
+w01 b1-s06.mp3 looksLikeCut false max-ncc 0.258
+w01 b1-s07.mp3 looksLikeCut false max-ncc 0.123
+w01 b1-s08.mp3 looksLikeCut false max-ncc 0.175
+w02 b1 control: a re-encoded 1.5 s window of l2/media/w02/books/2-can-i.mp3 looksLikeCut true max-ncc 1.000
+w02 b1-s01.mp3 looksLikeCut false max-ncc 0.229
+w02 b1-s02.mp3 looksLikeCut false max-ncc 0.205
+w02 b1-s03.mp3 looksLikeCut false max-ncc 0.155
+w02 b1-s04.mp3 looksLikeCut false max-ncc 0.293
+w02 b1-s05.mp3 looksLikeCut false max-ncc 0.264
+w02 b1-s06.mp3 looksLikeCut false max-ncc 0.160
+w02 b1-s07.mp3 looksLikeCut false max-ncc 0.245
+w02 b1-s08.mp3 looksLikeCut false max-ncc 0.232
+w03 b1 control: a re-encoded 1.5 s window of l2/media/w03/books/2-the-pan.mp3 looksLikeCut true max-ncc 1.000
+w03 b1-s01.mp3 looksLikeCut false max-ncc 0.294
+w03 b1-s02.mp3 looksLikeCut false max-ncc 0.142
+w03 b1-s03.mp3 looksLikeCut false max-ncc 0.172
+w03 b1-s04.mp3 looksLikeCut false max-ncc 0.206
+w03 b1-s05.mp3 looksLikeCut false max-ncc 0.150
+w03 b1-s06.mp3 looksLikeCut false max-ncc 0.186
+w03 b1-s07.mp3 looksLikeCut false max-ncc 0.153
+w03 b1-s08.mp3 looksLikeCut false max-ncc 0.202
+w04 b1 control: a re-encoded 1.5 s window of l2/media/w04/books/2-pam.mp3 looksLikeCut true max-ncc 1.000
+w04 b1-s01.mp3 looksLikeCut false max-ncc 0.254
+w04 b1-s02.mp3 looksLikeCut false max-ncc 0.180
+w04 b1-s03.mp3 looksLikeCut false max-ncc 0.212
+w04 b1-s04.mp3 looksLikeCut false max-ncc 0.132
+w04 b1-s05.mp3 looksLikeCut false max-ncc 0.164
+w04 b1-s06.mp3 looksLikeCut false max-ncc 0.157
+w04 b1-s07.mp3 looksLikeCut false max-ncc 0.192
+w04 b1-s08.mp3 looksLikeCut false max-ncc 0.203
+w05 b1 control: a re-encoded 1.5 s window of l2/media/w05/books/2-sam-and-pam.mp3 looksLikeCut true max-ncc 1.000
+w05 b1-s01.mp3 looksLikeCut false max-ncc 0.205
+w05 b1-s02.mp3 looksLikeCut false max-ncc 0.137
+w05 b1-s03.mp3 looksLikeCut false max-ncc 0.263
+w05 b1-s04.mp3 looksLikeCut false max-ncc 0.194
+w05 b1-s05.mp3 looksLikeCut false max-ncc 0.163
+w05 b1-s06.mp3 looksLikeCut false max-ncc 0.210
+w05 b1-s07.mp3 looksLikeCut false max-ncc 0.118
+w05 b1-s08.mp3 looksLikeCut false max-ncc 0.177
+w06 b1 control: a re-encoded 1.5 s window of l2/media/w06/books/2-tap-tap.mp3 looksLikeCut true max-ncc 1.000
+w06 b1-s01.mp3 looksLikeCut false max-ncc 0.124
+w06 b1-s02.mp3 looksLikeCut false max-ncc 0.132
+w06 b1-s03.mp3 looksLikeCut false max-ncc 0.167
+w06 b1-s04.mp3 looksLikeCut false max-ncc 0.142
+w06 b1-s05.mp3 looksLikeCut false max-ncc 0.112
+w06 b1-s06.mp3 looksLikeCut false max-ncc 0.174
+w06 b1-s07.mp3 looksLikeCut false max-ncc 0.137
+w06 b1-s08.mp3 looksLikeCut false max-ncc 0.147
+w07 b1 control: a re-encoded 1.5 s window of l2/media/w07/books/2-the-top.mp3 looksLikeCut true max-ncc 1.000
+w07 b1-s01.mp3 looksLikeCut false max-ncc 0.150
+w07 b1-s02.mp3 looksLikeCut false max-ncc 0.181
+w07 b1-s03.mp3 looksLikeCut false max-ncc 0.252
+w07 b1-s04.mp3 looksLikeCut false max-ncc 0.141
+w07 b1-s05.mp3 looksLikeCut false max-ncc 0.129
+w07 b1-s06.mp3 looksLikeCut false max-ncc 0.153
+w07 b1-s07.mp3 looksLikeCut false max-ncc 0.157
+w07 b1-s08.mp3 looksLikeCut false max-ncc 0.129
+clips: 56, cuts: 0, highest max-ncc: 0.325
+positive controls: 7, true: 7
+scratch removed: true
+exit: 0

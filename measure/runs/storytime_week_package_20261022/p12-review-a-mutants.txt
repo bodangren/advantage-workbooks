@@ -1,0 +1,119 @@
+CAPTURE of Review A P12 mutants (deviation D-P12-G1), audited head fb5a4dbf, run at HEAD 7e0f85761d33a939afb1d5f6b954a6571dd8ea34
+guard: the 5 mutated code files show no change before the first mutant
+COMMAND per mutant: save bytes, apply, `cd dashboard && CI=true npx vitest run __tests__/storytime-package-practice-clips.test.ts --maxWorkers=1`, restore bytes, cmp
+git status --porcelain dashboard/ BEFORE:
+?? dashboard/raw.json
+BASELINE exit 0 Tests  89 passed (89)
+M1 the opening rule drops the 'What is the word?' form (D2) | file dashboard/lib/storytime/word-clips.ts | exit 1 | Tests  39 failed | 50 passed (89) | CAUGHT | restore cmp equal
+    × gives the 8 words of the hand-written table of the shipped w01 123ms
+    × gives the distinct counts 8, 8, 9, 9, 7, 8, 9 and the hand-written words for w01 to w07 8ms
+    × reads both forms and ignores a sound line, a first-sound question, and the case of the word 1ms
+    × never reads the th text: a change of th, and a th that throws when it is read, give the same keys 7ms
+    × gives the three lists of each shipped week, sorted by code point, with the hand-written words 7ms
+    × counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots 11ms
+    × finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words 7ms
+    × plans the three maps and the sorted distinct files of the shipped w01 6ms
+    × serves two maps with one file, and plans an empty map for an absent list 8ms
+    × gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218) 7ms
+    × lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing 420ms
+    × makes only the book words without the flag, and the 15 words with it (week 3: cap) 270ms
+M2 practiceWordKeys skips the tricky list (D3) | file dashboard/lib/storytime/word-clips.ts | exit 1 | Tests  26 failed | 63 passed (89) | CAUGHT | restore cmp equal
+    × gives the three lists of each shipped week, sorted by code point, with the hand-written words 37ms
+    × counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots 58ms
+    × finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words 57ms
+    × plans the three maps and the sorted distinct files of the shipped w01 9ms
+    × serves two maps with one file, and plans an empty map for an absent list 2ms
+    × throws "two keys, one file" for the keys its and it's in one week 2ms
+    × gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218) 15ms
+    × lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing 412ms
+    × makes the 15 words in the order of the runs and sends no text for a word that has a row 2335ms
+    × adds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are 4ms
+    × writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word 1136ms
+    × adds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay 78ms
+M3 the mapper copies only the gap words (D5) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  1 failed | 88 passed (89) | CAUGHT | restore cmp equal
+    × writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines 447ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines
+M4 the mapper removes a practice clip as stale (D5) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  3 failed | 86 passed (89) | CAUGHT | restore cmp equal
+    × writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines 355ms
+    × changes no byte and no modification time on a second run 251ms
+    × removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names 156ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > changes no byte and no modification time on a second run
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names
+M5 the mapper copies a clip before its bank check (D6) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  4 failed | 85 passed (89) | CAUGHT | restore cmp equal
+    × changes no byte and no modification time on a second run 218ms
+    × stops for a practice word with no bank row with "no bank row" and changes no file 155ms
+    × stops for a practice word with no bank mp3 file with "no bank file" and changes no file 106ms
+    × stops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file 132ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > changes no byte and no modification time on a second run
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D6 the word mapper stops before any write for a practice word (L5, K5) > stops for a practice word with no bank row with "no bank row" and changes no file
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D6 the word mapper stops before any write for a practice word (L5, K5) > stops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D6 the word mapper stops before any write for a practice word (L5, K5) > stops for a practice word with no bank mp3 file with "no bank file" and changes no file
+M6 checkPracticeClips skips the SHA-256 compare (D7) | file dashboard/scripts/storytime/check-weeks.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+    × fails with "differs from bank: <path>" when a clip differs from the bank mp3 221ms
+    × joins the six fail parts in the order of L9 with "; " 371ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D7 checkPracticeClips (L9) > fails with "differs from bank: <path>" when a clip differs from the bank mp3
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D7 checkPracticeClips (L9) > joins the six fail parts in the order of L9 with "; "
+M7 the sentence maker cuts a window of the book mp3 (D9 and D11) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  12 failed | 77 passed (89) | CAUGHT | restore cmp equal
+    × makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 198ms
+    × succeeds although the tree has no book audio file, so the maker does not read the book audio 0ms
+    × creates the sentences folder before the first synthesize call (R1) 199ms
+    × writes only the mp3 clips and the provenance file: no WAV file and no take file stays 1ms
+    × writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge 0ms
+    × writes the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3 0ms
+    × makes a take again when it is heard as other words, and keeps the take number 194ms
+    × keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail 1ms
+    × makes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s 0ms
+    × sends the sentences in order with the takes in a row, and counts every character 0ms
+    × stops before the call that would take the run above maxChars 221ms
+    × gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path 2919ms
+M8 sentenceHeardPasses passes every text (D10) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  5 failed | 84 passed (89) | CAUGHT | restore cmp equal
+    × passes a take only when the recognizer heard each word in order (sentenceHeardPasses) 30ms
+    × makes a take again when it is heard as other words, and keeps the take number 1316ms
+    × keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail 1ms
+    × sends the sentences in order with the takes in a row, and counts every character 5ms
+    × stops before the call that would take the run above maxChars 1287ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > passes a take only when the recognizer heard each word in order (sentenceHeardPasses)
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > makes a take again when it is heard as other words, and keeps the take number
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > sends the sentences in order with the takes in a row, and counts every character
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > stops before the call that would take the run above maxChars
+M9 the peak target is 32767 (D10) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  1 failed | 88 passed (89) | CAUGHT | restore cmp equal
+    × writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge 178ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge
+M10 checkSentenceClips skips the text compare (D12) | file dashboard/scripts/storytime/check-weeks.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+    × fails with "text differs: <path>" when an item sentence is not the book sentence 39ms
+    × joins the four fail parts in the order of L9 with "; " 13ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D12 checkSentenceClips (L9) > fails with "text differs: <path>" when an item sentence is not the book sentence
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D12 checkSentenceClips (L9) > joins the four fail parts in the order of L9 with "; "
+M11 planSentenceClips includes the read-along books (D8) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  15 failed | 74 passed (89) | CAUGHT | restore cmp equal
+    × plans the decodable books only, in the order of the books, and gives nothing for a read-along book 42ms
+    × plans 8 sentences for each shipped week (56 in all, 779 characters), none for the read-along books, and none for w08 29ms
+    × makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 2500ms
+    × creates the sentences folder before the first synthesize call (R1) 2142ms
+    × writes only the mp3 clips and the provenance file: no WAV file and no take file stays 2ms
+    × writes the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3 17ms
+    × makes a take again when it is heard as other words, and keeps the take number 4187ms
+    × keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail 0ms
+    × makes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s 6ms
+    × sends the sentences in order with the takes in a row, and counts every character 0ms
+    × lists the 8 sentences and prints "chars: 70" for --dry-run, and writes nothing 111ms
+    × writes the array form after the last key of the decodable audio object, and the new text parses with the schema 124ms
+M12 looksLikeCut always gives false (D11) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+    × gives true for a window cut from a synthetic source, also after a change of the gain (the positive control) 88ms
+    × gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path 1433ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D11 looksLikeCut (L8) > gives true for a window cut from a synthetic source, also after a change of the gain (the positive control)
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D11 looksLikeCut (L8) > gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path
+M13 the sentence maker ignores --max-chars (D10) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+    × stops before the first call when one take of each sentence needs more than maxChars, and writes nothing 1316ms
+    × stops before the call that would take the run above maxChars 988ms
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > stops before the first call when one take of each sentence needs more than maxChars, and writes nothing
+    FAIL  __tests__/storytime-package-practice-clips.test.ts > D10 the sentence heard rule, the length rule, and the files (L8) > stops before the call that would take the run above maxChars
+git status --porcelain dashboard/ AFTER:
+?? dashboard/raw.json
+porcelain of dashboard/ before and after: equal
+NOTE: the Red F10 role of track storytime_cover_options works in dashboard/__tests__/quest-cover-*; a difference there comes from that role, not from a mutant. The restore is judged by cmp and by the porcelain of the 5 Phase 12 code files below.
+porcelain of the 5 mutated code files before: (empty) | after: (empty) | equal
+scratch removed: True
+mutants: 13, caught: 13
+restore cmp: all equal

@@ -1,0 +1,27 @@
+Review A log, Phase 12 (storytime_week_package), audited head fb5a4dbf8b789912871de8b4d5697e764e1451fe. Final at about 20:05 ICT, 2026-11-13.
+
+Route: claude-code/claude-opus-5-5[1m]#high (Anthropic). Red: claude-code/claude-sonnet-5-5#high (Anthropic, a different model). Green: kimi-code-plan-cn/kimi-for-coding#high (Kimi).
+
+Stops: a machine stop at about 15:47, a second one at 18:41, and a server restart at 18:55 stopped the mutant job before it ran. One call exited 75 on the load hold. After each stop, no file under dashboard/lib or dashboard/scripts was changed. The mutant script now holds a guard that exits 2 when a mutated code file shows a change before the first mutant.
+
+Commits: the permission system rejects git add and git commit for this role. The 6 files stay uncommitted under measure/runs/storytime_week_package_20261022/ for the closeout role (orchestrator correction, 19:06).
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: done
+track: storytime_week_package_20261022
+phase: Phase 12
+phase_base_sha: 32a9739e
+role_base_sha: fb5a4dbf8b789912871de8b4d5697e764e1451fe
+audited_head_sha: fb5a4dbf8b789912871de8b4d5697e764e1451fe
+verdict: pass, no Blocker
+result: measure/runs/storytime_week_package_20261022/review-a-p12-fb5a4dbf.json
+mutants: 13, caught: 13; restore cmp: all equal (p12-review-a-mutants.txt)
+cut probe: clips 56, cuts 0, highest max-ncc 0.325, positive controls 7 of 7 true (p12-review-a-cutprobe.txt)
+findings: F1 Minor FIX code (L11 log: no per-call count, no sent sum, no log of a failed run; no shipped file changes); F2 Minor FIX evidence (p12-chars-compute.py gives 875/922, not 887/934; no shipped file changes); F3 Nit accept (cut capture lacks correlation and control; the probe closes it); F4 Minor accept (w05 b1-s08 on the listen list; heard check on the raw WAV); F5 Nit accept (AC12-8 is the L17 count plus 4 replaced closing lines); F6 Nit accept (w01 README period and blank line; base path not named); F7 Nit accept (read-along sentenceClips not flagged; none shipped)
+new revision folders: none needed
+files_changed: p12-review-a-mutants.py, p12-review-a-mutants.txt, p12-review-a-cutprobe.ts, p12-review-a-cutprobe.txt, review-a-p12-fb5a4dbf.json, review-a-p12-fb5a4dbf.log (all uncommitted, under measure/runs/storytime_week_package_20261022/)
+commits: none (git commit is rejected for this role)
+retry_recommendation: none
+handoff: the orchestrator writes the Review A task line with F1 to F7; F1 and F2 go to a later Red and Green chore or to the plan text; the closeout role commits the 6 files. The scratch folders /tmp/review-a-p12-mutants and the probe temp folder are removed (scratch removed).
+END_MEASURE_AGENT_RESULT
