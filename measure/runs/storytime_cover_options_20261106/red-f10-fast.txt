@@ -1,0 +1,19 @@
+CAPTURE of F10 Red: the fast gates of the task line
+COMMAND: ls dashboard/__tests__/quest-cover-f10.test.ts; grep -c 'front-title' dashboard/__tests__/quest-cover-f10.test.ts; grep -c 'changed 2026-11-13 (F10)' dashboard/__tests__/quest-cover-hlogo.test.ts dashboard/__tests__/quest-cover-f1f2.test.ts dashboard/__tests__/quest-cover-f3f6.test.ts; git show --name-only --format= fc5cc3ec; git show --name-only --format= d4f90405
+
+--- STDOUT ---
+dashboard/__tests__/quest-cover-f10.test.ts
+22
+dashboard/__tests__/quest-cover-hlogo.test.ts:1
+dashboard/__tests__/quest-cover-f1f2.test.ts:2
+dashboard/__tests__/quest-cover-f3f6.test.ts:2
+dashboard/__tests__/quest-cover-f10.test.ts
+dashboard/__tests__/quest-cover-f1f2.test.ts
+dashboard/__tests__/quest-cover-f3f6.test.ts
+dashboard/__tests__/quest-cover-hlogo.test.ts
+dashboard/__tests__/quest-cover-f3f6.test.ts
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
