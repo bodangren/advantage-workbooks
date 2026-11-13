@@ -1,0 +1,28 @@
+CAPTURE of F10 Green step 6, the 10 r6 book files into covers-quest-v1-books-r6
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/copy_f10.py
+
+--- STDOUT ---
+ACCEPTED_MANIFEST_BEFORE sha256=8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87 ok=true
+SOURCE_LISTING student 5: Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf back.png build-report.json cover.pdf front.png
+SOURCE_LISTING teacher 5: Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf build-report.json teacher-back.png teacher-cover.pdf teacher-front.png
+COPY student/front.png -> student/front-alt-hlogo-r6.png bytes=15724709 sha256=15a38d2b5916af4c68e48006488546675cc1c1f105aabd9003f507e290ef81b4 pair_equal=true
+COPY student/back.png -> student/back-alt-hlogo-r6.png bytes=5365339 sha256=9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3 pair_equal=true
+COPY student/cover.pdf -> student/cover-alt-hlogo-r6.pdf bytes=36586142 sha256=16e78cbb302764b819be0928173f1f4ce8e7678a9fdf2c77540355447a3a5c9b pair_equal=true
+COPY student/build-report.json -> student/build-report-alt-hlogo-r6.json bytes=838 sha256=8319d4b2350bfb8219fe969ea4c30ce3e0793b9e5235488919b1a33b20bffe1d pair_equal=true
+COPY student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4_PDFX-1a.pdf -> student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf bytes=6290444 sha256=03b5b18ab12ec54153f9c46dc6ae36c2477ebef716354d86e148ccfae53542e2 pair_equal=true
+COPY teacher/teacher-front.png -> teacher/teacher-front-alt-hlogo-r6.png bytes=16625289 sha256=28953e6a51686118f9d1110add2cb9d8478ac31a63b313fc11ee4c4da9102f0f pair_equal=true
+COPY teacher/teacher-back.png -> teacher/teacher-back-alt-hlogo-r6.png bytes=12577643 sha256=ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4 pair_equal=true
+COPY teacher/teacher-cover.pdf -> teacher/teacher-cover-alt-hlogo-r6.pdf bytes=37285258 sha256=92ff4ff4eb223ce51426bdce5d150b9f13e8843c9d0251b7bf2defdf702ddc00 pair_equal=true
+COPY teacher/build-report.json -> teacher/build-report-alt-hlogo-r6.json bytes=854 sha256=0d1b8d84fef9b4c2768f48ed5bd763a9f610199223d248c3555cbe63510e48f4 pair_equal=true
+COPY teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2_PDFX-1a.pdf -> teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf bytes=7018965 sha256=a21a20d447fa75e8a8794bb5ac7c4d99e8d664ff040286c665bd6b277e45c163 pair_equal=true
+COPIES 10
+SHA_PAIRS_EQUAL 10
+TARGET_FILES 10 OTHER_FILES 0
+BACK_R6_VS_R5 student/back-alt-hlogo-r6.png vs student/back-alt-hlogo-r5.png equal=true r6_sha256=9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3 r5_sha256=9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3
+BACK_R6_VS_R5 teacher/teacher-back-alt-hlogo-r6.png vs teacher/teacher-back-alt-hlogo-r5.png equal=true r6_sha256=ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4 r5_sha256=ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4
+ACCEPTED_MANIFEST_AFTER sha256=8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87 ok=true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
