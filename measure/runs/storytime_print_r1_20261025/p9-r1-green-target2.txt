@@ -1,0 +1,18 @@
+CAPTURE of P9 R1 Green, targeted file quest-cover-leafmark.test.ts, round 2 (band predicate)
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-leafmark.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-leafmark.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 00:37:59
+[2m   Duration [22m 2.03s[2m (transform 606ms, setup 93ms, import 787ms, tests 13ms, environment 713ms)[22m
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

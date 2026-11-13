@@ -1,0 +1,57 @@
+CAPTURE of P9 R1 Green, targeted file quest-cover-leafmark.test.ts
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-leafmark.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-leafmark.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 29[2mms[22m[39m
+     [32m✓[39m L1: every white box of the 14 marked leaf covers is 14.0 mm high or less[32m 5[2mms[22m[39m
+     [32m✓[39m L2: the leaf-mark span exists once, holds the mark text, and lies inside a white box[32m 2[2mms[22m[39m
+     [32m✓[39m L3: on the week 7 leaves the strip keeps the no-mark size and the mark box exists[32m 1[2mms[22m[39m
+[31m     [31m×[31m L4: the 12 week 1 to 6 marked bodies keep their role base bytes[39m[32m 17[2mms[22m[39m
+     [32m✓[39m L5: the 14 no-mark bodies keep their role base bytes[32m 1[2mms[22m[39m
+     [32m✓[39m L6: control, the frozen week 7 bodies fail the L1 rule and the week 1 bodies pass it[32m 1[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 00:37:14
+[2m   Duration [22m 1.90s[2m (transform 433ms, setup 87ms, import 645ms, tests 29ms, environment 706ms)[22m
+
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-leafmark.test.ts[2m > [22mquest-cover-leafmark (Phase 9 R1, D-P9-R1)[2m > [22mL4: the 12 week 1 to 6 marked bodies keep their role base bytes
+[31m[1mAssertionError[22m: 1:hello: sha a11fa729b9649698ca1bc2763a797645b3500eec1b2d014271699edaf81963aa != pin 3aa2d70170b0c244aabf1c7e2fcb5aab8009e7e835ab43fc0ee22870fc941f2c; 2:how-many: sha 75e73821b544b3ec1e8e63566c5742892644fe697423828ed49773c557b19211 != pin e2a0412b5269144109682c9988d00131ae3b326bd99d726f476de35d80056699; 2:can-i: sha 3b3e8711eb710c578dfe6a82c293a118a83c5f99177c16b8e12c09336997fdb2 != pin b843b46fae6de686d7fc0a4c489193dcf9a1b0df4956d05bb45ba087f317a01e; 3:paint: sha 2b1258ef37082256b062a001b4cee59482aa0dd39f3b7777632d3a2ee59ff743 != pin 606c8d278ddbe1d9f1224e71eb85a88b4213753f36695f2d0b9cc6db1c79b828; 3:the-pan: sha c00ef5370ea3fdfe764cd93cfd2f706e2cc615aa1143b8bc7a6c96a28f17b69e != pin 0ed2e26a8c7b652c870c70f5a5c92bf21110991a0c74c4f8170b630b9294be5c; 4:my-family: sha b39280531763c117cd8ac16bfa28c57620c9596173bcf9ce54ae33b9479bb191 != pin d662a38f0466920349e99b21828ee81ba23852347e66741edbea011a0ae7d244; 4:pam: sha e76486e4c63216592e3d350a803ff12865ed2d4caf715ce0de613f9c00d2c7ce != pin ef13f12b4b92f9c6d5de9bacfbd83430bd26b0a87cd2b6e12d96cc59e05883e2; 5:i-have-two: sha dc5c122b8c38029c4ab1b0265586bfbb204018c0135628068516c324b5abc9ee != pin f17fbe2d685794aa158328174177bc62e293b1904afaa56b5d94e311eb5e27bf; 5:sam-and-pam: sha 59674331bbbce6b1e29e651bec58b6a8f1c4c3a5db34d556d2e38ad67e21c1e0 != pin 7a8756ff9e27834c68200ad60817096a06d146a408581b64170c8031f8c05813; 6:i-can-see: sha 2708dd025a9d8ec368b784ffa0f744ad5de272046ab6cab856b175edef411c22 != pin ab8ebbae6f2a948e79fdcdb5b4d3bfda3d35e82c12f3b848c79ac184fae5df38; 6:tap-tap: sha 114781a2630d87a6b45d43c3b39b65f059ee9bca20cb229d77cf89d7a137b469 != pin f957e11d3fe0cd43b65fc9972a93fc49c767632a4e1b2f9ea225fe11faf37ea8: expected [ …(11) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "1:hello: sha a11fa729b9649698ca1bc2763a797645b3500eec1b2d014271699edaf81963aa != pin 3aa2d70170b0c244aabf1c7e2fcb5aab8009e7e835ab43fc0ee22870fc941f2c",[39m
+[31m+   "2:how-many: sha 75e73821b544b3ec1e8e63566c5742892644fe697423828ed49773c557b19211 != pin e2a0412b5269144109682c9988d00131ae3b326bd99d726f476de35d80056699",[39m
+[31m+   "2:can-i: sha 3b3e8711eb710c578dfe6a82c293a118a83c5f99177c16b8e12c09336997fdb2 != pin b843b46fae6de686d7fc0a4c489193dcf9a1b0df4956d05bb45ba087f317a01e",[39m
+[31m+   "3:paint: sha 2b1258ef37082256b062a001b4cee59482aa0dd39f3b7777632d3a2ee59ff743 != pin 606c8d278ddbe1d9f1224e71eb85a88b4213753f36695f2d0b9cc6db1c79b828",[39m
+[31m+   "3:the-pan: sha c00ef5370ea3fdfe764cd93cfd2f706e2cc615aa1143b8bc7a6c96a28f17b69e != pin 0ed2e26a8c7b652c870c70f5a5c92bf21110991a0c74c4f8170b630b9294be5c",[39m
+[31m+   "4:my-family: sha b39280531763c117cd8ac16bfa28c57620c9596173bcf9ce54ae33b9479bb191 != pin d662a38f0466920349e99b21828ee81ba23852347e66741edbea011a0ae7d244",[39m
+[31m+   "4:pam: sha e76486e4c63216592e3d350a803ff12865ed2d4caf715ce0de613f9c00d2c7ce != pin ef13f12b4b92f9c6d5de9bacfbd83430bd26b0a87cd2b6e12d96cc59e05883e2",[39m
+[31m+   "5:i-have-two: sha dc5c122b8c38029c4ab1b0265586bfbb204018c0135628068516c324b5abc9ee != pin f17fbe2d685794aa158328174177bc62e293b1904afaa56b5d94e311eb5e27bf",[39m
+[31m+   "5:sam-and-pam: sha 59674331bbbce6b1e29e651bec58b6a8f1c4c3a5db34d556d2e38ad67e21c1e0 != pin 7a8756ff9e27834c68200ad60817096a06d146a408581b64170c8031f8c05813",[39m
+[31m+   "6:i-can-see: sha 2708dd025a9d8ec368b784ffa0f744ad5de272046ab6cab856b175edef411c22 != pin ab8ebbae6f2a948e79fdcdb5b4d3bfda3d35e82c12f3b848c79ac184fae5df38",[39m
+[31m+   "6:tap-tap: sha 114781a2630d87a6b45d43c3b39b65f059ee9bca20cb229d77cf89d7a137b469 != pin f957e11d3fe0cd43b65fc9972a93fc49c767632a4e1b2f9ea225fe11faf37ea8",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-leafmark.test.ts:[2m260:39[22m[39m
+    [90m258| [39m            if (got !== want) errs.push(`${key}: sha ${got} != pin ${w…
+    [90m259| [39m        }
+    [90m260| [39m        [34mexpect[39m(errs[33m,[39m errs[33m.[39m[34mjoin[39m([32m'; '[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                      [31m^[39m
+    [90m261| [39m    })[33m;[39m
+    [90m262| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
