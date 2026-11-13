@@ -1,0 +1,61 @@
+Mid Red log, fix round F10, the r6 book covers (track storytime_cover_options_20261106, Phase 2, Task (Red, F10)).
+
+Role: measure mid red (the Red role of the F10 round).
+Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (the MiniMax family).
+role_base_sha: 84d0ab780d8418fdf0b511c7bd854eb1475dfe6f
+phase_base_sha: e6e2156a
+Date: 2026-11-13, ICT.
+
+Step log
+
+1. 15:00 The Thai filter ran first (PM rule, 2026-11-09). The script `/tmp/opencode/p2f10-red/thai_filter.py` and `thai_filter2.py` ran with `python3 -I -B`. Every filtered copy printed `THAI_CHARS_IN_OUTPUT: 0`. The role read only the copies: the spec, the plan, the test files, `cover-quest.ts`, the test strategy, `pictures-heads.json`, and `quest.json`. No week file was read. No back HTML and no back text was printed.
+2. 15:02 The track files were read: the spec section "Fix round F10 (Amendment 3, 2026-11-13)" with M-F10-1 to M-F10-13, D-F10-1 to D-F10-15, and Q13 to Q20; the plan task line 256 in full; the test strategy; the existing quest-cover test files.
+3. 15:05 The tree was read. `git rev-parse HEAD` gave 84d0ab78, which is the role base. The dirty paths were classified: `video/storytime-song/scripts/render.mjs` (another session), `dashboard/raw.json` (unrelated), and the untracked files of the runs folder (`mid-red-p2-62621a9c.log`, `red1-p2*`, `strategy-p2-14b39927.log`, `spec-review-*`). None of them was staged.
+4. 15:10 The role base pins were computed with a script that prints hashes only: the level plate part SHA-256 of the student front and of the teacher front, and the back HTML SHA-256 of each back. The 2 back digests equal the pins of G4 in `quest-cover-f1f2.test.ts`, which proves that the render inputs match.
+5. 15:15 The new file `dashboard/__tests__/quest-cover-f10.test.ts` was written with T1 to T9 of D-F10-9, each with a positive control on a changed copy of the HTML. T3, T4, and T5 use Chrome with the League Spartan font. T4 reads the ink block from the League Spartan metrics. T5 reads the key boxes of `pictures-heads.json` and the trim margin.
+6. 15:17 The moved pins landed: A3 of `quest-cover-hlogo.test.ts`, G3 of `quest-cover-f1f2.test.ts`, and D8 of `quest-cover-f3f6.test.ts` (D-F10-10b, the orchestrator decision of 2026-11-13 15:18). Each hunk carries the comment "changed 2026-11-13 (F10)".
+7. 15:20 ESLint on the 4 test files exits 0 (`red-f10-lint.txt`).
+8. 15:22 The RED run exits 1 with `Tests 6 failed | 18 passed (24)` (`red-f10.txt`). The failing tests are T1, T3, T4, T5 (the new file), A3 (the hlogo file), and G3 (the f1f2 file). The expected RED line holds.
+9. 15:47 The machine stopped. The turn was lost. The work on the disk stayed.
+10. 18:16 The machine came back. The orchestrator read the tree and confirmed the state.
+11. 18:18 The spec line D-F10-10b landed in the spec file.
+12. 18:41 The machine stopped again. The turn was lost.
+13. 18:55 The OpenChamber server stopped. The turn was lost.
+14. 19:06 The orchestrator read the tree and asked for the whole set in 2 halves, so that each half ends inside the 1800 s cap.
+15. 19:36 The whole set, half 1, ends: `Test Files 3 failed | 6 passed (9)` and `Tests 6 failed | 127 passed (133)` (`red-f10-all-1.txt`). The failing tests are T1, T3, T4, T5, G3, and A3. D8 passes.
+16. 19:48 The whole set, half 2, ends: `Test Files 9 passed (9)` and `Tests 257 passed (257)` (`red-f10-all-2.txt`). No test fails. No test file of half 2 pins 0 series words on the book front. The print-gate check 4 of D-F10-12 lives in the build gate script of the runs folder, not in a test file, so the Green role owns it.
+17. 19:55 The fast gates pass (`red-f10-fast.txt`): the new file exists, the count of "front-title" is 22, the count of "changed 2026-11-13 (F10)" is 1 in the hlogo file, 2 in the f1f2 file, and 2 in the f3f6 file, and the test commits list only the 4 test files.
+18. 19:57 `git status --porcelain pnpm-lock.yaml` prints nothing.
+19. 20:00 The plan task line is closed with its evidence line, and this log is written.
+
+The commits
+
+- fc5cc3ec: the 4 test files (the new file `quest-cover-f10.test.ts`, and the moved pins A3, G3, and D8).
+- d4f90405: the comment of the D8 hunk names the F10 change and D-F10-10b.
+- c10cbd49: the captures `red-f10-lint.txt` and `red-f10.txt`.
+- 4e8ab833: the spec line D-F10-10b.
+- 1fdeb2c9: the capture `red-f10-fast.txt`.
+- 7e0f8576: the capture `red-f10-all-1.txt`.
+- caaceeed: the capture `red-f10-all-2.txt`.
+
+The deviations
+
+- The `[~]` mark of the task line was skipped, because the step limit of the session ended the turn before the mark.
+- The whole set ran in 2 halves, after 3 stops (the machine at 15:47 and 18:41, the OpenChamber server at 18:55).
+- The plan file holds no Thai line change. The Thai filter proves 0 Thai characters in every capture.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2
+task: Task (Red, F10)
+role_base_sha: 84d0ab780d8418fdf0b511c7bd854eb1475dfe6f
+phase_base_sha: e6e2156a
+commits: fc5cc3ec (the 4 test files), d4f90405 (the D8 hunk comment), c10cbd49 (the lint and RED captures), 4e8ab833 (spec D-F10-10b), 1fdeb2c9 (the fast gates capture), 7e0f8576 (the whole-set half 1 capture), caaceeed (the whole-set half 2 capture), plus the commit of this log and the commit of the plan
+tests_run: the RED run of the 3 files (24 tests), the whole-set half 1 (9 files, 133 tests), the whole-set half 2 (9 files, 257 tests), ESLint on the 4 test files
+red_result: the RED line holds. The RED run exits 1 with 6 failed and 18 passed. The failing tests are T1, T3, T4, T5 (the new file), A3 (the hlogo file), and G3 (the f1f2 file). The whole-set half 1 fails the same 6 tests, and half 2 fails none. ESLint exits 0. No failing test lies outside the expected list.
+files_changed: dashboard/__tests__/quest-cover-f10.test.ts (new), dashboard/__tests__/quest-cover-hlogo.test.ts (A3), dashboard/__tests__/quest-cover-f1f2.test.ts (G3), dashboard/__tests__/quest-cover-f3f6.test.ts (D8), measure/tracks/storytime_cover_options_20261106/spec.md (D-F10-10b), measure/tracks/storytime_cover_options_20261106/plan.md (the task line and its evidence line), measure/runs/storytime_cover_options_20261106/ (the captures and this log)
+plan_updates: the task line of Task (Red, F10) is [x] and ends with " — fc5cc3e"; the evidence line holds the model, role_base_sha, phase_base_sha, the RED line, the whole-set lines of both halves, the ESLint result, the pinned digests by name, D-F10-10b, the route substitution, and the deviations
+handoff: the Green role (a Claude model, D-F10-14) implements D-F10-2 to D-F10-8 in dashboard/lib/storytime/print/cover-quest.ts only. The Green role changes no test file. The pins of D-F10-10 and D-F10-10b move in the Red phase, so the Green role meets them as they stand. The 2 fronts need the new part front-title with the text "Storytime Advantage", the plaque colours of the token table, the ink block at 75 % to 85 % of the band, and the place of the first front. The role base pins for the Green role: the level plate part of the student front 0c2f7da0a65895b8dd0836dd063d3d1b0c80db947566e4f66220e36bbba0aca7, the level plate part of the teacher front fbcb64561e04b5d4871eb278936243636cf4dcea79925689b2b9b00d5bab4005, the student back HTML 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, the teacher back HTML f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab. The default question for any pin that the Green role cannot meet: the Green role stops, and the orchestrator routes a moved pin. No test file of half 2 pins 0 series words on the book front; the print-gate check 4 of D-F10-12 lives in the build gate script of the runs folder.
+END_MEASURE_AGENT_RESULT
