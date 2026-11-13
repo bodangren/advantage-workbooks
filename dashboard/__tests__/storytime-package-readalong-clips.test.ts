@@ -1753,7 +1753,7 @@ describe('N10 the schema on a read-along book (M2, M14)', () => {
         const items = clipFieldOf(readAlongSentences(1).map((text, index) => itemOf(0, index + 1, text, readAlongPath(1, index + 1), Buffer.from(`fake clip ${readAlongPath(1, index + 1)} ${500 + index}\n`))));
         const audio = BookAudioSchema.parse({
             voice: shippedVoice(1, 0),
-            sentences: readAlongSentences(1).map((sentence) => ({ sentence })),
+            sentences: shippedWeek(1).books[0].audio.sentences,
             sentenceClips: items,
         }) as unknown as RawWeek['books'][number]['audio'];
         expect(audio.sentenceClips, 'the parse output keeps the field').toEqual(items);
