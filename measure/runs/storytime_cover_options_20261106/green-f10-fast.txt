@@ -1,0 +1,19 @@
+CAPTURE of F10 Green fast gates of the task line
+COMMAND: ls ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/student/*_PDFX-1a.pdf ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/teacher/*_PDFX-1a.pdf ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/contact-sheets/books-r6.png ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/MANIFEST.txt; grep -c front-title dashboard/lib/storytime/print/cover-quest.ts; grep -c ^PASS measure/runs/storytime_cover_options_20261106/print-gate-f10.txt; grep -c ^FAIL measure/runs/storytime_cover_options_20261106/print-gate-f10.txt; tail -n 1 measure/runs/storytime_cover_options_20261106/print-gate-f10.txt; sha256sum ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/MANIFEST.txt ~/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+
+--- STDOUT ---
+/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6/MANIFEST.txt
+/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6/contact-sheets/books-r6.png
+/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6/student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf
+/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6/teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf
+1
+20
+0
+SUMMARY FAIL_LINES=0
+a7f9b91c1bed3dace547437d9c75fe822134e4859e392f2df3496bea8aba025f  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6/MANIFEST.txt
+8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
