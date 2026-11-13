@@ -1,0 +1,76 @@
+CAPTURE of P12 package build
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-handoff-build.py
+
+--- STDOUT ---
+source commit: fa47ca23bef49008be2494ea948e8aebb9b638d4
+date: 2026-11-13
+build rule: every media string of the week file with a file at source, the 2 pictures files, the sentence manifest, and the week file; each file read by git show; the 4 w01 song files come from the r4 folder and equal its MANIFEST
+=== w01 -> /home/daniebo/Desktop/handoff/w01-storytime-app-package-r5 ===
+payload files: 90
+previous payload paths: 73
+changed paths: 18 (new: 17)
+old-sha256 empty lines: 17
+new-sha256 empty lines: 0
+MANIFEST sha256: 5903615594ca77cd158b696ad762a95b8155b2a6d024c72025a97573c10cb5ef
+
+=== w02 -> /home/daniebo/Desktop/handoff/w02-storytime-app-package-r4 ===
+payload files: 99
+previous payload paths: 77
+changed paths: 23 (new: 22)
+old-sha256 empty lines: 22
+new-sha256 empty lines: 0
+MANIFEST sha256: 8d5c6c625794772b0964d1fe37bd3370f3ad769a92ea676ee9dc3a5e35ffd2b6
+
+=== w03 -> /home/daniebo/Desktop/handoff/w03-storytime-app-package-r4 ===
+payload files: 86
+previous payload paths: 70
+changed paths: 17 (new: 16)
+old-sha256 empty lines: 16
+new-sha256 empty lines: 0
+MANIFEST sha256: 38fc7496a191c4574114d704f1f4ca7caa69d5f857901f6a5344639bb0242f06
+
+=== w04 -> /home/daniebo/Desktop/handoff/w04-storytime-app-package-r4 ===
+payload files: 86
+previous payload paths: 70
+changed paths: 17 (new: 16)
+old-sha256 empty lines: 16
+new-sha256 empty lines: 0
+MANIFEST sha256: d10b085a257ab325fe61e8a5404f58cca410a8a9b0caec31c980fd30e55a8fa7
+
+=== w05 -> /home/daniebo/Desktop/handoff/w05-storytime-app-package-r4 ===
+payload files: 95
+previous payload paths: 80
+changed paths: 16 (new: 15)
+old-sha256 empty lines: 15
+new-sha256 empty lines: 0
+MANIFEST sha256: 445de797b0135a2c6f80043c1a977feeaca0af9914ee2d02ea2793deb2f0ca1b
+
+=== w06 -> /home/daniebo/Desktop/handoff/w06-storytime-app-package-r4 ===
+payload files: 85
+previous payload paths: 71
+changed paths: 15 (new: 14)
+old-sha256 empty lines: 14
+new-sha256 empty lines: 0
+MANIFEST sha256: 085100cedde67ddfc33774951f61e9cdb78303872746f0f917f100dc07402fb6
+
+=== w07 -> /home/daniebo/Desktop/handoff/w07-storytime-app-package-r4 ===
+payload files: 92
+previous payload paths: 74
+changed paths: 19 (new: 18)
+old-sha256 empty lines: 18
+new-sha256 empty lines: 0
+MANIFEST sha256: a9d45e4176b09e474c949791b32a6494622967e9f0157b7b174b81083476c6a2
+
+folders built: 7
+w01-storytime-app-package-r5: payload 90, changed 18, old-empty 17, new-empty 0, manifest 5903615594ca77cd158b696ad762a95b8155b2a6d024c72025a97573c10cb5ef
+w02-storytime-app-package-r4: payload 99, changed 23, old-empty 22, new-empty 0, manifest 8d5c6c625794772b0964d1fe37bd3370f3ad769a92ea676ee9dc3a5e35ffd2b6
+w03-storytime-app-package-r4: payload 86, changed 17, old-empty 16, new-empty 0, manifest 38fc7496a191c4574114d704f1f4ca7caa69d5f857901f6a5344639bb0242f06
+w04-storytime-app-package-r4: payload 86, changed 17, old-empty 16, new-empty 0, manifest d10b085a257ab325fe61e8a5404f58cca410a8a9b0caec31c980fd30e55a8fa7
+w05-storytime-app-package-r4: payload 95, changed 16, old-empty 15, new-empty 0, manifest 445de797b0135a2c6f80043c1a977feeaca0af9914ee2d02ea2793deb2f0ca1b
+w06-storytime-app-package-r4: payload 85, changed 15, old-empty 14, new-empty 0, manifest 085100cedde67ddfc33774951f61e9cdb78303872746f0f917f100dc07402fb6
+w07-storytime-app-package-r4: payload 92, changed 19, old-empty 18, new-empty 0, manifest a9d45e4176b09e474c949791b32a6494622967e9f0157b7b174b81083476c6a2
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,149 @@
+CAPTURE of P12 nine checks on 7 folders
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-handoff-check.py
+
+--- STDOUT ---
+source commit: fa47ca23bef49008be2494ea948e8aebb9b638d4
+
+=== w01-storytime-app-package-r5 (previous w01-storytime-app-package-r4) ===
+[PASS] check 1 manifest lines 90 equals payload files 90; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w01.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 6 bad 0; provenance rows 6, differences 0; clips 30 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True; w01 song files bad 0
+[PASS] check 4 headers 1, line '# Changed since w01-storytime-app-package-r4:'
+[PASS] check 5 changed paths expected: 18, listed: 18, diff lines: 0; old-sha256 empty 17 equals new paths 17; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 30 (spec L13 expected 30); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 42; dot segments 0; file values 44, bad 0
+[PASS] check 9 media strings 87; prose notes without a file 1 (allowed); real missing 0: none; new map and sentenceClips values 25, missing 0
+payload files without the MANIFEST and README: 90 (spec L13 expected 90): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: 5903615594ca77cd158b696ad762a95b8155b2a6d024c72025a97573c10cb5ef
+RESULT PASS (9 checks on w01-storytime-app-package-r5: 9 passed, 0 failed)
+
+=== w02-storytime-app-package-r4 (previous w02-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 99 equals payload files 99; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w02.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 10 bad 0; provenance rows 10, differences 0; clips 36 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w02-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 23, listed: 23, diff lines: 0; old-sha256 empty 22 equals new paths 22; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 36 (spec L13 expected 36); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 41; dot segments 0; file values 46, bad 0
+[PASS] check 9 media strings 95; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 29, missing 0
+payload files without the MANIFEST and README: 99 (spec L13 expected 99): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: 8d5c6c625794772b0964d1fe37bd3370f3ad769a92ea676ee9dc3a5e35ffd2b6
+RESULT PASS (9 checks on w02-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== w03-storytime-app-package-r4 (previous w03-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 86 equals payload files 86; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w03.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 7 bad 0; provenance rows 7, differences 0; clips 27 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w03-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 17, listed: 17, diff lines: 0; old-sha256 empty 16 equals new paths 16; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 27 (spec L13 expected 27); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 41; dot segments 0; file values 43, bad 0
+[PASS] check 9 media strings 82; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 26, missing 0
+payload files without the MANIFEST and README: 86 (spec L13 expected 86): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: 38fc7496a191c4574114d704f1f4ca7caa69d5f857901f6a5344639bb0242f06
+RESULT PASS (9 checks on w03-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== w04-storytime-app-package-r4 (previous w04-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 86 equals payload files 86; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w04.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 7 bad 0; provenance rows 7, differences 0; clips 31 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w04-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 17, listed: 17, diff lines: 0; old-sha256 empty 16 equals new paths 16; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 31 (spec L13 expected 31); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 41; dot segments 0; file values 43, bad 0
+[PASS] check 9 media strings 82; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 26, missing 0
+payload files without the MANIFEST and README: 86 (spec L13 expected 86): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: d10b085a257ab325fe61e8a5404f58cca410a8a9b0caec31c980fd30e55a8fa7
+RESULT PASS (9 checks on w04-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== w05-storytime-app-package-r4 (previous w05-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 95 equals payload files 95; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w05.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 7 bad 0; provenance rows 7, differences 0; clips 34 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w05-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 16, listed: 16, diff lines: 0; old-sha256 empty 15 equals new paths 15; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 34 (spec L13 expected 34); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 42; dot segments 0; file values 43, bad 0
+[PASS] check 9 media strings 91; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 25, missing 0
+payload files without the MANIFEST and README: 95 (spec L13 expected 95): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: 445de797b0135a2c6f80043c1a977feeaca0af9914ee2d02ea2793deb2f0ca1b
+RESULT PASS (9 checks on w05-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== w06-storytime-app-package-r4 (previous w06-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 85 equals payload files 85; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w06.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 7 bad 0; provenance rows 7, differences 0; clips 27 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w06-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 15, listed: 15, diff lines: 0; old-sha256 empty 14 equals new paths 14; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 27 (spec L13 expected 27); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 41; dot segments 0; file values 43, bad 0
+[PASS] check 9 media strings 81; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 26, missing 0
+payload files without the MANIFEST and README: 85 (spec L13 expected 85): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: 085100cedde67ddfc33774951f61e9cdb78303872746f0f917f100dc07402fb6
+RESULT PASS (9 checks on w06-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== w07-storytime-app-package-r4 (previous w07-storytime-app-package-r3) ===
+[PASS] check 1 manifest lines 92 equals payload files 92; sha256sum -c exit 0; unlisted 0
+[PASS] check 2 cmp of l2/w07.json with git show fa47ca23 exit 0
+[PASS] check 3 family jpgs 7 bad 0; provenance rows 7, differences 0; clips 33 equal git show of media and bank with manifest sha equal bank mp3, bad 0; sentence clips 8 equal git show, bad 0; sentence manifest cmp: True
+[PASS] check 4 headers 1, line '# Changed since w07-storytime-app-package-r3:'
+[PASS] check 5 changed paths expected: 19, listed: 19, diff lines: 0; old-sha256 empty 18 equals new paths 18; new-sha256 empty 0; other tracks changed: none
+[PASS] check 6 word clip lines: 33 (spec L13 expected 33); sentence clip lines: 8 (expected 8)
+[PASS] check 7 source-commit equals workbooks-commit fa47ca23; 40 hex; ancestor exit 0; lines 4 of 4 present True
+[PASS] check 8 unsafe paths 0; longest 43; dot segments 0; file values 45, bad 0
+[PASS] check 9 media strings 88; prose notes without a file 0 (allowed); real missing 0: none; new map and sentenceClips values 27, missing 0
+payload files without the MANIFEST and README: 92 (spec L13 expected 92): PASS
+README.txt exists: True; 'sentenceClips' lines: 1: PASS
+MANIFEST sha256: a9d45e4176b09e474c949791b32a6494622967e9f0157b7b174b81083476c6a2
+RESULT PASS (9 checks on w07-storytime-app-package-r4: 9 passed, 0 failed)
+
+=== literal shell checks ===
+w01-storytime-app-package-r5: payload 90, changed 18, old-empty 17, new-empty 0, clips 30, sentence clips 8, manifest 5903615594ca77cd158b696ad762a95b8155b2a6d024c72025a97573c10cb5ef
+w02-storytime-app-package-r4: payload 99, changed 23, old-empty 22, new-empty 0, clips 36, sentence clips 8, manifest 8d5c6c625794772b0964d1fe37bd3370f3ad769a92ea676ee9dc3a5e35ffd2b6
+w03-storytime-app-package-r4: payload 86, changed 17, old-empty 16, new-empty 0, clips 27, sentence clips 8, manifest 38fc7496a191c4574114d704f1f4ca7caa69d5f857901f6a5344639bb0242f06
+w04-storytime-app-package-r4: payload 86, changed 17, old-empty 16, new-empty 0, clips 31, sentence clips 8, manifest d10b085a257ab325fe61e8a5404f58cca410a8a9b0caec31c980fd30e55a8fa7
+w05-storytime-app-package-r4: payload 95, changed 16, old-empty 15, new-empty 0, clips 34, sentence clips 8, manifest 445de797b0135a2c6f80043c1a977feeaca0af9914ee2d02ea2793deb2f0ca1b
+w06-storytime-app-package-r4: payload 85, changed 15, old-empty 14, new-empty 0, clips 27, sentence clips 8, manifest 085100cedde67ddfc33774951f61e9cdb78303872746f0f917f100dc07402fb6
+w07-storytime-app-package-r4: payload 92, changed 19, old-empty 18, new-empty 0, clips 33, sentence clips 8, manifest a9d45e4176b09e474c949791b32a6494622967e9f0157b7b174b81083476c6a2
+
+=== changed paths: join -a1 -a2 of the previous and new MANIFEST lists ===
+w01-storytime-app-package-r5: changed paths from the join: 18; listed: 18; diff lines: 0
+w02-storytime-app-package-r4: changed paths from the join: 23; listed: 23; diff lines: 0
+w03-storytime-app-package-r4: changed paths from the join: 17; listed: 17; diff lines: 0
+w04-storytime-app-package-r4: changed paths from the join: 17; listed: 17; diff lines: 0
+w05-storytime-app-package-r4: changed paths from the join: 16; listed: 16; diff lines: 0
+w06-storytime-app-package-r4: changed paths from the join: 15; listed: 15; diff lines: 0
+w07-storytime-app-package-r4: changed paths from the join: 19; listed: 19; diff lines: 0
+
+=== clip loop of spec L13 (python form) ===
+clip loop lines: 0 (the loop prints nothing)
+
+=== words and sentence files in the 7 folders ===
+  w01-storytime-app-package-r5: words 30, sentences 8
+  w02-storytime-app-package-r4: words 36, sentences 8
+  w03-storytime-app-package-r4: words 27, sentences 8
+  w04-storytime-app-package-r4: words 31, sentences 8
+  w05-storytime-app-package-r4: words 34, sentences 8
+  w06-storytime-app-package-r4: words 27, sentences 8
+  w07-storytime-app-package-r4: words 33, sentences 8
+words files in folders: 218 (spec L13: 218)
+sentence files in folders: 56 (spec L13: 56)
+
+RESULT PASS (9 checks on 7 folders, 0 failures)
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

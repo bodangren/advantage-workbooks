@@ -1,0 +1,21 @@
+CAPTURE of P12 character totals: word run 47; sentence one-take 779; sent 887 (873 takes + 14 failed w01 calls); total 934
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-chars-compute.py
+
+--- STDOUT ---
+clips parsed: 56 takes parsed: 56
+w01: one-take 70 sent 70
+w02: one-take 62 sent 78
+w03: one-take 130 sent 130
+w04: one-take 116 sent 160
+w05: one-take 127 sent 127
+w06: one-take 132 sent 166
+w07: one-take 142 sent 142
+word chars: 47
+sentence one-take sum: 779
+sentence sent sum (with failed calls 14): 887
+total chars: 934
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
