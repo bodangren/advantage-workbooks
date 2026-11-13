@@ -1,0 +1,51 @@
+Mid Red log, Phase 12 Red 1 and Red 1b, track storytime_week_package_20261022
+date: 2026-11-13
+phase_base_sha: 32a9739e1abf46d0126a07a30812f85c2915c3aa
+role_base_sha: 32a9739e1abf46d0126a07a30812f85c2915c3aa
+
+step 1: Read the plan task (Red 1), the spec addendum of Phase 12 (L1 to L18, FR 1 to FR 8, AC12-1 to AC12-12), the Phase 11 Red test, the library word-clips.ts, the scripts make-word-bank.ts, set-word-clips.ts, and check-weeks.ts, and the schema. Marked the Red 1 task [~] in plan.md.
+step 2: Measured the facts with read-only scripts. The union counts 30, 36, 27, 31, 34, 27, 33 hold. The gap slots 42, 8, 5 and the 47 gap words hold. The 15 new words are arm, cap, dress, fan, from, ham, hen, hop, hot, jam, mop, put, sad, sit, up. The shipped bank has 137 rows. The decodable book is books[1] in w01 to w07. The characters are 70, 62, 130, 116, 127, 132, 142.
+step 3: Probed the mp3 round trip with a scratch script (normalize, WAV, ffmpeg mp3, decode). The decoded peak is 22669 for a WAV peak of 23197. The loud part starts at sample 2560 and ends 2560 samples before the end. The test tolerances follow these values.
+step 4: Wrote dashboard/__tests__/storytime-package-practice-clips.test.ts (14 describe blocks, D1 to D13 and the guards). Ran ESLint (exit 0), tsc --noEmit (exit 0), and RED_TEST_COMMAND in the heavy wrapper (p12-red1-lint.txt, p12-red1-tsc.txt, p12-red1.txt).
+step 5: RED result: exit 1, 84 failed, 4 passed, 88 total. 54 failures name a missing module or export. 30 failures come from a missing behavior of FR 3 or FR 4 or a missing schema field. The 4 passes are D1 (week without the fields), D2 (data count of the forms), and the 2 guard cases. I tightened the venv case of D4 with a dry run of week 5 that lists dress, sad, sit, so that the case fails at HEAD.
+step 6: Committed the test file only (612b00e4). Scope guard: files 1, outside 0 (p12-red1-scope.txt). Committed the captures (f97d7e83).
+step 7: Red 1b (orchestrator decision, a recorded deviation from the Red 1 allowed paths). Changed 3 existing test files. storytime-loops-content.test.ts: withoutNewFields deletes the 4 Phase 12 fields. storytime-loops-share-content.test.ts: withoutAllowList deletes the same 4 fields. storytime-package-clips.test.ts: the bank of mapperTree holds 30 rows; C6 expects 30 files and 5 changed and 50 added lines; C8 expects 40 lines (15 with no bank row in the second case); the helper withoutWordClips also strips trickyWordClips and sentenceClips. C7 and every other case did not change.
+step 8: Red 1b run (p12-red1b.txt, exit 1): storytime-loops-content 104 passed; storytime-loops-share-content 75 passed; storytime-package-clips 87 passed, 6 failed (C6 three cases, C8 three cases). Each failure comes from the missing mapper behavior (22 files against 30; 23 lines against 40). ESLint on the 3 files exits 0 (p12-red1b-lint.txt). Committed the 3 test files (0a610432) and the 2 captures (3561bc92).
+step 9: Updated plan.md: Red 1 [x] with the result, the FR 8 grep table (9 files, changes or no change with the reason), the PIN names, the Red 1b line, and the findings. Committed plan.md only (66a33fbe).
+step 10: Removed my /tmp scratch (p12-red-scratch). The test run folders are removed by the afterAll of the test file. The capture p12-red1-scratch.txt prints "scratch removed".
+
+Green must add (exact names; the PIN header of the test file holds the shapes):
+- lib/storytime/word-clips.ts: openingWordKeys(pa) (distinct keys; error "opening: no word form in line <i>" with i from 0), practiceWordKeys(week) -> { opening, family, tricky } sorted, planPracticeClips({ level, week, opening, focus }) -> { opening, family, tricky, files } (error text contains "two keys, one file").
+- lib/storytime/sentence-clips.ts (new): sentenceClipPath(level, week, book, n), planSentenceClips({ level, week, books }) -> [{ book, n, text, file }] (decodable books only), sentenceHeardPasses(sentence, heardWords), sentenceLengthBounds(sentence) -> { min, max } (0.2 s per word; 1.2 s per word plus 1 s), looksLikeCut(clip, source, rate).
+- lib/storytime/schema.ts: opening.wordClips, focus.family.wordClips, focus.trickyWordClips (map of K2 key to non-empty path), books[].audio.sentenceClips (array of { sentence, file }, both min 1).
+- scripts/storytime/make-word-bank.ts: option practice (CLI flag --practice, named in USAGE).
+- scripts/storytime/set-word-clips.ts: the three new maps in the L17 form, 30 files for w01, --check prints 40 lines for w01 (4 tab fields).
+- scripts/storytime/make-sentence-clips.ts (new): makeSentenceClips({ level, week, contentRoot, maxChars, dryRun, synthesize, recognize, whisperPython }) -> { made, chars, lines }, main(argv); flags --level --week --max-chars --dry-run; synthesize(text, wavFile, voice, speed); the venv error ends with "no faster-whisper venv at <path>"; the provenance file keys voice, speed, model, items; item keys book, n, text, file, take, len_s, peak_dbfs, recognized, note, sha256; "recognized" is the heard words joined by one space; the dry run prints "chars: <n>".
+- scripts/storytime/set-sentence-clips.ts (new): setSentenceClips({ weekFile, contentRoot, check }), main(argv) with flags --level --week --check; the error for a missing file or a differing hash names the file (for example b1-s03).
+- scripts/storytime/check-weeks.ts: exports checkPracticeClips and checkSentenceClips with the exact ids and labels of L9; no row for a week with no meta or no book (practice) and for a week with no decodable book (sentence).
+
+Spec gaps and defaults applied (questions for the orchestrator, each with its default):
+1. The index <i> of "opening: no word form in line <i>" starts at 0 (L7 uses a 0-based <i> for books). Default applied.
+2. Step 2 of the Clips task says the dry-run sum is 47. The seven dry runs sum to 53, because w02 lists fan again and w07 lists mop again (a dry run adds no row). The seven real runs in order sum to 47. D4 pins 53 for the dry runs and 47 for the real runs. Change the wording of the Clips task step 2.
+3. L9 says "no meta gets no row" for practice-clips, and AC12-6 says that st2/8 has no row. D7 pins that a week with no book gets no row.
+4. The shapes of the pure functions, the option names, and the argument list of synthesize are not fixed by the spec. The PIN lines of the test header fix them.
+5. checkSentenceClips: "text differs: <paths or indexes>" is pinned to the clip path; "count differs: <books>" is pinned to the 0-based book index.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+status: done
+track: storytime_week_package_20261022
+phase: Phase 12: Own word clips for the practice words and sentence clips (2026-11-13)
+task: Red 1 (and Red 1b by orchestrator decision)
+role_base_sha: 32a9739e1abf46d0126a07a30812f85c2915c3aa
+phase_base_sha: 32a9739e1abf46d0126a07a30812f85c2915c3aa
+baseline_sha: 32a9739e1abf46d0126a07a30812f85c2915c3aa
+commits: 612b00e4fd5aec04ba93b2e1d3813738751a0ebd (test, Red 1); f97d7e83495d02721ceef994801b1bd903dfaeab (Red 1 captures); 0a6104326f46c55e5e1c9c1ea6d84d8c3f390094 (test, Red 1b, 3 files); 3561bc92ced6c6c6b0884c30d8899449d54b1764 (Red 1b captures); 66a33fbeb52f8fddab953650c29e224343db3d60 (plan); the log commit is the last commit (see git log)
+tests_run: RED_TEST_COMMAND in the heavy wrapper: exit 1, 84 failed, 4 passed, 88 total. Red 1b, 3 files in the heavy wrapper: exit 1; loops-content 104 passed; loops-share-content 75 passed; package-clips 87 passed and 6 failed (C6 x3, C8 x3)
+checks: ESLint on the Red 1 file exit 0; tsc --noEmit exit 0; ESLint on the 3 Red 1b files exit 0; scope guard of the Red 1 commit files 1, outside 0; grep -c "measure/tracks/" of the test file prints 0; no change of pnpm-lock.yaml
+files_changed: dashboard/__tests__/storytime-package-practice-clips.test.ts (new); dashboard/__tests__/storytime-loops-content.test.ts; dashboard/__tests__/storytime-loops-share-content.test.ts; dashboard/__tests__/storytime-package-clips.test.ts; measure/tracks/storytime_week_package_20261022/plan.md; measure/runs/storytime_week_package_20261022/p12-capture.py, p12-red1*.txt, p12-red1b*.txt, p12-red1-scratch.txt, and this log
+plan_updates: Red 1 marked [x] with the evidence, the FR 8 grep table, the PIN names, the Red 1b line, and the three findings
+known_failures: RED: 54 failures from a missing module or export (sentence-clips.ts 8, make-sentence-clips.ts 7, set-sentence-clips.ts 4, checkPracticeClips 13, checkSentenceClips 10, openingWordKeys 5, planPracticeClips 4, practiceWordKeys 3); 30 failures from a missing behavior of FR 3 or FR 4 (flag --practice, three new maps) or a missing schema field. Red 1b: 6 failures in storytime-package-clips.test.ts (C6 x3, C8 x3) from the missing mapper behavior
+dispositions: none
+handoff: Green 1 (planned GLM, non-Claude: Thai filter first, spec L15). Implement the names listed under "Green must add" in this log. Run GREEN_TEST_COMMAND with the two loops files added (storytime-loops-content and storytime-loops-share-content). Green 1 edits no test file. Orchestrator: change the wording of Clips task step 2 (dry-run sum 53, real-run sum 47); confirm or change the five defaults above.
+END_MEASURE_AGENT_RESULT
