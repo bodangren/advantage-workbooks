@@ -1,0 +1,79 @@
+Step log of Task 2.10 and the close of Task 2.9 (Green · P2 T2.10 · storytime_cover_options)
+
+Role: measure-jr-green. Model: claude-code/claude-sonnet-5-5#high. Coder: none; the work ran in this
+role. Model substitution: the role table names volcengine-agent-plan/glm-5.3-flash#high, and
+`ra-quota pick green --why --not-family minimax` gave claude-code/claude-sonnet-5-5#high. The Red
+model of the phase (F7b and F8) is the MiniMax family; this role is in the Anthropic family.
+role_base_sha a975d755 (the HEAD at the start), phase_base_sha e6e2156a. The task had no Red window,
+so no test was written, read, or edited. No file under dashboard/ or content/ changed, and no week
+file was opened.
+
+- Step 0, scratch space. Before the removal: /tmp/opencode/c29j 720 MB, c29k 1443 MB, c29l 1387 MB;
+  df shows 8130 MB free. `rm -rf /tmp/opencode/c29j /tmp/opencode/c29k` exited 0. After: 10139 MB
+  free. Freed in Step 0: 2009 MB. The folder c29l and /tmp/opencode/look/ stayed.
+
+- Step 1, the look file. `measure/tracks/storytime_cover_options_20261106/look-phase2.md` holds the
+  content of the brief, character for character: 8 header lines, the line "Faults: none.", and 32
+  page lines. No page line changed.
+
+- Step 2, the 3 fast gates (`look-phase2-gates.sh`, capture `look-phase2-gates.txt`, run through
+  `light_capture_2_9g.py`; EXIT 0, THAI_LINES_DROPPED 0):
+  gate 1 printed 32; gate 2 printed 0 and grep exited 1 (the expected result for a count of 0);
+  gate 3 printed 32. The MANIFEST.txt SHA-256 is
+  8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87, and it begins 8f1901a39d9decc6.
+
+- Step 3, the Task 2.9 close evidence.
+  1. `print-gate.txt` ends with PASS_LINES=45 and FAIL_LINES=0, and it holds the deviation D-3 (the
+     fast gate is the existence of the named print files and the 5 named sheets).
+  2. The capture `fast-gate-2-9-named.txt` (script `fast-gate-2-9-named.sh`) shows NAMED_FILES_EXIST=9
+     of 9. The raw counts of the plan fast gate are 14 print files and 21 contact sheets (the
+     plan expects 4 and 5; this is the known D-3 case, because the folder keeps the older book
+     variants).
+  3. The capture of the 4 print-check mutants of `test-strategy.md` section 4.10 is
+     `print-mutants-2-9h.txt` (MUTANT_1 check 5, MUTANT_2 check 6, MUTANT_3 check 7, MUTANT_4 check
+     4; MUTANTS_CAUGHT=4). The run log is `print-mutants-run-2-9h.txt`. Task 2.9 went to `[x]`.
+
+- Step 4, commits. Commit A 3875c049: look-phase2.md, the 2 gate scripts, and the 2 captures.
+  Commit B 7fecf84f: plan.md only (4 insertions, 2 deletions). The edit ran through
+  `plan-edit-2-10.py`, which needs exactly one match for each of 3 line prefixes and writes nothing
+  when a check fails. Line 215 changed from `[~]` to `[x]` and ends with commit 007b763. The
+  Task 2.9 close sub-line is line 246. Line 247 (Task 2.10) changed from `[ ]` to `[x]` and ends
+  with commit 3875c04. The Task 2.10 sub-line is line 248. Task 2.11 and the later tasks did not
+  change. plan.md holds 0 Thai characters. The script `plan-edit-2-10.py` is in commit C.
+
+- Step 5, scratch space. `rm -rf /tmp/opencode/c29l` exited 0 (Task 2.9 is `[x]`, and its
+  captures are committed in 007b7636 and c0bbe164). After: 11525 MB free of 238221 MB. Freed in
+  Step 5: 1386 MB. Total freed by Steps 0 and 5: 3395 MB (8130 MB before, 11525 MB after). The
+  folders /tmp/opencode/c29j-gate (12 MB), c29k-gate (15 MB), and c29l-gate (18 MB) stay; the PM
+  order did not name them.
+
+- Fault found in the copied header (not edited, by order). The header of look-phase2.md says "The
+  last change was at 00:59 ICT." The folder shows a later last change: MANIFEST.txt at 07:35:24
+  +0700, and the contact sheets and A3 and leaf print files at 07:29 to 07:34 +0700 (the time of
+  00:59 is the mtime of the student and teacher book PDFs). The other claim is true: no file in the
+  output folder changed after the tile cut at 08:06 (the tiles are dated 08:06:47 to 08:08:10
+  +0700; `find -newermt '2026-11-13 08:06:00'` listed no file). The tiles hold the part 12
+  output, because the part 12 files changed before 08:06. The orchestrator can correct the one
+  sentence ("The last change was at 07:35 ICT") in a follow-up edit.
+
+- Scope: no code file and no test file changed. No heavy job ran, and no pnpm command ran.
+  Unrelated work stayed unstaged: video/storytime-song/scripts/render.mjs, dashboard/raw.json, and
+  every spec-review-* file.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: pass
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task 2.10 (Look at every page) and the close of Task 2.9 (Print build)
+role_base_sha: a975d755
+phase_base_sha: e6e2156a
+commits: 3875c049 (commit A: look-phase2.md, gate scripts and captures, named-file check), 7fecf84f (commit B: plan.md), and this log commit (commit C; its SHA comes in the final reply of the role)
+tests_run: none (Task 2.10 opens no Red window; no vitest file ran and no heavy job ran)
+checks: gate 1 prints 32; gate 2 prints 0 (grep exit 1, expected); gate 3 prints 32; MANIFEST.txt SHA-256 begins 8f1901a39d9decc6; print-gate.txt PASS_LINES=45 and FAIL_LINES=0; named files 9 of 9 exist; mutant capture print-mutants-2-9h.txt gives MUTANTS_CAUGHT=4; plan.md holds 0 Thai characters. Scratch freed: 8130 MB before, 11525 MB after, 3395 MB freed (2009 MB in Step 0, 1386 MB in Step 5)
+files_changed: measure/tracks/storytime_cover_options_20261106/look-phase2.md (new); measure/tracks/storytime_cover_options_20261106/plan.md; measure/runs/storytime_cover_options_20261106/look-phase2-gates.sh, look-phase2-gates.txt, fast-gate-2-9-named.sh, fast-gate-2-9-named.txt, plan-edit-2-10.py (new); this log
+plan_updates: plan.md line 215 (Task 2.9) changed from [~] to [x] and ends with commit 007b763; the close sub-line is line 246; line 247 (Task 2.10) changed from [ ] to [x] and ends with commit 3875c04; its sub-line is line 248; no other line changed
+known_failures: none in the gates. One wrong sentence sits in the copied header of look-phase2.md ("The last change was at 00:59 ICT"; the real last change is 07:35 ICT). I did not edit it, by order.
+dispositions: none
+handoff: (1) The orchestrator should correct the one header sentence of look-phase2.md (00:59 to 07:35 ICT). The claim that matters, no change after the 08:06 tile cut, holds. (2) Task 2.9 closes on the strength of print-gate.txt and the named-file check. I did not re-check the second precondition clause of the task (Review A, Review B limited, and Adversarial with no open Blocker); the instruction named only Task 2.8. (3) Task 2.11 says covers-quest-v1 holds 50 files, but the folder holds 133 files plus MANIFEST.txt (MANIFEST.txt has 133 lines); the older book variants stay for the record. The orchestrator must decide the file list of Task 2.11 before that task starts. (4) Scratch: /tmp/opencode/c29j, c29k, and c29l are removed; /tmp/opencode/look/ and the small c29*-gate folders stay. Reviewers scope the audit to commits 3875c049 and 7fecf84f and the log commit; the new files are the 6 files listed in files_changed. phase_base_sha e6e2156a; Green HEAD is the log commit.
+END_MEASURE_AGENT_RESULT
