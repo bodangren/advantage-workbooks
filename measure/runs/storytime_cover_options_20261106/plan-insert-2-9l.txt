@@ -1,0 +1,43 @@
+CAPTURE of Task 2.9 part 12 step 10, the plan lines
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/plan_insert_2_9l.py
+
+--- STDOUT ---
+GATE_LINES_OK true
+BUILD_PASS_LINES_OK true
+CAPTURE_OK build-2-9l.txt true
+CAPTURE_OK filled-copy-2-9l.txt true
+CAPTURE_OK edge-before-2-9l.txt true
+CAPTURE_OK edge-after-2-9l.txt true
+CAPTURE_OK edge-after-ign3-2-9l.txt true
+CAPTURE_OK stripe-before-2-9l.txt true
+CAPTURE_OK stripe-after-2-9l.txt true
+CAPTURE_OK compare-2-9l.txt true
+CAPTURE_OK replace-2-9l.txt true
+CAPTURE_OK edge-page1-before-2-9l.txt true
+CAPTURE_OK edge-page1-after-2-9l.txt true
+CAPTURE_OK page12-2-9l.txt true
+CAPTURE_OK copy-back-2-9l.txt true
+CAPTURE_OK contact-run-2-9l.txt true
+CAPTURE_OK manifest-check-2-9l.txt true
+CAPTURE_OK gate-functions-2-9l.txt true
+OLD_COPY_SHA256 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b
+OLD_COPY_SHA_EXPECTED true
+NEW_MANIFEST_SHA256 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87
+NEW_MANIFEST_SHA_EXPECTED true
+OLD_MANIFEST_LINES 131
+NEW_MANIFEST_LINES 133
+TABLE_ENTRIES 11
+NEW_ENTRIES 2
+ENTRIES 10
+ENTRIES 5
+ANCHOR_LINES 1
+ANCHOR_LINE 242
+NEXT_LINE_OK true
+OLD_LINE_COUNT 248
+NEW_LINE_COUNT 250
+INSERTED 2
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

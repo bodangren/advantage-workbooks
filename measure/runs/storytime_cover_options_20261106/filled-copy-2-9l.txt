@@ -1,0 +1,23 @@
+CAPTURE of Task 2.9 part 12 step 2, the filled copy of the w01-1 art
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/filled_check_2_9l.py; ls -l --time-style=full-iso /tmp/storytime-art-edge-fill/
+
+--- STDOUT ---
+COPY_MTIME 1794529222
+BUILD_START 1794529203
+MTIME_AFTER_BUILD_START True
+COPY_BYTES 10243179
+COPY_SHA256 e05f9db1f187e6a9ea883a634ca3739e18407d6f9c294898821f0fcdac7a84c5
+SHA_DIFFERS_FROM_PART11 True
+SOURCE_SHA256 99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f
+SIZES source=4000x3000 copy=4000x3000
+TOP_ROWS_MIRROR r=0..167 from source row 335 - r: True
+BOTTOM_ROWS_MIRROR r=2831..2999 from source row 5661 - r: True
+OTHER_ROWS_EQUAL_SOURCE True
+FILLED_COPY_OK True
+total 10008
+-rw-rw-r-- 1 daniebo daniebo 10243179 2026-11-13 07:20:22.209188055 +0700 99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

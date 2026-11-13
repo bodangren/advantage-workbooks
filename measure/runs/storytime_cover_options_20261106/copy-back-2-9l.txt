@@ -1,0 +1,25 @@
+CAPTURE of Task 2.9 part 12 step 5, the 2 A3 reader back files, the hello page 12 PNG, and the 2 page 1 PNGs
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/copy_back_2_9l.py
+
+--- STDOUT ---
+MANIFEST_SHA256 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b
+MANIFEST_SHA_EXPECTED true
+OLD_HELLO_PNG_EXPECTED true
+REPLACE reader-back-r5/Storytime-Advantage-L2-W01-hello-A3-v1.pdf old=b11aba0a6323f0ffe16ae0cf398a05351836e9777e545eacb32136a1f229ed60 new=887328774ac6cc7ac56b4207521c682a37143d36b85fbf500336fb0534762ac8 pair_equal=true
+REPLACE reader-back-r5/Storytime-Advantage-L2-W01-nan-can-nod-A3-v1.pdf old=3019e183823485ae7419d2760201bd332fc6ea8aa3d1519bcd968032290daa80 new=f450e3ace40a80b08fe4192689b4a27cf5ed10a55be9536a46ae51d1f9406b2f pair_equal=true
+REPLACED_PDFS 2
+PAIR_EQUAL_PDFS 2
+RENDER_EXIT 0
+RENDER_SHA256 15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667
+RENDER_EQUALS_OLD_PNG true
+REPLACE reader-back-r5/l2-w01-hello-a3-page12.png old=15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667 new=15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667 pair_equal=true
+PAGE1_RENDER_EXIT l2-w01-hello-a3-page1.png 0
+PAGE1_PNG l2-w01-hello-a3-page1.png sha256=7b3bea2a59f7e88e67cffa3c914d68c8434154d682e95c054025efa5b5fbfdc1 bytes=5294354
+PAGE1_RENDER_EXIT l2-w01-nan-can-nod-a3-page1.png 0
+PAGE1_PNG l2-w01-nan-can-nod-a3-page1.png sha256=5d545cbfa0c89f66e8594948fca0c8766a09b78c063927baabdf1cad50cf7ce1 bytes=6596872
+COPY_BACK_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,16 @@
+CAPTURE of Task 2.9 part 12 step 3a, the edge check on the part 11 hand-off A3 cover of w01-1
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/edge_white_2_9l.py --expect zero /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png
+
+--- STDOUT ---
+EDGE /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png size=4961x3508 box=none ignore=0 top=0 bottom=0 left=0 right=3 white_edge_rows=0 white_edge_cols=3 sha256=6b42938e85ae042fe5ee9cffe57f65f7578a64e869f2cdff276c5c1c89e36056
+FILES 1
+FILES_WITH_WHITE_EDGE_ROWS 0
+FILES_WITH_WHITE_EDGE_COLS 1
+WHITE_EDGE_ROWS_TOTAL 0
+WHITE_EDGE_COLS_TOTAL 3
+EDGE_EXPECT zero EDGE_OK false
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=1

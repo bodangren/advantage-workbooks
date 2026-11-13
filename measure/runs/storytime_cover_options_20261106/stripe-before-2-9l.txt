@@ -1,0 +1,18 @@
+CAPTURE of Task 2.9 part 12 step 3b, stripe check on the part 11 hand-off A3 cover of w01-1 (rows 2 away)
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/stripe_check_2_9l.py --expect positive /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png
+
+--- STDOUT ---
+RULE distance=2 window=3..4957 threshold=15 bands=top 60..140 bottom 3368..3448
+FILE /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png size=4961x3508 sha256=6b42938e85ae042fe5ee9cffe57f65f7578a64e869f2cdff276c5c1c89e36056
+  STRIPE band=top y=100 mean=194.33 mean_minus=161.30 mean_plus=167.35
+  STRIPE band=top y=101 mean=190.37 mean_minus=171.75 mean_plus=161.68
+  BAND_MEAN_RANGE band=top min=85.98 max=194.33
+  STRIPE band=bottom y=3408 mean=159.51 mean_minus=119.17 mean_plus=117.79
+  BAND_MEAN_RANGE band=bottom min=93.99 max=159.51
+  STRIPES top=2 bottom=1
+EXPECT positive FAILED_FILES 0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

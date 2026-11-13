@@ -1,0 +1,15 @@
+CAPTURE of Task 2.9 part 12 step 3b, stripe check on the new A3 cover of w01-1 (rows 2 away)
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/stripe_check_2_9l.py --expect zero /tmp/opencode/c29l/pr/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png
+
+--- STDOUT ---
+RULE distance=2 window=3..4957 threshold=15 bands=top 60..140 bottom 3368..3448
+FILE /tmp/opencode/c29l/pr/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png size=4961x3508 sha256=d3d4e65e9418b35782e37152ac37a3e182ffd00923d6dd90e436be91d85abe8d
+  BAND_MEAN_RANGE band=top min=86.18 max=166.11
+  BAND_MEAN_RANGE band=bottom min=94.05 max=130.00
+  STRIPES top=0 bottom=0
+EXPECT zero FAILED_FILES 0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

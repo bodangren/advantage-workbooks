@@ -1,0 +1,16 @@
+CAPTURE of Task 2.9 part 12 step 3a, the edge check on the new w01-1 A3 cover, outermost 3 px of each side ignored (rows 0 and columns 0 needed)
+COMMAND: python3 -I -B measure/runs/storytime_cover_options_20261106/edge_white_2_9l.py --ignore 3 --expect zero /tmp/opencode/c29l/pr/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png
+
+--- STDOUT ---
+EDGE /tmp/opencode/c29l/pr/storytime/covers-quest-v1/readers-a3/l2-w01-hello-a3-cover.png size=4955x3502 box=none ignore=3 top=0 bottom=0 left=0 right=0 white_edge_rows=0 white_edge_cols=0 sha256=d3d4e65e9418b35782e37152ac37a3e182ffd00923d6dd90e436be91d85abe8d
+FILES 1
+FILES_WITH_WHITE_EDGE_ROWS 0
+FILES_WITH_WHITE_EDGE_COLS 0
+WHITE_EDGE_ROWS_TOTAL 0
+WHITE_EDGE_COLS_TOTAL 0
+EDGE_EXPECT zero EDGE_OK true
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,20 @@
+BUILD CAPTURE of Task 2.9 part 12 step 6, the replaced contact sheets
+
+HEAVY_RUN_TIMEOUT_S 600
+=== ATTEMPT 1 ===
+INNER_COMMAND: python3 -I -B /home/daniebo/Desktop/Workbooks/measure/runs/storytime_cover_options_20261106/contact-2-9l.py /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1
+HEAVY_EXIT: 0
+--- STDOUT ---
+MANIFEST_SHA256 288d84782a6dfa0faaf60c95b83e3006094691be7d181a5eb75291a2a54f994b
+MANIFEST_SHA_EXPECTED true
+/tmp/opencode/c29l/sheets/readers-a3.png tiles=14 size=7154x1658 bytes=9527281
+/tmp/opencode/c29l/sheets/readers-leaf.png tiles=14 size=6755x1658 bytes=2977870
+/tmp/opencode/c29l/sheets/all.png tiles=32 size=3648x5698 bytes=12217592
+SHEETS 3
+REPLACE contact-sheets/readers-a3.png old=f1b72ac5ff17bcbd2ee59a4a945b5adc7aec46f1c4a9bd77bf4c48e5cad54661 new=7fbd40d6b3002b2cfc1e1e2db1e0f5ddb07428da4a669c4153b25ad27e43fc55
+REPLACE contact-sheets/readers-leaf.png old=c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960 new=c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960
+REPLACE contact-sheets/all.png old=74d63e8b4e302f2c46f046468f6fb42b7eea3e5af4aab2adbec151ec622b1647 new=084c47086649546fafa5a83d4c9c18a3398bc65038a42a4b65ad8c5e3222d41f
+REPLACED 3
+CREATED 0
+CONTACT_OK true
+--- STDERR ---
